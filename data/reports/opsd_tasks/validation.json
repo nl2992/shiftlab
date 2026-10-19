@@ -1,0 +1,482 @@
+{
+  "versions": [
+    {
+      "manifest": {
+        "schema_version": "1.1.0",
+        "dataset": "opsd",
+        "version": "b659a26235aec9be4299",
+        "publisher": "Open Power System Data",
+        "source_url": "https://data.open-power-system-data.org/time_series/2020-10-06/",
+        "citation": "OPSD 2020 time_series version 2020-10-06, DOI:10.25832/time_series/2020-10-06",
+        "license": "Package and source-specific attribution/terms in saved datapackage.json; no blanket relicensing",
+        "permitted_use": "Respect original source and underlying-series terms; research use only where permitted",
+        "acquired_at": "2026-10-19T17:05:23.864538+00:00",
+        "retrieval_parameters": {
+          "start": "2019-01-01",
+          "end": "2020-01-01",
+          "frequency": "daily",
+          "domain": "DE+DK_1",
+          "min_observed_fraction": 0.9,
+          "target_column": "DE_load_actual_entsoe_transparency",
+          "columns": [
+            "DE_load_actual_entsoe_transparency",
+            "DE_wind_generation_actual",
+            "DE_solar_generation_actual",
+            "DE_LU_price_day_ahead",
+            "DK_1_load_actual_entsoe_transparency",
+            "DK_1_wind_generation_actual",
+            "DK_1_solar_generation_actual",
+            "DK_1_price_day_ahead"
+          ]
+        },
+        "raw_checksums": {
+          "data\\raw\\opsd\\2020-10-06\\datapackage.json": "2f4b7ae48e1352deb1991728e013fe42e742af5e81a5140d87185e470cd0ac36",
+          "data\\raw\\opsd\\2020-10-06\\hourly.csv": "6a7f2bc571314cbf9c321cc03437691cd4be95c3a6f075e60ff99e8035c704c8"
+        },
+        "processing_config": {
+          "start": "2019-01-01",
+          "end": "2020-01-01",
+          "frequency": "daily",
+          "domain": "DE+DK_1",
+          "min_observed_fraction": 0.9,
+          "target_column": "DE_load_actual_entsoe_transparency",
+          "columns": [
+            "DE_load_actual_entsoe_transparency",
+            "DE_wind_generation_actual",
+            "DE_solar_generation_actual",
+            "DE_LU_price_day_ahead",
+            "DK_1_load_actual_entsoe_transparency",
+            "DK_1_wind_generation_actual",
+            "DK_1_solar_generation_actual",
+            "DK_1_price_day_ahead"
+          ]
+        },
+        "code_commit": "c3d3a5cc3f29ec1d59e0e9fe57c1c051802ad7dd",
+        "source_hash": "17ffa8f6ce28271cf35504cc2d8516370d7e18c50cc6efeee881927a3bc66b74",
+        "n_observations": 364,
+        "feature_names": [
+          "DE_load_actual_entsoe_transparency__UTC_daily_mean",
+          "DE_wind_generation_actual__UTC_daily_mean",
+          "DE_solar_generation_actual__UTC_daily_mean",
+          "DE_LU_price_day_ahead__UTC_daily_mean",
+          "DK_1_load_actual_entsoe_transparency__UTC_daily_mean",
+          "DK_1_wind_generation_actual__UTC_daily_mean",
+          "DK_1_solar_generation_actual__UTC_daily_mean",
+          "DK_1_price_day_ahead__UTC_daily_mean"
+        ],
+        "feature_dtype": "float64",
+        "feature_kind": "numeric",
+        "time_coverage": [
+          "1546300800.0",
+          "1577664000.0"
+        ],
+        "domains": [
+          "DE+DK_1"
+        ],
+        "missingness": {
+          "target": 0.0,
+          "features": 0.0006868131868131869
+        },
+        "limitations": [
+          "No verified real-world changepoints.",
+          "Historical source snapshot may contain revisions; release, feature and label availability remain unknown.",
+          "Original UTC and CET/CEST strings retained; daily groups use UTC, not local civil days.",
+          "Missing values are not filled; complete UTC-day means require all 24 hourly values per field.",
+          "Wide regional feature columns retain distinct source definitions and units; prices are not operational utility.",
+          "Next-period target event time is its interval end; boundary-crossing training/calibration outcomes are purged retrospectively."
+        ],
+        "ground_truth": "none",
+        "files": {
+          "observations.parquet": "c52697d46cef9fc6fb5ec18164825547ddb3f88aa489c6d90c628deb989c98b4",
+          "source_datapackage.json": "2f4b7ae48e1352deb1991728e013fe42e742af5e81a5140d87185e470cd0ac36"
+        },
+        "oracle_file": null,
+        "environment": {}
+      },
+      "quality": {
+        "rows": 364,
+        "unknown_prediction_times": 364,
+        "unknown_label_availability": 364,
+        "missing_targets": 0,
+        "dataset": "opsd",
+        "version": "b659a26235aec9be4299",
+        "feature_missing_rate": 0.0006868131868131869,
+        "feature_infinite": 0,
+        "min_feature": -39.745416666666664,
+        "max_feature": 68183.58333333333,
+        "duplicate_feature_target_rows": 0,
+        "ground_truth": "none",
+        "attribution": "Inconclusive: descriptive evidence does not identify drift mechanism"
+      },
+      "input_manifest_sha256": "f46431c5188b3b57e402c3cfbd04dabef858959e62aad9c4c41c8392a64c4d59",
+      "task": "next daily DE_load_actual_entsoe_transparency",
+      "aggregation": "UTC-day arithmetic mean, requires 24 nonmissing hourly values per field",
+      "source_fields": {
+        "DE_load_actual_entsoe_transparency": {
+          "name": "DE_load_actual_entsoe_transparency",
+          "description": "Total load in Germany in MW as published on ENTSO-E Transparency Platform",
+          "type": "number",
+          "unit": "MW",
+          "source": {
+            "name": "own calculation based on ENTSO-E Transparency",
+            "web": "https://transparency.entsoe.eu/load-domain/r2/totalLoadR2/show"
+          },
+          "opsdProperties": {
+            "Region": "DE",
+            "Variable": "load_actual_entsoe_transparency"
+          }
+        },
+        "DE_solar_generation_actual": {
+          "name": "DE_solar_generation_actual",
+          "description": "Actual solar generation in Germany in MW",
+          "type": "number",
+          "unit": "MW",
+          "source": {
+            "name": "own calculation based on ENTSO-E Transparency",
+            "web": "https://transparency.entsoe.eu/generation/r2/actualGenerationPerProductionType/show"
+          },
+          "opsdProperties": {
+            "Region": "DE",
+            "Variable": "solar_generation_actual"
+          }
+        },
+        "DE_wind_generation_actual": {
+          "name": "DE_wind_generation_actual",
+          "description": "Actual wind generation in Germany in MW",
+          "type": "number",
+          "unit": "MW",
+          "source": {
+            "name": "own calculation based on ENTSO-E Transparency",
+            "web": null
+          },
+          "opsdProperties": {
+            "Region": "DE",
+            "Variable": "wind_generation_actual"
+          }
+        },
+        "DE_LU_price_day_ahead": {
+          "name": "DE_LU_price_day_ahead",
+          "description": "Day-ahead spot price for DE-LU (bidding zone) in EUR",
+          "type": "number",
+          "unit": "EUR",
+          "source": {
+            "name": "ENTSO-E Transparency",
+            "web": "https://transparency.entsoe.eu/transmission-domain/r2/dayAheadPrices/show"
+          },
+          "opsdProperties": {
+            "Region": "DE_LU",
+            "Variable": "price_day_ahead"
+          }
+        },
+        "DK_1_load_actual_entsoe_transparency": {
+          "name": "DK_1_load_actual_entsoe_transparency",
+          "description": "Total load in DK1 (bidding zone) in MW as published on ENTSO-E Transparency Platform",
+          "type": "number",
+          "unit": "MW",
+          "source": {
+            "name": "ENTSO-E Transparency",
+            "web": "https://transparency.entsoe.eu/load-domain/r2/totalLoadR2/show"
+          },
+          "opsdProperties": {
+            "Region": "DK_1",
+            "Variable": "load_actual_entsoe_transparency"
+          }
+        },
+        "DK_1_price_day_ahead": {
+          "name": "DK_1_price_day_ahead",
+          "description": "Day-ahead spot price for DK1 (bidding zone) in EUR",
+          "type": "number",
+          "unit": "EUR",
+          "source": {
+            "name": "ENTSO-E Transparency",
+            "web": "https://transparency.entsoe.eu/transmission-domain/r2/dayAheadPrices/show"
+          },
+          "opsdProperties": {
+            "Region": "DK_1",
+            "Variable": "price_day_ahead"
+          }
+        },
+        "DK_1_solar_generation_actual": {
+          "name": "DK_1_solar_generation_actual",
+          "description": "Actual solar generation in DK1 (bidding zone) in MW",
+          "type": "number",
+          "unit": "MW",
+          "source": {
+            "name": "ENTSO-E Transparency",
+            "web": "https://transparency.entsoe.eu/generation/r2/actualGenerationPerProductionType/show"
+          },
+          "opsdProperties": {
+            "Region": "DK_1",
+            "Variable": "solar_generation_actual"
+          }
+        },
+        "DK_1_wind_generation_actual": {
+          "name": "DK_1_wind_generation_actual",
+          "description": "Actual wind generation in DK1 (bidding zone) in MW",
+          "type": "number",
+          "unit": "MW",
+          "source": {
+            "name": "own calculation based on ENTSO-E Transparency",
+            "web": null
+          },
+          "opsdProperties": {
+            "Region": "DK_1",
+            "Variable": "wind_generation_actual"
+          }
+        }
+      },
+      "outcome_event_lag_seconds": [
+        172800.0
+      ],
+      "partition_counts": {
+        "train": 180,
+        "test": 73,
+        "calibration": 53,
+        "validation": 52,
+        "unassigned": 6
+      }
+    },
+    {
+      "manifest": {
+        "schema_version": "1.1.0",
+        "dataset": "opsd",
+        "version": "b7f39fa513865eb14696",
+        "publisher": "Open Power System Data",
+        "source_url": "https://data.open-power-system-data.org/time_series/2020-10-06/",
+        "citation": "OPSD 2020 time_series version 2020-10-06, DOI:10.25832/time_series/2020-10-06",
+        "license": "Package and source-specific attribution/terms in saved datapackage.json; no blanket relicensing",
+        "permitted_use": "Respect original source and underlying-series terms; research use only where permitted",
+        "acquired_at": "2026-10-19T17:05:38.527167+00:00",
+        "retrieval_parameters": {
+          "start": "2019-01-01",
+          "end": "2020-01-01",
+          "frequency": "hourly",
+          "domain": "DE+DK_1",
+          "min_observed_fraction": 0.9,
+          "target_column": "DE_load_actual_entsoe_transparency",
+          "columns": [
+            "DE_load_actual_entsoe_transparency",
+            "DE_wind_generation_actual",
+            "DE_solar_generation_actual",
+            "DE_LU_price_day_ahead",
+            "DK_1_load_actual_entsoe_transparency",
+            "DK_1_wind_generation_actual",
+            "DK_1_solar_generation_actual",
+            "DK_1_price_day_ahead"
+          ]
+        },
+        "raw_checksums": {
+          "data\\raw\\opsd\\2020-10-06\\datapackage.json": "2f4b7ae48e1352deb1991728e013fe42e742af5e81a5140d87185e470cd0ac36",
+          "data\\raw\\opsd\\2020-10-06\\hourly.csv": "6a7f2bc571314cbf9c321cc03437691cd4be95c3a6f075e60ff99e8035c704c8"
+        },
+        "processing_config": {
+          "start": "2019-01-01",
+          "end": "2020-01-01",
+          "frequency": "hourly",
+          "domain": "DE+DK_1",
+          "min_observed_fraction": 0.9,
+          "target_column": "DE_load_actual_entsoe_transparency",
+          "columns": [
+            "DE_load_actual_entsoe_transparency",
+            "DE_wind_generation_actual",
+            "DE_solar_generation_actual",
+            "DE_LU_price_day_ahead",
+            "DK_1_load_actual_entsoe_transparency",
+            "DK_1_wind_generation_actual",
+            "DK_1_solar_generation_actual",
+            "DK_1_price_day_ahead"
+          ]
+        },
+        "code_commit": "c3d3a5cc3f29ec1d59e0e9fe57c1c051802ad7dd",
+        "source_hash": "17ffa8f6ce28271cf35504cc2d8516370d7e18c50cc6efeee881927a3bc66b74",
+        "n_observations": 8759,
+        "feature_names": [
+          "DE_load_actual_entsoe_transparency",
+          "DE_wind_generation_actual",
+          "DE_solar_generation_actual",
+          "DE_LU_price_day_ahead",
+          "DK_1_load_actual_entsoe_transparency",
+          "DK_1_wind_generation_actual",
+          "DK_1_solar_generation_actual",
+          "DK_1_price_day_ahead"
+        ],
+        "feature_dtype": "float64",
+        "feature_kind": "numeric",
+        "time_coverage": [
+          "1546300800.0",
+          "1577829600.0"
+        ],
+        "domains": [
+          "DE+DK_1"
+        ],
+        "missingness": {
+          "target": 0.0,
+          "features": 5.708414202534536e-05
+        },
+        "limitations": [
+          "No verified real-world changepoints.",
+          "Historical source snapshot may contain revisions; release, feature and label availability remain unknown.",
+          "Original UTC and CET/CEST strings retained; daily groups use UTC, not local civil days.",
+          "Missing values are not filled; complete UTC-day means require all 24 hourly values per field.",
+          "Wide regional feature columns retain distinct source definitions and units; prices are not operational utility.",
+          "Next-period target event time is its interval end; boundary-crossing training/calibration outcomes are purged retrospectively."
+        ],
+        "ground_truth": "none",
+        "files": {
+          "observations.parquet": "712a70e9ca1394099362e60dc9280ed5c676d31dcc9a660ca09489a9ba4598f7",
+          "source_datapackage.json": "2f4b7ae48e1352deb1991728e013fe42e742af5e81a5140d87185e470cd0ac36"
+        },
+        "oracle_file": null,
+        "environment": {}
+      },
+      "quality": {
+        "rows": 8759,
+        "unknown_prediction_times": 8759,
+        "unknown_label_availability": 8759,
+        "missing_targets": 0,
+        "dataset": "opsd",
+        "version": "b7f39fa513865eb14696",
+        "feature_missing_rate": 5.708414202534536e-05,
+        "feature_infinite": 0,
+        "min_feature": -90.01,
+        "max_feature": 76311.0,
+        "duplicate_feature_target_rows": 0,
+        "ground_truth": "none",
+        "attribution": "Inconclusive: descriptive evidence does not identify drift mechanism"
+      },
+      "input_manifest_sha256": "5e573f2b56df11e055f3e2bc751b2979f5638ab09ee003ccc07310aaf55a6f24",
+      "task": "next hourly DE_load_actual_entsoe_transparency",
+      "aggregation": "source hourly average",
+      "source_fields": {
+        "DE_load_actual_entsoe_transparency": {
+          "name": "DE_load_actual_entsoe_transparency",
+          "description": "Total load in Germany in MW as published on ENTSO-E Transparency Platform",
+          "type": "number",
+          "unit": "MW",
+          "source": {
+            "name": "own calculation based on ENTSO-E Transparency",
+            "web": "https://transparency.entsoe.eu/load-domain/r2/totalLoadR2/show"
+          },
+          "opsdProperties": {
+            "Region": "DE",
+            "Variable": "load_actual_entsoe_transparency"
+          }
+        },
+        "DE_solar_generation_actual": {
+          "name": "DE_solar_generation_actual",
+          "description": "Actual solar generation in Germany in MW",
+          "type": "number",
+          "unit": "MW",
+          "source": {
+            "name": "own calculation based on ENTSO-E Transparency",
+            "web": "https://transparency.entsoe.eu/generation/r2/actualGenerationPerProductionType/show"
+          },
+          "opsdProperties": {
+            "Region": "DE",
+            "Variable": "solar_generation_actual"
+          }
+        },
+        "DE_wind_generation_actual": {
+          "name": "DE_wind_generation_actual",
+          "description": "Actual wind generation in Germany in MW",
+          "type": "number",
+          "unit": "MW",
+          "source": {
+            "name": "own calculation based on ENTSO-E Transparency",
+            "web": null
+          },
+          "opsdProperties": {
+            "Region": "DE",
+            "Variable": "wind_generation_actual"
+          }
+        },
+        "DE_LU_price_day_ahead": {
+          "name": "DE_LU_price_day_ahead",
+          "description": "Day-ahead spot price for DE-LU (bidding zone) in EUR",
+          "type": "number",
+          "unit": "EUR",
+          "source": {
+            "name": "ENTSO-E Transparency",
+            "web": "https://transparency.entsoe.eu/transmission-domain/r2/dayAheadPrices/show"
+          },
+          "opsdProperties": {
+            "Region": "DE_LU",
+            "Variable": "price_day_ahead"
+          }
+        },
+        "DK_1_load_actual_entsoe_transparency": {
+          "name": "DK_1_load_actual_entsoe_transparency",
+          "description": "Total load in DK1 (bidding zone) in MW as published on ENTSO-E Transparency Platform",
+          "type": "number",
+          "unit": "MW",
+          "source": {
+            "name": "ENTSO-E Transparency",
+            "web": "https://transparency.entsoe.eu/load-domain/r2/totalLoadR2/show"
+          },
+          "opsdProperties": {
+            "Region": "DK_1",
+            "Variable": "load_actual_entsoe_transparency"
+          }
+        },
+        "DK_1_price_day_ahead": {
+          "name": "DK_1_price_day_ahead",
+          "description": "Day-ahead spot price for DK1 (bidding zone) in EUR",
+          "type": "number",
+          "unit": "EUR",
+          "source": {
+            "name": "ENTSO-E Transparency",
+            "web": "https://transparency.entsoe.eu/transmission-domain/r2/dayAheadPrices/show"
+          },
+          "opsdProperties": {
+            "Region": "DK_1",
+            "Variable": "price_day_ahead"
+          }
+        },
+        "DK_1_solar_generation_actual": {
+          "name": "DK_1_solar_generation_actual",
+          "description": "Actual solar generation in DK1 (bidding zone) in MW",
+          "type": "number",
+          "unit": "MW",
+          "source": {
+            "name": "ENTSO-E Transparency",
+            "web": "https://transparency.entsoe.eu/generation/r2/actualGenerationPerProductionType/show"
+          },
+          "opsdProperties": {
+            "Region": "DK_1",
+            "Variable": "solar_generation_actual"
+          }
+        },
+        "DK_1_wind_generation_actual": {
+          "name": "DK_1_wind_generation_actual",
+          "description": "Actual wind generation in DK1 (bidding zone) in MW",
+          "type": "number",
+          "unit": "MW",
+          "source": {
+            "name": "own calculation based on ENTSO-E Transparency",
+            "web": null
+          },
+          "opsdProperties": {
+            "Region": "DK_1",
+            "Variable": "wind_generation_actual"
+          }
+        }
+      },
+      "outcome_event_lag_seconds": [
+        7200.0
+      ],
+      "partition_counts": {
+        "train": 4377,
+        "test": 1752,
+        "validation": 1312,
+        "calibration": 1312,
+        "unassigned": 6
+      }
+    }
+  ],
+  "processing_commit": "c3d3a5cc3f29ec1d59e0e9fe57c1c051802ad7dd",
+  "source_hash": "17ffa8f6ce28271cf35504cc2d8516370d7e18c50cc6efeee881927a3bc66b74",
+  "script_sha256": "aebe554dcdf9175bf0f81b6d3f758082f1aeb9e1df0e46cd0207859c71f009e1",
+  "executed_at": "2026-10-19T17:05:41.940909+00:00",
+  "excluded_candidate": "AT_price_day_ahead has zero observed values in the 2019 source window; default panel uses DE/DE_LU and DK_1 instead.",
+  "availability": "unknown; retrospective task and outcome timing only"
+}

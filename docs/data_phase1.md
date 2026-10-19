@@ -69,6 +69,13 @@ optional regime, decision context, weights, split, and provenance. Times are sim
 for synthetic data, UTC epoch seconds for timestamped real data, and null where not known.
 Real original timestamps, offsets, flags and source fields remain in metadata or raw files.
 
+Every newly published dataset manifest also includes `task_specs`: the target definition,
+task kind, declared horizon semantics (including per-row irregular horizons), metric names,
+valid-target mask and utility provenance. These contracts distinguish source tables from
+forecast tasks, keep incomplete delayed-feedback labels masked, and leave utility unset where
+no application cost is sourced. Historical manifests created before this field was added are
+still readable and receive an empty list when loaded.
+
 Read Parquet only in evaluator/acquisition code. `data.streaming.replay` yields immutable
 `Request` and `Label` messages, excluding targets, regimes and oracles from requests. Features
 must be available by prediction time. Requests at equal timestamps precede feedback at that

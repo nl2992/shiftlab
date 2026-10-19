@@ -36,6 +36,10 @@ def test_opsd_utc_units_and_original_offsets(tmp_path, monkeypatch):
     assert any(v.endswith("+0200") for v in originals)
     assert frame.prediction_time.isna().all()
     assert validate_dataset(path)["rows"] == 59
+    task = json.loads((path / "dataset_manifest.json").read_text())["task_specs"][0]
+    assert task["task_id"] == "next_period_load_regression"
+    assert task["forecast_horizon"]["value"] == 1
+    assert task["forecast_horizon"]["unit"] == "hours"
 
 
 def test_noaa_missingness_flags_and_epoch(tmp_path, monkeypatch):
@@ -56,6 +60,9 @@ def test_noaa_missingness_flags_and_epoch(tmp_path, monkeypatch):
     assert np.isnan(frame.features.iloc[0][0])
     assert json.loads(frame.metadata.iloc[0])["source"]["TMP"] == "+9999,9"
     assert frame.label_available_time.isna().all()
+    task = json.loads((output / "dataset_manifest.json").read_text())["task_specs"][0]
+    assert task["forecast_horizon"]["value"] == "per row"
+    assert "unknown" in task["label_availability_rule"]
 
 
 def test_local_import_license_and_timestamp_units(tmp_path):

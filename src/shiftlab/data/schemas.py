@@ -58,6 +58,20 @@ class SyntheticConfig(BaseModel):
         return self
 
 
+class DatasetTaskSpec(BaseModel):
+    """Machine-checked task contract stored with every newly published dataset."""
+
+    model_config = ConfigDict(extra="forbid")
+    task_id: str
+    task_kind: str
+    target_definition: str
+    forecast_horizon: dict | None
+    valid_target_mask: str
+    evaluation_metrics: list[str]
+    label_availability_rule: str
+    utility_provenance: str
+
+
 class Manifest(BaseModel):
     model_config = ConfigDict(extra="forbid")
     schema_version: str = SCHEMA_VERSION
@@ -72,6 +86,7 @@ class Manifest(BaseModel):
     retrieval_parameters: dict = Field(default_factory=dict)
     raw_checksums: dict[str, str] = Field(default_factory=dict)
     processing_config: dict = Field(default_factory=dict)
+    task_specs: list[DatasetTaskSpec] = Field(default_factory=list)
     code_commit: str | None = None
     source_hash: str
     n_observations: int

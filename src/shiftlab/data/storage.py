@@ -13,6 +13,7 @@ import pyarrow.parquet as pq
 
 from .provenance import commit, sha256, source_hash, utc_now, write_json
 from .schemas import Manifest, validate_frame
+from .tasks import dataset_task_specs
 
 
 def save_dataset(
@@ -53,7 +54,9 @@ def save_dataset(
     temporary = destination.parent / f".building-{uuid.uuid4().hex}"
     temporary.mkdir(parents=True)
     total, missing_targets, feature_missing, feature_total = 0, 0, 0, 0
-    domains, first, last, names = set(), None, None, []
+    domains: set[str] = set()
+    first = last = None
+    names = []
     files = {}
     writers = {}
     try:
@@ -126,6 +129,12 @@ def save_dataset(
             retrieval_parameters=provenance.get("retrieval_parameters", {}),
             raw_checksums=provenance.get("raw_checksums", {}),
             processing_config=config,
+            task_specs=provenance.get(
+                "task_specs",
+                dataset_task_specs(
+                    "synthetic" if ground_truth == "synthetic_known" else name, config
+                ),
+            ),
             code_commit=commit(),
             source_hash=source_hash(),
             n_observations=total,

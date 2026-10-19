@@ -72,6 +72,9 @@ def test_generated_dgp_json_carries_structured_oracle_specification(tmp_path):
     structured = truth["structured_oracle_specification"]
     assert structured["conditional_mean_formula"] == "X0*(1-severity*w)-.9*X1"
     assert len(structured["regime_parameters"]) == 2
+    manifest = json.loads((Path(path) / "dataset_manifest.json").read_text(encoding="utf-8"))
+    assert manifest["task_specs"][0]["task_id"] == "synthetic_concept"
+    assert manifest["task_specs"][0]["task_kind"] == "regression"
 
 
 def test_dependent_error_oracle_separates_marginal_and_history_conditional_targets():

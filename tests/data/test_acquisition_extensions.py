@@ -102,6 +102,9 @@ def test_eia_format_and_unknown_release_times(tmp_path, monkeypatch):
     assert (frame.label_event_time - frame.event_time == 3600).all()
     assert frame.prediction_time.isna().all() and frame.label_available_time.isna().all()
     assert validate_dataset(path)["rows"] == 3
+    binding = json.loads((path / "dataset_manifest.json").read_text())["task_specs"][0]
+    assert binding["forecast_horizon"]["value"] == 1
+    assert binding["forecast_horizon"]["unit"] == "hours"
     assert all("fixture-key" not in p.read_text() for p in tmp_path.rglob("*.json"))
 
 
@@ -132,6 +135,9 @@ def test_fred_asof_revisions_and_date_resolution(tmp_path, monkeypatch):
     assert asof_vintage(pd.DataFrame(records), "2023-03-20").value.tolist() == ["3.5"]
     assert asof_vintage(pd.DataFrame(records), "2023-01-20").empty
     assert validate_dataset(path)["feature_missing_rate"] is None
+    binding = json.loads((path / "dataset_manifest.json").read_text())["task_specs"][0]
+    assert binding["task_kind"] == "source_table_not_forecast_task"
+    assert binding["evaluation_metrics"] == []
 
 
 TSF = """@attribute series_name string
@@ -162,6 +168,13 @@ def test_monash_tsf_official_horizon_and_fixed_origin(tmp_path):
         tmp_path / "out",
     )
     assert validate_dataset(result)["rows"] == 8
+    manifest = json.loads((result / "dataset_manifest.json").read_text())
+    binding = manifest["task_specs"][0]
+    assert binding["forecast_horizon"]["value"] == "per-series @horizon"
+    stored = pd.read_parquet(result / "observations.parquet")
+    holdout = stored[stored.split == "test"]
+    assert [json.loads(value)["forecast_step"] for value in holdout.metadata] == [1, 2, 3]
+    assert all(json.loads(value)["official_horizon"] == 3 for value in holdout.metadata)
 
 
 def test_criteo_feedback_and_censoring():

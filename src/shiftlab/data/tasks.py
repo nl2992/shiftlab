@@ -65,6 +65,234 @@ TASKS = {
 }
 
 
+def dataset_task_specs(dataset: str, config: dict) -> list[dict]:
+    """Return manifest-ready task, horizon, label-mask, metric, and utility contracts.
+
+    These describe the exported target. They do not imply that source release or feature
+    availability is known when a source only supplies retrospective timestamps.
+    """
+    none_utility = "No application-grounded decision utility; evaluate with named task metrics."
+    finite_mask = "target is finite; rows with missing target are excluded from metric computation"
+    if dataset == "opsd":
+        frequency = config.get("frequency", "hourly")
+        unit = {"hourly": "hours", "daily": "days"}.get(frequency)
+        if unit is None:
+            raise ValueError("OPSD task frequency must be hourly or daily")
+        return [
+            {
+                "task_id": "next_period_load_regression",
+                "task_kind": "regression",
+                "target_definition": f"next-period value of {config.get('target_column', 'configured target column')}",
+                "forecast_horizon": {
+                    "value": 1,
+                    "unit": unit,
+                    "event_semantics": "target event is the end of the next hourly observation or complete UTC day",
+                },
+                "valid_target_mask": finite_mask,
+                "evaluation_metrics": ["MAE", "RMSE", "pinball loss at prespecified quantiles"],
+                "label_availability_rule": "unknown; retrospective event-time target only",
+                "utility_provenance": none_utility,
+            }
+        ]
+    if dataset == "noaa":
+        return [
+            {
+                "task_id": "next_station_observation_temperature",
+                "task_kind": "regression",
+                "target_definition": "temperature at the next strictly later source report for the same station",
+                "forecast_horizon": {
+                    "value": "per row",
+                    "unit": "seconds",
+                    "event_semantics": "variable gap recorded in label_event_time minus event_time; not a fixed hourly horizon",
+                },
+                "valid_target_mask": finite_mask,
+                "evaluation_metrics": ["MAE", "RMSE", "interval score at prespecified coverage"],
+                "label_availability_rule": "unknown; target event time does not establish report release time",
+                "utility_provenance": none_utility,
+            }
+        ]
+    if dataset == "monash":
+        dataset_name = config.get("dataset", "local_tsf")
+        official_m4_horizons = {"m4_hourly": 48, "m4_daily": 14, "m4_weekly": 13}
+        horizon = config.get(
+            "forecast_horizon", official_m4_horizons.get(dataset_name, "per-series @horizon")
+        )
+        return [
+            {
+                "task_id": f"{dataset_name}_official_fixed_origin_forecast",
+                "task_kind": "regression",
+                "target_definition": "official final-horizon series values; one shared training-only origin per series",
+                "forecast_horizon": {
+                    "value": horizon,
+                    "unit": "steps",
+                    "event_semantics": "per-series TSF @horizon retained in row metadata; forecast_step ranges from one to that horizon",
+                },
+                "valid_target_mask": "finite future target; missing holdout steps remain masked and are not imputed",
+                "evaluation_metrics": ["MAE", "RMSE", "sMAPE when denominator is nonzero"],
+                "label_availability_rule": "official retrospective holdout; publication time unknown",
+                "utility_provenance": none_utility,
+            }
+        ]
+    if dataset == "eia":
+        horizon = int(config.get("horizon", 1))
+        return [
+            {
+                "task_id": "next_period_eia_regression",
+                "task_kind": "regression",
+                "target_definition": f"future value of configured EIA type {config.get('target', 'D')}",
+                "forecast_horizon": {
+                    "value": horizon,
+                    "unit": "hours",
+                    "event_semantics": "only exact calendar gaps of horizon hours are retained",
+                },
+                "valid_target_mask": finite_mask,
+                "evaluation_metrics": ["MAE", "RMSE", "pinball loss at prespecified quantiles"],
+                "label_availability_rule": "unknown; historical measurements or forecasts may be revised",
+                "utility_provenance": none_utility,
+            }
+        ]
+    if dataset == "binance":
+        interval = config.get("interval", "1d")
+        return [
+            {
+                "task_id": "next_bar_close_return",
+                "task_kind": "regression",
+                "target_definition": "next bar close divided by current bar close minus one",
+                "forecast_horizon": {
+                    "value": 1,
+                    "unit": "bar",
+                    "bar_interval": interval,
+                    "event_semantics": "label_event_time is the next bar close; current OHLCV requires bar close",
+                },
+                "valid_target_mask": finite_mask,
+                "evaluation_metrics": ["MAE", "RMSE", "directional accuracy as a secondary metric"],
+                "label_availability_rule": "historical bar close time known; publication latency unknown",
+                "utility_provenance": "No trading utility or transaction-cost model; returns are not profit or executable performance.",
+            }
+        ]
+    if dataset == "criteo":
+        window = float(config.get("outcome_window_days", 30))
+        return [
+            {
+                "task_id": "conversion_within_followup_window",
+                "task_kind": "binary_classification",
+                "target_definition": "sale/conversion within the configured outcome follow-up window",
+                "forecast_horizon": {
+                    "value": window,
+                    "unit": "days",
+                    "event_semantics": "positive conversion event time uses click plus delay; a negative requires complete follow-up",
+                },
+                "valid_target_mask": "label_available_time is finite; incomplete negative follow-up remains unlabeled",
+                "evaluation_metrics": ["log loss", "Brier score", "AUROC", "AUPRC"],
+                "label_availability_rule": "conversion event plus configured, README-verified delay unit; negative labels require full follow-up",
+                "utility_provenance": none_utility,
+            }
+        ]
+    if dataset == "gas_sensor":
+        return [
+            {
+                "task_id": "gas_type_multiclass",
+                "task_kind": "multiclass_classification",
+                "target_definition": "source gas class label; ten batches are coarse domains, within-batch order is unknown",
+                "forecast_horizon": None,
+                "valid_target_mask": finite_mask,
+                "evaluation_metrics": ["accuracy", "macro-F1", "multiclass log loss"],
+                "label_availability_rule": "offline source label; no temporal release protocol",
+                "utility_provenance": "No application decision costs; class errors are scored as classification metrics.",
+            }
+        ]
+    if dataset == "folktables":
+        task = config.get("tasks", ["ACSIncome"])[0]
+        return [
+            {
+                "task_id": f"folktables_{task}",
+                "task_kind": "binary_classification",
+                "target_definition": f"official {task} target and transformation, captured with source code in acs_protocol.json",
+                "forecast_horizon": None,
+                "valid_target_mask": "rows retained by the official task preprocessing and target transform",
+                "evaluation_metrics": ["accuracy", "balanced accuracy", "Brier score", "log loss"],
+                "label_availability_rule": "annual ACS survey domain; unordered individual records and no release-time claim",
+                "utility_provenance": "No application-grounded decision utility; any cost-weighted diagnostic is explicitly imposed and separate.",
+            }
+        ]
+    if dataset == "wilds":
+        name = config.get("dataset", "civilcomments")
+        return [
+            {
+                "task_id": f"wilds_{name}_official_classification",
+                "task_kind": "official_classification",
+                "target_definition": f"official {name} label; authoritative task metric is dataset.eval",
+                "forecast_horizon": None,
+                "valid_target_mask": "officially labeled rows in retained official partitions",
+                "evaluation_metrics": ["official dataset.eval metric and group breakdown"],
+                "label_availability_rule": "official train/validation/test partition; no individual-time availability",
+                "utility_provenance": "No temporal decision utility; use the official WILDS task metric.",
+            }
+        ]
+    if dataset == "fred":
+        return [
+            {
+                "task_id": "vintage_revision_event_table",
+                "task_kind": "source_table_not_forecast_task",
+                "target_definition": "dated FRED observation/revision with ALFRED realtime_start and realtime_end",
+                "forecast_horizon": None,
+                "valid_target_mask": finite_mask,
+                "evaluation_metrics": [],
+                "label_availability_rule": "conservative end-of-realtime_start UTC day; exact release instant unknown",
+                "utility_provenance": "Not applicable until an explicit as-of forecasting task and utility are specified.",
+            }
+        ]
+    if dataset == "licensed_local":
+        return [
+            {
+                "task_id": config.get("task_id", "licensed_local_user_defined"),
+                "task_kind": config.get("task_kind", "user_defined_numeric_target"),
+                "target_definition": f"user-specified target column {config.get('target_column', 'unspecified')}",
+                "forecast_horizon": config.get("forecast_horizon"),
+                "valid_target_mask": finite_mask,
+                "evaluation_metrics": config.get("evaluation_metrics", []),
+                "label_availability_rule": "user-mapped; null where the source supplies no verified availability field",
+                "utility_provenance": config.get(
+                    "utility_provenance", "Not supplied; no application decision utility claimed."
+                ),
+            }
+        ]
+    if dataset == "synthetic":
+        classification = config.get("scenario") in {
+            "nonlinear_classification",
+            "prior_shift",
+            "imbalance",
+            "label_corruption",
+            "boundary_rotation",
+            "small_decision_covariate",
+            "rare_high_cost",
+        }
+        return [
+            {
+                "task_id": f"synthetic_{config.get('scenario', 'iid_regression')}",
+                "task_kind": "classification" if classification else "regression",
+                "target_definition": "known synthetic DGP target; exact evaluator oracle remains separate",
+                "forecast_horizon": None,
+                "valid_target_mask": finite_mask,
+                "evaluation_metrics": ["oracle risk", "task-appropriate prediction metrics"],
+                "label_availability_rule": "simulation feedback delay and missingness configuration",
+                "utility_provenance": "Synthetic imposed utility only; not application-grounded.",
+            }
+        ]
+    return [
+        {
+            "task_id": "unspecified_numeric_target",
+            "task_kind": "unspecified",
+            "target_definition": "No dataset task binding is registered for this source.",
+            "forecast_horizon": None,
+            "valid_target_mask": finite_mask,
+            "evaluation_metrics": [],
+            "label_availability_rule": "unknown",
+            "utility_provenance": "Not specified.",
+        }
+    ]
+
+
 def forecast_task(
     values, horizon=1, lookback=4, task="regression", threshold=0.0, class_boundaries=None
 ):

@@ -4,6 +4,8 @@ import numpy as np
 import pandas as pd
 from sklearn.preprocessing import StandardScaler
 
+from .label_availability import purge_unavailable_labels as _purge_unavailable_labels
+
 
 def assign_splits(times, fractions=(0.5, 0.15, 0.15)) -> np.ndarray:
     values = pd.Series(times)
@@ -44,21 +46,5 @@ def retrospective_event_splits(frame: pd.DataFrame) -> pd.DataFrame:
 
 
 def purge_unavailable_labels(frame: pd.DataFrame) -> pd.DataFrame:
-    """Withhold boundary-crossing labels from fitting/calibration partitions.
-
-    Unknown real availability cannot establish a valid online protocol and is left unknown.
-    Test rows are evaluator-owned; absent test labels remain eligible for offline scoring.
-    """
-    frame = frame.copy()
-    order = ["train", "validation", "calibration", "test"]
-    for index, split in enumerate(order[:-1]):
-        next_times = frame.loc[frame.split.isin(order[index + 1 :]), "prediction_time"].dropna()
-        if len(next_times):
-            cutoff = next_times.min()
-            mask = (
-                (frame.split == split)
-                & frame.label_available_time.notna()
-                & (frame.label_available_time >= cutoff)
-            )
-            frame.loc[mask, "split"] = "unassigned"
-    return frame
+    """Compatibility wrapper for the shared label-availability implementation."""
+    return _purge_unavailable_labels(frame)

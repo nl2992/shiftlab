@@ -80,6 +80,8 @@ Read Parquet only in evaluator/acquisition code. `data.streaming.replay` yields 
 `Request` and `Label` messages, excluding targets, regimes and oracles from requests. Features
 must be available by prediction time. Requests at equal timestamps precede feedback at that
 timestamp. Pending labels beyond the prediction horizon are not flushed into online learners.
+The shared `data.label_availability` helpers use strict-before cutoffs for training at a request
+time and keep unknown or missing outcomes masked.
 Unknown label availability withholds labels. Unknown prediction/feature availability blocks
 replay rather than inventing timestamps. This API is not a sandbox against malicious Python
 code reading arbitrary files. Oracle files are physically separated in `evaluator_only/`.

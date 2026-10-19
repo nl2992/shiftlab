@@ -7,6 +7,7 @@ import pandas as pd
 
 from ..learner import Learner, LearnerSettings, decision_losses
 from ..streaming import Feedback, Observation
+from .label_availability import labels_available_before
 from .schemas import Manifest, validate_frame
 from .streaming import Request, replay
 from .synthetic.generators import CLASSIFICATION
@@ -34,11 +35,7 @@ def evaluate_regression(directory: Path, paper: int, window=80, retrain_cost=10.
     if not len(test):
         raise ValueError("No test rows")
     start = test.prediction_time.min()
-    known = (
-        frame.label_available_time.notna()
-        & (frame.label_available_time < start)
-        & frame.target.notna()
-    )
+    known = labels_available_before(frame, start)
     train = frame[(frame.split == "train") & known]
     calibration = frame[(frame.split == "calibration") & known]
     if len(train) < 20 or len(calibration) < 10:

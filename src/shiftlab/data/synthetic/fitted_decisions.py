@@ -8,6 +8,7 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import StandardScaler
 
+from ..label_availability import labels_available_before
 from .generators import generate_chunks
 from .presets import DecisionStressPreset
 
@@ -27,10 +28,7 @@ def fit_frozen_binary_policy(
     """
     if fallback_fn_cost <= 0 or fallback_fp_cost <= 0:
         raise ValueError("Fallback costs must be positive")
-    available = frame.label_available_time.notna() & (
-        frame.label_available_time < first_prediction_time
-    )
-    train_mask = (frame.split == "train") & available & frame.target.notna()
+    train_mask = (frame.split == "train") & labels_available_before(frame, first_prediction_time)
     train = frame.loc[train_mask]
     test = frame.loc[(frame.split == "test") & frame.target.notna()]
     if not len(train) or not len(test):

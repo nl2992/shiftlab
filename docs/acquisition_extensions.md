@@ -29,10 +29,15 @@ revisions. Date-only release metadata has an explicit conservative end-of-day as
 intraday release time is not fabricated. The revision table is not a ready forecasting design.
 
 Monash supports verified M4 hourly/daily/weekly, electricity-hourly and weather record versions.
-TSF attributes, missingness, frequency and official horizon are preserved. Every holdout step
-uses the same training-only forecast origin. Deterministic series subsets are identified as
-subsets, not full competition results. Source start dates do not establish observation or release
-times. The live M4-hourly subset succeeded and matched its publisher MD5 checksum.
+TSF attributes, missingness, frequency and declared official horizons are preserved. Every
+holdout step uses the same training-only forecast origin. Deterministic series subsets are
+identified as subsets, not full competition results. Source start dates do not establish
+observation or release times. M4 hourly, weekly and daily subsets have been executed. The
+electricity-hourly and weather Zenodo archives were downloaded, but their TSF headers omit
+`@horizon`; conversion is refused until an authoritative forecasting horizon is supplied. We do
+not substitute commonly used benchmark horizons for a source-declared horizon. Run
+`python -m uv run python scripts/monash_report.py` to regenerate per-record checksums, header
+evidence, split counts and processed-manifest hashes in `data/reports/monash_execution.json`.
 
 WILDS adapters cover CivilComments, Amazon, FMoW, iWildCam and Camelyon17. Official partitions and
 metadata stay intact. CivilComments text is stored separately from targets. Other inputs refer

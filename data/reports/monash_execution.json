@@ -1,0 +1,163 @@
+{
+  "purpose": "Executed Monash source and fixed-horizon conversion evidence",
+  "selection_note": "Processed versions are deterministic series subsets, not full archive results.",
+  "time_note": "TSF date attributes and sequence indices do not establish release or availability times.",
+  "records": [
+    {
+      "dataset": "m4_weekly",
+      "zenodo_record": "4656522",
+      "archive_present": true,
+      "archive_bytes": 1077913,
+      "local_md5": "7578a670dbcdaaf519aa01b3836f64d5",
+      "publisher_md5": "7578a670dbcdaaf519aa01b3836f64d5",
+      "publisher_md5_matches": true,
+      "local_sha256": "5144147e7e02830f6afb9543e798a06caa9e7dc10db00cc7502af23a51f45942",
+      "tsf_header": [
+        "@relation M4",
+        "@attribute series_name string",
+        "@attribute start_timestamp date",
+        "@frequency weekly",
+        "@horizon 13",
+        "@missing false",
+        "@equallength false"
+      ],
+      "declares_horizon": true,
+      "processed_versions": [
+        {
+          "version": "4025c59613406900525e",
+          "manifest_sha256": "a96912da5fea3ba677a86394f220bfafbf80da54c28cd4e469e0e7de1774c6ba",
+          "code_commit": "3aa9705d89aa421f76e919e9b668337fd9b8583c",
+          "source_hash": "7f8bc148deb5299f3504c0328547cc48fe774947abd340f0257296dc18b32237",
+          "observations": 26653,
+          "entities": 20,
+          "split_counts": {
+            "test": 260,
+            "train": 26393
+          },
+          "official_horizons": [
+            13
+          ]
+        }
+      ],
+      "status": "acquired_and_converted"
+    },
+    {
+      "dataset": "m4_hourly",
+      "zenodo_record": "4656589",
+      "archive_present": true,
+      "archive_bytes": 485448,
+      "local_md5": "3983df90f60db0f4e1f4dc3fca8ef565",
+      "publisher_md5": "3983df90f60db0f4e1f4dc3fca8ef565",
+      "publisher_md5_matches": true,
+      "local_sha256": "18085bd3c34e41cdc07441aa61c5610dac9e916b9489a6a381f8e89fd01c8a66",
+      "tsf_header": [
+        "@relation M4",
+        "@attribute series_name string",
+        "@attribute start_timestamp date",
+        "@frequency hourly",
+        "@horizon 48",
+        "@missing false",
+        "@equallength false"
+      ],
+      "declares_horizon": true,
+      "processed_versions": [
+        {
+          "version": "f42206706844cf3ee17b",
+          "manifest_sha256": "ab19dfeb45c164e47196ca378de90748c2239056597c898de8dcb673e9bb2d7f",
+          "code_commit": "11aac75183e1591feaee8a4f4a2a454275420644",
+          "source_hash": "028a60de15e0fd621d80465c58c8d6ba8d61caefcac757a64311ba2f6ac9ea62",
+          "observations": 7400,
+          "entities": 10,
+          "split_counts": {
+            "test": 480,
+            "train": 6920
+          },
+          "official_horizons": [
+            48
+          ]
+        }
+      ],
+      "status": "acquired_and_converted"
+    },
+    {
+      "dataset": "m4_daily",
+      "zenodo_record": "4656548",
+      "archive_present": true,
+      "archive_bytes": 27963288,
+      "local_md5": "a92adb385fe0aec3728e60bd6de29875",
+      "publisher_md5": "a92adb385fe0aec3728e60bd6de29875",
+      "publisher_md5_matches": true,
+      "local_sha256": "0f07fc3b67a93be1865de7853e06d8ad212f1a8cb8436ba859920cfe5625d889",
+      "tsf_header": [
+        "@relation M4",
+        "@attribute series_name string",
+        "@attribute start_timestamp date",
+        "@frequency daily",
+        "@horizon 14",
+        "@missing false",
+        "@equallength false"
+      ],
+      "declares_horizon": true,
+      "processed_versions": [
+        {
+          "version": "e533b91be44181d8bb3b",
+          "manifest_sha256": "1238f4543aa30ef19571a7b9a8644055507361552b69a557c12c175cf6acac0f",
+          "code_commit": "3aa9705d89aa421f76e919e9b668337fd9b8583c",
+          "source_hash": "7f8bc148deb5299f3504c0328547cc48fe774947abd340f0257296dc18b32237",
+          "observations": 17331,
+          "entities": 20,
+          "split_counts": {
+            "test": 280,
+            "train": 17051
+          },
+          "official_horizons": [
+            14
+          ]
+        }
+      ],
+      "status": "acquired_and_converted"
+    },
+    {
+      "dataset": "electricity_hourly",
+      "zenodo_record": "4656140",
+      "archive_present": true,
+      "archive_bytes": 11823931,
+      "local_md5": "18096614662b02640d265ad2a6a416bd",
+      "publisher_md5": "18096614662b02640d265ad2a6a416bd",
+      "publisher_md5_matches": true,
+      "local_sha256": "eff447075dde68dca0105ab7e2851c5637967ae3bb21556fd8b931f196d5968c",
+      "tsf_header": [
+        "@relation Electricity",
+        "@attribute series_name string",
+        "@attribute start_timestamp date",
+        "@frequency hourly",
+        "@missing false",
+        "@equallength true"
+      ],
+      "declares_horizon": false,
+      "processed_versions": [],
+      "status": "archive_acquired_conversion_rejected_missing_declared_horizon"
+    },
+    {
+      "dataset": "weather",
+      "zenodo_record": "4654822",
+      "archive_present": true,
+      "archive_bytes": 38820451,
+      "local_md5": "57155594af0883ccd5e63a5948976796",
+      "publisher_md5": "57155594af0883ccd5e63a5948976796",
+      "publisher_md5_matches": true,
+      "local_sha256": "adc9195b4b842673892fec1ba22cced9c42d5c4cba9a261f455ffbe96db7847b",
+      "tsf_header": [
+        "@relation Weather",
+        "@attribute series_name string",
+        "@attribute series_type string",
+        "@frequency daily",
+        "@missing false",
+        "@equallength false"
+      ],
+      "declares_horizon": false,
+      "processed_versions": [],
+      "status": "archive_acquired_conversion_rejected_missing_declared_horizon"
+    }
+  ]
+}

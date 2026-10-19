@@ -2,14 +2,23 @@
   "configuration": {
     "n": 20000,
     "d": 64,
-    "chunk_size": 5000
+    "memory_mb": 128,
+    "dtypes": [
+      "float32",
+      "float64"
+    ],
+    "chunk_sizes": [
+      1000,
+      5000,
+      10000
+    ]
   },
   "repeats": 3,
-  "source_hash": "c9fc8f86338a6650542b044194c3a83a50d063a7edf51c99b81d574ea550994d",
-  "commit": "4cd7ffa00e7c4a29f4e88757d4325591f6989f17",
+  "source_hash": "721ec910d4f669e8660ad81f868737006c283eaf15fd324ad8ac7fc1902ff84d",
+  "commit": "feb891d6ce35a531a88906b146c15a3256f07f4b",
   "environment": {
     "cpu_ram_bytes": 16858472448,
-    "disk_free_bytes": 71641460736,
+    "disk_free_bytes": 71576391680,
     "cuda_available": true,
     "nvidia_smi": "NVIDIA GeForce RTX 4060 Laptop GPU, 8188 MiB, 592.82, 0 %, 10 MiB",
     "torch_version": "2.9.1+cu130",

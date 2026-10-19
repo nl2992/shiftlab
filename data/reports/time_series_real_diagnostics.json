@@ -1,0 +1,254 @@
+{
+  "description": "Chronological retrospective prediction, interval, rolling-loss, and moving-block diagnostics.",
+  "datasets": [
+    {
+      "dataset": "opsd",
+      "version": "b7f39fa513865eb14696",
+      "manifest_sha256": "5e573f2b56df11e055f3e2bc751b2979f5638ab09ee003ccc07310aaf55a6f24",
+      "feature_names": [
+        "DE_load_actual_entsoe_transparency",
+        "DE_wind_generation_actual",
+        "DE_solar_generation_actual",
+        "DE_LU_price_day_ahead",
+        "DK_1_load_actual_entsoe_transparency",
+        "DK_1_wind_generation_actual",
+        "DK_1_solar_generation_actual",
+        "DK_1_price_day_ahead"
+      ],
+      "manifest_label_availability_known": false,
+      "source_availability": "unknown; this report is retrospective and makes no real-time availability claim",
+      "quality": {
+        "rows": 8759,
+        "unknown_prediction_times": 8759,
+        "unknown_label_availability": 8759,
+        "missing_targets": 0,
+        "dataset": "opsd",
+        "version": "b7f39fa513865eb14696",
+        "feature_missing_rate": 5.708414202534536e-05,
+        "feature_infinite": 0,
+        "min_feature": -90.01,
+        "max_feature": 76311.0,
+        "duplicate_feature_target_rows": 0,
+        "ground_truth": "none",
+        "attribution": "Inconclusive: descriptive evidence does not identify drift mechanism"
+      },
+      "domains": [
+        {
+          "domain_id": "DE+DK_1",
+          "train_n": 4377,
+          "calibration_n": 1312,
+          "test_n": 1752,
+          "model": "train-only median imputation, standardization, Ridge(alpha=1)",
+          "baseline": "training-mean predictor",
+          "calibration_interval": "symmetric split residual interval; calibration labels are used retrospectively",
+          "calibration_abs_error_radius_80": 3334.30433101549,
+          "test_rmse": 2694.144377939032,
+          "test_baseline_rmse": 10098.203056319568,
+          "test_mae": 2124.535406049683,
+          "test_interval_coverage": 0.7871004566210046,
+          "test_interval_width": 6668.60866203098,
+          "rolling_window_rows": 100,
+          "rolling_test_mse_first": 7876740.547100671,
+          "rolling_test_mse_last": 5973257.089089186,
+          "test_mse_difference_vs_train_mean": -94715291.03748135,
+          "moving_block_length_rows": 41,
+          "moving_block_95pct_interval_mse_difference": [
+            -105102441.35507745,
+            -85797679.98497334
+          ],
+          "event_time_start": 1571526000.0,
+          "event_time_end": 1577829600.0
+        }
+      ]
+    },
+    {
+      "dataset": "opsd",
+      "version": "b659a26235aec9be4299",
+      "manifest_sha256": "f46431c5188b3b57e402c3cfbd04dabef858959e62aad9c4c41c8392a64c4d59",
+      "feature_names": [
+        "DE_load_actual_entsoe_transparency__UTC_daily_mean",
+        "DE_wind_generation_actual__UTC_daily_mean",
+        "DE_solar_generation_actual__UTC_daily_mean",
+        "DE_LU_price_day_ahead__UTC_daily_mean",
+        "DK_1_load_actual_entsoe_transparency__UTC_daily_mean",
+        "DK_1_wind_generation_actual__UTC_daily_mean",
+        "DK_1_solar_generation_actual__UTC_daily_mean",
+        "DK_1_price_day_ahead__UTC_daily_mean"
+      ],
+      "manifest_label_availability_known": false,
+      "source_availability": "unknown; this report is retrospective and makes no real-time availability claim",
+      "quality": {
+        "rows": 364,
+        "unknown_prediction_times": 364,
+        "unknown_label_availability": 364,
+        "missing_targets": 0,
+        "dataset": "opsd",
+        "version": "b659a26235aec9be4299",
+        "feature_missing_rate": 0.0006868131868131869,
+        "feature_infinite": 0,
+        "min_feature": -39.745416666666664,
+        "max_feature": 68183.58333333333,
+        "duplicate_feature_target_rows": 0,
+        "ground_truth": "none",
+        "attribution": "Inconclusive: descriptive evidence does not identify drift mechanism"
+      },
+      "domains": [
+        {
+          "domain_id": "DE+DK_1",
+          "train_n": 180,
+          "calibration_n": 53,
+          "test_n": 73,
+          "model": "train-only median imputation, standardization, Ridge(alpha=1)",
+          "baseline": "training-mean predictor",
+          "calibration_interval": "symmetric split residual interval; calibration labels are used retrospectively",
+          "calibration_abs_error_radius_80": 8865.660755083889,
+          "test_rmse": 7959.644367953139,
+          "test_baseline_rmse": 6756.780795642941,
+          "test_mae": 6240.304418529027,
+          "test_interval_coverage": 0.684931506849315,
+          "test_interval_width": 17731.321510167778,
+          "rolling_window_rows": 18,
+          "rolling_test_mse_first": 53781705.41111783,
+          "rolling_test_mse_last": 127048925.30428441,
+          "test_mse_difference_vs_train_mean": 17701851.74391889,
+          "moving_block_length_rows": 8,
+          "moving_block_95pct_interval_mse_difference": [
+            1019103.114099795,
+            34820594.94727926
+          ],
+          "event_time_start": 1571443200.0,
+          "event_time_end": 1577664000.0
+        }
+      ]
+    },
+    {
+      "dataset": "noaa",
+      "version": "250db0578188e92615ea",
+      "manifest_sha256": "7a979660f3030f1e652138150e06a2f98ee7d71d4b0ba3f8fd1d70f318334bb9",
+      "feature_names": [
+        "temperature_C",
+        "dewpoint_C",
+        "sea_level_pressure_hPa",
+        "wind_speed_m_s",
+        "visibility_m",
+        "precipitation_depth_mm",
+        "precipitation_period_hours"
+      ],
+      "manifest_label_availability_known": false,
+      "source_availability": "unknown; this report is retrospective and makes no real-time availability claim",
+      "quality": {
+        "rows": 41194,
+        "unknown_prediction_times": 41194,
+        "unknown_label_availability": 41194,
+        "missing_targets": 1105,
+        "dataset": "noaa",
+        "version": "250db0578188e92615ea",
+        "feature_missing_rate": 0.11526297172265032,
+        "feature_infinite": 0,
+        "min_feature": -35.0,
+        "max_feature": 16093.0,
+        "duplicate_feature_target_rows": 917,
+        "ground_truth": "none",
+        "attribution": "Inconclusive: descriptive evidence does not identify drift mechanism"
+      },
+      "domains": [
+        {
+          "domain_id": "74486094789",
+          "train_n": 6444,
+          "calibration_n": 2050,
+          "test_n": 2588,
+          "model": "train-only median imputation, standardization, Ridge(alpha=1)",
+          "baseline": "training-mean predictor",
+          "calibration_interval": "symmetric split residual interval; calibration labels are used retrospectively",
+          "calibration_abs_error_radius_80": 1.0114807706351137,
+          "test_rmse": 1.130142387255511,
+          "test_baseline_rmse": 5.273405033772677,
+          "test_mae": 0.5891117657199437,
+          "test_interval_coverage": 0.8361669242658424,
+          "test_interval_width": 2.0229615412702273,
+          "rolling_window_rows": 100,
+          "rolling_test_mse_first": 1.3627347625241237,
+          "rolling_test_mse_last": 0.4959423116064313,
+          "test_mse_difference_vs_train_mean": -26.531578834747428,
+          "moving_block_length_rows": 50,
+          "moving_block_95pct_interval_mse_difference": [
+            -33.81093550478451,
+            -19.934544446482203
+          ],
+          "event_time_start": 1697760000.0,
+          "event_time_end": 1704063060.0
+        },
+        {
+          "domain_id": "72509014739",
+          "train_n": 7027,
+          "calibration_n": 2145,
+          "test_n": 2753,
+          "model": "train-only median imputation, standardization, Ridge(alpha=1)",
+          "baseline": "training-mean predictor",
+          "calibration_interval": "symmetric split residual interval; calibration labels are used retrospectively",
+          "calibration_abs_error_radius_80": 0.7284998734232104,
+          "test_rmse": 1.127487672151986,
+          "test_baseline_rmse": 5.567500742536492,
+          "test_mae": 0.5492763506032136,
+          "test_interval_coverage": 0.7994914638576098,
+          "test_interval_width": 1.4569997468464209,
+          "rolling_window_rows": 100,
+          "rolling_test_mse_first": 0.8981620962981728,
+          "rolling_test_mse_last": 0.47033255954022346,
+          "test_mse_difference_vs_train_mean": -29.72583606728968,
+          "moving_block_length_rows": 52,
+          "moving_block_95pct_interval_mse_difference": [
+            -37.80284037926744,
+            -21.57895779093367
+          ],
+          "event_time_start": 1697759640.0,
+          "event_time_end": 1704063240.0
+        },
+        {
+          "domain_id": "72530094846",
+          "train_n": 6415,
+          "calibration_n": 1829,
+          "test_n": 2854,
+          "model": "train-only median imputation, standardization, Ridge(alpha=1)",
+          "baseline": "training-mean predictor",
+          "calibration_interval": "symmetric split residual interval; calibration labels are used retrospectively",
+          "calibration_abs_error_radius_80": 1.1371879989156177,
+          "test_rmse": 1.1810289949908042,
+          "test_baseline_rmse": 6.3191826033230285,
+          "test_mae": 0.5728187907338639,
+          "test_interval_coverage": 0.8843728100911002,
+          "test_interval_width": 2.2743759978312355,
+          "rolling_window_rows": 100,
+          "rolling_test_mse_first": 0.8982217640046055,
+          "rolling_test_mse_last": 0.3181545279271173,
+          "test_mse_difference_vs_train_mean": -38.53723928713141,
+          "moving_block_length_rows": 53,
+          "moving_block_95pct_interval_mse_difference": [
+            -50.33447775386318,
+            -27.911059710932477
+          ],
+          "event_time_start": 1697760000.0,
+          "event_time_end": 1704065400.0
+        }
+      ]
+    }
+  ],
+  "protocol": {
+    "fit": "train split only, independently within each domain",
+    "calibration": "calibration split only; symmetric absolute-residual interval with finite-sample rank",
+    "evaluation": "test split only; chronological ordering preserved",
+    "uncertainty": "circular moving-block percentile interval on paired squared-loss differences, block length floor(sqrt(test_n)); descriptive, not a causal or availability guarantee",
+    "decision_loss": "not reported: these are continuous forecasting tasks without a sourced, application-grounded utility"
+  },
+  "processing_commit": "0aa892acfe7dbffcce7d6195b1521e83e673420a",
+  "source_hash": "5f8e4024fade85677840d90dc8c199591bca9f1ed66fe4fc58023373c8cc12a9",
+  "script_sha256": "d5eb3e250ff4144229e5ab23fbe22de8686d3b9475d9a38af9135c04a9669ef2",
+  "executed_at": "2026-10-19T22:37:58.871547+00:00",
+  "limitations": [
+    "OPSD and NOAA label availability is unknown; train/calibration/test refer to retrospective event-time partitions.",
+    "The simple Ridge model is a diagnostic baseline, not a tuned or production forecasting system.",
+    "Moving-block intervals depend on the selected block length and do not address model-selection uncertainty.",
+    "Intervals are evaluated empirically; finite-sample time-series coverage is not guaranteed.",
+    "No application-based decision costs are available, so decision loss is intentionally omitted."
+  ]
+}

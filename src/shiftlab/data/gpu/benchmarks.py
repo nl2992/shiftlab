@@ -92,58 +92,87 @@ def benchmark(root: Path, configuration: dict):
     rows = []
     config = dict(configuration)
     repeats = config.pop("repeats", 3)
-    base = {"n": 20000, "d": 64, "chunk_size": 5000, **config}
+    default_dtype = config.pop("dtype", "float32")
+    dtypes = config.pop("dtypes", [default_dtype])
+    default_chunk_size = config.pop("chunk_size", 5000)
+    chunk_sizes = config.pop("chunk_sizes", [default_chunk_size])
+    base = {"n": 20000, "d": 64, **config}
     devices = ["cpu", "cuda"] if env["cuda_available"] else ["cpu"]
-    for device in devices:
-        sampler = None
-        if device == "cuda":
-            import torch
+    if not dtypes or any(dtype not in {"float32", "float64"} for dtype in dtypes):
+        raise ValueError("dtypes must be a nonempty list containing float32 and/or float64")
+    if not chunk_sizes or any(
+        isinstance(size, bool) or not isinstance(size, int) or size < 1 for size in chunk_sizes
+    ):
+        raise ValueError("chunk_sizes must be a nonempty list of positive integers")
+    if isinstance(repeats, bool) or not isinstance(repeats, int) or repeats < 1:
+        raise ValueError("repeats must be a positive integer")
+    for dtype in dtypes:
+        for chunk_size in chunk_sizes:
+            for device in devices:
+                sampler = None
+                if device == "cuda":
+                    import torch
 
-            sampler = _GpuSampler()
-            sampler.start()
-        device_rows = []
-        for repeat in range(repeats):
-            if device == "cuda":
-                torch.cuda.reset_peak_memory_stats()
-            start = time.perf_counter()
-            count = sum(
-                len(frame)
-                for frame, _ in generate_chunks(
-                    SyntheticConfig(**{**base, "device": device, "seed": 42 + repeat})
-                )
-            )
-            elapsed = time.perf_counter() - start
-            row = {
-                "device": device,
-                "repeat": repeat,
-                "n": count,
-                "d": base["d"],
-                "seconds": elapsed,
-                "observations_per_second": count / elapsed,
-                "cpu_rss_bytes": psutil.Process().memory_info().rss,
-                "gpu_peak_allocated_bytes": torch.cuda.max_memory_allocated()
-                if device == "cuda"
-                else 0,
-                "gpu_status": env.get("nvidia_smi"),
-                "scope": "generation incl host transfers and dataframe assembly; excludes disk",
-            }
-            rows.append(row)
-            device_rows.append(row)
-        if sampler is not None:
-            telemetry = sampler.stop()
-            for row in device_rows:
-                row.update(telemetry)
-            for row in device_rows:
-                row["gpu_telemetry_scope"] = (
-                    "device-wide samples across all repeats for this device"
-                )
+                    sampler = _GpuSampler()
+                    sampler.start()
+                device_rows = []
+                for repeat in range(repeats):
+                    if device == "cuda":
+                        torch.cuda.reset_peak_memory_stats()
+                    start = time.perf_counter()
+                    count = sum(
+                        len(frame)
+                        for frame, _ in generate_chunks(
+                            SyntheticConfig(
+                                **{
+                                    **base,
+                                    "device": device,
+                                    "dtype": dtype,
+                                    "chunk_size": chunk_size,
+                                    "seed": 42 + repeat,
+                                }
+                            )
+                        )
+                    )
+                    elapsed = time.perf_counter() - start
+                    row = {
+                        "device": device,
+                        "dtype": dtype,
+                        "chunk_size": chunk_size,
+                        "repeat": repeat,
+                        "n": count,
+                        "d": base["d"],
+                        "memory_mb": base.get("memory_mb"),
+                        "seconds": elapsed,
+                        "observations_per_second": count / elapsed,
+                        "cpu_rss_bytes": psutil.Process().memory_info().rss,
+                        "gpu_peak_allocated_bytes": torch.cuda.max_memory_allocated()
+                        if device == "cuda"
+                        else 0,
+                        "gpu_status": env.get("nvidia_smi"),
+                        "scope": "generation incl host transfers and dataframe assembly; excludes disk",
+                    }
+                    rows.append(row)
+                    device_rows.append(row)
+                if sampler is not None:
+                    telemetry = sampler.stop()
+                    for row in device_rows:
+                        row.update(telemetry)
+                    for row in device_rows:
+                        row["gpu_telemetry_scope"] = (
+                            "device-wide samples across repeats for this dtype/chunk combination"
+                        )
     root.joinpath("reports").mkdir(parents=True, exist_ok=True)
     path = root / "reports/gpu_benchmark.csv"
     pd.DataFrame(rows).to_csv(path, index=False)
     write_json(
         root / "reports/gpu_benchmark.manifest.json",
         {
-            "configuration": base,
+            "configuration": {
+                **base,
+                "dtypes": dtypes,
+                "chunk_sizes": chunk_sizes,
+            },
             "repeats": repeats,
             "source_hash": source_hash(),
             "commit": commit(),

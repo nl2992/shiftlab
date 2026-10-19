@@ -60,6 +60,9 @@ benchmarks record per-repeat peak PyTorch allocation and device-wide `nvidia-smi
 and memory samples across the repeat batch at 100 ms intervals. Those samples are not
 process-specific, and very short workloads can fall below the driver's utilization sampling
 resolution; they are context, not a process utilization measurement.
+The benchmark config uses a 128 MiB estimated workspace cap and sweeps float32/float64 and
+chunk sizes 1,000/5,000/10,000 with three repeats on each available backend. Compare warmed repeats as exploratory throughput evidence;
+the default configuration does not imply that CUDA is faster for every workload.
 
 ## Data contract and observability
 

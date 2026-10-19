@@ -1,4 +1,6 @@
 n: 20000
 d: 64
-chunk_size: 5000
+memory_mb: 128
+dtypes: [float32, float64]
+chunk_sizes: [1000, 5000, 10000]
 repeats: 3

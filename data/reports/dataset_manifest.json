@@ -1,0 +1,3688 @@
+{
+  "environment": {
+    "cpu_ram_bytes": 16858472448,
+    "disk_free_bytes": 68937596928,
+    "cuda_available": true,
+    "nvidia_smi": "NVIDIA GeForce RTX 4060 Laptop GPU, 8188 MiB, 592.82, 0 %, 10 MiB",
+    "torch_version": "2.9.1+cu130",
+    "cuda_runtime": "13.0",
+    "gpu_name": "NVIDIA GeForce RTX 4060 Laptop GPU",
+    "gpu_memory_bytes": 8585216000,
+    "versions": {
+      "numpy": "2.5.4",
+      "scipy": "1.18.1",
+      "pandas": "3.0.6",
+      "pyarrow": "25.0.1",
+      "folktables": "0.0.12"
+    }
+  },
+  "datasets": [
+    {
+      "schema_version": "1.0.0",
+      "dataset": "ar1",
+      "version": "8a9348a9fe075dd2559f",
+      "publisher": "ShiftLab",
+      "source_url": "local://shiftlab/data/synthetic",
+      "citation": "ShiftLab synthetic specification v1",
+      "license": "MIT",
+      "permitted_use": "Research and reuse under MIT",
+      "acquired_at": "2026-10-19T08:15:32.370713+00:00",
+      "retrieval_parameters": {},
+      "raw_checksums": {},
+      "processing_config": {
+        "scenario": "ar1",
+        "n": 5000,
+        "d": 4,
+        "seed": 42,
+        "change_fraction": 0.5,
+        "severity": 1.0,
+        "noise": 0.3,
+        "delay": 0,
+        "missing": 0.0,
+        "rho": 0.6,
+        "pattern": "abrupt",
+        "regimes": 2,
+        "transition_fraction": 0.1,
+        "device": "cpu",
+        "dtype": "float64",
+        "chunk_size": 10000,
+        "memory_mb": 512,
+        "output": "data"
+      },
+      "code_commit": null,
+      "source_hash": "caf2ad20b56de66eb51c19adfbc95aeb367fc03d99d41c0ce688c5a451786626",
+      "n_observations": 5000,
+      "feature_names": [
+        "x0",
+        "x1",
+        "x2",
+        "x3"
+      ],
+      "feature_dtype": "float64",
+      "time_coverage": [
+        "0",
+        "4999"
+      ],
+      "domains": [
+        "synthetic"
+      ],
+      "missingness": {
+        "target": 0.0,
+        "features": 0.0
+      },
+      "limitations": [
+        "Research-imposed utilities.",
+        "Oracle quantiles are DGP conditional or marginal as labelled; not a guarantee for a fitted model.",
+        "Dependence scenarios require dependence-aware inference."
+      ],
+      "ground_truth": "synthetic_known",
+      "files": {
+        "observations.parquet": "7155ebe4a8274b78395d630481d80868c927970ab54b2d1235eab4a664eb36f5",
+        "evaluator_only/oracle.parquet": "d5b248ba958fbb1781c5bc656b75367b989683e04c98ad26c917969a783f5e48",
+        "evaluator_only/dgp.json": "fe858942d642d1f7803896520da625932a05974147fd998b83a9eaa86ea996a8"
+      },
+      "oracle_file": "evaluator_only/oracle.parquet",
+      "environment": {
+        "cpu_ram_bytes": 16858472448,
+        "disk_free_bytes": 69444997120,
+        "cuda_available": true,
+        "nvidia_smi": "NVIDIA GeForce RTX 4060 Laptop GPU, 8188 MiB, 592.82, 0 %, 10 MiB",
+        "torch_version": "2.9.1+cu130",
+        "cuda_runtime": "13.0",
+        "gpu_name": "NVIDIA GeForce RTX 4060 Laptop GPU",
+        "gpu_memory_bytes": 8585216000
+      },
+      "path": "data\\synthetic\\ar1\\8a9348a9fe075dd2559f"
+    },
+    {
+      "schema_version": "1.0.0",
+      "dataset": "ar1",
+      "version": "a303a4edf08d63bc4335",
+      "publisher": "ShiftLab",
+      "source_url": "local://shiftlab/data/synthetic",
+      "citation": "ShiftLab synthetic specification v1",
+      "license": "MIT",
+      "permitted_use": "Research and reuse under MIT",
+      "acquired_at": "2026-10-19T08:24:26.419936+00:00",
+      "retrieval_parameters": {},
+      "raw_checksums": {},
+      "processing_config": {
+        "scenario": "ar1",
+        "n": 5000,
+        "d": 4,
+        "seed": 42,
+        "change_fraction": 0.5,
+        "severity": 1.0,
+        "noise": 0.3,
+        "delay": 0,
+        "missing": 0.0,
+        "rho": 0.6,
+        "pattern": "abrupt",
+        "regimes": 2,
+        "transition_fraction": 0.1,
+        "device": "cpu",
+        "dtype": "float64",
+        "chunk_size": 10000,
+        "memory_mb": 512,
+        "output": "data"
+      },
+      "code_commit": "fa5daeaece45c4697765db2baced28545e9a565c",
+      "source_hash": "88042e7a5c50b58a22164e50e96346e1ab59853a76ff7666496dab8a6582221d",
+      "n_observations": 5000,
+      "feature_names": [
+        "x0",
+        "x1",
+        "x2",
+        "x3"
+      ],
+      "feature_dtype": "float64",
+      "time_coverage": [
+        "0",
+        "4999"
+      ],
+      "domains": [
+        "synthetic"
+      ],
+      "missingness": {
+        "target": 0.0,
+        "features": 0.0
+      },
+      "limitations": [
+        "Research-imposed utilities.",
+        "Oracle quantiles are DGP conditional or marginal as labelled; not a guarantee for a fitted model.",
+        "Dependence scenarios require dependence-aware inference."
+      ],
+      "ground_truth": "synthetic_known",
+      "files": {
+        "observations.parquet": "7155ebe4a8274b78395d630481d80868c927970ab54b2d1235eab4a664eb36f5",
+        "evaluator_only/oracle.parquet": "d5b248ba958fbb1781c5bc656b75367b989683e04c98ad26c917969a783f5e48",
+        "evaluator_only/dgp.json": "fe858942d642d1f7803896520da625932a05974147fd998b83a9eaa86ea996a8"
+      },
+      "oracle_file": "evaluator_only/oracle.parquet",
+      "environment": {
+        "cpu_ram_bytes": 16858472448,
+        "disk_free_bytes": 68976758784,
+        "cuda_available": true,
+        "nvidia_smi": "NVIDIA GeForce RTX 4060 Laptop GPU, 8188 MiB, 592.82, 0 %, 126 MiB",
+        "torch_version": "2.9.1+cu130",
+        "cuda_runtime": "13.0",
+        "gpu_name": "NVIDIA GeForce RTX 4060 Laptop GPU",
+        "gpu_memory_bytes": 8585216000,
+        "versions": {
+          "numpy": "2.5.4",
+          "scipy": "1.18.1",
+          "pandas": "3.0.6",
+          "pyarrow": "25.0.1",
+          "folktables": "0.0.12"
+        }
+      },
+      "path": "data\\synthetic\\ar1\\a303a4edf08d63bc4335"
+    },
+    {
+      "schema_version": "1.0.0",
+      "dataset": "ar1",
+      "version": "e09dfc3a0f11f85226a4",
+      "publisher": "ShiftLab",
+      "source_url": "local://shiftlab/data/synthetic",
+      "citation": "ShiftLab synthetic specification v1",
+      "license": "MIT",
+      "permitted_use": "Research and reuse under MIT",
+      "acquired_at": "2026-10-19T08:28:30.423583+00:00",
+      "retrieval_parameters": {},
+      "raw_checksums": {},
+      "processing_config": {
+        "scenario": "ar1",
+        "n": 5000,
+        "d": 4,
+        "seed": 42,
+        "change_fraction": 0.5,
+        "severity": 1.0,
+        "noise": 0.3,
+        "delay": 0,
+        "missing": 0.0,
+        "rho": 0.6,
+        "pattern": "abrupt",
+        "regimes": 2,
+        "transition_fraction": 0.1,
+        "device": "cpu",
+        "dtype": "float64",
+        "chunk_size": 10000,
+        "memory_mb": 512,
+        "output": "data",
+        "train_fraction": 0.2,
+        "validation_fraction": 0.1,
+        "calibration_fraction": 0.1
+      },
+      "code_commit": "f83ffbe2804ba0dcb7404cda0890d9c3c248a385",
+      "source_hash": "7ca1700fafa94b3b2188ce46076288aa59a773a38f48f270300aa9b19ae8d3ae",
+      "n_observations": 5000,
+      "feature_names": [
+        "x0",
+        "x1",
+        "x2",
+        "x3"
+      ],
+      "feature_dtype": "float64",
+      "time_coverage": [
+        "0",
+        "4999"
+      ],
+      "domains": [
+        "synthetic"
+      ],
+      "missingness": {
+        "target": 0.0,
+        "features": 0.0
+      },
+      "limitations": [
+        "Research-imposed utilities.",
+        "Oracle quantiles are DGP conditional or marginal as labelled; not a guarantee for a fitted model.",
+        "Dependence scenarios require dependence-aware inference."
+      ],
+      "ground_truth": "synthetic_known",
+      "files": {
+        "observations.parquet": "87454a9972414635c969770c949441e2f01aedfa5a0b1be2ffefa271d9cf005e",
+        "evaluator_only/oracle.parquet": "d5b248ba958fbb1781c5bc656b75367b989683e04c98ad26c917969a783f5e48",
+        "evaluator_only/dgp.json": "d3b2f35756c240969853d88d22c789c4e280210815b79060d541ce4b4efba18b"
+      },
+      "oracle_file": "evaluator_only/oracle.parquet",
+      "environment": {
+        "cpu_ram_bytes": 16858472448,
+        "disk_free_bytes": 68952743936,
+        "cuda_available": true,
+        "nvidia_smi": "NVIDIA GeForce RTX 4060 Laptop GPU, 8188 MiB, 592.82, 1 %, 243 MiB",
+        "torch_version": "2.9.1+cu130",
+        "cuda_runtime": "13.0",
+        "gpu_name": "NVIDIA GeForce RTX 4060 Laptop GPU",
+        "gpu_memory_bytes": 8585216000,
+        "versions": {
+          "numpy": "2.5.4",
+          "scipy": "1.18.1",
+          "pandas": "3.0.6",
+          "pyarrow": "25.0.1",
+          "folktables": "0.0.12"
+        }
+      },
+      "path": "data\\synthetic\\ar1\\e09dfc3a0f11f85226a4"
+    },
+    {
+      "schema_version": "1.0.0",
+      "dataset": "binance",
+      "version": "0d1926d74eaec9a69942",
+      "publisher": "Binance",
+      "source_url": "https://github.com/binance/binance-public-data",
+      "citation": "Binance public market data",
+      "license": "Publisher repository MIT; retain exchange data terms and attribution",
+      "permitted_use": "Research only; respect original source terms",
+      "acquired_at": "2026-10-19T08:28:35.572846+00:00",
+      "retrieval_parameters": {
+        "symbol": "BTCUSDT",
+        "month": "2023-01"
+      },
+      "raw_checksums": {
+        "data\\raw\\binance\\BTCUSDT-2023-01.CHECKSUM": "dee4c03862bcec3cb77c43d50973d450ea4b3a6c6114005c2b230a9aad01d454",
+        "data\\raw\\binance\\BTCUSDT-2023-01.zip": "a9fd53b75add7cc42fb4779a545811606260f79810f3826215d6ebecda11bb36"
+      },
+      "processing_config": {
+        "symbol": "BTCUSDT",
+        "month": "2023-01"
+      },
+      "code_commit": "f83ffbe2804ba0dcb7404cda0890d9c3c248a385",
+      "source_hash": "7ca1700fafa94b3b2188ce46076288aa59a773a38f48f270300aa9b19ae8d3ae",
+      "n_observations": 30,
+      "feature_names": [
+        "open",
+        "high",
+        "low",
+        "close",
+        "volume"
+      ],
+      "feature_dtype": "float64",
+      "time_coverage": [
+        "1672531200.0",
+        "1675036800.0"
+      ],
+      "domains": [
+        "BTCUSDT"
+      ],
+      "missingness": {
+        "target": 0.0,
+        "features": 0.0
+      },
+      "limitations": [
+        "No verified real changepoints.",
+        "open/close timestamp; no publication latency guarantee",
+        "Decision utilities are research-imposed, not operational ground truth."
+      ],
+      "ground_truth": "none",
+      "files": {
+        "observations.parquet": "255bea7a0254aa0bd50675ae83e13a4ab8eeda8bd36c43fdfde7b0d6adf47e4c"
+      },
+      "oracle_file": null,
+      "environment": {},
+      "path": "data\\processed\\binance\\0d1926d74eaec9a69942"
+    },
+    {
+      "schema_version": "1.0.0",
+      "dataset": "binance",
+      "version": "1eaf1e77572a59eaeddc",
+      "publisher": "Binance",
+      "source_url": "https://github.com/binance/binance-public-data",
+      "citation": "Binance public market data",
+      "license": "Publisher repository MIT; retain exchange data terms and attribution",
+      "permitted_use": "Research only; respect original source terms",
+      "acquired_at": "2026-10-19T08:24:31.743214+00:00",
+      "retrieval_parameters": {
+        "symbol": "BTCUSDT",
+        "month": "2023-01"
+      },
+      "raw_checksums": {
+        "data\\raw\\binance\\BTCUSDT-2023-01.CHECKSUM": "dee4c03862bcec3cb77c43d50973d450ea4b3a6c6114005c2b230a9aad01d454",
+        "data\\raw\\binance\\BTCUSDT-2023-01.zip": "a9fd53b75add7cc42fb4779a545811606260f79810f3826215d6ebecda11bb36"
+      },
+      "processing_config": {
+        "symbol": "BTCUSDT",
+        "month": "2023-01"
+      },
+      "code_commit": "fa5daeaece45c4697765db2baced28545e9a565c",
+      "source_hash": "88042e7a5c50b58a22164e50e96346e1ab59853a76ff7666496dab8a6582221d",
+      "n_observations": 30,
+      "feature_names": [
+        "open",
+        "high",
+        "low",
+        "close",
+        "volume"
+      ],
+      "feature_dtype": "float64",
+      "time_coverage": [
+        "1672531200.0",
+        "1675036800.0"
+      ],
+      "domains": [
+        "BTCUSDT"
+      ],
+      "missingness": {
+        "target": 0.0,
+        "features": 0.0
+      },
+      "limitations": [
+        "No verified real changepoints.",
+        "open/close timestamp; no publication latency guarantee",
+        "Decision utilities are research-imposed, not operational ground truth."
+      ],
+      "ground_truth": "none",
+      "files": {
+        "observations.parquet": "255bea7a0254aa0bd50675ae83e13a4ab8eeda8bd36c43fdfde7b0d6adf47e4c"
+      },
+      "oracle_file": null,
+      "environment": {},
+      "path": "data\\processed\\binance\\1eaf1e77572a59eaeddc"
+    },
+    {
+      "schema_version": "1.0.0",
+      "dataset": "binance",
+      "version": "b1e59392abd12b7ce0d7",
+      "publisher": "Binance",
+      "source_url": "https://github.com/binance/binance-public-data",
+      "citation": "Binance public market data",
+      "license": "Publisher repository MIT; retain exchange data terms and attribution",
+      "permitted_use": "Research only; respect original source terms",
+      "acquired_at": "2026-10-19T08:22:06.567818+00:00",
+      "retrieval_parameters": {
+        "symbol": "BTCUSDT",
+        "month": "2023-01"
+      },
+      "raw_checksums": {
+        "data\\raw\\binance\\BTCUSDT-2023-01.CHECKSUM": "dee4c03862bcec3cb77c43d50973d450ea4b3a6c6114005c2b230a9aad01d454",
+        "data\\raw\\binance\\BTCUSDT-2023-01.zip": "a9fd53b75add7cc42fb4779a545811606260f79810f3826215d6ebecda11bb36"
+      },
+      "processing_config": {
+        "symbol": "BTCUSDT",
+        "month": "2023-01"
+      },
+      "code_commit": null,
+      "source_hash": "19957e940a50d8d54f5f119dcccf85920641b315813d6e1df7e78bad7233ea7e",
+      "n_observations": 30,
+      "feature_names": [
+        "open",
+        "high",
+        "low",
+        "close",
+        "volume"
+      ],
+      "feature_dtype": "float64",
+      "time_coverage": [
+        "1672531200.0",
+        "1675036800.0"
+      ],
+      "domains": [
+        "BTCUSDT"
+      ],
+      "missingness": {
+        "target": 0.0,
+        "features": 0.0
+      },
+      "limitations": [
+        "No verified real changepoints.",
+        "open/close timestamp; no publication latency guarantee",
+        "Decision utilities are research-imposed, not operational ground truth."
+      ],
+      "ground_truth": "none",
+      "files": {
+        "observations.parquet": "255bea7a0254aa0bd50675ae83e13a4ab8eeda8bd36c43fdfde7b0d6adf47e4c"
+      },
+      "oracle_file": null,
+      "environment": {},
+      "path": "data\\processed\\binance\\b1e59392abd12b7ce0d7"
+    },
+    {
+      "schema_version": "1.0.0",
+      "dataset": "concept",
+      "version": "6416ea19fc2c8cebc56f",
+      "publisher": "ShiftLab",
+      "source_url": "local://shiftlab/data/synthetic",
+      "citation": "ShiftLab synthetic specification v1",
+      "license": "MIT",
+      "permitted_use": "Research and reuse under MIT",
+      "acquired_at": "2026-10-19T08:24:26.937949+00:00",
+      "retrieval_parameters": {},
+      "raw_checksums": {},
+      "processing_config": {
+        "scenario": "concept",
+        "n": 5000,
+        "d": 4,
+        "seed": 42,
+        "change_fraction": 0.5,
+        "severity": 1.0,
+        "noise": 0.3,
+        "delay": 0,
+        "missing": 0.0,
+        "rho": 0.6,
+        "pattern": "abrupt",
+        "regimes": 2,
+        "transition_fraction": 0.1,
+        "device": "cpu",
+        "dtype": "float64",
+        "chunk_size": 10000,
+        "memory_mb": 512,
+        "output": "data"
+      },
+      "code_commit": "fa5daeaece45c4697765db2baced28545e9a565c",
+      "source_hash": "88042e7a5c50b58a22164e50e96346e1ab59853a76ff7666496dab8a6582221d",
+      "n_observations": 5000,
+      "feature_names": [
+        "x0",
+        "x1",
+        "x2",
+        "x3"
+      ],
+      "feature_dtype": "float64",
+      "time_coverage": [
+        "0",
+        "4999"
+      ],
+      "domains": [
+        "synthetic"
+      ],
+      "missingness": {
+        "target": 0.0,
+        "features": 0.0
+      },
+      "limitations": [
+        "Research-imposed utilities.",
+        "Oracle quantiles are DGP conditional or marginal as labelled; not a guarantee for a fitted model.",
+        "Dependence scenarios require dependence-aware inference."
+      ],
+      "ground_truth": "synthetic_known",
+      "files": {
+        "observations.parquet": "fc6b3021f64e1e25f517f4416333d7afbac751d0ea1915f1e9a299264326c994",
+        "evaluator_only/oracle.parquet": "b617474fd654d655aaab13c6951bc282b814ce704a38059977e1551c48ba291d",
+        "evaluator_only/dgp.json": "eb68a0b9e4f1799e337a6f206e077e268d4a71db17a17e1be33f3ac7155ae30e"
+      },
+      "oracle_file": "evaluator_only/oracle.parquet",
+      "environment": {
+        "cpu_ram_bytes": 16858472448,
+        "disk_free_bytes": 68967739392,
+        "cuda_available": true,
+        "nvidia_smi": "NVIDIA GeForce RTX 4060 Laptop GPU, 8188 MiB, 592.82, 0 %, 126 MiB",
+        "torch_version": "2.9.1+cu130",
+        "cuda_runtime": "13.0",
+        "gpu_name": "NVIDIA GeForce RTX 4060 Laptop GPU",
+        "gpu_memory_bytes": 8585216000,
+        "versions": {
+          "numpy": "2.5.4",
+          "scipy": "1.18.1",
+          "pandas": "3.0.6",
+          "pyarrow": "25.0.1",
+          "folktables": "0.0.12"
+        }
+      },
+      "path": "data\\synthetic\\concept\\6416ea19fc2c8cebc56f"
+    },
+    {
+      "schema_version": "1.0.0",
+      "dataset": "concept",
+      "version": "816c0d57d83b07c35c56",
+      "publisher": "ShiftLab",
+      "source_url": "local://shiftlab/data/synthetic",
+      "citation": "ShiftLab synthetic specification v1",
+      "license": "MIT",
+      "permitted_use": "Research and reuse under MIT",
+      "acquired_at": "2026-10-19T08:28:30.967400+00:00",
+      "retrieval_parameters": {},
+      "raw_checksums": {},
+      "processing_config": {
+        "scenario": "concept",
+        "n": 5000,
+        "d": 4,
+        "seed": 42,
+        "change_fraction": 0.5,
+        "severity": 1.0,
+        "noise": 0.3,
+        "delay": 0,
+        "missing": 0.0,
+        "rho": 0.6,
+        "pattern": "abrupt",
+        "regimes": 2,
+        "transition_fraction": 0.1,
+        "device": "cpu",
+        "dtype": "float64",
+        "chunk_size": 10000,
+        "memory_mb": 512,
+        "output": "data",
+        "train_fraction": 0.2,
+        "validation_fraction": 0.1,
+        "calibration_fraction": 0.1
+      },
+      "code_commit": "f83ffbe2804ba0dcb7404cda0890d9c3c248a385",
+      "source_hash": "7ca1700fafa94b3b2188ce46076288aa59a773a38f48f270300aa9b19ae8d3ae",
+      "n_observations": 5000,
+      "feature_names": [
+        "x0",
+        "x1",
+        "x2",
+        "x3"
+      ],
+      "feature_dtype": "float64",
+      "time_coverage": [
+        "0",
+        "4999"
+      ],
+      "domains": [
+        "synthetic"
+      ],
+      "missingness": {
+        "target": 0.0,
+        "features": 0.0
+      },
+      "limitations": [
+        "Research-imposed utilities.",
+        "Oracle quantiles are DGP conditional or marginal as labelled; not a guarantee for a fitted model.",
+        "Dependence scenarios require dependence-aware inference."
+      ],
+      "ground_truth": "synthetic_known",
+      "files": {
+        "observations.parquet": "bb13badad24024dc4ed5e4488141a41b0c18417201627f4b971652aeba482840",
+        "evaluator_only/oracle.parquet": "b617474fd654d655aaab13c6951bc282b814ce704a38059977e1551c48ba291d",
+        "evaluator_only/dgp.json": "5f978147800125de828cc0f1a157eb639fa95b44817d97b7045522731bd840ab"
+      },
+      "oracle_file": "evaluator_only/oracle.parquet",
+      "environment": {
+        "cpu_ram_bytes": 16858472448,
+        "disk_free_bytes": 68943470592,
+        "cuda_available": true,
+        "nvidia_smi": "NVIDIA GeForce RTX 4060 Laptop GPU, 8188 MiB, 592.82, 0 %, 243 MiB",
+        "torch_version": "2.9.1+cu130",
+        "cuda_runtime": "13.0",
+        "gpu_name": "NVIDIA GeForce RTX 4060 Laptop GPU",
+        "gpu_memory_bytes": 8585216000,
+        "versions": {
+          "numpy": "2.5.4",
+          "scipy": "1.18.1",
+          "pandas": "3.0.6",
+          "pyarrow": "25.0.1",
+          "folktables": "0.0.12"
+        }
+      },
+      "path": "data\\synthetic\\concept\\816c0d57d83b07c35c56"
+    },
+    {
+      "schema_version": "1.0.0",
+      "dataset": "concept",
+      "version": "9e54140b081e7e572f2a",
+      "publisher": "ShiftLab",
+      "source_url": "local://shiftlab/data/synthetic",
+      "citation": "ShiftLab synthetic specification v1",
+      "license": "MIT",
+      "permitted_use": "Research and reuse under MIT",
+      "acquired_at": "2026-10-19T08:15:32.816348+00:00",
+      "retrieval_parameters": {},
+      "raw_checksums": {},
+      "processing_config": {
+        "scenario": "concept",
+        "n": 5000,
+        "d": 4,
+        "seed": 42,
+        "change_fraction": 0.5,
+        "severity": 1.0,
+        "noise": 0.3,
+        "delay": 0,
+        "missing": 0.0,
+        "rho": 0.6,
+        "pattern": "abrupt",
+        "regimes": 2,
+        "transition_fraction": 0.1,
+        "device": "cpu",
+        "dtype": "float64",
+        "chunk_size": 10000,
+        "memory_mb": 512,
+        "output": "data"
+      },
+      "code_commit": null,
+      "source_hash": "caf2ad20b56de66eb51c19adfbc95aeb367fc03d99d41c0ce688c5a451786626",
+      "n_observations": 5000,
+      "feature_names": [
+        "x0",
+        "x1",
+        "x2",
+        "x3"
+      ],
+      "feature_dtype": "float64",
+      "time_coverage": [
+        "0",
+        "4999"
+      ],
+      "domains": [
+        "synthetic"
+      ],
+      "missingness": {
+        "target": 0.0,
+        "features": 0.0
+      },
+      "limitations": [
+        "Research-imposed utilities.",
+        "Oracle quantiles are DGP conditional or marginal as labelled; not a guarantee for a fitted model.",
+        "Dependence scenarios require dependence-aware inference."
+      ],
+      "ground_truth": "synthetic_known",
+      "files": {
+        "observations.parquet": "fc6b3021f64e1e25f517f4416333d7afbac751d0ea1915f1e9a299264326c994",
+        "evaluator_only/oracle.parquet": "b617474fd654d655aaab13c6951bc282b814ce704a38059977e1551c48ba291d",
+        "evaluator_only/dgp.json": "eb68a0b9e4f1799e337a6f206e077e268d4a71db17a17e1be33f3ac7155ae30e"
+      },
+      "oracle_file": "evaluator_only/oracle.parquet",
+      "environment": {
+        "cpu_ram_bytes": 16858472448,
+        "disk_free_bytes": 69443461120,
+        "cuda_available": true,
+        "nvidia_smi": "NVIDIA GeForce RTX 4060 Laptop GPU, 8188 MiB, 592.82, 0 %, 10 MiB",
+        "torch_version": "2.9.1+cu130",
+        "cuda_runtime": "13.0",
+        "gpu_name": "NVIDIA GeForce RTX 4060 Laptop GPU",
+        "gpu_memory_bytes": 8585216000
+      },
+      "path": "data\\synthetic\\concept\\9e54140b081e7e572f2a"
+    },
+    {
+      "schema_version": "1.0.0",
+      "dataset": "feedback_change",
+      "version": "7dc0f057b17388b0952b",
+      "publisher": "ShiftLab",
+      "source_url": "local://shiftlab/data/synthetic",
+      "citation": "ShiftLab synthetic specification v1",
+      "license": "MIT",
+      "permitted_use": "Research and reuse under MIT",
+      "acquired_at": "2026-10-19T08:29:16.969108+00:00",
+      "retrieval_parameters": {},
+      "raw_checksums": {},
+      "processing_config": {
+        "scenario": "feedback_change",
+        "n": 5000,
+        "d": 4,
+        "seed": 42,
+        "change_fraction": 0.5,
+        "severity": 1.0,
+        "noise": 0.3,
+        "delay": 10,
+        "missing": 0.1,
+        "rho": 0.6,
+        "pattern": "recurring",
+        "regimes": 3,
+        "transition_fraction": 0.1,
+        "device": "cpu",
+        "dtype": "float64",
+        "chunk_size": 10000,
+        "memory_mb": 512,
+        "output": "data",
+        "train_fraction": 0.2,
+        "validation_fraction": 0.1,
+        "calibration_fraction": 0.1
+      },
+      "code_commit": "f83ffbe2804ba0dcb7404cda0890d9c3c248a385",
+      "source_hash": "7ca1700fafa94b3b2188ce46076288aa59a773a38f48f270300aa9b19ae8d3ae",
+      "n_observations": 5000,
+      "feature_names": [
+        "x0",
+        "x1",
+        "x2",
+        "x3"
+      ],
+      "feature_dtype": "float64",
+      "time_coverage": [
+        "0",
+        "4999"
+      ],
+      "domains": [
+        "synthetic"
+      ],
+      "missingness": {
+        "target": 0.0,
+        "features": 0.0
+      },
+      "limitations": [
+        "Research-imposed utilities.",
+        "Oracle quantiles are DGP conditional or marginal as labelled; not a guarantee for a fitted model.",
+        "Dependence scenarios require dependence-aware inference."
+      ],
+      "ground_truth": "synthetic_known",
+      "files": {
+        "observations.parquet": "b979e24301c34c0d352364a8af09266aa1c826b7621d6948941b9690c0a07c3f",
+        "evaluator_only/oracle.parquet": "bd8371d608f7b23c3f29f756a73623e42e1f48dfc98383fb33a4eb69b8af0e8a",
+        "evaluator_only/dgp.json": "0fe498b928d0ad00ccf1c3fcf67138c09cb69083177f44d6a5f7732b03855e7d"
+      },
+      "oracle_file": "evaluator_only/oracle.parquet",
+      "environment": {
+        "cpu_ram_bytes": 16858472448,
+        "disk_free_bytes": 68938608640,
+        "cuda_available": true,
+        "nvidia_smi": "NVIDIA GeForce RTX 4060 Laptop GPU, 8188 MiB, 592.82, 0 %, 10 MiB",
+        "torch_version": "2.9.1+cu130",
+        "cuda_runtime": "13.0",
+        "gpu_name": "NVIDIA GeForce RTX 4060 Laptop GPU",
+        "gpu_memory_bytes": 8585216000,
+        "versions": {
+          "numpy": "2.5.4",
+          "scipy": "1.18.1",
+          "pandas": "3.0.6",
+          "pyarrow": "25.0.1",
+          "folktables": "0.0.12"
+        }
+      },
+      "path": "data\\synthetic\\feedback_change\\7dc0f057b17388b0952b"
+    },
+    {
+      "schema_version": "1.0.0",
+      "dataset": "folktables",
+      "version": "ac4876c2123eec62addb",
+      "publisher": "US Census / Folktables",
+      "source_url": "https://github.com/socialfoundations/folktables",
+      "citation": "Ding et al., Retiring Adult: New Datasets for Fair Machine Learning, NeurIPS 2021",
+      "license": "Folktables code MIT; ACS PUMS US Census public data",
+      "permitted_use": "Research only; respect original source terms",
+      "acquired_at": "2026-10-19T08:28:35.434448+00:00",
+      "retrieval_parameters": {
+        "states": [
+          "NJ"
+        ],
+        "years": [
+          2018
+        ],
+        "tasks": [
+          "ACSIncome"
+        ]
+      },
+      "raw_checksums": {
+        "data\\raw\\folktables\\2018\\1-Year\\psam_p34.csv": "2692e67b3c5d3149736e307422c24f07aa8a950ecd63081d171ea3c6205bddb3"
+      },
+      "processing_config": {
+        "states": [
+          "NJ"
+        ],
+        "years": [
+          2018
+        ],
+        "tasks": [
+          "ACSIncome"
+        ]
+      },
+      "code_commit": "f83ffbe2804ba0dcb7404cda0890d9c3c248a385",
+      "source_hash": "7ca1700fafa94b3b2188ce46076288aa59a773a38f48f270300aa9b19ae8d3ae",
+      "n_observations": 47781,
+      "feature_names": [
+        "AGEP",
+        "COW",
+        "SCHL",
+        "MAR",
+        "OCCP",
+        "POBP",
+        "RELP",
+        "WKHP",
+        "SEX",
+        "RAC1P"
+      ],
+      "feature_dtype": "float64",
+      "time_coverage": [
+        null,
+        null
+      ],
+      "domains": [
+        "NJ-2018"
+      ],
+      "missingness": {
+        "target": 0.0,
+        "features": 0.0
+      },
+      "limitations": [
+        "No verified real changepoints.",
+        "survey year only; unordered within year",
+        "Decision utilities are research-imposed, not operational ground truth.",
+        "Annual ACS microdata are unordered; no individual event/release times or sequential split assigned."
+      ],
+      "ground_truth": "coarse_domains",
+      "files": {
+        "observations.parquet": "db7271e60b22be3f44c6bdff9a6d7c714530c8072be8680005b91c0a132b2683"
+      },
+      "oracle_file": null,
+      "environment": {},
+      "path": "data\\processed\\folktables\\ac4876c2123eec62addb"
+    },
+    {
+      "schema_version": "1.0.0",
+      "dataset": "folktables",
+      "version": "baa44a00144d1b714ad4",
+      "publisher": "US Census / Folktables",
+      "source_url": "https://github.com/socialfoundations/folktables",
+      "citation": "Ding et al., Retiring Adult: New Datasets for Fair Machine Learning, NeurIPS 2021",
+      "license": "Folktables code MIT; ACS PUMS US Census public data",
+      "permitted_use": "Research only; respect original source terms",
+      "acquired_at": "2026-10-19T08:24:31.575652+00:00",
+      "retrieval_parameters": {
+        "states": [
+          "NJ"
+        ],
+        "years": [
+          2018
+        ],
+        "tasks": [
+          "ACSIncome"
+        ]
+      },
+      "raw_checksums": {
+        "data\\raw\\folktables\\2018\\1-Year\\psam_p34.csv": "2692e67b3c5d3149736e307422c24f07aa8a950ecd63081d171ea3c6205bddb3"
+      },
+      "processing_config": {
+        "states": [
+          "NJ"
+        ],
+        "years": [
+          2018
+        ],
+        "tasks": [
+          "ACSIncome"
+        ]
+      },
+      "code_commit": "fa5daeaece45c4697765db2baced28545e9a565c",
+      "source_hash": "88042e7a5c50b58a22164e50e96346e1ab59853a76ff7666496dab8a6582221d",
+      "n_observations": 47781,
+      "feature_names": [
+        "AGEP",
+        "COW",
+        "SCHL",
+        "MAR",
+        "OCCP",
+        "POBP",
+        "RELP",
+        "WKHP",
+        "SEX",
+        "RAC1P"
+      ],
+      "feature_dtype": "float64",
+      "time_coverage": [
+        null,
+        null
+      ],
+      "domains": [
+        "NJ-2018"
+      ],
+      "missingness": {
+        "target": 0.0,
+        "features": 0.0
+      },
+      "limitations": [
+        "No verified real changepoints.",
+        "survey year only; unordered within year",
+        "Decision utilities are research-imposed, not operational ground truth.",
+        "Annual ACS microdata are unordered; no individual event/release times or sequential split assigned."
+      ],
+      "ground_truth": "coarse_domains",
+      "files": {
+        "observations.parquet": "db7271e60b22be3f44c6bdff9a6d7c714530c8072be8680005b91c0a132b2683"
+      },
+      "oracle_file": null,
+      "environment": {},
+      "path": "data\\processed\\folktables\\baa44a00144d1b714ad4"
+    },
+    {
+      "schema_version": "1.0.0",
+      "dataset": "folktables",
+      "version": "e4dc308893fe7204af1d",
+      "publisher": "US Census / Folktables",
+      "source_url": "https://github.com/socialfoundations/folktables",
+      "citation": "Ding et al., Retiring Adult: New Datasets for Fair Machine Learning, NeurIPS 2021",
+      "license": "Folktables code MIT; ACS PUMS US Census public data",
+      "permitted_use": "Research only; respect original source terms",
+      "acquired_at": "2026-10-19T08:14:21.467113+00:00",
+      "retrieval_parameters": {
+        "states": [
+          "NJ"
+        ],
+        "years": [
+          2018
+        ],
+        "tasks": [
+          "ACSIncome"
+        ]
+      },
+      "raw_checksums": {
+        "data\\raw\\folktables\\2018\\1-Year\\psam_p34.csv": "2692e67b3c5d3149736e307422c24f07aa8a950ecd63081d171ea3c6205bddb3"
+      },
+      "processing_config": {
+        "states": [
+          "NJ"
+        ],
+        "years": [
+          2018
+        ],
+        "tasks": [
+          "ACSIncome"
+        ]
+      },
+      "code_commit": null,
+      "source_hash": "acd2e9851c4db612d88a125ea5f941f02be64635a47c6bf41328257a31ad8335",
+      "n_observations": 47781,
+      "feature_names": [
+        "AGEP",
+        "COW",
+        "SCHL",
+        "MAR",
+        "OCCP",
+        "POBP",
+        "RELP",
+        "WKHP",
+        "SEX",
+        "RAC1P"
+      ],
+      "feature_dtype": "float64",
+      "time_coverage": [
+        null,
+        null
+      ],
+      "domains": [
+        "NJ-2018"
+      ],
+      "missingness": {
+        "target": 0.0,
+        "features": 0.0
+      },
+      "limitations": [
+        "No verified real changepoints.",
+        "survey year only; unordered within year",
+        "Decision utilities are research-imposed, not operational ground truth.",
+        "Annual ACS microdata are unordered; no individual event/release times or sequential split assigned."
+      ],
+      "ground_truth": "coarse_domains",
+      "files": {
+        "observations.parquet": "db7271e60b22be3f44c6bdff9a6d7c714530c8072be8680005b91c0a132b2683"
+      },
+      "oracle_file": null,
+      "environment": {},
+      "path": "data\\processed\\folktables\\e4dc308893fe7204af1d"
+    },
+    {
+      "schema_version": "1.0.0",
+      "dataset": "gas_sensor",
+      "version": "10bbca34ef1b5061a374",
+      "publisher": "UCI / Alexander Vergara",
+      "source_url": "https://archive.ics.uci.edu/dataset/224/gas+sensor+array+drift+dataset",
+      "citation": "Vergara (2012), DOI:10.24432/C5RP6W",
+      "license": "UCI page states CC BY 4.0; original description restricts commercial use. Research-only pending clarification.",
+      "permitted_use": "Research only; respect original source terms",
+      "acquired_at": "2026-10-19T08:28:28.718084+00:00",
+      "retrieval_parameters": {},
+      "raw_checksums": {
+        "data\\raw\\gas_sensor\\uci-224.zip": "91e8f466f202e7a093d657673ce47311c3e90416f7df3057966058961c351fe4"
+      },
+      "processing_config": {},
+      "code_commit": "f83ffbe2804ba0dcb7404cda0890d9c3c248a385",
+      "source_hash": "7ca1700fafa94b3b2188ce46076288aa59a773a38f48f270300aa9b19ae8d3ae",
+      "n_observations": 13910,
+      "feature_names": [
+        "sensor_feature_0",
+        "sensor_feature_1",
+        "sensor_feature_2",
+        "sensor_feature_3",
+        "sensor_feature_4",
+        "sensor_feature_5",
+        "sensor_feature_6",
+        "sensor_feature_7",
+        "sensor_feature_8",
+        "sensor_feature_9",
+        "sensor_feature_10",
+        "sensor_feature_11",
+        "sensor_feature_12",
+        "sensor_feature_13",
+        "sensor_feature_14",
+        "sensor_feature_15",
+        "sensor_feature_16",
+        "sensor_feature_17",
+        "sensor_feature_18",
+        "sensor_feature_19",
+        "sensor_feature_20",
+        "sensor_feature_21",
+        "sensor_feature_22",
+        "sensor_feature_23",
+        "sensor_feature_24",
+        "sensor_feature_25",
+        "sensor_feature_26",
+        "sensor_feature_27",
+        "sensor_feature_28",
+        "sensor_feature_29",
+        "sensor_feature_30",
+        "sensor_feature_31",
+        "sensor_feature_32",
+        "sensor_feature_33",
+        "sensor_feature_34",
+        "sensor_feature_35",
+        "sensor_feature_36",
+        "sensor_feature_37",
+        "sensor_feature_38",
+        "sensor_feature_39",
+        "sensor_feature_40",
+        "sensor_feature_41",
+        "sensor_feature_42",
+        "sensor_feature_43",
+        "sensor_feature_44",
+        "sensor_feature_45",
+        "sensor_feature_46",
+        "sensor_feature_47",
+        "sensor_feature_48",
+        "sensor_feature_49",
+        "sensor_feature_50",
+        "sensor_feature_51",
+        "sensor_feature_52",
+        "sensor_feature_53",
+        "sensor_feature_54",
+        "sensor_feature_55",
+        "sensor_feature_56",
+        "sensor_feature_57",
+        "sensor_feature_58",
+        "sensor_feature_59",
+        "sensor_feature_60",
+        "sensor_feature_61",
+        "sensor_feature_62",
+        "sensor_feature_63",
+        "sensor_feature_64",
+        "sensor_feature_65",
+        "sensor_feature_66",
+        "sensor_feature_67",
+        "sensor_feature_68",
+        "sensor_feature_69",
+        "sensor_feature_70",
+        "sensor_feature_71",
+        "sensor_feature_72",
+        "sensor_feature_73",
+        "sensor_feature_74",
+        "sensor_feature_75",
+        "sensor_feature_76",
+        "sensor_feature_77",
+        "sensor_feature_78",
+        "sensor_feature_79",
+        "sensor_feature_80",
+        "sensor_feature_81",
+        "sensor_feature_82",
+        "sensor_feature_83",
+        "sensor_feature_84",
+        "sensor_feature_85",
+        "sensor_feature_86",
+        "sensor_feature_87",
+        "sensor_feature_88",
+        "sensor_feature_89",
+        "sensor_feature_90",
+        "sensor_feature_91",
+        "sensor_feature_92",
+        "sensor_feature_93",
+        "sensor_feature_94",
+        "sensor_feature_95",
+        "sensor_feature_96",
+        "sensor_feature_97",
+        "sensor_feature_98",
+        "sensor_feature_99",
+        "sensor_feature_100",
+        "sensor_feature_101",
+        "sensor_feature_102",
+        "sensor_feature_103",
+        "sensor_feature_104",
+        "sensor_feature_105",
+        "sensor_feature_106",
+        "sensor_feature_107",
+        "sensor_feature_108",
+        "sensor_feature_109",
+        "sensor_feature_110",
+        "sensor_feature_111",
+        "sensor_feature_112",
+        "sensor_feature_113",
+        "sensor_feature_114",
+        "sensor_feature_115",
+        "sensor_feature_116",
+        "sensor_feature_117",
+        "sensor_feature_118",
+        "sensor_feature_119",
+        "sensor_feature_120",
+        "sensor_feature_121",
+        "sensor_feature_122",
+        "sensor_feature_123",
+        "sensor_feature_124",
+        "sensor_feature_125",
+        "sensor_feature_126",
+        "sensor_feature_127"
+      ],
+      "feature_dtype": "float64",
+      "time_coverage": [
+        null,
+        null
+      ],
+      "domains": [
+        "batch-1",
+        "batch-10",
+        "batch-2",
+        "batch-3",
+        "batch-4",
+        "batch-5",
+        "batch-6",
+        "batch-7",
+        "batch-8",
+        "batch-9"
+      ],
+      "missingness": {
+        "target": 0.0,
+        "features": 0.0
+      },
+      "limitations": [
+        "No verified real changepoints.",
+        "ordered batches; no within-batch timestamps",
+        "Decision utilities are research-imposed, not operational ground truth."
+      ],
+      "ground_truth": "coarse_domains",
+      "files": {
+        "observations.parquet": "0076b7ae83a88ac8b071c7ff2b03494f899bd805f939b723d0c7fd20d14818e7"
+      },
+      "oracle_file": null,
+      "environment": {},
+      "path": "data\\processed\\gas_sensor\\10bbca34ef1b5061a374"
+    },
+    {
+      "schema_version": "1.0.0",
+      "dataset": "gas_sensor",
+      "version": "156b3843156ba7183008",
+      "publisher": "UCI / Alexander Vergara",
+      "source_url": "https://archive.ics.uci.edu/dataset/224/gas+sensor+array+drift+dataset",
+      "citation": "Vergara (2012), DOI:10.24432/C5RP6W",
+      "license": "UCI page states CC BY 4.0; original description restricts commercial use. Research-only pending clarification.",
+      "permitted_use": "Research only; respect original source terms",
+      "acquired_at": "2026-10-19T08:14:19.374586+00:00",
+      "retrieval_parameters": {},
+      "raw_checksums": {
+        "data\\raw\\gas_sensor\\uci-224.zip": "91e8f466f202e7a093d657673ce47311c3e90416f7df3057966058961c351fe4"
+      },
+      "processing_config": {},
+      "code_commit": null,
+      "source_hash": "acd2e9851c4db612d88a125ea5f941f02be64635a47c6bf41328257a31ad8335",
+      "n_observations": 13910,
+      "feature_names": [
+        "sensor_feature_0",
+        "sensor_feature_1",
+        "sensor_feature_2",
+        "sensor_feature_3",
+        "sensor_feature_4",
+        "sensor_feature_5",
+        "sensor_feature_6",
+        "sensor_feature_7",
+        "sensor_feature_8",
+        "sensor_feature_9",
+        "sensor_feature_10",
+        "sensor_feature_11",
+        "sensor_feature_12",
+        "sensor_feature_13",
+        "sensor_feature_14",
+        "sensor_feature_15",
+        "sensor_feature_16",
+        "sensor_feature_17",
+        "sensor_feature_18",
+        "sensor_feature_19",
+        "sensor_feature_20",
+        "sensor_feature_21",
+        "sensor_feature_22",
+        "sensor_feature_23",
+        "sensor_feature_24",
+        "sensor_feature_25",
+        "sensor_feature_26",
+        "sensor_feature_27",
+        "sensor_feature_28",
+        "sensor_feature_29",
+        "sensor_feature_30",
+        "sensor_feature_31",
+        "sensor_feature_32",
+        "sensor_feature_33",
+        "sensor_feature_34",
+        "sensor_feature_35",
+        "sensor_feature_36",
+        "sensor_feature_37",
+        "sensor_feature_38",
+        "sensor_feature_39",
+        "sensor_feature_40",
+        "sensor_feature_41",
+        "sensor_feature_42",
+        "sensor_feature_43",
+        "sensor_feature_44",
+        "sensor_feature_45",
+        "sensor_feature_46",
+        "sensor_feature_47",
+        "sensor_feature_48",
+        "sensor_feature_49",
+        "sensor_feature_50",
+        "sensor_feature_51",
+        "sensor_feature_52",
+        "sensor_feature_53",
+        "sensor_feature_54",
+        "sensor_feature_55",
+        "sensor_feature_56",
+        "sensor_feature_57",
+        "sensor_feature_58",
+        "sensor_feature_59",
+        "sensor_feature_60",
+        "sensor_feature_61",
+        "sensor_feature_62",
+        "sensor_feature_63",
+        "sensor_feature_64",
+        "sensor_feature_65",
+        "sensor_feature_66",
+        "sensor_feature_67",
+        "sensor_feature_68",
+        "sensor_feature_69",
+        "sensor_feature_70",
+        "sensor_feature_71",
+        "sensor_feature_72",
+        "sensor_feature_73",
+        "sensor_feature_74",
+        "sensor_feature_75",
+        "sensor_feature_76",
+        "sensor_feature_77",
+        "sensor_feature_78",
+        "sensor_feature_79",
+        "sensor_feature_80",
+        "sensor_feature_81",
+        "sensor_feature_82",
+        "sensor_feature_83",
+        "sensor_feature_84",
+        "sensor_feature_85",
+        "sensor_feature_86",
+        "sensor_feature_87",
+        "sensor_feature_88",
+        "sensor_feature_89",
+        "sensor_feature_90",
+        "sensor_feature_91",
+        "sensor_feature_92",
+        "sensor_feature_93",
+        "sensor_feature_94",
+        "sensor_feature_95",
+        "sensor_feature_96",
+        "sensor_feature_97",
+        "sensor_feature_98",
+        "sensor_feature_99",
+        "sensor_feature_100",
+        "sensor_feature_101",
+        "sensor_feature_102",
+        "sensor_feature_103",
+        "sensor_feature_104",
+        "sensor_feature_105",
+        "sensor_feature_106",
+        "sensor_feature_107",
+        "sensor_feature_108",
+        "sensor_feature_109",
+        "sensor_feature_110",
+        "sensor_feature_111",
+        "sensor_feature_112",
+        "sensor_feature_113",
+        "sensor_feature_114",
+        "sensor_feature_115",
+        "sensor_feature_116",
+        "sensor_feature_117",
+        "sensor_feature_118",
+        "sensor_feature_119",
+        "sensor_feature_120",
+        "sensor_feature_121",
+        "sensor_feature_122",
+        "sensor_feature_123",
+        "sensor_feature_124",
+        "sensor_feature_125",
+        "sensor_feature_126",
+        "sensor_feature_127"
+      ],
+      "feature_dtype": "float64",
+      "time_coverage": [
+        null,
+        null
+      ],
+      "domains": [
+        "batch-1",
+        "batch-10",
+        "batch-2",
+        "batch-3",
+        "batch-4",
+        "batch-5",
+        "batch-6",
+        "batch-7",
+        "batch-8",
+        "batch-9"
+      ],
+      "missingness": {
+        "target": 0.0,
+        "features": 0.0
+      },
+      "limitations": [
+        "No verified real changepoints.",
+        "ordered batches; no within-batch timestamps",
+        "Decision utilities are research-imposed, not operational ground truth."
+      ],
+      "ground_truth": "coarse_domains",
+      "files": {
+        "observations.parquet": "0076b7ae83a88ac8b071c7ff2b03494f899bd805f939b723d0c7fd20d14818e7"
+      },
+      "oracle_file": null,
+      "environment": {},
+      "path": "data\\processed\\gas_sensor\\156b3843156ba7183008"
+    },
+    {
+      "schema_version": "1.0.0",
+      "dataset": "gas_sensor",
+      "version": "9f0f5c34b86f666285f4",
+      "publisher": "UCI / Alexander Vergara",
+      "source_url": "https://archive.ics.uci.edu/dataset/224/gas+sensor+array+drift+dataset",
+      "citation": "Vergara (2012), DOI:10.24432/C5RP6W",
+      "license": "UCI page states CC BY 4.0; original description restricts commercial use. Research-only pending clarification.",
+      "permitted_use": "Research only; respect original source terms",
+      "acquired_at": "2026-10-19T08:24:24.903783+00:00",
+      "retrieval_parameters": {},
+      "raw_checksums": {
+        "data\\raw\\gas_sensor\\uci-224.zip": "91e8f466f202e7a093d657673ce47311c3e90416f7df3057966058961c351fe4"
+      },
+      "processing_config": {},
+      "code_commit": "fa5daeaece45c4697765db2baced28545e9a565c",
+      "source_hash": "88042e7a5c50b58a22164e50e96346e1ab59853a76ff7666496dab8a6582221d",
+      "n_observations": 13910,
+      "feature_names": [
+        "sensor_feature_0",
+        "sensor_feature_1",
+        "sensor_feature_2",
+        "sensor_feature_3",
+        "sensor_feature_4",
+        "sensor_feature_5",
+        "sensor_feature_6",
+        "sensor_feature_7",
+        "sensor_feature_8",
+        "sensor_feature_9",
+        "sensor_feature_10",
+        "sensor_feature_11",
+        "sensor_feature_12",
+        "sensor_feature_13",
+        "sensor_feature_14",
+        "sensor_feature_15",
+        "sensor_feature_16",
+        "sensor_feature_17",
+        "sensor_feature_18",
+        "sensor_feature_19",
+        "sensor_feature_20",
+        "sensor_feature_21",
+        "sensor_feature_22",
+        "sensor_feature_23",
+        "sensor_feature_24",
+        "sensor_feature_25",
+        "sensor_feature_26",
+        "sensor_feature_27",
+        "sensor_feature_28",
+        "sensor_feature_29",
+        "sensor_feature_30",
+        "sensor_feature_31",
+        "sensor_feature_32",
+        "sensor_feature_33",
+        "sensor_feature_34",
+        "sensor_feature_35",
+        "sensor_feature_36",
+        "sensor_feature_37",
+        "sensor_feature_38",
+        "sensor_feature_39",
+        "sensor_feature_40",
+        "sensor_feature_41",
+        "sensor_feature_42",
+        "sensor_feature_43",
+        "sensor_feature_44",
+        "sensor_feature_45",
+        "sensor_feature_46",
+        "sensor_feature_47",
+        "sensor_feature_48",
+        "sensor_feature_49",
+        "sensor_feature_50",
+        "sensor_feature_51",
+        "sensor_feature_52",
+        "sensor_feature_53",
+        "sensor_feature_54",
+        "sensor_feature_55",
+        "sensor_feature_56",
+        "sensor_feature_57",
+        "sensor_feature_58",
+        "sensor_feature_59",
+        "sensor_feature_60",
+        "sensor_feature_61",
+        "sensor_feature_62",
+        "sensor_feature_63",
+        "sensor_feature_64",
+        "sensor_feature_65",
+        "sensor_feature_66",
+        "sensor_feature_67",
+        "sensor_feature_68",
+        "sensor_feature_69",
+        "sensor_feature_70",
+        "sensor_feature_71",
+        "sensor_feature_72",
+        "sensor_feature_73",
+        "sensor_feature_74",
+        "sensor_feature_75",
+        "sensor_feature_76",
+        "sensor_feature_77",
+        "sensor_feature_78",
+        "sensor_feature_79",
+        "sensor_feature_80",
+        "sensor_feature_81",
+        "sensor_feature_82",
+        "sensor_feature_83",
+        "sensor_feature_84",
+        "sensor_feature_85",
+        "sensor_feature_86",
+        "sensor_feature_87",
+        "sensor_feature_88",
+        "sensor_feature_89",
+        "sensor_feature_90",
+        "sensor_feature_91",
+        "sensor_feature_92",
+        "sensor_feature_93",
+        "sensor_feature_94",
+        "sensor_feature_95",
+        "sensor_feature_96",
+        "sensor_feature_97",
+        "sensor_feature_98",
+        "sensor_feature_99",
+        "sensor_feature_100",
+        "sensor_feature_101",
+        "sensor_feature_102",
+        "sensor_feature_103",
+        "sensor_feature_104",
+        "sensor_feature_105",
+        "sensor_feature_106",
+        "sensor_feature_107",
+        "sensor_feature_108",
+        "sensor_feature_109",
+        "sensor_feature_110",
+        "sensor_feature_111",
+        "sensor_feature_112",
+        "sensor_feature_113",
+        "sensor_feature_114",
+        "sensor_feature_115",
+        "sensor_feature_116",
+        "sensor_feature_117",
+        "sensor_feature_118",
+        "sensor_feature_119",
+        "sensor_feature_120",
+        "sensor_feature_121",
+        "sensor_feature_122",
+        "sensor_feature_123",
+        "sensor_feature_124",
+        "sensor_feature_125",
+        "sensor_feature_126",
+        "sensor_feature_127"
+      ],
+      "feature_dtype": "float64",
+      "time_coverage": [
+        null,
+        null
+      ],
+      "domains": [
+        "batch-1",
+        "batch-10",
+        "batch-2",
+        "batch-3",
+        "batch-4",
+        "batch-5",
+        "batch-6",
+        "batch-7",
+        "batch-8",
+        "batch-9"
+      ],
+      "missingness": {
+        "target": 0.0,
+        "features": 0.0
+      },
+      "limitations": [
+        "No verified real changepoints.",
+        "ordered batches; no within-batch timestamps",
+        "Decision utilities are research-imposed, not operational ground truth."
+      ],
+      "ground_truth": "coarse_domains",
+      "files": {
+        "observations.parquet": "0076b7ae83a88ac8b071c7ff2b03494f899bd805f939b723d0c7fd20d14818e7"
+      },
+      "oracle_file": null,
+      "environment": {},
+      "path": "data\\processed\\gas_sensor\\9f0f5c34b86f666285f4"
+    },
+    {
+      "schema_version": "1.0.0",
+      "dataset": "heavy_tailed",
+      "version": "1699ba0fe0307ba7bc81",
+      "publisher": "ShiftLab",
+      "source_url": "local://shiftlab/data/synthetic",
+      "citation": "ShiftLab synthetic specification v1",
+      "license": "MIT",
+      "permitted_use": "Research and reuse under MIT",
+      "acquired_at": "2026-10-19T08:24:27.693948+00:00",
+      "retrieval_parameters": {},
+      "raw_checksums": {},
+      "processing_config": {
+        "scenario": "heavy_tailed",
+        "n": 5000,
+        "d": 4,
+        "seed": 42,
+        "change_fraction": 0.5,
+        "severity": 1.0,
+        "noise": 0.3,
+        "delay": 0,
+        "missing": 0.0,
+        "rho": 0.6,
+        "pattern": "abrupt",
+        "regimes": 2,
+        "transition_fraction": 0.1,
+        "device": "cpu",
+        "dtype": "float64",
+        "chunk_size": 10000,
+        "memory_mb": 512,
+        "output": "data"
+      },
+      "code_commit": "fa5daeaece45c4697765db2baced28545e9a565c",
+      "source_hash": "88042e7a5c50b58a22164e50e96346e1ab59853a76ff7666496dab8a6582221d",
+      "n_observations": 5000,
+      "feature_names": [
+        "x0",
+        "x1",
+        "x2",
+        "x3"
+      ],
+      "feature_dtype": "float64",
+      "time_coverage": [
+        "0",
+        "4999"
+      ],
+      "domains": [
+        "synthetic"
+      ],
+      "missingness": {
+        "target": 0.0,
+        "features": 0.0
+      },
+      "limitations": [
+        "Research-imposed utilities.",
+        "Oracle quantiles are DGP conditional or marginal as labelled; not a guarantee for a fitted model.",
+        "Dependence scenarios require dependence-aware inference."
+      ],
+      "ground_truth": "synthetic_known",
+      "files": {
+        "observations.parquet": "7975f8288f5e3b6bd67fef9e5146043f48e4c992ec598f021b9037e5ab7f415f",
+        "evaluator_only/oracle.parquet": "a9bdbba4915a1680a5d4124164d7a073fc889f036a6848e737a5c0d9def95d7f",
+        "evaluator_only/dgp.json": "980d853f76c1e85d0c9abb12a8f5ec40f07add1a3cfb074ab860e1c984b4281e"
+      },
+      "oracle_file": "evaluator_only/oracle.parquet",
+      "environment": {
+        "cpu_ram_bytes": 16858472448,
+        "disk_free_bytes": 68966223872,
+        "cuda_available": true,
+        "nvidia_smi": "NVIDIA GeForce RTX 4060 Laptop GPU, 8188 MiB, 592.82, 0 %, 10 MiB",
+        "torch_version": "2.9.1+cu130",
+        "cuda_runtime": "13.0",
+        "gpu_name": "NVIDIA GeForce RTX 4060 Laptop GPU",
+        "gpu_memory_bytes": 8585216000,
+        "versions": {
+          "numpy": "2.5.4",
+          "scipy": "1.18.1",
+          "pandas": "3.0.6",
+          "pyarrow": "25.0.1",
+          "folktables": "0.0.12"
+        }
+      },
+      "path": "data\\synthetic\\heavy_tailed\\1699ba0fe0307ba7bc81"
+    },
+    {
+      "schema_version": "1.0.0",
+      "dataset": "heavy_tailed",
+      "version": "a79bff28e49b3694aa38",
+      "publisher": "ShiftLab",
+      "source_url": "local://shiftlab/data/synthetic",
+      "citation": "ShiftLab synthetic specification v1",
+      "license": "MIT",
+      "permitted_use": "Research and reuse under MIT",
+      "acquired_at": "2026-10-19T08:15:33.612447+00:00",
+      "retrieval_parameters": {},
+      "raw_checksums": {},
+      "processing_config": {
+        "scenario": "heavy_tailed",
+        "n": 5000,
+        "d": 4,
+        "seed": 42,
+        "change_fraction": 0.5,
+        "severity": 1.0,
+        "noise": 0.3,
+        "delay": 0,
+        "missing": 0.0,
+        "rho": 0.6,
+        "pattern": "abrupt",
+        "regimes": 2,
+        "transition_fraction": 0.1,
+        "device": "cpu",
+        "dtype": "float64",
+        "chunk_size": 10000,
+        "memory_mb": 512,
+        "output": "data"
+      },
+      "code_commit": null,
+      "source_hash": "caf2ad20b56de66eb51c19adfbc95aeb367fc03d99d41c0ce688c5a451786626",
+      "n_observations": 5000,
+      "feature_names": [
+        "x0",
+        "x1",
+        "x2",
+        "x3"
+      ],
+      "feature_dtype": "float64",
+      "time_coverage": [
+        "0",
+        "4999"
+      ],
+      "domains": [
+        "synthetic"
+      ],
+      "missingness": {
+        "target": 0.0,
+        "features": 0.0
+      },
+      "limitations": [
+        "Research-imposed utilities.",
+        "Oracle quantiles are DGP conditional or marginal as labelled; not a guarantee for a fitted model.",
+        "Dependence scenarios require dependence-aware inference."
+      ],
+      "ground_truth": "synthetic_known",
+      "files": {
+        "observations.parquet": "7975f8288f5e3b6bd67fef9e5146043f48e4c992ec598f021b9037e5ab7f415f",
+        "evaluator_only/oracle.parquet": "a9bdbba4915a1680a5d4124164d7a073fc889f036a6848e737a5c0d9def95d7f",
+        "evaluator_only/dgp.json": "980d853f76c1e85d0c9abb12a8f5ec40f07add1a3cfb074ab860e1c984b4281e"
+      },
+      "oracle_file": "evaluator_only/oracle.parquet",
+      "environment": {
+        "cpu_ram_bytes": 16858472448,
+        "disk_free_bytes": 69445402624,
+        "cuda_available": true,
+        "nvidia_smi": "NVIDIA GeForce RTX 4060 Laptop GPU, 8188 MiB, 592.82, 0 %, 10 MiB",
+        "torch_version": "2.9.1+cu130",
+        "cuda_runtime": "13.0",
+        "gpu_name": "NVIDIA GeForce RTX 4060 Laptop GPU",
+        "gpu_memory_bytes": 8585216000
+      },
+      "path": "data\\synthetic\\heavy_tailed\\a79bff28e49b3694aa38"
+    },
+    {
+      "schema_version": "1.0.0",
+      "dataset": "heavy_tailed",
+      "version": "cd57bce8c0d99669b557",
+      "publisher": "ShiftLab",
+      "source_url": "local://shiftlab/data/synthetic",
+      "citation": "ShiftLab synthetic specification v1",
+      "license": "MIT",
+      "permitted_use": "Research and reuse under MIT",
+      "acquired_at": "2026-10-19T08:28:31.780037+00:00",
+      "retrieval_parameters": {},
+      "raw_checksums": {},
+      "processing_config": {
+        "scenario": "heavy_tailed",
+        "n": 5000,
+        "d": 4,
+        "seed": 42,
+        "change_fraction": 0.5,
+        "severity": 1.0,
+        "noise": 0.3,
+        "delay": 0,
+        "missing": 0.0,
+        "rho": 0.6,
+        "pattern": "abrupt",
+        "regimes": 2,
+        "transition_fraction": 0.1,
+        "device": "cpu",
+        "dtype": "float64",
+        "chunk_size": 10000,
+        "memory_mb": 512,
+        "output": "data",
+        "train_fraction": 0.2,
+        "validation_fraction": 0.1,
+        "calibration_fraction": 0.1
+      },
+      "code_commit": "f83ffbe2804ba0dcb7404cda0890d9c3c248a385",
+      "source_hash": "7ca1700fafa94b3b2188ce46076288aa59a773a38f48f270300aa9b19ae8d3ae",
+      "n_observations": 5000,
+      "feature_names": [
+        "x0",
+        "x1",
+        "x2",
+        "x3"
+      ],
+      "feature_dtype": "float64",
+      "time_coverage": [
+        "0",
+        "4999"
+      ],
+      "domains": [
+        "synthetic"
+      ],
+      "missingness": {
+        "target": 0.0,
+        "features": 0.0
+      },
+      "limitations": [
+        "Research-imposed utilities.",
+        "Oracle quantiles are DGP conditional or marginal as labelled; not a guarantee for a fitted model.",
+        "Dependence scenarios require dependence-aware inference."
+      ],
+      "ground_truth": "synthetic_known",
+      "files": {
+        "observations.parquet": "16c00ae36ef45d3096c226cb9510a6425eea21c1517a405dd762b24e3fb05399",
+        "evaluator_only/oracle.parquet": "a9bdbba4915a1680a5d4124164d7a073fc889f036a6848e737a5c0d9def95d7f",
+        "evaluator_only/dgp.json": "1ec03259023c81c411d36dc7adbb5dc79a242ce34c5b32c6b5142680e6268b39"
+      },
+      "oracle_file": "evaluator_only/oracle.parquet",
+      "environment": {
+        "cpu_ram_bytes": 16858472448,
+        "disk_free_bytes": 68941959168,
+        "cuda_available": true,
+        "nvidia_smi": "NVIDIA GeForce RTX 4060 Laptop GPU, 8188 MiB, 592.82, 0 %, 10 MiB",
+        "torch_version": "2.9.1+cu130",
+        "cuda_runtime": "13.0",
+        "gpu_name": "NVIDIA GeForce RTX 4060 Laptop GPU",
+        "gpu_memory_bytes": 8585216000,
+        "versions": {
+          "numpy": "2.5.4",
+          "scipy": "1.18.1",
+          "pandas": "3.0.6",
+          "pyarrow": "25.0.1",
+          "folktables": "0.0.12"
+        }
+      },
+      "path": "data\\synthetic\\heavy_tailed\\cd57bce8c0d99669b557"
+    },
+    {
+      "schema_version": "1.0.0",
+      "dataset": "hidden_cost",
+      "version": "317e25bbc10d4e6843dd",
+      "publisher": "ShiftLab",
+      "source_url": "local://shiftlab/data/synthetic",
+      "citation": "ShiftLab synthetic specification v1",
+      "license": "MIT",
+      "permitted_use": "Research and reuse under MIT",
+      "acquired_at": "2026-10-19T08:15:33.839147+00:00",
+      "retrieval_parameters": {},
+      "raw_checksums": {},
+      "processing_config": {
+        "scenario": "hidden_cost",
+        "n": 5000,
+        "d": 4,
+        "seed": 42,
+        "change_fraction": 0.5,
+        "severity": 1.0,
+        "noise": 0.3,
+        "delay": 0,
+        "missing": 0.0,
+        "rho": 0.6,
+        "pattern": "abrupt",
+        "regimes": 2,
+        "transition_fraction": 0.1,
+        "device": "cpu",
+        "dtype": "float64",
+        "chunk_size": 10000,
+        "memory_mb": 512,
+        "output": "data"
+      },
+      "code_commit": null,
+      "source_hash": "caf2ad20b56de66eb51c19adfbc95aeb367fc03d99d41c0ce688c5a451786626",
+      "n_observations": 5000,
+      "feature_names": [
+        "x0",
+        "x1",
+        "x2",
+        "x3"
+      ],
+      "feature_dtype": "float64",
+      "time_coverage": [
+        "0",
+        "4999"
+      ],
+      "domains": [
+        "synthetic"
+      ],
+      "missingness": {
+        "target": 0.0,
+        "features": 0.0
+      },
+      "limitations": [
+        "Research-imposed utilities.",
+        "Oracle quantiles are DGP conditional or marginal as labelled; not a guarantee for a fitted model.",
+        "Dependence scenarios require dependence-aware inference."
+      ],
+      "ground_truth": "synthetic_known",
+      "files": {
+        "observations.parquet": "3e500778a894d07c982dea3994e4b642b05f465b90175ce077138d70ec89a108",
+        "evaluator_only/oracle.parquet": "fac900ae88d0e923d2b2123c70b6e70f858b6f8d66eb58206ce5a5974f6c83b1",
+        "evaluator_only/dgp.json": "1d4df128cf007ff630e1e304364a1a5f0f49d8d8cd9b44aa85b3b8b98116d507"
+      },
+      "oracle_file": "evaluator_only/oracle.parquet",
+      "environment": {
+        "cpu_ram_bytes": 16858472448,
+        "disk_free_bytes": 69444440064,
+        "cuda_available": true,
+        "nvidia_smi": "NVIDIA GeForce RTX 4060 Laptop GPU, 8188 MiB, 592.82, 0 %, 10 MiB",
+        "torch_version": "2.9.1+cu130",
+        "cuda_runtime": "13.0",
+        "gpu_name": "NVIDIA GeForce RTX 4060 Laptop GPU",
+        "gpu_memory_bytes": 8585216000
+      },
+      "path": "data\\synthetic\\hidden_cost\\317e25bbc10d4e6843dd"
+    },
+    {
+      "schema_version": "1.0.0",
+      "dataset": "hidden_cost",
+      "version": "35660b3cb557d4700abe",
+      "publisher": "ShiftLab",
+      "source_url": "local://shiftlab/data/synthetic",
+      "citation": "ShiftLab synthetic specification v1",
+      "license": "MIT",
+      "permitted_use": "Research and reuse under MIT",
+      "acquired_at": "2026-10-19T08:28:32.048524+00:00",
+      "retrieval_parameters": {},
+      "raw_checksums": {},
+      "processing_config": {
+        "scenario": "hidden_cost",
+        "n": 5000,
+        "d": 4,
+        "seed": 42,
+        "change_fraction": 0.5,
+        "severity": 1.0,
+        "noise": 0.3,
+        "delay": 0,
+        "missing": 0.0,
+        "rho": 0.6,
+        "pattern": "abrupt",
+        "regimes": 2,
+        "transition_fraction": 0.1,
+        "device": "cpu",
+        "dtype": "float64",
+        "chunk_size": 10000,
+        "memory_mb": 512,
+        "output": "data",
+        "train_fraction": 0.2,
+        "validation_fraction": 0.1,
+        "calibration_fraction": 0.1
+      },
+      "code_commit": "f83ffbe2804ba0dcb7404cda0890d9c3c248a385",
+      "source_hash": "7ca1700fafa94b3b2188ce46076288aa59a773a38f48f270300aa9b19ae8d3ae",
+      "n_observations": 5000,
+      "feature_names": [
+        "x0",
+        "x1",
+        "x2",
+        "x3"
+      ],
+      "feature_dtype": "float64",
+      "time_coverage": [
+        "0",
+        "4999"
+      ],
+      "domains": [
+        "synthetic"
+      ],
+      "missingness": {
+        "target": 0.0,
+        "features": 0.0
+      },
+      "limitations": [
+        "Research-imposed utilities.",
+        "Oracle quantiles are DGP conditional or marginal as labelled; not a guarantee for a fitted model.",
+        "Dependence scenarios require dependence-aware inference."
+      ],
+      "ground_truth": "synthetic_known",
+      "files": {
+        "observations.parquet": "c61be469ae7ed86912c3d5020d750929056ef11c9bab6859349574e4048eb8af",
+        "evaluator_only/oracle.parquet": "fac900ae88d0e923d2b2123c70b6e70f858b6f8d66eb58206ce5a5974f6c83b1",
+        "evaluator_only/dgp.json": "1d127631bbc576f7bc4342c34ccd1292779e1e6a249943f717297abf4d2f876e"
+      },
+      "oracle_file": "evaluator_only/oracle.parquet",
+      "environment": {
+        "cpu_ram_bytes": 16858472448,
+        "disk_free_bytes": 68941447168,
+        "cuda_available": true,
+        "nvidia_smi": "NVIDIA GeForce RTX 4060 Laptop GPU, 8188 MiB, 592.82, 0 %, 10 MiB",
+        "torch_version": "2.9.1+cu130",
+        "cuda_runtime": "13.0",
+        "gpu_name": "NVIDIA GeForce RTX 4060 Laptop GPU",
+        "gpu_memory_bytes": 8585216000,
+        "versions": {
+          "numpy": "2.5.4",
+          "scipy": "1.18.1",
+          "pandas": "3.0.6",
+          "pyarrow": "25.0.1",
+          "folktables": "0.0.12"
+        }
+      },
+      "path": "data\\synthetic\\hidden_cost\\35660b3cb557d4700abe"
+    },
+    {
+      "schema_version": "1.0.0",
+      "dataset": "hidden_cost",
+      "version": "3d8c473169d966eeafb1",
+      "publisher": "ShiftLab",
+      "source_url": "local://shiftlab/data/synthetic",
+      "citation": "ShiftLab synthetic specification v1",
+      "license": "MIT",
+      "permitted_use": "Research and reuse under MIT",
+      "acquired_at": "2026-10-19T08:24:27.926951+00:00",
+      "retrieval_parameters": {},
+      "raw_checksums": {},
+      "processing_config": {
+        "scenario": "hidden_cost",
+        "n": 5000,
+        "d": 4,
+        "seed": 42,
+        "change_fraction": 0.5,
+        "severity": 1.0,
+        "noise": 0.3,
+        "delay": 0,
+        "missing": 0.0,
+        "rho": 0.6,
+        "pattern": "abrupt",
+        "regimes": 2,
+        "transition_fraction": 0.1,
+        "device": "cpu",
+        "dtype": "float64",
+        "chunk_size": 10000,
+        "memory_mb": 512,
+        "output": "data"
+      },
+      "code_commit": "fa5daeaece45c4697765db2baced28545e9a565c",
+      "source_hash": "88042e7a5c50b58a22164e50e96346e1ab59853a76ff7666496dab8a6582221d",
+      "n_observations": 5000,
+      "feature_names": [
+        "x0",
+        "x1",
+        "x2",
+        "x3"
+      ],
+      "feature_dtype": "float64",
+      "time_coverage": [
+        "0",
+        "4999"
+      ],
+      "domains": [
+        "synthetic"
+      ],
+      "missingness": {
+        "target": 0.0,
+        "features": 0.0
+      },
+      "limitations": [
+        "Research-imposed utilities.",
+        "Oracle quantiles are DGP conditional or marginal as labelled; not a guarantee for a fitted model.",
+        "Dependence scenarios require dependence-aware inference."
+      ],
+      "ground_truth": "synthetic_known",
+      "files": {
+        "observations.parquet": "3e500778a894d07c982dea3994e4b642b05f465b90175ce077138d70ec89a108",
+        "evaluator_only/oracle.parquet": "fac900ae88d0e923d2b2123c70b6e70f858b6f8d66eb58206ce5a5974f6c83b1",
+        "evaluator_only/dgp.json": "1d4df128cf007ff630e1e304364a1a5f0f49d8d8cd9b44aa85b3b8b98116d507"
+      },
+      "oracle_file": "evaluator_only/oracle.parquet",
+      "environment": {
+        "cpu_ram_bytes": 16858472448,
+        "disk_free_bytes": 68965720064,
+        "cuda_available": true,
+        "nvidia_smi": "NVIDIA GeForce RTX 4060 Laptop GPU, 8188 MiB, 592.82, 0 %, 10 MiB",
+        "torch_version": "2.9.1+cu130",
+        "cuda_runtime": "13.0",
+        "gpu_name": "NVIDIA GeForce RTX 4060 Laptop GPU",
+        "gpu_memory_bytes": 8585216000,
+        "versions": {
+          "numpy": "2.5.4",
+          "scipy": "1.18.1",
+          "pandas": "3.0.6",
+          "pyarrow": "25.0.1",
+          "folktables": "0.0.12"
+        }
+      },
+      "path": "data\\synthetic\\hidden_cost\\3d8c473169d966eeafb1"
+    },
+    {
+      "schema_version": "1.0.0",
+      "dataset": "iid_regression",
+      "version": "2ec3afaae147c5e67b5c",
+      "publisher": "ShiftLab",
+      "source_url": "local://shiftlab/data/synthetic",
+      "citation": "ShiftLab synthetic specification v1",
+      "license": "MIT",
+      "permitted_use": "Research and reuse under MIT",
+      "acquired_at": "2026-10-19T08:24:26.628903+00:00",
+      "retrieval_parameters": {},
+      "raw_checksums": {},
+      "processing_config": {
+        "scenario": "iid_regression",
+        "n": 20000,
+        "d": 64,
+        "seed": 42,
+        "change_fraction": 0.5,
+        "severity": 1.0,
+        "noise": 0.3,
+        "delay": 0,
+        "missing": 0.0,
+        "rho": 0.6,
+        "pattern": "abrupt",
+        "regimes": 2,
+        "transition_fraction": 0.1,
+        "device": "cuda",
+        "dtype": "float32",
+        "chunk_size": 5000,
+        "memory_mb": 128,
+        "output": "data"
+      },
+      "code_commit": "fa5daeaece45c4697765db2baced28545e9a565c",
+      "source_hash": "88042e7a5c50b58a22164e50e96346e1ab59853a76ff7666496dab8a6582221d",
+      "n_observations": 20000,
+      "feature_names": [
+        "x0",
+        "x1",
+        "x2",
+        "x3",
+        "x4",
+        "x5",
+        "x6",
+        "x7",
+        "x8",
+        "x9",
+        "x10",
+        "x11",
+        "x12",
+        "x13",
+        "x14",
+        "x15",
+        "x16",
+        "x17",
+        "x18",
+        "x19",
+        "x20",
+        "x21",
+        "x22",
+        "x23",
+        "x24",
+        "x25",
+        "x26",
+        "x27",
+        "x28",
+        "x29",
+        "x30",
+        "x31",
+        "x32",
+        "x33",
+        "x34",
+        "x35",
+        "x36",
+        "x37",
+        "x38",
+        "x39",
+        "x40",
+        "x41",
+        "x42",
+        "x43",
+        "x44",
+        "x45",
+        "x46",
+        "x47",
+        "x48",
+        "x49",
+        "x50",
+        "x51",
+        "x52",
+        "x53",
+        "x54",
+        "x55",
+        "x56",
+        "x57",
+        "x58",
+        "x59",
+        "x60",
+        "x61",
+        "x62",
+        "x63"
+      ],
+      "feature_dtype": "float32",
+      "time_coverage": [
+        "0",
+        "19999"
+      ],
+      "domains": [
+        "synthetic"
+      ],
+      "missingness": {
+        "target": 0.0,
+        "features": 0.0
+      },
+      "limitations": [
+        "Research-imposed utilities.",
+        "Oracle quantiles are DGP conditional or marginal as labelled; not a guarantee for a fitted model.",
+        "Dependence scenarios require dependence-aware inference."
+      ],
+      "ground_truth": "synthetic_known",
+      "files": {
+        "observations.parquet": "31467adf6ee1f9290e6baa1627a5bf64b32a8f0c67296d09f908a1433c3280d4",
+        "evaluator_only/oracle.parquet": "6725d83727613e497a988eac0ff2acffff93e86afcef99f64079617ee5b52252",
+        "evaluator_only/dgp.json": "03175ed0e54e988eb19464238952eb31ddacc38587087003f87b28aa6851fde4"
+      },
+      "oracle_file": "evaluator_only/oracle.parquet",
+      "environment": {
+        "cpu_ram_bytes": 16858472448,
+        "disk_free_bytes": 69226610688,
+        "cuda_available": true,
+        "nvidia_smi": "NVIDIA GeForce RTX 4060 Laptop GPU, 8188 MiB, 592.82, 0 %, 10 MiB",
+        "torch_version": "2.9.1+cu130",
+        "cuda_runtime": "13.0",
+        "gpu_name": "NVIDIA GeForce RTX 4060 Laptop GPU",
+        "gpu_memory_bytes": 8585216000,
+        "versions": {
+          "numpy": "2.5.4",
+          "scipy": "1.18.1",
+          "pandas": "3.0.6",
+          "pyarrow": "25.0.1",
+          "folktables": "0.0.12"
+        }
+      },
+      "path": "data\\synthetic\\iid_regression\\2ec3afaae147c5e67b5c"
+    },
+    {
+      "schema_version": "1.0.0",
+      "dataset": "iid_regression",
+      "version": "6172f78b8ffa9e08f94c",
+      "publisher": "ShiftLab",
+      "source_url": "local://shiftlab/data/synthetic",
+      "citation": "ShiftLab synthetic specification v1",
+      "license": "MIT",
+      "permitted_use": "Research and reuse under MIT",
+      "acquired_at": "2026-10-19T08:24:26.165703+00:00",
+      "retrieval_parameters": {},
+      "raw_checksums": {},
+      "processing_config": {
+        "scenario": "iid_regression",
+        "n": 5000,
+        "d": 4,
+        "seed": 42,
+        "change_fraction": 0.5,
+        "severity": 1.0,
+        "noise": 0.3,
+        "delay": 0,
+        "missing": 0.0,
+        "rho": 0.6,
+        "pattern": "abrupt",
+        "regimes": 2,
+        "transition_fraction": 0.1,
+        "device": "cpu",
+        "dtype": "float64",
+        "chunk_size": 10000,
+        "memory_mb": 512,
+        "output": "data"
+      },
+      "code_commit": "fa5daeaece45c4697765db2baced28545e9a565c",
+      "source_hash": "88042e7a5c50b58a22164e50e96346e1ab59853a76ff7666496dab8a6582221d",
+      "n_observations": 5000,
+      "feature_names": [
+        "x0",
+        "x1",
+        "x2",
+        "x3"
+      ],
+      "feature_dtype": "float64",
+      "time_coverage": [
+        "0",
+        "4999"
+      ],
+      "domains": [
+        "synthetic"
+      ],
+      "missingness": {
+        "target": 0.0,
+        "features": 0.0
+      },
+      "limitations": [
+        "Research-imposed utilities.",
+        "Oracle quantiles are DGP conditional or marginal as labelled; not a guarantee for a fitted model.",
+        "Dependence scenarios require dependence-aware inference."
+      ],
+      "ground_truth": "synthetic_known",
+      "files": {
+        "observations.parquet": "c4b630bc92d0e6376583dab88fdb347259ca536b2016e8d648bbb6a8b04317a3",
+        "evaluator_only/oracle.parquet": "46b1e2398ff0e413aca8a67c8b55c1a5ec3e3d1de30e56a6fd2f5586f3d25cf0",
+        "evaluator_only/dgp.json": "9efca695649214dacd905f378bb4e6b29439696297bf1e8c2dd87a462a88bbd2"
+      },
+      "oracle_file": "evaluator_only/oracle.parquet",
+      "environment": {
+        "cpu_ram_bytes": 16858472448,
+        "disk_free_bytes": 69226610688,
+        "cuda_available": true,
+        "nvidia_smi": "NVIDIA GeForce RTX 4060 Laptop GPU, 8188 MiB, 592.82, 0 %, 10 MiB",
+        "torch_version": "2.9.1+cu130",
+        "cuda_runtime": "13.0",
+        "gpu_name": "NVIDIA GeForce RTX 4060 Laptop GPU",
+        "gpu_memory_bytes": 8585216000,
+        "versions": {
+          "numpy": "2.5.4",
+          "scipy": "1.18.1",
+          "pandas": "3.0.6",
+          "pyarrow": "25.0.1",
+          "folktables": "0.0.12"
+        }
+      },
+      "path": "data\\synthetic\\iid_regression\\6172f78b8ffa9e08f94c"
+    },
+    {
+      "schema_version": "1.0.0",
+      "dataset": "iid_regression",
+      "version": "749d51b44e3a8a8068a5",
+      "publisher": "ShiftLab",
+      "source_url": "local://shiftlab/data/synthetic",
+      "citation": "ShiftLab synthetic specification v1",
+      "license": "MIT",
+      "permitted_use": "Research and reuse under MIT",
+      "acquired_at": "2026-10-19T08:15:32.126890+00:00",
+      "retrieval_parameters": {},
+      "raw_checksums": {},
+      "processing_config": {
+        "scenario": "iid_regression",
+        "n": 5000,
+        "d": 4,
+        "seed": 42,
+        "change_fraction": 0.5,
+        "severity": 1.0,
+        "noise": 0.3,
+        "delay": 0,
+        "missing": 0.0,
+        "rho": 0.6,
+        "pattern": "abrupt",
+        "regimes": 2,
+        "transition_fraction": 0.1,
+        "device": "cpu",
+        "dtype": "float64",
+        "chunk_size": 10000,
+        "memory_mb": 512,
+        "output": "data"
+      },
+      "code_commit": null,
+      "source_hash": "caf2ad20b56de66eb51c19adfbc95aeb367fc03d99d41c0ce688c5a451786626",
+      "n_observations": 5000,
+      "feature_names": [
+        "x0",
+        "x1",
+        "x2",
+        "x3"
+      ],
+      "feature_dtype": "float64",
+      "time_coverage": [
+        "0",
+        "4999"
+      ],
+      "domains": [
+        "synthetic"
+      ],
+      "missingness": {
+        "target": 0.0,
+        "features": 0.0
+      },
+      "limitations": [
+        "Research-imposed utilities.",
+        "Oracle quantiles are DGP conditional or marginal as labelled; not a guarantee for a fitted model.",
+        "Dependence scenarios require dependence-aware inference."
+      ],
+      "ground_truth": "synthetic_known",
+      "files": {
+        "observations.parquet": "c4b630bc92d0e6376583dab88fdb347259ca536b2016e8d648bbb6a8b04317a3",
+        "evaluator_only/oracle.parquet": "46b1e2398ff0e413aca8a67c8b55c1a5ec3e3d1de30e56a6fd2f5586f3d25cf0",
+        "evaluator_only/dgp.json": "9efca695649214dacd905f378bb4e6b29439696297bf1e8c2dd87a462a88bbd2"
+      },
+      "oracle_file": "evaluator_only/oracle.parquet",
+      "environment": {
+        "cpu_ram_bytes": 16858472448,
+        "disk_free_bytes": 69707796480,
+        "cuda_available": true,
+        "nvidia_smi": "NVIDIA GeForce RTX 4060 Laptop GPU, 8188 MiB, 592.82, 0 %, 10 MiB",
+        "torch_version": "2.9.1+cu130",
+        "cuda_runtime": "13.0",
+        "gpu_name": "NVIDIA GeForce RTX 4060 Laptop GPU",
+        "gpu_memory_bytes": 8585216000
+      },
+      "path": "data\\synthetic\\iid_regression\\749d51b44e3a8a8068a5"
+    },
+    {
+      "schema_version": "1.0.0",
+      "dataset": "iid_regression",
+      "version": "ec1804e2f447a6af06b9",
+      "publisher": "ShiftLab",
+      "source_url": "local://shiftlab/data/synthetic",
+      "citation": "ShiftLab synthetic specification v1",
+      "license": "MIT",
+      "permitted_use": "Research and reuse under MIT",
+      "acquired_at": "2026-10-19T08:28:30.142156+00:00",
+      "retrieval_parameters": {},
+      "raw_checksums": {},
+      "processing_config": {
+        "scenario": "iid_regression",
+        "n": 5000,
+        "d": 4,
+        "seed": 42,
+        "change_fraction": 0.5,
+        "severity": 1.0,
+        "noise": 0.3,
+        "delay": 0,
+        "missing": 0.0,
+        "rho": 0.6,
+        "pattern": "abrupt",
+        "regimes": 2,
+        "transition_fraction": 0.1,
+        "device": "cpu",
+        "dtype": "float64",
+        "chunk_size": 10000,
+        "memory_mb": 512,
+        "output": "data",
+        "train_fraction": 0.2,
+        "validation_fraction": 0.1,
+        "calibration_fraction": 0.1
+      },
+      "code_commit": "f83ffbe2804ba0dcb7404cda0890d9c3c248a385",
+      "source_hash": "7ca1700fafa94b3b2188ce46076288aa59a773a38f48f270300aa9b19ae8d3ae",
+      "n_observations": 5000,
+      "feature_names": [
+        "x0",
+        "x1",
+        "x2",
+        "x3"
+      ],
+      "feature_dtype": "float64",
+      "time_coverage": [
+        "0",
+        "4999"
+      ],
+      "domains": [
+        "synthetic"
+      ],
+      "missingness": {
+        "target": 0.0,
+        "features": 0.0
+      },
+      "limitations": [
+        "Research-imposed utilities.",
+        "Oracle quantiles are DGP conditional or marginal as labelled; not a guarantee for a fitted model.",
+        "Dependence scenarios require dependence-aware inference."
+      ],
+      "ground_truth": "synthetic_known",
+      "files": {
+        "observations.parquet": "f404cd513fb57cf644722f7ce205602a24283defafa9e5105dbe99c6bfc6a45b",
+        "evaluator_only/oracle.parquet": "46b1e2398ff0e413aca8a67c8b55c1a5ec3e3d1de30e56a6fd2f5586f3d25cf0",
+        "evaluator_only/dgp.json": "ded0ad222acb251cc983efe4bb526c51f804318c6fde8a7415db242b6ab49d6d"
+      },
+      "oracle_file": "evaluator_only/oracle.parquet",
+      "environment": {
+        "cpu_ram_bytes": 16858472448,
+        "disk_free_bytes": 68967604224,
+        "cuda_available": true,
+        "nvidia_smi": "NVIDIA GeForce RTX 4060 Laptop GPU, 8188 MiB, 592.82, 0 %, 10 MiB",
+        "torch_version": "2.9.1+cu130",
+        "cuda_runtime": "13.0",
+        "gpu_name": "NVIDIA GeForce RTX 4060 Laptop GPU",
+        "gpu_memory_bytes": 8585216000,
+        "versions": {
+          "numpy": "2.5.4",
+          "scipy": "1.18.1",
+          "pandas": "3.0.6",
+          "pyarrow": "25.0.1",
+          "folktables": "0.0.12"
+        }
+      },
+      "path": "data\\synthetic\\iid_regression\\ec1804e2f447a6af06b9"
+    },
+    {
+      "schema_version": "1.0.0",
+      "dataset": "iid_regression",
+      "version": "f2651e700ab64a957f07",
+      "publisher": "ShiftLab",
+      "source_url": "local://shiftlab/data/synthetic",
+      "citation": "ShiftLab synthetic specification v1",
+      "license": "MIT",
+      "permitted_use": "Research and reuse under MIT",
+      "acquired_at": "2026-10-19T08:28:30.620959+00:00",
+      "retrieval_parameters": {},
+      "raw_checksums": {},
+      "processing_config": {
+        "scenario": "iid_regression",
+        "n": 20000,
+        "d": 64,
+        "seed": 42,
+        "change_fraction": 0.5,
+        "severity": 1.0,
+        "noise": 0.3,
+        "delay": 0,
+        "missing": 0.0,
+        "rho": 0.6,
+        "pattern": "abrupt",
+        "regimes": 2,
+        "transition_fraction": 0.1,
+        "device": "cuda",
+        "dtype": "float32",
+        "chunk_size": 5000,
+        "memory_mb": 128,
+        "output": "data",
+        "train_fraction": 0.2,
+        "validation_fraction": 0.1,
+        "calibration_fraction": 0.1
+      },
+      "code_commit": "f83ffbe2804ba0dcb7404cda0890d9c3c248a385",
+      "source_hash": "7ca1700fafa94b3b2188ce46076288aa59a773a38f48f270300aa9b19ae8d3ae",
+      "n_observations": 20000,
+      "feature_names": [
+        "x0",
+        "x1",
+        "x2",
+        "x3",
+        "x4",
+        "x5",
+        "x6",
+        "x7",
+        "x8",
+        "x9",
+        "x10",
+        "x11",
+        "x12",
+        "x13",
+        "x14",
+        "x15",
+        "x16",
+        "x17",
+        "x18",
+        "x19",
+        "x20",
+        "x21",
+        "x22",
+        "x23",
+        "x24",
+        "x25",
+        "x26",
+        "x27",
+        "x28",
+        "x29",
+        "x30",
+        "x31",
+        "x32",
+        "x33",
+        "x34",
+        "x35",
+        "x36",
+        "x37",
+        "x38",
+        "x39",
+        "x40",
+        "x41",
+        "x42",
+        "x43",
+        "x44",
+        "x45",
+        "x46",
+        "x47",
+        "x48",
+        "x49",
+        "x50",
+        "x51",
+        "x52",
+        "x53",
+        "x54",
+        "x55",
+        "x56",
+        "x57",
+        "x58",
+        "x59",
+        "x60",
+        "x61",
+        "x62",
+        "x63"
+      ],
+      "feature_dtype": "float32",
+      "time_coverage": [
+        "0",
+        "19999"
+      ],
+      "domains": [
+        "synthetic"
+      ],
+      "missingness": {
+        "target": 0.0,
+        "features": 0.0
+      },
+      "limitations": [
+        "Research-imposed utilities.",
+        "Oracle quantiles are DGP conditional or marginal as labelled; not a guarantee for a fitted model.",
+        "Dependence scenarios require dependence-aware inference."
+      ],
+      "ground_truth": "synthetic_known",
+      "files": {
+        "observations.parquet": "b81d3baca86c5194a4fe8b6edcd18467633b6afe01e3fdea95214bc2a81790cd",
+        "evaluator_only/oracle.parquet": "6725d83727613e497a988eac0ff2acffff93e86afcef99f64079617ee5b52252",
+        "evaluator_only/dgp.json": "6c145c1dc491534d0af8e547820e637fc6609f5a31eca80db7237268786c0f52"
+      },
+      "oracle_file": "evaluator_only/oracle.parquet",
+      "environment": {
+        "cpu_ram_bytes": 16858472448,
+        "disk_free_bytes": 68967604224,
+        "cuda_available": true,
+        "nvidia_smi": "NVIDIA GeForce RTX 4060 Laptop GPU, 8188 MiB, 592.82, 0 %, 10 MiB",
+        "torch_version": "2.9.1+cu130",
+        "cuda_runtime": "13.0",
+        "gpu_name": "NVIDIA GeForce RTX 4060 Laptop GPU",
+        "gpu_memory_bytes": 8585216000,
+        "versions": {
+          "numpy": "2.5.4",
+          "scipy": "1.18.1",
+          "pandas": "3.0.6",
+          "pyarrow": "25.0.1",
+          "folktables": "0.0.12"
+        }
+      },
+      "path": "data\\synthetic\\iid_regression\\f2651e700ab64a957f07"
+    },
+    {
+      "schema_version": "1.0.0",
+      "dataset": "irrelevant",
+      "version": "0776b20e3a343bd75dda",
+      "publisher": "ShiftLab",
+      "source_url": "local://shiftlab/data/synthetic",
+      "citation": "ShiftLab synthetic specification v1",
+      "license": "MIT",
+      "permitted_use": "Research and reuse under MIT",
+      "acquired_at": "2026-10-19T08:15:32.593319+00:00",
+      "retrieval_parameters": {},
+      "raw_checksums": {},
+      "processing_config": {
+        "scenario": "irrelevant",
+        "n": 5000,
+        "d": 4,
+        "seed": 42,
+        "change_fraction": 0.5,
+        "severity": 1.0,
+        "noise": 0.3,
+        "delay": 0,
+        "missing": 0.0,
+        "rho": 0.6,
+        "pattern": "abrupt",
+        "regimes": 2,
+        "transition_fraction": 0.1,
+        "device": "cpu",
+        "dtype": "float64",
+        "chunk_size": 10000,
+        "memory_mb": 512,
+        "output": "data"
+      },
+      "code_commit": null,
+      "source_hash": "caf2ad20b56de66eb51c19adfbc95aeb367fc03d99d41c0ce688c5a451786626",
+      "n_observations": 5000,
+      "feature_names": [
+        "x0",
+        "x1",
+        "x2",
+        "x3"
+      ],
+      "feature_dtype": "float64",
+      "time_coverage": [
+        "0",
+        "4999"
+      ],
+      "domains": [
+        "synthetic"
+      ],
+      "missingness": {
+        "target": 0.0,
+        "features": 0.0
+      },
+      "limitations": [
+        "Research-imposed utilities.",
+        "Oracle quantiles are DGP conditional or marginal as labelled; not a guarantee for a fitted model.",
+        "Dependence scenarios require dependence-aware inference."
+      ],
+      "ground_truth": "synthetic_known",
+      "files": {
+        "observations.parquet": "9d411e5d1a9b8bf88d07af8fba6dd59f68595637dd7fecfcc2613a84c653d355",
+        "evaluator_only/oracle.parquet": "8ede345089e2a926212fa9fc3508c5be4f5e462174b3e9f263db89ec0139db84",
+        "evaluator_only/dgp.json": "eb9a281cb980519483e96efae128464043d48deff7694e536611367d1f6d52ee"
+      },
+      "oracle_file": "evaluator_only/oracle.parquet",
+      "environment": {
+        "cpu_ram_bytes": 16858472448,
+        "disk_free_bytes": 69444300800,
+        "cuda_available": true,
+        "nvidia_smi": "NVIDIA GeForce RTX 4060 Laptop GPU, 8188 MiB, 592.82, 0 %, 10 MiB",
+        "torch_version": "2.9.1+cu130",
+        "cuda_runtime": "13.0",
+        "gpu_name": "NVIDIA GeForce RTX 4060 Laptop GPU",
+        "gpu_memory_bytes": 8585216000
+      },
+      "path": "data\\synthetic\\irrelevant\\0776b20e3a343bd75dda"
+    },
+    {
+      "schema_version": "1.0.0",
+      "dataset": "irrelevant",
+      "version": "8d58c220c4b53d25104e",
+      "publisher": "ShiftLab",
+      "source_url": "local://shiftlab/data/synthetic",
+      "citation": "ShiftLab synthetic specification v1",
+      "license": "MIT",
+      "permitted_use": "Research and reuse under MIT",
+      "acquired_at": "2026-10-19T08:28:30.696077+00:00",
+      "retrieval_parameters": {},
+      "raw_checksums": {},
+      "processing_config": {
+        "scenario": "irrelevant",
+        "n": 5000,
+        "d": 4,
+        "seed": 42,
+        "change_fraction": 0.5,
+        "severity": 1.0,
+        "noise": 0.3,
+        "delay": 0,
+        "missing": 0.0,
+        "rho": 0.6,
+        "pattern": "abrupt",
+        "regimes": 2,
+        "transition_fraction": 0.1,
+        "device": "cpu",
+        "dtype": "float64",
+        "chunk_size": 10000,
+        "memory_mb": 512,
+        "output": "data",
+        "train_fraction": 0.2,
+        "validation_fraction": 0.1,
+        "calibration_fraction": 0.1
+      },
+      "code_commit": "f83ffbe2804ba0dcb7404cda0890d9c3c248a385",
+      "source_hash": "7ca1700fafa94b3b2188ce46076288aa59a773a38f48f270300aa9b19ae8d3ae",
+      "n_observations": 5000,
+      "feature_names": [
+        "x0",
+        "x1",
+        "x2",
+        "x3"
+      ],
+      "feature_dtype": "float64",
+      "time_coverage": [
+        "0",
+        "4999"
+      ],
+      "domains": [
+        "synthetic"
+      ],
+      "missingness": {
+        "target": 0.0,
+        "features": 0.0
+      },
+      "limitations": [
+        "Research-imposed utilities.",
+        "Oracle quantiles are DGP conditional or marginal as labelled; not a guarantee for a fitted model.",
+        "Dependence scenarios require dependence-aware inference."
+      ],
+      "ground_truth": "synthetic_known",
+      "files": {
+        "observations.parquet": "aa0ab90b6c628cf70d7c19a2f3f87ccb44d1ff3fb9288dc08f14fc11eff3b139",
+        "evaluator_only/oracle.parquet": "8ede345089e2a926212fa9fc3508c5be4f5e462174b3e9f263db89ec0139db84",
+        "evaluator_only/dgp.json": "594a145d9c75202d13471ef24a6f00aa2535d674a0cc13e6aa6b638b1bd68574"
+      },
+      "oracle_file": "evaluator_only/oracle.parquet",
+      "environment": {
+        "cpu_ram_bytes": 16858472448,
+        "disk_free_bytes": 68936126464,
+        "cuda_available": true,
+        "nvidia_smi": "NVIDIA GeForce RTX 4060 Laptop GPU, 8188 MiB, 592.82, 1 %, 243 MiB",
+        "torch_version": "2.9.1+cu130",
+        "cuda_runtime": "13.0",
+        "gpu_name": "NVIDIA GeForce RTX 4060 Laptop GPU",
+        "gpu_memory_bytes": 8585216000,
+        "versions": {
+          "numpy": "2.5.4",
+          "scipy": "1.18.1",
+          "pandas": "3.0.6",
+          "pyarrow": "25.0.1",
+          "folktables": "0.0.12"
+        }
+      },
+      "path": "data\\synthetic\\irrelevant\\8d58c220c4b53d25104e"
+    },
+    {
+      "schema_version": "1.0.0",
+      "dataset": "irrelevant",
+      "version": "92f0fb941cf3793f3461",
+      "publisher": "ShiftLab",
+      "source_url": "local://shiftlab/data/synthetic",
+      "citation": "ShiftLab synthetic specification v1",
+      "license": "MIT",
+      "permitted_use": "Research and reuse under MIT",
+      "acquired_at": "2026-10-19T08:24:26.683419+00:00",
+      "retrieval_parameters": {},
+      "raw_checksums": {},
+      "processing_config": {
+        "scenario": "irrelevant",
+        "n": 5000,
+        "d": 4,
+        "seed": 42,
+        "change_fraction": 0.5,
+        "severity": 1.0,
+        "noise": 0.3,
+        "delay": 0,
+        "missing": 0.0,
+        "rho": 0.6,
+        "pattern": "abrupt",
+        "regimes": 2,
+        "transition_fraction": 0.1,
+        "device": "cpu",
+        "dtype": "float64",
+        "chunk_size": 10000,
+        "memory_mb": 512,
+        "output": "data"
+      },
+      "code_commit": "fa5daeaece45c4697765db2baced28545e9a565c",
+      "source_hash": "88042e7a5c50b58a22164e50e96346e1ab59853a76ff7666496dab8a6582221d",
+      "n_observations": 5000,
+      "feature_names": [
+        "x0",
+        "x1",
+        "x2",
+        "x3"
+      ],
+      "feature_dtype": "float64",
+      "time_coverage": [
+        "0",
+        "4999"
+      ],
+      "domains": [
+        "synthetic"
+      ],
+      "missingness": {
+        "target": 0.0,
+        "features": 0.0
+      },
+      "limitations": [
+        "Research-imposed utilities.",
+        "Oracle quantiles are DGP conditional or marginal as labelled; not a guarantee for a fitted model.",
+        "Dependence scenarios require dependence-aware inference."
+      ],
+      "ground_truth": "synthetic_known",
+      "files": {
+        "observations.parquet": "9d411e5d1a9b8bf88d07af8fba6dd59f68595637dd7fecfcc2613a84c653d355",
+        "evaluator_only/oracle.parquet": "8ede345089e2a926212fa9fc3508c5be4f5e462174b3e9f263db89ec0139db84",
+        "evaluator_only/dgp.json": "eb9a281cb980519483e96efae128464043d48deff7694e536611367d1f6d52ee"
+      },
+      "oracle_file": "evaluator_only/oracle.parquet",
+      "environment": {
+        "cpu_ram_bytes": 16858472448,
+        "disk_free_bytes": 68962746368,
+        "cuda_available": true,
+        "nvidia_smi": "NVIDIA GeForce RTX 4060 Laptop GPU, 8188 MiB, 592.82, 0 %, 126 MiB",
+        "torch_version": "2.9.1+cu130",
+        "cuda_runtime": "13.0",
+        "gpu_name": "NVIDIA GeForce RTX 4060 Laptop GPU",
+        "gpu_memory_bytes": 8585216000,
+        "versions": {
+          "numpy": "2.5.4",
+          "scipy": "1.18.1",
+          "pandas": "3.0.6",
+          "pyarrow": "25.0.1",
+          "folktables": "0.0.12"
+        }
+      },
+      "path": "data\\synthetic\\irrelevant\\92f0fb941cf3793f3461"
+    },
+    {
+      "schema_version": "1.0.0",
+      "dataset": "noaa",
+      "version": "33e26a477e642634e480",
+      "publisher": "NOAA NCEI",
+      "source_url": "https://www.ncei.noaa.gov/data/global-hourly/access/",
+      "citation": "NOAA NCEI Integrated Surface Database (ISD)",
+      "license": "US government data; retain NOAA attribution; source quality flags preserved",
+      "permitted_use": "Research only; respect original source terms",
+      "acquired_at": "2026-10-19T08:16:19.647837+00:00",
+      "retrieval_parameters": {
+        "year": 2023,
+        "station": "74486094789"
+      },
+      "raw_checksums": {
+        "data\\raw\\noaa\\2023-74486094789-s3.csv": "a1081700076005cd97b2c7223358bd4b721edd8807d84ec04d08879afbeeac4e"
+      },
+      "processing_config": {
+        "year": 2023,
+        "station": "74486094789"
+      },
+      "code_commit": null,
+      "source_hash": "194ddc8338f846f26a167ce789afb2d3dc2958fc569574272db93f9835898559",
+      "n_observations": 13422,
+      "feature_names": [
+        "temperature_C",
+        "dewpoint_C"
+      ],
+      "feature_dtype": "float64",
+      "time_coverage": [
+        "1672531200.0",
+        "1704063060.0"
+      ],
+      "domains": [
+        "74486094789"
+      ],
+      "missingness": {
+        "target": 0.02853524064967963,
+        "features": 0.02853524064967963
+      },
+      "limitations": [
+        "No verified real changepoints.",
+        "measurement UTC; historical release latency unknown",
+        "Decision utilities are research-imposed, not operational ground truth.",
+        "Temperature/dewpoint sentinels decoded; other measurement and quality fields retained as raw metadata. Not a strict hourly forecast when records are irregular."
+      ],
+      "ground_truth": "none",
+      "files": {
+        "observations.parquet": "be751a84804646a38b25ba89f03c5dacc4dc64e544bef7899f8e758775f774fc"
+      },
+      "oracle_file": null,
+      "environment": {},
+      "path": "data\\processed\\noaa\\33e26a477e642634e480"
+    },
+    {
+      "schema_version": "1.0.0",
+      "dataset": "noaa",
+      "version": "8c8ea19e2f86c7b12150",
+      "publisher": "NOAA NCEI",
+      "source_url": "https://www.ncei.noaa.gov/data/global-hourly/access/",
+      "citation": "NOAA NCEI Integrated Surface Database (ISD)",
+      "license": "US government data; retain NOAA attribution; source quality flags preserved",
+      "permitted_use": "Research only; respect original source terms",
+      "acquired_at": "2026-10-19T08:24:28.231829+00:00",
+      "retrieval_parameters": {
+        "year": 2023,
+        "station": "74486094789"
+      },
+      "raw_checksums": {
+        "data\\raw\\noaa\\2023-74486094789-s3.csv": "a1081700076005cd97b2c7223358bd4b721edd8807d84ec04d08879afbeeac4e"
+      },
+      "processing_config": {
+        "year": 2023,
+        "station": "74486094789"
+      },
+      "code_commit": "fa5daeaece45c4697765db2baced28545e9a565c",
+      "source_hash": "88042e7a5c50b58a22164e50e96346e1ab59853a76ff7666496dab8a6582221d",
+      "n_observations": 13422,
+      "feature_names": [
+        "temperature_C",
+        "dewpoint_C"
+      ],
+      "feature_dtype": "float64",
+      "time_coverage": [
+        "1672531200.0",
+        "1704063060.0"
+      ],
+      "domains": [
+        "74486094789"
+      ],
+      "missingness": {
+        "target": 0.02853524064967963,
+        "features": 0.02853524064967963
+      },
+      "limitations": [
+        "No verified real changepoints.",
+        "measurement UTC; historical release latency unknown",
+        "Decision utilities are research-imposed, not operational ground truth.",
+        "Temperature/dewpoint sentinels decoded; other measurement and quality fields retained as raw metadata. Not a strict hourly forecast when records are irregular."
+      ],
+      "ground_truth": "none",
+      "files": {
+        "observations.parquet": "be751a84804646a38b25ba89f03c5dacc4dc64e544bef7899f8e758775f774fc"
+      },
+      "oracle_file": null,
+      "environment": {},
+      "path": "data\\processed\\noaa\\8c8ea19e2f86c7b12150"
+    },
+    {
+      "schema_version": "1.0.0",
+      "dataset": "noaa",
+      "version": "f27ddc603681beedbe1e",
+      "publisher": "NOAA NCEI",
+      "source_url": "https://www.ncei.noaa.gov/data/global-hourly/access/",
+      "citation": "NOAA NCEI Integrated Surface Database (ISD)",
+      "license": "US government data; retain NOAA attribution; source quality flags preserved",
+      "permitted_use": "Research only; respect original source terms",
+      "acquired_at": "2026-10-19T08:28:32.120282+00:00",
+      "retrieval_parameters": {
+        "year": 2023,
+        "station": "74486094789"
+      },
+      "raw_checksums": {
+        "data\\raw\\noaa\\2023-74486094789-s3.csv": "a1081700076005cd97b2c7223358bd4b721edd8807d84ec04d08879afbeeac4e"
+      },
+      "processing_config": {
+        "year": 2023,
+        "station": "74486094789"
+      },
+      "code_commit": "f83ffbe2804ba0dcb7404cda0890d9c3c248a385",
+      "source_hash": "7ca1700fafa94b3b2188ce46076288aa59a773a38f48f270300aa9b19ae8d3ae",
+      "n_observations": 13422,
+      "feature_names": [
+        "temperature_C",
+        "dewpoint_C"
+      ],
+      "feature_dtype": "float64",
+      "time_coverage": [
+        "1672531200.0",
+        "1704063060.0"
+      ],
+      "domains": [
+        "74486094789"
+      ],
+      "missingness": {
+        "target": 0.02853524064967963,
+        "features": 0.02853524064967963
+      },
+      "limitations": [
+        "No verified real changepoints.",
+        "measurement UTC; historical release latency unknown",
+        "Decision utilities are research-imposed, not operational ground truth.",
+        "Temperature/dewpoint sentinels decoded; other measurement and quality fields retained as raw metadata. Not a strict hourly forecast when records are irregular."
+      ],
+      "ground_truth": "none",
+      "files": {
+        "observations.parquet": "be751a84804646a38b25ba89f03c5dacc4dc64e544bef7899f8e758775f774fc"
+      },
+      "oracle_file": null,
+      "environment": {},
+      "path": "data\\processed\\noaa\\f27ddc603681beedbe1e"
+    },
+    {
+      "schema_version": "1.0.0",
+      "dataset": "opsd",
+      "version": "3ecaee979c6175e0bc86",
+      "publisher": "Open Power System Data",
+      "source_url": "https://data.open-power-system-data.org/time_series/2020-10-06/",
+      "citation": "OPSD 2020 time_series version 2020-10-06, DOI:10.25832/time_series/2020-10-06",
+      "license": "Package and source-specific attribution/terms in saved datapackage.json; no blanket relicensing",
+      "permitted_use": "Research only; respect original source terms",
+      "acquired_at": "2026-10-19T08:28:30.082854+00:00",
+      "retrieval_parameters": {
+        "start": "2018-01-01",
+        "end": "2019-01-01",
+        "columns": [
+          "DE_load_actual_entsoe_transparency",
+          "DE_wind_generation_actual",
+          "DE_solar_generation_actual"
+        ]
+      },
+      "raw_checksums": {
+        "data\\raw\\opsd\\2020-10-06\\datapackage.json": "2f4b7ae48e1352deb1991728e013fe42e742af5e81a5140d87185e470cd0ac36",
+        "data\\raw\\opsd\\2020-10-06\\hourly.csv": "6a7f2bc571314cbf9c321cc03437691cd4be95c3a6f075e60ff99e8035c704c8"
+      },
+      "processing_config": {
+        "start": "2018-01-01",
+        "end": "2019-01-01",
+        "columns": [
+          "DE_load_actual_entsoe_transparency",
+          "DE_wind_generation_actual",
+          "DE_solar_generation_actual"
+        ]
+      },
+      "code_commit": "f83ffbe2804ba0dcb7404cda0890d9c3c248a385",
+      "source_hash": "7ca1700fafa94b3b2188ce46076288aa59a773a38f48f270300aa9b19ae8d3ae",
+      "n_observations": 8759,
+      "feature_names": [
+        "DE_load_actual_entsoe_transparency",
+        "DE_wind_generation_actual",
+        "DE_solar_generation_actual"
+      ],
+      "feature_dtype": "float64",
+      "time_coverage": [
+        "1514764800.0",
+        "1546293600.0"
+      ],
+      "domains": [
+        "DE"
+      ],
+      "missingness": {
+        "target": 0.0,
+        "features": 0.0
+      },
+      "limitations": [
+        "No verified real changepoints.",
+        "UTC and CET/CEST intervals; publication lag unknown",
+        "Decision utilities are research-imposed, not operational ground truth.",
+        "Historical snapshots may contain revisions; no real-time availability guarantee. Source missingness and local offsets retained without filling."
+      ],
+      "ground_truth": "none",
+      "files": {
+        "observations.parquet": "9a12ab743bfa0f5448a8f43abc3cb9c092b7632b563e69e8e1032b74e7d6e6a0"
+      },
+      "oracle_file": null,
+      "environment": {},
+      "path": "data\\processed\\opsd\\3ecaee979c6175e0bc86"
+    },
+    {
+      "schema_version": "1.0.0",
+      "dataset": "opsd",
+      "version": "cd3e2112f7c953bf2c19",
+      "publisher": "Open Power System Data",
+      "source_url": "https://data.open-power-system-data.org/time_series/2020-10-06/",
+      "citation": "OPSD 2020 time_series version 2020-10-06, DOI:10.25832/time_series/2020-10-06",
+      "license": "Package and source-specific attribution/terms in saved datapackage.json; no blanket relicensing",
+      "permitted_use": "Research only; respect original source terms",
+      "acquired_at": "2026-10-19T08:24:26.203983+00:00",
+      "retrieval_parameters": {
+        "start": "2018-01-01",
+        "end": "2019-01-01",
+        "columns": [
+          "DE_load_actual_entsoe_transparency",
+          "DE_wind_generation_actual",
+          "DE_solar_generation_actual"
+        ]
+      },
+      "raw_checksums": {
+        "data\\raw\\opsd\\2020-10-06\\datapackage.json": "2f4b7ae48e1352deb1991728e013fe42e742af5e81a5140d87185e470cd0ac36",
+        "data\\raw\\opsd\\2020-10-06\\hourly.csv": "6a7f2bc571314cbf9c321cc03437691cd4be95c3a6f075e60ff99e8035c704c8"
+      },
+      "processing_config": {
+        "start": "2018-01-01",
+        "end": "2019-01-01",
+        "columns": [
+          "DE_load_actual_entsoe_transparency",
+          "DE_wind_generation_actual",
+          "DE_solar_generation_actual"
+        ]
+      },
+      "code_commit": "fa5daeaece45c4697765db2baced28545e9a565c",
+      "source_hash": "88042e7a5c50b58a22164e50e96346e1ab59853a76ff7666496dab8a6582221d",
+      "n_observations": 8759,
+      "feature_names": [
+        "DE_load_actual_entsoe_transparency",
+        "DE_wind_generation_actual",
+        "DE_solar_generation_actual"
+      ],
+      "feature_dtype": "float64",
+      "time_coverage": [
+        "1514764800.0",
+        "1546293600.0"
+      ],
+      "domains": [
+        "DE"
+      ],
+      "missingness": {
+        "target": 0.0,
+        "features": 0.0
+      },
+      "limitations": [
+        "No verified real changepoints.",
+        "UTC and CET/CEST intervals; publication lag unknown",
+        "Decision utilities are research-imposed, not operational ground truth.",
+        "Historical snapshots may contain revisions; no real-time availability guarantee. Source missingness and local offsets retained without filling."
+      ],
+      "ground_truth": "none",
+      "files": {
+        "observations.parquet": "9a12ab743bfa0f5448a8f43abc3cb9c092b7632b563e69e8e1032b74e7d6e6a0"
+      },
+      "oracle_file": null,
+      "environment": {},
+      "path": "data\\processed\\opsd\\cd3e2112f7c953bf2c19"
+    },
+    {
+      "schema_version": "1.0.0",
+      "dataset": "opsd",
+      "version": "eb54283a3591a21024df",
+      "publisher": "Open Power System Data",
+      "source_url": "https://data.open-power-system-data.org/time_series/2020-10-06/",
+      "citation": "OPSD 2020 time_series version 2020-10-06, DOI:10.25832/time_series/2020-10-06",
+      "license": "Package and source-specific attribution/terms in saved datapackage.json; no blanket relicensing",
+      "permitted_use": "Research only; respect original source terms",
+      "acquired_at": "2026-10-19T08:22:56.814083+00:00",
+      "retrieval_parameters": {
+        "start": "2018-01-01",
+        "end": "2019-01-01",
+        "columns": [
+          "DE_load_actual_entsoe_transparency",
+          "DE_wind_generation_actual",
+          "DE_solar_generation_actual"
+        ]
+      },
+      "raw_checksums": {
+        "data\\raw\\opsd\\2020-10-06\\datapackage.json": "2f4b7ae48e1352deb1991728e013fe42e742af5e81a5140d87185e470cd0ac36",
+        "data\\raw\\opsd\\2020-10-06\\hourly.csv": "6a7f2bc571314cbf9c321cc03437691cd4be95c3a6f075e60ff99e8035c704c8"
+      },
+      "processing_config": {
+        "start": "2018-01-01",
+        "end": "2019-01-01",
+        "columns": [
+          "DE_load_actual_entsoe_transparency",
+          "DE_wind_generation_actual",
+          "DE_solar_generation_actual"
+        ]
+      },
+      "code_commit": null,
+      "source_hash": "19957e940a50d8d54f5f119dcccf85920641b315813d6e1df7e78bad7233ea7e",
+      "n_observations": 8759,
+      "feature_names": [
+        "DE_load_actual_entsoe_transparency",
+        "DE_wind_generation_actual",
+        "DE_solar_generation_actual"
+      ],
+      "feature_dtype": "float64",
+      "time_coverage": [
+        "1514764800.0",
+        "1546293600.0"
+      ],
+      "domains": [
+        "DE"
+      ],
+      "missingness": {
+        "target": 0.0,
+        "features": 0.0
+      },
+      "limitations": [
+        "No verified real changepoints.",
+        "UTC and CET/CEST intervals; publication lag unknown",
+        "Decision utilities are research-imposed, not operational ground truth.",
+        "Historical snapshots may contain revisions; no real-time availability guarantee. Source missingness and local offsets retained without filling."
+      ],
+      "ground_truth": "none",
+      "files": {
+        "observations.parquet": "9a12ab743bfa0f5448a8f43abc3cb9c092b7632b563e69e8e1032b74e7d6e6a0"
+      },
+      "oracle_file": null,
+      "environment": {},
+      "path": "data\\processed\\opsd\\eb54283a3591a21024df"
+    },
+    {
+      "schema_version": "1.0.0",
+      "dataset": "prior_shift",
+      "version": "05dec821b91a162740bb",
+      "publisher": "ShiftLab",
+      "source_url": "local://shiftlab/data/synthetic",
+      "citation": "ShiftLab synthetic specification v1",
+      "license": "MIT",
+      "permitted_use": "Research and reuse under MIT",
+      "acquired_at": "2026-10-19T08:28:31.511396+00:00",
+      "retrieval_parameters": {},
+      "raw_checksums": {},
+      "processing_config": {
+        "scenario": "prior_shift",
+        "n": 5000,
+        "d": 4,
+        "seed": 42,
+        "change_fraction": 0.5,
+        "severity": 1.0,
+        "noise": 0.3,
+        "delay": 0,
+        "missing": 0.0,
+        "rho": 0.6,
+        "pattern": "abrupt",
+        "regimes": 2,
+        "transition_fraction": 0.1,
+        "device": "cpu",
+        "dtype": "float64",
+        "chunk_size": 10000,
+        "memory_mb": 512,
+        "output": "data",
+        "train_fraction": 0.2,
+        "validation_fraction": 0.1,
+        "calibration_fraction": 0.1
+      },
+      "code_commit": "f83ffbe2804ba0dcb7404cda0890d9c3c248a385",
+      "source_hash": "7ca1700fafa94b3b2188ce46076288aa59a773a38f48f270300aa9b19ae8d3ae",
+      "n_observations": 5000,
+      "feature_names": [
+        "x0",
+        "x1",
+        "x2",
+        "x3"
+      ],
+      "feature_dtype": "float64",
+      "time_coverage": [
+        "0",
+        "4999"
+      ],
+      "domains": [
+        "synthetic"
+      ],
+      "missingness": {
+        "target": 0.0,
+        "features": 0.0
+      },
+      "limitations": [
+        "Research-imposed utilities.",
+        "Oracle quantiles are DGP conditional or marginal as labelled; not a guarantee for a fitted model.",
+        "Dependence scenarios require dependence-aware inference."
+      ],
+      "ground_truth": "synthetic_known",
+      "files": {
+        "observations.parquet": "14b041c544674f048f441d2bd42c2477eb559837e07229e24459e203db86e9f6",
+        "evaluator_only/oracle.parquet": "1709122c7f20097c0abac0205a582391e31c6493c6b9b117131817abf92ef8ef",
+        "evaluator_only/dgp.json": "9accea8c9c29fa8afb3e958a7b6fd3f24a20e209f8b47854d7771857f8929142"
+      },
+      "oracle_file": "evaluator_only/oracle.parquet",
+      "environment": {
+        "cpu_ram_bytes": 16858472448,
+        "disk_free_bytes": 68942417920,
+        "cuda_available": true,
+        "nvidia_smi": "NVIDIA GeForce RTX 4060 Laptop GPU, 8188 MiB, 592.82, 0 %, 10 MiB",
+        "torch_version": "2.9.1+cu130",
+        "cuda_runtime": "13.0",
+        "gpu_name": "NVIDIA GeForce RTX 4060 Laptop GPU",
+        "gpu_memory_bytes": 8585216000,
+        "versions": {
+          "numpy": "2.5.4",
+          "scipy": "1.18.1",
+          "pandas": "3.0.6",
+          "pyarrow": "25.0.1",
+          "folktables": "0.0.12"
+        }
+      },
+      "path": "data\\synthetic\\prior_shift\\05dec821b91a162740bb"
+    },
+    {
+      "schema_version": "1.0.0",
+      "dataset": "prior_shift",
+      "version": "1e9125458315feb8c23f",
+      "publisher": "ShiftLab",
+      "source_url": "local://shiftlab/data/synthetic",
+      "citation": "ShiftLab synthetic specification v1",
+      "license": "MIT",
+      "permitted_use": "Research and reuse under MIT",
+      "acquired_at": "2026-10-19T08:24:27.457733+00:00",
+      "retrieval_parameters": {},
+      "raw_checksums": {},
+      "processing_config": {
+        "scenario": "prior_shift",
+        "n": 5000,
+        "d": 4,
+        "seed": 42,
+        "change_fraction": 0.5,
+        "severity": 1.0,
+        "noise": 0.3,
+        "delay": 0,
+        "missing": 0.0,
+        "rho": 0.6,
+        "pattern": "abrupt",
+        "regimes": 2,
+        "transition_fraction": 0.1,
+        "device": "cpu",
+        "dtype": "float64",
+        "chunk_size": 10000,
+        "memory_mb": 512,
+        "output": "data"
+      },
+      "code_commit": "fa5daeaece45c4697765db2baced28545e9a565c",
+      "source_hash": "88042e7a5c50b58a22164e50e96346e1ab59853a76ff7666496dab8a6582221d",
+      "n_observations": 5000,
+      "feature_names": [
+        "x0",
+        "x1",
+        "x2",
+        "x3"
+      ],
+      "feature_dtype": "float64",
+      "time_coverage": [
+        "0",
+        "4999"
+      ],
+      "domains": [
+        "synthetic"
+      ],
+      "missingness": {
+        "target": 0.0,
+        "features": 0.0
+      },
+      "limitations": [
+        "Research-imposed utilities.",
+        "Oracle quantiles are DGP conditional or marginal as labelled; not a guarantee for a fitted model.",
+        "Dependence scenarios require dependence-aware inference."
+      ],
+      "ground_truth": "synthetic_known",
+      "files": {
+        "observations.parquet": "d6b3b06a487302f04f1312e63d084d9411c06e6f923fd147ae0d8da3756a16b2",
+        "evaluator_only/oracle.parquet": "1709122c7f20097c0abac0205a582391e31c6493c6b9b117131817abf92ef8ef",
+        "evaluator_only/dgp.json": "0bc71761ab8e121c6c8257d36a8d550e728e23bc2917cd4f490f662902e68c09"
+      },
+      "oracle_file": "evaluator_only/oracle.parquet",
+      "environment": {
+        "cpu_ram_bytes": 16858472448,
+        "disk_free_bytes": 68966723584,
+        "cuda_available": true,
+        "nvidia_smi": "NVIDIA GeForce RTX 4060 Laptop GPU, 8188 MiB, 592.82, 0 %, 10 MiB",
+        "torch_version": "2.9.1+cu130",
+        "cuda_runtime": "13.0",
+        "gpu_name": "NVIDIA GeForce RTX 4060 Laptop GPU",
+        "gpu_memory_bytes": 8585216000,
+        "versions": {
+          "numpy": "2.5.4",
+          "scipy": "1.18.1",
+          "pandas": "3.0.6",
+          "pyarrow": "25.0.1",
+          "folktables": "0.0.12"
+        }
+      },
+      "path": "data\\synthetic\\prior_shift\\1e9125458315feb8c23f"
+    },
+    {
+      "schema_version": "1.0.0",
+      "dataset": "prior_shift",
+      "version": "291c4501c2352c682e2f",
+      "publisher": "ShiftLab",
+      "source_url": "local://shiftlab/data/synthetic",
+      "citation": "ShiftLab synthetic specification v1",
+      "license": "MIT",
+      "permitted_use": "Research and reuse under MIT",
+      "acquired_at": "2026-10-19T08:15:33.262520+00:00",
+      "retrieval_parameters": {},
+      "raw_checksums": {},
+      "processing_config": {
+        "scenario": "prior_shift",
+        "n": 5000,
+        "d": 4,
+        "seed": 42,
+        "change_fraction": 0.5,
+        "severity": 1.0,
+        "noise": 0.3,
+        "delay": 0,
+        "missing": 0.0,
+        "rho": 0.6,
+        "pattern": "abrupt",
+        "regimes": 2,
+        "transition_fraction": 0.1,
+        "device": "cpu",
+        "dtype": "float64",
+        "chunk_size": 10000,
+        "memory_mb": 512,
+        "output": "data"
+      },
+      "code_commit": null,
+      "source_hash": "caf2ad20b56de66eb51c19adfbc95aeb367fc03d99d41c0ce688c5a451786626",
+      "n_observations": 5000,
+      "feature_names": [
+        "x0",
+        "x1",
+        "x2",
+        "x3"
+      ],
+      "feature_dtype": "float64",
+      "time_coverage": [
+        "0",
+        "4999"
+      ],
+      "domains": [
+        "synthetic"
+      ],
+      "missingness": {
+        "target": 0.0,
+        "features": 0.0
+      },
+      "limitations": [
+        "Research-imposed utilities.",
+        "Oracle quantiles are DGP conditional or marginal as labelled; not a guarantee for a fitted model.",
+        "Dependence scenarios require dependence-aware inference."
+      ],
+      "ground_truth": "synthetic_known",
+      "files": {
+        "observations.parquet": "d6b3b06a487302f04f1312e63d084d9411c06e6f923fd147ae0d8da3756a16b2",
+        "evaluator_only/oracle.parquet": "1709122c7f20097c0abac0205a582391e31c6493c6b9b117131817abf92ef8ef",
+        "evaluator_only/dgp.json": "0bc71761ab8e121c6c8257d36a8d550e728e23bc2917cd4f490f662902e68c09"
+      },
+      "oracle_file": "evaluator_only/oracle.parquet",
+      "environment": {
+        "cpu_ram_bytes": 16858472448,
+        "disk_free_bytes": 69446123520,
+        "cuda_available": true,
+        "nvidia_smi": "NVIDIA GeForce RTX 4060 Laptop GPU, 8188 MiB, 592.82, 0 %, 10 MiB",
+        "torch_version": "2.9.1+cu130",
+        "cuda_runtime": "13.0",
+        "gpu_name": "NVIDIA GeForce RTX 4060 Laptop GPU",
+        "gpu_memory_bytes": 8585216000
+      },
+      "path": "data\\synthetic\\prior_shift\\291c4501c2352c682e2f"
+    },
+    {
+      "schema_version": "1.0.0",
+      "dataset": "target_variance",
+      "version": "1b4799bc4d7f91e90331",
+      "publisher": "ShiftLab",
+      "source_url": "local://shiftlab/data/synthetic",
+      "citation": "ShiftLab synthetic specification v1",
+      "license": "MIT",
+      "permitted_use": "Research and reuse under MIT",
+      "acquired_at": "2026-10-19T08:24:27.195092+00:00",
+      "retrieval_parameters": {},
+      "raw_checksums": {},
+      "processing_config": {
+        "scenario": "target_variance",
+        "n": 5000,
+        "d": 4,
+        "seed": 42,
+        "change_fraction": 0.5,
+        "severity": 1.0,
+        "noise": 0.3,
+        "delay": 0,
+        "missing": 0.0,
+        "rho": 0.6,
+        "pattern": "abrupt",
+        "regimes": 2,
+        "transition_fraction": 0.1,
+        "device": "cpu",
+        "dtype": "float64",
+        "chunk_size": 10000,
+        "memory_mb": 512,
+        "output": "data"
+      },
+      "code_commit": "fa5daeaece45c4697765db2baced28545e9a565c",
+      "source_hash": "88042e7a5c50b58a22164e50e96346e1ab59853a76ff7666496dab8a6582221d",
+      "n_observations": 5000,
+      "feature_names": [
+        "x0",
+        "x1",
+        "x2",
+        "x3"
+      ],
+      "feature_dtype": "float64",
+      "time_coverage": [
+        "0",
+        "4999"
+      ],
+      "domains": [
+        "synthetic"
+      ],
+      "missingness": {
+        "target": 0.0,
+        "features": 0.0
+      },
+      "limitations": [
+        "Research-imposed utilities.",
+        "Oracle quantiles are DGP conditional or marginal as labelled; not a guarantee for a fitted model.",
+        "Dependence scenarios require dependence-aware inference."
+      ],
+      "ground_truth": "synthetic_known",
+      "files": {
+        "observations.parquet": "a4feffef4801286a5171164836a2584b1d06f0cbbf16182143fd2be690537de9",
+        "evaluator_only/oracle.parquet": "ad849dfbf75fab66f542fb02c0ec3c27c3f6a1bf3a578553934ea2d1e90eab14",
+        "evaluator_only/dgp.json": "b25e1f856509285169832b41b3251c57d03764f4cf1214966d7bd2078efb0eb3"
+      },
+      "oracle_file": "evaluator_only/oracle.parquet",
+      "environment": {
+        "cpu_ram_bytes": 16858472448,
+        "disk_free_bytes": 68967170048,
+        "cuda_available": true,
+        "nvidia_smi": "NVIDIA GeForce RTX 4060 Laptop GPU, 8188 MiB, 592.82, 0 %, 126 MiB",
+        "torch_version": "2.9.1+cu130",
+        "cuda_runtime": "13.0",
+        "gpu_name": "NVIDIA GeForce RTX 4060 Laptop GPU",
+        "gpu_memory_bytes": 8585216000,
+        "versions": {
+          "numpy": "2.5.4",
+          "scipy": "1.18.1",
+          "pandas": "3.0.6",
+          "pyarrow": "25.0.1",
+          "folktables": "0.0.12"
+        }
+      },
+      "path": "data\\synthetic\\target_variance\\1b4799bc4d7f91e90331"
+    },
+    {
+      "schema_version": "1.0.0",
+      "dataset": "target_variance",
+      "version": "5979e73e31d1c605cc2d",
+      "publisher": "ShiftLab",
+      "source_url": "local://shiftlab/data/synthetic",
+      "citation": "ShiftLab synthetic specification v1",
+      "license": "MIT",
+      "permitted_use": "Research and reuse under MIT",
+      "acquired_at": "2026-10-19T08:15:33.050374+00:00",
+      "retrieval_parameters": {},
+      "raw_checksums": {},
+      "processing_config": {
+        "scenario": "target_variance",
+        "n": 5000,
+        "d": 4,
+        "seed": 42,
+        "change_fraction": 0.5,
+        "severity": 1.0,
+        "noise": 0.3,
+        "delay": 0,
+        "missing": 0.0,
+        "rho": 0.6,
+        "pattern": "abrupt",
+        "regimes": 2,
+        "transition_fraction": 0.1,
+        "device": "cpu",
+        "dtype": "float64",
+        "chunk_size": 10000,
+        "memory_mb": 512,
+        "output": "data"
+      },
+      "code_commit": null,
+      "source_hash": "caf2ad20b56de66eb51c19adfbc95aeb367fc03d99d41c0ce688c5a451786626",
+      "n_observations": 5000,
+      "feature_names": [
+        "x0",
+        "x1",
+        "x2",
+        "x3"
+      ],
+      "feature_dtype": "float64",
+      "time_coverage": [
+        "0",
+        "4999"
+      ],
+      "domains": [
+        "synthetic"
+      ],
+      "missingness": {
+        "target": 0.0,
+        "features": 0.0
+      },
+      "limitations": [
+        "Research-imposed utilities.",
+        "Oracle quantiles are DGP conditional or marginal as labelled; not a guarantee for a fitted model.",
+        "Dependence scenarios require dependence-aware inference."
+      ],
+      "ground_truth": "synthetic_known",
+      "files": {
+        "observations.parquet": "a4feffef4801286a5171164836a2584b1d06f0cbbf16182143fd2be690537de9",
+        "evaluator_only/oracle.parquet": "ad849dfbf75fab66f542fb02c0ec3c27c3f6a1bf3a578553934ea2d1e90eab14",
+        "evaluator_only/dgp.json": "b25e1f856509285169832b41b3251c57d03764f4cf1214966d7bd2078efb0eb3"
+      },
+      "oracle_file": "evaluator_only/oracle.parquet",
+      "environment": {
+        "cpu_ram_bytes": 16858472448,
+        "disk_free_bytes": 69446889472,
+        "cuda_available": true,
+        "nvidia_smi": "NVIDIA GeForce RTX 4060 Laptop GPU, 8188 MiB, 592.82, 0 %, 10 MiB",
+        "torch_version": "2.9.1+cu130",
+        "cuda_runtime": "13.0",
+        "gpu_name": "NVIDIA GeForce RTX 4060 Laptop GPU",
+        "gpu_memory_bytes": 8585216000
+      },
+      "path": "data\\synthetic\\target_variance\\5979e73e31d1c605cc2d"
+    },
+    {
+      "schema_version": "1.0.0",
+      "dataset": "target_variance",
+      "version": "ff65712a55b8b96f10ba",
+      "publisher": "ShiftLab",
+      "source_url": "local://shiftlab/data/synthetic",
+      "citation": "ShiftLab synthetic specification v1",
+      "license": "MIT",
+      "permitted_use": "Research and reuse under MIT",
+      "acquired_at": "2026-10-19T08:28:31.249867+00:00",
+      "retrieval_parameters": {},
+      "raw_checksums": {},
+      "processing_config": {
+        "scenario": "target_variance",
+        "n": 5000,
+        "d": 4,
+        "seed": 42,
+        "change_fraction": 0.5,
+        "severity": 1.0,
+        "noise": 0.3,
+        "delay": 0,
+        "missing": 0.0,
+        "rho": 0.6,
+        "pattern": "abrupt",
+        "regimes": 2,
+        "transition_fraction": 0.1,
+        "device": "cpu",
+        "dtype": "float64",
+        "chunk_size": 10000,
+        "memory_mb": 512,
+        "output": "data",
+        "train_fraction": 0.2,
+        "validation_fraction": 0.1,
+        "calibration_fraction": 0.1
+      },
+      "code_commit": "f83ffbe2804ba0dcb7404cda0890d9c3c248a385",
+      "source_hash": "7ca1700fafa94b3b2188ce46076288aa59a773a38f48f270300aa9b19ae8d3ae",
+      "n_observations": 5000,
+      "feature_names": [
+        "x0",
+        "x1",
+        "x2",
+        "x3"
+      ],
+      "feature_dtype": "float64",
+      "time_coverage": [
+        "0",
+        "4999"
+      ],
+      "domains": [
+        "synthetic"
+      ],
+      "missingness": {
+        "target": 0.0,
+        "features": 0.0
+      },
+      "limitations": [
+        "Research-imposed utilities.",
+        "Oracle quantiles are DGP conditional or marginal as labelled; not a guarantee for a fitted model.",
+        "Dependence scenarios require dependence-aware inference."
+      ],
+      "ground_truth": "synthetic_known",
+      "files": {
+        "observations.parquet": "3d646f7508f03a5658a68764e441a3f5fb032819a81e32ab3f73de71b7f658ec",
+        "evaluator_only/oracle.parquet": "ad849dfbf75fab66f542fb02c0ec3c27c3f6a1bf3a578553934ea2d1e90eab14",
+        "evaluator_only/dgp.json": "65f2cae6f17ad709cf2f89a35965349ee6e89898f9f54e8124097e25fe2eeb1f"
+      },
+      "oracle_file": "evaluator_only/oracle.parquet",
+      "environment": {
+        "cpu_ram_bytes": 16858472448,
+        "disk_free_bytes": 68943011840,
+        "cuda_available": true,
+        "nvidia_smi": "NVIDIA GeForce RTX 4060 Laptop GPU, 8188 MiB, 592.82, 0 %, 126 MiB",
+        "torch_version": "2.9.1+cu130",
+        "cuda_runtime": "13.0",
+        "gpu_name": "NVIDIA GeForce RTX 4060 Laptop GPU",
+        "gpu_memory_bytes": 8585216000,
+        "versions": {
+          "numpy": "2.5.4",
+          "scipy": "1.18.1",
+          "pandas": "3.0.6",
+          "pyarrow": "25.0.1",
+          "folktables": "0.0.12"
+        }
+      },
+      "path": "data\\synthetic\\target_variance\\ff65712a55b8b96f10ba"
+    }
+  ]
+}

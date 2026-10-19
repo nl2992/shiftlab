@@ -1,0 +1,8 @@
+[
+  {
+    "dataset": "opsd",
+    "version": "2364739d46563c017341",
+    "reason": "Timestamp integers used microseconds but were divided as nanoseconds. Invalidated; source data unaffected.",
+    "disposition": "Original payload and manifest preserved; active pointer archived in data/manifests/retired."
+  }
+]

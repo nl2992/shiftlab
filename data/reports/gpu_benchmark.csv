@@ -1,0 +1,7 @@
+device,repeat,n,d,seconds,observations_per_second,cpu_rss_bytes,gpu_peak_allocated_bytes,gpu_status,scope
+cpu,0,20000,64,0.15910650001023896,125701.96691343813,661356544,0,"NVIDIA GeForce RTX 4060 Laptop GPU, 8188 MiB, 592.82, 0 %, 10 MiB",generation incl host transfers and dataframe assembly; excludes disk
+cpu,1,20000,64,0.1210418000118807,165232.17597587715,661368832,0,"NVIDIA GeForce RTX 4060 Laptop GPU, 8188 MiB, 592.82, 0 %, 10 MiB",generation incl host transfers and dataframe assembly; excludes disk
+cpu,2,20000,64,0.11436360000516288,174880.81871414604,661368832,0,"NVIDIA GeForce RTX 4060 Laptop GPU, 8188 MiB, 592.82, 0 %, 10 MiB",generation incl host transfers and dataframe assembly; excludes disk
+cuda,0,20000,64,0.2432383999985177,82223.85939112361,757936128,2640896,"NVIDIA GeForce RTX 4060 Laptop GPU, 8188 MiB, 592.82, 0 %, 10 MiB",generation incl host transfers and dataframe assembly; excludes disk
+cuda,1,20000,64,0.095903699984774,208542.52758939718,757944320,2640896,"NVIDIA GeForce RTX 4060 Laptop GPU, 8188 MiB, 592.82, 0 %, 10 MiB",generation incl host transfers and dataframe assembly; excludes disk
+cuda,2,20000,64,0.09346539998659864,213982.92847265044,758599680,2640896,"NVIDIA GeForce RTX 4060 Laptop GPU, 8188 MiB, 592.82, 0 %, 10 MiB",generation incl host transfers and dataframe assembly; excludes disk

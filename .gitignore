@@ -17,3 +17,6 @@ data/interim/
 data/processed/
 data/synthetic/
 *.part
+
+# Machine-local dataset index; portable provenance snapshots live in data/reports.
+data/manifests/

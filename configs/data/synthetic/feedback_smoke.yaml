@@ -1,0 +1,7 @@
+n: 5000
+d: 4
+scenario: feedback_change
+delay: 10
+missing: 0.1
+pattern: recurring
+regimes: 3

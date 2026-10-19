@@ -49,7 +49,7 @@ def test_noaa_missingness_flags_and_epoch(tmp_path, monkeypatch):
             "STATION": ["74486094789"] * 30,
         }
     ).to_csv(path, index=False)
-    monkeypatch.setattr("shiftlab.data.real.adapters.download", lambda *a, **kw: path)
+    monkeypatch.setattr("shiftlab.data.real.noaa.download", lambda *a, **kw: path)
     output = acquire("noaa", {"station": "74486094789", "year": 2023}, tmp_path / "out")
     frame = pd.read_parquet(output / "observations.parquet")
     assert frame.event_time.iloc[0] == pd.Timestamp("2023-01-01", tz="UTC").timestamp()

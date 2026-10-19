@@ -49,7 +49,7 @@ def acquire(dataset: str, config: dict, root="data") -> Path:
     if not source["status"].startswith("implemented"):
         raise RuntimeError(f"{dataset}: {source['status']}; no substitute data will be downloaded")
     root = Path(root)
-    if dataset in {"eia", "fred", "monash", "wilds", "criteo"}:
+    if dataset in {"eia", "fred", "monash", "wilds", "criteo", "noaa"}:
         from importlib import import_module
 
         return import_module(f"shiftlab.data.real.{dataset}").acquire(config, root)
@@ -96,54 +96,6 @@ def acquire(dataset: str, config: dict, root="data") -> Path:
                 frames.append(frame)
         frame = pd.concat(frames, ignore_index=True)
         names = [f"sensor_feature_{i}" for i in range(128)]
-    elif dataset == "noaa":
-        year, station = int(config.get("year", 2023)), str(config.get("station", "74486094789"))
-        if len(station) != 11 or not station.isdigit() or not 1901 <= year <= 2100:
-            raise ValueError("NOAA station must be 11 digits and year valid")
-        path = download(
-            f"https://noaa-global-hourly-pds.s3.amazonaws.com/{year}/{station}.csv",
-            raw / f"{year}-{station}-s3.csv",
-        )
-        paths.append(path)
-        original = pd.read_csv(path, dtype=str)
-        # Retain every quality/sentinel string in metadata; decode temperature and dewpoint only.
-        names = ["temperature_C", "dewpoint_C"]
-        values = []
-        for key in ["TMP", "DEW"]:
-            numeric = pd.to_numeric(original[key].str.split(",").str[0], errors="coerce")
-            numeric = (numeric / 10).mask(numeric.abs() == 9999)
-            values.append(numeric.to_numpy())
-        times = (
-            pd.to_datetime(original.DATE, utc=True).astype("datetime64[ns, UTC]").astype("int64")
-            / 1e9
-        )
-        order = np.argsort(times.to_numpy(), kind="stable")
-        original = original.iloc[order].reset_index(drop=True)
-        X = np.column_stack(values)[order]
-        # Retrospective next-observation target; horizon is preserved, not assumed hourly.
-        frame = standardize(
-            X[:-1],
-            X[1:, 0],
-            station,
-            f"noaa-{station}-{year}",
-            event_time=times.to_numpy()[order][:-1],
-            split=assign_splits(times.to_numpy()[order][:-1]),
-            metadata=[
-                json.dumps(
-                    {
-                        "source": row,
-                        "next_event_time": str(original.DATE.iloc[i + 1]),
-                        "task": "next recorded observation temperature",
-                        "release_latency": "unknown",
-                    }
-                )
-                for i, row in enumerate(original.iloc[:-1].to_dict("records"))
-            ],
-        )
-        frame["label_event_time"] = times.to_numpy()[order][1:]
-        limits.append(
-            "Temperature/dewpoint sentinels decoded; other measurement and quality fields retained as raw metadata. Not a strict hourly forecast when records are irregular."
-        )
     elif dataset == "opsd":
         version = "2020-10-06"
         base = f"https://data.open-power-system-data.org/time_series/{version}/"

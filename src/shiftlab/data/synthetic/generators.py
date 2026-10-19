@@ -273,6 +273,8 @@ def generate_chunks(c: SyntheticConfig):
         fn = np.full(m, 5.0)
         if name == "small_decision_covariate":
             fn[:] = 1.0
+        if name == "prediction_only":
+            fn[:] = 1.0
         if name == "rare_high_cost":
             fn[:] = 1000.0
         if name in ["rare_cost", "cost_change", "hidden_cost"]:
@@ -289,7 +291,7 @@ def generate_chunks(c: SyntheticConfig):
             missing_rate = np.minimum(0.95, c.missing + 0.2 * np.tanh(s))
         available = (t + delay).astype(float)
         available[rng.random(m) < missing_rate] = np.nan
-        context = [
+        context: list[str | None] = [
             json.dumps(
                 {
                     "fn": float(f),

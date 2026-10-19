@@ -1,0 +1,4 @@
+n: 20000
+d: 64
+chunk_size: 5000
+repeats: 3

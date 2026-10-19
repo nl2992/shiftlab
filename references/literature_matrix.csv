@@ -1,0 +1,4 @@
+method,assumptions,implementation,status
+KS,independent observations,scipy.stats.ks_2samp,implemented
+CUSUM,user-specified baseline and threshold,shiftlab.diagnostics,implemented without anytime guarantee
+Split conformal,exchangeability for classical guarantee,shiftlab.methods,implemented

@@ -1,0 +1,146 @@
+import json
+
+import numpy as np
+import pandas as pd
+import pytest
+from pydantic import ValidationError
+
+from shiftlab.benchmark import run
+from shiftlab.core.config import Config, load_config
+from shiftlab.diagnostics import CUSUM, ks_test
+from shiftlab.learner import decision_losses
+from shiftlab.methods import weighted_conformal_quantile
+from shiftlab.streaming import simulate
+from shiftlab.synthetic import generate
+
+
+def test_controls():
+    c = Config()
+    null = generate(c.model_copy(update={"shift": "none"}), 9)
+    benign = generate(c.model_copy(update={"shift": "benign"}), 9)
+    concept = generate(c, 9)
+    variance = generate(c.model_copy(update={"shift": "variance"}), 9)
+    assert np.array_equal(concept.y, generate(c, 9).y)
+    assert not null.regime.any()
+    assert np.array_equal(null.y, benign.y)
+    assert np.array_equal(null.X, concept.X)
+    assert np.array_equal(null.y[: c.change_at], concept.y[: c.change_at])
+    assert concept.regime[c.change_at - 1] == 0 and concept.regime[c.change_at] == 1
+    assert np.all(variance.sigma[c.change_at :] == 0.3 * (1 + c.strength))
+
+
+def test_delay_and_visibility():
+    class Spy:
+        def __init__(self):
+            self.now = -1
+            self.received = []
+
+        def predict(self, obs):
+            assert not hasattr(obs, "target") and not hasattr(obs, "regime")
+            self.now = obs.time
+            return 0.0, 1.0
+
+        def observe(self, feedback):
+            assert feedback.available_at == self.now
+            assert feedback.time + 2 == self.now
+            self.received.append(feedback.time)
+
+    spy = Spy()
+    simulate(np.zeros((8, 2)), np.arange(8), spy, 0, delay=2)
+    assert spy.received == list(range(6))
+    spy = Spy()
+    simulate(np.zeros((8, 2)), np.arange(8), spy, 0, delay=2, missing=1.0)
+    assert not spy.received
+
+
+def test_quantile_and_cost():
+    assert np.isinf(weighted_conformal_quantile([1, 2], 0.1))
+    assert weighted_conformal_quantile(np.arange(1, 10), 0.2) == 8
+    assert decision_losses(np.array([1, -1]), np.array([-1, 1])).tolist() == [5, 1]
+
+
+def test_config():
+    with pytest.raises(ValidationError):
+        Config(train_end=700)
+    with pytest.raises(ValidationError):
+        Config(unknown=1)
+    assert load_config("configs/experiments/diagnostics.yaml").paper == 1
+
+
+def test_detectors_replicated():
+    null, shifted = [], []
+    for seed in range(40):
+        rng = np.random.default_rng(seed)
+        a, b = rng.normal(size=(2, 150))
+        null.append(ks_test(a, b) < 0.05)
+        shifted.append(ks_test(a, b + 1) < 0.05)
+    assert np.mean(null) < 0.2
+    assert np.mean(shifted) > 0.9
+    detector = CUSUM(0, 1, 5)
+    assert not any(detector.update(0) for _ in range(20))
+    assert any(detector.update(3) for _ in range(20))
+
+
+@pytest.mark.parametrize("paper", [1, 2, 3])
+def test_end_to_end(tmp_path, paper):
+    c = Config(
+        paper=paper,
+        n=220,
+        train_end=40,
+        calibration_end=80,
+        change_at=140,
+        window=20,
+        seeds=[9],
+        output=str(tmp_path),
+        period=25,
+        budget=2,
+    )
+    a, b = run(c), run(c)
+    x, y = pd.read_csv(a / "metrics.csv"), pd.read_csv(b / "metrics.csv")
+    pd.testing.assert_frame_equal(
+        x.drop(columns=["training_seconds", "inference_seconds"]),
+        y.drop(columns=["training_seconds", "inference_seconds"]),
+    )
+    assert (x.adaptation_cost == x.num_interventions * c.retrain_cost).all()
+    assert (x.num_interventions <= 2).all()
+    assert json.loads((a / "metadata.json").read_text())["status"] == "complete"
+    for checkpoint in a.glob("model-*.npz"):
+        with np.load(checkpoint) as saved:
+            assert saved["coef"].shape == (4,)
+    assert (a / "summary.png").exists()
+
+
+def test_future_targets_cannot_change_past_predictions():
+    from shiftlab.learner import Learner
+
+    c = Config(n=220, train_end=40, calibration_end=80, change_at=140, window=20)
+    stream = generate(c, 7)
+    outputs = []
+    for perturb in [False, True]:
+        targets = stream.y.copy()
+        if perturb:
+            targets[150:] += 100
+        learner = Learner(
+            stream.X[:40], targets[:40], stream.X[40:80], targets[40:80], c, "rolling"
+        )
+        assert not hasattr(learner.config, "change_at")
+        assert not hasattr(learner.config, "shift")
+        outputs.append(simulate(stream.X, targets, learner, 80, delay=3, seed=1))
+    for left, right in zip(outputs[0], outputs[1]):
+        if left["time"] <= 153:
+            assert left["prediction"] == right["prediction"]
+            assert left["radius"] == right["radius"]
+
+
+def test_empirical_dgp_moments():
+    c = Config(n=12000, change_at=6000)
+    means = []
+    variances = []
+    for seed in range(5):
+        benign = generate(c.model_copy(update={"shift": "benign"}), seed)
+        variance = generate(c.model_copy(update={"shift": "variance"}), seed)
+        means.append(benign.X[6000:, 3].mean() - benign.X[:6000, 3].mean())
+        residual = variance.y - variance.mean
+        variances.append(np.var(residual[6000:]) / np.var(residual[:6000]))
+    assert abs(np.mean(means) - c.strength) < 0.05
+    assert abs(np.mean(variances) - (1 + c.strength) ** 2) < 0.3

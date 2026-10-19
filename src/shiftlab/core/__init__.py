@@ -1,0 +1,1 @@
+"""Validated benchmark configuration."""

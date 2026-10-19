@@ -1,0 +1,7 @@
+n: 1000000
+d: 256
+scenario: concept
+device: cuda
+dtype: float32
+chunk_size: 10000
+memory_mb: 512

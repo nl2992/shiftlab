@@ -1,0 +1,45 @@
+# Implemented synthetic definitions
+
+Shared config: n, d, seed, change fraction, severity, noise, delay, missingness, pattern and device. w is the configured regime weight. All costs are research-imposed.
+
+- **iid_regression**: Y=X0-.9X1+sigma*epsilon; iid standard Gaussian X,epsilon
+- **nonlinear_classification**: P(Y=1|X)=sigmoid(X0+X1^2-1)
+- **ar1**: stationary X0[t]=rho*X0[t-1]+sqrt(1-rho^2)*epsilon[t]
+- **arma**: stationary ARMA(1,1), theta=.3; burn-in 1000
+- **garch**: epsilon[t]=sqrt(h[t])*z[t]; h=.05+.1*epsilon[t-1]^2+.8*h[t-1]; burn-in 1000
+- **heavy_tailed**: Y=X beta+sigma*t_5/sqrt(5/3)
+- **heteroskedastic**: sigma(X)=noise*(1+.5*abs(X0)); stationary conditional mechanism
+- **mean**: X0 mean += severity*w; P(Y|X) fixed
+- **feature_variance**: X0 scale *= 1+severity*w; P(Y|X) fixed
+- **covariance_rotation**: rotate diag(1,4) covariance by severity*w radians; P(Y|X) fixed
+- **correlation**: X1=r*X0+sqrt(1-r^2)*Z1, r=.9*tanh(severity)*w; P(Y|X) fixed
+- **mixture_weights**: X0 += +/-2; positive component probability=.5+.4*tanh(severity)*w
+- **new_component**: X0 += 4 with probability .3*tanh(severity)*w
+- **feature_tail**: X0 interpolates standard normal and unit-variance t5
+- **feature_skew**: X0 interpolates normal and centered standardized lognormal
+- **irrelevant**: X[d-1] += severity*w; beta[d-1]=0 (requires d>=3)
+- **prior_shift**: Y~Bernoulli(pi), X0|Y~N(2Y-1,1); logit(pi)=severity*w
+- **imbalance**: same label-prior mechanism, baseline pi=.1
+- **label_corruption**: flip Bernoulli logistic labels with probability min(.45,severity*w/5)
+- **target_level**: E[Y|X] += severity*w; not pure regression label shift
+- **target_variance**: sigma *= 1+severity*w
+- **tail_frequency**: epsilon mixes N(0,1) and 8*N(0,1), rare probability .01+.1*tanh(severity)*w
+- **concept**: beta0=1-severity*w; P(X) fixed
+- **boundary_rotation**: logit P(Y=1|X)=cos(s*w)*X0+sin(s*w)*X1
+- **nonlinear_response**: E[Y|X]=X beta+severity*w*sin(X0)
+- **interaction**: E[Y|X]=X beta+severity*w*X0*X1
+- **sign_reversal**: beta0=1-2*tanh(severity)*w
+- **latent_state**: unobserved mean offset severity*w; P(X) fixed
+- **conditional_variance**: sigma=noise*(1+severity*w*abs(X0))
+- **boundary_local**: mean += severity*w*exp(-5*abs(X0-.9X1))
+- **rare_cost**: FP cost=1; FN=5+100*severity*w; costs are disclosed at prediction
+- **cost_change**: FP cost=1; FN=5*(1+severity*w); disclosed, imposed research utility
+- **constraints**: action 1 forbidden after regime activation; disclosed
+- **prediction_only**: positive rescaling of conditional mean by 1+severity*w preserves mean sign
+- **hidden_cost**: same observable X,Y as iid, hidden FN=5*(1+severity*w); not identifiable from feedback
+- **asymmetric_errors**: epsilon=(exp(Z)-exp(.5))/sqrt((e-1)*e)
+- **dependent_errors**: stationary AR1 errors with rho; conditional oracle depends on past error
+- **hidden_variance**: sigma=noise*(1+severity*w), regime withheld from learner
+- **extreme_events**: tail_frequency mixture; no normal-quantile oracle claimed
+- **feedback_change**: delay becomes delay+round(20*severity*w), MCAR missingness increases
+- **resource_cost**: record imposed retrain cost 10*(1+severity*w) and configured action budget

@@ -1,0 +1,4 @@
+n: 5000
+d: 4
+seeds: [42]
+scenarios: [iid_regression, ar1, irrelevant, concept, target_variance, prior_shift, heavy_tailed, hidden_cost]

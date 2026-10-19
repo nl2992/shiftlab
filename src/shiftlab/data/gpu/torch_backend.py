@@ -3,15 +3,26 @@
 import numpy as np
 
 
+def _chunk_plan(c):
+    itemsize = 8 if c.dtype == "float64" else 4
+    budget_bytes = c.memory_mb * 1024**2
+    estimated_bytes_per_row = itemsize * (c.d * 6 + 64)
+    if estimated_bytes_per_row > budget_bytes:
+        raise ValueError(
+            "memory_mb is too small for one estimated feature row; increase memory_mb or lower d"
+        )
+    chunk = min(c.chunk_size, budget_bytes // estimated_bytes_per_row)
+    return int(chunk), int(estimated_bytes_per_row)
+
+
 def random_chunks(c):
     device = c.device
     if device == "auto":
         from .environment import environment
 
         device = "cuda" if environment()["cuda_available"] else "cpu"
-    itemsize = 8 if c.dtype == "float64" else 4
     # Include output arrays, feature copies and intermediate transformations.
-    chunk = min(c.chunk_size, max(16, int(c.memory_mb * 1024**2 / (itemsize * (c.d * 6 + 64)))))
+    chunk, estimated_bytes_per_row = _chunk_plan(c)
     rng = np.random.default_rng(c.seed)
     if device == "cuda":
         try:
@@ -27,7 +38,7 @@ def random_chunks(c):
         generator = torch.Generator(device="cuda").manual_seed(c.seed)
         dtype = getattr(torch, c.dtype)
         free, _ = torch.cuda.mem_get_info()
-        if chunk * itemsize * (c.d * 6 + 64) > free * 0.8:
+        if chunk * estimated_bytes_per_row > free * 0.8:
             raise RuntimeError("GPU memory budget exceeds free memory; lower memory_mb/chunk_size")
     for start in range(0, c.n, chunk):
         m = min(chunk, c.n - start)

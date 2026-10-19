@@ -49,11 +49,17 @@ driver is required; base CPU installation does not install torch. CUDA requests 
 if unavailable. `auto` resolves the actual backend before computing a dataset identity.
 Independent NumPy and torch RNGs provide distributional parity, not matching random arrays.
 Float32/64 refer to feature generation; oracle arithmetic may use float64. Chunk size is part
-of the identity and RNG trajectory. Memory budgets bound feature chunks and intermediates;
-the regime schedule uses O(n) memory. Stateful temporal recurrences and oracle calculations
+of the identity and RNG trajectory. `memory_mb` strictly caps the estimated per-chunk feature
+and transformation workspace; it does not cap total process RSS, Python/Pandas overhead, or
+the O(n) regime schedule. If one estimated feature row exceeds the budget, generation fails
+with an actionable error rather than forcing a 16-row minimum. Stateful temporal recurrences and oracle calculations
 run on CPU; torch generates vectorized latent arrays on CUDA. Affine preprocessing can also
 apply training-fitted parameters on CUDA. Arrow compression and disk writes are on CPU.
-Benchmark scopes include host transfer and DataFrame assembly, excluding disk writes.
+Benchmark scopes include host transfer and DataFrame assembly, excluding disk writes. CUDA
+benchmarks record per-repeat peak PyTorch allocation and device-wide `nvidia-smi` utilization
+and memory samples across the repeat batch at 100 ms intervals. Those samples are not
+process-specific, and very short workloads can fall below the driver's utilization sampling
+resolution; they are context, not a process utilization measurement.
 
 ## Data contract and observability
 

@@ -9,8 +9,10 @@ Checks use actual stored observations. Oracle radii describe the DGP, not fitted
 - ar1 (5000 rows): mean residual=0.00780, iid descriptive SE=0.00423, oracle 90% radius coverage=0.9006; temporal cases require dependence-aware SE.
   Lag-1 autocorrelation=0.5920; configured rho=0.6.
 - concept (5000 rows): mean residual=0.00780, iid descriptive SE=0.00423, oracle 90% radius coverage=0.9006; temporal cases require dependence-aware SE.
+- concept (1000 rows): mean residual=-0.00997, iid descriptive SE=0.00939, oracle 90% radius coverage=0.891; temporal cases require dependence-aware SE.
 - concept (5000 rows): mean residual=0.00780, iid descriptive SE=0.00423, oracle 90% radius coverage=0.9006; temporal cases require dependence-aware SE.
 - concept (5000 rows): mean residual=0.00780, iid descriptive SE=0.00423, oracle 90% radius coverage=0.9006; temporal cases require dependence-aware SE.
+- concept (1000 rows): mean residual=-0.00997, iid descriptive SE=0.00939, oracle 90% radius coverage=0.891; temporal cases require dependence-aware SE.
 - feedback_change (5000 rows): mean residual=0.00780, iid descriptive SE=0.00423, oracle 90% radius coverage=0.9006; temporal cases require dependence-aware SE.
 - heavy_tailed (5000 rows): mean residual=0.00634, iid descriptive SE=0.00424, oracle 90% radius coverage=0.8996; temporal cases require dependence-aware SE.
 - heavy_tailed (5000 rows): mean residual=0.00634, iid descriptive SE=0.00424, oracle 90% radius coverage=0.8996; temporal cases require dependence-aware SE.

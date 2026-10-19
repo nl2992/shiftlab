@@ -8,6 +8,9 @@
 | binance | retrospective; utility imposed | requires task/availability protocol | requires availability/release protocol | none; historical/coarse; no true changes |
 | binance | retrospective; utility imposed | requires task/availability protocol | requires availability/release protocol | none; historical/coarse; no true changes |
 | binance | retrospective; utility imposed | requires task/availability protocol | requires availability/release protocol | none; historical/coarse; no true changes |
+| binance | retrospective; utility imposed | requires task/availability protocol | requires availability/release protocol | none; historical/coarse; no true changes |
+| concept | controlled decision study | regression stream | stream ready | synthetic_known; known simulation clock |
+| concept | controlled decision study | regression stream | stream ready | synthetic_known; known simulation clock |
 | concept | controlled decision study | regression stream | stream ready | synthetic_known; known simulation clock |
 | concept | controlled decision study | regression stream | stream ready | synthetic_known; known simulation clock |
 | concept | controlled decision study | regression stream | stream ready | synthetic_known; known simulation clock |
@@ -32,9 +35,16 @@
 | irrelevant | controlled decision study | regression stream | stream ready | synthetic_known; known simulation clock |
 | irrelevant | controlled decision study | regression stream | stream ready | synthetic_known; known simulation clock |
 | irrelevant | controlled decision study | regression stream | stream ready | synthetic_known; known simulation clock |
+| monash | retrospective; utility imposed | requires task/availability protocol | requires availability/release protocol | none; historical/coarse; no true changes |
 | noaa | retrospective; utility imposed | requires task/availability protocol | requires availability/release protocol | none; historical/coarse; no true changes |
 | noaa | retrospective; utility imposed | requires task/availability protocol | requires availability/release protocol | none; historical/coarse; no true changes |
 | noaa | retrospective; utility imposed | requires task/availability protocol | requires availability/release protocol | none; historical/coarse; no true changes |
+| noaa | retrospective; utility imposed | requires task/availability protocol | requires availability/release protocol | none; historical/coarse; no true changes |
+| noaa | retrospective; utility imposed | requires task/availability protocol | requires availability/release protocol | none; historical/coarse; no true changes |
+| opsd | retrospective; utility imposed | requires task/availability protocol | requires availability/release protocol | none; historical/coarse; no true changes |
+| opsd | retrospective; utility imposed | requires task/availability protocol | requires availability/release protocol | none; historical/coarse; no true changes |
+| opsd | retrospective; utility imposed | requires task/availability protocol | requires availability/release protocol | none; historical/coarse; no true changes |
+| opsd | retrospective; utility imposed | requires task/availability protocol | requires availability/release protocol | none; historical/coarse; no true changes |
 | opsd | retrospective; utility imposed | requires task/availability protocol | requires availability/release protocol | none; historical/coarse; no true changes |
 | opsd | retrospective; utility imposed | requires task/availability protocol | requires availability/release protocol | none; historical/coarse; no true changes |
 | opsd | retrospective; utility imposed | requires task/availability protocol | requires availability/release protocol | none; historical/coarse; no true changes |

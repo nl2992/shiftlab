@@ -1,4 +1,11 @@
-# Phase 1 execution summary
+# Historical Phase 1 execution summary
+
+This is the earlier 132-test execution snapshot, retained for its original integration
+results. Adapter, source-count and unfinished-work statements below are historical.
+For the current requirement audit see [phase1_completion_audit.md](../../docs/phase1_completion_audit.md),
+plus the newer NOAA, OPSD, gas-group, acquisition and adaptation reports in this directory.
+The latest full local suite passed 198 tests after the NOAA/OPSD extensions; it does not
+establish completion of the full Phase 1 brief.
 
 Executed on 2026-10-19. Full suite: **132 passed**. CUDA-hidden data suite: **117 passed, 1 skipped**. Ruff, formatting, scoped mypy and locked environment sync passed.
 

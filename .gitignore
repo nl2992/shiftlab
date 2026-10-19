@@ -1,22 +1,39 @@
+# Python and local environments
 __pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
 .pytest_cache/
 .ruff_cache/
-.venv/
-*.egg-info/
+.mypy_cache/
+.pre-commit-cache/
+build/
+dist/
+
+# Local experiments, data and checkpoints
+outputs/
 results/*
 !results/.gitkeep
-
-.venv/
-outputs/
-.ruff_cache/
-.mypy_cache/
-*.egg-info/
-
 data/raw/
 data/interim/
 data/processed/
 data/synthetic/
+data/manifests/
+checkpoints/
+*.pt
+*.pth
+*.ckpt
+mlruns/
 *.part
 
-# Machine-local dataset index; portable provenance snapshots live in data/reports.
-data/manifests/
+# Local credentials and machine settings
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+secrets/
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db

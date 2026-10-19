@@ -86,3 +86,8 @@ Three seeds provide smoke evidence only. Aggregate bootstrap intervals resample 
 stream seeds, not time points; they are unstable with so few seeds. Do not tune on these held-out
 streams and then present them as confirmatory evidence. See `docs/implementation_status.md` and
 paper protocols for deferred research work.
+
+## Version control
+
+Use `main` for shared integration and short-lived `paper1/`, `paper2/`, `paper3/` or `shared/` branches.
+See [CONTRIBUTING.md](CONTRIBUTING.md) for hooks, review, reproducibility tags and remote setup.

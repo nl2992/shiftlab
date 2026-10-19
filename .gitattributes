@@ -1,0 +1,11 @@
+# Normalize text consistently across Windows/Linux research machines.
+* text=auto eol=lf
+*.png binary
+*.pdf binary
+*.parquet binary
+*.npz binary
+*.pt binary
+*.pth binary
+*.zip binary
+*.bat text eol=crlf
+*.cmd text eol=crlf

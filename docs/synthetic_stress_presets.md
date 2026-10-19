@@ -49,6 +49,15 @@ separated into baseline and shifted regimes. The known oracle Bernoulli variance
 as a conditional standard-error reference. This does not evaluate a fitted policy, provide
 across-seed confidence intervals, or ground the imposed cost matrices in an application.
 
+Run `uv run python scripts/validate_fitted_decisions.py` to regenerate
+`data/reports/fitted_decision_validation.json`. It fits a frozen standardized logistic policy
+on training-partition event labels that arrived before the first test request. The policy uses
+only features and declared per-request costs/feasibility; evaluator probabilities and test
+labels are used only for scoring. Missing decision context receives an explicit symmetric
+unit-cost fallback, exposing regret when downstream utility is hidden. Results are descriptive
+five-seed comparisons for the ten named presets plus a supplemental hidden-utility
+impossibility diagnostic, and all costs remain imposed research utilities.
+
 Run `python -m uv run python scripts/validate_fitted_conformal.py` to compare the oracle-residual
 diagnostics with a fitted Ridge predictor. It fits on train rows whose labels arrived before
 calibration begins, reports a static split-conformal interval, and then runs a prequential

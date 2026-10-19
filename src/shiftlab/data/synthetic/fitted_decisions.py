@@ -4,6 +4,7 @@ import json
 
 import numpy as np
 import pandas as pd
+from sklearn.ensemble import RandomForestClassifier
 from sklearn.linear_model import LogisticRegression
 from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import StandardScaler
@@ -19,6 +20,7 @@ def fit_frozen_binary_policy(
     first_prediction_time: float,
     fallback_fn_cost: float = 1.0,
     fallback_fp_cost: float = 1.0,
+    policy_class: str = "logistic",
 ) -> tuple[np.ndarray, np.ndarray, dict]:
     """Fit on arrived training outcomes and act using only features and declared context.
 
@@ -28,6 +30,8 @@ def fit_frozen_binary_policy(
     """
     if fallback_fn_cost <= 0 or fallback_fp_cost <= 0:
         raise ValueError("Fallback costs must be positive")
+    if policy_class not in {"logistic", "random_forest"}:
+        raise ValueError("policy_class must be 'logistic' or 'random_forest'")
     train_mask = (frame.split == "train") & labels_available_before(frame, first_prediction_time)
     train = frame.loc[train_mask]
     test = frame.loc[(frame.split == "test") & frame.target.notna()]
@@ -42,7 +46,7 @@ def fit_frozen_binary_policy(
         # Laplace smoothing prevents a zero probability while preserving a train-only fit.
         event_probability = np.full(len(test), (y_train.sum() + 0.5) / (len(y_train) + 1))
         model_name = "laplace_smoothed_training_prevalence"
-    else:
+    elif policy_class == "logistic":
         model = make_pipeline(
             StandardScaler(),
             LogisticRegression(C=1.0, max_iter=500, random_state=0),
@@ -50,6 +54,17 @@ def fit_frozen_binary_policy(
         model.fit(X_train, y_train)
         event_probability = model.predict_proba(X_test)[:, 1]
         model_name = "training_only_standardized_logistic_regression"
+    else:
+        model = RandomForestClassifier(
+            n_estimators=200,
+            min_samples_leaf=5,
+            max_features="sqrt",
+            random_state=0,
+            n_jobs=1,
+        )
+        model.fit(X_train, y_train)
+        event_probability = model.predict_proba(X_test)[:, 1]
+        model_name = "training_only_random_forest_200_trees_leaf_5"
 
     contexts = test.decision_context.to_numpy()
     fn_cost = np.full(len(test), fallback_fn_cost, dtype=float)
@@ -86,7 +101,9 @@ def fit_frozen_binary_policy(
     return event_probability, action, audit
 
 
-def evaluate_fitted_decision_preset(preset: DecisionStressPreset, *, seed: int) -> list[dict]:
+def evaluate_fitted_decision_preset(
+    preset: DecisionStressPreset, *, seed: int, policy_class: str = "logistic"
+) -> list[dict]:
     """Evaluate a single frozen policy, separating learner inputs from evaluator scoring."""
     config = preset.config.model_copy(update={"seed": seed, "device": "cpu"})
     frames, oracles = zip(*generate_chunks(config), strict=True)
@@ -97,7 +114,7 @@ def evaluate_fitted_decision_preset(preset: DecisionStressPreset, *, seed: int) 
         raise ValueError(f"{preset.name}: no test requests")
     first_test_time = float(frame.loc[test_mask, "prediction_time"].min())
     probability, action, audit = fit_frozen_binary_policy(
-        frame, first_prediction_time=first_test_time
+        frame, first_prediction_time=first_test_time, policy_class=policy_class
     )
     oracle_test = oracle.set_index("sample_id").loc[audit["test_ids"]]
     # Regime annotations are joined only after fitted predictions are fixed; they are evaluator-only.
@@ -127,6 +144,7 @@ def evaluate_fitted_decision_preset(preset: DecisionStressPreset, *, seed: int) 
                 "scenario": config.scenario,
                 "seed": seed,
                 "regime": name,
+                "policy_class": policy_class,
                 "model": audit["model"],
                 "n_train": audit["n_train"],
                 "n_test": int(selected.sum()),

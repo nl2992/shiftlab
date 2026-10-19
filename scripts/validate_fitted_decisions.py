@@ -27,49 +27,59 @@ def main() -> None:
             expected_relation="Identical learner inputs can have different utility-optimal actions.",
         )
     )
+    policy_classes = ["logistic", "random_forest"]
     for preset in presets:
-        for seed in seeds:
-            records.extend(evaluate_fitted_decision_preset(preset, seed=seed))
+        for policy_class in policy_classes:
+            for seed in seeds:
+                records.extend(
+                    evaluate_fitted_decision_preset(preset, seed=seed, policy_class=policy_class)
+                )
 
     summary = []
     for preset_name in sorted({row["preset"] for row in records}):
-        for regime in ["all", "baseline", "shifted"]:
-            rows = [
-                row for row in records if row["preset"] == preset_name and row["regime"] == regime
-            ]
-            if not rows:
-                continue
-            fields = [
-                "n_train",
-                "n_test",
-                "training_positive_rate",
-                "test_positive_rate",
-                "fitted_action_rate",
-                "oracle_action_rate",
-                "brier_score",
-                "mean_realized_cost",
-                "mean_fitted_expected_cost",
-                "mean_oracle_expected_cost",
-                "mean_decision_regret",
-                "mean_actual_fn_cost",
-                "mean_policy_fn_cost",
-                "fraction_using_declared_context",
-            ]
-            summary.append(
-                {
-                    "preset": preset_name,
-                    "regime": regime,
-                    "replicates": len(rows),
-                    **{
-                        f"mean_{field}": float(np.mean([row[field] for row in rows]))
-                        for field in fields
-                    },
-                }
-            )
+        for policy_class in policy_classes:
+            for regime in ["all", "baseline", "shifted"]:
+                rows = [
+                    row
+                    for row in records
+                    if row["preset"] == preset_name
+                    and row["regime"] == regime
+                    and row["policy_class"] == policy_class
+                ]
+                if not rows:
+                    continue
+                fields = [
+                    "n_train",
+                    "n_test",
+                    "training_positive_rate",
+                    "test_positive_rate",
+                    "fitted_action_rate",
+                    "oracle_action_rate",
+                    "brier_score",
+                    "mean_realized_cost",
+                    "mean_fitted_expected_cost",
+                    "mean_oracle_expected_cost",
+                    "mean_decision_regret",
+                    "mean_actual_fn_cost",
+                    "mean_policy_fn_cost",
+                    "fraction_using_declared_context",
+                ]
+                summary.append(
+                    {
+                        "preset": preset_name,
+                        "policy_class": policy_class,
+                        "regime": regime,
+                        "replicates": len(rows),
+                        **{
+                            f"mean_{field}": float(np.mean([row[field] for row in rows]))
+                            for field in fields
+                        },
+                    }
+                )
 
     report = {
-        "description": "Five-seed fitted binary-policy diagnostics on ten named synthetic presets plus a hidden-utility impossibility diagnostic.",
-        "fit_protocol": "A frozen standardized logistic regression is fit on training-partition binary outcomes whose labels arrived before the first test request; test outcomes and evaluator oracle data are excluded from fitting.",
+        "description": "Five-seed comparison of two frozen fitted binary-policy classes on ten named synthetic presets plus a hidden-utility impossibility diagnostic.",
+        "fit_protocol": "A standardized logistic regression and a fixed 200-tree random forest are independently fit on training-partition binary outcomes whose labels arrived before the first test request; test outcomes and evaluator oracle data are excluded from fitting. Hyperparameters are fixed a priori, with no test-set tuning.",
         "decision_protocol": "Actions use only fitted event probabilities and per-request declared false-positive/false-negative costs and feasibility. When context is missing, a symmetric unit-cost fallback is used and reported.",
         "replicates_per_preset": len(seeds),
         "named_preset_count": len(presets) - 1,
@@ -79,7 +89,7 @@ def main() -> None:
         "records": records,
         "summary": summary,
         "limitations": [
-            "This is one frozen logistic policy class, not a comparison of the three target papers' algorithms.",
+            "These are two baseline fitted policy classes, not implementations or comparisons of the three target papers' algorithms.",
             "Seed-level results are descriptive; no across-seed confidence intervals are claimed.",
             "Oracle expected cost uses evaluator-only conditional event probabilities and is a reference, not a learner input.",
             "The fallback utility in cases with hidden or absent decision context is deliberately generic; resulting regret includes utility non-identifiability.",
@@ -91,7 +101,8 @@ def main() -> None:
     for row in summary:
         if row["regime"] == "all":
             print(
-                f"{row['preset']}: fitted regret={row['mean_mean_decision_regret']:.4f} "
+                f"{row['preset']} ({row['policy_class']}): "
+                f"fitted regret={row['mean_mean_decision_regret']:.4f} "
                 f"Brier={row['mean_brier_score']:.5f}"
             )
     print(output)

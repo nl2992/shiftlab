@@ -1,4 +1,5 @@
 import numpy as np
+import pytest
 
 from shiftlab.data.schemas import SyntheticConfig
 from shiftlab.data.streaming import Request, replay
@@ -69,18 +70,21 @@ def test_two_dimensional_irrelevant_control_has_a_true_nuisance_feature():
     assert np.allclose(oracle.conditional_mean, X[:, 0])
 
 
-def test_frozen_fitted_decision_policy_is_independent_of_test_targets():
+@pytest.mark.parametrize("policy_class", ["logistic", "random_forest"])
+def test_frozen_fitted_decision_policy_is_independent_of_test_targets(policy_class):
     from shiftlab.data.synthetic.fitted_decisions import fit_frozen_binary_policy
 
     frame, _ = next(generate_chunks(SyntheticConfig(n=1200, scenario="small_decision_covariate")))
     first_test = float(frame.loc[frame.split == "test", "prediction_time"].min())
-    probability, action, audit = fit_frozen_binary_policy(frame, first_prediction_time=first_test)
+    probability, action, audit = fit_frozen_binary_policy(
+        frame, first_prediction_time=first_test, policy_class=policy_class
+    )
     assert audit["max_training_label_available_time"] < first_test
     changed = frame.copy()
     test_mask = changed.split == "test"
     changed.loc[test_mask, "target"] = 1 - changed.loc[test_mask, "target"]
     other_probability, other_action, _ = fit_frozen_binary_policy(
-        changed, first_prediction_time=first_test
+        changed, first_prediction_time=first_test, policy_class=policy_class
     )
     assert np.array_equal(probability, other_probability)
     assert np.array_equal(action, other_action)

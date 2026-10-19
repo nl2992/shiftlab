@@ -50,13 +50,14 @@ as a conditional standard-error reference. This does not evaluate a fitted polic
 across-seed confidence intervals, or ground the imposed cost matrices in an application.
 
 Run `uv run python scripts/validate_fitted_decisions.py` to regenerate
-`data/reports/fitted_decision_validation.json`. It fits a frozen standardized logistic policy
-on training-partition event labels that arrived before the first test request. The policy uses
-only features and declared per-request costs/feasibility; evaluator probabilities and test
-labels are used only for scoring. Missing decision context receives an explicit symmetric
-unit-cost fallback, exposing regret when downstream utility is hidden. Results are descriptive
-five-seed comparisons for the ten named presets plus a supplemental hidden-utility
-impossibility diagnostic, and all costs remain imposed research utilities.
+`data/reports/fitted_decision_validation.json`. It compares a frozen standardized logistic
+policy with a fixed 200-tree random forest on training-partition event labels that arrived
+before the first test request. Both use only features and declared per-request
+costs/feasibility; evaluator probabilities and test labels are used only for scoring. Model
+hyperparameters are fixed in advance, with no test-set tuning. Missing decision context gets
+an explicit symmetric unit-cost fallback, exposing regret when downstream utility is hidden.
+Results are descriptive five-seed comparisons for ten named presets plus a supplemental
+hidden-utility impossibility diagnostic, and all costs remain imposed research utilities.
 
 Run `python -m uv run python scripts/validate_fitted_conformal.py` to compare the oracle-residual
 diagnostics with both a frozen and an adaptive Ridge predictor. The adaptive arm refits every

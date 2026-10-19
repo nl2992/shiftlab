@@ -1,0 +1,79 @@
+{
+  "dataset": "gas_sensor",
+  "version": "10bbca34ef1b5061a374",
+  "executed_at": "2026-10-19T16:49:25.560204+00:00",
+  "processing_commit": "503e4db6a9b807184e10cb15869da152d03088b8",
+  "processing_source_hash": "ff33ec5cb76a7cd2db0ebf77f0b0e979a58c408cd8b4badfe6ed17dabf64a2e2",
+  "script_sha256": "90a0eff3b6aadc62ce9100f1b41eaae389935209de7ec21620be77096a6b379e",
+  "input_manifest_sha256": "2f437c52793a8dc5063a926c24b86da66aa81be63ffd0613258eebde199f0b04",
+  "train_domains": [
+    "batch-1",
+    "batch-2",
+    "batch-3",
+    "batch-4",
+    "batch-5"
+  ],
+  "feature_inputs": "128 source features only; imputation/scaling fit on train",
+  "classes": [
+    1.0,
+    2.0,
+    3.0,
+    4.0,
+    5.0,
+    6.0
+  ],
+  "cost_matrix_action_by_class": [
+    [
+      0.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      5.0
+    ],
+    [
+      1.0,
+      0.0,
+      1.0,
+      1.0,
+      1.0,
+      5.0
+    ],
+    [
+      1.0,
+      1.0,
+      0.0,
+      1.0,
+      1.0,
+      5.0
+    ],
+    [
+      1.0,
+      1.0,
+      1.0,
+      0.0,
+      1.0,
+      5.0
+    ],
+    [
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      0.0,
+      5.0
+    ],
+    [
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      0.0
+    ]
+  ],
+  "utility_origin": "imposed; class 6 error cost 5, others 1; correct cost zero",
+  "timing": "coarse ordered batches; unknown within-batch time, no online claim",
+  "probability_calibration": "Brier and log loss reported; no prediction-set coverage claim",
+  "attribution": "inconclusive; observational domain evidence is not concept-drift ground truth"
+}

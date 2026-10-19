@@ -42,3 +42,9 @@ history-conditional split calibration radii with their evaluator-only oracle rad
 calibration label availability before the test boundary, and exports coverage by evaluator
 regime. It uses known evaluator means to isolate residual quantile behavior; it does not
 claim fitted-predictor or online guarantees.
+
+Run `python -m uv run python scripts/validate_decision_presets.py` to regenerate descriptive
+five-seed action-rate, oracle-risk and realized-loss evidence for all ten decision presets,
+separated into baseline and shifted regimes. The known oracle Bernoulli variance is included
+as a conditional standard-error reference. This does not evaluate a fitted policy, provide
+across-seed confidence intervals, or ground the imposed cost matrices in an application.

@@ -5,11 +5,11 @@
     "chunk_size": 5000
   },
   "repeats": 3,
-  "source_hash": "7ca1700fafa94b3b2188ce46076288aa59a773a38f48f270300aa9b19ae8d3ae",
-  "commit": "f83ffbe2804ba0dcb7404cda0890d9c3c248a385",
+  "source_hash": "c9fc8f86338a6650542b044194c3a83a50d063a7edf51c99b81d574ea550994d",
+  "commit": "4cd7ffa00e7c4a29f4e88757d4325591f6989f17",
   "environment": {
     "cpu_ram_bytes": 16858472448,
-    "disk_free_bytes": 68967600128,
+    "disk_free_bytes": 71641460736,
     "cuda_available": true,
     "nvidia_smi": "NVIDIA GeForce RTX 4060 Laptop GPU, 8188 MiB, 592.82, 0 %, 10 MiB",
     "torch_version": "2.9.1+cu130",
@@ -24,5 +24,7 @@
       "folktables": "0.0.12"
     }
   },
+  "gpu_telemetry": "CSV includes nvidia-smi device-wide utilization and used-memory samples at 100 ms interval across all CUDA repeats; samples are not process-specific and short workloads may be below telemetry resolution.",
+  "memory_budget": "memory_mb limits estimated per-chunk feature/intermediate workspace; full process RSS includes Python, pandas and O(n) schedule memory and may exceed this estimate.",
   "interpretation": "First run includes CUDA initialization; warmed comparisons are exploratory, not guaranteed speedups."
 }

@@ -27,7 +27,7 @@ SCENARIOS = {
     "new_component": "X0 += 4 with probability .3*tanh(severity)*w",
     "feature_tail": "X0 interpolates standard normal and unit-variance t5",
     "feature_skew": "X0 interpolates normal and centered standardized lognormal",
-    "irrelevant": "X[d-1] += severity*w; beta[d-1]=0 (requires d>=3)",
+    "irrelevant": "X[d-1] += severity*w; beta[d-1]=0; at d=2 use Y=X0+noise so the second feature is a true nuisance",
     "prior_shift": "Y~Bernoulli(pi), X0|Y~N(2Y-1,1); logit(pi)=severity*w",
     "imbalance": "same label-prior mechanism, baseline pi=.1",
     "label_corruption": "flip Bernoulli logistic labels with probability min(.45,severity*w/5)",
@@ -53,6 +53,8 @@ SCENARIOS = {
     "extreme_events": "tail_frequency mixture; no normal-quantile oracle claimed",
     "feedback_change": "delay becomes delay+round(20*severity*w), MCAR missingness increases",
     "resource_cost": "record imposed retrain cost 10*(1+severity*w) and configured action budget",
+    "small_decision_covariate": "X0=.005*Z0-.01+.02*severity*w; fixed P(Y=1|X)=sigmoid(200*X0); symmetric costs",
+    "rare_high_cost": "P(Y=1|X)=.0001+.005*severity*w; X unchanged; FN=1000, FP=1; small Brier change can cause large decision regret",
 }
 STATIONARY = {
     "iid_regression",
@@ -71,6 +73,8 @@ CLASSIFICATION = {
     "imbalance",
     "label_corruption",
     "boundary_rotation",
+    "small_decision_covariate",
+    "rare_high_cost",
 }
 
 
@@ -127,13 +131,13 @@ def generate_chunks(c: SyntheticConfig):
     """
     if c.scenario not in SCENARIOS:
         raise ValueError(f"Unknown scenario {c.scenario!r}; choices={list(SCENARIOS)}")
-    if c.scenario == "irrelevant" and c.d < 3:
-        raise ValueError("irrelevant scenario requires d>=3")
     from ..gpu.torch_backend import random_chunks
 
     w_all, _ = schedule(c)
     rng = np.random.default_rng(c.seed + 701)
     previous, previous_error, previous_innovation, h = rng.normal(), 0.0, 0.0, 0.5
+    if c.scenario == "dependent_errors":
+        previous_error = float(rng.normal())
     # Burn in only stateful processes.
     if c.scenario in ["arma", "garch"]:
         for z in rng.normal(size=1000):
@@ -156,6 +160,10 @@ def generate_chunks(c: SyntheticConfig):
             X[:, 0] *= 1 + s
         if name == "irrelevant":
             X[:, -1] += s
+            if c.d == 2:
+                beta[:, 1] = 0
+        if name == "small_decision_covariate":
+            X[:, 0] = 0.005 * X[:, 0] - 0.01 + 0.02 * s
         if name == "covariance_rotation":
             a, b = X[:, 0].copy(), 2 * X[:, 1].copy()
             X[:, 0], X[:, 1] = np.cos(s) * a - np.sin(s) * b, np.sin(s) * a + np.cos(s) * b
@@ -242,6 +250,10 @@ def generate_chunks(c: SyntheticConfig):
             probability = expit(X[:, 0] + X[:, 1] ** 2 - 1)
             if name == "boundary_rotation":
                 probability = expit(np.cos(s) * X[:, 0] + np.sin(s) * X[:, 1])
+            if name == "small_decision_covariate":
+                probability = expit(200 * X[:, 0])
+            if name == "rare_high_cost":
+                probability = 0.0001 + 0.005 * s
             if name in ["prior_shift", "imbalance"]:
                 prior = expit(s + (np.log(0.1 / 0.9) if name == "imbalance" else 0))
                 target = (uniform < prior).astype(float)
@@ -254,6 +266,10 @@ def generate_chunks(c: SyntheticConfig):
                 target = (uniform < probability).astype(float)
             mean = probability
         fn = np.full(m, 5.0)
+        if name == "small_decision_covariate":
+            fn[:] = 1.0
+        if name == "rare_high_cost":
+            fn[:] = 1000.0
         if name in ["rare_cost", "cost_change", "hidden_cost"]:
             fn += 100 * s if name == "rare_cost" else 5 * s
         action = binary_action(probability, fn, 1.0)

@@ -75,11 +75,18 @@ def test_label_prior_and_covariance():
 )
 def test_all_scenario_oracle_risk_reference(scenario):
     differences = []
+    reference_variances = []
     for seed in [71, 83, 97]:
         for frame, oracle in generate_chunks(SyntheticConfig(n=3000, scenario=scenario, seed=seed)):
             positive = frame.target.to_numpy() > 0
             action = oracle.oracle_action.to_numpy()
             realized = np.where(action, ~positive, oracle.fn_cost.to_numpy() * positive)
             differences.extend(realized - oracle.oracle_risk.to_numpy())
+            p = oracle.probability_positive.to_numpy()
+            outcome_cost = np.where(action, 1.0, oracle.fn_cost.to_numpy())
+            reference_variances.extend(outcome_cost**2 * p * (1 - p))
     values = np.asarray(differences)
-    assert abs(values.mean()) < max(0.02, 8 * values.std() / np.sqrt(len(values)))
+    # Oracle Bernoulli variance remains nonzero when a finite sample sees no rare event.
+    # Sample variance alone can badly understate uncertainty for rare, high-cost outcomes.
+    reference_se = np.sqrt(np.sum(reference_variances)) / len(values)
+    assert abs(values.mean()) < max(0.02, 8 * reference_se, 8 * values.std() / np.sqrt(len(values)))

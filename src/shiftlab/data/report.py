@@ -95,15 +95,15 @@ def build_report(root: Path):
                     f"  Lag-1 autocorrelation={np.corrcoef(X[:-1, 0], X[1:, 0])[0, 1]:.4f}; configured rho={pointer['processing_config']['rho']}."
                 )
         temporal_ready = synthetic or frame.prediction_time.notna().all()
-        classification = name in [
+        from .synthetic.generators import CLASSIFICATION
+
+        classification = name in CLASSIFICATION or name in {
             "gas_sensor",
             "folktables",
-            "prior_shift",
-            "imbalance",
-            "nonlinear_classification",
-            "label_corruption",
-            "boundary_rotation",
-        ]
+            "wilds",
+            "criteo",
+        }
+
         readiness.append(
             f"| {name} | {'controlled decision study' if synthetic else 'offline classification only' if classification else 'retrospective; utility imposed'} | {'regression stream' if temporal_ready and not classification else 'requires task/availability protocol'} | {'stream ready' if temporal_ready else 'requires availability/release protocol'} | {pointer['ground_truth']}; {'known simulation clock' if synthetic else 'historical/coarse; no true changes'} |"
         )
@@ -111,7 +111,13 @@ def build_report(root: Path):
         train = (frame.split == "train").to_numpy() & np.isfinite(y)
         cal = (frame.split == "calibration").to_numpy() & np.isfinite(y)
         test = (frame.split == "test").to_numpy() & np.isfinite(y)
-        if not classification and train.sum() > 20 and cal.sum() > 10 and test.sum() > 10:
+        if (
+            X.shape[1]
+            and not classification
+            and train.sum() > 20
+            and cal.sum() > 10
+            and test.sum() > 10
+        ):
             imputer = SimpleImputer(keep_empty_features=True).fit(X[train])
             clean = imputer.transform(X)
             model = Ridge().fit(clean[train], y[train])

@@ -1,0 +1,4 @@
+max_records: 50000
+max_download_bytes: 400000000
+# Required before execution: delay_unit verified against the downloaded source README.
+# Negative labels remain unavailable unless observation_end certifies complete followup.

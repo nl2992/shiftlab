@@ -5,7 +5,7 @@ from typing import Literal
 import pandas as pd
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 
-SCHEMA_VERSION = "1.0.0"
+SCHEMA_VERSION = "1.1.0"
 TIMES = [
     "event_time",
     "feature_available_time",
@@ -75,6 +75,7 @@ class Manifest(BaseModel):
     n_observations: int
     feature_names: list[str]
     feature_dtype: str = "float64"
+    feature_kind: Literal["numeric", "structured_reference"] = "numeric"
     time_coverage: list[str | None]
     domains: list[str]
     missingness: dict[str, float]
@@ -105,6 +106,12 @@ def validate_frame(frame: pd.DataFrame) -> dict:
         raise ValueError(f"Missing columns: {sorted(absent)}")
     if frame.sample_id.isna().any() or frame.sample_id.duplicated().any():
         raise ValueError("sample_id must be unique and present")
+    if (
+        "feature_reference" in frame
+        and frame.feature_reference.notna().any()
+        and frame.feature_reference.isna().any()
+    ):
+        raise ValueError("Structured-reference datasets require one reference per observation")
     if not frame.split.isin(["train", "validation", "calibration", "test", "unassigned"]).all():
         raise ValueError("Invalid split")
     for early, late in [

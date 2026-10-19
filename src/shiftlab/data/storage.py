@@ -3,6 +3,7 @@
 import hashlib
 import json
 import os
+import shutil
 import uuid
 from pathlib import Path
 
@@ -22,6 +23,7 @@ def save_dataset(
     config: dict,
     ground_truth="none",
     oracle_metadata=None,
+    artifacts: dict[str, Path] | None = None,
 ) -> Path:
     root = Path(root)
     fingerprint = hashlib.sha256(
@@ -31,6 +33,7 @@ def save_dataset(
                 "source": source_hash(),
                 "commit": commit(),
                 "raw": provenance.get("raw_checksums", {}),
+                "artifacts": {name: sha256(path) for name, path in (artifacts or {}).items()},
             },
             sort_keys=True,
         ).encode()
@@ -54,6 +57,13 @@ def save_dataset(
     files = {}
     writers = {}
     try:
+        for relative, source in (artifacts or {}).items():
+            relative_path = Path(relative)
+            if relative_path.is_absolute() or ".." in relative_path.parts:
+                raise ValueError("Artifact paths must stay within the dataset version")
+            target = temporary / relative_path
+            target.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copyfile(source, target)
         for frame, oracle in chunks:
             from .chronological_splits import purge_unavailable_labels
 
@@ -71,8 +81,16 @@ def save_dataset(
                 feature_total += X.size
                 times = frame.event_time.dropna()
                 if len(times):
-                    first = str(times.iloc[0]) if first is None else first
-                    last = str(times.iloc[-1])
+                    first = (
+                        str(times.min())
+                        if first is None
+                        else str(min(float(first), float(times.min())))
+                    )
+                    last = (
+                        str(times.max())
+                        if last is None
+                        else str(max(float(last), float(times.max())))
+                    )
             for relative, data in [
                 ("observations.parquet", frame),
                 ("evaluator_only/oracle.parquet", oracle),
@@ -90,8 +108,9 @@ def save_dataset(
         writers.clear()
         if total == 0:
             raise ValueError("Cannot save empty dataset")
-        for path in temporary.rglob("*.parquet"):
-            files[path.relative_to(temporary).as_posix()] = sha256(path)
+        for path in temporary.rglob("*"):
+            if path.is_file():
+                files[path.relative_to(temporary).as_posix()] = sha256(path)
         if oracle_metadata is not None:
             write_json(temporary / "evaluator_only/dgp.json", oracle_metadata)
             files["evaluator_only/dgp.json"] = sha256(temporary / "evaluator_only/dgp.json")
@@ -111,7 +130,8 @@ def save_dataset(
             source_hash=source_hash(),
             n_observations=total,
             feature_names=names,
-            feature_dtype=config.get("dtype", "float64"),
+            feature_dtype=provenance.get("feature_dtype", config.get("dtype", "float64")),
+            feature_kind=provenance.get("feature_kind", "numeric"),
             time_coverage=[first, last],
             domains=sorted(domains),
             missingness={

@@ -24,12 +24,19 @@ def validate_dataset(directory: Path) -> dict:
     result.update(
         dataset=manifest.dataset,
         version=manifest.version,
-        feature_missing_rate=float(np.isnan(X).mean()),
+        feature_missing_rate=float(np.isnan(X).mean()) if X.size else None,
         feature_infinite=int(np.isinf(X).sum()),
         min_feature=float(finite.min()) if len(finite) else None,
         max_feature=float(finite.max()) if len(finite) else None,
         duplicate_feature_target_rows=int(
-            pd.DataFrame(X).assign(target=frame.target.to_numpy()).duplicated().sum()
+            (
+                pd.DataFrame({"reference": frame.feature_reference})
+                if "feature_reference" in frame
+                else pd.DataFrame(X)
+            )
+            .assign(target=frame.target.to_numpy())
+            .duplicated()
+            .sum()
         ),
         ground_truth=manifest.ground_truth,
         attribution="Inconclusive: descriptive evidence does not identify drift mechanism",
@@ -73,7 +80,7 @@ def diagnostics(directory: Path) -> list[dict]:
     # Covariance and label-frequency evidence do not establish a causal drift category.
     complete_a = X[:n][np.isfinite(X[:n]).all(axis=1)]
     complete_b = X[-n:][np.isfinite(X[-n:]).all(axis=1)]
-    if len(complete_a) > 2 and len(complete_b) > 2:
+    if X.shape[1] and len(complete_a) > 2 and len(complete_b) > 2:
         rows.append(
             {
                 "dataset": directory.parent.name,

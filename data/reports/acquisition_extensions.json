@@ -1,0 +1,39 @@
+{
+  "checked_at": "2026-10-19T16:35:02.895531+00:00",
+  "outcomes": [
+    {
+      "dataset": "monash",
+      "status": "acquired",
+      "path": "data/processed/monash/f42206706844cf3ee17b",
+      "publisher_integrity": "MD5 matched 3983df90f60db0f4e1f4dc3fca8ef565"
+    },
+    {
+      "dataset": "eia",
+      "status": "requires_external_credential",
+      "environment_variable": "EIA_API_KEY",
+      "verification": "fixtures passed; live acquisition not claimed"
+    },
+    {
+      "dataset": "fred",
+      "status": "requires_external_credential",
+      "environment_variable": "FRED_API_KEY",
+      "verification": "fixtures passed; live acquisition not claimed"
+    },
+    {
+      "dataset": "wilds",
+      "status": "external_source_unavailable",
+      "url": "https://worksheets.codalab.org/rest/bundles/0x8cd3de0634154aeaad2ee6eb96723c6e/contents/blob/",
+      "observed_error": "TLS certificate expired; verification left enabled",
+      "official_issue": "https://github.com/p-lambda/wilds/issues/173",
+      "verification": "official WILDS 2.0 evaluated on a generated local fixture; source data not acquired"
+    },
+    {
+      "dataset": "criteo",
+      "status": "external_source_unavailable",
+      "url": "https://go.criteo.net/criteo-research-search-conversion.tar.gz",
+      "observed_error": "HEAD HTTP 404; streamed GET connection failure",
+      "license": "CC BY-NC-SA 4.0",
+      "verification": "timing, censoring and feature-exclusion fixtures passed"
+    }
+  ]
+}

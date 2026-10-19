@@ -5,6 +5,9 @@ The existing `shiftlab.data.make_stream` API and the three benchmark tracks rema
 Parquet datasets, checksummed raw acquisition, a scenario registry, optional CUDA generation,
 and executable reports. No new research algorithm is implemented.
 
+Later extensions and their live-source limitations are in [acquisition_extensions.md](acquisition_extensions.md).
+Those extensions supersede adapter-deferred statements in this earlier snapshot.
+
 ## Exact commands
 
 Run from the repository root with Python 3.11+:

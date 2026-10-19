@@ -14,6 +14,7 @@ class Request:
     entity_id: str | None
     domain_id: str | None
     decision_context: str | None
+    feature_reference: str | None = None
 
 
 @dataclass(frozen=True)
@@ -47,6 +48,7 @@ def replay(frame: pd.DataFrame):
                 row.entity_id,
                 row.domain_id,
                 row.decision_context,
+                getattr(row, "feature_reference", None),
             )
             if pd.notna(row.target) and pd.notna(row.label_available_time):
                 if row.label_available_time < now:

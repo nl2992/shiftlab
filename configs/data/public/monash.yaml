@@ -1,0 +1,4 @@
+dataset: m4_hourly
+max_series: 10
+lookback: 8
+max_download_bytes: 10000000

@@ -4,6 +4,8 @@ import pytest
 from shiftlab.data.schemas import SyntheticConfig
 from shiftlab.data.synthetic.adaptation import (
     ComputeBudget,
+    gaussian_interval_score_expectation,
+    interval_recalibration_reference,
     intervention_reference,
     oblivious_change_times,
 )
@@ -42,6 +44,34 @@ def test_oracle_reference_matches_enumerated_counterfactuals():
         )
         assert row.update_expected_loss == pytest.approx(expected)
         assert row.hold_expected_loss == pytest.approx(stale[t:end].sum())
+
+
+def test_gaussian_interval_score_expectation_matches_monte_carlo():
+    rng = np.random.default_rng(102)
+    sigma, radius, alpha = 1.7, 2.1, 0.1
+    residual = rng.normal(scale=sigma, size=500_000)
+    empirical = 2 * radius + (2 / alpha) * np.maximum(np.abs(residual) - radius, 0)
+    expected = gaussian_interval_score_expectation(sigma, radius, alpha)
+    assert np.mean(empirical) == pytest.approx(float(expected), abs=0.04)
+
+
+def test_interval_recalibration_reference_uses_interval_score_units():
+    sigma = np.array([0.3, 0.3, 0.9, 0.9])
+    z = 1.6448536269514722
+    stale = gaussian_interval_score_expectation(sigma, 0.3 * z)
+    recalibrated = gaussian_interval_score_expectation(sigma, 0.9 * z)
+    result = interval_recalibration_reference(
+        stale,
+        recalibrated,
+        horizon=4,
+        update_cost=0,
+        resource_cost=1,
+        remaining_budget=1,
+    )
+    assert "hold_expected_interval_score" in result
+    assert "recalibrated_expected_interval_score" in result
+    assert result.attrs["loss"] == "expected central Gaussian Winkler interval score"
+    assert result.oracle_action.iloc[0] == "update"
 
 
 def test_update_can_temporarily_hurt_then_help_and_budget_blocks():

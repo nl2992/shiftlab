@@ -1,0 +1,74 @@
+{
+  "dataset_version": "0b907947193c744fd05c",
+  "configuration": {
+    "scenario": "target_variance",
+    "n": 1000,
+    "d": 2,
+    "seed": 42,
+    "change_fraction": 0.5,
+    "severity": 2.0,
+    "noise": 0.3,
+    "delay": 0,
+    "missing": 0.0,
+    "rho": 0.6,
+    "pattern": "abrupt",
+    "regimes": 2,
+    "review_period": 100,
+    "transition_fraction": 0.1,
+    "device": "cpu",
+    "dtype": "float64",
+    "chunk_size": 256,
+    "memory_mb": 512,
+    "output": "data",
+    "train_fraction": 0.2,
+    "validation_fraction": 0.1,
+    "calibration_fraction": 0.1
+  },
+  "processing_commit": "211d4b5a99e341b12f9e6502cd404ab14a893d05",
+  "source_hash": "e20a7a4b8bbd0ba0e0191bf7e0235595f2d07567bb5d8798f67e2a8f5c48a69f",
+  "script_sha256": "074781ffafd2b9ffcd12d1fff7455d3b0be7fb26d47809d9b81b24e5a054d087",
+  "loss": "Expected central Gaussian Winkler interval score; oracle mean and scale are known.",
+  "alpha": 0.1,
+  "stale_radius": 0.4934560880854416,
+  "recalibrated_radius": 1.4803682642563247,
+  "schedule": "One abrupt target-variance change; recalibration candidate is the exact post-change Gaussian radius.",
+  "oracle_scope": "Independent-start, one fixed radius recalibration versus hold; horizon truncated at stream end.",
+  "deployment_delay": 2,
+  "transient_score_penalties": [
+    1.0,
+    0.5
+  ],
+  "update_cost_interval_score_units": 0.5,
+  "resource_cost": 2,
+  "remaining_budget_each_counterfactual": 3,
+  "utility_origin": "Imposed interval-score and resource costs; not application-grounded.",
+  "observability": "Evaluator-only future score; never a learner input.",
+  "summaries": {
+    "10": {
+      "rows": 1000,
+      "oracle_actions": {
+        "update": 505,
+        "hold": 495
+      },
+      "mean_hold_expected_score": 44.06208680867512,
+      "mean_recalibrated_expected_score": 37.383027901456806,
+      "resource_feasible_fraction": 1.0
+    },
+    "100": {
+      "rows": 1000,
+      "oracle_actions": {
+        "update": 567,
+        "hold": 433
+      },
+      "mean_hold_expected_score": 435.0515435064812,
+      "mean_recalibrated_expected_score": 323.17353288073906,
+      "resource_feasible_fraction": 1.0
+    }
+  },
+  "limitations": [
+    "The reference assumes Gaussian residuals and an oracle-centered interval.",
+    "Each start is an independent counterfactual with the same remaining budget.",
+    "It is not a dynamic controller, fitted recalibration guarantee, or sequential budget allocation policy.",
+    "Costs and penalties are imposed research controls."
+  ]
+}

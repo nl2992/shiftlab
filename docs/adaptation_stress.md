@@ -28,6 +28,22 @@ an attainable finite-sample estimator, or a sequence of budget-consuming oracle 
 leave the budget unchanged. Recalibration requires a separately specified interval-loss
 reference and must not be inferred from squared-error risks.
 
+For that separate task, run:
+
+```powershell
+python -m uv run python scripts/interval_adaptation_reference.py --config configs/data/synthetic/adaptation_interval_stress.yaml
+```
+
+This Gaussian abrupt-variance example computes the expected central interval (Winkler) score
+analytically for a stale pre-shift radius and the exact post-shift Gaussian radius. It then
+uses the same restricted independent-start comparator, but update, transient and horizon
+costs are explicitly in cumulative interval-score units. At the default 1,000-row stream, the
+reference selects recalibration at 505/1,000 independent starts for horizon 10 and 567/1,000
+for horizon 100. Protocol and per-start CSVs are stored under
+`data/reports/evaluator_only/adaptation_interval`. This is an evaluator-only known-DGP
+reference; it is not a learned or dynamic recalibration controller, and it does not make
+application-cost or finite-sample coverage claims.
+
 The `oblivious_adversarial` temporal pattern assumes scheduled reviews at multiples of
 `review_period`. It fixes regime flips one step after those reviews, before observing
 any learner actions or stream values. The wait until the next scheduled review is then

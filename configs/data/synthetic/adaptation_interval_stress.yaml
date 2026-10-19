@@ -1,0 +1,12 @@
+scenario: target_variance
+n: 1000
+d: 2
+seed: 42
+severity: 2.0
+noise: 0.3
+pattern: abrupt
+change_fraction: 0.5
+chunk_size: 256
+device: cpu
+dtype: float64
+output: data

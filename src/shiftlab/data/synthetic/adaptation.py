@@ -4,6 +4,7 @@ from dataclasses import dataclass
 
 import numpy as np
 import pandas as pd
+from scipy.special import ndtr
 
 
 @dataclass
@@ -143,4 +144,51 @@ def intervention_reference(
         "single update of a fixed candidate versus hold; independent start times"
     )
     result.attrs["utility_origin"] = "synthetically imposed cumulative loss and resource costs"
+    return result
+
+
+def gaussian_interval_score_expectation(sigma, radius, alpha=0.1):
+    """Expected central Gaussian interval score for an interval centered at the truth mean.
+
+    The score is Winkler's proper interval score: width plus ``2/alpha`` times
+    the distance outside either endpoint. ``sigma`` and ``radius`` broadcast.
+    This is an evaluator reference for Gaussian errors, not a fitted interval guarantee.
+    """
+    scale, half_width = np.broadcast_arrays(
+        np.asarray(sigma, dtype=float), np.asarray(radius, dtype=float)
+    )
+    if (
+        not 0 < alpha < 1
+        or not np.isfinite(scale).all()
+        or not np.isfinite(half_width).all()
+        or (scale <= 0).any()
+        or (half_width < 0).any()
+    ):
+        raise ValueError("Require 0 < alpha < 1, finite positive sigma and nonnegative radius")
+    standardized_radius = half_width / scale
+    density = np.exp(-0.5 * standardized_radius**2) / np.sqrt(2 * np.pi)
+    one_sided_tail = 1 - ndtr(standardized_radius)
+    expected_excess = 2 * (scale * density - half_width * one_sided_tail)
+    return 2 * half_width + (2 / alpha) * expected_excess
+
+
+def interval_recalibration_reference(
+    stale_expected_interval_score,
+    recalibrated_expected_interval_score,
+    **intervention_options,
+):
+    """Restricted one-fixed-recalibration-versus-hold reference in interval-score units."""
+    result = intervention_reference(
+        stale_expected_interval_score,
+        recalibrated_expected_interval_score,
+        **intervention_options,
+    ).rename(
+        columns={
+            "hold_expected_loss": "hold_expected_interval_score",
+            "update_expected_loss": "recalibrated_expected_interval_score",
+            "net_update_benefit": "net_interval_score_benefit",
+        }
+    )
+    result.attrs["loss"] = "expected central Gaussian Winkler interval score"
+    result.attrs["scope"] = "single fixed-radius recalibration versus hold; independent start times"
     return result

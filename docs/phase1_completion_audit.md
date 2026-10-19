@@ -11,7 +11,7 @@ and decision-stress controls. Full completion is still unproven.
 | B: schema/observability | Schema 1.1, numeric/structured references, immutable Request/Label, oracle-only files; delayed-feedback tests | Audit every new adapter and shared benchmark for the same invariants |
 | C1: controls | IID/nonlinear/AR1/ARMA/GARCH/heteroskedastic/t5 implementations and replicated tests | Broaden analytic temporal variance validation; recheck stationarity after changes |
 | C2: covariates | Mean, variance, rotation, correlation, mixture, new component, tails/skew, nuisance shifts | Per-mechanism independent covariance/conditional checks beyond generic oracle-risk tests |
-| C3: targets | Prior/imbalance/corruption/level/variance/tail frequency | Explicit distribution-factorization table for each mechanism |
+| C3: targets | Prior/imbalance/corruption/level/variance/tail frequency and explicit factorization table in `docs/dgp_factorizations.md` | Preserve distinctions between pure class-prior shift, observed-label corruption, and conditional regression shifts |
 | C4: concept | Coefficient/nonlinear/interaction/sign/latent/variance changes with gradual patterns | Independent oracle conditional-function interface and complete parameter-by-regime metadata |
 | C5: temporal | Nine patterns; true times or intervals stored; zero-strength null | Adversarial timing below; source schedule tests cover current patterns |
 | C6: decisions | Nuisance/boundary/cost/constraint controls; new small covariate and rare-high-cost cases; actual indistinguishable generated worlds when labels missing | Bind all ten requested case names to documented policy/loss/oracle definitions in a preset catalogue |

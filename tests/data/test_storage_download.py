@@ -2,14 +2,55 @@ import json
 import threading
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 
+import numpy as np
 import pytest
 
 from shiftlab.data.benchmark import evaluate_regression
 from shiftlab.data.cli import generate
 from shiftlab.data.provenance import sha256
+from shiftlab.data.real.adapters import standardize
 from shiftlab.data.real.download import download
 from shiftlab.data.schemas import SyntheticConfig
+from shiftlab.data.storage import save_dataset
 from shiftlab.data.validation import validate_dataset
+
+
+def _one_row(sample_id, split, time):
+    frame = standardize(np.array([[1.0, 2.0]]), np.array([3.0]), "domain-a", "fixture")
+    frame["sample_id"] = sample_id
+    frame["split"] = split
+    frame["prediction_time"] = time
+    frame["metadata"] = '{"source":"fixture"}'
+    return frame
+
+
+@pytest.mark.parametrize(
+    ("chunks", "message"),
+    [
+        (
+            [(_one_row("same", "train", 1), None), (_one_row("same", "test", 3), None)],
+            "unique across Parquet row groups",
+        ),
+        (
+            [
+                (_one_row("validation-first", "validation", 1), None),
+                (_one_row("train-later", "train", 3), None),
+            ],
+            "reversed across row groups",
+        ),
+    ],
+)
+def test_storage_rejects_cross_row_group_invariant_violations(tmp_path, chunks, message):
+    provenance = {
+        "publisher": "fixture",
+        "source_url": "local://fixture",
+        "citation": "fixture",
+        "license": "fixture",
+        "permitted_use": "test only",
+    }
+    with pytest.raises(ValueError, match=message):
+        save_dataset(chunks, "chunk-integrity", tmp_path, provenance, {})
+    assert not list((tmp_path / "manifests").glob("*.json"))
 
 
 def test_storage_integrity_and_immutability(tmp_path):

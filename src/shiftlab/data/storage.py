@@ -16,6 +16,35 @@ from .schemas import Manifest, validate_frame
 from .tasks import dataset_task_specs
 
 
+def _validate_written_observations(path: Path) -> None:
+    """Validate invariants that must hold across Parquet row-group boundaries."""
+    order = ["train", "validation", "calibration", "test"]
+    bounds: dict[str, list[float]] = {split: [float("inf"), float("-inf")] for split in order}
+    sample_ids: set[str] = set()
+    parquet = pq.ParquetFile(path)
+    for row_group in range(parquet.num_row_groups):
+        for batch in parquet.iter_batches(batch_size=8192, row_groups=[row_group]):
+            frame = batch.to_pandas()
+            validate_frame(frame)
+            ids = frame.sample_id.astype(str)
+            if ids.duplicated().any() or sample_ids.intersection(ids):
+                raise ValueError("sample_id must be unique across Parquet row groups")
+            sample_ids.update(ids)
+            for split in order:
+                times = frame.loc[frame.split == split, "prediction_time"].dropna()
+                if len(times):
+                    bounds[split][0] = min(bounds[split][0], float(times.min()))
+                    bounds[split][1] = max(bounds[split][1], float(times.max()))
+    previous_end = None
+    for split in order:
+        start, end = bounds[split]
+        if start == float("inf"):
+            continue
+        if previous_end is not None and start <= previous_end:
+            raise ValueError("Chronological splits overlap or are reversed across row groups")
+        previous_end = end
+
+
 def save_dataset(
     chunks,
     name: str,
@@ -111,6 +140,7 @@ def save_dataset(
         writers.clear()
         if total == 0:
             raise ValueError("Cannot save empty dataset")
+        _validate_written_observations(temporary / "observations.parquet")
         for path in temporary.rglob("*"):
             if path.is_file():
                 files[path.relative_to(temporary).as_posix()] = sha256(path)

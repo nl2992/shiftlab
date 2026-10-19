@@ -1,19 +1,19 @@
 {
-  "executed_at": "2026-10-19T17:19:41.876893+00:00",
+  "executed_at": "2026-10-19T22:11:54.978082+00:00",
   "completed_tasks": [
     {
       "task": "ACSIncome",
-      "path": "data\\processed\\folktables\\264d65dd2c805f899976",
+      "path": "data\\processed\\folktables\\86709de125920a37780d",
       "manifest": {
         "schema_version": "1.1.0",
         "dataset": "folktables",
-        "version": "264d65dd2c805f899976",
+        "version": "86709de125920a37780d",
         "publisher": "US Census / Folktables",
         "source_url": "https://github.com/socialfoundations/folktables",
         "citation": "Ding et al., Retiring Adult: New Datasets for Fair Machine Learning, NeurIPS 2021",
         "license": "Folktables code MIT; ACS PUMS US Census public data",
         "permitted_use": "Respect original source and underlying-series terms; research use only where permitted",
-        "acquired_at": "2026-10-19T17:14:22.856405+00:00",
+        "acquired_at": "2026-10-19T22:06:40.354551+00:00",
         "retrieval_parameters": {
           "states": [
             "CA",
@@ -68,7 +68,7 @@
             "ACSIncome"
           ]
         },
-        "code_commit": "5d0fea8e2fb75b8795df1014f694a7743e84bab2",
+        "code_commit": "79e928bd3f2bb6d7c09f2e90371474b2366e9ba0",
         "source_hash": "7f8bc148deb5299f3504c0328547cc48fe774947abd340f0257296dc18b32237",
         "n_observations": 58061,
         "feature_names": [
@@ -128,7 +128,7 @@
         "unknown_label_availability": 58061,
         "missing_targets": 0,
         "dataset": "folktables",
-        "version": "264d65dd2c805f899976",
+        "version": "86709de125920a37780d",
         "feature_missing_rate": 0.0,
         "feature_infinite": 0,
         "min_feature": 0.0,
@@ -318,17 +318,17 @@
     },
     {
       "task": "ACSEmployment",
-      "path": "data\\processed\\folktables\\372a3d412aaed49ac87c",
+      "path": "data\\processed\\folktables\\fb2c924aa2f74c31c3fe",
       "manifest": {
         "schema_version": "1.1.0",
         "dataset": "folktables",
-        "version": "372a3d412aaed49ac87c",
+        "version": "fb2c924aa2f74c31c3fe",
         "publisher": "US Census / Folktables",
         "source_url": "https://github.com/socialfoundations/folktables",
         "citation": "Ding et al., Retiring Adult: New Datasets for Fair Machine Learning, NeurIPS 2021",
         "license": "Folktables code MIT; ACS PUMS US Census public data",
         "permitted_use": "Respect original source and underlying-series terms; research use only where permitted",
-        "acquired_at": "2026-10-19T17:15:48.954789+00:00",
+        "acquired_at": "2026-10-19T22:08:11.711561+00:00",
         "retrieval_parameters": {
           "states": [
             "CA",
@@ -383,7 +383,7 @@
             "ACSEmployment"
           ]
         },
-        "code_commit": "5d0fea8e2fb75b8795df1014f694a7743e84bab2",
+        "code_commit": "79e928bd3f2bb6d7c09f2e90371474b2366e9ba0",
         "source_hash": "7f8bc148deb5299f3504c0328547cc48fe774947abd340f0257296dc18b32237",
         "n_observations": 113701,
         "feature_names": [
@@ -449,7 +449,7 @@
         "unknown_label_availability": 113701,
         "missing_targets": 0,
         "dataset": "folktables",
-        "version": "372a3d412aaed49ac87c",
+        "version": "fb2c924aa2f74c31c3fe",
         "feature_missing_rate": 0.0,
         "feature_infinite": 0,
         "min_feature": 0.0,
@@ -645,17 +645,17 @@
     },
     {
       "task": "ACSPublicCoverage",
-      "path": "data\\processed\\folktables\\9f6f0029752297be9b57",
+      "path": "data\\processed\\folktables\\c8e1afd020eabe7b5477",
       "manifest": {
         "schema_version": "1.1.0",
         "dataset": "folktables",
-        "version": "9f6f0029752297be9b57",
+        "version": "c8e1afd020eabe7b5477",
         "publisher": "US Census / Folktables",
         "source_url": "https://github.com/socialfoundations/folktables",
         "citation": "Ding et al., Retiring Adult: New Datasets for Fair Machine Learning, NeurIPS 2021",
         "license": "Folktables code MIT; ACS PUMS US Census public data",
         "permitted_use": "Respect original source and underlying-series terms; research use only where permitted",
-        "acquired_at": "2026-10-19T17:17:06.344748+00:00",
+        "acquired_at": "2026-10-19T22:09:28.402421+00:00",
         "retrieval_parameters": {
           "states": [
             "CA",
@@ -710,7 +710,7 @@
             "ACSPublicCoverage"
           ]
         },
-        "code_commit": "5d0fea8e2fb75b8795df1014f694a7743e84bab2",
+        "code_commit": "79e928bd3f2bb6d7c09f2e90371474b2366e9ba0",
         "source_hash": "7f8bc148deb5299f3504c0328547cc48fe774947abd340f0257296dc18b32237",
         "n_observations": 40770,
         "feature_names": [
@@ -779,7 +779,7 @@
         "unknown_label_availability": 40770,
         "missing_targets": 0,
         "dataset": "folktables",
-        "version": "9f6f0029752297be9b57",
+        "version": "c8e1afd020eabe7b5477",
         "feature_missing_rate": 0.0,
         "feature_infinite": 0,
         "min_feature": -8300.0,
@@ -978,17 +978,17 @@
     },
     {
       "task": "ACSMobility",
-      "path": "data\\processed\\folktables\\8c44707fe490b2b66dd8",
+      "path": "data\\processed\\folktables\\a6162aa434e17a3a6639",
       "manifest": {
         "schema_version": "1.1.0",
         "dataset": "folktables",
-        "version": "8c44707fe490b2b66dd8",
+        "version": "a6162aa434e17a3a6639",
         "publisher": "US Census / Folktables",
         "source_url": "https://github.com/socialfoundations/folktables",
         "citation": "Ding et al., Retiring Adult: New Datasets for Fair Machine Learning, NeurIPS 2021",
         "license": "Folktables code MIT; ACS PUMS US Census public data",
         "permitted_use": "Respect original source and underlying-series terms; research use only where permitted",
-        "acquired_at": "2026-10-19T17:18:21.241098+00:00",
+        "acquired_at": "2026-10-19T22:10:40.430066+00:00",
         "retrieval_parameters": {
           "states": [
             "CA",
@@ -1043,7 +1043,7 @@
             "ACSMobility"
           ]
         },
-        "code_commit": "5d0fea8e2fb75b8795df1014f694a7743e84bab2",
+        "code_commit": "79e928bd3f2bb6d7c09f2e90371474b2366e9ba0",
         "source_hash": "7f8bc148deb5299f3504c0328547cc48fe774947abd340f0257296dc18b32237",
         "n_observations": 22364,
         "feature_names": [
@@ -1114,7 +1114,7 @@
         "unknown_label_availability": 22364,
         "missing_targets": 0,
         "dataset": "folktables",
-        "version": "8c44707fe490b2b66dd8",
+        "version": "a6162aa434e17a3a6639",
         "feature_missing_rate": 0.0,
         "feature_infinite": 0,
         "min_feature": -6700.0,
@@ -1315,17 +1315,17 @@
     },
     {
       "task": "ACSTravelTime",
-      "path": "data\\processed\\folktables\\1ba3057f0beb5eecb671",
+      "path": "data\\processed\\folktables\\b205ada858b15d5dca53",
       "manifest": {
         "schema_version": "1.1.0",
         "dataset": "folktables",
-        "version": "1ba3057f0beb5eecb671",
+        "version": "b205ada858b15d5dca53",
         "publisher": "US Census / Folktables",
         "source_url": "https://github.com/socialfoundations/folktables",
         "citation": "Ding et al., Retiring Adult: New Datasets for Fair Machine Learning, NeurIPS 2021",
         "license": "Folktables code MIT; ACS PUMS US Census public data",
         "permitted_use": "Respect original source and underlying-series terms; research use only where permitted",
-        "acquired_at": "2026-10-19T17:19:41.634265+00:00",
+        "acquired_at": "2026-10-19T22:11:54.756472+00:00",
         "retrieval_parameters": {
           "states": [
             "CA",
@@ -1380,7 +1380,7 @@
             "ACSTravelTime"
           ]
         },
-        "code_commit": "5d0fea8e2fb75b8795df1014f694a7743e84bab2",
+        "code_commit": "79e928bd3f2bb6d7c09f2e90371474b2366e9ba0",
         "source_hash": "7f8bc148deb5299f3504c0328547cc48fe774947abd340f0257296dc18b32237",
         "n_observations": 51548,
         "feature_names": [
@@ -1446,7 +1446,7 @@
         "unknown_label_availability": 51548,
         "missing_targets": 0,
         "dataset": "folktables",
-        "version": "1ba3057f0beb5eecb671",
+        "version": "b205ada858b15d5dca53",
         "feature_missing_rate": 0.0,
         "feature_infinite": 0,
         "min_feature": 0.0,

@@ -1,32 +1,32 @@
 {
-  "executed_at": "2026-10-19T22:04:02.389293+00:00",
-  "processing_commit": "5d0fea8e2fb75b8795df1014f694a7743e84bab2",
+  "executed_at": "2026-10-19T22:12:20.935131+00:00",
+  "processing_commit": "79e928bd3f2bb6d7c09f2e90371474b2366e9ba0",
   "script_sha256": "2b87b3ce98ee7c13a3f9f24be91ed71f68be725dae3f182c4027a0e13997e071",
   "inputs": [
     {
       "task": "ACSIncome",
-      "version": "264d65dd2c805f899976",
-      "manifest_sha256": "7c20e60a71a48d2b81e2cd5057504249039a0b007a5d01fd98b6e4185b56e1c8"
+      "version": "86709de125920a37780d",
+      "manifest_sha256": "d79bf1af6c54ad6f5532562b20bd60644e27754ce581b06bc8ac412a6a0eb39d"
     },
     {
       "task": "ACSEmployment",
-      "version": "372a3d412aaed49ac87c",
-      "manifest_sha256": "0d3c0451129e6c77d2c2a0e1a9f6a62a1a8db184cd029e27f1a1deb00e83403b"
+      "version": "fb2c924aa2f74c31c3fe",
+      "manifest_sha256": "995a74b40032426cb6f2f4e29cfc808e9fa5bfbc5288691cbc71049918f57757"
     },
     {
       "task": "ACSPublicCoverage",
-      "version": "9f6f0029752297be9b57",
-      "manifest_sha256": "1f0437c9782b74fd49f775d5bee1cd0f0519f67fd2b4b135527421521247c077"
+      "version": "c8e1afd020eabe7b5477",
+      "manifest_sha256": "a091637c29d8566065cf703af1447664b33788c6885b3c64079db3c4e6ca01bf"
     },
     {
       "task": "ACSMobility",
-      "version": "8c44707fe490b2b66dd8",
-      "manifest_sha256": "ec6aef20e074b6f218c5a993152a16baa1a6632dddb8c069785ce7b9462c6809"
+      "version": "a6162aa434e17a3a6639",
+      "manifest_sha256": "0d76950f66cbbe64ba30d4671717c4295b9c13fc9ea1c1ec5de1051575319568"
     },
     {
       "task": "ACSTravelTime",
-      "version": "1ba3057f0beb5eecb671",
-      "manifest_sha256": "4a1f0a5cbc90c9980739d3f71d6272fc7c001acb5ba2d86d2eaf8302a1b71880"
+      "version": "b205ada858b15d5dca53",
+      "manifest_sha256": "5f6ad2b75ed204c171380992032bb2ce5d1fb2217bd19f2cdb83a71bf851415b"
     }
   ],
   "model": "Unweighted LogisticRegression(C=1), numeric source coding; imputation/scaling fit only on designated train domains; no later-domain tuning",

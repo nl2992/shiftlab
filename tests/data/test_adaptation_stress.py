@@ -4,6 +4,7 @@ import pytest
 from shiftlab.data.schemas import SyntheticConfig
 from shiftlab.data.synthetic.adaptation import (
     ComputeBudget,
+    allocate_update_budget,
     gaussian_interval_score_expectation,
     interval_recalibration_reference,
     intervention_reference,
@@ -21,6 +22,33 @@ def test_budget_charges_atomic_and_distinct_from_loss_cost():
     assert budget.remaining == 0
     with pytest.raises(ValueError):
         budget.charge(np.nan)
+
+
+def test_dynamic_update_budget_allocation_matches_exhaustive_search():
+    benefit = np.array([7.0, 6.0, 4.0, 2.0, -1.0])
+    cost = np.array([3, 2, 1, 0, 1])
+    budget = 3
+    result = allocate_update_budget(benefit, cost, budget)
+    assert result.selected.tolist() == [False, True, True, True, False]
+    assert result.attrs["resource_spent"] == 3
+    assert result.attrs["total_selected_benefit"] == 12
+    assert result.attrs["observability"].startswith("evaluator only")
+
+    best = max(
+        sum(benefit[i] for i in range(len(benefit)) if mask & (1 << i))
+        for mask in range(1 << len(benefit))
+        if sum(cost[i] for i in range(len(cost)) if mask & (1 << i)) <= budget
+    )
+    assert result.attrs["total_selected_benefit"] == best
+
+
+@pytest.mark.parametrize(
+    ("benefit", "cost", "budget"),
+    [([1, 2], [1], 1), ([1], [0.5], 1), ([1], [-1], 1), ([1], [1], -1)],
+)
+def test_dynamic_budget_rejects_invalid_inputs(benefit, cost, budget):
+    with pytest.raises(ValueError):
+        allocate_update_budget(benefit, cost, budget)
 
 
 def test_oracle_reference_matches_enumerated_counterfactuals():

@@ -49,6 +49,70 @@ def oblivious_change_times(n, review_period, first_change=0):
     return changes[changes >= first_change]
 
 
+def allocate_update_budget(net_benefit, resource_cost, total_budget, candidate_ids=None):
+    """Exact evaluator-only 0/1 allocation of discrete compute across update proposals.
+
+    Each proposal is an independent counterfactual with an additive net expected-loss
+    benefit. Integer resource units make the finite-budget dynamic program exact. This
+    reference does not model interference between updates or learn proposals from data.
+    """
+    benefit = np.asarray(net_benefit, dtype=float)
+    raw_cost = np.asarray(resource_cost)
+    if benefit.ndim != 1 or raw_cost.ndim != 1 or benefit.shape != raw_cost.shape:
+        raise ValueError("net_benefit and resource_cost must be equal-length vectors")
+    if not np.isfinite(benefit).all() or not np.isfinite(raw_cost).all():
+        raise ValueError("Benefits and resource costs must be finite")
+    if (raw_cost < 0).any() or not np.equal(raw_cost, np.floor(raw_cost)).all():
+        raise ValueError("resource_cost must contain nonnegative integer units")
+    if (
+        isinstance(total_budget, (bool, np.bool_))
+        or not isinstance(total_budget, (int, np.integer))
+        or total_budget < 0
+    ):
+        raise ValueError("total_budget must be a nonnegative integer")
+    ids = list(range(len(benefit))) if candidate_ids is None else list(candidate_ids)
+    if len(ids) != len(benefit) or len(set(ids)) != len(ids):
+        raise ValueError("candidate_ids must be unique and match proposal count")
+
+    costs = raw_cost.astype(int)
+    values = np.zeros((len(benefit) + 1, total_budget + 1))
+    take = np.zeros((len(benefit), total_budget + 1), dtype=bool)
+    for i, (gain, cost) in enumerate(zip(benefit, costs, strict=True)):
+        values[i + 1] = values[i]
+        if gain <= 0 or cost > total_budget:
+            continue
+        for capacity in range(int(cost), total_budget + 1):
+            selected_value = values[i, capacity - cost] + gain
+            if selected_value > values[i + 1, capacity]:
+                values[i + 1, capacity] = selected_value
+                take[i, capacity] = True
+
+    selected = np.zeros(len(benefit), dtype=bool)
+    capacity = int(total_budget)
+    for i in range(len(benefit) - 1, -1, -1):
+        if take[i, capacity]:
+            selected[i] = True
+            capacity -= costs[i]
+    result = pd.DataFrame(
+        {
+            "candidate_id": ids,
+            "net_expected_loss_benefit": benefit,
+            "resource_cost": costs,
+            "selected": selected,
+            "oracle_action": np.where(selected, "update", "hold"),
+        }
+    )
+    result.attrs.update(
+        observability="evaluator only; uses full-future expected-loss benefits",
+        total_budget=int(total_budget),
+        resource_spent=int(costs[selected].sum()),
+        total_selected_benefit=float(benefit[selected].sum()),
+        scope="exact 0/1 knapsack over additive, independent update counterfactuals",
+        utility_origin="synthetically imposed expected-loss benefits and compute units",
+    )
+    return result
+
+
 def intervention_reference(
     stale_expected_loss,
     updated_expected_loss,

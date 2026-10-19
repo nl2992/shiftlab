@@ -66,3 +66,10 @@ only for a later prediction. The predictor stays frozen, isolating radius adapta
 report includes five-seed coverage and two moving-block interval sensitivities per case.
 These are empirical results: changing distributions and serial dependence do not receive a
 finite-sample coverage guarantee.
+
+`shiftlab.data.synthetic.allocate_update_budget` solves an evaluator-only 0/1 budget allocation
+over independent update proposals with additive expected-loss benefits and integer compute
+costs. It reports the exact selected portfolio under the specified budget. It is an oracle
+reference for discrete allocation, not a learned scheduler; benefits must not be exposed to a
+learner, and overlapping interventions or interactions between updates require a richer state
+model.

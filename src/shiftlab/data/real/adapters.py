@@ -201,25 +201,29 @@ def acquire(dataset: str, config: dict, root="data") -> Path:
             "Historical snapshots may contain revisions; no real-time availability guarantee. Source missingness and local offsets retained without filling."
         )
     elif dataset == "binance":
+        from .binance import calendar
+
         symbol, month = config.get("symbol", "BTCUSDT"), config.get("month", "2023-01")
+        interval = config.get("interval", "1d")
         if symbol not in ["BTCUSDT", "ETHUSDT"] or len(month) != 7:
             raise ValueError("Supported symbols BTCUSDT/ETHUSDT, month YYYY-MM")
-        url = f"https://data.binance.vision/data/spot/monthly/klines/{symbol}/1d/{symbol}-1d-{month}.zip"
-        checksum = download(url + ".CHECKSUM", raw / f"{symbol}-{month}.CHECKSUM")
+        if interval not in {"1d", "1h"}:
+            raise ValueError("Supported intervals are 1d and 1h")
+        import re
+
+        if not re.fullmatch(r"\d{4}-\d{2}", month):
+            raise ValueError("Month must be YYYY-MM")
+        pd.Period(month, freq="M")
+        stem = f"{symbol}-{month}" if interval == "1d" else f"{symbol}-{interval}-{month}"
+        url = f"https://data.binance.vision/data/spot/monthly/klines/{symbol}/{interval}/{symbol}-{interval}-{month}.zip"
+        checksum = download(url + ".CHECKSUM", raw / f"{stem}.CHECKSUM")
         paths.append(checksum)
-        path = download(
-            url, raw / f"{symbol}-{month}.zip", expected_sha256=checksum.read_text().split()[0]
-        )
+        path = download(url, raw / f"{stem}.zip", expected_sha256=checksum.read_text().split()[0])
         paths.append(path)
         with zipfile.ZipFile(path) as archive:
             original = pd.read_csv(archive.open(archive.namelist()[0]), header=None)
         timestamps = pd.to_numeric(original[0]).to_numpy()
-        divisor = 1e6 if timestamps.max() > 1e14 else 1e3
-        expected_days = pd.Period(month, freq="M").days_in_month
-        if len(timestamps) != expected_days or np.any(np.diff(timestamps / divisor) != 86400):
-            raise ValueError(
-                "Binance monthly daily archive has missing/duplicate bars; calendar audit required"
-            )
+        divisor = calendar(month, interval, timestamps, pd.to_numeric(original[6]).to_numpy())
         close = pd.to_numeric(original[4]).to_numpy(float)
         X = original[[1, 2, 3, 4, 5]].to_numpy(float)
         frame = standardize(
@@ -234,6 +238,7 @@ def acquire(dataset: str, config: dict, root="data") -> Path:
                     {
                         "close_time_raw": int(v),
                         "timestamp_divisor": divisor,
+                        "interval": interval,
                         "task": "next close return; all current OHLCV require bar close",
                     }
                 )

@@ -27,7 +27,7 @@ and decision-stress controls. Full completion is still unproven.
 | E6: Monash | Five verified record mappings; TSF parser; official fixed-origin holdouts; M4 hourly downloaded with publisher MD5 match | Exercise other prioritized formats and preserve actual declared horizons; no invented covariates |
 | E7: WILDS | Five lazy adapters; real package/metric fixture test; native-equivalent reduction compatibility | Live source certificate expired (upstream issue documented); do not bypass TLS or substitute another benchmark |
 | E8: Criteo | Source/license/size verified; delayed outcomes and censoring adapter; fixtures | Linked archive unavailable; delay units must be verified from an accessible source README/local export |
-| E9: Binance | BTCUSDT daily archive, publisher checksum/calendar validation | ETHUSDT selected archive and hourly option |
+| E9: Binance | BTCUSDT daily and ETHUSDT January 2025 hourly acquired; publisher SHA256, exact UTC month/bar endpoints and ms/us precision validated | Historical release latency remains unknown; no invented online availability |
 | E10: FRED/ALFRED | Vintage intervals, as-of selector, conservative date-resolution availability, fixtures | Live key absent; explicit dated-vintage forecasting task rather than treating revised levels as past features |
 | E11: licensed | Local import with license, original fields, explicit timestamp mappings; fixture | No licensed dataset supplied; report that limitation rather than inventing one |
 | F: tasks | Registered forecast/quantile/volatility/excess/binary/multiclass tasks; capacity/cost/abstention/bounded actions | Bind dataset task specs and utility provenance consistently; test source task horizons and masks |

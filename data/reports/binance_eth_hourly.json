@@ -1,0 +1,76 @@
+{
+  "validation": {
+    "rows": 743,
+    "unknown_prediction_times": 743,
+    "unknown_label_availability": 743,
+    "missing_targets": 0,
+    "dataset": "binance",
+    "version": "7e967a32a18489d1c271",
+    "feature_missing_rate": 0.0,
+    "feature_infinite": 0,
+    "min_feature": 2493.9537,
+    "max_feature": 191257.8743,
+    "duplicate_feature_target_rows": 0,
+    "ground_truth": "none",
+    "attribution": "Inconclusive: descriptive evidence does not identify drift mechanism"
+  },
+  "manifest": {
+    "schema_version": "1.1.0",
+    "dataset": "binance",
+    "version": "7e967a32a18489d1c271",
+    "publisher": "Binance",
+    "source_url": "https://github.com/binance/binance-public-data",
+    "citation": "Binance public market data",
+    "license": "Publisher repository MIT; retain exchange data terms and attribution",
+    "permitted_use": "Research only; respect original source terms",
+    "acquired_at": "2026-10-19T16:53:15.708220+00:00",
+    "retrieval_parameters": {
+      "symbol": "ETHUSDT",
+      "month": "2025-01",
+      "interval": "1h"
+    },
+    "raw_checksums": {
+      "data\\raw\\binance\\ETHUSDT-1h-2025-01.CHECKSUM": "f93543c374c179556a56019f23e1c0070fb0dcbdca1734a22d1fcd92e8a28fb3",
+      "data\\raw\\binance\\ETHUSDT-1h-2025-01.zip": "f7350a6f3b51de466a0db52ba890cf296d4faeb6e84811b9606f87ad39ccf3ec"
+    },
+    "processing_config": {
+      "symbol": "ETHUSDT",
+      "month": "2025-01",
+      "interval": "1h"
+    },
+    "code_commit": "f54fc4ac6b06d5883d92c78dbdc4421706c195e3",
+    "source_hash": "f74ebb5a3f3e5ce46bb16adcfe22671eb92df245f8f2b4b7a4ea2cdd67a1414a",
+    "n_observations": 743,
+    "feature_names": [
+      "open",
+      "high",
+      "low",
+      "close",
+      "volume"
+    ],
+    "feature_dtype": "float64",
+    "feature_kind": "numeric",
+    "time_coverage": [
+      "1735689600.0",
+      "1738360800.0"
+    ],
+    "domains": [
+      "ETHUSDT"
+    ],
+    "missingness": {
+      "target": 0.0,
+      "features": 0.0
+    },
+    "limitations": [
+      "No verified real changepoints.",
+      "open/close timestamp; no publication latency guarantee",
+      "Decision utilities are research-imposed, not operational ground truth."
+    ],
+    "ground_truth": "none",
+    "files": {
+      "observations.parquet": "207ab0f4e4241690c5253f37369091b67ee055aee99587cf2729cd33a73d40dd"
+    },
+    "oracle_file": null,
+    "environment": {}
+  }
+}

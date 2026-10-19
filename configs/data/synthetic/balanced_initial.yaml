@@ -1,0 +1,19 @@
+# Dry-run/export by default. This screening plan is not a Cartesian grid.
+plan_seed: 42
+profiles: 12
+scenarios: [iid_regression, irrelevant, concept, target_variance]
+seeds: [101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127, 128, 129, 130]
+base:
+  dtype: float64
+  device: cpu
+  chunk_size: 10000
+levels:
+  n: [5000, 20000, 100000, 1000000]
+  d: [2, 16, 64, 256, 1024]
+  severity: [0, 0.1, 0.25, 0.5, 1, 2]
+  change_fraction: [0.25, 0.5, 0.75]
+  regimes: [1, 2, 3, 5]
+  delay: [0, 1, 10, 50, 200]
+  missing: [0, 0.1, 0.3, 0.5]
+  rho: [0, 0.2, 0.5, 0.8]
+  pattern: [abrupt, multiple, recurring]

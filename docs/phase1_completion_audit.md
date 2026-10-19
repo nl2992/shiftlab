@@ -17,10 +17,10 @@ and decision-stress controls. Full completion is still unproven.
 | C6: decisions | Nuisance/boundary/cost/constraint controls; new small covariate and rare-high-cost cases; actual indistinguishable generated worlds when labels missing | Bind all ten requested case names to documented policy/loss/oracle definitions in a preset catalogue |
 | C7: conformal stress | Normal/t5/lognormal/mixture CDF quantiles, conditional/marginal variance labels, delayed/missing calibration data | Complete named case presets and check conditional-vs-marginal targets in every report |
 | C8: adaptation stress | Existing patterns, feedback changes, per-row cost metadata | Compute-budget control, update-induced temporary degradation, oblivious-adversarial timing, restricted full-information intervention-benefit oracle |
-| C9: performative | Separate interactive state/action environment with joint actions | Statistical/dynamical tests for stable and unstable feedback and causal metadata |
-| D: parameter plans | Configurable ranges; smoke/30-seed medium/optional GPU presets | Explicit balanced sampling plan and audit coverage of listed parameter levels without Cartesian materialization |
+| C9: performative | Separate interactive state/action environment, causal specification, verified stable AR1 variance, joint actions, local saturation and explicit unstable state dynamics | Preserve distinction between local feedback instability and global divergence |
+| D: parameter plans | Balanced marginal plan covers all listed levels in 12 profiles with 30 paired seeds; executed resource/coverage preview; smoke/medium/GPU presets | Scientific interaction selection and final 100-seed experiments are user-configurable; no power guarantee |
 | E1: Folktables | NJ 2018 ACSIncome acquired; five task adapters | Selected CA/NY/TX/FL/NJ cross-year panel, all five task executions, explicit domain comparison plans |
-| E2: gas | Ten batches, 13,910 rows, 128 features, batch order and labels | Per-batch class/missingness/feature summary tables and group baseline evidence |
+| E2: gas | Ten batches, 13,910 rows, 128 features; actual per-batch class/missingness/feature tables and train-only classifier/probability/decision-loss evidence | Unknown within-batch order prevents temporal inference; IID descriptive SE is explicitly qualified |
 | E3: OPSD | Actual load/wind/solar; UTC/local offsets and missingness; bad early epoch version invalidated | Prices where present; daily task/config, multiple adequate overlapping regions |
 | E4: EIA | Credentialed v2 adapter, paging, units/calendar gaps, sanitized snapshots; fixtures | Live key absent: documented external prerequisite, no false acquisition claim |
 | E5: NOAA | Actual JFK 2023, original flags/sentinels retained | Fixed multi-station panel and numeric pressure/wind/visibility/precipitation fields where present |
@@ -33,7 +33,7 @@ and decision-stress controls. Full completion is still unproven.
 | F: tasks | Registered forecast/quantile/volatility/excess/binary/multiclass tasks; capacity/cost/abstention/bounded actions | Bind dataset task specs and utility provenance consistently; test source task horizons and masks |
 | G: diagnostics | Means/covariance/frequencies/KS, moving-block intervals; regression plot/report | Residual/rolling loss, group performance, calibration and decision-loss evidence for supported real tasks, with valid assumptions and inconclusive attribution |
 | H: GPU | RTX 4060 detected; actual CUDA generation/preprocessing parity and throughput; chunk/memory controls | Re-audit backend dtype/memory/determinism and device-utilization logging scope |
-| I: storage/provenance | Immutable Parquet/JSON, raw checksums/receipts, atomic publication, code hashes | Strengthen downloader resume validators and bounded writes; include source download dates and external input integrity clearly |
+| I: storage/provenance | Immutable Parquet/JSON, raw checksums/receipts, atomic publication, code hashes; strong ETag/If-Range or publisher-hash resume; length/budget/encoding gates tested | Continue source-specific provenance audit and external input integrity checks |
 | J: leakage | Future features/labels, chronological splits, training-only scaling, missingness and UTC/DST tests | Expand all these gates to new sources and derived tasks; validate schema across storage chunk boundaries |
 | K: statistics | Replicated oracle-risk and selected moment/quantile/autocorrelation tests; rare-event uncertainty corrected | Broaden independent per-generator analytic checks and export executed statistical validation evidence |
 | L: reports | Seven named reports and actual PNG diagnostics exist | Rebuild with new sources/tasks, complete evidence tables/plots; historical reports are not evidence for unrun work |
@@ -41,6 +41,6 @@ and decision-stress controls. Full completion is still unproven.
 | N: milestones | Minimum foundation passed; broader milestones partially verified | Complete rows above and report remaining genuine external conditions honestly |
 | O: completion gates | Earlier minimum gate evidence exists; actual source count now six | Final requirement-by-requirement audit remains required; do not mark goal complete yet |
 
-Remote-repository setup is an additional authorized task. GitHub CLI device login has been
-started and is waiting for the user's browser authorization. No remote creation or push is
-claimed until GitHub confirms it. That prerequisite does not block independent Phase 1 work.
+Remote-repository setup is complete: private `https://github.com/nl2992/shiftlab`, `origin`
+configured, `main` tracking `origin/main`, and the historical data-foundation tag pushed.
+Raw/processed data and credentials remain ignored; aggregate evidence is version controlled.

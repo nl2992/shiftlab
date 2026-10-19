@@ -44,6 +44,8 @@ def test_resumable_download_and_receipt(tmp_path):
         def do_GET(self):
             offset = int(self.headers.get("Range", "bytes=0-").split("=")[1].split("-")[0])
             self.send_response(206 if offset else 200)
+            self.send_header("ETag", '"fixture-v1"')
+            self.send_header("Content-Length", str(len(payload) - offset))
             if offset:
                 self.send_header(
                     "Content-Range", f"bytes {offset}-{len(payload) - 1}/{len(payload)}"
@@ -61,6 +63,9 @@ def test_resumable_download_and_receipt(tmp_path):
         path = tmp_path / "payload.bin"
         path.with_suffix(".bin.part").write_bytes(payload[:12])
         url = f"http://127.0.0.1:{server.server_port}/data"
+        path.with_suffix(".bin.part.json").write_text(
+            json.dumps({"url": url, "etag": '"fixture-v1"'})
+        )
         assert download(url, path).read_bytes() == payload
         assert download(url, path, expected_sha256=sha256(path)) == path
         with pytest.raises(ValueError):

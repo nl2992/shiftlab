@@ -1,0 +1,15 @@
+start: "2019-01-01"
+end: "2020-01-01"
+frequency: daily
+domain: DE+DK_1
+min_observed_fraction: 0.9
+target_column: DE_load_actual_entsoe_transparency
+columns:
+  - DE_load_actual_entsoe_transparency
+  - DE_wind_generation_actual
+  - DE_solar_generation_actual
+  - DE_LU_price_day_ahead
+  - DK_1_load_actual_entsoe_transparency
+  - DK_1_wind_generation_actual
+  - DK_1_solar_generation_actual
+  - DK_1_price_day_ahead

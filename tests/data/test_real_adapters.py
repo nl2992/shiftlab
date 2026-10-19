@@ -24,7 +24,7 @@ def test_opsd_utc_units_and_original_offsets(tmp_path, monkeypatch):
     def fetch(url, *args, **kwargs):
         return meta if url.endswith(".json") else csv
 
-    monkeypatch.setattr("shiftlab.data.real.adapters.download", fetch)
+    monkeypatch.setattr("shiftlab.data.real.opsd.download", fetch)
     path = acquire(
         "opsd", {"columns": ["load"], "start": "2018-01-01", "end": "2019-01-01"}, tmp_path / "out"
     )

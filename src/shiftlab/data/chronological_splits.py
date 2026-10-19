@@ -29,6 +29,20 @@ def fit_training_scaler(X: np.ndarray, splits: np.ndarray) -> StandardScaler:
     return StandardScaler().fit(X[mask])
 
 
+def retrospective_event_splits(frame: pd.DataFrame) -> pd.DataFrame:
+    """Shared historical event boundaries with outcome purging; no availability inference."""
+    frame = frame.copy()
+    frame["split"] = assign_splits(frame.event_time)
+    order = ["train", "validation", "calibration", "test"]
+    for index, split in enumerate(order[:-1]):
+        later = frame.loc[frame.split.isin(order[index + 1 :]), "event_time"]
+        if len(later):
+            frame.loc[(frame.split == split) & (frame.label_event_time >= later.min()), "split"] = (
+                "unassigned"
+            )
+    return frame
+
+
 def purge_unavailable_labels(frame: pd.DataFrame) -> pd.DataFrame:
     """Withhold boundary-crossing labels from fitting/calibration partitions.
 

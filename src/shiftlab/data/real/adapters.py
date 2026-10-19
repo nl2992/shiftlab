@@ -49,7 +49,7 @@ def acquire(dataset: str, config: dict, root="data") -> Path:
     if not source["status"].startswith("implemented"):
         raise RuntimeError(f"{dataset}: {source['status']}; no substitute data will be downloaded")
     root = Path(root)
-    if dataset in {"eia", "fred", "monash", "wilds", "criteo", "noaa"}:
+    if dataset in {"eia", "fred", "monash", "wilds", "criteo", "noaa", "opsd"}:
         from importlib import import_module
 
         return import_module(f"shiftlab.data.real.{dataset}").acquire(config, root)
@@ -96,62 +96,6 @@ def acquire(dataset: str, config: dict, root="data") -> Path:
                 frames.append(frame)
         frame = pd.concat(frames, ignore_index=True)
         names = [f"sensor_feature_{i}" for i in range(128)]
-    elif dataset == "opsd":
-        version = "2020-10-06"
-        base = f"https://data.open-power-system-data.org/time_series/{version}/"
-        paths.append(download(base + "datapackage.json", raw / version / "datapackage.json"))
-        path = download(base + "time_series_60min_singleindex.csv", raw / version / "hourly.csv")
-        paths.append(path)
-        columns = config.get(
-            "columns",
-            [
-                "DE_load_actual_entsoe_transparency",
-                "DE_wind_generation_actual",
-                "DE_solar_generation_actual",
-            ],
-        )
-        # A bounded historical subset; raw publisher version retained in full with checksum.
-        original = pd.read_csv(path, usecols=["utc_timestamp", "cet_cest_timestamp", *columns])
-        original = original.loc[
-            (original.utc_timestamp >= config.get("start", "2018-01-01"))
-            & (original.utc_timestamp < config.get("end", "2019-01-01"))
-        ].copy()
-        if len(original) < 10:
-            raise ValueError("OPSD selected period empty/too small")
-        times = (
-            pd.to_datetime(original.utc_timestamp, utc=True)
-            .astype("datetime64[ns, UTC]")
-            .astype("int64")
-            .to_numpy()
-            / 1e9
-        )
-        X = original[columns].to_numpy(float)
-        frame = standardize(
-            X[:-1],
-            X[1:, 0],
-            "DE",
-            f"opsd-{version}",
-            event_time=times[:-1],
-            split=assign_splits(times[:-1]),
-            metadata=[
-                json.dumps(
-                    {
-                        "utc": u,
-                        "cet_cest": v,
-                        "release_latency": "unknown",
-                        "task": "next-hour load",
-                    }
-                )
-                for u, v in zip(
-                    original.utc_timestamp.iloc[:-1], original.cet_cest_timestamp.iloc[:-1]
-                )
-            ],
-        )
-        frame["label_event_time"] = times[1:]
-        names = columns
-        limits.append(
-            "Historical snapshots may contain revisions; no real-time availability guarantee. Source missingness and local offsets retained without filling."
-        )
     elif dataset == "binance":
         from .binance import calendar
 

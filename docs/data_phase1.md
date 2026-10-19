@@ -122,7 +122,9 @@ updates, adversarial schedules, dynamic budgeted oracle controllers and applicat
 optimal interventions are deferred; saved manifests state that no dynamic oracle is implemented.
 Resource-cost metadata do not establish optimal interventions. Capacity, cost-sensitive binary
 and abstention decisions plus forecasting, quantile-response, volatility and threshold tasks
-are implemented. Bounded position sizing and general multiclass decision costs are deferred.
+are implemented. Bounded mean-variance positions and finite multiclass cost matrices are also
+executable when utility inputs are supplied; these remain imposed research objectives, not
+application-grounded cost estimates. Dynamic optimal interventions remain unimplemented.
 
 ## Real acquisition status and limitations
 

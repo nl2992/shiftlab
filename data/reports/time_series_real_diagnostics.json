@@ -56,6 +56,29 @@
             -105102441.35507745,
             -85797679.98497334
           ],
+          "moving_block_sensitivity": [
+            {
+              "block_length_rows": 20,
+              "mse_difference_interval_95pct": [
+                -102629450.77245827,
+                -86965381.656605
+              ]
+            },
+            {
+              "block_length_rows": 41,
+              "mse_difference_interval_95pct": [
+                -105102441.35507745,
+                -85797679.98497334
+              ]
+            },
+            {
+              "block_length_rows": 82,
+              "mse_difference_interval_95pct": [
+                -105015201.6747219,
+                -85570853.93955764
+              ]
+            }
+          ],
           "event_time_start": 1571526000.0,
           "event_time_end": 1577829600.0
         }
@@ -116,6 +139,29 @@
             1019103.114099795,
             34820594.94727926
           ],
+          "moving_block_sensitivity": [
+            {
+              "block_length_rows": 4,
+              "mse_difference_interval_95pct": [
+                667952.9774885321,
+                38106970.70436601
+              ]
+            },
+            {
+              "block_length_rows": 8,
+              "mse_difference_interval_95pct": [
+                1019103.114099795,
+                34820594.94727926
+              ]
+            },
+            {
+              "block_length_rows": 16,
+              "mse_difference_interval_95pct": [
+                2303540.5884555005,
+                33785351.40532879
+              ]
+            }
+          ],
           "event_time_start": 1571443200.0,
           "event_time_end": 1577664000.0
         }
@@ -175,6 +221,29 @@
             -33.81093550478451,
             -19.934544446482203
           ],
+          "moving_block_sensitivity": [
+            {
+              "block_length_rows": 25,
+              "mse_difference_interval_95pct": [
+                -32.40091765925305,
+                -20.74023664318801
+              ]
+            },
+            {
+              "block_length_rows": 50,
+              "mse_difference_interval_95pct": [
+                -33.81093550478451,
+                -19.934544446482203
+              ]
+            },
+            {
+              "block_length_rows": 100,
+              "mse_difference_interval_95pct": [
+                -34.82556397512351,
+                -18.99778450559257
+              ]
+            }
+          ],
           "event_time_start": 1697760000.0,
           "event_time_end": 1704063060.0
         },
@@ -200,6 +269,29 @@
           "moving_block_95pct_interval_mse_difference": [
             -37.80284037926744,
             -21.57895779093367
+          ],
+          "moving_block_sensitivity": [
+            {
+              "block_length_rows": 26,
+              "mse_difference_interval_95pct": [
+                -36.35466522911519,
+                -23.00986728957604
+              ]
+            },
+            {
+              "block_length_rows": 52,
+              "mse_difference_interval_95pct": [
+                -37.80284037926744,
+                -21.57895779093367
+              ]
+            },
+            {
+              "block_length_rows": 104,
+              "mse_difference_interval_95pct": [
+                -40.28171636497278,
+                -20.241194484827346
+              ]
+            }
           ],
           "event_time_start": 1697759640.0,
           "event_time_end": 1704063240.0
@@ -227,6 +319,29 @@
             -50.33447775386318,
             -27.911059710932477
           ],
+          "moving_block_sensitivity": [
+            {
+              "block_length_rows": 26,
+              "mse_difference_interval_95pct": [
+                -46.60111168489326,
+                -30.54457859484981
+              ]
+            },
+            {
+              "block_length_rows": 53,
+              "mse_difference_interval_95pct": [
+                -50.33447775386318,
+                -27.911059710932477
+              ]
+            },
+            {
+              "block_length_rows": 106,
+              "mse_difference_interval_95pct": [
+                -52.294668574332285,
+                -26.208520761278383
+              ]
+            }
+          ],
           "event_time_start": 1697760000.0,
           "event_time_end": 1704065400.0
         }
@@ -237,13 +352,13 @@
     "fit": "train split only, independently within each domain",
     "calibration": "calibration split only; symmetric absolute-residual interval with finite-sample rank",
     "evaluation": "test split only; chronological ordering preserved",
-    "uncertainty": "circular moving-block percentile interval on paired squared-loss differences, block length floor(sqrt(test_n)); descriptive, not a causal or availability guarantee",
+    "uncertainty": "1,000-replicate circular moving-block percentile intervals on paired squared-loss differences; report baseline floor(sqrt(test_n)) and sensitivity at half and twice baseline block length (clipped to test_n); descriptive, not causal or availability guarantees",
     "decision_loss": "not reported: these are continuous forecasting tasks without a sourced, application-grounded utility"
   },
-  "processing_commit": "0aa892acfe7dbffcce7d6195b1521e83e673420a",
-  "source_hash": "5f8e4024fade85677840d90dc8c199591bca9f1ed66fe4fc58023373c8cc12a9",
-  "script_sha256": "d5eb3e250ff4144229e5ab23fbe22de8686d3b9475d9a38af9135c04a9669ef2",
-  "executed_at": "2026-10-19T22:37:58.871547+00:00",
+  "processing_commit": "8840ff36a69657920cd90aa020cd20f1ab91d513",
+  "source_hash": "721ec910d4f669e8660ad81f868737006c283eaf15fd324ad8ac7fc1902ff84d",
+  "script_sha256": "b3c9320350cf4e1bb7213d35a0b06cffbe84ad7cdb91b7798cc936f15dc8a3bc",
+  "executed_at": "2026-10-19T23:25:48.887125+00:00",
   "limitations": [
     "OPSD and NOAA label availability is unknown; train/calibration/test refer to retrospective event-time partitions.",
     "The simple Ridge model is a diagnostic baseline, not a tuned or production forecasting system.",

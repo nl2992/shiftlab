@@ -1,0 +1,81 @@
+[
+  {
+    "year": 2018,
+    "state": "CA",
+    "task": "ACSEmployment",
+    "missing_columns": [],
+    "has_RELSHIPP": false
+  },
+  {
+    "year": 2018,
+    "state": "CA",
+    "task": "ACSIncome",
+    "missing_columns": [],
+    "has_RELSHIPP": false
+  },
+  {
+    "year": 2018,
+    "state": "CA",
+    "task": "ACSMobility",
+    "missing_columns": [],
+    "has_RELSHIPP": false
+  },
+  {
+    "year": 2018,
+    "state": "CA",
+    "task": "ACSPublicCoverage",
+    "missing_columns": [],
+    "has_RELSHIPP": false
+  },
+  {
+    "year": 2018,
+    "state": "CA",
+    "task": "ACSTravelTime",
+    "missing_columns": [],
+    "has_RELSHIPP": false
+  },
+  {
+    "year": 2019,
+    "state": "CA",
+    "task": "ACSEmployment",
+    "missing_columns": [
+      "RELP"
+    ],
+    "has_RELSHIPP": true
+  },
+  {
+    "year": 2019,
+    "state": "CA",
+    "task": "ACSIncome",
+    "missing_columns": [
+      "RELP"
+    ],
+    "has_RELSHIPP": true
+  },
+  {
+    "year": 2019,
+    "state": "CA",
+    "task": "ACSMobility",
+    "missing_columns": [
+      "RELP"
+    ],
+    "has_RELSHIPP": true
+  },
+  {
+    "year": 2019,
+    "state": "CA",
+    "task": "ACSPublicCoverage",
+    "missing_columns": [],
+    "has_RELSHIPP": true
+  },
+  {
+    "year": 2019,
+    "state": "CA",
+    "task": "ACSTravelTime",
+    "missing_columns": [
+      "JWTR",
+      "RELP"
+    ],
+    "has_RELSHIPP": true
+  }
+]

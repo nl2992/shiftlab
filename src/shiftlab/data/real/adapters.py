@@ -49,7 +49,7 @@ def acquire(dataset: str, config: dict, root="data") -> Path:
     if not source["status"].startswith("implemented"):
         raise RuntimeError(f"{dataset}: {source['status']}; no substitute data will be downloaded")
     root = Path(root)
-    if dataset in {"eia", "fred", "monash", "wilds", "criteo", "noaa", "opsd"}:
+    if dataset in {"eia", "fred", "monash", "wilds", "criteo", "noaa", "opsd", "folktables"}:
         from importlib import import_module
 
         return import_module(f"shiftlab.data.real.{dataset}").acquire(config, root)
@@ -143,68 +143,6 @@ def acquire(dataset: str, config: dict, root="data") -> Path:
         )
         frame["label_event_time"] = pd.to_numeric(original[6]).to_numpy()[1:] / divisor
         names = ["open", "high", "low", "close", "volume"]
-    elif dataset == "folktables":
-        try:
-            import folktables
-        except ImportError as exc:
-            raise RuntimeError(
-                "Install uv sync --extra data-sources before Folktables acquisition"
-            ) from exc
-        tasks = config.get("tasks", ["ACSIncome"])
-        if len(tasks) != 1:
-            raise ValueError("Use one Folktables task per version; invoke separately for each task")
-        states = config.get("states", ["NJ"])
-        years = config.get("years", [2018])
-        if not set(tasks) <= {
-            "ACSIncome",
-            "ACSEmployment",
-            "ACSPublicCoverage",
-            "ACSMobility",
-            "ACSTravelTime",
-        }:
-            raise ValueError("Unknown Folktables task")
-        frames = []
-        for year in years:
-            source_acs = folktables.ACSDataSource(
-                survey_year=str(year), horizon="1-Year", survey="person", root_dir=str(raw)
-            )
-            for state in states:
-                records = source_acs.get_data(states=[state], download=True)
-                for task_name in tasks:
-                    task = getattr(folktables, task_name)
-                    task.df_to_pandas(records)[0]
-                    X, y, group = task.df_to_numpy(records)
-                    # Task preprocess determines retained indices; derive matching survey weights.
-                    selected = task._preprocess(records)
-                    weights = selected.PWGTP.to_numpy() if "PWGTP" in selected else np.ones(len(y))
-                    frame = standardize(
-                        X,
-                        y.ravel(),
-                        f"{state}-{year}",
-                        f"acs-{task_name}-{state}-{year}",
-                        weights=weights,
-                        metadata=[
-                            json.dumps(
-                                {
-                                    "survey_year": year,
-                                    "state": state,
-                                    "task": task_name,
-                                    "demographic_group": int(g),
-                                    "within_year_order": "unknown",
-                                }
-                            )
-                            for g in group.ravel()
-                        ],
-                    )
-                    frames.append(frame)
-        frame = pd.concat(frames, ignore_index=True)
-        paths = [p for p in raw.rglob("*") if p.is_file()]
-        if len(tasks) > 1:
-            raise ValueError("Use one task per version to retain a consistent feature schema")
-        names = list(getattr(folktables, tasks[0]).features)
-        limits.append(
-            "Annual ACS microdata are unordered; no individual event/release times or sequential split assigned."
-        )
     elif dataset == "licensed_local":
         path = Path(config["path"])
         if not config.get("license") or not config.get("feature_columns"):

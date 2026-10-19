@@ -1,0 +1,38 @@
+{
+  "executed_at": "2026-10-19T22:04:02.389293+00:00",
+  "processing_commit": "5d0fea8e2fb75b8795df1014f694a7743e84bab2",
+  "script_sha256": "2b87b3ce98ee7c13a3f9f24be91ed71f68be725dae3f182c4027a0e13997e071",
+  "inputs": [
+    {
+      "task": "ACSIncome",
+      "version": "264d65dd2c805f899976",
+      "manifest_sha256": "7c20e60a71a48d2b81e2cd5057504249039a0b007a5d01fd98b6e4185b56e1c8"
+    },
+    {
+      "task": "ACSEmployment",
+      "version": "372a3d412aaed49ac87c",
+      "manifest_sha256": "0d3c0451129e6c77d2c2a0e1a9f6a62a1a8db184cd029e27f1a1deb00e83403b"
+    },
+    {
+      "task": "ACSPublicCoverage",
+      "version": "9f6f0029752297be9b57",
+      "manifest_sha256": "1f0437c9782b74fd49f775d5bee1cd0f0519f67fd2b4b135527421521247c077"
+    },
+    {
+      "task": "ACSMobility",
+      "version": "8c44707fe490b2b66dd8",
+      "manifest_sha256": "ec6aef20e074b6f218c5a993152a16baa1a6632dddb8c069785ce7b9462c6809"
+    },
+    {
+      "task": "ACSTravelTime",
+      "version": "1ba3057f0beb5eecb671",
+      "manifest_sha256": "4a1f0a5cbc90c9980739d3f71d6272fc7c001acb5ba2d86d2eaf8302a1b71880"
+    }
+  ],
+  "model": "Unweighted LogisticRegression(C=1), numeric source coding; imputation/scaling fit only on designated train domains; no later-domain tuning",
+  "utility_origin": "Imposed 5:1 false-negative:false-positive cost; not operational public-policy utility",
+  "weighted_metrics": "Original PWGTP weighted rates, without complex-survey or Bernoulli-sampling variance intervals",
+  "plot": "Unweighted mean of held-out domain weighted accuracies within each comparison kind; descriptive, not pooled person accuracy",
+  "timing": "Annual/coarse domains; no online availability or per-person chronology claimed",
+  "attribution": "Inconclusive: population, survey coding, selection and label composition may confound"
+}

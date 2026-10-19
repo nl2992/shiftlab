@@ -1,0 +1,1652 @@
+{
+  "executed_at": "2026-10-19T17:19:41.876893+00:00",
+  "completed_tasks": [
+    {
+      "task": "ACSIncome",
+      "path": "data\\processed\\folktables\\264d65dd2c805f899976",
+      "manifest": {
+        "schema_version": "1.1.0",
+        "dataset": "folktables",
+        "version": "264d65dd2c805f899976",
+        "publisher": "US Census / Folktables",
+        "source_url": "https://github.com/socialfoundations/folktables",
+        "citation": "Ding et al., Retiring Adult: New Datasets for Fair Machine Learning, NeurIPS 2021",
+        "license": "Folktables code MIT; ACS PUMS US Census public data",
+        "permitted_use": "Respect original source and underlying-series terms; research use only where permitted",
+        "acquired_at": "2026-10-19T17:14:22.856405+00:00",
+        "retrieval_parameters": {
+          "states": [
+            "CA",
+            "NY",
+            "TX",
+            "FL",
+            "NJ"
+          ],
+          "years": [
+            2017,
+            2018
+          ],
+          "density": 0.05,
+          "sampling_seed": 42,
+          "chunk_size": 20000,
+          "max_download_bytes": 80000000,
+          "max_uncompressed_bytes": 600000000,
+          "tasks": [
+            "ACSIncome"
+          ]
+        },
+        "raw_checksums": {
+          "data\\raw\\folktables\\2017\\1-Year\\csv_pca.zip": "d28c43dabd5fdc0abcba3d0941101bf6eceda4a84c1bdd269982adb8b89d6617",
+          "data\\raw\\folktables\\2017\\1-Year\\csv_pny.zip": "4f67ed6b4d7734096da3f44482eeb173bd3e5ddfb398e3c2a83b5703ee77e064",
+          "data\\raw\\folktables\\2017\\1-Year\\csv_ptx.zip": "baf70780407f7f1543db4d2142e5e54af397e1b7b57ad7ad3c44b961db86c386",
+          "data\\raw\\folktables\\2017\\1-Year\\csv_pfl.zip": "1f65677eb653892eec5c1ab0b2cdab2ca2da5d4b27a0a274ecd30b75bcb7e094",
+          "data\\raw\\folktables\\2017\\1-Year\\csv_pnj.zip": "64c361f86a4209b6502b2d9bce225b5cd59241ac76126ced5f25c2fee358ebb1",
+          "data\\raw\\folktables\\2018\\1-Year\\csv_pca.zip": "6194ade52892ddb0e41903f7d3b49399842f08eeebd42e6b19ee8e417affbf79",
+          "data\\raw\\folktables\\2018\\1-Year\\csv_pny.zip": "e7ff5ef8cf81e6422a216dbb33b8d7fc9ecc4df49252cccd4e82f6784db3e80a",
+          "data\\raw\\folktables\\2018\\1-Year\\csv_ptx.zip": "4a337dd96f2b54ece03934a0125c493627abe3b6e6a4de766f96ccc802e8dfa9",
+          "data\\raw\\folktables\\2018\\1-Year\\csv_pfl.zip": "3a5bf5862db3a6b4988d36b7ed7da33fb7772bfd06cd7c731896baa2d7e9f2e1",
+          "data\\raw\\folktables\\2018\\1-Year\\csv_pnj.zip": "d166c2e2fb42ef3e085923f6a59bcdd8710ec3f5034224f6e378257cb25c33ef"
+        },
+        "processing_config": {
+          "states": [
+            "CA",
+            "NY",
+            "TX",
+            "FL",
+            "NJ"
+          ],
+          "years": [
+            2017,
+            2018
+          ],
+          "density": 0.05,
+          "sampling_seed": 42,
+          "chunk_size": 20000,
+          "max_download_bytes": 80000000,
+          "max_uncompressed_bytes": 600000000,
+          "tasks": [
+            "ACSIncome"
+          ]
+        },
+        "code_commit": "5d0fea8e2fb75b8795df1014f694a7743e84bab2",
+        "source_hash": "7f8bc148deb5299f3504c0328547cc48fe774947abd340f0257296dc18b32237",
+        "n_observations": 58061,
+        "feature_names": [
+          "AGEP",
+          "COW",
+          "SCHL",
+          "MAR",
+          "OCCP",
+          "POBP",
+          "RELP",
+          "WKHP",
+          "SEX",
+          "RAC1P"
+        ],
+        "feature_dtype": "float64",
+        "feature_kind": "numeric",
+        "time_coverage": [
+          null,
+          null
+        ],
+        "domains": [
+          "CA-2017",
+          "CA-2018",
+          "FL-2017",
+          "FL-2018",
+          "NJ-2017",
+          "NJ-2018",
+          "NY-2017",
+          "NY-2018",
+          "TX-2017",
+          "TX-2018"
+        ],
+        "missingness": {
+          "target": 0.0,
+          "features": 0.0
+        },
+        "limitations": [
+          "No verified real-world changepoints.",
+          "Annual records unordered; no individual observation, release or label-availability times invented.",
+          "Official Folktables feature postprocessing uses its missing-value coding; original missing feature names preserved per row.",
+          "Original survey weights and demographic values retained; Bernoulli inclusion probability separate from original PWGTP.",
+          "Domain comparison plans are retrospective, not online chronological protocols or verified changepoints."
+        ],
+        "ground_truth": "coarse_domains",
+        "files": {
+          "acs_protocol.json": "c54834b78d904628f69560fc285fcffacbcbbad7139e2e90dceb5e071f7191d9",
+          "observations.parquet": "581fcfe80c9fa54fd7f64f46c5560f2b2e2207dbc44ef2eeb740bc696ea43020"
+        },
+        "oracle_file": null,
+        "environment": {
+          "folktables_version": "0.0.12"
+        }
+      },
+      "quality": {
+        "rows": 58061,
+        "unknown_prediction_times": 58061,
+        "unknown_label_availability": 58061,
+        "missing_targets": 0,
+        "dataset": "folktables",
+        "version": "264d65dd2c805f899976",
+        "feature_missing_rate": 0.0,
+        "feature_infinite": 0,
+        "min_feature": 0.0,
+        "max_feature": 9830.0,
+        "duplicate_feature_target_rows": 183,
+        "ground_truth": "coarse_domains",
+        "attribution": "Inconclusive: descriptive evidence does not identify drift mechanism"
+      },
+      "protocol": {
+        "folktables_version": "0.0.12",
+        "task": "ACSIncome",
+        "features": [
+          "AGEP",
+          "COW",
+          "SCHL",
+          "MAR",
+          "OCCP",
+          "POBP",
+          "RELP",
+          "WKHP",
+          "SEX",
+          "RAC1P"
+        ],
+        "target": "PINCP",
+        "group": "RAC1P",
+        "preprocess_source": "def adult_filter(data):\n    \"\"\"Mimic the filters in place for Adult data.\n\n    Adult documentation notes: Extraction was done by Barry Becker from\n    the 1994 Census database. A set of reasonably clean records was extracted\n    using the following conditions:\n    ((AAGE>16) && (AGI>100) && (AFNLWGT>1)&& (HRSWK>0))\n    \"\"\"\n    df = data\n    df = df[df['AGEP'] > 16]\n    df = df[df['PINCP'] > 100]\n    df = df[df['WKHP'] > 0]\n    df = df[df['PWGTP'] >= 1]\n    return df\n",
+        "target_transform_source": "    target_transform=lambda x: x > 50000,\n",
+        "group_transform_source": "                 group_transform=lambda x: x,\n",
+        "postprocess_source": "    postprocess=lambda x: np.nan_to_num(x, -1),\n",
+        "sampling": {
+          "probability": 0.05,
+          "seed": 42,
+          "rng": "NumPy PCG64, separate SeedSequence(seed,year,state-FIPS); Bernoulli before task filtering"
+        },
+        "comparisons": {
+          "timing": "coarse annual domains; within-year observation order unknown",
+          "comparisons": [
+            {
+              "kind": "within_state_cross_year",
+              "train_domains": [
+                "CA-2017"
+              ],
+              "test_domains": [
+                "CA-2018"
+              ]
+            },
+            {
+              "kind": "within_state_cross_year",
+              "train_domains": [
+                "NY-2017"
+              ],
+              "test_domains": [
+                "NY-2018"
+              ]
+            },
+            {
+              "kind": "within_state_cross_year",
+              "train_domains": [
+                "TX-2017"
+              ],
+              "test_domains": [
+                "TX-2018"
+              ]
+            },
+            {
+              "kind": "within_state_cross_year",
+              "train_domains": [
+                "FL-2017"
+              ],
+              "test_domains": [
+                "FL-2018"
+              ]
+            },
+            {
+              "kind": "within_state_cross_year",
+              "train_domains": [
+                "NJ-2017"
+              ],
+              "test_domains": [
+                "NJ-2018"
+              ]
+            },
+            {
+              "kind": "cross_state_same_year",
+              "train_domains": [
+                "CA-2017"
+              ],
+              "test_domains": [
+                "NY-2017"
+              ]
+            },
+            {
+              "kind": "cross_state_same_year",
+              "train_domains": [
+                "CA-2017"
+              ],
+              "test_domains": [
+                "TX-2017"
+              ]
+            },
+            {
+              "kind": "cross_state_same_year",
+              "train_domains": [
+                "CA-2017"
+              ],
+              "test_domains": [
+                "FL-2017"
+              ]
+            },
+            {
+              "kind": "cross_state_same_year",
+              "train_domains": [
+                "CA-2017"
+              ],
+              "test_domains": [
+                "NJ-2017"
+              ]
+            },
+            {
+              "kind": "cross_state_same_year",
+              "train_domains": [
+                "CA-2018"
+              ],
+              "test_domains": [
+                "NY-2018"
+              ]
+            },
+            {
+              "kind": "cross_state_same_year",
+              "train_domains": [
+                "CA-2018"
+              ],
+              "test_domains": [
+                "TX-2018"
+              ]
+            },
+            {
+              "kind": "cross_state_same_year",
+              "train_domains": [
+                "CA-2018"
+              ],
+              "test_domains": [
+                "FL-2018"
+              ]
+            },
+            {
+              "kind": "cross_state_same_year",
+              "train_domains": [
+                "CA-2018"
+              ],
+              "test_domains": [
+                "NJ-2018"
+              ]
+            },
+            {
+              "kind": "pooled_cross_year",
+              "train_domains": [
+                "CA-2017",
+                "NY-2017",
+                "TX-2017",
+                "FL-2017",
+                "NJ-2017"
+              ],
+              "test_domains": [
+                "CA-2018",
+                "NY-2018",
+                "TX-2018",
+                "FL-2018",
+                "NJ-2018"
+              ]
+            },
+            {
+              "kind": "cross_state_cross_year",
+              "train_domains": [
+                "CA-2017"
+              ],
+              "test_domains": [
+                "NY-2018",
+                "TX-2018",
+                "FL-2018",
+                "NJ-2018"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "task": "ACSEmployment",
+      "path": "data\\processed\\folktables\\372a3d412aaed49ac87c",
+      "manifest": {
+        "schema_version": "1.1.0",
+        "dataset": "folktables",
+        "version": "372a3d412aaed49ac87c",
+        "publisher": "US Census / Folktables",
+        "source_url": "https://github.com/socialfoundations/folktables",
+        "citation": "Ding et al., Retiring Adult: New Datasets for Fair Machine Learning, NeurIPS 2021",
+        "license": "Folktables code MIT; ACS PUMS US Census public data",
+        "permitted_use": "Respect original source and underlying-series terms; research use only where permitted",
+        "acquired_at": "2026-10-19T17:15:48.954789+00:00",
+        "retrieval_parameters": {
+          "states": [
+            "CA",
+            "NY",
+            "TX",
+            "FL",
+            "NJ"
+          ],
+          "years": [
+            2017,
+            2018
+          ],
+          "density": 0.05,
+          "sampling_seed": 42,
+          "chunk_size": 20000,
+          "max_download_bytes": 80000000,
+          "max_uncompressed_bytes": 600000000,
+          "tasks": [
+            "ACSEmployment"
+          ]
+        },
+        "raw_checksums": {
+          "data\\raw\\folktables\\2017\\1-Year\\csv_pca.zip": "d28c43dabd5fdc0abcba3d0941101bf6eceda4a84c1bdd269982adb8b89d6617",
+          "data\\raw\\folktables\\2017\\1-Year\\csv_pny.zip": "4f67ed6b4d7734096da3f44482eeb173bd3e5ddfb398e3c2a83b5703ee77e064",
+          "data\\raw\\folktables\\2017\\1-Year\\csv_ptx.zip": "baf70780407f7f1543db4d2142e5e54af397e1b7b57ad7ad3c44b961db86c386",
+          "data\\raw\\folktables\\2017\\1-Year\\csv_pfl.zip": "1f65677eb653892eec5c1ab0b2cdab2ca2da5d4b27a0a274ecd30b75bcb7e094",
+          "data\\raw\\folktables\\2017\\1-Year\\csv_pnj.zip": "64c361f86a4209b6502b2d9bce225b5cd59241ac76126ced5f25c2fee358ebb1",
+          "data\\raw\\folktables\\2018\\1-Year\\csv_pca.zip": "6194ade52892ddb0e41903f7d3b49399842f08eeebd42e6b19ee8e417affbf79",
+          "data\\raw\\folktables\\2018\\1-Year\\csv_pny.zip": "e7ff5ef8cf81e6422a216dbb33b8d7fc9ecc4df49252cccd4e82f6784db3e80a",
+          "data\\raw\\folktables\\2018\\1-Year\\csv_ptx.zip": "4a337dd96f2b54ece03934a0125c493627abe3b6e6a4de766f96ccc802e8dfa9",
+          "data\\raw\\folktables\\2018\\1-Year\\csv_pfl.zip": "3a5bf5862db3a6b4988d36b7ed7da33fb7772bfd06cd7c731896baa2d7e9f2e1",
+          "data\\raw\\folktables\\2018\\1-Year\\csv_pnj.zip": "d166c2e2fb42ef3e085923f6a59bcdd8710ec3f5034224f6e378257cb25c33ef"
+        },
+        "processing_config": {
+          "states": [
+            "CA",
+            "NY",
+            "TX",
+            "FL",
+            "NJ"
+          ],
+          "years": [
+            2017,
+            2018
+          ],
+          "density": 0.05,
+          "sampling_seed": 42,
+          "chunk_size": 20000,
+          "max_download_bytes": 80000000,
+          "max_uncompressed_bytes": 600000000,
+          "tasks": [
+            "ACSEmployment"
+          ]
+        },
+        "code_commit": "5d0fea8e2fb75b8795df1014f694a7743e84bab2",
+        "source_hash": "7f8bc148deb5299f3504c0328547cc48fe774947abd340f0257296dc18b32237",
+        "n_observations": 113701,
+        "feature_names": [
+          "AGEP",
+          "SCHL",
+          "MAR",
+          "RELP",
+          "DIS",
+          "ESP",
+          "CIT",
+          "MIG",
+          "MIL",
+          "ANC",
+          "NATIVITY",
+          "DEAR",
+          "DEYE",
+          "DREM",
+          "SEX",
+          "RAC1P"
+        ],
+        "feature_dtype": "float64",
+        "feature_kind": "numeric",
+        "time_coverage": [
+          null,
+          null
+        ],
+        "domains": [
+          "CA-2017",
+          "CA-2018",
+          "FL-2017",
+          "FL-2018",
+          "NJ-2017",
+          "NJ-2018",
+          "NY-2017",
+          "NY-2018",
+          "TX-2017",
+          "TX-2018"
+        ],
+        "missingness": {
+          "target": 0.0,
+          "features": 0.0
+        },
+        "limitations": [
+          "No verified real-world changepoints.",
+          "Annual records unordered; no individual observation, release or label-availability times invented.",
+          "Official Folktables feature postprocessing uses its missing-value coding; original missing feature names preserved per row.",
+          "Original survey weights and demographic values retained; Bernoulli inclusion probability separate from original PWGTP.",
+          "Domain comparison plans are retrospective, not online chronological protocols or verified changepoints."
+        ],
+        "ground_truth": "coarse_domains",
+        "files": {
+          "acs_protocol.json": "420d102f92816b24095ef079cae789c25b9f0b3660972260f5f08dd63b74c504",
+          "observations.parquet": "932957852609c35dfd718e3f62993684311017b64f8715ace410ccb1fb0089df"
+        },
+        "oracle_file": null,
+        "environment": {
+          "folktables_version": "0.0.12"
+        }
+      },
+      "quality": {
+        "rows": 113701,
+        "unknown_prediction_times": 113701,
+        "unknown_label_availability": 113701,
+        "missing_targets": 0,
+        "dataset": "folktables",
+        "version": "372a3d412aaed49ac87c",
+        "feature_missing_rate": 0.0,
+        "feature_infinite": 0,
+        "min_feature": 0.0,
+        "max_feature": 95.0,
+        "duplicate_feature_target_rows": 36973,
+        "ground_truth": "coarse_domains",
+        "attribution": "Inconclusive: descriptive evidence does not identify drift mechanism"
+      },
+      "protocol": {
+        "folktables_version": "0.0.12",
+        "task": "ACSEmployment",
+        "features": [
+          "AGEP",
+          "SCHL",
+          "MAR",
+          "RELP",
+          "DIS",
+          "ESP",
+          "CIT",
+          "MIG",
+          "MIL",
+          "ANC",
+          "NATIVITY",
+          "DEAR",
+          "DEYE",
+          "DREM",
+          "SEX",
+          "RAC1P"
+        ],
+        "target": "ESR",
+        "group": "RAC1P",
+        "preprocess_source": "    preprocess=lambda x: x,\n",
+        "target_transform_source": "    target_transform=lambda x: x == 1,\n",
+        "group_transform_source": "                 group_transform=lambda x: x,\n",
+        "postprocess_source": "    postprocess=lambda x: np.nan_to_num(x, -1),\n",
+        "sampling": {
+          "probability": 0.05,
+          "seed": 42,
+          "rng": "NumPy PCG64, separate SeedSequence(seed,year,state-FIPS); Bernoulli before task filtering"
+        },
+        "comparisons": {
+          "timing": "coarse annual domains; within-year observation order unknown",
+          "comparisons": [
+            {
+              "kind": "within_state_cross_year",
+              "train_domains": [
+                "CA-2017"
+              ],
+              "test_domains": [
+                "CA-2018"
+              ]
+            },
+            {
+              "kind": "within_state_cross_year",
+              "train_domains": [
+                "NY-2017"
+              ],
+              "test_domains": [
+                "NY-2018"
+              ]
+            },
+            {
+              "kind": "within_state_cross_year",
+              "train_domains": [
+                "TX-2017"
+              ],
+              "test_domains": [
+                "TX-2018"
+              ]
+            },
+            {
+              "kind": "within_state_cross_year",
+              "train_domains": [
+                "FL-2017"
+              ],
+              "test_domains": [
+                "FL-2018"
+              ]
+            },
+            {
+              "kind": "within_state_cross_year",
+              "train_domains": [
+                "NJ-2017"
+              ],
+              "test_domains": [
+                "NJ-2018"
+              ]
+            },
+            {
+              "kind": "cross_state_same_year",
+              "train_domains": [
+                "CA-2017"
+              ],
+              "test_domains": [
+                "NY-2017"
+              ]
+            },
+            {
+              "kind": "cross_state_same_year",
+              "train_domains": [
+                "CA-2017"
+              ],
+              "test_domains": [
+                "TX-2017"
+              ]
+            },
+            {
+              "kind": "cross_state_same_year",
+              "train_domains": [
+                "CA-2017"
+              ],
+              "test_domains": [
+                "FL-2017"
+              ]
+            },
+            {
+              "kind": "cross_state_same_year",
+              "train_domains": [
+                "CA-2017"
+              ],
+              "test_domains": [
+                "NJ-2017"
+              ]
+            },
+            {
+              "kind": "cross_state_same_year",
+              "train_domains": [
+                "CA-2018"
+              ],
+              "test_domains": [
+                "NY-2018"
+              ]
+            },
+            {
+              "kind": "cross_state_same_year",
+              "train_domains": [
+                "CA-2018"
+              ],
+              "test_domains": [
+                "TX-2018"
+              ]
+            },
+            {
+              "kind": "cross_state_same_year",
+              "train_domains": [
+                "CA-2018"
+              ],
+              "test_domains": [
+                "FL-2018"
+              ]
+            },
+            {
+              "kind": "cross_state_same_year",
+              "train_domains": [
+                "CA-2018"
+              ],
+              "test_domains": [
+                "NJ-2018"
+              ]
+            },
+            {
+              "kind": "pooled_cross_year",
+              "train_domains": [
+                "CA-2017",
+                "NY-2017",
+                "TX-2017",
+                "FL-2017",
+                "NJ-2017"
+              ],
+              "test_domains": [
+                "CA-2018",
+                "NY-2018",
+                "TX-2018",
+                "FL-2018",
+                "NJ-2018"
+              ]
+            },
+            {
+              "kind": "cross_state_cross_year",
+              "train_domains": [
+                "CA-2017"
+              ],
+              "test_domains": [
+                "NY-2018",
+                "TX-2018",
+                "FL-2018",
+                "NJ-2018"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "task": "ACSPublicCoverage",
+      "path": "data\\processed\\folktables\\9f6f0029752297be9b57",
+      "manifest": {
+        "schema_version": "1.1.0",
+        "dataset": "folktables",
+        "version": "9f6f0029752297be9b57",
+        "publisher": "US Census / Folktables",
+        "source_url": "https://github.com/socialfoundations/folktables",
+        "citation": "Ding et al., Retiring Adult: New Datasets for Fair Machine Learning, NeurIPS 2021",
+        "license": "Folktables code MIT; ACS PUMS US Census public data",
+        "permitted_use": "Respect original source and underlying-series terms; research use only where permitted",
+        "acquired_at": "2026-10-19T17:17:06.344748+00:00",
+        "retrieval_parameters": {
+          "states": [
+            "CA",
+            "NY",
+            "TX",
+            "FL",
+            "NJ"
+          ],
+          "years": [
+            2017,
+            2018
+          ],
+          "density": 0.05,
+          "sampling_seed": 42,
+          "chunk_size": 20000,
+          "max_download_bytes": 80000000,
+          "max_uncompressed_bytes": 600000000,
+          "tasks": [
+            "ACSPublicCoverage"
+          ]
+        },
+        "raw_checksums": {
+          "data\\raw\\folktables\\2017\\1-Year\\csv_pca.zip": "d28c43dabd5fdc0abcba3d0941101bf6eceda4a84c1bdd269982adb8b89d6617",
+          "data\\raw\\folktables\\2017\\1-Year\\csv_pny.zip": "4f67ed6b4d7734096da3f44482eeb173bd3e5ddfb398e3c2a83b5703ee77e064",
+          "data\\raw\\folktables\\2017\\1-Year\\csv_ptx.zip": "baf70780407f7f1543db4d2142e5e54af397e1b7b57ad7ad3c44b961db86c386",
+          "data\\raw\\folktables\\2017\\1-Year\\csv_pfl.zip": "1f65677eb653892eec5c1ab0b2cdab2ca2da5d4b27a0a274ecd30b75bcb7e094",
+          "data\\raw\\folktables\\2017\\1-Year\\csv_pnj.zip": "64c361f86a4209b6502b2d9bce225b5cd59241ac76126ced5f25c2fee358ebb1",
+          "data\\raw\\folktables\\2018\\1-Year\\csv_pca.zip": "6194ade52892ddb0e41903f7d3b49399842f08eeebd42e6b19ee8e417affbf79",
+          "data\\raw\\folktables\\2018\\1-Year\\csv_pny.zip": "e7ff5ef8cf81e6422a216dbb33b8d7fc9ecc4df49252cccd4e82f6784db3e80a",
+          "data\\raw\\folktables\\2018\\1-Year\\csv_ptx.zip": "4a337dd96f2b54ece03934a0125c493627abe3b6e6a4de766f96ccc802e8dfa9",
+          "data\\raw\\folktables\\2018\\1-Year\\csv_pfl.zip": "3a5bf5862db3a6b4988d36b7ed7da33fb7772bfd06cd7c731896baa2d7e9f2e1",
+          "data\\raw\\folktables\\2018\\1-Year\\csv_pnj.zip": "d166c2e2fb42ef3e085923f6a59bcdd8710ec3f5034224f6e378257cb25c33ef"
+        },
+        "processing_config": {
+          "states": [
+            "CA",
+            "NY",
+            "TX",
+            "FL",
+            "NJ"
+          ],
+          "years": [
+            2017,
+            2018
+          ],
+          "density": 0.05,
+          "sampling_seed": 42,
+          "chunk_size": 20000,
+          "max_download_bytes": 80000000,
+          "max_uncompressed_bytes": 600000000,
+          "tasks": [
+            "ACSPublicCoverage"
+          ]
+        },
+        "code_commit": "5d0fea8e2fb75b8795df1014f694a7743e84bab2",
+        "source_hash": "7f8bc148deb5299f3504c0328547cc48fe774947abd340f0257296dc18b32237",
+        "n_observations": 40770,
+        "feature_names": [
+          "AGEP",
+          "SCHL",
+          "MAR",
+          "SEX",
+          "DIS",
+          "ESP",
+          "CIT",
+          "MIG",
+          "MIL",
+          "ANC",
+          "NATIVITY",
+          "DEAR",
+          "DEYE",
+          "DREM",
+          "PINCP",
+          "ESR",
+          "ST",
+          "FER",
+          "RAC1P"
+        ],
+        "feature_dtype": "float64",
+        "feature_kind": "numeric",
+        "time_coverage": [
+          null,
+          null
+        ],
+        "domains": [
+          "CA-2017",
+          "CA-2018",
+          "FL-2017",
+          "FL-2018",
+          "NJ-2017",
+          "NJ-2018",
+          "NY-2017",
+          "NY-2018",
+          "TX-2017",
+          "TX-2018"
+        ],
+        "missingness": {
+          "target": 0.0,
+          "features": 0.0
+        },
+        "limitations": [
+          "No verified real-world changepoints.",
+          "Annual records unordered; no individual observation, release or label-availability times invented.",
+          "Official Folktables feature postprocessing uses its missing-value coding; original missing feature names preserved per row.",
+          "Original survey weights and demographic values retained; Bernoulli inclusion probability separate from original PWGTP.",
+          "Domain comparison plans are retrospective, not online chronological protocols or verified changepoints."
+        ],
+        "ground_truth": "coarse_domains",
+        "files": {
+          "acs_protocol.json": "62ca5b23145bc5d7e8983feddab4d69e61beecba1aa21a62e68e7c8fa1a149b1",
+          "observations.parquet": "7532e2d5a0e98bee8bda96fcd39edde1fafbc5fcf835d136ea086509f42acb3e"
+        },
+        "oracle_file": null,
+        "environment": {
+          "folktables_version": "0.0.12"
+        }
+      },
+      "quality": {
+        "rows": 40770,
+        "unknown_prediction_times": 40770,
+        "unknown_label_availability": 40770,
+        "missing_targets": 0,
+        "dataset": "folktables",
+        "version": "9f6f0029752297be9b57",
+        "feature_missing_rate": 0.0,
+        "feature_infinite": 0,
+        "min_feature": -8300.0,
+        "max_feature": 30000.0,
+        "duplicate_feature_target_rows": 1922,
+        "ground_truth": "coarse_domains",
+        "attribution": "Inconclusive: descriptive evidence does not identify drift mechanism"
+      },
+      "protocol": {
+        "folktables_version": "0.0.12",
+        "task": "ACSPublicCoverage",
+        "features": [
+          "AGEP",
+          "SCHL",
+          "MAR",
+          "SEX",
+          "DIS",
+          "ESP",
+          "CIT",
+          "MIG",
+          "MIL",
+          "ANC",
+          "NATIVITY",
+          "DEAR",
+          "DEYE",
+          "DREM",
+          "PINCP",
+          "ESR",
+          "ST",
+          "FER",
+          "RAC1P"
+        ],
+        "target": "PUBCOV",
+        "group": "RAC1P",
+        "preprocess_source": "def public_coverage_filter(data):\n    \"\"\"\n    Filters for the public health insurance prediction task; focus on low income Americans, and those not eligible for Medicare\n    \"\"\"\n    df = data\n    df = df[df['AGEP'] < 65]\n    df = df[df['PINCP'] <= 30000]\n    return df\n",
+        "target_transform_source": "    target_transform=lambda x: x == 1,\n",
+        "group_transform_source": "                 group_transform=lambda x: x,\n",
+        "postprocess_source": "    postprocess=lambda x: np.nan_to_num(x, -1),\n",
+        "sampling": {
+          "probability": 0.05,
+          "seed": 42,
+          "rng": "NumPy PCG64, separate SeedSequence(seed,year,state-FIPS); Bernoulli before task filtering"
+        },
+        "comparisons": {
+          "timing": "coarse annual domains; within-year observation order unknown",
+          "comparisons": [
+            {
+              "kind": "within_state_cross_year",
+              "train_domains": [
+                "CA-2017"
+              ],
+              "test_domains": [
+                "CA-2018"
+              ]
+            },
+            {
+              "kind": "within_state_cross_year",
+              "train_domains": [
+                "NY-2017"
+              ],
+              "test_domains": [
+                "NY-2018"
+              ]
+            },
+            {
+              "kind": "within_state_cross_year",
+              "train_domains": [
+                "TX-2017"
+              ],
+              "test_domains": [
+                "TX-2018"
+              ]
+            },
+            {
+              "kind": "within_state_cross_year",
+              "train_domains": [
+                "FL-2017"
+              ],
+              "test_domains": [
+                "FL-2018"
+              ]
+            },
+            {
+              "kind": "within_state_cross_year",
+              "train_domains": [
+                "NJ-2017"
+              ],
+              "test_domains": [
+                "NJ-2018"
+              ]
+            },
+            {
+              "kind": "cross_state_same_year",
+              "train_domains": [
+                "CA-2017"
+              ],
+              "test_domains": [
+                "NY-2017"
+              ]
+            },
+            {
+              "kind": "cross_state_same_year",
+              "train_domains": [
+                "CA-2017"
+              ],
+              "test_domains": [
+                "TX-2017"
+              ]
+            },
+            {
+              "kind": "cross_state_same_year",
+              "train_domains": [
+                "CA-2017"
+              ],
+              "test_domains": [
+                "FL-2017"
+              ]
+            },
+            {
+              "kind": "cross_state_same_year",
+              "train_domains": [
+                "CA-2017"
+              ],
+              "test_domains": [
+                "NJ-2017"
+              ]
+            },
+            {
+              "kind": "cross_state_same_year",
+              "train_domains": [
+                "CA-2018"
+              ],
+              "test_domains": [
+                "NY-2018"
+              ]
+            },
+            {
+              "kind": "cross_state_same_year",
+              "train_domains": [
+                "CA-2018"
+              ],
+              "test_domains": [
+                "TX-2018"
+              ]
+            },
+            {
+              "kind": "cross_state_same_year",
+              "train_domains": [
+                "CA-2018"
+              ],
+              "test_domains": [
+                "FL-2018"
+              ]
+            },
+            {
+              "kind": "cross_state_same_year",
+              "train_domains": [
+                "CA-2018"
+              ],
+              "test_domains": [
+                "NJ-2018"
+              ]
+            },
+            {
+              "kind": "pooled_cross_year",
+              "train_domains": [
+                "CA-2017",
+                "NY-2017",
+                "TX-2017",
+                "FL-2017",
+                "NJ-2017"
+              ],
+              "test_domains": [
+                "CA-2018",
+                "NY-2018",
+                "TX-2018",
+                "FL-2018",
+                "NJ-2018"
+              ]
+            },
+            {
+              "kind": "cross_state_cross_year",
+              "train_domains": [
+                "CA-2017"
+              ],
+              "test_domains": [
+                "NY-2018",
+                "TX-2018",
+                "FL-2018",
+                "NJ-2018"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "task": "ACSMobility",
+      "path": "data\\processed\\folktables\\8c44707fe490b2b66dd8",
+      "manifest": {
+        "schema_version": "1.1.0",
+        "dataset": "folktables",
+        "version": "8c44707fe490b2b66dd8",
+        "publisher": "US Census / Folktables",
+        "source_url": "https://github.com/socialfoundations/folktables",
+        "citation": "Ding et al., Retiring Adult: New Datasets for Fair Machine Learning, NeurIPS 2021",
+        "license": "Folktables code MIT; ACS PUMS US Census public data",
+        "permitted_use": "Respect original source and underlying-series terms; research use only where permitted",
+        "acquired_at": "2026-10-19T17:18:21.241098+00:00",
+        "retrieval_parameters": {
+          "states": [
+            "CA",
+            "NY",
+            "TX",
+            "FL",
+            "NJ"
+          ],
+          "years": [
+            2017,
+            2018
+          ],
+          "density": 0.05,
+          "sampling_seed": 42,
+          "chunk_size": 20000,
+          "max_download_bytes": 80000000,
+          "max_uncompressed_bytes": 600000000,
+          "tasks": [
+            "ACSMobility"
+          ]
+        },
+        "raw_checksums": {
+          "data\\raw\\folktables\\2017\\1-Year\\csv_pca.zip": "d28c43dabd5fdc0abcba3d0941101bf6eceda4a84c1bdd269982adb8b89d6617",
+          "data\\raw\\folktables\\2017\\1-Year\\csv_pny.zip": "4f67ed6b4d7734096da3f44482eeb173bd3e5ddfb398e3c2a83b5703ee77e064",
+          "data\\raw\\folktables\\2017\\1-Year\\csv_ptx.zip": "baf70780407f7f1543db4d2142e5e54af397e1b7b57ad7ad3c44b961db86c386",
+          "data\\raw\\folktables\\2017\\1-Year\\csv_pfl.zip": "1f65677eb653892eec5c1ab0b2cdab2ca2da5d4b27a0a274ecd30b75bcb7e094",
+          "data\\raw\\folktables\\2017\\1-Year\\csv_pnj.zip": "64c361f86a4209b6502b2d9bce225b5cd59241ac76126ced5f25c2fee358ebb1",
+          "data\\raw\\folktables\\2018\\1-Year\\csv_pca.zip": "6194ade52892ddb0e41903f7d3b49399842f08eeebd42e6b19ee8e417affbf79",
+          "data\\raw\\folktables\\2018\\1-Year\\csv_pny.zip": "e7ff5ef8cf81e6422a216dbb33b8d7fc9ecc4df49252cccd4e82f6784db3e80a",
+          "data\\raw\\folktables\\2018\\1-Year\\csv_ptx.zip": "4a337dd96f2b54ece03934a0125c493627abe3b6e6a4de766f96ccc802e8dfa9",
+          "data\\raw\\folktables\\2018\\1-Year\\csv_pfl.zip": "3a5bf5862db3a6b4988d36b7ed7da33fb7772bfd06cd7c731896baa2d7e9f2e1",
+          "data\\raw\\folktables\\2018\\1-Year\\csv_pnj.zip": "d166c2e2fb42ef3e085923f6a59bcdd8710ec3f5034224f6e378257cb25c33ef"
+        },
+        "processing_config": {
+          "states": [
+            "CA",
+            "NY",
+            "TX",
+            "FL",
+            "NJ"
+          ],
+          "years": [
+            2017,
+            2018
+          ],
+          "density": 0.05,
+          "sampling_seed": 42,
+          "chunk_size": 20000,
+          "max_download_bytes": 80000000,
+          "max_uncompressed_bytes": 600000000,
+          "tasks": [
+            "ACSMobility"
+          ]
+        },
+        "code_commit": "5d0fea8e2fb75b8795df1014f694a7743e84bab2",
+        "source_hash": "7f8bc148deb5299f3504c0328547cc48fe774947abd340f0257296dc18b32237",
+        "n_observations": 22364,
+        "feature_names": [
+          "AGEP",
+          "SCHL",
+          "MAR",
+          "SEX",
+          "DIS",
+          "ESP",
+          "CIT",
+          "MIL",
+          "ANC",
+          "NATIVITY",
+          "RELP",
+          "DEAR",
+          "DEYE",
+          "DREM",
+          "RAC1P",
+          "GCL",
+          "COW",
+          "ESR",
+          "WKHP",
+          "JWMNP",
+          "PINCP"
+        ],
+        "feature_dtype": "float64",
+        "feature_kind": "numeric",
+        "time_coverage": [
+          null,
+          null
+        ],
+        "domains": [
+          "CA-2017",
+          "CA-2018",
+          "FL-2017",
+          "FL-2018",
+          "NJ-2017",
+          "NJ-2018",
+          "NY-2017",
+          "NY-2018",
+          "TX-2017",
+          "TX-2018"
+        ],
+        "missingness": {
+          "target": 0.0,
+          "features": 0.0
+        },
+        "limitations": [
+          "No verified real-world changepoints.",
+          "Annual records unordered; no individual observation, release or label-availability times invented.",
+          "Official Folktables feature postprocessing uses its missing-value coding; original missing feature names preserved per row.",
+          "Original survey weights and demographic values retained; Bernoulli inclusion probability separate from original PWGTP.",
+          "Domain comparison plans are retrospective, not online chronological protocols or verified changepoints."
+        ],
+        "ground_truth": "coarse_domains",
+        "files": {
+          "acs_protocol.json": "310e7b558d6ba7d8eca2beb17c37632813b2057f3591beb79f98ed6c7d944629",
+          "observations.parquet": "296dbf1c61c0cd6e36a7dd887a0d3dc0c3455630d2c34942152f120d45a96e4c"
+        },
+        "oracle_file": null,
+        "environment": {
+          "folktables_version": "0.0.12"
+        }
+      },
+      "quality": {
+        "rows": 22364,
+        "unknown_prediction_times": 22364,
+        "unknown_label_availability": 22364,
+        "missing_targets": 0,
+        "dataset": "folktables",
+        "version": "8c44707fe490b2b66dd8",
+        "feature_missing_rate": 0.0,
+        "feature_infinite": 0,
+        "min_feature": -6700.0,
+        "max_feature": 866000.0,
+        "duplicate_feature_target_rows": 515,
+        "ground_truth": "coarse_domains",
+        "attribution": "Inconclusive: descriptive evidence does not identify drift mechanism"
+      },
+      "protocol": {
+        "folktables_version": "0.0.12",
+        "task": "ACSMobility",
+        "features": [
+          "AGEP",
+          "SCHL",
+          "MAR",
+          "SEX",
+          "DIS",
+          "ESP",
+          "CIT",
+          "MIL",
+          "ANC",
+          "NATIVITY",
+          "RELP",
+          "DEAR",
+          "DEYE",
+          "DREM",
+          "RAC1P",
+          "GCL",
+          "COW",
+          "ESR",
+          "WKHP",
+          "JWMNP",
+          "PINCP"
+        ],
+        "target": "MIG",
+        "group": "RAC1P",
+        "preprocess_source": "    preprocess=lambda x: x.drop(x.loc[(x['AGEP'] <= 18) | (x['AGEP'] >= 35)].index),\n",
+        "target_transform_source": "    target_transform=lambda x: x == 1,\n",
+        "group_transform_source": "                 group_transform=lambda x: x,\n",
+        "postprocess_source": "    postprocess=lambda x: np.nan_to_num(x, -1),\n",
+        "sampling": {
+          "probability": 0.05,
+          "seed": 42,
+          "rng": "NumPy PCG64, separate SeedSequence(seed,year,state-FIPS); Bernoulli before task filtering"
+        },
+        "comparisons": {
+          "timing": "coarse annual domains; within-year observation order unknown",
+          "comparisons": [
+            {
+              "kind": "within_state_cross_year",
+              "train_domains": [
+                "CA-2017"
+              ],
+              "test_domains": [
+                "CA-2018"
+              ]
+            },
+            {
+              "kind": "within_state_cross_year",
+              "train_domains": [
+                "NY-2017"
+              ],
+              "test_domains": [
+                "NY-2018"
+              ]
+            },
+            {
+              "kind": "within_state_cross_year",
+              "train_domains": [
+                "TX-2017"
+              ],
+              "test_domains": [
+                "TX-2018"
+              ]
+            },
+            {
+              "kind": "within_state_cross_year",
+              "train_domains": [
+                "FL-2017"
+              ],
+              "test_domains": [
+                "FL-2018"
+              ]
+            },
+            {
+              "kind": "within_state_cross_year",
+              "train_domains": [
+                "NJ-2017"
+              ],
+              "test_domains": [
+                "NJ-2018"
+              ]
+            },
+            {
+              "kind": "cross_state_same_year",
+              "train_domains": [
+                "CA-2017"
+              ],
+              "test_domains": [
+                "NY-2017"
+              ]
+            },
+            {
+              "kind": "cross_state_same_year",
+              "train_domains": [
+                "CA-2017"
+              ],
+              "test_domains": [
+                "TX-2017"
+              ]
+            },
+            {
+              "kind": "cross_state_same_year",
+              "train_domains": [
+                "CA-2017"
+              ],
+              "test_domains": [
+                "FL-2017"
+              ]
+            },
+            {
+              "kind": "cross_state_same_year",
+              "train_domains": [
+                "CA-2017"
+              ],
+              "test_domains": [
+                "NJ-2017"
+              ]
+            },
+            {
+              "kind": "cross_state_same_year",
+              "train_domains": [
+                "CA-2018"
+              ],
+              "test_domains": [
+                "NY-2018"
+              ]
+            },
+            {
+              "kind": "cross_state_same_year",
+              "train_domains": [
+                "CA-2018"
+              ],
+              "test_domains": [
+                "TX-2018"
+              ]
+            },
+            {
+              "kind": "cross_state_same_year",
+              "train_domains": [
+                "CA-2018"
+              ],
+              "test_domains": [
+                "FL-2018"
+              ]
+            },
+            {
+              "kind": "cross_state_same_year",
+              "train_domains": [
+                "CA-2018"
+              ],
+              "test_domains": [
+                "NJ-2018"
+              ]
+            },
+            {
+              "kind": "pooled_cross_year",
+              "train_domains": [
+                "CA-2017",
+                "NY-2017",
+                "TX-2017",
+                "FL-2017",
+                "NJ-2017"
+              ],
+              "test_domains": [
+                "CA-2018",
+                "NY-2018",
+                "TX-2018",
+                "FL-2018",
+                "NJ-2018"
+              ]
+            },
+            {
+              "kind": "cross_state_cross_year",
+              "train_domains": [
+                "CA-2017"
+              ],
+              "test_domains": [
+                "NY-2018",
+                "TX-2018",
+                "FL-2018",
+                "NJ-2018"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "task": "ACSTravelTime",
+      "path": "data\\processed\\folktables\\1ba3057f0beb5eecb671",
+      "manifest": {
+        "schema_version": "1.1.0",
+        "dataset": "folktables",
+        "version": "1ba3057f0beb5eecb671",
+        "publisher": "US Census / Folktables",
+        "source_url": "https://github.com/socialfoundations/folktables",
+        "citation": "Ding et al., Retiring Adult: New Datasets for Fair Machine Learning, NeurIPS 2021",
+        "license": "Folktables code MIT; ACS PUMS US Census public data",
+        "permitted_use": "Respect original source and underlying-series terms; research use only where permitted",
+        "acquired_at": "2026-10-19T17:19:41.634265+00:00",
+        "retrieval_parameters": {
+          "states": [
+            "CA",
+            "NY",
+            "TX",
+            "FL",
+            "NJ"
+          ],
+          "years": [
+            2017,
+            2018
+          ],
+          "density": 0.05,
+          "sampling_seed": 42,
+          "chunk_size": 20000,
+          "max_download_bytes": 80000000,
+          "max_uncompressed_bytes": 600000000,
+          "tasks": [
+            "ACSTravelTime"
+          ]
+        },
+        "raw_checksums": {
+          "data\\raw\\folktables\\2017\\1-Year\\csv_pca.zip": "d28c43dabd5fdc0abcba3d0941101bf6eceda4a84c1bdd269982adb8b89d6617",
+          "data\\raw\\folktables\\2017\\1-Year\\csv_pny.zip": "4f67ed6b4d7734096da3f44482eeb173bd3e5ddfb398e3c2a83b5703ee77e064",
+          "data\\raw\\folktables\\2017\\1-Year\\csv_ptx.zip": "baf70780407f7f1543db4d2142e5e54af397e1b7b57ad7ad3c44b961db86c386",
+          "data\\raw\\folktables\\2017\\1-Year\\csv_pfl.zip": "1f65677eb653892eec5c1ab0b2cdab2ca2da5d4b27a0a274ecd30b75bcb7e094",
+          "data\\raw\\folktables\\2017\\1-Year\\csv_pnj.zip": "64c361f86a4209b6502b2d9bce225b5cd59241ac76126ced5f25c2fee358ebb1",
+          "data\\raw\\folktables\\2018\\1-Year\\csv_pca.zip": "6194ade52892ddb0e41903f7d3b49399842f08eeebd42e6b19ee8e417affbf79",
+          "data\\raw\\folktables\\2018\\1-Year\\csv_pny.zip": "e7ff5ef8cf81e6422a216dbb33b8d7fc9ecc4df49252cccd4e82f6784db3e80a",
+          "data\\raw\\folktables\\2018\\1-Year\\csv_ptx.zip": "4a337dd96f2b54ece03934a0125c493627abe3b6e6a4de766f96ccc802e8dfa9",
+          "data\\raw\\folktables\\2018\\1-Year\\csv_pfl.zip": "3a5bf5862db3a6b4988d36b7ed7da33fb7772bfd06cd7c731896baa2d7e9f2e1",
+          "data\\raw\\folktables\\2018\\1-Year\\csv_pnj.zip": "d166c2e2fb42ef3e085923f6a59bcdd8710ec3f5034224f6e378257cb25c33ef"
+        },
+        "processing_config": {
+          "states": [
+            "CA",
+            "NY",
+            "TX",
+            "FL",
+            "NJ"
+          ],
+          "years": [
+            2017,
+            2018
+          ],
+          "density": 0.05,
+          "sampling_seed": 42,
+          "chunk_size": 20000,
+          "max_download_bytes": 80000000,
+          "max_uncompressed_bytes": 600000000,
+          "tasks": [
+            "ACSTravelTime"
+          ]
+        },
+        "code_commit": "5d0fea8e2fb75b8795df1014f694a7743e84bab2",
+        "source_hash": "7f8bc148deb5299f3504c0328547cc48fe774947abd340f0257296dc18b32237",
+        "n_observations": 51548,
+        "feature_names": [
+          "AGEP",
+          "SCHL",
+          "MAR",
+          "SEX",
+          "DIS",
+          "ESP",
+          "MIG",
+          "RELP",
+          "RAC1P",
+          "PUMA",
+          "ST",
+          "CIT",
+          "OCCP",
+          "JWTR",
+          "POWPUMA",
+          "POVPIP"
+        ],
+        "feature_dtype": "float64",
+        "feature_kind": "numeric",
+        "time_coverage": [
+          null,
+          null
+        ],
+        "domains": [
+          "CA-2017",
+          "CA-2018",
+          "FL-2017",
+          "FL-2018",
+          "NJ-2017",
+          "NJ-2018",
+          "NY-2017",
+          "NY-2018",
+          "TX-2017",
+          "TX-2018"
+        ],
+        "missingness": {
+          "target": 0.0,
+          "features": 0.0
+        },
+        "limitations": [
+          "No verified real-world changepoints.",
+          "Annual records unordered; no individual observation, release or label-availability times invented.",
+          "Official Folktables feature postprocessing uses its missing-value coding; original missing feature names preserved per row.",
+          "Original survey weights and demographic values retained; Bernoulli inclusion probability separate from original PWGTP.",
+          "Domain comparison plans are retrospective, not online chronological protocols or verified changepoints."
+        ],
+        "ground_truth": "coarse_domains",
+        "files": {
+          "acs_protocol.json": "de70a66af8c33efbfd214f66c197adeb46f8fd89d220c525e7ceaf0f3a94efc9",
+          "observations.parquet": "b1b288077cae6abb43aef5ee5ed9a630888cb67601dd91fda04e7513681be45a"
+        },
+        "oracle_file": null,
+        "environment": {
+          "folktables_version": "0.0.12"
+        }
+      },
+      "quality": {
+        "rows": 51548,
+        "unknown_prediction_times": 51548,
+        "unknown_label_availability": 51548,
+        "missing_targets": 0,
+        "dataset": "folktables",
+        "version": "1ba3057f0beb5eecb671",
+        "feature_missing_rate": 0.0,
+        "feature_infinite": 0,
+        "min_feature": 0.0,
+        "max_feature": 59300.0,
+        "duplicate_feature_target_rows": 8,
+        "ground_truth": "coarse_domains",
+        "attribution": "Inconclusive: descriptive evidence does not identify drift mechanism"
+      },
+      "protocol": {
+        "folktables_version": "0.0.12",
+        "task": "ACSTravelTime",
+        "features": [
+          "AGEP",
+          "SCHL",
+          "MAR",
+          "SEX",
+          "DIS",
+          "ESP",
+          "MIG",
+          "RELP",
+          "RAC1P",
+          "PUMA",
+          "ST",
+          "CIT",
+          "OCCP",
+          "JWTR",
+          "POWPUMA",
+          "POVPIP"
+        ],
+        "target": "JWMNP",
+        "group": "RAC1P",
+        "preprocess_source": "def travel_time_filter(data):\n    \"\"\"\n    Filters for the employment prediction task\n    \"\"\"\n    df = data\n    df = df[df['AGEP'] > 16]\n    df = df[df['PWGTP'] >= 1]\n    df = df[df['ESR'] == 1]\n    return df\n",
+        "target_transform_source": "    target_transform=lambda x: x > 20,\n",
+        "group_transform_source": "                 group_transform=lambda x: x,\n",
+        "postprocess_source": "    postprocess=lambda x: np.nan_to_num(x, -1),\n",
+        "sampling": {
+          "probability": 0.05,
+          "seed": 42,
+          "rng": "NumPy PCG64, separate SeedSequence(seed,year,state-FIPS); Bernoulli before task filtering"
+        },
+        "comparisons": {
+          "timing": "coarse annual domains; within-year observation order unknown",
+          "comparisons": [
+            {
+              "kind": "within_state_cross_year",
+              "train_domains": [
+                "CA-2017"
+              ],
+              "test_domains": [
+                "CA-2018"
+              ]
+            },
+            {
+              "kind": "within_state_cross_year",
+              "train_domains": [
+                "NY-2017"
+              ],
+              "test_domains": [
+                "NY-2018"
+              ]
+            },
+            {
+              "kind": "within_state_cross_year",
+              "train_domains": [
+                "TX-2017"
+              ],
+              "test_domains": [
+                "TX-2018"
+              ]
+            },
+            {
+              "kind": "within_state_cross_year",
+              "train_domains": [
+                "FL-2017"
+              ],
+              "test_domains": [
+                "FL-2018"
+              ]
+            },
+            {
+              "kind": "within_state_cross_year",
+              "train_domains": [
+                "NJ-2017"
+              ],
+              "test_domains": [
+                "NJ-2018"
+              ]
+            },
+            {
+              "kind": "cross_state_same_year",
+              "train_domains": [
+                "CA-2017"
+              ],
+              "test_domains": [
+                "NY-2017"
+              ]
+            },
+            {
+              "kind": "cross_state_same_year",
+              "train_domains": [
+                "CA-2017"
+              ],
+              "test_domains": [
+                "TX-2017"
+              ]
+            },
+            {
+              "kind": "cross_state_same_year",
+              "train_domains": [
+                "CA-2017"
+              ],
+              "test_domains": [
+                "FL-2017"
+              ]
+            },
+            {
+              "kind": "cross_state_same_year",
+              "train_domains": [
+                "CA-2017"
+              ],
+              "test_domains": [
+                "NJ-2017"
+              ]
+            },
+            {
+              "kind": "cross_state_same_year",
+              "train_domains": [
+                "CA-2018"
+              ],
+              "test_domains": [
+                "NY-2018"
+              ]
+            },
+            {
+              "kind": "cross_state_same_year",
+              "train_domains": [
+                "CA-2018"
+              ],
+              "test_domains": [
+                "TX-2018"
+              ]
+            },
+            {
+              "kind": "cross_state_same_year",
+              "train_domains": [
+                "CA-2018"
+              ],
+              "test_domains": [
+                "FL-2018"
+              ]
+            },
+            {
+              "kind": "cross_state_same_year",
+              "train_domains": [
+                "CA-2018"
+              ],
+              "test_domains": [
+                "NJ-2018"
+              ]
+            },
+            {
+              "kind": "pooled_cross_year",
+              "train_domains": [
+                "CA-2017",
+                "NY-2017",
+                "TX-2017",
+                "FL-2017",
+                "NJ-2017"
+              ],
+              "test_domains": [
+                "CA-2018",
+                "NY-2018",
+                "TX-2018",
+                "FL-2018",
+                "NJ-2018"
+              ]
+            },
+            {
+              "kind": "cross_state_cross_year",
+              "train_domains": [
+                "CA-2017"
+              ],
+              "test_domains": [
+                "NY-2018",
+                "TX-2018",
+                "FL-2018",
+                "NJ-2018"
+              ]
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "requested_tasks": [
+    "ACSIncome",
+    "ACSEmployment",
+    "ACSPublicCoverage",
+    "ACSMobility",
+    "ACSTravelTime"
+  ],
+  "weighted_rate_scope": "Descriptive ratio using original PWGTP; no complex-survey confidence interval or population-total estimate"
+}

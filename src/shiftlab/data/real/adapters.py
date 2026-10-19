@@ -10,7 +10,6 @@ import pandas as pd
 from sklearn.datasets import load_svmlight_file
 
 from ..catalogue import SOURCES
-from ..chronological_splits import assign_splits
 from ..provenance import sha256
 from ..storage import save_dataset
 from .download import download
@@ -97,7 +96,7 @@ def acquire(dataset: str, config: dict, root="data") -> Path:
         frame = pd.concat(frames, ignore_index=True)
         names = [f"sensor_feature_{i}" for i in range(128)]
     elif dataset == "binance":
-        from .binance import calendar
+        from .binance import prepare as prepare_binance
 
         symbol, month = config.get("symbol", "BTCUSDT"), config.get("month", "2023-01")
         interval = config.get("interval", "1d")
@@ -118,31 +117,7 @@ def acquire(dataset: str, config: dict, root="data") -> Path:
         paths.append(path)
         with zipfile.ZipFile(path) as archive:
             original = pd.read_csv(archive.open(archive.namelist()[0]), header=None)
-        timestamps = pd.to_numeric(original[0]).to_numpy()
-        divisor = calendar(month, interval, timestamps, pd.to_numeric(original[6]).to_numpy())
-        close = pd.to_numeric(original[4]).to_numpy(float)
-        X = original[[1, 2, 3, 4, 5]].to_numpy(float)
-        frame = standardize(
-            X[:-1],
-            close[1:] / close[:-1] - 1,
-            symbol,
-            f"binance-{symbol}-{month}",
-            event_time=timestamps[:-1] / divisor,
-            split=assign_splits(timestamps[:-1]),
-            metadata=[
-                json.dumps(
-                    {
-                        "close_time_raw": int(v),
-                        "timestamp_divisor": divisor,
-                        "interval": interval,
-                        "task": "next close return; all current OHLCV require bar close",
-                    }
-                )
-                for v in original[6].iloc[:-1]
-            ],
-        )
-        frame["label_event_time"] = pd.to_numeric(original[6]).to_numpy()[1:] / divisor
-        names = ["open", "high", "low", "close", "volume"]
+        frame, names = prepare_binance(original, symbol, month, interval)
     elif dataset == "licensed_local":
         path = Path(config["path"])
         if not config.get("license") or not config.get("feature_columns"):

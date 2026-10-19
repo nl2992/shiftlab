@@ -18,6 +18,17 @@
 | folktables | offline classification only | requires task/availability protocol | requires availability/release protocol | coarse_domains; historical/coarse; no true changes |
 | folktables | offline classification only | requires task/availability protocol | requires availability/release protocol | coarse_domains; historical/coarse; no true changes |
 | folktables | offline classification only | requires task/availability protocol | requires availability/release protocol | coarse_domains; historical/coarse; no true changes |
+| folktables | offline classification only | requires task/availability protocol | requires availability/release protocol | coarse_domains; historical/coarse; no true changes |
+| folktables | offline classification only | requires task/availability protocol | requires availability/release protocol | coarse_domains; historical/coarse; no true changes |
+| folktables | offline classification only | requires task/availability protocol | requires availability/release protocol | coarse_domains; historical/coarse; no true changes |
+| folktables | offline classification only | requires task/availability protocol | requires availability/release protocol | coarse_domains; historical/coarse; no true changes |
+| folktables | offline classification only | requires task/availability protocol | requires availability/release protocol | coarse_domains; historical/coarse; no true changes |
+| folktables | offline classification only | requires task/availability protocol | requires availability/release protocol | coarse_domains; historical/coarse; no true changes |
+| folktables | offline classification only | requires task/availability protocol | requires availability/release protocol | coarse_domains; historical/coarse; no true changes |
+| folktables | offline classification only | requires task/availability protocol | requires availability/release protocol | coarse_domains; historical/coarse; no true changes |
+| folktables | offline classification only | requires task/availability protocol | requires availability/release protocol | coarse_domains; historical/coarse; no true changes |
+| folktables | offline classification only | requires task/availability protocol | requires availability/release protocol | coarse_domains; historical/coarse; no true changes |
+| gas_sensor | offline classification only | requires task/availability protocol | requires availability/release protocol | coarse_domains; historical/coarse; no true changes |
 | gas_sensor | offline classification only | requires task/availability protocol | requires availability/release protocol | coarse_domains; historical/coarse; no true changes |
 | gas_sensor | offline classification only | requires task/availability protocol | requires availability/release protocol | coarse_domains; historical/coarse; no true changes |
 | gas_sensor | offline classification only | requires task/availability protocol | requires availability/release protocol | coarse_domains; historical/coarse; no true changes |
@@ -36,6 +47,8 @@
 | irrelevant | controlled decision study | regression stream | stream ready | synthetic_known; known simulation clock |
 | irrelevant | controlled decision study | regression stream | stream ready | synthetic_known; known simulation clock |
 | monash | retrospective; utility imposed | requires task/availability protocol | requires availability/release protocol | none; historical/coarse; no true changes |
+| monash | retrospective; utility imposed | requires task/availability protocol | requires availability/release protocol | none; historical/coarse; no true changes |
+| monash | retrospective; utility imposed | requires task/availability protocol | requires availability/release protocol | none; historical/coarse; no true changes |
 | noaa | retrospective; utility imposed | requires task/availability protocol | requires availability/release protocol | none; historical/coarse; no true changes |
 | noaa | retrospective; utility imposed | requires task/availability protocol | requires availability/release protocol | none; historical/coarse; no true changes |
 | noaa | retrospective; utility imposed | requires task/availability protocol | requires availability/release protocol | none; historical/coarse; no true changes |
@@ -51,6 +64,7 @@
 | prior_shift | controlled decision study | requires task/availability protocol | stream ready | synthetic_known; known simulation clock |
 | prior_shift | controlled decision study | requires task/availability protocol | stream ready | synthetic_known; known simulation clock |
 | prior_shift | controlled decision study | requires task/availability protocol | stream ready | synthetic_known; known simulation clock |
+| target_variance | controlled decision study | regression stream | stream ready | synthetic_known; known simulation clock |
 | target_variance | controlled decision study | regression stream | stream ready | synthetic_known; known simulation clock |
 | target_variance | controlled decision study | regression stream | stream ready | synthetic_known; known simulation clock |
 | target_variance | controlled decision study | regression stream | stream ready | synthetic_known; known simulation clock |

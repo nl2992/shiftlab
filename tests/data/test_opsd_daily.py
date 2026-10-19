@@ -39,6 +39,15 @@ def test_complete_utc_day_means_keep_missingness_and_dst():
     assert partial.event_time.iloc[0] == pd.Timestamp("2019-03-30", tz="UTC").timestamp()
 
 
+def test_daily_next_period_target_mask_excludes_incomplete_target_day():
+    original = source_frame()
+    original.loc[24 + 3, "load"] = np.nan
+    frame = prepare(original, ["load"], "load", "daily", "domain", {})
+    assert frame.label_event_time.iloc[0] - frame.event_time.iloc[0] == 2 * 86400
+    assert np.isnan(frame.target.iloc[0])
+    assert np.isfinite(frame.target.iloc[1])
+
+
 def test_calendar_gaps_and_local_utc_disagreement_rejected():
     source = source_frame()
     with pytest.raises(ValueError, match="gaps"):

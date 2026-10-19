@@ -31,6 +31,7 @@ Checks use actual stored observations. Oracle radii describe the DGP, not fitted
 - prior_shift (5000 rows): mean residual=-0.00071, iid descriptive SE=0.00454, oracle 90% radius coverage=None; temporal cases require dependence-aware SE.
 - prior_shift (5000 rows): mean residual=-0.00071, iid descriptive SE=0.00454, oracle 90% radius coverage=None; temporal cases require dependence-aware SE.
 - prior_shift (5000 rows): mean residual=-0.00071, iid descriptive SE=0.00454, oracle 90% radius coverage=None; temporal cases require dependence-aware SE.
+- target_variance (1000 rows): mean residual=-0.01528, iid descriptive SE=0.02110, oracle 90% radius coverage=0.891; temporal cases require dependence-aware SE.
 - target_variance (5000 rows): mean residual=0.01441, iid descriptive SE=0.00670, oracle 90% radius coverage=0.9006; temporal cases require dependence-aware SE.
 - target_variance (5000 rows): mean residual=0.01441, iid descriptive SE=0.00670, oracle 90% radius coverage=0.9006; temporal cases require dependence-aware SE.
 - target_variance (5000 rows): mean residual=0.01441, iid descriptive SE=0.00670, oracle 90% radius coverage=0.9006; temporal cases require dependence-aware SE.

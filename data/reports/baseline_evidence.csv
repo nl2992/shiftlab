@@ -35,6 +35,7 @@ opsd,cd3e2112f7c953bf2c19,6695847.5771826,0.9252283105022832,"offline diagnostic
 opsd,d4662311e70aad2a41fc,67086688.746904165,0.7534246575342466,"offline diagnostic, not an online result; train-only imputation"
 opsd,eb54283a3591a21024df,6695847.5771826,0.9252283105022832,"offline diagnostic, not an online result; train-only imputation"
 opsd,fd49bfe8b088d585fad9,7250905.000269078,0.9075342465753424,"offline diagnostic, not an online result; train-only imputation"
+target_variance,0b907947193c744fd05c,0.6867561900402044,0.5366666666666666,"offline diagnostic, not an online result; train-only imputation"
 target_variance,1b4799bc4d7f91e90331,0.35194386506258957,0.898,"offline diagnostic, not an online result; train-only imputation"
 target_variance,5979e73e31d1c605cc2d,0.35194386506258957,0.898,"offline diagnostic, not an online result; train-only imputation"
 target_variance,ff65712a55b8b96f10ba,0.3157975222657329,0.664,"offline diagnostic, not an online result; train-only imputation"

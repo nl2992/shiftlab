@@ -1,13 +1,13 @@
 dataset,publisher,url,license,citation,status,size,timing,acquired_versions,acquired_rows_latest,definition
-gas_sensor,UCI / Alexander Vergara,https://archive.ics.uci.edu/dataset/224/gas+sensor+array+drift+dataset,UCI page states CC BY 4.0; original description restricts commercial use. Research-only pending clarification.,"Vergara (2012), DOI:10.24432/C5RP6W",implemented,9.5 MB archive,ordered batches; no within-batch timestamps,3,13910,
+gas_sensor,UCI / Alexander Vergara,https://archive.ics.uci.edu/dataset/224/gas+sensor+array+drift+dataset,UCI page states CC BY 4.0; original description restricts commercial use. Research-only pending clarification.,"Vergara (2012), DOI:10.24432/C5RP6W",implemented,9.5 MB archive,ordered batches; no within-batch timestamps,4,13910,
 opsd,Open Power System Data,https://data.open-power-system-data.org/time_series/2020-10-06/,Package and source-specific attribution/terms in saved datapackage.json; no blanket relicensing,"OPSD 2020 time_series version 2020-10-06, DOI:10.25832/time_series/2020-10-06",implemented,124 MB raw hourly CSV,UTC and CET/CEST intervals; publication lag unknown,7,8759,
 noaa,NOAA NCEI,https://www.ncei.noaa.gov/data/global-hourly/access/,US government data; retain NOAA attribution; source quality flags preserved,NOAA NCEI Integrated Surface Database (ISD),implemented,"one station-year, approximately 10 MB",measurement UTC; historical release latency unknown,5,41194,
-folktables,US Census / Folktables,https://github.com/socialfoundations/folktables,Folktables code MIT; ACS PUMS US Census public data,"Ding et al., Retiring Adult: New Datasets for Fair Machine Learning, NeurIPS 2021",implemented_optional_dependency,"state/year dependent, explicit execution",survey year only; unordered within year,3,47781,
+folktables,US Census / Folktables,https://github.com/socialfoundations/folktables,Folktables code MIT; ACS PUMS US Census public data,"Ding et al., Retiring Adult: New Datasets for Fair Machine Learning, NeurIPS 2021",implemented_optional_dependency,"state/year dependent, explicit execution",survey year only; unordered within year,13,51548,
 binance,Binance,https://github.com/binance/binance-public-data,Publisher repository MIT; retain exchange data terms and attribution,Binance public market data,implemented,one symbol-month daily bars,open/close timestamp; no publication latency guarantee,4,743,
 licensed_local,User licensed source,local-import,User-supplied license required,User-supplied,implemented,user-controlled,explicit field mappings and source availability required,0,0,
 eia,US EIA,https://www.eia.gov/opendata/,Verify endpoint terms,EIA Open Data,implemented_requires_api_key,query-dependent,must preserve report/release times,0,0,
 fred,Federal Reserve Bank of St Louis,https://fred.stlouisfed.org/docs/api/fred/,Series-specific terms,FRED/ALFRED,implemented_requires_api_key,query-dependent,vintages required; revised series not real-time safe,0,0,
-monash,Monash Forecasting Repository,https://zenodo.org/communities/forecasting/,dataset-specific,Monash Time Series Forecasting Archive,implemented,dataset-dependent,official horizons and partitions required,1,7400,
+monash,Monash Forecasting Repository,https://zenodo.org/communities/forecasting/,dataset-specific,Monash Time Series Forecasting Archive,implemented,dataset-dependent,official horizons and partitions required,3,17331,
 wilds,WILDS,https://wilds.stanford.edu/get_started/,dataset-specific,"Koh et al., WILDS, ICML 2021",implemented_optional_dependency_or_civilcomments_archive,dataset-dependent; no automatic download,"official domain partitions, not change points",0,0,
 criteo,Criteo,https://ailab.criteo.com/criteo-sponsored-search-conversion-log-dataset/,"CC BY-NC-SA 4.0; attribution, noncommercial use and share-alike terms",Criteo conversion logs,implemented_noncommercial_delayed_feedback,verify before acquisition,click and conversion availability must be separated,0,0,
 iid_regression,,,,,synthetic_implemented,,simulation index,5,20000,"Y=X0-.9X1+sigma*epsilon; iid standard Gaussian X,epsilon"
@@ -30,7 +30,7 @@ prior_shift,,,,,synthetic_implemented,,simulation index,3,5000,"Y~Bernoulli(pi),
 imbalance,,,,,synthetic_implemented,,simulation index,0,0,"same label-prior mechanism, baseline pi=.1"
 label_corruption,,,,,synthetic_implemented,,simulation index,0,0,"flip Bernoulli logistic labels with probability min(.45,severity*w/5)"
 target_level,,,,,synthetic_implemented,,simulation index,0,0,E[Y|X] += severity*w; not pure regression label shift
-target_variance,,,,,synthetic_implemented,,simulation index,3,5000,sigma *= 1+severity*w
+target_variance,,,,,synthetic_implemented,,simulation index,4,1000,sigma *= 1+severity*w
 tail_frequency,,,,,synthetic_implemented,,simulation index,0,0,"epsilon mixes N(0,1) and 8*N(0,1), rare probability .01+.1*tanh(severity)*w"
 concept,,,,,synthetic_implemented,,simulation index,5,1000,beta0=1-severity*w; P(X) fixed
 boundary_rotation,,,,,synthetic_implemented,,simulation index,0,0,logit P(Y=1|X)=cos(s*w)*X0+sin(s*w)*X1

@@ -80,7 +80,7 @@ def test_eia_format_and_unknown_release_times(tmp_path, monkeypatch):
             "period": f"2023-01-01T{hour:02d}",
             "respondent": "NYIS",
             "type": kind,
-            "value": str(10 + hour),
+            "value": "invalid" if hour == 2 and kind == "D" else str(10 + hour),
             "value-units": "megawatthours",
         }
         for hour in range(4)
@@ -100,6 +100,9 @@ def test_eia_format_and_unknown_release_times(tmp_path, monkeypatch):
     assert len(frame) == 3
     assert frame.event_time.iloc[0] == pd.Timestamp("2023-01-01", tz="UTC").timestamp()
     assert (frame.label_event_time - frame.event_time == 3600).all()
+    assert np.isfinite(frame.target.iloc[0])
+    assert np.isnan(frame.target.iloc[1])
+    assert np.isfinite(frame.target.iloc[2])
     assert frame.prediction_time.isna().all() and frame.label_available_time.isna().all()
     assert validate_dataset(path)["rows"] == 3
     binding = json.loads((path / "dataset_manifest.json").read_text())["task_specs"][0]
@@ -177,6 +180,16 @@ def test_monash_tsf_official_horizon_and_fixed_origin(tmp_path):
     assert all(json.loads(value)["official_horizon"] == 3 for value in holdout.metadata)
 
 
+def test_monash_holdout_keeps_incomplete_target_mask_and_declared_horizon():
+    incomplete = TSF.replace("7,8,9,10", "7,8,9,?")
+    frame, _ = next(tsf_chunks(io.StringIO(incomplete), {"lookback": 2, "max_series": 1}))
+    holdout = frame[frame.split == "test"]
+    assert len(holdout) == 3
+    assert np.isfinite(holdout.target.to_numpy(dtype=float)).tolist() == [True, True, False]
+    assert [json.loads(value)["forecast_step"] for value in holdout.metadata] == [1, 2, 3]
+    assert all(json.loads(value)["official_horizon"] == 3 for value in holdout.metadata)
+
+
 def test_criteo_feedback_and_censoring():
     original = pd.DataFrame({name: [1, 1, 1] for name in COLUMNS})
     original["sale"] = [1, 0, 1]
@@ -190,6 +203,9 @@ def test_criteo_feedback_and_censoring():
     observed = conversion_rows(original, {**config, "observation_end": 3_000_000})
     assert observed.label_available_time.iloc[1] == 2000 + 30 * 86400
     assert validate_frame(observed)["rows"] == 3
+    right_censored = conversion_rows(original, {**config, "observation_end": 1_500})
+    assert np.isfinite(right_censored.target.iloc[2])
+    assert np.isnan(right_censored.label_available_time.iloc[2])
     with pytest.raises(ValueError, match="never"):
         conversion_rows(original, {**config, "feature_columns": ["sale"]})
     with pytest.raises(ValueError, match="delay_unit"):
@@ -216,10 +232,10 @@ def test_wilds_text_references_preserve_partitions_without_labels(tmp_path):
     assert load_input(path, frame.feature_reference.iloc[1]) == "fixture B"
     assert pq_columns(path / "inputs.parquet") == ["text"]
     assert validate_dataset(path)["feature_missing_rate"] is None
-    assert (
-        json.loads((path / "dataset_manifest.json").read_text())["feature_kind"]
-        == "structured_reference"
-    )
+    manifest = json.loads((path / "dataset_manifest.json").read_text())
+    assert manifest["feature_kind"] == "structured_reference"
+    assert manifest["task_specs"][0]["task_kind"] == "official_classification"
+    assert np.isfinite(frame.target.to_numpy(dtype=float)).all()
 
 
 def pq_columns(path):
@@ -252,4 +268,7 @@ def test_wilds_official_export_is_lazy(tmp_path, name):
         "id_val",
     ]
     assert all(json.loads(ref)["kind"] == "wilds" for ref in frame.feature_reference)
+    manifest = json.loads((path / "dataset_manifest.json").read_text())
+    assert manifest["task_specs"][0]["task_kind"] == "official_classification"
+    assert np.isfinite(frame.target.to_numpy(dtype=float)).all()
     assert validate_dataset(path)["rows"] == 4

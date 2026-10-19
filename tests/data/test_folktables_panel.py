@@ -74,6 +74,9 @@ def test_all_official_tasks_weights_groups_and_protocol(tmp_path, monkeypatch, t
     manifest = json.loads((output / "dataset_manifest.json").read_text())
     assert len(manifest["raw_checksums"]) == 4
     assert (output / "acs_protocol.json").exists()
+    assert len(manifest["task_specs"]) == 1
+    assert manifest["task_specs"][0]["task_kind"] == "binary_classification"
+    assert np.isfinite(frame.target.to_numpy(dtype=float)).all()
     assert validate_dataset(output)["rows"] == len(frame)
 
 

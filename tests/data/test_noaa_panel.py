@@ -41,13 +41,14 @@ def test_simultaneous_reports_never_become_future_targets():
                 "2023-01-01T03:00",
             ],
             "STATION": station,
-            "TMP": ["+0100,1", "+0200,1", "+0300,1", "+0400,1", "+0500,1"],
+            "TMP": ["+0100,1", "+0200,1", "+0300,1", "+0400,1", "+9999,9"],
             "DEW": "+0000,1",
         }
     )
     frame = station_rows(source, station, 2023)
     assert (frame.label_event_time > frame.event_time).all()
-    assert frame.target.tolist() == [30, 30, 40, 50]
+    assert frame.target.iloc[:3].tolist() == [30, 30, 40]
+    assert np.isnan(frame.target.iloc[3])
     assert json.loads(frame.metadata.iloc[0])["source"]["TMP"] == "+0100,1"
     assert frame.prediction_time.isna().all()
     with pytest.raises(ValueError, match="different station"):

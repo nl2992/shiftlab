@@ -35,6 +35,14 @@ def _bootstrap_mean_interval(values: np.ndarray, seed: int, block_length: int) -
     return [float(v) for v in np.quantile(estimates, [0.025, 0.975])]
 
 
+def _block_length_sensitivity(n: int) -> list[int]:
+    """Use half, baseline and double sqrt(n) block lengths, clipped to sample size."""
+    if n < 4:
+        raise ValueError("At least four observations are required for block sensitivity")
+    baseline = max(2, int(np.sqrt(n)))
+    return sorted({max(2, baseline // 2), baseline, min(n, 2 * baseline)})
+
+
 def diagnose(path: Path) -> dict:
     manifest_path = path / "dataset_manifest.json"
     manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
@@ -65,6 +73,7 @@ def diagnose(path: Path) -> dict:
         baseline = target - float(train.target.mean())
         covered = np.abs(error) <= radius
         loss_difference = error**2 - baseline**2
+        block_lengths = _block_length_sensitivity(len(test))
         block = max(2, int(np.sqrt(len(test))))
         rolling_window = max(10, min(100, len(test) // 4))
         rolling_mse = pd.Series(error**2).rolling(rolling_window, min_periods=rolling_window).mean()
@@ -91,6 +100,17 @@ def diagnose(path: Path) -> dict:
                 "moving_block_95pct_interval_mse_difference": _bootstrap_mean_interval(
                     loss_difference, seed=20261019, block_length=block
                 ),
+                "moving_block_sensitivity": [
+                    {
+                        "block_length_rows": length,
+                        "mse_difference_interval_95pct": _bootstrap_mean_interval(
+                            loss_difference,
+                            seed=20261019,
+                            block_length=length,
+                        ),
+                    }
+                    for length in block_lengths
+                ],
                 "event_time_start": float(test.event_time.min()),
                 "event_time_end": float(test.event_time.max()),
             }
@@ -122,7 +142,7 @@ def main() -> None:
             "fit": "train split only, independently within each domain",
             "calibration": "calibration split only; symmetric absolute-residual interval with finite-sample rank",
             "evaluation": "test split only; chronological ordering preserved",
-            "uncertainty": "circular moving-block percentile interval on paired squared-loss differences, block length floor(sqrt(test_n)); descriptive, not a causal or availability guarantee",
+            "uncertainty": "1,000-replicate circular moving-block percentile intervals on paired squared-loss differences; report baseline floor(sqrt(test_n)) and sensitivity at half and twice baseline block length (clipped to test_n); descriptive, not causal or availability guarantees",
             "decision_loss": "not reported: these are continuous forecasting tasks without a sourced, application-grounded utility",
         },
         "processing_commit": commit(),

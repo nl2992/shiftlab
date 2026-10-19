@@ -23,6 +23,9 @@ the small OPSD daily task performs worse than that baseline. Empirical 80% inter
 ranges from 0.685 to 0.884 across these tasks. These are retrospective comparisons: label
 availability is unknown for these sources, and the event-time partitions do not establish
 what a forecaster could observe operationally. Moving-block intervals use a declared
-`sqrt(test_n)` block length and are descriptive; sensitivity analysis remains appropriate.
+`sqrt(test_n)` block length and are descriptive. The report also includes 95% intervals using
+half, baseline, and double the baseline block length (clipped to the test length) for each task.
+These are sensitivity checks, not a principled block-length selector or a correction for
+model-selection uncertainty.
 The report omits decision loss because no application-grounded utility was supplied for these
 continuous forecasts.

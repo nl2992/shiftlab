@@ -3,7 +3,7 @@
 from typing import Literal
 
 import pandas as pd
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, model_validator
 
 SCHEMA_VERSION = "1.0.0"
 TIMES = [
@@ -45,6 +45,15 @@ class SyntheticConfig(BaseModel):
     chunk_size: int = Field(default=10000, ge=16)
     memory_mb: int = Field(default=512, ge=16)
     output: str = "data"
+    train_fraction: float = Field(default=0.2, gt=0, lt=1)
+    validation_fraction: float = Field(default=0.1, gt=0, lt=1)
+    calibration_fraction: float = Field(default=0.1, gt=0, lt=1)
+
+    @model_validator(mode="after")
+    def split_fractions(self):
+        if self.train_fraction + self.validation_fraction + self.calibration_fraction >= 1:
+            raise ValueError("Training, validation and calibration fractions must sum below one")
+        return self
 
 
 class Manifest(BaseModel):

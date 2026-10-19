@@ -138,5 +138,5 @@ def test_partition_boundary_delay_purge():
         [f for f, _ in generate_chunks(SyntheticConfig(n=1000, chunk_size=100, delay=10))],
         ignore_index=True,
     )
-    for split, cutoff in [("train", 500), ("validation", 650), ("calibration", 800)]:
+    for split, cutoff in [("train", 200), ("validation", 300), ("calibration", 400)]:
         assert (frame.loc[frame.split == split, "label_available_time"] < cutoff).all()

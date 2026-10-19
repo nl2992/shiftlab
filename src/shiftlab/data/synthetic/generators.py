@@ -281,19 +281,21 @@ def generate_chunks(c: SyntheticConfig):
         ]
         if name == "hidden_cost":
             context = [None] * m
+        boundaries = np.floor(
+            c.n * np.cumsum([c.train_fraction, c.validation_fraction, c.calibration_fraction])
+            + 1e-8
+        ).astype(int)
         splits = np.select(
-            [t < c.n * 0.5, t < c.n * 0.65, t < c.n * 0.8],
+            [t < boundaries[0], t < boundaries[1], t < boundaries[2]],
             ["train", "validation", "calibration"],
             default="test",
         )
         # Purge fit/calibration labels that would arrive after the next partition begins.
         # Use global boundaries so this also works when a boundary equals a chunk edge.
-        for split_name, fraction in [("train", 0.5), ("validation", 0.65), ("calibration", 0.8)]:
-            splits[
-                (splits == split_name)
-                & np.isfinite(available)
-                & (available >= np.ceil(c.n * fraction))
-            ] = "unassigned"
+        for split_name, fraction in zip(["train", "validation", "calibration"], boundaries):
+            splits[(splits == split_name) & np.isfinite(available) & (available >= fraction)] = (
+                "unassigned"
+            )
         frame = pd.DataFrame(
             {
                 "sample_id": [f"{c.seed}:{i}" for i in t],

@@ -56,3 +56,27 @@ def test_noaa_missingness_flags_and_epoch(tmp_path, monkeypatch):
     assert np.isnan(frame.features.iloc[0][0])
     assert json.loads(frame.metadata.iloc[0])["source"]["TMP"] == "+9999,9"
     assert frame.label_available_time.isna().all()
+
+
+def test_local_import_license_and_timestamp_units(tmp_path):
+    original = pd.DataFrame(
+        {
+            "x": np.arange(30.0),
+            "y": np.arange(30.0),
+            "time": pd.date_range("2023-01-01", periods=30, freq="h").astype(str),
+            "contract": ["fixture-contract"] * 30,
+        }
+    )
+    source = tmp_path / "fixture.csv"
+    original.to_csv(source, index=False)
+    config = {
+        "path": str(source),
+        "license": "Synthetic fixture, MIT",
+        "feature_columns": ["x"],
+        "target_column": "y",
+        "time_columns": {"event_time": "time"},
+    }
+    destination = acquire("licensed_local", config, tmp_path / "data")
+    frame = pd.read_parquet(destination / "observations.parquet")
+    assert frame.event_time.iloc[0] == pd.Timestamp("2023-01-01", tz="UTC").timestamp()
+    assert json.loads(frame.metadata.iloc[0])["contract"] == "fixture-contract"

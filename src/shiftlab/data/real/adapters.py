@@ -246,6 +246,8 @@ def acquire(dataset: str, config: dict, root="data") -> Path:
                 "Install uv sync --extra data-sources before Folktables acquisition"
             ) from exc
         tasks = config.get("tasks", ["ACSIncome"])
+        if len(tasks) != 1:
+            raise ValueError("Use one Folktables task per version; invoke separately for each task")
         states = config.get("states", ["NJ"])
         years = config.get("years", [2018])
         if not set(tasks) <= {
@@ -319,9 +321,9 @@ def acquire(dataset: str, config: dict, root="data") -> Path:
         ]:
             if column in config.get("time_columns", {}):
                 frame[column] = (
-                    pd.to_datetime(original[config["time_columns"][column]], utc=True).astype(
-                        "int64"
-                    )
+                    pd.to_datetime(original[config["time_columns"][column]], utc=True)
+                    .astype("datetime64[ns, UTC]")
+                    .astype("int64")
                     / 1e9
                 )
         frame["metadata"] = [json.dumps(row, default=str) for row in original.to_dict("records")]

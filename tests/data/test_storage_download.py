@@ -4,6 +4,7 @@ from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 
 import pytest
 
+from shiftlab.data.benchmark import evaluate_regression
 from shiftlab.data.cli import generate
 from shiftlab.data.provenance import sha256
 from shiftlab.data.real.download import download
@@ -25,6 +26,15 @@ def test_storage_integrity_and_immutability(tmp_path):
         f.write(b"corrupt")
     with pytest.raises(ValueError):
         validate_dataset(path)
+
+
+def test_shared_dataset_serves_three_papers(tmp_path):
+    path = generate(SyntheticConfig(n=600, delay=3, missing=0.1, output=str(tmp_path)))
+    for paper in [1, 2, 3]:
+        metrics = evaluate_regression(path, paper, window=30)
+        assert metrics and all(row["paper"] == paper for row in metrics)
+        assert all(row["mse"] >= 0 for row in metrics)
+        assert all(0 <= row["coverage"] <= 1 for row in metrics)
 
 
 def test_resumable_download_and_receipt(tmp_path):

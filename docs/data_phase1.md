@@ -69,7 +69,8 @@ replay rather than inventing timestamps. This API is not a sandbox against malic
 code reading arbitrary files. Oracle files are physically separated in `evaluator_only/`.
 
 Training-only scaling and horizon-safe lag construction are implemented. Synthetic partition
-boundaries are fixed at 50%, 65%, and 80%; labels that arrive across the next partition boundary
+boundaries default to 20%, 30%, and 40% (configurable fractions), placing the default 50% change
+inside the test stream; labels that arrive across the next partition boundary
 are marked unassigned. Partitioning is based on time groups, preserving simultaneous samples.
 Calibration/test utilities must still respect the replay protocol rather than reading stored
 evaluator targets directly. No source missingness is silently forward-filled.
@@ -168,3 +169,14 @@ attribution, revision-aware release reconstruction, daily OPSD tasks, the remain
 adapters and exhaustive selected GPU parameter sweeps remain unfinished. The minimum working
 data foundation exceeds four synthetic classes and three acquired real sources, but this is
 not a claim that every item in the comprehensive roadmap is complete.
+
+
+The original baseline tracks can consume these versioned regression data through
+`uv run python scripts/evaluate_data.py --dataset-path <version-directory> --paper 1`
+(and Papers 2/3). This bridge rejects real sources with unknown feature/prediction availability
+and rejects classification rather than silently substituting a regressor for a classifier.
+It fits only train/calibration labels available before test start and applies the streaming
+feedback protocol thereafter. Decision metrics in this bridge retain the original fixed 5:1
+research utility; context-varying utility studies should use the evaluator oracle and explicit
+context-aware policies. Partition fractions and source-code identities distinguish historical
+versions generated with the earlier 50/65/80% default from the current default.

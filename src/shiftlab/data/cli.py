@@ -4,6 +4,7 @@ import argparse
 import json
 from pathlib import Path
 
+import numpy as np
 import pandas as pd
 import yaml
 
@@ -27,6 +28,10 @@ def generate(config: SyntheticConfig):
         "configuration": config.model_dump(),
         "mathematical_definition": SCENARIOS[config.scenario],
         "rng": "NumPy PCG64 or torch CUDA generator; seeded by config; chunk size part of identity",
+        "initial_numpy_states": {
+            str(seed): np.random.default_rng(seed).bit_generator.state
+            for seed in [config.seed, config.seed + 701, config.seed + 900, config.seed + 901]
+        },
         "oracle_observability": "full DGP regime, not necessarily learner-conditional",
         "intervention_oracle": "No dynamic optimal controller implemented. Refitting can benefit changed mean mechanisms; noise-only shifts favor recalibration; exact benefit depends on model, costs and data.",
         "causality": "exogenous; performative environments use a separate interactive interface",

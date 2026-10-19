@@ -48,3 +48,12 @@ five-seed action-rate, oracle-risk and realized-loss evidence for all ten decisi
 separated into baseline and shifted regimes. The known oracle Bernoulli variance is included
 as a conditional standard-error reference. This does not evaluate a fitted policy, provide
 across-seed confidence intervals, or ground the imposed cost matrices in an application.
+
+Run `python -m uv run python scripts/validate_fitted_conformal.py` to compare the oracle-residual
+diagnostics with a fitted Ridge predictor. It fits on train rows whose labels arrived before
+calibration begins, reports a static split-conformal interval, and then runs a prequential
+residual-quantile update during test. A test residual enters only after its label arrival and
+only for a later prediction. The predictor stays frozen, isolating radius adaptation. The
+report includes five-seed coverage and two moving-block interval sensitivities per case.
+These are empirical results: changing distributions and serial dependence do not receive a
+finite-sample coverage guarantee.

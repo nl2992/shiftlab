@@ -1,0 +1,1784 @@
+{
+  "protocol": "Five-seed fitted-predictor evaluation. Static split conformal uses only calibration residuals available before test; prequential conformal recalculates the empirical residual quantile using calibration and prior test residuals that arrived before each prediction.",
+  "alpha": 0.1,
+  "coverage_target": 0.9,
+  "replicates": [
+    {
+      "preset": "homoskedastic_residuals",
+      "scenario": "iid_regression",
+      "seed": 42,
+      "calibration_target_scope": "marginal",
+      "n_train_available": 2400,
+      "n_calibration_arrived_before_test": 1200,
+      "n_test_labeled": 7200,
+      "n_online_scored": 7200,
+      "fixed_split_radius": 0.5002887418806719,
+      "fixed_split_test_coverage": 0.9008333333333334,
+      "prequential_test_coverage": 0.8994444444444445,
+      "prequential_median_radius": 0.4986918566713412,
+      "prequential_mean_radius": 0.4979883318833091,
+      "mean_online_score_count": 4799.5,
+      "prequential_coverage_block_length": 84,
+      "prequential_coverage_moving_block_95pct_interval": [
+        0.8933333333333333,
+        0.9060451388888888
+      ],
+      "prequential_coverage_2x_block_moving_block_95pct_interval": [
+        0.8930555555555556,
+        0.9061180555555556
+      ],
+      "predictor": "train-only StandardScaler + median imputation + Ridge(alpha=1), frozen throughout test",
+      "radius_update": "after each prediction, its absolute residual joins the score pool only when label_available_time is strictly before a later prediction_time",
+      "missing_test_labels": 0
+    },
+    {
+      "preset": "homoskedastic_residuals",
+      "scenario": "iid_regression",
+      "seed": 43,
+      "calibration_target_scope": "marginal",
+      "n_train_available": 2400,
+      "n_calibration_arrived_before_test": 1200,
+      "n_test_labeled": 7200,
+      "n_online_scored": 7200,
+      "fixed_split_radius": 0.4885856461010323,
+      "fixed_split_test_coverage": 0.8994444444444445,
+      "prequential_test_coverage": 0.8979166666666667,
+      "prequential_median_radius": 0.48718907624191843,
+      "prequential_mean_radius": 0.4868564331247101,
+      "mean_online_score_count": 4799.5,
+      "prequential_coverage_block_length": 84,
+      "prequential_coverage_moving_block_95pct_interval": [
+        0.8909722222222223,
+        0.9052777777777777
+      ],
+      "prequential_coverage_2x_block_moving_block_95pct_interval": [
+        0.8906145833333333,
+        0.9053506944444444
+      ],
+      "predictor": "train-only StandardScaler + median imputation + Ridge(alpha=1), frozen throughout test",
+      "radius_update": "after each prediction, its absolute residual joins the score pool only when label_available_time is strictly before a later prediction_time",
+      "missing_test_labels": 0
+    },
+    {
+      "preset": "homoskedastic_residuals",
+      "scenario": "iid_regression",
+      "seed": 44,
+      "calibration_target_scope": "marginal",
+      "n_train_available": 2400,
+      "n_calibration_arrived_before_test": 1200,
+      "n_test_labeled": 7200,
+      "n_online_scored": 7200,
+      "fixed_split_radius": 0.4830851278278594,
+      "fixed_split_test_coverage": 0.8968055555555555,
+      "prequential_test_coverage": 0.9029166666666667,
+      "prequential_median_radius": 0.4904926090514956,
+      "prequential_mean_radius": 0.4911259057924503,
+      "mean_online_score_count": 4799.5,
+      "prequential_coverage_block_length": 84,
+      "prequential_coverage_moving_block_95pct_interval": [
+        0.8958993055555555,
+        0.9101388888888889
+      ],
+      "prequential_coverage_2x_block_moving_block_95pct_interval": [
+        0.8955486111111111,
+        0.9100069444444445
+      ],
+      "predictor": "train-only StandardScaler + median imputation + Ridge(alpha=1), frozen throughout test",
+      "radius_update": "after each prediction, its absolute residual joins the score pool only when label_available_time is strictly before a later prediction_time",
+      "missing_test_labels": 0
+    },
+    {
+      "preset": "homoskedastic_residuals",
+      "scenario": "iid_regression",
+      "seed": 45,
+      "calibration_target_scope": "marginal",
+      "n_train_available": 2400,
+      "n_calibration_arrived_before_test": 1200,
+      "n_test_labeled": 7200,
+      "n_online_scored": 7200,
+      "fixed_split_radius": 0.5055886489282108,
+      "fixed_split_test_coverage": 0.9059722222222222,
+      "prequential_test_coverage": 0.9015277777777778,
+      "prequential_median_radius": 0.49955559948145783,
+      "prequential_mean_radius": 0.4987323577930437,
+      "mean_online_score_count": 4799.5,
+      "prequential_coverage_block_length": 84,
+      "prequential_coverage_moving_block_95pct_interval": [
+        0.8949930555555555,
+        0.9082013888888889
+      ],
+      "prequential_coverage_2x_block_moving_block_95pct_interval": [
+        0.8949270833333334,
+        0.9080555555555555
+      ],
+      "predictor": "train-only StandardScaler + median imputation + Ridge(alpha=1), frozen throughout test",
+      "radius_update": "after each prediction, its absolute residual joins the score pool only when label_available_time is strictly before a later prediction_time",
+      "missing_test_labels": 0
+    },
+    {
+      "preset": "homoskedastic_residuals",
+      "scenario": "iid_regression",
+      "seed": 46,
+      "calibration_target_scope": "marginal",
+      "n_train_available": 2400,
+      "n_calibration_arrived_before_test": 1200,
+      "n_test_labeled": 7200,
+      "n_online_scored": 7200,
+      "fixed_split_radius": 0.48848745274463834,
+      "fixed_split_test_coverage": 0.8927777777777778,
+      "prequential_test_coverage": 0.8981944444444444,
+      "prequential_median_radius": 0.49562334806231745,
+      "prequential_mean_radius": 0.4948536190299855,
+      "mean_online_score_count": 4799.5,
+      "prequential_coverage_block_length": 84,
+      "prequential_coverage_moving_block_95pct_interval": [
+        0.8917986111111111,
+        0.9042395833333333
+      ],
+      "prequential_coverage_2x_block_moving_block_95pct_interval": [
+        0.892982638888889,
+        0.9033333333333333
+      ],
+      "predictor": "train-only StandardScaler + median imputation + Ridge(alpha=1), frozen throughout test",
+      "radius_update": "after each prediction, its absolute residual joins the score pool only when label_available_time is strictly before a later prediction_time",
+      "missing_test_labels": 0
+    },
+    {
+      "preset": "abrupt_residual_variance_increase",
+      "scenario": "target_variance",
+      "seed": 42,
+      "calibration_target_scope": "conditional",
+      "n_train_available": 2400,
+      "n_calibration_arrived_before_test": 1200,
+      "n_test_labeled": 7200,
+      "n_online_scored": 7200,
+      "fixed_split_radius": 0.5002887418806719,
+      "fixed_split_test_coverage": 0.5030555555555556,
+      "prequential_test_coverage": 0.79,
+      "prequential_median_radius": 1.1701648465053798,
+      "prequential_mean_radius": 1.016016062704152,
+      "mean_online_score_count": 4799.5,
+      "prequential_coverage_block_length": 84,
+      "prequential_coverage_moving_block_95pct_interval": [
+        0.7655416666666667,
+        0.8125729166666666
+      ],
+      "prequential_coverage_2x_block_moving_block_95pct_interval": [
+        0.7590451388888889,
+        0.819048611111111
+      ],
+      "predictor": "train-only StandardScaler + median imputation + Ridge(alpha=1), frozen throughout test",
+      "radius_update": "after each prediction, its absolute residual joins the score pool only when label_available_time is strictly before a later prediction_time",
+      "missing_test_labels": 0
+    },
+    {
+      "preset": "abrupt_residual_variance_increase",
+      "scenario": "target_variance",
+      "seed": 43,
+      "calibration_target_scope": "conditional",
+      "n_train_available": 2400,
+      "n_calibration_arrived_before_test": 1200,
+      "n_test_labeled": 7200,
+      "n_online_scored": 7200,
+      "fixed_split_radius": 0.4885856461010323,
+      "fixed_split_test_coverage": 0.4841666666666667,
+      "prequential_test_coverage": 0.7927777777777778,
+      "prequential_median_radius": 1.152869381349628,
+      "prequential_mean_radius": 1.0044223134675117,
+      "mean_online_score_count": 4799.5,
+      "prequential_coverage_block_length": 84,
+      "prequential_coverage_moving_block_95pct_interval": [
+        0.7667708333333333,
+        0.8158333333333333
+      ],
+      "prequential_coverage_2x_block_moving_block_95pct_interval": [
+        0.7559652777777778,
+        0.825
+      ],
+      "predictor": "train-only StandardScaler + median imputation + Ridge(alpha=1), frozen throughout test",
+      "radius_update": "after each prediction, its absolute residual joins the score pool only when label_available_time is strictly before a later prediction_time",
+      "missing_test_labels": 0
+    },
+    {
+      "preset": "abrupt_residual_variance_increase",
+      "scenario": "target_variance",
+      "seed": 44,
+      "calibration_target_scope": "conditional",
+      "n_train_available": 2400,
+      "n_calibration_arrived_before_test": 1200,
+      "n_test_labeled": 7200,
+      "n_online_scored": 7200,
+      "fixed_split_radius": 0.4830851278278594,
+      "fixed_split_test_coverage": 0.4861111111111111,
+      "prequential_test_coverage": 0.7888888888888889,
+      "prequential_median_radius": 1.149081372010901,
+      "prequential_mean_radius": 1.0080788807726675,
+      "mean_online_score_count": 4799.5,
+      "prequential_coverage_block_length": 84,
+      "prequential_coverage_moving_block_95pct_interval": [
+        0.7633993055555556,
+        0.8167395833333333
+      ],
+      "prequential_coverage_2x_block_moving_block_95pct_interval": [
+        0.7489548611111111,
+        0.8220798611111111
+      ],
+      "predictor": "train-only StandardScaler + median imputation + Ridge(alpha=1), frozen throughout test",
+      "radius_update": "after each prediction, its absolute residual joins the score pool only when label_available_time is strictly before a later prediction_time",
+      "missing_test_labels": 0
+    },
+    {
+      "preset": "abrupt_residual_variance_increase",
+      "scenario": "target_variance",
+      "seed": 45,
+      "calibration_target_scope": "conditional",
+      "n_train_available": 2400,
+      "n_calibration_arrived_before_test": 1200,
+      "n_test_labeled": 7200,
+      "n_online_scored": 7200,
+      "fixed_split_radius": 0.5055886489282108,
+      "fixed_split_test_coverage": 0.5061111111111111,
+      "prequential_test_coverage": 0.7938888888888889,
+      "prequential_median_radius": 1.1831840719720514,
+      "prequential_mean_radius": 1.0260138129705563,
+      "mean_online_score_count": 4799.5,
+      "prequential_coverage_block_length": 84,
+      "prequential_coverage_moving_block_95pct_interval": [
+        0.7695555555555555,
+        0.8162569444444445
+      ],
+      "prequential_coverage_2x_block_moving_block_95pct_interval": [
+        0.7572083333333333,
+        0.8257013888888889
+      ],
+      "predictor": "train-only StandardScaler + median imputation + Ridge(alpha=1), frozen throughout test",
+      "radius_update": "after each prediction, its absolute residual joins the score pool only when label_available_time is strictly before a later prediction_time",
+      "missing_test_labels": 0
+    },
+    {
+      "preset": "abrupt_residual_variance_increase",
+      "scenario": "target_variance",
+      "seed": 46,
+      "calibration_target_scope": "conditional",
+      "n_train_available": 2400,
+      "n_calibration_arrived_before_test": 1200,
+      "n_test_labeled": 7200,
+      "n_online_scored": 7200,
+      "fixed_split_radius": 0.48848745274463834,
+      "fixed_split_test_coverage": 0.49444444444444446,
+      "prequential_test_coverage": 0.7883333333333333,
+      "prequential_median_radius": 1.1509162269835687,
+      "prequential_mean_radius": 1.006277945423881,
+      "mean_online_score_count": 4799.5,
+      "prequential_coverage_block_length": 84,
+      "prequential_coverage_moving_block_95pct_interval": [
+        0.7618055555555555,
+        0.8097291666666667
+      ],
+      "prequential_coverage_2x_block_moving_block_95pct_interval": [
+        0.750548611111111,
+        0.8179444444444445
+      ],
+      "predictor": "train-only StandardScaler + median imputation + Ridge(alpha=1), frozen throughout test",
+      "radius_update": "after each prediction, its absolute residual joins the score pool only when label_available_time is strictly before a later prediction_time",
+      "missing_test_labels": 0
+    },
+    {
+      "preset": "gradual_residual_variance_increase",
+      "scenario": "target_variance",
+      "seed": 42,
+      "calibration_target_scope": "conditional",
+      "n_train_available": 2400,
+      "n_calibration_arrived_before_test": 1200,
+      "n_test_labeled": 7200,
+      "n_online_scored": 7200,
+      "fixed_split_radius": 0.5002887418806719,
+      "fixed_split_test_coverage": 0.5380555555555555,
+      "prequential_test_coverage": 0.7702777777777777,
+      "prequential_median_radius": 0.9727109157941266,
+      "prequential_mean_radius": 0.895348312881006,
+      "mean_online_score_count": 4799.5,
+      "prequential_coverage_block_length": 84,
+      "prequential_coverage_moving_block_95pct_interval": [
+        0.7472152777777777,
+        0.7931423611111111
+      ],
+      "prequential_coverage_2x_block_moving_block_95pct_interval": [
+        0.74353125,
+        0.7973020833333333
+      ],
+      "predictor": "train-only StandardScaler + median imputation + Ridge(alpha=1), frozen throughout test",
+      "radius_update": "after each prediction, its absolute residual joins the score pool only when label_available_time is strictly before a later prediction_time",
+      "missing_test_labels": 0
+    },
+    {
+      "preset": "gradual_residual_variance_increase",
+      "scenario": "target_variance",
+      "seed": 43,
+      "calibration_target_scope": "conditional",
+      "n_train_available": 2400,
+      "n_calibration_arrived_before_test": 1200,
+      "n_test_labeled": 7200,
+      "n_online_scored": 7200,
+      "fixed_split_radius": 0.4885856461010323,
+      "fixed_split_test_coverage": 0.5156944444444445,
+      "prequential_test_coverage": 0.7631944444444444,
+      "prequential_median_radius": 0.9759890367444735,
+      "prequential_mean_radius": 0.8887065630521958,
+      "mean_online_score_count": 4799.5,
+      "prequential_coverage_block_length": 84,
+      "prequential_coverage_moving_block_95pct_interval": [
+        0.7398611111111111,
+        0.7858402777777778
+      ],
+      "prequential_coverage_2x_block_moving_block_95pct_interval": [
+        0.73003125,
+        0.7941666666666667
+      ],
+      "predictor": "train-only StandardScaler + median imputation + Ridge(alpha=1), frozen throughout test",
+      "radius_update": "after each prediction, its absolute residual joins the score pool only when label_available_time is strictly before a later prediction_time",
+      "missing_test_labels": 0
+    },
+    {
+      "preset": "gradual_residual_variance_increase",
+      "scenario": "target_variance",
+      "seed": 44,
+      "calibration_target_scope": "conditional",
+      "n_train_available": 2400,
+      "n_calibration_arrived_before_test": 1200,
+      "n_test_labeled": 7200,
+      "n_online_scored": 7200,
+      "fixed_split_radius": 0.4830851278278594,
+      "fixed_split_test_coverage": 0.5195833333333333,
+      "prequential_test_coverage": 0.7672222222222222,
+      "prequential_median_radius": 0.9970970352516647,
+      "prequential_mean_radius": 0.8938328352747931,
+      "mean_online_score_count": 4799.5,
+      "prequential_coverage_block_length": 84,
+      "prequential_coverage_moving_block_95pct_interval": [
+        0.7442847222222222,
+        0.7925729166666666
+      ],
+      "prequential_coverage_2x_block_moving_block_95pct_interval": [
+        0.7321354166666667,
+        0.7992013888888889
+      ],
+      "predictor": "train-only StandardScaler + median imputation + Ridge(alpha=1), frozen throughout test",
+      "radius_update": "after each prediction, its absolute residual joins the score pool only when label_available_time is strictly before a later prediction_time",
+      "missing_test_labels": 0
+    },
+    {
+      "preset": "gradual_residual_variance_increase",
+      "scenario": "target_variance",
+      "seed": 45,
+      "calibration_target_scope": "conditional",
+      "n_train_available": 2400,
+      "n_calibration_arrived_before_test": 1200,
+      "n_test_labeled": 7200,
+      "n_online_scored": 7200,
+      "fixed_split_radius": 0.5055886489282108,
+      "fixed_split_test_coverage": 0.5377777777777778,
+      "prequential_test_coverage": 0.7694444444444445,
+      "prequential_median_radius": 0.978602567371545,
+      "prequential_mean_radius": 0.8996858132617512,
+      "mean_online_score_count": 4799.5,
+      "prequential_coverage_block_length": 84,
+      "prequential_coverage_moving_block_95pct_interval": [
+        0.748736111111111,
+        0.7940416666666666
+      ],
+      "prequential_coverage_2x_block_moving_block_95pct_interval": [
+        0.7341597222222221,
+        0.8002256944444445
+      ],
+      "predictor": "train-only StandardScaler + median imputation + Ridge(alpha=1), frozen throughout test",
+      "radius_update": "after each prediction, its absolute residual joins the score pool only when label_available_time is strictly before a later prediction_time",
+      "missing_test_labels": 0
+    },
+    {
+      "preset": "gradual_residual_variance_increase",
+      "scenario": "target_variance",
+      "seed": 46,
+      "calibration_target_scope": "conditional",
+      "n_train_available": 2400,
+      "n_calibration_arrived_before_test": 1200,
+      "n_test_labeled": 7200,
+      "n_online_scored": 7200,
+      "fixed_split_radius": 0.48848745274463834,
+      "fixed_split_test_coverage": 0.5290277777777778,
+      "prequential_test_coverage": 0.7655555555555555,
+      "prequential_median_radius": 0.9643208038279832,
+      "prequential_mean_radius": 0.891533150803624,
+      "mean_online_score_count": 4799.5,
+      "prequential_coverage_block_length": 84,
+      "prequential_coverage_moving_block_95pct_interval": [
+        0.7408194444444445,
+        0.789517361111111
+      ],
+      "prequential_coverage_2x_block_moving_block_95pct_interval": [
+        0.7319375,
+        0.7942395833333333
+      ],
+      "predictor": "train-only StandardScaler + median imputation + Ridge(alpha=1), frozen throughout test",
+      "radius_update": "after each prediction, its absolute residual joins the score pool only when label_available_time is strictly before a later prediction_time",
+      "missing_test_labels": 0
+    },
+    {
+      "preset": "conditional_heteroskedasticity",
+      "scenario": "conditional_variance",
+      "seed": 42,
+      "calibration_target_scope": "conditional",
+      "n_train_available": 2400,
+      "n_calibration_arrived_before_test": 1200,
+      "n_test_labeled": 7200,
+      "n_online_scored": 7200,
+      "fixed_split_radius": 0.5002887418806719,
+      "fixed_split_test_coverage": 0.7090277777777778,
+      "prequential_test_coverage": 0.8245833333333333,
+      "prequential_median_radius": 0.7127839893795425,
+      "prequential_mean_radius": 0.6783903854942401,
+      "mean_online_score_count": 4799.5,
+      "prequential_coverage_block_length": 84,
+      "prequential_coverage_moving_block_95pct_interval": [
+        0.8120104166666667,
+        0.8373680555555556
+      ],
+      "prequential_coverage_2x_block_moving_block_95pct_interval": [
+        0.8100659722222222,
+        0.8399409722222222
+      ],
+      "predictor": "train-only StandardScaler + median imputation + Ridge(alpha=1), frozen throughout test",
+      "radius_update": "after each prediction, its absolute residual joins the score pool only when label_available_time is strictly before a later prediction_time",
+      "missing_test_labels": 0
+    },
+    {
+      "preset": "conditional_heteroskedasticity",
+      "scenario": "conditional_variance",
+      "seed": 43,
+      "calibration_target_scope": "conditional",
+      "n_train_available": 2400,
+      "n_calibration_arrived_before_test": 1200,
+      "n_test_labeled": 7200,
+      "n_online_scored": 7200,
+      "fixed_split_radius": 0.4885856461010323,
+      "fixed_split_test_coverage": 0.6991666666666667,
+      "prequential_test_coverage": 0.8270833333333333,
+      "prequential_median_radius": 0.7155503806569405,
+      "prequential_mean_radius": 0.6771391557062767,
+      "mean_online_score_count": 4799.5,
+      "prequential_coverage_block_length": 84,
+      "prequential_coverage_moving_block_95pct_interval": [
+        0.8110381944444445,
+        0.8410451388888889
+      ],
+      "prequential_coverage_2x_block_moving_block_95pct_interval": [
+        0.806236111111111,
+        0.8463368055555556
+      ],
+      "predictor": "train-only StandardScaler + median imputation + Ridge(alpha=1), frozen throughout test",
+      "radius_update": "after each prediction, its absolute residual joins the score pool only when label_available_time is strictly before a later prediction_time",
+      "missing_test_labels": 0
+    },
+    {
+      "preset": "conditional_heteroskedasticity",
+      "scenario": "conditional_variance",
+      "seed": 44,
+      "calibration_target_scope": "conditional",
+      "n_train_available": 2400,
+      "n_calibration_arrived_before_test": 1200,
+      "n_test_labeled": 7200,
+      "n_online_scored": 7200,
+      "fixed_split_radius": 0.4830851278278594,
+      "fixed_split_test_coverage": 0.6906944444444445,
+      "prequential_test_coverage": 0.8280555555555555,
+      "prequential_median_radius": 0.7130663640703666,
+      "prequential_mean_radius": 0.6729806218355258,
+      "mean_online_score_count": 4799.5,
+      "prequential_coverage_block_length": 84,
+      "prequential_coverage_moving_block_95pct_interval": [
+        0.8131145833333333,
+        0.8441666666666666
+      ],
+      "prequential_coverage_2x_block_moving_block_95pct_interval": [
+        0.8076979166666667,
+        0.8477777777777777
+      ],
+      "predictor": "train-only StandardScaler + median imputation + Ridge(alpha=1), frozen throughout test",
+      "radius_update": "after each prediction, its absolute residual joins the score pool only when label_available_time is strictly before a later prediction_time",
+      "missing_test_labels": 0
+    },
+    {
+      "preset": "conditional_heteroskedasticity",
+      "scenario": "conditional_variance",
+      "seed": 45,
+      "calibration_target_scope": "conditional",
+      "n_train_available": 2400,
+      "n_calibration_arrived_before_test": 1200,
+      "n_test_labeled": 7200,
+      "n_online_scored": 7200,
+      "fixed_split_radius": 0.5055886489282108,
+      "fixed_split_test_coverage": 0.7136111111111111,
+      "prequential_test_coverage": 0.8283333333333334,
+      "prequential_median_radius": 0.7142491909096421,
+      "prequential_mean_radius": 0.6815575990725594,
+      "mean_online_score_count": 4799.5,
+      "prequential_coverage_block_length": 84,
+      "prequential_coverage_moving_block_95pct_interval": [
+        0.8145833333333333,
+        0.8417395833333333
+      ],
+      "prequential_coverage_2x_block_moving_block_95pct_interval": [
+        0.8100590277777778,
+        0.8457013888888889
+      ],
+      "predictor": "train-only StandardScaler + median imputation + Ridge(alpha=1), frozen throughout test",
+      "radius_update": "after each prediction, its absolute residual joins the score pool only when label_available_time is strictly before a later prediction_time",
+      "missing_test_labels": 0
+    },
+    {
+      "preset": "conditional_heteroskedasticity",
+      "scenario": "conditional_variance",
+      "seed": 46,
+      "calibration_target_scope": "conditional",
+      "n_train_available": 2400,
+      "n_calibration_arrived_before_test": 1200,
+      "n_test_labeled": 7200,
+      "n_online_scored": 7200,
+      "fixed_split_radius": 0.48848745274463834,
+      "fixed_split_test_coverage": 0.6972222222222222,
+      "prequential_test_coverage": 0.8254166666666667,
+      "prequential_median_radius": 0.7166919440707678,
+      "prequential_mean_radius": 0.6761017205999146,
+      "mean_online_score_count": 4799.5,
+      "prequential_coverage_block_length": 84,
+      "prequential_coverage_moving_block_95pct_interval": [
+        0.8120763888888889,
+        0.8371631944444444
+      ],
+      "prequential_coverage_2x_block_moving_block_95pct_interval": [
+        0.8078958333333334,
+        0.8397222222222223
+      ],
+      "predictor": "train-only StandardScaler + median imputation + Ridge(alpha=1), frozen throughout test",
+      "radius_update": "after each prediction, its absolute residual joins the score pool only when label_available_time is strictly before a later prediction_time",
+      "missing_test_labels": 0
+    },
+    {
+      "preset": "heavy_tailed_residuals",
+      "scenario": "heavy_tailed",
+      "seed": 42,
+      "calibration_target_scope": "marginal",
+      "n_train_available": 2400,
+      "n_calibration_arrived_before_test": 1200,
+      "n_test_labeled": 7200,
+      "n_online_scored": 7200,
+      "fixed_split_radius": 0.48693526050047264,
+      "fixed_split_test_coverage": 0.9081944444444444,
+      "prequential_test_coverage": 0.9038888888888889,
+      "prequential_median_radius": 0.47994111196190237,
+      "prequential_mean_radius": 0.4782962339923034,
+      "mean_online_score_count": 4799.5,
+      "prequential_coverage_block_length": 84,
+      "prequential_coverage_moving_block_95pct_interval": [
+        0.89784375,
+        0.9103576388888889
+      ],
+      "prequential_coverage_2x_block_moving_block_95pct_interval": [
+        0.8975659722222222,
+        0.9097222222222222
+      ],
+      "predictor": "train-only StandardScaler + median imputation + Ridge(alpha=1), frozen throughout test",
+      "radius_update": "after each prediction, its absolute residual joins the score pool only when label_available_time is strictly before a later prediction_time",
+      "missing_test_labels": 0
+    },
+    {
+      "preset": "heavy_tailed_residuals",
+      "scenario": "heavy_tailed",
+      "seed": 43,
+      "calibration_target_scope": "marginal",
+      "n_train_available": 2400,
+      "n_calibration_arrived_before_test": 1200,
+      "n_test_labeled": 7200,
+      "n_online_scored": 7200,
+      "fixed_split_radius": 0.47131256891441775,
+      "fixed_split_test_coverage": 0.9005555555555556,
+      "prequential_test_coverage": 0.9001388888888889,
+      "prequential_median_radius": 0.47131256891441775,
+      "prequential_mean_radius": 0.47138736645916235,
+      "mean_online_score_count": 4799.5,
+      "prequential_coverage_block_length": 84,
+      "prequential_coverage_moving_block_95pct_interval": [
+        0.8941666666666667,
+        0.9055555555555556
+      ],
+      "prequential_coverage_2x_block_moving_block_95pct_interval": [
+        0.8947222222222222,
+        0.90625
+      ],
+      "predictor": "train-only StandardScaler + median imputation + Ridge(alpha=1), frozen throughout test",
+      "radius_update": "after each prediction, its absolute residual joins the score pool only when label_available_time is strictly before a later prediction_time",
+      "missing_test_labels": 0
+    },
+    {
+      "preset": "heavy_tailed_residuals",
+      "scenario": "heavy_tailed",
+      "seed": 44,
+      "calibration_target_scope": "marginal",
+      "n_train_available": 2400,
+      "n_calibration_arrived_before_test": 1200,
+      "n_test_labeled": 7200,
+      "n_online_scored": 7200,
+      "fixed_split_radius": 0.48216964145390806,
+      "fixed_split_test_coverage": 0.9090277777777778,
+      "prequential_test_coverage": 0.9029166666666667,
+      "prequential_median_radius": 0.468310148735388,
+      "prequential_mean_radius": 0.4707035242586811,
+      "mean_online_score_count": 4799.5,
+      "prequential_coverage_block_length": 84,
+      "prequential_coverage_moving_block_95pct_interval": [
+        0.8957604166666667,
+        0.9093055555555556
+      ],
+      "prequential_coverage_2x_block_moving_block_95pct_interval": [
+        0.8965277777777778,
+        0.9099340277777778
+      ],
+      "predictor": "train-only StandardScaler + median imputation + Ridge(alpha=1), frozen throughout test",
+      "radius_update": "after each prediction, its absolute residual joins the score pool only when label_available_time is strictly before a later prediction_time",
+      "missing_test_labels": 0
+    },
+    {
+      "preset": "heavy_tailed_residuals",
+      "scenario": "heavy_tailed",
+      "seed": 45,
+      "calibration_target_scope": "marginal",
+      "n_train_available": 2400,
+      "n_calibration_arrived_before_test": 1200,
+      "n_test_labeled": 7200,
+      "n_online_scored": 7200,
+      "fixed_split_radius": 0.4721114080533872,
+      "fixed_split_test_coverage": 0.9009722222222222,
+      "prequential_test_coverage": 0.8965277777777778,
+      "prequential_median_radius": 0.4699423539410392,
+      "prequential_mean_radius": 0.4663335605846615,
+      "mean_online_score_count": 4799.5,
+      "prequential_coverage_block_length": 84,
+      "prequential_coverage_moving_block_95pct_interval": [
+        0.8895833333333333,
+        0.9035451388888889
+      ],
+      "prequential_coverage_2x_block_moving_block_95pct_interval": [
+        0.8892986111111111,
+        0.9023611111111111
+      ],
+      "predictor": "train-only StandardScaler + median imputation + Ridge(alpha=1), frozen throughout test",
+      "radius_update": "after each prediction, its absolute residual joins the score pool only when label_available_time is strictly before a later prediction_time",
+      "missing_test_labels": 0
+    },
+    {
+      "preset": "heavy_tailed_residuals",
+      "scenario": "heavy_tailed",
+      "seed": 46,
+      "calibration_target_scope": "marginal",
+      "n_train_available": 2400,
+      "n_calibration_arrived_before_test": 1200,
+      "n_test_labeled": 7200,
+      "n_online_scored": 7200,
+      "fixed_split_radius": 0.41802420294672127,
+      "fixed_split_test_coverage": 0.8713888888888889,
+      "prequential_test_coverage": 0.8883333333333333,
+      "prequential_median_radius": 0.4469184552848344,
+      "prequential_mean_radius": 0.44379197226298656,
+      "mean_online_score_count": 4799.5,
+      "prequential_coverage_block_length": 84,
+      "prequential_coverage_moving_block_95pct_interval": [
+        0.8808993055555556,
+        0.8948680555555556
+      ],
+      "prequential_coverage_2x_block_moving_block_95pct_interval": [
+        0.8810381944444444,
+        0.8947222222222222
+      ],
+      "predictor": "train-only StandardScaler + median imputation + Ridge(alpha=1), frozen throughout test",
+      "radius_update": "after each prediction, its absolute residual joins the score pool only when label_available_time is strictly before a later prediction_time",
+      "missing_test_labels": 0
+    },
+    {
+      "preset": "asymmetric_residuals",
+      "scenario": "asymmetric_errors",
+      "seed": 42,
+      "calibration_target_scope": "marginal",
+      "n_train_available": 2400,
+      "n_calibration_arrived_before_test": 1200,
+      "n_test_labeled": 7200,
+      "n_online_scored": 7200,
+      "fixed_split_radius": 0.2938880887241835,
+      "fixed_split_test_coverage": 0.9109722222222222,
+      "prequential_test_coverage": 0.905,
+      "prequential_median_radius": 0.2719094079917006,
+      "prequential_mean_radius": 0.27570281408486863,
+      "mean_online_score_count": 4799.5,
+      "prequential_coverage_block_length": 84,
+      "prequential_coverage_moving_block_95pct_interval": [
+        0.8985381944444445,
+        0.9111840277777777
+      ],
+      "prequential_coverage_2x_block_moving_block_95pct_interval": [
+        0.8990277777777778,
+        0.9113229166666666
+      ],
+      "predictor": "train-only StandardScaler + median imputation + Ridge(alpha=1), frozen throughout test",
+      "radius_update": "after each prediction, its absolute residual joins the score pool only when label_available_time is strictly before a later prediction_time",
+      "missing_test_labels": 0
+    },
+    {
+      "preset": "asymmetric_residuals",
+      "scenario": "asymmetric_errors",
+      "seed": 43,
+      "calibration_target_scope": "marginal",
+      "n_train_available": 2400,
+      "n_calibration_arrived_before_test": 1200,
+      "n_test_labeled": 7200,
+      "n_online_scored": 7200,
+      "fixed_split_radius": 0.2812321946603661,
+      "fixed_split_test_coverage": 0.9043055555555556,
+      "prequential_test_coverage": 0.8970833333333333,
+      "prequential_median_radius": 0.2620088964247549,
+      "prequential_mean_radius": 0.26223582069238527,
+      "mean_online_score_count": 4799.5,
+      "prequential_coverage_block_length": 84,
+      "prequential_coverage_moving_block_95pct_interval": [
+        0.8904826388888889,
+        0.9031944444444444
+      ],
+      "prequential_coverage_2x_block_moving_block_95pct_interval": [
+        0.8908333333333334,
+        0.9032673611111111
+      ],
+      "predictor": "train-only StandardScaler + median imputation + Ridge(alpha=1), frozen throughout test",
+      "radius_update": "after each prediction, its absolute residual joins the score pool only when label_available_time is strictly before a later prediction_time",
+      "missing_test_labels": 0
+    },
+    {
+      "preset": "asymmetric_residuals",
+      "scenario": "asymmetric_errors",
+      "seed": 44,
+      "calibration_target_scope": "marginal",
+      "n_train_available": 2400,
+      "n_calibration_arrived_before_test": 1200,
+      "n_test_labeled": 7200,
+      "n_online_scored": 7200,
+      "fixed_split_radius": 0.23862025491497765,
+      "fixed_split_test_coverage": 0.8834722222222222,
+      "prequential_test_coverage": 0.8947222222222222,
+      "prequential_median_radius": 0.2705791100429116,
+      "prequential_mean_radius": 0.266350940624231,
+      "mean_online_score_count": 4799.5,
+      "prequential_coverage_block_length": 84,
+      "prequential_coverage_moving_block_95pct_interval": [
+        0.887982638888889,
+        0.9022222222222223
+      ],
+      "prequential_coverage_2x_block_moving_block_95pct_interval": [
+        0.8865937500000001,
+        0.9013888888888889
+      ],
+      "predictor": "train-only StandardScaler + median imputation + Ridge(alpha=1), frozen throughout test",
+      "radius_update": "after each prediction, its absolute residual joins the score pool only when label_available_time is strictly before a later prediction_time",
+      "missing_test_labels": 0
+    },
+    {
+      "preset": "asymmetric_residuals",
+      "scenario": "asymmetric_errors",
+      "seed": 45,
+      "calibration_target_scope": "marginal",
+      "n_train_available": 2400,
+      "n_calibration_arrived_before_test": 1200,
+      "n_test_labeled": 7200,
+      "n_online_scored": 7200,
+      "fixed_split_radius": 0.29568194532037895,
+      "fixed_split_test_coverage": 0.9111111111111111,
+      "prequential_test_coverage": 0.9033333333333333,
+      "prequential_median_radius": 0.27323648026604164,
+      "prequential_mean_radius": 0.27379443973136675,
+      "mean_online_score_count": 4799.5,
+      "prequential_coverage_block_length": 84,
+      "prequential_coverage_moving_block_95pct_interval": [
+        0.8965277777777778,
+        0.9094444444444445
+      ],
+      "prequential_coverage_2x_block_moving_block_95pct_interval": [
+        0.8961770833333333,
+        0.9104166666666667
+      ],
+      "predictor": "train-only StandardScaler + median imputation + Ridge(alpha=1), frozen throughout test",
+      "radius_update": "after each prediction, its absolute residual joins the score pool only when label_available_time is strictly before a later prediction_time",
+      "missing_test_labels": 0
+    },
+    {
+      "preset": "asymmetric_residuals",
+      "scenario": "asymmetric_errors",
+      "seed": 46,
+      "calibration_target_scope": "marginal",
+      "n_train_available": 2400,
+      "n_calibration_arrived_before_test": 1200,
+      "n_test_labeled": 7200,
+      "n_online_scored": 7200,
+      "fixed_split_radius": 0.28308453169424397,
+      "fixed_split_test_coverage": 0.905,
+      "prequential_test_coverage": 0.8995833333333333,
+      "prequential_median_radius": 0.2665380068463108,
+      "prequential_mean_radius": 0.26672755110506025,
+      "mean_online_score_count": 4799.5,
+      "prequential_coverage_block_length": 84,
+      "prequential_coverage_moving_block_95pct_interval": [
+        0.89284375,
+        0.9055555555555556
+      ],
+      "prequential_coverage_2x_block_moving_block_95pct_interval": [
+        0.8934722222222222,
+        0.9060451388888888
+      ],
+      "predictor": "train-only StandardScaler + median imputation + Ridge(alpha=1), frozen throughout test",
+      "radius_update": "after each prediction, its absolute residual joins the score pool only when label_available_time is strictly before a later prediction_time",
+      "missing_test_labels": 0
+    },
+    {
+      "preset": "time_dependent_residuals",
+      "scenario": "dependent_errors",
+      "seed": 42,
+      "calibration_target_scope": "marginal",
+      "n_train_available": 2400,
+      "n_calibration_arrived_before_test": 1200,
+      "n_test_labeled": 7200,
+      "n_online_scored": 7200,
+      "fixed_split_radius": 0.4770950995153478,
+      "fixed_split_test_coverage": 0.8880555555555556,
+      "prequential_test_coverage": 0.8951388888888889,
+      "prequential_median_radius": 0.4876380000234337,
+      "prequential_mean_radius": 0.4876152628634036,
+      "mean_online_score_count": 4799.5,
+      "prequential_coverage_block_length": 84,
+      "prequential_coverage_moving_block_95pct_interval": [
+        0.8870104166666667,
+        0.9029166666666667
+      ],
+      "prequential_coverage_2x_block_moving_block_95pct_interval": [
+        0.8877708333333333,
+        0.9031944444444444
+      ],
+      "predictor": "train-only StandardScaler + median imputation + Ridge(alpha=1), frozen throughout test",
+      "radius_update": "after each prediction, its absolute residual joins the score pool only when label_available_time is strictly before a later prediction_time",
+      "missing_test_labels": 0
+    },
+    {
+      "preset": "time_dependent_residuals",
+      "scenario": "dependent_errors",
+      "seed": 43,
+      "calibration_target_scope": "marginal",
+      "n_train_available": 2400,
+      "n_calibration_arrived_before_test": 1200,
+      "n_test_labeled": 7200,
+      "n_online_scored": 7200,
+      "fixed_split_radius": 0.4968438823388588,
+      "fixed_split_test_coverage": 0.9130555555555555,
+      "prequential_test_coverage": 0.9011111111111111,
+      "prequential_median_radius": 0.47913440175210636,
+      "prequential_mean_radius": 0.47901044060772974,
+      "mean_online_score_count": 4799.5,
+      "prequential_coverage_block_length": 84,
+      "prequential_coverage_moving_block_95pct_interval": [
+        0.8922881944444445,
+        0.9096562499999999
+      ],
+      "prequential_coverage_2x_block_moving_block_95pct_interval": [
+        0.8907604166666667,
+        0.9106944444444445
+      ],
+      "predictor": "train-only StandardScaler + median imputation + Ridge(alpha=1), frozen throughout test",
+      "radius_update": "after each prediction, its absolute residual joins the score pool only when label_available_time is strictly before a later prediction_time",
+      "missing_test_labels": 0
+    },
+    {
+      "preset": "time_dependent_residuals",
+      "scenario": "dependent_errors",
+      "seed": 44,
+      "calibration_target_scope": "marginal",
+      "n_train_available": 2400,
+      "n_calibration_arrived_before_test": 1200,
+      "n_test_labeled": 7200,
+      "n_online_scored": 7200,
+      "fixed_split_radius": 0.4615044014215144,
+      "fixed_split_test_coverage": 0.88,
+      "prequential_test_coverage": 0.8948611111111111,
+      "prequential_median_radius": 0.4818449974841606,
+      "prequential_mean_radius": 0.4805562033399908,
+      "mean_online_score_count": 4799.5,
+      "prequential_coverage_block_length": 84,
+      "prequential_coverage_moving_block_95pct_interval": [
+        0.8858333333333334,
+        0.9044513888888889
+      ],
+      "prequential_coverage_2x_block_moving_block_95pct_interval": [
+        0.8849270833333334,
+        0.9050069444444445
+      ],
+      "predictor": "train-only StandardScaler + median imputation + Ridge(alpha=1), frozen throughout test",
+      "radius_update": "after each prediction, its absolute residual joins the score pool only when label_available_time is strictly before a later prediction_time",
+      "missing_test_labels": 0
+    },
+    {
+      "preset": "time_dependent_residuals",
+      "scenario": "dependent_errors",
+      "seed": 45,
+      "calibration_target_scope": "marginal",
+      "n_train_available": 2400,
+      "n_calibration_arrived_before_test": 1200,
+      "n_test_labeled": 7200,
+      "n_online_scored": 7200,
+      "fixed_split_radius": 0.5126069703449787,
+      "fixed_split_test_coverage": 0.9081944444444444,
+      "prequential_test_coverage": 0.9031944444444444,
+      "prequential_median_radius": 0.503450810186262,
+      "prequential_mean_radius": 0.5040780967830014,
+      "mean_online_score_count": 4799.5,
+      "prequential_coverage_block_length": 84,
+      "prequential_coverage_moving_block_95pct_interval": [
+        0.8938159722222222,
+        0.9127118055555555
+      ],
+      "prequential_coverage_2x_block_moving_block_95pct_interval": [
+        0.89034375,
+        0.9148611111111111
+      ],
+      "predictor": "train-only StandardScaler + median imputation + Ridge(alpha=1), frozen throughout test",
+      "radius_update": "after each prediction, its absolute residual joins the score pool only when label_available_time is strictly before a later prediction_time",
+      "missing_test_labels": 0
+    },
+    {
+      "preset": "time_dependent_residuals",
+      "scenario": "dependent_errors",
+      "seed": 46,
+      "calibration_target_scope": "marginal",
+      "n_train_available": 2400,
+      "n_calibration_arrived_before_test": 1200,
+      "n_test_labeled": 7200,
+      "n_online_scored": 7200,
+      "fixed_split_radius": 0.4710610173583174,
+      "fixed_split_test_coverage": 0.8765277777777778,
+      "prequential_test_coverage": 0.8943055555555556,
+      "prequential_median_radius": 0.49812054678792483,
+      "prequential_mean_radius": 0.49317609000730284,
+      "mean_online_score_count": 4799.5,
+      "prequential_coverage_block_length": 84,
+      "prequential_coverage_moving_block_95pct_interval": [
+        0.8849270833333334,
+        0.9034861111111111
+      ],
+      "prequential_coverage_2x_block_moving_block_95pct_interval": [
+        0.8848611111111111,
+        0.9030555555555555
+      ],
+      "predictor": "train-only StandardScaler + median imputation + Ridge(alpha=1), frozen throughout test",
+      "radius_update": "after each prediction, its absolute residual joins the score pool only when label_available_time is strictly before a later prediction_time",
+      "missing_test_labels": 0
+    },
+    {
+      "preset": "hidden_regime_variance_switching",
+      "scenario": "hidden_variance",
+      "seed": 42,
+      "calibration_target_scope": "marginal",
+      "n_train_available": 2400,
+      "n_calibration_arrived_before_test": 1200,
+      "n_test_labeled": 7200,
+      "n_online_scored": 7200,
+      "fixed_split_radius": 0.5002887418806719,
+      "fixed_split_test_coverage": 0.5638888888888889,
+      "prequential_test_coverage": 0.7976388888888889,
+      "prequential_median_radius": 0.9768598999569766,
+      "prequential_mean_radius": 0.871928180960832,
+      "mean_online_score_count": 4799.5,
+      "prequential_coverage_block_length": 84,
+      "prequential_coverage_moving_block_95pct_interval": [
+        0.7761041666666666,
+        0.8170243055555555
+      ],
+      "prequential_coverage_2x_block_moving_block_95pct_interval": [
+        0.7724270833333333,
+        0.8217395833333333
+      ],
+      "predictor": "train-only StandardScaler + median imputation + Ridge(alpha=1), frozen throughout test",
+      "radius_update": "after each prediction, its absolute residual joins the score pool only when label_available_time is strictly before a later prediction_time",
+      "missing_test_labels": 0
+    },
+    {
+      "preset": "hidden_regime_variance_switching",
+      "scenario": "hidden_variance",
+      "seed": 43,
+      "calibration_target_scope": "marginal",
+      "n_train_available": 2400,
+      "n_calibration_arrived_before_test": 1200,
+      "n_test_labeled": 7200,
+      "n_online_scored": 7200,
+      "fixed_split_radius": 0.4885856461010323,
+      "fixed_split_test_coverage": 0.5481944444444444,
+      "prequential_test_coverage": 0.8001388888888888,
+      "prequential_median_radius": 0.9617747196814033,
+      "prequential_mean_radius": 0.8615942949233044,
+      "mean_online_score_count": 4799.5,
+      "prequential_coverage_block_length": 84,
+      "prequential_coverage_moving_block_95pct_interval": [
+        0.7776909722222222,
+        0.8208333333333333
+      ],
+      "prequential_coverage_2x_block_moving_block_95pct_interval": [
+        0.7679027777777777,
+        0.8293125
+      ],
+      "predictor": "train-only StandardScaler + median imputation + Ridge(alpha=1), frozen throughout test",
+      "radius_update": "after each prediction, its absolute residual joins the score pool only when label_available_time is strictly before a later prediction_time",
+      "missing_test_labels": 0
+    },
+    {
+      "preset": "hidden_regime_variance_switching",
+      "scenario": "hidden_variance",
+      "seed": 44,
+      "calibration_target_scope": "marginal",
+      "n_train_available": 2400,
+      "n_calibration_arrived_before_test": 1200,
+      "n_test_labeled": 7200,
+      "n_online_scored": 7200,
+      "fixed_split_radius": 0.4830851278278594,
+      "fixed_split_test_coverage": 0.5468055555555555,
+      "prequential_test_coverage": 0.7979166666666667,
+      "prequential_median_radius": 0.958453415347152,
+      "prequential_mean_radius": 0.863729125522626,
+      "mean_online_score_count": 4799.5,
+      "prequential_coverage_block_length": 84,
+      "prequential_coverage_moving_block_95pct_interval": [
+        0.7758333333333334,
+        0.82328125
+      ],
+      "prequential_coverage_2x_block_moving_block_95pct_interval": [
+        0.7644444444444445,
+        0.8266875
+      ],
+      "predictor": "train-only StandardScaler + median imputation + Ridge(alpha=1), frozen throughout test",
+      "radius_update": "after each prediction, its absolute residual joins the score pool only when label_available_time is strictly before a later prediction_time",
+      "missing_test_labels": 0
+    },
+    {
+      "preset": "hidden_regime_variance_switching",
+      "scenario": "hidden_variance",
+      "seed": 45,
+      "calibration_target_scope": "marginal",
+      "n_train_available": 2400,
+      "n_calibration_arrived_before_test": 1200,
+      "n_test_labeled": 7200,
+      "n_online_scored": 7200,
+      "fixed_split_radius": 0.5055886489282108,
+      "fixed_split_test_coverage": 0.56375,
+      "prequential_test_coverage": 0.8025,
+      "prequential_median_radius": 0.98825218761818,
+      "prequential_mean_radius": 0.8806616050172476,
+      "mean_online_score_count": 4799.5,
+      "prequential_coverage_block_length": 84,
+      "prequential_coverage_moving_block_95pct_interval": [
+        0.7805451388888889,
+        0.8221631944444444
+      ],
+      "prequential_coverage_2x_block_moving_block_95pct_interval": [
+        0.7687430555555556,
+        0.8309722222222222
+      ],
+      "predictor": "train-only StandardScaler + median imputation + Ridge(alpha=1), frozen throughout test",
+      "radius_update": "after each prediction, its absolute residual joins the score pool only when label_available_time is strictly before a later prediction_time",
+      "missing_test_labels": 0
+    },
+    {
+      "preset": "hidden_regime_variance_switching",
+      "scenario": "hidden_variance",
+      "seed": 46,
+      "calibration_target_scope": "marginal",
+      "n_train_available": 2400,
+      "n_calibration_arrived_before_test": 1200,
+      "n_test_labeled": 7200,
+      "n_online_scored": 7200,
+      "fixed_split_radius": 0.48848745274463834,
+      "fixed_split_test_coverage": 0.5527777777777778,
+      "prequential_test_coverage": 0.7956944444444445,
+      "prequential_median_radius": 0.963830804750387,
+      "prequential_mean_radius": 0.8636505005372705,
+      "mean_online_score_count": 4799.5,
+      "prequential_coverage_block_length": 84,
+      "prequential_coverage_moving_block_95pct_interval": [
+        0.7725659722222222,
+        0.8148611111111111
+      ],
+      "prequential_coverage_2x_block_moving_block_95pct_interval": [
+        0.7638888888888888,
+        0.8220173611111111
+      ],
+      "predictor": "train-only StandardScaler + median imputation + Ridge(alpha=1), frozen throughout test",
+      "radius_update": "after each prediction, its absolute residual joins the score pool only when label_available_time is strictly before a later prediction_time",
+      "missing_test_labels": 0
+    },
+    {
+      "preset": "intermittent_extreme_events",
+      "scenario": "extreme_events",
+      "seed": 42,
+      "calibration_target_scope": "conditional",
+      "n_train_available": 2400,
+      "n_calibration_arrived_before_test": 1200,
+      "n_test_labeled": 7200,
+      "n_online_scored": 7200,
+      "fixed_split_radius": 0.5230239763795217,
+      "fixed_split_test_coverage": 0.8931944444444444,
+      "prequential_test_coverage": 0.90125,
+      "prequential_median_radius": 0.5411973127339103,
+      "prequential_mean_radius": 0.5407482231823055,
+      "mean_online_score_count": 4799.5,
+      "prequential_coverage_block_length": 84,
+      "prequential_coverage_moving_block_95pct_interval": [
+        0.8930555555555556,
+        0.9088229166666666
+      ],
+      "prequential_coverage_2x_block_moving_block_95pct_interval": [
+        0.8931944444444444,
+        0.9110451388888888
+      ],
+      "predictor": "train-only StandardScaler + median imputation + Ridge(alpha=1), frozen throughout test",
+      "radius_update": "after each prediction, its absolute residual joins the score pool only when label_available_time is strictly before a later prediction_time",
+      "missing_test_labels": 0
+    },
+    {
+      "preset": "intermittent_extreme_events",
+      "scenario": "extreme_events",
+      "seed": 43,
+      "calibration_target_scope": "conditional",
+      "n_train_available": 2400,
+      "n_calibration_arrived_before_test": 1200,
+      "n_test_labeled": 7200,
+      "n_online_scored": 7200,
+      "fixed_split_radius": 0.5052299957480759,
+      "fixed_split_test_coverage": 0.8926388888888889,
+      "prequential_test_coverage": 0.9013888888888889,
+      "prequential_median_radius": 0.5233024832280584,
+      "prequential_mean_radius": 0.521678386712318,
+      "mean_online_score_count": 4799.5,
+      "prequential_coverage_block_length": 84,
+      "prequential_coverage_moving_block_95pct_interval": [
+        0.8919444444444444,
+        0.9101388888888889
+      ],
+      "prequential_coverage_2x_block_moving_block_95pct_interval": [
+        0.8893715277777778,
+        0.9124340277777777
+      ],
+      "predictor": "train-only StandardScaler + median imputation + Ridge(alpha=1), frozen throughout test",
+      "radius_update": "after each prediction, its absolute residual joins the score pool only when label_available_time is strictly before a later prediction_time",
+      "missing_test_labels": 0
+    },
+    {
+      "preset": "intermittent_extreme_events",
+      "scenario": "extreme_events",
+      "seed": 44,
+      "calibration_target_scope": "conditional",
+      "n_train_available": 2400,
+      "n_calibration_arrived_before_test": 1200,
+      "n_test_labeled": 7200,
+      "n_online_scored": 7200,
+      "fixed_split_radius": 0.49773815516339837,
+      "fixed_split_test_coverage": 0.8897222222222222,
+      "prequential_test_coverage": 0.9027777777777778,
+      "prequential_median_radius": 0.5201383940638424,
+      "prequential_mean_radius": 0.5217114034767084,
+      "mean_online_score_count": 4799.5,
+      "prequential_coverage_block_length": 84,
+      "prequential_coverage_moving_block_95pct_interval": [
+        0.8943715277777778,
+        0.9116736111111111
+      ],
+      "prequential_coverage_2x_block_moving_block_95pct_interval": [
+        0.8908993055555556,
+        0.913704861111111
+      ],
+      "predictor": "train-only StandardScaler + median imputation + Ridge(alpha=1), frozen throughout test",
+      "radius_update": "after each prediction, its absolute residual joins the score pool only when label_available_time is strictly before a later prediction_time",
+      "missing_test_labels": 0
+    },
+    {
+      "preset": "intermittent_extreme_events",
+      "scenario": "extreme_events",
+      "seed": 45,
+      "calibration_target_scope": "conditional",
+      "n_train_available": 2400,
+      "n_calibration_arrived_before_test": 1200,
+      "n_test_labeled": 7200,
+      "n_online_scored": 7200,
+      "fixed_split_radius": 0.5111102979611921,
+      "fixed_split_test_coverage": 0.8884722222222222,
+      "prequential_test_coverage": 0.8986111111111111,
+      "prequential_median_radius": 0.5369046508292352,
+      "prequential_mean_radius": 0.5310740252684967,
+      "mean_online_score_count": 4799.5,
+      "prequential_coverage_block_length": 84,
+      "prequential_coverage_moving_block_95pct_interval": [
+        0.8894965277777778,
+        0.9072222222222223
+      ],
+      "prequential_coverage_2x_block_moving_block_95pct_interval": [
+        0.8886770833333334,
+        0.9086840277777778
+      ],
+      "predictor": "train-only StandardScaler + median imputation + Ridge(alpha=1), frozen throughout test",
+      "radius_update": "after each prediction, its absolute residual joins the score pool only when label_available_time is strictly before a later prediction_time",
+      "missing_test_labels": 0
+    },
+    {
+      "preset": "intermittent_extreme_events",
+      "scenario": "extreme_events",
+      "seed": 46,
+      "calibration_target_scope": "conditional",
+      "n_train_available": 2400,
+      "n_calibration_arrived_before_test": 1200,
+      "n_test_labeled": 7200,
+      "n_online_scored": 7200,
+      "fixed_split_radius": 0.5034675112072379,
+      "fixed_split_test_coverage": 0.8840277777777777,
+      "prequential_test_coverage": 0.9001388888888889,
+      "prequential_median_radius": 0.5327464793170482,
+      "prequential_mean_radius": 0.5312788211733673,
+      "mean_online_score_count": 4799.5,
+      "prequential_coverage_block_length": 84,
+      "prequential_coverage_moving_block_95pct_interval": [
+        0.8918715277777778,
+        0.9072222222222223
+      ],
+      "prequential_coverage_2x_block_moving_block_95pct_interval": [
+        0.8882604166666667,
+        0.9100069444444445
+      ],
+      "predictor": "train-only StandardScaler + median imputation + Ridge(alpha=1), frozen throughout test",
+      "radius_update": "after each prediction, its absolute residual joins the score pool only when label_available_time is strictly before a later prediction_time",
+      "missing_test_labels": 0
+    },
+    {
+      "preset": "recurring_high_low_noise_periods",
+      "scenario": "target_variance",
+      "seed": 42,
+      "calibration_target_scope": "conditional",
+      "n_train_available": 2400,
+      "n_calibration_arrived_before_test": 1200,
+      "n_test_labeled": 7200,
+      "n_online_scored": 7200,
+      "fixed_split_radius": 1.2470358056347302,
+      "fixed_split_test_coverage": 0.9391666666666667,
+      "prequential_test_coverage": 0.9051388888888889,
+      "prequential_median_radius": 1.0465560368168156,
+      "prequential_mean_radius": 1.0688124943186268,
+      "mean_online_score_count": 4799.5,
+      "prequential_coverage_block_length": 84,
+      "prequential_coverage_moving_block_95pct_interval": [
+        0.8863888888888889,
+        0.9247291666666667
+      ],
+      "prequential_coverage_2x_block_moving_block_95pct_interval": [
+        0.8806944444444444,
+        0.9325208333333334
+      ],
+      "predictor": "train-only StandardScaler + median imputation + Ridge(alpha=1), frozen throughout test",
+      "radius_update": "after each prediction, its absolute residual joins the score pool only when label_available_time is strictly before a later prediction_time",
+      "missing_test_labels": 0
+    },
+    {
+      "preset": "recurring_high_low_noise_periods",
+      "scenario": "target_variance",
+      "seed": 43,
+      "calibration_target_scope": "conditional",
+      "n_train_available": 2400,
+      "n_calibration_arrived_before_test": 1200,
+      "n_test_labeled": 7200,
+      "n_online_scored": 7200,
+      "fixed_split_radius": 1.218618025801569,
+      "fixed_split_test_coverage": 0.9413888888888889,
+      "prequential_test_coverage": 0.9009722222222222,
+      "prequential_median_radius": 1.0019769094875413,
+      "prequential_mean_radius": 1.0330643328175677,
+      "mean_online_score_count": 4799.5,
+      "prequential_coverage_block_length": 84,
+      "prequential_coverage_moving_block_95pct_interval": [
+        0.8810381944444444,
+        0.9202118055555555
+      ],
+      "prequential_coverage_2x_block_moving_block_95pct_interval": [
+        0.8739479166666667,
+        0.9264097222222222
+      ],
+      "predictor": "train-only StandardScaler + median imputation + Ridge(alpha=1), frozen throughout test",
+      "radius_update": "after each prediction, its absolute residual joins the score pool only when label_available_time is strictly before a later prediction_time",
+      "missing_test_labels": 0
+    },
+    {
+      "preset": "recurring_high_low_noise_periods",
+      "scenario": "target_variance",
+      "seed": 44,
+      "calibration_target_scope": "conditional",
+      "n_train_available": 2400,
+      "n_calibration_arrived_before_test": 1200,
+      "n_test_labeled": 7200,
+      "n_online_scored": 7200,
+      "fixed_split_radius": 1.207401041143742,
+      "fixed_split_test_coverage": 0.9393055555555555,
+      "prequential_test_coverage": 0.9086111111111111,
+      "prequential_median_radius": 1.0607509081653528,
+      "prequential_mean_radius": 1.0736153147713436,
+      "mean_online_score_count": 4799.5,
+      "prequential_coverage_block_length": 84,
+      "prequential_coverage_moving_block_95pct_interval": [
+        0.8890868055555555,
+        0.9248090277777777
+      ],
+      "prequential_coverage_2x_block_moving_block_95pct_interval": [
+        0.8832604166666667,
+        0.9335451388888889
+      ],
+      "predictor": "train-only StandardScaler + median imputation + Ridge(alpha=1), frozen throughout test",
+      "radius_update": "after each prediction, its absolute residual joins the score pool only when label_available_time is strictly before a later prediction_time",
+      "missing_test_labels": 0
+    },
+    {
+      "preset": "recurring_high_low_noise_periods",
+      "scenario": "target_variance",
+      "seed": 45,
+      "calibration_target_scope": "conditional",
+      "n_train_available": 2400,
+      "n_calibration_arrived_before_test": 1200,
+      "n_test_labeled": 7200,
+      "n_online_scored": 7200,
+      "fixed_split_radius": 1.2694406779129332,
+      "fixed_split_test_coverage": 0.9468055555555556,
+      "prequential_test_coverage": 0.9086111111111111,
+      "prequential_median_radius": 1.0458686797125702,
+      "prequential_mean_radius": 1.0739348560874962,
+      "mean_online_score_count": 4799.5,
+      "prequential_coverage_block_length": 84,
+      "prequential_coverage_moving_block_95pct_interval": [
+        0.8922083333333333,
+        0.92521875
+      ],
+      "prequential_coverage_2x_block_moving_block_95pct_interval": [
+        0.8823263888888889,
+        0.9341666666666667
+      ],
+      "predictor": "train-only StandardScaler + median imputation + Ridge(alpha=1), frozen throughout test",
+      "radius_update": "after each prediction, its absolute residual joins the score pool only when label_available_time is strictly before a later prediction_time",
+      "missing_test_labels": 0
+    },
+    {
+      "preset": "recurring_high_low_noise_periods",
+      "scenario": "target_variance",
+      "seed": 46,
+      "calibration_target_scope": "conditional",
+      "n_train_available": 2400,
+      "n_calibration_arrived_before_test": 1200,
+      "n_test_labeled": 7200,
+      "n_online_scored": 7200,
+      "fixed_split_radius": 1.2245739726945821,
+      "fixed_split_test_coverage": 0.9370833333333334,
+      "prequential_test_coverage": 0.9038888888888889,
+      "prequential_median_radius": 1.0439444121796086,
+      "prequential_mean_radius": 1.065332758258083,
+      "mean_online_score_count": 4799.5,
+      "prequential_coverage_block_length": 84,
+      "prequential_coverage_moving_block_95pct_interval": [
+        0.8856875,
+        0.9228506944444445
+      ],
+      "prequential_coverage_2x_block_moving_block_95pct_interval": [
+        0.8786423611111112,
+        0.9311180555555556
+      ],
+      "predictor": "train-only StandardScaler + median imputation + Ridge(alpha=1), frozen throughout test",
+      "radius_update": "after each prediction, its absolute residual joins the score pool only when label_available_time is strictly before a later prediction_time",
+      "missing_test_labels": 0
+    },
+    {
+      "preset": "delayed_calibration_labels",
+      "scenario": "feedback_change",
+      "seed": 42,
+      "calibration_target_scope": "conditional",
+      "n_train_available": 2375,
+      "n_calibration_arrived_before_test": 1175,
+      "n_test_labeled": 7200,
+      "n_online_scored": 7200,
+      "fixed_split_radius": 0.49967533862142566,
+      "fixed_split_test_coverage": 0.9002777777777777,
+      "prequential_test_coverage": 0.8998611111111111,
+      "prequential_median_radius": 0.4993082449061101,
+      "prequential_mean_radius": 0.4988991534347412,
+      "mean_online_score_count": 4362.238472222222,
+      "prequential_coverage_block_length": 84,
+      "prequential_coverage_moving_block_95pct_interval": [
+        0.8936770833333334,
+        0.9065347222222222
+      ],
+      "prequential_coverage_2x_block_moving_block_95pct_interval": [
+        0.8936111111111111,
+        0.9068055555555555
+      ],
+      "predictor": "train-only StandardScaler + median imputation + Ridge(alpha=1), frozen throughout test",
+      "radius_update": "after each prediction, its absolute residual joins the score pool only when label_available_time is strictly before a later prediction_time",
+      "missing_test_labels": 0
+    },
+    {
+      "preset": "delayed_calibration_labels",
+      "scenario": "feedback_change",
+      "seed": 43,
+      "calibration_target_scope": "conditional",
+      "n_train_available": 2375,
+      "n_calibration_arrived_before_test": 1175,
+      "n_test_labeled": 7200,
+      "n_online_scored": 7200,
+      "fixed_split_radius": 0.4885469391089359,
+      "fixed_split_test_coverage": 0.8990277777777778,
+      "prequential_test_coverage": 0.8965277777777778,
+      "prequential_median_radius": 0.4857141428378553,
+      "prequential_mean_radius": 0.4854483563546806,
+      "mean_online_score_count": 4356.256666666667,
+      "prequential_coverage_block_length": 84,
+      "prequential_coverage_moving_block_95pct_interval": [
+        0.8893055555555556,
+        0.9042465277777778
+      ],
+      "prequential_coverage_2x_block_moving_block_95pct_interval": [
+        0.8888888888888888,
+        0.9040277777777778
+      ],
+      "predictor": "train-only StandardScaler + median imputation + Ridge(alpha=1), frozen throughout test",
+      "radius_update": "after each prediction, its absolute residual joins the score pool only when label_available_time is strictly before a later prediction_time",
+      "missing_test_labels": 0
+    },
+    {
+      "preset": "delayed_calibration_labels",
+      "scenario": "feedback_change",
+      "seed": 44,
+      "calibration_target_scope": "conditional",
+      "n_train_available": 2375,
+      "n_calibration_arrived_before_test": 1175,
+      "n_test_labeled": 7200,
+      "n_online_scored": 7200,
+      "fixed_split_radius": 0.4850443655622243,
+      "fixed_split_test_coverage": 0.8980555555555556,
+      "prequential_test_coverage": 0.9023611111111111,
+      "prequential_median_radius": 0.4907656656133632,
+      "prequential_mean_radius": 0.4915260292639013,
+      "mean_online_score_count": 4372.5408333333335,
+      "prequential_coverage_block_length": 84,
+      "prequential_coverage_moving_block_95pct_interval": [
+        0.8954826388888889,
+        0.9097222222222222
+      ],
+      "prequential_coverage_2x_block_moving_block_95pct_interval": [
+        0.8947881944444445,
+        0.9095173611111111
+      ],
+      "predictor": "train-only StandardScaler + median imputation + Ridge(alpha=1), frozen throughout test",
+      "radius_update": "after each prediction, its absolute residual joins the score pool only when label_available_time is strictly before a later prediction_time",
+      "missing_test_labels": 0
+    },
+    {
+      "preset": "delayed_calibration_labels",
+      "scenario": "feedback_change",
+      "seed": 45,
+      "calibration_target_scope": "conditional",
+      "n_train_available": 2375,
+      "n_calibration_arrived_before_test": 1175,
+      "n_test_labeled": 7200,
+      "n_online_scored": 7200,
+      "fixed_split_radius": 0.5090311112723591,
+      "fixed_split_test_coverage": 0.9084722222222222,
+      "prequential_test_coverage": 0.90125,
+      "prequential_median_radius": 0.49900527752708923,
+      "prequential_mean_radius": 0.4990907350110808,
+      "mean_online_score_count": 4350.909027777778,
+      "prequential_coverage_block_length": 84,
+      "prequential_coverage_moving_block_95pct_interval": [
+        0.8943715277777778,
+        0.9079236111111111
+      ],
+      "prequential_coverage_2x_block_moving_block_95pct_interval": [
+        0.8946493055555556,
+        0.9081284722222221
+      ],
+      "predictor": "train-only StandardScaler + median imputation + Ridge(alpha=1), frozen throughout test",
+      "radius_update": "after each prediction, its absolute residual joins the score pool only when label_available_time is strictly before a later prediction_time",
+      "missing_test_labels": 0
+    },
+    {
+      "preset": "delayed_calibration_labels",
+      "scenario": "feedback_change",
+      "seed": 46,
+      "calibration_target_scope": "conditional",
+      "n_train_available": 2375,
+      "n_calibration_arrived_before_test": 1175,
+      "n_test_labeled": 7200,
+      "n_online_scored": 7200,
+      "fixed_split_radius": 0.4904022201315237,
+      "fixed_split_test_coverage": 0.8945833333333333,
+      "prequential_test_coverage": 0.9004166666666666,
+      "prequential_median_radius": 0.49828538822508117,
+      "prequential_mean_radius": 0.49811745547450087,
+      "mean_online_score_count": 4349.612638888889,
+      "prequential_coverage_block_length": 84,
+      "prequential_coverage_moving_block_95pct_interval": [
+        0.8940277777777778,
+        0.9066006944444445
+      ],
+      "prequential_coverage_2x_block_moving_block_95pct_interval": [
+        0.8952048611111111,
+        0.9056284722222222
+      ],
+      "predictor": "train-only StandardScaler + median imputation + Ridge(alpha=1), frozen throughout test",
+      "radius_update": "after each prediction, its absolute residual joins the score pool only when label_available_time is strictly before a later prediction_time",
+      "missing_test_labels": 0
+    },
+    {
+      "preset": "missing_calibration_labels",
+      "scenario": "feedback_change",
+      "seed": 42,
+      "calibration_target_scope": "conditional",
+      "n_train_available": 1523,
+      "n_calibration_arrived_before_test": 763,
+      "n_test_labeled": 7200,
+      "n_online_scored": 7200,
+      "fixed_split_radius": 0.5224988038313712,
+      "fixed_split_test_coverage": 0.9140277777777778,
+      "prequential_test_coverage": 0.9029166666666667,
+      "prequential_median_radius": 0.5028913924976266,
+      "prequential_mean_radius": 0.5041801042999652,
+      "mean_online_score_count": 2680.9883333333332,
+      "prequential_coverage_block_length": 84,
+      "prequential_coverage_moving_block_95pct_interval": [
+        0.8971493055555556,
+        0.9099340277777778
+      ],
+      "prequential_coverage_2x_block_moving_block_95pct_interval": [
+        0.8969374999999999,
+        0.9096562499999999
+      ],
+      "predictor": "train-only StandardScaler + median imputation + Ridge(alpha=1), frozen throughout test",
+      "radius_update": "after each prediction, its absolute residual joins the score pool only when label_available_time is strictly before a later prediction_time",
+      "missing_test_labels": 0
+    },
+    {
+      "preset": "missing_calibration_labels",
+      "scenario": "feedback_change",
+      "seed": 43,
+      "calibration_target_scope": "conditional",
+      "n_train_available": 1586,
+      "n_calibration_arrived_before_test": 760,
+      "n_test_labeled": 7200,
+      "n_online_scored": 7200,
+      "fixed_split_radius": 0.47786123253868673,
+      "fixed_split_test_coverage": 0.8913888888888889,
+      "prequential_test_coverage": 0.8911111111111111,
+      "prequential_median_radius": 0.4770301638423389,
+      "prequential_mean_radius": 0.47729669858898016,
+      "mean_online_score_count": 2726.7943055555556,
+      "prequential_coverage_block_length": 84,
+      "prequential_coverage_moving_block_95pct_interval": [
+        0.8836111111111111,
+        0.8986180555555556
+      ],
+      "prequential_coverage_2x_block_moving_block_95pct_interval": [
+        0.88375,
+        0.898267361111111
+      ],
+      "predictor": "train-only StandardScaler + median imputation + Ridge(alpha=1), frozen throughout test",
+      "radius_update": "after each prediction, its absolute residual joins the score pool only when label_available_time is strictly before a later prediction_time",
+      "missing_test_labels": 0
+    },
+    {
+      "preset": "missing_calibration_labels",
+      "scenario": "feedback_change",
+      "seed": 44,
+      "calibration_target_scope": "conditional",
+      "n_train_available": 1520,
+      "n_calibration_arrived_before_test": 780,
+      "n_test_labeled": 7200,
+      "n_online_scored": 7200,
+      "fixed_split_radius": 0.48338850378959564,
+      "fixed_split_test_coverage": 0.8970833333333333,
+      "prequential_test_coverage": 0.8980555555555556,
+      "prequential_median_radius": 0.48487825027276354,
+      "prequential_mean_radius": 0.48449326777192014,
+      "mean_online_score_count": 2735.083611111111,
+      "prequential_coverage_block_length": 84,
+      "prequential_coverage_moving_block_95pct_interval": [
+        0.8908333333333334,
+        0.9054895833333333
+      ],
+      "prequential_coverage_2x_block_moving_block_95pct_interval": [
+        0.8906944444444445,
+        0.9056284722222222
+      ],
+      "predictor": "train-only StandardScaler + median imputation + Ridge(alpha=1), frozen throughout test",
+      "radius_update": "after each prediction, its absolute residual joins the score pool only when label_available_time is strictly before a later prediction_time",
+      "missing_test_labels": 0
+    },
+    {
+      "preset": "missing_calibration_labels",
+      "scenario": "feedback_change",
+      "seed": 45,
+      "calibration_target_scope": "conditional",
+      "n_train_available": 1572,
+      "n_calibration_arrived_before_test": 768,
+      "n_test_labeled": 7200,
+      "n_online_scored": 7200,
+      "fixed_split_radius": 0.5153521262816194,
+      "fixed_split_test_coverage": 0.9109722222222222,
+      "prequential_test_coverage": 0.9044444444444445,
+      "prequential_median_radius": 0.504393401510334,
+      "prequential_mean_radius": 0.5033697922453524,
+      "mean_online_score_count": 2718.0475,
+      "prequential_coverage_block_length": 84,
+      "prequential_coverage_moving_block_95pct_interval": [
+        0.8977048611111111,
+        0.9106944444444445
+      ],
+      "prequential_coverage_2x_block_moving_block_95pct_interval": [
+        0.8977777777777778,
+        0.9108402777777778
+      ],
+      "predictor": "train-only StandardScaler + median imputation + Ridge(alpha=1), frozen throughout test",
+      "radius_update": "after each prediction, its absolute residual joins the score pool only when label_available_time is strictly before a later prediction_time",
+      "missing_test_labels": 0
+    },
+    {
+      "preset": "missing_calibration_labels",
+      "scenario": "feedback_change",
+      "seed": 46,
+      "calibration_target_scope": "conditional",
+      "n_train_available": 1552,
+      "n_calibration_arrived_before_test": 802,
+      "n_test_labeled": 7200,
+      "n_online_scored": 7200,
+      "fixed_split_radius": 0.4822499726767686,
+      "fixed_split_test_coverage": 0.8873611111111112,
+      "prequential_test_coverage": 0.8955555555555555,
+      "prequential_median_radius": 0.4936469179037397,
+      "prequential_mean_radius": 0.4926457736332764,
+      "mean_online_score_count": 2768.7365277777776,
+      "prequential_coverage_block_length": 84,
+      "prequential_coverage_moving_block_95pct_interval": [
+        0.8895833333333333,
+        0.9015277777777778
+      ],
+      "prequential_coverage_2x_block_moving_block_95pct_interval": [
+        0.8902048611111111,
+        0.9009722222222222
+      ],
+      "predictor": "train-only StandardScaler + median imputation + Ridge(alpha=1), frozen throughout test",
+      "radius_update": "after each prediction, its absolute residual joins the score pool only when label_available_time is strictly before a later prediction_time",
+      "missing_test_labels": 0
+    }
+  ],
+  "by_preset": [
+    {
+      "preset": "abrupt_residual_variance_increase",
+      "replicates": 5,
+      "mean_fixed_split_test_coverage": 0.49477777777777776,
+      "mean_prequential_test_coverage": 0.7907777777777778,
+      "mean_prequential_radius": 1.0121618030677537
+    },
+    {
+      "preset": "asymmetric_residuals",
+      "replicates": 5,
+      "mean_fixed_split_test_coverage": 0.9029722222222223,
+      "mean_prequential_test_coverage": 0.8999444444444444,
+      "mean_prequential_radius": 0.26896231324758235
+    },
+    {
+      "preset": "conditional_heteroskedasticity",
+      "replicates": 5,
+      "mean_fixed_split_test_coverage": 0.7019444444444446,
+      "mean_prequential_test_coverage": 0.8266944444444444,
+      "mean_prequential_radius": 0.6772338965417033
+    },
+    {
+      "preset": "delayed_calibration_labels",
+      "replicates": 5,
+      "mean_fixed_split_test_coverage": 0.9000833333333332,
+      "mean_prequential_test_coverage": 0.9000833333333332,
+      "mean_prequential_radius": 0.494616345907781
+    },
+    {
+      "preset": "gradual_residual_variance_increase",
+      "replicates": 5,
+      "mean_fixed_split_test_coverage": 0.5280277777777778,
+      "mean_prequential_test_coverage": 0.7671388888888888,
+      "mean_prequential_radius": 0.893821335054674
+    },
+    {
+      "preset": "heavy_tailed_residuals",
+      "replicates": 5,
+      "mean_fixed_split_test_coverage": 0.8980277777777778,
+      "mean_prequential_test_coverage": 0.8983611111111112,
+      "mean_prequential_radius": 0.466102531511559
+    },
+    {
+      "preset": "hidden_regime_variance_switching",
+      "replicates": 5,
+      "mean_fixed_split_test_coverage": 0.5550833333333334,
+      "mean_prequential_test_coverage": 0.7987777777777778,
+      "mean_prequential_radius": 0.8683127413922562
+    },
+    {
+      "preset": "homoskedastic_residuals",
+      "replicates": 5,
+      "mean_fixed_split_test_coverage": 0.8991666666666667,
+      "mean_prequential_test_coverage": 0.9,
+      "mean_prequential_radius": 0.49391132952469974
+    },
+    {
+      "preset": "intermittent_extreme_events",
+      "replicates": 5,
+      "mean_fixed_split_test_coverage": 0.8896111111111111,
+      "mean_prequential_test_coverage": 0.9008333333333335,
+      "mean_prequential_radius": 0.5292981719626393
+    },
+    {
+      "preset": "missing_calibration_labels",
+      "replicates": 5,
+      "mean_fixed_split_test_coverage": 0.9001666666666667,
+      "mean_prequential_test_coverage": 0.8984166666666666,
+      "mean_prequential_radius": 0.49239712730789886
+    },
+    {
+      "preset": "recurring_high_low_noise_periods",
+      "replicates": 5,
+      "mean_fixed_split_test_coverage": 0.9407500000000001,
+      "mean_prequential_test_coverage": 0.9054444444444444,
+      "mean_prequential_radius": 1.0629519512506236
+    },
+    {
+      "preset": "time_dependent_residuals",
+      "replicates": 5,
+      "mean_fixed_split_test_coverage": 0.8931666666666667,
+      "mean_prequential_test_coverage": 0.8977222222222222,
+      "mean_prequential_radius": 0.4888872187202857
+    }
+  ],
+  "processing_commit": "5335e664244272d6f57dc4bd1ea642fe205295e3",
+  "source_hash": "5f8e4024fade85677840d90dc8c199591bca9f1ed66fe4fc58023373c8cc12a9",
+  "script_sha256": "f1ac3718c922e7ca0cb9c1b9b9fbe9d93cefdde5671c81dbc49cf369de32b319",
+  "executed_at": "2026-10-19T22:43:18.649811+00:00",
+  "limitations": [
+    "The Ridge predictor is frozen; only the residual quantile adapts online.",
+    "Prequential residual quantiles under serial dependence or changing distributions do not have a finite-sample coverage guarantee.",
+    "Moving-block intervals use sqrt(n) and 2*sqrt(n) row blocks; these are sensitivity diagnostics, not guaranteed confidence intervals under arbitrary drift.",
+    "Five-seed averages are descriptive and are not pooled as IID observations.",
+    "Rows with missing outcomes do not enter coverage; calibration residuals must have arrived before they are used."
+  ]
+}

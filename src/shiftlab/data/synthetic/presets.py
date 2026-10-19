@@ -172,6 +172,14 @@ def conformal_stress_catalogue(*, seed: int = 42, n: int = 12000):
             "Variance changes over the recorded linear transition interval.",
         ),
         (
+            "abrupt_concept_coefficient_change",
+            "concept",
+            {"severity": 2.0, "pattern": "abrupt"},
+            "conditional",
+            "per-time conditional Gaussian residual radius",
+            "The conditional mean coefficient changes abruptly while Gaussian noise variance stays fixed.",
+        ),
+        (
             "conditional_heteroskedasticity",
             "conditional_variance",
             {"severity": 1.0},

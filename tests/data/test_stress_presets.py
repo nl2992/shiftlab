@@ -36,8 +36,8 @@ def test_prediction_only_case_degrades_prediction_while_preserving_actions():
 
 def test_conformal_catalogue_names_both_target_and_oracle_radius_scope():
     presets = conformal_stress_catalogue(n=1000)
-    assert len(presets) == 12
-    assert len({preset.name for preset in presets}) == 12
+    assert len(presets) == 13
+    assert len({preset.name for preset in presets}) == 13
     assert {preset.calibration_target_scope for preset in presets} == {"conditional", "marginal"}
     assert all(
         preset.oracle_radius_scope and preset.residual_law and preset.stress for preset in presets

@@ -10,7 +10,7 @@ score settings to separate high-cost events from decision regret under a small g
 change. The prediction-only preset uses symmetric costs so positive rescaling changes the
 regression target while preserving the zero-threshold action.
 
-`shiftlab.data.synthetic.conformal_stress_catalogue()` returns twelve cases covering
+`shiftlab.data.synthetic.conformal_stress_catalogue()` returns thirteen cases covering
 homoskedastic, changing variance, heteroskedastic, heavy-tailed, asymmetric, dependent,
 hidden-regime, extreme-event, recurring, delayed-label and missing-label stresses. Each case
 states the calibration target scope (`conditional` or `marginal`), residual law, stress and
@@ -37,7 +37,7 @@ The evaluator stream must never be passed to a learner or included in the learne
 dataset export.
 
 Run `python -m uv run python scripts/validate_conformal_presets.py` to regenerate five-seed
-coverage evidence for all twelve conformal cases. The report compares marginal and
+coverage evidence for all thirteen conformal cases. The report compares marginal and
 history-conditional split calibration radii with their evaluator-only oracle radii, checks
 calibration label availability before the test boundary, and exports coverage by evaluator
 regime. It uses known evaluator means to isolate residual quantile behavior; it does not
@@ -59,13 +59,15 @@ five-seed comparisons for the ten named presets plus a supplemental hidden-utili
 impossibility diagnostic, and all costs remain imposed research utilities.
 
 Run `python -m uv run python scripts/validate_fitted_conformal.py` to compare the oracle-residual
-diagnostics with a fitted Ridge predictor. It fits on train rows whose labels arrived before
-calibration begins, reports a static split-conformal interval, and then runs a prequential
-residual-quantile update during test. A test residual enters only after its label arrival and
-only for a later prediction. The predictor stays frozen, isolating radius adaptation. The
-report includes five-seed coverage and two moving-block interval sensitivities per case.
-These are empirical results: changing distributions and serial dependence do not receive a
-finite-sample coverage guarantee.
+diagnostics with both a frozen and an adaptive Ridge predictor. The adaptive arm refits every
+50 test requests on a rolling window of at most 2,400 train and earlier test rows, and uses a
+label only when its availability is strictly before the request; calibration labels remain
+held out from refitting. Both arms update a prequential residual radius using only scores that
+have arrived. The report includes five-seed coverage and moving-block interval sensitivities.
+An abrupt coefficient-change case shows that refitting can matter: average frozen-predictor
+MSE is 3.43 and prequential coverage is .774, while the adaptive arm has MSE .55 and coverage
+.900. These are empirical results: changing distributions and serial dependence do not receive
+a finite-sample coverage guarantee.
 
 `shiftlab.data.synthetic.allocate_update_budget` solves an evaluator-only 0/1 budget allocation
 over independent update proposals with additive expected-loss benefits and integer compute

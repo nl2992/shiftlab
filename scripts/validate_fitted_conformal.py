@@ -52,6 +52,53 @@ def _block_interval(values: np.ndarray, block_length: int, seed: int) -> list[fl
     return [float(value) for value in np.quantile(estimates, [0.025, 0.975])]
 
 
+def _adaptive_test_predictions(
+    X: np.ndarray,
+    y: np.ndarray,
+    prediction_time: np.ndarray,
+    label_available_time: np.ndarray,
+    split: np.ndarray,
+    test_indices: np.ndarray,
+    *,
+    update_period: int = 50,
+    max_training_rows: int = 2400,
+) -> tuple[np.ndarray, list[dict]]:
+    """Refit at fixed batch boundaries using only labels strictly arrived by that time."""
+    if update_period < 1 or max_training_rows < 20:
+        raise ValueError("update_period must be positive and max_training_rows at least 20")
+    ordered = test_indices[np.argsort(prediction_time[test_indices], kind="stable")]
+    prediction = np.full(len(ordered), np.nan)
+    audit = []
+    for start in range(0, len(ordered), update_period):
+        block = ordered[start : start + update_period]
+        now = float(prediction_time[block[0]])
+        eligible = (
+            np.isin(split, ["train", "test"])
+            & (prediction_time < now)
+            & np.isfinite(label_available_time)
+            & (label_available_time < now)
+            & np.isfinite(y)
+        )
+        fit_indices = np.flatnonzero(eligible)
+        if len(fit_indices) > max_training_rows:
+            latest = np.argsort(prediction_time[fit_indices], kind="stable")[-max_training_rows:]
+            fit_indices = fit_indices[latest]
+        if len(fit_indices) < 20:
+            raise ValueError(f"Too few strictly arrived labels before adaptive fit at {now}")
+        model = make_pipeline(SimpleImputer(strategy="median"), StandardScaler(), Ridge(alpha=1.0))
+        model.fit(X[fit_indices], y[fit_indices])
+        prediction[start : start + len(block)] = model.predict(X[block])
+        audit.append(
+            {
+                "fit_time": now,
+                "n_fit_rows": len(fit_indices),
+                "max_label_available_time": float(np.max(label_available_time[fit_indices])),
+                "fit_row_indices": fit_indices.tolist(),
+            }
+        )
+    return prediction, audit
+
+
 def evaluate() -> dict:
     seeds = (42, 43, 44, 45, 46)
     replicates = []
@@ -124,9 +171,38 @@ def evaluate() -> dict:
                 if len(scores) >= 20:
                     online_radius[i] = weighted_conformal_quantile(scores)
 
+            adaptive_prediction, adaptive_fit_audit = _adaptive_test_predictions(
+                X,
+                y,
+                prediction_time,
+                available,
+                split,
+                test_indices,
+                update_period=50,
+                max_training_rows=2400,
+            )
+            adaptive_residual = np.abs(y[test_indices] - adaptive_prediction)
+            adaptive_radius = np.full(len(test_indices), np.nan)
+            for i, now in enumerate(test_prediction_time):
+                scores = _arrived_prior_scores(
+                    now,
+                    calibration_residual,
+                    calibration_prediction_time,
+                    calibration_available,
+                    adaptive_residual[:i],
+                    test_prediction_time[:i],
+                    test_available[:i],
+                )
+                if len(scores) >= 20:
+                    adaptive_radius[i] = weighted_conformal_quantile(scores)
+
             finite = np.isfinite(online_radius)
+            adaptive_finite = np.isfinite(adaptive_radius)
             fixed_covered = test_residual <= fixed_radius
             online_covered = test_residual[finite] <= online_radius[finite]
+            adaptive_covered = (
+                adaptive_residual[adaptive_finite] <= adaptive_radius[adaptive_finite]
+            )
             if finite.sum() < 20:
                 raise ValueError(
                     f"Too few online-scored predictions for {preset.name}, seed {seed}"
@@ -146,6 +222,32 @@ def evaluate() -> dict:
                     "fixed_split_radius": float(fixed_radius),
                     "fixed_split_test_coverage": float(fixed_covered.mean()),
                     "prequential_test_coverage": float(online_covered.mean()),
+                    "adaptive_predictor_prequential_test_coverage": float(adaptive_covered.mean()),
+                    "frozen_predictor_prequential_mse": float(
+                        np.mean(test_residual[adaptive_finite] ** 2)
+                    ),
+                    "adaptive_predictor_prequential_mse": float(
+                        np.mean(adaptive_residual[adaptive_finite] ** 2)
+                    ),
+                    "adaptive_predictor_update_period": 50,
+                    "adaptive_predictor_max_training_rows": 2400,
+                    "adaptive_predictor_refit_count": len(adaptive_fit_audit),
+                    "adaptive_predictor_min_fit_rows": min(
+                        row["n_fit_rows"] for row in adaptive_fit_audit
+                    ),
+                    "adaptive_predictor_min_availability_margin": float(
+                        min(
+                            row["fit_time"] - row["max_label_available_time"]
+                            for row in adaptive_fit_audit
+                        )
+                    ),
+                    "adaptive_predictor_coverage_block_length": block,
+                    "adaptive_predictor_coverage_moving_block_95pct_interval": _block_interval(
+                        adaptive_covered.astype(float), block, seed + 1700
+                    ),
+                    "adaptive_predictor_coverage_2x_block_moving_block_95pct_interval": _block_interval(
+                        adaptive_covered.astype(float), block_2, seed + 1900
+                    ),
                     "prequential_median_radius": float(np.median(online_radius[finite])),
                     "prequential_mean_radius": float(np.mean(online_radius[finite])),
                     "mean_online_score_count": float(score_counts[finite].mean()),
@@ -156,13 +258,13 @@ def evaluate() -> dict:
                     "prequential_coverage_2x_block_moving_block_95pct_interval": _block_interval(
                         online_covered.astype(float), block_2, seed + 900
                     ),
-                    "predictor": "train-only StandardScaler + median imputation + Ridge(alpha=1), frozen throughout test",
+                    "predictor": "baseline: frozen train-only Ridge; adaptive arm: refit every 50 test requests on at most the latest 2400 train/prior-test rows whose labels strictly arrived before each batch",
                     "radius_update": "after each prediction, its absolute residual joins the score pool only when label_available_time is strictly before a later prediction_time",
                     "missing_test_labels": missing_test_labels,
                 }
             )
     return {
-        "protocol": "Five-seed fitted-predictor evaluation. Static split conformal uses only calibration residuals available before test; prequential conformal recalculates the empirical residual quantile using calibration and prior test residuals that arrived before each prediction.",
+        "protocol": "Five-seed comparison of a frozen fitted Ridge predictor and a Ridge predictor refit every 50 test requests on a rolling window capped at the latest 2400 eligible rows. At each refit, only train and earlier test labels whose availability precedes the block's first request are eligible. Calibration labels are held out from refitting; the prequential radius uses calibration and prior test scores that arrived before each request.",
         "alpha": 0.1,
         "coverage_target": 0.9,
         "replicates": replicates,
@@ -176,6 +278,15 @@ def evaluate() -> dict:
                 "mean_prequential_test_coverage": float(
                     np.mean([row["prequential_test_coverage"] for row in rows])
                 ),
+                "mean_adaptive_predictor_prequential_test_coverage": float(
+                    np.mean([row["adaptive_predictor_prequential_test_coverage"] for row in rows])
+                ),
+                "mean_adaptive_predictor_prequential_mse": float(
+                    np.mean([row["adaptive_predictor_prequential_mse"] for row in rows])
+                ),
+                "mean_frozen_predictor_prequential_mse": float(
+                    np.mean([row["frozen_predictor_prequential_mse"] for row in rows])
+                ),
                 "mean_prequential_radius": float(
                     np.mean([row["prequential_mean_radius"] for row in rows])
                 ),
@@ -188,7 +299,9 @@ def evaluate() -> dict:
         "script_sha256": sha256(Path(__file__)),
         "executed_at": utc_now(),
         "limitations": [
-            "The Ridge predictor is frozen; only the residual quantile adapts online.",
+            "The frozen baseline adapts only its residual quantile; the adaptive arm refits Ridge every 50 test requests on at most 2400 recent arrived train/test labels.",
+            "The adaptive arm uses past test labels only after strict availability; calibration rows remain held out from model fitting.",
+            "Adaptive prequential residuals come from a sequence of batch-frozen predictors; coverage is empirical and no finite-sample guarantee is claimed.",
             "Prequential residual quantiles under serial dependence or changing distributions do not have a finite-sample coverage guarantee.",
             "Moving-block intervals use sqrt(n) and 2*sqrt(n) row blocks; these are sensitivity diagnostics, not guaranteed confidence intervals under arbitrary drift.",
             "Five-seed averages are descriptive and are not pooled as IID observations.",
@@ -205,7 +318,10 @@ def main() -> None:
     for row in result["by_preset"]:
         print(
             f"{row['preset']}: split={row['mean_fixed_split_test_coverage']:.3f} "
-            f"prequential={row['mean_prequential_test_coverage']:.3f} "
+            f"frozen={row['mean_prequential_test_coverage']:.3f} "
+            f"adaptive={row['mean_adaptive_predictor_prequential_test_coverage']:.3f} "
+            f"mse={row['mean_frozen_predictor_prequential_mse']:.3f}->"
+            f"{row['mean_adaptive_predictor_prequential_mse']:.3f} "
             f"radius={row['mean_prequential_radius']:.3f}"
         )
     print("data/reports/fitted_conformal_validation.json")

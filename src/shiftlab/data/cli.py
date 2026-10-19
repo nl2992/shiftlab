@@ -14,6 +14,7 @@ from .schemas import SyntheticConfig
 from .storage import save_dataset
 from .synthetic import SCENARIOS, generate_chunks
 from .synthetic.generators import schedule
+from .synthetic.oracle_spec import oracle_spec
 from .validation import validate_all
 
 
@@ -22,11 +23,12 @@ def generate(config: SyntheticConfig):
         config = config.model_copy(
             update={"device": "cuda" if environment()["cuda_available"] else "cpu"}
         )
-    _, truth = schedule(config)
+    weights, truth = schedule(config)
     oracle = {
         **truth,
         "configuration": config.model_dump(),
         "mathematical_definition": SCENARIOS[config.scenario],
+        "structured_oracle_specification": oracle_spec(config, weights, truth),
         "rng": "NumPy PCG64 or torch CUDA generator; seeded by config; chunk size part of identity",
         "initial_numpy_states": {
             str(seed): np.random.default_rng(seed).bit_generator.state

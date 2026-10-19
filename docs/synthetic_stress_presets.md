@@ -37,8 +37,8 @@ The evaluator stream must never be passed to a learner or included in the learne
 dataset export.
 
 Run `python -m uv run python scripts/validate_conformal_presets.py` to regenerate five-seed
-coverage evidence for all twelve conformal cases. The report compares a marginal split
-calibration radius with evaluator-only per-row oracle radii, checks calibration label
-availability before the test boundary, and exports coverage by evaluator regime. It uses
-the known conditional mean to isolate residual quantile behavior; it does not claim fitted
-predictor or online guarantees.
+coverage evidence for all twelve conformal cases. The report compares marginal and
+history-conditional split calibration radii with their evaluator-only oracle radii, checks
+calibration label availability before the test boundary, and exports coverage by evaluator
+regime. It uses known evaluator means to isolate residual quantile behavior; it does not
+claim fitted-predictor or online guarantees.

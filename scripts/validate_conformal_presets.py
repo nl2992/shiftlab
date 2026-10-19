@@ -25,6 +25,7 @@ def evaluate(root: Path, seeds: tuple[int, ...] = (42, 43, 44, 45, 46)) -> dict:
             oracle = pd.concat([item[1] for item in generated], ignore_index=True)
             target = frame.target.to_numpy()
             residual = target - oracle.conditional_mean.to_numpy()
+            history_residual = target - oracle.conditional_mean_given_history.to_numpy()
             calibration_start = float(frame.loc[frame.split == "test", "prediction_time"].min())
             calibration = (
                 (frame.split == "calibration").to_numpy()
@@ -36,10 +37,19 @@ def evaluate(root: Path, seeds: tuple[int, ...] = (42, 43, 44, 45, 46)) -> dict:
             if calibration.sum() < 20 or test.sum() < 20:
                 raise ValueError(f"Insufficient usable calibration/test labels for {preset.name}")
             marginal_radius = weighted_conformal_quantile(np.abs(residual[calibration]), alpha=0.1)
+            history_marginal_radius = weighted_conformal_quantile(
+                np.abs(history_residual[calibration]), alpha=0.1
+            )
             oracle_radius = oracle.radius_90.to_numpy()
+            history_radius = oracle.conditional_radius_90.to_numpy()
             pointwise = test & np.isfinite(oracle_radius)
+            history_pointwise = test & np.isfinite(history_radius)
             marginal_covered = np.abs(residual[test]) <= marginal_radius
             oracle_covered = np.abs(residual[pointwise]) <= oracle_radius[pointwise]
+            history_marginal_covered = np.abs(history_residual[test]) <= history_marginal_radius
+            history_oracle_covered = (
+                np.abs(history_residual[history_pointwise]) <= history_radius[history_pointwise]
+            )
             rows.append(
                 {
                     "preset": preset.name,
@@ -54,9 +64,15 @@ def evaluate(root: Path, seeds: tuple[int, ...] = (42, 43, 44, 45, 46)) -> dict:
                     "marginal_calibration_radius": marginal_radius,
                     "test_marginal_coverage": float(marginal_covered.mean()),
                     "test_oracle_radius_coverage": float(oracle_covered.mean()),
+                    "history_marginal_calibration_radius": history_marginal_radius,
+                    "test_history_marginal_coverage": float(history_marginal_covered.mean()),
+                    "test_history_conditional_radius_coverage": float(
+                        history_oracle_covered.mean()
+                    ),
                     "oracle_radius_n": int(pointwise.sum()),
+                    "history_oracle_radius_n": int(history_pointwise.sum()),
                     "uncertainty": "descriptive replicate range; no confidence interval or IID claim",
-                    "predictor": "known evaluator conditional mean; isolates residual quantile behavior",
+                    "predictor": "known evaluator conditional mean; history-conditional mean used for history metrics",
                 }
             )
             regime_ids = oracle.regime_id.astype(str).to_numpy()
@@ -72,9 +88,18 @@ def evaluate(root: Path, seeds: tuple[int, ...] = (42, 43, 44, 45, 46)) -> dict:
                         "test_marginal_coverage": float(
                             (np.abs(residual[group]) <= marginal_radius).mean()
                         ),
+                        "test_history_marginal_coverage": float(
+                            (np.abs(history_residual[group]) <= history_marginal_radius).mean()
+                        ),
                         "test_oracle_radius_coverage": float(
                             (
                                 np.abs(residual[group_pointwise]) <= oracle_radius[group_pointwise]
+                            ).mean()
+                        ),
+                        "test_history_conditional_radius_coverage": float(
+                            (
+                                np.abs(history_residual[group_pointwise])
+                                <= history_radius[group_pointwise]
                             ).mean()
                         ),
                     }
@@ -88,8 +113,8 @@ def evaluate(root: Path, seeds: tuple[int, ...] = (42, 43, 44, 45, 46)) -> dict:
         ["git", "rev-parse", "HEAD"], cwd=root, check=True, capture_output=True, text=True
     ).stdout.strip()
     return {
-        "protocol": "Calibration residual quantile uses only finite calibration labels available before the test boundary. The predictor is the known evaluator conditional mean, so this isolates residual-quantile behavior rather than fitted-model error.",
-        "targets": "Both declared marginal/conditional target scope and evaluator-only radius scope are included for every case; hidden-regime marginal calibration is also broken down by oracle regime.",
+        "protocol": "Marginal and history-conditional calibration quantiles use only finite labels available before the test boundary. Both use known evaluator means to isolate residual-quantile behavior rather than fitted-model error.",
+        "targets": "Each case reports marginal and history-conditional split calibration and oracle-radius coverage, with evaluator-regime breakdowns.",
         "limitations": "Five independently seeded streams are descriptive; no confidence interval, online validity, fitted-predictor guarantee, or IID claim is made. Temporal cases need dependence-aware inference.",
         "input_sha256": hashlib.sha256(input_spec.encode()).hexdigest(),
         "script_sha256": script_hash,
@@ -111,6 +136,7 @@ def main() -> None:
             preset,
             f"marginal={np.mean([row['test_marginal_coverage'] for row in rows]):.3f}",
             f"oracle={np.mean([row['test_oracle_radius_coverage'] for row in rows]):.3f}",
+            f"history_oracle={np.mean([row['test_history_conditional_radius_coverage'] for row in rows]):.3f}",
         )
 
 

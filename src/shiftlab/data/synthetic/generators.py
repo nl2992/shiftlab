@@ -141,6 +141,7 @@ def generate_chunks(c: SyntheticConfig):
     w_all, _ = schedule(c)
     rng = np.random.default_rng(c.seed + 701)
     previous, previous_error, previous_innovation, h = rng.normal(), 0.0, 0.0, 0.5
+    has_observed_error = False
     if c.scenario == "dependent_errors":
         previous_error = float(rng.normal())
     # Burn in only stateful processes.
@@ -219,6 +220,8 @@ def generate_chunks(c: SyntheticConfig):
         if name == "heteroskedastic":
             sigma *= 1 + 0.5 * abs(X[:, 0])
         quantile_kind = "normal"
+        history_conditional_mean = mean.copy()
+        history_conditional_scale = sigma.copy()
         if name == "heavy_tailed":
             z = student_t.ppf(np.clip(uniform, 1e-10, 1 - 1e-10), 5) / np.sqrt(5 / 3)
             quantile_kind = "student_t5"
@@ -229,14 +232,21 @@ def generate_chunks(c: SyntheticConfig):
             z *= np.where(uniform < 0.01 + 0.1 * np.tanh(c.severity) * w, 8.0, 1.0)
             quantile_kind = "normal_mixture"
         if name in ["dependent_errors", "garch"]:
+            conditional_noise_mean = np.zeros(m)
             for i in range(m):
                 if name == "garch":
                     h = 0.05 + 0.1 * previous_error**2 + 0.8 * h
                     sigma[i] *= np.sqrt(h)
                     previous_error = np.sqrt(h) * z[i]
                 else:
+                    if has_observed_error:
+                        conditional_noise_mean[i] = c.rho * previous_error
+                        history_conditional_scale[i] = sigma[i] * np.sqrt(1 - c.rho**2)
                     previous_error = c.rho * previous_error + np.sqrt(1 - c.rho**2) * z[i]
                     z[i] = previous_error
+                    has_observed_error = True
+            if name == "dependent_errors":
+                history_conditional_mean = mean + sigma * conditional_noise_mean
             if name == "dependent_errors":
                 quantile_kind = "marginal_normal_dependent"
         target = mean + sigma * z
@@ -360,19 +370,25 @@ def generate_chunks(c: SyntheticConfig):
                 lower = np.where(cdf < 0.9, middle, lower)
                 upper = np.where(cdf >= 0.9, middle, upper)
             q90 = sigma * (lower + upper) / 2
+        conditional_q90 = q90.copy()
+        if name == "dependent_errors":
+            conditional_q90 = history_conditional_scale * norm.ppf(0.95)
         if name in CLASSIFICATION:
             q90[:] = np.nan
+            conditional_q90[:] = np.nan
         oracle = pd.DataFrame(
             {
                 "sample_id": frame.sample_id,
                 "weight": w,
                 "conditional_mean": mean,
+                "conditional_mean_given_history": history_conditional_mean,
                 "sigma": sigma,
                 "probability_positive": probability,
                 "oracle_action": action,
                 "oracle_risk": binary_risk(action, probability, fn, 1.0),
                 "fn_cost": fn,
                 "radius_90": q90,
+                "conditional_radius_90": conditional_q90,
                 "quantile_kind": quantile_kind,
                 "retrain_cost": 10 * (1 + s),
                 "regime_id": np.where(

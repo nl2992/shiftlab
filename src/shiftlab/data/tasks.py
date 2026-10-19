@@ -14,6 +14,12 @@ class TaskSpec:
 
 
 TASKS = {
+    "multi_step": TaskSpec(
+        "multi_step",
+        "regression",
+        "vector of future values for every step in a prespecified forecast horizon",
+        "all requested target steps plus their measured release lags",
+    ),
     "regression": TaskSpec(
         "regression",
         "regression",
@@ -300,7 +306,11 @@ def forecast_task(
 
     Volatility is future RMS first differences, not a claim about latent economic risk.
     Quantile forecasting uses the same response with a quantile loss at evaluation.
+    ``task="multi_step"`` delegates to the fixed-origin vector builder and returns a target
+    matrix with per-step outcome indices.
     """
+    if task == "multi_step":
+        return multi_step_forecast_task(values, horizon=horizon, lookback=lookback)
     values = np.asarray(values, dtype=float)
     if horizon < 1 or lookback < 1 or len(values) <= horizon + lookback:
         raise ValueError("Insufficient series or invalid horizon/lookback")
@@ -328,6 +338,36 @@ def forecast_task(
     elif task not in ["regression", "quantile", "rare_magnitude"]:
         raise ValueError("Unsupported task")
     return X, y, index, index + horizon
+
+
+def multi_step_forecast_task(values, horizon=3, lookback=4):
+    """Construct fixed-origin forecasts for every step through ``horizon``.
+
+    Returns past-only feature windows, an ``(n_samples, horizon)`` target matrix, origin
+    indices, and matching per-target outcome indices. Missing target values remain NaN so
+    callers can retain a per-step validity mask with ``np.isfinite(targets)``. The entire
+    vector task is available only once its final requested outcome and release lag arrive.
+    """
+    values = np.asarray(values, dtype=float)
+    if values.ndim != 1:
+        raise ValueError("values must be a one-dimensional series")
+    if (
+        isinstance(horizon, bool)
+        or not isinstance(horizon, (int, np.integer))
+        or horizon < 1
+        or isinstance(lookback, bool)
+        or not isinstance(lookback, (int, np.integer))
+        or lookback < 1
+    ):
+        raise ValueError("horizon and lookback must be positive integers")
+    if len(values) <= horizon + lookback:
+        raise ValueError("Insufficient series length for horizon and lookback")
+    origin = np.arange(lookback - 1, len(values) - horizon)
+    offsets = np.arange(1, horizon + 1)
+    X = np.stack([values[i - lookback + 1 : i + 1] for i in origin])
+    outcome_indices = origin[:, None] + offsets[None, :]
+    targets = values[outcome_indices]
+    return X, targets, origin, outcome_indices
 
 
 def quantile_loss(target, prediction, quantile=0.9):

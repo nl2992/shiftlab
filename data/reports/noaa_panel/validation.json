@@ -1,0 +1,97 @@
+{
+  "quality": {
+    "rows": 41194,
+    "unknown_prediction_times": 41194,
+    "unknown_label_availability": 41194,
+    "missing_targets": 1105,
+    "dataset": "noaa",
+    "version": "250db0578188e92615ea",
+    "feature_missing_rate": 0.11526297172265032,
+    "feature_infinite": 0,
+    "min_feature": -35.0,
+    "max_feature": 16093.0,
+    "duplicate_feature_target_rows": 917,
+    "ground_truth": "none",
+    "attribution": "Inconclusive: descriptive evidence does not identify drift mechanism"
+  },
+  "input_manifest_sha256": "7a979660f3030f1e652138150e06a2f98ee7d71d4b0ba3f8fd1d70f318334bb9",
+  "source_hash": "d4c7385ab399310f52c82aff636eb4b481f3562ce11d356de2c1dac6d7e4b7dd",
+  "script_sha256": "3a4e464ff96624929e368bfbbff3d002ce2983ab915449eaa6a51c8de2c27b7d",
+  "processing_commit": "3260d40d6a129ee347bb048d5fe5721eb226ee21",
+  "executed_at": "2026-10-19T17:02:09.551043+00:00",
+  "manifest": {
+    "schema_version": "1.1.0",
+    "dataset": "noaa",
+    "version": "250db0578188e92615ea",
+    "publisher": "NOAA NCEI",
+    "source_url": "https://www.ncei.noaa.gov/data/global-hourly/access/",
+    "citation": "NOAA NCEI Integrated Surface Database (ISD)",
+    "license": "US government data; retain NOAA attribution; source quality flags preserved",
+    "permitted_use": "Respect original source and underlying-series terms; research use only where permitted",
+    "acquired_at": "2026-10-19T17:02:06.123721+00:00",
+    "retrieval_parameters": {
+      "year": 2023,
+      "stations": [
+        "74486094789",
+        "72509014739",
+        "72530094846"
+      ],
+      "max_download_bytes": 25000000
+    },
+    "raw_checksums": {
+      "data\\raw\\noaa\\2023-74486094789-s3.csv": "a1081700076005cd97b2c7223358bd4b721edd8807d84ec04d08879afbeeac4e",
+      "data\\raw\\noaa\\2023-72509014739-s3.csv": "2654aba24fe8fe2ad2ad36686346f92d9dc812caf507a53ec2e94638aacbccd9",
+      "data\\raw\\noaa\\2023-72530094846-s3.csv": "8e3c175a879f9355a663ae3f5496762b5c19edee2f71e7300b8b9a0024e8b0af"
+    },
+    "processing_config": {
+      "year": 2023,
+      "stations": [
+        "74486094789",
+        "72509014739",
+        "72530094846"
+      ],
+      "max_download_bytes": 25000000
+    },
+    "code_commit": "3260d40d6a129ee347bb048d5fe5721eb226ee21",
+    "source_hash": "d4c7385ab399310f52c82aff636eb4b481f3562ce11d356de2c1dac6d7e4b7dd",
+    "n_observations": 41194,
+    "feature_names": [
+      "temperature_C",
+      "dewpoint_C",
+      "sea_level_pressure_hPa",
+      "wind_speed_m_s",
+      "visibility_m",
+      "precipitation_depth_mm",
+      "precipitation_period_hours"
+    ],
+    "feature_dtype": "float64",
+    "feature_kind": "numeric",
+    "time_coverage": [
+      "1672531200.0",
+      "1704065400.0"
+    ],
+    "domains": [
+      "72509014739",
+      "72530094846",
+      "74486094789"
+    ],
+    "missingness": {
+      "target": 0.026824294800213623,
+      "features": 0.11526297172265032
+    },
+    "limitations": [
+      "No verified real-world changepoints.",
+      "Unknown release latency; all prediction/feature/label availability times remain unknown.",
+      "Irregular next-observation forecasting, not a strict hourly horizon; simultaneous reports skip to the next later time.",
+      "Sentinels and suspect/error quality codes masked; source strings, target temperature flag and precipitation conditions retained.",
+      "AA1 depth covers its accompanying accumulation period; trace/estimated flags retained, no hourly rate or forward filling inferred.",
+      "Shared panel event-time splits with outcome-boundary purging are retrospective, not evidence of online availability."
+    ],
+    "ground_truth": "none",
+    "files": {
+      "observations.parquet": "2483f4c303574c4d975b99f53809b925f72a62eef2d4b40af25476a036dc6d19"
+    },
+    "oracle_file": null,
+    "environment": {}
+  }
+}

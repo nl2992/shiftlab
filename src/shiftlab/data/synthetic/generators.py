@@ -109,6 +109,11 @@ def schedule(c: SyntheticConfig):
             )
         r = np.searchsorted(cuts, t, side="right")
         w = r % 2 if c.pattern != "multiple" else r / max(1, c.regimes - 1)
+    elif c.pattern == "oblivious_adversarial":
+        from .adaptation import oblivious_change_times
+
+        cuts = oblivious_change_times(n, c.review_period, tau)
+        w = np.searchsorted(cuts, t, side="right") % 2
     elif c.pattern == "hmm":
         rng = np.random.default_rng(c.seed + 901)
         switches = rng.random(n) < 1 / max(10, width)

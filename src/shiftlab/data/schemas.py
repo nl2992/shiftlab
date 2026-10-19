@@ -37,8 +37,10 @@ class SyntheticConfig(BaseModel):
         "seasonal",
         "temporary",
         "variable_dwell",
+        "oblivious_adversarial",
     ] = "abrupt"
     regimes: int = Field(default=2, ge=1, le=20)
+    review_period: int = Field(default=100, ge=2)
     transition_fraction: float = Field(default=0.1, gt=0, lt=0.5)
     device: Literal["cpu", "cuda", "auto"] = "cpu"
     dtype: Literal["float32", "float64"] = "float64"

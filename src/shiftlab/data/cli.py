@@ -33,7 +33,7 @@ def generate(config: SyntheticConfig):
             for seed in [config.seed, config.seed + 701, config.seed + 900, config.seed + 901]
         },
         "oracle_observability": "full DGP regime, not necessarily learner-conditional",
-        "intervention_oracle": "No dynamic optimal controller implemented. Refitting can benefit changed mean mechanisms; noise-only shifts favor recalibration; exact benefit depends on model, costs and data.",
+        "intervention_oracle": "No dynamic optimal controller implemented. The separate synthetic.adaptation.intervention_reference compares one fixed candidate update against holding using evaluator-only future expected losses, costs, deployment delay and transient penalties; scripts/adaptation_reference.py executes its Gaussian concept-shift reference. It is not a learned-policy or sample-fitted refitting guarantee.",
         "causality": "exogenous; performative environments use a separate interactive interface",
     }
     provenance = {

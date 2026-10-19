@@ -35,3 +35,9 @@ The covariance-rotation baseline has first-two-feature covariance `diag(1,4)`, n
 identity. Mixture-weight shift starts from an equal-weight two-component feature mixture;
 zero severity preserves that mixture rather than replacing it with a single Gaussian.
 These baseline distinctions matter when estimating null false alarms.
+
+`tests/data/test_covariate_properties.py` checks each pure-covariate mechanism's stated
+conditional mean directly against its generated oracle and checks regime-specific moments
+against analytic targets for mean, variance, rotated covariance, correlation, mixture weights,
+new-component probability, tails and skew. These are independent property checks; the generic
+oracle-risk test alone is not used as evidence that the covariate mechanism is correct.

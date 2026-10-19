@@ -1,0 +1,158 @@
+{
+  "description": "Descriptive five-seed checks after 1,000 observations are discarded.",
+  "parameters": {
+    "rho": 0.65,
+    "arma_theta": 0.3,
+    "noise": 0.3,
+    "n": 30000
+  },
+  "replicates": [
+    {
+      "scenario": "ar1",
+      "seed": 11,
+      "sample_variance": 1.0128782026485357,
+      "expected_stationary_variance": 1.0,
+      "lag1_autocorrelation": 0.6505173972264761,
+      "squared_lag1_autocorrelation": 0.39766665485558816
+    },
+    {
+      "scenario": "ar1",
+      "seed": 23,
+      "sample_variance": 1.0030707787069544,
+      "expected_stationary_variance": 1.0,
+      "lag1_autocorrelation": 0.6541779129091754,
+      "squared_lag1_autocorrelation": 0.4334403108480858
+    },
+    {
+      "scenario": "ar1",
+      "seed": 37,
+      "sample_variance": 0.9880313374489089,
+      "expected_stationary_variance": 1.0,
+      "lag1_autocorrelation": 0.6433010968459325,
+      "squared_lag1_autocorrelation": 0.42390502554527304
+    },
+    {
+      "scenario": "ar1",
+      "seed": 53,
+      "sample_variance": 0.9666307724761398,
+      "expected_stationary_variance": 1.0,
+      "lag1_autocorrelation": 0.6272069435055229,
+      "squared_lag1_autocorrelation": 0.39282936334745816
+    },
+    {
+      "scenario": "ar1",
+      "seed": 71,
+      "sample_variance": 1.028101507867877,
+      "expected_stationary_variance": 1.0,
+      "lag1_autocorrelation": 0.651026447690127,
+      "squared_lag1_autocorrelation": 0.4277254350340818
+    },
+    {
+      "scenario": "arma",
+      "seed": 11,
+      "sample_variance": 2.5962248716015868,
+      "expected_stationary_variance": 2.562770562770563,
+      "lag1_autocorrelation": 0.768063388630625,
+      "squared_lag1_autocorrelation": 0.5674527631650909
+    },
+    {
+      "scenario": "arma",
+      "seed": 23,
+      "sample_variance": 2.5751876600321246,
+      "expected_stationary_variance": 2.562770562770563,
+      "lag1_autocorrelation": 0.7696583259631358,
+      "squared_lag1_autocorrelation": 0.5984482134652798
+    },
+    {
+      "scenario": "arma",
+      "seed": 37,
+      "sample_variance": 2.5251756192789045,
+      "expected_stationary_variance": 2.562770562770563,
+      "lag1_autocorrelation": 0.762555797726032,
+      "squared_lag1_autocorrelation": 0.5862326153342924
+    },
+    {
+      "scenario": "arma",
+      "seed": 53,
+      "sample_variance": 2.4543670567896783,
+      "expected_stationary_variance": 2.562770562770563,
+      "lag1_autocorrelation": 0.7506708601069834,
+      "squared_lag1_autocorrelation": 0.5616248409804333
+    },
+    {
+      "scenario": "arma",
+      "seed": 71,
+      "sample_variance": 2.636019905100714,
+      "expected_stationary_variance": 2.562770562770563,
+      "lag1_autocorrelation": 0.7677235564818621,
+      "squared_lag1_autocorrelation": 0.5924853583722035
+    },
+    {
+      "scenario": "garch",
+      "seed": 11,
+      "sample_variance": 0.4945421397774081,
+      "expected_stationary_variance": 0.5000000000000001,
+      "lag1_autocorrelation": -0.00980785804350787,
+      "squared_lag1_autocorrelation": 0.12029312241386442
+    },
+    {
+      "scenario": "garch",
+      "seed": 23,
+      "sample_variance": 0.5262735163515294,
+      "expected_stationary_variance": 0.5000000000000001,
+      "lag1_autocorrelation": 0.025607813510548586,
+      "squared_lag1_autocorrelation": 0.15799533284808356
+    },
+    {
+      "scenario": "garch",
+      "seed": 37,
+      "sample_variance": 0.5056549269407762,
+      "expected_stationary_variance": 0.5000000000000001,
+      "lag1_autocorrelation": 0.0048801482591035285,
+      "squared_lag1_autocorrelation": 0.15449153891083522
+    },
+    {
+      "scenario": "garch",
+      "seed": 53,
+      "sample_variance": 0.4949356178001392,
+      "expected_stationary_variance": 0.5000000000000001,
+      "lag1_autocorrelation": 0.0042732070533613616,
+      "squared_lag1_autocorrelation": 0.16891911742395482
+    },
+    {
+      "scenario": "garch",
+      "seed": 71,
+      "sample_variance": 0.5057677876498663,
+      "expected_stationary_variance": 0.5000000000000001,
+      "lag1_autocorrelation": -0.00413275137437198,
+      "squared_lag1_autocorrelation": 0.15248769985824306
+    }
+  ],
+  "summary": {
+    "ar1": {
+      "replicates": 5,
+      "expected_stationary_variance": 1.0,
+      "mean_sample_variance": 0.9997425198296831,
+      "mean_lag1_autocorrelation": 0.6452459596354468,
+      "mean_squared_lag1_autocorrelation": 0.4151133579260974
+    },
+    "arma": {
+      "replicates": 5,
+      "expected_stationary_variance": 2.562770562770563,
+      "mean_sample_variance": 2.5573950225606015,
+      "mean_lag1_autocorrelation": 0.7637343857817276,
+      "mean_squared_lag1_autocorrelation": 0.5812487582634599
+    },
+    "garch": {
+      "replicates": 5,
+      "expected_stationary_variance": 0.5000000000000001,
+      "mean_sample_variance": 0.5054347977039438,
+      "mean_lag1_autocorrelation": 0.0041641118810267245,
+      "mean_squared_lag1_autocorrelation": 0.15083736229099623
+    }
+  },
+  "limitations": [
+    "Replicate ranges are descriptive checks, not confidence intervals.",
+    "GARCH residuals are standardized by configured noise for the variance check."
+  ]
+}

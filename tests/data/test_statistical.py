@@ -45,6 +45,48 @@ def test_ar1_autocorrelation():
     assert abs(np.mean(values) - 0.7) < 0.025
 
 
+@pytest.mark.parametrize("scenario", ["ar1", "arma", "garch"])
+def test_temporal_processes_match_stationary_variance_and_dependence(scenario):
+    """Check temporal generators against independent stationary-law formulas."""
+    rho, theta, noise = 0.65, 0.3, 0.3
+    expected_variance = {
+        "ar1": 1.0,
+        "arma": (1 + theta**2 + 2 * rho * theta) / (1 - rho**2),
+        # omega / (1 - alpha - beta), with omega=.05, alpha=.1, beta=.8.
+        "garch": 0.05 / (1 - 0.1 - 0.8),
+    }[scenario]
+    sample_variances, lag_one = [], []
+    for seed in [11, 23, 37, 53, 71]:
+        config = SyntheticConfig(n=30000, scenario=scenario, rho=rho, noise=noise, seed=seed)
+        frame, oracle = next(generate_chunks(config))
+        series = (
+            np.stack(frame.features.to_numpy())[:, 0]
+            if scenario in {"ar1", "arma"}
+            else (frame.target.to_numpy() - oracle.conditional_mean.to_numpy()) / config.noise
+        )
+        series = series[1000:]
+        sample_variances.append(np.var(series, ddof=1))
+        lag_one.append(np.corrcoef(series[:-1], series[1:])[0, 1])
+    assert abs(np.mean(sample_variances) - expected_variance) < 0.035 * expected_variance
+    if scenario == "ar1":
+        expected_lag_one = rho
+    elif scenario == "arma":
+        expected_lag_one = (rho + theta) * (1 + rho * theta) / (1 + theta**2 + 2 * rho * theta)
+    else:
+        # GARCH has zero linear autocorrelation and positive squared autocorrelation.
+        expected_lag_one = 0.0
+    assert abs(np.mean(lag_one) - expected_lag_one) < 0.025
+    if scenario == "garch":
+        squared_lag_one = []
+        for seed in [11, 23, 37, 53, 71]:
+            config = SyntheticConfig(n=30000, scenario=scenario, rho=rho, noise=noise, seed=seed)
+            frame, oracle = next(generate_chunks(config))
+            series = (frame.target.to_numpy() - oracle.conditional_mean.to_numpy())[1000:]
+            squared = series**2
+            squared_lag_one.append(np.corrcoef(squared[:-1], squared[1:])[0, 1])
+        assert np.mean(squared_lag_one) > 0.05
+
+
 def test_block_bootstrap_is_reproducible():
     rng = np.random.default_rng(21)
     a, b = rng.normal(size=2000), rng.normal(loc=2, size=2000)

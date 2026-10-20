@@ -60,7 +60,11 @@ def validate_config(config):
         raise ValueError("Conversion outcomes/delays must never be predictive features")
     if not isinstance(config.get("assume_instant_click_features", False), (bool, np.bool_)):
         raise TypeError("assume_instant_click_features must be boolean")
-    finite_real_parameter(config.get("outcome_window_days", 30), "Outcome window", positive=True)
+    window_days = finite_real_parameter(
+        config.get("outcome_window_days", 30), "Outcome window", positive=True
+    )
+    if window_days > np.finfo(float).max / 86_400:
+        raise ValueError("Outcome window in seconds must be finite")
     finite_real_parameter(
         config.get("feedback_latency_seconds", 0), "feedback_latency_seconds", nonnegative=True
     )

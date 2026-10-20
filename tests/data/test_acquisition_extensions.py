@@ -292,6 +292,7 @@ def test_criteo_feedback_and_censoring():
         ("max_download_bytes", 0, "max_download_bytes must be at least 1"),
         ("delay_unit", "unknown", "Specify delay_unit"),
         ("delay_unit", None, "Specify delay_unit"),
+        ("outcome_window_days", 1e308, "Outcome window in seconds must be finite"),
     ],
 )
 def test_criteo_rejects_invalid_acquisition_config_before_download(

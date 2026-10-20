@@ -65,6 +65,30 @@ def test_rare_cost_oracle_actions_follow_the_disclosed_expected_cost_threshold()
 
 
 @pytest.mark.parametrize("scenario", SCENARIOS)
+def test_every_scenario_oracle_action_minimizes_disclosed_expected_cost(scenario):
+    config = SyntheticConfig(n=1200, scenario=scenario, seed=417, severity=1.5)
+    frame, oracle = next(generate_chunks(config))
+    probability = oracle.probability_positive.to_numpy(dtype=float)
+    false_negative = oracle.fn_cost.to_numpy(dtype=float)
+    action = oracle.oracle_action.to_numpy(dtype=bool)
+    feasible = np.asarray(
+        [
+            True if value is None else json.loads(value)["action_1_feasible"]
+            for value in frame.decision_context
+        ],
+        dtype=bool,
+    )
+
+    # Independent derivation: action 1 costs 1-p; action 0 costs p*FN.
+    expected_action = (probability >= 1.0 / (1.0 + false_negative)) & feasible
+    expected_risk = np.where(action, 1.0 - probability, probability * false_negative)
+    assert np.isfinite(probability).all()
+    assert ((probability >= 0.0) & (probability <= 1.0)).all()
+    assert np.array_equal(action, expected_action)
+    assert np.allclose(oracle.oracle_risk.to_numpy(dtype=float), expected_risk, atol=1e-12)
+
+
+@pytest.mark.parametrize("scenario", SCENARIOS)
 def test_independent_conditional_function_and_scale_match_generated_oracle(scenario):
     config = SyntheticConfig(n=1000, scenario=scenario, seed=88)
     frame, oracle = next(generate_chunks(config))

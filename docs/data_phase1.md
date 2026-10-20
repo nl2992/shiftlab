@@ -126,8 +126,9 @@ three seeds, n=5000 and severity 1. High-dimensional skewness is gated on positi
 other moments use analytic targets and finite-sample tolerances.
 `uv run python scripts/validate_concept_residuals.py` checks independent conditional mean/scale
 formulas, unchanged feature moments, Gaussian residual variance and 90% oracle-radius coverage,
-and Bernoulli boundary-rotation rates across eight concept mechanisms and four severities;
-replicated results are in `data/reports/concept_residual_validation.json`.
+and Bernoulli boundary-rotation rates across eight concept mechanisms, dimensions 2, 3 and 8,
+and four severities (168 regime cells); replicated results are in
+`data/reports/concept_residual_validation.json`.
 The medium plan uses 30 seeds; the optional large plan is never materialized automatically.
 
 Regression uses a sign-based decision with false-negative/positive costs; classification uses

@@ -47,25 +47,29 @@ def test_symmetric_label_corruption_matches_independent_posterior_formula():
 
 
 @pytest.mark.parametrize("scenario", ["target_level", "target_variance", "tail_frequency"])
-def test_regression_target_shifts_match_independent_conditional_moments(scenario):
-    mean_errors, variance_errors = {0: [], 1: []}, {0: [], 1: []}
+@pytest.mark.parametrize("severity", [0.0, 0.5, 2.0])
+def test_regression_target_shifts_match_independent_conditional_moments(scenario, severity):
+    regimes = [0] if severity == 0 else [0, 1]
+    mean_errors, variance_errors = ({regime: [] for regime in regimes} for _ in range(2))
     for seed in [11, 23, 37, 53, 71]:
-        config = SyntheticConfig(n=30000, scenario=scenario, seed=seed, severity=1, noise=0.3)
+        config = SyntheticConfig(
+            n=30000, scenario=scenario, seed=seed, severity=severity, noise=0.3
+        )
         frames = list(generate_chunks(config))
         X = np.concatenate([np.stack(frame.features.to_numpy()) for frame, _ in frames])
         y = np.concatenate([frame.target.to_numpy() for frame, _ in frames])
         weight = np.concatenate([oracle.weight.to_numpy() for _, oracle in frames])
         residual = y - (X[:, 0] - 0.9 * X[:, 1])
-        for regime in [0, 1]:
+        for regime in regimes:
             selected = weight == regime
             values = residual[selected]
-            severity_weight = float(regime)
+            severity_weight = severity * float(regime)
             expected_mean = severity_weight if scenario == "target_level" else 0.0
             expected_variance = 0.3**2
             if scenario == "target_variance":
                 expected_variance *= (1 + severity_weight) ** 2
             elif scenario == "tail_frequency":
-                rare_rate = 0.01 + 0.1 * np.tanh(1) * severity_weight
+                rare_rate = 0.01 + 0.1 * np.tanh(severity) * float(regime)
                 expected_variance *= 1 + 63 * rare_rate
             mean_errors[regime].append(abs(float(values.mean()) - expected_mean))
             variance_errors[regime].append(

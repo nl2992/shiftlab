@@ -11,8 +11,8 @@ from shiftlab.data.schemas import SyntheticConfig
 from shiftlab.data.synthetic import generate_chunks
 
 
-def _generate(scenario: str, seed: int, n: int = 30000):
-    config = SyntheticConfig(n=n, scenario=scenario, seed=seed, severity=1.0, noise=0.3)
+def _generate(scenario: str, seed: int, n: int = 30000, severity: float = 1.0):
+    config = SyntheticConfig(n=n, scenario=scenario, seed=seed, severity=severity, noise=0.3)
     parts = list(generate_chunks(config))
     frame = pd.concat([part[0] for part in parts], ignore_index=True)
     oracle = pd.concat([part[1] for part in parts], ignore_index=True)
@@ -85,75 +85,82 @@ def evaluate() -> dict:
     )
 
     for scenario in ["target_level", "target_variance", "tail_frequency"]:
-        regime_values = {"baseline": [], "shifted": []}
-        for seed in [11, 23, 37, 53, 71]:
-            config, frame, oracle = _generate(scenario, seed)
-            X = np.stack(frame.features.to_numpy())
-            y = frame.target.to_numpy()
-            weight = oracle.weight.to_numpy()
-            s = config.severity * weight
-            residual = y - (X[:, 0] - 0.9 * X[:, 1])
-            for name, condition in [("baseline", weight == 0), ("shifted", weight == 1)]:
-                regime_values[name].append(
-                    {
-                        "mean": float(residual[condition].mean()),
-                        "variance": float(residual[condition].var(ddof=1)),
-                        "expected_mean": float(s[condition][0])
-                        if scenario == "target_level"
-                        else 0.0,
-                        "expected_variance": (
-                            config.noise**2 * (1 + s[condition][0]) ** 2
-                            if scenario == "target_variance"
-                            else config.noise**2
-                            * (
-                                1
-                                + 63
+        for severity in [0.0, 0.5, 1.0, 2.0]:
+            regime_values = {"baseline": []}
+            if severity > 0:
+                regime_values["shifted"] = []
+            for seed in [11, 23, 37, 53, 71]:
+                config, frame, oracle = _generate(scenario, seed, severity=severity)
+                X = np.stack(frame.features.to_numpy())
+                y = frame.target.to_numpy()
+                weight = oracle.weight.to_numpy()
+                s = config.severity * weight
+                residual = y - (X[:, 0] - 0.9 * X[:, 1])
+                regimes = [("baseline", weight == 0)]
+                if severity > 0:
+                    regimes.append(("shifted", weight == 1))
+                for name, condition in regimes:
+                    regime_values[name].append(
+                        {
+                            "mean": float(residual[condition].mean()),
+                            "variance": float(residual[condition].var(ddof=1)),
+                            "expected_mean": float(s[condition][0])
+                            if scenario == "target_level"
+                            else 0.0,
+                            "expected_variance": (
+                                config.noise**2 * (1 + s[condition][0]) ** 2
+                                if scenario == "target_variance"
+                                else config.noise**2
                                 * (
-                                    0.01
-                                    + 0.1 * np.tanh(config.severity) * float(weight[condition][0])
+                                    1
+                                    + 63
+                                    * (
+                                        0.01
+                                        + 0.1
+                                        * np.tanh(config.severity)
+                                        * float(weight[condition][0])
+                                    )
                                 )
-                            )
-                            if scenario == "tail_frequency"
-                            else config.noise**2
-                        ),
-                    }
-                )
-        aggregate = {}
-        for regime, samples in regime_values.items():
-            observed_mean = float(np.mean([item["mean"] for item in samples]))
-            observed_variance = float(np.mean([item["variance"] for item in samples]))
-            expected_mean = float(np.mean([item["expected_mean"] for item in samples]))
-            expected_variance = float(np.mean([item["expected_variance"] for item in samples]))
-            aggregate[regime] = {
-                "observed_mean": observed_mean,
-                "expected_mean": expected_mean,
-                "mean_absolute_error": abs(observed_mean - expected_mean),
-                "observed_variance": observed_variance,
-                "expected_variance": expected_variance,
-                "variance_relative_error": abs(observed_variance - expected_variance)
-                / expected_variance,
-            }
-        rows.append(
-            {
-                "scenario": scenario,
-                "n_per_seed": 30000,
-                "property": "conditional residual mean/variance by regime",
-                "regimes": aggregate,
-                "replicates": 5,
-                "mean_absolute_error_tolerance": 0.02,
-                "variance_relative_error_tolerance": (
-                    0.06 if scenario == "tail_frequency" else 0.025
-                ),
-                "passes": all(
-                    item["mean_absolute_error"] < 0.02
-                    and item["variance_relative_error"]
-                    < (0.06 if scenario == "tail_frequency" else 0.025)
-                    for item in aggregate.values()
-                ),
-            }
-        )
+                                if scenario == "tail_frequency"
+                                else config.noise**2
+                            ),
+                        }
+                    )
+            aggregate = {}
+            for regime, samples in regime_values.items():
+                observed_mean = float(np.mean([item["mean"] for item in samples]))
+                observed_variance = float(np.mean([item["variance"] for item in samples]))
+                expected_mean = float(np.mean([item["expected_mean"] for item in samples]))
+                expected_variance = float(np.mean([item["expected_variance"] for item in samples]))
+                aggregate[regime] = {
+                    "observed_mean": observed_mean,
+                    "expected_mean": expected_mean,
+                    "mean_absolute_error": abs(observed_mean - expected_mean),
+                    "observed_variance": observed_variance,
+                    "expected_variance": expected_variance,
+                    "variance_relative_error": abs(observed_variance - expected_variance)
+                    / expected_variance,
+                }
+            tolerance = 0.06 if scenario == "tail_frequency" else 0.025
+            rows.append(
+                {
+                    "scenario": scenario,
+                    "severity": severity,
+                    "n_per_seed": 30000,
+                    "property": "conditional residual mean/variance by regime",
+                    "regimes": aggregate,
+                    "replicates": 5,
+                    "mean_absolute_error_tolerance": 0.02,
+                    "variance_relative_error_tolerance": tolerance,
+                    "passes": all(
+                        item["mean_absolute_error"] < 0.02
+                        and item["variance_relative_error"] < tolerance
+                        for item in aggregate.values()
+                    ),
+                }
+            )
     return {
-        "description": "Five-seed independent mechanism checks for class-prior, label-corruption, regression-level, variance, and rare-tail-frequency target shifts.",
+        "description": "Five-seed independent mechanism checks for class-prior, label-corruption, and regression target shifts across severity 0, 0.5, 1 and 2.",
         "n_per_seed": 30000,
         "seeds": [11, 23, 37, 53, 71],
         "evidence": rows,

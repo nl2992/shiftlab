@@ -76,8 +76,11 @@ installation or CI. Permitted existing local exports can be imported with `path`
   supplied. FRED live acquisition remains pending a key.
 - CivilComments: the official CodaLab host fails certificate validation. TLS verification stays
   enabled. [Upstream issue](https://github.com/p-lambda/wilds/issues/173) also records the outage.
-- Criteo: the publisher-linked archive returned HEAD 404 and a failed streamed GET. No unrelated
-  click dataset or unofficial mirror was substituted.
+- Criteo: rechecked the official landing page and linked archive on 2026-10-20. The landing page
+  still documents the 90-day click/conversion sample and CC BY-NC-SA 4.0 terms; its linked `go.criteo.net`
+  archive currently returns HTTP 404 to this host, and the named Azure Blob hostname returns DNS
+  NXDOMAIN. No archive bytes were acquired and no unrelated click dataset or unofficial mirror was
+  substituted. The latest probe is recorded separately in `acquisition_extensions.json`.
 
 Timestamped outcomes are recorded in `data/reports/acquisition_extensions.json`.
 

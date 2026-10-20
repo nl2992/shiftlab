@@ -132,3 +132,8 @@ def test_binary_decisions_reject_invalid_costs(cost_name, cost):
 def test_binary_risk_rejects_nonbinary_actions():
     with pytest.raises(ValueError, match="Actions must contain only"):
         binary_risk([0, 2], [0.2, 0.8])
+
+
+def test_binary_action_threshold_is_stable_for_large_finite_costs():
+    assert binary_action(0.5, false_negative=1e308, false_positive=1e308)
+    assert not binary_action(0.49, false_negative=1e308, false_positive=1e308)

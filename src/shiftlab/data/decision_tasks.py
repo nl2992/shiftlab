@@ -23,7 +23,9 @@ def binary_action(probability, false_negative=5.0, false_positive=1.0):
     probability, false_negative, false_positive = _validated_binary_inputs(
         probability, false_negative, false_positive
     )
-    return probability >= false_positive / (false_positive + false_negative)
+    scale = np.maximum(false_negative, false_positive)
+    threshold = (false_positive / scale) / (false_positive / scale + false_negative / scale)
+    return probability >= threshold
 
 
 def binary_risk(action, probability, false_negative=5.0, false_positive=1.0):

@@ -4,6 +4,9 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 import pytest
+from scipy.special import expit
+from scipy.stats import norm
+from scipy.stats import t as student_t
 
 from shiftlab.data.cli import generate
 from shiftlab.data.schemas import SyntheticConfig
@@ -86,6 +89,52 @@ def test_every_scenario_oracle_action_minimizes_disclosed_expected_cost(scenario
     assert ((probability >= 0.0) & (probability <= 1.0)).all()
     assert np.array_equal(action, expected_action)
     assert np.allclose(oracle.oracle_risk.to_numpy(dtype=float), expected_risk, atol=1e-12)
+
+
+@pytest.mark.parametrize("scenario", SCENARIOS)
+def test_every_scenario_event_probability_matches_its_independent_response_law(scenario):
+    config = SyntheticConfig(n=1200, scenario=scenario, seed=613, severity=1.5)
+    frame, oracle = next(generate_chunks(config))
+    features = np.stack(frame.features.to_numpy())
+    weight = oracle.weight.to_numpy(dtype=float)
+    severity = config.severity * weight
+    mean = oracle.conditional_mean.to_numpy(dtype=float)
+    scale = oracle.sigma.to_numpy(dtype=float)
+
+    if scenario == "nonlinear_classification":
+        expected = expit(features[:, 0] + features[:, 1] ** 2 - 1)
+    elif scenario == "boundary_rotation":
+        expected = expit(np.cos(severity) * features[:, 0] + np.sin(severity) * features[:, 1])
+    elif scenario == "small_decision_covariate":
+        expected = expit(200 * features[:, 0])
+    elif scenario == "rare_high_cost":
+        expected = 0.0001 + 0.005 * severity
+    elif scenario in {"prior_shift", "imbalance"}:
+        prior_logit = severity + (np.log(0.1 / 0.9) if scenario == "imbalance" else 0.0)
+        expected = expit(2 * features[:, 0] + prior_logit)
+    elif scenario == "label_corruption":
+        flip_rate = np.minimum(0.45, severity / 5)
+        clean = expit(features[:, 0] + features[:, 1] ** 2 - 1)
+        expected = flip_rate + (1 - 2 * flip_rate) * clean
+    elif scenario in {"heavy_tailed"}:
+        expected = student_t.cdf(mean / scale * np.sqrt(5 / 3), df=5)
+    elif scenario == "asymmetric_errors":
+        boundary = np.exp(0.5) - mean / scale * np.sqrt((np.e - 1) * np.e)
+        expected = np.where(boundary <= 0, 1.0, 1 - norm.cdf(np.log(np.maximum(boundary, 1e-300))))
+    elif scenario in {"tail_frequency", "extreme_events"}:
+        rare_rate = 0.01 + 0.1 * np.tanh(config.severity) * weight
+        expected = (1 - rare_rate) * norm.cdf(mean / scale) + rare_rate * norm.cdf(
+            mean / (8 * scale)
+        )
+    elif scenario == "garch":
+        expected = norm.cdf(mean / scale)
+    elif scenario == "dependent_errors":
+        expected = norm.cdf(mean / config.noise)
+    else:
+        expected = norm.cdf(mean / scale)
+
+    assert np.isfinite(expected).all()
+    assert np.allclose(oracle.probability_positive.to_numpy(dtype=float), expected, atol=1e-12)
 
 
 @pytest.mark.parametrize("scenario", SCENARIOS)

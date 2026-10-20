@@ -1991,13 +1991,14 @@
       "mean_interior_weight_fraction": 0.0
     }
   },
+  "checks_pass": true,
   "limitations": [
     "Deterministic schedule formulas are checked independently in tests/data/test_temporal_schedule_properties.py.",
     "The HMM switch-rate tolerance is a finite-sample diagnostic, not a guarantee for each path.",
     "Schedules are simulation indices and do not imply real-source changepoints."
   ],
-  "processing_commit": "3da962f8514ff182c52caa8ba524c334d4eedf66",
-  "source_hash": "bec4b48ac39c298d0ccd7923b7df1c30f7bac089fb5fc13ba31144bd89b494b0",
-  "script_sha256": "54357fa2fc6c1414ec44682b8d5477d76e3bdbd213d7b8d48b1246260e1004d8",
-  "executed_at": "2026-10-20T00:09:00.535459+00:00"
+  "processing_commit": "b115ccbe06a091e92e21aefcc8591071c3358fd0",
+  "source_hash": "b82dc5c3f3fc27555e31bd714e2453732ac14189cdfd141d68f2183f235b0ed5",
+  "script_sha256": "cc52dc160aaa53726f9b8a7e1152255203ed8a25201b3d8c151fa26e5c6f4e45",
+  "executed_at": "2026-10-20T01:09:33.193415+00:00"
 }

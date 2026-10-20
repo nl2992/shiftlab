@@ -5,6 +5,7 @@ from pathlib import Path
 
 import numpy as np
 
+from shiftlab.data.provenance import commit, sha256, source_hash, utc_now
 from shiftlab.data.schemas import SyntheticConfig
 from shiftlab.data.synthetic import generate_chunks
 
@@ -42,15 +43,30 @@ def main() -> None:
                 }
             )
     summaries = {}
+    expected_lag1 = {
+        "ar1": rho,
+        "arma": (rho + theta) * (1 + rho * theta) / (1 + theta**2 + 2 * rho * theta),
+        "garch": 0.0,
+    }
     for scenario, variance in expected.items():
         group = [row for row in rows if row["scenario"] == scenario]
+        observed_variance = float(np.mean([r["sample_variance"] for r in group]))
+        observed_lag1 = float(np.mean([r["lag1_autocorrelation"] for r in group]))
+        observed_squared_lag1 = float(np.mean([r["squared_lag1_autocorrelation"] for r in group]))
         summaries[scenario] = {
             "replicates": len(group),
             "expected_stationary_variance": variance,
-            "mean_sample_variance": float(np.mean([r["sample_variance"] for r in group])),
-            "mean_lag1_autocorrelation": float(np.mean([r["lag1_autocorrelation"] for r in group])),
-            "mean_squared_lag1_autocorrelation": float(
-                np.mean([r["squared_lag1_autocorrelation"] for r in group])
+            "mean_sample_variance": observed_variance,
+            "variance_relative_tolerance": 0.035,
+            "variance_check_pass": bool(abs(observed_variance - variance) < 0.035 * variance),
+            "expected_lag1_autocorrelation": expected_lag1[scenario],
+            "mean_lag1_autocorrelation": observed_lag1,
+            "lag1_absolute_tolerance": 0.025,
+            "lag1_check_pass": bool(abs(observed_lag1 - expected_lag1[scenario]) < 0.025),
+            "mean_squared_lag1_autocorrelation": observed_squared_lag1,
+            "garch_squared_lag1_minimum": 0.05 if scenario == "garch" else None,
+            "squared_lag1_check_pass": bool(
+                observed_squared_lag1 > 0.05 if scenario == "garch" else True
             ),
         }
     report = {
@@ -58,6 +74,14 @@ def main() -> None:
         "parameters": {"rho": rho, "arma_theta": theta, "noise": noise, "n": 30000},
         "replicates": rows,
         "summary": summaries,
+        "checks_pass": all(
+            row["variance_check_pass"] and row["lag1_check_pass"] and row["squared_lag1_check_pass"]
+            for row in summaries.values()
+        ),
+        "processing_commit": commit(),
+        "source_hash": source_hash(),
+        "script_sha256": sha256(Path(__file__)),
+        "executed_at": utc_now(),
         "limitations": [
             "Replicate ranges are descriptive checks, not confidence intervals.",
             "GARCH residuals are standardized by configured noise for the variance check.",
@@ -74,6 +98,8 @@ def main() -> None:
             f"squared_lag1={summary['mean_squared_lag1_autocorrelation']:.4f}"
         )
     print(output)
+    if not report["checks_pass"]:
+        raise SystemExit(1)
 
 
 if __name__ == "__main__":

@@ -133,24 +133,50 @@
       "replicates": 5,
       "expected_stationary_variance": 1.0,
       "mean_sample_variance": 0.9997425198296831,
+      "variance_relative_tolerance": 0.035,
+      "variance_check_pass": true,
+      "expected_lag1_autocorrelation": 0.65,
       "mean_lag1_autocorrelation": 0.6452459596354468,
-      "mean_squared_lag1_autocorrelation": 0.4151133579260974
+      "lag1_absolute_tolerance": 0.025,
+      "lag1_check_pass": true,
+      "mean_squared_lag1_autocorrelation": 0.4151133579260974,
+      "garch_squared_lag1_minimum": null,
+      "squared_lag1_check_pass": true
     },
     "arma": {
       "replicates": 5,
       "expected_stationary_variance": 2.562770562770563,
       "mean_sample_variance": 2.5573950225606015,
+      "variance_relative_tolerance": 0.035,
+      "variance_check_pass": true,
+      "expected_lag1_autocorrelation": 0.7670608108108109,
       "mean_lag1_autocorrelation": 0.7637343857817276,
-      "mean_squared_lag1_autocorrelation": 0.5812487582634599
+      "lag1_absolute_tolerance": 0.025,
+      "lag1_check_pass": true,
+      "mean_squared_lag1_autocorrelation": 0.5812487582634599,
+      "garch_squared_lag1_minimum": null,
+      "squared_lag1_check_pass": true
     },
     "garch": {
       "replicates": 5,
       "expected_stationary_variance": 0.5000000000000001,
       "mean_sample_variance": 0.5054347977039438,
+      "variance_relative_tolerance": 0.035,
+      "variance_check_pass": true,
+      "expected_lag1_autocorrelation": 0.0,
       "mean_lag1_autocorrelation": 0.0041641118810267245,
-      "mean_squared_lag1_autocorrelation": 0.15083736229099623
+      "lag1_absolute_tolerance": 0.025,
+      "lag1_check_pass": true,
+      "mean_squared_lag1_autocorrelation": 0.15083736229099623,
+      "garch_squared_lag1_minimum": 0.05,
+      "squared_lag1_check_pass": true
     }
   },
+  "checks_pass": true,
+  "processing_commit": "b115ccbe06a091e92e21aefcc8591071c3358fd0",
+  "source_hash": "b82dc5c3f3fc27555e31bd714e2453732ac14189cdfd141d68f2183f235b0ed5",
+  "script_sha256": "c3731b7452274e565290e926bf81d3003c35eb668239a3372c9cb3a78f9ebca3",
+  "executed_at": "2026-10-20T01:09:33.899683+00:00",
   "limitations": [
     "Replicate ranges are descriptive checks, not confidence intervals.",
     "GARCH residuals are standardized by configured noise for the variance check."

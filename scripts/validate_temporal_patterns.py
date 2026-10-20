@@ -107,6 +107,12 @@ def evaluate() -> dict:
             )
         summaries[pattern] = summary
         records.extend(group)
+    checks_pass = all(
+        row["all_boundary_checks_pass"]
+        and row["all_zero_strength_checks_pass"]
+        and (pattern != "hmm" or row["switch_rate_check_pass"])
+        for pattern, row in summaries.items()
+    )
     return {
         "description": "Five-seed schedule diagnostics for ten temporal patterns, including transition intervals and the hidden Markov dwell-rate control.",
         "parameters": {
@@ -119,6 +125,7 @@ def evaluate() -> dict:
         },
         "records": records,
         "summary": summaries,
+        "checks_pass": checks_pass,
         "limitations": [
             "Deterministic schedule formulas are checked independently in tests/data/test_temporal_schedule_properties.py.",
             "The HMM switch-rate tolerance is a finite-sample diagnostic, not a guarantee for each path.",
@@ -142,6 +149,8 @@ def main() -> None:
             f"boundaries={row['all_boundary_checks_pass']}"
         )
     print(output)
+    if not report["checks_pass"]:
+        raise SystemExit(1)
 
 
 if __name__ == "__main__":

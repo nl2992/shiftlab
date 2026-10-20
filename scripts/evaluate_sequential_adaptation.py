@@ -38,6 +38,7 @@ POLICY_VARIANTS = (
     ("ridge_periodic", "ridge", "periodic", "fixed"),
     ("ridge_periodic_recalibration", "ridge", "periodic_recalibration", "fixed"),
     ("ridge_triggered", "ridge", "triggered", "fixed"),
+    ("ridge_validation_triggered", "ridge", "validation_triggered", "fixed"),
     ("ridge_recalibration", "ridge", "recalibration", "fixed"),
     ("ridge_partial_update", "ridge", "partial_update", "fixed"),
     ("ridge_triggered_rolling_radius", "ridge", "triggered", "rolling"),
@@ -147,8 +148,9 @@ def evaluate_replicate(schedule: str, seed: int) -> list[dict]:
         raise ValueError(f"No test observations for {schedule}, seed {seed}")
     first_test = float(test.prediction_time.min())
     train = initial_rows(frame, "train", first_test)
+    validation = initial_rows(frame, "validation", first_test)
     calibration = initial_rows(frame, "calibration", first_test)
-    if len(train) < 20 or len(calibration) < 20:
+    if len(train) < 20 or len(validation) < 20 or len(calibration) < 20:
         raise ValueError(f"Insufficient arrived initial data for {schedule}, seed {seed}")
     settings = SimpleNamespace(window=80, alpha=0.1, threshold=5.0, period=50, budget=4)
     resource_budget = RESOURCE_BUDGET
@@ -177,6 +179,8 @@ def evaluate_replicate(schedule: str, seed: int) -> list[dict]:
                 "normalized_sgd_partial_update": 2.0,
                 "refit": 4.0 if model_family == "ridge" else 8.0,
             },
+            validation_X=np.stack(validation.features.to_numpy()),
+            validation_y=validation.target.to_numpy(dtype=float),
         )
         pending: dict[str, tuple[tuple[float, ...], float]] = {}
         predictions: dict[str, float] = {}
@@ -254,6 +258,7 @@ def evaluate_replicate(schedule: str, seed: int) -> list[dict]:
                 "fit_audit": learner.fit_audit,
                 "intervention_audit": learner.intervention_audit,
                 "final_bias_correction": learner.bias_correction,
+                "validation_loss_threshold": learner.validation_loss_threshold,
                 "protocol_passes": bool(
                     len(learner.interventions) <= settings.budget
                     and learner.resource_spent <= resource_budget
@@ -266,6 +271,14 @@ def evaluate_replicate(schedule: str, seed: int) -> list[dict]:
                         for row in learner.fit_audit
                     )
                     and len(predictions) == len(test)
+                    and (
+                        method != "validation_triggered"
+                        or (
+                            learner.validation_loss_threshold is not None
+                            and np.isfinite(learner.validation_loss_threshold)
+                            and len(validation) >= 20
+                        )
+                    )
                     and test.target.notna().sum() >= learner.feedback_count
                     and np.isfinite(ordered_radii).all()
                     and (ordered_radii >= 0).all()
@@ -364,8 +377,8 @@ def evaluate() -> dict:
         )
     )
     return {
-        "description": "Five-seed fitted online adaptation using Ridge and random-forest predictors with frozen, periodic, residual-CUSUM-triggered refitting, periodic or triggered residual-bias recalibration, and triggered normalized-gradient partial updates, fixed/rolling/exponential radii, four action slots and an action-specific compute budget, across four concept schedules.",
-        "protocol": "Train and calibration labels are strictly available before the first test request. During the test stream, learners receive requests and only labels yielded by timestamp-ordered replay. Equal-time requests precede feedback. Refit history contains only arrived labels. Every variant has at most four action slots and a 12-unit imposed compute budget. Recalibration updates only a scalar prediction bias from arrived signed residuals; partial update applies one normalized stochastic-gradient step to Ridge coefficients and intercept. Per-action resource costs are 1 unit for recalibration, 2 for partial update, 4 for Ridge refit, and 8 for random-forest refit. Rolling- and exponentially weighted-radius arms keep their Ridge predictor update schedule identical to the fixed-radius triggered arm; residual scores enter only when labels arrive and use the forecast made earlier for that sample. Exponential score weights use label-availability times and an 80-step half-life, with one unit of test-point mass. Random forests use 32 trees, depth 6, leaf size 5, and a fixed seed.",
+        "description": "Five-seed fitted online adaptation using Ridge and random-forest predictors with frozen, periodic, feedback-triggered, or validation-loss-triggered refitting; periodic or triggered residual-bias recalibration; and triggered normalized-gradient partial updates, fixed/rolling/exponential radii, four action slots and an action-specific compute budget, across four concept schedules.",
+        "protocol": "Train, validation, and calibration labels are strictly available before the first test request. The validation-trigger threshold is fixed at the initial model's validation squared-error mean plus two validation standard deviations; it triggers when the rolling mean of 80 arrived test-feedback squared errors exceeds that threshold. During the test stream, learners receive requests and only labels yielded by timestamp-ordered replay. Equal-time requests precede feedback. Refit history contains only arrived labels. Every variant has at most four action slots and a 12-unit imposed compute budget. Recalibration updates only a scalar prediction bias from arrived signed residuals; partial update applies one normalized stochastic-gradient step to Ridge coefficients and intercept. Per-action resource costs are 1 unit for recalibration, 2 for partial update, 4 for Ridge refit, and 8 for random-forest refit. Rolling- and exponentially weighted-radius arms keep their Ridge predictor update schedule identical to the fixed-radius triggered arm; residual scores enter only when labels arrive and use the forecast made earlier for that sample. Exponential score weights use label-availability times and an 80-step half-life, with one unit of test-point mass. Random forests use 32 trees, depth 6, leaf size 5, and a fixed seed.",
         "limitations": [
             "The trigger threshold and review period are fixed in advance; no parameter tuning uses test outcomes.",
             "Only Ridge and a fixed random-forest configuration are evaluated; hyperparameters are not tuned on test outcomes.",

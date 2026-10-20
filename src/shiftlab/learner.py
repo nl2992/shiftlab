@@ -49,6 +49,8 @@ class Learner:
         radius_half_life=None,
         resource_budget=None,
         action_resource_costs=None,
+        validation_X=None,
+        validation_y=None,
     ):
         self.config, self.method = LearnerSettings.from_config(config), method
         self.radius_method = radius_method or ("rolling" if method == "rolling" else "fixed")
@@ -97,6 +99,30 @@ class Learner:
         self.reference = cal_X[-config.window :].copy()
         self.features = deque(maxlen=config.window)
         self.history = deque(zip(X.tolist(), y.tolist()), maxlen=config.window)
+        self.validation_loss_threshold = None
+        self.validation_loss_window = deque(maxlen=config.window)
+        if method == "validation_triggered":
+            if validation_X is None or validation_y is None:
+                raise ValueError(
+                    "validation_X and validation_y are required for validation_triggered"
+                )
+            validation_X = np.asarray(validation_X, dtype=float)
+            validation_y = np.asarray(validation_y, dtype=float)
+            if (
+                validation_X.ndim != 2
+                or validation_y.ndim != 1
+                or validation_X.shape[0] != validation_y.size
+                or validation_X.shape[1] != np.asarray(X).shape[1]
+                or validation_y.size < 2
+                or not np.isfinite(validation_X).all()
+                or not np.isfinite(validation_y).all()
+            ):
+                raise ValueError("Validation arrays must be finite and have compatible shapes")
+            validation_residuals = validation_y - self.model.predict(validation_X)
+            validation_losses = validation_residuals**2
+            self.validation_loss_threshold = float(
+                validation_losses.mean() + 2.0 * validation_losses.std(ddof=1)
+            )
         costs = decision_losses(cal_y, pred)
         self.loss_detector = CUSUM(np.mean(costs), np.std(costs), config.threshold)
         self.error_detector = CUSUM(np.mean(residual**2), np.std(residual**2), config.threshold)
@@ -150,15 +176,27 @@ class Learner:
         if self.loss_detector.update(loss):
             self.alarms["loss_cusum"].append(feedback.available_at)
         alarm = self.error_detector.update((feedback.target - feedback.prediction) ** 2)
+        observed_squared_error = float((feedback.target - feedback.prediction) ** 2)
+        self.validation_loss_window.append(observed_squared_error)
+        validation_alarm = bool(
+            self.method == "validation_triggered"
+            and self.validation_loss_threshold is not None
+            and len(self.validation_loss_window) == self.config.window
+            and np.mean(self.validation_loss_window) > self.validation_loss_threshold
+        )
         if alarm:
             self.alarms["error_cusum"].append(feedback.available_at)
+        if validation_alarm:
+            self.alarms.setdefault("validation_loss", []).append(feedback.available_at)
         self.cooldown = max(0, self.cooldown - 1)
         periodic = self.method in {"periodic", "periodic_recalibration"} and (
             self.feedback_count % self.config.period == 0
         )
-        triggered = self.method in {"triggered", "recalibration", "partial_update"} and (
-            alarm and self.cooldown == 0
-        )
+        triggered = (
+            self.method in {"triggered", "recalibration", "partial_update"}
+            and alarm
+            and self.cooldown == 0
+        ) or (self.method == "validation_triggered" and validation_alarm and self.cooldown == 0)
         if (periodic or triggered) and len(self.interventions) < self.config.budget:
             action = (
                 "residual_bias_recalibration"

@@ -181,6 +181,41 @@ def test_resource_budget_rejects_an_action_atomically():
     assert learner.resource_spent == 0
 
 
+def test_validation_loss_trigger_uses_pretest_threshold_and_arrived_feedback():
+    X = np.zeros((40, 2))
+    y = np.zeros(40)
+    settings = SimpleNamespace(window=2, alpha=0.1, threshold=5.0, period=10, budget=1)
+    learner = Learner(
+        X[:20],
+        y[:20],
+        X[20:30],
+        y[20:30],
+        settings,
+        "validation_triggered",
+        validation_X=X[30:],
+        validation_y=y[30:],
+    )
+    assert learner.validation_loss_threshold == 0.0
+    learner.error_detector.update = lambda _: False
+    for time in (40, 41):
+        learner.observe(
+            Feedback(
+                time=time - 1, available_at=time, features=(0.0, 0.0), target=9.0, prediction=0.0
+            )
+        )
+    assert learner.interventions == [41]
+    assert learner.intervention_audit[-1]["action"] == "refit"
+    assert learner.alarms["validation_loss"] == [41]
+
+
+def test_validation_trigger_requires_a_separate_pretest_validation_set():
+    X = np.zeros((40, 2))
+    y = np.zeros(40)
+    settings = SimpleNamespace(window=2, alpha=0.1, threshold=5.0, period=10, budget=1)
+    with pytest.raises(ValueError, match="validation_X and validation_y"):
+        Learner(X[:20], y[:20], X[20:30], y[20:30], settings, "validation_triggered")
+
+
 def test_exponential_conformal_quantile_downweights_stale_scores():
     scores = np.array([1.0] * 14 + [100.0])
     ordinary = weighted_conformal_quantile(scores, alpha=0.1)

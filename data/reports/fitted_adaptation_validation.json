@@ -1,9 +1,9 @@
 {
-  "description": "Five-seed fitted online adaptation using frozen, periodic, and residual-CUSUM-triggered Ridge policies across four concept schedules.",
-  "protocol": "Train and calibration labels are strictly available before the first test request. During the test stream, learners receive requests and only labels yielded by timestamp-ordered replay. Equal-time requests precede feedback. Refit history contains only arrived labels. Every policy has a four-update compute budget.",
+  "description": "Five-seed fitted online adaptation using Ridge and random-forest predictors with frozen, periodic, or residual-CUSUM-triggered updates across four concept schedules.",
+  "protocol": "Train and calibration labels are strictly available before the first test request. During the test stream, learners receive requests and only labels yielded by timestamp-ordered replay. Equal-time requests precede feedback. Refit history contains only arrived labels. Every variant has a four-update compute budget. Random forests use 32 trees, depth 6, leaf size 5, and a fixed seed.",
   "limitations": [
     "The trigger threshold and review period are fixed in advance; no parameter tuning uses test outcomes.",
-    "Only one fitted model family (Ridge) and synthetic squared loss are evaluated.",
+    "Only Ridge and a fixed random-forest configuration are evaluated; hyperparameters are not tuned on test outcomes.",
     "Oracle irreducible MSE is evaluator-only; it is not exposed to the learner.",
     "Five seeds are descriptive replicates, not confidence intervals."
   ],
@@ -25,9 +25,31 @@
       71
     ],
     "policies": [
-      "frozen",
-      "periodic",
-      "triggered"
+      {
+        "name": "ridge_frozen",
+        "model_family": "ridge",
+        "update_method": "frozen"
+      },
+      {
+        "name": "ridge_periodic",
+        "model_family": "ridge",
+        "update_method": "periodic"
+      },
+      {
+        "name": "ridge_triggered",
+        "model_family": "ridge",
+        "update_method": "triggered"
+      },
+      {
+        "name": "forest_frozen",
+        "model_family": "random_forest",
+        "update_method": "frozen"
+      },
+      {
+        "name": "forest_triggered",
+        "model_family": "random_forest",
+        "update_method": "triggered"
+      }
     ],
     "update_budget": 4
   },
@@ -55,7 +77,9 @@
     {
       "schedule": "abrupt",
       "seed": 11,
-      "policy": "frozen",
+      "policy": "ridge_frozen",
+      "model_family": "ridge",
+      "update_method": "frozen",
       "test_n": 800,
       "mse": 3.2422564882185294,
       "oracle_irreducible_mse": 0.09,
@@ -74,7 +98,9 @@
     {
       "schedule": "abrupt",
       "seed": 11,
-      "policy": "periodic",
+      "policy": "ridge_periodic",
+      "model_family": "ridge",
+      "update_method": "periodic",
       "test_n": 800,
       "mse": 2.930684162825395,
       "oracle_irreducible_mse": 0.09,
@@ -95,22 +121,26 @@
         {
           "fit_feedback_available_time": 861.0,
           "arrived_feedback_count": 50,
-          "method": "periodic"
+          "method": "periodic",
+          "model_family": "ridge"
         },
         {
           "fit_feedback_available_time": 919.0,
           "arrived_feedback_count": 100,
-          "method": "periodic"
+          "method": "periodic",
+          "model_family": "ridge"
         },
         {
           "fit_feedback_available_time": 981.0,
           "arrived_feedback_count": 150,
-          "method": "periodic"
+          "method": "periodic",
+          "model_family": "ridge"
         },
         {
           "fit_feedback_available_time": 1037.0,
           "arrived_feedback_count": 200,
-          "method": "periodic"
+          "method": "periodic",
+          "model_family": "ridge"
         }
       ],
       "protocol_passes": true,
@@ -119,7 +149,9 @@
     {
       "schedule": "abrupt",
       "seed": 11,
-      "policy": "triggered",
+      "policy": "ridge_triggered",
+      "model_family": "ridge",
+      "update_method": "triggered",
       "test_n": 800,
       "mse": 0.547600025156742,
       "oracle_irreducible_mse": 0.09,
@@ -140,22 +172,98 @@
         {
           "fit_feedback_available_time": 902.0,
           "arrived_feedback_count": 84,
-          "method": "triggered"
+          "method": "triggered",
+          "model_family": "ridge"
         },
         {
           "fit_feedback_available_time": 1048.0,
           "arrived_feedback_count": 210,
-          "method": "triggered"
+          "method": "triggered",
+          "model_family": "ridge"
         },
         {
           "fit_feedback_available_time": 1134.0,
           "arrived_feedback_count": 290,
-          "method": "triggered"
+          "method": "triggered",
+          "model_family": "ridge"
         },
         {
           "fit_feedback_available_time": 1290.0,
           "arrived_feedback_count": 432,
-          "method": "triggered"
+          "method": "triggered",
+          "model_family": "ridge"
+        }
+      ],
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "abrupt",
+      "seed": 11,
+      "policy": "forest_frozen",
+      "model_family": "random_forest",
+      "update_method": "frozen",
+      "test_n": 800,
+      "mse": 2.983855350290773,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 2.8938553502907736,
+      "shifted_or_transition_mse": 4.17538808238761,
+      "update_count": 0,
+      "update_times": [],
+      "update_budget": 4,
+      "feedback_received": 706,
+      "feedback_missing_or_delayed_past_horizon": 94,
+      "trigger_alarm_count": 306,
+      "fit_audit": [],
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "abrupt",
+      "seed": 11,
+      "policy": "forest_triggered",
+      "model_family": "random_forest",
+      "update_method": "triggered",
+      "test_n": 800,
+      "mse": 0.7661503685657002,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 0.6761503685657001,
+      "shifted_or_transition_mse": 0.9858278088018045,
+      "update_count": 4,
+      "update_times": [
+        953,
+        1043,
+        1131,
+        1222
+      ],
+      "update_budget": 4,
+      "feedback_received": 706,
+      "feedback_missing_or_delayed_past_horizon": 94,
+      "trigger_alarm_count": 90,
+      "fit_audit": [
+        {
+          "fit_feedback_available_time": 953.0,
+          "arrived_feedback_count": 125,
+          "method": "triggered",
+          "model_family": "random_forest"
+        },
+        {
+          "fit_feedback_available_time": 1043.0,
+          "arrived_feedback_count": 205,
+          "method": "triggered",
+          "model_family": "random_forest"
+        },
+        {
+          "fit_feedback_available_time": 1131.0,
+          "arrived_feedback_count": 287,
+          "method": "triggered",
+          "model_family": "random_forest"
+        },
+        {
+          "fit_feedback_available_time": 1222.0,
+          "arrived_feedback_count": 372,
+          "method": "triggered",
+          "model_family": "random_forest"
         }
       ],
       "protocol_passes": true,
@@ -164,7 +272,9 @@
     {
       "schedule": "abrupt",
       "seed": 23,
-      "policy": "frozen",
+      "policy": "ridge_frozen",
+      "model_family": "ridge",
+      "update_method": "frozen",
       "test_n": 800,
       "mse": 2.9519554266142,
       "oracle_irreducible_mse": 0.09,
@@ -183,7 +293,9 @@
     {
       "schedule": "abrupt",
       "seed": 23,
-      "policy": "periodic",
+      "policy": "ridge_periodic",
+      "model_family": "ridge",
+      "update_method": "periodic",
       "test_n": 800,
       "mse": 2.9075103208658293,
       "oracle_irreducible_mse": 0.09,
@@ -204,22 +316,26 @@
         {
           "fit_feedback_available_time": 865.0,
           "arrived_feedback_count": 50,
-          "method": "periodic"
+          "method": "periodic",
+          "model_family": "ridge"
         },
         {
           "fit_feedback_available_time": 923.0,
           "arrived_feedback_count": 100,
-          "method": "periodic"
+          "method": "periodic",
+          "model_family": "ridge"
         },
         {
           "fit_feedback_available_time": 977.0,
           "arrived_feedback_count": 150,
-          "method": "periodic"
+          "method": "periodic",
+          "model_family": "ridge"
         },
         {
           "fit_feedback_available_time": 1031.0,
           "arrived_feedback_count": 200,
-          "method": "periodic"
+          "method": "periodic",
+          "model_family": "ridge"
         }
       ],
       "protocol_passes": true,
@@ -228,7 +344,9 @@
     {
       "schedule": "abrupt",
       "seed": 23,
-      "policy": "triggered",
+      "policy": "ridge_triggered",
+      "model_family": "ridge",
+      "update_method": "triggered",
       "test_n": 800,
       "mse": 0.6573903732181222,
       "oracle_irreducible_mse": 0.09,
@@ -249,22 +367,91 @@
         {
           "fit_feedback_available_time": 815.0,
           "arrived_feedback_count": 6,
-          "method": "triggered"
+          "method": "triggered",
+          "model_family": "ridge"
         },
         {
           "fit_feedback_available_time": 928.0,
           "arrived_feedback_count": 105,
-          "method": "triggered"
+          "method": "triggered",
+          "model_family": "ridge"
         },
         {
           "fit_feedback_available_time": 1048.0,
           "arrived_feedback_count": 215,
-          "method": "triggered"
+          "method": "triggered",
+          "model_family": "ridge"
         },
         {
           "fit_feedback_available_time": 1143.0,
           "arrived_feedback_count": 296,
-          "method": "triggered"
+          "method": "triggered",
+          "model_family": "ridge"
+        }
+      ],
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "abrupt",
+      "seed": 23,
+      "policy": "forest_frozen",
+      "model_family": "random_forest",
+      "update_method": "frozen",
+      "test_n": 800,
+      "mse": 2.621099146539425,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 2.531099146539425,
+      "shifted_or_transition_mse": 3.655366541947156,
+      "update_count": 0,
+      "update_times": [],
+      "update_budget": 4,
+      "feedback_received": 710,
+      "feedback_missing_or_delayed_past_horizon": 90,
+      "trigger_alarm_count": 178,
+      "fit_audit": [],
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "abrupt",
+      "seed": 23,
+      "policy": "forest_triggered",
+      "model_family": "random_forest",
+      "update_method": "triggered",
+      "test_n": 800,
+      "mse": 0.7531437527913609,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 0.6631437527913611,
+      "shifted_or_transition_mse": 0.9868588365927788,
+      "update_count": 3,
+      "update_times": [
+        1048,
+        1144,
+        1490
+      ],
+      "update_budget": 4,
+      "feedback_received": 710,
+      "feedback_missing_or_delayed_past_horizon": 90,
+      "trigger_alarm_count": 43,
+      "fit_audit": [
+        {
+          "fit_feedback_available_time": 1048.0,
+          "arrived_feedback_count": 215,
+          "method": "triggered",
+          "model_family": "random_forest"
+        },
+        {
+          "fit_feedback_available_time": 1144.0,
+          "arrived_feedback_count": 297,
+          "method": "triggered",
+          "model_family": "random_forest"
+        },
+        {
+          "fit_feedback_available_time": 1490.0,
+          "arrived_feedback_count": 608,
+          "method": "triggered",
+          "model_family": "random_forest"
         }
       ],
       "protocol_passes": true,
@@ -273,7 +460,9 @@
     {
       "schedule": "abrupt",
       "seed": 37,
-      "policy": "frozen",
+      "policy": "ridge_frozen",
+      "model_family": "ridge",
+      "update_method": "frozen",
       "test_n": 800,
       "mse": 2.968372734267515,
       "oracle_irreducible_mse": 0.09,
@@ -292,7 +481,9 @@
     {
       "schedule": "abrupt",
       "seed": 37,
-      "policy": "periodic",
+      "policy": "ridge_periodic",
+      "model_family": "ridge",
+      "update_method": "periodic",
       "test_n": 800,
       "mse": 2.976886109194216,
       "oracle_irreducible_mse": 0.09,
@@ -313,22 +504,26 @@
         {
           "fit_feedback_available_time": 866.0,
           "arrived_feedback_count": 50,
-          "method": "periodic"
+          "method": "periodic",
+          "model_family": "ridge"
         },
         {
           "fit_feedback_available_time": 924.0,
           "arrived_feedback_count": 100,
-          "method": "periodic"
+          "method": "periodic",
+          "model_family": "ridge"
         },
         {
           "fit_feedback_available_time": 978.0,
           "arrived_feedback_count": 150,
-          "method": "periodic"
+          "method": "periodic",
+          "model_family": "ridge"
         },
         {
           "fit_feedback_available_time": 1032.0,
           "arrived_feedback_count": 200,
-          "method": "periodic"
+          "method": "periodic",
+          "model_family": "ridge"
         }
       ],
       "protocol_passes": true,
@@ -337,7 +532,9 @@
     {
       "schedule": "abrupt",
       "seed": 37,
-      "policy": "triggered",
+      "policy": "ridge_triggered",
+      "model_family": "ridge",
+      "update_method": "triggered",
       "test_n": 800,
       "mse": 0.6637980757120251,
       "oracle_irreducible_mse": 0.09,
@@ -357,17 +554,92 @@
         {
           "fit_feedback_available_time": 1048.0,
           "arrived_feedback_count": 213,
-          "method": "triggered"
+          "method": "triggered",
+          "model_family": "ridge"
         },
         {
           "fit_feedback_available_time": 1136.0,
           "arrived_feedback_count": 293,
-          "method": "triggered"
+          "method": "triggered",
+          "model_family": "ridge"
         },
         {
           "fit_feedback_available_time": 1558.0,
           "arrived_feedback_count": 665,
-          "method": "triggered"
+          "method": "triggered",
+          "model_family": "ridge"
+        }
+      ],
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "abrupt",
+      "seed": 37,
+      "policy": "forest_frozen",
+      "model_family": "random_forest",
+      "update_method": "frozen",
+      "test_n": 800,
+      "mse": 2.7435645409228475,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 2.6535645409228477,
+      "shifted_or_transition_mse": 3.840056481359352,
+      "update_count": 0,
+      "update_times": [],
+      "update_budget": 4,
+      "feedback_received": 699,
+      "feedback_missing_or_delayed_past_horizon": 101,
+      "trigger_alarm_count": 216,
+      "fit_audit": [],
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "abrupt",
+      "seed": 37,
+      "policy": "forest_triggered",
+      "model_family": "random_forest",
+      "update_method": "triggered",
+      "test_n": 800,
+      "mse": 0.709242815735614,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 0.619242815735614,
+      "shifted_or_transition_mse": 0.9206481636015492,
+      "update_count": 4,
+      "update_times": [
+        1008,
+        1100,
+        1194,
+        1293
+      ],
+      "update_budget": 4,
+      "feedback_received": 699,
+      "feedback_missing_or_delayed_past_horizon": 101,
+      "trigger_alarm_count": 54,
+      "fit_audit": [
+        {
+          "fit_feedback_available_time": 1008.0,
+          "arrived_feedback_count": 177,
+          "method": "triggered",
+          "model_family": "random_forest"
+        },
+        {
+          "fit_feedback_available_time": 1100.0,
+          "arrived_feedback_count": 259,
+          "method": "triggered",
+          "model_family": "random_forest"
+        },
+        {
+          "fit_feedback_available_time": 1194.0,
+          "arrived_feedback_count": 342,
+          "method": "triggered",
+          "model_family": "random_forest"
+        },
+        {
+          "fit_feedback_available_time": 1293.0,
+          "arrived_feedback_count": 427,
+          "method": "triggered",
+          "model_family": "random_forest"
         }
       ],
       "protocol_passes": true,
@@ -376,7 +648,9 @@
     {
       "schedule": "abrupt",
       "seed": 53,
-      "policy": "frozen",
+      "policy": "ridge_frozen",
+      "model_family": "ridge",
+      "update_method": "frozen",
       "test_n": 800,
       "mse": 3.0182601056390594,
       "oracle_irreducible_mse": 0.09,
@@ -395,7 +669,9 @@
     {
       "schedule": "abrupt",
       "seed": 53,
-      "policy": "periodic",
+      "policy": "ridge_periodic",
+      "model_family": "ridge",
+      "update_method": "periodic",
       "test_n": 800,
       "mse": 3.0579799592771066,
       "oracle_irreducible_mse": 0.09,
@@ -416,22 +692,26 @@
         {
           "fit_feedback_available_time": 861.0,
           "arrived_feedback_count": 50,
-          "method": "periodic"
+          "method": "periodic",
+          "model_family": "ridge"
         },
         {
           "fit_feedback_available_time": 914.0,
           "arrived_feedback_count": 100,
-          "method": "periodic"
+          "method": "periodic",
+          "model_family": "ridge"
         },
         {
           "fit_feedback_available_time": 972.0,
           "arrived_feedback_count": 150,
-          "method": "periodic"
+          "method": "periodic",
+          "model_family": "ridge"
         },
         {
           "fit_feedback_available_time": 1027.0,
           "arrived_feedback_count": 200,
-          "method": "periodic"
+          "method": "periodic",
+          "model_family": "ridge"
         }
       ],
       "protocol_passes": true,
@@ -440,7 +720,9 @@
     {
       "schedule": "abrupt",
       "seed": 53,
-      "policy": "triggered",
+      "policy": "ridge_triggered",
+      "model_family": "ridge",
+      "update_method": "triggered",
       "test_n": 800,
       "mse": 0.4736592365062384,
       "oracle_irreducible_mse": 0.09,
@@ -459,12 +741,86 @@
         {
           "fit_feedback_available_time": 1049.0,
           "arrived_feedback_count": 219,
-          "method": "triggered"
+          "method": "triggered",
+          "model_family": "ridge"
         },
         {
           "fit_feedback_available_time": 1133.0,
           "arrived_feedback_count": 299,
-          "method": "triggered"
+          "method": "triggered",
+          "model_family": "ridge"
+        }
+      ],
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "abrupt",
+      "seed": 53,
+      "policy": "forest_frozen",
+      "model_family": "random_forest",
+      "update_method": "frozen",
+      "test_n": 800,
+      "mse": 2.7633293728882844,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 2.673329372888284,
+      "shifted_or_transition_mse": 3.853142578069203,
+      "update_count": 0,
+      "update_times": [],
+      "update_budget": 4,
+      "feedback_received": 720,
+      "feedback_missing_or_delayed_past_horizon": 80,
+      "trigger_alarm_count": 212,
+      "fit_audit": [],
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "abrupt",
+      "seed": 53,
+      "policy": "forest_triggered",
+      "model_family": "random_forest",
+      "update_method": "triggered",
+      "test_n": 800,
+      "mse": 0.5969186948084912,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 0.5069186948084912,
+      "shifted_or_transition_mse": 0.7323812319131551,
+      "update_count": 4,
+      "update_times": [
+        888,
+        1049,
+        1133,
+        1226
+      ],
+      "update_budget": 4,
+      "feedback_received": 720,
+      "feedback_missing_or_delayed_past_horizon": 80,
+      "trigger_alarm_count": 34,
+      "fit_audit": [
+        {
+          "fit_feedback_available_time": 888.0,
+          "arrived_feedback_count": 75,
+          "method": "triggered",
+          "model_family": "random_forest"
+        },
+        {
+          "fit_feedback_available_time": 1049.0,
+          "arrived_feedback_count": 219,
+          "method": "triggered",
+          "model_family": "random_forest"
+        },
+        {
+          "fit_feedback_available_time": 1133.0,
+          "arrived_feedback_count": 299,
+          "method": "triggered",
+          "model_family": "random_forest"
+        },
+        {
+          "fit_feedback_available_time": 1226.0,
+          "arrived_feedback_count": 388,
+          "method": "triggered",
+          "model_family": "random_forest"
         }
       ],
       "protocol_passes": true,
@@ -473,7 +829,9 @@
     {
       "schedule": "abrupt",
       "seed": 71,
-      "policy": "frozen",
+      "policy": "ridge_frozen",
+      "model_family": "ridge",
+      "update_method": "frozen",
       "test_n": 800,
       "mse": 3.0043888723063645,
       "oracle_irreducible_mse": 0.09,
@@ -492,7 +850,9 @@
     {
       "schedule": "abrupt",
       "seed": 71,
-      "policy": "periodic",
+      "policy": "ridge_periodic",
+      "model_family": "ridge",
+      "update_method": "periodic",
       "test_n": 800,
       "mse": 3.1168095071141955,
       "oracle_irreducible_mse": 0.09,
@@ -513,22 +873,26 @@
         {
           "fit_feedback_available_time": 862.0,
           "arrived_feedback_count": 50,
-          "method": "periodic"
+          "method": "periodic",
+          "model_family": "ridge"
         },
         {
           "fit_feedback_available_time": 919.0,
           "arrived_feedback_count": 100,
-          "method": "periodic"
+          "method": "periodic",
+          "model_family": "ridge"
         },
         {
           "fit_feedback_available_time": 976.0,
           "arrived_feedback_count": 150,
-          "method": "periodic"
+          "method": "periodic",
+          "model_family": "ridge"
         },
         {
           "fit_feedback_available_time": 1029.0,
           "arrived_feedback_count": 200,
-          "method": "periodic"
+          "method": "periodic",
+          "model_family": "ridge"
         }
       ],
       "protocol_passes": true,
@@ -537,7 +901,9 @@
     {
       "schedule": "abrupt",
       "seed": 71,
-      "policy": "triggered",
+      "policy": "ridge_triggered",
+      "model_family": "ridge",
+      "update_method": "triggered",
       "test_n": 800,
       "mse": 0.6492197456510158,
       "oracle_irreducible_mse": 0.09,
@@ -558,22 +924,98 @@
         {
           "fit_feedback_available_time": 835.0,
           "arrived_feedback_count": 26,
-          "method": "triggered"
+          "method": "triggered",
+          "model_family": "ridge"
         },
         {
           "fit_feedback_available_time": 930.0,
           "arrived_feedback_count": 109,
-          "method": "triggered"
+          "method": "triggered",
+          "model_family": "ridge"
         },
         {
           "fit_feedback_available_time": 1050.0,
           "arrived_feedback_count": 218,
-          "method": "triggered"
+          "method": "triggered",
+          "model_family": "ridge"
         },
         {
           "fit_feedback_available_time": 1136.0,
           "arrived_feedback_count": 298,
-          "method": "triggered"
+          "method": "triggered",
+          "model_family": "ridge"
+        }
+      ],
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "abrupt",
+      "seed": 71,
+      "policy": "forest_frozen",
+      "model_family": "random_forest",
+      "update_method": "frozen",
+      "test_n": 800,
+      "mse": 2.689320826827353,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 2.5993208268273533,
+      "shifted_or_transition_mse": 3.7504884723227,
+      "update_count": 0,
+      "update_times": [],
+      "update_budget": 4,
+      "feedback_received": 709,
+      "feedback_missing_or_delayed_past_horizon": 91,
+      "trigger_alarm_count": 259,
+      "fit_audit": [],
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "abrupt",
+      "seed": 71,
+      "policy": "forest_triggered",
+      "model_family": "random_forest",
+      "update_method": "triggered",
+      "test_n": 800,
+      "mse": 0.9993167662638587,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 0.9093167662638586,
+      "shifted_or_transition_mse": 1.2764731243107665,
+      "update_count": 4,
+      "update_times": [
+        843,
+        936,
+        1024,
+        1114
+      ],
+      "update_budget": 4,
+      "feedback_received": 709,
+      "feedback_missing_or_delayed_past_horizon": 91,
+      "trigger_alarm_count": 124,
+      "fit_audit": [
+        {
+          "fit_feedback_available_time": 843.0,
+          "arrived_feedback_count": 34,
+          "method": "triggered",
+          "model_family": "random_forest"
+        },
+        {
+          "fit_feedback_available_time": 936.0,
+          "arrived_feedback_count": 115,
+          "method": "triggered",
+          "model_family": "random_forest"
+        },
+        {
+          "fit_feedback_available_time": 1024.0,
+          "arrived_feedback_count": 195,
+          "method": "triggered",
+          "model_family": "random_forest"
+        },
+        {
+          "fit_feedback_available_time": 1114.0,
+          "arrived_feedback_count": 276,
+          "method": "triggered",
+          "model_family": "random_forest"
         }
       ],
       "protocol_passes": true,
@@ -582,7 +1024,9 @@
     {
       "schedule": "gradual",
       "seed": 11,
-      "policy": "frozen",
+      "policy": "ridge_frozen",
+      "model_family": "ridge",
+      "update_method": "frozen",
       "test_n": 800,
       "mse": 3.2507671364335793,
       "oracle_irreducible_mse": 0.09,
@@ -601,7 +1045,9 @@
     {
       "schedule": "gradual",
       "seed": 11,
-      "policy": "periodic",
+      "policy": "ridge_periodic",
+      "model_family": "ridge",
+      "update_method": "periodic",
       "test_n": 800,
       "mse": 1.0170137441815799,
       "oracle_irreducible_mse": 0.09,
@@ -622,22 +1068,26 @@
         {
           "fit_feedback_available_time": 861.0,
           "arrived_feedback_count": 50,
-          "method": "periodic"
+          "method": "periodic",
+          "model_family": "ridge"
         },
         {
           "fit_feedback_available_time": 919.0,
           "arrived_feedback_count": 100,
-          "method": "periodic"
+          "method": "periodic",
+          "model_family": "ridge"
         },
         {
           "fit_feedback_available_time": 981.0,
           "arrived_feedback_count": 150,
-          "method": "periodic"
+          "method": "periodic",
+          "model_family": "ridge"
         },
         {
           "fit_feedback_available_time": 1037.0,
           "arrived_feedback_count": 200,
-          "method": "periodic"
+          "method": "periodic",
+          "model_family": "ridge"
         }
       ],
       "protocol_passes": true,
@@ -646,7 +1096,9 @@
     {
       "schedule": "gradual",
       "seed": 11,
-      "policy": "triggered",
+      "policy": "ridge_triggered",
+      "model_family": "ridge",
+      "update_method": "triggered",
       "test_n": 800,
       "mse": 0.26631287241105406,
       "oracle_irreducible_mse": 0.09,
@@ -667,22 +1119,98 @@
         {
           "fit_feedback_available_time": 902.0,
           "arrived_feedback_count": 84,
-          "method": "triggered"
+          "method": "triggered",
+          "model_family": "ridge"
         },
         {
           "fit_feedback_available_time": 1000.0,
           "arrived_feedback_count": 165,
-          "method": "triggered"
+          "method": "triggered",
+          "model_family": "ridge"
         },
         {
           "fit_feedback_available_time": 1089.0,
           "arrived_feedback_count": 249,
-          "method": "triggered"
+          "method": "triggered",
+          "model_family": "ridge"
         },
         {
           "fit_feedback_available_time": 1177.0,
           "arrived_feedback_count": 331,
-          "method": "triggered"
+          "method": "triggered",
+          "model_family": "ridge"
+        }
+      ],
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "gradual",
+      "seed": 11,
+      "policy": "forest_frozen",
+      "model_family": "random_forest",
+      "update_method": "frozen",
+      "test_n": 800,
+      "mse": 2.967804175352725,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 2.877804175352726,
+      "shifted_or_transition_mse": 3.2852056518575736,
+      "update_count": 0,
+      "update_times": [],
+      "update_budget": 4,
+      "feedback_received": 706,
+      "feedback_missing_or_delayed_past_horizon": 94,
+      "trigger_alarm_count": 319,
+      "fit_audit": [],
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "gradual",
+      "seed": 11,
+      "policy": "forest_triggered",
+      "model_family": "random_forest",
+      "update_method": "triggered",
+      "test_n": 800,
+      "mse": 0.4776419724299903,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 0.3876419724299903,
+      "shifted_or_transition_mse": 0.5145105721104417,
+      "update_count": 4,
+      "update_times": [
+        950,
+        1042,
+        1131,
+        1220
+      ],
+      "update_budget": 4,
+      "feedback_received": 706,
+      "feedback_missing_or_delayed_past_horizon": 94,
+      "trigger_alarm_count": 74,
+      "fit_audit": [
+        {
+          "fit_feedback_available_time": 950.0,
+          "arrived_feedback_count": 123,
+          "method": "triggered",
+          "model_family": "random_forest"
+        },
+        {
+          "fit_feedback_available_time": 1042.0,
+          "arrived_feedback_count": 204,
+          "method": "triggered",
+          "model_family": "random_forest"
+        },
+        {
+          "fit_feedback_available_time": 1131.0,
+          "arrived_feedback_count": 287,
+          "method": "triggered",
+          "model_family": "random_forest"
+        },
+        {
+          "fit_feedback_available_time": 1220.0,
+          "arrived_feedback_count": 370,
+          "method": "triggered",
+          "model_family": "random_forest"
         }
       ],
       "protocol_passes": true,
@@ -691,7 +1219,9 @@
     {
       "schedule": "gradual",
       "seed": 23,
-      "policy": "frozen",
+      "policy": "ridge_frozen",
+      "model_family": "ridge",
+      "update_method": "frozen",
       "test_n": 800,
       "mse": 2.9182142046894706,
       "oracle_irreducible_mse": 0.09,
@@ -710,7 +1240,9 @@
     {
       "schedule": "gradual",
       "seed": 23,
-      "policy": "periodic",
+      "policy": "ridge_periodic",
+      "model_family": "ridge",
+      "update_method": "periodic",
       "test_n": 800,
       "mse": 1.0763633944638082,
       "oracle_irreducible_mse": 0.09,
@@ -731,22 +1263,26 @@
         {
           "fit_feedback_available_time": 865.0,
           "arrived_feedback_count": 50,
-          "method": "periodic"
+          "method": "periodic",
+          "model_family": "ridge"
         },
         {
           "fit_feedback_available_time": 923.0,
           "arrived_feedback_count": 100,
-          "method": "periodic"
+          "method": "periodic",
+          "model_family": "ridge"
         },
         {
           "fit_feedback_available_time": 977.0,
           "arrived_feedback_count": 150,
-          "method": "periodic"
+          "method": "periodic",
+          "model_family": "ridge"
         },
         {
           "fit_feedback_available_time": 1031.0,
           "arrived_feedback_count": 200,
-          "method": "periodic"
+          "method": "periodic",
+          "model_family": "ridge"
         }
       ],
       "protocol_passes": true,
@@ -755,7 +1291,9 @@
     {
       "schedule": "gradual",
       "seed": 23,
-      "policy": "triggered",
+      "policy": "ridge_triggered",
+      "model_family": "ridge",
+      "update_method": "triggered",
       "test_n": 800,
       "mse": 0.3759163855473851,
       "oracle_irreducible_mse": 0.09,
@@ -776,22 +1314,98 @@
         {
           "fit_feedback_available_time": 815.0,
           "arrived_feedback_count": 6,
-          "method": "triggered"
+          "method": "triggered",
+          "model_family": "ridge"
         },
         {
           "fit_feedback_available_time": 925.0,
           "arrived_feedback_count": 102,
-          "method": "triggered"
+          "method": "triggered",
+          "model_family": "ridge"
         },
         {
           "fit_feedback_available_time": 1013.0,
           "arrived_feedback_count": 182,
-          "method": "triggered"
+          "method": "triggered",
+          "model_family": "ridge"
         },
         {
           "fit_feedback_available_time": 1105.0,
           "arrived_feedback_count": 263,
-          "method": "triggered"
+          "method": "triggered",
+          "model_family": "ridge"
+        }
+      ],
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "gradual",
+      "seed": 23,
+      "policy": "forest_frozen",
+      "model_family": "random_forest",
+      "update_method": "frozen",
+      "test_n": 800,
+      "mse": 2.5730529587786175,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 2.483052958778617,
+      "shifted_or_transition_mse": 2.8369469979543402,
+      "update_count": 0,
+      "update_times": [],
+      "update_budget": 4,
+      "feedback_received": 710,
+      "feedback_missing_or_delayed_past_horizon": 90,
+      "trigger_alarm_count": 176,
+      "fit_audit": [],
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "gradual",
+      "seed": 23,
+      "policy": "forest_triggered",
+      "model_family": "random_forest",
+      "update_method": "triggered",
+      "test_n": 800,
+      "mse": 0.4056434600180905,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 0.3156434600180905,
+      "shifted_or_transition_mse": 0.42536480183692477,
+      "update_count": 4,
+      "update_times": [
+        956,
+        1057,
+        1156,
+        1490
+      ],
+      "update_budget": 4,
+      "feedback_received": 710,
+      "feedback_missing_or_delayed_past_horizon": 90,
+      "trigger_alarm_count": 15,
+      "fit_audit": [
+        {
+          "fit_feedback_available_time": 956.0,
+          "arrived_feedback_count": 130,
+          "method": "triggered",
+          "model_family": "random_forest"
+        },
+        {
+          "fit_feedback_available_time": 1057.0,
+          "arrived_feedback_count": 224,
+          "method": "triggered",
+          "model_family": "random_forest"
+        },
+        {
+          "fit_feedback_available_time": 1156.0,
+          "arrived_feedback_count": 309,
+          "method": "triggered",
+          "model_family": "random_forest"
+        },
+        {
+          "fit_feedback_available_time": 1490.0,
+          "arrived_feedback_count": 608,
+          "method": "triggered",
+          "model_family": "random_forest"
         }
       ],
       "protocol_passes": true,
@@ -800,7 +1414,9 @@
     {
       "schedule": "gradual",
       "seed": 37,
-      "policy": "frozen",
+      "policy": "ridge_frozen",
+      "model_family": "ridge",
+      "update_method": "frozen",
       "test_n": 800,
       "mse": 2.912655408011079,
       "oracle_irreducible_mse": 0.09,
@@ -819,7 +1435,9 @@
     {
       "schedule": "gradual",
       "seed": 37,
-      "policy": "periodic",
+      "policy": "ridge_periodic",
+      "model_family": "ridge",
+      "update_method": "periodic",
       "test_n": 800,
       "mse": 0.9992974749809187,
       "oracle_irreducible_mse": 0.09,
@@ -840,22 +1458,26 @@
         {
           "fit_feedback_available_time": 866.0,
           "arrived_feedback_count": 50,
-          "method": "periodic"
+          "method": "periodic",
+          "model_family": "ridge"
         },
         {
           "fit_feedback_available_time": 924.0,
           "arrived_feedback_count": 100,
-          "method": "periodic"
+          "method": "periodic",
+          "model_family": "ridge"
         },
         {
           "fit_feedback_available_time": 978.0,
           "arrived_feedback_count": 150,
-          "method": "periodic"
+          "method": "periodic",
+          "model_family": "ridge"
         },
         {
           "fit_feedback_available_time": 1032.0,
           "arrived_feedback_count": 200,
-          "method": "periodic"
+          "method": "periodic",
+          "model_family": "ridge"
         }
       ],
       "protocol_passes": true,
@@ -864,7 +1486,9 @@
     {
       "schedule": "gradual",
       "seed": 37,
-      "policy": "triggered",
+      "policy": "ridge_triggered",
+      "model_family": "ridge",
+      "update_method": "triggered",
       "test_n": 800,
       "mse": 0.2889431958781772,
       "oracle_irreducible_mse": 0.09,
@@ -885,22 +1509,98 @@
         {
           "fit_feedback_available_time": 938.0,
           "arrived_feedback_count": 113,
-          "method": "triggered"
+          "method": "triggered",
+          "model_family": "ridge"
         },
         {
           "fit_feedback_available_time": 1026.0,
           "arrived_feedback_count": 194,
-          "method": "triggered"
+          "method": "triggered",
+          "model_family": "ridge"
         },
         {
           "fit_feedback_available_time": 1118.0,
           "arrived_feedback_count": 276,
-          "method": "triggered"
+          "method": "triggered",
+          "model_family": "ridge"
         },
         {
           "fit_feedback_available_time": 1213.0,
           "arrived_feedback_count": 358,
-          "method": "triggered"
+          "method": "triggered",
+          "model_family": "ridge"
+        }
+      ],
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "gradual",
+      "seed": 37,
+      "policy": "forest_frozen",
+      "model_family": "random_forest",
+      "update_method": "frozen",
+      "test_n": 800,
+      "mse": 2.651829606576322,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 2.561829606576322,
+      "shifted_or_transition_mse": 2.9296094164430646,
+      "update_count": 0,
+      "update_times": [],
+      "update_budget": 4,
+      "feedback_received": 699,
+      "feedback_missing_or_delayed_past_horizon": 101,
+      "trigger_alarm_count": 219,
+      "fit_audit": [],
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "gradual",
+      "seed": 37,
+      "policy": "forest_triggered",
+      "model_family": "random_forest",
+      "update_method": "triggered",
+      "test_n": 800,
+      "mse": 0.47657882623165565,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 0.3865788262316556,
+      "shifted_or_transition_mse": 0.5093025676590129,
+      "update_count": 4,
+      "update_times": [
+        986,
+        1087,
+        1183,
+        1293
+      ],
+      "update_budget": 4,
+      "feedback_received": 699,
+      "feedback_missing_or_delayed_past_horizon": 101,
+      "trigger_alarm_count": 38,
+      "fit_audit": [
+        {
+          "fit_feedback_available_time": 986.0,
+          "arrived_feedback_count": 158,
+          "method": "triggered",
+          "model_family": "random_forest"
+        },
+        {
+          "fit_feedback_available_time": 1087.0,
+          "arrived_feedback_count": 250,
+          "method": "triggered",
+          "model_family": "random_forest"
+        },
+        {
+          "fit_feedback_available_time": 1183.0,
+          "arrived_feedback_count": 332,
+          "method": "triggered",
+          "model_family": "random_forest"
+        },
+        {
+          "fit_feedback_available_time": 1293.0,
+          "arrived_feedback_count": 427,
+          "method": "triggered",
+          "model_family": "random_forest"
         }
       ],
       "protocol_passes": true,
@@ -909,7 +1609,9 @@
     {
       "schedule": "gradual",
       "seed": 53,
-      "policy": "frozen",
+      "policy": "ridge_frozen",
+      "model_family": "ridge",
+      "update_method": "frozen",
       "test_n": 800,
       "mse": 3.034806673634289,
       "oracle_irreducible_mse": 0.09,
@@ -928,7 +1630,9 @@
     {
       "schedule": "gradual",
       "seed": 53,
-      "policy": "periodic",
+      "policy": "ridge_periodic",
+      "model_family": "ridge",
+      "update_method": "periodic",
       "test_n": 800,
       "mse": 1.1296212727985828,
       "oracle_irreducible_mse": 0.09,
@@ -949,22 +1653,26 @@
         {
           "fit_feedback_available_time": 861.0,
           "arrived_feedback_count": 50,
-          "method": "periodic"
+          "method": "periodic",
+          "model_family": "ridge"
         },
         {
           "fit_feedback_available_time": 914.0,
           "arrived_feedback_count": 100,
-          "method": "periodic"
+          "method": "periodic",
+          "model_family": "ridge"
         },
         {
           "fit_feedback_available_time": 972.0,
           "arrived_feedback_count": 150,
-          "method": "periodic"
+          "method": "periodic",
+          "model_family": "ridge"
         },
         {
           "fit_feedback_available_time": 1027.0,
           "arrived_feedback_count": 200,
-          "method": "periodic"
+          "method": "periodic",
+          "model_family": "ridge"
         }
       ],
       "protocol_passes": true,
@@ -973,7 +1681,9 @@
     {
       "schedule": "gradual",
       "seed": 53,
-      "policy": "triggered",
+      "policy": "ridge_triggered",
+      "model_family": "ridge",
+      "update_method": "triggered",
       "test_n": 800,
       "mse": 0.2443447417922843,
       "oracle_irreducible_mse": 0.09,
@@ -994,22 +1704,98 @@
         {
           "fit_feedback_available_time": 926.0,
           "arrived_feedback_count": 111,
-          "method": "triggered"
+          "method": "triggered",
+          "model_family": "ridge"
         },
         {
           "fit_feedback_available_time": 1019.0,
           "arrived_feedback_count": 192,
-          "method": "triggered"
+          "method": "triggered",
+          "model_family": "ridge"
         },
         {
           "fit_feedback_available_time": 1104.0,
           "arrived_feedback_count": 272,
-          "method": "triggered"
+          "method": "triggered",
+          "model_family": "ridge"
         },
         {
           "fit_feedback_available_time": 1189.0,
           "arrived_feedback_count": 352,
-          "method": "triggered"
+          "method": "triggered",
+          "model_family": "ridge"
+        }
+      ],
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "gradual",
+      "seed": 53,
+      "policy": "forest_frozen",
+      "model_family": "random_forest",
+      "update_method": "frozen",
+      "test_n": 800,
+      "mse": 2.7689078996378305,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 2.6789078996378306,
+      "shifted_or_transition_mse": 3.050057147821489,
+      "update_count": 0,
+      "update_times": [],
+      "update_budget": 4,
+      "feedback_received": 720,
+      "feedback_missing_or_delayed_past_horizon": 80,
+      "trigger_alarm_count": 217,
+      "fit_audit": [],
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "gradual",
+      "seed": 53,
+      "policy": "forest_triggered",
+      "model_family": "random_forest",
+      "update_method": "triggered",
+      "test_n": 800,
+      "mse": 0.46810813346363633,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 0.3781081334636363,
+      "shifted_or_transition_mse": 0.49005740798928454,
+      "update_count": 4,
+      "update_times": [
+        888,
+        995,
+        1081,
+        1182
+      ],
+      "update_budget": 4,
+      "feedback_received": 720,
+      "feedback_missing_or_delayed_past_horizon": 80,
+      "trigger_alarm_count": 22,
+      "fit_audit": [
+        {
+          "fit_feedback_available_time": 888.0,
+          "arrived_feedback_count": 75,
+          "method": "triggered",
+          "model_family": "random_forest"
+        },
+        {
+          "fit_feedback_available_time": 995.0,
+          "arrived_feedback_count": 171,
+          "method": "triggered",
+          "model_family": "random_forest"
+        },
+        {
+          "fit_feedback_available_time": 1081.0,
+          "arrived_feedback_count": 251,
+          "method": "triggered",
+          "model_family": "random_forest"
+        },
+        {
+          "fit_feedback_available_time": 1182.0,
+          "arrived_feedback_count": 345,
+          "method": "triggered",
+          "model_family": "random_forest"
         }
       ],
       "protocol_passes": true,
@@ -1018,7 +1804,9 @@
     {
       "schedule": "gradual",
       "seed": 71,
-      "policy": "frozen",
+      "policy": "ridge_frozen",
+      "model_family": "ridge",
+      "update_method": "frozen",
       "test_n": 800,
       "mse": 2.9923749107939686,
       "oracle_irreducible_mse": 0.09,
@@ -1037,7 +1825,9 @@
     {
       "schedule": "gradual",
       "seed": 71,
-      "policy": "periodic",
+      "policy": "ridge_periodic",
+      "model_family": "ridge",
+      "update_method": "periodic",
       "test_n": 800,
       "mse": 1.1032147800112877,
       "oracle_irreducible_mse": 0.09,
@@ -1058,22 +1848,26 @@
         {
           "fit_feedback_available_time": 862.0,
           "arrived_feedback_count": 50,
-          "method": "periodic"
+          "method": "periodic",
+          "model_family": "ridge"
         },
         {
           "fit_feedback_available_time": 919.0,
           "arrived_feedback_count": 100,
-          "method": "periodic"
+          "method": "periodic",
+          "model_family": "ridge"
         },
         {
           "fit_feedback_available_time": 976.0,
           "arrived_feedback_count": 150,
-          "method": "periodic"
+          "method": "periodic",
+          "model_family": "ridge"
         },
         {
           "fit_feedback_available_time": 1029.0,
           "arrived_feedback_count": 200,
-          "method": "periodic"
+          "method": "periodic",
+          "model_family": "ridge"
         }
       ],
       "protocol_passes": true,
@@ -1082,7 +1876,9 @@
     {
       "schedule": "gradual",
       "seed": 71,
-      "policy": "triggered",
+      "policy": "ridge_triggered",
+      "model_family": "ridge",
+      "update_method": "triggered",
       "test_n": 800,
       "mse": 0.42705708566653866,
       "oracle_irreducible_mse": 0.09,
@@ -1103,22 +1899,98 @@
         {
           "fit_feedback_available_time": 835.0,
           "arrived_feedback_count": 26,
-          "method": "triggered"
+          "method": "triggered",
+          "model_family": "ridge"
         },
         {
           "fit_feedback_available_time": 928.0,
           "arrived_feedback_count": 107,
-          "method": "triggered"
+          "method": "triggered",
+          "model_family": "ridge"
         },
         {
           "fit_feedback_available_time": 1015.0,
           "arrived_feedback_count": 187,
-          "method": "triggered"
+          "method": "triggered",
+          "model_family": "ridge"
         },
         {
           "fit_feedback_available_time": 1107.0,
           "arrived_feedback_count": 269,
-          "method": "triggered"
+          "method": "triggered",
+          "model_family": "ridge"
+        }
+      ],
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "gradual",
+      "seed": 71,
+      "policy": "forest_frozen",
+      "model_family": "random_forest",
+      "update_method": "frozen",
+      "test_n": 800,
+      "mse": 2.6648517726803687,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 2.574851772680369,
+      "shifted_or_transition_mse": 2.9294637983720233,
+      "update_count": 0,
+      "update_times": [],
+      "update_budget": 4,
+      "feedback_received": 709,
+      "feedback_missing_or_delayed_past_horizon": 91,
+      "trigger_alarm_count": 271,
+      "fit_audit": [],
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "gradual",
+      "seed": 71,
+      "policy": "forest_triggered",
+      "model_family": "random_forest",
+      "update_method": "triggered",
+      "test_n": 800,
+      "mse": 0.591865923680443,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 0.501865923680443,
+      "shifted_or_transition_mse": 0.6223828852172707,
+      "update_count": 4,
+      "update_times": [
+        843,
+        938,
+        1042,
+        1130
+      ],
+      "update_budget": 4,
+      "feedback_received": 709,
+      "feedback_missing_or_delayed_past_horizon": 91,
+      "trigger_alarm_count": 78,
+      "fit_audit": [
+        {
+          "fit_feedback_available_time": 843.0,
+          "arrived_feedback_count": 34,
+          "method": "triggered",
+          "model_family": "random_forest"
+        },
+        {
+          "fit_feedback_available_time": 938.0,
+          "arrived_feedback_count": 117,
+          "method": "triggered",
+          "model_family": "random_forest"
+        },
+        {
+          "fit_feedback_available_time": 1042.0,
+          "arrived_feedback_count": 211,
+          "method": "triggered",
+          "model_family": "random_forest"
+        },
+        {
+          "fit_feedback_available_time": 1130.0,
+          "arrived_feedback_count": 292,
+          "method": "triggered",
+          "model_family": "random_forest"
         }
       ],
       "protocol_passes": true,
@@ -1127,7 +1999,9 @@
     {
       "schedule": "temporary",
       "seed": 11,
-      "policy": "frozen",
+      "policy": "ridge_frozen",
+      "model_family": "ridge",
+      "update_method": "frozen",
       "test_n": 800,
       "mse": 1.818179602698421,
       "oracle_irreducible_mse": 0.09,
@@ -1146,7 +2020,9 @@
     {
       "schedule": "temporary",
       "seed": 11,
-      "policy": "periodic",
+      "policy": "ridge_periodic",
+      "model_family": "ridge",
+      "update_method": "periodic",
       "test_n": 800,
       "mse": 1.113089135905554,
       "oracle_irreducible_mse": 0.09,
@@ -1167,22 +2043,26 @@
         {
           "fit_feedback_available_time": 861.0,
           "arrived_feedback_count": 50,
-          "method": "periodic"
+          "method": "periodic",
+          "model_family": "ridge"
         },
         {
           "fit_feedback_available_time": 919.0,
           "arrived_feedback_count": 100,
-          "method": "periodic"
+          "method": "periodic",
+          "model_family": "ridge"
         },
         {
           "fit_feedback_available_time": 981.0,
           "arrived_feedback_count": 150,
-          "method": "periodic"
+          "method": "periodic",
+          "model_family": "ridge"
         },
         {
           "fit_feedback_available_time": 1037.0,
           "arrived_feedback_count": 200,
-          "method": "periodic"
+          "method": "periodic",
+          "model_family": "ridge"
         }
       ],
       "protocol_passes": true,
@@ -1191,7 +2071,9 @@
     {
       "schedule": "temporary",
       "seed": 11,
-      "policy": "triggered",
+      "policy": "ridge_triggered",
+      "model_family": "ridge",
+      "update_method": "triggered",
       "test_n": 800,
       "mse": 2.010371346911552,
       "oracle_irreducible_mse": 0.09,
@@ -1212,22 +2094,98 @@
         {
           "fit_feedback_available_time": 902.0,
           "arrived_feedback_count": 84,
-          "method": "triggered"
+          "method": "triggered",
+          "model_family": "ridge"
         },
         {
           "fit_feedback_available_time": 1000.0,
           "arrived_feedback_count": 165,
-          "method": "triggered"
+          "method": "triggered",
+          "model_family": "ridge"
         },
         {
           "fit_feedback_available_time": 1085.0,
           "arrived_feedback_count": 245,
-          "method": "triggered"
+          "method": "triggered",
+          "model_family": "ridge"
         },
         {
           "fit_feedback_available_time": 1290.0,
           "arrived_feedback_count": 432,
-          "method": "triggered"
+          "method": "triggered",
+          "model_family": "ridge"
+        }
+      ],
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "temporary",
+      "seed": 11,
+      "policy": "forest_frozen",
+      "model_family": "random_forest",
+      "update_method": "frozen",
+      "test_n": 800,
+      "mse": 1.7080362250342105,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 1.6180362250342106,
+      "shifted_or_transition_mse": 3.9790195809372313,
+      "update_count": 0,
+      "update_times": [],
+      "update_budget": 4,
+      "feedback_received": 706,
+      "feedback_missing_or_delayed_past_horizon": 94,
+      "trigger_alarm_count": 177,
+      "fit_audit": [],
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "temporary",
+      "seed": 11,
+      "policy": "forest_triggered",
+      "model_family": "random_forest",
+      "update_method": "triggered",
+      "test_n": 800,
+      "mse": 1.8727126927553253,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 1.782712692755325,
+      "shifted_or_transition_mse": 1.2086313523649186,
+      "update_count": 4,
+      "update_times": [
+        953,
+        1043,
+        1132,
+        1222
+      ],
+      "update_budget": 4,
+      "feedback_received": 706,
+      "feedback_missing_or_delayed_past_horizon": 94,
+      "trigger_alarm_count": 214,
+      "fit_audit": [
+        {
+          "fit_feedback_available_time": 953.0,
+          "arrived_feedback_count": 125,
+          "method": "triggered",
+          "model_family": "random_forest"
+        },
+        {
+          "fit_feedback_available_time": 1043.0,
+          "arrived_feedback_count": 205,
+          "method": "triggered",
+          "model_family": "random_forest"
+        },
+        {
+          "fit_feedback_available_time": 1132.0,
+          "arrived_feedback_count": 288,
+          "method": "triggered",
+          "model_family": "random_forest"
+        },
+        {
+          "fit_feedback_available_time": 1222.0,
+          "arrived_feedback_count": 372,
+          "method": "triggered",
+          "model_family": "random_forest"
         }
       ],
       "protocol_passes": true,
@@ -1236,7 +2194,9 @@
     {
       "schedule": "temporary",
       "seed": 23,
-      "policy": "frozen",
+      "policy": "ridge_frozen",
+      "model_family": "ridge",
+      "update_method": "frozen",
       "test_n": 800,
       "mse": 1.673660157683409,
       "oracle_irreducible_mse": 0.09,
@@ -1255,7 +2215,9 @@
     {
       "schedule": "temporary",
       "seed": 23,
-      "policy": "periodic",
+      "policy": "ridge_periodic",
+      "model_family": "ridge",
+      "update_method": "periodic",
       "test_n": 800,
       "mse": 1.0495344193855434,
       "oracle_irreducible_mse": 0.09,
@@ -1276,22 +2238,26 @@
         {
           "fit_feedback_available_time": 865.0,
           "arrived_feedback_count": 50,
-          "method": "periodic"
+          "method": "periodic",
+          "model_family": "ridge"
         },
         {
           "fit_feedback_available_time": 923.0,
           "arrived_feedback_count": 100,
-          "method": "periodic"
+          "method": "periodic",
+          "model_family": "ridge"
         },
         {
           "fit_feedback_available_time": 977.0,
           "arrived_feedback_count": 150,
-          "method": "periodic"
+          "method": "periodic",
+          "model_family": "ridge"
         },
         {
           "fit_feedback_available_time": 1031.0,
           "arrived_feedback_count": 200,
-          "method": "periodic"
+          "method": "periodic",
+          "model_family": "ridge"
         }
       ],
       "protocol_passes": true,
@@ -1300,7 +2266,9 @@
     {
       "schedule": "temporary",
       "seed": 23,
-      "policy": "triggered",
+      "policy": "ridge_triggered",
+      "model_family": "ridge",
+      "update_method": "triggered",
       "test_n": 800,
       "mse": 1.9407114080594328,
       "oracle_irreducible_mse": 0.09,
@@ -1321,22 +2289,98 @@
         {
           "fit_feedback_available_time": 815.0,
           "arrived_feedback_count": 6,
-          "method": "triggered"
+          "method": "triggered",
+          "model_family": "ridge"
         },
         {
           "fit_feedback_available_time": 928.0,
           "arrived_feedback_count": 105,
-          "method": "triggered"
+          "method": "triggered",
+          "model_family": "ridge"
         },
         {
           "fit_feedback_available_time": 1017.0,
           "arrived_feedback_count": 186,
-          "method": "triggered"
+          "method": "triggered",
+          "model_family": "ridge"
         },
         {
           "fit_feedback_available_time": 1108.0,
           "arrived_feedback_count": 266,
-          "method": "triggered"
+          "method": "triggered",
+          "model_family": "ridge"
+        }
+      ],
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "temporary",
+      "seed": 23,
+      "policy": "forest_frozen",
+      "model_family": "random_forest",
+      "update_method": "frozen",
+      "test_n": 800,
+      "mse": 1.534408315734409,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 1.4444083157344088,
+      "shifted_or_transition_mse": 3.547010588771088,
+      "update_count": 0,
+      "update_times": [],
+      "update_budget": 4,
+      "feedback_received": 710,
+      "feedback_missing_or_delayed_past_horizon": 90,
+      "trigger_alarm_count": 102,
+      "fit_audit": [],
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "temporary",
+      "seed": 23,
+      "policy": "forest_triggered",
+      "model_family": "random_forest",
+      "update_method": "triggered",
+      "test_n": 800,
+      "mse": 1.6819579754214598,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 1.5919579754214594,
+      "shifted_or_transition_mse": 1.2791017696340752,
+      "update_count": 4,
+      "update_times": [
+        1008,
+        1105,
+        1201,
+        1321
+      ],
+      "update_budget": 4,
+      "feedback_received": 710,
+      "feedback_missing_or_delayed_past_horizon": 90,
+      "trigger_alarm_count": 124,
+      "fit_audit": [
+        {
+          "fit_feedback_available_time": 1008.0,
+          "arrived_feedback_count": 177,
+          "method": "triggered",
+          "model_family": "random_forest"
+        },
+        {
+          "fit_feedback_available_time": 1105.0,
+          "arrived_feedback_count": 263,
+          "method": "triggered",
+          "model_family": "random_forest"
+        },
+        {
+          "fit_feedback_available_time": 1201.0,
+          "arrived_feedback_count": 349,
+          "method": "triggered",
+          "model_family": "random_forest"
+        },
+        {
+          "fit_feedback_available_time": 1321.0,
+          "arrived_feedback_count": 458,
+          "method": "triggered",
+          "model_family": "random_forest"
         }
       ],
       "protocol_passes": true,
@@ -1345,7 +2389,9 @@
     {
       "schedule": "temporary",
       "seed": 37,
-      "policy": "frozen",
+      "policy": "ridge_frozen",
+      "model_family": "ridge",
+      "update_method": "frozen",
       "test_n": 800,
       "mse": 1.9073422993731615,
       "oracle_irreducible_mse": 0.09,
@@ -1364,7 +2410,9 @@
     {
       "schedule": "temporary",
       "seed": 37,
-      "policy": "periodic",
+      "policy": "ridge_periodic",
+      "model_family": "ridge",
+      "update_method": "periodic",
       "test_n": 800,
       "mse": 1.0963017628840483,
       "oracle_irreducible_mse": 0.09,
@@ -1385,22 +2433,26 @@
         {
           "fit_feedback_available_time": 866.0,
           "arrived_feedback_count": 50,
-          "method": "periodic"
+          "method": "periodic",
+          "model_family": "ridge"
         },
         {
           "fit_feedback_available_time": 924.0,
           "arrived_feedback_count": 100,
-          "method": "periodic"
+          "method": "periodic",
+          "model_family": "ridge"
         },
         {
           "fit_feedback_available_time": 978.0,
           "arrived_feedback_count": 150,
-          "method": "periodic"
+          "method": "periodic",
+          "model_family": "ridge"
         },
         {
           "fit_feedback_available_time": 1032.0,
           "arrived_feedback_count": 200,
-          "method": "periodic"
+          "method": "periodic",
+          "model_family": "ridge"
         }
       ],
       "protocol_passes": true,
@@ -1409,7 +2461,9 @@
     {
       "schedule": "temporary",
       "seed": 37,
-      "policy": "triggered",
+      "policy": "ridge_triggered",
+      "model_family": "ridge",
+      "update_method": "triggered",
       "test_n": 800,
       "mse": 1.8790542811495887,
       "oracle_irreducible_mse": 0.09,
@@ -1430,22 +2484,98 @@
         {
           "fit_feedback_available_time": 1001.0,
           "arrived_feedback_count": 171,
-          "method": "triggered"
+          "method": "triggered",
+          "model_family": "ridge"
         },
         {
           "fit_feedback_available_time": 1095.0,
           "arrived_feedback_count": 254,
-          "method": "triggered"
+          "method": "triggered",
+          "model_family": "ridge"
         },
         {
           "fit_feedback_available_time": 1200.0,
           "arrived_feedback_count": 348,
-          "method": "triggered"
+          "method": "triggered",
+          "model_family": "ridge"
         },
         {
           "fit_feedback_available_time": 1320.0,
           "arrived_feedback_count": 449,
-          "method": "triggered"
+          "method": "triggered",
+          "model_family": "ridge"
+        }
+      ],
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "temporary",
+      "seed": 37,
+      "policy": "forest_frozen",
+      "model_family": "random_forest",
+      "update_method": "frozen",
+      "test_n": 800,
+      "mse": 1.7347244458414688,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 1.6447244458414687,
+      "shifted_or_transition_mse": 4.070516840218519,
+      "update_count": 0,
+      "update_times": [],
+      "update_budget": 4,
+      "feedback_received": 699,
+      "feedback_missing_or_delayed_past_horizon": 101,
+      "trigger_alarm_count": 125,
+      "fit_audit": [],
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "temporary",
+      "seed": 37,
+      "policy": "forest_triggered",
+      "model_family": "random_forest",
+      "update_method": "triggered",
+      "test_n": 800,
+      "mse": 1.7430377609062453,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 1.6530377609062452,
+      "shifted_or_transition_mse": 1.3898040896857977,
+      "update_count": 4,
+      "update_times": [
+        1001,
+        1095,
+        1202,
+        1304
+      ],
+      "update_budget": 4,
+      "feedback_received": 699,
+      "feedback_missing_or_delayed_past_horizon": 101,
+      "trigger_alarm_count": 160,
+      "fit_audit": [
+        {
+          "fit_feedback_available_time": 1001.0,
+          "arrived_feedback_count": 171,
+          "method": "triggered",
+          "model_family": "random_forest"
+        },
+        {
+          "fit_feedback_available_time": 1095.0,
+          "arrived_feedback_count": 254,
+          "method": "triggered",
+          "model_family": "random_forest"
+        },
+        {
+          "fit_feedback_available_time": 1202.0,
+          "arrived_feedback_count": 349,
+          "method": "triggered",
+          "model_family": "random_forest"
+        },
+        {
+          "fit_feedback_available_time": 1304.0,
+          "arrived_feedback_count": 436,
+          "method": "triggered",
+          "model_family": "random_forest"
         }
       ],
       "protocol_passes": true,
@@ -1454,7 +2584,9 @@
     {
       "schedule": "temporary",
       "seed": 53,
-      "policy": "frozen",
+      "policy": "ridge_frozen",
+      "model_family": "ridge",
+      "update_method": "frozen",
       "test_n": 800,
       "mse": 1.8008264324928769,
       "oracle_irreducible_mse": 0.09,
@@ -1473,7 +2605,9 @@
     {
       "schedule": "temporary",
       "seed": 53,
-      "policy": "periodic",
+      "policy": "ridge_periodic",
+      "model_family": "ridge",
+      "update_method": "periodic",
       "test_n": 800,
       "mse": 1.2047633993045617,
       "oracle_irreducible_mse": 0.09,
@@ -1494,22 +2628,26 @@
         {
           "fit_feedback_available_time": 861.0,
           "arrived_feedback_count": 50,
-          "method": "periodic"
+          "method": "periodic",
+          "model_family": "ridge"
         },
         {
           "fit_feedback_available_time": 914.0,
           "arrived_feedback_count": 100,
-          "method": "periodic"
+          "method": "periodic",
+          "model_family": "ridge"
         },
         {
           "fit_feedback_available_time": 972.0,
           "arrived_feedback_count": 150,
-          "method": "periodic"
+          "method": "periodic",
+          "model_family": "ridge"
         },
         {
           "fit_feedback_available_time": 1027.0,
           "arrived_feedback_count": 200,
-          "method": "periodic"
+          "method": "periodic",
+          "model_family": "ridge"
         }
       ],
       "protocol_passes": true,
@@ -1518,7 +2656,9 @@
     {
       "schedule": "temporary",
       "seed": 53,
-      "policy": "triggered",
+      "policy": "ridge_triggered",
+      "model_family": "ridge",
+      "update_method": "triggered",
       "test_n": 800,
       "mse": 1.164362285404209,
       "oracle_irreducible_mse": 0.09,
@@ -1539,22 +2679,98 @@
         {
           "fit_feedback_available_time": 1001.0,
           "arrived_feedback_count": 176,
-          "method": "triggered"
+          "method": "triggered",
+          "model_family": "ridge"
         },
         {
           "fit_feedback_available_time": 1087.0,
           "arrived_feedback_count": 257,
-          "method": "triggered"
+          "method": "triggered",
+          "model_family": "ridge"
         },
         {
           "fit_feedback_available_time": 1321.0,
           "arrived_feedback_count": 478,
-          "method": "triggered"
+          "method": "triggered",
+          "model_family": "ridge"
         },
         {
           "fit_feedback_available_time": 1417.0,
           "arrived_feedback_count": 558,
-          "method": "triggered"
+          "method": "triggered",
+          "model_family": "ridge"
+        }
+      ],
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "temporary",
+      "seed": 53,
+      "policy": "forest_frozen",
+      "model_family": "random_forest",
+      "update_method": "frozen",
+      "test_n": 800,
+      "mse": 1.762078190194694,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 1.6720781901946942,
+      "shifted_or_transition_mse": 4.060238363388413,
+      "update_count": 0,
+      "update_times": [],
+      "update_budget": 4,
+      "feedback_received": 720,
+      "feedback_missing_or_delayed_past_horizon": 80,
+      "trigger_alarm_count": 138,
+      "fit_audit": [],
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "temporary",
+      "seed": 53,
+      "policy": "forest_triggered",
+      "model_family": "random_forest",
+      "update_method": "triggered",
+      "test_n": 800,
+      "mse": 2.104485863884474,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 2.0144858638844743,
+      "shifted_or_transition_mse": 1.46455972410118,
+      "update_count": 4,
+      "update_times": [
+        888,
+        1001,
+        1090,
+        1323
+      ],
+      "update_budget": 4,
+      "feedback_received": 720,
+      "feedback_missing_or_delayed_past_horizon": 80,
+      "trigger_alarm_count": 158,
+      "fit_audit": [
+        {
+          "fit_feedback_available_time": 888.0,
+          "arrived_feedback_count": 75,
+          "method": "triggered",
+          "model_family": "random_forest"
+        },
+        {
+          "fit_feedback_available_time": 1001.0,
+          "arrived_feedback_count": 176,
+          "method": "triggered",
+          "model_family": "random_forest"
+        },
+        {
+          "fit_feedback_available_time": 1090.0,
+          "arrived_feedback_count": 260,
+          "method": "triggered",
+          "model_family": "random_forest"
+        },
+        {
+          "fit_feedback_available_time": 1323.0,
+          "arrived_feedback_count": 480,
+          "method": "triggered",
+          "model_family": "random_forest"
         }
       ],
       "protocol_passes": true,
@@ -1563,7 +2779,9 @@
     {
       "schedule": "temporary",
       "seed": 71,
-      "policy": "frozen",
+      "policy": "ridge_frozen",
+      "model_family": "ridge",
+      "update_method": "frozen",
       "test_n": 800,
       "mse": 1.8313722039410936,
       "oracle_irreducible_mse": 0.09,
@@ -1582,7 +2800,9 @@
     {
       "schedule": "temporary",
       "seed": 71,
-      "policy": "periodic",
+      "policy": "ridge_periodic",
+      "model_family": "ridge",
+      "update_method": "periodic",
       "test_n": 800,
       "mse": 1.0882763508424769,
       "oracle_irreducible_mse": 0.09,
@@ -1603,22 +2823,26 @@
         {
           "fit_feedback_available_time": 862.0,
           "arrived_feedback_count": 50,
-          "method": "periodic"
+          "method": "periodic",
+          "model_family": "ridge"
         },
         {
           "fit_feedback_available_time": 919.0,
           "arrived_feedback_count": 100,
-          "method": "periodic"
+          "method": "periodic",
+          "model_family": "ridge"
         },
         {
           "fit_feedback_available_time": 976.0,
           "arrived_feedback_count": 150,
-          "method": "periodic"
+          "method": "periodic",
+          "model_family": "ridge"
         },
         {
           "fit_feedback_available_time": 1029.0,
           "arrived_feedback_count": 200,
-          "method": "periodic"
+          "method": "periodic",
+          "model_family": "ridge"
         }
       ],
       "protocol_passes": true,
@@ -1627,7 +2851,9 @@
     {
       "schedule": "temporary",
       "seed": 71,
-      "policy": "triggered",
+      "policy": "ridge_triggered",
+      "model_family": "ridge",
+      "update_method": "triggered",
       "test_n": 800,
       "mse": 1.9189840890794487,
       "oracle_irreducible_mse": 0.09,
@@ -1648,22 +2874,98 @@
         {
           "fit_feedback_available_time": 835.0,
           "arrived_feedback_count": 26,
-          "method": "triggered"
+          "method": "triggered",
+          "model_family": "ridge"
         },
         {
           "fit_feedback_available_time": 930.0,
           "arrived_feedback_count": 109,
-          "method": "triggered"
+          "method": "triggered",
+          "model_family": "ridge"
         },
         {
           "fit_feedback_available_time": 1017.0,
           "arrived_feedback_count": 189,
-          "method": "triggered"
+          "method": "triggered",
+          "model_family": "ridge"
         },
         {
           "fit_feedback_available_time": 1107.0,
           "arrived_feedback_count": 269,
-          "method": "triggered"
+          "method": "triggered",
+          "model_family": "ridge"
+        }
+      ],
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "temporary",
+      "seed": 71,
+      "policy": "forest_frozen",
+      "model_family": "random_forest",
+      "update_method": "frozen",
+      "test_n": 800,
+      "mse": 1.679990079654509,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 1.5899900796545092,
+      "shifted_or_transition_mse": 3.9090686988373435,
+      "update_count": 0,
+      "update_times": [],
+      "update_budget": 4,
+      "feedback_received": 709,
+      "feedback_missing_or_delayed_past_horizon": 91,
+      "trigger_alarm_count": 157,
+      "fit_audit": [],
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "temporary",
+      "seed": 71,
+      "policy": "forest_triggered",
+      "model_family": "random_forest",
+      "update_method": "triggered",
+      "test_n": 800,
+      "mse": 1.61329616524732,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 1.5232961652473198,
+      "shifted_or_transition_mse": 1.0294025815202101,
+      "update_count": 4,
+      "update_times": [
+        843,
+        936,
+        1024,
+        1114
+      ],
+      "update_budget": 4,
+      "feedback_received": 709,
+      "feedback_missing_or_delayed_past_horizon": 91,
+      "trigger_alarm_count": 172,
+      "fit_audit": [
+        {
+          "fit_feedback_available_time": 843.0,
+          "arrived_feedback_count": 34,
+          "method": "triggered",
+          "model_family": "random_forest"
+        },
+        {
+          "fit_feedback_available_time": 936.0,
+          "arrived_feedback_count": 115,
+          "method": "triggered",
+          "model_family": "random_forest"
+        },
+        {
+          "fit_feedback_available_time": 1024.0,
+          "arrived_feedback_count": 195,
+          "method": "triggered",
+          "model_family": "random_forest"
+        },
+        {
+          "fit_feedback_available_time": 1114.0,
+          "arrived_feedback_count": 276,
+          "method": "triggered",
+          "model_family": "random_forest"
         }
       ],
       "protocol_passes": true,
@@ -1672,7 +2974,9 @@
     {
       "schedule": "recurring",
       "seed": 11,
-      "policy": "frozen",
+      "policy": "ridge_frozen",
+      "model_family": "ridge",
+      "update_method": "frozen",
       "test_n": 800,
       "mse": 2.368958914496509,
       "oracle_irreducible_mse": 0.09,
@@ -1691,7 +2995,9 @@
     {
       "schedule": "recurring",
       "seed": 11,
-      "policy": "periodic",
+      "policy": "ridge_periodic",
+      "model_family": "ridge",
+      "update_method": "periodic",
       "test_n": 800,
       "mse": 2.1487663830444697,
       "oracle_irreducible_mse": 0.09,
@@ -1712,22 +3018,26 @@
         {
           "fit_feedback_available_time": 861.0,
           "arrived_feedback_count": 50,
-          "method": "periodic"
+          "method": "periodic",
+          "model_family": "ridge"
         },
         {
           "fit_feedback_available_time": 919.0,
           "arrived_feedback_count": 100,
-          "method": "periodic"
+          "method": "periodic",
+          "model_family": "ridge"
         },
         {
           "fit_feedback_available_time": 981.0,
           "arrived_feedback_count": 150,
-          "method": "periodic"
+          "method": "periodic",
+          "model_family": "ridge"
         },
         {
           "fit_feedback_available_time": 1037.0,
           "arrived_feedback_count": 200,
-          "method": "periodic"
+          "method": "periodic",
+          "model_family": "ridge"
         }
       ],
       "protocol_passes": true,
@@ -1736,7 +3046,9 @@
     {
       "schedule": "recurring",
       "seed": 11,
-      "policy": "triggered",
+      "policy": "ridge_triggered",
+      "model_family": "ridge",
+      "update_method": "triggered",
       "test_n": 800,
       "mse": 1.22796269739828,
       "oracle_irreducible_mse": 0.09,
@@ -1754,7 +3066,59 @@
         {
           "fit_feedback_available_time": 1232.0,
           "arrived_feedback_count": 382,
-          "method": "triggered"
+          "method": "triggered",
+          "model_family": "ridge"
+        }
+      ],
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "recurring",
+      "seed": 11,
+      "policy": "forest_frozen",
+      "model_family": "random_forest",
+      "update_method": "frozen",
+      "test_n": 800,
+      "mse": 2.2392776319804026,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 2.1492776319804032,
+      "shifted_or_transition_mse": 4.2629725333986155,
+      "update_count": 0,
+      "update_times": [],
+      "update_budget": 4,
+      "feedback_received": 706,
+      "feedback_missing_or_delayed_past_horizon": 94,
+      "trigger_alarm_count": 5,
+      "fit_audit": [],
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "recurring",
+      "seed": 11,
+      "policy": "forest_triggered",
+      "model_family": "random_forest",
+      "update_method": "triggered",
+      "test_n": 800,
+      "mse": 1.2630587629526737,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 1.1730587629526739,
+      "shifted_or_transition_mse": 2.310534795343157,
+      "update_count": 1,
+      "update_times": [
+        1222
+      ],
+      "update_budget": 4,
+      "feedback_received": 706,
+      "feedback_missing_or_delayed_past_horizon": 94,
+      "trigger_alarm_count": 1,
+      "fit_audit": [
+        {
+          "fit_feedback_available_time": 1222.0,
+          "arrived_feedback_count": 372,
+          "method": "triggered",
+          "model_family": "random_forest"
         }
       ],
       "protocol_passes": true,
@@ -1763,7 +3127,9 @@
     {
       "schedule": "recurring",
       "seed": 23,
-      "policy": "frozen",
+      "policy": "ridge_frozen",
+      "model_family": "ridge",
+      "update_method": "frozen",
       "test_n": 800,
       "mse": 2.0009252401703783,
       "oracle_irreducible_mse": 0.09,
@@ -1782,7 +3148,9 @@
     {
       "schedule": "recurring",
       "seed": 23,
-      "policy": "periodic",
+      "policy": "ridge_periodic",
+      "model_family": "ridge",
+      "update_method": "periodic",
       "test_n": 800,
       "mse": 1.9754726061320005,
       "oracle_irreducible_mse": 0.09,
@@ -1803,22 +3171,26 @@
         {
           "fit_feedback_available_time": 865.0,
           "arrived_feedback_count": 50,
-          "method": "periodic"
+          "method": "periodic",
+          "model_family": "ridge"
         },
         {
           "fit_feedback_available_time": 923.0,
           "arrived_feedback_count": 100,
-          "method": "periodic"
+          "method": "periodic",
+          "model_family": "ridge"
         },
         {
           "fit_feedback_available_time": 977.0,
           "arrived_feedback_count": 150,
-          "method": "periodic"
+          "method": "periodic",
+          "model_family": "ridge"
         },
         {
           "fit_feedback_available_time": 1031.0,
           "arrived_feedback_count": 200,
-          "method": "periodic"
+          "method": "periodic",
+          "model_family": "ridge"
         }
       ],
       "protocol_passes": true,
@@ -1827,7 +3199,9 @@
     {
       "schedule": "recurring",
       "seed": 23,
-      "policy": "triggered",
+      "policy": "ridge_triggered",
+      "model_family": "ridge",
+      "update_method": "triggered",
       "test_n": 800,
       "mse": 2.0009252401703783,
       "oracle_irreducible_mse": 0.09,
@@ -1845,8 +3219,61 @@
     },
     {
       "schedule": "recurring",
+      "seed": 23,
+      "policy": "forest_frozen",
+      "model_family": "random_forest",
+      "update_method": "frozen",
+      "test_n": 800,
+      "mse": 1.86031165050641,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 1.7703116505064096,
+      "shifted_or_transition_mse": 3.498075792501242,
+      "update_count": 0,
+      "update_times": [],
+      "update_budget": 4,
+      "feedback_received": 710,
+      "feedback_missing_or_delayed_past_horizon": 90,
+      "trigger_alarm_count": 1,
+      "fit_audit": [],
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "recurring",
+      "seed": 23,
+      "policy": "forest_triggered",
+      "model_family": "random_forest",
+      "update_method": "triggered",
+      "test_n": 800,
+      "mse": 0.7827382891221908,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 0.6927382891221907,
+      "shifted_or_transition_mse": 1.3429290697328036,
+      "update_count": 1,
+      "update_times": [
+        1330
+      ],
+      "update_budget": 4,
+      "feedback_received": 710,
+      "feedback_missing_or_delayed_past_horizon": 90,
+      "trigger_alarm_count": 1,
+      "fit_audit": [
+        {
+          "fit_feedback_available_time": 1330.0,
+          "arrived_feedback_count": 465,
+          "method": "triggered",
+          "model_family": "random_forest"
+        }
+      ],
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "recurring",
       "seed": 37,
-      "policy": "frozen",
+      "policy": "ridge_frozen",
+      "model_family": "ridge",
+      "update_method": "frozen",
       "test_n": 800,
       "mse": 2.0646715433169316,
       "oracle_irreducible_mse": 0.09,
@@ -1865,7 +3292,9 @@
     {
       "schedule": "recurring",
       "seed": 37,
-      "policy": "periodic",
+      "policy": "ridge_periodic",
+      "model_family": "ridge",
+      "update_method": "periodic",
       "test_n": 800,
       "mse": 2.0703925491476487,
       "oracle_irreducible_mse": 0.09,
@@ -1886,22 +3315,26 @@
         {
           "fit_feedback_available_time": 866.0,
           "arrived_feedback_count": 50,
-          "method": "periodic"
+          "method": "periodic",
+          "model_family": "ridge"
         },
         {
           "fit_feedback_available_time": 924.0,
           "arrived_feedback_count": 100,
-          "method": "periodic"
+          "method": "periodic",
+          "model_family": "ridge"
         },
         {
           "fit_feedback_available_time": 978.0,
           "arrived_feedback_count": 150,
-          "method": "periodic"
+          "method": "periodic",
+          "model_family": "ridge"
         },
         {
           "fit_feedback_available_time": 1032.0,
           "arrived_feedback_count": 200,
-          "method": "periodic"
+          "method": "periodic",
+          "model_family": "ridge"
         }
       ],
       "protocol_passes": true,
@@ -1910,7 +3343,9 @@
     {
       "schedule": "recurring",
       "seed": 37,
-      "policy": "triggered",
+      "policy": "ridge_triggered",
+      "model_family": "ridge",
+      "update_method": "triggered",
       "test_n": 800,
       "mse": 0.7353264692760823,
       "oracle_irreducible_mse": 0.09,
@@ -1928,7 +3363,8 @@
         {
           "fit_feedback_available_time": 1263.0,
           "arrived_feedback_count": 403,
-          "method": "triggered"
+          "method": "triggered",
+          "model_family": "ridge"
         }
       ],
       "protocol_passes": true,
@@ -1936,8 +3372,52 @@
     },
     {
       "schedule": "recurring",
+      "seed": 37,
+      "policy": "forest_frozen",
+      "model_family": "random_forest",
+      "update_method": "frozen",
+      "test_n": 800,
+      "mse": 1.9374403790590338,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 1.847440379059034,
+      "shifted_or_transition_mse": 3.70235511614616,
+      "update_count": 0,
+      "update_times": [],
+      "update_budget": 4,
+      "feedback_received": 699,
+      "feedback_missing_or_delayed_past_horizon": 101,
+      "trigger_alarm_count": 0,
+      "fit_audit": [],
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "recurring",
+      "seed": 37,
+      "policy": "forest_triggered",
+      "model_family": "random_forest",
+      "update_method": "triggered",
+      "test_n": 800,
+      "mse": 1.9374403790590338,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 1.847440379059034,
+      "shifted_or_transition_mse": 3.70235511614616,
+      "update_count": 0,
+      "update_times": [],
+      "update_budget": 4,
+      "feedback_received": 699,
+      "feedback_missing_or_delayed_past_horizon": 101,
+      "trigger_alarm_count": 0,
+      "fit_audit": [],
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "recurring",
       "seed": 53,
-      "policy": "frozen",
+      "policy": "ridge_frozen",
+      "model_family": "ridge",
+      "update_method": "frozen",
       "test_n": 800,
       "mse": 2.247942396006671,
       "oracle_irreducible_mse": 0.09,
@@ -1956,7 +3436,9 @@
     {
       "schedule": "recurring",
       "seed": 53,
-      "policy": "periodic",
+      "policy": "ridge_periodic",
+      "model_family": "ridge",
+      "update_method": "periodic",
       "test_n": 800,
       "mse": 2.277806072876722,
       "oracle_irreducible_mse": 0.09,
@@ -1977,22 +3459,26 @@
         {
           "fit_feedback_available_time": 861.0,
           "arrived_feedback_count": 50,
-          "method": "periodic"
+          "method": "periodic",
+          "model_family": "ridge"
         },
         {
           "fit_feedback_available_time": 914.0,
           "arrived_feedback_count": 100,
-          "method": "periodic"
+          "method": "periodic",
+          "model_family": "ridge"
         },
         {
           "fit_feedback_available_time": 972.0,
           "arrived_feedback_count": 150,
-          "method": "periodic"
+          "method": "periodic",
+          "model_family": "ridge"
         },
         {
           "fit_feedback_available_time": 1027.0,
           "arrived_feedback_count": 200,
-          "method": "periodic"
+          "method": "periodic",
+          "model_family": "ridge"
         }
       ],
       "protocol_passes": true,
@@ -2001,7 +3487,9 @@
     {
       "schedule": "recurring",
       "seed": 53,
-      "policy": "triggered",
+      "policy": "ridge_triggered",
+      "model_family": "ridge",
+      "update_method": "triggered",
       "test_n": 800,
       "mse": 0.6952928142844508,
       "oracle_irreducible_mse": 0.09,
@@ -2019,7 +3507,59 @@
         {
           "fit_feedback_available_time": 1279.0,
           "arrived_feedback_count": 438,
-          "method": "triggered"
+          "method": "triggered",
+          "model_family": "ridge"
+        }
+      ],
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "recurring",
+      "seed": 53,
+      "policy": "forest_frozen",
+      "model_family": "random_forest",
+      "update_method": "frozen",
+      "test_n": 800,
+      "mse": 2.062928987324781,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 1.9729289873247808,
+      "shifted_or_transition_mse": 3.906433676346369,
+      "update_count": 0,
+      "update_times": [],
+      "update_budget": 4,
+      "feedback_received": 720,
+      "feedback_missing_or_delayed_past_horizon": 80,
+      "trigger_alarm_count": 3,
+      "fit_audit": [],
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "recurring",
+      "seed": 53,
+      "policy": "forest_triggered",
+      "model_family": "random_forest",
+      "update_method": "triggered",
+      "test_n": 800,
+      "mse": 1.0807435718024534,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 0.9907435718024534,
+      "shifted_or_transition_mse": 1.9420628453017137,
+      "update_count": 1,
+      "update_times": [
+        1374
+      ],
+      "update_budget": 4,
+      "feedback_received": 720,
+      "feedback_missing_or_delayed_past_horizon": 80,
+      "trigger_alarm_count": 1,
+      "fit_audit": [
+        {
+          "fit_feedback_available_time": 1374.0,
+          "arrived_feedback_count": 524,
+          "method": "triggered",
+          "model_family": "random_forest"
         }
       ],
       "protocol_passes": true,
@@ -2028,7 +3568,9 @@
     {
       "schedule": "recurring",
       "seed": 71,
-      "policy": "frozen",
+      "policy": "ridge_frozen",
+      "model_family": "ridge",
+      "update_method": "frozen",
       "test_n": 800,
       "mse": 2.148723649887861,
       "oracle_irreducible_mse": 0.09,
@@ -2047,7 +3589,9 @@
     {
       "schedule": "recurring",
       "seed": 71,
-      "policy": "periodic",
+      "policy": "ridge_periodic",
+      "model_family": "ridge",
+      "update_method": "periodic",
       "test_n": 800,
       "mse": 2.2283743476283195,
       "oracle_irreducible_mse": 0.09,
@@ -2068,22 +3612,26 @@
         {
           "fit_feedback_available_time": 862.0,
           "arrived_feedback_count": 50,
-          "method": "periodic"
+          "method": "periodic",
+          "model_family": "ridge"
         },
         {
           "fit_feedback_available_time": 919.0,
           "arrived_feedback_count": 100,
-          "method": "periodic"
+          "method": "periodic",
+          "model_family": "ridge"
         },
         {
           "fit_feedback_available_time": 976.0,
           "arrived_feedback_count": 150,
-          "method": "periodic"
+          "method": "periodic",
+          "model_family": "ridge"
         },
         {
           "fit_feedback_available_time": 1029.0,
           "arrived_feedback_count": 200,
-          "method": "periodic"
+          "method": "periodic",
+          "model_family": "ridge"
         }
       ],
       "protocol_passes": true,
@@ -2092,7 +3640,9 @@
     {
       "schedule": "recurring",
       "seed": 71,
-      "policy": "triggered",
+      "policy": "ridge_triggered",
+      "model_family": "ridge",
+      "update_method": "triggered",
       "test_n": 800,
       "mse": 1.091172410786679,
       "oracle_irreducible_mse": 0.09,
@@ -2110,7 +3660,59 @@
         {
           "fit_feedback_available_time": 1229.0,
           "arrived_feedback_count": 380,
-          "method": "triggered"
+          "method": "triggered",
+          "model_family": "ridge"
+        }
+      ],
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "recurring",
+      "seed": 71,
+      "policy": "forest_frozen",
+      "model_family": "random_forest",
+      "update_method": "frozen",
+      "test_n": 800,
+      "mse": 1.9831945282581172,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 1.893194528258117,
+      "shifted_or_transition_mse": 3.764709653002175,
+      "update_count": 0,
+      "update_times": [],
+      "update_budget": 4,
+      "feedback_received": 709,
+      "feedback_missing_or_delayed_past_horizon": 91,
+      "trigger_alarm_count": 3,
+      "fit_audit": [],
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "recurring",
+      "seed": 71,
+      "policy": "forest_triggered",
+      "model_family": "random_forest",
+      "update_method": "triggered",
+      "test_n": 800,
+      "mse": 1.0633592981107147,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 0.973359298110715,
+      "shifted_or_transition_mse": 1.9250391927073698,
+      "update_count": 1,
+      "update_times": [
+        1229
+      ],
+      "update_budget": 4,
+      "feedback_received": 709,
+      "feedback_missing_or_delayed_past_horizon": 91,
+      "trigger_alarm_count": 1,
+      "fit_audit": [
+        {
+          "fit_feedback_available_time": 1229.0,
+          "arrived_feedback_count": 380,
+          "method": "triggered",
+          "model_family": "random_forest"
         }
       ],
       "protocol_passes": true,
@@ -2120,7 +3722,29 @@
   "summary": [
     {
       "schedule": "abrupt",
-      "policy": "frozen",
+      "policy": "forest_frozen",
+      "n": 5,
+      "mean_mse": 2.7602338474937365,
+      "sd_mse": 0.13663925687911216,
+      "mean_excess_mse": 2.6702338474937366,
+      "mean_shifted_mse": 3.854888431217204,
+      "mean_updates": 0.0,
+      "mean_feedback": 708.8
+    },
+    {
+      "schedule": "abrupt",
+      "policy": "forest_triggered",
+      "n": 5,
+      "mean_mse": 0.764954479633005,
+      "sd_mse": 0.14697484418218978,
+      "mean_excess_mse": 0.674954479633005,
+      "mean_shifted_mse": 0.9804378330440109,
+      "mean_updates": 3.8,
+      "mean_feedback": 708.8
+    },
+    {
+      "schedule": "abrupt",
+      "policy": "ridge_frozen",
       "n": 5,
       "mean_mse": 3.037046725409134,
       "sd_mse": 0.11777856913917299,
@@ -2131,7 +3755,7 @@
     },
     {
       "schedule": "abrupt",
-      "policy": "periodic",
+      "policy": "ridge_periodic",
       "n": 5,
       "mean_mse": 2.9979740118553484,
       "sd_mse": 0.087861953466738,
@@ -2142,7 +3766,7 @@
     },
     {
       "schedule": "abrupt",
-      "policy": "triggered",
+      "policy": "ridge_triggered",
       "n": 5,
       "mean_mse": 0.5983334912488287,
       "sd_mse": 0.08438052558395118,
@@ -2153,7 +3777,29 @@
     },
     {
       "schedule": "gradual",
-      "policy": "frozen",
+      "policy": "forest_frozen",
+      "n": 5,
+      "mean_mse": 2.7252892826051727,
+      "sd_mse": 0.15243110891202352,
+      "mean_excess_mse": 2.635289282605173,
+      "mean_shifted_mse": 3.006256602489698,
+      "mean_updates": 0.0,
+      "mean_feedback": 708.8
+    },
+    {
+      "schedule": "gradual",
+      "policy": "forest_triggered",
+      "n": 5,
+      "mean_mse": 0.4839676631647631,
+      "sd_mse": 0.0673105663653704,
+      "mean_excess_mse": 0.39396766316476317,
+      "mean_shifted_mse": 0.5123236469625869,
+      "mean_updates": 4.0,
+      "mean_feedback": 708.8
+    },
+    {
+      "schedule": "gradual",
+      "policy": "ridge_frozen",
       "n": 5,
       "mean_mse": 3.021763666712477,
       "sd_mse": 0.13793432436345318,
@@ -2164,7 +3810,7 @@
     },
     {
       "schedule": "gradual",
-      "policy": "periodic",
+      "policy": "ridge_periodic",
       "n": 5,
       "mean_mse": 1.0651021332872355,
       "sd_mse": 0.05564363267363153,
@@ -2175,7 +3821,7 @@
     },
     {
       "schedule": "gradual",
-      "policy": "triggered",
+      "policy": "ridge_triggered",
       "n": 5,
       "mean_mse": 0.3205148562590879,
       "sd_mse": 0.07771275188916547,
@@ -2186,7 +3832,29 @@
     },
     {
       "schedule": "recurring",
-      "policy": "frozen",
+      "policy": "forest_frozen",
+      "n": 5,
+      "mean_mse": 2.016630635425749,
+      "sd_mse": 0.1445163636716778,
+      "mean_excess_mse": 1.9266306354257487,
+      "mean_shifted_mse": 3.826909354278912,
+      "mean_updates": 0.0,
+      "mean_feedback": 708.8
+    },
+    {
+      "schedule": "recurring",
+      "policy": "forest_triggered",
+      "n": 5,
+      "mean_mse": 1.2254680602094132,
+      "sd_mse": 0.43346041406384817,
+      "mean_excess_mse": 1.1354680602094134,
+      "mean_shifted_mse": 2.244584203846241,
+      "mean_updates": 0.8,
+      "mean_feedback": 708.8
+    },
+    {
+      "schedule": "recurring",
+      "policy": "ridge_frozen",
       "n": 5,
       "mean_mse": 2.16624434877567,
       "sd_mse": 0.14639175475848307,
@@ -2197,7 +3865,7 @@
     },
     {
       "schedule": "recurring",
-      "policy": "periodic",
+      "policy": "ridge_periodic",
       "n": 5,
       "mean_mse": 2.140162391765832,
       "sd_mse": 0.1212350168101694,
@@ -2208,7 +3876,7 @@
     },
     {
       "schedule": "recurring",
-      "policy": "triggered",
+      "policy": "ridge_triggered",
       "n": 5,
       "mean_mse": 1.150135926383174,
       "sd_mse": 0.5273341685406346,
@@ -2219,7 +3887,29 @@
     },
     {
       "schedule": "temporary",
-      "policy": "frozen",
+      "policy": "forest_frozen",
+      "n": 5,
+      "mean_mse": 1.6838474512918584,
+      "sd_mse": 0.0889389515495738,
+      "mean_excess_mse": 1.5938474512918583,
+      "mean_shifted_mse": 3.9131708144305195,
+      "mean_updates": 0.0,
+      "mean_feedback": 708.8
+    },
+    {
+      "schedule": "temporary",
+      "policy": "forest_triggered",
+      "n": 5,
+      "mean_mse": 1.8030980916429649,
+      "sd_mse": 0.1936412432144781,
+      "mean_excess_mse": 1.7130980916429646,
+      "mean_shifted_mse": 1.2742999034612363,
+      "mean_updates": 4.0,
+      "mean_feedback": 708.8
+    },
+    {
+      "schedule": "temporary",
+      "policy": "ridge_frozen",
       "n": 5,
       "mean_mse": 1.8062761392377922,
       "sd_mse": 0.08456147393715567,
@@ -2230,7 +3920,7 @@
     },
     {
       "schedule": "temporary",
-      "policy": "periodic",
+      "policy": "ridge_periodic",
       "n": 5,
       "mean_mse": 1.1103930136644369,
       "sd_mse": 0.05767260480840093,
@@ -2241,7 +3931,7 @@
     },
     {
       "schedule": "temporary",
-      "policy": "triggered",
+      "policy": "ridge_triggered",
       "n": 5,
       "mean_mse": 1.782696682120846,
       "sd_mse": 0.3489272406068414,
@@ -2251,11 +3941,11 @@
       "mean_feedback": 708.8
     }
   ],
-  "expected_records": 60,
-  "observed_unique_records": 60,
+  "expected_records": 100,
+  "observed_unique_records": 100,
   "rows_valid": true,
   "checks_pass": true,
-  "processing_commit": "a2f905a1eedb708075a221a88b277ecfc5c3e9a1",
+  "processing_commit": "2d2c88c687ce46442991e3349f420c6681e216ea",
   "source_hash": "a52d81d4b0b724b970a39e36f441c2b32766a1a4c8226d6dc688f6297c93d1ac",
-  "script_sha256": "b98b3c72d65cca4fb43770650363b2fe6a5a7a4aa9b59a676c8555c71acfa9eb"
+  "script_sha256": "94fc10bf29cd5ab4c50eca745e44d0d5aa2d0e616dcbd0dc4cc9dc49862102a4"
 }

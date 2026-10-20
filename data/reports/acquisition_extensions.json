@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-10-19T16:35:02.895531+00:00",
+  "checked_at": "2026-10-20T01:02:24+00:00",
   "outcomes": [
     {
       "dataset": "monash",
@@ -31,9 +31,13 @@
       "dataset": "criteo",
       "status": "external_source_unavailable",
       "url": "https://go.criteo.net/criteo-research-search-conversion.tar.gz",
-      "observed_error": "HEAD HTTP 404; streamed GET connection failure",
+      "official_landing_page": "https://ailab.criteo.com/criteo-sponsored-search-conversion-log-dataset/",
+      "official_redirect_target": "https://criteostorage.blob.core.windows.net/criteo-research-datasets/Criteo_Conversion_Search.tar.gz",
+      "observed_error": "HEAD returned HTTP 404; streamed GET redirected to Azure Blob, whose hostname failed local DNS resolution",
+      "official_dataset_size": "310 MB compressed; 6.4 GB uncompressed",
       "license": "CC BY-NC-SA 4.0",
-      "verification": "timing, censoring and feature-exclusion fixtures passed"
+      "delay_unit": "unverified; must be read from an accessible publisher README or local export",
+      "verification": "official landing page, fields and terms rechecked; timing, censoring and feature-exclusion fixtures passed; data not acquired"
     }
   ]
 }

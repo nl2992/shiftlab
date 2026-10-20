@@ -116,9 +116,69 @@ def test_triggered_recalibration_uses_arrived_residual_without_refitting():
             "arrived_feedback_count": 1,
             "method": "recalibration",
             "action": "residual_bias_recalibration",
+            "resource_cost": 1.0,
+            "resource_spent": 1.0,
             "bias_correction": 8.0,
         }
     ]
+
+
+def test_periodic_recalibration_uses_only_arrived_residuals():
+    X = np.zeros((40, 2))
+    y = np.zeros(40)
+    settings = SimpleNamespace(window=20, alpha=0.1, threshold=5.0, period=2, budget=2)
+    learner = Learner(X[:20], y[:20], X[20:], y[20:], settings, "periodic_recalibration")
+    for index, target in enumerate((4.0, 6.0), start=1):
+        learner.observe(
+            Feedback(
+                time=20 + index,
+                available_at=20 + index,
+                features=(0.0, 0.0),
+                target=target,
+                prediction=0.0,
+            )
+        )
+    assert learner.bias_correction == 5.0
+    assert learner.intervention_audit[-1]["action"] == "residual_bias_recalibration"
+
+
+def test_triggered_partial_update_changes_parameters_without_refitting():
+    X = np.zeros((40, 2))
+    y = np.zeros(40)
+    settings = SimpleNamespace(window=20, alpha=0.1, threshold=5.0, period=10, budget=2)
+    learner = Learner(X[:20], y[:20], X[20:], y[20:], settings, "partial_update")
+    training_seconds = learner.training_seconds
+    learner.error_detector.update = lambda _: True
+    learner.observe(
+        Feedback(time=20, available_at=21, features=(1.0, 0.0), target=8.0, prediction=0.0)
+    )
+    assert learner.training_seconds == training_seconds
+    assert learner.model.coef_[0] == pytest.approx(0.4)
+    assert learner.model.intercept_ == pytest.approx(0.4)
+    assert learner.intervention_audit[-1]["action"] == "normalized_sgd_partial_update"
+
+
+def test_resource_budget_rejects_an_action_atomically():
+    X = np.zeros((40, 2))
+    y = np.zeros(40)
+    settings = SimpleNamespace(window=20, alpha=0.1, threshold=5.0, period=10, budget=2)
+    learner = Learner(
+        X[:20],
+        y[:20],
+        X[20:],
+        y[20:],
+        settings,
+        "partial_update",
+        resource_budget=1.0,
+    )
+    before = learner.model.coef_.copy()
+    learner.error_detector.update = lambda _: True
+    learner.observe(
+        Feedback(time=20, available_at=21, features=(1.0, 0.0), target=8.0, prediction=0.0)
+    )
+    np.testing.assert_array_equal(learner.model.coef_, before)
+    assert learner.interventions == []
+    assert learner.resource_spent == 0
 
 
 def test_exponential_conformal_quantile_downweights_stale_scores():

@@ -47,6 +47,8 @@ class Learner:
         radius_method=None,
         cal_score_times=None,
         radius_half_life=None,
+        resource_budget=None,
+        action_resource_costs=None,
     ):
         self.config, self.method = LearnerSettings.from_config(config), method
         self.radius_method = radius_method or ("rolling" if method == "rolling" else "fixed")
@@ -57,6 +59,21 @@ class Learner:
         )
         if not np.isfinite(self.radius_half_life) or self.radius_half_life <= 0:
             raise ValueError("radius_half_life must be finite and positive")
+        self.resource_budget = float("inf") if resource_budget is None else float(resource_budget)
+        if not np.isfinite(self.resource_budget) and self.resource_budget != float("inf"):
+            raise ValueError("resource_budget must be finite and nonnegative")
+        if self.resource_budget < 0:
+            raise ValueError("resource_budget must be finite and nonnegative")
+        self.action_resource_costs = action_resource_costs or {
+            "residual_bias_recalibration": 1.0,
+            "normalized_sgd_partial_update": 2.0,
+            "refit": 4.0,
+        }
+        if any(
+            not np.isfinite(value) or value < 0 for value in self.action_resource_costs.values()
+        ):
+            raise ValueError("action resource costs must be finite and nonnegative")
+        self.resource_spent = 0.0
         self.training_seconds = self.inference_seconds = 0.0
         self._fit(X, y)
         pred = self.model.predict(cal_X)
@@ -136,23 +153,44 @@ class Learner:
         if alarm:
             self.alarms["error_cusum"].append(feedback.available_at)
         self.cooldown = max(0, self.cooldown - 1)
-        periodic = self.method == "periodic" and self.feedback_count % self.config.period == 0
-        triggered = self.method in {"triggered", "recalibration"} and alarm and self.cooldown == 0
+        periodic = self.method in {"periodic", "periodic_recalibration"} and (
+            self.feedback_count % self.config.period == 0
+        )
+        triggered = self.method in {"triggered", "recalibration", "partial_update"} and (
+            alarm and self.cooldown == 0
+        )
         if (periodic or triggered) and len(self.interventions) < self.config.budget:
-            action = "refit"
-            if self.method == "recalibration":
+            action = (
+                "residual_bias_recalibration"
+                if self.method in {"recalibration", "periodic_recalibration"}
+                else "normalized_sgd_partial_update"
+                if self.method == "partial_update"
+                else "refit"
+            )
+            resource_cost = float(self.action_resource_costs[action])
+            if self.resource_spent + resource_cost > self.resource_budget:
+                return
+            if self.method in {"recalibration", "periodic_recalibration"}:
                 self.bias_correction += float(np.mean(self.feedback_residuals))
-                action = "residual_bias_recalibration"
+            elif self.method == "partial_update":
+                features = np.asarray(feedback.features, dtype=float)
+                step = 0.1 / (1.0 + float(features @ features))
+                residual = float(feedback.target - feedback.prediction)
+                self.model.coef_ = self.model.coef_ + step * residual * features
+                self.model.intercept_ = self.model.intercept_ + step * residual
             else:
                 X, y = zip(*self.history)
                 self._fit(np.asarray(X), np.asarray(y))
             self.interventions.append(feedback.available_at)
+            self.resource_spent += resource_cost
             self.intervention_audit.append(
                 {
                     "available_at": feedback.available_at,
                     "arrived_feedback_count": self.feedback_count,
                     "method": self.method,
                     "action": action,
+                    "resource_cost": resource_cost,
+                    "resource_spent": self.resource_spent,
                     "bias_correction": self.bias_correction,
                 }
             )

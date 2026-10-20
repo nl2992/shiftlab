@@ -32,11 +32,14 @@ SCHEDULES = {
     "recurring": {"pattern": "recurring", "regimes": 4},
 }
 SEEDS = (11, 23, 37, 53, 71)
+RESOURCE_BUDGET = 12.0
 POLICY_VARIANTS = (
     ("ridge_frozen", "ridge", "frozen", "fixed"),
     ("ridge_periodic", "ridge", "periodic", "fixed"),
+    ("ridge_periodic_recalibration", "ridge", "periodic_recalibration", "fixed"),
     ("ridge_triggered", "ridge", "triggered", "fixed"),
     ("ridge_recalibration", "ridge", "recalibration", "fixed"),
+    ("ridge_partial_update", "ridge", "partial_update", "fixed"),
     ("ridge_triggered_rolling_radius", "ridge", "triggered", "rolling"),
     ("ridge_triggered_exponential_radius", "ridge", "triggered", "exponential"),
     ("forest_frozen", "random_forest", "frozen", "fixed"),
@@ -64,6 +67,8 @@ class AuditedLearner(Learner):
         radius_method="fixed",
         cal_score_times=None,
         radius_half_life=None,
+        resource_budget=12,
+        action_resource_costs=None,
         **kwargs,
     ):
         self.current_feedback_time: int | float | None = None
@@ -75,6 +80,8 @@ class AuditedLearner(Learner):
             radius_method=radius_method,
             cal_score_times=cal_score_times,
             radius_half_life=radius_half_life,
+            resource_budget=resource_budget,
+            action_resource_costs=action_resource_costs,
             **kwargs,
         )
 
@@ -144,6 +151,7 @@ def evaluate_replicate(schedule: str, seed: int) -> list[dict]:
     if len(train) < 20 or len(calibration) < 20:
         raise ValueError(f"Insufficient arrived initial data for {schedule}, seed {seed}")
     settings = SimpleNamespace(window=80, alpha=0.1, threshold=5.0, period=50, budget=4)
+    resource_budget = RESOURCE_BUDGET
     test_ids = test.sample_id.to_numpy()
     targets = test.set_index("sample_id").target
     prediction_time_by_id = test.set_index("sample_id").prediction_time
@@ -163,6 +171,12 @@ def evaluate_replicate(schedule: str, seed: int) -> list[dict]:
             radius_method=radius_method,
             cal_score_times=calibration.label_available_time.to_numpy(dtype=float),
             radius_half_life=80,
+            resource_budget=resource_budget,
+            action_resource_costs={
+                "residual_bias_recalibration": 1.0,
+                "normalized_sgd_partial_update": 2.0,
+                "refit": 4.0 if model_family == "ridge" else 8.0,
+            },
         )
         pending: dict[str, tuple[tuple[float, ...], float]] = {}
         predictions: dict[str, float] = {}
@@ -225,6 +239,13 @@ def evaluate_replicate(schedule: str, seed: int) -> list[dict]:
                 "update_count": len(learner.interventions),
                 "update_times": [int(value) for value in learner.interventions],
                 "update_budget": settings.budget,
+                "resource_spent": learner.resource_spent,
+                "resource_budget": resource_budget,
+                "intervention_resource_costs": {
+                    "residual_bias_recalibration": 1.0,
+                    "normalized_sgd_partial_update": 2.0,
+                    "refit": 4.0 if model_family == "ridge" else 8.0,
+                },
                 "feedback_received": learner.feedback_count,
                 "feedback_missing_or_delayed_past_horizon": int(
                     test.target.notna().sum() - learner.feedback_count
@@ -235,6 +256,7 @@ def evaluate_replicate(schedule: str, seed: int) -> list[dict]:
                 "final_bias_correction": learner.bias_correction,
                 "protocol_passes": bool(
                     len(learner.interventions) <= settings.budget
+                    and learner.resource_spent <= resource_budget
                     and len(learner.intervention_audit) == len(learner.interventions)
                     and all(value in arrived_times for value in fit_times)
                     and all(value <= float(test.prediction_time.max()) for value in fit_times)
@@ -258,11 +280,27 @@ def evaluate_replicate(schedule: str, seed: int) -> list[dict]:
                         and action["arrived_feedback_count"] <= learner.feedback_count
                         for action in learner.intervention_audit
                     )
-                    and sum(
-                        action["action"] == "residual_bias_recalibration"
+                    and all(
+                        action["resource_spent"] <= resource_budget
+                        and np.isclose(
+                            action["resource_cost"],
+                            {
+                                "residual_bias_recalibration": 1.0,
+                                "normalized_sgd_partial_update": 2.0,
+                                "refit": 4.0 if model_family == "ridge" else 8.0,
+                            }[action["action"]],
+                        )
                         for action in learner.intervention_audit
                     )
-                    == (len(learner.interventions) if method == "recalibration" else 0)
+                    and all(
+                        action["action"]
+                        == {
+                            "recalibration": "residual_bias_recalibration",
+                            "periodic_recalibration": "residual_bias_recalibration",
+                            "partial_update": "normalized_sgd_partial_update",
+                        }.get(method, "refit")
+                        for action in learner.intervention_audit
+                    )
                 ),
                 "utility_origin": "synthetic squared prediction error; no application cost claim",
             }
@@ -326,12 +364,13 @@ def evaluate() -> dict:
         )
     )
     return {
-        "description": "Five-seed fitted online adaptation using Ridge and random-forest predictors with frozen, periodic, residual-CUSUM-triggered refitting, or residual-bias recalibration, fixed, rolling, or exponentially weighted prequential radii, across four concept schedules.",
-        "protocol": "Train and calibration labels are strictly available before the first test request. During the test stream, learners receive requests and only labels yielded by timestamp-ordered replay. Equal-time requests precede feedback. Refit history contains only arrived labels. Every variant has a four-action budget. The recalibration arm updates only a scalar prediction intercept by adding the mean signed residual from up to the latest 80 arrived feedback labels; it does not refit model parameters. Rolling- and exponentially weighted-radius arms keep their Ridge predictor update schedule identical to the fixed-radius triggered arm; residual scores enter only when labels arrive and use the forecast made earlier for that sample. Exponential score weights use label-availability times and an 80-step half-life, with one unit of test-point mass. Random forests use 32 trees, depth 6, leaf size 5, and a fixed seed.",
+        "description": "Five-seed fitted online adaptation using Ridge and random-forest predictors with frozen, periodic, residual-CUSUM-triggered refitting, periodic or triggered residual-bias recalibration, and triggered normalized-gradient partial updates, fixed/rolling/exponential radii, four action slots and an action-specific compute budget, across four concept schedules.",
+        "protocol": "Train and calibration labels are strictly available before the first test request. During the test stream, learners receive requests and only labels yielded by timestamp-ordered replay. Equal-time requests precede feedback. Refit history contains only arrived labels. Every variant has at most four action slots and a 12-unit imposed compute budget. Recalibration updates only a scalar prediction bias from arrived signed residuals; partial update applies one normalized stochastic-gradient step to Ridge coefficients and intercept. Per-action resource costs are 1 unit for recalibration, 2 for partial update, 4 for Ridge refit, and 8 for random-forest refit. Rolling- and exponentially weighted-radius arms keep their Ridge predictor update schedule identical to the fixed-radius triggered arm; residual scores enter only when labels arrive and use the forecast made earlier for that sample. Exponential score weights use label-availability times and an 80-step half-life, with one unit of test-point mass. Random forests use 32 trees, depth 6, leaf size 5, and a fixed seed.",
         "limitations": [
             "The trigger threshold and review period are fixed in advance; no parameter tuning uses test outcomes.",
             "Only Ridge and a fixed random-forest configuration are evaluated; hyperparameters are not tuned on test outcomes.",
-            "Residual-bias recalibration is a single prespecified intercept update; broader partial-update and feature-conditional recalibration methods remain unevaluated.",
+            "Residual-bias recalibration and one normalized stochastic-gradient step are simple prespecified baselines; other recalibration and partial-update methods remain unevaluated.",
+            "Action resource units are imposed relative costs, not measured training-time or energy costs; all policies also retain a four-action ceiling.",
             "Rolling prequential radii and 100-request coverage blocks are descriptive and do not establish conditional, simultaneous, or online validity.",
             "Oracle irreducible MSE is evaluator-only; it is not exposed to the learner.",
             "Five seeds are descriptive replicates, not confidence intervals.",
@@ -358,6 +397,13 @@ def evaluate() -> dict:
                 for name, family, method, radius in POLICY_VARIANTS
             ],
             "update_budget": 4,
+            "resource_budget": RESOURCE_BUDGET,
+            "resource_cost_units": {
+                "residual_bias_recalibration": 1.0,
+                "normalized_sgd_partial_update": 2.0,
+                "ridge_refit": 4.0,
+                "random_forest_refit": 8.0,
+            },
         },
         "schedule_overrides": SCHEDULES,
         "replicates": rows,
@@ -378,7 +424,12 @@ def main() -> None:
     write_json(output, report)
     csv_path = output.with_suffix(".csv")
     pd.DataFrame(report["replicates"]).drop(
-        columns=["fit_audit", "intervention_audit", "coverage_by_test_block"]
+        columns=[
+            "fit_audit",
+            "intervention_audit",
+            "coverage_by_test_block",
+            "intervention_resource_costs",
+        ]
     ).to_csv(csv_path, index=False)
     coverage_rows = []
     for row in report["replicates"]:

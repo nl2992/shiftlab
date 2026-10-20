@@ -1,9 +1,10 @@
 {
-  "description": "Five-seed fitted online adaptation using Ridge and random-forest predictors with frozen, periodic, or residual-CUSUM-triggered updates, fixed, rolling, or exponentially weighted prequential radii, across four concept schedules.",
-  "protocol": "Train and calibration labels are strictly available before the first test request. During the test stream, learners receive requests and only labels yielded by timestamp-ordered replay. Equal-time requests precede feedback. Refit history contains only arrived labels. Every variant has a four-update compute budget. Rolling- and exponentially weighted-radius arms keep their Ridge predictor update schedule identical to the fixed-radius triggered arm; residual scores enter only when labels arrive and use the forecast made earlier for that sample. Exponential score weights use label-availability times and an 80-step half-life, with one unit of test-point mass. Random forests use 32 trees, depth 6, leaf size 5, and a fixed seed.",
+  "description": "Five-seed fitted online adaptation using Ridge and random-forest predictors with frozen, periodic, residual-CUSUM-triggered refitting, or residual-bias recalibration, fixed, rolling, or exponentially weighted prequential radii, across four concept schedules.",
+  "protocol": "Train and calibration labels are strictly available before the first test request. During the test stream, learners receive requests and only labels yielded by timestamp-ordered replay. Equal-time requests precede feedback. Refit history contains only arrived labels. Every variant has a four-action budget. The recalibration arm updates only a scalar prediction intercept by adding the mean signed residual from up to the latest 80 arrived feedback labels; it does not refit model parameters. Rolling- and exponentially weighted-radius arms keep their Ridge predictor update schedule identical to the fixed-radius triggered arm; residual scores enter only when labels arrive and use the forecast made earlier for that sample. Exponential score weights use label-availability times and an 80-step half-life, with one unit of test-point mass. Random forests use 32 trees, depth 6, leaf size 5, and a fixed seed.",
   "limitations": [
     "The trigger threshold and review period are fixed in advance; no parameter tuning uses test outcomes.",
     "Only Ridge and a fixed random-forest configuration are evaluated; hyperparameters are not tuned on test outcomes.",
+    "Residual-bias recalibration is a single prespecified intercept update; broader partial-update and feature-conditional recalibration methods remain unevaluated.",
     "Rolling prequential radii and 100-request coverage blocks are descriptive and do not establish conditional, simultaneous, or online validity.",
     "Oracle irreducible MSE is evaluator-only; it is not exposed to the learner.",
     "Five seeds are descriptive replicates, not confidence intervals."
@@ -44,6 +45,13 @@
         "name": "ridge_triggered",
         "model_family": "ridge",
         "update_method": "triggered",
+        "radius_method": "fixed",
+        "radius_half_life": null
+      },
+      {
+        "name": "ridge_recalibration",
+        "model_family": "ridge",
+        "update_method": "recalibration",
         "radius_method": "fixed",
         "radius_half_life": null
       },
@@ -170,6 +178,8 @@
       "feedback_missing_or_delayed_past_horizon": 94,
       "trigger_alarm_count": 358,
       "fit_audit": [],
+      "intervention_audit": [],
+      "final_bias_correction": 0.0,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -274,6 +284,37 @@
           "model_family": "ridge"
         }
       ],
+      "intervention_audit": [
+        {
+          "available_at": 861.0,
+          "arrived_feedback_count": 50,
+          "method": "periodic",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 919.0,
+          "arrived_feedback_count": 100,
+          "method": "periodic",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 981.0,
+          "arrived_feedback_count": 150,
+          "method": "periodic",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1037.0,
+          "arrived_feedback_count": 200,
+          "method": "periodic",
+          "action": "refit",
+          "bias_correction": 0.0
+        }
+      ],
+      "final_bias_correction": 0.0,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -378,6 +419,147 @@
           "model_family": "ridge"
         }
       ],
+      "intervention_audit": [
+        {
+          "available_at": 902.0,
+          "arrived_feedback_count": 84,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1048.0,
+          "arrived_feedback_count": 210,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1134.0,
+          "arrived_feedback_count": 290,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1290.0,
+          "arrived_feedback_count": 432,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        }
+      ],
+      "final_bias_correction": 0.0,
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "abrupt",
+      "seed": 11,
+      "policy": "ridge_recalibration",
+      "model_family": "ridge",
+      "update_method": "recalibration",
+      "radius_method": "fixed",
+      "test_n": 800,
+      "mse": 3.270180486628182,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 3.180180486628182,
+      "shifted_or_transition_mse": 4.629865188578682,
+      "coverage": 0.37875,
+      "mean_interval_width": 1.0245963392616577,
+      "coverage_by_test_block": [
+        {
+          "block": 0,
+          "n": 100,
+          "coverage": 0.92,
+          "mean_width": 1.024596339261658
+        },
+        {
+          "block": 1,
+          "n": 100,
+          "coverage": 0.88,
+          "mean_width": 1.024596339261658
+        },
+        {
+          "block": 2,
+          "n": 100,
+          "coverage": 0.46,
+          "mean_width": 1.024596339261658
+        },
+        {
+          "block": 3,
+          "n": 100,
+          "coverage": 0.19,
+          "mean_width": 1.024596339261658
+        },
+        {
+          "block": 4,
+          "n": 100,
+          "coverage": 0.13,
+          "mean_width": 1.024596339261658
+        },
+        {
+          "block": 5,
+          "n": 100,
+          "coverage": 0.18,
+          "mean_width": 1.024596339261658
+        },
+        {
+          "block": 6,
+          "n": 100,
+          "coverage": 0.13,
+          "mean_width": 1.024596339261658
+        },
+        {
+          "block": 7,
+          "n": 100,
+          "coverage": 0.14,
+          "mean_width": 1.024596339261658
+        }
+      ],
+      "update_count": 4,
+      "update_times": [
+        902,
+        1048,
+        1134,
+        1220
+      ],
+      "update_budget": 4,
+      "feedback_received": 706,
+      "feedback_missing_or_delayed_past_horizon": 94,
+      "trigger_alarm_count": 358,
+      "fit_audit": [],
+      "intervention_audit": [
+        {
+          "available_at": 902.0,
+          "arrived_feedback_count": 84,
+          "method": "recalibration",
+          "action": "residual_bias_recalibration",
+          "bias_correction": 0.00319437426907655
+        },
+        {
+          "available_at": 1048.0,
+          "arrived_feedback_count": 210,
+          "method": "recalibration",
+          "action": "residual_bias_recalibration",
+          "bias_correction": -0.0338293128358513
+        },
+        {
+          "available_at": 1134.0,
+          "arrived_feedback_count": 290,
+          "method": "recalibration",
+          "action": "residual_bias_recalibration",
+          "bias_correction": -0.4297793805282856
+        },
+        {
+          "available_at": 1220.0,
+          "arrived_feedback_count": 370,
+          "method": "recalibration",
+          "action": "residual_bias_recalibration",
+          "bias_correction": 0.05716848676444247
+        }
+      ],
+      "final_bias_correction": 0.05716848676444247,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -482,6 +664,37 @@
           "model_family": "ridge"
         }
       ],
+      "intervention_audit": [
+        {
+          "available_at": 902.0,
+          "arrived_feedback_count": 84,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1048.0,
+          "arrived_feedback_count": 210,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1134.0,
+          "arrived_feedback_count": 290,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1290.0,
+          "arrived_feedback_count": 432,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        }
+      ],
+      "final_bias_correction": 0.0,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -586,6 +799,37 @@
           "model_family": "ridge"
         }
       ],
+      "intervention_audit": [
+        {
+          "available_at": 902.0,
+          "arrived_feedback_count": 84,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1048.0,
+          "arrived_feedback_count": 210,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1134.0,
+          "arrived_feedback_count": 290,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1290.0,
+          "arrived_feedback_count": 432,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        }
+      ],
+      "final_bias_correction": 0.0,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -660,6 +904,8 @@
       "feedback_missing_or_delayed_past_horizon": 94,
       "trigger_alarm_count": 306,
       "fit_audit": [],
+      "intervention_audit": [],
+      "final_bias_correction": 0.0,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -764,6 +1010,37 @@
           "model_family": "random_forest"
         }
       ],
+      "intervention_audit": [
+        {
+          "available_at": 953.0,
+          "arrived_feedback_count": 125,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1043.0,
+          "arrived_feedback_count": 205,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1131.0,
+          "arrived_feedback_count": 287,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1222.0,
+          "arrived_feedback_count": 372,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        }
+      ],
+      "final_bias_correction": 0.0,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -838,6 +1115,8 @@
       "feedback_missing_or_delayed_past_horizon": 90,
       "trigger_alarm_count": 345,
       "fit_audit": [],
+      "intervention_audit": [],
+      "final_bias_correction": 0.0,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -942,6 +1221,37 @@
           "model_family": "ridge"
         }
       ],
+      "intervention_audit": [
+        {
+          "available_at": 865.0,
+          "arrived_feedback_count": 50,
+          "method": "periodic",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 923.0,
+          "arrived_feedback_count": 100,
+          "method": "periodic",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 977.0,
+          "arrived_feedback_count": 150,
+          "method": "periodic",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1031.0,
+          "arrived_feedback_count": 200,
+          "method": "periodic",
+          "action": "refit",
+          "bias_correction": 0.0
+        }
+      ],
+      "final_bias_correction": 0.0,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -1046,6 +1356,147 @@
           "model_family": "ridge"
         }
       ],
+      "intervention_audit": [
+        {
+          "available_at": 815.0,
+          "arrived_feedback_count": 6,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 928.0,
+          "arrived_feedback_count": 105,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1048.0,
+          "arrived_feedback_count": 215,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1143.0,
+          "arrived_feedback_count": 296,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        }
+      ],
+      "final_bias_correction": 0.0,
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "abrupt",
+      "seed": 23,
+      "policy": "ridge_recalibration",
+      "model_family": "ridge",
+      "update_method": "recalibration",
+      "radius_method": "fixed",
+      "test_n": 800,
+      "mse": 2.9551049957303133,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 2.8651049957303134,
+      "shifted_or_transition_mse": 4.169319532900521,
+      "coverage": 0.35875,
+      "mean_interval_width": 0.9448773239717257,
+      "coverage_by_test_block": [
+        {
+          "block": 0,
+          "n": 100,
+          "coverage": 0.8,
+          "mean_width": 0.9448773239717257
+        },
+        {
+          "block": 1,
+          "n": 100,
+          "coverage": 0.82,
+          "mean_width": 0.9448773239717257
+        },
+        {
+          "block": 2,
+          "n": 100,
+          "coverage": 0.4,
+          "mean_width": 0.9448773239717257
+        },
+        {
+          "block": 3,
+          "n": 100,
+          "coverage": 0.11,
+          "mean_width": 0.9448773239717257
+        },
+        {
+          "block": 4,
+          "n": 100,
+          "coverage": 0.17,
+          "mean_width": 0.9448773239717257
+        },
+        {
+          "block": 5,
+          "n": 100,
+          "coverage": 0.2,
+          "mean_width": 0.9448773239717257
+        },
+        {
+          "block": 6,
+          "n": 100,
+          "coverage": 0.22,
+          "mean_width": 0.9448773239717257
+        },
+        {
+          "block": 7,
+          "n": 100,
+          "coverage": 0.15,
+          "mean_width": 0.9448773239717257
+        }
+      ],
+      "update_count": 4,
+      "update_times": [
+        815,
+        914,
+        1002,
+        1089
+      ],
+      "update_budget": 4,
+      "feedback_received": 710,
+      "feedback_missing_or_delayed_past_horizon": 90,
+      "trigger_alarm_count": 351,
+      "fit_audit": [],
+      "intervention_audit": [
+        {
+          "available_at": 815.0,
+          "arrived_feedback_count": 6,
+          "method": "recalibration",
+          "action": "residual_bias_recalibration",
+          "bias_correction": 0.1870570011643443
+        },
+        {
+          "available_at": 914.0,
+          "arrived_feedback_count": 91,
+          "method": "recalibration",
+          "action": "residual_bias_recalibration",
+          "bias_correction": -0.021714620839445475
+        },
+        {
+          "available_at": 1002.0,
+          "arrived_feedback_count": 172,
+          "method": "recalibration",
+          "action": "residual_bias_recalibration",
+          "bias_correction": -0.004995496207894506
+        },
+        {
+          "available_at": 1089.0,
+          "arrived_feedback_count": 252,
+          "method": "recalibration",
+          "action": "residual_bias_recalibration",
+          "bias_correction": 0.029336214527153907
+        }
+      ],
+      "final_bias_correction": 0.029336214527153907,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -1150,6 +1601,37 @@
           "model_family": "ridge"
         }
       ],
+      "intervention_audit": [
+        {
+          "available_at": 815.0,
+          "arrived_feedback_count": 6,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 928.0,
+          "arrived_feedback_count": 105,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1048.0,
+          "arrived_feedback_count": 215,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1143.0,
+          "arrived_feedback_count": 296,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        }
+      ],
+      "final_bias_correction": 0.0,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -1254,6 +1736,37 @@
           "model_family": "ridge"
         }
       ],
+      "intervention_audit": [
+        {
+          "available_at": 815.0,
+          "arrived_feedback_count": 6,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 928.0,
+          "arrived_feedback_count": 105,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1048.0,
+          "arrived_feedback_count": 215,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1143.0,
+          "arrived_feedback_count": 296,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        }
+      ],
+      "final_bias_correction": 0.0,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -1328,6 +1841,8 @@
       "feedback_missing_or_delayed_past_horizon": 90,
       "trigger_alarm_count": 178,
       "fit_audit": [],
+      "intervention_audit": [],
+      "final_bias_correction": 0.0,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -1425,6 +1940,30 @@
           "model_family": "random_forest"
         }
       ],
+      "intervention_audit": [
+        {
+          "available_at": 1048.0,
+          "arrived_feedback_count": 215,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1144.0,
+          "arrived_feedback_count": 297,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1490.0,
+          "arrived_feedback_count": 608,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        }
+      ],
+      "final_bias_correction": 0.0,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -1499,6 +2038,8 @@
       "feedback_missing_or_delayed_past_horizon": 101,
       "trigger_alarm_count": 320,
       "fit_audit": [],
+      "intervention_audit": [],
+      "final_bias_correction": 0.0,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -1603,6 +2144,37 @@
           "model_family": "ridge"
         }
       ],
+      "intervention_audit": [
+        {
+          "available_at": 866.0,
+          "arrived_feedback_count": 50,
+          "method": "periodic",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 924.0,
+          "arrived_feedback_count": 100,
+          "method": "periodic",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 978.0,
+          "arrived_feedback_count": 150,
+          "method": "periodic",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1032.0,
+          "arrived_feedback_count": 200,
+          "method": "periodic",
+          "action": "refit",
+          "bias_correction": 0.0
+        }
+      ],
+      "final_bias_correction": 0.0,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -1700,6 +2272,140 @@
           "model_family": "ridge"
         }
       ],
+      "intervention_audit": [
+        {
+          "available_at": 1048.0,
+          "arrived_feedback_count": 213,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1136.0,
+          "arrived_feedback_count": 293,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1558.0,
+          "arrived_feedback_count": 665,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        }
+      ],
+      "final_bias_correction": 0.0,
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "abrupt",
+      "seed": 37,
+      "policy": "ridge_recalibration",
+      "model_family": "ridge",
+      "update_method": "recalibration",
+      "radius_method": "fixed",
+      "test_n": 800,
+      "mse": 2.9790547462341954,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 2.889054746234196,
+      "shifted_or_transition_mse": 4.2196586497282755,
+      "coverage": 0.41875,
+      "mean_interval_width": 1.0143748824370695,
+      "coverage_by_test_block": [
+        {
+          "block": 0,
+          "n": 100,
+          "coverage": 0.93,
+          "mean_width": 1.0143748824370693
+        },
+        {
+          "block": 1,
+          "n": 100,
+          "coverage": 0.86,
+          "mean_width": 1.0143748824370693
+        },
+        {
+          "block": 2,
+          "n": 100,
+          "coverage": 0.52,
+          "mean_width": 1.0143748824370693
+        },
+        {
+          "block": 3,
+          "n": 100,
+          "coverage": 0.23,
+          "mean_width": 1.0143748824370693
+        },
+        {
+          "block": 4,
+          "n": 100,
+          "coverage": 0.19,
+          "mean_width": 1.0143748824370693
+        },
+        {
+          "block": 5,
+          "n": 100,
+          "coverage": 0.17,
+          "mean_width": 1.0143748824370693
+        },
+        {
+          "block": 6,
+          "n": 100,
+          "coverage": 0.23,
+          "mean_width": 1.0143748824370693
+        },
+        {
+          "block": 7,
+          "n": 100,
+          "coverage": 0.22,
+          "mean_width": 1.0143748824370693
+        }
+      ],
+      "update_count": 4,
+      "update_times": [
+        1048,
+        1136,
+        1228,
+        1325
+      ],
+      "update_budget": 4,
+      "feedback_received": 699,
+      "feedback_missing_or_delayed_past_horizon": 101,
+      "trigger_alarm_count": 314,
+      "fit_audit": [],
+      "intervention_audit": [
+        {
+          "available_at": 1048.0,
+          "arrived_feedback_count": 213,
+          "method": "recalibration",
+          "action": "residual_bias_recalibration",
+          "bias_correction": 0.025392124459178857
+        },
+        {
+          "available_at": 1136.0,
+          "arrived_feedback_count": 293,
+          "method": "recalibration",
+          "action": "residual_bias_recalibration",
+          "bias_correction": 0.11651636817889527
+        },
+        {
+          "available_at": 1228.0,
+          "arrived_feedback_count": 373,
+          "method": "recalibration",
+          "action": "residual_bias_recalibration",
+          "bias_correction": -0.009630647962119987
+        },
+        {
+          "available_at": 1325.0,
+          "arrived_feedback_count": 453,
+          "method": "recalibration",
+          "action": "residual_bias_recalibration",
+          "bias_correction": -0.07509372193098332
+        }
+      ],
+      "final_bias_correction": -0.07509372193098332,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -1797,6 +2503,30 @@
           "model_family": "ridge"
         }
       ],
+      "intervention_audit": [
+        {
+          "available_at": 1048.0,
+          "arrived_feedback_count": 213,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1136.0,
+          "arrived_feedback_count": 293,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1558.0,
+          "arrived_feedback_count": 665,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        }
+      ],
+      "final_bias_correction": 0.0,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -1894,6 +2624,30 @@
           "model_family": "ridge"
         }
       ],
+      "intervention_audit": [
+        {
+          "available_at": 1048.0,
+          "arrived_feedback_count": 213,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1136.0,
+          "arrived_feedback_count": 293,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1558.0,
+          "arrived_feedback_count": 665,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        }
+      ],
+      "final_bias_correction": 0.0,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -1968,6 +2722,8 @@
       "feedback_missing_or_delayed_past_horizon": 101,
       "trigger_alarm_count": 216,
       "fit_audit": [],
+      "intervention_audit": [],
+      "final_bias_correction": 0.0,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -2072,6 +2828,37 @@
           "model_family": "random_forest"
         }
       ],
+      "intervention_audit": [
+        {
+          "available_at": 1008.0,
+          "arrived_feedback_count": 177,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1100.0,
+          "arrived_feedback_count": 259,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1194.0,
+          "arrived_feedback_count": 342,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1293.0,
+          "arrived_feedback_count": 427,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        }
+      ],
+      "final_bias_correction": 0.0,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -2146,6 +2933,8 @@
       "feedback_missing_or_delayed_past_horizon": 80,
       "trigger_alarm_count": 354,
       "fit_audit": [],
+      "intervention_audit": [],
+      "final_bias_correction": 0.0,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -2250,6 +3039,37 @@
           "model_family": "ridge"
         }
       ],
+      "intervention_audit": [
+        {
+          "available_at": 861.0,
+          "arrived_feedback_count": 50,
+          "method": "periodic",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 914.0,
+          "arrived_feedback_count": 100,
+          "method": "periodic",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 972.0,
+          "arrived_feedback_count": 150,
+          "method": "periodic",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1027.0,
+          "arrived_feedback_count": 200,
+          "method": "periodic",
+          "action": "refit",
+          "bias_correction": 0.0
+        }
+      ],
+      "final_bias_correction": 0.0,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -2340,6 +3160,133 @@
           "model_family": "ridge"
         }
       ],
+      "intervention_audit": [
+        {
+          "available_at": 1049.0,
+          "arrived_feedback_count": 219,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1133.0,
+          "arrived_feedback_count": 299,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        }
+      ],
+      "final_bias_correction": 0.0,
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "abrupt",
+      "seed": 53,
+      "policy": "ridge_recalibration",
+      "model_family": "ridge",
+      "update_method": "recalibration",
+      "radius_method": "fixed",
+      "test_n": 800,
+      "mse": 3.080898282837424,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 2.990898282837424,
+      "shifted_or_transition_mse": 4.366681204776974,
+      "coverage": 0.395,
+      "mean_interval_width": 0.9765666562644296,
+      "coverage_by_test_block": [
+        {
+          "block": 0,
+          "n": 100,
+          "coverage": 0.92,
+          "mean_width": 0.9765666562644294
+        },
+        {
+          "block": 1,
+          "n": 100,
+          "coverage": 0.9,
+          "mean_width": 0.9765666562644294
+        },
+        {
+          "block": 2,
+          "n": 100,
+          "coverage": 0.49,
+          "mean_width": 0.9765666562644294
+        },
+        {
+          "block": 3,
+          "n": 100,
+          "coverage": 0.18,
+          "mean_width": 0.9765666562644294
+        },
+        {
+          "block": 4,
+          "n": 100,
+          "coverage": 0.15,
+          "mean_width": 0.9765666562644294
+        },
+        {
+          "block": 5,
+          "n": 100,
+          "coverage": 0.17,
+          "mean_width": 0.9765666562644294
+        },
+        {
+          "block": 6,
+          "n": 100,
+          "coverage": 0.2,
+          "mean_width": 0.9765666562644294
+        },
+        {
+          "block": 7,
+          "n": 100,
+          "coverage": 0.15,
+          "mean_width": 0.9765666562644294
+        }
+      ],
+      "update_count": 4,
+      "update_times": [
+        1049,
+        1133,
+        1217,
+        1301
+      ],
+      "update_budget": 4,
+      "feedback_received": 720,
+      "feedback_missing_or_delayed_past_horizon": 80,
+      "trigger_alarm_count": 343,
+      "fit_audit": [],
+      "intervention_audit": [
+        {
+          "available_at": 1049.0,
+          "arrived_feedback_count": 219,
+          "method": "recalibration",
+          "action": "residual_bias_recalibration",
+          "bias_correction": 0.07613115192637927
+        },
+        {
+          "available_at": 1133.0,
+          "arrived_feedback_count": 299,
+          "method": "recalibration",
+          "action": "residual_bias_recalibration",
+          "bias_correction": 0.17905407930649025
+        },
+        {
+          "available_at": 1217.0,
+          "arrived_feedback_count": 379,
+          "method": "recalibration",
+          "action": "residual_bias_recalibration",
+          "bias_correction": 0.06324454765969943
+        },
+        {
+          "available_at": 1301.0,
+          "arrived_feedback_count": 459,
+          "method": "recalibration",
+          "action": "residual_bias_recalibration",
+          "bias_correction": -0.33306973801719475
+        }
+      ],
+      "final_bias_correction": -0.33306973801719475,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -2430,6 +3377,23 @@
           "model_family": "ridge"
         }
       ],
+      "intervention_audit": [
+        {
+          "available_at": 1049.0,
+          "arrived_feedback_count": 219,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1133.0,
+          "arrived_feedback_count": 299,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        }
+      ],
+      "final_bias_correction": 0.0,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -2520,6 +3484,23 @@
           "model_family": "ridge"
         }
       ],
+      "intervention_audit": [
+        {
+          "available_at": 1049.0,
+          "arrived_feedback_count": 219,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1133.0,
+          "arrived_feedback_count": 299,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        }
+      ],
+      "final_bias_correction": 0.0,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -2594,6 +3575,8 @@
       "feedback_missing_or_delayed_past_horizon": 80,
       "trigger_alarm_count": 212,
       "fit_audit": [],
+      "intervention_audit": [],
+      "final_bias_correction": 0.0,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -2698,6 +3681,37 @@
           "model_family": "random_forest"
         }
       ],
+      "intervention_audit": [
+        {
+          "available_at": 888.0,
+          "arrived_feedback_count": 75,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1049.0,
+          "arrived_feedback_count": 219,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1133.0,
+          "arrived_feedback_count": 299,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1226.0,
+          "arrived_feedback_count": 388,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        }
+      ],
+      "final_bias_correction": 0.0,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -2772,6 +3786,8 @@
       "feedback_missing_or_delayed_past_horizon": 91,
       "trigger_alarm_count": 354,
       "fit_audit": [],
+      "intervention_audit": [],
+      "final_bias_correction": 0.0,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -2876,6 +3892,37 @@
           "model_family": "ridge"
         }
       ],
+      "intervention_audit": [
+        {
+          "available_at": 862.0,
+          "arrived_feedback_count": 50,
+          "method": "periodic",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 919.0,
+          "arrived_feedback_count": 100,
+          "method": "periodic",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 976.0,
+          "arrived_feedback_count": 150,
+          "method": "periodic",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1029.0,
+          "arrived_feedback_count": 200,
+          "method": "periodic",
+          "action": "refit",
+          "bias_correction": 0.0
+        }
+      ],
+      "final_bias_correction": 0.0,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -2980,6 +4027,147 @@
           "model_family": "ridge"
         }
       ],
+      "intervention_audit": [
+        {
+          "available_at": 835.0,
+          "arrived_feedback_count": 26,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 930.0,
+          "arrived_feedback_count": 109,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1050.0,
+          "arrived_feedback_count": 218,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1136.0,
+          "arrived_feedback_count": 298,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        }
+      ],
+      "final_bias_correction": 0.0,
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "abrupt",
+      "seed": 71,
+      "policy": "ridge_recalibration",
+      "model_family": "ridge",
+      "update_method": "recalibration",
+      "radius_method": "fixed",
+      "test_n": 800,
+      "mse": 3.012948612124057,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 2.922948612124057,
+      "shifted_or_transition_mse": 4.268193305481518,
+      "coverage": 0.39625,
+      "mean_interval_width": 0.8834541225667963,
+      "coverage_by_test_block": [
+        {
+          "block": 0,
+          "n": 100,
+          "coverage": 0.89,
+          "mean_width": 0.8834541225667967
+        },
+        {
+          "block": 1,
+          "n": 100,
+          "coverage": 0.83,
+          "mean_width": 0.8834541225667967
+        },
+        {
+          "block": 2,
+          "n": 100,
+          "coverage": 0.61,
+          "mean_width": 0.8834541225667967
+        },
+        {
+          "block": 3,
+          "n": 100,
+          "coverage": 0.24,
+          "mean_width": 0.8834541225667967
+        },
+        {
+          "block": 4,
+          "n": 100,
+          "coverage": 0.12,
+          "mean_width": 0.8834541225667967
+        },
+        {
+          "block": 5,
+          "n": 100,
+          "coverage": 0.17,
+          "mean_width": 0.8834541225667967
+        },
+        {
+          "block": 6,
+          "n": 100,
+          "coverage": 0.14,
+          "mean_width": 0.8834541225667967
+        },
+        {
+          "block": 7,
+          "n": 100,
+          "coverage": 0.17,
+          "mean_width": 0.8834541225667967
+        }
+      ],
+      "update_count": 4,
+      "update_times": [
+        835,
+        930,
+        1050,
+        1136
+      ],
+      "update_budget": 4,
+      "feedback_received": 709,
+      "feedback_missing_or_delayed_past_horizon": 91,
+      "trigger_alarm_count": 361,
+      "fit_audit": [],
+      "intervention_audit": [
+        {
+          "available_at": 835.0,
+          "arrived_feedback_count": 26,
+          "method": "recalibration",
+          "action": "residual_bias_recalibration",
+          "bias_correction": -0.08243838583029826
+        },
+        {
+          "available_at": 930.0,
+          "arrived_feedback_count": 109,
+          "method": "recalibration",
+          "action": "residual_bias_recalibration",
+          "bias_correction": -0.008281879054259311
+        },
+        {
+          "available_at": 1050.0,
+          "arrived_feedback_count": 218,
+          "method": "recalibration",
+          "action": "residual_bias_recalibration",
+          "bias_correction": -0.009203855715935383
+        },
+        {
+          "available_at": 1136.0,
+          "arrived_feedback_count": 298,
+          "method": "recalibration",
+          "action": "residual_bias_recalibration",
+          "bias_correction": 0.09178656258437026
+        }
+      ],
+      "final_bias_correction": 0.09178656258437026,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -3084,6 +4272,37 @@
           "model_family": "ridge"
         }
       ],
+      "intervention_audit": [
+        {
+          "available_at": 835.0,
+          "arrived_feedback_count": 26,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 930.0,
+          "arrived_feedback_count": 109,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1050.0,
+          "arrived_feedback_count": 218,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1136.0,
+          "arrived_feedback_count": 298,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        }
+      ],
+      "final_bias_correction": 0.0,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -3188,6 +4407,37 @@
           "model_family": "ridge"
         }
       ],
+      "intervention_audit": [
+        {
+          "available_at": 835.0,
+          "arrived_feedback_count": 26,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 930.0,
+          "arrived_feedback_count": 109,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1050.0,
+          "arrived_feedback_count": 218,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1136.0,
+          "arrived_feedback_count": 298,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        }
+      ],
+      "final_bias_correction": 0.0,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -3262,6 +4512,8 @@
       "feedback_missing_or_delayed_past_horizon": 91,
       "trigger_alarm_count": 259,
       "fit_audit": [],
+      "intervention_audit": [],
+      "final_bias_correction": 0.0,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -3366,6 +4618,37 @@
           "model_family": "random_forest"
         }
       ],
+      "intervention_audit": [
+        {
+          "available_at": 843.0,
+          "arrived_feedback_count": 34,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 936.0,
+          "arrived_feedback_count": 115,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1024.0,
+          "arrived_feedback_count": 195,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1114.0,
+          "arrived_feedback_count": 276,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        }
+      ],
+      "final_bias_correction": 0.0,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -3440,6 +4723,8 @@
       "feedback_missing_or_delayed_past_horizon": 94,
       "trigger_alarm_count": 389,
       "fit_audit": [],
+      "intervention_audit": [],
+      "final_bias_correction": 0.0,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -3544,6 +4829,37 @@
           "model_family": "ridge"
         }
       ],
+      "intervention_audit": [
+        {
+          "available_at": 861.0,
+          "arrived_feedback_count": 50,
+          "method": "periodic",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 919.0,
+          "arrived_feedback_count": 100,
+          "method": "periodic",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 981.0,
+          "arrived_feedback_count": 150,
+          "method": "periodic",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1037.0,
+          "arrived_feedback_count": 200,
+          "method": "periodic",
+          "action": "refit",
+          "bias_correction": 0.0
+        }
+      ],
+      "final_bias_correction": 0.0,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -3648,6 +4964,147 @@
           "model_family": "ridge"
         }
       ],
+      "intervention_audit": [
+        {
+          "available_at": 902.0,
+          "arrived_feedback_count": 84,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1000.0,
+          "arrived_feedback_count": 165,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1089.0,
+          "arrived_feedback_count": 249,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1177.0,
+          "arrived_feedback_count": 331,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        }
+      ],
+      "final_bias_correction": 0.0,
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "gradual",
+      "seed": 11,
+      "policy": "ridge_recalibration",
+      "model_family": "ridge",
+      "update_method": "recalibration",
+      "radius_method": "fixed",
+      "test_n": 800,
+      "mse": 3.2525378248744787,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 3.162537824874479,
+      "shifted_or_transition_mse": 3.6102460462971377,
+      "coverage": 0.3075,
+      "mean_interval_width": 1.0245963392616577,
+      "coverage_by_test_block": [
+        {
+          "block": 0,
+          "n": 100,
+          "coverage": 0.89,
+          "mean_width": 1.024596339261658
+        },
+        {
+          "block": 1,
+          "n": 100,
+          "coverage": 0.59,
+          "mean_width": 1.024596339261658
+        },
+        {
+          "block": 2,
+          "n": 100,
+          "coverage": 0.22,
+          "mean_width": 1.024596339261658
+        },
+        {
+          "block": 3,
+          "n": 100,
+          "coverage": 0.19,
+          "mean_width": 1.024596339261658
+        },
+        {
+          "block": 4,
+          "n": 100,
+          "coverage": 0.13,
+          "mean_width": 1.024596339261658
+        },
+        {
+          "block": 5,
+          "n": 100,
+          "coverage": 0.15,
+          "mean_width": 1.024596339261658
+        },
+        {
+          "block": 6,
+          "n": 100,
+          "coverage": 0.13,
+          "mean_width": 1.024596339261658
+        },
+        {
+          "block": 7,
+          "n": 100,
+          "coverage": 0.16,
+          "mean_width": 1.024596339261658
+        }
+      ],
+      "update_count": 4,
+      "update_times": [
+        902,
+        1000,
+        1085,
+        1171
+      ],
+      "update_budget": 4,
+      "feedback_received": 706,
+      "feedback_missing_or_delayed_past_horizon": 94,
+      "trigger_alarm_count": 390,
+      "fit_audit": [],
+      "intervention_audit": [
+        {
+          "available_at": 902.0,
+          "arrived_feedback_count": 84,
+          "method": "recalibration",
+          "action": "residual_bias_recalibration",
+          "bias_correction": -0.0007907736393447939
+        },
+        {
+          "available_at": 1000.0,
+          "arrived_feedback_count": 165,
+          "method": "recalibration",
+          "action": "residual_bias_recalibration",
+          "bias_correction": -0.01965818153684904
+        },
+        {
+          "available_at": 1085.0,
+          "arrived_feedback_count": 245,
+          "method": "recalibration",
+          "action": "residual_bias_recalibration",
+          "bias_correction": -0.18204127566797051
+        },
+        {
+          "available_at": 1171.0,
+          "arrived_feedback_count": 325,
+          "method": "recalibration",
+          "action": "residual_bias_recalibration",
+          "bias_correction": -0.005490929824302659
+        }
+      ],
+      "final_bias_correction": -0.005490929824302659,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -3752,6 +5209,37 @@
           "model_family": "ridge"
         }
       ],
+      "intervention_audit": [
+        {
+          "available_at": 902.0,
+          "arrived_feedback_count": 84,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1000.0,
+          "arrived_feedback_count": 165,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1089.0,
+          "arrived_feedback_count": 249,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1177.0,
+          "arrived_feedback_count": 331,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        }
+      ],
+      "final_bias_correction": 0.0,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -3856,6 +5344,37 @@
           "model_family": "ridge"
         }
       ],
+      "intervention_audit": [
+        {
+          "available_at": 902.0,
+          "arrived_feedback_count": 84,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1000.0,
+          "arrived_feedback_count": 165,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1089.0,
+          "arrived_feedback_count": 249,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1177.0,
+          "arrived_feedback_count": 331,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        }
+      ],
+      "final_bias_correction": 0.0,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -3930,6 +5449,8 @@
       "feedback_missing_or_delayed_past_horizon": 94,
       "trigger_alarm_count": 319,
       "fit_audit": [],
+      "intervention_audit": [],
+      "final_bias_correction": 0.0,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -4034,6 +5555,37 @@
           "model_family": "random_forest"
         }
       ],
+      "intervention_audit": [
+        {
+          "available_at": 950.0,
+          "arrived_feedback_count": 123,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1042.0,
+          "arrived_feedback_count": 204,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1131.0,
+          "arrived_feedback_count": 287,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1220.0,
+          "arrived_feedback_count": 370,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        }
+      ],
+      "final_bias_correction": 0.0,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -4108,6 +5660,8 @@
       "feedback_missing_or_delayed_past_horizon": 90,
       "trigger_alarm_count": 375,
       "fit_audit": [],
+      "intervention_audit": [],
+      "final_bias_correction": 0.0,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -4212,6 +5766,37 @@
           "model_family": "ridge"
         }
       ],
+      "intervention_audit": [
+        {
+          "available_at": 865.0,
+          "arrived_feedback_count": 50,
+          "method": "periodic",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 923.0,
+          "arrived_feedback_count": 100,
+          "method": "periodic",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 977.0,
+          "arrived_feedback_count": 150,
+          "method": "periodic",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1031.0,
+          "arrived_feedback_count": 200,
+          "method": "periodic",
+          "action": "refit",
+          "bias_correction": 0.0
+        }
+      ],
+      "final_bias_correction": 0.0,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -4316,6 +5901,147 @@
           "model_family": "ridge"
         }
       ],
+      "intervention_audit": [
+        {
+          "available_at": 815.0,
+          "arrived_feedback_count": 6,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 925.0,
+          "arrived_feedback_count": 102,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1013.0,
+          "arrived_feedback_count": 182,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1105.0,
+          "arrived_feedback_count": 263,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        }
+      ],
+      "final_bias_correction": 0.0,
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "gradual",
+      "seed": 23,
+      "policy": "ridge_recalibration",
+      "model_family": "ridge",
+      "update_method": "recalibration",
+      "radius_method": "fixed",
+      "test_n": 800,
+      "mse": 2.920703052047535,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 2.8307030520475354,
+      "shifted_or_transition_mse": 3.234701441392615,
+      "coverage": 0.29875,
+      "mean_interval_width": 0.9448773239717257,
+      "coverage_by_test_block": [
+        {
+          "block": 0,
+          "n": 100,
+          "coverage": 0.8,
+          "mean_width": 0.9448773239717257
+        },
+        {
+          "block": 1,
+          "n": 100,
+          "coverage": 0.5,
+          "mean_width": 0.9448773239717257
+        },
+        {
+          "block": 2,
+          "n": 100,
+          "coverage": 0.2,
+          "mean_width": 0.9448773239717257
+        },
+        {
+          "block": 3,
+          "n": 100,
+          "coverage": 0.13,
+          "mean_width": 0.9448773239717257
+        },
+        {
+          "block": 4,
+          "n": 100,
+          "coverage": 0.18,
+          "mean_width": 0.9448773239717257
+        },
+        {
+          "block": 5,
+          "n": 100,
+          "coverage": 0.21,
+          "mean_width": 0.9448773239717257
+        },
+        {
+          "block": 6,
+          "n": 100,
+          "coverage": 0.22,
+          "mean_width": 0.9448773239717257
+        },
+        {
+          "block": 7,
+          "n": 100,
+          "coverage": 0.15,
+          "mean_width": 0.9448773239717257
+        }
+      ],
+      "update_count": 4,
+      "update_times": [
+        815,
+        914,
+        1008,
+        1098
+      ],
+      "update_budget": 4,
+      "feedback_received": 710,
+      "feedback_missing_or_delayed_past_horizon": 90,
+      "trigger_alarm_count": 381,
+      "fit_audit": [],
+      "intervention_audit": [
+        {
+          "available_at": 815.0,
+          "arrived_feedback_count": 6,
+          "method": "recalibration",
+          "action": "residual_bias_recalibration",
+          "bias_correction": 0.1870570011643443
+        },
+        {
+          "available_at": 914.0,
+          "arrived_feedback_count": 91,
+          "method": "recalibration",
+          "action": "residual_bias_recalibration",
+          "bias_correction": -0.025376574199606566
+        },
+        {
+          "available_at": 1008.0,
+          "arrived_feedback_count": 177,
+          "method": "recalibration",
+          "action": "residual_bias_recalibration",
+          "bias_correction": 0.031287030836244796
+        },
+        {
+          "available_at": 1098.0,
+          "arrived_feedback_count": 258,
+          "method": "recalibration",
+          "action": "residual_bias_recalibration",
+          "bias_correction": 0.07079415466316577
+        }
+      ],
+      "final_bias_correction": 0.07079415466316577,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -4420,6 +6146,37 @@
           "model_family": "ridge"
         }
       ],
+      "intervention_audit": [
+        {
+          "available_at": 815.0,
+          "arrived_feedback_count": 6,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 925.0,
+          "arrived_feedback_count": 102,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1013.0,
+          "arrived_feedback_count": 182,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1105.0,
+          "arrived_feedback_count": 263,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        }
+      ],
+      "final_bias_correction": 0.0,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -4524,6 +6281,37 @@
           "model_family": "ridge"
         }
       ],
+      "intervention_audit": [
+        {
+          "available_at": 815.0,
+          "arrived_feedback_count": 6,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 925.0,
+          "arrived_feedback_count": 102,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1013.0,
+          "arrived_feedback_count": 182,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1105.0,
+          "arrived_feedback_count": 263,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        }
+      ],
+      "final_bias_correction": 0.0,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -4598,6 +6386,8 @@
       "feedback_missing_or_delayed_past_horizon": 90,
       "trigger_alarm_count": 176,
       "fit_audit": [],
+      "intervention_audit": [],
+      "final_bias_correction": 0.0,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -4702,6 +6492,37 @@
           "model_family": "random_forest"
         }
       ],
+      "intervention_audit": [
+        {
+          "available_at": 956.0,
+          "arrived_feedback_count": 130,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1057.0,
+          "arrived_feedback_count": 224,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1156.0,
+          "arrived_feedback_count": 309,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1490.0,
+          "arrived_feedback_count": 608,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        }
+      ],
+      "final_bias_correction": 0.0,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -4776,6 +6597,8 @@
       "feedback_missing_or_delayed_past_horizon": 101,
       "trigger_alarm_count": 345,
       "fit_audit": [],
+      "intervention_audit": [],
+      "final_bias_correction": 0.0,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -4880,6 +6703,37 @@
           "model_family": "ridge"
         }
       ],
+      "intervention_audit": [
+        {
+          "available_at": 866.0,
+          "arrived_feedback_count": 50,
+          "method": "periodic",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 924.0,
+          "arrived_feedback_count": 100,
+          "method": "periodic",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 978.0,
+          "arrived_feedback_count": 150,
+          "method": "periodic",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1032.0,
+          "arrived_feedback_count": 200,
+          "method": "periodic",
+          "action": "refit",
+          "bias_correction": 0.0
+        }
+      ],
+      "final_bias_correction": 0.0,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -4984,6 +6838,147 @@
           "model_family": "ridge"
         }
       ],
+      "intervention_audit": [
+        {
+          "available_at": 938.0,
+          "arrived_feedback_count": 113,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1026.0,
+          "arrived_feedback_count": 194,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1118.0,
+          "arrived_feedback_count": 276,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1213.0,
+          "arrived_feedback_count": 358,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        }
+      ],
+      "final_bias_correction": 0.0,
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "gradual",
+      "seed": 37,
+      "policy": "ridge_recalibration",
+      "model_family": "ridge",
+      "update_method": "recalibration",
+      "radius_method": "fixed",
+      "test_n": 800,
+      "mse": 2.9366601659934166,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 2.8466601659934168,
+      "shifted_or_transition_mse": 3.258993204800214,
+      "coverage": 0.375,
+      "mean_interval_width": 1.0143748824370695,
+      "coverage_by_test_block": [
+        {
+          "block": 0,
+          "n": 100,
+          "coverage": 0.93,
+          "mean_width": 1.0143748824370693
+        },
+        {
+          "block": 1,
+          "n": 100,
+          "coverage": 0.57,
+          "mean_width": 1.0143748824370693
+        },
+        {
+          "block": 2,
+          "n": 100,
+          "coverage": 0.39,
+          "mean_width": 1.0143748824370693
+        },
+        {
+          "block": 3,
+          "n": 100,
+          "coverage": 0.24,
+          "mean_width": 1.0143748824370693
+        },
+        {
+          "block": 4,
+          "n": 100,
+          "coverage": 0.2,
+          "mean_width": 1.0143748824370693
+        },
+        {
+          "block": 5,
+          "n": 100,
+          "coverage": 0.21,
+          "mean_width": 1.0143748824370693
+        },
+        {
+          "block": 6,
+          "n": 100,
+          "coverage": 0.24,
+          "mean_width": 1.0143748824370693
+        },
+        {
+          "block": 7,
+          "n": 100,
+          "coverage": 0.22,
+          "mean_width": 1.0143748824370693
+        }
+      ],
+      "update_count": 4,
+      "update_times": [
+        938,
+        1026,
+        1117,
+        1210
+      ],
+      "update_budget": 4,
+      "feedback_received": 699,
+      "feedback_missing_or_delayed_past_horizon": 101,
+      "trigger_alarm_count": 340,
+      "fit_audit": [],
+      "intervention_audit": [
+        {
+          "available_at": 938.0,
+          "arrived_feedback_count": 113,
+          "method": "recalibration",
+          "action": "residual_bias_recalibration",
+          "bias_correction": 0.04179680828441088
+        },
+        {
+          "available_at": 1026.0,
+          "arrived_feedback_count": 194,
+          "method": "recalibration",
+          "action": "residual_bias_recalibration",
+          "bias_correction": -0.060535445149798965
+        },
+        {
+          "available_at": 1117.0,
+          "arrived_feedback_count": 275,
+          "method": "recalibration",
+          "action": "residual_bias_recalibration",
+          "bias_correction": 0.13043212506543828
+        },
+        {
+          "available_at": 1210.0,
+          "arrived_feedback_count": 356,
+          "method": "recalibration",
+          "action": "residual_bias_recalibration",
+          "bias_correction": -0.13204280215722441
+        }
+      ],
+      "final_bias_correction": -0.13204280215722441,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -5088,6 +7083,37 @@
           "model_family": "ridge"
         }
       ],
+      "intervention_audit": [
+        {
+          "available_at": 938.0,
+          "arrived_feedback_count": 113,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1026.0,
+          "arrived_feedback_count": 194,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1118.0,
+          "arrived_feedback_count": 276,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1213.0,
+          "arrived_feedback_count": 358,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        }
+      ],
+      "final_bias_correction": 0.0,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -5192,6 +7218,37 @@
           "model_family": "ridge"
         }
       ],
+      "intervention_audit": [
+        {
+          "available_at": 938.0,
+          "arrived_feedback_count": 113,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1026.0,
+          "arrived_feedback_count": 194,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1118.0,
+          "arrived_feedback_count": 276,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1213.0,
+          "arrived_feedback_count": 358,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        }
+      ],
+      "final_bias_correction": 0.0,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -5266,6 +7323,8 @@
       "feedback_missing_or_delayed_past_horizon": 101,
       "trigger_alarm_count": 219,
       "fit_audit": [],
+      "intervention_audit": [],
+      "final_bias_correction": 0.0,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -5370,6 +7429,37 @@
           "model_family": "random_forest"
         }
       ],
+      "intervention_audit": [
+        {
+          "available_at": 986.0,
+          "arrived_feedback_count": 158,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1087.0,
+          "arrived_feedback_count": 250,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1183.0,
+          "arrived_feedback_count": 332,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1293.0,
+          "arrived_feedback_count": 427,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        }
+      ],
+      "final_bias_correction": 0.0,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -5444,6 +7534,8 @@
       "feedback_missing_or_delayed_past_horizon": 80,
       "trigger_alarm_count": 392,
       "fit_audit": [],
+      "intervention_audit": [],
+      "final_bias_correction": 0.0,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -5548,6 +7640,37 @@
           "model_family": "ridge"
         }
       ],
+      "intervention_audit": [
+        {
+          "available_at": 861.0,
+          "arrived_feedback_count": 50,
+          "method": "periodic",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 914.0,
+          "arrived_feedback_count": 100,
+          "method": "periodic",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 972.0,
+          "arrived_feedback_count": 150,
+          "method": "periodic",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1027.0,
+          "arrived_feedback_count": 200,
+          "method": "periodic",
+          "action": "refit",
+          "bias_correction": 0.0
+        }
+      ],
+      "final_bias_correction": 0.0,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -5652,6 +7775,147 @@
           "model_family": "ridge"
         }
       ],
+      "intervention_audit": [
+        {
+          "available_at": 926.0,
+          "arrived_feedback_count": 111,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1019.0,
+          "arrived_feedback_count": 192,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1104.0,
+          "arrived_feedback_count": 272,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1189.0,
+          "arrived_feedback_count": 352,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        }
+      ],
+      "final_bias_correction": 0.0,
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "gradual",
+      "seed": 53,
+      "policy": "ridge_recalibration",
+      "model_family": "ridge",
+      "update_method": "recalibration",
+      "radius_method": "fixed",
+      "test_n": 800,
+      "mse": 3.0333777520004572,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 2.943377752000457,
+      "shifted_or_transition_mse": 3.365498827223421,
+      "coverage": 0.3175,
+      "mean_interval_width": 0.9765666562644296,
+      "coverage_by_test_block": [
+        {
+          "block": 0,
+          "n": 100,
+          "coverage": 0.92,
+          "mean_width": 0.9765666562644294
+        },
+        {
+          "block": 1,
+          "n": 100,
+          "coverage": 0.6,
+          "mean_width": 0.9765666562644294
+        },
+        {
+          "block": 2,
+          "n": 100,
+          "coverage": 0.19,
+          "mean_width": 0.9765666562644294
+        },
+        {
+          "block": 3,
+          "n": 100,
+          "coverage": 0.19,
+          "mean_width": 0.9765666562644294
+        },
+        {
+          "block": 4,
+          "n": 100,
+          "coverage": 0.16,
+          "mean_width": 0.9765666562644294
+        },
+        {
+          "block": 5,
+          "n": 100,
+          "coverage": 0.15,
+          "mean_width": 0.9765666562644294
+        },
+        {
+          "block": 6,
+          "n": 100,
+          "coverage": 0.24,
+          "mean_width": 0.9765666562644294
+        },
+        {
+          "block": 7,
+          "n": 100,
+          "coverage": 0.09,
+          "mean_width": 0.9765666562644294
+        }
+      ],
+      "update_count": 4,
+      "update_times": [
+        926,
+        1019,
+        1104,
+        1189
+      ],
+      "update_budget": 4,
+      "feedback_received": 720,
+      "feedback_missing_or_delayed_past_horizon": 80,
+      "trigger_alarm_count": 394,
+      "fit_audit": [],
+      "intervention_audit": [
+        {
+          "available_at": 926.0,
+          "arrived_feedback_count": 111,
+          "method": "recalibration",
+          "action": "residual_bias_recalibration",
+          "bias_correction": 0.025465446065443254
+        },
+        {
+          "available_at": 1019.0,
+          "arrived_feedback_count": 192,
+          "method": "recalibration",
+          "action": "residual_bias_recalibration",
+          "bias_correction": 0.08202117272568865
+        },
+        {
+          "available_at": 1104.0,
+          "arrived_feedback_count": 272,
+          "method": "recalibration",
+          "action": "residual_bias_recalibration",
+          "bias_correction": 0.18301837890536643
+        },
+        {
+          "available_at": 1189.0,
+          "arrived_feedback_count": 352,
+          "method": "recalibration",
+          "action": "residual_bias_recalibration",
+          "bias_correction": 0.14040359088714022
+        }
+      ],
+      "final_bias_correction": 0.14040359088714022,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -5756,6 +8020,37 @@
           "model_family": "ridge"
         }
       ],
+      "intervention_audit": [
+        {
+          "available_at": 926.0,
+          "arrived_feedback_count": 111,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1019.0,
+          "arrived_feedback_count": 192,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1104.0,
+          "arrived_feedback_count": 272,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1189.0,
+          "arrived_feedback_count": 352,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        }
+      ],
+      "final_bias_correction": 0.0,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -5860,6 +8155,37 @@
           "model_family": "ridge"
         }
       ],
+      "intervention_audit": [
+        {
+          "available_at": 926.0,
+          "arrived_feedback_count": 111,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1019.0,
+          "arrived_feedback_count": 192,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1104.0,
+          "arrived_feedback_count": 272,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1189.0,
+          "arrived_feedback_count": 352,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        }
+      ],
+      "final_bias_correction": 0.0,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -5934,6 +8260,8 @@
       "feedback_missing_or_delayed_past_horizon": 80,
       "trigger_alarm_count": 217,
       "fit_audit": [],
+      "intervention_audit": [],
+      "final_bias_correction": 0.0,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -6038,6 +8366,37 @@
           "model_family": "random_forest"
         }
       ],
+      "intervention_audit": [
+        {
+          "available_at": 888.0,
+          "arrived_feedback_count": 75,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 995.0,
+          "arrived_feedback_count": 171,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1081.0,
+          "arrived_feedback_count": 251,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1182.0,
+          "arrived_feedback_count": 345,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        }
+      ],
+      "final_bias_correction": 0.0,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -6112,6 +8471,8 @@
       "feedback_missing_or_delayed_past_horizon": 91,
       "trigger_alarm_count": 398,
       "fit_audit": [],
+      "intervention_audit": [],
+      "final_bias_correction": 0.0,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -6216,6 +8577,37 @@
           "model_family": "ridge"
         }
       ],
+      "intervention_audit": [
+        {
+          "available_at": 862.0,
+          "arrived_feedback_count": 50,
+          "method": "periodic",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 919.0,
+          "arrived_feedback_count": 100,
+          "method": "periodic",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 976.0,
+          "arrived_feedback_count": 150,
+          "method": "periodic",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1029.0,
+          "arrived_feedback_count": 200,
+          "method": "periodic",
+          "action": "refit",
+          "bias_correction": 0.0
+        }
+      ],
+      "final_bias_correction": 0.0,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -6320,6 +8712,147 @@
           "model_family": "ridge"
         }
       ],
+      "intervention_audit": [
+        {
+          "available_at": 835.0,
+          "arrived_feedback_count": 26,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 928.0,
+          "arrived_feedback_count": 107,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1015.0,
+          "arrived_feedback_count": 187,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1107.0,
+          "arrived_feedback_count": 269,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        }
+      ],
+      "final_bias_correction": 0.0,
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "gradual",
+      "seed": 71,
+      "policy": "ridge_recalibration",
+      "model_family": "ridge",
+      "update_method": "recalibration",
+      "radius_method": "fixed",
+      "test_n": 800,
+      "mse": 2.999419082839964,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 2.909419082839964,
+      "shifted_or_transition_mse": 3.327506541521071,
+      "coverage": 0.32875,
+      "mean_interval_width": 0.8834541225667963,
+      "coverage_by_test_block": [
+        {
+          "block": 0,
+          "n": 100,
+          "coverage": 0.9,
+          "mean_width": 0.8834541225667967
+        },
+        {
+          "block": 1,
+          "n": 100,
+          "coverage": 0.58,
+          "mean_width": 0.8834541225667967
+        },
+        {
+          "block": 2,
+          "n": 100,
+          "coverage": 0.36,
+          "mean_width": 0.8834541225667967
+        },
+        {
+          "block": 3,
+          "n": 100,
+          "coverage": 0.25,
+          "mean_width": 0.8834541225667967
+        },
+        {
+          "block": 4,
+          "n": 100,
+          "coverage": 0.11,
+          "mean_width": 0.8834541225667967
+        },
+        {
+          "block": 5,
+          "n": 100,
+          "coverage": 0.17,
+          "mean_width": 0.8834541225667967
+        },
+        {
+          "block": 6,
+          "n": 100,
+          "coverage": 0.11,
+          "mean_width": 0.8834541225667967
+        },
+        {
+          "block": 7,
+          "n": 100,
+          "coverage": 0.15,
+          "mean_width": 0.8834541225667967
+        }
+      ],
+      "update_count": 4,
+      "update_times": [
+        835,
+        928,
+        1015,
+        1105
+      ],
+      "update_budget": 4,
+      "feedback_received": 709,
+      "feedback_missing_or_delayed_past_horizon": 91,
+      "trigger_alarm_count": 399,
+      "fit_audit": [],
+      "intervention_audit": [
+        {
+          "available_at": 835.0,
+          "arrived_feedback_count": 26,
+          "method": "recalibration",
+          "action": "residual_bias_recalibration",
+          "bias_correction": -0.08243838583029826
+        },
+        {
+          "available_at": 928.0,
+          "arrived_feedback_count": 107,
+          "method": "recalibration",
+          "action": "residual_bias_recalibration",
+          "bias_correction": -0.01497310631877602
+        },
+        {
+          "available_at": 1015.0,
+          "arrived_feedback_count": 187,
+          "method": "recalibration",
+          "action": "residual_bias_recalibration",
+          "bias_correction": 0.05077642474094293
+        },
+        {
+          "available_at": 1105.0,
+          "arrived_feedback_count": 268,
+          "method": "recalibration",
+          "action": "residual_bias_recalibration",
+          "bias_correction": -0.1123349253937817
+        }
+      ],
+      "final_bias_correction": -0.1123349253937817,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -6424,6 +8957,37 @@
           "model_family": "ridge"
         }
       ],
+      "intervention_audit": [
+        {
+          "available_at": 835.0,
+          "arrived_feedback_count": 26,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 928.0,
+          "arrived_feedback_count": 107,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1015.0,
+          "arrived_feedback_count": 187,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1107.0,
+          "arrived_feedback_count": 269,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        }
+      ],
+      "final_bias_correction": 0.0,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -6528,6 +9092,37 @@
           "model_family": "ridge"
         }
       ],
+      "intervention_audit": [
+        {
+          "available_at": 835.0,
+          "arrived_feedback_count": 26,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 928.0,
+          "arrived_feedback_count": 107,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1015.0,
+          "arrived_feedback_count": 187,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1107.0,
+          "arrived_feedback_count": 269,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        }
+      ],
+      "final_bias_correction": 0.0,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -6602,6 +9197,8 @@
       "feedback_missing_or_delayed_past_horizon": 91,
       "trigger_alarm_count": 271,
       "fit_audit": [],
+      "intervention_audit": [],
+      "final_bias_correction": 0.0,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -6706,6 +9303,37 @@
           "model_family": "random_forest"
         }
       ],
+      "intervention_audit": [
+        {
+          "available_at": 843.0,
+          "arrived_feedback_count": 34,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 938.0,
+          "arrived_feedback_count": 117,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1042.0,
+          "arrived_feedback_count": 211,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1130.0,
+          "arrived_feedback_count": 292,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        }
+      ],
+      "final_bias_correction": 0.0,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -6780,6 +9408,8 @@
       "feedback_missing_or_delayed_past_horizon": 94,
       "trigger_alarm_count": 208,
       "fit_audit": [],
+      "intervention_audit": [],
+      "final_bias_correction": 0.0,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -6884,6 +9514,37 @@
           "model_family": "ridge"
         }
       ],
+      "intervention_audit": [
+        {
+          "available_at": 861.0,
+          "arrived_feedback_count": 50,
+          "method": "periodic",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 919.0,
+          "arrived_feedback_count": 100,
+          "method": "periodic",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 981.0,
+          "arrived_feedback_count": 150,
+          "method": "periodic",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1037.0,
+          "arrived_feedback_count": 200,
+          "method": "periodic",
+          "action": "refit",
+          "bias_correction": 0.0
+        }
+      ],
+      "final_bias_correction": 0.0,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -6988,6 +9649,147 @@
           "model_family": "ridge"
         }
       ],
+      "intervention_audit": [
+        {
+          "available_at": 902.0,
+          "arrived_feedback_count": 84,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1000.0,
+          "arrived_feedback_count": 165,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1085.0,
+          "arrived_feedback_count": 245,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1290.0,
+          "arrived_feedback_count": 432,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        }
+      ],
+      "final_bias_correction": 0.0,
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "temporary",
+      "seed": 11,
+      "policy": "ridge_recalibration",
+      "model_family": "ridge",
+      "update_method": "recalibration",
+      "radius_method": "fixed",
+      "test_n": 800,
+      "mse": 1.8234873508535026,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 1.7334873508535025,
+      "shifted_or_transition_mse": 4.41508155006108,
+      "coverage": 0.60625,
+      "mean_interval_width": 1.0245963392616577,
+      "coverage_by_test_block": [
+        {
+          "block": 0,
+          "n": 100,
+          "coverage": 0.92,
+          "mean_width": 1.024596339261658
+        },
+        {
+          "block": 1,
+          "n": 100,
+          "coverage": 0.85,
+          "mean_width": 1.024596339261658
+        },
+        {
+          "block": 2,
+          "n": 100,
+          "coverage": 0.15,
+          "mean_width": 1.024596339261658
+        },
+        {
+          "block": 3,
+          "n": 100,
+          "coverage": 0.18,
+          "mean_width": 1.024596339261658
+        },
+        {
+          "block": 4,
+          "n": 100,
+          "coverage": 0.13,
+          "mean_width": 1.024596339261658
+        },
+        {
+          "block": 5,
+          "n": 100,
+          "coverage": 0.77,
+          "mean_width": 1.024596339261658
+        },
+        {
+          "block": 6,
+          "n": 100,
+          "coverage": 0.95,
+          "mean_width": 1.024596339261658
+        },
+        {
+          "block": 7,
+          "n": 100,
+          "coverage": 0.9,
+          "mean_width": 1.024596339261658
+        }
+      ],
+      "update_count": 4,
+      "update_times": [
+        902,
+        1000,
+        1085,
+        1171
+      ],
+      "update_budget": 4,
+      "feedback_received": 706,
+      "feedback_missing_or_delayed_past_horizon": 94,
+      "trigger_alarm_count": 204,
+      "fit_audit": [],
+      "intervention_audit": [
+        {
+          "available_at": 902.0,
+          "arrived_feedback_count": 84,
+          "method": "recalibration",
+          "action": "residual_bias_recalibration",
+          "bias_correction": 0.00319437426907655
+        },
+        {
+          "available_at": 1000.0,
+          "arrived_feedback_count": 165,
+          "method": "recalibration",
+          "action": "residual_bias_recalibration",
+          "bias_correction": 0.08105049118112835
+        },
+        {
+          "available_at": 1085.0,
+          "arrived_feedback_count": 245,
+          "method": "recalibration",
+          "action": "residual_bias_recalibration",
+          "bias_correction": -0.18750616126993158
+        },
+        {
+          "available_at": 1171.0,
+          "arrived_feedback_count": 325,
+          "method": "recalibration",
+          "action": "residual_bias_recalibration",
+          "bias_correction": -0.022050320638180743
+        }
+      ],
+      "final_bias_correction": -0.022050320638180743,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -7092,6 +9894,37 @@
           "model_family": "ridge"
         }
       ],
+      "intervention_audit": [
+        {
+          "available_at": 902.0,
+          "arrived_feedback_count": 84,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1000.0,
+          "arrived_feedback_count": 165,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1085.0,
+          "arrived_feedback_count": 245,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1290.0,
+          "arrived_feedback_count": 432,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        }
+      ],
+      "final_bias_correction": 0.0,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -7196,6 +10029,37 @@
           "model_family": "ridge"
         }
       ],
+      "intervention_audit": [
+        {
+          "available_at": 902.0,
+          "arrived_feedback_count": 84,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1000.0,
+          "arrived_feedback_count": 165,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1085.0,
+          "arrived_feedback_count": 245,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1290.0,
+          "arrived_feedback_count": 432,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        }
+      ],
+      "final_bias_correction": 0.0,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -7270,6 +10134,8 @@
       "feedback_missing_or_delayed_past_horizon": 94,
       "trigger_alarm_count": 177,
       "fit_audit": [],
+      "intervention_audit": [],
+      "final_bias_correction": 0.0,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -7374,6 +10240,37 @@
           "model_family": "random_forest"
         }
       ],
+      "intervention_audit": [
+        {
+          "available_at": 953.0,
+          "arrived_feedback_count": 125,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1043.0,
+          "arrived_feedback_count": 205,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1132.0,
+          "arrived_feedback_count": 288,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1222.0,
+          "arrived_feedback_count": 372,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        }
+      ],
+      "final_bias_correction": 0.0,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -7448,6 +10345,8 @@
       "feedback_missing_or_delayed_past_horizon": 90,
       "trigger_alarm_count": 203,
       "fit_audit": [],
+      "intervention_audit": [],
+      "final_bias_correction": 0.0,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -7552,6 +10451,37 @@
           "model_family": "ridge"
         }
       ],
+      "intervention_audit": [
+        {
+          "available_at": 865.0,
+          "arrived_feedback_count": 50,
+          "method": "periodic",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 923.0,
+          "arrived_feedback_count": 100,
+          "method": "periodic",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 977.0,
+          "arrived_feedback_count": 150,
+          "method": "periodic",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1031.0,
+          "arrived_feedback_count": 200,
+          "method": "periodic",
+          "action": "refit",
+          "bias_correction": 0.0
+        }
+      ],
+      "final_bias_correction": 0.0,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -7656,6 +10586,147 @@
           "model_family": "ridge"
         }
       ],
+      "intervention_audit": [
+        {
+          "available_at": 815.0,
+          "arrived_feedback_count": 6,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 928.0,
+          "arrived_feedback_count": 105,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1017.0,
+          "arrived_feedback_count": 186,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1108.0,
+          "arrived_feedback_count": 266,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        }
+      ],
+      "final_bias_correction": 0.0,
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "temporary",
+      "seed": 23,
+      "policy": "ridge_recalibration",
+      "model_family": "ridge",
+      "update_method": "recalibration",
+      "radius_method": "fixed",
+      "test_n": 800,
+      "mse": 1.6872844615382607,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 1.5972844615382604,
+      "shifted_or_transition_mse": 4.056169835610499,
+      "coverage": 0.57375,
+      "mean_interval_width": 0.9448773239717257,
+      "coverage_by_test_block": [
+        {
+          "block": 0,
+          "n": 100,
+          "coverage": 0.8,
+          "mean_width": 0.9448773239717257
+        },
+        {
+          "block": 1,
+          "n": 100,
+          "coverage": 0.78,
+          "mean_width": 0.9448773239717257
+        },
+        {
+          "block": 2,
+          "n": 100,
+          "coverage": 0.14,
+          "mean_width": 0.9448773239717257
+        },
+        {
+          "block": 3,
+          "n": 100,
+          "coverage": 0.15,
+          "mean_width": 0.9448773239717257
+        },
+        {
+          "block": 4,
+          "n": 100,
+          "coverage": 0.2,
+          "mean_width": 0.9448773239717257
+        },
+        {
+          "block": 5,
+          "n": 100,
+          "coverage": 0.75,
+          "mean_width": 0.9448773239717257
+        },
+        {
+          "block": 6,
+          "n": 100,
+          "coverage": 0.87,
+          "mean_width": 0.9448773239717257
+        },
+        {
+          "block": 7,
+          "n": 100,
+          "coverage": 0.9,
+          "mean_width": 0.9448773239717257
+        }
+      ],
+      "update_count": 4,
+      "update_times": [
+        815,
+        914,
+        1001,
+        1089
+      ],
+      "update_budget": 4,
+      "feedback_received": 710,
+      "feedback_missing_or_delayed_past_horizon": 90,
+      "trigger_alarm_count": 210,
+      "fit_audit": [],
+      "intervention_audit": [
+        {
+          "available_at": 815.0,
+          "arrived_feedback_count": 6,
+          "method": "recalibration",
+          "action": "residual_bias_recalibration",
+          "bias_correction": 0.1870570011643443
+        },
+        {
+          "available_at": 914.0,
+          "arrived_feedback_count": 91,
+          "method": "recalibration",
+          "action": "residual_bias_recalibration",
+          "bias_correction": -0.021714620839445475
+        },
+        {
+          "available_at": 1001.0,
+          "arrived_feedback_count": 171,
+          "method": "recalibration",
+          "action": "residual_bias_recalibration",
+          "bias_correction": 0.030476310158691088
+        },
+        {
+          "available_at": 1089.0,
+          "arrived_feedback_count": 252,
+          "method": "recalibration",
+          "action": "residual_bias_recalibration",
+          "bias_correction": 0.13595063862923804
+        }
+      ],
+      "final_bias_correction": 0.13595063862923804,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -7760,6 +10831,37 @@
           "model_family": "ridge"
         }
       ],
+      "intervention_audit": [
+        {
+          "available_at": 815.0,
+          "arrived_feedback_count": 6,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 928.0,
+          "arrived_feedback_count": 105,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1017.0,
+          "arrived_feedback_count": 186,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1108.0,
+          "arrived_feedback_count": 266,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        }
+      ],
+      "final_bias_correction": 0.0,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -7864,6 +10966,37 @@
           "model_family": "ridge"
         }
       ],
+      "intervention_audit": [
+        {
+          "available_at": 815.0,
+          "arrived_feedback_count": 6,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 928.0,
+          "arrived_feedback_count": 105,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1017.0,
+          "arrived_feedback_count": 186,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1108.0,
+          "arrived_feedback_count": 266,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        }
+      ],
+      "final_bias_correction": 0.0,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -7938,6 +11071,8 @@
       "feedback_missing_or_delayed_past_horizon": 90,
       "trigger_alarm_count": 102,
       "fit_audit": [],
+      "intervention_audit": [],
+      "final_bias_correction": 0.0,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -8042,6 +11177,37 @@
           "model_family": "random_forest"
         }
       ],
+      "intervention_audit": [
+        {
+          "available_at": 1008.0,
+          "arrived_feedback_count": 177,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1105.0,
+          "arrived_feedback_count": 263,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1201.0,
+          "arrived_feedback_count": 349,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1321.0,
+          "arrived_feedback_count": 458,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        }
+      ],
+      "final_bias_correction": 0.0,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -8116,6 +11282,8 @@
       "feedback_missing_or_delayed_past_horizon": 101,
       "trigger_alarm_count": 180,
       "fit_audit": [],
+      "intervention_audit": [],
+      "final_bias_correction": 0.0,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -8220,6 +11388,37 @@
           "model_family": "ridge"
         }
       ],
+      "intervention_audit": [
+        {
+          "available_at": 866.0,
+          "arrived_feedback_count": 50,
+          "method": "periodic",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 924.0,
+          "arrived_feedback_count": 100,
+          "method": "periodic",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 978.0,
+          "arrived_feedback_count": 150,
+          "method": "periodic",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1032.0,
+          "arrived_feedback_count": 200,
+          "method": "periodic",
+          "action": "refit",
+          "bias_correction": 0.0
+        }
+      ],
+      "final_bias_correction": 0.0,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -8324,6 +11523,147 @@
           "model_family": "ridge"
         }
       ],
+      "intervention_audit": [
+        {
+          "available_at": 1001.0,
+          "arrived_feedback_count": 171,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1095.0,
+          "arrived_feedback_count": 254,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1200.0,
+          "arrived_feedback_count": 348,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1320.0,
+          "arrived_feedback_count": 449,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        }
+      ],
+      "final_bias_correction": 0.0,
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "temporary",
+      "seed": 37,
+      "policy": "ridge_recalibration",
+      "model_family": "ridge",
+      "update_method": "recalibration",
+      "radius_method": "fixed",
+      "test_n": 800,
+      "mse": 1.9427266038720632,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 1.8527266038720631,
+      "shifted_or_transition_mse": 4.739868732082433,
+      "coverage": 0.6275,
+      "mean_interval_width": 1.0143748824370695,
+      "coverage_by_test_block": [
+        {
+          "block": 0,
+          "n": 100,
+          "coverage": 0.93,
+          "mean_width": 1.0143748824370693
+        },
+        {
+          "block": 1,
+          "n": 100,
+          "coverage": 0.83,
+          "mean_width": 1.0143748824370693
+        },
+        {
+          "block": 2,
+          "n": 100,
+          "coverage": 0.26,
+          "mean_width": 1.0143748824370693
+        },
+        {
+          "block": 3,
+          "n": 100,
+          "coverage": 0.15,
+          "mean_width": 1.0143748824370693
+        },
+        {
+          "block": 4,
+          "n": 100,
+          "coverage": 0.16,
+          "mean_width": 1.0143748824370693
+        },
+        {
+          "block": 5,
+          "n": 100,
+          "coverage": 0.83,
+          "mean_width": 1.0143748824370693
+        },
+        {
+          "block": 6,
+          "n": 100,
+          "coverage": 0.95,
+          "mean_width": 1.0143748824370693
+        },
+        {
+          "block": 7,
+          "n": 100,
+          "coverage": 0.91,
+          "mean_width": 1.0143748824370693
+        }
+      ],
+      "update_count": 4,
+      "update_times": [
+        1001,
+        1095,
+        1186,
+        1274
+      ],
+      "update_budget": 4,
+      "feedback_received": 699,
+      "feedback_missing_or_delayed_past_horizon": 101,
+      "trigger_alarm_count": 182,
+      "fit_audit": [],
+      "intervention_audit": [
+        {
+          "available_at": 1001.0,
+          "arrived_feedback_count": 171,
+          "method": "recalibration",
+          "action": "residual_bias_recalibration",
+          "bias_correction": 0.059594046708618474
+        },
+        {
+          "available_at": 1095.0,
+          "arrived_feedback_count": 254,
+          "method": "recalibration",
+          "action": "residual_bias_recalibration",
+          "bias_correction": -0.24643759008074398
+        },
+        {
+          "available_at": 1186.0,
+          "arrived_feedback_count": 334,
+          "method": "recalibration",
+          "action": "residual_bias_recalibration",
+          "bias_correction": 0.2962613826327827
+        },
+        {
+          "available_at": 1274.0,
+          "arrived_feedback_count": 414,
+          "method": "recalibration",
+          "action": "residual_bias_recalibration",
+          "bias_correction": 0.03814817543452603
+        }
+      ],
+      "final_bias_correction": 0.03814817543452603,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -8428,6 +11768,37 @@
           "model_family": "ridge"
         }
       ],
+      "intervention_audit": [
+        {
+          "available_at": 1001.0,
+          "arrived_feedback_count": 171,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1095.0,
+          "arrived_feedback_count": 254,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1200.0,
+          "arrived_feedback_count": 348,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1320.0,
+          "arrived_feedback_count": 449,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        }
+      ],
+      "final_bias_correction": 0.0,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -8532,6 +11903,37 @@
           "model_family": "ridge"
         }
       ],
+      "intervention_audit": [
+        {
+          "available_at": 1001.0,
+          "arrived_feedback_count": 171,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1095.0,
+          "arrived_feedback_count": 254,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1200.0,
+          "arrived_feedback_count": 348,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1320.0,
+          "arrived_feedback_count": 449,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        }
+      ],
+      "final_bias_correction": 0.0,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -8606,6 +12008,8 @@
       "feedback_missing_or_delayed_past_horizon": 101,
       "trigger_alarm_count": 125,
       "fit_audit": [],
+      "intervention_audit": [],
+      "final_bias_correction": 0.0,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -8710,6 +12114,37 @@
           "model_family": "random_forest"
         }
       ],
+      "intervention_audit": [
+        {
+          "available_at": 1001.0,
+          "arrived_feedback_count": 171,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1095.0,
+          "arrived_feedback_count": 254,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1202.0,
+          "arrived_feedback_count": 349,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1304.0,
+          "arrived_feedback_count": 436,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        }
+      ],
+      "final_bias_correction": 0.0,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -8784,6 +12219,8 @@
       "feedback_missing_or_delayed_past_horizon": 80,
       "trigger_alarm_count": 220,
       "fit_audit": [],
+      "intervention_audit": [],
+      "final_bias_correction": 0.0,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -8888,6 +12325,37 @@
           "model_family": "ridge"
         }
       ],
+      "intervention_audit": [
+        {
+          "available_at": 861.0,
+          "arrived_feedback_count": 50,
+          "method": "periodic",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 914.0,
+          "arrived_feedback_count": 100,
+          "method": "periodic",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 972.0,
+          "arrived_feedback_count": 150,
+          "method": "periodic",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1027.0,
+          "arrived_feedback_count": 200,
+          "method": "periodic",
+          "action": "refit",
+          "bias_correction": 0.0
+        }
+      ],
+      "final_bias_correction": 0.0,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -8992,6 +12460,147 @@
           "model_family": "ridge"
         }
       ],
+      "intervention_audit": [
+        {
+          "available_at": 1001.0,
+          "arrived_feedback_count": 176,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1087.0,
+          "arrived_feedback_count": 257,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1321.0,
+          "arrived_feedback_count": 478,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1417.0,
+          "arrived_feedback_count": 558,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        }
+      ],
+      "final_bias_correction": 0.0,
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "temporary",
+      "seed": 53,
+      "policy": "ridge_recalibration",
+      "model_family": "ridge",
+      "update_method": "recalibration",
+      "radius_method": "fixed",
+      "test_n": 800,
+      "mse": 1.8278393030781155,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 1.7378393030781152,
+      "shifted_or_transition_mse": 4.417302085000604,
+      "coverage": 0.58125,
+      "mean_interval_width": 0.9765666562644296,
+      "coverage_by_test_block": [
+        {
+          "block": 0,
+          "n": 100,
+          "coverage": 0.92,
+          "mean_width": 0.9765666562644294
+        },
+        {
+          "block": 1,
+          "n": 100,
+          "coverage": 0.84,
+          "mean_width": 0.9765666562644294
+        },
+        {
+          "block": 2,
+          "n": 100,
+          "coverage": 0.14,
+          "mean_width": 0.9765666562644294
+        },
+        {
+          "block": 3,
+          "n": 100,
+          "coverage": 0.16,
+          "mean_width": 0.9765666562644294
+        },
+        {
+          "block": 4,
+          "n": 100,
+          "coverage": 0.14,
+          "mean_width": 0.9765666562644294
+        },
+        {
+          "block": 5,
+          "n": 100,
+          "coverage": 0.75,
+          "mean_width": 0.9765666562644294
+        },
+        {
+          "block": 6,
+          "n": 100,
+          "coverage": 0.83,
+          "mean_width": 0.9765666562644294
+        },
+        {
+          "block": 7,
+          "n": 100,
+          "coverage": 0.87,
+          "mean_width": 0.9765666562644294
+        }
+      ],
+      "update_count": 4,
+      "update_times": [
+        1001,
+        1088,
+        1172,
+        1259
+      ],
+      "update_budget": 4,
+      "feedback_received": 720,
+      "feedback_missing_or_delayed_past_horizon": 80,
+      "trigger_alarm_count": 225,
+      "fit_audit": [],
+      "intervention_audit": [
+        {
+          "available_at": 1001.0,
+          "arrived_feedback_count": 176,
+          "method": "recalibration",
+          "action": "residual_bias_recalibration",
+          "bias_correction": 0.0003541126322297885
+        },
+        {
+          "available_at": 1088.0,
+          "arrived_feedback_count": 258,
+          "method": "recalibration",
+          "action": "residual_bias_recalibration",
+          "bias_correction": 0.4691761826995635
+        },
+        {
+          "available_at": 1172.0,
+          "arrived_feedback_count": 338,
+          "method": "recalibration",
+          "action": "residual_bias_recalibration",
+          "bias_correction": 0.17821087856990891
+        },
+        {
+          "available_at": 1259.0,
+          "arrived_feedback_count": 418,
+          "method": "recalibration",
+          "action": "residual_bias_recalibration",
+          "bias_correction": -0.1590771751133318
+        }
+      ],
+      "final_bias_correction": -0.1590771751133318,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -9096,6 +12705,37 @@
           "model_family": "ridge"
         }
       ],
+      "intervention_audit": [
+        {
+          "available_at": 1001.0,
+          "arrived_feedback_count": 176,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1087.0,
+          "arrived_feedback_count": 257,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1321.0,
+          "arrived_feedback_count": 478,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1417.0,
+          "arrived_feedback_count": 558,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        }
+      ],
+      "final_bias_correction": 0.0,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -9200,6 +12840,37 @@
           "model_family": "ridge"
         }
       ],
+      "intervention_audit": [
+        {
+          "available_at": 1001.0,
+          "arrived_feedback_count": 176,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1087.0,
+          "arrived_feedback_count": 257,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1321.0,
+          "arrived_feedback_count": 478,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1417.0,
+          "arrived_feedback_count": 558,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        }
+      ],
+      "final_bias_correction": 0.0,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -9274,6 +12945,8 @@
       "feedback_missing_or_delayed_past_horizon": 80,
       "trigger_alarm_count": 138,
       "fit_audit": [],
+      "intervention_audit": [],
+      "final_bias_correction": 0.0,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -9378,6 +13051,37 @@
           "model_family": "random_forest"
         }
       ],
+      "intervention_audit": [
+        {
+          "available_at": 888.0,
+          "arrived_feedback_count": 75,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1001.0,
+          "arrived_feedback_count": 176,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1090.0,
+          "arrived_feedback_count": 260,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1323.0,
+          "arrived_feedback_count": 480,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        }
+      ],
+      "final_bias_correction": 0.0,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -9452,6 +13156,8 @@
       "feedback_missing_or_delayed_past_horizon": 91,
       "trigger_alarm_count": 206,
       "fit_audit": [],
+      "intervention_audit": [],
+      "final_bias_correction": 0.0,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -9556,6 +13262,37 @@
           "model_family": "ridge"
         }
       ],
+      "intervention_audit": [
+        {
+          "available_at": 862.0,
+          "arrived_feedback_count": 50,
+          "method": "periodic",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 919.0,
+          "arrived_feedback_count": 100,
+          "method": "periodic",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 976.0,
+          "arrived_feedback_count": 150,
+          "method": "periodic",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1029.0,
+          "arrived_feedback_count": 200,
+          "method": "periodic",
+          "action": "refit",
+          "bias_correction": 0.0
+        }
+      ],
+      "final_bias_correction": 0.0,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -9660,6 +13397,147 @@
           "model_family": "ridge"
         }
       ],
+      "intervention_audit": [
+        {
+          "available_at": 835.0,
+          "arrived_feedback_count": 26,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 930.0,
+          "arrived_feedback_count": 109,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1017.0,
+          "arrived_feedback_count": 189,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1107.0,
+          "arrived_feedback_count": 269,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        }
+      ],
+      "final_bias_correction": 0.0,
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "temporary",
+      "seed": 71,
+      "policy": "ridge_recalibration",
+      "model_family": "ridge",
+      "update_method": "recalibration",
+      "radius_method": "fixed",
+      "test_n": 800,
+      "mse": 1.8493318626602866,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 1.7593318626602865,
+      "shifted_or_transition_mse": 4.446523726768794,
+      "coverage": 0.58,
+      "mean_interval_width": 0.8834541225667963,
+      "coverage_by_test_block": [
+        {
+          "block": 0,
+          "n": 100,
+          "coverage": 0.89,
+          "mean_width": 0.8834541225667967
+        },
+        {
+          "block": 1,
+          "n": 100,
+          "coverage": 0.8,
+          "mean_width": 0.8834541225667967
+        },
+        {
+          "block": 2,
+          "n": 100,
+          "coverage": 0.32,
+          "mean_width": 0.8834541225667967
+        },
+        {
+          "block": 3,
+          "n": 100,
+          "coverage": 0.24,
+          "mean_width": 0.8834541225667967
+        },
+        {
+          "block": 4,
+          "n": 100,
+          "coverage": 0.08,
+          "mean_width": 0.8834541225667967
+        },
+        {
+          "block": 5,
+          "n": 100,
+          "coverage": 0.74,
+          "mean_width": 0.8834541225667967
+        },
+        {
+          "block": 6,
+          "n": 100,
+          "coverage": 0.74,
+          "mean_width": 0.8834541225667967
+        },
+        {
+          "block": 7,
+          "n": 100,
+          "coverage": 0.83,
+          "mean_width": 0.8834541225667967
+        }
+      ],
+      "update_count": 4,
+      "update_times": [
+        835,
+        930,
+        1017,
+        1107
+      ],
+      "update_budget": 4,
+      "feedback_received": 709,
+      "feedback_missing_or_delayed_past_horizon": 91,
+      "trigger_alarm_count": 221,
+      "fit_audit": [],
+      "intervention_audit": [
+        {
+          "available_at": 835.0,
+          "arrived_feedback_count": 26,
+          "method": "recalibration",
+          "action": "residual_bias_recalibration",
+          "bias_correction": -0.08243838583029826
+        },
+        {
+          "available_at": 930.0,
+          "arrived_feedback_count": 109,
+          "method": "recalibration",
+          "action": "residual_bias_recalibration",
+          "bias_correction": -0.008281879054259311
+        },
+        {
+          "available_at": 1017.0,
+          "arrived_feedback_count": 189,
+          "method": "recalibration",
+          "action": "residual_bias_recalibration",
+          "bias_correction": -0.09314302145750467
+        },
+        {
+          "available_at": 1107.0,
+          "arrived_feedback_count": 269,
+          "method": "recalibration",
+          "action": "residual_bias_recalibration",
+          "bias_correction": -0.24354525989841078
+        }
+      ],
+      "final_bias_correction": -0.24354525989841078,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -9764,6 +13642,37 @@
           "model_family": "ridge"
         }
       ],
+      "intervention_audit": [
+        {
+          "available_at": 835.0,
+          "arrived_feedback_count": 26,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 930.0,
+          "arrived_feedback_count": 109,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1017.0,
+          "arrived_feedback_count": 189,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1107.0,
+          "arrived_feedback_count": 269,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        }
+      ],
+      "final_bias_correction": 0.0,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -9868,6 +13777,37 @@
           "model_family": "ridge"
         }
       ],
+      "intervention_audit": [
+        {
+          "available_at": 835.0,
+          "arrived_feedback_count": 26,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 930.0,
+          "arrived_feedback_count": 109,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1017.0,
+          "arrived_feedback_count": 189,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1107.0,
+          "arrived_feedback_count": 269,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        }
+      ],
+      "final_bias_correction": 0.0,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -9942,6 +13882,8 @@
       "feedback_missing_or_delayed_past_horizon": 91,
       "trigger_alarm_count": 157,
       "fit_audit": [],
+      "intervention_audit": [],
+      "final_bias_correction": 0.0,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -10046,6 +13988,37 @@
           "model_family": "random_forest"
         }
       ],
+      "intervention_audit": [
+        {
+          "available_at": 843.0,
+          "arrived_feedback_count": 34,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 936.0,
+          "arrived_feedback_count": 115,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1024.0,
+          "arrived_feedback_count": 195,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1114.0,
+          "arrived_feedback_count": 276,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        }
+      ],
+      "final_bias_correction": 0.0,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -10120,6 +14093,8 @@
       "feedback_missing_or_delayed_past_horizon": 94,
       "trigger_alarm_count": 3,
       "fit_audit": [],
+      "intervention_audit": [],
+      "final_bias_correction": 0.0,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -10224,6 +14199,37 @@
           "model_family": "ridge"
         }
       ],
+      "intervention_audit": [
+        {
+          "available_at": 861.0,
+          "arrived_feedback_count": 50,
+          "method": "periodic",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 919.0,
+          "arrived_feedback_count": 100,
+          "method": "periodic",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 981.0,
+          "arrived_feedback_count": 150,
+          "method": "periodic",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1037.0,
+          "arrived_feedback_count": 200,
+          "method": "periodic",
+          "action": "refit",
+          "bias_correction": 0.0
+        }
+      ],
+      "final_bias_correction": 0.0,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -10307,6 +14313,110 @@
           "model_family": "ridge"
         }
       ],
+      "intervention_audit": [
+        {
+          "available_at": 1232.0,
+          "arrived_feedback_count": 382,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        }
+      ],
+      "final_bias_correction": 0.0,
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "recurring",
+      "seed": 11,
+      "policy": "ridge_recalibration",
+      "model_family": "ridge",
+      "update_method": "recalibration",
+      "radius_method": "fixed",
+      "test_n": 800,
+      "mse": 2.3654771628163473,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 2.2754771628163475,
+      "shifted_or_transition_mse": 4.638661567366403,
+      "coverage": 0.93375,
+      "mean_interval_width": 6.442099155159927,
+      "coverage_by_test_block": [
+        {
+          "block": 0,
+          "n": 100,
+          "coverage": 1.0,
+          "mean_width": 6.4420991551599265
+        },
+        {
+          "block": 1,
+          "n": 100,
+          "coverage": 1.0,
+          "mean_width": 6.4420991551599265
+        },
+        {
+          "block": 2,
+          "n": 100,
+          "coverage": 1.0,
+          "mean_width": 6.4420991551599265
+        },
+        {
+          "block": 3,
+          "n": 100,
+          "coverage": 1.0,
+          "mean_width": 6.4420991551599265
+        },
+        {
+          "block": 4,
+          "n": 100,
+          "coverage": 0.88,
+          "mean_width": 6.4420991551599265
+        },
+        {
+          "block": 5,
+          "n": 100,
+          "coverage": 0.87,
+          "mean_width": 6.4420991551599265
+        },
+        {
+          "block": 6,
+          "n": 100,
+          "coverage": 0.84,
+          "mean_width": 6.4420991551599265
+        },
+        {
+          "block": 7,
+          "n": 100,
+          "coverage": 0.88,
+          "mean_width": 6.4420991551599265
+        }
+      ],
+      "update_count": 2,
+      "update_times": [
+        1232,
+        1385
+      ],
+      "update_budget": 4,
+      "feedback_received": 706,
+      "feedback_missing_or_delayed_past_horizon": 94,
+      "trigger_alarm_count": 3,
+      "fit_audit": [],
+      "intervention_audit": [
+        {
+          "available_at": 1232.0,
+          "arrived_feedback_count": 382,
+          "method": "recalibration",
+          "action": "residual_bias_recalibration",
+          "bias_correction": 0.10427262816662608
+        },
+        {
+          "available_at": 1385.0,
+          "arrived_feedback_count": 517,
+          "method": "recalibration",
+          "action": "residual_bias_recalibration",
+          "bias_correction": 0.050290416792526826
+        }
+      ],
+      "final_bias_correction": 0.050290416792526826,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -10390,6 +14500,16 @@
           "model_family": "ridge"
         }
       ],
+      "intervention_audit": [
+        {
+          "available_at": 1232.0,
+          "arrived_feedback_count": 382,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        }
+      ],
+      "final_bias_correction": 0.0,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -10473,6 +14593,16 @@
           "model_family": "ridge"
         }
       ],
+      "intervention_audit": [
+        {
+          "available_at": 1232.0,
+          "arrived_feedback_count": 382,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        }
+      ],
+      "final_bias_correction": 0.0,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -10547,6 +14677,8 @@
       "feedback_missing_or_delayed_past_horizon": 94,
       "trigger_alarm_count": 5,
       "fit_audit": [],
+      "intervention_audit": [],
+      "final_bias_correction": 0.0,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -10630,6 +14762,16 @@
           "model_family": "random_forest"
         }
       ],
+      "intervention_audit": [
+        {
+          "available_at": 1222.0,
+          "arrived_feedback_count": 372,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        }
+      ],
+      "final_bias_correction": 0.0,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -10704,6 +14846,8 @@
       "feedback_missing_or_delayed_past_horizon": 90,
       "trigger_alarm_count": 0,
       "fit_audit": [],
+      "intervention_audit": [],
+      "final_bias_correction": 0.0,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -10808,6 +14952,37 @@
           "model_family": "ridge"
         }
       ],
+      "intervention_audit": [
+        {
+          "available_at": 865.0,
+          "arrived_feedback_count": 50,
+          "method": "periodic",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 923.0,
+          "arrived_feedback_count": 100,
+          "method": "periodic",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 977.0,
+          "arrived_feedback_count": 150,
+          "method": "periodic",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1031.0,
+          "arrived_feedback_count": 200,
+          "method": "periodic",
+          "action": "refit",
+          "bias_correction": 0.0
+        }
+      ],
+      "final_bias_correction": 0.0,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -10882,6 +15057,84 @@
       "feedback_missing_or_delayed_past_horizon": 90,
       "trigger_alarm_count": 0,
       "fit_audit": [],
+      "intervention_audit": [],
+      "final_bias_correction": 0.0,
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "recurring",
+      "seed": 23,
+      "policy": "ridge_recalibration",
+      "model_family": "ridge",
+      "update_method": "recalibration",
+      "radius_method": "fixed",
+      "test_n": 800,
+      "mse": 2.0009252401703783,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 1.9109252401703785,
+      "shifted_or_transition_mse": 3.8963266752945787,
+      "coverage": 0.94875,
+      "mean_interval_width": 6.757693350632069,
+      "coverage_by_test_block": [
+        {
+          "block": 0,
+          "n": 100,
+          "coverage": 1.0,
+          "mean_width": 6.757693350632068
+        },
+        {
+          "block": 1,
+          "n": 100,
+          "coverage": 1.0,
+          "mean_width": 6.757693350632068
+        },
+        {
+          "block": 2,
+          "n": 100,
+          "coverage": 1.0,
+          "mean_width": 6.757693350632068
+        },
+        {
+          "block": 3,
+          "n": 100,
+          "coverage": 1.0,
+          "mean_width": 6.757693350632068
+        },
+        {
+          "block": 4,
+          "n": 100,
+          "coverage": 0.9,
+          "mean_width": 6.757693350632068
+        },
+        {
+          "block": 5,
+          "n": 100,
+          "coverage": 0.91,
+          "mean_width": 6.757693350632068
+        },
+        {
+          "block": 6,
+          "n": 100,
+          "coverage": 0.92,
+          "mean_width": 6.757693350632068
+        },
+        {
+          "block": 7,
+          "n": 100,
+          "coverage": 0.86,
+          "mean_width": 6.757693350632068
+        }
+      ],
+      "update_count": 0,
+      "update_times": [],
+      "update_budget": 4,
+      "feedback_received": 710,
+      "feedback_missing_or_delayed_past_horizon": 90,
+      "trigger_alarm_count": 0,
+      "fit_audit": [],
+      "intervention_audit": [],
+      "final_bias_correction": 0.0,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -10956,6 +15209,8 @@
       "feedback_missing_or_delayed_past_horizon": 90,
       "trigger_alarm_count": 0,
       "fit_audit": [],
+      "intervention_audit": [],
+      "final_bias_correction": 0.0,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -11030,6 +15285,8 @@
       "feedback_missing_or_delayed_past_horizon": 90,
       "trigger_alarm_count": 0,
       "fit_audit": [],
+      "intervention_audit": [],
+      "final_bias_correction": 0.0,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -11104,6 +15361,8 @@
       "feedback_missing_or_delayed_past_horizon": 90,
       "trigger_alarm_count": 1,
       "fit_audit": [],
+      "intervention_audit": [],
+      "final_bias_correction": 0.0,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -11187,6 +15446,16 @@
           "model_family": "random_forest"
         }
       ],
+      "intervention_audit": [
+        {
+          "available_at": 1330.0,
+          "arrived_feedback_count": 465,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        }
+      ],
+      "final_bias_correction": 0.0,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -11261,6 +15530,8 @@
       "feedback_missing_or_delayed_past_horizon": 101,
       "trigger_alarm_count": 2,
       "fit_audit": [],
+      "intervention_audit": [],
+      "final_bias_correction": 0.0,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -11365,6 +15636,37 @@
           "model_family": "ridge"
         }
       ],
+      "intervention_audit": [
+        {
+          "available_at": 866.0,
+          "arrived_feedback_count": 50,
+          "method": "periodic",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 924.0,
+          "arrived_feedback_count": 100,
+          "method": "periodic",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 978.0,
+          "arrived_feedback_count": 150,
+          "method": "periodic",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1032.0,
+          "arrived_feedback_count": 200,
+          "method": "periodic",
+          "action": "refit",
+          "bias_correction": 0.0
+        }
+      ],
+      "final_bias_correction": 0.0,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -11448,6 +15750,102 @@
           "model_family": "ridge"
         }
       ],
+      "intervention_audit": [
+        {
+          "available_at": 1263.0,
+          "arrived_feedback_count": 403,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        }
+      ],
+      "final_bias_correction": 0.0,
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "recurring",
+      "seed": 37,
+      "policy": "ridge_recalibration",
+      "model_family": "ridge",
+      "update_method": "recalibration",
+      "radius_method": "fixed",
+      "test_n": 800,
+      "mse": 2.068892307308266,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 1.9788923073082663,
+      "shifted_or_transition_mse": 4.051318009146854,
+      "coverage": 0.9625,
+      "mean_interval_width": 7.198267231036762,
+      "coverage_by_test_block": [
+        {
+          "block": 0,
+          "n": 100,
+          "coverage": 1.0,
+          "mean_width": 7.198267231036762
+        },
+        {
+          "block": 1,
+          "n": 100,
+          "coverage": 1.0,
+          "mean_width": 7.198267231036762
+        },
+        {
+          "block": 2,
+          "n": 100,
+          "coverage": 1.0,
+          "mean_width": 7.198267231036762
+        },
+        {
+          "block": 3,
+          "n": 100,
+          "coverage": 1.0,
+          "mean_width": 7.198267231036762
+        },
+        {
+          "block": 4,
+          "n": 100,
+          "coverage": 0.88,
+          "mean_width": 7.198267231036762
+        },
+        {
+          "block": 5,
+          "n": 100,
+          "coverage": 0.93,
+          "mean_width": 7.198267231036762
+        },
+        {
+          "block": 6,
+          "n": 100,
+          "coverage": 0.93,
+          "mean_width": 7.198267231036762
+        },
+        {
+          "block": 7,
+          "n": 100,
+          "coverage": 0.96,
+          "mean_width": 7.198267231036762
+        }
+      ],
+      "update_count": 1,
+      "update_times": [
+        1263
+      ],
+      "update_budget": 4,
+      "feedback_received": 699,
+      "feedback_missing_or_delayed_past_horizon": 101,
+      "trigger_alarm_count": 2,
+      "fit_audit": [],
+      "intervention_audit": [
+        {
+          "available_at": 1263.0,
+          "arrived_feedback_count": 403,
+          "method": "recalibration",
+          "action": "residual_bias_recalibration",
+          "bias_correction": 0.1465196830595396
+        }
+      ],
+      "final_bias_correction": 0.1465196830595396,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -11531,6 +15929,16 @@
           "model_family": "ridge"
         }
       ],
+      "intervention_audit": [
+        {
+          "available_at": 1263.0,
+          "arrived_feedback_count": 403,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        }
+      ],
+      "final_bias_correction": 0.0,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -11614,6 +16022,16 @@
           "model_family": "ridge"
         }
       ],
+      "intervention_audit": [
+        {
+          "available_at": 1263.0,
+          "arrived_feedback_count": 403,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        }
+      ],
+      "final_bias_correction": 0.0,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -11688,6 +16106,8 @@
       "feedback_missing_or_delayed_past_horizon": 101,
       "trigger_alarm_count": 0,
       "fit_audit": [],
+      "intervention_audit": [],
+      "final_bias_correction": 0.0,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -11762,6 +16182,8 @@
       "feedback_missing_or_delayed_past_horizon": 101,
       "trigger_alarm_count": 0,
       "fit_audit": [],
+      "intervention_audit": [],
+      "final_bias_correction": 0.0,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -11836,6 +16258,8 @@
       "feedback_missing_or_delayed_past_horizon": 80,
       "trigger_alarm_count": 4,
       "fit_audit": [],
+      "intervention_audit": [],
+      "final_bias_correction": 0.0,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -11940,6 +16364,37 @@
           "model_family": "ridge"
         }
       ],
+      "intervention_audit": [
+        {
+          "available_at": 861.0,
+          "arrived_feedback_count": 50,
+          "method": "periodic",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 914.0,
+          "arrived_feedback_count": 100,
+          "method": "periodic",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 972.0,
+          "arrived_feedback_count": 150,
+          "method": "periodic",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1027.0,
+          "arrived_feedback_count": 200,
+          "method": "periodic",
+          "action": "refit",
+          "bias_correction": 0.0
+        }
+      ],
+      "final_bias_correction": 0.0,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -12023,6 +16478,118 @@
           "model_family": "ridge"
         }
       ],
+      "intervention_audit": [
+        {
+          "available_at": 1279.0,
+          "arrived_feedback_count": 438,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        }
+      ],
+      "final_bias_correction": 0.0,
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "recurring",
+      "seed": 53,
+      "policy": "ridge_recalibration",
+      "model_family": "ridge",
+      "update_method": "recalibration",
+      "radius_method": "fixed",
+      "test_n": 800,
+      "mse": 2.2756885072867874,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 2.1856885072867875,
+      "shifted_or_transition_mse": 4.470863324842039,
+      "coverage": 0.92375,
+      "mean_interval_width": 6.264824757354836,
+      "coverage_by_test_block": [
+        {
+          "block": 0,
+          "n": 100,
+          "coverage": 1.0,
+          "mean_width": 6.2648247573548375
+        },
+        {
+          "block": 1,
+          "n": 100,
+          "coverage": 1.0,
+          "mean_width": 6.2648247573548375
+        },
+        {
+          "block": 2,
+          "n": 100,
+          "coverage": 1.0,
+          "mean_width": 6.2648247573548375
+        },
+        {
+          "block": 3,
+          "n": 100,
+          "coverage": 1.0,
+          "mean_width": 6.2648247573548375
+        },
+        {
+          "block": 4,
+          "n": 100,
+          "coverage": 0.83,
+          "mean_width": 6.2648247573548375
+        },
+        {
+          "block": 5,
+          "n": 100,
+          "coverage": 0.89,
+          "mean_width": 6.2648247573548375
+        },
+        {
+          "block": 6,
+          "n": 100,
+          "coverage": 0.86,
+          "mean_width": 6.2648247573548375
+        },
+        {
+          "block": 7,
+          "n": 100,
+          "coverage": 0.81,
+          "mean_width": 6.2648247573548375
+        }
+      ],
+      "update_count": 3,
+      "update_times": [
+        1279,
+        1381,
+        1509
+      ],
+      "update_budget": 4,
+      "feedback_received": 720,
+      "feedback_missing_or_delayed_past_horizon": 80,
+      "trigger_alarm_count": 4,
+      "fit_audit": [],
+      "intervention_audit": [
+        {
+          "available_at": 1279.0,
+          "arrived_feedback_count": 438,
+          "method": "recalibration",
+          "action": "residual_bias_recalibration",
+          "bias_correction": -0.14698037738977093
+        },
+        {
+          "available_at": 1381.0,
+          "arrived_feedback_count": 530,
+          "method": "recalibration",
+          "action": "residual_bias_recalibration",
+          "bias_correction": -0.3863038530137929
+        },
+        {
+          "available_at": 1509.0,
+          "arrived_feedback_count": 638,
+          "method": "recalibration",
+          "action": "residual_bias_recalibration",
+          "bias_correction": 0.39136210128635696
+        }
+      ],
+      "final_bias_correction": 0.39136210128635696,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -12106,6 +16673,16 @@
           "model_family": "ridge"
         }
       ],
+      "intervention_audit": [
+        {
+          "available_at": 1279.0,
+          "arrived_feedback_count": 438,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        }
+      ],
+      "final_bias_correction": 0.0,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -12189,6 +16766,16 @@
           "model_family": "ridge"
         }
       ],
+      "intervention_audit": [
+        {
+          "available_at": 1279.0,
+          "arrived_feedback_count": 438,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        }
+      ],
+      "final_bias_correction": 0.0,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -12263,6 +16850,8 @@
       "feedback_missing_or_delayed_past_horizon": 80,
       "trigger_alarm_count": 3,
       "fit_audit": [],
+      "intervention_audit": [],
+      "final_bias_correction": 0.0,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -12346,6 +16935,16 @@
           "model_family": "random_forest"
         }
       ],
+      "intervention_audit": [
+        {
+          "available_at": 1374.0,
+          "arrived_feedback_count": 524,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        }
+      ],
+      "final_bias_correction": 0.0,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -12420,6 +17019,8 @@
       "feedback_missing_or_delayed_past_horizon": 91,
       "trigger_alarm_count": 4,
       "fit_audit": [],
+      "intervention_audit": [],
+      "final_bias_correction": 0.0,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -12524,6 +17125,37 @@
           "model_family": "ridge"
         }
       ],
+      "intervention_audit": [
+        {
+          "available_at": 862.0,
+          "arrived_feedback_count": 50,
+          "method": "periodic",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 919.0,
+          "arrived_feedback_count": 100,
+          "method": "periodic",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 976.0,
+          "arrived_feedback_count": 150,
+          "method": "periodic",
+          "action": "refit",
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1029.0,
+          "arrived_feedback_count": 200,
+          "method": "periodic",
+          "action": "refit",
+          "bias_correction": 0.0
+        }
+      ],
+      "final_bias_correction": 0.0,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -12607,6 +17239,126 @@
           "model_family": "ridge"
         }
       ],
+      "intervention_audit": [
+        {
+          "available_at": 1229.0,
+          "arrived_feedback_count": 380,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        }
+      ],
+      "final_bias_correction": 0.0,
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "recurring",
+      "seed": 71,
+      "policy": "ridge_recalibration",
+      "model_family": "ridge",
+      "update_method": "recalibration",
+      "radius_method": "fixed",
+      "test_n": 800,
+      "mse": 2.163286020623144,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 2.073286020623144,
+      "shifted_or_transition_mse": 4.239589755224231,
+      "coverage": 0.93625,
+      "mean_interval_width": 6.279795689353905,
+      "coverage_by_test_block": [
+        {
+          "block": 0,
+          "n": 100,
+          "coverage": 1.0,
+          "mean_width": 6.279795689353906
+        },
+        {
+          "block": 1,
+          "n": 100,
+          "coverage": 1.0,
+          "mean_width": 6.279795689353906
+        },
+        {
+          "block": 2,
+          "n": 100,
+          "coverage": 1.0,
+          "mean_width": 6.279795689353906
+        },
+        {
+          "block": 3,
+          "n": 100,
+          "coverage": 1.0,
+          "mean_width": 6.279795689353906
+        },
+        {
+          "block": 4,
+          "n": 100,
+          "coverage": 0.83,
+          "mean_width": 6.279795689353906
+        },
+        {
+          "block": 5,
+          "n": 100,
+          "coverage": 0.87,
+          "mean_width": 6.279795689353906
+        },
+        {
+          "block": 6,
+          "n": 100,
+          "coverage": 0.89,
+          "mean_width": 6.279795689353906
+        },
+        {
+          "block": 7,
+          "n": 100,
+          "coverage": 0.9,
+          "mean_width": 6.279795689353906
+        }
+      ],
+      "update_count": 4,
+      "update_times": [
+        1229,
+        1326,
+        1416,
+        1594
+      ],
+      "update_budget": 4,
+      "feedback_received": 709,
+      "feedback_missing_or_delayed_past_horizon": 91,
+      "trigger_alarm_count": 4,
+      "fit_audit": [],
+      "intervention_audit": [
+        {
+          "available_at": 1229.0,
+          "arrived_feedback_count": 380,
+          "method": "recalibration",
+          "action": "residual_bias_recalibration",
+          "bias_correction": -0.1011101264568856
+        },
+        {
+          "available_at": 1326.0,
+          "arrived_feedback_count": 465,
+          "method": "recalibration",
+          "action": "residual_bias_recalibration",
+          "bias_correction": 0.1890487053498741
+        },
+        {
+          "available_at": 1416.0,
+          "arrived_feedback_count": 545,
+          "method": "recalibration",
+          "action": "residual_bias_recalibration",
+          "bias_correction": 0.1857310818384666
+        },
+        {
+          "available_at": 1594.0,
+          "arrived_feedback_count": 704,
+          "method": "recalibration",
+          "action": "residual_bias_recalibration",
+          "bias_correction": -0.041185507879155286
+        }
+      ],
+      "final_bias_correction": -0.041185507879155286,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -12690,6 +17442,16 @@
           "model_family": "ridge"
         }
       ],
+      "intervention_audit": [
+        {
+          "available_at": 1229.0,
+          "arrived_feedback_count": 380,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        }
+      ],
+      "final_bias_correction": 0.0,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -12773,6 +17535,16 @@
           "model_family": "ridge"
         }
       ],
+      "intervention_audit": [
+        {
+          "available_at": 1229.0,
+          "arrived_feedback_count": 380,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        }
+      ],
+      "final_bias_correction": 0.0,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -12847,6 +17619,8 @@
       "feedback_missing_or_delayed_past_horizon": 91,
       "trigger_alarm_count": 3,
       "fit_audit": [],
+      "intervention_audit": [],
+      "final_bias_correction": 0.0,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -12930,6 +17704,16 @@
           "model_family": "random_forest"
         }
       ],
+      "intervention_audit": [
+        {
+          "available_at": 1229.0,
+          "arrived_feedback_count": 380,
+          "method": "triggered",
+          "action": "refit",
+          "bias_correction": 0.0
+        }
+      ],
+      "final_bias_correction": 0.0,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     }
@@ -12989,6 +17773,20 @@
       "mean_feedback": 708.8,
       "mean_coverage": 0.3915,
       "sd_coverage": 0.014317821063276354,
+      "mean_interval_width": 0.9687738649003357
+    },
+    {
+      "schedule": "abrupt",
+      "policy": "ridge_recalibration",
+      "n": 5,
+      "mean_mse": 3.0596374247108344,
+      "sd_mse": 0.1268669056625993,
+      "mean_excess_mse": 2.9696374247108346,
+      "mean_shifted_mse": 4.3307435762931945,
+      "mean_updates": 4.0,
+      "mean_feedback": 708.8,
+      "mean_coverage": 0.3895,
+      "sd_coverage": 0.022318714120665637,
       "mean_interval_width": 0.9687738649003357
     },
     {
@@ -13091,6 +17889,20 @@
     },
     {
       "schedule": "gradual",
+      "policy": "ridge_recalibration",
+      "n": 5,
+      "mean_mse": 3.0285395755511706,
+      "sd_mse": 0.13333901196671252,
+      "mean_excess_mse": 2.9385395755511703,
+      "mean_shifted_mse": 3.3593892122468914,
+      "mean_updates": 4.0,
+      "mean_feedback": 708.8,
+      "mean_coverage": 0.3255,
+      "sd_coverage": 0.02985119344347894,
+      "mean_interval_width": 0.9687738649003357
+    },
+    {
+      "schedule": "gradual",
       "policy": "ridge_triggered",
       "n": 5,
       "mean_mse": 0.3205148562590879,
@@ -13185,6 +17997,20 @@
       "mean_feedback": 708.8,
       "mean_coverage": 0.9414999999999999,
       "sd_coverage": 0.015944238771418328,
+      "mean_interval_width": 6.5885360367075
+    },
+    {
+      "schedule": "recurring",
+      "policy": "ridge_recalibration",
+      "n": 5,
+      "mean_mse": 2.1748538476409847,
+      "sd_mse": 0.14842312827065723,
+      "mean_excess_mse": 2.084853847640985,
+      "mean_shifted_mse": 4.259351866374821,
+      "mean_updates": 2.0,
+      "mean_feedback": 708.8,
+      "mean_coverage": 0.9410000000000001,
+      "sd_coverage": 0.014958275301651615,
       "mean_interval_width": 6.5885360367075
     },
     {
@@ -13287,6 +18113,20 @@
     },
     {
       "schedule": "temporary",
+      "policy": "ridge_recalibration",
+      "n": 5,
+      "mean_mse": 1.8261339164004458,
+      "sd_mse": 0.09140717046677643,
+      "mean_excess_mse": 1.7361339164004455,
+      "mean_shifted_mse": 4.414989185904682,
+      "mean_updates": 4.0,
+      "mean_feedback": 708.8,
+      "mean_coverage": 0.59375,
+      "sd_coverage": 0.0225866387494908,
+      "mean_interval_width": 0.9687738649003357
+    },
+    {
+      "schedule": "temporary",
       "policy": "ridge_triggered",
       "n": 5,
       "mean_mse": 1.782696682120846,
@@ -13328,11 +18168,11 @@
       "mean_interval_width": 3.4434384382824694
     }
   ],
-  "expected_records": 140,
-  "observed_unique_records": 140,
+  "expected_records": 160,
+  "observed_unique_records": 160,
   "rows_valid": true,
   "checks_pass": true,
-  "processing_commit": "9e0f2c6c75c1981ed235a2877c30c1d7ed662e33",
+  "processing_commit": "34d08b775094c4f1fb14ed826f88c1d671cea5ad",
   "source_hash": "a52d81d4b0b724b970a39e36f441c2b32766a1a4c8226d6dc688f6297c93d1ac",
-  "script_sha256": "655fb33eb004689428ccecda79241e689b958befd262c8960d2322ef1e59030c"
+  "script_sha256": "b6751ecbd77e4a953aadf0744d97b97b86f892e68a0e457835e9c68c5e0bd4c8"
 }

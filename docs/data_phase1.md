@@ -109,7 +109,7 @@ evaluator targets directly. No source missingness is silently forward-filled.
 
 ## Synthetic scope
 
-The registry implements 41 explicit mechanisms (see `synthetic_catalogue.md`) across iid and
+The registry implements 43 explicit mechanisms (see `synthetic_catalogue.md`) across iid and
 dependent controls, covariance/mixture changes, class prior shift, label corruption, conditional
 mean and variance changes, heavy/asymmetric tails, local decision changes, costs, constraints,
 feedback availability and resource-cost schedules. Nine core temporal patterns compose with these:

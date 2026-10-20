@@ -97,7 +97,7 @@ SOURCES = {
         "license": "CC BY-NC-SA 4.0; attribution, noncommercial use and share-alike terms",
         "citation": "Criteo conversion logs",
         "status": "implemented_noncommercial_delayed_feedback",
-        "size": "verify before acquisition",
+        "size": "310 MB compressed / 6.4 GB uncompressed (publisher listing; archive currently unavailable)",
         "timing": "click and conversion availability must be separated",
     },
 }

@@ -213,7 +213,8 @@ shift evidence, GPU throughput, readiness and actual diagnostic plots. Local raw
 datasets are ignored by Git. Reports include no record-level proprietary observations.
 Schema/checksum failures fail validation. Duplicates, missingness, range, temporal overlap,
 class frequencies, feature means, covariance, KS evidence and offline regression baselines are
-reported without attributing concept drift. Multiple seeds test each generator's Bayes-risk
+reported without attributing concept drift. KS uses the explicit asymptotic two-sample method;
+its uncorrected p-values remain descriptive under dependence and confounding. Multiple seeds test each generator's Bayes-risk
 reference; further replicated tests check moments, class priors, quantiles and autocorrelation.
 `scripts/time_series_real_diagnostics.py` uses train-only preprocessing and, when feature,
 prediction and label-availability clocks are complete, strictly filters training and calibration

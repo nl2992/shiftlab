@@ -62,9 +62,10 @@ def diagnostics(directory: Path) -> list[dict]:
             "attribution": "inconclusive",
             "window": "first/last quarter capped at 2000",
             "pvalue_caveat": "uncorrected descriptive KS; may be dependent/confounded",
+            "pvalue_method": "asymptotic two-sample KS; descriptive under dependence/confounding",
         }
         if len(a) > 10 and len(b) > 10:
-            test = ks_2samp(a, b)
+            test = ks_2samp(a, b, method="asymp")
             row.update(
                 mean_difference=float(b.mean() - a.mean()),
                 ks_statistic=float(test.statistic),

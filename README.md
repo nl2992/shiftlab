@@ -20,7 +20,7 @@ The executed stationary-control evidence is in [data/reports/stationary_control_
 Python 3.11+ and uv are required. From this repository:
 
 ```bash
-uv sync --extra dev
+uv sync --extra dev --extra data-sources
 uv run pytest -q
 uv run ruff check .
 uv run ruff format --check .
@@ -34,7 +34,7 @@ uv run python scripts/run_first_deliverable.py
 uv run python scripts/aggregate_results.py
 ```
 
-`uv sync --all-extras` also installs optional PyTorch, Folktables and MLflow dependencies. Neural model training
+`uv sync --all-extras` also installs optional PyTorch, WILDS and MLflow dependencies. Neural model training
 and tracking integration remain deferred. The data framework supports CUDA generation; the original
 Ridge benchmark still rejects non-CPU devices. The default installation requires neither optional dependency.
 No dataset is downloaded at installation or in CI. `shiftlab --config ... --paper 2` is the CLI.

@@ -6,7 +6,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: astral-sh/setup-uv@v6
-      - run: uv sync --extra dev --locked
+      - run: uv sync --extra dev --extra data-sources --locked
       - run: uv run ruff check .
       - run: uv run ruff format --check .
       - run: uv run mypy

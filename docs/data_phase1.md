@@ -114,6 +114,10 @@ presets avoid Cartesian grids.
 pure-covariate mechanisms at severities 0, 0.5, 1 and 2, including independent conditional-mean
 formula comparisons and mechanism-specific feature-marginal moments in
 `data/reports/covariate_property_validation.json`.
+`uv run python scripts/validate_concept_residuals.py` checks independent conditional mean/scale
+formulas, unchanged feature moments, Gaussian residual variance and 90% oracle-radius coverage,
+and Bernoulli boundary-rotation rates across eight concept mechanisms and four severities;
+replicated results are in `data/reports/concept_residual_validation.json`.
 The medium plan uses 30 seeds; the optional large plan is never materialized automatically.
 
 Regression uses a sign-based decision with false-negative/positive costs; classification uses

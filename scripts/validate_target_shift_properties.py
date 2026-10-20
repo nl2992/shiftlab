@@ -22,67 +22,89 @@ def _generate(scenario: str, seed: int, n: int = 30000, severity: float = 1.0):
 def evaluate() -> dict:
     rows = []
     for scenario in ["prior_shift", "imbalance"]:
-        observed_priors, expected_priors, class_means = [], [], []
-        base_logit = np.log(0.1 / 0.9) if scenario == "imbalance" else 0.0
-        for seed in [11, 23, 37, 53, 71]:
-            config, frame, oracle = _generate(scenario, seed)
-            X = np.stack(frame.features.to_numpy())
-            shifted = oracle.weight.to_numpy() == 1
-            y = frame.target.to_numpy()
-            expected = float(expit(base_logit + config.severity))
-            observed_priors.append(float(y[shifted].mean()))
-            expected_priors.append(expected)
-            class_means.append(
+        for severity in [0.0, 0.5, 1.0, 2.0]:
+            observed_priors, expected_priors, class_means = [], [], []
+            base_logit = np.log(0.1 / 0.9) if scenario == "imbalance" else 0.0
+            for seed in [11, 23, 37, 53, 71]:
+                config, frame, oracle = _generate(scenario, seed, severity=severity)
+                X = np.stack(frame.features.to_numpy())
+                weight = oracle.weight.to_numpy()
+                selected = weight == (0 if severity == 0 else 1)
+                y = frame.target.to_numpy()
+                expected = float(expit(base_logit + config.severity))
+                observed_priors.append(float(y[selected].mean()))
+                expected_priors.append(expected)
+                class_means.append(
+                    {
+                        "negative_mean_x0": float(X[selected & (y == 0), 0].mean()),
+                        "positive_mean_x0": float(X[selected & (y == 1), 0].mean()),
+                    }
+                )
+            observed = float(np.mean(observed_priors))
+            expected = float(np.mean(expected_priors))
+            class_summary = {
+                key: float(np.mean([record[key] for record in class_means]))
+                for key in class_means[0]
+            }
+            class_mean_error = max(
+                abs(class_summary["negative_mean_x0"] + 1),
+                abs(class_summary["positive_mean_x0"] - 1),
+            )
+            rows.append(
                 {
-                    "negative_mean_x0": float(X[shifted & (y == 0), 0].mean()),
-                    "positive_mean_x0": float(X[shifted & (y == 1), 0].mean()),
+                    "scenario": scenario,
+                    "severity": severity,
+                    "n_per_seed": 30000,
+                    "property": "class prior and P(X0|Y) means",
+                    "observed_prior_mean_over_seeds": observed,
+                    "expected_prior": expected,
+                    "prior_absolute_error": abs(observed - expected),
+                    "prior_tolerance": 0.015,
+                    "mean_class_conditional_x0_over_seeds": class_summary,
+                    "expected_class_conditional_x0": {"negative": -1.0, "positive": 1.0},
+                    "class_conditional_mean_max_error": class_mean_error,
+                    "class_conditional_mean_tolerance": 0.05,
+                    "passes": abs(observed - expected) < 0.015 and class_mean_error < 0.05,
                 }
             )
-        observed, expected = float(np.mean(observed_priors)), float(np.mean(expected_priors))
-        class_summary = {
-            key: float(np.mean([record[key] for record in class_means])) for key in class_means[0]
-        }
-        class_mean_error = max(
-            abs(class_summary["negative_mean_x0"] + 1),
-            abs(class_summary["positive_mean_x0"] - 1),
-        )
+
+    for severity in [0.0, 0.5, 1.0, 2.0]:
+        corruption_errors = []
+        label_rate_errors = []
+        for seed in [11, 23, 37, 53, 71]:
+            config, frame, oracle = _generate("label_corruption", seed, n=50000, severity=severity)
+            X = np.stack(frame.features.to_numpy())
+            w = oracle.weight.to_numpy()
+            rate = np.minimum(0.45, config.severity * w / 5)
+            clean = expit(X[:, 0] + X[:, 1] ** 2 - 1)
+            expected_p = rate + (1 - 2 * rate) * clean
+            observed_p = oracle.probability_positive.to_numpy()
+            corruption_errors.append(float(np.max(np.abs(observed_p - expected_p))))
+            for regime in [0] if severity == 0 else [0, 1]:
+                selected = w == regime
+                standard_error = np.sqrt(
+                    np.mean(expected_p[selected] * (1 - expected_p[selected])) / selected.sum()
+                )
+                label_rate_errors.append(
+                    abs(
+                        float(frame.target.to_numpy()[selected].mean())
+                        - expected_p[selected].mean()
+                    )
+                    / standard_error
+                )
         rows.append(
             {
-                "scenario": scenario,
-                "n_per_seed": 30000,
-                "property": "shifted class prior and P(X0|Y) means",
-                "observed_shifted_prior_mean_over_seeds": observed,
-                "expected_shifted_prior": expected,
-                "prior_absolute_error": abs(observed - expected),
-                "prior_tolerance": 0.015,
-                "mean_class_conditional_x0_over_seeds": class_summary,
-                "expected_class_conditional_x0": {"negative": -1.0, "positive": 1.0},
-                "class_conditional_mean_max_error": class_mean_error,
-                "class_conditional_mean_tolerance": 0.05,
-                "passes": abs(observed - expected) < 0.015 and class_mean_error < 0.05,
+                "scenario": "label_corruption",
+                "severity": severity,
+                "n_per_seed": 50000,
+                "property": "symmetric label-flip posterior and empirical label rate",
+                "max_absolute_probability_formula_error": max(corruption_errors),
+                "max_empirical_label_rate_standard_error_ratio": max(label_rate_errors),
+                "empirical_label_rate_tolerance_standard_errors": 4,
+                "formula_tolerance": 1e-12,
+                "passes": bool(max(corruption_errors) < 1e-12 and max(label_rate_errors) < 4),
             }
         )
-
-    corruption_errors = []
-    for seed in [11, 23, 37, 53, 71]:
-        config, frame, oracle = _generate("label_corruption", seed, n=50000)
-        X = np.stack(frame.features.to_numpy())
-        w = oracle.weight.to_numpy()
-        rate = np.minimum(0.45, config.severity * w / 5)
-        clean = expit(X[:, 0] + X[:, 1] ** 2 - 1)
-        expected_p = rate + (1 - 2 * rate) * clean
-        observed_p = oracle.probability_positive.to_numpy()
-        corruption_errors.append(float(np.max(np.abs(observed_p - expected_p))))
-    rows.append(
-        {
-            "scenario": "label_corruption",
-            "n_per_seed": 50000,
-            "property": "symmetric label-flip posterior formula",
-            "max_absolute_probability_formula_error": max(corruption_errors),
-            "tolerance": 1e-12,
-            "passes": max(corruption_errors) < 1e-12,
-        }
-    )
 
     for scenario in ["target_level", "target_variance", "tail_frequency"]:
         for severity in [0.0, 0.5, 1.0, 2.0]:

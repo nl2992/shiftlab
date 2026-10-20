@@ -11,10 +11,53 @@
   "evidence": [
     {
       "scenario": "prior_shift",
+      "severity": 0.0,
       "n_per_seed": 30000,
-      "property": "shifted class prior and P(X0|Y) means",
-      "observed_shifted_prior_mean_over_seeds": 0.7326266666666665,
-      "expected_shifted_prior": 0.7310585786300049,
+      "property": "class prior and P(X0|Y) means",
+      "observed_prior_mean_over_seeds": 0.5006999999999999,
+      "expected_prior": 0.5,
+      "prior_absolute_error": 0.0006999999999999229,
+      "prior_tolerance": 0.015,
+      "mean_class_conditional_x0_over_seeds": {
+        "negative_mean_x0": -1.0034164149226,
+        "positive_mean_x0": 1.000303163454925
+      },
+      "expected_class_conditional_x0": {
+        "negative": -1.0,
+        "positive": 1.0
+      },
+      "class_conditional_mean_max_error": 0.0034164149225999196,
+      "class_conditional_mean_tolerance": 0.05,
+      "passes": true
+    },
+    {
+      "scenario": "prior_shift",
+      "severity": 0.5,
+      "n_per_seed": 30000,
+      "property": "class prior and P(X0|Y) means",
+      "observed_prior_mean_over_seeds": 0.6225733333333333,
+      "expected_prior": 0.6224593312018546,
+      "prior_absolute_error": 0.00011400213147871874,
+      "prior_tolerance": 0.015,
+      "mean_class_conditional_x0_over_seeds": {
+        "negative_mean_x0": -0.9958633732175469,
+        "positive_mean_x0": 1.0024296824390029
+      },
+      "expected_class_conditional_x0": {
+        "negative": -1.0,
+        "positive": 1.0
+      },
+      "class_conditional_mean_max_error": 0.004136626782453079,
+      "class_conditional_mean_tolerance": 0.05,
+      "passes": true
+    },
+    {
+      "scenario": "prior_shift",
+      "severity": 1.0,
+      "n_per_seed": 30000,
+      "property": "class prior and P(X0|Y) means",
+      "observed_prior_mean_over_seeds": 0.7326266666666665,
+      "expected_prior": 0.7310585786300049,
       "prior_absolute_error": 0.0015680880366616412,
       "prior_tolerance": 0.015,
       "mean_class_conditional_x0_over_seeds": {
@@ -30,11 +73,75 @@
       "passes": true
     },
     {
-      "scenario": "imbalance",
+      "scenario": "prior_shift",
+      "severity": 2.0,
       "n_per_seed": 30000,
-      "property": "shifted class prior and P(X0|Y) means",
-      "observed_shifted_prior_mean_over_seeds": 0.23296,
-      "expected_shifted_prior": 0.231969316684074,
+      "property": "class prior and P(X0|Y) means",
+      "observed_prior_mean_over_seeds": 0.8798533333333334,
+      "expected_prior": 0.8807970779778824,
+      "prior_absolute_error": 0.0009437446445490494,
+      "prior_tolerance": 0.015,
+      "mean_class_conditional_x0_over_seeds": {
+        "negative_mean_x0": -0.9899261533122294,
+        "positive_mean_x0": 1.0020901537194336
+      },
+      "expected_class_conditional_x0": {
+        "negative": -1.0,
+        "positive": 1.0
+      },
+      "class_conditional_mean_max_error": 0.01007384668777056,
+      "class_conditional_mean_tolerance": 0.05,
+      "passes": true
+    },
+    {
+      "scenario": "imbalance",
+      "severity": 0.0,
+      "n_per_seed": 30000,
+      "property": "class prior and P(X0|Y) means",
+      "observed_prior_mean_over_seeds": 0.09883333333333333,
+      "expected_prior": 0.10000000000000002,
+      "prior_absolute_error": 0.0011666666666666908,
+      "prior_tolerance": 0.015,
+      "mean_class_conditional_x0_over_seeds": {
+        "negative_mean_x0": -1.0017784055271757,
+        "positive_mean_x0": 1.0000343237225944
+      },
+      "expected_class_conditional_x0": {
+        "negative": -1.0,
+        "positive": 1.0
+      },
+      "class_conditional_mean_max_error": 0.001778405527175675,
+      "class_conditional_mean_tolerance": 0.05,
+      "passes": true
+    },
+    {
+      "scenario": "imbalance",
+      "severity": 0.5,
+      "n_per_seed": 30000,
+      "property": "class prior and P(X0|Y) means",
+      "observed_prior_mean_over_seeds": 0.15413333333333332,
+      "expected_prior": 0.15482809896025468,
+      "prior_absolute_error": 0.000694765626921362,
+      "prior_tolerance": 0.015,
+      "mean_class_conditional_x0_over_seeds": {
+        "negative_mean_x0": -0.9980514942928831,
+        "positive_mean_x0": 1.008782240174537
+      },
+      "expected_class_conditional_x0": {
+        "negative": -1.0,
+        "positive": 1.0
+      },
+      "class_conditional_mean_max_error": 0.008782240174536993,
+      "class_conditional_mean_tolerance": 0.05,
+      "passes": true
+    },
+    {
+      "scenario": "imbalance",
+      "severity": 1.0,
+      "n_per_seed": 30000,
+      "property": "class prior and P(X0|Y) means",
+      "observed_prior_mean_over_seeds": 0.23296,
+      "expected_prior": 0.231969316684074,
       "prior_absolute_error": 0.0009906833159259998,
       "prior_tolerance": 0.015,
       "mean_class_conditional_x0_over_seeds": {
@@ -50,11 +157,68 @@
       "passes": true
     },
     {
+      "scenario": "imbalance",
+      "severity": 2.0,
+      "n_per_seed": 30000,
+      "property": "class prior and P(X0|Y) means",
+      "observed_prior_mean_over_seeds": 0.45385333333333333,
+      "expected_prior": 0.45085306037928385,
+      "prior_absolute_error": 0.0030002729540494766,
+      "prior_tolerance": 0.015,
+      "mean_class_conditional_x0_over_seeds": {
+        "negative_mean_x0": -0.9959694585299326,
+        "positive_mean_x0": 1.001879664543128
+      },
+      "expected_class_conditional_x0": {
+        "negative": -1.0,
+        "positive": 1.0
+      },
+      "class_conditional_mean_max_error": 0.004030541470067428,
+      "class_conditional_mean_tolerance": 0.05,
+      "passes": true
+    },
+    {
       "scenario": "label_corruption",
+      "severity": 0.0,
       "n_per_seed": 50000,
-      "property": "symmetric label-flip posterior formula",
+      "property": "symmetric label-flip posterior and empirical label rate",
       "max_absolute_probability_formula_error": 0.0,
-      "tolerance": 1e-12,
+      "max_empirical_label_rate_standard_error_ratio": 0.9972026429203622,
+      "empirical_label_rate_tolerance_standard_errors": 4,
+      "formula_tolerance": 1e-12,
+      "passes": true
+    },
+    {
+      "scenario": "label_corruption",
+      "severity": 0.5,
+      "n_per_seed": 50000,
+      "property": "symmetric label-flip posterior and empirical label rate",
+      "max_absolute_probability_formula_error": 0.0,
+      "max_empirical_label_rate_standard_error_ratio": 1.1585492101207864,
+      "empirical_label_rate_tolerance_standard_errors": 4,
+      "formula_tolerance": 1e-12,
+      "passes": true
+    },
+    {
+      "scenario": "label_corruption",
+      "severity": 1.0,
+      "n_per_seed": 50000,
+      "property": "symmetric label-flip posterior and empirical label rate",
+      "max_absolute_probability_formula_error": 0.0,
+      "max_empirical_label_rate_standard_error_ratio": 1.471505944981375,
+      "empirical_label_rate_tolerance_standard_errors": 4,
+      "formula_tolerance": 1e-12,
+      "passes": true
+    },
+    {
+      "scenario": "label_corruption",
+      "severity": 2.0,
+      "n_per_seed": 50000,
+      "property": "symmetric label-flip posterior and empirical label rate",
+      "max_absolute_probability_formula_error": 0.0,
+      "max_empirical_label_rate_standard_error_ratio": 1.176437651409783,
+      "empirical_label_rate_tolerance_standard_errors": 4,
+      "formula_tolerance": 1e-12,
       "passes": true
     },
     {
@@ -371,8 +535,8 @@
     }
   ],
   "interpretation": "Replicate means are descriptive. The formulas are derived from the documented DGP and do not establish real-world shift classifications.",
-  "processing_commit": "eb552ecfed7db1d65aa5b776e61435bbe4f8aa84",
+  "processing_commit": "189c5fef74d4596fafb76ba7e81822a51a6d0780",
   "source_hash": "bec4b48ac39c298d0ccd7923b7df1c30f7bac089fb5fc13ba31144bd89b494b0",
-  "script_sha256": "8b410b422a82a93c1e3cd64e3cbdfe3e75e6efe84b27458cdbc5d38668d883f6",
-  "executed_at": "2026-10-20T00:16:17.742470+00:00"
+  "script_sha256": "2497a0c6309b3b97ec1ecbd92e0f788c3e9526f81608ea705d3a2c9135f2d0ce",
+  "executed_at": "2026-10-20T00:25:30.109357+00:00"
 }

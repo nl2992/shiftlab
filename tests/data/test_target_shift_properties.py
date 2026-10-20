@@ -10,36 +10,38 @@ from shiftlab.data.synthetic import generate_chunks
     ("scenario", "base_logit"),
     [("prior_shift", 0.0), ("imbalance", np.log(0.1 / 0.9))],
 )
-def test_class_prior_shift_preserves_class_conditional_feature_law(scenario, base_logit):
+@pytest.mark.parametrize("severity", [0.0, 0.5, 2.0])
+def test_class_prior_shift_preserves_class_conditional_feature_law(scenario, base_logit, severity):
     observed_prior, negative_means, positive_means = [], [], []
     for seed in [11, 23, 37, 53, 71]:
-        config = SyntheticConfig(n=30000, scenario=scenario, seed=seed, severity=1)
+        config = SyntheticConfig(n=30000, scenario=scenario, seed=seed, severity=severity)
         frames = list(generate_chunks(config))
         X = np.concatenate([np.stack(frame.features.to_numpy()) for frame, _ in frames])
         y = np.concatenate([frame.target.to_numpy() for frame, _ in frames])
         weight = np.concatenate([oracle.weight.to_numpy() for _, oracle in frames])
-        shifted = weight == 1
-        observed_prior.append(float(y[shifted].mean()))
-        negative_means.append(float(X[shifted & (y == 0), 0].mean()))
-        positive_means.append(float(X[shifted & (y == 1), 0].mean()))
-    expected_prior = expit(base_logit + 1)
+        selected = weight == (0 if severity == 0 else 1)
+        observed_prior.append(float(y[selected].mean()))
+        negative_means.append(float(X[selected & (y == 0), 0].mean()))
+        positive_means.append(float(X[selected & (y == 1), 0].mean()))
+    expected_prior = expit(base_logit + severity)
     assert abs(np.mean(observed_prior) - expected_prior) < 0.015
     assert abs(np.mean(negative_means) + 1) < 0.05
     assert abs(np.mean(positive_means) - 1) < 0.05
 
 
-def test_symmetric_label_corruption_matches_independent_posterior_formula():
-    config = SyntheticConfig(n=50000, scenario="label_corruption", seed=91, severity=1)
+@pytest.mark.parametrize("severity", [0.0, 0.5, 2.0])
+def test_symmetric_label_corruption_matches_independent_posterior_formula(severity):
+    config = SyntheticConfig(n=50000, scenario="label_corruption", seed=91, severity=severity)
     frames = list(generate_chunks(config))
     X = np.concatenate([np.stack(frame.features.to_numpy()) for frame, _ in frames])
     y = np.concatenate([frame.target.to_numpy() for frame, _ in frames])
     probability = np.concatenate([oracle.probability_positive.to_numpy() for _, oracle in frames])
     weight = np.concatenate([oracle.weight.to_numpy() for _, oracle in frames])
-    rate = np.minimum(0.45, config.severity * weight / 5)
+    rate = np.minimum(0.45, severity * weight / 5)
     clean = expit(X[:, 0] + X[:, 1] ** 2 - 1)
     expected = rate + (1 - 2 * rate) * clean
     assert np.max(np.abs(probability - expected)) < 1e-12
-    for regime in [0, 1]:
+    for regime in [0] if severity == 0 else [0, 1]:
         selected = weight == regime
         assert abs(y[selected].mean() - expected[selected].mean()) < 4 * np.sqrt(
             np.mean(expected[selected] * (1 - expected[selected])) / selected.sum()

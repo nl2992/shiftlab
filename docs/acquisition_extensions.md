@@ -71,9 +71,13 @@ installation or CI. Permitted existing local exports can be imported with `path`
 
 ## Observed external limitations
 
-- EIA API and FRED: API keys are not configured. A real EIA NYIS hourly subset has been acquired
-  from the official keyless EBA bulk archive; API-key acquisition remains available when a key is
-  supplied. FRED live acquisition remains pending a key.
+- FRED: a credentialed live five-series vintage/revision extract (UNRATE, CPIAUCSL, FEDFUNDS,
+  DGS10 and GDPC1) for 2022-01 through 2023-12 was acquired as 630 rows. The real-time vintage
+  window matches the observation window to stay below the publisher's vintage-date query limit.
+  The caller-supplied key was used only through `FRED_API_KEY` for that process and was not saved
+  in source data, configuration or reports. The exact release instant remains unknown; the adapter
+  records conservative date-resolution availability. EIA API-key access is not configured, while
+  the real NYIS subset is acquired from the official keyless bulk archive.
 - CivilComments: the official CodaLab host fails certificate validation. TLS verification stays
   enabled. [Upstream issue](https://github.com/p-lambda/wilds/issues/173) also records the outage.
 - Criteo: rechecked the official landing page and linked archive on 2026-10-20. The landing page

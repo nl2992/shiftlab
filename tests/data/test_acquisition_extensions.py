@@ -140,11 +140,16 @@ def test_fred_asof_revisions_and_date_resolution(tmp_path, monkeypatch):
             "realtime_end": "9999-12-31",
         },
     ]
-    monkeypatch.setattr(
-        "shiftlab.data.real.api.requests.get",
-        lambda *a, **kw: Response({"count": 2, "observations": records}),
-    )
+    requested_params = []
+
+    def get(endpoint, params, **kwargs):
+        requested_params.append(params)
+        return Response({"count": 2, "observations": records})
+
+    monkeypatch.setattr("shiftlab.data.real.api.requests.get", get)
     path = acquire("fred", {"series": ["UNRATE"]}, tmp_path)
+    assert requested_params[0]["realtime_start"] == "2022-01-01"
+    assert requested_params[0]["realtime_end"] == "2023-12-31"
     frame = pd.read_parquet(path / "observations.parquet")
     assert frame.label_available_time.iloc[0] == pd.Timestamp("2023-02-04", tz="UTC").timestamp()
     assert asof_vintage(pd.DataFrame(records), "2023-02-20").value.tolist() == ["3.4"]
@@ -154,6 +159,39 @@ def test_fred_asof_revisions_and_date_resolution(tmp_path, monkeypatch):
     binding = json.loads((path / "dataset_manifest.json").read_text())["task_specs"][0]
     assert binding["task_kind"] == "source_table_not_forecast_task"
     assert binding["evaluation_metrics"] == []
+
+
+def test_fred_asof_keeps_same_date_observations_from_distinct_series():
+    records = pd.DataFrame(
+        [
+            {
+                "series_id": "UNRATE",
+                "date": "2023-01-01",
+                "value": "3.4",
+                "realtime_start": "2023-02-03",
+                "realtime_end": "2023-03-09",
+            },
+            {
+                "series_id": "UNRATE",
+                "date": "2023-01-01",
+                "value": "3.5",
+                "realtime_start": "2023-03-10",
+                "realtime_end": "9999-12-31",
+            },
+            {
+                "series_id": "CPIAUCSL",
+                "date": "2023-01-01",
+                "value": "301.2",
+                "realtime_start": "2023-02-14",
+                "realtime_end": "9999-12-31",
+            },
+        ]
+    )
+    selected = asof_vintage(records, "2023-02-20")
+    assert selected.set_index("series_id").value.to_dict() == {
+        "UNRATE": "3.4",
+        "CPIAUCSL": "301.2",
+    }
 
 
 TSF = """@attribute series_name string

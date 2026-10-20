@@ -1,4 +1,6 @@
-series: [UNRATE]
+series: [UNRATE, CPIAUCSL, FEDFUNDS, DGS10, GDPC1]
 start: "2022-01-01"
 end: "2023-12-31"
+realtime_start: "2022-01-01"
+realtime_end: "2023-12-31"
 max_records: 20000

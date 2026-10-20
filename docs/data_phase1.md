@@ -32,7 +32,7 @@ uv run pytest tests/data/ -q
 ```
 
 All download commands default to dry-run; `--execute` allows acquisition. Source failures are
-errors, never replaced by synthetic or unrelated data. EIA bulk archive extraction supports multiple balancing authorities from the same checksummed archive; `eia_bulk_multi.yaml` builds CISO and ERCO retrospective next-hour tasks. Event-time splits do not imply publisher release availability. FRED/ALFRED, WILDS and Criteo retain explicit credential/source/terms limitations. There are no placeholder adapters.
+errors, never replaced by synthetic or unrelated data. EIA bulk archive extraction supports multiple balancing authorities from the same checksummed archive; `eia_bulk_multi.yaml` builds CISO and ERCO retrospective next-hour tasks. Event-time splits do not imply publisher release availability. A credentialed FRED/ALFRED extract covers five series and 630 dated vintage records; WILDS and Criteo retain explicit source/terms limitations. There are no placeholder adapters.
 
 The Monash Electricity hourly and Weather TSF archives omit `@horizon`. Their configured
 168-step hourly and 30-step daily fixed-origin horizons follow the archive authors' benchmark

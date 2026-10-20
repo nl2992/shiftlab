@@ -16,7 +16,10 @@ def asof_vintage(records: pd.DataFrame, asof: str) -> pd.DataFrame:
     """Select only revisions whose real-time period includes asof; no future revisions."""
     date = str(pd.Timestamp(asof).date())
     eligible = records[(records.realtime_start <= date) & (records.realtime_end >= date)]
-    return eligible.sort_values("realtime_start").drop_duplicates("date", keep="last")
+    identity = ["date"]
+    if "series_id" in eligible.columns:
+        identity.insert(0, "series_id")
+    return eligible.sort_values("realtime_start").drop_duplicates(identity, keep="last")
 
 
 def acquire(config: dict, root: Path):
@@ -29,8 +32,8 @@ def acquire(config: dict, root: Path):
             "file_type": "json",
             "observation_start": config.get("start", "2022-01-01"),
             "observation_end": config.get("end", "2023-12-31"),
-            "realtime_start": config.get("realtime_start", "1776-07-04"),
-            "realtime_end": config.get("realtime_end", "9999-12-31"),
+            "realtime_start": config.get("realtime_start", config.get("start", "2022-01-01")),
+            "realtime_end": config.get("realtime_end", config.get("end", "2023-12-31")),
             "output_type": 1,
             "sort_order": "asc",
         }
@@ -93,6 +96,7 @@ def acquire(config: dict, root: Path):
         [],
         [
             "Revision/event table, not a ready forecasting design. Use asof_vintage for feature construction.",
+            "Only revisions in the configured real-time vintage window are included; the default window matches the requested observation period to stay within FRED vintage-date limits.",
             "Release dates have no intraday timestamp; conservative end-of-day availability is an explicit derived assumption, not publisher ground truth.",
             "Series-specific copyright/redistribution terms still apply; final revised values are never assigned past availability.",
         ],

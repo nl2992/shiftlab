@@ -1,7 +1,7 @@
 {
   "environment": {
     "cpu_ram_bytes": 16858472448,
-    "disk_free_bytes": 69062787072,
+    "disk_free_bytes": 69056651264,
     "cuda_available": false,
     "nvidia_smi": "NVIDIA GeForce RTX 4060 Laptop GPU, 8188 MiB, 592.82, 0 %, 10 MiB",
     "torch_version": null,
@@ -3734,6 +3734,275 @@
         "folktables_version": "0.0.12"
       },
       "path": "data\\processed\\folktables\\fb2c924aa2f74c31c3fe"
+    },
+    {
+      "schema_version": "1.1.0",
+      "dataset": "fred",
+      "version": "8bbe44c6316a36d1b04e",
+      "publisher": "Federal Reserve Bank of St Louis",
+      "source_url": "https://fred.stlouisfed.org/docs/api/fred/",
+      "citation": "FRED/ALFRED",
+      "license": "Series-specific terms",
+      "permitted_use": "Respect original source and underlying-series terms; research use only where permitted",
+      "acquired_at": "2026-10-20T07:39:22.659063+00:00",
+      "retrieval_parameters": {
+        "series": [
+          "UNRATE"
+        ],
+        "start": "2022-01-01",
+        "end": "2023-12-31",
+        "max_records": 20000
+      },
+      "raw_checksums": {
+        "data\\raw\\fred\\c72974ba93e283ab3d47\\2026-10-20T07-39-21.923517+00-00-57a23691\\page-00000000.json": "1d5005c2c4a90a6ce70c251089d5cfa7f6da2ec956e08330cbe383193dd8f68b",
+        "data\\raw\\fred\\c72974ba93e283ab3d47\\2026-10-20T07-39-21.923517+00-00-57a23691\\receipt.json": "c3422cb50820703f7d87ecea8906aa086b57d7bc22beb4e81d8dcfcb81e186fc"
+      },
+      "processing_config": {
+        "series": [
+          "UNRATE"
+        ],
+        "start": "2022-01-01",
+        "end": "2023-12-31",
+        "max_records": 20000
+      },
+      "task_specs": [
+        {
+          "task_id": "vintage_revision_event_table",
+          "task_kind": "source_table_not_forecast_task",
+          "target_definition": "dated FRED observation/revision with ALFRED realtime_start and realtime_end",
+          "forecast_horizon": null,
+          "valid_target_mask": "target is finite; rows with missing target are excluded from metric computation",
+          "evaluation_metrics": [],
+          "label_availability_rule": "conservative end-of-realtime_start UTC day; exact release instant unknown",
+          "utility_provenance": "Not applicable until an explicit as-of forecasting task and utility are specified."
+        }
+      ],
+      "code_commit": "593e92d4c5019514a811322c6c45e356754f68fb",
+      "source_hash": "f04247f463e3d1aba15fc569998439351f70ad8e046158673909807138006808",
+      "n_observations": 37,
+      "feature_names": [],
+      "feature_dtype": "float64",
+      "feature_kind": "numeric",
+      "time_coverage": [
+        "1640995200.0",
+        "1701388800.0"
+      ],
+      "domains": [
+        "UNRATE"
+      ],
+      "missingness": {
+        "target": 0.0,
+        "features": 0.0
+      },
+      "limitations": [
+        "No verified real-world changepoints.",
+        "Revision/event table, not a ready forecasting design. Use asof_vintage for feature construction.",
+        "Release dates have no intraday timestamp; conservative end-of-day availability is an explicit derived assumption, not publisher ground truth.",
+        "Series-specific copyright/redistribution terms still apply; final revised values are never assigned past availability."
+      ],
+      "ground_truth": "none",
+      "files": {
+        "observations.parquet": "9fa5e0b789e5f498e8f32d3adaf0b27b0e47caab753f0e7778ae74c524d65f00"
+      },
+      "oracle_file": null,
+      "environment": {},
+      "path": "data\\processed\\fred\\8bbe44c6316a36d1b04e"
+    },
+    {
+      "schema_version": "1.1.0",
+      "dataset": "fred",
+      "version": "a28f7904279f4f5c28cf",
+      "publisher": "Federal Reserve Bank of St Louis",
+      "source_url": "https://fred.stlouisfed.org/docs/api/fred/",
+      "citation": "FRED/ALFRED",
+      "license": "Series-specific terms",
+      "permitted_use": "Respect original source and underlying-series terms; research use only where permitted",
+      "acquired_at": "2026-10-20T07:49:32.321671+00:00",
+      "retrieval_parameters": {
+        "series": [
+          "UNRATE",
+          "CPIAUCSL",
+          "FEDFUNDS",
+          "DGS10",
+          "GDPC1"
+        ],
+        "start": "2022-01-01",
+        "end": "2023-12-31",
+        "realtime_start": "2022-01-01",
+        "realtime_end": "2023-12-31",
+        "max_records": 20000
+      },
+      "raw_checksums": {
+        "data\\raw\\fred\\d847aaec1fa2c3e78133\\2026-10-20T07-44-35.664432+00-00-e20a7103\\page-00000000.json": "5bdf8f776feb7140c7b08277225483bc0bc6a1afbf3a86903c7bfd4d3c5f1308",
+        "data\\raw\\fred\\d847aaec1fa2c3e78133\\2026-10-20T07-44-35.664432+00-00-e20a7103\\receipt.json": "c863ec1c6b6976cb72823f388dbff63f5738a433d43e44f1779fb4c3af5ab926",
+        "data\\raw\\fred\\0ec2e539783b4b349ab9\\2026-10-20T07-44-36.231125+00-00-40e4114b\\page-00000000.json": "b19a987cfa36fa5f90a9d7687706100c5ab523d4536fb3ff1b1ebdc389940d62",
+        "data\\raw\\fred\\0ec2e539783b4b349ab9\\2026-10-20T07-44-36.231125+00-00-40e4114b\\receipt.json": "9fd5f910d9a2deec2c238c67e2e1a7345683256af38a8d52857fd33d7adccfb5",
+        "data\\raw\\fred\\54020ca72eb4d19962eb\\2026-10-20T07-44-36.698493+00-00-88c6f404\\page-00000000.json": "02253d28ce512a68f65039c809ab1d60f7ef20d42a91f8c68ca45dfc33a5aee2",
+        "data\\raw\\fred\\54020ca72eb4d19962eb\\2026-10-20T07-44-36.698493+00-00-88c6f404\\receipt.json": "e84a7e276dd6da787095b21c515f1df25aebc2eb8c92e8bf312bb511e653aaee",
+        "data\\raw\\fred\\5d6f1fb539d2ff83aa08\\2026-10-20T07-44-37.217227+00-00-70dd12ea\\page-00000000.json": "4b3b700347983efc9f6fb1bda6f5883843e001e88030ba9a9ace9cdb217d1771",
+        "data\\raw\\fred\\5d6f1fb539d2ff83aa08\\2026-10-20T07-44-37.217227+00-00-70dd12ea\\receipt.json": "4f3291005c7be870bcfe35e5990b8c9c8a53aeb641a75094388e4929c96b795a",
+        "data\\raw\\fred\\c1750ec07fcab780e44b\\2026-10-20T07-44-41.825646+00-00-ecc37ca4\\page-00000000.json": "bad0e4ccff4de1198906bf921cd33d9b54ed80ab761919ba74da607540b74166",
+        "data\\raw\\fred\\c1750ec07fcab780e44b\\2026-10-20T07-44-41.825646+00-00-ecc37ca4\\receipt.json": "7f776d43deafafc51faea72e0c6dea0bab05a9151ec0a4b49ab50481df7cb4eb"
+      },
+      "processing_config": {
+        "series": [
+          "UNRATE",
+          "CPIAUCSL",
+          "FEDFUNDS",
+          "DGS10",
+          "GDPC1"
+        ],
+        "start": "2022-01-01",
+        "end": "2023-12-31",
+        "realtime_start": "2022-01-01",
+        "realtime_end": "2023-12-31",
+        "max_records": 20000
+      },
+      "task_specs": [
+        {
+          "task_id": "vintage_revision_event_table",
+          "task_kind": "source_table_not_forecast_task",
+          "target_definition": "dated FRED observation/revision with ALFRED realtime_start and realtime_end",
+          "forecast_horizon": null,
+          "valid_target_mask": "target is finite; rows with missing target are excluded from metric computation",
+          "evaluation_metrics": [],
+          "label_availability_rule": "conservative end-of-realtime_start UTC day; exact release instant unknown",
+          "utility_provenance": "Not applicable until an explicit as-of forecasting task and utility are specified."
+        }
+      ],
+      "code_commit": "19c8d04fc0af699677c3ec1f5d6374016ed3806f",
+      "source_hash": "cb0ced75c05a1a759b96d1d28c1d20da45298ec2a4d3f73763eaddad7e14e5cd",
+      "n_observations": 630,
+      "feature_names": [],
+      "feature_dtype": "float64",
+      "feature_kind": "numeric",
+      "time_coverage": [
+        "1640995200.0",
+        "1703721600.0"
+      ],
+      "domains": [
+        "CPIAUCSL",
+        "DGS10",
+        "FEDFUNDS",
+        "GDPC1",
+        "UNRATE"
+      ],
+      "missingness": {
+        "target": 0.03333333333333333,
+        "features": 0.0
+      },
+      "limitations": [
+        "No verified real-world changepoints.",
+        "Revision/event table, not a ready forecasting design. Use asof_vintage for feature construction.",
+        "Only revisions in the configured real-time vintage window are included; the default window matches the requested observation period to stay within FRED vintage-date limits.",
+        "Release dates have no intraday timestamp; conservative end-of-day availability is an explicit derived assumption, not publisher ground truth.",
+        "Series-specific copyright/redistribution terms still apply; final revised values are never assigned past availability."
+      ],
+      "ground_truth": "none",
+      "files": {
+        "observations.parquet": "d5f131b449ee2e038552a46e49341ffe2a18ea5d083773bece879f5287bf733b"
+      },
+      "oracle_file": null,
+      "environment": {},
+      "path": "data\\processed\\fred\\a28f7904279f4f5c28cf"
+    },
+    {
+      "schema_version": "1.1.0",
+      "dataset": "fred",
+      "version": "ec865b489d4c655fae05",
+      "publisher": "Federal Reserve Bank of St Louis",
+      "source_url": "https://fred.stlouisfed.org/docs/api/fred/",
+      "citation": "FRED/ALFRED",
+      "license": "Series-specific terms",
+      "permitted_use": "Respect original source and underlying-series terms; research use only where permitted",
+      "acquired_at": "2026-10-20T07:44:42.599425+00:00",
+      "retrieval_parameters": {
+        "series": [
+          "UNRATE",
+          "CPIAUCSL",
+          "FEDFUNDS",
+          "DGS10",
+          "GDPC1"
+        ],
+        "start": "2022-01-01",
+        "end": "2023-12-31",
+        "realtime_start": "2022-01-01",
+        "realtime_end": "2023-12-31",
+        "max_records": 20000
+      },
+      "raw_checksums": {
+        "data\\raw\\fred\\d847aaec1fa2c3e78133\\2026-10-20T07-44-35.664432+00-00-e20a7103\\page-00000000.json": "5bdf8f776feb7140c7b08277225483bc0bc6a1afbf3a86903c7bfd4d3c5f1308",
+        "data\\raw\\fred\\d847aaec1fa2c3e78133\\2026-10-20T07-44-35.664432+00-00-e20a7103\\receipt.json": "c863ec1c6b6976cb72823f388dbff63f5738a433d43e44f1779fb4c3af5ab926",
+        "data\\raw\\fred\\0ec2e539783b4b349ab9\\2026-10-20T07-44-36.231125+00-00-40e4114b\\page-00000000.json": "b19a987cfa36fa5f90a9d7687706100c5ab523d4536fb3ff1b1ebdc389940d62",
+        "data\\raw\\fred\\0ec2e539783b4b349ab9\\2026-10-20T07-44-36.231125+00-00-40e4114b\\receipt.json": "9fd5f910d9a2deec2c238c67e2e1a7345683256af38a8d52857fd33d7adccfb5",
+        "data\\raw\\fred\\54020ca72eb4d19962eb\\2026-10-20T07-44-36.698493+00-00-88c6f404\\page-00000000.json": "02253d28ce512a68f65039c809ab1d60f7ef20d42a91f8c68ca45dfc33a5aee2",
+        "data\\raw\\fred\\54020ca72eb4d19962eb\\2026-10-20T07-44-36.698493+00-00-88c6f404\\receipt.json": "e84a7e276dd6da787095b21c515f1df25aebc2eb8c92e8bf312bb511e653aaee",
+        "data\\raw\\fred\\5d6f1fb539d2ff83aa08\\2026-10-20T07-44-37.217227+00-00-70dd12ea\\page-00000000.json": "4b3b700347983efc9f6fb1bda6f5883843e001e88030ba9a9ace9cdb217d1771",
+        "data\\raw\\fred\\5d6f1fb539d2ff83aa08\\2026-10-20T07-44-37.217227+00-00-70dd12ea\\receipt.json": "4f3291005c7be870bcfe35e5990b8c9c8a53aeb641a75094388e4929c96b795a",
+        "data\\raw\\fred\\c1750ec07fcab780e44b\\2026-10-20T07-44-41.825646+00-00-ecc37ca4\\page-00000000.json": "bad0e4ccff4de1198906bf921cd33d9b54ed80ab761919ba74da607540b74166",
+        "data\\raw\\fred\\c1750ec07fcab780e44b\\2026-10-20T07-44-41.825646+00-00-ecc37ca4\\receipt.json": "7f776d43deafafc51faea72e0c6dea0bab05a9151ec0a4b49ab50481df7cb4eb"
+      },
+      "processing_config": {
+        "series": [
+          "UNRATE",
+          "CPIAUCSL",
+          "FEDFUNDS",
+          "DGS10",
+          "GDPC1"
+        ],
+        "start": "2022-01-01",
+        "end": "2023-12-31",
+        "realtime_start": "2022-01-01",
+        "realtime_end": "2023-12-31",
+        "max_records": 20000
+      },
+      "task_specs": [
+        {
+          "task_id": "vintage_revision_event_table",
+          "task_kind": "source_table_not_forecast_task",
+          "target_definition": "dated FRED observation/revision with ALFRED realtime_start and realtime_end",
+          "forecast_horizon": null,
+          "valid_target_mask": "target is finite; rows with missing target are excluded from metric computation",
+          "evaluation_metrics": [],
+          "label_availability_rule": "conservative end-of-realtime_start UTC day; exact release instant unknown",
+          "utility_provenance": "Not applicable until an explicit as-of forecasting task and utility are specified."
+        }
+      ],
+      "code_commit": "593e92d4c5019514a811322c6c45e356754f68fb",
+      "source_hash": "4c8ef3ee30fadf6bdbfd2778664215d8cb4619e0e121f16ce5645f69c147d2a3",
+      "n_observations": 630,
+      "feature_names": [],
+      "feature_dtype": "float64",
+      "feature_kind": "numeric",
+      "time_coverage": [
+        "1640995200.0",
+        "1703721600.0"
+      ],
+      "domains": [
+        "CPIAUCSL",
+        "DGS10",
+        "FEDFUNDS",
+        "GDPC1",
+        "UNRATE"
+      ],
+      "missingness": {
+        "target": 0.03333333333333333,
+        "features": 0.0
+      },
+      "limitations": [
+        "No verified real-world changepoints.",
+        "Revision/event table, not a ready forecasting design. Use asof_vintage for feature construction.",
+        "Only revisions in the configured real-time vintage window are included; the default window matches the requested observation period to stay within FRED vintage-date limits.",
+        "Release dates have no intraday timestamp; conservative end-of-day availability is an explicit derived assumption, not publisher ground truth.",
+        "Series-specific copyright/redistribution terms still apply; final revised values are never assigned past availability."
+      ],
+      "ground_truth": "none",
+      "files": {
+        "observations.parquet": "d5f131b449ee2e038552a46e49341ffe2a18ea5d083773bece879f5287bf733b"
+      },
+      "oracle_file": null,
+      "environment": {},
+      "path": "data\\processed\\fred\\ec865b489d4c655fae05"
     },
     {
       "schema_version": "1.0.0",

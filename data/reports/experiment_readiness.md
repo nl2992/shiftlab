@@ -40,6 +40,9 @@
 | `folktables@c8e1afd020eabe7b5477` | offline classification only | classification prediction-set protocol required | offline domain benchmark; release times unavailable | coarse_domains; historical/coarse; no true changes |
 | `folktables@e4dc308893fe7204af1d` | offline classification only | classification prediction-set protocol required | offline domain benchmark; release times unavailable | coarse_domains; historical/coarse; no true changes |
 | `folktables@fb2c924aa2f74c31c3fe` | offline classification only | classification prediction-set protocol required | offline domain benchmark; release times unavailable | coarse_domains; historical/coarse; no true changes |
+| `fred@8bbe44c6316a36d1b04e` | retrospective; utility imposed | requires task/conformal target protocol | retrospective task; release-time protocol unknown | none; historical/coarse; no true changes |
+| `fred@a28f7904279f4f5c28cf` | retrospective; utility imposed | requires task/conformal target protocol | retrospective task; release-time protocol unknown | none; historical/coarse; no true changes |
+| `fred@ec865b489d4c655fae05` | retrospective; utility imposed | requires task/conformal target protocol | retrospective task; release-time protocol unknown | none; historical/coarse; no true changes |
 | `gas_sensor@10bbca34ef1b5061a374` | offline classification only | classification prediction-set protocol required | offline domain benchmark; release times unavailable | coarse_domains; historical/coarse; no true changes |
 | `gas_sensor@156b3843156ba7183008` | offline classification only | classification prediction-set protocol required | offline domain benchmark; release times unavailable | coarse_domains; historical/coarse; no true changes |
 | `gas_sensor@9f0f5c34b86f666285f4` | offline classification only | classification prediction-set protocol required | offline domain benchmark; release times unavailable | coarse_domains; historical/coarse; no true changes |

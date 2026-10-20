@@ -341,6 +341,13 @@ folktables,fb2c924aa2f74c31c3fe,15,2000.0,2000.0,inconclusive,first/last quarter
 folktables,fb2c924aa2f74c31c3fe,covariance,,,inconclusive; complete-case selection may confound,,,,,,,,,,,,,13.52434687940523,,
 folktables,fb2c924aa2f74c31c3fe,class_0.0,,,inconclusive,,,,,,,,,,,,,,0.5515,0.501
 folktables,fb2c924aa2f74c31c3fe,class_1.0,,,inconclusive,,,,,,,,,,,,,,0.4485,0.499
+fred,8bbe44c6316a36d1b04e,class_3.4,,,inconclusive,,,,,,,,,,,,,,0.0,0.0
+fred,8bbe44c6316a36d1b04e,class_3.5,,,inconclusive,,,,,,,,,,,,,,0.0,0.0
+fred,8bbe44c6316a36d1b04e,class_3.6,,,inconclusive,,,,,,,,,,,,,,0.4444444444444444,0.0
+fred,8bbe44c6316a36d1b04e,class_3.7,,,inconclusive,,,,,,,,,,,,,,0.2222222222222222,0.4444444444444444
+fred,8bbe44c6316a36d1b04e,class_3.8,,,inconclusive,,,,,,,,,,,,,,0.1111111111111111,0.3333333333333333
+fred,8bbe44c6316a36d1b04e,class_3.9,,,inconclusive,,,,,,,,,,,,,,0.1111111111111111,0.2222222222222222
+fred,8bbe44c6316a36d1b04e,class_4.0,,,inconclusive,,,,,,,,,,,,,,0.1111111111111111,0.0
 gas_sensor,10bbca34ef1b5061a374,0,2000.0,2000.0,inconclusive,first/last quarter capped at 2000,uncorrected descriptive KS; may be dependent/confounded,asymptotic two-sample KS; descriptive under dependence/confounding,-67280.04887570001,0.338,2.0225537858091145e-102,2943.7103340637896,-99302.37227844492,-39714.16176228755,44.0,500.0,Moving-block percentile interval; requires within-window stationarity/weak dependence; complete-case gaps and confounding remain,,,
 gas_sensor,10bbca34ef1b5061a374,1,2000.0,2000.0,inconclusive,first/last quarter capped at 2000,uncorrected descriptive KS; may be dependent/confounded,asymptotic two-sample KS; descriptive under dependence/confounding,-4.435109571,0.19650000000000006,2.624416281173427e-34,0.7106201473484743,-7.408599845244563,-2.060737489043973,44.0,500.0,Moving-block percentile interval; requires within-window stationarity/weak dependence; complete-case gaps and confounding remain,,,
 gas_sensor,10bbca34ef1b5061a374,2,2000.0,2000.0,inconclusive,first/last quarter capped at 2000,uncorrected descriptive KS; may be dependent/confounded,asymptotic two-sample KS; descriptive under dependence/confounding,-16.6316774075,0.3455,3.949916318101991e-107,0.7277756878406823,-24.646046387870555,-10.081378359202072,44.0,500.0,Moving-block percentile interval; requires within-window stationarity/weak dependence; complete-case gaps and confounding remain,,,

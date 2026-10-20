@@ -1,8 +1,8 @@
 {
   "scope": "Raw source files currently retained at manifest-recorded paths",
-  "n_references": 151,
+  "n_references": 173,
   "counts": {
-    "verified": 151,
+    "verified": 173,
     "missing": 0,
     "mismatch": 0
   },
@@ -958,6 +958,182 @@
       "status": "verified",
       "expected_sha256": "d166c2e2fb42ef3e085923f6a59bcdd8710ec3f5034224f6e378257cb25c33ef",
       "actual_sha256": "d166c2e2fb42ef3e085923f6a59bcdd8710ec3f5034224f6e378257cb25c33ef"
+    },
+    {
+      "dataset": "fred",
+      "version": "8bbe44c6316a36d1b04e",
+      "raw_file": "page-00000000.json",
+      "status": "verified",
+      "expected_sha256": "1d5005c2c4a90a6ce70c251089d5cfa7f6da2ec956e08330cbe383193dd8f68b",
+      "actual_sha256": "1d5005c2c4a90a6ce70c251089d5cfa7f6da2ec956e08330cbe383193dd8f68b"
+    },
+    {
+      "dataset": "fred",
+      "version": "8bbe44c6316a36d1b04e",
+      "raw_file": "receipt.json",
+      "status": "verified",
+      "expected_sha256": "c3422cb50820703f7d87ecea8906aa086b57d7bc22beb4e81d8dcfcb81e186fc",
+      "actual_sha256": "c3422cb50820703f7d87ecea8906aa086b57d7bc22beb4e81d8dcfcb81e186fc"
+    },
+    {
+      "dataset": "fred",
+      "version": "a28f7904279f4f5c28cf",
+      "raw_file": "page-00000000.json",
+      "status": "verified",
+      "expected_sha256": "5bdf8f776feb7140c7b08277225483bc0bc6a1afbf3a86903c7bfd4d3c5f1308",
+      "actual_sha256": "5bdf8f776feb7140c7b08277225483bc0bc6a1afbf3a86903c7bfd4d3c5f1308"
+    },
+    {
+      "dataset": "fred",
+      "version": "a28f7904279f4f5c28cf",
+      "raw_file": "receipt.json",
+      "status": "verified",
+      "expected_sha256": "c863ec1c6b6976cb72823f388dbff63f5738a433d43e44f1779fb4c3af5ab926",
+      "actual_sha256": "c863ec1c6b6976cb72823f388dbff63f5738a433d43e44f1779fb4c3af5ab926"
+    },
+    {
+      "dataset": "fred",
+      "version": "a28f7904279f4f5c28cf",
+      "raw_file": "page-00000000.json",
+      "status": "verified",
+      "expected_sha256": "b19a987cfa36fa5f90a9d7687706100c5ab523d4536fb3ff1b1ebdc389940d62",
+      "actual_sha256": "b19a987cfa36fa5f90a9d7687706100c5ab523d4536fb3ff1b1ebdc389940d62"
+    },
+    {
+      "dataset": "fred",
+      "version": "a28f7904279f4f5c28cf",
+      "raw_file": "receipt.json",
+      "status": "verified",
+      "expected_sha256": "9fd5f910d9a2deec2c238c67e2e1a7345683256af38a8d52857fd33d7adccfb5",
+      "actual_sha256": "9fd5f910d9a2deec2c238c67e2e1a7345683256af38a8d52857fd33d7adccfb5"
+    },
+    {
+      "dataset": "fred",
+      "version": "a28f7904279f4f5c28cf",
+      "raw_file": "page-00000000.json",
+      "status": "verified",
+      "expected_sha256": "02253d28ce512a68f65039c809ab1d60f7ef20d42a91f8c68ca45dfc33a5aee2",
+      "actual_sha256": "02253d28ce512a68f65039c809ab1d60f7ef20d42a91f8c68ca45dfc33a5aee2"
+    },
+    {
+      "dataset": "fred",
+      "version": "a28f7904279f4f5c28cf",
+      "raw_file": "receipt.json",
+      "status": "verified",
+      "expected_sha256": "e84a7e276dd6da787095b21c515f1df25aebc2eb8c92e8bf312bb511e653aaee",
+      "actual_sha256": "e84a7e276dd6da787095b21c515f1df25aebc2eb8c92e8bf312bb511e653aaee"
+    },
+    {
+      "dataset": "fred",
+      "version": "a28f7904279f4f5c28cf",
+      "raw_file": "page-00000000.json",
+      "status": "verified",
+      "expected_sha256": "4b3b700347983efc9f6fb1bda6f5883843e001e88030ba9a9ace9cdb217d1771",
+      "actual_sha256": "4b3b700347983efc9f6fb1bda6f5883843e001e88030ba9a9ace9cdb217d1771"
+    },
+    {
+      "dataset": "fred",
+      "version": "a28f7904279f4f5c28cf",
+      "raw_file": "receipt.json",
+      "status": "verified",
+      "expected_sha256": "4f3291005c7be870bcfe35e5990b8c9c8a53aeb641a75094388e4929c96b795a",
+      "actual_sha256": "4f3291005c7be870bcfe35e5990b8c9c8a53aeb641a75094388e4929c96b795a"
+    },
+    {
+      "dataset": "fred",
+      "version": "a28f7904279f4f5c28cf",
+      "raw_file": "page-00000000.json",
+      "status": "verified",
+      "expected_sha256": "bad0e4ccff4de1198906bf921cd33d9b54ed80ab761919ba74da607540b74166",
+      "actual_sha256": "bad0e4ccff4de1198906bf921cd33d9b54ed80ab761919ba74da607540b74166"
+    },
+    {
+      "dataset": "fred",
+      "version": "a28f7904279f4f5c28cf",
+      "raw_file": "receipt.json",
+      "status": "verified",
+      "expected_sha256": "7f776d43deafafc51faea72e0c6dea0bab05a9151ec0a4b49ab50481df7cb4eb",
+      "actual_sha256": "7f776d43deafafc51faea72e0c6dea0bab05a9151ec0a4b49ab50481df7cb4eb"
+    },
+    {
+      "dataset": "fred",
+      "version": "ec865b489d4c655fae05",
+      "raw_file": "page-00000000.json",
+      "status": "verified",
+      "expected_sha256": "5bdf8f776feb7140c7b08277225483bc0bc6a1afbf3a86903c7bfd4d3c5f1308",
+      "actual_sha256": "5bdf8f776feb7140c7b08277225483bc0bc6a1afbf3a86903c7bfd4d3c5f1308"
+    },
+    {
+      "dataset": "fred",
+      "version": "ec865b489d4c655fae05",
+      "raw_file": "receipt.json",
+      "status": "verified",
+      "expected_sha256": "c863ec1c6b6976cb72823f388dbff63f5738a433d43e44f1779fb4c3af5ab926",
+      "actual_sha256": "c863ec1c6b6976cb72823f388dbff63f5738a433d43e44f1779fb4c3af5ab926"
+    },
+    {
+      "dataset": "fred",
+      "version": "ec865b489d4c655fae05",
+      "raw_file": "page-00000000.json",
+      "status": "verified",
+      "expected_sha256": "b19a987cfa36fa5f90a9d7687706100c5ab523d4536fb3ff1b1ebdc389940d62",
+      "actual_sha256": "b19a987cfa36fa5f90a9d7687706100c5ab523d4536fb3ff1b1ebdc389940d62"
+    },
+    {
+      "dataset": "fred",
+      "version": "ec865b489d4c655fae05",
+      "raw_file": "receipt.json",
+      "status": "verified",
+      "expected_sha256": "9fd5f910d9a2deec2c238c67e2e1a7345683256af38a8d52857fd33d7adccfb5",
+      "actual_sha256": "9fd5f910d9a2deec2c238c67e2e1a7345683256af38a8d52857fd33d7adccfb5"
+    },
+    {
+      "dataset": "fred",
+      "version": "ec865b489d4c655fae05",
+      "raw_file": "page-00000000.json",
+      "status": "verified",
+      "expected_sha256": "02253d28ce512a68f65039c809ab1d60f7ef20d42a91f8c68ca45dfc33a5aee2",
+      "actual_sha256": "02253d28ce512a68f65039c809ab1d60f7ef20d42a91f8c68ca45dfc33a5aee2"
+    },
+    {
+      "dataset": "fred",
+      "version": "ec865b489d4c655fae05",
+      "raw_file": "receipt.json",
+      "status": "verified",
+      "expected_sha256": "e84a7e276dd6da787095b21c515f1df25aebc2eb8c92e8bf312bb511e653aaee",
+      "actual_sha256": "e84a7e276dd6da787095b21c515f1df25aebc2eb8c92e8bf312bb511e653aaee"
+    },
+    {
+      "dataset": "fred",
+      "version": "ec865b489d4c655fae05",
+      "raw_file": "page-00000000.json",
+      "status": "verified",
+      "expected_sha256": "4b3b700347983efc9f6fb1bda6f5883843e001e88030ba9a9ace9cdb217d1771",
+      "actual_sha256": "4b3b700347983efc9f6fb1bda6f5883843e001e88030ba9a9ace9cdb217d1771"
+    },
+    {
+      "dataset": "fred",
+      "version": "ec865b489d4c655fae05",
+      "raw_file": "receipt.json",
+      "status": "verified",
+      "expected_sha256": "4f3291005c7be870bcfe35e5990b8c9c8a53aeb641a75094388e4929c96b795a",
+      "actual_sha256": "4f3291005c7be870bcfe35e5990b8c9c8a53aeb641a75094388e4929c96b795a"
+    },
+    {
+      "dataset": "fred",
+      "version": "ec865b489d4c655fae05",
+      "raw_file": "page-00000000.json",
+      "status": "verified",
+      "expected_sha256": "bad0e4ccff4de1198906bf921cd33d9b54ed80ab761919ba74da607540b74166",
+      "actual_sha256": "bad0e4ccff4de1198906bf921cd33d9b54ed80ab761919ba74da607540b74166"
+    },
+    {
+      "dataset": "fred",
+      "version": "ec865b489d4c655fae05",
+      "raw_file": "receipt.json",
+      "status": "verified",
+      "expected_sha256": "7f776d43deafafc51faea72e0c6dea0bab05a9151ec0a4b49ab50481df7cb4eb",
+      "actual_sha256": "7f776d43deafafc51faea72e0c6dea0bab05a9151ec0a4b49ab50481df7cb4eb"
     },
     {
       "dataset": "gas_sensor",

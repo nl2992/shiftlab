@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-10-20T02:17:50+00:00",
+  "checked_at": "2026-10-20T07:49:46+00:00",
   "outcomes": [
     {
       "dataset": "monash",
@@ -73,9 +73,29 @@
     },
     {
       "dataset": "fred",
-      "status": "requires_external_credential",
-      "environment_variable": "FRED_API_KEY",
-      "verification": "fixtures passed; live acquisition not claimed"
+      "status": "acquired_credentialed_live_api",
+      "path": "data/processed/fred/a28f7904279f4f5c28cf",
+      "manifest_path": "data/processed/fred/a28f7904279f4f5c28cf/dataset_manifest.json",
+      "version": "a28f7904279f4f5c28cf",
+      "series": [
+        "UNRATE",
+        "CPIAUCSL",
+        "FEDFUNDS",
+        "DGS10",
+        "GDPC1"
+      ],
+      "observation_window": [
+        "2022-01-01",
+        "2023-12-31"
+      ],
+      "realtime_vintage_window": [
+        "2022-01-01",
+        "2023-12-31"
+      ],
+      "observations": 630,
+      "raw_snapshot_pages": 5,
+      "code_commit": "19c8d04fc0af699677c3ec1f5d6374016ed3806f",
+      "verification": "credentialed live acquisition completed; API key supplied through process environment only and absent from saved raw files, manifests and reports; selected revision/event table, not a ready forecasting task; exact release instant remains unknown"
     },
     {
       "dataset": "wilds",

@@ -109,6 +109,12 @@ def test_criteo_task_binding_rejects_invalid_followup_window(window):
         dataset_task_specs("criteo", {"outcome_window_days": window})
 
 
+@pytest.mark.parametrize("horizon", [0, -1, True, 1.5, np.inf, "2"])
+def test_eia_task_binding_rejects_noninteger_horizons(horizon):
+    with pytest.raises(ValueError, match="positive integer"):
+        dataset_task_specs("eia", {"horizon": horizon})
+
+
 def test_historical_manifest_without_task_specs_remains_loadable():
     manifest = Manifest(
         dataset="fixture",

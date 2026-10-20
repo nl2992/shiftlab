@@ -112,6 +112,18 @@ def test_eia_format_and_unknown_release_times(tmp_path, monkeypatch):
     assert all("fixture-key" not in p.read_text() for p in tmp_path.rglob("*.json"))
 
 
+@pytest.mark.parametrize("horizon", [0, -1, True, 1.5, np.inf, "2"])
+def test_eia_rejects_noninteger_horizon_before_network_access(tmp_path, monkeypatch, horizon):
+    def unexpected_network(*args, **kwargs):
+        raise AssertionError("invalid horizon must be rejected before network access")
+
+    monkeypatch.setattr("shiftlab.data.real.eia.download", unexpected_network)
+    monkeypatch.setattr("shiftlab.data.real.api.requests.get", unexpected_network)
+    config = {"bulk_dataset": "EBA", "max_download_bytes": 1000, "horizon": horizon}
+    with pytest.raises(ValueError, match="positive integer"):
+        acquire("eia", config, tmp_path)
+
+
 def test_fred_asof_revisions_and_date_resolution(tmp_path, monkeypatch):
     monkeypatch.setenv("FRED_API_KEY", "fixture-key")
     records = [

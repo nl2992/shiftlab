@@ -140,7 +140,14 @@ def dataset_task_specs(dataset: str, config: dict) -> list[dict]:
             }
         ]
     if dataset == "eia":
-        horizon = int(config.get("horizon", 1))
+        raw_horizon = config.get("horizon", 1)
+        if (
+            isinstance(raw_horizon, (bool, np.bool_))
+            or not isinstance(raw_horizon, (int, np.integer))
+            or raw_horizon < 1
+        ):
+            raise ValueError("EIA horizon must be a positive integer number of hours")
+        horizon = int(raw_horizon)
         return [
             {
                 "task_id": "next_period_eia_regression",

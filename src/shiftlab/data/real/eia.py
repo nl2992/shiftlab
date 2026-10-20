@@ -18,6 +18,12 @@ BULK_MANIFEST = "https://api.eia.gov/bulk/manifest.txt"
 BULK_EBA = "https://www.eia.gov/opendata/bulk/EBA.zip"
 
 
+def _positive_integer_horizon(value) -> int:
+    if isinstance(value, (bool, np.bool_)) or not isinstance(value, (int, np.integer)) or value < 1:
+        raise ValueError("horizon must be a positive integer number of hours")
+    return int(value)
+
+
 def _retrospective_splits_if_feasible(frame: pd.DataFrame) -> pd.DataFrame:
     """Keep tiny fixtures unassigned; real event-time panels receive purged splits."""
     if frame.event_time.nunique() < 4:
@@ -91,6 +97,7 @@ def _acquire_bulk(config: dict, root: Path):
     dataset = config.get("bulk_dataset")
     if dataset != "EBA":
         raise ValueError("Supported EIA bulk_dataset is 'EBA'")
+    horizon = _positive_integer_horizon(config.get("horizon", 1))
     if "max_download_bytes" not in config:
         raise ValueError("EIA bulk acquisition requires an explicit max_download_bytes")
     respondents = list(config.get("respondents", ["NYIS"]))
@@ -130,9 +137,6 @@ def _acquire_bulk(config: dict, root: Path):
     if target not in wide.columns:
         raise ValueError(f"EIA target {target} absent from this bulk response")
     frames = []
-    horizon = int(config.get("horizon", 1))
-    if horizon < 1:
-        raise ValueError("horizon must be positive")
     for respondent, group in wide.groupby(level="respondent"):
         group = group.droplevel("respondent").sort_index().reindex(columns=columns)
         if len(group) <= horizon:
@@ -194,6 +198,7 @@ def _acquire_bulk(config: dict, root: Path):
 
 def acquire(config: dict, root: Path):
     reject_secrets(config)
+    horizon = _positive_integer_horizon(config.get("horizon", 1))
     if config.get("bulk_dataset"):
         return _acquire_bulk(config, root)
     params = {
@@ -233,9 +238,6 @@ def acquire(config: dict, root: Path):
     if target not in wide.columns:
         raise ValueError(f"EIA target {target} absent from this response")
     frames = []
-    horizon = int(config.get("horizon", 1))
-    if horizon < 1:
-        raise ValueError("horizon must be positive")
     for ba, group in wide.groupby(level="respondent"):
         group = group.droplevel("respondent").reindex(columns=columns)
         if len(group) <= horizon:

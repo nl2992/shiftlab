@@ -1,6 +1,8 @@
 import numpy as np
 import pytest
 from scipy.special import expit
+from scipy.stats import lognorm, norm
+from scipy.stats import t as student_t
 
 from shiftlab.data.bootstrap import mean_difference_interval
 from shiftlab.data.schemas import SyntheticConfig
@@ -33,6 +35,53 @@ def test_oracle_moments_and_quantiles_replicated(scenario):
         coverages.append(np.mean(covered))
     assert abs(np.mean(means)) < 0.03
     assert abs(np.mean(coverages) - 0.9) < 0.02
+
+
+@pytest.mark.parametrize(
+    "scenario",
+    [
+        "iid_regression",
+        "target_variance",
+        "conditional_variance",
+        "heteroskedastic",
+        "dependent_errors",
+        "garch",
+        "heavy_tailed",
+        "asymmetric_errors",
+        "tail_frequency",
+        "extreme_events",
+    ],
+)
+def test_oracle_radius_has_exactly_ninety_percent_mass_under_its_residual_law(scenario):
+    config = SyntheticConfig(n=1200, scenario=scenario, seed=719, severity=1.5)
+    _, oracle = next(generate_chunks(config))
+    radius = oracle.radius_90.to_numpy(dtype=float)
+    scale = oracle.sigma.to_numpy(dtype=float)
+    kind = oracle.quantile_kind.iloc[0]
+
+    assert np.isfinite(radius).all()
+    assert (radius > 0).all()
+    if kind in {"normal", "marginal_normal_dependent"}:
+        mass = 2 * norm.cdf(radius / scale) - 1
+    elif kind == "student_t5":
+        mass = 2 * student_t.cdf(radius / scale * np.sqrt(5 / 3), df=5) - 1
+    elif kind == "centered_lognormal":
+        center, standardizer = np.exp(0.5), np.sqrt((np.e - 1) * np.e)
+        upper = center + standardizer * radius / scale
+        lower = center - standardizer * radius / scale
+        lower_mass = np.where(lower > 0, lognorm.cdf(lower, s=1), 0.0)
+        mass = lognorm.cdf(upper, s=1) - lower_mass
+    elif kind == "normal_mixture":
+        weight = oracle.weight.to_numpy(dtype=float)
+        rare_rate = 0.01 + 0.1 * np.tanh(config.severity) * weight
+        standardized_radius = radius / scale
+        mass = (1 - rare_rate) * (2 * norm.cdf(standardized_radius) - 1) + rare_rate * (
+            2 * norm.cdf(standardized_radius / 8) - 1
+        )
+    else:
+        raise AssertionError(f"Unvalidated residual law: {kind}")
+
+    assert np.max(np.abs(mass - 0.9)) < 1e-8
 
 
 def test_ar1_autocorrelation():

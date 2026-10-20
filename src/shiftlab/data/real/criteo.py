@@ -7,6 +7,7 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
+from ..tasks import finite_real_parameter
 from .common import numeric_rows, save_source
 from .download import download
 
@@ -35,8 +36,19 @@ OUTCOMES = {"sale", "sales_amount_in_euro", "time_delay_for_conversion"}
 
 def conversion_rows(original: pd.DataFrame, config: dict):
     columns = config.get("feature_columns", ["nb_clicks_1week", "product_price"])
+    if (
+        not isinstance(columns, (list, tuple))
+        or not columns
+        or any(not isinstance(column, str) for column in columns)
+        or len(set(columns)) != len(columns)
+        or not set(columns) <= set(original.columns)
+    ):
+        raise ValueError("feature_columns must be unique source column names")
     if set(columns) & OUTCOMES:
         raise ValueError("Conversion outcomes/delays must never be predictive features")
+    instant_features = config.get("assume_instant_click_features", False)
+    if not isinstance(instant_features, (bool, np.bool_)):
+        raise TypeError("assume_instant_click_features must be boolean")
     factors = {"seconds": 1.0, "minutes": 60.0, "hours": 3600.0, "days": 86400.0}
     if config.get("delay_unit") not in factors:
         raise ValueError(
@@ -57,9 +69,9 @@ def conversion_rows(original: pd.DataFrame, config: dict):
         raise ValueError("Positive conversion delay must be finite")
     if np.any(positive & (delay < 0)):
         raise ValueError("Positive conversion has negative delay")
-    window_days = float(config.get("outcome_window_days", 30))
-    if not np.isfinite(window_days) or window_days <= 0:
-        raise ValueError("Outcome window must be finite and positive")
+    window_days = finite_real_parameter(
+        config.get("outcome_window_days", 30), "Outcome window", positive=True
+    )
     window = window_days * 86400
     if not np.isfinite(window):
         raise ValueError("Outcome window in seconds must be finite")
@@ -68,18 +80,18 @@ def conversion_rows(original: pd.DataFrame, config: dict):
         raise ValueError("Computed label event times must be finite when known")
     if np.any((sale == 1) & (target_event > click + window)):
         raise ValueError("Conversion exceeds documented outcome window")
-    latency = float(config.get("feedback_latency_seconds", 0))
-    if not np.isfinite(latency) or latency < 0:
-        raise ValueError("feedback_latency_seconds must be finite and nonnegative")
+    latency = finite_real_parameter(
+        config.get("feedback_latency_seconds", 0),
+        "feedback_latency_seconds",
+        nonnegative=True,
+    )
     available = target_event + latency
     observation_end = config.get("observation_end")
     if observation_end is None:
         # No observed positive at all can certify a later nonconversion's full 30-day followup.
         available = np.where(sale == 1, available, np.nan)
     else:
-        observation_end = float(observation_end)
-        if not np.isfinite(observation_end):
-            raise ValueError("observation_end must be finite")
+        observation_end = finite_real_parameter(observation_end, "observation_end")
         available = np.where(available <= observation_end, available, np.nan)
     X = original[columns].apply(pd.to_numeric, errors="raise").replace(-1, np.nan).to_numpy(float)
     frame = numeric_rows(
@@ -103,7 +115,7 @@ def conversion_rows(original: pd.DataFrame, config: dict):
     frame["event_time"] = click
     frame["label_event_time"] = target_event
     frame["label_available_time"] = available
-    if config.get("assume_instant_click_features", False):
+    if instant_features:
         frame["prediction_time"] = click
         frame["feature_available_time"] = click
     return frame

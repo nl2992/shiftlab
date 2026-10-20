@@ -1,6 +1,7 @@
 """Explicit supervised tasks constructed from evaluator-owned arrays."""
 
 from dataclasses import dataclass
+from numbers import Real
 
 import numpy as np
 
@@ -69,6 +70,18 @@ TASKS = {
         "target event plus measured release lag",
     ),
 }
+
+
+def finite_real_parameter(value, name: str, *, positive=False, nonnegative=False) -> float:
+    """Validate a scalar numeric configuration value before converting it to float."""
+    if isinstance(value, (bool, np.bool_)) or not isinstance(value, Real) or not np.isfinite(value):
+        raise ValueError(f"{name} must be a finite real number")
+    value = float(value)
+    if positive and value <= 0:
+        raise ValueError(f"{name} must be positive")
+    if nonnegative and value < 0:
+        raise ValueError(f"{name} must be nonnegative")
+    return value
 
 
 def dataset_task_specs(dataset: str, config: dict) -> list[dict]:
@@ -184,9 +197,9 @@ def dataset_task_specs(dataset: str, config: dict) -> list[dict]:
             }
         ]
     if dataset == "criteo":
-        window = float(config.get("outcome_window_days", 30))
-        if not np.isfinite(window) or window <= 0:
-            raise ValueError("Criteo outcome_window_days must be finite and positive")
+        window = finite_real_parameter(
+            config.get("outcome_window_days", 30), "Criteo outcome_window_days", positive=True
+        )
         return [
             {
                 "task_id": "conversion_within_followup_window",

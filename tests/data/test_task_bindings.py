@@ -103,9 +103,9 @@ def test_invalid_opsd_frequency_cannot_receive_a_task_binding():
         dataset_task_specs("opsd", {"frequency": "weekly"})
 
 
-@pytest.mark.parametrize("window", [0, -1, np.nan, np.inf])
+@pytest.mark.parametrize("window", [0, -1, True, "30", np.nan, np.inf])
 def test_criteo_task_binding_rejects_invalid_followup_window(window):
-    with pytest.raises(ValueError, match="outcome_window_days"):
+    with pytest.raises(ValueError, match="Criteo outcome_window_days"):
         dataset_task_specs("criteo", {"outcome_window_days": window})
 
 

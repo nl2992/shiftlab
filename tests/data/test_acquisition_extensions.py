@@ -235,6 +235,43 @@ def test_criteo_rejects_nonpositive_or_nonfinite_followup_windows(window):
         conversion_rows(original, {"delay_unit": "seconds", "outcome_window_days": window})
 
 
+@pytest.mark.parametrize(
+    ("key", "value"),
+    [
+        ("outcome_window_days", True),
+        ("outcome_window_days", "30"),
+        ("feedback_latency_seconds", True),
+        ("feedback_latency_seconds", "2"),
+        ("observation_end", True),
+        ("observation_end", "2000"),
+    ],
+)
+def test_criteo_rejects_coerced_numeric_configuration(key, value):
+    original = pd.DataFrame({name: [1] for name in COLUMNS})
+    original["sale"] = [1]
+    original["time_delay_for_conversion"] = [1]
+    original["click_timestamp"] = [1000]
+    with pytest.raises(ValueError, match="finite real number"):
+        conversion_rows(original, {"delay_unit": "seconds", key: value})
+
+
+def test_criteo_requires_boolean_feature_availability_assumption():
+    original = pd.DataFrame({name: [1] for name in COLUMNS})
+    with pytest.raises(TypeError, match="must be boolean"):
+        conversion_rows(
+            original, {"delay_unit": "seconds", "assume_instant_click_features": "false"}
+        )
+
+
+@pytest.mark.parametrize(
+    "columns", ["product_price", [], ["product_price", "product_price"], ["missing"]]
+)
+def test_criteo_requires_unique_existing_feature_columns(columns):
+    original = pd.DataFrame({name: [1] for name in COLUMNS})
+    with pytest.raises(ValueError, match="unique source column names"):
+        conversion_rows(original, {"delay_unit": "seconds", "feature_columns": columns})
+
+
 @pytest.mark.parametrize("latency", [-1, np.nan, np.inf])
 def test_criteo_rejects_negative_or_nonfinite_feedback_latency(latency):
     original = pd.DataFrame({name: [1] for name in COLUMNS})

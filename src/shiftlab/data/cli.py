@@ -153,5 +153,12 @@ def main(command=None):
 
     try:
         _main(command)
-    except (ValueError, RuntimeError, OSError, KeyError, requests.RequestException) as exc:
+    except (
+        TypeError,
+        ValueError,
+        RuntimeError,
+        OSError,
+        KeyError,
+        requests.RequestException,
+    ) as exc:
         raise SystemExit(f"Data command failed: {exc}") from None

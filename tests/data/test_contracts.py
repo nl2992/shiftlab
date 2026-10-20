@@ -81,6 +81,22 @@ def test_replay_emits_labels_arriving_after_the_final_request_in_time_order():
     assert [event.available_time for event in labels] == [2.0, 5.0]
 
 
+@pytest.mark.parametrize(
+    ("column", "value", "message"),
+    [
+        ("prediction_time", np.inf, "prediction_time must be finite"),
+        ("target", np.inf, "target must be finite"),
+        ("features", np.array([1.0, np.inf]), "features must be finite"),
+        ("sample_weight", np.inf, "sample_weight must be finite"),
+    ],
+)
+def test_schema_rejects_infinite_numeric_values(column, value, message):
+    frame = standardize(np.array([[1.0, 2.0]]), np.array([3.0]), "domain-a", "fixture")
+    frame.at[0, column] = value
+    with pytest.raises(ValueError, match=message):
+        validate_frame(frame)
+
+
 def test_future_targets_do_not_change_requests():
     frame, _ = next(generate_chunks(SyntheticConfig(n=100, delay=5)))
     other = frame.copy()

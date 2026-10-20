@@ -74,11 +74,13 @@ gates are checked by `tests/data/test_gpu_benchmark_report.py`.
 
 ## Data contract and observability
 
-Schema 1.0.0 stores stable sample IDs, optional entity/domain IDs, event time, feature
+Schema 1.1.0 stores stable sample IDs, optional entity/domain IDs, event time, feature
 availability, prediction time, outcome event time, label availability, features, target,
 optional regime, decision context, weights, split, and provenance. Times are simulation indices
 for synthetic data, UTC epoch seconds for timestamped real data, and null where not known.
 Real original timestamps, offsets, flags and source fields remain in metadata or raw files.
+Known clock values, targets, feature vectors and sample weights must be numeric and finite;
+missing feature/target values and unknown clocks remain nullable where the task permits them.
 
 Every newly published dataset manifest also includes `task_specs`: the target definition,
 task kind, declared horizon semantics (including per-row irregular horizons), metric names,
@@ -90,7 +92,8 @@ still readable and receive an empty list when loaded.
 Read Parquet only in evaluator/acquisition code. `data.streaming.replay` yields immutable
 `Request` and `Label` messages, excluding targets, regimes and oracles from requests. Features
 must be available by prediction time. Requests at equal timestamps precede feedback at that
-timestamp. Pending labels beyond the prediction horizon are not flushed into online learners.
+timestamp. Pending labels after the final request are emitted in availability order so delayed
+feedback is not lost when no later prediction is scheduled.
 The shared `data.label_availability` helpers use strict-before cutoffs for training at a request
 time and keep unknown or missing outcomes masked.
 Unknown label availability withholds labels. Unknown prediction/feature availability blocks

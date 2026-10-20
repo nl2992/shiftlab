@@ -2,6 +2,7 @@
 
 from typing import Literal
 
+import numpy as np
 import pandas as pd
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 
@@ -131,15 +132,43 @@ def validate_frame(frame: pd.DataFrame) -> dict:
         raise ValueError("Structured-reference datasets require one reference per observation")
     if not frame.split.isin(["train", "validation", "calibration", "test", "unassigned"]).all():
         raise ValueError("Invalid split")
+    numeric_times = {}
+    for column in TIMES:
+        values = pd.to_numeric(frame[column], errors="coerce")
+        malformed = frame[column].notna() & values.isna()
+        if malformed.any():
+            raise ValueError(f"{column} must be numeric when known")
+        known = values.notna()
+        if (~np.isfinite(values.loc[known].to_numpy(dtype=float))).any():
+            raise ValueError(f"{column} must be finite when known")
+        numeric_times[column] = values
     for early, late in [
         ("event_time", "feature_available_time"),
         ("feature_available_time", "prediction_time"),
         ("label_event_time", "label_available_time"),
     ]:
-        mask = frame[early].notna() & frame[late].notna()
-        if (frame.loc[mask, early] > frame.loc[mask, late]).any():
+        mask = numeric_times[early].notna() & numeric_times[late].notna()
+        if (numeric_times[early].loc[mask] > numeric_times[late].loc[mask]).any():
             raise ValueError(f"Invalid ordering: {early} > {late}")
-    weights = frame.sample_weight.dropna()
+    target = pd.to_numeric(frame.target, errors="coerce")
+    if (frame.target.notna() & target.isna()).any():
+        raise ValueError("target must be numeric when known")
+    if np.isinf(target.dropna().to_numpy(dtype=float)).any():
+        raise ValueError("target must be finite when known")
+    feature_rows = [np.asarray(value, dtype=float) for value in frame.features]
+    if feature_rows:
+        if any(row.ndim != 1 for row in feature_rows):
+            raise ValueError("features must be one-dimensional numeric vectors")
+        if any(row.shape != feature_rows[0].shape for row in feature_rows[1:]):
+            raise ValueError("feature vectors must have a consistent dimension")
+        if any(np.isinf(row).any() for row in feature_rows):
+            raise ValueError("features must be finite or missing")
+    weights_numeric = pd.to_numeric(frame.sample_weight, errors="coerce")
+    if (frame.sample_weight.notna() & weights_numeric.isna()).any():
+        raise ValueError("sample_weight must be numeric when known")
+    if np.isinf(weights_numeric.dropna().to_numpy(dtype=float)).any():
+        raise ValueError("sample_weight must be finite when known")
+    weights = weights_numeric.dropna()
     if (weights < 0).any():
         raise ValueError("negative sample weights")
     order = ["train", "validation", "calibration", "test"]

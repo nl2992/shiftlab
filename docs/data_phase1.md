@@ -111,10 +111,12 @@ suppresses exogenous changes. `data/reports/temporal_pattern_validation.json` re
 checks for all ten schedules, including transition intervals, reported switch indices,
 zero-strength nulls and the HMM dwell-rate diagnostic. Parameter values are configurable;
 presets avoid Cartesian grids.
-`uv run python scripts/validate_covariate_properties.py` produces five-seed checks of all nine
-pure-covariate mechanisms at severities 0, 0.5, 1 and 2, including independent conditional-mean
-formula comparisons and mechanism-specific feature-marginal moments in
-`data/reports/covariate_property_validation.json`.
+`uv run python scripts/validate_covariate_properties.py` checks all nine pure-covariate mechanisms
+through dimension 1024 with independent conditional-mean formula comparisons and mechanism-specific
+feature-marginal moments in `data/reports/covariate_property_validation.json`. Dimensions 2, 4, 8
+and 16 use five seeds, n=30000 and severities 0, 0.5, 1 and 2; dimensions 32 through 1024 use
+three seeds, n=5000 and severity 1. High-dimensional skewness is gated on positive direction;
+other moments use analytic targets and finite-sample tolerances.
 `uv run python scripts/validate_concept_residuals.py` checks independent conditional mean/scale
 formulas, unchanged feature moments, Gaussian residual variance and 90% oracle-radius coverage,
 and Bernoulli boundary-rotation rates across eight concept mechanisms and four severities;

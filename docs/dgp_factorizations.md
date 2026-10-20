@@ -41,3 +41,10 @@ conditional mean directly against its generated oracle and checks regime-specifi
 against analytic targets for mean, variance, rotated covariance, correlation, mixture weights,
 new-component probability, tails and skew. These are independent property checks; the generic
 oracle-risk test alone is not used as evidence that the covariate mechanism is correct.
+
+`tests/data/test_target_shift_properties.py` and
+`data/reports/target_shift_validation.json` independently check the prior-shift class prior and
+class-conditional feature means, symmetric label-corruption posterior, target-level conditional
+mean, target-variance residual variance, and tail-frequency mixture variance across five seeds.
+All reported checks pass their prespecified analytic tolerances. Replicate summaries remain
+descriptive.

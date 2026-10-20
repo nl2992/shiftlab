@@ -1,0 +1,147 @@
+{
+  "description": "Five-seed independent mechanism checks for class-prior, label-corruption, regression-level, variance, and rare-tail-frequency target shifts.",
+  "n_per_seed": 30000,
+  "seeds": [
+    11,
+    23,
+    37,
+    53,
+    71
+  ],
+  "evidence": [
+    {
+      "scenario": "prior_shift",
+      "n_per_seed": 30000,
+      "property": "shifted class prior and P(X0|Y) means",
+      "observed_shifted_prior_mean_over_seeds": 0.7326266666666665,
+      "expected_shifted_prior": 0.7310585786300049,
+      "prior_absolute_error": 0.0015680880366616412,
+      "prior_tolerance": 0.015,
+      "mean_class_conditional_x0_over_seeds": {
+        "negative_mean_x0": -0.9947382928615396,
+        "positive_mean_x0": 1.0022515181165708
+      },
+      "expected_class_conditional_x0": {
+        "negative": -1.0,
+        "positive": 1.0
+      },
+      "class_conditional_mean_max_error": 0.005261707138460414,
+      "class_conditional_mean_tolerance": 0.05,
+      "passes": true
+    },
+    {
+      "scenario": "imbalance",
+      "n_per_seed": 30000,
+      "property": "shifted class prior and P(X0|Y) means",
+      "observed_shifted_prior_mean_over_seeds": 0.23296,
+      "expected_shifted_prior": 0.231969316684074,
+      "prior_absolute_error": 0.0009906833159259998,
+      "prior_tolerance": 0.015,
+      "mean_class_conditional_x0_over_seeds": {
+        "negative_mean_x0": -0.9977715958572541,
+        "positive_mean_x0": 1.0057097248299034
+      },
+      "expected_class_conditional_x0": {
+        "negative": -1.0,
+        "positive": 1.0
+      },
+      "class_conditional_mean_max_error": 0.005709724829903395,
+      "class_conditional_mean_tolerance": 0.05,
+      "passes": true
+    },
+    {
+      "scenario": "label_corruption",
+      "n_per_seed": 50000,
+      "property": "symmetric label-flip posterior formula",
+      "max_absolute_probability_formula_error": 0.0,
+      "tolerance": 1e-12,
+      "passes": true
+    },
+    {
+      "scenario": "target_level",
+      "n_per_seed": 30000,
+      "property": "conditional residual mean/variance by regime",
+      "regimes": {
+        "baseline": {
+          "observed_mean": -0.0015047426931527458,
+          "expected_mean": 0.0,
+          "mean_absolute_error": 0.0015047426931527458,
+          "observed_variance": 0.08978194581470292,
+          "expected_variance": 0.09,
+          "variance_relative_error": 0.0024228242810786504
+        },
+        "shifted": {
+          "observed_mean": 0.9991867256778025,
+          "expected_mean": 1.0,
+          "mean_absolute_error": 0.0008132743221974659,
+          "observed_variance": 0.0898818133237446,
+          "expected_variance": 0.09,
+          "variance_relative_error": 0.0013131852917265695
+        }
+      },
+      "replicates": 5,
+      "mean_absolute_error_tolerance": 0.02,
+      "variance_relative_error_tolerance": 0.025,
+      "passes": true
+    },
+    {
+      "scenario": "target_variance",
+      "n_per_seed": 30000,
+      "property": "conditional residual mean/variance by regime",
+      "regimes": {
+        "baseline": {
+          "observed_mean": -0.0015047426931527458,
+          "expected_mean": 0.0,
+          "mean_absolute_error": 0.0015047426931527458,
+          "observed_variance": 0.08978194581470292,
+          "expected_variance": 0.09,
+          "variance_relative_error": 0.0024228242810786504
+        },
+        "shifted": {
+          "observed_mean": -0.0016265486443945369,
+          "expected_mean": 0.0,
+          "mean_absolute_error": 0.0016265486443945369,
+          "observed_variance": 0.3595272532949785,
+          "expected_variance": 0.36,
+          "variance_relative_error": 0.0013131852917264153
+        }
+      },
+      "replicates": 5,
+      "mean_absolute_error_tolerance": 0.02,
+      "variance_relative_error_tolerance": 0.025,
+      "passes": true
+    },
+    {
+      "scenario": "tail_frequency",
+      "n_per_seed": 30000,
+      "property": "conditional residual mean/variance by regime",
+      "regimes": {
+        "baseline": {
+          "observed_mean": -0.0019533507679851776,
+          "expected_mean": 0.0,
+          "mean_absolute_error": 0.0019533507679851776,
+          "observed_variance": 0.14400078799719318,
+          "expected_variance": 0.1467,
+          "variance_relative_error": 0.01839953648811736
+        },
+        "shifted": {
+          "observed_mean": 0.00023344303545495942,
+          "expected_mean": 0.0,
+          "mean_absolute_error": 0.00023344303545495942,
+          "observed_variance": 0.5690171193065209,
+          "expected_variance": 0.5785238864269187,
+          "variance_relative_error": 0.016432799653465485
+        }
+      },
+      "replicates": 5,
+      "mean_absolute_error_tolerance": 0.02,
+      "variance_relative_error_tolerance": 0.06,
+      "passes": true
+    }
+  ],
+  "interpretation": "Replicate means are descriptive. The formulas are derived from the documented DGP and do not establish real-world shift classifications.",
+  "processing_commit": "dfd14a6333bfe94294b7217ca6175c2cc88b241a",
+  "source_hash": "bec4b48ac39c298d0ccd7923b7df1c30f7bac089fb5fc13ba31144bd89b494b0",
+  "script_sha256": "b0a2a84580259caa7174c447c51bd8e6aa3fb867d96c4ba444588faf7f5c8b07",
+  "executed_at": "2026-10-20T00:05:55.310132+00:00"
+}

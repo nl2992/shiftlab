@@ -19,6 +19,10 @@ from .validation import validate_all
 
 
 def generate(config: SyntheticConfig):
+    if config.scenario not in SCENARIOS:
+        raise ValueError(
+            f"Unknown synthetic scenario {config.scenario!r}; choices={list(SCENARIOS)}"
+        )
     if config.device == "auto":
         config = config.model_copy(
             update={"device": "cuda" if environment()["cuda_available"] else "cpu"}

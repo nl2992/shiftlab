@@ -4,6 +4,7 @@ import pytest
 from pydantic import ValidationError
 
 from shiftlab.data.chronological_splits import assign_splits, fit_training_scaler
+from shiftlab.data.cli import generate
 from shiftlab.data.real.adapters import standardize
 from shiftlab.data.schemas import SyntheticConfig, validate_frame
 from shiftlab.data.streaming import Label, Request, replay
@@ -163,6 +164,13 @@ def test_invalid_configuration():
         SyntheticConfig(d=1)
     with pytest.raises(ValidationError):
         SyntheticConfig(unknown=1)
+
+
+def test_cli_generation_rejects_unknown_scenario_with_registry_choices(tmp_path):
+    config = SyntheticConfig(n=100, scenario="not_registered", output=str(tmp_path))
+    with pytest.raises(ValueError, match="Unknown synthetic scenario.*choices"):
+        generate(config)
+    assert not (tmp_path / "synthetic").exists()
 
 
 @pytest.mark.parametrize("field", ["seed", "delay", "regimes", "severity", "missing"])

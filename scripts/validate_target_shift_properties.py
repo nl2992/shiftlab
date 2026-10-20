@@ -200,7 +200,11 @@ def main() -> None:
     write_json(output, report)
     for row in report["evidence"]:
         print(row["scenario"], row["property"])
+    failures = [row for row in report["evidence"] if not row["passes"]]
+    print(f"records={len(report['evidence'])} failures={len(failures)}")
     print(output)
+    if failures:
+        raise SystemExit(1)
 
 
 if __name__ == "__main__":

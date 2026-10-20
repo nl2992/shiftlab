@@ -13,6 +13,7 @@ for per-version readiness, [data/reports/dataset_paper_suitability.md](data/repo
 for the source-level paper matrix, and [data/reports/data_quality_report.md](data/reports/data_quality_report.md)
 for actual checks. The full requirement status is maintained in [docs/phase1_completion_audit.md](docs/phase1_completion_audit.md);
 it remains in progress while source-specific and statistical gaps are addressed.
+The executed stationary-control evidence is in [data/reports/stationary_control_validation.json](data/reports/stationary_control_validation.json).
 
 ## Install and run
 

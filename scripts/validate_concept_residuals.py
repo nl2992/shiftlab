@@ -20,7 +20,7 @@ SCENARIOS = [
 ]
 SEEDS = [11, 23, 37, 53, 71]
 SEVERITIES = [0.0, 0.5, 1.0, 2.0]
-DIMENSIONS = [2, 3, 8]
+DIMENSIONS = [2, 3, 8, 16]
 N = 20000
 
 
@@ -175,7 +175,7 @@ def evaluate() -> dict:
                     row["passes"] = bool(passed)
                     evidence.append(row)
     return {
-        "description": "Five-seed concept mechanism checks across dimensions 2, 3 and 8 and four severities, including independent conditional formulas and residual-law coverage.",
+        "description": "Five-seed concept mechanism checks across dimensions 2, 3, 8 and 16 and four severities, including independent conditional formulas and residual-law coverage.",
         "scenarios": SCENARIOS,
         "seeds": SEEDS,
         "severities": SEVERITIES,

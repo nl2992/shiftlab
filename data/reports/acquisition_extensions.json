@@ -83,7 +83,15 @@
       "url": "https://worksheets.codalab.org/rest/bundles/0x8cd3de0634154aeaad2ee6eb96723c6e/contents/blob/",
       "observed_error": "TLS certificate expired; verification left enabled",
       "official_issue": "https://github.com/p-lambda/wilds/issues/173",
-      "verification": "official WILDS 2.0 evaluated on a generated local fixture; source data not acquired"
+      "verification": "official WILDS 2.0 evaluated on a generated local fixture; source data not acquired",
+      "latest_attempt": {
+        "checked_at": "2026-10-20T06:19:00Z",
+        "command": "uv run python scripts/download_data.py --dataset wilds --config configs/data/public/wilds.yaml --execute --root data",
+        "result": "failed before receiving archive bytes",
+        "observed_error": "TLS certificate verification failed: certificate has expired",
+        "tls_verification": "enabled; no bypass attempted",
+        "download_budget_bytes": 130000000
+      }
     },
     {
       "dataset": "criteo",

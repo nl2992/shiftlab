@@ -3,8 +3,40 @@
   "targets": "Each case reports marginal and history-conditional split calibration and oracle-radius coverage, with evaluator-regime breakdowns.",
   "limitations": "Five independently seeded streams are descriptive; no confidence interval, online validity, fitted-predictor guarantee, or IID claim is made. Temporal cases need dependence-aware inference.",
   "input_sha256": "4280909ea8bd72a9b03098d7d25228bf874b50c1148d4ede59e6eaba96944e8c",
-  "script_sha256": "35709981693993f81eeee2ea9829076d12965e0f029021ad4c3dd7514adee3e8",
-  "processing_commit": "eab901d3ecc6b71c07a81a4e0e28e3c1ba88f547",
+  "script_sha256": "3f67596b044373acc715f6950a3e54a7c2e0fd323b0ed340d7df4362e0228c19",
+  "processing_commit": "1f15b83610de7edd4a5cb5e6a3f4e51777bd3586",
+  "replication_check": {
+    "expected_presets": [
+      "abrupt_concept_coefficient_change",
+      "abrupt_residual_variance_increase",
+      "asymmetric_residuals",
+      "conditional_heteroskedasticity",
+      "delayed_calibration_labels",
+      "gradual_residual_variance_increase",
+      "heavy_tailed_residuals",
+      "hidden_regime_variance_switching",
+      "homoskedastic_residuals",
+      "intermittent_extreme_events",
+      "missing_calibration_labels",
+      "recurring_high_low_noise_periods",
+      "time_dependent_residuals"
+    ],
+    "expected_seeds": [
+      42,
+      43,
+      44,
+      45,
+      46
+    ],
+    "expected_records": 65,
+    "observed_records": 65,
+    "missing_pairs": [],
+    "duplicate_pairs": [],
+    "unexpected_pairs": [],
+    "passes": true
+  },
+  "metric_rows_valid": true,
+  "checks_pass": true,
   "replicates": [
     {
       "preset": "homoskedastic_residuals",

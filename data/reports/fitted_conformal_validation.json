@@ -2,6 +2,39 @@
   "protocol": "Five-seed comparison of a frozen fitted Ridge predictor and a Ridge predictor refit every 50 test requests on a rolling window capped at the latest 2400 eligible rows. At each refit, only train and earlier test labels whose availability precedes the block's first request are eligible. Calibration labels are held out from refitting; the prequential radius uses calibration and prior test scores that arrived before each request.",
   "alpha": 0.1,
   "coverage_target": 0.9,
+  "replication_check": {
+    "expected_presets": [
+      "abrupt_concept_coefficient_change",
+      "abrupt_residual_variance_increase",
+      "asymmetric_residuals",
+      "conditional_heteroskedasticity",
+      "delayed_calibration_labels",
+      "gradual_residual_variance_increase",
+      "heavy_tailed_residuals",
+      "hidden_regime_variance_switching",
+      "homoskedastic_residuals",
+      "intermittent_extreme_events",
+      "missing_calibration_labels",
+      "recurring_high_low_noise_periods",
+      "time_dependent_residuals"
+    ],
+    "expected_seeds": [
+      42,
+      43,
+      44,
+      45,
+      46
+    ],
+    "expected_records": 65,
+    "observed_records": 65,
+    "missing_pairs": [],
+    "duplicate_pairs": [],
+    "unexpected_pairs": [],
+    "passes": true
+  },
+  "metric_rows_valid": true,
+  "leakage_rows_valid": true,
+  "checks_pass": true,
   "replicates": [
     {
       "preset": "homoskedastic_residuals",
@@ -3061,10 +3094,10 @@
       "mean_prequential_radius": 0.4888872187202857
     }
   ],
-  "processing_commit": "f508efcf71712bc1ef8695df3bdbcd22561320ae",
-  "source_hash": "4db40c6c3337101ee6b64729d0ffca6bb8db3a8f4419de8cbde89da4d8bbed6a",
-  "script_sha256": "421d9642d5b244120c51b884d26b56763f3305499a9d40a1ec8c327c3951d89d",
-  "executed_at": "2026-10-19T23:54:16.349284+00:00",
+  "processing_commit": "1f15b83610de7edd4a5cb5e6a3f4e51777bd3586",
+  "source_hash": "dd61ef522d4d8af6061a8d5068777bf93cdad761237143defda905d4673f9db2",
+  "script_sha256": "b03609a3cd4c1615dcc2876c51c9589b49b164897ee6aab2f95ab28c305c1444",
+  "executed_at": "2026-10-20T01:20:16.419395+00:00",
   "limitations": [
     "The frozen baseline adapts only its residual quantile; the adaptive arm refits Ridge every 50 test requests on at most 2400 recent arrived train/test labels.",
     "The adaptive arm uses past test labels only after strict availability; calibration rows remain held out from model fitting.",

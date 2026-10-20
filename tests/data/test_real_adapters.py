@@ -2,8 +2,9 @@ import json
 
 import numpy as np
 import pandas as pd
+import pytest
 
-from shiftlab.data.real.adapters import acquire
+from shiftlab.data.real.adapters import _licensed_timestamp_seconds, acquire
 from shiftlab.data.validation import validate_dataset
 
 
@@ -82,8 +83,40 @@ def test_local_import_license_and_timestamp_units(tmp_path):
         "feature_columns": ["x"],
         "target_column": "y",
         "time_columns": {"event_time": "time"},
+        "time_zones": {"event_time": "UTC"},
     }
     destination = acquire("licensed_local", config, tmp_path / "data")
     frame = pd.read_parquet(destination / "observations.parquet")
     assert frame.event_time.iloc[0] == pd.Timestamp("2023-01-01", tz="UTC").timestamp()
     assert json.loads(frame.metadata.iloc[0])["contract"] == "fixture-contract"
+
+
+def test_licensed_numeric_epoch_requires_and_respects_declared_unit():
+    seconds = [pd.Timestamp("2023-01-01", tz="UTC").timestamp()]
+    assert (
+        _licensed_timestamp_seconds(seconds, "event_time", {"time_units": {"event_time": "s"}})[0]
+        == seconds[0]
+    )
+    with pytest.raises(ValueError, match="explicit time_units"):
+        _licensed_timestamp_seconds(seconds, "event_time", {})
+
+
+def test_licensed_naive_datetime_requires_explicit_timezone():
+    with pytest.raises(ValueError, match="explicit time_zones"):
+        _licensed_timestamp_seconds(["2023-01-01 09:00"], "event_time", {})
+    local = _licensed_timestamp_seconds(
+        ["2023-01-01 09:00"], "event_time", {"time_zones": {"event_time": "America/New_York"}}
+    )
+    assert local[0] == pd.Timestamp("2023-01-01 14:00", tz="UTC").timestamp()
+
+
+def test_licensed_datetime_columns_preserve_their_timezone_and_epoch():
+    aware = pd.Series(pd.date_range("2023-01-01", periods=1, tz="America/Los_Angeles"))
+    seconds = _licensed_timestamp_seconds(aware, "event_time", {})
+    assert seconds[0] == pd.Timestamp("2023-01-01 08:00", tz="UTC").timestamp()
+
+    naive = pd.Series(pd.date_range("2023-01-01", periods=1))
+    seconds = _licensed_timestamp_seconds(
+        naive, "event_time", {"time_zones": {"event_time": "UTC"}}
+    )
+    assert seconds[0] == pd.Timestamp("2023-01-01", tz="UTC").timestamp()

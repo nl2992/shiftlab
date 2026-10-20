@@ -189,7 +189,10 @@ application-grounded cost estimates. Dynamic optimal interventions remain unimpl
 - Binance: a tiny monthly daily-bar adapter verifies publisher SHA256 checksums and detects
   timestamp precision. OHLCV features require bar close; release timestamps remain unknown.
 - Licensed-local imports require explicit license, feature/target mappings and optional time
-  mappings. Original contracts, quotes and quality columns remain in metadata. No restricted
+  mappings. Numeric epoch fields require explicit `time_units` (`s`, `ms`, `us`, or `ns`);
+  timezone-naive datetime fields require an explicit IANA `time_zones` mapping. Ambiguous or
+  nonexistent local DST times are refused unless the source supplies a resolved timestamp.
+  Original contracts, quotes and quality columns remain in metadata. No restricted
   feed is accessed, and licensed raw/processed observations are excluded from version control.
 
 Official references: [UCI Gas](https://archive.ics.uci.edu/dataset/224/gas+sensor+array+drift+dataset),

@@ -3,6 +3,7 @@
 import io
 import json
 import zipfile
+from datetime import datetime
 from pathlib import Path
 
 import numpy as np
@@ -39,6 +40,54 @@ def standardize(X, y, domain, name, event_time=None, metadata=None, split=None, 
             else json.dumps({"availability": "unknown"}),
         }
     )
+
+
+def _licensed_timestamp_seconds(values, field, config):
+    """Convert explicitly mapped local timestamps without guessing units or naive zones."""
+    values = pd.Series(values)
+    unit = config.get("time_units", {}).get(field)
+    timezone = config.get("time_zones", {}).get(field)
+    present = values.notna()
+    if not present.any():
+        return np.full(len(values), np.nan)
+    numeric = pd.to_numeric(values, errors="coerce")
+    present_values = values.loc[present]
+    datetime_values = pd.api.types.is_datetime64_any_dtype(values.dtype) or all(
+        isinstance(value, (datetime, pd.Timestamp, np.datetime64)) for value in present_values
+    )
+    all_numeric = not datetime_values and bool(numeric.loc[present].notna().all())
+    if all_numeric:
+        if unit not in {"s", "ms", "us", "ns"}:
+            raise ValueError(
+                f"Numeric timestamp {field} requires an explicit time_units value: s, ms, us, or ns"
+            )
+        if timezone is not None:
+            raise ValueError(f"time_zones is only for naive datetime timestamps ({field})")
+        parsed = pd.to_datetime(numeric, unit=unit, utc=True, errors="raise")
+    else:
+        if unit is not None:
+            raise ValueError(f"time_units applies only to numeric timestamps ({field})")
+        converted = []
+        for value in values:
+            if pd.isna(value):
+                converted.append(pd.NaT)
+                continue
+            stamp = pd.Timestamp(value)
+            if stamp.tzinfo is None:
+                if timezone is None:
+                    raise ValueError(
+                        f"Naive timestamp {field} requires an explicit time_zones value"
+                    )
+                stamp = stamp.tz_localize(timezone, ambiguous="raise", nonexistent="raise")
+            converted.append(stamp.tz_convert("UTC"))
+        parsed = pd.Series(
+            pd.to_datetime(converted, utc=True, errors="raise"), index=values.index
+        ).astype("datetime64[ns, UTC]")
+    if str(parsed.dtype) != "datetime64[ns, UTC]":
+        parsed = parsed.astype("datetime64[ns, UTC]")
+    seconds = parsed.astype("int64").to_numpy(dtype=float) / 1e9
+    seconds[parsed.isna().to_numpy()] = np.nan
+    return seconds
 
 
 def acquire(dataset: str, config: dict, root="data") -> Path:
@@ -138,11 +187,8 @@ def acquire(dataset: str, config: dict, root="data") -> Path:
             "label_available_time",
         ]:
             if column in config.get("time_columns", {}):
-                frame[column] = (
-                    pd.to_datetime(original[config["time_columns"][column]], utc=True)
-                    .astype("datetime64[ns, UTC]")
-                    .astype("int64")
-                    / 1e9
+                frame[column] = _licensed_timestamp_seconds(
+                    original[config["time_columns"][column]], column, config
                 )
         frame["metadata"] = [json.dumps(row, default=str) for row in original.to_dict("records")]
         source = {**source, "license": config["license"]}

@@ -146,6 +146,66 @@ def test_classification_labels_calibrate_to_independent_probability_formula(scen
     assert abs(sum(observed) - expected_total) < 5 * np.sqrt(variance)
 
 
+@pytest.mark.parametrize("severity", [0.0, 0.5, 2.0])
+def test_feedback_change_matches_configured_delay_and_missingness_rates(severity):
+    seeds = [11, 23, 37, 53, 71]
+    baseline_missing, shifted_missing = [], []
+    baseline_total = shifted_total = 0
+    for seed in seeds:
+        config = SyntheticConfig(
+            n=20000,
+            scenario="feedback_change",
+            severity=severity,
+            delay=3,
+            missing=0.1,
+            seed=seed,
+            chunk_size=5000,
+        )
+        parts = list(generate_chunks(config))
+        event_time = np.concatenate([frame.event_time.to_numpy() for frame, _ in parts])
+        available_time = np.concatenate(
+            [frame.label_available_time.to_numpy(dtype=float) for frame, _ in parts]
+        )
+        weights = np.concatenate([oracle.weight.to_numpy() for _, oracle in parts])
+        for regime, records, expected_delay, expected_missing in [
+            (0, baseline_missing, 3, 0.1),
+            (
+                1,
+                shifted_missing,
+                3 + int(np.rint(20 * severity)),
+                min(0.95, 0.1 + 0.2 * np.tanh(severity)),
+            ),
+        ]:
+            selected = weights == regime
+            if not selected.any():
+                assert severity == 0.0 and regime == 1
+                continue
+            observed = available_time[selected]
+            finite = np.isfinite(observed)
+            assert np.unique(observed[finite] - event_time[selected][finite]).tolist() == [
+                expected_delay
+            ]
+            records.append((int((~finite).sum()), len(observed)))
+            if regime == 0:
+                baseline_total += len(observed)
+            else:
+                shifted_total += len(observed)
+
+    for records, expected_rate in [
+        (baseline_missing, 0.1),
+        (shifted_missing, min(0.95, 0.1 + 0.2 * np.tanh(severity))),
+    ]:
+        if not records:
+            continue
+        missing = sum(count for count, _ in records)
+        total = sum(count for _, count in records)
+        expected_missing = expected_rate * total
+        standard_error = np.sqrt(expected_rate * (1 - expected_rate) * total)
+        assert abs(missing - expected_missing) < 5 * standard_error
+    assert baseline_total > 0
+    assert shifted_total == 0 if severity == 0 else shifted_total > 0
+
+
 @pytest.mark.parametrize(
     "scenario", __import__("shiftlab.data.synthetic", fromlist=["SCENARIOS"]).SCENARIOS
 )

@@ -97,14 +97,14 @@
       "delay_unit": "unverified; must be read from an accessible publisher README or local export",
       "verification": "official landing page, fields and terms rechecked; timing, censoring and feature-exclusion fixtures passed; data not acquired",
       "latest_probe": {
-        "checked_at": "2026-10-20T02:17:50+00:00",
-        "method": "streamed GET following the official landing-page download redirect; response body not downloaded",
+        "checked_at": "2026-10-20T03:45:47+00:00",
+        "method": "retried the official streaming downloader; additionally queried the Blob hostname through Cloudflare DNS-over-HTTPS",
         "status": "external_source_unavailable",
         "redirect_host": "criteostorage.blob.core.windows.net",
-        "observed_error": "DNS resolution failed for the official Azure Blob hostname",
-        "local_free_disk_gib": 65.2,
-        "verification": "No archive bytes downloaded; prior reported size remains 310 MB compressed and 6.4 GB uncompressed; external DNS is still the blocker."
-      }
+        "observed_error": "official Blob hostname returned DNS NXDOMAIN (Cloudflare DoH DNS status 3); the official landing page still links to this inaccessible redirect target",
+        "verification": "No archive bytes downloaded; no alternate or substituted dataset used."
+      },
+      "checked_at": "2026-10-20T03:45:47+00:00"
     }
   ]
 }

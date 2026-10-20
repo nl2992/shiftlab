@@ -101,11 +101,15 @@ evaluator targets directly. No source missingness is silently forward-filled.
 The registry implements 41 explicit mechanisms (see `synthetic_catalogue.md`) across iid and
 dependent controls, covariance/mixture changes, class prior shift, label corruption, conditional
 mean and variance changes, heavy/asymmetric tails, local decision changes, costs, constraints,
-feedback availability and resource-cost schedules. Nine temporal patterns compose with these:
-abrupt, multiple, linear, sigmoid, recurring, binary HMM, seasonal, temporary and variable dwell.
+feedback availability and resource-cost schedules. Nine core temporal patterns compose with these:
+abrupt, multiple, linear, sigmoid, recurring, binary HMM, seasonal, temporary and variable dwell;
+an additional ex-ante oblivious adversarial schedule is available for adaptation stress.
 Gradual changes record intervals, not artificial point changepoints. `regimes` controls segment
 count for multiple/recurring/variable-dwell patterns; the HMM always has two states. Regimes=1
-suppresses exogenous changes. Parameter values are configurable; presets avoid Cartesian grids.
+suppresses exogenous changes. `data/reports/temporal_pattern_validation.json` records five-seed
+checks for all ten schedules, including transition intervals, reported switch indices,
+zero-strength nulls and the HMM dwell-rate diagnostic. Parameter values are configurable;
+presets avoid Cartesian grids.
 The medium plan uses 30 seeds; the optional large plan is never materialized automatically.
 
 Regression uses a sign-based decision with false-negative/positive costs; classification uses
@@ -122,11 +126,12 @@ coverage guarantee under arbitrary nonstationarity follows from these calculatio
 
 An interactive performative environment separately models action-induced feature/target
 feedback and joint actions from several predictors. It is not an exogenous precomputed stream.
-Its documented stability condition concerns linear feedback. Performance-degrading model
-updates, adversarial schedules, dynamic budgeted oracle controllers and application-specific
-optimal interventions are deferred; saved manifests state that no dynamic oracle is implemented.
-Resource-cost metadata do not establish optimal interventions. Capacity, cost-sensitive binary
-and abstention decisions plus forecasting, quantile-response, volatility and threshold tasks
+Its documented stability condition concerns linear feedback. `allocate_update_budget` provides
+an exact discrete-budget oracle for independent additive update proposals; interacting sequential
+controllers and application-specific optimal interventions are not implemented. Saved manifests
+state that no dynamic oracle is implemented. Resource-cost metadata do not establish optimal
+interventions. Capacity, cost-sensitive binary and abstention decisions plus forecasting,
+quantile-response, volatility and threshold tasks
 are implemented. `multi_step_forecast_task` returns a fixed-origin target vector with per-step
 outcome indices and finite-target masks; the whole task is available only after its final
 requested outcome. Bounded mean-variance positions and finite multiclass cost matrices are also

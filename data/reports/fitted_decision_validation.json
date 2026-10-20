@@ -10505,6 +10505,17 @@
       "sd_fraction_using_declared_context": 0.0
     }
   ],
+  "replication_check": {
+    "expected_preset_policy_seed_cells": 110,
+    "observed_preset_policy_seed_cells": 110,
+    "expected_regime_rows_per_cell": 3,
+    "missing_cells": [],
+    "cells_with_wrong_regime_row_count": [],
+    "unexpected_cells": [],
+    "passes": true
+  },
+  "metric_rows_valid": true,
+  "checks_pass": true,
   "limitations": [
     "These are two baseline fitted policy classes, not implementations or comparisons of the three target papers' algorithms.",
     "Across-seed sample standard deviations are descriptive and do not account for shared preset structure or justify confidence-interval claims.",

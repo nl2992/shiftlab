@@ -1,7 +1,9 @@
 """Execute fitted, learner-only decision diagnostics over the named stress presets."""
 
 import json
+from collections import Counter
 from dataclasses import replace
+from itertools import product
 from pathlib import Path
 
 import numpy as np
@@ -34,6 +36,36 @@ def main() -> None:
                 records.extend(
                     evaluate_fitted_decision_preset(preset, seed=seed, policy_class=policy_class)
                 )
+
+    expected_grid = set(product([preset.name for preset in presets], policy_classes, seeds))
+    observed_counts = Counter((row["preset"], row["policy_class"], row["seed"]) for row in records)
+    observed_grid = set(observed_counts)
+    missing_grid = sorted(expected_grid - observed_grid)
+    duplicate_grid = sorted(key for key, count in observed_counts.items() if count != 3)
+    unexpected_grid = sorted(observed_grid - expected_grid)
+    replication_check = {
+        "expected_preset_policy_seed_cells": len(expected_grid),
+        "observed_preset_policy_seed_cells": len(observed_grid),
+        "expected_regime_rows_per_cell": 3,
+        "missing_cells": missing_grid,
+        "cells_with_wrong_regime_row_count": duplicate_grid,
+        "unexpected_cells": unexpected_grid,
+        "passes": not missing_grid and not duplicate_grid and not unexpected_grid,
+    }
+    metric_fields = [
+        "brier_score",
+        "mean_realized_cost",
+        "mean_fitted_expected_cost",
+        "mean_oracle_expected_cost",
+        "mean_decision_regret",
+    ]
+    metric_rows_valid = all(
+        row["n_test"] > 0
+        and all(np.isfinite(row[field]) for field in metric_fields)
+        and 0 <= row["brier_score"] <= 1
+        for row in records
+    )
+    checks_pass = replication_check["passes"] and metric_rows_valid
 
     summary = []
     for preset_name in sorted({row["preset"] for row in records}):
@@ -92,6 +124,9 @@ def main() -> None:
         "utility_status": "Imposed research objectives, not application-grounded cost estimates.",
         "records": records,
         "summary": summary,
+        "replication_check": replication_check,
+        "metric_rows_valid": metric_rows_valid,
+        "checks_pass": checks_pass,
         "limitations": [
             "These are two baseline fitted policy classes, not implementations or comparisons of the three target papers' algorithms.",
             "Across-seed sample standard deviations are descriptive and do not account for shared preset structure or justify confidence-interval claims.",
@@ -110,6 +145,8 @@ def main() -> None:
                 f"Brier={row['mean_brier_score']:.5f}"
             )
     print(output)
+    if not checks_pass:
+        raise SystemExit("Fitted-decision validation checks failed; inspect the JSON report.")
 
 
 if __name__ == "__main__":

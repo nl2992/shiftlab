@@ -203,6 +203,10 @@ Schema/checksum failures fail validation. Duplicates, missingness, range, tempor
 class frequencies, feature means, covariance, KS evidence and offline regression baselines are
 reported without attributing concept drift. Multiple seeds test each generator's Bayes-risk
 reference; further replicated tests check moments, class priors, quantiles and autocorrelation.
+`scripts/time_series_real_diagnostics.py` uses train-only preprocessing and, when feature,
+prediction and label-availability clocks are complete, strictly filters training and calibration
+rows at their fit/prediction cutoffs. If clocks are unknown, it records a retrospective-only
+protocol instead of implying online calibration.
 
 Moving-block bootstrap intervals for first/last-window feature means are implemented under explicit
 within-window stationarity and weak-dependence assumptions. They do not correct confounding,

@@ -43,6 +43,87 @@ def _block_length_sensitivity(n: int) -> list[int]:
     return sorted({max(2, baseline // 2), baseline, min(n, 2 * baseline)})
 
 
+def _diagnostic_partitions(
+    group: pd.DataFrame,
+) -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame, dict]:
+    """Select train/calibration/test rows without crossing known availability times.
+
+    If required availability clocks are incomplete, retain event-time partitions only as
+    retrospective diagnostics and make that limitation explicit in the returned protocol.
+    """
+    finite_target = np.isfinite(group.target.to_numpy(dtype=float))
+    train_mask = group.split.eq("train").to_numpy() & finite_target
+    calibration_mask = group.split.eq("calibration").to_numpy() & finite_target
+    test_mask = group.split.eq("test").to_numpy() & finite_target
+    train = group.loc[train_mask]
+    calibration = group.loc[calibration_mask]
+    test = group.loc[test_mask]
+    timing_columns = ["feature_available_time", "prediction_time"]
+    complete = bool(len(train) and len(calibration) and len(test))
+    for part in (train, calibration, test):
+        for column in timing_columns:
+            if column not in part or part[column].isna().any():
+                complete = False
+    for part in (train, calibration):
+        if "label_available_time" not in part or part.label_available_time.isna().any():
+            complete = False
+
+    if not complete:
+        return (
+            train,
+            calibration,
+            test,
+            {
+                "mode": "retrospective_event_time_splits",
+                "strict_label_availability_filter": False,
+                "reason": "required feature, prediction, or train/calibration label-availability times are unknown",
+                "train_split_rows": int(train_mask.sum()),
+                "train_eligible_rows": int(train_mask.sum()),
+                "calibration_split_rows": int(calibration_mask.sum()),
+                "calibration_eligible_rows": int(calibration_mask.sum()),
+                "test_split_rows": int(test_mask.sum()),
+                "test_eligible_rows": int(test_mask.sum()),
+            },
+        )
+
+    first_calibration_prediction = float(calibration.prediction_time.min())
+    first_test_prediction = float(test.prediction_time.min())
+    train_feature = train.feature_available_time.to_numpy(dtype=float)
+    train_labels = train.label_available_time.to_numpy(dtype=float)
+    train_eligible = (train_feature < first_calibration_prediction) & (
+        train_labels < first_calibration_prediction
+    )
+    cal_feature = calibration.feature_available_time.to_numpy(dtype=float)
+    cal_prediction = calibration.prediction_time.to_numpy(dtype=float)
+    cal_labels = calibration.label_available_time.to_numpy(dtype=float)
+    cal_eligible = (
+        (cal_feature <= cal_prediction)
+        & (cal_prediction < first_test_prediction)
+        & (cal_labels < first_test_prediction)
+    )
+    test_feature = test.feature_available_time.to_numpy(dtype=float)
+    test_prediction = test.prediction_time.to_numpy(dtype=float)
+    test_eligible = test_feature <= test_prediction
+    protocol = {
+        "mode": "strict_known_availability",
+        "strict_label_availability_filter": True,
+        "train_fit_cutoff": first_calibration_prediction,
+        "test_prediction_cutoff": first_test_prediction,
+        "train_split_rows": int(train_mask.sum()),
+        "train_eligible_rows": int(train_eligible.sum()),
+        "calibration_split_rows": int(calibration_mask.sum()),
+        "calibration_eligible_rows": int(cal_eligible.sum()),
+        "test_split_rows": int(test_mask.sum()),
+        "test_eligible_rows": int(test_eligible.sum()),
+    }
+    return (
+        train.loc[train_eligible],
+        calibration.loc[cal_eligible],
+        test.loc[test_eligible],
+        protocol,
+    )
+
+
 def diagnose(path: Path) -> dict:
     manifest_path = path / "dataset_manifest.json"
     manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
@@ -51,12 +132,7 @@ def diagnose(path: Path) -> dict:
     features = manifest["feature_names"]
     rows = []
     for domain, group in frame.groupby("domain_id", sort=False):
-        train = group[group.split == "train"].copy()
-        calibration = group[group.split == "calibration"].copy()
-        test = group[group.split == "test"].copy()
-        train = train[np.isfinite(train.target.to_numpy(dtype=float))]
-        calibration = calibration[np.isfinite(calibration.target.to_numpy(dtype=float))]
-        test = test[np.isfinite(test.target.to_numpy(dtype=float))]
+        train, calibration, test, availability_protocol = _diagnostic_partitions(group)
         if min(len(train), len(calibration), len(test)) < 20:
             continue
         train = train.sort_values("event_time", kind="stable")
@@ -83,6 +159,7 @@ def diagnose(path: Path) -> dict:
                 "train_n": len(train),
                 "calibration_n": len(calibration),
                 "test_n": len(test),
+                "availability_protocol": availability_protocol,
                 "model": "train-only median imputation, standardization, Ridge(alpha=1)",
                 "baseline": "training-mean predictor",
                 "calibration_interval": "symmetric split residual interval; calibration labels are used retrospectively",
@@ -140,7 +217,7 @@ def main() -> None:
         "datasets": datasets,
         "protocol": {
             "fit": "train split only, independently within each domain",
-            "calibration": "calibration split only; symmetric absolute-residual interval with finite-sample rank",
+            "calibration": "Known timing uses only calibration features available by their prediction times and labels strictly available before the first test prediction; incomplete clocks fall back to clearly marked retrospective event-time splits.",
             "evaluation": "test split only; chronological ordering preserved",
             "uncertainty": "1,000-replicate circular moving-block percentile intervals on paired squared-loss differences; report baseline floor(sqrt(test_n)) and sensitivity at half and twice baseline block length (clipped to test_n); descriptive, not causal or availability guarantees",
             "decision_loss": "not reported: these are continuous forecasting tasks without a sourced, application-grounded utility",
@@ -150,7 +227,7 @@ def main() -> None:
         "script_sha256": sha256(Path(__file__)),
         "executed_at": utc_now(),
         "limitations": [
-            "OPSD and NOAA label availability is unknown; train/calibration/test refer to retrospective event-time partitions.",
+            "OPSD, NOAA and historical EIA availability clocks are unknown; those reports use retrospective event-time partitions and do not make online calibration claims.",
             "The simple Ridge model is a diagnostic baseline, not a tuned or production forecasting system.",
             "Moving-block intervals depend on the selected block length and do not address model-selection uncertainty.",
             "Intervals are evaluated empirically; finite-sample time-series coverage is not guaranteed.",

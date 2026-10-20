@@ -15,6 +15,21 @@ from shiftlab.data.synthetic import conformal_stress_catalogue, generate_chunks
 from shiftlab.methods import weighted_conformal_quantile
 
 
+def _conditional_coverage_tolerance(n: int) -> float:
+    if n <= 0:
+        return 0.0
+    return min(0.15, max(0.035, 8 * np.sqrt(0.09 / n)))
+
+
+def _conditional_coverage_passes(coverage: float, n: int, nominal: float = 0.9) -> bool:
+    return bool(
+        n > 0
+        and np.isfinite(coverage)
+        and 0 <= coverage <= 1
+        and abs(coverage - nominal) <= _conditional_coverage_tolerance(n)
+    )
+
+
 def evaluate(root: Path, seeds: tuple[int, ...] = (42, 43, 44, 45, 46)) -> dict:
     rows: list[dict] = []
     regimes: list[dict] = []
@@ -81,6 +96,17 @@ def evaluate(root: Path, seeds: tuple[int, ...] = (42, 43, 44, 45, 46)) -> dict:
             for regime in sorted(set(regime_ids[test])):
                 group = test & (regime_ids == regime)
                 group_pointwise = group & np.isfinite(oracle_radius)
+                history_group_pointwise = group & np.isfinite(history_radius)
+                history_coverage = float(
+                    (
+                        np.abs(history_residual[history_group_pointwise])
+                        <= history_radius[history_group_pointwise]
+                    ).mean()
+                )
+                history_n = int(history_group_pointwise.sum())
+                # A conservative Monte Carlo envelope. The factor of eight allows
+                # dependence to reduce the effective sample size substantially.
+                history_tolerance = _conditional_coverage_tolerance(history_n)
                 regimes.append(
                     {
                         "preset": preset.name,
@@ -98,11 +124,12 @@ def evaluate(root: Path, seeds: tuple[int, ...] = (42, 43, 44, 45, 46)) -> dict:
                                 np.abs(residual[group_pointwise]) <= oracle_radius[group_pointwise]
                             ).mean()
                         ),
-                        "test_history_conditional_radius_coverage": float(
-                            (
-                                np.abs(history_residual[group_pointwise])
-                                <= history_radius[group_pointwise]
-                            ).mean()
+                        "history_conditional_radius_n": history_n,
+                        "test_history_conditional_radius_coverage": history_coverage,
+                        "nominal_history_conditional_radius_coverage": 0.9,
+                        "history_conditional_coverage_tolerance": history_tolerance,
+                        "history_conditional_coverage_passes": _conditional_coverage_passes(
+                            history_coverage, history_n
                         ),
                     }
                 )
@@ -125,6 +152,13 @@ def evaluate(root: Path, seeds: tuple[int, ...] = (42, 43, 44, 45, 46)) -> dict:
         and row["history_marginal_calibration_radius"] >= 0
         for row in rows
     )
+    regime_rows_valid = bool(regimes) and all(
+        row["n"] > 0
+        and row["history_conditional_radius_n"] > 0
+        and np.isfinite(row["test_history_conditional_radius_coverage"])
+        and row["history_conditional_coverage_passes"]
+        for row in regimes
+    )
     input_spec = json.dumps(
         {"seeds": seeds, "cases": len(presets), "n_per_case": 12000},
         sort_keys=True,
@@ -142,7 +176,13 @@ def evaluate(root: Path, seeds: tuple[int, ...] = (42, 43, 44, 45, 46)) -> dict:
         "processing_commit": commit,
         "replication_check": replication_check,
         "metric_rows_valid": metric_rows_valid,
-        "checks_pass": replication_check["passes"] and metric_rows_valid,
+        "oracle_regime_conditional_coverage_check": {
+            "nominal": 0.9,
+            "rows": len(regimes),
+            "passes": regime_rows_valid,
+            "tolerance": "per-cell min(0.15, max(0.035, 8*sqrt(0.09/n))); deliberately conservative for temporal dependence",
+        },
+        "checks_pass": replication_check["passes"] and metric_rows_valid and regime_rows_valid,
         "replicates": rows,
         "by_oracle_regime": regimes,
     }

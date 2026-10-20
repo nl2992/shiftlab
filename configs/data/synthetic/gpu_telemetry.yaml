@@ -1,0 +1,12 @@
+n: 200000
+d: 64
+scenario: iid_regression
+memory_mb: 128
+repeats: 3
+dtypes:
+  - float32
+  - float64
+chunk_sizes:
+  - 1000
+  - 5000
+  - 10000

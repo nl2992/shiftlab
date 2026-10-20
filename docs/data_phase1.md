@@ -40,6 +40,8 @@ For this NVIDIA Windows machine:
 uv sync --extra dev --extra data-sources --extra neural
 uv run --extra neural python scripts/generate_synthetic.py --config configs/data/synthetic/gpu_smoke.yaml --device cuda
 uv run --extra neural python scripts/benchmark_generation.py --config configs/data/synthetic/benchmark.yaml
+# Sustained 200,000-row sweep for 100 ms GPU-utilization sampling:
+uv run --extra neural python scripts/benchmark_generation.py --config configs/data/synthetic/gpu_telemetry.yaml
 # Optional, approximately 1 GB just for uncompressed float32 features:
 uv run --extra neural python scripts/generate_synthetic.py --config configs/data/synthetic/gpu_large.yaml --device cuda
 ```

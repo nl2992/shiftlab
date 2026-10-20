@@ -57,6 +57,31 @@ def test_multi_step_task_rejects_invalid_horizon_and_short_series():
         multi_step_forecast_task(np.arange(6), horizon=3, lookback=4)
 
 
+@pytest.mark.parametrize(
+    ("kwargs", "message"),
+    [
+        ({"horizon": True}, "positive integers"),
+        ({"horizon": 1.5}, "positive integers"),
+        ({"lookback": False}, "positive integers"),
+        ({"lookback": 2.5}, "positive integers"),
+        ({"horizon": 8}, "Insufficient series"),
+    ],
+)
+def test_scalar_forecast_task_rejects_invalid_window_parameters(kwargs, message):
+    with pytest.raises(ValueError, match=message):
+        forecast_task(np.arange(10.0), **kwargs)
+
+
+def test_scalar_forecast_task_requires_one_dimensional_values():
+    with pytest.raises(ValueError, match="one-dimensional"):
+        forecast_task(np.zeros((10, 2)))
+
+
+def test_unknown_forecast_task_fails_before_building_windows():
+    with pytest.raises(ValueError, match="Unknown forecast task"):
+        forecast_task(np.arange(10.0), task="unknown")
+
+
 def test_cost_sensitive_and_bounded_actions():
     assert multiclass_action([[0.2, 0.7, 0.1]], [[0, 2, 1], [3, 0, 1], [2, 2, 0]]).tolist() == [1]
     assert bounded_position([2, -2, 0.2], [1, 1, 1], bound=0.5).tolist() == [0.5, -0.5, 0.2]

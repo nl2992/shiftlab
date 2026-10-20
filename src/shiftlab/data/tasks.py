@@ -309,11 +309,24 @@ def forecast_task(
     ``task="multi_step"`` delegates to the fixed-origin vector builder and returns a target
     matrix with per-step outcome indices.
     """
+    if task not in TASKS:
+        raise ValueError(f"Unknown forecast task {task!r}; choices={list(TASKS)}")
     if task == "multi_step":
         return multi_step_forecast_task(values, horizon=horizon, lookback=lookback)
     values = np.asarray(values, dtype=float)
-    if horizon < 1 or lookback < 1 or len(values) <= horizon + lookback:
-        raise ValueError("Insufficient series or invalid horizon/lookback")
+    if values.ndim != 1:
+        raise ValueError("values must be a one-dimensional series")
+    if (
+        isinstance(horizon, bool)
+        or not isinstance(horizon, (int, np.integer))
+        or horizon < 1
+        or isinstance(lookback, bool)
+        or not isinstance(lookback, (int, np.integer))
+        or lookback < 1
+    ):
+        raise ValueError("horizon and lookback must be positive integers")
+    if len(values) <= horizon + lookback:
+        raise ValueError("Insufficient series for horizon and lookback")
     index = np.arange(lookback - 1, len(values) - horizon)
     X = np.stack([values[i - lookback + 1 : i + 1] for i in index])
     y = values[index + horizon]

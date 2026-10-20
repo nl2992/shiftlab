@@ -345,6 +345,21 @@
     "attribution": "Inconclusive: descriptive evidence does not identify drift mechanism"
   },
   {
+    "rows": 52606,
+    "unknown_prediction_times": 52606,
+    "unknown_label_availability": 52606,
+    "missing_targets": 2,
+    "dataset": "eia",
+    "version": "e47bdef8b208f8e7d788",
+    "feature_missing_rate": 0.0033646352127133785,
+    "feature_infinite": 0,
+    "min_feature": -11031.0,
+    "max_feature": 87055.0,
+    "duplicate_feature_target_rows": 0,
+    "ground_truth": "none",
+    "attribution": "Inconclusive: descriptive evidence does not identify drift mechanism"
+  },
+  {
     "rows": 5000,
     "unknown_prediction_times": 0,
     "unknown_label_availability": 789,

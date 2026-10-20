@@ -43,7 +43,33 @@
       "diagnostics_path": "data/reports/time_series_real_diagnostics.json",
       "retrospective_test_rmse": 641.127,
       "training_mean_baseline_rmse": 3614.6586,
-      "retrospective_interval_coverage": 0.719
+      "retrospective_interval_coverage": 0.719,
+      "additional_official_bulk_acquisition": {
+        "version": "e47bdef8b208f8e7d788",
+        "respondents": [
+          "CISO",
+          "ERCO"
+        ],
+        "period_utc": [
+          "2023-01-01T00",
+          "2025-12-31T23"
+        ],
+        "series_types": [
+          "D",
+          "DF",
+          "NG",
+          "TI"
+        ],
+        "observations": 52606,
+        "observations_per_respondent": {
+          "CISO": 26303,
+          "ERCO": 26303
+        },
+        "split_boundary_purges": 6,
+        "raw_archive_sha256": "3a6143c4bd853c3d6a9d9d3bb3ca7f1603a641835e9c7a050e5c8a927101936f",
+        "prediction_and_label_availability": "unknown; retrospective only",
+        "diagnostics": "data/reports/time_series_real_diagnostics.json"
+      }
     },
     {
       "dataset": "fred",

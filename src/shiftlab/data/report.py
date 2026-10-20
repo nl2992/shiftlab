@@ -48,12 +48,13 @@ def build_report(root: Path):
         "# Synthetic validation",
         "",
         "Checks use actual stored observations. Oracle radii describe the DGP, not fitted-model residuals. Monte Carlo deviations are diagnostic, not guaranteed test power.",
+        "Each bullet names one immutable stored version and its generation configuration. Versions are not independent replicates.",
         "",
     ]
     readiness = [
         "# Experiment readiness",
         "",
-        "| Dataset | Paper 1 | Paper 2 | Paper 3 | Timing/ground truth |",
+        "| Dataset version | Paper 1 | Paper 2 | Paper 3 | Timing/ground truth |",
         "|---|---|---|---|---|",
     ]
     from .catalogue import SOURCES
@@ -87,8 +88,14 @@ def build_report(root: Path):
             coverage = (
                 float(np.mean(np.abs(residual[finite]) <= radius[finite])) if finite.any() else None
             )
+            config = pointer["processing_config"]
+            run_identity = (
+                f"{name}@{pointer['version']} (n={n}, d={X.shape[1]}, "
+                f"seed={config.get('seed', 'unknown')}, severity={config.get('severity', 'unknown')}, "
+                f"pattern={config.get('pattern', 'unknown')})"
+            )
             validation.append(
-                f"- {name} ({n} rows): mean residual={np.mean(residual):.5f}, iid descriptive SE={se:.5f}, oracle 90% radius coverage={coverage}; temporal cases require dependence-aware SE."
+                f"- `{run_identity}`: mean residual={np.mean(residual):.5f}, iid descriptive SE={se:.5f}, oracle 90% radius coverage={coverage}; temporal cases require dependence-aware SE."
             )
             if name == "ar1":
                 validation.append(
@@ -105,7 +112,7 @@ def build_report(root: Path):
         }
 
         readiness.append(
-            f"| {name} | {'controlled decision study' if synthetic else 'offline classification only' if classification else 'retrospective; utility imposed'} | {'regression stream' if temporal_ready and not classification else 'requires task/availability protocol'} | {'stream ready' if temporal_ready else 'requires availability/release protocol'} | {pointer['ground_truth']}; {'known simulation clock' if synthetic else 'historical/coarse; no true changes'} |"
+            f"| `{name}@{pointer['version']}` | {'controlled decision study' if synthetic else 'offline classification only' if classification else 'retrospective; utility imposed'} | {'regression stream' if temporal_ready and not classification else 'requires task/availability protocol'} | {'stream ready' if temporal_ready else 'requires availability/release protocol'} | {pointer['ground_truth']}; {'known simulation clock' if synthetic else 'historical/coarse; no true changes'} |"
         )
         # No test fitting; train/calibration/test must be present with enough usable labels.
         train = (frame.split == "train").to_numpy() & np.isfinite(y)

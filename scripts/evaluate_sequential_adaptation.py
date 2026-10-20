@@ -375,8 +375,9 @@ def main() -> None:
                 }
                 | block
             )
-    output.with_name("fitted_adaptation_window_coverage.csv").write_text(
-        pd.DataFrame(coverage_rows).to_csv(index=False), encoding="utf-8"
+    coverage_csv = pd.DataFrame(coverage_rows).to_csv(index=False, lineterminator="\n")
+    output.with_name("fitted_adaptation_window_coverage.csv").write_bytes(
+        coverage_csv.encode("utf-8")
     )
     print(f"records={len(report['replicates'])} passed={report['checks_pass']}")
     print(output)

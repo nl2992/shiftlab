@@ -22,6 +22,7 @@ SCENARIOS = [
 ]
 SEEDS = [11, 23, 37, 53, 71]
 SEVERITIES = [0.0, 0.5, 1.0, 2.0]
+DIMENSIONS = [2, 4, 16]
 
 
 def _target(scenario: str, severity: float) -> tuple[str, float, float]:
@@ -86,56 +87,61 @@ def _measure(scenario: str, severity: float, features: np.ndarray, weight: np.nd
 
 def evaluate() -> dict:
     evidence = []
-    for scenario in SCENARIOS:
-        for severity in SEVERITIES:
-            metric, expected, tolerance = _target(scenario, severity)
-            observed, oracle_errors = [], []
-            for seed in SEEDS:
-                config = SyntheticConfig(
-                    n=30000,
-                    d=4,
-                    seed=seed,
-                    severity=severity,
-                    scenario=scenario,
-                    chunk_size=5000,
-                )
-                parts = list(generate_chunks(config))
-                features = np.concatenate(
-                    [np.stack(frame.features.to_numpy()) for frame, _ in parts]
-                )
-                weights = np.concatenate([oracle.weight.to_numpy() for _, oracle in parts])
-                generated_mean = np.concatenate(
-                    [oracle.conditional_mean.to_numpy() for _, oracle in parts]
-                )
-                oracle_errors.append(
-                    float(
-                        np.max(np.abs(conditional_mean(config, features, weights) - generated_mean))
+    for dimension in DIMENSIONS:
+        for scenario in SCENARIOS:
+            for severity in SEVERITIES:
+                metric, expected, tolerance = _target(scenario, severity)
+                observed, oracle_errors = [], []
+                for seed in SEEDS:
+                    config = SyntheticConfig(
+                        n=30000,
+                        d=dimension,
+                        seed=seed,
+                        severity=severity,
+                        scenario=scenario,
+                        chunk_size=5000,
                     )
+                    parts = list(generate_chunks(config))
+                    features = np.concatenate(
+                        [np.stack(frame.features.to_numpy()) for frame, _ in parts]
+                    )
+                    weights = np.concatenate([oracle.weight.to_numpy() for _, oracle in parts])
+                    generated_mean = np.concatenate(
+                        [oracle.conditional_mean.to_numpy() for _, oracle in parts]
+                    )
+                    oracle_errors.append(
+                        float(
+                            np.max(
+                                np.abs(conditional_mean(config, features, weights) - generated_mean)
+                            )
+                        )
+                    )
+                    observed.append(_measure(scenario, severity, features, weights))
+                mean = float(np.mean(observed))
+                error = abs(mean - expected)
+                oracle_error = max(oracle_errors)
+                evidence.append(
+                    {
+                        "scenario": scenario,
+                        "dimension": dimension,
+                        "severity": severity,
+                        "metric": metric,
+                        "replicates": len(SEEDS),
+                        "n_per_stream": 30000,
+                        "observed_mean_over_seeds": mean,
+                        "expected": expected,
+                        "absolute_error": error,
+                        "tolerance": tolerance,
+                        "max_independent_conditional_mean_formula_error": oracle_error,
+                        "passes": bool(error < tolerance and oracle_error < 1e-10),
+                    }
                 )
-                observed.append(_measure(scenario, severity, features, weights))
-            mean = float(np.mean(observed))
-            error = abs(mean - expected)
-            oracle_error = max(oracle_errors)
-            evidence.append(
-                {
-                    "scenario": scenario,
-                    "severity": severity,
-                    "metric": metric,
-                    "replicates": len(SEEDS),
-                    "n_per_stream": 30000,
-                    "observed_mean_over_seeds": mean,
-                    "expected": expected,
-                    "absolute_error": error,
-                    "tolerance": tolerance,
-                    "max_independent_conditional_mean_formula_error": oracle_error,
-                    "passes": bool(error < tolerance and oracle_error < 1e-10),
-                }
-            )
     return {
-        "description": "Independent five-seed pure-covariate property checks across severity 0, 0.5, 1 and 2.",
+        "description": "Independent five-seed pure-covariate property checks across dimensions 2, 4 and 16 and severity 0, 0.5, 1 and 2.",
         "scenarios": SCENARIOS,
         "seeds": SEEDS,
         "severities": SEVERITIES,
+        "dimensions": DIMENSIONS,
         "evidence": evidence,
         "interpretation": "Reported replicate means are descriptive. Exact conditional-mean checks and feature-marginal moments are synthetic DGP validations, not real-world drift attribution.",
         "processing_commit": commit(),

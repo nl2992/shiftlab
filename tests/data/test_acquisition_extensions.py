@@ -231,6 +231,34 @@ def test_monash_configured_horizon_is_explicit_and_rejects_boolean():
         )
 
 
+@pytest.mark.parametrize(
+    "field,value",
+    [
+        ("lookback", True),
+        ("lookback", 2.5),
+        ("lookback", "8"),
+        ("max_series", False),
+        ("max_series", 1.5),
+        ("max_series", "20"),
+        ("max_download_bytes", True),
+        ("max_download_bytes", 1.5),
+        ("forecast_horizon", False),
+        ("forecast_horizon", 1.5),
+    ],
+)
+def test_monash_invalid_numeric_config_fails_before_download(tmp_path, monkeypatch, field, value):
+    def unexpected_download(*args, **kwargs):
+        pytest.fail("invalid Monash config reached source download")
+
+    monkeypatch.setattr("shiftlab.data.real.monash.download", unexpected_download)
+    with pytest.raises((TypeError, ValueError)):
+        acquire(
+            "monash",
+            {"dataset": "electricity_hourly", field: value},
+            tmp_path / "out",
+        )
+
+
 def test_criteo_feedback_and_censoring():
     original = pd.DataFrame({name: [1, 1, 1] for name in COLUMNS})
     original["sale"] = [1, 0, 1]

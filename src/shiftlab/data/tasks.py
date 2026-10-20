@@ -145,8 +145,10 @@ def dataset_task_specs(dataset: str, config: dict) -> list[dict]:
     if dataset == "monash":
         dataset_name = config.get("dataset", "local_tsf")
         official_m4_horizons = {"m4_hourly": 48, "m4_daily": 14, "m4_weekly": 13}
-        horizon = config.get(
-            "forecast_horizon", official_m4_horizons.get(dataset_name, "per-series @horizon")
+        horizon = (
+            integer_parameter(config["forecast_horizon"], "forecast_horizon", minimum=1)
+            if "forecast_horizon" in config
+            else official_m4_horizons.get(dataset_name, "per-series @horizon")
         )
         horizon_source = config.get("forecast_horizon_source", "TSF @horizon when declared")
         return [

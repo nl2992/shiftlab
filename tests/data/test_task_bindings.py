@@ -73,6 +73,8 @@ def test_source_bindings_state_horizon_masks_and_utility_without_inventing_avail
     assert electricity["forecast_horizon"]["value"] == 168
     assert weather["forecast_horizon"]["value"] == 30
     assert "source: paper" in weather["forecast_horizon"]["event_semantics"]
+    with pytest.raises(TypeError, match="forecast_horizon must be an integer"):
+        dataset_task_specs("monash", {"forecast_horizon": True})
 
     criteo = dataset_task_specs("criteo", {"outcome_window_days": 30})[0]
     assert "label_available_time is finite" in criteo["valid_target_mask"]

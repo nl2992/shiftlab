@@ -74,12 +74,8 @@ def read_tsf(handle):
 
 
 def tsf_chunks(handle, config):
-    lookback = int(config.get("lookback", 8))
-    if lookback < 1:
-        raise ValueError("lookback must be positive")
-    maximum = int(config.get("max_series", 20))
-    if maximum < 1:
-        raise ValueError("max_series must be positive")
+    lookback = integer_parameter(config.get("lookback", 8), "lookback", minimum=1)
+    maximum = integer_parameter(config.get("max_series", 20), "max_series", minimum=1)
     for index, (attributes, values, meta) in enumerate(read_tsf(handle)):
         if index >= maximum:
             break
@@ -153,19 +149,34 @@ def tsf_chunks(handle, config):
 
 
 def acquire(config, root: Path):
+    config = dict(config)
     key = config.get("dataset", "m4_hourly")
+    if key not in DATASETS and "path" not in config:
+        raise ValueError(f"Unsupported Monash dataset; choose {list(DATASETS)}")
+    config["lookback"] = integer_parameter(config.get("lookback", 8), "lookback", minimum=1)
+    config["max_series"] = integer_parameter(config.get("max_series", 20), "max_series", minimum=1)
+    config["max_download_bytes"] = integer_parameter(
+        config.get("max_download_bytes", 250_000_000), "max_download_bytes", minimum=1
+    )
+    if "forecast_horizon" in config:
+        config["forecast_horizon"] = integer_parameter(
+            config["forecast_horizon"], "forecast_horizon", minimum=1
+        )
+    if "forecast_horizon_source" in config and (
+        not isinstance(config["forecast_horizon_source"], str)
+        or not config["forecast_horizon_source"].strip()
+    ):
+        raise ValueError("forecast_horizon_source must be a nonempty string")
     if "path" in config:
         path = Path(config["path"])
         if not config.get("license"):
             raise ValueError("Local TSF import requires explicit license")
     else:
-        if key not in DATASETS:
-            raise ValueError(f"Unsupported Monash dataset; choose {list(DATASETS)}")
         record, filename, md5 = DATASETS[key]
         path = download(
             f"https://zenodo.org/records/{record}/files/{filename}?download=1",
             root / "raw/monash" / record / filename,
-            max_bytes=config.get("max_download_bytes", 250_000_000),
+            max_bytes=config["max_download_bytes"],
         )
         if md5:
             digest = hashlib.md5(path.read_bytes(), usedforsecurity=False).hexdigest()

@@ -19,6 +19,49 @@ from .provenance import write_json
 from .validation import validate_all
 
 
+def _readiness_labels(
+    name: str,
+    synthetic: bool,
+    classification: bool,
+    task_specs: list[dict] | None = None,
+    processing_config: dict | None = None,
+):
+    """Describe study scope from stored or registered tasks without inventing availability."""
+    if synthetic:
+        return "controlled decision study", "regression/classification stream", "stream ready"
+    if classification:
+        return (
+            "offline classification only",
+            "classification prediction-set protocol required",
+            "offline domain benchmark; release times unavailable",
+        )
+    if not task_specs:
+        # Immutable legacy manifests remain untouched; recover their registered task meaning
+        # from the current adapter and saved acquisition parameters for reporting only.
+        from .tasks import dataset_task_specs
+
+        try:
+            task_specs = dataset_task_specs(name, processing_config or {})
+        except (KeyError, TypeError, ValueError):
+            task_specs = []
+
+    task_kinds = {spec.get("task_kind") for spec in task_specs}
+    has_forecast_task = bool(task_kinds & {"regression", "quantile", "volatility", "binary"})
+    has_task = bool(task_specs)
+    paper1 = "retrospective; utility imposed"
+    paper2 = (
+        "retrospective forecast/conformal task; availability unknown"
+        if has_forecast_task
+        else "requires task/conformal target protocol"
+    )
+    paper3 = (
+        "retrospective task; release-time protocol unknown"
+        if has_task
+        else "requires task and release-time protocol"
+    )
+    return paper1, paper2, paper3
+
+
 def build_report(root: Path):
     report = root / "reports"
     report.mkdir(parents=True, exist_ok=True)
@@ -101,7 +144,6 @@ def build_report(root: Path):
                 validation.append(
                     f"  Lag-1 autocorrelation={np.corrcoef(X[:-1, 0], X[1:, 0])[0, 1]:.4f}; configured rho={pointer['processing_config']['rho']}."
                 )
-        temporal_ready = synthetic or frame.prediction_time.notna().all()
         from .synthetic.generators import CLASSIFICATION
 
         classification = name in CLASSIFICATION or name in {
@@ -111,8 +153,15 @@ def build_report(root: Path):
             "criteo",
         }
 
+        paper1, paper2, paper3 = _readiness_labels(
+            name,
+            synthetic,
+            classification,
+            pointer.get("task_specs", []),
+            pointer.get("processing_config", {}),
+        )
         readiness.append(
-            f"| `{name}@{pointer['version']}` | {'controlled decision study' if synthetic else 'offline classification only' if classification else 'retrospective; utility imposed'} | {'regression stream' if temporal_ready and not classification else 'requires task/availability protocol'} | {'stream ready' if temporal_ready else 'requires availability/release protocol'} | {pointer['ground_truth']}; {'known simulation clock' if synthetic else 'historical/coarse; no true changes'} |"
+            f"| `{name}@{pointer['version']}` | {paper1} | {paper2} | {paper3} | {pointer['ground_truth']}; {'known simulation clock' if synthetic else 'historical/coarse; no true changes'} |"
         )
         # No test fitting; train/calibration/test must be present with enough usable labels.
         train = (frame.split == "train").to_numpy() & np.isfinite(y)
@@ -205,6 +254,7 @@ def build_report(root: Path):
     readiness += [
         "",
         "Classification prediction sets and time-dependent real-data availability assumptions require additional protocols.",
+        "For immutable legacy manifests without embedded task_specs, readiness uses the current registered adapter binding and saved processing configuration; this does not establish source release availability.",
         "No real-world domain change is a verified changepoint. No dynamic adaptation oracle or application-grounded utility has been inferred.",
     ]
     (report / "experiment_readiness.md").write_text("\n".join(readiness) + "\n", encoding="utf-8")

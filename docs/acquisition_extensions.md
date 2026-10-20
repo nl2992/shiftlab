@@ -11,6 +11,7 @@ uv sync --extra dev --extra data-sources --extra neural --extra wilds
 uv run python scripts/download_data.py --dataset monash --config configs/data/public/monash.yaml --execute
 uv run python scripts/download_data.py --dataset eia --config configs/data/public/eia.yaml --execute
 uv run python scripts/download_data.py --dataset eia --config configs/data/public/eia_bulk.yaml --execute
+uv run python scripts/download_data.py --dataset eia --config configs/data/public/eia_bulk_multi.yaml --execute
 uv run python scripts/download_data.py --dataset fred --config configs/data/finance/fred.yaml --execute
 uv run python scripts/download_data.py --dataset wilds --config configs/data/public/wilds.yaml --execute
 uv run pytest tests/data/test_acquisition_extensions.py tests/data/test_wilds_package.py -q
@@ -24,8 +25,9 @@ opt-in EBA path downloads its approximately 700 MB compressed archive only when 
 provided and requires an explicit byte budget. It streams JSON lines and retains only selected
 UTC hourly series and date ranges. The committed example config selects three years for NYIS,
 then assigns retrospective event-time splits and purges rows whose one-hour target crosses a
-split boundary.
-The acquired NYIS 2023–2025 version and split counts are recorded in
+split boundary. `eia_bulk_multi.yaml` reuses the same checksummed archive for CISO and ERCO; its
+combined 52,606 rows have 26,303 observations per respondent and six boundary purges. The
+three-authority train-only diagnostic is in
 `data/reports/acquisition_extensions.json`; its retrospective Ridge comparison is included in
 `data/reports/time_series_real_diagnostics.json`. Unknown source release timing is still not
 inferred.

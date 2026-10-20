@@ -22,6 +22,7 @@ uv run python scripts/download_data.py --dataset gas_sensor --execute
 uv run python scripts/download_data.py --dataset opsd --config configs/data/public/opsd.yaml --execute
 uv run python scripts/download_data.py --dataset noaa --config configs/data/public/noaa.yaml --execute
 uv run python scripts/download_data.py --dataset eia --config configs/data/public/eia_bulk.yaml --execute
+uv run python scripts/download_data.py --dataset eia --config configs/data/public/eia_bulk_multi.yaml --execute
 uv sync --extra dev --extra data-sources
 uv run --extra data-sources python scripts/download_data.py --dataset folktables --config configs/data/public/folktables.yaml --execute
 uv run python scripts/download_data.py --dataset binance --config configs/data/finance/binance.yaml --execute
@@ -31,9 +32,7 @@ uv run pytest tests/data/ -q
 ```
 
 All download commands default to dry-run; `--execute` allows acquisition. Source failures are
-errors, never replaced by synthetic or unrelated data. EIA, FRED/ALFRED, Monash, WILDS and Criteo
-have explicit deferred/credential/terms statuses in the catalogue. Their download commands
-describe the status in dry-run and fail explicitly on execution. There are no placeholder adapters.
+errors, never replaced by synthetic or unrelated data. EIA bulk archive extraction supports multiple balancing authorities from the same checksummed archive; `eia_bulk_multi.yaml` builds CISO and ERCO retrospective next-hour tasks. Event-time splits do not imply publisher release availability. FRED/ALFRED, WILDS and Criteo retain explicit credential/source/terms limitations. There are no placeholder adapters.
 
 For this NVIDIA Windows machine:
 

@@ -1,9 +1,9 @@
 {
-  "description": "Five-seed fitted online adaptation using Ridge and random-forest predictors with frozen, periodic, feedback-triggered, or validation-loss-triggered refitting; periodic or triggered residual-bias recalibration; and triggered normalized-gradient partial updates, fixed/rolling/exponential radii, four action slots and an action-specific compute budget, across four concept schedules.",
-  "protocol": "Train, validation, and calibration labels are strictly available before the first test request. The validation-trigger threshold is fixed at the initial model's validation squared-error mean plus two validation standard deviations; it triggers when the rolling mean of 80 arrived test-feedback squared errors exceeds that threshold. During the test stream, learners receive requests and only labels yielded by timestamp-ordered replay. Equal-time requests precede feedback. Refit history contains only arrived labels. Every variant has at most four action slots and a 12-unit imposed compute budget. Recalibration updates only a scalar prediction bias from arrived signed residuals; partial update applies one normalized stochastic-gradient step to Ridge coefficients and intercept. Per-action resource costs are 1 unit for recalibration, 2 for partial update, 4 for Ridge refit, and 8 for random-forest refit. Rolling- and exponentially weighted-radius arms keep their Ridge predictor update schedule identical to the fixed-radius triggered arm; residual scores enter only when labels arrive and use the forecast made earlier for that sample. Exponential score weights use label-availability times and an 80-step half-life, with one unit of test-point mass. Random forests use 32 trees, depth 6, leaf size 5, and a fixed seed.",
+  "description": "Five-seed fitted online adaptation using Ridge, random-forest, and histogram-gradient-boosting predictors with frozen, periodic, feedback-triggered, or validation-loss-triggered refitting; periodic or triggered residual-bias recalibration; and triggered normalized-gradient partial updates, fixed/rolling/exponential radii, four action slots and an action-specific compute budget, across four concept schedules.",
+  "protocol": "Train, validation, and calibration labels are strictly available before the first test request. The validation-trigger threshold is fixed at the initial model's validation squared-error mean plus two validation standard deviations; it triggers when the rolling mean of 80 arrived test-feedback squared errors exceeds that threshold. During the test stream, learners receive requests and only labels yielded by timestamp-ordered replay. Equal-time requests precede feedback. Refit history contains only arrived labels. Every variant has at most four action slots and a 12-unit imposed compute budget. Recalibration updates only a scalar prediction bias from arrived signed residuals; partial update applies one normalized stochastic-gradient step to Ridge coefficients and intercept. Per-action resource costs are 1 unit for recalibration, 2 for partial update, 4 for Ridge refit, and 8 for either tree refit. Rolling- and exponentially weighted-radius arms keep their Ridge predictor update schedule identical to the fixed-radius triggered arm; residual scores enter only when labels arrive and use the forecast made earlier for that sample. Exponential score weights use label-availability times and an 80-step half-life, with one unit of test-point mass. Random forests use 32 trees, depth 6, leaf size 5; histogram gradient boosting uses 32 iterations, at most seven leaves, and leaf size 10. Both use fixed seeds.",
   "limitations": [
     "The trigger threshold and review period are fixed in advance; no parameter tuning uses test outcomes.",
-    "Only Ridge and a fixed random-forest configuration are evaluated; hyperparameters are not tuned on test outcomes.",
+    "Ridge, fixed random-forest, and histogram-gradient-boosting configurations are evaluated; hyperparameters are not tuned on test outcomes.",
     "Residual-bias recalibration and one normalized stochastic-gradient step are simple prespecified baselines; other recalibration and partial-update methods remain unevaluated.",
     "Action resource units are imposed relative costs, not measured training-time or energy costs; all policies also retain a four-action ceiling.",
     "Rolling prequential radii and 100-request coverage blocks are descriptive and do not establish conditional, simultaneous, or online validity.",
@@ -104,6 +104,20 @@
         "update_method": "triggered",
         "radius_method": "fixed",
         "radius_half_life": null
+      },
+      {
+        "name": "boosted_tree_frozen",
+        "model_family": "hist_gradient_boosting",
+        "update_method": "frozen",
+        "radius_method": "fixed",
+        "radius_half_life": null
+      },
+      {
+        "name": "boosted_tree_triggered",
+        "model_family": "hist_gradient_boosting",
+        "update_method": "triggered",
+        "radius_method": "fixed",
+        "radius_half_life": null
       }
     ],
     "update_budget": 4,
@@ -112,7 +126,8 @@
       "residual_bias_recalibration": 1.0,
       "normalized_sgd_partial_update": 2.0,
       "ridge_refit": 4.0,
-      "random_forest_refit": 8.0
+      "random_forest_refit": 8.0,
+      "hist_gradient_boosting_refit": 8.0
     }
   },
   "schedule_overrides": {
@@ -1462,6 +1477,193 @@
     },
     {
       "schedule": "abrupt",
+      "seed": 11,
+      "policy": "boosted_tree_frozen",
+      "model_family": "hist_gradient_boosting",
+      "update_method": "frozen",
+      "radius_method": "fixed",
+      "test_n": 800,
+      "mse": 2.94137793263966,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 2.85137793263966,
+      "shifted_or_transition_mse": 4.122753450326802,
+      "coverage": 0.38375,
+      "mean_interval_width": 1.202902636459413,
+      "coverage_by_test_block": [
+        {
+          "block": 0,
+          "n": 100,
+          "coverage": 0.87,
+          "mean_width": 1.202902636459413
+        },
+        {
+          "block": 1,
+          "n": 100,
+          "coverage": 0.84,
+          "mean_width": 1.202902636459413
+        },
+        {
+          "block": 2,
+          "n": 100,
+          "coverage": 0.43,
+          "mean_width": 1.202902636459413
+        },
+        {
+          "block": 3,
+          "n": 100,
+          "coverage": 0.18,
+          "mean_width": 1.202902636459413
+        },
+        {
+          "block": 4,
+          "n": 100,
+          "coverage": 0.2,
+          "mean_width": 1.202902636459413
+        },
+        {
+          "block": 5,
+          "n": 100,
+          "coverage": 0.22,
+          "mean_width": 1.202902636459413
+        },
+        {
+          "block": 6,
+          "n": 100,
+          "coverage": 0.14,
+          "mean_width": 1.202902636459413
+        },
+        {
+          "block": 7,
+          "n": 100,
+          "coverage": 0.19,
+          "mean_width": 1.202902636459413
+        }
+      ],
+      "update_count": 0,
+      "update_times": [],
+      "update_budget": 4,
+      "resource_spent": 0.0,
+      "resource_budget": 12.0,
+      "intervention_resource_costs": {
+        "residual_bias_recalibration": 1.0,
+        "normalized_sgd_partial_update": 2.0,
+        "refit": 8.0
+      },
+      "feedback_received": 706,
+      "feedback_missing_or_delayed_past_horizon": 94,
+      "trigger_alarm_count": 312,
+      "fit_audit": [],
+      "intervention_audit": [],
+      "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "abrupt",
+      "seed": 11,
+      "policy": "boosted_tree_triggered",
+      "model_family": "hist_gradient_boosting",
+      "update_method": "triggered",
+      "radius_method": "fixed",
+      "test_n": 800,
+      "mse": 2.5075788837247397,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 2.4175788837247394,
+      "shifted_or_transition_mse": 3.4842081688012607,
+      "coverage": 0.42625,
+      "mean_interval_width": 1.202902636459413,
+      "coverage_by_test_block": [
+        {
+          "block": 0,
+          "n": 100,
+          "coverage": 0.87,
+          "mean_width": 1.202902636459413
+        },
+        {
+          "block": 1,
+          "n": 100,
+          "coverage": 0.79,
+          "mean_width": 1.202902636459413
+        },
+        {
+          "block": 2,
+          "n": 100,
+          "coverage": 0.43,
+          "mean_width": 1.202902636459413
+        },
+        {
+          "block": 3,
+          "n": 100,
+          "coverage": 0.29,
+          "mean_width": 1.202902636459413
+        },
+        {
+          "block": 4,
+          "n": 100,
+          "coverage": 0.27,
+          "mean_width": 1.202902636459413
+        },
+        {
+          "block": 5,
+          "n": 100,
+          "coverage": 0.27,
+          "mean_width": 1.202902636459413
+        },
+        {
+          "block": 6,
+          "n": 100,
+          "coverage": 0.22,
+          "mean_width": 1.202902636459413
+        },
+        {
+          "block": 7,
+          "n": 100,
+          "coverage": 0.27,
+          "mean_width": 1.202902636459413
+        }
+      ],
+      "update_count": 1,
+      "update_times": [
+        953
+      ],
+      "update_budget": 4,
+      "resource_spent": 8.0,
+      "resource_budget": 12.0,
+      "intervention_resource_costs": {
+        "residual_bias_recalibration": 1.0,
+        "normalized_sgd_partial_update": 2.0,
+        "refit": 8.0
+      },
+      "feedback_received": 706,
+      "feedback_missing_or_delayed_past_horizon": 94,
+      "trigger_alarm_count": 283,
+      "fit_audit": [
+        {
+          "fit_feedback_available_time": 953.0,
+          "arrived_feedback_count": 125,
+          "method": "triggered",
+          "model_family": "hist_gradient_boosting"
+        }
+      ],
+      "intervention_audit": [
+        {
+          "available_at": 953.0,
+          "arrived_feedback_count": 125,
+          "method": "triggered",
+          "action": "refit",
+          "resource_cost": 8.0,
+          "resource_spent": 8.0,
+          "bias_correction": 0.0
+        }
+      ],
+      "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "abrupt",
       "seed": 23,
       "policy": "ridge_frozen",
       "model_family": "ridge",
@@ -2766,6 +2968,193 @@
           "arrived_feedback_count": 215,
           "method": "triggered",
           "model_family": "random_forest"
+        }
+      ],
+      "intervention_audit": [
+        {
+          "available_at": 1048.0,
+          "arrived_feedback_count": 215,
+          "method": "triggered",
+          "action": "refit",
+          "resource_cost": 8.0,
+          "resource_spent": 8.0,
+          "bias_correction": 0.0
+        }
+      ],
+      "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "abrupt",
+      "seed": 23,
+      "policy": "boosted_tree_frozen",
+      "model_family": "hist_gradient_boosting",
+      "update_method": "frozen",
+      "radius_method": "fixed",
+      "test_n": 800,
+      "mse": 2.5359615891344034,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 2.445961589134403,
+      "shifted_or_transition_mse": 3.5377744558569737,
+      "coverage": 0.48,
+      "mean_interval_width": 1.5530331670521473,
+      "coverage_by_test_block": [
+        {
+          "block": 0,
+          "n": 100,
+          "coverage": 0.92,
+          "mean_width": 1.5530331670521473
+        },
+        {
+          "block": 1,
+          "n": 100,
+          "coverage": 0.93,
+          "mean_width": 1.5530331670521473
+        },
+        {
+          "block": 2,
+          "n": 100,
+          "coverage": 0.46,
+          "mean_width": 1.5530331670521473
+        },
+        {
+          "block": 3,
+          "n": 100,
+          "coverage": 0.3,
+          "mean_width": 1.5530331670521473
+        },
+        {
+          "block": 4,
+          "n": 100,
+          "coverage": 0.25,
+          "mean_width": 1.5530331670521473
+        },
+        {
+          "block": 5,
+          "n": 100,
+          "coverage": 0.34,
+          "mean_width": 1.5530331670521473
+        },
+        {
+          "block": 6,
+          "n": 100,
+          "coverage": 0.35,
+          "mean_width": 1.5530331670521473
+        },
+        {
+          "block": 7,
+          "n": 100,
+          "coverage": 0.29,
+          "mean_width": 1.5530331670521473
+        }
+      ],
+      "update_count": 0,
+      "update_times": [],
+      "update_budget": 4,
+      "resource_spent": 0.0,
+      "resource_budget": 12.0,
+      "intervention_resource_costs": {
+        "residual_bias_recalibration": 1.0,
+        "normalized_sgd_partial_update": 2.0,
+        "refit": 8.0
+      },
+      "feedback_received": 710,
+      "feedback_missing_or_delayed_past_horizon": 90,
+      "trigger_alarm_count": 176,
+      "fit_audit": [],
+      "intervention_audit": [],
+      "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "abrupt",
+      "seed": 23,
+      "policy": "boosted_tree_triggered",
+      "model_family": "hist_gradient_boosting",
+      "update_method": "triggered",
+      "radius_method": "fixed",
+      "test_n": 800,
+      "mse": 2.4015947552472996,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 2.3115947552472993,
+      "shifted_or_transition_mse": 3.3458218360182537,
+      "coverage": 0.475,
+      "mean_interval_width": 1.5530331670521473,
+      "coverage_by_test_block": [
+        {
+          "block": 0,
+          "n": 100,
+          "coverage": 0.92,
+          "mean_width": 1.5530331670521473
+        },
+        {
+          "block": 1,
+          "n": 100,
+          "coverage": 0.93,
+          "mean_width": 1.5530331670521473
+        },
+        {
+          "block": 2,
+          "n": 100,
+          "coverage": 0.49,
+          "mean_width": 1.5530331670521473
+        },
+        {
+          "block": 3,
+          "n": 100,
+          "coverage": 0.28,
+          "mean_width": 1.5530331670521473
+        },
+        {
+          "block": 4,
+          "n": 100,
+          "coverage": 0.23,
+          "mean_width": 1.5530331670521473
+        },
+        {
+          "block": 5,
+          "n": 100,
+          "coverage": 0.35,
+          "mean_width": 1.5530331670521473
+        },
+        {
+          "block": 6,
+          "n": 100,
+          "coverage": 0.34,
+          "mean_width": 1.5530331670521473
+        },
+        {
+          "block": 7,
+          "n": 100,
+          "coverage": 0.26,
+          "mean_width": 1.5530331670521473
+        }
+      ],
+      "update_count": 1,
+      "update_times": [
+        1048
+      ],
+      "update_budget": 4,
+      "resource_spent": 8.0,
+      "resource_budget": 12.0,
+      "intervention_resource_costs": {
+        "residual_bias_recalibration": 1.0,
+        "normalized_sgd_partial_update": 2.0,
+        "refit": 8.0
+      },
+      "feedback_received": 710,
+      "feedback_missing_or_delayed_past_horizon": 90,
+      "trigger_alarm_count": 191,
+      "fit_audit": [
+        {
+          "fit_feedback_available_time": 1048.0,
+          "arrived_feedback_count": 215,
+          "method": "triggered",
+          "model_family": "hist_gradient_boosting"
         }
       ],
       "intervention_audit": [
@@ -4094,6 +4483,193 @@
     },
     {
       "schedule": "abrupt",
+      "seed": 37,
+      "policy": "boosted_tree_frozen",
+      "model_family": "hist_gradient_boosting",
+      "update_method": "frozen",
+      "radius_method": "fixed",
+      "test_n": 800,
+      "mse": 2.6723079745157348,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 2.582307974515735,
+      "shifted_or_transition_mse": 3.7414785847433367,
+      "coverage": 0.4725,
+      "mean_interval_width": 1.4718336850252391,
+      "coverage_by_test_block": [
+        {
+          "block": 0,
+          "n": 100,
+          "coverage": 0.91,
+          "mean_width": 1.4718336850252394
+        },
+        {
+          "block": 1,
+          "n": 100,
+          "coverage": 0.94,
+          "mean_width": 1.4718336850252394
+        },
+        {
+          "block": 2,
+          "n": 100,
+          "coverage": 0.55,
+          "mean_width": 1.4718336850252394
+        },
+        {
+          "block": 3,
+          "n": 100,
+          "coverage": 0.31,
+          "mean_width": 1.4718336850252394
+        },
+        {
+          "block": 4,
+          "n": 100,
+          "coverage": 0.25,
+          "mean_width": 1.4718336850252394
+        },
+        {
+          "block": 5,
+          "n": 100,
+          "coverage": 0.28,
+          "mean_width": 1.4718336850252394
+        },
+        {
+          "block": 6,
+          "n": 100,
+          "coverage": 0.28,
+          "mean_width": 1.4718336850252394
+        },
+        {
+          "block": 7,
+          "n": 100,
+          "coverage": 0.26,
+          "mean_width": 1.4718336850252394
+        }
+      ],
+      "update_count": 0,
+      "update_times": [],
+      "update_budget": 4,
+      "resource_spent": 0.0,
+      "resource_budget": 12.0,
+      "intervention_resource_costs": {
+        "residual_bias_recalibration": 1.0,
+        "normalized_sgd_partial_update": 2.0,
+        "refit": 8.0
+      },
+      "feedback_received": 699,
+      "feedback_missing_or_delayed_past_horizon": 101,
+      "trigger_alarm_count": 238,
+      "fit_audit": [],
+      "intervention_audit": [],
+      "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "abrupt",
+      "seed": 37,
+      "policy": "boosted_tree_triggered",
+      "model_family": "hist_gradient_boosting",
+      "update_method": "triggered",
+      "radius_method": "fixed",
+      "test_n": 800,
+      "mse": 2.5268922604688395,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 2.4368922604688397,
+      "shifted_or_transition_mse": 3.5263032649546933,
+      "coverage": 0.47875,
+      "mean_interval_width": 1.4718336850252391,
+      "coverage_by_test_block": [
+        {
+          "block": 0,
+          "n": 100,
+          "coverage": 0.91,
+          "mean_width": 1.4718336850252394
+        },
+        {
+          "block": 1,
+          "n": 100,
+          "coverage": 0.94,
+          "mean_width": 1.4718336850252394
+        },
+        {
+          "block": 2,
+          "n": 100,
+          "coverage": 0.54,
+          "mean_width": 1.4718336850252394
+        },
+        {
+          "block": 3,
+          "n": 100,
+          "coverage": 0.27,
+          "mean_width": 1.4718336850252394
+        },
+        {
+          "block": 4,
+          "n": 100,
+          "coverage": 0.3,
+          "mean_width": 1.4718336850252394
+        },
+        {
+          "block": 5,
+          "n": 100,
+          "coverage": 0.29,
+          "mean_width": 1.4718336850252394
+        },
+        {
+          "block": 6,
+          "n": 100,
+          "coverage": 0.3,
+          "mean_width": 1.4718336850252394
+        },
+        {
+          "block": 7,
+          "n": 100,
+          "coverage": 0.28,
+          "mean_width": 1.4718336850252394
+        }
+      ],
+      "update_count": 1,
+      "update_times": [
+        1006
+      ],
+      "update_budget": 4,
+      "resource_spent": 8.0,
+      "resource_budget": 12.0,
+      "intervention_resource_costs": {
+        "residual_bias_recalibration": 1.0,
+        "normalized_sgd_partial_update": 2.0,
+        "refit": 8.0
+      },
+      "feedback_received": 699,
+      "feedback_missing_or_delayed_past_horizon": 101,
+      "trigger_alarm_count": 240,
+      "fit_audit": [
+        {
+          "fit_feedback_available_time": 1006.0,
+          "arrived_feedback_count": 175,
+          "method": "triggered",
+          "model_family": "hist_gradient_boosting"
+        }
+      ],
+      "intervention_audit": [
+        {
+          "available_at": 1006.0,
+          "arrived_feedback_count": 175,
+          "method": "triggered",
+          "action": "refit",
+          "resource_cost": 8.0,
+          "resource_spent": 8.0,
+          "bias_correction": 0.0
+        }
+      ],
+      "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "abrupt",
       "seed": 53,
       "policy": "ridge_frozen",
       "model_family": "ridge",
@@ -5340,6 +5916,193 @@
         {
           "available_at": 888.0,
           "arrived_feedback_count": 75,
+          "method": "triggered",
+          "action": "refit",
+          "resource_cost": 8.0,
+          "resource_spent": 8.0,
+          "bias_correction": 0.0
+        }
+      ],
+      "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "abrupt",
+      "seed": 53,
+      "policy": "boosted_tree_frozen",
+      "model_family": "hist_gradient_boosting",
+      "update_method": "frozen",
+      "radius_method": "fixed",
+      "test_n": 800,
+      "mse": 2.623363115833622,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 2.533363115833622,
+      "shifted_or_transition_mse": 3.665724268163157,
+      "coverage": 0.4775,
+      "mean_interval_width": 1.4929145824166625,
+      "coverage_by_test_block": [
+        {
+          "block": 0,
+          "n": 100,
+          "coverage": 0.91,
+          "mean_width": 1.4929145824166625
+        },
+        {
+          "block": 1,
+          "n": 100,
+          "coverage": 0.95,
+          "mean_width": 1.4929145824166625
+        },
+        {
+          "block": 2,
+          "n": 100,
+          "coverage": 0.55,
+          "mean_width": 1.4929145824166625
+        },
+        {
+          "block": 3,
+          "n": 100,
+          "coverage": 0.28,
+          "mean_width": 1.4929145824166625
+        },
+        {
+          "block": 4,
+          "n": 100,
+          "coverage": 0.25,
+          "mean_width": 1.4929145824166625
+        },
+        {
+          "block": 5,
+          "n": 100,
+          "coverage": 0.28,
+          "mean_width": 1.4929145824166625
+        },
+        {
+          "block": 6,
+          "n": 100,
+          "coverage": 0.38,
+          "mean_width": 1.4929145824166625
+        },
+        {
+          "block": 7,
+          "n": 100,
+          "coverage": 0.22,
+          "mean_width": 1.4929145824166625
+        }
+      ],
+      "update_count": 0,
+      "update_times": [],
+      "update_budget": 4,
+      "resource_spent": 0.0,
+      "resource_budget": 12.0,
+      "intervention_resource_costs": {
+        "residual_bias_recalibration": 1.0,
+        "normalized_sgd_partial_update": 2.0,
+        "refit": 8.0
+      },
+      "feedback_received": 720,
+      "feedback_missing_or_delayed_past_horizon": 80,
+      "trigger_alarm_count": 208,
+      "fit_audit": [],
+      "intervention_audit": [],
+      "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "abrupt",
+      "seed": 53,
+      "policy": "boosted_tree_triggered",
+      "model_family": "hist_gradient_boosting",
+      "update_method": "triggered",
+      "radius_method": "fixed",
+      "test_n": 800,
+      "mse": 2.782948936880584,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 2.6929489368805837,
+      "shifted_or_transition_mse": 3.8319108525723697,
+      "coverage": 0.42625,
+      "mean_interval_width": 1.4929145824166625,
+      "coverage_by_test_block": [
+        {
+          "block": 0,
+          "n": 100,
+          "coverage": 0.84,
+          "mean_width": 1.4929145824166625
+        },
+        {
+          "block": 1,
+          "n": 100,
+          "coverage": 0.82,
+          "mean_width": 1.4929145824166625
+        },
+        {
+          "block": 2,
+          "n": 100,
+          "coverage": 0.49,
+          "mean_width": 1.4929145824166625
+        },
+        {
+          "block": 3,
+          "n": 100,
+          "coverage": 0.26,
+          "mean_width": 1.4929145824166625
+        },
+        {
+          "block": 4,
+          "n": 100,
+          "coverage": 0.25,
+          "mean_width": 1.4929145824166625
+        },
+        {
+          "block": 5,
+          "n": 100,
+          "coverage": 0.21,
+          "mean_width": 1.4929145824166625
+        },
+        {
+          "block": 6,
+          "n": 100,
+          "coverage": 0.34,
+          "mean_width": 1.4929145824166625
+        },
+        {
+          "block": 7,
+          "n": 100,
+          "coverage": 0.2,
+          "mean_width": 1.4929145824166625
+        }
+      ],
+      "update_count": 1,
+      "update_times": [
+        840
+      ],
+      "update_budget": 4,
+      "resource_spent": 8.0,
+      "resource_budget": 12.0,
+      "intervention_resource_costs": {
+        "residual_bias_recalibration": 1.0,
+        "normalized_sgd_partial_update": 2.0,
+        "refit": 8.0
+      },
+      "feedback_received": 720,
+      "feedback_missing_or_delayed_past_horizon": 80,
+      "trigger_alarm_count": 242,
+      "fit_audit": [
+        {
+          "fit_feedback_available_time": 840.0,
+          "arrived_feedback_count": 30,
+          "method": "triggered",
+          "model_family": "hist_gradient_boosting"
+        }
+      ],
+      "intervention_audit": [
+        {
+          "available_at": 840.0,
+          "arrived_feedback_count": 30,
           "method": "triggered",
           "action": "refit",
           "resource_cost": 8.0,
@@ -6642,6 +7405,193 @@
           "arrived_feedback_count": 34,
           "method": "triggered",
           "model_family": "random_forest"
+        }
+      ],
+      "intervention_audit": [
+        {
+          "available_at": 843.0,
+          "arrived_feedback_count": 34,
+          "method": "triggered",
+          "action": "refit",
+          "resource_cost": 8.0,
+          "resource_spent": 8.0,
+          "bias_correction": 0.0
+        }
+      ],
+      "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "abrupt",
+      "seed": 71,
+      "policy": "boosted_tree_frozen",
+      "model_family": "hist_gradient_boosting",
+      "update_method": "frozen",
+      "radius_method": "fixed",
+      "test_n": 800,
+      "mse": 2.638642226009917,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 2.5486422260099166,
+      "shifted_or_transition_mse": 3.6931499266336174,
+      "coverage": 0.43375,
+      "mean_interval_width": 1.2088463026047769,
+      "coverage_by_test_block": [
+        {
+          "block": 0,
+          "n": 100,
+          "coverage": 0.88,
+          "mean_width": 1.208846302604777
+        },
+        {
+          "block": 1,
+          "n": 100,
+          "coverage": 0.84,
+          "mean_width": 1.208846302604777
+        },
+        {
+          "block": 2,
+          "n": 100,
+          "coverage": 0.63,
+          "mean_width": 1.208846302604777
+        },
+        {
+          "block": 3,
+          "n": 100,
+          "coverage": 0.3,
+          "mean_width": 1.208846302604777
+        },
+        {
+          "block": 4,
+          "n": 100,
+          "coverage": 0.19,
+          "mean_width": 1.208846302604777
+        },
+        {
+          "block": 5,
+          "n": 100,
+          "coverage": 0.22,
+          "mean_width": 1.208846302604777
+        },
+        {
+          "block": 6,
+          "n": 100,
+          "coverage": 0.2,
+          "mean_width": 1.208846302604777
+        },
+        {
+          "block": 7,
+          "n": 100,
+          "coverage": 0.21,
+          "mean_width": 1.208846302604777
+        }
+      ],
+      "update_count": 0,
+      "update_times": [],
+      "update_budget": 4,
+      "resource_spent": 0.0,
+      "resource_budget": 12.0,
+      "intervention_resource_costs": {
+        "residual_bias_recalibration": 1.0,
+        "normalized_sgd_partial_update": 2.0,
+        "refit": 8.0
+      },
+      "feedback_received": 709,
+      "feedback_missing_or_delayed_past_horizon": 91,
+      "trigger_alarm_count": 267,
+      "fit_audit": [],
+      "intervention_audit": [],
+      "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "abrupt",
+      "seed": 71,
+      "policy": "boosted_tree_triggered",
+      "model_family": "hist_gradient_boosting",
+      "update_method": "triggered",
+      "radius_method": "fixed",
+      "test_n": 800,
+      "mse": 2.7770676757645587,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 2.687067675764559,
+      "shifted_or_transition_mse": 3.8490036612586866,
+      "coverage": 0.395,
+      "mean_interval_width": 1.2088463026047769,
+      "coverage_by_test_block": [
+        {
+          "block": 0,
+          "n": 100,
+          "coverage": 0.86,
+          "mean_width": 1.208846302604777
+        },
+        {
+          "block": 1,
+          "n": 100,
+          "coverage": 0.72,
+          "mean_width": 1.208846302604777
+        },
+        {
+          "block": 2,
+          "n": 100,
+          "coverage": 0.58,
+          "mean_width": 1.208846302604777
+        },
+        {
+          "block": 3,
+          "n": 100,
+          "coverage": 0.25,
+          "mean_width": 1.208846302604777
+        },
+        {
+          "block": 4,
+          "n": 100,
+          "coverage": 0.15,
+          "mean_width": 1.208846302604777
+        },
+        {
+          "block": 5,
+          "n": 100,
+          "coverage": 0.23,
+          "mean_width": 1.208846302604777
+        },
+        {
+          "block": 6,
+          "n": 100,
+          "coverage": 0.19,
+          "mean_width": 1.208846302604777
+        },
+        {
+          "block": 7,
+          "n": 100,
+          "coverage": 0.18,
+          "mean_width": 1.208846302604777
+        }
+      ],
+      "update_count": 1,
+      "update_times": [
+        843
+      ],
+      "update_budget": 4,
+      "resource_spent": 8.0,
+      "resource_budget": 12.0,
+      "intervention_resource_costs": {
+        "residual_bias_recalibration": 1.0,
+        "normalized_sgd_partial_update": 2.0,
+        "refit": 8.0
+      },
+      "feedback_received": 709,
+      "feedback_missing_or_delayed_past_horizon": 91,
+      "trigger_alarm_count": 273,
+      "fit_audit": [
+        {
+          "fit_feedback_available_time": 843.0,
+          "arrived_feedback_count": 34,
+          "method": "triggered",
+          "model_family": "hist_gradient_boosting"
         }
       ],
       "intervention_audit": [
@@ -7986,6 +8936,193 @@
     },
     {
       "schedule": "gradual",
+      "seed": 11,
+      "policy": "boosted_tree_frozen",
+      "model_family": "hist_gradient_boosting",
+      "update_method": "frozen",
+      "radius_method": "fixed",
+      "test_n": 800,
+      "mse": 2.9231967257738627,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 2.8331967257738624,
+      "shifted_or_transition_mse": 3.2356870459036298,
+      "coverage": 0.3375,
+      "mean_interval_width": 1.202902636459413,
+      "coverage_by_test_block": [
+        {
+          "block": 0,
+          "n": 100,
+          "coverage": 0.87,
+          "mean_width": 1.202902636459413
+        },
+        {
+          "block": 1,
+          "n": 100,
+          "coverage": 0.61,
+          "mean_width": 1.202902636459413
+        },
+        {
+          "block": 2,
+          "n": 100,
+          "coverage": 0.29,
+          "mean_width": 1.202902636459413
+        },
+        {
+          "block": 3,
+          "n": 100,
+          "coverage": 0.18,
+          "mean_width": 1.202902636459413
+        },
+        {
+          "block": 4,
+          "n": 100,
+          "coverage": 0.2,
+          "mean_width": 1.202902636459413
+        },
+        {
+          "block": 5,
+          "n": 100,
+          "coverage": 0.22,
+          "mean_width": 1.202902636459413
+        },
+        {
+          "block": 6,
+          "n": 100,
+          "coverage": 0.14,
+          "mean_width": 1.202902636459413
+        },
+        {
+          "block": 7,
+          "n": 100,
+          "coverage": 0.19,
+          "mean_width": 1.202902636459413
+        }
+      ],
+      "update_count": 0,
+      "update_times": [],
+      "update_budget": 4,
+      "resource_spent": 0.0,
+      "resource_budget": 12.0,
+      "intervention_resource_costs": {
+        "residual_bias_recalibration": 1.0,
+        "normalized_sgd_partial_update": 2.0,
+        "refit": 8.0
+      },
+      "feedback_received": 706,
+      "feedback_missing_or_delayed_past_horizon": 94,
+      "trigger_alarm_count": 326,
+      "fit_audit": [],
+      "intervention_audit": [],
+      "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "gradual",
+      "seed": 11,
+      "policy": "boosted_tree_triggered",
+      "model_family": "hist_gradient_boosting",
+      "update_method": "triggered",
+      "radius_method": "fixed",
+      "test_n": 800,
+      "mse": 2.5798353340331692,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 2.4898353340331694,
+      "shifted_or_transition_mse": 2.853643772756824,
+      "coverage": 0.34625,
+      "mean_interval_width": 1.202902636459413,
+      "coverage_by_test_block": [
+        {
+          "block": 0,
+          "n": 100,
+          "coverage": 0.87,
+          "mean_width": 1.202902636459413
+        },
+        {
+          "block": 1,
+          "n": 100,
+          "coverage": 0.58,
+          "mean_width": 1.202902636459413
+        },
+        {
+          "block": 2,
+          "n": 100,
+          "coverage": 0.35,
+          "mean_width": 1.202902636459413
+        },
+        {
+          "block": 3,
+          "n": 100,
+          "coverage": 0.24,
+          "mean_width": 1.202902636459413
+        },
+        {
+          "block": 4,
+          "n": 100,
+          "coverage": 0.18,
+          "mean_width": 1.202902636459413
+        },
+        {
+          "block": 5,
+          "n": 100,
+          "coverage": 0.22,
+          "mean_width": 1.202902636459413
+        },
+        {
+          "block": 6,
+          "n": 100,
+          "coverage": 0.15,
+          "mean_width": 1.202902636459413
+        },
+        {
+          "block": 7,
+          "n": 100,
+          "coverage": 0.18,
+          "mean_width": 1.202902636459413
+        }
+      ],
+      "update_count": 1,
+      "update_times": [
+        907
+      ],
+      "update_budget": 4,
+      "resource_spent": 8.0,
+      "resource_budget": 12.0,
+      "intervention_resource_costs": {
+        "residual_bias_recalibration": 1.0,
+        "normalized_sgd_partial_update": 2.0,
+        "refit": 8.0
+      },
+      "feedback_received": 706,
+      "feedback_missing_or_delayed_past_horizon": 94,
+      "trigger_alarm_count": 324,
+      "fit_audit": [
+        {
+          "fit_feedback_available_time": 907.0,
+          "arrived_feedback_count": 88,
+          "method": "triggered",
+          "model_family": "hist_gradient_boosting"
+        }
+      ],
+      "intervention_audit": [
+        {
+          "available_at": 907.0,
+          "arrived_feedback_count": 88,
+          "method": "triggered",
+          "action": "refit",
+          "resource_cost": 8.0,
+          "resource_spent": 8.0,
+          "bias_correction": 0.0
+        }
+      ],
+      "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "gradual",
       "seed": 23,
       "policy": "ridge_frozen",
       "model_family": "ridge",
@@ -9310,6 +10447,193 @@
     },
     {
       "schedule": "gradual",
+      "seed": 23,
+      "policy": "boosted_tree_frozen",
+      "model_family": "hist_gradient_boosting",
+      "update_method": "frozen",
+      "radius_method": "fixed",
+      "test_n": 800,
+      "mse": 2.474258535673911,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 2.384258535673911,
+      "shifted_or_transition_mse": 2.729264221389344,
+      "coverage": 0.45375,
+      "mean_interval_width": 1.5530331670521473,
+      "coverage_by_test_block": [
+        {
+          "block": 0,
+          "n": 100,
+          "coverage": 0.92,
+          "mean_width": 1.5530331670521473
+        },
+        {
+          "block": 1,
+          "n": 100,
+          "coverage": 0.82,
+          "mean_width": 1.5530331670521473
+        },
+        {
+          "block": 2,
+          "n": 100,
+          "coverage": 0.34,
+          "mean_width": 1.5530331670521473
+        },
+        {
+          "block": 3,
+          "n": 100,
+          "coverage": 0.32,
+          "mean_width": 1.5530331670521473
+        },
+        {
+          "block": 4,
+          "n": 100,
+          "coverage": 0.25,
+          "mean_width": 1.5530331670521473
+        },
+        {
+          "block": 5,
+          "n": 100,
+          "coverage": 0.34,
+          "mean_width": 1.5530331670521473
+        },
+        {
+          "block": 6,
+          "n": 100,
+          "coverage": 0.35,
+          "mean_width": 1.5530331670521473
+        },
+        {
+          "block": 7,
+          "n": 100,
+          "coverage": 0.29,
+          "mean_width": 1.5530331670521473
+        }
+      ],
+      "update_count": 0,
+      "update_times": [],
+      "update_budget": 4,
+      "resource_spent": 0.0,
+      "resource_budget": 12.0,
+      "intervention_resource_costs": {
+        "residual_bias_recalibration": 1.0,
+        "normalized_sgd_partial_update": 2.0,
+        "refit": 8.0
+      },
+      "feedback_received": 710,
+      "feedback_missing_or_delayed_past_horizon": 90,
+      "trigger_alarm_count": 170,
+      "fit_audit": [],
+      "intervention_audit": [],
+      "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "gradual",
+      "seed": 23,
+      "policy": "boosted_tree_triggered",
+      "model_family": "hist_gradient_boosting",
+      "update_method": "triggered",
+      "radius_method": "fixed",
+      "test_n": 800,
+      "mse": 1.0665053748207443,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 0.9765053748207443,
+      "shifted_or_transition_mse": 1.162918562581926,
+      "coverage": 0.58375,
+      "mean_interval_width": 1.5530331670521473,
+      "coverage_by_test_block": [
+        {
+          "block": 0,
+          "n": 100,
+          "coverage": 0.92,
+          "mean_width": 1.5530331670521473
+        },
+        {
+          "block": 1,
+          "n": 100,
+          "coverage": 0.82,
+          "mean_width": 1.5530331670521473
+        },
+        {
+          "block": 2,
+          "n": 100,
+          "coverage": 0.64,
+          "mean_width": 1.5530331670521473
+        },
+        {
+          "block": 3,
+          "n": 100,
+          "coverage": 0.48,
+          "mean_width": 1.5530331670521473
+        },
+        {
+          "block": 4,
+          "n": 100,
+          "coverage": 0.41,
+          "mean_width": 1.5530331670521473
+        },
+        {
+          "block": 5,
+          "n": 100,
+          "coverage": 0.44,
+          "mean_width": 1.5530331670521473
+        },
+        {
+          "block": 6,
+          "n": 100,
+          "coverage": 0.5,
+          "mean_width": 1.5530331670521473
+        },
+        {
+          "block": 7,
+          "n": 100,
+          "coverage": 0.46,
+          "mean_width": 1.5530331670521473
+        }
+      ],
+      "update_count": 1,
+      "update_times": [
+        1025
+      ],
+      "update_budget": 4,
+      "resource_spent": 8.0,
+      "resource_budget": 12.0,
+      "intervention_resource_costs": {
+        "residual_bias_recalibration": 1.0,
+        "normalized_sgd_partial_update": 2.0,
+        "refit": 8.0
+      },
+      "feedback_received": 710,
+      "feedback_missing_or_delayed_past_horizon": 90,
+      "trigger_alarm_count": 78,
+      "fit_audit": [
+        {
+          "fit_feedback_available_time": 1025.0,
+          "arrived_feedback_count": 194,
+          "method": "triggered",
+          "model_family": "hist_gradient_boosting"
+        }
+      ],
+      "intervention_audit": [
+        {
+          "available_at": 1025.0,
+          "arrived_feedback_count": 194,
+          "method": "triggered",
+          "action": "refit",
+          "resource_cost": 8.0,
+          "resource_spent": 8.0,
+          "bias_correction": 0.0
+        }
+      ],
+      "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "gradual",
       "seed": 37,
       "policy": "ridge_frozen",
       "model_family": "ridge",
@@ -10614,6 +11938,193 @@
           "arrived_feedback_count": 158,
           "method": "triggered",
           "model_family": "random_forest"
+        }
+      ],
+      "intervention_audit": [
+        {
+          "available_at": 986.0,
+          "arrived_feedback_count": 158,
+          "method": "triggered",
+          "action": "refit",
+          "resource_cost": 8.0,
+          "resource_spent": 8.0,
+          "bias_correction": 0.0
+        }
+      ],
+      "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "gradual",
+      "seed": 37,
+      "policy": "boosted_tree_frozen",
+      "model_family": "hist_gradient_boosting",
+      "update_method": "frozen",
+      "radius_method": "fixed",
+      "test_n": 800,
+      "mse": 2.584539256530735,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 2.4945392565307345,
+      "shifted_or_transition_mse": 2.853982911081304,
+      "coverage": 0.44625,
+      "mean_interval_width": 1.4718336850252391,
+      "coverage_by_test_block": [
+        {
+          "block": 0,
+          "n": 100,
+          "coverage": 0.92,
+          "mean_width": 1.4718336850252394
+        },
+        {
+          "block": 1,
+          "n": 100,
+          "coverage": 0.76,
+          "mean_width": 1.4718336850252394
+        },
+        {
+          "block": 2,
+          "n": 100,
+          "coverage": 0.51,
+          "mean_width": 1.4718336850252394
+        },
+        {
+          "block": 3,
+          "n": 100,
+          "coverage": 0.31,
+          "mean_width": 1.4718336850252394
+        },
+        {
+          "block": 4,
+          "n": 100,
+          "coverage": 0.25,
+          "mean_width": 1.4718336850252394
+        },
+        {
+          "block": 5,
+          "n": 100,
+          "coverage": 0.28,
+          "mean_width": 1.4718336850252394
+        },
+        {
+          "block": 6,
+          "n": 100,
+          "coverage": 0.28,
+          "mean_width": 1.4718336850252394
+        },
+        {
+          "block": 7,
+          "n": 100,
+          "coverage": 0.26,
+          "mean_width": 1.4718336850252394
+        }
+      ],
+      "update_count": 0,
+      "update_times": [],
+      "update_budget": 4,
+      "resource_spent": 0.0,
+      "resource_budget": 12.0,
+      "intervention_resource_costs": {
+        "residual_bias_recalibration": 1.0,
+        "normalized_sgd_partial_update": 2.0,
+        "refit": 8.0
+      },
+      "feedback_received": 699,
+      "feedback_missing_or_delayed_past_horizon": 101,
+      "trigger_alarm_count": 244,
+      "fit_audit": [],
+      "intervention_audit": [],
+      "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "gradual",
+      "seed": 37,
+      "policy": "boosted_tree_triggered",
+      "model_family": "hist_gradient_boosting",
+      "update_method": "triggered",
+      "radius_method": "fixed",
+      "test_n": 800,
+      "mse": 1.4425964221398742,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 1.352596422139874,
+      "shifted_or_transition_mse": 1.5833928310914729,
+      "coverage": 0.5225,
+      "mean_interval_width": 1.4718336850252391,
+      "coverage_by_test_block": [
+        {
+          "block": 0,
+          "n": 100,
+          "coverage": 0.92,
+          "mean_width": 1.4718336850252394
+        },
+        {
+          "block": 1,
+          "n": 100,
+          "coverage": 0.79,
+          "mean_width": 1.4718336850252394
+        },
+        {
+          "block": 2,
+          "n": 100,
+          "coverage": 0.64,
+          "mean_width": 1.4718336850252394
+        },
+        {
+          "block": 3,
+          "n": 100,
+          "coverage": 0.35,
+          "mean_width": 1.4718336850252394
+        },
+        {
+          "block": 4,
+          "n": 100,
+          "coverage": 0.36,
+          "mean_width": 1.4718336850252394
+        },
+        {
+          "block": 5,
+          "n": 100,
+          "coverage": 0.39,
+          "mean_width": 1.4718336850252394
+        },
+        {
+          "block": 6,
+          "n": 100,
+          "coverage": 0.34,
+          "mean_width": 1.4718336850252394
+        },
+        {
+          "block": 7,
+          "n": 100,
+          "coverage": 0.39,
+          "mean_width": 1.4718336850252394
+        }
+      ],
+      "update_count": 1,
+      "update_times": [
+        986
+      ],
+      "update_budget": 4,
+      "resource_spent": 8.0,
+      "resource_budget": 12.0,
+      "intervention_resource_costs": {
+        "residual_bias_recalibration": 1.0,
+        "normalized_sgd_partial_update": 2.0,
+        "refit": 8.0
+      },
+      "feedback_received": 699,
+      "feedback_missing_or_delayed_past_horizon": 101,
+      "trigger_alarm_count": 177,
+      "fit_audit": [
+        {
+          "fit_feedback_available_time": 986.0,
+          "arrived_feedback_count": 158,
+          "method": "triggered",
+          "model_family": "hist_gradient_boosting"
         }
       ],
       "intervention_audit": [
@@ -11958,6 +13469,193 @@
     },
     {
       "schedule": "gradual",
+      "seed": 53,
+      "policy": "boosted_tree_frozen",
+      "model_family": "hist_gradient_boosting",
+      "update_method": "frozen",
+      "radius_method": "fixed",
+      "test_n": 800,
+      "mse": 2.61595448813414,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 2.5259544881341403,
+      "shifted_or_transition_mse": 2.881972987160335,
+      "coverage": 0.42625,
+      "mean_interval_width": 1.4929145824166625,
+      "coverage_by_test_block": [
+        {
+          "block": 0,
+          "n": 100,
+          "coverage": 0.92,
+          "mean_width": 1.4929145824166625
+        },
+        {
+          "block": 1,
+          "n": 100,
+          "coverage": 0.79,
+          "mean_width": 1.4929145824166625
+        },
+        {
+          "block": 2,
+          "n": 100,
+          "coverage": 0.29,
+          "mean_width": 1.4929145824166625
+        },
+        {
+          "block": 3,
+          "n": 100,
+          "coverage": 0.28,
+          "mean_width": 1.4929145824166625
+        },
+        {
+          "block": 4,
+          "n": 100,
+          "coverage": 0.25,
+          "mean_width": 1.4929145824166625
+        },
+        {
+          "block": 5,
+          "n": 100,
+          "coverage": 0.28,
+          "mean_width": 1.4929145824166625
+        },
+        {
+          "block": 6,
+          "n": 100,
+          "coverage": 0.38,
+          "mean_width": 1.4929145824166625
+        },
+        {
+          "block": 7,
+          "n": 100,
+          "coverage": 0.22,
+          "mean_width": 1.4929145824166625
+        }
+      ],
+      "update_count": 0,
+      "update_times": [],
+      "update_budget": 4,
+      "resource_spent": 0.0,
+      "resource_budget": 12.0,
+      "intervention_resource_costs": {
+        "residual_bias_recalibration": 1.0,
+        "normalized_sgd_partial_update": 2.0,
+        "refit": 8.0
+      },
+      "feedback_received": 720,
+      "feedback_missing_or_delayed_past_horizon": 80,
+      "trigger_alarm_count": 211,
+      "fit_audit": [],
+      "intervention_audit": [],
+      "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "gradual",
+      "seed": 53,
+      "policy": "boosted_tree_triggered",
+      "model_family": "hist_gradient_boosting",
+      "update_method": "triggered",
+      "radius_method": "fixed",
+      "test_n": 800,
+      "mse": 2.773057957516953,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 2.6830579575169544,
+      "shifted_or_transition_mse": 3.0471806274098805,
+      "coverage": 0.3825,
+      "mean_interval_width": 1.4929145824166625,
+      "coverage_by_test_block": [
+        {
+          "block": 0,
+          "n": 100,
+          "coverage": 0.85,
+          "mean_width": 1.4929145824166625
+        },
+        {
+          "block": 1,
+          "n": 100,
+          "coverage": 0.67,
+          "mean_width": 1.4929145824166625
+        },
+        {
+          "block": 2,
+          "n": 100,
+          "coverage": 0.28,
+          "mean_width": 1.4929145824166625
+        },
+        {
+          "block": 3,
+          "n": 100,
+          "coverage": 0.26,
+          "mean_width": 1.4929145824166625
+        },
+        {
+          "block": 4,
+          "n": 100,
+          "coverage": 0.25,
+          "mean_width": 1.4929145824166625
+        },
+        {
+          "block": 5,
+          "n": 100,
+          "coverage": 0.21,
+          "mean_width": 1.4929145824166625
+        },
+        {
+          "block": 6,
+          "n": 100,
+          "coverage": 0.34,
+          "mean_width": 1.4929145824166625
+        },
+        {
+          "block": 7,
+          "n": 100,
+          "coverage": 0.2,
+          "mean_width": 1.4929145824166625
+        }
+      ],
+      "update_count": 1,
+      "update_times": [
+        840
+      ],
+      "update_budget": 4,
+      "resource_spent": 8.0,
+      "resource_budget": 12.0,
+      "intervention_resource_costs": {
+        "residual_bias_recalibration": 1.0,
+        "normalized_sgd_partial_update": 2.0,
+        "refit": 8.0
+      },
+      "feedback_received": 720,
+      "feedback_missing_or_delayed_past_horizon": 80,
+      "trigger_alarm_count": 246,
+      "fit_audit": [
+        {
+          "fit_feedback_available_time": 840.0,
+          "arrived_feedback_count": 30,
+          "method": "triggered",
+          "model_family": "hist_gradient_boosting"
+        }
+      ],
+      "intervention_audit": [
+        {
+          "available_at": 840.0,
+          "arrived_feedback_count": 30,
+          "method": "triggered",
+          "action": "refit",
+          "resource_cost": 8.0,
+          "resource_spent": 8.0,
+          "bias_correction": 0.0
+        }
+      ],
+      "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "gradual",
       "seed": 71,
       "policy": "ridge_frozen",
       "model_family": "ridge",
@@ -13262,6 +14960,193 @@
           "arrived_feedback_count": 34,
           "method": "triggered",
           "model_family": "random_forest"
+        }
+      ],
+      "intervention_audit": [
+        {
+          "available_at": 843.0,
+          "arrived_feedback_count": 34,
+          "method": "triggered",
+          "action": "refit",
+          "resource_cost": 8.0,
+          "resource_spent": 8.0,
+          "bias_correction": 0.0
+        }
+      ],
+      "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "gradual",
+      "seed": 71,
+      "policy": "boosted_tree_frozen",
+      "model_family": "hist_gradient_boosting",
+      "update_method": "frozen",
+      "radius_method": "fixed",
+      "test_n": 800,
+      "mse": 2.6111171924529253,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 2.5211171924529254,
+      "shifted_or_transition_mse": 2.8803763549705215,
+      "coverage": 0.39625,
+      "mean_interval_width": 1.2088463026047769,
+      "coverage_by_test_block": [
+        {
+          "block": 0,
+          "n": 100,
+          "coverage": 0.89,
+          "mean_width": 1.208846302604777
+        },
+        {
+          "block": 1,
+          "n": 100,
+          "coverage": 0.69,
+          "mean_width": 1.208846302604777
+        },
+        {
+          "block": 2,
+          "n": 100,
+          "coverage": 0.46,
+          "mean_width": 1.208846302604777
+        },
+        {
+          "block": 3,
+          "n": 100,
+          "coverage": 0.31,
+          "mean_width": 1.208846302604777
+        },
+        {
+          "block": 4,
+          "n": 100,
+          "coverage": 0.19,
+          "mean_width": 1.208846302604777
+        },
+        {
+          "block": 5,
+          "n": 100,
+          "coverage": 0.22,
+          "mean_width": 1.208846302604777
+        },
+        {
+          "block": 6,
+          "n": 100,
+          "coverage": 0.2,
+          "mean_width": 1.208846302604777
+        },
+        {
+          "block": 7,
+          "n": 100,
+          "coverage": 0.21,
+          "mean_width": 1.208846302604777
+        }
+      ],
+      "update_count": 0,
+      "update_times": [],
+      "update_budget": 4,
+      "resource_spent": 0.0,
+      "resource_budget": 12.0,
+      "intervention_resource_costs": {
+        "residual_bias_recalibration": 1.0,
+        "normalized_sgd_partial_update": 2.0,
+        "refit": 8.0
+      },
+      "feedback_received": 709,
+      "feedback_missing_or_delayed_past_horizon": 91,
+      "trigger_alarm_count": 277,
+      "fit_audit": [],
+      "intervention_audit": [],
+      "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "gradual",
+      "seed": 71,
+      "policy": "boosted_tree_triggered",
+      "model_family": "hist_gradient_boosting",
+      "update_method": "triggered",
+      "radius_method": "fixed",
+      "test_n": 800,
+      "mse": 2.740234514138028,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 2.6502345141380284,
+      "shifted_or_transition_mse": 3.0208133720468333,
+      "coverage": 0.37,
+      "mean_interval_width": 1.2088463026047769,
+      "coverage_by_test_block": [
+        {
+          "block": 0,
+          "n": 100,
+          "coverage": 0.87,
+          "mean_width": 1.208846302604777
+        },
+        {
+          "block": 1,
+          "n": 100,
+          "coverage": 0.67,
+          "mean_width": 1.208846302604777
+        },
+        {
+          "block": 2,
+          "n": 100,
+          "coverage": 0.42,
+          "mean_width": 1.208846302604777
+        },
+        {
+          "block": 3,
+          "n": 100,
+          "coverage": 0.25,
+          "mean_width": 1.208846302604777
+        },
+        {
+          "block": 4,
+          "n": 100,
+          "coverage": 0.15,
+          "mean_width": 1.208846302604777
+        },
+        {
+          "block": 5,
+          "n": 100,
+          "coverage": 0.23,
+          "mean_width": 1.208846302604777
+        },
+        {
+          "block": 6,
+          "n": 100,
+          "coverage": 0.19,
+          "mean_width": 1.208846302604777
+        },
+        {
+          "block": 7,
+          "n": 100,
+          "coverage": 0.18,
+          "mean_width": 1.208846302604777
+        }
+      ],
+      "update_count": 1,
+      "update_times": [
+        843
+      ],
+      "update_budget": 4,
+      "resource_spent": 8.0,
+      "resource_budget": 12.0,
+      "intervention_resource_costs": {
+        "residual_bias_recalibration": 1.0,
+        "normalized_sgd_partial_update": 2.0,
+        "refit": 8.0
+      },
+      "feedback_received": 709,
+      "feedback_missing_or_delayed_past_horizon": 91,
+      "trigger_alarm_count": 278,
+      "fit_audit": [
+        {
+          "fit_feedback_available_time": 843.0,
+          "arrived_feedback_count": 34,
+          "method": "triggered",
+          "model_family": "hist_gradient_boosting"
         }
       ],
       "intervention_audit": [
@@ -14606,6 +16491,193 @@
     },
     {
       "schedule": "temporary",
+      "seed": 11,
+      "policy": "boosted_tree_frozen",
+      "model_family": "hist_gradient_boosting",
+      "update_method": "frozen",
+      "radius_method": "fixed",
+      "test_n": 800,
+      "mse": 1.673546593631716,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 1.5835465936317163,
+      "shifted_or_transition_mse": 3.909728208280523,
+      "coverage": 0.58625,
+      "mean_interval_width": 1.202902636459413,
+      "coverage_by_test_block": [
+        {
+          "block": 0,
+          "n": 100,
+          "coverage": 0.87,
+          "mean_width": 1.202902636459413
+        },
+        {
+          "block": 1,
+          "n": 100,
+          "coverage": 0.79,
+          "mean_width": 1.202902636459413
+        },
+        {
+          "block": 2,
+          "n": 100,
+          "coverage": 0.16,
+          "mean_width": 1.202902636459413
+        },
+        {
+          "block": 3,
+          "n": 100,
+          "coverage": 0.18,
+          "mean_width": 1.202902636459413
+        },
+        {
+          "block": 4,
+          "n": 100,
+          "coverage": 0.2,
+          "mean_width": 1.202902636459413
+        },
+        {
+          "block": 5,
+          "n": 100,
+          "coverage": 0.75,
+          "mean_width": 1.202902636459413
+        },
+        {
+          "block": 6,
+          "n": 100,
+          "coverage": 0.9,
+          "mean_width": 1.202902636459413
+        },
+        {
+          "block": 7,
+          "n": 100,
+          "coverage": 0.84,
+          "mean_width": 1.202902636459413
+        }
+      ],
+      "update_count": 0,
+      "update_times": [],
+      "update_budget": 4,
+      "resource_spent": 0.0,
+      "resource_budget": 12.0,
+      "intervention_resource_costs": {
+        "residual_bias_recalibration": 1.0,
+        "normalized_sgd_partial_update": 2.0,
+        "refit": 8.0
+      },
+      "feedback_received": 706,
+      "feedback_missing_or_delayed_past_horizon": 94,
+      "trigger_alarm_count": 178,
+      "fit_audit": [],
+      "intervention_audit": [],
+      "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "temporary",
+      "seed": 11,
+      "policy": "boosted_tree_triggered",
+      "model_family": "hist_gradient_boosting",
+      "update_method": "triggered",
+      "radius_method": "fixed",
+      "test_n": 800,
+      "mse": 1.5061472503741271,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 1.416147250374127,
+      "shifted_or_transition_mse": 3.373266877960323,
+      "coverage": 0.575,
+      "mean_interval_width": 1.202902636459413,
+      "coverage_by_test_block": [
+        {
+          "block": 0,
+          "n": 100,
+          "coverage": 0.87,
+          "mean_width": 1.202902636459413
+        },
+        {
+          "block": 1,
+          "n": 100,
+          "coverage": 0.77,
+          "mean_width": 1.202902636459413
+        },
+        {
+          "block": 2,
+          "n": 100,
+          "coverage": 0.22,
+          "mean_width": 1.202902636459413
+        },
+        {
+          "block": 3,
+          "n": 100,
+          "coverage": 0.29,
+          "mean_width": 1.202902636459413
+        },
+        {
+          "block": 4,
+          "n": 100,
+          "coverage": 0.27,
+          "mean_width": 1.202902636459413
+        },
+        {
+          "block": 5,
+          "n": 100,
+          "coverage": 0.67,
+          "mean_width": 1.202902636459413
+        },
+        {
+          "block": 6,
+          "n": 100,
+          "coverage": 0.79,
+          "mean_width": 1.202902636459413
+        },
+        {
+          "block": 7,
+          "n": 100,
+          "coverage": 0.72,
+          "mean_width": 1.202902636459413
+        }
+      ],
+      "update_count": 1,
+      "update_times": [
+        953
+      ],
+      "update_budget": 4,
+      "resource_spent": 8.0,
+      "resource_budget": 12.0,
+      "intervention_resource_costs": {
+        "residual_bias_recalibration": 1.0,
+        "normalized_sgd_partial_update": 2.0,
+        "refit": 8.0
+      },
+      "feedback_received": 706,
+      "feedback_missing_or_delayed_past_horizon": 94,
+      "trigger_alarm_count": 178,
+      "fit_audit": [
+        {
+          "fit_feedback_available_time": 953.0,
+          "arrived_feedback_count": 125,
+          "method": "triggered",
+          "model_family": "hist_gradient_boosting"
+        }
+      ],
+      "intervention_audit": [
+        {
+          "available_at": 953.0,
+          "arrived_feedback_count": 125,
+          "method": "triggered",
+          "action": "refit",
+          "resource_cost": 8.0,
+          "resource_spent": 8.0,
+          "bias_correction": 0.0
+        }
+      ],
+      "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "temporary",
       "seed": 23,
       "policy": "ridge_frozen",
       "model_family": "ridge",
@@ -15910,6 +17982,193 @@
           "arrived_feedback_count": 177,
           "method": "triggered",
           "model_family": "random_forest"
+        }
+      ],
+      "intervention_audit": [
+        {
+          "available_at": 1008.0,
+          "arrived_feedback_count": 177,
+          "method": "triggered",
+          "action": "refit",
+          "resource_cost": 8.0,
+          "resource_spent": 8.0,
+          "bias_correction": 0.0
+        }
+      ],
+      "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "temporary",
+      "seed": 23,
+      "policy": "boosted_tree_frozen",
+      "model_family": "hist_gradient_boosting",
+      "update_method": "frozen",
+      "radius_method": "fixed",
+      "test_n": 800,
+      "mse": 1.489648193299994,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 1.3996481932999942,
+      "shifted_or_transition_mse": 3.454633880055166,
+      "coverage": 0.67375,
+      "mean_interval_width": 1.5530331670521473,
+      "coverage_by_test_block": [
+        {
+          "block": 0,
+          "n": 100,
+          "coverage": 0.92,
+          "mean_width": 1.5530331670521473
+        },
+        {
+          "block": 1,
+          "n": 100,
+          "coverage": 0.9,
+          "mean_width": 1.5530331670521473
+        },
+        {
+          "block": 2,
+          "n": 100,
+          "coverage": 0.22,
+          "mean_width": 1.5530331670521473
+        },
+        {
+          "block": 3,
+          "n": 100,
+          "coverage": 0.3,
+          "mean_width": 1.5530331670521473
+        },
+        {
+          "block": 4,
+          "n": 100,
+          "coverage": 0.25,
+          "mean_width": 1.5530331670521473
+        },
+        {
+          "block": 5,
+          "n": 100,
+          "coverage": 0.9,
+          "mean_width": 1.5530331670521473
+        },
+        {
+          "block": 6,
+          "n": 100,
+          "coverage": 0.98,
+          "mean_width": 1.5530331670521473
+        },
+        {
+          "block": 7,
+          "n": 100,
+          "coverage": 0.92,
+          "mean_width": 1.5530331670521473
+        }
+      ],
+      "update_count": 0,
+      "update_times": [],
+      "update_budget": 4,
+      "resource_spent": 0.0,
+      "resource_budget": 12.0,
+      "intervention_resource_costs": {
+        "residual_bias_recalibration": 1.0,
+        "normalized_sgd_partial_update": 2.0,
+        "refit": 8.0
+      },
+      "feedback_received": 710,
+      "feedback_missing_or_delayed_past_horizon": 90,
+      "trigger_alarm_count": 98,
+      "fit_audit": [],
+      "intervention_audit": [],
+      "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "temporary",
+      "seed": 23,
+      "policy": "boosted_tree_triggered",
+      "model_family": "hist_gradient_boosting",
+      "update_method": "triggered",
+      "radius_method": "fixed",
+      "test_n": 800,
+      "mse": 1.3865918675179913,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 1.2965918675179915,
+      "shifted_or_transition_mse": 3.0144904792999245,
+      "coverage": 0.63,
+      "mean_interval_width": 1.5530331670521473,
+      "coverage_by_test_block": [
+        {
+          "block": 0,
+          "n": 100,
+          "coverage": 0.92,
+          "mean_width": 1.5530331670521473
+        },
+        {
+          "block": 1,
+          "n": 100,
+          "coverage": 0.9,
+          "mean_width": 1.5530331670521473
+        },
+        {
+          "block": 2,
+          "n": 100,
+          "coverage": 0.24,
+          "mean_width": 1.5530331670521473
+        },
+        {
+          "block": 3,
+          "n": 100,
+          "coverage": 0.29,
+          "mean_width": 1.5530331670521473
+        },
+        {
+          "block": 4,
+          "n": 100,
+          "coverage": 0.22,
+          "mean_width": 1.5530331670521473
+        },
+        {
+          "block": 5,
+          "n": 100,
+          "coverage": 0.82,
+          "mean_width": 1.5530331670521473
+        },
+        {
+          "block": 6,
+          "n": 100,
+          "coverage": 0.84,
+          "mean_width": 1.5530331670521473
+        },
+        {
+          "block": 7,
+          "n": 100,
+          "coverage": 0.81,
+          "mean_width": 1.5530331670521473
+        }
+      ],
+      "update_count": 1,
+      "update_times": [
+        1008
+      ],
+      "update_budget": 4,
+      "resource_spent": 8.0,
+      "resource_budget": 12.0,
+      "intervention_resource_costs": {
+        "residual_bias_recalibration": 1.0,
+        "normalized_sgd_partial_update": 2.0,
+        "refit": 8.0
+      },
+      "feedback_received": 710,
+      "feedback_missing_or_delayed_past_horizon": 90,
+      "trigger_alarm_count": 101,
+      "fit_audit": [
+        {
+          "fit_feedback_available_time": 1008.0,
+          "arrived_feedback_count": 177,
+          "method": "triggered",
+          "model_family": "hist_gradient_boosting"
         }
       ],
       "intervention_audit": [
@@ -17254,6 +19513,193 @@
     },
     {
       "schedule": "temporary",
+      "seed": 37,
+      "policy": "boosted_tree_frozen",
+      "model_family": "hist_gradient_boosting",
+      "update_method": "frozen",
+      "radius_method": "fixed",
+      "test_n": 800,
+      "mse": 1.6871792047849408,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 1.5971792047849407,
+      "shifted_or_transition_mse": 3.968718075439713,
+      "coverage": 0.68125,
+      "mean_interval_width": 1.4718336850252391,
+      "coverage_by_test_block": [
+        {
+          "block": 0,
+          "n": 100,
+          "coverage": 0.91,
+          "mean_width": 1.4718336850252394
+        },
+        {
+          "block": 1,
+          "n": 100,
+          "coverage": 0.91,
+          "mean_width": 1.4718336850252394
+        },
+        {
+          "block": 2,
+          "n": 100,
+          "coverage": 0.34,
+          "mean_width": 1.4718336850252394
+        },
+        {
+          "block": 3,
+          "n": 100,
+          "coverage": 0.31,
+          "mean_width": 1.4718336850252394
+        },
+        {
+          "block": 4,
+          "n": 100,
+          "coverage": 0.25,
+          "mean_width": 1.4718336850252394
+        },
+        {
+          "block": 5,
+          "n": 100,
+          "coverage": 0.86,
+          "mean_width": 1.4718336850252394
+        },
+        {
+          "block": 6,
+          "n": 100,
+          "coverage": 0.93,
+          "mean_width": 1.4718336850252394
+        },
+        {
+          "block": 7,
+          "n": 100,
+          "coverage": 0.94,
+          "mean_width": 1.4718336850252394
+        }
+      ],
+      "update_count": 0,
+      "update_times": [],
+      "update_budget": 4,
+      "resource_spent": 0.0,
+      "resource_budget": 12.0,
+      "intervention_resource_costs": {
+        "residual_bias_recalibration": 1.0,
+        "normalized_sgd_partial_update": 2.0,
+        "refit": 8.0
+      },
+      "feedback_received": 699,
+      "feedback_missing_or_delayed_past_horizon": 101,
+      "trigger_alarm_count": 135,
+      "fit_audit": [],
+      "intervention_audit": [],
+      "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "temporary",
+      "seed": 37,
+      "policy": "boosted_tree_triggered",
+      "model_family": "hist_gradient_boosting",
+      "update_method": "triggered",
+      "radius_method": "fixed",
+      "test_n": 800,
+      "mse": 1.4198763762157944,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 1.3298763762157944,
+      "shifted_or_transition_mse": 3.089941508993055,
+      "coverage": 0.64875,
+      "mean_interval_width": 1.4718336850252391,
+      "coverage_by_test_block": [
+        {
+          "block": 0,
+          "n": 100,
+          "coverage": 0.91,
+          "mean_width": 1.4718336850252394
+        },
+        {
+          "block": 1,
+          "n": 100,
+          "coverage": 0.91,
+          "mean_width": 1.4718336850252394
+        },
+        {
+          "block": 2,
+          "n": 100,
+          "coverage": 0.41,
+          "mean_width": 1.4718336850252394
+        },
+        {
+          "block": 3,
+          "n": 100,
+          "coverage": 0.26,
+          "mean_width": 1.4718336850252394
+        },
+        {
+          "block": 4,
+          "n": 100,
+          "coverage": 0.32,
+          "mean_width": 1.4718336850252394
+        },
+        {
+          "block": 5,
+          "n": 100,
+          "coverage": 0.79,
+          "mean_width": 1.4718336850252394
+        },
+        {
+          "block": 6,
+          "n": 100,
+          "coverage": 0.78,
+          "mean_width": 1.4718336850252394
+        },
+        {
+          "block": 7,
+          "n": 100,
+          "coverage": 0.81,
+          "mean_width": 1.4718336850252394
+        }
+      ],
+      "update_count": 1,
+      "update_times": [
+        1001
+      ],
+      "update_budget": 4,
+      "resource_spent": 8.0,
+      "resource_budget": 12.0,
+      "intervention_resource_costs": {
+        "residual_bias_recalibration": 1.0,
+        "normalized_sgd_partial_update": 2.0,
+        "refit": 8.0
+      },
+      "feedback_received": 699,
+      "feedback_missing_or_delayed_past_horizon": 101,
+      "trigger_alarm_count": 144,
+      "fit_audit": [
+        {
+          "fit_feedback_available_time": 1001.0,
+          "arrived_feedback_count": 171,
+          "method": "triggered",
+          "model_family": "hist_gradient_boosting"
+        }
+      ],
+      "intervention_audit": [
+        {
+          "available_at": 1001.0,
+          "arrived_feedback_count": 171,
+          "method": "triggered",
+          "action": "refit",
+          "resource_cost": 8.0,
+          "resource_spent": 8.0,
+          "bias_correction": 0.0
+        }
+      ],
+      "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "temporary",
       "seed": 53,
       "policy": "ridge_frozen",
       "model_family": "ridge",
@@ -18564,6 +21010,193 @@
         {
           "available_at": 888.0,
           "arrived_feedback_count": 75,
+          "method": "triggered",
+          "action": "refit",
+          "resource_cost": 8.0,
+          "resource_spent": 8.0,
+          "bias_correction": 0.0
+        }
+      ],
+      "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "temporary",
+      "seed": 53,
+      "policy": "boosted_tree_frozen",
+      "model_family": "hist_gradient_boosting",
+      "update_method": "frozen",
+      "radius_method": "fixed",
+      "test_n": 800,
+      "mse": 1.6578338771535401,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 1.5678338771535403,
+      "shifted_or_transition_mse": 3.834155355883207,
+      "coverage": 0.6525,
+      "mean_interval_width": 1.4929145824166625,
+      "coverage_by_test_block": [
+        {
+          "block": 0,
+          "n": 100,
+          "coverage": 0.91,
+          "mean_width": 1.4929145824166625
+        },
+        {
+          "block": 1,
+          "n": 100,
+          "coverage": 0.91,
+          "mean_width": 1.4929145824166625
+        },
+        {
+          "block": 2,
+          "n": 100,
+          "coverage": 0.22,
+          "mean_width": 1.4929145824166625
+        },
+        {
+          "block": 3,
+          "n": 100,
+          "coverage": 0.28,
+          "mean_width": 1.4929145824166625
+        },
+        {
+          "block": 4,
+          "n": 100,
+          "coverage": 0.25,
+          "mean_width": 1.4929145824166625
+        },
+        {
+          "block": 5,
+          "n": 100,
+          "coverage": 0.8,
+          "mean_width": 1.4929145824166625
+        },
+        {
+          "block": 6,
+          "n": 100,
+          "coverage": 0.94,
+          "mean_width": 1.4929145824166625
+        },
+        {
+          "block": 7,
+          "n": 100,
+          "coverage": 0.91,
+          "mean_width": 1.4929145824166625
+        }
+      ],
+      "update_count": 0,
+      "update_times": [],
+      "update_budget": 4,
+      "resource_spent": 0.0,
+      "resource_budget": 12.0,
+      "intervention_resource_costs": {
+        "residual_bias_recalibration": 1.0,
+        "normalized_sgd_partial_update": 2.0,
+        "refit": 8.0
+      },
+      "feedback_received": 720,
+      "feedback_missing_or_delayed_past_horizon": 80,
+      "trigger_alarm_count": 137,
+      "fit_audit": [],
+      "intervention_audit": [],
+      "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "temporary",
+      "seed": 53,
+      "policy": "boosted_tree_triggered",
+      "model_family": "hist_gradient_boosting",
+      "update_method": "triggered",
+      "radius_method": "fixed",
+      "test_n": 800,
+      "mse": 1.7859244993183796,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 1.6959244993183795,
+      "shifted_or_transition_mse": 3.984188473159404,
+      "coverage": 0.59375,
+      "mean_interval_width": 1.4929145824166625,
+      "coverage_by_test_block": [
+        {
+          "block": 0,
+          "n": 100,
+          "coverage": 0.84,
+          "mean_width": 1.4929145824166625
+        },
+        {
+          "block": 1,
+          "n": 100,
+          "coverage": 0.8,
+          "mean_width": 1.4929145824166625
+        },
+        {
+          "block": 2,
+          "n": 100,
+          "coverage": 0.21,
+          "mean_width": 1.4929145824166625
+        },
+        {
+          "block": 3,
+          "n": 100,
+          "coverage": 0.26,
+          "mean_width": 1.4929145824166625
+        },
+        {
+          "block": 4,
+          "n": 100,
+          "coverage": 0.25,
+          "mean_width": 1.4929145824166625
+        },
+        {
+          "block": 5,
+          "n": 100,
+          "coverage": 0.7,
+          "mean_width": 1.4929145824166625
+        },
+        {
+          "block": 6,
+          "n": 100,
+          "coverage": 0.86,
+          "mean_width": 1.4929145824166625
+        },
+        {
+          "block": 7,
+          "n": 100,
+          "coverage": 0.83,
+          "mean_width": 1.4929145824166625
+        }
+      ],
+      "update_count": 1,
+      "update_times": [
+        840
+      ],
+      "update_budget": 4,
+      "resource_spent": 8.0,
+      "resource_budget": 12.0,
+      "intervention_resource_costs": {
+        "residual_bias_recalibration": 1.0,
+        "normalized_sgd_partial_update": 2.0,
+        "refit": 8.0
+      },
+      "feedback_received": 720,
+      "feedback_missing_or_delayed_past_horizon": 80,
+      "trigger_alarm_count": 152,
+      "fit_audit": [
+        {
+          "fit_feedback_available_time": 840.0,
+          "arrived_feedback_count": 30,
+          "method": "triggered",
+          "model_family": "hist_gradient_boosting"
+        }
+      ],
+      "intervention_audit": [
+        {
+          "available_at": 840.0,
+          "arrived_feedback_count": 30,
           "method": "triggered",
           "action": "refit",
           "resource_cost": 8.0,
@@ -19901,6 +22534,193 @@
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
     {
+      "schedule": "temporary",
+      "seed": 71,
+      "policy": "boosted_tree_frozen",
+      "model_family": "hist_gradient_boosting",
+      "update_method": "frozen",
+      "radius_method": "fixed",
+      "test_n": 800,
+      "mse": 1.6310320019471767,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 1.5410320019471764,
+      "shifted_or_transition_mse": 3.81562559709836,
+      "coverage": 0.62875,
+      "mean_interval_width": 1.2088463026047769,
+      "coverage_by_test_block": [
+        {
+          "block": 0,
+          "n": 100,
+          "coverage": 0.88,
+          "mean_width": 1.208846302604777
+        },
+        {
+          "block": 1,
+          "n": 100,
+          "coverage": 0.8,
+          "mean_width": 1.208846302604777
+        },
+        {
+          "block": 2,
+          "n": 100,
+          "coverage": 0.38,
+          "mean_width": 1.208846302604777
+        },
+        {
+          "block": 3,
+          "n": 100,
+          "coverage": 0.3,
+          "mean_width": 1.208846302604777
+        },
+        {
+          "block": 4,
+          "n": 100,
+          "coverage": 0.19,
+          "mean_width": 1.208846302604777
+        },
+        {
+          "block": 5,
+          "n": 100,
+          "coverage": 0.8,
+          "mean_width": 1.208846302604777
+        },
+        {
+          "block": 6,
+          "n": 100,
+          "coverage": 0.82,
+          "mean_width": 1.208846302604777
+        },
+        {
+          "block": 7,
+          "n": 100,
+          "coverage": 0.86,
+          "mean_width": 1.208846302604777
+        }
+      ],
+      "update_count": 0,
+      "update_times": [],
+      "update_budget": 4,
+      "resource_spent": 0.0,
+      "resource_budget": 12.0,
+      "intervention_resource_costs": {
+        "residual_bias_recalibration": 1.0,
+        "normalized_sgd_partial_update": 2.0,
+        "refit": 8.0
+      },
+      "feedback_received": 709,
+      "feedback_missing_or_delayed_past_horizon": 91,
+      "trigger_alarm_count": 162,
+      "fit_audit": [],
+      "intervention_audit": [],
+      "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "temporary",
+      "seed": 71,
+      "policy": "boosted_tree_triggered",
+      "model_family": "hist_gradient_boosting",
+      "update_method": "triggered",
+      "radius_method": "fixed",
+      "test_n": 800,
+      "mse": 1.7207970030126831,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 1.630797003012683,
+      "shifted_or_transition_mse": 3.9120100059955902,
+      "coverage": 0.59125,
+      "mean_interval_width": 1.2088463026047769,
+      "coverage_by_test_block": [
+        {
+          "block": 0,
+          "n": 100,
+          "coverage": 0.86,
+          "mean_width": 1.208846302604777
+        },
+        {
+          "block": 1,
+          "n": 100,
+          "coverage": 0.68,
+          "mean_width": 1.208846302604777
+        },
+        {
+          "block": 2,
+          "n": 100,
+          "coverage": 0.38,
+          "mean_width": 1.208846302604777
+        },
+        {
+          "block": 3,
+          "n": 100,
+          "coverage": 0.25,
+          "mean_width": 1.208846302604777
+        },
+        {
+          "block": 4,
+          "n": 100,
+          "coverage": 0.15,
+          "mean_width": 1.208846302604777
+        },
+        {
+          "block": 5,
+          "n": 100,
+          "coverage": 0.76,
+          "mean_width": 1.208846302604777
+        },
+        {
+          "block": 6,
+          "n": 100,
+          "coverage": 0.84,
+          "mean_width": 1.208846302604777
+        },
+        {
+          "block": 7,
+          "n": 100,
+          "coverage": 0.81,
+          "mean_width": 1.208846302604777
+        }
+      ],
+      "update_count": 1,
+      "update_times": [
+        843
+      ],
+      "update_budget": 4,
+      "resource_spent": 8.0,
+      "resource_budget": 12.0,
+      "intervention_resource_costs": {
+        "residual_bias_recalibration": 1.0,
+        "normalized_sgd_partial_update": 2.0,
+        "refit": 8.0
+      },
+      "feedback_received": 709,
+      "feedback_missing_or_delayed_past_horizon": 91,
+      "trigger_alarm_count": 178,
+      "fit_audit": [
+        {
+          "fit_feedback_available_time": 843.0,
+          "arrived_feedback_count": 34,
+          "method": "triggered",
+          "model_family": "hist_gradient_boosting"
+        }
+      ],
+      "intervention_audit": [
+        {
+          "available_at": 843.0,
+          "arrived_feedback_count": 34,
+          "method": "triggered",
+          "action": "refit",
+          "resource_cost": 8.0,
+          "resource_spent": 8.0,
+          "bias_correction": 0.0
+        }
+      ],
+      "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
       "schedule": "recurring",
       "seed": 11,
       "policy": "ridge_frozen",
@@ -21039,6 +23859,193 @@
     },
     {
       "schedule": "recurring",
+      "seed": 11,
+      "policy": "boosted_tree_frozen",
+      "model_family": "hist_gradient_boosting",
+      "update_method": "frozen",
+      "radius_method": "fixed",
+      "test_n": 800,
+      "mse": 2.2039252517345194,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 2.1139252517345195,
+      "shifted_or_transition_mse": 4.21286449749316,
+      "coverage": 0.9375,
+      "mean_interval_width": 6.53896031716407,
+      "coverage_by_test_block": [
+        {
+          "block": 0,
+          "n": 100,
+          "coverage": 1.0,
+          "mean_width": 6.5389603171640704
+        },
+        {
+          "block": 1,
+          "n": 100,
+          "coverage": 1.0,
+          "mean_width": 6.5389603171640704
+        },
+        {
+          "block": 2,
+          "n": 100,
+          "coverage": 1.0,
+          "mean_width": 6.5389603171640704
+        },
+        {
+          "block": 3,
+          "n": 100,
+          "coverage": 1.0,
+          "mean_width": 6.5389603171640704
+        },
+        {
+          "block": 4,
+          "n": 100,
+          "coverage": 0.87,
+          "mean_width": 6.5389603171640704
+        },
+        {
+          "block": 5,
+          "n": 100,
+          "coverage": 0.88,
+          "mean_width": 6.5389603171640704
+        },
+        {
+          "block": 6,
+          "n": 100,
+          "coverage": 0.87,
+          "mean_width": 6.5389603171640704
+        },
+        {
+          "block": 7,
+          "n": 100,
+          "coverage": 0.88,
+          "mean_width": 6.5389603171640704
+        }
+      ],
+      "update_count": 0,
+      "update_times": [],
+      "update_budget": 4,
+      "resource_spent": 0.0,
+      "resource_budget": 12.0,
+      "intervention_resource_costs": {
+        "residual_bias_recalibration": 1.0,
+        "normalized_sgd_partial_update": 2.0,
+        "refit": 8.0
+      },
+      "feedback_received": 706,
+      "feedback_missing_or_delayed_past_horizon": 94,
+      "trigger_alarm_count": 7,
+      "fit_audit": [],
+      "intervention_audit": [],
+      "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "recurring",
+      "seed": 11,
+      "policy": "boosted_tree_triggered",
+      "model_family": "hist_gradient_boosting",
+      "update_method": "triggered",
+      "radius_method": "fixed",
+      "test_n": 800,
+      "mse": 1.4793478563416265,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 1.3893478563416264,
+      "shifted_or_transition_mse": 2.763709706707374,
+      "coverage": 0.97875,
+      "mean_interval_width": 6.53896031716407,
+      "coverage_by_test_block": [
+        {
+          "block": 0,
+          "n": 100,
+          "coverage": 1.0,
+          "mean_width": 6.5389603171640704
+        },
+        {
+          "block": 1,
+          "n": 100,
+          "coverage": 1.0,
+          "mean_width": 6.5389603171640704
+        },
+        {
+          "block": 2,
+          "n": 100,
+          "coverage": 1.0,
+          "mean_width": 6.5389603171640704
+        },
+        {
+          "block": 3,
+          "n": 100,
+          "coverage": 1.0,
+          "mean_width": 6.5389603171640704
+        },
+        {
+          "block": 4,
+          "n": 100,
+          "coverage": 0.93,
+          "mean_width": 6.5389603171640704
+        },
+        {
+          "block": 5,
+          "n": 100,
+          "coverage": 0.97,
+          "mean_width": 6.5389603171640704
+        },
+        {
+          "block": 6,
+          "n": 100,
+          "coverage": 0.94,
+          "mean_width": 6.5389603171640704
+        },
+        {
+          "block": 7,
+          "n": 100,
+          "coverage": 0.99,
+          "mean_width": 6.5389603171640704
+        }
+      ],
+      "update_count": 1,
+      "update_times": [
+        1222
+      ],
+      "update_budget": 4,
+      "resource_spent": 8.0,
+      "resource_budget": 12.0,
+      "intervention_resource_costs": {
+        "residual_bias_recalibration": 1.0,
+        "normalized_sgd_partial_update": 2.0,
+        "refit": 8.0
+      },
+      "feedback_received": 706,
+      "feedback_missing_or_delayed_past_horizon": 94,
+      "trigger_alarm_count": 1,
+      "fit_audit": [
+        {
+          "fit_feedback_available_time": 1222.0,
+          "arrived_feedback_count": 372,
+          "method": "triggered",
+          "model_family": "hist_gradient_boosting"
+        }
+      ],
+      "intervention_audit": [
+        {
+          "available_at": 1222.0,
+          "arrived_feedback_count": 372,
+          "method": "triggered",
+          "action": "refit",
+          "resource_cost": 8.0,
+          "resource_spent": 8.0,
+          "bias_correction": 0.0
+        }
+      ],
+      "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "recurring",
       "seed": 23,
       "policy": "ridge_frozen",
       "model_family": "ridge",
@@ -22068,6 +25075,174 @@
           "bias_correction": 0.0
         }
       ],
+      "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "recurring",
+      "seed": 23,
+      "policy": "boosted_tree_frozen",
+      "model_family": "hist_gradient_boosting",
+      "update_method": "frozen",
+      "radius_method": "fixed",
+      "test_n": 800,
+      "mse": 1.7828925077408897,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 1.6928925077408896,
+      "shifted_or_transition_mse": 3.351741160372935,
+      "coverage": 0.9525,
+      "mean_interval_width": 6.2177582730367575,
+      "coverage_by_test_block": [
+        {
+          "block": 0,
+          "n": 100,
+          "coverage": 1.0,
+          "mean_width": 6.217758273036759
+        },
+        {
+          "block": 1,
+          "n": 100,
+          "coverage": 1.0,
+          "mean_width": 6.217758273036759
+        },
+        {
+          "block": 2,
+          "n": 100,
+          "coverage": 1.0,
+          "mean_width": 6.217758273036759
+        },
+        {
+          "block": 3,
+          "n": 100,
+          "coverage": 1.0,
+          "mean_width": 6.217758273036759
+        },
+        {
+          "block": 4,
+          "n": 100,
+          "coverage": 0.91,
+          "mean_width": 6.217758273036759
+        },
+        {
+          "block": 5,
+          "n": 100,
+          "coverage": 0.92,
+          "mean_width": 6.217758273036759
+        },
+        {
+          "block": 6,
+          "n": 100,
+          "coverage": 0.91,
+          "mean_width": 6.217758273036759
+        },
+        {
+          "block": 7,
+          "n": 100,
+          "coverage": 0.88,
+          "mean_width": 6.217758273036759
+        }
+      ],
+      "update_count": 0,
+      "update_times": [],
+      "update_budget": 4,
+      "resource_spent": 0.0,
+      "resource_budget": 12.0,
+      "intervention_resource_costs": {
+        "residual_bias_recalibration": 1.0,
+        "normalized_sgd_partial_update": 2.0,
+        "refit": 8.0
+      },
+      "feedback_received": 710,
+      "feedback_missing_or_delayed_past_horizon": 90,
+      "trigger_alarm_count": 0,
+      "fit_audit": [],
+      "intervention_audit": [],
+      "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "recurring",
+      "seed": 23,
+      "policy": "boosted_tree_triggered",
+      "model_family": "hist_gradient_boosting",
+      "update_method": "triggered",
+      "radius_method": "fixed",
+      "test_n": 800,
+      "mse": 1.7828925077408897,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 1.6928925077408896,
+      "shifted_or_transition_mse": 3.351741160372935,
+      "coverage": 0.9525,
+      "mean_interval_width": 6.2177582730367575,
+      "coverage_by_test_block": [
+        {
+          "block": 0,
+          "n": 100,
+          "coverage": 1.0,
+          "mean_width": 6.217758273036759
+        },
+        {
+          "block": 1,
+          "n": 100,
+          "coverage": 1.0,
+          "mean_width": 6.217758273036759
+        },
+        {
+          "block": 2,
+          "n": 100,
+          "coverage": 1.0,
+          "mean_width": 6.217758273036759
+        },
+        {
+          "block": 3,
+          "n": 100,
+          "coverage": 1.0,
+          "mean_width": 6.217758273036759
+        },
+        {
+          "block": 4,
+          "n": 100,
+          "coverage": 0.91,
+          "mean_width": 6.217758273036759
+        },
+        {
+          "block": 5,
+          "n": 100,
+          "coverage": 0.92,
+          "mean_width": 6.217758273036759
+        },
+        {
+          "block": 6,
+          "n": 100,
+          "coverage": 0.91,
+          "mean_width": 6.217758273036759
+        },
+        {
+          "block": 7,
+          "n": 100,
+          "coverage": 0.88,
+          "mean_width": 6.217758273036759
+        }
+      ],
+      "update_count": 0,
+      "update_times": [],
+      "update_budget": 4,
+      "resource_spent": 0.0,
+      "resource_budget": 12.0,
+      "intervention_resource_costs": {
+        "residual_bias_recalibration": 1.0,
+        "normalized_sgd_partial_update": 2.0,
+        "refit": 8.0
+      },
+      "feedback_received": 710,
+      "feedback_missing_or_delayed_past_horizon": 90,
+      "trigger_alarm_count": 0,
+      "fit_audit": [],
+      "intervention_audit": [],
       "final_bias_correction": 0.0,
       "validation_loss_threshold": null,
       "protocol_passes": true,
@@ -23166,6 +26341,193 @@
       "trigger_alarm_count": 0,
       "fit_audit": [],
       "intervention_audit": [],
+      "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "recurring",
+      "seed": 37,
+      "policy": "boosted_tree_frozen",
+      "model_family": "hist_gradient_boosting",
+      "update_method": "frozen",
+      "radius_method": "fixed",
+      "test_n": 800,
+      "mse": 1.8835961240984858,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 1.793596124098486,
+      "shifted_or_transition_mse": 3.602559459014643,
+      "coverage": 0.95875,
+      "mean_interval_width": 6.883920826946821,
+      "coverage_by_test_block": [
+        {
+          "block": 0,
+          "n": 100,
+          "coverage": 1.0,
+          "mean_width": 6.88392082694682
+        },
+        {
+          "block": 1,
+          "n": 100,
+          "coverage": 1.0,
+          "mean_width": 6.88392082694682
+        },
+        {
+          "block": 2,
+          "n": 100,
+          "coverage": 1.0,
+          "mean_width": 6.88392082694682
+        },
+        {
+          "block": 3,
+          "n": 100,
+          "coverage": 1.0,
+          "mean_width": 6.88392082694682
+        },
+        {
+          "block": 4,
+          "n": 100,
+          "coverage": 0.89,
+          "mean_width": 6.88392082694682
+        },
+        {
+          "block": 5,
+          "n": 100,
+          "coverage": 0.92,
+          "mean_width": 6.88392082694682
+        },
+        {
+          "block": 6,
+          "n": 100,
+          "coverage": 0.9,
+          "mean_width": 6.88392082694682
+        },
+        {
+          "block": 7,
+          "n": 100,
+          "coverage": 0.96,
+          "mean_width": 6.88392082694682
+        }
+      ],
+      "update_count": 0,
+      "update_times": [],
+      "update_budget": 4,
+      "resource_spent": 0.0,
+      "resource_budget": 12.0,
+      "intervention_resource_costs": {
+        "residual_bias_recalibration": 1.0,
+        "normalized_sgd_partial_update": 2.0,
+        "refit": 8.0
+      },
+      "feedback_received": 699,
+      "feedback_missing_or_delayed_past_horizon": 101,
+      "trigger_alarm_count": 1,
+      "fit_audit": [],
+      "intervention_audit": [],
+      "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "recurring",
+      "seed": 37,
+      "policy": "boosted_tree_triggered",
+      "model_family": "hist_gradient_boosting",
+      "update_method": "triggered",
+      "radius_method": "fixed",
+      "test_n": 800,
+      "mse": 0.7655917133188207,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 0.6755917133188207,
+      "shifted_or_transition_mse": 1.366550637455313,
+      "coverage": 0.99125,
+      "mean_interval_width": 6.883920826946821,
+      "coverage_by_test_block": [
+        {
+          "block": 0,
+          "n": 100,
+          "coverage": 1.0,
+          "mean_width": 6.88392082694682
+        },
+        {
+          "block": 1,
+          "n": 100,
+          "coverage": 1.0,
+          "mean_width": 6.88392082694682
+        },
+        {
+          "block": 2,
+          "n": 100,
+          "coverage": 1.0,
+          "mean_width": 6.88392082694682
+        },
+        {
+          "block": 3,
+          "n": 100,
+          "coverage": 1.0,
+          "mean_width": 6.88392082694682
+        },
+        {
+          "block": 4,
+          "n": 100,
+          "coverage": 0.93,
+          "mean_width": 6.88392082694682
+        },
+        {
+          "block": 5,
+          "n": 100,
+          "coverage": 1.0,
+          "mean_width": 6.88392082694682
+        },
+        {
+          "block": 6,
+          "n": 100,
+          "coverage": 1.0,
+          "mean_width": 6.88392082694682
+        },
+        {
+          "block": 7,
+          "n": 100,
+          "coverage": 1.0,
+          "mean_width": 6.88392082694682
+        }
+      ],
+      "update_count": 1,
+      "update_times": [
+        1264
+      ],
+      "update_budget": 4,
+      "resource_spent": 8.0,
+      "resource_budget": 12.0,
+      "intervention_resource_costs": {
+        "residual_bias_recalibration": 1.0,
+        "normalized_sgd_partial_update": 2.0,
+        "refit": 8.0
+      },
+      "feedback_received": 699,
+      "feedback_missing_or_delayed_past_horizon": 101,
+      "trigger_alarm_count": 1,
+      "fit_audit": [
+        {
+          "fit_feedback_available_time": 1264.0,
+          "arrived_feedback_count": 404,
+          "method": "triggered",
+          "model_family": "hist_gradient_boosting"
+        }
+      ],
+      "intervention_audit": [
+        {
+          "available_at": 1264.0,
+          "arrived_feedback_count": 404,
+          "method": "triggered",
+          "action": "refit",
+          "resource_cost": 8.0,
+          "resource_spent": 8.0,
+          "bias_correction": 0.0
+        }
+      ],
       "final_bias_correction": 0.0,
       "validation_loss_threshold": null,
       "protocol_passes": true,
@@ -24306,6 +27668,193 @@
         {
           "available_at": 1374.0,
           "arrived_feedback_count": 524,
+          "method": "triggered",
+          "action": "refit",
+          "resource_cost": 8.0,
+          "resource_spent": 8.0,
+          "bias_correction": 0.0
+        }
+      ],
+      "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "recurring",
+      "seed": 53,
+      "policy": "boosted_tree_frozen",
+      "model_family": "hist_gradient_boosting",
+      "update_method": "frozen",
+      "radius_method": "fixed",
+      "test_n": 800,
+      "mse": 1.9669508497403194,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 1.8769508497403193,
+      "shifted_or_transition_mse": 3.737918365077576,
+      "coverage": 0.92875,
+      "mean_interval_width": 5.895533974947357,
+      "coverage_by_test_block": [
+        {
+          "block": 0,
+          "n": 100,
+          "coverage": 1.0,
+          "mean_width": 5.895533974947359
+        },
+        {
+          "block": 1,
+          "n": 100,
+          "coverage": 1.0,
+          "mean_width": 5.895533974947359
+        },
+        {
+          "block": 2,
+          "n": 100,
+          "coverage": 1.0,
+          "mean_width": 5.895533974947359
+        },
+        {
+          "block": 3,
+          "n": 100,
+          "coverage": 1.0,
+          "mean_width": 5.895533974947359
+        },
+        {
+          "block": 4,
+          "n": 100,
+          "coverage": 0.83,
+          "mean_width": 5.895533974947359
+        },
+        {
+          "block": 5,
+          "n": 100,
+          "coverage": 0.91,
+          "mean_width": 5.895533974947359
+        },
+        {
+          "block": 6,
+          "n": 100,
+          "coverage": 0.9,
+          "mean_width": 5.895533974947359
+        },
+        {
+          "block": 7,
+          "n": 100,
+          "coverage": 0.79,
+          "mean_width": 5.895533974947359
+        }
+      ],
+      "update_count": 0,
+      "update_times": [],
+      "update_budget": 4,
+      "resource_spent": 0.0,
+      "resource_budget": 12.0,
+      "intervention_resource_costs": {
+        "residual_bias_recalibration": 1.0,
+        "normalized_sgd_partial_update": 2.0,
+        "refit": 8.0
+      },
+      "feedback_received": 720,
+      "feedback_missing_or_delayed_past_horizon": 80,
+      "trigger_alarm_count": 4,
+      "fit_audit": [],
+      "intervention_audit": [],
+      "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "recurring",
+      "seed": 53,
+      "policy": "boosted_tree_triggered",
+      "model_family": "hist_gradient_boosting",
+      "update_method": "triggered",
+      "radius_method": "fixed",
+      "test_n": 800,
+      "mse": 0.746614689520435,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 0.6566146895204349,
+      "shifted_or_transition_mse": 1.2972460446378067,
+      "coverage": 0.98375,
+      "mean_interval_width": 5.895533974947357,
+      "coverage_by_test_block": [
+        {
+          "block": 0,
+          "n": 100,
+          "coverage": 1.0,
+          "mean_width": 5.895533974947359
+        },
+        {
+          "block": 1,
+          "n": 100,
+          "coverage": 1.0,
+          "mean_width": 5.895533974947359
+        },
+        {
+          "block": 2,
+          "n": 100,
+          "coverage": 1.0,
+          "mean_width": 5.895533974947359
+        },
+        {
+          "block": 3,
+          "n": 100,
+          "coverage": 1.0,
+          "mean_width": 5.895533974947359
+        },
+        {
+          "block": 4,
+          "n": 100,
+          "coverage": 0.87,
+          "mean_width": 5.895533974947359
+        },
+        {
+          "block": 5,
+          "n": 100,
+          "coverage": 1.0,
+          "mean_width": 5.895533974947359
+        },
+        {
+          "block": 6,
+          "n": 100,
+          "coverage": 1.0,
+          "mean_width": 5.895533974947359
+        },
+        {
+          "block": 7,
+          "n": 100,
+          "coverage": 1.0,
+          "mean_width": 5.895533974947359
+        }
+      ],
+      "update_count": 1,
+      "update_times": [
+        1279
+      ],
+      "update_budget": 4,
+      "resource_spent": 8.0,
+      "resource_budget": 12.0,
+      "intervention_resource_costs": {
+        "residual_bias_recalibration": 1.0,
+        "normalized_sgd_partial_update": 2.0,
+        "refit": 8.0
+      },
+      "feedback_received": 720,
+      "feedback_missing_or_delayed_past_horizon": 80,
+      "trigger_alarm_count": 1,
+      "fit_audit": [
+        {
+          "fit_feedback_available_time": 1279.0,
+          "arrived_feedback_count": 438,
+          "method": "triggered",
+          "model_family": "hist_gradient_boosting"
+        }
+      ],
+      "intervention_audit": [
+        {
+          "available_at": 1279.0,
+          "arrived_feedback_count": 438,
           "method": "triggered",
           "action": "refit",
           "resource_cost": 8.0,
@@ -25474,9 +29023,224 @@
       "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "recurring",
+      "seed": 71,
+      "policy": "boosted_tree_frozen",
+      "model_family": "hist_gradient_boosting",
+      "update_method": "frozen",
+      "radius_method": "fixed",
+      "test_n": 800,
+      "mse": 1.9478993135281122,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 1.857899313528112,
+      "shifted_or_transition_mse": 3.71425020674254,
+      "coverage": 0.94625,
+      "mean_interval_width": 6.317090546232919,
+      "coverage_by_test_block": [
+        {
+          "block": 0,
+          "n": 100,
+          "coverage": 1.0,
+          "mean_width": 6.317090546232921
+        },
+        {
+          "block": 1,
+          "n": 100,
+          "coverage": 1.0,
+          "mean_width": 6.317090546232921
+        },
+        {
+          "block": 2,
+          "n": 100,
+          "coverage": 1.0,
+          "mean_width": 6.317090546232921
+        },
+        {
+          "block": 3,
+          "n": 100,
+          "coverage": 1.0,
+          "mean_width": 6.317090546232921
+        },
+        {
+          "block": 4,
+          "n": 100,
+          "coverage": 0.85,
+          "mean_width": 6.317090546232921
+        },
+        {
+          "block": 5,
+          "n": 100,
+          "coverage": 0.89,
+          "mean_width": 6.317090546232921
+        },
+        {
+          "block": 6,
+          "n": 100,
+          "coverage": 0.9,
+          "mean_width": 6.317090546232921
+        },
+        {
+          "block": 7,
+          "n": 100,
+          "coverage": 0.93,
+          "mean_width": 6.317090546232921
+        }
+      ],
+      "update_count": 0,
+      "update_times": [],
+      "update_budget": 4,
+      "resource_spent": 0.0,
+      "resource_budget": 12.0,
+      "intervention_resource_costs": {
+        "residual_bias_recalibration": 1.0,
+        "normalized_sgd_partial_update": 2.0,
+        "refit": 8.0
+      },
+      "feedback_received": 709,
+      "feedback_missing_or_delayed_past_horizon": 91,
+      "trigger_alarm_count": 5,
+      "fit_audit": [],
+      "intervention_audit": [],
+      "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "recurring",
+      "seed": 71,
+      "policy": "boosted_tree_triggered",
+      "model_family": "hist_gradient_boosting",
+      "update_method": "triggered",
+      "radius_method": "fixed",
+      "test_n": 800,
+      "mse": 1.161667561817686,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 1.071667561817686,
+      "shifted_or_transition_mse": 2.1417867033216873,
+      "coverage": 0.98875,
+      "mean_interval_width": 6.317090546232919,
+      "coverage_by_test_block": [
+        {
+          "block": 0,
+          "n": 100,
+          "coverage": 1.0,
+          "mean_width": 6.317090546232921
+        },
+        {
+          "block": 1,
+          "n": 100,
+          "coverage": 1.0,
+          "mean_width": 6.317090546232921
+        },
+        {
+          "block": 2,
+          "n": 100,
+          "coverage": 1.0,
+          "mean_width": 6.317090546232921
+        },
+        {
+          "block": 3,
+          "n": 100,
+          "coverage": 1.0,
+          "mean_width": 6.317090546232921
+        },
+        {
+          "block": 4,
+          "n": 100,
+          "coverage": 0.95,
+          "mean_width": 6.317090546232921
+        },
+        {
+          "block": 5,
+          "n": 100,
+          "coverage": 0.98,
+          "mean_width": 6.317090546232921
+        },
+        {
+          "block": 6,
+          "n": 100,
+          "coverage": 1.0,
+          "mean_width": 6.317090546232921
+        },
+        {
+          "block": 7,
+          "n": 100,
+          "coverage": 0.98,
+          "mean_width": 6.317090546232921
+        }
+      ],
+      "update_count": 1,
+      "update_times": [
+        1229
+      ],
+      "update_budget": 4,
+      "resource_spent": 8.0,
+      "resource_budget": 12.0,
+      "intervention_resource_costs": {
+        "residual_bias_recalibration": 1.0,
+        "normalized_sgd_partial_update": 2.0,
+        "refit": 8.0
+      },
+      "feedback_received": 709,
+      "feedback_missing_or_delayed_past_horizon": 91,
+      "trigger_alarm_count": 1,
+      "fit_audit": [
+        {
+          "fit_feedback_available_time": 1229.0,
+          "arrived_feedback_count": 380,
+          "method": "triggered",
+          "model_family": "hist_gradient_boosting"
+        }
+      ],
+      "intervention_audit": [
+        {
+          "available_at": 1229.0,
+          "arrived_feedback_count": 380,
+          "method": "triggered",
+          "action": "refit",
+          "resource_cost": 8.0,
+          "resource_spent": 8.0,
+          "bias_correction": 0.0
+        }
+      ],
+      "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
     }
   ],
   "summary": [
+    {
+      "schedule": "abrupt",
+      "policy": "boosted_tree_frozen",
+      "n": 5,
+      "mean_mse": 2.6823305676266673,
+      "sd_mse": 0.15330989785553442,
+      "mean_excess_mse": 2.592330567626667,
+      "mean_shifted_mse": 3.7521761371447773,
+      "mean_updates": 0.0,
+      "mean_feedback": 708.8,
+      "mean_coverage": 0.4495,
+      "sd_coverage": 0.04127461386857542,
+      "mean_interval_width": 1.3859060747116478
+    },
+    {
+      "schedule": "abrupt",
+      "policy": "boosted_tree_triggered",
+      "n": 5,
+      "mean_mse": 2.599216502417204,
+      "sd_mse": 0.17180748777511706,
+      "mean_excess_mse": 2.509216502417204,
+      "mean_shifted_mse": 3.6074495567210527,
+      "mean_updates": 1.0,
+      "mean_feedback": 708.8,
+      "mean_coverage": 0.44025,
+      "sd_coverage": 0.035809827561718306,
+      "mean_interval_width": 1.3859060747116478
+    },
     {
       "schedule": "abrupt",
       "policy": "forest_frozen",
@@ -25630,6 +29394,34 @@
       "mean_coverage": 0.805,
       "sd_coverage": 0.025754247222545625,
       "mean_interval_width": 0.9687738649003357
+    },
+    {
+      "schedule": "gradual",
+      "policy": "boosted_tree_frozen",
+      "n": 5,
+      "mean_mse": 2.6418132397131147,
+      "sd_mse": 0.16743840402784158,
+      "mean_excess_mse": 2.551813239713115,
+      "mean_shifted_mse": 2.916256704101027,
+      "mean_updates": 0.0,
+      "mean_feedback": 708.8,
+      "mean_coverage": 0.41200000000000003,
+      "sd_coverage": 0.047216257793264375,
+      "mean_interval_width": 1.3859060747116478
+    },
+    {
+      "schedule": "gradual",
+      "policy": "boosted_tree_triggered",
+      "n": 5,
+      "mean_mse": 2.120445920529754,
+      "sd_mse": 0.8048834731163468,
+      "mean_excess_mse": 2.030445920529754,
+      "mean_shifted_mse": 2.3335898331773874,
+      "mean_updates": 1.0,
+      "mean_feedback": 708.8,
+      "mean_coverage": 0.441,
+      "sd_coverage": 0.10542844137138706,
+      "mean_interval_width": 1.3859060747116478
     },
     {
       "schedule": "gradual",
@@ -25787,6 +29579,34 @@
     },
     {
       "schedule": "recurring",
+      "policy": "boosted_tree_frozen",
+      "n": 5,
+      "mean_mse": 1.9570528093684654,
+      "sd_mse": 0.15560804587403557,
+      "mean_excess_mse": 1.8670528093684653,
+      "mean_shifted_mse": 3.7238667377401713,
+      "mean_updates": 0.0,
+      "mean_feedback": 708.8,
+      "mean_coverage": 0.94475,
+      "sd_coverage": 0.01190456845080912,
+      "mean_interval_width": 6.370652787665585
+    },
+    {
+      "schedule": "recurring",
+      "policy": "boosted_tree_triggered",
+      "n": 5,
+      "mean_mse": 1.1872228657478916,
+      "sd_mse": 0.45075514410197626,
+      "mean_excess_mse": 1.0972228657478915,
+      "mean_shifted_mse": 2.184206850499023,
+      "mean_updates": 0.8,
+      "mean_feedback": 708.8,
+      "mean_coverage": 0.9789999999999999,
+      "sd_coverage": 0.015572411502397436,
+      "mean_interval_width": 6.370652787665585
+    },
+    {
+      "schedule": "recurring",
       "policy": "forest_frozen",
       "n": 5,
       "mean_mse": 2.016630635425749,
@@ -25938,6 +29758,34 @@
       "mean_coverage": 0.9400000000000001,
       "sd_coverage": 0.014604151806934874,
       "mean_interval_width": 6.5885360367075
+    },
+    {
+      "schedule": "temporary",
+      "policy": "boosted_tree_frozen",
+      "n": 5,
+      "mean_mse": 1.6278479741634737,
+      "sd_mse": 0.08002660587287797,
+      "mean_excess_mse": 1.5378479741634736,
+      "mean_shifted_mse": 3.7965722233513937,
+      "mean_updates": 0.0,
+      "mean_feedback": 708.8,
+      "mean_coverage": 0.6445000000000001,
+      "sd_coverage": 0.038442326932692276,
+      "mean_interval_width": 1.3859060747116478
+    },
+    {
+      "schedule": "temporary",
+      "policy": "boosted_tree_triggered",
+      "n": 5,
+      "mean_mse": 1.5638673992877952,
+      "sd_mse": 0.17988044688031524,
+      "mean_excess_mse": 1.473867399287795,
+      "mean_shifted_mse": 3.474779469081659,
+      "mean_updates": 1.0,
+      "mean_feedback": 708.8,
+      "mean_coverage": 0.60775,
+      "sd_coverage": 0.03048308957438533,
+      "mean_interval_width": 1.3859060747116478
     },
     {
       "schedule": "temporary",
@@ -26094,11 +29942,11 @@
       "mean_interval_width": 0.9687738649003357
     }
   ],
-  "expected_records": 220,
-  "observed_unique_records": 220,
+  "expected_records": 260,
+  "observed_unique_records": 260,
   "rows_valid": true,
   "checks_pass": true,
-  "processing_commit": "cbdb0c9b5fd66eacecc47c014bfbc8b96835c00c",
+  "processing_commit": "5953d048a5d734f9592f7d0157bcbc025155638e",
   "source_hash": "a52d81d4b0b724b970a39e36f441c2b32766a1a4c8226d6dc688f6297c93d1ac",
-  "script_sha256": "7957e8a4984dee9f2a0a174e937da069d03973d2e34492d5fec966e962d7ed83"
+  "script_sha256": "b9f592d0b5c0447e09cae6466ff79149b4357bda3c09b74d1fee859e4281b1e7"
 }

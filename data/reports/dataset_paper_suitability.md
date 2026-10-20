@@ -1,0 +1,22 @@
+# Dataset-to-paper suitability matrix
+
+This matrix summarizes registered real-source families and the controlled synthetic suite. Readiness describes currently supported task/evaluation shapes; it is not evidence of source availability, causal attribution, application utility, or a research result.
+
+Unknown release timing remains unknown. `Paper 1` utility is imposed for retrospective real-source diagnostics unless the task manifest identifies a supplied utility. `Paper 2` requires an explicit conformal protocol for classification and known timing for online claims. `Paper 3` requires a release-time protocol before online adaptation claims.
+
+| Dataset | Acquired versions | Latest rows | Paper 1 | Paper 2 | Paper 3 | Timing evidence | Utility provenance |
+|---|---:|---:|---|---|---|---|---|
+| gas_sensor | 4 | 13910 | offline classification only | classification prediction-set protocol required | offline domain benchmark; release times unavailable | ordered batches; no within-batch timestamps | No application decision costs; class errors are scored as classification metrics. |
+| opsd | 7 | 8759 | retrospective; utility imposed | retrospective forecast/conformal task; availability unknown | retrospective task; release-time protocol unknown | UTC and CET/CEST intervals; publication lag unknown | No application-grounded decision utility; evaluate with named task metrics. |
+| noaa | 5 | 41194 | retrospective; utility imposed | retrospective forecast/conformal task; availability unknown | retrospective task; release-time protocol unknown | measurement UTC; historical release latency unknown | No application-grounded decision utility; evaluate with named task metrics. |
+| folktables | 13 | 51548 | offline classification only | classification prediction-set protocol required | offline domain benchmark; release times unavailable | survey year only; unordered within year | No application-grounded decision utility; any cost-weighted diagnostic is explicitly imposed and separate. |
+| binance | 4 | 743 | retrospective; utility imposed | retrospective forecast/conformal task; availability unknown | retrospective task; release-time protocol unknown | open/close timestamp; no publication latency guarantee | No trading utility or transaction-cost model; returns are not profit or executable performance. |
+| licensed_local | 0 | 0 | retrospective; utility imposed | requires task/conformal target protocol | retrospective task; release-time protocol unknown | explicit field mappings and source availability required | Not supplied; no application decision utility claimed. |
+| eia | 4 | 52606 | retrospective; utility imposed | retrospective forecast/conformal task; availability unknown | retrospective task; release-time protocol unknown | event times are not publication times; release availability remains unknown | No application-grounded decision utility; evaluate with named task metrics. |
+| fred | 0 | 0 | retrospective; utility imposed | requires task/conformal target protocol | retrospective task; release-time protocol unknown | vintages required; revised series not real-time safe | Not applicable until an explicit as-of forecasting task and utility are specified. |
+| monash | 3 | 17331 | retrospective; utility imposed | retrospective forecast/conformal task; availability unknown | retrospective task; release-time protocol unknown | official horizons and partitions required | No application-grounded decision utility; evaluate with named task metrics. |
+| wilds | 0 | 0 | offline classification only | classification prediction-set protocol required | offline domain benchmark; release times unavailable | official domain partitions, not change points | No temporal decision utility; use the official WILDS task metric. |
+| criteo | 0 | 0 | offline classification only | classification prediction-set protocol required | offline domain benchmark; release times unavailable | click and conversion availability must be separated | No application-grounded decision utility; evaluate with named task metrics. |
+| synthetic_suite | 38 | 1000 | controlled decision study | regression/classification stream | stream ready | known simulation clock and evaluator-only ground truth | Synthetic imposed utility only; not application-grounded. |
+
+Acquisition status, citation, license, registered task identifiers, and source limitations are available in `data_inventory.csv`; per-version evidence is in `experiment_readiness.md` and `dataset_manifest.json`.

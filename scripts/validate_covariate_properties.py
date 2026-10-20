@@ -1,0 +1,160 @@
+"""Replicate analytic checks for pure-covariate generators across severity levels."""
+
+from pathlib import Path
+
+import numpy as np
+from scipy.stats import t
+
+from shiftlab.data.provenance import commit, sha256, source_hash, utc_now, write_json
+from shiftlab.data.schemas import SyntheticConfig
+from shiftlab.data.synthetic import conditional_mean, generate_chunks
+
+SCENARIOS = [
+    "mean",
+    "feature_variance",
+    "covariance_rotation",
+    "correlation",
+    "mixture_weights",
+    "new_component",
+    "feature_tail",
+    "feature_skew",
+    "irrelevant",
+]
+SEEDS = [11, 23, 37, 53, 71]
+SEVERITIES = [0.0, 0.5, 1.0, 2.0]
+
+
+def _target(scenario: str, severity: float) -> tuple[str, float, float]:
+    if scenario in {"mean", "irrelevant"}:
+        return "effect", severity, 0.06
+    if scenario == "feature_variance":
+        return "variance_x0", (1 + severity) ** 2, max(0.15, 0.05 * (1 + severity) ** 2)
+    if scenario == "covariance_rotation":
+        return "covariance_max_abs_error", 0.0, 0.15
+    if scenario == "correlation":
+        return "correlation", 0.9 * np.tanh(severity), 0.03
+    if scenario == "mixture_weights":
+        return "mean_x0", 4 * (0.5 + 0.4 * np.tanh(severity)) - 2, 0.08
+    if scenario == "new_component":
+        return "mean_x0", 1.2 * np.tanh(severity), 0.06
+    if scenario == "feature_tail":
+        rng = np.random.default_rng(8700 + int(severity * 100))
+        normal = rng.normal(size=1_000_000)
+        heavy_tail = t.rvs(df=5, size=1_000_000, random_state=rng) / np.sqrt(5 / 3)
+        fraction = np.tanh(severity)
+        expected = np.mean(np.abs((1 - fraction) * normal + fraction * heavy_tail) > 3)
+        return "tail_probability_abs_gt_3", float(expected), 0.003
+    if scenario == "feature_skew":
+        fraction = np.tanh(severity)
+        expected = (
+            fraction**3
+            * (np.e + 2)
+            * np.sqrt(np.e - 1)
+            / ((1 - fraction) ** 2 + fraction**2) ** 1.5
+        )
+        return "skewness", float(expected), 0.35
+    raise ValueError(scenario)
+
+
+def _measure(scenario: str, severity: float, features: np.ndarray, weight: np.ndarray) -> float:
+    before = features[weight == 0]
+    after = features[weight == 1]
+    if severity == 0:
+        after = before
+    if scenario == "mean":
+        return float(after[:, 0].mean() - before[:, 0].mean())
+    if scenario == "irrelevant":
+        return float(after[:, -1].mean() - before[:, -1].mean())
+    if scenario == "feature_variance":
+        return float(after[:, 0].var(ddof=1))
+    if scenario == "covariance_rotation":
+        angle = severity
+        rotation = np.array([[np.cos(angle), -np.sin(angle)], [np.sin(angle), np.cos(angle)]])
+        expected = rotation @ np.diag([1.0, 4.0]) @ rotation.T
+        if severity == 0:
+            expected = np.diag([1.0, 4.0])
+        return float(np.max(np.abs(np.cov(after[:, :2].T) - expected)))
+    if scenario == "correlation":
+        return float(np.corrcoef(after[:, :2].T)[0, 1])
+    if scenario in {"mixture_weights", "new_component"}:
+        return float(after[:, 0].mean())
+    if scenario == "feature_tail":
+        return float(np.mean(np.abs(after[:, 0]) > 3))
+    values = after[:, 0]
+    return float(np.mean((values - values.mean()) ** 3) / values.std() ** 3)
+
+
+def evaluate() -> dict:
+    evidence = []
+    for scenario in SCENARIOS:
+        for severity in SEVERITIES:
+            metric, expected, tolerance = _target(scenario, severity)
+            observed, oracle_errors = [], []
+            for seed in SEEDS:
+                config = SyntheticConfig(
+                    n=30000,
+                    d=4,
+                    seed=seed,
+                    severity=severity,
+                    scenario=scenario,
+                    chunk_size=5000,
+                )
+                parts = list(generate_chunks(config))
+                features = np.concatenate(
+                    [np.stack(frame.features.to_numpy()) for frame, _ in parts]
+                )
+                weights = np.concatenate([oracle.weight.to_numpy() for _, oracle in parts])
+                generated_mean = np.concatenate(
+                    [oracle.conditional_mean.to_numpy() for _, oracle in parts]
+                )
+                oracle_errors.append(
+                    float(
+                        np.max(np.abs(conditional_mean(config, features, weights) - generated_mean))
+                    )
+                )
+                observed.append(_measure(scenario, severity, features, weights))
+            mean = float(np.mean(observed))
+            error = abs(mean - expected)
+            oracle_error = max(oracle_errors)
+            evidence.append(
+                {
+                    "scenario": scenario,
+                    "severity": severity,
+                    "metric": metric,
+                    "replicates": len(SEEDS),
+                    "n_per_stream": 30000,
+                    "observed_mean_over_seeds": mean,
+                    "expected": expected,
+                    "absolute_error": error,
+                    "tolerance": tolerance,
+                    "max_independent_conditional_mean_formula_error": oracle_error,
+                    "passes": bool(error < tolerance and oracle_error < 1e-10),
+                }
+            )
+    return {
+        "description": "Independent five-seed pure-covariate property checks across severity 0, 0.5, 1 and 2.",
+        "scenarios": SCENARIOS,
+        "seeds": SEEDS,
+        "severities": SEVERITIES,
+        "evidence": evidence,
+        "interpretation": "Reported replicate means are descriptive. Exact conditional-mean checks and feature-marginal moments are synthetic DGP validations, not real-world drift attribution.",
+        "processing_commit": commit(),
+        "source_hash": source_hash(),
+        "script_sha256": sha256(Path(__file__)),
+        "executed_at": utc_now(),
+    }
+
+
+def main() -> None:
+    report = evaluate()
+    output = Path("data/reports/covariate_property_validation.json")
+    write_json(output, report)
+    failures = [row for row in report["evidence"] if not row["passes"]]
+    print(f"records={len(report['evidence'])} failures={len(failures)}")
+    print(output)
+    if failures:
+        raise SystemExit(1)
+
+
+if __name__ == "__main__":
+    main()

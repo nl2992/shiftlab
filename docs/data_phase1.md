@@ -110,6 +110,10 @@ suppresses exogenous changes. `data/reports/temporal_pattern_validation.json` re
 checks for all ten schedules, including transition intervals, reported switch indices,
 zero-strength nulls and the HMM dwell-rate diagnostic. Parameter values are configurable;
 presets avoid Cartesian grids.
+`uv run python scripts/validate_covariate_properties.py` produces five-seed checks of all nine
+pure-covariate mechanisms at severities 0, 0.5, 1 and 2, including independent conditional-mean
+formula comparisons and mechanism-specific feature-marginal moments in
+`data/reports/covariate_property_validation.json`.
 The medium plan uses 30 seeds; the optional large plan is never materialized automatically.
 
 Regression uses a sign-based decision with false-negative/positive costs; classification uses

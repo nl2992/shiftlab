@@ -8,6 +8,7 @@ from pathlib import Path
 
 import numpy as np
 
+from shiftlab.data.provenance import commit, sha256, source_hash, utc_now
 from shiftlab.data.synthetic import decision_stress_catalogue
 from shiftlab.data.synthetic.fitted_decisions import evaluate_fitted_decision_preset
 
@@ -29,7 +30,7 @@ def main() -> None:
             expected_relation="Identical learner inputs can have different utility-optimal actions.",
         )
     )
-    policy_classes = ["logistic", "random_forest"]
+    policy_classes = ["logistic", "random_forest", "shallow_tree"]
     for preset in presets:
         for policy_class in policy_classes:
             for seed in seeds:
@@ -114,8 +115,8 @@ def main() -> None:
                 )
 
     report = {
-        "description": "Five-seed comparison of two frozen fitted binary-policy classes on ten named synthetic presets plus a hidden-utility impossibility diagnostic. Summary standard deviations describe across-seed spread and are not confidence intervals.",
-        "fit_protocol": "A standardized logistic regression and a fixed 200-tree random forest are independently fit on training-partition binary outcomes whose labels arrived before the first test request; test outcomes and evaluator oracle data are excluded from fitting. Hyperparameters are fixed a priori, with no test-set tuning.",
+        "description": "Five-seed comparison of three frozen fitted binary-policy classes on ten named synthetic presets plus a hidden-utility impossibility diagnostic. Summary standard deviations describe across-seed spread and are not confidence intervals.",
+        "fit_protocol": "A standardized logistic regression, a fixed 200-tree random forest and a depth-4 decision tree are independently fit on training-partition binary outcomes whose labels arrived before the first test request; test outcomes and evaluator oracle data are excluded from fitting. Hyperparameters are fixed a priori, with no test-set tuning.",
         "decision_protocol": "Actions use only fitted event probabilities and per-request declared false-positive/false-negative costs and feasibility. When context is missing, a symmetric unit-cost fallback is used and reported.",
         "replicates_per_preset": len(seeds),
         "named_preset_count": len(presets) - 1,
@@ -127,8 +128,12 @@ def main() -> None:
         "replication_check": replication_check,
         "metric_rows_valid": metric_rows_valid,
         "checks_pass": checks_pass,
+        "processing_commit": commit(),
+        "source_hash": source_hash(),
+        "script_sha256": sha256(Path(__file__)),
+        "executed_at": utc_now(),
         "limitations": [
-            "These are two baseline fitted policy classes, not implementations or comparisons of the three target papers' algorithms.",
+            "These are three baseline fitted policy classes, not implementations or comparisons of the three target papers' algorithms.",
             "Across-seed sample standard deviations are descriptive and do not account for shared preset structure or justify confidence-interval claims.",
             "Oracle expected cost uses evaluator-only conditional event probabilities and is a reference, not a learner input.",
             "The fallback utility in cases with hidden or absent decision context is deliberately generic; resulting regret includes utility non-identifiability.",

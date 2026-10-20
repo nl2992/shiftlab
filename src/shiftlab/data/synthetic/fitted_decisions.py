@@ -8,6 +8,7 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.linear_model import LogisticRegression
 from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import StandardScaler
+from sklearn.tree import DecisionTreeClassifier
 
 from ..label_availability import labels_available_before
 from .generators import generate_chunks
@@ -30,8 +31,8 @@ def fit_frozen_binary_policy(
     """
     if fallback_fn_cost <= 0 or fallback_fp_cost <= 0:
         raise ValueError("Fallback costs must be positive")
-    if policy_class not in {"logistic", "random_forest"}:
-        raise ValueError("policy_class must be 'logistic' or 'random_forest'")
+    if policy_class not in {"logistic", "random_forest", "shallow_tree"}:
+        raise ValueError("policy_class must be 'logistic', 'random_forest' or 'shallow_tree'")
     train_mask = (frame.split == "train") & labels_available_before(frame, first_prediction_time)
     train = frame.loc[train_mask]
     test = frame.loc[(frame.split == "test") & frame.target.notna()]
@@ -54,7 +55,7 @@ def fit_frozen_binary_policy(
         model.fit(X_train, y_train)
         event_probability = model.predict_proba(X_test)[:, 1]
         model_name = "training_only_standardized_logistic_regression"
-    else:
+    elif policy_class == "random_forest":
         model = RandomForestClassifier(
             n_estimators=200,
             min_samples_leaf=5,
@@ -65,6 +66,11 @@ def fit_frozen_binary_policy(
         model.fit(X_train, y_train)
         event_probability = model.predict_proba(X_test)[:, 1]
         model_name = "training_only_random_forest_200_trees_leaf_5"
+    else:
+        model = DecisionTreeClassifier(max_depth=4, min_samples_leaf=20, random_state=0)
+        model.fit(X_train, y_train)
+        event_probability = model.predict_proba(X_test)[:, 1]
+        model_name = "training_only_decision_tree_depth_4_leaf_20"
 
     contexts = test.decision_context.to_numpy()
     fn_cost = np.full(len(test), fallback_fn_cost, dtype=float)

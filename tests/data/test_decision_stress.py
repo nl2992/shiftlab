@@ -70,7 +70,7 @@ def test_two_dimensional_irrelevant_control_has_a_true_nuisance_feature():
     assert np.allclose(oracle.conditional_mean, X[:, 0])
 
 
-@pytest.mark.parametrize("policy_class", ["logistic", "random_forest"])
+@pytest.mark.parametrize("policy_class", ["logistic", "random_forest", "shallow_tree"])
 def test_frozen_fitted_decision_policy_is_independent_of_test_targets(policy_class):
     from shiftlab.data.synthetic.fitted_decisions import fit_frozen_binary_policy
 

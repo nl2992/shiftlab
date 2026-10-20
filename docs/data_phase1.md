@@ -65,6 +65,12 @@ resolution; they are context, not a process utilization measurement.
 The benchmark config uses a 128 MiB estimated workspace cap and sweeps float32/float64 and
 chunk sizes 1,000/5,000/10,000 with three repeats on each available backend. Compare warmed repeats as exploratory throughput evidence;
 the default configuration does not imply that CUDA is faster for every workload.
+The committed sustained 200,000-row run collected 24–40 device-wide telemetry samples per CUDA
+dtype/chunk-size cell. At chunk size 10,000 it measured 233k rows/s (float32) and 206k rows/s
+(float64) on CUDA versus 200k and 192k rows/s on CPU; at chunk size 1,000 CUDA float64 was
+slower than CPU. These are host-specific end-to-end results, including host transfer and
+DataFrame assembly, not a general acceleration claim. The report's completeness and telemetry
+gates are checked by `tests/data/test_gpu_benchmark_report.py`.
 
 ## Data contract and observability
 

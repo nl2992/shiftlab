@@ -24,6 +24,23 @@ def test_stable_feedback_stationary_variance():
     assert np.var(values[1000:]) == pytest.approx(0.01 / 0.75, rel=0.06)
 
 
+def test_joint_state_dependent_policy_matches_analytic_stationary_law():
+    slopes = np.array([0.1, 0.3, 0.5])
+    intercepts = np.array([0.2, 0.0, 0.1])
+    rho, strength, noise = 0.4, 0.2, 0.1
+    multiplier = rho + strength * slopes.mean()
+    expected_mean = strength * intercepts.mean() / (1 - multiplier)
+    expected_variance = noise**2 / (1 - multiplier**2)
+    env = PerformativeEnvironment(seed=91, rho=rho, strength=strength, noise=noise, action_bound=2)
+    values = []
+    for _ in range(20000):
+        env.step(slopes * env.state + intercepts)
+        values.append(env.state)
+    values = np.asarray(values[1000:])
+    assert values.mean() == pytest.approx(expected_mean, abs=0.004)
+    assert values.var() == pytest.approx(expected_variance, rel=0.06)
+
+
 def test_unstable_local_feedback_then_bounded_saturation():
     env = PerformativeEnvironment(noise=0, rho=0.5, strength=0.8, action_bound=1)
     env.state = 0.001

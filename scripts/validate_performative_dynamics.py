@@ -15,6 +15,8 @@ RHO = 0.4
 STRENGTH = 0.2
 NOISE = 0.1
 ACTIONS = np.array([0.3, 0.1, 0.5])
+POLICY_SLOPES = np.array([0.1, 0.3, 0.5])
+POLICY_INTERCEPTS = np.array([0.2, 0.0, 0.1])
 
 
 def evaluate() -> dict:
@@ -55,6 +57,71 @@ def evaluate() -> dict:
                 ),
             }
         )
+    policy_rows = []
+    mean_slope = float(POLICY_SLOPES.mean())
+    mean_intercept = float(POLICY_INTERCEPTS.mean())
+    policy_multiplier = RHO + STRENGTH * mean_slope
+    policy_mean = STRENGTH * mean_intercept / (1 - policy_multiplier)
+    policy_variance = NOISE**2 / (1 - policy_multiplier**2)
+    for seed in SEEDS:
+        env = PerformativeEnvironment(
+            seed=seed, rho=RHO, strength=STRENGTH, noise=NOISE, action_bound=2.0
+        )
+        states = []
+        for _ in range(N):
+            actions = POLICY_SLOPES * env.state + POLICY_INTERCEPTS
+            next_state, _ = env.step(actions)
+            states.append(next_state)
+        values = np.asarray(states[BURN_IN:])
+        policy_rows.append(
+            {
+                "seed": seed,
+                "mean_action": mean_intercept + mean_slope * policy_mean,
+                "sample_state_mean": float(values.mean()),
+                "sample_state_variance": float(values.var(ddof=1)),
+                "expected_stationary_state_mean": policy_mean,
+                "expected_stationary_state_variance": policy_variance,
+                "passes": bool(
+                    abs(values.mean() - policy_mean)
+                    < 4
+                    * np.sqrt(policy_variance / (N - BURN_IN))
+                    * np.sqrt((1 + policy_multiplier) / (1 - policy_multiplier))
+                    and abs(values.var(ddof=1) - policy_variance) < 0.07 * policy_variance
+                ),
+            }
+        )
+
+    # Local linear feedback is unstable, but clipping each action creates a
+    # bounded nonlinear recurrence with fixed point rho*x + strength*bound.
+    saturated = PerformativeEnvironment(seed=0, rho=0.5, strength=0.8, noise=0, action_bound=1)
+    saturated.state = 0.001
+    for _ in range(200):
+        saturated.step(np.clip(np.array([saturated.state]), -1, 1))
+    expected_saturated_state = 0.8 / (1 - 0.5)
+    saturation_check = {
+        "local_linear_multiplier": saturated.specification(1.0)["linear_policy_local_multiplier"],
+        "local_linear_stable": saturated.specification(1.0)["linear_policy_local_stable"],
+        "action_bound": saturated.bound,
+        "expected_saturated_fixed_point": expected_saturated_state,
+        "observed_final_state": saturated.state,
+        "passes": bool(
+            not saturated.specification(1.0)["linear_policy_local_stable"]
+            and abs(saturated.state - expected_saturated_state) < 1e-10
+        ),
+    }
+
+    divergent = PerformativeEnvironment(seed=0, rho=1.05, strength=0, noise=0)
+    divergent.state = 1.0
+    for _ in range(100):
+        divergent.step([0.0])
+    expected_divergent_state = 1.05**100
+    global_instability_check = {
+        "rho": divergent.rho,
+        "steps": 100,
+        "expected_state": expected_divergent_state,
+        "observed_state": divergent.state,
+        "passes": bool(np.isclose(divergent.state, expected_divergent_state, rtol=1e-12)),
+    }
     n_eval = N - BURN_IN
     mean_tolerance = 4 * NOISE / np.sqrt(n_eval)
     coverage_tolerance = 4 * np.sqrt(0.9 * 0.1 / n_eval)
@@ -77,7 +144,7 @@ def evaluate() -> dict:
             and abs(row["target_state_innovation_correlation"]) < correlation_tolerance
         )
     return {
-        "description": "Five-seed Monte Carlo checks of the stable performative process against its analytic stationary Gaussian state and independent target/state innovations.",
+        "description": "Five-seed Monte Carlo checks of constant-action and joint state-dependent performative policies, plus analytic local-saturation and globally unstable dynamics.",
         "parameters": {
             "n": N,
             "burn_in": BURN_IN,
@@ -89,6 +156,12 @@ def evaluate() -> dict:
             "expected_stationary_state_mean": expected_state_mean,
             "expected_stationary_state_variance": expected_state_variance,
             "expected_innovation_variance": NOISE**2,
+            "joint_policy_slopes": POLICY_SLOPES.tolist(),
+            "joint_policy_intercepts": POLICY_INTERCEPTS.tolist(),
+            "joint_policy_mean_slope": mean_slope,
+            "joint_policy_local_multiplier": policy_multiplier,
+            "joint_policy_expected_stationary_mean": policy_mean,
+            "joint_policy_expected_stationary_variance": policy_variance,
         },
         "tolerances": {
             "target_and_state_innovation_mean": mean_tolerance,
@@ -98,8 +171,13 @@ def evaluate() -> dict:
             "innovation_correlation_absolute": correlation_tolerance,
         },
         "replicates": rows,
-        "checks_pass": all(row["passes"] for row in rows),
-        "interpretation": "Synthetic controlled process validation; action effects are imposed and are not evidence about real-world performative systems.",
+        "joint_policy_replicates": policy_rows,
+        "local_instability_with_saturation": saturation_check,
+        "global_instability": global_instability_check,
+        "checks_pass": all(row["passes"] for row in rows + policy_rows)
+        and saturation_check["passes"]
+        and global_instability_check["passes"],
+        "interpretation": "Synthetic controlled process validation; action effects are imposed and are not evidence about real-world performative systems. The locally unstable clipped policy converges to its nonlinear fixed point, while rho above one exhibits global divergence without policy influence.",
         "processing_commit": commit(),
         "source_hash": source_hash(),
         "script_sha256": sha256(Path(__file__)),

@@ -4,7 +4,7 @@ import hashlib
 import json
 
 import numpy as np
-from pydantic import BaseModel, ConfigDict, Field, model_validator
+from pydantic import BaseModel, ConfigDict, Field, StrictInt, model_validator
 
 from ..schemas import SyntheticConfig
 from .generators import SCENARIOS
@@ -12,10 +12,10 @@ from .generators import SCENARIOS
 
 class SamplingPlan(BaseModel):
     model_config = ConfigDict(extra="forbid")
-    plan_seed: int = Field(default=42, ge=0)
-    profiles: int = Field(default=12, ge=1, le=10000)
+    plan_seed: StrictInt = Field(default=42, ge=0)
+    profiles: StrictInt = Field(default=12, ge=1, le=10000)
     scenarios: list[str] = Field(default_factory=lambda: ["iid_regression", "concept"])
-    seeds: list[int] = Field(default_factory=lambda: [42])
+    seeds: list[StrictInt] = Field(default_factory=lambda: [42])
     levels: dict[str, list] = Field(default_factory=dict)
     base: dict = Field(default_factory=dict)
 

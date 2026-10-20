@@ -143,6 +143,11 @@ The `resource_cost` scenario changes only evaluator-side retraining cost, from 1
 to `10 * (1 + severity)` after activation; other synthetic scenarios keep the default 10 units.
 `rare_cost` and `resource_cost` generated values are checked against their analytic oracle formulas.
 The medium plan uses 30 seeds; the optional large plan is never materialized automatically.
+`uv run python scripts/plan_synthetic.py --config configs/data/synthetic/balanced_initial.yaml`
+exports a reproducible balanced-marginal plan without generating streams. Its 12 profiles pair
+all four scenarios with the same 30 DGP seeds, yielding 1,440 planned streams, 405 million
+observations and an estimated 418 GB of uncompressed feature payload. The estimate is recorded
+in `data/reports/sampling_plan.json`; the plan is deliberately previewed rather than executed.
 
 Regression uses a sign-based decision with false-negative/positive costs; classification uses
 its Bernoulli posterior. Costs and constraints are synthetic research utilities. Oracle actions

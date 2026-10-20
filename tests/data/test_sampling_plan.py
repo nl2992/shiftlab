@@ -46,6 +46,11 @@ def test_requested_levels_without_cartesian_expansion():
         {"profiles": 1, "levels": {"n": [5000, 20000]}},
         {"levels": {"seed": [42]}},
         {"levels": {"d": [1]}},
+        {"plan_seed": True},
+        {"profiles": True},
+        {"profiles": 1.5},
+        {"seeds": [1.5]},
+        {"seeds": ["42"]},
     ],
 )
 def test_reject_invalid_plans(kwargs):

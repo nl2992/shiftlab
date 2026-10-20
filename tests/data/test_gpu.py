@@ -5,7 +5,7 @@ from shiftlab.data.gpu.benchmarks import _parse_sample
 from shiftlab.data.gpu.environment import environment
 from shiftlab.data.gpu.torch_backend import _chunk_plan
 from shiftlab.data.schemas import SyntheticConfig
-from shiftlab.data.synthetic import generate_chunks
+from shiftlab.data.synthetic import conditional_mean, generate_chunks
 
 
 def test_cpu_backend_portable():
@@ -36,6 +36,31 @@ def test_cpu_dtype_is_preserved(dtype):
     )
     expected = np.float32 if dtype == "float32" else np.float64
     assert np.stack(frame.features.to_numpy()).dtype == expected
+
+
+@pytest.mark.parametrize("dimension", [2, 16, 64, 256, 1024])
+def test_cpu_generation_supports_every_declared_grid_dimension(dimension):
+    config = SyntheticConfig(
+        n=512,
+        d=dimension,
+        seed=42,
+        scenario="iid_regression",
+        device="cpu",
+        dtype="float32",
+        chunk_size=128,
+        memory_mb=16,
+    )
+    generated = list(generate_chunks(config))
+    features = np.concatenate([np.stack(frame.features.to_numpy()) for frame, _ in generated])
+    weights = np.concatenate([oracle.weight.to_numpy() for _, oracle in generated])
+    targets = np.concatenate([frame.target.to_numpy() for frame, _ in generated])
+    oracle_mean = np.concatenate([oracle.conditional_mean.to_numpy() for _, oracle in generated])
+    assert features.shape == (config.n, dimension)
+    assert features.dtype == np.float32
+    assert np.max(np.abs(conditional_mean(config, features, weights) - oracle_mean)) < 1e-5
+    assert targets.shape == (config.n,)
+    planned_chunk, estimated_row_bytes = _chunk_plan(config)
+    assert planned_chunk * estimated_row_bytes <= config.memory_mb * 1024**2
 
 
 @pytest.mark.skipif(not environment()["cuda_available"], reason="CUDA not available")

@@ -10,6 +10,7 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
+from ..tasks import finite_real_parameter, integer_parameter
 from .common import save_source
 from .download import download
 
@@ -138,10 +139,13 @@ def acquire(config, root):
         raise ValueError(
             "This validated Folktables adapter supports unique 1-Year survey years 2014–2019"
         )
-    density = float(config.get("density", 1))
-    seed, chunk_size = int(config.get("sampling_seed", 42)), int(config.get("chunk_size", 20000))
-    if not 0 < density <= 1 or seed < 0 or not 1 <= chunk_size <= 100000:
-        raise ValueError("Require density in (0,1], nonnegative seed, and chunk_size <= 100000")
+    density = finite_real_parameter(config.get("density", 1), "density", positive=True)
+    if density > 1:
+        raise ValueError("density must lie in (0,1]")
+    seed = integer_parameter(config.get("sampling_seed", 42), "sampling_seed", minimum=0)
+    chunk_size = integer_parameter(
+        config.get("chunk_size", 20000), "chunk_size", minimum=1, maximum=100000
+    )
     task_name, task = tasks[0], getattr(package, tasks[0])
     filter_fields = {
         "ACSIncome": {"AGEP", "PINCP", "WKHP", "PWGTP"},

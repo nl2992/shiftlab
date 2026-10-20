@@ -7,6 +7,7 @@ import numpy as np
 import pandas as pd
 
 from ..chronological_splits import retrospective_event_splits
+from ..tasks import finite_real_parameter
 from .common import save_source, utc_seconds
 from .download import download
 
@@ -79,6 +80,11 @@ def prepare(original, columns, target_column, frequency, domain, source_fields):
 
 
 def acquire(config, root):
+    min_fraction = finite_real_parameter(
+        config.get("min_observed_fraction", 0), "min_observed_fraction"
+    )
+    if not 0 <= min_fraction <= 1:
+        raise ValueError("min_observed_fraction must lie in [0,1]")
     root = Path(root)
     version = "2020-10-06"
     base = f"https://data.open-power-system-data.org/time_series/{version}/"
@@ -111,9 +117,6 @@ def acquire(config, root):
                 for f in resource.get("schema", {}).get("fields", [])
                 if f["name"] in columns
             }
-    min_fraction = float(config.get("min_observed_fraction", 0))
-    if not 0 <= min_fraction <= 1:
-        raise ValueError("min_observed_fraction must lie in [0,1]")
     if len(original) and (original[columns].notna().mean() < min_fraction).any():
         raise ValueError("OPSD selected fields lack required overlapping observed coverage")
     frequency = config.get("frequency", "hourly")

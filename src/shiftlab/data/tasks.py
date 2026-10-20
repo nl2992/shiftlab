@@ -1,7 +1,7 @@
 """Explicit supervised tasks constructed from evaluator-owned arrays."""
 
 from dataclasses import dataclass
-from numbers import Real
+from numbers import Integral, Real
 
 import numpy as np
 
@@ -81,6 +81,18 @@ def finite_real_parameter(value, name: str, *, positive=False, nonnegative=False
         raise ValueError(f"{name} must be positive")
     if nonnegative and value < 0:
         raise ValueError(f"{name} must be nonnegative")
+    return value
+
+
+def integer_parameter(value, name: str, *, minimum=None, maximum=None) -> int:
+    """Validate an integer configuration value without bool/float/string coercion."""
+    if isinstance(value, (bool, np.bool_)) or not isinstance(value, Integral):
+        raise TypeError(f"{name} must be an integer")
+    value = int(value)
+    if minimum is not None and value < minimum:
+        raise ValueError(f"{name} must be at least {minimum}")
+    if maximum is not None and value > maximum:
+        raise ValueError(f"{name} must be at most {maximum}")
     return value
 
 

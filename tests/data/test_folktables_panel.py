@@ -99,6 +99,35 @@ def test_sampling_is_reproducible_across_chunk_boundaries(tmp_path, monkeypatch)
     np.testing.assert_array_equal(a.target, b.target)
 
 
+@pytest.mark.parametrize(
+    "field,value",
+    [
+        ("density", True),
+        ("density", "0.5"),
+        ("density", float("nan")),
+        ("density", 1.1),
+        ("sampling_seed", True),
+        ("sampling_seed", 1.5),
+        ("sampling_seed", "12"),
+        ("chunk_size", False),
+        ("chunk_size", 1.5),
+        ("chunk_size", "7"),
+    ],
+)
+def test_invalid_sampling_parameters_are_rejected_before_download(
+    tmp_path, monkeypatch, field, value
+):
+    pytest.importorskip("folktables")
+
+    def unexpected_download(*args, **kwargs):
+        pytest.fail("invalid Folktables configuration reached network download")
+
+    monkeypatch.setattr("shiftlab.data.real.folktables.download", unexpected_download)
+    config = {"states": ["CA"], "years": [2018], "tasks": ["ACSEmployment"], field: value}
+    with pytest.raises((TypeError, ValueError)):
+        acquire(config, tmp_path / "out")
+
+
 def test_missing_source_schema_rejected_before_dataset_publication(tmp_path, monkeypatch):
     fixtures(tmp_path, monkeypatch)
     path = tmp_path / "CA-2019.zip"

@@ -43,6 +43,16 @@ def test_opsd_utc_units_and_original_offsets(tmp_path, monkeypatch):
     assert task["forecast_horizon"]["unit"] == "hours"
 
 
+@pytest.mark.parametrize("value", [True, "0.5", float("nan"), -0.1, 1.1])
+def test_opsd_invalid_observed_fraction_is_rejected_before_download(tmp_path, monkeypatch, value):
+    def unexpected_download(*args, **kwargs):
+        pytest.fail("invalid OPSD configuration reached network download")
+
+    monkeypatch.setattr("shiftlab.data.real.opsd.download", unexpected_download)
+    with pytest.raises((TypeError, ValueError)):
+        acquire("opsd", {"min_observed_fraction": value}, tmp_path / "out")
+
+
 def test_noaa_missingness_flags_and_epoch(tmp_path, monkeypatch):
     times = pd.date_range("2023-01-01", periods=30, freq="h")
     path = tmp_path / "noaa.csv"

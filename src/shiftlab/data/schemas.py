@@ -81,7 +81,28 @@ class SyntheticConfig(BaseModel):
         return value
 
     @model_validator(mode="after")
-    def split_fractions(self):
+    def validate_numeric_and_split_configuration(self):
+        numeric_fields = (
+            "n",
+            "d",
+            "seed",
+            "change_fraction",
+            "severity",
+            "noise",
+            "delay",
+            "missing",
+            "rho",
+            "regimes",
+            "review_period",
+            "transition_fraction",
+            "chunk_size",
+            "memory_mb",
+            "train_fraction",
+            "validation_fraction",
+            "calibration_fraction",
+        )
+        if any(not np.isfinite(getattr(self, name)) for name in numeric_fields):
+            raise ValueError("Numeric configuration parameters must be finite")
         if self.train_fraction + self.validation_fraction + self.calibration_fraction >= 1:
             raise ValueError("Training, validation and calibration fractions must sum below one")
         return self

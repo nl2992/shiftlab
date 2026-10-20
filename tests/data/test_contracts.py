@@ -171,6 +171,12 @@ def test_synthetic_configuration_rejects_boolean_numeric_values(field):
         SyntheticConfig(**{field: True})
 
 
+@pytest.mark.parametrize("value", [np.nan, np.inf, -np.inf, "nan", "inf", "-inf"])
+def test_synthetic_configuration_rejects_nonfinite_noise(value):
+    with pytest.raises(ValidationError):
+        SyntheticConfig(noise=value)
+
+
 def test_partition_boundary_delay_purge():
     frame = pd.concat(
         [f for f, _ in generate_chunks(SyntheticConfig(n=1000, chunk_size=100, delay=10))],

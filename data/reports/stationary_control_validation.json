@@ -1,0 +1,317 @@
+{
+  "description": "Five-seed stationary-null checks against independently specified feature, Bernoulli, conditional-scale and residual-law formulas.",
+  "configuration": {
+    "n_per_seed": 30000,
+    "d": 4,
+    "noise": 0.3,
+    "severity": 0.0
+  },
+  "scenarios": [
+    "iid_regression",
+    "nonlinear_classification",
+    "heteroskedastic",
+    "heavy_tailed"
+  ],
+  "replicates": [
+    {
+      "scenario": "iid_regression",
+      "seed": 11,
+      "n": 30000,
+      "maximum_absolute_regime_weight": 0.0,
+      "standardized_residual_mean": -0.0040513511634281485,
+      "standardized_residual_variance": 0.9988183601254449,
+      "central_oracle_90_coverage": 0.8994,
+      "feature_mean_max_abs": 0.010377749241500336,
+      "feature_variance_max_abs_error": 0.004036017827795169,
+      "feature_correlation_max_abs": 0.014636316599592938
+    },
+    {
+      "scenario": "iid_regression",
+      "seed": 23,
+      "n": 30000,
+      "maximum_absolute_regime_weight": 0.0,
+      "standardized_residual_mean": -0.0032037390651028395,
+      "standardized_residual_variance": 0.9855744232956865,
+      "central_oracle_90_coverage": 0.9045333333333333,
+      "feature_mean_max_abs": 0.01140168201694027,
+      "feature_variance_max_abs_error": 0.006464656756883902,
+      "feature_correlation_max_abs": 0.006345380266516335
+    },
+    {
+      "scenario": "iid_regression",
+      "seed": 37,
+      "n": 30000,
+      "maximum_absolute_regime_weight": 0.0,
+      "standardized_residual_mean": -0.008549492573871442,
+      "standardized_residual_variance": 0.9899025443925374,
+      "central_oracle_90_coverage": 0.9020666666666667,
+      "feature_mean_max_abs": 0.007650622212711489,
+      "feature_variance_max_abs_error": 0.00943384312751494,
+      "feature_correlation_max_abs": 0.006790253107235756
+    },
+    {
+      "scenario": "iid_regression",
+      "seed": 53,
+      "n": 30000,
+      "maximum_absolute_regime_weight": 0.0,
+      "standardized_residual_mean": -0.0018032842929791753,
+      "standardized_residual_variance": 0.9951778353951285,
+      "central_oracle_90_coverage": 0.9017,
+      "feature_mean_max_abs": 0.009515918179931672,
+      "feature_variance_max_abs_error": 0.017752657354205503,
+      "feature_correlation_max_abs": 0.007229140033739809
+    },
+    {
+      "scenario": "iid_regression",
+      "seed": 71,
+      "n": 30000,
+      "maximum_absolute_regime_weight": 0.0,
+      "standardized_residual_mean": 0.0016578173392450069,
+      "standardized_residual_variance": 0.9907319037061554,
+      "central_oracle_90_coverage": 0.9021666666666667,
+      "feature_mean_max_abs": 0.01064267503443063,
+      "feature_variance_max_abs_error": 0.014150576254335467,
+      "feature_correlation_max_abs": 0.009668212529776054
+    },
+    {
+      "scenario": "nonlinear_classification",
+      "seed": 11,
+      "n": 30000,
+      "maximum_absolute_regime_weight": 0.0,
+      "feature_mean_max_abs": 0.010377749241500336,
+      "feature_variance_max_abs_error": 0.004036017827795169,
+      "feature_correlation_max_abs": 0.014636316599592938,
+      "probability_formula_max_abs_error": 0.0,
+      "bernoulli_score_z": 1.2111731506267558
+    },
+    {
+      "scenario": "nonlinear_classification",
+      "seed": 23,
+      "n": 30000,
+      "maximum_absolute_regime_weight": 0.0,
+      "feature_mean_max_abs": 0.01140168201694027,
+      "feature_variance_max_abs_error": 0.006464656756883902,
+      "feature_correlation_max_abs": 0.006345380266516335,
+      "probability_formula_max_abs_error": 0.0,
+      "bernoulli_score_z": 1.0481807783969317
+    },
+    {
+      "scenario": "nonlinear_classification",
+      "seed": 37,
+      "n": 30000,
+      "maximum_absolute_regime_weight": 0.0,
+      "feature_mean_max_abs": 0.007650622212711489,
+      "feature_variance_max_abs_error": 0.00943384312751494,
+      "feature_correlation_max_abs": 0.006790253107235756,
+      "probability_formula_max_abs_error": 0.0,
+      "bernoulli_score_z": 0.9819345847587595
+    },
+    {
+      "scenario": "nonlinear_classification",
+      "seed": 53,
+      "n": 30000,
+      "maximum_absolute_regime_weight": 0.0,
+      "feature_mean_max_abs": 0.009515918179931672,
+      "feature_variance_max_abs_error": 0.017752657354205503,
+      "feature_correlation_max_abs": 0.007229140033739809,
+      "probability_formula_max_abs_error": 0.0,
+      "bernoulli_score_z": 0.6273630395570239
+    },
+    {
+      "scenario": "nonlinear_classification",
+      "seed": 71,
+      "n": 30000,
+      "maximum_absolute_regime_weight": 0.0,
+      "feature_mean_max_abs": 0.01064267503443063,
+      "feature_variance_max_abs_error": 0.014150576254335467,
+      "feature_correlation_max_abs": 0.009668212529776054,
+      "probability_formula_max_abs_error": 0.0,
+      "bernoulli_score_z": 0.2693517139607819
+    },
+    {
+      "scenario": "heteroskedastic",
+      "seed": 11,
+      "n": 30000,
+      "maximum_absolute_regime_weight": 0.0,
+      "standardized_residual_mean": -0.004051351163428148,
+      "standardized_residual_variance": 0.9988183601254449,
+      "central_oracle_90_coverage": 0.8994,
+      "feature_mean_max_abs": 0.010377749241500336,
+      "feature_variance_max_abs_error": 0.004036017827795169,
+      "feature_correlation_max_abs": 0.014636316599592938,
+      "conditional_scale_formula_max_abs_error": 0.0,
+      "conditional_variance_decile_max_abs_error": 0.03405964491809699
+    },
+    {
+      "scenario": "heteroskedastic",
+      "seed": 23,
+      "n": 30000,
+      "maximum_absolute_regime_weight": 0.0,
+      "standardized_residual_mean": -0.0032037390651028412,
+      "standardized_residual_variance": 0.9855744232956865,
+      "central_oracle_90_coverage": 0.9045333333333333,
+      "feature_mean_max_abs": 0.01140168201694027,
+      "feature_variance_max_abs_error": 0.006464656756883902,
+      "feature_correlation_max_abs": 0.006345380266516335,
+      "conditional_scale_formula_max_abs_error": 0.0,
+      "conditional_variance_decile_max_abs_error": 0.07489564772376478
+    },
+    {
+      "scenario": "heteroskedastic",
+      "seed": 37,
+      "n": 30000,
+      "maximum_absolute_regime_weight": 0.0,
+      "standardized_residual_mean": -0.008549492573871442,
+      "standardized_residual_variance": 0.9899025443925374,
+      "central_oracle_90_coverage": 0.9020666666666667,
+      "feature_mean_max_abs": 0.007650622212711489,
+      "feature_variance_max_abs_error": 0.00943384312751494,
+      "feature_correlation_max_abs": 0.006790253107235756,
+      "conditional_scale_formula_max_abs_error": 0.0,
+      "conditional_variance_decile_max_abs_error": 0.042428665784238206
+    },
+    {
+      "scenario": "heteroskedastic",
+      "seed": 53,
+      "n": 30000,
+      "maximum_absolute_regime_weight": 0.0,
+      "standardized_residual_mean": -0.0018032842929791744,
+      "standardized_residual_variance": 0.9951778353951285,
+      "central_oracle_90_coverage": 0.9017,
+      "feature_mean_max_abs": 0.009515918179931672,
+      "feature_variance_max_abs_error": 0.017752657354205503,
+      "feature_correlation_max_abs": 0.007229140033739809,
+      "conditional_scale_formula_max_abs_error": 0.0,
+      "conditional_variance_decile_max_abs_error": 0.04126011204673885
+    },
+    {
+      "scenario": "heteroskedastic",
+      "seed": 71,
+      "n": 30000,
+      "maximum_absolute_regime_weight": 0.0,
+      "standardized_residual_mean": 0.0016578173392450073,
+      "standardized_residual_variance": 0.9907319037061554,
+      "central_oracle_90_coverage": 0.9021666666666667,
+      "feature_mean_max_abs": 0.01064267503443063,
+      "feature_variance_max_abs_error": 0.014150576254335467,
+      "feature_correlation_max_abs": 0.009668212529776054,
+      "conditional_scale_formula_max_abs_error": 0.0,
+      "conditional_variance_decile_max_abs_error": 0.04162703101302423
+    },
+    {
+      "scenario": "heavy_tailed",
+      "seed": 11,
+      "n": 30000,
+      "maximum_absolute_regime_weight": 0.0,
+      "standardized_residual_mean": 0.00419281907380395,
+      "standardized_residual_variance": 0.9972581297468028,
+      "central_oracle_90_coverage": 0.9002666666666667
+    },
+    {
+      "scenario": "heavy_tailed",
+      "seed": 23,
+      "n": 30000,
+      "maximum_absolute_regime_weight": 0.0,
+      "standardized_residual_mean": -0.003098347267778999,
+      "standardized_residual_variance": 0.990430577674197,
+      "central_oracle_90_coverage": 0.8997
+    },
+    {
+      "scenario": "heavy_tailed",
+      "seed": 37,
+      "n": 30000,
+      "maximum_absolute_regime_weight": 0.0,
+      "standardized_residual_mean": -0.0024408219985208057,
+      "standardized_residual_variance": 0.9882163807733058,
+      "central_oracle_90_coverage": 0.8984666666666666
+    },
+    {
+      "scenario": "heavy_tailed",
+      "seed": 53,
+      "n": 30000,
+      "maximum_absolute_regime_weight": 0.0,
+      "standardized_residual_mean": 0.005497020937727808,
+      "standardized_residual_variance": 0.9859535488873411,
+      "central_oracle_90_coverage": 0.9013333333333333
+    },
+    {
+      "scenario": "heavy_tailed",
+      "seed": 71,
+      "n": 30000,
+      "maximum_absolute_regime_weight": 0.0,
+      "standardized_residual_mean": -0.004199667134279809,
+      "standardized_residual_variance": 0.9840563899155639,
+      "central_oracle_90_coverage": 0.9014
+    }
+  ],
+  "summary": {
+    "iid_regression": {
+      "replicates": 5,
+      "mean_standardized_residual_mean": -0.0031900099512273197,
+      "mean_standardized_residual_variance": 0.9920410133829906,
+      "mean_central_oracle_90_coverage": 0.9019733333333333,
+      "checks": {
+        "zero_severity_null_pass": true,
+        "standardized_residual_mean_pass": true,
+        "standardized_residual_variance_pass": true,
+        "central_oracle_90_coverage_pass": true,
+        "feature_marginal_pass": true
+      },
+      "conditional_variance_decile_absolute_tolerance": null,
+      "passed": true
+    },
+    "nonlinear_classification": {
+      "replicates": 5,
+      "mean_standardized_residual_mean": null,
+      "mean_standardized_residual_variance": null,
+      "mean_central_oracle_90_coverage": null,
+      "checks": {
+        "zero_severity_null_pass": true,
+        "feature_marginal_pass": true,
+        "conditional_probability_pass": true
+      },
+      "conditional_variance_decile_absolute_tolerance": null,
+      "passed": true
+    },
+    "heteroskedastic": {
+      "replicates": 5,
+      "mean_standardized_residual_mean": -0.0031900099512273197,
+      "mean_standardized_residual_variance": 0.9920410133829906,
+      "mean_central_oracle_90_coverage": 0.9019733333333333,
+      "checks": {
+        "zero_severity_null_pass": true,
+        "standardized_residual_mean_pass": true,
+        "standardized_residual_variance_pass": true,
+        "central_oracle_90_coverage_pass": true,
+        "feature_marginal_pass": true,
+        "conditional_scale_pass": true
+      },
+      "conditional_variance_decile_absolute_tolerance": 0.08,
+      "passed": true
+    },
+    "heavy_tailed": {
+      "replicates": 5,
+      "mean_standardized_residual_mean": -9.799277809571274e-06,
+      "mean_standardized_residual_variance": 0.9891830053994422,
+      "mean_central_oracle_90_coverage": 0.9002333333333332,
+      "checks": {
+        "zero_severity_null_pass": true,
+        "standardized_residual_mean_pass": true,
+        "standardized_residual_variance_pass": true,
+        "central_oracle_90_coverage_pass": true
+      },
+      "conditional_variance_decile_absolute_tolerance": null,
+      "passed": true
+    }
+  },
+  "checks_pass": true,
+  "processing_commit": "1c8033c5d016848e1ab8be992f7b2a9c5b06c537",
+  "source_hash": "30f23ce76f9718e28876d194e096f2d5f366baac6575175f16adea379097acc5",
+  "script_sha256": "5bf61bdba75d4fd28d916767316e12dd88cb2f54595686c5bf208c31bbbebe08",
+  "executed_at": "2026-10-20T04:49:10.970670+00:00",
+  "limitations": [
+    "Replicate ranges are descriptive validation gates, not confidence intervals or power guarantees.",
+    "These checks cover the named stationary controls only; they do not replace mechanism-specific validation of all synthetic scenarios.",
+    "The heteroskedastic conditional-variance decile check uses an 8% finite-sample tolerance per seed."
+  ]
+}

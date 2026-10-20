@@ -10,6 +10,7 @@ from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import StandardScaler
 
 from shiftlab.data.provenance import commit, sha256, source_hash, utc_now, write_json
+from shiftlab.data.replication import replicate_grid_integrity
 from shiftlab.data.synthetic import conformal_stress_catalogue, generate_chunks
 from shiftlab.methods import weighted_conformal_quantile
 
@@ -102,7 +103,8 @@ def _adaptive_test_predictions(
 def evaluate() -> dict:
     seeds = (42, 43, 44, 45, 46)
     replicates = []
-    for preset in conformal_stress_catalogue(n=12000):
+    presets = conformal_stress_catalogue(n=12000)
+    for preset in presets:
         for seed in seeds:
             config = preset.config.model_copy(update={"seed": seed})
             generated = list(generate_chunks(config))
@@ -263,10 +265,42 @@ def evaluate() -> dict:
                     "missing_test_labels": missing_test_labels,
                 }
             )
+    replication_check = replicate_grid_integrity(
+        replicates, [preset.name for preset in presets], seeds
+    )
+    coverage_fields = [
+        "fixed_split_test_coverage",
+        "prequential_test_coverage",
+        "adaptive_predictor_prequential_test_coverage",
+    ]
+    metric_rows_valid = all(
+        row["n_test_labeled"] >= 20
+        and row["n_online_scored"] >= 20
+        and all(np.isfinite(row[field]) and 0 <= row[field] <= 1 for field in coverage_fields)
+        and np.isfinite(row["frozen_predictor_prequential_mse"])
+        and row["frozen_predictor_prequential_mse"] >= 0
+        and np.isfinite(row["adaptive_predictor_prequential_mse"])
+        and row["adaptive_predictor_prequential_mse"] >= 0
+        and np.isfinite(row["prequential_mean_radius"])
+        and row["prequential_mean_radius"] >= 0
+        for row in replicates
+    )
+    leakage_rows_valid = all(
+        row["n_train_available"] >= 20
+        and row["n_calibration_arrived_before_test"] >= 20
+        and row["adaptive_predictor_refit_count"] > 0
+        and row["adaptive_predictor_min_fit_rows"] >= 20
+        and row["adaptive_predictor_min_availability_margin"] > 0
+        for row in replicates
+    )
     return {
         "protocol": "Five-seed comparison of a frozen fitted Ridge predictor and a Ridge predictor refit every 50 test requests on a rolling window capped at the latest 2400 eligible rows. At each refit, only train and earlier test labels whose availability precedes the block's first request are eligible. Calibration labels are held out from refitting; the prequential radius uses calibration and prior test scores that arrived before each request.",
         "alpha": 0.1,
         "coverage_target": 0.9,
+        "replication_check": replication_check,
+        "metric_rows_valid": metric_rows_valid,
+        "leakage_rows_valid": leakage_rows_valid,
+        "checks_pass": replication_check["passes"] and metric_rows_valid and leakage_rows_valid,
         "replicates": replicates,
         "by_preset": [
             {
@@ -325,6 +359,8 @@ def main() -> None:
             f"radius={row['mean_prequential_radius']:.3f}"
         )
     print("data/reports/fitted_conformal_validation.json")
+    if not result["checks_pass"]:
+        raise SystemExit(1)
 
 
 if __name__ == "__main__":

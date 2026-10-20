@@ -10,6 +10,7 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
+from shiftlab.data.replication import replicate_grid_integrity
 from shiftlab.data.synthetic import conformal_stress_catalogue, generate_chunks
 from shiftlab.methods import weighted_conformal_quantile
 
@@ -17,7 +18,8 @@ from shiftlab.methods import weighted_conformal_quantile
 def evaluate(root: Path, seeds: tuple[int, ...] = (42, 43, 44, 45, 46)) -> dict:
     rows: list[dict] = []
     regimes: list[dict] = []
-    for preset in conformal_stress_catalogue(n=12000):
+    presets = conformal_stress_catalogue(n=12000)
+    for preset in presets:
         for seed in seeds:
             config = preset.config.model_copy(update={"seed": seed})
             generated = list(generate_chunks(config))
@@ -104,8 +106,27 @@ def evaluate(root: Path, seeds: tuple[int, ...] = (42, 43, 44, 45, 46)) -> dict:
                         ),
                     }
                 )
+    replication_check = replicate_grid_integrity(rows, [preset.name for preset in presets], seeds)
+    coverage_fields = [
+        "test_marginal_coverage",
+        "test_oracle_radius_coverage",
+        "test_history_marginal_coverage",
+        "test_history_conditional_radius_coverage",
+    ]
+    metric_rows_valid = all(
+        row["calibration_n"] > 0
+        and row["test_n"] > 0
+        and row["oracle_radius_n"] > 0
+        and row["history_oracle_radius_n"] > 0
+        and all(np.isfinite(row[field]) and 0 <= row[field] <= 1 for field in coverage_fields)
+        and np.isfinite(row["marginal_calibration_radius"])
+        and row["marginal_calibration_radius"] >= 0
+        and np.isfinite(row["history_marginal_calibration_radius"])
+        and row["history_marginal_calibration_radius"] >= 0
+        for row in rows
+    )
     input_spec = json.dumps(
-        {"seeds": seeds, "cases": len(conformal_stress_catalogue()), "n_per_case": 12000},
+        {"seeds": seeds, "cases": len(presets), "n_per_case": 12000},
         sort_keys=True,
     )
     script_hash = hashlib.sha256(Path(__file__).read_bytes()).hexdigest()
@@ -119,6 +140,9 @@ def evaluate(root: Path, seeds: tuple[int, ...] = (42, 43, 44, 45, 46)) -> dict:
         "input_sha256": hashlib.sha256(input_spec.encode()).hexdigest(),
         "script_sha256": script_hash,
         "processing_commit": commit,
+        "replication_check": replication_check,
+        "metric_rows_valid": metric_rows_valid,
+        "checks_pass": replication_check["passes"] and metric_rows_valid,
         "replicates": rows,
         "by_oracle_regime": regimes,
     }
@@ -138,6 +162,8 @@ def main() -> None:
             f"oracle={np.mean([row['test_oracle_radius_coverage'] for row in rows]):.3f}",
             f"history_oracle={np.mean([row['test_history_conditional_radius_coverage'] for row in rows]):.3f}",
         )
+    if not result["checks_pass"]:
+        raise SystemExit(1)
 
 
 if __name__ == "__main__":

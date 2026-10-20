@@ -137,6 +137,10 @@ coverage guarantee under arbitrary nonstationarity follows from these calculatio
 
 An interactive performative environment separately models action-induced feature/target
 feedback and joint actions from several predictors. It is not an exogenous precomputed stream.
+`uv run python scripts/validate_performative_dynamics.py` checks its stable Gaussian state
+mean/variance, joint-action effect, target and state innovation means/variances, 90% innovation
+coverage and innovation independence over five seeds; results are in
+`data/reports/performative_validation.json`.
 Its documented stability condition concerns linear feedback. `allocate_update_budget` provides
 an exact discrete-budget oracle for independent additive update proposals; interacting sequential
 controllers and application-specific optimal interventions are not implemented. Saved manifests

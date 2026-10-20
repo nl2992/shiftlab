@@ -126,12 +126,19 @@ through dimension 1024 with independent conditional-mean formula comparisons and
 feature-marginal moments in `data/reports/covariate_property_validation.json`. Dimensions 2, 4, 8
 and 16 use five seeds, n=30000 and severities 0, 0.5, 1 and 2; dimensions 32 through 1024 use
 three seeds, n=5000 and severity 1. High-dimensional skewness is gated on positive direction;
-other moments use analytic targets and finite-sample tolerances.
+other moments use analytic targets and finite-sample tolerances. Dimensions 32 and 1024 also
+include null and strong-shift endpoints (severity 0 and 2).
 `uv run python scripts/validate_concept_residuals.py` checks independent conditional mean/scale
 formulas, unchanged feature moments, Gaussian residual variance and 90% oracle-radius coverage,
 and Bernoulli boundary-rotation rates across eight concept mechanisms, dimensions 2, 3, 8 and 16,
 and four severities (224 regime cells); replicated results are in
 `data/reports/concept_residual_validation.json`.
+`uv run python scripts/validate_scenario_quantiles.py` checks every registered scenario against
+the exact CDF for its declared residual law and estimates oracle-radius coverage across three
+independent seeds. Regression coverage uses history-conditional means/radii for dependent errors;
+classification scenarios are explicitly recorded as having no residual interval radius. The
+43-scenario evidence is in `data/reports/scenario_quantile_validation.json` and is folded into
+`synthetic_validation.md` when the data report is built.
 The `resource_cost` scenario changes only evaluator-side retraining cost, from 10 units at baseline
 to `10 * (1 + severity)` after activation; other synthetic scenarios keep the default 10 units.
 `rare_cost` and `resource_cost` generated values are checked against their analytic oracle formulas.

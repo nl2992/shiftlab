@@ -231,6 +231,39 @@ def build_report(root: Path):
         "Each bullet names one immutable stored version and its generation configuration. Versions are not independent replicates.",
         "",
     ]
+    quantile_report_path = report / "scenario_quantile_validation.json"
+    if quantile_report_path.exists():
+        quantile_report = json.loads(quantile_report_path.read_text(encoding="utf-8"))
+        from .synthetic import SCENARIOS
+
+        quantile_evidence = quantile_report.get("evidence", [])
+        if quantile_report.get("scenarios") != list(SCENARIOS) or len(quantile_evidence) != len(
+            SCENARIOS
+        ):
+            raise ValueError("Scenario quantile report does not cover the current registry")
+        quantile_script = Path(__file__).parents[3] / "scripts/validate_scenario_quantiles.py"
+        if quantile_report.get("script_sha256") != sha256(quantile_script):
+            raise ValueError(
+                "Scenario quantile report was produced by a different validation script"
+            )
+        if not all(row.get("passes") for row in quantile_evidence):
+            raise ValueError("Scenario quantile report contains failed evidence")
+        regression_count = sum(
+            row.get("status") == "validated_regression_quantile" for row in quantile_evidence
+        )
+        validation.append(
+            f"- Scenario-wide oracle quantile validation: {len(quantile_evidence)}/{len(SCENARIOS)} "
+            f"scenarios pass exact CDF and replicated coverage gates ({regression_count} "
+            f"regression laws; remaining scenarios are classification tasks without residual "
+            f"interval radii). Evidence: `scenario_quantile_validation.json`; "
+            f"processing commit `{quantile_report['processing_commit']}`."
+        )
+    else:
+        validation.append(
+            "- Scenario-wide oracle quantile evidence not generated; run "
+            "`uv run python scripts/validate_scenario_quantiles.py`."
+        )
+    validation.append("")
     readiness = [
         "# Experiment readiness",
         "",

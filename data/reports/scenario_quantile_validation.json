@@ -1,0 +1,1066 @@
+{
+  "description": "Independent exact CDF-mass calculations and three-seed Monte Carlo coverage for every registered synthetic scenario at severity 2. Exact CDF checks cover each finite oracle-radius row, including marginal dependent-error radii; empirical coverage uses the declared history-conditional mean and radius.",
+  "scenarios": [
+    "iid_regression",
+    "nonlinear_classification",
+    "ar1",
+    "arma",
+    "garch",
+    "heavy_tailed",
+    "heteroskedastic",
+    "mean",
+    "feature_variance",
+    "covariance_rotation",
+    "correlation",
+    "mixture_weights",
+    "new_component",
+    "feature_tail",
+    "feature_skew",
+    "irrelevant",
+    "prior_shift",
+    "imbalance",
+    "label_corruption",
+    "target_level",
+    "target_variance",
+    "tail_frequency",
+    "concept",
+    "boundary_rotation",
+    "nonlinear_response",
+    "interaction",
+    "sign_reversal",
+    "latent_state",
+    "conditional_variance",
+    "boundary_local",
+    "rare_cost",
+    "cost_change",
+    "constraints",
+    "prediction_only",
+    "hidden_cost",
+    "asymmetric_errors",
+    "dependent_errors",
+    "hidden_variance",
+    "extreme_events",
+    "feedback_change",
+    "resource_cost",
+    "small_decision_covariate",
+    "rare_high_cost"
+  ],
+  "seeds": [
+    101,
+    202,
+    303
+  ],
+  "n_per_seed": 12000,
+  "severity": 2.0,
+  "evidence": [
+    {
+      "scenario": "iid_regression",
+      "status": "validated_regression_quantile",
+      "quantile_kinds": [
+        "normal"
+      ],
+      "severity": 2.0,
+      "seeds": [
+        101,
+        202,
+        303
+      ],
+      "n_per_seed": 12000,
+      "regression_rows": 36000,
+      "max_exact_cdf_error": 1.1102230246251565e-16,
+      "coverage_by_seed": [
+        0.8974166666666666,
+        0.89825,
+        0.9019166666666667
+      ],
+      "pooled_empirical_coverage": 0.8991944444444444,
+      "max_seed_coverage_error": 0.002583333333333382,
+      "passes": true
+    },
+    {
+      "scenario": "nonlinear_classification",
+      "status": "classification_without_residual_quantile",
+      "quantile_kinds": [
+        "normal"
+      ],
+      "severity": 2.0,
+      "seeds": [
+        101,
+        202,
+        303
+      ],
+      "n_per_seed": 12000,
+      "regression_rows": 0,
+      "max_exact_cdf_error": null,
+      "coverage_by_seed": [],
+      "pooled_empirical_coverage": null,
+      "max_seed_coverage_error": null,
+      "passes": true
+    },
+    {
+      "scenario": "ar1",
+      "status": "validated_regression_quantile",
+      "quantile_kinds": [
+        "normal"
+      ],
+      "severity": 2.0,
+      "seeds": [
+        101,
+        202,
+        303
+      ],
+      "n_per_seed": 12000,
+      "regression_rows": 36000,
+      "max_exact_cdf_error": 1.1102230246251565e-16,
+      "coverage_by_seed": [
+        0.8974166666666666,
+        0.89825,
+        0.9019166666666667
+      ],
+      "pooled_empirical_coverage": 0.8991944444444444,
+      "max_seed_coverage_error": 0.002583333333333382,
+      "passes": true
+    },
+    {
+      "scenario": "arma",
+      "status": "validated_regression_quantile",
+      "quantile_kinds": [
+        "normal"
+      ],
+      "severity": 2.0,
+      "seeds": [
+        101,
+        202,
+        303
+      ],
+      "n_per_seed": 12000,
+      "regression_rows": 36000,
+      "max_exact_cdf_error": 1.1102230246251565e-16,
+      "coverage_by_seed": [
+        0.8974166666666666,
+        0.89825,
+        0.9019166666666667
+      ],
+      "pooled_empirical_coverage": 0.8991944444444444,
+      "max_seed_coverage_error": 0.002583333333333382,
+      "passes": true
+    },
+    {
+      "scenario": "garch",
+      "status": "validated_regression_quantile",
+      "quantile_kinds": [
+        "normal"
+      ],
+      "severity": 2.0,
+      "seeds": [
+        101,
+        202,
+        303
+      ],
+      "n_per_seed": 12000,
+      "regression_rows": 36000,
+      "max_exact_cdf_error": 1.1102230246251565e-16,
+      "coverage_by_seed": [
+        0.8974166666666666,
+        0.89825,
+        0.9019166666666667
+      ],
+      "pooled_empirical_coverage": 0.8991944444444444,
+      "max_seed_coverage_error": 0.002583333333333382,
+      "passes": true
+    },
+    {
+      "scenario": "heavy_tailed",
+      "status": "validated_regression_quantile",
+      "quantile_kinds": [
+        "student_t5"
+      ],
+      "severity": 2.0,
+      "seeds": [
+        101,
+        202,
+        303
+      ],
+      "n_per_seed": 12000,
+      "regression_rows": 36000,
+      "max_exact_cdf_error": 1.1102230246251565e-16,
+      "coverage_by_seed": [
+        0.9050833333333334,
+        0.8973333333333333,
+        0.9004166666666666
+      ],
+      "pooled_empirical_coverage": 0.9009444444444444,
+      "max_seed_coverage_error": 0.005083333333333329,
+      "passes": true
+    },
+    {
+      "scenario": "heteroskedastic",
+      "status": "validated_regression_quantile",
+      "quantile_kinds": [
+        "normal"
+      ],
+      "severity": 2.0,
+      "seeds": [
+        101,
+        202,
+        303
+      ],
+      "n_per_seed": 12000,
+      "regression_rows": 36000,
+      "max_exact_cdf_error": 1.1102230246251565e-16,
+      "coverage_by_seed": [
+        0.8974166666666666,
+        0.89825,
+        0.9019166666666667
+      ],
+      "pooled_empirical_coverage": 0.8991944444444444,
+      "max_seed_coverage_error": 0.002583333333333382,
+      "passes": true
+    },
+    {
+      "scenario": "mean",
+      "status": "validated_regression_quantile",
+      "quantile_kinds": [
+        "normal"
+      ],
+      "severity": 2.0,
+      "seeds": [
+        101,
+        202,
+        303
+      ],
+      "n_per_seed": 12000,
+      "regression_rows": 36000,
+      "max_exact_cdf_error": 1.1102230246251565e-16,
+      "coverage_by_seed": [
+        0.8974166666666666,
+        0.89825,
+        0.9019166666666667
+      ],
+      "pooled_empirical_coverage": 0.8991944444444444,
+      "max_seed_coverage_error": 0.002583333333333382,
+      "passes": true
+    },
+    {
+      "scenario": "feature_variance",
+      "status": "validated_regression_quantile",
+      "quantile_kinds": [
+        "normal"
+      ],
+      "severity": 2.0,
+      "seeds": [
+        101,
+        202,
+        303
+      ],
+      "n_per_seed": 12000,
+      "regression_rows": 36000,
+      "max_exact_cdf_error": 1.1102230246251565e-16,
+      "coverage_by_seed": [
+        0.8974166666666666,
+        0.89825,
+        0.9019166666666667
+      ],
+      "pooled_empirical_coverage": 0.8991944444444444,
+      "max_seed_coverage_error": 0.002583333333333382,
+      "passes": true
+    },
+    {
+      "scenario": "covariance_rotation",
+      "status": "validated_regression_quantile",
+      "quantile_kinds": [
+        "normal"
+      ],
+      "severity": 2.0,
+      "seeds": [
+        101,
+        202,
+        303
+      ],
+      "n_per_seed": 12000,
+      "regression_rows": 36000,
+      "max_exact_cdf_error": 1.1102230246251565e-16,
+      "coverage_by_seed": [
+        0.8974166666666666,
+        0.89825,
+        0.9019166666666667
+      ],
+      "pooled_empirical_coverage": 0.8991944444444444,
+      "max_seed_coverage_error": 0.002583333333333382,
+      "passes": true
+    },
+    {
+      "scenario": "correlation",
+      "status": "validated_regression_quantile",
+      "quantile_kinds": [
+        "normal"
+      ],
+      "severity": 2.0,
+      "seeds": [
+        101,
+        202,
+        303
+      ],
+      "n_per_seed": 12000,
+      "regression_rows": 36000,
+      "max_exact_cdf_error": 1.1102230246251565e-16,
+      "coverage_by_seed": [
+        0.8974166666666666,
+        0.89825,
+        0.9019166666666667
+      ],
+      "pooled_empirical_coverage": 0.8991944444444444,
+      "max_seed_coverage_error": 0.002583333333333382,
+      "passes": true
+    },
+    {
+      "scenario": "mixture_weights",
+      "status": "validated_regression_quantile",
+      "quantile_kinds": [
+        "normal"
+      ],
+      "severity": 2.0,
+      "seeds": [
+        101,
+        202,
+        303
+      ],
+      "n_per_seed": 12000,
+      "regression_rows": 36000,
+      "max_exact_cdf_error": 1.1102230246251565e-16,
+      "coverage_by_seed": [
+        0.8974166666666666,
+        0.89825,
+        0.9019166666666667
+      ],
+      "pooled_empirical_coverage": 0.8991944444444444,
+      "max_seed_coverage_error": 0.002583333333333382,
+      "passes": true
+    },
+    {
+      "scenario": "new_component",
+      "status": "validated_regression_quantile",
+      "quantile_kinds": [
+        "normal"
+      ],
+      "severity": 2.0,
+      "seeds": [
+        101,
+        202,
+        303
+      ],
+      "n_per_seed": 12000,
+      "regression_rows": 36000,
+      "max_exact_cdf_error": 1.1102230246251565e-16,
+      "coverage_by_seed": [
+        0.8974166666666666,
+        0.89825,
+        0.9019166666666667
+      ],
+      "pooled_empirical_coverage": 0.8991944444444444,
+      "max_seed_coverage_error": 0.002583333333333382,
+      "passes": true
+    },
+    {
+      "scenario": "feature_tail",
+      "status": "validated_regression_quantile",
+      "quantile_kinds": [
+        "normal"
+      ],
+      "severity": 2.0,
+      "seeds": [
+        101,
+        202,
+        303
+      ],
+      "n_per_seed": 12000,
+      "regression_rows": 36000,
+      "max_exact_cdf_error": 1.1102230246251565e-16,
+      "coverage_by_seed": [
+        0.9035833333333333,
+        0.89575,
+        0.8999166666666667
+      ],
+      "pooled_empirical_coverage": 0.89975,
+      "max_seed_coverage_error": 0.004249999999999976,
+      "passes": true
+    },
+    {
+      "scenario": "feature_skew",
+      "status": "validated_regression_quantile",
+      "quantile_kinds": [
+        "normal"
+      ],
+      "severity": 2.0,
+      "seeds": [
+        101,
+        202,
+        303
+      ],
+      "n_per_seed": 12000,
+      "regression_rows": 36000,
+      "max_exact_cdf_error": 1.1102230246251565e-16,
+      "coverage_by_seed": [
+        0.9035833333333333,
+        0.89575,
+        0.8999166666666667
+      ],
+      "pooled_empirical_coverage": 0.89975,
+      "max_seed_coverage_error": 0.004249999999999976,
+      "passes": true
+    },
+    {
+      "scenario": "irrelevant",
+      "status": "validated_regression_quantile",
+      "quantile_kinds": [
+        "normal"
+      ],
+      "severity": 2.0,
+      "seeds": [
+        101,
+        202,
+        303
+      ],
+      "n_per_seed": 12000,
+      "regression_rows": 36000,
+      "max_exact_cdf_error": 1.1102230246251565e-16,
+      "coverage_by_seed": [
+        0.8974166666666666,
+        0.89825,
+        0.9019166666666667
+      ],
+      "pooled_empirical_coverage": 0.8991944444444444,
+      "max_seed_coverage_error": 0.002583333333333382,
+      "passes": true
+    },
+    {
+      "scenario": "prior_shift",
+      "status": "classification_without_residual_quantile",
+      "quantile_kinds": [
+        "normal"
+      ],
+      "severity": 2.0,
+      "seeds": [
+        101,
+        202,
+        303
+      ],
+      "n_per_seed": 12000,
+      "regression_rows": 0,
+      "max_exact_cdf_error": null,
+      "coverage_by_seed": [],
+      "pooled_empirical_coverage": null,
+      "max_seed_coverage_error": null,
+      "passes": true
+    },
+    {
+      "scenario": "imbalance",
+      "status": "classification_without_residual_quantile",
+      "quantile_kinds": [
+        "normal"
+      ],
+      "severity": 2.0,
+      "seeds": [
+        101,
+        202,
+        303
+      ],
+      "n_per_seed": 12000,
+      "regression_rows": 0,
+      "max_exact_cdf_error": null,
+      "coverage_by_seed": [],
+      "pooled_empirical_coverage": null,
+      "max_seed_coverage_error": null,
+      "passes": true
+    },
+    {
+      "scenario": "label_corruption",
+      "status": "classification_without_residual_quantile",
+      "quantile_kinds": [
+        "normal"
+      ],
+      "severity": 2.0,
+      "seeds": [
+        101,
+        202,
+        303
+      ],
+      "n_per_seed": 12000,
+      "regression_rows": 0,
+      "max_exact_cdf_error": null,
+      "coverage_by_seed": [],
+      "pooled_empirical_coverage": null,
+      "max_seed_coverage_error": null,
+      "passes": true
+    },
+    {
+      "scenario": "target_level",
+      "status": "validated_regression_quantile",
+      "quantile_kinds": [
+        "normal"
+      ],
+      "severity": 2.0,
+      "seeds": [
+        101,
+        202,
+        303
+      ],
+      "n_per_seed": 12000,
+      "regression_rows": 36000,
+      "max_exact_cdf_error": 1.1102230246251565e-16,
+      "coverage_by_seed": [
+        0.8974166666666666,
+        0.89825,
+        0.9019166666666667
+      ],
+      "pooled_empirical_coverage": 0.8991944444444444,
+      "max_seed_coverage_error": 0.002583333333333382,
+      "passes": true
+    },
+    {
+      "scenario": "target_variance",
+      "status": "validated_regression_quantile",
+      "quantile_kinds": [
+        "normal"
+      ],
+      "severity": 2.0,
+      "seeds": [
+        101,
+        202,
+        303
+      ],
+      "n_per_seed": 12000,
+      "regression_rows": 36000,
+      "max_exact_cdf_error": 1.1102230246251565e-16,
+      "coverage_by_seed": [
+        0.8974166666666666,
+        0.89825,
+        0.9019166666666667
+      ],
+      "pooled_empirical_coverage": 0.8991944444444444,
+      "max_seed_coverage_error": 0.002583333333333382,
+      "passes": true
+    },
+    {
+      "scenario": "tail_frequency",
+      "status": "validated_regression_quantile",
+      "quantile_kinds": [
+        "normal_mixture"
+      ],
+      "severity": 2.0,
+      "seeds": [
+        101,
+        202,
+        303
+      ],
+      "n_per_seed": 12000,
+      "regression_rows": 36000,
+      "max_exact_cdf_error": 2.220446049250313e-16,
+      "coverage_by_seed": [
+        0.8998333333333334,
+        0.8926666666666667,
+        0.89925
+      ],
+      "pooled_empirical_coverage": 0.89725,
+      "max_seed_coverage_error": 0.007333333333333303,
+      "passes": true
+    },
+    {
+      "scenario": "concept",
+      "status": "validated_regression_quantile",
+      "quantile_kinds": [
+        "normal"
+      ],
+      "severity": 2.0,
+      "seeds": [
+        101,
+        202,
+        303
+      ],
+      "n_per_seed": 12000,
+      "regression_rows": 36000,
+      "max_exact_cdf_error": 1.1102230246251565e-16,
+      "coverage_by_seed": [
+        0.8974166666666666,
+        0.89825,
+        0.9019166666666667
+      ],
+      "pooled_empirical_coverage": 0.8991944444444444,
+      "max_seed_coverage_error": 0.002583333333333382,
+      "passes": true
+    },
+    {
+      "scenario": "boundary_rotation",
+      "status": "classification_without_residual_quantile",
+      "quantile_kinds": [
+        "normal"
+      ],
+      "severity": 2.0,
+      "seeds": [
+        101,
+        202,
+        303
+      ],
+      "n_per_seed": 12000,
+      "regression_rows": 0,
+      "max_exact_cdf_error": null,
+      "coverage_by_seed": [],
+      "pooled_empirical_coverage": null,
+      "max_seed_coverage_error": null,
+      "passes": true
+    },
+    {
+      "scenario": "nonlinear_response",
+      "status": "validated_regression_quantile",
+      "quantile_kinds": [
+        "normal"
+      ],
+      "severity": 2.0,
+      "seeds": [
+        101,
+        202,
+        303
+      ],
+      "n_per_seed": 12000,
+      "regression_rows": 36000,
+      "max_exact_cdf_error": 1.1102230246251565e-16,
+      "coverage_by_seed": [
+        0.8974166666666666,
+        0.89825,
+        0.9019166666666667
+      ],
+      "pooled_empirical_coverage": 0.8991944444444444,
+      "max_seed_coverage_error": 0.002583333333333382,
+      "passes": true
+    },
+    {
+      "scenario": "interaction",
+      "status": "validated_regression_quantile",
+      "quantile_kinds": [
+        "normal"
+      ],
+      "severity": 2.0,
+      "seeds": [
+        101,
+        202,
+        303
+      ],
+      "n_per_seed": 12000,
+      "regression_rows": 36000,
+      "max_exact_cdf_error": 1.1102230246251565e-16,
+      "coverage_by_seed": [
+        0.8974166666666666,
+        0.89825,
+        0.9019166666666667
+      ],
+      "pooled_empirical_coverage": 0.8991944444444444,
+      "max_seed_coverage_error": 0.002583333333333382,
+      "passes": true
+    },
+    {
+      "scenario": "sign_reversal",
+      "status": "validated_regression_quantile",
+      "quantile_kinds": [
+        "normal"
+      ],
+      "severity": 2.0,
+      "seeds": [
+        101,
+        202,
+        303
+      ],
+      "n_per_seed": 12000,
+      "regression_rows": 36000,
+      "max_exact_cdf_error": 1.1102230246251565e-16,
+      "coverage_by_seed": [
+        0.8974166666666666,
+        0.89825,
+        0.9019166666666667
+      ],
+      "pooled_empirical_coverage": 0.8991944444444444,
+      "max_seed_coverage_error": 0.002583333333333382,
+      "passes": true
+    },
+    {
+      "scenario": "latent_state",
+      "status": "validated_regression_quantile",
+      "quantile_kinds": [
+        "normal"
+      ],
+      "severity": 2.0,
+      "seeds": [
+        101,
+        202,
+        303
+      ],
+      "n_per_seed": 12000,
+      "regression_rows": 36000,
+      "max_exact_cdf_error": 1.1102230246251565e-16,
+      "coverage_by_seed": [
+        0.8974166666666666,
+        0.89825,
+        0.9019166666666667
+      ],
+      "pooled_empirical_coverage": 0.8991944444444444,
+      "max_seed_coverage_error": 0.002583333333333382,
+      "passes": true
+    },
+    {
+      "scenario": "conditional_variance",
+      "status": "validated_regression_quantile",
+      "quantile_kinds": [
+        "normal"
+      ],
+      "severity": 2.0,
+      "seeds": [
+        101,
+        202,
+        303
+      ],
+      "n_per_seed": 12000,
+      "regression_rows": 36000,
+      "max_exact_cdf_error": 1.1102230246251565e-16,
+      "coverage_by_seed": [
+        0.8974166666666666,
+        0.89825,
+        0.9019166666666667
+      ],
+      "pooled_empirical_coverage": 0.8991944444444444,
+      "max_seed_coverage_error": 0.002583333333333382,
+      "passes": true
+    },
+    {
+      "scenario": "boundary_local",
+      "status": "validated_regression_quantile",
+      "quantile_kinds": [
+        "normal"
+      ],
+      "severity": 2.0,
+      "seeds": [
+        101,
+        202,
+        303
+      ],
+      "n_per_seed": 12000,
+      "regression_rows": 36000,
+      "max_exact_cdf_error": 1.1102230246251565e-16,
+      "coverage_by_seed": [
+        0.8974166666666666,
+        0.89825,
+        0.9019166666666667
+      ],
+      "pooled_empirical_coverage": 0.8991944444444444,
+      "max_seed_coverage_error": 0.002583333333333382,
+      "passes": true
+    },
+    {
+      "scenario": "rare_cost",
+      "status": "validated_regression_quantile",
+      "quantile_kinds": [
+        "normal"
+      ],
+      "severity": 2.0,
+      "seeds": [
+        101,
+        202,
+        303
+      ],
+      "n_per_seed": 12000,
+      "regression_rows": 36000,
+      "max_exact_cdf_error": 1.1102230246251565e-16,
+      "coverage_by_seed": [
+        0.8974166666666666,
+        0.89825,
+        0.9019166666666667
+      ],
+      "pooled_empirical_coverage": 0.8991944444444444,
+      "max_seed_coverage_error": 0.002583333333333382,
+      "passes": true
+    },
+    {
+      "scenario": "cost_change",
+      "status": "validated_regression_quantile",
+      "quantile_kinds": [
+        "normal"
+      ],
+      "severity": 2.0,
+      "seeds": [
+        101,
+        202,
+        303
+      ],
+      "n_per_seed": 12000,
+      "regression_rows": 36000,
+      "max_exact_cdf_error": 1.1102230246251565e-16,
+      "coverage_by_seed": [
+        0.8974166666666666,
+        0.89825,
+        0.9019166666666667
+      ],
+      "pooled_empirical_coverage": 0.8991944444444444,
+      "max_seed_coverage_error": 0.002583333333333382,
+      "passes": true
+    },
+    {
+      "scenario": "constraints",
+      "status": "validated_regression_quantile",
+      "quantile_kinds": [
+        "normal"
+      ],
+      "severity": 2.0,
+      "seeds": [
+        101,
+        202,
+        303
+      ],
+      "n_per_seed": 12000,
+      "regression_rows": 36000,
+      "max_exact_cdf_error": 1.1102230246251565e-16,
+      "coverage_by_seed": [
+        0.8974166666666666,
+        0.89825,
+        0.9019166666666667
+      ],
+      "pooled_empirical_coverage": 0.8991944444444444,
+      "max_seed_coverage_error": 0.002583333333333382,
+      "passes": true
+    },
+    {
+      "scenario": "prediction_only",
+      "status": "validated_regression_quantile",
+      "quantile_kinds": [
+        "normal"
+      ],
+      "severity": 2.0,
+      "seeds": [
+        101,
+        202,
+        303
+      ],
+      "n_per_seed": 12000,
+      "regression_rows": 36000,
+      "max_exact_cdf_error": 1.1102230246251565e-16,
+      "coverage_by_seed": [
+        0.8974166666666666,
+        0.89825,
+        0.9019166666666667
+      ],
+      "pooled_empirical_coverage": 0.8991944444444444,
+      "max_seed_coverage_error": 0.002583333333333382,
+      "passes": true
+    },
+    {
+      "scenario": "hidden_cost",
+      "status": "validated_regression_quantile",
+      "quantile_kinds": [
+        "normal"
+      ],
+      "severity": 2.0,
+      "seeds": [
+        101,
+        202,
+        303
+      ],
+      "n_per_seed": 12000,
+      "regression_rows": 36000,
+      "max_exact_cdf_error": 1.1102230246251565e-16,
+      "coverage_by_seed": [
+        0.8974166666666666,
+        0.89825,
+        0.9019166666666667
+      ],
+      "pooled_empirical_coverage": 0.8991944444444444,
+      "max_seed_coverage_error": 0.002583333333333382,
+      "passes": true
+    },
+    {
+      "scenario": "asymmetric_errors",
+      "status": "validated_regression_quantile",
+      "quantile_kinds": [
+        "centered_lognormal"
+      ],
+      "severity": 2.0,
+      "seeds": [
+        101,
+        202,
+        303
+      ],
+      "n_per_seed": 12000,
+      "regression_rows": 36000,
+      "max_exact_cdf_error": 1.1102230246251565e-16,
+      "coverage_by_seed": [
+        0.8980833333333333,
+        0.8983333333333333,
+        0.90025
+      ],
+      "pooled_empirical_coverage": 0.8988888888888888,
+      "max_seed_coverage_error": 0.0019166666666666776,
+      "passes": true
+    },
+    {
+      "scenario": "dependent_errors",
+      "status": "validated_regression_quantile",
+      "quantile_kinds": [
+        "marginal_normal_dependent"
+      ],
+      "severity": 2.0,
+      "seeds": [
+        101,
+        202,
+        303
+      ],
+      "n_per_seed": 12000,
+      "regression_rows": 36000,
+      "max_exact_cdf_error": 1.1102230246251565e-16,
+      "coverage_by_seed": [
+        0.8974166666666666,
+        0.89825,
+        0.9019166666666667
+      ],
+      "pooled_empirical_coverage": 0.8991944444444444,
+      "max_seed_coverage_error": 0.002583333333333382,
+      "passes": true
+    },
+    {
+      "scenario": "hidden_variance",
+      "status": "validated_regression_quantile",
+      "quantile_kinds": [
+        "normal"
+      ],
+      "severity": 2.0,
+      "seeds": [
+        101,
+        202,
+        303
+      ],
+      "n_per_seed": 12000,
+      "regression_rows": 36000,
+      "max_exact_cdf_error": 1.1102230246251565e-16,
+      "coverage_by_seed": [
+        0.8974166666666666,
+        0.89825,
+        0.9019166666666667
+      ],
+      "pooled_empirical_coverage": 0.8991944444444444,
+      "max_seed_coverage_error": 0.002583333333333382,
+      "passes": true
+    },
+    {
+      "scenario": "extreme_events",
+      "status": "validated_regression_quantile",
+      "quantile_kinds": [
+        "normal_mixture"
+      ],
+      "severity": 2.0,
+      "seeds": [
+        101,
+        202,
+        303
+      ],
+      "n_per_seed": 12000,
+      "regression_rows": 36000,
+      "max_exact_cdf_error": 2.220446049250313e-16,
+      "coverage_by_seed": [
+        0.8998333333333334,
+        0.8926666666666667,
+        0.89925
+      ],
+      "pooled_empirical_coverage": 0.89725,
+      "max_seed_coverage_error": 0.007333333333333303,
+      "passes": true
+    },
+    {
+      "scenario": "feedback_change",
+      "status": "validated_regression_quantile",
+      "quantile_kinds": [
+        "normal"
+      ],
+      "severity": 2.0,
+      "seeds": [
+        101,
+        202,
+        303
+      ],
+      "n_per_seed": 12000,
+      "regression_rows": 36000,
+      "max_exact_cdf_error": 1.1102230246251565e-16,
+      "coverage_by_seed": [
+        0.8974166666666666,
+        0.89825,
+        0.9019166666666667
+      ],
+      "pooled_empirical_coverage": 0.8991944444444444,
+      "max_seed_coverage_error": 0.002583333333333382,
+      "passes": true
+    },
+    {
+      "scenario": "resource_cost",
+      "status": "validated_regression_quantile",
+      "quantile_kinds": [
+        "normal"
+      ],
+      "severity": 2.0,
+      "seeds": [
+        101,
+        202,
+        303
+      ],
+      "n_per_seed": 12000,
+      "regression_rows": 36000,
+      "max_exact_cdf_error": 1.1102230246251565e-16,
+      "coverage_by_seed": [
+        0.8974166666666666,
+        0.89825,
+        0.9019166666666667
+      ],
+      "pooled_empirical_coverage": 0.8991944444444444,
+      "max_seed_coverage_error": 0.002583333333333382,
+      "passes": true
+    },
+    {
+      "scenario": "small_decision_covariate",
+      "status": "classification_without_residual_quantile",
+      "quantile_kinds": [
+        "normal"
+      ],
+      "severity": 2.0,
+      "seeds": [
+        101,
+        202,
+        303
+      ],
+      "n_per_seed": 12000,
+      "regression_rows": 0,
+      "max_exact_cdf_error": null,
+      "coverage_by_seed": [],
+      "pooled_empirical_coverage": null,
+      "max_seed_coverage_error": null,
+      "passes": true
+    },
+    {
+      "scenario": "rare_high_cost",
+      "status": "classification_without_residual_quantile",
+      "quantile_kinds": [
+        "normal"
+      ],
+      "severity": 2.0,
+      "seeds": [
+        101,
+        202,
+        303
+      ],
+      "n_per_seed": 12000,
+      "regression_rows": 0,
+      "max_exact_cdf_error": null,
+      "coverage_by_seed": [],
+      "pooled_empirical_coverage": null,
+      "max_seed_coverage_error": null,
+      "passes": true
+    }
+  ],
+  "interpretation": "This validates the simulator's declared oracle residual laws. Monte Carlo coverage is descriptive and does not imply fitted-model or real-world coverage guarantees.",
+  "processing_commit": "dd5aa3bfa27d5feecc5b0a57856ef92c1adcc480",
+  "source_hash": "e3a7c0c41d7c1482a26ba2fb5afa7f1321d63c9a44861d016e1cb098359fdfeb",
+  "script_sha256": "e8294802aeb97363c3269d2151460dd1f4812c3848a383cc63deb9357e1655af",
+  "executed_at": "2026-10-20T06:34:29.873912+00:00"
+}

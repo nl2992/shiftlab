@@ -101,3 +101,30 @@ def test_report_pipeline_emits_suitability_csv_markdown_and_provenance(tmp_path)
         "Unknown release timing remains unknown"
         in (report / "dataset_paper_suitability.md").read_text()
     )
+
+
+def test_report_pipeline_includes_current_scenario_quantile_evidence(tmp_path):
+    from shiftlab.data.synthetic import SCENARIOS
+
+    quantile_script = Path(__file__).parents[2] / "scripts" / "validate_scenario_quantiles.py"
+    report_dir = tmp_path / "reports"
+    report_dir.mkdir()
+    (report_dir / "scenario_quantile_validation.json").write_text(
+        json.dumps(
+            {
+                "scenarios": list(SCENARIOS),
+                "evidence": [
+                    {"status": "classification_without_residual_quantile", "passes": True}
+                    for _ in SCENARIOS
+                ],
+                "processing_commit": "fixture-commit",
+                "script_sha256": sha256(quantile_script),
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    report = build_report(tmp_path)
+    validation = (report / "synthetic_validation.md").read_text(encoding="utf-8")
+    assert "43/43 scenarios pass exact CDF and replicated coverage gates" in validation
+    assert "fixture-commit" in validation

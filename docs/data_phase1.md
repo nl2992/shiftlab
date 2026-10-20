@@ -39,6 +39,10 @@ The Monash Electricity hourly and Weather TSF archives omit `@horizon`. Their co
 paper ([arXiv:2105.06643](https://arxiv.org/abs/2105.06643)); the citation is captured in each
 configuration, task binding, observation metadata, and manifest limitation. This does not imply
 real-time release availability.
+The executed per-series metrics and per-step error plot are in
+`data/reports/monash_forecast_diagnostics.json` and
+`data/reports/monash_forecast_diagnostics.png`; plotted inter-series bands are descriptive
+quantiles over the deterministic selected subsets, not confidence intervals.
 
 For this NVIDIA Windows machine:
 

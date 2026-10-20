@@ -4,6 +4,10 @@ import argparse
 import json
 from pathlib import Path
 
+import matplotlib
+
+matplotlib.use("Agg")
+import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 from sklearn.impute import SimpleImputer
@@ -124,8 +128,77 @@ def diagnose_dataset(path: Path) -> dict:
     }
 
 
-def build_report(paths: list[Path]) -> dict:
+def summarize_forecast_steps(datasets: list[dict]) -> list[dict]:
+    """Aggregate per-series absolute errors by horizon step, retaining subset counts."""
+    summaries = []
+    models = ["ridge", "last_value", "training_mean"]
+    for dataset in datasets:
+        by_step: dict[int, dict[str, list[float]]] = {}
+        for entity in dataset["series_metrics"]:
+            for row in entity["by_step"]:
+                target = by_step.setdefault(
+                    int(row["forecast_step"]), {name: [] for name in models}
+                )
+                for name in models:
+                    target[name].append(float(row["absolute_errors"][name]))
+        for step, errors in sorted(by_step.items()):
+            summaries.append(
+                {
+                    "dataset": dataset["dataset"],
+                    "forecast_step": step,
+                    "series_count": len(errors["ridge"]),
+                    "models": {
+                        name: {
+                            "mean_absolute_error": float(np.mean(values)),
+                            "median_absolute_error": float(np.median(values)),
+                            "q25_absolute_error": float(np.quantile(values, 0.25)),
+                            "q75_absolute_error": float(np.quantile(values, 0.75)),
+                        }
+                        for name, values in errors.items()
+                    },
+                }
+            )
+    return summaries
+
+
+def plot_forecast_steps(datasets: list[dict], summaries: list[dict], output: Path) -> None:
+    """Plot actual per-step baseline errors and descriptive between-series IQRs."""
+    output.parent.mkdir(parents=True, exist_ok=True)
+    rows = max(1, (len(datasets) + 1) // 2)
+    figure, axes = plt.subplots(rows, 2, figsize=(14, 4.2 * rows), squeeze=False)
+    models = ["ridge", "last_value", "training_mean"]
+    for index, dataset in enumerate(datasets):
+        axis = axes.ravel()[index]
+        selected = [row for row in summaries if row["dataset"] == dataset["dataset"]]
+        steps = np.asarray([row["forecast_step"] for row in selected], dtype=int)
+        for name in models:
+            medians = np.asarray([row["models"][name]["median_absolute_error"] for row in selected])
+            lower = np.asarray([row["models"][name]["q25_absolute_error"] for row in selected])
+            upper = np.asarray([row["models"][name]["q75_absolute_error"] for row in selected])
+            axis.plot(steps, medians, label=name.replace("_", " "))
+            axis.fill_between(steps, lower, upper, alpha=0.12)
+        axis.set_title(
+            f"{dataset['dataset']} ({dataset['entities']} selected series, "
+            f"horizon {max(steps)} steps)"
+        )
+        axis.set_xlabel("Forecast step")
+        axis.set_ylabel("Absolute error (median; shaded 25th–75th percentiles)")
+        axis.legend(fontsize="small")
+    for axis in axes.ravel()[len(datasets) :]:
+        axis.set_visible(False)
+    figure.suptitle(
+        "Monash fixed-origin forecast errors; shaded bands describe deterministic series subsets, not confidence intervals",
+        fontsize=12,
+    )
+    figure.tight_layout(rect=(0, 0, 1, 0.97))
+    figure.savefig(output, dpi=150)
+    plt.close(figure)
+
+
+def build_report(paths: list[Path], plot_path: Path) -> dict:
     datasets = [diagnose_dataset(path) for path in paths]
+    step_metrics = summarize_forecast_steps(datasets)
+    plot_forecast_steps(datasets, step_metrics, plot_path)
     return {
         "description": "Retrospective per-series Ridge and naive-baseline metrics on Monash fixed-origin holdouts with TSF-declared or cited archive-protocol horizons.",
         "protocol": {
@@ -136,6 +209,8 @@ def build_report(paths: list[Path]) -> dict:
             "uncertainty": "Per-series descriptive results only. The deterministic first-series subset is not treated as an IID sample of the full competition.",
         },
         "datasets": datasets,
+        "forecast_step_metrics": step_metrics,
+        "plot_artifact": {"path": str(plot_path), "sha256": sha256(plot_path)},
         "limitations": [
             "This diagnostic is retrospective and does not claim real-time label availability.",
             "The direct Ridge model receives the same origin covariates at every horizon step; it is a baseline, not a tuned multi-step forecaster.",
@@ -152,9 +227,13 @@ def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--dataset-path", nargs="+", required=True)
     parser.add_argument("--output", default="data/reports/monash_forecast_diagnostics.json")
+    parser.add_argument("--plot-output")
     args = parser.parse_args()
-    report = build_report([Path(value) for value in args.dataset_path])
     output = Path(args.output)
+    plot_output = (
+        Path(args.plot_output) if args.plot_output else output.with_name(f"{output.stem}.png")
+    )
+    report = build_report([Path(value) for value in args.dataset_path], plot_output)
     output.parent.mkdir(parents=True, exist_ok=True)
     write_json(output, report)
     for dataset in report["datasets"]:

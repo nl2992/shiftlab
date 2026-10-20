@@ -113,6 +113,29 @@ def allocate_update_budget(net_benefit, resource_cost, total_budget, candidate_i
     return result
 
 
+def pareto_frontier_mask(loss, resource):
+    """Mark nondominated loss/resource pairs; lower loss and resource are preferred."""
+    loss = np.asarray(loss, dtype=float)
+    resource = np.asarray(resource, dtype=float)
+    if (
+        loss.ndim != 1
+        or resource.ndim != 1
+        or loss.shape != resource.shape
+        or not len(loss)
+        or not np.isfinite(loss).all()
+        or not np.isfinite(resource).all()
+        or (loss < 0).any()
+        or (resource < 0).any()
+    ):
+        raise ValueError("loss and resource must be equal-length finite nonnegative vectors")
+    dominated = np.zeros(len(loss), dtype=bool)
+    for index in range(len(loss)):
+        dominates = (loss <= loss[index]) & (resource <= resource[index])
+        strict = (loss < loss[index]) | (resource < resource[index])
+        dominated[index] = np.any(dominates & strict)
+    return ~dominated
+
+
 def intervention_reference(
     stale_expected_loss,
     updated_expected_loss,

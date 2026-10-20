@@ -208,6 +208,7 @@ class Learner:
             resource_cost = float(self.action_resource_costs[action])
             if self.resource_spent + resource_cost > self.resource_budget:
                 return
+            action_started = time.perf_counter()
             if self.method in {"recalibration", "periodic_recalibration"}:
                 self.bias_correction += float(np.mean(self.feedback_residuals))
             elif self.method == "partial_update":
@@ -229,6 +230,7 @@ class Learner:
                     "action": action,
                     "resource_cost": resource_cost,
                     "resource_spent": self.resource_spent,
+                    "elapsed_seconds": time.perf_counter() - action_started,
                     "bias_correction": self.bias_correction,
                 }
             )

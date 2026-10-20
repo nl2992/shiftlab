@@ -110,17 +110,17 @@ def test_triggered_recalibration_uses_arrived_residual_without_refitting():
     assert prediction == 8.0
     assert learner.training_seconds == training_seconds
     assert learner.interventions == [21]
-    assert learner.intervention_audit == [
-        {
-            "available_at": 21,
-            "arrived_feedback_count": 1,
-            "method": "recalibration",
-            "action": "residual_bias_recalibration",
-            "resource_cost": 1.0,
-            "resource_spent": 1.0,
-            "bias_correction": 8.0,
-        }
-    ]
+    audit = learner.intervention_audit[0]
+    assert {key: value for key, value in audit.items() if key != "elapsed_seconds"} == {
+        "available_at": 21,
+        "arrived_feedback_count": 1,
+        "method": "recalibration",
+        "action": "residual_bias_recalibration",
+        "resource_cost": 1.0,
+        "resource_spent": 1.0,
+        "bias_correction": 8.0,
+    }
+    assert np.isfinite(audit["elapsed_seconds"]) and audit["elapsed_seconds"] >= 0
 
 
 def test_periodic_recalibration_uses_only_arrived_residuals():

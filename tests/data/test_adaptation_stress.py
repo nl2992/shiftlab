@@ -9,6 +9,7 @@ from shiftlab.data.synthetic.adaptation import (
     interval_recalibration_reference,
     intervention_reference,
     oblivious_change_times,
+    pareto_frontier_mask,
 )
 from shiftlab.data.synthetic.generators import generate_chunks, schedule
 
@@ -49,6 +50,20 @@ def test_dynamic_update_budget_allocation_matches_exhaustive_search():
 def test_dynamic_budget_rejects_invalid_inputs(benefit, cost, budget):
     with pytest.raises(ValueError):
         allocate_update_budget(benefit, cost, budget)
+
+
+def test_pareto_frontier_marks_only_nondominated_loss_resource_pairs():
+    mask = pareto_frontier_mask([10, 8, 9, 8, 12], [1, 3, 4, 5, 0])
+    assert mask.tolist() == [True, True, False, False, True]
+
+
+@pytest.mark.parametrize(
+    "loss,resource",
+    [([1, 2], [1]), ([1, np.inf], [1, 2]), ([-1, 2], [1, 2]), ([1], [-1])],
+)
+def test_pareto_frontier_rejects_invalid_metrics(loss, resource):
+    with pytest.raises(ValueError, match="finite nonnegative vectors"):
+        pareto_frontier_mask(loss, resource)
 
 
 def test_oracle_reference_matches_enumerated_counterfactuals():

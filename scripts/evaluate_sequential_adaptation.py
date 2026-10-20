@@ -7,6 +7,7 @@ from types import SimpleNamespace
 
 import numpy as np
 import pandas as pd
+from sklearn.ensemble import RandomForestRegressor
 
 from shiftlab.data.label_availability import labels_available_before
 from shiftlab.data.provenance import commit, sha256, source_hash, write_json
@@ -31,7 +32,13 @@ SCHEDULES = {
     "recurring": {"pattern": "recurring", "regimes": 4},
 }
 SEEDS = (11, 23, 37, 53, 71)
-POLICIES = ("frozen", "periodic", "triggered")
+POLICY_VARIANTS = (
+    ("ridge_frozen", "ridge", "frozen"),
+    ("ridge_periodic", "ridge", "periodic"),
+    ("ridge_triggered", "ridge", "triggered"),
+    ("forest_frozen", "random_forest", "frozen"),
+    ("forest_triggered", "random_forest", "triggered"),
+)
 
 
 def initial_rows(frame: pd.DataFrame, split: str, cutoff: float) -> pd.DataFrame:
@@ -46,19 +53,37 @@ def initial_rows(frame: pd.DataFrame, split: str, cutoff: float) -> pd.DataFrame
 class AuditedLearner(Learner):
     """Record the arrived-feedback boundary that caused each sequential refit."""
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, model_family="ridge", model_seed=0, **kwargs):
         self.current_feedback_time: int | float | None = None
         self.fit_audit: list[dict[str, int | float | str]] = []
+        self.model_family = model_family
+        self.model_seed = model_seed
         super().__init__(*args, **kwargs)
 
     def _fit(self, X, y):
-        super()._fit(X, y)
+        if self.model_family == "ridge":
+            super()._fit(X, y)
+        elif self.model_family == "random_forest":
+            import time
+
+            started = time.perf_counter()
+            self.model = RandomForestRegressor(
+                n_estimators=32,
+                max_depth=6,
+                min_samples_leaf=5,
+                random_state=self.model_seed,
+                n_jobs=1,
+            ).fit(X, y)
+            self.training_seconds += time.perf_counter() - started
+        else:
+            raise ValueError(f"Unknown model family: {self.model_family}")
         if self.current_feedback_time is not None:
             self.fit_audit.append(
                 {
                     "fit_feedback_available_time": self.current_feedback_time,
                     "arrived_feedback_count": self.feedback_count,
                     "method": self.method,
+                    "model_family": self.model_family,
                 }
             )
 
@@ -107,14 +132,16 @@ def evaluate_replicate(schedule: str, seed: int) -> list[dict]:
     oracle_by_id = oracle.set_index(frame.sample_id).loc[test_ids]
     arrived_times = set(test.label_available_time.dropna().astype(float).tolist())
     records = []
-    for policy in POLICIES:
+    for policy, model_family, method in POLICY_VARIANTS:
         learner = AuditedLearner(
             np.stack(train.features.to_numpy()),
             train.target.to_numpy(dtype=float),
             np.stack(calibration.features.to_numpy()),
             calibration.target.to_numpy(dtype=float),
             settings,
-            policy,
+            method,
+            model_family=model_family,
+            model_seed=seed,
         )
         pending: dict[str, tuple[tuple[float, ...], float]] = {}
         predictions: dict[str, float] = {}
@@ -146,6 +173,8 @@ def evaluate_replicate(schedule: str, seed: int) -> list[dict]:
                 "schedule": schedule,
                 "seed": seed,
                 "policy": policy,
+                "model_family": model_family,
+                "update_method": method,
                 "test_n": len(test),
                 "mse": float(np.mean(residual**2)),
                 "oracle_irreducible_mse": float(np.mean(oracle_noise)),
@@ -206,9 +235,12 @@ def evaluate() -> dict:
         )
         .reset_index()
     )
-    expected = len(SCHEDULES) * len(SEEDS) * len(POLICIES)
+    expected = len(SCHEDULES) * len(SEEDS) * len(POLICY_VARIANTS)
     expected_keys = {
-        (schedule, seed, policy) for schedule in SCHEDULES for seed in SEEDS for policy in POLICIES
+        (schedule, seed, policy)
+        for schedule in SCHEDULES
+        for seed in SEEDS
+        for policy, _, _ in POLICY_VARIANTS
     }
     observed_keys = {(row["schedule"], row["seed"], row["policy"]) for row in rows}
     rows_valid = (
@@ -223,11 +255,11 @@ def evaluate() -> dict:
         )
     )
     return {
-        "description": "Five-seed fitted online adaptation using frozen, periodic, and residual-CUSUM-triggered Ridge policies across four concept schedules.",
-        "protocol": "Train and calibration labels are strictly available before the first test request. During the test stream, learners receive requests and only labels yielded by timestamp-ordered replay. Equal-time requests precede feedback. Refit history contains only arrived labels. Every policy has a four-update compute budget.",
+        "description": "Five-seed fitted online adaptation using Ridge and random-forest predictors with frozen, periodic, or residual-CUSUM-triggered updates across four concept schedules.",
+        "protocol": "Train and calibration labels are strictly available before the first test request. During the test stream, learners receive requests and only labels yielded by timestamp-ordered replay. Equal-time requests precede feedback. Refit history contains only arrived labels. Every variant has a four-update compute budget. Random forests use 32 trees, depth 6, leaf size 5, and a fixed seed.",
         "limitations": [
             "The trigger threshold and review period are fixed in advance; no parameter tuning uses test outcomes.",
-            "Only one fitted model family (Ridge) and synthetic squared loss are evaluated.",
+            "Only Ridge and a fixed random-forest configuration are evaluated; hyperparameters are not tuned on test outcomes.",
             "Oracle irreducible MSE is evaluator-only; it is not exposed to the learner.",
             "Five seeds are descriptive replicates, not confidence intervals.",
         ],
@@ -242,7 +274,10 @@ def evaluate() -> dict:
             "validation_fraction": 0.1,
             "calibration_fraction": 0.2,
             "seeds": list(SEEDS),
-            "policies": list(POLICIES),
+            "policies": [
+                {"name": name, "model_family": family, "update_method": method}
+                for name, family, method in POLICY_VARIANTS
+            ],
             "update_budget": 4,
         },
         "schedule_overrides": SCHEDULES,

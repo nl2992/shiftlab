@@ -25,6 +25,8 @@ SEVERITIES = [0.0, 0.5, 1.0, 2.0]
 DIMENSIONS = [2, 4, 8, 16, 32, 64, 128, 256, 512, 1024]
 EXTENDED_DIMENSION_SEEDS = [11, 23, 37]
 EXTENDED_DIMENSION_SEVERITY = 1.0
+EXTENDED_ENDPOINT_DIMENSIONS = {32, 1024}
+EXTENDED_ENDPOINT_SEVERITIES = [0.0, 1.0, 2.0]
 EXTENDED_DIMENSION_N = 5000
 
 
@@ -91,13 +93,20 @@ def _measure(scenario: str, severity: float, features: np.ndarray, weight: np.nd
 def evaluate() -> dict:
     evidence = []
     for dimension in DIMENSIONS:
-        severities = SEVERITIES if dimension <= 16 else [EXTENDED_DIMENSION_SEVERITY]
+        if dimension <= 16:
+            severities = SEVERITIES
+        elif dimension in EXTENDED_ENDPOINT_DIMENSIONS:
+            severities = EXTENDED_ENDPOINT_SEVERITIES
+        else:
+            severities = [EXTENDED_DIMENSION_SEVERITY]
         seeds = SEEDS if dimension <= 16 else EXTENDED_DIMENSION_SEEDS
         sample_size = 30000 if dimension <= 16 else EXTENDED_DIMENSION_N
         for scenario in SCENARIOS:
             for severity in severities:
                 metric, expected, tolerance = _target(scenario, severity)
-                directional_skew_check = scenario == "feature_skew" and dimension > 16
+                directional_skew_check = (
+                    scenario == "feature_skew" and dimension > 16 and severity > 0
+                )
                 if directional_skew_check:
                     metric, expected, tolerance = "skewness_minimum", 3.0, 0.0
                 observed, oracle_errors = [], []
@@ -157,7 +166,7 @@ def evaluate() -> dict:
                     }
                 )
     return {
-        "description": "Independent pure-covariate checks across dimensions 2 through 1024. Dimensions 2, 4, 8 and 16 use five seeds, n=30000 and severities 0, 0.5, 1 and 2; dimensions 32 through 1024 use three seeds, n=5000 and severity 1 to bound runtime and memory.",
+        "description": "Independent pure-covariate checks across dimensions 2 through 1024. Dimensions 2, 4, 8 and 16 use five seeds, n=30000 and severities 0, 0.5, 1 and 2; dimensions 32 through 1024 use three seeds and n=5000 at severity 1, with endpoint dimensions 32 and 1024 additionally checked at severities 0 and 2.",
         "scenarios": SCENARIOS,
         "seeds": SEEDS,
         "severities": SEVERITIES,

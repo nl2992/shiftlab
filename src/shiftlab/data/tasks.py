@@ -148,6 +148,7 @@ def dataset_task_specs(dataset: str, config: dict) -> list[dict]:
         horizon = config.get(
             "forecast_horizon", official_m4_horizons.get(dataset_name, "per-series @horizon")
         )
+        horizon_source = config.get("forecast_horizon_source", "TSF @horizon when declared")
         return [
             {
                 "task_id": f"{dataset_name}_official_fixed_origin_forecast",
@@ -156,7 +157,7 @@ def dataset_task_specs(dataset: str, config: dict) -> list[dict]:
                 "forecast_horizon": {
                     "value": horizon,
                     "unit": "steps",
-                    "event_semantics": "per-series TSF @horizon retained in row metadata; forecast_step ranges from one to that horizon",
+                    "event_semantics": f"fixed-origin holdout; forecast_step ranges from one to {horizon}; horizon source: {horizon_source}",
                 },
                 "valid_target_mask": "finite future target; missing holdout steps remain masked and are not imputed",
                 "evaluation_metrics": ["MAE", "RMSE", "sMAPE when denominator is nonzero"],

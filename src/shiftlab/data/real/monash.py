@@ -8,6 +8,7 @@ from pathlib import Path
 
 import numpy as np
 
+from ..tasks import integer_parameter
 from .common import numeric_rows, save_source
 from .download import download
 
@@ -82,8 +83,16 @@ def tsf_chunks(handle, config):
     for index, (attributes, values, meta) in enumerate(read_tsf(handle)):
         if index >= maximum:
             break
-        horizon = int(meta.get("horizon", config.get("forecast_horizon", 0)))
-        if horizon <= 0:
+        if "horizon" in meta:
+            try:
+                horizon = int(meta["horizon"])
+            except (TypeError, ValueError) as exc:
+                raise ValueError("TSF horizon must be a positive integer") from exc
+            if str(horizon) != meta["horizon"] or horizon <= 0:
+                raise ValueError("TSF horizon must be a positive integer")
+        elif "forecast_horizon" in config:
+            horizon = integer_parameter(config["forecast_horizon"], "forecast_horizon", minimum=1)
+        else:
             raise ValueError("TSF lacks a forecast horizon; provide forecast_horizon explicitly")
         origin = len(values) - horizon
         if origin < lookback + 1:
@@ -127,6 +136,9 @@ def tsf_chunks(handle, config):
                         "outcome_index": r[4],
                         "forecast_step": r[5],
                         "official_horizon": horizon,
+                        "forecast_horizon_source": config.get(
+                            "forecast_horizon_source", "TSF @horizon"
+                        ),
                         "clock": "series-relative index; no individual release times inferred",
                     }
                 )
@@ -165,6 +177,11 @@ def acquire(config, root: Path):
         "No exogenous covariates claimed unless present as source attributes; lag features are derived from the series only.",
         f"Only the first {config.get('max_series', 20)} series are selected deterministically; this is a documented subset, not the full competition.",
     ]
+    if config.get("forecast_horizon_source"):
+        limits.append(
+            "TSF omits @horizon; configured horizon follows the cited Monash archive benchmark protocol: "
+            f"{config['forecast_horizon_source']}"
+        )
     extra = {
         "license": config.get(
             "license",

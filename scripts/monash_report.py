@@ -75,6 +75,12 @@ def build_report(root: Path) -> dict[str, object]:
                         "manifest_sha256": hashlib.sha256(manifest_path.read_bytes()).hexdigest(),
                         "code_commit": manifest.get("code_commit"),
                         "source_hash": manifest.get("source_hash"),
+                        "forecast_horizon": manifest.get("processing_config", {}).get(
+                            "forecast_horizon"
+                        ),
+                        "forecast_horizon_source": manifest.get("processing_config", {}).get(
+                            "forecast_horizon_source", "TSF @horizon when declared"
+                        ),
                         "observations": len(frame),
                         "entities": int(frame["entity_id"].nunique()),
                         "split_counts": {

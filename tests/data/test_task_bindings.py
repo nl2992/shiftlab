@@ -59,6 +59,20 @@ def test_source_bindings_state_horizon_masks_and_utility_without_inventing_avail
     assert (
         dataset_task_specs("monash", {"dataset": "m4_daily"})[0]["forecast_horizon"]["value"] == 14
     )
+    electricity = dataset_task_specs(
+        "monash",
+        {
+            "dataset": "electricity_hourly",
+            "forecast_horizon": 168,
+            "forecast_horizon_source": "paper",
+        },
+    )[0]
+    weather = dataset_task_specs(
+        "monash", {"dataset": "weather", "forecast_horizon": 30, "forecast_horizon_source": "paper"}
+    )[0]
+    assert electricity["forecast_horizon"]["value"] == 168
+    assert weather["forecast_horizon"]["value"] == 30
+    assert "source: paper" in weather["forecast_horizon"]["event_semantics"]
 
     criteo = dataset_task_specs("criteo", {"outcome_window_days": 30})[0]
     assert "label_available_time is finite" in criteo["valid_target_mask"]

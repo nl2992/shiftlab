@@ -1,4 +1,4 @@
-"""Retrospective diagnostics on local Monash/M4 official fixed-origin holdouts."""
+"""Retrospective diagnostics on local Monash official fixed-origin holdouts."""
 
 import argparse
 import json
@@ -127,11 +127,11 @@ def diagnose_dataset(path: Path) -> dict:
 def build_report(paths: list[Path]) -> dict:
     datasets = [diagnose_dataset(path) for path in paths]
     return {
-        "description": "Retrospective per-series Ridge and naive-baseline metrics on publisher-declared Monash/M4 fixed-origin holdouts.",
+        "description": "Retrospective per-series Ridge and naive-baseline metrics on Monash fixed-origin holdouts with TSF-declared or cited archive-protocol horizons.",
         "protocol": {
             "fit": "Ridge uses only finite rows marked train within each series; imputation and scaling are fit on training features only.",
             "baselines": "Last observed value at the official origin and the training-target mean; MASE denominator is mean absolute one-step change in training targets (fallback 1 only for a constant series).",
-            "holdout": "Publisher-declared forecast steps are scored individually and aggregated per series; no random split or horizon substitution is used.",
+            "holdout": "Source-declared forecast steps are scored individually and aggregated per series; datasets without a TSF @horizon use only a horizon documented in the Monash archive paper and recorded in configuration and manifests.",
             "time": "TSF sequence indices are ordinal within-series positions, not verified event, publication, or label-availability times.",
             "uncertainty": "Per-series descriptive results only. The deterministic first-series subset is not treated as an IID sample of the full competition.",
         },

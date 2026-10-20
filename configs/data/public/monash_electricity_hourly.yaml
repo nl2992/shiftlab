@@ -1,4 +1,6 @@
 dataset: electricity_hourly
 max_series: 20
 lookback: 8
+forecast_horizon: 168
+forecast_horizon_source: https://arxiv.org/abs/2105.06643
 max_download_bytes: 250000000

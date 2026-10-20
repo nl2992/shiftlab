@@ -203,6 +203,34 @@ def test_monash_holdout_keeps_incomplete_target_mask_and_declared_horizon():
     assert all(json.loads(value)["official_horizon"] == 3 for value in holdout.metadata)
 
 
+def test_monash_configured_horizon_is_explicit_and_rejects_boolean():
+    no_header = TSF.replace("@horizon 3\n", "")
+    frame, _ = next(
+        tsf_chunks(
+            io.StringIO(no_header),
+            {
+                "lookback": 2,
+                "max_series": 1,
+                "forecast_horizon": 3,
+                "forecast_horizon_source": "https://example.test/benchmark",
+            },
+        )
+    )
+    holdout = frame.loc[frame.split == "test"]
+    assert holdout.target.tolist() == [8.0, 9.0, 10.0]
+    metadata = [json.loads(value) for value in holdout.metadata]
+    assert all(
+        row["forecast_horizon_source"] == "https://example.test/benchmark" for row in metadata
+    )
+    with pytest.raises(TypeError, match="forecast_horizon must be an integer"):
+        next(
+            tsf_chunks(
+                io.StringIO(no_header),
+                {"lookback": 2, "max_series": 1, "forecast_horizon": True},
+            )
+        )
+
+
 def test_criteo_feedback_and_censoring():
     original = pd.DataFrame({name: [1, 1, 1] for name in COLUMNS})
     original["sale"] = [1, 0, 1]

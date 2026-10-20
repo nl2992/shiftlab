@@ -3,6 +3,8 @@
 Checks use actual stored observations. Oracle radii describe the DGP, not fitted-model residuals. Monte Carlo deviations are diagnostic, not guaranteed test power.
 Each bullet names one immutable stored version and its generation configuration. Versions are not independent replicates.
 
+- Scenario-wide oracle quantile validation: 43/43 scenarios pass exact CDF and replicated coverage gates (36 regression laws; remaining scenarios are classification tasks without residual interval radii). Evidence: `scenario_quantile_validation.json`; processing commit `dd5aa3bfa27d5feecc5b0a57856ef92c1adcc480`.
+
 - `ar1@8a9348a9fe075dd2559f (n=5000, d=4, seed=42, severity=1.0, pattern=abrupt)`: mean residual=0.00780, iid descriptive SE=0.00423, oracle 90% radius coverage=0.9006; temporal cases require dependence-aware SE.
   Lag-1 autocorrelation=0.5920; configured rho=0.6.
 - `ar1@a303a4edf08d63bc4335 (n=5000, d=4, seed=42, severity=1.0, pattern=abrupt)`: mean residual=0.00780, iid descriptive SE=0.00423, oracle 90% radius coverage=0.9006; temporal cases require dependence-aware SE.

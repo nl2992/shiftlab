@@ -1,7 +1,7 @@
 {
   "environment": {
     "cpu_ram_bytes": 16858472448,
-    "disk_free_bytes": 69953208320,
+    "disk_free_bytes": 69091135488,
     "cuda_available": true,
     "nvidia_smi": "NVIDIA GeForce RTX 4060 Laptop GPU, 8188 MiB, 592.82, 0 %, 10 MiB",
     "torch_version": "2.9.1+cu130",

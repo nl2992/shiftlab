@@ -1,6 +1,6 @@
 {
-  "description": "Five-seed fitted online adaptation using Ridge and random-forest predictors with frozen, periodic, residual-CUSUM-triggered refitting, periodic or triggered residual-bias recalibration, and triggered normalized-gradient partial updates, fixed/rolling/exponential radii, four action slots and an action-specific compute budget, across four concept schedules.",
-  "protocol": "Train and calibration labels are strictly available before the first test request. During the test stream, learners receive requests and only labels yielded by timestamp-ordered replay. Equal-time requests precede feedback. Refit history contains only arrived labels. Every variant has at most four action slots and a 12-unit imposed compute budget. Recalibration updates only a scalar prediction bias from arrived signed residuals; partial update applies one normalized stochastic-gradient step to Ridge coefficients and intercept. Per-action resource costs are 1 unit for recalibration, 2 for partial update, 4 for Ridge refit, and 8 for random-forest refit. Rolling- and exponentially weighted-radius arms keep their Ridge predictor update schedule identical to the fixed-radius triggered arm; residual scores enter only when labels arrive and use the forecast made earlier for that sample. Exponential score weights use label-availability times and an 80-step half-life, with one unit of test-point mass. Random forests use 32 trees, depth 6, leaf size 5, and a fixed seed.",
+  "description": "Five-seed fitted online adaptation using Ridge and random-forest predictors with frozen, periodic, feedback-triggered, or validation-loss-triggered refitting; periodic or triggered residual-bias recalibration; and triggered normalized-gradient partial updates, fixed/rolling/exponential radii, four action slots and an action-specific compute budget, across four concept schedules.",
+  "protocol": "Train, validation, and calibration labels are strictly available before the first test request. The validation-trigger threshold is fixed at the initial model's validation squared-error mean plus two validation standard deviations; it triggers when the rolling mean of 80 arrived test-feedback squared errors exceeds that threshold. During the test stream, learners receive requests and only labels yielded by timestamp-ordered replay. Equal-time requests precede feedback. Refit history contains only arrived labels. Every variant has at most four action slots and a 12-unit imposed compute budget. Recalibration updates only a scalar prediction bias from arrived signed residuals; partial update applies one normalized stochastic-gradient step to Ridge coefficients and intercept. Per-action resource costs are 1 unit for recalibration, 2 for partial update, 4 for Ridge refit, and 8 for random-forest refit. Rolling- and exponentially weighted-radius arms keep their Ridge predictor update schedule identical to the fixed-radius triggered arm; residual scores enter only when labels arrive and use the forecast made earlier for that sample. Exponential score weights use label-availability times and an 80-step half-life, with one unit of test-point mass. Random forests use 32 trees, depth 6, leaf size 5, and a fixed seed.",
   "limitations": [
     "The trigger threshold and review period are fixed in advance; no parameter tuning uses test outcomes.",
     "Only Ridge and a fixed random-forest configuration are evaluated; hyperparameters are not tuned on test outcomes.",
@@ -53,6 +53,13 @@
         "name": "ridge_triggered",
         "model_family": "ridge",
         "update_method": "triggered",
+        "radius_method": "fixed",
+        "radius_half_life": null
+      },
+      {
+        "name": "ridge_validation_triggered",
+        "model_family": "ridge",
+        "update_method": "validation_triggered",
         "radius_method": "fixed",
         "radius_half_life": null
       },
@@ -209,6 +216,7 @@
       "fit_audit": [],
       "intervention_audit": [],
       "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -343,6 +351,7 @@
         }
       ],
       "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -468,6 +477,7 @@
         }
       ],
       "final_bias_correction": -0.017150074832333093,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -602,6 +612,142 @@
         }
       ],
       "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "abrupt",
+      "seed": 11,
+      "policy": "ridge_validation_triggered",
+      "model_family": "ridge",
+      "update_method": "validation_triggered",
+      "radius_method": "fixed",
+      "test_n": 800,
+      "mse": 0.5422124677146575,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 0.4522124677146575,
+      "shifted_or_transition_mse": 0.7327623065820172,
+      "coverage": 0.8225,
+      "mean_interval_width": 1.0245963392616577,
+      "coverage_by_test_block": [
+        {
+          "block": 0,
+          "n": 100,
+          "coverage": 0.92,
+          "mean_width": 1.024596339261658
+        },
+        {
+          "block": 1,
+          "n": 100,
+          "coverage": 0.88,
+          "mean_width": 1.024596339261658
+        },
+        {
+          "block": 2,
+          "n": 100,
+          "coverage": 0.48,
+          "mean_width": 1.024596339261658
+        },
+        {
+          "block": 3,
+          "n": 100,
+          "coverage": 0.65,
+          "mean_width": 1.024596339261658
+        },
+        {
+          "block": 4,
+          "n": 100,
+          "coverage": 0.91,
+          "mean_width": 1.024596339261658
+        },
+        {
+          "block": 5,
+          "n": 100,
+          "coverage": 0.9,
+          "mean_width": 1.024596339261658
+        },
+        {
+          "block": 6,
+          "n": 100,
+          "coverage": 0.95,
+          "mean_width": 1.024596339261658
+        },
+        {
+          "block": 7,
+          "n": 100,
+          "coverage": 0.89,
+          "mean_width": 1.024596339261658
+        }
+      ],
+      "update_count": 3,
+      "update_times": [
+        1053,
+        1140,
+        1225
+      ],
+      "update_budget": 4,
+      "resource_spent": 12.0,
+      "resource_budget": 12.0,
+      "intervention_resource_costs": {
+        "residual_bias_recalibration": 1.0,
+        "normalized_sgd_partial_update": 2.0,
+        "refit": 4.0
+      },
+      "feedback_received": 706,
+      "feedback_missing_or_delayed_past_horizon": 94,
+      "trigger_alarm_count": 69,
+      "fit_audit": [
+        {
+          "fit_feedback_available_time": 1053.0,
+          "arrived_feedback_count": 215,
+          "method": "validation_triggered",
+          "model_family": "ridge"
+        },
+        {
+          "fit_feedback_available_time": 1140.0,
+          "arrived_feedback_count": 295,
+          "method": "validation_triggered",
+          "model_family": "ridge"
+        },
+        {
+          "fit_feedback_available_time": 1225.0,
+          "arrived_feedback_count": 375,
+          "method": "validation_triggered",
+          "model_family": "ridge"
+        }
+      ],
+      "intervention_audit": [
+        {
+          "available_at": 1053.0,
+          "arrived_feedback_count": 215,
+          "method": "validation_triggered",
+          "action": "refit",
+          "resource_cost": 4.0,
+          "resource_spent": 4.0,
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1140.0,
+          "arrived_feedback_count": 295,
+          "method": "validation_triggered",
+          "action": "refit",
+          "resource_cost": 4.0,
+          "resource_spent": 8.0,
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1225.0,
+          "arrived_feedback_count": 375,
+          "method": "validation_triggered",
+          "action": "refit",
+          "resource_cost": 4.0,
+          "resource_spent": 12.0,
+          "bias_correction": 0.0
+        }
+      ],
+      "final_bias_correction": 0.0,
+      "validation_loss_threshold": 0.4052405385594459,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -727,6 +873,7 @@
         }
       ],
       "final_bias_correction": 0.05716848676444247,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -852,6 +999,7 @@
         }
       ],
       "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -986,6 +1134,7 @@
         }
       ],
       "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -1120,6 +1269,7 @@
         }
       ],
       "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -1203,6 +1353,7 @@
       "fit_audit": [],
       "intervention_audit": [],
       "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -1305,6 +1456,7 @@
         }
       ],
       "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -1388,6 +1540,7 @@
       "fit_audit": [],
       "intervention_audit": [],
       "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -1522,6 +1675,7 @@
         }
       ],
       "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -1647,6 +1801,7 @@
         }
       ],
       "final_bias_correction": 0.0016230849584010984,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -1781,6 +1936,142 @@
         }
       ],
       "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "abrupt",
+      "seed": 23,
+      "policy": "ridge_validation_triggered",
+      "model_family": "ridge",
+      "update_method": "validation_triggered",
+      "radius_method": "fixed",
+      "test_n": 800,
+      "mse": 0.6800330448407185,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 0.5900330448407185,
+      "shifted_or_transition_mse": 0.9251234427409533,
+      "coverage": 0.76375,
+      "mean_interval_width": 0.9448773239717257,
+      "coverage_by_test_block": [
+        {
+          "block": 0,
+          "n": 100,
+          "coverage": 0.88,
+          "mean_width": 0.9448773239717257
+        },
+        {
+          "block": 1,
+          "n": 100,
+          "coverage": 0.86,
+          "mean_width": 0.9448773239717257
+        },
+        {
+          "block": 2,
+          "n": 100,
+          "coverage": 0.4,
+          "mean_width": 0.9448773239717257
+        },
+        {
+          "block": 3,
+          "n": 100,
+          "coverage": 0.47,
+          "mean_width": 0.9448773239717257
+        },
+        {
+          "block": 4,
+          "n": 100,
+          "coverage": 0.8,
+          "mean_width": 0.9448773239717257
+        },
+        {
+          "block": 5,
+          "n": 100,
+          "coverage": 0.9,
+          "mean_width": 0.9448773239717257
+        },
+        {
+          "block": 6,
+          "n": 100,
+          "coverage": 0.91,
+          "mean_width": 0.9448773239717257
+        },
+        {
+          "block": 7,
+          "n": 100,
+          "coverage": 0.89,
+          "mean_width": 0.9448773239717257
+        }
+      ],
+      "update_count": 3,
+      "update_times": [
+        1056,
+        1150,
+        1239
+      ],
+      "update_budget": 4,
+      "resource_spent": 12.0,
+      "resource_budget": 12.0,
+      "intervention_resource_costs": {
+        "residual_bias_recalibration": 1.0,
+        "normalized_sgd_partial_update": 2.0,
+        "refit": 4.0
+      },
+      "feedback_received": 710,
+      "feedback_missing_or_delayed_past_horizon": 90,
+      "trigger_alarm_count": 81,
+      "fit_audit": [
+        {
+          "fit_feedback_available_time": 1056.0,
+          "arrived_feedback_count": 223,
+          "method": "validation_triggered",
+          "model_family": "ridge"
+        },
+        {
+          "fit_feedback_available_time": 1150.0,
+          "arrived_feedback_count": 303,
+          "method": "validation_triggered",
+          "model_family": "ridge"
+        },
+        {
+          "fit_feedback_available_time": 1239.0,
+          "arrived_feedback_count": 383,
+          "method": "validation_triggered",
+          "model_family": "ridge"
+        }
+      ],
+      "intervention_audit": [
+        {
+          "available_at": 1056.0,
+          "arrived_feedback_count": 223,
+          "method": "validation_triggered",
+          "action": "refit",
+          "resource_cost": 4.0,
+          "resource_spent": 4.0,
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1150.0,
+          "arrived_feedback_count": 303,
+          "method": "validation_triggered",
+          "action": "refit",
+          "resource_cost": 4.0,
+          "resource_spent": 8.0,
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1239.0,
+          "arrived_feedback_count": 383,
+          "method": "validation_triggered",
+          "action": "refit",
+          "resource_cost": 4.0,
+          "resource_spent": 12.0,
+          "bias_correction": 0.0
+        }
+      ],
+      "final_bias_correction": 0.0,
+      "validation_loss_threshold": 0.43413848875802713,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -1906,6 +2197,7 @@
         }
       ],
       "final_bias_correction": 0.029336214527153907,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -2031,6 +2323,7 @@
         }
       ],
       "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -2165,6 +2458,7 @@
         }
       ],
       "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -2299,6 +2593,7 @@
         }
       ],
       "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -2382,6 +2677,7 @@
       "fit_audit": [],
       "intervention_audit": [],
       "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -2484,6 +2780,7 @@
         }
       ],
       "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -2567,6 +2864,7 @@
       "fit_audit": [],
       "intervention_audit": [],
       "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -2701,6 +2999,7 @@
         }
       ],
       "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -2826,6 +3125,7 @@
         }
       ],
       "final_bias_correction": -0.00930616797802416,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -2960,6 +3260,126 @@
         }
       ],
       "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "abrupt",
+      "seed": 37,
+      "policy": "ridge_validation_triggered",
+      "model_family": "ridge",
+      "update_method": "validation_triggered",
+      "radius_method": "fixed",
+      "test_n": 800,
+      "mse": 0.5854242196795653,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 0.4954242196795653,
+      "shifted_or_transition_mse": 0.8001864689359466,
+      "coverage": 0.83,
+      "mean_interval_width": 1.0143748824370695,
+      "coverage_by_test_block": [
+        {
+          "block": 0,
+          "n": 100,
+          "coverage": 0.93,
+          "mean_width": 1.0143748824370693
+        },
+        {
+          "block": 1,
+          "n": 100,
+          "coverage": 0.86,
+          "mean_width": 1.0143748824370693
+        },
+        {
+          "block": 2,
+          "n": 100,
+          "coverage": 0.52,
+          "mean_width": 1.0143748824370693
+        },
+        {
+          "block": 3,
+          "n": 100,
+          "coverage": 0.63,
+          "mean_width": 1.0143748824370693
+        },
+        {
+          "block": 4,
+          "n": 100,
+          "coverage": 0.93,
+          "mean_width": 1.0143748824370693
+        },
+        {
+          "block": 5,
+          "n": 100,
+          "coverage": 0.92,
+          "mean_width": 1.0143748824370693
+        },
+        {
+          "block": 6,
+          "n": 100,
+          "coverage": 0.94,
+          "mean_width": 1.0143748824370693
+        },
+        {
+          "block": 7,
+          "n": 100,
+          "coverage": 0.91,
+          "mean_width": 1.0143748824370693
+        }
+      ],
+      "update_count": 2,
+      "update_times": [
+        1052,
+        1143
+      ],
+      "update_budget": 4,
+      "resource_spent": 8.0,
+      "resource_budget": 12.0,
+      "intervention_resource_costs": {
+        "residual_bias_recalibration": 1.0,
+        "normalized_sgd_partial_update": 2.0,
+        "refit": 4.0
+      },
+      "feedback_received": 699,
+      "feedback_missing_or_delayed_past_horizon": 101,
+      "trigger_alarm_count": 58,
+      "fit_audit": [
+        {
+          "fit_feedback_available_time": 1052.0,
+          "arrived_feedback_count": 217,
+          "method": "validation_triggered",
+          "model_family": "ridge"
+        },
+        {
+          "fit_feedback_available_time": 1143.0,
+          "arrived_feedback_count": 297,
+          "method": "validation_triggered",
+          "model_family": "ridge"
+        }
+      ],
+      "intervention_audit": [
+        {
+          "available_at": 1052.0,
+          "arrived_feedback_count": 217,
+          "method": "validation_triggered",
+          "action": "refit",
+          "resource_cost": 4.0,
+          "resource_spent": 4.0,
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1143.0,
+          "arrived_feedback_count": 297,
+          "method": "validation_triggered",
+          "action": "refit",
+          "resource_cost": 4.0,
+          "resource_spent": 8.0,
+          "bias_correction": 0.0
+        }
+      ],
+      "final_bias_correction": 0.0,
+      "validation_loss_threshold": 0.38310890894662075,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -3085,6 +3505,7 @@
         }
       ],
       "final_bias_correction": -0.07509372193098332,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -3210,6 +3631,7 @@
         }
       ],
       "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -3344,6 +3766,7 @@
         }
       ],
       "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -3478,6 +3901,7 @@
         }
       ],
       "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -3561,6 +3985,7 @@
       "fit_audit": [],
       "intervention_audit": [],
       "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -3663,6 +4088,7 @@
         }
       ],
       "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -3746,6 +4172,7 @@
       "fit_audit": [],
       "intervention_audit": [],
       "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -3880,6 +4307,7 @@
         }
       ],
       "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -4005,6 +4433,7 @@
         }
       ],
       "final_bias_correction": 0.002390808112346973,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -4123,6 +4552,126 @@
         }
       ],
       "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "abrupt",
+      "seed": 53,
+      "policy": "ridge_validation_triggered",
+      "model_family": "ridge",
+      "update_method": "validation_triggered",
+      "radius_method": "fixed",
+      "test_n": 800,
+      "mse": 0.4361989863240138,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 0.3461989863240138,
+      "shifted_or_transition_mse": 0.5885393526149587,
+      "coverage": 0.8075,
+      "mean_interval_width": 0.9765666562644296,
+      "coverage_by_test_block": [
+        {
+          "block": 0,
+          "n": 100,
+          "coverage": 0.92,
+          "mean_width": 0.9765666562644294
+        },
+        {
+          "block": 1,
+          "n": 100,
+          "coverage": 0.9,
+          "mean_width": 0.9765666562644294
+        },
+        {
+          "block": 2,
+          "n": 100,
+          "coverage": 0.47,
+          "mean_width": 0.9765666562644294
+        },
+        {
+          "block": 3,
+          "n": 100,
+          "coverage": 0.62,
+          "mean_width": 0.9765666562644294
+        },
+        {
+          "block": 4,
+          "n": 100,
+          "coverage": 0.91,
+          "mean_width": 0.9765666562644294
+        },
+        {
+          "block": 5,
+          "n": 100,
+          "coverage": 0.87,
+          "mean_width": 0.9765666562644294
+        },
+        {
+          "block": 6,
+          "n": 100,
+          "coverage": 0.87,
+          "mean_width": 0.9765666562644294
+        },
+        {
+          "block": 7,
+          "n": 100,
+          "coverage": 0.9,
+          "mean_width": 0.9765666562644294
+        }
+      ],
+      "update_count": 2,
+      "update_times": [
+        1055,
+        1139
+      ],
+      "update_budget": 4,
+      "resource_spent": 8.0,
+      "resource_budget": 12.0,
+      "intervention_resource_costs": {
+        "residual_bias_recalibration": 1.0,
+        "normalized_sgd_partial_update": 2.0,
+        "refit": 4.0
+      },
+      "feedback_received": 720,
+      "feedback_missing_or_delayed_past_horizon": 80,
+      "trigger_alarm_count": 69,
+      "fit_audit": [
+        {
+          "fit_feedback_available_time": 1055.0,
+          "arrived_feedback_count": 225,
+          "method": "validation_triggered",
+          "model_family": "ridge"
+        },
+        {
+          "fit_feedback_available_time": 1139.0,
+          "arrived_feedback_count": 305,
+          "method": "validation_triggered",
+          "model_family": "ridge"
+        }
+      ],
+      "intervention_audit": [
+        {
+          "available_at": 1055.0,
+          "arrived_feedback_count": 225,
+          "method": "validation_triggered",
+          "action": "refit",
+          "resource_cost": 4.0,
+          "resource_spent": 4.0,
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1139.0,
+          "arrived_feedback_count": 305,
+          "method": "validation_triggered",
+          "action": "refit",
+          "resource_cost": 4.0,
+          "resource_spent": 8.0,
+          "bias_correction": 0.0
+        }
+      ],
+      "final_bias_correction": 0.0,
+      "validation_loss_threshold": 0.385690223990279,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -4248,6 +4797,7 @@
         }
       ],
       "final_bias_correction": -0.33306973801719475,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -4373,6 +4923,7 @@
         }
       ],
       "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -4491,6 +5042,7 @@
         }
       ],
       "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -4609,6 +5161,7 @@
         }
       ],
       "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -4692,6 +5245,7 @@
       "fit_audit": [],
       "intervention_audit": [],
       "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -4794,6 +5348,7 @@
         }
       ],
       "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -4877,6 +5432,7 @@
       "fit_audit": [],
       "intervention_audit": [],
       "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -5011,6 +5567,7 @@
         }
       ],
       "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -5136,6 +5693,7 @@
         }
       ],
       "final_bias_correction": 0.08160649166256222,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -5270,6 +5828,126 @@
         }
       ],
       "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "abrupt",
+      "seed": 71,
+      "policy": "ridge_validation_triggered",
+      "model_family": "ridge",
+      "update_method": "validation_triggered",
+      "radius_method": "fixed",
+      "test_n": 800,
+      "mse": 0.6385173724043988,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 0.5485173724043988,
+      "shifted_or_transition_mse": 0.8777401656378288,
+      "coverage": 0.80125,
+      "mean_interval_width": 0.8834541225667963,
+      "coverage_by_test_block": [
+        {
+          "block": 0,
+          "n": 100,
+          "coverage": 0.91,
+          "mean_width": 0.8834541225667967
+        },
+        {
+          "block": 1,
+          "n": 100,
+          "coverage": 0.84,
+          "mean_width": 0.8834541225667967
+        },
+        {
+          "block": 2,
+          "n": 100,
+          "coverage": 0.61,
+          "mean_width": 0.8834541225667967
+        },
+        {
+          "block": 3,
+          "n": 100,
+          "coverage": 0.6,
+          "mean_width": 0.8834541225667967
+        },
+        {
+          "block": 4,
+          "n": 100,
+          "coverage": 0.88,
+          "mean_width": 0.8834541225667967
+        },
+        {
+          "block": 5,
+          "n": 100,
+          "coverage": 0.92,
+          "mean_width": 0.8834541225667967
+        },
+        {
+          "block": 6,
+          "n": 100,
+          "coverage": 0.85,
+          "mean_width": 0.8834541225667967
+        },
+        {
+          "block": 7,
+          "n": 100,
+          "coverage": 0.8,
+          "mean_width": 0.8834541225667967
+        }
+      ],
+      "update_count": 2,
+      "update_times": [
+        1059,
+        1146
+      ],
+      "update_budget": 4,
+      "resource_spent": 8.0,
+      "resource_budget": 12.0,
+      "intervention_resource_costs": {
+        "residual_bias_recalibration": 1.0,
+        "normalized_sgd_partial_update": 2.0,
+        "refit": 4.0
+      },
+      "feedback_received": 709,
+      "feedback_missing_or_delayed_past_horizon": 91,
+      "trigger_alarm_count": 70,
+      "fit_audit": [
+        {
+          "fit_feedback_available_time": 1059.0,
+          "arrived_feedback_count": 227,
+          "method": "validation_triggered",
+          "model_family": "ridge"
+        },
+        {
+          "fit_feedback_available_time": 1146.0,
+          "arrived_feedback_count": 307,
+          "method": "validation_triggered",
+          "model_family": "ridge"
+        }
+      ],
+      "intervention_audit": [
+        {
+          "available_at": 1059.0,
+          "arrived_feedback_count": 227,
+          "method": "validation_triggered",
+          "action": "refit",
+          "resource_cost": 4.0,
+          "resource_spent": 4.0,
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1146.0,
+          "arrived_feedback_count": 307,
+          "method": "validation_triggered",
+          "action": "refit",
+          "resource_cost": 4.0,
+          "resource_spent": 8.0,
+          "bias_correction": 0.0
+        }
+      ],
+      "final_bias_correction": 0.0,
+      "validation_loss_threshold": 0.3032487280843898,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -5395,6 +6073,7 @@
         }
       ],
       "final_bias_correction": 0.09178656258437026,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -5520,6 +6199,7 @@
         }
       ],
       "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -5654,6 +6334,7 @@
         }
       ],
       "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -5788,6 +6469,7 @@
         }
       ],
       "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -5871,6 +6553,7 @@
       "fit_audit": [],
       "intervention_audit": [],
       "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -5973,6 +6656,7 @@
         }
       ],
       "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -6056,6 +6740,7 @@
       "fit_audit": [],
       "intervention_audit": [],
       "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -6190,6 +6875,7 @@
         }
       ],
       "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -6315,6 +7001,7 @@
         }
       ],
       "final_bias_correction": 0.04818177883076963,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -6449,6 +7136,142 @@
         }
       ],
       "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "gradual",
+      "seed": 11,
+      "policy": "ridge_validation_triggered",
+      "model_family": "ridge",
+      "update_method": "validation_triggered",
+      "radius_method": "fixed",
+      "test_n": 800,
+      "mse": 0.27988288579698783,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 0.18988288579698792,
+      "shifted_or_transition_mse": 0.3027023032345607,
+      "coverage": 0.765,
+      "mean_interval_width": 1.0245963392616577,
+      "coverage_by_test_block": [
+        {
+          "block": 0,
+          "n": 100,
+          "coverage": 0.89,
+          "mean_width": 1.024596339261658
+        },
+        {
+          "block": 1,
+          "n": 100,
+          "coverage": 0.6,
+          "mean_width": 1.024596339261658
+        },
+        {
+          "block": 2,
+          "n": 100,
+          "coverage": 0.5,
+          "mean_width": 1.024596339261658
+        },
+        {
+          "block": 3,
+          "n": 100,
+          "coverage": 0.64,
+          "mean_width": 1.024596339261658
+        },
+        {
+          "block": 4,
+          "n": 100,
+          "coverage": 0.86,
+          "mean_width": 1.024596339261658
+        },
+        {
+          "block": 5,
+          "n": 100,
+          "coverage": 0.85,
+          "mean_width": 1.024596339261658
+        },
+        {
+          "block": 6,
+          "n": 100,
+          "coverage": 0.92,
+          "mean_width": 1.024596339261658
+        },
+        {
+          "block": 7,
+          "n": 100,
+          "coverage": 0.86,
+          "mean_width": 1.024596339261658
+        }
+      ],
+      "update_count": 3,
+      "update_times": [
+        980,
+        1067,
+        1155
+      ],
+      "update_budget": 4,
+      "resource_spent": 12.0,
+      "resource_budget": 12.0,
+      "intervention_resource_costs": {
+        "residual_bias_recalibration": 1.0,
+        "normalized_sgd_partial_update": 2.0,
+        "refit": 4.0
+      },
+      "feedback_received": 706,
+      "feedback_missing_or_delayed_past_horizon": 94,
+      "trigger_alarm_count": 73,
+      "fit_audit": [
+        {
+          "fit_feedback_available_time": 980.0,
+          "arrived_feedback_count": 149,
+          "method": "validation_triggered",
+          "model_family": "ridge"
+        },
+        {
+          "fit_feedback_available_time": 1067.0,
+          "arrived_feedback_count": 229,
+          "method": "validation_triggered",
+          "model_family": "ridge"
+        },
+        {
+          "fit_feedback_available_time": 1155.0,
+          "arrived_feedback_count": 309,
+          "method": "validation_triggered",
+          "model_family": "ridge"
+        }
+      ],
+      "intervention_audit": [
+        {
+          "available_at": 980.0,
+          "arrived_feedback_count": 149,
+          "method": "validation_triggered",
+          "action": "refit",
+          "resource_cost": 4.0,
+          "resource_spent": 4.0,
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1067.0,
+          "arrived_feedback_count": 229,
+          "method": "validation_triggered",
+          "action": "refit",
+          "resource_cost": 4.0,
+          "resource_spent": 8.0,
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1155.0,
+          "arrived_feedback_count": 309,
+          "method": "validation_triggered",
+          "action": "refit",
+          "resource_cost": 4.0,
+          "resource_spent": 12.0,
+          "bias_correction": 0.0
+        }
+      ],
+      "final_bias_correction": 0.0,
+      "validation_loss_threshold": 0.4052405385594459,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -6574,6 +7397,7 @@
         }
       ],
       "final_bias_correction": -0.005490929824302659,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -6699,6 +7523,7 @@
         }
       ],
       "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -6833,6 +7658,7 @@
         }
       ],
       "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -6967,6 +7793,7 @@
         }
       ],
       "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -7050,6 +7877,7 @@
       "fit_audit": [],
       "intervention_audit": [],
       "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -7152,6 +7980,7 @@
         }
       ],
       "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -7235,6 +8064,7 @@
       "fit_audit": [],
       "intervention_audit": [],
       "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -7369,6 +8199,7 @@
         }
       ],
       "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -7494,6 +8325,7 @@
         }
       ],
       "final_bias_correction": 0.14403715800785463,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -7628,6 +8460,142 @@
         }
       ],
       "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "gradual",
+      "seed": 23,
+      "policy": "ridge_validation_triggered",
+      "model_family": "ridge",
+      "update_method": "validation_triggered",
+      "radius_method": "fixed",
+      "test_n": 800,
+      "mse": 0.27112501620443125,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 0.1811250162044312,
+      "shifted_or_transition_mse": 0.28890590589672016,
+      "coverage": 0.72375,
+      "mean_interval_width": 0.9448773239717257,
+      "coverage_by_test_block": [
+        {
+          "block": 0,
+          "n": 100,
+          "coverage": 0.88,
+          "mean_width": 0.9448773239717257
+        },
+        {
+          "block": 1,
+          "n": 100,
+          "coverage": 0.55,
+          "mean_width": 0.9448773239717257
+        },
+        {
+          "block": 2,
+          "n": 100,
+          "coverage": 0.39,
+          "mean_width": 0.9448773239717257
+        },
+        {
+          "block": 3,
+          "n": 100,
+          "coverage": 0.53,
+          "mean_width": 0.9448773239717257
+        },
+        {
+          "block": 4,
+          "n": 100,
+          "coverage": 0.81,
+          "mean_width": 0.9448773239717257
+        },
+        {
+          "block": 5,
+          "n": 100,
+          "coverage": 0.87,
+          "mean_width": 0.9448773239717257
+        },
+        {
+          "block": 6,
+          "n": 100,
+          "coverage": 0.89,
+          "mean_width": 0.9448773239717257
+        },
+        {
+          "block": 7,
+          "n": 100,
+          "coverage": 0.87,
+          "mean_width": 0.9448773239717257
+        }
+      ],
+      "update_count": 3,
+      "update_times": [
+        999,
+        1084,
+        1178
+      ],
+      "update_budget": 4,
+      "resource_spent": 12.0,
+      "resource_budget": 12.0,
+      "intervention_resource_costs": {
+        "residual_bias_recalibration": 1.0,
+        "normalized_sgd_partial_update": 2.0,
+        "refit": 4.0
+      },
+      "feedback_received": 710,
+      "feedback_missing_or_delayed_past_horizon": 90,
+      "trigger_alarm_count": 74,
+      "fit_audit": [
+        {
+          "fit_feedback_available_time": 999.0,
+          "arrived_feedback_count": 169,
+          "method": "validation_triggered",
+          "model_family": "ridge"
+        },
+        {
+          "fit_feedback_available_time": 1084.0,
+          "arrived_feedback_count": 249,
+          "method": "validation_triggered",
+          "model_family": "ridge"
+        },
+        {
+          "fit_feedback_available_time": 1178.0,
+          "arrived_feedback_count": 329,
+          "method": "validation_triggered",
+          "model_family": "ridge"
+        }
+      ],
+      "intervention_audit": [
+        {
+          "available_at": 999.0,
+          "arrived_feedback_count": 169,
+          "method": "validation_triggered",
+          "action": "refit",
+          "resource_cost": 4.0,
+          "resource_spent": 4.0,
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1084.0,
+          "arrived_feedback_count": 249,
+          "method": "validation_triggered",
+          "action": "refit",
+          "resource_cost": 4.0,
+          "resource_spent": 8.0,
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1178.0,
+          "arrived_feedback_count": 329,
+          "method": "validation_triggered",
+          "action": "refit",
+          "resource_cost": 4.0,
+          "resource_spent": 12.0,
+          "bias_correction": 0.0
+        }
+      ],
+      "final_bias_correction": 0.0,
+      "validation_loss_threshold": 0.43413848875802713,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -7753,6 +8721,7 @@
         }
       ],
       "final_bias_correction": 0.07079415466316577,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -7878,6 +8847,7 @@
         }
       ],
       "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -8012,6 +8982,7 @@
         }
       ],
       "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -8146,6 +9117,7 @@
         }
       ],
       "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -8229,6 +9201,7 @@
       "fit_audit": [],
       "intervention_audit": [],
       "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -8331,6 +9304,7 @@
         }
       ],
       "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -8414,6 +9388,7 @@
       "fit_audit": [],
       "intervention_audit": [],
       "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -8548,6 +9523,7 @@
         }
       ],
       "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -8673,6 +9649,7 @@
         }
       ],
       "final_bias_correction": -0.06849031693183574,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -8807,6 +9784,142 @@
         }
       ],
       "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "gradual",
+      "seed": 37,
+      "policy": "ridge_validation_triggered",
+      "model_family": "ridge",
+      "update_method": "validation_triggered",
+      "radius_method": "fixed",
+      "test_n": 800,
+      "mse": 0.26892978564973824,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 0.17892978564973827,
+      "shifted_or_transition_mse": 0.29072574405620427,
+      "coverage": 0.7775,
+      "mean_interval_width": 1.0143748824370695,
+      "coverage_by_test_block": [
+        {
+          "block": 0,
+          "n": 100,
+          "coverage": 0.93,
+          "mean_width": 1.0143748824370693
+        },
+        {
+          "block": 1,
+          "n": 100,
+          "coverage": 0.58,
+          "mean_width": 1.0143748824370693
+        },
+        {
+          "block": 2,
+          "n": 100,
+          "coverage": 0.57,
+          "mean_width": 1.0143748824370693
+        },
+        {
+          "block": 3,
+          "n": 100,
+          "coverage": 0.59,
+          "mean_width": 1.0143748824370693
+        },
+        {
+          "block": 4,
+          "n": 100,
+          "coverage": 0.88,
+          "mean_width": 1.0143748824370693
+        },
+        {
+          "block": 5,
+          "n": 100,
+          "coverage": 0.86,
+          "mean_width": 1.0143748824370693
+        },
+        {
+          "block": 6,
+          "n": 100,
+          "coverage": 0.95,
+          "mean_width": 1.0143748824370693
+        },
+        {
+          "block": 7,
+          "n": 100,
+          "coverage": 0.86,
+          "mean_width": 1.0143748824370693
+        }
+      ],
+      "update_count": 3,
+      "update_times": [
+        996,
+        1084,
+        1177
+      ],
+      "update_budget": 4,
+      "resource_spent": 12.0,
+      "resource_budget": 12.0,
+      "intervention_resource_costs": {
+        "residual_bias_recalibration": 1.0,
+        "normalized_sgd_partial_update": 2.0,
+        "refit": 4.0
+      },
+      "feedback_received": 699,
+      "feedback_missing_or_delayed_past_horizon": 101,
+      "trigger_alarm_count": 62,
+      "fit_audit": [
+        {
+          "fit_feedback_available_time": 996.0,
+          "arrived_feedback_count": 167,
+          "method": "validation_triggered",
+          "model_family": "ridge"
+        },
+        {
+          "fit_feedback_available_time": 1084.0,
+          "arrived_feedback_count": 247,
+          "method": "validation_triggered",
+          "model_family": "ridge"
+        },
+        {
+          "fit_feedback_available_time": 1177.0,
+          "arrived_feedback_count": 327,
+          "method": "validation_triggered",
+          "model_family": "ridge"
+        }
+      ],
+      "intervention_audit": [
+        {
+          "available_at": 996.0,
+          "arrived_feedback_count": 167,
+          "method": "validation_triggered",
+          "action": "refit",
+          "resource_cost": 4.0,
+          "resource_spent": 4.0,
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1084.0,
+          "arrived_feedback_count": 247,
+          "method": "validation_triggered",
+          "action": "refit",
+          "resource_cost": 4.0,
+          "resource_spent": 8.0,
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1177.0,
+          "arrived_feedback_count": 327,
+          "method": "validation_triggered",
+          "action": "refit",
+          "resource_cost": 4.0,
+          "resource_spent": 12.0,
+          "bias_correction": 0.0
+        }
+      ],
+      "final_bias_correction": 0.0,
+      "validation_loss_threshold": 0.38310890894662075,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -8932,6 +10045,7 @@
         }
       ],
       "final_bias_correction": -0.13204280215722441,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -9057,6 +10171,7 @@
         }
       ],
       "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -9191,6 +10306,7 @@
         }
       ],
       "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -9325,6 +10441,7 @@
         }
       ],
       "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -9408,6 +10525,7 @@
       "fit_audit": [],
       "intervention_audit": [],
       "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -9510,6 +10628,7 @@
         }
       ],
       "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -9593,6 +10712,7 @@
       "fit_audit": [],
       "intervention_audit": [],
       "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -9727,6 +10847,7 @@
         }
       ],
       "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -9852,6 +10973,7 @@
         }
       ],
       "final_bias_correction": 0.04659491844842471,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -9986,6 +11108,142 @@
         }
       ],
       "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "gradual",
+      "seed": 53,
+      "policy": "ridge_validation_triggered",
+      "model_family": "ridge",
+      "update_method": "validation_triggered",
+      "radius_method": "fixed",
+      "test_n": 800,
+      "mse": 0.2550524537972162,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 0.16505245379721628,
+      "shifted_or_transition_mse": 0.2741772158707184,
+      "coverage": 0.74125,
+      "mean_interval_width": 0.9765666562644296,
+      "coverage_by_test_block": [
+        {
+          "block": 0,
+          "n": 100,
+          "coverage": 0.92,
+          "mean_width": 0.9765666562644294
+        },
+        {
+          "block": 1,
+          "n": 100,
+          "coverage": 0.6,
+          "mean_width": 0.9765666562644294
+        },
+        {
+          "block": 2,
+          "n": 100,
+          "coverage": 0.41,
+          "mean_width": 0.9765666562644294
+        },
+        {
+          "block": 3,
+          "n": 100,
+          "coverage": 0.65,
+          "mean_width": 0.9765666562644294
+        },
+        {
+          "block": 4,
+          "n": 100,
+          "coverage": 0.85,
+          "mean_width": 0.9765666562644294
+        },
+        {
+          "block": 5,
+          "n": 100,
+          "coverage": 0.85,
+          "mean_width": 0.9765666562644294
+        },
+        {
+          "block": 6,
+          "n": 100,
+          "coverage": 0.77,
+          "mean_width": 0.9765666562644294
+        },
+        {
+          "block": 7,
+          "n": 100,
+          "coverage": 0.88,
+          "mean_width": 0.9765666562644294
+        }
+      ],
+      "update_count": 3,
+      "update_times": [
+        1001,
+        1086,
+        1170
+      ],
+      "update_budget": 4,
+      "resource_spent": 12.0,
+      "resource_budget": 12.0,
+      "intervention_resource_costs": {
+        "residual_bias_recalibration": 1.0,
+        "normalized_sgd_partial_update": 2.0,
+        "refit": 4.0
+      },
+      "feedback_received": 720,
+      "feedback_missing_or_delayed_past_horizon": 80,
+      "trigger_alarm_count": 80,
+      "fit_audit": [
+        {
+          "fit_feedback_available_time": 1001.0,
+          "arrived_feedback_count": 176,
+          "method": "validation_triggered",
+          "model_family": "ridge"
+        },
+        {
+          "fit_feedback_available_time": 1086.0,
+          "arrived_feedback_count": 256,
+          "method": "validation_triggered",
+          "model_family": "ridge"
+        },
+        {
+          "fit_feedback_available_time": 1170.0,
+          "arrived_feedback_count": 336,
+          "method": "validation_triggered",
+          "model_family": "ridge"
+        }
+      ],
+      "intervention_audit": [
+        {
+          "available_at": 1001.0,
+          "arrived_feedback_count": 176,
+          "method": "validation_triggered",
+          "action": "refit",
+          "resource_cost": 4.0,
+          "resource_spent": 4.0,
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1086.0,
+          "arrived_feedback_count": 256,
+          "method": "validation_triggered",
+          "action": "refit",
+          "resource_cost": 4.0,
+          "resource_spent": 8.0,
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1170.0,
+          "arrived_feedback_count": 336,
+          "method": "validation_triggered",
+          "action": "refit",
+          "resource_cost": 4.0,
+          "resource_spent": 12.0,
+          "bias_correction": 0.0
+        }
+      ],
+      "final_bias_correction": 0.0,
+      "validation_loss_threshold": 0.385690223990279,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -10111,6 +11369,7 @@
         }
       ],
       "final_bias_correction": 0.14040359088714022,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -10236,6 +11495,7 @@
         }
       ],
       "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -10370,6 +11630,7 @@
         }
       ],
       "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -10504,6 +11765,7 @@
         }
       ],
       "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -10587,6 +11849,7 @@
       "fit_audit": [],
       "intervention_audit": [],
       "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -10689,6 +11952,7 @@
         }
       ],
       "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -10772,6 +12036,7 @@
       "fit_audit": [],
       "intervention_audit": [],
       "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -10906,6 +12171,7 @@
         }
       ],
       "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -11031,6 +12297,7 @@
         }
       ],
       "final_bias_correction": 0.11542424019236792,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -11165,6 +12432,142 @@
         }
       ],
       "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "gradual",
+      "seed": 71,
+      "policy": "ridge_validation_triggered",
+      "model_family": "ridge",
+      "update_method": "validation_triggered",
+      "radius_method": "fixed",
+      "test_n": 800,
+      "mse": 0.2750999465098401,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 0.18509994650984013,
+      "shifted_or_transition_mse": 0.29631005593783355,
+      "coverage": 0.725,
+      "mean_interval_width": 0.8834541225667963,
+      "coverage_by_test_block": [
+        {
+          "block": 0,
+          "n": 100,
+          "coverage": 0.91,
+          "mean_width": 0.8834541225667967
+        },
+        {
+          "block": 1,
+          "n": 100,
+          "coverage": 0.56,
+          "mean_width": 0.8834541225667967
+        },
+        {
+          "block": 2,
+          "n": 100,
+          "coverage": 0.46,
+          "mean_width": 0.8834541225667967
+        },
+        {
+          "block": 3,
+          "n": 100,
+          "coverage": 0.51,
+          "mean_width": 0.8834541225667967
+        },
+        {
+          "block": 4,
+          "n": 100,
+          "coverage": 0.86,
+          "mean_width": 0.8834541225667967
+        },
+        {
+          "block": 5,
+          "n": 100,
+          "coverage": 0.87,
+          "mean_width": 0.8834541225667967
+        },
+        {
+          "block": 6,
+          "n": 100,
+          "coverage": 0.83,
+          "mean_width": 0.8834541225667967
+        },
+        {
+          "block": 7,
+          "n": 100,
+          "coverage": 0.8,
+          "mean_width": 0.8834541225667967
+        }
+      ],
+      "update_count": 3,
+      "update_times": [
+        988,
+        1075,
+        1167
+      ],
+      "update_budget": 4,
+      "resource_spent": 12.0,
+      "resource_budget": 12.0,
+      "intervention_resource_costs": {
+        "residual_bias_recalibration": 1.0,
+        "normalized_sgd_partial_update": 2.0,
+        "refit": 4.0
+      },
+      "feedback_received": 709,
+      "feedback_missing_or_delayed_past_horizon": 91,
+      "trigger_alarm_count": 106,
+      "fit_audit": [
+        {
+          "fit_feedback_available_time": 988.0,
+          "arrived_feedback_count": 162,
+          "method": "validation_triggered",
+          "model_family": "ridge"
+        },
+        {
+          "fit_feedback_available_time": 1075.0,
+          "arrived_feedback_count": 242,
+          "method": "validation_triggered",
+          "model_family": "ridge"
+        },
+        {
+          "fit_feedback_available_time": 1167.0,
+          "arrived_feedback_count": 322,
+          "method": "validation_triggered",
+          "model_family": "ridge"
+        }
+      ],
+      "intervention_audit": [
+        {
+          "available_at": 988.0,
+          "arrived_feedback_count": 162,
+          "method": "validation_triggered",
+          "action": "refit",
+          "resource_cost": 4.0,
+          "resource_spent": 4.0,
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1075.0,
+          "arrived_feedback_count": 242,
+          "method": "validation_triggered",
+          "action": "refit",
+          "resource_cost": 4.0,
+          "resource_spent": 8.0,
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1167.0,
+          "arrived_feedback_count": 322,
+          "method": "validation_triggered",
+          "action": "refit",
+          "resource_cost": 4.0,
+          "resource_spent": 12.0,
+          "bias_correction": 0.0
+        }
+      ],
+      "final_bias_correction": 0.0,
+      "validation_loss_threshold": 0.3032487280843898,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -11290,6 +12693,7 @@
         }
       ],
       "final_bias_correction": -0.1123349253937817,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -11415,6 +12819,7 @@
         }
       ],
       "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -11549,6 +12954,7 @@
         }
       ],
       "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -11683,6 +13089,7 @@
         }
       ],
       "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -11766,6 +13173,7 @@
       "fit_audit": [],
       "intervention_audit": [],
       "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -11868,6 +13276,7 @@
         }
       ],
       "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -11951,6 +13360,7 @@
       "fit_audit": [],
       "intervention_audit": [],
       "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -12085,6 +13495,7 @@
         }
       ],
       "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -12210,6 +13621,7 @@
         }
       ],
       "final_bias_correction": 0.22442812195920134,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -12344,6 +13756,142 @@
         }
       ],
       "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "temporary",
+      "seed": 11,
+      "policy": "ridge_validation_triggered",
+      "model_family": "ridge",
+      "update_method": "validation_triggered",
+      "radius_method": "fixed",
+      "test_n": 800,
+      "mse": 2.069340371675176,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 1.979340371675176,
+      "shifted_or_transition_mse": 1.0642538662939844,
+      "coverage": 0.55875,
+      "mean_interval_width": 1.0245963392616577,
+      "coverage_by_test_block": [
+        {
+          "block": 0,
+          "n": 100,
+          "coverage": 0.92,
+          "mean_width": 1.024596339261658
+        },
+        {
+          "block": 1,
+          "n": 100,
+          "coverage": 0.85,
+          "mean_width": 1.024596339261658
+        },
+        {
+          "block": 2,
+          "n": 100,
+          "coverage": 0.3,
+          "mean_width": 1.024596339261658
+        },
+        {
+          "block": 3,
+          "n": 100,
+          "coverage": 0.9,
+          "mean_width": 1.024596339261658
+        },
+        {
+          "block": 4,
+          "n": 100,
+          "coverage": 0.9,
+          "mean_width": 1.024596339261658
+        },
+        {
+          "block": 5,
+          "n": 100,
+          "coverage": 0.27,
+          "mean_width": 1.024596339261658
+        },
+        {
+          "block": 6,
+          "n": 100,
+          "coverage": 0.15,
+          "mean_width": 1.024596339261658
+        },
+        {
+          "block": 7,
+          "n": 100,
+          "coverage": 0.18,
+          "mean_width": 1.024596339261658
+        }
+      ],
+      "update_count": 3,
+      "update_times": [
+        1000,
+        1085,
+        1171
+      ],
+      "update_budget": 4,
+      "resource_spent": 12.0,
+      "resource_budget": 12.0,
+      "intervention_resource_costs": {
+        "residual_bias_recalibration": 1.0,
+        "normalized_sgd_partial_update": 2.0,
+        "refit": 4.0
+      },
+      "feedback_received": 706,
+      "feedback_missing_or_delayed_past_horizon": 94,
+      "trigger_alarm_count": 239,
+      "fit_audit": [
+        {
+          "fit_feedback_available_time": 1000.0,
+          "arrived_feedback_count": 165,
+          "method": "validation_triggered",
+          "model_family": "ridge"
+        },
+        {
+          "fit_feedback_available_time": 1085.0,
+          "arrived_feedback_count": 245,
+          "method": "validation_triggered",
+          "model_family": "ridge"
+        },
+        {
+          "fit_feedback_available_time": 1171.0,
+          "arrived_feedback_count": 325,
+          "method": "validation_triggered",
+          "model_family": "ridge"
+        }
+      ],
+      "intervention_audit": [
+        {
+          "available_at": 1000.0,
+          "arrived_feedback_count": 165,
+          "method": "validation_triggered",
+          "action": "refit",
+          "resource_cost": 4.0,
+          "resource_spent": 4.0,
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1085.0,
+          "arrived_feedback_count": 245,
+          "method": "validation_triggered",
+          "action": "refit",
+          "resource_cost": 4.0,
+          "resource_spent": 8.0,
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1171.0,
+          "arrived_feedback_count": 325,
+          "method": "validation_triggered",
+          "action": "refit",
+          "resource_cost": 4.0,
+          "resource_spent": 12.0,
+          "bias_correction": 0.0
+        }
+      ],
+      "final_bias_correction": 0.0,
+      "validation_loss_threshold": 0.4052405385594459,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -12469,6 +14017,7 @@
         }
       ],
       "final_bias_correction": -0.022050320638180743,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -12594,6 +14143,7 @@
         }
       ],
       "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -12728,6 +14278,7 @@
         }
       ],
       "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -12862,6 +14413,7 @@
         }
       ],
       "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -12945,6 +14497,7 @@
       "fit_audit": [],
       "intervention_audit": [],
       "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -13047,6 +14600,7 @@
         }
       ],
       "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -13130,6 +14684,7 @@
       "fit_audit": [],
       "intervention_audit": [],
       "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -13264,6 +14819,7 @@
         }
       ],
       "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -13389,6 +14945,7 @@
         }
       ],
       "final_bias_correction": 0.23317465754532352,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -13523,6 +15080,142 @@
         }
       ],
       "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "temporary",
+      "seed": 23,
+      "policy": "ridge_validation_triggered",
+      "model_family": "ridge",
+      "update_method": "validation_triggered",
+      "radius_method": "fixed",
+      "test_n": 800,
+      "mse": 1.9026764985475402,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 1.81267649854754,
+      "shifted_or_transition_mse": 1.1244443617837625,
+      "coverage": 0.52,
+      "mean_interval_width": 0.9448773239717257,
+      "coverage_by_test_block": [
+        {
+          "block": 0,
+          "n": 100,
+          "coverage": 0.88,
+          "mean_width": 0.9448773239717257
+        },
+        {
+          "block": 1,
+          "n": 100,
+          "coverage": 0.82,
+          "mean_width": 0.9448773239717257
+        },
+        {
+          "block": 2,
+          "n": 100,
+          "coverage": 0.17,
+          "mean_width": 0.9448773239717257
+        },
+        {
+          "block": 3,
+          "n": 100,
+          "coverage": 0.84,
+          "mean_width": 0.9448773239717257
+        },
+        {
+          "block": 4,
+          "n": 100,
+          "coverage": 0.79,
+          "mean_width": 0.9448773239717257
+        },
+        {
+          "block": 5,
+          "n": 100,
+          "coverage": 0.27,
+          "mean_width": 0.9448773239717257
+        },
+        {
+          "block": 6,
+          "n": 100,
+          "coverage": 0.21,
+          "mean_width": 0.9448773239717257
+        },
+        {
+          "block": 7,
+          "n": 100,
+          "coverage": 0.18,
+          "mean_width": 0.9448773239717257
+        }
+      ],
+      "update_count": 3,
+      "update_times": [
+        1012,
+        1101,
+        1191
+      ],
+      "update_budget": 4,
+      "resource_spent": 12.0,
+      "resource_budget": 12.0,
+      "intervention_resource_costs": {
+        "residual_bias_recalibration": 1.0,
+        "normalized_sgd_partial_update": 2.0,
+        "refit": 4.0
+      },
+      "feedback_received": 710,
+      "feedback_missing_or_delayed_past_horizon": 90,
+      "trigger_alarm_count": 227,
+      "fit_audit": [
+        {
+          "fit_feedback_available_time": 1012.0,
+          "arrived_feedback_count": 181,
+          "method": "validation_triggered",
+          "model_family": "ridge"
+        },
+        {
+          "fit_feedback_available_time": 1101.0,
+          "arrived_feedback_count": 261,
+          "method": "validation_triggered",
+          "model_family": "ridge"
+        },
+        {
+          "fit_feedback_available_time": 1191.0,
+          "arrived_feedback_count": 341,
+          "method": "validation_triggered",
+          "model_family": "ridge"
+        }
+      ],
+      "intervention_audit": [
+        {
+          "available_at": 1012.0,
+          "arrived_feedback_count": 181,
+          "method": "validation_triggered",
+          "action": "refit",
+          "resource_cost": 4.0,
+          "resource_spent": 4.0,
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1101.0,
+          "arrived_feedback_count": 261,
+          "method": "validation_triggered",
+          "action": "refit",
+          "resource_cost": 4.0,
+          "resource_spent": 8.0,
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1191.0,
+          "arrived_feedback_count": 341,
+          "method": "validation_triggered",
+          "action": "refit",
+          "resource_cost": 4.0,
+          "resource_spent": 12.0,
+          "bias_correction": 0.0
+        }
+      ],
+      "final_bias_correction": 0.0,
+      "validation_loss_threshold": 0.43413848875802713,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -13648,6 +15341,7 @@
         }
       ],
       "final_bias_correction": 0.13595063862923804,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -13773,6 +15467,7 @@
         }
       ],
       "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -13907,6 +15602,7 @@
         }
       ],
       "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -14041,6 +15737,7 @@
         }
       ],
       "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -14124,6 +15821,7 @@
       "fit_audit": [],
       "intervention_audit": [],
       "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -14226,6 +15924,7 @@
         }
       ],
       "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -14309,6 +16008,7 @@
       "fit_audit": [],
       "intervention_audit": [],
       "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -14443,6 +16143,7 @@
         }
       ],
       "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -14568,6 +16269,7 @@
         }
       ],
       "final_bias_correction": -0.1589071169909038,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -14702,6 +16404,142 @@
         }
       ],
       "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "temporary",
+      "seed": 37,
+      "policy": "ridge_validation_triggered",
+      "model_family": "ridge",
+      "update_method": "validation_triggered",
+      "radius_method": "fixed",
+      "test_n": 800,
+      "mse": 1.8199646103602316,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 1.7299646103602315,
+      "shifted_or_transition_mse": 1.3733863143885998,
+      "coverage": 0.5575,
+      "mean_interval_width": 1.0143748824370695,
+      "coverage_by_test_block": [
+        {
+          "block": 0,
+          "n": 100,
+          "coverage": 0.93,
+          "mean_width": 1.0143748824370693
+        },
+        {
+          "block": 1,
+          "n": 100,
+          "coverage": 0.83,
+          "mean_width": 1.0143748824370693
+        },
+        {
+          "block": 2,
+          "n": 100,
+          "coverage": 0.27,
+          "mean_width": 1.0143748824370693
+        },
+        {
+          "block": 3,
+          "n": 100,
+          "coverage": 0.87,
+          "mean_width": 1.0143748824370693
+        },
+        {
+          "block": 4,
+          "n": 100,
+          "coverage": 0.89,
+          "mean_width": 1.0143748824370693
+        },
+        {
+          "block": 5,
+          "n": 100,
+          "coverage": 0.26,
+          "mean_width": 1.0143748824370693
+        },
+        {
+          "block": 6,
+          "n": 100,
+          "coverage": 0.2,
+          "mean_width": 1.0143748824370693
+        },
+        {
+          "block": 7,
+          "n": 100,
+          "coverage": 0.21,
+          "mean_width": 1.0143748824370693
+        }
+      ],
+      "update_count": 3,
+      "update_times": [
+        1005,
+        1095,
+        1186
+      ],
+      "update_budget": 4,
+      "resource_spent": 12.0,
+      "resource_budget": 12.0,
+      "intervention_resource_costs": {
+        "residual_bias_recalibration": 1.0,
+        "normalized_sgd_partial_update": 2.0,
+        "refit": 4.0
+      },
+      "feedback_received": 699,
+      "feedback_missing_or_delayed_past_horizon": 101,
+      "trigger_alarm_count": 206,
+      "fit_audit": [
+        {
+          "fit_feedback_available_time": 1005.0,
+          "arrived_feedback_count": 174,
+          "method": "validation_triggered",
+          "model_family": "ridge"
+        },
+        {
+          "fit_feedback_available_time": 1095.0,
+          "arrived_feedback_count": 254,
+          "method": "validation_triggered",
+          "model_family": "ridge"
+        },
+        {
+          "fit_feedback_available_time": 1186.0,
+          "arrived_feedback_count": 334,
+          "method": "validation_triggered",
+          "model_family": "ridge"
+        }
+      ],
+      "intervention_audit": [
+        {
+          "available_at": 1005.0,
+          "arrived_feedback_count": 174,
+          "method": "validation_triggered",
+          "action": "refit",
+          "resource_cost": 4.0,
+          "resource_spent": 4.0,
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1095.0,
+          "arrived_feedback_count": 254,
+          "method": "validation_triggered",
+          "action": "refit",
+          "resource_cost": 4.0,
+          "resource_spent": 8.0,
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1186.0,
+          "arrived_feedback_count": 334,
+          "method": "validation_triggered",
+          "action": "refit",
+          "resource_cost": 4.0,
+          "resource_spent": 12.0,
+          "bias_correction": 0.0
+        }
+      ],
+      "final_bias_correction": 0.0,
+      "validation_loss_threshold": 0.38310890894662075,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -14827,6 +16665,7 @@
         }
       ],
       "final_bias_correction": 0.03814817543452603,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -14952,6 +16791,7 @@
         }
       ],
       "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -15086,6 +16926,7 @@
         }
       ],
       "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -15220,6 +17061,7 @@
         }
       ],
       "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -15303,6 +17145,7 @@
       "fit_audit": [],
       "intervention_audit": [],
       "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -15405,6 +17248,7 @@
         }
       ],
       "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -15488,6 +17332,7 @@
       "fit_audit": [],
       "intervention_audit": [],
       "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -15622,6 +17467,7 @@
         }
       ],
       "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -15747,6 +17593,7 @@
         }
       ],
       "final_bias_correction": 0.17718123395729868,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -15881,6 +17728,142 @@
         }
       ],
       "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "temporary",
+      "seed": 53,
+      "policy": "ridge_validation_triggered",
+      "model_family": "ridge",
+      "update_method": "validation_triggered",
+      "radius_method": "fixed",
+      "test_n": 800,
+      "mse": 1.8757300450776657,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 1.785730045077666,
+      "shifted_or_transition_mse": 1.304514602305766,
+      "coverage": 0.55625,
+      "mean_interval_width": 0.9765666562644296,
+      "coverage_by_test_block": [
+        {
+          "block": 0,
+          "n": 100,
+          "coverage": 0.92,
+          "mean_width": 0.9765666562644294
+        },
+        {
+          "block": 1,
+          "n": 100,
+          "coverage": 0.84,
+          "mean_width": 0.9765666562644294
+        },
+        {
+          "block": 2,
+          "n": 100,
+          "coverage": 0.25,
+          "mean_width": 0.9765666562644294
+        },
+        {
+          "block": 3,
+          "n": 100,
+          "coverage": 0.9,
+          "mean_width": 0.9765666562644294
+        },
+        {
+          "block": 4,
+          "n": 100,
+          "coverage": 0.92,
+          "mean_width": 0.9765666562644294
+        },
+        {
+          "block": 5,
+          "n": 100,
+          "coverage": 0.24,
+          "mean_width": 0.9765666562644294
+        },
+        {
+          "block": 6,
+          "n": 100,
+          "coverage": 0.25,
+          "mean_width": 0.9765666562644294
+        },
+        {
+          "block": 7,
+          "n": 100,
+          "coverage": 0.13,
+          "mean_width": 0.9765666562644294
+        }
+      ],
+      "update_count": 3,
+      "update_times": [
+        1004,
+        1089,
+        1334
+      ],
+      "update_budget": 4,
+      "resource_spent": 12.0,
+      "resource_budget": 12.0,
+      "intervention_resource_costs": {
+        "residual_bias_recalibration": 1.0,
+        "normalized_sgd_partial_update": 2.0,
+        "refit": 4.0
+      },
+      "feedback_received": 720,
+      "feedback_missing_or_delayed_past_horizon": 80,
+      "trigger_alarm_count": 233,
+      "fit_audit": [
+        {
+          "fit_feedback_available_time": 1004.0,
+          "arrived_feedback_count": 179,
+          "method": "validation_triggered",
+          "model_family": "ridge"
+        },
+        {
+          "fit_feedback_available_time": 1089.0,
+          "arrived_feedback_count": 259,
+          "method": "validation_triggered",
+          "model_family": "ridge"
+        },
+        {
+          "fit_feedback_available_time": 1334.0,
+          "arrived_feedback_count": 490,
+          "method": "validation_triggered",
+          "model_family": "ridge"
+        }
+      ],
+      "intervention_audit": [
+        {
+          "available_at": 1004.0,
+          "arrived_feedback_count": 179,
+          "method": "validation_triggered",
+          "action": "refit",
+          "resource_cost": 4.0,
+          "resource_spent": 4.0,
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1089.0,
+          "arrived_feedback_count": 259,
+          "method": "validation_triggered",
+          "action": "refit",
+          "resource_cost": 4.0,
+          "resource_spent": 8.0,
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1334.0,
+          "arrived_feedback_count": 490,
+          "method": "validation_triggered",
+          "action": "refit",
+          "resource_cost": 4.0,
+          "resource_spent": 12.0,
+          "bias_correction": 0.0
+        }
+      ],
+      "final_bias_correction": 0.0,
+      "validation_loss_threshold": 0.385690223990279,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -16006,6 +17989,7 @@
         }
       ],
       "final_bias_correction": -0.1590771751133318,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -16131,6 +18115,7 @@
         }
       ],
       "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -16265,6 +18250,7 @@
         }
       ],
       "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -16399,6 +18385,7 @@
         }
       ],
       "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -16482,6 +18469,7 @@
       "fit_audit": [],
       "intervention_audit": [],
       "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -16584,6 +18572,7 @@
         }
       ],
       "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -16667,6 +18656,7 @@
       "fit_audit": [],
       "intervention_audit": [],
       "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -16801,6 +18791,7 @@
         }
       ],
       "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -16926,6 +18917,7 @@
         }
       ],
       "final_bias_correction": -0.029126000845428462,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -17060,6 +19052,142 @@
         }
       ],
       "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "temporary",
+      "seed": 71,
+      "policy": "ridge_validation_triggered",
+      "model_family": "ridge",
+      "update_method": "validation_triggered",
+      "radius_method": "fixed",
+      "test_n": 800,
+      "mse": 1.9246111734167557,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 1.8346111734167556,
+      "shifted_or_transition_mse": 1.1930255311213336,
+      "coverage": 0.545,
+      "mean_interval_width": 0.8834541225667963,
+      "coverage_by_test_block": [
+        {
+          "block": 0,
+          "n": 100,
+          "coverage": 0.91,
+          "mean_width": 0.8834541225667967
+        },
+        {
+          "block": 1,
+          "n": 100,
+          "coverage": 0.81,
+          "mean_width": 0.8834541225667967
+        },
+        {
+          "block": 2,
+          "n": 100,
+          "coverage": 0.34,
+          "mean_width": 0.8834541225667967
+        },
+        {
+          "block": 3,
+          "n": 100,
+          "coverage": 0.85,
+          "mean_width": 0.8834541225667967
+        },
+        {
+          "block": 4,
+          "n": 100,
+          "coverage": 0.9,
+          "mean_width": 0.8834541225667967
+        },
+        {
+          "block": 5,
+          "n": 100,
+          "coverage": 0.22,
+          "mean_width": 0.8834541225667967
+        },
+        {
+          "block": 6,
+          "n": 100,
+          "coverage": 0.12,
+          "mean_width": 0.8834541225667967
+        },
+        {
+          "block": 7,
+          "n": 100,
+          "coverage": 0.21,
+          "mean_width": 0.8834541225667967
+        }
+      ],
+      "update_count": 3,
+      "update_times": [
+        1002,
+        1091,
+        1183
+      ],
+      "update_budget": 4,
+      "resource_spent": 12.0,
+      "resource_budget": 12.0,
+      "intervention_resource_costs": {
+        "residual_bias_recalibration": 1.0,
+        "normalized_sgd_partial_update": 2.0,
+        "refit": 4.0
+      },
+      "feedback_received": 709,
+      "feedback_missing_or_delayed_past_horizon": 91,
+      "trigger_alarm_count": 241,
+      "fit_audit": [
+        {
+          "fit_feedback_available_time": 1002.0,
+          "arrived_feedback_count": 176,
+          "method": "validation_triggered",
+          "model_family": "ridge"
+        },
+        {
+          "fit_feedback_available_time": 1091.0,
+          "arrived_feedback_count": 256,
+          "method": "validation_triggered",
+          "model_family": "ridge"
+        },
+        {
+          "fit_feedback_available_time": 1183.0,
+          "arrived_feedback_count": 336,
+          "method": "validation_triggered",
+          "model_family": "ridge"
+        }
+      ],
+      "intervention_audit": [
+        {
+          "available_at": 1002.0,
+          "arrived_feedback_count": 176,
+          "method": "validation_triggered",
+          "action": "refit",
+          "resource_cost": 4.0,
+          "resource_spent": 4.0,
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1091.0,
+          "arrived_feedback_count": 256,
+          "method": "validation_triggered",
+          "action": "refit",
+          "resource_cost": 4.0,
+          "resource_spent": 8.0,
+          "bias_correction": 0.0
+        },
+        {
+          "available_at": 1183.0,
+          "arrived_feedback_count": 336,
+          "method": "validation_triggered",
+          "action": "refit",
+          "resource_cost": 4.0,
+          "resource_spent": 12.0,
+          "bias_correction": 0.0
+        }
+      ],
+      "final_bias_correction": 0.0,
+      "validation_loss_threshold": 0.3032487280843898,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -17185,6 +19313,7 @@
         }
       ],
       "final_bias_correction": -0.24354525989841078,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -17310,6 +19439,7 @@
         }
       ],
       "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -17444,6 +19574,7 @@
         }
       ],
       "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -17578,6 +19709,7 @@
         }
       ],
       "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -17661,6 +19793,7 @@
       "fit_audit": [],
       "intervention_audit": [],
       "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -17763,6 +19896,7 @@
         }
       ],
       "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -17846,6 +19980,7 @@
       "fit_audit": [],
       "intervention_audit": [],
       "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -17980,6 +20115,7 @@
         }
       ],
       "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -18105,6 +20241,7 @@
         }
       ],
       "final_bias_correction": -0.017150074832333093,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -18207,6 +20344,91 @@
         }
       ],
       "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "recurring",
+      "seed": 11,
+      "policy": "ridge_validation_triggered",
+      "model_family": "ridge",
+      "update_method": "validation_triggered",
+      "radius_method": "fixed",
+      "test_n": 800,
+      "mse": 2.368958914496509,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 2.278958914496509,
+      "shifted_or_transition_mse": 4.645625070726726,
+      "coverage": 0.9325,
+      "mean_interval_width": 6.442099155159927,
+      "coverage_by_test_block": [
+        {
+          "block": 0,
+          "n": 100,
+          "coverage": 1.0,
+          "mean_width": 6.4420991551599265
+        },
+        {
+          "block": 1,
+          "n": 100,
+          "coverage": 1.0,
+          "mean_width": 6.4420991551599265
+        },
+        {
+          "block": 2,
+          "n": 100,
+          "coverage": 1.0,
+          "mean_width": 6.4420991551599265
+        },
+        {
+          "block": 3,
+          "n": 100,
+          "coverage": 1.0,
+          "mean_width": 6.4420991551599265
+        },
+        {
+          "block": 4,
+          "n": 100,
+          "coverage": 0.86,
+          "mean_width": 6.4420991551599265
+        },
+        {
+          "block": 5,
+          "n": 100,
+          "coverage": 0.87,
+          "mean_width": 6.4420991551599265
+        },
+        {
+          "block": 6,
+          "n": 100,
+          "coverage": 0.85,
+          "mean_width": 6.4420991551599265
+        },
+        {
+          "block": 7,
+          "n": 100,
+          "coverage": 0.88,
+          "mean_width": 6.4420991551599265
+        }
+      ],
+      "update_count": 0,
+      "update_times": [],
+      "update_budget": 4,
+      "resource_spent": 0.0,
+      "resource_budget": 12.0,
+      "intervention_resource_costs": {
+        "residual_bias_recalibration": 1.0,
+        "normalized_sgd_partial_update": 2.0,
+        "refit": 4.0
+      },
+      "feedback_received": 706,
+      "feedback_missing_or_delayed_past_horizon": 94,
+      "trigger_alarm_count": 3,
+      "fit_audit": [],
+      "intervention_audit": [],
+      "final_bias_correction": 0.0,
+      "validation_loss_threshold": 14.510764046549298,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -18312,6 +20534,7 @@
         }
       ],
       "final_bias_correction": 0.050290416792526826,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -18417,6 +20640,7 @@
         }
       ],
       "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -18519,6 +20743,7 @@
         }
       ],
       "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -18621,6 +20846,7 @@
         }
       ],
       "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -18704,6 +20930,7 @@
       "fit_audit": [],
       "intervention_audit": [],
       "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -18806,6 +21033,7 @@
         }
       ],
       "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -18889,6 +21117,7 @@
       "fit_audit": [],
       "intervention_audit": [],
       "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -19023,6 +21252,7 @@
         }
       ],
       "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -19148,6 +21378,7 @@
         }
       ],
       "final_bias_correction": 0.0016230849584010984,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -19231,6 +21462,91 @@
       "fit_audit": [],
       "intervention_audit": [],
       "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "recurring",
+      "seed": 23,
+      "policy": "ridge_validation_triggered",
+      "model_family": "ridge",
+      "update_method": "validation_triggered",
+      "radius_method": "fixed",
+      "test_n": 800,
+      "mse": 2.0009252401703783,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 1.9109252401703785,
+      "shifted_or_transition_mse": 3.8963266752945787,
+      "coverage": 0.94875,
+      "mean_interval_width": 6.757693350632069,
+      "coverage_by_test_block": [
+        {
+          "block": 0,
+          "n": 100,
+          "coverage": 1.0,
+          "mean_width": 6.757693350632068
+        },
+        {
+          "block": 1,
+          "n": 100,
+          "coverage": 1.0,
+          "mean_width": 6.757693350632068
+        },
+        {
+          "block": 2,
+          "n": 100,
+          "coverage": 1.0,
+          "mean_width": 6.757693350632068
+        },
+        {
+          "block": 3,
+          "n": 100,
+          "coverage": 1.0,
+          "mean_width": 6.757693350632068
+        },
+        {
+          "block": 4,
+          "n": 100,
+          "coverage": 0.9,
+          "mean_width": 6.757693350632068
+        },
+        {
+          "block": 5,
+          "n": 100,
+          "coverage": 0.91,
+          "mean_width": 6.757693350632068
+        },
+        {
+          "block": 6,
+          "n": 100,
+          "coverage": 0.92,
+          "mean_width": 6.757693350632068
+        },
+        {
+          "block": 7,
+          "n": 100,
+          "coverage": 0.86,
+          "mean_width": 6.757693350632068
+        }
+      ],
+      "update_count": 0,
+      "update_times": [],
+      "update_budget": 4,
+      "resource_spent": 0.0,
+      "resource_budget": 12.0,
+      "intervention_resource_costs": {
+        "residual_bias_recalibration": 1.0,
+        "normalized_sgd_partial_update": 2.0,
+        "refit": 4.0
+      },
+      "feedback_received": 710,
+      "feedback_missing_or_delayed_past_horizon": 90,
+      "trigger_alarm_count": 0,
+      "fit_audit": [],
+      "intervention_audit": [],
+      "final_bias_correction": 0.0,
+      "validation_loss_threshold": 10.045119651872561,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -19314,6 +21630,7 @@
       "fit_audit": [],
       "intervention_audit": [],
       "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -19397,6 +21714,7 @@
       "fit_audit": [],
       "intervention_audit": [],
       "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -19480,6 +21798,7 @@
       "fit_audit": [],
       "intervention_audit": [],
       "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -19563,6 +21882,7 @@
       "fit_audit": [],
       "intervention_audit": [],
       "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -19646,6 +21966,7 @@
       "fit_audit": [],
       "intervention_audit": [],
       "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -19748,6 +22069,7 @@
         }
       ],
       "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -19831,6 +22153,7 @@
       "fit_audit": [],
       "intervention_audit": [],
       "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -19965,6 +22288,7 @@
         }
       ],
       "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -20090,6 +22414,7 @@
         }
       ],
       "final_bias_correction": -0.00930616797802416,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -20192,6 +22517,91 @@
         }
       ],
       "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "recurring",
+      "seed": 37,
+      "policy": "ridge_validation_triggered",
+      "model_family": "ridge",
+      "update_method": "validation_triggered",
+      "radius_method": "fixed",
+      "test_n": 800,
+      "mse": 2.0646715433169316,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 1.9746715433169317,
+      "shifted_or_transition_mse": 4.042876481164186,
+      "coverage": 0.96,
+      "mean_interval_width": 7.198267231036762,
+      "coverage_by_test_block": [
+        {
+          "block": 0,
+          "n": 100,
+          "coverage": 1.0,
+          "mean_width": 7.198267231036762
+        },
+        {
+          "block": 1,
+          "n": 100,
+          "coverage": 1.0,
+          "mean_width": 7.198267231036762
+        },
+        {
+          "block": 2,
+          "n": 100,
+          "coverage": 1.0,
+          "mean_width": 7.198267231036762
+        },
+        {
+          "block": 3,
+          "n": 100,
+          "coverage": 1.0,
+          "mean_width": 7.198267231036762
+        },
+        {
+          "block": 4,
+          "n": 100,
+          "coverage": 0.88,
+          "mean_width": 7.198267231036762
+        },
+        {
+          "block": 5,
+          "n": 100,
+          "coverage": 0.93,
+          "mean_width": 7.198267231036762
+        },
+        {
+          "block": 6,
+          "n": 100,
+          "coverage": 0.91,
+          "mean_width": 7.198267231036762
+        },
+        {
+          "block": 7,
+          "n": 100,
+          "coverage": 0.96,
+          "mean_width": 7.198267231036762
+        }
+      ],
+      "update_count": 0,
+      "update_times": [],
+      "update_budget": 4,
+      "resource_spent": 0.0,
+      "resource_budget": 12.0,
+      "intervention_resource_costs": {
+        "residual_bias_recalibration": 1.0,
+        "normalized_sgd_partial_update": 2.0,
+        "refit": 4.0
+      },
+      "feedback_received": 699,
+      "feedback_missing_or_delayed_past_horizon": 101,
+      "trigger_alarm_count": 2,
+      "fit_audit": [],
+      "intervention_audit": [],
+      "final_bias_correction": 0.0,
+      "validation_loss_threshold": 11.0803717515005,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -20287,6 +22697,7 @@
         }
       ],
       "final_bias_correction": 0.1465196830595396,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -20382,6 +22793,7 @@
         }
       ],
       "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -20484,6 +22896,7 @@
         }
       ],
       "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -20586,6 +22999,7 @@
         }
       ],
       "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -20669,6 +23083,7 @@
       "fit_audit": [],
       "intervention_audit": [],
       "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -20752,6 +23167,7 @@
       "fit_audit": [],
       "intervention_audit": [],
       "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -20835,6 +23251,7 @@
       "fit_audit": [],
       "intervention_audit": [],
       "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -20969,6 +23386,7 @@
         }
       ],
       "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -21094,6 +23512,7 @@
         }
       ],
       "final_bias_correction": 0.002390808112346973,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -21196,6 +23615,91 @@
         }
       ],
       "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "recurring",
+      "seed": 53,
+      "policy": "ridge_validation_triggered",
+      "model_family": "ridge",
+      "update_method": "validation_triggered",
+      "radius_method": "fixed",
+      "test_n": 800,
+      "mse": 2.247942396006671,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 2.157942396006671,
+      "shifted_or_transition_mse": 4.4153711022818065,
+      "coverage": 0.9225,
+      "mean_interval_width": 6.264824757354836,
+      "coverage_by_test_block": [
+        {
+          "block": 0,
+          "n": 100,
+          "coverage": 1.0,
+          "mean_width": 6.2648247573548375
+        },
+        {
+          "block": 1,
+          "n": 100,
+          "coverage": 1.0,
+          "mean_width": 6.2648247573548375
+        },
+        {
+          "block": 2,
+          "n": 100,
+          "coverage": 1.0,
+          "mean_width": 6.2648247573548375
+        },
+        {
+          "block": 3,
+          "n": 100,
+          "coverage": 1.0,
+          "mean_width": 6.2648247573548375
+        },
+        {
+          "block": 4,
+          "n": 100,
+          "coverage": 0.83,
+          "mean_width": 6.2648247573548375
+        },
+        {
+          "block": 5,
+          "n": 100,
+          "coverage": 0.88,
+          "mean_width": 6.2648247573548375
+        },
+        {
+          "block": 6,
+          "n": 100,
+          "coverage": 0.88,
+          "mean_width": 6.2648247573548375
+        },
+        {
+          "block": 7,
+          "n": 100,
+          "coverage": 0.79,
+          "mean_width": 6.2648247573548375
+        }
+      ],
+      "update_count": 0,
+      "update_times": [],
+      "update_budget": 4,
+      "resource_spent": 0.0,
+      "resource_budget": 12.0,
+      "intervention_resource_costs": {
+        "residual_bias_recalibration": 1.0,
+        "normalized_sgd_partial_update": 2.0,
+        "refit": 4.0
+      },
+      "feedback_received": 720,
+      "feedback_missing_or_delayed_past_horizon": 80,
+      "trigger_alarm_count": 4,
+      "fit_audit": [],
+      "intervention_audit": [],
+      "final_bias_correction": 0.0,
+      "validation_loss_threshold": 9.549958287057192,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -21311,6 +23815,7 @@
         }
       ],
       "final_bias_correction": 0.39136210128635696,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -21416,6 +23921,7 @@
         }
       ],
       "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -21518,6 +24024,7 @@
         }
       ],
       "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -21620,6 +24127,7 @@
         }
       ],
       "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -21703,6 +24211,7 @@
       "fit_audit": [],
       "intervention_audit": [],
       "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -21805,6 +24314,7 @@
         }
       ],
       "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -21888,6 +24398,7 @@
       "fit_audit": [],
       "intervention_audit": [],
       "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -22022,6 +24533,7 @@
         }
       ],
       "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -22147,6 +24659,7 @@
         }
       ],
       "final_bias_correction": 0.08160649166256222,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -22249,6 +24762,91 @@
         }
       ],
       "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "recurring",
+      "seed": 71,
+      "policy": "ridge_validation_triggered",
+      "model_family": "ridge",
+      "update_method": "validation_triggered",
+      "radius_method": "fixed",
+      "test_n": 800,
+      "mse": 2.148723649887861,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 2.0587236498878605,
+      "shifted_or_transition_mse": 4.210465013753665,
+      "coverage": 0.93625,
+      "mean_interval_width": 6.279795689353905,
+      "coverage_by_test_block": [
+        {
+          "block": 0,
+          "n": 100,
+          "coverage": 1.0,
+          "mean_width": 6.279795689353906
+        },
+        {
+          "block": 1,
+          "n": 100,
+          "coverage": 1.0,
+          "mean_width": 6.279795689353906
+        },
+        {
+          "block": 2,
+          "n": 100,
+          "coverage": 1.0,
+          "mean_width": 6.279795689353906
+        },
+        {
+          "block": 3,
+          "n": 100,
+          "coverage": 1.0,
+          "mean_width": 6.279795689353906
+        },
+        {
+          "block": 4,
+          "n": 100,
+          "coverage": 0.83,
+          "mean_width": 6.279795689353906
+        },
+        {
+          "block": 5,
+          "n": 100,
+          "coverage": 0.88,
+          "mean_width": 6.279795689353906
+        },
+        {
+          "block": 6,
+          "n": 100,
+          "coverage": 0.87,
+          "mean_width": 6.279795689353906
+        },
+        {
+          "block": 7,
+          "n": 100,
+          "coverage": 0.91,
+          "mean_width": 6.279795689353906
+        }
+      ],
+      "update_count": 0,
+      "update_times": [],
+      "update_budget": 4,
+      "resource_spent": 0.0,
+      "resource_budget": 12.0,
+      "intervention_resource_costs": {
+        "residual_bias_recalibration": 1.0,
+        "normalized_sgd_partial_update": 2.0,
+        "refit": 4.0
+      },
+      "feedback_received": 709,
+      "feedback_missing_or_delayed_past_horizon": 91,
+      "trigger_alarm_count": 4,
+      "fit_audit": [],
+      "intervention_audit": [],
+      "final_bias_correction": 0.0,
+      "validation_loss_threshold": 9.180947487635365,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -22374,6 +24972,7 @@
         }
       ],
       "final_bias_correction": -0.041185507879155286,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -22479,6 +25078,7 @@
         }
       ],
       "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -22581,6 +25181,7 @@
         }
       ],
       "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -22683,6 +25284,7 @@
         }
       ],
       "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -22766,6 +25368,7 @@
       "fit_audit": [],
       "intervention_audit": [],
       "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     },
@@ -22868,6 +25471,7 @@
         }
       ],
       "final_bias_correction": 0.0,
+      "validation_loss_threshold": null,
       "protocol_passes": true,
       "utility_origin": "synthetic squared prediction error; no application cost claim"
     }
@@ -23014,6 +25618,20 @@
       "mean_interval_width": 3.0493016615640776
     },
     {
+      "schedule": "abrupt",
+      "policy": "ridge_validation_triggered",
+      "n": 5,
+      "mean_mse": 0.5764772181926707,
+      "sd_mse": 0.09421371219798524,
+      "mean_excess_mse": 0.48647721819267076,
+      "mean_shifted_mse": 0.784870347302341,
+      "mean_updates": 2.4,
+      "mean_feedback": 708.8,
+      "mean_coverage": 0.805,
+      "sd_coverage": 0.025754247222545625,
+      "mean_interval_width": 0.9687738649003357
+    },
+    {
       "schedule": "gradual",
       "policy": "forest_frozen",
       "n": 5,
@@ -23152,6 +25770,20 @@
       "mean_coverage": 0.8789999999999999,
       "sd_coverage": 0.008071942145481481,
       "mean_interval_width": 2.653039691320278
+    },
+    {
+      "schedule": "gradual",
+      "policy": "ridge_validation_triggered",
+      "n": 5,
+      "mean_mse": 0.27001801759164273,
+      "sd_mse": 0.009347719248720342,
+      "mean_excess_mse": 0.18001801759164276,
+      "mean_shifted_mse": 0.2905642449992074,
+      "mean_updates": 3.0,
+      "mean_feedback": 708.8,
+      "mean_coverage": 0.7464999999999999,
+      "sd_coverage": 0.024034480439568476,
+      "mean_interval_width": 0.9687738649003357
     },
     {
       "schedule": "recurring",
@@ -23294,6 +25926,20 @@
       "mean_interval_width": 3.253811387006254
     },
     {
+      "schedule": "recurring",
+      "policy": "ridge_validation_triggered",
+      "n": 5,
+      "mean_mse": 2.16624434877567,
+      "sd_mse": 0.14639175475848307,
+      "mean_excess_mse": 2.07624434877567,
+      "mean_shifted_mse": 4.242132868644193,
+      "mean_updates": 0.0,
+      "mean_feedback": 708.8,
+      "mean_coverage": 0.9400000000000001,
+      "sd_coverage": 0.014604151806934874,
+      "mean_interval_width": 6.5885360367075
+    },
+    {
       "schedule": "temporary",
       "policy": "forest_frozen",
       "n": 5,
@@ -23432,13 +26078,27 @@
       "mean_coverage": 0.868,
       "sd_coverage": 0.02244089459001133,
       "mean_interval_width": 3.496361094149966
+    },
+    {
+      "schedule": "temporary",
+      "policy": "ridge_validation_triggered",
+      "n": 5,
+      "mean_mse": 1.9184645398154738,
+      "sd_mse": 0.09297719227617993,
+      "mean_excess_mse": 1.8284645398154737,
+      "mean_shifted_mse": 1.2119249351786894,
+      "mean_updates": 3.0,
+      "mean_feedback": 708.8,
+      "mean_coverage": 0.5475,
+      "sd_coverage": 0.01632195607150072,
+      "mean_interval_width": 0.9687738649003357
     }
   ],
-  "expected_records": 200,
-  "observed_unique_records": 200,
+  "expected_records": 220,
+  "observed_unique_records": 220,
   "rows_valid": true,
   "checks_pass": true,
-  "processing_commit": "46a62f7e7bb8085439a189612d5f28d39822732f",
+  "processing_commit": "cbdb0c9b5fd66eacecc47c014bfbc8b96835c00c",
   "source_hash": "a52d81d4b0b724b970a39e36f441c2b32766a1a4c8226d6dc688f6297c93d1ac",
-  "script_sha256": "72879f3cce06f6b7e968204e132eaa737139b1fe74a19ad787fa040e79229864"
+  "script_sha256": "7957e8a4984dee9f2a0a174e937da069d03973d2e34492d5fec966e962d7ed83"
 }

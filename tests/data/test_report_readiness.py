@@ -24,6 +24,15 @@ def test_coarse_classification_domains_are_not_misrepresented_as_online_streams(
     assert paper3 == "offline domain benchmark; release times unavailable"
 
 
+def test_criteo_readiness_exposes_its_delayed_feedback_assumptions():
+    paper1, paper2, paper3 = _readiness_labels(
+        "criteo", False, True, [{"task_kind": "binary_classification"}]
+    )
+    assert paper1 == "retrospective; utility imposed"
+    assert "delay-unit assumptions required" in paper2
+    assert "publisher release times unverified" in paper3
+
+
 def test_synthetic_streams_remain_available_for_all_three_research_tracks():
     assert _readiness_labels("concept", True, False, []) == (
         "controlled decision study",
@@ -69,6 +78,8 @@ def test_dataset_paper_matrix_covers_sources_and_preserves_known_limitations():
     assert "no within-batch timestamps" in gas["timing_evidence"]
     assert "Research-only pending clarification" in gas["source_limitations"]
     assert by_name["fred"]["acquisition_status"] == "implemented_requires_api_key"
+    assert "delay-unit assumptions required" in by_name["criteo"]["paper2_readiness"]
+    assert "publisher release times unverified" in by_name["criteo"]["paper3_readiness"]
     assert by_name["synthetic_suite"]["acquired_versions"] == 1
     assert by_name["synthetic_suite"]["latest_rows"] == 200
 

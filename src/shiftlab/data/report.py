@@ -29,6 +29,12 @@ def _readiness_labels(
     """Describe study scope from stored or registered tasks without inventing availability."""
     if synthetic:
         return "controlled decision study", "regression/classification stream", "stream ready"
+    if name == "criteo":
+        return (
+            "retrospective; utility imposed",
+            "delayed-feedback classification; feature-delivery and delay-unit assumptions required",
+            "replayable under explicit click/feedback assumptions; publisher release times unverified",
+        )
     if classification:
         return (
             "offline classification only",

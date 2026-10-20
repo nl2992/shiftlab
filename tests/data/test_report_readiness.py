@@ -1,8 +1,11 @@
 import json
+from pathlib import Path
 
 import pandas as pd
 
+from shiftlab.data import report as report_module
 from shiftlab.data.catalogue import SOURCES
+from shiftlab.data.provenance import commit, sha256, source_hash
 from shiftlab.data.report import _dataset_suitability_rows, _readiness_labels, build_report
 
 
@@ -91,6 +94,9 @@ def test_report_pipeline_emits_suitability_csv_markdown_and_provenance(tmp_path)
     assert len(matrix) == len(SOURCES) + 1
     assert manifest["source_count"] == len(SOURCES)
     assert manifest["synthetic_acquired_versions"] == 0
+    assert manifest["processing_commit"] == commit()
+    assert manifest["source_hash"] == source_hash()
+    assert manifest["report_script_sha256"] == sha256(Path(report_module.__file__))
     assert (
         "Unknown release timing remains unknown"
         in (report / "dataset_paper_suitability.md").read_text()

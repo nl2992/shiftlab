@@ -103,7 +103,7 @@
       "official_dataset_size": "310 MB compressed; 6.4 GB uncompressed",
       "license": "CC BY-NC-SA 4.0",
       "delay_unit": "unverified; must be read from an accessible publisher README or local export",
-      "verification": "official landing page, fields and terms rechecked; timing, censoring and feature-exclusion fixtures passed; data not acquired",
+      "verification": "official landing page and terms rechecked; publisher page lists README but does not specify delay units; timing, censoring and pre-download configuration validation fixtures passed; data not acquired",
       "latest_probe": {
         "checked_at": "2026-10-20T04:43:22+00:00",
         "method": "Fetched the official Criteo landing page and download-link metadata; ran curl -I -L against the publisher-linked archive and Resolve-DnsName against its Azure Blob host.",
@@ -113,7 +113,7 @@
         "archive_http_status": 404,
         "redirect_host": "criteostorage.blob.core.windows.net",
         "redirect_host_dns_status": "NXDOMAIN",
-        "verification": "The official page still documents the source, 30-day conversion window and CC BY-NC-SA 4.0 terms. No archive bytes downloaded; no alternate or substituted dataset used."
+        "verification": "The official page lists README.md in the archive and documents the 30-day conversion window and CC BY-NC-SA 4.0 terms, but its accessible page does not specify delay units. No archive bytes downloaded; no alternate or substituted dataset used."
       },
       "checked_at": "2026-10-20T04:43:22+00:00"
     }

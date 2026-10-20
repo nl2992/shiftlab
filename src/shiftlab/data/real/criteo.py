@@ -7,7 +7,7 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
-from ..tasks import finite_real_parameter
+from ..tasks import finite_real_parameter, integer_parameter
 from .common import numeric_rows, save_source
 from .download import download
 
@@ -32,6 +32,41 @@ COLUMNS = [
     "user_id",
 ]
 OUTCOMES = {"sale", "sales_amount_in_euro", "time_delay_for_conversion"}
+DELAY_FACTORS = {"seconds": 1.0, "minutes": 60.0, "hours": 3600.0, "days": 86400.0}
+
+
+def validate_config(config):
+    """Reject malformed acquisition settings before any source bytes are requested."""
+    config = dict(config)
+    config["max_records"] = integer_parameter(
+        config.get("max_records", 50_000), "max_records", minimum=1
+    )
+    config["max_download_bytes"] = integer_parameter(
+        config.get("max_download_bytes", 400_000_000), "max_download_bytes", minimum=1
+    )
+    if config.get("delay_unit") not in DELAY_FACTORS:
+        raise ValueError(
+            "Specify delay_unit only after verifying the source README or local export units"
+        )
+    columns = config.get("feature_columns", ["nb_clicks_1week", "product_price"])
+    if (
+        not isinstance(columns, (list, tuple))
+        or not columns
+        or any(not isinstance(column, str) for column in columns)
+        or len(set(columns)) != len(columns)
+    ):
+        raise ValueError("feature_columns must be unique source column names")
+    if set(columns) & OUTCOMES:
+        raise ValueError("Conversion outcomes/delays must never be predictive features")
+    if not isinstance(config.get("assume_instant_click_features", False), (bool, np.bool_)):
+        raise TypeError("assume_instant_click_features must be boolean")
+    finite_real_parameter(config.get("outcome_window_days", 30), "Outcome window", positive=True)
+    finite_real_parameter(
+        config.get("feedback_latency_seconds", 0), "feedback_latency_seconds", nonnegative=True
+    )
+    if config.get("observation_end") is not None:
+        finite_real_parameter(config["observation_end"], "observation_end")
+    return config
 
 
 def conversion_rows(original: pd.DataFrame, config: dict):
@@ -49,8 +84,7 @@ def conversion_rows(original: pd.DataFrame, config: dict):
     instant_features = config.get("assume_instant_click_features", False)
     if not isinstance(instant_features, (bool, np.bool_)):
         raise TypeError("assume_instant_click_features must be boolean")
-    factors = {"seconds": 1.0, "minutes": 60.0, "hours": 3600.0, "days": 86400.0}
-    if config.get("delay_unit") not in factors:
+    if config.get("delay_unit") not in DELAY_FACTORS:
         raise ValueError(
             "Specify delay_unit only after verifying the source README or local export units"
         )
@@ -62,7 +96,7 @@ def conversion_rows(original: pd.DataFrame, config: dict):
         raise ValueError("Criteo sale must be binary")
     delay = (
         pd.to_numeric(original.time_delay_for_conversion, errors="raise").to_numpy(float)
-        * factors[config["delay_unit"]]
+        * DELAY_FACTORS[config["delay_unit"]]
     )
     positive = sale == 1
     if np.any(positive & ~np.isfinite(delay)):
@@ -122,18 +156,17 @@ def conversion_rows(original: pd.DataFrame, config: dict):
 
 
 def acquire(config, root: Path):
+    config = validate_config(config)
     path = (
         Path(config["path"])
         if "path" in config
         else download(
             URL,
             root / "raw/criteo/criteo-research-search-conversion.tar.gz",
-            max_bytes=config.get("max_download_bytes", 400_000_000),
+            max_bytes=config["max_download_bytes"],
         )
     )
-    maximum = int(config.get("max_records", 50000))
-    if maximum < 1:
-        raise ValueError("max_records must be positive")
+    maximum = config["max_records"]
 
     def read(handle):
         original = pd.read_csv(handle, sep="\t", header=None, names=COLUMNS, nrows=maximum)

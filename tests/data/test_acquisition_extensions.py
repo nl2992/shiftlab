@@ -281,6 +281,40 @@ def test_criteo_feedback_and_censoring():
         conversion_rows(original, {})
 
 
+@pytest.mark.parametrize(
+    ("field", "value", "message"),
+    [
+        ("max_records", True, "max_records must be an integer"),
+        ("max_records", 2.5, "max_records must be an integer"),
+        ("max_records", 0, "max_records must be at least 1"),
+        ("max_download_bytes", False, "max_download_bytes must be an integer"),
+        ("max_download_bytes", 10.5, "max_download_bytes must be an integer"),
+        ("max_download_bytes", 0, "max_download_bytes must be at least 1"),
+        ("delay_unit", "unknown", "Specify delay_unit"),
+        ("delay_unit", None, "Specify delay_unit"),
+    ],
+)
+def test_criteo_rejects_invalid_acquisition_config_before_download(
+    tmp_path, monkeypatch, field, value, message
+):
+    def unexpected_download(*args, **kwargs):
+        pytest.fail("invalid Criteo config reached source download")
+
+    monkeypatch.setattr("shiftlab.data.real.criteo.download", unexpected_download)
+    config = {"delay_unit": "seconds", field: value}
+    with pytest.raises((TypeError, ValueError), match=message):
+        acquire("criteo", config, tmp_path)
+
+
+def test_criteo_rejects_outcome_features_before_download(tmp_path, monkeypatch):
+    def unexpected_download(*args, **kwargs):
+        pytest.fail("outcome feature config reached source download")
+
+    monkeypatch.setattr("shiftlab.data.real.criteo.download", unexpected_download)
+    with pytest.raises(ValueError, match="never"):
+        acquire("criteo", {"delay_unit": "seconds", "feature_columns": ["sale"]}, tmp_path)
+
+
 @pytest.mark.parametrize("window", [0, -1, np.nan, np.inf])
 def test_criteo_rejects_nonpositive_or_nonfinite_followup_windows(window):
     original = pd.DataFrame({name: [1] for name in COLUMNS})

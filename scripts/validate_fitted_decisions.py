@@ -74,11 +74,15 @@ def main() -> None:
                             f"mean_{field}": float(np.mean([row[field] for row in rows]))
                             for field in fields
                         },
+                        **{
+                            f"sd_{field}": float(np.std([row[field] for row in rows], ddof=1))
+                            for field in fields
+                        },
                     }
                 )
 
     report = {
-        "description": "Five-seed comparison of two frozen fitted binary-policy classes on ten named synthetic presets plus a hidden-utility impossibility diagnostic.",
+        "description": "Five-seed comparison of two frozen fitted binary-policy classes on ten named synthetic presets plus a hidden-utility impossibility diagnostic. Summary standard deviations describe across-seed spread and are not confidence intervals.",
         "fit_protocol": "A standardized logistic regression and a fixed 200-tree random forest are independently fit on training-partition binary outcomes whose labels arrived before the first test request; test outcomes and evaluator oracle data are excluded from fitting. Hyperparameters are fixed a priori, with no test-set tuning.",
         "decision_protocol": "Actions use only fitted event probabilities and per-request declared false-positive/false-negative costs and feasibility. When context is missing, a symmetric unit-cost fallback is used and reported.",
         "replicates_per_preset": len(seeds),
@@ -90,7 +94,7 @@ def main() -> None:
         "summary": summary,
         "limitations": [
             "These are two baseline fitted policy classes, not implementations or comparisons of the three target papers' algorithms.",
-            "Seed-level results are descriptive; no across-seed confidence intervals are claimed.",
+            "Across-seed sample standard deviations are descriptive and do not account for shared preset structure or justify confidence-interval claims.",
             "Oracle expected cost uses evaluator-only conditional event probabilities and is a reference, not a learner input.",
             "The fallback utility in cases with hidden or absent decision context is deliberately generic; resulting regret includes utility non-identifiability.",
         ],

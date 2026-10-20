@@ -340,7 +340,7 @@ def forecast_task(
         threshold
     ):
         raise ValueError("threshold must be finite")
-    if len(values) <= horizon + lookback:
+    if len(values) < horizon + lookback:
         raise ValueError("Insufficient series for horizon and lookback")
     index = np.arange(lookback - 1, len(values) - horizon)
     X = np.stack([values[i - lookback + 1 : i + 1] for i in index])
@@ -390,7 +390,7 @@ def multi_step_forecast_task(values, horizon=3, lookback=4):
         or lookback < 1
     ):
         raise ValueError("horizon and lookback must be positive integers")
-    if len(values) <= horizon + lookback:
+    if len(values) < horizon + lookback:
         raise ValueError("Insufficient series length for horizon and lookback")
     origin = np.arange(lookback - 1, len(values) - horizon)
     offsets = np.arange(1, horizon + 1)

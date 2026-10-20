@@ -57,6 +57,23 @@ def test_multi_step_forecasts_have_past_only_features_horizon_indices_and_masks(
     assert np.array_equal(X[origins < 12], other_X[other_origins < 12], equal_nan=True)
 
 
+def test_forecast_builders_accept_the_minimum_series_with_one_valid_window():
+    values = np.arange(7.0)
+    X, targets, origins, outcome_indices = multi_step_forecast_task(values, horizon=3, lookback=4)
+    assert X.tolist() == [[0.0, 1.0, 2.0, 3.0]]
+    assert targets.tolist() == [[4.0, 5.0, 6.0]]
+    assert origins.tolist() == [3]
+    assert outcome_indices.tolist() == [[4, 5, 6]]
+
+    X, target, origins, outcome_indices = forecast_task(
+        values, horizon=3, lookback=4, task="regression"
+    )
+    assert X.tolist() == [[0.0, 1.0, 2.0, 3.0]]
+    assert target.tolist() == [6.0]
+    assert origins.tolist() == [3]
+    assert outcome_indices.tolist() == [6]
+
+
 def test_multi_step_task_rejects_invalid_horizon_and_short_series():
     with pytest.raises(ValueError, match="positive integers"):
         multi_step_forecast_task(np.arange(10), horizon=True)

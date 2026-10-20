@@ -31,8 +31,11 @@ class LearnerSettings:
 
 
 class Learner:
-    def __init__(self, X, y, cal_X, cal_y, config, method):
+    def __init__(self, X, y, cal_X, cal_y, config, method, radius_method=None):
         self.config, self.method = LearnerSettings.from_config(config), method
+        self.radius_method = radius_method or ("rolling" if method == "rolling" else "fixed")
+        if self.radius_method not in {"fixed", "rolling"}:
+            raise ValueError("radius_method must be 'fixed' or 'rolling'")
         self.training_seconds = self.inference_seconds = 0.0
         self._fit(X, y)
         pred = self.model.predict(cal_X)
@@ -68,7 +71,7 @@ class Learner:
         self.inference_seconds += time.perf_counter() - start
         radius = (
             quantile(self.scores, self.config.alpha)
-            if self.method == "rolling"
+            if self.radius_method == "rolling"
             else self.fixed_radius
         )
         return pred, radius

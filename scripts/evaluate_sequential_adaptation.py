@@ -33,11 +33,12 @@ SCHEDULES = {
 }
 SEEDS = (11, 23, 37, 53, 71)
 POLICY_VARIANTS = (
-    ("ridge_frozen", "ridge", "frozen"),
-    ("ridge_periodic", "ridge", "periodic"),
-    ("ridge_triggered", "ridge", "triggered"),
-    ("forest_frozen", "random_forest", "frozen"),
-    ("forest_triggered", "random_forest", "triggered"),
+    ("ridge_frozen", "ridge", "frozen", "fixed"),
+    ("ridge_periodic", "ridge", "periodic", "fixed"),
+    ("ridge_triggered", "ridge", "triggered", "fixed"),
+    ("ridge_triggered_rolling_radius", "ridge", "triggered", "rolling"),
+    ("forest_frozen", "random_forest", "frozen", "fixed"),
+    ("forest_triggered", "random_forest", "triggered", "fixed"),
 )
 
 
@@ -53,12 +54,12 @@ def initial_rows(frame: pd.DataFrame, split: str, cutoff: float) -> pd.DataFrame
 class AuditedLearner(Learner):
     """Record the arrived-feedback boundary that caused each sequential refit."""
 
-    def __init__(self, *args, model_family="ridge", model_seed=0, **kwargs):
+    def __init__(self, *args, model_family="ridge", model_seed=0, radius_method="fixed", **kwargs):
         self.current_feedback_time: int | float | None = None
         self.fit_audit: list[dict[str, int | float | str]] = []
         self.model_family = model_family
         self.model_seed = model_seed
-        super().__init__(*args, **kwargs)
+        super().__init__(*args, radius_method=radius_method, **kwargs)
 
     def _fit(self, X, y):
         if self.model_family == "ridge":
@@ -132,7 +133,7 @@ def evaluate_replicate(schedule: str, seed: int) -> list[dict]:
     oracle_by_id = oracle.set_index(frame.sample_id).loc[test_ids]
     arrived_times = set(test.label_available_time.dropna().astype(float).tolist())
     records = []
-    for policy, model_family, method in POLICY_VARIANTS:
+    for policy, model_family, method, radius_method in POLICY_VARIANTS:
         learner = AuditedLearner(
             np.stack(train.features.to_numpy()),
             train.target.to_numpy(dtype=float),
@@ -142,15 +143,18 @@ def evaluate_replicate(schedule: str, seed: int) -> list[dict]:
             method,
             model_family=model_family,
             model_seed=seed,
+            radius_method=radius_method,
         )
         pending: dict[str, tuple[tuple[float, ...], float]] = {}
         predictions: dict[str, float] = {}
+        radii: dict[str, float] = {}
         for event in replay(test):
             if isinstance(event, Request):
                 observation = Observation(int(event.prediction_time), event.features)
-                prediction, _ = learner.predict(observation)
+                prediction, radius = learner.predict(observation)
                 pending[event.sample_id] = (event.features, prediction)
                 predictions[event.sample_id] = prediction
+                radii[event.sample_id] = radius
             elif isinstance(event, Label):
                 features, prediction = pending[event.sample_id]
                 learner.observe(
@@ -165,9 +169,22 @@ def evaluate_replicate(schedule: str, seed: int) -> list[dict]:
         ordered_predictions = np.array([predictions[sample_id] for sample_id in test_ids])
         y = targets.loc[test_ids].to_numpy(dtype=float)
         residual = y - ordered_predictions
+        ordered_radii = np.array([radii[sample_id] for sample_id in test_ids])
         oracle_noise = oracle_by_id.sigma.to_numpy(dtype=float) ** 2
         known_change = oracle_by_id.weight.to_numpy(dtype=float) > 0
         fit_times = [float(row["fit_feedback_available_time"]) for row in learner.fit_audit]
+        coverage_by_block = []
+        for block_index, start in enumerate(range(0, len(test), 100)):
+            stop = min(start + 100, len(test))
+            block_coverage = np.abs(residual[start:stop]) <= ordered_radii[start:stop]
+            coverage_by_block.append(
+                {
+                    "block": block_index,
+                    "n": stop - start,
+                    "coverage": float(block_coverage.mean()),
+                    "mean_width": float(2 * ordered_radii[start:stop].mean()),
+                }
+            )
         records.append(
             {
                 "schedule": schedule,
@@ -175,6 +192,7 @@ def evaluate_replicate(schedule: str, seed: int) -> list[dict]:
                 "policy": policy,
                 "model_family": model_family,
                 "update_method": method,
+                "radius_method": radius_method,
                 "test_n": len(test),
                 "mse": float(np.mean(residual**2)),
                 "oracle_irreducible_mse": float(np.mean(oracle_noise)),
@@ -182,6 +200,9 @@ def evaluate_replicate(schedule: str, seed: int) -> list[dict]:
                 "shifted_or_transition_mse": float(np.mean(residual[known_change] ** 2))
                 if known_change.any()
                 else float("nan"),
+                "coverage": float((np.abs(residual) <= ordered_radii).mean()),
+                "mean_interval_width": float(2 * ordered_radii.mean()),
+                "coverage_by_test_block": coverage_by_block,
                 "update_count": len(learner.interventions),
                 "update_times": [int(value) for value in learner.interventions],
                 "update_budget": settings.budget,
@@ -203,6 +224,9 @@ def evaluate_replicate(schedule: str, seed: int) -> list[dict]:
                     )
                     and len(predictions) == len(test)
                     and test.target.notna().sum() >= learner.feedback_count
+                    and np.isfinite(ordered_radii).all()
+                    and (ordered_radii >= 0).all()
+                    and all(20 <= block["n"] for block in coverage_by_block)
                     and all(
                         row["fit_feedback_available_time"] in learner.interventions
                         for row in learner.fit_audit
@@ -232,6 +256,9 @@ def evaluate() -> dict:
             mean_shifted_mse=("shifted_or_transition_mse", "mean"),
             mean_updates=("update_count", "mean"),
             mean_feedback=("feedback_received", "mean"),
+            mean_coverage=("coverage", "mean"),
+            sd_coverage=("coverage", "std"),
+            mean_interval_width=("mean_interval_width", "mean"),
         )
         .reset_index()
     )
@@ -240,7 +267,7 @@ def evaluate() -> dict:
         (schedule, seed, policy)
         for schedule in SCHEDULES
         for seed in SEEDS
-        for policy, _, _ in POLICY_VARIANTS
+        for policy, _, _, _ in POLICY_VARIANTS
     }
     observed_keys = {(row["schedule"], row["seed"], row["policy"]) for row in rows}
     rows_valid = (
@@ -250,16 +277,29 @@ def evaluate() -> dict:
             row["protocol_passes"]
             and np.isfinite(row["mse"])
             and row["mse"] >= 0
+            and np.isfinite(row["coverage"])
+            and 0 <= row["coverage"] <= 1
+            and np.isfinite(row["mean_interval_width"])
+            and row["mean_interval_width"] >= 0
+            and all(
+                block["n"] >= 20
+                and np.isfinite(block["coverage"])
+                and 0 <= block["coverage"] <= 1
+                and np.isfinite(block["mean_width"])
+                and block["mean_width"] >= 0
+                for block in row["coverage_by_test_block"]
+            )
             and row["update_count"] <= row["update_budget"]
             for row in rows
         )
     )
     return {
-        "description": "Five-seed fitted online adaptation using Ridge and random-forest predictors with frozen, periodic, or residual-CUSUM-triggered updates across four concept schedules.",
-        "protocol": "Train and calibration labels are strictly available before the first test request. During the test stream, learners receive requests and only labels yielded by timestamp-ordered replay. Equal-time requests precede feedback. Refit history contains only arrived labels. Every variant has a four-update compute budget. Random forests use 32 trees, depth 6, leaf size 5, and a fixed seed.",
+        "description": "Five-seed fitted online adaptation using Ridge and random-forest predictors with frozen, periodic, or residual-CUSUM-triggered updates, and a prequential rolling-radius arm across four concept schedules.",
+        "protocol": "Train and calibration labels are strictly available before the first test request. During the test stream, learners receive requests and only labels yielded by timestamp-ordered replay. Equal-time requests precede feedback. Refit history contains only arrived labels. Every variant has a four-update compute budget. The rolling-radius arm keeps its Ridge predictor update schedule identical to the fixed-radius triggered arm; residual scores enter only when their labels arrive and use the forecast made earlier for that sample. Random forests use 32 trees, depth 6, leaf size 5, and a fixed seed.",
         "limitations": [
             "The trigger threshold and review period are fixed in advance; no parameter tuning uses test outcomes.",
             "Only Ridge and a fixed random-forest configuration are evaluated; hyperparameters are not tuned on test outcomes.",
+            "Rolling prequential radii and 100-request coverage blocks are descriptive and do not establish conditional, simultaneous, or online validity.",
             "Oracle irreducible MSE is evaluator-only; it is not exposed to the learner.",
             "Five seeds are descriptive replicates, not confidence intervals.",
         ],
@@ -275,8 +315,13 @@ def evaluate() -> dict:
             "calibration_fraction": 0.2,
             "seeds": list(SEEDS),
             "policies": [
-                {"name": name, "model_family": family, "update_method": method}
-                for name, family, method in POLICY_VARIANTS
+                {
+                    "name": name,
+                    "model_family": family,
+                    "update_method": method,
+                    "radius_method": radius,
+                }
+                for name, family, method, radius in POLICY_VARIANTS
             ],
             "update_budget": 4,
         },
@@ -298,7 +343,22 @@ def main() -> None:
     output = Path("data/reports/fitted_adaptation_validation.json")
     write_json(output, report)
     csv_path = output.with_suffix(".csv")
-    pd.DataFrame(report["replicates"]).drop(columns="fit_audit").to_csv(csv_path, index=False)
+    pd.DataFrame(report["replicates"]).drop(columns=["fit_audit", "coverage_by_test_block"]).to_csv(
+        csv_path, index=False
+    )
+    coverage_rows = []
+    for row in report["replicates"]:
+        for block in row["coverage_by_test_block"]:
+            coverage_rows.append(
+                {
+                    key: row[key]
+                    for key in ["schedule", "seed", "policy", "model_family", "radius_method"]
+                }
+                | block
+            )
+    output.with_name("fitted_adaptation_window_coverage.csv").write_text(
+        pd.DataFrame(coverage_rows).to_csv(index=False), encoding="utf-8"
+    )
     print(f"records={len(report['replicates'])} passed={report['checks_pass']}")
     print(output)
     if not report["checks_pass"]:

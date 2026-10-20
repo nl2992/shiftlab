@@ -1,4 +1,5 @@
 import json
+from types import SimpleNamespace
 
 import numpy as np
 import pandas as pd
@@ -8,9 +9,9 @@ from pydantic import ValidationError
 from shiftlab.benchmark import run
 from shiftlab.core.config import Config, load_config
 from shiftlab.diagnostics import CUSUM, ks_test
-from shiftlab.learner import decision_losses
+from shiftlab.learner import Learner, decision_losses
 from shiftlab.methods import weighted_conformal_quantile
-from shiftlab.streaming import simulate
+from shiftlab.streaming import Feedback, Observation, simulate
 from shiftlab.synthetic import generate
 
 
@@ -57,6 +58,39 @@ def test_quantile_and_cost():
     assert np.isinf(weighted_conformal_quantile([1, 2], 0.1))
     assert weighted_conformal_quantile(np.arange(1, 10), 0.2) == 8
     assert decision_losses(np.array([1, -1]), np.array([-1, 1])).tolist() == [5, 1]
+
+
+def test_radius_updates_are_decoupled_from_predictor_update_method():
+    X = np.arange(80, dtype=float).reshape(40, 2)
+    y = np.zeros(40)
+    settings = SimpleNamespace(window=20, alpha=0.1, threshold=5.0, period=10, budget=2)
+    frozen = Learner(X[:20], y[:20], X[20:], y[20:], settings, "frozen", "fixed")
+    rolling = Learner(X[:20], y[:20], X[20:], y[20:], settings, "frozen", "rolling")
+    for now in (50, 51):
+        feedback = Feedback(
+            time=now - 1,
+            available_at=now,
+            features=tuple(X[0]),
+            target=100.0,
+            prediction=0.0,
+        )
+        frozen.observe(feedback)
+        rolling.observe(feedback)
+    _, fixed_radius = frozen.predict(Observation(52, tuple(X[1])))
+    _, rolling_radius = rolling.predict(Observation(52, tuple(X[1])))
+    assert fixed_radius == 0
+    assert rolling_radius == 100
+    assert frozen.interventions == rolling.interventions == []
+
+
+def test_default_radius_mode_preserves_legacy_rolling_behavior():
+    X = np.arange(80, dtype=float).reshape(40, 2)
+    y = np.zeros(40)
+    settings = SimpleNamespace(window=20, alpha=0.1, threshold=5.0, period=10, budget=2)
+    rolling = Learner(X[:20], y[:20], X[20:], y[20:], settings, "rolling")
+    fixed = Learner(X[:20], y[:20], X[20:], y[20:], settings, "frozen")
+    assert rolling.radius_method == "rolling"
+    assert fixed.radius_method == "fixed"
 
 
 def test_config():

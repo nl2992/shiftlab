@@ -197,7 +197,7 @@ def plot_cost_frontier(summary: pd.DataFrame, path: Path) -> None:
     fig, axes = plt.subplots(2, 2, figsize=(15, 10), sharey=False)
     for ax, schedule in zip(axes.flat, schedules, strict=True):
         rows = summary.loc[summary.schedule == schedule]
-        for row in rows.itertuples(index=False):
+        for point_index, row in enumerate(rows.itertuples(index=False)):
             family = row.policy.split("_")[0]
             if row.policy.startswith("boosted_tree"):
                 family = "hist_gradient_boosting"
@@ -212,6 +212,20 @@ def plot_cost_frontier(summary: pd.DataFrame, path: Path) -> None:
                 edgecolor="black" if row.pareto_efficient else "none",
                 linewidth=0.8,
                 s=58,
+            )
+            short_name = (
+                row.policy.replace("boosted_tree_", "hgb_")
+                .replace("random_forest_", "rf_")
+                .replace("forest_", "rf_")
+                .replace("ridge_", "")
+            )
+            ax.annotate(
+                short_name,
+                (row.mean_resource_units, row.mean_mse),
+                xytext=(4, 3 + (point_index % 3) * 4),
+                textcoords="offset points",
+                fontsize=5.5,
+                alpha=0.85,
             )
         efficient = rows.loc[rows.pareto_efficient].sort_values("mean_resource_units")
         ax.plot(
@@ -242,9 +256,9 @@ def plot_cost_frontier(summary: pd.DataFrame, path: Path) -> None:
         for family, color in families.items()
     ]
     legend.append(Line2D([0], [0], color="#333333", linestyle="--", label="Pareto frontier"))
-    fig.legend(handles=legend, loc="center left", bbox_to_anchor=(0.88, 0.5))
+    fig.legend(handles=legend, loc="center left", bbox_to_anchor=(0.82, 0.5), borderaxespad=0)
     fig.suptitle("Adaptation loss versus imposed compute cost (five seeds)")
-    fig.tight_layout(rect=(0, 0, 0.86, 0.96))
+    fig.tight_layout(rect=(0, 0, 0.8, 0.96))
     path.parent.mkdir(parents=True, exist_ok=True)
     fig.savefig(path, dpi=180)
     plt.close(fig)
@@ -585,7 +599,7 @@ def evaluate() -> dict:
             "processor": platform.processor(),
             "logical_cpu_count": os.cpu_count(),
             "scikit_learn": sklearn.__version__,
-            "timing_scope": "Wall-clock fit, predict, and intervention durations; descriptive and host-dependent.",
+            "timing_scope": "Wall-clock fit and intervention durations; inference includes the full Learner.predict call with monitoring and radius calculation. Descriptive and host-dependent.",
         },
         "expected_records": expected,
         "observed_unique_records": len(observed_keys),

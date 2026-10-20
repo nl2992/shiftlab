@@ -137,6 +137,7 @@ class Learner:
         self.training_seconds += time.perf_counter() - start
 
     def predict(self, observation):
+        start = time.perf_counter()
         x = np.asarray(observation.features)
         self.features.append(x)
         if (
@@ -145,9 +146,7 @@ class Learner:
             and ks_test(self.reference, np.asarray(self.features)) < 0.01
         ):
             self.alarms["ks"].append(observation.time)
-        start = time.perf_counter()
         pred = float(self.model.predict(x[None, :])[0]) + self.bias_correction
-        self.inference_seconds += time.perf_counter() - start
         if self.radius_method == "rolling":
             radius = quantile(self.scores, self.config.alpha)
         elif self.radius_method == "exponential":
@@ -161,6 +160,7 @@ class Learner:
             )
         else:
             radius = self.fixed_radius
+        self.inference_seconds += time.perf_counter() - start
         return pred, radius
 
     def observe(self, feedback):

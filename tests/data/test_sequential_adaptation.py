@@ -4,7 +4,11 @@ import numpy as np
 import pandas as pd
 from sklearn.ensemble import HistGradientBoostingRegressor, RandomForestRegressor
 
-from scripts.evaluate_sequential_adaptation import AuditedLearner, initial_rows
+from scripts.evaluate_sequential_adaptation import (
+    AuditedLearner,
+    cost_frontier_summary,
+    initial_rows,
+)
 from shiftlab.streaming import Feedback
 
 
@@ -74,3 +78,55 @@ def test_histogram_gradient_boosting_can_refit_after_arrived_feedback():
     )
     assert learner.interventions == [68]
     assert learner.fit_audit[0]["model_family"] == "hist_gradient_boosting"
+
+
+def test_cost_frontier_uses_cumulative_loss_and_resource_charge():
+    records = [
+        {
+            "schedule": "abrupt",
+            "policy": "hold",
+            "seed": 1,
+            "mse": 3.0,
+            "test_n": 10,
+            "resource_spent": 0.0,
+            "training_seconds": 1.0,
+            "inference_seconds": 2.0,
+            "adaptation_seconds": 0.0,
+            "update_count": 0,
+        },
+        {
+            "schedule": "abrupt",
+            "policy": "refit",
+            "seed": 1,
+            "mse": 2.0,
+            "test_n": 10,
+            "resource_spent": 4.0,
+            "training_seconds": 2.0,
+            "inference_seconds": 2.0,
+            "adaptation_seconds": 1.0,
+            "update_count": 1,
+        },
+        {
+            "schedule": "abrupt",
+            "policy": "wasteful",
+            "seed": 1,
+            "mse": 4.0,
+            "test_n": 10,
+            "resource_spent": 8.0,
+            "training_seconds": 3.0,
+            "inference_seconds": 2.0,
+            "adaptation_seconds": 1.0,
+            "update_count": 1,
+        },
+    ]
+    summary = cost_frontier_summary(records).set_index("policy")
+    assert summary.pareto_efficient.to_dict() == {
+        "hold": True,
+        "refit": True,
+        "wasteful": False,
+    }
+    assert summary.mean_objective_at_resource_price_1.to_dict() == {
+        "hold": 30.0,
+        "refit": 24.0,
+        "wasteful": 48.0,
+    }

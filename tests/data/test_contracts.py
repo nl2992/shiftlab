@@ -165,6 +165,12 @@ def test_invalid_configuration():
         SyntheticConfig(unknown=1)
 
 
+@pytest.mark.parametrize("field", ["seed", "delay", "regimes", "severity", "missing"])
+def test_synthetic_configuration_rejects_boolean_numeric_values(field):
+    with pytest.raises(ValidationError, match="Boolean values are not valid numeric"):
+        SyntheticConfig(**{field: True})
+
+
 def test_partition_boundary_delay_purge():
     frame = pd.concat(
         [f for f, _ in generate_chunks(SyntheticConfig(n=1000, chunk_size=100, delay=10))],

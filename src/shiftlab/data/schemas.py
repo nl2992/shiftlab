@@ -4,7 +4,7 @@ from typing import Literal
 
 import numpy as np
 import pandas as pd
-from pydantic import BaseModel, ConfigDict, Field, model_validator
+from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
 
 SCHEMA_VERSION = "1.1.0"
 TIMES = [
@@ -51,6 +51,34 @@ class SyntheticConfig(BaseModel):
     train_fraction: float = Field(default=0.2, gt=0, lt=1)
     validation_fraction: float = Field(default=0.1, gt=0, lt=1)
     calibration_fraction: float = Field(default=0.1, gt=0, lt=1)
+
+    @field_validator(
+        "n",
+        "d",
+        "seed",
+        "change_fraction",
+        "severity",
+        "noise",
+        "delay",
+        "missing",
+        "rho",
+        "regimes",
+        "review_period",
+        "transition_fraction",
+        "chunk_size",
+        "memory_mb",
+        "train_fraction",
+        "validation_fraction",
+        "calibration_fraction",
+        mode="before",
+    )
+    @classmethod
+    def reject_boolean_parameters(cls, value):
+        if isinstance(value, (bool, np.bool_)):
+            raise ValueError(  # noqa: TRY004 - Pydantic turns this into a consistent ValidationError
+                "Boolean values are not valid numeric configuration parameters"
+            )
+        return value
 
     @model_validator(mode="after")
     def split_fractions(self):

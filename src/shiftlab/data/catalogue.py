@@ -58,11 +58,11 @@ SOURCES = {
     "eia": {
         "publisher": "US EIA",
         "url": "https://www.eia.gov/opendata/",
-        "license": "Verify endpoint terms",
+        "license": "EIA U.S. government data is public domain with attribution; verify series-specific third-party restrictions",
         "citation": "EIA Open Data",
-        "status": "implemented_requires_api_key",
-        "size": "query-dependent",
-        "timing": "must preserve report/release times",
+        "status": "implemented_api_and_official_bulk",
+        "size": "query-dependent; official EBA bulk archive approximately 700 MB compressed",
+        "timing": "event times are not publication times; release availability remains unknown",
     },
     "fred": {
         "publisher": "Federal Reserve Bank of St Louis",

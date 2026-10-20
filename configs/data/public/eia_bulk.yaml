@@ -1,0 +1,12 @@
+# The official EIA EBA archive is approximately 700 MB compressed. Network use is
+# opt-in through scripts/download_data.py --execute and bounded by this byte limit.
+bulk_dataset: EBA
+respondents: [NYIS]
+types: [D, DF, NG, TI]
+# Naive date-times are interpreted as UTC; EBA series use UTC hourly periods.
+start: "2023-01-01T00"
+end: "2023-01-03T23"
+horizon: 1
+max_records: 10000
+max_download_bytes: 800000000
+manifest_max_bytes: 2000000

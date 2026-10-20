@@ -10,6 +10,7 @@ the entire Phase 1 brief or introduce new research algorithms.
 uv sync --extra dev --extra data-sources --extra neural --extra wilds
 uv run python scripts/download_data.py --dataset monash --config configs/data/public/monash.yaml --execute
 uv run python scripts/download_data.py --dataset eia --config configs/data/public/eia.yaml --execute
+uv run python scripts/download_data.py --dataset eia --config configs/data/public/eia_bulk.yaml --execute
 uv run python scripts/download_data.py --dataset fred --config configs/data/finance/fred.yaml --execute
 uv run python scripts/download_data.py --dataset wilds --config configs/data/public/wilds.yaml --execute
 uv run pytest tests/data/test_acquisition_extensions.py tests/data/test_wilds_package.py -q
@@ -17,10 +18,14 @@ uv run pytest tests/data/test_acquisition_extensions.py tests/data/test_wilds_pa
 
 ## Contracts and verification
 
-EIA requires `EIA_API_KEY`; FRED/ALFRED requires `FRED_API_KEY`. Configure them locally, never
-in YAML or Git. Responses use bounded pagination, retries and immutable snapshots. Credential
-echoes are scrubbed before storage. Receipts distinguish publisher-byte hashes from stored
-sanitized-file hashes. Fixtures verify formats and transport, not successful live acquisition.
+EIA API v2 requires `EIA_API_KEY`; FRED/ALFRED requires `FRED_API_KEY`. Configure them locally,
+never in YAML or Git. The official EIA bulk-download facility does not require an API key. The
+opt-in EBA path downloads its approximately 700 MB compressed archive only when `--execute` is
+provided and requires an explicit byte budget. It streams JSON lines and retains only selected
+UTC hourly series and date ranges. The committed example config selects three days for NYIS.
+EIA API responses use bounded pagination, retries and immutable snapshots. Credential echoes are
+scrubbed before storage. Receipts distinguish publisher-byte hashes from stored sanitized-file
+hashes. Fixtures verify formats and transport.
 
 EIA preserves balancing-authority demand, forecast, generation, interchange and source units.
 Calendar gaps are excluded from fixed-horizon pairs. Historical publication availability stays
@@ -57,7 +62,9 @@ installation or CI. Permitted existing local exports can be imported with `path`
 
 ## Observed external limitations
 
-- EIA/FRED: required API keys are absent. No live acquisition with invented credentials is claimed.
+- EIA API and FRED: API keys are not configured. A real EIA NYIS hourly subset has been acquired
+  from the official keyless EBA bulk archive; API-key acquisition remains available when a key is
+  supplied. FRED live acquisition remains pending a key.
 - CivilComments: the official CodaLab host fails certificate validation. TLS verification stays
   enabled. [Upstream issue](https://github.com/p-lambda/wilds/issues/173) also records the outage.
 - Criteo: the publisher-linked archive returned HEAD 404 and a failed streamed GET. No unrelated
@@ -66,6 +73,9 @@ installation or CI. Permitted existing local exports can be imported with `path`
 Timestamped outcomes are recorded in `data/reports/acquisition_extensions.json`.
 
 Primary references: [EIA API](https://www.eia.gov/opendata/documentation.php),
+[EIA bulk downloads](https://www.eia.gov/opendata/bulk-downloads.php),
+[EIA bulk format and manifest](https://www.eia.gov/opendata/v1/bulkfiles.php),
+[EIA copyrights and reuse](https://www.eia.gov/about/copyrights_reuse.php),
 [FRED observations/vintages](https://fred.stlouisfed.org/docs/api/fred/series_observations.html),
 [Monash repository](https://forecastingdata.org/),
 [WILDS](https://github.com/p-lambda/wilds),

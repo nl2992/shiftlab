@@ -84,6 +84,45 @@ def test_oracle_radius_has_exactly_ninety_percent_mass_under_its_residual_law(sc
     assert np.max(np.abs(mass - 0.9)) < 1e-8
 
 
+@pytest.mark.parametrize("scenario", ["tail_frequency", "conditional_variance"])
+@pytest.mark.parametrize(
+    "pattern",
+    [
+        "abrupt",
+        "multiple",
+        "linear",
+        "sigmoid",
+        "recurring",
+        "hmm",
+        "seasonal",
+        "temporary",
+        "variable_dwell",
+        "oblivious_adversarial",
+    ],
+)
+@pytest.mark.parametrize("severity", [0.0, 0.5, 2.0])
+def test_oracle_quantile_cdf_remains_exact_across_temporal_schedules(scenario, pattern, severity):
+    config = SyntheticConfig(
+        n=300,
+        scenario=scenario,
+        pattern=pattern,
+        severity=severity,
+        seed=821,
+    )
+    _, oracle = next(generate_chunks(config))
+    radius = oracle.radius_90.to_numpy(dtype=float)
+    scale = oracle.sigma.to_numpy(dtype=float)
+    if scenario == "conditional_variance":
+        mass = 2 * norm.cdf(radius / scale) - 1
+    else:
+        rare_rate = 0.01 + 0.1 * np.tanh(severity) * oracle.weight.to_numpy(dtype=float)
+        standardized_radius = radius / scale
+        mass = (1 - rare_rate) * (2 * norm.cdf(standardized_radius) - 1) + rare_rate * (
+            2 * norm.cdf(standardized_radius / 8) - 1
+        )
+    assert np.max(np.abs(mass - 0.9)) < 1e-8
+
+
 def test_ar1_autocorrelation():
     values = []
     for seed in [1, 2, 3]:

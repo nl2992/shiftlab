@@ -1,0 +1,104 @@
+{
+  "description": "Five-seed Monte Carlo checks of the stable performative process against its analytic stationary Gaussian state and independent target/state innovations.",
+  "parameters": {
+    "n": 20000,
+    "burn_in": 1000,
+    "rho": 0.4,
+    "strength": 0.2,
+    "noise": 0.1,
+    "joint_actions": [
+      0.3,
+      0.1,
+      0.5
+    ],
+    "mean_action": 0.3,
+    "expected_stationary_state_mean": 0.1,
+    "expected_stationary_state_variance": 0.011904761904761908,
+    "expected_innovation_variance": 0.010000000000000002
+  },
+  "tolerances": {
+    "target_and_state_innovation_mean": 0.0029019050004400466,
+    "innovation_variance_relative": 0.045,
+    "state_variance_relative": 0.07,
+    "90pct_coverage_absolute": 0.008705715001320141,
+    "innovation_correlation_absolute": 0.029019050004400464
+  },
+  "replicates": [
+    {
+      "seed": 11,
+      "sample_state_mean": 0.09866811746454592,
+      "expected_stationary_state_mean": 0.1,
+      "sample_state_variance": 0.011791114979496406,
+      "expected_stationary_state_variance": 0.011904761904761908,
+      "target_innovation_mean": 0.0008152532134485846,
+      "target_innovation_variance": 0.009950123859647941,
+      "state_innovation_mean": -0.0008054924521027797,
+      "state_innovation_variance": 0.010021440620311965,
+      "target_innovation_90pct_coverage": 0.9003157894736842,
+      "target_state_innovation_correlation": 0.001316635069419164,
+      "passes": true
+    },
+    {
+      "seed": 23,
+      "sample_state_mean": 0.09828888970253949,
+      "expected_stationary_state_mean": 0.1,
+      "sample_state_variance": 0.011796744450087474,
+      "expected_stationary_state_variance": 0.011904761904761908,
+      "target_innovation_mean": -0.0008121032174710242,
+      "target_innovation_variance": 0.010064184009880852,
+      "state_innovation_mean": -0.00102970336446351,
+      "state_innovation_variance": 0.009938833969070374,
+      "target_innovation_90pct_coverage": 0.8986842105263158,
+      "target_state_innovation_correlation": -0.003597502335299353,
+      "passes": true
+    },
+    {
+      "seed": 37,
+      "sample_state_mean": 0.09913961489742079,
+      "expected_stationary_state_mean": 0.1,
+      "sample_state_variance": 0.011875458083496855,
+      "expected_stationary_state_variance": 0.011904761904761908,
+      "target_innovation_mean": 0.0002537967873805249,
+      "target_innovation_variance": 0.010100943772310892,
+      "state_innovation_mean": -0.0005112643288159864,
+      "state_innovation_variance": 0.00998111508443353,
+      "target_innovation_90pct_coverage": 0.8981052631578947,
+      "target_state_innovation_correlation": -0.008519766550719062,
+      "passes": true
+    },
+    {
+      "seed": 53,
+      "sample_state_mean": 0.10095349974955005,
+      "expected_stationary_state_mean": 0.1,
+      "sample_state_variance": 0.01197085713291899,
+      "expected_stationary_state_variance": 0.011904761904761908,
+      "target_innovation_mean": 4.524739776681189e-05,
+      "target_innovation_variance": 0.009989048585954778,
+      "state_innovation_mean": 0.0005723558021691093,
+      "state_innovation_variance": 0.010004454798395339,
+      "target_innovation_90pct_coverage": 0.900578947368421,
+      "target_state_innovation_correlation": -0.004466083035970789,
+      "passes": true
+    },
+    {
+      "seed": 71,
+      "sample_state_mean": 0.09998411525184438,
+      "expected_stationary_state_mean": 0.1,
+      "sample_state_variance": 0.011881071588861963,
+      "expected_stationary_state_variance": 0.011904761904761908,
+      "target_innovation_mean": -0.00016822019186395358,
+      "target_innovation_variance": 0.010190133334905002,
+      "state_innovation_mean": -8.604376406520838e-06,
+      "state_innovation_variance": 0.010027357823328838,
+      "target_innovation_90pct_coverage": 0.8982631578947369,
+      "target_state_innovation_correlation": 0.007329421652007435,
+      "passes": true
+    }
+  ],
+  "checks_pass": true,
+  "interpretation": "Synthetic controlled process validation; action effects are imposed and are not evidence about real-world performative systems.",
+  "processing_commit": "38aa96000c765c22254f0da89950c2d97e68dd9d",
+  "source_hash": "1653f08475a97cde4465400335018375d1847ec32a27867ab889fdd5e3a79146",
+  "script_sha256": "c380904831b38dd0a61b29d3eb1c55343a8b553e566a9c72787da6170c170030",
+  "executed_at": "2026-10-20T02:17:43.713568+00:00"
+}

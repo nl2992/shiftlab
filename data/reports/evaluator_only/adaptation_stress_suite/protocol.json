@@ -1,0 +1,84 @@
+{
+  "dataset_versions": {
+    "long_stationary_late_break": "aeef64a4714351e4f47e",
+    "frequent_small_changes": "e2461ffd1a6145cc5dd8",
+    "rare_large_break": "e9fbb8e14cecd7a037cc",
+    "recurring_structure": "cb2b4341f8101f96ff95",
+    "temporary_shock_recovery": "14bac6a6d278d14fc81f",
+    "gradual_degradation": "ec3bdf1a271e675be5a8",
+    "variable_dwell": "06c1bbaacd7907d26efb",
+    "adversarial_timing": "719dbe4f2a23fd4d3c90"
+  },
+  "base_configuration": {
+    "scenario": "concept",
+    "n": 1000,
+    "d": 2,
+    "seed": 42,
+    "change_fraction": 0.5,
+    "severity": 2.0,
+    "noise": 0.3,
+    "delay": 0,
+    "missing": 0.0,
+    "rho": 0.6,
+    "pattern": "oblivious_adversarial",
+    "regimes": 2,
+    "review_period": 100,
+    "transition_fraction": 0.1,
+    "device": "cpu",
+    "dtype": "float64",
+    "chunk_size": 256,
+    "memory_mb": 512,
+    "output": "data",
+    "train_fraction": 0.2,
+    "validation_fraction": 0.1,
+    "calibration_fraction": 0.1
+  },
+  "scenario_overrides": {
+    "long_stationary_late_break": {
+      "pattern": "abrupt",
+      "change_fraction": 0.8,
+      "severity": 2.0
+    },
+    "frequent_small_changes": {
+      "pattern": "multiple",
+      "severity": 0.5
+    },
+    "rare_large_break": {
+      "pattern": "abrupt",
+      "change_fraction": 0.5,
+      "severity": 3.0
+    },
+    "recurring_structure": {
+      "pattern": "recurring",
+      "severity": 1.5
+    },
+    "temporary_shock_recovery": {
+      "pattern": "temporary",
+      "severity": 2.0
+    },
+    "gradual_degradation": {
+      "pattern": "linear",
+      "severity": 2.0
+    },
+    "variable_dwell": {
+      "pattern": "variable_dwell",
+      "severity": 1.5
+    },
+    "adversarial_timing": {
+      "pattern": "oblivious_adversarial",
+      "severity": 2.0
+    }
+  },
+  "processing_commit": "39daa03fb0b91f992a2bf702ef3df5a72a962c35",
+  "source_hash": "bec4b48ac39c298d0ccd7923b7df1c30f7bac089fb5fc13ba31144bd89b494b0",
+  "script_sha256": "f00d3d7500b9b18facef4eec5c7b247769e5152eb5321a437615eca0c75c84a3",
+  "risk": "analytical Gaussian feature-integrated MSE for two fixed coefficient vectors",
+  "scope": "evaluator-only single fixed update versus hold at independent start times; horizons truncated at stream end",
+  "controls": "deployment delay 2; transient penalties [2,1]; imposed loss and resource costs; tight and variable budgets",
+  "limitations": [
+    "No interacting or sequential updates, learned controller, fitted predictor, or application-grounded utility.",
+    "Each start is independent and receives the same declared remaining budget.",
+    "The fixed updated coefficient is not refit as regimes change; Gaussian IID feature assumptions apply.",
+    "Feedback-change and interval recalibration require separate loss references."
+  ]
+}

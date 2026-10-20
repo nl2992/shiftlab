@@ -44,6 +44,21 @@ for horizon 100. Protocol and per-start CSVs are stored under
 reference; it is not a learned or dynamic recalibration controller, and it does not make
 application-cost or finite-sample coverage claims.
 
+Run the multi-schedule concept-shift contrast suite with:
+
+```powershell
+python -m uv run python scripts/adaptation_stress_suite.py --config configs/data/synthetic/adaptation_stress.yaml
+```
+
+It writes independent-start rows, scenario summaries and a protocol under
+`data/reports/evaluator_only/adaptation_stress_suite`. Eight executed schedules cover a
+late break, frequent small changes, a large break, recurrence, temporary recovery, gradual
+degradation, variable dwell and the declared periodic-review adversarial timing. The suite
+imposes a tight infeasible budget for the late-break case and variable per-start resource
+costs for variable dwell, alongside loss costs, a two-step deployment delay and transient
+penalties. Costs remain research controls. Each start is still a separate full-information
+counterfactual with one fixed candidate; this does not test a learned or sequential policy.
+
 The `oblivious_adversarial` temporal pattern assumes scheduled reviews at multiples of
 `review_period`. It fixes regime flips one step after those reviews, before observing
 any learner actions or stream values. The wait until the next scheduled review is then
@@ -72,3 +87,5 @@ Existing mechanisms can express the remaining adaptation contrasts explicitly:
 The example loss and resource numbers are imposed research controls. They are not actual
 training-time measurements or operational utility. Generic cost units do not establish
 which real adaptation intervention is beneficial; each application needs its own reference.
+The feedback-change contrast remains a documented boundary only: this coefficient-shift
+MSE suite does not represent label delay or missing feedback as an adaptation benefit.

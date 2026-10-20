@@ -22,14 +22,17 @@ EIA API v2 requires `EIA_API_KEY`; FRED/ALFRED requires `FRED_API_KEY`. Configur
 never in YAML or Git. The official EIA bulk-download facility does not require an API key. The
 opt-in EBA path downloads its approximately 700 MB compressed archive only when `--execute` is
 provided and requires an explicit byte budget. It streams JSON lines and retains only selected
-UTC hourly series and date ranges. The committed example config selects three days for NYIS.
+UTC hourly series and date ranges. The committed example config selects three years for NYIS,
+then assigns retrospective event-time splits and purges rows whose one-hour target crosses a
+split boundary.
 EIA API responses use bounded pagination, retries and immutable snapshots. Credential echoes are
 scrubbed before storage. Receipts distinguish publisher-byte hashes from stored sanitized-file
 hashes. Fixtures verify formats and transport.
 
 EIA preserves balancing-authority demand, forecast, generation, interchange and source units.
-Calendar gaps are excluded from fixed-horizon pairs. Historical publication availability stays
-unknown. FRED preserves every returned revision interval; `asof_vintage` excludes future
+Calendar gaps are excluded from fixed-horizon pairs. Retrospective splits use event time and purge
+cross-boundary outcomes; they do not imply historical feature or label availability. FRED
+preserves every returned revision interval; `asof_vintage` excludes future
 revisions. Date-only release metadata has an explicit conservative end-of-day assumption;
 intraday release time is not fabricated. The revision table is not a ready forecasting design.
 

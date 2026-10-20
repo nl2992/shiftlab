@@ -7,6 +7,7 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
+from ..chronological_splits import retrospective_event_splits
 from ..provenance import sha256
 from .api import reject_secrets, required_key, snapshot_pages
 from .common import numeric_rows, save_source, utc_seconds
@@ -15,6 +16,13 @@ from .download import download
 ENDPOINT = "https://api.eia.gov/v2/electricity/rto/region-data/data/"
 BULK_MANIFEST = "https://api.eia.gov/bulk/manifest.txt"
 BULK_EBA = "https://www.eia.gov/opendata/bulk/EBA.zip"
+
+
+def _retrospective_splits_if_feasible(frame: pd.DataFrame) -> pd.DataFrame:
+    """Keep tiny fixtures unassigned; real event-time panels receive purged splits."""
+    if frame.event_time.nunique() < 4:
+        return frame
+    return retrospective_event_splits(frame)
 
 
 def _bulk_records(archive_path: Path, respondents, types, start, end, max_records):
@@ -159,6 +167,7 @@ def _acquire_bulk(config: dict, root: Path):
         )
         frame["event_time"] = times[indices]
         frame["label_event_time"] = times[indices + horizon]
+        frame = _retrospective_splits_if_feasible(frame)
         frames.append((frame, None))
     return save_source(
         "eia",
@@ -256,6 +265,7 @@ def acquire(config: dict, root: Path):
         )
         frame["event_time"] = times[index]
         frame["label_event_time"] = times[index + horizon]
+        frame = _retrospective_splits_if_feasible(frame)
         frames.append((frame, None))
     return save_source(
         "eia",

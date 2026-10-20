@@ -1,9 +1,11 @@
 import json
 import zipfile
 
+import numpy as np
+import pandas as pd
 import pytest
 
-from shiftlab.data.real.eia import _bulk_records
+from shiftlab.data.real.eia import _bulk_records, _retrospective_splits_if_feasible
 
 
 def test_eia_bulk_extracts_requested_utc_hourly_series(tmp_path):
@@ -112,3 +114,34 @@ def test_eia_bulk_normalizes_offset_bounds_to_utc(tmp_path):
     )
 
     assert [row["period"] for row in rows] == ["20230102T03"]
+
+
+def test_eia_retrospective_splits_purge_one_hour_boundary_targets():
+    event_times = np.arange(100, dtype=float) * 3600
+    frame = pd.DataFrame({"event_time": event_times, "label_event_time": event_times + 3600})
+
+    result = _retrospective_splits_if_feasible(frame)
+
+    assert set(result.split) == {"train", "validation", "calibration", "test", "unassigned"}
+    for earlier, later in [
+        ("train", "validation"),
+        ("validation", "calibration"),
+        ("calibration", "test"),
+    ]:
+        early_rows = result[result.split == earlier]
+        late_rows = result[result.split == later]
+        assert early_rows.label_event_time.max() < late_rows.event_time.min()
+
+
+def test_eia_tiny_fixture_rows_remain_unassigned():
+    frame = pd.DataFrame(
+        {
+            "event_time": [0.0, 3600.0],
+            "label_event_time": [3600.0, 7200.0],
+            "split": ["unassigned", "unassigned"],
+        }
+    )
+
+    result = _retrospective_splits_if_feasible(frame)
+
+    assert result.split.tolist() == ["unassigned", "unassigned"]

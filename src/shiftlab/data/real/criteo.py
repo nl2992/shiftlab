@@ -52,24 +52,35 @@ def conversion_rows(original: pd.DataFrame, config: dict):
         pd.to_numeric(original.time_delay_for_conversion, errors="raise").to_numpy(float)
         * factors[config["delay_unit"]]
     )
-    if np.any((sale == 1) & (delay < 0)):
+    positive = sale == 1
+    if np.any(positive & ~np.isfinite(delay)):
+        raise ValueError("Positive conversion delay must be finite")
+    if np.any(positive & (delay < 0)):
         raise ValueError("Positive conversion has negative delay")
-    window = float(config.get("outcome_window_days", 30)) * 86400
-    if window <= 0:
-        raise ValueError("Outcome window must be positive")
+    window_days = float(config.get("outcome_window_days", 30))
+    if not np.isfinite(window_days) or window_days <= 0:
+        raise ValueError("Outcome window must be finite and positive")
+    window = window_days * 86400
+    if not np.isfinite(window):
+        raise ValueError("Outcome window in seconds must be finite")
     target_event = np.where(sale == 1, click + delay, click + window)
+    if np.isinf(target_event).any():
+        raise ValueError("Computed label event times must be finite when known")
     if np.any((sale == 1) & (target_event > click + window)):
         raise ValueError("Conversion exceeds documented outcome window")
     latency = float(config.get("feedback_latency_seconds", 0))
-    if latency < 0:
-        raise ValueError("feedback_latency_seconds must be nonnegative")
+    if not np.isfinite(latency) or latency < 0:
+        raise ValueError("feedback_latency_seconds must be finite and nonnegative")
     available = target_event + latency
     observation_end = config.get("observation_end")
     if observation_end is None:
         # No observed positive at all can certify a later nonconversion's full 30-day followup.
         available = np.where(sale == 1, available, np.nan)
     else:
-        available = np.where(available <= float(observation_end), available, np.nan)
+        observation_end = float(observation_end)
+        if not np.isfinite(observation_end):
+            raise ValueError("observation_end must be finite")
+        available = np.where(available <= observation_end, available, np.nan)
     X = original[columns].apply(pd.to_numeric, errors="raise").replace(-1, np.nan).to_numpy(float)
     frame = numeric_rows(
         X,

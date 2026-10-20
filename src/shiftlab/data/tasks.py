@@ -178,6 +178,8 @@ def dataset_task_specs(dataset: str, config: dict) -> list[dict]:
         ]
     if dataset == "criteo":
         window = float(config.get("outcome_window_days", 30))
+        if not np.isfinite(window) or window <= 0:
+            raise ValueError("Criteo outcome_window_days must be finite and positive")
         return [
             {
                 "task_id": "conversion_within_followup_window",

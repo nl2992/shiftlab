@@ -213,6 +213,39 @@ def test_criteo_feedback_and_censoring():
         conversion_rows(original, {})
 
 
+@pytest.mark.parametrize("window", [0, -1, np.nan, np.inf])
+def test_criteo_rejects_nonpositive_or_nonfinite_followup_windows(window):
+    original = pd.DataFrame({name: [1] for name in COLUMNS})
+    original["sale"] = [0]
+    original["time_delay_for_conversion"] = [-1]
+    original["click_timestamp"] = [1000]
+    with pytest.raises(ValueError, match="outcome_window_days|Outcome window"):
+        conversion_rows(original, {"delay_unit": "seconds", "outcome_window_days": window})
+
+
+@pytest.mark.parametrize("latency", [-1, np.nan, np.inf])
+def test_criteo_rejects_negative_or_nonfinite_feedback_latency(latency):
+    original = pd.DataFrame({name: [1] for name in COLUMNS})
+    original["sale"] = [1]
+    original["time_delay_for_conversion"] = [1]
+    original["click_timestamp"] = [1000]
+    with pytest.raises(ValueError, match="feedback_latency_seconds"):
+        conversion_rows(
+            original,
+            {"delay_unit": "seconds", "feedback_latency_seconds": latency},
+        )
+
+
+@pytest.mark.parametrize("delay", [np.nan, np.inf, -1])
+def test_criteo_positive_conversion_requires_finite_nonnegative_delay(delay):
+    original = pd.DataFrame({name: [1] for name in COLUMNS})
+    original["sale"] = [1]
+    original["time_delay_for_conversion"] = [delay]
+    original["click_timestamp"] = [1000]
+    with pytest.raises(ValueError, match="delay"):
+        conversion_rows(original, {"delay_unit": "seconds"})
+
+
 def test_criteo_replay_hides_future_labels_and_orders_equal_time_feedback():
     original = pd.DataFrame({name: [1, 1] for name in COLUMNS})
     original["sale"] = [1, 0]

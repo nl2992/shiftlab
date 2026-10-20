@@ -29,3 +29,19 @@ These are sensitivity checks, not a principled block-length selector or a correc
 model-selection uncertainty.
 The report omits decision loss because no application-grounded utility was supplied for these
 continuous forecasts.
+
+## Monash official multi-step holdouts
+
+`scripts/monash_forecast_diagnostics.py` evaluates the acquired M4 hourly, daily, and weekly
+subsets using each publisher-declared fixed-origin horizon. It fits a per-series Ridge model
+on the official training rows only and compares it with the last-value and training-mean
+baselines. Metrics are reported by series and forecast step, with a training-only MASE scale.
+It rejects a holdout if training outcomes cross the origin or if covariates vary across steps
+that share one official forecast origin.
+
+The committed report is `data/reports/monash_forecast_diagnostics.json`: horizons are 48, 14,
+and 13 for hourly, daily, and weekly; mean per-series MASE for Ridge is 5.14, 4.06, and 3.36,
+respectively. Ridge beats last-value MASE on 8/10 hourly, 11/20 daily, and 17/20 weekly
+series. These are deterministic first-series subsets, so the entity counts are descriptive and
+not population-level confidence intervals. Sequence indices do not establish actual release
+times, and the results remain retrospective.

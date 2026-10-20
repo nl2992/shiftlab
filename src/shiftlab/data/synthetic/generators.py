@@ -390,7 +390,7 @@ def generate_chunks(c: SyntheticConfig):
                 "radius_90": q90,
                 "conditional_radius_90": conditional_q90,
                 "quantile_kind": quantile_kind,
-                "retrain_cost": 10 * (1 + s),
+                "retrain_cost": 10 * (1 + s) if name == "resource_cost" else 10.0,
                 "regime_id": np.where(
                     w == 0, "baseline", np.where(w == 1, "shifted", "transition")
                 ),

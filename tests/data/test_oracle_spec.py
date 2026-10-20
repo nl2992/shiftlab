@@ -36,6 +36,34 @@ def test_discrete_parameter_metadata_keeps_every_declared_regime():
     assert len(oracle_spec(config)["regime_parameters"]) == 16
 
 
+def test_resource_cost_changes_only_in_the_declared_scenario_and_matches_oracle_spec():
+    config = SyntheticConfig(n=1000, scenario="resource_cost", severity=2.0)
+    _, oracle = next(generate_chunks(config))
+    shifted = oracle.weight.to_numpy() == 1
+    assert np.all(oracle.retrain_cost.to_numpy()[~shifted] == 10.0)
+    assert np.all(oracle.retrain_cost.to_numpy()[shifted] == 30.0)
+    declared = [
+        row["parameter_values"]["retrain_cost"] for row in oracle_spec(config)["regime_parameters"]
+    ]
+    assert declared == [10.0, 30.0]
+
+    _, stationary_oracle = next(
+        generate_chunks(SyntheticConfig(n=1000, scenario="concept", severity=2.0))
+    )
+    assert np.all(stationary_oracle.retrain_cost.to_numpy() == 10.0)
+
+
+def test_rare_cost_oracle_actions_follow_the_disclosed_expected_cost_threshold():
+    config = SyntheticConfig(n=1000, scenario="rare_cost", severity=2.0)
+    _, oracle = next(generate_chunks(config))
+    probability = oracle.probability_positive.to_numpy()
+    false_negative = oracle.fn_cost.to_numpy()
+    expected = probability >= 1.0 / (1.0 + false_negative)
+    assert np.array_equal(oracle.oracle_action.to_numpy(), expected)
+    assert np.all(false_negative[oracle.weight.to_numpy() == 0] == 5.0)
+    assert np.all(false_negative[oracle.weight.to_numpy() == 1] == 205.0)
+
+
 @pytest.mark.parametrize("scenario", SCENARIOS)
 def test_independent_conditional_function_and_scale_match_generated_oracle(scenario):
     config = SyntheticConfig(n=1000, scenario=scenario, seed=88)

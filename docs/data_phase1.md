@@ -129,9 +129,12 @@ three seeds, n=5000 and severity 1. High-dimensional skewness is gated on positi
 other moments use analytic targets and finite-sample tolerances.
 `uv run python scripts/validate_concept_residuals.py` checks independent conditional mean/scale
 formulas, unchanged feature moments, Gaussian residual variance and 90% oracle-radius coverage,
-and Bernoulli boundary-rotation rates across eight concept mechanisms, dimensions 2, 3 and 8,
-and four severities (168 regime cells); replicated results are in
+and Bernoulli boundary-rotation rates across eight concept mechanisms, dimensions 2, 3, 8 and 16,
+and four severities (224 regime cells); replicated results are in
 `data/reports/concept_residual_validation.json`.
+The `resource_cost` scenario changes only evaluator-side retraining cost, from 10 units at baseline
+to `10 * (1 + severity)` after activation; other synthetic scenarios keep the default 10 units.
+`rare_cost` and `resource_cost` generated values are checked against their analytic oracle formulas.
 The medium plan uses 30 seeds; the optional large plan is never materialized automatically.
 
 Regression uses a sign-based decision with false-negative/positive costs; classification uses

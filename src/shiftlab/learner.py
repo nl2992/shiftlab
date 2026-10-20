@@ -8,7 +8,12 @@ import numpy as np
 from sklearn.linear_model import Ridge
 
 from .diagnostics import CUSUM, ks_test
-from .methods import weighted_conformal_quantile as quantile
+from .methods import (
+    exponentially_weighted_conformal_quantile,
+)
+from .methods import (
+    weighted_conformal_quantile as quantile,
+)
 
 
 def decision_losses(y, pred):
@@ -31,16 +36,44 @@ class LearnerSettings:
 
 
 class Learner:
-    def __init__(self, X, y, cal_X, cal_y, config, method, radius_method=None):
+    def __init__(
+        self,
+        X,
+        y,
+        cal_X,
+        cal_y,
+        config,
+        method,
+        radius_method=None,
+        cal_score_times=None,
+        radius_half_life=None,
+    ):
         self.config, self.method = LearnerSettings.from_config(config), method
         self.radius_method = radius_method or ("rolling" if method == "rolling" else "fixed")
-        if self.radius_method not in {"fixed", "rolling"}:
-            raise ValueError("radius_method must be 'fixed' or 'rolling'")
+        if self.radius_method not in {"fixed", "rolling", "exponential"}:
+            raise ValueError("radius_method must be 'fixed', 'rolling', or 'exponential'")
+        self.radius_half_life = float(
+            config.window if radius_half_life is None else radius_half_life
+        )
+        if not np.isfinite(self.radius_half_life) or self.radius_half_life <= 0:
+            raise ValueError("radius_half_life must be finite and positive")
         self.training_seconds = self.inference_seconds = 0.0
         self._fit(X, y)
         pred = self.model.predict(cal_X)
         residual = cal_y - pred
         self.scores = deque(abs(residual), maxlen=config.window)
+        if cal_score_times is None:
+            if self.radius_method == "exponential":
+                raise ValueError("cal_score_times are required for an exponential radius")
+            initial_score_times = np.zeros(len(residual), dtype=float)
+        else:
+            initial_score_times = np.asarray(cal_score_times, dtype=float)
+            if (
+                initial_score_times.shape != residual.shape
+                or not np.isfinite(initial_score_times).all()
+            ):
+                raise ValueError("cal_score_times must be finite and match calibration rows")
+        self.score_times = deque(initial_score_times, maxlen=config.window)
         self.fixed_radius = quantile(abs(residual), config.alpha)
         self.reference = cal_X[-config.window :].copy()
         self.features = deque(maxlen=config.window)
@@ -69,16 +102,25 @@ class Learner:
         start = time.perf_counter()
         pred = float(self.model.predict(x[None, :])[0])
         self.inference_seconds += time.perf_counter() - start
-        radius = (
-            quantile(self.scores, self.config.alpha)
-            if self.radius_method == "rolling"
-            else self.fixed_radius
-        )
+        if self.radius_method == "rolling":
+            radius = quantile(self.scores, self.config.alpha)
+        elif self.radius_method == "exponential":
+            score_times = np.asarray(self.score_times, dtype=float)
+            prior = score_times < observation.time
+            radius = exponentially_weighted_conformal_quantile(
+                np.asarray(self.scores, dtype=float)[prior],
+                observation.time - score_times[prior],
+                self.config.alpha,
+                self.radius_half_life,
+            )
+        else:
+            radius = self.fixed_radius
         return pred, radius
 
     def observe(self, feedback):
         self.feedback_count += 1
         self.scores.append(abs(feedback.target - feedback.prediction))
+        self.score_times.append(feedback.available_at)
         self.history.append((feedback.features, feedback.target))
         loss = float(
             decision_losses(np.array([feedback.target]), np.array([feedback.prediction]))[0]

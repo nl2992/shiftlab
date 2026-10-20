@@ -10,7 +10,10 @@ from shiftlab.benchmark import run
 from shiftlab.core.config import Config, load_config
 from shiftlab.diagnostics import CUSUM, ks_test
 from shiftlab.learner import Learner, decision_losses
-from shiftlab.methods import weighted_conformal_quantile
+from shiftlab.methods import (
+    exponentially_weighted_conformal_quantile,
+    weighted_conformal_quantile,
+)
 from shiftlab.streaming import Feedback, Observation, simulate
 from shiftlab.synthetic import generate
 
@@ -91,6 +94,39 @@ def test_default_radius_mode_preserves_legacy_rolling_behavior():
     fixed = Learner(X[:20], y[:20], X[20:], y[20:], settings, "frozen")
     assert rolling.radius_method == "rolling"
     assert fixed.radius_method == "fixed"
+
+
+def test_exponential_conformal_quantile_downweights_stale_scores():
+    scores = np.array([1.0] * 14 + [100.0])
+    ordinary = weighted_conformal_quantile(scores, alpha=0.1)
+    recent = exponentially_weighted_conformal_quantile(
+        scores, [0.0] * 14 + [10.0], alpha=0.1, half_life=10
+    )
+    assert ordinary == 100
+    assert recent == 1
+
+
+def test_exponential_radius_excludes_feedback_at_the_request_timestamp():
+    X = np.zeros((40, 2))
+    y = np.zeros(40)
+    settings = SimpleNamespace(window=40, alpha=0.1, threshold=5.0, period=10, budget=2)
+    learner = Learner(
+        X[:20],
+        y[:20],
+        X[20:],
+        y[20:],
+        settings,
+        "frozen",
+        "exponential",
+        cal_score_times=np.full(20, 19.0),
+        radius_half_life=10,
+    )
+    for _ in range(3):
+        learner.observe(
+            Feedback(time=19, available_at=20, features=(0.0, 0.0), target=100.0, prediction=0.0)
+        )
+    _, radius = learner.predict(Observation(20, (0.0, 0.0)))
+    assert radius == 0
 
 
 def test_config():

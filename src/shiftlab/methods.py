@@ -19,6 +19,37 @@ def weighted_conformal_quantile(scores, alpha=0.1):
     return float(s[rank - 1]) if 0 < rank <= len(s) else np.inf
 
 
+def exponentially_weighted_conformal_quantile(scores, ages, alpha=0.1, half_life=100.0):
+    """Recency-weighted empirical radius with one unit of test-point mass.
+
+    This is an adaptive heuristic under drift, not a distribution-free online guarantee.
+    Ages are measured in the same units as ``half_life`` and must be nonnegative.
+    """
+    s, age = np.asarray(scores, dtype=float), np.asarray(ages, dtype=float)
+    if (
+        not 0 < alpha < 1
+        or not np.isfinite(half_life)
+        or half_life <= 0
+        or s.ndim != 1
+        or age.shape != s.shape
+        or not np.isfinite(s).all()
+        or not np.isfinite(age).all()
+        or (s < 0).any()
+        or (age < 0).any()
+    ):
+        raise ValueError(
+            "Require valid alpha, positive half_life, finite scores and nonnegative ages"
+        )
+    if not len(s):
+        return float("inf")
+    weights = np.exp2(-age / half_life)
+    order = np.argsort(s, kind="stable")
+    cumulative = np.cumsum(weights[order])
+    required_mass = (1 - alpha) * (weights.sum() + 1.0)
+    index = int(np.searchsorted(cumulative, required_mass, side="left"))
+    return float(s[order[index]]) if index < len(s) else float("inf")
+
+
 def rolling_quantile(scores, width=250, alpha=0.1):
     q = np.empty(len(scores))
     for t in range(len(scores)):

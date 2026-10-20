@@ -37,6 +37,7 @@ POLICY_VARIANTS = (
     ("ridge_periodic", "ridge", "periodic", "fixed"),
     ("ridge_triggered", "ridge", "triggered", "fixed"),
     ("ridge_triggered_rolling_radius", "ridge", "triggered", "rolling"),
+    ("ridge_triggered_exponential_radius", "ridge", "triggered", "exponential"),
     ("forest_frozen", "random_forest", "frozen", "fixed"),
     ("forest_triggered", "random_forest", "triggered", "fixed"),
 )
@@ -54,12 +55,27 @@ def initial_rows(frame: pd.DataFrame, split: str, cutoff: float) -> pd.DataFrame
 class AuditedLearner(Learner):
     """Record the arrived-feedback boundary that caused each sequential refit."""
 
-    def __init__(self, *args, model_family="ridge", model_seed=0, radius_method="fixed", **kwargs):
+    def __init__(
+        self,
+        *args,
+        model_family="ridge",
+        model_seed=0,
+        radius_method="fixed",
+        cal_score_times=None,
+        radius_half_life=None,
+        **kwargs,
+    ):
         self.current_feedback_time: int | float | None = None
         self.fit_audit: list[dict[str, int | float | str]] = []
         self.model_family = model_family
         self.model_seed = model_seed
-        super().__init__(*args, radius_method=radius_method, **kwargs)
+        super().__init__(
+            *args,
+            radius_method=radius_method,
+            cal_score_times=cal_score_times,
+            radius_half_life=radius_half_life,
+            **kwargs,
+        )
 
     def _fit(self, X, y):
         if self.model_family == "ridge":
@@ -144,6 +160,8 @@ def evaluate_replicate(schedule: str, seed: int) -> list[dict]:
             model_family=model_family,
             model_seed=seed,
             radius_method=radius_method,
+            cal_score_times=calibration.label_available_time.to_numpy(dtype=float),
+            radius_half_life=80,
         )
         pending: dict[str, tuple[tuple[float, ...], float]] = {}
         predictions: dict[str, float] = {}
@@ -294,8 +312,8 @@ def evaluate() -> dict:
         )
     )
     return {
-        "description": "Five-seed fitted online adaptation using Ridge and random-forest predictors with frozen, periodic, or residual-CUSUM-triggered updates, and a prequential rolling-radius arm across four concept schedules.",
-        "protocol": "Train and calibration labels are strictly available before the first test request. During the test stream, learners receive requests and only labels yielded by timestamp-ordered replay. Equal-time requests precede feedback. Refit history contains only arrived labels. Every variant has a four-update compute budget. The rolling-radius arm keeps its Ridge predictor update schedule identical to the fixed-radius triggered arm; residual scores enter only when their labels arrive and use the forecast made earlier for that sample. Random forests use 32 trees, depth 6, leaf size 5, and a fixed seed.",
+        "description": "Five-seed fitted online adaptation using Ridge and random-forest predictors with frozen, periodic, or residual-CUSUM-triggered updates, fixed, rolling, or exponentially weighted prequential radii, across four concept schedules.",
+        "protocol": "Train and calibration labels are strictly available before the first test request. During the test stream, learners receive requests and only labels yielded by timestamp-ordered replay. Equal-time requests precede feedback. Refit history contains only arrived labels. Every variant has a four-update compute budget. Rolling- and exponentially weighted-radius arms keep their Ridge predictor update schedule identical to the fixed-radius triggered arm; residual scores enter only when labels arrive and use the forecast made earlier for that sample. Exponential score weights use label-availability times and an 80-step half-life, with one unit of test-point mass. Random forests use 32 trees, depth 6, leaf size 5, and a fixed seed.",
         "limitations": [
             "The trigger threshold and review period are fixed in advance; no parameter tuning uses test outcomes.",
             "Only Ridge and a fixed random-forest configuration are evaluated; hyperparameters are not tuned on test outcomes.",
@@ -320,6 +338,7 @@ def evaluate() -> dict:
                     "model_family": family,
                     "update_method": method,
                     "radius_method": radius,
+                    "radius_half_life": 80 if radius == "exponential" else None,
                 }
                 for name, family, method, radius in POLICY_VARIANTS
             ],

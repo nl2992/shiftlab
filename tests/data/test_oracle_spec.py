@@ -118,47 +118,50 @@ def test_dependent_error_oracle_separates_marginal_and_history_conditional_targe
     ],
 )
 def test_concept_cases_preserve_feature_law_and_match_conditional_oracle(scenario):
-    config = SyntheticConfig(n=20000, d=3, scenario=scenario, severity=1.2, chunk_size=5000)
-    parts = list(generate_chunks(config))
-    frame = pd.concat([item[0] for item in parts], ignore_index=True)
-    oracle = pd.concat([item[1] for item in parts], ignore_index=True)
-    features = np.stack(frame.features.to_numpy())
-    weight = oracle.weight.to_numpy()
-    baseline_x, shifted_x = features[weight == 0], features[weight == 1]
-    assert np.max(np.abs(baseline_x.mean(axis=0) - shifted_x.mean(axis=0))) < 0.06
-    assert np.max(np.abs(np.cov(baseline_x.T) - np.cov(shifted_x.T))) < 0.08
+    from scipy.special import expit
 
-    f = features[:, 0] - 0.9 * features[:, 1]
-    baseline_function = f.copy()
-    if scenario == "concept":
-        expected = features[:, 0] * (1 - config.severity * weight) - 0.9 * features[:, 1]
-    elif scenario == "sign_reversal":
-        expected = (
-            features[:, 0] * (1 - 2 * np.tanh(config.severity) * weight) - 0.9 * features[:, 1]
+    for seed in [11, 23, 37, 53, 71]:
+        config = SyntheticConfig(
+            n=20000, d=3, scenario=scenario, severity=1.2, seed=seed, chunk_size=5000
         )
-    elif scenario == "nonlinear_response":
-        expected = f + config.severity * weight * np.sin(features[:, 0])
-    elif scenario == "interaction":
-        expected = f + config.severity * weight * features[:, 0] * features[:, 1]
-    elif scenario == "latent_state":
-        expected = f + config.severity * weight
-    elif scenario == "boundary_local":
-        expected = f + config.severity * weight * np.exp(-5 * np.abs(f))
-    elif scenario == "boundary_rotation":
-        from scipy.special import expit
+        parts = list(generate_chunks(config))
+        frame = pd.concat([item[0] for item in parts], ignore_index=True)
+        oracle = pd.concat([item[1] for item in parts], ignore_index=True)
+        features = np.stack(frame.features.to_numpy())
+        weight = oracle.weight.to_numpy()
+        baseline_x, shifted_x = features[weight == 0], features[weight == 1]
+        assert np.max(np.abs(baseline_x.mean(axis=0) - shifted_x.mean(axis=0))) < 0.06
+        assert np.max(np.abs(np.cov(baseline_x.T) - np.cov(shifted_x.T))) < 0.08
 
-        expected = expit(
-            np.cos(config.severity * weight) * features[:, 0]
-            + np.sin(config.severity * weight) * features[:, 1]
-        )
-        baseline_function = expit(features[:, 0])
-    else:
-        expected = f
-        expected_sigma = config.noise * (1 + config.severity * weight * np.abs(features[:, 0]))
-        assert np.max(np.abs(oracle.sigma.to_numpy() - expected_sigma)) < 1e-10
-    assert np.max(np.abs(oracle.conditional_mean.to_numpy() - expected)) < 1e-10
-    shifted = weight == 1
-    if scenario == "conditional_variance":
-        assert np.mean(np.abs(oracle.sigma.to_numpy()[shifted] - config.noise)) > 0
-    else:
-        assert np.mean(np.abs(expected[shifted] - baseline_function[shifted])) > 1e-3
+        f = features[:, 0] - 0.9 * features[:, 1]
+        baseline_function = f.copy()
+        if scenario == "concept":
+            expected = features[:, 0] * (1 - config.severity * weight) - 0.9 * features[:, 1]
+        elif scenario == "sign_reversal":
+            expected = (
+                features[:, 0] * (1 - 2 * np.tanh(config.severity) * weight) - 0.9 * features[:, 1]
+            )
+        elif scenario == "nonlinear_response":
+            expected = f + config.severity * weight * np.sin(features[:, 0])
+        elif scenario == "interaction":
+            expected = f + config.severity * weight * features[:, 0] * features[:, 1]
+        elif scenario == "latent_state":
+            expected = f + config.severity * weight
+        elif scenario == "boundary_local":
+            expected = f + config.severity * weight * np.exp(-5 * np.abs(f))
+        elif scenario == "boundary_rotation":
+            expected = expit(
+                np.cos(config.severity * weight) * features[:, 0]
+                + np.sin(config.severity * weight) * features[:, 1]
+            )
+            baseline_function = expit(features[:, 0])
+        else:
+            expected = f
+            expected_sigma = config.noise * (1 + config.severity * weight * np.abs(features[:, 0]))
+            assert np.max(np.abs(oracle.sigma.to_numpy() - expected_sigma)) < 1e-10
+        assert np.max(np.abs(oracle.conditional_mean.to_numpy() - expected)) < 1e-10
+        shifted = weight == 1
+        if scenario == "conditional_variance":
+            assert np.mean(np.abs(oracle.sigma.to_numpy()[shifted] - config.noise)) > 0
+        else:
+            assert np.mean(np.abs(expected[shifted] - baseline_function[shifted])) > 1e-3

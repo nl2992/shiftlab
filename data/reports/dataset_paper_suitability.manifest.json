@@ -2,9 +2,9 @@
   "source_count": 11,
   "synthetic_acquired_versions": 38,
   "real_manifest_count": 42,
-  "processing_commit": "c0ccc9068604989ed6ff58d17063d380e81a1463",
-  "source_hash": "68295079edd42f70f087e2e46da32e1ae651286215b3b1f89c6cef93a9c24fb8",
+  "processing_commit": "4f01646293123946fc634ca72c5e9f6a280138bb",
+  "source_hash": "25cf73195536851a7a04da7ec3b246d833befc68862c42487df764b3ab7a774f",
   "report_script_sha256": "a10a31f25a6b8120b7ac95cedc456a8ab64b291de556a119ddcb7662dff2b66e",
-  "generated_at": "2026-10-20T07:14:22.019221+00:00",
+  "generated_at": "2026-10-20T07:31:29.062114+00:00",
   "interpretation": "Suitability is an evidence-based readiness summary, not a claim that a source supports causal, online, application-utility, or paper-level conclusions."
 }

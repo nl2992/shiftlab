@@ -1,16 +1,43 @@
 import numpy as np
+import pandas as pd
 import pytest
 
 from shiftlab.data.gpu.benchmarks import _parse_sample
 from shiftlab.data.gpu.environment import environment
 from shiftlab.data.gpu.torch_backend import _chunk_plan
 from shiftlab.data.schemas import SyntheticConfig
-from shiftlab.data.synthetic import conditional_mean, generate_chunks
+from shiftlab.data.synthetic import SCENARIOS, conditional_mean, generate_chunks
 
 
 def test_cpu_backend_portable():
     frame, _ = next(generate_chunks(SyntheticConfig(n=100, device="cpu", dtype="float32")))
     assert np.stack(frame.features).dtype == np.float32
+
+
+@pytest.mark.parametrize("scenario", SCENARIOS)
+def test_cpu_generation_is_repeatable_for_identical_configuration(scenario):
+    config = SyntheticConfig(
+        n=240,
+        d=3,
+        seed=2026,
+        scenario=scenario,
+        device="cpu",
+        dtype="float64",
+        chunk_size=64,
+    )
+    first = list(generate_chunks(config))
+    repeated = list(generate_chunks(config))
+    assert len(first) == len(repeated)
+    pd.testing.assert_frame_equal(
+        pd.concat([frame for frame, _ in first], ignore_index=True),
+        pd.concat([frame for frame, _ in repeated], ignore_index=True),
+        check_exact=True,
+    )
+    pd.testing.assert_frame_equal(
+        pd.concat([oracle for _, oracle in first], ignore_index=True),
+        pd.concat([oracle for _, oracle in repeated], ignore_index=True),
+        check_exact=True,
+    )
 
 
 @pytest.mark.parametrize(("dtype", "expected_chunk"), [("float64", 6), ("float32", 13)])

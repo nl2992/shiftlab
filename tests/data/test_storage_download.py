@@ -69,6 +69,17 @@ def test_storage_integrity_and_immutability(tmp_path):
         validate_dataset(path)
 
 
+def test_chunk_size_is_part_of_immutable_dataset_identity(tmp_path):
+    first = generate(SyntheticConfig(n=100, seed=27, chunk_size=32, output=str(tmp_path)))
+    second = generate(SyntheticConfig(n=100, seed=27, chunk_size=64, output=str(tmp_path)))
+    assert first != second
+    first_manifest = json.loads((first / "dataset_manifest.json").read_text())
+    second_manifest = json.loads((second / "dataset_manifest.json").read_text())
+    assert first_manifest["version"] != second_manifest["version"]
+    assert first_manifest["processing_config"]["chunk_size"] == 32
+    assert second_manifest["processing_config"]["chunk_size"] == 64
+
+
 def test_shared_dataset_serves_three_papers(tmp_path):
     path = generate(SyntheticConfig(n=600, delay=3, missing=0.1, output=str(tmp_path)))
     for paper in [1, 2, 3]:

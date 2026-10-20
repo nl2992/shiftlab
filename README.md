@@ -9,7 +9,10 @@ experiments and are excluded from the new benchmark reports.
 
 The versioned data framework, exact CLI commands, CUDA setup, acquired datasets and limitations
 are documented in [docs/data_phase1.md](docs/data_phase1.md). See [data/reports/experiment_readiness.md](data/reports/experiment_readiness.md)
-for generated readiness and [data/reports/data_quality_report.md](data/reports/data_quality_report.md) for actual checks.
+for per-version readiness, [data/reports/dataset_paper_suitability.md](data/reports/dataset_paper_suitability.md)
+for the source-level paper matrix, and [data/reports/data_quality_report.md](data/reports/data_quality_report.md)
+for actual checks. The full requirement status is maintained in [docs/phase1_completion_audit.md](docs/phase1_completion_audit.md);
+it remains in progress while source-specific and statistical gaps are addressed.
 
 ## Install and run
 

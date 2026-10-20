@@ -15,7 +15,7 @@ from sklearn.linear_model import Ridge
 
 from ..methods import weighted_conformal_quantile
 from .gpu.environment import environment
-from .provenance import write_json
+from .provenance import commit, sha256, source_hash, utc_now, write_json
 from .validation import validate_all
 
 
@@ -62,11 +62,142 @@ def _readiness_labels(
     return paper1, paper2, paper3
 
 
+def _dataset_suitability_rows(pointers: list[dict]) -> list[dict]:
+    """Build a source-level paper suitability matrix from catalogue and manifests."""
+    from .catalogue import SOURCES
+    from .synthetic.generators import CLASSIFICATION
+    from .tasks import dataset_task_specs
+
+    by_source: dict[str, list[dict]] = {}
+    for pointer in pointers:
+        by_source.setdefault(pointer["dataset"], []).append(pointer)
+
+    rows = []
+    for name, source in SOURCES.items():
+        versions = by_source.get(name, [])
+        latest = max(versions, key=lambda item: item.get("acquired_at", "")) if versions else None
+        config = (latest or {}).get("processing_config", {})
+        task_specs = (latest or {}).get("task_specs", [])
+        if not task_specs:
+            try:
+                task_specs = dataset_task_specs(name, config)
+            except (KeyError, TypeError, ValueError):
+                task_specs = []
+        classification = name in CLASSIFICATION or name in {
+            "gas_sensor",
+            "folktables",
+            "wilds",
+            "criteo",
+        }
+        paper1, paper2, paper3 = _readiness_labels(name, False, classification, task_specs, config)
+        utilities = sorted(
+            {
+                str(spec.get("utility_provenance", "unspecified"))
+                for spec in task_specs
+                if spec.get("utility_provenance")
+            }
+        )
+        rows.append(
+            {
+                "dataset": name,
+                "publisher": source["publisher"],
+                "acquisition_status": source["status"],
+                "acquired_versions": len(versions),
+                "latest_version": latest.get("version") if latest else "",
+                "latest_rows": latest.get("n_observations", 0) if latest else 0,
+                "registered_tasks": "; ".join(spec.get("task_id", "") for spec in task_specs),
+                "paper1_readiness": paper1,
+                "paper2_readiness": paper2,
+                "paper3_readiness": paper3,
+                "timing_evidence": source["timing"],
+                "utility_provenance": "; ".join(utilities) or "Not specified.",
+                "source_limitations": source["license"],
+            }
+        )
+
+    synthetic_versions = [
+        pointer for pointer in pointers if pointer.get("ground_truth") == "synthetic_known"
+    ]
+    latest_synthetic = (
+        max(synthetic_versions, key=lambda item: item.get("acquired_at", ""))
+        if synthetic_versions
+        else None
+    )
+    rows.append(
+        {
+            "dataset": "synthetic_suite",
+            "publisher": "ShiftLab controlled generators",
+            "acquisition_status": "implemented",
+            "acquired_versions": len(synthetic_versions),
+            "latest_version": "",
+            "latest_rows": latest_synthetic.get("n_observations", 0) if latest_synthetic else 0,
+            "registered_tasks": "controlled regression/classification and decision stress tasks",
+            "paper1_readiness": "controlled decision study",
+            "paper2_readiness": "regression/classification stream",
+            "paper3_readiness": "stream ready",
+            "timing_evidence": "known simulation clock and evaluator-only ground truth",
+            "utility_provenance": "Synthetic imposed utility only; not application-grounded.",
+            "source_limitations": "Scenario, seed, and generator limitations are recorded in each immutable manifest.",
+        }
+    )
+    return rows
+
+
+def _write_suitability_report(report: Path, pointers: list[dict]) -> None:
+    rows = _dataset_suitability_rows(pointers)
+    frame = pd.DataFrame(rows)
+    frame.to_csv(report / "dataset_paper_suitability.csv", index=False)
+    lines = [
+        "# Dataset-to-paper suitability matrix",
+        "",
+        "This matrix summarizes registered real-source families and the controlled synthetic suite. Readiness describes currently supported task/evaluation shapes; it is not evidence of source availability, causal attribution, application utility, or a research result.",
+        "",
+        "Unknown release timing remains unknown. `Paper 1` utility is imposed for retrospective real-source diagnostics unless the task manifest identifies a supplied utility. `Paper 2` requires an explicit conformal protocol for classification and known timing for online claims. `Paper 3` requires a release-time protocol before online adaptation claims.",
+        "",
+        "| Dataset | Acquired versions | Latest rows | Paper 1 | Paper 2 | Paper 3 | Timing evidence | Utility provenance |",
+        "|---|---:|---:|---|---|---|---|---|",
+    ]
+    for row in rows:
+        cells = [
+            row["dataset"],
+            str(row["acquired_versions"]),
+            str(row["latest_rows"]),
+            row["paper1_readiness"],
+            row["paper2_readiness"],
+            row["paper3_readiness"],
+            row["timing_evidence"],
+            row["utility_provenance"],
+        ]
+        lines.append("| " + " | ".join(str(value).replace("|", "\\|") for value in cells) + " |")
+    lines.extend(
+        [
+            "",
+            "Acquisition status, citation, license, registered task identifiers, and source limitations are available in `data_inventory.csv`; per-version evidence is in `experiment_readiness.md` and `dataset_manifest.json`.",
+            "",
+        ]
+    )
+    (report / "dataset_paper_suitability.md").write_text("\n".join(lines), encoding="utf-8")
+    write_json(
+        report / "dataset_paper_suitability.manifest.json",
+        {
+            "source_count": len(rows) - 1,
+            "synthetic_acquired_versions": rows[-1]["acquired_versions"],
+            "real_manifest_count": len(pointers) - rows[-1]["acquired_versions"],
+            "processing_commit": commit(),
+            "source_hash": source_hash(),
+            "report_script_sha256": sha256(Path(__file__)),
+            "generated_at": utc_now(),
+            "interpretation": "Suitability is an evidence-based readiness summary, not a claim that a source supports causal, online, application-utility, or paper-level conclusions.",
+        },
+    )
+
+
 def build_report(root: Path):
     report = root / "reports"
     report.mkdir(parents=True, exist_ok=True)
     quality = validate_all(root)
     pointers = [json.loads(p.read_text()) for p in sorted(root.glob("manifests/*.json"))]
+    _write_suitability_report(report, pointers)
     write_json(
         report / "dataset_manifest.json", {"environment": environment(), "datasets": pointers}
     )

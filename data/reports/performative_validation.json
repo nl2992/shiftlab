@@ -1,5 +1,5 @@
 {
-  "description": "Five-seed Monte Carlo checks of the stable performative process against its analytic stationary Gaussian state and independent target/state innovations.",
+  "description": "Five-seed Monte Carlo checks of constant-action and joint state-dependent performative policies, plus analytic local-saturation and globally unstable dynamics.",
   "parameters": {
     "n": 20000,
     "burn_in": 1000,
@@ -14,7 +14,21 @@
     "mean_action": 0.3,
     "expected_stationary_state_mean": 0.1,
     "expected_stationary_state_variance": 0.011904761904761908,
-    "expected_innovation_variance": 0.010000000000000002
+    "expected_innovation_variance": 0.010000000000000002,
+    "joint_policy_slopes": [
+      0.1,
+      0.3,
+      0.5
+    ],
+    "joint_policy_intercepts": [
+      0.2,
+      0.0,
+      0.1
+    ],
+    "joint_policy_mean_slope": 0.3,
+    "joint_policy_local_multiplier": 0.46,
+    "joint_policy_expected_stationary_mean": 0.03703703703703704,
+    "joint_policy_expected_stationary_variance": 0.012683916793505837
   },
   "tolerances": {
     "target_and_state_innovation_mean": 0.0029019050004400466,
@@ -95,10 +109,72 @@
       "passes": true
     }
   ],
+  "joint_policy_replicates": [
+    {
+      "seed": 11,
+      "mean_action": 0.11111111111111113,
+      "sample_state_mean": 0.03555933994613562,
+      "sample_state_variance": 0.012546825205248548,
+      "expected_stationary_state_mean": 0.03703703703703704,
+      "expected_stationary_state_variance": 0.012683916793505837,
+      "passes": true
+    },
+    {
+      "seed": 23,
+      "mean_action": 0.11111111111111113,
+      "sample_state_mean": 0.035136964289625816,
+      "sample_state_variance": 0.012568894597046689,
+      "expected_stationary_state_mean": 0.03703703703703704,
+      "expected_stationary_state_variance": 0.012683916793505837,
+      "passes": true
+    },
+    {
+      "seed": 37,
+      "mean_action": 0.11111111111111113,
+      "sample_state_mean": 0.03607855360840775,
+      "sample_state_variance": 0.012653276369417758,
+      "expected_stationary_state_mean": 0.03703703703703704,
+      "expected_stationary_state_variance": 0.012683916793505837,
+      "passes": true
+    },
+    {
+      "seed": 53,
+      "mean_action": 0.11111111111111113,
+      "sample_state_mean": 0.03809573986148414,
+      "sample_state_variance": 0.012762803554966647,
+      "expected_stationary_state_mean": 0.03703703703703704,
+      "expected_stationary_state_variance": 0.012683916793505837,
+      "passes": true
+    },
+    {
+      "seed": 71,
+      "mean_action": 0.11111111111111113,
+      "sample_state_mean": 0.03701912606377522,
+      "sample_state_variance": 0.012647480372081523,
+      "expected_stationary_state_mean": 0.03703703703703704,
+      "expected_stationary_state_variance": 0.012683916793505837,
+      "passes": true
+    }
+  ],
+  "local_instability_with_saturation": {
+    "local_linear_multiplier": 1.3,
+    "local_linear_stable": false,
+    "action_bound": 1,
+    "expected_saturated_fixed_point": 1.6,
+    "observed_final_state": 1.6,
+    "passes": true
+  },
+  "global_instability": {
+    "rho": 1.05,
+    "steps": 100,
+    "expected_state": 131.50125784630401,
+    "observed_state": 131.50125784630401,
+    "passes": true
+  },
   "checks_pass": true,
-  "interpretation": "Synthetic controlled process validation; action effects are imposed and are not evidence about real-world performative systems.",
-  "processing_commit": "38aa96000c765c22254f0da89950c2d97e68dd9d",
-  "source_hash": "1653f08475a97cde4465400335018375d1847ec32a27867ab889fdd5e3a79146",
-  "script_sha256": "c380904831b38dd0a61b29d3eb1c55343a8b553e566a9c72787da6170c170030",
-  "executed_at": "2026-10-20T02:17:43.713568+00:00"
+  "interpretation": "Synthetic controlled process validation; action effects are imposed and are not evidence about real-world performative systems. The locally unstable clipped policy converges to its nonlinear fixed point, while rho above one exhibits global divergence without policy influence.",
+  "processing_commit": "ae5160821e084b99a03a9ed53c6ff8b8afcdcc81",
+  "source_hash": "a52d81d4b0b724b970a39e36f441c2b32766a1a4c8226d6dc688f6297c93d1ac",
+  "script_sha256": "71b785a25a714a41debd0609773ea51e5cde0453b34be72b7d71a2a661726f17",
+  "executed_at": "2026-10-20T02:45:11.271820+00:00"
 }

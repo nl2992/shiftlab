@@ -96,6 +96,31 @@ def test_default_radius_mode_preserves_legacy_rolling_behavior():
     assert fixed.radius_method == "fixed"
 
 
+def test_triggered_recalibration_uses_arrived_residual_without_refitting():
+    X = np.zeros((40, 2))
+    y = np.zeros(40)
+    settings = SimpleNamespace(window=20, alpha=0.1, threshold=5.0, period=10, budget=2)
+    learner = Learner(X[:20], y[:20], X[20:], y[20:], settings, "recalibration")
+    training_seconds = learner.training_seconds
+    learner.error_detector.update = lambda _: True
+    learner.observe(
+        Feedback(time=20, available_at=21, features=(0.0, 0.0), target=8.0, prediction=0.0)
+    )
+    prediction, _ = learner.predict(Observation(22, (0.0, 0.0)))
+    assert prediction == 8.0
+    assert learner.training_seconds == training_seconds
+    assert learner.interventions == [21]
+    assert learner.intervention_audit == [
+        {
+            "available_at": 21,
+            "arrived_feedback_count": 1,
+            "method": "recalibration",
+            "action": "residual_bias_recalibration",
+            "bias_correction": 8.0,
+        }
+    ]
+
+
 def test_exponential_conformal_quantile_downweights_stale_scores():
     scores = np.array([1.0] * 14 + [100.0])
     ordinary = weighted_conformal_quantile(scores, alpha=0.1)

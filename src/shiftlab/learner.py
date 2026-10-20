@@ -75,6 +75,8 @@ class Learner:
                 raise ValueError("cal_score_times must be finite and match calibration rows")
         self.score_times = deque(initial_score_times, maxlen=config.window)
         self.fixed_radius = quantile(abs(residual), config.alpha)
+        self.bias_correction = 0.0
+        self.feedback_residuals = deque(maxlen=config.window)
         self.reference = cal_X[-config.window :].copy()
         self.features = deque(maxlen=config.window)
         self.history = deque(zip(X.tolist(), y.tolist()), maxlen=config.window)
@@ -83,6 +85,7 @@ class Learner:
         self.error_detector = CUSUM(np.mean(residual**2), np.std(residual**2), config.threshold)
         self.alarms = {"ks": [], "loss_cusum": [], "error_cusum": []}
         self.interventions = []
+        self.intervention_audit = []
         self.feedback_count = self.cooldown = 0
 
     def _fit(self, X, y):
@@ -100,7 +103,7 @@ class Learner:
         ):
             self.alarms["ks"].append(observation.time)
         start = time.perf_counter()
-        pred = float(self.model.predict(x[None, :])[0])
+        pred = float(self.model.predict(x[None, :])[0]) + self.bias_correction
         self.inference_seconds += time.perf_counter() - start
         if self.radius_method == "rolling":
             radius = quantile(self.scores, self.config.alpha)
@@ -119,6 +122,8 @@ class Learner:
 
     def observe(self, feedback):
         self.feedback_count += 1
+        signed_residual = float(feedback.target - feedback.prediction)
+        self.feedback_residuals.append(signed_residual)
         self.scores.append(abs(feedback.target - feedback.prediction))
         self.score_times.append(feedback.available_at)
         self.history.append((feedback.features, feedback.target))
@@ -132,9 +137,23 @@ class Learner:
             self.alarms["error_cusum"].append(feedback.available_at)
         self.cooldown = max(0, self.cooldown - 1)
         periodic = self.method == "periodic" and self.feedback_count % self.config.period == 0
-        triggered = self.method == "triggered" and alarm and self.cooldown == 0
+        triggered = self.method in {"triggered", "recalibration"} and alarm and self.cooldown == 0
         if (periodic or triggered) and len(self.interventions) < self.config.budget:
-            X, y = zip(*self.history)
-            self._fit(np.asarray(X), np.asarray(y))
+            action = "refit"
+            if self.method == "recalibration":
+                self.bias_correction += float(np.mean(self.feedback_residuals))
+                action = "residual_bias_recalibration"
+            else:
+                X, y = zip(*self.history)
+                self._fit(np.asarray(X), np.asarray(y))
             self.interventions.append(feedback.available_at)
+            self.intervention_audit.append(
+                {
+                    "available_at": feedback.available_at,
+                    "arrived_feedback_count": self.feedback_count,
+                    "method": self.method,
+                    "action": action,
+                    "bias_correction": self.bias_correction,
+                }
+            )
             self.cooldown = self.config.window

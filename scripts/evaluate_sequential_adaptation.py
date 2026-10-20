@@ -36,6 +36,7 @@ POLICY_VARIANTS = (
     ("ridge_frozen", "ridge", "frozen", "fixed"),
     ("ridge_periodic", "ridge", "periodic", "fixed"),
     ("ridge_triggered", "ridge", "triggered", "fixed"),
+    ("ridge_recalibration", "ridge", "recalibration", "fixed"),
     ("ridge_triggered_rolling_radius", "ridge", "triggered", "rolling"),
     ("ridge_triggered_exponential_radius", "ridge", "triggered", "exponential"),
     ("forest_frozen", "random_forest", "frozen", "fixed"),
@@ -230,9 +231,11 @@ def evaluate_replicate(schedule: str, seed: int) -> list[dict]:
                 ),
                 "trigger_alarm_count": len(learner.alarms["error_cusum"]),
                 "fit_audit": learner.fit_audit,
+                "intervention_audit": learner.intervention_audit,
+                "final_bias_correction": learner.bias_correction,
                 "protocol_passes": bool(
                     len(learner.interventions) <= settings.budget
-                    and len(learner.fit_audit) == len(learner.interventions)
+                    and len(learner.intervention_audit) == len(learner.interventions)
                     and all(value in arrived_times for value in fit_times)
                     and all(value <= float(test.prediction_time.max()) for value in fit_times)
                     and fit_times == sorted(fit_times)
@@ -249,6 +252,17 @@ def evaluate_replicate(schedule: str, seed: int) -> list[dict]:
                         row["fit_feedback_available_time"] in learner.interventions
                         for row in learner.fit_audit
                     )
+                    and all(
+                        action["available_at"] in arrived_times
+                        and action["available_at"] in learner.interventions
+                        and action["arrived_feedback_count"] <= learner.feedback_count
+                        for action in learner.intervention_audit
+                    )
+                    and sum(
+                        action["action"] == "residual_bias_recalibration"
+                        for action in learner.intervention_audit
+                    )
+                    == (len(learner.interventions) if method == "recalibration" else 0)
                 ),
                 "utility_origin": "synthetic squared prediction error; no application cost claim",
             }
@@ -312,11 +326,12 @@ def evaluate() -> dict:
         )
     )
     return {
-        "description": "Five-seed fitted online adaptation using Ridge and random-forest predictors with frozen, periodic, or residual-CUSUM-triggered updates, fixed, rolling, or exponentially weighted prequential radii, across four concept schedules.",
-        "protocol": "Train and calibration labels are strictly available before the first test request. During the test stream, learners receive requests and only labels yielded by timestamp-ordered replay. Equal-time requests precede feedback. Refit history contains only arrived labels. Every variant has a four-update compute budget. Rolling- and exponentially weighted-radius arms keep their Ridge predictor update schedule identical to the fixed-radius triggered arm; residual scores enter only when labels arrive and use the forecast made earlier for that sample. Exponential score weights use label-availability times and an 80-step half-life, with one unit of test-point mass. Random forests use 32 trees, depth 6, leaf size 5, and a fixed seed.",
+        "description": "Five-seed fitted online adaptation using Ridge and random-forest predictors with frozen, periodic, residual-CUSUM-triggered refitting, or residual-bias recalibration, fixed, rolling, or exponentially weighted prequential radii, across four concept schedules.",
+        "protocol": "Train and calibration labels are strictly available before the first test request. During the test stream, learners receive requests and only labels yielded by timestamp-ordered replay. Equal-time requests precede feedback. Refit history contains only arrived labels. Every variant has a four-action budget. The recalibration arm updates only a scalar prediction intercept by adding the mean signed residual from up to the latest 80 arrived feedback labels; it does not refit model parameters. Rolling- and exponentially weighted-radius arms keep their Ridge predictor update schedule identical to the fixed-radius triggered arm; residual scores enter only when labels arrive and use the forecast made earlier for that sample. Exponential score weights use label-availability times and an 80-step half-life, with one unit of test-point mass. Random forests use 32 trees, depth 6, leaf size 5, and a fixed seed.",
         "limitations": [
             "The trigger threshold and review period are fixed in advance; no parameter tuning uses test outcomes.",
             "Only Ridge and a fixed random-forest configuration are evaluated; hyperparameters are not tuned on test outcomes.",
+            "Residual-bias recalibration is a single prespecified intercept update; broader partial-update and feature-conditional recalibration methods remain unevaluated.",
             "Rolling prequential radii and 100-request coverage blocks are descriptive and do not establish conditional, simultaneous, or online validity.",
             "Oracle irreducible MSE is evaluator-only; it is not exposed to the learner.",
             "Five seeds are descriptive replicates, not confidence intervals.",
@@ -362,9 +377,9 @@ def main() -> None:
     output = Path("data/reports/fitted_adaptation_validation.json")
     write_json(output, report)
     csv_path = output.with_suffix(".csv")
-    pd.DataFrame(report["replicates"]).drop(columns=["fit_audit", "coverage_by_test_block"]).to_csv(
-        csv_path, index=False
-    )
+    pd.DataFrame(report["replicates"]).drop(
+        columns=["fit_audit", "intervention_audit", "coverage_by_test_block"]
+    ).to_csv(csv_path, index=False)
     coverage_rows = []
     for row in report["replicates"]:
         for block in row["coverage_by_test_block"]:

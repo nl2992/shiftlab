@@ -1,5 +1,6 @@
 import numpy as np
 import pytest
+from scipy.special import expit
 
 from shiftlab.data.bootstrap import mean_difference_interval
 from shiftlab.data.schemas import SyntheticConfig
@@ -110,6 +111,39 @@ def test_label_prior_and_covariance():
         frame, _ = next(generate_chunks(SyntheticConfig(n=5000, scenario=scenario)))
         covariance = np.cov(np.stack(frame.features)[2500:, :2].T)
         assert np.linalg.eigvalsh(covariance).min() > 0
+
+
+@pytest.mark.parametrize("scenario", ["nonlinear_classification", "boundary_rotation"])
+@pytest.mark.parametrize("severity", [0.0, 0.5, 2.0])
+def test_classification_labels_calibrate_to_independent_probability_formula(scenario, severity):
+    observed, expected, variances, probability_errors = [], [], [], []
+    for seed in [11, 23, 37, 53, 71]:
+        config = SyntheticConfig(
+            n=20000, d=4, scenario=scenario, severity=severity, seed=seed, chunk_size=5000
+        )
+        parts = list(generate_chunks(config))
+        features = np.concatenate([np.stack(frame.features.to_numpy()) for frame, _ in parts])
+        targets = np.concatenate([frame.target.to_numpy() for frame, _ in parts])
+        weights = np.concatenate([oracle.weight.to_numpy() for _, oracle in parts])
+        probabilities = np.concatenate(
+            [oracle.probability_positive.to_numpy() for _, oracle in parts]
+        )
+        if scenario == "nonlinear_classification":
+            formula = expit(features[:, 0] + features[:, 1] ** 2 - 1)
+        else:
+            formula = expit(
+                np.cos(severity * weights) * features[:, 0]
+                + np.sin(severity * weights) * features[:, 1]
+            )
+        probability_errors.append(float(np.max(np.abs(probabilities - formula))))
+        observed.append(float(targets.sum()))
+        expected.append(float(formula.sum()))
+        variances.append(float(np.sum(formula * (1 - formula))))
+    expected_total = sum(expected)
+    # Independent Bernoulli draws have this conditional variance; aggregate independent streams.
+    variance = sum(variances)
+    assert max(probability_errors) < 1e-12
+    assert abs(sum(observed) - expected_total) < 5 * np.sqrt(variance)
 
 
 @pytest.mark.parametrize(

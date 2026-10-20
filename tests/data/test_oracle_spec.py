@@ -117,21 +117,28 @@ def test_dependent_error_oracle_separates_marginal_and_history_conditional_targe
         "boundary_rotation",
     ],
 )
-def test_concept_cases_preserve_feature_law_and_match_conditional_oracle(scenario):
+@pytest.mark.parametrize("severity", [0.0, 0.5, 2.0])
+def test_concept_cases_preserve_feature_law_and_match_conditional_oracle(scenario, severity):
     from scipy.special import expit
 
     for seed in [11, 23, 37, 53, 71]:
         config = SyntheticConfig(
-            n=20000, d=3, scenario=scenario, severity=1.2, seed=seed, chunk_size=5000
+            n=20000, d=3, scenario=scenario, severity=severity, seed=seed, chunk_size=5000
         )
         parts = list(generate_chunks(config))
         frame = pd.concat([item[0] for item in parts], ignore_index=True)
         oracle = pd.concat([item[1] for item in parts], ignore_index=True)
         features = np.stack(frame.features.to_numpy())
         weight = oracle.weight.to_numpy()
-        baseline_x, shifted_x = features[weight == 0], features[weight == 1]
-        assert np.max(np.abs(baseline_x.mean(axis=0) - shifted_x.mean(axis=0))) < 0.06
-        assert np.max(np.abs(np.cov(baseline_x.T) - np.cov(shifted_x.T))) < 0.08
+        baseline_x = features[weight == 0]
+        if severity == 0:
+            assert len(np.unique(weight)) == 1
+            assert np.max(np.abs(baseline_x.mean(axis=0))) < 0.03
+            assert np.max(np.abs(np.cov(baseline_x.T) - np.eye(3))) < 0.04
+        else:
+            shifted_x = features[weight == 1]
+            assert np.max(np.abs(baseline_x.mean(axis=0) - shifted_x.mean(axis=0))) < 0.06
+            assert np.max(np.abs(np.cov(baseline_x.T) - np.cov(shifted_x.T))) < 0.08
 
         f = features[:, 0] - 0.9 * features[:, 1]
         baseline_function = f.copy()
@@ -162,6 +169,11 @@ def test_concept_cases_preserve_feature_law_and_match_conditional_oracle(scenari
         assert np.max(np.abs(oracle.conditional_mean.to_numpy() - expected)) < 1e-10
         shifted = weight == 1
         if scenario == "conditional_variance":
-            assert np.mean(np.abs(oracle.sigma.to_numpy()[shifted] - config.noise)) > 0
+            if severity == 0:
+                assert np.max(np.abs(oracle.sigma.to_numpy() - config.noise)) == 0
+            else:
+                assert np.mean(np.abs(oracle.sigma.to_numpy()[shifted] - config.noise)) > 0
+        elif severity == 0:
+            assert np.max(np.abs(expected - baseline_function)) < 1e-12
         else:
             assert np.mean(np.abs(expected[shifted] - baseline_function[shifted])) > 1e-3

@@ -4,6 +4,7 @@ import pytest
 from pydantic import ValidationError
 
 from shiftlab.data.chronological_splits import assign_splits, fit_training_scaler
+from shiftlab.data.real.adapters import standardize
 from shiftlab.data.schemas import SyntheticConfig, validate_frame
 from shiftlab.data.streaming import Label, Request, replay
 from shiftlab.data.synthetic import SCENARIOS, generate_chunks
@@ -63,6 +64,21 @@ def test_label_visibility_and_unknown_times():
     frame["prediction_time"] = np.nan
     with pytest.raises(ValueError):
         list(replay(frame))
+
+
+def test_replay_emits_labels_arriving_after_the_final_request_in_time_order():
+    frame = standardize(np.array([[1.0], [2.0]]), np.array([3.0, 4.0]), "d", "fixture")
+    frame["prediction_time"] = [0.0, 1.0]
+    frame["feature_available_time"] = [0.0, 1.0]
+    frame["label_available_time"] = [5.0, 2.0]
+
+    events = list(replay(frame))
+    labels = [event for event in events if isinstance(event, Label)]
+    assert [event.sample_id for event in labels] == [
+        frame.sample_id.iloc[1],
+        frame.sample_id.iloc[0],
+    ]
+    assert [event.available_time for event in labels] == [2.0, 5.0]
 
 
 def test_future_targets_do_not_change_requests():

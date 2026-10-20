@@ -61,3 +61,8 @@ def replay(frame: pd.DataFrame):
         while pending and pending[0][0] == now:
             available, identifier, target = heapq.heappop(pending)
             yield Label(identifier, available, target)
+    # The final request may precede the last delayed outcomes. The stream continues through
+    # those feedback arrivals even when no later prediction request is scheduled.
+    while pending:
+        available, identifier, target = heapq.heappop(pending)
+        yield Label(identifier, available, target)

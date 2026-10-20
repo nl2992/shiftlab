@@ -1,13 +1,10 @@
 {
   "environment": {
     "cpu_ram_bytes": 16858472448,
-    "disk_free_bytes": 69091135488,
-    "cuda_available": true,
+    "disk_free_bytes": 69111590912,
+    "cuda_available": false,
     "nvidia_smi": "NVIDIA GeForce RTX 4060 Laptop GPU, 8188 MiB, 592.82, 0 %, 10 MiB",
-    "torch_version": "2.9.1+cu130",
-    "cuda_runtime": "13.0",
-    "gpu_name": "NVIDIA GeForce RTX 4060 Laptop GPU",
-    "gpu_memory_bytes": 8585216000,
+    "torch_version": null,
     "versions": {
       "numpy": "2.5.4",
       "scipy": "1.18.1",
@@ -5831,6 +5828,188 @@
       "oracle_file": null,
       "environment": {},
       "path": "data\\processed\\monash\\4025c59613406900525e"
+    },
+    {
+      "schema_version": "1.1.0",
+      "dataset": "monash",
+      "version": "5de90a8a33549006df6f",
+      "publisher": "Monash Forecasting Repository",
+      "source_url": "https://zenodo.org/communities/forecasting/",
+      "citation": "Monash Time Series Forecasting Archive",
+      "license": "CC BY 4.0 per Zenodo record; retain original competition attribution and research-use guidance",
+      "permitted_use": "Respect original source and underlying-series terms; research use only where permitted",
+      "acquired_at": "2026-10-20T07:08:19.313805+00:00",
+      "retrieval_parameters": {
+        "dataset": "electricity_hourly",
+        "max_series": 20,
+        "lookback": 8,
+        "forecast_horizon": 168,
+        "forecast_horizon_source": "https://arxiv.org/abs/2105.06643",
+        "max_download_bytes": 250000000
+      },
+      "raw_checksums": {
+        "data\\raw\\monash\\4656140\\electricity_hourly_dataset.zip": "eff447075dde68dca0105ab7e2851c5637967ae3bb21556fd8b931f196d5968c"
+      },
+      "processing_config": {
+        "dataset": "electricity_hourly",
+        "max_series": 20,
+        "lookback": 8,
+        "forecast_horizon": 168,
+        "forecast_horizon_source": "https://arxiv.org/abs/2105.06643",
+        "max_download_bytes": 250000000
+      },
+      "task_specs": [
+        {
+          "task_id": "electricity_hourly_official_fixed_origin_forecast",
+          "task_kind": "regression",
+          "target_definition": "official final-horizon series values; one shared training-only origin per series",
+          "forecast_horizon": {
+            "value": 168,
+            "unit": "steps",
+            "event_semantics": "fixed-origin holdout; forecast_step ranges from one to 168; horizon source: https://arxiv.org/abs/2105.06643"
+          },
+          "valid_target_mask": "finite future target; missing holdout steps remain masked and are not imputed",
+          "evaluation_metrics": [
+            "MAE",
+            "RMSE",
+            "sMAPE when denominator is nonzero"
+          ],
+          "label_availability_rule": "official retrospective holdout; publication time unknown",
+          "utility_provenance": "No application-grounded decision utility; evaluate with named task metrics."
+        }
+      ],
+      "code_commit": "6fb964df278a763dc92adfeae24baec327e082c6",
+      "source_hash": "68295079edd42f70f087e2e46da32e1ae651286215b3b1f89c6cef93a9c24fb8",
+      "n_observations": 525920,
+      "feature_names": [
+        "lag_8",
+        "lag_7",
+        "lag_6",
+        "lag_5",
+        "lag_4",
+        "lag_3",
+        "lag_2",
+        "lag_1"
+      ],
+      "feature_dtype": "float64",
+      "feature_kind": "numeric",
+      "time_coverage": [
+        null,
+        null
+      ],
+      "domains": [
+        "electricity_hourly"
+      ],
+      "missingness": {
+        "target": 0.0,
+        "features": 0.0
+      },
+      "limitations": [
+        "No verified real-world changepoints.",
+        "Official final-horizon split preserved; holdout forecasts use one fixed training-only origin.",
+        "TSF start dates are source attributes, not verified measurement/release dates. Within-series positions are not cross-entity wall-clock times.",
+        "No exogenous covariates claimed unless present as source attributes; lag features are derived from the series only.",
+        "Only the first 20 series are selected deterministically; this is a documented subset, not the full competition.",
+        "TSF omits @horizon; configured horizon follows the cited Monash archive benchmark protocol: https://arxiv.org/abs/2105.06643"
+      ],
+      "ground_truth": "none",
+      "files": {
+        "observations.parquet": "3450596a3b7179dead462ccdeeb2cbe779195e045a002f588d7152320fee0e7e"
+      },
+      "oracle_file": null,
+      "environment": {},
+      "path": "data\\processed\\monash\\5de90a8a33549006df6f"
+    },
+    {
+      "schema_version": "1.1.0",
+      "dataset": "monash",
+      "version": "b1962008de63289da67a",
+      "publisher": "Monash Forecasting Repository",
+      "source_url": "https://zenodo.org/communities/forecasting/",
+      "citation": "Monash Time Series Forecasting Archive",
+      "license": "CC BY 4.0 per Zenodo record; retain original competition attribution and research-use guidance",
+      "permitted_use": "Respect original source and underlying-series terms; research use only where permitted",
+      "acquired_at": "2026-10-20T07:08:32.542905+00:00",
+      "retrieval_parameters": {
+        "dataset": "weather",
+        "max_series": 20,
+        "lookback": 8,
+        "forecast_horizon": 30,
+        "forecast_horizon_source": "https://arxiv.org/abs/2105.06643",
+        "max_download_bytes": 250000000
+      },
+      "raw_checksums": {
+        "data\\raw\\monash\\4654822\\weather_dataset.zip": "adc9195b4b842673892fec1ba22cced9c42d5c4cba9a261f455ffbe96db7847b"
+      },
+      "processing_config": {
+        "dataset": "weather",
+        "max_series": 20,
+        "lookback": 8,
+        "forecast_horizon": 30,
+        "forecast_horizon_source": "https://arxiv.org/abs/2105.06643",
+        "max_download_bytes": 250000000
+      },
+      "task_specs": [
+        {
+          "task_id": "weather_official_fixed_origin_forecast",
+          "task_kind": "regression",
+          "target_definition": "official final-horizon series values; one shared training-only origin per series",
+          "forecast_horizon": {
+            "value": 30,
+            "unit": "steps",
+            "event_semantics": "fixed-origin holdout; forecast_step ranges from one to 30; horizon source: https://arxiv.org/abs/2105.06643"
+          },
+          "valid_target_mask": "finite future target; missing holdout steps remain masked and are not imputed",
+          "evaluation_metrics": [
+            "MAE",
+            "RMSE",
+            "sMAPE when denominator is nonzero"
+          ],
+          "label_availability_rule": "official retrospective holdout; publication time unknown",
+          "utility_provenance": "No application-grounded decision utility; evaluate with named task metrics."
+        }
+      ],
+      "code_commit": "6fb964df278a763dc92adfeae24baec327e082c6",
+      "source_hash": "68295079edd42f70f087e2e46da32e1ae651286215b3b1f89c6cef93a9c24fb8",
+      "n_observations": 383332,
+      "feature_names": [
+        "lag_8",
+        "lag_7",
+        "lag_6",
+        "lag_5",
+        "lag_4",
+        "lag_3",
+        "lag_2",
+        "lag_1"
+      ],
+      "feature_dtype": "float64",
+      "feature_kind": "numeric",
+      "time_coverage": [
+        null,
+        null
+      ],
+      "domains": [
+        "weather"
+      ],
+      "missingness": {
+        "target": 0.0,
+        "features": 0.0
+      },
+      "limitations": [
+        "No verified real-world changepoints.",
+        "Official final-horizon split preserved; holdout forecasts use one fixed training-only origin.",
+        "TSF start dates are source attributes, not verified measurement/release dates. Within-series positions are not cross-entity wall-clock times.",
+        "No exogenous covariates claimed unless present as source attributes; lag features are derived from the series only.",
+        "Only the first 20 series are selected deterministically; this is a documented subset, not the full competition.",
+        "TSF omits @horizon; configured horizon follows the cited Monash archive benchmark protocol: https://arxiv.org/abs/2105.06643"
+      ],
+      "ground_truth": "none",
+      "files": {
+        "observations.parquet": "5481ccc4c68cbe10f66954d97f50af8e5579b57741d414c2ab39487ffe4da099"
+      },
+      "oracle_file": null,
+      "environment": {},
+      "path": "data\\processed\\monash\\b1962008de63289da67a"
     },
     {
       "schema_version": "1.1.0",

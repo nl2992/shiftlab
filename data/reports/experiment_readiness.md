@@ -59,6 +59,8 @@
 | `irrelevant@8d58c220c4b53d25104e` | controlled decision study | regression/classification stream | stream ready | synthetic_known; known simulation clock |
 | `irrelevant@92f0fb941cf3793f3461` | controlled decision study | regression/classification stream | stream ready | synthetic_known; known simulation clock |
 | `monash@4025c59613406900525e` | retrospective; utility imposed | retrospective forecast/conformal task; availability unknown | retrospective task; release-time protocol unknown | none; historical/coarse; no true changes |
+| `monash@5de90a8a33549006df6f` | retrospective; utility imposed | retrospective forecast/conformal task; availability unknown | retrospective task; release-time protocol unknown | none; historical/coarse; no true changes |
+| `monash@b1962008de63289da67a` | retrospective; utility imposed | retrospective forecast/conformal task; availability unknown | retrospective task; release-time protocol unknown | none; historical/coarse; no true changes |
 | `monash@e533b91be44181d8bb3b` | retrospective; utility imposed | retrospective forecast/conformal task; availability unknown | retrospective task; release-time protocol unknown | none; historical/coarse; no true changes |
 | `monash@f42206706844cf3ee17b` | retrospective; utility imposed | retrospective forecast/conformal task; availability unknown | retrospective task; release-time protocol unknown | none; historical/coarse; no true changes |
 | `noaa@250db0578188e92615ea` | retrospective; utility imposed | retrospective forecast/conformal task; availability unknown | retrospective task; release-time protocol unknown | none; historical/coarse; no true changes |

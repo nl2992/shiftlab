@@ -28,6 +28,8 @@
           "manifest_sha256": "a96912da5fea3ba677a86394f220bfafbf80da54c28cd4e469e0e7de1774c6ba",
           "code_commit": "3aa9705d89aa421f76e919e9b668337fd9b8583c",
           "source_hash": "7f8bc148deb5299f3504c0328547cc48fe774947abd340f0257296dc18b32237",
+          "forecast_horizon": null,
+          "forecast_horizon_source": "TSF @horizon when declared",
           "observations": 26653,
           "entities": 20,
           "split_counts": {
@@ -66,6 +68,8 @@
           "manifest_sha256": "ab19dfeb45c164e47196ca378de90748c2239056597c898de8dcb673e9bb2d7f",
           "code_commit": "11aac75183e1591feaee8a4f4a2a454275420644",
           "source_hash": "028a60de15e0fd621d80465c58c8d6ba8d61caefcac757a64311ba2f6ac9ea62",
+          "forecast_horizon": null,
+          "forecast_horizon_source": "TSF @horizon when declared",
           "observations": 7400,
           "entities": 10,
           "split_counts": {
@@ -104,6 +108,8 @@
           "manifest_sha256": "1238f4543aa30ef19571a7b9a8644055507361552b69a557c12c175cf6acac0f",
           "code_commit": "3aa9705d89aa421f76e919e9b668337fd9b8583c",
           "source_hash": "7f8bc148deb5299f3504c0328547cc48fe774947abd340f0257296dc18b32237",
+          "forecast_horizon": null,
+          "forecast_horizon_source": "TSF @horizon when declared",
           "observations": 17331,
           "entities": 20,
           "split_counts": {
@@ -135,8 +141,26 @@
         "@equallength true"
       ],
       "declares_horizon": false,
-      "processed_versions": [],
-      "status": "archive_acquired_conversion_rejected_missing_declared_horizon"
+      "processed_versions": [
+        {
+          "version": "5de90a8a33549006df6f",
+          "manifest_sha256": "8a2f232f6097bfb2a8d22fc53630922cecc02f90fe07b9b47128fbffdc099b30",
+          "code_commit": "6fb964df278a763dc92adfeae24baec327e082c6",
+          "source_hash": "68295079edd42f70f087e2e46da32e1ae651286215b3b1f89c6cef93a9c24fb8",
+          "forecast_horizon": 168,
+          "forecast_horizon_source": "https://arxiv.org/abs/2105.06643",
+          "observations": 525920,
+          "entities": 20,
+          "split_counts": {
+            "test": 3360,
+            "train": 522560
+          },
+          "official_horizons": [
+            168
+          ]
+        }
+      ],
+      "status": "acquired_and_converted"
     },
     {
       "dataset": "weather",
@@ -156,8 +180,26 @@
         "@equallength false"
       ],
       "declares_horizon": false,
-      "processed_versions": [],
-      "status": "archive_acquired_conversion_rejected_missing_declared_horizon"
+      "processed_versions": [
+        {
+          "version": "b1962008de63289da67a",
+          "manifest_sha256": "ef2351fae0b6d93faa03ab7a5f3b8f3504d2c333fb66b1c773d8e99dece85b3b",
+          "code_commit": "6fb964df278a763dc92adfeae24baec327e082c6",
+          "source_hash": "68295079edd42f70f087e2e46da32e1ae651286215b3b1f89c6cef93a9c24fb8",
+          "forecast_horizon": 30,
+          "forecast_horizon_source": "https://arxiv.org/abs/2105.06643",
+          "observations": 383332,
+          "entities": 20,
+          "split_counts": {
+            "test": 600,
+            "train": 382732
+          },
+          "official_horizons": [
+            30
+          ]
+        }
+      ],
+      "status": "acquired_and_converted"
     }
   ]
 }

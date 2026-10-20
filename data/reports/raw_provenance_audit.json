@@ -1,8 +1,8 @@
 {
   "scope": "Raw source files currently retained at manifest-recorded paths",
-  "n_references": 149,
+  "n_references": 151,
   "counts": {
-    "verified": 149,
+    "verified": 151,
     "missing": 0,
     "mismatch": 0
   },
@@ -998,6 +998,22 @@
       "status": "verified",
       "expected_sha256": "5144147e7e02830f6afb9543e798a06caa9e7dc10db00cc7502af23a51f45942",
       "actual_sha256": "5144147e7e02830f6afb9543e798a06caa9e7dc10db00cc7502af23a51f45942"
+    },
+    {
+      "dataset": "monash",
+      "version": "5de90a8a33549006df6f",
+      "raw_file": "electricity_hourly_dataset.zip",
+      "status": "verified",
+      "expected_sha256": "eff447075dde68dca0105ab7e2851c5637967ae3bb21556fd8b931f196d5968c",
+      "actual_sha256": "eff447075dde68dca0105ab7e2851c5637967ae3bb21556fd8b931f196d5968c"
+    },
+    {
+      "dataset": "monash",
+      "version": "b1962008de63289da67a",
+      "raw_file": "weather_dataset.zip",
+      "status": "verified",
+      "expected_sha256": "adc9195b4b842673892fec1ba22cced9c42d5c4cba9a261f455ffbe96db7847b",
+      "actual_sha256": "adc9195b4b842673892fec1ba22cced9c42d5c4cba9a261f455ffbe96db7847b"
     },
     {
       "dataset": "monash",

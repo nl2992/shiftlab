@@ -77,6 +77,21 @@ def test_scalar_forecast_task_requires_one_dimensional_values():
         forecast_task(np.zeros((10, 2)))
 
 
+@pytest.mark.parametrize("builder", [forecast_task, multi_step_forecast_task])
+def test_forecast_builders_reject_infinite_observations(builder):
+    values = np.arange(12.0)
+    values[6] = np.inf
+    with pytest.raises(ValueError, match="finite or missing"):
+        builder(values)
+
+
+@pytest.mark.parametrize("task", ["binary", "exceedance", "rare_event", "rare_magnitude"])
+@pytest.mark.parametrize("threshold", [np.nan, np.inf, -np.inf])
+def test_threshold_tasks_reject_nonfinite_thresholds(task, threshold):
+    with pytest.raises(ValueError, match="threshold must be finite"):
+        forecast_task(np.arange(20.0), task=task, threshold=threshold)
+
+
 def test_unknown_forecast_task_fails_before_building_windows():
     with pytest.raises(ValueError, match="Unknown forecast task"):
         forecast_task(np.arange(10.0), task="unknown")

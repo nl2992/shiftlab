@@ -325,6 +325,8 @@ def forecast_task(
     values = np.asarray(values, dtype=float)
     if values.ndim != 1:
         raise ValueError("values must be a one-dimensional series")
+    if np.isinf(values).any():
+        raise ValueError("values must be finite or missing")
     if (
         isinstance(horizon, bool)
         or not isinstance(horizon, (int, np.integer))
@@ -334,6 +336,10 @@ def forecast_task(
         or lookback < 1
     ):
         raise ValueError("horizon and lookback must be positive integers")
+    if task in {"binary", "exceedance", "rare_event", "rare_magnitude"} and not np.isfinite(
+        threshold
+    ):
+        raise ValueError("threshold must be finite")
     if len(values) <= horizon + lookback:
         raise ValueError("Insufficient series for horizon and lookback")
     index = np.arange(lookback - 1, len(values) - horizon)
@@ -373,6 +379,8 @@ def multi_step_forecast_task(values, horizon=3, lookback=4):
     values = np.asarray(values, dtype=float)
     if values.ndim != 1:
         raise ValueError("values must be a one-dimensional series")
+    if np.isinf(values).any():
+        raise ValueError("values must be finite or missing")
     if (
         isinstance(horizon, bool)
         or not isinstance(horizon, (int, np.integer))

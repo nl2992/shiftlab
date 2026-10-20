@@ -1,0 +1,2261 @@
+{
+  "description": "Five-seed fitted online adaptation using frozen, periodic, and residual-CUSUM-triggered Ridge policies across four concept schedules.",
+  "protocol": "Train and calibration labels are strictly available before the first test request. During the test stream, learners receive requests and only labels yielded by timestamp-ordered replay. Equal-time requests precede feedback. Refit history contains only arrived labels. Every policy has a four-update compute budget.",
+  "limitations": [
+    "The trigger threshold and review period are fixed in advance; no parameter tuning uses test outcomes.",
+    "Only one fitted model family (Ridge) and synthetic squared loss are evaluated.",
+    "Oracle irreducible MSE is evaluator-only; it is not exposed to the learner.",
+    "Five seeds are descriptive replicates, not confidence intervals."
+  ],
+  "configuration": {
+    "n": 1600,
+    "d": 4,
+    "severity": 2.0,
+    "noise": 0.3,
+    "label_delay": 8,
+    "missing_label_rate": 0.1,
+    "train_fraction": 0.2,
+    "validation_fraction": 0.1,
+    "calibration_fraction": 0.2,
+    "seeds": [
+      11,
+      23,
+      37,
+      53,
+      71
+    ],
+    "policies": [
+      "frozen",
+      "periodic",
+      "triggered"
+    ],
+    "update_budget": 4
+  },
+  "schedule_overrides": {
+    "abrupt": {
+      "pattern": "abrupt",
+      "change_fraction": 0.65
+    },
+    "gradual": {
+      "pattern": "linear",
+      "change_fraction": 0.55,
+      "transition_fraction": 0.15
+    },
+    "temporary": {
+      "pattern": "temporary",
+      "change_fraction": 0.62,
+      "transition_fraction": 0.2
+    },
+    "recurring": {
+      "pattern": "recurring",
+      "regimes": 4
+    }
+  },
+  "replicates": [
+    {
+      "schedule": "abrupt",
+      "seed": 11,
+      "policy": "frozen",
+      "test_n": 800,
+      "mse": 3.2422564882185294,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 3.152256488218529,
+      "shifted_or_transition_mse": 4.589968050158976,
+      "update_count": 0,
+      "update_times": [],
+      "update_budget": 4,
+      "feedback_received": 706,
+      "feedback_missing_or_delayed_past_horizon": 94,
+      "trigger_alarm_count": 358,
+      "fit_audit": [],
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "abrupt",
+      "seed": 11,
+      "policy": "periodic",
+      "test_n": 800,
+      "mse": 2.930684162825395,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 2.8406841628253954,
+      "shifted_or_transition_mse": 4.142389793279416,
+      "update_count": 4,
+      "update_times": [
+        861,
+        919,
+        981,
+        1037
+      ],
+      "update_budget": 4,
+      "feedback_received": 706,
+      "feedback_missing_or_delayed_past_horizon": 94,
+      "trigger_alarm_count": 344,
+      "fit_audit": [
+        {
+          "fit_feedback_available_time": 861.0,
+          "arrived_feedback_count": 50,
+          "method": "periodic"
+        },
+        {
+          "fit_feedback_available_time": 919.0,
+          "arrived_feedback_count": 100,
+          "method": "periodic"
+        },
+        {
+          "fit_feedback_available_time": 981.0,
+          "arrived_feedback_count": 150,
+          "method": "periodic"
+        },
+        {
+          "fit_feedback_available_time": 1037.0,
+          "arrived_feedback_count": 200,
+          "method": "periodic"
+        }
+      ],
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "abrupt",
+      "seed": 11,
+      "policy": "triggered",
+      "test_n": 800,
+      "mse": 0.547600025156742,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 0.457600025156742,
+      "shifted_or_transition_mse": 0.7389821333329739,
+      "update_count": 4,
+      "update_times": [
+        902,
+        1048,
+        1134,
+        1290
+      ],
+      "update_budget": 4,
+      "feedback_received": 706,
+      "feedback_missing_or_delayed_past_horizon": 94,
+      "trigger_alarm_count": 65,
+      "fit_audit": [
+        {
+          "fit_feedback_available_time": 902.0,
+          "arrived_feedback_count": 84,
+          "method": "triggered"
+        },
+        {
+          "fit_feedback_available_time": 1048.0,
+          "arrived_feedback_count": 210,
+          "method": "triggered"
+        },
+        {
+          "fit_feedback_available_time": 1134.0,
+          "arrived_feedback_count": 290,
+          "method": "triggered"
+        },
+        {
+          "fit_feedback_available_time": 1290.0,
+          "arrived_feedback_count": 432,
+          "method": "triggered"
+        }
+      ],
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "abrupt",
+      "seed": 23,
+      "policy": "frozen",
+      "test_n": 800,
+      "mse": 2.9519554266142,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 2.8619554266142,
+      "shifted_or_transition_mse": 4.1707268452744986,
+      "update_count": 0,
+      "update_times": [],
+      "update_budget": 4,
+      "feedback_received": 710,
+      "feedback_missing_or_delayed_past_horizon": 90,
+      "trigger_alarm_count": 345,
+      "fit_audit": [],
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "abrupt",
+      "seed": 23,
+      "policy": "periodic",
+      "test_n": 800,
+      "mse": 2.9075103208658293,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 2.8175103208658294,
+      "shifted_or_transition_mse": 4.10692427804504,
+      "update_count": 4,
+      "update_times": [
+        865,
+        923,
+        977,
+        1031
+      ],
+      "update_budget": 4,
+      "feedback_received": 710,
+      "feedback_missing_or_delayed_past_horizon": 90,
+      "trigger_alarm_count": 343,
+      "fit_audit": [
+        {
+          "fit_feedback_available_time": 865.0,
+          "arrived_feedback_count": 50,
+          "method": "periodic"
+        },
+        {
+          "fit_feedback_available_time": 923.0,
+          "arrived_feedback_count": 100,
+          "method": "periodic"
+        },
+        {
+          "fit_feedback_available_time": 977.0,
+          "arrived_feedback_count": 150,
+          "method": "periodic"
+        },
+        {
+          "fit_feedback_available_time": 1031.0,
+          "arrived_feedback_count": 200,
+          "method": "periodic"
+        }
+      ],
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "abrupt",
+      "seed": 23,
+      "policy": "triggered",
+      "test_n": 800,
+      "mse": 0.6573903732181222,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 0.5673903732181222,
+      "shifted_or_transition_mse": 0.892573433595574,
+      "update_count": 4,
+      "update_times": [
+        815,
+        928,
+        1048,
+        1143
+      ],
+      "update_budget": 4,
+      "feedback_received": 710,
+      "feedback_missing_or_delayed_past_horizon": 90,
+      "trigger_alarm_count": 76,
+      "fit_audit": [
+        {
+          "fit_feedback_available_time": 815.0,
+          "arrived_feedback_count": 6,
+          "method": "triggered"
+        },
+        {
+          "fit_feedback_available_time": 928.0,
+          "arrived_feedback_count": 105,
+          "method": "triggered"
+        },
+        {
+          "fit_feedback_available_time": 1048.0,
+          "arrived_feedback_count": 215,
+          "method": "triggered"
+        },
+        {
+          "fit_feedback_available_time": 1143.0,
+          "arrived_feedback_count": 296,
+          "method": "triggered"
+        }
+      ],
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "abrupt",
+      "seed": 37,
+      "policy": "frozen",
+      "test_n": 800,
+      "mse": 2.968372734267515,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 2.878372734267515,
+      "shifted_or_transition_mse": 4.204398632633017,
+      "update_count": 0,
+      "update_times": [],
+      "update_budget": 4,
+      "feedback_received": 699,
+      "feedback_missing_or_delayed_past_horizon": 101,
+      "trigger_alarm_count": 320,
+      "fit_audit": [],
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "abrupt",
+      "seed": 37,
+      "policy": "periodic",
+      "test_n": 800,
+      "mse": 2.976886109194216,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 2.8868861091942164,
+      "shifted_or_transition_mse": 4.214776421907473,
+      "update_count": 4,
+      "update_times": [
+        866,
+        924,
+        978,
+        1032
+      ],
+      "update_budget": 4,
+      "feedback_received": 699,
+      "feedback_missing_or_delayed_past_horizon": 101,
+      "trigger_alarm_count": 320,
+      "fit_audit": [
+        {
+          "fit_feedback_available_time": 866.0,
+          "arrived_feedback_count": 50,
+          "method": "periodic"
+        },
+        {
+          "fit_feedback_available_time": 924.0,
+          "arrived_feedback_count": 100,
+          "method": "periodic"
+        },
+        {
+          "fit_feedback_available_time": 978.0,
+          "arrived_feedback_count": 150,
+          "method": "periodic"
+        },
+        {
+          "fit_feedback_available_time": 1032.0,
+          "arrived_feedback_count": 200,
+          "method": "periodic"
+        }
+      ],
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "abrupt",
+      "seed": 37,
+      "policy": "triggered",
+      "test_n": 800,
+      "mse": 0.6637980757120251,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 0.5737980757120251,
+      "shifted_or_transition_mse": 0.9121491204108892,
+      "update_count": 3,
+      "update_times": [
+        1048,
+        1136,
+        1558
+      ],
+      "update_budget": 4,
+      "feedback_received": 699,
+      "feedback_missing_or_delayed_past_horizon": 101,
+      "trigger_alarm_count": 56,
+      "fit_audit": [
+        {
+          "fit_feedback_available_time": 1048.0,
+          "arrived_feedback_count": 213,
+          "method": "triggered"
+        },
+        {
+          "fit_feedback_available_time": 1136.0,
+          "arrived_feedback_count": 293,
+          "method": "triggered"
+        },
+        {
+          "fit_feedback_available_time": 1558.0,
+          "arrived_feedback_count": 665,
+          "method": "triggered"
+        }
+      ],
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "abrupt",
+      "seed": 53,
+      "policy": "frozen",
+      "test_n": 800,
+      "mse": 3.0182601056390594,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 2.928260105639059,
+      "shifted_or_transition_mse": 4.277198094493595,
+      "update_count": 0,
+      "update_times": [],
+      "update_budget": 4,
+      "feedback_received": 720,
+      "feedback_missing_or_delayed_past_horizon": 80,
+      "trigger_alarm_count": 354,
+      "fit_audit": [],
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "abrupt",
+      "seed": 53,
+      "policy": "periodic",
+      "test_n": 800,
+      "mse": 3.0579799592771066,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 2.9679799592771063,
+      "shifted_or_transition_mse": 4.333425567435854,
+      "update_count": 4,
+      "update_times": [
+        861,
+        914,
+        972,
+        1027
+      ],
+      "update_budget": 4,
+      "feedback_received": 720,
+      "feedback_missing_or_delayed_past_horizon": 80,
+      "trigger_alarm_count": 354,
+      "fit_audit": [
+        {
+          "fit_feedback_available_time": 861.0,
+          "arrived_feedback_count": 50,
+          "method": "periodic"
+        },
+        {
+          "fit_feedback_available_time": 914.0,
+          "arrived_feedback_count": 100,
+          "method": "periodic"
+        },
+        {
+          "fit_feedback_available_time": 972.0,
+          "arrived_feedback_count": 150,
+          "method": "periodic"
+        },
+        {
+          "fit_feedback_available_time": 1027.0,
+          "arrived_feedback_count": 200,
+          "method": "periodic"
+        }
+      ],
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "abrupt",
+      "seed": 53,
+      "policy": "triggered",
+      "test_n": 800,
+      "mse": 0.4736592365062384,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 0.3836592365062384,
+      "shifted_or_transition_mse": 0.6420539957324223,
+      "update_count": 2,
+      "update_times": [
+        1049,
+        1133
+      ],
+      "update_budget": 4,
+      "feedback_received": 720,
+      "feedback_missing_or_delayed_past_horizon": 80,
+      "trigger_alarm_count": 61,
+      "fit_audit": [
+        {
+          "fit_feedback_available_time": 1049.0,
+          "arrived_feedback_count": 219,
+          "method": "triggered"
+        },
+        {
+          "fit_feedback_available_time": 1133.0,
+          "arrived_feedback_count": 299,
+          "method": "triggered"
+        }
+      ],
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "abrupt",
+      "seed": 71,
+      "policy": "frozen",
+      "test_n": 800,
+      "mse": 3.0043888723063645,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 2.914388872306364,
+      "shifted_or_transition_mse": 4.257556594069207,
+      "update_count": 0,
+      "update_times": [],
+      "update_budget": 4,
+      "feedback_received": 709,
+      "feedback_missing_or_delayed_past_horizon": 91,
+      "trigger_alarm_count": 354,
+      "fit_audit": [],
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "abrupt",
+      "seed": 71,
+      "policy": "periodic",
+      "test_n": 800,
+      "mse": 3.1168095071141955,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 3.0268095071141956,
+      "shifted_or_transition_mse": 4.416030256900284,
+      "update_count": 4,
+      "update_times": [
+        862,
+        919,
+        976,
+        1029
+      ],
+      "update_budget": 4,
+      "feedback_received": 709,
+      "feedback_missing_or_delayed_past_horizon": 91,
+      "trigger_alarm_count": 359,
+      "fit_audit": [
+        {
+          "fit_feedback_available_time": 862.0,
+          "arrived_feedback_count": 50,
+          "method": "periodic"
+        },
+        {
+          "fit_feedback_available_time": 919.0,
+          "arrived_feedback_count": 100,
+          "method": "periodic"
+        },
+        {
+          "fit_feedback_available_time": 976.0,
+          "arrived_feedback_count": 150,
+          "method": "periodic"
+        },
+        {
+          "fit_feedback_available_time": 1029.0,
+          "arrived_feedback_count": 200,
+          "method": "periodic"
+        }
+      ],
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "abrupt",
+      "seed": 71,
+      "policy": "triggered",
+      "test_n": 800,
+      "mse": 0.6492197456510158,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 0.5592197456510157,
+      "shifted_or_transition_mse": 0.8912616376120595,
+      "update_count": 4,
+      "update_times": [
+        835,
+        930,
+        1050,
+        1136
+      ],
+      "update_budget": 4,
+      "feedback_received": 709,
+      "feedback_missing_or_delayed_past_horizon": 91,
+      "trigger_alarm_count": 69,
+      "fit_audit": [
+        {
+          "fit_feedback_available_time": 835.0,
+          "arrived_feedback_count": 26,
+          "method": "triggered"
+        },
+        {
+          "fit_feedback_available_time": 930.0,
+          "arrived_feedback_count": 109,
+          "method": "triggered"
+        },
+        {
+          "fit_feedback_available_time": 1050.0,
+          "arrived_feedback_count": 218,
+          "method": "triggered"
+        },
+        {
+          "fit_feedback_available_time": 1136.0,
+          "arrived_feedback_count": 298,
+          "method": "triggered"
+        }
+      ],
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "gradual",
+      "seed": 11,
+      "policy": "frozen",
+      "test_n": 800,
+      "mse": 3.2507671364335793,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 3.1607671364335794,
+      "shifted_or_transition_mse": 3.6082758783517703,
+      "update_count": 0,
+      "update_times": [],
+      "update_budget": 4,
+      "feedback_received": 706,
+      "feedback_missing_or_delayed_past_horizon": 94,
+      "trigger_alarm_count": 389,
+      "fit_audit": [],
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "gradual",
+      "seed": 11,
+      "policy": "periodic",
+      "test_n": 800,
+      "mse": 1.0170137441815799,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 0.9270137441815797,
+      "shifted_or_transition_mse": 1.1228006464681866,
+      "update_count": 4,
+      "update_times": [
+        861,
+        919,
+        981,
+        1037
+      ],
+      "update_budget": 4,
+      "feedback_received": 706,
+      "feedback_missing_or_delayed_past_horizon": 94,
+      "trigger_alarm_count": 257,
+      "fit_audit": [
+        {
+          "fit_feedback_available_time": 861.0,
+          "arrived_feedback_count": 50,
+          "method": "periodic"
+        },
+        {
+          "fit_feedback_available_time": 919.0,
+          "arrived_feedback_count": 100,
+          "method": "periodic"
+        },
+        {
+          "fit_feedback_available_time": 981.0,
+          "arrived_feedback_count": 150,
+          "method": "periodic"
+        },
+        {
+          "fit_feedback_available_time": 1037.0,
+          "arrived_feedback_count": 200,
+          "method": "periodic"
+        }
+      ],
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "gradual",
+      "seed": 11,
+      "policy": "triggered",
+      "test_n": 800,
+      "mse": 0.26631287241105406,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 0.17631287241105403,
+      "shifted_or_transition_mse": 0.2876035400791406,
+      "update_count": 4,
+      "update_times": [
+        902,
+        1000,
+        1089,
+        1177
+      ],
+      "update_budget": 4,
+      "feedback_received": 706,
+      "feedback_missing_or_delayed_past_horizon": 94,
+      "trigger_alarm_count": 70,
+      "fit_audit": [
+        {
+          "fit_feedback_available_time": 902.0,
+          "arrived_feedback_count": 84,
+          "method": "triggered"
+        },
+        {
+          "fit_feedback_available_time": 1000.0,
+          "arrived_feedback_count": 165,
+          "method": "triggered"
+        },
+        {
+          "fit_feedback_available_time": 1089.0,
+          "arrived_feedback_count": 249,
+          "method": "triggered"
+        },
+        {
+          "fit_feedback_available_time": 1177.0,
+          "arrived_feedback_count": 331,
+          "method": "triggered"
+        }
+      ],
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "gradual",
+      "seed": 23,
+      "policy": "frozen",
+      "test_n": 800,
+      "mse": 2.9182142046894706,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 2.828214204689471,
+      "shifted_or_transition_mse": 3.23420681102611,
+      "update_count": 0,
+      "update_times": [],
+      "update_budget": 4,
+      "feedback_received": 710,
+      "feedback_missing_or_delayed_past_horizon": 90,
+      "trigger_alarm_count": 375,
+      "fit_audit": [],
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "gradual",
+      "seed": 23,
+      "policy": "periodic",
+      "test_n": 800,
+      "mse": 1.0763633944638082,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 0.9863633944638082,
+      "shifted_or_transition_mse": 1.1851790393529569,
+      "update_count": 4,
+      "update_times": [
+        865,
+        923,
+        977,
+        1031
+      ],
+      "update_budget": 4,
+      "feedback_received": 710,
+      "feedback_missing_or_delayed_past_horizon": 90,
+      "trigger_alarm_count": 267,
+      "fit_audit": [
+        {
+          "fit_feedback_available_time": 865.0,
+          "arrived_feedback_count": 50,
+          "method": "periodic"
+        },
+        {
+          "fit_feedback_available_time": 923.0,
+          "arrived_feedback_count": 100,
+          "method": "periodic"
+        },
+        {
+          "fit_feedback_available_time": 977.0,
+          "arrived_feedback_count": 150,
+          "method": "periodic"
+        },
+        {
+          "fit_feedback_available_time": 1031.0,
+          "arrived_feedback_count": 200,
+          "method": "periodic"
+        }
+      ],
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "gradual",
+      "seed": 23,
+      "policy": "triggered",
+      "test_n": 800,
+      "mse": 0.3759163855473851,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 0.2859163855473851,
+      "shifted_or_transition_mse": 0.40553584197453624,
+      "update_count": 4,
+      "update_times": [
+        815,
+        925,
+        1013,
+        1105
+      ],
+      "update_budget": 4,
+      "feedback_received": 710,
+      "feedback_missing_or_delayed_past_horizon": 90,
+      "trigger_alarm_count": 127,
+      "fit_audit": [
+        {
+          "fit_feedback_available_time": 815.0,
+          "arrived_feedback_count": 6,
+          "method": "triggered"
+        },
+        {
+          "fit_feedback_available_time": 925.0,
+          "arrived_feedback_count": 102,
+          "method": "triggered"
+        },
+        {
+          "fit_feedback_available_time": 1013.0,
+          "arrived_feedback_count": 182,
+          "method": "triggered"
+        },
+        {
+          "fit_feedback_available_time": 1105.0,
+          "arrived_feedback_count": 263,
+          "method": "triggered"
+        }
+      ],
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "gradual",
+      "seed": 37,
+      "policy": "frozen",
+      "test_n": 800,
+      "mse": 2.912655408011079,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 2.8226554080110793,
+      "shifted_or_transition_mse": 3.2322841555848174,
+      "update_count": 0,
+      "update_times": [],
+      "update_budget": 4,
+      "feedback_received": 699,
+      "feedback_missing_or_delayed_past_horizon": 101,
+      "trigger_alarm_count": 345,
+      "fit_audit": [],
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "gradual",
+      "seed": 37,
+      "policy": "periodic",
+      "test_n": 800,
+      "mse": 0.9992974749809187,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 0.9092974749809187,
+      "shifted_or_transition_mse": 1.103199381554371,
+      "update_count": 4,
+      "update_times": [
+        866,
+        924,
+        978,
+        1032
+      ],
+      "update_budget": 4,
+      "feedback_received": 699,
+      "feedback_missing_or_delayed_past_horizon": 101,
+      "trigger_alarm_count": 237,
+      "fit_audit": [
+        {
+          "fit_feedback_available_time": 866.0,
+          "arrived_feedback_count": 50,
+          "method": "periodic"
+        },
+        {
+          "fit_feedback_available_time": 924.0,
+          "arrived_feedback_count": 100,
+          "method": "periodic"
+        },
+        {
+          "fit_feedback_available_time": 978.0,
+          "arrived_feedback_count": 150,
+          "method": "periodic"
+        },
+        {
+          "fit_feedback_available_time": 1032.0,
+          "arrived_feedback_count": 200,
+          "method": "periodic"
+        }
+      ],
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "gradual",
+      "seed": 37,
+      "policy": "triggered",
+      "test_n": 800,
+      "mse": 0.2889431958781772,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 0.1989431958781772,
+      "shifted_or_transition_mse": 0.31299379437991937,
+      "update_count": 4,
+      "update_times": [
+        938,
+        1026,
+        1118,
+        1213
+      ],
+      "update_budget": 4,
+      "feedback_received": 699,
+      "feedback_missing_or_delayed_past_horizon": 101,
+      "trigger_alarm_count": 63,
+      "fit_audit": [
+        {
+          "fit_feedback_available_time": 938.0,
+          "arrived_feedback_count": 113,
+          "method": "triggered"
+        },
+        {
+          "fit_feedback_available_time": 1026.0,
+          "arrived_feedback_count": 194,
+          "method": "triggered"
+        },
+        {
+          "fit_feedback_available_time": 1118.0,
+          "arrived_feedback_count": 276,
+          "method": "triggered"
+        },
+        {
+          "fit_feedback_available_time": 1213.0,
+          "arrived_feedback_count": 358,
+          "method": "triggered"
+        }
+      ],
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "gradual",
+      "seed": 53,
+      "policy": "frozen",
+      "test_n": 800,
+      "mse": 3.034806673634289,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 2.944806673634289,
+      "shifted_or_transition_mse": 3.367088726120591,
+      "update_count": 0,
+      "update_times": [],
+      "update_budget": 4,
+      "feedback_received": 720,
+      "feedback_missing_or_delayed_past_horizon": 80,
+      "trigger_alarm_count": 392,
+      "fit_audit": [],
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "gradual",
+      "seed": 53,
+      "policy": "periodic",
+      "test_n": 800,
+      "mse": 1.1296212727985828,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 1.0396212727985827,
+      "shifted_or_transition_mse": 1.2474160655939268,
+      "update_count": 4,
+      "update_times": [
+        861,
+        914,
+        972,
+        1027
+      ],
+      "update_budget": 4,
+      "feedback_received": 720,
+      "feedback_missing_or_delayed_past_horizon": 80,
+      "trigger_alarm_count": 285,
+      "fit_audit": [
+        {
+          "fit_feedback_available_time": 861.0,
+          "arrived_feedback_count": 50,
+          "method": "periodic"
+        },
+        {
+          "fit_feedback_available_time": 914.0,
+          "arrived_feedback_count": 100,
+          "method": "periodic"
+        },
+        {
+          "fit_feedback_available_time": 972.0,
+          "arrived_feedback_count": 150,
+          "method": "periodic"
+        },
+        {
+          "fit_feedback_available_time": 1027.0,
+          "arrived_feedback_count": 200,
+          "method": "periodic"
+        }
+      ],
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "gradual",
+      "seed": 53,
+      "policy": "triggered",
+      "test_n": 800,
+      "mse": 0.2443447417922843,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 0.1543447417922843,
+      "shifted_or_transition_mse": 0.26226321085827675,
+      "update_count": 4,
+      "update_times": [
+        926,
+        1019,
+        1104,
+        1189
+      ],
+      "update_budget": 4,
+      "feedback_received": 720,
+      "feedback_missing_or_delayed_past_horizon": 80,
+      "trigger_alarm_count": 74,
+      "fit_audit": [
+        {
+          "fit_feedback_available_time": 926.0,
+          "arrived_feedback_count": 111,
+          "method": "triggered"
+        },
+        {
+          "fit_feedback_available_time": 1019.0,
+          "arrived_feedback_count": 192,
+          "method": "triggered"
+        },
+        {
+          "fit_feedback_available_time": 1104.0,
+          "arrived_feedback_count": 272,
+          "method": "triggered"
+        },
+        {
+          "fit_feedback_available_time": 1189.0,
+          "arrived_feedback_count": 352,
+          "method": "triggered"
+        }
+      ],
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "gradual",
+      "seed": 71,
+      "policy": "frozen",
+      "test_n": 800,
+      "mse": 2.9923749107939686,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 2.9023749107939687,
+      "shifted_or_transition_mse": 3.319703618423652,
+      "update_count": 0,
+      "update_times": [],
+      "update_budget": 4,
+      "feedback_received": 709,
+      "feedback_missing_or_delayed_past_horizon": 91,
+      "trigger_alarm_count": 398,
+      "fit_audit": [],
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "gradual",
+      "seed": 71,
+      "policy": "periodic",
+      "test_n": 800,
+      "mse": 1.1032147800112877,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 1.0132147800112876,
+      "shifted_or_transition_mse": 1.2173867437216606,
+      "update_count": 4,
+      "update_times": [
+        862,
+        919,
+        976,
+        1029
+      ],
+      "update_budget": 4,
+      "feedback_received": 709,
+      "feedback_missing_or_delayed_past_horizon": 91,
+      "trigger_alarm_count": 309,
+      "fit_audit": [
+        {
+          "fit_feedback_available_time": 862.0,
+          "arrived_feedback_count": 50,
+          "method": "periodic"
+        },
+        {
+          "fit_feedback_available_time": 919.0,
+          "arrived_feedback_count": 100,
+          "method": "periodic"
+        },
+        {
+          "fit_feedback_available_time": 976.0,
+          "arrived_feedback_count": 150,
+          "method": "periodic"
+        },
+        {
+          "fit_feedback_available_time": 1029.0,
+          "arrived_feedback_count": 200,
+          "method": "periodic"
+        }
+      ],
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "gradual",
+      "seed": 71,
+      "policy": "triggered",
+      "test_n": 800,
+      "mse": 0.42705708566653866,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 0.3370570856665387,
+      "shifted_or_transition_mse": 0.4657042610717501,
+      "update_count": 4,
+      "update_times": [
+        835,
+        928,
+        1015,
+        1107
+      ],
+      "update_budget": 4,
+      "feedback_received": 709,
+      "feedback_missing_or_delayed_past_horizon": 91,
+      "trigger_alarm_count": 178,
+      "fit_audit": [
+        {
+          "fit_feedback_available_time": 835.0,
+          "arrived_feedback_count": 26,
+          "method": "triggered"
+        },
+        {
+          "fit_feedback_available_time": 928.0,
+          "arrived_feedback_count": 107,
+          "method": "triggered"
+        },
+        {
+          "fit_feedback_available_time": 1015.0,
+          "arrived_feedback_count": 187,
+          "method": "triggered"
+        },
+        {
+          "fit_feedback_available_time": 1107.0,
+          "arrived_feedback_count": 269,
+          "method": "triggered"
+        }
+      ],
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "temporary",
+      "seed": 11,
+      "policy": "frozen",
+      "test_n": 800,
+      "mse": 1.818179602698421,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 1.728179602698421,
+      "shifted_or_transition_mse": 4.403572313476785,
+      "update_count": 0,
+      "update_times": [],
+      "update_budget": 4,
+      "feedback_received": 706,
+      "feedback_missing_or_delayed_past_horizon": 94,
+      "trigger_alarm_count": 208,
+      "fit_audit": [],
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "temporary",
+      "seed": 11,
+      "policy": "periodic",
+      "test_n": 800,
+      "mse": 1.113089135905554,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 1.0230891359055538,
+      "shifted_or_transition_mse": 1.9563549780089005,
+      "update_count": 4,
+      "update_times": [
+        861,
+        919,
+        981,
+        1037
+      ],
+      "update_budget": 4,
+      "feedback_received": 706,
+      "feedback_missing_or_delayed_past_horizon": 94,
+      "trigger_alarm_count": 249,
+      "fit_audit": [
+        {
+          "fit_feedback_available_time": 861.0,
+          "arrived_feedback_count": 50,
+          "method": "periodic"
+        },
+        {
+          "fit_feedback_available_time": 919.0,
+          "arrived_feedback_count": 100,
+          "method": "periodic"
+        },
+        {
+          "fit_feedback_available_time": 981.0,
+          "arrived_feedback_count": 150,
+          "method": "periodic"
+        },
+        {
+          "fit_feedback_available_time": 1037.0,
+          "arrived_feedback_count": 200,
+          "method": "periodic"
+        }
+      ],
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "temporary",
+      "seed": 11,
+      "policy": "triggered",
+      "test_n": 800,
+      "mse": 2.010371346911552,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 1.9203713469115522,
+      "shifted_or_transition_mse": 1.0335889753100471,
+      "update_count": 4,
+      "update_times": [
+        902,
+        1000,
+        1085,
+        1290
+      ],
+      "update_budget": 4,
+      "feedback_received": 706,
+      "feedback_missing_or_delayed_past_horizon": 94,
+      "trigger_alarm_count": 234,
+      "fit_audit": [
+        {
+          "fit_feedback_available_time": 902.0,
+          "arrived_feedback_count": 84,
+          "method": "triggered"
+        },
+        {
+          "fit_feedback_available_time": 1000.0,
+          "arrived_feedback_count": 165,
+          "method": "triggered"
+        },
+        {
+          "fit_feedback_available_time": 1085.0,
+          "arrived_feedback_count": 245,
+          "method": "triggered"
+        },
+        {
+          "fit_feedback_available_time": 1290.0,
+          "arrived_feedback_count": 432,
+          "method": "triggered"
+        }
+      ],
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "temporary",
+      "seed": 23,
+      "policy": "frozen",
+      "test_n": 800,
+      "mse": 1.673660157683409,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 1.5836601576834093,
+      "shifted_or_transition_mse": 4.048161860335162,
+      "update_count": 0,
+      "update_times": [],
+      "update_budget": 4,
+      "feedback_received": 710,
+      "feedback_missing_or_delayed_past_horizon": 90,
+      "trigger_alarm_count": 203,
+      "fit_audit": [],
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "temporary",
+      "seed": 23,
+      "policy": "periodic",
+      "test_n": 800,
+      "mse": 1.0495344193855434,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 0.9595344193855433,
+      "shifted_or_transition_mse": 2.0792002096029036,
+      "update_count": 4,
+      "update_times": [
+        865,
+        923,
+        977,
+        1031
+      ],
+      "update_budget": 4,
+      "feedback_received": 710,
+      "feedback_missing_or_delayed_past_horizon": 90,
+      "trigger_alarm_count": 241,
+      "fit_audit": [
+        {
+          "fit_feedback_available_time": 865.0,
+          "arrived_feedback_count": 50,
+          "method": "periodic"
+        },
+        {
+          "fit_feedback_available_time": 923.0,
+          "arrived_feedback_count": 100,
+          "method": "periodic"
+        },
+        {
+          "fit_feedback_available_time": 977.0,
+          "arrived_feedback_count": 150,
+          "method": "periodic"
+        },
+        {
+          "fit_feedback_available_time": 1031.0,
+          "arrived_feedback_count": 200,
+          "method": "periodic"
+        }
+      ],
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "temporary",
+      "seed": 23,
+      "policy": "triggered",
+      "test_n": 800,
+      "mse": 1.9407114080594328,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 1.850711408059433,
+      "shifted_or_transition_mse": 1.0481861939554158,
+      "update_count": 4,
+      "update_times": [
+        815,
+        928,
+        1017,
+        1108
+      ],
+      "update_budget": 4,
+      "feedback_received": 710,
+      "feedback_missing_or_delayed_past_horizon": 90,
+      "trigger_alarm_count": 231,
+      "fit_audit": [
+        {
+          "fit_feedback_available_time": 815.0,
+          "arrived_feedback_count": 6,
+          "method": "triggered"
+        },
+        {
+          "fit_feedback_available_time": 928.0,
+          "arrived_feedback_count": 105,
+          "method": "triggered"
+        },
+        {
+          "fit_feedback_available_time": 1017.0,
+          "arrived_feedback_count": 186,
+          "method": "triggered"
+        },
+        {
+          "fit_feedback_available_time": 1108.0,
+          "arrived_feedback_count": 266,
+          "method": "triggered"
+        }
+      ],
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "temporary",
+      "seed": 37,
+      "policy": "frozen",
+      "test_n": 800,
+      "mse": 1.9073422993731615,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 1.8173422993731614,
+      "shifted_or_transition_mse": 4.65315197390626,
+      "update_count": 0,
+      "update_times": [],
+      "update_budget": 4,
+      "feedback_received": 699,
+      "feedback_missing_or_delayed_past_horizon": 101,
+      "trigger_alarm_count": 180,
+      "fit_audit": [],
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "temporary",
+      "seed": 37,
+      "policy": "periodic",
+      "test_n": 800,
+      "mse": 1.0963017628840483,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 1.0063017628840485,
+      "shifted_or_transition_mse": 2.094218634036886,
+      "update_count": 4,
+      "update_times": [
+        866,
+        924,
+        978,
+        1032
+      ],
+      "update_budget": 4,
+      "feedback_received": 699,
+      "feedback_missing_or_delayed_past_horizon": 101,
+      "trigger_alarm_count": 210,
+      "fit_audit": [
+        {
+          "fit_feedback_available_time": 866.0,
+          "arrived_feedback_count": 50,
+          "method": "periodic"
+        },
+        {
+          "fit_feedback_available_time": 924.0,
+          "arrived_feedback_count": 100,
+          "method": "periodic"
+        },
+        {
+          "fit_feedback_available_time": 978.0,
+          "arrived_feedback_count": 150,
+          "method": "periodic"
+        },
+        {
+          "fit_feedback_available_time": 1032.0,
+          "arrived_feedback_count": 200,
+          "method": "periodic"
+        }
+      ],
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "temporary",
+      "seed": 37,
+      "policy": "triggered",
+      "test_n": 800,
+      "mse": 1.8790542811495887,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 1.7890542811495884,
+      "shifted_or_transition_mse": 1.4878513429132505,
+      "update_count": 4,
+      "update_times": [
+        1001,
+        1095,
+        1200,
+        1320
+      ],
+      "update_budget": 4,
+      "feedback_received": 699,
+      "feedback_missing_or_delayed_past_horizon": 101,
+      "trigger_alarm_count": 214,
+      "fit_audit": [
+        {
+          "fit_feedback_available_time": 1001.0,
+          "arrived_feedback_count": 171,
+          "method": "triggered"
+        },
+        {
+          "fit_feedback_available_time": 1095.0,
+          "arrived_feedback_count": 254,
+          "method": "triggered"
+        },
+        {
+          "fit_feedback_available_time": 1200.0,
+          "arrived_feedback_count": 348,
+          "method": "triggered"
+        },
+        {
+          "fit_feedback_available_time": 1320.0,
+          "arrived_feedback_count": 449,
+          "method": "triggered"
+        }
+      ],
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "temporary",
+      "seed": 53,
+      "policy": "frozen",
+      "test_n": 800,
+      "mse": 1.8008264324928769,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 1.7108264324928768,
+      "shifted_or_transition_mse": 4.375701640914563,
+      "update_count": 0,
+      "update_times": [],
+      "update_budget": 4,
+      "feedback_received": 720,
+      "feedback_missing_or_delayed_past_horizon": 80,
+      "trigger_alarm_count": 220,
+      "fit_audit": [],
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "temporary",
+      "seed": 53,
+      "policy": "periodic",
+      "test_n": 800,
+      "mse": 1.2047633993045617,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 1.1147633993045616,
+      "shifted_or_transition_mse": 2.1473763716673866,
+      "update_count": 4,
+      "update_times": [
+        861,
+        914,
+        972,
+        1027
+      ],
+      "update_budget": 4,
+      "feedback_received": 720,
+      "feedback_missing_or_delayed_past_horizon": 80,
+      "trigger_alarm_count": 283,
+      "fit_audit": [
+        {
+          "fit_feedback_available_time": 861.0,
+          "arrived_feedback_count": 50,
+          "method": "periodic"
+        },
+        {
+          "fit_feedback_available_time": 914.0,
+          "arrived_feedback_count": 100,
+          "method": "periodic"
+        },
+        {
+          "fit_feedback_available_time": 972.0,
+          "arrived_feedback_count": 150,
+          "method": "periodic"
+        },
+        {
+          "fit_feedback_available_time": 1027.0,
+          "arrived_feedback_count": 200,
+          "method": "periodic"
+        }
+      ],
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "temporary",
+      "seed": 53,
+      "policy": "triggered",
+      "test_n": 800,
+      "mse": 1.164362285404209,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 1.074362285404209,
+      "shifted_or_transition_mse": 1.4327534028917384,
+      "update_count": 4,
+      "update_times": [
+        1001,
+        1087,
+        1321,
+        1417
+      ],
+      "update_budget": 4,
+      "feedback_received": 720,
+      "feedback_missing_or_delayed_past_horizon": 80,
+      "trigger_alarm_count": 129,
+      "fit_audit": [
+        {
+          "fit_feedback_available_time": 1001.0,
+          "arrived_feedback_count": 176,
+          "method": "triggered"
+        },
+        {
+          "fit_feedback_available_time": 1087.0,
+          "arrived_feedback_count": 257,
+          "method": "triggered"
+        },
+        {
+          "fit_feedback_available_time": 1321.0,
+          "arrived_feedback_count": 478,
+          "method": "triggered"
+        },
+        {
+          "fit_feedback_available_time": 1417.0,
+          "arrived_feedback_count": 558,
+          "method": "triggered"
+        }
+      ],
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "temporary",
+      "seed": 71,
+      "policy": "frozen",
+      "test_n": 800,
+      "mse": 1.8313722039410936,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 1.7413722039410937,
+      "shifted_or_transition_mse": 4.451974624904482,
+      "update_count": 0,
+      "update_times": [],
+      "update_budget": 4,
+      "feedback_received": 709,
+      "feedback_missing_or_delayed_past_horizon": 91,
+      "trigger_alarm_count": 206,
+      "fit_audit": [],
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "temporary",
+      "seed": 71,
+      "policy": "periodic",
+      "test_n": 800,
+      "mse": 1.0882763508424769,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 0.9982763508424769,
+      "shifted_or_transition_mse": 1.951018294255801,
+      "update_count": 4,
+      "update_times": [
+        862,
+        919,
+        976,
+        1029
+      ],
+      "update_budget": 4,
+      "feedback_received": 709,
+      "feedback_missing_or_delayed_past_horizon": 91,
+      "trigger_alarm_count": 284,
+      "fit_audit": [
+        {
+          "fit_feedback_available_time": 862.0,
+          "arrived_feedback_count": 50,
+          "method": "periodic"
+        },
+        {
+          "fit_feedback_available_time": 919.0,
+          "arrived_feedback_count": 100,
+          "method": "periodic"
+        },
+        {
+          "fit_feedback_available_time": 976.0,
+          "arrived_feedback_count": 150,
+          "method": "periodic"
+        },
+        {
+          "fit_feedback_available_time": 1029.0,
+          "arrived_feedback_count": 200,
+          "method": "periodic"
+        }
+      ],
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "temporary",
+      "seed": 71,
+      "policy": "triggered",
+      "test_n": 800,
+      "mse": 1.9189840890794487,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 1.8289840890794489,
+      "shifted_or_transition_mse": 1.13450135466962,
+      "update_count": 4,
+      "update_times": [
+        835,
+        930,
+        1017,
+        1107
+      ],
+      "update_budget": 4,
+      "feedback_received": 709,
+      "feedback_missing_or_delayed_past_horizon": 91,
+      "trigger_alarm_count": 250,
+      "fit_audit": [
+        {
+          "fit_feedback_available_time": 835.0,
+          "arrived_feedback_count": 26,
+          "method": "triggered"
+        },
+        {
+          "fit_feedback_available_time": 930.0,
+          "arrived_feedback_count": 109,
+          "method": "triggered"
+        },
+        {
+          "fit_feedback_available_time": 1017.0,
+          "arrived_feedback_count": 189,
+          "method": "triggered"
+        },
+        {
+          "fit_feedback_available_time": 1107.0,
+          "arrived_feedback_count": 269,
+          "method": "triggered"
+        }
+      ],
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "recurring",
+      "seed": 11,
+      "policy": "frozen",
+      "test_n": 800,
+      "mse": 2.368958914496509,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 2.278958914496509,
+      "shifted_or_transition_mse": 4.645625070726726,
+      "update_count": 0,
+      "update_times": [],
+      "update_budget": 4,
+      "feedback_received": 706,
+      "feedback_missing_or_delayed_past_horizon": 94,
+      "trigger_alarm_count": 3,
+      "fit_audit": [],
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "recurring",
+      "seed": 11,
+      "policy": "periodic",
+      "test_n": 800,
+      "mse": 2.1487663830444697,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 2.05876638304447,
+      "shifted_or_transition_mse": 4.197557374510725,
+      "update_count": 4,
+      "update_times": [
+        861,
+        919,
+        981,
+        1037
+      ],
+      "update_budget": 4,
+      "feedback_received": 706,
+      "feedback_missing_or_delayed_past_horizon": 94,
+      "trigger_alarm_count": 2,
+      "fit_audit": [
+        {
+          "fit_feedback_available_time": 861.0,
+          "arrived_feedback_count": 50,
+          "method": "periodic"
+        },
+        {
+          "fit_feedback_available_time": 919.0,
+          "arrived_feedback_count": 100,
+          "method": "periodic"
+        },
+        {
+          "fit_feedback_available_time": 981.0,
+          "arrived_feedback_count": 150,
+          "method": "periodic"
+        },
+        {
+          "fit_feedback_available_time": 1037.0,
+          "arrived_feedback_count": 200,
+          "method": "periodic"
+        }
+      ],
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "recurring",
+      "seed": 11,
+      "policy": "triggered",
+      "test_n": 800,
+      "mse": 1.22796269739828,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 1.1379626973982802,
+      "shifted_or_transition_mse": 2.363632636530268,
+      "update_count": 1,
+      "update_times": [
+        1232
+      ],
+      "update_budget": 4,
+      "feedback_received": 706,
+      "feedback_missing_or_delayed_past_horizon": 94,
+      "trigger_alarm_count": 1,
+      "fit_audit": [
+        {
+          "fit_feedback_available_time": 1232.0,
+          "arrived_feedback_count": 382,
+          "method": "triggered"
+        }
+      ],
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "recurring",
+      "seed": 23,
+      "policy": "frozen",
+      "test_n": 800,
+      "mse": 2.0009252401703783,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 1.9109252401703785,
+      "shifted_or_transition_mse": 3.8963266752945787,
+      "update_count": 0,
+      "update_times": [],
+      "update_budget": 4,
+      "feedback_received": 710,
+      "feedback_missing_or_delayed_past_horizon": 90,
+      "trigger_alarm_count": 0,
+      "fit_audit": [],
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "recurring",
+      "seed": 23,
+      "policy": "periodic",
+      "test_n": 800,
+      "mse": 1.9754726061320005,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 1.8854726061320006,
+      "shifted_or_transition_mse": 3.846624181945921,
+      "update_count": 4,
+      "update_times": [
+        865,
+        923,
+        977,
+        1031
+      ],
+      "update_budget": 4,
+      "feedback_received": 710,
+      "feedback_missing_or_delayed_past_horizon": 90,
+      "trigger_alarm_count": 0,
+      "fit_audit": [
+        {
+          "fit_feedback_available_time": 865.0,
+          "arrived_feedback_count": 50,
+          "method": "periodic"
+        },
+        {
+          "fit_feedback_available_time": 923.0,
+          "arrived_feedback_count": 100,
+          "method": "periodic"
+        },
+        {
+          "fit_feedback_available_time": 977.0,
+          "arrived_feedback_count": 150,
+          "method": "periodic"
+        },
+        {
+          "fit_feedback_available_time": 1031.0,
+          "arrived_feedback_count": 200,
+          "method": "periodic"
+        }
+      ],
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "recurring",
+      "seed": 23,
+      "policy": "triggered",
+      "test_n": 800,
+      "mse": 2.0009252401703783,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 1.9109252401703785,
+      "shifted_or_transition_mse": 3.8963266752945787,
+      "update_count": 0,
+      "update_times": [],
+      "update_budget": 4,
+      "feedback_received": 710,
+      "feedback_missing_or_delayed_past_horizon": 90,
+      "trigger_alarm_count": 0,
+      "fit_audit": [],
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "recurring",
+      "seed": 37,
+      "policy": "frozen",
+      "test_n": 800,
+      "mse": 2.0646715433169316,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 1.9746715433169317,
+      "shifted_or_transition_mse": 4.042876481164186,
+      "update_count": 0,
+      "update_times": [],
+      "update_budget": 4,
+      "feedback_received": 699,
+      "feedback_missing_or_delayed_past_horizon": 101,
+      "trigger_alarm_count": 2,
+      "fit_audit": [],
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "recurring",
+      "seed": 37,
+      "policy": "periodic",
+      "test_n": 800,
+      "mse": 2.0703925491476487,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 1.980392549147649,
+      "shifted_or_transition_mse": 4.051623510465053,
+      "update_count": 4,
+      "update_times": [
+        866,
+        924,
+        978,
+        1032
+      ],
+      "update_budget": 4,
+      "feedback_received": 699,
+      "feedback_missing_or_delayed_past_horizon": 101,
+      "trigger_alarm_count": 2,
+      "fit_audit": [
+        {
+          "fit_feedback_available_time": 866.0,
+          "arrived_feedback_count": 50,
+          "method": "periodic"
+        },
+        {
+          "fit_feedback_available_time": 924.0,
+          "arrived_feedback_count": 100,
+          "method": "periodic"
+        },
+        {
+          "fit_feedback_available_time": 978.0,
+          "arrived_feedback_count": 150,
+          "method": "periodic"
+        },
+        {
+          "fit_feedback_available_time": 1032.0,
+          "arrived_feedback_count": 200,
+          "method": "periodic"
+        }
+      ],
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "recurring",
+      "seed": 37,
+      "policy": "triggered",
+      "test_n": 800,
+      "mse": 0.7353264692760823,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 0.6453264692760823,
+      "shifted_or_transition_mse": 1.3841863330824873,
+      "update_count": 1,
+      "update_times": [
+        1263
+      ],
+      "update_budget": 4,
+      "feedback_received": 699,
+      "feedback_missing_or_delayed_past_horizon": 101,
+      "trigger_alarm_count": 1,
+      "fit_audit": [
+        {
+          "fit_feedback_available_time": 1263.0,
+          "arrived_feedback_count": 403,
+          "method": "triggered"
+        }
+      ],
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "recurring",
+      "seed": 53,
+      "policy": "frozen",
+      "test_n": 800,
+      "mse": 2.247942396006671,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 2.157942396006671,
+      "shifted_or_transition_mse": 4.4153711022818065,
+      "update_count": 0,
+      "update_times": [],
+      "update_budget": 4,
+      "feedback_received": 720,
+      "feedback_missing_or_delayed_past_horizon": 80,
+      "trigger_alarm_count": 4,
+      "fit_audit": [],
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "recurring",
+      "seed": 53,
+      "policy": "periodic",
+      "test_n": 800,
+      "mse": 2.277806072876722,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 2.187806072876722,
+      "shifted_or_transition_mse": 4.4751314860495475,
+      "update_count": 4,
+      "update_times": [
+        861,
+        914,
+        972,
+        1027
+      ],
+      "update_budget": 4,
+      "feedback_received": 720,
+      "feedback_missing_or_delayed_past_horizon": 80,
+      "trigger_alarm_count": 4,
+      "fit_audit": [
+        {
+          "fit_feedback_available_time": 861.0,
+          "arrived_feedback_count": 50,
+          "method": "periodic"
+        },
+        {
+          "fit_feedback_available_time": 914.0,
+          "arrived_feedback_count": 100,
+          "method": "periodic"
+        },
+        {
+          "fit_feedback_available_time": 972.0,
+          "arrived_feedback_count": 150,
+          "method": "periodic"
+        },
+        {
+          "fit_feedback_available_time": 1027.0,
+          "arrived_feedback_count": 200,
+          "method": "periodic"
+        }
+      ],
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "recurring",
+      "seed": 53,
+      "policy": "triggered",
+      "test_n": 800,
+      "mse": 0.6952928142844508,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 0.6052928142844507,
+      "shifted_or_transition_mse": 1.3100719388373658,
+      "update_count": 1,
+      "update_times": [
+        1279
+      ],
+      "update_budget": 4,
+      "feedback_received": 720,
+      "feedback_missing_or_delayed_past_horizon": 80,
+      "trigger_alarm_count": 1,
+      "fit_audit": [
+        {
+          "fit_feedback_available_time": 1279.0,
+          "arrived_feedback_count": 438,
+          "method": "triggered"
+        }
+      ],
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "recurring",
+      "seed": 71,
+      "policy": "frozen",
+      "test_n": 800,
+      "mse": 2.148723649887861,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 2.0587236498878605,
+      "shifted_or_transition_mse": 4.210465013753665,
+      "update_count": 0,
+      "update_times": [],
+      "update_budget": 4,
+      "feedback_received": 709,
+      "feedback_missing_or_delayed_past_horizon": 91,
+      "trigger_alarm_count": 4,
+      "fit_audit": [],
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "recurring",
+      "seed": 71,
+      "policy": "periodic",
+      "test_n": 800,
+      "mse": 2.2283743476283195,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 2.1383743476283197,
+      "shifted_or_transition_mse": 4.36501404706175,
+      "update_count": 4,
+      "update_times": [
+        862,
+        919,
+        976,
+        1029
+      ],
+      "update_budget": 4,
+      "feedback_received": 709,
+      "feedback_missing_or_delayed_past_horizon": 91,
+      "trigger_alarm_count": 5,
+      "fit_audit": [
+        {
+          "fit_feedback_available_time": 862.0,
+          "arrived_feedback_count": 50,
+          "method": "periodic"
+        },
+        {
+          "fit_feedback_available_time": 919.0,
+          "arrived_feedback_count": 100,
+          "method": "periodic"
+        },
+        {
+          "fit_feedback_available_time": 976.0,
+          "arrived_feedback_count": 150,
+          "method": "periodic"
+        },
+        {
+          "fit_feedback_available_time": 1029.0,
+          "arrived_feedback_count": 200,
+          "method": "periodic"
+        }
+      ],
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    },
+    {
+      "schedule": "recurring",
+      "seed": 71,
+      "policy": "triggered",
+      "test_n": 800,
+      "mse": 1.091172410786679,
+      "oracle_irreducible_mse": 0.09,
+      "excess_mse_over_oracle": 1.0011724107866788,
+      "shifted_or_transition_mse": 2.095362535551301,
+      "update_count": 1,
+      "update_times": [
+        1229
+      ],
+      "update_budget": 4,
+      "feedback_received": 709,
+      "feedback_missing_or_delayed_past_horizon": 91,
+      "trigger_alarm_count": 1,
+      "fit_audit": [
+        {
+          "fit_feedback_available_time": 1229.0,
+          "arrived_feedback_count": 380,
+          "method": "triggered"
+        }
+      ],
+      "protocol_passes": true,
+      "utility_origin": "synthetic squared prediction error; no application cost claim"
+    }
+  ],
+  "summary": [
+    {
+      "schedule": "abrupt",
+      "policy": "frozen",
+      "n": 5,
+      "mean_mse": 3.037046725409134,
+      "sd_mse": 0.11777856913917299,
+      "mean_excess_mse": 2.947046725409133,
+      "mean_shifted_mse": 4.299969643325859,
+      "mean_updates": 0.0,
+      "mean_feedback": 708.8
+    },
+    {
+      "schedule": "abrupt",
+      "policy": "periodic",
+      "n": 5,
+      "mean_mse": 2.9979740118553484,
+      "sd_mse": 0.087861953466738,
+      "mean_excess_mse": 2.907974011855349,
+      "mean_shifted_mse": 4.242709263513613,
+      "mean_updates": 4.0,
+      "mean_feedback": 708.8
+    },
+    {
+      "schedule": "abrupt",
+      "policy": "triggered",
+      "n": 5,
+      "mean_mse": 0.5983334912488287,
+      "sd_mse": 0.08438052558395118,
+      "mean_excess_mse": 0.5083334912488287,
+      "mean_shifted_mse": 0.8154040641367837,
+      "mean_updates": 3.4,
+      "mean_feedback": 708.8
+    },
+    {
+      "schedule": "gradual",
+      "policy": "frozen",
+      "n": 5,
+      "mean_mse": 3.021763666712477,
+      "sd_mse": 0.13793432436345318,
+      "mean_excess_mse": 2.9317636667124773,
+      "mean_shifted_mse": 3.352311837901388,
+      "mean_updates": 0.0,
+      "mean_feedback": 708.8
+    },
+    {
+      "schedule": "gradual",
+      "policy": "periodic",
+      "n": 5,
+      "mean_mse": 1.0651021332872355,
+      "sd_mse": 0.05564363267363153,
+      "mean_excess_mse": 0.9751021332872354,
+      "mean_shifted_mse": 1.1751963753382202,
+      "mean_updates": 4.0,
+      "mean_feedback": 708.8
+    },
+    {
+      "schedule": "gradual",
+      "policy": "triggered",
+      "n": 5,
+      "mean_mse": 0.3205148562590879,
+      "sd_mse": 0.07771275188916547,
+      "mean_excess_mse": 0.23051485625908788,
+      "mean_shifted_mse": 0.3468201296727246,
+      "mean_updates": 4.0,
+      "mean_feedback": 708.8
+    },
+    {
+      "schedule": "recurring",
+      "policy": "frozen",
+      "n": 5,
+      "mean_mse": 2.16624434877567,
+      "sd_mse": 0.14639175475848307,
+      "mean_excess_mse": 2.07624434877567,
+      "mean_shifted_mse": 4.242132868644193,
+      "mean_updates": 0.0,
+      "mean_feedback": 708.8
+    },
+    {
+      "schedule": "recurring",
+      "policy": "periodic",
+      "n": 5,
+      "mean_mse": 2.140162391765832,
+      "sd_mse": 0.1212350168101694,
+      "mean_excess_mse": 2.050162391765832,
+      "mean_shifted_mse": 4.1871901200065995,
+      "mean_updates": 4.0,
+      "mean_feedback": 708.8
+    },
+    {
+      "schedule": "recurring",
+      "policy": "triggered",
+      "n": 5,
+      "mean_mse": 1.150135926383174,
+      "sd_mse": 0.5273341685406346,
+      "mean_excess_mse": 1.060135926383174,
+      "mean_shifted_mse": 2.2099160238591997,
+      "mean_updates": 0.8,
+      "mean_feedback": 708.8
+    },
+    {
+      "schedule": "temporary",
+      "policy": "frozen",
+      "n": 5,
+      "mean_mse": 1.8062761392377922,
+      "sd_mse": 0.08456147393715567,
+      "mean_excess_mse": 1.7162761392377923,
+      "mean_shifted_mse": 4.386512482707451,
+      "mean_updates": 0.0,
+      "mean_feedback": 708.8
+    },
+    {
+      "schedule": "temporary",
+      "policy": "periodic",
+      "n": 5,
+      "mean_mse": 1.1103930136644369,
+      "sd_mse": 0.05767260480840093,
+      "mean_excess_mse": 1.0203930136644368,
+      "mean_shifted_mse": 2.0456336975143756,
+      "mean_updates": 4.0,
+      "mean_feedback": 708.8
+    },
+    {
+      "schedule": "temporary",
+      "policy": "triggered",
+      "n": 5,
+      "mean_mse": 1.782696682120846,
+      "sd_mse": 0.3489272406068414,
+      "mean_excess_mse": 1.6926966821208462,
+      "mean_shifted_mse": 1.2273762539480144,
+      "mean_updates": 4.0,
+      "mean_feedback": 708.8
+    }
+  ],
+  "expected_records": 60,
+  "observed_unique_records": 60,
+  "rows_valid": true,
+  "checks_pass": true,
+  "processing_commit": "a2f905a1eedb708075a221a88b277ecfc5c3e9a1",
+  "source_hash": "a52d81d4b0b724b970a39e36f441c2b32766a1a4c8226d6dc688f6297c93d1ac",
+  "script_sha256": "b98b3c72d65cca4fb43770650363b2fe6a5a7a4aa9b59a676c8555c71acfa9eb"
+}

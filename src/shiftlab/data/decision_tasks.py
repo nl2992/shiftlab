@@ -3,19 +3,40 @@
 import numpy as np
 
 
+def _validated_binary_inputs(probability, false_negative, false_positive):
+    probability = np.asarray(probability, dtype=float)
+    false_negative = np.asarray(false_negative, dtype=float)
+    false_positive = np.asarray(false_positive, dtype=float)
+    if (
+        not np.isfinite(probability).all()
+        or np.any((probability < 0) | (probability > 1))
+        or not np.isfinite(false_negative).all()
+        or not np.isfinite(false_positive).all()
+        or np.any(false_negative <= 0)
+        or np.any(false_positive <= 0)
+    ):
+        raise ValueError("Probabilities must lie in [0,1] and costs must be finite and positive")
+    return probability, false_negative, false_positive
+
+
 def binary_action(probability, false_negative=5.0, false_positive=1.0):
-    if np.any(np.asarray(false_negative) <= 0) or np.any(np.asarray(false_positive) <= 0):
-        raise ValueError("Costs must be positive")
-    return np.asarray(probability) >= np.asarray(false_positive) / (
-        np.asarray(false_positive) + false_negative
+    probability, false_negative, false_positive = _validated_binary_inputs(
+        probability, false_negative, false_positive
     )
+    return probability >= false_positive / (false_positive + false_negative)
 
 
 def binary_risk(action, probability, false_negative=5.0, false_positive=1.0):
+    probability, false_negative, false_positive = _validated_binary_inputs(
+        probability, false_negative, false_positive
+    )
+    action = np.asarray(action)
+    if not np.isin(action, [False, True]).all():
+        raise ValueError("Actions must contain only boolean or 0/1 values")
     return np.where(
         action,
         false_positive * (1 - np.asarray(probability)),
-        false_negative * np.asarray(probability),
+        false_negative * probability,
     )
 
 

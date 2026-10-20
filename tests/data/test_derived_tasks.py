@@ -1,7 +1,13 @@
 import numpy as np
 import pytest
 
-from shiftlab.data.decision_tasks import bounded_position, multiclass_action, selective_action
+from shiftlab.data.decision_tasks import (
+    binary_action,
+    binary_risk,
+    bounded_position,
+    multiclass_action,
+    selective_action,
+)
 from shiftlab.data.tasks import TASKS, forecast_task, multi_step_forecast_task, quantile_loss
 
 
@@ -104,3 +110,25 @@ def test_cost_sensitive_and_bounded_actions():
     assert quantile_loss([1.0, -1.0], [0.0, 0.0], 0.9).tolist() == pytest.approx([0.9, 0.1])
     with pytest.raises(ValueError):
         multiclass_action([[0.2, 0.3]], [[0, 1], [1, 0]])
+
+
+@pytest.mark.parametrize("probability", [np.nan, np.inf, -np.inf, -0.01, 1.01])
+def test_binary_decisions_reject_invalid_probabilities(probability):
+    with pytest.raises(ValueError, match="Probabilities must lie in \\[0,1\\]"):
+        binary_action(probability)
+    with pytest.raises(ValueError, match="Probabilities must lie in \\[0,1\\]"):
+        binary_risk(False, probability)
+
+
+@pytest.mark.parametrize("cost", [np.nan, np.inf, -np.inf, 0.0, -1.0])
+@pytest.mark.parametrize("cost_name", ["false_negative", "false_positive"])
+def test_binary_decisions_reject_invalid_costs(cost_name, cost):
+    with pytest.raises(ValueError, match="costs must be finite and positive"):
+        binary_action(0.5, **{cost_name: cost})
+    with pytest.raises(ValueError, match="costs must be finite and positive"):
+        binary_risk(False, 0.5, **{cost_name: cost})
+
+
+def test_binary_risk_rejects_nonbinary_actions():
+    with pytest.raises(ValueError, match="Actions must contain only"):
+        binary_risk([0, 2], [0.2, 0.8])

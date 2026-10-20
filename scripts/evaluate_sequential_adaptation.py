@@ -7,7 +7,7 @@ from types import SimpleNamespace
 
 import numpy as np
 import pandas as pd
-from sklearn.ensemble import RandomForestRegressor
+from sklearn.ensemble import HistGradientBoostingRegressor, RandomForestRegressor
 
 from shiftlab.data.label_availability import labels_available_before
 from shiftlab.data.provenance import commit, sha256, source_hash, write_json
@@ -45,6 +45,8 @@ POLICY_VARIANTS = (
     ("ridge_triggered_exponential_radius", "ridge", "triggered", "exponential"),
     ("forest_frozen", "random_forest", "frozen", "fixed"),
     ("forest_triggered", "random_forest", "triggered", "fixed"),
+    ("boosted_tree_frozen", "hist_gradient_boosting", "frozen", "fixed"),
+    ("boosted_tree_triggered", "hist_gradient_boosting", "triggered", "fixed"),
 )
 
 
@@ -99,6 +101,19 @@ class AuditedLearner(Learner):
                 min_samples_leaf=5,
                 random_state=self.model_seed,
                 n_jobs=1,
+            ).fit(X, y)
+            self.training_seconds += time.perf_counter() - started
+        elif self.model_family == "hist_gradient_boosting":
+            import time
+
+            started = time.perf_counter()
+            self.model = HistGradientBoostingRegressor(
+                max_iter=32,
+                max_leaf_nodes=7,
+                min_samples_leaf=10,
+                l2_regularization=1.0,
+                early_stopping=False,
+                random_state=self.model_seed,
             ).fit(X, y)
             self.training_seconds += time.perf_counter() - started
         else:
@@ -377,11 +392,11 @@ def evaluate() -> dict:
         )
     )
     return {
-        "description": "Five-seed fitted online adaptation using Ridge and random-forest predictors with frozen, periodic, feedback-triggered, or validation-loss-triggered refitting; periodic or triggered residual-bias recalibration; and triggered normalized-gradient partial updates, fixed/rolling/exponential radii, four action slots and an action-specific compute budget, across four concept schedules.",
-        "protocol": "Train, validation, and calibration labels are strictly available before the first test request. The validation-trigger threshold is fixed at the initial model's validation squared-error mean plus two validation standard deviations; it triggers when the rolling mean of 80 arrived test-feedback squared errors exceeds that threshold. During the test stream, learners receive requests and only labels yielded by timestamp-ordered replay. Equal-time requests precede feedback. Refit history contains only arrived labels. Every variant has at most four action slots and a 12-unit imposed compute budget. Recalibration updates only a scalar prediction bias from arrived signed residuals; partial update applies one normalized stochastic-gradient step to Ridge coefficients and intercept. Per-action resource costs are 1 unit for recalibration, 2 for partial update, 4 for Ridge refit, and 8 for random-forest refit. Rolling- and exponentially weighted-radius arms keep their Ridge predictor update schedule identical to the fixed-radius triggered arm; residual scores enter only when labels arrive and use the forecast made earlier for that sample. Exponential score weights use label-availability times and an 80-step half-life, with one unit of test-point mass. Random forests use 32 trees, depth 6, leaf size 5, and a fixed seed.",
+        "description": "Five-seed fitted online adaptation using Ridge, random-forest, and histogram-gradient-boosting predictors with frozen, periodic, feedback-triggered, or validation-loss-triggered refitting; periodic or triggered residual-bias recalibration; and triggered normalized-gradient partial updates, fixed/rolling/exponential radii, four action slots and an action-specific compute budget, across four concept schedules.",
+        "protocol": "Train, validation, and calibration labels are strictly available before the first test request. The validation-trigger threshold is fixed at the initial model's validation squared-error mean plus two validation standard deviations; it triggers when the rolling mean of 80 arrived test-feedback squared errors exceeds that threshold. During the test stream, learners receive requests and only labels yielded by timestamp-ordered replay. Equal-time requests precede feedback. Refit history contains only arrived labels. Every variant has at most four action slots and a 12-unit imposed compute budget. Recalibration updates only a scalar prediction bias from arrived signed residuals; partial update applies one normalized stochastic-gradient step to Ridge coefficients and intercept. Per-action resource costs are 1 unit for recalibration, 2 for partial update, 4 for Ridge refit, and 8 for either tree refit. Rolling- and exponentially weighted-radius arms keep their Ridge predictor update schedule identical to the fixed-radius triggered arm; residual scores enter only when labels arrive and use the forecast made earlier for that sample. Exponential score weights use label-availability times and an 80-step half-life, with one unit of test-point mass. Random forests use 32 trees, depth 6, leaf size 5; histogram gradient boosting uses 32 iterations, at most seven leaves, and leaf size 10. Both use fixed seeds.",
         "limitations": [
             "The trigger threshold and review period are fixed in advance; no parameter tuning uses test outcomes.",
-            "Only Ridge and a fixed random-forest configuration are evaluated; hyperparameters are not tuned on test outcomes.",
+            "Ridge, fixed random-forest, and histogram-gradient-boosting configurations are evaluated; hyperparameters are not tuned on test outcomes.",
             "Residual-bias recalibration and one normalized stochastic-gradient step are simple prespecified baselines; other recalibration and partial-update methods remain unevaluated.",
             "Action resource units are imposed relative costs, not measured training-time or energy costs; all policies also retain a four-action ceiling.",
             "Rolling prequential radii and 100-request coverage blocks are descriptive and do not establish conditional, simultaneous, or online validity.",
@@ -416,6 +431,7 @@ def evaluate() -> dict:
                 "normalized_sgd_partial_update": 2.0,
                 "ridge_refit": 4.0,
                 "random_forest_refit": 8.0,
+                "hist_gradient_boosting_refit": 8.0,
             },
         },
         "schedule_overrides": SCHEDULES,

@@ -2,7 +2,7 @@ from types import SimpleNamespace
 
 import numpy as np
 import pandas as pd
-from sklearn.ensemble import RandomForestRegressor
+from sklearn.ensemble import HistGradientBoostingRegressor, RandomForestRegressor
 
 from scripts.evaluate_sequential_adaptation import AuditedLearner, initial_rows
 from shiftlab.streaming import Feedback
@@ -52,3 +52,25 @@ def test_random_forest_can_refit_only_after_periodic_feedback_arrives():
             "model_family": "random_forest",
         }
     ]
+
+
+def test_histogram_gradient_boosting_can_refit_after_arrived_feedback():
+    rng = np.random.default_rng(18)
+    X = rng.normal(size=(60, 3))
+    y = X[:, 0] ** 2 - X[:, 1]
+    learner = AuditedLearner(
+        X[:40],
+        y[:40],
+        X[40:60],
+        y[40:60],
+        SimpleNamespace(window=20, alpha=0.1, threshold=5.0, period=1, budget=1),
+        "periodic",
+        model_family="hist_gradient_boosting",
+        model_seed=9,
+    )
+    assert isinstance(learner.model, HistGradientBoostingRegressor)
+    learner.observe(
+        Feedback(time=60, available_at=68, features=tuple(X[0]), target=float(y[0]), prediction=0.0)
+    )
+    assert learner.interventions == [68]
+    assert learner.fit_audit[0]["model_family"] == "hist_gradient_boosting"

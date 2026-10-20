@@ -43,17 +43,33 @@ def binary_risk(action, probability, false_negative=5.0, false_positive=1.0):
 
 
 def capacity_allocation(probabilities, capacity: int):
+    probabilities = np.asarray(probabilities, dtype=float)
+    if (
+        probabilities.ndim != 1
+        or not np.isfinite(probabilities).all()
+        or np.any((probabilities < 0) | (probabilities > 1))
+    ):
+        raise ValueError("Probabilities must be a finite vector in [0,1]")
+    if isinstance(capacity, (bool, np.bool_)) or not isinstance(capacity, (int, np.integer)):
+        raise TypeError("Capacity must be an integer in [0,n]")
     if not 0 <= capacity <= len(probabilities):
         raise ValueError("Capacity outside [0,n]")
     result = np.zeros(len(probabilities), dtype=bool)
     if capacity:
-        result[np.argsort(probabilities)[-capacity:]] = True
+        result[np.argsort(-probabilities, kind="stable")[:capacity]] = True
     return result
 
 
 def selective_action(probabilities, abstention_cost=0.2):
-    p = np.asarray(probabilities)
-    if not np.isfinite(p).all() or np.any((p < 0) | (p > 1)) or abstention_cost < 0:
+    p = np.asarray(probabilities, dtype=float)
+    cost = np.asarray(abstention_cost, dtype=float)
+    if (
+        not np.isfinite(p).all()
+        or np.any((p < 0) | (p > 1))
+        or cost.ndim != 0
+        or not np.isfinite(cost).all()
+        or cost < 0
+    ):
         raise ValueError("Probabilities must lie in [0,1] and abstention cost must be nonnegative")
     action = (p >= 0.5).astype(int)
     return np.where(np.minimum(p, 1 - p) > abstention_cost, -1, action)
@@ -82,11 +98,17 @@ def bounded_position(mean, variance, risk_aversion=1.0, bound=1.0):
     realistic trading costs and must not be presented as application-grounded financial utility.
     """
     mean, variance = np.asarray(mean, dtype=float), np.asarray(variance, dtype=float)
+    risk_aversion = np.asarray(risk_aversion, dtype=float)
+    bound = np.asarray(bound, dtype=float)
     if (
         not np.isfinite(mean).all()
         or not np.isfinite(variance).all()
         or np.any(variance <= 0)
+        or risk_aversion.ndim != 0
+        or not np.isfinite(risk_aversion).all()
         or risk_aversion <= 0
+        or bound.ndim != 0
+        or not np.isfinite(bound).all()
         or bound < 0
     ):
         raise ValueError(

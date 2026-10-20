@@ -5,6 +5,7 @@ from shiftlab.data.decision_tasks import (
     binary_action,
     binary_risk,
     bounded_position,
+    capacity_allocation,
     multiclass_action,
     selective_action,
 )
@@ -110,6 +111,37 @@ def test_cost_sensitive_and_bounded_actions():
     assert quantile_loss([1.0, -1.0], [0.0, 0.0], 0.9).tolist() == pytest.approx([0.9, 0.1])
     with pytest.raises(ValueError):
         multiclass_action([[0.2, 0.3]], [[0, 1], [1, 0]])
+
+
+@pytest.mark.parametrize("probabilities", [[0.2, np.nan], [0.2, np.inf], [-0.1, 0.9], [0.2, 1.1]])
+def test_capacity_allocation_rejects_invalid_probabilities(probabilities):
+    with pytest.raises(ValueError, match="finite vector in \\[0,1\\]"):
+        capacity_allocation(probabilities, 1)
+
+
+@pytest.mark.parametrize("capacity", [True, 1.5, np.nan, np.inf, -1, 3])
+def test_capacity_allocation_rejects_invalid_capacity(capacity):
+    with pytest.raises((TypeError, ValueError)):
+        capacity_allocation([0.2, 0.8], capacity)
+
+
+def test_capacity_allocation_is_stable_when_probabilities_tie():
+    assert capacity_allocation([0.8, 0.8, 0.2], 1).tolist() == [True, False, False]
+
+
+@pytest.mark.parametrize("cost", [np.nan, np.inf, -np.inf, -0.1, [0.2]])
+def test_selective_action_rejects_invalid_abstention_cost(cost):
+    with pytest.raises(ValueError, match="abstention cost"):
+        selective_action([0.2, 0.8], cost)
+
+
+@pytest.mark.parametrize(
+    ("risk_aversion", "bound"),
+    [(np.nan, 1), (np.inf, 1), (0, 1), (1, np.nan), (1, np.inf), (1, -1), ([1], 1), (1, [1])],
+)
+def test_bounded_position_rejects_invalid_scalar_parameters(risk_aversion, bound):
+    with pytest.raises(ValueError):
+        bounded_position([0.5], [1], risk_aversion=risk_aversion, bound=bound)
 
 
 @pytest.mark.parametrize("probability", [np.nan, np.inf, -np.inf, -0.01, 1.01])

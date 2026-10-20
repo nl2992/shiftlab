@@ -15,6 +15,7 @@ from shiftlab.data.real.fred import asof_vintage
 from shiftlab.data.real.monash import read_tsf, tsf_chunks
 from shiftlab.data.real.wilds import IDENTITIES, civilcomments_export, from_official, load_input
 from shiftlab.data.schemas import validate_frame
+from shiftlab.data.streaming import Label, Request, replay
 from shiftlab.data.validation import validate_dataset
 
 
@@ -210,6 +211,35 @@ def test_criteo_feedback_and_censoring():
         conversion_rows(original, {**config, "feature_columns": ["sale"]})
     with pytest.raises(ValueError, match="delay_unit"):
         conversion_rows(original, {})
+
+
+def test_criteo_replay_hides_future_labels_and_orders_equal_time_feedback():
+    original = pd.DataFrame({name: [1, 1] for name in COLUMNS})
+    original["sale"] = [1, 0]
+    original["time_delay_for_conversion"] = [100, -1]
+    original["click_timestamp"] = [1000, 1100]
+    config = {"delay_unit": "seconds", "assume_instant_click_features": True}
+    frame = conversion_rows(original, config)
+    events = list(replay(frame))
+    assert [type(event) for event in events] == [Request, Request, Label]
+    requests = [event for event in events if isinstance(event, Request)]
+    label = next(event for event in events if isinstance(event, Label))
+    assert requests[0].prediction_time == 1000
+    assert requests[1].prediction_time == label.available_time == 1100
+    assert label.sample_id == requests[0].sample_id
+    assert all(not hasattr(request, "target") for request in requests)
+
+    altered = frame.copy()
+    altered.loc[1, "target"] = 1.0
+    altered.loc[1, "label_available_time"] = 999_999
+    future_changed_requests = [event for event in replay(altered) if isinstance(event, Request)]
+    assert requests == future_changed_requests
+
+    without_delivery_assumption = conversion_rows(
+        original, {"delay_unit": "seconds", "assume_instant_click_features": False}
+    )
+    with pytest.raises(ValueError, match="Unknown prediction times"):
+        list(replay(without_delivery_assumption))
 
 
 def test_wilds_text_references_preserve_partitions_without_labels(tmp_path):

@@ -1,7 +1,7 @@
 {
   "environment": {
     "cpu_ram_bytes": 16858472448,
-    "disk_free_bytes": 70053150720,
+    "disk_free_bytes": 70053457920,
     "cuda_available": true,
     "nvidia_smi": "NVIDIA GeForce RTX 4060 Laptop GPU, 8188 MiB, 592.82, 0 %, 10 MiB",
     "torch_version": "2.9.1+cu130",
@@ -1841,6 +1841,114 @@
       "oracle_file": null,
       "environment": {},
       "path": "data\\processed\\eia\\005fe168e548968a2d5d"
+    },
+    {
+      "schema_version": "1.1.0",
+      "dataset": "eia",
+      "version": "066f854744aea721eae5",
+      "publisher": "US EIA",
+      "source_url": "https://www.eia.gov/opendata/bulk/EBA.zip",
+      "citation": "EIA Open Data",
+      "license": "EIA U.S. government data; public-domain EIA content with EIA attribution; verify any series-specific third-party restrictions",
+      "permitted_use": "Respect original source and underlying-series terms; research use only where permitted",
+      "acquired_at": "2026-10-20T01:49:43.252523+00:00",
+      "retrieval_parameters": {
+        "bulk_dataset": "EBA",
+        "respondents": [
+          "NYIS"
+        ],
+        "types": [
+          "D",
+          "DF",
+          "NG",
+          "TI"
+        ],
+        "start": "2023-01-01T00",
+        "end": "2025-12-31T23",
+        "horizon": 1,
+        "max_records": 120000,
+        "max_download_bytes": 800000000,
+        "manifest_max_bytes": 2000000,
+        "acquisition_mode": "official_bulk_EBA"
+      },
+      "raw_checksums": {
+        "data\\raw\\eia\\EBA.zip": "3a6143c4bd853c3d6a9d9d3bb3ca7f1603a641835e9c7a050e5c8a927101936f",
+        "data\\raw\\eia\\manifest.txt": "6051c8122e641c922b7aa1fbc06cdf7af0bf5743a7578f27fcba98d0d3c0a4c2"
+      },
+      "processing_config": {
+        "bulk_dataset": "EBA",
+        "respondents": [
+          "NYIS"
+        ],
+        "types": [
+          "D",
+          "DF",
+          "NG",
+          "TI"
+        ],
+        "start": "2023-01-01T00",
+        "end": "2025-12-31T23",
+        "horizon": 1,
+        "max_records": 120000,
+        "max_download_bytes": 800000000,
+        "manifest_max_bytes": 2000000,
+        "acquisition_mode": "official_bulk_EBA"
+      },
+      "task_specs": [
+        {
+          "task_id": "next_period_eia_regression",
+          "task_kind": "regression",
+          "target_definition": "future value of configured EIA type D",
+          "forecast_horizon": {
+            "value": 1,
+            "unit": "hours",
+            "event_semantics": "only exact calendar gaps of horizon hours are retained"
+          },
+          "valid_target_mask": "target is finite; rows with missing target are excluded from metric computation",
+          "evaluation_metrics": [
+            "MAE",
+            "RMSE",
+            "pinball loss at prespecified quantiles"
+          ],
+          "label_availability_rule": "unknown; historical measurements or forecasts may be revised",
+          "utility_provenance": "No application-grounded decision utility; evaluate with named task metrics."
+        }
+      ],
+      "code_commit": "bc43cf34cdf37bbf5c5010b755fdfd9807233602",
+      "source_hash": "bebf679485f7d4603b0c3e591c462b2c959d0b94795721535bd6cc24671fbfba",
+      "n_observations": 26303,
+      "feature_names": [
+        "D",
+        "DF",
+        "NG",
+        "TI"
+      ],
+      "feature_dtype": "float64",
+      "feature_kind": "numeric",
+      "time_coverage": [
+        "1672531200.0",
+        "1767218400.0"
+      ],
+      "domains": [
+        "NYIS"
+      ],
+      "missingness": {
+        "target": 0.0,
+        "features": 0.0
+      },
+      "limitations": [
+        "No verified real-world changepoints.",
+        "Downloaded the official EIA bulk EBA archive; hourly event time is not publication time.",
+        "No real-time feature/label availability is inferred; historical measurements and forecasts may be revised.",
+        "The configured date window is extracted from a full compressed publisher archive under a strict byte budget."
+      ],
+      "ground_truth": "none",
+      "files": {
+        "observations.parquet": "a574277d02041527823813d0a72edf1147d1e13c9148226f0955efbb922a0007"
+      },
+      "oracle_file": null,
+      "environment": {},
+      "path": "data\\processed\\eia\\066f854744aea721eae5"
     },
     {
       "schema_version": "1.1.0",

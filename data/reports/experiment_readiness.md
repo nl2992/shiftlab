@@ -23,6 +23,7 @@
 | `concept@e9fbb8e14cecd7a037cc` | controlled decision study | regression stream | stream ready | synthetic_known; known simulation clock |
 | `concept@ec3bdf1a271e675be5a8` | controlled decision study | regression stream | stream ready | synthetic_known; known simulation clock |
 | `eia@005fe168e548968a2d5d` | retrospective; utility imposed | requires task/availability protocol | requires availability/release protocol | none; historical/coarse; no true changes |
+| `eia@066f854744aea721eae5` | retrospective; utility imposed | requires task/availability protocol | requires availability/release protocol | none; historical/coarse; no true changes |
 | `eia@a07144c5f8769536d63c` | retrospective; utility imposed | requires task/availability protocol | requires availability/release protocol | none; historical/coarse; no true changes |
 | `feedback_change@7dc0f057b17388b0952b` | controlled decision study | regression stream | stream ready | synthetic_known; known simulation clock |
 | `folktables@1ba3057f0beb5eecb671` | offline classification only | requires task/availability protocol | requires availability/release protocol | coarse_domains; historical/coarse; no true changes |

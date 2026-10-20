@@ -346,6 +346,85 @@
           "event_time_end": 1704065400.0
         }
       ]
+    },
+    {
+      "dataset": "eia",
+      "version": "066f854744aea721eae5",
+      "manifest_sha256": "4c48ce5599fd2ce3217e98c816735f6eae06cc599eeaeeee066e3efc0a580758",
+      "feature_names": [
+        "D",
+        "DF",
+        "NG",
+        "TI"
+      ],
+      "manifest_label_availability_known": false,
+      "source_availability": "unknown; this report is retrospective and makes no real-time availability claim",
+      "quality": {
+        "rows": 26303,
+        "unknown_prediction_times": 26303,
+        "unknown_label_availability": 26303,
+        "missing_targets": 0,
+        "dataset": "eia",
+        "version": "066f854744aea721eae5",
+        "feature_missing_rate": 0.0,
+        "feature_infinite": 0,
+        "min_feature": -5929.0,
+        "max_feature": 31857.0,
+        "duplicate_feature_target_rows": 0,
+        "ground_truth": "none",
+        "attribution": "Inconclusive: descriptive evidence does not identify drift mechanism"
+      },
+      "domains": [
+        {
+          "domain_id": "NYIS",
+          "train_n": 13150,
+          "calibration_n": 3945,
+          "test_n": 5261,
+          "model": "train-only median imputation, standardization, Ridge(alpha=1)",
+          "baseline": "training-mean predictor",
+          "calibration_interval": "symmetric split residual interval; calibration labels are used retrospectively",
+          "calibration_abs_error_radius_80": 752.2739978616992,
+          "test_rmse": 641.1269692376328,
+          "test_baseline_rmse": 3614.6585567324314,
+          "test_mae": 532.6200456862068,
+          "test_interval_coverage": 0.7186846607108914,
+          "test_interval_width": 1504.5479957233983,
+          "rolling_window_rows": 100,
+          "rolling_test_mse_first": 241378.26109083105,
+          "rolling_test_mse_last": 288174.130739153,
+          "test_mse_difference_vs_train_mean": -12654712.691075154,
+          "moving_block_length_rows": 72,
+          "moving_block_95pct_interval_mse_difference": [
+            -16821981.96300735,
+            -9240635.922547098
+          ],
+          "moving_block_sensitivity": [
+            {
+              "block_length_rows": 36,
+              "mse_difference_interval_95pct": [
+                -15885932.996267343,
+                -10137718.41197542
+              ]
+            },
+            {
+              "block_length_rows": 72,
+              "mse_difference_interval_95pct": [
+                -16821981.96300735,
+                -9240635.922547098
+              ]
+            },
+            {
+              "block_length_rows": 144,
+              "mse_difference_interval_95pct": [
+                -17587840.486039355,
+                -8381193.418566331
+              ]
+            }
+          ],
+          "event_time_start": 1748282400.0,
+          "event_time_end": 1767218400.0
+        }
+      ]
     }
   ],
   "protocol": {
@@ -355,10 +434,10 @@
     "uncertainty": "1,000-replicate circular moving-block percentile intervals on paired squared-loss differences; report baseline floor(sqrt(test_n)) and sensitivity at half and twice baseline block length (clipped to test_n); descriptive, not causal or availability guarantees",
     "decision_loss": "not reported: these are continuous forecasting tasks without a sourced, application-grounded utility"
   },
-  "processing_commit": "8840ff36a69657920cd90aa020cd20f1ab91d513",
-  "source_hash": "721ec910d4f669e8660ad81f868737006c283eaf15fd324ad8ac7fc1902ff84d",
+  "processing_commit": "bc43cf34cdf37bbf5c5010b755fdfd9807233602",
+  "source_hash": "bebf679485f7d4603b0c3e591c462b2c959d0b94795721535bd6cc24671fbfba",
   "script_sha256": "b3c9320350cf4e1bb7213d35a0b06cffbe84ad7cdb91b7798cc936f15dc8a3bc",
-  "executed_at": "2026-10-19T23:25:48.887125+00:00",
+  "executed_at": "2026-10-20T01:50:11.796917+00:00",
   "limitations": [
     "OPSD and NOAA label availability is unknown; train/calibration/test refer to retrospective event-time partitions.",
     "The simple Ridge model is a diagnostic baseline, not a tuned or production forecasting system.",

@@ -25,6 +25,10 @@ provided and requires an explicit byte budget. It streams JSON lines and retains
 UTC hourly series and date ranges. The committed example config selects three years for NYIS,
 then assigns retrospective event-time splits and purges rows whose one-hour target crosses a
 split boundary.
+The acquired NYIS 2023–2025 version and split counts are recorded in
+`data/reports/acquisition_extensions.json`; its retrospective Ridge comparison is included in
+`data/reports/time_series_real_diagnostics.json`. Unknown source release timing is still not
+inferred.
 EIA API responses use bounded pagination, retries and immutable snapshots. Credential echoes are
 scrubbed before storage. Receipts distinguish publisher-byte hashes from stored sanitized-file
 hashes. Fixtures verify formats and transport.

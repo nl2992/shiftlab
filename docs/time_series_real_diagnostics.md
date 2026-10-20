@@ -8,19 +8,22 @@ baseline. A circular moving-block bootstrap summarizes uncertainty in that test 
 difference. The script does not tune on validation/test rows or pass evaluator labels into
 the fitted model.
 
-Example using the current OPSD hourly and daily tasks and expanded NOAA panel:
+Example using the current OPSD hourly and daily tasks, expanded NOAA panel and EIA NYIS panel:
 
 ```powershell
 python -m uv run python scripts/time_series_real_diagnostics.py --dataset-path `
   data/processed/opsd/b7f39fa513865eb14696 `
   data/processed/opsd/b659a26235aec9be4299 `
-  data/processed/noaa/250db0578188e92615ea
+  data/processed/noaa/250db0578188e92615ea `
+  data/processed/eia/066f854744aea721eae5
 ```
 
 The output is `data/reports/time_series_real_diagnostics.json`. The current diagnostics show
-lower RMSE than the training-mean baseline on OPSD hourly and all three NOAA stations, while
-the small OPSD daily task performs worse than that baseline. Empirical 80% interval coverage
-ranges from 0.685 to 0.884 across these tasks. These are retrospective comparisons: label
+lower RMSE than the training-mean baseline on OPSD hourly, all three NOAA stations and EIA NYIS,
+while the small OPSD daily task performs worse than that baseline. Empirical 80% interval
+coverage ranges from 0.685 to 0.884 across these tasks. On EIA, Ridge RMSE is 641 versus 3,615
+for the training-mean baseline and the empirical interval coverage is 0.719. These are
+retrospective comparisons: label
 availability is unknown for these sources, and the event-time partitions do not establish
 what a forecaster could observe operationally. Moving-block intervals use a declared
 `sqrt(test_n)` block length and are descriptive. The report also includes 95% intervals using

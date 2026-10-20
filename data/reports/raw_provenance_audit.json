@@ -1,8 +1,8 @@
 {
   "scope": "Raw source files currently retained at manifest-recorded paths",
-  "n_references": 141,
+  "n_references": 145,
   "counts": {
-    "verified": 141,
+    "verified": 145,
     "missing": 0,
     "mismatch": 0
   },
@@ -70,6 +70,38 @@
       "status": "verified",
       "expected_sha256": "a9fd53b75add7cc42fb4779a545811606260f79810f3826215d6ebecda11bb36",
       "actual_sha256": "a9fd53b75add7cc42fb4779a545811606260f79810f3826215d6ebecda11bb36"
+    },
+    {
+      "dataset": "eia",
+      "version": "005fe168e548968a2d5d",
+      "raw_file": "EBA.zip",
+      "status": "verified",
+      "expected_sha256": "3a6143c4bd853c3d6a9d9d3bb3ca7f1603a641835e9c7a050e5c8a927101936f",
+      "actual_sha256": "3a6143c4bd853c3d6a9d9d3bb3ca7f1603a641835e9c7a050e5c8a927101936f"
+    },
+    {
+      "dataset": "eia",
+      "version": "005fe168e548968a2d5d",
+      "raw_file": "manifest.txt",
+      "status": "verified",
+      "expected_sha256": "6051c8122e641c922b7aa1fbc06cdf7af0bf5743a7578f27fcba98d0d3c0a4c2",
+      "actual_sha256": "6051c8122e641c922b7aa1fbc06cdf7af0bf5743a7578f27fcba98d0d3c0a4c2"
+    },
+    {
+      "dataset": "eia",
+      "version": "a07144c5f8769536d63c",
+      "raw_file": "EBA.zip",
+      "status": "verified",
+      "expected_sha256": "3a6143c4bd853c3d6a9d9d3bb3ca7f1603a641835e9c7a050e5c8a927101936f",
+      "actual_sha256": "3a6143c4bd853c3d6a9d9d3bb3ca7f1603a641835e9c7a050e5c8a927101936f"
+    },
+    {
+      "dataset": "eia",
+      "version": "a07144c5f8769536d63c",
+      "raw_file": "manifest.txt",
+      "status": "verified",
+      "expected_sha256": "6051c8122e641c922b7aa1fbc06cdf7af0bf5743a7578f27fcba98d0d3c0a4c2",
+      "actual_sha256": "6051c8122e641c922b7aa1fbc06cdf7af0bf5743a7578f27fcba98d0d3c0a4c2"
     },
     {
       "dataset": "folktables",

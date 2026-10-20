@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-10-20T01:02:24+00:00",
+  "checked_at": "2026-10-20T01:40:00+00:00",
   "outcomes": [
     {
       "dataset": "monash",
@@ -9,9 +9,30 @@
     },
     {
       "dataset": "eia",
-      "status": "requires_external_credential",
+      "status": "acquired_official_keyless_bulk",
       "environment_variable": "EIA_API_KEY",
-      "verification": "fixtures passed; live acquisition not claimed"
+      "verification": "official manifest and archive acquired; all four requested UTC hourly series found; exact hourly task generated; historical release latency remains unknown",
+      "api_status": "requires_external_credential",
+      "path": "data/processed/eia/005fe168e548968a2d5d",
+      "dataset_id": "EBA",
+      "respondent": "NYIS",
+      "types": [
+        "D",
+        "DF",
+        "NG",
+        "TI"
+      ],
+      "window_utc": [
+        "2023-01-01T00",
+        "2023-01-03T23"
+      ],
+      "horizon_hours": 1,
+      "observations": 71,
+      "archive_bytes": 697661852,
+      "archive_sha256": "3a6143c4bd853c3d6a9d9d3bb3ca7f1603a641835e9c7a050e5c8a927101936f",
+      "archive_etag": "\"80b7e0b3360dd1:0\"",
+      "archive_last_modified": "Mon, 19 Oct 2026 19:54:51 GMT",
+      "manifest_sha256": "6051c8122e641c922b7aa1fbc06cdf7af0bf5743a7578f27fcba98d0d3c0a4c2"
     },
     {
       "dataset": "fred",

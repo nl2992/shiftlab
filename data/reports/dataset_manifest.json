@@ -1,7 +1,7 @@
 {
   "environment": {
     "cpu_ram_bytes": 16858472448,
-    "disk_free_bytes": 70746497024,
+    "disk_free_bytes": 70053150720,
     "cuda_available": true,
     "nvidia_smi": "NVIDIA GeForce RTX 4060 Laptop GPU, 8188 MiB, 592.82, 0 %, 10 MiB",
     "torch_version": "2.9.1+cu130",
@@ -1733,6 +1733,222 @@
         }
       },
       "path": "data\\synthetic\\concept\\ec3bdf1a271e675be5a8"
+    },
+    {
+      "schema_version": "1.1.0",
+      "dataset": "eia",
+      "version": "005fe168e548968a2d5d",
+      "publisher": "US EIA",
+      "source_url": "https://www.eia.gov/opendata/bulk/EBA.zip",
+      "citation": "EIA Open Data",
+      "license": "EIA U.S. government data; public-domain EIA content with EIA attribution; verify any series-specific third-party restrictions",
+      "permitted_use": "Respect original source and underlying-series terms; research use only where permitted",
+      "acquired_at": "2026-10-20T01:38:45.980875+00:00",
+      "retrieval_parameters": {
+        "bulk_dataset": "EBA",
+        "respondents": [
+          "NYIS"
+        ],
+        "types": [
+          "D",
+          "DF",
+          "NG",
+          "TI"
+        ],
+        "start": "2023-01-01T00",
+        "end": "2023-01-03T23",
+        "horizon": 1,
+        "max_records": 10000,
+        "max_download_bytes": 800000000,
+        "manifest_max_bytes": 2000000,
+        "acquisition_mode": "official_bulk_EBA"
+      },
+      "raw_checksums": {
+        "data\\raw\\eia\\EBA.zip": "3a6143c4bd853c3d6a9d9d3bb3ca7f1603a641835e9c7a050e5c8a927101936f",
+        "data\\raw\\eia\\manifest.txt": "6051c8122e641c922b7aa1fbc06cdf7af0bf5743a7578f27fcba98d0d3c0a4c2"
+      },
+      "processing_config": {
+        "bulk_dataset": "EBA",
+        "respondents": [
+          "NYIS"
+        ],
+        "types": [
+          "D",
+          "DF",
+          "NG",
+          "TI"
+        ],
+        "start": "2023-01-01T00",
+        "end": "2023-01-03T23",
+        "horizon": 1,
+        "max_records": 10000,
+        "max_download_bytes": 800000000,
+        "manifest_max_bytes": 2000000,
+        "acquisition_mode": "official_bulk_EBA"
+      },
+      "task_specs": [
+        {
+          "task_id": "next_period_eia_regression",
+          "task_kind": "regression",
+          "target_definition": "future value of configured EIA type D",
+          "forecast_horizon": {
+            "value": 1,
+            "unit": "hours",
+            "event_semantics": "only exact calendar gaps of horizon hours are retained"
+          },
+          "valid_target_mask": "target is finite; rows with missing target are excluded from metric computation",
+          "evaluation_metrics": [
+            "MAE",
+            "RMSE",
+            "pinball loss at prespecified quantiles"
+          ],
+          "label_availability_rule": "unknown; historical measurements or forecasts may be revised",
+          "utility_provenance": "No application-grounded decision utility; evaluate with named task metrics."
+        }
+      ],
+      "code_commit": "e41621816819b5c8524a90e5a5a875138cde95be",
+      "source_hash": "1967e075793a8f38cf63c4659c1aaaa910075284351c9589b76d281c2ea7fd01",
+      "n_observations": 71,
+      "feature_names": [
+        "D",
+        "DF",
+        "NG",
+        "TI"
+      ],
+      "feature_dtype": "float64",
+      "feature_kind": "numeric",
+      "time_coverage": [
+        "1672531200.0",
+        "1672783200.0"
+      ],
+      "domains": [
+        "NYIS"
+      ],
+      "missingness": {
+        "target": 0.0,
+        "features": 0.0
+      },
+      "limitations": [
+        "No verified real-world changepoints.",
+        "Downloaded the official EIA bulk EBA archive; hourly event time is not publication time.",
+        "No real-time feature/label availability is inferred; historical measurements and forecasts may be revised.",
+        "The configured date window is extracted from a full compressed publisher archive under a strict byte budget."
+      ],
+      "ground_truth": "none",
+      "files": {
+        "observations.parquet": "2af6be6d575180e159aff8b7b6de475d41e5efc75c84dcf85f8972b988477ee2"
+      },
+      "oracle_file": null,
+      "environment": {},
+      "path": "data\\processed\\eia\\005fe168e548968a2d5d"
+    },
+    {
+      "schema_version": "1.1.0",
+      "dataset": "eia",
+      "version": "a07144c5f8769536d63c",
+      "publisher": "US EIA",
+      "source_url": "https://www.eia.gov/opendata/bulk/EBA.zip",
+      "citation": "EIA Open Data",
+      "license": "Verify endpoint terms",
+      "permitted_use": "Respect original source and underlying-series terms; research use only where permitted",
+      "acquired_at": "2026-10-20T01:33:51.910227+00:00",
+      "retrieval_parameters": {
+        "bulk_dataset": "EBA",
+        "respondents": [
+          "NYIS"
+        ],
+        "types": [
+          "D",
+          "DF",
+          "NG",
+          "TI"
+        ],
+        "start": "2023-01-01T00",
+        "end": "2023-01-03T23",
+        "horizon": 1,
+        "max_records": 10000,
+        "max_download_bytes": 800000000,
+        "manifest_max_bytes": 2000000,
+        "acquisition_mode": "official_bulk_EBA"
+      },
+      "raw_checksums": {
+        "data\\raw\\eia\\EBA.zip": "3a6143c4bd853c3d6a9d9d3bb3ca7f1603a641835e9c7a050e5c8a927101936f",
+        "data\\raw\\eia\\manifest.txt": "6051c8122e641c922b7aa1fbc06cdf7af0bf5743a7578f27fcba98d0d3c0a4c2"
+      },
+      "processing_config": {
+        "bulk_dataset": "EBA",
+        "respondents": [
+          "NYIS"
+        ],
+        "types": [
+          "D",
+          "DF",
+          "NG",
+          "TI"
+        ],
+        "start": "2023-01-01T00",
+        "end": "2023-01-03T23",
+        "horizon": 1,
+        "max_records": 10000,
+        "max_download_bytes": 800000000,
+        "manifest_max_bytes": 2000000,
+        "acquisition_mode": "official_bulk_EBA"
+      },
+      "task_specs": [
+        {
+          "task_id": "next_period_eia_regression",
+          "task_kind": "regression",
+          "target_definition": "future value of configured EIA type D",
+          "forecast_horizon": {
+            "value": 1,
+            "unit": "hours",
+            "event_semantics": "only exact calendar gaps of horizon hours are retained"
+          },
+          "valid_target_mask": "target is finite; rows with missing target are excluded from metric computation",
+          "evaluation_metrics": [
+            "MAE",
+            "RMSE",
+            "pinball loss at prespecified quantiles"
+          ],
+          "label_availability_rule": "unknown; historical measurements or forecasts may be revised",
+          "utility_provenance": "No application-grounded decision utility; evaluate with named task metrics."
+        }
+      ],
+      "code_commit": "3ee48d0da4ef69238bde3a0e86534120582fd0f4",
+      "source_hash": "f3c93c31b3a58001c425afdc8cd487da53a5fc2c4e5f29985fa9da72c07113bb",
+      "n_observations": 71,
+      "feature_names": [
+        "D",
+        "DF",
+        "NG",
+        "TI"
+      ],
+      "feature_dtype": "float64",
+      "feature_kind": "numeric",
+      "time_coverage": [
+        "1672531200.0",
+        "1672783200.0"
+      ],
+      "domains": [
+        "NYIS"
+      ],
+      "missingness": {
+        "target": 0.0,
+        "features": 0.0
+      },
+      "limitations": [
+        "No verified real-world changepoints.",
+        "Downloaded the official EIA bulk EBA archive; hourly event time is not publication time.",
+        "No real-time feature/label availability is inferred; historical measurements and forecasts may be revised.",
+        "The configured date window is extracted from a full compressed publisher archive under a strict byte budget."
+      ],
+      "ground_truth": "none",
+      "files": {
+        "observations.parquet": "adaec1182f5a333453fb367ba066315b51502ad980dd3142c7355f545c0623c0"
+      },
+      "oracle_file": null,
+      "environment": {},
+      "path": "data\\processed\\eia\\a07144c5f8769536d63c"
     },
     {
       "schema_version": "1.0.0",

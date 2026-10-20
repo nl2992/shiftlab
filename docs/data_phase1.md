@@ -21,6 +21,7 @@ uv run python scripts/download_data.py --dataset gas_sensor
 uv run python scripts/download_data.py --dataset gas_sensor --execute
 uv run python scripts/download_data.py --dataset opsd --config configs/data/public/opsd.yaml --execute
 uv run python scripts/download_data.py --dataset noaa --config configs/data/public/noaa.yaml --execute
+uv run python scripts/download_data.py --dataset eia --config configs/data/public/eia_bulk.yaml --execute
 uv sync --extra dev --extra data-sources
 uv run --extra data-sources python scripts/download_data.py --dataset folktables --config configs/data/public/folktables.yaml --execute
 uv run python scripts/download_data.py --dataset binance --config configs/data/finance/binance.yaml --execute

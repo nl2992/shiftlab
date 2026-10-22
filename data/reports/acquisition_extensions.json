@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-10-20T07:49:46+00:00",
+  "checked_at": "2026-10-22T07:18:07-04:00",
   "outcomes": [
     {
       "dataset": "monash",
@@ -99,11 +99,11 @@
     },
     {
       "dataset": "wilds",
-      "status": "external_source_unavailable",
+      "status": "official_source_unavailable_mirror_acquired",
       "url": "https://worksheets.codalab.org/rest/bundles/0x8cd3de0634154aeaad2ee6eb96723c6e/contents/blob/",
       "observed_error": "TLS certificate expired; verification left enabled",
       "official_issue": "https://github.com/p-lambda/wilds/issues/173",
-      "verification": "official WILDS 2.0 evaluated on a generated local fixture; source data not acquired",
+      "verification": "Official CodaLab TLS endpoint remains unavailable; the complete 448,000-row CivilComments source was acquired from the pinned Hugging Face raw mirror c227534cc0a34cf21db6a0bf0edd0f9050c8b305 with publisher SHA-256 verification.",
       "latest_attempt": {
         "checked_at": "2026-10-20T06:19:00Z",
         "command": "uv run python scripts/download_data.py --dataset wilds --config configs/data/public/wilds.yaml --execute --root data",
@@ -111,6 +111,18 @@
         "observed_error": "TLS certificate verification failed: certificate has expired",
         "tls_verification": "enabled; no bypass attempted",
         "download_budget_bytes": 130000000
+      },
+      "mirror": {
+        "repository": "pietrolesci/civilcomments-wilds",
+        "revision": "c227534cc0a34cf21db6a0bf0edd0f9050c8b305",
+        "file": "raw/train-00000-of-00001.parquet",
+        "bytes": 137912393,
+        "sha256": "1d8c81d7ee043c87a43175f3685ce4ffae28b0a9dc2fe5bd5d5cd7ade1c07731",
+        "official_split_counts": {
+          "train": 269038,
+          "val": 45180,
+          "test": 133782
+        }
       }
     },
     {
@@ -125,17 +137,42 @@
       "delay_unit": "unverified; must be read from an accessible publisher README or local export",
       "verification": "official landing page and terms rechecked; publisher page lists README but does not specify delay units; timing, censoring and pre-download configuration validation fixtures passed; data not acquired",
       "latest_probe": {
-        "checked_at": "2026-10-20T04:43:22+00:00",
-        "method": "Fetched the official Criteo landing page and download-link metadata; ran curl -I -L against the publisher-linked archive and Resolve-DnsName against its Azure Blob host.",
+        "checked_at": "2026-10-22T07:18:07-04:00",
+        "method": "Retried HEAD against the official landing-page download URL and resolved the linked Azure Blob hostname.",
         "status": "external_source_unavailable",
         "official_landing_page": "https://ailab.criteo.com/criteo-sponsored-search-conversion-log-dataset/",
         "archive_url": "https://go.criteo.net/criteo-research-search-conversion.tar.gz",
         "archive_http_status": 404,
         "redirect_host": "criteostorage.blob.core.windows.net",
         "redirect_host_dns_status": "NXDOMAIN",
-        "verification": "The official page lists README.md in the archive and documents the 30-day conversion window and CC BY-NC-SA 4.0 terms, but its accessible page does not specify delay units. No archive bytes downloaded; no alternate or substituted dataset used."
+        "verification": "No archive bytes received; no alternate or substituted dataset used for the 90-day sponsored-search source."
       },
-      "checked_at": "2026-10-20T04:43:22+00:00"
+      "checked_at": "2026-10-20T04:43:22+00:00",
+      "supplemental_sources": [
+        {
+          "dataset": "criteo_attribution",
+          "status": "acquired_official_huggingface_snapshot",
+          "repository": "criteo/criteo-attribution-dataset",
+          "revision": "904188a63cbad78bee43cd26ff5ee4ac77903986",
+          "source_file_bytes": 653015824,
+          "source_file_sha256": "94ac7a465564349bc7ba008602211d5990a3c53cc133abc0aadef61ea2391a98",
+          "processed_version": "c9a39688a4d56f404fb3",
+          "observations": 16468027,
+          "task": "display_conversion_within_30_days",
+          "role": "separate 30-day display-attribution population; not a substitute for sponsored search"
+        },
+        {
+          "dataset": "criteo_clicklogs",
+          "status": "available_official_upstream_not_downloaded",
+          "repository": "criteo/CriteoClickLogs",
+          "revision": "e11d69ae913b16cdd7387706a2133def0fdc6ced",
+          "rows": 4373472329,
+          "parquet_bytes_displayed": "276 GB",
+          "license": "CC BY-NC-SA 4.0",
+          "role": "optional click-only scale/classification benchmark; no delayed conversion labels",
+          "access": "stream from pinned revision or read selected Parquet shards"
+        }
+      ]
     }
   ]
 }

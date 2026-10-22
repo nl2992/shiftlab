@@ -74,6 +74,26 @@ the [WRDS Terms of Use](https://wrds-www.wharton.upenn.edu/users/tou/).
    | `shiftlab_other_raw_2026-10-22.tar.gz` | 1,424,666,278 bytes | `1d6fa3075317803f92a8b76573585ba47c51759d4abb14393306981b08b1c7c4` |
    | `shiftlab_phase1_derived_2026-10-22.tar.gz` | 138,255,411 bytes | `5e6855333825da2d058bcac03988c93022c5a3b0468fc02929fd4d7922447bac` |
 
+The follow-up asset `shiftlab_phase1_additions_2026-10-22.tar.gz` contains the five 2019
+Folktables task versions, their 2019 Census source archives, and the corrected 30-day Criteo
+attribution version with its pinned raw archive and README. Download and extract it at the
+repository root on the second laptop:
+
+```powershell
+$bundle = Join-Path $env:TEMP 'shiftlab-phase1-additions'
+New-Item -ItemType Directory -Force $bundle | Out-Null
+gh release download data-2026-10-22 --repo nl2992/shiftlab --pattern 'shiftlab_phase1_additions_2026-10-22.tar.gz' --dir $bundle
+$repo = 'C:\work\shiftlab'
+Push-Location $repo
+tar.exe -xzf (Join-Path $bundle 'shiftlab_phase1_additions_2026-10-22.tar.gz')
+Pop-Location
+```
+
+This archive is 1,467,859,270 bytes with SHA-256
+`f5930e69c5579a7e076167420ec2f0ffcdb000f198bb1d647c547dc6d36493fa`.
+The raw-source receipts, version manifests and stored Parquet files are included. The repository
+contains code/configuration for the matching versions; no raw data is added to Git.
+
    Each archive is below GitHub's 2 GiB per-release-file limit. Access remains
    restricted to users who can access the private repository.
 

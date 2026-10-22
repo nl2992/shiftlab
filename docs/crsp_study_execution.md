@@ -61,6 +61,55 @@ The extraction is complete only when all criteria pass:
    non-identical duplicate key is a hard failure, not a row to discard.
 6. The query hash and script SHA-256 are recorded with the run results.
 
+## Build the derived study panel
+
+The WRDS download is the raw source extract. Build the standardized next-observed-return panel
+after all 26 years and their manifests have been restored:
+
+```powershell
+uv run python scripts/build_crsp_study_panel.py `
+  --raw-root data/raw/licensed/crsp --root data --chunk-rows 100000
+```
+
+The builder verifies all annual query hashes, every part checksum, row counts, source filters,
+and strict `(permno, dlycaldt)` order before processing. It processes chunks without loading the
+full 32-million-row source into memory, and handles securities whose next observation occurs in a
+later calendar year. It stores the immutable panel under
+`data/processed/crsp_ciz_next_day/<version>/` and writes
+`data/reports/crsp_study_panel_validation.json` with row counts and SHA-256 values.
+
+The target is the immediately next observed `dlyret` for the same PERMNO. A row is retained only
+when that next return is finite, its `dlyretmissflg` is `NA` (documented as not missing), and its
+`dlyretdurflg` is `D1`, `D2`, `D3`, `D4`, or `DU` (a one-trading-day return). An invalid immediate
+next observation is not skipped to find a later return. Historical delisting observations remain
+in the panel when they meet this mask; original current and target quality flags are retained as
+audit columns. Predictor features are same-date returns, log absolute price, log volume, log market
+capitalization, log trade count, and CRSP market-index returns. Missing predictor values remain
+missing in the panel and are median-imputed using the training split only in the smoke model.
+
+Splits use prediction-date years: train 2000–2014, validation 2015–2017, calibration 2018–2019,
+and test 2020–2025. A row whose target date enters a different split is marked `unassigned`; it is
+not used in any split. The panel clock orders features at the daily close and the prediction after
+that close, with the next return observed at its target-date close. This is a retrospective daily
+ordering convention, **not a verified history of when CRSP data became available to market
+participants**. Do not present it as real-time replay evidence.
+
+## Smoke analysis
+
+After building the panel, run the reproducible 100-security smoke cohort:
+
+```powershell
+uv run python scripts/smoke_crsp_study.py --root data --securities 100 `
+  --seed 20261022 --output data/reports/crsp_study_smoke.json
+```
+
+The cohort is selected with a fixed seed from PERMNOs represented in all four splits. It checks
+that feature imputation and scaling fit on training data only, uses a mean predictor as a baseline,
+and calculates a descriptive 90% split-conformal radius on the calibration partition. The report
+includes the panel version and checksums, sampled row counts, aggregate test errors, and per-year
+RMSE. This survivor cohort and single run are pipeline checks only; they are not population
+inference or evidence for a strategy, application utility, causal shift, or online guarantee.
+
 ## Study flow after extraction
 
 1. Process each security in `permno, dlycaldt` order. Define

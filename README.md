@@ -13,6 +13,7 @@ visible alongside the code that uses them.
 | Core benchmark | `src/shiftlab/`, `configs/experiments/` | Validates experiment settings and runs comparable baselines for decision drift, conformal prediction, and cost-aware adaptation. |
 | Data contracts and storage | `src/shiftlab/data/schemas.py`, `storage.py`, `validation.py` | Standardizes observations, writes immutable Parquet versions, records provenance, and checks integrity before use. |
 | Data acquisition and tasks | `src/shiftlab/data/real/`, `src/shiftlab/data/tasks.py` | Adapts selected external sources and describes targets, horizons, valid rows, metrics, label timing, and utility assumptions. |
+| CRSP panel workflow | `scripts/build_crsp_study_panel.py`, `scripts/smoke_crsp_study.py` | Converts the WRDS daily extract into a versioned next-observed-return panel, validates annual and output checksums, and runs a bounded end-to-end smoke analysis. |
 | Synthetic environments | `src/shiftlab/data/synthetic/`, `configs/data/synthetic/` | Produces controlled stationary and shifted streams with known evaluator truth for tests that cannot be done with observational data alone. |
 | Feedback replay | `src/shiftlab/data/streaming.py`, `label_availability.py` | Exposes predictions and labels in availability order so delayed or unknown labels are not accidentally used early. |
 | Acquisition and experiment tools | `scripts/` | Generates data, inventories sources, validates stored versions, builds reports, and runs benchmark or dataset-specific diagnostics. |
@@ -92,6 +93,12 @@ reports, such as `scripts/group_diagnostics.py` for Gas Sensor and the Monash/NO
 report scripts, implement their own task-appropriate checks. Consult the Data Dictionary and each
 dataset's `task_specs` before choosing an evaluator; an available file is not automatically a valid
 benchmark for every paper.
+
+For the WRDS CRSP study, the repository also provides a streaming panel builder and smoke runner.
+The builder handles PERMNO-specific next-observation targets, documents a return-quality mask,
+purges targets across chronological split boundaries, and writes a checksummed dataset manifest.
+Run it only after restoring the raw WRDS archive; see [the CRSP execution guide](docs/crsp_study_execution.md)
+for the exact command, target rules, retrospective clock, and limitations.
 
 ## Install and run
 

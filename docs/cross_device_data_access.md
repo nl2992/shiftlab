@@ -27,7 +27,39 @@ permitted before syncing licensed files. Never share WRDS credentials. See the
    git -C .\shiftlab pull --ff-only
    ```
 
-2. If the Columbia-approved storage service permits it, sync only the licensed
+2. The existing WRDS archive files are attached to the private GitHub release
+   [`data-2026-10-22`](https://github.com/nl2992/shiftlab/releases/tag/data-2026-10-22).
+   No data query needs to be rerun. On the second laptop, after signing into the
+   same GitHub account (`gh auth login` if needed), download both archives:
+
+   ```powershell
+   $bundle = Join-Path $env:TEMP 'shiftlab-wrds-archives'
+   New-Item -ItemType Directory -Force $bundle | Out-Null
+   gh release download data-2026-10-22 --repo nl2992/shiftlab --pattern '*.tar' --dir $bundle
+   ```
+
+   Extract into a fresh local clone. These commands use ASCII-only paths to
+   avoid Windows `tar.exe` path-encoding issues:
+
+   ```powershell
+   $repo = 'C:\work\shiftlab'
+   $crsp = Join-Path $repo 'data\raw\licensed\crsp'
+   $finance = Join-Path $repo 'data\raw\licensed\wrds_finance_2000_2025'
+   New-Item -ItemType Directory -Force $crsp, $finance | Out-Null
+   Push-Location $crsp
+   tar.exe -xf (Join-Path $bundle 'shiftlab_crsp_ciz_2000_2025_verified.tar')
+   Pop-Location
+   Push-Location $finance
+   tar.exe -xf (Join-Path $bundle 'shiftlab_wrds_finance_2000_2025.tar')
+   Pop-Location
+   ```
+
+   GitHub's release-asset metadata records SHA-256 digests for both files. The
+   CRSP archive is 1,353,994,240 bytes and the finance archive is 20,746,240
+   bytes; each is below GitHub's 2 GiB per-release-file limit. Access remains
+   restricted to users who can access the private repository.
+
+3. If the Columbia-approved storage service permits it, sync only the licensed
    data directory through that service. The current machine's files are under:
 
    ```text
@@ -50,7 +82,7 @@ permitted before syncing licensed files. Never share WRDS credentials. See the
    institution's approved encrypted research storage or rerun the WRDS Cloud
    acquisition under your own authorized WRDS login on the other machine.
 
-3. From the local clone, run the analysis and validation commands in the repo's
+4. From the local clone, run the analysis and validation commands in the repo's
    README. The local `data/raw/` ignore rule prevents accidental data commits;
    confirm with `git check-ignore -v data/raw/licensed/...` before any commit.
 

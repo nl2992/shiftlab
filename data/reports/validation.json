@@ -405,6 +405,21 @@
     "attribution": "Inconclusive: descriptive evidence does not identify drift mechanism"
   },
   {
+    "rows": 29350,
+    "unknown_prediction_times": 29350,
+    "unknown_label_availability": 29350,
+    "missing_targets": 0,
+    "dataset": "folktables",
+    "version": "0fcc49a2576071bf51da",
+    "feature_missing_rate": 0.0,
+    "feature_infinite": 0,
+    "min_feature": 1.0,
+    "max_feature": 9830.0,
+    "duplicate_feature_target_rows": 69,
+    "ground_truth": "coarse_domains",
+    "attribution": "Inconclusive: descriptive evidence does not identify drift mechanism"
+  },
+  {
     "rows": 51548,
     "unknown_prediction_times": 51548,
     "unknown_label_availability": 51548,
@@ -450,6 +465,21 @@
     "attribution": "Inconclusive: descriptive evidence does not identify drift mechanism"
   },
   {
+    "rows": 11100,
+    "unknown_prediction_times": 11100,
+    "unknown_label_availability": 11100,
+    "missing_targets": 0,
+    "dataset": "folktables",
+    "version": "5bdf1e7f6f83175e0aab",
+    "feature_missing_rate": 0.0,
+    "feature_infinite": 0,
+    "min_feature": -7200.0,
+    "max_feature": 670000.0,
+    "duplicate_feature_target_rows": 149,
+    "ground_truth": "coarse_domains",
+    "attribution": "Inconclusive: descriptive evidence does not identify drift mechanism"
+  },
+  {
     "rows": 58061,
     "unknown_prediction_times": 58061,
     "unknown_label_availability": 58061,
@@ -476,6 +506,21 @@
     "min_feature": -6700.0,
     "max_feature": 866000.0,
     "duplicate_feature_target_rows": 515,
+    "ground_truth": "coarse_domains",
+    "attribution": "Inconclusive: descriptive evidence does not identify drift mechanism"
+  },
+  {
+    "rows": 57129,
+    "unknown_prediction_times": 57129,
+    "unknown_label_availability": 57129,
+    "missing_targets": 0,
+    "dataset": "folktables",
+    "version": "965da6fb4141752dc683",
+    "feature_missing_rate": 0.0,
+    "feature_infinite": 0,
+    "min_feature": 0.0,
+    "max_feature": 95.0,
+    "duplicate_feature_target_rows": 14113,
     "ground_truth": "coarse_domains",
     "attribution": "Inconclusive: descriptive evidence does not identify drift mechanism"
   },
@@ -570,6 +615,21 @@
     "attribution": "Inconclusive: descriptive evidence does not identify drift mechanism"
   },
   {
+    "rows": 19460,
+    "unknown_prediction_times": 19460,
+    "unknown_label_availability": 19460,
+    "missing_targets": 0,
+    "dataset": "folktables",
+    "version": "df2c40a40e4ab8aa8e87",
+    "feature_missing_rate": 0.0,
+    "feature_infinite": 0,
+    "min_feature": -7200.0,
+    "max_feature": 30000.0,
+    "duplicate_feature_target_rows": 578,
+    "ground_truth": "coarse_domains",
+    "attribution": "Inconclusive: descriptive evidence does not identify drift mechanism"
+  },
+  {
     "rows": 47781,
     "unknown_prediction_times": 47781,
     "unknown_label_availability": 47781,
@@ -596,6 +656,21 @@
     "min_feature": 0.0,
     "max_feature": 95.0,
     "duplicate_feature_target_rows": 36973,
+    "ground_truth": "coarse_domains",
+    "attribution": "Inconclusive: descriptive evidence does not identify drift mechanism"
+  },
+  {
+    "rows": 26246,
+    "unknown_prediction_times": 26246,
+    "unknown_label_availability": 26246,
+    "missing_targets": 0,
+    "dataset": "folktables",
+    "version": "ff341b6c563158dd2a1b",
+    "feature_missing_rate": 0.0,
+    "feature_infinite": 0,
+    "min_feature": 0.0,
+    "max_feature": 59300.0,
+    "duplicate_feature_target_rows": 4,
     "ground_truth": "coarse_domains",
     "attribution": "Inconclusive: descriptive evidence does not identify drift mechanism"
   },

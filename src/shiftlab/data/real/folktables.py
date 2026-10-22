@@ -17,6 +17,26 @@ from .download import download
 TASKS = {"ACSIncome", "ACSEmployment", "ACSPublicCoverage", "ACSMobility", "ACSTravelTime"}
 
 
+def task_for_year(package, task_name, year):
+    """Use the Census-published field names for the selected PUMS release."""
+    task = getattr(package, task_name)
+    aliases = {"RELP": "RELSHIPP", "JWTR": "JWTRNS"} if year >= 2019 else {}
+    if not aliases or not any(name in aliases for name in task.features):
+        return task, {}
+    from folktables import BasicProblem
+
+    adjusted = BasicProblem(
+        features=[aliases.get(name, name) for name in task.features],
+        target=task.target,
+        target_transform=task.target_transform,
+        group=task.group,
+        group_transform=task.group_transform,
+        preprocess=task._preprocess,
+        postprocess=task._postprocess,
+    )
+    return adjusted, {name: aliases[name] for name in task.features if name in aliases}
+
+
 def comparison_plan(states, years):
     """Domain selectors for retrospective comparisons, never per-person chronology."""
     plans = []
@@ -61,7 +81,7 @@ def comparison_plan(states, years):
     }
 
 
-def convert(records, task, task_name, state, year, density):
+def convert(records, task, task_name, state, year, density, source_aliases):
     from .adapters import standardize
 
     selected = task._preprocess(records)
@@ -87,6 +107,8 @@ def convert(records, task, task_name, state, year, density):
                     "survey_year": year,
                     "state": state,
                     "task": task_name,
+                    "source_field_aliases": source_aliases,
+                    "source_feature_names": task.features,
                     "source_row": int(row_index),
                     "demographic_group": int(group),
                     "demographics": demographics,
@@ -146,7 +168,8 @@ def acquire(config, root):
     chunk_size = integer_parameter(
         config.get("chunk_size", 20000), "chunk_size", minimum=1, maximum=100000
     )
-    task_name, task = tasks[0], getattr(package, tasks[0])
+    task_name = tasks[0]
+    base_task = getattr(package, task_name)
     filter_fields = {
         "ACSIncome": {"AGEP", "PINCP", "WKHP", "PWGTP"},
         "ACSEmployment": set(),
@@ -154,12 +177,15 @@ def acquire(config, root):
         "ACSMobility": {"AGEP"},
         "ACSTravelTime": {"AGEP", "PWGTP", "ESR"},
     }
-    required = (
-        set(task.features) | {task.target, task.group, "ST", "PWGTP"} | filter_fields[task_name]
-    )
     root, paths, members = Path(root), [], []
     for year in years:
         for state in states:
+            task, aliases = task_for_year(package, task_name, year)
+            required = (
+                set(task.features)
+                | {task.target, task.group, "ST", "PWGTP"}
+                | filter_fields[task_name]
+            )
             path = download(
                 f"https://www2.census.gov/programs-surveys/acs/data/pums/{year}/1-Year/csv_p{state.lower()}.zip",
                 root / "raw/folktables" / str(year) / "1-Year" / f"csv_p{state.lower()}.zip",
@@ -181,10 +207,10 @@ def acquire(config, root):
                         f"{state} {year} source schema cannot support installed {task_name}: missing {missing}; no category harmonization inferred"
                     )
             paths.append(path)
-            members.append((path, member, state, year))
+            members.append((path, member, state, year, task, aliases))
 
     def chunks():
-        for path, member, state, year in members:
+        for path, member, state, year, task, aliases in members:
             rng = np.random.default_rng(
                 np.random.SeedSequence([seed, year, int(_STATE_CODES[state])])
             )
@@ -198,20 +224,29 @@ def acquire(config, root):
                     if "ST" not in records or not records.ST.eq(int(_STATE_CODES[state])).all():
                         raise ValueError("ACS records do not match requested state")
                     records = records.loc[rng.random(len(records)) < density]
-                    frame = convert(records, task, task_name, state, year, density)
+                    frame = convert(records, task, task_name, state, year, density, aliases)
                     if frame is not None:
                         yield frame, None
 
     definitions = {
         "folktables_version": version("folktables"),
         "task": task_name,
-        "features": task.features,
-        "target": task.target,
-        "group": task.group,
-        "preprocess_source": inspect.getsource(task._preprocess),
-        "target_transform_source": inspect.getsource(task.target_transform),
-        "group_transform_source": inspect.getsource(task.group_transform),
-        "postprocess_source": inspect.getsource(task._postprocess),
+        "features": base_task.features,
+        "target": base_task.target,
+        "group": base_task.group,
+        "preprocess_source": inspect.getsource(base_task._preprocess),
+        "target_transform_source": inspect.getsource(base_task.target_transform),
+        "group_transform_source": inspect.getsource(base_task.group_transform),
+        "postprocess_source": inspect.getsource(base_task._postprocess),
+        "source_field_aliases_by_year": {
+            str(year): task_for_year(package, task_name, year)[1] for year in years
+        },
+        "source_schema_note": (
+            "Census changed RELP to RELSHIPP in 2019, with renamed/renumbered relationship "
+            "categories, and JWTR to JWTRNS. Source fields are retained as named; numeric "
+            "category codes are not harmonized across these annual releases."
+        ),
+        "source_schema_reference": "https://www2.census.gov/programs-surveys/acs/tech_docs/pums/ACS2019_PUMS_README.pdf",
         "sampling": {
             "probability": density,
             "seed": seed,
@@ -228,7 +263,7 @@ def acquire(config, root):
             root,
             chunks(),
             paths,
-            list(task.features),
+            list(task_for_year(package, task_name, years[0])[0].features),
             [
                 "Annual records unordered; no individual observation, release or label-availability times invented.",
                 "Official Folktables feature postprocessing uses its missing-value coding; original missing feature names preserved per row.",

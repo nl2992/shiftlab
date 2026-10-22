@@ -29,19 +29,24 @@
 | `eia@a07144c5f8769536d63c` | retrospective; utility imposed | retrospective forecast/conformal task; availability unknown | retrospective task; release-time protocol unknown | none; historical/coarse; no true changes |
 | `eia@e47bdef8b208f8e7d788` | retrospective; utility imposed | retrospective forecast/conformal task; availability unknown | retrospective task; release-time protocol unknown | none; historical/coarse; no true changes |
 | `feedback_change@7dc0f057b17388b0952b` | controlled decision study | regression/classification stream | stream ready | synthetic_known; known simulation clock |
+| `folktables@0fcc49a2576071bf51da` | offline classification only | classification prediction-set protocol required | offline domain benchmark; release times unavailable | coarse_domains; historical/coarse; no true changes |
 | `folktables@1ba3057f0beb5eecb671` | offline classification only | classification prediction-set protocol required | offline domain benchmark; release times unavailable | coarse_domains; historical/coarse; no true changes |
 | `folktables@264d65dd2c805f899976` | offline classification only | classification prediction-set protocol required | offline domain benchmark; release times unavailable | coarse_domains; historical/coarse; no true changes |
 | `folktables@372a3d412aaed49ac87c` | offline classification only | classification prediction-set protocol required | offline domain benchmark; release times unavailable | coarse_domains; historical/coarse; no true changes |
+| `folktables@5bdf1e7f6f83175e0aab` | offline classification only | classification prediction-set protocol required | offline domain benchmark; release times unavailable | coarse_domains; historical/coarse; no true changes |
 | `folktables@86709de125920a37780d` | offline classification only | classification prediction-set protocol required | offline domain benchmark; release times unavailable | coarse_domains; historical/coarse; no true changes |
 | `folktables@8c44707fe490b2b66dd8` | offline classification only | classification prediction-set protocol required | offline domain benchmark; release times unavailable | coarse_domains; historical/coarse; no true changes |
+| `folktables@965da6fb4141752dc683` | offline classification only | classification prediction-set protocol required | offline domain benchmark; release times unavailable | coarse_domains; historical/coarse; no true changes |
 | `folktables@9f6f0029752297be9b57` | offline classification only | classification prediction-set protocol required | offline domain benchmark; release times unavailable | coarse_domains; historical/coarse; no true changes |
 | `folktables@a6162aa434e17a3a6639` | offline classification only | classification prediction-set protocol required | offline domain benchmark; release times unavailable | coarse_domains; historical/coarse; no true changes |
 | `folktables@ac4876c2123eec62addb` | offline classification only | classification prediction-set protocol required | offline domain benchmark; release times unavailable | coarse_domains; historical/coarse; no true changes |
 | `folktables@b205ada858b15d5dca53` | offline classification only | classification prediction-set protocol required | offline domain benchmark; release times unavailable | coarse_domains; historical/coarse; no true changes |
 | `folktables@baa44a00144d1b714ad4` | offline classification only | classification prediction-set protocol required | offline domain benchmark; release times unavailable | coarse_domains; historical/coarse; no true changes |
 | `folktables@c8e1afd020eabe7b5477` | offline classification only | classification prediction-set protocol required | offline domain benchmark; release times unavailable | coarse_domains; historical/coarse; no true changes |
+| `folktables@df2c40a40e4ab8aa8e87` | offline classification only | classification prediction-set protocol required | offline domain benchmark; release times unavailable | coarse_domains; historical/coarse; no true changes |
 | `folktables@e4dc308893fe7204af1d` | offline classification only | classification prediction-set protocol required | offline domain benchmark; release times unavailable | coarse_domains; historical/coarse; no true changes |
 | `folktables@fb2c924aa2f74c31c3fe` | offline classification only | classification prediction-set protocol required | offline domain benchmark; release times unavailable | coarse_domains; historical/coarse; no true changes |
+| `folktables@ff341b6c563158dd2a1b` | offline classification only | classification prediction-set protocol required | offline domain benchmark; release times unavailable | coarse_domains; historical/coarse; no true changes |
 | `fred@8bbe44c6316a36d1b04e` | retrospective; utility imposed | requires task/conformal target protocol | retrospective task; release-time protocol unknown | none; historical/coarse; no true changes |
 | `fred@a28f7904279f4f5c28cf` | retrospective; utility imposed | requires task/conformal target protocol | retrospective task; release-time protocol unknown | none; historical/coarse; no true changes |
 | `fred@ec865b489d4c655fae05` | retrospective; utility imposed | requires task/conformal target protocol | retrospective task; release-time protocol unknown | none; historical/coarse; no true changes |
@@ -93,6 +98,9 @@
 | `target_variance@3868905063fc0161a3ae` | controlled decision study | regression/classification stream | stream ready | synthetic_known; known simulation clock |
 | `target_variance@5979e73e31d1c605cc2d` | controlled decision study | regression/classification stream | stream ready | synthetic_known; known simulation clock |
 | `target_variance@ff65712a55b8b96f10ba` | controlled decision study | regression/classification stream | stream ready | synthetic_known; known simulation clock |
+| `wilds@4339eeccfed040d382ee` | offline classification only | classification prediction-set protocol required | offline domain benchmark; release times unavailable | coarse_domains; historical/coarse; no true changes |
+| `wilds@a31c761c6b2a029d8abb` | offline classification only | classification prediction-set protocol required | offline domain benchmark; release times unavailable | coarse_domains; historical/coarse; no true changes |
+| `wilds@c4f79606707951bcba11` | offline classification only | classification prediction-set protocol required | offline domain benchmark; release times unavailable | coarse_domains; historical/coarse; no true changes |
 
 Classification prediction sets and time-dependent real-data availability assumptions require additional protocols.
 For immutable legacy manifests without embedded task_specs, readiness uses the current registered adapter binding and saved processing configuration; this does not establish source release availability.

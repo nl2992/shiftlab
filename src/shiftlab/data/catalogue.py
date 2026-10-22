@@ -100,4 +100,13 @@ SOURCES = {
         "size": "310 MB compressed / 6.4 GB uncompressed (publisher listing; archive currently unavailable)",
         "timing": "click and conversion availability must be separated",
     },
+    "criteo_attribution": {
+        "publisher": "Criteo",
+        "url": "https://huggingface.co/datasets/criteo/criteo-attribution-dataset",
+        "license": "CC BY-NC-SA 4.0; attribution, noncommercial use and share-alike terms",
+        "citation": "Diemert et al. (2017), Attribution Modeling Increases Efficiency of Bidding in Display Advertising",
+        "status": "implemented_pinned_official_hub_snapshot",
+        "size": "623 MiB compressed; 16.5M display impressions",
+        "timing": "30-day conversion window; publisher-relative second timestamps, not calendar time",
+    },
 }

@@ -97,7 +97,17 @@ def acquire(dataset: str, config: dict, root="data") -> Path:
     if not source["status"].startswith("implemented"):
         raise RuntimeError(f"{dataset}: {source['status']}; no substitute data will be downloaded")
     root = Path(root)
-    if dataset in {"eia", "fred", "monash", "wilds", "criteo", "noaa", "opsd", "folktables"}:
+    if dataset in {
+        "eia",
+        "fred",
+        "monash",
+        "wilds",
+        "criteo",
+        "criteo_attribution",
+        "noaa",
+        "opsd",
+        "folktables",
+    }:
         from importlib import import_module
 
         return import_module(f"shiftlab.data.real.{dataset}").acquire(config, root)

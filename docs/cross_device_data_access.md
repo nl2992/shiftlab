@@ -137,6 +137,31 @@ archives stay on the private GitHub release. A private object-store bucket (S3-c
 Azure Blob) is a good home for future one-off files larger than release assets, but none is
 configured for this project yet.
 
+For the optional Criteo 1TB Click Logs benchmark, a second hosted copy is unnecessary:
+Criteo's public Hugging Face repository currently reports 4.37 billion rows and a 276 GB
+Parquet representation under CC BY-NC-SA 4.0. Pin the repository revision and stream the
+dataset or read selected Parquet shards; this avoids downloading all files to both laptops.
+The repository was pinned at `e11d69ae913b16cdd7387706a2133def0fdc6ced` on 2026-10-22.
+For example, Hugging Face Datasets supports an iterable stream:
+
+```python
+from datasets import load_dataset
+
+click_logs = load_dataset(
+    "criteo/CriteoClickLogs",
+    split="train",
+    streaming=True,
+    revision="e11d69ae913b16cdd7387706a2133def0fdc6ced",
+)
+```
+
+This click-only benchmark is useful for scale and classification checks but does not provide
+delayed conversion feedback. A ShiftLab source adapter should map the stream in bounded batches
+and record the pinned revision and selected rows/shards in its manifest. For large private
+sources without an approved public host, an access-controlled object store remains the option;
+Cloudflare R2 currently lists standard storage at $0.015/GB-month with no egress charge, subject
+to account setup and current pricing.
+
 CriteoPrivateAds already has a suitable public upstream host: its pinned
 [Hugging Face dataset revision](https://huggingface.co/datasets/criteo/CriteoPrivateAd/tree/343645889b157f104ac23d0d07afa6a18115eb30).
 On another laptop, clone the repo and run the existing downloader to fetch the same 288 Parquet

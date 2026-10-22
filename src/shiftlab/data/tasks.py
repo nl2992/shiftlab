@@ -211,15 +211,20 @@ def dataset_task_specs(dataset: str, config: dict) -> list[dict]:
                 "utility_provenance": "No trading utility or transaction-cost model; returns are not profit or executable performance.",
             }
         ]
-    if dataset == "criteo":
+    if dataset in {"criteo", "criteo_attribution"}:
         window = finite_real_parameter(
             config.get("outcome_window_days", 30), "Criteo outcome_window_days", positive=True
         )
+        target = "conversion" if dataset == "criteo_attribution" else "sale"
         return [
             {
-                "task_id": "conversion_within_followup_window",
+                "task_id": (
+                    "display_conversion_within_30_days"
+                    if dataset == "criteo_attribution"
+                    else "conversion_within_followup_window"
+                ),
                 "task_kind": "binary_classification",
-                "target_definition": "sale/conversion within the configured outcome follow-up window",
+                "target_definition": f"{target} within the configured outcome follow-up window",
                 "forecast_horizon": {
                     "value": window,
                     "unit": "days",

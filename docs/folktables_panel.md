@@ -64,10 +64,11 @@ the comparison. No online detector or causal shift attribution is evaluated.
 Source definitions: [Folktables](https://github.com/socialfoundations/folktables),
 [Census ACS PUMS](https://www.census.gov/programs-surveys/acs/microdata.html).
 
-The attempted 2018–2019 panel found a genuine compatibility limit: Census 2019 lacks
-`RELP` for four installed tasks, and also lacks `JWTR` for travel time. These source
-header checks are in `data/reports/folktables_compatibility.json`. The adapter rejects
-missing task/filter fields before conversion. The initial complete panel therefore uses
-2017–2018; it does not invent a mapping from the newer relationship/transport categories.
-Source categorical coding and population definitions may still differ across survey
-years, so domain comparisons do not establish a causal drift mechanism.
+The panel now includes 2017–2019 for all five tasks and all five states. Census 2019
+renamed `RELP` to `RELSHIPP` and `JWTR` to `JWTRNS`; the adapter selects the year-specific
+source columns, records the aliases and native field names in each version's protocol,
+and preserves the 2019 category codes as released. See `data/reports/folktables_compatibility.json`
+and the [Census 2019 PUMS ReadMe](https://www2.census.gov/programs-surveys/acs/tech_docs/pums/ACS2019_PUMS_README.pdf).
+The renamed fields' category codes are not harmonized across years. Source categorical
+coding and population definitions may still differ, so cross-year domain comparisons do
+not establish a causal drift mechanism.

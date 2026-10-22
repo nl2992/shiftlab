@@ -266,6 +266,10 @@ def acquire(config, root: Path):
 def load_input(version_directory: Path, reference: str):
     """Load one input, never its label or source row metadata."""
     spec = json.loads(reference)
+    if spec.get("kind") == "parquet_record":
+        from .criteo_attribution import load_input as load_parquet_record
+
+        return load_parquet_record(version_directory, reference)
     if spec["kind"] == "parquet_text":
         path = (version_directory / spec["path"]).resolve()
         if not path.is_relative_to(version_directory.resolve()):

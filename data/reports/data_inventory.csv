@@ -2,20 +2,20 @@ dataset,publisher,url,license,citation,status,size,timing,acquired_versions,acqu
 gas_sensor,UCI / Alexander Vergara,https://archive.ics.uci.edu/dataset/224/gas+sensor+array+drift+dataset,UCI page states CC BY 4.0; original description restricts commercial use. Research-only pending clarification.,"Vergara (2012), DOI:10.24432/C5RP6W",implemented,9.5 MB archive,ordered batches; no within-batch timestamps,4,13910,
 opsd,Open Power System Data,https://data.open-power-system-data.org/time_series/2020-10-06/,Package and source-specific attribution/terms in saved datapackage.json; no blanket relicensing,"OPSD 2020 time_series version 2020-10-06, DOI:10.25832/time_series/2020-10-06",implemented,124 MB raw hourly CSV,UTC and CET/CEST intervals; publication lag unknown,7,8759,
 noaa,NOAA NCEI,https://www.ncei.noaa.gov/data/global-hourly/access/,US government data; retain NOAA attribution; source quality flags preserved,NOAA NCEI Integrated Surface Database (ISD),implemented,"one station-year, approximately 10 MB",measurement UTC; historical release latency unknown,5,41194,
-folktables,US Census / Folktables,https://github.com/socialfoundations/folktables,Folktables code MIT; ACS PUMS US Census public data,"Ding et al., Retiring Adult: New Datasets for Fair Machine Learning, NeurIPS 2021",implemented_optional_dependency,"state/year dependent, explicit execution",survey year only; unordered within year,13,51548,
+folktables,US Census / Folktables,https://github.com/socialfoundations/folktables,Folktables code MIT; ACS PUMS US Census public data,"Ding et al., Retiring Adult: New Datasets for Fair Machine Learning, NeurIPS 2021",implemented_optional_dependency,"state/year dependent, explicit execution",survey year only; unordered within year,18,26246,
 binance,Binance,https://github.com/binance/binance-public-data,Publisher repository MIT; retain exchange data terms and attribution,Binance public market data,implemented,one symbol-month daily bars,open/close timestamp; no publication latency guarantee,4,743,
 licensed_local,User licensed source,local-import,User-supplied license required,User-supplied,implemented,user-controlled,explicit field mappings and source availability required,0,0,
-eia,US EIA,https://www.eia.gov/opendata/,EIA U.S. government data is public domain with attribution; verify series-specific third-party restrictions,EIA Open Data,implemented_api_and_official_bulk,query-dependent; official EBA bulk archive approximately 700 MB compressed,event times are not publication times; release availability remains unknown,3,26303,
-fred,Federal Reserve Bank of St Louis,https://fred.stlouisfed.org/docs/api/fred/,Series-specific terms,FRED/ALFRED,implemented_requires_api_key,query-dependent,vintages required; revised series not real-time safe,0,0,
-monash,Monash Forecasting Repository,https://zenodo.org/communities/forecasting/,dataset-specific,Monash Time Series Forecasting Archive,implemented,dataset-dependent,official horizons and partitions required,3,17331,
-wilds,WILDS,https://wilds.stanford.edu/get_started/,dataset-specific,"Koh et al., WILDS, ICML 2021",implemented_optional_dependency_or_civilcomments_archive,dataset-dependent; no automatic download,"official domain partitions, not change points",0,0,
-criteo,Criteo,https://ailab.criteo.com/criteo-sponsored-search-conversion-log-dataset/,"CC BY-NC-SA 4.0; attribution, noncommercial use and share-alike terms",Criteo conversion logs,implemented_noncommercial_delayed_feedback,verify before acquisition,click and conversion availability must be separated,0,0,
-iid_regression,,,,,synthetic_implemented,,simulation index,5,20000,"Y=X0-.9X1+sigma*epsilon; iid standard Gaussian X,epsilon"
+eia,US EIA,https://www.eia.gov/opendata/,EIA U.S. government data is public domain with attribution; verify series-specific third-party restrictions,EIA Open Data,implemented_api_and_official_bulk,query-dependent; official EBA bulk archive approximately 700 MB compressed,event times are not publication times; release availability remains unknown,4,52606,
+fred,Federal Reserve Bank of St Louis,https://fred.stlouisfed.org/docs/api/fred/,Series-specific terms,FRED/ALFRED,implemented_requires_api_key,query-dependent,vintages required; revised series not real-time safe,3,630,
+monash,Monash Forecasting Repository,https://zenodo.org/communities/forecasting/,dataset-specific,Monash Time Series Forecasting Archive,implemented,dataset-dependent,official horizons and partitions required,5,383332,
+wilds,WILDS,https://wilds.stanford.edu/get_started/,dataset-specific,"Koh et al., WILDS, ICML 2021",implemented_optional_dependency_or_civilcomments_archive,dataset-dependent; no automatic download,"official domain partitions, not change points",3,448000,
+criteo,Criteo,https://ailab.criteo.com/criteo-sponsored-search-conversion-log-dataset/,"CC BY-NC-SA 4.0; attribution, noncommercial use and share-alike terms",Criteo conversion logs,implemented_noncommercial_delayed_feedback,310 MB compressed / 6.4 GB uncompressed (publisher listing; archive currently unavailable),click and conversion availability must be separated,0,0,
+iid_regression,,,,,synthetic_implemented,,simulation index,6,5000,"Y=X0-.9X1+sigma*epsilon; iid standard Gaussian X,epsilon"
 nonlinear_classification,,,,,synthetic_implemented,,simulation index,0,0,P(Y=1|X)=sigmoid(X0+X1^2-1)
-ar1,,,,,synthetic_implemented,,simulation index,3,5000,stationary X0[t]=rho*X0[t-1]+sqrt(1-rho^2)*epsilon[t]
+ar1,,,,,synthetic_implemented,,simulation index,4,5000,stationary X0[t]=rho*X0[t-1]+sqrt(1-rho^2)*epsilon[t]
 arma,,,,,synthetic_implemented,,simulation index,0,0,"stationary ARMA(1,1), theta=.3; burn-in 1000"
 garch,,,,,synthetic_implemented,,simulation index,0,0,epsilon[t]=sqrt(h[t])*z[t]; h=.05+.1*epsilon[t-1]^2+.8*h[t-1]; burn-in 1000
-heavy_tailed,,,,,synthetic_implemented,,simulation index,3,5000,Y=X beta+sigma*t_5/sqrt(5/3)
+heavy_tailed,,,,,synthetic_implemented,,simulation index,4,5000,Y=X beta+sigma*t_5/sqrt(5/3)
 heteroskedastic,,,,,synthetic_implemented,,simulation index,0,0,sigma(X)=noise*(1+.5*abs(X0)); stationary conditional mechanism
 mean,,,,,synthetic_implemented,,simulation index,0,0,X0 mean += severity*w; P(Y|X) fixed
 feature_variance,,,,,synthetic_implemented,,simulation index,0,0,X0 scale *= 1+severity*w; P(Y|X) fixed
@@ -25,14 +25,14 @@ mixture_weights,,,,,synthetic_implemented,,simulation index,0,0,X0 += +/-2; posi
 new_component,,,,,synthetic_implemented,,simulation index,0,0,X0 += 4 with probability .3*tanh(severity)*w
 feature_tail,,,,,synthetic_implemented,,simulation index,0,0,X0 interpolates standard normal and unit-variance t5
 feature_skew,,,,,synthetic_implemented,,simulation index,0,0,X0 interpolates normal and centered standardized lognormal
-irrelevant,,,,,synthetic_implemented,,simulation index,3,5000,X[d-1] += severity*w; beta[d-1]=0; at d=2 use Y=X0+noise so the second feature is a true nuisance
-prior_shift,,,,,synthetic_implemented,,simulation index,3,5000,"Y~Bernoulli(pi), X0|Y~N(2Y-1,1); logit(pi)=severity*w"
+irrelevant,,,,,synthetic_implemented,,simulation index,4,5000,X[d-1] += severity*w; beta[d-1]=0; at d=2 use Y=X0+noise so the second feature is a true nuisance
+prior_shift,,,,,synthetic_implemented,,simulation index,4,5000,"Y~Bernoulli(pi), X0|Y~N(2Y-1,1); logit(pi)=severity*w"
 imbalance,,,,,synthetic_implemented,,simulation index,0,0,"same label-prior mechanism, baseline pi=.1"
 label_corruption,,,,,synthetic_implemented,,simulation index,0,0,"flip Bernoulli logistic labels with probability min(.45,severity*w/5)"
 target_level,,,,,synthetic_implemented,,simulation index,0,0,E[Y|X] += severity*w; not pure regression label shift
-target_variance,,,,,synthetic_implemented,,simulation index,4,1000,sigma *= 1+severity*w
+target_variance,,,,,synthetic_implemented,,simulation index,5,5000,sigma *= 1+severity*w
 tail_frequency,,,,,synthetic_implemented,,simulation index,0,0,"epsilon mixes N(0,1) and 8*N(0,1), rare probability .01+.1*tanh(severity)*w"
-concept,,,,,synthetic_implemented,,simulation index,13,1000,beta0=1-severity*w; P(X) fixed
+concept,,,,,synthetic_implemented,,simulation index,14,5000,beta0=1-severity*w; P(X) fixed
 boundary_rotation,,,,,synthetic_implemented,,simulation index,0,0,logit P(Y=1|X)=cos(s*w)*X0+sin(s*w)*X1
 nonlinear_response,,,,,synthetic_implemented,,simulation index,0,0,E[Y|X]=X beta+severity*w*sin(X0)
 interaction,,,,,synthetic_implemented,,simulation index,0,0,E[Y|X]=X beta+severity*w*X0*X1
@@ -44,7 +44,7 @@ rare_cost,,,,,synthetic_implemented,,simulation index,0,0,FP cost=1; FN=5+100*se
 cost_change,,,,,synthetic_implemented,,simulation index,0,0,"FP cost=1; FN=5*(1+severity*w); disclosed, imposed research utility"
 constraints,,,,,synthetic_implemented,,simulation index,0,0,action 1 forbidden after regime activation; disclosed
 prediction_only,,,,,synthetic_implemented,,simulation index,0,0,positive rescaling of conditional mean by 1+severity*w preserves mean sign
-hidden_cost,,,,,synthetic_implemented,,simulation index,3,5000,"same observable X,Y as iid, hidden FN=5*(1+severity*w); not identifiable from feedback"
+hidden_cost,,,,,synthetic_implemented,,simulation index,4,5000,"same observable X,Y as iid, hidden FN=5*(1+severity*w); not identifiable from feedback"
 asymmetric_errors,,,,,synthetic_implemented,,simulation index,0,0,epsilon=(exp(Z)-exp(.5))/sqrt((e-1)*e)
 dependent_errors,,,,,synthetic_implemented,,simulation index,0,0,stationary AR1 errors with rho; conditional oracle depends on past error
 hidden_variance,,,,,synthetic_implemented,,simulation index,0,0,"sigma=noise*(1+severity*w), regime withheld from learner"

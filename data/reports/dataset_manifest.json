@@ -1,7 +1,7 @@
 {
   "environment": {
     "cpu_ram_bytes": 16858472448,
-    "disk_free_bytes": 57810841600,
+    "disk_free_bytes": 25394593792,
     "cuda_available": false,
     "nvidia_smi": "NVIDIA GeForce RTX 4060 Laptop GPU, 8188 MiB, 592.82, 0 %, 0 MiB",
     "torch_version": null,
@@ -2458,6 +2458,130 @@
     {
       "schema_version": "1.1.0",
       "dataset": "folktables",
+      "version": "0fcc49a2576071bf51da",
+      "publisher": "US Census / Folktables",
+      "source_url": "https://github.com/socialfoundations/folktables",
+      "citation": "Ding et al., Retiring Adult: New Datasets for Fair Machine Learning, NeurIPS 2021",
+      "license": "Folktables code MIT; ACS PUMS US Census public data",
+      "permitted_use": "Respect original source and underlying-series terms; research use only where permitted",
+      "acquired_at": "2026-10-22T10:30:45.619608+00:00",
+      "retrieval_parameters": {
+        "states": [
+          "CA",
+          "NY",
+          "TX",
+          "FL",
+          "NJ"
+        ],
+        "years": [
+          2019
+        ],
+        "tasks": [
+          "ACSIncome"
+        ],
+        "density": 0.05,
+        "sampling_seed": 42,
+        "chunk_size": 20000,
+        "max_download_bytes": 80000000,
+        "max_uncompressed_bytes": 600000000
+      },
+      "raw_checksums": {
+        "data\\raw\\folktables\\2019\\1-Year\\csv_pca.zip": "118e94f8a002f26e9fbb031592ebc61555a81034c0ff632b2e3c4c9fa41fe698",
+        "data\\raw\\folktables\\2019\\1-Year\\csv_pny.zip": "57e4797ff3d6ec36c53aec25fe0b1c124285705c3a6312a3be06fc205415fc8d",
+        "data\\raw\\folktables\\2019\\1-Year\\csv_ptx.zip": "1c28122f895982e58d1c57535d26f655db4de186682f6ae753189f3a2ac20081",
+        "data\\raw\\folktables\\2019\\1-Year\\csv_pfl.zip": "754320fa6d56ea198ef8a11e6dde1f9bceb58d24c51c9637be415149b31642cb",
+        "data\\raw\\folktables\\2019\\1-Year\\csv_pnj.zip": "58117e6a6abf5da285f379d33a04981e569fe5dd2d7669cedd2325fe8b501684"
+      },
+      "processing_config": {
+        "states": [
+          "CA",
+          "NY",
+          "TX",
+          "FL",
+          "NJ"
+        ],
+        "years": [
+          2019
+        ],
+        "tasks": [
+          "ACSIncome"
+        ],
+        "density": 0.05,
+        "sampling_seed": 42,
+        "chunk_size": 20000,
+        "max_download_bytes": 80000000,
+        "max_uncompressed_bytes": 600000000
+      },
+      "task_specs": [
+        {
+          "task_id": "folktables_ACSIncome",
+          "task_kind": "binary_classification",
+          "target_definition": "official ACSIncome target and transformation, captured with source code in acs_protocol.json",
+          "forecast_horizon": null,
+          "valid_target_mask": "rows retained by the official task preprocessing and target transform",
+          "evaluation_metrics": [
+            "accuracy",
+            "balanced accuracy",
+            "Brier score",
+            "log loss"
+          ],
+          "label_availability_rule": "annual ACS survey domain; unordered individual records and no release-time claim",
+          "utility_provenance": "No application-grounded decision utility; any cost-weighted diagnostic is explicitly imposed and separate."
+        }
+      ],
+      "code_commit": "fc422c81ecb954c4c58b83263237c93446689f2e",
+      "source_hash": "f51019cb49c90d55246eda1a81f13b0dd5ea5085c0776bd17651822a82b489ed",
+      "n_observations": 29350,
+      "feature_names": [
+        "AGEP",
+        "COW",
+        "SCHL",
+        "MAR",
+        "OCCP",
+        "POBP",
+        "RELSHIPP",
+        "WKHP",
+        "SEX",
+        "RAC1P"
+      ],
+      "feature_dtype": "float64",
+      "feature_kind": "numeric",
+      "time_coverage": [
+        null,
+        null
+      ],
+      "domains": [
+        "CA-2019",
+        "FL-2019",
+        "NJ-2019",
+        "NY-2019",
+        "TX-2019"
+      ],
+      "missingness": {
+        "target": 0.0,
+        "features": 0.0
+      },
+      "limitations": [
+        "No verified real-world changepoints.",
+        "Annual records unordered; no individual observation, release or label-availability times invented.",
+        "Official Folktables feature postprocessing uses its missing-value coding; original missing feature names preserved per row.",
+        "Original survey weights and demographic values retained; Bernoulli inclusion probability separate from original PWGTP.",
+        "Domain comparison plans are retrospective, not online chronological protocols or verified changepoints."
+      ],
+      "ground_truth": "coarse_domains",
+      "files": {
+        "acs_protocol.json": "e5d8026031f24e2b640296c8044484c4ff5eeab3e5cdae9093dc631ae97e0d59",
+        "observations.parquet": "8d857d80a9161e637bb4cdc000b58fda2ced0be5501e3ccd3c144dec7f6df3d6"
+      },
+      "oracle_file": null,
+      "environment": {
+        "folktables_version": "0.0.12"
+      },
+      "path": "data\\processed\\folktables\\0fcc49a2576071bf51da"
+    },
+    {
+      "schema_version": "1.1.0",
+      "dataset": "folktables",
       "version": "1ba3057f0beb5eecb671",
       "publisher": "US Census / Folktables",
       "source_url": "https://github.com/socialfoundations/folktables",
@@ -2827,6 +2951,141 @@
     {
       "schema_version": "1.1.0",
       "dataset": "folktables",
+      "version": "5bdf1e7f6f83175e0aab",
+      "publisher": "US Census / Folktables",
+      "source_url": "https://github.com/socialfoundations/folktables",
+      "citation": "Ding et al., Retiring Adult: New Datasets for Fair Machine Learning, NeurIPS 2021",
+      "license": "Folktables code MIT; ACS PUMS US Census public data",
+      "permitted_use": "Respect original source and underlying-series terms; research use only where permitted",
+      "acquired_at": "2026-10-22T10:32:48.422643+00:00",
+      "retrieval_parameters": {
+        "states": [
+          "CA",
+          "NY",
+          "TX",
+          "FL",
+          "NJ"
+        ],
+        "years": [
+          2019
+        ],
+        "tasks": [
+          "ACSMobility"
+        ],
+        "density": 0.05,
+        "sampling_seed": 42,
+        "chunk_size": 20000,
+        "max_download_bytes": 80000000,
+        "max_uncompressed_bytes": 600000000
+      },
+      "raw_checksums": {
+        "data\\raw\\folktables\\2019\\1-Year\\csv_pca.zip": "118e94f8a002f26e9fbb031592ebc61555a81034c0ff632b2e3c4c9fa41fe698",
+        "data\\raw\\folktables\\2019\\1-Year\\csv_pny.zip": "57e4797ff3d6ec36c53aec25fe0b1c124285705c3a6312a3be06fc205415fc8d",
+        "data\\raw\\folktables\\2019\\1-Year\\csv_ptx.zip": "1c28122f895982e58d1c57535d26f655db4de186682f6ae753189f3a2ac20081",
+        "data\\raw\\folktables\\2019\\1-Year\\csv_pfl.zip": "754320fa6d56ea198ef8a11e6dde1f9bceb58d24c51c9637be415149b31642cb",
+        "data\\raw\\folktables\\2019\\1-Year\\csv_pnj.zip": "58117e6a6abf5da285f379d33a04981e569fe5dd2d7669cedd2325fe8b501684"
+      },
+      "processing_config": {
+        "states": [
+          "CA",
+          "NY",
+          "TX",
+          "FL",
+          "NJ"
+        ],
+        "years": [
+          2019
+        ],
+        "tasks": [
+          "ACSMobility"
+        ],
+        "density": 0.05,
+        "sampling_seed": 42,
+        "chunk_size": 20000,
+        "max_download_bytes": 80000000,
+        "max_uncompressed_bytes": 600000000
+      },
+      "task_specs": [
+        {
+          "task_id": "folktables_ACSMobility",
+          "task_kind": "binary_classification",
+          "target_definition": "official ACSMobility target and transformation, captured with source code in acs_protocol.json",
+          "forecast_horizon": null,
+          "valid_target_mask": "rows retained by the official task preprocessing and target transform",
+          "evaluation_metrics": [
+            "accuracy",
+            "balanced accuracy",
+            "Brier score",
+            "log loss"
+          ],
+          "label_availability_rule": "annual ACS survey domain; unordered individual records and no release-time claim",
+          "utility_provenance": "No application-grounded decision utility; any cost-weighted diagnostic is explicitly imposed and separate."
+        }
+      ],
+      "code_commit": "fc422c81ecb954c4c58b83263237c93446689f2e",
+      "source_hash": "f51019cb49c90d55246eda1a81f13b0dd5ea5085c0776bd17651822a82b489ed",
+      "n_observations": 11100,
+      "feature_names": [
+        "AGEP",
+        "SCHL",
+        "MAR",
+        "SEX",
+        "DIS",
+        "ESP",
+        "CIT",
+        "MIL",
+        "ANC",
+        "NATIVITY",
+        "RELSHIPP",
+        "DEAR",
+        "DEYE",
+        "DREM",
+        "RAC1P",
+        "GCL",
+        "COW",
+        "ESR",
+        "WKHP",
+        "JWMNP",
+        "PINCP"
+      ],
+      "feature_dtype": "float64",
+      "feature_kind": "numeric",
+      "time_coverage": [
+        null,
+        null
+      ],
+      "domains": [
+        "CA-2019",
+        "FL-2019",
+        "NJ-2019",
+        "NY-2019",
+        "TX-2019"
+      ],
+      "missingness": {
+        "target": 0.0,
+        "features": 0.0
+      },
+      "limitations": [
+        "No verified real-world changepoints.",
+        "Annual records unordered; no individual observation, release or label-availability times invented.",
+        "Official Folktables feature postprocessing uses its missing-value coding; original missing feature names preserved per row.",
+        "Original survey weights and demographic values retained; Bernoulli inclusion probability separate from original PWGTP.",
+        "Domain comparison plans are retrospective, not online chronological protocols or verified changepoints."
+      ],
+      "ground_truth": "coarse_domains",
+      "files": {
+        "acs_protocol.json": "c66ad85142f85e108db5e1739fa0b488b39e061ff0d0563c38cf4aeace80b37f",
+        "observations.parquet": "3cb6786ab023d47f3b497debfbc372538ba0451d630d6c8175e402316bc56324"
+      },
+      "oracle_file": null,
+      "environment": {
+        "folktables_version": "0.0.12"
+      },
+      "path": "data\\processed\\folktables\\5bdf1e7f6f83175e0aab"
+    },
+    {
+      "schema_version": "1.1.0",
+      "dataset": "folktables",
       "version": "86709de125920a37780d",
       "publisher": "US Census / Folktables",
       "source_url": "https://github.com/socialfoundations/folktables",
@@ -3072,6 +3331,136 @@
         "folktables_version": "0.0.12"
       },
       "path": "data\\processed\\folktables\\8c44707fe490b2b66dd8"
+    },
+    {
+      "schema_version": "1.1.0",
+      "dataset": "folktables",
+      "version": "965da6fb4141752dc683",
+      "publisher": "US Census / Folktables",
+      "source_url": "https://github.com/socialfoundations/folktables",
+      "citation": "Ding et al., Retiring Adult: New Datasets for Fair Machine Learning, NeurIPS 2021",
+      "license": "Folktables code MIT; ACS PUMS US Census public data",
+      "permitted_use": "Respect original source and underlying-series terms; research use only where permitted",
+      "acquired_at": "2026-10-22T10:31:30.996827+00:00",
+      "retrieval_parameters": {
+        "states": [
+          "CA",
+          "NY",
+          "TX",
+          "FL",
+          "NJ"
+        ],
+        "years": [
+          2019
+        ],
+        "tasks": [
+          "ACSEmployment"
+        ],
+        "density": 0.05,
+        "sampling_seed": 42,
+        "chunk_size": 20000,
+        "max_download_bytes": 80000000,
+        "max_uncompressed_bytes": 600000000
+      },
+      "raw_checksums": {
+        "data\\raw\\folktables\\2019\\1-Year\\csv_pca.zip": "118e94f8a002f26e9fbb031592ebc61555a81034c0ff632b2e3c4c9fa41fe698",
+        "data\\raw\\folktables\\2019\\1-Year\\csv_pny.zip": "57e4797ff3d6ec36c53aec25fe0b1c124285705c3a6312a3be06fc205415fc8d",
+        "data\\raw\\folktables\\2019\\1-Year\\csv_ptx.zip": "1c28122f895982e58d1c57535d26f655db4de186682f6ae753189f3a2ac20081",
+        "data\\raw\\folktables\\2019\\1-Year\\csv_pfl.zip": "754320fa6d56ea198ef8a11e6dde1f9bceb58d24c51c9637be415149b31642cb",
+        "data\\raw\\folktables\\2019\\1-Year\\csv_pnj.zip": "58117e6a6abf5da285f379d33a04981e569fe5dd2d7669cedd2325fe8b501684"
+      },
+      "processing_config": {
+        "states": [
+          "CA",
+          "NY",
+          "TX",
+          "FL",
+          "NJ"
+        ],
+        "years": [
+          2019
+        ],
+        "tasks": [
+          "ACSEmployment"
+        ],
+        "density": 0.05,
+        "sampling_seed": 42,
+        "chunk_size": 20000,
+        "max_download_bytes": 80000000,
+        "max_uncompressed_bytes": 600000000
+      },
+      "task_specs": [
+        {
+          "task_id": "folktables_ACSEmployment",
+          "task_kind": "binary_classification",
+          "target_definition": "official ACSEmployment target and transformation, captured with source code in acs_protocol.json",
+          "forecast_horizon": null,
+          "valid_target_mask": "rows retained by the official task preprocessing and target transform",
+          "evaluation_metrics": [
+            "accuracy",
+            "balanced accuracy",
+            "Brier score",
+            "log loss"
+          ],
+          "label_availability_rule": "annual ACS survey domain; unordered individual records and no release-time claim",
+          "utility_provenance": "No application-grounded decision utility; any cost-weighted diagnostic is explicitly imposed and separate."
+        }
+      ],
+      "code_commit": "fc422c81ecb954c4c58b83263237c93446689f2e",
+      "source_hash": "f51019cb49c90d55246eda1a81f13b0dd5ea5085c0776bd17651822a82b489ed",
+      "n_observations": 57129,
+      "feature_names": [
+        "AGEP",
+        "SCHL",
+        "MAR",
+        "RELSHIPP",
+        "DIS",
+        "ESP",
+        "CIT",
+        "MIG",
+        "MIL",
+        "ANC",
+        "NATIVITY",
+        "DEAR",
+        "DEYE",
+        "DREM",
+        "SEX",
+        "RAC1P"
+      ],
+      "feature_dtype": "float64",
+      "feature_kind": "numeric",
+      "time_coverage": [
+        null,
+        null
+      ],
+      "domains": [
+        "CA-2019",
+        "FL-2019",
+        "NJ-2019",
+        "NY-2019",
+        "TX-2019"
+      ],
+      "missingness": {
+        "target": 0.0,
+        "features": 0.0
+      },
+      "limitations": [
+        "No verified real-world changepoints.",
+        "Annual records unordered; no individual observation, release or label-availability times invented.",
+        "Official Folktables feature postprocessing uses its missing-value coding; original missing feature names preserved per row.",
+        "Original survey weights and demographic values retained; Bernoulli inclusion probability separate from original PWGTP.",
+        "Domain comparison plans are retrospective, not online chronological protocols or verified changepoints."
+      ],
+      "ground_truth": "coarse_domains",
+      "files": {
+        "acs_protocol.json": "a9ee9b387a18a531e0da6df26d4b975851ee554b5eacb9783c19773858128b9e",
+        "observations.parquet": "7f874e63d420824987c35e79e5046ee33c6fc2b144334666b86d537b95a2b23e"
+      },
+      "oracle_file": null,
+      "environment": {
+        "folktables_version": "0.0.12"
+      },
+      "path": "data\\processed\\folktables\\965da6fb4141752dc683"
     },
     {
       "schema_version": "1.1.0",
@@ -3737,6 +4126,139 @@
       "path": "data\\processed\\folktables\\c8e1afd020eabe7b5477"
     },
     {
+      "schema_version": "1.1.0",
+      "dataset": "folktables",
+      "version": "df2c40a40e4ab8aa8e87",
+      "publisher": "US Census / Folktables",
+      "source_url": "https://github.com/socialfoundations/folktables",
+      "citation": "Ding et al., Retiring Adult: New Datasets for Fair Machine Learning, NeurIPS 2021",
+      "license": "Folktables code MIT; ACS PUMS US Census public data",
+      "permitted_use": "Respect original source and underlying-series terms; research use only where permitted",
+      "acquired_at": "2026-10-22T10:32:10.544523+00:00",
+      "retrieval_parameters": {
+        "states": [
+          "CA",
+          "NY",
+          "TX",
+          "FL",
+          "NJ"
+        ],
+        "years": [
+          2019
+        ],
+        "tasks": [
+          "ACSPublicCoverage"
+        ],
+        "density": 0.05,
+        "sampling_seed": 42,
+        "chunk_size": 20000,
+        "max_download_bytes": 80000000,
+        "max_uncompressed_bytes": 600000000
+      },
+      "raw_checksums": {
+        "data\\raw\\folktables\\2019\\1-Year\\csv_pca.zip": "118e94f8a002f26e9fbb031592ebc61555a81034c0ff632b2e3c4c9fa41fe698",
+        "data\\raw\\folktables\\2019\\1-Year\\csv_pny.zip": "57e4797ff3d6ec36c53aec25fe0b1c124285705c3a6312a3be06fc205415fc8d",
+        "data\\raw\\folktables\\2019\\1-Year\\csv_ptx.zip": "1c28122f895982e58d1c57535d26f655db4de186682f6ae753189f3a2ac20081",
+        "data\\raw\\folktables\\2019\\1-Year\\csv_pfl.zip": "754320fa6d56ea198ef8a11e6dde1f9bceb58d24c51c9637be415149b31642cb",
+        "data\\raw\\folktables\\2019\\1-Year\\csv_pnj.zip": "58117e6a6abf5da285f379d33a04981e569fe5dd2d7669cedd2325fe8b501684"
+      },
+      "processing_config": {
+        "states": [
+          "CA",
+          "NY",
+          "TX",
+          "FL",
+          "NJ"
+        ],
+        "years": [
+          2019
+        ],
+        "tasks": [
+          "ACSPublicCoverage"
+        ],
+        "density": 0.05,
+        "sampling_seed": 42,
+        "chunk_size": 20000,
+        "max_download_bytes": 80000000,
+        "max_uncompressed_bytes": 600000000
+      },
+      "task_specs": [
+        {
+          "task_id": "folktables_ACSPublicCoverage",
+          "task_kind": "binary_classification",
+          "target_definition": "official ACSPublicCoverage target and transformation, captured with source code in acs_protocol.json",
+          "forecast_horizon": null,
+          "valid_target_mask": "rows retained by the official task preprocessing and target transform",
+          "evaluation_metrics": [
+            "accuracy",
+            "balanced accuracy",
+            "Brier score",
+            "log loss"
+          ],
+          "label_availability_rule": "annual ACS survey domain; unordered individual records and no release-time claim",
+          "utility_provenance": "No application-grounded decision utility; any cost-weighted diagnostic is explicitly imposed and separate."
+        }
+      ],
+      "code_commit": "fc422c81ecb954c4c58b83263237c93446689f2e",
+      "source_hash": "f51019cb49c90d55246eda1a81f13b0dd5ea5085c0776bd17651822a82b489ed",
+      "n_observations": 19460,
+      "feature_names": [
+        "AGEP",
+        "SCHL",
+        "MAR",
+        "SEX",
+        "DIS",
+        "ESP",
+        "CIT",
+        "MIG",
+        "MIL",
+        "ANC",
+        "NATIVITY",
+        "DEAR",
+        "DEYE",
+        "DREM",
+        "PINCP",
+        "ESR",
+        "ST",
+        "FER",
+        "RAC1P"
+      ],
+      "feature_dtype": "float64",
+      "feature_kind": "numeric",
+      "time_coverage": [
+        null,
+        null
+      ],
+      "domains": [
+        "CA-2019",
+        "FL-2019",
+        "NJ-2019",
+        "NY-2019",
+        "TX-2019"
+      ],
+      "missingness": {
+        "target": 0.0,
+        "features": 0.0
+      },
+      "limitations": [
+        "No verified real-world changepoints.",
+        "Annual records unordered; no individual observation, release or label-availability times invented.",
+        "Official Folktables feature postprocessing uses its missing-value coding; original missing feature names preserved per row.",
+        "Original survey weights and demographic values retained; Bernoulli inclusion probability separate from original PWGTP.",
+        "Domain comparison plans are retrospective, not online chronological protocols or verified changepoints."
+      ],
+      "ground_truth": "coarse_domains",
+      "files": {
+        "acs_protocol.json": "6ea9e3ceda54d5803c70e002112efcf0b87a71c57a2ffb176541bd7721ab022c",
+        "observations.parquet": "776bed91bb25408e6dfdb1e000e8ba65677afef19666f61a83671837ba3d8b91"
+      },
+      "oracle_file": null,
+      "environment": {
+        "folktables_version": "0.0.12"
+      },
+      "path": "data\\processed\\folktables\\df2c40a40e4ab8aa8e87"
+    },
+    {
       "schema_version": "1.0.0",
       "dataset": "folktables",
       "version": "e4dc308893fe7204af1d",
@@ -3936,6 +4458,136 @@
         "folktables_version": "0.0.12"
       },
       "path": "data\\processed\\folktables\\fb2c924aa2f74c31c3fe"
+    },
+    {
+      "schema_version": "1.1.0",
+      "dataset": "folktables",
+      "version": "ff341b6c563158dd2a1b",
+      "publisher": "US Census / Folktables",
+      "source_url": "https://github.com/socialfoundations/folktables",
+      "citation": "Ding et al., Retiring Adult: New Datasets for Fair Machine Learning, NeurIPS 2021",
+      "license": "Folktables code MIT; ACS PUMS US Census public data",
+      "permitted_use": "Respect original source and underlying-series terms; research use only where permitted",
+      "acquired_at": "2026-10-22T10:33:28.997178+00:00",
+      "retrieval_parameters": {
+        "states": [
+          "CA",
+          "NY",
+          "TX",
+          "FL",
+          "NJ"
+        ],
+        "years": [
+          2019
+        ],
+        "tasks": [
+          "ACSTravelTime"
+        ],
+        "density": 0.05,
+        "sampling_seed": 42,
+        "chunk_size": 20000,
+        "max_download_bytes": 80000000,
+        "max_uncompressed_bytes": 600000000
+      },
+      "raw_checksums": {
+        "data\\raw\\folktables\\2019\\1-Year\\csv_pca.zip": "118e94f8a002f26e9fbb031592ebc61555a81034c0ff632b2e3c4c9fa41fe698",
+        "data\\raw\\folktables\\2019\\1-Year\\csv_pny.zip": "57e4797ff3d6ec36c53aec25fe0b1c124285705c3a6312a3be06fc205415fc8d",
+        "data\\raw\\folktables\\2019\\1-Year\\csv_ptx.zip": "1c28122f895982e58d1c57535d26f655db4de186682f6ae753189f3a2ac20081",
+        "data\\raw\\folktables\\2019\\1-Year\\csv_pfl.zip": "754320fa6d56ea198ef8a11e6dde1f9bceb58d24c51c9637be415149b31642cb",
+        "data\\raw\\folktables\\2019\\1-Year\\csv_pnj.zip": "58117e6a6abf5da285f379d33a04981e569fe5dd2d7669cedd2325fe8b501684"
+      },
+      "processing_config": {
+        "states": [
+          "CA",
+          "NY",
+          "TX",
+          "FL",
+          "NJ"
+        ],
+        "years": [
+          2019
+        ],
+        "tasks": [
+          "ACSTravelTime"
+        ],
+        "density": 0.05,
+        "sampling_seed": 42,
+        "chunk_size": 20000,
+        "max_download_bytes": 80000000,
+        "max_uncompressed_bytes": 600000000
+      },
+      "task_specs": [
+        {
+          "task_id": "folktables_ACSTravelTime",
+          "task_kind": "binary_classification",
+          "target_definition": "official ACSTravelTime target and transformation, captured with source code in acs_protocol.json",
+          "forecast_horizon": null,
+          "valid_target_mask": "rows retained by the official task preprocessing and target transform",
+          "evaluation_metrics": [
+            "accuracy",
+            "balanced accuracy",
+            "Brier score",
+            "log loss"
+          ],
+          "label_availability_rule": "annual ACS survey domain; unordered individual records and no release-time claim",
+          "utility_provenance": "No application-grounded decision utility; any cost-weighted diagnostic is explicitly imposed and separate."
+        }
+      ],
+      "code_commit": "fc422c81ecb954c4c58b83263237c93446689f2e",
+      "source_hash": "f51019cb49c90d55246eda1a81f13b0dd5ea5085c0776bd17651822a82b489ed",
+      "n_observations": 26246,
+      "feature_names": [
+        "AGEP",
+        "SCHL",
+        "MAR",
+        "SEX",
+        "DIS",
+        "ESP",
+        "MIG",
+        "RELSHIPP",
+        "RAC1P",
+        "PUMA",
+        "ST",
+        "CIT",
+        "OCCP",
+        "JWTRNS",
+        "POWPUMA",
+        "POVPIP"
+      ],
+      "feature_dtype": "float64",
+      "feature_kind": "numeric",
+      "time_coverage": [
+        null,
+        null
+      ],
+      "domains": [
+        "CA-2019",
+        "FL-2019",
+        "NJ-2019",
+        "NY-2019",
+        "TX-2019"
+      ],
+      "missingness": {
+        "target": 0.0,
+        "features": 0.0
+      },
+      "limitations": [
+        "No verified real-world changepoints.",
+        "Annual records unordered; no individual observation, release or label-availability times invented.",
+        "Official Folktables feature postprocessing uses its missing-value coding; original missing feature names preserved per row.",
+        "Original survey weights and demographic values retained; Bernoulli inclusion probability separate from original PWGTP.",
+        "Domain comparison plans are retrospective, not online chronological protocols or verified changepoints."
+      ],
+      "ground_truth": "coarse_domains",
+      "files": {
+        "acs_protocol.json": "1f006b7aa0912ae3f1bd5dab75fa84345658e728378db7f7fdc48dba2a626534",
+        "observations.parquet": "b794508fa9acdb33db4c0ac6d1a7ed0033064ee44efde4af04abb4b98eac6dd3"
+      },
+      "oracle_file": null,
+      "environment": {
+        "folktables_version": "0.0.12"
+      },
+      "path": "data\\processed\\folktables\\ff341b6c563158dd2a1b"
     },
     {
       "schema_version": "1.1.0",
@@ -8686,6 +9338,237 @@
         }
       },
       "path": "data\\synthetic\\target_variance\\ff65712a55b8b96f10ba"
+    },
+    {
+      "schema_version": "1.1.0",
+      "dataset": "wilds",
+      "version": "4339eeccfed040d382ee",
+      "publisher": "WILDS",
+      "source_url": "https://wilds.stanford.edu/get_started/",
+      "citation": "Koh et al., WILDS, ICML 2021",
+      "license": "CC0 1.0 (CivilComments source as documented by WILDS)",
+      "permitted_use": "Respect original source and underlying-series terms; research use only where permitted",
+      "acquired_at": "2026-10-22T08:41:17.975649+00:00",
+      "retrieval_parameters": {
+        "dataset": "civilcomments",
+        "max_per_split": 269038,
+        "max_download_bytes": 150000000,
+        "source_mirror": "https://huggingface.co/datasets/pietrolesci/civilcomments-wilds",
+        "source_mirror_revision": "c227534cc0a34cf21db6a0bf0edd0f9050c8b305",
+        "source_mirror_file": "raw/train-00000-of-00001.parquet",
+        "source_mirror_file_sha256": "1d8c81d7ee043c87a43175f3685ce4ffae28b0a9dc2fe5bd5d5cd7ade1c07731",
+        "official_wilds_split_counts": {
+          "train": 269038,
+          "test": 133782,
+          "val": 45180
+        },
+        "full_official_dataset": true
+      },
+      "raw_checksums": {
+        "data\\raw\\wilds\\civilcomments-hf\\raw\\train-00000-of-00001.parquet": "1d8c81d7ee043c87a43175f3685ce4ffae28b0a9dc2fe5bd5d5cd7ade1c07731"
+      },
+      "processing_config": {
+        "dataset": "civilcomments",
+        "max_per_split": 269038,
+        "max_download_bytes": 150000000,
+        "source_mirror": "https://huggingface.co/datasets/pietrolesci/civilcomments-wilds",
+        "source_mirror_revision": "c227534cc0a34cf21db6a0bf0edd0f9050c8b305",
+        "source_mirror_file": "raw/train-00000-of-00001.parquet",
+        "source_mirror_file_sha256": "1d8c81d7ee043c87a43175f3685ce4ffae28b0a9dc2fe5bd5d5cd7ade1c07731",
+        "official_wilds_split_counts": {
+          "train": 269038,
+          "test": 133782,
+          "val": 45180
+        },
+        "full_official_dataset": true
+      },
+      "task_specs": [
+        {
+          "task_id": "wilds_civilcomments_official_classification",
+          "task_kind": "official_classification",
+          "target_definition": "official civilcomments label; authoritative task metric is dataset.eval",
+          "forecast_horizon": null,
+          "valid_target_mask": "officially labeled rows in retained official partitions",
+          "evaluation_metrics": [
+            "official dataset.eval metric and group breakdown"
+          ],
+          "label_availability_rule": "official train/validation/test partition; no individual-time availability",
+          "utility_provenance": "No temporal decision utility; use the official WILDS task metric."
+        }
+      ],
+      "code_commit": "b714ec153f4dab5c9a8e74cfdf570e7bd563bec4",
+      "source_hash": "712ad64aa340082619489af1560719b909740d6d18620916d076ba4b9c51ef03",
+      "n_observations": 448000,
+      "feature_names": [
+        "comment_text"
+      ],
+      "feature_dtype": "text reference",
+      "feature_kind": "structured_reference",
+      "time_coverage": [
+        null,
+        null
+      ],
+      "domains": [
+        "civilcomments"
+      ],
+      "missingness": {
+        "target": 0.0,
+        "features": 0.0
+      },
+      "limitations": [
+        "No verified real-world changepoints.",
+        "CivilComments-wilds v1.0; source CC0. Official train/val/test and identity annotations retained.",
+        "Text stored separately from targets. No individual event/feature/release times supplied by WILDS; online replay is unavailable."
+      ],
+      "ground_truth": "coarse_domains",
+      "files": {
+        "inputs.parquet": "868a278df5eeaef06fdc89080769207d128e15a766902db12f2a668ed511445f",
+        "observations.parquet": "daa51ec63f29e8a1ac9c9fbafde773e6f3adf3007c248ed152644cb85dd107c8"
+      },
+      "oracle_file": null,
+      "environment": {},
+      "path": "data\\processed\\wilds\\4339eeccfed040d382ee"
+    },
+    {
+      "schema_version": "1.1.0",
+      "dataset": "wilds",
+      "version": "a31c761c6b2a029d8abb",
+      "publisher": "WILDS",
+      "source_url": "https://wilds.stanford.edu/get_started/",
+      "citation": "Koh et al., WILDS, ICML 2021",
+      "license": "CC0 1.0 (CivilComments source as documented by WILDS)",
+      "permitted_use": "Respect original source and underlying-series terms; research use only where permitted",
+      "acquired_at": "2026-10-22T08:10:44.743615+00:00",
+      "retrieval_parameters": {
+        "dataset": "civilcomments",
+        "max_per_split": 269038,
+        "max_download_bytes": 150000000
+      },
+      "raw_checksums": {
+        "data\\raw\\wilds\\civilcomments-hf\\raw\\train-00000-of-00001.parquet": "1d8c81d7ee043c87a43175f3685ce4ffae28b0a9dc2fe5bd5d5cd7ade1c07731"
+      },
+      "processing_config": {
+        "dataset": "civilcomments",
+        "max_per_split": 269038,
+        "max_download_bytes": 150000000
+      },
+      "task_specs": [
+        {
+          "task_id": "wilds_civilcomments_official_classification",
+          "task_kind": "official_classification",
+          "target_definition": "official civilcomments label; authoritative task metric is dataset.eval",
+          "forecast_horizon": null,
+          "valid_target_mask": "officially labeled rows in retained official partitions",
+          "evaluation_metrics": [
+            "official dataset.eval metric and group breakdown"
+          ],
+          "label_availability_rule": "official train/validation/test partition; no individual-time availability",
+          "utility_provenance": "No temporal decision utility; use the official WILDS task metric."
+        }
+      ],
+      "code_commit": "c625da4d219d778b7bfbb13617aa17242acc9cfc",
+      "source_hash": "830973bd1a8655f8b23ec6cd0024c438aba122d02bb92648d0cf5c5a78866e77",
+      "n_observations": 448000,
+      "feature_names": [
+        "comment_text"
+      ],
+      "feature_dtype": "text reference",
+      "feature_kind": "structured_reference",
+      "time_coverage": [
+        null,
+        null
+      ],
+      "domains": [
+        "civilcomments"
+      ],
+      "missingness": {
+        "target": 0.0,
+        "features": 0.0
+      },
+      "limitations": [
+        "No verified real-world changepoints.",
+        "CivilComments-wilds v1.0; source CC0. Official train/val/test and identity annotations retained.",
+        "Deterministic per-split subset: results on this subset are not full official benchmark scores.",
+        "Text stored separately from targets. No individual event/feature/release times supplied by WILDS; online replay is unavailable."
+      ],
+      "ground_truth": "coarse_domains",
+      "files": {
+        "inputs.parquet": "868a278df5eeaef06fdc89080769207d128e15a766902db12f2a668ed511445f",
+        "observations.parquet": "daa51ec63f29e8a1ac9c9fbafde773e6f3adf3007c248ed152644cb85dd107c8"
+      },
+      "oracle_file": null,
+      "environment": {},
+      "path": "data\\processed\\wilds\\a31c761c6b2a029d8abb"
+    },
+    {
+      "schema_version": "1.1.0",
+      "dataset": "wilds",
+      "version": "c4f79606707951bcba11",
+      "publisher": "WILDS",
+      "source_url": "https://wilds.stanford.edu/get_started/",
+      "citation": "Koh et al., WILDS, ICML 2021",
+      "license": "CC0 1.0 (CivilComments source as documented by WILDS)",
+      "permitted_use": "Respect original source and underlying-series terms; research use only where permitted",
+      "acquired_at": "2026-10-22T08:11:52.275306+00:00",
+      "retrieval_parameters": {
+        "dataset": "civilcomments",
+        "max_per_split": 269038,
+        "max_download_bytes": 150000000
+      },
+      "raw_checksums": {
+        "data\\raw\\wilds\\civilcomments-hf\\raw\\train-00000-of-00001.parquet": "1d8c81d7ee043c87a43175f3685ce4ffae28b0a9dc2fe5bd5d5cd7ade1c07731"
+      },
+      "processing_config": {
+        "dataset": "civilcomments",
+        "max_per_split": 269038,
+        "max_download_bytes": 150000000
+      },
+      "task_specs": [
+        {
+          "task_id": "wilds_civilcomments_official_classification",
+          "task_kind": "official_classification",
+          "target_definition": "official civilcomments label; authoritative task metric is dataset.eval",
+          "forecast_horizon": null,
+          "valid_target_mask": "officially labeled rows in retained official partitions",
+          "evaluation_metrics": [
+            "official dataset.eval metric and group breakdown"
+          ],
+          "label_availability_rule": "official train/validation/test partition; no individual-time availability",
+          "utility_provenance": "No temporal decision utility; use the official WILDS task metric."
+        }
+      ],
+      "code_commit": "c625da4d219d778b7bfbb13617aa17242acc9cfc",
+      "source_hash": "f10242084315fd3b82033d695d581309ddc7544599bff577e48cf19a5ab35642",
+      "n_observations": 448000,
+      "feature_names": [
+        "comment_text"
+      ],
+      "feature_dtype": "text reference",
+      "feature_kind": "structured_reference",
+      "time_coverage": [
+        null,
+        null
+      ],
+      "domains": [
+        "civilcomments"
+      ],
+      "missingness": {
+        "target": 0.0,
+        "features": 0.0
+      },
+      "limitations": [
+        "No verified real-world changepoints.",
+        "CivilComments-wilds v1.0; source CC0. Official train/val/test and identity annotations retained.",
+        "Text stored separately from targets. No individual event/feature/release times supplied by WILDS; online replay is unavailable."
+      ],
+      "ground_truth": "coarse_domains",
+      "files": {
+        "inputs.parquet": "868a278df5eeaef06fdc89080769207d128e15a766902db12f2a668ed511445f",
+        "observations.parquet": "daa51ec63f29e8a1ac9c9fbafde773e6f3adf3007c248ed152644cb85dd107c8"
+      },
+      "oracle_file": null,
+      "environment": {},
+      "path": "data\\processed\\wilds\\c4f79606707951bcba11"
     }
   ]
 }

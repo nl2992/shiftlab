@@ -85,6 +85,15 @@ records. `source_manifest.json` records the file inventory and metadata-only str
 source files and the manifest are available on the private cross-device release. See
 `scripts/acquire_criteo_private_ad.py`.
 
+The separate official [Criteo Attribution Modeling dataset](https://huggingface.co/datasets/criteo/criteo-attribution-dataset)
+was also acquired at pinned revision `904188a63cbad78bee43cd26ff5ee4ac77903986`.
+Its 30-day display-attribution archive passed the publisher SHA-256 check and produced
+16,468,027 observations, with learner inputs separated from conversion/click/cost outcomes
+and conversion labels delayed until the 30-day window is observable. The raw archive is
+653,015,824 bytes; processed inputs, observations and evaluator outcomes are recorded in
+the immutable version manifest. This dataset is separate from both the 90-day sponsored-
+search data and CriteoPrivateAds.
+
 ## Observed external limitations
 
 - FRED: a credentialed live five-series vintage/revision extract (UNRATE, CPIAUCSL, FEDFUNDS,
@@ -102,6 +111,11 @@ source files and the manifest are available on the private cross-device release.
   archive currently returns HTTP 404 to this host, and the named Azure Blob hostname returns DNS
   NXDOMAIN. No archive bytes were acquired and no unrelated click dataset or unofficial mirror was
   substituted. The latest probe is recorded separately in `acquisition_extensions.json`.
+  The official CriteoClickLogs repository is separately available on Hugging Face at pinned
+  revision `e11d69ae913b16cdd7387706a2133def0fdc6ced`; its dataset card reports 4.37 billion
+  click-only rows and a 276 GB Parquet representation. It can be streamed or processed in
+  shards without keeping the complete mirror on local disk. It is an optional scale benchmark,
+  not a delayed-conversion substitute or a Phase 1 prerequisite.
 
 Timestamped outcomes are recorded in `data/reports/acquisition_extensions.json`.
 

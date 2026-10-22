@@ -35,6 +35,12 @@ def _readiness_labels(
             "delayed-feedback classification; feature-delivery and delay-unit assumptions required",
             "replayable under explicit click/feedback assumptions; publisher release times unverified",
         )
+    if name == "criteo_attribution":
+        return (
+            "retrospective; display-attribution utility is evaluator-side",
+            "delayed-feedback classification; 30-day outcome window and impression-time feature assumption",
+            "relative-clock replay under explicit feature and feedback assumptions; publisher release times unverified",
+        )
     if classification:
         return (
             "offline classification only",
@@ -94,6 +100,7 @@ def _dataset_suitability_rows(pointers: list[dict]) -> list[dict]:
             "folktables",
             "wilds",
             "criteo",
+            "criteo_attribution",
         }
         paper1, paper2, paper3 = _readiness_labels(name, False, classification, task_specs, config)
         utilities = sorted(

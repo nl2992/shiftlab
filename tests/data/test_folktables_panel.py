@@ -42,6 +42,10 @@ def fixtures(tmp_path, monkeypatch):
             source["RAC1P"] = 1 + np.arange(n) % 2
             source["ST"] = int(code)
             source.loc[0, "SCHL"] = np.nan
+            if year == 2019:
+                source["RELSHIPP"] = source["RELP"]
+                source["JWTRNS"] = source["JWTR"]
+                source = source.drop(columns=["RELP", "JWTR"])
             path = tmp_path / f"{state}-{year}.zip"
             with zipfile.ZipFile(path, "w", zipfile.ZIP_DEFLATED) as archive:
                 archive.writestr(f"psam_p{code}.csv", source.to_csv(index=False))
@@ -69,6 +73,28 @@ def test_all_official_tasks_weights_groups_and_protocol(tmp_path, monkeypatch, t
     assert frame.split.eq("unassigned").all()
     np.testing.assert_array_equal(frame.sample_weight, [100 + m["source_row"] for m in metadata])
     assert all(m["demographic_group"] == m["demographics"]["RAC1P"] for m in metadata)
+    expected_aliases = {}
+    if task_name in {"ACSIncome", "ACSEmployment", "ACSMobility", "ACSTravelTime"}:
+        expected_aliases["RELP"] = "RELSHIPP"
+    if task_name == "ACSTravelTime":
+        expected_aliases["JWTR"] = "JWTRNS"
+    assert all(
+        m["source_field_aliases"] == (expected_aliases if m["survey_year"] == 2019 else {})
+        for m in metadata
+    )
+    assert all(
+        "RELP" not in m["source_feature_names"] for m in metadata if m["survey_year"] == 2019
+    )
+    assert all(
+        "RELSHIPP" in m["source_feature_names"]
+        for m in metadata
+        if m["survey_year"] == 2019
+        and task_name in {"ACSIncome", "ACSEmployment", "ACSMobility", "ACSTravelTime"}
+    )
+    if task_name == "ACSTravelTime":
+        assert all(
+            "JWTRNS" in m["source_feature_names"] for m in metadata if m["survey_year"] == 2019
+        )
     if task_name != "ACSPublicCoverage":
         assert "SCHL" in metadata[0]["original_missing_feature_columns"]
     manifest = json.loads((output / "dataset_manifest.json").read_text())
@@ -133,10 +159,9 @@ def test_missing_source_schema_rejected_before_dataset_publication(tmp_path, mon
     path = tmp_path / "CA-2019.zip"
     with zipfile.ZipFile(path) as archive:
         source = pd.read_csv(archive.open("psam_p06.csv"))
-    source = source.drop(columns=["RELP"])
-    source["RELSHIPP"] = 20
+    source = source.drop(columns=["RELSHIPP"])
     with zipfile.ZipFile(path, "w", zipfile.ZIP_DEFLATED) as archive:
         archive.writestr("psam_p06.csv", source.to_csv(index=False))
-    with pytest.raises(ValueError, match="missing.*RELP"):
+    with pytest.raises(ValueError, match="missing.*RELSHIPP"):
         acquire({"states": ["CA"], "years": [2019], "tasks": ["ACSIncome"]}, tmp_path / "out")
     assert not (tmp_path / "out/processed").exists()

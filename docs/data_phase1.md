@@ -55,7 +55,7 @@ distributional parity rather than identical arrays. Oracle files are evaluator-o
 must not be passed to learners.
 
 All download commands default to dry-run; `--execute` allows acquisition. Source failures are
-errors, never replaced by synthetic or unrelated data. EIA bulk archive extraction supports multiple balancing authorities from the same checksummed archive; `eia_bulk_multi.yaml` builds CISO and ERCO retrospective next-hour tasks. Event-time splits do not imply publisher release availability. A credentialed FRED/ALFRED extract covers five series and 630 dated vintage records; WILDS and Criteo retain explicit source/terms limitations. There are no placeholder adapters.
+errors, never replaced by synthetic or unrelated data. EIA bulk archive extraction supports multiple balancing authorities from the same checksummed archive; `eia_bulk_multi.yaml` builds CISO and ERCO retrospective next-hour tasks. Event-time splits do not imply publisher release availability. A credentialed FRED/ALFRED extract covers five series and 630 dated vintage records; CivilComments, CriteoPrivateAds and Criteo's 30-day attribution data are acquired from pinned sources. The Criteo 90-day sponsored-search endpoint remains unavailable and is not silently substituted. There are no placeholder adapters.
 
 The Monash Electricity hourly and Weather TSF archives omit `@horizon`. Their configured
 168-step hourly and 30-step daily fixed-origin horizons follow the archive authors' benchmark
@@ -280,8 +280,9 @@ The current implementation includes domain/group comparisons, OPSD hourly and da
 and adapters for the registered sources; their tests and limits are summarized in
 [`phase1_completion_audit.md`](phase1_completion_audit.md). Remaining work is substantive:
 observational diagnostics do not identify causal drift without a defensible design; FRED
-vintages retain date-level revision events but not exact intraday release times; Criteo and
-WILDS live data remain unavailable from the current sources; application-grounded decision
+vintages retain date-level revision events but not exact intraday release times; Criteo's
+90-day sponsored-search archive remains unavailable and WILDS official CodaLab access has
+a documented TLS failure despite the acquired CivilComments mirror; application-grounded decision
 utilities have not been supplied; and large 100-seed final experiments or exhaustive GPU
 parameter sweeps have not been run. Do not treat these constraints as evidence of successful
 acquisition or as scientific results.

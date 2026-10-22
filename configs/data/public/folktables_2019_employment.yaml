@@ -1,0 +1,8 @@
+states: [CA, NY, TX, FL, NJ]
+years: [2019]
+tasks: [ACSEmployment]
+density: 0.05
+sampling_seed: 42
+chunk_size: 20000
+max_download_bytes: 80000000
+max_uncompressed_bytes: 600000000

@@ -1,63 +1,101 @@
 # ShiftLab
 
-A CPU-runnable research platform for decision-relevant drift, adaptive conformal prediction,
-and cost-aware adaptation. This is the first implementation deliverable, not a novelty claim.
-Existing starter entry points remain available under `experiments/`; they are legacy illustrative
-experiments and are excluded from the new benchmark reports.
+ShiftLab is a reproducible research codebase for studying distribution shift when predictions,
+labels, decisions, and model updates happen over time. It combines a focused three-track benchmark
+with a reusable data framework for controlled simulations and selected public or licensed sources.
+The repository is organized to make data timing, task definitions, provenance, and evaluation limits
+visible alongside the code that uses them.
 
-## Data acquisition and generation
+## What is in the codebase
 
-Phase 1 data acquisition, cleaning, provenance, and validation are substantially complete for
-the sources available to this project. The latest audit records **101 validated dataset versions**,
-**205/205 verified raw-file references**, and zero dataset validation errors. Acquired sources
-include synthetic controls, Folktables, Criteo, CivilComments, FRED/ALFRED, Monash, and public
-energy and weather data. The private `data-2026-10-22` GitHub release also carries the large
-Phase 1 data bundle; see [cross-device data access](docs/cross_device_data_access.md) before
-restoring it on another machine.
+| Area | Location | How it helps |
+| --- | --- | --- |
+| Core benchmark | `src/shiftlab/`, `configs/experiments/` | Validates experiment settings and runs comparable baselines for decision drift, conformal prediction, and cost-aware adaptation. |
+| Data contracts and storage | `src/shiftlab/data/schemas.py`, `storage.py`, `validation.py` | Standardizes observations, writes immutable Parquet versions, records provenance, and checks integrity before use. |
+| Data acquisition and tasks | `src/shiftlab/data/real/`, `src/shiftlab/data/tasks.py` | Adapts selected external sources and describes targets, horizons, valid rows, metrics, label timing, and utility assumptions. |
+| Synthetic environments | `src/shiftlab/data/synthetic/`, `configs/data/synthetic/` | Produces controlled stationary and shifted streams with known evaluator truth for tests that cannot be done with observational data alone. |
+| Feedback replay | `src/shiftlab/data/streaming.py`, `label_availability.py` | Exposes predictions and labels in availability order so delayed or unknown labels are not accidentally used early. |
+| Acquisition and experiment tools | `scripts/` | Generates data, inventories sources, validates stored versions, builds reports, and runs benchmark or dataset-specific diagnostics. |
+| Paper plans and evidence | `papers/`, `docs/`, `data/reports/` | Keeps hypotheses, protocols, source limitations, validation results, and paper suitability close to the implementation. |
+| Tests | `tests/` | Checks schemas, time ordering, leakage boundaries, generator properties, provenance, and report gates. |
 
-### Phase 1 data inventory
+The three paper tracks share a streaming learner and controlled data-generation system:
 
-Large raw and processed data files are stored as assets in the private
-[Phase 1 GitHub release](https://github.com/nl2992/shiftlab/releases/tag/data-2026-10-22),
-not in ordinary Git commits. The release archives include checksums and acquisition manifests;
-the restore guide lists exact asset names, sizes, and SHA-256 digests.
+1. **Decision drift** compares statistical alarms while measuring changes in prediction and decision
+   loss.
+2. **Adaptive conformal prediction** compares fixed and rolling residual calibration under shift
+   and delayed feedback.
+3. **Cost-aware adaptation** compares frozen, periodic, and triggered retraining under a stated
+   update budget and retraining cost.
 
-| Data | What is available |
-| --- | --- |
-| CRSP CIZ and WRDS companions | Complete 2000–2025 daily CRSP extraction, annual manifests and part checksums; daily factors, Treasury series, Compustat annual fundamentals, and CCM link history. The derived next-day-return study panel is the next processing step. |
-| Criteo | Official 30-day attribution data (16,468,027 observations) and CriteoPrivateAds (103,862,032 rows across 288 verified source files). The separate 90-day Sponsored Search archive could not be acquired. |
-| Folktables | Five 2019 tasks across CA, NY, TX, FL, and NJ (143,285 task rows total), with source archives and processed panels. |
-| CivilComments / WILDS | Complete 448,000-row CivilComments raw mirror, pinned to a source revision with checksums and official split counts. |
-| Other real sources | Processed Monash M4 benchmarks, UCI Gas Sensor, NOAA, OPSD, EIA, FRED/ALFRED revisions, and Binance hourly data. Electricity and Weather Monash archives are retained, but conversion is withheld because their headers omit the forecast horizon. |
-| Synthetic suite | 46 immutable versions, including controlled shift scenarios and evaluator-only ground truth. |
+The broader data package adds 43 registered synthetic mechanisms, multiple temporal schedules,
+real-source adapters, task metadata, immutable versions, and report-generation tools. Synthetic
+experiments provide known change times and evaluator-only truth. Real datasets provide observed
+domains or time series, but generally do not provide causal shift labels, exact release times, or
+application-specific decision costs. The framework records those limits instead of filling them in.
 
-See the [dataset-to-paper suitability matrix](data/reports/dataset_paper_suitability.md) for
-row counts and study limits, the [data quality report](data/reports/data_quality_report.md) for
-validation findings, and the [Phase 1 audit](docs/phase1_completion_audit.md) for requirement
-status. Licensed raw files stay in the private release and are not committed to the Git tree.
-The separate 1TB Criteo click-log corpus is an optional scale benchmark available upstream;
-it is not included in the release and has no conversion-delay labels.
+## Using the data already in the project
 
-This status is scoped to obtainable Phase 1 inputs and does not mean every desired source exists:
-the publisher-linked Criteo 90-day Sponsored Search archive remains unavailable, and some
-licensed or credentialed inputs require separate institutional access. The **CRSP CIZ 2000–2025
-WRDS extraction is complete and included in the private release**, together with its annual
-manifests and file checksums. The remaining CRSP work is to build and validate the derived
-next-day-return study panel using the documented joins, timing rules, and chronological splits.
-Research-scale, paper-specific seed sweeps remain subsequent work.
+Start with the [Data Dictionary](DATA_DICTIONARY.md). It explains the shared observation columns,
+version manifests, dataset-specific files, availability fields, and which analysis paths are
+appropriate. The detailed source inventory is generated at `data/reports/data_inventory.csv`;
+readiness and quality evidence are in `data/reports/experiment_readiness.md` and
+`data/reports/data_quality_report.md`.
 
-For acquisition commands and source limitations, see [docs/data_phase1.md](docs/data_phase1.md)
-and [docs/acquisition_extensions.md](docs/acquisition_extensions.md). See
-[data/reports/experiment_readiness.md](data/reports/experiment_readiness.md) for per-version
-readiness, [data/reports/dataset_paper_suitability.md](data/reports/dataset_paper_suitability.md)
-for the source-level paper matrix, and [data/reports/data_quality_report.md](data/reports/data_quality_report.md)
-for validation results. [docs/phase1_completion_audit.md](docs/phase1_completion_audit.md) maps
-the implementation to the Phase 1 requirements and records remaining source-specific limits.
-Stationary-control evidence is in [data/reports/stationary_control_validation.json](data/reports/stationary_control_validation.json).
+Versioned data normally lives under `data/processed/<dataset>/<version>/` or
+`data/synthetic/<dataset>/<version>/`. Each version has a `dataset_manifest.json` and, where
+applicable, `observations.parquet`; some sources retain original structured inputs in additional
+Parquet files. Synthetic evaluator truth is separated under `evaluator_only/`. Large raw and
+licensed archives are excluded from ordinary Git commits; when a dataset is not present locally,
+follow [the cross-device restore guide](docs/cross_device_data_access.md).
+
+For a quick look at an existing standardized dataset:
+
+```python
+import json
+from pathlib import Path
+
+import pandas as pd
+
+dataset = Path("data/processed/folktables/0fcc49a2576071bf51da")
+manifest = json.loads((dataset / "dataset_manifest.json").read_text())
+observations = pd.read_parquet(dataset / "observations.parquet")
+
+print(manifest["dataset"], manifest["version"], manifest["n_observations"])
+print(manifest["feature_names"])
+print(manifest.get("task_specs", []))
+print(observations[["sample_id", "target", "domain_id", "split"]].head())
+```
+
+The path above is an example version; use the inventory report or search `data/processed/` for the
+version available in your checkout. For online-style evaluation, use the replay API and its
+`Request`/`Label` messages rather than training directly from the stored target column. Replay
+requires verified prediction and feature-availability times; datasets without those clocks are
+appropriate for explicitly retrospective or offline diagnostics instead.
+
+Useful checks and entry points:
+
+```bash
+uv run python scripts/data_inventory.py
+uv run python scripts/validate_datasets.py --root data
+uv run python scripts/build_data_report.py --root data
+uv run pytest -q
+uv run python scripts/run_diagnostics.py --config configs/experiments/diagnostics.yaml
+uv run python scripts/run_baselines.py --paper 1
+uv run python scripts/run_baselines.py --paper 2
+uv run python scripts/run_baselines.py --paper 3
+```
+
+The shared `scripts/evaluate_data.py` bridge currently evaluates **regression datasets only** and
+requires known feature and label availability plus usable chronological splits. Source-specific
+reports, such as `scripts/group_diagnostics.py` for Gas Sensor and the Monash/NOAA/OPSD/time-series
+report scripts, implement their own task-appropriate checks. Consult the Data Dictionary and each
+dataset's `task_specs` before choosing an evaluator; an available file is not automatically a valid
+benchmark for every paper.
 
 ## Install and run
 
-Python 3.11+ and uv are required. From this repository:
+Python 3.11+ and [uv](https://docs.astral.sh/uv/) are required. From the repository root:
 
 ```bash
 uv sync --extra dev --extra data-sources
@@ -65,73 +103,38 @@ uv run pytest -q
 uv run ruff check .
 uv run ruff format --check .
 uv run mypy
-uv run python scripts/validate_environment.py
-uv run python scripts/run_diagnostics.py --config configs/experiments/diagnostics.yaml
-uv run python scripts/run_baselines.py --paper 1
-uv run python scripts/run_baselines.py --paper 2
-uv run python scripts/run_baselines.py --paper 3
-uv run python scripts/run_first_deliverable.py
-uv run python scripts/aggregate_results.py
 ```
 
-`uv sync --all-extras` also installs optional PyTorch, WILDS and MLflow dependencies. Neural model training
-and tracking integration remain deferred. The data framework supports CUDA generation; the original
-Ridge benchmark still rejects non-CPU devices. The default installation requires neither optional dependency.
-No dataset is downloaded at installation or in CI. `shiftlab --config ... --paper 2` is the CLI.
+To reproduce the small synthetic smoke suite:
 
-## Implemented benchmark
+```bash
+uv run python scripts/generate_synthetic.py \
+  --config configs/data/synthetic/smoke.yaml --root data --device cpu
+uv run python scripts/validate_datasets.py --root data
+uv run python scripts/build_data_report.py --root data
+```
 
-`src/shiftlab/core/config.py` strictly validates YAML, including chronological boundaries.
-`synthetic.py` produces four shared-seed regression controls. `streaming.py` sends immutable
-observations and arrived feedback to a learner, while the evaluator retains targets, regimes
-and generating parameters. Zero-delay feedback arrives after that time's prediction; delay d
-arrives after prediction at t+d. Labels still pending at the horizon never update the learner.
-Calibration labels are historical, available at initialization. Missingness is independent MCAR.
-Initial train and calibration blocks are disjoint and end before the configured intervention time.
+Acquisition commands default to a dry run. Network retrieval requires the explicit `--execute`
+flag, and some sources require optional dependencies or credentials. See
+[docs/data_phase1.md](docs/data_phase1.md) for exact commands and source constraints.
 
-Ridge is shared across tracks. KS uses Bonferroni correction across features at each window check.
-Standardized one-sided CUSUM monitors squared prediction error and asymmetric decision loss.
-Paper 1 compares these alarms on a frozen predictor. Paper 2 compares fixed split-conformal
-intervals and rolling residual quantiles. Paper 3 compares frozen, periodic, and error-CUSUM
-triggered retraining with a shared maximum number of full fits and per-fit resource cost.
-No partial updates or calibration-only adaptation are silently substituted.
+Each benchmark run writes a unique `outputs/<UTC>-<uuid>/` directory with its resolved
+configuration, status manifest, dependency versions, Git revision, predictions, metrics, logs,
+checkpoints, and figures. Numerical outputs are deterministic for a fixed configuration and seed;
+run identifiers and wall-clock timings are not. Large generated outputs are ignored by Git.
 
-Every run writes a unique `outputs/<UTC>-<uuid>/` folder containing an atomic status manifest,
-validated config and SHA256 hash, dependency versions, Git revision (null before a first commit),
-actual DGP arrays, event logs, numeric Ridge checkpoints, prediction traces, metrics, and PNG/PDF
-figures. Numerical results are deterministic; wall-clock times and identifiers are not.
-Checkpoints use `np.load(path)`; prediction is `X @ saved['coef'] + saved['intercept']`.
-Failed runs retain a failed manifest. Large local artifacts are ignored by Git.
+## Research safeguards and limits
 
-## Scientific limits
+The learner receives only features available at prediction time and labels after their recorded
+availability time. Synthetic regime labels and generating parameters stay evaluator-side. Missing
+or unknown real-world timing is not inferred. Real-source results must therefore use the task's
+documented retrospective or offline protocol when a valid online replay clock is unavailable.
 
-KS assumes independent observations; this DGP is iid within each regime. Repeated KS tests and
-resetting CUSUM do not provide anytime-valid control. Thresholds are fixed, not matched to a
-common false-alarm budget. False-alarm counts and first post-change delay are reported separately;
-a missing delay is a censored nondetection, not zero. No-shift streams have no true change.
-Benign means the population target mechanism ignores the shifted feature; finite-sample Ridge
-can still assign it a nonzero coefficient. These are deliberately diagnostic controls.
+The paper protocols distinguish diagnostic evidence from confirmatory results. Small seed counts
+are smoke or validation runs; selected final comparisons should use paired seeds and the larger
+replication counts specified by the protocol. Imposed synthetic costs are research controls, not
+application-grounded utilities. Current baselines do not establish anytime-valid alarm control,
+conditional conformal coverage under arbitrary shift, causal drift attribution, or universal
+benefits from adaptation.
 
-The policy acts at predicted response zero with false-negative cost 5 and false-positive cost 1.
-Reported regret is conditional expected decision regret against the known Gaussian Bayes policy
-(probability threshold 1/6), not adaptation-controller regret. This fixed action threshold is not
-Bayes optimal even before shift; compare changes as well as absolute regret. Paper 3's objective
-is test squared-error sum plus configured cost per retrain; measured times are separate. Equal
-intervention caps do not imply matched wall-clock compute. No dynamic adaptation oracle exists yet.
-
-Split conformal uses ceil((m+1)(1-alpha)) with an infinity atom for insufficient calibration size.
-Rolling coverage is empirical, not a guarantee under nonstationarity. Regime coverage is an
-evaluator diagnostic. Recovery times, ACI, weighted conformal, MMD, classifier tests, River,
-ruptures, dependent bootstrap, temporal/classification models and real-data acquisition remain
-unimplemented. The legacy function name `weighted_conformal_quantile` means ordinary unweighted
-split conformal, retained for compatibility. No weighted validity is claimed.
-
-Three seeds provide smoke evidence only. Aggregate bootstrap intervals resample independent
-stream seeds, not time points; they are unstable with so few seeds. Do not tune on these held-out
-streams and then present them as confirmatory evidence. See `docs/implementation_status.md` and
-paper protocols for deferred research work.
-
-## Version control
-
-Use `main` for shared integration and short-lived `paper1/`, `paper2/`, `paper3/` or `shared/` branches.
-See [CONTRIBUTING.md](CONTRIBUTING.md) for hooks, review, reproducibility tags and remote setup.
+For version-control conventions and contribution checks, see [CONTRIBUTING.md](CONTRIBUTING.md).

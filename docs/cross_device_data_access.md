@@ -102,7 +102,8 @@ The synthetic collection contains 46 stored versions: the original 38 plus the
 eight seed-42 smoke cases regenerated at commit `2c915c1` with full code-commit
 and file-checksum provenance.
 The 90-day Criteo Sponsored Search archive remains unavailable. CriteoPrivateAds is a separate
-acquired source; its 288 source files and checksum manifest are added as flat assets on the release.
+acquired source; all 288 source files and its checksum manifest are published as flat assets on the
+private release. The full 295-asset release inventory passed size and SHA-256 comparison.
 After downloading `source_manifest.json` and `part-*.parquet` into an inbox, restore the original
 day-partitioned layout with:
 

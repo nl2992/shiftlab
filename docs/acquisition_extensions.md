@@ -81,8 +81,9 @@ official CriteoPrivateAds snapshot is acquired at pinned revision
 100M-impression, 30-day design includes click, landing, visit and sale outcomes; Criteo documents
 click/sale event delays in minutes. The Parquet schema exposes delay arrays for click, landed-click
 and sale outcomes. It is a distinct delayed-feedback source, not a substitute for sponsored-search
-records. `source_manifest.json` records the file inventory and metadata-only structural checks.
-See `scripts/acquire_criteo_private_ad.py`.
+records. `source_manifest.json` records the file inventory and metadata-only structural checks; all
+source files and the manifest are available on the private cross-device release. See
+`scripts/acquire_criteo_private_ad.py`.
 
 ## Observed external limitations
 

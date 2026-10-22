@@ -126,6 +126,37 @@ New-Item -ItemType Directory -Force $wildsRaw | Out-Null
 Move-Item -LiteralPath (Join-Path $inbox 'train-00000-of-00001.parquet') -Destination $wildsRaw
 Move-Item -LiteralPath (Join-Path $inbox 'train-00000-of-00001.parquet.receipt.json') -Destination $wildsRaw
 ```
+
+## Exceptionally large datasets
+
+Keep large data out of Git and use a data host, with a small versioned manifest in the repository
+that records the source, immutable revision, license, expected files, sizes, and checksums. The
+study scripts then read the verified files from the normal ignored `data/raw/` path. For private or
+licensed data, use an access-controlled host approved by the relevant agreement; the current WRDS
+archives stay on the private GitHub release. A private object-store bucket (S3-compatible, GCS, or
+Azure Blob) is a good home for future one-off files larger than release assets, but none is
+configured for this project yet.
+
+CriteoPrivateAds already has a suitable public upstream host: its pinned
+[Hugging Face dataset revision](https://huggingface.co/datasets/criteo/CriteoPrivateAd/tree/343645889b157f104ac23d0d07afa6a18115eb30).
+On another laptop, clone the repo and run the existing downloader to fetch the same 288 Parquet
+files directly into the study's raw-data path. It checks the pinned revision and each file's
+publisher SHA-256 before accepting it. This avoids downloading 288 separate GitHub release assets;
+the private release remains available as a mirror.
+
+```powershell
+cd C:\work\shiftlab
+uv sync
+uv run python scripts/acquire_criteo_private_ad.py --workers 4
+```
+
+The download is about 31.7 GiB, so allow that much free disk space plus room for derived outputs.
+For another laptop, the same script is restart-safe and can reuse verified local files. The source
+manifest is written to `data/raw/criteo_privatead/source_manifest.json`. The downloader's revision
+pin and checksums make this a reproducible source for the study, rather than a mutable "latest"
+snapshot. Hugging Face documents revision-pinned repository downloads in its
+[download guide](https://huggingface.co/docs/huggingface_hub/en/guides/download).
+
 The CRSP raw extracts still need the joins and date-availability rules described
 in `crsp_study_execution.md` before the study panel is complete.
 

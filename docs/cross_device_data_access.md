@@ -94,6 +94,27 @@ This archive is 1,467,859,270 bytes with SHA-256
 The raw-source receipts, version manifests and stored Parquet files are included. The repository
 contains code/configuration for the matching versions; no raw data is added to Git.
 
+The derived CRSP next-day study panel is available as
+`shiftlab_crsp_study_panel_2026-10-22.tar`. Download and extract it into the matching version
+directory on the second laptop:
+
+```powershell
+$bundle = Join-Path $env:TEMP 'shiftlab-crsp-study-panel'
+New-Item -ItemType Directory -Force $bundle | Out-Null
+gh release download data-2026-10-22 --repo nl2992/shiftlab --pattern 'shiftlab_crsp_study_panel_2026-10-22.tar' --dir $bundle
+$repo = 'C:\work\shiftlab'
+$version = '5211412140dcb86f08f9'
+$panel = Join-Path $repo "data\processed\crsp_ciz_next_day\$version"
+New-Item -ItemType Directory -Force $panel | Out-Null
+tar.exe -xf (Join-Path $bundle 'shiftlab_crsp_study_panel_2026-10-22.tar') -C $panel
+Get-FileHash -Algorithm SHA256 (Join-Path $panel 'observations.parquet')
+```
+
+The archive is 1,375,407,616 bytes with SHA-256
+`94b1c24310504073a5f98985121dbd267b1267718b2be7af183ab312bd63ec68`. Its manifest records
+32,774,131 rows, the verified raw-source manifests and checksums, and the target/split rules. The
+Parquet file SHA-256 is `a5bd25cbd9a6059f2653eca58c6316351a9237748cdf5521c18d18c0a76993a`.
+
    Each archive is below GitHub's 2 GiB per-release-file limit. Access remains
    restricted to users who can access the private repository.
 
@@ -202,8 +223,10 @@ pin and checksums make this a reproducible source for the study, rather than a m
 snapshot. Hugging Face documents revision-pinned repository downloads in its
 [download guide](https://huggingface.co/docs/huggingface_hub/en/guides/download).
 
-The CRSP raw extracts still need the joins and date-availability rules described
-in `crsp_study_execution.md` before the study panel is complete.
+The CRSP next-day panel is built and validated locally from the verified 2000–2025 extract. Its
+manifest and aggregate validation report record source checksums, row counts, target-quality rules,
+and chronological split counts. The retrospective close event clock is not point-in-time
+publication-time evidence; see `crsp_study_execution.md` before making online or causal claims.
 
 WRDS's current policy also says not to load retrieved WRDS data into LLMs unless
 the vendor permits a protected setup; avoid attaching observations to support

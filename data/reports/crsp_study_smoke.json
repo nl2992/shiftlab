@@ -1,0 +1,70 @@
+{
+  "analysis": "CRSP CIZ next-observed-return pipeline smoke test",
+  "panel_dataset": "crsp_ciz_next_day",
+  "panel_version": "5211412140dcb86f08f9",
+  "panel_manifest_sha256": "58f3ab8e656fa3ab896410c0071e72131b96b8f3a08dbb016ed409ff5513d133",
+  "observations_parquet_sha256": "a5bd25cbd9a6059f2653eca58c6316351a9237748cdf5521c18d18c0a76993a3",
+  "seed": 20261022,
+  "eligible_security_count": 3204,
+  "sampled_security_count": 100,
+  "cohort_rule": "Uniform fixed-seed sample from PERMNOs represented in train, validation, calibration, and test; this survivor cohort is for pipeline testing only.",
+  "row_counts": {
+    "train": 270236,
+    "validation": 74978,
+    "calibration": 50122,
+    "test": 133505
+  },
+  "model": "training-only median imputation, training-only standardization, Ridge(alpha=1)",
+  "calibration": {
+    "nominal_coverage": 0.9,
+    "n": 50122,
+    "absolute_residual_radius": 0.039964824485615,
+    "test_empirical_coverage": 0.8625369836335718,
+    "mean_interval_width": 0.07992964897123
+  },
+  "test_metrics": {
+    "n": 133505,
+    "mean_baseline_rmse": 0.04141926964013901,
+    "ridge_rmse": 0.04135146710901286,
+    "mean_baseline_mae": 0.021686982792243594,
+    "ridge_mae": 0.02168328262687148
+  },
+  "test_rmse_by_year": {
+    "2020": {
+      "n": 24271,
+      "mean_baseline_rmse": 0.05538627052852603,
+      "ridge_rmse": 0.05517777071363414
+    },
+    "2021": {
+      "n": 23523,
+      "mean_baseline_rmse": 0.03659195805048057,
+      "ridge_rmse": 0.03650873476361351
+    },
+    "2022": {
+      "n": 22743,
+      "mean_baseline_rmse": 0.03481445271691321,
+      "ridge_rmse": 0.03477381027649269
+    },
+    "2023": {
+      "n": 21676,
+      "mean_baseline_rmse": 0.047369810697524585,
+      "ridge_rmse": 0.047386834678805834
+    },
+    "2024": {
+      "n": 21106,
+      "mean_baseline_rmse": 0.032094746380249214,
+      "ridge_rmse": 0.032138698849721134
+    },
+    "2025": {
+      "n": 20186,
+      "mean_baseline_rmse": 0.03528974948474441,
+      "ridge_rmse": 0.03523576504856172
+    }
+  },
+  "limitations": [
+    "A deterministic sampled cohort selected for presence in all four splits; survivorship selection makes this unsuitable for inference.",
+    "Calibration/test coverage is descriptive for this smoke sample, not a conditional or online guarantee.",
+    "CRSP dates provide retrospective ordering, not verified historical release times.",
+    "No application-grounded utility, trading strategy, or causal shift attribution is evaluated."
+  ]
+}

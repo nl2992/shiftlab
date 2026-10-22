@@ -110,6 +110,35 @@ includes the panel version and checksums, sampled row counts, aggregate test err
 RMSE. This survivor cohort and single run are pipeline checks only; they are not population
 inference or evidence for a strategy, application utility, causal shift, or online guarantee.
 
+### Initial smoke result and experiment scope (2026-10-22)
+
+The committed-panel smoke run used 100 sampled PERMNOs (3,204 eligible across all splits), with
+270,236 training rows, 74,978 validation rows, 50,122 calibration rows, and 133,505 test rows.
+The training-mean baseline had test RMSE 0.041419 and MAE 0.021687; Ridge had RMSE 0.041351 and
+MAE 0.021683. The error difference is very small and changes sign by test year. A calibration
+radius targeting 90% covered 86.3% of test rows in this selected cohort. Exact metrics, annual
+breakdown, panel hashes, and limitations are recorded in `data/reports/crsp_study_smoke.json`.
+
+This supports the following next-experiment choices:
+
+- **Paper 2 (conformal):** the best candidate for a larger CRSP case study. Compare fixed and
+  rolling calibration over predeclared contiguous test blocks, with security/time-block uncertainty
+  and clear retrospective language. The smoke coverage shortfall motivates investigation; it does
+  not by itself establish a coverage failure or a benefit from adaptation.
+- **Paper 1 (decision drift):** keep confirmatory claims on synthetic data with known shift times.
+  CRSP has no known causal changepoints and no supplied decision utility, so market-period alarms
+  can be descriptive only.
+- **Paper 3 (cost-aware adaptation):** do not launch a large CRSP adaptation sweep from this smoke
+  alone. Predictive improvement over the mean baseline is negligible and there is no source-grounded
+  retraining or trading utility. Use the controlled synthetic suite for confirmatory adaptation
+  comparisons; consider CRSP as a secondary retrospective sensitivity analysis after fixing a
+  research cost schedule.
+
+Repeated random seeds are not the right uncertainty method for a fixed historical CRSP panel. For
+real-data inference, prioritize chronological blocks, security-level cohort checks, and
+dependence-aware resampling. Use paired independent DGP seeds for the synthetic confirmatory runs
+specified by each paper protocol.
+
 ## Study flow after extraction
 
 1. Process each security in `permno, dlycaldt` order. Define

@@ -1,0 +1,70 @@
+{
+  "dataset": "crsp_ciz_next_day",
+  "version": "5211412140dcb86f08f9",
+  "dataset_path": "data\\processed\\crsp_ciz_next_day\\5211412140dcb86f08f9",
+  "built_from_source_rows": 32803597,
+  "output_rows": 32774131,
+  "source_parts_verified": 147,
+  "raw_part_checksums_verified": true,
+  "annual_manifests_verified": 26,
+  "target_quality_rule": "Use the immediately next observed row for the same PERMNO; retain the target only when dlyret is finite, dlyretmissflg is NA (documented as not missing), and dlyretdurflg is one of D1,D2,D3,D4,DU (one trading day). Do not skip a bad next observation to find a later valid return. Delisting rows are retained when they pass this rule.",
+  "split_counts": {
+    "split:calibration": 2178352,
+    "split:test": 7621543,
+    "split:train": 19662345,
+    "split:unassigned": 13073,
+    "split:validation": 3298818
+  },
+  "processing_counts": {
+    "cross_split_purged": 13073,
+    "excluded_target_quality": 13729,
+    "feature_missing:dlyret": 8913,
+    "feature_missing:dlyreti": 8913,
+    "feature_missing:dlyretx": 8913,
+    "feature_missing:ewretd": 0,
+    "feature_missing:ewretx": 0,
+    "feature_missing:log1p_dlycap": 0,
+    "feature_missing:log1p_dlynumtrd": 13548110,
+    "feature_missing:log1p_dlyvol": 34,
+    "feature_missing:log_abs_dlyprc": 0,
+    "feature_missing:sprtrn": 0,
+    "feature_missing:vwretd": 0,
+    "feature_missing:vwretx": 0,
+    "no_next_observation": 15737,
+    "retained_targets": 32774131,
+    "source_rows_processed": 32803597,
+    "split:calibration": 2178352,
+    "split:test": 7621543,
+    "split:train": 19662345,
+    "split:unassigned": 13073,
+    "split:validation": 3298818
+  },
+  "feature_names": [
+    "dlyret",
+    "dlyretx",
+    "dlyreti",
+    "log_abs_dlyprc",
+    "log1p_dlyvol",
+    "log1p_dlycap",
+    "log1p_dlynumtrd",
+    "vwretd",
+    "vwretx",
+    "ewretd",
+    "ewretx",
+    "sprtrn"
+  ],
+  "output_file_checksums": {
+    "observations.parquet": "a5bd25cbd9a6059f2653eca58c6316351a9237748cdf5521c18d18c0a76993a3"
+  },
+  "dataset_manifest_sha256": "58f3ab8e656fa3ab896410c0071e72131b96b8f3a08dbb016ed409ff5513d133",
+  "builder_script_sha256": "31100cafb9a9fc37ddab02e7f0d3ae9184e049c5af157a8285c483742844ab41",
+  "observations_parquet_sha256": "a5bd25cbd9a6059f2653eca58c6316351a9237748cdf5521c18d18c0a76993a3",
+  "raw_checksums_manifest_sha256": "a77b7b959f083709e9775107563e902e72a0ff3f0aa6d99355de47157925b475",
+  "limitations": [
+    "Retrospective daily close ordering; exact historical feature and label release times are unavailable.",
+    "Empirical market regimes are not known causal changepoints.",
+    "Decision utility is not supplied; decision-loss claims require an explicit research utility.",
+    "Return-quality flags are retained in audit columns; the target mask is conservative and explicit.",
+    "Universe is the extracted US common-equity/share/exchange filter; inactive and delisted history remains included."
+  ]
+}

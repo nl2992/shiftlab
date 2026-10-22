@@ -31,6 +31,29 @@ uv run python scripts/build_data_report.py
 uv run pytest tests/data/ -q
 ```
 
+### Reproduce the stored synthetic smoke suite
+
+`configs/data/synthetic/smoke.yaml` fixes eight scenarios, 5,000 observations, four
+features, and DGP seed 42. Generate it on CPU with:
+
+```bash
+uv run python scripts/generate_synthetic.py --config configs/data/synthetic/smoke.yaml --root data --device cpu
+uv run python scripts/validate_datasets.py --root data
+uv run python scripts/build_data_report.py --root data
+```
+
+Each immutable version records the full generation configuration (including seed and
+chunk size), source hash, Git commit, and SHA-256 hashes for observations and evaluator-only
+oracle files. The same CPU configuration is bitwise-repeatable, and existing versions are
+checksum-validated and reused. The archived smoke set includes eight original versions
+created before Git provenance was available; their manifests retain seed 42 and a source
+hash, but have no recoverable Git commit. Regenerating the smoke suite in a Git checkout
+creates fully commit-pinned versions alongside those preserved originals. Use distinct DGP
+seeds for independent replicates and reuse the same seeds across methods for paired
+comparisons. CUDA uses an independent Torch RNG, so same-seed CPU/CUDA runs target
+distributional parity rather than identical arrays. Oracle files are evaluator-only and
+must not be passed to learners.
+
 All download commands default to dry-run; `--execute` allows acquisition. Source failures are
 errors, never replaced by synthetic or unrelated data. EIA bulk archive extraction supports multiple balancing authorities from the same checksummed archive; `eia_bulk_multi.yaml` builds CISO and ERCO retrospective next-hour tasks. Event-time splits do not imply publisher release availability. A credentialed FRED/ALFRED extract covers five series and 630 dated vintage records; WILDS and Criteo retain explicit source/terms limitations. There are no placeholder adapters.
 

@@ -7,7 +7,7 @@ import pytest
 
 from shiftlab.data.benchmark import evaluate_regression
 from shiftlab.data.cli import generate
-from shiftlab.data.provenance import sha256
+from shiftlab.data.provenance import commit, sha256
 from shiftlab.data.real.adapters import standardize
 from shiftlab.data.real.download import download
 from shiftlab.data.schemas import SyntheticConfig
@@ -63,6 +63,12 @@ def test_storage_integrity_and_immutability(tmp_path):
     manifest = json.loads(before)
     assert manifest["oracle_file"].startswith("evaluator_only/")
     assert manifest["source_hash"]
+    assert manifest["code_commit"] == commit()
+    assert manifest["processing_config"]["seed"] == config.seed
+    assert manifest["files"]["observations.parquet"] == sha256(path / "observations.parquet")
+    assert manifest["files"]["evaluator_only/oracle.parquet"] == sha256(
+        path / "evaluator_only/oracle.parquet"
+    )
     with (path / "observations.parquet").open("ab") as f:
         f.write(b"corrupt")
     with pytest.raises(ValueError):

@@ -7,13 +7,53 @@ experiments and are excluded from the new benchmark reports.
 
 ## Data acquisition and generation
 
-The versioned data framework, exact CLI commands, CUDA setup, acquired datasets and limitations
-are documented in [docs/data_phase1.md](docs/data_phase1.md). See [data/reports/experiment_readiness.md](data/reports/experiment_readiness.md)
-for per-version readiness, [data/reports/dataset_paper_suitability.md](data/reports/dataset_paper_suitability.md)
+Phase 1 data acquisition, cleaning, provenance, and validation are substantially complete for
+the sources available to this project. The latest audit records **101 validated dataset versions**,
+**205/205 verified raw-file references**, and zero dataset validation errors. Acquired sources
+include synthetic controls, Folktables, Criteo, CivilComments, FRED/ALFRED, Monash, and public
+energy and weather data. The private `data-2026-10-22` GitHub release also carries the large
+Phase 1 data bundle; see [cross-device data access](docs/cross_device_data_access.md) before
+restoring it on another machine.
+
+### Phase 1 data inventory
+
+Large raw and processed data files are stored as assets in the private
+[Phase 1 GitHub release](https://github.com/nl2992/shiftlab/releases/tag/data-2026-10-22),
+not in ordinary Git commits. The release archives include checksums and acquisition manifests;
+the restore guide lists exact asset names, sizes, and SHA-256 digests.
+
+| Data | What is available |
+| --- | --- |
+| CRSP CIZ and WRDS companions | Complete 2000–2025 daily CRSP extraction, annual manifests and part checksums; daily factors, Treasury series, Compustat annual fundamentals, and CCM link history. The derived next-day-return study panel is the next processing step. |
+| Criteo | Official 30-day attribution data (16,468,027 observations) and CriteoPrivateAds (103,862,032 rows across 288 verified source files). The separate 90-day Sponsored Search archive could not be acquired. |
+| Folktables | Five 2019 tasks across CA, NY, TX, FL, and NJ (143,285 task rows total), with source archives and processed panels. |
+| CivilComments / WILDS | Complete 448,000-row CivilComments raw mirror, pinned to a source revision with checksums and official split counts. |
+| Other real sources | Processed Monash M4 benchmarks, UCI Gas Sensor, NOAA, OPSD, EIA, FRED/ALFRED revisions, and Binance hourly data. Electricity and Weather Monash archives are retained, but conversion is withheld because their headers omit the forecast horizon. |
+| Synthetic suite | 46 immutable versions, including controlled shift scenarios and evaluator-only ground truth. |
+
+See the [dataset-to-paper suitability matrix](data/reports/dataset_paper_suitability.md) for
+row counts and study limits, the [data quality report](data/reports/data_quality_report.md) for
+validation findings, and the [Phase 1 audit](docs/phase1_completion_audit.md) for requirement
+status. Licensed raw files stay in the private release and are not committed to the Git tree.
+The separate 1TB Criteo click-log corpus is an optional scale benchmark available upstream;
+it is not included in the release and has no conversion-delay labels.
+
+This status is scoped to obtainable Phase 1 inputs and does not mean every desired source exists:
+the publisher-linked Criteo 90-day Sponsored Search archive remains unavailable, and some
+licensed or credentialed inputs require separate institutional access. The **CRSP CIZ 2000–2025
+WRDS extraction is complete and included in the private release**, together with its annual
+manifests and file checksums. The remaining CRSP work is to build and validate the derived
+next-day-return study panel using the documented joins, timing rules, and chronological splits.
+Research-scale, paper-specific seed sweeps remain subsequent work.
+
+For acquisition commands and source limitations, see [docs/data_phase1.md](docs/data_phase1.md)
+and [docs/acquisition_extensions.md](docs/acquisition_extensions.md). See
+[data/reports/experiment_readiness.md](data/reports/experiment_readiness.md) for per-version
+readiness, [data/reports/dataset_paper_suitability.md](data/reports/dataset_paper_suitability.md)
 for the source-level paper matrix, and [data/reports/data_quality_report.md](data/reports/data_quality_report.md)
-for actual checks. The full requirement status is maintained in [docs/phase1_completion_audit.md](docs/phase1_completion_audit.md);
-it remains in progress while source-specific and statistical gaps are addressed.
-The executed stationary-control evidence is in [data/reports/stationary_control_validation.json](data/reports/stationary_control_validation.json).
+for validation results. [docs/phase1_completion_audit.md](docs/phase1_completion_audit.md) maps
+the implementation to the Phase 1 requirements and records remaining source-specific limits.
+Stationary-control evidence is in [data/reports/stationary_control_validation.json](data/reports/stationary_control_validation.json).
 
 ## Install and run
 

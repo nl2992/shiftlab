@@ -28,7 +28,7 @@ the [WRDS Terms of Use](https://wrds-www.wharton.upenn.edu/users/tou/).
 2. The existing WRDS archive files are attached to the private GitHub release
    [`data-2026-10-22`](https://github.com/nl2992/shiftlab/releases/tag/data-2026-10-22).
    No data query needs to be rerun. On the second laptop, after signing into the
-   same GitHub account (`gh auth login` if needed), download all three archives:
+   same GitHub account (`gh auth login` if needed), download all four archives:
 
    ```powershell
    $bundle = Join-Path $env:TEMP 'shiftlab-wrds-archives'
@@ -54,6 +54,11 @@ the [WRDS Terms of Use](https://wrds-www.wharton.upenn.edu/users/tou/).
    Push-Location $raw
    tar.exe -xzf (Join-Path $bundle 'shiftlab_other_raw_2026-10-22.tar.gz')
    Pop-Location
+
+   Push-Location $repo
+   tar.exe -xzf (Join-Path $bundle 'shiftlab_phase1_derived_2026-10-22.tar.gz')
+   Pop-Location
+
    Push-Location $finance
    tar.exe -xf (Join-Path $bundle 'shiftlab_wrds_finance_2000_2025.tar')
    Pop-Location
@@ -67,6 +72,7 @@ the [WRDS Terms of Use](https://wrds-www.wharton.upenn.edu/users/tou/).
    | `shiftlab_crsp_ciz_2000_2025_verified.tar` | 1,353,994,240 bytes | `120b36a09b219736735b2dfc653cbca509492d6ff5c69e2255fe6be42dd4df4f` |
    | `shiftlab_wrds_finance_2000_2025.tar` | 20,746,240 bytes | `d8d59154232bd9fb97677a0fe25da6fa8faeba1e19a535afb71862772b53c184` |
    | `shiftlab_other_raw_2026-10-22.tar.gz` | 1,424,666,278 bytes | `1d6fa3075317803f92a8b76573585ba47c51759d4abb14393306981b08b1c7c4` |
+   | `shiftlab_phase1_derived_2026-10-22.tar.gz` | 134,743,479 bytes | `37a92abbd011bc7068216e609bb78d182d207b751710d7233f19c161321ceffe` |
 
    Each archive is below GitHub's 2 GiB per-release-file limit. Access remains
    restricted to users who can access the private repository.
@@ -88,10 +94,15 @@ the [WRDS Terms of Use](https://wrds-www.wharton.upenn.edu/users/tou/).
 ## Data available for this study
 
 The release contains the CRSP CIZ 2000–2025 extract, WRDS daily factors,
-Treasury, Compustat, CCM link history, and the remaining raw source folders.
-Extraction manifests and per-part checksums are included in the archives. The
-raw extracts still need the joins, date-availability rules, and processed
-ShiftLab dataset described in `crsp_study_execution.md`.
+Treasury, Compustat, CCM link history, other acquired raw sources, processed
+real-source datasets, synthetic scenario datasets and oracle outputs, run
+outputs, and acquisition manifests. Phase 1 reports are version-controlled in
+Git. Extraction manifests and per-part checksums are included in the archives.
+The Criteo and WILDS raw-source directories are empty because acquisition
+remains blocked for those sources; the release does not imply their data was
+obtained.
+The CRSP raw extracts still need the joins and date-availability rules described
+in `crsp_study_execution.md` before the study panel is complete.
 
 WRDS's current policy also says not to load retrieved WRDS data into LLMs unless
 the vendor permits a protected setup; avoid attaching observations to support

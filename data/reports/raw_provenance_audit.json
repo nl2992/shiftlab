@@ -1,8 +1,8 @@
 {
   "scope": "Raw source files currently retained at manifest-recorded paths",
-  "n_references": 173,
+  "n_references": 176,
   "counts": {
-    "verified": 173,
+    "verified": 176,
     "missing": 0,
     "mismatch": 0
   },
@@ -1390,6 +1390,30 @@
       "status": "verified",
       "expected_sha256": "6a7f2bc571314cbf9c321cc03437691cd4be95c3a6f075e60ff99e8035c704c8",
       "actual_sha256": "6a7f2bc571314cbf9c321cc03437691cd4be95c3a6f075e60ff99e8035c704c8"
+    },
+    {
+      "dataset": "wilds",
+      "version": "4339eeccfed040d382ee",
+      "raw_file": "train-00000-of-00001.parquet",
+      "status": "verified",
+      "expected_sha256": "1d8c81d7ee043c87a43175f3685ce4ffae28b0a9dc2fe5bd5d5cd7ade1c07731",
+      "actual_sha256": "1d8c81d7ee043c87a43175f3685ce4ffae28b0a9dc2fe5bd5d5cd7ade1c07731"
+    },
+    {
+      "dataset": "wilds",
+      "version": "a31c761c6b2a029d8abb",
+      "raw_file": "train-00000-of-00001.parquet",
+      "status": "verified",
+      "expected_sha256": "1d8c81d7ee043c87a43175f3685ce4ffae28b0a9dc2fe5bd5d5cd7ade1c07731",
+      "actual_sha256": "1d8c81d7ee043c87a43175f3685ce4ffae28b0a9dc2fe5bd5d5cd7ade1c07731"
+    },
+    {
+      "dataset": "wilds",
+      "version": "c4f79606707951bcba11",
+      "raw_file": "train-00000-of-00001.parquet",
+      "status": "verified",
+      "expected_sha256": "1d8c81d7ee043c87a43175f3685ce4ffae28b0a9dc2fe5bd5d5cd7ade1c07731",
+      "actual_sha256": "1d8c81d7ee043c87a43175f3685ce4ffae28b0a9dc2fe5bd5d5cd7ade1c07731"
     }
   ],
   "interpretation": "Missing means the historical manifest retains a checksum but its raw file is absent; it is not evidence of a changed source. Mismatch indicates present bytes differ."

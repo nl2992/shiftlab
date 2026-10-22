@@ -114,8 +114,17 @@ uv run python scripts/restore_criteo_private_ad_release.py --inbox $inbox
 
 The restore script verifies every size and SHA-256, puts files under the ignored raw-data tree,
 and writes download receipts so the pinned acquisition command recognizes them locally. WILDS
-CivilComments was acquired from its pinned raw mirror; its small source file remains portable via
-the source manifest or the acquisition script.
+CivilComments was acquired from its pinned raw mirror. Its raw Parquet file and receipt are also
+release assets; download and restore them with:
+
+```powershell
+gh release download data-2026-10-22 --repo nl2992/shiftlab --pattern 'train-00000-of-00001.parquet' --dir $inbox
+gh release download data-2026-10-22 --repo nl2992/shiftlab --pattern 'train-00000-of-00001.parquet.receipt.json' --dir $inbox
+$wildsRaw = Join-Path $repo 'data\raw\wilds\civilcomments-hf\raw'
+New-Item -ItemType Directory -Force $wildsRaw | Out-Null
+Move-Item -LiteralPath (Join-Path $inbox 'train-00000-of-00001.parquet') -Destination $wildsRaw
+Move-Item -LiteralPath (Join-Path $inbox 'train-00000-of-00001.parquet.receipt.json') -Destination $wildsRaw
+```
 The CRSP raw extracts still need the joins and date-availability rules described
 in `crsp_study_execution.md` before the study panel is complete.
 

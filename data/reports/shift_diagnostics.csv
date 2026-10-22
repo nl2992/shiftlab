@@ -1277,3 +1277,9 @@ target_variance,ff65712a55b8b96f10ba,1,1250.0,1250.0,inconclusive,first/last qua
 target_variance,ff65712a55b8b96f10ba,2,1250.0,1250.0,inconclusive,first/last quarter capped at 2000,uncorrected descriptive KS; may be dependent/confounded,asymptotic two-sample KS; descriptive under dependence/confounding,-0.01404628231145377,0.028000000000000025,0.7003288665195928,0.0394993420939979,-0.08937740407270033,0.04659930617322592,35.0,500.0,Moving-block percentile interval; requires within-window stationarity/weak dependence; complete-case gaps and confounding remain,,,
 target_variance,ff65712a55b8b96f10ba,3,1250.0,1250.0,inconclusive,first/last quarter capped at 2000,uncorrected descriptive KS; may be dependent/confounded,asymptotic two-sample KS; descriptive under dependence/confounding,0.042981359239504156,0.043200000000000016,0.1883541198887001,0.04047482406181715,-0.024778193530571615,0.12593170245147423,35.0,500.0,Moving-block percentile interval; requires within-window stationarity/weak dependence; complete-case gaps and confounding remain,,,
 target_variance,ff65712a55b8b96f10ba,covariance,,,inconclusive; complete-case selection may confound,,,,,,,,,,,,,0.1661181224555083,,
+wilds,4339eeccfed040d382ee,class_0.0,,,inconclusive,,,,,,,,,,,,,,0.266,1.0
+wilds,4339eeccfed040d382ee,class_1.0,,,inconclusive,,,,,,,,,,,,,,0.734,0.0
+wilds,a31c761c6b2a029d8abb,class_0.0,,,inconclusive,,,,,,,,,,,,,,0.266,1.0
+wilds,a31c761c6b2a029d8abb,class_1.0,,,inconclusive,,,,,,,,,,,,,,0.734,0.0
+wilds,c4f79606707951bcba11,class_0.0,,,inconclusive,,,,,,,,,,,,,,0.266,1.0
+wilds,c4f79606707951bcba11,class_1.0,,,inconclusive,,,,,,,,,,,,,,0.734,0.0

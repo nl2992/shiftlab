@@ -6,6 +6,7 @@ import argparse
 import hashlib
 import json
 import subprocess
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
 
 
@@ -17,15 +18,22 @@ def sha256(path: Path) -> str:
     return digest.hexdigest()
 
 
+def upload_one(tag: str, repo: str, path: Path) -> None:
+    subprocess.run(
+        ["gh", "release", "upload", tag, str(path.resolve()), "--repo", repo],
+        check=True,
+    )
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--root", type=Path, default=Path("data/raw/criteo_privatead"))
     parser.add_argument("--repo", default="nl2992/shiftlab")
     parser.add_argument("--tag", default="data-2026-10-22")
-    parser.add_argument("--batch-size", type=int, default=16)
+    parser.add_argument("--workers", type=int, default=6)
     args = parser.parse_args()
-    if args.batch_size < 1 or args.batch_size > 24:
-        parser.error("--batch-size must be from 1 to 24")
+    if args.workers < 1 or args.workers > 12:
+        parser.error("--workers must be from 1 to 12")
 
     manifest_path = args.root / "source_manifest.json"
     manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
@@ -61,6 +69,13 @@ def main() -> None:
         if remote is None:
             pending.append(path)
             continue
+        if remote.get("state") != "uploaded":
+            subprocess.run(
+                ["gh", "release", "delete-asset", args.tag, name, "--repo", args.repo, "--yes"],
+                check=True,
+            )
+            pending.append(path)
+            continue
         remote_digest = (remote.get("digest") or "").removeprefix("sha256:")
         if remote.get("size") != size or remote_digest != digest:
             raise ValueError(
@@ -70,24 +85,12 @@ def main() -> None:
         print("All CriteoPrivateAd files and manifest already match the private release.")
         return
 
-    for start in range(0, len(pending), args.batch_size):
-        batch = pending[start : start + args.batch_size]
-        subprocess.run(
-            [
-                "gh",
-                "release",
-                "upload",
-                args.tag,
-                *(str(path.resolve()) for path in batch),
-                "--repo",
-                args.repo,
-            ],
-            check=True,
-        )
-        print(
-            f"Uploaded {min(start + len(batch), len(pending))}/{len(pending)} pending release assets",
-            flush=True,
-        )
+    with ThreadPoolExecutor(max_workers=args.workers) as executor:
+        futures = [executor.submit(upload_one, args.tag, args.repo, path) for path in pending]
+        for index, future in enumerate(as_completed(futures), start=1):
+            future.result()
+            if index % 8 == 0 or index == len(futures):
+                print(f"Uploaded {index}/{len(pending)} pending release assets", flush=True)
 
 
 if __name__ == "__main__":

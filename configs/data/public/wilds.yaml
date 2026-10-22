@@ -1,3 +1,3 @@
 dataset: civilcomments
-max_per_split: 500
-max_download_bytes: 130000000
+max_per_split: 269038
+max_download_bytes: 150000000

@@ -116,16 +116,16 @@ uv sync --extra wilds
 uv run python scripts/download_data.py --dataset wilds --config configs/data/public/wilds.yaml --execute
 ```
 
-The repo's acquisition audit records a certificate failure at the official
-CivilComments host; TLS verification remains enabled. Criteo has a configured
-adapter and command:
+The official CivilComments host has a certificate failure, so ShiftLab uses the full raw mirror
+pinned by revision, checksum, and official split counts. Criteo's separate 90-day Sponsored Search
+archive still has an unavailable publisher endpoint and a source-verified delay-unit requirement.
+The distinct official CriteoPrivateAds release is acquired and checksummed; the 1TB CriteoClickLogs
+source is click-only. The original adapter and command remain specific to Sponsored Search:
 
 ```powershell
 uv run python scripts/download_data.py --dataset criteo --config configs/data/public/criteo.yaml --execute
 ```
 
-The Criteo adapter requires a source-verified delay unit before processing. Its
-official archive endpoint returned 404 in the latest recorded check, so retrying
-may still fail until the publisher restores the file or provides an authorized
-local export. Do not substitute a different Criteo dataset without changing the
-study target and availability protocol.
+Do not feed CriteoPrivateAds or CriteoClickLogs rows into that adapter as though they were Sponsored
+Search. Their task definitions, event fields, and sampling populations differ; configure a separate
+study dataset and availability protocol for either source.

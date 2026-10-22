@@ -54,7 +54,12 @@ not substitute commonly used benchmark horizons for a source-declared horizon. R
 evidence, split counts and processed-manifest hashes in `data/reports/monash_execution.json`.
 
 WILDS adapters cover CivilComments, Amazon, FMoW, iWildCam and Camelyon17. Official partitions and
-metadata stay intact. CivilComments text is stored separately from targets. Other inputs refer
+metadata stay intact. CivilComments text is stored separately from targets. The official CodaLab
+host currently fails TLS certificate validation, so the full raw 448,000-row parquet mirror from
+`pietrolesci/civilcomments-wilds` is pinned by revision and SHA-256, with official split counts
+checked before export. Use its `raw/` file only: the mirror's processed default drops repeated
+text rows and is not the full benchmark. The source is CC0 as documented by WILDS; the mirror is
+a transport alternative, not a replacement dataset. Other inputs refer
 to an existing official installation; export never decodes images. `load_input` loads one input.
 The official WILDS package supplies metric definitions. If compiled torch_scatter is unavailable,
 only arithmetic group means use an equivalent native torch reduction; the returned description
@@ -65,9 +70,19 @@ the genuine WILDS 2.0 constructor, exported references and metric evaluator.
 Criteo imports separate click time, conversion event time and outcome availability. Outcomes,
 conversion revenue and delay cannot be features. Delay units must come from a verified README
 or export specification. Negatives without complete follow-up retain unknown availability.
-Instantaneous click-feature delivery is an explicit assumption when selected. The publisher
-describes a roughly 310 MB compressed archive under CC BY-NC-SA 4.0; it is never downloaded during
-installation or CI. Permitted existing local exports can be imported with `path`.
+Instantaneous click-feature delivery is an explicit assumption when selected. The publisher's
+90-day sponsored-search archive is distinct from its 1TB click-log benchmark and CriteoPrivateAds.
+The old sponsored-search archive URL was unavailable in our environment; the Reddit report that
+the 1TB benchmark mirror was fixed is consistent with the current official CriteoClickLogs listing,
+but that click-only corpus does not contain conversion-delay labels. Separately, the complete
+official CriteoPrivateAds snapshot is acquired at pinned revision
+`343645889b157f104ac23d0d07afa6a18115eb30`: 288 files, 30 day partitions, 103,862,032 rows,
+34,029,639,414 bytes, one stable Parquet schema, and all publisher SHA-256 values verified. Its
+100M-impression, 30-day design includes click, landing, visit and sale outcomes; Criteo documents
+click/sale event delays in minutes. The Parquet schema exposes delay arrays for click, landed-click
+and sale outcomes. It is a distinct delayed-feedback source, not a substitute for sponsored-search
+records. `source_manifest.json` records the file inventory and metadata-only structural checks.
+See `scripts/acquire_criteo_private_ad.py`.
 
 ## Observed external limitations
 
@@ -79,7 +94,8 @@ installation or CI. Permitted existing local exports can be imported with `path`
   records conservative date-resolution availability. EIA API-key access is not configured, while
   the real NYIS subset is acquired from the official keyless bulk archive.
 - CivilComments: the official CodaLab host fails certificate validation. TLS verification stays
-  enabled. [Upstream issue](https://github.com/p-lambda/wilds/issues/173) also records the outage.
+  enabled. The complete raw mirror was acquired and verified instead; see the WILDS section above.
+  [Upstream issue](https://github.com/p-lambda/wilds/issues/173) records the outage.
 - Criteo: rechecked the official landing page and linked archive on 2026-10-20. The landing page
   still documents the 90-day click/conversion sample and CC BY-NC-SA 4.0 terms; its linked `go.criteo.net`
   archive currently returns HTTP 404 to this host, and the named Azure Blob hostname returns DNS

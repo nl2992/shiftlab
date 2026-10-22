@@ -1,7 +1,6 @@
 """Official WILDS partitions and lazy inputs, without converting domain groups into time."""
 
 import json
-import tarfile
 import uuid
 from contextlib import nullcontext
 from functools import lru_cache
@@ -15,9 +14,14 @@ from .common import save_source, structured_rows
 from .download import download
 
 SUPPORTED = {"civilcomments", "amazon", "fmow", "iwildcam", "camelyon17"}
-CIVIL_URL = (
-    "https://worksheets.codalab.org/rest/bundles/0x8cd3de0634154aeaad2ee6eb96723c6e/contents/blob/"
+CIVIL_HF_REVISION = "c227534cc0a34cf21db6a0bf0edd0f9050c8b305"
+CIVIL_HF_URL = (
+    "https://huggingface.co/datasets/pietrolesci/civilcomments-wilds/resolve/"
+    f"{CIVIL_HF_REVISION}/raw/train-00000-of-00001.parquet?download=true"
 )
+CIVIL_HF_SHA256 = "1d8c81d7ee043c87a43175f3685ce4ffae28b0a9dc2fe5bd5d5cd7ade1c07731"
+CIVIL_HF_BYTES = 137_912_393
+OFFICIAL_SPLIT_COUNTS = {"train": 269_038, "val": 45_180, "test": 133_782}
 IDENTITIES = ["male", "female", "LGBTQ", "christian", "muslim", "other_religions", "black", "white"]
 
 
@@ -39,15 +43,18 @@ def civilcomments_export(original: pd.DataFrame, config: dict, root: Path, raw_p
     )
     labels = (selected.toxicity >= 0.5).astype(int).to_numpy()
     metadata = []
-    for source_index, row in selected.iterrows():
-        payload = json.loads(row.drop(labels=["comment_text"]).to_json())
-        payload.update(
-            official_row_index=str(source_index),
-            official_split=row["split"],
-            identity_threshold=0.5,
-            official_metric="accuracy and worst identity-by-label group accuracy",
-        )
-        metadata.append(json.dumps(payload))
+    metadata_columns = selected.drop(columns=["comment_text"])
+    for start in range(0, len(selected), 10_000):
+        batch = metadata_columns.iloc[start : start + 10_000]
+        payloads = json.loads(batch.to_json(orient="records"))
+        for source_index, split, payload in zip(batch.index, batch["split"], payloads, strict=True):
+            payload.update(
+                official_row_index=str(source_index),
+                official_split=split,
+                identity_threshold=0.5,
+                official_metric="accuracy and worst identity-by-label group accuracy",
+            )
+            metadata.append(json.dumps(payload))
     references = [
         json.dumps({"kind": "parquet_text", "path": "inputs.parquet", "row": i, "column": "text"})
         for i in range(len(selected))
@@ -56,6 +63,18 @@ def civilcomments_export(original: pd.DataFrame, config: dict, root: Path, raw_p
     frame["split"] = selected.split.map(
         {"train": "train", "val": "validation", "test": "test"}
     ).to_numpy()
+    source_counts = original["split"].value_counts().to_dict()
+    selected_counts = selected["split"].value_counts().to_dict()
+    full_official_dataset = (
+        source_counts == OFFICIAL_SPLIT_COUNTS and selected_counts == source_counts
+    )
+    limitations = [
+        "Text stored separately from targets. No individual event/feature/release times supplied by WILDS; online replay is unavailable."
+    ]
+    if not full_official_dataset:
+        limitations.append(
+            "Deterministic per-split subset: results on this subset are not full official benchmark scores."
+        )
     return save_source(
         "wilds",
         config,
@@ -65,8 +84,7 @@ def civilcomments_export(original: pd.DataFrame, config: dict, root: Path, raw_p
         ["comment_text"],
         [
             "CivilComments-wilds v1.0; source CC0. Official train/val/test and identity annotations retained.",
-            "Deterministic per-split subset: results on this subset are not full official benchmark scores.",
-            "Text stored separately from targets. No individual event/feature/release times supplied by WILDS; online replay is unavailable.",
+            *limitations,
         ],
         ground_truth="coarse_domains",
         artifacts={"inputs.parquet": inputs},
@@ -74,6 +92,13 @@ def civilcomments_export(original: pd.DataFrame, config: dict, root: Path, raw_p
             "feature_kind": "structured_reference",
             "feature_dtype": "text reference",
             "license": "CC0 1.0 (CivilComments source as documented by WILDS)",
+            "source_split_counts": source_counts,
+            "selected_split_counts": selected_counts,
+            "full_official_dataset": full_official_dataset,
+            "acquisition_mirror": "https://huggingface.co/datasets/pietrolesci/civilcomments-wilds",
+            "mirror_revision": CIVIL_HF_REVISION,
+            "mirror_raw_file_sha256": CIVIL_HF_SHA256,
+            "mirror_validation": "Raw file SHA-256 and all three official WILDS split counts verified; mirror's deduplicated processed config was not used.",
         },
     )
 
@@ -200,19 +225,42 @@ def acquire(config, root: Path):
         )
     if "path" in config:
         path = Path(config["path"])
-        original = pd.read_csv(path, index_col=0)
+        original = (
+            pd.read_parquet(path)
+            if path.suffix.lower() == ".parquet"
+            else pd.read_csv(path, index_col=0)
+        )
         return civilcomments_export(original, config, root, [path])
+    max_bytes = int(config.get("max_download_bytes", 150_000_000))
+    if max_bytes < CIVIL_HF_BYTES:
+        raise ValueError(
+            f"Pinned WILDS mirror is {CIVIL_HF_BYTES} bytes; increase max_download_bytes"
+        )
     path = download(
-        CIVIL_URL,
-        root / "raw/wilds/civilcomments-v1.0.tar.gz",
-        max_bytes=config.get("max_download_bytes", 130_000_000),
+        CIVIL_HF_URL,
+        root / "raw/wilds/civilcomments-hf/raw/train-00000-of-00001.parquet",
+        expected_sha256=CIVIL_HF_SHA256,
+        max_bytes=max_bytes,
     )
-    with tarfile.open(path, mode="r|gz") as archive:
-        for member in archive:
-            if member.isfile() and Path(member.name).name == "all_data_with_identities.csv":
-                original = pd.read_csv(archive.extractfile(member), index_col=0)
-                return civilcomments_export(original, config, root, [path])
-    raise ValueError("Official CivilComments archive lacks all_data_with_identities.csv")
+    original = pd.read_parquet(path)
+    split_counts = original["split"].value_counts().to_dict()
+    if split_counts != OFFICIAL_SPLIT_COUNTS:
+        raise ValueError(
+            "Pinned WILDS mirror does not match official split counts: "
+            f"{split_counts!r} != {OFFICIAL_SPLIT_COUNTS!r}"
+        )
+    if len(original) != sum(OFFICIAL_SPLIT_COUNTS.values()):
+        raise ValueError("Pinned WILDS mirror row count disagrees with official split counts")
+    config = {
+        **config,
+        "source_mirror": "https://huggingface.co/datasets/pietrolesci/civilcomments-wilds",
+        "source_mirror_revision": CIVIL_HF_REVISION,
+        "source_mirror_file": "raw/train-00000-of-00001.parquet",
+        "source_mirror_file_sha256": CIVIL_HF_SHA256,
+        "official_wilds_split_counts": split_counts,
+        "full_official_dataset": True,
+    }
+    return civilcomments_export(original, config, root, [path])
 
 
 def load_input(version_directory: Path, reference: str):

@@ -101,9 +101,21 @@ Git. Extraction manifests and per-part checksums are included in the archives.
 The synthetic collection contains 46 stored versions: the original 38 plus the
 eight seed-42 smoke cases regenerated at commit `2c915c1` with full code-commit
 and file-checksum provenance.
-The Criteo and WILDS raw-source directories are empty because acquisition
-remains blocked for those sources; the release does not imply their data was
-obtained.
+The 90-day Criteo Sponsored Search archive remains unavailable. CriteoPrivateAds is a separate
+acquired source; its 288 source files and checksum manifest are added as flat assets on the release.
+After downloading `source_manifest.json` and `part-*.parquet` into an inbox, restore the original
+day-partitioned layout with:
+
+```powershell
+gh release download data-2026-10-22 --repo nl2992/shiftlab --pattern 'source_manifest.json' --dir $inbox
+gh release download data-2026-10-22 --repo nl2992/shiftlab --pattern 'part-*.parquet' --dir $inbox
+uv run python scripts/restore_criteo_private_ad_release.py --inbox $inbox
+```
+
+The restore script verifies every size and SHA-256, puts files under the ignored raw-data tree,
+and writes download receipts so the pinned acquisition command recognizes them locally. WILDS
+CivilComments was acquired from its pinned raw mirror; its small source file remains portable via
+the source manifest or the acquisition script.
 The CRSP raw extracts still need the joins and date-availability rules described
 in `crsp_study_execution.md` before the study panel is complete.
 

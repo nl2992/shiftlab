@@ -276,11 +276,15 @@ Moving-block bootstrap intervals for first/last-window feature means are impleme
 within-window stationarity and weak-dependence assumptions. They do not correct confounding,
 missing-data selection or multiple comparisons.
 
-Domain-stratified classifier comparisons, causal drift
-attribution, revision-aware release reconstruction, daily OPSD tasks, the remaining source
-adapters and exhaustive selected GPU parameter sweeps remain unfinished. The minimum working
-data foundation exceeds four synthetic classes and three acquired real sources, but this is
-not a claim that every item in the comprehensive roadmap is complete.
+The current implementation includes domain/group comparisons, OPSD hourly and daily tasks,
+and adapters for the registered sources; their tests and limits are summarized in
+[`phase1_completion_audit.md`](phase1_completion_audit.md). Remaining work is substantive:
+observational diagnostics do not identify causal drift without a defensible design; FRED
+vintages retain date-level revision events but not exact intraday release times; Criteo and
+WILDS live data remain unavailable from the current sources; application-grounded decision
+utilities have not been supplied; and large 100-seed final experiments or exhaustive GPU
+parameter sweeps have not been run. Do not treat these constraints as evidence of successful
+acquisition or as scientific results.
 
 
 The original baseline tracks can consume these versioned regression data through

@@ -1,9 +1,9 @@
 {
   "environment": {
     "cpu_ram_bytes": 16858472448,
-    "disk_free_bytes": 69056651264,
+    "disk_free_bytes": 57810841600,
     "cuda_available": false,
-    "nvidia_smi": "NVIDIA GeForce RTX 4060 Laptop GPU, 8188 MiB, 592.82, 0 %, 10 MiB",
+    "nvidia_smi": "NVIDIA GeForce RTX 4060 Laptop GPU, 8188 MiB, 592.82, 0 %, 0 MiB",
     "torch_version": null,
     "versions": {
       "numpy": "2.5.4",
@@ -14,6 +14,107 @@
     }
   },
   "datasets": [
+    {
+      "schema_version": "1.1.0",
+      "dataset": "ar1",
+      "version": "2054a117aa59dbdb3af4",
+      "publisher": "ShiftLab",
+      "source_url": "local://shiftlab/data/synthetic",
+      "citation": "ShiftLab synthetic specification v1",
+      "license": "MIT",
+      "permitted_use": "Research and reuse under MIT",
+      "acquired_at": "2026-10-22T07:49:20.542801+00:00",
+      "retrieval_parameters": {},
+      "raw_checksums": {},
+      "processing_config": {
+        "scenario": "ar1",
+        "n": 5000,
+        "d": 4,
+        "seed": 42,
+        "change_fraction": 0.5,
+        "severity": 1.0,
+        "noise": 0.3,
+        "delay": 0,
+        "missing": 0.0,
+        "rho": 0.6,
+        "pattern": "abrupt",
+        "regimes": 2,
+        "review_period": 100,
+        "transition_fraction": 0.1,
+        "device": "cpu",
+        "dtype": "float64",
+        "chunk_size": 10000,
+        "memory_mb": 512,
+        "output": "data",
+        "train_fraction": 0.2,
+        "validation_fraction": 0.1,
+        "calibration_fraction": 0.1
+      },
+      "task_specs": [
+        {
+          "task_id": "synthetic_ar1",
+          "task_kind": "regression",
+          "target_definition": "known synthetic DGP target; exact evaluator oracle remains separate",
+          "forecast_horizon": null,
+          "valid_target_mask": "target is finite; rows with missing target are excluded from metric computation",
+          "evaluation_metrics": [
+            "oracle risk",
+            "task-appropriate prediction metrics"
+          ],
+          "label_availability_rule": "simulation feedback delay and missingness configuration",
+          "utility_provenance": "Synthetic imposed utility only; not application-grounded."
+        }
+      ],
+      "code_commit": "2c915c1da13a07c077aeea269c91e414622b6fa6",
+      "source_hash": "cb0ced75c05a1a759b96d1d28c1d20da45298ec2a4d3f73763eaddad7e14e5cd",
+      "n_observations": 5000,
+      "feature_names": [
+        "x0",
+        "x1",
+        "x2",
+        "x3"
+      ],
+      "feature_dtype": "float64",
+      "feature_kind": "numeric",
+      "time_coverage": [
+        "0",
+        "4999"
+      ],
+      "domains": [
+        "synthetic"
+      ],
+      "missingness": {
+        "target": 0.0,
+        "features": 0.0
+      },
+      "limitations": [
+        "Research-imposed utilities.",
+        "Oracle quantiles are DGP conditional or marginal as labelled; not a guarantee for a fitted model.",
+        "Dependence scenarios require dependence-aware inference."
+      ],
+      "ground_truth": "synthetic_known",
+      "files": {
+        "observations.parquet": "87454a9972414635c969770c949441e2f01aedfa5a0b1be2ffefa271d9cf005e",
+        "evaluator_only/oracle.parquet": "41948c63cac6c12efcacfa05184ce8ae431367742145f963f23bb3198bc03d4f",
+        "evaluator_only/dgp.json": "320ee47de11aa7c44874cf32295a2a15ffe43819fb9435dc2e1a1df5cca52741"
+      },
+      "oracle_file": "evaluator_only/oracle.parquet",
+      "environment": {
+        "cpu_ram_bytes": 16858472448,
+        "disk_free_bytes": 57816776704,
+        "cuda_available": false,
+        "nvidia_smi": "NVIDIA GeForce RTX 4060 Laptop GPU, 8188 MiB, 592.82, 0 %, 0 MiB",
+        "torch_version": null,
+        "versions": {
+          "numpy": "2.5.4",
+          "scipy": "1.18.1",
+          "pandas": "3.0.6",
+          "pyarrow": "25.0.1",
+          "folktables": "0.0.12"
+        }
+      },
+      "path": "data\\synthetic\\ar1\\2054a117aa59dbdb3af4"
+    },
     {
       "schema_version": "1.0.0",
       "dataset": "ar1",
@@ -1133,6 +1234,107 @@
         "gpu_memory_bytes": 8585216000
       },
       "path": "data\\synthetic\\concept\\9e54140b081e7e572f2a"
+    },
+    {
+      "schema_version": "1.1.0",
+      "dataset": "concept",
+      "version": "aa70da4f86492b9f8084",
+      "publisher": "ShiftLab",
+      "source_url": "local://shiftlab/data/synthetic",
+      "citation": "ShiftLab synthetic specification v1",
+      "license": "MIT",
+      "permitted_use": "Research and reuse under MIT",
+      "acquired_at": "2026-10-22T07:49:21.191471+00:00",
+      "retrieval_parameters": {},
+      "raw_checksums": {},
+      "processing_config": {
+        "scenario": "concept",
+        "n": 5000,
+        "d": 4,
+        "seed": 42,
+        "change_fraction": 0.5,
+        "severity": 1.0,
+        "noise": 0.3,
+        "delay": 0,
+        "missing": 0.0,
+        "rho": 0.6,
+        "pattern": "abrupt",
+        "regimes": 2,
+        "review_period": 100,
+        "transition_fraction": 0.1,
+        "device": "cpu",
+        "dtype": "float64",
+        "chunk_size": 10000,
+        "memory_mb": 512,
+        "output": "data",
+        "train_fraction": 0.2,
+        "validation_fraction": 0.1,
+        "calibration_fraction": 0.1
+      },
+      "task_specs": [
+        {
+          "task_id": "synthetic_concept",
+          "task_kind": "regression",
+          "target_definition": "known synthetic DGP target; exact evaluator oracle remains separate",
+          "forecast_horizon": null,
+          "valid_target_mask": "target is finite; rows with missing target are excluded from metric computation",
+          "evaluation_metrics": [
+            "oracle risk",
+            "task-appropriate prediction metrics"
+          ],
+          "label_availability_rule": "simulation feedback delay and missingness configuration",
+          "utility_provenance": "Synthetic imposed utility only; not application-grounded."
+        }
+      ],
+      "code_commit": "2c915c1da13a07c077aeea269c91e414622b6fa6",
+      "source_hash": "cb0ced75c05a1a759b96d1d28c1d20da45298ec2a4d3f73763eaddad7e14e5cd",
+      "n_observations": 5000,
+      "feature_names": [
+        "x0",
+        "x1",
+        "x2",
+        "x3"
+      ],
+      "feature_dtype": "float64",
+      "feature_kind": "numeric",
+      "time_coverage": [
+        "0",
+        "4999"
+      ],
+      "domains": [
+        "synthetic"
+      ],
+      "missingness": {
+        "target": 0.0,
+        "features": 0.0
+      },
+      "limitations": [
+        "Research-imposed utilities.",
+        "Oracle quantiles are DGP conditional or marginal as labelled; not a guarantee for a fitted model.",
+        "Dependence scenarios require dependence-aware inference."
+      ],
+      "ground_truth": "synthetic_known",
+      "files": {
+        "observations.parquet": "bb13badad24024dc4ed5e4488141a41b0c18417201627f4b971652aeba482840",
+        "evaluator_only/oracle.parquet": "d77174563bd712c189406f198c8c62ddf63f2b811d5ee55b31f98ab08c37f8fa",
+        "evaluator_only/dgp.json": "f52f598d8f489c8c7199e6adc0ab728d72434da897e8b808030d7acba0d866b6"
+      },
+      "oracle_file": "evaluator_only/oracle.parquet",
+      "environment": {
+        "cpu_ram_bytes": 16858472448,
+        "disk_free_bytes": 57815666688,
+        "cuda_available": false,
+        "nvidia_smi": "NVIDIA GeForce RTX 4060 Laptop GPU, 8188 MiB, 592.82, 0 %, 0 MiB",
+        "torch_version": null,
+        "versions": {
+          "numpy": "2.5.4",
+          "scipy": "1.18.1",
+          "pandas": "3.0.6",
+          "pyarrow": "25.0.1",
+          "folktables": "0.0.12"
+        }
+      },
+      "path": "data\\synthetic\\concept\\aa70da4f86492b9f8084"
     },
     {
       "schema_version": "1.1.0",
@@ -4998,6 +5200,107 @@
       "path": "data\\synthetic\\heavy_tailed\\cd57bce8c0d99669b557"
     },
     {
+      "schema_version": "1.1.0",
+      "dataset": "heavy_tailed",
+      "version": "f1122899d44646c9fcfe",
+      "publisher": "ShiftLab",
+      "source_url": "local://shiftlab/data/synthetic",
+      "citation": "ShiftLab synthetic specification v1",
+      "license": "MIT",
+      "permitted_use": "Research and reuse under MIT",
+      "acquired_at": "2026-10-22T07:49:22.248910+00:00",
+      "retrieval_parameters": {},
+      "raw_checksums": {},
+      "processing_config": {
+        "scenario": "heavy_tailed",
+        "n": 5000,
+        "d": 4,
+        "seed": 42,
+        "change_fraction": 0.5,
+        "severity": 1.0,
+        "noise": 0.3,
+        "delay": 0,
+        "missing": 0.0,
+        "rho": 0.6,
+        "pattern": "abrupt",
+        "regimes": 2,
+        "review_period": 100,
+        "transition_fraction": 0.1,
+        "device": "cpu",
+        "dtype": "float64",
+        "chunk_size": 10000,
+        "memory_mb": 512,
+        "output": "data",
+        "train_fraction": 0.2,
+        "validation_fraction": 0.1,
+        "calibration_fraction": 0.1
+      },
+      "task_specs": [
+        {
+          "task_id": "synthetic_heavy_tailed",
+          "task_kind": "regression",
+          "target_definition": "known synthetic DGP target; exact evaluator oracle remains separate",
+          "forecast_horizon": null,
+          "valid_target_mask": "target is finite; rows with missing target are excluded from metric computation",
+          "evaluation_metrics": [
+            "oracle risk",
+            "task-appropriate prediction metrics"
+          ],
+          "label_availability_rule": "simulation feedback delay and missingness configuration",
+          "utility_provenance": "Synthetic imposed utility only; not application-grounded."
+        }
+      ],
+      "code_commit": "2c915c1da13a07c077aeea269c91e414622b6fa6",
+      "source_hash": "cb0ced75c05a1a759b96d1d28c1d20da45298ec2a4d3f73763eaddad7e14e5cd",
+      "n_observations": 5000,
+      "feature_names": [
+        "x0",
+        "x1",
+        "x2",
+        "x3"
+      ],
+      "feature_dtype": "float64",
+      "feature_kind": "numeric",
+      "time_coverage": [
+        "0",
+        "4999"
+      ],
+      "domains": [
+        "synthetic"
+      ],
+      "missingness": {
+        "target": 0.0,
+        "features": 0.0
+      },
+      "limitations": [
+        "Research-imposed utilities.",
+        "Oracle quantiles are DGP conditional or marginal as labelled; not a guarantee for a fitted model.",
+        "Dependence scenarios require dependence-aware inference."
+      ],
+      "ground_truth": "synthetic_known",
+      "files": {
+        "observations.parquet": "16c00ae36ef45d3096c226cb9510a6425eea21c1517a405dd762b24e3fb05399",
+        "evaluator_only/oracle.parquet": "9bc3039413c1f390300f7aa9c798268810a4827961e3ff33fc367aa1444d59ae",
+        "evaluator_only/dgp.json": "32b2ead4cddec226db6c2d746745985996fbd64c2e27d5cb3d782781496c95c5"
+      },
+      "oracle_file": "evaluator_only/oracle.parquet",
+      "environment": {
+        "cpu_ram_bytes": 16858472448,
+        "disk_free_bytes": 57814048768,
+        "cuda_available": false,
+        "nvidia_smi": "NVIDIA GeForce RTX 4060 Laptop GPU, 8188 MiB, 592.82, 0 %, 0 MiB",
+        "torch_version": null,
+        "versions": {
+          "numpy": "2.5.4",
+          "scipy": "1.18.1",
+          "pandas": "3.0.6",
+          "pyarrow": "25.0.1",
+          "folktables": "0.0.12"
+        }
+      },
+      "path": "data\\synthetic\\heavy_tailed\\f1122899d44646c9fcfe"
+    },
+    {
       "schema_version": "1.0.0",
       "dataset": "hidden_cost",
       "version": "317e25bbc10d4e6843dd",
@@ -5246,6 +5549,107 @@
       "path": "data\\synthetic\\hidden_cost\\3d8c473169d966eeafb1"
     },
     {
+      "schema_version": "1.1.0",
+      "dataset": "hidden_cost",
+      "version": "418980a5fc11aebb9f98",
+      "publisher": "ShiftLab",
+      "source_url": "local://shiftlab/data/synthetic",
+      "citation": "ShiftLab synthetic specification v1",
+      "license": "MIT",
+      "permitted_use": "Research and reuse under MIT",
+      "acquired_at": "2026-10-22T07:49:22.611222+00:00",
+      "retrieval_parameters": {},
+      "raw_checksums": {},
+      "processing_config": {
+        "scenario": "hidden_cost",
+        "n": 5000,
+        "d": 4,
+        "seed": 42,
+        "change_fraction": 0.5,
+        "severity": 1.0,
+        "noise": 0.3,
+        "delay": 0,
+        "missing": 0.0,
+        "rho": 0.6,
+        "pattern": "abrupt",
+        "regimes": 2,
+        "review_period": 100,
+        "transition_fraction": 0.1,
+        "device": "cpu",
+        "dtype": "float64",
+        "chunk_size": 10000,
+        "memory_mb": 512,
+        "output": "data",
+        "train_fraction": 0.2,
+        "validation_fraction": 0.1,
+        "calibration_fraction": 0.1
+      },
+      "task_specs": [
+        {
+          "task_id": "synthetic_hidden_cost",
+          "task_kind": "regression",
+          "target_definition": "known synthetic DGP target; exact evaluator oracle remains separate",
+          "forecast_horizon": null,
+          "valid_target_mask": "target is finite; rows with missing target are excluded from metric computation",
+          "evaluation_metrics": [
+            "oracle risk",
+            "task-appropriate prediction metrics"
+          ],
+          "label_availability_rule": "simulation feedback delay and missingness configuration",
+          "utility_provenance": "Synthetic imposed utility only; not application-grounded."
+        }
+      ],
+      "code_commit": "2c915c1da13a07c077aeea269c91e414622b6fa6",
+      "source_hash": "cb0ced75c05a1a759b96d1d28c1d20da45298ec2a4d3f73763eaddad7e14e5cd",
+      "n_observations": 5000,
+      "feature_names": [
+        "x0",
+        "x1",
+        "x2",
+        "x3"
+      ],
+      "feature_dtype": "float64",
+      "feature_kind": "numeric",
+      "time_coverage": [
+        "0",
+        "4999"
+      ],
+      "domains": [
+        "synthetic"
+      ],
+      "missingness": {
+        "target": 0.0,
+        "features": 0.0
+      },
+      "limitations": [
+        "Research-imposed utilities.",
+        "Oracle quantiles are DGP conditional or marginal as labelled; not a guarantee for a fitted model.",
+        "Dependence scenarios require dependence-aware inference."
+      ],
+      "ground_truth": "synthetic_known",
+      "files": {
+        "observations.parquet": "c61be469ae7ed86912c3d5020d750929056ef11c9bab6859349574e4048eb8af",
+        "evaluator_only/oracle.parquet": "a1384270602609babcfee878cd98a1a8b81b796eeb1c413223b595129526f21b",
+        "evaluator_only/dgp.json": "48c0a2a30c35f59f1d0e4d301a1202f5ab689fed4f82c1384a5f34c3dcb1a450"
+      },
+      "oracle_file": "evaluator_only/oracle.parquet",
+      "environment": {
+        "cpu_ram_bytes": 16858472448,
+        "disk_free_bytes": 57813495808,
+        "cuda_available": false,
+        "nvidia_smi": "NVIDIA GeForce RTX 4060 Laptop GPU, 8188 MiB, 592.82, 0 %, 0 MiB",
+        "torch_version": null,
+        "versions": {
+          "numpy": "2.5.4",
+          "scipy": "1.18.1",
+          "pandas": "3.0.6",
+          "pyarrow": "25.0.1",
+          "folktables": "0.0.12"
+        }
+      },
+      "path": "data\\synthetic\\hidden_cost\\418980a5fc11aebb9f98"
+    },
+    {
       "schema_version": "1.0.0",
       "dataset": "iid_regression",
       "version": "2ec3afaae147c5e67b5c",
@@ -5472,6 +5876,107 @@
         }
       },
       "path": "data\\synthetic\\iid_regression\\6172f78b8ffa9e08f94c"
+    },
+    {
+      "schema_version": "1.1.0",
+      "dataset": "iid_regression",
+      "version": "69e08181d6ac7d071f67",
+      "publisher": "ShiftLab",
+      "source_url": "local://shiftlab/data/synthetic",
+      "citation": "ShiftLab synthetic specification v1",
+      "license": "MIT",
+      "permitted_use": "Research and reuse under MIT",
+      "acquired_at": "2026-10-22T07:49:20.185308+00:00",
+      "retrieval_parameters": {},
+      "raw_checksums": {},
+      "processing_config": {
+        "scenario": "iid_regression",
+        "n": 5000,
+        "d": 4,
+        "seed": 42,
+        "change_fraction": 0.5,
+        "severity": 1.0,
+        "noise": 0.3,
+        "delay": 0,
+        "missing": 0.0,
+        "rho": 0.6,
+        "pattern": "abrupt",
+        "regimes": 2,
+        "review_period": 100,
+        "transition_fraction": 0.1,
+        "device": "cpu",
+        "dtype": "float64",
+        "chunk_size": 10000,
+        "memory_mb": 512,
+        "output": "data",
+        "train_fraction": 0.2,
+        "validation_fraction": 0.1,
+        "calibration_fraction": 0.1
+      },
+      "task_specs": [
+        {
+          "task_id": "synthetic_iid_regression",
+          "task_kind": "regression",
+          "target_definition": "known synthetic DGP target; exact evaluator oracle remains separate",
+          "forecast_horizon": null,
+          "valid_target_mask": "target is finite; rows with missing target are excluded from metric computation",
+          "evaluation_metrics": [
+            "oracle risk",
+            "task-appropriate prediction metrics"
+          ],
+          "label_availability_rule": "simulation feedback delay and missingness configuration",
+          "utility_provenance": "Synthetic imposed utility only; not application-grounded."
+        }
+      ],
+      "code_commit": "2c915c1da13a07c077aeea269c91e414622b6fa6",
+      "source_hash": "cb0ced75c05a1a759b96d1d28c1d20da45298ec2a4d3f73763eaddad7e14e5cd",
+      "n_observations": 5000,
+      "feature_names": [
+        "x0",
+        "x1",
+        "x2",
+        "x3"
+      ],
+      "feature_dtype": "float64",
+      "feature_kind": "numeric",
+      "time_coverage": [
+        "0",
+        "4999"
+      ],
+      "domains": [
+        "synthetic"
+      ],
+      "missingness": {
+        "target": 0.0,
+        "features": 0.0
+      },
+      "limitations": [
+        "Research-imposed utilities.",
+        "Oracle quantiles are DGP conditional or marginal as labelled; not a guarantee for a fitted model.",
+        "Dependence scenarios require dependence-aware inference."
+      ],
+      "ground_truth": "synthetic_known",
+      "files": {
+        "observations.parquet": "f404cd513fb57cf644722f7ce205602a24283defafa9e5105dbe99c6bfc6a45b",
+        "evaluator_only/oracle.parquet": "c5c46c90e74e54bf2baabd3e3a0e3584a41d10533fdf93c259f14fdf93db73f5",
+        "evaluator_only/dgp.json": "d6c429d316811cf65c4092ccd8e4b04bb11a2482de67db5b3d34083002b6b1c9"
+      },
+      "oracle_file": "evaluator_only/oracle.parquet",
+      "environment": {
+        "cpu_ram_bytes": 16858472448,
+        "disk_free_bytes": 57817329664,
+        "cuda_available": false,
+        "nvidia_smi": "NVIDIA GeForce RTX 4060 Laptop GPU, 8188 MiB, 592.82, 0 %, 0 MiB",
+        "torch_version": null,
+        "versions": {
+          "numpy": "2.5.4",
+          "scipy": "1.18.1",
+          "pandas": "3.0.6",
+          "pyarrow": "25.0.1",
+          "folktables": "0.0.12"
+        }
+      },
+      "path": "data\\synthetic\\iid_regression\\69e08181d6ac7d071f67"
     },
     {
       "schema_version": "1.0.0",
@@ -5860,6 +6365,107 @@
         "gpu_memory_bytes": 8585216000
       },
       "path": "data\\synthetic\\irrelevant\\0776b20e3a343bd75dda"
+    },
+    {
+      "schema_version": "1.1.0",
+      "dataset": "irrelevant",
+      "version": "6214dd25d33709869d63",
+      "publisher": "ShiftLab",
+      "source_url": "local://shiftlab/data/synthetic",
+      "citation": "ShiftLab synthetic specification v1",
+      "license": "MIT",
+      "permitted_use": "Research and reuse under MIT",
+      "acquired_at": "2026-10-22T07:49:20.868594+00:00",
+      "retrieval_parameters": {},
+      "raw_checksums": {},
+      "processing_config": {
+        "scenario": "irrelevant",
+        "n": 5000,
+        "d": 4,
+        "seed": 42,
+        "change_fraction": 0.5,
+        "severity": 1.0,
+        "noise": 0.3,
+        "delay": 0,
+        "missing": 0.0,
+        "rho": 0.6,
+        "pattern": "abrupt",
+        "regimes": 2,
+        "review_period": 100,
+        "transition_fraction": 0.1,
+        "device": "cpu",
+        "dtype": "float64",
+        "chunk_size": 10000,
+        "memory_mb": 512,
+        "output": "data",
+        "train_fraction": 0.2,
+        "validation_fraction": 0.1,
+        "calibration_fraction": 0.1
+      },
+      "task_specs": [
+        {
+          "task_id": "synthetic_irrelevant",
+          "task_kind": "regression",
+          "target_definition": "known synthetic DGP target; exact evaluator oracle remains separate",
+          "forecast_horizon": null,
+          "valid_target_mask": "target is finite; rows with missing target are excluded from metric computation",
+          "evaluation_metrics": [
+            "oracle risk",
+            "task-appropriate prediction metrics"
+          ],
+          "label_availability_rule": "simulation feedback delay and missingness configuration",
+          "utility_provenance": "Synthetic imposed utility only; not application-grounded."
+        }
+      ],
+      "code_commit": "2c915c1da13a07c077aeea269c91e414622b6fa6",
+      "source_hash": "cb0ced75c05a1a759b96d1d28c1d20da45298ec2a4d3f73763eaddad7e14e5cd",
+      "n_observations": 5000,
+      "feature_names": [
+        "x0",
+        "x1",
+        "x2",
+        "x3"
+      ],
+      "feature_dtype": "float64",
+      "feature_kind": "numeric",
+      "time_coverage": [
+        "0",
+        "4999"
+      ],
+      "domains": [
+        "synthetic"
+      ],
+      "missingness": {
+        "target": 0.0,
+        "features": 0.0
+      },
+      "limitations": [
+        "Research-imposed utilities.",
+        "Oracle quantiles are DGP conditional or marginal as labelled; not a guarantee for a fitted model.",
+        "Dependence scenarios require dependence-aware inference."
+      ],
+      "ground_truth": "synthetic_known",
+      "files": {
+        "observations.parquet": "aa0ab90b6c628cf70d7c19a2f3f87ccb44d1ff3fb9288dc08f14fc11eff3b139",
+        "evaluator_only/oracle.parquet": "87b384f3cc4e32e71c4f28e68631158359d82998b5ae248eacb90be0f9e5fcfc",
+        "evaluator_only/dgp.json": "5d7a15426591f251e87283e7a78910f5cb7ca2506faf07725135e787984bb298"
+      },
+      "oracle_file": "evaluator_only/oracle.parquet",
+      "environment": {
+        "cpu_ram_bytes": 16858472448,
+        "disk_free_bytes": 57816219648,
+        "cuda_available": false,
+        "nvidia_smi": "NVIDIA GeForce RTX 4060 Laptop GPU, 8188 MiB, 592.82, 0 %, 0 MiB",
+        "torch_version": null,
+        "versions": {
+          "numpy": "2.5.4",
+          "scipy": "1.18.1",
+          "pandas": "3.0.6",
+          "pyarrow": "25.0.1",
+          "folktables": "0.0.12"
+        }
+      },
+      "path": "data\\synthetic\\irrelevant\\6214dd25d33709869d63"
     },
     {
       "schema_version": "1.0.0",
@@ -7546,6 +8152,107 @@
     },
     {
       "schema_version": "1.1.0",
+      "dataset": "prior_shift",
+      "version": "abbff93d3272b88b7a04",
+      "publisher": "ShiftLab",
+      "source_url": "local://shiftlab/data/synthetic",
+      "citation": "ShiftLab synthetic specification v1",
+      "license": "MIT",
+      "permitted_use": "Research and reuse under MIT",
+      "acquired_at": "2026-10-22T07:49:21.855619+00:00",
+      "retrieval_parameters": {},
+      "raw_checksums": {},
+      "processing_config": {
+        "scenario": "prior_shift",
+        "n": 5000,
+        "d": 4,
+        "seed": 42,
+        "change_fraction": 0.5,
+        "severity": 1.0,
+        "noise": 0.3,
+        "delay": 0,
+        "missing": 0.0,
+        "rho": 0.6,
+        "pattern": "abrupt",
+        "regimes": 2,
+        "review_period": 100,
+        "transition_fraction": 0.1,
+        "device": "cpu",
+        "dtype": "float64",
+        "chunk_size": 10000,
+        "memory_mb": 512,
+        "output": "data",
+        "train_fraction": 0.2,
+        "validation_fraction": 0.1,
+        "calibration_fraction": 0.1
+      },
+      "task_specs": [
+        {
+          "task_id": "synthetic_prior_shift",
+          "task_kind": "classification",
+          "target_definition": "known synthetic DGP target; exact evaluator oracle remains separate",
+          "forecast_horizon": null,
+          "valid_target_mask": "target is finite; rows with missing target are excluded from metric computation",
+          "evaluation_metrics": [
+            "oracle risk",
+            "task-appropriate prediction metrics"
+          ],
+          "label_availability_rule": "simulation feedback delay and missingness configuration",
+          "utility_provenance": "Synthetic imposed utility only; not application-grounded."
+        }
+      ],
+      "code_commit": "2c915c1da13a07c077aeea269c91e414622b6fa6",
+      "source_hash": "cb0ced75c05a1a759b96d1d28c1d20da45298ec2a4d3f73763eaddad7e14e5cd",
+      "n_observations": 5000,
+      "feature_names": [
+        "x0",
+        "x1",
+        "x2",
+        "x3"
+      ],
+      "feature_dtype": "float64",
+      "feature_kind": "numeric",
+      "time_coverage": [
+        "0",
+        "4999"
+      ],
+      "domains": [
+        "synthetic"
+      ],
+      "missingness": {
+        "target": 0.0,
+        "features": 0.0
+      },
+      "limitations": [
+        "Research-imposed utilities.",
+        "Oracle quantiles are DGP conditional or marginal as labelled; not a guarantee for a fitted model.",
+        "Dependence scenarios require dependence-aware inference."
+      ],
+      "ground_truth": "synthetic_known",
+      "files": {
+        "observations.parquet": "14b041c544674f048f441d2bd42c2477eb559837e07229e24459e203db86e9f6",
+        "evaluator_only/oracle.parquet": "0e211c5eb6509ead9a06ac5615226de9275cc2226d3560d361d446ea68b365ad",
+        "evaluator_only/dgp.json": "4f097329820772c39ad7411f20b2054f0a972f2b2af78c3e9dfa490bd072c333"
+      },
+      "oracle_file": "evaluator_only/oracle.parquet",
+      "environment": {
+        "cpu_ram_bytes": 16858472448,
+        "disk_free_bytes": 57814560768,
+        "cuda_available": false,
+        "nvidia_smi": "NVIDIA GeForce RTX 4060 Laptop GPU, 8188 MiB, 592.82, 0 %, 0 MiB",
+        "torch_version": null,
+        "versions": {
+          "numpy": "2.5.4",
+          "scipy": "1.18.1",
+          "pandas": "3.0.6",
+          "pyarrow": "25.0.1",
+          "folktables": "0.0.12"
+        }
+      },
+      "path": "data\\synthetic\\prior_shift\\abbff93d3272b88b7a04"
+    },
+    {
+      "schema_version": "1.1.0",
       "dataset": "target_variance",
       "version": "0b907947193c744fd05c",
       "publisher": "ShiftLab",
@@ -7714,6 +8421,107 @@
         }
       },
       "path": "data\\synthetic\\target_variance\\1b4799bc4d7f91e90331"
+    },
+    {
+      "schema_version": "1.1.0",
+      "dataset": "target_variance",
+      "version": "3868905063fc0161a3ae",
+      "publisher": "ShiftLab",
+      "source_url": "local://shiftlab/data/synthetic",
+      "citation": "ShiftLab synthetic specification v1",
+      "license": "MIT",
+      "permitted_use": "Research and reuse under MIT",
+      "acquired_at": "2026-10-22T07:49:21.513443+00:00",
+      "retrieval_parameters": {},
+      "raw_checksums": {},
+      "processing_config": {
+        "scenario": "target_variance",
+        "n": 5000,
+        "d": 4,
+        "seed": 42,
+        "change_fraction": 0.5,
+        "severity": 1.0,
+        "noise": 0.3,
+        "delay": 0,
+        "missing": 0.0,
+        "rho": 0.6,
+        "pattern": "abrupt",
+        "regimes": 2,
+        "review_period": 100,
+        "transition_fraction": 0.1,
+        "device": "cpu",
+        "dtype": "float64",
+        "chunk_size": 10000,
+        "memory_mb": 512,
+        "output": "data",
+        "train_fraction": 0.2,
+        "validation_fraction": 0.1,
+        "calibration_fraction": 0.1
+      },
+      "task_specs": [
+        {
+          "task_id": "synthetic_target_variance",
+          "task_kind": "regression",
+          "target_definition": "known synthetic DGP target; exact evaluator oracle remains separate",
+          "forecast_horizon": null,
+          "valid_target_mask": "target is finite; rows with missing target are excluded from metric computation",
+          "evaluation_metrics": [
+            "oracle risk",
+            "task-appropriate prediction metrics"
+          ],
+          "label_availability_rule": "simulation feedback delay and missingness configuration",
+          "utility_provenance": "Synthetic imposed utility only; not application-grounded."
+        }
+      ],
+      "code_commit": "2c915c1da13a07c077aeea269c91e414622b6fa6",
+      "source_hash": "cb0ced75c05a1a759b96d1d28c1d20da45298ec2a4d3f73763eaddad7e14e5cd",
+      "n_observations": 5000,
+      "feature_names": [
+        "x0",
+        "x1",
+        "x2",
+        "x3"
+      ],
+      "feature_dtype": "float64",
+      "feature_kind": "numeric",
+      "time_coverage": [
+        "0",
+        "4999"
+      ],
+      "domains": [
+        "synthetic"
+      ],
+      "missingness": {
+        "target": 0.0,
+        "features": 0.0
+      },
+      "limitations": [
+        "Research-imposed utilities.",
+        "Oracle quantiles are DGP conditional or marginal as labelled; not a guarantee for a fitted model.",
+        "Dependence scenarios require dependence-aware inference."
+      ],
+      "ground_truth": "synthetic_known",
+      "files": {
+        "observations.parquet": "3d646f7508f03a5658a68764e441a3f5fb032819a81e32ab3f73de71b7f658ec",
+        "evaluator_only/oracle.parquet": "8286218a1bbd2516a1032fa2a5c28f69afe8e7aa0ec5d4ba6eaad087ca2050ca",
+        "evaluator_only/dgp.json": "c425e8035fdd977fe0e8cb9491f05c6e5d86f7f9d0391af836918924fb724198"
+      },
+      "oracle_file": "evaluator_only/oracle.parquet",
+      "environment": {
+        "cpu_ram_bytes": 16858472448,
+        "disk_free_bytes": 57815113728,
+        "cuda_available": false,
+        "nvidia_smi": "NVIDIA GeForce RTX 4060 Laptop GPU, 8188 MiB, 592.82, 0 %, 0 MiB",
+        "torch_version": null,
+        "versions": {
+          "numpy": "2.5.4",
+          "scipy": "1.18.1",
+          "pandas": "3.0.6",
+          "pyarrow": "25.0.1",
+          "folktables": "0.0.12"
+        }
+      },
+      "path": "data\\synthetic\\target_variance\\3868905063fc0161a3ae"
     },
     {
       "schema_version": "1.0.0",

@@ -2,6 +2,7 @@
 
 | Dataset version | Paper 1 | Paper 2 | Paper 3 | Timing/ground truth |
 |---|---|---|---|---|
+| `ar1@2054a117aa59dbdb3af4` | controlled decision study | regression/classification stream | stream ready | synthetic_known; known simulation clock |
 | `ar1@8a9348a9fe075dd2559f` | controlled decision study | regression/classification stream | stream ready | synthetic_known; known simulation clock |
 | `ar1@a303a4edf08d63bc4335` | controlled decision study | regression/classification stream | stream ready | synthetic_known; known simulation clock |
 | `ar1@e09dfc3a0f11f85226a4` | controlled decision study | regression/classification stream | stream ready | synthetic_known; known simulation clock |
@@ -16,6 +17,7 @@
 | `concept@719dbe4f2a23fd4d3c90` | controlled decision study | regression/classification stream | stream ready | synthetic_known; known simulation clock |
 | `concept@816c0d57d83b07c35c56` | controlled decision study | regression/classification stream | stream ready | synthetic_known; known simulation clock |
 | `concept@9e54140b081e7e572f2a` | controlled decision study | regression/classification stream | stream ready | synthetic_known; known simulation clock |
+| `concept@aa70da4f86492b9f8084` | controlled decision study | regression/classification stream | stream ready | synthetic_known; known simulation clock |
 | `concept@abcec6c0ebc1c0209130` | controlled decision study | regression/classification stream | stream ready | synthetic_known; known simulation clock |
 | `concept@aeef64a4714351e4f47e` | controlled decision study | regression/classification stream | stream ready | synthetic_known; known simulation clock |
 | `concept@cb2b4341f8101f96ff95` | controlled decision study | regression/classification stream | stream ready | synthetic_known; known simulation clock |
@@ -50,15 +52,19 @@
 | `heavy_tailed@1699ba0fe0307ba7bc81` | controlled decision study | regression/classification stream | stream ready | synthetic_known; known simulation clock |
 | `heavy_tailed@a79bff28e49b3694aa38` | controlled decision study | regression/classification stream | stream ready | synthetic_known; known simulation clock |
 | `heavy_tailed@cd57bce8c0d99669b557` | controlled decision study | regression/classification stream | stream ready | synthetic_known; known simulation clock |
+| `heavy_tailed@f1122899d44646c9fcfe` | controlled decision study | regression/classification stream | stream ready | synthetic_known; known simulation clock |
 | `hidden_cost@317e25bbc10d4e6843dd` | controlled decision study | regression/classification stream | stream ready | synthetic_known; known simulation clock |
 | `hidden_cost@35660b3cb557d4700abe` | controlled decision study | regression/classification stream | stream ready | synthetic_known; known simulation clock |
 | `hidden_cost@3d8c473169d966eeafb1` | controlled decision study | regression/classification stream | stream ready | synthetic_known; known simulation clock |
+| `hidden_cost@418980a5fc11aebb9f98` | controlled decision study | regression/classification stream | stream ready | synthetic_known; known simulation clock |
 | `iid_regression@2ec3afaae147c5e67b5c` | controlled decision study | regression/classification stream | stream ready | synthetic_known; known simulation clock |
 | `iid_regression@6172f78b8ffa9e08f94c` | controlled decision study | regression/classification stream | stream ready | synthetic_known; known simulation clock |
+| `iid_regression@69e08181d6ac7d071f67` | controlled decision study | regression/classification stream | stream ready | synthetic_known; known simulation clock |
 | `iid_regression@749d51b44e3a8a8068a5` | controlled decision study | regression/classification stream | stream ready | synthetic_known; known simulation clock |
 | `iid_regression@ec1804e2f447a6af06b9` | controlled decision study | regression/classification stream | stream ready | synthetic_known; known simulation clock |
 | `iid_regression@f2651e700ab64a957f07` | controlled decision study | regression/classification stream | stream ready | synthetic_known; known simulation clock |
 | `irrelevant@0776b20e3a343bd75dda` | controlled decision study | regression/classification stream | stream ready | synthetic_known; known simulation clock |
+| `irrelevant@6214dd25d33709869d63` | controlled decision study | regression/classification stream | stream ready | synthetic_known; known simulation clock |
 | `irrelevant@8d58c220c4b53d25104e` | controlled decision study | regression/classification stream | stream ready | synthetic_known; known simulation clock |
 | `irrelevant@92f0fb941cf3793f3461` | controlled decision study | regression/classification stream | stream ready | synthetic_known; known simulation clock |
 | `monash@4025c59613406900525e` | retrospective; utility imposed | retrospective forecast/conformal task; availability unknown | retrospective task; release-time protocol unknown | none; historical/coarse; no true changes |
@@ -81,8 +87,10 @@
 | `prior_shift@05dec821b91a162740bb` | controlled decision study | regression/classification stream | stream ready | synthetic_known; known simulation clock |
 | `prior_shift@1e9125458315feb8c23f` | controlled decision study | regression/classification stream | stream ready | synthetic_known; known simulation clock |
 | `prior_shift@291c4501c2352c682e2f` | controlled decision study | regression/classification stream | stream ready | synthetic_known; known simulation clock |
+| `prior_shift@abbff93d3272b88b7a04` | controlled decision study | regression/classification stream | stream ready | synthetic_known; known simulation clock |
 | `target_variance@0b907947193c744fd05c` | controlled decision study | regression/classification stream | stream ready | synthetic_known; known simulation clock |
 | `target_variance@1b4799bc4d7f91e90331` | controlled decision study | regression/classification stream | stream ready | synthetic_known; known simulation clock |
+| `target_variance@3868905063fc0161a3ae` | controlled decision study | regression/classification stream | stream ready | synthetic_known; known simulation clock |
 | `target_variance@5979e73e31d1c605cc2d` | controlled decision study | regression/classification stream | stream ready | synthetic_known; known simulation clock |
 | `target_variance@ff65712a55b8b96f10ba` | controlled decision study | regression/classification stream | stream ready | synthetic_known; known simulation clock |
 

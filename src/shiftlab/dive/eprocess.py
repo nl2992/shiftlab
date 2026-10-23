@@ -175,6 +175,78 @@ class PredictableVarianceAdaptiveEProcess:
         return self.log_e_value
 
 
+class PredictablePlugInEmpiricalBernsteinEProcess:
+    """One-sided PM-EB process for globally bounded conditional-mean nulls.
+
+    Inputs are scaled to ``[0, 1]`` and tested against mean ``1/2``. The stake
+    follows the predictable variance schedule of Waudby-Smith and Ramdas
+    (2024), capped below one. The process uses the predictable empirical
+    Bernstein correction based on squared deviations from the prior smoothed
+    mean. A fixed threshold ``1/alpha`` gives anytime control when the
+    conditional mean is at most ``1/2`` at every update. This class uses a
+    global support bound; it does not normalize by current covariates.
+    """
+
+    def __init__(
+        self,
+        *,
+        bound: float,
+        alpha: float = 0.05,
+        max_stake: float = 0.5,
+    ):
+        if not np.isfinite(bound) or bound <= 0:
+            raise ValueError("bound must be finite and positive")
+        if not np.isfinite(alpha) or not 0 < alpha < 1:
+            raise ValueError("alpha must lie strictly between zero and one")
+        if not np.isfinite(max_stake) or not 0 < max_stake < 1:
+            raise ValueError("max_stake must lie strictly between zero and one")
+        self.bound = float(bound)
+        self.alpha = float(alpha)
+        self.max_stake = float(max_stake)
+        self.n_updates = 0
+        self.sum_observations = 0.0
+        self.sum_predictive_squared_deviations = 0.0
+        self.predictive_mean = 0.5
+        self.predictive_variance = 0.25
+        self.log_wealth = 0.0
+        self.last_stake: float | None = None
+
+    @property
+    def stake(self) -> float:
+        """Return the next predictable PM-EB stake."""
+        time = self.n_updates + 1
+        numerator = 2 * np.log(2 / self.alpha)
+        denominator = self.predictive_variance * time * np.log1p(time)
+        return float(min(self.max_stake, np.sqrt(numerator / denominator)))
+
+    @property
+    def log_e_value(self) -> float:
+        return self.log_wealth
+
+    @property
+    def alarm(self) -> bool:
+        return self.log_e_value >= -np.log(self.alpha)
+
+    def update(self, value: float) -> float:
+        if not np.isfinite(value) or abs(value) > self.bound + 1e-12:
+            raise ValueError("observed value is outside the declared bounded range")
+        observation = 0.5 * (value / self.bound + 1)
+        stake = self.stake
+        psi = (-np.log1p(-stake) - stake) / 4
+        residual = observation - self.predictive_mean
+        increment = stake * (observation - 0.5) - 4 * residual**2 * psi
+        self.last_stake = stake
+        self.log_wealth += float(increment)
+        self.sum_observations += observation
+        time = self.n_updates + 1
+        self.predictive_mean = (0.5 + self.sum_observations) / (time + 1)
+        post_update_residual = observation - self.predictive_mean
+        self.sum_predictive_squared_deviations += post_update_residual**2
+        self.predictive_variance = (0.25 + self.sum_predictive_squared_deviations) / (time + 1)
+        self.n_updates = time
+        return self.log_e_value
+
+
 class StartedMixtureEProcess:
     """A prespecified mixture of e-processes started at fixed stream positions.
 

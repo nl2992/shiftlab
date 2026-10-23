@@ -1,0 +1,70 @@
+{
+  "experiment": "predictable_betting_rules_under_hard_query_caps",
+  "created_at_utc": "2026-10-23T14:33:55.543136+00:00",
+  "configuration": {
+    "streams_per_cell": 2000,
+    "horizon": 600,
+    "seed": 29102026,
+    "device": "cuda",
+    "alpha": 0.05,
+    "scenarios": [
+      "aggregate_zero",
+      "broad_positive",
+      "high_cost_only_positive"
+    ],
+    "high_costs": [
+      1.0,
+      2.0,
+      5.0
+    ],
+    "query_rates": [
+      0.1,
+      0.2,
+      0.3
+    ],
+    "fixed_stakes": [
+      0.05,
+      0.1,
+      0.2,
+      0.4,
+      0.8
+    ],
+    "adaptive_prior_strength": 4.0,
+    "adaptive_prior_mean": 0.05,
+    "adaptive_prior_second_moment": 0.25,
+    "adaptive_max_stake": 0.5,
+    "pm_eb_max_stake": 0.5,
+    "pm_eb_alpha_for_stake_schedule": 0.05
+  },
+  "reproduction_script": "scripts/calibrate_predictable_variance_stakes.py",
+  "reproduction_script_sha256": "d3e15c60704a33cae07c9be15c044d9009f3642005999fcd0676b0be151c31a8",
+  "artifacts": [
+    "metrics/predictable_stake_streams.parquet",
+    "metrics/predictable_stake_summary.parquet",
+    "metrics/predictable_stake_paired.parquet",
+    "figures/predictable_stake_calibration.png",
+    "reports/predictable_stake_calibration.md"
+  ],
+  "sha256": {
+    "artifacts": {
+      "metrics/predictable_stake_streams.parquet": "8494c82a4d69ee1b02d0a9d7fa9255fcb07b20af1f4807213904ce4d10585d6e",
+      "metrics/predictable_stake_summary.parquet": "0a76259ad17b93feca47f20ea877821092f93a8f780ff97ee0f5d385e11bc34f",
+      "metrics/predictable_stake_paired.parquet": "45898b6aa36a143747ef9f6140695e7fb9c5ce9b8196cd76f54f89e6c0852727",
+      "figures/predictable_stake_calibration.png": "95e1a826c5b502d850c27dc76818fde1cf5e191fdea74e55b7fa5f73b13e261d",
+      "reports/predictable_stake_calibration.md": "2e6ffd617dd4e00be5e473bf1a5b3e1a695d38d246d596a81c920a7e3c13721f"
+    }
+  },
+  "environment": {
+    "torch_version": "2.9.1+cu130",
+    "cuda_available": true,
+    "gpu_name": "NVIDIA GeForce RTX 4060 Laptop GPU",
+    "cuda_runtime": "13.0"
+  },
+  "information_protocol": [
+    "all methods receive identical query randomization and outcomes",
+    "querying stops before the next event when the hard label cap is exhausted",
+    "the global support bound is fixed before monitoring and common across methods",
+    "the evaluator-only scenario probabilities are not supplied to any betting rule",
+    "one candidate is tested per stream at alpha=0.05"
+  ]
+}

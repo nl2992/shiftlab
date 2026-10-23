@@ -53,6 +53,7 @@ def _plot_summary(summary: pd.DataFrame, path: Path) -> None:
             for rule, marker, label in (
                 ("fixed_mixture", "o", "Fixed mixture"),
                 ("predictable_variance_adaptive", "s", "Adaptive stake"),
+                ("predictable_plug_in_eb", "^", "PM-EB"),
             ):
                 series = cell[cell.betting_rule.eq(rule)].sort_values("query_rate")
                 axis.plot(
@@ -60,7 +61,11 @@ def _plot_summary(summary: pd.DataFrame, path: Path) -> None:
                     series.crossing_rate * 100,
                     marker=marker,
                     color=colors[high_cost],
-                    linestyle="-" if rule == "fixed_mixture" else "--",
+                    linestyle={
+                        "fixed_mixture": "-",
+                        "predictable_variance_adaptive": "--",
+                        "predictable_plug_in_eb": ":",
+                    }[rule],
                     label=label if row == 0 and col == 0 else None,
                 )
             if scenario == "aggregate_zero":
@@ -78,16 +83,17 @@ def _plot_summary(summary: pd.DataFrame, path: Path) -> None:
     handles = [
         plt.Line2D([0], [0], color="black", marker="o", label="Fixed mixture"),
         plt.Line2D([0], [0], color="black", marker="s", linestyle="--", label="Adaptive stake"),
+        plt.Line2D([0], [0], color="black", marker="^", linestyle=":", label="PM-EB"),
         *[plt.Line2D([0], [0], color=colors[cost], label=f"High cost {cost:g}") for cost in costs],
     ]
     fig.legend(
         handles=handles,
         loc="upper center",
         bbox_to_anchor=(0.5, 0.965),
-        ncol=5,
+        ncol=6,
         frameon=False,
     )
-    fig.suptitle("Fixed and predictable variance-adaptive betting", y=0.995)
+    fig.suptitle("Fixed betting, plug-in Kelly, and PM-EB", y=0.995)
     fig.tight_layout(rect=(0, 0, 1, 0.925))
     path.parent.mkdir(parents=True, exist_ok=True)
     fig.savefig(path, dpi=170)
@@ -126,9 +132,15 @@ def _simulate_cell(
     normalized_sum = torch.zeros(streams, dtype=torch.float64, device=device)
     normalized_squares = torch.zeros_like(normalized_sum)
     observed_events = torch.zeros_like(labels)
+    pm_log_wealth = torch.zeros(streams, dtype=torch.float64, device=device)
+    pm_sum_observations = torch.zeros_like(normalized_sum)
+    pm_sum_predictive_squared_deviations = torch.zeros_like(normalized_sum)
+    pm_predictive_mean = torch.full_like(normalized_sum, 0.5)
+    pm_predictive_variance = torch.full_like(normalized_sum, 0.25)
     crossed = {
         "fixed_mixture": torch.zeros(streams, dtype=torch.bool, device=device),
         "predictable_variance_adaptive": torch.zeros(streams, dtype=torch.bool, device=device),
+        "predictable_plug_in_eb": torch.zeros(streams, dtype=torch.bool, device=device),
     }
     fixed_log_weights = torch.full(
         (len(STAKES),), -np.log(len(STAKES)), dtype=torch.float64, device=device
@@ -157,6 +169,30 @@ def _simulate_cell(
         factor = 1 + stake * normalized
         adaptive_log_wealth += torch.where(active, torch.log(factor), 0.0)
         crossed["predictable_variance_adaptive"] |= active & (adaptive_log_wealth >= -np.log(ALPHA))
+
+        # Published predictably mixed empirical-Bernstein process on [0, 1].
+        pm_time = observed_events.to(torch.float64) + 1
+        pm_stake = torch.clamp(
+            torch.sqrt(
+                2 * np.log(2 / ALPHA) / (pm_predictive_variance * pm_time * torch.log1p(pm_time))
+            ),
+            max=0.5,
+        )
+        pm_observation = 0.5 * (normalized + 1)
+        pm_residual = pm_observation - pm_predictive_mean
+        pm_psi = (-torch.log1p(-pm_stake) - pm_stake) / 4
+        pm_increment = pm_stake * (pm_observation - 0.5) - 4 * pm_residual.square() * pm_psi
+        pm_log_wealth += torch.where(active, pm_increment, 0.0)
+        crossed["predictable_plug_in_eb"] |= active & (pm_log_wealth >= -np.log(ALPHA))
+        pm_sum_observations += torch.where(active, pm_observation, 0.0)
+        updated_pm_mean = (0.5 + pm_sum_observations) / (pm_time + 1)
+        pm_post_update_residual = pm_observation - updated_pm_mean
+        pm_sum_predictive_squared_deviations += torch.where(
+            active, pm_post_update_residual.square(), 0.0
+        )
+        updated_pm_variance = (0.25 + pm_sum_predictive_squared_deviations) / (pm_time + 1)
+        pm_predictive_mean = torch.where(active, updated_pm_mean, pm_predictive_mean)
+        pm_predictive_variance = torch.where(active, updated_pm_variance, pm_predictive_variance)
         normalized_sum += torch.where(active, normalized, 0.0)
         normalized_squares += torch.where(active, normalized.square(), 0.0)
         observed_events += active.to(torch.int32)
@@ -250,9 +286,9 @@ def run(
     pair_keys = ["scenario", "high_cost", "query_rate"]
     for key, group in detail.groupby(pair_keys, sort=False):
         paired = group.pivot(index="stream", columns="betting_rule", values="crossed")
-        difference = paired["predictable_variance_adaptive"].to_numpy(dtype=float) - paired[
-            "fixed_mixture"
-        ].to_numpy(dtype=float)
+        fixed = paired["fixed_mixture"].to_numpy(dtype=float)
+        difference = paired["predictable_variance_adaptive"].to_numpy(dtype=float) - fixed
+        pm_difference = paired["predictable_plug_in_eb"].to_numpy(dtype=float) - fixed
         radius = float(
             student_t.ppf(0.975, len(difference) - 1)
             * difference.std(ddof=1)
@@ -267,18 +303,34 @@ def run(
                 "adaptive_minus_fixed": float(difference.mean()),
                 "paired_ci_low": float(difference.mean() - radius),
                 "paired_ci_high": float(difference.mean() + radius),
+                "pm_eb_crossings": int(paired["predictable_plug_in_eb"].sum()),
+                "pm_eb_minus_fixed": float(pm_difference.mean()),
+                "pm_eb_paired_ci_low": float(
+                    pm_difference.mean()
+                    - student_t.ppf(0.975, len(pm_difference) - 1)
+                    * pm_difference.std(ddof=1)
+                    / np.sqrt(len(pm_difference))
+                ),
+                "pm_eb_paired_ci_high": float(
+                    pm_difference.mean()
+                    + student_t.ppf(0.975, len(pm_difference) - 1)
+                    * pm_difference.std(ddof=1)
+                    / np.sqrt(len(pm_difference))
+                ),
             }
         )
     pd.DataFrame(paired_rows).to_parquet(paired_path, index=False)
 
     lines = [
-        "# Predictable variance-adaptive betting calibration",
+        "# Matched comparison of predictable betting rules",
         "",
-        f"This CUDA/CPU calibration compares the fixed five-stake bounded e-process with a predictable plug-in Kelly stake over {streams} paired streams per cell, a {horizon}-event horizon, and pathwise caps of 10%, 20%, and 30%.",
+        f"This CUDA/CPU calibration compares a fixed five-stake bounded e-process, a predictable plug-in Kelly stake, and the published predictable plug-in empirical-Bernstein (PM-EB) process over {streams} paired streams per cell, a {horizon}-event horizon, and pathwise caps of 10%, 20%, and 30%.",
         "",
         "The adaptive rule normalizes every observed inverse-propensity gain by the same global support bound, then chooses the next stake as `clip(max(0, smoothed_mean) / smoothed_second_moment, 0, 0.5)`. Its smoothed prior has strength 4, normalized mean 0.05, and second moment 0.25. This is a plug-in approximation to the Kelly fraction from a quadratic expansion of expected log wealth. The stake depends only on prior observations. Under the history-conditional null `E[X_t | F_(t-1)] <= 0`, each factor `1 + lambda_t X_t / B` is nonnegative and has conditional expectation at most one for any predictable `lambda_t` in `[0,1]`; Ville's inequality therefore controls crossings. Variance adaptation is a power strategy within a standard valid betting construction, not a new validity theorem.",
         "",
-        "`aggregate_zero` has equally likely strata with expected gains +0.12 and -0.12, respectively. `broad_positive` has outcome probability 0.56 in both strata. `high_cost_only_positive` has neutral low-cost and +0.12 high-cost conditional gain. Query randomization is independent with the stated propensity until the pathwise cap is reached. Both methods receive identical query draws and outcomes. The low/high cost and propensity grid varies estimator variance while preserving the global bound for each cell.",
+        "PM-EB maps normalized gains `R_t=X_t/B` to `Z_t=(R_t+1)/2` and tests `E[Z_t | F_(t-1)] <= 1/2`. Its log increment is `lambda_t(Z_t-1/2) - 4(Z_t-mu_hat_(t-1))^2 psi_E(lambda_t)`, where `psi_E(lambda)=(-log(1-lambda)-lambda)/4`. The predictable stake is `min(1/2, sqrt(2 log(2/alpha)/(sigma_hat^2_(t-1) t log(1+t))))`; smoothed mean and variance estimates update after each observation. This published construction is included as an established baseline, not a novelty claim.",
+        "",
+        "`aggregate_zero` has equally likely strata with expected gains +0.12 and -0.12, respectively. `broad_positive` has outcome probability 0.56 in both strata. `high_cost_only_positive` has neutral low-cost and +0.12 high-cost conditional gain. Query randomization is independent with the stated propensity until the pathwise cap is reached. All three methods receive identical query draws and outcomes. The low/high cost and propensity grid varies estimator variance while preserving the global bound for each cell.",
         "",
         "| Scenario | High cost | Query cap | Betting rule | Crossings / streams (95% Wilson CI) | Mean labels / cap |",
         "|---|---:|---:|---|---:|---:|",
@@ -290,11 +342,11 @@ def run(
     lines.extend(
         [
             "",
-            "Paired crossing-rate differences are adaptive minus fixed; intervals are unadjusted across cells. The exact aggregate-null cells are the type-I diagnostic. Positive alternatives compare power at the same label cap. This finite experiment does not establish uniform dominance; selection of a final method requires a locked independent confirmation and comparison with published empirical-Bernstein confidence sequences.",
+            "Paired Kelly-minus-fixed and PM-EB-minus-fixed crossing-rate differences are stored with paired 95% t intervals, unadjusted across cells. The exact aggregate-null cells are the type-I diagnostic. Positive alternatives compare power at the same label cap. This finite experiment does not establish uniform dominance; any selected method requires a locked independent confirmation.",
             "",
             f"Figure: `figures/{figure_path.name}`. Paired contrasts and the run manifest are in the adjacent metrics and report folders.",
             "",
-            f"Reproduce with `uv run python scripts/calibrate_predictable_variance_stakes.py --streams {streams} --horizon {horizon} --seed {seed} --device {device_name} --output outputs/predictable_stake_calibration_reproduction`.",
+            f"Reproduce with `uv run python scripts/calibrate_predictable_variance_stakes.py --streams {streams} --horizon {horizon} --seed {seed} --device {device_name} --output outputs/predictable_betting_comparison_reproduction`.",
         ]
     )
     report_path = report_dir / "predictable_stake_calibration.md"
@@ -302,7 +354,7 @@ def run(
 
     artifacts = (detail_path, summary_path, paired_path, figure_path, report_path)
     manifest = {
-        "experiment": "predictable_variance_adaptive_stakes_under_hard_query_caps",
+        "experiment": "predictable_betting_rules_under_hard_query_caps",
         "created_at_utc": datetime.now(UTC).isoformat(),
         "configuration": {
             "streams_per_cell": streams,
@@ -318,7 +370,22 @@ def run(
             "adaptive_prior_mean": 0.05,
             "adaptive_prior_second_moment": 0.25,
             "adaptive_max_stake": 0.5,
+            "pm_eb_max_stake": 0.5,
+            "pm_eb_alpha_for_stake_schedule": ALPHA,
         },
+        "environment": {
+            "torch_version": torch.__version__,
+            "cuda_available": torch.cuda.is_available(),
+            "gpu_name": torch.cuda.get_device_name(0) if torch.cuda.is_available() else None,
+            "cuda_runtime": torch.version.cuda,
+        },
+        "information_protocol": [
+            "all methods receive identical query randomization and outcomes",
+            "querying stops before the next event when the hard label cap is exhausted",
+            "the global support bound is fixed before monitoring and common across methods",
+            "the evaluator-only scenario probabilities are not supplied to any betting rule",
+            "one candidate is tested per stream at alpha=0.05",
+        ],
         "reproduction_script": "scripts/calibrate_predictable_variance_stakes.py",
         "reproduction_script_sha256": hashlib.sha256(
             Path("scripts/calibrate_predictable_variance_stakes.py").read_bytes()
@@ -341,7 +408,7 @@ def main() -> None:
     parser.add_argument("--seed", type=int, default=28102026)
     parser.add_argument("--device", choices=("cpu", "cuda"), default="cuda")
     parser.add_argument(
-        "--output", type=Path, default=Path("outputs/predictable_stake_calibration")
+        "--output", type=Path, default=Path("outputs/predictable_betting_comparison")
     )
     args = parser.parse_args()
     run(

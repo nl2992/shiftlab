@@ -40,6 +40,8 @@ outputs/*
 !outputs/mixed_mean_null_local_bound/**
 !outputs/predictable_stake_calibration/
 !outputs/predictable_stake_calibration/**
+!outputs/predictable_betting_comparison/
+!outputs/predictable_betting_comparison/**
 outputs/promotion_grid_alpha/
 outputs/promotion_grid_alpha_v2/
 !outputs/promotion_experiment_corrected/

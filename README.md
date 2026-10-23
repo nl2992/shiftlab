@@ -20,14 +20,19 @@ visible alongside the code that uses them.
 | Paper plans and evidence | `papers/`, `docs/`, `data/reports/` | Keeps hypotheses, protocols, source limitations, validation results, and paper suitability close to the implementation. |
 | Tests | `tests/` | Checks schemas, time ordering, leakage boundaries, generator properties, provenance, and report gates. |
 
-The three paper tracks share a streaming learner and controlled data-generation system:
+The current experimental tracks share a streaming learner and controlled data-generation system:
 
-1. **Decision drift** compares statistical alarms while measuring changes in prediction and decision
-   loss.
-2. **Adaptive conformal prediction** compares fixed and rolling residual calibration under shift
-   and delayed feedback.
-3. **Cost-aware adaptation** compares frozen, periodic, and triggered retraining under a stated
-   update budget and retraining cost.
+1. **Decision drift baselines** compare statistical alarms and measure prediction and decision loss.
+2. **Conformal baselines** compare fixed and rolling residual calibration under shift and delayed
+   feedback.
+3. **Adaptation-cost baselines** compare frozen, periodic, and triggered retraining under stated
+   update budgets and costs.
+
+These are the names of existing implementation tracks, not claims that three new contributions have
+been established. The governing research direction distinguishes decision harm from distributional
+change and predictive degradation, and treats conformal prediction as a supporting module. See the
+[research charter](docs/research_charter.md) for the candidate paper questions and evidence gates,
+and [AGENTS.md](AGENTS.md) for implementation guidance.
 
 The broader data package adds 43 registered synthetic mechanisms, multiple temporal schedules,
 real-source adapters, task metadata, immutable versions, and report-generation tools. Synthetic

@@ -264,6 +264,23 @@ superiority claim. See [the timing report](outputs/promotion_timing_v6/reports/p
 `uv run shiftlab-dive-promotion-timing --seeds 1000 --seed-offset 20401023 --n 3200 --device cuda
 --output outputs/promotion_timing_v6`.
 
+A two-phase persistence benchmark compares discovery fractions 25%, 50%, and 75%.
+Each disjoint phase runs a level-0.05 e-process, and promotion requires both to cross. This is an
+intersection-union test of the null that at least one phase has nonpositive conditional gain; the
+conjunctive rule is valid at level 0.05 without splitting alpha between phases. In 1,000 CUDA
+streams, a 50% discovery split reduced benefit-reversal promotions to 6/1,000 (0.6%, Wilson 95% CI
+0.3–1.3%) from 997/1,000 for the full-start e-process. Mean oracle future net gain was still
+negative (−0.372 [−0.669, −0.075]), while never promoting had zero gain. With persistent benefit,
+the split promoted 974/1,000 and gained 155.95 [153.89, 158.02], below the full-start process's
+255.73 [254.31, 257.15]. For late-onset benefit, the 75% discovery split promoted only 42/1,000,
+versus 998/1,000 for the multi-start process. This established statistical construction reduces
+harmful promotions but does not dominate on net utility and is not a novelty claim. See the
+[full comparison](outputs/persistence_promotion_grid/reports/persistence_promotion_grid.md),
+[Parquet metrics](outputs/persistence_promotion_grid/metrics/persistence_promotion_summary.parquet),
+and [figure](outputs/persistence_promotion_grid/figures/persistence_promotion_grid.png). Reproduce
+with `uv run shiftlab-dive-persistence-grid --seeds 1000 --seed-offset 20401023 --n 3200
+--device cuda --discovery-fractions 0.25 0.5 0.75 --output outputs/persistence_promotion_grid`.
+
 A second grid tests whether the fixed rank schedule spends the promotion error budget effectively.
 It compares rank spending, equal allocation over the finite candidate set, and validation-power
 weights for both sequential and empirical-Bernstein promotion. The validation-power rule uses an

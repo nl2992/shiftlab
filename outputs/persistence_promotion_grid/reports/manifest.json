@@ -1,0 +1,95 @@
+{
+  "experiment": "two_phase_persistence_certification_grid",
+  "created_at_utc": "2026-10-23T12:47:45.408789+00:00",
+  "configuration": {
+    "n": 3200,
+    "seeds": 1000,
+    "seed_offset": 20401023,
+    "alpha": 0.05,
+    "switching_cost": 0.05,
+    "discovery_fractions": [
+      0.25,
+      0.5,
+      0.75
+    ],
+    "device": "cuda"
+  },
+  "environment": {
+    "cpu_ram_bytes": 16858472448,
+    "disk_free_bytes": 23386447872,
+    "cuda_available": true,
+    "nvidia_smi": "NVIDIA GeForce RTX 4060 Laptop GPU, 8188 MiB, 592.82, 0 %, 155 MiB",
+    "torch_version": "2.9.1+cu130",
+    "cuda_runtime": "13.0",
+    "gpu_name": "NVIDIA GeForce RTX 4060 Laptop GPU",
+    "gpu_memory_bytes": 8585216000,
+    "versions": {
+      "numpy": "2.5.4",
+      "scipy": "1.18.1",
+      "pandas": "3.0.6",
+      "pyarrow": "25.0.1",
+      "folktables": "0.0.12"
+    }
+  },
+  "scenarios": [
+    "no_benefit",
+    "early_transient",
+    "benefit_reversal",
+    "persistent_benefit",
+    "late_persistent"
+  ],
+  "methods": [
+    "sequential_full_start",
+    "sequential_multi_start_3",
+    "empirical_bernstein_fixed_horizon",
+    "hoeffding_fixed_horizon",
+    "never_promote",
+    "persistence_intersection_d=0.25",
+    "persistence_intersection_d=0.5",
+    "persistence_intersection_d=0.75"
+  ],
+  "information_protocol": [
+    "the single candidate is frozen before monitor outcomes",
+    "the discovery fraction is fixed before any monitor outcomes",
+    "the persistence phase is disjoint and starts at the fixed discovery boundary",
+    "each phase tests the same bounded eventwise mean null at alpha",
+    "conjunctive promotion tests a union null by an intersection-union rule; no alpha split is required",
+    "promotion begins after both phase processes have crossed",
+    "the final stream tail is not used for testing and is evaluator-only scoring",
+    "the simulator has independent event noise and no action-dependent outcomes"
+  ],
+  "artifacts": [
+    "metrics/persistence_promotion_streams.parquet",
+    "metrics/persistence_promotion_summary.parquet",
+    "figures/persistence_promotion_grid.png",
+    "reports/persistence_promotion_grid.md"
+  ],
+  "sha256": {
+    "artifacts": {
+      "figures\\persistence_promotion_grid.png": "53f8c353c3660b3b2d13960a12a2887a4c5b8e7dcf1f3a5019d30eab7d9bdc92",
+      "metrics\\persistence_promotion_streams.parquet": "4b17ca544aa394ddde744f924e8c893dc4cd98bcfc8aaa395ac28fedac8840c3",
+      "metrics\\persistence_promotion_summary.parquet": "2c61b232819ca7562d985e83f518224a926c3cdc430a8a2b3a7598db269d4f70",
+      "reports\\persistence_promotion_grid.md": "cc39887b2f8b9a9e04f1ce89ef876ed2c6d4f33c560adb4d1b55a4a62c900a13"
+    },
+    "source_files": {
+      "src\\shiftlab\\dive\\__init__.py": "10a8a1d170c7a452cebaa9df8e07070555edc841ff5c04cd049ff75cd8887780",
+      "src\\shiftlab\\dive\\allocation_grid.py": "8619d5f9f36e33eed1a5888b50c1c0cc54f621b9d001be89ed4f3ba9b42a6fab",
+      "src\\shiftlab\\dive\\controller.py": "9d4263c825382624940202a51fa5c9908db5f56a2be48a841f005e688ad702eb",
+      "src\\shiftlab\\dive\\eprocess.py": "6bd989bf2ddf4ad6e6efa1cc274284ca7d99c21ceaec0fbe0140814947508575",
+      "src\\shiftlab\\dive\\estimators.py": "22b39564317ff1597feb53427eebc8601d459d2d06b7319e6bab1343de4be110",
+      "src\\shiftlab\\dive\\evaluation.py": "9b64eea3d7dd708104d25ad51e927451811c91e66295ee480fc791ac884432c4",
+      "src\\shiftlab\\dive\\experiment.py": "18acb6796c1178126861bcd370cdc84c8d93a8140060a8177c3cf7c25936c746",
+      "src\\shiftlab\\dive\\hard_budget.py": "45703440324eb3cbb76e497174d752c03307c4a70b6e005021020cbf896d4632",
+      "src\\shiftlab\\dive\\oracle_diagnostics.py": "14118dc2912b8236fb4215dd64ebe2108870c51a1963816eaa004f583e9dda8c",
+      "src\\shiftlab\\dive\\persistence_promotion.py": "9a43d8e14dc4bac5ebc048837ab5d09f268e3bb5f79c615eda39a655b357710b",
+      "src\\shiftlab\\dive\\power.py": "d3796dde1cb378ddf7a2a401a2971a8902d126b0db82e48e88556333fa4dde53",
+      "src\\shiftlab\\dive\\promotion.py": "d15e22a7217a15f5c70348766f67ae034409f782b67bfaa0a9b154a6094f24e3",
+      "src\\shiftlab\\dive\\promotion_experiment.py": "93ba08750effdfc1cfc131a0b3cbda1c363118c774c143c4f633a18aeaa7a546",
+      "src\\shiftlab\\dive\\promotion_grid.py": "307ee2137936c1ba8938ef026cb2e611b26ccc15bc6ad3fe4c7ffbed3ec930ce",
+      "src\\shiftlab\\dive\\promotion_timing.py": "59240fbf930d74a745429b80c9956849f96b9b03363c14eacc5ffc64f930a2e1",
+      "src\\shiftlab\\dive\\proxy.py": "77546752c6796c37795fc7eeb14de678e0bf53509248bda56b1cb1bcecb3a102",
+      "src\\shiftlab\\dive\\query.py": "751b00e071e9fe088b1770d9a7a7a4b250d50c13417a3804dbfbd584f32b8ec7",
+      "src\\shiftlab\\decision_harm_experiment.py": "b749aa6961e11abd8b234977f65515001b117c723885610cc5a83d0183c4206a"
+    }
+  }
+}

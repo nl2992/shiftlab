@@ -1,4 +1,4 @@
-scenario,method,streams,mean_budget,mean_spend,budget_utilization,mean_labels,mean_monitor_fraction,stream_mean_rmse,harm_reachable_streams,harmful_streams,detection_rate_all_harm,detection_rate_reached_harm,false_escalation_rate
-benign_nuisance,uniform_proxy,30,360.70134191947085,359.43443701654377,0.9964896033890752,180.76666666666668,0.7651666666666667,0.057302063715890576,1,1,0.0,0.0,0.0
-boundary_local_harm,uniform_proxy,30,360.70134191947085,349.90284571479737,0.9702215665912488,233.23333333333332,0.9780555555555556,0.07385352009050057,30,30,0.0,0.0,0.0
-stationary,uniform_proxy,30,360.70134191947085,349.90284571479737,0.9702215665912488,233.23333333333332,0.9780555555555556,0.05176091504359696,0,0,,,0.0
+scenario,method,streams,mean_budget,mean_spend,budget_utilization,mean_labels,mean_monitor_fraction,stream_mean_rmse,harm_reachable_streams,harmful_streams,sample_path_materiality_flags,detection_rate_all_harm,detection_rate_reached_harm,false_escalation_rate,multiscale_detection_rate_all_harm,multiscale_detection_rate_reached_harm,multiscale_false_escalation_rate,protected_detection_rate_all_harm,protected_detection_rate_reached_harm,protected_false_escalation_rate
+benign_nuisance,uniform_proxy,30,360.70134191947085,359.43443701654377,0.9964896033890752,180.76666666666668,0.7651666666666667,0.057302063715890576,0,0,1,,,0.0,,,,,,
+boundary_local_harm,uniform_proxy,30,360.70134191947085,349.90284571479737,0.9702215665912488,233.23333333333332,0.9780555555555556,0.07385352009050057,30,30,30,0.0,0.0,0.0,,,,,,
+stationary,uniform_proxy,30,360.70134191947085,349.90284571479737,0.9702215665912488,233.23333333333332,0.9780555555555556,0.05176091504359696,0,0,0,,,0.0,,,,,,

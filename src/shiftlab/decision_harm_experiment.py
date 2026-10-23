@@ -99,6 +99,15 @@ SCENARIOS = (
     ),
 )
 
+# These scenarios satisfy E[c(pi(X),Y)-c(pi_ref(X),Y)] <= epsilon at the population
+# level for the registered cost matrix. Per-stream oracle averages can cross epsilon by chance.
+POPULATION_NULL_CONTROLS = frozenset({"stationary", "benign_nuisance"})
+
+
+def statistical_harm_onset(scenario_name: str, sample_path_onset: int | None) -> int | None:
+    """Keep finite-stream oracle excursions from redefining a known population null."""
+    return None if scenario_name in POPULATION_NULL_CONTROLS else sample_path_onset
+
 
 @dataclass(frozen=True)
 class ExperimentConfig:

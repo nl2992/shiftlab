@@ -19,9 +19,17 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 
 from ..data.gpu.environment import environment, resolve_device
-from ..decision_harm_experiment import SCENARIOS, ExperimentConfig, _generate, _source_action
+from ..decision_harm_experiment import (
+    POPULATION_NULL_CONTROLS,
+    SCENARIOS,
+    ExperimentConfig,
+    _generate,
+    _source_action,
+    statistical_harm_onset,
+)
 from .eprocess import BoundedMeanEProcess
 from .estimators import prediction_powered_bound, prediction_powered_estimate
+from .evaluation import apply_population_null_classification
 from .experiment import (
     _binary_cost,
     _entropy,
@@ -109,6 +117,8 @@ def _one_method(
     train_end: int,
     monitor_start: int,
     harm_onset: int | None,
+    sample_path_material_harm: bool,
+    sample_path_harm_onset: int | None,
     common_uniforms: np.ndarray,
 ) -> dict[str, object]:
     validation_end = monitor_start
@@ -295,6 +305,9 @@ def _one_method(
         "stop_reason": stop_reason,
         "cost_stability_mix": mixture_weight,
         "material_harm": harm_onset is not None,
+        "population_null_control": scenario.name in POPULATION_NULL_CONTROLS,
+        "sample_path_material_harm": sample_path_material_harm,
+        "sample_path_harm_onset_relative": sample_path_harm_onset,
         "harm_onset_relative": harm_onset,
         "harm_reached_before_budget_stop": harm_reached,
         "single_e_detected": bool(detected),
@@ -382,12 +395,13 @@ def _generate_stream_rows(
     classifier = LogisticRegression(max_iter=500, random_state=seed).fit(
         x[:train_end], y[:train_end]
     )
-    onset = _material_harm_onset(
+    sample_path_onset = _material_harm_onset(
         expected_difference,
         config.harm_margin,
         change_times=timing["change_times"],
         monitor_start=monitor_start,
     )
+    onset = statistical_harm_onset(scenario.name, sample_path_onset)
     rows = []
     for method in config.method_subset:
         rows.append(
@@ -405,6 +419,8 @@ def _generate_stream_rows(
                 train_end=train_end,
                 monitor_start=monitor_start,
                 harm_onset=onset,
+                sample_path_material_harm=sample_path_onset is not None,
+                sample_path_harm_onset=sample_path_onset,
                 common_uniforms=common_uniforms,
             )
         )
@@ -431,25 +447,42 @@ def _summarize(metrics: pd.DataFrame) -> pd.DataFrame:
                 ),
                 "harm_reachable_streams": len(reached),
                 "harmful_streams": len(harm),
+                "sample_path_materiality_flags": int(group.sample_path_material_harm.sum()),
                 "detection_rate_all_harm": harm.single_e_detected.mean() if len(harm) else np.nan,
                 "detection_rate_reached_harm": reached.single_e_detected.mean()
                 if len(reached)
                 else np.nan,
                 "false_escalation_rate": group.single_e_false_escalation.mean(),
                 "multiscale_detection_rate_all_harm": (
-                    harm.multiscale_e_detected.mean() if len(harm) else np.nan
+                    harm.multiscale_e_detected.mean()
+                    if len(harm) and "multiscale_e_detected" in metrics
+                    else np.nan
                 ),
                 "multiscale_detection_rate_reached_harm": (
-                    reached.multiscale_e_detected.mean() if len(reached) else np.nan
+                    reached.multiscale_e_detected.mean()
+                    if len(reached) and "multiscale_e_detected" in metrics
+                    else np.nan
                 ),
-                "multiscale_false_escalation_rate": group.multiscale_e_false_escalation.mean(),
+                "multiscale_false_escalation_rate": (
+                    group.multiscale_e_false_escalation.mean()
+                    if "multiscale_e_false_escalation" in metrics
+                    else np.nan
+                ),
                 "protected_detection_rate_all_harm": (
-                    harm.protected_e_detected.mean() if len(harm) else np.nan
+                    harm.protected_e_detected.mean()
+                    if len(harm) and "protected_e_detected" in metrics
+                    else np.nan
                 ),
                 "protected_detection_rate_reached_harm": (
-                    reached.protected_e_detected.mean() if len(reached) else np.nan
+                    reached.protected_e_detected.mean()
+                    if len(reached) and "protected_e_detected" in metrics
+                    else np.nan
                 ),
-                "protected_false_escalation_rate": group.protected_e_false_escalation.mean(),
+                "protected_false_escalation_rate": (
+                    group.protected_e_false_escalation.mean()
+                    if "protected_e_false_escalation" in metrics
+                    else np.nan
+                ),
             }
         )
     return pd.DataFrame(rows)
@@ -639,10 +672,14 @@ def _plot_hard_budget(metrics: pd.DataFrame, figure_path: Path) -> None:
             else harmful_scenarios[0]
         )
         harmful = metrics.loc[metrics.scenario.eq(detection_scenario) & metrics.material_harm]
-        monitor_columns = (
-            ("single_e_detected", "Fixed mixture", "tab:blue"),
-            ("multiscale_e_detected", "Broad multiscale", "tab:orange"),
-            ("protected_e_detected", "Protected multiscale", "tab:green"),
+        monitor_columns = tuple(
+            item
+            for item in (
+                ("single_e_detected", "Fixed mixture", "tab:blue"),
+                ("multiscale_e_detected", "Broad multiscale", "tab:orange"),
+                ("protected_e_detected", "Protected multiscale", "tab:green"),
+            )
+            if item[0] in metrics
         )
         bar_width = 0.72 / len(monitor_columns)
         max_upper = 0.0
@@ -710,6 +747,7 @@ def run_hard_budget(config: HardBudgetConfig, output: Path) -> Path:
             )
             rows.extend(_generate_stream_rows(scenario, seed, config, common_uniforms))
     metrics = pd.DataFrame(rows)
+    metrics = apply_population_null_classification(metrics)
     if not metrics.budget_respected.all():
         raise RuntimeError("a run exceeded its hard label-dollar budget")
     metrics.to_parquet(metrics_path, index=False)
@@ -728,9 +766,9 @@ def run_hard_budget(config: HardBudgetConfig, output: Path) -> Path:
             else "The primary comparison uses each method's actual minimum propensity in its e-process bound: uniform queries at 0.10 use a tighter bound than adaptive policies that can query at 0.05. The common-bound sensitivity at reports/eprocess_bound_sensitivity.md found 0/30 detections for every method under q_min=0.05; do not attribute the primary 4-versus-0 difference solely to allocation."
         ),
         "",
-        "The e-process is evaluated only through its budget stopping time. Harm detection is reported both over all evaluator-labeled harmful streams and over harmful streams whose onset occurred before budget stopping; the latter avoids calling an unobserved late onset a monitor miss. Stream seeds are the inferential units. The outcomes and tariffs are synthetic; current and reference policy costs are paired on the same label.",
+        "The e-process is evaluated only through its budget stopping time. Harm detection is reported both over evaluator-labeled alternative streams and over harmful streams whose onset occurred before budget stopping; the latter avoids calling an unobserved late onset a monitor miss. Stationary and benign-nuisance controls are population nulls; finite-stream oracle flags are reported separately and every alarm on these controls counts as a false escalation. Stream seeds are the inferential units. The outcomes and tariffs are synthetic; current and reference policy costs are paired on the same label.",
         "",
-        "|Scenario|Method|Mean cap|Mean spend|Mean cap use|Mean labels|Monitor fraction|Stream-mean RMSE|Harm reached / harmful streams|Fixed detection all / reached|Multiscale detection all / reached|Protected detection all / reached|Fixed / multiscale / protected false escalation|",
+        "|Scenario|Method|Mean cap|Mean spend|Mean cap use|Mean labels|Monitor fraction|Stream-mean RMSE|Harm reached / harmful streams|Pathwise oracle flags|Fixed detection all / reached|Multiscale detection all / reached|Protected detection all / reached|Fixed / multiscale / protected false escalation|",
         "|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|",
     ]
     for row in summary.to_dict("records"):
@@ -749,7 +787,7 @@ def run_hard_budget(config: HardBudgetConfig, output: Path) -> Path:
         protected_all_text = "n/a" if pd.isna(protected_all) else f"{protected_all:.3f}"
         protected_reached_text = "n/a" if pd.isna(protected_reached) else f"{protected_reached:.3f}"
         lines.append(
-            f"|{row['scenario']}|{row['method']}|{row['mean_budget']:.2f}|{row['mean_spend']:.2f}|{row['budget_utilization']:.3f}|{row['mean_labels']:.1f}|{row['mean_monitor_fraction']:.3f}|{row['stream_mean_rmse']:.4f}|{row['harm_reachable_streams']}/{row['harmful_streams']}|{all_detection_text} / {reached_detection_text}|{multiscale_all_text} / {multiscale_reached_text}|{protected_all_text} / {protected_reached_text}|{row['false_escalation_rate']:.3f} / {row['multiscale_false_escalation_rate']:.3f} / {row['protected_false_escalation_rate']:.3f}|"
+            f"|{row['scenario']}|{row['method']}|{row['mean_budget']:.2f}|{row['mean_spend']:.2f}|{row['budget_utilization']:.3f}|{row['mean_labels']:.1f}|{row['mean_monitor_fraction']:.3f}|{row['stream_mean_rmse']:.4f}|{row['harm_reachable_streams']}/{row['harmful_streams']}|{row['sample_path_materiality_flags']}|{all_detection_text} / {reached_detection_text}|{multiscale_all_text} / {multiscale_reached_text}|{protected_all_text} / {protected_reached_text}|{row['false_escalation_rate']:.3f} / {row['multiscale_false_escalation_rate']:.3f} / {row['protected_false_escalation_rate']:.3f}|"
         )
     lines.extend(
         [
@@ -781,7 +819,8 @@ def run_hard_budget(config: HardBudgetConfig, output: Path) -> Path:
         ]
     )
     (reports_dir / "hard_budget_comparison.md").write_text("\n".join(lines), encoding="utf-8")
-    _append_paired_comparisons(output, metrics, seed=config.seed_offset + 443)
+    if {"multiscale_e_detected", "protected_e_detected"} <= set(metrics.columns):
+        _append_paired_comparisons(output, metrics, seed=config.seed_offset + 443)
     manifest = {
         "experiment": "hard_label_dollar_budget_query_policy_comparison",
         "configuration": asdict(config),

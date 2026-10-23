@@ -117,6 +117,18 @@ bounded observed cost differences, known costs, and the conditional excess-cost 
 selectively observed labels, adaptive queries, serial dependence, counterfactual policy value, and
 real-world utility validity are not established by this benchmark.
 
+The separate Paper 3 DIVE benchmark has 1,260 CUDA-generated rows (30 paired seeds, six scenarios,
+seven monitoring/query variants). The corrected null audit counts every alarm on stationary and
+benign-nuisance population-null streams as a false escalation, even when that particular finite
+covariate path has an oracle average above the margin. The full-feedback single-start monitor
+alarmed on 1/30 streams in each control; each sparse method had 0/30 alarms, with wide Wilson
+intervals that include the nominal 5% rate. Under boundary-local harm, full feedback detected 30/30
+streams and uniform direct inverse-propensity monitoring detected 14/30; the proxy-corrected and
+adaptive-query variants detected fewer in this pilot. These results do not show an adaptive-query
+advantage. The complete table, control audit, and Parquet seed rows are in
+[`outputs/reports/method_comparison.md`](outputs/reports/method_comparison.md) and
+[`outputs/metrics/method_comparison.parquet`](outputs/metrics/method_comparison.parquet).
+
 The extended Paper 3 query-allocation comparison also covers boundary-local harm, residual-variance
 shift, recurring regimes, and deliberately harmful adaptation. Its locked protocol is in
 [`docs/hard_budget_extended_scenarios_protocol.md`](docs/hard_budget_extended_scenarios_protocol.md),

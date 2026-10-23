@@ -3,20 +3,20 @@
 Evaluated 60 seeds per scenario on `cuda`. Every policy received the same per-stream dollar cap, calibrated from the mean tariff in the pre-monitor validation slice. Methods share per-seed uniform random variates to enable paired comparisons. The maximum tariff support is fixed at 2.5; the monitor stops before the next event once the remaining balance is below that support maximum. This makes every processed event's query propensity positive and predictable, while ensuring spend never exceeds the cap.
 All methods use the common configured propensity floor for their e-process bound.
 
-The e-process is evaluated only through its budget stopping time. Harm detection is reported both over all evaluator-labeled harmful streams and over harmful streams whose onset occurred before budget stopping; the latter avoids calling an unobserved late onset a monitor miss. Stream seeds are the inferential units. The outcomes and tariffs are synthetic; current and reference policy costs are paired on the same label.
+The e-process is evaluated only through its budget stopping time. Harm detection is reported over evaluator-labeled alternatives and over onsets reached before budget stopping. Stationary and benign-nuisance controls are population nulls; finite-stream oracle flags are listed separately and every alarm on these controls counts as a false escalation. Stream seeds are the inferential units. The outcomes and tariffs are synthetic; current and reference policy costs are paired on the same label.
 
-|Scenario|Method|Mean cap|Mean spend|Mean cap use|Mean labels|Monitor fraction|Stream-mean RMSE|Harm reached / harmful streams|Fixed detection all / reached|Multiscale detection all / reached|Fixed false escalation|Multiscale false escalation|
-|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
-|benign_nuisance|cost_stabilized_proxy|717.45|708.71|0.988|373.8|0.969|0.0507|6/6|0.000 / 0.000|0.000 / 0.000|0.000|0.000|
-|benign_nuisance|cost_variance_proxy|717.45|716.19|0.998|369.4|0.652|0.0493|6/6|0.000 / 0.000|0.000 / 0.000|0.000|0.000|
-|benign_nuisance|decision_value_proxy|717.45|716.04|0.998|362.8|0.626|0.0501|6/6|0.000 / 0.000|0.000 / 0.000|0.000|0.000|
-|benign_nuisance|uniform_proxy|717.45|716.17|0.998|361.5|0.756|0.0434|6/6|0.000 / 0.000|0.000 / 0.000|0.000|0.000|
-|benign_nuisance|variance_proxy|717.45|716.20|0.998|361.7|0.590|0.0511|6/6|0.000 / 0.000|0.000 / 0.000|0.000|0.000|
-|stationary|cost_stabilized_proxy|717.45|703.23|0.980|511.8|0.984|0.0376|0/0|n/a / n/a|n/a / n/a|0.000|0.000|
-|stationary|cost_variance_proxy|717.45|707.24|0.986|491.3|0.976|0.0418|0/0|n/a / n/a|n/a / n/a|0.000|0.000|
-|stationary|decision_value_proxy|717.45|710.47|0.990|472.9|0.940|0.0402|0/0|n/a / n/a|n/a / n/a|0.000|0.000|
-|stationary|uniform_proxy|717.45|704.44|0.982|469.3|0.983|0.0365|0/0|n/a / n/a|n/a / n/a|0.000|0.000|
-|stationary|variance_proxy|717.45|706.57|0.985|470.5|0.974|0.0427|0/0|n/a / n/a|n/a / n/a|0.000|0.000|
+|Scenario|Method|Mean cap|Mean spend|Mean cap use|Mean labels|Monitor fraction|Stream-mean RMSE|Harm reached / harmful streams|Pathwise oracle flags|Fixed detection all / reached|Multiscale detection all / reached|Protected detection all / reached|Fixed / multiscale / protected false escalation|
+|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+|benign_nuisance|cost_stabilized_proxy|717.45|708.71|0.988|373.8|0.969|0.0507|0/0|6|n/a / n/a|n/a / n/a|n/a / n/a|0.000 / 0.000 / n/a|
+|benign_nuisance|cost_variance_proxy|717.45|716.19|0.998|369.4|0.652|0.0493|0/0|6|n/a / n/a|n/a / n/a|n/a / n/a|0.000 / 0.000 / n/a|
+|benign_nuisance|decision_value_proxy|717.45|716.04|0.998|362.8|0.626|0.0501|0/0|6|n/a / n/a|n/a / n/a|n/a / n/a|0.000 / 0.000 / n/a|
+|benign_nuisance|uniform_proxy|717.45|716.17|0.998|361.5|0.756|0.0434|0/0|6|n/a / n/a|n/a / n/a|n/a / n/a|0.000 / 0.000 / n/a|
+|benign_nuisance|variance_proxy|717.45|716.20|0.998|361.7|0.590|0.0511|0/0|6|n/a / n/a|n/a / n/a|n/a / n/a|0.000 / 0.000 / n/a|
+|stationary|cost_stabilized_proxy|717.45|703.23|0.980|511.8|0.984|0.0376|0/0|0|n/a / n/a|n/a / n/a|n/a / n/a|0.000 / 0.000 / n/a|
+|stationary|cost_variance_proxy|717.45|707.24|0.986|491.3|0.976|0.0418|0/0|0|n/a / n/a|n/a / n/a|n/a / n/a|0.000 / 0.000 / n/a|
+|stationary|decision_value_proxy|717.45|710.47|0.990|472.9|0.940|0.0402|0/0|0|n/a / n/a|n/a / n/a|n/a / n/a|0.000 / 0.000 / n/a|
+|stationary|uniform_proxy|717.45|704.44|0.982|469.3|0.983|0.0365|0/0|0|n/a / n/a|n/a / n/a|n/a / n/a|0.000 / 0.000 / n/a|
+|stationary|variance_proxy|717.45|706.57|0.985|470.5|0.974|0.0427|0/0|0|n/a / n/a|n/a / n/a|n/a / n/a|0.000 / 0.000 / n/a|
 
 ## Full-horizon consistency check
 

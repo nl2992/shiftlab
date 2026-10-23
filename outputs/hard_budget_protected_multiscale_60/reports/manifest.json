@@ -61,26 +61,36 @@
   "sha256": {
     "artifacts": {
       "figures\\hard_budget_tradeoff.png": "f3b703b941590402ff308ea0c091fabda5d6d0284fc0a59815e41f624b8d4890",
-      "metrics\\hard_budget_comparison.parquet": "470017e7f6f0b31b2e7f63160e691f8f9bb6534b2f91ddf0980468c4c0d85b88",
-      "metrics\\hard_budget_summary.csv": "9a561f9107cd203e3e4f957584495e750e6e481abc4aa0d273b51210088fbc8d",
-      "metrics\\paired_effects_vs_uniform.csv": "82b75bd09539d047ed922bac1c684deed4138cc9088dc4dcea46f4e214f2d5b1",
-      "reports\\hard_budget_comparison.md": "a6b26bf99eab91237cd384b3bf39e4ea1cf16cd85369ae5c0a9fb2ad5687a203",
-      "reports\\stake_mixture_analysis.md": "f490d62c4a8742bac186cb801076524ab620ac73fb7aff5718392e48ac91ed62"
+      "metrics\\hard_budget_comparison.parquet": "bdd74806575685c7d45900b1c938eb493cf54a7ac0b16a66cfa44f4edb786a35",
+      "metrics\\hard_budget_summary.csv": "5d7945f9db4350018e9fd82687b335eb6a4b28f9d3faf8e378ea576c3b7808f5",
+      "metrics\\paired_effects_vs_uniform.csv": "7ab4e18aa94a605ffdf1ede1975e84b269736d649f9fb7467e73455c0efc6332",
+      "reports\\hard_budget_comparison.md": "b0b96ad62a041591d76912eece7c66bca042712561c5c8ed505ec78fc23e31b4",
+      "reports\\stake_mixture_analysis.md": "9af0931d30f28e3925019490b9f1123239bc0bc7f39128f457c675795a739409"
     },
     "source_files": {
       "src\\shiftlab\\dive\\__init__.py": "10a8a1d170c7a452cebaa9df8e07070555edc841ff5c04cd049ff75cd8887780",
-      "src\\shiftlab\\dive\\allocation_grid.py": "3198dca5230787939ba461a117e2e0c1adcb10ffd3e2474aeaf1c668143e2d82",
+      "src\\shiftlab\\dive\\allocation_grid.py": "8619d5f9f36e33eed1a5888b50c1c0cc54f621b9d001be89ed4f3ba9b42a6fab",
       "src\\shiftlab\\dive\\controller.py": "9d4263c825382624940202a51fa5c9908db5f56a2be48a841f005e688ad702eb",
       "src\\shiftlab\\dive\\eprocess.py": "6bd989bf2ddf4ad6e6efa1cc274284ca7d99c21ceaec0fbe0140814947508575",
       "src\\shiftlab\\dive\\estimators.py": "22b39564317ff1597feb53427eebc8601d459d2d06b7319e6bab1343de4be110",
-      "src\\shiftlab\\dive\\experiment.py": "ed3cc367b0ea79ee50093f1d6fbfd2fca12d6d2177ac01e475220f6ad762a12a",
-      "src\\shiftlab\\dive\\hard_budget.py": "a86642b0cce411f351c3cb008f408b23b43a123b5b888e9cdfc0839c73967bf4",
+      "src\\shiftlab\\dive\\evaluation.py": "9b64eea3d7dd708104d25ad51e927451811c91e66295ee480fc791ac884432c4",
+      "src\\shiftlab\\dive\\experiment.py": "43cbe098a9f7edbccdd1bab6b72193e843b17003ebd2c1feec1556b73cdf4637",
+      "src\\shiftlab\\dive\\hard_budget.py": "45703440324eb3cbb76e497174d752c03307c4a70b6e005021020cbf896d4632",
+      "src\\shiftlab\\dive\\oracle_diagnostics.py": "14118dc2912b8236fb4215dd64ebe2108870c51a1963816eaa004f583e9dda8c",
       "src\\shiftlab\\dive\\power.py": "d3796dde1cb378ddf7a2a401a2971a8902d126b0db82e48e88556333fa4dde53",
       "src\\shiftlab\\dive\\promotion.py": "74a9e5fb45b0c93f2683ed84bb364f71515ad960b72bde839c7ad94edfb85e28",
       "src\\shiftlab\\dive\\promotion_experiment.py": "edf52c1686bc6225a9c6eb0e60053890beb4d85dc6731cc3da907d0cc2cbf85b",
       "src\\shiftlab\\dive\\proxy.py": "77546752c6796c37795fc7eeb14de678e0bf53509248bda56b1cb1bcecb3a102",
       "src\\shiftlab\\dive\\query.py": "60587b6146d839524fb04e69be295eba487b482c19513d09412703c1b0872d33",
-      "src\\shiftlab\\decision_harm_experiment.py": "defd72b36f6525615ebde2de1daca3f5351d7538075ce601b5dc4e0638196956"
+      "src\\shiftlab\\decision_harm_experiment.py": "b749aa6961e11abd8b234977f65515001b117c723885610cc5a83d0183c4206a"
     }
+  },
+  "population_null_reclassification": {
+    "scenario_names": [
+      "stationary",
+      "benign_nuisance"
+    ],
+    "classification": "finite-stream oracle flags retained separately; alarms count as null false escalations",
+    "observed_streams_and_alarm_times_preserved": true
   }
 }

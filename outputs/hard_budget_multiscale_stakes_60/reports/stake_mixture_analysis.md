@@ -44,7 +44,7 @@ The interval is descriptive for this predeclared synthetic block. It is not adju
 
 ## Controls and budget audit
 
-|Scenario|Policy|Rows|Fixed any alarms|Candidate any alarms|Evaluator-harm rows|Onsets reached|Budget violations|
+|Scenario|Policy|Rows|Fixed any alarms|Candidate any alarms|Pathwise oracle materiality flags|Population-null harm onsets|Budget violations|
 |---|---|---:|---:|---:|---:|---:|---:|
 |No control scenarios|n/a|0|n/a|n/a|n/a|n/a|n/a|
 
@@ -54,4 +54,4 @@ Across all 1200 rows, budget violations: 0.
 
 Run `uv run python scripts/analyze_betting_mixture.py --input <run>/metrics/hard_budget_comparison.parquet --candidate-column multiscale_e_detected`. Bootstrap seed: `7731`; replicates: `20000`.
 
-Analysis script SHA-256: `0c5454638de0c107eab963b819ba6dc5dc4c9ae7adf8af35ae0262c016af2d9c`.
+Analysis script SHA-256: `e7becb009de9876d3795751db370e2403ee503cac6432d4950e94366ebff2be2`.

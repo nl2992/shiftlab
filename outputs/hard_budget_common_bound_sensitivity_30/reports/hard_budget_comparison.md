@@ -3,13 +3,13 @@
 Evaluated 30 seeds per scenario on `cuda`. Every policy received the same per-stream dollar cap, calibrated from the mean tariff in the pre-monitor validation slice. Methods share per-seed uniform random variates to enable paired comparisons. The maximum tariff support is fixed at 2.5; the monitor stops before the next event once the remaining balance is below that support maximum. This makes every processed event's query propensity positive and predictable, while ensuring spend never exceeds the cap.
 All methods use the common configured propensity floor for their e-process bound.
 
-The e-process is evaluated only through its budget stopping time. Harm detection is reported both over all evaluator-labeled harmful streams and over harmful streams whose onset occurred before budget stopping; the latter avoids calling an unobserved late onset a monitor miss. Stream seeds are the inferential units. The outcomes and tariffs are synthetic; current and reference policy costs are paired on the same label.
+The e-process is evaluated only through its budget stopping time. Harm detection is reported over evaluator-labeled alternatives and over onsets reached before budget stopping. Stationary and benign-nuisance controls are population nulls; finite-stream oracle flags are listed separately and every alarm on these controls counts as a false escalation. Stream seeds are the inferential units. The outcomes and tariffs are synthetic; current and reference policy costs are paired on the same label.
 
-|Scenario|Method|Mean cap|Mean spend|Mean cap use|Mean labels|Monitor fraction|Stream-mean RMSE|Harm reached / harmful streams|Detection all / reached|False escalation|
-|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
-|benign_nuisance|uniform_proxy|360.70|359.43|0.996|180.8|0.765|0.0573|1/1|0.000 / 0.000|0.000|
-|boundary_local_harm|uniform_proxy|360.70|349.90|0.970|233.2|0.978|0.0739|30/30|0.000 / 0.000|0.000|
-|stationary|uniform_proxy|360.70|349.90|0.970|233.2|0.978|0.0518|0/0|n/a / n/a|0.000|
+|Scenario|Method|Mean cap|Mean spend|Mean cap use|Mean labels|Monitor fraction|Stream-mean RMSE|Harm reached / harmful streams|Pathwise oracle flags|Fixed detection all / reached|Multiscale detection all / reached|Protected detection all / reached|Fixed / multiscale / protected false escalation|
+|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+|benign_nuisance|uniform_proxy|360.70|359.43|0.996|180.8|0.765|0.0573|0/0|1|n/a / n/a|n/a / n/a|n/a / n/a|0.000 / n/a / n/a|
+|boundary_local_harm|uniform_proxy|360.70|349.90|0.970|233.2|0.978|0.0739|30/30|30|0.000 / 0.000|n/a / n/a|n/a / n/a|0.000 / n/a / n/a|
+|stationary|uniform_proxy|360.70|349.90|0.970|233.2|0.978|0.0518|0/0|0|n/a / n/a|n/a / n/a|n/a / n/a|0.000 / n/a / n/a|
 
 ## Full-horizon consistency check
 

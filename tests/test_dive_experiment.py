@@ -1,6 +1,7 @@
 import numpy as np
 import pytest
 
+from shiftlab.decision_harm_experiment import statistical_harm_onset
 from shiftlab.dive.experiment import (
     DiveExperimentConfig,
     _material_harm_onset,
@@ -23,6 +24,15 @@ def test_stationary_high_tail_noise_does_not_define_harm_by_single_event():
 def test_recurring_regime_onsets_are_checked_segment_by_segment():
     expected = np.array([0.05] * 250 + [0.2] * 250 + [0.03] * 250 + [0.25] * 250)
     assert _material_harm_onset(expected, 0.1, change_times=[250, 500, 750], monitor_start=250) == 0
+
+
+@pytest.mark.parametrize("scenario", ["stationary", "benign_nuisance"])
+def test_population_null_controls_do_not_turn_pathwise_oracle_excursions_into_harm(scenario):
+    assert statistical_harm_onset(scenario, 125) is None
+
+
+def test_harmful_shift_keeps_its_evaluator_path_onset():
+    assert statistical_harm_onset("boundary_local_harm", 125) == 125
 
 
 def test_synthetic_label_tariff_is_bounded_and_uses_only_observed_features():

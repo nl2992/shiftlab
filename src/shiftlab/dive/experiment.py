@@ -19,10 +19,18 @@ from scipy.stats import t as student_t
 from sklearn.linear_model import LogisticRegression
 
 from ..data.gpu.environment import environment, resolve_device
-from ..decision_harm_experiment import SCENARIOS, ExperimentConfig, _generate, _source_action
+from ..decision_harm_experiment import (
+    POPULATION_NULL_CONTROLS,
+    SCENARIOS,
+    ExperimentConfig,
+    _generate,
+    _source_action,
+    statistical_harm_onset,
+)
 from ..monitoring import rbf_gamma, rbf_mmd_squared
 from .eprocess import BoundedMeanEProcess, StartedMixtureEProcess
 from .estimators import AdaptiveReliance, prediction_powered_bound, prediction_powered_estimate
+from .evaluation import apply_population_null_classification
 from .proxy import DecisionLossProxy
 from .query import (
     AdaptiveQueryPolicy,
@@ -186,6 +194,8 @@ def _monitor_method(
     validation_end: int,
     monitor_start: int,
     harm_onset: int | None,
+    sample_path_material_harm: bool,
+    sample_path_harm_onset: int | None,
     label_costs: np.ndarray | None = None,
 ) -> dict:
     n_evaluation = len(x) - monitor_start
@@ -377,6 +387,9 @@ def _monitor_method(
         "monitor_start": monitor_start,
         "harm_onset_relative": harm_onset,
         "material_harm": material,
+        "population_null_control": scenario.name in POPULATION_NULL_CONTROLS,
+        "sample_path_material_harm": sample_path_material_harm,
+        "sample_path_harm_onset_relative": sample_path_harm_onset,
         "query_rate_target": config.query_rate if query_policy else 1.0,
         "expected_query_count": expected_labels,
         "labels_queried": labels_queried,
@@ -479,12 +492,15 @@ def _one_stream(scenario, seed: int, config: DiveExperimentConfig) -> list[dict]
         x[:train_end], y[:train_end]
     )
     # Calibrate the harm onset from evaluator-known expected losses, never learner inputs.
-    onset = _material_harm_onset(
+    sample_path_onset = _material_harm_onset(
         expected_difference,
         config.harm_margin,
         change_times=timing["change_times"],
         monitor_start=monitor_start,
     )
+    # Population-null controls remain null even when a finite covariate path has an
+    # oracle-average excess above epsilon. Keep that pathwise event as a diagnostic.
+    onset = statistical_harm_onset(scenario.name, sample_path_onset)
     rows = []
     methods = config.method_subset or (
         METHODS if config.heterogeneous_label_costs else METHODS[:-2]
@@ -505,6 +521,8 @@ def _one_stream(scenario, seed: int, config: DiveExperimentConfig) -> list[dict]
                 validation_end=validation_end,
                 monitor_start=monitor_start,
                 harm_onset=onset,
+                sample_path_material_harm=sample_path_onset is not None,
+                sample_path_harm_onset=sample_path_onset,
                 label_costs=label_costs,
             )
         )
@@ -653,6 +671,7 @@ def run_experiment(config: DiveExperimentConfig, output: Path) -> Path:
             )
             rows.extend(_one_stream(scenario, seed, config))
     metrics = pd.DataFrame(rows)
+    metrics = apply_population_null_classification(metrics)
     metrics.to_parquet(metrics_dir / "method_comparison.parquet", index=False)
     _plots(metrics, figures_dir)
     summary = metrics.groupby(["scenario", "method"], as_index=False).agg(
@@ -717,7 +736,7 @@ def run_experiment(config: DiveExperimentConfig, output: Path) -> Path:
             "When heterogeneous label costs are enabled, the tariff is a known function of the last learner-visible feature and lies in [0.5, 2.5]. Sparse-query methods are matched to expected validation spend, while monitor-period realized spend can change under covariate shift. This is neither a fixed label-count budget nor a guaranteed spend cap. Cost-variance allocation is the classical clipped Neyman solution for estimator variance under known costs; its improvement in detection delay or decision utility is not established here.",
             "",
             "The estimator correction is unbiased under conditional Bernoulli sampling and positive known propensities, even when the proxy is misspecified. The e-process uses a fixed worst-case bound for each query design, preserving the stated unconditional conditional-mean null when query probabilities depend on current features. Empirical null crossing rates are diagnostics, not the validity proof. The variance and decision-value acquisition policies are heuristics; no optimality or novelty claim is made.",
-            "Evaluator materiality and onset are computed from oracle conditional expected costs averaged over each finite simulated regime. They are not population-risk estimates with zero Monte Carlo error: in this run, 7/30 benign-nuisance streams crossed the 0.1 threshold although the across-seed mean harm was below it. Interpret borderline control labels with this seed sensitivity in mind.",
+            "Stationary and benign-nuisance streams are population-null controls, independently verified below epsilon. Their finite-stream oracle averages can cross epsilon by chance; those pathwise flags are retained as `sample_path_material_harm` and are not counted as true alternatives. Every monitor alarm on these population-null controls counts as a false escalation. For shifted alternatives, evaluator-known finite-regime oracle averages continue to define the sample-specific harm onset.",
             "",
             f"`cumulative_net_cost_vs_reference` adds an imposed label price of {config.label_cost:g} per acquired label to evaluator-known expected excess decision cost. This is sensitivity-analysis bookkeeping, not a validated real-world label price. This monitoring experiment takes no action after an alarm, so it cannot establish controller value or reduced harm. Candidate certification is evaluated separately in `promotion_comparison.md`; the one-step controller is not yet integrated into a closed-loop intervention benchmark.",
             "",
@@ -800,8 +819,16 @@ def refresh_report_with_uncertainty(output: Path) -> None:
         detect_low, detect_high = _wilson_interval(detected_count, len(harmful))
         label_mean = float(group["labels_queried"].mean())
         label_low, label_high = _mean_interval(group["labels_queried"].to_numpy())
-        spend_mean = float(group["realized_label_spend"].mean())
-        spend_low, spend_high = _mean_interval(group["realized_label_spend"].to_numpy())
+        if "realized_label_spend" in group:
+            spend_values = group["realized_label_spend"].to_numpy(dtype=float)
+        elif "expected_label_spend" in group:
+            spend_values = group["expected_label_spend"].to_numpy(dtype=float)
+        else:
+            spend_values = group["labels_queried"].to_numpy(dtype=float) * group[
+                "label_cost"
+            ].to_numpy(dtype=float)
+        spend_mean = float(spend_values.mean())
+        spend_low, spend_high = _mean_interval(spend_values)
         error = group["stream_mean_estimation_error"].to_numpy()
         rmse = float(np.sqrt(np.mean(error**2)))
         interval_seed = sum(ord(char) for char in f"{scenario_name}:{method}")
@@ -839,15 +866,49 @@ def refresh_report_with_uncertainty(output: Path) -> None:
     report = report_path.read_text(encoding="utf-8")
     interval_note = (
         "Independent seeds are the inferential units. False-escalation intervals use Wilson's "
+        "method over all population-null control streams and pre-onset alternative streams; "
+        "detection intervals use only streams with evaluator-known harm onsets. Finite-stream "
+        "oracle excursions within population-null controls are recorded separately. Labels and "
+        "expected harm use t intervals across seeds; stream-mean RMSE uses a "
+        "deterministic percentile bootstrap over seeds. Nondetections remain in the detection "
+        "denominator and are not discarded from the Parquet data."
+    )
+    legacy_interval_note = (
+        "Independent seeds are the inferential units. False-escalation intervals use Wilson's "
         "method over all streams; detection intervals use only evaluator-labeled material-harm "
         "streams. Labels and expected harm use t intervals across seeds; stream-mean RMSE uses a "
         "deterministic percentile bootstrap over seeds. Nondetections remain in the detection "
         "denominator and are not discarded from the Parquet data."
     )
+    report = report.replace(legacy_interval_note + "\n\n", "")
     report = report.replace(interval_note + "\n\n", "")
     start = report.index("| Scenario | Method |", report.index("## Preliminary results"))
     end = report.index("\n\n## Assumptions and limits", start)
     report = report[:start] + interval_note + "\n\n" + "\n".join(lines) + report[end:]
+    if "population_null_control" in metrics:
+        controls = metrics.loc[metrics.population_null_control]
+        audit_lines = [
+            "## Population-null control audit",
+            "",
+            "Finite-stream oracle flags are shown separately from the population-null test result.",
+            "",
+            "| Scenario | Method | Population-null alarms / streams | Finite-stream oracle flags / streams |",
+            "|---|---|---:|---:|",
+        ]
+        for (scenario_name, method), group in controls.groupby(["scenario", "method"], sort=True):
+            alarms = int(group["single_e_alarm"].sum())
+            path_flags = int(group["sample_path_material_harm"].sum())
+            audit_lines.append(
+                f"| {scenario_name} | {method} | {alarms}/{len(group)} | {path_flags}/{len(group)} |"
+            )
+        audit_marker = "\n\n## Population-null control audit"
+        if audit_marker in report:
+            audit_start = report.index(audit_marker)
+            assumptions_start = report.index("\n\n## Assumptions and limits", audit_start)
+            report = report[:audit_start] + report[assumptions_start:]
+        marker = "\n\n## Assumptions and limits"
+        if marker in report:
+            report = report.replace(marker, "\n\n" + "\n".join(audit_lines) + marker, 1)
     report_path.write_text(report, encoding="utf-8")
 
 

@@ -149,7 +149,7 @@ def _render_report(metrics: pd.DataFrame, candidate_column: str) -> str:
             "",
             "## Controls and budget audit",
             "",
-            "|Scenario|Policy|Rows|Fixed any alarms|Candidate any alarms|Evaluator-harm rows|Onsets reached|Budget violations|",
+            "|Scenario|Policy|Rows|Fixed any alarms|Candidate any alarms|Pathwise oracle materiality flags|Population-null harm onsets|Budget violations|",
             "|---|---|---:|---:|---:|---:|---:|---:|",
         ]
     )
@@ -157,7 +157,7 @@ def _render_report(metrics: pd.DataFrame, candidate_column: str) -> str:
         candidate_alarm_column = candidate_column.replace("_detected", "_alarm_time")
         for (scenario, method), group in controls.groupby(["scenario", "method"], sort=True):
             lines.append(
-                f"|{scenario}|{method}|{len(group)}|{group.single_e_alarm_time.notna().sum()}|{group[candidate_alarm_column].notna().sum()}|{group.material_harm.sum()}|{group.harm_reached_before_budget_stop.sum()}|{(~group.budget_respected).sum()}|"
+                f"|{scenario}|{method}|{len(group)}|{group.single_e_alarm_time.notna().sum()}|{group[candidate_alarm_column].notna().sum()}|{group.get('sample_path_material_harm', group.material_harm).sum()}|{group.loc[~group.scenario.isin(['stationary', 'benign_nuisance']), 'harm_reached_before_budget_stop'].sum()}|{(~group.budget_respected).sum()}|"
             )
     else:
         lines.append("|No control scenarios|n/a|0|n/a|n/a|n/a|n/a|n/a|")

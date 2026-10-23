@@ -17,9 +17,17 @@ from scipy.stats import norm
 from scipy.stats import t as student_t
 
 from ..data.gpu.environment import environment, resolve_device
-from ..decision_harm_experiment import SCENARIOS, ExperimentConfig, _generate, _source_action
+from ..decision_harm_experiment import (
+    POPULATION_NULL_CONTROLS,
+    SCENARIOS,
+    ExperimentConfig,
+    _generate,
+    _source_action,
+    statistical_harm_onset,
+)
 from .eprocess import BoundedMeanEProcess
 from .estimators import prediction_powered_bound, prediction_powered_estimate
+from .evaluation import apply_population_null_classification
 from .experiment import (
     _binary_cost,
     _material_harm_onset,
@@ -176,12 +184,13 @@ def _one_stream(
         best_objective, best_power = min(validation_objectives, key=lambda item: (item[0], item[1]))
         selected[rate] = (best_power, best_objective)
 
-    onset = _material_harm_onset(
+    sample_path_onset = _material_harm_onset(
         expected_difference,
         config.harm_margin,
         change_times=timing["change_times"],
         monitor_start=monitor_start,
     )
+    onset = statistical_harm_onset(scenario.name, sample_path_onset)
     rng = np.random.default_rng(seed + 112_733)
     common_uniforms = {rate: rng.random(n_monitor) for rate in config.label_budgets}
     rows: list[dict] = []
@@ -265,6 +274,9 @@ def _one_stream(
                     ),
                     "harm_onset_relative": onset,
                     "material_harm": onset is not None,
+                    "population_null_control": scenario.name in POPULATION_NULL_CONTROLS,
+                    "sample_path_material_harm": sample_path_onset is not None,
+                    "sample_path_harm_onset_relative": sample_path_onset,
                     "mean_expected_decision_harm": float(
                         expected_difference[monitor_start:].mean()
                     ),
@@ -356,6 +368,9 @@ def _one_stream(
                         ),
                         "harm_onset_relative": onset,
                         "material_harm": onset is not None,
+                        "population_null_control": scenario.name in POPULATION_NULL_CONTROLS,
+                        "sample_path_material_harm": sample_path_onset is not None,
+                        "sample_path_harm_onset_relative": sample_path_onset,
                         "mean_expected_decision_harm": float(
                             expected_difference[monitor_start:].mean()
                         ),
@@ -486,6 +501,7 @@ def run_allocation_grid(config: AllocationGridConfig, output: Path) -> Path:
             )
             rows.extend(_one_stream(scenario, seed, config))
     metrics = pd.DataFrame(rows)
+    metrics = apply_population_null_classification(metrics)
     metrics.to_parquet(metrics_path, index=False)
     summary_rows = []
     for (scenario_name, rate, power), group in metrics.groupby(
@@ -654,6 +670,7 @@ def run_rate_stabilized_grid(config: AllocationGridConfig, output: Path) -> Path
                 if row["allocation"] == "rate_stabilized_neyman"
             )
     metrics = pd.DataFrame(rows)
+    metrics = apply_population_null_classification(metrics)
     metrics.to_parquet(metrics_path, index=False)
 
     def wilson(successes: int, n: int) -> tuple[float, float]:

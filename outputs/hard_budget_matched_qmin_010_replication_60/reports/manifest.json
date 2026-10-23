@@ -57,30 +57,32 @@
   ],
   "sha256": {
     "artifacts": {
-      "figures\\hard_budget_tradeoff.png": "9d3958a3f28fd759bf9d8851b0c86ab07181998bb8b0fc76e675c1b20c9e0542",
-      "metrics\\hard_budget_comparison.parquet": "b0b34b8fb6f32559ddea91a05a14e40d84a74c1419c467036d4b7f7dd377955b",
-      "metrics\\hard_budget_summary.csv": "91ef5dbcfcade184037e064adc828b41d52beda1b4f49749fd6e151e0f9e16d8",
+      "figures\\hard_budget_tradeoff.png": "9952ed85f5729b6628f7032ec532f22e00be66100dccd65afca9822962ae209d",
+      "metrics\\hard_budget_comparison.parquet": "b01f278723f09c6507074346ecff419f80a0152c2d87e48c369357ff2acda166",
+      "metrics\\hard_budget_summary.csv": "cd9eb19d5cead75859fede6ce29491f40778a803dd182eb3bf256632eb2cba2c",
       "metrics\\matched_bound_replication_summary.csv": "3531a16460ee0acb03bf1be7b288db32f6149670d76d8f4d7324d3df2387d808",
       "metrics\\paired_detection_power_plan.csv": "bf565a82881ed5f509a0922fc05939ccb52fe62bf75ccccf2a0b3ac0913a035c",
       "metrics\\paired_effects_vs_uniform.csv": "1cf9eb4b3cb87084a96511d97af15b42940df21e501c62a43b1005ad6451f1d6",
-      "reports\\hard_budget_comparison.md": "91d8f76762557344546bb8be57e036c50ff7f9d169afedf3e4c1040c07def4fb",
+      "reports\\hard_budget_comparison.md": "229b8a6187f84350d2e6f5891f7618422b38b6573dcf85171f671ff885b0aaf0",
       "reports\\matched_bound_replication_analysis.md": "75c534f7e3f34586ba432a8e44a764eff1cd0dd170a905ad72587ba0bd64f806",
       "reports\\paired_detection_power_plan.md": "3b5287a81af14c7ac2f54a1215e1a1b008040579f41e99f86762d99ec2323842"
     },
     "source_files": {
       "src\\shiftlab\\dive\\__init__.py": "10a8a1d170c7a452cebaa9df8e07070555edc841ff5c04cd049ff75cd8887780",
-      "src\\shiftlab\\dive\\allocation_grid.py": "3198dca5230787939ba461a117e2e0c1adcb10ffd3e2474aeaf1c668143e2d82",
+      "src\\shiftlab\\dive\\allocation_grid.py": "8619d5f9f36e33eed1a5888b50c1c0cc54f621b9d001be89ed4f3ba9b42a6fab",
       "src\\shiftlab\\dive\\controller.py": "9d4263c825382624940202a51fa5c9908db5f56a2be48a841f005e688ad702eb",
       "src\\shiftlab\\dive\\eprocess.py": "6bd989bf2ddf4ad6e6efa1cc274284ca7d99c21ceaec0fbe0140814947508575",
       "src\\shiftlab\\dive\\estimators.py": "22b39564317ff1597feb53427eebc8601d459d2d06b7319e6bab1343de4be110",
-      "src\\shiftlab\\dive\\experiment.py": "ed3cc367b0ea79ee50093f1d6fbfd2fca12d6d2177ac01e475220f6ad762a12a",
-      "src\\shiftlab\\dive\\hard_budget.py": "a86642b0cce411f351c3cb008f408b23b43a123b5b888e9cdfc0839c73967bf4",
+      "src\\shiftlab\\dive\\evaluation.py": "9b64eea3d7dd708104d25ad51e927451811c91e66295ee480fc791ac884432c4",
+      "src\\shiftlab\\dive\\experiment.py": "43cbe098a9f7edbccdd1bab6b72193e843b17003ebd2c1feec1556b73cdf4637",
+      "src\\shiftlab\\dive\\hard_budget.py": "45703440324eb3cbb76e497174d752c03307c4a70b6e005021020cbf896d4632",
+      "src\\shiftlab\\dive\\oracle_diagnostics.py": "14118dc2912b8236fb4215dd64ebe2108870c51a1963816eaa004f583e9dda8c",
       "src\\shiftlab\\dive\\power.py": "d3796dde1cb378ddf7a2a401a2971a8902d126b0db82e48e88556333fa4dde53",
       "src\\shiftlab\\dive\\promotion.py": "74a9e5fb45b0c93f2683ed84bb364f71515ad960b72bde839c7ad94edfb85e28",
       "src\\shiftlab\\dive\\promotion_experiment.py": "edf52c1686bc6225a9c6eb0e60053890beb4d85dc6731cc3da907d0cc2cbf85b",
       "src\\shiftlab\\dive\\proxy.py": "77546752c6796c37795fc7eeb14de678e0bf53509248bda56b1cb1bcecb3a102",
       "src\\shiftlab\\dive\\query.py": "60587b6146d839524fb04e69be295eba487b482c19513d09412703c1b0872d33",
-      "src\\shiftlab\\decision_harm_experiment.py": "defd72b36f6525615ebde2de1daca3f5351d7538075ce601b5dc4e0638196956"
+      "src\\shiftlab\\decision_harm_experiment.py": "b749aa6961e11abd8b234977f65515001b117c723885610cc5a83d0183c4206a"
     }
   },
   "analysis": {
@@ -96,5 +98,13 @@
     "method": "exact prospective one-sided conditional McNemar power; pilot plug-in discordance rates",
     "pilot_seeds_used_for_planning_only": 60,
     "fresh_seed_evaluation": false
+  },
+  "population_null_reclassification": {
+    "scenario_names": [
+      "stationary",
+      "benign_nuisance"
+    ],
+    "classification": "finite-stream oracle flags retained separately; alarms count as null false escalations",
+    "observed_streams_and_alarm_times_preserved": true
   }
 }

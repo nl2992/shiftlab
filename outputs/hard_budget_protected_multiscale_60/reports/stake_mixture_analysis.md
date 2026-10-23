@@ -44,18 +44,18 @@ The interval is descriptive for this predeclared synthetic block. It is not adju
 
 ## Controls and budget audit
 
-|Scenario|Policy|Rows|Fixed any alarms|Candidate any alarms|Evaluator-harm rows|Onsets reached|Budget violations|
+|Scenario|Policy|Rows|Fixed any alarms|Candidate any alarms|Pathwise oracle materiality flags|Population-null harm onsets|Budget violations|
 |---|---|---:|---:|---:|---:|---:|---:|
-|benign_nuisance|cost_stabilized_proxy|60|0|0|7|7|0|
-|benign_nuisance|cost_variance_proxy|60|0|0|7|7|0|
-|benign_nuisance|decision_value_proxy|60|0|0|7|7|0|
-|benign_nuisance|uniform_proxy|60|0|0|7|7|0|
-|benign_nuisance|variance_proxy|60|0|0|7|7|0|
-|stationary|cost_stabilized_proxy|60|0|0|1|1|0|
-|stationary|cost_variance_proxy|60|0|0|1|1|0|
-|stationary|decision_value_proxy|60|0|0|1|1|0|
-|stationary|uniform_proxy|60|0|0|1|1|0|
-|stationary|variance_proxy|60|0|0|1|1|0|
+|benign_nuisance|cost_stabilized_proxy|60|0|0|7|0|0|
+|benign_nuisance|cost_variance_proxy|60|0|0|7|0|0|
+|benign_nuisance|decision_value_proxy|60|0|0|7|0|0|
+|benign_nuisance|uniform_proxy|60|0|0|7|0|0|
+|benign_nuisance|variance_proxy|60|0|0|7|0|0|
+|stationary|cost_stabilized_proxy|60|0|0|1|0|0|
+|stationary|cost_variance_proxy|60|0|0|1|0|0|
+|stationary|decision_value_proxy|60|0|0|1|0|0|
+|stationary|uniform_proxy|60|0|0|1|0|0|
+|stationary|variance_proxy|60|0|0|1|0|0|
 
 Across all 1800 rows, budget violations: 0.
 
@@ -63,4 +63,4 @@ Across all 1800 rows, budget violations: 0.
 
 Run `uv run python scripts/analyze_betting_mixture.py --input <run>/metrics/hard_budget_comparison.parquet --candidate-column protected_e_detected`. Bootstrap seed: `7731`; replicates: `20000`.
 
-Analysis script SHA-256: `0c5454638de0c107eab963b819ba6dc5dc4c9ae7adf8af35ae0262c016af2d9c`.
+Analysis script SHA-256: `e7becb009de9876d3795751db370e2403ee503cac6432d4950e94366ebff2be2`.

@@ -3,30 +3,30 @@
 Evaluated 60 seeds per scenario on `cuda`. Every policy received the same per-stream dollar cap, calibrated from the mean tariff in the pre-monitor validation slice. Methods share per-seed uniform random variates to enable paired comparisons. The maximum tariff support is fixed at 2.5; the monitor stops before the next event once the remaining balance is below that support maximum. This makes every processed event's query propensity positive and predictable, while ensuring spend never exceeds the cap.
 All methods use the common configured propensity floor for their e-process bound.
 
-The e-process is evaluated only through its budget stopping time. Harm detection is reported both over all evaluator-labeled harmful streams and over harmful streams whose onset occurred before budget stopping; the latter avoids calling an unobserved late onset a monitor miss. Stream seeds are the inferential units. The outcomes and tariffs are synthetic; current and reference policy costs are paired on the same label.
+The e-process is evaluated only through its budget stopping time. Harm detection is reported over evaluator-labeled alternatives and over onsets reached before budget stopping. Stationary and benign-nuisance controls are population nulls; finite-stream oracle flags are listed separately and every alarm on these controls counts as a false escalation. Stream seeds are the inferential units. The outcomes and tariffs are synthetic; current and reference policy costs are paired on the same label.
 
-|Scenario|Method|Mean cap|Mean spend|Mean cap use|Mean labels|Monitor fraction|Stream-mean RMSE|Harm reached / harmful streams|Fixed detection all / reached|Multiscale detection all / reached|Fixed false escalation|Multiscale false escalation|
-|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
-|boundary_local_harm|cost_stabilized_proxy|717.45|703.23|0.980|511.8|0.984|0.0505|60/60|0.050 / 0.050|0.050 / 0.050|0.000|0.000|
-|boundary_local_harm|cost_variance_proxy|717.45|707.24|0.986|491.3|0.976|0.0547|60/60|0.050 / 0.050|0.050 / 0.050|0.000|0.000|
-|boundary_local_harm|decision_value_proxy|717.45|699.63|0.975|466.4|0.955|0.0596|60/60|0.067 / 0.067|0.050 / 0.050|0.000|0.000|
-|boundary_local_harm|uniform_proxy|717.45|704.44|0.982|469.3|0.983|0.0517|60/60|0.083 / 0.083|0.067 / 0.067|0.000|0.000|
-|boundary_local_harm|variance_proxy|717.45|706.57|0.985|470.5|0.974|0.0541|60/60|0.067 / 0.067|0.067 / 0.067|0.000|0.000|
-|harmful_adaptation|cost_stabilized_proxy|717.45|703.23|0.980|511.8|0.984|0.0415|60/60|0.083 / 0.083|0.083 / 0.083|0.000|0.000|
-|harmful_adaptation|cost_variance_proxy|717.45|707.24|0.986|491.3|0.976|0.0391|60/60|0.033 / 0.033|0.033 / 0.033|0.000|0.000|
-|harmful_adaptation|decision_value_proxy|717.45|706.00|0.984|470.2|0.960|0.0366|60/60|0.000 / 0.000|0.000 / 0.000|0.000|0.000|
-|harmful_adaptation|uniform_proxy|717.45|704.44|0.982|469.3|0.983|0.0367|60/60|0.050 / 0.050|0.050 / 0.050|0.000|0.000|
-|harmful_adaptation|variance_proxy|717.45|706.57|0.985|470.5|0.974|0.0392|60/60|0.050 / 0.050|0.050 / 0.050|0.000|0.000|
-|recurring_regimes|cost_stabilized_proxy|717.45|703.23|0.980|511.8|0.984|0.0442|60/60|0.033 / 0.033|0.017 / 0.017|0.000|0.000|
-|recurring_regimes|cost_variance_proxy|717.45|707.24|0.986|491.3|0.976|0.0487|60/60|0.067 / 0.067|0.050 / 0.050|0.000|0.000|
-|recurring_regimes|decision_value_proxy|717.45|693.61|0.967|462.2|0.972|0.0470|60/60|0.033 / 0.033|0.033 / 0.033|0.000|0.000|
-|recurring_regimes|uniform_proxy|717.45|704.44|0.982|469.3|0.983|0.0409|60/60|0.067 / 0.067|0.067 / 0.067|0.000|0.000|
-|recurring_regimes|variance_proxy|717.45|706.57|0.985|470.5|0.974|0.0476|60/60|0.083 / 0.083|0.067 / 0.067|0.000|0.000|
-|residual_variance|cost_stabilized_proxy|717.45|703.23|0.980|511.8|0.984|0.0392|60/60|0.000 / 0.000|0.000 / 0.000|0.000|0.000|
-|residual_variance|cost_variance_proxy|717.45|707.24|0.986|491.3|0.976|0.0378|60/60|0.000 / 0.000|0.000 / 0.000|0.000|0.000|
-|residual_variance|decision_value_proxy|717.45|709.26|0.989|471.9|0.941|0.0390|60/60|0.000 / 0.000|0.000 / 0.000|0.000|0.000|
-|residual_variance|uniform_proxy|717.45|704.44|0.982|469.3|0.983|0.0372|60/60|0.000 / 0.000|0.000 / 0.000|0.000|0.000|
-|residual_variance|variance_proxy|717.45|706.57|0.985|470.5|0.974|0.0405|60/60|0.000 / 0.000|0.000 / 0.000|0.000|0.000|
+|Scenario|Method|Mean cap|Mean spend|Mean cap use|Mean labels|Monitor fraction|Stream-mean RMSE|Harm reached / harmful streams|Pathwise oracle flags|Fixed detection all / reached|Multiscale detection all / reached|Protected detection all / reached|Fixed / multiscale / protected false escalation|
+|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+|boundary_local_harm|cost_stabilized_proxy|717.45|703.23|0.980|511.8|0.984|0.0505|60/60|60|0.050 / 0.050|0.050 / 0.050|n/a / n/a|0.000 / 0.000 / n/a|
+|boundary_local_harm|cost_variance_proxy|717.45|707.24|0.986|491.3|0.976|0.0547|60/60|60|0.050 / 0.050|0.050 / 0.050|n/a / n/a|0.000 / 0.000 / n/a|
+|boundary_local_harm|decision_value_proxy|717.45|699.63|0.975|466.4|0.955|0.0596|60/60|60|0.067 / 0.067|0.050 / 0.050|n/a / n/a|0.000 / 0.000 / n/a|
+|boundary_local_harm|uniform_proxy|717.45|704.44|0.982|469.3|0.983|0.0517|60/60|60|0.083 / 0.083|0.067 / 0.067|n/a / n/a|0.000 / 0.000 / n/a|
+|boundary_local_harm|variance_proxy|717.45|706.57|0.985|470.5|0.974|0.0541|60/60|60|0.067 / 0.067|0.067 / 0.067|n/a / n/a|0.000 / 0.000 / n/a|
+|harmful_adaptation|cost_stabilized_proxy|717.45|703.23|0.980|511.8|0.984|0.0415|60/60|60|0.083 / 0.083|0.083 / 0.083|n/a / n/a|0.000 / 0.000 / n/a|
+|harmful_adaptation|cost_variance_proxy|717.45|707.24|0.986|491.3|0.976|0.0391|60/60|60|0.033 / 0.033|0.033 / 0.033|n/a / n/a|0.000 / 0.000 / n/a|
+|harmful_adaptation|decision_value_proxy|717.45|706.00|0.984|470.2|0.960|0.0366|60/60|60|0.000 / 0.000|0.000 / 0.000|n/a / n/a|0.000 / 0.000 / n/a|
+|harmful_adaptation|uniform_proxy|717.45|704.44|0.982|469.3|0.983|0.0367|60/60|60|0.050 / 0.050|0.050 / 0.050|n/a / n/a|0.000 / 0.000 / n/a|
+|harmful_adaptation|variance_proxy|717.45|706.57|0.985|470.5|0.974|0.0392|60/60|60|0.050 / 0.050|0.050 / 0.050|n/a / n/a|0.000 / 0.000 / n/a|
+|recurring_regimes|cost_stabilized_proxy|717.45|703.23|0.980|511.8|0.984|0.0442|60/60|60|0.033 / 0.033|0.017 / 0.017|n/a / n/a|0.000 / 0.000 / n/a|
+|recurring_regimes|cost_variance_proxy|717.45|707.24|0.986|491.3|0.976|0.0487|60/60|60|0.067 / 0.067|0.050 / 0.050|n/a / n/a|0.000 / 0.000 / n/a|
+|recurring_regimes|decision_value_proxy|717.45|693.61|0.967|462.2|0.972|0.0470|60/60|60|0.033 / 0.033|0.033 / 0.033|n/a / n/a|0.000 / 0.000 / n/a|
+|recurring_regimes|uniform_proxy|717.45|704.44|0.982|469.3|0.983|0.0409|60/60|60|0.067 / 0.067|0.067 / 0.067|n/a / n/a|0.000 / 0.000 / n/a|
+|recurring_regimes|variance_proxy|717.45|706.57|0.985|470.5|0.974|0.0476|60/60|60|0.083 / 0.083|0.067 / 0.067|n/a / n/a|0.000 / 0.000 / n/a|
+|residual_variance|cost_stabilized_proxy|717.45|703.23|0.980|511.8|0.984|0.0392|60/60|60|0.000 / 0.000|0.000 / 0.000|n/a / n/a|0.000 / 0.000 / n/a|
+|residual_variance|cost_variance_proxy|717.45|707.24|0.986|491.3|0.976|0.0378|60/60|60|0.000 / 0.000|0.000 / 0.000|n/a / n/a|0.000 / 0.000 / n/a|
+|residual_variance|decision_value_proxy|717.45|709.26|0.989|471.9|0.941|0.0390|60/60|60|0.000 / 0.000|0.000 / 0.000|n/a / n/a|0.000 / 0.000 / n/a|
+|residual_variance|uniform_proxy|717.45|704.44|0.982|469.3|0.983|0.0372|60/60|60|0.000 / 0.000|0.000 / 0.000|n/a / n/a|0.000 / 0.000 / n/a|
+|residual_variance|variance_proxy|717.45|706.57|0.985|470.5|0.974|0.0405|60/60|60|0.000 / 0.000|0.000 / 0.000|n/a / n/a|0.000 / 0.000 / n/a|
 
 ## Full-horizon consistency check
 

@@ -518,7 +518,9 @@ def _plot_hard_budget(metrics: pd.DataFrame, figure_path: Path) -> None:
     )
     axes[1].set_xticks(x, methods, rotation=28, ha="right")
     axes[1].set_ylim(0, max(0.35, float(upper.max()) + 0.03))
-    axes[1].set_ylabel("Detection rate among 30 boundary-harm streams")
+    axes[1].set_ylabel(
+        f"Detection rate among {int(detection['count'].max())} boundary-harm streams"
+    )
     axes[1].set_title("All boundary-harm onsets were reached")
     axes[1].grid(axis="y", alpha=0.25)
     fig.suptitle("Query allocation under a common hard label-dollar budget")

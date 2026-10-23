@@ -199,6 +199,9 @@ This implicates bound width as a power bottleneck, but the 0/30 null result has 
 upper endpoint and does not establish 5% calibration. See the [paired results](docs/monitor_bound_sensitivity_results.md),
 [machine-readable paired metrics](outputs/monitor_bound_sensitivity_qmin020/metrics/paired_qmin_sensitivity.csv),
 and [full paired report](outputs/monitor_bound_sensitivity_qmin020/reports/paired_qmin_sensitivity.md).
+The next calibration run is pre-specified for 2,000 streams in each of two null controls at
+`q_min=.20`; its seed block, endpoints, and interpretation rules are recorded in the
+[calibration protocol](docs/null_calibration_qmin020_protocol.md).
 
 The repeated-candidate hard-budget benchmark extends this work to sparse feedback. It freezes a
 13-candidate family and validation-based ranking before monitoring, then compares direct

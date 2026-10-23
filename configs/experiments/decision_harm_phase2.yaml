@@ -5,7 +5,7 @@ evaluation:
   seed_offset: 20261022
   observations_per_seed: 3200
   feature_dimension: 16
-  device: cpu
+  device: auto
 calibration:
   total_seeds: 60
   split: reference_fit_then_independent_rank_calibration

@@ -183,9 +183,12 @@ def replay_decision_stream(
             decision = decision_by_id[request.sample_id]
             yield request
             yield decision
-            outcome = feedback_by_id.get(request.sample_id)
-            if outcome is not None:
-                heapq.heappush(pending, (float(outcome.available_time), request.sample_id))
+            available_outcome = feedback_by_id.get(request.sample_id)
+            if available_outcome is not None:
+                heapq.heappush(
+                    pending,
+                    (float(available_outcome.available_time), request.sample_id),
+                )
         while pending and pending[0][0] == now:
             _, sample_id = heapq.heappop(pending)
             yield feedback_by_id[sample_id]
@@ -202,7 +205,7 @@ def replay(frame: pd.DataFrame):
     """
     if frame.prediction_time.isna().any():
         raise ValueError("Unknown prediction times; define an explicit availability protocol first")
-    pending = []
+    pending: list[tuple[float, str, float]] = []
     ordered = frame.sort_values(["prediction_time", "sample_id"])
     for now, group in ordered.groupby("prediction_time", sort=True):
         while pending and pending[0][0] < now:
@@ -226,7 +229,8 @@ def replay(frame: pd.DataFrame):
                         "Target already observable before prediction; audit task construction"
                     )
                 heapq.heappush(
-                    pending, (row.label_available_time, row.sample_id, float(row.target))
+                    pending,
+                    (float(row.label_available_time), row.sample_id, float(row.target)),
                 )
         while pending and pending[0][0] == now:
             available, identifier, target = heapq.heappop(pending)

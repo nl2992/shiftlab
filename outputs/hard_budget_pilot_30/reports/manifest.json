@@ -1,0 +1,87 @@
+{
+  "experiment": "hard_label_dollar_budget_query_policy_comparison",
+  "configuration": {
+    "n": 3200,
+    "d": 16,
+    "seeds": 30,
+    "seed_offset": 20361022,
+    "alpha": 0.05,
+    "harm_margin": 0.1,
+    "budget_rate": 0.1,
+    "q_min": 0.05,
+    "q_max": 0.5,
+    "cost_stability_tolerance": 0.05,
+    "max_label_cost": 2.5,
+    "device": "cuda",
+    "scenario_subset": [
+      "stationary",
+      "benign_nuisance",
+      "boundary_local_harm"
+    ],
+    "method_subset": [
+      "uniform_proxy",
+      "variance_proxy",
+      "decision_value_proxy",
+      "cost_variance_proxy",
+      "cost_stabilized_proxy"
+    ],
+    "common_eprocess_bound": false
+  },
+  "requested_device": "cuda",
+  "resolved_device": "cuda",
+  "environment": {
+    "cpu_ram_bytes": 16858472448,
+    "disk_free_bytes": 23511056384,
+    "cuda_available": true,
+    "nvidia_smi": "NVIDIA GeForce RTX 4060 Laptop GPU, 8188 MiB, 592.82, 0 %, 97 MiB",
+    "torch_version": "2.9.1+cu130",
+    "cuda_runtime": "13.0",
+    "gpu_name": "NVIDIA GeForce RTX 4060 Laptop GPU",
+    "gpu_memory_bytes": 8585216000,
+    "versions": {
+      "numpy": "2.5.4",
+      "scipy": "1.18.1",
+      "pandas": "3.0.6",
+      "pyarrow": "25.0.1",
+      "folktables": "0.0.12"
+    }
+  },
+  "assumptions": [
+    "Immediate paired labels; no delayed-feedback behavior tested.",
+    "Known query-time tariff support [0.5, max_label_cost].",
+    "Hard-budget stopping checks only remaining spend before the next event.",
+    "Both policy costs are observable from the same outcome.",
+    "E-process validity requires the conditional-mean null and bounded corrected increments.",
+    "The sum of q_t * tariff_t along the realized stopping path is a compensator, not pathwise-capped actual spend."
+  ],
+  "sha256": {
+    "artifacts": {
+      "figures\\hard_budget_tradeoff.png": "7fd546e3c7fdc7cbde5503d85777bf550622c9f1275f51f85eee63b428dcf0f4",
+      "metrics\\eprocess_bound_sensitivity.csv": "1eb4676428b6f6f5057efac673a9163cd255bbe547d85296567e0e7585560746",
+      "metrics\\hard_budget_comparison.parquet": "82231c2f728cb4af0673f71eae9fdd3c70c825e12a360ea9ada0e22f10248efe",
+      "metrics\\hard_budget_summary.csv": "0cc2d6eac5a97624d836a44bbbd7228b2a59c94b5ee390ef6d4f0ef565bca613",
+      "metrics\\paired_effects_vs_uniform.csv": "338fbacd6f06c5845f573a4012e8da4815e6e93ed4ef9945a7142366aa3910be",
+      "reports\\eprocess_bound_sensitivity.md": "66db9849d39190287ddd9de01600f31a3176529299c3de024e0f7d3a953bfd4a",
+      "reports\\hard_budget_comparison.md": "2aa2f89448b616b1ecbac0d733d6bad3b39ec5956b29dcc8f8e170bd5a09f246"
+    },
+    "source_files": {
+      "src\\shiftlab\\dive\\__init__.py": "10a8a1d170c7a452cebaa9df8e07070555edc841ff5c04cd049ff75cd8887780",
+      "src\\shiftlab\\dive\\allocation_grid.py": "3198dca5230787939ba461a117e2e0c1adcb10ffd3e2474aeaf1c668143e2d82",
+      "src\\shiftlab\\dive\\controller.py": "9d4263c825382624940202a51fa5c9908db5f56a2be48a841f005e688ad702eb",
+      "src\\shiftlab\\dive\\eprocess.py": "aeeadce96cd912702130f14fefb52f470595157c2ed0d00c4f263c3c22aa9125",
+      "src\\shiftlab\\dive\\estimators.py": "22b39564317ff1597feb53427eebc8601d459d2d06b7319e6bab1343de4be110",
+      "src\\shiftlab\\dive\\experiment.py": "ed3cc367b0ea79ee50093f1d6fbfd2fca12d6d2177ac01e475220f6ad762a12a",
+      "src\\shiftlab\\dive\\hard_budget.py": "99aadccaee9499b5f80f89bd7531093d284745aa11c89620c749061b70819223",
+      "src\\shiftlab\\dive\\promotion.py": "74a9e5fb45b0c93f2683ed84bb364f71515ad960b72bde839c7ad94edfb85e28",
+      "src\\shiftlab\\dive\\promotion_experiment.py": "edf52c1686bc6225a9c6eb0e60053890beb4d85dc6731cc3da907d0cc2cbf85b",
+      "src\\shiftlab\\dive\\proxy.py": "77546752c6796c37795fc7eeb14de678e0bf53509248bda56b1cb1bcecb3a102",
+      "src\\shiftlab\\dive\\query.py": "60587b6146d839524fb04e69be295eba487b482c19513d09412703c1b0872d33",
+      "src\\shiftlab\\decision_harm_experiment.py": "defd72b36f6525615ebde2de1daca3f5351d7538075ce601b5dc4e0638196956"
+    }
+  },
+  "bound_sensitivity_inputs": {
+    "outputs\\hard_budget_pilot_30\\metrics\\hard_budget_comparison.parquet": "82231c2f728cb4af0673f71eae9fdd3c70c825e12a360ea9ada0e22f10248efe",
+    "outputs\\hard_budget_common_bound_sensitivity_30\\metrics\\hard_budget_comparison.parquet": "a6259e08473592e572154602c5d4e6ec6a6d26b57d5fa916a6cf7fd307e565d5",
+    "script": "9be9662b8684d2c4e96da2cb9ffad25ae8859355662df4c08cec6c68a79669c0"
+  }
+}

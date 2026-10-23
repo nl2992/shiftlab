@@ -2,8 +2,9 @@ import numpy as np
 import pandas as pd
 import pytest
 
+from shiftlab.data.gpu import environment as environment_module
 from shiftlab.data.gpu.benchmarks import _parse_sample
-from shiftlab.data.gpu.environment import environment
+from shiftlab.data.gpu.environment import environment, resolve_device
 from shiftlab.data.gpu.torch_backend import _chunk_plan
 from shiftlab.data.schemas import SyntheticConfig
 from shiftlab.data.synthetic import SCENARIOS, conditional_mean, generate_chunks
@@ -54,6 +55,20 @@ def test_memory_budget_is_a_strict_chunk_bound(dtype, expected_chunk):
 def test_nvidia_smi_sample_parser():
     assert _parse_sample("17, 2048, 8192\n") == (17, 2048, 8192)
     assert _parse_sample("N/A, 2048, 8192") is None
+
+
+def test_auto_device_uses_gpu_for_benchmarked_large_workloads(monkeypatch):
+    monkeypatch.setattr(environment_module, "environment", lambda: {"cuda_available": True})
+    assert resolve_device("auto", n=200_000, d=64, chunk_size=5_000) == "cuda"
+    assert resolve_device("auto", n=199_999, d=64, chunk_size=5_000) == "cpu"
+    assert resolve_device("auto", n=200_000, d=64, chunk_size=1_000) == "cpu"
+
+
+def test_auto_device_falls_back_cleanly_and_explicit_selection_wins(monkeypatch):
+    monkeypatch.setattr(environment_module, "environment", lambda: {"cuda_available": False})
+    assert resolve_device("auto", n=1_000_000, d=256, chunk_size=10_000) == "cpu"
+    assert resolve_device("cuda", n=10, d=2, chunk_size=16) == "cuda"
+    assert resolve_device("cpu", n=1_000_000, d=256, chunk_size=10_000) == "cpu"
 
 
 @pytest.mark.parametrize("dtype", ["float32", "float64"])

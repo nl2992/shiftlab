@@ -18,9 +18,9 @@ def _chunk_plan(c):
 def random_chunks(c):
     device = c.device
     if device == "auto":
-        from .environment import environment
+        from .environment import resolve_device
 
-        device = "cuda" if environment()["cuda_available"] else "cpu"
+        device = resolve_device(c.device, n=c.n, d=c.d, chunk_size=c.chunk_size)
     # Include output arrays, feature copies and intermediate transformations.
     chunk, estimated_bytes_per_row = _chunk_plan(c)
     rng = np.random.default_rng(c.seed)

@@ -74,7 +74,11 @@ TASKS = {
 
 def finite_real_parameter(value, name: str, *, positive=False, nonnegative=False) -> float:
     """Validate a scalar numeric configuration value before converting it to float."""
-    if isinstance(value, (bool, np.bool_)) or not isinstance(value, Real) or not np.isfinite(value):
+    if (
+        isinstance(value, (bool, np.bool_))
+        or not isinstance(value, Real)
+        or not np.isfinite(float(value))
+    ):
         raise ValueError(f"{name} must be a finite real number")
     value = float(value)
     if positive and value <= 0:

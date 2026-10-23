@@ -1,0 +1,112 @@
+# DIVE methods and assumptions
+
+This document describes the first implemented DIVE comparison: decision-loss proxying, prediction-powered monitoring, selective label acquisition, and bounded sequential evidence. The initial benchmark answers a narrow question: at matched pre-monitor label-query rates, how do uniform and adaptive query designs estimate and detect an increase in paired deployed-versus-reference decision cost?
+
+## Estimand and information flow
+
+For a frozen deployed policy `pi` and a prespecified reference policy `pi_ref`, the per-event contrast is
+
+\[ Z_t = c(\pi(X_t),Y_t)-c(\pi_{ref}(X_t),Y_t), \qquad H_t=Z_t-\epsilon. \]
+
+The monitoring null is `E[H_t | F_{t-1}] <= 0`, where `F_(t-1)` includes all prior covariates, decisions, propensities, query indicators, and labels that have arrived. At the current event the learner sees `X_t`, its fixed policy decisions, a proxy prediction `h_t=h(X_t)` fitted only with previously available outcomes, and a query probability `q_t` selected before seeing `Y_t`. If queried, the paired costs and label arrive immediately in this first simulation. The evaluator separately knows the synthetic conditional outcome probability and can compute exact expected policy costs; this oracle information is never passed to proxy, query, or monitor inputs.
+
+Both policy costs are computed on the same observed outcome, so this benchmark studies paired full-information classification costs. It does not cover settings where taking one action changes the outcome or prevents observing the counterfactual action's cost.
+
+## Proxy and prediction-powered estimate
+
+The first proxy is Ridge regression for `H_t`; a separate random forest predicts the held-out residual second moment. Fit rows are split chronologically before monitoring. Validation predictions diagnose RMSE and calibrate acquisition scores. Queried outcomes are passed to `DecisionLossProxy.observe` only after their estimator contribution has been formed. Online Ridge refits use only the historical fit sample and queried outcomes that have arrived. The residual-second-moment model is frozen in this initial experiment.
+
+The estimate is
+
+\[ \widetilde H_t=h_t+\frac{I_t}{q_t}(H_t-h_t), \]
+
+where `I_t` is Bernoulli with the recorded predictable propensity `q_t`. Conditional on current covariates and pre-outcome information, randomization gives `E[tilde H_t | X_t, F_(t-1)] = H_t`, regardless of proxy misspecification, when `q_t>0` and the outcome is observed whenever `I_t=1`. The implementation rejects a non-null outcome argument on unqueried events to make this information boundary testable.
+
+The input contrast is clipped to a known bound `M=max(false-negative cost, false-positive cost)+epsilon`; the proxy is clipped to the same interval. Prediction-powered methods use the fixed worst-case bound `M(2/q_min-1)` and direct inverse-propensity sampling uses `M/q_min`. These constants preserve the stated null `E[H_t | F_(t-1)]<=0`, even when current-feature-dependent propensities are used. A tighter event-specific bound depends on current covariates and would require a stronger pointwise conditional null or a separate proof; the current implementation does not use it. Small query floors therefore make the sequential process conservative.
+
+## Query designs
+
+The benchmark compares full feedback, uniform direct inverse-propensity estimates, uniform prediction-powered estimates, a PPRM-style adaptive-reliance analogue under uniform sampling, entropy/uncertainty sampling, residual-variance sampling, and a decision-value heuristic. In the unit-cost run, query score multipliers are calibrated on the validation slice to target the same expected query rate and are then held fixed. The adaptive policies use `sqrt(v_t)` for estimated residual second moment and `sqrt(v_t) exp(-|h_t|/tau)` for a heuristic that prioritizes uncertain cases near the material-harm boundary. These are working acquisition heuristics, not solutions to a proven optimal allocation problem.
+
+An optional heterogeneous-cost experiment adds a known label tariff `k_t = 0.5 + 2 sigmoid(X_{t,d})`, visible before the query and bounded in `[0.5,2.5]`. All sparse-query designs calibrate on validation to the same expected spend `r * mean(k)`; out-of-time spend may drift when the feature distribution changes, and the budget remains expected rather than a realized cap. The added cost-aware variance rule uses
+
+\[
+q_t = \operatorname{clip}\!\left(\lambda\sqrt{\frac{\hat v_t}{k_t}},q_{min},q_{max}\right),
+\]
+
+with `lambda` calibrated to the expected-spend constraint. For known conditional residual second moment `v_t`, this is the clipped Lagrange solution to minimizing `E[(1/q_t-1)v_t]` subject to `E[k_t q_t]` being fixed. This is classical cost-constrained Neyman allocation. It grounds the implementation and supplies a stronger baseline; it does not establish a new contribution or optimize detection delay directly. Run the GPU comparison with `uv run shiftlab-dive --seeds 30 --n 3200 --device cuda --heterogeneous-label-costs --cost-stability-tolerance 0.05 --output outputs/cost_stabilized`.
+
+The query module also includes a cost-neutral mixture. For a per-event spend target `b` and known cost `k_t`, its neutral branch is `q_0(k_t)=b/k_t`, feasible when it lies within `[q_min,q_max]` on the full supported cost range. It spends exactly `b` in conditional expectation at every event. Mixing it with any adaptive propensity `q_A` in `[q_min,q_max]`, `q_rho=(1-rho)q_0+rho*q_A`, gives
+
+\[
+\left|k_tq_\rho-b\right|
+\le \rho\max\left(|k_{min}q_{min}-b|,|k_{max}q_{max}-b|\right)
+\]
+
+for every event with `k_t` in `[k_min,k_max]`; averaging preserves the same bound under any covariate distribution. For a requested tolerance `delta`, the implementation sets `rho=min(1, delta/D)` where `D` is the bound at `rho=1`, choosing the largest admissible adaptive weight. The helper checks feasibility and tests verify the algebraic bound. `cost_stabilized_proxy` integrates it into the heterogeneous-cost monitor. A 30-seed pilot verified the expected-spend bound in stationary, nuisance-shift and boundary-harm scenarios, but did not improve detection over uniform querying. This convex-mixture bound is elementary robustification, not a novelty claim.
+
+An exploratory CUDA tolerance sweep (`outputs/cost_tolerance_grid_exploratory/reports/tolerance_grid.md`) compared `delta` values 0.01, 0.025, 0.05, and 0.1 on the same ten stream seeds per scenario. All 12 scenario/tolerance cells passed the expected-spend drift check. Under benign nuisance shift, stabilized sampling spent less than uniform (mean 351–373 versus 487) but had slightly higher stream-mean RMSE point estimates; paired 95% bootstrap intervals crossed zero at n=10. No stream in this small paired block triggered harm detection. This grid is exploratory, and its spend target is calibrated on validation rather than a matched realized-spend budget. The separate 30-seed `delta=0.05` pilot detected harm in 0/30 stabilized streams versus 5/30 uniform streams. These results do not establish that tolerance changes detection power; the next test should compare methods at a prespecified common realized-label or dollar budget.
+
+## Common hard label-dollar budget
+
+The hard-budget benchmark (`outputs/hard_budget_pilot_30/reports/hard_budget_comparison.md`) compares uniform, variance, decision-value, cost-variance, and cost-stabilized query policies under the same per-stream dollar cap. For seed `s`, the cap is `B = r * mean(validation_tariff) * N_monitor`, where `r` is the predeclared target rate. Each policy keeps positive predictable propensities on every processed event. Before opening the next event, the procedure stops if the remaining balance is below the known maximum tariff `C_max`; otherwise any query costs at most `C_max` and cannot exceed the remaining budget. Thus actual cumulative spend is bounded pathwise by `B`, while the number of labels and monitored events are random.
+
+The e-process is frozen at this budget stopping time. Under the same bounded-increment conditional-mean null required by the fixed-horizon monitor, predictable query propensities, and the filtration that includes arrived labels and past spend, optional stopping preserves the false-alarm bound. The stopping rule deliberately checks the previous balance before the next event, so it does not select the monitored horizon based on the current covariate or evaluator outcome. This is a straightforward hard-cap wrapper around an e-process, not a novelty claim. The recorded sum of `q_t * tariff_t` along the realized stopping path is a predictable-spend compensator; it can exceed `B` pathwise and is not the actual spend. The hard cap applies to realized sampled tariff only.
+
+The CUDA 30-seed pilot used `B≈360.70` per stream. Actual spend never exceeded its seed-specific cap (450 policy-stream rows, zero violations). All 30 boundary-harm onsets were reached. Under method-specific e-process bounds, uniform sampling detected 4/30 and the four adaptive policies detected 0/30; no false escalation was observed in the stationary or benign-nuisance rows. However, uniform always queries at 0.10 and therefore uses a tighter fixed increment bound than adaptive methods that can query at 0.05. A paired sensitivity rerun giving every method the common `q_min=0.05` bound yielded 0/30 detections for all policies, with all harmful onsets reached. The initial detection gap is sensitive to threshold conservatism and cannot be attributed to allocation alone. See the [bound sensitivity report](../outputs/hard_budget_pilot_30/reports/eprocess_bound_sensitivity.md).
+
+Cost-stabilized sampling averaged 255 labels versus 233 for uniform at comparable spend in boundary harm, with paired RMSE difference `+0.0018` (95% seed-bootstrap CI `[-0.0059, 0.0083]`). Cost-variance Neyman averaged 246 labels but had higher stream-mean RMSE than uniform by `0.0201` (`[0.0050, 0.0348]`). In benign nuisance, only one of 30 streams met evaluator materiality, so harm power there is uninformative. All policies share random numbers, and the uniform hard-budget alarms match the full-monitor baseline through the stopping time: four earlier alarms remain, while one later full-monitor alarm is censored by budget stopping. These are descriptive pilot results, not evidence of a general allocation optimum; confirmation requires a predeclared common bound (or sharper valid eventwise construction), fresh seeds, and budgets selected for power.
+
+A fresh 60-seed matched-bound study was then run under the locked [protocol](hard_budget_matched_bound_protocol.md), with 20% target spend, `q_min=0.10`, `q_max=0.80`, and a shared fixed e-process bound. Across 900 method-stream rows there were no cap violations, all 60 boundary-harm onsets were reached, and false escalations were 0/60 in both stationary and benign-nuisance streams (exact 95% upper bound 0.060). Cost-stabilized allocation detected 12/60 boundary-harm streams versus 8/60 for uniform; the paired difference was `+0.067` (95% seed-bootstrap CI `[0.000, 0.150]`), unadjusted for the four adaptive comparisons. Its RMSE was `0.0548` versus `0.0554` for uniform (paired difference `-0.0006`, CI `[-0.0082, 0.0068]`). It used about 44 more labels at similar spend (`$713` versus `$712`). This is a weak, non-confirmatory signal and does not establish an allocation advantage. The exact detection intervals, paired differences, and complete seed-level Parquet are recorded in `outputs/hard_budget_matched_qmin_010_replication_60/`.
+
+The reliance analogue estimates a scalar from the historical covariance of the observed paired contrast and proxy prediction, divided by the variance of proxy predictions and the labeled-to-unlabeled ratio. It updates only after a uniformly queried label arrives and clips reliance to a configured finite interval. It tests adaptive proxy weighting in this stream setting; it does not reproduce PPRM's source-risk bound, batch construction, or empirical-Bernstein confidence sequence.
+
+## Validation-selected residual-variance allocation grid
+
+The allocation grid varies expected monitor label rates over 0.05, 0.10, and 0.20 and score powers over 0, 0.25, 0.50, 0.75, and 1. For score power `p`, the predictable query rate has form `q_t = clip(lambda * vhat_t**p, q_min, q_max)`; `lambda` is calibrated on the pre-monitor validation slice. The search selects `p` by minimizing the fully labeled validation estimate of query-randomization variance, then evaluates every grid point and the selected member on a separate forward monitor period.
+
+For fixed event outcomes and proxy values, Bernoulli query randomization gives
+
+\[
+\operatorname{Var}_I\!\left(h_t+\frac{I_t}{q_t}(H_t-h_t)\mid X_t,H_t,\mathcal F_{t-1}\right)
+=\left(\frac{1}{q_t}-1\right)(H_t-h_t)^2.
+\]
+
+Replacing the squared residual by its conditional second moment `v(X_t)` and imposing an expected query budget `sum_t q_t = B`, minimizing the sum of these variances is equivalent to minimizing `sum_t v(X_t)/q_t`. The Lagrange condition is `q_t = sqrt(v(X_t)/lambda)`. With propensity floors and caps, the solution is clipped to those bounds. Thus score power 0.5 is the classical Neyman allocation for this variance objective; it is an established baseline, not a novelty claim. The validation grid is useful because `v` is estimated and bounds, finite samples, and proxy misspecification can change which exponent works out of time.
+
+The budget is an expected rate calibrated on validation, not a hard realized label cap. Current-feature propensities remain known and predictable, and the e-process uses the global bound implied by the minimum propensity. Since propensities depend on current features, validity continues to target the unconditional conditional-mean null given prior history. The outer monitor labels never select the power. Reported grid performance is descriptive across independent seeds and does not imply that the selected exponent is uniformly optimal.
+
+## Rate-stabilized Neyman allocation
+
+The power grid exposed a failure mode: after a feature shift, the residual-score distribution can change and a validation-calibrated adaptive policy can spend far more than its target rate. The rate-stabilized variant first calibrates the Neyman propensity `q_N(X)` to mean `r` on validation, then uses `q_rho(X)=(1-rho)r+rho*q_N(X)`. If `q_N` is clipped to `[q_min,q_max]`, then for any deployment feature distribution,
+
+\[
+\left|\mathbb E_{deploy}[q_\rho(X)]-r\right|
+\le \rho\max(r-q_{min},q_{max}-r).
+\]
+
+Given a prespecified tolerance `delta`, the implementation sets `rho=min(1, delta/max(r-q_min,q_max-r))`. The mixture keeps positive, predictable propensities; its guaranteed propensity floor is `(1-rho)r+rho*q_min`, and that floor is used for the fixed e-process increment bound. A validation-only search compares tolerances by estimated query-randomization variance, then evaluates the chosen tolerance and all grid points on forward monitor events. This is a bound on expected query-rate drift under arbitrary covariate shift, not a hard cap on realized label counts. The bound is an elementary consequence of convex mixing, so the method is a grounded robustness baseline rather than a novelty claim.
+
+After a covariate shift, the realized query rate can differ from the calibration rate. Reports must show actual query counts and propensity ranges; they must not describe this as a hard total-label budget. A future fixed-budget design should explicitly stop, allocate by remaining budget, and account for the resulting predictable propensities.
+
+## Sequential evidence
+
+For fixed stakes `lambda` in `(0,1]`, each process multiplies wealth by `1+lambda*tilde H_t/B`, where `B` is a known absolute bound. The mixture over these stakes is an e-process under the conditional-mean null and the stated boundedness assumptions. A threshold of `1/alpha` controls the probability of ever crossing under that null. The separate start-time mixture averages processes started at prespecified stream positions; it does not repeatedly reset the test after inspecting outcomes. Its positions and weights must be fixed before monitoring.
+
+The code reports empirical crossing frequencies only as a diagnostic. Its guarantee requires the conditional null for the filtration actually used, correct costs, predictable policy/query choices, valid positive propensities, immediate label availability as implemented, and the declared increment bound. Dependence, delayed/adaptively sampled labels, arbitrary policy changes, estimated propensities, and adaptive choice of stakes are not covered without additional theory. If a policy changes, the null's estimand and predictable filtration must be restated.
+
+## Shadow candidate certificate component
+
+`CandidatePromotionTest` is evaluated in a separate full-feedback simulation. Candidates carry a model identifier, parent version, last training event index, and position in the candidate sequence. On each fresh forward event, the test receives both incumbent and candidate costs and monitors `G_t = c(incumbent)-c(candidate)-k_switch` against the null `E[G_t | past] <= 0`. Candidate `i` receives `alpha_i=alpha_total/[i(i+1)]`; these levels sum to `alpha_total`, so a union bound covers an unbounded sequence of tests. The candidate must be frozen before evaluation. The experiment compares an early-data logistic recalibration with an incumbent snapshot. The exact-copy snapshot gives a pointwise no-benefit control outside the deliberately harmful policy-update scenario.
+
+The experiment assumes both policies' costs can be evaluated on the same outcome. This holds for the synthetic cost matrix, but not generally when actions change outcomes; those settings need randomized or valid off-policy evaluation. The recalibrated candidate can encounter regime-varying gains, so its measured false-certification rate is descriptive unless the pointwise conditional null holds. Model-version persistence and operational rollback are not implemented.
+
+## One-step intervention controller component
+
+`InterventionController` takes expected one-step loss reductions and label, compute, and switching costs for the finite actions `continue`, `query`, `recalibrate`, `update`, `retrain`, `promote`, and `fallback`. It chooses the available action with the highest positive expected net value and otherwise continues. Promotion is unavailable until its separate statistical certificate is true; fallback is unavailable until an external authorization/gate is true. These hard gates are not traded against estimated utility. The forecasts are inputs and are not currently learned or calibrated by the benchmark, so the controller offers no regret or safety guarantee.
+
+## Metrics and interpretation
+
+The experiment keeps separate quantities for feature discrepancy (`feature_mmd_mean`), predictive uncertainty (used by one query rule), paired observed-cost estimation error, evaluator-known expected decision harm, alarm/delay, and imposed label-cost-adjusted expected excess cost. The latter is only a sensitivity analysis with a configurable synthetic label price; no intervention benefit is measured. False escalation is an alarm before the evaluator-known first material-harm index or any alarm in a no-material-harm stream. Detection and delay are counted only for material-harm streams.
+
+Initial experiment limitations are immediate labels, one synthetic binary task, known common-outcome paired costs, a frozen deployed policy, simple linear proxy, no intervention, and a finite predeclared start-time mixture. Candidate testing and intervention selection exist as standalone components but are not integrated into this experiment. Results are Monte Carlo descriptions, not evidence of real-world utility or novelty.

@@ -1,0 +1,229 @@
+{
+  "experiment": "dive_initial_evidence_acquisition",
+  "created_at_utc": "2026-10-23T05:15:44.626148+00:00",
+  "configuration": {
+    "n": 3200,
+    "d": 16,
+    "seeds": 30,
+    "seed_offset": 20261022,
+    "alpha": 0.05,
+    "harm_margin": 0.1,
+    "query_rate": 0.1,
+    "query_min": 0.05,
+    "query_max": 0.5,
+    "label_cost": 0.01,
+    "proxy_update_every": 20,
+    "device": "cuda"
+  },
+  "requested_device": "cuda",
+  "resolved_device": "cuda",
+  "environment": {
+    "cpu_ram_bytes": 16858472448,
+    "disk_free_bytes": 23650942976,
+    "cuda_available": true,
+    "nvidia_smi": "NVIDIA GeForce RTX 4060 Laptop GPU, 8188 MiB, 592.82, 0 %, 97 MiB",
+    "torch_version": "2.9.1+cu130",
+    "cuda_runtime": "13.0",
+    "gpu_name": "NVIDIA GeForce RTX 4060 Laptop GPU",
+    "gpu_memory_bytes": 8585216000,
+    "versions": {
+      "numpy": "2.5.4",
+      "scipy": "1.18.1",
+      "pandas": "3.0.6",
+      "pyarrow": "25.0.1",
+      "folktables": "0.0.12"
+    }
+  },
+  "methods": [
+    "full_feedback",
+    "uniform_direct",
+    "uniform_proxy",
+    "pprm_reliance_analogue",
+    "uncertainty_proxy",
+    "variance_proxy",
+    "decision_value_proxy"
+  ],
+  "scenario_names": [
+    "stationary",
+    "benign_nuisance",
+    "boundary_local_harm",
+    "residual_variance",
+    "recurring_regimes",
+    "harmful_adaptation"
+  ],
+  "assumption_summary": [
+    "Immediate labels in this first simulation; delayed-label support is not evaluated.",
+    "Query propensity is chosen from current features and pre-monitor fitted models before the outcome.",
+    "Paired decision costs are observed for both policies on the same outcome; this does not cover action-dependent outcomes.",
+    "E-process validity requires the stated conditional-mean null, bounded corrected increments, and predictable stakes."
+  ],
+  "promotion_experiment": {
+    "configuration": {
+      "n": 3200,
+      "d": 16,
+      "seeds": 30,
+      "seed_offset": 20361022,
+      "alpha": 0.05,
+      "switching_cost": 0.05,
+      "device": "cuda"
+    },
+    "environment": {
+      "cpu_ram_bytes": 16858472448,
+      "disk_free_bytes": 23649501184,
+      "cuda_available": true,
+      "nvidia_smi": "NVIDIA GeForce RTX 4060 Laptop GPU, 8188 MiB, 592.82, 0 %, 97 MiB",
+      "torch_version": "2.9.1+cu130",
+      "cuda_runtime": "13.0",
+      "gpu_name": "NVIDIA GeForce RTX 4060 Laptop GPU",
+      "gpu_memory_bytes": 8585216000,
+      "versions": {
+        "numpy": "2.5.4",
+        "scipy": "1.18.1",
+        "pandas": "3.0.6",
+        "pyarrow": "25.0.1",
+        "folktables": "0.0.12"
+      }
+    },
+    "candidates": [
+      "incumbent_snapshot",
+      "recalibrated_candidate"
+    ],
+    "metric_path": "outputs\\metrics\\promotion_comparison.parquet",
+    "figure_path": "outputs\\figures\\adaptation_promotion.png",
+    "report_path": "outputs\\reports\\promotion_comparison.md"
+  },
+  "sha256": {
+    "artifacts": {
+      "figures\\adaptation_promotion.png": "cad9018b3374efc87a96b642b434e5a6790dc14bc9307cbf1ad0c9ab5e863ceb",
+      "figures\\allocation_grid.png": "7bfaa89b69b010583a0961a54aadfa05eadc873dd796fa16ce1c8efa639b9208",
+      "figures\\cost_pareto.png": "fe58204b4defaae3e6d85651b3bddef6c804e5aacc8c42ac9cd6f7d8eae2f146",
+      "figures\\cumulative_net_regret.png": "6677393b742ae31aef09a553f8041e5cfda021932795a8320c18f25a903e1175",
+      "figures\\false_alarm_delay.png": "1c54d6d83bf0f3733074eafb16631cfba0208992c82df36f1747d31c914a4f96",
+      "figures\\label_efficiency.png": "ef752463681f19aea7a64f6e213c79965b9ac7777eb31972260db98d5bb6606f",
+      "figures\\rate_stabilized_grid.png": "8716d9ee531440e0e5a34a78b79a05328e3c685161750d34d42ca2150e0efd03",
+      "figures\\shift_vs_harm.png": "5d0a6ad8c6df65d6f1a4105dab85003a735fcb02ca20c000cd583a219b582884",
+      "metrics\\allocation_grid.parquet": "f2815f2cdf6e506b6e28280ac42ac7e6690a167b4c5d64eed4bfa5eb3d721075",
+      "metrics\\method_comparison.parquet": "21546640fc2275029f9f297d170fd874aadcaae043af3fb4c6a2926df029dc1b",
+      "metrics\\promotion_comparison.parquet": "a877f27bbb4d11cbfcf48a9337ae2a0986b82851225e5d476de0b27f4defec0f",
+      "metrics\\rate_stabilized_grid.parquet": "1daa7c93c59cdfbef5a6e1597cad9d38c342ff043474bc63ed4cbd81d80b28e6",
+      "reports\\allocation_grid.md": "c7c4f7dfeb38e1be48fe5cb1b915588baaa724ca567ded54b47ee7c275aac3ee",
+      "reports\\method_comparison.md": "5259c3aefdfdf1337012671ae76b5ce32051d5fb6a2964ca9a230003d2756a9d",
+      "reports\\promotion_comparison.md": "a36418e486a11057dd57ac9e2fab9faefd7c02053338d21be8c7332a637d63d2",
+      "reports\\rate_stabilized_grid.md": "defaa5b0616cacd6b9a11b1422f0b1a71b46a6b24b0f60127d432e9f6cb4dd10"
+    },
+    "source_files": {
+      "src\\shiftlab\\dive\\__init__.py": "10a8a1d170c7a452cebaa9df8e07070555edc841ff5c04cd049ff75cd8887780",
+      "src\\shiftlab\\dive\\allocation_grid.py": "3198dca5230787939ba461a117e2e0c1adcb10ffd3e2474aeaf1c668143e2d82",
+      "src\\shiftlab\\dive\\controller.py": "9d4263c825382624940202a51fa5c9908db5f56a2be48a841f005e688ad702eb",
+      "src\\shiftlab\\dive\\eprocess.py": "aeeadce96cd912702130f14fefb52f470595157c2ed0d00c4f263c3c22aa9125",
+      "src\\shiftlab\\dive\\estimators.py": "22b39564317ff1597feb53427eebc8601d459d2d06b7319e6bab1343de4be110",
+      "src\\shiftlab\\dive\\experiment.py": "260b81b66aede010fdffb79c6f4865884819fe19bb925d87c0cf77ccdf2f0263",
+      "src\\shiftlab\\dive\\promotion.py": "74a9e5fb45b0c93f2683ed84bb364f71515ad960b72bde839c7ad94edfb85e28",
+      "src\\shiftlab\\dive\\promotion_experiment.py": "edf52c1686bc6225a9c6eb0e60053890beb4d85dc6731cc3da907d0cc2cbf85b",
+      "src\\shiftlab\\dive\\proxy.py": "77546752c6796c37795fc7eeb14de678e0bf53509248bda56b1cb1bcecb3a102",
+      "src\\shiftlab\\dive\\query.py": "456a00edd2e77a8cb34233cd0ab8570b392e2a2e4f411370ec8c4d3c2ddcc13f",
+      "src\\shiftlab\\decision_harm_experiment.py": "c320d3e5c4b6f73ed13e8940e3d843b21834c9d50ae424aa755aaf8361424291"
+    }
+  },
+  "allocation_grid_search": {
+    "configuration": {
+      "n": 3200,
+      "d": 16,
+      "seeds": 30,
+      "seed_offset": 20361022,
+      "alpha": 0.05,
+      "harm_margin": 0.1,
+      "label_budgets": [
+        0.05,
+        0.1,
+        0.2
+      ],
+      "variance_powers": [
+        0.0,
+        0.25,
+        0.5,
+        0.75,
+        1.0
+      ],
+      "label_cost": 0.01,
+      "device": "cuda"
+    },
+    "requested_device": "cuda",
+    "environment": {
+      "cpu_ram_bytes": 16858472448,
+      "disk_free_bytes": 23576227840,
+      "cuda_available": true,
+      "nvidia_smi": "NVIDIA GeForce RTX 4060 Laptop GPU, 8188 MiB, 592.82, 0 %, 97 MiB",
+      "torch_version": "2.9.1+cu130",
+      "cuda_runtime": "13.0",
+      "gpu_name": "NVIDIA GeForce RTX 4060 Laptop GPU",
+      "gpu_memory_bytes": 8585216000,
+      "versions": {
+        "numpy": "2.5.4",
+        "scipy": "1.18.1",
+        "pandas": "3.0.6",
+        "pyarrow": "25.0.1",
+        "folktables": "0.0.12"
+      }
+    },
+    "metric_path": "outputs\\metrics\\allocation_grid.parquet",
+    "report_path": "outputs\\reports\\allocation_grid.md",
+    "figure_path": "outputs\\figures\\allocation_grid.png",
+    "selection": "minimize estimated validation query-randomization variance",
+    "allocation_theory": "clipped q proportional to sqrt(conditional residual second moment)"
+  },
+  "rate_stabilized_grid": {
+    "configuration": {
+      "n": 3200,
+      "d": 16,
+      "seeds": 30,
+      "seed_offset": 20361022,
+      "alpha": 0.05,
+      "harm_margin": 0.1,
+      "label_budgets": [
+        0.05,
+        0.1,
+        0.2
+      ],
+      "variance_powers": [
+        0.0,
+        0.25,
+        0.5,
+        0.75,
+        1.0
+      ],
+      "rate_drift_tolerances": [
+        0.0,
+        0.01,
+        0.025,
+        0.05,
+        0.1
+      ],
+      "label_cost": 0.01,
+      "device": "cuda"
+    },
+    "requested_device": "cuda",
+    "environment": {
+      "cpu_ram_bytes": 16858472448,
+      "disk_free_bytes": 23572803584,
+      "cuda_available": true,
+      "nvidia_smi": "NVIDIA GeForce RTX 4060 Laptop GPU, 8188 MiB, 592.82, 0 %, 97 MiB",
+      "torch_version": "2.9.1+cu130",
+      "cuda_runtime": "13.0",
+      "gpu_name": "NVIDIA GeForce RTX 4060 Laptop GPU",
+      "gpu_memory_bytes": 8585216000,
+      "versions": {
+        "numpy": "2.5.4",
+        "scipy": "1.18.1",
+        "pandas": "3.0.6",
+        "pyarrow": "25.0.1",
+        "folktables": "0.0.12"
+      }
+    },
+    "metric_path": "outputs\\metrics\\rate_stabilized_grid.parquet",
+    "report_path": "outputs\\reports\\rate_stabilized_grid.md",
+    "figure_path": "outputs\\figures\\rate_stabilized_grid.png",
+    "method": "uniform mixture of fixed-rate sampling and Neyman allocation",
+    "guarantee": "worst-case expected query-rate drift <= configured tolerance"
+  }
+}

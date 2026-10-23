@@ -34,10 +34,10 @@ uv run pytest tests/data/ -q
 ### Reproduce the stored synthetic smoke suite
 
 `configs/data/synthetic/smoke.yaml` fixes eight scenarios, 5,000 observations, four
-features, and DGP seed 42. Generate it on CPU with:
+features, and DGP seed 42. Generate it with benchmark-calibrated automatic device selection:
 
 ```bash
-uv run python scripts/generate_synthetic.py --config configs/data/synthetic/smoke.yaml --root data --device cpu
+uv run python scripts/generate_synthetic.py --config configs/data/synthetic/smoke.yaml --root data --device auto
 uv run python scripts/validate_datasets.py --root data
 uv run python scripts/build_data_report.py --root data
 ```
@@ -67,10 +67,21 @@ The executed per-series metrics and per-step error plot are in
 `data/reports/monash_forecast_diagnostics.png`; plotted inter-series bands are descriptive
 quantiles over the deterministic selected subsets, not confidence intervals.
 
-For this NVIDIA Windows machine:
+For this NVIDIA Windows machine, prefer `auto` for generation and specify `cuda` for a deliberate
+GPU run. The default auto selector uses CUDA when available for workloads at least as large as the
+measured 200,000-observation, 64-feature benchmark with chunks of at least 5,000 rows. This
+conservative crossover reflects the measured transfer/DataFrame overhead: CUDA was slower for some
+smaller-chunk cases. Explicit `--device cuda` overrides the selector, and `--device cpu` preserves
+the CPU reference path. Auto-resolved datasets record the actual backend in their immutable
+configuration and environment provenance. The decision-harm benchmark's 3,200-by-16 generation
+and NumPy/SciPy monitor calculations are CPU-bound at this scale; its manifest records requested
+and resolved devices rather than implying GPU use.
+
+Install the optional CUDA-enabled runtime and inspect the detected device:
 
 ```bash
 uv sync --extra dev --extra data-sources --extra neural
+uv run python -c "from shiftlab.data.gpu.environment import environment; print(environment())"
 uv run --extra neural python scripts/generate_synthetic.py --config configs/data/synthetic/gpu_smoke.yaml --device cuda
 uv run --extra neural python scripts/benchmark_generation.py --config configs/data/synthetic/benchmark.yaml
 # Sustained 200,000-row sweep for 100 ms GPU-utilization sampling:

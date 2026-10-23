@@ -9,7 +9,7 @@ import pandas as pd
 import yaml
 
 from .catalogue import SOURCES
-from .gpu.environment import environment
+from .gpu.environment import environment, resolve_device
 from .schemas import SyntheticConfig
 from .storage import save_dataset
 from .synthetic import SCENARIOS, generate_chunks
@@ -25,7 +25,14 @@ def generate(config: SyntheticConfig):
         )
     if config.device == "auto":
         config = config.model_copy(
-            update={"device": "cuda" if environment()["cuda_available"] else "cpu"}
+            update={
+                "device": resolve_device(
+                    config.device,
+                    n=config.n,
+                    d=config.d,
+                    chunk_size=config.chunk_size,
+                )
+            }
         )
     weights, truth = schedule(config)
     oracle = {

@@ -65,6 +65,7 @@ def test_storage_integrity_and_immutability(tmp_path):
     assert manifest["source_hash"]
     assert manifest["code_commit"] == commit()
     assert manifest["processing_config"]["seed"] == config.seed
+    assert manifest["processing_config"]["device"] in {"cpu", "cuda"}
     assert manifest["files"]["observations.parquet"] == sha256(path / "observations.parquet")
     assert manifest["files"]["evaluator_only/oracle.parquet"] == sha256(
         path / "evaluator_only/oracle.parquet"

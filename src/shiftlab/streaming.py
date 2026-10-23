@@ -7,14 +7,14 @@ import numpy as np
 
 @dataclass(frozen=True)
 class Observation:
-    time: int
+    time: int | float
     features: tuple[float, ...]
 
 
 @dataclass(frozen=True)
 class Feedback:
-    time: int
-    available_at: int
+    time: int | float
+    available_at: int | float
     features: tuple[float, ...]
     target: float
     prediction: float

@@ -9,9 +9,10 @@ import platform
 import subprocess
 import sys
 import time
-from dataclasses import asdict, dataclass
+from dataclasses import asdict, dataclass, replace
 from datetime import UTC, datetime
 from pathlib import Path
+from typing import Literal, cast
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -21,6 +22,7 @@ import sklearn
 from scipy.special import ndtr
 
 from .data.decision_tasks import binary_action, binary_risk
+from .data.gpu.environment import environment, resolve_device
 from .data.schemas import SyntheticConfig
 from .data.streaming import (
     DecisionFeedback,
@@ -42,7 +44,18 @@ from .monitoring import (
 class Scenario:
     name: str
     dgp: str
-    pattern: str = "abrupt"
+    pattern: Literal[
+        "abrupt",
+        "multiple",
+        "linear",
+        "sigmoid",
+        "recurring",
+        "hmm",
+        "seasonal",
+        "temporary",
+        "variable_dwell",
+        "oblivious_adversarial",
+    ] = "abrupt"
     severity: float = 1.0
     fn_cost: float = 5.0
     fp_cost: float = 1.0
@@ -99,7 +112,7 @@ class ExperimentConfig:
     alpha: float = 0.05
     eprocess_epsilon: float = 0.10
     seed_offset: int = 20261022
-    device: str = "cpu"
+    device: str = "auto"
 
 
 def _generate(scenario: Scenario, seed: int, config: ExperimentConfig):
@@ -116,7 +129,7 @@ def _generate(scenario: Scenario, seed: int, config: ExperimentConfig):
         validation_fraction=0.05,
         calibration_fraction=0.05,
         chunk_size=2048,
-        device=config.device,
+        device=cast(Literal["cpu", "cuda", "auto"], config.device),
     )
     frames, oracles = zip(*generate_chunks(cfg), strict=True)
     frame, oracle = pd.concat(frames, ignore_index=True), pd.concat(oracles, ignore_index=True)
@@ -296,7 +309,11 @@ def _observed_run(scenario: Scenario, seed: int, cfg: ExperimentConfig, calibrat
     feature_detected = bool(
         mmd_alarm is not None and feature_onset is not None and mmd_alarm >= feature_onset
     )
-    feature_delay = mmd_alarm - feature_onset if feature_detected else np.nan
+    feature_delay = (
+        mmd_alarm - feature_onset
+        if mmd_alarm is not None and feature_onset is not None and mmd_alarm >= feature_onset
+        else np.nan
+    )
     alarm_rows = []
     for monitor, alarm_time in alarms.items():
         is_harm_monitor = monitor != "mmd"
@@ -370,7 +387,11 @@ def _observed_run(scenario: Scenario, seed: int, cfg: ExperimentConfig, calibrat
 
 def _calibrate(config: ExperimentConfig):
     stationary = next(item for item in SCENARIOS if item.name == "stationary")
-    maxima = {"mmd": [], "predictive_cusum": [], "paired_cost_cusum": []}
+    maxima: dict[str, list[float]] = {
+        "mmd": [],
+        "predictive_cusum": [],
+        "paired_cost_cusum": [],
+    }
     feature_pool, mse_pool, harm_pool = [], [], []
     started = time.time()
     reference_replicates = max(2, config.calibration_seeds // 2)
@@ -523,6 +544,11 @@ def _plot(metrics: pd.DataFrame, alarms: pd.DataFrame, traces: pd.DataFrame, out
 
 
 def run_experiment(config: ExperimentConfig, output: Path):
+    requested_device = config.device
+    config = replace(
+        config,
+        device=resolve_device(config.device, n=config.n, d=config.d, chunk_size=2048),
+    )
     output.mkdir(parents=True, exist_ok=False)
     calibration = _calibrate(config)
     metrics_rows, alarm_rows, trace_rows = [], [], []
@@ -558,6 +584,8 @@ def run_experiment(config: ExperimentConfig, output: Path):
         "created_at_utc": datetime.now(UTC).isoformat(),
         "schema_version": "decision-harm-benchmark-1.0.0",
         "config": asdict(config),
+        "requested_device": requested_device,
+        "resolved_device": config.device,
         "evaluation_seed_ids": [
             config.seed_offset + 100_000 + i for i in range(config.evaluation_seeds)
         ],
@@ -596,7 +624,12 @@ def run_experiment(config: ExperimentConfig, output: Path):
         "git_revision": _git_revision(),
         "source_sha256": source_hashes,
         "calibration_elapsed_seconds": calibration["elapsed_seconds"],
-        "gpu": "Requested device is recorded; generator backend falls back to CPU if PyTorch/CUDA is unavailable.",
+        "gpu": {
+            "requested_device": requested_device,
+            "resolved_device": config.device,
+            "environment": environment(),
+            "selection_note": "Auto uses the project-benchmarked large-generation range; this decision-harm workload is small and remains on CPU unless CUDA is explicitly requested.",
+        },
     }
     (output / "manifest.json").write_text(
         json.dumps(manifest, indent=2, allow_nan=False), encoding="utf-8"
@@ -703,7 +736,7 @@ def main(argv=None):
     parser.add_argument("--seeds", type=int, default=30)
     parser.add_argument("--calibration-seeds", type=int, default=60)
     parser.add_argument("--n", type=int, default=3200)
-    parser.add_argument("--device", choices=["cpu", "cuda", "auto"], default="cpu")
+    parser.add_argument("--device", choices=["cpu", "cuda", "auto"], default="auto")
     parser.add_argument(
         "--quick", action="store_true", help="Small smoke run, not paper-quality results."
     )

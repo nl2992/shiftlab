@@ -1,0 +1,9 @@
+# Exercises the benchmark-calibrated auto selector on a workload where CUDA helped.
+n: 200000
+d: 64
+scenario: iid_regression
+device: auto
+dtype: float32
+chunk_size: 5000
+memory_mb: 128
+seed: 42

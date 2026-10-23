@@ -5,6 +5,22 @@ import subprocess
 import psutil
 
 
+def resolve_device(requested: str, *, n: int, d: int, chunk_size: int) -> str:
+    """Resolve auto conservatively using the workload range benchmarked on this project.
+
+    The committed end-to-end sweep found CUDA useful at 200k x 64 with chunks >=5k,
+    while smaller chunks sometimes lost to transfer and DataFrame assembly overhead.
+    This is a default heuristic, not a performance guarantee; explicit cpu/cuda wins.
+    """
+    if requested != "auto":
+        return requested
+    if not environment()["cuda_available"]:
+        return "cpu"
+    if n >= 200_000 and d >= 64 and chunk_size >= 5_000:
+        return "cuda"
+    return "cpu"
+
+
 def environment() -> dict:
     result = {
         "cpu_ram_bytes": psutil.virtual_memory().total,

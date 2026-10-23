@@ -1,0 +1,90 @@
+{
+  "experiment": "hard_label_dollar_budget_query_policy_comparison",
+  "configuration": {
+    "n": 3200,
+    "d": 16,
+    "seeds": 60,
+    "seed_offset": 20362022,
+    "alpha": 0.05,
+    "harm_margin": 0.1,
+    "budget_rate": 0.2,
+    "q_min": 0.1,
+    "q_max": 0.8,
+    "cost_stability_tolerance": 0.05,
+    "max_label_cost": 2.5,
+    "common_eprocess_bound": true,
+    "device": "cuda",
+    "scenario_subset": [
+      "stationary",
+      "benign_nuisance",
+      "boundary_local_harm"
+    ],
+    "method_subset": [
+      "uniform_proxy",
+      "variance_proxy",
+      "decision_value_proxy",
+      "cost_variance_proxy",
+      "cost_stabilized_proxy"
+    ]
+  },
+  "requested_device": "cuda",
+  "resolved_device": "cuda",
+  "environment": {
+    "cpu_ram_bytes": 16858472448,
+    "disk_free_bytes": 23503130624,
+    "cuda_available": true,
+    "nvidia_smi": "NVIDIA GeForce RTX 4060 Laptop GPU, 8188 MiB, 592.82, 0 %, 97 MiB",
+    "torch_version": "2.9.1+cu130",
+    "cuda_runtime": "13.0",
+    "gpu_name": "NVIDIA GeForce RTX 4060 Laptop GPU",
+    "gpu_memory_bytes": 8585216000,
+    "versions": {
+      "numpy": "2.5.4",
+      "scipy": "1.18.1",
+      "pandas": "3.0.6",
+      "pyarrow": "25.0.1",
+      "folktables": "0.0.12"
+    }
+  },
+  "assumptions": [
+    "Immediate paired labels; no delayed-feedback behavior tested.",
+    "Known query-time tariff support [0.5, max_label_cost].",
+    "Hard-budget stopping checks only remaining spend before the next event.",
+    "Both policy costs are observable from the same outcome.",
+    "E-process validity requires the conditional-mean null and bounded corrected increments.",
+    "The sum of q_t * tariff_t along the realized stopping path is a compensator, not pathwise-capped actual spend.",
+    "E-process minimum propensities are recorded per method; common_eprocess_bound can enforce a shared q_min bound for sensitivity runs."
+  ],
+  "sha256": {
+    "artifacts": {
+      "figures\\hard_budget_tradeoff.png": "965be1ce0c9e9653cfcbc210c96141381fdc80f3e3077182ef336357101e87fd",
+      "metrics\\hard_budget_comparison.parquet": "b0b34b8fb6f32559ddea91a05a14e40d84a74c1419c467036d4b7f7dd377955b",
+      "metrics\\hard_budget_summary.csv": "91ef5dbcfcade184037e064adc828b41d52beda1b4f49749fd6e151e0f9e16d8",
+      "metrics\\matched_bound_replication_summary.csv": "3531a16460ee0acb03bf1be7b288db32f6149670d76d8f4d7324d3df2387d808",
+      "metrics\\paired_effects_vs_uniform.csv": "1cf9eb4b3cb87084a96511d97af15b42940df21e501c62a43b1005ad6451f1d6",
+      "reports\\hard_budget_comparison.md": "91d8f76762557344546bb8be57e036c50ff7f9d169afedf3e4c1040c07def4fb",
+      "reports\\matched_bound_replication_analysis.md": "75c534f7e3f34586ba432a8e44a764eff1cd0dd170a905ad72587ba0bd64f806"
+    },
+    "source_files": {
+      "src\\shiftlab\\dive\\__init__.py": "10a8a1d170c7a452cebaa9df8e07070555edc841ff5c04cd049ff75cd8887780",
+      "src\\shiftlab\\dive\\allocation_grid.py": "3198dca5230787939ba461a117e2e0c1adcb10ffd3e2474aeaf1c668143e2d82",
+      "src\\shiftlab\\dive\\controller.py": "9d4263c825382624940202a51fa5c9908db5f56a2be48a841f005e688ad702eb",
+      "src\\shiftlab\\dive\\eprocess.py": "aeeadce96cd912702130f14fefb52f470595157c2ed0d00c4f263c3c22aa9125",
+      "src\\shiftlab\\dive\\estimators.py": "22b39564317ff1597feb53427eebc8601d459d2d06b7319e6bab1343de4be110",
+      "src\\shiftlab\\dive\\experiment.py": "ed3cc367b0ea79ee50093f1d6fbfd2fca12d6d2177ac01e475220f6ad762a12a",
+      "src\\shiftlab\\dive\\hard_budget.py": "99aadccaee9499b5f80f89bd7531093d284745aa11c89620c749061b70819223",
+      "src\\shiftlab\\dive\\promotion.py": "74a9e5fb45b0c93f2683ed84bb364f71515ad960b72bde839c7ad94edfb85e28",
+      "src\\shiftlab\\dive\\promotion_experiment.py": "edf52c1686bc6225a9c6eb0e60053890beb4d85dc6731cc3da907d0cc2cbf85b",
+      "src\\shiftlab\\dive\\proxy.py": "77546752c6796c37795fc7eeb14de678e0bf53509248bda56b1cb1bcecb3a102",
+      "src\\shiftlab\\dive\\query.py": "60587b6146d839524fb04e69be295eba487b482c19513d09412703c1b0872d33",
+      "src\\shiftlab\\decision_harm_experiment.py": "defd72b36f6525615ebde2de1daca3f5351d7538075ce601b5dc4e0638196956"
+    }
+  },
+  "analysis": {
+    "script": "scripts/analyze_matched_bound_replication.py",
+    "script_sha256": "dfea22cc9e0c5687cd11e7356611fd9b523ee63129415e0843b239727b7fe5fa",
+    "rng_seed": 20362023,
+    "bootstrap_draws": 50000,
+    "confidence_interval": "exact two-sided Clopper-Pearson for binary rates; paired seed bootstrap for differences"
+  }
+}

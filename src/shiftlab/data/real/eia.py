@@ -51,7 +51,7 @@ def _bulk_records(archive_path: Path, respondents, types, start, end, max_record
         for kind in types
     }
     found = set()
-    records = []
+    records: list[dict[str, object]] = []
     with zipfile.ZipFile(archive_path) as archive:
         members = [name for name in archive.namelist() if Path(name).name == "EBA.txt"]
         if len(members) != 1:

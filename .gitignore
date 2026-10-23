@@ -11,7 +11,36 @@ build/
 dist/
 
 # Local experiments, data and checkpoints
-outputs/
+outputs/*
+!outputs/metrics/
+!outputs/reports/
+!outputs/figures/
+outputs/metrics/*
+!outputs/metrics/method_comparison.parquet
+!outputs/metrics/promotion_comparison.parquet
+!outputs/metrics/allocation_grid.parquet
+!outputs/metrics/rate_stabilized_grid.parquet
+outputs/reports/*
+!outputs/reports/method_comparison.md
+!outputs/reports/promotion_comparison.md
+!outputs/reports/allocation_grid.md
+!outputs/reports/rate_stabilized_grid.md
+!outputs/reports/manifest.json
+outputs/figures/*
+!outputs/figures/shift_vs_harm.png
+!outputs/figures/false_alarm_delay.png
+!outputs/figures/label_efficiency.png
+!outputs/figures/cumulative_net_regret.png
+!outputs/figures/cost_pareto.png
+!outputs/figures/adaptation_promotion.png
+!outputs/figures/allocation_grid.png
+!outputs/figures/rate_stabilized_grid.png
+!outputs/hard_budget_pilot_30/
+!outputs/hard_budget_pilot_30/**
+!outputs/hard_budget_common_bound_sensitivity_30/
+!outputs/hard_budget_common_bound_sensitivity_30/**
+!outputs/hard_budget_matched_qmin_010_replication_60/
+!outputs/hard_budget_matched_qmin_010_replication_60/**
 results/*
 !results/.gitkeep
 data/raw/
@@ -19,6 +48,8 @@ data/interim/
 data/processed/
 data/synthetic/
 data/manifests/
+data/reports/decision_harm_phase2/*/
+data/gpu_auto_verification/
 checkpoints/
 *.pt
 *.pth

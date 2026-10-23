@@ -43,7 +43,7 @@ class SyntheticConfig(BaseModel):
     regimes: int = Field(default=2, ge=1, le=20)
     review_period: int = Field(default=100, ge=2)
     transition_fraction: float = Field(default=0.1, gt=0, lt=0.5)
-    device: Literal["cpu", "cuda", "auto"] = "cpu"
+    device: Literal["cpu", "cuda", "auto"] = "auto"
     dtype: Literal["float32", "float64"] = "float64"
     chunk_size: int = Field(default=10000, ge=16)
     memory_mb: int = Field(default=512, ge=16)

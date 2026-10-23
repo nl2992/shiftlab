@@ -117,6 +117,16 @@ bounded observed cost differences, known costs, and the conditional excess-cost 
 selectively observed labels, adaptive queries, serial dependence, counterfactual policy value, and
 real-world utility validity are not established by this benchmark.
 
+The extended Paper 3 query-allocation comparison also covers boundary-local harm, residual-variance
+shift, recurring regimes, and deliberately harmful adaptation. Its locked protocol is in
+[`docs/hard_budget_extended_scenarios_protocol.md`](docs/hard_budget_extended_scenarios_protocol.md),
+and the 60-seed CUDA results (1,200 method-stream rows), paired bootstrap summaries, and figure are
+in `outputs/hard_budget_extended_scenarios_60/`. In this exploratory block, all per-stream hard
+budgets were respected and no false escalations occurred, while harmful-stream detection ranged
+from 0/60 to 8/60 depending on scenario and query policy. The low rates are descriptive and do not
+establish a method ranking or a false-alarm guarantee. See the [Paper 3 research log](papers/paper3_cost_aware_adaptation/research_log.md)
+for the interpretation and per-scenario paired RMSE intervals.
+
 The current full initial run is documented in
 [`data/reports/decision_harm_phase2/20261023T0230Z-final-30seed/baseline_report.md`](data/reports/decision_harm_phase2/20261023T0230Z-final-30seed/baseline_report.md).
 

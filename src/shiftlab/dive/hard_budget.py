@@ -598,13 +598,22 @@ def run_hard_budget(config: HardBudgetConfig, output: Path) -> Path:
             "",
             "## Full-horizon consistency check",
             "",
-            "Using the same per-seed query random numbers, the full-monitor uniform baseline produced five boundary-harm alarms. Four occurred before hard-budget stopping and are reproduced at identical event indices; the fifth occurred at event 2,279 on a stream stopped at event 2,232, so it is correctly censored by the budget horizon.",
+            "This run evaluates each e-process only through its hard-budget stopping time and does not recompute a full-horizon monitor. Any comparison with a full-monitor baseline must use matching stream seeds and query random numbers; the earlier 30-seed pilot consistency check is recorded in the Paper 3 research log.",
             "",
             "## Interpretation limits",
             "",
             "This is an allocation comparison under a finite spend cap, not an intervention controller and not a new sequential-test theorem. The hard-cap stopping time is based on past realized spend, not current evaluator truth. The e-process validity still requires the documented bounded-increment conditional-mean null and predictable query probabilities. Early budget exhaustion censors later harm onsets; report both reachability and detection. Realized label dollars are bounded, while the number of labels and monitor horizon remain random. The saved sum of per-event `q_t * cost_t` is a predictable-spend compensator along the realized stopping path; its pathwise sum can exceed the hard cap and it must not be read as realized spend.",
             "",
-            f"Reproduce with `uv run shiftlab-dive-hard-budget --seeds {config.seeds} --n {config.n} --device cuda{' --common-eprocess-bound' if config.common_eprocess_bound else ''} --output {output.as_posix()}`.",
+            (
+                "Reproduce with `uv run shiftlab-dive-hard-budget "
+                f"--seeds {config.seeds} --seed-offset {config.seed_offset} "
+                f"--n {config.n} --d {config.d} --budget-rate {config.budget_rate} "
+                f"--q-min {config.q_min} --q-max {config.q_max} --device {config.device} "
+                f"--scenarios {' '.join(config.scenario_subset)} "
+                f"--methods {' '.join(config.method_subset)} "
+                f"{'--common-eprocess-bound ' if config.common_eprocess_bound else ''}"
+                f"--output {output.as_posix()}`."
+            ),
             "",
             "![Hard-budget tradeoff](../figures/hard_budget_tradeoff.png)",
             "",

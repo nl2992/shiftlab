@@ -1,0 +1,83 @@
+{
+  "experiment": "hard_label_dollar_budget_query_policy_comparison",
+  "configuration": {
+    "n": 3200,
+    "d": 16,
+    "seeds": 60,
+    "seed_offset": 20363022,
+    "alpha": 0.05,
+    "harm_margin": 0.1,
+    "budget_rate": 0.2,
+    "q_min": 0.1,
+    "q_max": 0.8,
+    "cost_stability_tolerance": 0.05,
+    "max_label_cost": 2.5,
+    "common_eprocess_bound": true,
+    "device": "cuda",
+    "scenario_subset": [
+      "boundary_local_harm",
+      "residual_variance",
+      "recurring_regimes",
+      "harmful_adaptation"
+    ],
+    "method_subset": [
+      "uniform_proxy",
+      "variance_proxy",
+      "decision_value_proxy",
+      "cost_variance_proxy",
+      "cost_stabilized_proxy"
+    ]
+  },
+  "requested_device": "cuda",
+  "resolved_device": "cuda",
+  "environment": {
+    "cpu_ram_bytes": 16858472448,
+    "disk_free_bytes": 23498072064,
+    "cuda_available": true,
+    "nvidia_smi": "NVIDIA GeForce RTX 4060 Laptop GPU, 8188 MiB, 592.82, 0 %, 97 MiB",
+    "torch_version": "2.9.1+cu130",
+    "cuda_runtime": "13.0",
+    "gpu_name": "NVIDIA GeForce RTX 4060 Laptop GPU",
+    "gpu_memory_bytes": 8585216000,
+    "versions": {
+      "numpy": "2.5.4",
+      "scipy": "1.18.1",
+      "pandas": "3.0.6",
+      "pyarrow": "25.0.1",
+      "folktables": "0.0.12"
+    }
+  },
+  "assumptions": [
+    "Immediate paired labels; no delayed-feedback behavior tested.",
+    "Known query-time tariff support [0.5, max_label_cost].",
+    "Hard-budget stopping checks only remaining spend before the next event.",
+    "Both policy costs are observable from the same outcome.",
+    "E-process validity requires the conditional-mean null and bounded corrected increments.",
+    "The sum of q_t * tariff_t along the realized stopping path is a compensator, not pathwise-capped actual spend.",
+    "E-process minimum propensities are recorded per method; common_eprocess_bound can enforce a shared q_min bound for sensitivity runs."
+  ],
+  "sha256": {
+    "artifacts": {
+      "figures\\hard_budget_tradeoff.png": "292047678587b191f5201092786228b71f8c03fc5b30191e15cbab27bf0bb045",
+      "metrics\\hard_budget_comparison.parquet": "fcb3014eb60ec2db2e68dda4a4b85f5a4f5acd03d9960fd966083308bd13c704",
+      "metrics\\hard_budget_summary.csv": "aac916c78c0a353dfd00f3142bd1435604d1a789571de711404dde3ef58e7932",
+      "metrics\\paired_effects_vs_uniform.csv": "dfcfcebf4777517549d6c77091238683710e4de21ac6e98fa1ce46c9238ef1dd",
+      "reports\\hard_budget_comparison.md": "6f3c81f3eb33ec5e22433e375088500184d0fcf6c4b1f2b11da22a3b0a025c80"
+    },
+    "source_files": {
+      "src\\shiftlab\\dive\\__init__.py": "10a8a1d170c7a452cebaa9df8e07070555edc841ff5c04cd049ff75cd8887780",
+      "src\\shiftlab\\dive\\allocation_grid.py": "3198dca5230787939ba461a117e2e0c1adcb10ffd3e2474aeaf1c668143e2d82",
+      "src\\shiftlab\\dive\\controller.py": "9d4263c825382624940202a51fa5c9908db5f56a2be48a841f005e688ad702eb",
+      "src\\shiftlab\\dive\\eprocess.py": "aeeadce96cd912702130f14fefb52f470595157c2ed0d00c4f263c3c22aa9125",
+      "src\\shiftlab\\dive\\estimators.py": "22b39564317ff1597feb53427eebc8601d459d2d06b7319e6bab1343de4be110",
+      "src\\shiftlab\\dive\\experiment.py": "ed3cc367b0ea79ee50093f1d6fbfd2fca12d6d2177ac01e475220f6ad762a12a",
+      "src\\shiftlab\\dive\\hard_budget.py": "23387b49f7a558290493d385aaccced868c5ca24ad101a021894a49d4f06e21b",
+      "src\\shiftlab\\dive\\power.py": "d3796dde1cb378ddf7a2a401a2971a8902d126b0db82e48e88556333fa4dde53",
+      "src\\shiftlab\\dive\\promotion.py": "74a9e5fb45b0c93f2683ed84bb364f71515ad960b72bde839c7ad94edfb85e28",
+      "src\\shiftlab\\dive\\promotion_experiment.py": "edf52c1686bc6225a9c6eb0e60053890beb4d85dc6731cc3da907d0cc2cbf85b",
+      "src\\shiftlab\\dive\\proxy.py": "77546752c6796c37795fc7eeb14de678e0bf53509248bda56b1cb1bcecb3a102",
+      "src\\shiftlab\\dive\\query.py": "60587b6146d839524fb04e69be295eba487b482c19513d09412703c1b0872d33",
+      "src\\shiftlab\\decision_harm_experiment.py": "defd72b36f6525615ebde2de1daca3f5351d7538075ce601b5dc4e0638196956"
+    }
+  }
+}

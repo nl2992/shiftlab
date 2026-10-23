@@ -14,6 +14,10 @@
 
 All three monitors retain the same global prediction-powered increment bound `M * (2/q_min - 1)` and test the history-conditional upper-mean null using predictable stakes. No bound is normalized by current covariates. The predictable variance and PM-EB algorithms are established comparators, not proposed novelties.
 
+### Paired global-bound sensitivity
+
+As a separate development contrast, rerun only `uniform_proxy` with `q_min=0.20` and the same seed block. Uniform querying remains exactly 0.20 in both runs; the propensity floor affects only the valid prediction-powered support bound, reducing it from 198.9 to 45.9 for the registered cost matrix. Same-seed reuse is intentional for this paired sensitivity and is not an independent confirmation. Verify queried labels, realized spend, and processed horizon match between the two runs before attributing differences to the bound.
+
 Report harm detection, onset reachability, delay conditional on detection, false escalation on each control, realized spend, labels, processed horizon, and paired exact McNemar contrasts against the fixed mixture. Use Wilson intervals for event rates. This 30-stream diagnostic is not a calibration study and cannot establish a 5% false-escalation rate. It will not select a final method; any promising monitor requires independent null calibration and a separately seeded confirmation.
 
 ## Reproduction
@@ -26,5 +30,8 @@ uv run python scripts/diagnose_hard_budget_monitors.py `
   --n 3200 `
   --d 16 `
   --budget-rate 0.20 `
+  --q-min 0.05 `
   --device cuda
 ```
+
+Run the paired sensitivity with `--output outputs/monitor_bound_sensitivity_qmin020 --q-min 0.20 --methods uniform_proxy` and the same seed offset. This tests a different experiment configuration on paired streams; it does not establish calibration or serve as the final confirmation.

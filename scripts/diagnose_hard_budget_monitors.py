@@ -126,6 +126,7 @@ def summarize(metrics: pd.DataFrame) -> pd.DataFrame:
 
 def write_figure(summary: pd.DataFrame, output: Path) -> Path:
     scenarios = [scenario for scenario in DEFAULT_SCENARIOS if scenario in set(summary.scenario)]
+    methods = [method for method in DEFAULT_METHODS if method in set(summary.method)]
     fig, axes = plt.subplots(len(scenarios), 1, figsize=(11, 3.1 * len(scenarios)), squeeze=False)
     colors = {
         "fixed_mixture": "#2878b5",
@@ -139,13 +140,13 @@ def write_figure(summary: pd.DataFrame, output: Path) -> Path:
         lo = "false_wilson_low" if is_null else "detection_wilson_low"
         hi = "false_wilson_high" if is_null else "detection_wilson_high"
         ax = axes[i, 0]
-        positions = np.arange(len(DEFAULT_METHODS))
+        positions = np.arange(len(methods))
         width = 0.23
         for j, monitor in enumerate(name for name, _ in MONITORS):
             values = []
             lower = []
             upper = []
-            for method in DEFAULT_METHODS:
+            for method in methods:
                 row = rows.loc[rows.method.eq(method) & rows.monitor.eq(monitor)]
                 if row.empty:
                     values.append(np.nan)
@@ -165,7 +166,7 @@ def write_figure(summary: pd.DataFrame, output: Path) -> Path:
                 label=monitor,
                 color=colors[monitor],
             )
-        ax.set_xticks(positions, DEFAULT_METHODS, rotation=20, ha="right")
+        ax.set_xticks(positions, methods, rotation=20, ha="right")
         ax.set_ylim(0, 1.0)
         ax.set_ylabel("False escalation" if is_null else "Harm detection")
         ax.set_title(f"{scenario}: {outcome.replace('_', ' ')} (Wilson 95% intervals)")
@@ -187,6 +188,7 @@ def run_diagnostic(
     n: int = 3200,
     d: int = 16,
     budget_rate: float = 0.20,
+    q_min: float = 0.05,
     scenarios: tuple[str, ...] = DEFAULT_SCENARIOS,
     methods: tuple[str, ...] = DEFAULT_METHODS,
     device: str = "cuda",
@@ -201,7 +203,7 @@ def run_diagnostic(
         seeds=seeds,
         seed_offset=seed_offset,
         budget_rate=budget_rate,
-        q_min=0.05,
+        q_min=q_min,
         q_max=0.80,
         common_eprocess_bound=True,
         robust_growth_probability_radius=0.20,
@@ -273,7 +275,7 @@ def run_diagnostic(
             "",
             "![Monitor power comparison](../figures/monitor_power_comparison.png)",
             "",
-            f"Reproduce with `uv run python scripts/diagnose_hard_budget_monitors.py --output outputs/monitor_power_diagnostic_30 --seeds {seeds} --seed-offset {seed_offset} --n {n} --d {d} --budget-rate {budget_rate} --device {device}`.",
+            f"Reproduce with `uv run python scripts/diagnose_hard_budget_monitors.py --output {output.as_posix()} --seeds {seeds} --seed-offset {seed_offset} --n {n} --d {d} --budget-rate {budget_rate} --q-min {q_min} --device {device}`.",
         ]
     )
     report_path = output / "reports" / "monitor_power_diagnostic.md"
@@ -301,6 +303,7 @@ def main(argv: list[str] | None = None) -> None:
     parser.add_argument("--n", type=int, default=3200)
     parser.add_argument("--d", type=int, default=16)
     parser.add_argument("--budget-rate", type=float, default=0.20)
+    parser.add_argument("--q-min", type=float, default=0.05)
     parser.add_argument("--scenarios", nargs="+", default=DEFAULT_SCENARIOS)
     parser.add_argument("--methods", nargs="+", default=DEFAULT_METHODS)
     parser.add_argument("--device", choices=("cpu", "cuda", "auto"), default="cuda")
@@ -313,6 +316,7 @@ def main(argv: list[str] | None = None) -> None:
             n=args.n,
             d=args.d,
             budget_rate=args.budget_rate,
+            q_min=args.q_min,
             scenarios=tuple(args.scenarios),
             methods=tuple(args.methods),
             device=args.device,

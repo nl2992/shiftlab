@@ -184,6 +184,16 @@ fixed propensity and tariff bounds, so the protocol replaced it with the highest
 [metrics](outputs/budget_frontier_60/metrics/budget_frontier.parquet), [figure](outputs/budget_frontier_60/figures/budget_frontier.png),
 and [manifest](outputs/budget_frontier_60/reports/manifest.json).
 
+A fresh-seed monitor diagnostic compared the fixed gate with predictable variance and PM-EB using
+identical sampled labels and globally bounded increments. All three had 0/30 detections in both
+harmful scenarios under all three query policies, with all onsets reached; 0/30 null escalations
+has a 11.4% Wilson upper endpoint and cannot establish 5% calibration. See the
+[protocol](docs/monitor_power_diagnostic_protocol.md), [measured findings](docs/monitor_power_diagnostic_results.md),
+[full metrics](outputs/monitor_power_diagnostic_30/metrics/hard_budget_comparison.parquet),
+[monitor summary](outputs/monitor_power_diagnostic_30/metrics/monitor_comparison.csv), and
+[figure](outputs/monitor_power_diagnostic_30/figures/monitor_power_comparison.png). The next
+development test isolates the common global-bound sensitivity under uniform querying.
+
 The repeated-candidate hard-budget benchmark extends this work to sparse feedback. It freezes a
 13-candidate family and validation-based ranking before monitoring, then compares direct
 inverse-propensity with prediction-powered monitoring under 10% and 20% pathwise label caps. Across

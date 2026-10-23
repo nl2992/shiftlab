@@ -191,8 +191,14 @@ has a 11.4% Wilson upper endpoint and cannot establish 5% calibration. See the
 [protocol](docs/monitor_power_diagnostic_protocol.md), [measured findings](docs/monitor_power_diagnostic_results.md),
 [full metrics](outputs/monitor_power_diagnostic_30/metrics/hard_budget_comparison.parquet),
 [monitor summary](outputs/monitor_power_diagnostic_30/metrics/monitor_comparison.csv), and
-[figure](outputs/monitor_power_diagnostic_30/figures/monitor_power_comparison.png). The next
-development test isolates the common global-bound sensitivity under uniform querying.
+[figure](outputs/monitor_power_diagnostic_30/figures/monitor_power_comparison.png). A paired
+uniform-query sensitivity then changed only the global bound from 198.9 (`q_min=.05`) to 45.9
+(`q_min=.20`): fixed-mixture and predictable-variance monitors detected 19–20/30 harmful streams,
+with zero alarms in either 30-stream null control. Query counts, spend, and horizon were identical.
+This implicates bound width as a power bottleneck, but the 0/30 null result has an 11.4% Wilson
+upper endpoint and does not establish 5% calibration. See the [paired results](docs/monitor_bound_sensitivity_results.md),
+[machine-readable paired metrics](outputs/monitor_bound_sensitivity_qmin020/metrics/paired_qmin_sensitivity.csv),
+and [full paired report](outputs/monitor_bound_sensitivity_qmin020/reports/paired_qmin_sensitivity.md).
 
 The repeated-candidate hard-budget benchmark extends this work to sparse feedback. It freezes a
 13-candidate family and validation-based ranking before monitoring, then compares direct

@@ -1,0 +1,13 @@
+scenario,monitor,streams,qmin_005_detections,qmin_020_detections,qmin_020_wilson_low,qmin_020_median_delay,qmin_005_false_escalations,qmin_020_false_escalations,paired_wins_qmin020,paired_losses_qmin020,mcnemar_exact_p,qmin_020_wilson_high
+benign_nuisance,fixed_mixture,30,0,0,,,0,0,0,0,1.0,
+benign_nuisance,predictable_variance,30,0,0,,,0,0,0,0,1.0,
+benign_nuisance,predictable_empirical_bernstein,30,0,0,,,0,0,0,0,1.0,
+boundary_local_harm,fixed_mixture,30,0,19,0.4551356365479487,1129.0,0,0,19,0,3.814697265625e-06,0.7812607919389929
+boundary_local_harm,predictable_variance,30,0,19,0.4551356365479487,1191.0,0,0,19,0,3.814697265625e-06,0.7812607919389929
+boundary_local_harm,predictable_empirical_bernstein,30,0,0,0.0,,0,0,0,0,1.0,0.11351339317396876
+recurring_regimes,fixed_mixture,30,0,20,0.4878005164454384,2052.5,0,0,20,0,1.9073486328125e-06,0.8076950191632386
+recurring_regimes,predictable_variance,30,0,19,0.4551356365479487,2062.0,0,0,19,0,3.814697265625e-06,0.7812607919389929
+recurring_regimes,predictable_empirical_bernstein,30,0,1,0.005908590381612455,2263.0,0,0,1,0,1.0,0.16670390991409173
+stationary,fixed_mixture,30,0,0,,,0,0,0,0,1.0,
+stationary,predictable_variance,30,0,0,,,0,0,0,0,1.0,
+stationary,predictable_empirical_bernstein,30,0,0,,,0,0,0,0,1.0,

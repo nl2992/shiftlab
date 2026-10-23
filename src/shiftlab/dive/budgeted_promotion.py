@@ -703,6 +703,8 @@ def _paired_bootstrap_contrasts(
     for key, group in primary[primary.alpha_allocation.eq("rank")].groupby(keys, sort=False):
         ppi = group[group.estimator.eq("prediction_powered")].sort_values("seed")
         ipw = group[group.estimator.eq("direct_ipw")].sort_values("seed")
+        if ppi.empty or ipw.empty:
+            continue
         if len(ppi) != len(ipw) or not np.array_equal(ppi.seed.to_numpy(), ipw.seed.to_numpy()):
             raise ValueError("estimators are not paired on identical seed sets")
         contrasts.append(("direct_ipw_minus_prediction_powered", ipw, ppi, key[0], key[1], key[2]))
@@ -714,6 +716,8 @@ def _paired_bootstrap_contrasts(
         rank = group[group.alpha_allocation.eq("rank")].sort_values("seed")
         for allocation in ("equal", "validation_power"):
             comparator = group[group.alpha_allocation.eq(allocation)].sort_values("seed")
+            if rank.empty or comparator.empty:
+                continue
             if len(rank) != len(comparator) or not np.array_equal(
                 rank.seed.to_numpy(), comparator.seed.to_numpy()
             ):
@@ -730,6 +734,8 @@ def _paired_bootstrap_contrasts(
         uniform = group[group.query_policy.eq("uniform")].sort_values("seed")
         for query in ("variance", "decision_value"):
             adaptive = group[group.query_policy.eq(query)].sort_values("seed")
+            if uniform.empty or adaptive.empty:
+                continue
             if len(uniform) != len(adaptive) or not np.array_equal(
                 uniform.seed.to_numpy(), adaptive.seed.to_numpy()
             ):
@@ -749,6 +755,8 @@ def _paired_bootstrap_contrasts(
             ):
                 continue
             method = group[group.monitoring_rule.eq(monitoring_rule)].sort_values("seed")
+            if fixed.empty or method.empty:
+                continue
             if len(fixed) != len(method) or not np.array_equal(
                 fixed.seed.to_numpy(), method.seed.to_numpy()
             ):
@@ -824,64 +832,62 @@ def _append_paired_report(report_path: Path, paired: pd.DataFrame) -> None:
 
 def _plot(summary: pd.DataFrame, path: Path) -> None:
     scenarios = list(summary.scenario.drop_duplicates())
-    budget_values = sorted(summary.budget_rate.unique())
-    estimator_values = [name for name in ESTIMATORS if name in set(summary.estimator)]
+    budget_rate = float(summary.budget_rate.max())
+    estimator = next(name for name in ESTIMATORS if name in set(summary.estimator))
     monitoring_values = [name for name in MONITORING_RULES if name in set(summary.monitoring_rule)]
-    query_values = [name for name in QUERY_POLICIES if name in set(summary.query_policy)]
-    allocation_values = [
-        name for name in ALPHA_ALLOCATIONS if name in set(summary.alpha_allocation)
-    ]
-    fig, axes = plt.subplots(
-        len(budget_values) * len(estimator_values) * len(monitoring_values),
-        len(query_values),
-        figsize=(18, 3.2 * len(budget_values) * len(estimator_values) * len(monitoring_values)),
-        sharex=True,
-        squeeze=False,
+    query = next(name for name in QUERY_POLICIES if name in set(summary.query_policy))
+    allocation = next(name for name in ALPHA_ALLOCATIONS if name in set(summary.alpha_allocation))
+    cell = summary[
+        summary.budget_rate.eq(budget_rate)
+        & summary.estimator.eq(estimator)
+        & summary.query_policy.eq(query)
+        & summary.alpha_allocation.eq(allocation)
+    ].set_index(["scenario", "monitoring_rule"])
+    cell = cell.reindex(
+        pd.MultiIndex.from_product(
+            [scenarios, monitoring_values], names=["scenario", "monitoring_rule"]
+        )
     )
+    fig, axes = plt.subplots(1, 2, figsize=(18, 7), sharex=True)
     positions = np.arange(len(scenarios))
-    width = 0.82 / len(allocation_values)
-    for budget_index, budget_rate in enumerate(budget_values):
-        for estimator_index, estimator in enumerate(estimator_values):
-            for monitoring_index, monitoring_rule in enumerate(monitoring_values):
-                row_index = (budget_index * len(estimator_values) + estimator_index) * len(
-                    monitoring_values
-                ) + monitoring_index
-                for query_index, query in enumerate(query_values):
-                    cell = summary[
-                        summary.budget_rate.eq(budget_rate)
-                        & summary.estimator.eq(estimator)
-                        & summary.monitoring_rule.eq(monitoring_rule)
-                        & summary.query_policy.eq(query)
-                    ]
-                    axis = axes[row_index, query_index]
-                    for allocation_index, allocation in enumerate(allocation_values):
-                        rows = cell[cell.alpha_allocation.eq(allocation)].set_index("scenario")
-                        rows = rows.reindex(scenarios)
-                        offset = (allocation_index - (len(allocation_values) - 1) / 2) * width
-                        axis.bar(
-                            positions + offset,
-                            rows.mean_expected_postpromotion_net_gain,
-                            width,
-                            label=allocation,
-                        )
-                    axis.axhline(0, color="black", linewidth=0.8)
-                    axis.set_title(
-                        f"{monitoring_rule} · {estimator} · {query} · {budget_rate:.0%} cap"
-                    )
-                    axis.grid(axis="y", alpha=0.25)
-                    axis.set_xticks(positions, scenarios, rotation=35, ha="right", fontsize=8)
-                    if query_index == 0:
-                        axis.set_ylabel("Mean expected net gain")
-                    if row_index == 0 and query_index == 0:
-                        axis.legend(fontsize=8, title="Candidate alpha")
-    fig.suptitle("Repeated-candidate promotion under common hard label caps")
+    width = 0.82 / len(monitoring_values)
+    for index, rule in enumerate(monitoring_values):
+        rows = cell.xs(rule, level="monitoring_rule").reindex(scenarios)
+        offset = (index - (len(monitoring_values) - 1) / 2) * width
+        axes[0].bar(positions + offset, rows.promotion_rate, width, label=rule)
+        gain = rows.mean_expected_postpromotion_net_gain.to_numpy()
+        low = rows.expected_gain_ci_low.to_numpy()
+        high = rows.expected_gain_ci_high.to_numpy()
+        axes[1].bar(
+            positions + offset,
+            gain,
+            width,
+            label=rule,
+            yerr=np.vstack((gain - low, high - gain)),
+            capsize=2,
+        )
+    axes[0].set_ylabel("Promotion rate")
+    axes[0].set_ylim(bottom=0)
+    axes[0].set_title("Promotion probability")
+    axes[1].set_ylabel("Mean expected future net gain")
+    axes[1].set_title("Post-promotion value (95% t intervals)")
+    for axis in axes:
+        axis.axhline(0, color="black", linewidth=0.8)
+        axis.grid(axis="y", alpha=0.25)
+        axis.set_xticks(positions, scenarios, rotation=35, ha="right", fontsize=9)
+    axes[1].legend(fontsize=8, title="Monitoring rule", loc="best")
+    fig.suptitle(
+        f"Repeated-candidate promotion · {budget_rate:.0%} cap · {estimator} · {query} · {allocation} spending"
+    )
     fig.tight_layout()
     path.parent.mkdir(parents=True, exist_ok=True)
     fig.savefig(path, dpi=170)
     plt.close(fig)
 
 
-def run_budgeted_promotion(config: BudgetedPromotionConfig, output: Path) -> Path:
+def run_budgeted_promotion(
+    config: BudgetedPromotionConfig, output: Path, *, reuse_detail: bool = False
+) -> Path:
     config.validate()
     device = resolve_device(config.device, n=config.n, d=config.d, chunk_size=2048)
     config = BudgetedPromotionConfig(**{**asdict(config), "device": device})
@@ -893,7 +899,7 @@ def run_budgeted_promotion(config: BudgetedPromotionConfig, output: Path) -> Pat
     detail_path = metrics_dir / "budgeted_promotion_streams.parquet"
     summary_path = metrics_dir / "budgeted_promotion_summary.parquet"
     paired_path = metrics_dir / "budgeted_promotion_paired_contrasts.parquet"
-    if detail_path.exists() or summary_path.exists():
+    if (detail_path.exists() or summary_path.exists()) and not reuse_detail:
         raise FileExistsError(f"refusing to overwrite existing budgeted promotion run: {output}")
     scenarios = (
         *SCENARIOS,
@@ -903,16 +909,37 @@ def run_budgeted_promotion(config: BudgetedPromotionConfig, output: Path) -> Pat
             description="All frozen candidates are exact copies of the incumbent policy.",
         ),
     )
-    records: list[dict[str, Any]] = []
-    for scenario in scenarios:
-        print(
-            f"budgeted-promotion scenario={scenario.name} seeds={config.seeds} device={device}",
-            flush=True,
-        )
-        for replicate in range(config.seeds):
-            seed = config.seed_offset + replicate
-            records.extend(_run_seed(scenario=scenario, seed=seed, config=config, device=device))
-    detail = pd.DataFrame(records)
+    if reuse_detail:
+        if not detail_path.exists():
+            raise FileNotFoundError(f"cannot reuse missing seed-level metrics: {detail_path}")
+        detail = pd.read_parquet(detail_path)
+        expected_scenarios = {scenario.name for scenario in scenarios}
+        expected_seeds = set(range(config.seed_offset, config.seed_offset + config.seeds))
+        if (
+            set(detail.scenario.unique()) != expected_scenarios
+            or set(detail.seed.unique()) != expected_seeds
+            or set(detail.monitoring_rule.unique()) != set(config.monitoring_rules)
+            or set(detail.query_policy.unique()) != set(config.query_policies)
+            or set(detail.estimator.unique()) != set(config.estimators)
+            or set(detail.alpha_allocation.unique()) != set(config.alpha_allocations)
+            or set(detail.budget_rate.unique()) != set(config.budget_rates)
+        ):
+            raise ValueError(
+                "saved seed-level metrics do not match the requested experiment config"
+            )
+    else:
+        records: list[dict[str, Any]] = []
+        for scenario in scenarios:
+            print(
+                f"budgeted-promotion scenario={scenario.name} seeds={config.seeds} device={device}",
+                flush=True,
+            )
+            for replicate in range(config.seeds):
+                seed = config.seed_offset + replicate
+                records.extend(
+                    _run_seed(scenario=scenario, seed=seed, config=config, device=device)
+                )
+        detail = pd.DataFrame(records)
     summary = _summarize(detail)
     detail.to_parquet(detail_path, index=False)
     summary.to_parquet(summary_path, index=False)
@@ -938,9 +965,9 @@ def run_budgeted_promotion(config: BudgetedPromotionConfig, output: Path) -> Pat
         "",
         f"This benchmark evaluates {len(scenarios)} scenarios with {config.seeds} independent seeds each on `{device}`. It crosses {len(config.query_policies)} predeclared query designs, {len(config.estimators)} estimators, {len(config.monitoring_rules)} monitoring rules, {len(config.alpha_allocations)} candidate-level alpha allocations, and hard label caps {config.budget_rates}. Every query design and candidate gate sees the same seed-specific DGP; all candidate tests within one stream share queried labels. Each stream has {len(_candidate_alpha_allocations([{'candidate_id': str(i), 'validation_gain': 0.0, 'validation_gain_se': 0.0} for i in range(13)], alpha=config.alpha))} frozen candidates.",
         "",
-        "Candidates are trained on the training slice and ordered using the fully labeled validation slice. Validation also fixes the candidate alpha weights and the acquisition score model. Monitor labels are revealed only when queried. The three query designs are uniform, residual-variance weighting, and a decision-value heuristic; propensities remain predictable from the current covariates and pre-monitor fits, with a positive floor. For each budget level the same maximum number of labels is available to every query and alpha method. The monitor stops before the next event when no label remains affordable, so actual label counts never exceed the hard cap; realized counts and processed horizons are reported because policies need not spend the entire cap.",
+        f"Candidates are trained on the training slice and ordered using the fully labeled validation slice. Validation also fixes candidate alpha weights and the acquisition score model. Monitor labels are revealed only when queried. This run uses query design(s) {', '.join(config.query_policies)}; propensities are predictable from current covariates and pre-monitor fits, with a positive floor. For each budget level the same maximum number of labels is available to every configured method. The monitor stops before the next event when no label remains affordable, so actual label counts never exceed the hard cap; realized counts and processed horizons are reported because policies need not spend the entire cap.",
         "",
-        f"The grid compares prediction-powered `h_tk + I_t/q_t (Z_tk-h_tk)` with direct inverse-propensity `I_t Z_tk/q_t`, both shifted by the amortized switching charge. Monitoring rules are fixed-stake mixture at alpha and alpha/2, predictable plug-in Kelly, predictable plug-in empirical-Bernstein (PM-EB), full-alpha one-sided positive betting, and the half-weighted positive branch of the hedged process at its alpha/2 threshold. The half-alpha mixture is the matched-threshold reference for the hedge. They use the same candidate-level validation alpha allocations and global bound. Here `Z` is incumbent cost minus candidate cost, `h` is a pre-monitor fitted expected-cost contrast, and the deployment horizon is `H`. With `|Z|,|h| <= M=max(FN,FP)`, the global-mode bounds are `M(2/q_min-1)+k_switch/H` and `M/q_min+k_switch/H`; local-mode bounds are computed per candidate and event from estimator support. Each candidate receives a level from validation-rank spending, equal Bonferroni allocation, or validation-power weights, fixed before monitor outcomes and summing to at most alpha. {bound_description} The global-null control replaces all candidates with incumbent copies; its zero-crossing result is a degenerate implementation diagnostic, not evidence of calibration.",
+        f"The implementation supports prediction-powered `h_tk + I_t/q_t (Z_tk-h_tk)` and direct inverse-propensity `I_t Z_tk/q_t` estimates; this run uses {', '.join(config.estimators)}. Both estimates are shifted by the amortized switching charge. Configured monitors are {', '.join(config.monitoring_rules)}. The fixed-mixture half-alpha reference matches the half-weighted hedge branch's threshold. They use the same candidate-level alpha spending rule(s) {', '.join(config.alpha_allocations)} and global bound. Here `Z` is incumbent cost minus candidate cost, `h` is a pre-monitor fitted expected-cost contrast, and the deployment horizon is `H`. With `|Z|,|h| <= M=max(FN,FP)`, the global-mode bounds are `M(2/q_min-1)+k_switch/H` and `M/q_min+k_switch/H`; local-mode bounds are computed per candidate and event from estimator support. Candidate alpha weights are fixed before monitor outcomes and sum to at most alpha. {bound_description} The global-null control replaces all candidates with incumbent copies; its zero-crossing result is a degenerate implementation diagnostic, not evidence of calibration.",
         "",
         "The synthetic evaluator alone accesses true outcome probabilities and unqueried future labels. It scores expected and realized post-promotion value on the untouched remainder of the stream, subtracting the switching charge once. This assumes policy actions do not alter outcomes; the result does not identify policy value under performative feedback. The repeated query/alpha/scenario grid is descriptive: cellwise intervals are not adjusted for choosing a method, and no winner is selected from the evaluation results.",
         "",
@@ -1021,6 +1048,11 @@ def main(argv: list[str] | None = None) -> None:
         "--alpha-allocations", nargs="+", choices=ALPHA_ALLOCATIONS, default=list(ALPHA_ALLOCATIONS)
     )
     parser.add_argument("--budget-rates", nargs="+", type=float, default=[0.10, 0.20])
+    parser.add_argument(
+        "--reuse-detail",
+        action="store_true",
+        help="rebuild report artifacts from matching existing seed-level Parquet metrics",
+    )
     args = parser.parse_args(argv)
     config = BudgetedPromotionConfig(
         n=args.n,
@@ -1034,7 +1066,7 @@ def main(argv: list[str] | None = None) -> None:
         alpha_allocations=tuple(args.alpha_allocations),
         budget_rates=tuple(args.budget_rates),
     )
-    print(run_budgeted_promotion(config, args.output), flush=True)
+    print(run_budgeted_promotion(config, args.output, reuse_detail=args.reuse_detail), flush=True)
 
 
 if __name__ == "__main__":

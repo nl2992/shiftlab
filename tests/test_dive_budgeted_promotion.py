@@ -197,3 +197,29 @@ def test_paired_bootstrap_contrasts_preserve_matched_seed_differences():
     assert row.mean_paired_difference == 3.0
     assert row.bootstrap_ci_low == 3.0
     assert row.bootstrap_ci_high == 3.0
+
+
+def test_paired_bootstrap_allows_a_frozen_single_estimator_query_and_allocation():
+    rows = []
+    for rule in MONITORING_RULES:
+        for seed in (1, 2):
+            rows.append(
+                {
+                    "scenario": "stationary",
+                    "budget_rate": 0.20,
+                    "query_policy": "uniform",
+                    "estimator": "direct_ipw",
+                    "monitoring_rule": rule,
+                    "alpha_allocation": "rank",
+                    "seed": seed,
+                    "expected_postpromotion_net_gain": float(seed),
+                    "promoted": False,
+                    "labels_queried": 10,
+                    "monitor_fraction_processed": 1.0,
+                }
+            )
+    paired = _paired_bootstrap_contrasts(pd.DataFrame(rows), draws=1000)
+    assert len(paired) == (len(MONITORING_RULES) - 1) * 4
+    assert set(paired.contrast) == {
+        f"{rule}_minus_fixed_mixture" for rule in MONITORING_RULES if rule != "fixed_mixture"
+    }

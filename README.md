@@ -206,32 +206,45 @@ Every alarm in either control counts as a false escalation.
 
 The forward-time candidate-grid experiment (`shiftlab-dive-promotion-grid`) adds twelve frozen
 logistic candidates and an exact incumbent-copy control, validation ranking, candidate-index alpha
-spending, sequential and fixed-horizon certification, and a later untouched deployment slice. It
-compares never promoting, unconditional validation selection, fixed-horizon certification, and
-sequential certification. The sequential certificate is absorbing and records the first threshold
+spending, sequential certification, two fixed-horizon gates, and a later untouched deployment
+slice. It compares never promoting, unconditional validation selection, Hoeffding and
+empirical-Bernstein certification, and sequential certification. The empirical-Bernstein gate
+assumes independent bounded monitoring outcomes, including deterministic non-identical regimes;
+it tests average monitor-period benefit and does not cover serial dependence. It uses an established
+bound, not a new theorem. The sequential certificate is absorbing and records the first threshold
 crossing. Candidate rankings are frozen before shadow monitoring; final-slice outcomes measure
-deployment reversals, not statistical type-I error. Reproduce the corrected 30-seed run with `uv run
+deployment reversals, not statistical type-I error. Reproduce the expanded 30-seed run with `uv run
 shiftlab-dive-promotion-grid --seeds 30 --seed-offset 20381023 --n 3200 --d 16 --device cuda
---output outputs/promotion_grid_corrected`. Rebuild seed-level intervals with
+--output outputs/promotion_grid_eb`. Rebuild seed-level intervals with
 `uv run python scripts/analyze_promotion_grid.py`. See
 [`docs/methods_and_assumptions.md`](docs/methods_and_assumptions.md) for the assumptions.
 
-Corrected artifacts: [comparison report](outputs/promotion_grid_corrected/reports/promotion_grid_comparison.md),
-[seed-level uncertainty report](outputs/promotion_grid_corrected/reports/strategy_uncertainty.md),
-[candidate metrics](outputs/promotion_grid_corrected/metrics/promotion_grid_candidates.parquet),
-[strategy metrics](outputs/promotion_grid_corrected/metrics/promotion_grid_strategies.parquet),
-and [figure](outputs/promotion_grid_corrected/figures/promotion_grid_outcomes.png). The exact-copy
-candidate certified in 0/180 stream tests (95% Wilson upper bound 0.021). The sequential gate
-promoted in 30/30 boundary-harm, harmful-adaptation and recurring-regime streams, 29/30
-residual-variance, 21/30 stationary, and 15/30 benign-nuisance streams. In benign nuisance, 4/30
-sequentially selected candidates had negative expected net gain on the later deployment slice
-(95% Wilson interval 0.053–0.297); unconditional validation selection had 11/30 (0.219–0.545).
-Their paired expected-gain difference favored sequential certification by 41.5, but its 95% interval
-[-21.4,104.5] includes zero. Both rules selected the same candidates in the three harmful scenarios.
-The fixed-horizon gate promoted none across scenarios. This is underpowered at the allocated
-candidate-specific error levels; it is not evidence that fixed-horizon testing is ineffective in
-general. The earlier `outputs/promotion_grid/` results used a non-absorbing certification flag and
-are superseded by `outputs/promotion_grid_corrected/`.
+Expanded artifacts: [comparison report](outputs/promotion_grid_eb/reports/promotion_grid_comparison.md),
+[seed-level uncertainty report](outputs/promotion_grid_eb/reports/strategy_uncertainty.md),
+[candidate metrics](outputs/promotion_grid_eb/metrics/promotion_grid_candidates.parquet),
+[strategy metrics](outputs/promotion_grid_eb/metrics/promotion_grid_strategies.parquet),
+and [figure](outputs/promotion_grid_eb/figures/promotion_grid_outcomes.png). The previous
+absorbing-certificate run without this gate remains in `outputs/promotion_grid_corrected/`.
+Across the six scenarios, the exact-copy candidate certified in 0/180 tests (95% Wilson upper
+bound 0.021). The empirical-Bernstein gate promoted in 30/30 boundary-local-harm and harmful-
+adaptation streams, 29/30 recurring-regime streams, 1/30 residual-variance streams, and 0/30
+stationary or benign-nuisance streams. Mean expected deployment net gains were 271.8 (95% seed-
+level t interval 255.9–287.6), 279.1 (273.0–285.3), and 257.0 (233.5–280.4) in those three
+harmful scenarios. It also declined 29/30 candidates under residual variance, where its mean gain
+was only 3.4 (−3.5–10.2), and all candidates in benign nuisance, where mean gain was −24.3
+(−80.6–32.0) for sequential certification and −65.8 (−148.5–16.9) for unconditional validation
+selection. For benign nuisance, empirical Bernstein versus unconditional selection had paired mean
+gain difference 65.8, with a wide 95% interval (−16.9–148.5). In stationary streams, it promoted
+none while sequential certification promoted 21/30; this benchmark's incumbent is improvable even
+without a shift, so intervention value and shift detection are distinct. The basic sequential test
+also promoted in 15/30 benign-nuisance streams, while the empirical-Bernstein fixed-horizon gate
+did not. The simpler Hoeffding gate had zero power in all six settings at these sample sizes.
+Intervals are descriptive across 30 independent synthetic seeds and are not multiplicity-adjusted.
+The generator produces independent events with deterministic regime schedules; these findings do
+not establish calibration under serial dependence, delayed/adaptive feedback, or action-dependent
+outcomes. Results support a benchmark-specific comparison, not a novelty or general-performance
+claim. The original `outputs/promotion_grid/` results used a non-absorbing certification flag and
+are superseded by the corrected runs.
 
 The allocation search adds a validation-selected grid over expected query rates 5%, 10%, and 20%
 and residual-variance score powers 0, 0.25, 0.5, 0.75, and 1. Score power 0.5 is the classical

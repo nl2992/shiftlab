@@ -76,7 +76,7 @@ def summarize(input_dir: Path, output_path: Path) -> Path:
             "",
             "## Paired policy differences",
             "",
-            "Expected deployment net-gain differences are paired by scenario and seed. Positive sequential-minus-always values favor sequential certification. Intervals are unadjusted 95% Student-t intervals.",
+            "Expected deployment net-gain differences are paired by scenario and seed. Intervals are unadjusted 95% Student-t intervals.",
             "",
             "| Scenario | Comparison | Mean paired difference (95% CI) |",
             "|---|---|---:|",
@@ -87,6 +87,16 @@ def summarize(input_dir: Path, output_path: Path) -> Path:
         for left, right, label in [
             ("sequential_grid_gate", "never_promote", "sequential − never"),
             ("sequential_grid_gate", "validation_always_promote", "sequential − always"),
+            (
+                "empirical_bernstein_grid_gate",
+                "never_promote",
+                "empirical Bernstein − never",
+            ),
+            (
+                "empirical_bernstein_grid_gate",
+                "validation_always_promote",
+                "empirical Bernstein − always",
+            ),
         ]:
             left_values = indexed.xs(left, level="strategy").post_expected_net_gain_total
             right_values = indexed.xs(right, level="strategy").post_expected_net_gain_total
@@ -110,11 +120,11 @@ def summarize(input_dir: Path, output_path: Path) -> Path:
 
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--input", type=Path, default=Path("outputs/promotion_grid_corrected"))
+    parser.add_argument("--input", type=Path, default=Path("outputs/promotion_grid_eb"))
     parser.add_argument(
         "--output",
         type=Path,
-        default=Path("outputs/promotion_grid_corrected/reports/strategy_uncertainty.md"),
+        default=Path("outputs/promotion_grid_eb/reports/strategy_uncertainty.md"),
     )
     args = parser.parse_args()
     print(summarize(args.input, args.output))

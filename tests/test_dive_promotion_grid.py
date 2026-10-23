@@ -4,6 +4,7 @@ import pandas as pd
 from scripts.analyze_promotion_grid import summarize
 from shiftlab.dive.promotion_grid import (
     PromotionGridConfig,
+    _fixed_horizon_empirical_bernstein_gate,
     _fixed_horizon_gate,
     run_promotion_grid,
 )
@@ -12,6 +13,21 @@ from shiftlab.dive.promotion_grid import (
 def test_fixed_horizon_gate_distinguishes_clear_benefit_from_null():
     assert not _fixed_horizon_gate(np.zeros(100), bound=1.0, alpha=0.05)
     assert _fixed_horizon_gate(np.full(100, 0.5), bound=1.0, alpha=0.05)
+
+
+def test_empirical_bernstein_gate_uses_variance_and_respects_null():
+    assert not _fixed_horizon_empirical_bernstein_gate(np.zeros(500), bound=1.0, alpha=0.05)[0]
+    assert _fixed_horizon_empirical_bernstein_gate(np.full(500, 0.1), bound=1.0, alpha=0.05)[0]
+
+
+def test_empirical_bernstein_gate_has_nominal_error_for_independent_nonidentical_null():
+    rng = np.random.default_rng(48591)
+    probabilities = np.concatenate([np.full(160, 0.25), np.full(160, 0.75)])
+    rejections = 0
+    for _ in range(1000):
+        gains = 2 * rng.binomial(1, probabilities) - 1
+        rejections += _fixed_horizon_empirical_bernstein_gate(gains, bound=1.0, alpha=0.05)[0]
+    assert rejections <= 70
 
 
 def test_candidate_grid_is_frozen_and_outputs_forward_deployment_metrics(tmp_path):
@@ -41,6 +57,7 @@ def test_candidate_grid_is_frozen_and_outputs_forward_deployment_metrics(tmp_pat
         "never_promote",
         "validation_always_promote",
         "fixed_horizon_grid_gate",
+        "empirical_bernstein_grid_gate",
         "sequential_grid_gate",
     }
     assert np.isfinite(strategies.post_expected_net_gain_total).all()
@@ -54,6 +71,7 @@ def test_promotion_grid_summary_uses_seed_paired_intervals(tmp_path):
     values = {
         "never_promote": (0.0, 0.0),
         "sequential_grid_gate": (2.0, 4.0),
+        "empirical_bernstein_grid_gate": (1.0, 3.0),
         "validation_always_promote": (2.0, 4.0),
     }
     for strategy, gains in values.items():

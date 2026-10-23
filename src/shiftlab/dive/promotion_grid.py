@@ -71,7 +71,7 @@ def _expected_cost(
 
 def _time_splits(n: int) -> tuple[int, int, int]:
     train_end = max(100, int(n * 0.125))
-    validation_end = max(800, int(n * 0.25))
+    validation_end = max(train_end + 2, int(n * 0.25))
     monitor_end = max(validation_end + 1, int(n * 0.75))
     if not train_end < validation_end < monitor_end < n:
         raise ValueError(
@@ -132,6 +132,38 @@ def _fixed_horizon_gate(gains: np.ndarray, *, bound: float, alpha: float) -> boo
     return bool(float(values.mean()) >= threshold)
 
 
+def _fixed_horizon_empirical_bernstein_gate(
+    gains: np.ndarray, *, bound: float, alpha: float
+) -> tuple[bool, float]:
+    """Fixed-time empirical-Bernstein test for independent bounded observations.
+
+    The observations may be non-identically distributed. The null concerns the
+    average expected gain over this prespecified horizon, not each event's
+    conditional mean. The variance-estimation and Bernstein tail errors split
+    ``alpha`` equally.
+    """
+    values = np.asarray(gains, dtype=float).reshape(-1)
+    if len(values) < 2 or not np.isfinite(values).all():
+        raise ValueError("empirical-Bernstein gains must be at least two finite values")
+    if not np.isfinite(bound) or bound <= 0 or not np.isfinite(alpha) or not 0 < alpha < 1:
+        raise ValueError("bound must be positive and alpha must lie in (0, 1)")
+    normalized = (values + bound) / (2 * bound)
+    if np.any((normalized < -1e-12) | (normalized > 1 + 1e-12)):
+        raise ValueError("gains are outside the declared symmetric bound")
+    normalized = np.clip(normalized, 0.0, 1.0)
+    n = len(normalized)
+    log_variance = np.log(2 / alpha)
+    log_tail = log_variance
+    sample_variance = float(np.var(normalized, ddof=1))
+    variance_upper = min(
+        0.25,
+        (np.sqrt(sample_variance) + np.sqrt(2 * log_variance / (n - 1))) ** 2,
+    )
+    radius = np.sqrt(2 * variance_upper * log_tail / n) + log_tail / (3 * n)
+    gain_threshold = 2 * bound * radius
+    return bool(float(values.mean()) > gain_threshold), float(gain_threshold)
+
+
 def _evaluate_stream(
     scenario,
     seed: int,
@@ -184,6 +216,7 @@ def _evaluate_stream(
     )
     candidate_rows: list[dict[str, object]] = []
     fixed_certified: list[str] = []
+    empirical_bernstein_certified: list[str] = []
     sequential_certified: list[str] = []
     validation_positive_ids: list[str] = []
 
@@ -226,6 +259,13 @@ def _evaluate_stream(
         fixed_gate = _fixed_horizon_gate(gains, bound=fixed_bound, alpha=certifier.alpha_i)
         if fixed_gate:
             fixed_certified.append(candidate_id)
+        empirical_bernstein_gate, empirical_bernstein_threshold = (
+            _fixed_horizon_empirical_bernstein_gate(
+                gains, bound=fixed_bound, alpha=certifier.alpha_i
+            )
+        )
+        if empirical_bernstein_gate:
+            empirical_bernstein_certified.append(candidate_id)
         if certifier.certified:
             sequential_certified.append(candidate_id)
 
@@ -253,6 +293,8 @@ def _evaluate_stream(
                 "sequential_certified": certifier.certified,
                 "sequential_certificate_time": certificate_time,
                 "fixed_horizon_certified": fixed_gate,
+                "empirical_bernstein_fixed_horizon_certified": empirical_bernstein_gate,
+                "empirical_bernstein_gain_threshold": empirical_bernstein_threshold,
                 "post_expected_net_gain_total": float(
                     np.sum(incumbent_deployment_expected - candidate_deploy_expected)
                     - config.switching_cost
@@ -280,6 +322,15 @@ def _evaluate_stream(
         ),
         None,
     )
+    empirical_bernstein_choice = next(
+        (
+            str(candidate["candidate_id"])
+            for candidate in candidates
+            if str(candidate["candidate_id"]) in empirical_bernstein_certified
+            and cast(float, candidate["validation_gain"]) > 0
+        ),
+        None,
+    )
     sequential_choice = next(
         (
             str(candidate["candidate_id"])
@@ -293,6 +344,7 @@ def _evaluate_stream(
         "never_promote": None,
         "validation_always_promote": top_validation,
         "fixed_horizon_grid_gate": fixed_choice,
+        "empirical_bernstein_grid_gate": empirical_bernstein_choice,
         "sequential_grid_gate": sequential_choice,
     }
     strategy_rows: list[dict[str, object]] = []
@@ -361,6 +413,7 @@ def _write_figures(strategy_summary: pd.DataFrame, figure_dir: Path) -> None:
         "never_promote",
         "validation_always_promote",
         "fixed_horizon_grid_gate",
+        "empirical_bernstein_grid_gate",
         "sequential_grid_gate",
     ]
     fig, axes = plt.subplots(1, 2, figsize=(13, 5))
@@ -432,7 +485,7 @@ def run_promotion_grid(config: PromotionGridConfig, output: Path) -> Path:
         "",
         f"Evaluated {len(scenarios)} synthetic scenarios with {config.seeds} independent streams each using `{config.device}` generation. The candidate grid contains one exact copy of the incumbent policy plus {len(config.regularization) * len(config.threshold_scales)} logistic-regression candidates per stream. Logistic candidates are fitted on the initial training slice, ranked by labeled validation net gain, frozen before a later shadow-evaluation slice, and only deployed on the final untouched slice.",
         "",
-        f"The one-time switching charge is `{config.switching_cost:g}`. For certification against its value over the fixed {config.n - _time_splits(config.n)[2]}-event deployment horizon, it is amortized as `{config.switching_cost / (config.n - _time_splits(config.n)[2]):.8f}` per candidate evaluation event. The deployment metric subtracts the full one-time charge once. Candidate index `i` receives `alpha_i=alpha/[i(i+1)]`; because the grid is ordered by validation score before monitoring and every candidate is tested on fresh feedback, the sum of test levels is at most `alpha` for every realized candidate ordering. The fixed-horizon comparison uses a one-sided Azuma-Hoeffding threshold with the same candidate-specific alpha allocation.",
+        f"The one-time switching charge is `{config.switching_cost:g}`. For certification against its value over the fixed {config.n - _time_splits(config.n)[2]}-event deployment horizon, it is amortized as `{config.switching_cost / (config.n - _time_splits(config.n)[2]):.8f}` per candidate evaluation event. The deployment metric subtracts the full one-time charge once. Candidate index `i` receives `alpha_i=alpha/[i(i+1)]`; because the grid is ordered by validation score before monitoring and every candidate is tested on fresh feedback, the sum of test levels is at most `alpha` for every realized candidate ordering. The Hoeffding gate is valid for bounded increments under a conditional-mean null. The empirical-Bernstein gate tests average expected gain on the fixed horizon, using independent bounded monitor observations; it allows deterministic changes in distribution over time. Its candidate level is split between variance estimation and the one-sided Bernstein tail.",
         "",
         "The sequential certificate is absorbing: after the first `e_t >= 1/alpha_i` crossing it remains certified even if later e-values decline. The statistical gate certifies a mean shadow-period improvement under its conditional-mean and bounded-cost assumptions. It does not guarantee benefit on the later deployment slice if the regime changes. `false_post_nongain` explicitly measures such deployment reversals and is not the same as a false statistical certification. Both action costs are observable on the same synthetic outcome; settings where actions affect outcomes require randomized or off-policy evaluation.",
         "",
@@ -464,7 +517,7 @@ def run_promotion_grid(config: PromotionGridConfig, output: Path) -> Path:
             "",
             f"`uv run shiftlab-dive-promotion-grid --seeds {config.seeds} --seed-offset {config.seed_offset} --device {config.device} --output {output.as_posix()}`",
             "",
-            "The candidate-level Parquet preserves validation ranking, candidate alpha, sequential and fixed-horizon certification, evaluator-known shadow gain, exact-copy null status, and untouched post-promotion outcomes. The strategy-level Parquet contains the paired deployment outcomes for no promotion, unconditional promotion, fixed-horizon certification, and sequential certification.",
+            "The candidate-level Parquet preserves validation ranking, candidate alpha, sequential, Hoeffding, and empirical-Bernstein certification, evaluator-known shadow gain, exact-copy null status, and untouched post-promotion outcomes. The strategy-level Parquet contains paired deployment outcomes for never promote, unconditional validation selection, both fixed-horizon gates, and sequential certification.",
         ]
     )
     report_path = output / "reports/promotion_grid_comparison.md"
@@ -482,12 +535,14 @@ def run_promotion_grid(config: PromotionGridConfig, output: Path) -> Path:
             "never_promote",
             "validation_always_promote",
             "fixed_horizon_grid_gate",
+            "empirical_bernstein_grid_gate",
             "sequential_grid_gate",
         ],
         "information_protocol": [
             "candidate models fitted on training labels only",
             "candidate ranking and alpha-spending order frozen on validation before monitor",
             "shadow test uses immediate full feedback and paired common-outcome costs",
+            "empirical-Bernstein fixed-horizon gate assumes independent bounded monitor observations, which may be non-identically distributed",
             "sequential certification persists after its first threshold crossing",
             "deployment outcomes use a later untouched slice",
         ],
@@ -501,7 +556,7 @@ def main(argv: list[str] | None = None) -> None:
     import argparse
 
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--output", type=Path, default=Path("outputs/promotion_grid_corrected"))
+    parser.add_argument("--output", type=Path, default=Path("outputs/promotion_grid_eb"))
     parser.add_argument("--seeds", type=int, default=30)
     parser.add_argument("--seed-offset", type=int, default=20381023)
     parser.add_argument("--n", type=int, default=3200)

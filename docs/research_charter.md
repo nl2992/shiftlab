@@ -125,6 +125,10 @@ Phase 1 data and benchmark infrastructure is substantially implemented; use
 [`phase1_completion_audit.md`](phase1_completion_audit.md), the relevant validation reports, and
 each paper's research log for exact status. Existing directories are retained for continuity:
 
+The next experiment sequence after the recent acquisition comparisons is recorded in
+[`next_phase_plan.md`](next_phase_plan.md). It prioritizes calibrated decision-harm monitoring,
+matched-budget comparisons, and then separate candidate certification and budgeted intervention.
+
 - `papers/paper1_decision_drift`: current decision-loss and drift baselines, not yet the proposed
   anytime-valid decision-harm method;
 - `papers/paper2_adaptive_conformal`: conformal baseline work that supports uncertainty evaluation;

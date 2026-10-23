@@ -26,6 +26,7 @@ outputs/reports/*
 !outputs/reports/allocation_grid.md
 !outputs/reports/rate_stabilized_grid.md
 !outputs/reports/manifest.json
+!outputs/reports/dive_population_harm_validation.md
 outputs/figures/*
 !outputs/figures/shift_vs_harm.png
 !outputs/figures/false_alarm_delay.png

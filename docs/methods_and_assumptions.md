@@ -12,6 +12,10 @@ The monitoring null is `E[H_t | F_{t-1}] <= 0`, where `F_(t-1)` includes all pri
 
 Both policy costs are computed on the same observed outcome, so this benchmark studies paired full-information classification costs. It does not cover settings where taking one action changes the outcome or prevents observing the counterfactual action's cost.
 
+### Population nulls versus finite-stream oracle flags
+
+The hard-budget experiment's `material_harm` flag is based on the evaluator's average conditional cost over a particular finite covariate stream and regime interval. It is a stream-specific diagnostic, not the population null parameter. For the fixed source-threshold incumbent/reference policies, independent one-dimensional integration gives population excess cost `0.079295` for both stationary and benign-nuisance data, below the fixed `0.10` margin. The nuisance shift affects only unused coordinates. The shifted boundary-local and residual-variance regimes have population excess costs `0.378274` and `0.131882`, respectively, above the margin. Thus finite stream averages can exceed the margin by chance even under a population null; monitor false escalation must be counted against the population null, not by treating every such pathwise evaluator flag as a true alternative. Reproduce the independent calculation with `uv run python scripts/validate_dive_population_harm.py` and see `outputs/reports/dive_population_harm_validation.md`.
+
 ## Proxy and prediction-powered estimate
 
 The first proxy is Ridge regression for `H_t`; a separate random forest predicts the held-out residual second moment. Fit rows are split chronologically before monitoring. Validation predictions diagnose RMSE and calibrate acquisition scores. Queried outcomes are passed to `DecisionLossProxy.observe` only after their estimator contribution has been formed. Online Ridge refits use only the historical fit sample and queried outcomes that have arrived. The residual-second-moment model is frozen in this initial experiment.

@@ -21,6 +21,7 @@ class BoundedMeanEProcess:
         bound: float,
         alpha: float = 0.05,
         stakes: tuple[float, ...] = (0.05, 0.1, 0.2, 0.4, 0.8),
+        weights: tuple[float, ...] | None = None,
     ):
         if not np.isfinite(bound) or bound <= 0:
             raise ValueError("bound must be finite and positive")
@@ -28,15 +29,27 @@ class BoundedMeanEProcess:
             raise ValueError("alpha must lie in (0, 1)")
         if not stakes or any(not np.isfinite(s) or not 0 < s <= 1 for s in stakes):
             raise ValueError("stakes must be a nonempty collection in (0, 1]")
+        if weights is None:
+            weights_array = np.full(len(stakes), 1 / len(stakes), dtype=float)
+        else:
+            weights_array = np.asarray(weights, dtype=float)
+            if (
+                weights_array.shape != (len(stakes),)
+                or not np.isfinite(weights_array).all()
+                or np.any(weights_array <= 0)
+                or not np.isclose(weights_array.sum(), 1.0)
+            ):
+                raise ValueError("weights must be positive, sum to one, and match stakes")
         self.bound = float(bound)
         self.alpha = float(alpha)
         self.stakes = np.asarray(stakes, dtype=float)
+        self.weights = weights_array
         self.log_wealth = np.zeros(len(stakes), dtype=float)
         self.n_updates = 0
 
     @property
     def log_e_value(self) -> float:
-        return float(logsumexp(self.log_wealth) - np.log(len(self.stakes)))
+        return float(logsumexp(self.log_wealth + np.log(self.weights)))
 
     @property
     def alarm(self) -> bool:

@@ -1,6 +1,13 @@
+import numpy as np
 import pandas as pd
 
-from shiftlab.dive.hard_budget import HardBudgetConfig, run_hard_budget
+from shiftlab.dive.hard_budget import HardBudgetConfig, _wilson_bounds, run_hard_budget
+
+
+def test_wilson_bounds_keep_zero_and_full_detection_rates_inside_interval():
+    lower, upper = _wilson_bounds(np.array([0, 6]), np.array([6, 6]))
+    assert np.all(lower <= np.array([0, 1]))
+    assert np.all(upper >= np.array([0, 1]))
 
 
 def test_hard_budget_run_respects_common_spend_cap_and_stops_predictably(tmp_path):
@@ -26,7 +33,30 @@ def test_hard_budget_run_respects_common_spend_cap_and_stops_predictably(tmp_pat
     assert (metrics.eprocess_minimum_propensity == 0.10).all()
     assert (metrics.realized_label_spend <= metrics.hard_budget + 1e-9).all()
     assert (metrics.processed_events > 0).all()
+    assert {"single_e_detected", "multiscale_e_detected"} <= set(metrics.columns)
+    assert metrics["multiscale_e_false_escalation"].notna().all()
     assert (metrics.processed_events <= 800).all()
     for row in metrics.loc[metrics.stop_reason.eq("budget_reserve")].itertuples():
         assert row.budget_remaining < 2.5 + 1e-9
     assert "probability_positive" not in metrics.columns
+
+
+def test_hard_budget_null_control_generates_report_without_harm_scenario(tmp_path):
+    output = run_hard_budget(
+        HardBudgetConfig(
+            n=1600,
+            seeds=1,
+            common_eprocess_bound=True,
+            q_min=0.10,
+            q_max=0.80,
+            budget_rate=0.20,
+            device="cpu",
+            scenario_subset=("stationary",),
+            method_subset=("uniform_proxy",),
+        ),
+        tmp_path / "null_control",
+    )
+
+    report = (output / "reports" / "hard_budget_comparison.md").read_text()
+    assert "n/a / n/a" in report
+    assert (output / "figures" / "hard_budget_tradeoff.png").is_file()

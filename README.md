@@ -127,6 +127,13 @@ from 0/60 to 8/60 depending on scenario and query policy. The low rates are desc
 establish a method ranking or a false-alarm guarantee. See the [Paper 3 research log](papers/paper3_cost_aware_adaptation/research_log.md)
 for the interpretation and per-scenario paired RMSE intervals.
 
+The betting-scale sensitivity experiment compares the existing five-stake e-process with a fixed
+13-stake geometric mixture on matched harmful-shift streams and stationary/benign controls. The
+broader equal-weight mixture detected fewer harmful streams in this block, so it is retained as a
+negative grid-search result rather than promoted as an improved method. The bounded-mean guarantee
+is the same for both mixtures under the documented assumptions. See the
+[multiscale betting protocol](docs/multiscale_betting_protocol.md) and its paired output reports.
+
 The current full initial run is documented in
 [`data/reports/decision_harm_phase2/20261023T0230Z-final-30seed/baseline_report.md`](data/reports/decision_harm_phase2/20261023T0230Z-final-30seed/baseline_report.md).
 

@@ -40,6 +40,7 @@ HARD_BUDGET_METHODS = (
     "cost_variance_proxy",
     "cost_stabilized_proxy",
 )
+MULTISCALE_STAKES = tuple(float(value) for value in np.geomspace(1 / 1024, 0.99, 13))
 
 
 @dataclass(frozen=True)
@@ -149,6 +150,11 @@ def _one_method(
     process = BoundedMeanEProcess(
         bound=prediction_powered_bound(proxy.clip, minimum_propensity), alpha=config.alpha
     )
+    multiscale_process = BoundedMeanEProcess(
+        bound=prediction_powered_bound(proxy.clip, minimum_propensity),
+        alpha=config.alpha,
+        stakes=MULTISCALE_STAKES,
+    )
     monitor_x = x[monitor_start:]
     proxy_values = proxy.predict(monitor_x)
     residual_second_moments = proxy.predict_residual_second_moment(monitor_x)
@@ -162,6 +168,7 @@ def _one_method(
     estimates: list[float] = []
     truths: list[float] = []
     first_alarm = None
+    first_multiscale_alarm = None
     stop_reason = "end_of_stream"
     for offset, index in enumerate(range(monitor_start, len(x))):
         # Stop before accessing the next event when even the maximum tariff is unaffordable.
@@ -217,6 +224,9 @@ def _one_method(
         process_value = process.update(estimate)
         if first_alarm is None and process_value >= threshold:
             first_alarm = offset
+        multiscale_value = multiscale_process.update(estimate)
+        if first_multiscale_alarm is None and multiscale_value >= threshold:
+            first_multiscale_alarm = offset
         if queried:
             assert observed is not None
             did_refit = proxy.observe(x_now[0], observed)
@@ -226,6 +236,14 @@ def _one_method(
     harm_reached = harm_onset is not None and harm_onset < processed
     detected = first_alarm is not None and harm_onset is not None and first_alarm >= harm_onset
     false_escalation = first_alarm is not None and (harm_onset is None or first_alarm < harm_onset)
+    multiscale_detected = (
+        first_multiscale_alarm is not None
+        and harm_onset is not None
+        and first_multiscale_alarm >= harm_onset
+    )
+    multiscale_false_escalation = first_multiscale_alarm is not None and (
+        harm_onset is None or first_multiscale_alarm < harm_onset
+    )
     errors = np.asarray(estimates) - np.asarray(truths)
     delay = (
         int(first_alarm - harm_onset)
@@ -257,6 +275,14 @@ def _one_method(
         "single_e_false_escalation": bool(false_escalation),
         "single_e_alarm_time": first_alarm,
         "single_e_delay": delay,
+        "multiscale_e_detected": bool(multiscale_detected),
+        "multiscale_e_false_escalation": bool(multiscale_false_escalation),
+        "multiscale_e_alarm_time": first_multiscale_alarm,
+        "multiscale_e_delay": (
+            int(first_multiscale_alarm - harm_onset)
+            if multiscale_detected and harm_onset is not None and first_multiscale_alarm is not None
+            else None
+        ),
         "stream_mean_estimation_error": (
             float(np.mean(estimates) - np.mean(truths)) if estimates else float("nan")
         ),
@@ -376,6 +402,13 @@ def _summarize(metrics: pd.DataFrame) -> pd.DataFrame:
                 if len(reached)
                 else np.nan,
                 "false_escalation_rate": group.single_e_false_escalation.mean(),
+                "multiscale_detection_rate_all_harm": (
+                    harm.multiscale_e_detected.mean() if len(harm) else np.nan
+                ),
+                "multiscale_detection_rate_reached_harm": (
+                    reached.multiscale_e_detected.mean() if len(reached) else np.nan
+                ),
+                "multiscale_false_escalation_rate": group.multiscale_e_false_escalation.mean(),
             }
         )
     return pd.DataFrame(rows)
@@ -450,6 +483,23 @@ def _paired_effects(metrics: pd.DataFrame, seed: int) -> pd.DataFrame:
                     "harm_reached": len(reached),
                     "harmful_streams": len(harmful),
                     "false_escalations": int(paired.single_e_false_escalation_method.sum()),
+                    "multiscale_detection_method": int(reached.multiscale_e_detected_method.sum()),
+                    "multiscale_detection_uniform": int(
+                        reached.multiscale_e_detected_uniform.sum()
+                    ),
+                    "multiscale_only": int(
+                        (
+                            reached.multiscale_e_detected_method & ~reached.single_e_detected_method
+                        ).sum()
+                    ),
+                    "fixed_only": int(
+                        (
+                            reached.single_e_detected_method & ~reached.multiscale_e_detected_method
+                        ).sum()
+                    ),
+                    "multiscale_false_escalations": int(
+                        paired.multiscale_e_false_escalation_method.sum()
+                    ),
                 }
             )
     return pd.DataFrame(rows)
@@ -467,14 +517,30 @@ def _append_paired_comparisons(output: Path, metrics: pd.DataFrame, seed: int) -
         marker,
         "RMSE intervals are paired percentile bootstraps over independent seeds (20,000 resamples). Spend, label-count and monitor-fraction intervals are paired t intervals. They are descriptive and do not adjust for selecting a method after seeing this grid.",
         "",
-        "|Scenario|Method|RMSE difference (95% bootstrap CI)|Spend difference (95% t CI)|Label difference (95% t CI)|Monitor-fraction difference (95% t CI)|Harm detected / reached / harmful|False escalations / streams|",
-        "|---|---|---:|---:|---:|---:|---:|---:|",
+        "|Scenario|Method|RMSE difference (95% bootstrap CI)|Spend difference (95% t CI)|Label difference (95% t CI)|Monitor-fraction difference (95% t CI)|Fixed / multiscale detections / reached|Multiscale-only / fixed-only|Multiscale false escalations / streams|",
+        "|---|---|---:|---:|---:|---:|---:|---:|---:|",
     ]
     for row in effects.to_dict("records"):
         lines.append(
-            f"|{row['scenario']}|{row['method']}|{row['rmse_difference']:.4f} [{row['rmse_ci_low']:.4f}, {row['rmse_ci_high']:.4f}]|{row['spend_difference']:.2f} [{row['spend_ci_low']:.2f}, {row['spend_ci_high']:.2f}]|{row['label_difference']:.1f} [{row['label_ci_low']:.1f}, {row['label_ci_high']:.1f}]|{row['monitor_fraction_difference']:.3f} [{row['monitor_ci_low']:.3f}, {row['monitor_ci_high']:.3f}]|{row['harm_detected']} / {row['harm_reached']} / {row['harmful_streams']}|{row['false_escalations']} / {row['n_seeds']}|"
+            f"|{row['scenario']}|{row['method']}|{row['rmse_difference']:.4f} [{row['rmse_ci_low']:.4f}, {row['rmse_ci_high']:.4f}]|{row['spend_difference']:.2f} [{row['spend_ci_low']:.2f}, {row['spend_ci_high']:.2f}]|{row['label_difference']:.1f} [{row['label_ci_low']:.1f}, {row['label_ci_high']:.1f}]|{row['monitor_fraction_difference']:.3f} [{row['monitor_ci_low']:.3f}, {row['monitor_ci_high']:.3f}]|{row['harm_detected']} / {row['multiscale_detection_method']} / {row['harm_reached']}|{row['multiscale_only']} / {row['fixed_only']}|{row['multiscale_false_escalations']} / {row['n_seeds']}|"
         )
     report_path.write_text(report + "\n".join(lines) + "\n", encoding="utf-8")
+
+
+def _wilson_bounds(successes: np.ndarray, totals: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
+    """Return numerically ordered Wilson bounds for nonempty binomial groups."""
+    successes = np.asarray(successes, dtype=float)
+    totals = np.asarray(totals, dtype=float)
+    if successes.shape != totals.shape or np.any(totals <= 0):
+        raise ValueError("successes and positive totals must have matching shapes")
+    rate = successes / totals
+    z = float(norm.ppf(0.975))
+    denom = 1 + z**2 / totals
+    center = (rate + z**2 / (2 * totals)) / denom
+    radius = z * np.sqrt(rate * (1 - rate) / totals + z**2 / (4 * totals**2)) / denom
+    lower = np.minimum(rate, np.maximum(0.0, center - radius))
+    upper = np.maximum(rate, np.minimum(1.0, center + radius))
+    return lower, upper
 
 
 def _plot_hard_budget(metrics: pd.DataFrame, figure_path: Path) -> None:
@@ -494,35 +560,49 @@ def _plot_hard_budget(metrics: pd.DataFrame, figure_path: Path) -> None:
     axes[0].legend(fontsize=8)
     axes[0].grid(axis="y", alpha=0.25)
 
-    harmful = metrics.loc[metrics.scenario.eq("boundary_local_harm") & metrics.material_harm]
-    detection = harmful.groupby("method").single_e_detected.agg(["sum", "count"]).reindex(methods)
-    rate = detection["sum"] / detection["count"]
-    z = float(norm.ppf(0.975))
-    denom = 1 + z**2 / detection["count"]
-    center = (rate + z**2 / (2 * detection["count"])) / denom
-    radius = (
-        z
-        * np.sqrt(rate * (1 - rate) / detection["count"] + z**2 / (4 * detection["count"] ** 2))
-        / denom
-    )
-    lower = np.maximum(0.0, center - radius)
-    upper = np.minimum(1.0, center + radius)
-    axes[1].bar(x, rate, color="tab:orange", width=0.65)
-    axes[1].errorbar(
-        x,
-        rate,
-        yerr=np.vstack((rate - lower, upper - rate)),
-        fmt="none",
-        ecolor="black",
-        capsize=3,
-    )
-    axes[1].set_xticks(x, methods, rotation=28, ha="right")
-    axes[1].set_ylim(0, max(0.35, float(upper.max()) + 0.03))
-    axes[1].set_ylabel(
-        f"Detection rate among {int(detection['count'].max())} boundary-harm streams"
-    )
-    axes[1].set_title("All boundary-harm onsets were reached")
-    axes[1].grid(axis="y", alpha=0.25)
+    harmful_scenarios = [
+        scenario
+        for scenario in scenarios
+        if metrics.loc[metrics.scenario.eq(scenario), "material_harm"].any()
+    ]
+    if not harmful_scenarios:
+        axes[1].text(
+            0.5,
+            0.5,
+            "No evaluator-labeled harmful streams\n(detection rate is not applicable)",
+            ha="center",
+            va="center",
+            transform=axes[1].transAxes,
+        )
+        axes[1].set_title("Null-control false escalations")
+        axes[1].set_axis_off()
+    else:
+        detection_scenario = (
+            "boundary_local_harm"
+            if "boundary_local_harm" in harmful_scenarios
+            else harmful_scenarios[0]
+        )
+        harmful = metrics.loc[metrics.scenario.eq(detection_scenario) & metrics.material_harm]
+        detection = (
+            harmful.groupby("method").single_e_detected.agg(["sum", "count"]).reindex(methods)
+        )
+        rate = detection["sum"] / detection["count"]
+        lower, upper = _wilson_bounds(detection["sum"].to_numpy(), detection["count"].to_numpy())
+        axes[1].bar(x, rate, color="tab:orange", width=0.65)
+        detection_yerr = np.maximum(0.0, np.vstack((rate - lower, upper - rate)))
+        axes[1].errorbar(
+            x,
+            rate,
+            yerr=detection_yerr,
+            fmt="none",
+            ecolor="black",
+            capsize=3,
+        )
+        axes[1].set_xticks(x, methods, rotation=28, ha="right")
+        axes[1].set_ylim(0, max(0.35, float(upper.max()) + 0.03))
+        axes[1].set_ylabel(f"Detection rate among {int(detection['count'].max())} streams")
+        axes[1].set_title(f"Detection: {detection_scenario}")
+        axes[1].grid(axis="y", alpha=0.25)
     fig.suptitle("Query allocation under a common hard label-dollar budget")
     fig.savefig(figure_path, dpi=180)
     plt.close(fig)
@@ -582,16 +662,22 @@ def run_hard_budget(config: HardBudgetConfig, output: Path) -> Path:
         "",
         "The e-process is evaluated only through its budget stopping time. Harm detection is reported both over all evaluator-labeled harmful streams and over harmful streams whose onset occurred before budget stopping; the latter avoids calling an unobserved late onset a monitor miss. Stream seeds are the inferential units. The outcomes and tariffs are synthetic; current and reference policy costs are paired on the same label.",
         "",
-        "|Scenario|Method|Mean cap|Mean spend|Mean cap use|Mean labels|Monitor fraction|Stream-mean RMSE|Harm reached / harmful streams|Detection all / reached|False escalation|",
-        "|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|",
+        "|Scenario|Method|Mean cap|Mean spend|Mean cap use|Mean labels|Monitor fraction|Stream-mean RMSE|Harm reached / harmful streams|Fixed detection all / reached|Multiscale detection all / reached|Fixed false escalation|Multiscale false escalation|",
+        "|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|",
     ]
     for row in summary.to_dict("records"):
         all_detection = row["detection_rate_all_harm"]
         reached_detection = row["detection_rate_reached_harm"]
         all_detection_text = "n/a" if pd.isna(all_detection) else f"{all_detection:.3f}"
         reached_detection_text = "n/a" if pd.isna(reached_detection) else f"{reached_detection:.3f}"
+        multiscale_all = row["multiscale_detection_rate_all_harm"]
+        multiscale_reached = row["multiscale_detection_rate_reached_harm"]
+        multiscale_all_text = "n/a" if pd.isna(multiscale_all) else f"{multiscale_all:.3f}"
+        multiscale_reached_text = (
+            "n/a" if pd.isna(multiscale_reached) else f"{multiscale_reached:.3f}"
+        )
         lines.append(
-            f"|{row['scenario']}|{row['method']}|{row['mean_budget']:.2f}|{row['mean_spend']:.2f}|{row['budget_utilization']:.3f}|{row['mean_labels']:.1f}|{row['mean_monitor_fraction']:.3f}|{row['stream_mean_rmse']:.4f}|{row['harm_reachable_streams']}/{row['harmful_streams']}|{all_detection_text} / {reached_detection_text}|{row['false_escalation_rate']:.3f}|"
+            f"|{row['scenario']}|{row['method']}|{row['mean_budget']:.2f}|{row['mean_spend']:.2f}|{row['budget_utilization']:.3f}|{row['mean_labels']:.1f}|{row['mean_monitor_fraction']:.3f}|{row['stream_mean_rmse']:.4f}|{row['harm_reachable_streams']}/{row['harmful_streams']}|{all_detection_text} / {reached_detection_text}|{multiscale_all_text} / {multiscale_reached_text}|{row['false_escalation_rate']:.3f}|{row['multiscale_false_escalation_rate']:.3f}|"
         )
     lines.extend(
         [
@@ -599,6 +685,8 @@ def run_hard_budget(config: HardBudgetConfig, output: Path) -> Path:
             "## Full-horizon consistency check",
             "",
             "This run evaluates each e-process only through its hard-budget stopping time and does not recompute a full-horizon monitor. Any comparison with a full-monitor baseline must use matching stream seeds and query random numbers; the earlier 30-seed pilot consistency check is recorded in the Paper 3 research log.",
+            "",
+            "The fixed-stake baseline uses (0.05, 0.10, 0.20, 0.40, 0.80). The multiscale comparator uses 13 equally weighted geometric stakes from 1/1024 to 0.99. Both are fixed mixtures of factors `1 + eta * X / B`; under the same predictable conditional-mean null and `|X| <= B`, each mixture remains an e-process. The multiscale comparator is a predeclared robustness baseline, not a new validity theorem.",
             "",
             "## Interpretation limits",
             "",

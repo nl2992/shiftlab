@@ -211,6 +211,8 @@ synthetic assumptions. See the [calibration report](outputs/null_calibration_qmi
 and [figure](outputs/null_calibration_qmin020_2000/figures/null_calibration.png). The next step is
 a disjoint harmful-stream confirmation and a detection-delay/power map; null calibration alone
 does not establish useful power or field validity.
+The held-out confirmation has a frozen 200-stream-per-scenario seed block and endpoints in the
+[confirmation protocol](docs/harm_confirmation_qmin020_protocol.md).
 
 The repeated-candidate hard-budget benchmark extends this work to sparse feedback. It freezes a
 13-candidate family and validation-based ranking before monitoring, then compares direct

@@ -6,6 +6,7 @@ import pytest
 from shiftlab.dive.query import (
     AdaptiveQueryPolicy,
     EvidenceGrowthQueryPolicy,
+    ExactMixtureGrowthQueryPolicy,
     cost_mixture_weight_for_tolerance,
     cost_neutral_propensities,
     expected_cost_drift_bound,
@@ -284,4 +285,95 @@ def test_evidence_growth_derivative_matches_finite_difference():
 
     step = 1e-6
     finite_difference = (utility(q + step) - utility(q - step)) / (2 * step)
+    assert analytic == pytest.approx(finite_difference, rel=1e-6, abs=1e-8)
+
+
+def test_exact_mixture_growth_matches_expected_log_evalue_and_validation_spend():
+    n = 90
+    proxy = np.linspace(-0.2, 0.2, n)
+    p = np.linspace(0.1, 0.9, n)
+    z0 = np.where(np.arange(n) % 2, -0.35, -0.1)
+    z1 = np.where(np.arange(n) % 2, 0.1, 0.35)
+    costs = np.linspace(0.5, 2.5, n)
+    policy = ExactMixtureGrowthQueryPolicy(
+        target_rate=0.2, q_min=0.05, q_max=0.7, bound=20.0, initial_stake=0.3
+    ).fit_multiplier(
+        proxy=proxy,
+        probability_positive=p,
+        contrast_zero=z0,
+        contrast_one=z1,
+        label_costs=costs,
+    )
+    q = policy.probabilities(
+        proxy=proxy,
+        probability_positive=p,
+        contrast_zero=z0,
+        contrast_one=z1,
+        effective_stake=0.3,
+        label_costs=costs,
+    )
+    assert np.all((q >= 0.05) & (q <= 0.7))
+    assert np.mean(q * costs) == pytest.approx(0.2 * costs.mean(), abs=1e-7)
+
+    i = 17
+    eta = 0.3
+
+    def expected_log_growth(value: float) -> float:
+        def log_factor(z: float) -> float:
+            estimate = proxy[i] + (z - proxy[i]) / value
+            return np.log1p(eta * estimate / policy.bound)
+
+        no_query = np.log1p(eta * proxy[i] / policy.bound)
+        return (1 - value) * no_query + value * (
+            (1 - p[i]) * log_factor(z0[i]) + p[i] * log_factor(z1[i])
+        )
+
+    # The one-dimensional concave objective minus its fitted label price is
+    # globally maximized by the reported propensity.
+    optimum = expected_log_growth(q[i]) - policy.dual * costs[i] * q[i]
+    grid = np.linspace(0.05, 0.7, 2001)
+    alternatives = np.array(
+        [expected_log_growth(value) - policy.dual * costs[i] * value for value in grid]
+    )
+    assert optimum >= alternatives.max() - 1e-10
+
+
+def test_exact_mixture_growth_objective_is_concave_in_query_probability():
+    policy = ExactMixtureGrowthQueryPolicy(
+        target_rate=0.2, q_min=0.05, q_max=0.7, bound=20.0, initial_stake=0.3
+    )
+    h = np.array([-0.12, 0.02, 0.1])
+    p = np.array([0.2, 0.5, 0.8])
+    z0 = np.array([-0.3, -0.2, 0.1])
+    z1 = np.array([0.2, 0.3, 0.4])
+    eta = np.full(3, 0.3)
+    derivatives = [
+        policy._derivative(np.full(3, q), h, p, z0, z1, eta) for q in (0.06, 0.12, 0.25, 0.5, 0.69)
+    ]
+    assert all(np.all(later <= earlier + 1e-12) for earlier, later in pairwise(derivatives))
+
+
+def test_exact_mixture_growth_derivative_matches_finite_difference():
+    policy = ExactMixtureGrowthQueryPolicy(
+        target_rate=0.2, q_min=0.05, q_max=0.7, bound=20.0, initial_stake=0.3
+    )
+    h, p, z0, z1, eta = (
+        np.array([0.04]),
+        np.array([0.63]),
+        np.array([-0.3]),
+        np.array([0.4]),
+        np.array([0.3]),
+    )
+    q = np.array([0.31])
+    analytic = policy._derivative(q, h, p, z0, z1, eta)[0]
+
+    def objective(value: float) -> float:
+        no_query = np.log1p(eta[0] * h[0] / policy.bound)
+        queried = (1 - p[0]) * np.log1p(
+            eta[0] * (h[0] + (z0[0] - h[0]) / value) / policy.bound
+        ) + p[0] * np.log1p(eta[0] * (h[0] + (z1[0] - h[0]) / value) / policy.bound)
+        return (1 - value) * no_query + value * queried
+
+    step = 1e-6
+    finite_difference = (objective(q[0] + step) - objective(q[0] - step)) / (2 * step)
     assert analytic == pytest.approx(finite_difference, rel=1e-6, abs=1e-8)

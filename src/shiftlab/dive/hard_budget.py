@@ -40,6 +40,7 @@ from .experiment import (
 from .proxy import DecisionLossProxy
 from .query import (
     AdaptiveQueryPolicy,
+    ExactMixtureGrowthQueryPolicy,
     cost_mixture_weight_for_tolerance,
     mix_with_cost_neutral,
 )
@@ -50,6 +51,7 @@ HARD_BUDGET_METHODS = (
     "decision_value_proxy",
     "cost_variance_proxy",
     "cost_stabilized_proxy",
+    "exact_mixture_growth_proxy",
 )
 MULTISCALE_STAKES = tuple(float(value) for value in np.geomspace(1 / 1024, 0.99, 13))
 PROTECTED_EXPLORATION_STAKES = tuple(float(value) for value in np.geomspace(1 / 1024, 0.04, 8))
@@ -120,6 +122,8 @@ def _one_method(
     sample_path_material_harm: bool,
     sample_path_harm_onset: int | None,
     common_uniforms: np.ndarray,
+    contrast_zero: np.ndarray,
+    contrast_one: np.ndarray,
 ) -> dict[str, object]:
     validation_end = monitor_start
     validation_x = x[train_end:validation_end]
@@ -134,18 +138,35 @@ def _one_method(
         "decision_value_proxy": "decision_value",
         "cost_variance_proxy": "cost_variance",
         "cost_stabilized_proxy": "cost_variance",
+        "exact_mixture_growth_proxy": "exact_mixture_growth",
     }[method]
-    policy = AdaptiveQueryPolicy(
-        query_kind,
-        target_rate=config.budget_rate,
-        q_min=config.q_min,
-        q_max=config.q_max,
-    ).fit_multiplier(
-        proxy=proxy.predict(validation_x),
-        residual_second_moment=proxy.predict_residual_second_moment(validation_x),
-        uncertainty=validation_uncertainty,
-        label_costs=validation_costs,
-    )
+    if query_kind == "exact_mixture_growth":
+        process_bound = prediction_powered_bound(proxy.clip, config.q_min)
+        policy = ExactMixtureGrowthQueryPolicy(
+            target_rate=config.budget_rate,
+            q_min=config.q_min,
+            q_max=config.q_max,
+            bound=process_bound,
+            initial_stake=BoundedMeanEProcess(bound=process_bound).predictable_stake,
+        ).fit_multiplier(
+            proxy=proxy.predict(validation_x),
+            probability_positive=validation_probability,
+            contrast_zero=contrast_zero[train_end:validation_end],
+            contrast_one=contrast_one[train_end:validation_end],
+            label_costs=validation_costs,
+        )
+    else:
+        policy = AdaptiveQueryPolicy(
+            query_kind,
+            target_rate=config.budget_rate,
+            q_min=config.q_min,
+            q_max=config.q_max,
+        ).fit_multiplier(
+            proxy=proxy.predict(validation_x),
+            residual_second_moment=proxy.predict_residual_second_moment(validation_x),
+            uncertainty=validation_uncertainty,
+            label_costs=validation_costs,
+        )
 
     budget_per_event = config.budget_rate * float(validation_costs.mean())
     budget = budget_per_event * (len(x) - monitor_start)
@@ -183,6 +204,7 @@ def _one_method(
     proxy_values = proxy.predict(monitor_x)
     residual_second_moments = proxy.predict_residual_second_moment(monitor_x)
     uncertainty_values = _entropy(classifier.predict_proba(monitor_x)[:, 1])
+    positive_probability_values = classifier.predict_proba(x)[:, 1]
     threshold = -np.log(config.alpha)
     remaining = budget
     spent = 0.0
@@ -209,14 +231,26 @@ def _one_method(
         h_now = float(proxy_values[offset])
         v_now = residual_second_moments[offset : offset + 1]
         u_now = uncertainty_values[offset : offset + 1]
-        q_adaptive = float(
-            policy.probabilities(
-                proxy=np.asarray([h_now]),
-                residual_second_moment=v_now,
-                uncertainty=u_now,
-                label_costs=np.asarray([cost_now]),
-            )[0]
-        )
+        if method == "exact_mixture_growth_proxy":
+            q_adaptive = float(
+                policy.probabilities(
+                    proxy=np.asarray([h_now]),
+                    probability_positive=np.asarray([positive_probability_values[index]]),
+                    contrast_zero=np.asarray([contrast_zero[index]]),
+                    contrast_one=np.asarray([contrast_one[index]]),
+                    effective_stake=process.predictable_stake,
+                    label_costs=np.asarray([cost_now]),
+                )[0]
+            )
+        else:
+            q_adaptive = float(
+                policy.probabilities(
+                    proxy=np.asarray([h_now]),
+                    residual_second_moment=v_now,
+                    uncertainty=u_now,
+                    label_costs=np.asarray([cost_now]),
+                )[0]
+            )
         propensity = q_adaptive
         if method == "cost_stabilized_proxy":
             assert mixture_weight is not None
@@ -371,6 +405,16 @@ def _generate_stream_rows(
     reference = _source_action(x, scenario)
     paired_difference = _binary_cost(deployed, y, fn, fp) - _binary_cost(reference, y, fn, fp)
     centered_difference = paired_difference - config.harm_margin
+    contrast_zero = (
+        _binary_cost(deployed, np.zeros_like(y), fn, fp)
+        - _binary_cost(reference, np.zeros_like(y), fn, fp)
+        - config.harm_margin
+    )
+    contrast_one = (
+        _binary_cost(deployed, np.ones_like(y), fn, fp)
+        - _binary_cost(reference, np.ones_like(y), fn, fp)
+        - config.harm_margin
+    )
     probability = oracle.probability_positive.to_numpy(dtype=float)
     current_expected = np.where(deployed == 1, fp * (1 - probability), fn * probability)
     reference_expected = np.where(reference == 1, fp * (1 - probability), fn * probability)
@@ -422,6 +466,8 @@ def _generate_stream_rows(
                 sample_path_material_harm=sample_path_onset is not None,
                 sample_path_harm_onset=sample_path_onset,
                 common_uniforms=common_uniforms,
+                contrast_zero=contrast_zero,
+                contrast_one=contrast_one,
             )
         )
     return rows

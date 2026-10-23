@@ -20,9 +20,12 @@ def test_bounded_mean_eprocess_stays_one_at_zero_and_rejects_bound_violation():
 
 def test_bounded_mean_eprocess_accepts_a_fixed_weighted_stake_mixture():
     process = BoundedMeanEProcess(bound=1.0, stakes=(0.01, 0.5), weights=(0.8, 0.2))
+    assert process.predictable_stake == pytest.approx(0.108)
     process.update(0.5)
     expected = 0.8 * (1 + 0.01 * 0.5) + 0.2 * (1 + 0.5 * 0.5)
     assert np.exp(process.log_e_value) == pytest.approx(expected)
+    updated_weights = np.array([0.8 * 1.005, 0.2 * 1.25]) / expected
+    assert process.predictable_stake == pytest.approx(np.dot(updated_weights, (0.01, 0.5)))
     with pytest.raises(ValueError, match="weights"):
         BoundedMeanEProcess(bound=1.0, stakes=(0.1, 0.2), weights=(0.2, 0.2))
 

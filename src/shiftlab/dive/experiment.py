@@ -35,6 +35,7 @@ from .proxy import DecisionLossProxy
 from .query import (
     AdaptiveQueryPolicy,
     EvidenceGrowthQueryPolicy,
+    ExactMixtureGrowthQueryPolicy,
     cost_mixture_weight_for_tolerance,
     expected_cost_drift_bound,
     mix_with_cost_neutral,
@@ -50,6 +51,7 @@ METHODS = (
     "variance_proxy",
     "decision_value_proxy",
     "evidence_growth_proxy",
+    "exact_mixture_growth_proxy",
     "evidence_growth_stabilized_proxy",
     "cost_variance_proxy",
     "cost_stabilized_proxy",
@@ -249,19 +251,29 @@ def _monitor_method(
             "decision_value_proxy": "decision_value",
             "evidence_growth_proxy": "evidence_growth",
             "evidence_growth_stabilized_proxy": "evidence_growth",
+            "exact_mixture_growth_proxy": "exact_mixture_growth",
             "cost_variance_proxy": "cost_variance",
             "cost_stabilized_proxy": "cost_variance",
         }[method]
         validation_costs = None if label_costs is None else label_costs[train_end:validation_end]
-        if query_kind == "evidence_growth":
+        if query_kind in {"evidence_growth", "exact_mixture_growth"}:
             if contrast_zero is None or contrast_one is None:
                 raise ValueError("evidence-growth sampling requires outcome-specific contrasts")
-            evidence_policy = EvidenceGrowthQueryPolicy(
-                target_rate=config.query_rate,
-                q_min=config.query_min,
-                q_max=config.query_max,
-                bound=prediction_powered_bound(proxy.clip, config.query_min),
-            ).fit_multiplier(
+            policy_type = (
+                ExactMixtureGrowthQueryPolicy
+                if query_kind == "exact_mixture_growth"
+                else EvidenceGrowthQueryPolicy
+            )
+            policy_args = {
+                "target_rate": config.query_rate,
+                "q_min": config.query_min,
+                "q_max": config.query_max,
+                "bound": prediction_powered_bound(proxy.clip, config.query_min),
+            }
+            if query_kind == "exact_mixture_growth":
+                initial_process = BoundedMeanEProcess(bound=policy_args["bound"])
+                policy_args["initial_stake"] = initial_process.predictable_stake
+            evidence_policy = policy_type(**policy_args).fit_multiplier(
                 proxy=proxy.predict(x_validation),
                 probability_positive=classifier.predict_proba(x_validation)[:, 1],
                 contrast_zero=contrast_zero[train_end:validation_end],
@@ -311,15 +323,18 @@ def _monitor_method(
     if evidence_policy is not None:
         if contrast_zero is None or contrast_one is None:
             raise RuntimeError("outcome-specific contrasts were not supplied")
+        validation_query_args = {
+            "proxy": proxy.predict(x_validation),
+            "probability_positive": classifier.predict_proba(x_validation)[:, 1],
+            "contrast_zero": contrast_zero[train_end:validation_end],
+            "contrast_one": contrast_one[train_end:validation_end],
+            "label_costs": (None if label_costs is None else label_costs[train_end:validation_end]),
+        }
+        if method == "exact_mixture_growth_proxy":
+            validation_query_args["effective_stake"] = evidence_policy.initial_stake
         validation_expected_query_rate = float(
             evidence_policy.probabilities(
-                proxy=proxy.predict(x_validation),
-                probability_positive=classifier.predict_proba(x_validation)[:, 1],
-                contrast_zero=contrast_zero[train_end:validation_end],
-                contrast_one=contrast_one[train_end:validation_end],
-                label_costs=(
-                    None if label_costs is None else label_costs[train_end:validation_end]
-                ),
+                **validation_query_args,
             ).mean()
         )
     evidence_mixture_weight = None
@@ -375,6 +390,11 @@ def _monitor_method(
                     contrast_zero=np.asarray([contrast_zero[index]]),
                     contrast_one=np.asarray([contrast_one[index]]),
                     label_costs=np.asarray([label_cost_now]),
+                    **(
+                        {"effective_stake": monitor.predictable_stake}
+                        if method == "exact_mixture_growth_proxy"
+                        else {}
+                    ),
                 )
                 if evidence_mixture_weight is not None:
                     adaptive_propensity = mix_with_uniform(
@@ -814,6 +834,7 @@ def run_experiment(config: DiveExperimentConfig, output: Path) -> Path:
         "- `variance_proxy`: query scores proportional to the square root of a held-out model for proxy residual second moments.",
         "- `decision_value_proxy`: a heuristic that increases sampling near the harm margin when proxy residual uncertainty is high.",
         "- `evidence_growth_proxy`: selects the predictable query propensity by maximizing a pre-monitor outcome model's stake-weighted expected log-wealth increment under the same expected label budget. The per-event objective is concave and solved through a dual budget multiplier. This is a model-based allocation rule, not an e-process validity result or a power-optimality claim.",
+        "- `exact_mixture_growth_proxy`: re-optimizes query probabilities for the exact one-step log predictive increment of the live fixed-stake mixture e-process, using its past-only posterior mean stake and a pre-monitor binary outcome model. The concave objective is globally optimized under a validation-calibrated expected-spend multiplier. This is a myopic model-based optimum, not a long-horizon power guarantee or novelty claim.",
         f"- `evidence_growth_stabilized_proxy`: mixes evidence-growth propensities with uniform sampling at weight `{_evidence_uniform_mix_weight(config):.3f}`. The expected query-rate drift under arbitrary feature shift is bounded by the configured tolerance `{config.evidence_rate_stability_tolerance:g}`; this robustification may also remove most allocation adaptivity.",
         *(
             [

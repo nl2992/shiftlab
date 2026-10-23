@@ -306,6 +306,182 @@ class EvidenceGrowthQueryPolicy:
         return self._solve_q(self.dual, h, p, z0, z1, costs)
 
 
+class ExactMixtureGrowthQueryPolicy:
+    """Maximize model-based one-step log growth of the live stake-mixture e-value.
+
+    Before each outcome, the current e-process has a predictable posterior mean
+    stake ``eta``. Under a fitted binary outcome model, this policy maximizes
+
+    ``E[log(1 + eta * Z_tilde / B) | x] - dual * k(x) * q(x)``
+
+    over ``q in [q_min, q_max]``. The objective is concave when all betting factors
+    are positive. A single dual multiplier is calibrated on pre-monitor validation
+    inputs to the target expected label spend; the policy may drift under covariate
+    shift, so it must be paired with budget enforcement where a hard cap is required.
+    This optimizes a myopic model-based objective, not long-run detection power.
+    Any predictable propensity in the registered interval retains the same PPI
+    conditional-unbiasedness and global-support e-process argument.
+    """
+
+    def __init__(
+        self,
+        *,
+        target_rate: float,
+        q_min: float,
+        q_max: float,
+        bound: float,
+        initial_stake: float,
+    ) -> None:
+        if not 0 < q_min <= target_rate <= q_max <= 1:
+            raise ValueError("require 0 < q_min <= target_rate <= q_max <= 1")
+        if not np.isfinite(bound) or bound <= 0:
+            raise ValueError("bound must be finite and positive")
+        if not np.isfinite(initial_stake) or not 0 < initial_stake <= 1:
+            raise ValueError("initial_stake must lie in (0, 1]")
+        self.target_rate = float(target_rate)
+        self.q_min = float(q_min)
+        self.q_max = float(q_max)
+        self.bound = float(bound)
+        self.initial_stake = float(initial_stake)
+        self.dual: float | None = None
+
+    def _arrays(
+        self,
+        *,
+        proxy: np.ndarray,
+        probability_positive: np.ndarray,
+        contrast_zero: np.ndarray,
+        contrast_one: np.ndarray,
+        label_costs: np.ndarray | None,
+        effective_stake: float | np.ndarray,
+    ) -> tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
+        h = np.asarray(proxy, dtype=float).reshape(-1)
+        p = np.asarray(probability_positive, dtype=float).reshape(-1)
+        z0 = np.asarray(contrast_zero, dtype=float).reshape(-1)
+        z1 = np.asarray(contrast_one, dtype=float).reshape(-1)
+        if not len(h) or any(len(value) != len(h) for value in (p, z0, z1)):
+            raise ValueError("query model inputs must have equal nonzero lengths")
+        if not all(np.isfinite(value).all() for value in (h, p, z0, z1)):
+            raise ValueError("query model inputs must be finite")
+        if np.any((p < 0) | (p > 1)):
+            raise ValueError("outcome probabilities must lie in [0, 1]")
+        costs = AdaptiveQueryPolicy._costs(label_costs, len(h))
+        eta = np.broadcast_to(np.asarray(effective_stake, dtype=float), h.shape).copy()
+        if not np.isfinite(eta).all() or np.any((eta <= 0) | (eta > 1)):
+            raise ValueError("effective stakes must lie in (0, 1]")
+        if np.any(np.abs(h) > self.bound + 1e-10) or np.any(
+            np.abs(np.stack((z0, z1))) > self.bound + 1e-10
+        ):
+            raise ValueError("proxy and outcome contrasts must fit the declared bound")
+        return h, p, z0, z1, costs, eta
+
+    def _derivative(
+        self,
+        q: np.ndarray,
+        h: np.ndarray,
+        p: np.ndarray,
+        z0: np.ndarray,
+        z1: np.ndarray,
+        eta: np.ndarray,
+    ) -> np.ndarray:
+        base = 1 + eta * h / self.bound
+        delta0 = eta * (z0 - h) / self.bound
+        delta1 = eta * (z1 - h) / self.bound
+        factor0 = base + delta0 / q
+        factor1 = base + delta1 / q
+        if np.any(base <= 0) or np.any(factor0 <= 0) or np.any(factor1 <= 0):
+            raise ValueError("betting factor must be positive over the propensity range")
+
+        def queried_derivative(delta: np.ndarray, factor: np.ndarray) -> np.ndarray:
+            return np.log(factor) - delta / (q * base + delta)
+
+        return (
+            -np.log(base)
+            + (1 - p) * queried_derivative(delta0, factor0)
+            + p * queried_derivative(delta1, factor1)
+        )
+
+    def _solve_q(
+        self,
+        dual: float,
+        h: np.ndarray,
+        p: np.ndarray,
+        z0: np.ndarray,
+        z1: np.ndarray,
+        costs: np.ndarray,
+        eta: np.ndarray,
+    ) -> np.ndarray:
+        target = dual * costs
+        low = np.full(len(h), self.q_min)
+        high = np.full(len(h), self.q_max)
+        low_derivative = self._derivative(low, h, p, z0, z1, eta)
+        high_derivative = self._derivative(high, h, p, z0, z1, eta)
+        at_low = low_derivative <= target
+        at_high = high_derivative >= target
+        active = ~(at_low | at_high)
+        for _ in range(56):
+            middle = (low + high) / 2
+            move_low = self._derivative(middle, h, p, z0, z1, eta) > target
+            low = np.where(active & move_low, middle, low)
+            high = np.where(active & ~move_low, middle, high)
+        return np.where(at_low, self.q_min, np.where(at_high, self.q_max, (low + high) / 2))
+
+    def fit_multiplier(
+        self,
+        *,
+        proxy: np.ndarray,
+        probability_positive: np.ndarray,
+        contrast_zero: np.ndarray,
+        contrast_one: np.ndarray,
+        label_costs: np.ndarray | None = None,
+    ) -> ExactMixtureGrowthQueryPolicy:
+        h, p, z0, z1, costs, eta = self._arrays(
+            proxy=proxy,
+            probability_positive=probability_positive,
+            contrast_zero=contrast_zero,
+            contrast_one=contrast_one,
+            label_costs=label_costs,
+            effective_stake=self.initial_stake,
+        )
+        target_spend = self.target_rate * float(costs.mean())
+        low, high = 0.0, 1.0
+        while float(np.mean(self._solve_q(high, h, p, z0, z1, costs, eta) * costs)) > target_spend:
+            high *= 2
+            if high > 1e12:
+                raise RuntimeError("could not bracket the expected-spend dual multiplier")
+        for _ in range(64):
+            middle = (low + high) / 2
+            spend = float(np.mean(self._solve_q(middle, h, p, z0, z1, costs, eta) * costs))
+            if spend > target_spend:
+                low = middle
+            else:
+                high = middle
+        self.dual = (low + high) / 2
+        return self
+
+    def probabilities(
+        self,
+        *,
+        proxy: np.ndarray,
+        probability_positive: np.ndarray,
+        contrast_zero: np.ndarray,
+        contrast_one: np.ndarray,
+        effective_stake: float,
+        label_costs: np.ndarray | None = None,
+    ) -> np.ndarray:
+        if self.dual is None:
+            raise RuntimeError("fit_multiplier must use pre-monitor calibration data")
+        h, p, z0, z1, costs, eta = self._arrays(
+            proxy=proxy,
+            probability_positive=probability_positive,
+            contrast_zero=contrast_zero,
+            contrast_one=contrast_one,
+            label_costs=label_costs,
+            effective_stake=effective_stake,
+        )
+        return self._solve_q(self.dual, h, p, z0, z1, costs, eta)
+
+
 def mix_with_uniform(
     adaptive_probabilities: np.ndarray,
     *,

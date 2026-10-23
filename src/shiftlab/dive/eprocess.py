@@ -84,6 +84,12 @@ class BoundedMeanEProcess:
     def alarm(self) -> bool:
         return self.log_e_value >= -np.log(self.alpha)
 
+    @property
+    def predictable_stake(self) -> float:
+        """Posterior mean stake for the next mixture update, from past evidence only."""
+        posterior = np.exp(self.log_wealth + np.log(self.weights) - self.log_e_value)
+        return float(np.dot(posterior, self.stakes))
+
     def update(self, value: float) -> float:
         if not np.isfinite(value) or abs(value) > self.bound + 1e-12:
             raise ValueError("observed value is outside the declared bounded range")

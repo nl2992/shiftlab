@@ -38,13 +38,17 @@ def test_hard_budget_run_respects_common_spend_cap_and_stops_predictably(tmp_pat
             budget_rate=0.20,
             device="cpu",
             scenario_subset=("boundary_local_harm",),
-            method_subset=("uniform_proxy", "cost_stabilized_proxy"),
+            method_subset=("uniform_proxy", "cost_stabilized_proxy", "exact_mixture_growth_proxy"),
         ),
         tmp_path / "hard_budget",
     )
 
     metrics = pd.read_parquet(output / "metrics" / "hard_budget_comparison.parquet")
-    assert set(metrics.method) == {"uniform_proxy", "cost_stabilized_proxy"}
+    assert set(metrics.method) == {
+        "uniform_proxy",
+        "cost_stabilized_proxy",
+        "exact_mixture_growth_proxy",
+    }
     assert metrics.hard_budget.nunique() == 1
     assert metrics.budget_respected.all()
     assert (metrics.eprocess_minimum_propensity == 0.10).all()

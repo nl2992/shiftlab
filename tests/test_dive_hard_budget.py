@@ -1,13 +1,30 @@
 import numpy as np
 import pandas as pd
+import pytest
 
-from shiftlab.dive.hard_budget import HardBudgetConfig, _wilson_bounds, run_hard_budget
+from shiftlab.dive.hard_budget import (
+    PROTECTED_EXPLORATION_STAKES,
+    PROTECTED_STAKES,
+    PROTECTED_WEIGHTS,
+    HardBudgetConfig,
+    _wilson_bounds,
+    run_hard_budget,
+)
 
 
 def test_wilson_bounds_keep_zero_and_full_detection_rates_inside_interval():
     lower, upper = _wilson_bounds(np.array([0, 6]), np.array([6, 6]))
     assert np.all(lower <= np.array([0, 1]))
     assert np.all(upper >= np.array([0, 1]))
+
+
+def test_protected_stake_prior_retains_baseline_mass_and_small_bets():
+    assert len(PROTECTED_STAKES) == 5 + len(PROTECTED_EXPLORATION_STAKES)
+    assert sum(PROTECTED_WEIGHTS[:5]) == pytest.approx(0.90)
+    assert sum(PROTECTED_WEIGHTS[5:]) == pytest.approx(0.10)
+    assert sum(PROTECTED_WEIGHTS) == pytest.approx(1.0)
+    assert min(PROTECTED_EXPLORATION_STAKES) < 0.01
+    assert max(PROTECTED_EXPLORATION_STAKES) <= 0.04
 
 
 def test_hard_budget_run_respects_common_spend_cap_and_stops_predictably(tmp_path):
@@ -33,7 +50,11 @@ def test_hard_budget_run_respects_common_spend_cap_and_stops_predictably(tmp_pat
     assert (metrics.eprocess_minimum_propensity == 0.10).all()
     assert (metrics.realized_label_spend <= metrics.hard_budget + 1e-9).all()
     assert (metrics.processed_events > 0).all()
-    assert {"single_e_detected", "multiscale_e_detected"} <= set(metrics.columns)
+    assert {
+        "single_e_detected",
+        "multiscale_e_detected",
+        "protected_e_detected",
+    } <= set(metrics.columns)
     assert metrics["multiscale_e_false_escalation"].notna().all()
     assert (metrics.processed_events <= 800).all()
     for row in metrics.loc[metrics.stop_reason.eq("budget_reserve")].itertuples():

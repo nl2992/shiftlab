@@ -134,6 +134,13 @@ negative grid-search result rather than promoted as an improved method. The boun
 is the same for both mixtures under the documented assumptions. See the
 [multiscale betting protocol](docs/multiscale_betting_protocol.md) and its paired output reports.
 
+A follow-up protected mixture retained 90% prior weight on the baseline stakes and put 10% on
+smaller bets. It also detected fewer harmful streams than the baseline in a fresh matched block
+(32/1,200 versus 39/1,200); the seven discordant outcomes all favored the baseline. The paired
+seed-cluster analysis is reproducible with `scripts/analyze_betting_mixture.py`; see the
+[protected-mixture protocol](docs/protected_multiscale_betting_protocol.md) and
+`outputs/hard_budget_protected_multiscale_60/` for the metrics, report, figure, and manifest.
+
 The current full initial run is documented in
 [`data/reports/decision_harm_phase2/20261023T0230Z-final-30seed/baseline_report.md`](data/reports/decision_harm_phase2/20261023T0230Z-final-30seed/baseline_report.md).
 

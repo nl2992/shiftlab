@@ -132,6 +132,34 @@ run identifiers and wall-clock timings are not. Large generated outputs are igno
 
 ## Research safeguards and limits
 
+The first paper studies **decision harm under distribution shift**. Keep three quantities distinct:
+
+\[
+D(P_t,P_0), \qquad R_t(f)-R_0(f), \qquad
+R_t(\pi)-R_t(\pi_{\mathrm{ref}}).
+\]
+
+They measure distributional change, predictive degradation for a fixed predictor, and the deployed
+policy's excess cost over a specified fallback or challenger. The third quantity is the decision
+target: a named reference policy can make the comparison more identifiable than regret against an
+unknown Bayes-optimal policy. Distribution change alone does not imply predictive degradation, and
+predictive degradation alone does not establish harm under the deployed decision rule.
+
+For the first paper, the monitoring null is
+
+\[
+H_0:\quad
+\mathbb{E}\!\left[c(\pi_t(X_t),Y_t)-c(\pi_{\mathrm{ref}}(X_t),Y_t)
+\mid \mathcal{F}_{t-1}\right]\leq\epsilon.
+\]
+
+The proposed contribution is an anytime-valid procedure for monitoring this conditional excess
+cost and controlling erroneous escalation under explicit assumptions. An e-process by itself does
+not establish validity. Any theorem and implementation must state and justify the feedback and label
+availability process, predictable policy and reference-policy selection, dependence assumptions,
+and any adaptive label-sampling mechanism. These conditions are part of the method and its
+evaluation protocol, not follow-up details. The current baselines do not yet establish this guarantee.
+
 The learner receives only features available at prediction time and labels after their recorded
 availability time. Synthetic regime labels and generating parameters stay evaluator-side. Missing
 or unknown real-world timing is not inferred. Real-source results must therefore use the task's

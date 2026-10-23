@@ -27,7 +27,11 @@ from ..decision_harm_experiment import (
     _source_action,
     statistical_harm_onset,
 )
-from .eprocess import BoundedMeanEProcess
+from .eprocess import (
+    BoundedMeanEProcess,
+    PredictablePlugInEmpiricalBernsteinEProcess,
+    PredictableVarianceAdaptiveEProcess,
+)
 from .estimators import prediction_powered_bound, prediction_powered_estimate
 from .evaluation import apply_population_null_classification
 from .experiment import (
@@ -63,6 +67,7 @@ PROTECTED_STAKES = (0.05, 0.10, 0.20, 0.40, 0.80, *PROTECTED_EXPLORATION_STAKES)
 PROTECTED_WEIGHTS = (0.18,) * 5 + (0.10 / len(PROTECTED_EXPLORATION_STAKES),) * len(
     PROTECTED_EXPLORATION_STAKES
 )
+HARD_BUDGET_MONITOR_COMPARATORS = ("variance_adaptive", "pm_eb")
 
 
 @dataclass(frozen=True)
@@ -79,6 +84,7 @@ class HardBudgetConfig:
     cost_stability_tolerance: float = 0.05
     exact_growth_adaptive_weight: float = 1.0
     robust_growth_probability_radius: float = 0.0
+    monitor_comparators: tuple[str, ...] = ()
     max_label_cost: float = 2.5
     common_eprocess_bound: bool = False
     device: str = "auto"
@@ -112,6 +118,10 @@ class HardBudgetConfig:
             or not 0 <= self.robust_growth_probability_radius <= 1
         ):
             raise ValueError("robust_growth_probability_radius must lie in [0, 1]")
+        if len(set(self.monitor_comparators)) != len(self.monitor_comparators) or not set(
+            self.monitor_comparators
+        ) <= set(HARD_BUDGET_MONITOR_COMPARATORS):
+            raise ValueError("monitor_comparators must contain unique registered comparator names")
         scenarios = {scenario.name for scenario in SCENARIOS}
         if not self.scenario_subset or not set(self.scenario_subset) <= scenarios:
             raise ValueError("scenario_subset must contain registered scenario names")
@@ -235,6 +245,19 @@ def _one_method(
         stakes=PROTECTED_STAKES,
         weights=PROTECTED_WEIGHTS,
     )
+    comparator_processes = {}
+    for comparator in config.monitor_comparators:
+        process_class = {
+            "variance_adaptive": PredictableVarianceAdaptiveEProcess,
+            "pm_eb": PredictablePlugInEmpiricalBernsteinEProcess,
+        }[comparator]
+        comparator_processes[comparator] = {
+            "process": process_class(
+                bound=prediction_powered_bound(proxy.clip, minimum_propensity),
+                alpha=config.alpha,
+            ),
+            "first_alarm": None,
+        }
     monitor_x = x[monitor_start:]
     proxy_values = proxy.predict(monitor_x)
     residual_second_moments = proxy.predict_residual_second_moment(monitor_x)
@@ -335,6 +358,10 @@ def _one_method(
         protected_value = protected_process.update(estimate)
         if first_protected_alarm is None and protected_value >= threshold:
             first_protected_alarm = offset
+        for state in comparator_processes.values():
+            comparator_value = state["process"].update(estimate)
+            if state["first_alarm"] is None and comparator_value >= threshold:
+                state["first_alarm"] = offset
         if queried:
             assert observed is not None
             did_refit = proxy.observe(x_now[0], observed)
@@ -366,7 +393,7 @@ def _one_method(
         if detected and harm_onset is not None and first_alarm is not None
         else None
     )
-    return {
+    row = {
         "scenario": scenario.name,
         "seed": seed,
         "method": method,
@@ -431,6 +458,27 @@ def _one_method(
             else float("nan")
         ),
     }
+    for comparator, state in comparator_processes.items():
+        alarm_time = state["first_alarm"]
+        comparator_detected = (
+            alarm_time is not None and harm_onset is not None and alarm_time >= harm_onset
+        )
+        comparator_false = alarm_time is not None and (
+            harm_onset is None or alarm_time < harm_onset
+        )
+        row.update(
+            {
+                f"{comparator}_detected": bool(comparator_detected),
+                f"{comparator}_false_escalation": bool(comparator_false),
+                f"{comparator}_alarm_time": alarm_time,
+                f"{comparator}_delay": (
+                    int(alarm_time - harm_onset)
+                    if comparator_detected and alarm_time is not None and harm_onset is not None
+                    else None
+                ),
+            }
+        )
+    return row
 
 
 def _generate_stream_rows(

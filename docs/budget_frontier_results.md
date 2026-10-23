@@ -2,6 +2,8 @@
 
 This is the completed screening result for the paired hard-dollar acquisition frontier. The frozen comparison uses 60 independent streams per scenario, seven registered policies, `n=3200`, and target budget rates of 10%, 20%, and 25%. It covers stationary and benign-nuisance controls plus boundary-local harm and recurring regimes. The full row-level metrics, confidence intervals, manifest, and figure are in [`outputs/budget_frontier_60/reports/budget_frontier.md`](../outputs/budget_frontier_60/reports/budget_frontier.md), [`outputs/budget_frontier_60/metrics/budget_frontier.parquet`](../outputs/budget_frontier_60/metrics/budget_frontier.parquet), and [`outputs/budget_frontier_60/figures/budget_frontier.png`](../outputs/budget_frontier_60/figures/budget_frontier.png).
 
+The manifest's hard-budget source hashes match Git commit `64d0aad`, and its analysis-script hash matches `1b02af6`; the generated result package is committed at `de9d68e`.
+
 ## Main findings
 
 - **The decision-harm monitor did not detect harm in this design.** Every method had 0/60 single-e-process detections for both harmful scenarios at every budget. All 60/60 harmful streams reached the known harm onset before budget stopping, so this is not explained by onset censoring. The 95% Wilson interval for each 0/60 rate is 0% to 6.0%. This is weak evidence about power and does not establish that the monitor lacks power in other regimes.
@@ -14,6 +16,8 @@ This is the completed screening result for the paired hard-dollar acquisition fr
 ## Interpretation and next experiment
 
 The strongest current result is a separation between estimation and monitoring: the mixture-growth samplers estimate stream-mean excess cost more accurately in this synthetic design, but that improvement did not translate into a single sequential harm escalation. This is a benchmark finding, not a new algorithm or a novelty claim. The zero-event cells are too small to establish either nominal false-alarm control or useful power.
+
+One plausible power bottleneck is the shared worst-case bound. With maximum cost 5, margin 0.10, and `q_min=0.05`, the proxy is clipped at `M=5.1` and each prediction-powered increment is bounded by `M(2/q_min-1)=198.9`. The harmful streams' mean expected decision-cost difference is about 0.26, so the mean excess over the margin is only about `0.16/198.9 = 0.0008` of this bound before variance is considered. This is a scale diagnosis, not a proof that the bound alone caused every miss. The next development experiment compares predictable stake rules while keeping this global bound and the sampled increments unchanged.
 
 No detection delay can be estimated because there were no single-e-process alarms. This grid has no intervention controller, so it does not measure cumulative decision loss, intervention costs, or regret; those remain required outcomes for the next decision-focused controller study.
 

@@ -66,6 +66,33 @@ def test_hard_budget_run_respects_common_spend_cap_and_stops_predictably(tmp_pat
     assert "probability_positive" not in metrics.columns
 
 
+def test_hard_budget_monitor_comparators_share_labels_and_respect_cap(tmp_path):
+    output = run_hard_budget(
+        HardBudgetConfig(
+            n=1600,
+            seeds=1,
+            common_eprocess_bound=True,
+            q_min=0.10,
+            q_max=0.80,
+            budget_rate=0.20,
+            monitor_comparators=("variance_adaptive", "pm_eb"),
+            device="cpu",
+            scenario_subset=("stationary", "boundary_local_harm"),
+            method_subset=("uniform_proxy",),
+        ),
+        tmp_path / "monitor_comparators",
+    )
+    metrics = pd.read_parquet(output / "metrics" / "hard_budget_comparison.parquet")
+    assert len(metrics) == 2
+    assert metrics.budget_respected.all()
+    assert metrics.labels_queried.notna().all()
+    for comparator in ("variance_adaptive", "pm_eb"):
+        assert metrics[f"{comparator}_detected"].notna().all()
+        assert metrics[f"{comparator}_false_escalation"].notna().all()
+        valid_alarms = metrics[f"{comparator}_alarm_time"].dropna()
+        assert (valid_alarms < metrics.loc[valid_alarms.index, "processed_events"]).all()
+
+
 def test_hard_budget_null_control_generates_report_without_harm_scenario(tmp_path):
     output = run_hard_budget(
         HardBudgetConfig(
@@ -142,6 +169,12 @@ def test_robust_growth_hard_budget_path_records_radius_and_respects_cap(tmp_path
     assert 0 <= row.robust_probability_interval_coverage <= 1
     assert row.budget_respected
     assert row.realized_label_spend <= row.hard_budget
+
+
+@pytest.mark.parametrize("comparators", [("unknown",), ("pm_eb", "pm_eb")])
+def test_hard_budget_rejects_unknown_or_duplicate_monitor_comparators(comparators):
+    with pytest.raises(ValueError, match="monitor_comparators"):
+        HardBudgetConfig(monitor_comparators=comparators).validate()
 
 
 @pytest.mark.parametrize("radius", [-0.01, 1.01, float("nan")])

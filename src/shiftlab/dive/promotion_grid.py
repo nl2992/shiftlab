@@ -114,13 +114,53 @@ def _candidate_models(
     for candidate in candidates:
         actions = np.asarray(candidate["actions"], dtype=int)
         candidate_val_cost = _binary_cost(actions[val_slice], y[val_slice], fn, fp)
-        candidate["validation_gain"] = float(
-            np.mean(incumbent_val_cost - candidate_val_cost) - switch_rate
+        validation_gains = incumbent_val_cost - candidate_val_cost - switch_rate
+        candidate["validation_gain"] = float(np.mean(validation_gains))
+        candidate["validation_gain_se"] = float(
+            np.std(validation_gains, ddof=1) / np.sqrt(len(validation_gains))
         )
     candidates.sort(
         key=lambda item: (-cast(float, item["validation_gain"]), str(item["candidate_id"]))
     )
     return candidates
+
+
+def _candidate_alpha_allocations(
+    candidates: list[dict[str, object]], *, alpha: float
+) -> dict[str, dict[str, float]]:
+    """Allocate a finite error budget using validation-only information.
+
+    Validation-power allocation leaves 10% of alpha uniformly distributed and
+    assigns the remainder by a softmax of clipped positive validation z-scores.
+    The resulting weights are frozen before independent shadow monitoring.
+    """
+    count = len(candidates)
+    if count < 1 or not np.isfinite(alpha) or not 0 < alpha < 1:
+        raise ValueError("candidates must be nonempty and alpha must lie in (0, 1)")
+    rank_weights = np.asarray(
+        [1 / (index * (index + 1)) for index in range(1, count + 1)], dtype=float
+    )
+    allocation_budget = float(alpha * (1.0 - 1e-12))
+    equal_weights = np.full(count, 1 / count, dtype=float)
+    z_scores = []
+    for candidate in candidates:
+        gain = cast(float, candidate["validation_gain"])
+        standard_error = cast(float, candidate["validation_gain_se"])
+        z_score = gain / standard_error if standard_error > 0 else (5.0 if gain > 0 else 0.0)
+        z_scores.append(float(np.clip(z_score, 0.0, 5.0)))
+    logits = np.asarray(z_scores, dtype=float)
+    softmax_weights = np.exp(logits - logits.max())
+    softmax_weights /= softmax_weights.sum()
+    validation_power_weights = 0.1 * equal_weights + 0.9 * softmax_weights
+    allocations: dict[str, dict[str, float]] = {}
+    for index, candidate in enumerate(candidates):
+        candidate_id = str(candidate["candidate_id"])
+        allocations[candidate_id] = {
+            "rank": float(alpha * rank_weights[index]),
+            "equal": float(allocation_budget * equal_weights[index]),
+            "validation_power": float(allocation_budget * validation_power_weights[index]),
+        }
+    return allocations
 
 
 def _fixed_horizon_gate(gains: np.ndarray, *, bound: float, alpha: float) -> bool:
@@ -207,6 +247,7 @@ def _evaluate_stream(
         deployment_horizon=post_length,
         config=config,
     )
+    alpha_allocations = _candidate_alpha_allocations(candidates, alpha=config.alpha)
 
     incumbent_monitor_cost = _binary_cost(incumbent[monitor], y[monitor], fn, fp)
     incumbent_deployment_cost = _binary_cost(incumbent[deployment], y[deployment], fn, fp)
@@ -216,8 +257,12 @@ def _evaluate_stream(
     )
     candidate_rows: list[dict[str, object]] = []
     fixed_certified: list[str] = []
-    empirical_bernstein_certified: list[str] = []
-    sequential_certified: list[str] = []
+    empirical_bernstein_certified: dict[str, list[str]] = {
+        allocation: [] for allocation in ("rank", "equal", "validation_power")
+    }
+    sequential_certified: dict[str, list[str]] = {
+        allocation: [] for allocation in ("rank", "equal", "validation_power")
+    }
     validation_positive_ids: list[str] = []
 
     max_event_cost = max(fn, fp)
@@ -243,31 +288,45 @@ def _evaluate_stream(
         certifier = CandidatePromotionTest(
             candidate_version,
             alpha_total=config.alpha,
+            alpha_i=alpha_allocations[candidate_id]["rank"],
             max_event_cost=max_event_cost,
             switching_cost=per_event_switch_cost,
         )
-        certificate_time = None
+        certificate_times: dict[str, int | None] = {
+            "rank": None,
+            "equal": None,
+            "validation_power": None,
+        }
         for relative_index, _ in enumerate(gains):
             log_e = certifier.update(
                 event_index=validation_end + relative_index,
                 incumbent_cost=float(incumbent_monitor_cost[relative_index]),
                 candidate_cost=float(candidate_monitor_cost[relative_index]),
             )
-            if certificate_time is None and log_e >= -np.log(certifier.alpha_i):
-                certificate_time = relative_index
+            for allocation, certificate_time in certificate_times.items():
+                if certificate_time is None and log_e >= -np.log(
+                    alpha_allocations[candidate_id][allocation]
+                ):
+                    certificate_times[allocation] = relative_index
         fixed_bound = max_event_cost + per_event_switch_cost
-        fixed_gate = _fixed_horizon_gate(gains, bound=fixed_bound, alpha=certifier.alpha_i)
+        fixed_gate = _fixed_horizon_gate(
+            gains, bound=fixed_bound, alpha=alpha_allocations[candidate_id]["rank"]
+        )
         if fixed_gate:
             fixed_certified.append(candidate_id)
-        empirical_bernstein_gate, empirical_bernstein_threshold = (
-            _fixed_horizon_empirical_bernstein_gate(
-                gains, bound=fixed_bound, alpha=certifier.alpha_i
+        eb_gates = {
+            allocation: _fixed_horizon_empirical_bernstein_gate(
+                gains,
+                bound=fixed_bound,
+                alpha=alpha_allocations[candidate_id][allocation],
             )
-        )
-        if empirical_bernstein_gate:
-            empirical_bernstein_certified.append(candidate_id)
-        if certifier.certified:
-            sequential_certified.append(candidate_id)
+            for allocation in ("rank", "equal", "validation_power")
+        }
+        for allocation in eb_gates:
+            if eb_gates[allocation][0]:
+                empirical_bernstein_certified[allocation].append(candidate_id)
+            if certificate_times[allocation] is not None:
+                sequential_certified[allocation].append(candidate_id)
 
         candidate_deploy_cost = _binary_cost(actions[deployment], y[deployment], fn, fp)
         candidate_deploy_expected = _expected_cost(
@@ -280,7 +339,12 @@ def _evaluate_stream(
                 "seed": seed,
                 "candidate_id": candidate_id,
                 "candidate_index_validation_rank": candidate_index,
-                "alpha_i": certifier.alpha_i,
+                "alpha_i": alpha_allocations[candidate_id]["rank"],
+                "alpha_i_equal": alpha_allocations[candidate_id]["equal"],
+                "alpha_i_validation_power": alpha_allocations[candidate_id]["validation_power"],
+                "validation_gain_se": cast(float, candidate["validation_gain_se"]),
+                "validation_power_weight": alpha_allocations[candidate_id]["validation_power"]
+                / config.alpha,
                 "training_cutoff": train_end - 1,
                 "validation_end": validation_end,
                 "monitor_start": validation_end,
@@ -290,11 +354,24 @@ def _evaluate_stream(
                 "monitor_oracle_mean_net_gain": float(expected_gains.mean()),
                 "monitor_pointwise_null_path": bool(np.all(expected_gains <= 1e-12)),
                 "exact_policy_copy_null": same_as_incumbent_monitor,
-                "sequential_certified": certifier.certified,
-                "sequential_certificate_time": certificate_time,
+                "sequential_certified": certificate_times["rank"] is not None,
+                "sequential_certificate_time": certificate_times["rank"],
+                "sequential_equal_certified": certificate_times["equal"] is not None,
+                "sequential_equal_certificate_time": certificate_times["equal"],
+                "sequential_validation_power_certified": certificate_times["validation_power"]
+                is not None,
+                "sequential_validation_power_certificate_time": certificate_times[
+                    "validation_power"
+                ],
                 "fixed_horizon_certified": fixed_gate,
-                "empirical_bernstein_fixed_horizon_certified": empirical_bernstein_gate,
-                "empirical_bernstein_gain_threshold": empirical_bernstein_threshold,
+                "empirical_bernstein_fixed_horizon_certified": eb_gates["rank"][0],
+                "empirical_bernstein_gain_threshold": eb_gates["rank"][1],
+                "empirical_bernstein_equal_certified": eb_gates["equal"][0],
+                "empirical_bernstein_equal_gain_threshold": eb_gates["equal"][1],
+                "empirical_bernstein_validation_power_certified": eb_gates["validation_power"][0],
+                "empirical_bernstein_validation_power_gain_threshold": eb_gates["validation_power"][
+                    1
+                ],
                 "post_expected_net_gain_total": float(
                     np.sum(incumbent_deployment_expected - candidate_deploy_expected)
                     - config.switching_cost
@@ -305,6 +382,21 @@ def _evaluate_stream(
                 ),
                 "null_candidate_false_certificate": bool(
                     same_as_incumbent_monitor and certifier.certified
+                ),
+                "null_candidate_false_certificate_equal": bool(
+                    same_as_incumbent_monitor and certificate_times["equal"] is not None
+                ),
+                "null_candidate_false_certificate_validation_power": bool(
+                    same_as_incumbent_monitor and certificate_times["validation_power"] is not None
+                ),
+                "null_candidate_eb_false_certificate_rank": bool(
+                    same_as_incumbent_monitor and eb_gates["rank"][0]
+                ),
+                "null_candidate_eb_false_certificate_equal": bool(
+                    same_as_incumbent_monitor and eb_gates["equal"][0]
+                ),
+                "null_candidate_eb_false_certificate_validation_power": bool(
+                    same_as_incumbent_monitor and eb_gates["validation_power"][0]
                 ),
             }
         )
@@ -322,30 +414,42 @@ def _evaluate_stream(
         ),
         None,
     )
-    empirical_bernstein_choice = next(
-        (
-            str(candidate["candidate_id"])
-            for candidate in candidates
-            if str(candidate["candidate_id"]) in empirical_bernstein_certified
-            and cast(float, candidate["validation_gain"]) > 0
-        ),
-        None,
-    )
-    sequential_choice = next(
-        (
-            str(candidate["candidate_id"])
-            for candidate in candidates
-            if str(candidate["candidate_id"]) in sequential_certified
-            and cast(float, candidate["validation_gain"]) > 0
-        ),
-        None,
-    )
+    empirical_bernstein_choices = {
+        allocation: next(
+            (
+                str(candidate["candidate_id"])
+                for candidate in candidates
+                if str(candidate["candidate_id"]) in empirical_bernstein_certified[allocation]
+                and cast(float, candidate["validation_gain"]) > 0
+            ),
+            None,
+        )
+        for allocation in empirical_bernstein_certified
+    }
+    sequential_choices = {
+        allocation: next(
+            (
+                str(candidate["candidate_id"])
+                for candidate in candidates
+                if str(candidate["candidate_id"]) in sequential_certified[allocation]
+                and cast(float, candidate["validation_gain"]) > 0
+            ),
+            None,
+        )
+        for allocation in sequential_certified
+    }
     strategies = {
         "never_promote": None,
         "validation_always_promote": top_validation,
         "fixed_horizon_grid_gate": fixed_choice,
-        "empirical_bernstein_grid_gate": empirical_bernstein_choice,
-        "sequential_grid_gate": sequential_choice,
+        "empirical_bernstein_rank_grid_gate": empirical_bernstein_choices["rank"],
+        "empirical_bernstein_equal_grid_gate": empirical_bernstein_choices["equal"],
+        "empirical_bernstein_validation_power_grid_gate": empirical_bernstein_choices[
+            "validation_power"
+        ],
+        "sequential_grid_gate": sequential_choices["rank"],
+        "sequential_equal_alpha_grid_gate": sequential_choices["equal"],
+        "sequential_validation_power_grid_gate": sequential_choices["validation_power"],
     }
     strategy_rows: list[dict[str, object]] = []
     for strategy, selected_id in strategies.items():
@@ -409,31 +513,68 @@ def _wilson(successes: int, total: int) -> tuple[float, float]:
 def _write_figures(strategy_summary: pd.DataFrame, figure_dir: Path) -> None:
     figure_dir.mkdir(parents=True, exist_ok=True)
     scenarios = [scenario.name for scenario in SCENARIOS]
-    strategies = [
-        "never_promote",
-        "validation_always_promote",
-        "fixed_horizon_grid_gate",
-        "empirical_bernstein_grid_gate",
-        "sequential_grid_gate",
+    panels = [
+        (
+            "Empirical-Bernstein allocation",
+            [
+                "never_promote",
+                "validation_always_promote",
+                "empirical_bernstein_rank_grid_gate",
+                "empirical_bernstein_equal_grid_gate",
+                "empirical_bernstein_validation_power_grid_gate",
+            ],
+        ),
+        (
+            "Sequential allocation",
+            [
+                "never_promote",
+                "validation_always_promote",
+                "sequential_grid_gate",
+                "sequential_equal_alpha_grid_gate",
+                "sequential_validation_power_grid_gate",
+            ],
+        ),
+        (
+            "Hoeffding fixed-horizon baseline",
+            ["never_promote", "validation_always_promote", "fixed_horizon_grid_gate"],
+        ),
     ]
-    fig, axes = plt.subplots(1, 2, figsize=(13, 5))
-    width = 0.18
+    labels = {
+        "never_promote": "Never",
+        "validation_always_promote": "Validation always",
+        "fixed_horizon_grid_gate": "Hoeffding/rank",
+        "empirical_bernstein_rank_grid_gate": "EB/rank",
+        "empirical_bernstein_equal_grid_gate": "EB/equal",
+        "empirical_bernstein_validation_power_grid_gate": "EB/validation-weighted",
+        "sequential_grid_gate": "Sequential/rank",
+        "sequential_equal_alpha_grid_gate": "Sequential/equal",
+        "sequential_validation_power_grid_gate": "Sequential/validation-weighted",
+    }
+    fig, axes = plt.subplots(3, 2, figsize=(16, 12), sharex=True)
     positions = np.arange(len(scenarios))
-    for offset, strategy in enumerate(strategies):
-        rows = strategy_summary[strategy_summary.strategy.eq(strategy)].set_index("scenario")
-        rows = rows.reindex(scenarios)
-        x_pos = positions + (offset - (len(strategies) - 1) / 2) * width
-        axes[0].bar(x_pos, rows.expected_net_gain, width, label=strategy)
-        axes[1].bar(x_pos, rows.promotion_rate, width, label=strategy)
-    axes[0].axhline(0, color="black", linewidth=0.8)
-    axes[0].set_ylabel("Expected net gain on untouched deployment slice")
-    axes[1].set_ylabel("Promotion rate")
-    for axis in axes:
-        axis.set_xticks(positions, scenarios, rotation=35, ha="right")
-        axis.grid(axis="y", alpha=0.25)
-        axis.legend(fontsize=7)
-    fig.suptitle("Grid-selected shadow candidates: deployment value and promotion rate")
-    fig.tight_layout()
+    for row_index, (title, strategies) in enumerate(panels):
+        width = 0.72 / len(strategies)
+        for offset, strategy in enumerate(strategies):
+            rows = strategy_summary[strategy_summary.strategy.eq(strategy)].set_index("scenario")
+            rows = rows.reindex(scenarios)
+            x_pos = positions + (offset - (len(strategies) - 1) / 2) * width
+            axes[row_index, 0].bar(x_pos, rows.expected_net_gain, width, label=labels[strategy])
+            axes[row_index, 1].bar(x_pos, rows.promotion_rate, width, label=labels[strategy])
+        axes[row_index, 0].axhline(0, color="black", linewidth=0.8)
+        axes[row_index, 0].set_ylabel(f"{title}\nExpected net gain")
+        axes[row_index, 1].set_ylabel("Promotion rate")
+        for axis in axes[row_index]:
+            axis.grid(axis="y", alpha=0.25)
+        axes[row_index, 0].legend(
+            loc="lower center",
+            bbox_to_anchor=(0.5, 1.02),
+            ncol=3,
+            fontsize=8,
+        )
+    axes[-1, 0].set_xticks(positions, scenarios, rotation=35, ha="right")
+    axes[-1, 1].set_xticks(positions, scenarios, rotation=35, ha="right")
+    fig.suptitle("Candidate promotion: allocation rules, deployment value, and rate")
+    fig.tight_layout(rect=(0, 0, 1, 0.95), h_pad=3.0)
     fig.savefig(figure_dir / "promotion_grid_outcomes.png", dpi=170)
     plt.close(fig)
 
@@ -485,7 +626,7 @@ def run_promotion_grid(config: PromotionGridConfig, output: Path) -> Path:
         "",
         f"Evaluated {len(scenarios)} synthetic scenarios with {config.seeds} independent streams each using `{config.device}` generation. The candidate grid contains one exact copy of the incumbent policy plus {len(config.regularization) * len(config.threshold_scales)} logistic-regression candidates per stream. Logistic candidates are fitted on the initial training slice, ranked by labeled validation net gain, frozen before a later shadow-evaluation slice, and only deployed on the final untouched slice.",
         "",
-        f"The one-time switching charge is `{config.switching_cost:g}`. For certification against its value over the fixed {config.n - _time_splits(config.n)[2]}-event deployment horizon, it is amortized as `{config.switching_cost / (config.n - _time_splits(config.n)[2]):.8f}` per candidate evaluation event. The deployment metric subtracts the full one-time charge once. Candidate index `i` receives `alpha_i=alpha/[i(i+1)]`; because the grid is ordered by validation score before monitoring and every candidate is tested on fresh feedback, the sum of test levels is at most `alpha` for every realized candidate ordering. The Hoeffding gate is valid for bounded increments under a conditional-mean null. The empirical-Bernstein gate tests average expected gain on the fixed horizon, using independent bounded monitor observations; it allows deterministic changes in distribution over time. Its candidate level is split between variance estimation and the one-sided Bernstein tail.",
+        f"The one-time switching charge is `{config.switching_cost:g}`. For certification against its value over the fixed {config.n - _time_splits(config.n)[2]}-event deployment horizon, it is amortized as `{config.switching_cost / (config.n - _time_splits(config.n)[2]):.8f}` per candidate evaluation event. The deployment metric subtracts the full one-time charge once. Three candidate-level alpha allocations are compared: rank spending `alpha/[i(i+1)]`, equal spending over this finite grid, and validation-power weighting. Validation-power weights are `alpha_i=alpha(0.1/K+0.9 softmax(z_i))`, where `z_i` is the clipped positive validation net-gain z-score and `K` is the grid size. Every allocation is frozen before fresh shadow monitoring and sums to at most alpha, so the union bound remains valid conditional on validation. This pilot-weighting approach is an established weighted-testing idea; we use it as a benchmark, not a novelty claim. The Hoeffding gate is valid for bounded increments under a conditional-mean null. The empirical-Bernstein gate tests average expected gain on the fixed horizon, using independent bounded monitor observations; it allows deterministic changes in distribution over time. Its candidate level is split between variance estimation and the one-sided Bernstein tail.",
         "",
         "The sequential certificate is absorbing: after the first `e_t >= 1/alpha_i` crossing it remains certified even if later e-values decline. The statistical gate certifies a mean shadow-period improvement under its conditional-mean and bounded-cost assumptions. It does not guarantee benefit on the later deployment slice if the regime changes. `false_post_nongain` explicitly measures such deployment reversals and is not the same as a false statistical certification. Both action costs are observable on the same synthetic outcome; settings where actions affect outcomes require randomized or off-policy evaluation.",
         "",
@@ -511,13 +652,32 @@ def run_promotion_grid(config: PromotionGridConfig, output: Path) -> Path:
     report.extend(
         [
             "",
-            f"Exact-copy null candidate certificates: `{exact_text}` over candidate-stream tests where the tested action exactly matches the incumbent throughout the shadow interval; its net gain is pointwise negative from the positive switching charge. This simulation is a diagnostic; the familywise guarantee follows from valid candidate e-processes and alpha spending under their stated assumptions.",
+            f"Exact-copy null candidate certificates under rank spending: `{exact_text}` over candidate-stream tests where the tested action exactly matches the incumbent throughout the shadow interval; its net gain is pointwise negative from the positive switching charge. This simulation is a diagnostic; the familywise guarantee follows from valid candidate tests and conditional alpha weights under their stated assumptions.",
+            "",
+            "Exact-copy null false-certificate counts by allocation: "
+            + ", ".join(
+                f"{label} {int(exact_null[column].sum())}/{len(exact_null)}"
+                for label, column in [
+                    ("sequential/equal", "null_candidate_false_certificate_equal"),
+                    (
+                        "sequential/validation-weighted",
+                        "null_candidate_false_certificate_validation_power",
+                    ),
+                    ("empirical-Bernstein/rank", "null_candidate_eb_false_certificate_rank"),
+                    ("empirical-Bernstein/equal", "null_candidate_eb_false_certificate_equal"),
+                    (
+                        "empirical-Bernstein/validation-weighted",
+                        "null_candidate_eb_false_certificate_validation_power",
+                    ),
+                ]
+            )
+            + ".",
             "",
             "## Reproduction",
             "",
             f"`uv run shiftlab-dive-promotion-grid --seeds {config.seeds} --seed-offset {config.seed_offset} --device {config.device} --output {output.as_posix()}`",
             "",
-            "The candidate-level Parquet preserves validation ranking, candidate alpha, sequential, Hoeffding, and empirical-Bernstein certification, evaluator-known shadow gain, exact-copy null status, and untouched post-promotion outcomes. The strategy-level Parquet contains paired deployment outcomes for never promote, unconditional validation selection, both fixed-horizon gates, and sequential certification.",
+            "The candidate-level Parquet preserves all three alpha allocations, their sequential and empirical-Bernstein certification outcomes, evaluator-known shadow gain, exact-copy null status, and untouched deployment outcomes. The strategy-level Parquet compares all alpha-allocation variants with never promote, unconditional validation selection, and the rank-spending Hoeffding gate.",
         ]
     )
     report_path = output / "reports/promotion_grid_comparison.md"
@@ -535,12 +695,18 @@ def run_promotion_grid(config: PromotionGridConfig, output: Path) -> Path:
             "never_promote",
             "validation_always_promote",
             "fixed_horizon_grid_gate",
-            "empirical_bernstein_grid_gate",
+            "empirical_bernstein_rank_grid_gate",
+            "empirical_bernstein_equal_grid_gate",
+            "empirical_bernstein_validation_power_grid_gate",
             "sequential_grid_gate",
+            "sequential_equal_alpha_grid_gate",
+            "sequential_validation_power_grid_gate",
         ],
         "information_protocol": [
             "candidate models fitted on training labels only",
             "candidate ranking and alpha-spending order frozen on validation before monitor",
+            "rank, equal, and validation-power alpha allocations are frozen before shadow monitoring and sum to at most the familywise level",
+            "validation-power allocation is a weighted-Bonferroni baseline using validation-only scores, not a novelty claim",
             "shadow test uses immediate full feedback and paired common-outcome costs",
             "empirical-Bernstein fixed-horizon gate assumes independent bounded monitor observations, which may be non-identically distributed",
             "sequential certification persists after its first threshold crossing",
@@ -556,7 +722,7 @@ def main(argv: list[str] | None = None) -> None:
     import argparse
 
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--output", type=Path, default=Path("outputs/promotion_grid_eb"))
+    parser.add_argument("--output", type=Path, default=Path("outputs/promotion_grid_alpha_final"))
     parser.add_argument("--seeds", type=int, default=30)
     parser.add_argument("--seed-offset", type=int, default=20381023)
     parser.add_argument("--n", type=int, default=3200)

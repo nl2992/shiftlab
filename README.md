@@ -246,6 +246,29 @@ outcomes. Results support a benchmark-specific comparison, not a novelty or gene
 claim. The original `outputs/promotion_grid/` results used a non-absorbing certification flag and
 are superseded by the corrected runs.
 
+A second grid tests whether the fixed rank schedule spends the promotion error budget effectively.
+It compares rank spending, equal allocation over the finite candidate set, and validation-power
+weights for both sequential and empirical-Bernstein promotion. The validation-power rule uses an
+independent pilot split, reserves 10% of the total level uniformly, and distributes the rest using
+clipped positive validation z-scores. Conditional on validation, all candidate levels sum to at most
+0.05, preserving the union-bound familywise guarantee. Independent-pilot weighted testing is prior
+work; this benchmark asks whether that established idea improves decision value in this candidate
+promotion setting. The final 30-seed CUDA comparison is in `outputs/promotion_grid_alpha_final/`. Under
+boundary-local harm, the empirical-Bernstein rank allocation promoted 30/30 streams versus 25/30
+for equal allocation and 27/30 for validation-power weighting. Its paired expected-gain advantage
+over equal allocation was 42.5 (95% interval 0.2–84.9); its advantage over validation-power
+weighting was 25.2 (−8.0–58.4). Under recurring regimes, the respective promotion counts were
+30/30, 22/30, and 26/30; rank's paired gain advantage over equal allocation was 65.3 (14.5–116.1),
+and over validation weighting was 37.9 (−1.9–77.7). All three promoted 30/30 in the harmful-
+adaptation scenario. The sequential rank schedule promoted 20/30 stationary streams, compared
+with 16/30 for equal and 18/30 for validation weighting; paired gain differences favoring rank
+were uncertain (5.5, −2.4–13.3; and 2.5, −4.5–9.6). Exact-copy controls produced zero false
+certificates under all five allocation-and-test combinations across 180 tests each. These are
+descriptive intervals from 30 seeds without multiplicity adjustment. In this benchmark, rank-based
+spending was strongest for the fixed-horizon gate when the best validation-ranked candidates were
+also strong alternatives; validation weighting did not improve outcomes. This is a negative result
+for the proposed weighting baseline, not a novel algorithm claim. See the [comparison report](outputs/promotion_grid_alpha_final/reports/promotion_grid_comparison.md), [paired uncertainty report](outputs/promotion_grid_alpha_final/reports/strategy_uncertainty.md), [candidate metrics](outputs/promotion_grid_alpha_final/metrics/promotion_grid_candidates.parquet), [strategy metrics](outputs/promotion_grid_alpha_final/metrics/promotion_grid_strategies.parquet), and [figure](outputs/promotion_grid_alpha_final/figures/promotion_grid_outcomes.png). Reproduce with `uv run shiftlab-dive-promotion-grid --seeds 30 --seed-offset 20381023 --n 3200 --d 16 --device cuda --output outputs/promotion_grid_alpha_final`.
+
 The allocation search adds a validation-selected grid over expected query rates 5%, 10%, and 20%
 and residual-variance score powers 0, 0.25, 0.5, 0.75, and 1. Score power 0.5 is the classical
 Neyman allocation derived by minimizing the prediction-powered estimator's query-randomization

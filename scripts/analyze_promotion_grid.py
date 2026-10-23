@@ -84,20 +84,48 @@ def summarize(input_dir: Path, output_path: Path) -> Path:
     )
     for scenario, scenario_frame in frame.groupby("scenario", sort=True):
         indexed = scenario_frame.set_index(["seed", "strategy"])
-        for left, right, label in [
-            ("sequential_grid_gate", "never_promote", "sequential − never"),
-            ("sequential_grid_gate", "validation_always_promote", "sequential − always"),
+        comparisons = []
+        for label, method in [
+            ("sequential rank", "sequential_grid_gate"),
+            ("sequential equal", "sequential_equal_alpha_grid_gate"),
+            ("sequential validation-power", "sequential_validation_power_grid_gate"),
+            ("empirical-Bernstein rank", "empirical_bernstein_rank_grid_gate"),
+            ("empirical-Bernstein equal", "empirical_bernstein_equal_grid_gate"),
             (
-                "empirical_bernstein_grid_gate",
-                "never_promote",
-                "empirical Bernstein − never",
-            ),
-            (
-                "empirical_bernstein_grid_gate",
-                "validation_always_promote",
-                "empirical Bernstein − always",
+                "empirical-Bernstein validation-power",
+                "empirical_bernstein_validation_power_grid_gate",
             ),
         ]:
+            comparisons.extend(
+                [
+                    (method, "never_promote", f"{label} − never"),
+                    (method, "validation_always_promote", f"{label} − always"),
+                ]
+            )
+        for label, rank_method, comparator in [
+            (
+                "sequential rank − equal",
+                "sequential_grid_gate",
+                "sequential_equal_alpha_grid_gate",
+            ),
+            (
+                "sequential rank − validation-weighted",
+                "sequential_grid_gate",
+                "sequential_validation_power_grid_gate",
+            ),
+            (
+                "empirical-Bernstein rank − equal",
+                "empirical_bernstein_rank_grid_gate",
+                "empirical_bernstein_equal_grid_gate",
+            ),
+            (
+                "empirical-Bernstein rank − validation-weighted",
+                "empirical_bernstein_rank_grid_gate",
+                "empirical_bernstein_validation_power_grid_gate",
+            ),
+        ]:
+            comparisons.append((rank_method, comparator, label))
+        for left, right, label in comparisons:
             left_values = indexed.xs(left, level="strategy").post_expected_net_gain_total
             right_values = indexed.xs(right, level="strategy").post_expected_net_gain_total
             joined = pd.concat([left_values, right_values], axis=1, join="inner").dropna()
@@ -120,11 +148,11 @@ def summarize(input_dir: Path, output_path: Path) -> Path:
 
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--input", type=Path, default=Path("outputs/promotion_grid_eb"))
+    parser.add_argument("--input", type=Path, default=Path("outputs/promotion_grid_alpha_final"))
     parser.add_argument(
         "--output",
         type=Path,
-        default=Path("outputs/promotion_grid_eb/reports/strategy_uncertainty.md"),
+        default=Path("outputs/promotion_grid_alpha_final/reports/strategy_uncertainty.md"),
     )
     args = parser.parse_args()
     print(summarize(args.input, args.output))

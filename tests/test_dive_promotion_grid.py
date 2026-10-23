@@ -4,6 +4,7 @@ import pandas as pd
 from scripts.analyze_promotion_grid import summarize
 from shiftlab.dive.promotion_grid import (
     PromotionGridConfig,
+    _candidate_alpha_allocations,
     _fixed_horizon_empirical_bernstein_gate,
     _fixed_horizon_gate,
     run_promotion_grid,
@@ -28,6 +29,30 @@ def test_empirical_bernstein_gate_has_nominal_error_for_independent_nonidentical
         gains = 2 * rng.binomial(1, probabilities) - 1
         rejections += _fixed_horizon_empirical_bernstein_gate(gains, bound=1.0, alpha=0.05)[0]
     assert rejections <= 70
+
+
+def test_validation_power_alpha_allocation_is_frozen_and_spends_at_most_alpha():
+    candidates = [
+        {
+            "candidate_id": f"c{index}",
+            "validation_gain": index / 10,
+            "validation_gain_se": 0.2,
+        }
+        for index in range(13)
+    ]
+    allocations = _candidate_alpha_allocations(candidates, alpha=0.05)
+    assert sum(values["rank"] for values in allocations.values()) <= 0.05
+    assert sum(values["equal"] for values in allocations.values()) <= 0.05
+    assert sum(values["validation_power"] for values in allocations.values()) <= 0.05
+    assert np.sum([values["equal"] for values in allocations.values()]) <= 0.05
+    assert np.sum([values["validation_power"] for values in allocations.values()]) <= 0.05
+    np.testing.assert_allclose(sum(values["equal"] for values in allocations.values()), 0.05)
+    np.testing.assert_allclose(
+        sum(values["validation_power"] for values in allocations.values()), 0.05
+    )
+    weights = [values["validation_power"] / 0.05 for values in allocations.values()]
+    assert len(set(np.round(weights, 10))) > 1
+    assert min(weights) >= 0.1 / len(candidates)
 
 
 def test_candidate_grid_is_frozen_and_outputs_forward_deployment_metrics(tmp_path):
@@ -57,8 +82,12 @@ def test_candidate_grid_is_frozen_and_outputs_forward_deployment_metrics(tmp_pat
         "never_promote",
         "validation_always_promote",
         "fixed_horizon_grid_gate",
-        "empirical_bernstein_grid_gate",
+        "empirical_bernstein_rank_grid_gate",
+        "empirical_bernstein_equal_grid_gate",
+        "empirical_bernstein_validation_power_grid_gate",
         "sequential_grid_gate",
+        "sequential_equal_alpha_grid_gate",
+        "sequential_validation_power_grid_gate",
     }
     assert np.isfinite(strategies.post_expected_net_gain_total).all()
 
@@ -71,7 +100,11 @@ def test_promotion_grid_summary_uses_seed_paired_intervals(tmp_path):
     values = {
         "never_promote": (0.0, 0.0),
         "sequential_grid_gate": (2.0, 4.0),
-        "empirical_bernstein_grid_gate": (1.0, 3.0),
+        "sequential_equal_alpha_grid_gate": (1.0, 2.0),
+        "sequential_validation_power_grid_gate": (1.0, 3.0),
+        "empirical_bernstein_rank_grid_gate": (1.0, 3.0),
+        "empirical_bernstein_equal_grid_gate": (1.0, 2.0),
+        "empirical_bernstein_validation_power_grid_gate": (1.0, 3.0),
         "validation_always_promote": (2.0, 4.0),
     }
     for strategy, gains in values.items():
@@ -91,5 +124,5 @@ def test_promotion_grid_summary_uses_seed_paired_intervals(tmp_path):
 
     report = summarize(input_dir, tmp_path / "summary.md").read_text(encoding="utf-8")
 
-    assert "sequential − never | 3.000 [-9.706, 15.706]" in report
-    assert "sequential − always | 0.000 [0.000, 0.000]" in report
+    assert "sequential rank − never | 3.000 [-9.706, 15.706]" in report
+    assert "sequential rank − always | 0.000 [0.000, 0.000]" in report

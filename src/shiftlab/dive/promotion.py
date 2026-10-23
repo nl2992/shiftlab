@@ -32,6 +32,7 @@ class CandidatePromotionTest:
         version: CandidateVersion,
         *,
         alpha_total: float = 0.05,
+        alpha_i: float | None = None,
         max_event_cost: float = 1.0,
         switching_cost: float = 0.0,
     ):
@@ -47,15 +48,22 @@ class CandidatePromotionTest:
             raise ValueError("max_event_cost must be finite and positive")
         if not np.isfinite(switching_cost) or switching_cost < 0:
             raise ValueError("switching_cost must be finite and nonnegative")
-        alpha_i = alpha_total / (version.candidate_index * (version.candidate_index + 1))
+        if alpha_i is None:
+            candidate_alpha = alpha_total / (
+                version.candidate_index * (version.candidate_index + 1)
+            )
+        else:
+            if not np.isfinite(alpha_i) or not 0 < alpha_i <= alpha_total:
+                raise ValueError("alpha_i must lie in (0, alpha_total]")
+            candidate_alpha = float(alpha_i)
         self.version = version
         self.alpha_total = float(alpha_total)
-        self.alpha_i = float(alpha_i)
+        self.alpha_i = float(candidate_alpha)
         self.max_event_cost = float(max_event_cost)
         self.switching_cost = float(switching_cost)
         self.process = BoundedMeanEProcess(
             bound=max_event_cost + switching_cost,
-            alpha=alpha_i,
+            alpha=self.alpha_i,
         )
         self.last_event = version.training_cutoff
         self.certificate_event: int | None = None

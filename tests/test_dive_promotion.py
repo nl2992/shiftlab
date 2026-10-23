@@ -24,6 +24,22 @@ def test_candidate_promotion_rejects_invalid_costs():
         test.update(event_index=1, incumbent_cost=0.5, candidate_cost=1.1)
 
 
+def test_candidate_promotion_accepts_precommitted_alpha_weight():
+    test = CandidatePromotionTest(
+        CandidateVersion("weighted", "v1", 0, 1),
+        alpha_total=0.05,
+        alpha_i=0.01,
+    )
+    assert test.alpha_i == 0.01
+
+    with pytest.raises(ValueError, match="alpha_i"):
+        CandidatePromotionTest(
+            CandidateVersion("invalid", "v1", 0, 1),
+            alpha_total=0.05,
+            alpha_i=0.06,
+        )
+
+
 def test_candidate_certificate_is_absorbing_after_first_threshold_crossing():
     test = CandidatePromotionTest(CandidateVersion("c1", "v1", 0, 1), max_event_cost=1.0)
     crossed_at = None

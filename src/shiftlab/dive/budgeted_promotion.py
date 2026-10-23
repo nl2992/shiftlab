@@ -35,6 +35,14 @@ QUERY_POLICIES = ("uniform", "variance", "decision_value")
 ALPHA_ALLOCATIONS = ("rank", "equal", "validation_power")
 ESTIMATORS = ("prediction_powered", "direct_ipw")
 BOUND_MODES = ("global", "decision_local")
+MONITORING_RULES = (
+    "fixed_mixture",
+    "fixed_mixture_half_alpha",
+    "predictable_kelly",
+    "pm_eb",
+    "positive_betting",
+    "hedged_positive",
+)
 BETTING_STAKES = np.asarray((0.05, 0.1, 0.2, 0.4, 0.8), dtype=float)
 BETTING_LOG_WEIGHTS = np.full(len(BETTING_STAKES), -np.log(len(BETTING_STAKES)))
 
@@ -51,6 +59,7 @@ class BudgetedPromotionConfig:
     query_policies: tuple[str, ...] = QUERY_POLICIES
     alpha_allocations: tuple[str, ...] = ALPHA_ALLOCATIONS
     estimators: tuple[str, ...] = ESTIMATORS
+    monitoring_rules: tuple[str, ...] = ("fixed_mixture",)
     bound_mode: str = "global"
     device: str = "cuda"
 
@@ -79,6 +88,12 @@ class BudgetedPromotionConfig:
             raise ValueError("estimators must be nonempty and unique")
         if any(name not in ESTIMATORS for name in self.estimators):
             raise ValueError(f"estimators must be drawn from {ESTIMATORS}")
+        if not self.monitoring_rules or len(set(self.monitoring_rules)) != len(
+            self.monitoring_rules
+        ):
+            raise ValueError("monitoring_rules must be nonempty and unique")
+        if any(name not in MONITORING_RULES for name in self.monitoring_rules):
+            raise ValueError(f"monitoring_rules must be drawn from {MONITORING_RULES}")
         if self.bound_mode not in BOUND_MODES:
             raise ValueError(f"bound_mode must be one of {BOUND_MODES}")
         if self.device not in {"cpu", "cuda", "auto"}:
@@ -259,6 +274,7 @@ def _monitor_family(
     estimator: str,
     query_uniforms: np.ndarray,
     bound_mode: str = "global",
+    monitoring_rule: str = "fixed_mixture",
 ) -> list[dict[str, Any]]:
     start = family["validation_end"]
     end = family["monitor_end"]
@@ -278,7 +294,18 @@ def _monitor_family(
     ) + switch_rate
     if bound_mode not in BOUND_MODES:
         raise ValueError(f"bound_mode must be one of {BOUND_MODES}")
+    if monitoring_rule not in MONITORING_RULES:
+        raise ValueError(f"monitoring_rule must be one of {MONITORING_RULES}")
     log_wealth = np.zeros((candidates, len(BETTING_STAKES)), dtype=float)
+    kelly_log_wealth = np.zeros(candidates, dtype=float)
+    kelly_sum = np.zeros(candidates, dtype=float)
+    kelly_sum_squares = np.zeros(candidates, dtype=float)
+    pm_log_wealth = np.zeros((candidates, len(config.alpha_allocations)), dtype=float)
+    positive_log_wealth = np.zeros_like(pm_log_wealth)
+    pm_sum_observations = np.zeros(candidates, dtype=float)
+    pm_sum_predictive_squared_deviations = np.zeros(candidates, dtype=float)
+    pm_predictive_mean = np.full(candidates, 0.5, dtype=float)
+    pm_predictive_variance = np.full(candidates, 0.25, dtype=float)
     certified = np.zeros((candidates, len(config.alpha_allocations)), dtype=bool)
     labels_used = 0
     expected_labels = 0.0
@@ -330,13 +357,69 @@ def _monitor_family(
             event_bounds = np.maximum(event_bounds, 1e-12)
         if np.any(np.abs(net_estimates) > event_bounds + 1e-10):
             raise RuntimeError("prediction-powered contrast exceeded its declared bound")
-        factors = bounded_betting_factors(net_estimates, event_bounds, BETTING_STAKES)
-        if np.any(factors <= 0):
-            raise RuntimeError("nonpositive betting factor")
-        log_wealth += np.log(factors)
-        log_e = logsumexp(log_wealth + BETTING_LOG_WEIGHTS[None, :], axis=1)
         thresholds = -np.log(family["alpha_matrix"])
-        certified |= log_e[:, None] >= thresholds
+        normalized = net_estimates / event_bounds
+        if np.any(np.abs(normalized) > 1 + 1e-10):
+            raise RuntimeError("normalized increment escaped its declared support")
+
+        if monitoring_rule in {"fixed_mixture", "fixed_mixture_half_alpha"}:
+            factors = bounded_betting_factors(net_estimates, event_bounds, BETTING_STAKES)
+            if np.any(factors <= 0):
+                raise RuntimeError("nonpositive fixed-mixture betting factor")
+            log_wealth += np.log(factors)
+            log_e = logsumexp(log_wealth + BETTING_LOG_WEIGHTS[None, :], axis=1)
+            level = thresholds if monitoring_rule == "fixed_mixture" else thresholds + np.log(2.0)
+            certified |= log_e[:, None] >= level
+        elif monitoring_rule == "predictable_kelly":
+            denominator = 4.0 + processed
+            mean_hat = (4.0 * 0.05 + kelly_sum) / denominator
+            second_hat = (4.0 * 0.25 + kelly_sum_squares) / denominator
+            stake = np.clip(np.maximum(mean_hat, 0.0) / second_hat, 0.0, 0.5)
+            factors = 1.0 + stake * normalized
+            if np.any(factors <= 0):
+                raise RuntimeError("predictable Kelly betting factor was nonpositive")
+            kelly_log_wealth += np.log(factors)
+            certified |= kelly_log_wealth[:, None] >= thresholds
+            kelly_sum += normalized
+            kelly_sum_squares += normalized**2
+        elif monitoring_rule in {"pm_eb", "positive_betting", "hedged_positive"}:
+            time = processed + 1
+            alpha_levels = family["alpha_matrix"]
+            log_stake_level = np.log(2.0 / alpha_levels)
+            variance_denominator = pm_predictive_variance[:, None] * time * np.log1p(time)
+            variance_stake = np.sqrt(2.0 * log_stake_level / variance_denominator)
+            observation = 0.5 * (normalized + 1.0)
+            residual = observation - pm_predictive_mean
+
+            if monitoring_rule == "pm_eb":
+                stake = np.minimum(0.5, variance_stake)
+                psi = (-np.log1p(-stake) - stake) / 4.0
+                increment = (
+                    stake * (observation[:, None] - 0.5) - 4.0 * residual[:, None] ** 2 * psi
+                )
+                pm_log_wealth += increment
+                certified |= pm_log_wealth >= thresholds
+            else:
+                stake = np.minimum(1.0, variance_stake)
+                factors = 1.0 + stake * (observation[:, None] - 0.5)
+                if np.any(factors <= 0):
+                    raise RuntimeError("predictable positive betting factor was nonpositive")
+                positive_log_wealth += np.log(factors)
+                level = (
+                    thresholds
+                    if monitoring_rule == "positive_betting"
+                    else thresholds + np.log(2.0)
+                )
+                certified |= positive_log_wealth >= level
+
+            pm_sum_observations += observation
+            updated_mean = (0.5 + pm_sum_observations) / (time + 1)
+            post_update_residual = observation - updated_mean
+            pm_sum_predictive_squared_deviations += post_update_residual**2
+            pm_predictive_mean = updated_mean
+            pm_predictive_variance = (0.25 + pm_sum_predictive_squared_deviations) / (time + 1)
+        else:
+            raise RuntimeError("unreachable monitoring rule")
         bound_total += float(event_bounds.mean())
         max_event_bound = max(max_event_bound, float(event_bounds.max()))
         processed += 1
@@ -387,6 +470,7 @@ def _monitor_family(
                 "seed": None,
                 "query_policy": query_name,
                 "estimator": estimator,
+                "monitoring_rule": monitoring_rule,
                 "budget_rate": budget_rate,
                 "label_budget": budget,
                 "alpha_allocation": allocation,
@@ -483,22 +567,24 @@ def _run_seed(
     for query_index, query_name in enumerate(config.query_policies):
         for budget_rate in config.budget_rates:
             for estimator in config.estimators:
-                estimator_rows = _monitor_family(
-                    family=family,
-                    y=y,
-                    scenario=scenario,
-                    config=config,
-                    query_name=query_name,
-                    budget_rate=budget_rate,
-                    estimator=estimator,
-                    query_uniforms=uniforms[query_index],
-                    bound_mode=config.bound_mode,
-                )
-                for row in estimator_rows:
-                    row["seed"] = seed
-                    row["query_rng_stream"] = query_index
-                    row["top_validation_gain"] = family["top_validation_gain"]
-                output.extend(estimator_rows)
+                for monitoring_rule in config.monitoring_rules:
+                    estimator_rows = _monitor_family(
+                        family=family,
+                        y=y,
+                        scenario=scenario,
+                        config=config,
+                        query_name=query_name,
+                        budget_rate=budget_rate,
+                        estimator=estimator,
+                        query_uniforms=uniforms[query_index],
+                        bound_mode=config.bound_mode,
+                        monitoring_rule=monitoring_rule,
+                    )
+                    for row in estimator_rows:
+                        row["seed"] = seed
+                        row["query_rng_stream"] = query_index
+                        row["top_validation_gain"] = family["top_validation_gain"]
+                    output.extend(estimator_rows)
     return output
 
 
@@ -514,10 +600,17 @@ def _wilson(successes: int, total: int) -> tuple[float, float]:
 
 
 def _summarize(detail: pd.DataFrame) -> pd.DataFrame:
-    group_fields = ["scenario", "budget_rate", "query_policy", "estimator", "alpha_allocation"]
+    group_fields = [
+        "scenario",
+        "budget_rate",
+        "query_policy",
+        "estimator",
+        "monitoring_rule",
+        "alpha_allocation",
+    ]
     rows = []
     for key, group in detail.groupby(group_fields, sort=False):
-        scenario, budget_rate, query_policy, estimator, allocation = key
+        scenario, budget_rate, query_policy, estimator, monitoring_rule, allocation = key
         promotion = int(group.promoted.sum())
         promotion_ci = _wilson(promotion, len(group))
         pointwise_null_count = int(group.pointwise_null_candidate_certified.sum())
@@ -541,6 +634,7 @@ def _summarize(detail: pd.DataFrame) -> pd.DataFrame:
                 "budget_rate": budget_rate,
                 "query_policy": query_policy,
                 "estimator": estimator,
+                "monitoring_rule": monitoring_rule,
                 "alpha_allocation": allocation,
                 "n_seeds": len(group),
                 "candidate_count": int(group.candidate_count.iloc[0]),
@@ -586,6 +680,7 @@ def _paired_bootstrap_contrasts(
         "budget_rate",
         "contrast",
         "query_policy",
+        "monitoring_rule",
         "metric",
         "n_seed_pairs",
         "mean_paired_difference",
@@ -594,25 +689,28 @@ def _paired_bootstrap_contrasts(
         "bootstrap_draws",
         "bootstrap_seed",
     ]
+    if "monitoring_rule" not in detail:
+        detail = detail.copy()
+        detail["monitoring_rule"] = "fixed_mixture"
     if detail.seed.nunique() < 2:
         return pd.DataFrame(columns=result_columns)
     rng = np.random.default_rng(seed)
     primary = detail[detail.budget_rate.eq(0.20)]
-    contrasts: list[tuple[str, pd.DataFrame, pd.DataFrame, str, str]] = []
+    contrasts: list[tuple[str, pd.DataFrame, pd.DataFrame, str, str, str]] = []
 
     # Estimator comparison uses the established rank-spending candidate alpha rule.
-    keys = ["scenario", "query_policy"]
+    keys = ["scenario", "query_policy", "monitoring_rule"]
     for key, group in primary[primary.alpha_allocation.eq("rank")].groupby(keys, sort=False):
         ppi = group[group.estimator.eq("prediction_powered")].sort_values("seed")
         ipw = group[group.estimator.eq("direct_ipw")].sort_values("seed")
         if len(ppi) != len(ipw) or not np.array_equal(ppi.seed.to_numpy(), ipw.seed.to_numpy()):
             raise ValueError("estimators are not paired on identical seed sets")
-        contrasts.append(("direct_ipw_minus_prediction_powered", ipw, ppi, key[0], key[1]))
+        contrasts.append(("direct_ipw_minus_prediction_powered", ipw, ppi, key[0], key[1], key[2]))
 
     # Candidate-alpha allocation comparison fixes query draws and estimator.
-    for (scenario, query), group in primary[primary.estimator.eq("direct_ipw")].groupby(
-        keys, sort=False
-    ):
+    for (scenario, query, monitoring_rule), group in primary[
+        primary.estimator.eq("direct_ipw")
+    ].groupby(keys, sort=False):
         rank = group[group.alpha_allocation.eq("rank")].sort_values("seed")
         for allocation in ("equal", "validation_power"):
             comparator = group[group.alpha_allocation.eq(allocation)].sort_values("seed")
@@ -620,11 +718,15 @@ def _paired_bootstrap_contrasts(
                 rank.seed.to_numpy(), comparator.seed.to_numpy()
             ):
                 raise ValueError("alpha allocations are not paired on identical seed sets")
-            contrasts.append((f"rank_minus_{allocation}", rank, comparator, scenario, query))
+            contrasts.append(
+                (f"rank_minus_{allocation}", rank, comparator, scenario, query, monitoring_rule)
+            )
 
     # Acquisition comparison fixes direct IPW and rank spending.
     query_group = primary[primary.estimator.eq("direct_ipw") & primary.alpha_allocation.eq("rank")]
-    for scenario, group in query_group.groupby("scenario", sort=False):
+    for (scenario, monitoring_rule), group in query_group.groupby(
+        ["scenario", "monitoring_rule"], sort=False
+    ):
         uniform = group[group.query_policy.eq("uniform")].sort_values("seed")
         for query in ("variance", "decision_value"):
             adaptive = group[group.query_policy.eq(query)].sort_values("seed")
@@ -632,7 +734,35 @@ def _paired_bootstrap_contrasts(
                 uniform.seed.to_numpy(), adaptive.seed.to_numpy()
             ):
                 raise ValueError("query policies are not paired on identical seed sets")
-            contrasts.append((f"{query}_minus_uniform", adaptive, uniform, scenario, query))
+            contrasts.append(
+                (f"{query}_minus_uniform", adaptive, uniform, scenario, query, monitoring_rule)
+            )
+
+    # Monitoring-rule comparisons fix the seed, estimator, query path, budget,
+    # and candidate alpha allocation; only the e-process construction changes.
+    rule_keys = ["scenario", "query_policy", "estimator", "alpha_allocation"]
+    for key, group in primary.groupby(rule_keys, sort=False):
+        fixed = group[group.monitoring_rule.eq("fixed_mixture")].sort_values("seed")
+        for monitoring_rule in MONITORING_RULES:
+            if monitoring_rule == "fixed_mixture" or monitoring_rule not in set(
+                group.monitoring_rule
+            ):
+                continue
+            method = group[group.monitoring_rule.eq(monitoring_rule)].sort_values("seed")
+            if len(fixed) != len(method) or not np.array_equal(
+                fixed.seed.to_numpy(), method.seed.to_numpy()
+            ):
+                raise ValueError("monitoring rules are not paired on identical seed sets")
+            contrasts.append(
+                (
+                    f"{monitoring_rule}_minus_fixed_mixture",
+                    method,
+                    fixed,
+                    key[0],
+                    key[1],
+                    monitoring_rule,
+                )
+            )
 
     rows: list[dict[str, Any]] = []
     metrics = {
@@ -641,7 +771,7 @@ def _paired_bootstrap_contrasts(
         "labels_queried": "labels_queried",
         "monitor_fraction_processed": "monitor_fraction_processed",
     }
-    for contrast_name, treatment, comparator, scenario, query in contrasts:
+    for contrast_name, treatment, comparator, scenario, query, monitoring_rule in contrasts:
         n = len(treatment)
         if n < 2:
             raise ValueError("paired comparison cells require identical multi-seed samples")
@@ -657,6 +787,7 @@ def _paired_bootstrap_contrasts(
                     "budget_rate": 0.20,
                     "contrast": contrast_name,
                     "query_policy": query,
+                    "monitoring_rule": monitoring_rule,
                     "metric": label,
                     "n_seed_pairs": n,
                     "mean_paired_difference": float(differences.mean()),
@@ -678,14 +809,14 @@ def _append_paired_report(report_path: Path, paired: pd.DataFrame) -> None:
         "",
         "## Paired analysis at the 20% cap",
         "",
-        "The secondary contrasts resample the 60 matched seed pairs and compare direct IPW with prediction-powered under rank spending, rank spending with equal and validation-power allocation under direct IPW, and adaptive query policies with uniform under direct IPW/rank. The 95% percentile intervals are descriptive and unadjusted across contrasts; the full 77-contrast table is in `metrics/budgeted_promotion_paired_contrasts.parquet`.",
+        "The secondary contrasts resample matched seed pairs within the predeclared design cells. They include estimator, alpha-allocation, query-policy, and monitoring-rule comparisons when those dimensions vary. The 95% percentile intervals are descriptive and unadjusted across contrasts; the full table is in `metrics/budgeted_promotion_paired_contrasts.parquet`.",
         "",
-        "| Scenario | Contrast | Query | Mean paired net-gain difference (95% bootstrap CI) |",
-        "|---|---|---|---:|",
+        "| Scenario | Contrast | Query | Monitoring rule | Mean paired net-gain difference (95% bootstrap CI) |",
+        "|---|---|---|---|---:|",
     ]
     for row in selected.itertuples(index=False):
         lines.append(
-            f"| {row.scenario} | {row.contrast} | {row.query_policy} | {row.mean_paired_difference:.3f} [{row.bootstrap_ci_low:.3f}, {row.bootstrap_ci_high:.3f}] |"
+            f"| {row.scenario} | {row.contrast} | {row.query_policy} | {row.monitoring_rule} | {row.mean_paired_difference:.3f} [{row.bootstrap_ci_low:.3f}, {row.bootstrap_ci_high:.3f}] |"
         )
     with report_path.open("a", encoding="utf-8") as report:
         report.write("\n".join(lines) + "\n")
@@ -695,44 +826,54 @@ def _plot(summary: pd.DataFrame, path: Path) -> None:
     scenarios = list(summary.scenario.drop_duplicates())
     budget_values = sorted(summary.budget_rate.unique())
     estimator_values = [name for name in ESTIMATORS if name in set(summary.estimator)]
+    monitoring_values = [name for name in MONITORING_RULES if name in set(summary.monitoring_rule)]
     query_values = [name for name in QUERY_POLICIES if name in set(summary.query_policy)]
+    allocation_values = [
+        name for name in ALPHA_ALLOCATIONS if name in set(summary.alpha_allocation)
+    ]
     fig, axes = plt.subplots(
-        len(budget_values) * len(estimator_values),
+        len(budget_values) * len(estimator_values) * len(monitoring_values),
         len(query_values),
-        figsize=(18, 4.2 * len(budget_values) * len(estimator_values)),
+        figsize=(18, 3.2 * len(budget_values) * len(estimator_values) * len(monitoring_values)),
         sharex=True,
         squeeze=False,
     )
     positions = np.arange(len(scenarios))
-    width = 0.82 / len(ALPHA_ALLOCATIONS)
+    width = 0.82 / len(allocation_values)
     for budget_index, budget_rate in enumerate(budget_values):
         for estimator_index, estimator in enumerate(estimator_values):
-            row_index = budget_index * len(estimator_values) + estimator_index
-            for query_index, query in enumerate(query_values):
-                cell = summary[
-                    summary.budget_rate.eq(budget_rate)
-                    & summary.estimator.eq(estimator)
-                    & summary.query_policy.eq(query)
-                ]
-                axis = axes[row_index, query_index]
-                for allocation_index, allocation in enumerate(ALPHA_ALLOCATIONS):
-                    rows = cell[cell.alpha_allocation.eq(allocation)].set_index("scenario")
-                    rows = rows.reindex(scenarios)
-                    offset = (allocation_index - (len(ALPHA_ALLOCATIONS) - 1) / 2) * width
-                    axis.bar(
-                        positions + offset,
-                        rows.mean_expected_postpromotion_net_gain,
-                        width,
-                        label=allocation,
+            for monitoring_index, monitoring_rule in enumerate(monitoring_values):
+                row_index = (budget_index * len(estimator_values) + estimator_index) * len(
+                    monitoring_values
+                ) + monitoring_index
+                for query_index, query in enumerate(query_values):
+                    cell = summary[
+                        summary.budget_rate.eq(budget_rate)
+                        & summary.estimator.eq(estimator)
+                        & summary.monitoring_rule.eq(monitoring_rule)
+                        & summary.query_policy.eq(query)
+                    ]
+                    axis = axes[row_index, query_index]
+                    for allocation_index, allocation in enumerate(allocation_values):
+                        rows = cell[cell.alpha_allocation.eq(allocation)].set_index("scenario")
+                        rows = rows.reindex(scenarios)
+                        offset = (allocation_index - (len(allocation_values) - 1) / 2) * width
+                        axis.bar(
+                            positions + offset,
+                            rows.mean_expected_postpromotion_net_gain,
+                            width,
+                            label=allocation,
+                        )
+                    axis.axhline(0, color="black", linewidth=0.8)
+                    axis.set_title(
+                        f"{monitoring_rule} · {estimator} · {query} · {budget_rate:.0%} cap"
                     )
-                axis.axhline(0, color="black", linewidth=0.8)
-                axis.set_title(f"{estimator} · {query} · {budget_rate:.0%} cap")
-                axis.grid(axis="y", alpha=0.25)
-                axis.set_xticks(positions, scenarios, rotation=35, ha="right", fontsize=8)
-                if query_index == 0:
-                    axis.set_ylabel("Mean expected net gain")
-                if row_index == 0 and query_index == 0:
-                    axis.legend(fontsize=8, title="Candidate alpha")
+                    axis.grid(axis="y", alpha=0.25)
+                    axis.set_xticks(positions, scenarios, rotation=35, ha="right", fontsize=8)
+                    if query_index == 0:
+                        axis.set_ylabel("Mean expected net gain")
+                    if row_index == 0 and query_index == 0:
+                        axis.legend(fontsize=8, title="Candidate alpha")
     fig.suptitle("Repeated-candidate promotion under common hard label caps")
     fig.tight_layout()
     path.parent.mkdir(parents=True, exist_ok=True)
@@ -795,22 +936,22 @@ def run_budgeted_promotion(config: BudgetedPromotionConfig, output: Path) -> Pat
     lines = [
         "# Repeated-candidate promotion under a hard label budget",
         "",
-        f"This benchmark evaluates {len(scenarios)} scenarios with {config.seeds} independent seeds each on `{device}`. It crosses {len(config.query_policies)} predeclared query designs, {len(config.estimators)} estimators, {len(config.alpha_allocations)} candidate-level alpha allocations, and hard label caps {config.budget_rates}. Every query design and candidate gate sees the same seed-specific DGP; all candidate tests within one stream share queried labels. Each stream has {len(_candidate_alpha_allocations([{'candidate_id': str(i), 'validation_gain': 0.0, 'validation_gain_se': 0.0} for i in range(13)], alpha=config.alpha))} frozen candidates.",
+        f"This benchmark evaluates {len(scenarios)} scenarios with {config.seeds} independent seeds each on `{device}`. It crosses {len(config.query_policies)} predeclared query designs, {len(config.estimators)} estimators, {len(config.monitoring_rules)} monitoring rules, {len(config.alpha_allocations)} candidate-level alpha allocations, and hard label caps {config.budget_rates}. Every query design and candidate gate sees the same seed-specific DGP; all candidate tests within one stream share queried labels. Each stream has {len(_candidate_alpha_allocations([{'candidate_id': str(i), 'validation_gain': 0.0, 'validation_gain_se': 0.0} for i in range(13)], alpha=config.alpha))} frozen candidates.",
         "",
         "Candidates are trained on the training slice and ordered using the fully labeled validation slice. Validation also fixes the candidate alpha weights and the acquisition score model. Monitor labels are revealed only when queried. The three query designs are uniform, residual-variance weighting, and a decision-value heuristic; propensities remain predictable from the current covariates and pre-monitor fits, with a positive floor. For each budget level the same maximum number of labels is available to every query and alpha method. The monitor stops before the next event when no label remains affordable, so actual label counts never exceed the hard cap; realized counts and processed horizons are reported because policies need not spend the entire cap.",
         "",
-        f"The grid compares prediction-powered `h_tk + I_t/q_t (Z_tk-h_tk)` with direct inverse-propensity `I_t Z_tk/q_t`, both shifted by the amortized switching charge. Here `Z` is incumbent cost minus candidate cost, `h` is a pre-monitor fitted expected-cost contrast, and the deployment horizon is `H`. With `|Z|,|h| <= M=max(FN,FP)`, the global-mode bounds are `M(2/q_min-1)+k_switch/H` and `M/q_min+k_switch/H`; local-mode bounds are computed per candidate and event from estimator support. Each candidate receives a level from validation-rank spending, equal Bonferroni allocation, or validation-power weights, fixed before monitor outcomes and summing to at most alpha. {bound_description} The global-null control replaces all candidates with incumbent copies; its zero-crossing result is a degenerate implementation diagnostic, not evidence of calibration.",
+        f"The grid compares prediction-powered `h_tk + I_t/q_t (Z_tk-h_tk)` with direct inverse-propensity `I_t Z_tk/q_t`, both shifted by the amortized switching charge. Monitoring rules are fixed-stake mixture at alpha and alpha/2, predictable plug-in Kelly, predictable plug-in empirical-Bernstein (PM-EB), full-alpha one-sided positive betting, and the half-weighted positive branch of the hedged process at its alpha/2 threshold. The half-alpha mixture is the matched-threshold reference for the hedge. They use the same candidate-level validation alpha allocations and global bound. Here `Z` is incumbent cost minus candidate cost, `h` is a pre-monitor fitted expected-cost contrast, and the deployment horizon is `H`. With `|Z|,|h| <= M=max(FN,FP)`, the global-mode bounds are `M(2/q_min-1)+k_switch/H` and `M/q_min+k_switch/H`; local-mode bounds are computed per candidate and event from estimator support. Each candidate receives a level from validation-rank spending, equal Bonferroni allocation, or validation-power weights, fixed before monitor outcomes and summing to at most alpha. {bound_description} The global-null control replaces all candidates with incumbent copies; its zero-crossing result is a degenerate implementation diagnostic, not evidence of calibration.",
         "",
         "The synthetic evaluator alone accesses true outcome probabilities and unqueried future labels. It scores expected and realized post-promotion value on the untouched remainder of the stream, subtracting the switching charge once. This assumes policy actions do not alter outcomes; the result does not identify policy value under performative feedback. The repeated query/alpha/scenario grid is descriptive: cellwise intervals are not adjusted for choosing a method, and no winner is selected from the evaluation results.",
         "",
         "## Results",
         "",
-        "| Scenario | Label cap | Query policy | Estimator | Alpha allocation | E-process crossing (95% CI) | Pointwise-null crossing (95% CI) | Mean oracle future net gain (95% t CI) | Mean labels / cap |",
-        "|---|---:|---|---|---|---:|---:|---:|---:|",
+        "| Scenario | Label cap | Query policy | Estimator | Monitoring rule | Alpha allocation | Promotion rate (95% CI) | Pointwise-null crossing (95% CI) | Mean oracle future net gain (95% t CI) | Mean labels / cap |",
+        "|---|---:|---|---|---|---|---:|---:|---:|---:|",
     ]
     for row in summary.itertuples(index=False):
         lines.append(
-            f"| {row.scenario} | {row.budget_rate:.0%} | {row.query_policy} | {row.estimator} | {row.alpha_allocation} | {row.promotion_rate:.3f} [{row.promotion_ci_low:.3f}, {row.promotion_ci_high:.3f}] | {row.pointwise_null_certificate_rate:.3f} [{row.pointwise_null_ci_low:.3f}, {row.pointwise_null_ci_high:.3f}] | {row.mean_expected_postpromotion_net_gain:.3f} [{row.expected_gain_ci_low:.3f}, {row.expected_gain_ci_high:.3f}] | {row.mean_labels_queried:.1f} / {row.mean_label_budget:.0f} |"
+            f"| {row.scenario} | {row.budget_rate:.0%} | {row.query_policy} | {row.estimator} | {row.monitoring_rule} | {row.alpha_allocation} | {row.promotion_rate:.3f} [{row.promotion_ci_low:.3f}, {row.promotion_ci_high:.3f}] | {row.pointwise_null_certificate_rate:.3f} [{row.pointwise_null_ci_low:.3f}, {row.pointwise_null_ci_high:.3f}] | {row.mean_expected_postpromotion_net_gain:.3f} [{row.expected_gain_ci_low:.3f}, {row.expected_gain_ci_high:.3f}] | {row.mean_labels_queried:.1f} / {row.mean_label_budget:.0f} |"
         )
     lines.extend(
         [
@@ -819,7 +960,7 @@ def run_budgeted_promotion(config: BudgetedPromotionConfig, output: Path) -> Pat
             "",
             "## Reproduction",
             "",
-            f"`uv run shiftlab-dive-budgeted-promotion --seeds {config.seeds} --seed-offset {config.seed_offset} --n {config.n} --device {device} --bound-mode {config.bound_mode} --output {output.as_posix()}`",
+            f"`uv run shiftlab-dive-budgeted-promotion --seeds {config.seeds} --seed-offset {config.seed_offset} --n {config.n} --device {device} --bound-mode {config.bound_mode} --monitoring-rules {' '.join(config.monitoring_rules)} --query-policies {' '.join(config.query_policies)} --estimators {' '.join(config.estimators)} --alpha-allocations {' '.join(config.alpha_allocations)} --budget-rates {' '.join(str(rate) for rate in config.budget_rates)} --output {output.as_posix()}`",
             "",
             "Detailed seed-level rows, aggregate metrics, figure, configuration, environment, and hashes are stored with this report.",
         ]
@@ -835,6 +976,7 @@ def run_budgeted_promotion(config: BudgetedPromotionConfig, output: Path) -> Pat
         "scenarios": [scenario.name for scenario in scenarios],
         "query_policies": list(config.query_policies),
         "estimators": list(config.estimators),
+        "monitoring_rules": list(config.monitoring_rules),
         "bound_mode": config.bound_mode,
         "alpha_allocations": list(config.alpha_allocations),
         "information_protocol": [
@@ -868,6 +1010,17 @@ def main(argv: list[str] | None = None) -> None:
     parser.add_argument("--n", type=int, default=3200)
     parser.add_argument("--device", choices=["cpu", "cuda", "auto"], default="cuda")
     parser.add_argument("--bound-mode", choices=BOUND_MODES, default="global")
+    parser.add_argument(
+        "--monitoring-rules", nargs="+", choices=MONITORING_RULES, default=["fixed_mixture"]
+    )
+    parser.add_argument(
+        "--query-policies", nargs="+", choices=QUERY_POLICIES, default=list(QUERY_POLICIES)
+    )
+    parser.add_argument("--estimators", nargs="+", choices=ESTIMATORS, default=list(ESTIMATORS))
+    parser.add_argument(
+        "--alpha-allocations", nargs="+", choices=ALPHA_ALLOCATIONS, default=list(ALPHA_ALLOCATIONS)
+    )
+    parser.add_argument("--budget-rates", nargs="+", type=float, default=[0.10, 0.20])
     args = parser.parse_args(argv)
     config = BudgetedPromotionConfig(
         n=args.n,
@@ -875,6 +1028,11 @@ def main(argv: list[str] | None = None) -> None:
         seed_offset=args.seed_offset,
         device=args.device,
         bound_mode=args.bound_mode,
+        monitoring_rules=tuple(args.monitoring_rules),
+        query_policies=tuple(args.query_policies),
+        estimators=tuple(args.estimators),
+        alpha_allocations=tuple(args.alpha_allocations),
+        budget_rates=tuple(args.budget_rates),
     )
     print(run_budgeted_promotion(config, args.output), flush=True)
 

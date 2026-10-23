@@ -7,6 +7,7 @@ from scipy.special import logsumexp
 
 from shiftlab.dive.budgeted_promotion import (
     ALPHA_ALLOCATIONS,
+    MONITORING_RULES,
     BudgetedPromotionConfig,
     _candidate_outcome_contrasts,
     _decision_local_bounds,
@@ -127,24 +128,27 @@ def test_monitor_obeys_common_hard_label_cap_and_uses_only_certified_candidates(
         "q_min": {0.2: 0.1},
     }
     config.validate()
-    rows = _monitor_family(
-        family=family,
-        y=np.zeros(1000, dtype=int),
-        scenario=SimpleNamespace(name="copy_null", fn_cost=5.0, fp_cost=1.0),
-        config=config,
-        query_name="uniform",
-        budget_rate=0.2,
-        estimator="prediction_powered",
-        query_uniforms=np.zeros(10),
-    )
-    assert len(rows) == len(ALPHA_ALLOCATIONS)
-    for row in rows:
-        assert row["label_budget"] == 2
-        assert row["labels_queried"] == 2
-        assert row["labels_queried"] <= row["label_budget"]
-        assert row["monitor_events_processed"] == 2
-        assert row["candidate_id"] is None
-        assert row["familywise_alpha_sum"] <= config.alpha + 1e-12
+    for rule in MONITORING_RULES:
+        rows = _monitor_family(
+            family=family,
+            y=np.zeros(1000, dtype=int),
+            scenario=SimpleNamespace(name="copy_null", fn_cost=5.0, fp_cost=1.0),
+            config=config,
+            query_name="uniform",
+            budget_rate=0.2,
+            estimator="prediction_powered",
+            query_uniforms=np.zeros(10),
+            monitoring_rule=rule,
+        )
+        assert len(rows) == len(ALPHA_ALLOCATIONS)
+        for row in rows:
+            assert row["monitoring_rule"] == rule
+            assert row["label_budget"] == 2
+            assert row["labels_queried"] == 2
+            assert row["labels_queried"] <= row["label_budget"]
+            assert row["monitor_events_processed"] == 2
+            assert row["candidate_id"] is None
+            assert row["familywise_alpha_sum"] <= config.alpha + 1e-12
 
     direct_rows = _monitor_family(
         family=family,

@@ -39,6 +39,7 @@ RULES = (
     "pm_eb",
     "positive_betting",
     "hedged_positive",
+    "online_process_mixture",
 )
 STAKES = torch.tensor((0.05, 0.1, 0.2, 0.4, 0.8), dtype=torch.float64)
 QUERY_RATES = (0.10, 0.20, 0.40)
@@ -97,6 +98,14 @@ def _context_flip_lookup(device: torch.device) -> torch.Tensor:
     return parity.bool()
 
 
+def _predictable_process_weights(past_log_evalues: torch.Tensor) -> torch.Tensor:
+    """Exploration-hedged softmax weights based only on prior component wealth."""
+    if past_log_evalues.ndim < 1 or past_log_evalues.shape[-1] != 4:
+        raise ValueError("the online mixture requires four component log e-values")
+    adaptive = torch.softmax(0.5 * past_log_evalues, dim=-1)
+    return 0.10 / 4 + 0.90 * adaptive
+
+
 def _simulate_scenario(
     *,
     scenario: str,
@@ -112,7 +121,8 @@ def _simulate_scenario(
     horizon, streams = contexts.shape
     query_rates = torch.tensor(QUERY_RATES, dtype=torch.float64, device=device)
     bound_multipliers = torch.tensor(BOUND_MULTIPLIERS, dtype=torch.float64, device=device)
-    caps = torch.floor(query_rates * horizon).to(torch.int64)[None, :]
+    label_caps = [int(np.floor(rate * horizon)) for rate in QUERY_RATES]
+    caps = torch.tensor(label_caps, dtype=torch.int64, device=device)[None, :]
     flip_lookup = _context_flip_lookup(device)
     stakes = STAKES.to(device)
     log_weights = torch.full_like(stakes, -np.log(len(STAKES)))
@@ -129,6 +139,7 @@ def _simulate_scenario(
                 threshold,
                 threshold,
                 threshold + np.log(2),
+                threshold,
             ),
             dtype=torch.float64,
             device=device,
@@ -140,6 +151,7 @@ def _simulate_scenario(
         kelly_squares = torch.zeros_like(kelly_log_wealth)
         pm_log_wealth = torch.zeros_like(kelly_log_wealth)
         positive_log_wealth = torch.zeros_like(kelly_log_wealth)
+        online_log_wealth = torch.zeros_like(kelly_log_wealth)
         pm_sum_observations = torch.zeros_like(kelly_log_wealth)
         pm_sum_squared_deviations = torch.zeros_like(kelly_log_wealth)
         pm_predictive_mean = torch.full_like(kelly_log_wealth, 0.5)
@@ -196,6 +208,13 @@ def _simulate_scenario(
             active_mask = active[:, None, :, None]
             active_float = active_mask.to(torch.float64)
 
+            previous_fixed_log_e = torch.logsumexp(fixed_log_wealth + log_weights, dim=-1)
+            previous_components = torch.stack(
+                (previous_fixed_log_e, kelly_log_wealth, pm_log_wealth, positive_log_wealth),
+                dim=-1,
+            )
+            online_weights = _predictable_process_weights(previous_components)
+
             fixed_log_wealth += torch.log1p(
                 normalized.unsqueeze(-1) * stakes
             ) * active_float.unsqueeze(-1)
@@ -231,6 +250,20 @@ def _simulate_scenario(
                 active_mask, updated_variance, pm_predictive_variance
             )
 
+            current_components = torch.stack(
+                (fixed_log_e, kelly_log_wealth, pm_log_wealth, positive_log_wealth),
+                dim=-1,
+            )
+            component_log_factors = current_components - previous_components
+            online_log_factor = torch.logsumexp(
+                torch.log(online_weights) + component_log_factors,
+                dim=-1,
+            )
+            # Each component's one-step wealth ratio has conditional expectation <= 1.
+            # These weights use only past component wealth, so their convex mixture
+            # remains a nonnegative supermartingale factor.
+            online_log_wealth += online_log_factor * active_float
+
             alarm_stack = torch.stack(
                 (
                     fixed_log_e >= family_thresholds[0],
@@ -239,6 +272,7 @@ def _simulate_scenario(
                     pm_log_wealth >= family_thresholds[3],
                     positive_log_wealth >= family_thresholds[4],
                     positive_log_wealth >= family_thresholds[5],
+                    online_log_wealth >= family_thresholds[6],
                 ),
                 dim=-1,
             )
@@ -270,7 +304,7 @@ def _simulate_scenario(
                                 "stream": stream,
                                 "candidate_count": candidate_count,
                                 "query_rate": query_rate,
-                                "label_cap": int(caps[0, query_index].item()),
+                                "label_cap": label_caps[query_index],
                                 "bound_multiplier": bound_multiplier,
                                 "rule": rule,
                                 "candidate_alpha": candidate_alpha,

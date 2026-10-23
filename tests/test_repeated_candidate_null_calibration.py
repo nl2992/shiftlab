@@ -4,6 +4,7 @@ import torch
 from scripts.calibrate_repeated_candidate_nulls import (
     CalibrationConfig,
     _context_flip_lookup,
+    _predictable_process_weights,
     _simulate_scenario,
 )
 
@@ -44,6 +45,14 @@ def test_constructed_null_and_alternatives_have_exact_expected_gains_and_varianc
         assert np.any(gain_y0 != gain_y1)
 
 
+def test_online_process_weights_are_normalized_predictable_and_exploration_hedged():
+    past_log_evalues = torch.tensor([[0.0, 0.0, 0.0, 0.0], [100.0, -5.0, 2.0, 0.0]])
+    weights = _predictable_process_weights(past_log_evalues)
+    assert torch.allclose(weights.sum(dim=-1), torch.ones(2, dtype=weights.dtype))
+    assert torch.all(weights >= 0.025)
+    assert torch.allclose(weights[0], torch.full((4,), 0.25, dtype=weights.dtype))
+
+
 def test_non_degenerate_null_grid_respects_hard_caps_and_emits_all_rules():
     config = CalibrationConfig(streams=100, horizon=100, seed=101, device="cpu")
     generator = torch.Generator(device="cpu").manual_seed(config.seed)
@@ -62,7 +71,7 @@ def test_non_degenerate_null_grid_respects_hard_caps_and_emits_all_rules():
         config=config,
         device=torch.device("cpu"),
     )
-    assert len(rows) == 100 * 3 * 3 * 3 * 6
+    assert len(rows) == 100 * 3 * 3 * 3 * 7
     assert {row["candidate_count"] for row in rows} == {1, 5, 13}
     assert {row["rule"] for row in rows} == {
         "fixed_mixture",
@@ -71,6 +80,7 @@ def test_non_degenerate_null_grid_respects_hard_caps_and_emits_all_rules():
         "pm_eb",
         "positive_betting",
         "hedged_positive",
+        "online_process_mixture",
     }
     assert all(row["true_mean_gain"] == 0.0 for row in rows)
     assert all(row["labels_used"] <= row["label_cap"] for row in rows)

@@ -1,0 +1,103 @@
+{
+  "experiment": "hard_label_dollar_budget_query_policy_comparison",
+  "configuration": {
+    "n": 3200,
+    "d": 16,
+    "seeds": 2000,
+    "seed_offset": 52000000,
+    "alpha": 0.05,
+    "harm_margin": 0.1,
+    "budget_rate": 0.2,
+    "q_min": 0.2,
+    "q_max": 0.8,
+    "cost_stability_tolerance": 0.05,
+    "exact_growth_adaptive_weight": 1.0,
+    "robust_growth_probability_radius": 0.2,
+    "monitor_comparators": [
+      "variance_adaptive",
+      "pm_eb"
+    ],
+    "max_label_cost": 2.5,
+    "common_eprocess_bound": true,
+    "device": "cuda",
+    "scenario_subset": [
+      "stationary",
+      "benign_nuisance"
+    ],
+    "method_subset": [
+      "uniform_proxy"
+    ]
+  },
+  "requested_device": "cuda",
+  "resolved_device": "cuda",
+  "environment": {
+    "cpu_ram_bytes": 16858472448,
+    "disk_free_bytes": 22510751744,
+    "cuda_available": true,
+    "nvidia_smi": "NVIDIA GeForce RTX 4060 Laptop GPU, 8188 MiB, 592.82, 0 %, 97 MiB",
+    "torch_version": "2.9.1+cu130",
+    "cuda_runtime": "13.0",
+    "gpu_name": "NVIDIA GeForce RTX 4060 Laptop GPU",
+    "gpu_memory_bytes": 8585216000,
+    "versions": {
+      "numpy": "2.5.4",
+      "scipy": "1.18.1",
+      "pandas": "3.0.6",
+      "pyarrow": "25.0.1",
+      "folktables": "0.0.12"
+    }
+  },
+  "assumptions": [
+    "Immediate paired labels; no delayed-feedback behavior tested.",
+    "Known query-time tariff support [0.5, max_label_cost].",
+    "Hard-budget stopping checks only remaining spend before the next event.",
+    "Both policy costs are observable from the same outcome.",
+    "E-process validity requires the conditional-mean null and bounded corrected increments.",
+    "The sum of q_t * tariff_t along the realized stopping path is a compensator, not pathwise-capped actual spend.",
+    "E-process minimum propensities are recorded per method; common_eprocess_bound can enforce a shared q_min bound for sensitivity runs."
+  ],
+  "sha256": {
+    "artifacts": {
+      "figures\\hard_budget_tradeoff.png": "0c43073ae4dec72d3de9bbef938bf9415e6f573ee3a617d30c00a6ac1ded0824",
+      "figures\\null_calibration.png": "6d1d186c04aab23b2ab3702852490dca61be0acc364981f9500acca76bcffe0a",
+      "metrics\\hard_budget_comparison.parquet": "5b5f2a7803eea5b0f2180fdf76fd2af0ce2b6987eb3822933678d4ea62ce223f",
+      "metrics\\hard_budget_summary.csv": "5bc112a5a3c59390b0056063b3cb7ed7010bc47e6244e21e45424f87144a5dcc",
+      "metrics\\monitor_comparison.csv": "6aafd23e4ba08c1bdf6723d92eb1aba343ab432b62415c6baae12a078e4ed8bb",
+      "metrics\\null_calibration.csv": "7441fae2f74413d801184e9018c52503c9a2bc480b6d89036d5d112d791a5d2f",
+      "metrics\\paired_effects_vs_uniform.csv": "7eb70257593da06f682a3ddda54a9d260d4fc514f645237f5ca74b08f8da61a6",
+      "reports\\hard_budget_comparison.md": "1e6487272254b63adff15e20a3d60c0548006942fda8b81a5d073994c1916330",
+      "reports\\null_calibration_results.md": "8ba136b194162386803df9ba6855e7f0d18c7a3e2e1735bff9899a3204ffdab7"
+    },
+    "source_files": {
+      "src\\shiftlab\\dive\\__init__.py": "10a8a1d170c7a452cebaa9df8e07070555edc841ff5c04cd049ff75cd8887780",
+      "src\\shiftlab\\dive\\allocation_grid.py": "8619d5f9f36e33eed1a5888b50c1c0cc54f621b9d001be89ed4f3ba9b42a6fab",
+      "src\\shiftlab\\dive\\budgeted_promotion.py": "e8d654eef0ddd2c14d00d7923368a5c8c25c3a475e8de50e95db82d1755259a4",
+      "src\\shiftlab\\dive\\controller.py": "9d4263c825382624940202a51fa5c9908db5f56a2be48a841f005e688ad702eb",
+      "src\\shiftlab\\dive\\eprocess.py": "fa86a1bf57c33d8624450709c60e3b5996fb2039efd3c34524186e417b05f3a1",
+      "src\\shiftlab\\dive\\estimators.py": "22b39564317ff1597feb53427eebc8601d459d2d06b7319e6bab1343de4be110",
+      "src\\shiftlab\\dive\\evaluation.py": "9b64eea3d7dd708104d25ad51e927451811c91e66295ee480fc791ac884432c4",
+      "src\\shiftlab\\dive\\experiment.py": "f11f8516cdbeaa56a2a9b2c229af370b77830ac1801a81394508950241482633",
+      "src\\shiftlab\\dive\\hard_budget.py": "232d49244270b6dbc18a80018c22829e5fce35c3fc8783cb9849bd7c6a3c4542",
+      "src\\shiftlab\\dive\\oracle_diagnostics.py": "14118dc2912b8236fb4215dd64ebe2108870c51a1963816eaa004f583e9dda8c",
+      "src\\shiftlab\\dive\\persistence_promotion.py": "9a43d8e14dc4bac5ebc048837ab5d09f268e3bb5f79c615eda39a655b357710b",
+      "src\\shiftlab\\dive\\power.py": "d3796dde1cb378ddf7a2a401a2971a8902d126b0db82e48e88556333fa4dde53",
+      "src\\shiftlab\\dive\\promotion.py": "d15e22a7217a15f5c70348766f67ae034409f782b67bfaa0a9b154a6094f24e3",
+      "src\\shiftlab\\dive\\promotion_experiment.py": "93ba08750effdfc1cfc131a0b3cbda1c363118c774c143c4f633a18aeaa7a546",
+      "src\\shiftlab\\dive\\promotion_grid.py": "307ee2137936c1ba8938ef026cb2e611b26ccc15bc6ad3fe4c7ffbed3ec930ce",
+      "src\\shiftlab\\dive\\promotion_robustness.py": "c8601c63b1ada4765e5613b7e5a8753731a60bbd3fceab8fc4b6590657df2e01",
+      "src\\shiftlab\\dive\\promotion_timing.py": "59240fbf930d74a745429b80c9956849f96b9b03363c14eacc5ffc64f930a2e1",
+      "src\\shiftlab\\dive\\proxy.py": "77546752c6796c37795fc7eeb14de678e0bf53509248bda56b1cb1bcecb3a102",
+      "src\\shiftlab\\dive\\query.py": "5c879dd45553901a9c0e67525a6b3d6ab084a36d1d71e7d7a38f1ff021bbfeaa",
+      "src\\shiftlab\\decision_harm_experiment.py": "b749aa6961e11abd8b234977f65515001b117c723885610cc5a83d0183c4206a"
+    }
+  },
+  "run_provenance": {
+    "protocol": "docs/null_calibration_qmin020_protocol.md",
+    "protocol_commit": "080c202893197d217630a21369a1e879df3a1e3e",
+    "diagnostic_script_sha256_at_run": "44ec6fb45c9491cdbb82fa7e27a3c4371222c8869399f9d8dfe5849c85d30656",
+    "analysis_script_sha256": "1e383ca2a78709dd70fabc8ca31781223bbdedfc81dc5355288456d0ce8d9a34",
+    "source_git_commit_at_run": "080c202893197d217630a21369a1e879df3a1e3e",
+    "simulations_completed": 4000,
+    "postprocessing_failure": "monitor diagnostic figure had a floating-point negative lower errorbar at 0/2000; simulation metrics were saved first and independently analyzed here"
+  }
+}

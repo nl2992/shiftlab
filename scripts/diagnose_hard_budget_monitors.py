@@ -161,7 +161,7 @@ def write_figure(summary: pd.DataFrame, output: Path) -> Path:
                 positions + (j - 1) * width,
                 values,
                 width,
-                yerr=np.vstack((lower, upper)),
+                yerr=np.vstack((np.maximum(0.0, lower), np.maximum(0.0, upper))),
                 capsize=3,
                 label=monitor,
                 color=colors[monitor],

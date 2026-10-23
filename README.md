@@ -202,6 +202,15 @@ and [full paired report](outputs/monitor_bound_sensitivity_qmin020/reports/paire
 The next calibration run is pre-specified for 2,000 streams in each of two null controls at
 `q_min=.20`; its seed block, endpoints, and interpretation rules are recorded in the
 [calibration protocol](docs/null_calibration_qmin020_protocol.md).
+That run has now completed: fixed-mixture, predictable-variance, and PM-EB each had 0/2,000
+false escalations in both controls. For the four pre-specified fixed-mixture/predictable-variance
+cells, the Bonferroni simultaneous one-sided 95% exact upper limit is 0.00219, under the registered
+synthetic assumptions. See the [calibration report](outputs/null_calibration_qmin020_2000/reports/null_calibration_results.md),
+[CSV metrics](outputs/null_calibration_qmin020_2000/metrics/null_calibration.csv),
+[stream metrics](outputs/null_calibration_qmin020_2000/metrics/hard_budget_comparison.parquet),
+and [figure](outputs/null_calibration_qmin020_2000/figures/null_calibration.png). The next step is
+a disjoint harmful-stream confirmation and a detection-delay/power map; null calibration alone
+does not establish useful power or field validity.
 
 The repeated-candidate hard-budget benchmark extends this work to sparse feedback. It freezes a
 13-candidate family and validation-based ranking before monitoring, then compares direct

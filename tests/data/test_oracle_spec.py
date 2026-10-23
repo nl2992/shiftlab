@@ -215,6 +215,7 @@ def test_dependent_error_oracle_separates_marginal_and_history_conditional_targe
         "latent_state",
         "conditional_variance",
         "boundary_local",
+        "boundary_local_harm",
         "boundary_rotation",
     ],
 )
@@ -255,7 +256,7 @@ def test_concept_cases_preserve_feature_law_and_match_conditional_oracle(scenari
             expected = f + config.severity * weight * features[:, 0] * features[:, 1]
         elif scenario == "latent_state":
             expected = f + config.severity * weight
-        elif scenario == "boundary_local":
+        elif scenario in {"boundary_local", "boundary_local_harm"}:
             expected = f + config.severity * weight * np.exp(-5 * np.abs(f))
         elif scenario == "boundary_rotation":
             expected = expit(
@@ -278,3 +279,23 @@ def test_concept_cases_preserve_feature_law_and_match_conditional_oracle(scenari
             assert np.max(np.abs(expected - baseline_function)) < 1e-12
         else:
             assert np.mean(np.abs(expected[shifted] - baseline_function[shifted])) > 1e-3
+
+
+def test_harmful_adaptation_has_stationary_data_and_evaluator_only_intervention_clock():
+    base = SyntheticConfig(n=1000, d=4, scenario="iid_regression", seed=17)
+    adapted = base.model_copy(
+        update={"scenario": "harmful_adaptation", "pattern": "abrupt", "change_fraction": 0.6}
+    )
+    base_frame, base_oracle = zip(*generate_chunks(base), strict=True)
+    adapted_frame, adapted_oracle = zip(*generate_chunks(adapted), strict=True)
+    base_frame = pd.concat(base_frame, ignore_index=True)
+    adapted_frame = pd.concat(adapted_frame, ignore_index=True)
+    base_oracle = pd.concat(base_oracle, ignore_index=True)
+    adapted_oracle = pd.concat(adapted_oracle, ignore_index=True)
+    np.testing.assert_array_equal(base_frame.target, adapted_frame.target)
+    np.testing.assert_array_equal(np.stack(base_frame.features), np.stack(adapted_frame.features))
+    np.testing.assert_array_equal(
+        base_oracle.probability_positive, adapted_oracle.probability_positive
+    )
+    assert set(adapted_oracle.regime_id) == {"baseline", "adaptation_intervention"}
+    assert adapted_frame.regime_id.isna().all()

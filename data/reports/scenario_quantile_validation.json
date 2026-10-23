@@ -17,11 +17,13 @@
     "feature_tail",
     "feature_skew",
     "irrelevant",
+    "nuisance_shift",
     "prior_shift",
     "imbalance",
     "label_corruption",
     "target_level",
     "target_variance",
+    "harmful_adaptation",
     "tail_frequency",
     "concept",
     "boundary_rotation",
@@ -31,6 +33,7 @@
     "latent_state",
     "conditional_variance",
     "boundary_local",
+    "boundary_local_harm",
     "rare_cost",
     "cost_change",
     "constraints",
@@ -434,6 +437,30 @@
       "passes": true
     },
     {
+      "scenario": "nuisance_shift",
+      "status": "validated_regression_quantile",
+      "quantile_kinds": [
+        "normal"
+      ],
+      "severity": 2.0,
+      "seeds": [
+        101,
+        202,
+        303
+      ],
+      "n_per_seed": 12000,
+      "regression_rows": 36000,
+      "max_exact_cdf_error": 1.1102230246251565e-16,
+      "coverage_by_seed": [
+        0.8974166666666666,
+        0.89825,
+        0.9019166666666667
+      ],
+      "pooled_empirical_coverage": 0.8991944444444444,
+      "max_seed_coverage_error": 0.002583333333333382,
+      "passes": true
+    },
+    {
       "scenario": "prior_shift",
       "status": "classification_without_residual_quantile",
       "quantile_kinds": [
@@ -519,6 +546,30 @@
     },
     {
       "scenario": "target_variance",
+      "status": "validated_regression_quantile",
+      "quantile_kinds": [
+        "normal"
+      ],
+      "severity": 2.0,
+      "seeds": [
+        101,
+        202,
+        303
+      ],
+      "n_per_seed": 12000,
+      "regression_rows": 36000,
+      "max_exact_cdf_error": 1.1102230246251565e-16,
+      "coverage_by_seed": [
+        0.8974166666666666,
+        0.89825,
+        0.9019166666666667
+      ],
+      "pooled_empirical_coverage": 0.8991944444444444,
+      "max_seed_coverage_error": 0.002583333333333382,
+      "passes": true
+    },
+    {
+      "scenario": "harmful_adaptation",
       "status": "validated_regression_quantile",
       "quantile_kinds": [
         "normal"
@@ -731,6 +782,30 @@
     },
     {
       "scenario": "boundary_local",
+      "status": "validated_regression_quantile",
+      "quantile_kinds": [
+        "normal"
+      ],
+      "severity": 2.0,
+      "seeds": [
+        101,
+        202,
+        303
+      ],
+      "n_per_seed": 12000,
+      "regression_rows": 36000,
+      "max_exact_cdf_error": 1.1102230246251565e-16,
+      "coverage_by_seed": [
+        0.8974166666666666,
+        0.89825,
+        0.9019166666666667
+      ],
+      "pooled_empirical_coverage": 0.8991944444444444,
+      "max_seed_coverage_error": 0.002583333333333382,
+      "passes": true
+    },
+    {
+      "scenario": "boundary_local_harm",
       "status": "validated_regression_quantile",
       "quantile_kinds": [
         "normal"
@@ -1059,8 +1134,8 @@
     }
   ],
   "interpretation": "This validates the simulator's declared oracle residual laws. Monte Carlo coverage is descriptive and does not imply fitted-model or real-world coverage guarantees.",
-  "processing_commit": "dd5aa3bfa27d5feecc5b0a57856ef92c1adcc480",
-  "source_hash": "e3a7c0c41d7c1482a26ba2fb5afa7f1321d63c9a44861d016e1cb098359fdfeb",
+  "processing_commit": "0f2ab7433463e0965584616973dfbc422093c9d4",
+  "source_hash": "9454d9b89b81a9e1867dcbab65366a087c5904a0a5785c8bba238c9d42a7bf1e",
   "script_sha256": "e8294802aeb97363c3269d2151460dd1f4812c3848a383cc63deb9357e1655af",
-  "executed_at": "2026-10-20T06:34:29.873912+00:00"
+  "executed_at": "2026-10-23T01:50:29.631842+00:00"
 }

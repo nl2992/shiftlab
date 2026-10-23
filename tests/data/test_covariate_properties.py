@@ -14,6 +14,7 @@ PURE_COVARIATE_SCENARIOS = [
     "feature_tail",
     "feature_skew",
     "irrelevant",
+    "nuisance_shift",
 ]
 
 
@@ -94,4 +95,14 @@ def test_tail_and_skew_changes_match_distributional_direction():
 def test_irrelevant_feature_moves_without_changing_oracle_function():
     features, conditional_mean = collect("irrelevant", d=4)
     assert abs(np.mean(features[15000:, -1]) - np.mean(features[:15000, -1]) - 1.0) < 0.06
+    assert np.max(np.abs(conditional_mean - (features[:, 0] - 0.9 * features[:, 1]))) < 1e-10
+
+
+def test_high_dimensional_nuisance_shift_moves_many_features_but_preserves_outcome_law():
+    features, conditional_mean = collect("nuisance_shift", d=16, severity=2.0)
+    assert (
+        np.max(np.abs(features[15000:, :2].mean(axis=0) - features[:15000, :2].mean(axis=0))) < 0.06
+    )
+    nuisance_mean_change = features[15000:, 2:].mean(axis=0) - features[:15000, 2:].mean(axis=0)
+    assert np.max(np.abs(nuisance_mean_change - 2.0)) < 0.06
     assert np.max(np.abs(conditional_mean - (features[:, 0] - 0.9 * features[:, 1]))) < 1e-10

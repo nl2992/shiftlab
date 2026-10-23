@@ -126,5 +126,8 @@ def test_report_pipeline_includes_current_scenario_quantile_evidence(tmp_path):
 
     report = build_report(tmp_path)
     validation = (report / "synthetic_validation.md").read_text(encoding="utf-8")
-    assert "43/43 scenarios pass exact CDF and replicated coverage gates" in validation
+    assert (
+        f"{len(SCENARIOS)}/{len(SCENARIOS)} scenarios pass exact CDF and replicated coverage gates"
+        in validation
+    )
     assert "fixture-commit" in validation

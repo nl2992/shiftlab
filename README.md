@@ -92,6 +92,30 @@ uv run python scripts/run_baselines.py --paper 2
 uv run python scripts/run_baselines.py --paper 3
 ```
 
+## Decision-harm benchmark (Phases 0–2)
+
+The explicit learner/evaluator message boundary, delayed-feedback ordering, query-propensity
+recording, action/reference versions, and evaluator-only oracle schema are documented in the
+[streaming decision contract](docs/streaming_decision_contract.md). The initial benchmark compares
+feature RBF-MMD², predictive squared-error CUSUM, paired realized decision-cost CUSUM, and a bounded
+full-feedback Hoeffding e-process across stationary, benign nuisance, localized harmful,
+residual-variance, recurring-regime, and deliberately harmful-adaptation settings. This is a
+reproducible baseline study, not a claim of a new method; see the [closest prior-work audit](docs/closest_prior_work.md).
+
+Run the CPU smoke version with `uv run shiftlab-decision-harm --quick`, or reproduce the configured
+30-seed run with `uv run shiftlab-decision-harm --seeds 30 --calibration-seeds 60 --n 3200 --device cpu`.
+Outputs are written to a timestamped `data/reports/decision_harm_phase2/` directory and include
+Parquet seed metrics and traces, calibration/seed/source hashes in a JSON manifest, three PNG
+figures, and a baseline report. The quick run is an implementation check only. Empirical MMD/CUSUM
+thresholds are calibrated on independent stationary runs at a fixed horizon; they are not universal
+validity guarantees. The e-process example assumes predictable actions, complete paired outcomes,
+bounded observed cost differences, known costs, and the conditional excess-cost null. Delayed or
+selectively observed labels, adaptive queries, serial dependence, counterfactual policy value, and
+real-world utility validity are not established by this benchmark.
+
+The current full initial run is documented in
+[`data/reports/decision_harm_phase2/20261023T0230Z-final-30seed/baseline_report.md`](data/reports/decision_harm_phase2/20261023T0230Z-final-30seed/baseline_report.md).
+
 The shared `scripts/evaluate_data.py` bridge currently evaluates **regression datasets only** and
 requires known feature and label availability plus usable chronological splits. Source-specific
 reports, such as `scripts/group_diagnostics.py` for Gas Sensor and the Monash/NOAA/OPSD/time-series

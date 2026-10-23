@@ -28,11 +28,13 @@ SCENARIOS = {
     "feature_tail": "X0 interpolates standard normal and unit-variance t5",
     "feature_skew": "X0 interpolates normal and centered standardized lognormal",
     "irrelevant": "X[d-1] += severity*w; beta[d-1]=0; at d=2 use Y=X0+noise so the second feature is a true nuisance",
+    "nuisance_shift": "X[2:]=Z[2:]+severity*w; first two signal features and P(Y|X) remain fixed",
     "prior_shift": "Y~Bernoulli(pi), X0|Y~N(2Y-1,1); logit(pi)=severity*w",
     "imbalance": "same label-prior mechanism, baseline pi=.1",
     "label_corruption": "flip Bernoulli logistic labels with probability min(.45,severity*w/5)",
     "target_level": "E[Y|X] += severity*w; not pure regression label shift",
     "target_variance": "sigma *= 1+severity*w",
+    "harmful_adaptation": "stationary observations; benchmark applies a deliberately harmful policy intervention on the configured schedule",
     "tail_frequency": "epsilon mixes N(0,1) and 8*N(0,1), rare probability .01+.1*tanh(severity)*w",
     "concept": "beta0=1-severity*w; P(X) fixed",
     "boundary_rotation": "logit P(Y=1|X)=cos(s*w)*X0+sin(s*w)*X1",
@@ -42,6 +44,7 @@ SCENARIOS = {
     "latent_state": "unobserved mean offset severity*w; P(X) fixed",
     "conditional_variance": "sigma=noise*(1+severity*w*abs(X0))",
     "boundary_local": "mean += severity*w*exp(-5*abs(X0-.9X1))",
+    "boundary_local_harm": "mean += severity*w*exp(-5*abs(X0-.9X1)); harmful local increase in positive outcomes around the source decision boundary",
     "rare_cost": "FP cost=1; FN=5+100*severity*w; costs are disclosed at prediction",
     "cost_change": "FP cost=1; FN=5*(1+severity*w); disclosed, imposed research utility",
     "constraints": "action 1 forbidden after regime activation; disclosed",
@@ -136,6 +139,8 @@ def generate_chunks(c: SyntheticConfig):
     """
     if c.scenario not in SCENARIOS:
         raise ValueError(f"Unknown scenario {c.scenario!r}; choices={list(SCENARIOS)}")
+    if c.scenario == "nuisance_shift" and c.d < 3:
+        raise ValueError("nuisance_shift requires at least one nuisance feature (d >= 3)")
     from ..gpu.torch_backend import random_chunks
 
     w_all, _ = schedule(c)
@@ -168,6 +173,8 @@ def generate_chunks(c: SyntheticConfig):
             X[:, -1] += s
             if c.d == 2:
                 beta[:, 1] = 0
+        if name == "nuisance_shift":
+            X[:, 2:] += s[:, None]
         if name == "small_decision_covariate":
             X[:, 0] = 0.005 * X[:, 0] - 0.01 + 0.02 * s
         if name == "covariance_rotation":
@@ -210,6 +217,8 @@ def generate_chunks(c: SyntheticConfig):
         if name == "interaction":
             mean += s * X[:, 0] * X[:, 1]
         if name == "boundary_local":
+            mean += s * np.exp(-5 * abs(mean))
+        if name == "boundary_local_harm":
             mean += s * np.exp(-5 * abs(mean))
         if name == "prediction_only":
             mean *= 1 + s
@@ -392,7 +401,13 @@ def generate_chunks(c: SyntheticConfig):
                 "quantile_kind": quantile_kind,
                 "retrain_cost": 10 * (1 + s) if name == "resource_cost" else 10.0,
                 "regime_id": np.where(
-                    w == 0, "baseline", np.where(w == 1, "shifted", "transition")
+                    w == 0,
+                    "baseline",
+                    np.where(
+                        name == "harmful_adaptation",
+                        "adaptation_intervention",
+                        np.where(w == 1, "shifted", "transition"),
+                    ),
                 ),
             }
         )

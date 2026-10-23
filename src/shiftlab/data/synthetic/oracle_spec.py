@@ -35,6 +35,8 @@ def conditional_mean(
         return f + s * x[:, 0] * x[:, 1]
     if scenario == "boundary_local":
         return f + s * np.exp(-5 * np.abs(f))
+    if scenario == "boundary_local_harm":
+        return f + s * np.exp(-5 * np.abs(f))
     if scenario == "prediction_only":
         return f * (1 + s)
     if scenario == "nonlinear_classification":
@@ -89,6 +91,7 @@ _CONDITIONAL_MEAN = {
     "nonlinear_response": "X0-.9*X1+severity*w*sin(X0)",
     "interaction": "X0-.9*X1+severity*w*X0*X1",
     "boundary_local": "f+severity*w*exp(-5*abs(f)); f=X0-.9*X1",
+    "boundary_local_harm": "f+severity*w*exp(-5*abs(f)); raises positive-outcome probability around source boundary; f=X0-.9*X1",
     "prediction_only": "(X0-.9*X1)*(1+severity*w)",
     "nonlinear_classification": "expit(X0+X1^2-1), Bernoulli conditional mean",
     "small_decision_covariate": "expit(200*X0), Bernoulli conditional mean",
@@ -119,6 +122,7 @@ def _feature_formula(config: SyntheticConfig) -> str:
         "feature_tail": "X0=(1-a)*N(0,1)+a*t5/sqrt(5/3); a=tanh(severity*w)",
         "feature_skew": "X0=(1-a)*N(0,1)+a*centered-standardized-lognormal; a=tanh(severity*w)",
         "irrelevant": "X[d-1]=Z[d-1]+severity*w; at d=2 beta1=0",
+        "nuisance_shift": "X[2:]=Z[2:]+severity*w; signal coordinates X0,X1 are unchanged",
         "small_decision_covariate": "X0=.005*Z0-.01+.02*severity*w; other features standard normal",
         "prior_shift": "X0=Z0+2Y-1; X|Y component means remain fixed",
         "imbalance": "X0=Z0+2Y-1; X|Y component means remain fixed",

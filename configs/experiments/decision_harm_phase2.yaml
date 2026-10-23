@@ -1,0 +1,24 @@
+experiment: shiftlab_decision_harm_phase2
+schema_version: decision-harm-benchmark-1.0.0
+evaluation:
+  seeds: 30
+  seed_offset: 20261022
+  observations_per_seed: 3200
+  feature_dimension: 16
+  device: cpu
+calibration:
+  total_seeds: 60
+  split: reference_fit_then_independent_rank_calibration
+  alpha_per_monitor: 0.05
+monitoring:
+  window: 64
+  stride: 32
+  eprocess_epsilon: 0.10
+scenarios:
+  - stationary
+  - benign_nuisance
+  - boundary_local_harm
+  - residual_variance
+  - recurring_regimes
+  - harmful_adaptation
+output: data/reports/decision_harm_phase2/<UTC timestamp>-<seed offset>

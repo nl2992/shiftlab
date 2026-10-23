@@ -21,6 +21,7 @@ where = ["src"]
 
 [project.scripts]
 shiftlab = "shiftlab.benchmark:main"
+shiftlab-decision-harm = "shiftlab.decision_harm_experiment:main"
 
 [tool.pytest.ini_options]
 pythonpath = [".", "src"]

@@ -1,0 +1,98 @@
+{
+  "experiment": "dive_initial_evidence_acquisition",
+  "created_at_utc": "2026-10-23T10:43:11.690995+00:00",
+  "configuration": {
+    "n": 3200,
+    "d": 16,
+    "seeds": 30,
+    "seed_offset": 20272024,
+    "alpha": 0.05,
+    "harm_margin": 0.1,
+    "query_rate": 0.1,
+    "query_min": 0.05,
+    "query_max": 0.5,
+    "label_cost": 0.01,
+    "proxy_update_every": 20,
+    "variance_power": 0.5,
+    "heterogeneous_label_costs": false,
+    "cost_stability_tolerance": 0.05,
+    "evidence_rate_stability_tolerance": 0.01,
+    "scenario_subset": [
+      "stationary",
+      "benign_nuisance",
+      "boundary_local_harm"
+    ],
+    "method_subset": [
+      "uniform_proxy",
+      "decision_value_proxy",
+      "evidence_growth_stabilized_proxy"
+    ],
+    "device": "cuda"
+  },
+  "requested_device": "cuda",
+  "resolved_device": "cuda",
+  "environment": {
+    "cpu_ram_bytes": 16858472448,
+    "disk_free_bytes": 23390429184,
+    "cuda_available": true,
+    "nvidia_smi": "NVIDIA GeForce RTX 4060 Laptop GPU, 8188 MiB, 592.82, 0 %, 97 MiB",
+    "torch_version": "2.9.1+cu130",
+    "cuda_runtime": "13.0",
+    "gpu_name": "NVIDIA GeForce RTX 4060 Laptop GPU",
+    "gpu_memory_bytes": 8585216000,
+    "versions": {
+      "numpy": "2.5.4",
+      "scipy": "1.18.1",
+      "pandas": "3.0.6",
+      "pyarrow": "25.0.1",
+      "folktables": "0.0.12"
+    }
+  },
+  "methods": [
+    "uniform_proxy",
+    "decision_value_proxy",
+    "evidence_growth_stabilized_proxy"
+  ],
+  "scenario_names": [
+    "stationary",
+    "benign_nuisance",
+    "boundary_local_harm"
+  ],
+  "assumption_summary": [
+    "Immediate labels in this first simulation; delayed-label support is not evaluated.",
+    "Query propensity is chosen from current features and pre-monitor fitted models before the outcome.",
+    "Paired decision costs are observed for both policies on the same outcome; this does not cover action-dependent outcomes.",
+    "E-process validity requires the stated conditional-mean null, bounded corrected increments, and predictable stakes."
+  ],
+  "sha256": {
+    "artifacts": {
+      "figures\\cost_pareto.png": "4885bab7dee849f1bb676b0163128fe28b3b540fb6371d79155b2c27c8508dac",
+      "figures\\cumulative_net_regret.png": "113a775fe47b04f4ab757a166c173fcf48c91deef8aa6eb2cfb00dfa15d9d79f",
+      "figures\\false_alarm_delay.png": "32fae0678e8711d420c374cc26d79f275f8904515c6bc189509c93efb97d0702",
+      "figures\\label_efficiency.png": "f3e3ac44f0edbb688ef2fa8eff71b8b6a84d9ff5a5877dc81b1c6426bd8bb704",
+      "figures\\shift_vs_harm.png": "9d681b5ecfc86c49479e624b92c1ce994d26270af5a74efbc8a772f8ab6d13df",
+      "metrics\\evidence_growth_paired_effects.csv": "4f7cd5909d879bba2b4c757dd3c7d72e3bb3f4597ab44cf7f487d8999ae083f4",
+      "metrics\\evidence_growth_summary.csv": "627c453562f28c8388dfbc37092040f7a95ff2365c17e403ca4c279293626c22",
+      "metrics\\method_comparison.parquet": "9377be34900ee89523561b35e1907215b99f38971b4627b16dcbd2f0c26cde43",
+      "reports\\evidence_growth_paired_comparison.md": "49cab171f89498caf24e1467359c735b0e6a9dc7056b20f281dcb1db5b7a9178",
+      "reports\\method_comparison.md": "7ff9c7563fb96418caf2f4af6eca7c7ecb590a52d81ea82700b6800099895d62"
+    },
+    "source_files": {
+      "src\\shiftlab\\dive\\__init__.py": "10a8a1d170c7a452cebaa9df8e07070555edc841ff5c04cd049ff75cd8887780",
+      "src\\shiftlab\\dive\\allocation_grid.py": "8619d5f9f36e33eed1a5888b50c1c0cc54f621b9d001be89ed4f3ba9b42a6fab",
+      "src\\shiftlab\\dive\\controller.py": "9d4263c825382624940202a51fa5c9908db5f56a2be48a841f005e688ad702eb",
+      "src\\shiftlab\\dive\\eprocess.py": "6bd989bf2ddf4ad6e6efa1cc274284ca7d99c21ceaec0fbe0140814947508575",
+      "src\\shiftlab\\dive\\estimators.py": "22b39564317ff1597feb53427eebc8601d459d2d06b7319e6bab1343de4be110",
+      "src\\shiftlab\\dive\\evaluation.py": "9b64eea3d7dd708104d25ad51e927451811c91e66295ee480fc791ac884432c4",
+      "src\\shiftlab\\dive\\experiment.py": "18acb6796c1178126861bcd370cdc84c8d93a8140060a8177c3cf7c25936c746",
+      "src\\shiftlab\\dive\\hard_budget.py": "45703440324eb3cbb76e497174d752c03307c4a70b6e005021020cbf896d4632",
+      "src\\shiftlab\\dive\\oracle_diagnostics.py": "14118dc2912b8236fb4215dd64ebe2108870c51a1963816eaa004f583e9dda8c",
+      "src\\shiftlab\\dive\\power.py": "d3796dde1cb378ddf7a2a401a2971a8902d126b0db82e48e88556333fa4dde53",
+      "src\\shiftlab\\dive\\promotion.py": "74a9e5fb45b0c93f2683ed84bb364f71515ad960b72bde839c7ad94edfb85e28",
+      "src\\shiftlab\\dive\\promotion_experiment.py": "edf52c1686bc6225a9c6eb0e60053890beb4d85dc6731cc3da907d0cc2cbf85b",
+      "src\\shiftlab\\dive\\proxy.py": "77546752c6796c37795fc7eeb14de678e0bf53509248bda56b1cb1bcecb3a102",
+      "src\\shiftlab\\dive\\query.py": "751b00e071e9fe088b1770d9a7a7a4b250d50c13417a3804dbfbd584f32b8ec7",
+      "src\\shiftlab\\decision_harm_experiment.py": "b749aa6961e11abd8b234977f65515001b117c723885610cc5a83d0183c4206a"
+    }
+  }
+}

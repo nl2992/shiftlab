@@ -34,9 +34,11 @@ from .evaluation import apply_population_null_classification
 from .proxy import DecisionLossProxy
 from .query import (
     AdaptiveQueryPolicy,
+    EvidenceGrowthQueryPolicy,
     cost_mixture_weight_for_tolerance,
     expected_cost_drift_bound,
     mix_with_cost_neutral,
+    mix_with_uniform,
 )
 
 METHODS = (
@@ -47,6 +49,8 @@ METHODS = (
     "uncertainty_proxy",
     "variance_proxy",
     "decision_value_proxy",
+    "evidence_growth_proxy",
+    "evidence_growth_stabilized_proxy",
     "cost_variance_proxy",
     "cost_stabilized_proxy",
 )
@@ -68,6 +72,7 @@ class DiveExperimentConfig:
     variance_power: float = 0.5
     heterogeneous_label_costs: bool = False
     cost_stability_tolerance: float = 0.05
+    evidence_rate_stability_tolerance: float = 0.01
     scenario_subset: tuple[str, ...] = ()
     method_subset: tuple[str, ...] = ()
     device: str = "auto"
@@ -85,6 +90,11 @@ class DiveExperimentConfig:
             raise ValueError("variance_power must lie in [0, 1]")
         if not np.isfinite(self.cost_stability_tolerance) or self.cost_stability_tolerance < 0:
             raise ValueError("cost_stability_tolerance must be finite and nonnegative")
+        if (
+            not np.isfinite(self.evidence_rate_stability_tolerance)
+            or self.evidence_rate_stability_tolerance < 0
+        ):
+            raise ValueError("evidence_rate_stability_tolerance must be finite and nonnegative")
         scenario_names = {scenario.name for scenario in SCENARIOS}
         if len(set(self.scenario_subset)) != len(self.scenario_subset) or any(
             name not in scenario_names for name in self.scenario_subset
@@ -117,6 +127,16 @@ def _synthetic_label_costs(x: np.ndarray) -> np.ndarray:
     """Known query-time label tariff in [0.5, 2.5], based on an observed covariate."""
     score = np.clip(np.asarray(x, dtype=float)[:, -1], -30, 30)
     return 0.5 + 2.0 / (1.0 + np.exp(-score))
+
+
+def _evidence_uniform_mix_weight(config: DiveExperimentConfig) -> float:
+    deviation = max(
+        config.query_rate - config.query_min,
+        config.query_max - config.query_rate,
+    )
+    if deviation == 0:
+        return 0.0
+    return min(1.0, config.evidence_rate_stability_tolerance / deviation)
 
 
 def _material_harm_onset(
@@ -197,6 +217,8 @@ def _monitor_method(
     sample_path_material_harm: bool,
     sample_path_harm_onset: int | None,
     label_costs: np.ndarray | None = None,
+    contrast_zero: np.ndarray | None = None,
+    contrast_one: np.ndarray | None = None,
 ) -> dict:
     n_evaluation = len(x) - monitor_start
     x_validation = x[train_end:validation_end]
@@ -213,9 +235,11 @@ def _monitor_method(
 
     if method == "full_feedback":
         query_policy = None
+        evidence_policy = None
         minimum_propensity = 1.0
         bound = proxy.clip
     else:
+        evidence_policy = None
         query_kind = {
             "uniform_direct": "uniform",
             "uniform_proxy": "uniform",
@@ -223,22 +247,40 @@ def _monitor_method(
             "uncertainty_proxy": "uncertainty",
             "variance_proxy": "variance",
             "decision_value_proxy": "decision_value",
+            "evidence_growth_proxy": "evidence_growth",
+            "evidence_growth_stabilized_proxy": "evidence_growth",
             "cost_variance_proxy": "cost_variance",
             "cost_stabilized_proxy": "cost_variance",
         }[method]
-        query_policy = _fit_query_policy(
-            query_kind,
-            proxy=proxy,
-            x_validation=x_validation,
-            validation_uncertainty=validation_uncertainty,
-            query_rate=config.query_rate,
-            query_min=config.query_min,
-            query_max=config.query_max,
-            variance_power=config.variance_power,
-            validation_label_costs=(
-                None if label_costs is None else label_costs[train_end:validation_end]
-            ),
-        )
+        validation_costs = None if label_costs is None else label_costs[train_end:validation_end]
+        if query_kind == "evidence_growth":
+            if contrast_zero is None or contrast_one is None:
+                raise ValueError("evidence-growth sampling requires outcome-specific contrasts")
+            evidence_policy = EvidenceGrowthQueryPolicy(
+                target_rate=config.query_rate,
+                q_min=config.query_min,
+                q_max=config.query_max,
+                bound=prediction_powered_bound(proxy.clip, config.query_min),
+            ).fit_multiplier(
+                proxy=proxy.predict(x_validation),
+                probability_positive=classifier.predict_proba(x_validation)[:, 1],
+                contrast_zero=contrast_zero[train_end:validation_end],
+                contrast_one=contrast_one[train_end:validation_end],
+                label_costs=validation_costs,
+            )
+            query_policy = None
+        else:
+            query_policy = _fit_query_policy(
+                query_kind,
+                proxy=proxy,
+                x_validation=x_validation,
+                validation_uncertainty=validation_uncertainty,
+                query_rate=config.query_rate,
+                query_min=config.query_min,
+                query_max=config.query_max,
+                variance_power=config.variance_power,
+                validation_label_costs=validation_costs,
+            )
         minimum_propensity = config.query_rate if query_kind == "uniform" else config.query_min
         if method == "uniform_direct":
             bound = proxy.clip / minimum_propensity
@@ -249,7 +291,8 @@ def _monitor_method(
     mixture_starts = tuple(sorted({0, n_evaluation // 4, n_evaluation // 2, 3 * n_evaluation // 4}))
     mixture = StartedMixtureEProcess(bound=bound, alpha=config.alpha, starts=mixture_starts)
     monitor_x = x[monitor_start:]
-    uncertainty_values = _entropy(classifier.predict_proba(monitor_x)[:, 1])
+    monitor_positive_probabilities = classifier.predict_proba(monitor_x)[:, 1]
+    uncertainty_values = _entropy(monitor_positive_probabilities)
     residual_second_moments = proxy.predict_residual_second_moment(monitor_x)
     proxy_values = proxy.predict(monitor_x)
     if method == "uniform_direct":
@@ -262,6 +305,26 @@ def _monitor_method(
     estimates = np.empty(n_evaluation)
     proxy_predictions = np.empty(n_evaluation)
     propensities = np.empty(n_evaluation)
+    validation_expected_query_rate = (
+        config.query_rate if query_policy is not None or evidence_policy is not None else 1.0
+    )
+    if evidence_policy is not None:
+        if contrast_zero is None or contrast_one is None:
+            raise RuntimeError("outcome-specific contrasts were not supplied")
+        validation_expected_query_rate = float(
+            evidence_policy.probabilities(
+                proxy=proxy.predict(x_validation),
+                probability_positive=classifier.predict_proba(x_validation)[:, 1],
+                contrast_zero=contrast_zero[train_end:validation_end],
+                contrast_one=contrast_one[train_end:validation_end],
+                label_costs=(
+                    None if label_costs is None else label_costs[train_end:validation_end]
+                ),
+            ).mean()
+        )
+    evidence_mixture_weight = None
+    if method == "evidence_growth_stabilized_proxy":
+        evidence_mixture_weight = _evidence_uniform_mix_weight(config)
     first_alarm = None
     first_mixture_alarm = None
     refits = 0
@@ -298,17 +361,36 @@ def _monitor_method(
         if reliance is not None:
             h_now = float(np.clip(reliance.reliance * raw_proxy_now, -proxy.clip, proxy.clip))
         proxy_predictions[offset] = h_now
-        if query_policy is None:
+        if query_policy is None and evidence_policy is None:
             propensity = 1.0
         else:
             uncertainty_now = np.asarray([uncertainty_values[offset]])
             variance_now = np.asarray([residual_second_moments[offset]])
-            adaptive_propensity = query_policy.probabilities(
-                proxy=np.asarray([h_now]),
-                residual_second_moment=variance_now,
-                uncertainty=uncertainty_now,
-                label_costs=np.asarray([label_cost_now]),
-            )
+            if evidence_policy is not None:
+                if contrast_zero is None or contrast_one is None:
+                    raise RuntimeError("outcome-specific contrasts were not supplied")
+                adaptive_propensity = evidence_policy.probabilities(
+                    proxy=np.asarray([h_now]),
+                    probability_positive=np.asarray([monitor_positive_probabilities[offset]]),
+                    contrast_zero=np.asarray([contrast_zero[index]]),
+                    contrast_one=np.asarray([contrast_one[index]]),
+                    label_costs=np.asarray([label_cost_now]),
+                )
+                if evidence_mixture_weight is not None:
+                    adaptive_propensity = mix_with_uniform(
+                        adaptive_propensity,
+                        target_rate=config.query_rate,
+                        mixture_weight=evidence_mixture_weight,
+                    )
+            else:
+                if query_policy is None:
+                    raise RuntimeError("query policy was not initialized")
+                adaptive_propensity = query_policy.probabilities(
+                    proxy=np.asarray([h_now]),
+                    residual_second_moment=variance_now,
+                    uncertainty=uncertainty_now,
+                    label_costs=np.asarray([label_cost_now]),
+                )
             if method == "cost_stabilized_proxy":
                 if budget_per_event is None or mixture_weight is None:
                     raise RuntimeError("cost-stability calibration was not initialized")
@@ -342,7 +424,18 @@ def _monitor_method(
                 assert observed is not None
                 if reliance is not None:
                     reliance.observe(raw_proxy_now, float(observed))
-                did_refit = proxy.observe(x_now[0], float(observed))
+                # Keep the expected-evidence policy's fitted contrast proxy fixed;
+                # its validation-calibrated dual objective assumes this prediction
+                # rule. Other methods retain their prequential proxy updates.
+                did_refit = (
+                    False
+                    if method
+                    in {
+                        "evidence_growth_proxy",
+                        "evidence_growth_stabilized_proxy",
+                    }
+                    else proxy.observe(x_now[0], float(observed))
+                )
                 refits += int(did_refit)
                 if did_refit and offset + 1 < n_evaluation:
                     proxy_values[offset + 1 :] = proxy.predict(monitor_x[offset + 1 :])
@@ -390,7 +483,11 @@ def _monitor_method(
         "population_null_control": scenario.name in POPULATION_NULL_CONTROLS,
         "sample_path_material_harm": sample_path_material_harm,
         "sample_path_harm_onset_relative": sample_path_harm_onset,
-        "query_rate_target": config.query_rate if query_policy else 1.0,
+        "query_rate_target": (
+            config.query_rate if query_policy is not None or evidence_policy is not None else 1.0
+        ),
+        "validation_expected_query_rate": validation_expected_query_rate,
+        "evidence_growth_uniform_mix": evidence_mixture_weight,
         "expected_query_count": expected_labels,
         "labels_queried": labels_queried,
         "expected_label_spend": expected_label_spend,
@@ -465,6 +562,16 @@ def _one_stream(scenario, seed: int, config: DiveExperimentConfig) -> list[dict]
     reference = _source_action(x, scenario)
     observed_difference = _binary_cost(deployed, y, fn, fp) - _binary_cost(reference, y, fn, fp)
     z_centered = observed_difference - config.harm_margin
+    contrast_zero = (
+        _binary_cost(deployed, np.zeros_like(y), fn, fp)
+        - _binary_cost(reference, np.zeros_like(y), fn, fp)
+        - config.harm_margin
+    )
+    contrast_one = (
+        _binary_cost(deployed, np.ones_like(y), fn, fp)
+        - _binary_cost(reference, np.ones_like(y), fn, fp)
+        - config.harm_margin
+    )
     p = oracle.probability_positive.to_numpy(dtype=float)
     current_expected = np.where(deployed == 1, fp * (1 - p), fn * p)
     reference_expected = np.where(reference == 1, fp * (1 - p), fn * p)
@@ -524,6 +631,8 @@ def _one_stream(scenario, seed: int, config: DiveExperimentConfig) -> list[dict]
                 sample_path_material_harm=sample_path_onset is not None,
                 sample_path_harm_onset=sample_path_onset,
                 label_costs=label_costs,
+                contrast_zero=contrast_zero,
+                contrast_one=contrast_one,
             )
         )
     oracle_expected = np.minimum(fp * (1 - p), fn * p)
@@ -704,6 +813,8 @@ def run_experiment(config: DiveExperimentConfig, output: Path) -> Path:
         "- `uncertainty_proxy`: entropy-based query propensities calibrated on the pre-monitor validation slice.",
         "- `variance_proxy`: query scores proportional to the square root of a held-out model for proxy residual second moments.",
         "- `decision_value_proxy`: a heuristic that increases sampling near the harm margin when proxy residual uncertainty is high.",
+        "- `evidence_growth_proxy`: selects the predictable query propensity by maximizing a pre-monitor outcome model's stake-weighted expected log-wealth increment under the same expected label budget. The per-event objective is concave and solved through a dual budget multiplier. This is a model-based allocation rule, not an e-process validity result or a power-optimality claim.",
+        f"- `evidence_growth_stabilized_proxy`: mixes evidence-growth propensities with uniform sampling at weight `{_evidence_uniform_mix_weight(config):.3f}`. The expected query-rate drift under arbitrary feature shift is bounded by the configured tolerance `{config.evidence_rate_stability_tolerance:g}`; this robustification may also remove most allocation adaptivity.",
         *(
             [
                 "- `cost_variance_proxy`: the clipped allocation proportional to `sqrt(vhat(X)/k_label(X))`, calibrated to the same expected validation label spend as uniform sampling. This is the classical cost-constrained variance optimum, not a new theorem. The synthetic label tariff is known from a learner-visible covariate and may shift out of time.",
@@ -713,7 +824,7 @@ def run_experiment(config: DiveExperimentConfig, output: Path) -> Path:
             else []
         ),
         "",
-        "All fitted proxies and query multipliers use only the pre-monitor training/validation rows. Proxy refits use queried outcomes only after they arrive. Query outcomes are immediate in this first experiment. This monitor benchmark takes no action after alarms; candidate promotion is evaluated in a separate forward-time experiment.",
+        "All fitted proxies and query multipliers use only the pre-monitor training/validation rows. Proxy refits for updating policies use queried outcomes only after they arrive; the expected-evidence policy freezes its decision-loss proxy over the monitor interval so the validation-calibrated objective does not change. Query outcomes are immediate in this first experiment. This monitor benchmark takes no action after alarms; candidate promotion is evaluated in a separate forward-time experiment.",
         "",
         "## Preliminary results",
         "",
@@ -944,6 +1055,7 @@ def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output", type=Path)
     parser.add_argument("--seeds", type=int, default=30)
+    parser.add_argument("--seed-offset", type=int, default=20261022)
     parser.add_argument("--n", type=int, default=3200)
     parser.add_argument("--d", type=int, default=16)
     parser.add_argument("--query-rate", type=float, default=0.10)
@@ -954,6 +1066,7 @@ def main(argv=None):
         help="evaluate cost-constrained query allocation using a known covariate-dependent label tariff",
     )
     parser.add_argument("--cost-stability-tolerance", type=float, default=0.05)
+    parser.add_argument("--evidence-rate-stability-tolerance", type=float, default=0.01)
     parser.add_argument("--scenarios", nargs="+", choices=[scenario.name for scenario in SCENARIOS])
     parser.add_argument("--methods", nargs="+", choices=METHODS)
     parser.add_argument("--device", choices=["cpu", "cuda", "auto"], default="auto")
@@ -963,10 +1076,12 @@ def main(argv=None):
         seeds=2 if args.quick else args.seeds,
         n=1600 if args.quick else args.n,
         d=args.d,
+        seed_offset=args.seed_offset,
         query_rate=args.query_rate,
         label_cost=args.label_cost,
         heterogeneous_label_costs=args.heterogeneous_label_costs,
         cost_stability_tolerance=args.cost_stability_tolerance,
+        evidence_rate_stability_tolerance=args.evidence_rate_stability_tolerance,
         scenario_subset=tuple(args.scenarios or ()),
         method_subset=tuple(args.methods or ()),
         device=args.device,

@@ -164,7 +164,7 @@ The current full initial run is documented in
 
 The first DIVE implementation compares full feedback, uniform direct and prediction-powered
 estimates, a clearly labeled PPRM-style adaptive-reliance analogue, and uncertainty-,
-residual-variance-, and decision-value-guided label acquisition. It
+residual-variance-, decision-value-, and expected-evidence-growth-guided label acquisition. It
 uses paired deployed-minus-reference costs, prequential prediction-powered corrections, bounded
 mean e-processes, and a fixed mixture over prespecified start times. The implementation and
 assumptions are described in [`docs/methods_and_assumptions.md`](docs/methods_and_assumptions.md);
@@ -185,8 +185,9 @@ monitoring detected all harmful boundary-local, harmful-adaptation, and recurrin
 (median delays 357, 367, and 147 events). At roughly 238 labels per stream, uniform direct monitoring
 detected 14/30, 18/30, and 15/30 of those streams, with median delays of 1,120, 1,110, and 2,001
 events. The prediction-powered and feature-guided acquisition variants detected few or none in these
-conditions. There was one full-feedback false escalation in 30 stationary streams; the 95% Wilson
-interval is broad at this sample size. The prespecified start-time mixture made no detections in
+conditions. There was one full-feedback false escalation in 30 streams in each of the stationary
+and benign-nuisance controls; the 95% Wilson intervals are broad at this sample size. The
+prespecified start-time mixture made no detections in
 this run, so its practical sensitivity remains unresolved. These are synthetic descriptive results,
 not evidence of real-world performance or superiority to faithfully reproduced published methods.
 
@@ -194,9 +195,10 @@ The candidate test certified the exact incumbent-copy control in 0/150 streams w
 pointwise-null assumptions applied. The frozen recalibration candidate was certified in 30/30
 boundary-local streams, 30/30 recurring-regime streams, and 30/30 harmful-adaptation streams. These
 rates are exploratory; only the exact-copy control directly checks the stated null in this setup.
-The evaluator labels material harm from finite-stream averages of oracle conditional costs. Seven
-of 30 benign-nuisance streams crossed the 0.1 threshold even though the across-seed mean stayed
-below it, so the borderline control classification is seed-sensitive.
+Independent integration gives population excess cost 0.0793 for both stationary and
+benign-nuisance controls, below the 0.10 material-harm margin. Finite-stream oracle excursions
+remain recorded as diagnostics and do not redefine these population-null controls as alternatives.
+Every alarm in either control counts as a false escalation.
 
 The allocation search adds a validation-selected grid over expected query rates 5%, 10%, and 20%
 and residual-variance score powers 0, 0.25, 0.5, 0.75, and 1. Score power 0.5 is the classical
@@ -210,6 +212,17 @@ any deployment feature distribution, its expected query-rate deviation is bounde
 tolerance `delta`, while all event propensities remain positive for sequential monitoring. This
 controls expected budget drift under feature shift, though realized counts remain random. See
 `outputs/reports/rate_stabilized_grid.md` for its paired 30-seed forward evaluation.
+
+An exploratory allocation maximizes a pre-monitor model's stake-weighted expected log-wealth
+increment under an expected label budget. Its per-event objective is concave in query propensity,
+and a dual multiplier solves the constrained allocation. This is optimal only for the estimated
+surrogate, not detection power or the exact log-mixture e-value. On 30 fresh CUDA seeds, the raw
+allocation's query rate rose from 10% on validation to 13.9% under benign nuisance shift; it
+detected 0/30 boundary-harm streams versus 1/30 for uniform. A rate-stabilized version with
+`delta=0.01` held the mean propensity near 10%, but detected 0/30 versus 3/30 for uniform on a
+separate 30-seed block. It has not demonstrated a useful detection gain. Paired results are in
+[`evidence-growth stabilized comparison`](outputs/evidence_growth_stabilized_replication_30/reports/evidence_growth_paired_comparison.md)
+and [`raw evidence-growth comparison`](outputs/evidence_growth_replication_30/reports/evidence_growth_paired_comparison.md).
 
 The current 30-seed allocation search is a useful negative result. Across 540 paired
 scenario-seed-budget streams, validation-selected power (1.0 in 96.7% of groups and 0.75 in

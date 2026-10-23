@@ -135,6 +135,177 @@ class AdaptiveQueryPolicy:
         return np.maximum(scores, 1e-12)
 
 
+class EvidenceGrowthQueryPolicy:
+    """Allocate labels to maximize predicted log-growth of a fixed stake mixture.
+
+    The objective is the stake-weighted expected log increment of the monitor's
+    fixed betting components, under a pre-monitor model for the binary outcome.
+    The conditional objective is concave in each propensity, so a dual multiplier
+    gives the global optimum for the *estimated* outcome model and expected-spend
+    constraint. This optimizes a surrogate for mixture-evidence growth; it does not
+    alter the e-process validity or establish power optimality under misspecification.
+    """
+
+    def __init__(
+        self,
+        *,
+        target_rate: float,
+        q_min: float,
+        q_max: float,
+        bound: float,
+        stakes: tuple[float, ...] = (0.05, 0.1, 0.2, 0.4, 0.8),
+        weights: np.ndarray | None = None,
+    ) -> None:
+        if not 0 < q_min <= target_rate <= q_max <= 1:
+            raise ValueError("require 0 < q_min <= target_rate <= q_max <= 1")
+        if not np.isfinite(bound) or bound <= 0:
+            raise ValueError("bound must be finite and positive")
+        if not stakes or any(not np.isfinite(s) or not 0 < s <= 1 for s in stakes):
+            raise ValueError("stakes must be a nonempty collection in (0, 1]")
+        stake_weights = (
+            np.full(len(stakes), 1 / len(stakes), dtype=float)
+            if weights is None
+            else np.asarray(weights, dtype=float)
+        )
+        if (
+            stake_weights.shape != (len(stakes),)
+            or not np.isfinite(stake_weights).all()
+            or np.any(stake_weights <= 0)
+            or not np.isclose(stake_weights.sum(), 1.0)
+        ):
+            raise ValueError("weights must be positive, sum to one, and match stakes")
+        self.target_rate = float(target_rate)
+        self.q_min = float(q_min)
+        self.q_max = float(q_max)
+        self.bound = float(bound)
+        self.stakes = np.asarray(stakes, dtype=float)
+        self.weights = stake_weights
+        self.dual: float | None = None
+
+    def _arrays(
+        self,
+        proxy: np.ndarray,
+        probability_positive: np.ndarray,
+        contrast_zero: np.ndarray,
+        contrast_one: np.ndarray,
+        label_costs: np.ndarray | None,
+    ) -> tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
+        h = np.asarray(proxy, dtype=float).reshape(-1)
+        p = np.asarray(probability_positive, dtype=float).reshape(-1)
+        z0 = np.asarray(contrast_zero, dtype=float).reshape(-1)
+        z1 = np.asarray(contrast_one, dtype=float).reshape(-1)
+        n = len(h)
+        if n == 0 or any(len(value) != n for value in (p, z0, z1)):
+            raise ValueError("evidence-growth inputs must have equal nonzero lengths")
+        if not all(np.isfinite(value).all() for value in (h, p, z0, z1)):
+            raise ValueError("evidence-growth inputs must be finite")
+        if np.any((p < 0) | (p > 1)):
+            raise ValueError("outcome probabilities must lie in [0, 1]")
+        costs = AdaptiveQueryPolicy._costs(label_costs, n)
+        return (
+            np.clip(h, -self.bound, self.bound),
+            p,
+            np.clip(z0, -self.bound, self.bound),
+            np.clip(z1, -self.bound, self.bound),
+            costs,
+        )
+
+    def _derivative(
+        self,
+        q: np.ndarray,
+        h: np.ndarray,
+        p: np.ndarray,
+        z0: np.ndarray,
+        z1: np.ndarray,
+    ) -> np.ndarray:
+        stakes = self.stakes[None, :]
+        weights = self.weights[None, :]
+        base = 1 + stakes * h[:, None] / self.bound
+        no_query = np.sum(weights * np.log(base), axis=1)
+
+        def queried_derivative(z: np.ndarray) -> np.ndarray:
+            delta = stakes * (z[:, None] - h[:, None]) / self.bound
+            factor = base + delta / q[:, None]
+            if np.any(factor <= 0):
+                raise ValueError("betting factor must be positive over the propensity range")
+            return np.sum(
+                weights * (np.log(factor) - delta / (q[:, None] * base + delta)),
+                axis=1,
+            )
+
+        return -no_query + (1 - p) * queried_derivative(z0) + p * queried_derivative(z1)
+
+    def _solve_q(
+        self,
+        dual: float,
+        h: np.ndarray,
+        p: np.ndarray,
+        z0: np.ndarray,
+        z1: np.ndarray,
+        costs: np.ndarray,
+    ) -> np.ndarray:
+        target_derivative = dual * costs
+        low = np.full(len(h), self.q_min)
+        high = np.full(len(h), self.q_max)
+        low_derivative = self._derivative(low, h, p, z0, z1)
+        high_derivative = self._derivative(high, h, p, z0, z1)
+        at_low = low_derivative <= target_derivative
+        at_high = high_derivative >= target_derivative
+        active = ~(at_low | at_high)
+        for _ in range(48):
+            middle = (low + high) / 2
+            derivative = self._derivative(middle, h, p, z0, z1)
+            move_low = derivative > target_derivative
+            low = np.where(active & move_low, middle, low)
+            high = np.where(active & ~move_low, middle, high)
+        result = np.where(at_low, self.q_min, np.where(at_high, self.q_max, (low + high) / 2))
+        return np.asarray(result, dtype=float)
+
+    def fit_multiplier(
+        self,
+        *,
+        proxy: np.ndarray,
+        probability_positive: np.ndarray,
+        contrast_zero: np.ndarray,
+        contrast_one: np.ndarray,
+        label_costs: np.ndarray | None = None,
+    ) -> EvidenceGrowthQueryPolicy:
+        h, p, z0, z1, costs = self._arrays(
+            proxy, probability_positive, contrast_zero, contrast_one, label_costs
+        )
+        target_spend = self.target_rate * float(costs.mean())
+        low, high = 0.0, 1.0
+        while np.mean(self._solve_q(high, h, p, z0, z1, costs) * costs) > target_spend:
+            high *= 2
+            if high > 1e12:
+                raise RuntimeError("could not bracket the expected-spend dual multiplier")
+        for _ in range(64):
+            middle = (low + high) / 2
+            spend = float(np.mean(self._solve_q(middle, h, p, z0, z1, costs) * costs))
+            if spend > target_spend:
+                low = middle
+            else:
+                high = middle
+        self.dual = (low + high) / 2
+        return self
+
+    def probabilities(
+        self,
+        *,
+        proxy: np.ndarray,
+        probability_positive: np.ndarray,
+        contrast_zero: np.ndarray,
+        contrast_one: np.ndarray,
+        label_costs: np.ndarray | None = None,
+    ) -> np.ndarray:
+        if self.dual is None:
+            raise RuntimeError("fit_multiplier must use pre-monitor calibration data")
+        h, p, z0, z1, costs = self._arrays(
+            proxy, probability_positive, contrast_zero, contrast_one, label_costs
+        )
+        return self._solve_q(self.dual, h, p, z0, z1, costs)
+
+
 def mix_with_uniform(
     adaptive_probabilities: np.ndarray,
     *,

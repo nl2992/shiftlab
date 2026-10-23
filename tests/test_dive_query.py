@@ -1,8 +1,11 @@
+from itertools import pairwise
+
 import numpy as np
 import pytest
 
 from shiftlab.dive.query import (
     AdaptiveQueryPolicy,
+    EvidenceGrowthQueryPolicy,
     cost_mixture_weight_for_tolerance,
     cost_neutral_propensities,
     expected_cost_drift_bound,
@@ -200,3 +203,85 @@ def test_uniform_mixture_preserves_validation_rate_and_bounds_shifted_rate():
 def test_uniform_mixture_rejects_invalid_weight():
     with pytest.raises(ValueError, match="mixture_weight"):
         mix_with_uniform(np.array([0.1]), target_rate=0.1, mixture_weight=1.1)
+
+
+def test_evidence_growth_policy_matches_expected_validation_budget_with_heterogeneous_costs():
+    n = 180
+    proxy = np.linspace(-0.15, 0.15, n)
+    p = np.linspace(0.15, 0.85, n)
+    z0 = np.where(np.arange(n) % 2, 0.3, -0.2)
+    z1 = np.where(np.arange(n) % 2, -0.2, 0.3)
+    costs = np.linspace(0.5, 2.5, n)
+    policy = EvidenceGrowthQueryPolicy(
+        target_rate=0.2,
+        q_min=0.05,
+        q_max=0.7,
+        bound=20.0,
+    ).fit_multiplier(
+        proxy=proxy,
+        probability_positive=p,
+        contrast_zero=z0,
+        contrast_one=z1,
+        label_costs=costs,
+    )
+    q = policy.probabilities(
+        proxy=proxy,
+        probability_positive=p,
+        contrast_zero=z0,
+        contrast_one=z1,
+        label_costs=costs,
+    )
+    assert np.all((q >= 0.05) & (q <= 0.7))
+    assert np.mean(q * costs) == pytest.approx(0.2 * costs.mean(), abs=1e-7)
+    assert np.std(q) > 0.01
+
+
+def test_evidence_growth_propensity_has_concave_conditional_objective():
+    policy = EvidenceGrowthQueryPolicy(
+        target_rate=0.2,
+        q_min=0.05,
+        q_max=0.7,
+        bound=20.0,
+    )
+    h = np.array([-0.12, 0.02, 0.1])
+    p = np.array([0.2, 0.5, 0.8])
+    z0 = np.array([-0.3, -0.2, 0.1])
+    z1 = np.array([0.2, 0.3, 0.4])
+    derivatives = [
+        policy._derivative(np.full(3, q), h, p, z0, z1) for q in (0.06, 0.12, 0.25, 0.5, 0.69)
+    ]
+    assert all(np.all(later <= earlier + 1e-12) for earlier, later in pairwise(derivatives))
+
+
+def test_evidence_growth_derivative_matches_finite_difference():
+    policy = EvidenceGrowthQueryPolicy(
+        target_rate=0.2,
+        q_min=0.05,
+        q_max=0.7,
+        bound=20.0,
+    )
+    h = np.array([0.04])
+    p = np.array([0.63])
+    z0 = np.array([-0.3])
+    z1 = np.array([0.4])
+    q = 0.31
+    analytic = policy._derivative(np.array([q]), h, p, z0, z1)[0]
+
+    def utility(value: float) -> float:
+        stake = policy.stakes[None, :]
+        weights = policy.weights[None, :]
+        base = 1 + stake * h[:, None] / policy.bound
+        no_query = np.sum(weights * np.log(base), axis=1)[0]
+        estimate_zero = h + (z0 - h) / value
+        estimate_one = h + (z1 - h) / value
+        query_zero = np.sum(
+            weights * np.log(1 + stake * estimate_zero[:, None] / policy.bound), axis=1
+        )[0]
+        query_one = np.sum(
+            weights * np.log(1 + stake * estimate_one[:, None] / policy.bound), axis=1
+        )[0]
+        return (1 - value) * no_query + value * ((1 - p[0]) * query_zero + p[0] * query_one)
+
+    step = 1e-6
+    finite_difference = (utility(q + step) - utility(q - step)) / (2 * step)
+    assert analytic == pytest.approx(finite_difference, rel=1e-6, abs=1e-8)

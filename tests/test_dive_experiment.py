@@ -54,3 +54,17 @@ def test_experiment_subset_selectors_validate_registered_choices():
         DiveExperimentConfig(scenario_subset=("made_up",)).validate()
     with pytest.raises(ValueError, match="enabled by this config"):
         DiveExperimentConfig(method_subset=("cost_stabilized_proxy",)).validate()
+
+
+def test_evidence_growth_methods_are_selectable_without_heterogeneous_costs():
+    config = DiveExperimentConfig(
+        method_subset=(
+            "uniform_proxy",
+            "evidence_growth_proxy",
+            "evidence_growth_stabilized_proxy",
+        ),
+        evidence_rate_stability_tolerance=0.01,
+    )
+    config.validate()
+    with pytest.raises(ValueError, match="evidence_rate_stability_tolerance"):
+        DiveExperimentConfig(evidence_rate_stability_tolerance=float("nan")).validate()

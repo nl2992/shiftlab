@@ -41,11 +41,11 @@ def analyze(output: Path) -> Path:
         "",
         "This independent evaluation uses the development-selected probability radius `0.20`, 60 paired seeds per scenario, and the same hard dollar cap, propensity bounds, common e-process bound, stream seeds, and query uniforms for the robust method and six established baselines. The uncertainty interval is centered on the pre-monitor classifier probability. Evaluator-only coverage compares it with the synthetic true conditional probability after query decisions have been made.",
         "",
-        "Intervals resample independent stream seeds. They are descriptive and are not adjusted across the six baseline contrasts. Detection is only defined for boundary-local harm; every method's harm reachability is shown separately. A finite run with no false escalation is an implementation diagnostic, not a 5% calibration proof.",
+        "RMSE intervals resample independent stream seeds and are descriptive, unadjusted comparisons across the six baselines. Detection differences are shown descriptively with discordant paired-seed counts; the exact McNemar test is reported for the prespecified robust-versus-uniform contrast because detection events are sparse. Detection is only defined for boundary-local harm; every method's harm reachability is shown separately. A finite run with no false escalation is an implementation diagnostic, not a 5% calibration proof.",
         "",
         "`figures/hard_budget_tradeoff.png` plots paired-seed bootstrap intervals for boundary stream-mean RMSE, Wilson intervals for boundary-harm detection, and the processed stream fraction for all seven acquisition policies.",
         "",
-        "|Scenario|Baseline|Robust detections / baseline|Harm reached robust / baseline|Paired detection difference (95% bootstrap CI)|Robust / baseline RMSE|RMSE difference (95% bootstrap CI)|Spend difference|Label difference|Processed-fraction difference|Robust interval coverage|False escalations robust / baseline|",
+        "|Scenario|Baseline|Robust detections / baseline|Harm reached robust / baseline|Paired detection difference (wins / losses)|Robust / baseline RMSE|RMSE difference (95% bootstrap CI)|Spend difference|Label difference|Processed-fraction difference|Robust interval coverage|False escalations robust / baseline|",
         "|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|",
     ]
     for scenario in sorted(metrics.scenario.unique()):
@@ -65,7 +65,6 @@ def analyze(output: Path) -> Path:
             det_r = robust.single_e_detected.astype(float).to_numpy()
             det_b = baseline.single_e_detected.astype(float).to_numpy()
             detection_delta = det_r - det_b
-            detection_draws = detection_delta[indices].mean(axis=1)
             error_r = robust.stream_mean_estimation_error.to_numpy(dtype=float)
             error_b = baseline.stream_mean_estimation_error.to_numpy(dtype=float)
             rmse_delta_draws = np.sqrt(np.mean(error_r[indices] ** 2, axis=1)) - np.sqrt(
@@ -84,10 +83,8 @@ def analyze(output: Path) -> Path:
                 "robust_harm_reached": int(robust.harm_reached_before_budget_stop.sum()),
                 "baseline_harm_reached": int(baseline.harm_reached_before_budget_stop.sum()),
                 "paired_detection_difference": float(detection_delta.mean()) if harmful else None,
-                "detection_ci_low": float(np.quantile(detection_draws, 0.025)) if harmful else None,
-                "detection_ci_high": float(np.quantile(detection_draws, 0.975))
-                if harmful
-                else None,
+                "robust_detection_wins": int((detection_delta > 0).sum()) if harmful else None,
+                "robust_detection_losses": int((detection_delta < 0).sum()) if harmful else None,
                 "robust_rmse": rmse_r,
                 "baseline_rmse": rmse_b,
                 "rmse_difference": rmse_r - rmse_b,
@@ -112,16 +109,16 @@ def analyze(output: Path) -> Path:
                 detection_text = (
                     f"{row['robust_detections']}/{n} / {row['baseline_detections']}/{n}"
                 )
-                detection_ci_text = (
+                detection_delta_text = (
                     f"{row['paired_detection_difference']:+.3f} "
-                    f"[{row['detection_ci_low']:+.3f}, {row['detection_ci_high']:+.3f}]"
+                    f"({row['robust_detection_wins']} / {row['robust_detection_losses']})"
                 )
             else:
-                detection_text = detection_ci_text = "n/a"
+                detection_text = detection_delta_text = "n/a"
             lines.append(
                 f"|{scenario}|{baseline_name}|{detection_text}|"
                 f"{row['robust_harm_reached']}/{n} / {row['baseline_harm_reached']}/{n}|"
-                f"{detection_ci_text}|"
+                f"{detection_delta_text}|"
                 f"{rmse_r:.4f} / {rmse_b:.4f}|{rmse_r - rmse_b:+.4f} "
                 f"[{np.quantile(rmse_delta_draws, 0.025):+.4f}, {np.quantile(rmse_delta_draws, 0.975):+.4f}]|"
                 f"{row['spend_difference']:+.2f}|{row['label_difference']:+.1f}|"

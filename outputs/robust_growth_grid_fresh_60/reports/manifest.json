@@ -65,9 +65,9 @@
       "metrics\\hard_budget_comparison.parquet": "d3659121bb4f769ec053411cc3fc7a49a7151a90f0131f9e7f09fa00cca45468",
       "metrics\\hard_budget_summary.csv": "a6d8707865fe9f09f74e5697c7d1b94a3f387216830ec736dbab02385c3fa985",
       "metrics\\paired_effects_vs_uniform.csv": "765f464a02d31a1cc06fc2441b424ce08feaebe68fd90c8ab781b7d0c0e2a4e0",
-      "metrics\\robust_growth_fresh_paired.csv": "a34d0eadbbd5ec904c9ac8a1a0a4b57c10a1c3d0a5ea64c68e08d4e86ea8fc41",
+      "metrics\\robust_growth_fresh_paired.csv": "2c8036969c11f1adcd39fe8791435feb0cf8e6945a907f85697e0a2ed2ba15a3",
       "reports\\hard_budget_comparison.md": "19e48e016a4d6c4be8bd9ffa5ca5d56305d9c717ff68edb46d0de07c73234273",
-      "reports\\robust_growth_fresh_analysis.md": "fbc4898db210d959d023f3450ccf53e08786b97375fa2e092854e8a9d075ec78"
+      "reports\\robust_growth_fresh_analysis.md": "c53b20df1f7df77900de39161c8b6ee3728068497c8bfb547602477afe150409"
     },
     "source_files": {
       "src\\shiftlab\\dive\\__init__.py": "10a8a1d170c7a452cebaa9df8e07070555edc841ff5c04cd049ff75cd8887780",
@@ -94,7 +94,7 @@
   },
   "paired_analysis": {
     "script": "scripts/analyze_robust_growth_fresh.py",
-    "script_sha256": "7efa4ef25d13a972ac09f2a1dc59d15b40cd9b03ddab58693bce283ae6998df0",
+    "script_sha256": "02d3330ff1d5d3c9b94d8aa6e3f31f7c5803d95a2a732786883cb56b4e5d804c",
     "bootstrap_resamples": 50000,
     "seed_offset": 28702026,
     "mcnemar_two_sided_p_vs_uniform": 0.125

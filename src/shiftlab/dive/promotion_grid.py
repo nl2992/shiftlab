@@ -434,7 +434,7 @@ def run_promotion_grid(config: PromotionGridConfig, output: Path) -> Path:
         "",
         f"The one-time switching charge is `{config.switching_cost:g}`. For certification against its value over the fixed {config.n - _time_splits(config.n)[2]}-event deployment horizon, it is amortized as `{config.switching_cost / (config.n - _time_splits(config.n)[2]):.8f}` per candidate evaluation event. The deployment metric subtracts the full one-time charge once. Candidate index `i` receives `alpha_i=alpha/[i(i+1)]`; because the grid is ordered by validation score before monitoring and every candidate is tested on fresh feedback, the sum of test levels is at most `alpha` for every realized candidate ordering. The fixed-horizon comparison uses a one-sided Azuma-Hoeffding threshold with the same candidate-specific alpha allocation.",
         "",
-        "The statistical gate certifies a mean shadow-period improvement under its conditional-mean and bounded-cost assumptions. It does not guarantee benefit on the later deployment slice if the regime changes. `false_post_nongain` explicitly measures such deployment reversals and is not the same as a false statistical certification. Both action costs are observable on the same synthetic outcome; settings where actions affect outcomes require randomized or off-policy evaluation.",
+        "The sequential certificate is absorbing: after the first `e_t >= 1/alpha_i` crossing it remains certified even if later e-values decline. The statistical gate certifies a mean shadow-period improvement under its conditional-mean and bounded-cost assumptions. It does not guarantee benefit on the later deployment slice if the regime changes. `false_post_nongain` explicitly measures such deployment reversals and is not the same as a false statistical certification. Both action costs are observable on the same synthetic outcome; settings where actions affect outcomes require randomized or off-policy evaluation.",
         "",
         "## Untouched deployment performance by controller",
         "",
@@ -488,6 +488,7 @@ def run_promotion_grid(config: PromotionGridConfig, output: Path) -> Path:
             "candidate models fitted on training labels only",
             "candidate ranking and alpha-spending order frozen on validation before monitor",
             "shadow test uses immediate full feedback and paired common-outcome costs",
+            "sequential certification persists after its first threshold crossing",
             "deployment outcomes use a later untouched slice",
         ],
     }
@@ -500,7 +501,7 @@ def main(argv: list[str] | None = None) -> None:
     import argparse
 
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--output", type=Path, default=Path("outputs/promotion_grid"))
+    parser.add_argument("--output", type=Path, default=Path("outputs/promotion_grid_corrected"))
     parser.add_argument("--seeds", type=int, default=30)
     parser.add_argument("--seed-offset", type=int, default=20381023)
     parser.add_argument("--n", type=int, default=3200)

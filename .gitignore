@@ -14,6 +14,10 @@ dist/
 outputs/*
 !outputs/promotion_grid/
 !outputs/promotion_grid/**
+!outputs/promotion_grid_corrected/
+!outputs/promotion_grid_corrected/**
+!outputs/promotion_experiment_corrected/
+!outputs/promotion_experiment_corrected/**
 !outputs/metrics/
 !outputs/reports/
 !outputs/figures/

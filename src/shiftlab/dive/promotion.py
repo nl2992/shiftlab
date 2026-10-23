@@ -58,10 +58,12 @@ class CandidatePromotionTest:
             alpha=alpha_i,
         )
         self.last_event = version.training_cutoff
+        self.certificate_event: int | None = None
 
     @property
     def certified(self) -> bool:
-        return self.process.alarm
+        """Whether the process has crossed its threshold at any monitored time."""
+        return self.certificate_event is not None
 
     @property
     def log_e_value(self) -> float:
@@ -85,4 +87,7 @@ class CandidatePromotionTest:
                 raise ValueError(f"{name} must lie in [0, max_event_cost]")
         gain = incumbent_cost - candidate_cost - self.switching_cost
         self.last_event = int(event_index)
-        return self.process.update(gain)
+        log_e_value = self.process.update(gain)
+        if self.certificate_event is None and self.process.alarm:
+            self.certificate_event = int(event_index)
+        return log_e_value

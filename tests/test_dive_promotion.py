@@ -24,6 +24,24 @@ def test_candidate_promotion_rejects_invalid_costs():
         test.update(event_index=1, incumbent_cost=0.5, candidate_cost=1.1)
 
 
+def test_candidate_certificate_is_absorbing_after_first_threshold_crossing():
+    test = CandidatePromotionTest(CandidateVersion("c1", "v1", 0, 1), max_event_cost=1.0)
+    crossed_at = None
+    for index in range(1, 21):
+        test.update(event_index=index, incumbent_cost=1.0, candidate_cost=0.0)
+        if test.certified:
+            crossed_at = test.certificate_event
+            break
+    assert crossed_at is not None
+
+    for index in range(crossed_at + 1, crossed_at + 81):
+        test.update(event_index=index, incumbent_cost=0.0, candidate_cost=1.0)
+
+    assert not test.process.alarm
+    assert test.certified
+    assert test.certificate_event == crossed_at
+
+
 def test_promotion_experiment_writes_reproducible_artifacts(tmp_path):
     run_promotion_experiment(
         PromotionExperimentConfig(n=1000, d=8, seeds=1, device="cpu"), tmp_path

@@ -110,11 +110,11 @@ def summarize(input_dir: Path, output_path: Path) -> Path:
 
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--input", type=Path, default=Path("outputs/promotion_grid"))
+    parser.add_argument("--input", type=Path, default=Path("outputs/promotion_grid_corrected"))
     parser.add_argument(
         "--output",
         type=Path,
-        default=Path("outputs/promotion_grid/reports/strategy_uncertainty.md"),
+        default=Path("outputs/promotion_grid_corrected/reports/strategy_uncertainty.md"),
     )
     args = parser.parse_args()
     print(summarize(args.input, args.output))

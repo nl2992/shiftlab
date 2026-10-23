@@ -174,10 +174,14 @@ the closest prior work and current novelty boundary are in
 
 The shadow-promotion experiment evaluates a frozen logistic recalibration candidate and an
 incumbent snapshot on fresh forward-time labels, applies candidate-index alpha spending, and
-reports certification behavior in `outputs/figures/adaptation_promotion.png` and
-`outputs/metrics/promotion_comparison.parquet`. The one-step cost-aware controller is available in
-`shiftlab.dive.controller`; its forecasts are supplied inputs, and it is not yet integrated into a
-closed-loop intervention benchmark.
+reports certification behavior in
+[`outputs/promotion_experiment_corrected/figures/adaptation_promotion.png`](outputs/promotion_experiment_corrected/figures/adaptation_promotion.png),
+[`outputs/promotion_experiment_corrected/metrics/promotion_comparison.parquet`](outputs/promotion_experiment_corrected/metrics/promotion_comparison.parquet),
+and [`outputs/promotion_experiment_corrected/reports/promotion_comparison.md`](outputs/promotion_experiment_corrected/reports/promotion_comparison.md).
+The earlier `outputs/metrics/promotion_comparison.parquet` predates the absorbing certificate fix
+and is superseded. The one-step cost-aware controller is available in `shiftlab.dive.controller`;
+its forecasts are supplied inputs, and it is not yet integrated into a closed-loop intervention
+benchmark.
 
 The initial CUDA benchmark is saved in `outputs/`. It contains 1,260 monitor rows (30 seeds × 6
 scenarios × 7 methods) and 360 candidate-promotion rows. With 2,400 labels per stream, full-feedback
@@ -204,26 +208,30 @@ The forward-time candidate-grid experiment (`shiftlab-dive-promotion-grid`) adds
 logistic candidates and an exact incumbent-copy control, validation ranking, candidate-index alpha
 spending, sequential and fixed-horizon certification, and a later untouched deployment slice. It
 compares never promoting, unconditional validation selection, fixed-horizon certification, and
-sequential certification. Candidate rankings are frozen before fresh shadow monitoring; gains on
-the final deployment slice measure out-of-period reversals and do not themselves define statistical
-false certifications. Reproduce the 30-seed CUDA run with `uv run
+sequential certification. The sequential certificate is absorbing and records the first threshold
+crossing. Candidate rankings are frozen before shadow monitoring; final-slice outcomes measure
+deployment reversals, not statistical type-I error. Reproduce the corrected 30-seed run with `uv run
 shiftlab-dive-promotion-grid --seeds 30 --seed-offset 20381023 --n 3200 --d 16 --device cuda
---output outputs/promotion_grid`. See the corresponding section in
-[`docs/methods_and_assumptions.md`](docs/methods_and_assumptions.md) for assumptions and limits.
-Rebuild the seed-level intervals from the saved strategy metrics with
-`uv run python scripts/analyze_promotion_grid.py`.
-The generated comparison and seed-level uncertainty analysis are in
-[`outputs/promotion_grid/reports/promotion_grid_comparison.md`](outputs/promotion_grid/reports/promotion_grid_comparison.md)
-and [`outputs/promotion_grid/reports/strategy_uncertainty.md`](outputs/promotion_grid/reports/strategy_uncertainty.md).
-The exact-copy candidate certified in 0/180 stream tests (95% Wilson upper endpoint 0.021). The
-sequential gate promoted in 30/30 boundary-harm, harmful-adaptation and recurring-regime streams,
-27/30 residual-variance streams, 17/30 stationary streams, and 7/30 benign-nuisance streams. The
-unconditional validation choice had 11/30 later nongain outcomes under benign nuisance; the
-sequential choice had 0/30 (Wilson upper endpoint 0.114, so this small simulation does not establish
-a zero reversal risk). The fixed-horizon gate promoted 0/30 in every scenario under the allocated
-candidate-specific error levels, showing that this implementation is too conservative at this
-sample size. These are synthetic results: sequential and unconditional selection were identical in
-the three harmful scenarios, and the benefit of certification is not established there.
+--output outputs/promotion_grid_corrected`. Rebuild seed-level intervals with
+`uv run python scripts/analyze_promotion_grid.py`. See
+[`docs/methods_and_assumptions.md`](docs/methods_and_assumptions.md) for the assumptions.
+
+Corrected artifacts: [comparison report](outputs/promotion_grid_corrected/reports/promotion_grid_comparison.md),
+[seed-level uncertainty report](outputs/promotion_grid_corrected/reports/strategy_uncertainty.md),
+[candidate metrics](outputs/promotion_grid_corrected/metrics/promotion_grid_candidates.parquet),
+[strategy metrics](outputs/promotion_grid_corrected/metrics/promotion_grid_strategies.parquet),
+and [figure](outputs/promotion_grid_corrected/figures/promotion_grid_outcomes.png). The exact-copy
+candidate certified in 0/180 stream tests (95% Wilson upper bound 0.021). The sequential gate
+promoted in 30/30 boundary-harm, harmful-adaptation and recurring-regime streams, 29/30
+residual-variance, 21/30 stationary, and 15/30 benign-nuisance streams. In benign nuisance, 4/30
+sequentially selected candidates had negative expected net gain on the later deployment slice
+(95% Wilson interval 0.053–0.297); unconditional validation selection had 11/30 (0.219–0.545).
+Their paired expected-gain difference favored sequential certification by 41.5, but its 95% interval
+[-21.4,104.5] includes zero. Both rules selected the same candidates in the three harmful scenarios.
+The fixed-horizon gate promoted none across scenarios. This is underpowered at the allocated
+candidate-specific error levels; it is not evidence that fixed-horizon testing is ineffective in
+general. The earlier `outputs/promotion_grid/` results used a non-absorbing certification flag and
+are superseded by `outputs/promotion_grid_corrected/`.
 
 The allocation search adds a validation-selected grid over expected query rates 5%, 10%, and 20%
 and residual-variance score powers 0, 0.25, 0.5, 0.75, and 1. Score power 0.5 is the classical

@@ -15,7 +15,7 @@ from sklearn.linear_model import LogisticRegression
 
 from ..data.gpu.environment import environment, resolve_device
 from ..decision_harm_experiment import SCENARIOS, ExperimentConfig, _generate
-from .experiment import _binary_cost
+from .experiment import _binary_cost, finalize_manifest
 from .promotion import CandidatePromotionTest, CandidateVersion
 
 
@@ -167,7 +167,7 @@ def _evaluate_stream(scenario, seed: int, config: PromotionExperimentConfig) -> 
 
 
 def run_promotion_experiment(
-    config: PromotionExperimentConfig, output: Path = Path("outputs")
+    config: PromotionExperimentConfig, output: Path = Path("outputs/promotion_experiment_corrected")
 ) -> Path:
     if config.n < 1000 or config.d < 2 or config.seeds < 1:
         raise ValueError("n must be >=1000, d >=2, and seeds >=1")
@@ -252,6 +252,7 @@ def run_promotion_experiment(
         "report_path": str(reports_dir / "promotion_comparison.md"),
     }
     manifest_path.write_text(json.dumps(manifest, indent=2), encoding="utf-8")
+    finalize_manifest(output)
     return figure_path
 
 
@@ -259,7 +260,9 @@ def main(argv=None):
     import argparse
 
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--output", type=Path, default=Path("outputs"))
+    parser.add_argument(
+        "--output", type=Path, default=Path("outputs/promotion_experiment_corrected")
+    )
     parser.add_argument("--seeds", type=int, default=30)
     parser.add_argument("--n", type=int, default=3200)
     parser.add_argument("--d", type=int, default=16)

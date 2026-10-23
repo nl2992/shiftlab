@@ -28,6 +28,8 @@ outputs/*
 !outputs/promotion_timing_v6/**
 !outputs/persistence_promotion_grid/
 !outputs/persistence_promotion_grid/**
+!outputs/promotion_robustness_grid_corrected/
+!outputs/promotion_robustness_grid_corrected/**
 outputs/promotion_grid_alpha/
 outputs/promotion_grid_alpha_v2/
 !outputs/promotion_experiment_corrected/

@@ -264,6 +264,16 @@ superiority claim. See [the timing report](outputs/promotion_timing_v6/reports/p
 `uv run shiftlab-dive-promotion-timing --seeds 1000 --seed-offset 20401023 --n 3200 --device cuda
 --output outputs/promotion_timing_v6`.
 
+The follow-up [switching-cost and reversal grid](outputs/promotion_robustness_grid_corrected/reports/promotion_robustness_grid.md)
+compares those gates with three two-phase persistence splits across six fixed schedules and four
+one-time switching charges, using 1,000 paired CUDA streams per schedule. It finds no uniformly best
+rule: persistence confirmation suppresses early long reversals, but an early split can still promote
+before a later reversal, while later splits miss persistent or late-onset value. These are
+descriptive synthetic comparisons with no multiplicity adjustment across grid cells. See the
+[seed-level metrics](outputs/promotion_robustness_grid_corrected/metrics/promotion_robustness_summary.parquet),
+[figure](outputs/promotion_robustness_grid_corrected/figures/promotion_robustness_grid.png), and
+[`docs/methods_and_assumptions.md`](docs/methods_and_assumptions.md).
+
 A two-phase persistence benchmark compares discovery fractions 25%, 50%, and 75%.
 Each disjoint phase runs a level-0.05 e-process, and promotion requires both to cross. This is an
 intersection-union test of the null that at least one phase has nonpositive conditional gain; the

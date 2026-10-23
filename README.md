@@ -172,6 +172,18 @@ the closest prior work and current novelty boundary are in
 [`references/closest_competitors.md`](references/closest_competitors.md). Open proof targets are in
 [`docs/theory_targets.md`](docs/theory_targets.md).
 
+The paired acquisition-budget frontier evaluates seven policies at 10%, 20%, and 25% hard
+label-dollar caps over 60 common-seed streams in four scenarios. Every method respected its cap;
+all methods detected 0/60 reachable harmful streams at every cap, while exact and robust
+mixture-growth allocation reduced stream-mean estimation RMSE against uniform. This separates
+estimation accuracy from sequential decision-harm power; zero detections in 60 streams do not
+establish either useful power or 5% calibration. The 30% endpoint proved infeasible under the
+fixed propensity and tariff bounds, so the protocol replaced it with the highest checked-feasible
+25% level before generating those results. See the [screening protocol](docs/budget_frontier_protocol.md),
+[measured findings](docs/budget_frontier_results.md), [full report](outputs/budget_frontier_60/reports/budget_frontier.md),
+[metrics](outputs/budget_frontier_60/metrics/budget_frontier.parquet), [figure](outputs/budget_frontier_60/figures/budget_frontier.png),
+and [manifest](outputs/budget_frontier_60/reports/manifest.json).
+
 The repeated-candidate hard-budget benchmark extends this work to sparse feedback. It freezes a
 13-candidate family and validation-based ranking before monitoring, then compares direct
 inverse-propensity with prediction-powered monitoring under 10% and 20% pathwise label caps. Across

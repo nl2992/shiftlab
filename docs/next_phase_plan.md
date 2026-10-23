@@ -1,6 +1,6 @@
 # Next research phase: decision-harm evidence efficiency
 
-**Status:** Proposed execution plan following the 2026-10-23 robust-growth replication. This plan is an experiment sequence, not a claim that the repository's three paper tracks are complete.
+**Status:** Proposed execution plan following the 2026-10-23 robust-growth replication and paired budget-frontier screen. This plan is an experiment sequence, not a claim that the repository's three paper tracks are complete.
 
 ## Decision from the latest study
 
@@ -15,7 +15,9 @@ Do not advance interval-robust mixture-growth allocation as the lead method. In 
 
 ## Phase B: separate calibration from power
 
-The first budget-frontier screen is preregistered in `docs/budget_frontier_protocol.md`; it varies three realized-dollar caps with common streams, query uniforms, and a common e-process bound.
+The paired budget-frontier screen is complete: it compares 10%, 20%, and feasible 25% realized-dollar caps with common streams, query uniforms, and a common e-process bound. All methods respected the cap; all had 0/60 detections in each harmful scenario at each cap, even though all harmful onsets were reached. Exact and robust mixture-growth lowered stream-mean RMSE against uniform, but did not produce harm detections. The 30% target was outside the cost-neutral feasible interval under `q_max=0.80`, so it was replaced with 25% before the upper-budget results were generated. See `docs/budget_frontier_protocol.md`, `docs/budget_frontier_results.md`, and `outputs/budget_frontier_60/`.
+
+This negative power result makes monitor diagnosis the next task. First reproduce a nondegenerate null calibration study with enough streams to distinguish the 5% target from a practically unacceptable error rate. On separate development streams, map detection and delay over harm magnitude, onset, and horizon, then freeze a confirmation block. Do not tune on the completed frontier seeds.
 
 1. On independent null streams, estimate false escalation probability for each complete policy-plus-monitor procedure. Start at 2,000 streams per null cell, then increase if the interval cannot distinguish the target error rate from an unacceptable rate. A zero-event small pilot is only a smoke diagnostic.
 2. On disjoint alternative streams, map detection probability and unconditional/censored delay over harm magnitude, onset, label budget, and dependence. Use paired stream bootstrap intervals and report event counts as well as rates.

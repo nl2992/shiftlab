@@ -1,0 +1,7 @@
+{
+  "adaptive_weight": 0.0,
+  "development_seed_offset": 28402026,
+  "development_seeds_per_scenario": 30,
+  "selection_rule": "maximize boundary-harm detections; tie-break by lower boundary stream-mean RMSE then longer processed horizon, subject to pooled null false escalations <=5%",
+  "fresh_evaluation_required": true
+}

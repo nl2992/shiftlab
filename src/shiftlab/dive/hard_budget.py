@@ -42,6 +42,7 @@ from .query import (
     AdaptiveQueryPolicy,
     ExactMixtureGrowthQueryPolicy,
     cost_mixture_weight_for_tolerance,
+    expected_cost_drift_bound,
     mix_with_cost_neutral,
 )
 
@@ -73,6 +74,7 @@ class HardBudgetConfig:
     q_min: float = 0.05
     q_max: float = 0.50
     cost_stability_tolerance: float = 0.05
+    exact_growth_adaptive_weight: float = 1.0
     max_label_cost: float = 2.5
     common_eprocess_bound: bool = False
     device: str = "auto"
@@ -96,6 +98,11 @@ class HardBudgetConfig:
             raise TypeError("common_eprocess_bound must be boolean")
         if self.cost_stability_tolerance < 0 or not np.isfinite(self.cost_stability_tolerance):
             raise ValueError("cost_stability_tolerance must be finite and nonnegative")
+        if (
+            not np.isfinite(self.exact_growth_adaptive_weight)
+            or not 0 <= self.exact_growth_adaptive_weight <= 1
+        ):
+            raise ValueError("exact_growth_adaptive_weight must lie in [0, 1]")
         scenarios = {scenario.name for scenario in SCENARIOS}
         if not self.scenario_subset or not set(self.scenario_subset) <= scenarios:
             raise ValueError("scenario_subset must contain registered scenario names")
@@ -175,6 +182,16 @@ def _one_method(
         mixture_weight = cost_mixture_weight_for_tolerance(
             budget_per_event=budget_per_event,
             drift_tolerance=config.cost_stability_tolerance,
+            cost_min=0.5,
+            cost_max=config.max_label_cost,
+            q_min=config.q_min,
+            q_max=config.q_max,
+        )
+    exact_growth_spend_drift_bound = None
+    if method == "exact_mixture_growth_proxy" and config.exact_growth_adaptive_weight < 1.0:
+        exact_growth_spend_drift_bound = expected_cost_drift_bound(
+            budget_per_event=budget_per_event,
+            mixture_weight=config.exact_growth_adaptive_weight,
             cost_min=0.5,
             cost_max=config.max_label_cost,
             q_min=config.q_min,
@@ -264,6 +281,17 @@ def _one_method(
                     q_max=config.q_max,
                 )[0]
             )
+        elif method == "exact_mixture_growth_proxy" and config.exact_growth_adaptive_weight < 1.0:
+            propensity = float(
+                mix_with_cost_neutral(
+                    np.asarray([q_adaptive]),
+                    np.asarray([cost_now]),
+                    budget_per_event=budget_per_event,
+                    mixture_weight=config.exact_growth_adaptive_weight,
+                    q_min=config.q_min,
+                    q_max=config.q_max,
+                )[0]
+            )
         if not config.q_min - 1e-12 <= propensity <= config.q_max + 1e-12:
             raise RuntimeError("query propensity violated its registered bounds")
 
@@ -338,6 +366,10 @@ def _one_method(
         "monitor_fraction_processed": processed / (len(x) - monitor_start),
         "stop_reason": stop_reason,
         "cost_stability_mix": mixture_weight,
+        "exact_growth_adaptive_weight": (
+            config.exact_growth_adaptive_weight if method == "exact_mixture_growth_proxy" else None
+        ),
+        "exact_growth_expected_spend_drift_bound": exact_growth_spend_drift_bound,
         "material_harm": harm_onset is not None,
         "population_null_control": scenario.name in POPULATION_NULL_CONTROLS,
         "sample_path_material_harm": sample_path_material_harm,
@@ -807,6 +839,12 @@ def run_hard_budget(config: HardBudgetConfig, output: Path) -> Path:
         "",
         f"Evaluated {config.seeds} seeds per scenario on `{config.device}`. Every policy received the same per-stream dollar cap, calibrated from the mean tariff in the pre-monitor validation slice. Methods share per-seed uniform random variates to enable paired comparisons. The maximum tariff support is fixed at {config.max_label_cost:g}; the monitor stops before the next event once the remaining balance is below that support maximum. This makes every processed event's query propensity positive and predictable, while ensuring spend never exceeds the cap.",
         (
+            f"Exact mixture-growth acquisition uses adaptive weight {config.exact_growth_adaptive_weight:.3f} toward the per-event cost-neutral propensity. Its worst-case expected-spend drift bound is computed over tariff support [0.5, {config.max_label_cost:g}]."
+            if "exact_mixture_growth_proxy" in config.method_subset
+            and config.exact_growth_adaptive_weight < 1.0
+            else ""
+        ),
+        (
             "All methods use the common configured propensity floor for their e-process bound."
             if config.common_eprocess_bound
             else "The primary comparison uses each method's actual minimum propensity in its e-process bound: uniform queries at 0.10 use a tighter bound than adaptive policies that can query at 0.05. The common-bound sensitivity at reports/eprocess_bound_sensitivity.md found 0/30 detections for every method under q_min=0.05; do not attribute the primary 4-versus-0 difference solely to allocation."
@@ -854,6 +892,7 @@ def run_hard_budget(config: HardBudgetConfig, output: Path) -> Path:
                 f"--seeds {config.seeds} --seed-offset {config.seed_offset} "
                 f"--n {config.n} --d {config.d} --budget-rate {config.budget_rate} "
                 f"--q-min {config.q_min} --q-max {config.q_max} --device {config.device} "
+                f"--exact-growth-adaptive-weight {config.exact_growth_adaptive_weight} "
                 f"--scenarios {' '.join(config.scenario_subset)} "
                 f"--methods {' '.join(config.method_subset)} "
                 f"{'--common-eprocess-bound ' if config.common_eprocess_bound else ''}"
@@ -865,7 +904,10 @@ def run_hard_budget(config: HardBudgetConfig, output: Path) -> Path:
         ]
     )
     (reports_dir / "hard_budget_comparison.md").write_text("\n".join(lines), encoding="utf-8")
-    if {"multiscale_e_detected", "protected_e_detected"} <= set(metrics.columns):
+    if "uniform_proxy" in set(metrics.method) and {
+        "multiscale_e_detected",
+        "protected_e_detected",
+    } <= set(metrics.columns):
         _append_paired_comparisons(output, metrics, seed=config.seed_offset + 443)
     manifest = {
         "experiment": "hard_label_dollar_budget_query_policy_comparison",
@@ -901,6 +943,7 @@ def main(argv: list[str] | None = None) -> None:
     parser.add_argument("--seed-offset", type=int, default=20361022)
     parser.add_argument("--q-max", type=float, default=0.50)
     parser.add_argument("--cost-stability-tolerance", type=float, default=0.05)
+    parser.add_argument("--exact-growth-adaptive-weight", type=float, default=1.0)
     parser.add_argument(
         "--common-eprocess-bound",
         action="store_true",
@@ -919,6 +962,7 @@ def main(argv: list[str] | None = None) -> None:
         q_min=args.q_min,
         q_max=args.q_max,
         cost_stability_tolerance=args.cost_stability_tolerance,
+        exact_growth_adaptive_weight=args.exact_growth_adaptive_weight,
         common_eprocess_bound=args.common_eprocess_bound,
         device=args.device,
         scenario_subset=tuple(args.scenarios or HardBudgetConfig.scenario_subset),

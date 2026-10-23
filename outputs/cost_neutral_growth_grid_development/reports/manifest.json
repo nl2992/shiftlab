@@ -1,0 +1,78 @@
+{
+  "experiment": "development_grid_cost_neutral_exact_mixture_growth",
+  "protocol": {
+    "weights": [
+      0.0,
+      0.25,
+      0.5,
+      0.75,
+      1.0
+    ],
+    "scenarios": [
+      "stationary",
+      "benign_nuisance",
+      "boundary_local_harm"
+    ],
+    "methods": [
+      "uniform_proxy",
+      "exact_mixture_growth_proxy"
+    ],
+    "n": 3200,
+    "d": 16,
+    "seeds": 30,
+    "seed_offset": 28402026,
+    "budget_rate": 0.2,
+    "q_min": 0.1,
+    "q_max": 0.8,
+    "common_eprocess_bound": true,
+    "device": "cuda",
+    "scenario_subset": [
+      "stationary",
+      "benign_nuisance",
+      "boundary_local_harm"
+    ]
+  },
+  "selected_weight": 0.0,
+  "grid_rows": 540,
+  "nested_run_manifests": {
+    "uniform": "8d45fd8424ff88c8fb151d1dfb4a081b17d6191dd4c48553226ca35fee035282",
+    "adaptive_weight_0.00": "20b2ed5af900bd2fc85c54003f08f6534de1cdc982c12368a330870d2f472dca",
+    "adaptive_weight_0.25": "b1bcc75446ef37bc727d19732622beb2c91434e0bca0635bd5f0eb4180afc556",
+    "adaptive_weight_0.50": "9b7c4e260f51131ba7d79600ddb68a2a9f0cce501290c6a02c157bb500eadc01",
+    "adaptive_weight_0.75": "26f2bba82eceb46e3d497673085c22a24628d56cd1f532a5f5aee4d4bddafbea",
+    "adaptive_weight_1.00": "3cb543d52d1a28be14804d47dfbd66f4b758c275a577d0c207dfe5618dbd7f1e"
+  },
+  "script": "scripts/grid_search_cost_neutral_growth.py",
+  "script_sha256": "2837f9fee25db4210a9e0a023c9610f4ff62718bb3a2158a0302eccf7882ee28",
+  "sha256": {
+    "artifacts": {
+      "figures\\cost_neutral_growth_grid.png": "632780d78ef782b3282383b4422b1491cf419cd8634068d71782987036f8c3b2",
+      "metrics\\development_grid_summary.csv": "c617818136d289130f9827fcb3c5fb554347016fa236104a6d7523bcaf00af6f",
+      "metrics\\development_streams.parquet": "aeb2270d125ac099a7c04b695ad659d4deb5b123036a8f3c35344cec27fc2951",
+      "reports\\development_grid.md": "dd0e4852001c3d586ebca9ae39fc679ec5097ac2b6e0b45a96a2feb0d1dc9b43",
+      "reports\\selected_weight.json": "addb8ba4719304107de258d5657b9aa3bbad2a20ec5fc5ac87b613f754ba13f4"
+    },
+    "source_files": {
+      "src\\shiftlab\\dive\\__init__.py": "10a8a1d170c7a452cebaa9df8e07070555edc841ff5c04cd049ff75cd8887780",
+      "src\\shiftlab\\dive\\allocation_grid.py": "8619d5f9f36e33eed1a5888b50c1c0cc54f621b9d001be89ed4f3ba9b42a6fab",
+      "src\\shiftlab\\dive\\budgeted_promotion.py": "e8d654eef0ddd2c14d00d7923368a5c8c25c3a475e8de50e95db82d1755259a4",
+      "src\\shiftlab\\dive\\controller.py": "9d4263c825382624940202a51fa5c9908db5f56a2be48a841f005e688ad702eb",
+      "src\\shiftlab\\dive\\eprocess.py": "fa86a1bf57c33d8624450709c60e3b5996fb2039efd3c34524186e417b05f3a1",
+      "src\\shiftlab\\dive\\estimators.py": "22b39564317ff1597feb53427eebc8601d459d2d06b7319e6bab1343de4be110",
+      "src\\shiftlab\\dive\\evaluation.py": "9b64eea3d7dd708104d25ad51e927451811c91e66295ee480fc791ac884432c4",
+      "src\\shiftlab\\dive\\experiment.py": "f11f8516cdbeaa56a2a9b2c229af370b77830ac1801a81394508950241482633",
+      "src\\shiftlab\\dive\\hard_budget.py": "014a909b259b5ff249f3640a1f47cb4e48b4dffebc2abf15836cce4097c22e36",
+      "src\\shiftlab\\dive\\oracle_diagnostics.py": "14118dc2912b8236fb4215dd64ebe2108870c51a1963816eaa004f583e9dda8c",
+      "src\\shiftlab\\dive\\persistence_promotion.py": "9a43d8e14dc4bac5ebc048837ab5d09f268e3bb5f79c615eda39a655b357710b",
+      "src\\shiftlab\\dive\\power.py": "d3796dde1cb378ddf7a2a401a2971a8902d126b0db82e48e88556333fa4dde53",
+      "src\\shiftlab\\dive\\promotion.py": "d15e22a7217a15f5c70348766f67ae034409f782b67bfaa0a9b154a6094f24e3",
+      "src\\shiftlab\\dive\\promotion_experiment.py": "93ba08750effdfc1cfc131a0b3cbda1c363118c774c143c4f633a18aeaa7a546",
+      "src\\shiftlab\\dive\\promotion_grid.py": "307ee2137936c1ba8938ef026cb2e611b26ccc15bc6ad3fe4c7ffbed3ec930ce",
+      "src\\shiftlab\\dive\\promotion_robustness.py": "c8601c63b1ada4765e5613b7e5a8753731a60bbd3fceab8fc4b6590657df2e01",
+      "src\\shiftlab\\dive\\promotion_timing.py": "59240fbf930d74a745429b80c9956849f96b9b03363c14eacc5ffc64f930a2e1",
+      "src\\shiftlab\\dive\\proxy.py": "77546752c6796c37795fc7eeb14de678e0bf53509248bda56b1cb1bcecb3a102",
+      "src\\shiftlab\\dive\\query.py": "61150485375bc628e9862cf719e0b2ed326f27dcf53caab8a01d1a2e096d7e69",
+      "src\\shiftlab\\decision_harm_experiment.py": "b749aa6961e11abd8b234977f65515001b117c723885610cc5a83d0183c4206a"
+    }
+  }
+}

@@ -85,3 +85,35 @@ def test_hard_budget_null_control_generates_report_without_harm_scenario(tmp_pat
     report = (output / "reports" / "hard_budget_comparison.md").read_text()
     assert "n/a / n/a" in report
     assert (output / "figures" / "hard_budget_tradeoff.png").is_file()
+
+
+def test_exact_growth_cost_neutral_branch_has_target_spend_compensator(tmp_path):
+    output = run_hard_budget(
+        HardBudgetConfig(
+            n=1600,
+            seeds=1,
+            common_eprocess_bound=True,
+            q_min=0.10,
+            q_max=0.80,
+            budget_rate=0.20,
+            exact_growth_adaptive_weight=0.0,
+            device="cpu",
+            scenario_subset=("stationary",),
+            method_subset=("exact_mixture_growth_proxy",),
+        ),
+        tmp_path / "exact_growth_cost_neutral",
+    )
+    metrics = pd.read_parquet(output / "metrics" / "hard_budget_comparison.parquet")
+    row = metrics.iloc[0]
+    expected_per_event = row.hard_budget / (1600 - 800)
+    assert row.exact_growth_adaptive_weight == 0.0
+    assert row.predictable_spend_compensator_until_stop == pytest.approx(
+        expected_per_event * row.processed_events
+    )
+    assert row.budget_respected
+
+
+@pytest.mark.parametrize("weight", [-0.01, 1.01, float("nan")])
+def test_exact_growth_weight_must_lie_in_unit_interval(weight):
+    with pytest.raises(ValueError, match="exact_growth_adaptive_weight"):
+        HardBudgetConfig(exact_growth_adaptive_weight=weight).validate()

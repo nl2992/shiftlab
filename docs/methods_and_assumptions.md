@@ -231,3 +231,30 @@ The fresh evaluation in `docs/online_process_mixture_protocol.md` combines four 
 `ExactMixtureGrowthQueryPolicy` uses the current predictable posterior mean stake of the fixed-stake e-process. For a queried proxy-corrected contrast `h+(Z-h)/q`, it maximizes the exact conditional expected log *mixture* increment minus a dual label-cost price. The increment is `log(1 + eta_bar_t * Z_tilde / B)`: this follows from the linear one-step factor of each stake component and the current posterior weights over those components. For fixed model inputs, the objective is concave in `q` whenever all factors are positive; the dual price is calibrated on the pre-monitor validation split. During monitoring, the effective stake uses past evidence only, the outcome probability comes from the pre-monitor classifier, and the known outcome-specific contrasts use the declared cost matrix and policy actions. No evaluator outcome probability enters the acquisition rule. A positive predictable propensity and common global bound preserve the ordinary prediction-powered conditional-mean e-process argument. The optimizer does not solve a long-horizon power or intervention-value problem; covariate shift can move its expected spend, so the finite hard dollar cap is enforced separately.
 
 The fresh CUDA comparison uses 60 seeds each for stationary, benign-nuisance, and boundary-local-harm scenarios, six acquisition rules, a common 20% label-dollar cap, common `q_min=0.10` e-process bound, and shared per-stream query uniforms. All 1,080 rows were unique and all hard caps were respected. On boundary-local harm, exact mixture-growth detected 0/60 streams versus 2/60 for uniform; all 60 harm onsets were reached for both rules. The paired detection difference was −3.3 percentage points (seed-bootstrap 95% interval [−8.3, 0.0]; two-sided exact McNemar p=0.50), so this small number of discordant outcomes is inconclusive. The exact allocation lowered eventwise prediction-powered estimation RMSE from 0.0489 to 0.0160, with paired difference −0.0329 (95% seed-bootstrap interval [−0.0425, −0.0232]); it spent $9.10 more and processed 28.1 percentage points fewer events on average. All six methods had zero false escalations on both 60-stream population-null controls; this finite diagnostic does not prove 5% calibration. The exact allocation therefore improves estimation in this grid but not demonstrated harm detection. It remains an exploratory baseline and is not promoted as novel. Adaptive evidence-growth allocation is adjacent to [e-PS (2026)](https://arxiv.org/abs/2609.26651), which allocates samples across multiple hypotheses using empirical log-evidence growth; [active sequential two-sample testing](https://arxiv.org/abs/2301.12616) establishes active acquisition for anytime-valid distributional testing. The relevant distinction is one paired decision-cost estimand and a per-event covariate query probability, but no verified novelty follows. See `docs/exact_mixture_growth_protocol.md` and `outputs/exact_mixture_growth_matched_60/`.
+
+### Cost-neutral robustification of acquisition
+
+The follow-up development grid mixes the exact-growth propensity with the standard cost-neutral
+branch `q0(x)=b/k(x)`: `q_w=(1-w)q0+w*q_exact`, where `b` is the validation-calibrated target
+spend per event and `k(x)` is the known query tariff. The development grid used 30 seeds per
+scenario on CUDA and selected `w=0` by the predeclared detection-first rule: 3/30 harm detections
+versus 2/30 for uniform; the other four weights detected 0/30. The selected branch's boundary
+stream-mean RMSE was worse than uniform by 0.0136 (95% paired bootstrap interval [0.0041,
+0.0218]).
+
+On a disjoint 60-seed CUDA evaluation, `w=0` detected 8/60 boundary-harm streams versus 4/60 for
+uniform, with all onsets reached. Four paired outcomes favored the selected branch and none favored
+uniform (exact two-sided McNemar p=0.125). Boundary stream-mean RMSE was 0.0548 versus 0.0499
+(difference +0.0049; 95% paired bootstrap interval [-0.0004, +0.0105]); spend was $3.42 higher and
+the policy queried 46.7 more labels on average. The established cost-stabilized baseline also
+detected 8/60. Thus the fresh study does not show a general detection gain or an overall winner; it
+shows a small, uncertain detection-versus-estimation tradeoff on this synthetic alternative. All
+methods had zero false escalations on the two null controls, and every hard cap was respected.
+
+This convex mixture and its tariff-support drift bound are standard robustification, not a novel
+algorithm or theorem. The e-process validity conditions remain unchanged because the mixed
+propensity is predictable and bounded away from zero. The experiment only supports the specified
+synthetic tariff, cap, and boundary-local shift. Full paired outputs and the report are in
+`outputs/cost_neutral_growth_grid_fresh_60/`; the locked development protocol and metrics are in
+`docs/cost_neutral_growth_grid_protocol.md` and
+`outputs/cost_neutral_growth_grid_development/`.

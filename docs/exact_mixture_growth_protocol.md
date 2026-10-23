@@ -37,6 +37,14 @@ The positive known propensity, bounded prediction-powered increment, and predict
 stake preserve the same conditional-mean e-process validity argument. A common hard dollar cap
 stops monitoring before the next event whenever the maximum tariff cannot be paid.
 
+The robustification grid adds an adaptive weight `w` and cost-neutral branch `q0(x)=b/k(x)`,
+where `b` is the target expected label spend per event from validation. The final propensity is
+`q_w(x)=(1-w)q0(x)+w q_exact(x)`. The neutral branch spends exactly `b` in conditional expectation
+for each tariff, while `w` controls the adaptive contribution. For tariff support `[k_min,k_max]`,
+the deviation from `b` is bounded by `w * max(|k_min*q_min-b|, |k_max*q_max-b|)`. This bound is
+elementary and does not guarantee a realized label count or improve statistical power. The branch
+requires `b/k(x)` to remain within the registered propensity bounds for every tariff.
+
 ## Frozen comparison
 
 - 60 independent paired seeds per scenario, seed offset `28302026`, `n=3200`, `d=16`, CUDA.
@@ -76,3 +84,29 @@ uv run shiftlab-dive-hard-budget `
 
 The six-method run contains 1,080 method-scenario-seed rows. The runner records the resolved device,
 hard-budget audit, Parquet metrics, paired-seed analyses, figures, and artifact hashes.
+
+## Separate cost-neutral robustness study
+
+The preceding protocol remains the frozen evaluation of the original `w=1` exact-growth rule. A
+separate development grid was locked in `docs/cost_neutral_growth_grid_protocol.md` and evaluated
+weights `w in {0, .25, .50, .75, 1}` on 30 fresh paired seeds per scenario. Development selected
+`w=0` under the predeclared rule: 3/30 boundary-harm detections, compared with 2/30 for uniform;
+every other candidate weight had 0/30. The selected cost-neutral branch had worse boundary
+stream-mean RMSE than uniform by 0.0136 (paired seed-bootstrap 95% interval [0.0041, 0.0218]).
+This is an exploratory tie-break result, not a power claim.
+
+The registered independent evaluation used 60 new seeds per scenario and compared the selected
+branch with uniform and four established acquisition rules. On boundary-local harm, the selected
+`w=0` branch detected 8/60 versus 4/60 for uniform; all 60 onsets were reached. Four paired streams
+favored `w=0` and none favored uniform (exact two-sided McNemar p=0.125). Stream-mean RMSE was
+0.0548 versus 0.0499 for uniform (difference +0.0049; paired seed-bootstrap 95% interval
+[-0.0004, 0.0105]); it spent $3.42 more and queried 46.7 more labels on average. The other
+cost-stabilized baseline also detected 8/60, so the outcome does not distinguish the selected
+branch from that established method. There were no false escalations on either 60-seed null
+control, and no hard-budget violations. This one synthetic alternative does not establish a
+general detection advantage; the result is a detection-versus-estimation tradeoff.
+
+The development and fresh metrics, reports, plots, nested run manifests, and checksums are in
+`outputs/cost_neutral_growth_grid_development/` and
+`outputs/cost_neutral_growth_grid_fresh_60/`. The fresh paired analysis is reproduced with
+`uv run python scripts/analyze_cost_neutral_growth_fresh.py --output outputs/cost_neutral_growth_grid_fresh_60`.

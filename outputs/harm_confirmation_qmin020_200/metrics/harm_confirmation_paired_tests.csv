@@ -1,0 +1,5 @@
+scenario,primary_monitor,comparator,fixed_only_detections,comparator_only_detections,discordant_pairs,mcnemar_exact_two_sided_p,holm_adjusted_p_four_tests
+boundary_local_harm,fixed_mixture,predictable_variance,20,0,20,1.9073486328125e-06,3.814697265625e-06
+boundary_local_harm,fixed_mixture,predictable_empirical_bernstein,136,0,136,2.2958874039497803e-41,9.183549615799121e-41
+recurring_regimes,fixed_mixture,predictable_variance,5,0,5,0.0625,0.0625
+recurring_regimes,fixed_mixture,predictable_empirical_bernstein,121,0,121,7.52316384526264e-37,2.256949153578792e-36

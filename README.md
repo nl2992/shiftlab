@@ -208,11 +208,17 @@ cells, the Bonferroni simultaneous one-sided 95% exact upper limit is 0.00219, u
 synthetic assumptions. See the [calibration report](outputs/null_calibration_qmin020_2000/reports/null_calibration_results.md),
 [CSV metrics](outputs/null_calibration_qmin020_2000/metrics/null_calibration.csv),
 [stream metrics](outputs/null_calibration_qmin020_2000/metrics/hard_budget_comparison.parquet),
-and [figure](outputs/null_calibration_qmin020_2000/figures/null_calibration.png). The next step is
-a disjoint harmful-stream confirmation and a detection-delay/power map; null calibration alone
-does not establish useful power or field validity.
-The held-out confirmation has a frozen 200-stream-per-scenario seed block and endpoints in the
-[confirmation protocol](docs/harm_confirmation_qmin020_protocol.md).
+and [figure](outputs/null_calibration_qmin020_2000/figures/null_calibration.png). A disjoint
+200-stream-per-alternative confirmation then found fixed-mixture detection rates of 72.5% for
+boundary-local harm and 65.5% for recurring regimes, with every onset reached. Predictable
+variance reached 62.5% and 63.0%; PM-EB reached 4.5% and 5.0%. Fixed mixture had a paired advantage
+over variance for boundary-local harm after Holm adjustment, while the recurring-regime difference
+was inconclusive. See the [frozen confirmation protocol](docs/harm_confirmation_qmin020_protocol.md),
+[report](outputs/harm_confirmation_qmin020_200/reports/harm_confirmation_results.md),
+[paired metrics](outputs/harm_confirmation_qmin020_200/metrics/harm_confirmation_paired_tests.csv),
+and [stream metrics](outputs/harm_confirmation_qmin020_200/metrics/hard_budget_comparison.parquet).
+The next step is a disjoint power and delay map over harm magnitude, onset, and horizon. These
+synthetic results do not establish field validity or novelty.
 
 The repeated-candidate hard-budget benchmark extends this work to sparse feedback. It freezes a
 13-candidate family and validation-based ranking before monitoring, then compares direct

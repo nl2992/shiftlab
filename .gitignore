@@ -12,6 +12,8 @@ dist/
 
 # Local experiments, data and checkpoints
 outputs/*
+!outputs/promotion_grid/
+!outputs/promotion_grid/**
 !outputs/metrics/
 !outputs/reports/
 !outputs/figures/

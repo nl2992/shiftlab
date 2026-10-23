@@ -200,6 +200,31 @@ benign-nuisance controls, below the 0.10 material-harm margin. Finite-stream ora
 remain recorded as diagnostics and do not redefine these population-null controls as alternatives.
 Every alarm in either control counts as a false escalation.
 
+The forward-time candidate-grid experiment (`shiftlab-dive-promotion-grid`) adds twelve frozen
+logistic candidates and an exact incumbent-copy control, validation ranking, candidate-index alpha
+spending, sequential and fixed-horizon certification, and a later untouched deployment slice. It
+compares never promoting, unconditional validation selection, fixed-horizon certification, and
+sequential certification. Candidate rankings are frozen before fresh shadow monitoring; gains on
+the final deployment slice measure out-of-period reversals and do not themselves define statistical
+false certifications. Reproduce the 30-seed CUDA run with `uv run
+shiftlab-dive-promotion-grid --seeds 30 --seed-offset 20381023 --n 3200 --d 16 --device cuda
+--output outputs/promotion_grid`. See the corresponding section in
+[`docs/methods_and_assumptions.md`](docs/methods_and_assumptions.md) for assumptions and limits.
+Rebuild the seed-level intervals from the saved strategy metrics with
+`uv run python scripts/analyze_promotion_grid.py`.
+The generated comparison and seed-level uncertainty analysis are in
+[`outputs/promotion_grid/reports/promotion_grid_comparison.md`](outputs/promotion_grid/reports/promotion_grid_comparison.md)
+and [`outputs/promotion_grid/reports/strategy_uncertainty.md`](outputs/promotion_grid/reports/strategy_uncertainty.md).
+The exact-copy candidate certified in 0/180 stream tests (95% Wilson upper endpoint 0.021). The
+sequential gate promoted in 30/30 boundary-harm, harmful-adaptation and recurring-regime streams,
+27/30 residual-variance streams, 17/30 stationary streams, and 7/30 benign-nuisance streams. The
+unconditional validation choice had 11/30 later nongain outcomes under benign nuisance; the
+sequential choice had 0/30 (Wilson upper endpoint 0.114, so this small simulation does not establish
+a zero reversal risk). The fixed-horizon gate promoted 0/30 in every scenario under the allocated
+candidate-specific error levels, showing that this implementation is too conservative at this
+sample size. These are synthetic results: sequential and unconditional selection were identical in
+the three harmful scenarios, and the benefit of certification is not established there.
+
 The allocation search adds a validation-selected grid over expected query rates 5%, 10%, and 20%
 and residual-variance score powers 0, 0.25, 0.5, 0.75, and 1. Score power 0.5 is the classical
 Neyman allocation derived by minimizing the prediction-powered estimator's query-randomization

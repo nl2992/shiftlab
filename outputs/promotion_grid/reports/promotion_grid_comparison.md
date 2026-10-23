@@ -1,0 +1,46 @@
+# Forward-time certified candidate grid
+
+Evaluated 6 synthetic scenarios with 30 independent streams each using `cuda` generation. The candidate grid contains one exact copy of the incumbent policy plus 12 logistic-regression candidates per stream. Logistic candidates are fitted on the initial training slice, ranked by labeled validation net gain, frozen before a later shadow-evaluation slice, and only deployed on the final untouched slice.
+
+The one-time switching charge is `0.05`. For certification against its value over the fixed 800-event deployment horizon, it is amortized as `0.00006250` per candidate evaluation event. The deployment metric subtracts the full one-time charge once. Candidate index `i` receives `alpha_i=alpha/[i(i+1)]`; because the grid is ordered by validation score before monitoring and every candidate is tested on fresh feedback, the sum of test levels is at most `alpha` for every realized candidate ordering. The fixed-horizon comparison uses a one-sided Azuma-Hoeffding threshold with the same candidate-specific alpha allocation.
+
+The statistical gate certifies a mean shadow-period improvement under its conditional-mean and bounded-cost assumptions. It does not guarantee benefit on the later deployment slice if the regime changes. `false_post_nongain` explicitly measures such deployment reversals and is not the same as a false statistical certification. Both action costs are observable on the same synthetic outcome; settings where actions affect outcomes require randomized or off-policy evaluation.
+
+## Untouched deployment performance by controller
+
+Positive net gain means lower decision cost than retaining the incumbent, after the one-time switching charge. Rates and averages use independent seeds as the unit.
+
+| Scenario | Strategy | Promotion rate | Mean expected net gain | Mean realized net gain | Post-promotion nongain rate |
+|---|---|---:|---:|---:|---:|
+| benign_nuisance | fixed_horizon_grid_gate | 0.000 | 0.0000 | 0.0000 | 0.000 |
+| benign_nuisance | never_promote | 0.000 | 0.0000 | 0.0000 | 0.000 |
+| benign_nuisance | sequential_grid_gate | 0.233 | 10.0372 | 13.8550 | 0.000 |
+| benign_nuisance | validation_always_promote | 1.000 | -65.8261 | -64.5500 | 0.367 |
+| boundary_local_harm | fixed_horizon_grid_gate | 0.000 | 0.0000 | 0.0000 | 0.000 |
+| boundary_local_harm | never_promote | 0.000 | 0.0000 | 0.0000 | 0.000 |
+| boundary_local_harm | sequential_grid_gate | 1.000 | 269.0129 | 268.9833 | 0.000 |
+| boundary_local_harm | validation_always_promote | 1.000 | 269.0129 | 268.9833 | 0.000 |
+| harmful_adaptation | fixed_horizon_grid_gate | 0.000 | 0.0000 | 0.0000 | 0.000 |
+| harmful_adaptation | never_promote | 0.000 | 0.0000 | 0.0000 | 0.000 |
+| harmful_adaptation | sequential_grid_gate | 1.000 | 279.1283 | 274.8500 | 0.000 |
+| harmful_adaptation | validation_always_promote | 1.000 | 279.1283 | 274.8500 | 0.000 |
+| recurring_regimes | fixed_horizon_grid_gate | 0.000 | 0.0000 | 0.0000 | 0.000 |
+| recurring_regimes | never_promote | 0.000 | 0.0000 | 0.0000 | 0.000 |
+| recurring_regimes | sequential_grid_gate | 1.000 | 269.0129 | 268.9833 | 0.000 |
+| recurring_regimes | validation_always_promote | 1.000 | 269.0129 | 268.9833 | 0.000 |
+| residual_variance | fixed_horizon_grid_gate | 0.000 | 0.0000 | 0.0000 | 0.000 |
+| residual_variance | never_promote | 0.000 | 0.0000 | 0.0000 | 0.000 |
+| residual_variance | sequential_grid_gate | 0.900 | 94.7067 | 97.0883 | 0.000 |
+| residual_variance | validation_always_promote | 1.000 | 105.8164 | 108.9833 | 0.000 |
+| stationary | fixed_horizon_grid_gate | 0.000 | 0.0000 | 0.0000 | 0.000 |
+| stationary | never_promote | 0.000 | 0.0000 | 0.0000 | 0.000 |
+| stationary | sequential_grid_gate | 0.567 | 27.4142 | 32.6717 | 0.000 |
+| stationary | validation_always_promote | 1.000 | 45.3330 | 46.1833 | 0.000 |
+
+Exact-copy null candidate certificates: `0/180 [0.000,0.021]` over candidate-stream tests where the tested action exactly matches the incumbent throughout the shadow interval; its net gain is pointwise negative from the positive switching charge. This simulation is a diagnostic; the familywise guarantee follows from valid candidate e-processes and alpha spending under their stated assumptions.
+
+## Reproduction
+
+`uv run shiftlab-dive-promotion-grid --seeds 30 --seed-offset 20381023 --device cuda --output outputs/promotion_grid`
+
+The candidate-level Parquet preserves validation ranking, candidate alpha, sequential and fixed-horizon certification, evaluator-known shadow gain, exact-copy null status, and untouched post-promotion outcomes. The strategy-level Parquet contains the paired deployment outcomes for no promotion, unconditional promotion, fixed-horizon certification, and sequential certification.

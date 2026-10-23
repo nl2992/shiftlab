@@ -257,6 +257,11 @@ similar realized spend ($713 versus $712). See the [locked protocol](docs/hard_b
 and [full analysis](outputs/hard_budget_matched_qmin_010_replication_60/reports/matched_bound_replication_analysis.md).
 Reproduce with the command in the protocol; this is fresh-seed exploratory replication, not a
 general allocation result.
+The [paired power plan](outputs/hard_budget_matched_qmin_010_replication_60/reports/paired_detection_power_plan.md)
+estimates 151 fresh seeds for 80% power against the easier zero-difference McNemar null under
+pilot plug-in rates (219 with a four-comparison Bonferroni level). Those figures do not power the
+registered +0.10 practical margin; the pilot estimate is +0.067, so that claim needs a separate
+paired-risk-difference design.
 Run `uv run shiftlab-dive-promotion --seeds 30 --n 3200 --device cuda` for the separate shadow
 candidate experiment.
 Run `uv run shiftlab-dive-grid --seeds 30 --n 3200 --device cuda` for the nested allocation search,

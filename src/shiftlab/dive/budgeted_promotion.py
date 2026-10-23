@@ -21,6 +21,7 @@ import matplotlib.pyplot as plt
 
 from ..data.gpu.environment import environment, resolve_device
 from ..decision_harm_experiment import SCENARIOS, ExperimentConfig, _generate
+from .eprocess import bounded_betting_factors
 from .experiment import _binary_cost, finalize_manifest
 from .promotion_grid import (
     PromotionGridConfig,
@@ -33,6 +34,7 @@ from .query import AdaptiveQueryPolicy
 QUERY_POLICIES = ("uniform", "variance", "decision_value")
 ALPHA_ALLOCATIONS = ("rank", "equal", "validation_power")
 ESTIMATORS = ("prediction_powered", "direct_ipw")
+BOUND_MODES = ("global", "decision_local")
 BETTING_STAKES = np.asarray((0.05, 0.1, 0.2, 0.4, 0.8), dtype=float)
 BETTING_LOG_WEIGHTS = np.full(len(BETTING_STAKES), -np.log(len(BETTING_STAKES)))
 
@@ -49,6 +51,7 @@ class BudgetedPromotionConfig:
     query_policies: tuple[str, ...] = QUERY_POLICIES
     alpha_allocations: tuple[str, ...] = ALPHA_ALLOCATIONS
     estimators: tuple[str, ...] = ESTIMATORS
+    bound_mode: str = "global"
     device: str = "cuda"
 
     def validate(self) -> BudgetedPromotionConfig:
@@ -76,6 +79,8 @@ class BudgetedPromotionConfig:
             raise ValueError("estimators must be nonempty and unique")
         if any(name not in ESTIMATORS for name in self.estimators):
             raise ValueError(f"estimators must be drawn from {ESTIMATORS}")
+        if self.bound_mode not in BOUND_MODES:
+            raise ValueError(f"bound_mode must be one of {BOUND_MODES}")
         if self.device not in {"cpu", "cuda", "auto"}:
             raise ValueError("device must be cpu, cuda, or auto")
         return self
@@ -100,6 +105,30 @@ def _candidate_outcome_contrasts(
 def _entropy(probability: np.ndarray) -> np.ndarray:
     p = np.clip(np.asarray(probability, dtype=float), 1e-12, 1 - 1e-12)
     return -(p * np.log(p) + (1 - p) * np.log1p(-p))
+
+
+def _decision_local_bounds(
+    *,
+    family: dict[str, Any],
+    event_index: int,
+    propensity: float,
+    estimator: str,
+    switch_rate: float,
+) -> np.ndarray:
+    """Predictable candidate-wise bounds for each event's net-gain increment.
+
+    This normalization supports a conditional-on-current-covariates null. Under
+    that stronger null, dividing each event by its pre-outcome bound preserves the
+    nonpositive conditional mean. It need not be valid for a history-only null.
+    """
+    h = family["h_proxy"][:, event_index]
+    z0 = family["z0"][:, event_index]
+    z1 = family["z1"][:, event_index]
+    if estimator == "prediction_powered":
+        possible = np.stack((h, h + (z0 - h) / propensity, h + (z1 - h) / propensity))
+    else:
+        possible = np.stack((np.zeros_like(z0), z0 / propensity, z1 / propensity))
+    return np.max(np.abs(possible - switch_rate), axis=0)
 
 
 def _fit_candidate_family(
@@ -229,6 +258,7 @@ def _monitor_family(
     budget_rate: float,
     estimator: str,
     query_uniforms: np.ndarray,
+    bound_mode: str = "global",
 ) -> list[dict[str, Any]]:
     start = family["validation_end"]
     end = family["monitor_end"]
@@ -246,11 +276,15 @@ def _monitor_family(
         if estimator == "prediction_powered"
         else outcome_bound / q_min
     ) + switch_rate
+    if bound_mode not in BOUND_MODES:
+        raise ValueError(f"bound_mode must be one of {BOUND_MODES}")
     log_wealth = np.zeros((candidates, len(BETTING_STAKES)), dtype=float)
     certified = np.zeros((candidates, len(config.alpha_allocations)), dtype=bool)
     labels_used = 0
     expected_labels = 0.0
     processed = 0
+    bound_total = 0.0
+    max_event_bound = 0.0
     stop_reason = "monitor_horizon"
 
     for relative, event_index in enumerate(range(start, end)):
@@ -281,15 +315,30 @@ def _monitor_family(
                 else np.zeros(candidates, dtype=float)
             )
         net_estimates = estimates - switch_rate
-        if np.any(np.abs(net_estimates) > process_bound + 1e-10):
+        event_bounds = (
+            _decision_local_bounds(
+                family=family,
+                event_index=event_index,
+                propensity=propensity,
+                estimator=estimator,
+                switch_rate=switch_rate,
+            )
+            if bound_mode == "decision_local"
+            else np.full(candidates, process_bound)
+        )
+        if np.any(event_bounds <= 0):
+            event_bounds = np.maximum(event_bounds, 1e-12)
+        if np.any(np.abs(net_estimates) > event_bounds + 1e-10):
             raise RuntimeError("prediction-powered contrast exceeded its declared bound")
-        factors = 1 + net_estimates[:, None] * BETTING_STAKES[None, :] / process_bound
+        factors = bounded_betting_factors(net_estimates, event_bounds, BETTING_STAKES)
         if np.any(factors <= 0):
             raise RuntimeError("nonpositive betting factor")
         log_wealth += np.log(factors)
         log_e = logsumexp(log_wealth + BETTING_LOG_WEIGHTS[None, :], axis=1)
         thresholds = -np.log(family["alpha_matrix"])
         certified |= log_e[:, None] >= thresholds
+        bound_total += float(event_bounds.mean())
+        max_event_bound = max(max_event_bound, float(event_bounds.max()))
         processed += 1
 
     if labels_used > budget:
@@ -363,7 +412,11 @@ def _monitor_family(
                 "budget_utilization": labels_used / budget,
                 "monitor_events_processed": processed,
                 "monitor_fraction_processed": processed / length,
-                "process_bound": process_bound,
+                "process_bound": bound_total / max(1, processed),
+                "global_process_bound": process_bound,
+                "mean_event_process_bound": bound_total / max(1, processed),
+                "max_event_process_bound": max_event_bound,
+                "bound_mode": bound_mode,
                 "stop_reason": stop_reason,
                 "q_min": q_min,
                 "propensity_min": float(q_path[:processed].min()) if processed else None,
@@ -439,6 +492,7 @@ def _run_seed(
                     budget_rate=budget_rate,
                     estimator=estimator,
                     query_uniforms=uniforms[query_index],
+                    bound_mode=config.bound_mode,
                 )
                 for row in estimator_rows:
                     row["seed"] = seed
@@ -527,6 +581,21 @@ def _paired_bootstrap_contrasts(
     """Matched-seed secondary contrasts at the predeclared 20% label cap."""
     if draws < 1000:
         raise ValueError("paired bootstrap requires at least 1000 draws")
+    result_columns = [
+        "scenario",
+        "budget_rate",
+        "contrast",
+        "query_policy",
+        "metric",
+        "n_seed_pairs",
+        "mean_paired_difference",
+        "bootstrap_ci_low",
+        "bootstrap_ci_high",
+        "bootstrap_draws",
+        "bootstrap_seed",
+    ]
+    if detail.seed.nunique() < 2:
+        return pd.DataFrame(columns=result_columns)
     rng = np.random.default_rng(seed)
     primary = detail[detail.budget_rate.eq(0.20)]
     contrasts: list[tuple[str, pd.DataFrame, pd.DataFrame, str, str]] = []
@@ -575,7 +644,7 @@ def _paired_bootstrap_contrasts(
     for contrast_name, treatment, comparator, scenario, query in contrasts:
         n = len(treatment)
         if n < 2:
-            raise ValueError("paired bootstrap requires at least two seed pairs")
+            raise ValueError("paired comparison cells require identical multi-seed samples")
         indices = rng.integers(0, n, size=(draws, n))
         for source, label in metrics.items():
             left = treatment[source].to_numpy(dtype=float)
@@ -597,7 +666,7 @@ def _paired_bootstrap_contrasts(
                     "bootstrap_seed": seed,
                 }
             )
-    return pd.DataFrame(rows)
+    return pd.DataFrame(rows, columns=result_columns)
 
 
 def _append_paired_report(report_path: Path, paired: pd.DataFrame) -> None:
@@ -754,6 +823,7 @@ def run_budgeted_promotion(config: BudgetedPromotionConfig, output: Path) -> Pat
         "scenarios": [scenario.name for scenario in scenarios],
         "query_policies": list(config.query_policies),
         "estimators": list(config.estimators),
+        "bound_mode": config.bound_mode,
         "alpha_allocations": list(config.alpha_allocations),
         "information_protocol": [
             "candidate models, rankings, query score models, and alpha weights are fixed before the monitor",
@@ -784,12 +854,14 @@ def main(argv: list[str] | None = None) -> None:
     parser.add_argument("--seed-offset", type=int, default=24102026)
     parser.add_argument("--n", type=int, default=3200)
     parser.add_argument("--device", choices=["cpu", "cuda", "auto"], default="cuda")
+    parser.add_argument("--bound-mode", choices=BOUND_MODES, default="global")
     args = parser.parse_args(argv)
     config = BudgetedPromotionConfig(
         n=args.n,
         seeds=args.seeds,
         seed_offset=args.seed_offset,
         device=args.device,
+        bound_mode=args.bound_mode,
     )
     print(run_budgeted_promotion(config, args.output), flush=True)
 

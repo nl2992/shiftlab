@@ -190,6 +190,20 @@ confirmed superiority or novelty result. See the [benchmark report](outputs/budg
 `uv run shiftlab-dive-budgeted-promotion --seeds 60 --seed-offset 24102026 --n 3200 --device cuda
 --output outputs/budgeted_promotion_grid_ipw`.
 
+A mathematically grounded extension uses a candidate- and event-specific betting bound derived from
+the two possible paired costs, visible covariates, known query propensity, and a frozen proxy. It is
+valid under the stronger pointwise conditional harm null given current covariates; the history-only
+null does not justify covariate-dependent scaling. A separate CUDA calibration with 2,000
+nondegenerate null streams per cell observed false-escalation rates below 2.3% for both global and
+local scales at a 5% threshold. In the cost-ratio-5, 30%-label alternative, the local bound crossed
+415/2,000 times versus 280/2,000 globally (paired difference +6.75 points, 95% t interval +5.16 to
++8.34); across the 27 exploratory cells, results were mixed. This is an early signal under explicit
+assumptions, not a general improvement claim. See the
+[calibration report](outputs/decision_local_bound_calibration/reports/decision_local_bound_calibration.md),
+[stream metrics](outputs/decision_local_bound_calibration/metrics/decision_local_bound_streams.parquet),
+[paired contrasts](outputs/decision_local_bound_calibration/metrics/decision_local_bound_paired_contrasts.parquet),
+and [manifest](outputs/decision_local_bound_calibration/reports/manifest.json).
+
 The shadow-promotion experiment evaluates a frozen logistic recalibration candidate and an
 incumbent snapshot on fresh forward-time labels, applies candidate-index alpha spending, and
 reports certification behavior in

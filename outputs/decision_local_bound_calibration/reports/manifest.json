@@ -1,0 +1,38 @@
+{
+  "experiment": "decision_local_bounded_eprocess_calibration",
+  "created_at_utc": "2026-10-23T13:49:51.365240+00:00",
+  "configuration": {
+    "streams_per_cell": 2000,
+    "horizon": 600,
+    "seed": 26102026,
+    "device": "cuda",
+    "alpha": 0.05,
+    "query_rates": [
+      0.1,
+      0.2,
+      0.3
+    ],
+    "high_costs": [
+      1.0,
+      2.0,
+      5.0
+    ],
+    "outcome_probabilities": [
+      0.5,
+      0.53,
+      0.56
+    ]
+  },
+  "artifacts": [
+    "metrics/decision_local_bound_streams.parquet",
+    "metrics/decision_local_bound_summary.parquet",
+    "metrics/decision_local_bound_paired_contrasts.parquet",
+    "reports/decision_local_bound_calibration.md"
+  ],
+  "sha256": {
+    "metrics/decision_local_bound_streams.parquet": "05828b6fdf0079fa8648a8f32d2a4baf74ecfa683959e9e1ef7d04e69c1a72dd",
+    "metrics/decision_local_bound_summary.parquet": "3cf0eb037d26df0b7cecb030592e4e80e4e090b10250039fcdb665e9d3151f47",
+    "metrics/decision_local_bound_paired_contrasts.parquet": "c00549b16100b2a68e2b5b3f4f459826690049a7ae6cb3c139d7372a6465c92a",
+    "reports/decision_local_bound_calibration.md": "47c694201035e5173a182dd4249b88e7d4c29128f9b0c4fac1d2439ab70e723a"
+  }
+}

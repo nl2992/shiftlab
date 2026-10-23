@@ -6,6 +6,35 @@ import numpy as np
 from scipy.special import logsumexp
 
 
+def bounded_betting_factors(
+    values: np.ndarray, bounds: np.ndarray, stakes: np.ndarray
+) -> np.ndarray:
+    """Return betting factors for predictable event-specific bounds.
+
+    If ``bound_t`` is known before ``value_t`` and the conditional-mean null holds
+    after conditioning on the information used to choose it, each factor has
+    conditional expectation at most one. Callers are responsible for that
+    filtration condition; this helper checks only numerical boundedness.
+    """
+    observed = np.asarray(values, dtype=float)
+    scale = np.asarray(bounds, dtype=float)
+    bets = np.asarray(stakes, dtype=float)
+    if observed.ndim != 1 or scale.shape != observed.shape:
+        raise ValueError("values and bounds must be matching one-dimensional arrays")
+    if bets.ndim != 1 or not len(bets) or np.any(~np.isfinite(bets)):
+        raise ValueError("stakes must be a nonempty finite one-dimensional array")
+    if np.any((bets <= 0) | (bets > 1)):
+        raise ValueError("stakes must lie in (0, 1]")
+    if np.any(~np.isfinite(observed)) or np.any(~np.isfinite(scale)) or np.any(scale <= 0):
+        raise ValueError("values must be finite and bounds finite and positive")
+    if np.any(np.abs(observed) > scale + 1e-12):
+        raise ValueError("observed value is outside the declared bounded range")
+    factors = 1 + observed[:, None] * bets[None, :] / scale[:, None]
+    if np.any(factors <= 0):
+        raise ValueError("betting factors must be positive")
+    return factors
+
+
 class BoundedMeanEProcess:
     """Mixture e-process for E[X_t | history] <= 0 and known |X_t| <= bound.
 

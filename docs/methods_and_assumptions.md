@@ -258,3 +258,13 @@ synthetic tariff, cap, and boundary-local shift. Full paired outputs and the rep
 `outputs/cost_neutral_growth_grid_fresh_60/`; the locked development protocol and metrics are in
 `docs/cost_neutral_growth_grid_protocol.md` and
 `outputs/cost_neutral_growth_grid_development/`.
+
+### Robust mixture-growth under probability misspecification
+
+`RobustMixtureGrowthQueryPolicy` maximizes a worst-case one-step mixture-evidence growth score over a fixed interval around the source classifier's outcome probability. This is a standard robust-optimization baseline, not a new algorithm. The full derivation and frozen protocol are in `docs/robust_growth_grid_protocol.md`; results are stored in `outputs/robust_growth_grid_development/` and `outputs/robust_growth_grid_fresh_60/`.
+
+The 30-seed development grid selected radius 0.20 by its predeclared rule: all radii detected 0/30 harmful streams, so the tie-break selected the lowest boundary estimation RMSE. In the independent 60-seed CUDA evaluation, robust allocation detected 0/60 boundary-harm streams, versus 4/60 uniform, 4/60 variance, 2/60 decision-value, 3/60 cost-variance, 3/60 cost-stabilized, and 0/60 exact mixture-growth. Harm was reached in all 60 streams for every method. The paired robust-minus-uniform detection difference was -6.7 percentage points (95% bootstrap interval [-13.3, -1.7]); exact McNemar p=0.125. No method escalated in either null scenario; this 0/60 finite diagnostic does not certify nominal false-alarm control.
+
+Boundary stream-mean RMSE was 0.0163 for robust allocation, 0.0496 for uniform, and 0.0151 for exact mixture-growth. The robust-versus-uniform paired RMSE difference was -0.0333 (95% interval [-0.0419, -0.0244]), while robust was +0.0011 worse than exact mixture-growth ([+0.0002, +0.0024]). Robust spent $11.87 more than uniform and processed 28.0 percentage points fewer events, so the large RMSE gain against uniform does not represent a matched-label or matched-horizon advantage. True-probability interval coverage was evaluator-only: 85.4% in the harm scenario, 94.8% stationary, and 83.6% benign nuisance. The interval missed some post-shift probabilities and was imperfect even under controls.
+
+The robust objective did not improve monitoring power in this experiment and was dominated by exact mixture-growth on boundary RMSE. Its better estimation than simple heuristics is conditional on higher spend and shorter horizons. Treat it as an exploratory comparator only. The experiment does not establish superiority, a general robust-acquisition result, or a literature gap; robust active acquisition under misspecification is already studied, including [R-IDeA (AISTATS 2026)](https://proceedings.mlr.press/v300/tang26d.html).

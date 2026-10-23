@@ -1,0 +1,75 @@
+{
+  "experiment": "development_grid_robust_mixture_growth",
+  "protocol": {
+    "radii": [
+      0.0,
+      0.05,
+      0.1,
+      0.2,
+      0.4
+    ],
+    "scenarios": [
+      "stationary",
+      "benign_nuisance",
+      "boundary_local_harm"
+    ],
+    "n": 3200,
+    "d": 16,
+    "seeds": 30,
+    "seed_offset": 28602026,
+    "budget_rate": 0.2,
+    "q_min": 0.1,
+    "q_max": 0.8,
+    "common_eprocess_bound": true,
+    "device": "cuda",
+    "scenario_subset": [
+      "stationary",
+      "benign_nuisance",
+      "boundary_local_harm"
+    ]
+  },
+  "selected_probability_radius": 0.2,
+  "fresh_evaluation_required": true,
+  "row_count": 990,
+  "script": "scripts/grid_search_robust_growth.py",
+  "script_sha256": "44ece1e5a0c814eb47d05106c8b80dde2e0feed0280d2f1b7d08500671b367f0",
+  "sha256": {
+    "artifacts": {
+      "figures\\robust_growth_radius_grid.png": "4c1cd9f1f35fe05c089f184464ec465b94a37e60780dd913c2b6edeb44fe1a43",
+      "metrics\\development_streams.parquet": "704d452480846b00958bcc5ae64ab0ef2fe0c2398bee69625b8244e1676ac458",
+      "metrics\\robust_growth_grid_summary.csv": "8fc9e9fdad99a4d572a465daae0d7c87b50bb3a521c91b7d234645533284e1fd",
+      "reports\\robust_growth_grid.md": "98df1ff98854334d9d41fcfef3763b003d5b8301b4739153f304683d255fd0ea",
+      "reports\\selected_radius.json": "6c45a39752e67143fcf6103c6d08c55cd25f610ab53cd4c8be335cca727f1de2"
+    },
+    "source_files": {
+      "src\\shiftlab\\dive\\__init__.py": "10a8a1d170c7a452cebaa9df8e07070555edc841ff5c04cd049ff75cd8887780",
+      "src\\shiftlab\\dive\\allocation_grid.py": "8619d5f9f36e33eed1a5888b50c1c0cc54f621b9d001be89ed4f3ba9b42a6fab",
+      "src\\shiftlab\\dive\\budgeted_promotion.py": "e8d654eef0ddd2c14d00d7923368a5c8c25c3a475e8de50e95db82d1755259a4",
+      "src\\shiftlab\\dive\\controller.py": "9d4263c825382624940202a51fa5c9908db5f56a2be48a841f005e688ad702eb",
+      "src\\shiftlab\\dive\\eprocess.py": "fa86a1bf57c33d8624450709c60e3b5996fb2039efd3c34524186e417b05f3a1",
+      "src\\shiftlab\\dive\\estimators.py": "22b39564317ff1597feb53427eebc8601d459d2d06b7319e6bab1343de4be110",
+      "src\\shiftlab\\dive\\evaluation.py": "9b64eea3d7dd708104d25ad51e927451811c91e66295ee480fc791ac884432c4",
+      "src\\shiftlab\\dive\\experiment.py": "f11f8516cdbeaa56a2a9b2c229af370b77830ac1801a81394508950241482633",
+      "src\\shiftlab\\dive\\hard_budget.py": "e641a83c7637b518dd8167460b2ecabafc3201c881f7e3edfde8d909c3ca0b01",
+      "src\\shiftlab\\dive\\oracle_diagnostics.py": "14118dc2912b8236fb4215dd64ebe2108870c51a1963816eaa004f583e9dda8c",
+      "src\\shiftlab\\dive\\persistence_promotion.py": "9a43d8e14dc4bac5ebc048837ab5d09f268e3bb5f79c615eda39a655b357710b",
+      "src\\shiftlab\\dive\\power.py": "d3796dde1cb378ddf7a2a401a2971a8902d126b0db82e48e88556333fa4dde53",
+      "src\\shiftlab\\dive\\promotion.py": "d15e22a7217a15f5c70348766f67ae034409f782b67bfaa0a9b154a6094f24e3",
+      "src\\shiftlab\\dive\\promotion_experiment.py": "93ba08750effdfc1cfc131a0b3cbda1c363118c774c143c4f633a18aeaa7a546",
+      "src\\shiftlab\\dive\\promotion_grid.py": "307ee2137936c1ba8938ef026cb2e611b26ccc15bc6ad3fe4c7ffbed3ec930ce",
+      "src\\shiftlab\\dive\\promotion_robustness.py": "c8601c63b1ada4765e5613b7e5a8753731a60bbd3fceab8fc4b6590657df2e01",
+      "src\\shiftlab\\dive\\promotion_timing.py": "59240fbf930d74a745429b80c9956849f96b9b03363c14eacc5ffc64f930a2e1",
+      "src\\shiftlab\\dive\\proxy.py": "77546752c6796c37795fc7eeb14de678e0bf53509248bda56b1cb1bcecb3a102",
+      "src\\shiftlab\\dive\\query.py": "5c879dd45553901a9c0e67525a6b3d6ab084a36d1d71e7d7a38f1ff021bbfeaa",
+      "src\\shiftlab\\decision_harm_experiment.py": "b749aa6961e11abd8b234977f65515001b117c723885610cc5a83d0183c4206a"
+    }
+  },
+  "nested_run_manifests": {
+    "established_baselines": "f113aca9304395f48f7e66bbea113919ff838ae7c9894dd7e85f2b09afb6185f",
+    "probability_radius_0.00": "0a6abd1949d5e980dd77f0392357006314231cf95dada51bd3dcce04b611ae03",
+    "probability_radius_0.05": "8aeff5bbb08aa5409a36ece70919d0f4fb3502bb11495d88d363b6a1dcfecd20",
+    "probability_radius_0.10": "ee76bb9cc2cf831114412256909390dc397e3ccde0d0744fa9e088cbed13bd15",
+    "probability_radius_0.20": "9a0856214586a483f6649d304af2745613e113e1805e7fdd433f162a9a82b605",
+    "probability_radius_0.40": "7ee3b1025f4b5c1b0525ae3b17e69cd316125d692c56f000d01800c91e0d284f"
+  }
+}

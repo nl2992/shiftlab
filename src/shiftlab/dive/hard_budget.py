@@ -41,6 +41,7 @@ from .proxy import DecisionLossProxy
 from .query import (
     AdaptiveQueryPolicy,
     ExactMixtureGrowthQueryPolicy,
+    RobustMixtureGrowthQueryPolicy,
     cost_mixture_weight_for_tolerance,
     expected_cost_drift_bound,
     mix_with_cost_neutral,
@@ -53,7 +54,9 @@ HARD_BUDGET_METHODS = (
     "cost_variance_proxy",
     "cost_stabilized_proxy",
     "exact_mixture_growth_proxy",
+    "robust_mixture_growth_proxy",
 )
+DEFAULT_HARD_BUDGET_METHODS = HARD_BUDGET_METHODS[:-1]
 MULTISCALE_STAKES = tuple(float(value) for value in np.geomspace(1 / 1024, 0.99, 13))
 PROTECTED_EXPLORATION_STAKES = tuple(float(value) for value in np.geomspace(1 / 1024, 0.04, 8))
 PROTECTED_STAKES = (0.05, 0.10, 0.20, 0.40, 0.80, *PROTECTED_EXPLORATION_STAKES)
@@ -75,6 +78,7 @@ class HardBudgetConfig:
     q_max: float = 0.50
     cost_stability_tolerance: float = 0.05
     exact_growth_adaptive_weight: float = 1.0
+    robust_growth_probability_radius: float = 0.0
     max_label_cost: float = 2.5
     common_eprocess_bound: bool = False
     device: str = "auto"
@@ -83,7 +87,7 @@ class HardBudgetConfig:
         "benign_nuisance",
         "boundary_local_harm",
     )
-    method_subset: tuple[str, ...] = HARD_BUDGET_METHODS
+    method_subset: tuple[str, ...] = DEFAULT_HARD_BUDGET_METHODS
 
     def validate(self) -> HardBudgetConfig:
         if self.n < 1000 or self.d < 2 or self.seeds < 1:
@@ -103,6 +107,11 @@ class HardBudgetConfig:
             or not 0 <= self.exact_growth_adaptive_weight <= 1
         ):
             raise ValueError("exact_growth_adaptive_weight must lie in [0, 1]")
+        if (
+            not np.isfinite(self.robust_growth_probability_radius)
+            or not 0 <= self.robust_growth_probability_radius <= 1
+        ):
+            raise ValueError("robust_growth_probability_radius must lie in [0, 1]")
         scenarios = {scenario.name for scenario in SCENARIOS}
         if not self.scenario_subset or not set(self.scenario_subset) <= scenarios:
             raise ValueError("scenario_subset must contain registered scenario names")
@@ -146,16 +155,25 @@ def _one_method(
         "cost_variance_proxy": "cost_variance",
         "cost_stabilized_proxy": "cost_variance",
         "exact_mixture_growth_proxy": "exact_mixture_growth",
+        "robust_mixture_growth_proxy": "robust_mixture_growth",
     }[method]
-    if query_kind == "exact_mixture_growth":
+    if query_kind in {"exact_mixture_growth", "robust_mixture_growth"}:
         process_bound = prediction_powered_bound(proxy.clip, config.q_min)
-        policy = ExactMixtureGrowthQueryPolicy(
-            target_rate=config.budget_rate,
-            q_min=config.q_min,
-            q_max=config.q_max,
-            bound=process_bound,
-            initial_stake=BoundedMeanEProcess(bound=process_bound).predictable_stake,
-        ).fit_multiplier(
+        policy_class = (
+            RobustMixtureGrowthQueryPolicy
+            if query_kind == "robust_mixture_growth"
+            else ExactMixtureGrowthQueryPolicy
+        )
+        policy_kwargs = {
+            "target_rate": config.budget_rate,
+            "q_min": config.q_min,
+            "q_max": config.q_max,
+            "bound": process_bound,
+            "initial_stake": BoundedMeanEProcess(bound=process_bound).predictable_stake,
+        }
+        if query_kind == "robust_mixture_growth":
+            policy_kwargs["probability_radius"] = config.robust_growth_probability_radius
+        policy = policy_class(**policy_kwargs).fit_multiplier(
             proxy=proxy.predict(validation_x),
             probability_positive=validation_probability,
             contrast_zero=contrast_zero[train_end:validation_end],
@@ -248,7 +266,7 @@ def _one_method(
         h_now = float(proxy_values[offset])
         v_now = residual_second_moments[offset : offset + 1]
         u_now = uncertainty_values[offset : offset + 1]
-        if method == "exact_mixture_growth_proxy":
+        if method in {"exact_mixture_growth_proxy", "robust_mixture_growth_proxy"}:
             q_adaptive = float(
                 policy.probabilities(
                     proxy=np.asarray([h_now]),
@@ -370,6 +388,11 @@ def _one_method(
             config.exact_growth_adaptive_weight if method == "exact_mixture_growth_proxy" else None
         ),
         "exact_growth_expected_spend_drift_bound": exact_growth_spend_drift_bound,
+        "robust_growth_probability_radius": (
+            config.robust_growth_probability_radius
+            if method == "robust_mixture_growth_proxy"
+            else None
+        ),
         "material_harm": harm_onset is not None,
         "population_null_control": scenario.name in POPULATION_NULL_CONTROLS,
         "sample_path_material_harm": sample_path_material_harm,
@@ -502,6 +525,19 @@ def _generate_stream_rows(
                 contrast_one=contrast_one,
             )
         )
+    if "robust_mixture_growth_proxy" in config.method_subset:
+        source_probability = classifier.predict_proba(x[monitor_start:])[:, 1]
+        true_probability = oracle.probability_positive.to_numpy(dtype=float)[monitor_start:]
+        coverage = float(
+            np.mean(
+                np.abs(source_probability - true_probability)
+                <= config.robust_growth_probability_radius
+            )
+        )
+        for row in rows:
+            if row["method"] == "robust_mixture_growth_proxy":
+                # Evaluator-only calibration diagnostic; never supplied to query selection.
+                row["robust_probability_interval_coverage"] = coverage
     return rows
 
 
@@ -893,6 +929,7 @@ def run_hard_budget(config: HardBudgetConfig, output: Path) -> Path:
                 f"--n {config.n} --d {config.d} --budget-rate {config.budget_rate} "
                 f"--q-min {config.q_min} --q-max {config.q_max} --device {config.device} "
                 f"--exact-growth-adaptive-weight {config.exact_growth_adaptive_weight} "
+                f"--robust-growth-probability-radius {config.robust_growth_probability_radius} "
                 f"--scenarios {' '.join(config.scenario_subset)} "
                 f"--methods {' '.join(config.method_subset)} "
                 f"{'--common-eprocess-bound ' if config.common_eprocess_bound else ''}"
@@ -944,6 +981,7 @@ def main(argv: list[str] | None = None) -> None:
     parser.add_argument("--q-max", type=float, default=0.50)
     parser.add_argument("--cost-stability-tolerance", type=float, default=0.05)
     parser.add_argument("--exact-growth-adaptive-weight", type=float, default=1.0)
+    parser.add_argument("--robust-growth-probability-radius", type=float, default=0.0)
     parser.add_argument(
         "--common-eprocess-bound",
         action="store_true",
@@ -963,10 +1001,11 @@ def main(argv: list[str] | None = None) -> None:
         q_max=args.q_max,
         cost_stability_tolerance=args.cost_stability_tolerance,
         exact_growth_adaptive_weight=args.exact_growth_adaptive_weight,
+        robust_growth_probability_radius=args.robust_growth_probability_radius,
         common_eprocess_bound=args.common_eprocess_bound,
         device=args.device,
         scenario_subset=tuple(args.scenarios or HardBudgetConfig.scenario_subset),
-        method_subset=tuple(args.methods or HARD_BUDGET_METHODS),
+        method_subset=tuple(args.methods or DEFAULT_HARD_BUDGET_METHODS),
     )
     print(run_hard_budget(config, args.output), flush=True)
 

@@ -482,6 +482,66 @@ class ExactMixtureGrowthQueryPolicy:
         return self._solve_q(self.dual, h, p, z0, z1, costs, eta)
 
 
+class RobustMixtureGrowthQueryPolicy(ExactMixtureGrowthQueryPolicy):
+    """Maximize worst-case one-step log growth over an outcome-probability interval.
+
+    For each covariate, the fitted Bernoulli probability is expanded to
+    ``[max(0, p-radius), min(1, p+radius)]``. The conditional expected log factor is
+    affine in that probability, so its worst case is attained at an interval endpoint.
+    It is the pointwise minimum of two concave functions of the propensity and therefore
+    remains concave. Inherited KKT bisection calibrates a validation-only label-cost dual.
+
+    This is a robust objective under a declared interval model, not a guarantee that the
+    true post-shift probability lies in the interval and not an e-process validity claim.
+    The e-process validity still follows from the same predictable positive propensity
+    and bounded prediction-powered increment assumptions as the exact policy.
+    """
+
+    def __init__(self, *, probability_radius: float, **kwargs) -> None:
+        if not np.isfinite(probability_radius) or not 0 <= probability_radius <= 1:
+            raise ValueError("probability_radius must lie in [0, 1]")
+        super().__init__(**kwargs)
+        self.probability_radius = float(probability_radius)
+
+    def _derivative(
+        self,
+        q: np.ndarray,
+        h: np.ndarray,
+        p: np.ndarray,
+        z0: np.ndarray,
+        z1: np.ndarray,
+        eta: np.ndarray,
+    ) -> np.ndarray:
+        if self.probability_radius == 0:
+            return super()._derivative(q, h, p, z0, z1, eta)
+        p_low = np.maximum(0.0, p - self.probability_radius)
+        p_high = np.minimum(1.0, p + self.probability_radius)
+        base = 1 + eta * h / self.bound
+        delta0 = eta * (z0 - h) / self.bound
+        delta1 = eta * (z1 - h) / self.bound
+        factor0 = base + delta0 / q
+        factor1 = base + delta1 / q
+        if np.any(base <= 0) or np.any(factor0 <= 0) or np.any(factor1 <= 0):
+            raise ValueError("betting factor must be positive over the propensity range")
+        log0 = np.log(factor0)
+        log1 = np.log(factor1)
+        queried_derivative0 = log0 - delta0 / (q * base + delta0)
+        queried_derivative1 = log1 - delta1 / (q * base + delta1)
+        derivative_low = (
+            -np.log(base) + (1 - p_low) * queried_derivative0 + p_low * queried_derivative1
+        )
+        derivative_high = (
+            -np.log(base) + (1 - p_high) * queried_derivative0 + p_high * queried_derivative1
+        )
+        # The endpoint with lower expected log growth is the adversarial probability.
+        # At a tie, average derivatives to select a valid supergradient of the concave min.
+        choose_low = log1 > log0
+        choose_high = log1 < log0
+        derivative = np.where(choose_low, derivative_low, derivative_high)
+        tied = ~(choose_low | choose_high)
+        return np.where(tied, 0.5 * (derivative_low + derivative_high), derivative)
+
+
 def mix_with_uniform(
     adaptive_probabilities: np.ndarray,
     *,

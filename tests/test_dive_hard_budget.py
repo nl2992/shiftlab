@@ -117,3 +117,34 @@ def test_exact_growth_cost_neutral_branch_has_target_spend_compensator(tmp_path)
 def test_exact_growth_weight_must_lie_in_unit_interval(weight):
     with pytest.raises(ValueError, match="exact_growth_adaptive_weight"):
         HardBudgetConfig(exact_growth_adaptive_weight=weight).validate()
+
+
+def test_robust_growth_hard_budget_path_records_radius_and_respects_cap(tmp_path):
+    output = run_hard_budget(
+        HardBudgetConfig(
+            n=1600,
+            seeds=1,
+            common_eprocess_bound=True,
+            q_min=0.10,
+            q_max=0.80,
+            budget_rate=0.20,
+            robust_growth_probability_radius=0.15,
+            device="cpu",
+            scenario_subset=("stationary",),
+            method_subset=("robust_mixture_growth_proxy",),
+        ),
+        tmp_path / "robust_growth",
+    )
+    metrics = pd.read_parquet(output / "metrics" / "hard_budget_comparison.parquet")
+    assert len(metrics) == 1
+    row = metrics.iloc[0]
+    assert row.robust_growth_probability_radius == 0.15
+    assert 0 <= row.robust_probability_interval_coverage <= 1
+    assert row.budget_respected
+    assert row.realized_label_spend <= row.hard_budget
+
+
+@pytest.mark.parametrize("radius", [-0.01, 1.01, float("nan")])
+def test_robust_growth_probability_radius_must_lie_in_unit_interval(radius):
+    with pytest.raises(ValueError, match="robust_growth_probability_radius"):
+        HardBudgetConfig(robust_growth_probability_radius=radius).validate()

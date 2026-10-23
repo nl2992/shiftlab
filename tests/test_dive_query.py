@@ -7,6 +7,7 @@ from shiftlab.dive.query import (
     AdaptiveQueryPolicy,
     EvidenceGrowthQueryPolicy,
     ExactMixtureGrowthQueryPolicy,
+    RobustMixtureGrowthQueryPolicy,
     cost_mixture_weight_for_tolerance,
     cost_neutral_propensities,
     expected_cost_drift_bound,
@@ -377,3 +378,112 @@ def test_exact_mixture_growth_derivative_matches_finite_difference():
     step = 1e-6
     finite_difference = (objective(q[0] + step) - objective(q[0] - step)) / (2 * step)
     assert analytic == pytest.approx(finite_difference, rel=1e-6, abs=1e-8)
+
+
+def test_robust_growth_zero_radius_matches_exact_growth_policy():
+    n = 60
+    proxy = np.linspace(-0.1, 0.1, n)
+    p = np.linspace(0.2, 0.8, n)
+    z0 = np.linspace(-0.3, 0.1, n)
+    z1 = -z0
+    costs = np.linspace(0.5, 2.5, n)
+    common = {
+        "target_rate": 0.2,
+        "q_min": 0.05,
+        "q_max": 0.7,
+        "bound": 20.0,
+        "initial_stake": 0.3,
+    }
+    exact = ExactMixtureGrowthQueryPolicy(**common).fit_multiplier(
+        proxy=proxy,
+        probability_positive=p,
+        contrast_zero=z0,
+        contrast_one=z1,
+        label_costs=costs,
+    )
+    robust = RobustMixtureGrowthQueryPolicy(probability_radius=0.0, **common).fit_multiplier(
+        proxy=proxy,
+        probability_positive=p,
+        contrast_zero=z0,
+        contrast_one=z1,
+        label_costs=costs,
+    )
+    arguments = {
+        "proxy": proxy,
+        "probability_positive": p,
+        "contrast_zero": z0,
+        "contrast_one": z1,
+        "effective_stake": 0.3,
+        "label_costs": costs,
+    }
+    assert robust.probabilities(**arguments) == pytest.approx(exact.probabilities(**arguments))
+
+
+def test_robust_growth_objective_is_concave_under_probability_interval():
+    policy = RobustMixtureGrowthQueryPolicy(
+        target_rate=0.2,
+        q_min=0.05,
+        q_max=0.7,
+        bound=20.0,
+        initial_stake=0.3,
+        probability_radius=0.2,
+    )
+    h = np.array([-0.12, 0.02, 0.1])
+    p = np.array([0.2, 0.5, 0.8])
+    z0 = np.array([-0.3, -0.2, 0.1])
+    z1 = np.array([0.2, 0.3, 0.4])
+    eta = np.full(3, 0.3)
+    derivatives = [
+        policy._derivative(np.full(3, q), h, p, z0, z1, eta) for q in (0.06, 0.12, 0.25, 0.5, 0.69)
+    ]
+    assert all(np.all(later <= earlier + 1e-12) for earlier, later in pairwise(derivatives))
+
+
+def test_robust_growth_calibrates_cost_and_is_optimal_for_interval_objective():
+    n = 80
+    proxy = np.linspace(-0.15, 0.15, n)
+    p = np.linspace(0.15, 0.85, n)
+    z0 = np.where(np.arange(n) % 2, -0.35, -0.1)
+    z1 = np.where(np.arange(n) % 2, 0.1, 0.35)
+    costs = np.linspace(0.5, 2.5, n)
+    policy = RobustMixtureGrowthQueryPolicy(
+        target_rate=0.2,
+        q_min=0.05,
+        q_max=0.7,
+        bound=20.0,
+        initial_stake=0.3,
+        probability_radius=0.15,
+    ).fit_multiplier(
+        proxy=proxy,
+        probability_positive=p,
+        contrast_zero=z0,
+        contrast_one=z1,
+        label_costs=costs,
+    )
+    q = policy.probabilities(
+        proxy=proxy,
+        probability_positive=p,
+        contrast_zero=z0,
+        contrast_one=z1,
+        effective_stake=0.3,
+        label_costs=costs,
+    )
+    assert np.all((q >= 0.05) & (q <= 0.7))
+    assert np.mean(q * costs) == pytest.approx(0.2 * costs.mean(), abs=1e-7)
+
+    i = 11
+
+    def robust_objective(value: float) -> float:
+        def expected_log(probability: float) -> float:
+            no_query = np.log1p(0.3 * proxy[i] / policy.bound)
+            factor0 = np.log1p(0.3 * (proxy[i] + (z0[i] - proxy[i]) / value) / policy.bound)
+            factor1 = np.log1p(0.3 * (proxy[i] + (z1[i] - proxy[i]) / value) / policy.bound)
+            return (1 - value) * no_query + value * (
+                (1 - probability) * factor0 + probability * factor1
+            )
+
+        p_low, p_high = max(0, p[i] - 0.15), min(1, p[i] + 0.15)
+        return min(expected_log(p_low), expected_log(p_high)) - policy.dual * costs[i] * value
+
+    grid = np.linspace(0.05, 0.7, 4001)
+    assert robust_objective(q[i]) >= max(map(robust_objective, grid)) - 1e-8

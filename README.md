@@ -125,7 +125,11 @@ in `outputs/hard_budget_extended_scenarios_60/`. In this exploratory block, all 
 budgets were respected and no false escalations occurred, while harmful-stream detection ranged
 from 0/60 to 8/60 depending on scenario and query policy. The low rates are descriptive and do not
 establish a method ranking or a false-alarm guarantee. See the [Paper 3 research log](papers/paper3_cost_aware_adaptation/research_log.md)
-for the interpretation and per-scenario paired RMSE intervals.
+for the interpretation and per-scenario paired RMSE intervals. The control scenarios' population
+paired excess costs were independently integrated and verified below the 0.10 harm margin; a
+finite-stream oracle flag above the margin is a path-specific diagnostic, not a population-null
+failure. See the [population harm validation](outputs/reports/dive_population_harm_validation.md)
+and reproduce it with `uv run python scripts/validate_dive_population_harm.py`.
 
 The betting-scale sensitivity experiment compares the existing five-stake e-process with a fixed
 13-stake geometric mixture on matched harmful-shift streams and stationary/benign controls. The

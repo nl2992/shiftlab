@@ -1,0 +1,76 @@
+{
+  "experiment": "predictable_betting_rules_under_hard_query_caps",
+  "created_at_utc": "2026-10-23T14:54:20.393338+00:00",
+  "configuration": {
+    "streams_per_cell": 2000,
+    "horizon": 600,
+    "seed": 24102026,
+    "device": "cuda",
+    "alpha": 0.05,
+    "scenarios": [
+      "aggregate_zero",
+      "aggregate_negative",
+      "broad_positive",
+      "high_cost_only_positive"
+    ],
+    "high_costs": [
+      1.0,
+      2.0,
+      5.0
+    ],
+    "query_rates": [
+      0.1,
+      0.2,
+      0.3
+    ],
+    "fixed_stakes": [
+      0.05,
+      0.1,
+      0.2,
+      0.4,
+      0.8
+    ],
+    "adaptive_prior_strength": 4.0,
+    "adaptive_prior_mean": 0.05,
+    "adaptive_prior_second_moment": 0.25,
+    "adaptive_max_stake": 0.5,
+    "pm_eb_max_stake": 0.5,
+    "pm_eb_alpha_for_stake_schedule": 0.05,
+    "hedged_positive_max_stake": 1.0,
+    "hedged_truncation_c": 0.5,
+    "hedged_direction_weight": 0.5,
+    "hedged_directional_alpha": 0.025,
+    "replication_status": "separate-seed exploratory comparison; not preregistered"
+  },
+  "environment": {
+    "torch_version": "2.9.1+cu130",
+    "cuda_available": true,
+    "gpu_name": "NVIDIA GeForce RTX 4060 Laptop GPU",
+    "cuda_runtime": "13.0"
+  },
+  "information_protocol": [
+    "all methods receive identical query randomization and outcomes",
+    "querying stops before the next event when the hard label cap is exhausted",
+    "the global support bound is fixed before monitoring and common across methods",
+    "the evaluator-only scenario probabilities are not supplied to any betting rule",
+    "one candidate is tested per stream at alpha=0.05"
+  ],
+  "reproduction_script": "scripts/calibrate_predictable_variance_stakes.py",
+  "reproduction_script_sha256": "0035a6c97e8b645d2b14a9f5cbcaf7e373477690007cba4a3e672c2060781d4e",
+  "artifacts": [
+    "metrics/predictable_stake_streams.parquet",
+    "metrics/predictable_stake_summary.parquet",
+    "metrics/predictable_stake_paired.parquet",
+    "figures/predictable_stake_calibration.png",
+    "reports/predictable_stake_calibration.md"
+  ],
+  "sha256": {
+    "artifacts": {
+      "metrics/predictable_stake_streams.parquet": "4657639555f7295dd6f04175bec3c35030ef1871356235eaf44f19bbcc21a8ef",
+      "metrics/predictable_stake_summary.parquet": "481283e246fbe142c71823e04e9b1335489dd589d201bdadb6c01b78ebb01aad",
+      "metrics/predictable_stake_paired.parquet": "ab4dd4d89ff6391645017eba4d936a7f62f9c2b0c4521f2f04ba77db41a8801d",
+      "figures/predictable_stake_calibration.png": "fd0733b22d6034059265c107ae46538ef6ea903b7306e05a8c4f5517eebd2abe",
+      "reports/predictable_stake_calibration.md": "a988151f7b2e327bd947d10fac13b07b55981ff8845c2131c6d537f665a7c7d9"
+    }
+  }
+}

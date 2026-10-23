@@ -20,12 +20,19 @@ import matplotlib.pyplot as plt
 
 ALPHA = 0.05
 STAKES = (0.05, 0.1, 0.2, 0.4, 0.8)
-SCENARIOS = ("aggregate_zero", "broad_positive", "high_cost_only_positive")
+SCENARIOS = (
+    "aggregate_zero",
+    "aggregate_negative",
+    "broad_positive",
+    "high_cost_only_positive",
+)
 
 
 def _probabilities(scenario: str, high_cost: float) -> tuple[float, float]:
     if scenario == "aggregate_zero":
         return 0.56, 0.5 - 0.06 / high_cost
+    if scenario == "aggregate_negative":
+        return 0.44, 0.44
     if scenario == "broad_positive":
         return 0.56, 0.56
     if scenario == "high_cost_only_positive":
@@ -45,15 +52,18 @@ def _wilson(successes: int, total: int) -> tuple[float, float]:
 def _plot_summary(summary: pd.DataFrame, path: Path) -> None:
     costs = (1.0, 2.0, 5.0)
     colors = {1.0: "#2878B5", 2.0: "#F28E2B", 5.0: "#3A923A"}
-    fig, axes = plt.subplots(3, 3, figsize=(13, 10), sharex=True)
+    fig, axes = plt.subplots(4, 3, figsize=(13, 13), sharex=True)
     for row, scenario in enumerate(SCENARIOS):
         for col, high_cost in enumerate(costs):
             axis = axes[row, col]
             cell = summary[summary.scenario.eq(scenario) & summary.high_cost.eq(high_cost)]
             for rule, marker, label in (
                 ("fixed_mixture", "o", "Fixed mixture"),
+                ("fixed_mixture_half_alpha", "x", "Fixed mixture (half alpha)"),
                 ("predictable_variance_adaptive", "s", "Adaptive stake"),
                 ("predictable_plug_in_eb", "^", "PM-EB"),
+                ("predictable_positive_betting", "P", "Positive betting"),
+                ("hedged_positive_branch", "D", "Hedged branch (half alpha)"),
             ):
                 series = cell[cell.betting_rule.eq(rule)].sort_values("query_rate")
                 axis.plot(
@@ -63,12 +73,15 @@ def _plot_summary(summary: pd.DataFrame, path: Path) -> None:
                     color=colors[high_cost],
                     linestyle={
                         "fixed_mixture": "-",
+                        "fixed_mixture_half_alpha": "--",
                         "predictable_variance_adaptive": "--",
                         "predictable_plug_in_eb": ":",
+                        "predictable_positive_betting": "-.",
+                        "hedged_positive_branch": "-.",
                     }[rule],
                     label=label if row == 0 and col == 0 else None,
                 )
-            if scenario == "aggregate_zero":
+            if scenario in {"aggregate_zero", "aggregate_negative"}:
                 axis.axhline(ALPHA * 100, color="black", linewidth=0.8, alpha=0.65)
                 axis.set_ylim(0, 6)
             else:
@@ -78,12 +91,26 @@ def _plot_summary(summary: pd.DataFrame, path: Path) -> None:
             axis.grid(alpha=0.25)
             if col == 0:
                 axis.set_ylabel("E-process crossings (%)")
-            if row == 2:
+            if row == len(SCENARIOS) - 1:
                 axis.set_xlabel("Label cap (%)")
     handles = [
         plt.Line2D([0], [0], color="black", marker="o", label="Fixed mixture"),
+        plt.Line2D(
+            [0], [0], color="black", marker="x", linestyle="--", label="Fixed mixture, half alpha"
+        ),
         plt.Line2D([0], [0], color="black", marker="s", linestyle="--", label="Adaptive stake"),
         plt.Line2D([0], [0], color="black", marker="^", linestyle=":", label="PM-EB"),
+        plt.Line2D(
+            [0],
+            [0],
+            color="black",
+            marker="P",
+            linestyle="-.",
+            label="Positive betting, full alpha",
+        ),
+        plt.Line2D(
+            [0], [0], color="black", marker="D", linestyle="--", label="Hedged branch, half alpha"
+        ),
         *[plt.Line2D([0], [0], color=colors[cost], label=f"High cost {cost:g}") for cost in costs],
     ]
     fig.legend(
@@ -93,7 +120,7 @@ def _plot_summary(summary: pd.DataFrame, path: Path) -> None:
         ncol=6,
         frameon=False,
     )
-    fig.suptitle("Fixed betting, plug-in Kelly, and PM-EB", y=0.995)
+    fig.suptitle("Fixed betting, plug-in Kelly, PM-EB, and positive-direction bets", y=0.995)
     fig.tight_layout(rect=(0, 0, 1, 0.925))
     path.parent.mkdir(parents=True, exist_ok=True)
     fig.savefig(path, dpi=170)
@@ -137,10 +164,14 @@ def _simulate_cell(
     pm_sum_predictive_squared_deviations = torch.zeros_like(normalized_sum)
     pm_predictive_mean = torch.full_like(normalized_sum, 0.5)
     pm_predictive_variance = torch.full_like(normalized_sum, 0.25)
+    hedged_log_wealth = torch.zeros(streams, dtype=torch.float64, device=device)
     crossed = {
         "fixed_mixture": torch.zeros(streams, dtype=torch.bool, device=device),
+        "fixed_mixture_half_alpha": torch.zeros(streams, dtype=torch.bool, device=device),
         "predictable_variance_adaptive": torch.zeros(streams, dtype=torch.bool, device=device),
         "predictable_plug_in_eb": torch.zeros(streams, dtype=torch.bool, device=device),
+        "predictable_positive_betting": torch.zeros(streams, dtype=torch.bool, device=device),
+        "hedged_positive_branch": torch.zeros(streams, dtype=torch.bool, device=device),
     }
     fixed_log_weights = torch.full(
         (len(STAKES),), -np.log(len(STAKES)), dtype=torch.float64, device=device
@@ -159,6 +190,7 @@ def _simulate_cell(
         fixed_log_wealth += torch.log1p(normalized[:, None] * fixed_stakes[None, :])
         fixed_log_e = torch.logsumexp(fixed_log_wealth + fixed_log_weights[None, :], dim=1)
         crossed["fixed_mixture"] |= active & (fixed_log_e >= -np.log(ALPHA))
+        crossed["fixed_mixture_half_alpha"] |= active & (fixed_log_e >= -np.log(ALPHA / 2))
 
         # Plug-in Kelly maximizes the quadratic approximation to expected log
         # wealth. It is predictable because only prior rewards enter its stake.
@@ -184,6 +216,22 @@ def _simulate_cell(
         pm_increment = pm_stake * (pm_observation - 0.5) - 4 * pm_residual.square() * pm_psi
         pm_log_wealth += torch.where(active, pm_increment, 0.0)
         crossed["predictable_plug_in_eb"] |= active & (pm_log_wealth >= -np.log(ALPHA))
+        # Positive-direction branch of the published hedged-capital CS. At
+        # candidate mean 1/2, its stake cap is c/m=1 for c=1/2. This one-sided
+        # branch remains valid for the composite upper-mean null; the complete
+        # two-sided hedge does not.
+        hedged_stake = torch.clamp(
+            torch.sqrt(
+                2 * np.log(2 / ALPHA) / (pm_predictive_variance * pm_time * torch.log1p(pm_time))
+            ),
+            max=1.0,
+        )
+        hedged_factor = 1 + hedged_stake * (pm_observation - 0.5)
+        hedged_log_wealth += torch.where(active, torch.log(hedged_factor), 0.0)
+        crossed["predictable_positive_betting"] |= active & (hedged_log_wealth >= -np.log(ALPHA))
+        # The canonical two-sided construction allocates theta=1/2 to this
+        # direction, so its directional crossing spends alpha/2.
+        crossed["hedged_positive_branch"] |= active & (hedged_log_wealth >= -np.log(ALPHA / 2))
         pm_sum_observations += torch.where(active, pm_observation, 0.0)
         updated_pm_mean = (0.5 + pm_sum_observations) / (pm_time + 1)
         pm_post_update_residual = pm_observation - updated_pm_mean
@@ -287,8 +335,13 @@ def run(
     for key, group in detail.groupby(pair_keys, sort=False):
         paired = group.pivot(index="stream", columns="betting_rule", values="crossed")
         fixed = paired["fixed_mixture"].to_numpy(dtype=float)
+        fixed_half = paired["fixed_mixture_half_alpha"].to_numpy(dtype=float)
         difference = paired["predictable_variance_adaptive"].to_numpy(dtype=float) - fixed
         pm_difference = paired["predictable_plug_in_eb"].to_numpy(dtype=float) - fixed
+        positive_betting_difference = (
+            paired["predictable_positive_betting"].to_numpy(dtype=float) - fixed
+        )
+        hedged_difference = paired["hedged_positive_branch"].to_numpy(dtype=float) - fixed_half
         radius = float(
             student_t.ppf(0.975, len(difference) - 1)
             * difference.std(ddof=1)
@@ -299,6 +352,7 @@ def run(
                 **dict(zip(pair_keys, key, strict=True)),
                 "streams": len(difference),
                 "fixed_crossings": int(paired["fixed_mixture"].sum()),
+                "fixed_half_alpha_crossings": int(paired["fixed_mixture_half_alpha"].sum()),
                 "adaptive_crossings": int(paired["predictable_variance_adaptive"].sum()),
                 "adaptive_minus_fixed": float(difference.mean()),
                 "paired_ci_low": float(difference.mean() - radius),
@@ -317,6 +371,34 @@ def run(
                     * pm_difference.std(ddof=1)
                     / np.sqrt(len(pm_difference))
                 ),
+                "positive_betting_crossings": int(paired["predictable_positive_betting"].sum()),
+                "positive_betting_minus_fixed": float(positive_betting_difference.mean()),
+                "positive_betting_paired_ci_low": float(
+                    positive_betting_difference.mean()
+                    - student_t.ppf(0.975, len(positive_betting_difference) - 1)
+                    * positive_betting_difference.std(ddof=1)
+                    / np.sqrt(len(positive_betting_difference))
+                ),
+                "positive_betting_paired_ci_high": float(
+                    positive_betting_difference.mean()
+                    + student_t.ppf(0.975, len(positive_betting_difference) - 1)
+                    * positive_betting_difference.std(ddof=1)
+                    / np.sqrt(len(positive_betting_difference))
+                ),
+                "hedged_crossings": int(paired["hedged_positive_branch"].sum()),
+                "hedged_minus_fixed_half_alpha": float(hedged_difference.mean()),
+                "hedged_paired_ci_low": float(
+                    hedged_difference.mean()
+                    - student_t.ppf(0.975, len(hedged_difference) - 1)
+                    * hedged_difference.std(ddof=1)
+                    / np.sqrt(len(hedged_difference))
+                ),
+                "hedged_paired_ci_high": float(
+                    hedged_difference.mean()
+                    + student_t.ppf(0.975, len(hedged_difference) - 1)
+                    * hedged_difference.std(ddof=1)
+                    / np.sqrt(len(hedged_difference))
+                ),
             }
         )
     pd.DataFrame(paired_rows).to_parquet(paired_path, index=False)
@@ -324,13 +406,15 @@ def run(
     lines = [
         "# Matched comparison of predictable betting rules",
         "",
-        f"This CUDA/CPU calibration compares a fixed five-stake bounded e-process, a predictable plug-in Kelly stake, and the published predictable plug-in empirical-Bernstein (PM-EB) process over {streams} paired streams per cell, a {horizon}-event horizon, and pathwise caps of 10%, 20%, and 30%.",
+        f"This CUDA/CPU calibration compares fixed five-stake bounded e-processes at alpha and alpha/2, a predictable plug-in Kelly stake, the published predictable plug-in empirical-Bernstein (PM-EB) process, a one-sided positive betting process using the full alpha level, and the canonical positive branch of the theta=1/2 hedged-capital process using half the alpha level, over {streams} paired streams per cell, a {horizon}-event horizon, and pathwise caps of 10%, 20%, and 30%.",
         "",
         "The adaptive rule normalizes every observed inverse-propensity gain by the same global support bound, then chooses the next stake as `clip(max(0, smoothed_mean) / smoothed_second_moment, 0, 0.5)`. Its smoothed prior has strength 4, normalized mean 0.05, and second moment 0.25. This is a plug-in approximation to the Kelly fraction from a quadratic expansion of expected log wealth. The stake depends only on prior observations. Under the history-conditional null `E[X_t | F_(t-1)] <= 0`, each factor `1 + lambda_t X_t / B` is nonnegative and has conditional expectation at most one for any predictable `lambda_t` in `[0,1]`; Ville's inequality therefore controls crossings. Variance adaptation is a power strategy within a standard valid betting construction, not a new validity theorem.",
         "",
         "PM-EB maps normalized gains `R_t=X_t/B` to `Z_t=(R_t+1)/2` and tests `E[Z_t | F_(t-1)] <= 1/2`. Its log increment is `lambda_t(Z_t-1/2) - 4(Z_t-mu_hat_(t-1))^2 psi_E(lambda_t)`, where `psi_E(lambda)=(-log(1-lambda)-lambda)/4`. The predictable stake is `min(1/2, sqrt(2 log(2/alpha)/(sigma_hat^2_(t-1) t log(1+t))))`; smoothed mean and variance estimates update after each observation. This published construction is included as an established baseline, not a novelty claim.",
         "",
-        "`aggregate_zero` has equally likely strata with expected gains +0.12 and -0.12, respectively. `broad_positive` has outcome probability 0.56 in both strata. `high_cost_only_positive` has neutral low-cost and +0.12 high-cost conditional gain. Query randomization is independent with the stated propensity until the pathwise cap is reached. All three methods receive identical query draws and outcomes. The low/high cost and propensity grid varies estimator variance while preserving the global bound for each cell.",
+        "Both positive-direction rules use the same log increment `log(1 + lambda_t (Z_t-1/2))` and the paper's predictable plug-in variance stake, capped at `c/m=1` for `c=1/2`. `predictable_positive_betting` tests the one-sided null at alpha=0.05. `hedged_positive_branch` applies the canonical theta=1/2 capital weight and therefore uses the alpha/2 directional threshold from the paper's two-sided confidence sequence. `fixed_mixture_half_alpha` is the matched reference at that same stricter threshold. The complete two-sided hedge is not used as a decision-harm gate: its negative-direction branch can cross when the true gain is negative, which is inside the no-harm null. The positive branch alone remains valid for the one-sided upper-mean null.",
+        "",
+        "`aggregate_zero` has equally likely strata with expected gains +0.12 and -0.12, respectively. `aggregate_negative` has outcome probability 0.44 in both strata and is a strict negative-mean control inside the composite no-harm null. `broad_positive` has outcome probability 0.56 in both strata. `high_cost_only_positive` has neutral low-cost and +0.12 high-cost conditional gain. Query randomization is independent with the stated propensity until the pathwise cap is reached. All six rules receive identical query draws and outcomes. The low/high cost and propensity grid varies estimator variance while preserving the global bound for each cell.",
         "",
         "| Scenario | High cost | Query cap | Betting rule | Crossings / streams (95% Wilson CI) | Mean labels / cap |",
         "|---|---:|---:|---|---:|---:|",
@@ -342,11 +426,11 @@ def run(
     lines.extend(
         [
             "",
-            "Paired Kelly-minus-fixed and PM-EB-minus-fixed crossing-rate differences are stored with paired 95% t intervals, unadjusted across cells. The exact aggregate-null cells are the type-I diagnostic. Positive alternatives compare power at the same label cap. This finite experiment does not establish uniform dominance; any selected method requires a locked independent confirmation.",
+            "Paired Kelly-minus-fixed, PM-EB-minus-fixed, full-alpha positive-betting-minus-fixed, and half-alpha hedged-positive-minus-half-alpha-fixed crossing-rate differences are stored with paired 95% t intervals, unadjusted across cells. The exact aggregate-zero and strict aggregate-negative cells diagnose one-sided type-I behavior. Positive alternatives compare power at the same label cap; the half-alpha hedge is also compared with the fixed mixture at half alpha. This finite experiment does not establish uniform dominance and is not preregistered; the hedged comparator was added after inspection of the earlier grid.",
             "",
             f"Figure: `figures/{figure_path.name}`. Paired contrasts and the run manifest are in the adjacent metrics and report folders.",
             "",
-            f"Reproduce with `uv run python scripts/calibrate_predictable_variance_stakes.py --streams {streams} --horizon {horizon} --seed {seed} --device {device_name} --output outputs/predictable_betting_comparison_reproduction`.",
+            f"Reproduce with `uv run python scripts/calibrate_predictable_variance_stakes.py --streams {streams} --horizon {horizon} --seed {seed} --device {device_name} --output outputs/{output.name}_reproduction`.",
         ]
     )
     report_path = report_dir / "predictable_stake_calibration.md"
@@ -372,6 +456,11 @@ def run(
             "adaptive_max_stake": 0.5,
             "pm_eb_max_stake": 0.5,
             "pm_eb_alpha_for_stake_schedule": ALPHA,
+            "hedged_positive_max_stake": 1.0,
+            "hedged_truncation_c": 0.5,
+            "hedged_direction_weight": 0.5,
+            "hedged_directional_alpha": ALPHA / 2,
+            "replication_status": "separate-seed exploratory comparison; not preregistered",
         },
         "environment": {
             "torch_version": torch.__version__,

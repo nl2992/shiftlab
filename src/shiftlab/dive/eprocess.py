@@ -247,6 +247,77 @@ class PredictablePlugInEmpiricalBernsteinEProcess:
         return self.log_e_value
 
 
+class PredictableHedgedPositiveEProcess:
+    """Positive-direction branch of the hedged capital process at mean 1/2.
+
+    The input is globally bounded in ``[-bound, bound]`` and is mapped to
+    ``[0, 1]``. The process tests the composite upper-mean null by betting only
+    on the positive direction. This branch is a nonnegative supermartingale
+    when the conditional mean is at most 1/2; the full two-sided hedge is not
+    valid for that one-sided composite null because its negative branch can
+    grow when the true mean is below 1/2.
+    """
+
+    def __init__(
+        self,
+        *,
+        bound: float,
+        alpha: float = 0.05,
+        max_stake: float = 1.0,
+    ):
+        if not np.isfinite(bound) or bound <= 0:
+            raise ValueError("bound must be finite and positive")
+        if not np.isfinite(alpha) or not 0 < alpha < 1:
+            raise ValueError("alpha must lie strictly between zero and one")
+        if not np.isfinite(max_stake) or not 0 < max_stake <= 1:
+            raise ValueError("max_stake must lie in (0, 1]")
+        self.bound = float(bound)
+        self.alpha = float(alpha)
+        self.max_stake = float(max_stake)
+        self.n_updates = 0
+        self.sum_observations = 0.0
+        self.sum_predictive_squared_deviations = 0.0
+        self.predictive_mean = 0.5
+        self.predictive_variance = 0.25
+        self.log_wealth = 0.0
+        self.last_stake: float | None = None
+
+    @property
+    def stake(self) -> float:
+        """Return the next predictable positive-direction stake."""
+        time = self.n_updates + 1
+        numerator = 2 * np.log(2 / self.alpha)
+        denominator = self.predictive_variance * time * np.log1p(time)
+        return float(min(self.max_stake, np.sqrt(numerator / denominator)))
+
+    @property
+    def log_e_value(self) -> float:
+        return self.log_wealth
+
+    @property
+    def alarm(self) -> bool:
+        return self.log_e_value >= -np.log(self.alpha)
+
+    def update(self, value: float) -> float:
+        if not np.isfinite(value) or abs(value) > self.bound + 1e-12:
+            raise ValueError("observed value is outside the declared bounded range")
+        observation = 0.5 * (value / self.bound + 1)
+        stake = self.stake
+        factor = 1 + stake * (observation - 0.5)
+        if factor <= 0:
+            raise RuntimeError("positive-direction hedge produced a nonpositive factor")
+        self.last_stake = stake
+        self.log_wealth += float(np.log(factor))
+        self.sum_observations += observation
+        time = self.n_updates + 1
+        self.predictive_mean = (0.5 + self.sum_observations) / (time + 1)
+        residual = observation - self.predictive_mean
+        self.sum_predictive_squared_deviations += residual**2
+        self.predictive_variance = (0.25 + self.sum_predictive_squared_deviations) / (time + 1)
+        self.n_updates = time
+        return self.log_e_value
+
+
 class StartedMixtureEProcess:
     """A prespecified mixture of e-processes started at fixed stream positions.
 

@@ -3,6 +3,7 @@ import pytest
 
 from shiftlab.dive.eprocess import (
     BoundedMeanEProcess,
+    PredictableHedgedPositiveEProcess,
     PredictablePlugInEmpiricalBernsteinEProcess,
     PredictableVarianceAdaptiveEProcess,
     StartedMixtureEProcess,
@@ -49,6 +50,20 @@ def test_predictable_plugin_empirical_bernstein_process_uses_published_increment
     assert process.n_updates == 1
     assert process.predictive_mean == pytest.approx(0.75)
     assert process.predictive_variance == pytest.approx(0.15625)
+    with pytest.raises(ValueError, match="bounded"):
+        process.update(2.01)
+
+
+def test_hedged_positive_branch_uses_bounded_predictable_bet():
+    process = PredictableHedgedPositiveEProcess(bound=2.0, alpha=0.05)
+    assert process.stake == pytest.approx(1.0)
+    assert process.update(2.0) == pytest.approx(np.log(1.5))
+    assert process.last_stake == pytest.approx(1.0)
+    assert process.predictive_mean == pytest.approx(0.75)
+    assert process.predictive_variance == pytest.approx(0.15625)
+
+    lower_process = PredictableHedgedPositiveEProcess(bound=2.0, alpha=0.05)
+    assert lower_process.update(-2.0) == pytest.approx(np.log(0.5))
     with pytest.raises(ValueError, match="bounded"):
         process.update(2.01)
 

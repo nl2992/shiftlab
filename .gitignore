@@ -42,6 +42,8 @@ outputs/*
 !outputs/predictable_stake_calibration/**
 !outputs/predictable_betting_comparison/
 !outputs/predictable_betting_comparison/**
+!outputs/hedged_betting_comparison_final_24102026/
+!outputs/hedged_betting_comparison_final_24102026/**
 outputs/promotion_grid_alpha/
 outputs/promotion_grid_alpha_v2/
 !outputs/promotion_experiment_corrected/

@@ -204,6 +204,17 @@ assumptions, not a general improvement claim. See the
 [paired contrasts](outputs/decision_local_bound_calibration/metrics/decision_local_bound_paired_contrasts.parquet),
 and [manifest](outputs/decision_local_bound_calibration/reports/manifest.json).
 
+That local scale did not carry over to the 13-candidate adaptation grid: it produced zero e-process
+crossings across 15,120 stream-policy rows, despite shrinking the mean eventwise bound to 6.9% of
+the fixed global scale. Also, the local test's pointwise conditional null is not the aggregate
+mean-benefit null needed for safe candidate promotion; a crossing would only establish positive
+conditional gain somewhere, not positive total expected net value. The [matched candidate-grid
+report](outputs/budgeted_promotion_grid_local_bound/reports/budgeted_promotion_grid.md) records this
+negative result. The method remains a diagnostic direction, not a promotion gate.
+
+A mixed-sign aggregate-null CUDA calibration directly tests this limitation. Two equally likely strata have conditional gains of +0.12 and −0.12, so aggregate expected gain is exactly zero. Across 2,000 streams per cell, global-bound crossing rates were 1.2–2.1%; decision-local rates were 2.5–5.8%. This shows why local crossings cannot authorize aggregate promotion. Results and the reproduction command are in [the calibration report](outputs/mixed_mean_null_local_bound/reports/mixed_mean_null_calibration.md), with stream metrics and checksums beside it.
+
+
 The shadow-promotion experiment evaluates a frozen logistic recalibration candidate and an
 incumbent snapshot on fresh forward-time labels, applies candidate-index alpha spending, and
 reports certification behavior in

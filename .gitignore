@@ -36,6 +36,8 @@ outputs/*
 !outputs/decision_local_bound_calibration/**
 !outputs/budgeted_promotion_grid_local_bound/
 !outputs/budgeted_promotion_grid_local_bound/**
+!outputs/mixed_mean_null_local_bound/
+!outputs/mixed_mean_null_local_bound/**
 outputs/promotion_grid_alpha/
 outputs/promotion_grid_alpha_v2/
 !outputs/promotion_experiment_corrected/

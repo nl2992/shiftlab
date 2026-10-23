@@ -1,0 +1,38 @@
+{
+  "experiment": "mixed_sign_conditional_gains_aggregate_mean_null",
+  "created_at_utc": "2026-10-23T14:11:14.220913+00:00",
+  "configuration": {
+    "streams_per_cell": 2000,
+    "horizon": 600,
+    "seed": 27102026,
+    "device": "cuda",
+    "alpha": 0.05,
+    "query_rates": [
+      0.1,
+      0.2,
+      0.3
+    ],
+    "high_costs": [
+      2.0,
+      5.0
+    ],
+    "aggregate_expected_gain": 0.0,
+    "low_stratum_outcome_probability": 0.56
+  },
+  "artifacts": [
+    "metrics/mixed_mean_null_streams.parquet",
+    "metrics/mixed_mean_null_summary.parquet",
+    "metrics/mixed_mean_null_paired.parquet",
+    "reports/mixed_mean_null_calibration.md"
+  ],
+  "sha256": {
+    "artifacts": {
+      "metrics/mixed_mean_null_streams.parquet": "f3707e23f1d8fdf7718ec9052b29bc5427942427ad6681b41b30d81bfaabaace",
+      "metrics/mixed_mean_null_summary.parquet": "ca2ea24b670681bdc99ab1bbae3b23fc22df66d98bb99bd68ee5d71c83693677",
+      "metrics/mixed_mean_null_paired.parquet": "9895a159c91dd1985c03bb47aaecfcdfa9f446f77ab5e969f2029aa55960d5e2",
+      "reports/mixed_mean_null_calibration.md": "d39ba46c0b7a0580e209feeec742b16a72338011b542ead5fbceb8485955f439"
+    }
+  },
+  "reproduction_script": "scripts/calibrate_mixed_mean_null_local_bounds.py",
+  "reproduction_script_sha256": "b25af32756e3c721dc2e2b878a2dbacf5a05b599c939112dcdbcce6beee5d554"
+}

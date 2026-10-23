@@ -780,6 +780,18 @@ def run_budgeted_promotion(config: BudgetedPromotionConfig, output: Path) -> Pat
     figure_path = output / "figures/budgeted_promotion_grid.png"
     _plot(summary, figure_path)
 
+    if config.bound_mode == "global":
+        bound_description = (
+            "The fixed global bounds support the history-conditional mean-gain null."
+        )
+    else:
+        bound_description = (
+            "Decision-local bounds are predictable from current covariates and support only the "
+            "pointwise conditional null given those covariates. Rejecting that null does not "
+            "certify positive average net gain, so a crossing in this mode is a conditional-null "
+            "diagnostic and is not a promotion authorization."
+        )
+
     lines = [
         "# Repeated-candidate promotion under a hard label budget",
         "",
@@ -787,13 +799,13 @@ def run_budgeted_promotion(config: BudgetedPromotionConfig, output: Path) -> Pat
         "",
         "Candidates are trained on the training slice and ordered using the fully labeled validation slice. Validation also fixes the candidate alpha weights and the acquisition score model. Monitor labels are revealed only when queried. The three query designs are uniform, residual-variance weighting, and a decision-value heuristic; propensities remain predictable from the current covariates and pre-monitor fits, with a positive floor. For each budget level the same maximum number of labels is available to every query and alpha method. The monitor stops before the next event when no label remains affordable, so actual label counts never exceed the hard cap; realized counts and processed horizons are reported because policies need not spend the entire cap.",
         "",
-        "The grid compares prediction-powered `h_tk + I_t/q_t (Z_tk-h_tk)` with direct inverse-propensity `I_t Z_tk/q_t`, both shifted by the amortized switching charge. Here `Z` is incumbent cost minus candidate cost, `h` is a pre-monitor fitted expected-cost contrast, and the deployment horizon is `H`. With `|Z|,|h| <= M=max(FN,FP)`, the respective process bounds are `M(2/q_min-1)+k_switch/H` and `M/q_min+k_switch/H`. Each candidate receives a level from validation-rank spending, equal Bonferroni allocation, or validation-power weights. The weights are fixed before monitor outcomes and sum to at most alpha, giving a union-bound familywise guarantee if each bounded e-process's conditional-mean null and predictable-query assumptions hold. The report's pointwise-null candidate diagnostic classifies a candidate as null only when its evaluator-known conditional expected net gain is nonpositive at every realized monitor covariate. The global-null control replaces all candidates with incumbent copies; any certificate in that scenario is the direct familywise implementation diagnostic, not the proof.",
+        f"The grid compares prediction-powered `h_tk + I_t/q_t (Z_tk-h_tk)` with direct inverse-propensity `I_t Z_tk/q_t`, both shifted by the amortized switching charge. Here `Z` is incumbent cost minus candidate cost, `h` is a pre-monitor fitted expected-cost contrast, and the deployment horizon is `H`. With `|Z|,|h| <= M=max(FN,FP)`, the global-mode bounds are `M(2/q_min-1)+k_switch/H` and `M/q_min+k_switch/H`; local-mode bounds are computed per candidate and event from estimator support. Each candidate receives a level from validation-rank spending, equal Bonferroni allocation, or validation-power weights, fixed before monitor outcomes and summing to at most alpha. {bound_description} The global-null control replaces all candidates with incumbent copies; its zero-crossing result is a degenerate implementation diagnostic, not evidence of calibration.",
         "",
         "The synthetic evaluator alone accesses true outcome probabilities and unqueried future labels. It scores expected and realized post-promotion value on the untouched remainder of the stream, subtracting the switching charge once. This assumes policy actions do not alter outcomes; the result does not identify policy value under performative feedback. The repeated query/alpha/scenario grid is descriptive: cellwise intervals are not adjusted for choosing a method, and no winner is selected from the evaluation results.",
         "",
         "## Results",
         "",
-        "| Scenario | Label cap | Query policy | Estimator | Alpha allocation | Promote (95% CI) | Any pointwise-null candidate certified (95% CI) | Mean oracle future net gain (95% t CI) | Mean labels / cap |",
+        "| Scenario | Label cap | Query policy | Estimator | Alpha allocation | E-process crossing (95% CI) | Pointwise-null crossing (95% CI) | Mean oracle future net gain (95% t CI) | Mean labels / cap |",
         "|---|---:|---|---|---|---:|---:|---:|---:|",
     ]
     for row in summary.itertuples(index=False):
@@ -803,11 +815,11 @@ def run_budgeted_promotion(config: BudgetedPromotionConfig, output: Path) -> Pat
     lines.extend(
         [
             "",
-            "The `candidate_family_null` scenario makes every candidate an exact copy; a familywise certificate there is a direct implementation diagnostic. In other scenarios, the pointwise-null diagnostic counts any certified candidate whose evaluator-known conditional mean net gain is nonpositive for every realized monitor covariate. Future harmful promotion is a separate metric: a candidate can pass its shadow test and later lose value after a regime change.",
+            "The `candidate_family_null` scenario makes every candidate an exact copy; a familywise certificate there is a direct implementation diagnostic. In other scenarios, the pointwise-null diagnostic counts any crossing for a candidate whose evaluator-known conditional mean net gain is nonpositive at every realized monitor covariate. Future harmful promotion is a separate metric: a candidate can pass its shadow test and later lose value after a regime change.",
             "",
             "## Reproduction",
             "",
-            f"`uv run shiftlab-dive-budgeted-promotion --seeds {config.seeds} --seed-offset {config.seed_offset} --n {config.n} --device {device} --output {output.as_posix()}`",
+            f"`uv run shiftlab-dive-budgeted-promotion --seeds {config.seeds} --seed-offset {config.seed_offset} --n {config.n} --device {device} --bound-mode {config.bound_mode} --output {output.as_posix()}`",
             "",
             "Detailed seed-level rows, aggregate metrics, figure, configuration, environment, and hashes are stored with this report.",
         ]
@@ -832,6 +844,7 @@ def run_budgeted_promotion(config: BudgetedPromotionConfig, output: Path) -> Pat
             "a common pathwise cap is enforced before accessing each next event",
             "the oracle probability and unqueried outcomes are evaluator-only",
             "the global-null candidate family contains only exact copies of the incumbent",
+            "decision-local crossings reject a pointwise conditional null and do not certify positive average net benefit",
             "the future-value evaluator assumes no action-dependent outcome process",
         ],
         "artifacts": [

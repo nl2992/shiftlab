@@ -23,7 +23,7 @@ from shiftlab.dive.hard_budget import (
     run_hard_budget,
 )
 
-DEFAULT_BUDGETS = (0.10, 0.20, 0.30)
+DEFAULT_BUDGETS = (0.10, 0.20, 0.25)
 DEFAULT_SCENARIOS = (
     "stationary",
     "benign_nuisance",

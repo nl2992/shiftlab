@@ -172,6 +172,24 @@ the closest prior work and current novelty boundary are in
 [`references/closest_competitors.md`](references/closest_competitors.md). Open proof targets are in
 [`docs/theory_targets.md`](docs/theory_targets.md).
 
+The repeated-candidate hard-budget benchmark extends this work to sparse feedback. It freezes a
+13-candidate family and validation-based ranking before monitoring, then compares direct
+inverse-propensity with prediction-powered monitoring under 10% and 20% pathwise label caps. Across
+60 CUDA seeds in seven synthetic scenarios, the exact-copy candidate family produced no
+certificates. At the 20% cap, direct IPW certified candidates in the boundary-local and recurring
+regime alternatives (18–28% depending on query policy), while prediction-powered monitoring
+certified none. No estimator/query combination promoted at the 10% cap. The paired intervals
+suggest validation-rank alpha spending outperformed equal and validation-power allocation in
+several alternatives, but are unadjusted across the comparison grid. Decision-value querying did
+not consistently outperform uniform querying. This is a power and budget diagnostic, not a
+confirmed superiority or novelty result. See the [benchmark report](outputs/budgeted_promotion_grid_ipw/reports/budgeted_promotion_grid.md),
+[stream metrics](outputs/budgeted_promotion_grid_ipw/metrics/budgeted_promotion_streams.parquet),
+[paired contrasts](outputs/budgeted_promotion_grid_ipw/metrics/budgeted_promotion_paired_contrasts.parquet),
+[plot](outputs/budgeted_promotion_grid_ipw/figures/budgeted_promotion_grid.png), and
+[manifest](outputs/budgeted_promotion_grid_ipw/reports/manifest.json). Reproduce with
+`uv run shiftlab-dive-budgeted-promotion --seeds 60 --seed-offset 24102026 --n 3200 --device cuda
+--output outputs/budgeted_promotion_grid_ipw`.
+
 The shadow-promotion experiment evaluates a frozen logistic recalibration candidate and an
 incumbent snapshot on fresh forward-time labels, applies candidate-index alpha spending, and
 reports certification behavior in

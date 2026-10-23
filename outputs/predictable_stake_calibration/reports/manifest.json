@@ -1,0 +1,60 @@
+{
+  "experiment": "predictable_variance_adaptive_stakes_under_hard_query_caps",
+  "created_at_utc": "2026-10-23T14:20:45.601741+00:00",
+  "configuration": {
+    "streams_per_cell": 2000,
+    "horizon": 600,
+    "seed": 28102026,
+    "device": "cuda",
+    "alpha": 0.05,
+    "scenarios": [
+      "aggregate_zero",
+      "broad_positive",
+      "high_cost_only_positive"
+    ],
+    "high_costs": [
+      1.0,
+      2.0,
+      5.0
+    ],
+    "query_rates": [
+      0.1,
+      0.2,
+      0.3
+    ],
+    "fixed_stakes": [
+      0.05,
+      0.1,
+      0.2,
+      0.4,
+      0.8
+    ],
+    "adaptive_prior_strength": 4.0,
+    "adaptive_prior_mean": 0.05,
+    "adaptive_prior_second_moment": 0.25,
+    "adaptive_max_stake": 0.5
+  },
+  "reproduction_script": "scripts/calibrate_predictable_variance_stakes.py",
+  "reproduction_script_sha256": "daa11d66c1b3c2787e64c8c0fd9310c7256e66b34196bbf835e8929eb47adc03",
+  "artifacts": [
+    "metrics/predictable_stake_streams.parquet",
+    "metrics/predictable_stake_summary.parquet",
+    "metrics/predictable_stake_paired.parquet",
+    "reports/predictable_stake_calibration.md",
+    "figures/predictable_stake_calibration.png"
+  ],
+  "sha256": {
+    "artifacts": {
+      "metrics/predictable_stake_streams.parquet": "19feaa09746f647818fa0d0dbe583f5387426704d1eb8fe937365f488580006c",
+      "metrics/predictable_stake_summary.parquet": "717d84a7328d6b6f4a6e58f21edaa9f9a54e7f84523916d9704f2393f49d3e08",
+      "metrics/predictable_stake_paired.parquet": "ae3eb40e8b2d0a59206d1d6361aa3d0f77b97358a55882b36991ea6636ac1db5",
+      "reports/predictable_stake_calibration.md": "2967875c6821fbee4a8424dc80bd970474df69b8bc9ce086de5b72e12a3f9fc7",
+      "figures/predictable_stake_calibration.png": "2387f1f5885c8554c983d32892429084d7b214d3e5ba5460a46a39a6e3aff90f"
+    }
+  },
+  "environment": {
+    "torch_version": "2.9.1+cu130",
+    "cuda_available": true,
+    "gpu_name": "NVIDIA GeForce RTX 4060 Laptop GPU"
+  }
+}

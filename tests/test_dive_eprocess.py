@@ -1,7 +1,11 @@
 import numpy as np
 import pytest
 
-from shiftlab.dive.eprocess import BoundedMeanEProcess, StartedMixtureEProcess
+from shiftlab.dive.eprocess import (
+    BoundedMeanEProcess,
+    PredictableVarianceAdaptiveEProcess,
+    StartedMixtureEProcess,
+)
 from shiftlab.dive.estimators import prediction_powered_bound, prediction_powered_estimate
 
 
@@ -19,6 +23,32 @@ def test_bounded_mean_eprocess_accepts_a_fixed_weighted_stake_mixture():
     assert np.exp(process.log_e_value) == pytest.approx(expected)
     with pytest.raises(ValueError, match="weights"):
         BoundedMeanEProcess(bound=1.0, stakes=(0.1, 0.2), weights=(0.2, 0.2))
+
+
+def test_variance_adaptive_stake_uses_only_prior_values_and_respects_global_bound():
+    process = PredictableVarianceAdaptiveEProcess(bound=2.0)
+    assert process.stake == pytest.approx(0.2)
+    process.update(2.0)
+    assert process.last_stake == pytest.approx(0.2)
+    assert process.stake == pytest.approx(0.5)
+    process.update(-2.0)
+    assert process.last_stake == pytest.approx(0.5)
+    assert process.log_e_value == pytest.approx(np.log(1.2) + np.log(0.5))
+    with pytest.raises(ValueError, match="bounded"):
+        process.update(2.01)
+
+
+def test_variance_adaptive_eprocess_controls_null_crossing_in_monte_carlo_check():
+    rng = np.random.default_rng(28102026)
+    crossings = 0
+    streams = 400
+    for _ in range(streams):
+        process = PredictableVarianceAdaptiveEProcess(bound=1.0, alpha=0.05)
+        for value in rng.choice([-1.0, 1.0], size=600):
+            if process.update(float(value)) >= -np.log(0.05):
+                crossings += 1
+                break
+    assert crossings / streams < 0.08
 
 
 def test_prespecified_start_mixture_does_not_change_before_first_start():

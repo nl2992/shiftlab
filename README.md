@@ -579,3 +579,5 @@ conditional conformal coverage under arbitrary shift, causal drift attribution, 
 benefits from adaptation.
 
 For version-control conventions and contribution checks, see [CONTRIBUTING.md](CONTRIBUTING.md).
+
+A predictable variance-adaptive betting baseline now preserves the global bound and aggregate-mean target while choosing its stake from past normalized gains. In a 27-cell CUDA grid (2,000 streams per cell), it stayed below 5% crossings in all nine aggregate-null cells, with a maximum of 3.05%; its crossings were close to the fixed-stake mixture on positive alternatives and varied by cell. No overall power advantage is established. The method, paired Parquet metrics, checksums, and reproduction command are recorded in [the calibration report](outputs/predictable_stake_calibration/reports/predictable_stake_calibration.md) and [the plot](outputs/predictable_stake_calibration/figures/predictable_stake_calibration.png). It is a known predictable betting strategy, not a novelty claim; direct comparison with the published PM-EB or hedged confidence sequence remains next.

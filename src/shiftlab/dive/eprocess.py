@@ -93,6 +93,88 @@ class BoundedMeanEProcess:
         return self.log_e_value
 
 
+class PredictableVarianceAdaptiveEProcess:
+    """One-sided plug-in Kelly e-process for globally bounded mean gains.
+
+    The stake at time ``t`` is the positive part of a smoothed estimate of the
+    normalized mean divided by its smoothed second moment, clipped below one.
+    It is computed before observing the current value. Under
+    ``E[value_t | history] <= 0`` and ``|value_t| <= bound``, every factor
+    ``1 + stake_t * value_t / bound`` is nonnegative with conditional
+    expectation at most one. The predictable stake therefore preserves
+    anytime validity while responding to the observed scale and direction of
+    past gains. The Kelly approximation motivates power; it is not needed for
+    the validity argument and is not a novelty claim.
+    """
+
+    def __init__(
+        self,
+        *,
+        bound: float,
+        alpha: float = 0.05,
+        prior_strength: float = 4.0,
+        prior_mean: float = 0.05,
+        prior_second_moment: float = 0.25,
+        max_stake: float = 0.5,
+    ):
+        if not np.isfinite(bound) or bound <= 0:
+            raise ValueError("bound must be finite and positive")
+        if not np.isfinite(alpha) or not 0 < alpha < 1:
+            raise ValueError("alpha must lie strictly between zero and one")
+        if not np.isfinite(prior_strength) or prior_strength <= 0:
+            raise ValueError("prior_strength must be finite and positive")
+        if not np.isfinite(prior_mean) or not 0 <= prior_mean < 1:
+            raise ValueError("prior_mean must lie in [0, 1)")
+        if not np.isfinite(prior_second_moment) or not 0 < prior_second_moment <= 1:
+            raise ValueError("prior_second_moment must lie in (0, 1]")
+        if not np.isfinite(max_stake) or not 0 < max_stake < 1:
+            raise ValueError("max_stake must lie strictly between zero and one")
+        self.bound = float(bound)
+        self.alpha = float(alpha)
+        self.prior_strength = float(prior_strength)
+        self.prior_mean = float(prior_mean)
+        self.prior_second_moment = float(prior_second_moment)
+        self.max_stake = float(max_stake)
+        self.sum_normalized = 0.0
+        self.sum_squares = 0.0
+        self.log_wealth = 0.0
+        self.n_updates = 0
+        self.last_stake: float | None = None
+
+    @property
+    def stake(self) -> float:
+        """Return the next stake, using past observations only."""
+        denominator = self.prior_strength + self.n_updates
+        mean = (self.prior_strength * self.prior_mean + self.sum_normalized) / denominator
+        second_moment = (
+            self.prior_strength * self.prior_second_moment + self.sum_squares
+        ) / denominator
+        return float(np.clip(max(0.0, mean) / second_moment, 0.0, self.max_stake))
+
+    @property
+    def log_e_value(self) -> float:
+        return self.log_wealth
+
+    @property
+    def alarm(self) -> bool:
+        return self.log_e_value >= -np.log(self.alpha)
+
+    def update(self, value: float) -> float:
+        if not np.isfinite(value) or abs(value) > self.bound + 1e-12:
+            raise ValueError("observed value is outside the declared bounded range")
+        normalized = float(value / self.bound)
+        stake = self.stake
+        factor = 1 + stake * normalized
+        if factor <= 0:
+            raise RuntimeError("predictable stake produced a nonpositive betting factor")
+        self.last_stake = stake
+        self.log_wealth += float(np.log(factor))
+        self.sum_normalized += normalized
+        self.sum_squares += normalized**2
+        self.n_updates += 1
+        return self.log_e_value
+
+
 class StartedMixtureEProcess:
     """A prespecified mixture of e-processes started at fixed stream positions.
 

@@ -1,0 +1,117 @@
+{
+  "experiment": "repeated_candidate_non_degenerate_mean_null_calibration",
+  "created_at_utc": "2026-10-23T15:33:54.791532+00:00",
+  "configuration": {
+    "streams": 2000,
+    "horizon": 1000,
+    "seed": 26102026,
+    "alpha": 0.05,
+    "device": "cuda"
+  },
+  "environment": {
+    "cpu_ram_bytes": 16858472448,
+    "disk_free_bytes": 22902423552,
+    "cuda_available": true,
+    "nvidia_smi": "NVIDIA GeForce RTX 4060 Laptop GPU, 8188 MiB, 592.82, 0 %, 283 MiB",
+    "torch_version": "2.9.1+cu130",
+    "cuda_runtime": "13.0",
+    "gpu_name": "NVIDIA GeForce RTX 4060 Laptop GPU",
+    "gpu_memory_bytes": 8585216000,
+    "versions": {
+      "numpy": "2.5.4",
+      "scipy": "1.18.1",
+      "pandas": "3.0.6",
+      "pyarrow": "25.0.1",
+      "folktables": "0.0.12"
+    }
+  },
+  "scenarios": {
+    "aggregate_zero": {
+      "p_incumbent_one": 0.1,
+      "p_incumbent_zero": 0.1,
+      "true_mean_gain": 0.0
+    },
+    "aggregate_positive": {
+      "p_incumbent_one": 0.06,
+      "p_incumbent_zero": 0.14,
+      "true_mean_gain": 0.12
+    },
+    "aggregate_negative": {
+      "p_incumbent_one": 0.14,
+      "p_incumbent_zero": 0.06,
+      "true_mean_gain": -0.12
+    }
+  },
+  "candidate_counts": [
+    1,
+    5,
+    13
+  ],
+  "query_rates": [
+    0.1,
+    0.2,
+    0.4
+  ],
+  "bound_multipliers": [
+    1.0,
+    1.5,
+    2.0
+  ],
+  "rules": [
+    "fixed_mixture",
+    "fixed_mixture_half_alpha",
+    "predictable_kelly",
+    "pm_eb",
+    "positive_betting",
+    "hedged_positive"
+  ],
+  "familywise_allocation": "equal Bonferroni alpha / candidate_count",
+  "information_protocol": [
+    "candidate policies are fixed before stream generation",
+    "all candidate tests share the same queried labels",
+    "query propensities are fixed and independent of current context",
+    "current event labels affect the gate only when queried",
+    "the monitor stops before an event when its hard label cap is exhausted",
+    "the gate uses a fixed global support bound and does not normalize by current context"
+  ],
+  "artifacts": [
+    "metrics/repeated_candidate_null_streams.parquet",
+    "metrics/repeated_candidate_null_summary.parquet",
+    "metrics/repeated_candidate_null_paired.parquet",
+    "figures/repeated_candidate_null_calibration.png",
+    "reports/repeated_candidate_null_calibration.md"
+  ],
+  "sha256": {
+    "artifacts": {
+      "figures\\repeated_candidate_null_calibration.png": "fb76cc305379176f9bd200af1d5be78cdba959045d8babc0d4d1cca0e2461b9f",
+      "metrics\\repeated_candidate_null_paired.parquet": "7602a1ef811eb7b0f6327fb9b38417ed7b39cff8cbdedf065bee55ebe419573e",
+      "metrics\\repeated_candidate_null_streams.parquet": "448f99b1b97d2e14ba4976ee35d67743789fe97f502c2d76903024c07de71725",
+      "metrics\\repeated_candidate_null_summary.parquet": "8d5cfcce7aadf1c1cf8ac379e95b9981bc100ff8af58f2660eeb4fae6488479b",
+      "reports\\repeated_candidate_null_calibration.md": "6b76e5f237759f2b971aac9d702735187cfc0ad2e0c79089cd319d4100d9def6"
+    },
+    "source_files": {
+      "src\\shiftlab\\dive\\__init__.py": "10a8a1d170c7a452cebaa9df8e07070555edc841ff5c04cd049ff75cd8887780",
+      "src\\shiftlab\\dive\\allocation_grid.py": "8619d5f9f36e33eed1a5888b50c1c0cc54f621b9d001be89ed4f3ba9b42a6fab",
+      "src\\shiftlab\\dive\\budgeted_promotion.py": "e8d654eef0ddd2c14d00d7923368a5c8c25c3a475e8de50e95db82d1755259a4",
+      "src\\shiftlab\\dive\\controller.py": "9d4263c825382624940202a51fa5c9908db5f56a2be48a841f005e688ad702eb",
+      "src\\shiftlab\\dive\\eprocess.py": "85d099f75a2e04864e348edbd51bc68eb1517445b01c4c241f8883682c98ea0e",
+      "src\\shiftlab\\dive\\estimators.py": "22b39564317ff1597feb53427eebc8601d459d2d06b7319e6bab1343de4be110",
+      "src\\shiftlab\\dive\\evaluation.py": "9b64eea3d7dd708104d25ad51e927451811c91e66295ee480fc791ac884432c4",
+      "src\\shiftlab\\dive\\experiment.py": "18acb6796c1178126861bcd370cdc84c8d93a8140060a8177c3cf7c25936c746",
+      "src\\shiftlab\\dive\\hard_budget.py": "45703440324eb3cbb76e497174d752c03307c4a70b6e005021020cbf896d4632",
+      "src\\shiftlab\\dive\\oracle_diagnostics.py": "14118dc2912b8236fb4215dd64ebe2108870c51a1963816eaa004f583e9dda8c",
+      "src\\shiftlab\\dive\\persistence_promotion.py": "9a43d8e14dc4bac5ebc048837ab5d09f268e3bb5f79c615eda39a655b357710b",
+      "src\\shiftlab\\dive\\power.py": "d3796dde1cb378ddf7a2a401a2971a8902d126b0db82e48e88556333fa4dde53",
+      "src\\shiftlab\\dive\\promotion.py": "d15e22a7217a15f5c70348766f67ae034409f782b67bfaa0a9b154a6094f24e3",
+      "src\\shiftlab\\dive\\promotion_experiment.py": "93ba08750effdfc1cfc131a0b3cbda1c363118c774c143c4f633a18aeaa7a546",
+      "src\\shiftlab\\dive\\promotion_grid.py": "307ee2137936c1ba8938ef026cb2e611b26ccc15bc6ad3fe4c7ffbed3ec930ce",
+      "src\\shiftlab\\dive\\promotion_robustness.py": "c8601c63b1ada4765e5613b7e5a8753731a60bbd3fceab8fc4b6590657df2e01",
+      "src\\shiftlab\\dive\\promotion_timing.py": "59240fbf930d74a745429b80c9956849f96b9b03363c14eacc5ffc64f930a2e1",
+      "src\\shiftlab\\dive\\proxy.py": "77546752c6796c37795fc7eeb14de678e0bf53509248bda56b1cb1bcecb3a102",
+      "src\\shiftlab\\dive\\query.py": "751b00e071e9fe088b1770d9a7a7a4b250d50c13417a3804dbfbd584f32b8ec7",
+      "src\\shiftlab\\decision_harm_experiment.py": "b749aa6961e11abd8b234977f65515001b117c723885610cc5a83d0183c4206a",
+      "scripts\\calibrate_repeated_candidate_nulls.py": "050260039998bd5f13d9d51ce91a9247b15e2d4c9e1c32510fc277b3a9b5e04e",
+      "docs\\repeated_candidate_null_calibration_protocol.md": "3a41e7a776ad8740048faa865f97de484bf5ee42eee88f1967df838819b586a7"
+    }
+  }
+}

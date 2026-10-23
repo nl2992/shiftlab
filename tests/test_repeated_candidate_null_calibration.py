@@ -1,3 +1,4 @@
+import numpy as np
 import torch
 
 from scripts.calibrate_repeated_candidate_nulls import (
@@ -19,6 +20,28 @@ def test_candidate_rules_flip_balanced_contexts_and_each_incumbent_action():
         lookup[~incumbent_one].sum(dim=0),
         torch.full((13,), 8),
     )
+
+
+def test_constructed_null_and_alternatives_have_exact_expected_gains_and_variance():
+    contexts = torch.arange(32)
+    incumbent = (contexts & 1).numpy().astype(int)
+    flips = _context_flip_lookup(torch.device("cpu")).numpy()
+    candidates = incumbent[:, None] ^ flips
+    for p_one, p_zero, expected_mean in (
+        (0.10, 0.10, 0.0),
+        (0.06, 0.14, 0.12),
+        (0.14, 0.06, -0.12),
+    ):
+        p = np.where(incumbent == 1, p_one, p_zero)
+        incumbent_y0 = np.where(incumbent == 1, 1.0, 0.0)
+        candidate_y0 = np.where(candidates == 1, 1.0, 0.0)
+        incumbent_y1 = np.where(incumbent == 1, 0.0, 5.0)
+        candidate_y1 = np.where(candidates == 1, 0.0, 5.0)
+        gain_y0 = incumbent_y0[:, None] - candidate_y0
+        gain_y1 = incumbent_y1[:, None] - candidate_y1
+        conditional_mean = (1 - p[:, None]) * gain_y0 + p[:, None] * gain_y1
+        assert np.allclose(conditional_mean.mean(axis=0), expected_mean)
+        assert np.any(gain_y0 != gain_y1)
 
 
 def test_non_degenerate_null_grid_respects_hard_caps_and_emits_all_rules():

@@ -18,6 +18,19 @@ def test_wilson_bounds_keep_zero_and_full_detection_rates_inside_interval():
     assert np.all(upper >= np.array([0, 1]))
 
 
+def test_hard_budget_config_validates_scenario_grid_parameters():
+    config = HardBudgetConfig(
+        scenario_severity=2.25,
+        change_fraction=0.35,
+    )
+    assert config.validate().scenario_severity == 2.25
+    assert config.validate().change_fraction == 0.35
+    with pytest.raises(ValueError, match="scenario_severity"):
+        HardBudgetConfig(scenario_severity=5.1).validate()
+    with pytest.raises(ValueError, match="change_fraction"):
+        HardBudgetConfig(change_fraction=1.0).validate()
+
+
 def test_protected_stake_prior_retains_baseline_mass_and_small_bets():
     assert len(PROTECTED_STAKES) == 5 + len(PROTECTED_EXPLORATION_STAKES)
     assert sum(PROTECTED_WEIGHTS[:5]) == pytest.approx(0.90)

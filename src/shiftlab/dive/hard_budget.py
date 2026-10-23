@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import copy
 import json
-from dataclasses import asdict, dataclass
+from dataclasses import asdict, dataclass, replace
 from pathlib import Path
 
 import matplotlib
@@ -87,6 +87,8 @@ class HardBudgetConfig:
     monitor_comparators: tuple[str, ...] = ()
     max_label_cost: float = 2.5
     common_eprocess_bound: bool = False
+    scenario_severity: float | None = None
+    change_fraction: float = 0.5
     device: str = "auto"
     scenario_subset: tuple[str, ...] = (
         "stationary",
@@ -104,6 +106,12 @@ class HardBudgetConfig:
             raise ValueError("require 0 < q_min <= budget_rate <= q_max <= 1")
         if self.max_label_cost <= 0 or not np.isfinite(self.max_label_cost):
             raise ValueError("max_label_cost must be finite and positive")
+        if self.scenario_severity is not None and (
+            not np.isfinite(self.scenario_severity) or not 0 <= self.scenario_severity <= 5
+        ):
+            raise ValueError("scenario_severity must lie in [0, 5]")
+        if not np.isfinite(self.change_fraction) or not 0 < self.change_fraction < 1:
+            raise ValueError("change_fraction must lie in (0, 1)")
         if not isinstance(self.common_eprocess_bound, bool):
             raise TypeError("common_eprocess_bound must be boolean")
         if self.cost_stability_tolerance < 0 or not np.isfinite(self.cost_stability_tolerance):
@@ -395,6 +403,8 @@ def _one_method(
     )
     row = {
         "scenario": scenario.name,
+        "scenario_severity": scenario.severity,
+        "change_fraction": config.change_fraction,
         "seed": seed,
         "method": method,
         "hard_budget": budget,
@@ -484,6 +494,8 @@ def _one_method(
 def _generate_stream_rows(
     scenario, seed: int, config: HardBudgetConfig, common_uniforms: np.ndarray
 ) -> list[dict[str, object]]:
+    if config.scenario_severity is not None:
+        scenario = replace(scenario, severity=config.scenario_severity)
     base = ExperimentConfig(
         n=config.n,
         d=config.d,
@@ -495,6 +507,7 @@ def _generate_stream_rows(
         alpha=config.alpha,
         eprocess_epsilon=config.harm_margin,
         seed_offset=seed,
+        change_fraction=config.change_fraction,
         device=config.device,
     )
     _, frame, oracle, timing = _generate(scenario, seed, base)

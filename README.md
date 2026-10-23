@@ -218,7 +218,9 @@ was inconclusive. See the [frozen confirmation protocol](docs/harm_confirmation_
 [paired metrics](outputs/harm_confirmation_qmin020_200/metrics/harm_confirmation_paired_tests.csv),
 and [stream metrics](outputs/harm_confirmation_qmin020_200/metrics/hard_budget_comparison.parquet).
 The next step is a disjoint power and delay map over harm magnitude, onset, and horizon. These
-synthetic results do not establish field validity or novelty.
+synthetic results do not establish field validity or novelty. Its 36-cell paired design is frozen
+in the [power-grid protocol](docs/harm_power_grid_protocol.md) and implemented by
+[`run_harm_power_grid.py`](scripts/run_harm_power_grid.py).
 
 The repeated-candidate hard-budget benchmark extends this work to sparse feedback. It freezes a
 13-candidate family and validation-based ranking before monitoring, then compares direct

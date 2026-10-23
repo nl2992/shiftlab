@@ -2,7 +2,20 @@ from pathlib import Path
 
 import pandas as pd
 
-from shiftlab.decision_harm_experiment import ExperimentConfig, run_experiment
+from shiftlab.decision_harm_experiment import (
+    SCENARIOS,
+    ExperimentConfig,
+    _generate,
+    run_experiment,
+)
+
+
+def test_experiment_config_change_fraction_reaches_synthetic_schedule():
+    scenario = next(item for item in SCENARIOS if item.name == "boundary_local_harm")
+    config = ExperimentConfig(n=1600, d=4, change_fraction=0.35, device="cpu")
+    synthetic, _, _, timing = _generate(scenario, 44321, config)
+    assert synthetic.change_fraction == 0.35
+    assert timing["change_times"] == [560]
 
 
 def test_quick_benchmark_writes_reproducible_artifacts(tmp_path: Path):

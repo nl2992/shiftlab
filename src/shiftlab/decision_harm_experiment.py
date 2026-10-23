@@ -121,6 +121,7 @@ class ExperimentConfig:
     alpha: float = 0.05
     eprocess_epsilon: float = 0.10
     seed_offset: int = 20261022
+    change_fraction: float = 0.5
     device: str = "auto"
 
 
@@ -132,6 +133,7 @@ def _generate(scenario: Scenario, seed: int, config: ExperimentConfig):
         scenario=scenario.dgp,
         pattern=scenario.pattern,
         regimes=4 if scenario.pattern == "recurring" else 2,
+        change_fraction=config.change_fraction,
         severity=scenario.severity,
         noise=0.3,
         train_fraction=0.15,

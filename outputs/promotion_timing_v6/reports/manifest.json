@@ -1,0 +1,91 @@
+{
+  "experiment": "promotion_timing_under_nonstationary_benefit",
+  "created_at_utc": "2026-10-23T12:42:22.436962+00:00",
+  "configuration": {
+    "n": 3200,
+    "seeds": 1000,
+    "seed_offset": 20401023,
+    "alpha": 0.05,
+    "switching_cost": 0.05,
+    "multi_start_fractions": [
+      0.0,
+      0.3333333333333333,
+      0.6666666666666666
+    ],
+    "device": "cuda"
+  },
+  "environment": {
+    "cpu_ram_bytes": 16858472448,
+    "disk_free_bytes": 23394557952,
+    "cuda_available": true,
+    "nvidia_smi": "NVIDIA GeForce RTX 4060 Laptop GPU, 8188 MiB, 592.82, 0 %, 155 MiB",
+    "torch_version": "2.9.1+cu130",
+    "cuda_runtime": "13.0",
+    "gpu_name": "NVIDIA GeForce RTX 4060 Laptop GPU",
+    "gpu_memory_bytes": 8585216000,
+    "versions": {
+      "numpy": "2.5.4",
+      "scipy": "1.18.1",
+      "pandas": "3.0.6",
+      "pyarrow": "25.0.1",
+      "folktables": "0.0.12"
+    }
+  },
+  "scenarios": [
+    "no_benefit",
+    "early_transient",
+    "benefit_reversal",
+    "persistent_benefit",
+    "late_persistent"
+  ],
+  "methods": [
+    "sequential_full_start",
+    "sequential_multi_start_3",
+    "empirical_bernstein_fixed_horizon",
+    "hoeffding_fixed_horizon",
+    "never_promote"
+  ],
+  "information_protocol": [
+    "candidate fixed before shadow observations",
+    "train and validation indices precede shadow; no model fitting uses shadow outcomes",
+    "gate inputs contain paired monitor costs only; oracle schedule is evaluator-only",
+    "sequential processes start at predeclared shadow indices and stop on promotion",
+    "fixed-horizon Hoeffding is evaluated once and covers independent non-identical bounded costs",
+    "empirical-Bernstein uses the independent bounded non-identical result; observations must be independent across events",
+    "future potential costs are used only by the synthetic evaluator after promotion",
+    "candidate and incumbent outcomes are generated independently; action-dependent outcomes are out of scope"
+  ],
+  "artifacts": [
+    "metrics/promotion_timing_streams.parquet",
+    "metrics/promotion_timing_summary.parquet",
+    "figures/promotion_timing.png",
+    "reports/promotion_timing.md"
+  ],
+  "sha256": {
+    "artifacts": {
+      "figures\\promotion_timing.png": "4676f36022e1f1bf19c3e0c70ee5f55c224b1b2506b7e9f1b6b5fc355209168a",
+      "metrics\\promotion_timing_streams.parquet": "16ca6be513a1950e30b0ba7cc68b920aa1c93fe6bc113842c08555e59d8f23f2",
+      "metrics\\promotion_timing_summary.parquet": "90ceee90b462c4850d9572eb75d7b16585857b58977af257df4ad5c4d7b5997a",
+      "reports\\promotion_timing.md": "f4e65d1e4a3c235274fe83bb33a5d6f3b1a662f0bb0627f7b4f0d4fc4f871490"
+    },
+    "source_files": {
+      "src\\shiftlab\\dive\\__init__.py": "10a8a1d170c7a452cebaa9df8e07070555edc841ff5c04cd049ff75cd8887780",
+      "src\\shiftlab\\dive\\allocation_grid.py": "8619d5f9f36e33eed1a5888b50c1c0cc54f621b9d001be89ed4f3ba9b42a6fab",
+      "src\\shiftlab\\dive\\controller.py": "9d4263c825382624940202a51fa5c9908db5f56a2be48a841f005e688ad702eb",
+      "src\\shiftlab\\dive\\eprocess.py": "6bd989bf2ddf4ad6e6efa1cc274284ca7d99c21ceaec0fbe0140814947508575",
+      "src\\shiftlab\\dive\\estimators.py": "22b39564317ff1597feb53427eebc8601d459d2d06b7319e6bab1343de4be110",
+      "src\\shiftlab\\dive\\evaluation.py": "9b64eea3d7dd708104d25ad51e927451811c91e66295ee480fc791ac884432c4",
+      "src\\shiftlab\\dive\\experiment.py": "18acb6796c1178126861bcd370cdc84c8d93a8140060a8177c3cf7c25936c746",
+      "src\\shiftlab\\dive\\hard_budget.py": "45703440324eb3cbb76e497174d752c03307c4a70b6e005021020cbf896d4632",
+      "src\\shiftlab\\dive\\oracle_diagnostics.py": "14118dc2912b8236fb4215dd64ebe2108870c51a1963816eaa004f583e9dda8c",
+      "src\\shiftlab\\dive\\power.py": "d3796dde1cb378ddf7a2a401a2971a8902d126b0db82e48e88556333fa4dde53",
+      "src\\shiftlab\\dive\\promotion.py": "d15e22a7217a15f5c70348766f67ae034409f782b67bfaa0a9b154a6094f24e3",
+      "src\\shiftlab\\dive\\promotion_experiment.py": "93ba08750effdfc1cfc131a0b3cbda1c363118c774c143c4f633a18aeaa7a546",
+      "src\\shiftlab\\dive\\promotion_grid.py": "307ee2137936c1ba8938ef026cb2e611b26ccc15bc6ad3fe4c7ffbed3ec930ce",
+      "src\\shiftlab\\dive\\promotion_timing.py": "59240fbf930d74a745429b80c9956849f96b9b03363c14eacc5ffc64f930a2e1",
+      "src\\shiftlab\\dive\\proxy.py": "77546752c6796c37795fc7eeb14de678e0bf53509248bda56b1cb1bcecb3a102",
+      "src\\shiftlab\\dive\\query.py": "751b00e071e9fe088b1770d9a7a7a4b250d50c13417a3804dbfbd584f32b8ec7",
+      "src\\shiftlab\\decision_harm_experiment.py": "b749aa6961e11abd8b234977f65515001b117c723885610cc5a83d0183c4206a"
+    }
+  }
+}

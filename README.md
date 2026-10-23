@@ -246,6 +246,24 @@ outcomes. Results support a benchmark-specific comparison, not a novelty or gene
 claim. The original `outputs/promotion_grid/` results used a non-absorbing certification flag and
 are superseded by the corrected runs.
 
+The follow-up timing benchmark compares full-start and three-start sequential e-processes with
+fixed-horizon empirical-Bernstein and Hoeffding gates on five benefit schedules, with 1,000
+independent CUDA streams per schedule. Under no benefit, both sequential rules promoted 32/1,000
+streams (3.2%, Wilson 95% CI 2.3–4.5%). For late persistent benefit, the three-start process
+promoted 998/1,000 and achieved mean oracle future net gain 212.6 (95% seed-level t interval
+211.5–213.8); the full-start process promoted 688/1,000 with gain 120.5 (115.4–125.7), and the
+empirical-Bernstein gate promoted 520/1,000 with gain 74.9 (70.4–79.3). Under a benefit reversal,
+the sequential rules promoted 997/1,000 and 996/1,000 candidates after the early positive phase,
+but their mean oracle future net gains were −30.1 (−30.8 to −29.4) and −35.2 (−36.0 to −34.4).
+This shows that a valid test of eventwise shadow improvement does not establish persistence of
+future candidate value. The empirical-Bernstein gate promoted 1/1,000 under reversal, but paid the
+latency of its fixed horizon. These are controlled synthetic results, not a new-method or universal
+superiority claim. See [the timing report](outputs/promotion_timing_v6/reports/promotion_timing.md),
+[metrics](outputs/promotion_timing_v6/metrics/promotion_timing_summary.parquet), and
+[figure](outputs/promotion_timing_v6/figures/promotion_timing.png). Reproduce with
+`uv run shiftlab-dive-promotion-timing --seeds 1000 --seed-offset 20401023 --n 3200 --device cuda
+--output outputs/promotion_timing_v6`.
+
 A second grid tests whether the fixed rank schedule spends the promotion error budget effectively.
 It compares rank spending, equal allocation over the finite candidate set, and validation-power
 weights for both sequential and empirical-Bernstein promotion. The validation-power rule uses an

@@ -5,6 +5,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import subprocess
 from pathlib import Path
 
 import numpy as np
@@ -31,6 +32,7 @@ MONITORS = {
     "pm_eb": "pm_eb_false_escalation",
 }
 PRIMARY_ALPHA = 0.05
+PROTOCOL = Path("docs/policy_bound_null_calibration_protocol.md")
 
 
 def wilson_interval(events: int, trials: int) -> tuple[float, float]:
@@ -187,6 +189,13 @@ def analyze(output: Path) -> tuple[Path, Path]:
     manifest.setdefault("run_provenance", {})["analysis_script_sha256"] = hashlib.sha256(
         Path(__file__).resolve().read_bytes()
     ).hexdigest()
+    protocol_commit = subprocess.check_output(
+        ["git", "log", "-1", "--format=%H", "--", PROTOCOL.as_posix()],
+        cwd=ROOT,
+        text=True,
+    ).strip()
+    manifest["run_provenance"]["protocol_commit"] = protocol_commit
+    manifest["run_provenance"]["protocol_lock_commit"] = protocol_commit
     manifest["run_provenance"]["analysis_criterion"] = (
         "all 10 primary familywise upper bounds < 0.05"
     )

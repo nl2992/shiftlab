@@ -1,6 +1,10 @@
 import numpy as np
 
-from shiftlab.dive.closed_loop_intervention import _simulate_gate
+from shiftlab.dive.closed_loop_intervention import (
+    _evaluate_methods,
+    _simulate_gate,
+    benefit_schedule,
+)
 from shiftlab.dive.controller import CertifiedPromotionRollback, Intervention
 
 
@@ -79,3 +83,27 @@ def test_vectorized_gate_stops_querying_at_total_label_cap():
     assert gate["deployment_labels_queried"].tolist() == [0, 0]
     assert not gate["promoted"].any()
     assert gate["budget_respected"].all()
+
+
+def test_phase_specific_nulls_are_classified_from_evaluator_schedule():
+    horizon = 100
+    gains = np.concatenate((np.ones(horizon), -np.ones(horizon)))[None, :]
+    rows = _evaluate_methods(
+        scenario="late_benefit",
+        budget_rate=0.2,
+        gains=gains,
+        benefit=benefit_schedule("late_benefit", horizon),
+        query_uniforms=np.zeros_like(gains),
+        seed_offset=7,
+        query_rate=1.0,
+        promotion_cost=0.05,
+        rollback_cost=0.05,
+        label_price=0.01,
+        alpha=0.05,
+        horizon=horizon,
+    )
+    gated = rows[rows.method.eq("promotion_rollback")].iloc[0]
+    assert gated.promoted
+    assert gated.rolled_back
+    assert gated.false_promotion_under_null
+    assert gated.false_rollback_under_null

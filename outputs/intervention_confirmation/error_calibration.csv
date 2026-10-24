@@ -1,0 +1,10 @@
+scenario,budget_rate,method,error_type,events,streams,rate,familywise_one_sided_cp95_upper,familywise_alpha,family_cells,component_alpha
+late_benefit,0.4,promotion_only,false_promotion_under_null,22,2000,0.011,0.018419651237616696,0.05,9,0.025
+late_benefit,0.4,promotion_rollback,false_promotion_under_null,22,2000,0.011,0.018419651237616696,0.05,9,0.025
+late_benefit,0.4,promotion_rollback,false_rollback_under_null,0,2000,0.0,0.0025931104908919434,0.05,9,0.025
+no_benefit,0.4,promotion_only,false_promotion_under_null,25,2000,0.0125,0.02029421668977857,0.05,9,0.025
+no_benefit,0.4,promotion_rollback,false_promotion_under_null,25,2000,0.0125,0.02029421668977857,0.05,9,0.025
+no_benefit,0.4,promotion_rollback,false_rollback_under_null,1,2000,0.0005,0.0036494755626601035,0.05,9,0.025
+persistent_benefit,0.4,promotion_rollback,false_rollback_under_null,2,2000,0.001,0.004563375482024212,0.05,9,0.025
+shadow_only_benefit,0.4,promotion_rollback,false_rollback_under_null,35,2000,0.0175,0.02640005087484451,0.05,9,0.025
+weak_persistent_benefit,0.4,promotion_rollback,false_rollback_under_null,1,2000,0.0005,0.0036494755626601035,0.05,9,0.025

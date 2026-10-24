@@ -1,0 +1,51 @@
+{
+  "created_at_utc": "2026-10-24T11:45:04.306700+00:00",
+  "purpose": "independent fixed-size null-calibration replication; no parameter changes",
+  "seeds_per_scenario": 10000,
+  "seed_offset": 62102626,
+  "horizon_per_phase": 800,
+  "device_requested": "cuda",
+  "frozen_design": {
+    "query_rate": 0.8,
+    "budget_rate": 0.4,
+    "label_price": 0.01,
+    "promotion_cost": 0.05,
+    "rollback_cost": 0.05
+  },
+  "control_scenarios": [
+    "no_benefit",
+    "persistent_benefit",
+    "shadow_only_benefit",
+    "late_benefit",
+    "weak_persistent_benefit"
+  ],
+  "calibration_family_cells": 9,
+  "calibration_ci": "exact one-sided Clopper-Pearson with Bonferroni family correction",
+  "metric_rows": 200000,
+  "metrics_sha256": "0d0897e114f2ec007e629847cdd56c6aa2711a9d30963f28cbaacc88f05829ae",
+  "code_sha256": {
+    "intervention_calibration_replication.py": "0ee75c9c787020e28448632d15cc4d56c1b3ef9e1da94617a9a9d70d9e6f27fd",
+    "intervention_confirmation.py": "d20d1348c3784e1d9e81c228e5ddbc93836889fa7962ab40b8a66bbae534f144",
+    "closed_loop_intervention.py": "e2248afc31fef4372acf6a943f658060a64581e7eb1c79478a88c03568534325",
+    "controller.py": "bdeb77dcf4089d72a795d54bd1d2fd9a415757feeb7be020860e3a02b796178c",
+    "eprocess.py": "19f116579e4f0afc4656e16aacf9141affd0f7f8af263d283f8138827f672cb7",
+    "promotion_timing.py": "59240fbf930d74a745429b80c9956849f96b9b03363c14eacc5ffc64f930a2e1"
+  },
+  "environment": {
+    "cpu_ram_bytes": 16858472448,
+    "disk_free_bytes": 21321256960,
+    "cuda_available": true,
+    "nvidia_smi": "NVIDIA GeForce RTX 4060 Laptop GPU, 8188 MiB, 592.82, 0 %, 279 MiB",
+    "torch_version": "2.9.1+cu130",
+    "cuda_runtime": "13.0",
+    "gpu_name": "NVIDIA GeForce RTX 4060 Laptop GPU",
+    "gpu_memory_bytes": 8585216000,
+    "versions": {
+      "numpy": "2.5.4",
+      "scipy": "1.18.1",
+      "pandas": "3.0.6",
+      "pyarrow": "25.0.1",
+      "folktables": "0.0.12"
+    }
+  }
+}

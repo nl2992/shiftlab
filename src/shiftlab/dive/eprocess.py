@@ -99,6 +99,70 @@ class BoundedMeanEProcess:
         return self.log_e_value
 
 
+class PredictableBoundMeanEProcess:
+    """Bounded-mean e-process with an event-specific predictable bound.
+
+    At each update, ``bound`` must be selected before ``value`` is observed and
+    must satisfy ``abs(value) <= bound``. Every fixed stake component multiplies
+    by ``1 + stake * value / bound``; under the conditional-mean null and a
+    predictable bound, this factor has conditional expectation at most one.
+    Mixing fixed components preserves the e-process property. This supports
+    inverse-propensity increments whose range changes with an adaptive query
+    propensity. The class cannot verify the caller's filtration assumptions.
+    """
+
+    def __init__(
+        self,
+        *,
+        alpha: float = 0.05,
+        stakes: tuple[float, ...] = (0.05, 0.1, 0.2, 0.4, 0.8),
+        weights: tuple[float, ...] | None = None,
+    ):
+        if not np.isfinite(alpha) or not 0 < alpha < 1:
+            raise ValueError("alpha must lie in (0, 1)")
+        if not stakes or any(not np.isfinite(stake) or not 0 < stake <= 1 for stake in stakes):
+            raise ValueError("stakes must be a nonempty collection in (0, 1]")
+        if weights is None:
+            weight_array = np.full(len(stakes), 1 / len(stakes), dtype=float)
+        else:
+            weight_array = np.asarray(weights, dtype=float)
+            if (
+                weight_array.shape != (len(stakes),)
+                or not np.isfinite(weight_array).all()
+                or np.any(weight_array <= 0)
+                or not np.isclose(weight_array.sum(), 1.0)
+            ):
+                raise ValueError("weights must be positive, sum to one, and match stakes")
+        self.alpha = float(alpha)
+        self.stakes = np.asarray(stakes, dtype=float)
+        self.weights = weight_array
+        self.log_wealth = np.zeros(len(stakes), dtype=float)
+        self.n_updates = 0
+
+    @property
+    def log_e_value(self) -> float:
+        return float(logsumexp(self.log_wealth + np.log(self.weights)))
+
+    @property
+    def alarm(self) -> bool:
+        return self.log_e_value >= -np.log(self.alpha)
+
+    def update(self, value: float, *, bound: float) -> float:
+        if not np.isfinite(value):
+            raise ValueError("observed value must be finite")
+        if not np.isfinite(bound) or bound <= 0:
+            raise ValueError("event-specific bound must be finite and positive")
+        if abs(value) > bound:
+            raise ValueError("observed value is outside the declared bounded range")
+        factors = 1 + self.stakes * (value / bound)
+        if np.any(factors < 0):
+            raise ValueError("event-specific betting factors must be nonnegative")
+        with np.errstate(divide="ignore"):
+            self.log_wealth += np.log(factors)
+        self.n_updates += 1
+        return self.log_e_value
+
+
 class PredictableVarianceAdaptiveEProcess:
     """One-sided plug-in Kelly e-process for globally bounded mean gains.
 

@@ -8,7 +8,7 @@ novelty.
 Reproduce with the command in the [protocol](closed_loop_intervention_protocol.md). The run
 used an NVIDIA RTX 4060 Laptop GPU, PyTorch 2.9.1+cu130 and CUDA runtime 13.0. All 96,000
 policy-stream rows respected their hard label budget. The metric Parquet SHA-256 is
-`d00ac685f61609f4f361d7a63e100d13418dc7d46603e0e68823dacd023d28cb`; the complete run
+`b58b9bb797e7d61a2bc6208dbcf5448ba910ecdc9917feb752845a58c73e7e5c`; the complete run
 configuration, environment, and source hashes are in
 [`outputs/closed_loop_intervention/manifest.json`](../outputs/closed_loop_intervention/manifest.json).
 
@@ -35,15 +35,18 @@ period without further assumptions or evidence.
 
 | Calibration target | Events | Estimate | Simultaneous one-sided 95% upper bound |
 | --- | ---: | ---: | ---: |
-| False promotion under zero shadow gain, 20% cap | 20/2,000 | 1.00% | 1.70% |
-| False promotion under zero shadow gain, 40% cap | 20/2,000 | 1.00% | 1.70% |
-| False rollback under zero deployment gain after strong shadow benefit, each cap | 20/2,000 | 1.00% | 1.70% |
-| False rollback under persistent positive deployment gain, each cap | 0/2,000 | 0.00% | 0.25% |
+| False promotion, zero shadow gain and zero deployment gain, each cap | 20/2,000 | 1.00% | 1.79% |
+| False shadow certificate, zero shadow gain but later deployment benefit, each cap | 15/2,000 | 0.75% | 1.46% |
+| False rollback after selected strong shadow benefit, zero deployment gain, each cap | 20/2,000 | 1.00% | 1.79% |
+| False rollback under zero gain in both phases, each cap | 1/2,000 | 0.05% | 0.40% |
+| False rollback under persistent positive deployment gain, each cap | 0/2,000 | 0.00% | 0.29% |
 
 Bounds use exact one-sided Clopper-Pearson intervals with Bonferroni adjustment across the
-eight reported calibration cells. Each stage allocates alpha 0.025; the displayed simultaneous
-limits are conservative relative to per-test alpha. The two cap settings often produce the
-same error count because the lower cap was not binding in the shadow-only calibration streams.
+18 reported calibration cells. The false-promotion calibration includes `late_benefit`, whose
+shadow phase is a null even though benefit appears later; this corrects the phase-specific
+null classification. Each stage allocates alpha 0.025; the displayed simultaneous limits are
+conservative relative to per-test alpha. The two cap settings often produce the same error
+count because the lower cap was not binding in these streams.
 
 Unconditional promotion had the highest expected utility when benefit was present, but it
 promoted every stream under the zero-benefit null (2,000/2,000 false promotions). Continue was

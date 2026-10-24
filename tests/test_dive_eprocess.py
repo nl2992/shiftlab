@@ -8,6 +8,7 @@ from shiftlab.dive.eprocess import (
     MultiTimescaleStartedKellyEProcess,
     PPIBlockConfidenceSequence,
     PPIBlockMixtureEProcess,
+    PredictableBoundMeanEProcess,
     PredictableHedgedPositiveEProcess,
     PredictablePlugInEmpiricalBernsteinEProcess,
     PredictableVarianceAdaptiveEProcess,
@@ -34,6 +35,24 @@ def test_bounded_mean_eprocess_accepts_a_fixed_weighted_stake_mixture():
     assert process.predictable_stake == pytest.approx(np.dot(updated_weights, (0.01, 0.5)))
     with pytest.raises(ValueError, match="weights"):
         BoundedMeanEProcess(bound=1.0, stakes=(0.1, 0.2), weights=(0.2, 0.2))
+
+
+def test_predictable_bound_eprocess_uses_event_specific_bounds():
+    process = PredictableBoundMeanEProcess(
+        alpha=0.05,
+        stakes=(0.25, 0.75),
+        weights=(0.5, 0.5),
+    )
+    process.update(0.5, bound=1.0)
+    process.update(-1.0, bound=2.0)
+    expected = 0.5 * (1 + 0.25 * 0.5) * (1 - 0.25 / 2)
+    expected += 0.5 * (1 + 0.75 * 0.5) * (1 - 0.75 / 2)
+    assert np.exp(process.log_e_value) == pytest.approx(expected)
+    assert process.n_updates == 2
+    with pytest.raises(ValueError, match="bounded"):
+        process.update(1.01, bound=1.0)
+    with pytest.raises(ValueError, match="positive"):
+        process.update(0.0, bound=0.0)
 
 
 def test_variance_adaptive_stake_uses_only_prior_values_and_respects_global_bound():

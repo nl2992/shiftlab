@@ -234,9 +234,10 @@ def _evaluate_methods(
             - rolled_back.astype(float) * rollback_cost
             - labels * label_price
         )
-        false_promotion = (scenario == "no_benefit") & promoted
-        false_rollback = (scenario == "persistent_benefit") & rolled_back
-        false_rollback_under_null = (scenario == "shadow_only_benefit") & rolled_back
+        promotion_null = np.all(benefit[:horizon] <= promotion_cost / horizon)
+        rollback_null = np.all(benefit[horizon:] >= -rollback_cost / horizon)
+        false_promotion = promotion_null & promoted
+        false_rollback = rollback_null & rolled_back
         for index in range(streams):
             rows.append(
                 {
@@ -257,10 +258,7 @@ def _evaluate_methods(
                     "label_budget": label_budget,
                     "budget_respected": bool(labels[index] <= label_budget),
                     "false_promotion_under_null": bool(false_promotion[index]),
-                    "false_rollback_under_persistent_benefit": bool(false_rollback[index]),
-                    "false_rollback_under_postpromotion_null": bool(
-                        false_rollback_under_null[index]
-                    ),
+                    "false_rollback_under_null": bool(false_rollback[index]),
                     "realized_net_utility": float(realized_utility[index]),
                     "expected_net_utility": float(expected_utility[index]),
                     "oracle_expected_benefit_before_costs": float(expected_benefit[index]),
@@ -310,27 +308,26 @@ def _paired_contrasts(metrics: pd.DataFrame, bootstrap_replicates: int) -> pd.Da
 
 def _calibration(metrics: pd.DataFrame, alpha: float) -> pd.DataFrame:
     rows = []
-    cells = (
-        ("no_benefit", "promotion_only", "false_promotion_under_null"),
-        ("no_benefit", "promotion_rollback", "false_promotion_under_null"),
-        (
-            "persistent_benefit",
-            "promotion_rollback",
-            "false_rollback_under_persistent_benefit",
-        ),
-        (
-            "shadow_only_benefit",
-            "promotion_rollback",
-            "false_rollback_under_postpromotion_null",
-        ),
-    )
-    groups = [
-        (scenario, method, field, group)
-        for (scenario, budget), all_rows in metrics.groupby(["scenario", "budget_rate"])
-        for scenario, method, field in cells
-        if scenario == all_rows.scenario.iloc[0]
-        for group in [all_rows[all_rows.method.eq(method)]]
+    cells = [
+        (scenario, method, "false_promotion_under_null")
+        for scenario in ("no_benefit", "late_benefit")
+        for method in ("promotion_only", "promotion_rollback")
     ]
+    cells.extend(
+        (scenario, "promotion_rollback", "false_rollback_under_null")
+        for scenario in (
+            "no_benefit",
+            "persistent_benefit",
+            "shadow_only_benefit",
+            "late_benefit",
+            "weak_persistent_benefit",
+        )
+    )
+    groups = []
+    for (scenario, _budget), all_rows in metrics.groupby(["scenario", "budget_rate"]):
+        for cell_scenario, method, field in cells:
+            if cell_scenario == scenario:
+                groups.append((scenario, method, field, all_rows[all_rows.method.eq(method)]))
     family_alpha = alpha / max(1, len(groups))
     for scenario, method, field, group in groups:
         events, n = int(group[field].sum()), len(group)
@@ -424,7 +421,7 @@ def run_grid(
             rollbacks=("rolled_back", "sum"),
             rollback_rate=("rolled_back", "mean"),
             false_promotions=("false_promotion_under_null", "sum"),
-            false_rollbacks=("false_rollback_under_persistent_benefit", "sum"),
+            false_rollbacks=("false_rollback_under_null", "sum"),
             mean_expected_net_utility=("expected_net_utility", "mean"),
             mean_realized_net_utility=("realized_net_utility", "mean"),
             mean_labels=("labels_queried", "mean"),

@@ -1,0 +1,69 @@
+{
+  "created_at_utc": "2026-10-24T11:43:11.444764+00:00",
+  "purpose": "independent-seed confirmation of one frozen development-selected design",
+  "seeds_per_scenario": 2000,
+  "seed_offset": 52102626,
+  "horizon_per_phase": 800,
+  "device_requested": "cuda",
+  "frozen_design": {
+    "query_rate": 0.8,
+    "budget_rate": 0.4,
+    "label_price": 0.01,
+    "promotion_cost": 0.05,
+    "rollback_cost": 0.05
+  },
+  "control_scenarios": [
+    "no_benefit",
+    "persistent_benefit",
+    "shadow_only_benefit",
+    "late_benefit",
+    "weak_persistent_benefit"
+  ],
+  "reversal_scenarios": [
+    "reversal_onset_0.1_harm_0.1",
+    "reversal_onset_0.1_harm_0.2",
+    "reversal_onset_0.5_harm_0.1",
+    "reversal_onset_0.5_harm_0.2",
+    "reversal_onset_0.8_harm_0.1",
+    "reversal_onset_0.8_harm_0.2"
+  ],
+  "methods": [
+    "continue",
+    "unconditional_promote",
+    "promotion_only",
+    "promotion_rollback"
+  ],
+  "alpha_total": 0.05,
+  "alpha_each_gate": 0.025,
+  "calibration_family_cells": 9,
+  "calibration_ci": "exact one-sided Clopper-Pearson with Bonferroni family correction",
+  "utility_ci": "paired seed-cluster bootstrap, descriptive across six reversal profiles",
+  "bootstrap_replicates": 10000,
+  "metric_rows": 88000,
+  "metrics_sha256": "c7e632b71bd051940e070d45a18e480195b89c864a5bcf4c22a148920872570f",
+  "code_sha256": {
+    "intervention_confirmation.py": "d20d1348c3784e1d9e81c228e5ddbc93836889fa7962ab40b8a66bbae534f144",
+    "intervention_sensitivity.py": "af377e66982e988bb4f0df8e64cfcecdb4535afa98f278df37f2f966630b3676",
+    "closed_loop_intervention.py": "e2248afc31fef4372acf6a943f658060a64581e7eb1c79478a88c03568534325",
+    "controller.py": "bdeb77dcf4089d72a795d54bd1d2fd9a415757feeb7be020860e3a02b796178c",
+    "eprocess.py": "19f116579e4f0afc4656e16aacf9141affd0f7f8af263d283f8138827f672cb7",
+    "promotion_timing.py": "59240fbf930d74a745429b80c9956849f96b9b03363c14eacc5ffc64f930a2e1"
+  },
+  "environment": {
+    "cpu_ram_bytes": 16858472448,
+    "disk_free_bytes": 21349507072,
+    "cuda_available": true,
+    "nvidia_smi": "NVIDIA GeForce RTX 4060 Laptop GPU, 8188 MiB, 592.82, 0 %, 155 MiB",
+    "torch_version": "2.9.1+cu130",
+    "cuda_runtime": "13.0",
+    "gpu_name": "NVIDIA GeForce RTX 4060 Laptop GPU",
+    "gpu_memory_bytes": 8585216000,
+    "versions": {
+      "numpy": "2.5.4",
+      "scipy": "1.18.1",
+      "pandas": "3.0.6",
+      "pyarrow": "25.0.1",
+      "folktables": "0.0.12"
+    }
+  }
+}

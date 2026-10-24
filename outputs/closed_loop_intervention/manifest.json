@@ -1,5 +1,5 @@
 {
-  "created_at_utc": "2026-10-24T11:27:44.340217+00:00",
+  "created_at_utc": "2026-10-24T11:34:48.126079+00:00",
   "purpose": "development benchmark for a two-gate promotion and rollback policy",
   "scenarios": [
     "no_benefit",
@@ -40,16 +40,16 @@
     "labels_queried"
   ],
   "metric_rows": 96000,
-  "metrics_sha256": "d00ac685f61609f4f361d7a63e100d13418dc7d46603e0e68823dacd023d28cb",
+  "metrics_sha256": "b58b9bb797e7d61a2bc6208dbcf5448ba910ecdc9917feb752845a58c73e7e5c",
   "code_sha256": {
-    "closed_loop_intervention.py": "7f67f840619312d2c5bc8e9b3aba0a713f268a654f7fb6ed20d1e592d4e3242d",
+    "closed_loop_intervention.py": "e2248afc31fef4372acf6a943f658060a64581e7eb1c79478a88c03568534325",
     "controller.py": "bdeb77dcf4089d72a795d54bd1d2fd9a415757feeb7be020860e3a02b796178c",
     "eprocess.py": "19f116579e4f0afc4656e16aacf9141affd0f7f8af263d283f8138827f672cb7",
     "promotion_timing.py": "59240fbf930d74a745429b80c9956849f96b9b03363c14eacc5ffc64f930a2e1"
   },
   "environment": {
     "cpu_ram_bytes": 16858472448,
-    "disk_free_bytes": 21372973056,
+    "disk_free_bytes": 21364838400,
     "cuda_available": true,
     "nvidia_smi": "NVIDIA GeForce RTX 4060 Laptop GPU, 8188 MiB, 592.82, 0 %, 169 MiB",
     "torch_version": "2.9.1+cu130",

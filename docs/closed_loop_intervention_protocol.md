@@ -84,4 +84,4 @@ Expected utility uses the evaluator's known gain schedule and is a simulation-on
 Realized utility uses generated paired costs. Utility contrasts use paired bootstrap intervals
 over seeds and are descriptive; the contrast family is not multiplicity-adjusted. Error-rate
 upper bounds are exact one-sided Clopper-Pearson limits with Bonferroni correction over the
-registered calibration cells. Neither interval type supports a universal deployment claim.\n
+registered calibration cells. Neither interval type supports a universal deployment claim.

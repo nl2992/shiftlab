@@ -317,8 +317,9 @@ separate `CertifiedPromotionRollback` reference policy now connects two bounded-
 one certifies a frozen candidate on shadow feedback, and another can return to fallback on fresh
 forward deployment feedback. Its CUDA development benchmark compares continue, unconditional
 promotion, promotion-only, and promotion-plus-rollback under six scenarios and hard label caps.
-The 2,000-seed run observed 1.0% false promotion under a zero-gain shadow null (simultaneous
-exact upper bound 1.70%). Under early reversal, rollback improved expected net utility by 3.07
+The 2,000-seed run observed 1.0% false promotion under the zero-gain shadow null (simultaneous
+exact upper bound 1.79% across the corrected 18-cell calibration family). Under early reversal,
+rollback improved expected net utility by 3.07
 units versus promotion-only (seed-bootstrap 95% interval 2.48–3.70), while the policy remained
 far below continue in that scenario. Persistent-benefit monitoring reduced net utility by about
 1.99 units through label costs, and shadow-only benefit exposed the gap between shadow and
@@ -327,6 +328,21 @@ claim. See the [protocol](docs/closed_loop_intervention_protocol.md), [results](
 [metrics](outputs/closed_loop_intervention/metrics.parquet), and [manifest](outputs/closed_loop_intervention/manifest.json).
 Reproduce with `uv run python -m shiftlab.dive.closed_loop_intervention --device cuda --seeds 2000
 --horizon 800 --bootstrap-replicates 10000 --output-dir outputs/closed_loop_intervention`.
+
+The follow-up [sensitivity grid](docs/intervention_sensitivity_protocol.md) evaluated 216
+reversal cells plus four controls. At the reference label price, the development-selected
+setting was `q=0.80`, a 40% hard label cap, and promotion/rollback costs of 0.05; its macro
+rollback gain over promotion-only was 6.05 utility units (development interval 4.96–7.14).
+Fresh-seed confirmation estimated a gain of 5.51 (95% interval 5.32–5.69). Its first
+2,000-stream zero-deployment rollback calibration had an upper limit of 2.64%, just above the
+2.5% target. A separately reported 10,000-stream calibration replication passed the nine-cell
+simultaneous gate (worst upper limit 1.64%) without changing the frozen policy. These results
+apply to the stated independent Bernoulli simulation only. See the [development results](docs/intervention_sensitivity_results.md),
+[confirmation results](docs/intervention_confirmation_results.md),
+[confirmation protocol](docs/intervention_confirmation_protocol.md),
+[calibration replication protocol](docs/intervention_calibration_replication_protocol.md),
+[confirmation metrics](outputs/intervention_confirmation/metrics.parquet), and
+[replication calibration table](outputs/intervention_calibration_replication/error_calibration.csv).
 
 The initial CUDA benchmark is saved in `outputs/`. It contains 1,260 monitor rows (30 seeds × 6
 scenarios × 7 methods) and 360 candidate-promotion rows. With 2,400 labels per stream, full-feedback

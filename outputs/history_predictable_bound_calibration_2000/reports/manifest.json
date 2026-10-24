@@ -1,0 +1,101 @@
+{
+  "analysis_recomputed_without_regenerating_streams": true,
+  "artifact_sha256": {
+    "metrics\\paired_contrasts.csv": "b1cfa5b541217d863fb227c0beaf9d600758065c59db2872c2713111d670d0bc",
+    "metrics\\stream_metrics.parquet": "af283df7308e5f9c6b60611e02f5ce6b77ab318eef5f52b8f98dee0b6d9faf67",
+    "metrics\\summary.csv": "29147a8f6198450e501938ff62a2b33bbdb535c2b661d9833e5c2b20bdbd7f37",
+    "reports\\calibration_and_harm_results.md": "06d5de2b4a4e2a913a5175597797b489da0d387641fa011f370a06246e9aff5a"
+  },
+  "classification": "locked_development_grid_not_confirmatory",
+  "complete": true,
+  "configuration": {
+    "alpha": 0.05,
+    "budget_taper_power": 1.0,
+    "hard_label_budget": 480,
+    "harm_onset_event": 1200,
+    "high_cost": 5.0,
+    "horizon": 2400,
+    "label_budget_rate": 0.2,
+    "low_cost": 1.0,
+    "outcome_support_M": 5.0,
+    "p_y1_high_harm_by_effect": {
+      "0.04": 0.48,
+      "0.20": 0.448,
+      "0.40": 0.408,
+      "0.60": 0.368
+    },
+    "p_y1_high_null": 0.488,
+    "p_y1_low_stratum": 0.56,
+    "population_mean_Z_null": 0.0,
+    "population_variance_Z_null": 13.0,
+    "post_onset_aggregate_harm_effects": [
+      0.04,
+      0.2,
+      0.4,
+      0.6
+    ],
+    "primary_metrics": [
+      "null false-escalation probability",
+      "harm post-onset detection by horizon",
+      "stream-paired dynamic-minus-fixed differences",
+      "labels and events consumed",
+      "evaluator-known harm exposure until alarm or censoring"
+    ],
+    "q_max": 0.8,
+    "query_floors": [
+      0.05,
+      0.1,
+      0.15
+    ],
+    "randomness": "one shared CUDA/CPU torch generator per run; independent tensor columns are stream IDs and are reused across arms and paired scenarios",
+    "requested_device": "cuda",
+    "rng_root_seed": 27102027,
+    "scenarios": [
+      "mixed_sign_exact_marginal_null",
+      "high_cost_local_harm_d0.04",
+      "high_cost_local_harm_d0.20",
+      "high_cost_local_harm_d0.40",
+      "high_cost_local_harm_d0.60"
+    ],
+    "stakes": [
+      0.05,
+      0.1,
+      0.2,
+      0.4,
+      0.8
+    ],
+    "stream_id_range_inclusive": [
+      0,
+      1999
+    ],
+    "stream_seed_id_range_inclusive": [
+      27102027,
+      27104026
+    ],
+    "streams_per_scenario": 2000,
+    "training_events_per_stream": 512,
+    "urgency_activation_fraction": 0.05,
+    "urgency_power": 0.5
+  },
+  "created_at_utc": "2026-10-24T18:24:05.775837+00:00",
+  "environment": {
+    "cuda_version": "13.0",
+    "device": "cuda",
+    "gpu_name": "NVIDIA GeForce RTX 4060 Laptop GPU",
+    "torch_version": "2.9.1+cu130"
+  },
+  "experiment": "history_predictable_ppi_bound_null_calibration_and_localized_harm",
+  "git_commit": "cb0e35850d972cc196cf2cc665454efd491a1de7",
+  "input_data": "synthetic only; no raw event-level export",
+  "oracle_boundary": "oracle outcome probabilities and conditional means only used to generate DGP/evaluator harm; learner receives sampled pre-monitor training labels and current context",
+  "reproducibility": {
+    "script_sha256": "f298434ebbb94603d77117292d20b7c3229672787cf894048ece4e2470a3a5a5",
+    "source_file_sha256": {
+      "docs\\history_predictable_bound_calibration_protocol.md": "9fe5c137ff3415e2322fff35b9dcea19bfc654c4db88821b73edc4e697e3a03f",
+      "src\\shiftlab\\dive\\eprocess.py": "186cb6cd152b127a7cd2e6a0082dd91762a983f8cf3b6ccb7b3e147e067e37a3",
+      "src\\shiftlab\\dive\\estimators.py": "ccf8cab60b73ca139f1c9eebf70f53d003201b3664f9bab99e126ec0739647b0"
+    }
+  },
+  "rows": 70000,
+  "visuals_generated": false
+}

@@ -1,0 +1,9 @@
+scenario,arm,streams,false_escalations,false_escalation_rate,onset_reach_rate,post_onset_detection,mean_labels,mean_events_processed,mean_event_delay,mean_wall_delay,mean_expected_exposure
+markov_volatility_harm_d0.04,delay_12_fixed,2000,0,0.0,1.0,0.0,305.8645,2399.9755,,,47.98578666666667
+markov_volatility_harm_d0.04,delay_12_predictable,2000,31,0.0155,0.9845,0.0065,181.096,2364.504,610.7692307692307,622.7692307692307,47.080506666666665
+markov_volatility_harm_d0.20,delay_12_fixed,2000,0,0.0,1.0,0.001,317.4385,2399.8505,1063.0,1075.0,239.907
+markov_volatility_harm_d0.20,delay_12_predictable,2000,31,0.0155,0.9845,0.02,188.9815,2357.3505,643.7,655.45,233.98433333333335
+markov_volatility_harm_d0.40,delay_12_fixed,2000,0,0.0,1.0,0.016,333.7845,2397.222,1017.1875,1028.875,478.69840000000005
+markov_volatility_harm_d0.40,delay_12_predictable,2000,31,0.0155,0.9845,0.079,201.8005,2331.8275,727.1708860759494,739.120253164557,457.412
+markov_volatility_harm_d0.60,delay_12_fixed,2000,0,0.0,1.0,0.057,348.9785,2388.4285,985.5526315789474,997.3070175438596,712.4168
+markov_volatility_harm_d0.60,delay_12_predictable,2000,31,0.0155,0.9845,0.2095,213.1325,2273.0045,733.8400954653938,745.7374701670644,649.7242

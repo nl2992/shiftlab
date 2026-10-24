@@ -1,0 +1,51 @@
+{
+  "arms": [
+    "delay_12_fixed",
+    "delay_12_predictable"
+  ],
+  "artifact_sha256": {
+    "metrics\\calibration.csv": "9b6ca285a18b68c5f254746937dbf5c9b4004a7e32a8069463d6d1dfa95a045d",
+    "metrics\\stream_metrics.parquet": "96ad8822db3034d8f2ee2a779646583dd2e47df7eb2b41ae60ac3e1ca7c9f519",
+    "metrics\\summary.csv": "01ced7133d173aaca977db98584a95dcede41a4e257fcbd80ae8e27ed424920d",
+    "reports\\calibration_results.md": "4588922e7e05cf7553722ea53e1c14fe905afb998e8c43c4c7a4fa573fb485cb"
+  },
+  "budget_rate": 0.2,
+  "cuda_version": "13.0",
+  "delay": 12,
+  "device_requested": "cuda",
+  "device_resolved": "cuda",
+  "experiment": "delayed_markov_predictable_calibration",
+  "generated_at_utc": "2026-10-24T20:49:54.493310+00:00",
+  "git_revision": "e480a538935da7a530e373c1c4b97eac2002253a",
+  "horizon": 2400,
+  "limitations": [
+    "two-state Markov-volatility process only",
+    "event-time full-history conditional-mean null required",
+    "fixed 12-event outcome-independent complete label delay",
+    "frozen action pair and independent source proxy",
+    "event-order prefix alarms; delay is not evidence",
+    "standard predictable bounded-factor method; no novelty claim"
+  ],
+  "python_version": "3.13.1",
+  "q_min": 0.05,
+  "rows": 8000,
+  "runtime_seconds": 90.07252970000263,
+  "scenarios": [
+    "markov_volatility_exact_marginal_null",
+    "markov_volatility_strict_negative_control"
+  ],
+  "seed_root": 28204027,
+  "source_sha256": {
+    "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\shift-research-starter\\scripts\\confirm_delayed_markov_predictable_bounds.py": "1bb8008893b789bb7d9cc55f7b2662061837032dc2760b8df20c7e4732fddbf7",
+    "docs\\delayed_event_prefix_validity.md": "b577f4b47f01bce29dbe3857281d40babbd1572f471d1f0275f5f4b05354eb7a",
+    "docs\\delayed_markov_bound_confirmation_protocol.md": "865a5f118222fbac39c282a4df892c42d1ce8c8e05a45a0b9c7d28c939b9a887",
+    "docs\\delayed_markov_bound_development_protocol.md": "d03150240e3b2f3ebd8ff41b143e4e1b530aa8fb8a752839cf734c161f39f47a",
+    "scripts\\calibrate_history_predictable_query_bounds.py": "d690fada02bab08c73f81bc7489ff97ec9a8af4f02375c24f374a61b89e390ee",
+    "scripts\\confirm_history_predictable_query_bounds.py": "c19b7eee90177393c1ca3063c6187ffe6d65a410b77f3c6cdbed85e8bfdbd871",
+    "scripts\\validate_delayed_history_predictable_bounds.py": "eb63334b80b045bf4309e84a4ddbc51421a9096a188894ce7ab3d68c366c97fa",
+    "scripts\\validate_markov_predictable_query_bounds.py": "e412848a89e4c2eb99c5766b416615cbac596bfd6a2e251e9ad4522ad2d43b6b"
+  },
+  "status": "frozen_calibration",
+  "streams_per_scenario_arm": 2000,
+  "torch_version": "2.9.1+cu130"
+}

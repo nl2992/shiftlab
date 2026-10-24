@@ -1,0 +1,85 @@
+{
+  "bootstrap_replicates": 10000,
+  "bootstrap_seed_root": 28385028,
+  "detection_gate_lower_bound": 0.02,
+  "dose_results": [
+    {
+      "effect": 0.04,
+      "fixed_detection": 0.0,
+      "fixed_mean_expected_exposure": 47.98578666666667,
+      "fixed_mean_labels": 305.8645,
+      "paired_detection_difference": 0.0065,
+      "paired_expected_exposure_difference": -0.90528,
+      "paired_label_difference": -124.7685,
+      "predictable_detection": 0.0065,
+      "predictable_mean_expected_exposure": 47.080506666666665,
+      "predictable_mean_labels": 181.096,
+      "predictable_pre_onset_alarms": 31,
+      "scenario": "markov_volatility_harm_d0.04"
+    },
+    {
+      "effect": 0.2,
+      "fixed_detection": 0.001,
+      "fixed_mean_expected_exposure": 239.907,
+      "fixed_mean_labels": 317.4385,
+      "paired_detection_difference": 0.019,
+      "paired_expected_exposure_difference": -5.922666666666667,
+      "paired_label_difference": -128.457,
+      "predictable_detection": 0.02,
+      "predictable_mean_expected_exposure": 233.98433333333332,
+      "predictable_mean_labels": 188.9815,
+      "predictable_pre_onset_alarms": 31,
+      "scenario": "markov_volatility_harm_d0.20"
+    },
+    {
+      "effect": 0.4,
+      "fixed_detection": 0.016,
+      "fixed_mean_expected_exposure": 478.69840000000005,
+      "fixed_mean_labels": 333.7845,
+      "paired_detection_difference": 0.063,
+      "paired_expected_exposure_difference": -21.2864,
+      "paired_label_difference": -131.984,
+      "predictable_detection": 0.079,
+      "predictable_mean_expected_exposure": 457.412,
+      "predictable_mean_labels": 201.8005,
+      "predictable_pre_onset_alarms": 31,
+      "scenario": "markov_volatility_harm_d0.40"
+    },
+    {
+      "effect": 0.6,
+      "fixed_detection": 0.057,
+      "fixed_mean_expected_exposure": 712.4168000000001,
+      "fixed_mean_labels": 348.9785,
+      "paired_detection_difference": 0.1525,
+      "paired_expected_exposure_difference": -62.6926,
+      "paired_label_difference": -135.846,
+      "predictable_detection": 0.2095,
+      "predictable_mean_expected_exposure": 649.7242,
+      "predictable_mean_labels": 213.1325,
+      "predictable_pre_onset_alarms": 31,
+      "scenario": "markov_volatility_harm_d0.60"
+    }
+  ],
+  "independent_calibration_sha256": "9b6ca285a18b68c5f254746937dbf5c9b4004a7e32a8069463d6d1dfa95a045d",
+  "independent_calibration_summary": "outputs\\delayed_markov_predictable_calibration_2000\\metrics\\calibration.csv",
+  "paired_bootstrap_95_ci_detection": [
+    0.05325,
+    0.0675
+  ],
+  "paired_bootstrap_95_ci_expected_exposure": [
+    -25.529343416666666,
+    -19.953330833333332
+  ],
+  "paired_bootstrap_95_ci_labels": [
+    -134.223915625,
+    -126.376865625
+  ],
+  "paired_mean_detection_difference": 0.06025,
+  "paired_mean_expected_exposure_difference": -22.701736666666665,
+  "paired_mean_label_difference": -130.263875,
+  "passes_calibration_gate": true,
+  "passes_detection_gate": true,
+  "passes_no_extra_labels_gate": true,
+  "primary_estimand": "equal-weight mean over four Markov harm doses of paired post-onset detection difference, predictable minus fixed, 12-event delay",
+  "retention_rule_passes": true
+}

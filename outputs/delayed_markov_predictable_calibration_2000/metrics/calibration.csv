@@ -1,0 +1,5 @@
+scenario,arm,streams,false_escalations,false_escalation_rate,simultaneous_one_sided_95_upper,passes_5pct_gate,mean_labels,mean_processed_events
+markov_volatility_exact_marginal_null,delay_12_fixed,2000,0,0.0,0.0021886147997063833,True,303.271,2399.9995
+markov_volatility_exact_marginal_null,delay_12_predictable,2000,28,0.014,0.021116257934444178,True,177.538,2374.5705
+markov_volatility_strict_negative_control,delay_12_fixed,2000,0,0.0,0.0021886147997063833,True,290.0715,2400.0
+markov_volatility_strict_negative_control,delay_12_predictable,2000,25,0.0125,0.019304422345342603,True,172.061,2375.7855

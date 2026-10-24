@@ -136,6 +136,23 @@ the [replication](outputs/delayed_feedback_replication_2000/), and the
 No figure is included for this study because its protocol requires PaperBanana and that tool was not
 available when the results were generated.
 
+A separate delayed-feedback validation now combines the history-predictable query process with a
+two-state Markov volatility regime whose paired-cost conditional mean is zero in each latent state.
+At a fixed 12-event outcome-independent delay, an independent 2,000-stream-per-cell null calibration
+passed the registered 5% simultaneous upper-limit gate (largest exact upper limit 2.11%). In a
+disjoint 2,000-stream-per-dose confirmation, the predictable-bound system improved equal-weight
+detection by 6.03 percentage points (paired 95% bootstrap interval [5.33, 6.75]) and used about 130
+fewer labels per stream (interval [-134, -126]) than the same history-only query system with a fixed
+bound. The gain was concentrated at stronger harms; the system had 31/2,000 pre-onset alarms per
+dose block, all counted as nondetections. This validates the complete monitor-query system only for
+the registered Markov DGP, frozen action pair, full-history conditional-mean null, and complete
+delay-12 feedback; it does not isolate the bound's effect or establish a new algorithm. Protocol,
+results, per-stream Parquet, and manifests are in
+[`docs/delayed_markov_bound_confirmation_results.md`](docs/delayed_markov_bound_confirmation_results.md)
+and [`outputs/delayed_markov_predictable_confirmation_2000/`](outputs/delayed_markov_predictable_confirmation_2000/).
+No figure was made because PaperBanana was unavailable; this result is adequately represented by
+tables and machine-readable stream metrics.
+
 The separate Paper 3 DIVE benchmark has 1,260 CUDA-generated rows (30 paired seeds, six scenarios,
 seven monitoring/query variants). The corrected null audit counts every alarm on stationary and
 benign-nuisance population-null streams as a false escalation, even when that particular finite

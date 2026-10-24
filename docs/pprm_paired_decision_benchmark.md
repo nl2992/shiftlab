@@ -10,8 +10,11 @@ has a regression test. A corrected four-setting, 30-seed-per-cell CUDA grid is s
 recorded zero detections, while block-PPI estimation RMSE is now comparable to or better than the
 frozen eventwise control in many cells. Corrected variance diagnostics are recorded in
 [`outputs/pprm_variance_diagnostic_corrected_v1/`](../outputs/pprm_variance_diagnostic_corrected_v1/).
-These are development results only. Confirmatory null calibration and separately powered evaluation
-remain outstanding.
+Corrected independent-seed horizon and long-horizon block-size screens are also recorded below. A
+fixed mixture of two valid block-level e-processes provides a mathematically grounded development
+candidate: it detected harms missed by CM-EB alone, but remained less powerful than eventwise PPI on
+the tested streams. All results remain developmental; confirmatory null calibration and separately
+powered evaluation are outstanding.
 
 ## Why this comparator is necessary
 
@@ -163,9 +166,59 @@ eventwise frozen PPI detected 24/30 boundary-local-harm and 29/30 harmful-adapta
 numbers from this run are invalid and omitted. Thirty streams are far too few to calibrate error
 rates; the eventwise results are exploratory power diagnostics, not confirmatory evidence.
 
-The original PPRM horizon results are invalid because of the block-label indexing bug. Rerun horizon
-sensitivity after the fix before comparing PPRM and eventwise monitor power. Do not claim a new method
-from these screens.
+The corrected horizon rerun is in
+[`outputs/pprm_horizon_corrected_v1/analysis/horizon_analysis.md`](../outputs/pprm_horizon_corrected_v1/analysis/horizon_analysis.md).
+It uses the independent seed offset 20372123, \\(B=20\\), four labels per block, and reliance cap 0.1.
+PPRM detected 0/30 harms at every horizon. Eventwise frozen PPI detected 0/30 at \\(n=1600\\),
+2/30 boundary-local and 2/30 harmful-adaptation streams at (n=3200), then 24/30, 29/30, and
+24/30 boundary-local, harmful-adaptation, and recurring-regime streams at \\(n=6400\\). There were
+no false escalations in the 30 stationary streams. At \\(n=6400\\), PPRM's stream-mean estimation
+RMSE was 0.0289, 0.0211, and 0.0318 in those three harm scenarios, close to the eventwise frozen
+values 0.0325, 0.0255, and 0.0281. Yet the PPRM mean confidence-sequence lower bounds were only
+0.488, 0.491, and 0.488, below the normalized materiality threshold 0.51. This points to evidence
+accumulation and the block-level confidence sequence as the next bottleneck to test, rather than
+assuming that the corrected estimator remains inaccurate. These 30-seed results remain exploratory.
+
+At the same horizon and seed offset, the smaller-block screen in
+[`outputs/pprm_long_horizon_block_grid_corrected_v1/analysis/block_grid_analysis.md`](../outputs/pprm_long_horizon_block_grid_corrected_v1/analysis/block_grid_analysis.md)
+compared \\(B=5\\) and \\(B=10\\), each with 20% of events labeled, on stationary, boundary-local-harm,
+recurring-regime, and harmful-adaptation streams. PPRM detected 0/30 in all three harm scenarios at
+both block sizes; eventwise updating PPI detected 26/30, 24/30, and 29/30, respectively. The mean
+PPRM lower bounds for \\(B=5\\) on the three harms were 0.499, 0.503, and 0.499; for \\(B=10\\), they
+were 0.480, 0.484, and 0.480. All remained below the 0.51 materiality threshold. More frequent
+block updates alone therefore did not recover the eventwise power in this screen.
+
+## Fixed mixture of block-level e-processes
+
+The latest development candidate combines the existing CM-EB block e-process (E_t^{\mathrm{CM}})
+with a predictable positive betting e-process (E_t^{\mathrm{bet}}):
+
+\[
+E_t^{(w)} = w E_t^{\mathrm{CM}} + (1-w) E_t^{\mathrm{bet}},\qquad 0<w<1.
+\]
+
+For block estimate \(\widehat\mu_b\) and normalized materiality threshold \(\tau\), the positive
+process receives \(A_b=\widehat\mu_b-\tau\). Its deterministic absolute bound is
+\(B=\max(\eta_{\max}+\tau,1+\eta_{\max}-\tau)\), from the declared PPI support
+\([-\eta_{\max},1+\eta_{\max}]\). It maps \(A_b\) to
+\(X_b=(1+A_b/B)/2\) and uses a predictable stake in \([0,1]\); under the block running-mean null,
+\(\mathbb E[X_b\mid\mathcal F_{b-1}]\leq 1/2\), so each betting factor has conditional expectation
+at most one. A fixed convex mixture of the component e-processes remains an e-process, and Ville's
+inequality controls the probability that it ever crosses \(1/\alpha\). This guarantee requires the
+block estimator's conditional unbiasedness, predictable reliance, bounded support, and the stated
+conditional-mean null; it does not certify a changing policy or the stronger eventwise conditional
+null.
+
+The exact small-null enumeration test passes for all five tested fixed weights. On the 30-seed
+development block at \\(n=6400\\), \\(B=20\\), and reliance cap 0.1, the weight screen is in
+[`outputs/pprm_block_mixture_weights_development_v1/analysis/mixture_weight_analysis.md`](../outputs/pprm_block_mixture_weights_development_v1/analysis/mixture_weight_analysis.md).
+The \\(w=0.1\\) mixture detected 17/30 boundary-local, 18/30 harmful-adaptation, and 17/30 recurring-
+regime streams, compared with 0/30 for CM-EB alone and 24/30, 29/30, and 24/30 for eventwise frozen
+PPI. No mixture weight falsely escalated in 30 stationary streams, which is far too few to establish
+an error rate. The weights used the same development streams, so selecting \\(w=0.1\\) is a development
+choice only; independent null calibration and power evaluation are required before any confirmatory
+claim. The paired metrics are in
+[`outputs/pprm_block_mixture_weights_development_v1/block_20/metrics/hard_budget_comparison.parquet`](../outputs/pprm_block_mixture_weights_development_v1/block_20/metrics/hard_budget_comparison.parquet).
 
 ## Matched experiment
 

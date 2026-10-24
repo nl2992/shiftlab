@@ -30,6 +30,7 @@ from ..decision_harm_experiment import (
 from .eprocess import (
     BoundedMeanEProcess,
     PPIBlockConfidenceSequence,
+    PPIBlockMixtureEProcess,
     PredictablePlugInEmpiricalBernsteinEProcess,
     PredictableVarianceAdaptiveEProcess,
 )
@@ -48,6 +49,8 @@ from .experiment import (
     finalize_manifest,
 )
 from .proxy import DecisionLossProxy
+
+PPRM_MIXTURE_WEIGHTS = (0.1, 0.25, 0.5, 0.75, 0.9)
 from .query import (
     AdaptiveQueryPolicy,
     ExactMixtureGrowthQueryPolicy,
@@ -556,6 +559,11 @@ def _one_pprm_block_method(
         threshold=threshold,
         alpha=config.alpha,
     )
+    mixture_monitor = PPIBlockMixtureEProcess(
+        max_reliance=config.pprm_max_reliance,
+        threshold=threshold,
+        alpha=config.alpha,
+    )
     proxy = copy.deepcopy(proxy_template)  # frozen before the first monitor block
     predicted_centered = proxy.predict(x[monitor_start:])
     proxy_raw = np.clip(predicted_centered + config.harm_margin, -cost_bound, cost_bound)
@@ -582,6 +590,8 @@ def _one_pprm_block_method(
     historical_labeled_proxy: list[float] = []
     historical_unlabeled_proxy: list[float] = []
     alarm_time: int | None = None
+    mixture_alarm_time: int | None = None
+    mixture_alarm_times: dict[float, int | None] = dict.fromkeys(PPRM_MIXTURE_WEIGHTS)
     stop_reason = "end_of_stream"
 
     for relative_start in range(0, event_count - block_size + 1, block_size):
@@ -612,6 +622,11 @@ def _one_pprm_block_method(
         )
         block_reliances.append(eta)
         crossed = monitor.update(estimate)
+        mixture_monitor.update(estimate)
+        for weight in PPRM_MIXTURE_WEIGHTS:
+            if mixture_alarm_times[weight] is None and mixture_monitor.alarm_at_weight(weight):
+                mixture_alarm_times[weight] = relative_end - 1
+        mixture_alarm_time = mixture_alarm_times[0.5]
         estimates.append(-cost_bound + 2 * cost_bound * estimate - config.harm_margin)
         block_truths.append(float(centered_cost_difference[absolute_start:absolute_end].mean()))
         block_expected.append(float(expected_cost_difference[absolute_start:absolute_end].mean()))
@@ -639,7 +654,7 @@ def _one_pprm_block_method(
     detected = alarm_time is not None and harm_onset is not None and alarm_time >= harm_onset
     false_escalation = alarm_time is not None and (harm_onset is None or alarm_time < harm_onset)
     errors = np.asarray(estimates) - np.asarray(block_truths)
-    return {
+    row = {
         "scenario": scenario.name,
         "scenario_severity": scenario.severity,
         "change_fraction": config.change_fraction,
@@ -676,6 +691,17 @@ def _one_pprm_block_method(
             if detected and alarm_time is not None and harm_onset is not None
             else None
         ),
+        "pprm_mixture_detected": bool(
+            mixture_alarm_time is not None
+            and harm_onset is not None
+            and mixture_alarm_time >= harm_onset
+        ),
+        "pprm_mixture_false_escalation": bool(
+            mixture_alarm_time is not None
+            and (harm_onset is None or mixture_alarm_time < harm_onset)
+        ),
+        "pprm_mixture_alarm_time": mixture_alarm_time,
+        "pprm_mixture_log_e_value": mixture_monitor.log_e_value,
         "multiscale_e_detected": np.nan,
         "multiscale_e_false_escalation": np.nan,
         "multiscale_e_alarm_time": None,
@@ -699,6 +725,19 @@ def _one_pprm_block_method(
         "pprm_max_reliance": config.pprm_max_reliance,
         "pprm_initial_reliance": config.pprm_initial_reliance,
     }
+    for weight, weight_alarm_time in mixture_alarm_times.items():
+        suffix = str(weight).replace(".", "p")
+        row[f"pprm_mix_w{suffix}_detected"] = bool(
+            weight_alarm_time is not None
+            and harm_onset is not None
+            and weight_alarm_time >= harm_onset
+        )
+        row[f"pprm_mix_w{suffix}_false_escalation"] = bool(
+            weight_alarm_time is not None and (harm_onset is None or weight_alarm_time < harm_onset)
+        )
+        row[f"pprm_mix_w{suffix}_alarm_time"] = weight_alarm_time
+        row[f"pprm_mix_w{suffix}_log_e_value"] = mixture_monitor.log_e_value_at_weight(weight)
+    return row
 
 
 def _generate_stream_rows(

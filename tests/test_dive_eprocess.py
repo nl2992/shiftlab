@@ -4,6 +4,7 @@ import pytest
 from shiftlab.dive.eprocess import (
     BoundedMeanEProcess,
     PPIBlockConfidenceSequence,
+    PPIBlockMixtureEProcess,
     PredictableHedgedPositiveEProcess,
     PredictablePlugInEmpiricalBernsteinEProcess,
     PredictableVarianceAdaptiveEProcess,
@@ -194,3 +195,27 @@ def test_ppi_block_confidence_sequence_exact_small_null_enumeration():
     # Every sequence has probability 2^-horizon under Bernoulli(1/2).
     # This exact finite null enumeration checks optional-look behavior.
     assert crossings / 2**horizon <= 0.05
+
+
+def test_ppi_block_mixture_detects_persistent_excess_and_checks_exact_null():
+    from itertools import product
+
+    horizon = 8
+    for weight in (0.1, 0.25, 0.5, 0.75, 0.9):
+        crossings = 0
+        for stream in product((0.0, 1.0), repeat=horizon):
+            process = PPIBlockMixtureEProcess(max_reliance=0.0, threshold=0.5, alpha=0.05)
+            for value in stream:
+                process.update(value)
+                if process.alarm_at_weight(weight):
+                    crossings += 1
+                    break
+        assert crossings / 2**horizon <= 0.05
+
+    process = PPIBlockMixtureEProcess(max_reliance=0.1, threshold=0.51, alpha=0.05)
+    for _ in range(1_000):
+        process.update(0.9)
+    assert process.alarm
+    for invalid_weight in (0.0, 1.0, float("nan")):
+        with pytest.raises(ValueError, match="cm_eb_weight"):
+            process.log_e_value_at_weight(invalid_weight)

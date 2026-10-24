@@ -1,0 +1,29 @@
+{
+  "analysis": "pprm_horizon_sensitivity",
+  "classification": "development_only_disjoint_seed_block",
+  "seed_offset": 20372123,
+  "horizons": [
+    1600,
+    3200,
+    6400
+  ],
+  "fixed_block_size": 20,
+  "fixed_labels_per_block": 4,
+  "fixed_max_and_initial_reliance": 0.1,
+  "sha256": {
+    "source_files": {
+      "scripts/analyze_pprm_horizon_sensitivity.py": "b585df8a305c04736b845bcd3147104455578f2323efb1157e04649e05ab719b",
+      "scripts/run_pprm_horizon_sensitivity.py": "fc807c147dee897634875852f9599d14b3c697855af76d1aff84371a499ca51f"
+    },
+    "inputs": {
+      "outputs/pprm_horizon_corrected_v1/n_1600/metrics/hard_budget_comparison.parquet": "61d28bcbdad06757bea6a3b231eeff7673f924eb3d336b7405fbdf9498bbbd14",
+      "outputs/pprm_horizon_corrected_v1/n_3200/metrics/hard_budget_comparison.parquet": "1eee9da0fd366f6ed9d3d1a5bcbaaf02b4ef572bd7bbca7d8ad1547cc5a95b88",
+      "outputs/pprm_horizon_corrected_v1/n_6400/metrics/hard_budget_comparison.parquet": "c5813dcc77ebe319a1dfd5bf15c8150e69cc50b1b6d9b0d3b907a3d8ad225cb3"
+    },
+    "artifacts": {
+      "horizon_summary.csv": "f95f042704aff8f700ada135ef4c242c9d2db06cbdcf7762a12b9434bad522ee",
+      "horizon_sensitivity.png": "3177ae9dc9de889ce7207a5386836dbc9c98eb0c934627037365fd326ba2de40",
+      "horizon_analysis.md": "bcf24437343f389101bf3b6a84755cc49637f67834601ea495c7f1aef2c06faa"
+    }
+  }
+}

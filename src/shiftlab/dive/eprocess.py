@@ -440,6 +440,68 @@ class PredictableHedgedPositiveEProcess:
         return self.log_e_value
 
 
+class PPIBlockMixtureEProcess:
+    """Combine CM-EB and predictable positive betting for bounded PPI block means.
+
+    Both component e-processes test the same null that the running mean of the
+    block estimates is at most ``threshold``. Their fixed 1/2 mixture is therefore
+    also an e-process and can be monitored at the original alpha level. The
+    positive-betting component receives the centered block estimate and uses the
+    deterministic support bound implied by ``max_reliance`` and ``threshold``.
+    """
+
+    def __init__(
+        self,
+        *,
+        max_reliance: float,
+        threshold: float,
+        alpha: float = 0.05,
+    ):
+        self.cm_eb = PPIBlockConfidenceSequence(
+            max_reliance=max_reliance,
+            threshold=threshold,
+            alpha=alpha,
+        )
+        centered_bound = max(
+            threshold + max_reliance,
+            1 + max_reliance - threshold,
+        )
+        self.positive_betting = PredictableHedgedPositiveEProcess(
+            bound=centered_bound,
+            alpha=alpha,
+        )
+        self.alpha = float(alpha)
+
+    @property
+    def log_e_value(self) -> float:
+        return self.log_e_value_at_weight(0.5)
+
+    def log_e_value_at_weight(self, cm_eb_weight: float) -> float:
+        """Return a fixed convex mixture of component e-values."""
+        if not np.isfinite(cm_eb_weight) or not 0 < cm_eb_weight < 1:
+            raise ValueError("cm_eb_weight must lie strictly between zero and one")
+        return float(
+            logsumexp(
+                [
+                    np.log(cm_eb_weight) + self.cm_eb.log_crossing_statistic,
+                    np.log1p(-cm_eb_weight) + self.positive_betting.log_e_value,
+                ]
+            )
+        )
+
+    def alarm_at_weight(self, cm_eb_weight: float) -> bool:
+        return self.log_e_value_at_weight(cm_eb_weight) >= -np.log(self.alpha)
+
+    @property
+    def alarm(self) -> bool:
+        return self.log_e_value >= -np.log(self.alpha)
+
+    def update(self, estimate: float) -> bool:
+        self.cm_eb.update(estimate)
+        self.positive_betting.update(estimate - self.cm_eb.threshold)
+        return self.alarm
+
+
 class StartedMixtureEProcess:
     """A prespecified mixture of e-processes started at fixed stream positions.
 

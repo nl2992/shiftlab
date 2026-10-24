@@ -1,0 +1,31 @@
+scenario,method,streams,detections,false_escalations
+boundary_local_harm,CM-EB block PPI,30,0,0
+boundary_local_harm,Eventwise frozen PPI,30,24,0
+boundary_local_harm,Eventwise updating PPI,30,26,0
+boundary_local_harm,PPI fixed mixture w=0.1,30,17,0
+boundary_local_harm,PPI fixed mixture w=0.25,30,14,0
+boundary_local_harm,PPI fixed mixture w=0.5,30,9,0
+boundary_local_harm,PPI fixed mixture w=0.75,30,0,0
+boundary_local_harm,PPI fixed mixture w=0.9,30,0,0
+harmful_adaptation,CM-EB block PPI,30,0,0
+harmful_adaptation,Eventwise frozen PPI,30,29,0
+harmful_adaptation,Eventwise updating PPI,30,29,0
+harmful_adaptation,PPI fixed mixture w=0.1,30,18,0
+harmful_adaptation,PPI fixed mixture w=0.25,30,13,0
+harmful_adaptation,PPI fixed mixture w=0.5,30,10,0
+harmful_adaptation,PPI fixed mixture w=0.75,30,1,0
+harmful_adaptation,PPI fixed mixture w=0.9,30,0,0
+recurring_regimes,CM-EB block PPI,30,0,0
+recurring_regimes,Eventwise frozen PPI,30,24,0
+recurring_regimes,Eventwise updating PPI,30,24,0
+recurring_regimes,PPI fixed mixture w=0.1,30,17,0
+recurring_regimes,PPI fixed mixture w=0.25,30,14,0
+recurring_regimes,PPI fixed mixture w=0.5,30,10,0
+recurring_regimes,PPI fixed mixture w=0.75,30,0,0
+recurring_regimes,PPI fixed mixture w=0.9,30,0,0
+stationary,CM-EB block PPI,30,0,0
+stationary,PPI fixed mixture w=0.1,30,0,0
+stationary,PPI fixed mixture w=0.25,30,0,0
+stationary,PPI fixed mixture w=0.5,30,0,0
+stationary,PPI fixed mixture w=0.75,30,0,0
+stationary,PPI fixed mixture w=0.9,30,0,0

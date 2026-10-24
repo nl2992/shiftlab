@@ -147,6 +147,9 @@ def test_pprm_block_comparator_respects_spend_and_updates_only_complete_blocks(t
     assert pprm.pprm_confidence_lower_bound.between(0, 1).all()
     assert pprm.pprm_reliance_mean.between(0, 1).all()
     assert pprm.pprm_reliance_last.between(0, 1).all()
+    for weight in ("0p1", "0p25", "0p5", "0p75", "0p9"):
+        assert pprm[f"pprm_mix_w{weight}_detected"].notna().all()
+        assert pprm[f"pprm_mix_w{weight}_false_escalation"].notna().all()
     assert "probability_positive" not in metrics.columns
     assert "expected_cost_difference" not in metrics.columns
     report = (output / "reports" / "hard_budget_comparison.md").read_text()

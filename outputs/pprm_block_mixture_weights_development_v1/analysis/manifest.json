@@ -1,0 +1,18 @@
+{
+  "analysis": "pprm_block_eprocess_mixture_weight_screen",
+  "classification": "development_only_unadjusted",
+  "block_size": 20,
+  "weights": [
+    0.1,
+    0.25,
+    0.5,
+    0.75,
+    0.9
+  ],
+  "sha256": {
+    "source": "1f7a53348d51c768f6f206fcfc2e4ef92e3bf329e002af37942a3dfb09887a1a",
+    "input": "b07580380608ad6ae28a4a39b37c1090a93659dd626eca2e582fce711446b70e",
+    "summary_csv": "a90006b77324b29511efc1293c7513f24b7e1d6dc5930c5fab5de3ae7a1bfcbe",
+    "report": "4baaacc4406dec575558ca3a08f01a94788d0c5dbd3e031811342f2d3836893d"
+  }
+}

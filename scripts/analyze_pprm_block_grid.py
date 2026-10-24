@@ -18,9 +18,9 @@ BLOCK_SIZES = (5, 10, 20, 40)
 METHODS = ("pprm_block_adaptive", "uniform_proxy_frozen", "uniform_proxy")
 
 
-def _load_runs(root: Path) -> pd.DataFrame:
+def _load_runs(root: Path, block_sizes: tuple[int, ...]) -> pd.DataFrame:
     frames = []
-    for block_size in BLOCK_SIZES:
+    for block_size in block_sizes:
         path = root / f"block_{block_size:02d}" / "metrics" / "hard_budget_comparison.parquet"
         if not path.is_file():
             raise FileNotFoundError(f"missing completed block-grid run: {path}")
@@ -112,7 +112,7 @@ def _summarize(metrics: pd.DataFrame) -> tuple[pd.DataFrame, pd.DataFrame]:
     return summary, pd.DataFrame(paired_rows)
 
 
-def _plot(summary: pd.DataFrame, path: Path) -> None:
+def _plot(summary: pd.DataFrame, path: Path, block_sizes: tuple[int, ...]) -> None:
     scenarios = sorted(summary.scenario.unique())
     fig, axes = plt.subplots(2, len(scenarios), figsize=(4 * len(scenarios), 8), squeeze=False)
     for column, scenario in enumerate(scenarios):
@@ -139,9 +139,9 @@ def _plot(summary: pd.DataFrame, path: Path) -> None:
             )
         axes[0, column].set_title(scenario)
         axes[0, column].set_xscale("log", base=2)
-        axes[0, column].set_xticks(BLOCK_SIZES, labels=BLOCK_SIZES)
+        axes[0, column].set_xticks(block_sizes, labels=block_sizes)
         axes[1, column].set_xscale("log", base=2)
-        axes[1, column].set_xticks(BLOCK_SIZES, labels=BLOCK_SIZES)
+        axes[1, column].set_xticks(block_sizes, labels=block_sizes)
         axes[1, column].set_ylim(0, 1)
         axes[0, column].grid(alpha=0.2)
         axes[1, column].grid(alpha=0.2)
@@ -159,15 +159,19 @@ def main() -> None:
     parser.add_argument(
         "--output-root", type=Path, default=Path("outputs/pprm_block_grid_development")
     )
+    parser.add_argument(
+        "--block-sizes", nargs="+", type=int, choices=BLOCK_SIZES, default=BLOCK_SIZES
+    )
     args = parser.parse_args()
-    metrics = _load_runs(args.output_root)
+    block_sizes = tuple(args.block_sizes)
+    metrics = _load_runs(args.output_root, block_sizes)
     summary, paired = _summarize(metrics)
     analysis = args.output_root / "analysis"
     analysis.mkdir(parents=True, exist_ok=True)
     summary.to_csv(analysis / "block_grid_summary.csv", index=False)
     paired.to_csv(analysis / "paired_vs_frozen_eventwise.csv", index=False)
     figure = analysis / "block_grid_tradeoffs.png"
-    _plot(summary, figure)
+    _plot(summary, figure, block_sizes)
     lines = [
         "# Adaptive PPI block-size development screen",
         "",
@@ -204,7 +208,7 @@ def main() -> None:
 
     input_paths = [
         args.output_root / f"block_{block_size:02d}" / "metrics" / "hard_budget_comparison.parquet"
-        for block_size in BLOCK_SIZES
+        for block_size in block_sizes
     ]
     output_paths = [
         analysis / "block_grid_summary.csv",
@@ -215,7 +219,7 @@ def main() -> None:
     manifest = {
         "analysis": "pprm_block_size_development_screen",
         "classification": "development_only_unadjusted",
-        "block_sizes": list(BLOCK_SIZES),
+        "block_sizes": list(block_sizes),
         "paired_seed_bootstrap": {
             "resamples": 20_000,
             "seed": 20372099,

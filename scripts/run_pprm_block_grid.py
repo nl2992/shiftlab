@@ -28,9 +28,14 @@ def main() -> None:
     parser.add_argument("--n", type=int, default=1600)
     parser.add_argument("--d", type=int, default=16)
     parser.add_argument("--device", choices=("cpu", "cuda"), default="cuda")
+    parser.add_argument(
+        "--block-sizes", nargs="+", type=int, choices=BLOCK_SIZES, default=BLOCK_SIZES
+    )
+    parser.add_argument("--scenarios", nargs="+", choices=SCENARIOS, default=SCENARIOS)
+    parser.add_argument("--reliance-cap", type=float, default=1.0)
     args = parser.parse_args()
 
-    for block_size in BLOCK_SIZES:
+    for block_size in args.block_sizes:
         labels_per_block = block_size // 5
         config = HardBudgetConfig(
             n=args.n,
@@ -43,10 +48,10 @@ def main() -> None:
             common_eprocess_bound=True,
             pprm_block_size=block_size,
             pprm_labels_per_block=labels_per_block,
-            pprm_max_reliance=1.0,
-            pprm_initial_reliance=1.0,
+            pprm_max_reliance=args.reliance_cap,
+            pprm_initial_reliance=args.reliance_cap,
             device=args.device,
-            scenario_subset=SCENARIOS,
+            scenario_subset=tuple(args.scenarios),
             method_subset=("uniform_proxy", "uniform_proxy_frozen", "pprm_block_adaptive"),
         )
         output = args.output_root / f"block_{block_size:02d}"

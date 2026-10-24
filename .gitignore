@@ -110,6 +110,12 @@ outputs/figures/*
 !outputs/pprm_block_grid_corrected_v1/**
 !outputs/pprm_variance_diagnostic_corrected_v1/
 !outputs/pprm_variance_diagnostic_corrected_v1/**
+!outputs/pprm_horizon_corrected_v1/
+!outputs/pprm_horizon_corrected_v1/**
+!outputs/pprm_long_horizon_block_grid_corrected_v1/
+!outputs/pprm_long_horizon_block_grid_corrected_v1/**
+!outputs/pprm_block_mixture_weights_development_v1/
+!outputs/pprm_block_mixture_weights_development_v1/**
 results/*
 !results/.gitkeep
 data/raw/

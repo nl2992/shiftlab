@@ -1,0 +1,99 @@
+{
+  "experiment": "hard_label_dollar_budget_query_policy_comparison",
+  "configuration": {
+    "n": 1600,
+    "d": 16,
+    "seeds": 30,
+    "seed_offset": 20372023,
+    "alpha": 0.05,
+    "harm_margin": 0.1,
+    "budget_rate": 0.2,
+    "q_min": 0.1,
+    "q_max": 0.8,
+    "cost_stability_tolerance": 0.05,
+    "exact_growth_adaptive_weight": 1.0,
+    "robust_growth_probability_radius": 0.0,
+    "monitor_comparators": [],
+    "pprm_block_size": 20,
+    "pprm_labels_per_block": 4,
+    "pprm_max_reliance": 1.0,
+    "pprm_initial_reliance": 1.0,
+    "max_label_cost": 2.5,
+    "common_eprocess_bound": true,
+    "scenario_severity": null,
+    "change_fraction": 0.5,
+    "device": "cuda",
+    "scenario_subset": [
+      "stationary",
+      "benign_nuisance",
+      "boundary_local_harm",
+      "residual_variance",
+      "recurring_regimes",
+      "harmful_adaptation"
+    ],
+    "method_subset": [
+      "uniform_proxy",
+      "uniform_proxy_frozen",
+      "pprm_block_adaptive"
+    ]
+  },
+  "requested_device": "cuda",
+  "resolved_device": "cuda",
+  "environment": {
+    "cpu_ram_bytes": 16858472448,
+    "disk_free_bytes": 21725675520,
+    "cuda_available": true,
+    "nvidia_smi": "NVIDIA GeForce RTX 4060 Laptop GPU, 8188 MiB, 592.82, 0 %, 97 MiB",
+    "torch_version": "2.9.1+cu130",
+    "cuda_runtime": "13.0",
+    "gpu_name": "NVIDIA GeForce RTX 4060 Laptop GPU",
+    "gpu_memory_bytes": 8585216000,
+    "versions": {
+      "numpy": "2.5.4",
+      "scipy": "1.18.1",
+      "pandas": "3.0.6",
+      "pyarrow": "25.0.1",
+      "folktables": "0.0.12"
+    }
+  },
+  "assumptions": [
+    "Immediate paired labels; no delayed-feedback behavior tested.",
+    "Known query-time tariff support [0.5, max_label_cost].",
+    "Hard-budget stopping checks only remaining spend before the next event.",
+    "Both policy costs are observable from the same outcome.",
+    "E-process validity requires the conditional-mean null and bounded corrected increments.",
+    "The sum of q_t * tariff_t along the realized stopping path is a compensator, not pathwise-capped actual spend.",
+    "E-process minimum propensities are recorded per method; common_eprocess_bound can enforce a shared q_min bound for sensitivity runs."
+  ],
+  "sha256": {
+    "artifacts": {
+      "figures\\hard_budget_tradeoff.png": "536236ba8e43ea44a98e1c45d85f5158c3fb32a4f148781dc99a85fd881991e9",
+      "metrics\\hard_budget_comparison.parquet": "2a6e8f324b6a2da9909f991af46d8d98d61fd6f42370ec8e9e214255798a0a4c",
+      "metrics\\hard_budget_summary.csv": "422a88faaf07203be84c3380f4ea4af96be1765635c405f3118bf9ba0a963d72",
+      "metrics\\paired_effects_vs_uniform.csv": "aed3b63e4af478b059a3a9ce3ca65efcf2b35f14d812d2adb3288a7ad3530c6b",
+      "reports\\hard_budget_comparison.md": "22fc5ec1242faf80ff6592bd425ce626f36d7fca22675f5690f046849dd8834b"
+    },
+    "source_files": {
+      "src\\shiftlab\\dive\\__init__.py": "10a8a1d170c7a452cebaa9df8e07070555edc841ff5c04cd049ff75cd8887780",
+      "src\\shiftlab\\dive\\allocation_grid.py": "8619d5f9f36e33eed1a5888b50c1c0cc54f621b9d001be89ed4f3ba9b42a6fab",
+      "src\\shiftlab\\dive\\budgeted_promotion.py": "e8d654eef0ddd2c14d00d7923368a5c8c25c3a475e8de50e95db82d1755259a4",
+      "src\\shiftlab\\dive\\controller.py": "9d4263c825382624940202a51fa5c9908db5f56a2be48a841f005e688ad702eb",
+      "src\\shiftlab\\dive\\eprocess.py": "23f39f464dd90e229b6bd7eaa46374aeb080428665610b661e8c9cbd0c0661df",
+      "src\\shiftlab\\dive\\estimators.py": "e458e97b05ecf9664da5c307d33a2e898ae7d17a19c84c304ec199bdb437e299",
+      "src\\shiftlab\\dive\\evaluation.py": "9b64eea3d7dd708104d25ad51e927451811c91e66295ee480fc791ac884432c4",
+      "src\\shiftlab\\dive\\experiment.py": "f11f8516cdbeaa56a2a9b2c229af370b77830ac1801a81394508950241482633",
+      "src\\shiftlab\\dive\\hard_budget.py": "84462c982f54ea78822878616c5dde1d05275d6b00b2554042d5dac1a9270fce",
+      "src\\shiftlab\\dive\\oracle_diagnostics.py": "14118dc2912b8236fb4215dd64ebe2108870c51a1963816eaa004f583e9dda8c",
+      "src\\shiftlab\\dive\\persistence_promotion.py": "9a43d8e14dc4bac5ebc048837ab5d09f268e3bb5f79c615eda39a655b357710b",
+      "src\\shiftlab\\dive\\power.py": "d3796dde1cb378ddf7a2a401a2971a8902d126b0db82e48e88556333fa4dde53",
+      "src\\shiftlab\\dive\\promotion.py": "d15e22a7217a15f5c70348766f67ae034409f782b67bfaa0a9b154a6094f24e3",
+      "src\\shiftlab\\dive\\promotion_experiment.py": "93ba08750effdfc1cfc131a0b3cbda1c363118c774c143c4f633a18aeaa7a546",
+      "src\\shiftlab\\dive\\promotion_grid.py": "307ee2137936c1ba8938ef026cb2e611b26ccc15bc6ad3fe4c7ffbed3ec930ce",
+      "src\\shiftlab\\dive\\promotion_robustness.py": "c8601c63b1ada4765e5613b7e5a8753731a60bbd3fceab8fc4b6590657df2e01",
+      "src\\shiftlab\\dive\\promotion_timing.py": "59240fbf930d74a745429b80c9956849f96b9b03363c14eacc5ffc64f930a2e1",
+      "src\\shiftlab\\dive\\proxy.py": "77546752c6796c37795fc7eeb14de678e0bf53509248bda56b1cb1bcecb3a102",
+      "src\\shiftlab\\dive\\query.py": "5c879dd45553901a9c0e67525a6b3d6ab084a36d1d71e7d7a38f1ff021bbfeaa",
+      "src\\shiftlab\\decision_harm_experiment.py": "963d2a794ec0638f08f24dd75eabec457f209ae2df3759e89a6f6dadeca9fa41"
+    }
+  }
+}

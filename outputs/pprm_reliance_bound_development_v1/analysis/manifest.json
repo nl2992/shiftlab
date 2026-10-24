@@ -1,0 +1,29 @@
+{
+  "analysis": "pprm_reliance_bound_sensitivity",
+  "classification": "development_only_reused_seed_block",
+  "reliance_caps": [
+    0.1,
+    0.25,
+    0.5,
+    1.0
+  ],
+  "fixed_block_size": 20,
+  "fixed_labels_per_block": 4,
+  "sha256": {
+    "source_files": {
+      "scripts/analyze_pprm_reliance_bound_sensitivity.py": "34018d1523cba039c660860559b12c29e88c8460bcc0a01f6a375ea253f18566",
+      "scripts/run_pprm_reliance_bound_sensitivity.py": "e53f2d466da6fdd59bf8730e69a360b512f0d14f5cdd289be27bd90b727eb421"
+    },
+    "inputs": {
+      "outputs/pprm_reliance_bound_development_v1/eta_0p10/metrics/hard_budget_comparison.parquet": "514e4834627c6aacf6b2685e8ab24784e16daf0178832e0ad4f3a66134b5393f",
+      "outputs/pprm_reliance_bound_development_v1/eta_0p25/metrics/hard_budget_comparison.parquet": "fa53e1d90c954a911fd452d44dd3f9282466c841377cfba960e6d24f625cab93",
+      "outputs/pprm_reliance_bound_development_v1/eta_0p50/metrics/hard_budget_comparison.parquet": "af4a9962dcdd692aad97cf3a8eb4a2491a90546dd1c8a4be0af901abad5ca092",
+      "outputs/pprm_reliance_bound_development_v1/eta_1p00/metrics/hard_budget_comparison.parquet": "2a6e8f324b6a2da9909f991af46d8d98d61fd6f42370ec8e9e214255798a0a4c"
+    },
+    "artifacts": {
+      "reliance_bound_summary.csv": "e5d9bfbec00815400032f9b1e38b32dfab58a8b60c457de71c907abc7dceb794",
+      "reliance_bound_sensitivity.png": "9c131a7cd02950cb0f2453d4a4160ca4971bb69988e09db97f79fe72652063e9",
+      "reliance_bound_analysis.md": "bf444dbff9061f59260a6f73bb0d5d259f3c73b1cde63d301efefd5edb00e0a7"
+    }
+  }
+}

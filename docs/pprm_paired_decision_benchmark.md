@@ -114,6 +114,58 @@ freezing a protocol for the required 2,000-stream-per-null calibration and a sep
 study. Use disjoint seeds for those evaluations. No confirmatory conclusions may be drawn from
 this screen.
 
+## Reliance-bound sensitivity
+
+To test whether the monitor's worst-case support was obscuring evidence, a second development
+screen fixed \(B=20\), four labels per block, the seed block above, all scenarios, the nominal
+label-dollar budget, and the eventwise controls. It varied the PPRM maximum and initial reliance
+together over \(\eta_{\max}\in\{0.10,0.25,0.50,1.00\}\). This is a valid support sensitivity because
+the plug-in reliance is clipped to the declared cap before the next block. Run it with:
+
+```powershell
+uv run python scripts/run_pprm_reliance_bound_sensitivity.py --output-root outputs/pprm_reliance_bound_development_v1 --device cuda
+uv run python scripts/analyze_pprm_reliance_bound_sensitivity.py --output-root outputs/pprm_reliance_bound_development_v1
+```
+
+The generated analysis is in
+[`outputs/pprm_reliance_bound_development_v1/analysis/`](../outputs/pprm_reliance_bound_development_v1/analysis/).
+The tightest cap materially raised the mean final lower bound: for boundary-local harm it rose from
+0.032 at cap 1.0 to 0.329 at cap 0.10, against a normalized materiality threshold near 0.55.
+However, **no cap detected any of the 30 harmful streams in any harmful scenario**. The lower bound
+therefore remains short of the threshold, and this screen does not justify choosing 0.10 for
+confirmatory use. The estimator RMSE changed little across caps, so support tightening improves the
+confidence bound but does not solve the estimator's precision gap.
+
+## Independent-seed horizon sensitivity
+
+The next development screen held \(B=20\), four labels per block, \(\eta_{\max}=\eta_1=0.10\),
+alpha 0.05, and the nominal 20% label-dollar budget fixed, then varied total stream size
+\(n\in\{1600,3200,6400\}\) on a separate seed block (offset 20372123). It includes the same
+eventwise frozen- and updating-proxy controls on each stream:
+
+```powershell
+uv run python scripts/run_pprm_horizon_sensitivity.py --output-root outputs/pprm_horizon_development_v1 --device cuda
+uv run python scripts/analyze_pprm_horizon_sensitivity.py --output-root outputs/pprm_horizon_development_v1
+```
+
+The Parquet metrics, manifests and report are in
+[`outputs/pprm_horizon_development_v1/`](../outputs/pprm_horizon_development_v1/), with the
+summary in [`analysis/horizon_analysis.md`](../outputs/pprm_horizon_development_v1/analysis/horizon_analysis.md).
+At \(n=1600\), every method detected 0/30 streams in each harmful scenario. At \(n=6400\),
+eventwise frozen PPI detected 24/30 boundary-local-harm and 29/30 harmful-adaptation streams;
+block PPI detected 1/30 in each. For recurring regimes, the counts were 24/30 and 11/30,
+respectively. Block PPI's stream-mean RMSE stayed around 0.20–0.29 across scenarios, while
+eventwise RMSE fell to about 0.02–0.03. The PPRM monitor also escalated once in 30 stationary
+streams at \(n=6400\); eventwise controls recorded no stationary escalations. Thirty streams are
+far too few to calibrate either error rate. These are exploratory power diagnostics, not a
+confirmatory comparison or evidence of nominal error control.
+
+The actionable result is that longer horizons restore eventwise monitor power, while this block
+PPI construction remains substantially less precise and less powerful under the current proxy and
+uniform within-block label allocation. Prioritize diagnosis of its estimator variance and the
+reliance rule before spending compute on large-scale calibration. Do not claim a new method from
+these screens; the existing eventwise monitor is currently the stronger empirical baseline.
+
 ## Matched experiment
 
 Compare the PPRM-style paired-cost confidence-sequence monitor with:

@@ -1,0 +1,71 @@
+{
+  "experiment": "fixed_dollar_horizon_decision_harm_monitor_development_grid",
+  "seed_offset": 56100000,
+  "seeds_per_cell": 30,
+  "seed_range": [
+    56100000,
+    56100029
+  ],
+  "n": 4000,
+  "monitor_start": 1000,
+  "monitor_horizons": [
+    1000,
+    1800,
+    2600
+  ],
+  "fixed_label_dollar_cap": 720.0,
+  "budget_rate_for_query_design": 0.2,
+  "q_min": 0.2,
+  "q_max": 0.8,
+  "alpha": 0.05,
+  "harm_margin": 0.1,
+  "scenarios": [
+    {
+      "cell": "stationary",
+      "scenario": "stationary",
+      "change_fraction": 0.5
+    },
+    {
+      "cell": "benign_nuisance",
+      "scenario": "benign_nuisance",
+      "change_fraction": 0.5
+    },
+    {
+      "cell": "boundary_early",
+      "scenario": "boundary_local_harm",
+      "change_fraction": 0.35
+    },
+    {
+      "cell": "boundary_late",
+      "scenario": "boundary_local_harm",
+      "change_fraction": 0.65
+    },
+    {
+      "cell": "recurring_regimes",
+      "scenario": "recurring_regimes",
+      "change_fraction": 0.5
+    },
+    {
+      "cell": "harmful_adaptation",
+      "scenario": "harmful_adaptation",
+      "change_fraction": 0.5
+    }
+  ],
+  "methods": [
+    "uniform_proxy",
+    "pprm_block_adaptive"
+  ],
+  "eventwise_monitors": [
+    "fixed_mixture",
+    "predictable_variance",
+    "PM-EB"
+  ],
+  "block_monitor": "fixed 10% PPI CM-EB / positive-betting mixture",
+  "block_design": {
+    "size": 20,
+    "labels_per_block": 4,
+    "reliance_cap": 0.1
+  },
+  "device_requested": "cuda",
+  "status": "development grid; all cellwise contrasts are descriptive; no winner selection"
+}

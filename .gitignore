@@ -120,6 +120,8 @@ outputs/figures/*
 !outputs/pprm_block_mixture_calibration_v1/**
 !outputs/pprm_block_mixture_independent_v1/
 !outputs/pprm_block_mixture_independent_v1/**
+!outputs/fixed_dollar_horizon_grid_development/
+!outputs/fixed_dollar_horizon_grid_development/**
 results/*
 !results/.gitkeep
 data/raw/

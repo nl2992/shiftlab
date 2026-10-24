@@ -261,8 +261,14 @@ In the exploratory residual-variance harm scenario, every method detected 0/200 
 all harm onsets being reached. This exposes a second power failure for the tested monitor settings.
 The fixed mixture and block CM-EB made 0/200 false escalations in each of the two actual null
 controls; eventwise controls also made none. Those 200-stream control checks do not satisfy the
-separate target of 2,000 streams per registered null cell. The 2,000-stream endpoint stress test
-remains limited to i.i.d. two-point nulls. The sequential guarantee still depends on its
+separate target of 2,000 streams per registered null cell. A separate CUDA calibration now covers
+2,000 streams each from the actual registered stationary and benign-nuisance generators at
+`n=6400`, `q_min=.10`, and the same fixed 10% PPI mixture: both the block CM-EB and fixed-mixture
+monitors had 0/2,000 false escalations per control (95% Wilson upper limit 0.192%), with all hard
+budgets respected. See
+[`outputs/pprm_registered_null_calibration_2000_v1/`](../outputs/pprm_registered_null_calibration_2000_v1/).
+The separate 2,000-stream endpoint stress test remains limited to i.i.d. two-point nulls. The
+sequential guarantee still depends on its
 conditional-mean, predictable-query, boundedness, and feedback assumptions; neither these
 simulations nor the e-process mixture settle those assumptions for delayed or adaptively sampled
 labels.

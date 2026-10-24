@@ -92,6 +92,8 @@ class HardBudgetConfig:
     alpha: float = 0.05
     harm_margin: float = 0.10
     budget_rate: float = 0.10
+    budget_dollars: float | None = None
+    monitor_horizon_events: int | None = None
     q_min: float = 0.05
     q_max: float = 0.50
     cost_stability_tolerance: float = 0.05
@@ -121,6 +123,17 @@ class HardBudgetConfig:
             raise ValueError("alpha must lie in (0,1) and harm_margin must be nonnegative")
         if not 0 < self.q_min <= self.budget_rate <= self.q_max <= 1:
             raise ValueError("require 0 < q_min <= budget_rate <= q_max <= 1")
+        if self.budget_dollars is not None and (
+            not np.isfinite(self.budget_dollars) or self.budget_dollars <= 0
+        ):
+            raise ValueError("budget_dollars must be finite and positive when provided")
+        if self.monitor_horizon_events is not None and (
+            isinstance(self.monitor_horizon_events, bool)
+            or not isinstance(self.monitor_horizon_events, int)
+            or self.monitor_horizon_events < 1
+            or self.monitor_horizon_events > self.n - max(800, int(self.n * 0.25))
+        ):
+            raise ValueError("monitor_horizon_events must fit within the generated monitor stream")
         if self.max_label_cost <= 0 or not np.isfinite(self.max_label_cost):
             raise ValueError("max_label_cost must be finite and positive")
         if (
@@ -246,8 +259,14 @@ def _one_method(
             label_costs=validation_costs,
         )
 
+    event_count = min(len(x) - monitor_start, config.monitor_horizon_events or len(x))
+    monitor_end = monitor_start + event_count
     budget_per_event = config.budget_rate * float(validation_costs.mean())
-    budget = budget_per_event * (len(x) - monitor_start)
+    budget = (
+        config.budget_dollars
+        if config.budget_dollars is not None
+        else budget_per_event * event_count
+    )
     mixture_weight = None
     if method == "cost_stabilized_proxy":
         mixture_weight = cost_mixture_weight_for_tolerance(
@@ -301,7 +320,7 @@ def _one_method(
             ),
             "first_alarm": None,
         }
-    monitor_x = x[monitor_start:]
+    monitor_x = x[monitor_start:monitor_end]
     proxy_values = proxy.predict(monitor_x)
     residual_second_moments = proxy.predict_residual_second_moment(monitor_x)
     uncertainty_values = _entropy(classifier.predict_proba(monitor_x)[:, 1])
@@ -318,7 +337,7 @@ def _one_method(
     first_multiscale_alarm = None
     first_protected_alarm = None
     stop_reason = "end_of_stream"
-    for offset, index in enumerate(range(monitor_start, len(x))):
+    for offset, index in enumerate(range(monitor_start, monitor_end)):
         # Stop before accessing the next event when even the maximum tariff is unaffordable.
         # This is a stopping time based only on past query outcomes and spend.
         if remaining + 1e-12 < config.max_label_cost:
@@ -454,7 +473,7 @@ def _one_method(
         "eprocess_minimum_propensity": minimum_propensity,
         "labels_queried": queried_count,
         "processed_events": processed,
-        "monitor_fraction_processed": processed / (len(x) - monitor_start),
+        "monitor_fraction_processed": processed / event_count,
         "stop_reason": stop_reason,
         "cost_stability_mix": mixture_weight,
         "exact_growth_adaptive_weight": (
@@ -546,7 +565,8 @@ def _one_pprm_block_method(
     """Compare a predictable plug-in-reliance PPI sequence under a block sampling design."""
     block_size = config.pprm_block_size
     labels_per_block = config.pprm_labels_per_block
-    event_count = len(x) - monitor_start
+    event_count = min(len(x) - monitor_start, config.monitor_horizon_events or len(x))
+    monitor_end = monitor_start + event_count
     if event_count < block_size:
         raise ValueError("monitor stream must contain at least one complete PPI block")
     cost_bound = max(scenario.fn_cost, scenario.fp_cost)
@@ -565,18 +585,22 @@ def _one_pprm_block_method(
         alpha=config.alpha,
     )
     proxy = copy.deepcopy(proxy_template)  # frozen before the first monitor block
-    predicted_centered = proxy.predict(x[monitor_start:])
+    predicted_centered = proxy.predict(x[monitor_start:monitor_end])
     proxy_raw = np.clip(predicted_centered + config.harm_margin, -cost_bound, cost_bound)
     proxy_normalized = (proxy_raw + cost_bound) / (2 * cost_bound)
     true_normalized = (
-        centered_cost_difference[monitor_start:] + config.harm_margin + cost_bound
+        centered_cost_difference[monitor_start:monitor_end] + config.harm_margin + cost_bound
     ) / (2 * cost_bound)
     validation_start = max(100, int(config.n * 0.125))
     validation_end = monitor_start
     budget_per_event = config.budget_rate * float(
         label_costs[validation_start:validation_end].mean()
     )
-    budget = budget_per_event * event_count
+    budget = (
+        config.budget_dollars
+        if config.budget_dollars is not None
+        else budget_per_event * event_count
+    )
     remaining = budget
     spent = 0.0
     expected_spend = 0.0
@@ -855,8 +879,13 @@ def _generate_stream_rows(
                 )
             )
     if "robust_mixture_growth_proxy" in config.method_subset:
-        source_probability = classifier.predict_proba(x[monitor_start:])[:, 1]
-        true_probability = oracle.probability_positive.to_numpy(dtype=float)[monitor_start:]
+        monitor_end = monitor_start + min(
+            len(x) - monitor_start, config.monitor_horizon_events or len(x)
+        )
+        source_probability = classifier.predict_proba(x[monitor_start:monitor_end])[:, 1]
+        true_probability = oracle.probability_positive.to_numpy(dtype=float)[
+            monitor_start:monitor_end
+        ]
         coverage = float(
             np.mean(
                 np.abs(source_probability - true_probability)
@@ -1242,7 +1271,7 @@ def run_hard_budget(config: HardBudgetConfig, output: Path) -> Path:
     lines = [
         "# Common hard label-dollar budget comparison",
         "",
-        f"Evaluated {config.seeds} seeds per scenario on `{config.device}`. Every policy received the same per-stream dollar cap, calibrated from the mean tariff in the pre-monitor validation slice. Methods share per-seed uniform random variates to enable paired comparisons. The maximum tariff support is fixed at {config.max_label_cost:g}; the monitor stops before the next event once the remaining balance is below that support maximum. This makes every processed event's query propensity positive and predictable, while ensuring spend never exceeds the cap.",
+        f"Evaluated {config.seeds} seeds per scenario on `{config.device}`. Every policy received the same per-stream dollar cap, {'fixed explicitly by configuration' if config.budget_dollars is not None else 'calibrated from the mean tariff in the pre-monitor validation slice'}. Methods share per-seed uniform random variates to enable paired comparisons. The maximum tariff support is fixed at {config.max_label_cost:g}; the monitor stops before the next event once the remaining balance is below that support maximum. This makes every processed event's query propensity positive and predictable, while ensuring spend never exceeds the cap. The monitoring horizon is {config.monitor_horizon_events or 'the full available stream'} events.",
         (
             f"Exact mixture-growth acquisition uses adaptive weight {config.exact_growth_adaptive_weight:.3f} toward the per-event cost-neutral propensity. Its worst-case expected-spend drift bound is computed over tariff support [0.5, {config.max_label_cost:g}]."
             if "exact_mixture_growth_proxy" in config.method_subset
@@ -1306,6 +1335,8 @@ def run_hard_budget(config: HardBudgetConfig, output: Path) -> Path:
                 "Reproduce with `uv run shiftlab-dive-hard-budget "
                 f"--seeds {config.seeds} --seed-offset {config.seed_offset} "
                 f"--n {config.n} --d {config.d} --budget-rate {config.budget_rate} "
+                f"{'--budget-dollars ' + str(config.budget_dollars) + ' ' if config.budget_dollars is not None else ''}"
+                f"{'--monitor-horizon-events ' + str(config.monitor_horizon_events) + ' ' if config.monitor_horizon_events is not None else ''}"
                 f"--q-min {config.q_min} --q-max {config.q_max} --device {config.device} "
                 f"--exact-growth-adaptive-weight {config.exact_growth_adaptive_weight} "
                 f"--robust-growth-probability-radius {config.robust_growth_probability_radius} "
@@ -1359,6 +1390,13 @@ def main(argv: list[str] | None = None) -> None:
     parser.add_argument("--n", type=int, default=3200)
     parser.add_argument("--d", type=int, default=16)
     parser.add_argument("--budget-rate", type=float, default=0.10)
+    parser.add_argument(
+        "--budget-dollars",
+        type=float,
+        default=None,
+        help="fixed pathwise label-dollar cap; overrides the horizon-scaled cap, not the query target rate",
+    )
+    parser.add_argument("--monitor-horizon-events", type=int, default=None)
     parser.add_argument("--q-min", type=float, default=0.05)
     parser.add_argument("--seed-offset", type=int, default=20361022)
     parser.add_argument("--q-max", type=float, default=0.50)
@@ -1384,6 +1422,8 @@ def main(argv: list[str] | None = None) -> None:
         seeds=args.seeds,
         seed_offset=args.seed_offset,
         budget_rate=args.budget_rate,
+        budget_dollars=args.budget_dollars,
+        monitor_horizon_events=args.monitor_horizon_events,
         q_min=args.q_min,
         q_max=args.q_max,
         cost_stability_tolerance=args.cost_stability_tolerance,

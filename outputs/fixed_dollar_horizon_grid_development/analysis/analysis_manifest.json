@@ -1,0 +1,124 @@
+{
+  "experiment": "fixed_dollar_horizon_decision_harm_monitor_development_grid",
+  "grid_config": {
+    "experiment": "fixed_dollar_horizon_decision_harm_monitor_development_grid",
+    "seed_offset": 56100000,
+    "seeds_per_cell": 30,
+    "seed_range": [
+      56100000,
+      56100029
+    ],
+    "n": 4000,
+    "monitor_start": 1000,
+    "monitor_horizons": [
+      1000,
+      1800,
+      2600
+    ],
+    "fixed_label_dollar_cap": 720.0,
+    "budget_rate_for_query_design": 0.2,
+    "q_min": 0.2,
+    "q_max": 0.8,
+    "alpha": 0.05,
+    "harm_margin": 0.1,
+    "scenarios": [
+      {
+        "cell": "stationary",
+        "scenario": "stationary",
+        "change_fraction": 0.5
+      },
+      {
+        "cell": "benign_nuisance",
+        "scenario": "benign_nuisance",
+        "change_fraction": 0.5
+      },
+      {
+        "cell": "boundary_early",
+        "scenario": "boundary_local_harm",
+        "change_fraction": 0.35
+      },
+      {
+        "cell": "boundary_late",
+        "scenario": "boundary_local_harm",
+        "change_fraction": 0.65
+      },
+      {
+        "cell": "recurring_regimes",
+        "scenario": "recurring_regimes",
+        "change_fraction": 0.5
+      },
+      {
+        "cell": "harmful_adaptation",
+        "scenario": "harmful_adaptation",
+        "change_fraction": 0.5
+      }
+    ],
+    "methods": [
+      "uniform_proxy",
+      "pprm_block_adaptive"
+    ],
+    "eventwise_monitors": [
+      "fixed_mixture",
+      "predictable_variance",
+      "PM-EB"
+    ],
+    "block_monitor": "fixed 10% PPI CM-EB / positive-betting mixture",
+    "block_design": {
+      "size": 20,
+      "labels_per_block": 4,
+      "reliance_cap": 0.1
+    },
+    "device_requested": "cuda",
+    "status": "development grid; all cellwise contrasts are descriptive; no winner selection"
+  },
+  "grid_config_sha256": "e9d231bc3a58782658a3681d5abe62d55c9341d24d3af4a5e83c67493e3ec11d",
+  "runner_sha256": "ef47e7f2822933bb00c06488332ec0055f9a40a6d2fdf3849763b8119936e49d",
+  "analyzer_sha256": "dce3a3d4085f142ff2ba410320c7525cd1331be5daaeaa77ef4db65a8f84ae21",
+  "input_run_metrics_sha256": {
+    "horizon_1000\\stationary\\metrics\\hard_budget_comparison.parquet": "ecfc88d788ffaf732cdbc5e87e7b9125dc644f8b8d0d99020208c1f34b59adbf",
+    "horizon_1000\\benign_nuisance\\metrics\\hard_budget_comparison.parquet": "44eec9eceb90a37c81a48d7fa252f4d6beab65688fd1b21dddf5b909d4a3dc1d",
+    "horizon_1000\\boundary_early\\metrics\\hard_budget_comparison.parquet": "176d7be00a5a422aa7247277ce7099d275cff45b6c363e632ea7a2429421f225",
+    "horizon_1000\\boundary_late\\metrics\\hard_budget_comparison.parquet": "9051cc83f8605d6110134ffd95df038df347f1a1e5033382d77ba4d6a81ab1c4",
+    "horizon_1000\\recurring_regimes\\metrics\\hard_budget_comparison.parquet": "576ce90bc5d6fb85dfb7d3767fd929649c594f5248aeadd3bd6e5ad51a051b72",
+    "horizon_1000\\harmful_adaptation\\metrics\\hard_budget_comparison.parquet": "f69a9ed2e3df324902800aa1ce56370fb2516c3136bb051d04d6de8d88b95f06",
+    "horizon_1800\\stationary\\metrics\\hard_budget_comparison.parquet": "523fac8f0da801832a735c4804dfa863b34b090abedee3620b8053c71936c286",
+    "horizon_1800\\benign_nuisance\\metrics\\hard_budget_comparison.parquet": "1822ad2cfb123db423f16c9dd889820df03fb0ee0173694f879e534bf16d7a84",
+    "horizon_1800\\boundary_early\\metrics\\hard_budget_comparison.parquet": "3ec93dd4afe6b7f8d8a86a105e437115d5a14a09c5f2632dcc88b79cceb6836a",
+    "horizon_1800\\boundary_late\\metrics\\hard_budget_comparison.parquet": "4fd534cf5894f1d09346c3a76fe63a07dda9513747929b9e7d80886bfcec9a9d",
+    "horizon_1800\\recurring_regimes\\metrics\\hard_budget_comparison.parquet": "915271028c308e6c37552dbd1f1abd1a60fac266336c377b44cfa6e630e4563c",
+    "horizon_1800\\harmful_adaptation\\metrics\\hard_budget_comparison.parquet": "d734c07bb6ad277b4c5e02e87d943f67fcb27e605b8607ea98c3486fc3d16e37",
+    "horizon_2600\\stationary\\metrics\\hard_budget_comparison.parquet": "0d91258e6ab02e82610b82178818159691b5bd6d8757a4cbabff27d2baf9035c",
+    "horizon_2600\\benign_nuisance\\metrics\\hard_budget_comparison.parquet": "63240204ecf95f13847ae13560889eecd0d8ab41f9393a12ed37d46e295a530b",
+    "horizon_2600\\boundary_early\\metrics\\hard_budget_comparison.parquet": "8528cd688779720f91a7d1bc251ef860367dfe43e87670857c4fb07be66c9601",
+    "horizon_2600\\boundary_late\\metrics\\hard_budget_comparison.parquet": "779d641d52848fe3aa647c21f15444b34e56db212f64178e9cf1cb9385dd579e",
+    "horizon_2600\\recurring_regimes\\metrics\\hard_budget_comparison.parquet": "676648542c936563d5124e8b8477cff12996970df8f326a859fad25121114eb4",
+    "horizon_2600\\harmful_adaptation\\metrics\\hard_budget_comparison.parquet": "32be42cc34e2d7dfea2c6473ec8085b3788f5fbf435a319a29580d7a5b5d7ad2"
+  },
+  "input_run_manifest_sha256": {
+    "horizon_1000\\stationary\\reports\\manifest.json": "10655e7e58299c3ff3c6c884b413d8338ca5bbe406c1233f1ec71fc5f6834886",
+    "horizon_1000\\benign_nuisance\\reports\\manifest.json": "d8bfef8e1309cfcf8323e9f2c2d3104bc527cdbea38e1957edc4fbfb55858b2e",
+    "horizon_1000\\boundary_early\\reports\\manifest.json": "82bea539e964b795cd2b7e636f6a525e58fcb2de852f67cf0bd9576ead02b81a",
+    "horizon_1000\\boundary_late\\reports\\manifest.json": "b7011d67b0fc5ccff5e0b892a438fe7a3f09733b1f3a9c77836baf71fbf565ba",
+    "horizon_1000\\recurring_regimes\\reports\\manifest.json": "624fe7477cf8973941cfeb98d0ea3d2731245544560dd3f43b1d0ab387ab7a1b",
+    "horizon_1000\\harmful_adaptation\\reports\\manifest.json": "8fa00c54d78ee5d794f69d907f18c2263cc527eb315c41a4ec1471a4b2efb59c",
+    "horizon_1800\\stationary\\reports\\manifest.json": "6fb7deec7b20a6c0e8e020f8a14f69827a53b29d4cfb19c89835ef3e03a276d0",
+    "horizon_1800\\benign_nuisance\\reports\\manifest.json": "1b6eb4911f68a377588d4d933b4a18e25e7b5776f746c6132c1d8318d255f34b",
+    "horizon_1800\\boundary_early\\reports\\manifest.json": "a0ac16256564152c30ab5ca501f9f399bbe6a34eb5cf0f4e6a1a92112ffd84be",
+    "horizon_1800\\boundary_late\\reports\\manifest.json": "b267ae1dba499862416eca24ab5e04cd8b9e4a132177ff1083d8dd34c3ec1b73",
+    "horizon_1800\\recurring_regimes\\reports\\manifest.json": "df5141257aa8192d808d70d0f923be23ccd347aa1a18f7bdf44b8e33f5367ad3",
+    "horizon_1800\\harmful_adaptation\\reports\\manifest.json": "986f273193da471eeb63c280b58df905442e9bc9f808df8dc44150cbe9619777",
+    "horizon_2600\\stationary\\reports\\manifest.json": "4bdb70140a85e63d2a16d7e0de7604ab805074504f322e0b94256f350ba5b6b3",
+    "horizon_2600\\benign_nuisance\\reports\\manifest.json": "537f8bb6d18fbdfa8a27c35062a1390014d6e98f89febf225127f8f307b92300",
+    "horizon_2600\\boundary_early\\reports\\manifest.json": "29095e8515e29b52a6b2f583d764dba6f1e8026501dabd60136753960f6290b7",
+    "horizon_2600\\boundary_late\\reports\\manifest.json": "91e6d0e119d5d26d142dc10f35cabfb5718cafa1c2f7b130788296866b00565d",
+    "horizon_2600\\recurring_regimes\\reports\\manifest.json": "68d1d7b4e83d4acac4887499bb2ee5ed213bc642f180a2e5495a354e4ebd3b1c",
+    "horizon_2600\\harmful_adaptation\\reports\\manifest.json": "a7d97376fcdf68ab7d3754b85453c4183c113b47888451e687984bf511bb0c8d"
+  },
+  "outputs_sha256": {
+    "monitor_stream_metrics.csv": "6a9df0a150e2ccff291fc9bab351a03b82c9c7aec2fedcff6029569075abcd3e",
+    "horizon_summary.csv": "829422e3a9e96054e79affe3b10400427454cc488345aeb4d9d0372d3f3a4e3c",
+    "paired_detection_contrasts.csv": "ae808e47bbfa1e4867ac3f4e4a5c5c60c8bd9d2a9e7f3038b29ffd4f5282d8fa",
+    "fixed_dollar_horizon_results.md": "7f0a8183cda53625665a4779ece0e37a3241f20e4ebfab261ccaaf4f7e82a770",
+    "fixed_dollar_horizon_detection.png": "40ffedbb393ea9e4d788c3cc4b42e680cb3633e5708f666ebffee19ea05bd9fc"
+  }
+}

@@ -37,6 +37,43 @@ def test_hard_budget_config_validates_scenario_grid_parameters():
         HardBudgetConfig(pprm_block_size=20, pprm_labels_per_block=20).validate()
     with pytest.raises(ValueError, match="pprm_initial_reliance"):
         HardBudgetConfig(pprm_max_reliance=0.5, pprm_initial_reliance=1.0).validate()
+    with pytest.raises(ValueError, match="budget_dollars"):
+        HardBudgetConfig(budget_dollars=0).validate()
+    with pytest.raises(ValueError, match="monitor_horizon_events"):
+        HardBudgetConfig(n=1600, monitor_horizon_events=801).validate()
+
+
+def test_fixed_dollar_cap_and_monitor_horizon_are_respected_for_eventwise_and_block_methods(
+    tmp_path,
+):
+    output = run_hard_budget(
+        HardBudgetConfig(
+            n=1600,
+            seeds=1,
+            budget_rate=0.20,
+            budget_dollars=100.0,
+            monitor_horizon_events=400,
+            q_min=0.10,
+            q_max=0.80,
+            common_eprocess_bound=True,
+            pprm_block_size=10,
+            pprm_labels_per_block=2,
+            pprm_max_reliance=0.1,
+            pprm_initial_reliance=0.1,
+            device="cpu",
+            scenario_subset=("boundary_local_harm",),
+            method_subset=("uniform_proxy", "pprm_block_adaptive"),
+        ),
+        tmp_path / "fixed_dollar_horizon",
+    )
+    metrics = pd.read_parquet(output / "metrics" / "hard_budget_comparison.parquet")
+    assert metrics.hard_budget.tolist() == pytest.approx([100.0, 100.0])
+    assert metrics.budget_respected.all()
+    assert (metrics.processed_events <= 400).all()
+    assert metrics.monitor_fraction_processed.between(0, 1).all()
+    pprm = metrics.loc[metrics.method.eq("pprm_block_adaptive")].iloc[0]
+    assert pprm.processed_events % 10 == 0
+    assert pprm.pprm_max_reliance == pytest.approx(0.1)
 
 
 def test_protected_stake_prior_retains_baseline_mass_and_small_bets():

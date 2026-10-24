@@ -9,7 +9,10 @@ import numpy as np
 import pandas as pd
 
 from shiftlab.decision_harm_experiment import SCENARIOS
-from shiftlab.dive.eprocess import PredictableVarianceAdaptiveEProcess
+from shiftlab.dive.eprocess import (
+    PredictablePlugInEmpiricalBernsteinEProcess,
+    PredictableVarianceAdaptiveEProcess,
+)
 from shiftlab.dive.estimators import (
     prediction_powered_bound,
     prediction_powered_randomization_variance,
@@ -99,15 +102,24 @@ def analyze(trace_path: Path, output_dir: Path) -> tuple[Path, Path, Path, Path]
         variance_log_values = np.asarray(
             [variance_monitor.update(float(value)) for value in ppi], dtype=float
         )
+        pm_eb_monitor = PredictablePlugInEmpiricalBernsteinEProcess(
+            bound=support_bound, alpha=float(np.exp(-threshold))
+        )
+        pm_eb_log_values = np.asarray(
+            [pm_eb_monitor.update(float(value)) for value in ppi], dtype=float
+        )
         actual_crossings = np.flatnonzero(actual_log >= threshold)
         oracle_crossings = np.flatnonzero(oracle_log >= threshold)
         variance_crossings = np.flatnonzero(variance_log_values >= threshold)
+        pm_eb_crossings = np.flatnonzero(pm_eb_log_values >= threshold)
         actual_first = int(offsets[actual_crossings[0]]) if len(actual_crossings) else None
         oracle_first = int(offsets[oracle_crossings[0]]) if len(oracle_crossings) else None
         variance_first = int(offsets[variance_crossings[0]]) if len(variance_crossings) else None
+        pm_eb_first = int(offsets[pm_eb_crossings[0]]) if len(pm_eb_crossings) else None
         actual_post = actual_first is not None and (onset is None or actual_first >= onset)
         oracle_post = oracle_first is not None and (onset is None or oracle_first >= onset)
         variance_post = variance_first is not None and (onset is None or variance_first >= onset)
+        pm_eb_post = pm_eb_first is not None and (onset is None or pm_eb_first >= onset)
         after_onset = offsets >= onset if onset is not None else np.zeros(len(offsets), dtype=bool)
         seed_rows.append(
             {
@@ -145,15 +157,20 @@ def analyze(trace_path: Path, output_dir: Path) -> tuple[Path, Path, Path, Path]
                 "evaluator_max_log_e": float(oracle_log.max()),
                 "predictable_variance_final_log_e": float(variance_log_values[-1]),
                 "predictable_variance_max_log_e": float(variance_log_values.max()),
+                "pm_eb_final_log_e": float(pm_eb_log_values[-1]),
+                "pm_eb_max_log_e": float(pm_eb_log_values.max()),
                 "learner_any_crossing": bool(actual_first is not None),
                 "evaluator_any_crossing": bool(oracle_first is not None),
                 "predictable_variance_any_crossing": bool(variance_first is not None),
+                "pm_eb_any_crossing": bool(pm_eb_first is not None),
                 "learner_post_onset_crossing": bool(actual_post),
                 "evaluator_post_onset_crossing": bool(oracle_post),
                 "predictable_variance_post_onset_crossing": bool(variance_post),
+                "pm_eb_post_onset_crossing": bool(pm_eb_post),
                 "learner_crossing_event": actual_first,
                 "evaluator_crossing_event": oracle_first,
                 "predictable_variance_crossing_event": variance_first,
+                "pm_eb_crossing_event": pm_eb_first,
                 "harm_onset_event_evaluator_only": onset,
                 "learner_detection_delay": actual_first - onset
                 if actual_post and onset is not None
@@ -163,6 +180,9 @@ def analyze(trace_path: Path, output_dir: Path) -> tuple[Path, Path, Path, Path]
                 else np.nan,
                 "predictable_variance_detection_delay": variance_first - onset
                 if variance_post and onset is not None
+                else np.nan,
+                "pm_eb_detection_delay": pm_eb_first - onset
+                if pm_eb_post and onset is not None
                 else np.nan,
                 "threshold_log_e": threshold,
             }
@@ -179,6 +199,7 @@ def analyze(trace_path: Path, output_dir: Path) -> tuple[Path, Path, Path, Path]
                     "learner_log_e": float(actual_log[index]),
                     "evaluator_full_feedback_log_e": float(oracle_log[index]),
                     "predictable_variance_log_e": float(variance_log_values[index]),
+                    "pm_eb_log_e": float(pm_eb_log_values[index]),
                 }
             )
 
@@ -207,21 +228,25 @@ def analyze(trace_path: Path, output_dir: Path) -> tuple[Path, Path, Path, Path]
             learner_crossing_rate=("learner_any_crossing", "mean"),
             evaluator_crossing_rate=("evaluator_any_crossing", "mean"),
             predictable_variance_crossing_rate=("predictable_variance_any_crossing", "mean"),
+            pm_eb_crossing_rate=("pm_eb_any_crossing", "mean"),
             learner_post_onset_crossing_rate=("learner_post_onset_crossing", "mean"),
             evaluator_post_onset_crossing_rate=("evaluator_post_onset_crossing", "mean"),
             predictable_variance_post_onset_crossing_rate=(
                 "predictable_variance_post_onset_crossing",
                 "mean",
             ),
+            pm_eb_post_onset_crossing_rate=("pm_eb_post_onset_crossing", "mean"),
             learner_final_log_e_mean=("learner_final_log_e", "mean"),
             evaluator_final_log_e_mean=("evaluator_final_log_e", "mean"),
             predictable_variance_final_log_e_mean=("predictable_variance_final_log_e", "mean"),
+            pm_eb_final_log_e_mean=("pm_eb_final_log_e", "mean"),
             learner_detection_delay_mean=("learner_detection_delay", "mean"),
             evaluator_detection_delay_mean=("evaluator_detection_delay", "mean"),
             predictable_variance_detection_delay_mean=(
                 "predictable_variance_detection_delay",
                 "mean",
             ),
+            pm_eb_detection_delay_mean=("pm_eb_detection_delay", "mean"),
         )
         .reset_index()
     )
@@ -236,6 +261,8 @@ def analyze(trace_path: Path, output_dir: Path) -> tuple[Path, Path, Path, Path]
             evaluator_log_e_median=("evaluator_full_feedback_log_e", "median"),
             predictable_variance_log_e_mean=("predictable_variance_log_e", "mean"),
             predictable_variance_log_e_median=("predictable_variance_log_e", "median"),
+            pm_eb_log_e_mean=("pm_eb_log_e", "mean"),
+            pm_eb_log_e_median=("pm_eb_log_e", "median"),
         )
         .reset_index()
     )
@@ -275,15 +302,16 @@ def analyze(trace_path: Path, output_dir: Path) -> tuple[Path, Path, Path, Path]
         "The full-feedback comparator updates the same bounded betting mixture on every synthetic outcome. Its crossing rate is descriptive and does not establish a valid monitoring guarantee under the alternative. Null calibration must be assessed in separate null experiments.",
         "For each evaluator-complete event, the exact conditional query-randomization variance is `(1-q)/q * (Z-h)^2`. The variance decomposition compares its stream average with the empirical PPI and full-feedback variances. This uses the realized synthetic stream and predictable q/h path; it is descriptive, not a confidence procedure.",
         "An existing predictable-variance e-process is replayed on the exact same PPI increments and support bound as the fixed mixture. Propensities, proxies, labels, and horizons are unchanged. This is a paired development diagnostic; the process has its conditional-mean guarantee only under its declared bounded-support and predictability assumptions, and these reused seeds do not independently calibrate it.",
+        "The existing plug-in empirical-Bernstein process is replayed on those same increments as another variance-sensitive established comparator. It also uses the global support bound. No monitor replay changes the acquisition path or constitutes independent calibration.",
         "",
         "## Seed-aggregated results",
         "",
-        "|Scenario|Method|Streams|Mean expected excess cost|Fraction positive|PPI increment variance|Full-feedback increment variance|Fixed-mixture crossings|Predictable-variance crossings|Full-feedback crossings|Fixed-mixture delay|Predictable-variance delay|Full-feedback delay|",
+        "|Scenario|Method|Streams|Mean expected excess cost|PPI increment variance|Fixed-mixture crossings|Predictable-variance crossings|PM-EB crossings|Full-feedback crossings|Fixed-mixture delay|Predictable-variance delay|PM-EB delay|Full-feedback delay|",
         "|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|",
     ]
     for row in grouped.to_dict("records"):
         lines.append(
-            f"|{row['scenario']}|{row['method']}|{int(row['streams'])}|{row['mean_expected_excess_cost']:.4f}|{row['mean_fraction_expected_harm_positive']:.3f}|{row['mean_ppi_increment_variance']:.4f}|{row['mean_full_feedback_increment_variance']:.4f}|{row['learner_crossing_rate']:.3f}|{row['predictable_variance_crossing_rate']:.3f}|{row['evaluator_crossing_rate']:.3f}|{row['learner_detection_delay_mean']:.1f}|{row['predictable_variance_detection_delay_mean']:.1f}|{row['evaluator_detection_delay_mean']:.1f}|"
+            f"|{row['scenario']}|{row['method']}|{int(row['streams'])}|{row['mean_expected_excess_cost']:.4f}|{row['mean_ppi_increment_variance']:.4f}|{row['learner_crossing_rate']:.3f}|{row['predictable_variance_crossing_rate']:.3f}|{row['pm_eb_crossing_rate']:.3f}|{row['evaluator_crossing_rate']:.3f}|{row['learner_detection_delay_mean']:.1f}|{row['predictable_variance_detection_delay_mean']:.1f}|{row['pm_eb_detection_delay_mean']:.1f}|{row['evaluator_detection_delay_mean']:.1f}|"
         )
     lines.extend(
         [

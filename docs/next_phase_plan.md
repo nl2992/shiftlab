@@ -8,8 +8,9 @@ The exact predictable Bernoulli acquisition-variance term accounts for about 98%
 (evidence curve) of the PPI variance increase. Mean absolute increments use 0.58% of the global
 96.9 support bound, signaling scale mismatch without justifying a smaller validity bound. The
 existing predictable-variance e-process replay crossed in 1/60 streams for each acquisition policy,
-below the fixed mixture's 6/60 and 4/60. Neither the evidence curve nor this established stake
-adaptation improved detection. These are same-seed descriptive diagnostics, not fresh confirmation. See
+PM-EB replay crossed in 0/60 streams, also below the fixed mixture's 6/60 and 4/60. Neither the
+evidence curve nor these established variance-sensitive monitors improved detection. These are
+same-seed descriptive diagnostics, not fresh confirmation. See
 [`monitor_signal_diagnostic_results.md`](monitor_signal_diagnostic_results.md).
 
 **Status:** Updated after the 30-seed harm severity/onset/horizon grid completed. This is an experiment sequence, not a claim that the repository's three paper tracks are complete.

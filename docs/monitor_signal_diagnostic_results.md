@@ -21,14 +21,14 @@ the configured margin.
 
 ## Results
 
-|Scenario|Method|Expected excess above ε|PPI increment variance|Fixed-mixture crossing|Predictable-variance crossing|Full-feedback crossing|Mean delay: fixed / predictable-variance / full feedback|
-|---|---|---:|---:|---:|---:|---:|---:|
-|Stationary|Uniform|−0.0206|3.924|0/60|0/60|0/60|— / — / —|
-|Stationary|Evidence curve|−0.0207|5.717|0/60|0/60|0/60|— / — / —|
-|Benign nuisance|Uniform|−0.0205|4.021|0/60|0/60|0/60|— / — / —|
-|Benign nuisance|Evidence curve|−0.0205|5.936|0/60|0/60|0/60|— / — / —|
-|Boundary-local harm|Uniform|+0.1781|7.661|6/60|1/60|60/60|1,466 / 1,422 / 396 events|
-|Boundary-local harm|Evidence curve|+0.1788|8.669|4/60|1/60|60/60|1,502 / 1,520 / 396 events|
+|Scenario|Method|Expected excess above ε|PPI increment variance|Fixed-mixture crossing|Predictable-variance crossing|PM-EB crossing|Full-feedback crossing|Mean delay: fixed / PVA / PM-EB / full feedback|
+|---|---|---:|---:|---:|---:|---:|---:|---:|
+|Stationary|Uniform|−0.0206|3.924|0/60|0/60|0/60|0/60|— / — / — / —|
+|Stationary|Evidence curve|−0.0207|5.717|0/60|0/60|0/60|0/60|— / — / — / —|
+|Benign nuisance|Uniform|−0.0205|4.021|0/60|0/60|0/60|0/60|— / — / — / —|
+|Benign nuisance|Evidence curve|−0.0205|5.936|0/60|0/60|0/60|0/60|— / — / — / —|
+|Boundary-local harm|Uniform|+0.1781|7.661|6/60|1/60|0/60|60/60|1,466 / 1,422 / — / 396 events|
+|Boundary-local harm|Evidence curve|+0.1788|8.669|4/60|1/60|0/60|60/60|1,502 / 1,520 / — / 396 events|
 
 For boundary-local harm, mean expected excess after the evaluator-defined onset was `+0.2767`
 (uniform) and `+0.2782` (evidence curve). The candidate does not improve over uniform. The learner
@@ -59,6 +59,11 @@ bound, leaving query propensities, proxies, feedback and horizons unchanged. It 
 under uniform queries and 4/60 for the evidence curve. This established stake adaptation did not
 recover the lost evidence on these paths. It remains a valid comparator under the same
 bounded-increment conditional-mean assumptions, but does not advance.
+
+The existing plug-in empirical-Bernstein (PM-EB) process crossed in 0/60 streams for both
+acquisition policies. All three sparse-feedback monitors had 0/60 crossings on both controls.
+These same-seed replays are development evidence only; the control counts do not provide
+independent calibration.
 
 The 7.9%–8.4% of events with positive expected excess are not stream-level null violations by
 themselves. Under the registered controls, the average expected excess remains around `−0.021`,

@@ -63,3 +63,39 @@ def test_pending_feedback_is_counted_without_revealing_its_value():
     buffer.register(1, 1.0, value=0.5)
     assert buffer.pending_count == 1
     assert buffer.buffered_count == 2
+
+
+def test_arbitrary_value_dependent_arrivals_only_expose_event_time_prefixes():
+    # Delays deliberately depend on the evidence value and resolve out of order.
+    values = [0.9, -0.7, 0.8, -0.6, 0.5, -0.4]
+    delays = [8 if value > 0 else 1 for value in values]
+    buffer = EventOrderBuffer()
+    for index in range(len(values)):
+        assert buffer.register(index, float(index)) == []
+
+    arrivals = sorted((index + delays[index], index) for index in range(len(values)))
+    arrival_wealth = 1.0
+    released_sequence = []
+    event_wealth = 1.0
+    event_prefix_wealth = [event_wealth]
+    alarm_threshold = 1.4
+    arrival_alarm = False
+    event_time_crossing = False
+
+    for index, value in enumerate(values):
+        event_wealth *= 1.0 + 0.5 * value
+        event_prefix_wealth.append(event_wealth)
+        event_time_crossing |= event_wealth >= alarm_threshold
+
+    for available_time, index in arrivals:
+        released = buffer.resolve(index, available_time=float(available_time), value=values[index])
+        for row in released:
+            released_sequence.append(row.event_index)
+            arrival_wealth *= 1.0 + 0.5 * row.value
+            arrival_alarm |= arrival_wealth >= alarm_threshold
+            # Every released prefix state is exactly a state on the event path.
+            assert arrival_wealth == pytest.approx(event_prefix_wealth[len(released_sequence)])
+
+    assert released_sequence == list(range(len(values)))
+    assert arrival_alarm == event_time_crossing
+    assert buffer.pending_count == buffer.buffered_count == 0

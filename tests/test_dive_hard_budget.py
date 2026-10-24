@@ -138,6 +138,31 @@ def test_hard_budget_run_respects_common_spend_cap_and_stops_predictably(tmp_pat
     assert "probability_positive" not in metrics.columns
 
 
+def test_hard_budget_records_policy_specific_propensity_support_bounds(tmp_path):
+    output = run_hard_budget(
+        HardBudgetConfig(
+            n=1600,
+            seeds=1,
+            budget_rate=0.20,
+            q_min=0.10,
+            q_max=0.80,
+            common_eprocess_bound=False,
+            generate_figure=False,
+            device="cpu",
+            scenario_subset=("stationary",),
+            method_subset=("uniform_proxy", "variance_proxy"),
+        ),
+        tmp_path / "policy_specific_bounds",
+    )
+    metrics = pd.read_parquet(output / "metrics" / "hard_budget_comparison.parquet")
+    uniform = metrics.loc[metrics.method.eq("uniform_proxy")].iloc[0]
+    adaptive = metrics.loc[metrics.method.eq("variance_proxy")].iloc[0]
+    assert uniform.eprocess_minimum_propensity == pytest.approx(0.20)
+    assert uniform.eprocess_support_bound == pytest.approx(45.9)
+    assert adaptive.eprocess_minimum_propensity == pytest.approx(0.10)
+    assert adaptive.eprocess_support_bound == pytest.approx(96.9)
+
+
 def test_evidence_directed_policy_uses_preoutcome_evidence_and_skips_unavailable_visuals(tmp_path):
     output = run_hard_budget(
         HardBudgetConfig(

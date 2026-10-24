@@ -324,25 +324,24 @@ def _one_method(
         if config.common_eprocess_bound or query_kind != "uniform"
         else config.budget_rate
     )
-    process = BoundedMeanEProcess(
-        bound=prediction_powered_bound(proxy.clip, minimum_propensity), alpha=config.alpha
-    )
+    process_bound = prediction_powered_bound(proxy.clip, minimum_propensity)
+    process = BoundedMeanEProcess(bound=process_bound, alpha=config.alpha)
     # Evaluator-only full-feedback comparator. Its updates are never exposed to
     # the acquisition policy, proxy, or learner-side monitor.
     evaluator_process = BoundedMeanEProcess(bound=proxy.clip, alpha=config.alpha)
     start_positions = tuple(sorted({0, event_count // 4, event_count // 2, 3 * event_count // 4}))
     started_mixture_process = StartedMixtureEProcess(
-        bound=prediction_powered_bound(proxy.clip, minimum_propensity),
+        bound=process_bound,
         alpha=config.alpha,
         starts=start_positions,
     )
     multiscale_process = BoundedMeanEProcess(
-        bound=prediction_powered_bound(proxy.clip, minimum_propensity),
+        bound=process_bound,
         alpha=config.alpha,
         stakes=MULTISCALE_STAKES,
     )
     protected_process = BoundedMeanEProcess(
-        bound=prediction_powered_bound(proxy.clip, minimum_propensity),
+        bound=process_bound,
         alpha=config.alpha,
         stakes=PROTECTED_STAKES,
         weights=PROTECTED_WEIGHTS,
@@ -355,7 +354,7 @@ def _one_method(
         }[comparator]
         comparator_processes[comparator] = {
             "process": process_class(
-                bound=prediction_powered_bound(proxy.clip, minimum_propensity),
+                bound=process_bound,
                 alpha=config.alpha,
             ),
             "first_alarm": None,
@@ -561,6 +560,7 @@ def _one_method(
         # actual spend, its pathwise sum is not constrained by the hard cap.
         "predictable_spend_compensator_until_stop": expected_spend,
         "eprocess_minimum_propensity": minimum_propensity,
+        "eprocess_support_bound": process_bound,
         "query_urgency_activation_fraction": (
             evidence_policy.activation_fraction if evidence_policy is not None else None
         ),
@@ -1421,7 +1421,7 @@ def run_hard_budget(config: HardBudgetConfig, output: Path) -> Path:
         (
             "The eventwise e-process monitors use the common configured propensity floor in their support bound; the PPRM-style block confidence sequence instead uses its declared fixed block support."
             if config.common_eprocess_bound
-            else "The primary comparison uses each method's actual minimum propensity in its e-process bound: uniform queries at 0.10 use a tighter bound than adaptive policies that can query at 0.05. The common-bound sensitivity at reports/eprocess_bound_sensitivity.md found 0/30 detections for every method under q_min=0.05; do not attribute the primary 4-versus-0 difference solely to allocation."
+            else f"The primary eventwise monitors use policy-specific support bounds: adaptive query policies use the configured q_min={config.q_min:.2f}, and uniform querying uses its fixed q={config.budget_rate:.2f}. The resulting minimum propensity and PPI support bound are recorded per method-stream."
         ),
         "",
         "Each monitor is evaluated only through its budget stopping time. Harm detection is reported both over evaluator-labeled alternative streams and over harmful streams whose onset occurred before budget stopping; the latter avoids calling an unobserved late onset a monitor miss. Stationary and benign-nuisance controls are population nulls; finite-stream oracle flags are reported separately and every alarm on these controls counts as a false escalation. Stream seeds are the inferential units. The outcomes and tariffs are synthetic; current and reference policy costs are paired on the same label.",

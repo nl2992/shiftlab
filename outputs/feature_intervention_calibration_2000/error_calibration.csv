@@ -1,0 +1,5 @@
+scenario,error_type,events,streams_at_risk,rate,simultaneous_one_sided_cp_upper,cell_alpha,familywise_alpha,family_cells,gate_pass
+benign_nuisance,false_promotion,9,2000,0.0045,0.009168587186299336,0.0125,0.05,4,True
+persistent_benefit,false_rollback,0,2000,0.0,0.0021886147997063833,0.0125,0.05,4,True
+rollback_boundary,false_rollback,11,2000,0.0055,0.010504386458736218,0.0125,0.05,4,True
+stationary,false_promotion,9,2000,0.0045,0.009168587186299336,0.0125,0.05,4,True

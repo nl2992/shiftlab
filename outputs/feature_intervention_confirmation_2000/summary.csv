@@ -1,0 +1,13 @@
+scenario,method,streams,promotions,promotion_rate,rollbacks,rollback_rate,mean_rollback_event,mean_expected_net_utility,mean_realized_net_utility,mean_labels,maximum_labels,budget_respected
+boundary_local_harm,continue,2000,0,0.0,0,0.0,,0.0,0.0,0.0,0,True
+boundary_local_harm,promotion_only,2000,11,0.0055,0,0.0,,-0.9580450000000001,-0.9135450000000002,315.777,320,True
+boundary_local_harm,promotion_rollback,2000,11,0.0055,0,0.0,,-0.9677700000000001,-0.9232700000000001,316.7495,320,True
+boundary_local_harm,unconditional_promote,2000,2000,1.0,0,0.0,,399.95,399.41,0.0,0,True
+harmful_adaptation,continue,2000,0,0.0,0,0.0,,0.0,0.0,0.0,0,True
+harmful_adaptation,promotion_only,2000,2000,1.0,0,0.0,,-140.56723999999898,-140.87124000000003,51.724,157,True
+harmful_adaptation,promotion_rollback,2000,2000,1.0,1790,0.895,166.88212290502793,-69.37687999999989,-69.669805,199.3055,320,True
+harmful_adaptation,unconditional_promote,2000,2000,1.0,0,0.0,,-140.04999999999896,-140.354,0.0,0,True
+persistent_benefit,continue,2000,0,0.0,0,0.0,,0.0,0.0,0.0,0,True
+persistent_benefit,promotion_only,2000,2000,1.0,0,0.0,,399.43303,401.97902999999997,51.697,154,True
+persistent_benefit,promotion_rollback,2000,2000,1.0,0,0.0,,396.750015,399.296015,319.9985,320,True
+persistent_benefit,unconditional_promote,2000,2000,1.0,0,0.0,,399.95,402.496,0.0,0,True

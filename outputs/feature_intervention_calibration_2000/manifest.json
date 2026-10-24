@@ -1,0 +1,79 @@
+{
+  "created_at_utc": "2026-10-24T22:36:15.164303+00:00",
+  "purpose": "independent null calibration of the integrated feature-dependent promotion and rollback gates",
+  "status": "passed",
+  "seeds_per_cell": 2000,
+  "seed_offset": 77102024,
+  "horizon_per_phase": 400,
+  "query_rate": 0.8,
+  "budget_rate": 0.4,
+  "label_budget": 320,
+  "alpha_total": 0.05,
+  "gate_alpha_per_stage": 0.025,
+  "simultaneous_cell_alpha": 0.0125,
+  "calibration_scenarios_and_errors": [
+    [
+      "stationary",
+      "false_promotion"
+    ],
+    [
+      "benign_nuisance",
+      "false_promotion"
+    ],
+    [
+      "rollback_boundary",
+      "false_rollback"
+    ],
+    [
+      "persistent_benefit",
+      "false_rollback"
+    ]
+  ],
+  "promotion_cost": 0.05,
+  "rollback_cost": 0.05,
+  "cost_support_bound": 5.0,
+  "all_budgets_respected": true,
+  "retention_rule": "all four exact one-sided Bonferroni Clopper-Pearson upper limits <= 0.05 and no cap violation",
+  "metric_rows": 8000,
+  "metrics_sha256": "9dbd955b6d9a2d46916fd40d5da5ff9e93cc8eb2a669cd9965bdca1aaae1675d",
+  "code_sha256": {
+    "feature_intervention_calibration.py": "241852d2f908c3e7554b28f18eb6ae287250718bc52ac6901fe6131861979380",
+    "feature_intervention.py": "166dd06f5fc8ab2488b5d0660416fa511aad775cc67ea4fe90ec8ffe8e4d790c",
+    "closed_loop_intervention.py": "ad33b9a999814d447e95fcd9e8cbe1e39a78661dab2ca4a74a9c63da82fe44f8",
+    "controller.py": "bdeb77dcf4089d72a795d54bd1d2fd9a415757feeb7be020860e3a02b796178c"
+  },
+  "environment": {
+    "cpu_ram_bytes": 16858472448,
+    "disk_free_bytes": 20415922176,
+    "cuda_available": true,
+    "nvidia_smi": "NVIDIA GeForce RTX 4060 Laptop GPU, 8188 MiB, 592.82, 0 %, 197 MiB",
+    "torch_version": "2.9.1+cu130",
+    "cuda_runtime": "13.0",
+    "gpu_name": "NVIDIA GeForce RTX 4060 Laptop GPU",
+    "gpu_memory_bytes": 8585216000,
+    "versions": {
+      "numpy": "2.5.4",
+      "scipy": "1.18.1",
+      "pandas": "3.0.6",
+      "pyarrow": "25.0.1",
+      "folktables": "0.0.12"
+    }
+  },
+  "command": [
+    "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\shift-research-starter\\.venv\\Scripts\\shiftlab-dive-feature-intervention-calibrate",
+    "--seeds",
+    "2000",
+    "--seed-offset",
+    "77102024",
+    "--horizon",
+    "400",
+    "--query-rate",
+    "0.80",
+    "--budget-rate",
+    "0.40",
+    "--device",
+    "cuda",
+    "--output-dir",
+    "outputs/feature_intervention_calibration_2000"
+  ]
+}

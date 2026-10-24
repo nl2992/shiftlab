@@ -804,4 +804,19 @@ attribution, or universal benefits from adaptation.
 
 For version-control conventions and contribution checks, see [CONTRIBUTING.md](CONTRIBUTING.md).
 
+## Feature-dependent intervention benchmark
+
+The feature-dependent promotion/rollback integration connects the existing controller to the
+versioned decision-stream contract and keeps evaluator-only cost truth out of replay. A fresh CUDA
+grid covers stationary, nuisance-shift, boundary-harm, reversal, persistent-benefit, and
+least-favourable rollback-null profiles. Independent 2,000-stream calibration passed all four
+registered simultaneous error limits. On the disjoint harmful-reversal block, rollback improved
+expected utility by 71.19 units over promotion-only, but remained 69.38 units worse than continuing
+with the incumbent. The experiment supports a calibrated rollback mechanism under its stated
+simulator assumptions; the end-to-end intervention policy fails the net-utility criterion. See
+the [frozen protocol](docs/feature_intervention_protocol.md),
+[confirmation protocol](docs/feature_intervention_confirmation_protocol.md),
+[results and limitations](docs/feature_intervention_results.md), and synthetic artifacts under
+`outputs/feature_intervention_*`.
+
 A fresh 36-cell CUDA run compares the fixed-stake mixture at α and α/2, plug-in Kelly, published PM-EB, full-budget one-sided positive betting, and the canonical half-weighted hedged branch (2,000 streams per cell; seed 24102026). Every method stayed below 5% crossings in the mixed-sign zero-mean and strict negative-mean controls. On positive alternatives, full-budget positive betting averaged 12.14% crossings for broad gains and 7.22% when only the high-cost group benefited, versus 11.31% and 5.95% for the fixed mixture; its paired high-cost-only gain was +1.27 points (95% cellwise t interval +0.95 to +1.59), while the broad-gain interval included zero. The canonical half-weighted hedge performed essentially the same as a fixed mixture at the matched α/2 threshold. PM-EB remained more conservative and less powerful in this sparse-label setting. The full two-sided hedge is unsuitable as a decision-harm gate because its lower-tail branch can alarm inside the one-sided no-harm null. These are descriptive finite simulations, not a winner or novelty claim; this run is exploratory rather than preregistered. Code, paired Parquet results, checksums, [report](outputs/hedged_betting_comparison_final_24102026/reports/predictable_stake_calibration.md), and [plot](outputs/hedged_betting_comparison_final_24102026/figures/predictable_stake_calibration.png) are available. The earlier grids remain at `outputs/hedged_betting_comparison_v2_23102026/` and `outputs/predictable_betting_comparison/`.

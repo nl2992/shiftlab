@@ -79,19 +79,27 @@ def _simulate_gate(
     promotion_cost: float,
     rollback_cost: float,
     horizon: int,
+    gain_bound: float = 1.0,
 ) -> dict[str, np.ndarray]:
-    """Vectorized form of CertifiedPromotionRollback for paired seed streams."""
+    """Vectorized form of CertifiedPromotionRollback for paired seed streams.
+
+    ``gain_bound`` is a known bound on the absolute paired cost difference before
+    querying. The default preserves the original Bernoulli-cost benchmark; callers
+    with feature-dependent decision costs must pass their actual cost bound.
+    """
     streams, total_events = gains.shape
     if total_events != 2 * horizon or query_uniforms.shape != gains.shape:
         raise ValueError("gains and query uniforms must cover shadow plus deployment")
     if not 0 < query_rate <= 1 or label_budget < 0:
         raise ValueError("query_rate must be in (0,1] and label_budget nonnegative")
+    if not np.isfinite(gain_bound) or gain_bound <= 0:
+        raise ValueError("gain_bound must be finite and positive")
 
     promotion_alpha = rollback_alpha = alpha / 2
     promotion_rate = promotion_cost / horizon
     rollback_rate = rollback_cost / horizon
-    promotion_bound = 1 / query_rate + promotion_rate
-    rollback_bound = 1 / query_rate + rollback_rate
+    promotion_bound = gain_bound / query_rate + promotion_rate
+    rollback_bound = gain_bound / query_rate + rollback_rate
     stakes = np.asarray(DEFAULT_STAKES, dtype=float)
     promotion_log_wealth = np.zeros((streams, len(stakes)), dtype=float)
     rollback_log_wealth = np.zeros((streams, len(stakes)), dtype=float)
@@ -101,11 +109,13 @@ def _simulate_gate(
     labels = np.zeros(streams, dtype=np.int64)
     shadow_labels = np.zeros(streams, dtype=np.int64)
     deployment_labels = np.zeros(streams, dtype=np.int64)
+    queried_mask = np.zeros((streams, total_events), dtype=bool)
     promoted = np.zeros(streams, dtype=bool)
     promotion_time = np.full(streams, -1, dtype=np.int64)
     for event in range(horizon):
         active = ~promoted & (labels < label_budget)
         queried = active & (query_uniforms[:, event] < query_rate)
+        queried_mask[:, event] = queried
         labels += queried
         shadow_labels += queried
         gain_estimate = np.where(queried, gains[:, event] / query_rate, 0.0)
@@ -125,6 +135,7 @@ def _simulate_gate(
     for event in range(horizon):
         active = promoted & ~rollback & (labels < label_budget)
         queried = active & (query_uniforms[:, horizon + event] < query_rate)
+        queried_mask[:, horizon + event] = queried
         labels += queried
         deployment_labels += queried
         gain_estimate = np.where(queried, gains[:, horizon + event] / query_rate, 0.0)
@@ -147,6 +158,7 @@ def _simulate_gate(
         "labels_queried": labels,
         "shadow_labels_queried": shadow_labels,
         "deployment_labels_queried": deployment_labels,
+        "queried_mask": queried_mask,
         "budget_respected": labels <= label_budget,
         "promotion_alpha": np.full(streams, promotion_alpha),
         "rollback_alpha": np.full(streams, rollback_alpha),
@@ -167,6 +179,7 @@ def _evaluate_methods(
     label_price: float,
     alpha: float,
     horizon: int,
+    gain_bound: float = 1.0,
 ) -> pd.DataFrame:
     label_budget = int(np.floor(budget_rate * 2 * horizon))
     gate = _simulate_gate(
@@ -178,6 +191,7 @@ def _evaluate_methods(
         promotion_cost=promotion_cost,
         rollback_cost=rollback_cost,
         horizon=horizon,
+        gain_bound=gain_bound,
     )
     streams = len(gains)
     rows = []

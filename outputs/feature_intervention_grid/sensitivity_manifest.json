@@ -1,0 +1,93 @@
+{
+  "created_at_utc": "2026-10-24T22:32:21.611414+00:00",
+  "purpose": "paired development grid over query propensity and hard label budget",
+  "status": "development_only_not_calibration_or_confirmation",
+  "seeds_per_scenario_cell": 30,
+  "seed_offset": 76102024,
+  "horizon_per_phase": 400,
+  "query_rates": [
+    0.4,
+    0.8
+  ],
+  "budget_rates": [
+    0.2,
+    0.4
+  ],
+  "common_random_numbers": "same per-scenario outcomes and query uniforms across propensity/budget cells",
+  "scenarios": [
+    "stationary",
+    "benign_nuisance",
+    "boundary_local_harm",
+    "harmful_adaptation",
+    "persistent_benefit",
+    "rollback_boundary"
+  ],
+  "methods": [
+    "continue",
+    "unconditional_promote",
+    "promotion_only",
+    "promotion_rollback"
+  ],
+  "metric_rows": 2880,
+  "all_budgets_respected": true,
+  "metrics_sha256": "7c24645a3172e633c8ee851822390ee933f4996142d81909ea7e3ea2820099be",
+  "child_cells": {
+    "q40_b20": {
+      "metrics_sha256": "afd21b81049ca92227af6f5edb6f1fd4536594f46ea4fba5edcb45e7e99a16f7",
+      "promotion_rollback_null_status": "development_only_not_independent_calibration_or_confirmation"
+    },
+    "q40_b40": {
+      "metrics_sha256": "33877e76472a99cf70939768554b76f4707cb22a17688e460f66d8de7a813c38",
+      "promotion_rollback_null_status": "development_only_not_independent_calibration_or_confirmation"
+    },
+    "q80_b20": {
+      "metrics_sha256": "9d5eba71a043efe0fff9303d68e371a7a53117cec4b3d543108369f5ab26cc94",
+      "promotion_rollback_null_status": "development_only_not_independent_calibration_or_confirmation"
+    },
+    "q80_b40": {
+      "metrics_sha256": "5fbef176c70e021a3c2eb0123f2d84528b430fcbe0af17ab799e40646957172c",
+      "promotion_rollback_null_status": "development_only_not_independent_calibration_or_confirmation"
+    }
+  },
+  "code_sha256": {
+    "feature_intervention.py": "166dd06f5fc8ab2488b5d0660416fa511aad775cc67ea4fe90ec8ffe8e4d790c",
+    "closed_loop_intervention.py": "ad33b9a999814d447e95fcd9e8cbe1e39a78661dab2ca4a74a9c63da82fe44f8",
+    "controller.py": "bdeb77dcf4089d72a795d54bd1d2fd9a415757feeb7be020860e3a02b796178c"
+  },
+  "environment": {
+    "cpu_ram_bytes": 16858472448,
+    "disk_free_bytes": 20416819200,
+    "cuda_available": true,
+    "nvidia_smi": "NVIDIA GeForce RTX 4060 Laptop GPU, 8188 MiB, 592.82, 0 %, 107 MiB",
+    "torch_version": "2.9.1+cu130",
+    "cuda_runtime": "13.0",
+    "gpu_name": "NVIDIA GeForce RTX 4060 Laptop GPU",
+    "gpu_memory_bytes": 8585216000,
+    "versions": {
+      "numpy": "2.5.4",
+      "scipy": "1.18.1",
+      "pandas": "3.0.6",
+      "pyarrow": "25.0.1",
+      "folktables": "0.0.12"
+    }
+  },
+  "command": [
+    "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\shift-research-starter\\.venv\\Scripts\\shiftlab-dive-feature-intervention-grid",
+    "--seeds",
+    "30",
+    "--seed-offset",
+    "76102024",
+    "--horizon",
+    "400",
+    "--query-rates",
+    "0.40",
+    "0.80",
+    "--budget-rates",
+    "0.20",
+    "0.40",
+    "--device",
+    "cuda",
+    "--output-dir",
+    "outputs/feature_intervention_grid"
+  ]
+}

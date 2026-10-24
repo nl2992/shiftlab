@@ -83,6 +83,110 @@ def paired_bootstrap_interval(
     return float(low), float(high)
 
 
+def build_dose_results(metrics: pd.DataFrame, *, seed: int) -> pd.DataFrame:
+    evidence = metrics[
+        metrics["arm"].isin(["evidence_qmin_0.05_fixed", "evidence_qmin_0.05_predictable"])
+        & metrics["scenario"].isin(HARM_SCENARIOS)
+    ]
+    dose_rows = []
+    for index, (effect, scenario) in enumerate(zip(HARM_EFFECTS, HARM_SCENARIOS, strict=True)):
+        group = evidence[evidence["scenario"] == scenario]
+        by_arm = group.groupby("arm")[
+            [
+                "post_onset_detection",
+                "false_escalation",
+                "labels_queried",
+                "events_processed",
+                "evaluator_cumulative_expected_harm_cost",
+            ]
+        ].mean()
+        fixed = group[group["arm"] == "evidence_qmin_0.05_fixed"].set_index("stream_id")
+        dynamic = group[group["arm"] == "evidence_qmin_0.05_predictable"].set_index("stream_id")
+        detection_diff = (
+            dynamic["post_onset_detection"].astype(float).to_numpy()
+            - fixed["post_onset_detection"].astype(float).to_numpy()
+        )
+        label_diff = dynamic["labels_queried"].to_numpy(dtype=float) - fixed[
+            "labels_queried"
+        ].to_numpy(dtype=float)
+        exposure_diff = dynamic["evaluator_cumulative_expected_harm_cost"].to_numpy(
+            dtype=float
+        ) - fixed["evaluator_cumulative_expected_harm_cost"].to_numpy(dtype=float)
+        bootstrap_seed = seed + 71_100 + index
+        detection_ci = paired_bootstrap_interval(detection_diff, seed=bootstrap_seed)
+        label_ci = paired_bootstrap_interval(label_diff, seed=bootstrap_seed)
+        exposure_ci = paired_bootstrap_interval(exposure_diff, seed=bootstrap_seed)
+        dose_rows.append(
+            {
+                "scenario": scenario,
+                "harm_effect": effect,
+                "fixed_detection_rate": float(
+                    by_arm.loc["evidence_qmin_0.05_fixed", "post_onset_detection"]
+                ),
+                "predictable_detection_rate": float(
+                    by_arm.loc["evidence_qmin_0.05_predictable", "post_onset_detection"]
+                ),
+                "paired_detection_difference": float(detection_diff.mean()),
+                "paired_detection_ci95_low": detection_ci[0],
+                "paired_detection_ci95_high": detection_ci[1],
+                "fixed_pre_onset_escalation_rate": float(
+                    by_arm.loc["evidence_qmin_0.05_fixed", "false_escalation"]
+                ),
+                "predictable_pre_onset_escalation_rate": float(
+                    by_arm.loc["evidence_qmin_0.05_predictable", "false_escalation"]
+                ),
+                "paired_label_difference": float(label_diff.mean()),
+                "paired_label_ci95_low": label_ci[0],
+                "paired_label_ci95_high": label_ci[1],
+                "paired_exposure_cost_difference": float(exposure_diff.mean()),
+                "paired_exposure_cost_ci95_low": exposure_ci[0],
+                "paired_exposure_cost_ci95_high": exposure_ci[1],
+            }
+        )
+    return pd.DataFrame(dose_rows)
+
+
+def reanalyze_existing(output: Path) -> Path:
+    """Recompute dose-level bootstrap intervals from checksum-verified stream rows."""
+    reports_dir = output / "reports"
+    metrics_dir = output / "metrics"
+    manifest_path = reports_dir / "manifest.json"
+    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    metrics_path = metrics_dir / "stream_metrics.parquet"
+    expected_hash = manifest["artifact_sha256"]["metrics\\stream_metrics.parquet"]
+    if sha256(metrics_path) != expected_hash:
+        raise ValueError("stream metrics checksum differs from the registered manifest")
+    metrics = pd.read_parquet(metrics_path)
+    seed = int(manifest["configuration"]["seed_root"])
+    dose = build_dose_results(metrics, seed=seed)
+    dose_path = metrics_dir / "harm_dose_results.csv"
+    dose.to_csv(dose_path, index=False)
+
+    report_path = reports_dir / "confirmation_results.md"
+    report = report_path.read_text(encoding="utf-8")
+    begin_marker = "## Harm dose response\n\n"
+    end_marker = "\n\n## Primary result"
+    begin = report.index(begin_marker) + len(begin_marker)
+    end = report.index(end_marker, begin)
+    dose_section = (
+        dose.to_markdown(index=False, floatfmt=".4f")
+        + "\n\nDose-level paired 95% bootstrap intervals are descriptive secondary analyses and are not adjusted across doses."
+    )
+    report = report[:begin] + dose_section + report[end:]
+    report_path.write_text(report, encoding="utf-8")
+
+    source_path = Path("scripts/confirm_history_predictable_query_bounds.py")
+    manifest["analysis_recomputed_without_regenerating_streams"] = True
+    manifest["git_commit"] = subprocess.run(
+        ["git", "rev-parse", "HEAD"], check=True, capture_output=True, text=True
+    ).stdout.strip()
+    manifest["source_sha256"][str(source_path)] = sha256(source_path)
+    manifest["artifact_sha256"]["metrics\\harm_dose_results.csv"] = sha256(dose_path)
+    manifest["artifact_sha256"]["reports\\confirmation_results.md"] = sha256(report_path)
+    manifest_path.write_text(json.dumps(manifest, indent=2, sort_keys=True), encoding="utf-8")
+    return output
+
+
 def run_confirmation(*, streams: int, seed: int, device_name: str, output: Path) -> Path:
     if streams < 100:
         raise ValueError("confirmation requires at least 100 paired streams")
@@ -153,55 +257,7 @@ def run_confirmation(*, streams: int, seed: int, device_name: str, output: Path)
         metrics["arm"].isin(["evidence_qmin_0.05_fixed", "evidence_qmin_0.05_predictable"])
         & metrics["scenario"].isin(HARM_SCENARIOS)
     ]
-    dose_rows = []
-    for effect, scenario in zip(HARM_EFFECTS, HARM_SCENARIOS, strict=True):
-        group = evidence[evidence["scenario"] == scenario]
-        by_arm = group.groupby("arm")[
-            [
-                "post_onset_detection",
-                "false_escalation",
-                "labels_queried",
-                "events_processed",
-                "evaluator_cumulative_expected_harm_cost",
-            ]
-        ].mean()
-        fixed = group[group["arm"] == "evidence_qmin_0.05_fixed"].set_index("stream_id")
-        dynamic = group[group["arm"] == "evidence_qmin_0.05_predictable"].set_index("stream_id")
-        dose_rows.append(
-            {
-                "scenario": scenario,
-                "harm_effect": effect,
-                "fixed_detection_rate": float(
-                    by_arm.loc["evidence_qmin_0.05_fixed", "post_onset_detection"]
-                ),
-                "predictable_detection_rate": float(
-                    by_arm.loc["evidence_qmin_0.05_predictable", "post_onset_detection"]
-                ),
-                "paired_detection_difference": float(
-                    dynamic["post_onset_detection"]
-                    .astype(float)
-                    .sub(fixed["post_onset_detection"].astype(float))
-                    .mean()
-                ),
-                "fixed_pre_onset_escalation_rate": float(
-                    by_arm.loc["evidence_qmin_0.05_fixed", "false_escalation"]
-                ),
-                "predictable_pre_onset_escalation_rate": float(
-                    by_arm.loc["evidence_qmin_0.05_predictable", "false_escalation"]
-                ),
-                "paired_label_difference": float(
-                    (dynamic["labels_queried"] - fixed["labels_queried"]).mean()
-                ),
-                "paired_exposure_cost_difference": float(
-                    (
-                        dynamic["evaluator_cumulative_expected_harm_cost"]
-                        - fixed["evaluator_cumulative_expected_harm_cost"]
-                    ).mean()
-                ),
-            }
-        )
-    dose = pd.DataFrame(dose_rows)
-
+    dose = build_dose_results(metrics, seed=seed)
     per_stream = evidence.pivot(
         index="stream_id",
         columns=["scenario", "arm"],
@@ -290,7 +346,7 @@ def run_confirmation(*, streams: int, seed: int, device_name: str, output: Path)
         "",
         "The sole primary harm estimand is the stream-paired, equal-weight mean detection-rate difference for the four registered doses (delta 0.04, 0.20, 0.40, 0.60), comparing q_min=0.05 history-predictable against q_min=0.05 fixed-bound evidence-directed querying. Retention requires the two-sided 95% paired-bootstrap lower limit to exceed +2 percentage points, the two-sided 95% upper limit for the label-count difference to be no greater than zero, and every simultaneous calibration upper limit below 5%.",
         "",
-        f"The exact one-sided null limits use Bonferroni alpha 0.05/{calibration_cells} across the two nonpositive-mean controls and three arms. A strict negative control has an expected paired-cost contrast of -0.20 after event 1200. These Monte Carlo limits check this simulator and implementation; the mathematical guarantee still depends on the stated conditional-mean null and predictable q.",
+        f"The exact one-sided null limits use Bonferroni alpha 0.05/{calibration_cells} across the two nonpositive-mean controls and three arms. A strict negative control has an expected paired-cost contrast of -0.20 starting at zero-based event index 1200. These Monte Carlo limits check this simulator and implementation; the mathematical guarantee still depends on the stated conditional-mean null and predictable q.",
         "",
         "## Calibration",
         "",
@@ -299,6 +355,8 @@ def run_confirmation(*, streams: int, seed: int, device_name: str, output: Path)
         "## Harm dose response",
         "",
         dose.to_markdown(index=False, floatfmt=".4f"),
+        "",
+        "Dose-level paired 95% bootstrap intervals are descriptive secondary analyses and are not adjusted across doses.",
         "",
         "## Primary result",
         "",
@@ -380,7 +438,16 @@ def main() -> None:
     parser.add_argument(
         "--output", type=Path, default=Path("outputs/history_predictable_bound_confirmation")
     )
+    parser.add_argument(
+        "--reanalyze",
+        action="store_true",
+        help="recompute dose-level intervals from checksum-verified stream rows without resimulation",
+    )
     args = parser.parse_args()
+    if args.reanalyze:
+        path = reanalyze_existing(args.output)
+        print(f"Reanalyzed checksum-verified confirmation metrics without resimulation: {path}")
+        return
     path = run_confirmation(
         streams=args.streams, seed=args.seed, device_name=args.device, output=args.output
     )

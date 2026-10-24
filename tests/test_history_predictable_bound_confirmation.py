@@ -1,8 +1,11 @@
 import numpy as np
+import pandas as pd
 import pytest
 
+from scripts.calibrate_history_predictable_query_bounds import HARM_SCENARIOS
 from scripts.confirm_history_predictable_query_bounds import (
     DEFAULT_SEED,
+    build_dose_results,
     exact_one_sided_upper,
     paired_bootstrap_interval,
     run_confirmation,
@@ -37,3 +40,31 @@ def test_confirmation_rejects_seed_overlap_with_development(tmp_path):
             device_name="cpu",
             output=tmp_path / "overlap",
         )
+
+
+def test_dose_table_reports_paired_intervals_for_registered_metrics():
+    rows = []
+    for scenario in HARM_SCENARIOS:
+        for stream_id in range(2):
+            for arm, detected, labels, harm_cost in (
+                ("evidence_qmin_0.05_fixed", False, 100, 5.0),
+                ("evidence_qmin_0.05_predictable", True, 50, 2.0),
+            ):
+                rows.append(
+                    {
+                        "scenario": scenario,
+                        "stream_id": stream_id,
+                        "arm": arm,
+                        "post_onset_detection": detected,
+                        "false_escalation": False,
+                        "labels_queried": labels,
+                        "events_processed": 2400,
+                        "evaluator_cumulative_expected_harm_cost": harm_cost,
+                    }
+                )
+    dose = build_dose_results(pd.DataFrame(rows), seed=17)
+    assert len(dose) == len(HARM_SCENARIOS)
+    assert dose["paired_detection_ci95_low"].eq(1.0).all()
+    assert dose["paired_detection_ci95_high"].eq(1.0).all()
+    assert dose["paired_label_ci95_low"].eq(-50.0).all()
+    assert dose["paired_exposure_cost_ci95_high"].eq(-3.0).all()

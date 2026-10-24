@@ -1,0 +1,68 @@
+{
+  "created_at_utc": "2026-10-24T05:28:21.063186+00:00",
+  "config": {
+    "seeds": 30,
+    "seed_offset": 20261024,
+    "n_source": 3000,
+    "n_target": 3000,
+    "query_rate": 0.5,
+    "alpha": 0.05,
+    "materiality_margin": 0.02,
+    "harm_onset_fraction": 0.4,
+    "amplitude": 0.6,
+    "benign_amplitude": 0.25,
+    "delay_schemes": [
+      "fixed_3",
+      "uniform_0_6"
+    ],
+    "scenarios": [
+      "stationary",
+      "benign_variance_shift",
+      "boundary_harm"
+    ],
+    "device": "cuda"
+  },
+  "config_validated": true,
+  "device_resolved": [
+    "cuda"
+  ],
+  "environment": {
+    "cpu_ram_bytes": 16858472448,
+    "disk_free_bytes": 21575770112,
+    "cuda_available": true,
+    "nvidia_smi": "NVIDIA GeForce RTX 4060 Laptop GPU, 8188 MiB, 592.82, 0 %, 107 MiB",
+    "torch_version": "2.6.0+cu124",
+    "cuda_runtime": "12.4",
+    "gpu_name": "NVIDIA GeForce RTX 4060 Laptop GPU",
+    "gpu_memory_bytes": 8585216000,
+    "versions": {
+      "numpy": "2.4.2",
+      "scipy": "1.17.1",
+      "pandas": "3.0.1",
+      "pyarrow": "24.0.0",
+      "folktables": null
+    }
+  },
+  "scenario_names": [
+    "stationary",
+    "benign_variance_shift",
+    "boundary_harm"
+  ],
+  "delay_schemes": [
+    "fixed_3",
+    "uniform_0_6"
+  ],
+  "methods": [
+    "paired_cost_eprocess",
+    "source_target_risk_cs",
+    "no_query_hold"
+  ],
+  "rows": 540,
+  "metrics_sha256": "f22eed636513d829b09fd73169cf9269900a6a2d3d1234d63b7948c656c0b55e",
+  "code_sha256": {
+    "delayed_benchmark.py": "0cb73ef127f4e1da87a5dc8b221c965534b81a7e90f90f2b12d3f30403cbad00",
+    "delayed_feedback.py": "f0f957ffee752130bbe8bcee35e7db724426b94db0952c9a2e132db5769644a8",
+    "eprocess.py": "17ca5bcb3a7e3a5b5a3e6f99307aba6bce21b885c54f267be6eef7ec6cd1f5fd"
+  },
+  "statistical_scope": "Development benchmark only. The paired-cost e-process assumes a known bounded increment and eventwise conditional-mean null; the risk-CS comparator uses an independent fixed source sample, bounded target losses, outcome-independent query sampling and independent outcome-independent delays. No claim is made for outcome-dependent delays, adaptive model updates, or serial dependence."
+}

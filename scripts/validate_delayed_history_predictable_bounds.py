@@ -1,10 +1,11 @@
-"""Development screen for history-only PPI querying with deterministic delay.
+"""Development screen for history-only PPI querying with delayed labels.
 
 This is not a confirmation. The monitor commits eventwise PPI increments only
 when the contiguous event-time prefix is observable. Query budget is reserved
 when a request is made, and a queried outcome is first accessed at its arrival.
-The registered DGP is iid across events and uses an outcome-independent fixed
-label delay; no claim is made for serial dependence or informative delays.
+The default DGP uses iid events and an outcome-independent fixed delay. Optional
+stress profiles make label latency depend on the sign of the queried cost
+contrast; those profiles are evaluator-side and latency is not monitor evidence.
 """
 
 from __future__ import annotations
@@ -57,6 +58,7 @@ except ModuleNotFoundError:  # Direct execution sets sys.path to scripts/.
     )
 
 Q_MIN = 0.05
+DELAY_PROFILES = ("fixed", "positive_fast", "positive_slow")
 
 
 def simulate_delayed_arm_gpu_reference(
@@ -276,6 +278,7 @@ def simulate_delayed_arm(
     device: torch.device,
     delay: int,
     bound_mode: str,
+    delay_profile: str = "fixed",
     q_min: float = Q_MIN,
 ) -> list[dict[str, object]]:
     """Fast NumPy monitor replay over CUDA- or CPU-generated common streams.
@@ -286,6 +289,11 @@ def simulate_delayed_arm(
     """
     if delay < 1 or bound_mode not in {"fixed", "predictable"}:
         raise ValueError("require delay >= 1 and a fixed or predictable bound")
+    if delay_profile not in DELAY_PROFILES or (delay_profile != "fixed" and delay < 2):
+        raise ValueError(
+            "delay_profile must be fixed/positive_fast/positive_slow; "
+            "informative profiles require delay >= 2"
+        )
     arrays = {
         key: value.detach().cpu().numpy() if torch.is_tensor(value) else value
         for key, value in data.items()
@@ -311,16 +319,24 @@ def simulate_delayed_arm(
     event_proxy = np.zeros_like(estimate)
     event_propensity = np.full_like(estimate, LABEL_BUDGET_RATE)
     event_included = np.zeros_like(event_known)
+    evaluator_contrast = np.zeros_like(estimate)
+    requested_delay_sum = np.zeros(streams, dtype=np.float64)
+    positive_delay_sum = np.zeros(streams, dtype=np.float64)
+    negative_delay_sum = np.zeros(streams, dtype=np.float64)
+    positive_delay_count = np.zeros(streams, dtype=np.int64)
+    negative_delay_count = np.zeros(streams, dtype=np.int64)
     factor_violation = np.zeros(streams, dtype=bool)
     support_violation = np.zeros(streams, dtype=bool)
     propensity_violation = np.zeros(streams, dtype=bool)
     stream_index = np.arange(streams)
     threshold = -math.log(ALPHA)
+    max_delay = delay
+    arrival_queue: list[list[tuple[int, np.ndarray]]] = [[] for _ in range(horizon + max_delay)]
 
     def release(registered: int, wall_time: int) -> None:
         nonlocal log_wealth, factor_violation, support_violation, first_alarm, alarm_wall
         nonlocal processed, propensity_sum, bound_sum, cursor
-        for _ in range(delay + 2):
+        for _ in range(registered + 1):
             event_index = np.minimum(cursor, horizon - 1)
             ready = (cursor < registered) & event_known[event_index, stream_index]
             if not ready.any():
@@ -344,10 +360,7 @@ def simulate_delayed_arm(
             bound_sum += np.where(update, bounds, 0.0)
             cursor += ready
 
-    def reveal(event_index: int) -> None:
-        if not 0 <= event_index < horizon:
-            return
-        queried = event_queried[event_index]
+    def outcome_probability(event_index: int) -> np.ndarray:
         context = arrays["context"][event_index]
         high = context == 1
         if "p_low" in arrays and "p_high" in arrays:
@@ -364,20 +377,48 @@ def simulate_delayed_arm(
             if harm_effect is not None and event_index >= onset:
                 high_probability_value -= harm_effect / HIGH_COST
             probability = np.where(high, high_probability_value, 0.56)
-        # Evaluator outcomes are consulted only for requested labels at arrival.
-        y = arrays["outcome_uniform"][event_index, queried] < probability[queried]
-        cost = np.where(high[queried], HIGH_COST, 1.0)
-        contrast = cost * (1 - 2 * y.astype(np.float32))
-        q = event_propensity[event_index, queried]
-        estimate[event_index, queried] = (
-            event_proxy[event_index, queried]
-            + (contrast.astype(np.float64) - event_proxy[event_index, queried]) / q
-        )
-        event_known[event_index, queried] = True
+        return probability
 
-    for wall_time in range(horizon + delay):
-        due = wall_time - delay
-        reveal(due)
+    def schedule_feedback(event_index: int, queried: np.ndarray, wall_time: int) -> None:
+        """Evaluator schedules labels; only arrivals enter learner-visible state."""
+        nonlocal requested_delay_sum, positive_delay_sum, negative_delay_sum
+        nonlocal positive_delay_count, negative_delay_count
+        if not queried.any():
+            return
+        context = arrays["context"][event_index]
+        high = context == 1
+        probability = outcome_probability(event_index)
+        y = arrays["outcome_uniform"][event_index, queried] < probability[queried]
+        contrast = np.where(high[queried], HIGH_COST, 1.0) * (1 - 2 * y.astype(np.float32))
+        evaluator_contrast[event_index, queried] = contrast.astype(np.float64)
+        positive = queried & (evaluator_contrast[event_index] > 0)
+        negative = queried & ~positive
+        if delay_profile == "fixed":
+            delay_by_stream = np.full(streams, delay, dtype=np.int64)
+        elif delay_profile == "positive_fast":
+            delay_by_stream = np.where(positive, 1, delay)
+        else:
+            delay_by_stream = np.where(positive, delay, 1)
+        requested_delay_sum += np.where(queried, delay_by_stream, 0)
+        positive_delay_sum += np.where(positive, delay_by_stream, 0)
+        negative_delay_sum += np.where(negative, delay_by_stream, 0)
+        positive_delay_count += positive
+        negative_delay_count += negative
+        for this_delay in np.unique(delay_by_stream[queried]):
+            mask = queried & (delay_by_stream == this_delay)
+            arrival_queue[wall_time + int(this_delay)].append((event_index, mask))
+
+    def release_feedback(wall_time: int) -> None:
+        for event_index, queried in arrival_queue[wall_time]:
+            q = event_propensity[event_index, queried]
+            estimate[event_index, queried] = (
+                event_proxy[event_index, queried]
+                + (evaluator_contrast[event_index, queried] - event_proxy[event_index, queried]) / q
+            )
+            event_known[event_index, queried] = True
+
+    for wall_time in range(horizon + max_delay):
+        release_feedback(wall_time)
         release(min(wall_time, horizon), wall_time)
         if wall_time >= horizon:
             continue
@@ -401,6 +442,7 @@ def simulate_delayed_arm(
         estimate[wall_time] = proxy
         labels += queried
         remaining -= queried
+        schedule_feedback(wall_time, queried, wall_time)
 
     if not np.all(cursor == horizon):
         raise RuntimeError("delayed evidence buffer did not release every event")
@@ -422,11 +464,19 @@ def simulate_delayed_arm(
             "scenario": scenario,
             "stream_id": stream,
             "stream_seed_id": seed + stream,
-            "arm": f"evidence_qmin_{q_min:.2f}_{bound_mode}_delay_{delay}",
+            "arm": f"evidence_qmin_{q_min:.2f}_{bound_mode}_{delay_profile}_delay_{delay}",
             "bound_mode": bound_mode,
             "feedback_delay": delay,
+            "delay_profile": delay_profile,
             "events_processed": int(processed[stream]),
             "labels_queried": int(labels[stream]),
+            "mean_feedback_delay": float(requested_delay_sum[stream] / max(labels[stream], 1)),
+            "mean_positive_contrast_delay": float(
+                positive_delay_sum[stream] / max(positive_delay_count[stream], 1)
+            ),
+            "mean_negative_contrast_delay": float(
+                negative_delay_sum[stream] / max(negative_delay_count[stream], 1)
+            ),
             "hard_label_budget": budget,
             "budget_respected": bool(labels[stream] <= budget),
             "mean_bound_processed": float(bound_sum[stream] / max(processed[stream], 1)),
@@ -451,12 +501,21 @@ def simulate_delayed_arm(
 
 
 def run(
-    *, streams: int, horizon: int, seed: int, delay: int, device_name: str, output: Path
+    *,
+    streams: int,
+    horizon: int,
+    seed: int,
+    delay: int,
+    device_name: str,
+    output: Path,
+    delay_profile: str = "fixed",
 ) -> Path:
     if streams < 30 or horizon < 100:
         raise ValueError("development screen requires at least 30 streams and horizon 100")
     if output.exists() and any(output.iterdir()):
         raise FileExistsError(f"refusing to overwrite nonempty output: {output}")
+    if delay_profile not in DELAY_PROFILES or (delay_profile != "fixed" and delay < 2):
+        raise ValueError("informative delay profiles require delay >= 2")
     if device_name == "cuda" and not torch.cuda.is_available():
         raise RuntimeError("CUDA was requested but is unavailable")
     device = torch.device(device_name)
@@ -479,6 +538,7 @@ def run(
                     device=device,
                     delay=delay,
                     bound_mode=bound_mode,
+                    delay_profile=delay_profile,
                 )
             )
     metrics = pd.DataFrame(rows)
@@ -493,7 +553,7 @@ def run(
     (output / "reports").mkdir()
     metrics_path = output / "metrics/stream_metrics.parquet"
     metrics.to_parquet(metrics_path, index=False)
-    grouped = metrics.groupby(["scenario", "bound_mode"], sort=True)
+    grouped = metrics.groupby(["scenario", "bound_mode", "delay_profile"], sort=True)
     summary = grouped.agg(
         streams=("stream_id", "size"),
         false_escalations=("false_escalation", "sum"),
@@ -511,12 +571,13 @@ def run(
         "",
         f"- Streams per scenario and arm: {streams}",
         f"- Horizon: {horizon}; onset index: {math.floor(HARM_ONSET_FRACTION * horizon)}",
-        f"- Deterministic outcome-independent feedback delay: {delay} events",
+        f"- Feedback delay profile: {delay_profile}; fixed/slow delay: {delay} events",
         f"- Hard query cap: {math.floor(LABEL_BUDGET_RATE * horizon)} labels per stream",
         f"- Stream generation device: {device}; sequential monitor replay: CPU NumPy.",
         "- This is a development screen; it is not confirmatory evidence or a method novelty claim.",
-        "- Under the iid event DGP, each q_t and its support bound are determined by previously committed prefix evidence and query spend. The queried contrast is revealed only after the registered delay, and the buffer commits evidence in event order.",
-        "- Future event contexts are independent of earlier pending outcomes under this DGP. This does not establish validity under serial dependence, outcome-dependent delay, adaptive action changes, or missing labels.",
+        "- Under the iid event DGP, each q_t and its support bound are determined by previously committed prefix evidence and query spend. The monitor commits evidence in event order; latency is never included as a model feature or evidence increment.",
+        "- In positive_fast/positive_slow, the evaluator assigns 1-event versus configured-delay labels based on the sign of the queried decision-cost contrast. These are informative-delay power/latency stress conditions, not new validity calibration.",
+        "- The null guarantee requires the event-time conditional-mean null and a valid predictable bound given the full history used by querying. See docs/delayed_event_prefix_validity.md; no serial-dependence or policy-adaptation claim is made.",
         "- Calibration must be evaluated on fresh independent nonpositive-mean controls before a separate harm confirmation.",
         "- No figure was generated: PaperBanana is not available in the active environment.",
         "",
@@ -535,6 +596,7 @@ def run(
             "horizon": horizon,
             "seed_root": seed,
             "delay": delay,
+            "delay_profile": delay_profile,
             "device": str(device),
             "monitor_backend": "numpy_cpu_event_order",
             "scenarios": scenarios,
@@ -542,7 +604,7 @@ def run(
             "q_min": Q_MIN,
             "q_max": Q_MAX,
             "label_budget_rate": LABEL_BUDGET_RATE,
-            "outcome_independent_fixed_delay": True,
+            "outcome_independent_fixed_delay": delay_profile == "fixed",
         },
         "rows": len(metrics),
         "sha256": {
@@ -552,6 +614,9 @@ def run(
             ).hexdigest(),
             "protocol": hashlib.sha256(
                 Path("docs/delayed_history_predictable_bound_protocol.md").read_bytes()
+            ).hexdigest(),
+            "informative_delay_protocol": hashlib.sha256(
+                Path("docs/informative_delay_stress_protocol.md").read_bytes()
             ).hexdigest(),
             "metrics/stream_metrics.parquet": hashlib.sha256(metrics_path.read_bytes()).hexdigest(),
             "metrics/summary.csv": hashlib.sha256(summary_path.read_bytes()).hexdigest(),
@@ -565,9 +630,9 @@ def run(
         "limitations": [
             "development screen only",
             "iid event process only",
-            "deterministic outcome-independent delay only",
+            f"delay profile {delay_profile}; informative profiles are power/latency stress tests only",
             "event-order prefix buffer; eventwise predictable support bound",
-            "no serial dependence, informative delay, or policy adaptation claim",
+            "no serial-dependence, policy-adaptation, or latency-as-evidence claim",
         ],
     }
     (output / "reports/manifest.json").write_text(
@@ -582,6 +647,7 @@ def main() -> None:
     parser.add_argument("--horizon", type=int, default=2400)
     parser.add_argument("--seed", type=int, default=27204027)
     parser.add_argument("--delay", type=int, default=12)
+    parser.add_argument("--delay-profile", choices=DELAY_PROFILES, default="fixed")
     parser.add_argument("--device", choices=("cpu", "cuda"), default="cuda")
     parser.add_argument(
         "--output", type=Path, default=Path("outputs/delayed_history_predictable_development_30")
@@ -595,6 +661,7 @@ def main() -> None:
             delay=args.delay,
             device_name=args.device,
             output=args.output,
+            delay_profile=args.delay_profile,
         ),
         flush=True,
     )

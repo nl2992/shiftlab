@@ -1,3 +1,4 @@
+import numpy as np
 import torch
 
 from scripts.calibrate_history_predictable_query_bounds import (
@@ -8,6 +9,38 @@ from scripts.validate_delayed_history_predictable_bounds import (
     simulate_delayed_arm,
     simulate_delayed_arm_gpu_reference,
 )
+
+
+def test_outcome_dependent_delay_profiles_follow_evaluator_contrast_only():
+    streams, horizon = 4, 100
+    outcome_uniform = np.tile(
+        np.where(np.arange(horizon) % 2 == 0, 0.1, 0.9)[:, None], (1, streams)
+    )
+    data = {
+        "context": np.zeros((horizon, streams), dtype=np.int64),
+        "query_uniform": np.zeros((horizon, streams), dtype=np.float64),
+        "outcome_uniform": outcome_uniform,
+        "h_low": 0.0,
+        "h_high": 0.0,
+    }
+    expected = {"fixed": (12, 12), "positive_fast": (1, 12), "positive_slow": (12, 1)}
+    for profile, (positive_delay, negative_delay) in expected.items():
+        rows = simulate_delayed_arm(
+            scenario="mixed_sign_exact_marginal_null",
+            streams=streams,
+            horizon=horizon,
+            seed=101,
+            data=data,
+            device=torch.device("cpu"),
+            delay=12,
+            bound_mode="predictable",
+            delay_profile=profile,
+        )
+        assert len(rows) == streams
+        for row in rows:
+            assert row["budget_respected"]
+            assert row["mean_positive_contrast_delay"] == positive_delay
+            assert row["mean_negative_contrast_delay"] == negative_delay
 
 
 def test_delayed_history_bound_runner_reserves_budget_and_flushes_event_prefix():

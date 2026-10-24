@@ -1,0 +1,63 @@
+{
+  "created_at_utc": "2026-10-24T06:35:06.293580+00:00",
+  "config": {
+    "seeds_per_cell": 2000,
+    "seed_offset": 20270000,
+    "n_events": 3000,
+    "query_rates": [
+      0.1,
+      0.25,
+      0.5
+    ],
+    "harm_onsets": [
+      0.2,
+      0.6
+    ],
+    "harm_increases": [
+      0.12,
+      0.24
+    ],
+    "delay_scheme": "uniform_0_6",
+    "alpha": 0.05,
+    "margin": 0.02,
+    "amplitude": 0.6,
+    "device": "cuda"
+  },
+  "config_validated": true,
+  "environment": {
+    "cpu_ram_bytes": 16858472448,
+    "disk_free_bytes": 21549105152,
+    "cuda_available": true,
+    "nvidia_smi": "NVIDIA GeForce RTX 4060 Laptop GPU, 8188 MiB, 592.82, 0 %, 107 MiB",
+    "torch_version": "2.9.1+cu130",
+    "cuda_runtime": "13.0",
+    "gpu_name": "NVIDIA GeForce RTX 4060 Laptop GPU",
+    "gpu_memory_bytes": 8585216000,
+    "versions": {
+      "numpy": "2.5.4",
+      "scipy": "1.18.1",
+      "pandas": "3.0.6",
+      "pyarrow": "25.0.1",
+      "folktables": "0.0.12"
+    }
+  },
+  "resolved_devices": [
+    "cuda"
+  ],
+  "seed_interval_per_cell": [
+    20270000,
+    20271999
+  ],
+  "factorial_cells": 12,
+  "streams_per_cell": 2000,
+  "metric_rows": 72000,
+  "primary_method_contrast": "restart_mixture_8 versus paired_cost_betting",
+  "paired_test_family": "12 cellwise exact two-sided McNemar tests with Holm adjustment",
+  "metrics_sha256": "705b3b3b70d7c3b8fc69230061bfb8f06a1ef4f219056a1ad50c40db61ca3dfe",
+  "code_sha256": {
+    "delayed_grid_confirmation.py": "553352e836086cbc3439d01dce0cde52a7de44d861741be8e9f82f409a93f3f1",
+    "delayed_calibration.py": "d4adecda35e7328bc3c07e50e5de11ccb713a0f1392a1482d299e887c989c012",
+    "delayed_benchmark.py": "d82de14fc1fde9e77fdf1ab1bc32241412fe4bff172ed1bf970202642af39552"
+  },
+  "inference_scope": "Alternative-only factorial confirmation. Paired seeds are reused across cells to reduce Monte Carlo noise; each cell retains its own independent-stream estimate. The 12 paired restart-versus-full-stream tests use Holm adjustment. Null calibration is in the separate registered null study."
+}

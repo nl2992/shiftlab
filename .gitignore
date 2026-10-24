@@ -132,6 +132,10 @@ outputs/figures/*
 !outputs/delayed_null_calibration_2000/**
 !outputs/delayed_feedback_confirmation_2000/
 !outputs/delayed_feedback_confirmation_2000/**
+!outputs/delayed_feedback_replication_2000/
+!outputs/delayed_feedback_replication_2000/**
+!outputs/delayed_feedback_grid_confirmation_2000/
+!outputs/delayed_feedback_grid_confirmation_2000/**
 results/*
 !results/.gitkeep
 data/raw/

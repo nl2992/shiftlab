@@ -122,9 +122,17 @@ The delayed-feedback study separately tests event-order monitoring when labels a
 stationary and benign-variance controls. In the disjoint primary alternative confirmation, the
 fixed eight-start e-process mixture detected late, weaker harm in 933/2,000 streams, compared with
 100/2,000 for the same-family full-stream betting process (paired exact McNemar `p=5.37e-245`).
-This is a result for one synthetic condition, not a general superiority or novelty claim. See the
+An independently seeded 2,000-stream replication found 895/2,000 versus 100/2,000, with paired exact
+McNemar `p=8.89e-229`. Across both blocks, descriptive detection was 45.70% versus 5.00%. This is
+evidence for these fixed synthetic conditions, not a general superiority or novelty claim. A
+separate 12-cell confirmation grid (2,000 paired streams per cell) found a positive restart-mixture
+detection gain in every tested cell, ranging from 1.2 to 68.4 percentage points. All 12 exact paired
+tests remained significant after Holm correction (largest adjusted p=3.03e-6); these results remain
+specific to the registered independent synthetic settings. See the
 [calibration and confirmation protocol](docs/delayed_null_calibration_protocol.md), [calibration
-metrics](outputs/delayed_null_calibration_2000/), and [confirmation metrics](outputs/delayed_feedback_confirmation_2000/).
+metrics](outputs/delayed_null_calibration_2000/), [first confirmation](outputs/delayed_feedback_confirmation_2000/),
+the [replication](outputs/delayed_feedback_replication_2000/), and the
+[12-cell grid](outputs/delayed_feedback_grid_confirmation_2000/).
 No figure is included for this study because its protocol requires PaperBanana and that tool was not
 available when the results were generated.
 

@@ -86,11 +86,15 @@ in [`outputs/delayed_feedback_grid_development/`](../outputs/delayed_feedback_gr
 No figure is included: project guidance requires PaperBanana for visuals, and no PaperBanana tool is
 available in this session.
 
-The independent calibration and its primary disjoint alternative confirmation are complete; see
+The independent calibration and two disjoint primary confirmations are complete; see
 [`delayed_null_calibration_protocol.md`](delayed_null_calibration_protocol.md) for the full results.
-The restart mixture detected 933/2,000 late-onset weak-harm streams at query rate 0.25, versus
-100/2,000 for full-stream betting; paired discordances were 836 versus 3 (exact two-sided McNemar
-`p=5.37e-245`). This establishes a strong result for this frozen synthetic condition, while the
-restart mixture remains a standard e-process construction, not a novelty claim. Replicate this one
-primary condition on another disjoint seed block before expanding to secondary onset, effect and
-budget cells.
+The restart mixture detected 933/2,000 and 895/2,000 late-onset weak-harm streams on the two blocks,
+versus 100/2,000 for full-stream betting on each; both paired tests strongly favored the restart
+mixture. The subsequent 12-cell, 2,000-seed-per-cell alternative grid found positive restart-mixture
+detection gains in all cells, from 1.2 to 68.4 percentage points. Every cellwise exact McNemar test
+remained significant after Holm correction (largest adjusted p=3.03e-6). The largest gain was for
+late, weak harm at a 50% query rate; early strong-harm cells were near ceiling for both procedures.
+These are results for registered synthetic settings. The restart mixture remains a standard e-process
+construction, not a novelty claim or universal ranking. Full metrics, confidence intervals, paired
+tests and log-scale tiny p-values are in
+[`outputs/delayed_feedback_grid_confirmation_2000/`](../outputs/delayed_feedback_grid_confirmation_2000/).

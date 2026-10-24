@@ -22,11 +22,17 @@ from .delayed_calibration import (
 )
 
 
-def run_confirmation(output_dir: str | Path, *, device: str = "cuda") -> tuple[pd.DataFrame, dict]:
+def run_confirmation(
+    output_dir: str | Path,
+    *,
+    device: str = "cuda",
+    seeds: int = 2000,
+    seed_offset: int = 20266000,
+) -> tuple[pd.DataFrame, dict]:
     """Run the preregistered primary alternative on seeds disjoint from development/calibration."""
     config = DelayedBenchmarkConfig(
-        seeds=2000,
-        seed_offset=20266000,
+        seeds=seeds,
+        seed_offset=seed_offset,
         n_source=3000,
         n_target=3000,
         query_rate=0.25,
@@ -215,8 +221,15 @@ def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output-dir", default="outputs/delayed_feedback_confirmation_2000")
     parser.add_argument("--device", choices=("auto", "cpu", "cuda"), default="cuda")
+    parser.add_argument("--seeds", type=int, default=2000)
+    parser.add_argument("--seed-offset", type=int, default=20266000)
     args = parser.parse_args()
-    summary, manifest = run_confirmation(args.output_dir, device=args.device)
+    summary, manifest = run_confirmation(
+        args.output_dir,
+        device=args.device,
+        seeds=args.seeds,
+        seed_offset=args.seed_offset,
+    )
     print(summary.to_string(index=False))
     print(json.dumps(manifest["primary_test"], indent=2))
     print(f"output_dir={args.output_dir}")

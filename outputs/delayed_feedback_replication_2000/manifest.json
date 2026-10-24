@@ -1,0 +1,64 @@
+{
+  "created_at_utc": "2026-10-24T06:26:20.701715+00:00",
+  "config": {
+    "seeds": 2000,
+    "seed_offset": 20268000,
+    "n_source": 3000,
+    "n_target": 3000,
+    "query_rate": 0.25,
+    "alpha": 0.05,
+    "materiality_margin": 0.02,
+    "harm_onset_fraction": 0.6,
+    "harm_contrast_increase": 0.12,
+    "amplitude": 0.6,
+    "benign_amplitude": 0.25,
+    "delay_schemes": [
+      "uniform_0_6"
+    ],
+    "scenarios": [
+      "boundary_harm"
+    ],
+    "device": "cuda"
+  },
+  "config_validated": true,
+  "environment": {
+    "cpu_ram_bytes": 16858472448,
+    "disk_free_bytes": 21572714496,
+    "cuda_available": true,
+    "nvidia_smi": "NVIDIA GeForce RTX 4060 Laptop GPU, 8188 MiB, 592.82, 1 %, 107 MiB",
+    "torch_version": "2.9.1+cu130",
+    "cuda_runtime": "13.0",
+    "gpu_name": "NVIDIA GeForce RTX 4060 Laptop GPU",
+    "gpu_memory_bytes": 8585216000,
+    "versions": {
+      "numpy": "2.5.4",
+      "scipy": "1.18.1",
+      "pandas": "3.0.6",
+      "pyarrow": "25.0.1",
+      "folktables": "0.0.12"
+    }
+  },
+  "resolved_devices": [
+    "cuda"
+  ],
+  "metric_rows": 6000,
+  "seed_interval": [
+    20268000,
+    20269999
+  ],
+  "primary_test": {
+    "contrast": "restart_mixture_8 versus paired_cost_betting",
+    "restart_only_detections": 801,
+    "betting_only_detections": 6,
+    "discordant_pairs": 807,
+    "mcnemar_exact_two_sided_p": 8.889935102740453e-229
+  },
+  "metrics_sha256": "a0b6aa91107b3f904cf0fe1e6680f74f2520cfbc866c564cca370a2264138c72",
+  "summary_sha256": "cd23e9d73f8e6f3b757d87642297d557a3060a3d24de26390ac0bb8a64a17352",
+  "code_sha256": {
+    "delayed_confirmation.py": "7a89d15454bb4f958a6d2428ccd98aa15cd04de954b37edae9fc3f047e2fff58",
+    "delayed_calibration.py": "d4adecda35e7328bc3c07e50e5de11ccb713a0f1392a1482d299e887c989c012",
+    "delayed_benchmark.py": "d82de14fc1fde9e77fdf1ab1bc32241412fe4bff172ed1bf970202642af39552"
+  },
+  "inference_scope": "The restart-versus-full-stream detection comparison is the single registered primary two-sided exact paired McNemar test. Other method detection rates and delay summaries are descriptive secondary comparisons. This confirmation covers only the registered synthetic boundary-harm condition and its eventwise conditional-mean null."
+}

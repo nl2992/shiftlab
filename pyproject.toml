@@ -36,6 +36,7 @@ shiftlab-dive-delayed = "shiftlab.dive.delayed_benchmark:main"
 shiftlab-dive-delayed-grid = "shiftlab.dive.delayed_grid:main"
 shiftlab-dive-delayed-calibration = "shiftlab.dive.delayed_calibration:main"
 shiftlab-dive-delayed-confirmation = "shiftlab.dive.delayed_confirmation:main"
+shiftlab-dive-delayed-grid-confirmation = "shiftlab.dive.delayed_grid_confirmation:main"
 
 [tool.pytest.ini_options]
 pythonpath = [".", "src"]

@@ -129,7 +129,11 @@ in the preregistered simulator condition; it is neither a universal result nor a
 Details and artifacts are in
 [`outputs/delayed_feedback_confirmation_2000/`](../outputs/delayed_feedback_confirmation_2000/).
 
-Next, replicate this primary alternative on a second disjoint seed block before expanding the
-onset/severity/budget grid. Keep start locations and weights frozen. Then reproduce Podkopaev–Ramdas
-more faithfully before treating the existing risk-CS comparator as a literature-grade baseline.
-Add outcome-dependent delay only as an out-of-guarantee stress test.
+The same result replicated on the prespecified second block: restart mixture detected 895/2,000
+(44.75%) and full-stream betting 100/2,000 (5.00%), with 801 restart-only versus 6 betting-only
+detections (`p=8.89e-229`). Across the independent blocks, descriptive detection was 1,828/4,000
+(45.70%) versus 200/4,000 (5.00%). The next step is the 12-cell factorial extension registered
+in [`delayed_null_calibration_protocol.md`](delayed_null_calibration_protocol.md), with Holm-adjusted
+paired tests and the same frozen procedures. After that grid, reproduce Podkopaev–Ramdas more
+faithfully before treating the risk-CS comparator as a literature-grade baseline. Add
+outcome-dependent delay only as an out-of-guarantee stress test.

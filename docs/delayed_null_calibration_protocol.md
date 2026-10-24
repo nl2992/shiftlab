@@ -84,12 +84,65 @@ event-order processing. It is not a proof of the e-process assumptions for obser
 adaptive policies, serially dependent outcomes, informative missingness/delays, or selective model
 updates. It does not calibrate the source/target risk-CS comparator, whose null is different.
 
-The confirmation addresses only one registered alternative. Next, replicate the same primary cell
-on another disjoint seed block before extending to the remaining onset, effect and query-rate cells.
-Any secondary grid should use a frozen code/configuration and multiplicity-adjusted paired tests.
-Do not tune start locations or weights on any confirmation block.
+The first confirmation addresses only one registered alternative. Before running the second block,
+the replication seeds and unchanged configuration below were frozen. Any expanded grid uses distinct
+seeds and Holm-adjusted paired tests. Do not tune start locations or weights on a confirmation block.
 
-Metrics, report and manifest are in
+### Frozen replication block
+
+Before examining a second alternative block, repeat the exact same 2,000-stream configuration and
+primary two-sided McNemar contrast on seeds `20268000`–`20269999`. Keep the three methods, query
+rate (0.25), onset (0.60), expected harm increase (0.12), horizon (3,000), delay law (uniform 0–6),
+alpha (0.05), start positions, and all analysis code fixed. The replication is assessed as a separate
+block; report its marginal exact intervals and paired discordance counts, then show the combined
+paired estimate descriptively. Do not alter the primary method or tune based on the replication.
+
+```powershell
+uv run shiftlab-dive-delayed-confirmation --device cuda --seeds 2000 --seed-offset 20268000 --output-dir outputs/delayed_feedback_replication_2000
+```
+
+The second block reproduced the effect: restart mixture detected 895/2,000 (44.75%, exact 95%
+interval 42.55%–46.96%), full-stream betting 100/2,000 (5.00%, 4.09%–6.05%), and Hoeffding 1/2,000
+(0.05%, 0.001%–0.278%). There were 801 restart-only and 6 betting-only detections (exact two-sided
+McNemar `p=8.89e-229`). Conditional mean event delays were 774.0 for restart and 932.5 for full
+stream. Across both independent blocks, the descriptive combined detection rates were 45.70% for
+restart (1,828/4,000) and 5.00% for betting (200/4,000), a 40.70 percentage-point difference.
+
+### Frozen factorial extension
+
+The completed analysis is a 12-cell alternative-only factorial on seeds `20270000`–`20271999` reused as
+common random numbers in each cell: query rates `{0.10, 0.25, 0.50}` × onset fractions `{0.20, 0.60}`
+× expected paired-cost increases `{0.12, 0.24}`. Each cell has 2,000 paired seeds, 3,000 events,
+alpha 0.05 and uniform independent label delay 0–6. It compares the same three frozen e-processes.
+The primary restart-versus-full-stream paired comparison is reported per cell with exact two-sided
+McNemar p-values and Holm adjustment across all 12 cells. Marginal detection rates receive exact
+Clopper–Pearson intervals; delay means are conditional on detection and nondetections remain
+censored. Null calibration stays separate and unchanged.
+
+```powershell
+uv run shiftlab-dive-delayed-grid-confirmation --device cuda --seeds-per-cell 2000 --seed-offset 20270000 --output-dir outputs/delayed_feedback_grid_confirmation_2000
+```
+
+The completed factorial found a positive restart-mixture detection difference in all 12 cells.
+Detection gains over full-stream betting ranged from 1.2 percentage points in the early, strong-harm
+ceiling cell (q=0.25) to 68.4 points for late, weaker harm at q=0.50 (82.8% versus 14.4%). At the
+registered late, weak primary condition, gains were 12.5, 40.1 and 68.4 points at query rates 0.10,
+0.25 and 0.50. The early strong-harm cells were near ceiling for both methods (restart 99.45%–99.80%,
+betting 97.70%–98.60%), so absolute gains were smaller there. All 12 exact paired McNemar contrasts
+remained significant after Holm correction; the largest adjusted p-value was 3.03e-6. Extremely
+small p-values are computed and retained on the log scale; displays below 1e-300 include their
+log10(p) values to avoid reporting floating-point zero as an exact zero.
+
+This broadens the power evidence for the fixed-start mixture across the registered synthetic grid.
+It does not establish that every start mixture will help, that the effect transfers to dependent or
+real streams, or that the procedure is novel. The 2,000-seed null calibration remains the separate
+false-escalation evidence. Alternative-stream pre-onset escalations were 0/24,000 for Hoeffding,
+80/24,000 (0.33%) for the restart mixture, and 344/24,000 (1.43%) for full-stream betting; these
+alternative-prefix counts are descriptive and do not replace null calibration.
+
+Metrics, cell summaries, paired tests, report and manifest are in
+[`outputs/delayed_feedback_grid_confirmation_2000/`](../outputs/delayed_feedback_grid_confirmation_2000/).
+The calibration metrics remain in
 [`outputs/delayed_null_calibration_2000/`](../outputs/delayed_null_calibration_2000/). No figure is
 included because project guidance requests PaperBanana for visuals and that tool is unavailable in
 this session.

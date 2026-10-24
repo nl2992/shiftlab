@@ -1,0 +1,26 @@
+scenario,method,paired_rate_difference_high_minus_low,paired_bootstrap_95_low,paired_bootstrap_95_high,high_floor_only,low_floor_only,paired_seeds,interpretation
+benign_nuisance,cost_stabilized_proxy,0.0,0.0,0.0,0,0,60,floor plus acquisition policy; not a monitor-only contrast
+benign_nuisance,cost_variance_proxy,0.0,0.0,0.0,0,0,60,floor plus acquisition policy; not a monitor-only contrast
+benign_nuisance,decision_value_proxy,0.0,0.0,0.0,0,0,60,floor plus acquisition policy; not a monitor-only contrast
+benign_nuisance,uniform_proxy,0.0,0.0,0.0,0,0,60,floor plus acquisition policy; not a monitor-only contrast
+benign_nuisance,variance_proxy,0.0,0.0,0.0,0,0,60,floor plus acquisition policy; not a monitor-only contrast
+boundary_local_harm,cost_stabilized_proxy,0.06666666666666667,0.016666666666666666,0.13333333333333333,4,0,60,floor plus acquisition policy; not a monitor-only contrast
+boundary_local_harm,cost_variance_proxy,0.0,0.0,0.0,0,0,60,floor plus acquisition policy; not a monitor-only contrast
+boundary_local_harm,decision_value_proxy,0.05,-0.016666666666666666,0.13333333333333333,4,1,60,floor plus acquisition policy; not a monitor-only contrast
+boundary_local_harm,uniform_proxy,0.0,0.0,0.0,0,0,60,floor plus acquisition policy; not a monitor-only contrast
+boundary_local_harm,variance_proxy,0.016666666666666666,0.0,0.05,1,0,60,floor plus acquisition policy; not a monitor-only contrast
+harmful_adaptation,cost_stabilized_proxy,0.1,0.03333333333333333,0.18333333333333332,6,0,60,floor plus acquisition policy; not a monitor-only contrast
+harmful_adaptation,cost_variance_proxy,0.06666666666666667,0.016666666666666666,0.13333333333333333,4,0,60,floor plus acquisition policy; not a monitor-only contrast
+harmful_adaptation,decision_value_proxy,0.05,0.0,0.11666666666666667,3,0,60,floor plus acquisition policy; not a monitor-only contrast
+harmful_adaptation,uniform_proxy,0.0,0.0,0.0,0,0,60,floor plus acquisition policy; not a monitor-only contrast
+harmful_adaptation,variance_proxy,0.06666666666666667,0.016666666666666666,0.13333333333333333,4,0,60,floor plus acquisition policy; not a monitor-only contrast
+recurring_regimes,cost_stabilized_proxy,0.03333333333333333,0.0,0.08333333333333333,2,0,60,floor plus acquisition policy; not a monitor-only contrast
+recurring_regimes,cost_variance_proxy,0.05,0.0,0.11666666666666667,3,0,60,floor plus acquisition policy; not a monitor-only contrast
+recurring_regimes,decision_value_proxy,0.03333333333333333,-0.03333333333333333,0.1,3,1,60,floor plus acquisition policy; not a monitor-only contrast
+recurring_regimes,uniform_proxy,0.0,0.0,0.0,0,0,60,floor plus acquisition policy; not a monitor-only contrast
+recurring_regimes,variance_proxy,0.016666666666666666,0.0,0.05,1,0,60,floor plus acquisition policy; not a monitor-only contrast
+stationary,cost_stabilized_proxy,0.0,0.0,0.0,0,0,60,floor plus acquisition policy; not a monitor-only contrast
+stationary,cost_variance_proxy,0.0,0.0,0.0,0,0,60,floor plus acquisition policy; not a monitor-only contrast
+stationary,decision_value_proxy,0.0,0.0,0.0,0,0,60,floor plus acquisition policy; not a monitor-only contrast
+stationary,uniform_proxy,0.0,0.0,0.0,0,0,60,floor plus acquisition policy; not a monitor-only contrast
+stationary,variance_proxy,0.0,0.0,0.0,0,0,60,floor plus acquisition policy; not a monitor-only contrast

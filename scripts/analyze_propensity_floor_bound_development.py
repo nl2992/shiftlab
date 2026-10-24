@@ -2,9 +2,15 @@
 
 from __future__ import annotations
 
+import hashlib
 import json
+import subprocess
 import sys
 from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[1]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
 
 import numpy as np
 import pandas as pd
@@ -21,7 +27,6 @@ from scripts.run_propensity_floor_bound_development import (
 )
 from shiftlab.dive.estimators import prediction_powered_bound
 
-ROOT = Path(__file__).resolve().parents[1]
 MONITORS = {
     "registered_bound": ("registered_bound_detected", "registered_bound_false_escalation"),
     "common_q010": ("common_q010_detected", "common_q010_false_escalation"),
@@ -41,12 +46,15 @@ def verify_manifest(output: Path) -> tuple[dict, pd.DataFrame]:
     provenance = manifest.get("run_provenance", {})
     if provenance.get("protocol_sha256") != sha256(ROOT / PROTOCOL):
         raise ValueError("run protocol hash does not match the frozen protocol")
-    if provenance.get("runner_sha256") != sha256(
-        ROOT / "scripts/run_propensity_floor_bound_development.py"
-    ):
-        raise ValueError("runner hash does not match the recorded development run")
-    if not provenance.get("source_git_commit_at_run"):
+    source_commit = provenance.get("source_git_commit_at_run")
+    if not source_commit:
         raise ValueError("run provenance is missing its source commit")
+    runner_at_run = subprocess.check_output(
+        ["git", "show", f"{source_commit}:scripts/run_propensity_floor_bound_development.py"],
+        cwd=ROOT,
+    )
+    if hashlib.sha256(runner_at_run).hexdigest() != provenance.get("runner_sha256"):
+        raise ValueError("recorded runner hash does not match the source commit used for the run")
 
     hashes = manifest.get("sha256", {})
     artifacts = {
@@ -60,10 +68,21 @@ def verify_manifest(output: Path) -> tuple[dict, pd.DataFrame]:
         str(path).replace("\\", "/"): digest
         for path, digest in hashes.get("source_files", {}).items()
     }
+    analysis_relative = "scripts/analyze_propensity_floor_bound_development.py"
     for relative, digest in source_files.items():
+        if relative == analysis_relative:
+            path = ROOT / Path(relative)
+            if digest != provenance.get("analysis_script_sha256"):
+                raise ValueError("analysis script hash differs from its provenance record")
+            if not path.is_file() or sha256(path) != digest:
+                raise ValueError(f"analysis script hash mismatch: {relative}")
+            continue
         path = ROOT / Path(relative)
-        if not path.is_file() or sha256(path) != digest:
-            raise ValueError(f"source hash mismatch: {relative}")
+        if path.is_file() and sha256(path) == digest:
+            continue
+        source = subprocess.check_output(["git", "show", f"{source_commit}:{relative}"], cwd=ROOT)
+        if hashlib.sha256(source).hexdigest() != digest:
+            raise ValueError(f"source hash does not match the run commit: {relative}")
     metrics_path = output / "metrics/propensity_floor_bound_grid.parquet"
     if artifacts.get("metrics/propensity_floor_bound_grid.parquet") != sha256(metrics_path):
         raise ValueError("manifest does not hash the full development grid")
@@ -288,6 +307,9 @@ def analyze(output: Path = OUTPUT) -> tuple[Path, Path]:
         "|q_min|Scenario|Policy|Monitor|Harm / streams|Onsets reached|Detections|Rate (Wilson 95%)|Null false / streams|Mean q|Mean labels|Mean spend / cap|Mean events|",
         "|---:|---|---|---|---:|---:|---:|---|---:|---:|---:|---:|---:|",
     ]
+    execution_note = manifest.get("run_provenance", {}).get("post_run_execution_note")
+    if execution_note:
+        lines.extend(["## Execution note", "", execution_note, ""])
     for row in summary.to_dict("records"):
         lines.append(
             f"|{row['q_min']:.2f}|{row['scenario']}|{row['method']}|{row['monitor']}|{row['material_harm_streams']}|{row['onsets_reached']}|{row['detections']}|{row['detection_rate']:.3f} [{row['wilson_95_low']:.3f}, {row['wilson_95_high']:.3f}]|{row['population_null_false_escalations']}/{row['population_null_streams']}|{row['mean_q']:.3f}|{row['mean_labels']:.1f}|{row['mean_spend']:.2f} / {row['mean_budget']:.2f}|{row['mean_processed_events']:.1f}|"
@@ -343,6 +365,9 @@ def analyze(output: Path = OUTPUT) -> tuple[Path, Path]:
     analyzer_path = ROOT / "scripts/analyze_propensity_floor_bound_development.py"
     source_files[analyzer_path.relative_to(ROOT).as_posix()] = sha256(analyzer_path)
     updated.setdefault("run_provenance", {})["analysis_script_sha256"] = sha256(analyzer_path)
+    updated["sha256"]["source_files"][analyzer_path.relative_to(ROOT).as_posix()] = sha256(
+        analyzer_path
+    )
     manifest_path.write_text(json.dumps(updated, indent=2), encoding="utf-8")
     return summary_path, report_path
 

@@ -282,7 +282,9 @@ def main() -> None:
         },
     }
     report_path.write_text(json.dumps(manifest, indent=2), encoding="utf-8")
-    print(OUTPUT)
+    # The workspace path may contain characters outside a Windows console's
+    # active code page. Emit an escaped ASCII path so a completed run exits cleanly.
+    print(str(OUTPUT).encode("ascii", errors="backslashreplace").decode("ascii"))
 
 
 if __name__ == "__main__":

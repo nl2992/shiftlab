@@ -1,0 +1,23 @@
+{
+  "estimand": "equal-weight mean post-onset detection difference across delta=0.04,0.20,0.40,0.60; predictable minus fixed bound; paired by stream ID",
+  "overall_retention_rule_passes": true,
+  "paired_bootstrap_95_ci": [
+    0.0346875,
+    0.04425
+  ],
+  "paired_bootstrap_95_ci_evaluator_exposure_cost": [
+    -19.063627625,
+    -15.496215562500002
+  ],
+  "paired_bootstrap_95_ci_labels": [
+    -138.37811875,
+    -132.52164531250003
+  ],
+  "paired_mean_detection_difference": 0.0395,
+  "paired_mean_evaluator_exposure_cost_difference": -17.227065000000003,
+  "paired_mean_label_difference": -135.458125,
+  "passes_all_calibration_cells": true,
+  "passes_no_extra_labels_rule": true,
+  "passes_primary_detection_rule": true,
+  "retention_practical_margin": 0.02
+}

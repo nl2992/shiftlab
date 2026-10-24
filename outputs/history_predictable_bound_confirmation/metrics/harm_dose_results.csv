@@ -1,0 +1,5 @@
+scenario,harm_effect,fixed_detection_rate,predictable_detection_rate,paired_detection_difference,paired_detection_ci95_low,paired_detection_ci95_high,fixed_pre_onset_escalation_rate,predictable_pre_onset_escalation_rate,paired_label_difference,paired_label_ci95_low,paired_label_ci95_high,paired_exposure_cost_difference,paired_exposure_cost_ci95_low,paired_exposure_cost_ci95_high
+high_cost_local_harm_d0.04,0.04,0.00075,0.003,0.00225,0.0005,0.00425,0.0,0.01425,-131.12675,-134.02553125,-128.1730875,-0.74801,-0.9402415,-0.57831625
+high_cost_local_harm_d0.20,0.2,0.00475,0.01575,0.011,0.00725,0.015,0.0,0.01425,-134.6455,-137.7335125,-131.60374374999998,-4.8513,-5.8512875,-3.8959912500000002
+high_cost_local_harm_d0.40,0.4,0.01875,0.0615,0.04275,0.03525,0.0505,0.0,0.01425,-137.146,-140.275325,-133.98249374999997,-16.6771,-19.097495,-14.324664999999998
+high_cost_local_harm_d0.60,0.6,0.06275,0.16475,0.102,0.09,0.11425,0.0,0.01425,-138.91425,-142.03292499999998,-135.79274375,-46.63185000000001,-51.006240000000005,-42.315712500000004

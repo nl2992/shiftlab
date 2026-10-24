@@ -1,0 +1,7 @@
+scenario,arm,streams,false_escalations,false_rate,simultaneous_one_sided_95_upper,per_cell_alpha,passes_5pct_upper_limit,mean_labels,mean_events_processed
+mixed_sign_exact_marginal_null,evidence_qmin_0.05_fixed,4000,1,0.00025,0.0017106776880910746,0.008333333333333333,True,297.119,2399.80875
+mixed_sign_exact_marginal_null,evidence_qmin_0.05_predictable,4000,68,0.017,0.022549076005221793,0.008333333333333333,True,167.156,2369.182
+mixed_sign_exact_marginal_null,uniform_q020,4000,61,0.01525,0.020548307443332865,0.008333333333333333,True,467.329,2335.96625
+strict_negative_control,evidence_qmin_0.05_fixed,4000,0,0.0,0.0011961569689523054,0.008333333333333333,True,285.96975,2399.9255
+strict_negative_control,evidence_qmin_0.05_predictable,4000,59,0.01475,0.019973934050151722,0.008333333333333333,True,161.72175,2370.31025
+strict_negative_control,uniform_q020,4000,55,0.01375,0.01882115758127531,0.008333333333333333,True,467.488,2336.73875

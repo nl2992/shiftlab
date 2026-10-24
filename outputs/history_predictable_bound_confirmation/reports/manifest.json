@@ -1,0 +1,87 @@
+{
+  "analysis_recomputed_without_regenerating_streams": true,
+  "artifact_sha256": {
+    "metrics\\harm_dose_results.csv": "828d324234c6eeb693d200b6b4358ee00f3eaf1060c4ef4e255c747de4236397",
+    "metrics\\null_calibration.csv": "3fb111e3d753be573ae7805d9eb84e1358112a8b7eb55a4a21408858a27526db",
+    "metrics\\stream_metrics.parquet": "a46c4d40f53f03745695efec7667af1e0c31d8781b68ae5fe5d4c1caf53d0aaa",
+    "reports\\confirmation_results.md": "5fd97c9379b040d2d5f8ac680263c20571958b27455d0b4441e82b8cd78ac023",
+    "reports\\primary_result.json": "489b19d135bb1c584a8664c27e9902d8bfa50e6ca366c82b45183bb0f310018a"
+  },
+  "classification": "independent_confirmation",
+  "complete": true,
+  "configuration": {
+    "arms": [
+      "uniform:0.20:fixed",
+      "evidence_directed:0.05:fixed",
+      "evidence_directed:0.05:predictable"
+    ],
+    "bootstrap_replicates": 10000,
+    "calibration_family_alpha": 0.05,
+    "calibration_family_cells": 6,
+    "calibration_per_cell_alpha": 0.008333333333333333,
+    "cuda_version": "13.0",
+    "device_requested": "cuda",
+    "device_resolved": "cuda",
+    "gpu_name": "NVIDIA GeForce RTX 4060 Laptop GPU",
+    "hard_label_budget": 480,
+    "horizon": 2400,
+    "oracle_boundary": "truth used only to generate DGP and evaluator-known expected harm; learner receives sampled training data and current context",
+    "primary_detection_margin": 0.02,
+    "primary_harm_effects": [
+      0.04,
+      0.2,
+      0.4,
+      0.6
+    ],
+    "scenarios": [
+      "mixed_sign_exact_marginal_null",
+      "strict_negative_control",
+      "high_cost_local_harm_d0.04",
+      "high_cost_local_harm_d0.20",
+      "high_cost_local_harm_d0.40",
+      "high_cost_local_harm_d0.60"
+    ],
+    "seed_range_inclusive": [
+      27104027,
+      27108026
+    ],
+    "seed_root": 27104027,
+    "streams_per_scenario": 4000,
+    "torch_version": "2.9.1+cu130"
+  },
+  "created_at_utc": "2026-10-24T18:45:13.460901+00:00",
+  "experiment": "independent_history_predictable_query_bound_confirmation",
+  "git_commit": "a5d5e8014c2e1079be205d8cf46b8de0f3c9a043",
+  "primary_result": {
+    "estimand": "equal-weight mean post-onset detection difference across delta=0.04,0.20,0.40,0.60; predictable minus fixed bound; paired by stream ID",
+    "overall_retention_rule_passes": true,
+    "paired_bootstrap_95_ci": [
+      0.0346875,
+      0.04425
+    ],
+    "paired_bootstrap_95_ci_evaluator_exposure_cost": [
+      -19.063627625,
+      -15.496215562500002
+    ],
+    "paired_bootstrap_95_ci_labels": [
+      -138.37811875,
+      -132.52164531250003
+    ],
+    "paired_mean_detection_difference": 0.0395,
+    "paired_mean_evaluator_exposure_cost_difference": -17.227065000000003,
+    "paired_mean_label_difference": -135.458125,
+    "passes_all_calibration_cells": true,
+    "passes_no_extra_labels_rule": true,
+    "passes_primary_detection_rule": true,
+    "retention_practical_margin": 0.02
+  },
+  "rows": 72000,
+  "source_sha256": {
+    "docs\\history_predictable_bound_confirmation_protocol.md": "1457c633f68926274f559a0d9b21c20d8f429e43f5c7b6c85bea104c3514cde2",
+    "scripts\\calibrate_history_predictable_query_bounds.py": "9e774ad5c045a50a722b7ad6481dfedc94e02e828958a2ccd5e75f6be320ea4d",
+    "scripts\\confirm_history_predictable_query_bounds.py": "10ee0bcac3b1ce27c2b75c42ca16166672c7caa0b20cf7221c24b7fed09e8363",
+    "src\\shiftlab\\dive\\eprocess.py": "186cb6cd152b127a7cd2e6a0082dd91762a983f8cf3b6ccb7b3e147e067e37a3",
+    "src\\shiftlab\\dive\\estimators.py": "ccf8cab60b73ca139f1c9eebf70f53d003201b3664f9bab99e126ec0739647b0"
+  },
+  "visuals_generated": false
+}

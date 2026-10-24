@@ -8,12 +8,18 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
+from shiftlab.decision_harm_experiment import SCENARIOS
+from shiftlab.dive.eprocess import PredictableVarianceAdaptiveEProcess
+from shiftlab.dive.estimators import (
+    prediction_powered_bound,
+    prediction_powered_randomization_variance,
+)
 from shiftlab.dive.experiment import finalize_manifest
 
 KEYS = ["scenario", "method", "seed"]
 
 
-def analyze(trace_path: Path, output_dir: Path) -> tuple[Path, Path, Path]:
+def analyze(trace_path: Path, output_dir: Path) -> tuple[Path, Path, Path, Path]:
     trace = pd.read_parquet(trace_path)
     required = {
         *KEYS,
@@ -21,6 +27,8 @@ def analyze(trace_path: Path, output_dir: Path) -> tuple[Path, Path, Path]:
         "queried",
         "learner_observed_excess_cost",
         "ppi_increment",
+        "proxy_prediction",
+        "propensity",
         "learner_log_e",
         "evaluator_expected_excess_cost",
         "evaluator_expected_paired_cost_difference",
@@ -45,6 +53,13 @@ def analyze(trace_path: Path, output_dir: Path) -> tuple[Path, Path, Path]:
         atol=1e-12,
     ):
         raise ValueError("evaluator expected excess costs are not correctly centered by epsilon")
+    metric_path = trace_path.parent / "hard_budget_comparison.parquet"
+    if not metric_path.is_file():
+        raise FileNotFoundError(
+            "hard_budget_comparison.parquet must accompany event_traces.parquet"
+        )
+    stream_metrics = pd.read_parquet(metric_path)
+    scenario_map = {scenario.name: scenario for scenario in SCENARIOS}
 
     seed_rows: list[dict[str, object]] = []
     snapshots: list[dict[str, object]] = []
@@ -56,15 +71,43 @@ def analyze(trace_path: Path, output_dir: Path) -> tuple[Path, Path, Path]:
         expected = group.evaluator_expected_excess_cost.to_numpy(dtype=float)
         ppi = group.ppi_increment.to_numpy(dtype=float)
         full_feedback = group.evaluator_full_feedback_increment.to_numpy(dtype=float)
+        proxy = group.proxy_prediction.to_numpy(dtype=float)
+        propensity = group.propensity.to_numpy(dtype=float)
+        stream_metric = stream_metrics.loc[
+            stream_metrics.scenario.eq(key[0])
+            & stream_metrics.method.eq(key[1])
+            & stream_metrics.seed.eq(key[2])
+        ]
+        if len(stream_metric) != 1:
+            raise ValueError(
+                f"expected one monitor metrics row for stream {key}, got {len(stream_metric)}"
+            )
+        scenario = scenario_map[key[0]]
+        harm_margin = float(group.evaluator_harm_margin.iloc[0])
+        outcome_bound = max(scenario.fn_cost, scenario.fp_cost) + harm_margin
+        support_bound = prediction_powered_bound(
+            outcome_bound, float(stream_metric.eprocess_minimum_propensity.iloc[0])
+        )
+        residual = full_feedback - proxy
+        query_variance = prediction_powered_randomization_variance(proxy, full_feedback, propensity)
         actual_log = group.learner_log_e.to_numpy(dtype=float)
         oracle_log = group.evaluator_full_feedback_log_e.to_numpy(dtype=float)
         offsets = group.event_offset.to_numpy(dtype=int)
+        variance_monitor = PredictableVarianceAdaptiveEProcess(
+            bound=support_bound, alpha=float(np.exp(-threshold))
+        )
+        variance_log_values = np.asarray(
+            [variance_monitor.update(float(value)) for value in ppi], dtype=float
+        )
         actual_crossings = np.flatnonzero(actual_log >= threshold)
         oracle_crossings = np.flatnonzero(oracle_log >= threshold)
+        variance_crossings = np.flatnonzero(variance_log_values >= threshold)
         actual_first = int(offsets[actual_crossings[0]]) if len(actual_crossings) else None
         oracle_first = int(offsets[oracle_crossings[0]]) if len(oracle_crossings) else None
+        variance_first = int(offsets[variance_crossings[0]]) if len(variance_crossings) else None
         actual_post = actual_first is not None and (onset is None or actual_first >= onset)
         oracle_post = oracle_first is not None and (onset is None or oracle_first >= onset)
+        variance_post = variance_first is not None and (onset is None or variance_first >= onset)
         after_onset = offsets >= onset if onset is not None else np.zeros(len(offsets), dtype=bool)
         seed_rows.append(
             {
@@ -87,22 +130,39 @@ def analyze(trace_path: Path, output_dir: Path) -> tuple[Path, Path, Path]:
                 "full_feedback_increment_variance": float(full_feedback.var(ddof=1))
                 if len(full_feedback) > 1
                 else 0.0,
+                "proxy_residual_rmse": float(np.sqrt(np.mean(residual**2))),
+                "mean_ppi_query_randomization_variance": float(query_variance.mean()),
+                "decomposition_predicted_ppi_variance": float(
+                    full_feedback.var(ddof=1) + query_variance.mean()
+                ),
+                "empirical_ppi_variance_excess": float(ppi.var(ddof=1) - full_feedback.var(ddof=1)),
+                "ppi_support_bound": support_bound,
+                "mean_absolute_ppi_over_bound": float(np.mean(np.abs(ppi) / support_bound)),
+                "max_absolute_ppi_over_bound": float(np.max(np.abs(ppi) / support_bound)),
                 "learner_final_log_e": float(actual_log[-1]),
                 "learner_max_log_e": float(actual_log.max()),
                 "evaluator_final_log_e": float(oracle_log[-1]),
                 "evaluator_max_log_e": float(oracle_log.max()),
+                "predictable_variance_final_log_e": float(variance_log_values[-1]),
+                "predictable_variance_max_log_e": float(variance_log_values.max()),
                 "learner_any_crossing": bool(actual_first is not None),
                 "evaluator_any_crossing": bool(oracle_first is not None),
+                "predictable_variance_any_crossing": bool(variance_first is not None),
                 "learner_post_onset_crossing": bool(actual_post),
                 "evaluator_post_onset_crossing": bool(oracle_post),
+                "predictable_variance_post_onset_crossing": bool(variance_post),
                 "learner_crossing_event": actual_first,
                 "evaluator_crossing_event": oracle_first,
+                "predictable_variance_crossing_event": variance_first,
                 "harm_onset_event_evaluator_only": onset,
                 "learner_detection_delay": actual_first - onset
                 if actual_post and onset is not None
                 else np.nan,
                 "evaluator_detection_delay": oracle_first - onset
                 if oracle_post and onset is not None
+                else np.nan,
+                "predictable_variance_detection_delay": variance_first - onset
+                if variance_post and onset is not None
                 else np.nan,
                 "threshold_log_e": threshold,
             }
@@ -118,6 +178,7 @@ def analyze(trace_path: Path, output_dir: Path) -> tuple[Path, Path, Path]:
                     "event_offset": int(offsets[index]),
                     "learner_log_e": float(actual_log[index]),
                     "evaluator_full_feedback_log_e": float(oracle_log[index]),
+                    "predictable_variance_log_e": float(variance_log_values[index]),
                 }
             )
 
@@ -133,14 +194,34 @@ def analyze(trace_path: Path, output_dir: Path) -> tuple[Path, Path, Path]:
             mean_ppi_increment_variance=("ppi_increment_variance", "mean"),
             mean_full_feedback_increment=("full_feedback_increment_mean", "mean"),
             mean_full_feedback_increment_variance=("full_feedback_increment_variance", "mean"),
+            mean_proxy_residual_rmse=("proxy_residual_rmse", "mean"),
+            mean_ppi_query_randomization_variance=("mean_ppi_query_randomization_variance", "mean"),
+            mean_decomposition_predicted_ppi_variance=(
+                "decomposition_predicted_ppi_variance",
+                "mean",
+            ),
+            mean_empirical_ppi_variance_excess=("empirical_ppi_variance_excess", "mean"),
+            mean_ppi_support_bound=("ppi_support_bound", "mean"),
+            mean_absolute_ppi_over_bound=("mean_absolute_ppi_over_bound", "mean"),
+            max_absolute_ppi_over_bound=("max_absolute_ppi_over_bound", "mean"),
             learner_crossing_rate=("learner_any_crossing", "mean"),
             evaluator_crossing_rate=("evaluator_any_crossing", "mean"),
+            predictable_variance_crossing_rate=("predictable_variance_any_crossing", "mean"),
             learner_post_onset_crossing_rate=("learner_post_onset_crossing", "mean"),
             evaluator_post_onset_crossing_rate=("evaluator_post_onset_crossing", "mean"),
+            predictable_variance_post_onset_crossing_rate=(
+                "predictable_variance_post_onset_crossing",
+                "mean",
+            ),
             learner_final_log_e_mean=("learner_final_log_e", "mean"),
             evaluator_final_log_e_mean=("evaluator_final_log_e", "mean"),
+            predictable_variance_final_log_e_mean=("predictable_variance_final_log_e", "mean"),
             learner_detection_delay_mean=("learner_detection_delay", "mean"),
             evaluator_detection_delay_mean=("evaluator_detection_delay", "mean"),
+            predictable_variance_detection_delay_mean=(
+                "predictable_variance_detection_delay",
+                "mean",
+            ),
         )
         .reset_index()
     )
@@ -153,6 +234,8 @@ def analyze(trace_path: Path, output_dir: Path) -> tuple[Path, Path, Path]:
             learner_log_e_median=("learner_log_e", "median"),
             evaluator_log_e_mean=("evaluator_full_feedback_log_e", "mean"),
             evaluator_log_e_median=("evaluator_full_feedback_log_e", "median"),
+            predictable_variance_log_e_mean=("predictable_variance_log_e", "mean"),
+            predictable_variance_log_e_median=("predictable_variance_log_e", "median"),
         )
         .reset_index()
     )
@@ -164,6 +247,23 @@ def analyze(trace_path: Path, output_dir: Path) -> tuple[Path, Path, Path]:
     seed_metrics.to_csv(seed_path, index=False)
     grouped.to_csv(summary_path, index=False)
     snapshot_summary.to_csv(snapshots_path, index=False)
+    variance_path = output_dir / "variance_decomposition.csv"
+    grouped[
+        [
+            "scenario",
+            "method",
+            "streams",
+            "mean_full_feedback_increment_variance",
+            "mean_proxy_residual_rmse",
+            "mean_ppi_query_randomization_variance",
+            "mean_decomposition_predicted_ppi_variance",
+            "mean_ppi_increment_variance",
+            "mean_empirical_ppi_variance_excess",
+            "mean_ppi_support_bound",
+            "mean_absolute_ppi_over_bound",
+            "max_absolute_ppi_over_bound",
+        ]
+    ].to_csv(variance_path, index=False)
     report_path = output_dir / "monitor_signal_diagnostic.md"
     lines = [
         "# Monitor signal diagnostic",
@@ -173,15 +273,17 @@ def analyze(trace_path: Path, output_dir: Path) -> tuple[Path, Path, Path]:
         "`learner_*` values use only predictions and outcomes available under the run's query process. `evaluator_*` values use synthetic ground truth and full feedback for diagnosis only; they are not learner inputs. Expected excess cost is already centered at the configured harm margin, so positive values indicate expected harm above that margin.",
         "",
         "The full-feedback comparator updates the same bounded betting mixture on every synthetic outcome. Its crossing rate is descriptive and does not establish a valid monitoring guarantee under the alternative. Null calibration must be assessed in separate null experiments.",
+        "For each evaluator-complete event, the exact conditional query-randomization variance is `(1-q)/q * (Z-h)^2`. The variance decomposition compares its stream average with the empirical PPI and full-feedback variances. This uses the realized synthetic stream and predictable q/h path; it is descriptive, not a confidence procedure.",
+        "An existing predictable-variance e-process is replayed on the exact same PPI increments and support bound as the fixed mixture. Propensities, proxies, labels, and horizons are unchanged. This is a paired development diagnostic; the process has its conditional-mean guarantee only under its declared bounded-support and predictability assumptions, and these reused seeds do not independently calibrate it.",
         "",
         "## Seed-aggregated results",
         "",
-        "|Scenario|Method|Streams|Mean expected excess cost|Fraction positive|PPI increment variance|Full-feedback increment variance|Learner crossings|Full-feedback crossings|Learner post-onset crossings|Full-feedback post-onset crossings|Learner delay|Full-feedback delay|",
+        "|Scenario|Method|Streams|Mean expected excess cost|Fraction positive|PPI increment variance|Full-feedback increment variance|Fixed-mixture crossings|Predictable-variance crossings|Full-feedback crossings|Fixed-mixture delay|Predictable-variance delay|Full-feedback delay|",
         "|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|",
     ]
     for row in grouped.to_dict("records"):
         lines.append(
-            f"|{row['scenario']}|{row['method']}|{int(row['streams'])}|{row['mean_expected_excess_cost']:.4f}|{row['mean_fraction_expected_harm_positive']:.3f}|{row['mean_ppi_increment_variance']:.4f}|{row['mean_full_feedback_increment_variance']:.4f}|{row['learner_crossing_rate']:.3f}|{row['evaluator_crossing_rate']:.3f}|{row['learner_post_onset_crossing_rate']:.3f}|{row['evaluator_post_onset_crossing_rate']:.3f}|{row['learner_detection_delay_mean']:.1f}|{row['evaluator_detection_delay_mean']:.1f}|"
+            f"|{row['scenario']}|{row['method']}|{int(row['streams'])}|{row['mean_expected_excess_cost']:.4f}|{row['mean_fraction_expected_harm_positive']:.3f}|{row['mean_ppi_increment_variance']:.4f}|{row['mean_full_feedback_increment_variance']:.4f}|{row['learner_crossing_rate']:.3f}|{row['predictable_variance_crossing_rate']:.3f}|{row['evaluator_crossing_rate']:.3f}|{row['learner_detection_delay_mean']:.1f}|{row['predictable_variance_detection_delay_mean']:.1f}|{row['evaluator_detection_delay_mean']:.1f}|"
         )
     lines.extend(
         [
@@ -189,6 +291,8 @@ def analyze(trace_path: Path, output_dir: Path) -> tuple[Path, Path, Path]:
             "## Cumulative evidence snapshots",
             "",
             "See `log_e_snapshots.csv` for mean and median cumulative log-e values at 25%, 50%, 75%, and 100% of each observed monitor path. These are descriptive trajectories; they are not additional independent test statistics.",
+            "",
+            "See `variance_decomposition.csv` for the query-randomization variance, proxy residual RMSE, predicted total variance, and the PPI scale relative to its e-process support bound.",
             "",
             "No visual was generated. PaperBanana is not available in the active environment.",
             "",
@@ -198,7 +302,7 @@ def analyze(trace_path: Path, output_dir: Path) -> tuple[Path, Path, Path]:
     run_output = output_dir.parent
     if (run_output / "reports" / "manifest.json").is_file():
         finalize_manifest(run_output)
-    return seed_path, summary_path, report_path
+    return seed_path, summary_path, report_path, variance_path
 
 
 def main() -> None:

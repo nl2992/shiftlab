@@ -39,6 +39,36 @@ def prediction_powered_bound(outcome_bound: float, min_propensity: float) -> flo
     return float(outcome_bound * (2 / min_propensity - 1))
 
 
+def prediction_powered_randomization_variance(
+    proxy_value: np.ndarray | float,
+    outcome_value: np.ndarray | float,
+    propensity: np.ndarray | float,
+) -> np.ndarray:
+    """Conditional variance from Bernoulli label acquisition in a PPI estimate.
+
+    Given fixed ``Z``, ``h`` and predictable ``q``, the estimate is
+    ``h + Q/q * (Z-h)`` and its variance over ``Q ~ Bernoulli(q)`` is
+    ``(1-q)/q * (Z-h)^2``. This is evaluator-side only when ``Z`` is unobserved.
+    """
+    proxy = np.asarray(proxy_value, dtype=float)
+    outcome = np.asarray(outcome_value, dtype=float)
+    query_probability = np.asarray(propensity, dtype=float)
+    try:
+        proxy, outcome, query_probability = np.broadcast_arrays(proxy, outcome, query_probability)
+    except ValueError as exc:
+        raise ValueError(
+            "proxy, outcome, and propensity shapes must be broadcast-compatible"
+        ) from exc
+    if (
+        not np.isfinite(proxy).all()
+        or not np.isfinite(outcome).all()
+        or not np.isfinite(query_probability).all()
+        or np.any((query_probability <= 0) | (query_probability > 1))
+    ):
+        raise ValueError("inputs must be finite and propensities must lie in (0, 1]")
+    return ((1 - query_probability) / query_probability) * np.square(outcome - proxy)
+
+
 def pprm_block_estimate(
     labeled_values: np.ndarray,
     labeled_proxy_values: np.ndarray,

@@ -21,14 +21,14 @@ the configured margin.
 
 ## Results
 
-|Scenario|Method|Expected excess above ε|Expected-positive event fraction|PPI increment variance|Full-feedback increment variance|Learner e-process crossing|Full-feedback crossing|Mean delay, learner / full feedback|
-|---|---|---:|---:|---:|---:|---:|---:|---:|
-|Stationary|Uniform|−0.0206|7.95%|3.924|0.740|0/60|0/60|— / —|
-|Stationary|Evidence curve|−0.0207|7.96%|5.717|0.740|0/60|0/60|— / —|
-|Benign nuisance|Uniform|−0.0205|7.94%|4.021|0.737|0/60|0/60|— / —|
-|Benign nuisance|Evidence curve|−0.0205|7.97%|5.936|0.738|0/60|0/60|— / —|
-|Boundary-local harm|Uniform|+0.1781|8.36%|7.661|1.469|6/60|60/60|1,466 / 396 events|
-|Boundary-local harm|Evidence curve|+0.1788|8.38%|8.669|1.472|4/60|60/60|1,502 / 396 events|
+|Scenario|Method|Expected excess above ε|PPI increment variance|Fixed-mixture crossing|Predictable-variance crossing|Full-feedback crossing|Mean delay: fixed / predictable-variance / full feedback|
+|---|---|---:|---:|---:|---:|---:|---:|
+|Stationary|Uniform|−0.0206|3.924|0/60|0/60|0/60|— / — / —|
+|Stationary|Evidence curve|−0.0207|5.717|0/60|0/60|0/60|— / — / —|
+|Benign nuisance|Uniform|−0.0205|4.021|0/60|0/60|0/60|— / — / —|
+|Benign nuisance|Evidence curve|−0.0205|5.936|0/60|0/60|0/60|— / — / —|
+|Boundary-local harm|Uniform|+0.1781|7.661|6/60|1/60|60/60|1,466 / 1,422 / 396 events|
+|Boundary-local harm|Evidence curve|+0.1788|8.669|4/60|1/60|60/60|1,502 / 1,520 / 396 events|
 
 For boundary-local harm, mean expected excess after the evaluator-defined onset was `+0.2767`
 (uniform) and `+0.2782` (evidence curve). The candidate does not improve over uniform. The learner
@@ -36,11 +36,29 @@ crossing counts match the original comparison (6/60 and 4/60). All 60 full-feedb
 paths crossed after onset, with a mean delay of about 396 events, while sparse-feedback learner
 paths crossed in only 10% and 6.7% of streams.
 
-The mean PPI increment variance is about 5.2 times the full-feedback outcome variance under
-boundary harm (7.66 vs 1.47 for uniform; 8.67 vs 1.47 for the evidence curve). This is a major
-source of lost evidence efficiency under sparse labels and the current proxy/support bound. The
-result is descriptive: it does not isolate proxy error from inverse-propensity correction,
-time-varying propensities, or the e-process's fixed worst-case support.
+The conditional randomization-variance identity gives a direct decomposition:
+`Var_Q[h + Q/q (Z-h) | Z,h,q] = (1-q)/q (Z-h)^2`. On boundary harm, the mean across-stream
+full-feedback variance was 1.469 (uniform), and the mean query-randomization contribution was
+6.044, predicting total variance 7.512; observed PPI increment variance was 7.661. For the evidence
+curve, the corresponding values were 1.472 + 6.884 = 8.357 predicted versus 8.669 observed. Thus
+the query-randomization term accounts for about 98% and 96% of the observed variance increase,
+respectively. Mean proxy-residual RMSE was 1.228–1.230. The predicted totals are close to, but do
+not exactly equal, the observed cross-event variances because this is a finite, adaptive path and
+the decomposition is conditional on its realized stream and predictable acquisition path.
+
+The common PPI support bound was 96.9. Mean absolute PPI increments used only 0.58% of that
+bound (maximum observed fractions averaged 26.6% for uniform and 46.3% for the evidence curve).
+This indicates substantial scale mismatch between observed increments and the global worst-case
+support. It is a diagnostic, not proof that replacing the bound with a smaller or data-dependent one
+would preserve validity. The machine-readable decomposition is in
+[`variance_decomposition.csv`](../outputs/monitor_signal_diagnostic_20_60_v2/analysis/variance_decomposition.csv).
+
+I also replayed the existing predictable-variance e-process on the same PPI values and support
+bound, leaving query propensities, proxies, feedback and horizons unchanged. It crossed in only
+1/60 boundary-harm streams for each allocation method, compared with 6/60 for the fixed mixture
+under uniform queries and 4/60 for the evidence curve. This established stake adaptation did not
+recover the lost evidence on these paths. It remains a valid comparator under the same
+bounded-increment conditional-mean assumptions, but does not advance.
 
 The 7.9%–8.4% of events with positive expected excess are not stream-level null violations by
 themselves. Under the registered controls, the average expected excess remains around `−0.021`,
@@ -54,12 +72,13 @@ failure of the chosen propensity curve to reach the harmful regime. The evidence
 higher increment variance and no detection advantage. Further tuning of its urgency curve is not
 justified by this block.
 
-Next, quantify the variance decomposition into proxy residual, inverse-propensity correction, and
-support-bound dilution on a development-only design. Compare fixed mixture and established
-predictable-variance e-processes using identical full-feedback outcomes and query paths. Any
-variance-adaptive procedure must be checked against the exact conditional-mean null and
-predictability assumptions; it should then receive independent nondegenerate null calibration and
-a fresh alternative confirmation before promotion. Do not use these reused seeds for selection.
+The exact decomposition now attributes nearly all empirical variance inflation to Bernoulli query
+randomization on this stream. The predictable-variance replay also failed to improve detection.
+Next, diagnose whether valid predictable bounds or stake schedules improve signal without relying
+on evaluator residuals. This paired trace replay is development-only;
+any selected procedure requires independent nondegenerate null calibration and a fresh alternative
+confirmation. Do not use these reused seeds for selection or claim a smaller bound from the observed
+increment range.
 
 Reproduce with:
 

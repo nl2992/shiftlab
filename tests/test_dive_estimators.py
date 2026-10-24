@@ -10,6 +10,7 @@ from shiftlab.dive.estimators import (
     pprm_block_estimate,
     prediction_powered_bound,
     prediction_powered_estimate,
+    prediction_powered_randomization_variance,
 )
 
 
@@ -30,6 +31,18 @@ def test_prediction_powered_bound_covers_all_endpoint_combinations(q):
         for h in (-2.0, 2.0):
             assert abs(h + (z - h) / q) <= bound + 1e-12
             assert abs(h) <= bound
+
+
+@pytest.mark.parametrize("q", [0.1, 0.25, 0.5, 1.0])
+def test_ppi_randomization_variance_matches_exact_bernoulli_enumeration(q):
+    proxy, outcome = 0.7, -1.3
+    estimate_unqueried = prediction_powered_estimate(proxy, False, None, q)
+    estimate_queried = prediction_powered_estimate(proxy, True, outcome, q)
+    mean = (1 - q) * estimate_unqueried + q * estimate_queried
+    enumerated = (1 - q) * (estimate_unqueried - mean) ** 2 + q * (estimate_queried - mean) ** 2
+    analytic = prediction_powered_randomization_variance(proxy, outcome, q)
+    assert float(analytic) == pytest.approx((1 - q) / q * (outcome - proxy) ** 2)
+    assert float(analytic) == pytest.approx(enumerated)
 
 
 def test_estimator_rejects_unobserved_outcome_and_nonpositive_propensity():

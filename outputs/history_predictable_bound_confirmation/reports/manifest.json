@@ -51,7 +51,7 @@
   },
   "created_at_utc": "2026-10-24T18:45:13.460901+00:00",
   "experiment": "independent_history_predictable_query_bound_confirmation",
-  "git_commit": "a5d5e8014c2e1079be205d8cf46b8de0f3c9a043",
+  "git_commit": "020b38a7248ecfd1b45a6bf30eb598965aa1837d",
   "primary_result": {
     "estimand": "equal-weight mean post-onset detection difference across delta=0.04,0.20,0.40,0.60; predictable minus fixed bound; paired by stream ID",
     "overall_retention_rule_passes": true,
@@ -78,8 +78,8 @@
   "rows": 72000,
   "source_sha256": {
     "docs\\history_predictable_bound_confirmation_protocol.md": "1457c633f68926274f559a0d9b21c20d8f429e43f5c7b6c85bea104c3514cde2",
-    "scripts\\calibrate_history_predictable_query_bounds.py": "9e774ad5c045a50a722b7ad6481dfedc94e02e828958a2ccd5e75f6be320ea4d",
-    "scripts\\confirm_history_predictable_query_bounds.py": "10ee0bcac3b1ce27c2b75c42ca16166672c7caa0b20cf7221c24b7fed09e8363",
+    "scripts\\calibrate_history_predictable_query_bounds.py": "d690fada02bab08c73f81bc7489ff97ec9a8af4f02375c24f374a61b89e390ee",
+    "scripts\\confirm_history_predictable_query_bounds.py": "c19b7eee90177393c1ca3063c6187ffe6d65a410b77f3c6cdbed85e8bfdbd871",
     "src\\shiftlab\\dive\\eprocess.py": "186cb6cd152b127a7cd2e6a0082dd91762a983f8cf3b6ccb7b3e147e067e37a3",
     "src\\shiftlab\\dive\\estimators.py": "ccf8cab60b73ca139f1c9eebf70f53d003201b3664f9bab99e126ec0739647b0"
   },

@@ -200,6 +200,12 @@ exploratory comparator with an uncalibrated radius setting, not a sequential gua
 claim. See the [development results](docs/robust_active_inference_development_results.md) and
 machine-readable [Parquet output](outputs/robust_active_inference_development/metrics/hard_budget_comparison.parquet).
 
+A separate six-value L2-radius development grid (30 new seeds per scenario) found a narrow macro
+RMSE minimum at radius fraction 0.50, nearly tied with 0.25; neither choice increased harm
+detection, which remained 0/30 for every allocation. The radius is not promoted as a default.
+See the [frozen radius protocol](docs/robust_active_inference_radius_grid_protocol.md), [results](docs/robust_active_inference_radius_development_results.md), and
+[seed-level metrics](outputs/robust_active_inference_radius_development/metrics/hard_budget_comparison.parquet).
+
 The paired acquisition-budget frontier evaluates seven policies at 10%, 20%, and 25% hard
 label-dollar caps over 60 common-seed streams in four scenarios. Every method respected its cap;
 all methods detected 0/60 reachable harmful streams at every cap, while exact and robust

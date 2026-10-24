@@ -164,7 +164,7 @@ def test_hard_budget_records_policy_specific_propensity_support_bounds(tmp_path)
 
 
 def test_robust_active_inference_runs_under_hard_budget_and_records_validation_choice(tmp_path):
-    assert "robust_active_inference_proxy" in HARD_BUDGET_METHODS
+    assert "robust_active_inference_r0.5" in HARD_BUDGET_METHODS
     output = run_hard_budget(
         HardBudgetConfig(
             n=1600,
@@ -176,7 +176,7 @@ def test_robust_active_inference_runs_under_hard_budget_and_records_validation_c
             generate_figure=False,
             device="cpu",
             scenario_subset=("stationary",),
-            method_subset=("robust_active_inference_proxy",),
+            method_subset=("robust_active_inference_r0.5",),
         ),
         tmp_path / "robust_active_inference",
     )
@@ -186,6 +186,7 @@ def test_robust_active_inference_runs_under_hard_budget_and_records_validation_c
     assert bool(row.budget_respected)
     assert row.robust_active_inference_rho in (0.0, *np.linspace(0.0, 1.0, 21))
     assert row.robust_active_inference_radius >= 0
+    assert row.robust_active_inference_radius_fraction == pytest.approx(0.5)
     assert row.eprocess_minimum_propensity == pytest.approx(0.10)
 
 

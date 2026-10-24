@@ -81,10 +81,14 @@ EVIDENCE_DIRECTED_GRID_METHODS = {
     for activation in (0.0, 0.025, 0.05)
     for power in (0.5, 1.0, 2.0)
 }
+ROBUST_ACTIVE_INFERENCE_GRID_METHODS = {
+    f"robust_active_inference_r{radius:g}": radius for radius in (0.0, 0.1, 0.25, 0.5, 1.0, 2.0)
+}
 HARD_BUDGET_METHODS = (
     *BASE_HARD_BUDGET_METHODS[:-2],
     *EVIDENCE_DIRECTED_GRID_METHODS,
     "robust_active_inference_proxy",
+    *ROBUST_ACTIVE_INFERENCE_GRID_METHODS,
     *BASE_HARD_BUDGET_METHODS[-2:],
 )
 DEFAULT_HARD_BUDGET_METHODS = BASE_HARD_BUDGET_METHODS[:-2]
@@ -253,6 +257,7 @@ def _one_method(
         "exact_mixture_growth_proxy": "exact_mixture_growth",
         "robust_mixture_growth_proxy": "robust_mixture_growth",
         "robust_active_inference_proxy": "robust_active_inference",
+        **{name: "robust_active_inference" for name in ROBUST_ACTIVE_INFERENCE_GRID_METHODS},
     }[method]
     evidence_policy = None
     if query_kind == "evidence_directed":
@@ -296,7 +301,9 @@ def _one_method(
             target_rate=config.budget_rate,
             q_min=config.q_min,
             q_max=config.q_max,
-            radius_fraction=config.robust_active_inference_radius_fraction,
+            radius_fraction=ROBUST_ACTIVE_INFERENCE_GRID_METHODS.get(
+                method, config.robust_active_inference_radius_fraction
+            ),
         ).fit_multiplier(
             proxy=proxy.predict(validation_x),
             residual_second_moment=proxy.predict_residual_second_moment(validation_x),
@@ -614,15 +621,13 @@ def _one_method(
             else None
         ),
         "robust_active_inference_rho": (
-            policy.rho if method == "robust_active_inference_proxy" else None
+            policy.rho if query_kind == "robust_active_inference" else None
         ),
         "robust_active_inference_radius": (
-            policy.uncertainty_radius if method == "robust_active_inference_proxy" else None
+            policy.uncertainty_radius if query_kind == "robust_active_inference" else None
         ),
         "robust_active_inference_radius_fraction": (
-            config.robust_active_inference_radius_fraction
-            if method == "robust_active_inference_proxy"
-            else None
+            policy.radius_fraction if query_kind == "robust_active_inference" else None
         ),
         "material_harm": harm_onset is not None,
         "population_null_control": scenario.name in POPULATION_NULL_CONTROLS,

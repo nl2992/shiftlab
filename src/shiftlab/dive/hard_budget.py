@@ -4,9 +4,9 @@ from __future__ import annotations
 
 import copy
 import json
-from concurrent.futures import ThreadPoolExecutor
+from concurrent.futures import ProcessPoolExecutor
 from dataclasses import asdict, dataclass, replace
-from functools import partial
+from multiprocessing import get_context
 from pathlib import Path
 
 import matplotlib
@@ -1027,6 +1027,18 @@ def _generate_stream_rows(
     return rows
 
 
+def _generate_hard_budget_replicate(
+    task: tuple[str, int, HardBudgetConfig],
+) -> tuple[int, list[dict[str, object]], list[dict[str, object]]]:
+    scenario_name, replicate, config = task
+    scenario = next(item for item in SCENARIOS if item.name == scenario_name)
+    seed = config.seed_offset + replicate
+    common_uniforms = np.random.default_rng(seed + 9_173).random(config.n)
+    event_rows: list[dict[str, object]] | None = [] if config.record_event_traces else None
+    rows = _generate_stream_rows(scenario, seed, config, common_uniforms, event_rows)
+    return replicate, rows, event_rows or []
+
+
 def _summarize(metrics: pd.DataFrame) -> pd.DataFrame:
     rows = []
     for (scenario, method), group in metrics.groupby(["scenario", "method"], sort=True):
@@ -1378,25 +1390,21 @@ def run_hard_budget(config: HardBudgetConfig, output: Path) -> Path:
     rows = []
     event_trace_rows: list[dict[str, object]] = []
 
-    def generate_replicate(scenario, replicate: int):
-        seed = config.seed_offset + replicate
-        common_uniforms = np.random.default_rng(seed + 9_173).random(config.n)
-        seed_event_rows: list[dict[str, object]] | None = [] if config.record_event_traces else None
-        generated_rows = _generate_stream_rows(
-            scenario, seed, config, common_uniforms, seed_event_rows
-        )
-        return replicate, generated_rows, seed_event_rows or []
-
     for scenario in selected_scenarios:
         if config.workers == 1:
             completed = (
-                generate_replicate(scenario, replicate) for replicate in range(config.seeds)
+                _generate_hard_budget_replicate((scenario.name, replicate, config))
+                for replicate in range(config.seeds)
             )
-            executor_context = None
+            executor = None
         else:
-            executor_context = ThreadPoolExecutor(max_workers=config.workers)
-            completed = executor_context.map(
-                partial(generate_replicate, scenario), range(config.seeds)
+            executor = ProcessPoolExecutor(
+                max_workers=config.workers, mp_context=get_context("spawn")
+            )
+            completed = executor.map(
+                _generate_hard_budget_replicate,
+                ((scenario.name, replicate, config) for replicate in range(config.seeds)),
+                chunksize=1,
             )
         try:
             for completed_count, (replicate, seed_rows, seed_event_rows) in enumerate(
@@ -1409,8 +1417,8 @@ def run_hard_budget(config: HardBudgetConfig, output: Path) -> Path:
                     flush=True,
                 )
         finally:
-            if executor_context is not None:
-                executor_context.shutdown(wait=True, cancel_futures=True)
+            if executor is not None:
+                executor.shutdown(wait=True, cancel_futures=True)
     metrics = pd.DataFrame(rows)
     metrics = metrics.sort_values(["scenario", "seed", "method"], kind="stable").reset_index(
         drop=True

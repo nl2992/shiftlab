@@ -1,0 +1,90 @@
+{
+  "created_at_utc": "2026-10-24T08:38:14.602043+00:00",
+  "design": {
+    "seeds_per_cell": 12,
+    "seed_offset": 20402024,
+    "n": 2400,
+    "device_requested": "cuda",
+    "scenarios": [
+      "boundary_local_harm",
+      "residual_variance",
+      "recurring_regimes",
+      "harmful_adaptation"
+    ],
+    "severity_values": [
+      0.75,
+      1.5,
+      2.25
+    ],
+    "training_fractions": [
+      0.05,
+      0.125,
+      0.25
+    ],
+    "query_rates": [
+      0.1,
+      0.2,
+      0.4
+    ],
+    "cost_regimes_fn_fp": [
+      [
+        5.0,
+        1.0
+      ],
+      [
+        1.0,
+        1.0
+      ]
+    ],
+    "validation_fraction": 0.125,
+    "methods": [
+      "zero",
+      "ridge",
+      "forest",
+      "risk_model",
+      "validation_best",
+      "prequential_hedge"
+    ],
+    "paired_comparators": [
+      "ridge",
+      "validation_best",
+      "prequential_hedge"
+    ],
+    "cell_count": 180
+  },
+  "metric_rows": 12960,
+  "metrics_sha256": "b8dd73b293510f76ad443f0a8ed755a802e0af98f530483c755d49c60ec296c3",
+  "code_sha256": "479968541416a46ac1fd428ceb8a7dd75eb6826c308415a3cff06e47ac118c7b",
+  "proxy_benchmark_sha256": "54eb3abcaf922b45a965aa4ea769f724616b04bee75997954bac978c85f5f493",
+  "environment": {
+    "cpu_ram_bytes": 16858472448,
+    "disk_free_bytes": 21422841856,
+    "cuda_available": true,
+    "nvidia_smi": "NVIDIA GeForce RTX 4060 Laptop GPU, 8188 MiB, 592.82, 0 %, 97 MiB",
+    "torch_version": "2.9.1+cu130",
+    "cuda_runtime": "13.0",
+    "gpu_name": "NVIDIA GeForce RTX 4060 Laptop GPU",
+    "gpu_memory_bytes": 8585216000,
+    "versions": {
+      "numpy": "2.5.4",
+      "scipy": "1.18.1",
+      "pandas": "3.0.6",
+      "pyarrow": "25.0.1",
+      "folktables": "0.0.12"
+    }
+  },
+  "interpretation": "Development stress screen. Per-cell seed counts rank conditions only; no cellwise or familywise error-control certification is claimed.",
+  "analysis": {
+    "created_at_utc": "2026-10-24T08:47:07.184078+00:00",
+    "script_sha256": "4b2b081f99d54aa37bf3e2ecb6eb13a5c484e0b781465440172e124fd4f85b23",
+    "factor_contrast_rows": 144,
+    "bootstrap_replicates": 20000,
+    "bootstrap_seed": 24102026,
+    "validation": {
+      "row_count": 12960,
+      "cell_count": 180,
+      "matched_resources": true,
+      "hard_budget_respected": true
+    }
+  }
+}

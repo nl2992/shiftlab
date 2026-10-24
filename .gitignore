@@ -150,6 +150,8 @@ outputs/figures/*
 !outputs/start_prior_robust_mix_development/**
 !outputs/prequential_proxy_hedge_development/
 !outputs/prequential_proxy_hedge_development/**
+!outputs/risk_proxy_stress_grid/
+!outputs/risk_proxy_stress_grid/**
 results/*
 !results/.gitkeep
 data/raw/

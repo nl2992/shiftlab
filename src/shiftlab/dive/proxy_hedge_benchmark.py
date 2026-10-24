@@ -54,6 +54,8 @@ class ProxyHedgeBenchmarkConfig:
     alpha: float = 0.05
     harm_margin: float = 0.10
     max_label_cost: float = 2.5
+    train_fraction: float = 0.125
+    validation_fraction: float = 0.125
     device: str = "cuda"
     scenario_subset: tuple[str, ...] = DEFAULT_SCENARIOS
 
@@ -73,8 +75,12 @@ class ProxyHedgeBenchmarkConfig:
         registered = {scenario.name for scenario in SCENARIOS}
         if not self.scenario_subset or not set(self.scenario_subset) <= registered:
             raise ValueError("scenario_subset must contain registered scenarios")
-        train_end = max(100, int(self.n * 0.125))
-        monitor_start = max(800, int(self.n * 0.25))
+        if self.train_fraction <= 0 or self.validation_fraction <= 0:
+            raise ValueError("training and validation fractions must be positive")
+        if self.train_fraction + self.validation_fraction >= 1:
+            raise ValueError("training and validation fractions must sum to less than one")
+        train_end = max(100, int(self.n * self.train_fraction))
+        monitor_start = max(800, int(self.n * (self.train_fraction + self.validation_fraction)))
         if train_end >= monitor_start - 50 or monitor_start >= self.n:
             raise ValueError("n is too small for disjoint training, validation, and monitor slices")
         return self
@@ -279,8 +285,8 @@ def _run_stream(scenario, seed: int, config: ProxyHedgeBenchmarkConfig) -> list[
         reference == 1, fp * (1 - probability_truth), fn * probability_truth
     )
     expected_difference = deployed_expected - reference_expected
-    train_end = max(100, int(config.n * 0.125))
-    monitor_start = max(800, int(config.n * 0.25))
+    train_end = max(100, int(config.n * config.train_fraction))
+    monitor_start = max(800, int(config.n * (config.train_fraction + config.validation_fraction)))
     monitor_end = config.n
     clip = float(max(fn, fp) + config.harm_margin)
     predictions, selected_expert, validation_rmse = _expert_predictions(

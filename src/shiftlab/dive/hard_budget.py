@@ -33,6 +33,7 @@ from .eprocess import (
     PPIBlockMixtureEProcess,
     PredictablePlugInEmpiricalBernsteinEProcess,
     PredictableVarianceAdaptiveEProcess,
+    StartedMixtureEProcess,
 )
 from .estimators import (
     pprm_adaptive_reliance,
@@ -296,6 +297,12 @@ def _one_method(
     process = BoundedMeanEProcess(
         bound=prediction_powered_bound(proxy.clip, minimum_propensity), alpha=config.alpha
     )
+    start_positions = tuple(sorted({0, event_count // 4, event_count // 2, 3 * event_count // 4}))
+    started_mixture_process = StartedMixtureEProcess(
+        bound=prediction_powered_bound(proxy.clip, minimum_propensity),
+        alpha=config.alpha,
+        starts=start_positions,
+    )
     multiscale_process = BoundedMeanEProcess(
         bound=prediction_powered_bound(proxy.clip, minimum_propensity),
         alpha=config.alpha,
@@ -334,6 +341,7 @@ def _one_method(
     estimates: list[float] = []
     truths: list[float] = []
     first_alarm = None
+    first_started_mixture_alarm = None
     first_multiscale_alarm = None
     first_protected_alarm = None
     stop_reason = "end_of_stream"
@@ -414,6 +422,9 @@ def _one_method(
         process_value = process.update(estimate)
         if first_alarm is None and process_value >= threshold:
             first_alarm = offset
+        started_mixture_value = started_mixture_process.update(estimate)
+        if first_started_mixture_alarm is None and started_mixture_value >= threshold:
+            first_started_mixture_alarm = offset
         multiscale_value = multiscale_process.update(estimate)
         if first_multiscale_alarm is None and multiscale_value >= threshold:
             first_multiscale_alarm = offset
@@ -433,6 +444,14 @@ def _one_method(
     harm_reached = harm_onset is not None and harm_onset < processed
     detected = first_alarm is not None and harm_onset is not None and first_alarm >= harm_onset
     false_escalation = first_alarm is not None and (harm_onset is None or first_alarm < harm_onset)
+    started_mixture_detected = (
+        first_started_mixture_alarm is not None
+        and harm_onset is not None
+        and first_started_mixture_alarm >= harm_onset
+    )
+    started_mixture_false_escalation = first_started_mixture_alarm is not None and (
+        harm_onset is None or first_started_mixture_alarm < harm_onset
+    )
     multiscale_detected = (
         first_multiscale_alarm is not None
         and harm_onset is not None
@@ -495,6 +514,17 @@ def _one_method(
         "single_e_false_escalation": bool(false_escalation),
         "single_e_alarm_time": first_alarm,
         "single_e_delay": delay,
+        "started_mixture_e_detected": bool(started_mixture_detected),
+        "started_mixture_e_false_escalation": bool(started_mixture_false_escalation),
+        "started_mixture_e_alarm_time": first_started_mixture_alarm,
+        "started_mixture_e_delay": (
+            int(first_started_mixture_alarm - harm_onset)
+            if started_mixture_detected
+            and harm_onset is not None
+            and first_started_mixture_alarm is not None
+            else None
+        ),
+        "started_mixture_e_starts": list(start_positions),
         "multiscale_e_detected": bool(multiscale_detected),
         "multiscale_e_false_escalation": bool(multiscale_false_escalation),
         "multiscale_e_alarm_time": first_multiscale_alarm,
@@ -715,6 +745,11 @@ def _one_pprm_block_method(
             if detected and alarm_time is not None and harm_onset is not None
             else None
         ),
+        "started_mixture_e_detected": np.nan,
+        "started_mixture_e_false_escalation": np.nan,
+        "started_mixture_e_alarm_time": None,
+        "started_mixture_e_delay": None,
+        "started_mixture_e_starts": None,
         "pprm_mixture_detected": bool(
             mixture_alarm_time is not None
             and harm_onset is not None

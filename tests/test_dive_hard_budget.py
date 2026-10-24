@@ -71,6 +71,9 @@ def test_fixed_dollar_cap_and_monitor_horizon_are_respected_for_eventwise_and_bl
     assert metrics.budget_respected.all()
     assert (metrics.processed_events <= 400).all()
     assert metrics.monitor_fraction_processed.between(0, 1).all()
+    eventwise = metrics.loc[metrics.method.eq("uniform_proxy")].iloc[0]
+    assert np.array_equal(eventwise.started_mixture_e_starts, [0, 100, 200, 300])
+    assert isinstance(eventwise.started_mixture_e_detected, (bool, np.bool_))
     pprm = metrics.loc[metrics.method.eq("pprm_block_adaptive")].iloc[0]
     assert pprm.processed_events % 10 == 0
     assert pprm.pprm_max_reliance == pytest.approx(0.1)

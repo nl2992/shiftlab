@@ -1,0 +1,64 @@
+{
+  "experiment": "prespecified_start_time_mixture_fixed_dollar_horizon_development",
+  "seeds_per_cell": 30,
+  "seed_offset": 57100000,
+  "seed_range": [
+    57100000,
+    57100029
+  ],
+  "n": 4000,
+  "monitor_start": 1000,
+  "horizons": [
+    1000,
+    1800,
+    2600
+  ],
+  "budget_dollars": 720.0,
+  "budget_rate": 0.2,
+  "q_min": 0.2,
+  "q_max": 0.8,
+  "alpha": 0.05,
+  "harm_margin": 0.1,
+  "start_rule": "sorted unique {0, floor(H/4), floor(H/2), floor(3H/4)}; equal fixed weights",
+  "scenario_cells": [
+    {
+      "cell": "stationary",
+      "scenario": "stationary",
+      "change_fraction": 0.5
+    },
+    {
+      "cell": "benign_nuisance",
+      "scenario": "benign_nuisance",
+      "change_fraction": 0.5
+    },
+    {
+      "cell": "boundary_early",
+      "scenario": "boundary_local_harm",
+      "change_fraction": 0.35
+    },
+    {
+      "cell": "boundary_late",
+      "scenario": "boundary_local_harm",
+      "change_fraction": 0.65
+    },
+    {
+      "cell": "recurring_regimes",
+      "scenario": "recurring_regimes",
+      "change_fraction": 0.5
+    },
+    {
+      "cell": "harmful_adaptation",
+      "scenario": "harmful_adaptation",
+      "change_fraction": 0.5
+    }
+  ],
+  "method": "uniform_proxy; all eventwise monitors share labels and corrected estimates",
+  "comparators": [
+    "single full-stream fixed mixture",
+    "four-start equal mixture",
+    "predictable variance",
+    "PM-EB"
+  ],
+  "device_requested": "cuda",
+  "status": "development only; no winner selection or novelty claim"
+}

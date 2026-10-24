@@ -85,11 +85,11 @@
     "torch_version": "2.9.1+cu130"
   },
   "experiment": "history_predictable_ppi_bound_null_calibration_and_localized_harm",
-  "git_commit": "cb0e35850d972cc196cf2cc665454efd491a1de7",
+  "git_commit": "d6fcffe15858dc59e383b0606e4c708321956a7e",
   "input_data": "synthetic only; no raw event-level export",
   "oracle_boundary": "oracle outcome probabilities and conditional means only used to generate DGP/evaluator harm; learner receives sampled pre-monitor training labels and current context",
   "reproducibility": {
-    "script_sha256": "f298434ebbb94603d77117292d20b7c3229672787cf894048ece4e2470a3a5a5",
+    "script_sha256": "9e774ad5c045a50a722b7ad6481dfedc94e02e828958a2ccd5e75f6be320ea4d",
     "source_file_sha256": {
       "docs\\history_predictable_bound_calibration_protocol.md": "9fe5c137ff3415e2322fff35b9dcea19bfc654c4db88821b73edc4e697e3a03f",
       "src\\shiftlab\\dive\\eprocess.py": "186cb6cd152b127a7cd2e6a0082dd91762a983f8cf3b6ccb7b3e147e067e37a3",

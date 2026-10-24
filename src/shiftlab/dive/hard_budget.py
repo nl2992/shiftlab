@@ -601,7 +601,7 @@ def _one_pprm_block_method(
         if labeled_spend > remaining + 1e-12:
             # The reserve check covers the maximum tariff; reaching this branch is an invariant failure.
             raise RuntimeError("PPRM block selection exceeded its reserved label-dollar budget")
-        labeled_z = true_normalized[labeled_local]
+        labeled_z = true_normalized[relative_start:relative_end][labeled_local]
         labeled_proxy = proxy_normalized[relative_start:relative_end][labeled_local]
         unlabeled_proxy = proxy_normalized[relative_start:relative_end][unlabeled_local]
         estimate = pprm_block_estimate(

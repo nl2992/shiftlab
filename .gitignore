@@ -106,6 +106,10 @@ outputs/figures/*
 !outputs/hard_budget_common_bound_sensitivity_30/**
 !outputs/hard_budget_matched_qmin_010_replication_60/
 !outputs/hard_budget_matched_qmin_010_replication_60/**
+!outputs/pprm_block_grid_corrected_v1/
+!outputs/pprm_block_grid_corrected_v1/**
+!outputs/pprm_variance_diagnostic_corrected_v1/
+!outputs/pprm_variance_diagnostic_corrected_v1/**
 results/*
 !results/.gitkeep
 data/raw/

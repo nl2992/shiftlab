@@ -1,3 +1,5 @@
+from types import SimpleNamespace
+
 import numpy as np
 import pandas as pd
 import pytest
@@ -7,9 +9,11 @@ from shiftlab.dive.hard_budget import (
     PROTECTED_STAKES,
     PROTECTED_WEIGHTS,
     HardBudgetConfig,
+    _one_pprm_block_method,
     _wilson_bounds,
     run_hard_budget,
 )
+from shiftlab.dive.proxy import DecisionLossProxy
 
 
 def test_wilson_bounds_keep_zero_and_full_detection_rates_inside_interval():
@@ -148,6 +152,53 @@ def test_pprm_block_comparator_respects_spend_and_updates_only_complete_blocks(t
     report = (output / "reports" / "hard_budget_comparison.md").read_text()
     assert "Primary detection all / reached" in report
     assert "pprm_block_adaptive" in report
+
+
+def test_pprm_uses_current_block_labels_not_the_first_block():
+    config = HardBudgetConfig(
+        n=1000,
+        d=2,
+        budget_rate=0.50,
+        q_min=0.10,
+        q_max=0.80,
+        pprm_block_size=20,
+        pprm_labels_per_block=4,
+        pprm_max_reliance=0.1,
+        pprm_initial_reliance=0.0,
+        max_label_cost=2.5,
+        device="cpu",
+    )
+    monitor_start = 200
+    centered = np.zeros(config.n)
+    for block in range((config.n - monitor_start) // config.pprm_block_size):
+        left = monitor_start + block * config.pprm_block_size
+        right = left + config.pprm_block_size
+        centered[left:right] = 0.01 * block
+    features = np.zeros((config.n, config.d))
+    proxy = DecisionLossProxy(clip=5.1, seed=7).fit(
+        features[:100],
+        centered[:100],
+        features[100:monitor_start],
+        centered[100:monitor_start],
+    )
+    result = _one_pprm_block_method(
+        seed=7,
+        scenario=SimpleNamespace(name="block_index_test", severity=0.0, fn_cost=5.0, fp_cost=1.0),
+        config=config,
+        x=features,
+        centered_cost_difference=centered,
+        expected_cost_difference=centered,
+        label_costs=np.ones(config.n),
+        proxy_template=proxy,
+        monitor_start=monitor_start,
+        harm_onset=None,
+        sample_path_material_harm=False,
+        sample_path_harm_onset=None,
+        common_uniforms=np.random.default_rng(11).random(config.n),
+    )
+    assert result["processed_events"] == config.n - monitor_start
+    assert result["stream_mean_estimation_error"] == pytest.approx(0.0, abs=1e-12)
+    assert result["stream_mean_estimation_rmse"] == pytest.approx(0.0, abs=1e-12)
 
 
 def test_hard_budget_null_control_generates_report_without_harm_scenario(tmp_path):

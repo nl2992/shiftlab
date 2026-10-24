@@ -73,6 +73,46 @@ def pprm_block_estimate(
     return float(reliance * unlabeled_proxy.mean() + np.mean(labeled - reliance * labeled_proxy))
 
 
+def pprm_block_design_variance(
+    block_values: np.ndarray,
+    block_proxy_values: np.ndarray,
+    *,
+    n_labeled: int,
+    reliance: float,
+) -> float:
+    """Exact conditional variance under a uniform fixed-size label sample.
+
+    For a finite block of size ``B``, the complement has size ``N=B-n``. Rewriting
+    the disjoint-sample PPI estimate gives
+
+    ``eta * B/N * mean_B(h) + mean_L(z - eta * B/N * h)``.
+
+    The first term is fixed conditional on the block. The second is a simple random
+    sample mean without replacement, whose variance is
+    ``(1/n - 1/B) * S²[z - eta * B/N * h]``. This is exact conditional on the block
+    values and assumes uniform sampling of exactly ``n_labeled`` indices.
+    """
+    values = np.asarray(block_values, dtype=float).reshape(-1)
+    proxy = np.asarray(block_proxy_values, dtype=float).reshape(-1)
+    block_size = len(values)
+    if block_size < 2 or len(proxy) != block_size:
+        raise ValueError("block values and proxy must match and contain at least two rows")
+    if (
+        isinstance(n_labeled, bool)
+        or not isinstance(n_labeled, int)
+        or not 1 <= n_labeled < block_size
+    ):
+        raise ValueError("n_labeled must be an integer in [1, block_size-1]")
+    if not np.isfinite(reliance) or reliance < 0:
+        raise ValueError("reliance must be finite and nonnegative")
+    for name, array in (("block_values", values), ("block_proxy_values", proxy)):
+        if not np.isfinite(array).all() or np.any((array < 0) | (array > 1)):
+            raise ValueError(f"{name} must contain finite values in [0, 1]")
+    n_unlabeled = block_size - n_labeled
+    transformed = values - reliance * (block_size / n_unlabeled) * proxy
+    return float((1 / n_labeled - 1 / block_size) * np.var(transformed, ddof=1))
+
+
 def pprm_adaptive_reliance(
     historical_labeled_values: np.ndarray,
     historical_labeled_proxy: np.ndarray,

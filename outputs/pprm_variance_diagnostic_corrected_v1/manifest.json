@@ -1,0 +1,69 @@
+{
+  "experiment": "pprm_block_finite_population_variance_diagnostic",
+  "classification": "development_only_matched_label_assignments",
+  "configuration": {
+    "n": 1600,
+    "d": 16,
+    "seeds": 30,
+    "seed_offset": 20372023,
+    "alpha": 0.05,
+    "harm_margin": 0.1,
+    "budget_rate": 0.2,
+    "q_min": 0.1,
+    "q_max": 0.8,
+    "cost_stability_tolerance": 0.05,
+    "exact_growth_adaptive_weight": 1.0,
+    "robust_growth_probability_radius": 0.0,
+    "monitor_comparators": [],
+    "pprm_block_size": 20,
+    "pprm_labels_per_block": 4,
+    "pprm_max_reliance": 1.0,
+    "pprm_initial_reliance": 1.0,
+    "max_label_cost": 2.5,
+    "common_eprocess_bound": true,
+    "scenario_severity": null,
+    "change_fraction": 0.5,
+    "device": "cuda",
+    "scenario_subset": [
+      "stationary",
+      "boundary_local_harm",
+      "harmful_adaptation",
+      "recurring_regimes"
+    ],
+    "method_subset": [
+      "uniform_proxy",
+      "uniform_proxy_frozen",
+      "pprm_block_adaptive"
+    ]
+  },
+  "requested_device": "cuda",
+  "environment": {
+    "cpu_ram_bytes": 16858472448,
+    "disk_free_bytes": 21726650368,
+    "cuda_available": true,
+    "nvidia_smi": "NVIDIA GeForce RTX 4060 Laptop GPU, 8188 MiB, 592.82, 1 %, 97 MiB",
+    "torch_version": "2.9.1+cu130",
+    "cuda_runtime": "13.0",
+    "gpu_name": "NVIDIA GeForce RTX 4060 Laptop GPU",
+    "gpu_memory_bytes": 8585216000,
+    "versions": {
+      "numpy": "2.5.4",
+      "scipy": "1.18.1",
+      "pandas": "3.0.6",
+      "pyarrow": "25.0.1",
+      "folktables": "0.0.12"
+    }
+  },
+  "sha256": {
+    "source_files": {
+      "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\shift-research-starter\\scripts\\diagnose_pprm_block_variance.py": "a4a4f7d150efb607c82f59381d0ceb21339ec771d23db3f08417152e5d78ffec",
+      "src\\shiftlab\\dive\\estimators.py": "fff53c1857b14104eca5bcb6d6300ed26e24acb2bbf4903be943437441d8d2b6",
+      "src\\shiftlab\\dive\\hard_budget.py": "3d7025d637563bea0d17bbd04bf1aba82ffdff1b473dc9b7d8deba233593ca5b"
+    },
+    "artifacts": {
+      "block_variance_streams.csv": "4a566ebec124fab79b0d471b8fc8b490dafb234d81fcf260288d25dcd8d3f913",
+      "block_variance_summary.csv": "c6d50439a0094b439d2cbd59b102f6a4dc00b316e15bd9e7337880345eebc13d",
+      "block_variance_diagnostic.md": "fea41c56e0857e3d7b96036d5ed11ba9840bbdc3374088b1265b3d3a3a4f4fdc"
+    }
+  }
+}

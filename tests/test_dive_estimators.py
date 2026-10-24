@@ -1,9 +1,12 @@
+from itertools import combinations
+
 import numpy as np
 import pytest
 
 from shiftlab.dive.estimators import (
     AdaptiveReliance,
     pprm_adaptive_reliance,
+    pprm_block_design_variance,
     pprm_block_estimate,
     prediction_powered_bound,
     prediction_powered_estimate,
@@ -127,3 +130,35 @@ def test_pprm_adaptive_reliance_uses_fallback_without_historical_proxy_variation
         fallback_reliance=0.25,
     )
     assert reliance == 0.25
+
+
+@pytest.mark.parametrize("reliance", [0.0, 0.1, 0.75, 1.0])
+def test_pprm_block_design_variance_matches_exact_label_subset_enumeration(reliance):
+    values = np.array([0.05, 0.85, 0.2, 0.7, 0.4, 0.95])
+    proxy = np.array([0.15, 0.75, 0.3, 0.6, 0.55, 0.8])
+    n_labeled = 2
+    estimates = []
+    for chosen in combinations(range(len(values)), n_labeled):
+        labeled = np.zeros(len(values), dtype=bool)
+        labeled[list(chosen)] = True
+        estimates.append(
+            pprm_block_estimate(
+                values[labeled],
+                proxy[labeled],
+                proxy[~labeled],
+                reliance=reliance,
+            )
+        )
+    assert pprm_block_design_variance(
+        values,
+        proxy,
+        n_labeled=n_labeled,
+        reliance=reliance,
+    ) == pytest.approx(np.var(estimates, ddof=0))
+
+
+def test_pprm_block_design_variance_rejects_invalid_sampling_design():
+    with pytest.raises(ValueError, match="n_labeled"):
+        pprm_block_design_variance(
+            np.array([0.1, 0.9]), np.array([0.2, 0.8]), n_labeled=2, reliance=0.5
+        )

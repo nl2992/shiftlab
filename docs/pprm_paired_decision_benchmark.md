@@ -2,11 +2,16 @@
 
 **Status:** The unbiased block-estimator helper, predictable plug-in reliance estimate, finite-mixture
 CM-EB lower confidence sequence, and hard-budget stream integration are implemented and unit-tested.
-A four-setting, 30-seed-per-cell CUDA development grid is complete. Its results do not support a
-block-PPI performance claim: all methods had zero detections, and block PPI had higher proxy
-estimation RMSE than the eventwise frozen-proxy control in every scenario. Confirmatory null
-calibration and power evaluation remain outstanding. This comparison follows the completed
-30-seed severity/onset/horizon screen and is a prerequisite to selecting a new monitor.
+The original PPRM runs described below are superseded: a block-local indexing bug reused labels from
+the first stream block in later blocks. Eventwise comparator results remain valid, but PPRM estimator,
+reliance-sensitivity, and horizon results from those runs must not be interpreted. The bug is fixed and
+has a regression test. A corrected four-setting, 30-seed-per-cell CUDA grid is stored in
+[`outputs/pprm_block_grid_corrected_v1/`](../outputs/pprm_block_grid_corrected_v1/); all methods still
+recorded zero detections, while block-PPI estimation RMSE is now comparable to or better than the
+frozen eventwise control in many cells. Corrected variance diagnostics are recorded in
+[`outputs/pprm_variance_diagnostic_corrected_v1/`](../outputs/pprm_variance_diagnostic_corrected_v1/).
+These are development results only. Confirmatory null calibration and separately powered evaluation
+remain outstanding.
 
 ## Why this comparator is necessary
 
@@ -87,8 +92,11 @@ The matched-proxy development grid uses block sizes \(B\in\{5,10,20,40\}\), with
 labels per block to target a 20% label fraction. It compares adaptive block PPI against eventwise
 prediction-powered monitoring with both frozen and updating proxies. All cells use the same 30
 stream seeds (seed offset 20372023), six registered scenarios, 20% nominal label-dollar budget,
-and common eventwise increment bound. The full Parquet metrics, manifests, paired analysis, and
-figure are in [`outputs/pprm_block_grid_development_v1/`](../outputs/pprm_block_grid_development_v1/).
+and common eventwise increment bound. The original run at
+[`outputs/pprm_block_grid_development_v1/`](../outputs/pprm_block_grid_development_v1/) is retained
+for audit, but its PPRM results are invalid due to the indexing bug described above. Corrected
+Parquet metrics, manifests, paired analysis, and figure are in
+[`outputs/pprm_block_grid_corrected_v1/`](../outputs/pprm_block_grid_corrected_v1/).
 Reproduce the run and report from the repository root with:
 
 ```powershell
@@ -96,23 +104,19 @@ uv run python scripts/run_pprm_block_grid.py --output-root outputs/pprm_block_gr
 uv run python scripts/analyze_pprm_block_grid.py --output-root outputs/pprm_block_grid_reproduction
 ```
 
-The run used an NVIDIA GeForce RTX 4060 Laptop GPU (CUDA 13.0, PyTorch 2.9.1). Across all four
-block sizes, all 30 onset-reaching streams per harmful scenario were processed, but **all three
-monitors detected 0/30 harms in every harmful scenario**. Each recorded 0/30 false escalations in
-the two null controls. The eventwise monitors also detected no harm, so this grid does not establish
-that the block monitor alone is underpowered. PPRM's stream-mean cost estimation RMSE decreased as
-blocks grew, but remained larger than the frozen eventwise comparator in all 24 block-size/scenario
-comparisons. For example, at \(B=40\), local-boundary-harm RMSE was 0.1984 for block PPI and
-0.1108 for eventwise frozen PPI; at \(B=5\), it was 0.5033 versus 0.1108. The paired seed-bootstrap
-intervals in the generated report are exploratory, unadjusted intervals, not confirmatory
-inference. Larger blocks also processed fewer events and used fewer labels before the nominal
-budget stopped the stream.
+The corrected run used the NVIDIA GeForce RTX 4060 Laptop GPU. Across all block sizes, all three
+monitors detected 0/30 harms in each harmful scenario and recorded 0/30 false escalations in each
+null control. Corrected PPRM stream-mean RMSE is comparable to or below frozen eventwise PPI in
+many cells, although its ranking varies by scenario. At \(B=5\), boundary-local-harm RMSE was
+0.0721 for block PPI versus 0.1108 for frozen eventwise PPI; at \(B=40\), it was 0.0931 versus
+0.1108. At \(B=10\), recurring-regime RMSE was 0.0424 versus 0.0872. This accuracy improvement
+did not produce detections under the current sequential boundary and budget. Paired seed-bootstrap
+intervals are exploratory and unadjusted. Larger blocks processed fewer events and used fewer labels.
 
-This is a development-only negative result, not a power or false-alarm guarantee. Diagnose why
-every method misses the current harm signals and why the block estimator has higher RMSE before
-freezing a protocol for the required 2,000-stream-per-null calibration and a separately powered
-study. Use disjoint seeds for those evaluations. No confirmatory conclusions may be drawn from
-this screen.
+This is a development-only result, not a power or false-alarm guarantee. Diagnose why every method
+misses the current harm signals despite corrected estimation accuracy before freezing a protocol for
+the required 2,000-stream-per-null calibration and separately powered study. Use disjoint seeds. No
+confirmatory conclusions may be drawn from this screen.
 
 ## Reliance-bound sensitivity
 
@@ -127,6 +131,7 @@ uv run python scripts/run_pprm_reliance_bound_sensitivity.py --output-root outpu
 uv run python scripts/analyze_pprm_reliance_bound_sensitivity.py --output-root outputs/pprm_reliance_bound_development_v1
 ```
 
+This screen predates the indexing fix; its PPRM results are superseded and must not be interpreted.
 The generated analysis is in
 [`outputs/pprm_reliance_bound_development_v1/analysis/`](../outputs/pprm_reliance_bound_development_v1/analysis/).
 The tightest cap materially raised the mean final lower bound: for boundary-local harm it rose from
@@ -148,23 +153,19 @@ uv run python scripts/run_pprm_horizon_sensitivity.py --output-root outputs/pprm
 uv run python scripts/analyze_pprm_horizon_sensitivity.py --output-root outputs/pprm_horizon_development_v1
 ```
 
-The Parquet metrics, manifests and report are in
+This screen predates the indexing fix; its PPRM results are superseded and must not be interpreted.
+The eventwise comparator results remain valid. The Parquet metrics, manifests and report are in
 [`outputs/pprm_horizon_development_v1/`](../outputs/pprm_horizon_development_v1/), with the
 summary in [`analysis/horizon_analysis.md`](../outputs/pprm_horizon_development_v1/analysis/horizon_analysis.md).
-At \(n=1600\), every method detected 0/30 streams in each harmful scenario. At \(n=6400\),
-eventwise frozen PPI detected 24/30 boundary-local-harm and 29/30 harmful-adaptation streams;
-block PPI detected 1/30 in each. For recurring regimes, the counts were 24/30 and 11/30,
-respectively. Block PPI's stream-mean RMSE stayed around 0.20–0.29 across scenarios, while
-eventwise RMSE fell to about 0.02–0.03. The PPRM monitor also escalated once in 30 stationary
-streams at \(n=6400\); eventwise controls recorded no stationary escalations. Thirty streams are
-far too few to calibrate either error rate. These are exploratory power diagnostics, not a
-confirmatory comparison or evidence of nominal error control.
+At \(n=1600\), eventwise methods detected 0/30 streams in each harmful scenario. At \(n=6400\),
+eventwise frozen PPI detected 24/30 boundary-local-harm and 29/30 harmful-adaptation streams, and
+24/30 recurring-regime streams. Eventwise controls recorded no stationary escalations. The PPRM
+numbers from this run are invalid and omitted. Thirty streams are far too few to calibrate error
+rates; the eventwise results are exploratory power diagnostics, not confirmatory evidence.
 
-The actionable result is that longer horizons restore eventwise monitor power, while this block
-PPI construction remains substantially less precise and less powerful under the current proxy and
-uniform within-block label allocation. Prioritize diagnosis of its estimator variance and the
-reliance rule before spending compute on large-scale calibration. Do not claim a new method from
-these screens; the existing eventwise monitor is currently the stronger empirical baseline.
+The original PPRM horizon results are invalid because of the block-label indexing bug. Rerun horizon
+sensitivity after the fix before comparing PPRM and eventwise monitor power. Do not claim a new method
+from these screens.
 
 ## Matched experiment
 

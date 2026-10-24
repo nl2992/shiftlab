@@ -217,10 +217,26 @@ was inconclusive. See the [frozen confirmation protocol](docs/harm_confirmation_
 [report](outputs/harm_confirmation_qmin020_200/reports/harm_confirmation_results.md),
 [paired metrics](outputs/harm_confirmation_qmin020_200/metrics/harm_confirmation_paired_tests.csv),
 and [stream metrics](outputs/harm_confirmation_qmin020_200/metrics/hard_budget_comparison.parquet).
-The next step is a disjoint power and delay map over harm magnitude, onset, and horizon. These
-synthetic results do not establish field validity or novelty. Its 36-cell paired design is frozen
-in the [power-grid protocol](docs/harm_power_grid_protocol.md) and implemented by
-[`run_harm_power_grid.py`](scripts/run_harm_power_grid.py).
+The completed 36-cell CUDA development grid varies harm severity, abrupt onset, and horizon across
+1,080 stream-cell observations (30 paired seeds per cell). All streams had material harm, every
+harm onset was reached before budget stopping, and all realized label-dollar caps were respected.
+Across cells, mean detection rates were 0.500 for fixed mixture, 0.435 for predictable variance,
+and 0.100 for PM-EB in boundary-local harm; rates were 0.441, 0.426, and 0.093 respectively for
+recurring regimes. In the central boundary-local setting (`n=3200`, severity 1.5), fixed-mixture
+detection was 0.83, 0.63, and 0.20 as onset moved from 35% to 50% to 65% of the stream; it was
+0.27, 0.63, and 0.77 as severity increased from 0.75 to 1.5 to 2.25, and 0.43, 0.63, and 0.80
+as horizon increased from 2,400 to 4,000 events. The horizon comparison also increases the total
+dollar budget at a fixed 20% budget rate, so it combines more observation time with more resources.
+This 30-seed alternative-only development screen has no false-alarm controls; the separate null
+calibration above addresses only its registered simulator assumptions. These results support
+fixed mixture as a useful baseline in the tested settings, not a novel method or universal ranking.
+See the [frozen protocol](docs/harm_power_grid_protocol.md), [measured findings](outputs/harm_power_grid_30/reports/harm_power_grid_results.md),
+[full monitor table](outputs/harm_power_grid_30/reports/harm_power_grid.md), [Parquet stream metrics](outputs/harm_power_grid_30/metrics/harm_power_grid.parquet),
+[cell summaries](outputs/harm_power_grid_30/metrics/harm_power_grid_summary.csv), [paired contrasts](outputs/harm_power_grid_30/metrics/harm_power_grid_paired_tests.csv),
+[trend summary](outputs/harm_power_grid_30/metrics/harm_power_grid_trends.csv), [figure](outputs/harm_power_grid_30/figures/harm_power_grid.png),
+and [run manifest](outputs/harm_power_grid_30/reports/manifest.json). Reproduce with
+`uv run python scripts/run_harm_power_grid.py --seeds 30 --device cuda --output outputs/harm_power_grid_30`;
+regenerate the report and figure with `uv run python scripts/analyze_harm_power_grid.py`.
 
 The repeated-candidate hard-budget benchmark extends this work to sparse feedback. It freezes a
 13-candidate family and validation-based ranking before monitoring, then compares direct

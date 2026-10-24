@@ -138,10 +138,8 @@ def _plot(summary: pd.DataFrame, path: Path) -> None:
     fig, axes = plt.subplots(
         len(HORIZONS), len(monitors), figsize=(14, 10), constrained_layout=True
     )
-    colors = {
-        "boundary_local_harm": "#2864a5",
-        "recurring_regimes": "#e87500",
-    }
+    onset_colors = {0.35: "#174a7e", 0.5: "#3478b7", 0.65: "#8ab6d6"}
+    recurring_color = "#e87500"
     for row, horizon in enumerate(HORIZONS):
         for column, monitor in enumerate(monitors):
             ax = axes[row, column]
@@ -155,11 +153,16 @@ def _plot(summary: pd.DataFrame, path: Path) -> None:
                         if scenario == "boundary_local_harm"
                         else "recurring"
                     )
+                    color = (
+                        onset_colors[float(fraction)]
+                        if scenario == "boundary_local_harm"
+                        else recurring_color
+                    )
                     ax.plot(
                         frac_group.scenario_severity,
                         frac_group.detection_rate_all_material_harm,
                         marker="o",
-                        color=colors[scenario],
+                        color=color,
                         linestyle="-" if scenario == "boundary_local_harm" else "--",
                         alpha=0.9 if scenario == "boundary_local_harm" else 0.55,
                         label=label,

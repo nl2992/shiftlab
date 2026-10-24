@@ -1,0 +1,94 @@
+{
+  "experiment": "paired_harm_severity_onset_horizon_grid",
+  "configuration": {
+    "seeds_per_cell": 30,
+    "seed_offset": 54000000,
+    "cells": 36,
+    "scenario_subset": [
+      "boundary_local_harm",
+      "recurring_regimes"
+    ],
+    "severities": [
+      0.75,
+      1.5,
+      2.25
+    ],
+    "boundary_onset_fractions": [
+      0.35,
+      0.5,
+      0.65
+    ],
+    "horizons": [
+      2400,
+      3200,
+      4000
+    ],
+    "alpha": 0.05,
+    "harm_margin": 0.1,
+    "budget_rate": 0.2,
+    "q_min": 0.2,
+    "q_max": 0.8,
+    "device": "cuda",
+    "resolved_device": "cuda",
+    "monitor_comparators": [
+      "variance_adaptive",
+      "pm_eb"
+    ]
+  },
+  "environment": {
+    "cpu_ram_bytes": 16858472448,
+    "disk_free_bytes": 22501036032,
+    "cuda_available": true,
+    "nvidia_smi": "NVIDIA GeForce RTX 4060 Laptop GPU, 8188 MiB, 592.82, 0 %, 97 MiB",
+    "torch_version": "2.9.1+cu130",
+    "cuda_runtime": "13.0",
+    "gpu_name": "NVIDIA GeForce RTX 4060 Laptop GPU",
+    "gpu_memory_bytes": 8585216000,
+    "versions": {
+      "numpy": "2.5.4",
+      "scipy": "1.18.1",
+      "pandas": "3.0.6",
+      "pyarrow": "25.0.1",
+      "folktables": "0.0.12"
+    }
+  },
+  "source_git_commit": "d74ef48e294c16bdaaac9734638c9e7490f1bd00",
+  "source_worktree_clean": true,
+  "analysis_script_sha256": "db3c7f1d07830fa2a1c88df395413d2272781c4609d0e072890459b476fd10c6",
+  "artifacts": {},
+  "sha256": {
+    "artifacts": {
+      "figures\\harm_power_grid.png": "2888004764e85e71fc5bfab8f0b9e730249a05de886015cb297ac457ae22d7bf",
+      "metrics\\harm_power_grid.parquet": "1c1f30e76d0f48f1a391006b5f5e8dfe356fcfe1efb12bfb5866fd580bcd9b6b",
+      "metrics\\harm_power_grid_paired_tests.csv": "4f29e705278b922bb1a97d0c761506fc12c738204028597f4fee368b4fd06d19",
+      "metrics\\harm_power_grid_summary.csv": "686fbb12dd293cc65f7607860d0d659f3f3c4d20960f6e1a8d4f08ea69b4a82b",
+      "metrics\\harm_power_grid_trends.csv": "9a8ffa4e78e236891f3efc898b920db88321083976a4938f99c70921f73fa8c5",
+      "reports\\harm_power_grid.md": "4cf7d08f2d964ac90be9abeb538f35c53ecdf798546c17cc9a0c29f13f8867de",
+      "reports\\harm_power_grid_results.md": "d624382e200a90c22e3cb1f7322b97c5afdc1de9f650b88c9cc56ed2cffc91e8"
+    },
+    "source_files": {
+      "src\\shiftlab\\dive\\__init__.py": "10a8a1d170c7a452cebaa9df8e07070555edc841ff5c04cd049ff75cd8887780",
+      "src\\shiftlab\\dive\\allocation_grid.py": "8619d5f9f36e33eed1a5888b50c1c0cc54f621b9d001be89ed4f3ba9b42a6fab",
+      "src\\shiftlab\\dive\\budgeted_promotion.py": "e8d654eef0ddd2c14d00d7923368a5c8c25c3a475e8de50e95db82d1755259a4",
+      "src\\shiftlab\\dive\\controller.py": "9d4263c825382624940202a51fa5c9908db5f56a2be48a841f005e688ad702eb",
+      "src\\shiftlab\\dive\\eprocess.py": "fa86a1bf57c33d8624450709c60e3b5996fb2039efd3c34524186e417b05f3a1",
+      "src\\shiftlab\\dive\\estimators.py": "22b39564317ff1597feb53427eebc8601d459d2d06b7319e6bab1343de4be110",
+      "src\\shiftlab\\dive\\evaluation.py": "9b64eea3d7dd708104d25ad51e927451811c91e66295ee480fc791ac884432c4",
+      "src\\shiftlab\\dive\\experiment.py": "f11f8516cdbeaa56a2a9b2c229af370b77830ac1801a81394508950241482633",
+      "src\\shiftlab\\dive\\hard_budget.py": "6f8732785b077291ea16e38fcafb1b72f1256253dd535e1ce75deeb33ead2ea8",
+      "src\\shiftlab\\dive\\oracle_diagnostics.py": "14118dc2912b8236fb4215dd64ebe2108870c51a1963816eaa004f583e9dda8c",
+      "src\\shiftlab\\dive\\persistence_promotion.py": "9a43d8e14dc4bac5ebc048837ab5d09f268e3bb5f79c615eda39a655b357710b",
+      "src\\shiftlab\\dive\\power.py": "d3796dde1cb378ddf7a2a401a2971a8902d126b0db82e48e88556333fa4dde53",
+      "src\\shiftlab\\dive\\promotion.py": "d15e22a7217a15f5c70348766f67ae034409f782b67bfaa0a9b154a6094f24e3",
+      "src\\shiftlab\\dive\\promotion_experiment.py": "93ba08750effdfc1cfc131a0b3cbda1c363118c774c143c4f633a18aeaa7a546",
+      "src\\shiftlab\\dive\\promotion_grid.py": "307ee2137936c1ba8938ef026cb2e611b26ccc15bc6ad3fe4c7ffbed3ec930ce",
+      "src\\shiftlab\\dive\\promotion_robustness.py": "c8601c63b1ada4765e5613b7e5a8753731a60bbd3fceab8fc4b6590657df2e01",
+      "src\\shiftlab\\dive\\promotion_timing.py": "59240fbf930d74a745429b80c9956849f96b9b03363c14eacc5ffc64f930a2e1",
+      "src\\shiftlab\\dive\\proxy.py": "77546752c6796c37795fc7eeb14de678e0bf53509248bda56b1cb1bcecb3a102",
+      "src\\shiftlab\\dive\\query.py": "5c879dd45553901a9c0e67525a6b3d6ab084a36d1d71e7d7a38f1ff021bbfeaa",
+      "src\\shiftlab\\decision_harm_experiment.py": "963d2a794ec0638f08f24dd75eabec457f209ae2df3759e89a6f6dadeca9fa41"
+    }
+  },
+  "grid_script_sha256_at_run": "4a749b3efb08f6d60578216adf60f88caa9745bad835ae19b7152ab3e7f50f1d",
+  "grid_screen_interpretation": "descriptive only; paired seed IDs recur across cells, and total dollar budget scales with horizon"
+}

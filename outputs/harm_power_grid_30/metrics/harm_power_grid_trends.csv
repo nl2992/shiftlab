@@ -1,0 +1,7 @@
+scenario,monitor,mean_cell_detection_rate,median_cell_delay
+boundary_local_harm,fixed_mixture,0.5,1166.75
+boundary_local_harm,predictable_variance,0.43456790123456795,1240.0
+boundary_local_harm,predictable_empirical_bernstein,0.09999999999999998,1789.75
+recurring_regimes,fixed_mixture,0.4407407407407407,1559.0
+recurring_regimes,predictable_variance,0.42592592592592593,1974.0
+recurring_regimes,predictable_empirical_bernstein,0.09259259259259256,2638.5

@@ -1,0 +1,30 @@
+{
+  "analysis": "radius_grid_decision_harm_exposure_development",
+  "input_path": "outputs\\robust_active_inference_radius_exposure_development\\metrics\\hard_budget_comparison.parquet",
+  "input_sha256": "5607e8df4f9e0409352d496bde7859920b086d7ebb7219e405d33498e83a1bf4",
+  "analysis_script_sha256": "b866246d5022184af4a5d57e70849639b39175d522c93e8caf5bfd386b1bbd0b",
+  "seed_count": 30,
+  "methods": [
+    "cost_variance_proxy",
+    "robust_active_inference_r0",
+    "robust_active_inference_r0.1",
+    "robust_active_inference_r0.25",
+    "robust_active_inference_r0.5",
+    "robust_active_inference_r1",
+    "robust_active_inference_r2",
+    "uniform_proxy",
+    "variance_proxy"
+  ],
+  "scenarios": [
+    "benign_nuisance",
+    "boundary_local_harm",
+    "stationary"
+  ],
+  "bootstrap_replicates": 20000,
+  "bootstrap_seed": 20261024,
+  "intervals": "paired percentile bootstrap over matched seed clusters; descriptive and unadjusted",
+  "outputs": {
+    "scenario_method_summary.csv": "e173b96a23c0dbed8571cc45f1c07777d0362f9956e96b272199106cbe902987",
+    "paired_contrasts_vs_uniform.csv": "06e99299c90bf60c4c9cc4ed22b89654adc64b8f33950f48172d95c241bbf383"
+  }
+}

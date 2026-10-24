@@ -12,11 +12,51 @@ from shiftlab.dive.hard_budget import (
     PROTECTED_STAKES,
     PROTECTED_WEIGHTS,
     HardBudgetConfig,
+    _evaluator_harm_exposure,
     _one_pprm_block_method,
     _wilson_bounds,
     run_hard_budget,
 )
 from shiftlab.dive.proxy import DecisionLossProxy
+
+
+@pytest.mark.parametrize(
+    ("onset", "alarm", "processed", "expected_exposure", "expected_full", "fallback"),
+    [
+        (1, 2, 4, 5.0, 14.0, 2),
+        (2, 1, 4, 0.0, 12.0, 1),
+        (1, None, 2, 2.0, 14.0, 1),
+        (4, 2, 3, 0.0, 5.0, 2),
+    ],
+)
+def test_evaluator_exposure_uses_only_post_onset_cost_through_fallback(
+    onset, alarm, processed, expected_exposure, expected_full, fallback
+):
+    exposure, full, fallback_event = _evaluator_harm_exposure(
+        np.array([100.0, 1.0, 2.0, 3.0, 4.0, 5.0]),
+        monitor_start=1,
+        monitor_end=6,
+        harm_onset=onset,
+        alarm_time=alarm,
+        processed_events=processed,
+    )
+    assert exposure == pytest.approx(expected_exposure)
+    assert full == pytest.approx(expected_full)
+    assert fallback_event == fallback
+
+
+def test_evaluator_exposure_records_false_alarm_fallback_on_a_null_stream():
+    exposure, full, fallback_event = _evaluator_harm_exposure(
+        np.array([0.0, 1.0, 2.0]),
+        monitor_start=0,
+        monitor_end=3,
+        harm_onset=None,
+        alarm_time=1,
+        processed_events=2,
+    )
+    assert exposure == 0
+    assert full == 0
+    assert fallback_event == 1
 
 
 def test_wilson_bounds_keep_zero_and_full_detection_rates_inside_interval():
@@ -130,7 +170,16 @@ def test_hard_budget_run_respects_common_spend_cap_and_stops_predictably(tmp_pat
         "single_e_detected",
         "multiscale_e_detected",
         "protected_e_detected",
+        "evaluator_fallback_event",
+        "evaluator_cumulative_excess_cost_until_fallback",
+        "evaluator_full_horizon_excess_cost_after_harm_onset",
+        "evaluator_excess_cost_avoided_by_fallback",
     } <= set(metrics.columns)
+    np.testing.assert_allclose(
+        metrics.evaluator_excess_cost_avoided_by_fallback,
+        metrics.evaluator_full_horizon_excess_cost_after_harm_onset
+        - metrics.evaluator_cumulative_excess_cost_until_fallback,
+    )
     assert metrics["multiscale_e_false_escalation"].notna().all()
     assert (metrics.processed_events <= 800).all()
     for row in metrics.loc[metrics.stop_reason.eq("budget_reserve")].itertuples():

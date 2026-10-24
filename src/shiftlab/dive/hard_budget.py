@@ -103,6 +103,53 @@ PROTECTED_WEIGHTS = (0.18,) * 5 + (0.10 / len(PROTECTED_EXPLORATION_STAKES),) * 
 HARD_BUDGET_MONITOR_COMPARATORS = ("variance_adaptive", "pm_eb")
 
 
+def _evaluator_harm_exposure(
+    expected_cost_difference: np.ndarray,
+    *,
+    monitor_start: int,
+    monitor_end: int,
+    harm_onset: int | None,
+    alarm_time: int | None,
+    processed_events: int,
+) -> tuple[float, float, int | None]:
+    """Evaluate paired excess cost through alarm/stop under immediate fallback.
+
+    The returned quantities are evaluator-only counterfactuals: a fallback to the
+    reference policy occurs after the alarm event, or after the last processed event
+    when the hard query budget stops monitoring. No evaluator value is used by the
+    learner, query policy, or monitor.
+    """
+    differences = np.asarray(expected_cost_difference, dtype=float).reshape(-1)
+    if not np.isfinite(differences).all():
+        raise ValueError("expected_cost_difference must be finite")
+    if not 0 <= monitor_start <= monitor_end <= len(differences):
+        raise ValueError("monitor bounds must lie within expected_cost_difference")
+    if not 0 <= processed_events <= monitor_end - monitor_start:
+        raise ValueError("processed_events must fit within the monitor horizon")
+    if alarm_time is not None and not 0 <= alarm_time < processed_events:
+        raise ValueError("alarm_time must be within processed events")
+
+    stop_time = alarm_time if alarm_time is not None else processed_events - 1
+    fallback_event = stop_time if processed_events > 0 else None
+    if harm_onset is None:
+        return 0.0, 0.0, fallback_event
+
+    onset_index = monitor_start + harm_onset
+    stop_index = monitor_start + stop_time
+    if (
+        processed_events == 0
+        or harm_onset >= monitor_end - monitor_start
+        or onset_index > stop_index
+    ):
+        realized_exposure = 0.0
+    else:
+        realized_exposure = float(differences[onset_index : stop_index + 1].sum())
+    full_exposure = float(
+        differences[onset_index:monitor_end].sum() if onset_index < monitor_end else 0.0
+    )
+    return realized_exposure, full_exposure, fallback_event
+
+
 @dataclass(frozen=True)
 class HardBudgetConfig:
     n: int = 3200
@@ -572,6 +619,14 @@ def _one_method(
         harm_onset is None or first_protected_alarm < harm_onset
     )
     errors = np.asarray(estimates) - np.asarray(truths)
+    exposure, full_horizon_exposure, fallback_event = _evaluator_harm_exposure(
+        expected_cost_difference,
+        monitor_start=monitor_start,
+        monitor_end=monitor_end,
+        harm_onset=harm_onset,
+        alarm_time=first_alarm,
+        processed_events=processed,
+    )
     delay = (
         int(first_alarm - harm_onset)
         if detected and harm_onset is not None and first_alarm is not None
@@ -677,6 +732,10 @@ def _one_method(
             if processed
             else float("nan")
         ),
+        "evaluator_fallback_event": fallback_event,
+        "evaluator_cumulative_excess_cost_until_fallback": exposure,
+        "evaluator_full_horizon_excess_cost_after_harm_onset": full_horizon_exposure,
+        "evaluator_excess_cost_avoided_by_fallback": full_horizon_exposure - exposure,
     }
     for comparator, state in comparator_processes.items():
         alarm_time = state["first_alarm"]
@@ -833,6 +892,14 @@ def _one_pprm_block_method(
     detected = alarm_time is not None and harm_onset is not None and alarm_time >= harm_onset
     false_escalation = alarm_time is not None and (harm_onset is None or alarm_time < harm_onset)
     errors = np.asarray(estimates) - np.asarray(block_truths)
+    exposure, full_horizon_exposure, fallback_event = _evaluator_harm_exposure(
+        expected_cost_difference,
+        monitor_start=monitor_start,
+        monitor_end=monitor_end,
+        harm_onset=harm_onset,
+        alarm_time=alarm_time,
+        processed_events=processed,
+    )
     row = {
         "scenario": scenario.name,
         "scenario_severity": scenario.severity,
@@ -904,6 +971,10 @@ def _one_pprm_block_method(
         "mean_expected_decision_harm": float(np.mean(block_expected))
         if block_expected
         else float("nan"),
+        "evaluator_fallback_event": fallback_event,
+        "evaluator_cumulative_excess_cost_until_fallback": exposure,
+        "evaluator_full_horizon_excess_cost_after_harm_onset": full_horizon_exposure,
+        "evaluator_excess_cost_avoided_by_fallback": full_horizon_exposure - exposure,
         "pprm_confidence_lower_bound": monitor.lower_bound,
         "pprm_block_size": block_size,
         "pprm_labels_per_block": labels_per_block,

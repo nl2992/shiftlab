@@ -12,6 +12,8 @@ dist/
 
 # Local experiments, data and checkpoints
 outputs/*
+!outputs/robust_active_inference_radius_exposure_development/
+!outputs/robust_active_inference_radius_exposure_development/**
 !outputs/promotion_grid/
 !outputs/promotion_grid/**
 !outputs/promotion_grid_corrected/

@@ -95,9 +95,25 @@ def _first_crossing(log_values: np.ndarray, threshold: float) -> int | None:
 
 
 def _restart_log_e_values(
-    centered_values: np.ndarray, *, bound: float, starts: tuple[int, ...]
+    centered_values: np.ndarray,
+    *,
+    bound: float,
+    starts: tuple[int, ...],
+    start_weights: tuple[float, ...] | None = None,
 ) -> np.ndarray:
-    """Vectorized values of the finite equal-weight start/stake mixture."""
+    """Vectorized values of a fixed convex mixture over starts and stakes."""
+    weights = (
+        np.full(len(starts), 1 / len(starts), dtype=float)
+        if start_weights is None
+        else np.asarray(start_weights, dtype=float)
+    )
+    if (
+        weights.shape != (len(starts),)
+        or not np.isfinite(weights).all()
+        or np.any(weights <= 0)
+        or not np.isclose(weights.sum(), 1.0)
+    ):
+        raise ValueError("start_weights must be positive, sum to one, and match starts")
     stakes = np.asarray((0.05, 0.10, 0.20, 0.40, 0.80), dtype=float)
     log_factors = np.log1p(centered_values[:, None] * stakes[None, :] / bound)
     cumulative = np.vstack((np.zeros((1, len(stakes))), np.cumsum(log_factors, axis=0)))
@@ -105,9 +121,8 @@ def _restart_log_e_values(
     for component, start in enumerate(starts):
         if start < len(centered_values):
             component_logs[start:, component, :] = cumulative[start + 1 :, :] - cumulative[start, :]
-    return logsumexp(component_logs.reshape(len(centered_values), -1), axis=1) - math.log(
-        len(starts) * len(stakes)
-    )
+    weighted_logs = component_logs + np.log(weights)[None, :, None] - math.log(len(stakes))
+    return logsumexp(weighted_logs.reshape(len(centered_values), -1), axis=1)
 
 
 def calibration_alarm_indices(
@@ -120,6 +135,7 @@ def calibration_alarm_indices(
     margin: float,
     alpha: float,
     amplitude: float,
+    restart_weights: tuple[float, ...] | None = None,
 ) -> dict[str, tuple[int | None, int | None]]:
     """Compute event- and wall-time alarms using the three registered e-processes.
 
@@ -158,7 +174,9 @@ def calibration_alarm_indices(
     starts = tuple(
         sorted({round(expected_query_horizon * component / 8) for component in range(8)})
     )
-    restart_log_e = _restart_log_e_values(centered, bound=bound, starts=starts)
+    restart_log_e = _restart_log_e_values(
+        centered, bound=bound, starts=starts, start_weights=restart_weights
+    )
     logs = {
         "paired_cost_eprocess": hoeffding_log_e,
         "paired_cost_betting": betting_log_e,

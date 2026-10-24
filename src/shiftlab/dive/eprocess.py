@@ -510,12 +510,31 @@ class StartedMixtureEProcess:
     uncontrolled sequence of test restarts.
     """
 
-    def __init__(self, *, bound: float, alpha: float, starts: tuple[int, ...]):
+    def __init__(
+        self,
+        *,
+        bound: float,
+        alpha: float,
+        starts: tuple[int, ...],
+        weights: tuple[float, ...] | None = None,
+    ):
         if not starts or any(isinstance(s, bool) or s < 0 for s in starts):
             raise ValueError("starts must be a nonempty collection of nonnegative integers")
         if tuple(sorted(set(starts))) != starts:
             raise ValueError("starts must be strictly increasing")
+        if weights is None:
+            weights_array = np.full(len(starts), 1 / len(starts), dtype=float)
+        else:
+            weights_array = np.asarray(weights, dtype=float)
+            if (
+                weights_array.shape != (len(starts),)
+                or not np.isfinite(weights_array).all()
+                or np.any(weights_array <= 0)
+                or not np.isclose(weights_array.sum(), 1.0)
+            ):
+                raise ValueError("weights must be positive, sum to one, and match starts")
         self.starts = starts
+        self.weights = weights_array
         self.processes = [BoundedMeanEProcess(bound=bound, alpha=alpha) for _ in starts]
         self.time = 0
 
@@ -527,7 +546,7 @@ class StartedMixtureEProcess:
                 for start, p in zip(self.starts, self.processes, strict=True)
             ]
         )
-        return float(logsumexp(logs) - np.log(len(logs)))
+        return float(logsumexp(logs + np.log(self.weights)))
 
     @property
     def alarm(self) -> bool:

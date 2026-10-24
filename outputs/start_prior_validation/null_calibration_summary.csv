@@ -1,0 +1,13 @@
+scenario,query_rate,method,false_escalations,streams,false_escalation_rate,simultaneous_cp95_upper
+benign_variance_shift,0.1,center_restart_beta22,3,2000,0.0015,0.0055978701189635756
+benign_variance_shift,0.1,uniform_restart_8,4,2000,0.002,0.0064105753687381615
+benign_variance_shift,0.25,center_restart_beta22,9,2000,0.0045,0.010126344694016791
+benign_variance_shift,0.25,uniform_restart_8,12,2000,0.006,0.012203671117650472
+benign_variance_shift,0.5,center_restart_beta22,7,2000,0.0035,0.008689763995274456
+benign_variance_shift,0.5,uniform_restart_8,6,2000,0.003,0.00795015847989247
+stationary,0.1,center_restart_beta22,17,2000,0.0085,0.015529061339375263
+stationary,0.1,uniform_restart_8,14,2000,0.007,0.013550764501152739
+stationary,0.25,center_restart_beta22,16,2000,0.008,0.014874582692660504
+stationary,0.25,uniform_restart_8,18,2000,0.009,0.016179133059546665
+stationary,0.5,center_restart_beta22,16,2000,0.008,0.014874582692660504
+stationary,0.5,uniform_restart_8,13,2000,0.0065,0.012880431949566907

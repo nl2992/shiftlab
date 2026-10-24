@@ -99,6 +99,26 @@ def test_prespecified_start_mixture_does_not_change_before_first_start():
     assert mixture.log_e_value > 0
 
 
+def test_weighted_start_mixture_matches_fixed_convex_combination_of_components():
+    starts = (0, 2, 5)
+    weights = (0.6, 0.3, 0.1)
+    values = (0.4, -0.2, 0.5, 0.1, -0.1, 0.6, -0.3)
+    mixture = StartedMixtureEProcess(bound=1.0, alpha=0.05, starts=starts, weights=weights)
+    components = [BoundedMeanEProcess(bound=1.0, alpha=0.05) for _ in starts]
+    for time, value in enumerate(values):
+        for start, component in zip(starts, components, strict=True):
+            if time >= start:
+                component.update(value)
+        mixture.update(value)
+        expected = sum(
+            weight * np.exp(component.log_e_value)
+            for weight, component in zip(weights, components, strict=True)
+        )
+        assert np.exp(mixture.log_e_value) == pytest.approx(expected)
+    with pytest.raises(ValueError, match="weights"):
+        StartedMixtureEProcess(bound=1.0, alpha=0.05, starts=starts, weights=(0.5, 0.5, 0.5))
+
+
 def test_bounded_eprocess_null_crossing_is_small_in_independent_simulation():
     rng = np.random.default_rng(7)
     crossings = 0

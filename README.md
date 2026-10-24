@@ -312,8 +312,21 @@ reports certification behavior in
 and [`outputs/promotion_experiment_corrected/reports/promotion_comparison.md`](outputs/promotion_experiment_corrected/reports/promotion_comparison.md).
 The earlier `outputs/metrics/promotion_comparison.parquet` predates the absorbing certificate fix
 and is superseded. The one-step cost-aware controller is available in `shiftlab.dive.controller`;
-its forecasts are supplied inputs, and it is not yet integrated into a closed-loop intervention
-benchmark.
+its forecasts are supplied inputs and it is a heuristic without a utility guarantee. The
+separate `CertifiedPromotionRollback` reference policy now connects two bounded-mean e-processes:
+one certifies a frozen candidate on shadow feedback, and another can return to fallback on fresh
+forward deployment feedback. Its CUDA development benchmark compares continue, unconditional
+promotion, promotion-only, and promotion-plus-rollback under six scenarios and hard label caps.
+The 2,000-seed run observed 1.0% false promotion under a zero-gain shadow null (simultaneous
+exact upper bound 1.70%). Under early reversal, rollback improved expected net utility by 3.07
+units versus promotion-only (seed-bootstrap 95% interval 2.48–3.70), while the policy remained
+far below continue in that scenario. Persistent-benefit monitoring reduced net utility by about
+1.99 units through label costs, and shadow-only benefit exposed the gap between shadow and
+deployment value. These are diagnostic simulation results, not a selected policy or novelty
+claim. See the [protocol](docs/closed_loop_intervention_protocol.md), [results](docs/closed_loop_intervention_results.md),
+[metrics](outputs/closed_loop_intervention/metrics.parquet), and [manifest](outputs/closed_loop_intervention/manifest.json).
+Reproduce with `uv run python -m shiftlab.dive.closed_loop_intervention --device cuda --seeds 2000
+--horizon 800 --bootstrap-replicates 10000 --output-dir outputs/closed_loop_intervention`.
 
 The initial CUDA benchmark is saved in `outputs/`. It contains 1,260 monitor rows (30 seeds × 6
 scenarios × 7 methods) and 360 candidate-promotion rows. With 2,400 labels per stream, full-feedback

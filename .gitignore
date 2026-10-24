@@ -194,5 +194,7 @@ Thumbs.db
 !outputs/residual_variance_prior_development/**
 !outputs/residual_variance_discounted_betting/
 !outputs/residual_variance_discounted_betting/**
+!outputs/closed_loop_intervention/
+!outputs/closed_loop_intervention/**
 !outputs/residual_variance_start_prior/
 !outputs/residual_variance_start_prior/**

@@ -1,0 +1,67 @@
+{
+  "created_at_utc": "2026-10-24T11:27:44.340217+00:00",
+  "purpose": "development benchmark for a two-gate promotion and rollback policy",
+  "scenarios": [
+    "no_benefit",
+    "persistent_benefit",
+    "shadow_only_benefit",
+    "early_reversal",
+    "late_benefit",
+    "weak_persistent_benefit"
+  ],
+  "methods": [
+    "continue",
+    "unconditional_promote",
+    "promotion_only",
+    "promotion_rollback"
+  ],
+  "seeds_per_scenario": 2000,
+  "seed_offset": 31404026,
+  "horizon_per_phase": 800,
+  "query_rate": 0.25,
+  "budget_rates": [
+    0.2,
+    0.4
+  ],
+  "alpha_total": 0.05,
+  "alpha_each_gate": 0.025,
+  "promotion_cost": 0.05,
+  "rollback_cost": 0.05,
+  "label_price": 0.01,
+  "label_budget_rule": "floor(budget_rate * (shadow_horizon + deployment_horizon)); labels cost one unit",
+  "promotion_increment": "I * (incumbent_cost - candidate_cost) / q - promotion_cost / horizon",
+  "rollback_increment": "-I * (incumbent_cost - candidate_cost) / q - rollback_cost / horizon",
+  "monitor_bound_rule": "1/q + amortized intervention cost per event",
+  "primary_metrics": [
+    "expected_net_utility",
+    "realized_net_utility",
+    "promotion_rate",
+    "rollback_rate",
+    "labels_queried"
+  ],
+  "metric_rows": 96000,
+  "metrics_sha256": "d00ac685f61609f4f361d7a63e100d13418dc7d46603e0e68823dacd023d28cb",
+  "code_sha256": {
+    "closed_loop_intervention.py": "7f67f840619312d2c5bc8e9b3aba0a713f268a654f7fb6ed20d1e592d4e3242d",
+    "controller.py": "bdeb77dcf4089d72a795d54bd1d2fd9a415757feeb7be020860e3a02b796178c",
+    "eprocess.py": "19f116579e4f0afc4656e16aacf9141affd0f7f8af263d283f8138827f672cb7",
+    "promotion_timing.py": "59240fbf930d74a745429b80c9956849f96b9b03363c14eacc5ffc64f930a2e1"
+  },
+  "environment": {
+    "cpu_ram_bytes": 16858472448,
+    "disk_free_bytes": 21372973056,
+    "cuda_available": true,
+    "nvidia_smi": "NVIDIA GeForce RTX 4060 Laptop GPU, 8188 MiB, 592.82, 0 %, 169 MiB",
+    "torch_version": "2.9.1+cu130",
+    "cuda_runtime": "13.0",
+    "gpu_name": "NVIDIA GeForce RTX 4060 Laptop GPU",
+    "gpu_memory_bytes": 8585216000,
+    "versions": {
+      "numpy": "2.5.4",
+      "scipy": "1.18.1",
+      "pandas": "3.0.6",
+      "pyarrow": "25.0.1",
+      "folktables": "0.0.12"
+    }
+  }
+}

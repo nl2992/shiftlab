@@ -1,0 +1,5 @@
+scenario,method,streams,mean_budget,mean_spend,budget_utilization,mean_labels,mean_monitor_fraction,stream_mean_rmse,harm_reachable_streams,harmful_streams,sample_path_materiality_flags,detection_rate_all_harm,detection_rate_reached_harm,false_escalation_rate,multiscale_detection_rate_all_harm,multiscale_detection_rate_reached_harm,multiscale_false_escalation_rate,protected_detection_rate_all_harm,protected_detection_rate_reached_harm,protected_false_escalation_rate
+boundary_local_harm,pprm_block_adaptive,2,242.46989337121698,234.166819126364,0.9657715487173262,150.0,0.9375,0.41211698543784153,2,2,2,0.0,0.0,0.0,,,,,,
+boundary_local_harm,uniform_proxy,2,242.46989337121698,239.9194679252652,0.9894570118519115,161.0,0.9962500000000001,0.04747212226033338,2,2,2,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+stationary,pprm_block_adaptive,2,242.46989337121698,234.166819126364,0.9657715487173262,150.0,0.9375,0.1073201485443124,0,0,0,,,0.0,,,0.0,,,0.0
+stationary,uniform_proxy,2,242.46989337121698,239.9194679252652,0.9894570118519115,161.0,0.9962500000000001,0.05826116497753426,0,0,0,,,0.0,,,0.0,,,0.0

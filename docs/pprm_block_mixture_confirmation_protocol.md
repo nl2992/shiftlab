@@ -23,6 +23,16 @@ with the same seed, generated stream, costs, budget, and event horizon supplied 
   as a pre-specified monitor on each block-PPI stream.
 - Runtime: CUDA requested and recorded by the run manifest; CPU fallback remains available.
 
+### Protocol amendment after evaluator metadata audit
+
+The initial protocol incorrectly grouped residual variance with the population-null controls. After
+the run, inspection of the evaluator truth labels showed that this scenario is materially harmful
+in all 200 streams, with a registered harm onset. It must therefore be analyzed as a harmful
+scenario, not as a null calibration cell. Because this classification correction was made after
+the outcomes were available, residual-variance detection is exploratory and is excluded from the
+three-scenario primary Holm family. Only stationary and benign nuisance are population-null cells.
+The result archive preserves all six scenarios and the correction is recorded in the analysis.
+
 The 30-seed development block suggested 80% paired-test sample sizes of 36, 19, and 61 for the
 boundary-local, harmful-adaptation, and recurring-regime detection contrasts against eventwise
 updating PPI, respectively, using a normal approximation to the paired McNemar difference. The
@@ -31,11 +41,12 @@ than threefold. These pilot-based estimates are planning aids, not guarantees of
 
 ## Outcomes and analysis
 
-The three primary harmful-scenario comparisons use exact two-sided paired McNemar tests and Holm
-adjustment across scenarios. Detection rate, paired discordances, and rate difference are reported.
-The fixed mixture is also compared descriptively with frozen eventwise PPI and CM-EB alone. The
-stationary, benign-nuisance, and residual-variance cells report false-escalation counts and Wilson
-intervals. Estimation RMSE, label use, and spend are secondary descriptive outcomes.
+The three predeclared primary harmful-scenario comparisons use exact two-sided paired McNemar tests
+and Holm adjustment across scenarios. Detection rate, paired discordances, and rate difference are
+reported. The fixed mixture is also compared descriptively with frozen eventwise PPI and CM-EB alone.
+Stationary and benign-nuisance population-null cells report false-escalation counts and Wilson
+intervals. Residual-variance detection is descriptive only under the amendment above. Estimation
+RMSE, label use, and spend are secondary descriptive outcomes.
 
 The analysis script checks the exact seed range, 200 streams, configured reliance cap, complete
 paired methods, and known-harm labels before writing the report. No candidate parameter will be
@@ -57,3 +68,9 @@ uv run python scripts/analyze_pprm_block_mixture_confirmation.py
 This protocol supports conclusions only about the registered generators and feedback path. It does
 not demonstrate validity for arbitrary serial dependence, adaptive query mechanisms, delayed labels,
 or real-world shifts; nor does a monitor's rejection certify a replacement policy for deployment.
+
+### Registered 2,000-stream null calibration
+
+The fixed mixture and block CM-EB were calibrated on fresh seeds 20,374,000–20,375,999 in each of the two evaluator-registered population-null scenarios: stationary and benign nuisance. Both monitors had 0 false escalations in 2,000 streams per scenario (95% Wilson interval [0, 0.0019]). The run used CUDA batching, block size 20, four queried labels per block, a 20% hard label-dollar budget, and reliance cap 0.1. All 4,000 streams respected the hard budget. See `outputs/pprm_registered_null_calibration_2000_v1/reports/registered_null_calibration.md` and its manifest for the run configuration and hashes.
+
+This calibration evaluates only the registered synthetic laws. It does not establish universal sequential validity or cover delayed labels and arbitrary dependence. Residual variance is excluded because evaluator metadata marks it materially harmful; its post-outcome reclassification and exploratory detection results are documented above.

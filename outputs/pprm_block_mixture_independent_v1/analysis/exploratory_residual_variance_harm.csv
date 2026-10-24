@@ -1,0 +1,4 @@
+scenario,comparator,streams,mixture_detections,mixture_rate,comparator_detections,comparator_rate,mixture_only,comparator_only,rate_difference_mixture_minus_comparator,difference_bootstrap_95_low,difference_bootstrap_95_high,mcnemar_exact_p
+residual_variance,uniform_proxy,200,0,0.0,0,0.0,0,0,0.0,0.0,0.0,1.0
+residual_variance,uniform_proxy_frozen,200,0,0.0,0,0.0,0,0,0.0,0.0,0.0,1.0
+residual_variance,pprm_block_adaptive,200,0,0.0,0,0.0,0,0,0.0,0.0,0.0,1.0

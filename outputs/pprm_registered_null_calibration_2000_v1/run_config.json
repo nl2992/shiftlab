@@ -1,0 +1,31 @@
+{
+  "experiment": "pprm_block_mixture_registered_population_null_calibration",
+  "classification": "independent_registered_scenario_null_calibration",
+  "configuration": {
+    "replicates_per_scenario": 2000,
+    "batch_size": 64,
+    "seed_offset": 20374000,
+    "seed_range": [
+      20374000,
+      20375999
+    ],
+    "null_scenarios": [
+      "stationary",
+      "benign_nuisance"
+    ],
+    "n": 6400,
+    "d": 16,
+    "alpha": 0.05,
+    "harm_margin": 0.1,
+    "budget_rate": 0.2,
+    "block_size": 20,
+    "labels_per_block": 4,
+    "max_reliance": 0.1,
+    "mixture_cm_eb_weight": 0.1,
+    "requested_device": "cuda",
+    "resolved_device": "cuda",
+    "randomness": "independent CUDA/CPU Torch generator batches for DGP noise and query randomization; batch size is part of the frozen config",
+    "monitor": "GPU-vectorized algebraic recursion parity-tested against production PPIBlockMixtureEProcess",
+    "proxy_prediction_optimization": "batched Ridge normal equations, algebraically equivalent to DecisionLossProxy.fit; skips only the unused residual-variance forest"
+  }
+}

@@ -147,3 +147,6 @@ secrets/
 .vscode/
 .DS_Store
 Thumbs.db
+
+!outputs/pprm_registered_null_calibration_2000_v1/
+!outputs/pprm_registered_null_calibration_2000_v1/**

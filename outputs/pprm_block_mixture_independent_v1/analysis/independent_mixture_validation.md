@@ -6,7 +6,7 @@ This evaluates the development-selected 10% CM-EB / positive-betting mixture on 
 - Seed range: 20373000–20373199
 - Configuration manifest: outputs/pprm_block_mixture_independent_v1/block_20/reports/manifest.json
 - Primary endpoint: stream-level harm detection. Exact paired McNemar tests compare the fixed mixture with eventwise updating PPI in three harm scenarios, with Holm adjustment.
-- Controls: stationary, benign nuisance, and residual variance. False escalations have Wilson intervals.
+- Population-null controls: stationary and benign nuisance. False escalations have Wilson intervals.
 - The monitor is not a candidate-promotion certificate. Validity remains conditional on the documented boundedness, predictability, and feedback assumptions.
 
 ## Primary detection results
@@ -16,6 +16,17 @@ This evaluates the development-selected 10% CM-EB / positive-betting mixture on 
 | boundary_local_harm | 0.565 | 0.895 | -0.330 [-0.415, -0.250] | 13 / 79 | 1.073e-12 | 2.147e-12 |
 | recurring_regimes | 0.595 | 0.860 | -0.265 [-0.345, -0.185] | 13 / 66 | 1.078e-09 | 1.078e-09 |
 | harmful_adaptation | 0.580 | 0.970 | -0.390 [-0.460, -0.320] | 2 / 80 | 1.408e-21 | 4.224e-21 |
+
+## Exploratory residual-variance harm (reclassified after metadata audit)
+
+The scenario documentation calls this a residual-variance shift, but the evaluator's population-harm metadata marks all streams as materially harmful and provides a harm onset. It was mistakenly described as a null control in the initial protocol. These results are excluded from the three-scenario primary multiplicity family and are shown descriptively only.
+
+| Monitor | Harm detections / streams | Rate |
+|---|---:|---:|
+| eventwise updating PPI | 0 / 200 | 0.000 |
+| eventwise frozen PPI | 0 / 200 | 0.000 |
+| block CM-EB | 0 / 200 | 0.000 |
+| fixed 10% mixture | 0 / 200 | 0.000 |
 
 ## Control false escalations
 
@@ -29,10 +40,6 @@ This evaluates the development-selected 10% CM-EB / positive-betting mixture on 
 | benign_nuisance | cm_eb | 0 / 200 | 0.000 | [0.000, 0.019] |
 | benign_nuisance | eventwise_updating | 0 / 200 | 0.000 | [0.000, 0.019] |
 | benign_nuisance | eventwise_frozen | 0 / 200 | 0.000 | [0.000, 0.019] |
-| residual_variance | fixed_mixture_w0p1 | 0 / 200 | 0.000 | [0.000, 0.019] |
-| residual_variance | cm_eb | 0 / 200 | 0.000 | [0.000, 0.019] |
-| residual_variance | eventwise_updating | 0 / 200 | 0.000 | [0.000, 0.019] |
-| residual_variance | eventwise_frozen | 0 / 200 | 0.000 | [0.000, 0.019] |
 
 ## Interpretation limits
 

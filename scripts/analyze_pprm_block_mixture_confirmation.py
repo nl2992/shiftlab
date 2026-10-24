@@ -16,7 +16,9 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 
 HARM_SCENARIOS = ("boundary_local_harm", "recurring_regimes", "harmful_adaptation")
-CONTROL_SCENARIOS = ("stationary", "benign_nuisance", "residual_variance")
+EXPLORATORY_HARM_SCENARIOS = ("residual_variance",)
+CONTROL_SCENARIOS = ("stationary", "benign_nuisance")
+PLOT_HARM_SCENARIOS = (*HARM_SCENARIOS, *EXPLORATORY_HARM_SCENARIOS)
 METHODS = ("uniform_proxy", "uniform_proxy_frozen", "pprm_block_adaptive")
 MIXTURE_COLUMN = "pprm_mix_w0p1_detected"
 MIXTURE_FALSE_COLUMN = "pprm_mix_w0p1_false_escalation"
@@ -83,7 +85,9 @@ def _wilson(successes: int, trials: int, z: float = 1.959963984540054) -> tuple[
     denominator = 1 + z * z / trials
     center = (p + z * z / (2 * trials)) / denominator
     radius = z * np.sqrt(p * (1 - p) / trials + z * z / (4 * trials * trials)) / denominator
-    return float(max(0.0, center - radius)), float(min(1.0, center + radius))
+    lower = 0.0 if successes == 0 else max(0.0, center - radius)
+    upper = 1.0 if successes == trials else min(1.0, center + radius)
+    return float(lower), float(upper)
 
 
 def main() -> None:
@@ -178,6 +182,30 @@ def main() -> None:
     primary.loc[mask, "holm_adjusted_p"] = _holm(primary.loc[mask, "mcnemar_exact_p"].tolist())
     primary.loc[~mask, "holm_adjusted_p"] = np.nan
 
+    exploratory_rows = []
+    for scenario in EXPLORATORY_HARM_SCENARIOS:
+        wide = _paired_rows(frame, scenario)
+        block_rows = frame.loc[
+            frame.scenario.eq(scenario) & frame.method.eq("pprm_block_adaptive")
+        ].set_index("seed")
+        if not block_rows.material_harm.astype(bool).all():
+            raise ValueError(f"{scenario}: evaluator metadata does not mark all streams harmful")
+        if not block_rows.harm_reached_before_budget_stop.astype(bool).all():
+            raise ValueError(f"{scenario}: a material-harm onset was not reached")
+        for comparator in ("uniform_proxy", "uniform_proxy_frozen", "pprm_block_adaptive"):
+            baseline = (
+                wide[comparator].astype(bool).to_numpy()
+                if comparator != "pprm_block_adaptive"
+                else block_rows.single_e_detected.astype(bool).to_numpy()
+            )
+            exploratory_rows.append(
+                {
+                    "scenario": scenario,
+                    "comparator": comparator,
+                    **_paired_summary(wide.mixture_w0p1.to_numpy(), baseline),
+                }
+            )
+
     control_rows = []
     for scenario in CONTROL_SCENARIOS:
         _paired_rows(frame, scenario)
@@ -205,7 +233,7 @@ def main() -> None:
             )
 
     cost_rows = []
-    for scenario in (*HARM_SCENARIOS, *CONTROL_SCENARIOS):
+    for scenario in (*HARM_SCENARIOS, *EXPLORATORY_HARM_SCENARIOS, *CONTROL_SCENARIOS):
         subset = frame.loc[frame.scenario.eq(scenario)]
         for method, group in subset.groupby("method"):
             error = group.stream_mean_estimation_error.to_numpy(dtype=float)
@@ -222,6 +250,8 @@ def main() -> None:
 
     args.output_dir.mkdir(parents=True, exist_ok=True)
     primary.to_csv(args.output_dir / "primary_detection_comparisons.csv", index=False)
+    exploratory = pd.DataFrame(exploratory_rows)
+    exploratory.to_csv(args.output_dir / "exploratory_residual_variance_harm.csv", index=False)
     pd.DataFrame(control_rows).to_csv(
         args.output_dir / "null_control_false_escalations.csv", index=False
     )
@@ -233,7 +263,7 @@ def main() -> None:
         "block CM-EB": "#A5A5A5",
     }
     figure, axes = plt.subplots(1, 2, figsize=(13, 5), constrained_layout=True)
-    x = np.arange(len(HARM_SCENARIOS))
+    x = np.arange(len(PLOT_HARM_SCENARIOS))
     series = {
         "fixed 10% mixture": [
             frame.loc[
@@ -241,7 +271,7 @@ def main() -> None:
             ]
             .astype(bool)
             .mean()
-            for s in HARM_SCENARIOS
+            for s in PLOT_HARM_SCENARIOS
         ],
         "eventwise updating": [
             frame.loc[
@@ -249,7 +279,7 @@ def main() -> None:
             ]
             .astype(bool)
             .mean()
-            for s in HARM_SCENARIOS
+            for s in PLOT_HARM_SCENARIOS
         ],
         "eventwise frozen": [
             frame.loc[
@@ -258,7 +288,7 @@ def main() -> None:
             ]
             .astype(bool)
             .mean()
-            for s in HARM_SCENARIOS
+            for s in PLOT_HARM_SCENARIOS
         ],
         "block CM-EB": [
             frame.loc[
@@ -266,13 +296,15 @@ def main() -> None:
             ]
             .astype(bool)
             .mean()
-            for s in HARM_SCENARIOS
+            for s in PLOT_HARM_SCENARIOS
         ],
     }
     width = 0.19
     for index, (name, rates) in enumerate(series.items()):
         axes[0].bar(x + (index - 1.5) * width, rates, width, label=name, color=colors[name])
-    axes[0].set_xticks(x, ["Boundary-local", "Recurring", "Harmful adaptation"])
+    axes[0].set_xticks(
+        x, ["Boundary-local", "Recurring", "Harmful adaptation", "Residual variance*"]
+    )
     axes[0].set_ylim(0, 1.05)
     axes[0].set_ylabel("Fraction of streams detecting harm")
     axes[0].set_title("Harm detection (200 matched streams per scenario)")
@@ -315,8 +347,9 @@ def main() -> None:
             for s in CONTROL_SCENARIOS
         ],
     }
+    x_control = np.arange(len(CONTROL_SCENARIOS))
     for index, (name, rates) in enumerate(control_series.items()):
-        positions = x + (index - 1.5) * width
+        positions = x_control + (index - 1.5) * width
         axes[1].bar(positions, rates, width, label=name, color=colors[name])
         axes[1].errorbar(
             positions,
@@ -328,7 +361,7 @@ def main() -> None:
             markersize=3,
             linewidth=1,
         )
-    axes[1].set_xticks(x, ["Stationary", "Benign nuisance", "Residual variance"])
+    axes[1].set_xticks(x_control, ["Stationary", "Benign nuisance"])
     axes[1].set_ylim(0, 0.025)
     axes[1].set_ylabel("False-escalation fraction")
     axes[1].set_title("False escalations: 0/200 each; dots show Wilson upper limits")
@@ -343,7 +376,7 @@ def main() -> None:
         f"- Seed range: {seeds[0]}–{seeds[-1]}",
         f"- Configuration manifest: {manifest_path.as_posix()}",
         "- Primary endpoint: stream-level harm detection. Exact paired McNemar tests compare the fixed mixture with eventwise updating PPI in three harm scenarios, with Holm adjustment.",
-        "- Controls: stationary, benign nuisance, and residual variance. False escalations have Wilson intervals.",
+        "- Population-null controls: stationary and benign nuisance. False escalations have Wilson intervals.",
         "- The monitor is not a candidate-promotion certificate. Validity remains conditional on the documented boundedness, predictability, and feedback assumptions.",
         "",
         "## Primary detection results",
@@ -355,6 +388,35 @@ def main() -> None:
         lines.append(
             f"| {row.scenario} | {row.mixture_rate:.3f} | {row.comparator_rate:.3f} | {row.rate_difference_mixture_minus_comparator:+.3f} [{row.difference_bootstrap_95_low:+.3f}, {row.difference_bootstrap_95_high:+.3f}] | {row.mixture_only} / {row.comparator_only} | {row.mcnemar_exact_p:.4g} | {row.holm_adjusted_p:.4g} |"
         )
+    lines += [
+        "",
+        "## Exploratory residual-variance harm (reclassified after metadata audit)",
+        "",
+        "The scenario documentation calls this a residual-variance shift, but the evaluator's population-harm metadata marks all streams as materially harmful and provides a harm onset. It was mistakenly described as a null control in the initial protocol. These results are excluded from the three-scenario primary multiplicity family and are shown descriptively only.",
+        "",
+        "| Monitor | Harm detections / streams | Rate |",
+        "|---|---:|---:|",
+    ]
+    labels = {
+        "uniform_proxy": "eventwise updating PPI",
+        "uniform_proxy_frozen": "eventwise frozen PPI",
+        "pprm_block_adaptive": "block CM-EB",
+    }
+    for row in exploratory.itertuples(index=False):
+        lines.append(
+            f"| {labels[row.comparator]} | {row.comparator_detections} / {row.streams} | {row.comparator_rate:.3f} |"
+        )
+    mixture_count = int(
+        frame.loc[
+            frame.scenario.eq("residual_variance") & frame.method.eq("pprm_block_adaptive"),
+            MIXTURE_COLUMN,
+        ]
+        .astype(bool)
+        .sum()
+    )
+    lines.append(
+        f"| fixed 10% mixture | {mixture_count} / {args.expected_seeds} | {mixture_count / args.expected_seeds:.3f} |"
+    )
     lines += [
         "",
         "## Control false escalations",
@@ -379,6 +441,7 @@ def main() -> None:
     protocol_path = Path("docs/pprm_block_mixture_confirmation_protocol.md")
     analysis_outputs = (
         "primary_detection_comparisons.csv",
+        "exploratory_residual_variance_harm.csv",
         "null_control_false_escalations.csv",
         "estimation_and_costs.csv",
         "independent_mixture_validation.md",

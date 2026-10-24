@@ -236,8 +236,12 @@ registered synthetic null scenario, and they do not replace the theorem's assump
 The 10% mixture was then frozen and tested on a disjoint 200-seed block (seeds 20,373,000–20,373,199)
 at \(n=6400\), \(B=20\), four labels per block, and a 20% hard label budget. The experiment included
 200 streams each for stationary, benign-nuisance, residual-variance, boundary-local-harm,
-recurring-regime, and harmful-adaptation scenarios. The protocol, exact reproduction commands, and
-pre-run sample-size calculation are in
+recurring-regime, and harmful-adaptation scenarios. An evaluator-metadata audit after the run found
+that residual variance is materially harmful in all 200 streams, rather than a null control as the
+initial protocol mistakenly stated. Because this correction followed outcome inspection, treat its
+detection results as exploratory and exclude it from the primary Holm family. The two true
+population-null controls are stationary and benign nuisance. The protocol, amendment, reproduction
+commands, and pre-run sample-size calculation are in
 [`docs/pprm_block_mixture_confirmation_protocol.md`](pprm_block_mixture_confirmation_protocol.md).
 
 The independent results do **not** support the block mixture as a better harm monitor. Its detection
@@ -253,13 +257,15 @@ mixture detected more harm than block CM-EB alone (0/200 in each scenario), but 
 eventwise PPI comparators in detection rate. It should remain a research comparator, not advance as
 the preferred monitor.
 
-The fixed mixture and block CM-EB made 0/200 false escalations in each of the stationary,
-benign-nuisance, and residual-variance controls; eventwise controls also made none. These 200-stream
-scenario checks are useful independent diagnostics, but they do not satisfy the separate target of
-2,000 streams per registered null cell. The 2,000-stream endpoint stress test remains limited to
-i.i.d. two-point nulls. The sequential guarantee still depends on its conditional-mean, predictable-
-query, boundedness, and feedback assumptions; neither these simulations nor the e-process mixture
-settle those assumptions for delayed or adaptively sampled labels.
+In the exploratory residual-variance harm scenario, every method detected 0/200 streams, despite
+all harm onsets being reached. This exposes a second power failure for the tested monitor settings.
+The fixed mixture and block CM-EB made 0/200 false escalations in each of the two actual null
+controls; eventwise controls also made none. Those 200-stream control checks do not satisfy the
+separate target of 2,000 streams per registered null cell. The 2,000-stream endpoint stress test
+remains limited to i.i.d. two-point nulls. The sequential guarantee still depends on its
+conditional-mean, predictable-query, boundedness, and feedback assumptions; neither these
+simulations nor the e-process mixture settle those assumptions for delayed or adaptively sampled
+labels.
 
 The raw matched metrics, source/configuration manifest, paired analysis tables, and detection figure
 are under [`outputs/pprm_block_mixture_independent_v1/`](../outputs/pprm_block_mixture_independent_v1/).
@@ -316,3 +322,21 @@ size, \(\eta\), predictor, or threshold may be selected on the confirmatory bloc
 - The current ShiftLab estimand, feedback contract, and unresolved guarantees are recorded in
   [`research_charter.md`](research_charter.md), [`streaming_decision_contract.md`](streaming_decision_contract.md),
   and [`theory_targets.md`](theory_targets.md).
+
+## Registered 2,000-stream null calibration
+
+The evaluator registry was audited before calibration: the only population-null scenarios in this run are stationary and benign nuisance. Residual-variance shift is tagged as materially harmful by evaluator metadata and is therefore excluded from null calibration (its independent-block detection result is reported as exploratory harm above).
+
+A fresh independent seed range, 20,374,000–20,375,999, was used for 2,000 streams in each registered null scenario. A CUDA-batched implementation matched the production e-process recursion in parity tests and its batched Ridge normal equations matched the prediction component of the production decision-loss proxy. Across all 4,000 streams, the fixed 10% mixture and block CM-EB each escalated 0/2,000 times in both stationary and benign-nuisance cells. Each rate is 0%, with a two-sided 95% Wilson upper bound of 0.192% ([calibration report](../outputs/pprm_registered_null_calibration_2000_v1/reports/registered_null_calibration.md), [summary CSV](../outputs/pprm_registered_null_calibration_2000_v1/metrics/null_calibration_summary.csv)).
+
+The realized hard-dollar budget was respected on all 4,000 streams. Mean realized spend was 99.4% of the declared budget. Mean processed horizons were 4,762 events under stationary data and 3,621 under benign nuisance, reflecting cost-dependent stopping in the hard-budget sampler. Mean evaluator-expected excess decision loss was 0.079 per event across these null streams, below the configured 0.10 harm margin; this does not establish the monitor's assumptions outside the registered generator.
+
+Reproduce with:
+
+```powershell
+uv run python scripts/calibrate_pprm_registered_null_scenarios.py `
+  --replicates 2000 --seed-offset 20374000 --batch-size 64 `
+  --device cuda --output outputs/pprm_registered_null_calibration_2000_v1
+```
+
+These Monte Carlo results support only the named synthetic distributions and the implemented label-feedback mechanism. They do not prove anytime validity under arbitrary dependence, adaptive querying, delayed feedback, or real-world shifts, and they do not validate candidate promotion.

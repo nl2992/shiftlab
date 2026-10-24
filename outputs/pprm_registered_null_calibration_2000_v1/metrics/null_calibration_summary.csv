@@ -1,0 +1,5 @@
+scenario,monitor,streams,false_escalations,rate,wilson_95_low,wilson_95_high
+stationary,fixed_mixture_w0p1,2000,0,0.0,0.0,0.001917047281252934
+stationary,block_cm_eb,2000,0,0.0,0.0,0.001917047281252934
+benign_nuisance,fixed_mixture_w0p1,2000,0,0.0,0.0,0.001917047281252934
+benign_nuisance,block_cm_eb,2000,0,0.0,0.0,0.001917047281252934

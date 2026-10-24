@@ -32,6 +32,7 @@ BUDGET_TAPER_POWER = 1.0
 STAKES = (0.05, 0.1, 0.2, 0.4, 0.8)
 Q_FLOORS = (0.05, 0.10, 0.15)
 NULL_SCENARIO = "mixed_sign_exact_marginal_null"
+STRICT_NEGATIVE_SCENARIO = "strict_negative_control"
 HARM_SCENARIOS = tuple(f"high_cost_local_harm_d{effect:.2f}" for effect in HARM_EFFECTS)
 SCENARIOS = (NULL_SCENARIO, *HARM_SCENARIOS)
 
@@ -39,6 +40,8 @@ SCENARIOS = (NULL_SCENARIO, *HARM_SCENARIOS)
 def scenario_harm_effect(scenario: str) -> float | None:
     if scenario == NULL_SCENARIO:
         return None
+    if scenario == STRICT_NEGATIVE_SCENARIO:
+        return -0.20
     try:
         return dict(zip(HARM_SCENARIOS, HARM_EFFECTS, strict=True))[scenario]
     except KeyError as exc:
@@ -188,7 +191,7 @@ def simulate_arm(
         high_cost_stratum = context == 1
         high_probability = P_HIGH_NULL
         if harm_effect is not None and event >= onset:
-            high_probability = high_probability_for_effect(harm_effect)
+            high_probability = P_HIGH_NULL - harm_effect / HIGH_COST
         probability = torch.where(
             high_cost_stratum,
             torch.full((streams,), high_probability, dtype=torch.float32, device=device),
@@ -240,18 +243,17 @@ def simulate_arm(
     alarms_cpu = first_alarm.cpu().numpy()
     prop_sum_cpu = propensity_sum.cpu().numpy()
     bound_sum_cpu = bound_sum.cpu().numpy()
-    onset_reached = (processed_cpu > onset) if harm_effect is not None else np.zeros(streams, bool)
+    is_harm_scenario = harm_effect is not None and harm_effect > 0
+    onset_reached = (processed_cpu > onset) if is_harm_scenario else np.zeros(streams, bool)
     detected = (
-        (alarms_cpu >= onset) & (alarms_cpu >= 0)
-        if harm_effect is not None
-        else np.zeros(streams, bool)
+        (alarms_cpu >= onset) & (alarms_cpu >= 0) if is_harm_scenario else np.zeros(streams, bool)
     )
-    early_escalation = (
-        (alarms_cpu >= 0) & (alarms_cpu < onset) if harm_effect is not None else alarms_cpu >= 0
+    early_escalation = (alarms_cpu >= 0) & (
+        (alarms_cpu < onset) if is_harm_scenario else np.ones(streams, dtype=bool)
     )
     delay = np.where(detected, alarms_cpu - onset, np.nan)
     exposure_events = np.zeros(streams, dtype=np.int64)
-    if harm_effect is not None:
+    if is_harm_scenario:
         end_event = np.where(alarms_cpu >= 0, alarms_cpu, processed_cpu - 1)
         exposure_events = np.maximum(0, end_event - onset + 1)
 
@@ -287,9 +289,9 @@ def simulate_arm(
                 "post_onset_detection": bool(detected[stream]),
                 "detection_delay": float(delay[stream]) if detected[stream] else None,
                 "evaluator_harm_exposure_events": int(exposure_events[stream]),
-                "evaluator_expected_harm_per_post_onset_event": harm_effect or 0.0,
+                "evaluator_expected_harm_per_post_onset_event": max(harm_effect or 0.0, 0.0),
                 "evaluator_cumulative_expected_harm_cost": (
-                    (harm_effect or 0.0) * int(exposure_events[stream])
+                    max(harm_effect or 0.0, 0.0) * int(exposure_events[stream])
                 ),
             }
         )

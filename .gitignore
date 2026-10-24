@@ -192,6 +192,8 @@ Thumbs.db
 !outputs/residual_variance_start_prior/**
 !outputs/history_predictable_bound_calibration_2000/
 !outputs/history_predictable_bound_calibration_2000/**
+!outputs/history_predictable_bound_confirmation/
+!outputs/history_predictable_bound_confirmation/**
 !outputs/policy_bound_null_calibration_500/
 !outputs/policy_bound_null_calibration_500/**
 !outputs/policy_bound_harm_confirmation_200/

@@ -5,11 +5,13 @@ from scripts.calibrate_history_predictable_query_bounds import (
     HARM_EFFECTS,
     HARM_SCENARIOS,
     NULL_SCENARIO,
+    STRICT_NEGATIVE_SCENARIO,
     M,
     evidence_directed_propensity,
     expected_population_contrast,
     generate_common_random_numbers,
     high_probability_for_effect,
+    scenario_harm_effect,
     simulate_arm,
     validate_configuration,
 )
@@ -26,6 +28,34 @@ def test_dgp_has_exact_marginal_null_and_registered_harm_shift():
             < 1e-12
         )
     assert M == 5.0
+    assert expected_population_contrast(high_probability=0.528) == pytest.approx(-0.20)
+
+
+def test_strict_negative_control_is_a_valid_nonpositive_mean_scenario():
+    assert STRICT_NEGATIVE_SCENARIO == "strict_negative_control"
+    assert scenario_harm_effect(STRICT_NEGATIVE_SCENARIO) == pytest.approx(-0.20)
+
+
+def test_strict_negative_control_counts_every_alarm_as_false_escalation():
+    streams, horizon, seed = 32, 40, 991
+    device = torch.device("cpu")
+    data = generate_common_random_numbers(
+        streams=streams, horizon=horizon, seed=seed, device=device
+    )
+    rows = simulate_arm(
+        scenario=STRICT_NEGATIVE_SCENARIO,
+        streams=streams,
+        horizon=horizon,
+        seed=seed,
+        data=data,
+        device=device,
+        query_policy="uniform",
+        q_min=0.20,
+        bound_mode="fixed",
+    )
+    assert all(not row["post_onset_detection"] for row in rows)
+    assert all(row["false_escalation"] == (row["first_alarm_event"] is not None) for row in rows)
+    assert all(row["evaluator_cumulative_expected_harm_cost"] == 0 for row in rows)
 
 
 def test_history_only_propensity_respects_floor_cap_and_spend_taper():

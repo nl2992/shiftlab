@@ -560,6 +560,75 @@ class StartedMixtureEProcess:
         return self.log_e_value
 
 
+class VectorizedStartedMixtureEProcess:
+    """Vectorized implementation of ``StartedMixtureEProcess``'s fixed mixture.
+
+    The start and stake weights are fixed before observations. This class stores
+    component log wealth in one array and applies the same per-event updates as
+    ``StartedMixtureEProcess``. It is a computational optimization, not a change
+    to the e-process or its assumptions.
+    """
+
+    DEFAULT_STAKES = np.asarray((0.05, 0.1, 0.2, 0.4, 0.8), dtype=float)
+
+    def __init__(
+        self,
+        *,
+        bound: float,
+        alpha: float,
+        starts: tuple[int, ...],
+        weights: tuple[float, ...] | None = None,
+    ):
+        if not np.isfinite(bound) or bound <= 0:
+            raise ValueError("bound must be finite and positive")
+        if not np.isfinite(alpha) or not 0 < alpha < 1:
+            raise ValueError("alpha must lie strictly between zero and one")
+        if not starts or any(isinstance(s, bool) or s < 0 for s in starts):
+            raise ValueError("starts must be a nonempty collection of nonnegative integers")
+        if tuple(sorted(set(starts))) != starts:
+            raise ValueError("starts must be strictly increasing")
+        weight_array = (
+            np.full(len(starts), 1 / len(starts), dtype=float)
+            if weights is None
+            else np.asarray(weights, dtype=float)
+        )
+        if (
+            weight_array.shape != (len(starts),)
+            or not np.isfinite(weight_array).all()
+            or np.any(weight_array <= 0)
+            or not np.isclose(weight_array.sum(), 1.0)
+        ):
+            raise ValueError("weights must be positive, sum to one, and match starts")
+        self.bound = float(bound)
+        self.alpha = float(alpha)
+        self.starts = np.asarray(starts, dtype=np.int64)
+        self.weights = weight_array
+        self.stakes = self.DEFAULT_STAKES.copy()
+        self.stake_weights = np.full(len(self.stakes), 1 / len(self.stakes), dtype=float)
+        self.log_start_weights = np.log(self.weights)
+        self.log_stake_weights = np.log(self.stake_weights)
+        self.log_wealth = np.zeros((len(self.starts), len(self.stakes)), dtype=float)
+        self.time = 0
+
+    @property
+    def log_e_value(self) -> float:
+        component_log_e = logsumexp(self.log_wealth + self.log_stake_weights, axis=1)
+        component_log_e = np.where(self.time >= self.starts, component_log_e, 0.0)
+        return float(logsumexp(component_log_e + self.log_start_weights))
+
+    @property
+    def alarm(self) -> bool:
+        return self.log_e_value >= -np.log(self.alpha)
+
+    def update(self, value: float) -> float:
+        if not np.isfinite(value) or abs(value) > self.bound + 1e-12:
+            raise ValueError("observed value is outside the declared bounded range")
+        active = self.time >= self.starts
+        self.log_wealth[active] += np.log1p(self.stakes * (value / self.bound))
+        self.time += 1
+        return self.log_e_value
+
+
 class HorizonHedgedStartedMixtureEProcess(StartedMixtureEProcess):
     """Fixed convex mixture over candidate horizons and start-time priors.
 

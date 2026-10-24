@@ -11,6 +11,7 @@ from shiftlab.dive.eprocess import (
     PredictablePlugInEmpiricalBernsteinEProcess,
     PredictableVarianceAdaptiveEProcess,
     StartedMixtureEProcess,
+    VectorizedStartedMixtureEProcess,
 )
 from shiftlab.dive.estimators import prediction_powered_bound, prediction_powered_estimate
 
@@ -118,6 +119,23 @@ def test_weighted_start_mixture_matches_fixed_convex_combination_of_components()
         assert np.exp(mixture.log_e_value) == pytest.approx(expected)
     with pytest.raises(ValueError, match="weights"):
         StartedMixtureEProcess(bound=1.0, alpha=0.05, starts=starts, weights=(0.5, 0.5, 0.5))
+
+
+@pytest.mark.parametrize("weights", [None, (0.6, 0.3, 0.1)])
+def test_vectorized_started_mixture_matches_reference_event_by_event(weights):
+    starts = (0, 2, 5)
+    rng = np.random.default_rng(20261024)
+    values = rng.uniform(-0.95, 0.95, size=80)
+    reference = StartedMixtureEProcess(bound=1.0, alpha=0.05, starts=starts, weights=weights)
+    vectorized = VectorizedStartedMixtureEProcess(
+        bound=1.0, alpha=0.05, starts=starts, weights=weights
+    )
+    assert vectorized.log_e_value == pytest.approx(reference.log_e_value, abs=1e-14)
+    for value in values:
+        expected = reference.update(float(value))
+        actual = vectorized.update(float(value))
+        assert actual == pytest.approx(expected, abs=1e-12)
+        assert vectorized.alarm == reference.alarm
 
 
 def test_multihorizon_mixture_matches_a_fixed_convex_mixture_of_horizon_processes():

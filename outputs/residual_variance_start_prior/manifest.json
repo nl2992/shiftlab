@@ -34,6 +34,7 @@
   },
   "metric_rows": 2160,
   "metrics_sha256": "e02c30b92f8ca8a6bc90e13731df9602a9b750cfd419cdb8e4808887d1958a1e",
+  "source_commit": "9965772",
   "code_sha256": {
     "residual_variance_start_prior.py": "e895ff23e15607d6118576e46a1d9b8c28b1bddc2552d23a537ddf1d3226f654",
     "risk_proxy_monitor_grid.py": "6464b162f96bdb2e9bd336a7c31332472005cda7fea6fb4b976447b2c28a1955",

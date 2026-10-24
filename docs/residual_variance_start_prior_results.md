@@ -35,6 +35,6 @@ Retain uniform starts as the leading start-time comparator for this mechanism; d
 
 Command: `uv run python -m shiftlab.dive.residual_variance_start_prior --device cuda --seeds 60`.
 
-The run used an NVIDIA GeForce RTX 4060 Laptop GPU for synthetic generation; monitor recursions were CPU-bound and took approximately 30 minutes. It produced 2,160 rows (3 methods × 3 severities × 4 query rates × 60 seeds). Manifest hashes and environment are in `outputs/residual_variance_start_prior/manifest.json`; the Parquet checksum is `e02c30b92f8ca8a6bc90e13731df9602a9b750cfd419cdb8e4808887d1958a1e`.
+The run used an NVIDIA GeForce RTX 4060 Laptop GPU for synthetic generation; monitor recursions were CPU-bound and took approximately 30 minutes. It produced 2,160 rows (3 methods × 3 severities × 4 query rates × 60 seeds). Manifest hashes and environment are in `outputs/residual_variance_start_prior/manifest.json`; the source is pinned to commit `9965772`, and the Parquet checksum is `e02c30b92f8ca8a6bc90e13731df9602a9b750cfd419cdb8e4808887d1958a1e`.
 
 Per-stream data are in `outputs/residual_variance_start_prior/metrics.parquet` and `metrics.csv`; grouped rates and per-cell paired contrasts are in `power_summary.csv` and `paired_detection_contrasts.csv`. Reproduce the pooled seed-cluster intervals and path/budget audit with `uv run python -m shiftlab.dive.analyze_residual_variance_start_prior`; its inputs, bootstrap seed, and outputs are recorded in `analysis_manifest.json`. No figure was produced.

@@ -31,7 +31,7 @@ from .eprocess import (
     BoundedMeanEProcess,
     PredictablePlugInEmpiricalBernsteinEProcess,
     PredictableVarianceAdaptiveEProcess,
-    StartedMixtureEProcess,
+    VectorizedStartedMixtureEProcess,
 )
 from .estimators import prediction_powered_bound, prediction_powered_estimate
 from .experiment import _binary_cost, _material_harm_onset, _synthetic_label_costs
@@ -224,14 +224,14 @@ def _run_stream(
         if method in PROCESS_NAMES:
             process = _process(method, bound, config.alpha)
         elif method == "uniform_start_mixture":
-            process = StartedMixtureEProcess(
+            process = VectorizedStartedMixtureEProcess(
                 bound=bound,
                 alpha=config.alpha,
                 starts=start_positions,
                 weights=beta_start_weights(1.0, 1.0),
             )
         elif method == "late_start_mixture":
-            process = StartedMixtureEProcess(
+            process = VectorizedStartedMixtureEProcess(
                 bound=bound,
                 alpha=config.alpha,
                 starts=start_positions,

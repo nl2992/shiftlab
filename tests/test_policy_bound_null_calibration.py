@@ -74,3 +74,26 @@ def test_analysis_rejects_a_changed_artifact_before_rehashing_it(tmp_path, monke
     metrics.write_bytes(b"altered metric bytes")
     with pytest.raises(ValueError, match="artifact failed its manifest hash"):
         analyzer.verify_manifest_integrity(output, manifest)
+
+
+def test_analysis_rejects_non_cuda_or_mismatched_run_provenance(tmp_path, monkeypatch) -> None:
+    monkeypatch.setattr(analyzer, "ROOT", tmp_path)
+    protocol = tmp_path / analyzer.PROTOCOL
+    protocol.parent.mkdir(parents=True)
+    protocol.write_text("locked protocol", encoding="utf-8")
+    run_script = tmp_path / "scripts/run_policy_bound_null_calibration.py"
+    run_script.parent.mkdir(parents=True)
+    run_script.write_text("locked runner", encoding="utf-8")
+    manifest = {
+        "resolved_device": "cuda",
+        "run_provenance": {
+            "protocol_sha256": sha256(protocol),
+            "run_script_sha256": sha256(run_script),
+            "source_git_commit_at_run": "test-commit",
+        },
+    }
+    analyzer.verify_run_provenance(manifest)
+
+    manifest["resolved_device"] = "cpu"
+    with pytest.raises(ValueError, match="resolve to CUDA"):
+        analyzer.verify_run_provenance(manifest)

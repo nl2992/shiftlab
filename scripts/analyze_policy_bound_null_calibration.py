@@ -100,6 +100,21 @@ def verify_manifest_integrity(output: Path, manifest: dict) -> None:
             raise ValueError(f"run source failed its manifest hash: {relative}")
 
 
+def verify_run_provenance(manifest: dict) -> None:
+    if manifest.get("resolved_device") != "cuda":
+        raise ValueError("the frozen calibration must resolve to CUDA")
+    provenance = manifest.get("run_provenance", {})
+    expected_hashes = {
+        "protocol_sha256": ROOT / PROTOCOL,
+        "run_script_sha256": ROOT / "scripts/run_policy_bound_null_calibration.py",
+    }
+    for key, path in expected_hashes.items():
+        if provenance.get(key) != sha256(path):
+            raise ValueError(f"run provenance is missing or mismatches {key}")
+    if not provenance.get("source_git_commit_at_run"):
+        raise ValueError("run provenance is missing the source commit")
+
+
 def wilson_interval(events: int, trials: int) -> tuple[float, float]:
     if trials <= 0 or not 0 <= events <= trials:
         raise ValueError("require 0 <= events <= positive trials")
@@ -130,6 +145,7 @@ def analyze(output: Path) -> tuple[Path, Path]:
     config = manifest["configuration"]
     if config != EXPECTED_CONFIG:
         raise ValueError("run configuration does not match the frozen calibration protocol")
+    verify_run_provenance(manifest)
     verify_manifest_integrity(output, manifest)
     metrics = pd.read_parquet(output / "metrics/hard_budget_comparison.parquet")
     required = {

@@ -1,0 +1,65 @@
+{
+  "artifact_sha256": {
+    "metrics.parquet": "59e78bf4c7e17689a0684409fcdbf9a742272de6e44de6df4c06a22333c330f3",
+    "predictable_query_bound_replay.md": "539acc6bf9f3fc012338b8f0639780dbbeb7a0d4b5e6ad2f0e927dfcb46d3cc8",
+    "summary.csv": "1a948e0318d1cc203a0e4c647e826e2dd9dadca249171006580249ec08ea0aeb"
+  },
+  "code_commit": "056cdbcf50dbd4ef7786ef15106ddbe02458502f",
+  "experiment": "history_predictable_query_bound_trace_replay",
+  "source": {
+    "alpha": 0.05,
+    "configuration": {
+      "alpha": 0.05,
+      "budget_dollars": null,
+      "budget_rate": 0.2,
+      "change_fraction": 0.5,
+      "common_eprocess_bound": true,
+      "cost_stability_tolerance": 0.05,
+      "d": 16,
+      "device": "cuda",
+      "exact_growth_adaptive_weight": 1.0,
+      "generate_figure": false,
+      "harm_margin": 0.1,
+      "max_label_cost": 2.5,
+      "method_subset": [
+        "uniform_proxy",
+        "evidence_curve_a0.05_p0.5"
+      ],
+      "monitor_comparators": [],
+      "monitor_horizon_events": null,
+      "n": 3200,
+      "pprm_block_size": 20,
+      "pprm_initial_reliance": 1.0,
+      "pprm_labels_per_block": 4,
+      "pprm_max_reliance": 1.0,
+      "q_max": 0.8,
+      "q_min": 0.1,
+      "record_event_traces": true,
+      "robust_growth_probability_radius": 0.0,
+      "scenario_severity": null,
+      "scenario_subset": [
+        "stationary",
+        "benign_nuisance",
+        "boundary_local_harm"
+      ],
+      "seed_offset": 20373024,
+      "seeds": 60
+    },
+    "max_fixed_replay_log_error": 0.0,
+    "min_dynamic_to_fixed_bound_ratio": 0.27399168908790666,
+    "source_manifest": "outputs\\monitor_signal_diagnostic_20_60_v2\\reports\\manifest.json",
+    "source_run": "hard_label_dollar_budget_query_policy_comparison",
+    "source_trace": "outputs\\monitor_signal_diagnostic_20_60_v2\\metrics\\event_traces.parquet",
+    "source_trace_sha256": "ed2c2d71554434d6152e55cfe80b3caa33e89d338ae9f070d2917a58811f4965",
+    "stakes": [
+      0.05,
+      0.1,
+      0.2,
+      0.4,
+      0.8
+    ],
+    "streams": 360
+  },
+  "status": "exploratory_post_hoc_replay",
+  "visuals_generated": false
+}

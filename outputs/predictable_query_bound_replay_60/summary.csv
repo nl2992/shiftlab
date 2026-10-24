@@ -1,0 +1,7 @@
+scenario,method,streams,onsets_reached,fixed_any_crossings,dynamic_any_crossings,fixed_early_escalations,dynamic_early_escalations,fixed_post_onset_detections,dynamic_post_onset_detections,fixed_detection_delay_mean,dynamic_detection_delay_mean,mean_events_processed,mean_propensity,mean_dynamic_bound
+benign_nuisance,evidence_curve_a0.05_p0.5,60,0,0,0,0,0,0,0,,,2260.883333333333,0.1561480509642512,68.88245425825292
+benign_nuisance,uniform_proxy,60,0,0,0,0,0,0,0,,,1823.6,0.19999999999999993,45.899999999999984
+boundary_local_harm,evidence_curve_a0.05_p0.5,60,60,4,44,0,0,4,44,2302.25,1876.6363636363637,2349.8333333333335,0.1969973014597843,50.822792775532406
+boundary_local_harm,uniform_proxy,60,60,6,47,0,0,6,47,2266.1666666666665,1964.2340425531916,2356.0333333333333,0.19999999999999993,45.89999999999999
+stationary,evidence_curve_a0.05_p0.5,60,0,0,0,0,0,0,0,,,2398.616666666667,0.1577047765012171,67.83134828484012
+stationary,uniform_proxy,60,0,0,0,0,0,0,0,,,2356.0333333333333,0.19999999999999993,45.89999999999999

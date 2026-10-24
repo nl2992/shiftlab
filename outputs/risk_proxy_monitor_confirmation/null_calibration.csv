@@ -1,0 +1,5 @@
+scenario,method,false_alarms,streams,false_alarm_rate,bonferroni_one_sided_cp95_upper,familywise_alpha,family_cells,calibration_pass
+benign_nuisance,fixed_mixture,0,2000,0.0,0.0021886147997063833,0.05,4,True
+benign_nuisance,predictable_kelly,0,2000,0.0,0.0021886147997063833,0.05,4,True
+stationary,fixed_mixture,0,2000,0.0,0.0021886147997063833,0.05,4,True
+stationary,predictable_kelly,0,2000,0.0,0.0021886147997063833,0.05,4,True

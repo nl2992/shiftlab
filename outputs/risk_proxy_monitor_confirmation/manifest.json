@@ -1,0 +1,82 @@
+{
+  "created_at_utc": "2026-10-24T09:29:46.811691+00:00",
+  "design": {
+    "n": 2400,
+    "null_seeds": 2000,
+    "alternative_seeds": 1000,
+    "seed_offset": 20405024,
+    "seed_ranges": {
+      "stationary": [
+        20405024,
+        20407023
+      ],
+      "benign_nuisance": [
+        20405024,
+        20407023
+      ],
+      "boundary_local_harm": [
+        20407024,
+        20408023
+      ],
+      "harmful_adaptation": [
+        20407024,
+        20408023
+      ]
+    },
+    "query_rate": 0.2,
+    "alpha": 0.05,
+    "harm_margin": 0.1,
+    "null_scenarios": [
+      "stationary",
+      "benign_nuisance"
+    ],
+    "alternative_scenarios": [
+      "boundary_local_harm",
+      "harmful_adaptation"
+    ],
+    "methods": [
+      "fixed_mixture",
+      "predictable_kelly"
+    ],
+    "familywise_null_cells": 4
+  },
+  "metric_rows": 12000,
+  "independent_of_development_seed_blocks": true,
+  "decision": {
+    "null_calibration_pass": true,
+    "primary_macro_interval_above_zero": true,
+    "no_registered_scenario_point_loss": true,
+    "advance_fixed_mixture": true
+  },
+  "primary_macro_difference": {
+    "fixed_minus_kelly": 0.134,
+    "seed_cluster_ci95_low": 0.1195,
+    "seed_cluster_ci95_high": 0.149,
+    "seed_clusters": 1000
+  },
+  "metrics_sha256": "df576b3fdb68e2b1ae7cb3517d2e38b859be5eaaa0cbbe37c84dd1d76918c887",
+  "code_sha256": {
+    "risk_proxy_monitor_confirmation.py": "9880df4b70cb955b9dea22987edebf2c46ce8592198c0e8fb1cf4e862c288707",
+    "risk_proxy_monitor_grid.py": "3194aa39ecada57952e7261206cce0427e2a45d3610f127cbe3d8ec5191a0dd2",
+    "eprocess.py": "4646a09a0d6c23686dc6b4bdb18083ee2f4df1d733e40271cfa2d055fd8dd77a",
+    "decision_harm_experiment.py": "963d2a794ec0638f08f24dd75eabec457f209ae2df3759e89a6f6dadeca9fa41"
+  },
+  "environment": {
+    "cpu_ram_bytes": 16858472448,
+    "disk_free_bytes": 21397770240,
+    "cuda_available": true,
+    "nvidia_smi": "NVIDIA GeForce RTX 4060 Laptop GPU, 8188 MiB, 592.82, 0 %, 97 MiB",
+    "torch_version": "2.9.1+cu130",
+    "cuda_runtime": "13.0",
+    "gpu_name": "NVIDIA GeForce RTX 4060 Laptop GPU",
+    "gpu_memory_bytes": 8585216000,
+    "versions": {
+      "numpy": "2.5.4",
+      "scipy": "1.18.1",
+      "pandas": "3.0.6",
+      "pyarrow": "25.0.1",
+      "folktables": "0.0.12"
+    }
+  },
+  "interpretation": "Independent-seed confirmation with a frozen 20% query rate and primary paired detection contrast; finite Monte Carlo calibration does not replace the process validity proof."
+}

@@ -154,6 +154,8 @@ outputs/figures/*
 !outputs/risk_proxy_stress_grid/**
 !outputs/risk_proxy_monitor_grid/
 !outputs/risk_proxy_monitor_grid/**
+!outputs/risk_proxy_monitor_confirmation/
+!outputs/risk_proxy_monitor_confirmation/**
 results/*
 !results/.gitkeep
 data/raw/

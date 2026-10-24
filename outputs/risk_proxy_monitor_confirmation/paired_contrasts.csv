@@ -1,0 +1,4 @@
+scenario,fixed_detection_rate,kelly_detection_rate,fixed_minus_kelly,seed_cluster_ci95_low,seed_cluster_ci95_high,seed_clusters,primary
+macro_two_alternatives,0.5635,0.4295,0.134,0.1195,0.149,1000,True
+boundary_local_harm,0.494,0.393,0.101,0.083,0.12,1000,False
+harmful_adaptation,0.633,0.466,0.167,0.144,0.19,1000,False

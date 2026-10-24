@@ -1,0 +1,5 @@
+scenario,method,streams,detections,detection_rate,false_alarms,mean_detection_delay,mean_labels,mean_spend,mean_events_processed
+boundary_local_harm,fixed_mixture,1000,494,0.494,0,955.255060728745,312.186,468.5598438350832,1561.369
+boundary_local_harm,predictable_kelly,1000,393,0.393,0,993.9185750636133,312.186,468.5598438350832,1561.369
+harmful_adaptation,fixed_mixture,1000,633,0.633,0,982.4360189573459,312.186,468.5598438350832,1561.369
+harmful_adaptation,predictable_kelly,1000,466,0.466,0,1033.450643776824,312.186,468.5598438350832,1561.369

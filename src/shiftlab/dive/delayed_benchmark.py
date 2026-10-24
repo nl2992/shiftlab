@@ -24,11 +24,17 @@ import torch
 from ..data.gpu.environment import environment
 from ..monitoring import HoeffdingExcessEProcess
 from .delayed_feedback import EventOrderBuffer, ResolvedEvidence
-from .eprocess import PPIBlockConfidenceSequence
+from .eprocess import BoundedMeanEProcess, PPIBlockConfidenceSequence, StartedMixtureEProcess
 
 SCENARIOS = ("stationary", "benign_variance_shift", "boundary_harm")
 DELAY_SCHEMES = ("fixed_3", "uniform_0_6")
-METHODS = ("paired_cost_eprocess", "source_target_risk_cs", "no_query_hold")
+METHODS = (
+    "paired_cost_eprocess",
+    "paired_cost_betting",
+    "restart_mixture_8",
+    "source_target_risk_cs",
+    "no_query_hold",
+)
 
 
 @dataclass(frozen=True)
@@ -196,16 +202,48 @@ def simulate_cell(
         lower=-1.0,
         upper=1.0,
     )
+    # Torch stream generation may round the configured amplitude to float32.
+    centered_bound = config.amplitude + config.materiality_margin + 1e-6
+    betting_process = BoundedMeanEProcess(bound=centered_bound, alpha=config.alpha)
+    expected_query_horizon = max(1, round(config.n_target * config.query_rate))
+    restart_starts = tuple(
+        sorted({round(expected_query_horizon * component / 8) for component in range(8)})
+    )
+    restart_process = StartedMixtureEProcess(
+        bound=centered_bound,
+        alpha=config.alpha,
+        starts=restart_starts,
+    )
     e_alarm_event = None
     e_alarm_wall = None
+    betting_alarm_event = None
+    betting_alarm_wall = None
+    restart_alarm_event = None
+    restart_alarm_wall = None
     ordered_rows = [row for _, row in buffered_arrival_rows]
     e_labels_at_alarm = 0
+    betting_labels_at_alarm = 0
+    restart_labels_at_alarm = 0
     for arrival_time, row in buffered_arrival_rows:
         if e_alarm_event is None:
             e_labels_at_alarm += 1
             if process.update(row.value) >= math.log(1 / config.alpha):
                 e_alarm_event = int(row.event_time)
                 e_alarm_wall = arrival_time
+        if betting_alarm_event is None:
+            betting_labels_at_alarm += 1
+            if betting_process.update(row.value - config.materiality_margin) >= math.log(
+                1 / config.alpha
+            ):
+                betting_alarm_event = int(row.event_time)
+                betting_alarm_wall = arrival_time
+        if restart_alarm_event is None:
+            restart_labels_at_alarm += 1
+            if restart_process.update(row.value - config.materiality_margin) >= math.log(
+                1 / config.alpha
+            ):
+                restart_alarm_event = int(row.event_time)
+                restart_alarm_wall = arrival_time
 
     pr_alarm_event_query, pr_alarm_wall, pr_n = _risk_bound_alarm(
         source,
@@ -219,6 +257,18 @@ def simulate_cell(
             e_alarm_event,
             e_alarm_wall,
             e_labels_at_alarm if e_alarm_event is not None else len(ordered_rows),
+            len(indices),
+        ),
+        "paired_cost_betting": (
+            betting_alarm_event,
+            betting_alarm_wall,
+            betting_labels_at_alarm if betting_alarm_event is not None else len(ordered_rows),
+            len(indices),
+        ),
+        "restart_mixture_8": (
+            restart_alarm_event,
+            restart_alarm_wall,
+            restart_labels_at_alarm if restart_alarm_event is not None else len(ordered_rows),
             len(indices),
         ),
         "source_target_risk_cs": (pr_alarm_event_query, pr_alarm_wall, pr_n, len(indices)),
@@ -240,6 +290,7 @@ def simulate_cell(
                 "query_rate": config.query_rate,
                 "harm_onset_fraction": config.harm_onset_fraction,
                 "harm_contrast_increase": config.harm_contrast_increase,
+                "restart_component_count": len(restart_starts),
                 "labels_queried": labels_queried,
                 "shared_stream_labels_queried": len(indices),
                 "labels_processed_at_alarm": labels_processed,

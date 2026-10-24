@@ -117,6 +117,17 @@ bounded observed cost differences, known costs, and the conditional excess-cost 
 selectively observed labels, adaptive queries, serial dependence, counterfactual policy value, and
 real-world utility validity are not established by this benchmark.
 
+The delayed-feedback study separately tests event-order monitoring when labels arrive late. Its
+2,000-seed null calibration found false-escalation estimates from 0% to 1.50% across the registered
+stationary and benign-variance controls. In the disjoint primary alternative confirmation, the
+fixed eight-start e-process mixture detected late, weaker harm in 933/2,000 streams, compared with
+100/2,000 for the same-family full-stream betting process (paired exact McNemar `p=5.37e-245`).
+This is a result for one synthetic condition, not a general superiority or novelty claim. See the
+[calibration and confirmation protocol](docs/delayed_null_calibration_protocol.md), [calibration
+metrics](outputs/delayed_null_calibration_2000/), and [confirmation metrics](outputs/delayed_feedback_confirmation_2000/).
+No figure is included for this study because its protocol requires PaperBanana and that tool was not
+available when the results were generated.
+
 The separate Paper 3 DIVE benchmark has 1,260 CUDA-generated rows (30 paired seeds, six scenarios,
 seven monitoring/query variants). The corrected null audit counts every alarm on stationary and
 benign-nuisance population-null streams as a false escalation, even when that particular finite

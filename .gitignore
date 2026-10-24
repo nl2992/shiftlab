@@ -128,6 +128,10 @@ outputs/figures/*
 !outputs/delayed_feedback_development/**
 !outputs/delayed_feedback_grid_development/
 !outputs/delayed_feedback_grid_development/**
+!outputs/delayed_null_calibration_2000/
+!outputs/delayed_null_calibration_2000/**
+!outputs/delayed_feedback_confirmation_2000/
+!outputs/delayed_feedback_confirmation_2000/**
 results/*
 !results/.gitkeep
 data/raw/

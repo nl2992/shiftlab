@@ -27,9 +27,9 @@ def _config(**changes):
 def test_grid_runs_factorial_cells_and_checks_event_order_invariance(tmp_path):
     frame, manifest = run_grid(_config(), tmp_path)
 
-    # Per seed: 8 null cells plus 8 harm cells, each with three method rows.
+    # Per seed: 8 null cells plus 8 harm cells, each with five method rows.
     assert manifest["stream_cells"] == 32
-    assert len(frame) == 96
+    assert len(frame) == 160
     assert manifest["event_time_invariance_across_delays"] is True
     assert (
         frame.groupby(
@@ -47,7 +47,7 @@ def test_grid_runs_factorial_cells_and_checks_event_order_invariance(tmp_path):
         .max()
         == 1
     )
-    assert pd.read_parquet(tmp_path / "delayed_feedback_grid.parquet").shape[0] == 96
+    assert pd.read_parquet(tmp_path / "delayed_feedback_grid.parquet").shape[0] == 160
     assert (tmp_path / "event_summary.csv").is_file()
     assert (tmp_path / "wall_delay_summary.csv").is_file()
     manifest_file = json.loads((tmp_path / "manifest.json").read_text())

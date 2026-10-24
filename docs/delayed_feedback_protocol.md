@@ -33,15 +33,22 @@ The three worlds are:
   so expected contrast rises by 0.24, equivalent to a 0.12 increase on the normalized `[0,1]` risk
   scale. The margin is 0.02 on the paired-contrast scale.
 
-Both monitoring methods see the same queried outcomes. The paired-cost e-process updates on queried
-contrasts and tests the eventwise null
-`E[C_t | F_(t-1)] <= 0.02`, with known support `[-1,1]`. The source/target risk comparator maps
-`C` to `(C + 1) / 2`, computes a fixed source-risk upper bound with Hoeffding at alpha/2, and
-compares it with a target CM-EB lower confidence sequence at alpha/2 plus half the contrast-scale
-margin. The source sample is independent of target outcomes. Both monitors stop updating after
-their first alarm for reported evidence counts, while the simulated shared label schedule continues
-through the fixed horizon to make stream-level comparisons possible. `no_query_hold` spends zero
-labels and never alarms; it is a resource-floor reference, not a label-matched monitor.
+All monitors see the same queried outcomes. The Hoeffding paired-cost e-process updates on queried
+contrasts and tests the eventwise null `E[C_t | F_(t-1)] <= 0.02`, with known support `[-1,1]`.
+A second paired-cost method centers each contrast by the margin and uses the bounded-mean betting
+process. `restart_mixture_8` mixes that same process started at eight fixed positions: rounded
+fractions `0/8, 1/8, ..., 7/8` of the expected number of queried labels. These starts depend only
+on the prespecified query probability and horizon. Each component is one before its start and a
+valid e-process afterward; a fixed equal-weight convex mixture is again an e-process by linearity
+of conditional expectation, so Ville's bound applies under the same increment null. The price for
+not knowing which start is useful is the `log(8)` prior-weight penalty for any one component. This
+is an established change-detection construction, not a novelty claim. The source/target risk
+comparator maps `C` to `(C + 1) / 2`, computes a fixed source-risk upper bound with Hoeffding at
+alpha/2, and compares it with a target CM-EB lower confidence sequence at alpha/2 plus half the
+contrast-scale margin. The source sample is independent of target outcomes. Monitors stop updating
+after their first alarm for reported evidence counts, while the simulated shared label schedule
+continues through the fixed horizon to make stream-level comparisons possible. `no_query_hold`
+spends zero labels and never alarms; it is a resource-floor reference, not a label-matched monitor.
 
 All delayed labels are passed through `EventOrderBuffer`. It releases the contiguous resolved query
 prefix in event order. An alarm's wall time is the arrival time at which its full evidence prefix
@@ -64,16 +71,15 @@ confidence-sequence implementation.
 
 ## Pilot findings
 
-The development run detected 30/30 boundary-harm streams with the paired-cost e-process and 23/30
-with the source/target risk confidence-bound comparator, under both delay schemes. The discordant
-paired outcomes were seven e-process-only detections and no risk-CS-only detections; the unadjusted
-two-sided exact McNemar p-value is 0.0156. Median event detection delays were 1,010.5 events for the
-paired e-process and 1,342 for the source/target risk CS. Under uniform delays, median wall delays
-were 1,013.5 and 1,348 events, respectively. No method escalated in either null control in any
-30-seed cell. These are development results, not confirmatory evidence: zero false alarms in 30
-independent streams has a one-sided exact 95% upper bound of about 9.5%. The repeated fixed and
-variable-delay outcomes reuse each seed's same underlying target stream and must not be counted as
-60 independent streams.
+The updated development run detected 30/30 boundary-harm streams with both the full-stream
+bounded-mean betting process and the eight-start mixture; the Hoeffding paired-cost e-process also
+detected 30/30, while the source/target risk confidence-bound comparator detected 23/30. Median
+event delays were 252.5 labels for the restart mixture, 623 for full-stream betting, 1,010.5 for
+the Hoeffding process, and 1,342 for the risk-CS comparator. No method escalated in either null
+control in any 30-seed cell. These are development results, not confirmatory evidence: zero false
+alarms in 30 independent streams has a one-sided exact 95% upper bound of about 9.5%. The repeated
+fixed and variable-delay outcomes reuse each seed's same underlying target stream and must not be
+counted as 60 independent streams.
 
 The risk-CS comparator's later detections are consistent with its running target-risk lower bound
 including the pre-change portion of the stream. This is a benchmark finding under the chosen
@@ -81,9 +87,9 @@ synthetic design; it does not show that the paired e-process dominates risk moni
 
 ## Assumptions and limits
 
-The paired e-process's Ville guarantee requires the registered bounded support and its eventwise
-conditional-mean null to hold for the queried event sequence, with query probabilities chosen
-without observing the current outcome. The risk-CS comparator requires bounded losses, an
+The paired e-process and restart-mixture Ville guarantees require the registered bounded support
+and eventwise conditional-mean null to hold for the queried event sequence, with query probabilities
+chosen without observing the current outcome. The risk-CS comparator requires bounded losses, an
 independent fixed source sample, a valid source upper bound, and a valid target lower confidence
 sequence under the declared feedback filtration. In this synthetic design, query inclusion and
 delay are independent of outcomes and the buffer preserves target event order. A pending later
@@ -102,13 +108,28 @@ The metrics, report and manifest are in
 included because project guidance requires PaperBanana for visuals and no PaperBanana tool is
 available in this session.
 
-## Next milestone
+## Calibration and next milestone
 
-Before any confirmatory power comparison, freeze the target estimand and align both methods to the
-same null as far as their theory allows. Run at least 2,000 independent streams per nondegenerate
-null cell to assess false escalation, using disjoint seeds from power evaluation. Then use an
-independent alternative seed block and report exact binomial intervals, paired detection contrasts,
-censored event/wall delays, query count, processed-prefix length and pending-label latency. Add
-outcome-dependent delay only as a clearly out-of-guarantee stress test. Reproduce the published
-Podkopaev–Ramdas method more faithfully before treating its comparator row as a literature-grade
-baseline.
+The registered 2,000-seed null calibration is complete for the three paired-cost e-process
+procedures at query rates 0.10, 0.25 and 0.50. Across stationary and benign variance-shift nulls,
+the six full-stream betting cells had 1.35%–1.50% false escalations, the restart-mixture cells
+0.20%–1.35%, and Hoeffding had zero. All two-sided 95% Clopper–Pearson upper limits were at most
+2.14%. This supports calibration for these synthetic conditions and is compatible with the nominal
+5% bound; it does not establish validity under dependent outcomes, informative querying/delays, or
+adaptive policy changes. Full cell results and the frozen confirmation design are in
+[`delayed_null_calibration_protocol.md`](delayed_null_calibration_protocol.md).
+
+The disjoint 2,000-seed confirmation of the registered late-onset, weaker-harm condition at a 25%
+query rate is also complete. The eight-start mixture detected 933/2,000 streams (46.65%, exact 95%
+interval 44.44%–48.86%), compared with 100/2,000 (5.00%, 4.09%–6.05%) for the same-family
+full-stream betting process. The paired test had 836 restart-only detections and 3 betting-only
+detections (exact two-sided McNemar `p=5.37e-245`). Conditional mean event delays were 778.2 and
+909.7 events respectively. This supports a substantial power advantage for this fixed-start mixture
+in the preregistered simulator condition; it is neither a universal result nor a novelty claim.
+Details and artifacts are in
+[`outputs/delayed_feedback_confirmation_2000/`](../outputs/delayed_feedback_confirmation_2000/).
+
+Next, replicate this primary alternative on a second disjoint seed block before expanding the
+onset/severity/budget grid. Keep start locations and weights frozen. Then reproduce Podkopaev–Ramdas
+more faithfully before treating the existing risk-CS comparator as a literature-grade baseline.
+Add outcome-dependent delay only as an out-of-guarantee stress test.

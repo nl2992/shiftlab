@@ -1,0 +1,61 @@
+{
+  "created_at_utc": "2026-10-24T06:13:46.488248+00:00",
+  "config": {
+    "streams_per_cell": 2000,
+    "seed_offset": 20264000,
+    "n_events": 3000,
+    "query_rates": [
+      0.1,
+      0.25,
+      0.5
+    ],
+    "alpha": 0.05,
+    "margin": 0.02,
+    "amplitude": 0.6,
+    "benign_amplitude": 0.25,
+    "onset_fraction": 0.4,
+    "delay_scheme": "uniform_0_6",
+    "device": "cuda"
+  },
+  "config_validated": true,
+  "resolved_device": "cuda",
+  "environment": {
+    "cpu_ram_bytes": 16858472448,
+    "disk_free_bytes": 21581737984,
+    "cuda_available": true,
+    "nvidia_smi": "NVIDIA GeForce RTX 4060 Laptop GPU, 8188 MiB, 592.82, 8 %, 107 MiB",
+    "torch_version": "2.9.1+cu130",
+    "cuda_runtime": "13.0",
+    "gpu_name": "NVIDIA GeForce RTX 4060 Laptop GPU",
+    "gpu_memory_bytes": 8585216000,
+    "versions": {
+      "numpy": "2.5.4",
+      "scipy": "1.18.1",
+      "pandas": "3.0.6",
+      "pyarrow": "25.0.1",
+      "folktables": "0.0.12"
+    }
+  },
+  "null_scenarios": [
+    "stationary",
+    "benign_variance_shift"
+  ],
+  "methods": [
+    "paired_cost_eprocess",
+    "paired_cost_betting",
+    "restart_mixture_8"
+  ],
+  "streams_per_scenario_query_rate": 2000,
+  "independent_seed_interval": [
+    20264000,
+    20265999
+  ],
+  "metric_rows": 36000,
+  "metrics_sha256": "46e5ad1fc97702596537133a382cf0edf60f4f681e0655bf6cf95c137fa0569c",
+  "code_sha256": {
+    "delayed_calibration.py": "21249e5ad4a64434d0bea7894254aae358df62a93f694c7daff7dddb25117ba9",
+    "eprocess.py": "17ca5bcb3a7e3a5b5a3e6f99307aba6bce21b885c54f267be6eef7ec6cd1f5fd",
+    "monitoring.py": "d9e0405561034993b8a7ce352c01b23ac2584176169d25f0665761fd3d62db24"
+  },
+  "inference": "Exact Clopper-Pearson intervals are per method, null scenario and query-rate cell. No outcomes are pooled across query rates or null scenarios. Calibration evaluates the complete event-order monitor under outcome-independent query and delay sampling; it does not prove assumptions beyond this simulator."
+}

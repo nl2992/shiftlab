@@ -1,0 +1,7 @@
+{
+  "contrast": "restart_mixture_8 versus paired_cost_betting",
+  "restart_only_detections": 836,
+  "betting_only_detections": 3,
+  "discordant_pairs": 839,
+  "mcnemar_exact_two_sided_p": 5.370334718040074e-245
+}

@@ -28,11 +28,17 @@ The world construction and monitor assumptions are detailed in
 [`delayed_feedback_protocol.md`](delayed_feedback_protocol.md). In the grid, the expected contrast
 increase determines the post-onset probability of a positive `+0.60` contrast, while the negative
 contrast is `-0.60`. The benign control changes contrast amplitude from `0.60` to `0.25` without
-changing its zero conditional mean. The paired e-process tests its eventwise conditional-mean null;
-the risk-CS method tests source risk against running target risk. Thus their power rows are not
-identical-null comparisons.
+changing its zero conditional mean. The methods are the Hoeffding paired-cost e-process, a fixed-
+start bounded-mean betting process, an eight-start equal-weight mixture of that same betting
+process, the source-risk / target-risk confidence-bound comparator, and no-query hold. The eight
+start positions are fixed before outcomes at rounded fractions `0/8` through `7/8` of the expected
+query horizon. For each start component, the process is one before its start and a valid e-process
+afterward. Their fixed convex mixture is an e-process by linearity; the `log(8)` mixture penalty is
+the price for unknown start time. This is an established construction and comparator, not a new
+algorithm claim. The paired conditional-mean tests and source-to-running-target risk test do not
+have identical nulls, so their power rows are not direct same-hypothesis comparisons.
 
-The exploratory design has 1,080 stream cells and 3,240 method rows. Event-time summaries use only
+The exploratory design has 1,080 stream cells and 5,400 method rows. Event-time summaries use only
 the fixed-delay copy so the same seed is not counted twice. The runner checks that alarms, detection,
 false escalation and processed prefix are identical across delay copies. Wall-time summaries retain
 both delay schedules and measure pending-label blocking.
@@ -46,30 +52,32 @@ $env:PYTHONPATH = "src"
 python -m shiftlab.dive.delayed_grid --device cuda --output-dir outputs/delayed_feedback_grid_development
 ```
 
-The RTX 4060 is used for stream generation; the confidence-sequence updates run on CPU. The manifest
+The RTX 4060 is used for stream generation; the sequential monitor updates run on CPU. The manifest
 records configuration, hardware/software environment, event-time invariance, metric checksum and
 source hashes. CPU mode remains available for smoke tests.
 
 ## Findings
 
-Among the 30-seed event-time cells, detection ranged from 0/30 to 30/30 across budgets, onset and
-effect sizes. In the strongest early-onset case (`q=0.50`, onset 20%, expected contrast increase
-0.24), both monitors detected 30/30; median event delay was 734.5 for the paired e-process and 965
-for the risk-CS comparator. At the same effect and onset with `q=0.10`, the paired e-process detected
-7/30 and the risk-CS comparator 10/30, so the latter did better in this cell. For late onset (60%)
-and the weaker 0.12 contrast increase, neither method detected any of the 30 streams at any tested
-query rate. For late onset with 0.24 increase, the paired e-process detected 0/30, 5/30 and 17/30 at
-query rates 0.10, 0.25 and 0.50; the risk-CS comparator detected 0/30 in all three cells. The paired
-e-process therefore has a strong event-time advantage in some higher-budget cells, while the grid
-also exposes low-power cells and a low-budget cell favoring the risk-CS comparator.
+In the late-onset (60%), weaker-effect (0.12) cells, the restart mixture detected 8/30, 16/30 and
+27/30 as query rate increased from 0.10 to 0.50; full-stream betting detected 2/30, 4/30 and 5/30,
+and the Hoeffding and risk-CS procedures detected none. With late, stronger harm (0.24), the restart
+mixture detected 25/30, 30/30 and 30/30; full-stream betting detected 7/30, 24/30 and 30/30, while
+the Hoeffding procedure detected 0/30, 5/30 and 17/30. The restart mixture also improved detection
+over full-stream betting in early-harm cells, though at query rate 0.10 under early strong harm the
+risk-CS comparator detected 10/30, full-stream betting 28/30, and the restart mixture 30/30. These
+results support the fixed-start mixture as a promising baseline for late-onset alternatives, not a
+novel contribution or a selected lead method.
 
-Neither method produced a false escalation in any 30-stream stationary or benign-shift cell. This
-is only a smoke diagnostic: 0/30 has a one-sided exact 95% upper error-rate bound near 9.5%. The
-grid is not large enough to establish the nominal 5% level or broad power superiority. Fixed and
-variable delay outputs reuse the same seed outcomes; do not pool them as independent runs. The
-invariance check confirms delay changes wall-clock availability but not event-time evidence when
-the event order is preserved. This is a consequence of the simulation design and buffer, not a new
-statistical result.
+False escalation was 0/30 for the restart mixture and Hoeffding procedure in every stationary and
+benign-shift cell. The paired full-stream betting process had 2/30 false escalations in both null
+scenarios at query rate 0.10 and 0/30 in the other cells. These small samples neither calibrate nor
+disprove the nominal 5% guarantee: 0/30 has a one-sided exact 95% upper rate bound near 9.5%, and
+2/30 is very uncertain. The subsequent independent 2,000-seed null calibration and disjoint primary
+alternative confirmation are documented in
+[`delayed_null_calibration_protocol.md`](delayed_null_calibration_protocol.md). Fixed and
+variable-delay copies reuse the same seed outcomes and must not be pooled as independent runs. The
+invariance check confirms that event-time evidence is unchanged by these outcome-independent delay
+schemes when the event order is preserved; this is a simulation invariant, not a new validity theorem.
 
 ## Artifacts and next step
 
@@ -78,9 +86,11 @@ in [`outputs/delayed_feedback_grid_development/`](../outputs/delayed_feedback_gr
 No figure is included: project guidance requires PaperBanana for visuals, and no PaperBanana tool is
 available in this session.
 
-Next, run independent null calibration on disjoint seeds for every retained query-rate/method
-configuration, then evaluate the selected frozen candidates on disjoint alternatives. The restart
-mixture for late onsets should be treated as another established e-process baseline and tested on
-development seeds only; a fixed mixture over valid start-specific e-processes preserves Ville
-validity, but its power and multiplicity cost must be measured. Do not infer a new method from these
-exploratory grid outcomes.
+The independent calibration and its primary disjoint alternative confirmation are complete; see
+[`delayed_null_calibration_protocol.md`](delayed_null_calibration_protocol.md) for the full results.
+The restart mixture detected 933/2,000 late-onset weak-harm streams at query rate 0.25, versus
+100/2,000 for full-stream betting; paired discordances were 836 versus 3 (exact two-sided McNemar
+`p=5.37e-245`). This establishes a strong result for this frozen synthetic condition, while the
+restart mixture remains a standard e-process construction, not a novelty claim. Replicate this one
+primary condition on another disjoint seed block before expanding to secondary onset, effect and
+budget cells.

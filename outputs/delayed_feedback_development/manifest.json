@@ -1,5 +1,5 @@
 {
-  "created_at_utc": "2026-10-24T05:28:21.063186+00:00",
+  "created_at_utc": "2026-10-24T05:55:20.894511+00:00",
   "config": {
     "seeds": 30,
     "seed_offset": 20261024,
@@ -9,6 +9,7 @@
     "alpha": 0.05,
     "materiality_margin": 0.02,
     "harm_onset_fraction": 0.4,
+    "harm_contrast_increase": 0.24,
     "amplitude": 0.6,
     "benign_amplitude": 0.25,
     "delay_schemes": [
@@ -20,8 +21,7 @@
       "benign_variance_shift",
       "boundary_harm"
     ],
-    "device": "cuda",
-    "harm_contrast_increase": 0.24
+    "device": "cuda"
   },
   "config_validated": true,
   "device_resolved": [
@@ -29,7 +29,7 @@
   ],
   "environment": {
     "cpu_ram_bytes": 16858472448,
-    "disk_free_bytes": 21575770112,
+    "disk_free_bytes": 21593452544,
     "cuda_available": true,
     "nvidia_smi": "NVIDIA GeForce RTX 4060 Laptop GPU, 8188 MiB, 592.82, 0 %, 107 MiB",
     "torch_version": "2.6.0+cu124",
@@ -55,13 +55,15 @@
   ],
   "methods": [
     "paired_cost_eprocess",
+    "paired_cost_betting",
+    "restart_mixture_8",
     "source_target_risk_cs",
     "no_query_hold"
   ],
-  "rows": 540,
-  "metrics_sha256": "f22eed636513d829b09fd73169cf9269900a6a2d3d1234d63b7948c656c0b55e",
+  "rows": 900,
+  "metrics_sha256": "a25ba1d773f0025499c549fe84a9300645d70c1e44e771c4be6368eec3a5bf38",
   "code_sha256": {
-    "delayed_benchmark.py": "9f53a33c501a86696e3d541b857cb281005f9d729ec4c396da525396d5d8b8aa",
+    "delayed_benchmark.py": "d82de14fc1fde9e77fdf1ab1bc32241412fe4bff172ed1bf970202642af39552",
     "delayed_feedback.py": "f0f957ffee752130bbe8bcee35e7db724426b94db0952c9a2e132db5769644a8",
     "eprocess.py": "17ca5bcb3a7e3a5b5a3e6f99307aba6bce21b885c54f267be6eef7ec6cd1f5fd"
   },

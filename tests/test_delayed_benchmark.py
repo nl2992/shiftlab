@@ -32,9 +32,12 @@ def test_cell_pairs_methods_on_identical_queries_and_outcome_independent_delays(
 
     assert {row["method"] for row in rows} == {
         "paired_cost_eprocess",
+        "paired_cost_betting",
+        "restart_mixture_8",
         "source_target_risk_cs",
         "no_query_hold",
     }
+    assert all(row["restart_component_count"] == 8 for row in rows)
     assert len({row["shared_stream_labels_queried"] for row in rows}) == 1
     assert rows[0]["labels_queried"] > 0
     assert rows[-1]["labels_queried"] == 0
@@ -49,7 +52,7 @@ def test_same_seed_reproduces_metrics_and_stream_summary():
     assert first == second
 
     summary = summarize(pd.DataFrame(first))
-    assert len(summary) == 3
+    assert len(summary) == 5
     assert np.isfinite(summary.detection_rate).all()
     assert (summary.streams == 1).all()
 
@@ -75,9 +78,9 @@ def test_run_writes_metrics_manifest_summary_and_report(tmp_path):
         device="cpu",
     )
     frame, manifest = run_benchmark(config, tmp_path)
-    assert len(frame) == 3
-    assert manifest["rows"] == 3
-    assert pd.read_parquet(tmp_path / "delayed_feedback_metrics.parquet").shape[0] == 3
+    assert len(frame) == 5
+    assert manifest["rows"] == 5
+    assert pd.read_parquet(tmp_path / "delayed_feedback_metrics.parquet").shape[0] == 5
     assert json.loads((tmp_path / "manifest.json").read_text())["config_validated"] is True
     manifest_file = json.loads((tmp_path / "manifest.json").read_text())
     source_root = Path(__file__).parents[1] / "src" / "shiftlab" / "dive"

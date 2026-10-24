@@ -14,6 +14,7 @@ import pandas as pd
 from ..data.gpu.environment import environment
 from .delayed_benchmark import (
     DELAY_SCHEMES,
+    METHODS,
     SCENARIOS,
     DelayedBenchmarkConfig,
     simulate_cell,
@@ -192,8 +193,8 @@ def run_grid(config: DelayedGridConfig, output_dir: str | Path) -> tuple[pd.Data
         "query_rates": list(config.query_rates),
         "harm_onset_fractions": list(config.harm_onset_fractions),
         "harm_contrast_increases": list(config.harm_contrast_increases),
-        "methods": ["paired_cost_eprocess", "source_target_risk_cs", "no_query_hold"],
-        "stream_cells": int(len(frame) / 3),
+        "methods": list(METHODS),
+        "stream_cells": int(len(frame) / len(METHODS)),
         "metric_rows": len(frame),
         "event_time_invariance_across_delays": True,
         "metrics_sha256": hashlib.sha256(metrics_path.read_bytes()).hexdigest(),

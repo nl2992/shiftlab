@@ -1,0 +1,13 @@
+scenario,method,reference_method,primary_monitor,eligible_seeds,method_only_detections,uniform_only_detections,paired_detection_rate_difference,paired_bootstrap_95_low,paired_bootstrap_95_high,mcnemar_one_sided_p,holm_adjusted_p,holm_significant_0_05
+boundary_local_harm,variance_proxy,uniform_proxy,fixed_mixture,200,0,125,-0.625,-0.69,-0.56,1.0,1.0,False
+boundary_local_harm,decision_value_proxy,uniform_proxy,fixed_mixture,200,0,124,-0.62,-0.685,-0.55,1.0,1.0,False
+boundary_local_harm,cost_variance_proxy,uniform_proxy,fixed_mixture,200,0,123,-0.615,-0.68,-0.55,1.0,1.0,False
+boundary_local_harm,cost_stabilized_proxy,uniform_proxy,fixed_mixture,200,0,125,-0.625,-0.69,-0.56,1.0,1.0,False
+recurring_regimes,variance_proxy,uniform_proxy,fixed_mixture,200,0,118,-0.59,-0.66,-0.52,1.0,1.0,False
+recurring_regimes,decision_value_proxy,uniform_proxy,fixed_mixture,200,0,118,-0.59,-0.655,-0.52,1.0,1.0,False
+recurring_regimes,cost_variance_proxy,uniform_proxy,fixed_mixture,200,0,121,-0.605,-0.67,-0.535,1.0,1.0,False
+recurring_regimes,cost_stabilized_proxy,uniform_proxy,fixed_mixture,200,0,128,-0.64,-0.705,-0.57,1.0,1.0,False
+harmful_adaptation,variance_proxy,uniform_proxy,fixed_mixture,200,0,170,-0.85,-0.895,-0.8,1.0,1.0,False
+harmful_adaptation,decision_value_proxy,uniform_proxy,fixed_mixture,200,0,167,-0.835,-0.885,-0.785,1.0,1.0,False
+harmful_adaptation,cost_variance_proxy,uniform_proxy,fixed_mixture,200,0,172,-0.86,-0.905,-0.81,1.0,1.0,False
+harmful_adaptation,cost_stabilized_proxy,uniform_proxy,fixed_mixture,200,0,170,-0.85,-0.9,-0.8,1.0,1.0,False

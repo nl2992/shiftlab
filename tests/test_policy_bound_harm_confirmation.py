@@ -8,6 +8,7 @@ import pytest
 
 from scripts import analyze_policy_bound_harm_confirmation as harm_analyzer
 from scripts.analyze_policy_bound_harm_confirmation import (
+    gpu_name_from_manifest,
     holm_adjust,
     paired_detection_pvalue,
     wilson_interval,
@@ -175,6 +176,13 @@ def test_wilson_interval_contains_the_observed_rate():
 
 def test_harm_analyzer_uses_the_runner_frozen_config():
     assert harm_analyzer.EXPECTED_CONFIG == json.loads(json.dumps(HARM_CONFIRMATION_CONFIG))
+
+
+def test_harm_report_reads_gpu_name_from_environment_manifest():
+    assert (
+        gpu_name_from_manifest({"environment": {"gpu_name": "NVIDIA GeForce RTX 4060 Laptop GPU"}})
+        == "NVIDIA GeForce RTX 4060 Laptop GPU"
+    )
 
 
 def test_harm_analyzer_rejects_modified_metric_artifacts(tmp_path, monkeypatch):

@@ -192,6 +192,8 @@ Thumbs.db
 !outputs/residual_variance_start_prior/**
 !outputs/policy_bound_null_calibration_500/
 !outputs/policy_bound_null_calibration_500/**
+!outputs/policy_bound_harm_confirmation_200/
+!outputs/policy_bound_harm_confirmation_200/**
 !outputs/residual_variance_prior_development/
 !outputs/residual_variance_prior_development/**
 !outputs/residual_variance_discounted_betting/

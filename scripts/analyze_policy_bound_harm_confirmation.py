@@ -5,7 +5,14 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import sys
 from pathlib import Path
+
+# Direct script execution places only `scripts/` on sys.path. Add the repository
+# root so the documented `python scripts/analyze_...py` command can import peers.
+ROOT = Path(__file__).resolve().parents[1]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
 
 import numpy as np
 import pandas as pd
@@ -21,7 +28,6 @@ from shiftlab.decision_harm_experiment import SCENARIOS as SCENARIO_DEFINITIONS
 from shiftlab.dive.estimators import prediction_powered_bound
 from shiftlab.dive.experiment import finalize_manifest
 
-ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_OUTPUT = ROOT / "outputs/policy_bound_harm_confirmation_200"
 METHODS = (
     "uniform_proxy",
@@ -44,6 +50,11 @@ DELAY_COLUMNS = {
 PRIMARY_MONITOR = "fixed_mixture"
 ADAPTIVE_METHODS = METHODS[1:]
 EXPECTED_CONFIG = json.loads(json.dumps(HARM_CONFIRMATION_CONFIG))
+
+
+def gpu_name_from_manifest(manifest: dict) -> str:
+    environment = manifest.get("environment", {})
+    return str(environment.get("gpu_name", manifest.get("gpu_name", "unknown")))
 
 
 def wilson_interval(events: int, trials: int) -> tuple[float, float]:
@@ -210,6 +221,7 @@ def _verify_run(output: Path) -> pd.DataFrame:
 
 def analyze(output: Path) -> tuple[Path, Path]:
     metrics = _verify_run(output)
+    manifest = json.loads((output / "reports/manifest.json").read_text(encoding="utf-8"))
     analysis_dir = output / "analysis"
     analysis_dir.mkdir(parents=True, exist_ok=True)
 
@@ -303,7 +315,7 @@ def analyze(output: Path) -> tuple[Path, Path]:
         "",
         "This report compares five label-query policies at a matched 20% pathwise dollar cap, with policy-specific propensity support bounds. It is evidence only for the registered synthetic streams and does not establish a deployment guarantee or algorithmic novelty.",
         "",
-        f"GPU: `{json.loads((output / 'reports/manifest.json').read_text(encoding='utf-8')).get('gpu_name', 'unknown')}`; resolved device: `cuda`; independent seeds: 200 per scenario; seed block: `55000000–55000199`.",
+        f"GPU: `{gpu_name_from_manifest(manifest)}`; resolved device: `cuda`; independent seeds: 200 per scenario; seed block: `55000000–55000199`.",
         "",
         "## Detection outcomes",
         "",
@@ -334,7 +346,7 @@ def analyze(output: Path) -> tuple[Path, Path]:
             "",
             "A query policy shows a confirmatory detection improvement only where its adjusted p-value is below 0.05 and its paired effect is positive. All nondetections remain in the all-material-harm denominator; rates among onset-reached streams are reported separately. The event horizon can vary under the shared hard dollar cap, so these results compare resource-constrained policies rather than fixed-horizon monitors.",
             "",
-            "No figure was generated; PaperBanana was unavailable in the active environment.",
+            "No figure was generated because this frozen protocol specifies no figures.",
             "",
         ]
     )
@@ -363,6 +375,8 @@ def analyze(output: Path) -> tuple[Path, Path]:
 
 
 def main() -> None:
+    if hasattr(sys.stdout, "reconfigure"):
+        sys.stdout.reconfigure(errors="backslashreplace")
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output", type=Path, default=DEFAULT_OUTPUT)
     args = parser.parse_args()

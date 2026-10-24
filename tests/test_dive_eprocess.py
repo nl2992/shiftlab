@@ -16,6 +16,7 @@ from shiftlab.dive.eprocess import (
     VectorizedStartedMixtureEProcess,
 )
 from shiftlab.dive.estimators import prediction_powered_bound, prediction_powered_estimate
+from shiftlab.dive.query import EvidenceDirectedQueryPolicy
 
 
 def test_bounded_mean_eprocess_stays_one_at_zero_and_rejects_bound_violation():
@@ -107,6 +108,39 @@ def test_variance_adaptive_eprocess_controls_null_crossing_in_monte_carlo_check(
                 crossings += 1
                 break
     assert crossings / streams < 0.08
+
+
+def test_evidence_directed_sampling_preserves_null_crossing_control_with_hard_cap():
+    rng = np.random.default_rng(24102026)
+    alpha = 0.05
+    q_min = 0.05
+    horizon = 400
+    label_cap = 80
+    streams = 300
+    crossings = 0
+    policy = EvidenceDirectedQueryPolicy(q_min=q_min, q_max=0.8, alpha=alpha)
+    for _ in range(streams):
+        process = BoundedMeanEProcess(bound=1 / q_min, alpha=alpha)
+        queried = 0
+        for _event in range(horizon):
+            if queried >= label_cap:
+                break
+            q = policy.propensity(
+                log_e_value=process.log_e_value,
+                remaining_fraction=(label_cap - queried) / label_cap,
+            )
+            label_arrives = bool(rng.random() < q)
+            value = 0.0
+            if label_arrives:
+                queried += 1
+                gain = float(rng.choice((-1.0, 1.0)))
+                value = gain / q
+            process.update(value)
+            if process.alarm:
+                crossings += 1
+                break
+    # A one-sided 95% Monte Carlo upper endpoint is below 9% for this fixed-seed run.
+    assert crossings / streams < 0.09
 
 
 def test_prespecified_start_mixture_does_not_change_before_first_start():

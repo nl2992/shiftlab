@@ -127,6 +127,34 @@ def test_hard_budget_run_respects_common_spend_cap_and_stops_predictably(tmp_pat
     assert "probability_positive" not in metrics.columns
 
 
+def test_evidence_directed_policy_uses_preoutcome_evidence_and_skips_unavailable_visuals(tmp_path):
+    output = run_hard_budget(
+        HardBudgetConfig(
+            n=1600,
+            seeds=1,
+            budget_rate=0.20,
+            q_min=0.10,
+            q_max=0.80,
+            common_eprocess_bound=True,
+            generate_figure=False,
+            device="cpu",
+            scenario_subset=("boundary_local_harm",),
+            method_subset=("uniform_proxy", "evidence_directed_proxy"),
+        ),
+        tmp_path / "evidence_directed",
+    )
+    metrics = pd.read_parquet(output / "metrics" / "hard_budget_comparison.parquet")
+    assert set(metrics.method) == {"uniform_proxy", "evidence_directed_proxy"}
+    assert metrics.budget_respected.all()
+    evidence = metrics.loc[metrics.method.eq("evidence_directed_proxy")].iloc[0]
+    assert evidence.query_propensity_min >= 0.10
+    assert evidence.query_propensity_max <= 0.80
+    assert evidence.eprocess_minimum_propensity == pytest.approx(0.10)
+    assert not list((output / "figures").glob("*.png"))
+    report = (output / "reports" / "hard_budget_comparison.md").read_text()
+    assert "PaperBanana is unavailable" in report
+
+
 def test_hard_budget_monitor_comparators_share_labels_and_respect_cap(tmp_path):
     output = run_hard_budget(
         HardBudgetConfig(

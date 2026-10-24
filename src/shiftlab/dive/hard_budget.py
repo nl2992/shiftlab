@@ -52,6 +52,7 @@ from .experiment import (
 from .proxy import DecisionLossProxy
 from .query import (
     AdaptiveQueryPolicy,
+    EvidenceDirectedQueryPolicy,
     ExactMixtureGrowthQueryPolicy,
     RobustMixtureGrowthQueryPolicy,
     cost_mixture_weight_for_tolerance,
@@ -62,6 +63,7 @@ from .query import (
 PPRM_MIXTURE_WEIGHTS = (0.1, 0.25, 0.5, 0.75, 0.9)
 HARD_BUDGET_METHODS = (
     "uniform_proxy",
+    "evidence_directed_proxy",
     "variance_proxy",
     "decision_value_proxy",
     "cost_variance_proxy",
@@ -106,6 +108,7 @@ class HardBudgetConfig:
     pprm_initial_reliance: float = PPRM_INITIAL_RELIANCE
     max_label_cost: float = 2.5
     common_eprocess_bound: bool = False
+    generate_figure: bool = True
     scenario_severity: float | None = None
     change_fraction: float = 0.5
     device: str = "auto"
@@ -215,6 +218,7 @@ def _one_method(
 
     query_kind = {
         "uniform_proxy": "uniform",
+        "evidence_directed_proxy": "evidence_directed",
         "uniform_proxy_frozen": "uniform",
         "variance_proxy": "variance",
         "decision_value_proxy": "decision_value",
@@ -223,7 +227,13 @@ def _one_method(
         "exact_mixture_growth_proxy": "exact_mixture_growth",
         "robust_mixture_growth_proxy": "robust_mixture_growth",
     }[method]
-    if query_kind in {"exact_mixture_growth", "robust_mixture_growth"}:
+    evidence_policy = None
+    if query_kind == "evidence_directed":
+        evidence_policy = EvidenceDirectedQueryPolicy(
+            q_min=config.q_min, q_max=config.q_max, alpha=config.alpha
+        )
+        policy = None
+    elif query_kind in {"exact_mixture_growth", "robust_mixture_growth"}:
         process_bound = prediction_powered_bound(proxy.clip, config.q_min)
         policy_class = (
             RobustMixtureGrowthQueryPolicy
@@ -339,6 +349,7 @@ def _one_method(
     processed = 0
     estimates: list[float] = []
     truths: list[float] = []
+    propensities: list[float] = []
     first_alarm = None
     first_started_mixture_alarm = None
     first_multiscale_alarm = None
@@ -358,7 +369,12 @@ def _one_method(
         h_now = float(proxy_values[offset])
         v_now = residual_second_moments[offset : offset + 1]
         u_now = uncertainty_values[offset : offset + 1]
-        if method in {"exact_mixture_growth_proxy", "robust_mixture_growth_proxy"}:
+        if evidence_policy is not None:
+            propensity = evidence_policy.propensity(
+                log_e_value=process.log_e_value,
+                remaining_fraction=float(np.clip(remaining / budget, 0.0, 1.0)),
+            )
+        elif method in {"exact_mixture_growth_proxy", "robust_mixture_growth_proxy"}:
             q_adaptive = float(
                 policy.probabilities(
                     proxy=np.asarray([h_now]),
@@ -378,7 +394,8 @@ def _one_method(
                     label_costs=np.asarray([cost_now]),
                 )[0]
             )
-        propensity = q_adaptive
+        if evidence_policy is None:
+            propensity = q_adaptive
         if method == "cost_stabilized_proxy":
             assert mixture_weight is not None
             propensity = float(
@@ -405,6 +422,7 @@ def _one_method(
         if not config.q_min - 1e-12 <= propensity <= config.q_max + 1e-12:
             raise RuntimeError("query propensity violated its registered bounds")
 
+        propensities.append(propensity)
         expected_spend += propensity * cost_now
         queried = bool(common_uniforms[offset] < propensity)
         observed = float(centered_cost_difference[index]) if queried else None
@@ -489,6 +507,9 @@ def _one_method(
         # actual spend, its pathwise sum is not constrained by the hard cap.
         "predictable_spend_compensator_until_stop": expected_spend,
         "eprocess_minimum_propensity": minimum_propensity,
+        "query_propensity_min": float(np.min(propensities)) if propensities else None,
+        "query_propensity_mean": float(np.mean(propensities)) if propensities else None,
+        "query_propensity_max": float(np.max(propensities)) if propensities else None,
         "labels_queried": queried_count,
         "processed_events": processed,
         "monitor_fraction_processed": processed / event_count,
@@ -1300,7 +1321,8 @@ def run_hard_budget(config: HardBudgetConfig, output: Path) -> Path:
     summary = _summarize(metrics)
     summary.to_csv(metrics_dir / "hard_budget_summary.csv", index=False)
 
-    _plot_hard_budget(metrics, figures_dir / "hard_budget_tradeoff.png")
+    if config.generate_figure:
+        _plot_hard_budget(metrics, figures_dir / "hard_budget_tradeoff.png")
 
     lines = [
         "# Common hard label-dollar budget comparison",
@@ -1381,13 +1403,22 @@ def run_hard_budget(config: HardBudgetConfig, output: Path) -> Path:
                 f"--scenarios {' '.join(config.scenario_subset)} "
                 f"--methods {' '.join(config.method_subset)} "
                 f"{'--common-eprocess-bound ' if config.common_eprocess_bound else ''}"
+                f"{'--skip-figure ' if not config.generate_figure else ''}"
                 f"--output {output.as_posix()}`."
             ),
             "",
-            "![Hard-budget tradeoff](../figures/hard_budget_tradeoff.png)",
-            "",
         ]
     )
+    if config.generate_figure:
+        lines.extend(["", "![Hard-budget tradeoff](../figures/hard_budget_tradeoff.png)", ""])
+    else:
+        lines.extend(
+            [
+                "",
+                "No figure was generated for this run; PaperBanana is unavailable in the active environment.",
+                "",
+            ]
+        )
     (reports_dir / "hard_budget_comparison.md").write_text("\n".join(lines), encoding="utf-8")
     if "uniform_proxy" in set(metrics.method) and {
         "multiscale_e_detected",
@@ -1446,6 +1477,11 @@ def main(argv: list[str] | None = None) -> None:
         action="store_true",
         help="use q_min for all method bounds to isolate query allocation from threshold width",
     )
+    parser.add_argument(
+        "--skip-figure",
+        action="store_true",
+        help="omit chart generation when PaperBanana is unavailable",
+    )
     parser.add_argument("--scenarios", nargs="+", choices=[scenario.name for scenario in SCENARIOS])
     parser.add_argument("--methods", nargs="+", choices=HARD_BUDGET_METHODS)
     parser.add_argument("--device", choices=["auto", "cpu", "cuda"], default="auto")
@@ -1468,6 +1504,7 @@ def main(argv: list[str] | None = None) -> None:
         pprm_max_reliance=args.pprm_max_reliance,
         pprm_initial_reliance=args.pprm_initial_reliance,
         common_eprocess_bound=args.common_eprocess_bound,
+        generate_figure=not args.skip_figure,
         device=args.device,
         scenario_subset=tuple(args.scenarios or HardBudgetConfig.scenario_subset),
         method_subset=tuple(args.methods or DEFAULT_HARD_BUDGET_METHODS),

@@ -585,6 +585,14 @@ similar realized spend ($713 versus $712). See the [locked protocol](docs/hard_b
 and [full analysis](outputs/hard_budget_matched_qmin_010_replication_60/reports/matched_bound_replication_analysis.md).
 Reproduce with the command in the protocol; this is fresh-seed exploratory replication, not a
 general allocation result.
+The subsequent [evidence-directed allocation screen](docs/evidence_directed_allocation_results.md)
+tested a predictable propensity that rises with prior e-process evidence and tapers with remaining
+budget. It respected all caps and reached all 30 boundary-harm onsets, but detected 0/30 harms,
+compared with 0/30 for uniform; it used 230 versus 346 label dollars on average and its stream-mean
+RMSE was higher by 0.0165 (paired 95% interval [-0.0011, 0.0323]). Its urgency signal stayed near
+the propensity floor. Treat this as an inconclusive development result, not calibration; the next
+step is a separately seeded grid of prespecified urgency curves. The [protocol](docs/evidence_directed_allocation_protocol.md)
+and complete tabular outputs are checked in under `outputs/evidence_directed_allocation_30/`.
 The [paired power plan](outputs/hard_budget_matched_qmin_010_replication_60/reports/paired_detection_power_plan.md)
 estimates 151 fresh seeds for 80% power against the easier zero-difference McNemar null under
 pilot plug-in rates (219 with a four-comparison Bonferroni level). Those figures do not power the

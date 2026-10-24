@@ -5,6 +5,7 @@ import pytest
 
 from shiftlab.dive.query import (
     AdaptiveQueryPolicy,
+    EvidenceDirectedQueryPolicy,
     EvidenceGrowthQueryPolicy,
     ExactMixtureGrowthQueryPolicy,
     RobustMixtureGrowthQueryPolicy,
@@ -15,6 +16,32 @@ from shiftlab.dive.query import (
     mix_with_cost_neutral,
     mix_with_uniform,
 )
+
+
+def test_evidence_directed_query_is_predictable_bounded_and_spend_tapered():
+    policy = EvidenceDirectedQueryPolicy(q_min=0.05, q_max=0.8, alpha=0.05)
+    threshold = -np.log(0.05)
+    assert policy.propensity(log_e_value=0.0, remaining_fraction=1.0) == pytest.approx(0.05)
+    assert policy.propensity(log_e_value=threshold / 2, remaining_fraction=1.0) == pytest.approx(
+        0.425
+    )
+    assert policy.propensity(log_e_value=threshold, remaining_fraction=1.0) == pytest.approx(0.8)
+    assert policy.propensity(log_e_value=threshold, remaining_fraction=0.25) == pytest.approx(
+        0.2375
+    )
+    for evidence in (-100.0, 0.0, threshold, 1e6):
+        for remaining in (0.0, 0.1, 0.5, 1.0):
+            q = policy.propensity(log_e_value=evidence, remaining_fraction=remaining)
+            assert 0.05 <= q <= 0.8
+    with pytest.raises(ValueError, match="remaining_fraction"):
+        policy.propensity(log_e_value=0.0, remaining_fraction=1.1)
+
+
+def test_evidence_directed_query_rejects_invalid_significance_and_support():
+    with pytest.raises(ValueError, match="alpha"):
+        EvidenceDirectedQueryPolicy(q_min=0.05, q_max=0.8, alpha=1.0)
+    with pytest.raises(ValueError, match="q_min"):
+        EvidenceDirectedQueryPolicy(q_min=0.0, q_max=0.8, alpha=0.05)
 
 
 @pytest.mark.parametrize(

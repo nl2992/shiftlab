@@ -135,6 +135,37 @@ class AdaptiveQueryPolicy:
         return np.maximum(scores, 1e-12)
 
 
+class EvidenceDirectedQueryPolicy:
+    """Predictable query urgency driven by the previous bounded e-value.
+
+    The propensity rises from ``q_min`` toward ``q_max`` as prior log evidence
+    approaches ``log(1/alpha)``. It is then tapered toward ``q_min`` as realized
+    spend consumes the prespecified pathwise budget. Both inputs are available
+    before the current label is queried. This is a heuristic allocation rule,
+    not a power or optimality guarantee. A hard-cap runner must still stop before
+    an unaffordable query; the positive propensity floor supports a fixed
+    prediction-powered increment bound.
+    """
+
+    def __init__(self, *, q_min: float, q_max: float, alpha: float):
+        if not np.isfinite(alpha) or not 0 < alpha < 1:
+            raise ValueError("alpha must lie in (0, 1)")
+        if not np.isfinite(q_min) or not np.isfinite(q_max) or not 0 < q_min <= q_max <= 1:
+            raise ValueError("require 0 < q_min <= q_max <= 1")
+        self.q_min = float(q_min)
+        self.q_max = float(q_max)
+        self.alpha = float(alpha)
+
+    def propensity(self, *, log_e_value: float, remaining_fraction: float) -> float:
+        """Return a pre-outcome propensity from prior evidence and spend only."""
+        if not np.isfinite(log_e_value):
+            raise ValueError("log_e_value must be finite")
+        if not np.isfinite(remaining_fraction) or not 0 <= remaining_fraction <= 1:
+            raise ValueError("remaining_fraction must lie in [0, 1]")
+        urgency = np.clip(log_e_value / -np.log(self.alpha), 0.0, 1.0)
+        return float(self.q_min + (self.q_max - self.q_min) * urgency * remaining_fraction)
+
+
 class EvidenceGrowthQueryPolicy:
     """Allocate labels to maximize predicted log-growth of a fixed stake mixture.
 

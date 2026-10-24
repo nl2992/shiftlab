@@ -1,0 +1,76 @@
+{
+  "artifacts": {
+    "metrics/paired_profile_contrasts.csv": "outputs\\informative_delay_stress_grid_30_final\\metrics\\paired_profile_contrasts.csv",
+    "metrics/stream_metrics.parquet": "outputs\\informative_delay_stress_grid_30_final\\metrics\\stream_metrics.parquet",
+    "metrics/summary.csv": "outputs\\informative_delay_stress_grid_30_final\\metrics\\summary.csv",
+    "reports/informative_delay_stress_results.md": "outputs\\informative_delay_stress_grid_30_final\\reports\\informative_delay_stress_results.md"
+  },
+  "configuration": {
+    "arms": [
+      "fixed",
+      "predictable"
+    ],
+    "bootstrap_replicates": 20000,
+    "bootstrap_seed": 27804119,
+    "harm_scenarios": [
+      "high_cost_local_harm_d0.04",
+      "high_cost_local_harm_d0.20",
+      "high_cost_local_harm_d0.40",
+      "high_cost_local_harm_d0.60"
+    ],
+    "horizon": 2400,
+    "null_scenarios": [
+      "mixed_sign_exact_marginal_null",
+      "strict_negative_control"
+    ],
+    "profiles": [
+      "fixed",
+      "positive_fast",
+      "positive_slow"
+    ],
+    "seed_root": 27804027,
+    "streams_per_scenario": 30
+  },
+  "created_utc": "2026-10-24T20:04:32.362594+00:00",
+  "experiment": "informative_delay_stress_analysis",
+  "git_commit": "73b82fb6cbeb24a3f4a1215a1e49a10ccaf35633",
+  "limitations": [
+    "development screen only; no null calibration or confirmation",
+    "iid event generation, frozen policy pair, complete queried labels",
+    "outcome-dependent delays assigned by the evaluator; latency not a model feature",
+    "findings limited to registered synthetic DGP and seed block",
+    "no visuals generated; PaperBanana required for future visuals"
+  ],
+  "rows": 1080,
+  "sha256": {
+    "analysis_script": "5c8fc29d37bd400fa0a59d62d37982fc15a89f6d407b716ad25cdfd45163c3bb",
+    "metrics/paired_profile_contrasts.csv": "8d5d9fcdfc26f8388f3c30115608eac32e6cfe3d90c15fdd7cdb62f6ada0bd55",
+    "metrics/stream_metrics.parquet": "9f220f9d9845461356498b5177f9d1389943d726f31ca20b8907c2f70574d29c",
+    "metrics/summary.csv": "a6d049861c7a1ae3c1e83b5238009655b5559aee575a95ff3ee3423d1798ace4",
+    "protocol": "f8042a00159e8eb2a5006c9a8919e694abcd2382bdb3241e5ece278761d5974e",
+    "reports/informative_delay_stress_results.md": "4fe7708d16975216bad516880c207fd2c66470376beb1896664d487bfadde0c7"
+  },
+  "sources": {
+    "fixed": {
+      "manifest": "outputs\\informative_delay_fixed_30\\reports\\manifest.json",
+      "manifest_sha256": "4f64887ad779c332191b5d5c49b96c3844609c2c7e791f761803ece9cfb6c675",
+      "metrics": "outputs\\informative_delay_fixed_30\\metrics\\stream_metrics.parquet",
+      "metrics_sha256": "d95b4da87f3fda42ed1bbf1acc6562dfa4b9f04aab307f2d8599cd385659a644",
+      "source_git_commit": "427d98fd576043764e84e7e5425d39e49484062a"
+    },
+    "positive_fast": {
+      "manifest": "outputs\\informative_delay_positive_fast_30\\reports\\manifest.json",
+      "manifest_sha256": "6a43e272711b6f232ed9ebf6dedea4806c0c94f20cdd554da0dcb5601e75b459",
+      "metrics": "outputs\\informative_delay_positive_fast_30\\metrics\\stream_metrics.parquet",
+      "metrics_sha256": "2eaeb7ee4450ee672758d44719017ef8c498ea5a0e991474ef2dcbb225bab1fd",
+      "source_git_commit": "427d98fd576043764e84e7e5425d39e49484062a"
+    },
+    "positive_slow": {
+      "manifest": "outputs\\informative_delay_positive_slow_30\\reports\\manifest.json",
+      "manifest_sha256": "0bff3d7bc2c45a6154eb2eaa9808ec7f80bf193e8d8fcbe893bcb898288bd2b8",
+      "metrics": "outputs\\informative_delay_positive_slow_30\\metrics\\stream_metrics.parquet",
+      "metrics_sha256": "a0941ebd502e4af7f843226f0e6e9112a367e9606a1356e626ff06fb95643343",
+      "source_git_commit": "427d98fd576043764e84e7e5425d39e49484062a"
+    }
+  }
+}

@@ -1,0 +1,13 @@
+scenario,bound_mode,delay_profile,streams,false_escalations,detection_rate,onset_reach_rate,mean_labels,mean_events_processed,mean_event_delay,mean_wall_delay
+high_cost_local_harm_d0.04,fixed,fixed,30,0,0.0,1.0,274.0,2400.0,,
+high_cost_local_harm_d0.04,predictable,fixed,30,0,0.0,1.0,158.46666666666667,2400.0,,
+high_cost_local_harm_d0.20,fixed,fixed,30,0,0.0,1.0,296.23333333333335,2400.0,,
+high_cost_local_harm_d0.20,predictable,fixed,30,0,0.0,1.0,157.7,2400.0,,
+high_cost_local_harm_d0.40,fixed,fixed,30,0,0.0,1.0,308.7,2400.0,,
+high_cost_local_harm_d0.40,predictable,fixed,30,0,0.03333333333333333,1.0,185.96666666666667,2370.6,306.0,318.0
+high_cost_local_harm_d0.60,fixed,fixed,30,0,0.0,1.0,303.1333333333333,2400.0,,
+high_cost_local_harm_d0.60,predictable,fixed,30,0,0.06666666666666667,1.0,178.46666666666667,2369.0,723.0,735.0
+mixed_sign_exact_marginal_null,fixed,fixed,30,0,0.0,0.0,302.53333333333336,2400.0,,
+mixed_sign_exact_marginal_null,predictable,fixed,30,0,0.0,0.0,178.33333333333334,2400.0,,
+strict_negative_control,fixed,fixed,30,0,0.0,0.0,281.73333333333335,2400.0,,
+strict_negative_control,predictable,fixed,30,1,0.0,0.0,175.56666666666666,2352.7,,

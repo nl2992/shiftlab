@@ -1,0 +1,52 @@
+{
+  "artifacts": {
+    "metrics/stream_metrics.parquet": "outputs\\informative_delay_fixed_30\\metrics\\stream_metrics.parquet",
+    "metrics/summary.csv": "outputs\\informative_delay_fixed_30\\metrics\\summary.csv",
+    "reports/development_results.md": "outputs\\informative_delay_fixed_30\\reports\\development_results.md"
+  },
+  "configuration": {
+    "arms": [
+      "fixed",
+      "predictable"
+    ],
+    "delay": 12,
+    "delay_profile": "fixed",
+    "device": "cuda",
+    "horizon": 2400,
+    "label_budget_rate": 0.2,
+    "monitor_backend": "numpy_cpu_event_order",
+    "outcome_independent_fixed_delay": true,
+    "q_max": 0.8,
+    "q_min": 0.05,
+    "scenarios": [
+      "mixed_sign_exact_marginal_null",
+      "strict_negative_control",
+      "high_cost_local_harm_d0.04",
+      "high_cost_local_harm_d0.20",
+      "high_cost_local_harm_d0.40",
+      "high_cost_local_harm_d0.60"
+    ],
+    "seed_root": 27804027,
+    "streams_per_scenario_per_arm": 30
+  },
+  "created_utc": "2026-10-24T19:55:54.032925+00:00",
+  "experiment": "delayed_history_predictable_bound_development",
+  "git_commit": "427d98fd576043764e84e7e5425d39e49484062a",
+  "limitations": [
+    "development screen only",
+    "iid event process only",
+    "delay profile fixed; informative profiles are power/latency stress tests only",
+    "event-order prefix buffer; eventwise predictable support bound",
+    "no serial-dependence, policy-adaptation, or latency-as-evidence claim"
+  ],
+  "rows": 360,
+  "sha256": {
+    "informative_delay_protocol": "659336bb48a10253c412d07d2be99d455a4ecda18592d82681928173145c32b8",
+    "metrics/stream_metrics.parquet": "d95b4da87f3fda42ed1bbf1acc6562dfa4b9f04aab307f2d8599cd385659a644",
+    "metrics/summary.csv": "d10e9c9924a3d59de3180a26ab4b4bab852a945c1d1bb0a20a5b8588b41d4c1b",
+    "protocol": "20f0c796421d3964f90e324853c1c47dfd63612ef58d60a0e44e33967df83ba0",
+    "reports/development_results.md": "9ec9f24f56345ca19f4e26cf328e2f22bb0a262687ea93ec28a273800c475251",
+    "script": "eb63334b80b045bf4309e84a4ddbc51421a9096a188894ce7ab3d68c366c97fa",
+    "shared_dgp_source": "d690fada02bab08c73f81bc7489ff97ec9a8af4f02375c24f374a61b89e390ee"
+  }
+}

@@ -29,4 +29,5 @@ No figure is required for this screen. If one is later requested, use PaperBanan
 uv run python scripts/validate_delayed_history_predictable_bounds.py --streams 30 --horizon 2400 --seed 27804027 --delay 12 --delay-profile fixed --device cuda --output outputs/informative_delay_fixed_30
 uv run python scripts/validate_delayed_history_predictable_bounds.py --streams 30 --horizon 2400 --seed 27804027 --delay 12 --delay-profile positive_fast --device cuda --output outputs/informative_delay_positive_fast_30
 uv run python scripts/validate_delayed_history_predictable_bounds.py --streams 30 --horizon 2400 --seed 27804027 --delay 12 --delay-profile positive_slow --device cuda --output outputs/informative_delay_positive_slow_30
+uv run python scripts/analyze_informative_delay_stress.py --output outputs/informative_delay_stress_grid_30_final
 ```

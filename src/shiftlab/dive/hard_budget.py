@@ -65,7 +65,7 @@ HARD_BUDGET_METHODS = (
     "cost_stabilized_proxy",
     "exact_mixture_growth_proxy",
     "robust_mixture_growth_proxy",
-    "pprm_block_eta1",
+    "pprm_block_adaptive",
 )
 DEFAULT_HARD_BUDGET_METHODS = HARD_BUDGET_METHODS[:-2]
 PPRM_BLOCK_SIZE = 20
@@ -518,7 +518,7 @@ def _one_pprm_block_method(
     sample_path_harm_onset: int | None,
     common_uniforms: np.ndarray,
 ) -> dict[str, object]:
-    """Compare a fixed-eta batch PPI confidence sequence at a 20% label rate."""
+    """Compare a predictable plug-in-reliance PPI sequence at a 20% label rate."""
     if PPRM_BLOCK_SIZE % PPRM_LABELS_PER_BLOCK:
         raise RuntimeError("PPRM block must contain an integer labeled fraction")
     event_count = len(x) - monitor_start
@@ -624,7 +624,7 @@ def _one_pprm_block_method(
         "scenario_severity": scenario.severity,
         "change_fraction": config.change_fraction,
         "seed": seed,
-        "method": "pprm_block_eta1",
+        "method": "pprm_block_adaptive",
         "hard_budget": budget,
         "realized_label_spend": spent,
         "budget_remaining": remaining,
@@ -752,7 +752,7 @@ def _generate_stream_rows(
     onset = statistical_harm_onset(scenario.name, sample_path_onset)
     rows = []
     for method in config.method_subset:
-        if method == "pprm_block_eta1":
+        if method == "pprm_block_adaptive":
             rows.append(
                 _one_pprm_block_method(
                     seed=seed,
@@ -916,7 +916,7 @@ def _paired_effects(metrics: pd.DataFrame, seed: int) -> pd.DataFrame:
             )
             harmful = paired.loc[paired.material_harm_method.astype(bool)]
             reached = harmful.loc[harmful.harm_reached_before_budget_stop_method.astype(bool)]
-            secondary_available = method != "pprm_block_eta1"
+            secondary_available = method != "pprm_block_adaptive"
             rows.append(
                 {
                     "scenario": scenario,

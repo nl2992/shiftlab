@@ -117,12 +117,12 @@ def test_pprm_block_comparator_respects_spend_and_updates_only_complete_blocks(t
             common_eprocess_bound=True,
             device="cpu",
             scenario_subset=("stationary", "boundary_local_harm"),
-            method_subset=("uniform_proxy", "pprm_block_eta1"),
+            method_subset=("uniform_proxy", "pprm_block_adaptive"),
         ),
         tmp_path / "pprm_block",
     )
     metrics = pd.read_parquet(output / "metrics" / "hard_budget_comparison.parquet")
-    pprm = metrics.loc[metrics.method.eq("pprm_block_eta1")]
+    pprm = metrics.loc[metrics.method.eq("pprm_block_adaptive")]
     assert len(pprm) == 2
     assert pprm.budget_respected.all()
     assert (pprm.labels_queried % 4 == 0).all()
@@ -137,7 +137,7 @@ def test_pprm_block_comparator_respects_spend_and_updates_only_complete_blocks(t
     assert "expected_cost_difference" not in metrics.columns
     report = (output / "reports" / "hard_budget_comparison.md").read_text()
     assert "Primary detection all / reached" in report
-    assert "pprm_block_eta1" in report
+    assert "pprm_block_adaptive" in report
 
 
 def test_hard_budget_null_control_generates_report_without_harm_scenario(tmp_path):

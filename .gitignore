@@ -148,6 +148,8 @@ outputs/figures/*
 !outputs/late_prior_confirmation/**
 !outputs/start_prior_robust_mix_development/
 !outputs/start_prior_robust_mix_development/**
+!outputs/prequential_proxy_hedge_development/
+!outputs/prequential_proxy_hedge_development/**
 results/*
 !results/.gitkeep
 data/raw/

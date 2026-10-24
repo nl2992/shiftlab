@@ -1,0 +1,87 @@
+{
+  "created_at_utc": "2026-10-24T07:59:07.177110+00:00",
+  "config": {
+    "n": 3200,
+    "d": 16,
+    "seeds": 100,
+    "seed_offset": 20401024,
+    "query_rate": 0.2,
+    "alpha": 0.05,
+    "harm_margin": 0.1,
+    "max_label_cost": 2.5,
+    "device": "cuda",
+    "scenario_subset": [
+      "stationary",
+      "benign_nuisance",
+      "boundary_local_harm",
+      "residual_variance",
+      "recurring_regimes",
+      "harmful_adaptation"
+    ]
+  },
+  "methods": [
+    "zero",
+    "ridge",
+    "forest",
+    "risk_model",
+    "validation_best",
+    "prequential_hedge"
+  ],
+  "reference_method": "ridge",
+  "proxy_experts": [
+    "zero",
+    "ridge",
+    "forest",
+    "risk_model"
+  ],
+  "hedge_learning_rate": 0.1,
+  "alternative_scenarios": [
+    "boundary_local_harm",
+    "residual_variance",
+    "recurring_regimes",
+    "harmful_adaptation"
+  ],
+  "population_null_scenarios": [
+    "stationary",
+    "benign_nuisance"
+  ],
+  "metric_rows": 3600,
+  "macro_primary": {
+    "paired_macro_detection_difference_hedge_minus_ridge": 0.0425,
+    "seed_cluster_bootstrap_95": [
+      0.0225,
+      0.065
+    ],
+    "seed_clusters": 100,
+    "bootstrap_replicates": 20000,
+    "bootstrap_seed": 20261026
+  },
+  "resolved_generator_device": "cuda",
+  "environment": {
+    "cpu_ram_bytes": 16858472448,
+    "disk_free_bytes": 21438001152,
+    "cuda_available": true,
+    "nvidia_smi": "NVIDIA GeForce RTX 4060 Laptop GPU, 8188 MiB, 592.82, 0 %, 97 MiB",
+    "torch_version": "2.9.1+cu130",
+    "cuda_runtime": "13.0",
+    "gpu_name": "NVIDIA GeForce RTX 4060 Laptop GPU",
+    "gpu_memory_bytes": 8585216000,
+    "versions": {
+      "numpy": "2.5.4",
+      "scipy": "1.18.1",
+      "pandas": "3.0.6",
+      "pyarrow": "25.0.1",
+      "folktables": "0.0.12"
+    }
+  },
+  "metrics_sha256": "03400db12f06b075cd60e1ea9a547dd0285eee675ce78d34e6d0f15ddf37633a",
+  "code_sha256": {
+    "proxy_hedge_benchmark.py": "41c0e4a59a18dce38f15f68cff8c8a198a52dda1e37eb68352d5e60d2d47a975",
+    "proxy_aggregation.py": "2cdcb77b1d8fbd080d76d49aacd841c2b931656d993a643c148ccc4b07547c43",
+    "estimators.py": "fff53c1857b14104eca5bcb6d6300ed26e24acb2bbf4903be943437441d8d2b6",
+    "eprocess.py": "4646a09a0d6c23686dc6b4bdb18083ee2f4df1d733e40271cfa2d055fd8dd77a",
+    "experiment.py": "f11f8516cdbeaa56a2a9b2c229af370b77830ac1801a81394508950241482633",
+    "decision_harm_experiment.py": "963d2a794ec0638f08f24dd75eabec457f209ae2df3759e89a6f6dadeca9fa41"
+  },
+  "interpretation": "Development-only matched-budget comparison. The seed-cluster bootstrap is descriptive selection evidence; 100-stream null counts do not certify calibration."
+}

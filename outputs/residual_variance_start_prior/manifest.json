@@ -1,0 +1,64 @@
+{
+  "created_at_utc": "2026-10-24T10:26:03.122746+00:00",
+  "design": {
+    "purpose": "diagnostic comparison of previously calibrated fixed start priors on residual-variance harm",
+    "severities": [
+      1.5,
+      3.0,
+      4.5
+    ],
+    "query_rates": [
+      0.2,
+      0.4,
+      0.8,
+      1.0
+    ],
+    "seeds_per_cell": 60,
+    "seed_range_inclusive": [
+      31202026,
+      31202085
+    ],
+    "n": 2400,
+    "methods": [
+      "fixed_mixture",
+      "uniform_start_mixture",
+      "late_start_mixture"
+    ],
+    "device": "cuda",
+    "starts": "eight fixed positions over planned monitor horizon; selected before outcomes",
+    "weights": {
+      "uniform_start_mixture": "Beta(1,1) mass over eight equal-width horizon bins",
+      "late_start_mixture": "Beta(2,1) mass over eight equal-width horizon bins"
+    },
+    "note": "The fixed convex mixtures preserve the bounded-mean e-process guarantee under its original conditional-mean and support assumptions. This alternative-only grid is not a new null calibration."
+  },
+  "metric_rows": 2160,
+  "metrics_sha256": "e02c30b92f8ca8a6bc90e13731df9602a9b750cfd419cdb8e4808887d1958a1e",
+  "code_sha256": {
+    "residual_variance_start_prior.py": "e895ff23e15607d6118576e46a1d9b8c28b1bddc2552d23a537ddf1d3226f654",
+    "risk_proxy_monitor_grid.py": "6464b162f96bdb2e9bd336a7c31332472005cda7fea6fb4b976447b2c28a1955",
+    "start_prior_sweep.py": "7b36032aaea65da53dfd8386fd0b146c576dee470cb01b89bff8fc89f8ec7988",
+    "eprocess.py": "4646a09a0d6c23686dc6b4bdb18083ee2f4df1d733e40271cfa2d055fd8dd77a",
+    "estimators.py": "fff53c1857b14104eca5bcb6d6300ed26e24acb2bbf4903be943437441d8d2b6",
+    "experiment.py": "f11f8516cdbeaa56a2a9b2c229af370b77830ac1801a81394508950241482633",
+    "decision_harm_experiment.py": "963d2a794ec0638f08f24dd75eabec457f209ae2df3759e89a6f6dadeca9fa41",
+    "environment.py": "eb084c9dc9e306d9de48fda978b20a120725f14ae2793fc5533d75429e4b90b3"
+  },
+  "environment": {
+    "cpu_ram_bytes": 16858472448,
+    "disk_free_bytes": 21400895488,
+    "cuda_available": true,
+    "nvidia_smi": "NVIDIA GeForce RTX 4060 Laptop GPU, 8188 MiB, 592.82, 0 %, 97 MiB",
+    "torch_version": "2.9.1+cu130",
+    "cuda_runtime": "13.0",
+    "gpu_name": "NVIDIA GeForce RTX 4060 Laptop GPU",
+    "gpu_memory_bytes": 8585216000,
+    "versions": {
+      "numpy": "2.5.4",
+      "scipy": "1.18.1",
+      "pandas": "3.0.6",
+      "pyarrow": "25.0.1",
+      "folktables": "0.0.12"
+    }
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "metric_rows": 2160,
+  "unique_seeds": 60,
+  "severity_cells": 3,
+  "query_rate_cells": 4,
+  "material_harm_streams": 2148,
+  "harm_onsets_reached": 2148,
+  "budget_violations": 0,
+  "pre_onset_false_escalations": 0
+}

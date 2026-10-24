@@ -31,9 +31,11 @@ from .eprocess import (
     BoundedMeanEProcess,
     PredictablePlugInEmpiricalBernsteinEProcess,
     PredictableVarianceAdaptiveEProcess,
+    StartedMixtureEProcess,
 )
 from .estimators import prediction_powered_bound, prediction_powered_estimate
 from .experiment import _binary_cost, _material_harm_onset, _synthetic_label_costs
+from .start_prior_sweep import beta_start_weights
 
 PROCESS_NAMES = ("fixed_mixture", "predictable_kelly", "plug_in_empirical_bernstein")
 NULL_SCENARIOS = ("stationary", "benign_nuisance")
@@ -167,7 +169,13 @@ def _prepare_stream(scenario, seed: int, config: RiskProxyMonitorGridConfig):
     )
 
 
-def _run_stream(scenario, seed: int, query_rate: float, config: RiskProxyMonitorGridConfig):
+def _run_stream(
+    scenario,
+    seed: int,
+    query_rate: float,
+    config: RiskProxyMonitorGridConfig,
+    methods: tuple[str, ...] = PROCESS_NAMES,
+):
     (
         scenario,
         seed,
@@ -209,9 +217,28 @@ def _run_stream(scenario, seed: int, query_rate: float, config: RiskProxyMonitor
     queries = query_mask[:processed]
     event_costs = np.asarray(selected_costs)
     bound = prediction_powered_bound(clip, query_rate)
+    available_horizon = config.n - monitor_start
+    start_positions = tuple(round(i * available_horizon / 8) for i in range(8))
     output = []
-    for method in PROCESS_NAMES:
-        process = _process(method, bound, config.alpha)
+    for method in methods:
+        if method in PROCESS_NAMES:
+            process = _process(method, bound, config.alpha)
+        elif method == "uniform_start_mixture":
+            process = StartedMixtureEProcess(
+                bound=bound,
+                alpha=config.alpha,
+                starts=start_positions,
+                weights=beta_start_weights(1.0, 1.0),
+            )
+        elif method == "late_start_mixture":
+            process = StartedMixtureEProcess(
+                bound=bound,
+                alpha=config.alpha,
+                starts=start_positions,
+                weights=beta_start_weights(2.0, 1.0),
+            )
+        else:
+            raise ValueError(f"unknown monitor method {method!r}")
         remaining = budget
         spend = 0.0
         labels = 0

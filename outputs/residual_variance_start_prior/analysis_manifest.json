@@ -1,0 +1,11 @@
+{
+  "created_at_utc": "2026-10-24T10:34:22.606756+00:00",
+  "input_metrics": "outputs\\residual_variance_start_prior\\metrics.parquet",
+  "input_metrics_sha256": "e02c30b92f8ca8a6bc90e13731df9602a9b750cfd419cdb8e4808887d1958a1e",
+  "analysis_script_sha256": "f56c503e976f00221b82e4557577e25ed97f2b6470f352e25611298ed7979fff",
+  "contrasts_sha256": "53836ab1d2c2db7d32aeaf2b10105f5683d96d319068b7992ff9174e7fa750b7",
+  "bootstrap_replicates": 10000,
+  "bootstrap_seed": 31202026,
+  "resampling_unit": "independent stream seed; all 12 severity/rate cells retained per sampled seed",
+  "multiplicity": "descriptive intervals; no familywise adjustment"
+}

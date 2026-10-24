@@ -7,8 +7,8 @@
   ],
   "run_manifest_sha256": "3c7707d16a4c57b63d257729f9cad3cbd37f169689cf773e5571f67af9bfbab8",
   "input_metrics_sha256": "b7dadaa62530ec0001edc6173d5bc4e63ccbad72f620dbb92749f4534493b858",
-  "protocol_sha256": "8ad880d318d2ee0ef8fb8a4857f61fb0e774a0fd23a52ca9b5d6bcc232f01929",
-  "analysis_script_sha256": "c8deb3889e1487074f563674eb1931849b3763bcd444cb5b3b1c2b24afe42394",
+  "protocol_sha256": "ad9bba9eac54d62fc43a8432d2ac88b8c65dd2fcfcc29998dd8418c80460f353",
+  "analysis_script_sha256": "cf4e28b0110e4c913e4c29222cdcae45dc8a472dd49851d2cc8f14f3c419ec9b",
   "outputs_sha256": {
     "primary_detection_comparisons.csv": "b934814cb4d2459dfb1d7d05d806e406966cd3e8b4a9d1bcdb12b44ee13d2394",
     "null_control_false_escalations.csv": "946298a8b6c794950316db4c7e5fde2e913707596b802e1a98c50d4141728fb3",

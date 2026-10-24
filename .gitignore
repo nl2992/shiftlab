@@ -194,6 +194,8 @@ Thumbs.db
 !outputs/history_predictable_bound_calibration_2000/**
 !outputs/history_predictable_bound_confirmation/
 !outputs/history_predictable_bound_confirmation/**
+!outputs/markov_predictable_bound_validation/
+!outputs/markov_predictable_bound_validation/**
 !outputs/policy_bound_null_calibration_500/
 !outputs/policy_bound_null_calibration_500/**
 !outputs/policy_bound_harm_confirmation_200/

@@ -83,13 +83,19 @@ def paired_bootstrap_interval(
     return float(low), float(high)
 
 
-def build_dose_results(metrics: pd.DataFrame, *, seed: int) -> pd.DataFrame:
+def build_dose_results(
+    metrics: pd.DataFrame,
+    *,
+    seed: int,
+    harm_scenarios: tuple[str, ...] = HARM_SCENARIOS,
+    harm_effects: tuple[float, ...] = HARM_EFFECTS,
+) -> pd.DataFrame:
     evidence = metrics[
         metrics["arm"].isin(["evidence_qmin_0.05_fixed", "evidence_qmin_0.05_predictable"])
-        & metrics["scenario"].isin(HARM_SCENARIOS)
+        & metrics["scenario"].isin(harm_scenarios)
     ]
     dose_rows = []
-    for index, (effect, scenario) in enumerate(zip(HARM_EFFECTS, HARM_SCENARIOS, strict=True)):
+    for index, (effect, scenario) in enumerate(zip(harm_effects, harm_scenarios, strict=True)):
         group = evidence[evidence["scenario"] == scenario]
         by_arm = group.groupby("arm")[
             [
@@ -175,12 +181,18 @@ def reanalyze_existing(output: Path) -> Path:
     report = report[:begin] + dose_section + report[end:]
     report_path.write_text(report, encoding="utf-8")
 
-    source_path = Path("scripts/confirm_history_predictable_query_bounds.py")
+    source_paths = [
+        Path("scripts/confirm_history_predictable_query_bounds.py"),
+        Path("scripts/calibrate_history_predictable_query_bounds.py"),
+        Path("src/shiftlab/dive/eprocess.py"),
+        Path("src/shiftlab/dive/estimators.py"),
+        Path("docs/history_predictable_bound_confirmation_protocol.md"),
+    ]
     manifest["analysis_recomputed_without_regenerating_streams"] = True
     manifest["git_commit"] = subprocess.run(
         ["git", "rev-parse", "HEAD"], check=True, capture_output=True, text=True
     ).stdout.strip()
-    manifest["source_sha256"][str(source_path)] = sha256(source_path)
+    manifest["source_sha256"] = {str(path): sha256(path) for path in source_paths}
     manifest["artifact_sha256"]["metrics\\harm_dose_results.csv"] = sha256(dose_path)
     manifest["artifact_sha256"]["reports\\confirmation_results.md"] = sha256(report_path)
     manifest_path.write_text(json.dumps(manifest, indent=2, sort_keys=True), encoding="utf-8")

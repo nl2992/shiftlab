@@ -33,6 +33,8 @@ STAKES = (0.05, 0.1, 0.2, 0.4, 0.8)
 Q_FLOORS = (0.05, 0.10, 0.15)
 NULL_SCENARIO = "mixed_sign_exact_marginal_null"
 STRICT_NEGATIVE_SCENARIO = "strict_negative_control"
+MARKOV_NULL_SCENARIO = "markov_volatility_exact_marginal_null"
+MARKOV_NEGATIVE_SCENARIO = "markov_volatility_strict_negative_control"
 HARM_SCENARIOS = tuple(f"high_cost_local_harm_d{effect:.2f}" for effect in HARM_EFFECTS)
 SCENARIOS = (NULL_SCENARIO, *HARM_SCENARIOS)
 
@@ -42,6 +44,19 @@ def scenario_harm_effect(scenario: str) -> float | None:
         return None
     if scenario == STRICT_NEGATIVE_SCENARIO:
         return -0.20
+    if scenario == MARKOV_NULL_SCENARIO:
+        return None
+    if scenario == MARKOV_NEGATIVE_SCENARIO:
+        return -0.20
+    markov_harm_prefix = "markov_volatility_harm_d"
+    if scenario.startswith(markov_harm_prefix):
+        try:
+            effect = float(scenario.removeprefix(markov_harm_prefix))
+        except ValueError as exc:
+            raise ValueError(f"unknown scenario: {scenario}") from exc
+        if effect not in HARM_EFFECTS:
+            raise ValueError(f"unknown scenario: {scenario}")
+        return effect
     try:
         return dict(zip(HARM_SCENARIOS, HARM_EFFECTS, strict=True))[scenario]
     except KeyError as exc:
@@ -189,14 +204,22 @@ def simulate_arm(
         queried = active & (data["query_uniform"][event] < propensity)
         context = data["context"][event]
         high_cost_stratum = context == 1
-        high_probability = P_HIGH_NULL
-        if harm_effect is not None and event >= onset:
-            high_probability = P_HIGH_NULL - harm_effect / HIGH_COST
-        probability = torch.where(
-            high_cost_stratum,
-            torch.full((streams,), high_probability, dtype=torch.float32, device=device),
-            torch.full((streams,), P_LOW, dtype=torch.float32, device=device),
-        )
+        if "p_low" in data and "p_high" in data:
+            low_probability = data["p_low"][event]
+            high_probability = data["p_high"][event]
+            if harm_effect is not None and event >= onset:
+                probability_shift = float(data["effect_probability_shift_per_unit"])
+                high_probability = high_probability - harm_effect * probability_shift
+            probability = torch.where(high_cost_stratum, high_probability, low_probability)
+        else:
+            high_probability = P_HIGH_NULL
+            if harm_effect is not None and event >= onset:
+                high_probability = P_HIGH_NULL - harm_effect / HIGH_COST
+            probability = torch.where(
+                high_cost_stratum,
+                torch.full((streams,), high_probability, dtype=torch.float32, device=device),
+                torch.full((streams,), P_LOW, dtype=torch.float32, device=device),
+            )
         outcome = data["outcome_uniform"][event] < probability
         cost = torch.where(
             high_cost_stratum,

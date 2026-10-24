@@ -152,6 +152,8 @@ outputs/figures/*
 !outputs/prequential_proxy_hedge_development/**
 !outputs/risk_proxy_stress_grid/
 !outputs/risk_proxy_stress_grid/**
+!outputs/risk_proxy_monitor_grid/
+!outputs/risk_proxy_monitor_grid/**
 results/*
 !results/.gitkeep
 data/raw/

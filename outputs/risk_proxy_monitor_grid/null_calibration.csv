@@ -1,0 +1,13 @@
+scenario,query_rate,method,false_alarms,streams,false_alarm_rate,bonferroni_one_sided_cp95_upper,familywise_alpha,family_cells,target_level,calibration_pass,known_null_seed_count
+benign_nuisance,0.2,fixed_mixture,0,1000,0.0,0.005465647621645586,0.05,12,0.05,True,1000
+benign_nuisance,0.2,plug_in_empirical_bernstein,0,1000,0.0,0.005465647621645586,0.05,12,0.05,True,1000
+benign_nuisance,0.2,predictable_kelly,0,1000,0.0,0.005465647621645586,0.05,12,0.05,True,1000
+benign_nuisance,0.4,fixed_mixture,0,1000,0.0,0.005465647621645586,0.05,12,0.05,True,1000
+benign_nuisance,0.4,plug_in_empirical_bernstein,0,1000,0.0,0.005465647621645586,0.05,12,0.05,True,1000
+benign_nuisance,0.4,predictable_kelly,0,1000,0.0,0.005465647621645586,0.05,12,0.05,True,1000
+stationary,0.2,fixed_mixture,0,1000,0.0,0.005465647621645586,0.05,12,0.05,True,1000
+stationary,0.2,plug_in_empirical_bernstein,0,1000,0.0,0.005465647621645586,0.05,12,0.05,True,1000
+stationary,0.2,predictable_kelly,0,1000,0.0,0.005465647621645586,0.05,12,0.05,True,1000
+stationary,0.4,fixed_mixture,0,1000,0.0,0.005465647621645586,0.05,12,0.05,True,1000
+stationary,0.4,plug_in_empirical_bernstein,0,1000,0.0,0.005465647621645586,0.05,12,0.05,True,1000
+stationary,0.4,predictable_kelly,0,1000,0.0,0.005465647621645586,0.05,12,0.05,True,1000

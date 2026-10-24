@@ -46,6 +46,7 @@ shiftlab-dive-start-prior-robust-mix = "shiftlab.dive.start_prior_robust_mix:mai
 shiftlab-dive-proxy-hedge = "shiftlab.dive.proxy_hedge_benchmark:main"
 shiftlab-dive-risk-proxy-stress = "shiftlab.dive.risk_proxy_stress_grid:main"
 shiftlab-dive-risk-proxy-stress-analyze = "shiftlab.dive.analyze_risk_proxy_stress_grid:main"
+shiftlab-dive-risk-proxy-monitor-grid = "shiftlab.dive.risk_proxy_monitor_grid:main"
 
 [tool.pytest.ini_options]
 pythonpath = [".", "src"]

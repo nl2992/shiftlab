@@ -1,0 +1,87 @@
+{
+  "created_at_utc": "2026-10-24T09:07:43.658763+00:00",
+  "config": {
+    "n": 2400,
+    "d": 16,
+    "null_seeds": 1000,
+    "alternative_seeds": 300,
+    "seed_offset": 20403024,
+    "alpha": 0.05,
+    "harm_margin": 0.1,
+    "max_label_cost": 2.5,
+    "device": "cuda"
+  },
+  "processes": [
+    "fixed_mixture",
+    "predictable_kelly",
+    "plug_in_empirical_bernstein"
+  ],
+  "null_scenarios": [
+    "stationary",
+    "benign_nuisance"
+  ],
+  "alternative_scenarios": [
+    "boundary_local_harm",
+    "residual_variance",
+    "recurring_regimes",
+    "harmful_adaptation"
+  ],
+  "query_rates": [
+    0.2,
+    0.4
+  ],
+  "seed_ranges": {
+    "stationary": [
+      20403024,
+      20404023
+    ],
+    "benign_nuisance": [
+      20403024,
+      20404023
+    ],
+    "boundary_local_harm": [
+      20404024,
+      20404323
+    ],
+    "residual_variance": [
+      20404024,
+      20404323
+    ],
+    "recurring_regimes": [
+      20404024,
+      20404323
+    ],
+    "harmful_adaptation": [
+      20404024,
+      20404323
+    ]
+  },
+  "metric_rows": 19200,
+  "null_calibration_cells": 12,
+  "null_familywise_alpha": 0.05,
+  "metrics_sha256": "1a2f61182757f3d3eda326014c15b63dc7e9fbd7f1260df739f8b84fbf1e718f",
+  "code_sha256": {
+    "risk_proxy_monitor_grid.py": "3194aa39ecada57952e7261206cce0427e2a45d3610f127cbe3d8ec5191a0dd2",
+    "eprocess.py": "4646a09a0d6c23686dc6b4bdb18083ee2f4df1d733e40271cfa2d055fd8dd77a",
+    "proxy_hedge_benchmark.py": "54eb3abcaf922b45a965aa4ea769f724616b04bee75997954bac978c85f5f493",
+    "decision_harm_experiment.py": "963d2a794ec0638f08f24dd75eabec457f209ae2df3759e89a6f6dadeca9fa41"
+  },
+  "environment": {
+    "cpu_ram_bytes": 16858472448,
+    "disk_free_bytes": 21413056512,
+    "cuda_available": true,
+    "nvidia_smi": "NVIDIA GeForce RTX 4060 Laptop GPU, 8188 MiB, 592.82, 0 %, 97 MiB",
+    "torch_version": "2.9.1+cu130",
+    "cuda_runtime": "13.0",
+    "gpu_name": "NVIDIA GeForce RTX 4060 Laptop GPU",
+    "gpu_memory_bytes": 8585216000,
+    "versions": {
+      "numpy": "2.5.4",
+      "scipy": "1.18.1",
+      "pandas": "3.0.6",
+      "pyarrow": "25.0.1",
+      "folktables": "0.0.12"
+    }
+  },
+  "interpretation": "Matched monitor comparison; finite null calibration is simulation evidence only. The conditional-mean supermartingale proof and outcome-independent query mechanism remain required."
+}

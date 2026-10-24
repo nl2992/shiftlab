@@ -1,0 +1,13 @@
+scenario,query_rate,method,false_escalations,streams,false_escalation_rate,simultaneous_cp95_upper
+benign_variance_shift,0.1,late_beta_2_1,2,2000,0.001,0.004740655842409205
+benign_variance_shift,0.1,uniform_beta_1_1,7,2000,0.0035,0.008689763995274456
+benign_variance_shift,0.25,late_beta_2_1,2,2000,0.001,0.004740655842409205
+benign_variance_shift,0.25,uniform_beta_1_1,10,2000,0.005,0.01082766068457525
+benign_variance_shift,0.5,late_beta_2_1,6,2000,0.003,0.00795015847989247
+benign_variance_shift,0.5,uniform_beta_1_1,7,2000,0.0035,0.008689763995274456
+stationary,0.1,late_beta_2_1,15,2000,0.0075,0.014215302869130107
+stationary,0.1,uniform_beta_1_1,15,2000,0.0075,0.014215302869130107
+stationary,0.25,late_beta_2_1,11,2000,0.0055,0.011519722024793882
+stationary,0.25,uniform_beta_1_1,17,2000,0.0085,0.015529061339375263
+stationary,0.5,late_beta_2_1,28,2000,0.014,0.022496291539494333
+stationary,0.5,uniform_beta_1_1,20,2000,0.01,0.01746738399428128

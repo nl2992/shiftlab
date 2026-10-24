@@ -39,6 +39,9 @@ shiftlab-dive-delayed-confirmation = "shiftlab.dive.delayed_confirmation:main"
 shiftlab-dive-delayed-grid-confirmation = "shiftlab.dive.delayed_grid_confirmation:main"
 shiftlab-dive-start-prior-sweep = "shiftlab.dive.start_prior_sweep:main"
 shiftlab-dive-start-prior-validation = "shiftlab.dive.start_prior_validation:main"
+shiftlab-dive-start-prior-robustness = "shiftlab.dive.start_prior_robustness:main"
+shiftlab-dive-horizon-hedge-sweep = "shiftlab.dive.horizon_hedge_sweep:main"
+shiftlab-dive-late-prior-confirmation = "shiftlab.dive.late_prior_confirmation:main"
 
 [tool.pytest.ini_options]
 pythonpath = [".", "src"]

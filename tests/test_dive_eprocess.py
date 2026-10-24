@@ -4,6 +4,7 @@ import pytest
 from scripts.calibrate_pprm_block_mixture import _endpoint_stream_crossings
 from shiftlab.dive.eprocess import (
     BoundedMeanEProcess,
+    HorizonHedgedStartedMixtureEProcess,
     PPIBlockConfidenceSequence,
     PPIBlockMixtureEProcess,
     PredictableHedgedPositiveEProcess,
@@ -117,6 +118,62 @@ def test_weighted_start_mixture_matches_fixed_convex_combination_of_components()
         assert np.exp(mixture.log_e_value) == pytest.approx(expected)
     with pytest.raises(ValueError, match="weights"):
         StartedMixtureEProcess(bound=1.0, alpha=0.05, starts=starts, weights=(0.5, 0.5, 0.5))
+
+
+def test_multihorizon_mixture_matches_a_fixed_convex_mixture_of_horizon_processes():
+    horizons = (8, 12, 16)
+    horizon_weights = (0.2, 0.5, 0.3)
+    fractions = (0.0, 0.25, 0.5, 0.75)
+    start_weights = (0.1, 0.2, 0.3, 0.4)
+    hedge = HorizonHedgedStartedMixtureEProcess(
+        bound=1.0,
+        alpha=0.05,
+        horizons=horizons,
+        horizon_weights=horizon_weights,
+        start_fractions=fractions,
+        start_weights=start_weights,
+    )
+    horizon_processes = [
+        StartedMixtureEProcess(
+            bound=1.0,
+            alpha=0.05,
+            starts=tuple(round(horizon * fraction) for fraction in fractions),
+            weights=start_weights,
+        )
+        for horizon in horizons
+    ]
+    values = (0.4, -0.2, 0.5, 0.1, -0.1, 0.6, -0.3, 0.2, 0.4, -0.1, 0.3, 0.5)
+    for value in values:
+        hedge.update(value)
+        for process in horizon_processes:
+            process.update(value)
+        expected = sum(
+            weight * np.exp(process.log_e_value)
+            for weight, process in zip(horizon_weights, horizon_processes, strict=True)
+        )
+        assert np.exp(hedge.log_e_value) == pytest.approx(expected)
+
+
+def test_multihorizon_mixture_merges_duplicate_starts_and_rejects_bad_weights():
+    process = HorizonHedgedStartedMixtureEProcess(
+        bound=1.0,
+        alpha=0.05,
+        horizons=(4, 8),
+        horizon_weights=(0.5, 0.5),
+        start_fractions=(0.0, 0.5, 1.0),
+        start_weights=(0.25, 0.5, 0.25),
+    )
+    assert process.starts == (0, 2, 4, 8)
+    assert process.weights.sum() == pytest.approx(1.0)
+    with pytest.raises(ValueError, match="horizon_weights"):
+        HorizonHedgedStartedMixtureEProcess(
+            bound=1.0,
+            alpha=0.05,
+            horizons=(4, 8),
+            horizon_weights=(0.5, 0.4),
+            start_fractions=(0.0, 0.5),
+            start_weights=(0.5, 0.5),
+        )
 
 
 def test_bounded_eprocess_null_crossing_is_small_in_independent_simulation():

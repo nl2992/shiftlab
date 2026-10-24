@@ -140,6 +140,12 @@ outputs/figures/*
 !outputs/start_prior_development/**
 !outputs/start_prior_validation/
 !outputs/start_prior_validation/**
+!outputs/start_prior_robustness/
+!outputs/start_prior_robustness/**
+!outputs/horizon_hedge_development/
+!outputs/horizon_hedge_development/**
+!outputs/late_prior_confirmation/
+!outputs/late_prior_confirmation/**
 results/*
 !results/.gitkeep
 data/raw/

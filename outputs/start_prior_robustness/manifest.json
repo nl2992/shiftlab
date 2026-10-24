@@ -1,0 +1,145 @@
+{
+  "created_at_utc": "2026-10-24T07:08:35.245153+00:00",
+  "config": {
+    "seeds_per_cell": 200,
+    "null_streams": 500,
+    "alternative_seed_offset": 20278000,
+    "null_seed_offset": 20280000,
+    "n_events": 3000,
+    "query_rates": [
+      0.1,
+      0.25,
+      0.5
+    ],
+    "harm_onsets": [
+      0.2,
+      0.6,
+      0.8
+    ],
+    "harm_increases": [
+      0.12,
+      0.24
+    ],
+    "horizon_multipliers": [
+      0.5,
+      1.0,
+      1.5
+    ],
+    "delay_laws": [
+      "fixed_0",
+      "uniform_0_6",
+      "uniform_0_12",
+      "fixed_12"
+    ],
+    "alpha": 0.05,
+    "margin": 0.02,
+    "amplitude": 0.6,
+    "benign_amplitude": 0.25,
+    "device": "cuda"
+  },
+  "methods": [
+    "uniform_beta_1_1",
+    "early_beta_1_2",
+    "late_beta_2_1",
+    "center_beta_2_2",
+    "edge_beta_half_half",
+    "full_stream_betting"
+  ],
+  "reference_method": "uniform_beta_1_1",
+  "fixed_prior_weights": {
+    "uniform_beta_1_1": [
+      0.125,
+      0.125,
+      0.125,
+      0.125,
+      0.125,
+      0.125,
+      0.125,
+      0.125
+    ],
+    "early_beta_1_2": [
+      0.234375,
+      0.2031249999999999,
+      0.1718750000000001,
+      0.140625,
+      0.109375,
+      0.078125,
+      0.046875,
+      0.015625
+    ],
+    "late_beta_2_1": [
+      0.015625,
+      0.046875,
+      0.078125,
+      0.109375,
+      0.140625,
+      0.171875,
+      0.203125,
+      0.234375
+    ],
+    "center_beta_2_2": [
+      0.04296875,
+      0.11328125,
+      0.16015625,
+      0.18359375,
+      0.18359375,
+      0.16015625,
+      0.11328125,
+      0.04296875
+    ],
+    "edge_beta_half_half": [
+      0.2300534561626159,
+      0.10327987717071746,
+      0.08623604341150032,
+      0.08043062325516642,
+      0.08043062325516614,
+      0.08623604341150037,
+      0.10327987717071752,
+      0.23005345616261585
+    ]
+  },
+  "alternative_cells": 216,
+  "null_cells": 72,
+  "alternative_seed_interval_per_cell": [
+    20278000,
+    20278199
+  ],
+  "null_seed_interval_per_cell": [
+    20280000,
+    20280499
+  ],
+  "alternative_metric_rows": 259200,
+  "null_metric_rows": 216000,
+  "resolved_devices": [
+    "cuda"
+  ],
+  "environment": {
+    "cpu_ram_bytes": 16858472448,
+    "disk_free_bytes": 21480476672,
+    "cuda_available": true,
+    "nvidia_smi": "NVIDIA GeForce RTX 4060 Laptop GPU, 8188 MiB, 592.82, 0 %, 107 MiB",
+    "torch_version": "2.9.1+cu130",
+    "cuda_runtime": "13.0",
+    "gpu_name": "NVIDIA GeForce RTX 4060 Laptop GPU",
+    "gpu_memory_bytes": 8585216000,
+    "versions": {
+      "numpy": "2.5.4",
+      "scipy": "1.18.1",
+      "pandas": "3.0.6",
+      "pyarrow": "25.0.1",
+      "folktables": "0.0.12"
+    }
+  },
+  "alternative_metrics_sha256": "e50061aa8f8d1d251900ef03f630f7c3f3f5e600091ba433825596cf809c0dd7",
+  "null_metrics_sha256": "6665e04f89e9ef27c5e25591a671abb421e7f3c28e4be621ab0552b24ad9c771",
+  "code_sha256": {
+    "start_prior_robustness.py": "78078b741dd617c5f1e2846b445f7ba8bb90e4147ebe44fe757906230a53ea18",
+    "start_prior_sweep.py": "7b36032aaea65da53dfd8386fd0b146c576dee470cb01b89bff8fc89f8ec7988",
+    "start_prior_validation.py": "42eca75b0824b05ef7a06c4dbef4d09d214f8b86202dd1cbdb675210b9f72f8f",
+    "delayed_calibration.py": "59bf69f3de949c59efe0bf6209b060de4a1407edc258b56df97cec66e65a9a45",
+    "delayed_benchmark.py": "d82de14fc1fde9e77fdf1ab1bc32241412fe4bff172ed1bf970202642af39552"
+  },
+  "inference": "Exploratory robustness screen. Cellwise paired exact two-sided McNemar comparisons against uniform receive Holm adjustment across all alternative method-by-cell tests. Null false-escalation upper bounds are one-sided Clopper-Pearson with Bonferroni simultaneous 95% coverage across all method/null cells. The 500-stream nulls are screening diagnostics only.",
+  "executed_source_snapshot": "source/start_prior_robustness.py",
+  "executed_source_snapshot_sha256": "78078b741dd617c5f1e2846b445f7ba8bb90e4147ebe44fe757906230a53ea18"
+}

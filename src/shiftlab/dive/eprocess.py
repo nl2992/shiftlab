@@ -558,3 +558,72 @@ class StartedMixtureEProcess:
                 process.update(value)
         self.time += 1
         return self.log_e_value
+
+
+class HorizonHedgedStartedMixtureEProcess(StartedMixtureEProcess):
+    """Fixed convex mixture over candidate horizons and start-time priors.
+
+    If each component is an e-process under the same filtration, mixing first
+    over start positions and then over horizon hypotheses preserves the
+    e-process property by linearity. The horizon and start weights are fixed
+    before the stream; this class does not adapt weights to observed outcomes.
+    """
+
+    def __init__(
+        self,
+        *,
+        bound: float,
+        alpha: float,
+        horizons: tuple[int, ...],
+        horizon_weights: tuple[float, ...],
+        start_fractions: tuple[float, ...],
+        start_weights: tuple[float, ...],
+    ):
+        horizon_weight_array = np.asarray(horizon_weights, dtype=float)
+        start_weight_array = np.asarray(start_weights, dtype=float)
+        fractions = np.asarray(start_fractions, dtype=float)
+        if (
+            not horizons
+            or any(
+                isinstance(h, bool) or not isinstance(h, (int, np.integer)) or h <= 0
+                for h in horizons
+            )
+            or len(set(horizons)) != len(horizons)
+        ):
+            raise ValueError("horizons must be unique positive integers")
+        if (
+            horizon_weight_array.shape != (len(horizons),)
+            or not np.isfinite(horizon_weight_array).all()
+            or np.any(horizon_weight_array <= 0)
+            or not np.isclose(horizon_weight_array.sum(), 1.0)
+        ):
+            raise ValueError("horizon_weights must be positive, sum to one, and match horizons")
+        if (
+            not len(fractions)
+            or fractions.shape != start_weight_array.shape
+            or not np.isfinite(fractions).all()
+            or np.any((fractions < 0) | (fractions > 1))
+            or np.any(np.diff(fractions) <= 0)
+        ):
+            raise ValueError("start_fractions must be finite, increasing, and lie in [0, 1]")
+        if (
+            not np.isfinite(start_weight_array).all()
+            or np.any(start_weight_array <= 0)
+            or not np.isclose(start_weight_array.sum(), 1.0)
+        ):
+            raise ValueError("start_weights must be positive and sum to one")
+
+        component_weights: dict[int, float] = {}
+        for horizon, horizon_weight in zip(horizons, horizon_weight_array, strict=True):
+            for fraction, start_weight in zip(fractions, start_weight_array, strict=True):
+                start = round(int(horizon) * float(fraction))
+                component_weights[start] = component_weights.get(start, 0.0) + float(
+                    horizon_weight * start_weight
+                )
+        starts = tuple(sorted(component_weights))
+        weights = tuple(component_weights[start] for start in starts)
+        super().__init__(bound=bound, alpha=alpha, starts=starts, weights=weights)
+        self.horizons = tuple(int(horizon) for horizon in horizons)
+        self.horizon_weights = horizon_weight_array
+        self.start_fractions = fractions
+        self.start_weights = start_weight_array

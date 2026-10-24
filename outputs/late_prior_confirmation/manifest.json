@@ -1,0 +1,85 @@
+{
+  "created_at_utc": "2026-10-24T07:25:48.054460+00:00",
+  "config": {
+    "streams_per_cell": 2000,
+    "null_streams": 2000,
+    "alternative_seed_offset": 20286000,
+    "null_seed_offset": 20288000,
+    "n_events": 3000,
+    "alpha": 0.05,
+    "margin": 0.02,
+    "amplitude": 0.6,
+    "benign_amplitude": 0.25,
+    "delay_scheme": "uniform_0_6",
+    "device": "cuda"
+  },
+  "candidate": "late_beta_2_1",
+  "reference": "uniform_beta_1_1",
+  "candidate_weights": [
+    0.015625,
+    0.046875,
+    0.078125,
+    0.109375,
+    0.140625,
+    0.171875,
+    0.203125,
+    0.234375
+  ],
+  "reference_weights": [
+    0.125,
+    0.125,
+    0.125,
+    0.125,
+    0.125,
+    0.125,
+    0.125,
+    0.125
+  ],
+  "alternative_cells": 18,
+  "alternative_seed_interval_per_cell": [
+    20286000,
+    20287999
+  ],
+  "null_seed_interval_per_scenario": [
+    20288000,
+    20289999
+  ],
+  "alternative_metric_rows": 72000,
+  "null_metric_rows": 24000,
+  "macro_detection_difference": 0.016777777777777777,
+  "macro_cluster_bootstrap_95": [
+    0.014777777777777779,
+    0.018833333333333334
+  ],
+  "bootstrap_replicates": 20000,
+  "bootstrap_seed": 20261025,
+  "resolved_devices": [
+    "cuda"
+  ],
+  "environment": {
+    "cpu_ram_bytes": 16858472448,
+    "disk_free_bytes": 21462839296,
+    "cuda_available": true,
+    "nvidia_smi": "NVIDIA GeForce RTX 4060 Laptop GPU, 8188 MiB, 592.82, 0 %, 107 MiB",
+    "torch_version": "2.9.1+cu130",
+    "cuda_runtime": "13.0",
+    "gpu_name": "NVIDIA GeForce RTX 4060 Laptop GPU",
+    "gpu_memory_bytes": 8585216000,
+    "versions": {
+      "numpy": "2.5.4",
+      "scipy": "1.18.1",
+      "pandas": "3.0.6",
+      "pyarrow": "25.0.1",
+      "folktables": "0.0.12"
+    }
+  },
+  "alternative_metrics_sha256": "68de35c0188265a81baccfc262764be580920417a6fa55a971565fb8a72a5846",
+  "null_metrics_sha256": "a6700542abe118516ab85d66fad9dc32cbd2801b38e830df4ab35556000f0827",
+  "code_sha256": {
+    "late_prior_confirmation.py": "019099fdd165efc08707fdcaa56d667c0ee899d6898f3102691256e952a5e073",
+    "start_prior_validation.py": "42eca75b0824b05ef7a06c4dbef4d09d214f8b86202dd1cbdb675210b9f72f8f",
+    "delayed_calibration.py": "59bf69f3de949c59efe0bf6209b060de4a1407edc258b56df97cec66e65a9a45",
+    "delayed_benchmark.py": "d82de14fc1fde9e77fdf1ab1bc32241412fe4bff172ed1bf970202642af39552"
+  },
+  "inference": "Primary macro effect is paired candidate-minus-uniform detection averaged within seed and percentile-bootstrap resampled over 2,000 independent seed clusters. Secondary cellwise exact two-sided McNemar tests use Holm adjustment over 18 cells. Null bounds are one-sided exact Clopper-Pearson with simultaneous 95% Bonferroni coverage over 12 method/scenario/query cells."
+}

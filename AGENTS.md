@@ -41,6 +41,10 @@ current scientific direction; paper folders and reports record implementation st
 - Never fabricate results, theorem validity, hardware measurements, prior-art conclusions, or data
   acquisition. Record failures and negative results in the relevant research log. Distinguish
   descriptive diagnostics, smoke checks, and confirmatory evidence.
+- Use PaperBanana for research visuals, including method diagrams and empirical figures. For
+  quantitative plots, derive the data and labels from validated analysis outputs, then inspect the
+  exported visual against those source values. If PaperBanana is unavailable in the active
+  environment, report that dependency instead of silently substituting another visual generator.
 - Run relevant tests and quality checks after changes. Include reproducible commands, exact data and
   code versions, limitations, and a continue/pivot/stop assessment when reporting research results.
 - Keep licensed/raw data, credentials, and large experiment artifacts out of Git. Follow the

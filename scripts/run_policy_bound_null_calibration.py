@@ -51,6 +51,7 @@ def main() -> None:
         generate_figure=False,
         record_event_traces=False,
         device="cuda",
+        workers=2,
         scenario_subset=SCENARIOS,
         method_subset=METHODS,
     ).validate()

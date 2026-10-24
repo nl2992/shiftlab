@@ -163,6 +163,27 @@ def test_hard_budget_records_policy_specific_propensity_support_bounds(tmp_path)
     assert adaptive.eprocess_support_bound == pytest.approx(96.9)
 
 
+def test_parallel_hard_budget_replicates_match_serial_seed_results(tmp_path):
+    common = {
+        "n": 1600,
+        "seeds": 1,
+        "seed_offset": 87654321,
+        "budget_rate": 0.20,
+        "q_min": 0.10,
+        "q_max": 0.80,
+        "common_eprocess_bound": False,
+        "generate_figure": False,
+        "device": "cpu",
+        "scenario_subset": ("stationary",),
+        "method_subset": ("uniform_proxy", "variance_proxy"),
+    }
+    serial = run_hard_budget(HardBudgetConfig(**common, workers=1), tmp_path / "serial_run")
+    parallel = run_hard_budget(HardBudgetConfig(**common, workers=2), tmp_path / "parallel_run")
+    serial_metrics = pd.read_parquet(serial / "metrics" / "hard_budget_comparison.parquet")
+    parallel_metrics = pd.read_parquet(parallel / "metrics" / "hard_budget_comparison.parquet")
+    pd.testing.assert_frame_equal(serial_metrics, parallel_metrics)
+
+
 def test_evidence_directed_policy_uses_preoutcome_evidence_and_skips_unavailable_visuals(tmp_path):
     output = run_hard_budget(
         HardBudgetConfig(

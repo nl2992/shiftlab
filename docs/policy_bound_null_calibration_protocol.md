@@ -15,7 +15,7 @@ The primary family consists of fixed-mixture false-escalation rates across five 
 - 500 independent stream seeds per scenario, seed block `54000000–54000499`; this block is disjoint from the previously recorded 52M, 53M, and 53.99M runs.
 - `n=3200`, `d=16`, `alpha=0.05`, excess-cost margin `epsilon=0.10`, hard label-dollar budget rate `0.20`, `q_min=0.10`, `q_max=0.80`, maximum tariff `2.5`.
 - `common_eprocess_bound=False`. Verify the saved per-method floor is 0.20 for uniform and 0.10 for every adaptive policy, and that realized propensities never fall below those floors.
-- Run on CUDA; require the manifest to confirm NVIDIA CUDA execution. Do not generate a plot: PaperBanana is the project visual tool, and no PaperBanana interface is available in this session.
+- Run on CUDA with two concurrent seed workers; require the manifest to confirm NVIDIA CUDA execution. Worker concurrency is an execution detail only: each seed has independent, explicitly seeded synthetic and query RNGs, and final rows are sorted by scenario, seed, and method. Do not generate a plot: PaperBanana is the project visual tool, and no PaperBanana interface is available in this session.
 - Use shared seed-level random variates across methods; keep all generated oracle information evaluator-only. Do not stop early, replace seeds, tune methods, or change thresholds after looking at results.
 
 ## Interpretation and limits

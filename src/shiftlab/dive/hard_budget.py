@@ -4,7 +4,9 @@ from __future__ import annotations
 
 import copy
 import json
+from concurrent.futures import ThreadPoolExecutor
 from dataclasses import asdict, dataclass, replace
+from functools import partial
 from pathlib import Path
 
 import matplotlib
@@ -123,6 +125,7 @@ class HardBudgetConfig:
     scenario_severity: float | None = None
     change_fraction: float = 0.5
     device: str = "auto"
+    workers: int = 1
     scenario_subset: tuple[str, ...] = (
         "stationary",
         "benign_nuisance",
@@ -133,6 +136,8 @@ class HardBudgetConfig:
     def validate(self) -> HardBudgetConfig:
         if self.n < 1000 or self.d < 2 or self.seeds < 1:
             raise ValueError("n must be >=1000, d >=2, and seeds >=1")
+        if isinstance(self.workers, bool) or not isinstance(self.workers, int) or self.workers < 1:
+            raise ValueError("workers must be a positive integer")
         if not 0 < self.alpha < 1 or self.harm_margin < 0:
             raise ValueError("alpha must lie in (0,1) and harm_margin must be nonnegative")
         if not 0 < self.q_min <= self.budget_rate <= self.q_max <= 1:
@@ -1372,25 +1377,44 @@ def run_hard_budget(config: HardBudgetConfig, output: Path) -> Path:
     selected_scenarios = [scenario for scenario in SCENARIOS if scenario.name in scenario_set]
     rows = []
     event_trace_rows: list[dict[str, object]] = []
+
+    def generate_replicate(scenario, replicate: int):
+        seed = config.seed_offset + replicate
+        common_uniforms = np.random.default_rng(seed + 9_173).random(config.n)
+        seed_event_rows: list[dict[str, object]] | None = [] if config.record_event_traces else None
+        generated_rows = _generate_stream_rows(
+            scenario, seed, config, common_uniforms, seed_event_rows
+        )
+        return replicate, generated_rows, seed_event_rows or []
+
     for scenario in selected_scenarios:
-        for replicate in range(config.seeds):
-            seed = config.seed_offset + replicate
-            # Match the main DIVE benchmark's query RNG stream for paired comparison.
-            common_uniforms = np.random.default_rng(seed + 9_173).random(config.n)
-            print(
-                f"hard-budget scenario={scenario.name} replicate={replicate + 1}/{config.seeds} device={config.device}",
-                flush=True,
+        if config.workers == 1:
+            completed = (
+                generate_replicate(scenario, replicate) for replicate in range(config.seeds)
             )
-            rows.extend(
-                _generate_stream_rows(
-                    scenario,
-                    seed,
-                    config,
-                    common_uniforms,
-                    event_trace_rows if config.record_event_traces else None,
+            executor_context = None
+        else:
+            executor_context = ThreadPoolExecutor(max_workers=config.workers)
+            completed = executor_context.map(
+                partial(generate_replicate, scenario), range(config.seeds)
+            )
+        try:
+            for completed_count, (replicate, seed_rows, seed_event_rows) in enumerate(
+                completed, start=1
+            ):
+                rows.extend(seed_rows)
+                event_trace_rows.extend(seed_event_rows)
+                print(
+                    f"hard-budget scenario={scenario.name} replicate={replicate + 1}/{config.seeds} completed={completed_count}/{config.seeds} device={config.device}",
+                    flush=True,
                 )
-            )
+        finally:
+            if executor_context is not None:
+                executor_context.shutdown(wait=True, cancel_futures=True)
     metrics = pd.DataFrame(rows)
+    metrics = metrics.sort_values(["scenario", "seed", "method"], kind="stable").reset_index(
+        drop=True
+    )
     metrics = apply_population_null_classification(metrics)
     if not metrics.budget_respected.all():
         raise RuntimeError("a run exceeded its hard label-dollar budget")
@@ -1401,7 +1425,10 @@ def run_hard_budget(config: HardBudgetConfig, output: Path) -> Path:
             raise RuntimeError(
                 "event tracing requested but no learner monitor events were recorded"
             )
-        pd.DataFrame(event_trace_rows).to_parquet(trace_path, index=False)
+        event_traces = pd.DataFrame(event_trace_rows).sort_values(
+            ["scenario", "seed", "method", "event_offset"], kind="stable"
+        )
+        event_traces.to_parquet(trace_path, index=False)
     summary = _summarize(metrics)
     summary.to_csv(metrics_dir / "hard_budget_summary.csv", index=False)
 
@@ -1576,6 +1603,7 @@ def main(argv: list[str] | None = None) -> None:
     parser.add_argument("--scenarios", nargs="+", choices=[scenario.name for scenario in SCENARIOS])
     parser.add_argument("--methods", nargs="+", choices=HARD_BUDGET_METHODS)
     parser.add_argument("--device", choices=["auto", "cpu", "cuda"], default="auto")
+    parser.add_argument("--workers", type=int, default=1)
     args = parser.parse_args(argv)
     config = HardBudgetConfig(
         n=args.n,
@@ -1598,6 +1626,7 @@ def main(argv: list[str] | None = None) -> None:
         generate_figure=not args.skip_figure,
         record_event_traces=args.record_event_traces,
         device=args.device,
+        workers=args.workers,
         scenario_subset=tuple(args.scenarios or HardBudgetConfig.scenario_subset),
         method_subset=tuple(args.methods or DEFAULT_HARD_BUDGET_METHODS),
     )

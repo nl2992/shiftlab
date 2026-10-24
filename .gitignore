@@ -208,6 +208,8 @@ Thumbs.db
 !outputs/evidence_budget20_comparison_60/**
 !outputs/monitor_signal_diagnostic_20_60_v2/
 !outputs/monitor_signal_diagnostic_20_60_v2/**
+!outputs/predictable_query_bound_replay_60/
+!outputs/predictable_query_bound_replay_60/**
 !outputs/propensity_floor_diagnostic_qmin020_30/
 !outputs/propensity_floor_diagnostic_qmin020_30/**
 !outputs/closed_loop_intervention/

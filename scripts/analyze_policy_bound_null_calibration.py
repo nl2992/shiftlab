@@ -134,6 +134,13 @@ def clopper_pearson_upper(events: int, trials: int, confidence: float = 0.95) ->
     return float(beta.ppf(confidence, events + 1, trials - events))
 
 
+MAX_PRIMARY_FALSE_ESCALATIONS = max(
+    events
+    for events in range(501)
+    if clopper_pearson_upper(events, 500, 1 - PRIMARY_ALPHA / 10) < PRIMARY_ALPHA
+)
+
+
 def validate_seed_block(seeds: pd.Series, *, method: str, scenario: str) -> None:
     if set(seeds) != EXPECTED_SEEDS:
         raise ValueError(f"{method}/{scenario} does not contain the exact registered seed block")
@@ -238,6 +245,7 @@ def analyze(output: Path) -> tuple[Path, Path]:
         "This is a frozen synthetic null-calibration study, not a harmful-regime power comparison or a real-world validity guarantee. Independent stream seeds are the calibration units. Each method uses its guaranteed propensity floor in the PPI support bound; the shared-bound option is disabled.",
         "",
         f"GPU: `{manifest.get('gpu_name', 'unknown')}`; resolved device: `{manifest.get('resolved_device', 'unknown')}`. Seeds: 500 per scenario, block `54000000–54000499`. The fixed-mixture primary family contains 10 policy-by-scenario cells; its simultaneous one-sided limits use Bonferroni familywise 95% coverage. The calibration criterion is **{'PASS' if passed else 'FAIL / INCONCLUSIVE'}**: every primary simultaneous upper limit must be below 0.05.",
+        f"With 500 streams per primary cell, passing this criterion requires at most {MAX_PRIMARY_FALSE_ESCALATIONS} false escalations in every cell.",
         "",
         "|Scenario|Policy|Monitor|Floor|PPI bound|False escalations / streams|Rate|Wilson 95% interval|Pointwise exact upper|Primary familywise exact upper|Mean labels|Mean spend / cap|",
         "|---|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|",

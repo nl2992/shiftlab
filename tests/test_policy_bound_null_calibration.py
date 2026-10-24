@@ -5,6 +5,7 @@ import pytest
 from scripts import analyze_policy_bound_null_calibration as analyzer
 from scripts.analyze_policy_bound_null_calibration import (
     EXPECTED_CONFIG,
+    MAX_PRIMARY_FALSE_ESCALATIONS,
     clopper_pearson_upper,
     sha256,
     validate_seed_block,
@@ -20,6 +21,12 @@ from scripts.run_policy_bound_harm_confirmation import (
 def test_zero_event_simultaneous_upper_bound_is_below_calibration_target() -> None:
     upper = clopper_pearson_upper(0, 500, confidence=1 - 0.05 / 10)
     assert 0 < upper < 0.05
+
+
+def test_primary_event_cutoff_matches_the_registered_strict_bound() -> None:
+    assert MAX_PRIMARY_FALSE_ESCALATIONS == 12
+    assert clopper_pearson_upper(12, 500, confidence=0.995) < 0.05
+    assert clopper_pearson_upper(13, 500, confidence=0.995) >= 0.05
 
 
 def test_pointwise_zero_event_upper_matches_closed_form() -> None:

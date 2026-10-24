@@ -102,13 +102,17 @@ class BoundedMeanEProcess:
 class PredictableBoundMeanEProcess:
     """Bounded-mean e-process with an event-specific predictable bound.
 
-    At each update, ``bound`` must be selected before ``value`` is observed and
-    must satisfy ``abs(value) <= bound``. Every fixed stake component multiplies
-    by ``1 + stake * value / bound``; under the conditional-mean null and a
-    predictable bound, this factor has conditional expectation at most one.
-    Mixing fixed components preserves the e-process property. This supports
-    inverse-propensity increments whose range changes with an adaptive query
-    propensity. The class cannot verify the caller's filtration assumptions.
+    At each update, ``bound`` must be predictable with respect to the same
+    filtration for which the conditional-mean null is asserted and must satisfy
+    ``abs(value) <= bound``. Being selected before the outcome is not sufficient
+    when it depends on a current covariate excluded from the null's conditioning:
+    in that case ``E[value | past] <= 0`` need not imply
+    ``E[value / bound | past] <= 0``. For prediction-powered increments with
+    current-covariate-adaptive propensities, use of the event-specific bound
+    therefore requires a conditional-on-current-context null. Under only a
+    population-average conditional-on-past null, use a fixed bound valid for the
+    full propensity range. The class cannot verify the caller's filtration or
+    null assumptions.
     """
 
     def __init__(

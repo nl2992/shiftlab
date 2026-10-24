@@ -48,6 +48,25 @@ def test_feature_cost_gain_is_bounded_and_nuisance_shift_preserves_decision_cont
     assert np.allclose(oracle["expected_incumbent_minus_candidate_cost"], 0, atol=1e-14)
 
 
+def test_future_reversal_is_unidentifiable_from_predeployment_stream():
+    horizon = 200
+    persistent = generate_feature_cost_streams(
+        scenario="persistent_benefit", seeds=8, horizon=horizon, seed=91, device="cpu"
+    )
+    reversal = generate_feature_cost_streams(
+        scenario="harmful_adaptation", seeds=8, horizon=horizon, seed=91, device="cpu"
+    )
+
+    # Shared randomness is a pathwise witness that both worlds induce the same
+    # learner-visible predeployment law; their evaluator-side future gains differ.
+    for left, right in zip(persistent[:3], reversal[:3], strict=True):
+        assert np.array_equal(left[:, :horizon], right[:, :horizon])
+    persistent_future_gain = persistent[3]["expected_incumbent_minus_candidate_cost"][horizon:]
+    reversal_future_gain = reversal[3]["expected_incumbent_minus_candidate_cost"][horizon:]
+    assert np.all(persistent_future_gain > 0)
+    assert np.all(reversal_future_gain < 0)
+
+
 def test_vectorized_gate_uses_actual_cost_support_and_respects_label_cap():
     horizon = 100
     gains = np.full((3, 2 * horizon), GAIN_BOUND, dtype=float)

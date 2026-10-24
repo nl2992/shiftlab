@@ -1,8 +1,8 @@
 # PPRM-style paired decision-harm benchmark specification
 
 **Status:** The unbiased block-estimator helper, predictable plug-in reliance estimate, finite-mixture
-CM-EB lower confidence sequence, and hard-budget stream integration are implemented and unit-tested. Only a two-seed CUDA smoke
-has run; the matched experiment and statistical calibration are outstanding. No power result or
+CM-EB lower confidence sequence, and hard-budget stream integration are implemented and unit-tested.
+Only a two-seed CUDA smoke has run; the matched experiment and statistical calibration are outstanding. No power result or
 novelty claim. This comparison follows the completed 30-seed
 severity/onset/horizon screen and is a prerequisite to selecting a new monitor.
 

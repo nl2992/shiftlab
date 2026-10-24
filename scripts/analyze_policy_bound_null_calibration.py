@@ -34,6 +34,70 @@ MONITORS = {
 PRIMARY_ALPHA = 0.05
 PROTOCOL = Path("docs/policy_bound_null_calibration_protocol.md")
 EXPECTED_SEEDS = set(range(54_000_000, 54_000_500))
+EXPECTED_CONFIG = {
+    "n": 3200,
+    "d": 16,
+    "seeds": 500,
+    "seed_offset": 54_000_000,
+    "alpha": 0.05,
+    "harm_margin": 0.10,
+    "budget_rate": 0.20,
+    "budget_dollars": None,
+    "monitor_horizon_events": None,
+    "q_min": 0.10,
+    "q_max": 0.80,
+    "cost_stability_tolerance": 0.05,
+    "exact_growth_adaptive_weight": 1.0,
+    "robust_growth_probability_radius": 0.0,
+    "monitor_comparators": ["variance_adaptive", "pm_eb"],
+    "pprm_block_size": 20,
+    "pprm_labels_per_block": 4,
+    "pprm_max_reliance": 1.0,
+    "pprm_initial_reliance": 1.0,
+    "max_label_cost": 2.5,
+    "common_eprocess_bound": False,
+    "generate_figure": False,
+    "record_event_traces": False,
+    "scenario_severity": None,
+    "change_fraction": 0.5,
+    "device": "cuda",
+    "workers": 2,
+    "scenario_subset": ["stationary", "benign_nuisance"],
+    "method_subset": list(METHODS),
+}
+
+
+def sha256(path: Path) -> str:
+    digest = hashlib.sha256()
+    with path.open("rb") as stream:
+        for chunk in iter(lambda: stream.read(1024 * 1024), b""):
+            digest.update(chunk)
+    return digest.hexdigest()
+
+
+def verify_manifest_integrity(output: Path, manifest: dict) -> None:
+    hashes = manifest.get("sha256", {})
+    artifact_hashes = {
+        str(path).replace("\\", "/"): digest for path, digest in hashes.get("artifacts", {}).items()
+    }
+    required_metrics = "metrics/hard_budget_comparison.parquet"
+    if required_metrics not in artifact_hashes:
+        raise ValueError("run manifest does not hash the calibration metrics")
+    for relative, expected_hash in artifact_hashes.items():
+        path = output / Path(relative)
+        if not path.is_file() or sha256(path) != expected_hash:
+            raise ValueError(f"run artifact failed its manifest hash: {relative}")
+
+    source_hashes = {
+        str(path).replace("\\", "/"): digest
+        for path, digest in hashes.get("source_files", {}).items()
+    }
+    if not source_hashes:
+        raise ValueError("run manifest does not hash its source files")
+    for relative, expected_hash in source_hashes.items():
+        path = ROOT / Path(relative)
+        if not path.is_file() or sha256(path) != expected_hash:
+            raise ValueError(f"run source failed its manifest hash: {relative}")
 
 
 def wilson_interval(events: int, trials: int) -> tuple[float, float]:
@@ -64,10 +128,9 @@ def analyze(output: Path) -> tuple[Path, Path]:
     manifest_path = output / "reports/manifest.json"
     manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
     config = manifest["configuration"]
-    if config["common_eprocess_bound"]:
-        raise ValueError("the frozen calibration requires method-specific bounds")
-    if config["seeds"] != 500 or config["seed_offset"] != 54_000_000:
-        raise ValueError("run does not match the frozen seed block and sample size")
+    if config != EXPECTED_CONFIG:
+        raise ValueError("run configuration does not match the frozen calibration protocol")
+    verify_manifest_integrity(output, manifest)
     metrics = pd.read_parquet(output / "metrics/hard_budget_comparison.parquet")
     required = {
         "scenario",
@@ -111,7 +174,7 @@ def analyze(output: Path) -> tuple[Path, Path]:
             expected_bound = prediction_powered_bound(outcome_bound, floor)
             if not np.allclose(cell.eprocess_support_bound, expected_bound, rtol=0, atol=1e-12):
                 raise ValueError(f"{method}/{scenario} uses an unexpected PPI support bound")
-        validate_seed_block(cell.seed, method=method, scenario=scenario)
+            validate_seed_block(cell.seed, method=method, scenario=scenario)
 
     rows: list[dict[str, object]] = []
     for (scenario, method), group in metrics.groupby(["scenario", "method"], sort=True):

@@ -68,9 +68,9 @@ def holm_adjust(p_values: list[float]) -> list[float]:
 
 def paired_detection_pvalue(method_only: int, uniform_only: int) -> float:
     """One-sided exact McNemar/sign-test p-value for higher method detection."""
-    discordant = method_only + uniform_only
     if min(method_only, uniform_only) < 0:
         raise ValueError("discordant counts must be nonnegative")
+    discordant = method_only + uniform_only
     if discordant == 0:
         return 1.0
     return float(binomtest(method_only, discordant, p=0.5, alternative="greater").pvalue)

@@ -3,6 +3,7 @@ from __future__ import annotations
 import json
 
 import pandas as pd
+import pytest
 
 from scripts.analyze_policy_bound_harm_confirmation import (
     holm_adjust,
@@ -90,6 +91,8 @@ def test_one_sided_paired_test_uses_only_discordant_seed_pairs():
     assert paired_detection_pvalue(0, 0) == 1.0
     assert paired_detection_pvalue(8, 0) < 0.01
     assert paired_detection_pvalue(0, 8) == 1.0
+    with pytest.raises(ValueError, match="nonnegative"):
+        paired_detection_pvalue(-1, 1)
 
 
 def test_wilson_interval_contains_the_observed_rate():

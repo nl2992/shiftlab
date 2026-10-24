@@ -701,12 +701,21 @@ H_0:\quad
 \mid \mathcal{F}_{t-1}\right]\leq\epsilon.
 \]
 
-The proposed contribution is an anytime-valid procedure for monitoring this conditional excess
-cost and controlling erroneous escalation under explicit assumptions. An e-process by itself does
-not establish validity. Any theorem and implementation must state and justify the feedback and label
-availability process, predictable policy and reference-policy selection, dependence assumptions,
-and any adaptive label-sampling mechanism. These conditions are part of the method and its
-evaluation protocol, not follow-up details. The current baselines do not yet establish this guarantee.
+The project now implements a mathematically valid baseline for this target: a fixed mixture of bounded
+factors built from paired prediction-powered cost estimates, with query propensities and support bounds
+chosen predictably from prior monitor history. Under the eventwise conditional-mean null, a frozen
+current/reference action pair, positive randomized query propensities, complete outcomes whenever
+queried, and the stated filtration, the bounded-factor supermartingale argument gives anytime false
+escalation control. This is standard e-process reasoning, not a novelty claim. Two independent 4,000-
+stream CUDA studies passed their prespecified synthetic calibration and power gates: one under
+independent events and one under a two-state Markov volatility process whose conditional mean is zero
+in each state. In the Markov validation, the predictable-bound system improved four-dose mean detection
+by 5.66 percentage points (95% paired-bootstrap CI +5.19 to +6.14) and used 134.45 fewer labels per
+stream, while all simultaneous one-sided calibration upper limits were at most 2.43%. Full protocols,
+results and manifests are in [the independent confirmation](docs/history_predictable_bound_confirmation_results.md)
+and [the Markov validation](docs/markov_predictable_bound_validation_results.md). These findings apply
+to the registered synthetic feedback models; arbitrary dependence, delayed or informative labels,
+adaptive policy changes, repeated-candidate selection and intervention effects remain open.
 
 The learner receives only features available at prediction time and labels after their recorded
 availability time. Synthetic regime labels and generating parameters stay evaluator-side. Missing
@@ -716,9 +725,11 @@ documented retrospective or offline protocol when a valid online replay clock is
 The paper protocols distinguish diagnostic evidence from confirmatory results. Small seed counts
 are smoke or validation runs; selected final comparisons should use paired seeds and the larger
 replication counts specified by the protocol. Imposed synthetic costs are research controls, not
-application-grounded utilities. Current baselines do not establish anytime-valid alarm control,
-conditional conformal coverage under arbitrary shift, causal drift attribution, or universal
-benefits from adaptation.
+application-grounded utilities. The registered independent and Markov synthetic studies establish
+alarm control only under their stated martingale nulls, feedback rules, and predictable query design.
+They do not establish control under arbitrary feedback, delayed or selective labels, changing
+policies, conditional conformal coverage under arbitrary shift, causal drift attribution, or
+universal benefits from adaptation.
 
 For version-control conventions and contribution checks, see [CONTRIBUTING.md](CONTRIBUTING.md).
 

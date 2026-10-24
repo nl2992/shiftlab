@@ -1,0 +1,5 @@
+scenario,harm_effect,fixed_detection_rate,predictable_detection_rate,paired_detection_difference,paired_detection_ci95_low,paired_detection_ci95_high,fixed_pre_onset_escalation_rate,predictable_pre_onset_escalation_rate,paired_label_difference,paired_label_ci95_low,paired_label_ci95_high,paired_exposure_cost_difference,paired_exposure_cost_ci95_low,paired_exposure_cost_ci95_high
+markov_volatility_harm_d0.04,0.04,0.001,0.00325,0.00225,0.0005,0.004,0.0,0.01325,-130.39125,-133.27576875,-127.5192,-0.7290333082675934,-0.9159068027377129,-0.5616511490225793
+markov_volatility_harm_d0.20,0.2,0.0035,0.0155,0.012,0.008,0.016,0.0,0.01325,-133.233,-136.21325625,-130.30347500000002,-4.578166657447815,-5.559518353974819,-3.6584874510407452
+markov_volatility_harm_d0.40,0.4,0.01475,0.07,0.05525,0.04775,0.06325,0.0,0.01325,-134.73025,-137.8440875,-131.741725,-18.017799893856047,-20.377339727175233,-15.748574838721753
+markov_volatility_harm_d0.60,0.6,0.06975,0.2265,0.15675,0.144,0.16975,0.0,0.01325,-139.4305,-142.4628375,-136.38365,-61.58720088672638,-66.23172087351084,-56.98132093820572

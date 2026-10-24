@@ -1,0 +1,23 @@
+{
+  "estimand": "equal-weight mean post-onset detection difference across four Markov-regime harm doses; predictable minus fixed bound; paired by stream ID",
+  "overall_retention_rule_passes": true,
+  "paired_bootstrap_95_ci": [
+    0.051875,
+    0.0614375
+  ],
+  "paired_bootstrap_95_ci_evaluator_exposure_cost": [
+    -23.099571007747205,
+    -19.428932748491317
+  ],
+  "paired_bootstrap_95_ci_labels": [
+    -137.29395625,
+    -131.648171875
+  ],
+  "paired_mean_detection_difference": 0.0565625,
+  "paired_mean_evaluator_exposure_cost_difference": -21.22805018657446,
+  "paired_mean_label_difference": -134.44625,
+  "passes_all_calibration_cells": true,
+  "passes_no_extra_labels_rule": true,
+  "passes_primary_detection_rule": true,
+  "retention_practical_margin": 0.02
+}

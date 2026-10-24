@@ -1,0 +1,7 @@
+scenario,arm,streams,false_escalations,false_rate,simultaneous_one_sided_95_upper,passes_5pct_upper_limit,mean_labels,mean_events_processed
+markov_volatility_exact_marginal_null,evidence_qmin_0.05_fixed,4000,3,0.00075,0.002570867515361673,True,304.84625,2399.844
+markov_volatility_exact_marginal_null,evidence_qmin_0.05_predictable,4000,62,0.0155,0.02083501868265157,True,175.4625,2370.4145
+markov_volatility_exact_marginal_null,uniform_q020,4000,74,0.0185,0.02425344766486464,True,466.3505,2330.572
+markov_volatility_strict_negative_control,evidence_qmin_0.05_fixed,4000,0,0.0,0.0011961569689523054,True,291.26275,2399.97475
+markov_volatility_strict_negative_control,evidence_qmin_0.05_predictable,4000,56,0.014,0.019109876894754442,True,168.92825,2371.6225
+markov_volatility_strict_negative_control,uniform_q020,4000,63,0.01575,0.021121422857788168,True,466.63475,2332.05625

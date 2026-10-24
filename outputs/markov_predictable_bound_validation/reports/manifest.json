@@ -1,0 +1,103 @@
+{
+  "artifact_sha256": {
+    "metrics\\harm_dose_results.csv": "269c4f6ddace3ab6783f33eeb2c2870189c285ec22c6e547ab9e23dae4d85ee3",
+    "metrics\\null_calibration.csv": "5fb7cfc73689d76def6e1804a1d4346a88bf9596bfd4a8cc366611817a86ab3f",
+    "metrics\\stream_metrics.parquet": "35e269e28c889f10193325e60e5a5ac1e3df19d8b3c6bdda143d0a5182454c8e",
+    "reports\\primary_result.json": "101c34ee624121582847027bcc19d4714668e301bef5e54a9a5f942659c3aa04",
+    "reports\\validation_results.md": "705f4454aa7008f5f4ddd0807dedb54423d413baeac64b4248853ad8a8d69c5c"
+  },
+  "classification": "independent_dependent_stream_validation",
+  "complete": true,
+  "configuration": {
+    "arms": [
+      "uniform:0.20:fixed",
+      "evidence_directed:0.05:fixed",
+      "evidence_directed:0.05:predictable"
+    ],
+    "calibration_family_cells": 6,
+    "calibration_per_cell_alpha": 0.008333333333333333,
+    "conditional_null_mean_by_state": [
+      0.0,
+      0.0
+    ],
+    "cuda_version": "13.0",
+    "device_requested": "cuda",
+    "device_resolved": "cuda",
+    "gpu_name": "NVIDIA GeForce RTX 4060 Laptop GPU",
+    "hard_label_budget": 480,
+    "high_context_probabilities_by_state": [
+      0.5,
+      0.25
+    ],
+    "horizon": 2400,
+    "markov_flip_probability": 0.05,
+    "null_squared_cost_mean_by_state": [
+      13.0,
+      7.0
+    ],
+    "oracle_boundary": "latent regime and conditional laws used only for outcome generation and evaluator accounting; learner receives sampled training data, observed context, and queried labels",
+    "primary_detection_margin": 0.02,
+    "primary_harm_effects": [
+      0.04,
+      0.2,
+      0.4,
+      0.6
+    ],
+    "scenarios": [
+      "markov_volatility_exact_marginal_null",
+      "markov_volatility_strict_negative_control",
+      "markov_volatility_harm_d0.04",
+      "markov_volatility_harm_d0.20",
+      "markov_volatility_harm_d0.40",
+      "markov_volatility_harm_d0.60"
+    ],
+    "seed_range_inclusive": [
+      27108027,
+      27112026
+    ],
+    "seed_root": 27108027,
+    "stationary_state_probabilities": [
+      0.5,
+      0.5
+    ],
+    "streams_per_scenario": 4000,
+    "torch_version": "2.9.1+cu130",
+    "training_events": 512
+  },
+  "created_at_utc": "2026-10-24T19:00:42.240048+00:00",
+  "experiment": "markov_volatility_predictable_query_bound_validation",
+  "git_commit": "b6fd7a728426274b5c8c1bfcf74b9cb4ba473195",
+  "primary_result": {
+    "estimand": "equal-weight mean post-onset detection difference across four Markov-regime harm doses; predictable minus fixed bound; paired by stream ID",
+    "overall_retention_rule_passes": true,
+    "paired_bootstrap_95_ci": [
+      0.051875,
+      0.0614375
+    ],
+    "paired_bootstrap_95_ci_evaluator_exposure_cost": [
+      -23.099571007747205,
+      -19.428932748491317
+    ],
+    "paired_bootstrap_95_ci_labels": [
+      -137.29395625,
+      -131.648171875
+    ],
+    "paired_mean_detection_difference": 0.0565625,
+    "paired_mean_evaluator_exposure_cost_difference": -21.22805018657446,
+    "paired_mean_label_difference": -134.44625,
+    "passes_all_calibration_cells": true,
+    "passes_no_extra_labels_rule": true,
+    "passes_primary_detection_rule": true,
+    "retention_practical_margin": 0.02
+  },
+  "rows": 72000,
+  "source_sha256": {
+    "docs\\markov_predictable_bound_validation_protocol.md": "d08804bfff5f41cdb343991cf9198800d2db250f0d52cef25b125f42b9309b3a",
+    "scripts\\calibrate_history_predictable_query_bounds.py": "d690fada02bab08c73f81bc7489ff97ec9a8af4f02375c24f374a61b89e390ee",
+    "scripts\\confirm_history_predictable_query_bounds.py": "c19b7eee90177393c1ca3063c6187ffe6d65a410b77f3c6cdbed85e8bfdbd871",
+    "scripts\\validate_markov_predictable_query_bounds.py": "e412848a89e4c2eb99c5766b416615cbac596bfd6a2e251e9ad4522ad2d43b6b",
+    "src\\shiftlab\\dive\\eprocess.py": "186cb6cd152b127a7cd2e6a0082dd91762a983f8cf3b6ccb7b3e147e067e37a3",
+    "src\\shiftlab\\dive\\estimators.py": "ccf8cab60b73ca139f1c9eebf70f53d003201b3664f9bab99e126ec0739647b0"
+  },
+  "visuals_generated": false
+}

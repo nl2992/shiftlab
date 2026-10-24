@@ -29,6 +29,7 @@ from ..decision_harm_experiment import (
 )
 from .eprocess import (
     BoundedMeanEProcess,
+    MultiTimescaleStartedKellyEProcess,
     PredictablePlugInEmpiricalBernsteinEProcess,
     PredictableVarianceAdaptiveEProcess,
     VectorizedStartedMixtureEProcess,
@@ -237,6 +238,12 @@ def _run_stream(
                 alpha=config.alpha,
                 starts=start_positions,
                 weights=beta_start_weights(*beta_shape),
+            )
+        elif method == "discounted_start_mixture":
+            process = MultiTimescaleStartedKellyEProcess(
+                bound=bound,
+                alpha=config.alpha,
+                starts=start_positions,
             )
         else:
             raise ValueError(f"unknown monitor method {method!r}")

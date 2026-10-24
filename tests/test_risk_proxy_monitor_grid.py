@@ -34,6 +34,7 @@ def test_monitor_grid_cpu_smoke_has_matched_paths_and_valid_processes():
         "late_start_mixture",
         "center_start_mixture",
         "quarter_start_beta_4_12",
+        "discounted_start_mixture",
     )
     rows = _run_stream(scenario, config.seed_offset, 0.4, config, methods=methods)
     assert {row["method"] for row in rows} == set(methods)

@@ -1,0 +1,4 @@
+candidate,reference,paired_macro_detection_difference,seed_cluster_ci95_low,seed_cluster_ci95_high,positive_seed_clusters,negative_seed_clusters,tied_seed_clusters,seed_clusters,cells_per_seed
+discounted_start_mixture,fixed_mixture,-0.03611111111111111,-0.08888888888888888,0.01111111111111111,6,8,46,60,6
+discounted_start_mixture,uniform_start_mixture,-0.1111111111111111,-0.16388888888888886,-0.06388888888888888,0,18,42,60,6
+discounted_start_mixture,predictable_kelly,-0.011111111111111112,-0.05277777777777778,0.03055555555555555,7,7,46,60,6

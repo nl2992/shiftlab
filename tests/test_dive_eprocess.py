@@ -5,6 +5,7 @@ from scripts.calibrate_pprm_block_mixture import _endpoint_stream_crossings
 from shiftlab.dive.eprocess import (
     BoundedMeanEProcess,
     HorizonHedgedStartedMixtureEProcess,
+    MultiTimescaleStartedKellyEProcess,
     PPIBlockConfidenceSequence,
     PPIBlockMixtureEProcess,
     PredictableHedgedPositiveEProcess,
@@ -136,6 +137,53 @@ def test_vectorized_started_mixture_matches_reference_event_by_event(weights):
         actual = vectorized.update(float(value))
         assert actual == pytest.approx(expected, abs=1e-12)
         assert vectorized.alarm == reference.alarm
+
+
+def test_multitimescale_started_kelly_is_predictable_and_respects_fixed_starts():
+    process = MultiTimescaleStartedKellyEProcess(
+        bound=1.0,
+        alpha=0.05,
+        starts=(2, 5),
+        half_lives=(2.0, 8.0),
+    )
+    first_stakes = process.predictable_stakes.copy()
+    assert np.all(first_stakes == 0)
+    for value in (0.8, 0.6):
+        process.update(value)
+        assert process.log_e_value == pytest.approx(0.0)
+    process.update(0.5)
+    assert np.all(process.predictable_stakes[0] > 0)
+    assert np.all(process.predictable_stakes[1] == 0)
+    process.update(-0.2)
+    assert np.isfinite(process.log_e_value)
+    assert np.all(process.predictable_stakes <= 0.5)
+    with pytest.raises(ValueError, match="bounded range"):
+        process.update(1.01)
+
+
+@pytest.mark.parametrize("probability_positive", [0.4, 0.5])
+def test_multitimescale_started_kelly_terminal_e_value_under_small_null_enumeration(
+    probability_positive,
+):
+    from itertools import product
+
+    horizon = 6
+    process_kwargs = {
+        "bound": 1.0,
+        "alpha": 0.05,
+        "starts": (0, 2, 4),
+        "half_lives": (2.0, 8.0),
+    }
+    expected = 0.0
+    for stream in product((-1.0, 1.0), repeat=horizon):
+        probability = np.prod(
+            [probability_positive if value > 0 else 1 - probability_positive for value in stream]
+        )
+        process = MultiTimescaleStartedKellyEProcess(**process_kwargs)
+        for value in stream:
+            process.update(value)
+        expected += probability * np.exp(process.log_e_value)
+    assert expected <= 1.0 + 1e-12
 
 
 def test_multihorizon_mixture_matches_a_fixed_convex_mixture_of_horizon_processes():

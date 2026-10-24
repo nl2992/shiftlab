@@ -1,0 +1,69 @@
+{
+  "created_at_utc": "2026-10-24T11:10:04.944920+00:00",
+  "purpose": "development-only alternative comparison; no null calibration or confirmation",
+  "scenario": "residual_variance / target_variance",
+  "severities": [
+    1.5,
+    3.0,
+    4.5
+  ],
+  "query_rates": [
+    0.8,
+    1.0
+  ],
+  "seeds_per_cell": 60,
+  "seed_range_inclusive": [
+    31303026,
+    31303085
+  ],
+  "n": 2400,
+  "methods": [
+    "fixed_mixture",
+    "predictable_kelly",
+    "uniform_start_mixture",
+    "discounted_start_mixture"
+  ],
+  "discounted_half_lives": [
+    16.0,
+    64.0,
+    256.0
+  ],
+  "start_count": 8,
+  "start_weights": "uniform, fixed before each stream",
+  "half_life_weights": "uniform, fixed before each stream",
+  "stake_rule": "clip(max(0, discounted_mean) / max(discounted_second_moment, tiny), 0, 0.5); both moments use only earlier normalized increments",
+  "primary_contrasts": [
+    [
+      "discounted_start_mixture",
+      "fixed_mixture"
+    ],
+    [
+      "discounted_start_mixture",
+      "uniform_start_mixture"
+    ]
+  ],
+  "metric_rows": 1440,
+  "metrics_sha256": "20fe479c4c503025f9d89ef94ac20564cd0ffa9118d3c78524bb093ab7cfd580",
+  "code_sha256": {
+    "residual_variance_discounted_betting.py": "f144d4a3b6a829bf41da67c1711a1b9fae88177738a428724e4ee0d257089347",
+    "risk_proxy_monitor_grid.py": "032b508fc998c5ebe9c4bfe206f8828715c22339afa6ba8b048c4b15dfba04d9",
+    "eprocess.py": "19f116579e4f0afc4656e16aacf9141affd0f7f8af263d283f8138827f672cb7"
+  },
+  "environment": {
+    "cpu_ram_bytes": 16858472448,
+    "disk_free_bytes": 21404041216,
+    "cuda_available": true,
+    "nvidia_smi": "NVIDIA GeForce RTX 4060 Laptop GPU, 8188 MiB, 592.82, 0 %, 97 MiB",
+    "torch_version": "2.9.1+cu130",
+    "cuda_runtime": "13.0",
+    "gpu_name": "NVIDIA GeForce RTX 4060 Laptop GPU",
+    "gpu_memory_bytes": 8585216000,
+    "versions": {
+      "numpy": "2.5.4",
+      "scipy": "1.18.1",
+      "pandas": "3.0.6",
+      "pyarrow": "25.0.1",
+      "folktables": "0.0.12"
+    }
+  }
+}

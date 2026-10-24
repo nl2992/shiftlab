@@ -629,6 +629,134 @@ class VectorizedStartedMixtureEProcess:
         return self.log_e_value
 
 
+class MultiTimescaleStartedKellyEProcess:
+    """Fixed mixture of started e-processes with discounted predictable Kelly bets.
+
+    Each active component uses a stake computed only from its own past normalized
+    increments. For any predictable stake in ``[0, 1]``,
+    ``1 + stake_t * X_t / bound`` is a nonnegative supermartingale factor under
+    ``E[X_t | F_{t-1}] <= 0`` and ``|X_t| <= bound``. A fixed convex mixture
+    across the predeclared starts and half-lives therefore remains an e-process.
+
+    Exponential discounting lets a component adapt its stake after a change
+    without reusing the pre-change history at full weight. This is a standard
+    predictable-betting construction; the class makes no novelty claim.
+    """
+
+    DEFAULT_HALF_LIVES = (16.0, 64.0, 256.0)
+
+    def __init__(
+        self,
+        *,
+        bound: float,
+        alpha: float,
+        starts: tuple[int, ...],
+        start_weights: tuple[float, ...] | None = None,
+        half_lives: tuple[float, ...] = DEFAULT_HALF_LIVES,
+        half_life_weights: tuple[float, ...] | None = None,
+        prior_second_moment: float = 0.25,
+        max_stake: float = 0.5,
+    ):
+        if not np.isfinite(bound) or bound <= 0:
+            raise ValueError("bound must be finite and positive")
+        if not np.isfinite(alpha) or not 0 < alpha < 1:
+            raise ValueError("alpha must lie strictly between zero and one")
+        if not starts or any(
+            isinstance(start, bool) or not isinstance(start, (int, np.integer)) or start < 0
+            for start in starts
+        ):
+            raise ValueError("starts must be nonnegative integers")
+        if tuple(sorted(set(starts))) != starts:
+            raise ValueError("starts must be strictly increasing")
+        half_life_array = np.asarray(half_lives, dtype=float)
+        if (
+            half_life_array.ndim != 1
+            or not len(half_life_array)
+            or not np.isfinite(half_life_array).all()
+            or np.any(half_life_array <= 0)
+            or len(np.unique(half_life_array)) != len(half_life_array)
+        ):
+            raise ValueError("half_lives must be distinct finite positive values")
+        start_weight_array = (
+            np.full(len(starts), 1 / len(starts), dtype=float)
+            if start_weights is None
+            else np.asarray(start_weights, dtype=float)
+        )
+        half_life_weight_array = (
+            np.full(len(half_life_array), 1 / len(half_life_array), dtype=float)
+            if half_life_weights is None
+            else np.asarray(half_life_weights, dtype=float)
+        )
+        for name, weights, size in (
+            ("start_weights", start_weight_array, len(starts)),
+            ("half_life_weights", half_life_weight_array, len(half_life_array)),
+        ):
+            if (
+                weights.shape != (size,)
+                or not np.isfinite(weights).all()
+                or np.any(weights <= 0)
+                or not np.isclose(weights.sum(), 1.0)
+            ):
+                raise ValueError(f"{name} must be positive, sum to one, and match components")
+        if not np.isfinite(prior_second_moment) or not 0 < prior_second_moment <= 1:
+            raise ValueError("prior_second_moment must lie in (0, 1]")
+        if not np.isfinite(max_stake) or not 0 < max_stake < 1:
+            raise ValueError("max_stake must lie strictly between zero and one")
+
+        self.bound = float(bound)
+        self.alpha = float(alpha)
+        self.starts = np.asarray(starts, dtype=np.int64)
+        self.half_lives = half_life_array
+        self.decays = np.exp2(-1.0 / half_life_array)
+        self.start_weights = start_weight_array
+        self.half_life_weights = half_life_weight_array
+        self.log_weights = np.log(start_weight_array[:, None] * half_life_weight_array[None, :])
+        self.max_stake = float(max_stake)
+        self.log_wealth = np.zeros((len(starts), len(half_life_array)), dtype=float)
+        self.discounted_mean = np.zeros_like(self.log_wealth)
+        self.discounted_second_moment = np.full_like(self.log_wealth, prior_second_moment)
+        self.time = 0
+
+    @property
+    def log_e_value(self) -> float:
+        return float(logsumexp(self.log_wealth + self.log_weights))
+
+    @property
+    def alarm(self) -> bool:
+        return self.log_e_value >= -np.log(self.alpha)
+
+    @property
+    def predictable_stakes(self) -> np.ndarray:
+        """Return the next stake matrix, based only on past increments."""
+        return np.clip(
+            np.maximum(self.discounted_mean, 0.0)
+            / np.maximum(self.discounted_second_moment, np.finfo(float).tiny),
+            0.0,
+            self.max_stake,
+        )
+
+    def update(self, value: float) -> float:
+        if not np.isfinite(value) or abs(value) > self.bound + 1e-12:
+            raise ValueError("observed value is outside the declared bounded range")
+        normalized = float(value / self.bound)
+        active = self.time >= self.starts
+        if np.any(active):
+            stakes = self.predictable_stakes[active]
+            factors = 1.0 + stakes * normalized
+            if np.any(factors <= 0):
+                raise RuntimeError("predictable stake produced a nonpositive betting factor")
+            self.log_wealth[active] += np.log1p(stakes * normalized)
+            decays = self.decays[None, :]
+            self.discounted_mean[active] = (
+                decays * self.discounted_mean[active] + (1.0 - decays) * normalized
+            )
+            self.discounted_second_moment[active] = (
+                decays * self.discounted_second_moment[active] + (1.0 - decays) * normalized**2
+            )
+        self.time += 1
+        return self.log_e_value
+
+
 class HorizonHedgedStartedMixtureEProcess(StartedMixtureEProcess):
     """Fixed convex mixture over candidate horizons and start-time priors.
 

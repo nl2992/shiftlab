@@ -1,0 +1,81 @@
+{
+  "artifact_sha256": {
+    "metrics\\paired_bound_effects.csv": "d11cdbaaf57f55097cdf346c06e8f5a98a7bdb1e640248e321d5a54fa36bc207",
+    "metrics\\stream_metrics.parquet": "12edc1898ae8f59c4f24d40ab110abe0caf58992d4e7b4a2b46a4949f7f4fe74",
+    "metrics\\summary.csv": "5167b0e9be6141090a2b343a72eff07ba5095c25a17d33f4d51f6093ef4a0bdd",
+    "reports\\development_results.md": "61b93fa2663dd4be83ed1ff35f3cc4de9f5df248771854827f4e028326d27089"
+  },
+  "bound_modes": [
+    "fixed",
+    "eventwise"
+  ],
+  "budget_rate": 0.2,
+  "cuda_version": "13.0",
+  "delay": 12,
+  "device_requested": "cuda",
+  "device_resolved": "cuda",
+  "experiment": "matched_path_support_bound_ablation",
+  "generated_at_utc": "2026-10-24T21:05:24.551784+00:00",
+  "git_revision": "6ad1cbda4614e87924ce3f210debdc3f1878d7db",
+  "horizon": 2400,
+  "limitations": [
+    "development-only; no calibration or confirmation",
+    "two-state Markov volatility DGP only",
+    "fixed outcome-independent delay 12 and complete labels",
+    "query propensity schedule is exogenous and does not use model evidence",
+    "fixed action pair and frozen proxy"
+  ],
+  "path_identity_checks": {
+    "bound_modes_share_labels_and_processed_events": true,
+    "constant_q_fixed_and_eventwise_decisions_identical": true
+  },
+  "python_version": "3.13.1",
+  "rows": 2880,
+  "runtime_seconds": 165.0066243999172,
+  "scenario_names": [
+    "markov_volatility_exact_marginal_null",
+    "markov_volatility_strict_negative_control",
+    "markov_volatility_harm_d0.04",
+    "markov_volatility_harm_d0.20",
+    "markov_volatility_harm_d0.40",
+    "markov_volatility_harm_d0.60"
+  ],
+  "schedules": [
+    {
+      "high_slots_per_10": 10,
+      "name": "constant_q20",
+      "q_high": 0.2,
+      "q_low": 0.2
+    },
+    {
+      "high_slots_per_10": 5,
+      "name": "periodic_q035",
+      "q_high": 0.35,
+      "q_low": 0.05
+    },
+    {
+      "high_slots_per_10": 3,
+      "name": "periodic_q055",
+      "q_high": 0.55,
+      "q_low": 0.05
+    },
+    {
+      "high_slots_per_10": 2,
+      "name": "periodic_q080",
+      "q_high": 0.8,
+      "q_low": 0.05
+    }
+  ],
+  "seed_root": 28404027,
+  "source_sha256": {
+    "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\shift-research-starter\\scripts\\run_matched_path_bound_ablation.py": "3087d5ac019912c8ac4a6212ef73b50cb4383b6a2a9073e7b3b2c38134873024",
+    "docs\\delayed_event_prefix_validity.md": "b577f4b47f01bce29dbe3857281d40babbd1572f471d1f0275f5f4b05354eb7a",
+    "docs\\matched_path_bound_ablation_protocol.md": "9b937d0271f7eae60adeaff4375a9c021e0a02c61e16abc5b441d8fe788d1c0c",
+    "scripts\\calibrate_history_predictable_query_bounds.py": "d690fada02bab08c73f81bc7489ff97ec9a8af4f02375c24f374a61b89e390ee",
+    "scripts\\confirm_history_predictable_query_bounds.py": "c19b7eee90177393c1ca3063c6187ffe6d65a410b77f3c6cdbed85e8bfdbd871",
+    "scripts\\validate_markov_predictable_query_bounds.py": "e412848a89e4c2eb99c5766b416615cbac596bfd6a2e251e9ad4522ad2d43b6b"
+  },
+  "status": "development_only_not_calibration_or_confirmation",
+  "streams_per_scenario_schedule_bound": 60,
+  "torch_version": "2.9.1+cu130"
+}

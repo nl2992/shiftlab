@@ -153,6 +153,15 @@ and [`outputs/delayed_markov_predictable_confirmation_2000/`](outputs/delayed_ma
 No figure was made because PaperBanana was unavailable; this result is adequately represented by
 tables and machine-readable stream metrics.
 
+A matched-path ablation then held the propensity sequence, queried labels, and processed prefix fixed
+while varying only the support bound. Constant `q=0.20` produced identical outcomes under the fixed
+and eventwise bounds, as expected. For three periodic schedules with the same 0.20 mean query rate,
+the eventwise-bound system improved exploratory macro detection by 4.58–7.50 percentage points over
+the conservative fixed bound; all paired intervals were positive on this 60-stream development
+block. These null cells are too small to calibrate false alarms, and schedule selection remains
+exploratory. See the [protocol and results](docs/matched_path_bound_ablation_results.md) and
+[stream-level metrics](outputs/matched_path_bound_ablation_60/).
+
 The separate Paper 3 DIVE benchmark has 1,260 CUDA-generated rows (30 paired seeds, six scenarios,
 seven monitoring/query variants). The corrected null audit counts every alarm on stationary and
 benign-nuisance population-null streams as a false escalation, even when that particular finite

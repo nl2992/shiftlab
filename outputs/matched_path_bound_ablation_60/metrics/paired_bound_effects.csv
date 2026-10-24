@@ -1,0 +1,13 @@
+schedule,metric,contrast,mean_difference,bootstrap_95_low,bootstrap_95_high,streams
+constant_q20,detection,eventwise_minus_fixed,0.0,0.0,0.0,60
+constant_q20,labels,eventwise_minus_fixed,0.0,0.0,0.0,60
+constant_q20,exposure,eventwise_minus_fixed,0.0,0.0,0.0,60
+periodic_q035,detection,eventwise_minus_fixed,0.07083333333333333,0.03333333333333333,0.1125,60
+periodic_q035,labels,eventwise_minus_fixed,0.0,0.0,0.0,60
+periodic_q035,exposure,eventwise_minus_fixed,-18.91811111111111,-34.426894444444436,-7.485805555555554,60
+periodic_q055,detection,eventwise_minus_fixed,0.04583333333333333,0.0125,0.0875,60
+periodic_q055,labels,eventwise_minus_fixed,0.0,0.0,0.0,60
+periodic_q055,exposure,eventwise_minus_fixed,-18.71311111111111,-36.50151944444443,-5.253291666666667,60
+periodic_q080,detection,eventwise_minus_fixed,0.075,0.0375,0.11666666666666667,60
+periodic_q080,labels,eventwise_minus_fixed,0.0,0.0,0.0,60
+periodic_q080,exposure,eventwise_minus_fixed,-18.692333333333334,-35.501025,-6.548027777777781,60

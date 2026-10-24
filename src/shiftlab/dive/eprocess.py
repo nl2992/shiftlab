@@ -253,6 +253,117 @@ class PredictablePlugInEmpiricalBernsteinEProcess:
         return self.log_e_value
 
 
+class PPIBlockConfidenceSequence:
+    """One-sided confidence sequence for running means of bounded PPI block estimates.
+
+    Each input is a PPI estimate for one block with support ``[-eta_max, 1+eta_max]``.
+    The estimator is affinely normalized to ``[0, 1]``. A finite mixture of Hoeffding
+    betting factors bounds the martingale
+    noise around the predictable block means, yielding a time-uniform lower confidence
+    bound for their running average. This is not a reproduction of PPRM's
+    empirical-Bernstein construction.
+
+    A crossing tests the running-mean null. It does not by itself test the stronger
+    eventwise conditional-mean null or certify an alternative policy.
+    """
+
+    def __init__(
+        self,
+        *,
+        max_reliance: float,
+        threshold: float,
+        alpha: float = 0.05,
+        lambda_count: int = 64,
+        root_iterations: int = 36,
+    ):
+        if not np.isfinite(max_reliance) or max_reliance < 0:
+            raise ValueError("max_reliance must be finite and nonnegative")
+        if not np.isfinite(threshold) or not 0 <= threshold <= 1:
+            raise ValueError("threshold must lie in [0, 1]")
+        if not np.isfinite(alpha) or not 0 < alpha < 1:
+            raise ValueError("alpha must lie strictly between zero and one")
+        if isinstance(lambda_count, bool) or not isinstance(lambda_count, int) or lambda_count < 2:
+            raise ValueError("lambda_count must be an integer of at least two")
+        if (
+            isinstance(root_iterations, bool)
+            or not isinstance(root_iterations, int)
+            or root_iterations < 1
+        ):
+            raise ValueError("root_iterations must be a positive integer")
+        self.max_reliance = float(max_reliance)
+        self.threshold = float(threshold)
+        self.alpha = float(alpha)
+        self.root_iterations = root_iterations
+        self.lambdas = np.geomspace(0.01, 4.0, lambda_count)
+        self.log_weights = np.full(lambda_count, -np.log(lambda_count), dtype=float)
+        self.psi = self.lambdas**2 / 8
+        support_width = 1 + 2 * self.max_reliance
+        self.normalized_threshold = (self.threshold + self.max_reliance) / support_width
+        self.n_updates = 0
+        self.sum_observations = 0.0
+        self._lower_bound = 0.0
+        self.log_crossing_statistic = 0.0
+
+    @property
+    def alarm(self) -> bool:
+        return self.n_updates > 0 and self.log_crossing_statistic >= -np.log(self.alpha)
+
+    @property
+    def lower_bound(self) -> float:
+        """Return a time-uniform lower bound for the average block conditional mean."""
+        if self.n_updates:
+            radius = self._radius()
+            normalized_lower = self.sum_observations / self.n_updates - radius / self.n_updates
+            self._lower_bound = float(
+                np.clip(
+                    -self.max_reliance + (1 + 2 * self.max_reliance) * normalized_lower,
+                    0.0,
+                    1.0,
+                )
+            )
+        return self._lower_bound
+
+    @staticmethod
+    def _logsumexp(values: np.ndarray) -> float:
+        maximum = float(np.max(values))
+        return maximum + float(np.log(np.exp(values - maximum).sum()))
+
+    def _mixture_log_value(self, excess_sum: float) -> float:
+        return self._logsumexp(
+            self.log_weights + self.lambdas * excess_sum - self.n_updates * self.psi
+        )
+
+    def _radius(self) -> float:
+        target = -np.log(self.alpha)
+        lower, upper = 0.0, 1.0
+        while self._mixture_log_value(upper) < target:
+            upper *= 2.0
+        for _ in range(self.root_iterations):
+            midpoint = (lower + upper) / 2
+            if self._mixture_log_value(midpoint) < target:
+                lower = midpoint
+            else:
+                upper = midpoint
+        return upper
+
+    def update(self, estimate: float) -> bool:
+        """Consume one completed block and return whether the running-mean null crossed."""
+        lower_support = -self.max_reliance
+        upper_support = 1 + self.max_reliance
+        if (
+            not np.isfinite(estimate)
+            or not lower_support - 1e-12 <= estimate <= upper_support + 1e-12
+        ):
+            raise ValueError("PPI estimate is outside the declared support")
+        normalized = (float(estimate) + self.max_reliance) / (1 + 2 * self.max_reliance)
+        self.sum_observations += normalized
+        self.n_updates += 1
+        excess_sum = self.sum_observations - self.n_updates * self.normalized_threshold
+        self.log_crossing_statistic = self._mixture_log_value(excess_sum)
+        self._lower_bound = 0.0
+        return self.alarm
+
+
 class PredictableHedgedPositiveEProcess:
     """Positive-direction branch of the hedged capital process at mean 1/2.
 

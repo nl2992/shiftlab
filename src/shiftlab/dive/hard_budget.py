@@ -29,10 +29,15 @@ from ..decision_harm_experiment import (
 )
 from .eprocess import (
     BoundedMeanEProcess,
+    PPIBlockConfidenceSequence,
     PredictablePlugInEmpiricalBernsteinEProcess,
     PredictableVarianceAdaptiveEProcess,
 )
-from .estimators import prediction_powered_bound, prediction_powered_estimate
+from .estimators import (
+    pprm_block_estimate,
+    prediction_powered_bound,
+    prediction_powered_estimate,
+)
 from .evaluation import apply_population_null_classification
 from .experiment import (
     _binary_cost,
@@ -59,8 +64,11 @@ HARD_BUDGET_METHODS = (
     "cost_stabilized_proxy",
     "exact_mixture_growth_proxy",
     "robust_mixture_growth_proxy",
+    "pprm_block_eta1",
 )
-DEFAULT_HARD_BUDGET_METHODS = HARD_BUDGET_METHODS[:-1]
+DEFAULT_HARD_BUDGET_METHODS = HARD_BUDGET_METHODS[:-2]
+PPRM_BLOCK_SIZE = 20
+PPRM_LABELS_PER_BLOCK = 4
 MULTISCALE_STAKES = tuple(float(value) for value in np.geomspace(1 / 1024, 0.99, 13))
 PROTECTED_EXPLORATION_STAKES = tuple(float(value) for value in np.geomspace(1 / 1024, 0.04, 8))
 PROTECTED_STAKES = (0.05, 0.10, 0.20, 0.40, 0.80, *PROTECTED_EXPLORATION_STAKES)
@@ -491,6 +499,166 @@ def _one_method(
     return row
 
 
+def _one_pprm_block_method(
+    *,
+    seed: int,
+    scenario,
+    config: HardBudgetConfig,
+    x: np.ndarray,
+    centered_cost_difference: np.ndarray,
+    expected_cost_difference: np.ndarray,
+    label_costs: np.ndarray,
+    proxy_template: DecisionLossProxy,
+    monitor_start: int,
+    harm_onset: int | None,
+    sample_path_material_harm: bool,
+    sample_path_harm_onset: int | None,
+    common_uniforms: np.ndarray,
+) -> dict[str, object]:
+    """Compare a fixed-eta batch PPI confidence sequence at a 20% label rate."""
+    if PPRM_BLOCK_SIZE % PPRM_LABELS_PER_BLOCK:
+        raise RuntimeError("PPRM block must contain an integer labeled fraction")
+    event_count = len(x) - monitor_start
+    if event_count < PPRM_BLOCK_SIZE:
+        raise ValueError("monitor stream must contain at least one complete PPI block")
+    cost_bound = max(scenario.fn_cost, scenario.fp_cost)
+    if cost_bound <= 0:
+        raise ValueError("paired decision-cost bound must be positive")
+    eta = 1.0
+    threshold = (config.harm_margin + cost_bound) / (2 * cost_bound)
+    monitor = PPIBlockConfidenceSequence(
+        max_reliance=eta,
+        threshold=threshold,
+        alpha=config.alpha,
+    )
+    proxy = copy.deepcopy(proxy_template)  # frozen before the first monitor block
+    predicted_centered = proxy.predict(x[monitor_start:])
+    proxy_raw = np.clip(predicted_centered + config.harm_margin, -cost_bound, cost_bound)
+    proxy_normalized = (proxy_raw + cost_bound) / (2 * cost_bound)
+    true_normalized = (
+        centered_cost_difference[monitor_start:] + config.harm_margin + cost_bound
+    ) / (2 * cost_bound)
+    validation_start = max(100, int(config.n * 0.125))
+    validation_end = monitor_start
+    budget_per_event = config.budget_rate * float(
+        label_costs[validation_start:validation_end].mean()
+    )
+    budget = budget_per_event * event_count
+    remaining = budget
+    spent = 0.0
+    expected_spend = 0.0
+    queried_count = 0
+    processed = 0
+    estimates: list[float] = []
+    block_truths: list[float] = []
+    block_expected: list[float] = []
+    alarm_time: int | None = None
+    stop_reason = "end_of_stream"
+
+    for relative_start in range(0, event_count - PPRM_BLOCK_SIZE + 1, PPRM_BLOCK_SIZE):
+        if remaining + 1e-12 < PPRM_LABELS_PER_BLOCK * config.max_label_cost:
+            stop_reason = "budget_reserve"
+            break
+        relative_end = relative_start + PPRM_BLOCK_SIZE
+        absolute_start = monitor_start + relative_start
+        absolute_end = monitor_start + relative_end
+        block_costs = label_costs[absolute_start:absolute_end]
+        block_uniforms = common_uniforms[absolute_start:absolute_end]
+        labeled_local = np.argpartition(block_uniforms, PPRM_LABELS_PER_BLOCK - 1)[
+            :PPRM_LABELS_PER_BLOCK
+        ]
+        unlabeled_local = np.ones(PPRM_BLOCK_SIZE, dtype=bool)
+        unlabeled_local[labeled_local] = False
+        labeled_indices = absolute_start + labeled_local
+        labeled_spend = float(label_costs[labeled_indices].sum())
+        if labeled_spend > remaining + 1e-12:
+            # The reserve check covers the maximum tariff; reaching this branch is an invariant failure.
+            raise RuntimeError("PPRM block selection exceeded its reserved label-dollar budget")
+        labeled_z = true_normalized[labeled_local]
+        labeled_proxy = proxy_normalized[relative_start:relative_end][labeled_local]
+        unlabeled_proxy = proxy_normalized[relative_start:relative_end][unlabeled_local]
+        estimate = pprm_block_estimate(
+            labeled_z,
+            labeled_proxy,
+            unlabeled_proxy,
+            reliance=eta,
+        )
+        crossed = monitor.update(estimate)
+        estimates.append(-cost_bound + 2 * cost_bound * estimate - config.harm_margin)
+        block_truths.append(float(centered_cost_difference[absolute_start:absolute_end].mean()))
+        block_expected.append(float(expected_cost_difference[absolute_start:absolute_end].mean()))
+        spent += labeled_spend
+        remaining -= labeled_spend
+        queried_count += PPRM_LABELS_PER_BLOCK
+        expected_spend += (PPRM_LABELS_PER_BLOCK / PPRM_BLOCK_SIZE) * float(block_costs.sum())
+        processed += PPRM_BLOCK_SIZE
+        if crossed and alarm_time is None:
+            alarm_time = relative_end - 1
+
+    if processed < event_count and stop_reason == "end_of_stream":
+        stop_reason = "incomplete_block"
+    harm_reached = harm_onset is not None and harm_onset < processed
+    detected = alarm_time is not None and harm_onset is not None and alarm_time >= harm_onset
+    false_escalation = alarm_time is not None and (harm_onset is None or alarm_time < harm_onset)
+    errors = np.asarray(estimates) - np.asarray(block_truths)
+    return {
+        "scenario": scenario.name,
+        "scenario_severity": scenario.severity,
+        "change_fraction": config.change_fraction,
+        "seed": seed,
+        "method": "pprm_block_eta1",
+        "hard_budget": budget,
+        "realized_label_spend": spent,
+        "budget_remaining": remaining,
+        "budget_utilization": spent / budget,
+        "budget_respected": spent <= budget + 1e-9,
+        "predictable_spend_compensator_until_stop": expected_spend,
+        "eprocess_minimum_propensity": PPRM_LABELS_PER_BLOCK / PPRM_BLOCK_SIZE,
+        "labels_queried": queried_count,
+        "processed_events": processed,
+        "monitor_fraction_processed": processed / event_count,
+        "stop_reason": stop_reason,
+        "cost_stability_mix": None,
+        "exact_growth_adaptive_weight": None,
+        "exact_growth_expected_spend_drift_bound": None,
+        "robust_growth_probability_radius": None,
+        "material_harm": harm_onset is not None,
+        "population_null_control": scenario.name in POPULATION_NULL_CONTROLS,
+        "sample_path_material_harm": sample_path_material_harm,
+        "sample_path_harm_onset_relative": sample_path_harm_onset,
+        "harm_onset_relative": harm_onset,
+        "harm_reached_before_budget_stop": harm_reached,
+        # The legacy single_e fields are the primary monitor outcome in the common result schema.
+        "single_e_detected": bool(detected),
+        "single_e_false_escalation": bool(false_escalation),
+        "single_e_alarm_time": alarm_time,
+        "single_e_delay": (
+            int(alarm_time - harm_onset)
+            if detected and alarm_time is not None and harm_onset is not None
+            else None
+        ),
+        "multiscale_e_detected": np.nan,
+        "multiscale_e_false_escalation": np.nan,
+        "multiscale_e_alarm_time": None,
+        "multiscale_e_delay": None,
+        "protected_e_detected": np.nan,
+        "protected_e_false_escalation": np.nan,
+        "protected_e_alarm_time": None,
+        "protected_e_delay": None,
+        "stream_mean_estimation_error": float(np.mean(errors)) if len(errors) else float("nan"),
+        "stream_mean_estimation_rmse": float(np.sqrt(np.mean(errors**2)))
+        if len(errors)
+        else float("nan"),
+        "mean_expected_decision_harm": float(np.mean(block_expected))
+        if block_expected
+        else float("nan"),
+        "pprm_confidence_lower_bound": monitor.lower_bound,
+        "pprm_block_size": PPRM_BLOCK_SIZE,
+        "pprm_labels_per_block": PPRM_LABELS_PER_BLOCK,
+        "pprm_reliance": eta,
+    }
+
+
 def _generate_stream_rows(
     scenario, seed: int, config: HardBudgetConfig, common_uniforms: np.ndarray
 ) -> list[dict[str, object]]:
@@ -564,28 +732,47 @@ def _generate_stream_rows(
     onset = statistical_harm_onset(scenario.name, sample_path_onset)
     rows = []
     for method in config.method_subset:
-        rows.append(
-            _one_method(
-                method=method,
-                seed=seed,
-                scenario=scenario,
-                config=config,
-                x=x,
-                centered_cost_difference=centered_difference,
-                expected_cost_difference=expected_difference,
-                label_costs=label_costs,
-                classifier=classifier,
-                proxy_template=proxy_template,
-                train_end=train_end,
-                monitor_start=monitor_start,
-                harm_onset=onset,
-                sample_path_material_harm=sample_path_onset is not None,
-                sample_path_harm_onset=sample_path_onset,
-                common_uniforms=common_uniforms,
-                contrast_zero=contrast_zero,
-                contrast_one=contrast_one,
+        if method == "pprm_block_eta1":
+            rows.append(
+                _one_pprm_block_method(
+                    seed=seed,
+                    scenario=scenario,
+                    config=config,
+                    x=x,
+                    centered_cost_difference=centered_difference,
+                    expected_cost_difference=expected_difference,
+                    label_costs=label_costs,
+                    proxy_template=proxy_template,
+                    monitor_start=monitor_start,
+                    harm_onset=onset,
+                    sample_path_material_harm=sample_path_onset is not None,
+                    sample_path_harm_onset=sample_path_onset,
+                    common_uniforms=common_uniforms,
+                )
             )
-        )
+        else:
+            rows.append(
+                _one_method(
+                    method=method,
+                    seed=seed,
+                    scenario=scenario,
+                    config=config,
+                    x=x,
+                    centered_cost_difference=centered_difference,
+                    expected_cost_difference=expected_difference,
+                    label_costs=label_costs,
+                    classifier=classifier,
+                    proxy_template=proxy_template,
+                    train_end=train_end,
+                    monitor_start=monitor_start,
+                    harm_onset=onset,
+                    sample_path_material_harm=sample_path_onset is not None,
+                    sample_path_harm_onset=sample_path_onset,
+                    common_uniforms=common_uniforms,
+                    contrast_zero=contrast_zero,
+                    contrast_one=contrast_one,
+                )
+            )
     if "robust_mixture_growth_proxy" in config.method_subset:
         source_probability = classifier.predict_proba(x[monitor_start:])[:, 1]
         true_probability = oracle.probability_positive.to_numpy(dtype=float)[monitor_start:]
@@ -709,6 +896,7 @@ def _paired_effects(metrics: pd.DataFrame, seed: int) -> pd.DataFrame:
             )
             harmful = paired.loc[paired.material_harm_method.astype(bool)]
             reached = harmful.loc[harmful.harm_reached_before_budget_stop_method.astype(bool)]
+            secondary_available = method != "pprm_block_eta1"
             rows.append(
                 {
                     "scenario": scenario,
@@ -732,38 +920,60 @@ def _paired_effects(metrics: pd.DataFrame, seed: int) -> pd.DataFrame:
                     "harm_reached": len(reached),
                     "harmful_streams": len(harmful),
                     "false_escalations": int(paired.single_e_false_escalation_method.sum()),
-                    "multiscale_detection_method": int(reached.multiscale_e_detected_method.sum()),
-                    "multiscale_detection_uniform": int(
-                        reached.multiscale_e_detected_uniform.sum()
+                    "multiscale_detection_method": (
+                        int(reached.multiscale_e_detected_method.sum())
+                        if secondary_available
+                        else np.nan
+                    ),
+                    "multiscale_detection_uniform": (
+                        int(reached.multiscale_e_detected_uniform.sum())
+                        if secondary_available
+                        else np.nan
                     ),
                     "multiscale_only": int(
                         (
                             reached.multiscale_e_detected_method & ~reached.single_e_detected_method
                         ).sum()
-                    ),
+                    )
+                    if secondary_available
+                    else np.nan,
                     "fixed_only": int(
                         (
                             reached.single_e_detected_method & ~reached.multiscale_e_detected_method
                         ).sum()
-                    ),
+                    )
+                    if secondary_available
+                    else np.nan,
                     "multiscale_false_escalations": int(
                         paired.multiscale_e_false_escalation_method.sum()
-                    ),
-                    "protected_detection_method": int(reached.protected_e_detected_method.sum()),
-                    "protected_detection_uniform": int(reached.protected_e_detected_uniform.sum()),
+                    )
+                    if secondary_available
+                    else np.nan,
+                    "protected_detection_method": int(reached.protected_e_detected_method.sum())
+                    if secondary_available
+                    else np.nan,
+                    "protected_detection_uniform": int(reached.protected_e_detected_uniform.sum())
+                    if secondary_available
+                    else np.nan,
                     "protected_only": int(
                         (
                             reached.protected_e_detected_method & ~reached.single_e_detected_method
                         ).sum()
-                    ),
+                    )
+                    if secondary_available
+                    else np.nan,
                     "fixed_only_vs_protected": int(
                         (
                             reached.single_e_detected_method & ~reached.protected_e_detected_method
                         ).sum()
-                    ),
+                    )
+                    if secondary_available
+                    else np.nan,
                     "protected_false_escalations": int(
                         paired.protected_e_false_escalation_method.sum()
-                    ),
+                    )
+                    if secondary_available
+                    else np.nan,
                 }
             )
     return pd.DataFrame(rows)
@@ -781,12 +991,16 @@ def _append_paired_comparisons(output: Path, metrics: pd.DataFrame, seed: int) -
         marker,
         "RMSE intervals are paired percentile bootstraps over independent seeds (20,000 resamples). Spend, label-count and monitor-fraction intervals are paired t intervals. They are descriptive and do not adjust for selecting a method after seeing this grid.",
         "",
-        "|Scenario|Method|RMSE difference (95% bootstrap CI)|Spend difference (95% t CI)|Label difference (95% t CI)|Monitor-fraction difference (95% t CI)|Fixed / multiscale / protected detections / reached|Multiscale-only / fixed-only|Protected-only / fixed-only|Protected false escalations / streams|",
+        "|Scenario|Method|RMSE difference (95% bootstrap CI)|Spend difference (95% t CI)|Label difference (95% t CI)|Monitor-fraction difference (95% t CI)|Primary / multiscale / protected detections / reached|Multiscale-only / primary-only|Protected-only / primary-only|Protected false escalations / streams|",
         "|---|---|---:|---:|---:|---:|---:|---:|---:|---:|",
     ]
     for row in effects.to_dict("records"):
+
+        def count_text(value: object) -> str:
+            return "n/a" if pd.isna(value) else str(int(value))
+
         lines.append(
-            f"|{row['scenario']}|{row['method']}|{row['rmse_difference']:.4f} [{row['rmse_ci_low']:.4f}, {row['rmse_ci_high']:.4f}]|{row['spend_difference']:.2f} [{row['spend_ci_low']:.2f}, {row['spend_ci_high']:.2f}]|{row['label_difference']:.1f} [{row['label_ci_low']:.1f}, {row['label_ci_high']:.1f}]|{row['monitor_fraction_difference']:.3f} [{row['monitor_ci_low']:.3f}, {row['monitor_ci_high']:.3f}]|{row['harm_detected']} / {row['multiscale_detection_method']} / {row['protected_detection_method']} / {row['harm_reached']}|{row['multiscale_only']} / {row['fixed_only']}|{row['protected_only']} / {row['fixed_only_vs_protected']}|{row['protected_false_escalations']} / {row['n_seeds']}|"
+            f"|{row['scenario']}|{row['method']}|{row['rmse_difference']:.4f} [{row['rmse_ci_low']:.4f}, {row['rmse_ci_high']:.4f}]|{row['spend_difference']:.2f} [{row['spend_ci_low']:.2f}, {row['spend_ci_high']:.2f}]|{row['label_difference']:.1f} [{row['label_ci_low']:.1f}, {row['label_ci_high']:.1f}]|{row['monitor_fraction_difference']:.3f} [{row['monitor_ci_low']:.3f}, {row['monitor_ci_high']:.3f}]|{count_text(row['harm_detected'])} / {count_text(row['multiscale_detection_method'])} / {count_text(row['protected_detection_method'])} / {count_text(row['harm_reached'])}|{count_text(row['multiscale_only'])} / {count_text(row['fixed_only'])}|{count_text(row['protected_only'])} / {count_text(row['fixed_only_vs_protected'])}|{count_text(row['protected_false_escalations'])} / {row['n_seeds']}|"
         )
     report_path.write_text(report + "\n".join(lines) + "\n", encoding="utf-8")
 
@@ -850,7 +1064,7 @@ def _plot_hard_budget(metrics: pd.DataFrame, figure_path: Path) -> None:
         monitor_columns = tuple(
             item
             for item in (
-                ("single_e_detected", "Fixed mixture", "tab:blue"),
+                ("single_e_detected", "Primary monitor", "tab:blue"),
                 ("multiscale_e_detected", "Broad multiscale", "tab:orange"),
                 ("protected_e_detected", "Protected multiscale", "tab:green"),
             )
@@ -861,16 +1075,25 @@ def _plot_hard_budget(metrics: pd.DataFrame, figure_path: Path) -> None:
         sample_count = 0
         for monitor_index, (column, label, color) in enumerate(monitor_columns):
             detection = harmful.groupby("method")[column].agg(["sum", "count"]).reindex(methods)
-            rate = detection["sum"] / detection["count"]
-            lower, upper = _wilson_bounds(
-                detection["sum"].to_numpy(), detection["count"].to_numpy()
-            )
+            valid = detection["count"] > 0
+            rate = detection["sum"] / detection["count"].replace(0, np.nan)
+            totals = detection["count"].where(valid, 1).to_numpy()
+            successes = detection["sum"].where(valid, 0).to_numpy()
+            lower, upper = _wilson_bounds(successes, totals)
+            lower[~valid.to_numpy()] = np.nan
+            upper[~valid.to_numpy()] = np.nan
+            rate_values = rate.fillna(0.0).to_numpy()
+            lower_values = np.nan_to_num(lower, nan=0.0)
+            upper_values = np.nan_to_num(upper, nan=0.0)
             offset = (monitor_index - (len(monitor_columns) - 1) / 2) * bar_width
             axes[1].bar(x + offset, rate, color=color, width=bar_width, label=label)
             axes[1].errorbar(
                 x + offset,
                 rate,
-                yerr=np.maximum(0.0, np.vstack((rate - lower, upper - rate))),
+                yerr=np.maximum(
+                    0.0,
+                    np.vstack((rate_values - lower_values, upper_values - rate_values)),
+                ),
                 fmt="none",
                 ecolor="black",
                 capsize=2,
@@ -942,14 +1165,14 @@ def run_hard_budget(config: HardBudgetConfig, output: Path) -> Path:
             else ""
         ),
         (
-            "All methods use the common configured propensity floor for their e-process bound."
+            "The eventwise e-process monitors use the common configured propensity floor in their support bound; the PPRM-style block confidence sequence instead uses its declared fixed block support."
             if config.common_eprocess_bound
             else "The primary comparison uses each method's actual minimum propensity in its e-process bound: uniform queries at 0.10 use a tighter bound than adaptive policies that can query at 0.05. The common-bound sensitivity at reports/eprocess_bound_sensitivity.md found 0/30 detections for every method under q_min=0.05; do not attribute the primary 4-versus-0 difference solely to allocation."
         ),
         "",
-        "The e-process is evaluated only through its budget stopping time. Harm detection is reported both over evaluator-labeled alternative streams and over harmful streams whose onset occurred before budget stopping; the latter avoids calling an unobserved late onset a monitor miss. Stationary and benign-nuisance controls are population nulls; finite-stream oracle flags are reported separately and every alarm on these controls counts as a false escalation. Stream seeds are the inferential units. The outcomes and tariffs are synthetic; current and reference policy costs are paired on the same label.",
+        "Each monitor is evaluated only through its budget stopping time. Harm detection is reported both over evaluator-labeled alternative streams and over harmful streams whose onset occurred before budget stopping; the latter avoids calling an unobserved late onset a monitor miss. Stationary and benign-nuisance controls are population nulls; finite-stream oracle flags are reported separately and every alarm on these controls counts as a false escalation. Stream seeds are the inferential units. The outcomes and tariffs are synthetic; current and reference policy costs are paired on the same label.",
         "",
-        "|Scenario|Method|Mean cap|Mean spend|Mean cap use|Mean labels|Monitor fraction|Stream-mean RMSE|Harm reached / harmful streams|Pathwise oracle flags|Fixed detection all / reached|Multiscale detection all / reached|Protected detection all / reached|Fixed / multiscale / protected false escalation|",
+        "|Scenario|Method|Mean cap|Mean spend|Mean cap use|Mean labels|Monitor fraction|Stream-mean RMSE|Harm reached / harmful streams|Pathwise oracle flags|Primary detection all / reached|Multiscale detection all / reached|Protected detection all / reached|Primary / multiscale / protected false escalation|",
         "|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|",
     ]
     for row in summary.to_dict("records"):
@@ -967,22 +1190,32 @@ def run_hard_budget(config: HardBudgetConfig, output: Path) -> Path:
         protected_reached = row["protected_detection_rate_reached_harm"]
         protected_all_text = "n/a" if pd.isna(protected_all) else f"{protected_all:.3f}"
         protected_reached_text = "n/a" if pd.isna(protected_reached) else f"{protected_reached:.3f}"
+        multiscale_false_text = (
+            "n/a"
+            if pd.isna(row["multiscale_false_escalation_rate"])
+            else f"{row['multiscale_false_escalation_rate']:.3f}"
+        )
+        protected_false_text = (
+            "n/a"
+            if pd.isna(row["protected_false_escalation_rate"])
+            else f"{row['protected_false_escalation_rate']:.3f}"
+        )
         lines.append(
-            f"|{row['scenario']}|{row['method']}|{row['mean_budget']:.2f}|{row['mean_spend']:.2f}|{row['budget_utilization']:.3f}|{row['mean_labels']:.1f}|{row['mean_monitor_fraction']:.3f}|{row['stream_mean_rmse']:.4f}|{row['harm_reachable_streams']}/{row['harmful_streams']}|{row['sample_path_materiality_flags']}|{all_detection_text} / {reached_detection_text}|{multiscale_all_text} / {multiscale_reached_text}|{protected_all_text} / {protected_reached_text}|{row['false_escalation_rate']:.3f} / {row['multiscale_false_escalation_rate']:.3f} / {row['protected_false_escalation_rate']:.3f}|"
+            f"|{row['scenario']}|{row['method']}|{row['mean_budget']:.2f}|{row['mean_spend']:.2f}|{row['budget_utilization']:.3f}|{row['mean_labels']:.1f}|{row['mean_monitor_fraction']:.3f}|{row['stream_mean_rmse']:.4f}|{row['harm_reachable_streams']}/{row['harmful_streams']}|{row['sample_path_materiality_flags']}|{all_detection_text} / {reached_detection_text}|{multiscale_all_text} / {multiscale_reached_text}|{protected_all_text} / {protected_reached_text}|{row['false_escalation_rate']:.3f} / {multiscale_false_text} / {protected_false_text}|"
         )
     lines.extend(
         [
             "",
             "## Full-horizon consistency check",
             "",
-            "This run evaluates each e-process only through its hard-budget stopping time and does not recompute a full-horizon monitor. Any comparison with a full-monitor baseline must use matching stream seeds and query random numbers; the earlier 30-seed pilot consistency check is recorded in the Paper 3 research log.",
+            "Each monitor is evaluated only through its hard-budget stopping time. The eventwise monitors are e-processes; the PPI block comparator is a Hoeffding-mixture confidence sequence for the running average of predictable block means. It does not reproduce PPRM's empirical-Bernstein bound. Any comparison with a full-monitor baseline must use matching stream seeds and query random numbers.",
             "",
             "The fixed-stake baseline uses (0.05, 0.10, 0.20, 0.40, 0.80). The multiscale comparator uses 13 equally weighted geometric stakes from 1/1024 to 0.99. Both are fixed mixtures of factors `1 + eta * X / B`; under the same predictable conditional-mean null and `|X| <= B`, each mixture remains an e-process. The multiscale comparator is a predeclared robustness baseline, not a new validity theorem.",
             "The protected mixture assigns 0.90 total initial weight equally to the five fixed stakes and 0.10 equally to eight geometric stakes from 1/1024 to 0.04. Its weights and support are fixed before evaluation, so it has the same e-process guarantee; it tests whether preserving baseline mass avoids dilution while retaining smaller-scale sensitivity.",
             "",
             "## Interpretation limits",
             "",
-            "This is an allocation comparison under a finite spend cap, not an intervention controller and not a new sequential-test theorem. The hard-cap stopping time is based on past realized spend, not current evaluator truth. The e-process validity still requires the documented bounded-increment conditional-mean null and predictable query probabilities. Early budget exhaustion censors later harm onsets; report both reachability and detection. Realized label dollars are bounded, while the number of labels and monitor horizon remain random. The saved sum of per-event `q_t * cost_t` is a predictable-spend compensator along the realized stopping path; its pathwise sum can exceed the hard cap and it must not be read as realized spend.",
+            "This is an allocation and monitor comparison under a finite spend cap, not an intervention controller or a new theorem. The hard-cap stopping time is based on past realized spend, not current evaluator truth. Eventwise e-process validity requires the documented bounded-increment conditional-mean null and predictable query probabilities. The PPI block confidence sequence assumes bounded block estimates and valid predictable block means; its Hoeffding boundary is conservative and does not provide PPRM's empirical-Bernstein efficiency. Early budget exhaustion censors later harm onsets; report both reachability and detection. Realized label dollars are bounded, while the number of labels and monitor horizon remain random. The saved sum of per-event `q_t * cost_t` is a predictable-spend compensator along the realized stopping path; its pathwise sum can exceed the hard cap and it must not be read as realized spend.",
             "",
             (
                 "Reproduce with `uv run shiftlab-dive-hard-budget "

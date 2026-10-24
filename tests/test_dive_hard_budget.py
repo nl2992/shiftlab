@@ -106,6 +106,38 @@ def test_hard_budget_monitor_comparators_share_labels_and_respect_cap(tmp_path):
         assert (valid_alarms < metrics.loc[valid_alarms.index, "processed_events"]).all()
 
 
+def test_pprm_block_comparator_respects_spend_and_updates_only_complete_blocks(tmp_path):
+    output = run_hard_budget(
+        HardBudgetConfig(
+            n=1600,
+            seeds=1,
+            budget_rate=0.20,
+            q_min=0.10,
+            q_max=0.80,
+            common_eprocess_bound=True,
+            device="cpu",
+            scenario_subset=("stationary", "boundary_local_harm"),
+            method_subset=("uniform_proxy", "pprm_block_eta1"),
+        ),
+        tmp_path / "pprm_block",
+    )
+    metrics = pd.read_parquet(output / "metrics" / "hard_budget_comparison.parquet")
+    pprm = metrics.loc[metrics.method.eq("pprm_block_eta1")]
+    assert len(pprm) == 2
+    assert pprm.budget_respected.all()
+    assert (pprm.labels_queried % 4 == 0).all()
+    assert (pprm.processed_events % 20 == 0).all()
+    assert np.allclose(pprm.labels_queried / pprm.processed_events, 0.20)
+    assert (pprm.pprm_block_size == 20).all()
+    assert (pprm.pprm_labels_per_block == 4).all()
+    assert pprm.pprm_confidence_lower_bound.between(0, 1).all()
+    assert "probability_positive" not in metrics.columns
+    assert "expected_cost_difference" not in metrics.columns
+    report = (output / "reports" / "hard_budget_comparison.md").read_text()
+    assert "Primary detection all / reached" in report
+    assert "pprm_block_eta1" in report
+
+
 def test_hard_budget_null_control_generates_report_without_harm_scenario(tmp_path):
     output = run_hard_budget(
         HardBudgetConfig(

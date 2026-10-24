@@ -3,6 +3,7 @@ import pytest
 
 from shiftlab.dive.eprocess import (
     BoundedMeanEProcess,
+    PPIBlockConfidenceSequence,
     PredictableHedgedPositiveEProcess,
     PredictablePlugInEmpiricalBernsteinEProcess,
     PredictableVarianceAdaptiveEProcess,
@@ -139,3 +140,37 @@ def test_log_spaced_stake_mixture_null_crossing_is_small_in_independent_simulati
                 crossings += 1
                 break
     assert crossings / 300 < 0.08
+
+
+def test_ppi_block_confidence_sequence_detects_persistent_excess_and_checks_support():
+    process = PPIBlockConfidenceSequence(max_reliance=1.0, threshold=0.6, alpha=0.05)
+    assert not process.alarm
+    for _ in range(1_000):
+        process.update(0.9)
+    assert process.alarm
+    assert process.lower_bound > 0.6
+    with pytest.raises(ValueError, match="support"):
+        process.update(2.01)
+
+
+def test_ppi_block_confidence_sequence_exact_small_null_enumeration():
+    from itertools import product
+
+    horizon = 8
+    crossings = 0
+    for stream in product((0.0, 1.0), repeat=horizon):
+        process = PPIBlockConfidenceSequence(
+            max_reliance=0.0,
+            threshold=0.5,
+            alpha=0.05,
+            lambda_count=8,
+            root_iterations=24,
+        )
+        for value in stream:
+            process.update(value)
+            if process.alarm:
+                crossings += 1
+                break
+    # Every sequence has probability 2^-horizon under Bernoulli(1/2).
+    # This exact finite null enumeration checks optional-look behavior.
+    assert crossings / 2**horizon <= 0.05

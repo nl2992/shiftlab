@@ -1,9 +1,10 @@
 # PPRM-style paired decision-harm benchmark specification
 
-**Status:** Implementation specification; the unbiased block-estimator helper and support tests are
-implemented, but the confidence sequence, stream integration, and experiment are not. No result or
-novelty claim. This comparison follows the completed 30-seed severity/onset/horizon screen and is a
-prerequisite to selecting a new monitor.
+**Status:** The unbiased block-estimator helper, finite-mixture lower confidence sequence, and fixed-
+eta hard-budget stream integration are implemented and unit-tested. Only a two-seed CUDA smoke has
+run; the matched experiment and statistical calibration are outstanding. No power result or novelty
+claim. This comparison follows the completed 30-seed
+severity/onset/horizon screen and is a prerequisite to selecting a new monitor.
 
 ## Why this comparator is necessary
 
@@ -56,7 +57,9 @@ where \(\eta_b\) is chosen using only earlier blocks and is bounded by a preregi
 \(\eta_{\max}\). Conditional independence and random sampling from the same block distribution
 make this estimate unbiased for the block's mean normalized paired cost for every predictable
 \(\eta_b\). Its support is contained in \([-\eta_{\max},1+\eta_{\max}]\); normalize this range
-before applying the bounded empirical-Bernstein confidence sequence. Compare its anytime lower
+before applying a bounded confidence sequence. The current code uses a finite-mixture Hoeffding
+boundary for the average of predictable block means; it is a conservative benchmark and is not
+PPRM's empirical-Bernstein/CM-EB construction. Compare its anytime lower
 bound on the running mean with the normalized materiality threshold
 \((\epsilon+M)/(2M)\). Use an explicit alpha split between any source/calibration bound and the
 test-stream confidence sequence if a source-risk version is also reported. For the direct known
@@ -96,12 +99,13 @@ size, \(\eta\), predictor, or threshold may be selected on the confirmatory bloc
 
 - Prove the block estimator is conditionally unbiased under the documented split and predictable
   \(\eta_b\), and verify the finite support bound in tests for every allowed configuration.
-- Verify the confidence-sequence implementation against the cited conjugate-mixture empirical-
-  Bernstein construction, including its one-sided error allocation; do not substitute a fixed-time
-  interval while retaining an anytime-valid label.
-- The published PPRM theorem uses a running-risk null. State clearly that pointwise conditional
-  harm implies the running-mean null, but the converse does not hold. Also report if the simulation
-  only meets independent block observations rather than arbitrary serial dependence.
+- The implemented Hoeffding mixture must be justified from bounded martingale differences and
+  checked under optional stopping. It is an anytime lower bound for the average of predictable
+  block means, not PPRM's empirical-Bernstein/CM-EB sequence. A faithful PPRM comparator requires
+  a separate derivation and implementation audit before it is included in a matched study.
+- State the distinction between a running-average null and an eventwise conditional-mean null: the
+  latter implies the former, but the converse does not. Report whether assumptions cover arbitrary
+  serial dependence or only independent synthetic blocks.
 - This comparator cannot certify an adapted replacement. Candidate promotion remains a separate
   frozen-candidate problem with its own selection and deployment-cost accounting.
 - If PPRM-style monitoring matches or exceeds the e-process on harm detection at equal dollars and

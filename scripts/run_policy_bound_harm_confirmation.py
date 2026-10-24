@@ -65,6 +65,37 @@ REQUIRED_CALIBRATION_ARTIFACTS = (
     "analysis/policy_bound_null_calibration.csv",
     "reports/policy_bound_null_calibration.md",
 )
+HARM_CONFIRMATION_CONFIG = {
+    "n": 3200,
+    "d": 16,
+    "seeds": 200,
+    "seed_offset": 55_000_000,
+    "alpha": 0.05,
+    "harm_margin": 0.10,
+    "budget_rate": 0.20,
+    "budget_dollars": None,
+    "monitor_horizon_events": None,
+    "q_min": 0.10,
+    "q_max": 0.80,
+    "cost_stability_tolerance": 0.05,
+    "exact_growth_adaptive_weight": 1.0,
+    "robust_growth_probability_radius": 0.0,
+    "monitor_comparators": ("variance_adaptive", "pm_eb"),
+    "pprm_block_size": 20,
+    "pprm_labels_per_block": 4,
+    "pprm_max_reliance": 1.0,
+    "pprm_initial_reliance": 1.0,
+    "max_label_cost": 2.5,
+    "common_eprocess_bound": False,
+    "generate_figure": False,
+    "record_event_traces": False,
+    "scenario_severity": None,
+    "change_fraction": 0.5,
+    "device": "cuda",
+    "workers": 2,
+    "scenario_subset": SCENARIOS,
+    "method_subset": METHODS,
+}
 
 
 def sha256(path: Path) -> str:
@@ -173,25 +204,7 @@ def main() -> None:
 
     source_commit = git_revision("rev-parse", "HEAD")
     protocol_commit = git_revision("log", "-1", "--format=%H", "--", PROTOCOL.as_posix())
-    config = HardBudgetConfig(
-        n=3200,
-        d=16,
-        seeds=200,
-        seed_offset=55_000_000,
-        alpha=0.05,
-        harm_margin=0.10,
-        budget_rate=0.20,
-        q_min=0.10,
-        q_max=0.80,
-        monitor_comparators=("variance_adaptive", "pm_eb"),
-        common_eprocess_bound=False,
-        generate_figure=False,
-        record_event_traces=False,
-        device="cuda",
-        workers=2,
-        scenario_subset=SCENARIOS,
-        method_subset=METHODS,
-    ).validate()
+    config = HardBudgetConfig(**HARM_CONFIRMATION_CONFIG).validate()
     output = run_hard_budget(config, OUTPUT)
     manifest_path = output / "reports/manifest.json"
     manifest = json.loads(manifest_path.read_text(encoding="utf-8"))

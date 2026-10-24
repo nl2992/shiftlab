@@ -11,6 +11,12 @@ import numpy as np
 import pandas as pd
 from scipy.stats import binomtest, norm
 
+from scripts.run_policy_bound_harm_confirmation import (
+    CALIBRATION,
+    HARM_CONFIRMATION_CONFIG,
+    PROTOCOL,
+    sha256,
+)
 from shiftlab.decision_harm_experiment import SCENARIOS as SCENARIO_DEFINITIONS
 from shiftlab.dive.estimators import prediction_powered_bound
 from shiftlab.dive.experiment import finalize_manifest
@@ -37,6 +43,7 @@ DELAY_COLUMNS = {
 }
 PRIMARY_MONITOR = "fixed_mixture"
 ADAPTIVE_METHODS = METHODS[1:]
+EXPECTED_CONFIG = json.loads(json.dumps(HARM_CONFIRMATION_CONFIG))
 
 
 def wilson_interval(events: int, trials: int) -> tuple[float, float]:
@@ -88,26 +95,55 @@ def paired_bootstrap_interval(
     return float(low), float(high)
 
 
+def verify_manifest_integrity(output: Path, manifest: dict) -> None:
+    hashes = manifest.get("sha256", {})
+    artifact_hashes = {
+        str(path).replace("\\", "/"): digest for path, digest in hashes.get("artifacts", {}).items()
+    }
+    required_metrics = "metrics/hard_budget_comparison.parquet"
+    if required_metrics not in artifact_hashes:
+        raise ValueError("run manifest does not hash the confirmation metrics")
+    for relative, expected_hash in artifact_hashes.items():
+        path = output / Path(relative)
+        if not path.is_file() or sha256(path) != expected_hash:
+            raise ValueError(f"run artifact failed its manifest hash: {relative}")
+
+    source_hashes = {
+        str(path).replace("\\", "/"): digest
+        for path, digest in hashes.get("source_files", {}).items()
+    }
+    if not source_hashes:
+        raise ValueError("run manifest does not hash its source files")
+    for relative, expected_hash in source_hashes.items():
+        path = ROOT / Path(relative)
+        if not path.is_file() or sha256(path) != expected_hash:
+            raise ValueError(f"run source failed its manifest hash: {relative}")
+
+
+def verify_run_provenance(output: Path, manifest: dict) -> None:
+    if manifest.get("resolved_device") != "cuda":
+        raise ValueError("the frozen confirmation must resolve to CUDA")
+    provenance = manifest.get("run_provenance", {})
+    expected_hashes = {
+        "protocol_sha256": ROOT / PROTOCOL,
+        "run_script_sha256": ROOT / "scripts/run_policy_bound_harm_confirmation.py",
+        "calibration_report_sha256": CALIBRATION / "reports/policy_bound_null_calibration.md",
+    }
+    for key, path in expected_hashes.items():
+        if not path.is_file() or provenance.get(key) != sha256(path):
+            raise ValueError(f"run provenance is missing or mismatches {key}")
+    if not provenance.get("source_git_commit_at_run"):
+        raise ValueError("run provenance is missing the source commit")
+
+
 def _verify_run(output: Path) -> pd.DataFrame:
     manifest_path = output / "reports/manifest.json"
     manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
     config = manifest["configuration"]
-    if config["common_eprocess_bound"]:
-        raise ValueError("the frozen comparison requires method-specific support bounds")
-    if config["seeds"] != 200 or config["seed_offset"] != 55_000_000:
-        raise ValueError("run does not match the frozen seed block and sample size")
-    if (
-        config["n"] != 3200
-        or config["d"] != 16
-        or config["budget_rate"] != 0.20
-        or config["q_min"] != 0.10
-        or config["q_max"] != 0.80
-        or config["harm_margin"] != 0.10
-        or set(config["scenario_subset"]) != set(SCENARIOS)
-        or set(config["method_subset"]) != set(METHODS)
-        or manifest.get("resolved_device") != "cuda"
-    ):
+    if config != EXPECTED_CONFIG:
         raise ValueError("run configuration differs from the frozen protocol")
+    verify_run_provenance(output, manifest)
+    verify_manifest_integrity(output, manifest)
     metrics = pd.read_parquet(output / "metrics/hard_budget_comparison.parquet")
     required = {
         "scenario",

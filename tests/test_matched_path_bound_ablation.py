@@ -3,6 +3,11 @@ from __future__ import annotations
 import pandas as pd
 import pytest
 
+from scripts.confirm_matched_path_bound_ablation import (
+    CALIBRATION_SEED,
+    CONFIRMATION_SEED,
+    run_stage,
+)
 from scripts.run_matched_path_bound_ablation import (
     DEFAULT_SEED,
     SCHEDULES,
@@ -47,3 +52,28 @@ def test_matched_path_grid_shares_labels_and_constant_q_is_identity(tmp_path):
         values="post_onset_detection",
     )
     assert constant["fixed"].equals(constant["eventwise"])
+
+
+def test_matched_path_calibration_smoke_and_confirmation_gate(tmp_path):
+    output = tmp_path / "calibration_smoke"
+    run_stage(
+        stage="calibration",
+        streams=30,
+        seed=CALIBRATION_SEED,
+        horizon=100,
+        device_name="cpu",
+        output=output,
+    )
+    calibration = pd.read_csv(output / "metrics/calibration.csv")
+    assert len(calibration) == 4
+    assert calibration["streams"].eq(30).all()
+    assert calibration["simultaneous_one_sided_95_upper"].gt(0.05).all()
+    with pytest.raises(ValueError, match="requires the independent calibration"):
+        run_stage(
+            stage="confirmation",
+            streams=30,
+            seed=CONFIRMATION_SEED,
+            horizon=100,
+            device_name="cpu",
+            output=tmp_path / "confirmation",
+        )

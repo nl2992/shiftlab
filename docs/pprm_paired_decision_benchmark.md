@@ -220,6 +220,17 @@ choice only; independent null calibration and power evaluation are required befo
 claim. The paired metrics are in
 [`outputs/pprm_block_mixture_weights_development_v1/block_20/metrics/hard_budget_comparison.parquet`](../outputs/pprm_block_mixture_weights_development_v1/block_20/metrics/hard_budget_comparison.parquet).
 
+A separate 2,000-stream-per-cell endpoint-null stress test is recorded in
+[`outputs/pprm_block_mixture_calibration_v1/mixture_null_calibration.md`](../outputs/pprm_block_mixture_calibration_v1/mixture_null_calibration.md).
+The calibration paths were evaluated in batches on CUDA and cross-checked against the scalar
+e-process implementation.
+At the sharp boundary, the (w=0.1) mixture crossed in 65/2,000 streams (3.25%; Wilson 95% interval
+2.56–4.12%); at a mean 0.02 below the boundary, it crossed in 30/2,000 streams (1.50%). CM-EB alone
+crossed in 0/2,000 streams in both cells, while the positive betting component crossed in 73/2,000
+at the boundary. These counts are consistent with the nominal 5% level for this i.i.d. two-point
+endpoint design. They do not cover serially dependent feedback, non-immediate labels, or each
+registered synthetic null scenario, and they do not replace the theorem's assumptions.
+
 ## Matched experiment
 
 Compare the PPRM-style paired-cost confidence-sequence monitor with:

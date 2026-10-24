@@ -1,6 +1,7 @@
 import numpy as np
 import pytest
 
+from scripts.calibrate_pprm_block_mixture import _endpoint_stream_crossings
 from shiftlab.dive.eprocess import (
     BoundedMeanEProcess,
     PPIBlockConfidenceSequence,
@@ -219,3 +220,27 @@ def test_ppi_block_mixture_detects_persistent_excess_and_checks_exact_null():
     for invalid_weight in (0.0, 1.0, float("nan")):
         with pytest.raises(ValueError, match="cm_eb_weight"):
             process.log_e_value_at_weight(invalid_weight)
+
+
+def test_vectorized_endpoint_calibration_matches_scalar_eprocess_paths():
+    rng = np.random.default_rng(821)
+    upper_draws = rng.random((8, 32)) < 0.51
+    vectorized = _endpoint_stream_crossings(
+        upper_draws,
+        threshold=0.51,
+        max_reliance=0.1,
+        alpha=0.05,
+        device="cpu",
+    )
+    for stream_index, stream in enumerate(upper_draws):
+        process = PPIBlockMixtureEProcess(max_reliance=0.1, threshold=0.51, alpha=0.05)
+        crossed = dict.fromkeys(vectorized, False)
+        for is_upper in stream:
+            estimate = 1.1 if is_upper else -0.1
+            process.update(estimate)
+            crossed["CM-EB"] |= process.cm_eb.alarm
+            crossed["positive_betting"] |= process.positive_betting.alarm
+            for weight in (0.1, 0.25, 0.5, 0.75, 0.9):
+                crossed[f"mixture_w={weight:g}"] |= process.alarm_at_weight(weight)
+        for method, did_cross in crossed.items():
+            assert vectorized[method][stream_index] == did_cross

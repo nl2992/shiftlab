@@ -1,0 +1,35 @@
+{
+  "experiment": "pprm_block_eprocess_endpoint_null_stress_calibration",
+  "classification": "development_null_calibration",
+  "configuration": {
+    "replicates_per_cell": 2000,
+    "blocks_per_stream": 240,
+    "seed": 20373123,
+    "alpha": 0.05,
+    "threshold": 0.51,
+    "max_reliance": 0.1,
+    "support": [
+      -0.1,
+      1.1
+    ],
+    "mixture_weights": [
+      0.1,
+      0.25,
+      0.5,
+      0.75,
+      0.9
+    ],
+    "null_means": {
+      "boundary": 0.51,
+      "below_boundary": 0.49
+    },
+    "distribution": "i.i.d. two-point endpoint distribution on declared support",
+    "requested_device": "cuda",
+    "resolved_device": "cuda"
+  },
+  "sha256": {
+    "source": "f72f22968d421eb1b4a5d89c3c4b7cf404acdd2b05b7cd9dc66a80a6961aec6b",
+    "summary_csv": "35a604f37fb54cb44a920cb9560fb671429ae990ab435db518bd1fa24bfbe4ff",
+    "report": "aa4aa93e04cb5154cd965e7c6e5987e14768ace2496ef703b01f78c49a004cbb"
+  }
+}

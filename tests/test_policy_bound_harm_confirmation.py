@@ -11,9 +11,15 @@ from scripts.analyze_policy_bound_harm_confirmation import (
     wilson_interval,
 )
 from scripts.run_policy_bound_harm_confirmation import (
+    CALIBRATION_CONFIG,
     CALIBRATION_METHODS,
     CALIBRATION_SCENARIOS,
+    PROTOCOL,
+    REQUIRED_CALIBRATION_ARTIFACTS,
+    ROOT,
     calibration_passes,
+    expected_calibration_source_hashes,
+    sha256,
 )
 
 
@@ -41,15 +47,44 @@ def write_calibration_summary(path, familywise_uppers):
     (report_dir / "policy_bound_null_calibration.md").write_text(
         "The calibration criterion is **PASS**.", encoding="utf-8"
     )
-    config = {
-        "seeds": 500,
-        "seed_offset": 54_000_000,
-        "common_eprocess_bound": False,
-        "scenario_subset": list(CALIBRATION_SCENARIOS),
-        "method_subset": list(CALIBRATION_METHODS),
+    metrics_path = path.parents[1] / "metrics/hard_budget_comparison.parquet"
+    metrics_path.parent.mkdir(parents=True)
+    metrics_path.write_bytes(b"test-only metric artifact")
+    artifact_paths = {
+        relative: path.parents[1] / relative for relative in REQUIRED_CALIBRATION_ARTIFACTS
     }
-    manifest = {"configuration": config, "resolved_device": "cuda"}
+    run_path = ROOT / "scripts/run_policy_bound_null_calibration.py"
+    analyzer_path = ROOT / "scripts/analyze_policy_bound_null_calibration.py"
+    protocol_path = ROOT / PROTOCOL
+    manifest = {
+        "configuration": {
+            **CALIBRATION_CONFIG,
+            "scenario_subset": list(CALIBRATION_SCENARIOS),
+            "method_subset": list(CALIBRATION_METHODS),
+        },
+        "resolved_device": "cuda",
+        "sha256": {
+            "artifacts": {
+                relative: sha256(artifact) for relative, artifact in artifact_paths.items()
+            },
+            "source_files": expected_calibration_source_hashes(),
+        },
+        "run_provenance": {
+            "analysis_script_sha256": sha256(analyzer_path),
+            "run_script_sha256": sha256(run_path),
+            "protocol_sha256": sha256(protocol_path),
+            "source_git_commit_at_run": "test-commit",
+        },
+    }
     (report_dir / "manifest.json").write_text(json.dumps(manifest), encoding="utf-8")
+
+
+def refresh_artifact_hash(calibration_dir, relative_path):
+    manifest_path = calibration_dir / "reports/manifest.json"
+    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    artifact_path = calibration_dir / relative_path
+    manifest["sha256"]["artifacts"][relative_path] = sha256(artifact_path)
+    manifest_path.write_text(json.dumps(manifest), encoding="utf-8")
 
 
 def test_calibration_gate_requires_all_ten_primary_cells(tmp_path):
@@ -80,6 +115,29 @@ def test_calibration_gate_rejects_duplicate_or_missing_primary_cell(tmp_path):
     summary = pd.read_csv(path)
     summary.loc[9, ["scenario", "method"]] = summary.loc[0, ["scenario", "method"]].to_numpy()
     summary.to_csv(path, index=False)
+    refresh_artifact_hash(calibration, "analysis/policy_bound_null_calibration.csv")
+    assert not calibration_passes(calibration)
+
+
+def test_calibration_gate_rejects_modified_hashed_artifact(tmp_path):
+    calibration = tmp_path / "calibration"
+    summary_dir = calibration / "analysis"
+    summary_dir.mkdir(parents=True)
+    write_calibration_summary(summary_dir / "policy_bound_null_calibration.csv", [0.04] * 10)
+    report_path = calibration / "reports/policy_bound_null_calibration.md"
+    report_path.write_text("The calibration criterion is **PASS**. edited", encoding="utf-8")
+    assert not calibration_passes(calibration)
+
+
+def test_calibration_gate_rejects_nonregistered_configuration(tmp_path):
+    calibration = tmp_path / "calibration"
+    summary_dir = calibration / "analysis"
+    summary_dir.mkdir(parents=True)
+    write_calibration_summary(summary_dir / "policy_bound_null_calibration.csv", [0.04] * 10)
+    manifest_path = calibration / "reports/manifest.json"
+    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    manifest["configuration"]["budget_rate"] = 0.25
+    manifest_path.write_text(json.dumps(manifest), encoding="utf-8")
     assert not calibration_passes(calibration)
 
 

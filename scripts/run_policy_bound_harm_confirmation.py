@@ -31,10 +31,66 @@ CALIBRATION_METHODS = (
     "cost_stabilized_proxy",
 )
 CALIBRATION_SCENARIOS = ("stationary", "benign_nuisance")
+CALIBRATION_CONFIG = {
+    "n": 3200,
+    "d": 16,
+    "seeds": 500,
+    "seed_offset": 54_000_000,
+    "alpha": 0.05,
+    "harm_margin": 0.10,
+    "budget_rate": 0.20,
+    "budget_dollars": None,
+    "monitor_horizon_events": None,
+    "q_min": 0.10,
+    "q_max": 0.80,
+    "cost_stability_tolerance": 0.05,
+    "exact_growth_adaptive_weight": 1.0,
+    "robust_growth_probability_radius": 0.0,
+    "pprm_block_size": 20,
+    "pprm_labels_per_block": 4,
+    "pprm_max_reliance": 1.0,
+    "pprm_initial_reliance": 1.0,
+    "max_label_cost": 2.5,
+    "common_eprocess_bound": False,
+    "generate_figure": False,
+    "record_event_traces": False,
+    "scenario_severity": None,
+    "change_fraction": 0.5,
+    "device": "cuda",
+    "workers": 2,
+    "monitor_comparators": ["variance_adaptive", "pm_eb"],
+}
+REQUIRED_CALIBRATION_ARTIFACTS = (
+    "metrics/hard_budget_comparison.parquet",
+    "analysis/policy_bound_null_calibration.csv",
+    "reports/policy_bound_null_calibration.md",
+)
 
 
 def sha256(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def expected_calibration_source_hashes() -> dict[str, str]:
+    paths = list((ROOT / "src/shiftlab/dive").glob("*.py"))
+    paths.append(ROOT / "src/shiftlab/decision_harm_experiment.py")
+    paths.extend(
+        path
+        for path in (
+            ROOT / "scripts/analyze_monitor_signal.py",
+            ROOT / "scripts/compare_propensity_floor.py",
+        )
+        if path.exists()
+    )
+    paths.extend(
+        ROOT / relative
+        for relative in (
+            "scripts/run_policy_bound_null_calibration.py",
+            "scripts/analyze_policy_bound_null_calibration.py",
+            PROTOCOL.as_posix(),
+        )
+    )
+    return {path.relative_to(ROOT).as_posix(): sha256(path) for path in paths if path.is_file()}
 
 
 def calibration_passes(calibration_dir: Path) -> bool:
@@ -48,15 +104,44 @@ def calibration_passes(calibration_dir: Path) -> bool:
         return False
     manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
     config = manifest.get("configuration", {})
+    expected_config = {
+        **CALIBRATION_CONFIG,
+        "scenario_subset": list(CALIBRATION_SCENARIOS),
+        "method_subset": list(CALIBRATION_METHODS),
+    }
+    if config != expected_config or manifest.get("resolved_device") != "cuda":
+        return False
+    hashes = manifest.get("sha256", {})
+    artifacts = {
+        str(path).replace("\\", "/"): digest for path, digest in hashes.get("artifacts", {}).items()
+    }
+    for relative in REQUIRED_CALIBRATION_ARTIFACTS:
+        path = calibration_dir / Path(relative)
+        if not path.is_file() or artifacts.get(relative) != sha256(path):
+            return False
+    for relative, digest in artifacts.items():
+        path = calibration_dir / Path(relative)
+        if not path.is_file() or digest != sha256(path):
+            return False
+
+    protocol_path = ROOT / PROTOCOL
+    analyzer_path = ROOT / "scripts/analyze_policy_bound_null_calibration.py"
+    run_path = ROOT / "scripts/run_policy_bound_null_calibration.py"
+    provenance = manifest.get("run_provenance", {})
+    source_files = {
+        str(path).replace("\\", "/"): digest
+        for path, digest in hashes.get("source_files", {}).items()
+    }
+    if source_files != expected_calibration_source_hashes():
+        return False
     if (
-        config.get("seeds") != 500
-        or config.get("seed_offset") != 54_000_000
-        or config.get("common_eprocess_bound") is not False
-        or set(config.get("scenario_subset", ())) != set(CALIBRATION_SCENARIOS)
-        or set(config.get("method_subset", ())) != set(CALIBRATION_METHODS)
-        or manifest.get("resolved_device") != "cuda"
+        provenance.get("analysis_script_sha256") != sha256(analyzer_path)
+        or provenance.get("run_script_sha256") != sha256(run_path)
+        or provenance.get("protocol_sha256") != sha256(protocol_path)
+        or not provenance.get("source_git_commit_at_run")
     ):
         return False
+
     summary = pd.read_csv(summary_path)
     primary = summary.loc[summary.monitor.eq("fixed_mixture")]
     if not {"scenario", "method", "primary_familywise_95_upper"} <= set(primary.columns):

@@ -33,6 +33,7 @@ MONITORS = {
 }
 PRIMARY_ALPHA = 0.05
 PROTOCOL = Path("docs/policy_bound_null_calibration_protocol.md")
+EXPECTED_SEEDS = set(range(54_000_000, 54_000_500))
 
 
 def wilson_interval(events: int, trials: int) -> tuple[float, float]:
@@ -52,6 +53,11 @@ def clopper_pearson_upper(events: int, trials: int, confidence: float = 0.95) ->
     if events == trials:
         return 1.0
     return float(beta.ppf(confidence, events + 1, trials - events))
+
+
+def validate_seed_block(seeds: pd.Series, *, method: str, scenario: str) -> None:
+    if set(seeds) != EXPECTED_SEEDS:
+        raise ValueError(f"{method}/{scenario} does not contain the exact registered seed block")
 
 
 def analyze(output: Path) -> tuple[Path, Path]:
@@ -105,6 +111,7 @@ def analyze(output: Path) -> tuple[Path, Path]:
             expected_bound = prediction_powered_bound(outcome_bound, floor)
             if not np.allclose(cell.eprocess_support_bound, expected_bound, rtol=0, atol=1e-12):
                 raise ValueError(f"{method}/{scenario} uses an unexpected PPI support bound")
+        validate_seed_block(cell.seed, method=method, scenario=scenario)
 
     rows: list[dict[str, object]] = []
     for (scenario, method), group in metrics.groupby(["scenario", "method"], sort=True):

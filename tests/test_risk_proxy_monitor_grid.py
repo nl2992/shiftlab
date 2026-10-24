@@ -35,6 +35,9 @@ def test_monitor_grid_cpu_smoke_has_matched_paths_and_valid_processes():
     assert all(row["budget_respected"] for row in rows)
     assert all(row["is_population_null"] for row in rows)
     assert not any(row["material_harm"] for row in rows)
+    assert all(row["offline_proxy_residual_mse"] >= 0 for row in rows)
+    assert all(row["offline_ppi_variance_approx"] >= 0 for row in rows)
+    assert all(np.isfinite(row["offline_mean_margin_excess"]) for row in rows)
 
 
 def test_monitor_factory_returns_registered_anytime_processes():

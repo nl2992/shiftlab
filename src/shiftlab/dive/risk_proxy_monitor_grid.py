@@ -8,6 +8,7 @@ import json
 from collections.abc import Callable
 from dataclasses import asdict, dataclass
 from datetime import UTC, datetime
+from functools import lru_cache
 from pathlib import Path
 
 import numpy as np
@@ -90,7 +91,9 @@ def _process(name: str, bound: float, alpha: float):
         raise ValueError(f"unknown monitor process {name!r}") from exc
 
 
-def _run_stream(scenario, seed: int, query_rate: float, config: RiskProxyMonitorGridConfig):
+@lru_cache(maxsize=1)
+def _prepare_stream(scenario, seed: int, config: RiskProxyMonitorGridConfig):
+    """Generate one path and fit its frozen proxy once across label-rate arms."""
     experiment_config = ExperimentConfig(
         n=config.n,
         d=config.d,
@@ -149,6 +152,35 @@ def _run_stream(scenario, seed: int, query_rate: float, config: RiskProxyMonitor
         ),
     )
     costs = _synthetic_label_costs(x)
+    return (
+        scenario,
+        seed,
+        experiment_config,
+        centered,
+        expected,
+        h,
+        costs,
+        monitor_start,
+        train_end,
+        harm_onset,
+        clip,
+    )
+
+
+def _run_stream(scenario, seed: int, query_rate: float, config: RiskProxyMonitorGridConfig):
+    (
+        scenario,
+        seed,
+        experiment_config,
+        centered,
+        expected,
+        h,
+        costs,
+        monitor_start,
+        train_end,
+        harm_onset,
+        clip,
+    ) = _prepare_stream(scenario, seed, config)
     available = config.n - monitor_start
     budget = query_rate * float(costs[train_end:monitor_start].mean()) * available
     uniforms = np.random.default_rng(seed + 910_2026).random(available)
@@ -171,6 +203,9 @@ def _run_stream(scenario, seed: int, query_rate: float, config: RiskProxyMonitor
     true_values = centered[monitor_start : monitor_start + processed]
     expected_values = expected[monitor_start : monitor_start + processed]
     proxy_values = h[:processed]
+    # Evaluator-only diagnostics: these quantify proxy residual noise without
+    # entering the learner's filtration or any monitor update.
+    proxy_residual_mse = float(np.mean((true_values - proxy_values) ** 2))
     queries = query_mask[:processed]
     event_costs = np.asarray(selected_costs)
     bound = prediction_powered_bound(clip, query_rate)
@@ -222,6 +257,11 @@ def _run_stream(scenario, seed: int, query_rate: float, config: RiskProxyMonitor
                 "budget_respected": spend <= budget + 1e-9,
                 "estimator_rmse": float(np.sqrt(np.mean(error**2))),
                 "centered_paired_cost_variance": float(np.var(true_values)),
+                "offline_proxy_residual_mse": proxy_residual_mse,
+                "offline_ppi_variance_approx": float(
+                    (1 - query_rate) / query_rate * proxy_residual_mse
+                ),
+                "offline_mean_margin_excess": float(np.mean(expected_values) - config.harm_margin),
                 "expected_excess_cost_mean": float(np.mean(expected_values)),
                 "cumulative_expected_excess_cost": float(np.sum(expected_values)),
                 "eprocess_bound": bound,

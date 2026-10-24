@@ -1,0 +1,57 @@
+{
+  "created_at_utc": "2026-10-24T09:46:03.656647+00:00",
+  "design": {
+    "purpose": "diagnostic stress grid; not confirmatory and not a validity proof",
+    "scenario": "residual_variance / target_variance",
+    "severities": [
+      0.75,
+      1.5,
+      2.25,
+      3.0,
+      4.5
+    ],
+    "query_rates": [
+      0.2,
+      0.4,
+      0.6,
+      0.8,
+      1.0
+    ],
+    "seeds_per_cell": 100,
+    "seed_range_inclusive": [
+      31102026,
+      31102125
+    ],
+    "n": 2400,
+    "methods": [
+      "fixed_mixture",
+      "predictable_kelly",
+      "plug_in_empirical_bernstein"
+    ],
+    "device": "cuda",
+    "diagnostics": "offline_* fields use evaluator truth and are never monitor inputs"
+  },
+  "metric_rows": 7500,
+  "metrics_sha256": "d38dc373843240662dcdc882642eef2e76f01f9a035d00c4cdade6d1dac81e44",
+  "code_sha256": {
+    "residual_variance_power_grid.py": "83eb9b2bc046a0d272865471c2abc2577aa9ab8584bf308e5671e70f6e960c69",
+    "risk_proxy_monitor_grid.py": "180096746adbe7f35770e7ab0b2d31292c37a0b1e03566e37629ad9857ac3dc0"
+  },
+  "environment": {
+    "cpu_ram_bytes": 16858472448,
+    "disk_free_bytes": 21387620352,
+    "cuda_available": true,
+    "nvidia_smi": "NVIDIA GeForce RTX 4060 Laptop GPU, 8188 MiB, 592.82, 0 %, 97 MiB",
+    "torch_version": "2.9.1+cu130",
+    "cuda_runtime": "13.0",
+    "gpu_name": "NVIDIA GeForce RTX 4060 Laptop GPU",
+    "gpu_memory_bytes": 8585216000,
+    "versions": {
+      "numpy": "2.5.4",
+      "scipy": "1.18.1",
+      "pandas": "3.0.6",
+      "pyarrow": "25.0.1",
+      "folktables": "0.0.12"
+    }
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "analysis": "pprm_block_size_development_screen",
+  "classification": "development_only_unadjusted",
+  "block_sizes": [
+    5,
+    10,
+    20,
+    40
+  ],
+  "paired_seed_bootstrap": {
+    "resamples": 20000,
+    "seed": 20372099,
+    "interval": "percentile 95%"
+  },
+  "sha256": {
+    "source_files": {
+      "scripts/analyze_pprm_block_grid.py": "96107a919ec7cb348ba9944814bc38ab992f87ae0340ee4747579c13ed4928d5",
+      "scripts/run_pprm_block_grid.py": "da8216ee6d66a329222684aff83d1f78add97437114d9a9e18fe7566ab0233a3"
+    },
+    "inputs": {
+      "outputs/pprm_block_grid_development_v1/block_05/metrics/hard_budget_comparison.parquet": "f603dcfc440d70a786d279fc8c551888b1979af2f82aafad81178e015decb483",
+      "outputs/pprm_block_grid_development_v1/block_10/metrics/hard_budget_comparison.parquet": "a79915c2add185da75088da823432b99b5ea245c92e65c5117c89504f6b2c99e",
+      "outputs/pprm_block_grid_development_v1/block_20/metrics/hard_budget_comparison.parquet": "2a6e8f324b6a2da9909f991af46d8d98d61fd6f42370ec8e9e214255798a0a4c",
+      "outputs/pprm_block_grid_development_v1/block_40/metrics/hard_budget_comparison.parquet": "4d5db112831260a5a406fc42e09ca6ee990d1ceb5491df03dc76a5f5321c1061"
+    },
+    "artifacts": {
+      "block_grid_summary.csv": "02f0dfb68326dab0614797e25e36973cecd6398651423797b0c0b362428c5dd2",
+      "paired_vs_frozen_eventwise.csv": "3583e9bb6231624e2b40d379f01f86f9df846944c8efe659e8b5a7e013627353",
+      "block_grid_tradeoffs.png": "d50bc0449fa7a5dc4acb3f8256321d013d6ab2cc16f2494b461c4d2741109772",
+      "block_grid_analysis.md": "5e80603072ee2e7461f20c53170afb8a9130f20774540be6cc55788b772b4e0a"
+    }
+  }
+}

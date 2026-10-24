@@ -69,8 +69,6 @@ HARD_BUDGET_METHODS = (
     "uniform_proxy_frozen",
 )
 DEFAULT_HARD_BUDGET_METHODS = HARD_BUDGET_METHODS[:-2]
-PPRM_BLOCK_SIZE = 20
-PPRM_LABELS_PER_BLOCK = 4
 PPRM_MAX_RELIANCE = 1.0
 PPRM_INITIAL_RELIANCE = 1.0
 MULTISCALE_STAKES = tuple(float(value) for value in np.geomspace(1 / 1024, 0.99, 13))
@@ -97,6 +95,10 @@ class HardBudgetConfig:
     exact_growth_adaptive_weight: float = 1.0
     robust_growth_probability_radius: float = 0.0
     monitor_comparators: tuple[str, ...] = ()
+    pprm_block_size: int = 20
+    pprm_labels_per_block: int = 4
+    pprm_max_reliance: float = PPRM_MAX_RELIANCE
+    pprm_initial_reliance: float = PPRM_INITIAL_RELIANCE
     max_label_cost: float = 2.5
     common_eprocess_bound: bool = False
     scenario_severity: float | None = None
@@ -118,6 +120,22 @@ class HardBudgetConfig:
             raise ValueError("require 0 < q_min <= budget_rate <= q_max <= 1")
         if self.max_label_cost <= 0 or not np.isfinite(self.max_label_cost):
             raise ValueError("max_label_cost must be finite and positive")
+        if (
+            isinstance(self.pprm_block_size, bool)
+            or not isinstance(self.pprm_block_size, int)
+            or self.pprm_block_size < 2
+            or isinstance(self.pprm_labels_per_block, bool)
+            or not isinstance(self.pprm_labels_per_block, int)
+            or not 1 <= self.pprm_labels_per_block < self.pprm_block_size
+        ):
+            raise ValueError("PPRM blocks require integer size >=2 and 1<=labels<size")
+        if not np.isfinite(self.pprm_max_reliance) or self.pprm_max_reliance <= 0:
+            raise ValueError("pprm_max_reliance must be finite and positive")
+        if (
+            not np.isfinite(self.pprm_initial_reliance)
+            or not 0 <= self.pprm_initial_reliance <= self.pprm_max_reliance
+        ):
+            raise ValueError("pprm_initial_reliance must lie in [0, pprm_max_reliance]")
         if self.scenario_severity is not None and (
             not np.isfinite(self.scenario_severity) or not 0 <= self.scenario_severity <= 5
         ):
@@ -522,19 +540,19 @@ def _one_pprm_block_method(
     sample_path_harm_onset: int | None,
     common_uniforms: np.ndarray,
 ) -> dict[str, object]:
-    """Compare a predictable plug-in-reliance PPI sequence at a 20% label rate."""
-    if PPRM_BLOCK_SIZE % PPRM_LABELS_PER_BLOCK:
-        raise RuntimeError("PPRM block must contain an integer labeled fraction")
+    """Compare a predictable plug-in-reliance PPI sequence under a block sampling design."""
+    block_size = config.pprm_block_size
+    labels_per_block = config.pprm_labels_per_block
     event_count = len(x) - monitor_start
-    if event_count < PPRM_BLOCK_SIZE:
+    if event_count < block_size:
         raise ValueError("monitor stream must contain at least one complete PPI block")
     cost_bound = max(scenario.fn_cost, scenario.fp_cost)
     if cost_bound <= 0:
         raise ValueError("paired decision-cost bound must be positive")
-    eta = PPRM_INITIAL_RELIANCE
+    eta = config.pprm_initial_reliance
     threshold = (config.harm_margin + cost_bound) / (2 * cost_bound)
     monitor = PPIBlockConfidenceSequence(
-        max_reliance=PPRM_MAX_RELIANCE,
+        max_reliance=config.pprm_max_reliance,
         threshold=threshold,
         alpha=config.alpha,
     )
@@ -566,19 +584,17 @@ def _one_pprm_block_method(
     alarm_time: int | None = None
     stop_reason = "end_of_stream"
 
-    for relative_start in range(0, event_count - PPRM_BLOCK_SIZE + 1, PPRM_BLOCK_SIZE):
-        if remaining + 1e-12 < PPRM_LABELS_PER_BLOCK * config.max_label_cost:
+    for relative_start in range(0, event_count - block_size + 1, block_size):
+        if remaining + 1e-12 < labels_per_block * config.max_label_cost:
             stop_reason = "budget_reserve"
             break
-        relative_end = relative_start + PPRM_BLOCK_SIZE
+        relative_end = relative_start + block_size
         absolute_start = monitor_start + relative_start
         absolute_end = monitor_start + relative_end
         block_costs = label_costs[absolute_start:absolute_end]
         block_uniforms = common_uniforms[absolute_start:absolute_end]
-        labeled_local = np.argpartition(block_uniforms, PPRM_LABELS_PER_BLOCK - 1)[
-            :PPRM_LABELS_PER_BLOCK
-        ]
-        unlabeled_local = np.ones(PPRM_BLOCK_SIZE, dtype=bool)
+        labeled_local = np.argpartition(block_uniforms, labels_per_block - 1)[:labels_per_block]
+        unlabeled_local = np.ones(block_size, dtype=bool)
         unlabeled_local[labeled_local] = False
         labeled_indices = absolute_start + labeled_local
         labeled_spend = float(label_costs[labeled_indices].sum())
@@ -601,7 +617,7 @@ def _one_pprm_block_method(
         block_expected.append(float(expected_cost_difference[absolute_start:absolute_end].mean()))
         spent += labeled_spend
         remaining -= labeled_spend
-        queried_count += PPRM_LABELS_PER_BLOCK
+        queried_count += labels_per_block
         historical_labeled.extend(labeled_z.tolist())
         historical_labeled_proxy.extend(labeled_proxy.tolist())
         historical_unlabeled_proxy.extend(unlabeled_proxy.tolist())
@@ -609,11 +625,11 @@ def _one_pprm_block_method(
             np.asarray(historical_labeled),
             np.asarray(historical_labeled_proxy),
             np.asarray(historical_unlabeled_proxy),
-            max_reliance=PPRM_MAX_RELIANCE,
-            fallback_reliance=PPRM_INITIAL_RELIANCE,
+            max_reliance=config.pprm_max_reliance,
+            fallback_reliance=config.pprm_initial_reliance,
         )
-        expected_spend += (PPRM_LABELS_PER_BLOCK / PPRM_BLOCK_SIZE) * float(block_costs.sum())
-        processed += PPRM_BLOCK_SIZE
+        expected_spend += (labels_per_block / block_size) * float(block_costs.sum())
+        processed += block_size
         if crossed and alarm_time is None:
             alarm_time = relative_end - 1
 
@@ -636,7 +652,7 @@ def _one_pprm_block_method(
         "budget_utilization": spent / budget,
         "budget_respected": spent <= budget + 1e-9,
         "predictable_spend_compensator_until_stop": expected_spend,
-        "eprocess_minimum_propensity": PPRM_LABELS_PER_BLOCK / PPRM_BLOCK_SIZE,
+        "eprocess_minimum_propensity": labels_per_block / block_size,
         "labels_queried": queried_count,
         "processed_events": processed,
         "monitor_fraction_processed": processed / event_count,
@@ -676,11 +692,12 @@ def _one_pprm_block_method(
         if block_expected
         else float("nan"),
         "pprm_confidence_lower_bound": monitor.lower_bound,
-        "pprm_block_size": PPRM_BLOCK_SIZE,
-        "pprm_labels_per_block": PPRM_LABELS_PER_BLOCK,
+        "pprm_block_size": block_size,
+        "pprm_labels_per_block": labels_per_block,
         "pprm_reliance_mean": float(np.mean(block_reliances)) if block_reliances else eta,
         "pprm_reliance_last": block_reliances[-1] if block_reliances else eta,
-        "pprm_max_reliance": PPRM_MAX_RELIANCE,
+        "pprm_max_reliance": config.pprm_max_reliance,
+        "pprm_initial_reliance": config.pprm_initial_reliance,
     }
 
 
@@ -1253,6 +1270,10 @@ def run_hard_budget(config: HardBudgetConfig, output: Path) -> Path:
                 f"--q-min {config.q_min} --q-max {config.q_max} --device {config.device} "
                 f"--exact-growth-adaptive-weight {config.exact_growth_adaptive_weight} "
                 f"--robust-growth-probability-radius {config.robust_growth_probability_radius} "
+                f"--pprm-block-size {config.pprm_block_size} "
+                f"--pprm-labels-per-block {config.pprm_labels_per_block} "
+                f"--pprm-max-reliance {config.pprm_max_reliance} "
+                f"--pprm-initial-reliance {config.pprm_initial_reliance} "
                 f"--scenarios {' '.join(config.scenario_subset)} "
                 f"--methods {' '.join(config.method_subset)} "
                 f"{'--common-eprocess-bound ' if config.common_eprocess_bound else ''}"
@@ -1305,6 +1326,10 @@ def main(argv: list[str] | None = None) -> None:
     parser.add_argument("--cost-stability-tolerance", type=float, default=0.05)
     parser.add_argument("--exact-growth-adaptive-weight", type=float, default=1.0)
     parser.add_argument("--robust-growth-probability-radius", type=float, default=0.0)
+    parser.add_argument("--pprm-block-size", type=int, default=20)
+    parser.add_argument("--pprm-labels-per-block", type=int, default=4)
+    parser.add_argument("--pprm-max-reliance", type=float, default=PPRM_MAX_RELIANCE)
+    parser.add_argument("--pprm-initial-reliance", type=float, default=PPRM_INITIAL_RELIANCE)
     parser.add_argument(
         "--common-eprocess-bound",
         action="store_true",
@@ -1325,6 +1350,10 @@ def main(argv: list[str] | None = None) -> None:
         cost_stability_tolerance=args.cost_stability_tolerance,
         exact_growth_adaptive_weight=args.exact_growth_adaptive_weight,
         robust_growth_probability_radius=args.robust_growth_probability_radius,
+        pprm_block_size=args.pprm_block_size,
+        pprm_labels_per_block=args.pprm_labels_per_block,
+        pprm_max_reliance=args.pprm_max_reliance,
+        pprm_initial_reliance=args.pprm_initial_reliance,
         common_eprocess_bound=args.common_eprocess_bound,
         device=args.device,
         scenario_subset=tuple(args.scenarios or HardBudgetConfig.scenario_subset),

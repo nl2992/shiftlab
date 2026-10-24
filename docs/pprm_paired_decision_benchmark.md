@@ -2,9 +2,11 @@
 
 **Status:** The unbiased block-estimator helper, predictable plug-in reliance estimate, finite-mixture
 CM-EB lower confidence sequence, and hard-budget stream integration are implemented and unit-tested.
-Only a two-seed CUDA smoke has run; the matched experiment and statistical calibration are outstanding. No power result or
-novelty claim. This comparison follows the completed 30-seed
-severity/onset/horizon screen and is a prerequisite to selecting a new monitor.
+A four-setting, 30-seed-per-cell CUDA development grid is complete. Its results do not support a
+block-PPI performance claim: all methods had zero detections, and block PPI had higher proxy
+estimation RMSE than the eventwise frozen-proxy control in every scenario. Confirmatory null
+calibration and power evaluation remain outstanding. This comparison follows the completed
+30-seed severity/onset/horizon screen and is a prerequisite to selecting a new monitor.
 
 ## Why this comparator is necessary
 
@@ -78,6 +80,39 @@ completed labeled/unlabeled blocks using the PPRM plug-in rule
 predictable and preserves unbiasedness; its variance-optimal interpretation is only a plug-in
 approximation under nonstationary blocks. The CM-EB test-stream mixture uses 64 equally weighted
 log-spaced \(\lambda\) values from \(10^{-4}\) to \(0.99\), with \(\psi_E(\lambda)=-\log(1-\lambda)-\lambda\).
+
+## Block-size development grid
+
+The matched-proxy development grid uses block sizes \(B\in\{5,10,20,40\}\), with \(n_b=B/5\)
+labels per block to target a 20% label fraction. It compares adaptive block PPI against eventwise
+prediction-powered monitoring with both frozen and updating proxies. All cells use the same 30
+stream seeds (seed offset 20372023), six registered scenarios, 20% nominal label-dollar budget,
+and common eventwise increment bound. The full Parquet metrics, manifests, paired analysis, and
+figure are in [`outputs/pprm_block_grid_development_v1/`](../outputs/pprm_block_grid_development_v1/).
+Reproduce the run and report from the repository root with:
+
+```powershell
+uv run python scripts/run_pprm_block_grid.py --output-root outputs/pprm_block_grid_reproduction --device cuda
+uv run python scripts/analyze_pprm_block_grid.py --output-root outputs/pprm_block_grid_reproduction
+```
+
+The run used an NVIDIA GeForce RTX 4060 Laptop GPU (CUDA 13.0, PyTorch 2.9.1). Across all four
+block sizes, all 30 onset-reaching streams per harmful scenario were processed, but **all three
+monitors detected 0/30 harms in every harmful scenario**. Each recorded 0/30 false escalations in
+the two null controls. The eventwise monitors also detected no harm, so this grid does not establish
+that the block monitor alone is underpowered. PPRM's stream-mean cost estimation RMSE decreased as
+blocks grew, but remained larger than the frozen eventwise comparator in all 24 block-size/scenario
+comparisons. For example, at \(B=40\), local-boundary-harm RMSE was 0.1984 for block PPI and
+0.1108 for eventwise frozen PPI; at \(B=5\), it was 0.5033 versus 0.1108. The paired seed-bootstrap
+intervals in the generated report are exploratory, unadjusted intervals, not confirmatory
+inference. Larger blocks also processed fewer events and used fewer labels before the nominal
+budget stopped the stream.
+
+This is a development-only negative result, not a power or false-alarm guarantee. Diagnose why
+every method misses the current harm signals and why the block estimator has higher RMSE before
+freezing a protocol for the required 2,000-stream-per-null calibration and a separately powered
+study. Use disjoint seeds for those evaluations. No confirmatory conclusions may be drawn from
+this screen.
 
 ## Matched experiment
 

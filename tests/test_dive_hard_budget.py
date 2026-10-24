@@ -29,6 +29,10 @@ def test_hard_budget_config_validates_scenario_grid_parameters():
         HardBudgetConfig(scenario_severity=5.1).validate()
     with pytest.raises(ValueError, match="change_fraction"):
         HardBudgetConfig(change_fraction=1.0).validate()
+    with pytest.raises(ValueError, match="PPRM blocks"):
+        HardBudgetConfig(pprm_block_size=20, pprm_labels_per_block=20).validate()
+    with pytest.raises(ValueError, match="pprm_initial_reliance"):
+        HardBudgetConfig(pprm_max_reliance=0.5, pprm_initial_reliance=1.0).validate()
 
 
 def test_protected_stake_prior_retains_baseline_mass_and_small_bets():
@@ -116,6 +120,8 @@ def test_pprm_block_comparator_respects_spend_and_updates_only_complete_blocks(t
             q_max=0.80,
             common_eprocess_bound=True,
             device="cpu",
+            pprm_block_size=10,
+            pprm_labels_per_block=2,
             scenario_subset=("stationary", "boundary_local_harm"),
             method_subset=("uniform_proxy", "uniform_proxy_frozen", "pprm_block_adaptive"),
         ),
@@ -129,11 +135,11 @@ def test_pprm_block_comparator_respects_spend_and_updates_only_complete_blocks(t
     assert not frozen.proxy_updates_enabled.any()
     assert not pprm.proxy_updates_enabled.any()
     assert pprm.budget_respected.all()
-    assert (pprm.labels_queried % 4 == 0).all()
-    assert (pprm.processed_events % 20 == 0).all()
+    assert (pprm.labels_queried % 2 == 0).all()
+    assert (pprm.processed_events % 10 == 0).all()
     assert np.allclose(pprm.labels_queried / pprm.processed_events, 0.20)
-    assert (pprm.pprm_block_size == 20).all()
-    assert (pprm.pprm_labels_per_block == 4).all()
+    assert (pprm.pprm_block_size == 10).all()
+    assert (pprm.pprm_labels_per_block == 2).all()
     assert pprm.pprm_confidence_lower_bound.between(0, 1).all()
     assert pprm.pprm_reliance_mean.between(0, 1).all()
     assert pprm.pprm_reliance_last.between(0, 1).all()

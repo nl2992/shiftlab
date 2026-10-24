@@ -42,6 +42,7 @@ shiftlab-dive-start-prior-validation = "shiftlab.dive.start_prior_validation:mai
 shiftlab-dive-start-prior-robustness = "shiftlab.dive.start_prior_robustness:main"
 shiftlab-dive-horizon-hedge-sweep = "shiftlab.dive.horizon_hedge_sweep:main"
 shiftlab-dive-late-prior-confirmation = "shiftlab.dive.late_prior_confirmation:main"
+shiftlab-dive-start-prior-robust-mix = "shiftlab.dive.start_prior_robust_mix:main"
 
 [tool.pytest.ini_options]
 pythonpath = [".", "src"]

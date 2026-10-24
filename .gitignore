@@ -146,6 +146,8 @@ outputs/figures/*
 !outputs/horizon_hedge_development/**
 !outputs/late_prior_confirmation/
 !outputs/late_prior_confirmation/**
+!outputs/start_prior_robust_mix_development/
+!outputs/start_prior_robust_mix_development/**
 results/*
 !results/.gitkeep
 data/raw/

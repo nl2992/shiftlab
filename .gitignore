@@ -198,6 +198,8 @@ Thumbs.db
 !outputs/evidence_directed_allocation_30/**
 !outputs/evidence_urgency_curve_grid_30/
 !outputs/evidence_urgency_curve_grid_30/**
+!outputs/evidence_budget20_comparison_60/
+!outputs/evidence_budget20_comparison_60/**
 !outputs/closed_loop_intervention/
 !outputs/closed_loop_intervention/**
 !outputs/intervention_sensitivity_development/

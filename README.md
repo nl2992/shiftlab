@@ -598,9 +598,17 @@ activation offsets 0, 0.025 and 0.05 against concave, linear and convex evidence
 disjoint CUDA seeds. All nine curves and uniform detected 0/30 reached boundary harms at the 10%
 cap; the nearest-to-uniform curve had no established RMSE or spend advantage. No curve is promoted.
 Its [frozen protocol](docs/evidence_urgency_curve_grid_protocol.md) and hash-verified metrics are
-under `outputs/evidence_urgency_curve_grid_30/`. The next test raises the cap to 20% and compares
-the near-uniform curve with uniform and cost-aware baselines, because that existing design has
-shown nonzero detection power.
+under `outputs/evidence_urgency_curve_grid_30/`. A frozen fresh-seed comparison then raised the
+cap to 20% and compared the near-uniform curve with uniform and cost-aware baselines, following
+the prior design that showed nonzero detection power.
+That fresh 20% comparison is now complete: uniform detected 6/60 boundary harms, the evidence
+curve 4/60, variance 3/60, cost-aware Neyman 2/60, and cost-stabilized Neyman 5/60. All onsets were
+reached; no method had a false escalation in 60 streams per null control. The evidence curve's
+paired detection difference from uniform was -3.3 points (95% seed-bootstrap interval [-11.7,
+5.0]), with no demonstrated accuracy benefit. It is not advanced. See the [protocol](docs/evidence_budget20_comparison_protocol.md),
+[results](docs/evidence_budget20_comparison_results.md), and [run artifacts](outputs/evidence_budget20_comparison_60/).
+The next step is to diagnose why the e-process accumulates weak signal before developing more
+query-allocation variants.
 The [paired power plan](outputs/hard_budget_matched_qmin_010_replication_60/reports/paired_detection_power_plan.md)
 estimates 151 fresh seeds for 80% power against the easier zero-difference McNemar null under
 pilot plug-in rates (219 with a four-comparison Bonferroni level). Those figures do not power the

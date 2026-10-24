@@ -122,3 +122,48 @@ and measure both event-time detection and wall-clock/arrival-time delay. The new
 `shiftlab.dive.delayed_feedback.EventOrderBuffer` is an ordering primitive only; its tests establish
 release order and latency accounting, not statistical validity. Only after this baseline comparison
 shows a concrete failure mode should a new delay-aware evidence or intervention rule be designed.
+
+## Source-level audit: active sequential testing and safe policy evaluation
+
+This audit separates the three targets used in the project: distributional change `D(P_t,P_0)`,
+predictive-risk change, and paired decision harm `R_t(pi)-R_t(pi_ref)`. A method that is anytime-valid
+for one target is not automatically a valid comparator for another.
+
+- [Active Sequential Two-Sample Testing (AST)](https://arxiv.org/abs/2301.12616) tests whether
+  features and a queried group label are independent, using an anytime-valid likelihood-ratio
+  construction and active selection of costly labels. Its source setup has a feature pool and an
+  adaptive label-query mechanism. It is a relevant comparator for a distributional/dependence
+  diagnostic endpoint, with that endpoint and its own assumptions stated explicitly. It does not
+  test whether the deployed action has greater downstream cost than a reference action, so placing
+  its alarms in the paired-harm column would change the estimand rather than compare monitors.
+- [Off-Policy Confidence Sequences (OPCS)](https://proceedings.mlr.press/v139/karampatziaki21a.html)
+  provide time-uniform evaluation of a target policy from contextual-bandit logs. The comparison
+  requires logged actions sampled under a behavior policy, known or estimable propensities with
+  target-policy support, bounded importance weights, and bounded rewards/costs under the stated
+  sampling assumptions. A confidence sequence can support gated deployment at a stopping time when
+  those conditions hold. It is the closest safe-evaluation comparator if actions affect outcomes.
+- [High Confidence Policy Improvement (HCPI)](https://proceedings.mlr.press/v37/thomas15.html)
+  gives a batch lower-confidence-bound policy-improvement procedure. It makes candidate evaluation
+  and safety explicit, but its batch guarantee is not by itself a repeated, adaptive, anytime
+  promotion guarantee. A fair comparison needs a frozen candidate or independent selection/evaluation
+  split, plus a multiplicity rule if many candidates are tested.
+- [Online multiple testing with e-values](https://proceedings.mlr.press/v238/xu24a.html) supplies
+  online false-discovery-rate control under its assumptions. FDR control is not the same as familywise
+  control of the probability of any unsafe promotion. The project must choose and calibrate the error
+  target matching its safety claim rather than treating these guarantees as interchangeable.
+- [AnyRank](https://arxiv.org/abs/2610.14603) and [PACE](https://arxiv.org/abs/2606.08106) further
+  overlap anytime policy ranking or paired candidate acceptance. Their stated scopes and error units
+  differ, so a claimed run-level false-promotion guarantee must account for adaptive candidate
+  generation and repeated looks rather than inherit a per-comparison claim.
+
+In the current ShiftLab simulator, both incumbent and reference costs are computed on the same
+outcome, and a queried label reveals that outcome; policy actions do not alter it. This supports a
+paired-cost estimand, but it is not contextual-bandit feedback: there is no executed logged action,
+action-specific reward observation, or behavior propensity. Therefore OPCS/HCPI are not numerically
+comparable on the existing stream without changing its data contract. Do not fabricate a synthetic
+logging policy merely to make the APIs line up. If actions are intended to affect outcomes, add a
+separate contextual-bandit simulator with randomized behavior actions, explicit propensities and
+support checks, bounded action-specific costs, and a frozen candidate protocol; then compare OPCS
+and an appropriate batch HCPI implementation there. Keep AST on the distributional diagnostic
+endpoint. Keep predictive-risk and paired decision-harm results separate, and report each method's
+filtration, estimand, feedback, budget, and error guarantee.

@@ -141,6 +141,18 @@ def test_calibration_gate_rejects_nonregistered_configuration(tmp_path):
     assert not calibration_passes(calibration)
 
 
+def test_calibration_gate_rejects_changed_source_hash(tmp_path):
+    calibration = tmp_path / "calibration"
+    summary_dir = calibration / "analysis"
+    summary_dir.mkdir(parents=True)
+    write_calibration_summary(summary_dir / "policy_bound_null_calibration.csv", [0.04] * 10)
+    manifest_path = calibration / "reports/manifest.json"
+    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    manifest["sha256"]["source_files"]["src/shiftlab/dive/hard_budget.py"] = "stale"
+    manifest_path.write_text(json.dumps(manifest), encoding="utf-8")
+    assert not calibration_passes(calibration)
+
+
 def test_holm_adjustment_preserves_order_and_is_monotone():
     assert holm_adjust([0.01, 0.04, 0.03, 0.002]) == [0.03, 0.06, 0.06, 0.008]
 

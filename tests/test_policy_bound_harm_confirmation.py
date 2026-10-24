@@ -15,9 +15,9 @@ from scripts.analyze_policy_bound_harm_confirmation import (
 from scripts.run_policy_bound_harm_confirmation import (
     CALIBRATION_CONFIG,
     CALIBRATION_METHODS,
+    CALIBRATION_PROTOCOL,
     CALIBRATION_SCENARIOS,
     HARM_CONFIRMATION_CONFIG,
-    PROTOCOL,
     REQUIRED_CALIBRATION_ARTIFACTS,
     ROOT,
     calibration_passes,
@@ -58,7 +58,7 @@ def write_calibration_summary(path, familywise_uppers):
     }
     run_path = ROOT / "scripts/run_policy_bound_null_calibration.py"
     analyzer_path = ROOT / "scripts/analyze_policy_bound_null_calibration.py"
-    protocol_path = ROOT / PROTOCOL
+    protocol_path = ROOT / CALIBRATION_PROTOCOL
     manifest = {
         "configuration": {
             **CALIBRATION_CONFIG,

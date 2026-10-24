@@ -6,6 +6,7 @@ import argparse
 import hashlib
 import json
 import subprocess
+import sys
 from pathlib import Path
 
 import numpy as np
@@ -104,15 +105,25 @@ def verify_run_provenance(manifest: dict) -> None:
     if manifest.get("resolved_device") != "cuda":
         raise ValueError("the frozen calibration must resolve to CUDA")
     provenance = manifest.get("run_provenance", {})
-    expected_hashes = {
-        "protocol_sha256": ROOT / PROTOCOL,
-        "run_script_sha256": ROOT / "scripts/run_policy_bound_null_calibration.py",
-    }
-    for key, path in expected_hashes.items():
-        if provenance.get(key) != sha256(path):
-            raise ValueError(f"run provenance is missing or mismatches {key}")
-    if not provenance.get("source_git_commit_at_run"):
+    protocol_path = ROOT / PROTOCOL
+    if provenance.get("protocol_sha256") != sha256(protocol_path):
+        raise ValueError("run provenance is missing or mismatches protocol_sha256")
+    source_commit = provenance.get("source_git_commit_at_run")
+    if not source_commit:
         raise ValueError("run provenance is missing the source commit")
+    try:
+        run_script_at_commit = subprocess.check_output(
+            [
+                "git",
+                "show",
+                f"{source_commit}:scripts/run_policy_bound_null_calibration.py",
+            ],
+            cwd=ROOT,
+        )
+    except subprocess.CalledProcessError as exc:
+        raise ValueError("run provenance source commit does not contain the runner") from exc
+    if provenance.get("run_script_sha256") != hashlib.sha256(run_script_at_commit).hexdigest():
+        raise ValueError("run provenance is missing or mismatches run_script_sha256")
 
 
 def wilson_interval(events: int, trials: int) -> tuple[float, float]:
@@ -239,12 +250,14 @@ def analyze(output: Path) -> tuple[Path, Path]:
     csv_path = analysis_dir / "policy_bound_null_calibration.csv"
     summary.to_csv(csv_path, index=False)
     report_path = output / "reports/policy_bound_null_calibration.md"
+    environment = manifest.get("environment", {})
+    gpu_name = environment.get("gpu_name", manifest.get("gpu_name", "unknown"))
     lines = [
         "# Policy-specific-bound null calibration",
         "",
         "This is a frozen synthetic null-calibration study, not a harmful-regime power comparison or a real-world validity guarantee. Independent stream seeds are the calibration units. Each method uses its guaranteed propensity floor in the PPI support bound; the shared-bound option is disabled.",
         "",
-        f"GPU: `{manifest.get('gpu_name', 'unknown')}`; resolved device: `{manifest.get('resolved_device', 'unknown')}`. Seeds: 500 per scenario, block `54000000–54000499`. The fixed-mixture primary family contains 10 policy-by-scenario cells; its simultaneous one-sided limits use Bonferroni familywise 95% coverage. The calibration criterion is **{'PASS' if passed else 'FAIL / INCONCLUSIVE'}**: every primary simultaneous upper limit must be below 0.05.",
+        f"GPU: `{gpu_name}`; resolved device: `{manifest.get('resolved_device', 'unknown')}`. Seeds: 500 per scenario, block `54000000–54000499`. The fixed-mixture primary family contains 10 policy-by-scenario cells; its simultaneous one-sided limits use Bonferroni familywise 95% coverage. The calibration criterion is **{'PASS' if passed else 'FAIL / INCONCLUSIVE'}**: every primary simultaneous upper limit must be below 0.05.",
         f"With 500 streams per primary cell, passing this criterion requires at most {MAX_PRIMARY_FALSE_ESCALATIONS} false escalations in every cell.",
         "",
         "|Scenario|Policy|Monitor|Floor|PPI bound|False escalations / streams|Rate|Wilson 95% interval|Pointwise exact upper|Primary familywise exact upper|Mean labels|Mean spend / cap|",
@@ -299,6 +312,8 @@ def analyze(output: Path) -> tuple[Path, Path]:
 
 
 def main() -> None:
+    if hasattr(sys.stdout, "reconfigure"):
+        sys.stdout.reconfigure(errors="backslashreplace")
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output", type=Path, default=DEFAULT_OUTPUT)
     args = parser.parse_args()

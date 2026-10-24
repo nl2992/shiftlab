@@ -15,6 +15,7 @@ ROOT = Path(__file__).resolve().parents[1]
 CALIBRATION = ROOT / "outputs/policy_bound_null_calibration_500"
 OUTPUT = ROOT / "outputs/policy_bound_harm_confirmation_200"
 PROTOCOL = Path("docs/policy_bound_harm_confirmation_protocol.md")
+CALIBRATION_PROTOCOL = Path("docs/policy_bound_null_calibration_protocol.md")
 METHODS = (
     "uniform_proxy",
     "variance_proxy",
@@ -118,7 +119,7 @@ def expected_calibration_source_hashes() -> dict[str, str]:
         for relative in (
             "scripts/run_policy_bound_null_calibration.py",
             "scripts/analyze_policy_bound_null_calibration.py",
-            PROTOCOL.as_posix(),
+            CALIBRATION_PROTOCOL.as_posix(),
         )
     )
     return {path.relative_to(ROOT).as_posix(): sha256(path) for path in paths if path.is_file()}
@@ -155,7 +156,7 @@ def calibration_passes(calibration_dir: Path) -> bool:
         if not path.is_file() or digest != sha256(path):
             return False
 
-    protocol_path = ROOT / PROTOCOL
+    protocol_path = ROOT / CALIBRATION_PROTOCOL
     analyzer_path = ROOT / "scripts/analyze_policy_bound_null_calibration.py"
     run_path = ROOT / "scripts/run_policy_bound_null_calibration.py"
     provenance = manifest.get("run_provenance", {})

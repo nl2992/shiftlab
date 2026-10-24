@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import subprocess
+
 import pytest
 
 from scripts import analyze_policy_bound_null_calibration as analyzer
@@ -91,14 +93,25 @@ def test_analysis_rejects_non_cuda_or_mismatched_run_provenance(tmp_path, monkey
     run_script = tmp_path / "scripts/run_policy_bound_null_calibration.py"
     run_script.parent.mkdir(parents=True)
     run_script.write_text("locked runner", encoding="utf-8")
+    subprocess.run(["git", "init", "-q"], cwd=tmp_path, check=True)
+    subprocess.run(["git", "config", "user.email", "test@example.com"], cwd=tmp_path, check=True)
+    subprocess.run(["git", "config", "user.name", "Test"], cwd=tmp_path, check=True)
+    subprocess.run(
+        ["git", "add", "scripts/run_policy_bound_null_calibration.py"], cwd=tmp_path, check=True
+    )
+    subprocess.run(["git", "commit", "-qm", "record runner"], cwd=tmp_path, check=True)
+    commit = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=tmp_path, text=True).strip()
     manifest = {
         "resolved_device": "cuda",
         "run_provenance": {
             "protocol_sha256": sha256(protocol),
             "run_script_sha256": sha256(run_script),
-            "source_git_commit_at_run": "test-commit",
+            "source_git_commit_at_run": commit,
         },
     }
+    analyzer.verify_run_provenance(manifest)
+
+    run_script.write_text("later runner revision", encoding="utf-8")
     analyzer.verify_run_provenance(manifest)
 
     manifest["resolved_device"] = "cpu"

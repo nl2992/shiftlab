@@ -1,0 +1,26 @@
+{
+  "created_at_utc": "2026-10-24T23:10:19.984388+00:00",
+  "status": "passed",
+  "purpose": "independent frozen-seed confirmation of context-local rollback in heterogeneous reversal",
+  "seed_offset": 91102024,
+  "seeds_per_scenario": 2000,
+  "calibration_manifest": "outputs\\contextual_stratified_calibration_2000\\manifest.json",
+  "calibration_status": "passed",
+  "query_rate": 0.8,
+  "budget_rate": 0.4,
+  "horizon_per_phase": 400,
+  "criteria": {
+    "stratified_beats_global_lower_ci_positive": true,
+    "stratified_beats_continue_lower_ci_positive": true,
+    "mean_harmful_groups_rolled_back_at_least_half": true,
+    "mean_safe_groups_retained_above_90_percent": true,
+    "all_label_caps_respected": true
+  },
+  "mean_harmful_groups_rolled_back": 0.6825,
+  "mean_safe_groups_retained": 0.9995,
+  "all_label_caps_respected": true,
+  "grid_metrics_sha256": "f5f13f7a96d7a62e21ee765bf854622cd5fc38bdab5e4e6d47db2dbacb6af85e",
+  "contrast_sha256": "fce7aa07977e48efdbd343e94c0cd29faea7363bbfc7da79b798b28e573ee273",
+  "bootstrap_replicates": 5000,
+  "interpretation_limit": "One synthetic heterogeneous-reversal confirmation; it does not establish general superiority or algorithmic novelty."
+}

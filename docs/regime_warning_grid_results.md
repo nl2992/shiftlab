@@ -1,57 +1,64 @@
-# Regime-warning grid: exploratory results
+# Regime-warning reliability grid: exploratory results
 
 ## Finding
 
-A visible Gaussian warning feature reduced losses in the harmful-reversal simulator as its mean
-shift strengthened. It did not make the policy net-beneficial against retaining the incumbent at
-any tested strength. At the strongest registered cue (`delta=2`), a 10% per-event warning target
-reduced candidate coverage to 23.6% and mean realized net utility to **−33.29** (95% seed-bootstrap
-interval for the paired contrast against `continue`: **[−34.12, −32.44]**). The same rule exceeded
-the promotion/rollback baseline by **36.79** units (**[34.09, 39.30]**) and the fixed 25%-coverage
-policy by **2.60** (**[1.52, 3.65]**). Thus the feature helps choose a less harmful policy than
-those comparators in this strong-signal cell, but `continue` remains better.
+With 500 paired streams per scenario, a warning feature whose mean shifts at the same time as
+harm reduces candidate exposure as signal strength grows. At signal shift `delta=2`, a 5%
+conditional-per-read warning threshold, and sensor cost 0.0005 per attempted event, mean realized
+utility in harmful adaptation was **−51.15** with no missing reads, **−46.08** with 10% missingness,
+and **−36.13** with 30% missingness. Those missing reads trigger incumbent fallback, so more
+missingness reduces harm by acting like additional abstention. Each policy remained below `continue`
+by those amounts; none has positive net utility in the harmful-reversal scenario.
 
-At `delta=2` and a 5% per-event warning target, the warning policy's mean realized utility was
-**−51.15**; it improved on promotion/rollback by **18.93** (**[16.32, 21.67]**) but was
-**−15.26** below fixed 25% coverage (**[−16.45, −14.03]**) and **−51.15** below continuing with
-the incumbent (**[−52.16, −50.13]**). At zero warning strength, the 5% threshold produced
-candidate coverage 95.0% and mean utility **−133.80** in harmful adaptation. The signal is what
-makes abstention informative; a threshold alone cannot anticipate an unseen reversal.
+At the same settings, the warning rule improved over promotion/rollback by **18.93** units at 0%
+missingness (paired 95% seed-bootstrap interval **[16.25, 21.85]**), **23.99** at 10%
+(**[21.33, 26.63]**), and **33.94** at 30% (**[31.42, 36.57]**). Against fixed 25% candidate
+coverage, the differences were **−15.26** (**[−16.46, −14.03]**), **−10.19**
+(**[−11.40, −8.95]**), and **−0.24** (**[−1.41, 0.95]**), respectively. The last cell has
+approximately matched coverage; the two policies are statistically indistinguishable there.
 
-The no-warning controls closely matched their nominal *per-event* warning rates. Across stationary,
-benign-nuisance, and persistent-benefit streams, observed rates were 1.02–1.03% for a 1% target,
-4.99–5.02% for 5%, and 9.95–10.01% for 10%. These rates are not run-level false-alarm probabilities.
-In persistent-benefit streams, the 5% warning rule had expected utility **379.75**, compared with
-**399.95** for unconditional candidate deployment, reflecting foregone gains on false-warning
-events plus feature-processing cost.
+The most diagnostic result is the oracle-matched-coverage comparison. For each warning configuration,
+an evaluator-only randomized policy uses the candidate at exactly the warning rule's theoretical
+rate. Because warning values and missingness are independent of paired decision gains in this DGP,
+the two have the same expected decision gain. The warning rule's expected utility is therefore
+exactly lower by `H * sensor_cost`; the runner checks this identity in every grid cell. This
+reference uses evaluator-known coverage and cannot be deployed by the learner. It shows that the
+current warning feature adds no expected decision value beyond reducing candidate exposure. A
+useful contextual warning must predict heterogeneous gains among events, a condition absent here.
+
+In no-warning controls, the observed false-warning rates conditional on an available read ranged
+from **0.98% to 1.03%** for a 1% target, **4.99% to 5.03%** for 5%, and **9.94% to 10.03%** for
+10%, across stationary, benign-nuisance, and persistent-benefit profiles and missingness rates
+0%, 10%, and 30%. These are marginal per-read rates, not run-level familywise alarm guarantees.
 
 ## Design and evidence
 
-The CUDA development screen used 500 paired seeds per each of six scenarios, 400 events per shadow
-and deployment phase, four warning strengths, three per-event false-warning targets, and fixed
-coverage levels 25%, 50%, and 75%. It produced 66,000 stream-policy rows and 756 seed-paired
-contrasts. The warning rule sees only a prediction-time feature. Its distribution shifts only
-during harmful-adaptation deployment; scenario labels, true gains, and future costs are used only
-by the evaluator. All 80%-query / 40%-hard-cap sequential-baseline streams respected their label
-caps. The warning and static-coverage policies query no labels and pay a feature-processing cost;
-they therefore use a different information resource from the sequential gate.
+The CUDA RTX 4060 grid covers six scenarios, 400 shadow and deployment events, four warning shifts
+`{0, 0.5, 1, 2}`, three conditional false-warning targets `{1%, 5%, 10%}`, three MCAR missingness
+rates `{0%, 10%, 30%}`, three sensor event costs `{0, 0.0005, 0.002}`, fixed coverage `{25%, 50%,
+75%}`, and four sequential promotion/rollback baselines. It produced **264,000 stream-policy rows**
+and **2,187 paired contrasts**. All sequential-baseline streams respected the 40% hard label cap.
+Metrics include realized and evaluator-expected utility, candidate events, warning and missing-read
+counts, label use, and costs. The warning rule uses only prediction-time features; scenario labels
+and future gains stay evaluator-side.
 
-The tested threshold is the Neyman-Pearson most-powerful one-sided test for the stipulated normal
-location-shift alternative at each fixed marginal per-event false-warning rate. That classical
-optimality only concerns detecting this registered Gaussian feature shift. It does not establish
-optimal intervention utility, generality to unknown warning mechanisms, or a novel method.
+At a fixed conditional false-warning rate, the one-sided Gaussian threshold is the
+Neyman-Pearson most-powerful test for the stipulated normal location shift. This optimality is only
+for detecting that known feature shift; it is not optimal decision utility, robustness to unknown
+signals, or a novel method. The current signal appears at the same time as harm and is not a
+forecast.
 
-All paired intervals are unadjusted across the development grid. No policy was selected for
-confirmation. The positive comparison against promotion/rollback at `delta=2` does not overcome
-the persistent advantage of the incumbent under harmful reversal, so the next study should first
-charge for warning acquisition and model the warning signal's deployment reliability. Confirmation
-is not warranted until a frozen policy passes an explicit net-utility rule against `continue` on
-independent streams.
+All paired intervals are unadjusted across the development grid. Every warning configuration had
+negative expected net utility against `continue` in harmful adaptation, so no candidate is
+nominated for confirmation from this block. The next study should test warning features that
+predict event-level heterogeneous gains, together with measurement reliability, acquisition cost,
+and a no-signal control. Predeclare a quantitative utility-retention threshold before that study;
+if no candidate passes it against `continue`, retain this negative result.
 
-Reproduce with the command in the [protocol](regime_warning_grid_protocol.md). The full synthetic
-metrics, paired contrasts, report, and manifest are in
+Reproduce with the command in the [protocol](regime_warning_grid_protocol.md). The metrics, paired
+contrasts, generated report, and manifest are in
 [`outputs/regime_warning_grid_500/`](../outputs/regime_warning_grid_500/). Metrics SHA-256:
-`ec55038700cc2b4d78b4bcda70a61456edd89b5963da246b8809b4e5c601b200`.
+`c74fdcc8aa993a8086345661d4a603ec6bc373be73019db047fd6d212ac074a3`.
 
-No figure was generated. All ShiftLab research visuals must use PaperBanana; it was unavailable in
-this run, and no alternate generator was used.
+No figure was generated. ShiftLab research visuals must use PaperBanana; it was unavailable for
+this run, and no alternate visual generator was used.

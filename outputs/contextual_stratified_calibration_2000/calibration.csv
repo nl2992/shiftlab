@@ -1,0 +1,9 @@
+scenario,method,event,risk_set,events,trials,simultaneous_one_sided_alpha,clopper_pearson_upper,cell_pass
+stationary_null,promotion_rollback,false_promotion_under_null,all,10,2000,0.00625,0.010471275817870569,True
+stationary_null,stratified_promotion_rollback,false_promotion_under_null,all,3,2000,0.00625,0.005329775393306754,True
+benign_nuisance,promotion_rollback,false_promotion_under_null,all,14,2000,0.00625,0.013156958398814828,True
+benign_nuisance,stratified_promotion_rollback,false_promotion_under_null,all,4,2000,0.00625,0.006126729389429661,True
+rollback_boundary_global,promotion_rollback,false_rollback_under_null,promoted,0,2000,0.00625,0.0025343699556337933,True
+rollback_boundary_stratified,stratified_promotion_rollback,false_rollback_under_null,promoted,1,2000,0.00625,0.0035826791748358147,True
+persistent_benefit,promotion_rollback,false_rollback_under_null,promoted,0,2000,0.00625,0.0025343699556337933,True
+persistent_benefit,stratified_promotion_rollback,false_rollback_under_null,promoted,0,2000,0.00625,0.0025343699556337933,True

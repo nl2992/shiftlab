@@ -29,19 +29,22 @@ from .feature_intervention import (
 SEED_OFFSET = 79_102_024
 SIGNAL_STRENGTHS = (0.0, 0.5, 1.0, 2.0)
 WARNING_FALSE_POSITIVE_RATES = (0.01, 0.05, 0.10)
+WARNING_MISSINGNESS_RATES = (0.0, 0.10, 0.30)
+WARNING_EVENT_COSTS = (0.0, 0.0005, 0.002)
 STATIC_COVERAGES = (0.25, 0.50, 0.75)
-WARNING_COST_PER_EVENT = 0.0005
 PROMOTION_COST = 0.05
 ROLLBACK_COST = 0.05
 LABEL_PRICE = 0.01
 
 
-def warning_active_probability(false_positive_rate: float, signal_strength: float) -> float:
-    """Probability the gate uses the candidate under a shifted N(signal_strength, 1) cue."""
-    if not 0 < false_positive_rate < 1 or signal_strength < 0:
-        raise ValueError("false_positive_rate must be in (0,1) and signal_strength nonnegative")
+def warning_active_probability(
+    false_positive_rate: float, signal_strength: float, missingness_rate: float = 0.0
+) -> float:
+    """Candidate-use probability with MCAR missing warnings treated as fallback."""
+    if not 0 < false_positive_rate < 1 or signal_strength < 0 or not 0 <= missingness_rate < 1:
+        raise ValueError("invalid false-warning, signal-strength or missingness parameter")
     threshold = float(norm.isf(false_positive_rate))
-    return float(norm.cdf(threshold - signal_strength))
+    return float((1 - missingness_rate) * norm.cdf(threshold - signal_strength))
 
 
 def _policy_metrics(
@@ -50,34 +53,56 @@ def _policy_metrics(
     seed_offset: int,
     signal_strength: float,
     warning_false_positive_rate: float,
+    warning_missingness_rate: float,
+    warning_event_cost_per_event: float,
+    missing_uniforms: np.ndarray,
+    coverage_uniforms: np.ndarray,
     features: np.ndarray,
     gains: np.ndarray,
     expected_gains: np.ndarray,
     horizon: int,
+    include_static_baselines: bool = False,
 ) -> list[dict]:
     streams = len(gains)
     deployment_features = features[:, horizon:, 7]
     deployment_gains = gains[:, horizon:]
     deployment_expected_gains = expected_gains[horizon:]
     threshold = float(norm.isf(warning_false_positive_rate))
-    active_probability = warning_active_probability(warning_false_positive_rate, signal_strength)
-    warning_mask = deployment_features > threshold
-    policies: list[tuple[str, np.ndarray, float, float]] = []
-    for coverage in STATIC_COVERAGES:
-        gate_rng = np.random.default_rng(seed_offset + int(coverage * 1000) + 19_102_024)
-        active = gate_rng.random((streams, horizon)) < coverage
-        policies.append((f"static_coverage_{coverage:.2f}", active, coverage, 0.0))
+    active_probability = warning_active_probability(
+        warning_false_positive_rate, signal_strength, warning_missingness_rate
+    )
+    available = missing_uniforms < 1 - warning_missingness_rate
+    warning_mask = available & (deployment_features > threshold)
+    active_mask = available & (deployment_features <= threshold)
+    policies: list[tuple[str, np.ndarray, float, float, bool, bool]] = []
+    if include_static_baselines:
+        for coverage in STATIC_COVERAGES:
+            gate_rng = np.random.default_rng(seed_offset + int(coverage * 1000) + 19_102_024)
+            active = gate_rng.random((streams, horizon)) < coverage
+            policies.append(
+                (f"static_coverage_{coverage:.2f}", active, coverage, 0.0, False, False)
+            )
+    name = (
+        f"warning_gate_fpr_{warning_false_positive_rate:.2f}"
+        f"_miss_{warning_missingness_rate:.2f}_cost_{warning_event_cost_per_event:.4f}"
+    )
+    policies.append(
+        (name, active_mask, active_probability, warning_event_cost_per_event, True, True)
+    )
+    matched_active = coverage_uniforms < active_probability
     policies.append(
         (
-            f"warning_gate_fpr_{warning_false_positive_rate:.2f}",
-            ~warning_mask,
+            "matched_coverage_oracle",
+            matched_active,
             active_probability,
-            WARNING_COST_PER_EVENT,
+            0.0,
+            True,
+            False,
         )
     )
 
     rows = []
-    for policy, active, theoretical_coverage, event_cost in policies:
+    for policy, active, theoretical_coverage, event_cost, cell_specific, warning_policy in policies:
         expected_active = np.full(horizon, theoretical_coverage)
         utility_realized = (deployment_gains * active).sum(axis=1) - PROMOTION_COST
         if event_cost:
@@ -91,15 +116,22 @@ def _policy_metrics(
             rows.append(
                 {
                     "scenario": scenario,
-                    "signal_strength": signal_strength,
-                    "warning_false_positive_rate": warning_false_positive_rate,
-                    "warning_feature_threshold": threshold,
+                    "signal_strength": signal_strength if cell_specific else None,
+                    "warning_false_positive_rate": warning_false_positive_rate
+                    if cell_specific
+                    else None,
+                    "warning_missingness_rate": warning_missingness_rate if cell_specific else None,
+                    "warning_event_cost_per_event": warning_event_cost_per_event
+                    if cell_specific
+                    else None,
+                    "warning_feature_threshold": threshold if warning_policy else None,
+                    "warning_feature_used": warning_policy,
+                    "evaluator_oracle_reference_only": policy == "matched_coverage_oracle",
                     "policy": policy,
                     "seed": seed_offset + i,
                     "candidate_events_deployed": int(active[i].sum()),
-                    "warning_events": int(warning_mask[i].sum())
-                    if policy.startswith("warning_gate")
-                    else 0,
+                    "warning_events": int(warning_mask[i].sum()) if warning_policy else 0,
+                    "warning_missing_events": int((~available[i]).sum()) if warning_policy else 0,
                     "labels_queried": 0,
                     "warning_event_cost": event_cost * horizon,
                     "switching_cost": PROMOTION_COST,
@@ -123,6 +155,8 @@ def run_grid(
     horizon: int = 400,
     signal_strengths: tuple[float, ...] = SIGNAL_STRENGTHS,
     warning_false_positive_rates: tuple[float, ...] = WARNING_FALSE_POSITIVE_RATES,
+    warning_missingness_rates: tuple[float, ...] = WARNING_MISSINGNESS_RATES,
+    warning_event_costs: tuple[float, ...] = WARNING_EVENT_COSTS,
     device: str = "cuda",
     bootstrap_replicates: int = 2_000,
 ) -> tuple[pd.DataFrame, pd.DataFrame, dict]:
@@ -139,6 +173,14 @@ def run_grid(
         not 0 < value < 1 for value in warning_false_positive_rates
     ):
         raise ValueError("warning false-positive rates must be sorted, unique and in (0,1)")
+    if tuple(sorted(set(warning_missingness_rates))) != warning_missingness_rates or any(
+        not 0 <= value < 1 for value in warning_missingness_rates
+    ):
+        raise ValueError("warning missingness rates must be sorted, unique and in [0,1)")
+    if tuple(sorted(set(warning_event_costs))) != warning_event_costs or any(
+        value < 0 or not np.isfinite(value) for value in warning_event_costs
+    ):
+        raise ValueError("warning event costs must be sorted, unique and nonnegative")
 
     rows: list[dict] = []
     sources = {
@@ -185,9 +227,12 @@ def run_grid(
                 {
                     "signal_strength": 0.0,
                     "warning_false_positive_rate": None,
+                    "warning_missingness_rate": None,
+                    "warning_event_cost_per_event": None,
                     "warning_feature_threshold": None,
                     "policy": record.pop("method"),
                     "warning_events": 0,
+                    "warning_missing_events": 0,
                     "warning_event_cost": 0.0,
                     "theoretical_candidate_coverage": None,
                     "empirical_candidate_coverage": None,
@@ -198,44 +243,95 @@ def run_grid(
 
         expected_gains = np.asarray(oracle["expected_incumbent_minus_candidate_cost"], dtype=float)
         scenario_signal_strengths = signal_strengths if scenario == "harmful_adaptation" else (0.0,)
+        missing_generator = torch.Generator(device=device).manual_seed(
+            seed_offset + scenario_index * 101_009 + 41_102_024
+        )
+        missing_uniforms = (
+            torch.rand((seeds, horizon), generator=missing_generator, device=device).cpu().numpy()
+        )
+        coverage_generator = torch.Generator(device=device).manual_seed(
+            seed_offset + scenario_index * 101_009 + 51_102_024
+        )
+        coverage_uniforms = (
+            torch.rand((seeds, horizon), generator=coverage_generator, device=device).cpu().numpy()
+        )
+        static_rows = _policy_metrics(
+            scenario=scenario,
+            seed_offset=seed_offset,
+            signal_strength=0.0,
+            warning_false_positive_rate=warning_false_positive_rates[0],
+            warning_missingness_rate=0.0,
+            warning_event_cost_per_event=0.0,
+            missing_uniforms=missing_uniforms,
+            coverage_uniforms=coverage_uniforms,
+            features=features,
+            gains=gains,
+            expected_gains=expected_gains,
+            horizon=horizon,
+            include_static_baselines=True,
+        )
+        rows.extend(row for row in static_rows if row["policy"].startswith("static_coverage"))
         for signal_strength in scenario_signal_strengths:
             signal_features = features.copy()
             if scenario == "harmful_adaptation":
                 signal_features[:, horizon:, 7] += signal_strength
-            for fpr in warning_false_positive_rates:
-                cell_rows = _policy_metrics(
-                    scenario=scenario,
-                    seed_offset=seed_offset,
-                    signal_strength=signal_strength if scenario == "harmful_adaptation" else 0.0,
-                    warning_false_positive_rate=fpr,
-                    features=signal_features,
-                    gains=gains,
-                    expected_gains=expected_gains,
-                    horizon=horizon,
-                )
-                rows.extend(cell_rows)
+            for missingness in warning_missingness_rates:
+                for fpr in warning_false_positive_rates:
+                    for event_cost in warning_event_costs:
+                        cell_rows = _policy_metrics(
+                            scenario=scenario,
+                            seed_offset=seed_offset,
+                            signal_strength=signal_strength
+                            if scenario == "harmful_adaptation"
+                            else 0.0,
+                            warning_false_positive_rate=fpr,
+                            warning_missingness_rate=missingness,
+                            warning_event_cost_per_event=event_cost,
+                            missing_uniforms=missing_uniforms,
+                            coverage_uniforms=coverage_uniforms,
+                            features=signal_features,
+                            gains=gains,
+                            expected_gains=expected_gains,
+                            horizon=horizon,
+                        )
+                        rows.extend(cell_rows)
             del signal_features
 
     metrics = pd.DataFrame(rows)
-    # Paired stream bootstrap contrasts compare every abstention rule with the matched
-    # promotion/rollback and always-promote baselines on common seeds.
+    # Paired stream bootstrap contrasts compare warning rules against operational
+    # baselines and a diagnostic oracle-matched-coverage reference on common seeds.
     contrast_rows = []
     baseline_names = ("continue", "unconditional_promote", "promotion_only", "promotion_rollback")
-    for (scenario, signal_strength, fpr), group in metrics[
+    group_columns = [
+        "scenario",
+        "signal_strength",
+        "warning_false_positive_rate",
+        "warning_missingness_rate",
+        "warning_event_cost_per_event",
+    ]
+    static_names = tuple(f"static_coverage_{coverage:.2f}" for coverage in STATIC_COVERAGES)
+    for (scenario, signal_strength, fpr, missingness, event_cost), group in metrics[
         metrics.warning_false_positive_rate.notna()
-    ].groupby(["scenario", "signal_strength", "warning_false_positive_rate"], sort=True):
+    ].groupby(group_columns, sort=True):
         baselines = metrics.loc[
             metrics.scenario.eq(scenario) & metrics.policy.isin(baseline_names)
         ].set_index(["policy", "seed"])
-        other_policy_names = tuple(sorted(group.policy.unique()))
+        static_baselines = metrics.loc[
+            metrics.scenario.eq(scenario) & metrics.policy.isin(static_names)
+        ].set_index(["policy", "seed"])
         for policy, policy_group in group.groupby("policy", sort=True):
             candidate = policy_group.set_index("seed").sort_index()
-            references = (*baseline_names, *other_policy_names)
+            if policy == "matched_coverage_oracle":
+                references = (
+                    next(name for name in group.policy.unique() if name.startswith("warning_gate")),
+                )
+            else:
+                references = (*baseline_names, *static_names, "matched_coverage_oracle")
             for reference in references:
-                if policy == reference:
-                    continue
                 if reference in baseline_names:
                     comparator = baselines.loc[reference].sort_index()
+                elif reference in static_names:
+                    comparator = static_baselines.loc[reference].sort_index()
                 else:
                     comparator = (
                         group.loc[group.policy.eq(reference)].set_index("seed").sort_index()
@@ -258,6 +354,8 @@ def run_grid(
                         "scenario": scenario,
                         "signal_strength": signal_strength,
                         "warning_false_positive_rate": fpr,
+                        "warning_missingness_rate": missingness,
+                        "warning_event_cost_per_event": event_cost,
                         "policy": policy,
                         "reference": reference,
                         "paired_realized_utility_difference": float(differences.mean()),
@@ -267,6 +365,30 @@ def run_grid(
                     }
                 )
     contrast_frame = pd.DataFrame(contrast_rows)
+    cell_keys = [*group_columns, "seed"]
+    warning_utility = metrics.loc[
+        metrics.policy.str.startswith("warning_gate"),
+        cell_keys
+        + [
+            "expected_net_utility",
+        ],
+    ]
+    matched_utility = metrics.loc[
+        metrics.policy.eq("matched_coverage_oracle"), cell_keys + ["expected_net_utility"]
+    ]
+    utility_check = warning_utility.merge(
+        matched_utility, on=cell_keys, suffixes=("_warning", "_matched")
+    )
+    expected_sensor_cost = -(
+        utility_check.warning_event_cost_per_event.to_numpy(dtype=float) * horizon
+    )
+    observed_utility_difference = utility_check.expected_net_utility_warning.to_numpy(
+        dtype=float
+    ) - utility_check.expected_net_utility_matched.to_numpy(dtype=float)
+    if not np.allclose(observed_utility_difference, expected_sensor_cost, atol=1e-10):
+        raise RuntimeError(
+            "warning and oracle-matched coverage expected utilities do not reconcile"
+        )
     metrics["budget_respected"] = metrics.get(
         "labels_queried", pd.Series(0, index=metrics.index)
     ) <= int(np.floor(0.40 * 2 * horizon))
@@ -288,13 +410,15 @@ def run_grid(
         "signal_strengths": list(signal_strengths),
         "warning_false_positive_rates": list(warning_false_positive_rates),
         "static_coverages": list(STATIC_COVERAGES),
-        "warning_cost_per_event": WARNING_COST_PER_EVENT,
+        "warning_missingness_rates": list(warning_missingness_rates),
+        "warning_event_costs_per_event": list(warning_event_costs),
         "promotion_cost": PROMOTION_COST,
         "rollback_cost": ROLLBACK_COST,
         "query_rate": 0.80,
         "budget_rate": 0.40,
         "warning_feature_visible_at_prediction": True,
-        "oracle_truth_used_by_policy": False,
+        "warning_policy_uses_evaluator_truth": False,
+        "matched_coverage_is_evaluator_only_reference": True,
         "all_label_caps_respected": all_caps,
         "metric_rows": len(metrics),
         "contrast_rows": len(contrast_frame),
@@ -310,8 +434,10 @@ def run_grid(
         metrics.loc[
             metrics.scenario.eq("harmful_adaptation")
             & metrics.policy.str.startswith("warning_gate")
+            & metrics.warning_false_positive_rate.eq(0.05)
+            & metrics.warning_event_cost_per_event.eq(0.0005)
         ]
-        .groupby(["signal_strength", "warning_false_positive_rate"], as_index=False)
+        .groupby(["signal_strength", "warning_missingness_rate"], as_index=False)
         .agg(
             expected_utility=("expected_net_utility", "first"),
             realized_utility=("realized_net_utility", "mean"),
@@ -323,74 +449,93 @@ def run_grid(
         metrics.loc[
             metrics.scenario.isin(["stationary", "benign_nuisance", "persistent_benefit"])
             & metrics.policy.str.startswith("warning_gate")
+            & metrics.warning_event_cost_per_event.eq(0.0005)
         ]
-        .groupby(["scenario", "warning_false_positive_rate"], as_index=False)
+        .groupby(
+            ["scenario", "warning_missingness_rate", "warning_false_positive_rate"],
+            as_index=False,
+        )
         .agg(
             mean_warnings=("warning_events", "mean"),
+            mean_missing=("warning_missing_events", "mean"),
         )
     )
-    null_warning["observed_per_event_warning_rate"] = null_warning.mean_warnings / horizon
+    null_warning["observed_conditional_warning_rate"] = null_warning.mean_warnings / (
+        horizon * (1 - null_warning.warning_missingness_rate)
+    )
     focus_contrasts = contrast_frame.loc[
         contrast_frame.scenario.eq("harmful_adaptation")
         & contrast_frame.signal_strength.eq(2.0)
-        & contrast_frame.warning_false_positive_rate.isin([0.05, 0.10])
+        & contrast_frame.warning_false_positive_rate.eq(0.05)
+        & contrast_frame.warning_event_cost_per_event.eq(0.0005)
         & contrast_frame.policy.str.startswith("warning_gate")
-        & contrast_frame.reference.isin(["continue", "promotion_rollback", "static_coverage_0.25"])
-    ].sort_values(["warning_false_positive_rate", "policy", "reference"])
+        & contrast_frame.reference.isin(
+            [
+                "continue",
+                "promotion_rollback",
+                "static_coverage_0.25",
+                "matched_coverage_oracle",
+            ]
+        )
+    ].sort_values(["warning_missingness_rate", "reference"])
     report = [
-        "# Regime-warning versus abstention development grid",
+        "# Regime-warning reliability and cost development grid",
         "",
         f"Status: **{manifest['status']}**.",
         "",
         f"Rows: {len(metrics):,}; paired contrasts: {len(contrast_frame):,}; seeds per scenario: {seeds}; device: {device}.",
         "",
-        "The warning cue is an ordinary prediction-time feature. It follows N(0,1) in all null and persistent-benefit profiles and shifts to N(delta,1) only during harmful-adaptation deployment. The threshold is frozen from a standard-normal false-warning target. Static coverage is an independent randomized mixture with the incumbent. The evaluator's future gain is used only to score utility.",
+        f"The warning cue is a prediction-time feature. Its measured distribution is N(0,1) in the controls and N(delta,1) in harmful-adaptation deployment. Missing reads are MCAR and trigger incumbent fallback. The run varies signal strength {list(signal_strengths)}, conditional per-read false-warning target {list(warning_false_positive_rates)}, missingness {list(warning_missingness_rates)}, and acquisition cost per attempted event {list(warning_event_costs)}. Static coverage is an independent randomized incumbent mixture. Evaluator truth is used only to score utility.",
         "",
         "## Harmful adaptation: warning-rule operating points",
         "",
-        "| Signal shift delta | Target per-event warning rate | Expected net utility | Mean realized utility | Candidate coverage | Mean warnings / 400 events |",
+        "The table fixes the conditional false-warning target at 5% and sensor cost at 0.0005 per attempted event; missing reads trigger fallback.",
+        "",
+        "| Signal shift delta | Missing reads | Expected net utility | Mean realized utility | Candidate coverage | Mean warnings / 400 events |",
         "|---:|---:|---:|---:|---:|---:|",
     ]
     for row in reversal_warning.itertuples(index=False):
         report.append(
-            f"| {row.signal_strength:.2f} | {row.warning_false_positive_rate:.0%} | {row.expected_utility:.2f} | {row.realized_utility:.2f} | {row.candidate_coverage:.3f} | {row.mean_warnings:.1f} |"
+            f"| {row.signal_strength:.2f} | {row.warning_missingness_rate:.0%} | {row.expected_utility:.2f} | {row.realized_utility:.2f} | {row.candidate_coverage:.3f} | {row.mean_warnings:.1f} |"
         )
     report.extend(
         [
             "",
             "The regime-warning feature does not beat continuing with the incumbent in the harmful-reversal scenario at any tested signal strength. Its best utility can still improve on promotion/rollback or a similarly low static coverage in some cells.",
             "",
+            "The `matched_coverage_oracle` row is evaluator-only and cannot be selected by the learner. For every grid cell, expected warning-rule utility minus expected oracle-matched-coverage utility equals exactly `-H * warning_event_cost`; the runner checks this identity. Since the warning and missingness are independent of event-level gain in this DGP, the warning feature adds no expected utility beyond reducing candidate coverage, and positive sensing cost lowers utility further.",
+            "",
             "## No-warning controls",
             "",
-            "Observed warning rates are marginal event rates; they are not run-level false-alarm probabilities.",
+            "Observed conditional warning rates divide warning events by available reads. They are marginal per-event rates, not run-level false-alarm probabilities.",
             "",
-            "| Scenario | Target per-event rate | Observed per-event rate |",
-            "|---|---:|---:|",
+            "| Scenario | Missing reads | Target conditional rate | Observed conditional rate |",
+            "|---|---:|---:|---:|",
         ]
     )
     for row in null_warning.itertuples(index=False):
         report.append(
-            f"| {row.scenario} | {row.warning_false_positive_rate:.0%} | {row.observed_per_event_warning_rate:.2%} |"
+            f"| {row.scenario} | {row.warning_missingness_rate:.0%} | {row.warning_false_positive_rate:.0%} | {row.observed_conditional_warning_rate:.2%} |"
         )
     report.extend(
         [
             "",
-            "## Paired utility contrasts at delta=2",
+            "## Paired utility contrasts at delta=2, 5% warning target, 0.0005 sensor cost",
             "",
             "Intervals are seed-cluster bootstrap 95% intervals, unadjusted across this development grid.",
             "",
-            "| Warning target | Reference policy | Mean paired utility difference | 95% interval |",
+            "| Missing reads | Reference policy | Mean paired utility difference | 95% interval |",
             "|---:|---|---:|---:|",
         ]
     )
     for row in focus_contrasts.itertuples(index=False):
         report.append(
-            f"| {row.warning_false_positive_rate:.0%} | {row.reference} | {row.paired_realized_utility_difference:.2f} | [{row.seed_bootstrap_ci95_low:.2f}, {row.seed_bootstrap_ci95_high:.2f}] |"
+            f"| {row.warning_missingness_rate:.0%} | {row.reference} | {row.paired_realized_utility_difference:.2f} | [{row.seed_bootstrap_ci95_low:.2f}, {row.seed_bootstrap_ci95_high:.2f}] |"
         )
     report.extend(
         [
             "",
-            "This is an exploratory grid with a deliberately informative feature shift. It is a sensitivity study of feature-gated abstention, not evidence that the shift can be forecast in real deployment. The warning and fixed-coverage policies use no labels and incur different information costs from the queried promotion/rollback gate; utility and resource use must be interpreted together. Do not select a policy from these intervals. Any selected rule requires a fresh calibration and disjoint confirmation block.",
+            "This is an exploratory sensitivity grid with a deliberately informative feature shift and MCAR missingness. It does not show that warning reliability is known in real deployment. The warning and fixed-coverage policies use no labels and incur different information costs from the queried promotion/rollback gate; utility and resource use must be interpreted together. Contrasts are unadjusted across the development grid. Do not select a policy from these intervals. Any selected rule requires a fresh calibration and disjoint confirmation block.",
             "",
             "No figure was generated because PaperBanana is unavailable in this session; no substitute visual generator was used.",
             "",
@@ -417,6 +562,18 @@ def main() -> None:
         nargs="+",
         default=WARNING_FALSE_POSITIVE_RATES,
     )
+    parser.add_argument(
+        "--warning-missingness-rates",
+        type=float,
+        nargs="+",
+        default=WARNING_MISSINGNESS_RATES,
+    )
+    parser.add_argument(
+        "--warning-event-costs",
+        type=float,
+        nargs="+",
+        default=WARNING_EVENT_COSTS,
+    )
     parser.add_argument("--device", choices=("cuda", "cpu"), default="cuda")
     parser.add_argument("--bootstrap-replicates", type=int, default=2_000)
     parser.add_argument("--output-dir", type=Path, default=Path("outputs/regime_warning_grid"))
@@ -428,6 +585,8 @@ def main() -> None:
         horizon=args.horizon,
         signal_strengths=tuple(args.signal_strengths),
         warning_false_positive_rates=tuple(args.warning_false_positive_rates),
+        warning_missingness_rates=tuple(args.warning_missingness_rates),
+        warning_event_costs=tuple(args.warning_event_costs),
         device=args.device,
         bootstrap_replicates=args.bootstrap_replicates,
     )

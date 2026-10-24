@@ -1,0 +1,72 @@
+{
+  "created_at_utc": "2026-10-24T23:09:57.621927+00:00",
+  "purpose": "development comparison of global and stratum-wise composition of the established promotion/rollback e-process",
+  "status": "development_only_no_independent_calibration_or_confirmation",
+  "scenarios": [
+    "stationary_null",
+    "benign_nuisance",
+    "persistent_benefit",
+    "homogeneous_reversal",
+    "heterogeneous_reversal",
+    "rollback_boundary_global",
+    "rollback_boundary_stratified"
+  ],
+  "seeds_per_scenario": 2000,
+  "seed_offset": 90102024,
+  "horizon_per_phase": 400,
+  "strata": 2,
+  "query_rates": [
+    0.8
+  ],
+  "budget_rates": [
+    0.4
+  ],
+  "alpha_total": 0.05,
+  "per_stratum_alpha": 0.025,
+  "per_stage_per_stratum_alpha": 0.0125,
+  "gain_support": 5.0,
+  "promotion_cost_per_promoted_stratum": 0.05,
+  "rollback_cost_per_rolled_back_stratum": 0.05,
+  "label_price": 0.01,
+  "evaluator_oracle_used_by_policy": false,
+  "stratum_assignment_visible_and_balanced": true,
+  "all_label_caps_respected": true,
+  "metric_rows": 70000,
+  "contrast_rows": 28,
+  "metrics_sha256": "64f21be014231ed98df99d11718a463cb0eff87aeb47e74abe26d76e4ec93361",
+  "code_sha256": {
+    "contextual_stratified_intervention.py": "61f435bde8c7c8419a52513077e975851760e826d647fe836f26ff9bafc0f993",
+    "closed_loop_intervention.py": "ad33b9a999814d447e95fcd9e8cbe1e39a78661dab2ca4a74a9c63da82fe44f8",
+    "streaming.py": "70ad71c6904ac0acdefa1055e35d66251d8f8bfb544c95359ce809d1c74b0f9c"
+  },
+  "environment": {
+    "cpu_ram_bytes": 16858472448,
+    "disk_free_bytes": 20297654272,
+    "cuda_available": true,
+    "nvidia_smi": "NVIDIA GeForce RTX 4060 Laptop GPU, 8188 MiB, 592.82, 0 %, 197 MiB",
+    "torch_version": "2.9.1+cu130",
+    "cuda_runtime": "13.0",
+    "gpu_name": "NVIDIA GeForce RTX 4060 Laptop GPU",
+    "gpu_memory_bytes": 8585216000,
+    "versions": {
+      "numpy": "2.5.4",
+      "scipy": "1.18.1",
+      "pandas": "3.0.6",
+      "pyarrow": "25.0.1",
+      "folktables": "0.0.12"
+    }
+  },
+  "command": [
+    "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\shift-research-starter\\.venv\\Scripts\\shiftlab-dive-contextual-stratified-calibrate",
+    "--seeds",
+    "2000",
+    "--seed-offset",
+    "90102024",
+    "--horizon",
+    "400",
+    "--device",
+    "cuda",
+    "--output-dir",
+    "outputs/contextual_stratified_calibration_2000"
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "created_at_utc": "2026-10-24T23:09:57.791366+00:00",
+  "status": "passed",
+  "purpose": "independent simultaneous one-sided exact-binomial calibration for global and stratified promotion/rollback rules",
+  "seed_offset": 90102024,
+  "seeds_per_scenario": 2000,
+  "development_seed_offset": 80102024,
+  "query_rate": 0.8,
+  "budget_rate": 0.4,
+  "horizon_per_phase": 400,
+  "familywise_alpha": 0.05,
+  "simultaneous_cells": 8,
+  "all_cells_pass": true,
+  "all_label_caps_respected": true,
+  "grid_metrics_sha256": "64f21be014231ed98df99d11718a463cb0eff87aeb47e74abe26d76e4ec93361",
+  "calibration_sha256": "e1b143b0eaaec5382728f637fc6339045abcb0155f7e5a46226e4d7016826c2c",
+  "code_sha256": "192a6e155705e9782b6fc69e3875b6a26709c9acddddff5d76f4401293e0f89e",
+  "limitation": "Calibration applies only to the registered bounded synthetic nulls, fixed policies, query mechanism, horizon, costs, and alpha allocation."
+}

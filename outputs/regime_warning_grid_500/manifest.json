@@ -1,5 +1,5 @@
 {
-  "created_at_utc": "2026-10-24T22:48:55.458871+00:00",
+  "created_at_utc": "2026-10-24T23:17:25.925442+00:00",
   "purpose": "exploratory regime-warning versus fixed abstention and promotion-rollback benchmark",
   "status": "development_only_no_independent_selection_or_confirmation",
   "scenarios": [
@@ -29,25 +29,35 @@
     0.5,
     0.75
   ],
-  "warning_cost_per_event": 0.0005,
+  "warning_missingness_rates": [
+    0.0,
+    0.1,
+    0.3
+  ],
+  "warning_event_costs_per_event": [
+    0.0,
+    0.0005,
+    0.002
+  ],
   "promotion_cost": 0.05,
   "rollback_cost": 0.05,
   "query_rate": 0.8,
   "budget_rate": 0.4,
   "warning_feature_visible_at_prediction": true,
-  "oracle_truth_used_by_policy": false,
+  "warning_policy_uses_evaluator_truth": false,
+  "matched_coverage_is_evaluator_only_reference": true,
   "all_label_caps_respected": true,
-  "metric_rows": 66000,
-  "contrast_rows": 756,
-  "metrics_sha256": "ec55038700cc2b4d78b4bcda70a61456edd89b5963da246b8809b4e5c601b200",
+  "metric_rows": 264000,
+  "contrast_rows": 2187,
+  "metrics_sha256": "c74fdcc8aa993a8086345661d4a603ec6bc373be73019db047fd6d212ac074a3",
   "code_sha256": {
-    "regime_warning_grid.py": "88cd9fea462f88f873e0a5474d8193c4f58269eb8a8de064f4d4ec753d454a8e",
+    "regime_warning_grid.py": "d9f135afc6ed88d884bbf2dffe814777951b7cd3f5f9b8c11720d5268e75ddb3",
     "feature_intervention.py": "166dd06f5fc8ab2488b5d0660416fa511aad775cc67ea4fe90ec8ffe8e4d790c",
     "closed_loop_intervention.py": "ad33b9a999814d447e95fcd9e8cbe1e39a78661dab2ca4a74a9c63da82fe44f8"
   },
   "environment": {
     "cpu_ram_bytes": 16858472448,
-    "disk_free_bytes": 20389908480,
+    "disk_free_bytes": 20289097728,
     "cuda_available": true,
     "nvidia_smi": "NVIDIA GeForce RTX 4060 Laptop GPU, 8188 MiB, 592.82, 0 %, 141 MiB",
     "torch_version": "2.9.1+cu130",
@@ -79,6 +89,14 @@
     "0.01",
     "0.05",
     "0.10",
+    "--warning-missingness-rates",
+    "0",
+    "0.10",
+    "0.30",
+    "--warning-event-costs",
+    "0",
+    "0.0005",
+    "0.002",
     "--device",
     "cuda",
     "--bootstrap-replicates",

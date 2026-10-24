@@ -1,0 +1,5 @@
+scenario,arm,streams,false_escalations,false_rate,simultaneous_one_sided_95_upper,per_cell_alpha,passes_5pct_calibration_gate,mean_labels,mean_events_processed
+mixed_sign_exact_marginal_null,fixed,2000,5,0.0025,0.006370222909640552,0.0125,True,298.6965,2399.299
+mixed_sign_exact_marginal_null,predictable,2000,44,0.022,0.03054472464614649,0.0125,True,172.133,2359.901
+strict_negative_control,fixed,2000,1,0.0005,0.0031861743156839195,0.0125,True,283.5585,2399.9285
+strict_negative_control,predictable,2000,30,0.015,0.022314733859855496,0.0125,True,167.1345,2372.025

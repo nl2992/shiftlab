@@ -1,0 +1,73 @@
+{
+  "configuration": {
+    "bound_arms": [
+      "fixed",
+      "predictable"
+    ],
+    "delays": [
+      1,
+      3,
+      12,
+      24
+    ],
+    "generation_device": "cuda",
+    "horizon": 2400,
+    "label_budget_rate": 0.2,
+    "monitor_backend": "numpy_cpu_event_order",
+    "q_max": 0.8,
+    "q_min_values": [
+      0.05,
+      0.1,
+      0.15
+    ],
+    "scenario_seed_ranges": {
+      "high_cost_local_harm_d0.04": [
+        27404087,
+        27404116
+      ],
+      "high_cost_local_harm_d0.20": [
+        27404117,
+        27404146
+      ],
+      "high_cost_local_harm_d0.40": [
+        27404147,
+        27404176
+      ],
+      "high_cost_local_harm_d0.60": [
+        27404177,
+        27404206
+      ],
+      "mixed_sign_exact_marginal_null": [
+        27404027,
+        27404056
+      ],
+      "strict_negative_control": [
+        27404057,
+        27404086
+      ]
+    },
+    "seed_root": 27404027,
+    "streams_per_scenario_cell_arm": 30
+  },
+  "created_utc": "2026-10-24T19:33:28.914235+00:00",
+  "experiment": "delayed_history_predictable_propensity_latency_development_grid",
+  "git_commit": "613958ae88f71efa4783ae2a6fb61f259e071f41",
+  "limitations": [
+    "30-stream development screen only",
+    "not a false-alarm calibration or confirmatory result",
+    "iid events and deterministic outcome-independent delays only",
+    "no serial-dependence or informative-delay claim",
+    "no algorithm novelty claim"
+  ],
+  "rows": 4320,
+  "sha256": {
+    "metrics/grid_summary.csv": "1b70616cf6a44cc2aa94d51df02decbd4bcd769ae2ee61acaccfbb622ec6acb3",
+    "metrics/paired_harm_differences.csv": "68d70bc73227ad5f9824b9a5c9acb5851c81a2e9c7df8080a384f19497292711",
+    "metrics/stream_metrics.parquet": "58f9da8f9aeeb3cb2b2cdfe2dc6a9bd2c635f695d6bb4beebf0ce8a90db919e3",
+    "protocol": "cf2cd695b8aae8af722b3244b0f50332ada010e86b02e31df87d741ba6260edf",
+    "reports/development_grid.md": "209abf9ba0dc3a3cee709ffa7f2d85e1ea40a889aa507df556789586bd8f62eb",
+    "runner": "fdafcc12080a25bf61658bf2d6ea29108429e8788fda1f0b039e568920ac6b48",
+    "shared_dgp": "d690fada02bab08c73f81bc7489ff97ec9a8af4f02375c24f374a61b89e390ee",
+    "simulator": "148fd0f2e2f8b86f7703f3d0cd675b77388b52a8b015b221ee127d2638bb786d"
+  }
+}

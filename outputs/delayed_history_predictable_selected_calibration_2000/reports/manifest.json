@@ -1,0 +1,64 @@
+{
+  "configuration": {
+    "arms": [
+      "fixed",
+      "predictable"
+    ],
+    "calibration_gate_passed": true,
+    "delay": 12,
+    "family_alpha": 0.05,
+    "generation_device": "cuda",
+    "gpu_name": "NVIDIA GeForce RTX 4060 Laptop GPU",
+    "hard_label_cap": 480,
+    "horizon": 2400,
+    "label_budget_rate": 0.2,
+    "monitor_backend": "numpy_cpu_event_order",
+    "per_cell_alpha": 0.0125,
+    "protocol": "docs/delayed_history_predictable_selected_calibration_protocol.md",
+    "q_max": 0.8,
+    "q_min": 0.05,
+    "scenario_seed_ranges": {
+      "mixed_sign_exact_marginal_null": [
+        27504027,
+        27506026
+      ],
+      "strict_negative_control": [
+        27506027,
+        27508026
+      ]
+    },
+    "scenarios": [
+      "mixed_sign_exact_marginal_null",
+      "strict_negative_control"
+    ],
+    "seed_root": 27504027,
+    "streams_per_scenario_per_arm": 2000
+  },
+  "created_utc": "2026-10-24T19:36:11.973694+00:00",
+  "experiment": "delayed_history_predictable_independent_null_calibration",
+  "git_commit": "613958ae88f71efa4783ae2a6fb61f259e071f41",
+  "limitations": [
+    "iid event records only",
+    "deterministic outcome-independent feedback delay only",
+    "fixed action pair and complete queried labels",
+    "finite-run calibration is not a proof of filtration assumptions",
+    "no harm-power confirmation is included"
+  ],
+  "rows": 8000,
+  "runtime": {
+    "cuda": "13.0",
+    "numpy": "2.5.4",
+    "pandas": "3.0.6",
+    "python": "3.13.1",
+    "torch": "2.9.1+cu130"
+  },
+  "sha256": {
+    "delayed_simulator": "148fd0f2e2f8b86f7703f3d0cd675b77388b52a8b015b221ee127d2638bb786d",
+    "metrics/calibration_summary.csv": "77cde4bdddb59992ea33817b780cf1c4a35cacc44ba80f88dc3b5fccd719091e",
+    "metrics/stream_metrics.parquet": "1730a281daa2240ebb7a6c29a043722d80059f5c4f5180285715e9409611e7a3",
+    "protocol": "01e527e6ef6e90416d52851fd4626190a7d9e7bbce80cf5e44a694e0eedb45da",
+    "reports/calibration_results.md": "f9f4fb41d16499879d0ef91c433ca4f311d4bcc94d215ac98b48269c065e3a7b",
+    "runner": "238a8ad1903847cd81f5c2644341e6f4d7c63f50ca1472c72e7a895bb402178f",
+    "shared_dgp": "d690fada02bab08c73f81bc7489ff97ec9a8af4f02375c24f374a61b89e390ee"
+  }
+}

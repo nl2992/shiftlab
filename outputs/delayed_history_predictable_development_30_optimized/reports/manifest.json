@@ -1,0 +1,50 @@
+{
+  "artifacts": {
+    "metrics/stream_metrics.parquet": "outputs\\delayed_history_predictable_development_30_optimized\\metrics\\stream_metrics.parquet",
+    "metrics/summary.csv": "outputs\\delayed_history_predictable_development_30_optimized\\metrics\\summary.csv",
+    "reports/development_results.md": "outputs\\delayed_history_predictable_development_30_optimized\\reports\\development_results.md"
+  },
+  "configuration": {
+    "arms": [
+      "fixed",
+      "predictable"
+    ],
+    "delay": 12,
+    "device": "cuda",
+    "horizon": 2400,
+    "label_budget_rate": 0.2,
+    "monitor_backend": "numpy_cpu_event_order",
+    "outcome_independent_fixed_delay": true,
+    "q_max": 0.8,
+    "q_min": 0.05,
+    "scenarios": [
+      "mixed_sign_exact_marginal_null",
+      "strict_negative_control",
+      "high_cost_local_harm_d0.04",
+      "high_cost_local_harm_d0.20",
+      "high_cost_local_harm_d0.40",
+      "high_cost_local_harm_d0.60"
+    ],
+    "seed_root": 27204027,
+    "streams_per_scenario_per_arm": 30
+  },
+  "created_utc": "2026-10-24T19:24:19.282007+00:00",
+  "experiment": "delayed_history_predictable_bound_development",
+  "git_commit": "613958ae88f71efa4783ae2a6fb61f259e071f41",
+  "limitations": [
+    "development screen only",
+    "iid event process only",
+    "deterministic outcome-independent delay only",
+    "event-order prefix buffer; eventwise predictable support bound",
+    "no serial dependence, informative delay, or policy adaptation claim"
+  ],
+  "rows": 360,
+  "sha256": {
+    "metrics/stream_metrics.parquet": "d260b53469634351d51bc98102ff9d69fd625129eb84aba75cbeca0391138e36",
+    "metrics/summary.csv": "9e596b8c79fc9707feb59b52c262172bc3c67dfd4bf3b7bc7f17588d3bab129d",
+    "protocol": "1f3cf31ec1c948b16bffeb88318b077ee8dd721ca60b5e395a00f4334acd7f38",
+    "reports/development_results.md": "69ba583db83bd2a03b86005ad3874f9203fe0b7d3a2ca25ba442920ddececd82",
+    "script": "148fd0f2e2f8b86f7703f3d0cd675b77388b52a8b015b221ee127d2638bb786d",
+    "shared_dgp_source": "d690fada02bab08c73f81bc7489ff97ec9a8af4f02375c24f374a61b89e390ee"
+  }
+}

@@ -715,8 +715,16 @@ by 5.66 percentage points (95% paired-bootstrap CI +5.19 to +6.14) and used 134.
 stream, while all simultaneous one-sided calibration upper limits were at most 2.43%. Full protocols,
 results and manifests are in [the independent confirmation](docs/history_predictable_bound_confirmation_results.md)
 and [the Markov validation](docs/markov_predictable_bound_validation_results.md). These findings apply
-to the registered synthetic feedback models; arbitrary dependence, delayed or informative labels,
-adaptive policy changes, repeated-candidate selection and intervention effects remain open.
+to the registered synthetic feedback models. A separate iid delayed-feedback calibration and
+confirmation now supports this standard construction with a deterministic, outcome-independent
+12-event label delay and event-order prefix updates. Its fresh null calibration passed the four-cell
+family-wise gate; the disjoint four-dose confirmation improved macro detection by 3.14 percentage
+points (95% paired-bootstrap CI +2.64 to +3.63) while using 131.25 fewer labels per stream. This
+result does not extend to arbitrary serial dependence, informative or missing labels, adaptive policy
+changes, repeated-candidate selection, or interventions that alter outcomes. See the
+[delayed-feedback protocol](docs/delayed_history_predictable_bound_protocol.md),
+[confirmation results](docs/delayed_history_predictable_confirmation_results.md), and
+[confirmation artifacts](outputs/delayed_history_predictable_confirmation_2000/).
 
 The learner receives only features available at prediction time and labels after their recorded
 availability time. Synthetic regime labels and generating parameters stay evaluator-side. Missing
@@ -726,11 +734,11 @@ documented retrospective or offline protocol when a valid online replay clock is
 The paper protocols distinguish diagnostic evidence from confirmatory results. Small seed counts
 are smoke or validation runs; selected final comparisons should use paired seeds and the larger
 replication counts specified by the protocol. Imposed synthetic costs are research controls, not
-application-grounded utilities. The registered independent and Markov synthetic studies establish
-alarm control only under their stated martingale nulls, feedback rules, and predictable query design.
-They do not establish control under arbitrary feedback, delayed or selective labels, changing
-policies, conditional conformal coverage under arbitrary shift, causal drift attribution, or
-universal benefits from adaptation.
+application-grounded utilities. The registered independent, Markov, and fixed-delay synthetic
+studies establish alarm control only under their stated nulls, feedback rules, and predictable query
+designs. They do not establish control under arbitrary feedback, serially dependent or informative
+delayed labels, changing policies, conditional conformal coverage under arbitrary shift, causal drift
+attribution, or universal benefits from adaptation.
 
 For version-control conventions and contribution checks, see [CONTRIBUTING.md](CONTRIBUTING.md).
 

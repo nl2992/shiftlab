@@ -1,0 +1,9 @@
+scenario,bound_mode,streams,false_escalations_before_onset,onset_reach_rate,detection_rate,mean_labels,mean_events_processed,mean_event_delay_given_detection,mean_wall_delay_given_detection
+high_cost_local_harm_d0.04,fixed,2000,0,1.0,0.003,300.701,2399.2295,963.6666666666666,975.5
+high_cost_local_harm_d0.04,predictable,2000,40,0.98,0.001,174.514,2359.999,1074.5,1086.5
+high_cost_local_harm_d0.20,fixed,2000,0,1.0,0.007,309.408,2397.75,888.2142857142857,900.2142857142857
+high_cost_local_harm_d0.20,predictable,2000,41,0.9795,0.011,180.3475,2355.296,754.4545454545455,766.4545454545455
+high_cost_local_harm_d0.40,fixed,2000,0,1.0,0.0235,328.585,2394.2455,945.6382978723404,957.4042553191489
+high_cost_local_harm_d0.40,predictable,2000,24,0.988,0.0525,193.5675,2348.391,698.3904761904762,710.3333333333334
+high_cost_local_harm_d0.60,fixed,2000,0,1.0,0.065,337.283,2386.8575,986.0692307692308,997.9461538461538
+high_cost_local_harm_d0.60,predictable,2000,32,0.984,0.1595,202.546,2301.926,778.4514106583072,790.4200626959248

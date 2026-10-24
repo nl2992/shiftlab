@@ -1,0 +1,62 @@
+{
+  "calibration_artifact": {
+    "manifest_sha256": "fa528cc96a91dc70b3540df706cb917943827a18e32d7ecc4dd443187f0d29d6",
+    "path": "outputs\\delayed_history_predictable_selected_calibration_2000\\metrics\\calibration_summary.csv",
+    "sha256": "77cde4bdddb59992ea33817b780cf1c4a35cacc44ba80f88dc3b5fccd719091e"
+  },
+  "classification": "independent_confirmation",
+  "complete": true,
+  "configuration": {
+    "calibration_gate_passed": true,
+    "delay": 12,
+    "generation_device": "cuda",
+    "horizon": 2400,
+    "label_budget_rate": 0.2,
+    "monitor_backend": "numpy_cpu_event_order",
+    "overall_retention_rule_passed": true,
+    "q_max": 0.8,
+    "q_min": 0.05,
+    "scenario_seed_ranges": {
+      "high_cost_local_harm_d0.04": [
+        27604027,
+        27606026
+      ],
+      "high_cost_local_harm_d0.20": [
+        27606027,
+        27608026
+      ],
+      "high_cost_local_harm_d0.40": [
+        27608027,
+        27610026
+      ],
+      "high_cost_local_harm_d0.60": [
+        27610027,
+        27612026
+      ]
+    },
+    "seed_root": 27604027,
+    "streams_per_dose_per_arm": 2000
+  },
+  "created_utc": "2026-10-24T19:40:27.159470+00:00",
+  "experiment": "delayed_history_predictable_bound_independent_harm_confirmation",
+  "git_commit": "613958ae88f71efa4783ae2a6fb61f259e071f41",
+  "limitations": [
+    "iid event stream",
+    "deterministic outcome-independent delay only",
+    "fixed action pair and complete queried labels",
+    "no serial-dependence or informative-delay claim",
+    "no method novelty or general superiority claim"
+  ],
+  "rows": 16000,
+  "sha256": {
+    "metrics/harm_dose_results.csv": "bb828c64f84ba926e684a9235a100a8c847df7c3f7e4a7ea5b94cda14623ef6a",
+    "metrics/operational_characteristics.csv": "7f5f360c272d02b6b34a84bc5d409c28c0c2863dd64aff08f4b4155e409ea06d",
+    "metrics/stream_metrics.parquet": "25819e7f1ad1a7089f80b577e7dcb7a57f90aea3cf0523024a50d547fbeaa54e",
+    "protocol": "2b89acdea473953291df2f9b0ba810b1bc1784461905ab36d5d7dfd1da8ad59c",
+    "reports/confirmation_results.md": "7d681c4a259ec5342e301da713d1a408866959d38751a4a61578108303612553",
+    "reports/primary_result.json": "4d79a8dfac4dc53054b4c9546582047076bb3626160a9ce0cb9d6eaa159abea1",
+    "runner": "e760176380da8c3413ed95920083827bf460592adb895c6e6ac1ab28672f4a09",
+    "shared_dgp": "d690fada02bab08c73f81bc7489ff97ec9a8af4f02375c24f374a61b89e390ee",
+    "simulator": "148fd0f2e2f8b86f7703f3d0cd675b77388b52a8b015b221ee127d2638bb786d"
+  }
+}

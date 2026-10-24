@@ -1,0 +1,22 @@
+{
+  "estimand": "equal-weight detection difference across four harm doses; predictable minus fixed bound; paired by stream id",
+  "overall_retention_rule_passes": true,
+  "paired_bootstrap_95_ci": [
+    0.026375,
+    0.03625
+  ],
+  "paired_bootstrap_95_ci_evaluator_exposure": [
+    -17.655040999999997,
+    -14.247827750000003
+  ],
+  "paired_bootstrap_95_ci_labels": [
+    -133.39325,
+    -129.13694375
+  ],
+  "paired_mean_detection_difference": 0.031375,
+  "paired_mean_evaluator_exposure_difference": -15.938259999999998,
+  "paired_mean_label_difference": -131.2505,
+  "passes_detection_gate": true,
+  "passes_independent_null_calibration": true,
+  "passes_no_extra_labels_gate": true
+}

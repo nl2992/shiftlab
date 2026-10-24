@@ -226,5 +226,13 @@ Thumbs.db
 !outputs/intervention_confirmation/**
 !outputs/intervention_calibration_replication/
 !outputs/intervention_calibration_replication/**
+!outputs/delayed_history_predictable_development_30_optimized/
+!outputs/delayed_history_predictable_development_30_optimized/**
+!outputs/delayed_history_predictable_grid_30/
+!outputs/delayed_history_predictable_grid_30/**
+!outputs/delayed_history_predictable_selected_calibration_2000/
+!outputs/delayed_history_predictable_selected_calibration_2000/**
+!outputs/delayed_history_predictable_confirmation_2000/
+!outputs/delayed_history_predictable_confirmation_2000/**
 !outputs/residual_variance_start_prior/
 !outputs/residual_variance_start_prior/**

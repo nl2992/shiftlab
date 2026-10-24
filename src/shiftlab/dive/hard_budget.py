@@ -66,6 +66,7 @@ HARD_BUDGET_METHODS = (
     "exact_mixture_growth_proxy",
     "robust_mixture_growth_proxy",
     "pprm_block_adaptive",
+    "uniform_proxy_frozen",
 )
 DEFAULT_HARD_BUDGET_METHODS = HARD_BUDGET_METHODS[:-2]
 PPRM_BLOCK_SIZE = 20
@@ -176,9 +177,11 @@ def _one_method(
     validation_probability = classifier.predict_proba(validation_x)[:, 1]
     validation_uncertainty = _entropy(validation_probability)
     proxy = copy.deepcopy(proxy_template)
+    proxy_updates_enabled = method != "uniform_proxy_frozen"
 
     query_kind = {
         "uniform_proxy": "uniform",
+        "uniform_proxy_frozen": "uniform",
         "variance_proxy": "variance",
         "decision_value_proxy": "decision_value",
         "cost_variance_proxy": "cost_variance",
@@ -381,7 +384,7 @@ def _one_method(
             comparator_value = state["process"].update(estimate)
             if state["first_alarm"] is None and comparator_value >= threshold:
                 state["first_alarm"] = offset
-        if queried:
+        if queried and proxy_updates_enabled:
             assert observed is not None
             did_refit = proxy.observe(x_now[0], observed)
             if did_refit and offset + 1 < len(proxy_values):
@@ -418,6 +421,7 @@ def _one_method(
         "change_fraction": config.change_fraction,
         "seed": seed,
         "method": method,
+        "proxy_updates_enabled": proxy_updates_enabled,
         "hard_budget": budget,
         "realized_label_spend": spent,
         "budget_remaining": remaining,
@@ -625,6 +629,7 @@ def _one_pprm_block_method(
         "change_fraction": config.change_fraction,
         "seed": seed,
         "method": "pprm_block_adaptive",
+        "proxy_updates_enabled": False,
         "hard_budget": budget,
         "realized_label_spend": spent,
         "budget_remaining": remaining,
@@ -952,14 +957,16 @@ def _paired_effects(metrics: pd.DataFrame, seed: int) -> pd.DataFrame:
                     ),
                     "multiscale_only": int(
                         (
-                            reached.multiscale_e_detected_method & ~reached.single_e_detected_method
+                            reached.multiscale_e_detected_method
+                            & np.logical_not(reached.single_e_detected_method)
                         ).sum()
                     )
                     if secondary_available
                     else np.nan,
                     "fixed_only": int(
                         (
-                            reached.single_e_detected_method & ~reached.multiscale_e_detected_method
+                            reached.single_e_detected_method
+                            & np.logical_not(reached.multiscale_e_detected_method)
                         ).sum()
                     )
                     if secondary_available
@@ -977,14 +984,16 @@ def _paired_effects(metrics: pd.DataFrame, seed: int) -> pd.DataFrame:
                     else np.nan,
                     "protected_only": int(
                         (
-                            reached.protected_e_detected_method & ~reached.single_e_detected_method
+                            reached.protected_e_detected_method
+                            & np.logical_not(reached.single_e_detected_method)
                         ).sum()
                     )
                     if secondary_available
                     else np.nan,
                     "fixed_only_vs_protected": int(
                         (
-                            reached.single_e_detected_method & ~reached.protected_e_detected_method
+                            reached.single_e_detected_method
+                            & np.logical_not(reached.protected_e_detected_method)
                         ).sum()
                     )
                     if secondary_available

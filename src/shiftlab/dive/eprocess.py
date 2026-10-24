@@ -257,11 +257,10 @@ class PPIBlockConfidenceSequence:
     """One-sided confidence sequence for running means of bounded PPI block estimates.
 
     Each input is a PPI estimate for one block with support ``[-eta_max, 1+eta_max]``.
-    The estimator is affinely normalized to ``[0, 1]``. A finite mixture of Hoeffding
-    betting factors bounds the martingale
-    noise around the predictable block means, yielding a time-uniform lower confidence
-    bound for their running average. This is not a reproduction of PPRM's
-    empirical-Bernstein construction.
+    The estimator is affinely normalized to ``[0, 1]``. A finite mixture of
+    conjugate-mixture empirical-Bernstein (CM-EB) betting factors yields a time-uniform
+    lower confidence bound for its running mean. This adapts PPRM's test-stream bound
+    to paired-cost PPI estimates; it does not include PPRM's source-risk upper bound.
 
     A crossing tests the running-mean null. It does not by itself test the stronger
     eventwise conditional-mean null or certify an alternative policy.
@@ -294,13 +293,15 @@ class PPIBlockConfidenceSequence:
         self.threshold = float(threshold)
         self.alpha = float(alpha)
         self.root_iterations = root_iterations
-        self.lambdas = np.geomspace(0.01, 4.0, lambda_count)
+        self.lambdas = np.geomspace(1e-4, 0.99, lambda_count)
         self.log_weights = np.full(lambda_count, -np.log(lambda_count), dtype=float)
-        self.psi = self.lambdas**2 / 8
+        self.psi = -np.log1p(-self.lambdas) - self.lambdas
         support_width = 1 + 2 * self.max_reliance
         self.normalized_threshold = (self.threshold + self.max_reliance) / support_width
         self.n_updates = 0
         self.sum_observations = 0.0
+        self.sum_squared_prediction_errors = 0.0
+        self.predictive_mean = 0.5
         self._lower_bound = 0.0
         self.log_crossing_statistic = 0.0
 
@@ -330,7 +331,9 @@ class PPIBlockConfidenceSequence:
 
     def _mixture_log_value(self, excess_sum: float) -> float:
         return self._logsumexp(
-            self.log_weights + self.lambdas * excess_sum - self.n_updates * self.psi
+            self.log_weights
+            + self.lambdas * excess_sum
+            - self.psi * self.sum_squared_prediction_errors
         )
 
     def _radius(self) -> float:
@@ -356,8 +359,10 @@ class PPIBlockConfidenceSequence:
         ):
             raise ValueError("PPI estimate is outside the declared support")
         normalized = (float(estimate) + self.max_reliance) / (1 + 2 * self.max_reliance)
+        self.sum_squared_prediction_errors += (normalized - self.predictive_mean) ** 2
         self.sum_observations += normalized
         self.n_updates += 1
+        self.predictive_mean = self.sum_observations / self.n_updates
         excess_sum = self.sum_observations - self.n_updates * self.normalized_threshold
         self.log_crossing_statistic = self._mixture_log_value(excess_sum)
         self._lower_bound = 0.0

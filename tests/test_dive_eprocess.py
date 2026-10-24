@@ -153,6 +153,26 @@ def test_ppi_block_confidence_sequence_detects_persistent_excess_and_checks_supp
         process.update(2.01)
 
 
+def test_ppi_block_confidence_sequence_matches_cm_eb_formula():
+    process = PPIBlockConfidenceSequence(
+        max_reliance=0.0,
+        threshold=0.5,
+        alpha=0.05,
+        lambda_count=4,
+    )
+    estimates = (0.4, 0.8)
+    for estimate in estimates:
+        process.update(estimate)
+    forecast_errors = (0.4 - 0.5) ** 2 + (0.8 - 0.4) ** 2
+    excess_sum = sum(estimates) - len(estimates) * 0.5
+    psi = -np.log1p(-process.lambdas) - process.lambdas
+    expected = np.logaddexp.reduce(
+        process.log_weights + process.lambdas * excess_sum - psi * forecast_errors
+    )
+    assert process.sum_squared_prediction_errors == pytest.approx(forecast_errors)
+    assert process.log_crossing_statistic == pytest.approx(expected)
+
+
 def test_ppi_block_confidence_sequence_exact_small_null_enumeration():
     from itertools import product
 

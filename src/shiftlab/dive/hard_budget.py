@@ -34,6 +34,7 @@ from .eprocess import (
     PredictableVarianceAdaptiveEProcess,
 )
 from .estimators import (
+    pprm_adaptive_reliance,
     pprm_block_estimate,
     prediction_powered_bound,
     prediction_powered_estimate,
@@ -69,6 +70,8 @@ HARD_BUDGET_METHODS = (
 DEFAULT_HARD_BUDGET_METHODS = HARD_BUDGET_METHODS[:-2]
 PPRM_BLOCK_SIZE = 20
 PPRM_LABELS_PER_BLOCK = 4
+PPRM_MAX_RELIANCE = 1.0
+PPRM_INITIAL_RELIANCE = 1.0
 MULTISCALE_STAKES = tuple(float(value) for value in np.geomspace(1 / 1024, 0.99, 13))
 PROTECTED_EXPLORATION_STAKES = tuple(float(value) for value in np.geomspace(1 / 1024, 0.04, 8))
 PROTECTED_STAKES = (0.05, 0.10, 0.20, 0.40, 0.80, *PROTECTED_EXPLORATION_STAKES)
@@ -524,10 +527,10 @@ def _one_pprm_block_method(
     cost_bound = max(scenario.fn_cost, scenario.fp_cost)
     if cost_bound <= 0:
         raise ValueError("paired decision-cost bound must be positive")
-    eta = 1.0
+    eta = PPRM_INITIAL_RELIANCE
     threshold = (config.harm_margin + cost_bound) / (2 * cost_bound)
     monitor = PPIBlockConfidenceSequence(
-        max_reliance=eta,
+        max_reliance=PPRM_MAX_RELIANCE,
         threshold=threshold,
         alpha=config.alpha,
     )
@@ -552,6 +555,10 @@ def _one_pprm_block_method(
     estimates: list[float] = []
     block_truths: list[float] = []
     block_expected: list[float] = []
+    block_reliances: list[float] = []
+    historical_labeled: list[float] = []
+    historical_labeled_proxy: list[float] = []
+    historical_unlabeled_proxy: list[float] = []
     alarm_time: int | None = None
     stop_reason = "end_of_stream"
 
@@ -583,6 +590,7 @@ def _one_pprm_block_method(
             unlabeled_proxy,
             reliance=eta,
         )
+        block_reliances.append(eta)
         crossed = monitor.update(estimate)
         estimates.append(-cost_bound + 2 * cost_bound * estimate - config.harm_margin)
         block_truths.append(float(centered_cost_difference[absolute_start:absolute_end].mean()))
@@ -590,6 +598,16 @@ def _one_pprm_block_method(
         spent += labeled_spend
         remaining -= labeled_spend
         queried_count += PPRM_LABELS_PER_BLOCK
+        historical_labeled.extend(labeled_z.tolist())
+        historical_labeled_proxy.extend(labeled_proxy.tolist())
+        historical_unlabeled_proxy.extend(unlabeled_proxy.tolist())
+        eta = pprm_adaptive_reliance(
+            np.asarray(historical_labeled),
+            np.asarray(historical_labeled_proxy),
+            np.asarray(historical_unlabeled_proxy),
+            max_reliance=PPRM_MAX_RELIANCE,
+            fallback_reliance=PPRM_INITIAL_RELIANCE,
+        )
         expected_spend += (PPRM_LABELS_PER_BLOCK / PPRM_BLOCK_SIZE) * float(block_costs.sum())
         processed += PPRM_BLOCK_SIZE
         if crossed and alarm_time is None:
@@ -655,7 +673,9 @@ def _one_pprm_block_method(
         "pprm_confidence_lower_bound": monitor.lower_bound,
         "pprm_block_size": PPRM_BLOCK_SIZE,
         "pprm_labels_per_block": PPRM_LABELS_PER_BLOCK,
-        "pprm_reliance": eta,
+        "pprm_reliance_mean": float(np.mean(block_reliances)) if block_reliances else eta,
+        "pprm_reliance_last": block_reliances[-1] if block_reliances else eta,
+        "pprm_max_reliance": PPRM_MAX_RELIANCE,
     }
 
 

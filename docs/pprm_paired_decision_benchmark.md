@@ -1,9 +1,9 @@
 # PPRM-style paired decision-harm benchmark specification
 
-**Status:** The unbiased block-estimator helper, finite-mixture lower confidence sequence, and fixed-
-eta hard-budget stream integration are implemented and unit-tested. Only a two-seed CUDA smoke has
-run; the matched experiment and statistical calibration are outstanding. No power result or novelty
-claim. This comparison follows the completed 30-seed
+**Status:** The unbiased block-estimator helper, predictable plug-in reliance estimate, finite-mixture
+CM-EB lower confidence sequence, and hard-budget stream integration are implemented and unit-tested. Only a two-seed CUDA smoke
+has run; the matched experiment and statistical calibration are outstanding. No power result or
+novelty claim. This comparison follows the completed 30-seed
 severity/onset/horizon screen and is a prerequisite to selecting a new monitor.
 
 ## Why this comparator is necessary
@@ -57,9 +57,9 @@ where \(\eta_b\) is chosen using only earlier blocks and is bounded by a preregi
 \(\eta_{\max}\). Conditional independence and random sampling from the same block distribution
 make this estimate unbiased for the block's mean normalized paired cost for every predictable
 \(\eta_b\). Its support is contained in \([-\eta_{\max},1+\eta_{\max}]\); normalize this range
-before applying a bounded confidence sequence. The current code uses a finite-mixture Hoeffding
-boundary for the average of predictable block means; it is a conservative benchmark and is not
-PPRM's empirical-Bernstein/CM-EB construction. Compare its anytime lower
+before applying a bounded confidence sequence. The current code applies the CM-EB test-stream
+boundary using a fixed discrete mixture over λ. This is the PPRM running-risk bound adapted to
+paired-cost block estimates; it omits PPRM's source-risk upper bound. Compare its anytime lower
 bound on the running mean with the normalized materiality threshold
 \((\epsilon+M)/(2M)\). Use an explicit alpha split between any source/calibration bound and the
 test-stream confidence sequence if a source-risk version is also reported. For the direct known
@@ -71,6 +71,13 @@ Freeze the proxy, reference policy, block size, labeled/unlabeled ratio, \(\eta\
 confidence-sequence mixture, alpha, and stopping rule before evaluation. A valid implementation
 must keep learner-visible block estimates separate from evaluator-only true block means and
 counterfactual oracle costs.
+
+The current block comparator initializes \(\eta_1=1\), then estimates later reliance from
+completed labeled/unlabeled blocks using the PPRM plug-in rule
+\(\hat\eta=\mathrm{Cov}(Z,h)/[(1+n/N)\mathrm{Var}(h)]\), clipped to \([0,1]\). This is
+predictable and preserves unbiasedness; its variance-optimal interpretation is only a plug-in
+approximation under nonstationary blocks. The CM-EB test-stream mixture uses 64 equally weighted
+log-spaced \(\lambda\) values from \(10^{-4}\) to \(0.99\), with \(\psi_E(\lambda)=-\log(1-\lambda)-\lambda\).
 
 ## Matched experiment
 
@@ -99,10 +106,9 @@ size, \(\eta\), predictor, or threshold may be selected on the confirmatory bloc
 
 - Prove the block estimator is conditionally unbiased under the documented split and predictable
   \(\eta_b\), and verify the finite support bound in tests for every allowed configuration.
-- The implemented Hoeffding mixture must be justified from bounded martingale differences and
-  checked under optional stopping. It is an anytime lower bound for the average of predictable
-  block means, not PPRM's empirical-Bernstein/CM-EB sequence. A faithful PPRM comparator requires
-  a separate derivation and implementation audit before it is included in a matched study.
+- Verify the finite-mixture CM-EB boundary against the published formula, including its one-sided
+  error allocation and predictable past-mean forecast; test optional stopping and the complete
+  paired-cost estimator-to-alarm pipeline before the matched study.
 - State the distinction between a running-average null and an eventwise conditional-mean null: the
   latter implies the former, but the converse does not. Report whether assumptions cover arbitrary
   serial dependence or only independent synthetic blocks.

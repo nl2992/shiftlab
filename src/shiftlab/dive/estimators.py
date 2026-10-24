@@ -73,6 +73,49 @@ def pprm_block_estimate(
     return float(reliance * unlabeled_proxy.mean() + np.mean(labeled - reliance * labeled_proxy))
 
 
+def pprm_adaptive_reliance(
+    historical_labeled_values: np.ndarray,
+    historical_labeled_proxy: np.ndarray,
+    historical_unlabeled_proxy: np.ndarray,
+    *,
+    max_reliance: float,
+    fallback_reliance: float = 0.0,
+) -> float:
+    """Estimate the PPRM variance-minimizing reliance from completed past blocks.
+
+    This is the plug-in coefficient
+    ``Cov(Z, h) / ((1 + n/N) Var(h))`` with sample covariance/variance and clipping.
+    Every input must come from blocks whose labels have already arrived. If there are
+    too few observations or no proxy variation, return the preregistered fallback.
+    The returned coefficient is therefore predictable when used for the next block.
+    """
+    labeled = np.asarray(historical_labeled_values, dtype=float).reshape(-1)
+    labeled_proxy = np.asarray(historical_labeled_proxy, dtype=float).reshape(-1)
+    unlabeled_proxy = np.asarray(historical_unlabeled_proxy, dtype=float).reshape(-1)
+    if len(labeled) != len(labeled_proxy):
+        raise ValueError("historical labels and their proxy values must match")
+    if not np.isfinite(max_reliance) or max_reliance <= 0:
+        raise ValueError("max_reliance must be finite and positive")
+    if not np.isfinite(fallback_reliance) or not 0 <= fallback_reliance <= max_reliance:
+        raise ValueError("fallback_reliance must lie in [0, max_reliance]")
+    for name, values in (
+        ("historical_labeled_values", labeled),
+        ("historical_labeled_proxy", labeled_proxy),
+        ("historical_unlabeled_proxy", unlabeled_proxy),
+    ):
+        if not np.isfinite(values).all() or np.any((values < 0) | (values > 1)):
+            raise ValueError(f"{name} must contain finite values in [0, 1]")
+    if len(labeled) < 2 or len(unlabeled_proxy) < 2:
+        return float(fallback_reliance)
+    proxy_variance = float(np.var(unlabeled_proxy, ddof=1))
+    if proxy_variance <= np.finfo(float).eps:
+        return float(fallback_reliance)
+    covariance = float(np.cov(labeled, labeled_proxy, ddof=1)[0, 1])
+    ratio = len(labeled) / len(unlabeled_proxy)
+    estimate = covariance / ((1 + ratio) * proxy_variance)
+    return float(np.clip(estimate, 0.0, max_reliance))
+
+
 class AdaptiveReliance:
     """Prequential PPRM-style scalar tuning of reliance on a loss proxy.
 

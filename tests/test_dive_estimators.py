@@ -3,6 +3,7 @@ import pytest
 
 from shiftlab.dive.estimators import (
     AdaptiveReliance,
+    pprm_adaptive_reliance,
     pprm_block_estimate,
     prediction_powered_bound,
     prediction_powered_estimate,
@@ -89,3 +90,40 @@ def test_pprm_block_estimator_is_unbiased_under_identical_disjoint_sample_laws()
             )
             expected += p_label * p_unlabeled * estimate
     assert expected == pytest.approx(float(np.dot(probabilities, values)))
+
+
+def test_pprm_adaptive_reliance_matches_predictable_variance_optimum_and_clips():
+    labeled = np.array([0.5, 0.6, 0.4])
+    labeled_proxy = np.array([0.1, 0.9, 0.4])
+    unlabeled_proxy = np.array([0.2, 0.4, 0.6, 0.8])
+    expected = np.cov(labeled, labeled_proxy, ddof=1)[0, 1] / (
+        (1 + len(labeled) / len(unlabeled_proxy)) * np.var(unlabeled_proxy, ddof=1)
+    )
+    reliance = pprm_adaptive_reliance(
+        labeled,
+        labeled_proxy,
+        unlabeled_proxy,
+        max_reliance=1.0,
+    )
+    assert reliance == pytest.approx(expected)
+    assert 0 <= reliance <= 1
+    assert (
+        pprm_adaptive_reliance(
+            labeled,
+            labeled_proxy,
+            unlabeled_proxy,
+            max_reliance=0.1,
+        )
+        == 0.1
+    )
+
+
+def test_pprm_adaptive_reliance_uses_fallback_without_historical_proxy_variation():
+    reliance = pprm_adaptive_reliance(
+        np.array([0.1, 0.9]),
+        np.array([0.5, 0.5]),
+        np.array([0.5, 0.5, 0.5]),
+        max_reliance=1.0,
+        fallback_reliance=0.25,
+    )
+    assert reliance == 0.25

@@ -131,6 +131,8 @@ def test_pprm_block_comparator_respects_spend_and_updates_only_complete_blocks(t
     assert (pprm.pprm_block_size == 20).all()
     assert (pprm.pprm_labels_per_block == 4).all()
     assert pprm.pprm_confidence_lower_bound.between(0, 1).all()
+    assert pprm.pprm_reliance_mean.between(0, 1).all()
+    assert pprm.pprm_reliance_last.between(0, 1).all()
     assert "probability_positive" not in metrics.columns
     assert "expected_cost_difference" not in metrics.columns
     report = (output / "reports" / "hard_budget_comparison.md").read_text()

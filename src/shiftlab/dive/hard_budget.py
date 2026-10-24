@@ -50,8 +50,6 @@ from .experiment import (
     finalize_manifest,
 )
 from .proxy import DecisionLossProxy
-
-PPRM_MIXTURE_WEIGHTS = (0.1, 0.25, 0.5, 0.75, 0.9)
 from .query import (
     AdaptiveQueryPolicy,
     ExactMixtureGrowthQueryPolicy,
@@ -61,6 +59,7 @@ from .query import (
     mix_with_cost_neutral,
 )
 
+PPRM_MIXTURE_WEIGHTS = (0.1, 0.25, 0.5, 0.75, 0.9)
 HARD_BUDGET_METHODS = (
     "uniform_proxy",
     "variance_proxy",

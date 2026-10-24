@@ -1,4 +1,6 @@
+import hashlib
 import json
+from pathlib import Path
 
 import numpy as np
 import pandas as pd
@@ -77,6 +79,16 @@ def test_run_writes_metrics_manifest_summary_and_report(tmp_path):
     assert manifest["rows"] == 3
     assert pd.read_parquet(tmp_path / "delayed_feedback_metrics.parquet").shape[0] == 3
     assert json.loads((tmp_path / "manifest.json").read_text())["config_validated"] is True
+    manifest_file = json.loads((tmp_path / "manifest.json").read_text())
+    source_root = Path(__file__).parents[1] / "src" / "shiftlab" / "dive"
+    assert all(
+        hashlib.sha256((source_root / name).read_bytes()).hexdigest() == digest
+        for name, digest in manifest_file["code_sha256"].items()
+    )
+    assert (
+        hashlib.sha256((tmp_path / "delayed_feedback_metrics.parquet").read_bytes()).hexdigest()
+        == manifest_file["metrics_sha256"]
+    )
     assert (tmp_path / "summary.csv").is_file()
     report = (tmp_path / "results.md").read_text()
     assert "development pilot" in report

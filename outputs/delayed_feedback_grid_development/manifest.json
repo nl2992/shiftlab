@@ -1,0 +1,91 @@
+{
+  "created_at_utc": "2026-10-24T05:39:25.025295+00:00",
+  "config": {
+    "seeds": 30,
+    "seed_offset": 20262000,
+    "n_source": 3000,
+    "n_target": 3000,
+    "query_rates": [
+      0.1,
+      0.25,
+      0.5
+    ],
+    "harm_onset_fractions": [
+      0.2,
+      0.6
+    ],
+    "harm_contrast_increases": [
+      0.12,
+      0.24
+    ],
+    "delay_schemes": [
+      "fixed_3",
+      "uniform_0_6"
+    ],
+    "alpha": 0.05,
+    "materiality_margin": 0.02,
+    "amplitude": 0.6,
+    "benign_amplitude": 0.25,
+    "device": "cuda"
+  },
+  "config_validated": true,
+  "generation_device": "cuda",
+  "resolved_generation_devices": [
+    "cuda"
+  ],
+  "environment": {
+    "cpu_ram_bytes": 16858472448,
+    "disk_free_bytes": 21590691840,
+    "cuda_available": true,
+    "nvidia_smi": "NVIDIA GeForce RTX 4060 Laptop GPU, 8188 MiB, 592.82, 0 %, 107 MiB",
+    "torch_version": "2.6.0+cu124",
+    "cuda_runtime": "12.4",
+    "gpu_name": "NVIDIA GeForce RTX 4060 Laptop GPU",
+    "gpu_memory_bytes": 8585216000,
+    "versions": {
+      "numpy": "2.4.2",
+      "scipy": "1.17.1",
+      "pandas": "3.0.1",
+      "pyarrow": "24.0.0",
+      "folktables": null
+    }
+  },
+  "scenarios": [
+    "stationary",
+    "benign_variance_shift",
+    "boundary_harm"
+  ],
+  "delay_schemes": [
+    "fixed_3",
+    "uniform_0_6"
+  ],
+  "query_rates": [
+    0.1,
+    0.25,
+    0.5
+  ],
+  "harm_onset_fractions": [
+    0.2,
+    0.6
+  ],
+  "harm_contrast_increases": [
+    0.12,
+    0.24
+  ],
+  "methods": [
+    "paired_cost_eprocess",
+    "source_target_risk_cs",
+    "no_query_hold"
+  ],
+  "stream_cells": 1080,
+  "metric_rows": 3240,
+  "event_time_invariance_across_delays": true,
+  "metrics_sha256": "24c6a52e6b1715930527c0a558f6d86fd90dbb328916910d6e859813fcace848",
+  "code_sha256": {
+    "delayed_grid.py": "a8648bc1c1ad5ae1d04794b5b4045ea83590a759f6a7ace0ec5bc20415a0650b",
+    "delayed_benchmark.py": "9f53a33c501a86696e3d541b857cb281005f9d729ec4c396da525396d5d8b8aa",
+    "delayed_feedback.py": "f0f957ffee752130bbe8bcee35e7db724426b94db0952c9a2e132db5769644a8",
+    "eprocess.py": "17ca5bcb3a7e3a5b5a3e6f99307aba6bce21b885c54f267be6eef7ec6cd1f5fd"
+  },
+  "interpretation": "Exploratory grid; no algorithm or hyperparameter selected on these outcomes. Repeated delay conditions reuse the same seeds and are not independent replications."
+}

@@ -20,7 +20,8 @@
       "benign_variance_shift",
       "boundary_harm"
     ],
-    "device": "cuda"
+    "device": "cuda",
+    "harm_contrast_increase": 0.24
   },
   "config_validated": true,
   "device_resolved": [
@@ -60,7 +61,7 @@
   "rows": 540,
   "metrics_sha256": "f22eed636513d829b09fd73169cf9269900a6a2d3d1234d63b7948c656c0b55e",
   "code_sha256": {
-    "delayed_benchmark.py": "0cb73ef127f4e1da87a5dc8b221c965534b81a7e90f90f2b12d3f30403cbad00",
+    "delayed_benchmark.py": "9f53a33c501a86696e3d541b857cb281005f9d729ec4c396da525396d5d8b8aa",
     "delayed_feedback.py": "f0f957ffee752130bbe8bcee35e7db724426b94db0952c9a2e132db5769644a8",
     "eprocess.py": "17ca5bcb3a7e3a5b5a3e6f99307aba6bce21b885c54f267be6eef7ec6cd1f5fd"
   },

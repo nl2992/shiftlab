@@ -126,6 +126,8 @@ outputs/figures/*
 !outputs/started_mixture_horizon_development/**
 !outputs/delayed_feedback_development/
 !outputs/delayed_feedback_development/**
+!outputs/delayed_feedback_grid_development/
+!outputs/delayed_feedback_grid_development/**
 results/*
 !results/.gitkeep
 data/raw/

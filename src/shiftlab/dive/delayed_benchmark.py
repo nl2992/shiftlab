@@ -43,6 +43,7 @@ class DelayedBenchmarkConfig:
     alpha: float = 0.05
     materiality_margin: float = 0.02
     harm_onset_fraction: float = 0.4
+    harm_contrast_increase: float = 0.24
     amplitude: float = 0.6
     benign_amplitude: float = 0.25
     delay_schemes: tuple[str, ...] = DELAY_SCHEMES
@@ -58,6 +59,8 @@ class DelayedBenchmarkConfig:
             raise ValueError("materiality_margin must lie in [0, 1)")
         if not 0 < self.harm_onset_fraction < 1:
             raise ValueError("harm_onset_fraction must lie in (0, 1)")
+        if not 0 < self.harm_contrast_increase <= 0.98 * self.amplitude:
+            raise ValueError("harm_contrast_increase must yield a target sign probability <= 0.99")
         if not 0 < self.benign_amplitude <= self.amplitude <= 1:
             raise ValueError("amplitudes must satisfy 0 < benign <= amplitude <= 1")
         if not self.scenarios or any(name not in SCENARIOS for name in self.scenarios):
@@ -93,7 +96,7 @@ def _generate_stream(
     if scenario == "benign_variance_shift":
         amplitude[onset:] = config.benign_amplitude
     elif scenario == "boundary_harm":
-        positive_probability[onset:] = min(0.99, 0.5 + 0.24 / (2 * config.amplitude))
+        positive_probability[onset:] = 0.5 + config.harm_contrast_increase / (2 * config.amplitude)
     target_sign = torch.where(
         torch.rand(config.n_target, device=device, generator=generator) < positive_probability,
         1.0,
@@ -235,6 +238,8 @@ def simulate_cell(
                 "n_source": len(source),
                 "n_target": len(contrast),
                 "query_rate": config.query_rate,
+                "harm_onset_fraction": config.harm_onset_fraction,
+                "harm_contrast_increase": config.harm_contrast_increase,
                 "labels_queried": labels_queried,
                 "shared_stream_labels_queried": len(indices),
                 "labels_processed_at_alarm": labels_processed,
@@ -319,8 +324,16 @@ def run_benchmark(
 
 def summarize(frame: pd.DataFrame) -> pd.DataFrame:
     """Aggregate paired stream outcomes without hiding the number of replications."""
+    grouping = [
+        "scenario",
+        "delay_scheme",
+        "query_rate",
+        "harm_onset_fraction",
+        "harm_contrast_increase",
+        "method",
+    ]
     return (
-        frame.groupby(["scenario", "delay_scheme", "method"], dropna=False)
+        frame.groupby(grouping, dropna=False)
         .agg(
             streams=("seed", "nunique"),
             detection_rate=("detected", "mean"),

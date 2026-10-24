@@ -27,3 +27,51 @@ This is an initial primary-source comparison, not a complete literature review. 
 The plausible experimental gap is **query allocation for evidence about a paired downstream decision-cost contrast**, compared at matched label expenditure with uniform prediction-powered monitoring and established predictive-risk monitoring. This is a candidate distinction, not a novelty claim. Decision-boundary sampling, residual-variance allocation, and decision value of information have substantial existing literatures; the exact allocation rule and baselines need another targeted review before any claim.
 
 This first implementation is a benchmark scaffold and not a reproduction of the cited methods. Its bounded betting process is a transparent baseline; it does not implement the conformal constructions, confidence-sequence details, adaptive model handling, or guarantees of the cited papers. In particular, the PPRM-style reliance analogue is not the PPRM baseline itself.
+
+## Decision record: intervention-framework scope audit (2026-10-24)
+
+The proposed action set—continue, query, recalibrate, adapt, retrain, or fall back—and a costed
+sequential objective do not by themselves distinguish the project. The component methods already
+have close precedents:
+
+- [WATCH](https://proceedings.mlr.press/v267/prinster25a.html) develops weighted conformal
+  martingales for deployment monitoring, online handling of mild covariate shift, and diagnosis of
+  harmful shifts. It substantially overlaps generic monitoring and monitor-triggered adaptation.
+- [Active Statistical Inference](https://proceedings.mlr.press/v235/zrnic24a.html) studies
+  model-assisted label acquisition under a label budget and valid confidence intervals/tests. It
+  overlaps active-query plus inference; a different downstream cost estimand alone is not yet a
+  methodological contribution.
+- [Active Sequential Two-Sample Testing](https://arxiv.org/abs/2301.12616) treats feature-label
+  dependence as two-sample discrepancy, actively queries costly group labels, and derives an
+  anytime-valid test. It overlaps active, sequential distribution-shift detection, but its null is
+  independence/distributional equality rather than paired policy-cost harm.
+- [Off-Policy Confidence Sequences](https://proceedings.mlr.press/v139/karampatziakis21a.html)
+  provide time-uniform contextual-bandit policy evaluation and demonstrate gated upgrades.
+  [High Confidence Policy Improvement](https://proceedings.mlr.press/v37/thomas15.html) separately
+  makes candidate search/test multiplicity explicit by splitting policy selection from safety
+  evaluation. Generic candidate promotion is therefore not an open gap.
+- [Podkopaev and Ramdas, Tracking the Risk of a Deployed Model (ICLR 2022)](https://arxiv.org/abs/2110.06177)
+  explicitly supports labels revealed after predictions and labels arriving in delayed batches.
+  Delayed feedback by itself is therefore not a gap. Any benchmark here must compare against this
+  risk-monitoring framework and explain the distinct paired decision-cost estimand and feedback
+  protocol; an event-order buffer is only infrastructure, not a method contribution.
+
+In the current synthetic benchmark, both deployed and reference action costs are observed on the
+same outcome, labels are immediate when queried, policy actions do not alter the outcome process,
+and the monitor has a known global increment bound. Under those assumptions, inverse-propensity or
+prediction-powered estimation followed by a bounded-mean e-process is a transparent composition of
+established ideas. It is a useful estimand-specific benchmark; this source audit does not support
+calling it a new general algorithm. If policy actions change outcomes, paired losses are not both
+identified and the problem must move to randomized/off-policy evaluation. If feedback is delayed,
+the event-time null, arrival-time filtration, query propensities, pending labels at stopping, and
+latency costs must all be specified before any validity claim.
+
+The next implementation question is consequently a **delayed-feedback comparability benchmark**,
+not a new monitor claim: compare event-order buffering, a no-query/hold policy, and an implementation
+of the Podkopaev–Ramdas delayed-risk baseline under outcome-independent variable delays, with matched
+label budgets and evaluator-known costs. Outcome-dependent delays are a separate stress case and
+must not inherit the independent-delay guarantee. Preserve every predeclared e-process assumption
+and measure both event-time detection and wall-clock/arrival-time delay. The new
+`shiftlab.dive.delayed_feedback.EventOrderBuffer` is an ordering primitive only; its tests establish
+release order and latency accounting, not statistical validity. Only after this baseline comparison
+shows a concrete failure mode should a new delay-aware evidence or intervention rule be designed.

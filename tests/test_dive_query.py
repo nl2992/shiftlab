@@ -42,6 +42,26 @@ def test_evidence_directed_query_rejects_invalid_significance_and_support():
         EvidenceDirectedQueryPolicy(q_min=0.05, q_max=0.8, alpha=1.0)
     with pytest.raises(ValueError, match="q_min"):
         EvidenceDirectedQueryPolicy(q_min=0.0, q_max=0.8, alpha=0.05)
+    with pytest.raises(ValueError, match="activation_fraction"):
+        EvidenceDirectedQueryPolicy(q_min=0.05, q_max=0.8, alpha=0.05, activation_fraction=1.1)
+    with pytest.raises(ValueError, match="urgency_power"):
+        EvidenceDirectedQueryPolicy(q_min=0.05, q_max=0.8, alpha=0.05, urgency_power=0.0)
+
+
+def test_concave_evidence_curve_uses_activation_offset_and_taper_parameters():
+    policy = EvidenceDirectedQueryPolicy(
+        q_min=0.05,
+        q_max=0.5,
+        alpha=0.05,
+        activation_fraction=0.04,
+        urgency_power=0.5,
+        budget_taper_power=0.5,
+    )
+    at_start = policy.propensity(log_e_value=0.0, remaining_fraction=1.0)
+    after_spend = policy.propensity(log_e_value=0.0, remaining_fraction=0.25)
+    assert at_start == pytest.approx(0.05 + 0.45 * 0.2)
+    assert after_spend == pytest.approx(0.05 + 0.45 * 0.2 * 0.5)
+    assert policy.propensity(log_e_value=-1e6, remaining_fraction=1.0) == pytest.approx(0.05)
 
 
 @pytest.mark.parametrize(

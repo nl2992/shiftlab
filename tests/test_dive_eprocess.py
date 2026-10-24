@@ -118,7 +118,13 @@ def test_evidence_directed_sampling_preserves_null_crossing_control_with_hard_ca
     label_cap = 80
     streams = 300
     crossings = 0
-    policy = EvidenceDirectedQueryPolicy(q_min=q_min, q_max=0.8, alpha=alpha)
+    policy = EvidenceDirectedQueryPolicy(
+        q_min=q_min,
+        q_max=0.8,
+        alpha=alpha,
+        activation_fraction=0.05,
+        urgency_power=0.5,
+    )
     for _ in range(streams):
         process = BoundedMeanEProcess(bound=1 / q_min, alpha=alpha)
         queried = 0

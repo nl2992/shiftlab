@@ -139,22 +139,42 @@ class EvidenceDirectedQueryPolicy:
     """Predictable query urgency driven by the previous bounded e-value.
 
     The propensity rises from ``q_min`` toward ``q_max`` as prior log evidence
-    approaches ``log(1/alpha)``. It is then tapered toward ``q_min`` as realized
-    spend consumes the prespecified pathwise budget. Both inputs are available
-    before the current label is queried. This is a heuristic allocation rule,
-    not a power or optimality guarantee. A hard-cap runner must still stop before
-    an unaffordable query; the positive propensity floor supports a fixed
-    prediction-powered increment bound.
+    approaches ``log(1/alpha)``. ``activation_fraction`` shifts the curve so
+    modest negative log-evidence can still increase querying, and
+    ``urgency_power`` selects a concave, linear, or convex response. It is then
+    tapered toward ``q_min`` as realized spend consumes the prespecified
+    pathwise budget. All inputs are available before the current query. This is
+    a heuristic allocation rule, not a power or optimality guarantee. A hard-cap
+    runner must still stop before an unaffordable query; the positive propensity
+    floor supports a fixed prediction-powered increment bound.
     """
 
-    def __init__(self, *, q_min: float, q_max: float, alpha: float):
+    def __init__(
+        self,
+        *,
+        q_min: float,
+        q_max: float,
+        alpha: float,
+        activation_fraction: float = 0.0,
+        urgency_power: float = 1.0,
+        budget_taper_power: float = 1.0,
+    ):
         if not np.isfinite(alpha) or not 0 < alpha < 1:
             raise ValueError("alpha must lie in (0, 1)")
         if not np.isfinite(q_min) or not np.isfinite(q_max) or not 0 < q_min <= q_max <= 1:
             raise ValueError("require 0 < q_min <= q_max <= 1")
+        if not np.isfinite(activation_fraction) or not 0 <= activation_fraction <= 1:
+            raise ValueError("activation_fraction must lie in [0, 1]")
+        if not np.isfinite(urgency_power) or urgency_power <= 0:
+            raise ValueError("urgency_power must be finite and positive")
+        if not np.isfinite(budget_taper_power) or budget_taper_power <= 0:
+            raise ValueError("budget_taper_power must be finite and positive")
         self.q_min = float(q_min)
         self.q_max = float(q_max)
         self.alpha = float(alpha)
+        self.activation_fraction = float(activation_fraction)
+        self.urgency_power = float(urgency_power)
+        self.budget_taper_power = float(budget_taper_power)
 
     def propensity(self, *, log_e_value: float, remaining_fraction: float) -> float:
         """Return a pre-outcome propensity from prior evidence and spend only."""
@@ -162,8 +182,11 @@ class EvidenceDirectedQueryPolicy:
             raise ValueError("log_e_value must be finite")
         if not np.isfinite(remaining_fraction) or not 0 <= remaining_fraction <= 1:
             raise ValueError("remaining_fraction must lie in [0, 1]")
-        urgency = np.clip(log_e_value / -np.log(self.alpha), 0.0, 1.0)
-        return float(self.q_min + (self.q_max - self.q_min) * urgency * remaining_fraction)
+        normalized_evidence = log_e_value / -np.log(self.alpha)
+        urgency = np.clip(normalized_evidence + self.activation_fraction, 0.0, 1.0)
+        urgency = urgency**self.urgency_power
+        budget_weight = remaining_fraction**self.budget_taper_power
+        return float(self.q_min + (self.q_max - self.q_min) * urgency * budget_weight)
 
 
 class EvidenceGrowthQueryPolicy:

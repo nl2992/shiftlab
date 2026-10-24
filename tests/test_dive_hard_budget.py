@@ -5,6 +5,9 @@ import pandas as pd
 import pytest
 
 from shiftlab.dive.hard_budget import (
+    DEFAULT_HARD_BUDGET_METHODS,
+    EVIDENCE_DIRECTED_GRID_METHODS,
+    HARD_BUDGET_METHODS,
     PROTECTED_EXPLORATION_STAKES,
     PROTECTED_STAKES,
     PROTECTED_WEIGHTS,
@@ -41,6 +44,14 @@ def test_hard_budget_config_validates_scenario_grid_parameters():
         HardBudgetConfig(budget_dollars=0).validate()
     with pytest.raises(ValueError, match="monitor_horizon_events"):
         HardBudgetConfig(n=1600, monitor_horizon_events=801).validate()
+
+
+def test_evidence_urgency_grid_has_nine_explicit_candidates_without_expanding_defaults():
+    assert len(EVIDENCE_DIRECTED_GRID_METHODS) == 9
+    assert set(EVIDENCE_DIRECTED_GRID_METHODS) <= set(HARD_BUDGET_METHODS)
+    assert not set(EVIDENCE_DIRECTED_GRID_METHODS) & set(DEFAULT_HARD_BUDGET_METHODS)
+    config = HardBudgetConfig(method_subset=tuple(EVIDENCE_DIRECTED_GRID_METHODS)).validate()
+    assert set(config.method_subset) == set(EVIDENCE_DIRECTED_GRID_METHODS)
 
 
 def test_fixed_dollar_cap_and_monitor_horizon_are_respected_for_eventwise_and_block_methods(
@@ -139,17 +150,19 @@ def test_evidence_directed_policy_uses_preoutcome_evidence_and_skips_unavailable
             generate_figure=False,
             device="cpu",
             scenario_subset=("boundary_local_harm",),
-            method_subset=("uniform_proxy", "evidence_directed_proxy"),
+            method_subset=("uniform_proxy", "evidence_curve_a0.05_p0.5"),
         ),
         tmp_path / "evidence_directed",
     )
     metrics = pd.read_parquet(output / "metrics" / "hard_budget_comparison.parquet")
-    assert set(metrics.method) == {"uniform_proxy", "evidence_directed_proxy"}
+    assert set(metrics.method) == {"uniform_proxy", "evidence_curve_a0.05_p0.5"}
     assert metrics.budget_respected.all()
-    evidence = metrics.loc[metrics.method.eq("evidence_directed_proxy")].iloc[0]
+    evidence = metrics.loc[metrics.method.eq("evidence_curve_a0.05_p0.5")].iloc[0]
     assert evidence.query_propensity_min >= 0.10
     assert evidence.query_propensity_max <= 0.80
     assert evidence.eprocess_minimum_propensity == pytest.approx(0.10)
+    assert evidence.query_urgency_activation_fraction == pytest.approx(0.05)
+    assert evidence.query_urgency_power == pytest.approx(0.5)
     assert not list((output / "figures").glob("*.png"))
     report = (output / "reports" / "hard_budget_comparison.md").read_text()
     assert "PaperBanana is unavailable" in report

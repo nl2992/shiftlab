@@ -593,6 +593,14 @@ RMSE was higher by 0.0165 (paired 95% interval [-0.0011, 0.0323]). Its urgency s
 the propensity floor. Treat this as an inconclusive development result, not calibration; the next
 step is a separately seeded grid of prespecified urgency curves. The [protocol](docs/evidence_directed_allocation_protocol.md)
 and complete tabular outputs are checked in under `outputs/evidence_directed_allocation_30/`.
+The fresh [nine-curve urgency grid](docs/evidence_urgency_curve_grid_results.md) then tested
+activation offsets 0, 0.025 and 0.05 against concave, linear and convex evidence responses on
+disjoint CUDA seeds. All nine curves and uniform detected 0/30 reached boundary harms at the 10%
+cap; the nearest-to-uniform curve had no established RMSE or spend advantage. No curve is promoted.
+Its [frozen protocol](docs/evidence_urgency_curve_grid_protocol.md) and hash-verified metrics are
+under `outputs/evidence_urgency_curve_grid_30/`. The next test raises the cap to 20% and compares
+the near-uniform curve with uniform and cost-aware baselines, because that existing design has
+shown nonzero detection power.
 The [paired power plan](outputs/hard_budget_matched_qmin_010_replication_60/reports/paired_detection_power_plan.md)
 estimates 151 fresh seeds for 80% power against the easier zero-difference McNemar null under
 pilot plug-in rates (219 with a four-comparison Bonferroni level). Those figures do not power the

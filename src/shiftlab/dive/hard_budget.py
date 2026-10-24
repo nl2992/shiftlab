@@ -61,7 +61,7 @@ from .query import (
 )
 
 PPRM_MIXTURE_WEIGHTS = (0.1, 0.25, 0.5, 0.75, 0.9)
-HARD_BUDGET_METHODS = (
+BASE_HARD_BUDGET_METHODS = (
     "uniform_proxy",
     "evidence_directed_proxy",
     "variance_proxy",
@@ -73,7 +73,17 @@ HARD_BUDGET_METHODS = (
     "pprm_block_adaptive",
     "uniform_proxy_frozen",
 )
-DEFAULT_HARD_BUDGET_METHODS = HARD_BUDGET_METHODS[:-2]
+EVIDENCE_DIRECTED_GRID_METHODS = {
+    f"evidence_curve_a{activation:g}_p{power:g}": (activation, power)
+    for activation in (0.0, 0.025, 0.05)
+    for power in (0.5, 1.0, 2.0)
+}
+HARD_BUDGET_METHODS = (
+    *BASE_HARD_BUDGET_METHODS[:-2],
+    *EVIDENCE_DIRECTED_GRID_METHODS,
+    *BASE_HARD_BUDGET_METHODS[-2:],
+)
+DEFAULT_HARD_BUDGET_METHODS = BASE_HARD_BUDGET_METHODS[:-2]
 PPRM_MAX_RELIANCE = 1.0
 PPRM_INITIAL_RELIANCE = 1.0
 MULTISCALE_STAKES = tuple(float(value) for value in np.geomspace(1 / 1024, 0.99, 13))
@@ -219,6 +229,7 @@ def _one_method(
     query_kind = {
         "uniform_proxy": "uniform",
         "evidence_directed_proxy": "evidence_directed",
+        **{name: "evidence_directed" for name in EVIDENCE_DIRECTED_GRID_METHODS},
         "uniform_proxy_frozen": "uniform",
         "variance_proxy": "variance",
         "decision_value_proxy": "decision_value",
@@ -229,8 +240,16 @@ def _one_method(
     }[method]
     evidence_policy = None
     if query_kind == "evidence_directed":
+        if method == "evidence_directed_proxy":
+            activation_fraction, urgency_power = 0.0, 1.0
+        else:
+            activation_fraction, urgency_power = EVIDENCE_DIRECTED_GRID_METHODS[method]
         evidence_policy = EvidenceDirectedQueryPolicy(
-            q_min=config.q_min, q_max=config.q_max, alpha=config.alpha
+            q_min=config.q_min,
+            q_max=config.q_max,
+            alpha=config.alpha,
+            activation_fraction=activation_fraction,
+            urgency_power=urgency_power,
         )
         policy = None
     elif query_kind in {"exact_mixture_growth", "robust_mixture_growth"}:
@@ -507,6 +526,15 @@ def _one_method(
         # actual spend, its pathwise sum is not constrained by the hard cap.
         "predictable_spend_compensator_until_stop": expected_spend,
         "eprocess_minimum_propensity": minimum_propensity,
+        "query_urgency_activation_fraction": (
+            evidence_policy.activation_fraction if evidence_policy is not None else None
+        ),
+        "query_urgency_power": evidence_policy.urgency_power
+        if evidence_policy is not None
+        else None,
+        "query_budget_taper_power": (
+            evidence_policy.budget_taper_power if evidence_policy is not None else None
+        ),
         "query_propensity_min": float(np.min(propensities)) if propensities else None,
         "query_propensity_mean": float(np.mean(propensities)) if propensities else None,
         "query_propensity_max": float(np.max(propensities)) if propensities else None,

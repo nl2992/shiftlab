@@ -4,6 +4,8 @@
 **Run:** [`outputs/evidence_budget20_comparison_60/`](../outputs/evidence_budget20_comparison_60/)
 **Status:** Fresh-seed comparison complete. The evidence-directed candidate does not advance.
 
+**Interpretation correction — monitor support bound:** a subsequent paired diagnostic found that this run applied the shared `q_min=0.10` PPI support bound (96.9) to uniform sampling, although uniform's registered propensity is 0.20 and its valid policy-specific bound is 45.9. Replaying the same uniform increments under that policy-specific bound gives 47/60 crossings, compared with 6/60 under the shared bound. The evidence curve's registered floor remains 0.10, so its bound stays 96.9 and its 4/60 count is unchanged. The original table is therefore a common-bound/allocation comparison; it does **not** establish that evidence-directed allocation outperforms a correctly bounded uniform monitor. The event paths and original recorded results are unchanged. See the [propensity-floor diagnostic](propensity_floor_diagnostic_results.md) and [trace analysis](../outputs/monitor_signal_diagnostic_20_60_v2/analysis/monitor_signal_diagnostic.md).
+
 ## Validation
 
 The CUDA run evaluated 60 fresh seeds in each of stationary, benign-nuisance, and boundary-local

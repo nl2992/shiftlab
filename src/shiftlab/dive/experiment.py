@@ -1062,9 +1062,12 @@ def finalize_manifest(output: Path) -> None:
     ]
     sources = sorted(Path("src/shiftlab/dive").glob("*.py"))
     sources.append(Path("src/shiftlab/decision_harm_experiment.py"))
-    analyzer = Path("scripts/analyze_monitor_signal.py")
-    if analyzer.exists():
-        sources.append(analyzer)
+    for source in (
+        Path("scripts/analyze_monitor_signal.py"),
+        Path("scripts/compare_propensity_floor.py"),
+    ):
+        if source.exists():
+            sources.append(source)
     manifest["sha256"] = {
         "artifacts": {str(path.relative_to(output)): file_hash(path) for path in sorted(artifacts)},
         "source_files": {str(path): file_hash(path) for path in sources if path.exists()},

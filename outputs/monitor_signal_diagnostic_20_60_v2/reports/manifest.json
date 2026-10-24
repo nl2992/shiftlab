@@ -67,10 +67,10 @@
   ],
   "sha256": {
     "artifacts": {
-      "analysis\\group_summary.csv": "a965e5cad490ca42ba0890ecbe17c1041606d5a2e0d4cb4f5b0a93238bf34012",
-      "analysis\\log_e_snapshots.csv": "c0f6c7aebdb2027e61b1641c3ca383f870ba88a2f619304a1b3758282f033b91",
-      "analysis\\monitor_signal_diagnostic.md": "e64dd95d2537af26be1c07782a4e49dff42d6f16a0888f442cffe9358eae51e6",
-      "analysis\\seed_diagnostics.csv": "d05162b2f74c5ffe1af64311ed0cc5ae25a816af5a37b8414315ee1baa469d9f",
+      "analysis\\group_summary.csv": "92b6af28dddcbf7d2146fc59df95109f89356e329f457974a6e61de646547350",
+      "analysis\\log_e_snapshots.csv": "f6a1839065dba3eed1d918fd671707ac577107538ad3d0eb6d1b0a2667b742fe",
+      "analysis\\monitor_signal_diagnostic.md": "68d1c28b28426316f417527a34983f22d9b42031cbc272065713a1f4439dce3d",
+      "analysis\\seed_diagnostics.csv": "42e97530fd703c5f7ccdce39dc2beba4dbd25f0ab36cf234e6f1d163fc052189",
       "analysis\\variance_decomposition.csv": "d631d6fe84a269343989d37d407b99f1ecfd3b8f24531e263573c89e5157a561",
       "metrics\\event_traces.parquet": "ed2c2d71554434d6152e55cfe80b3caa33e89d338ae9f070d2917a58811f4965",
       "metrics\\hard_budget_comparison.parquet": "e04ea075cacd529bdf5b292fb6282475ac2c9d990deed10efa15c1d396b91e7e",
@@ -95,7 +95,7 @@
       "src\\shiftlab\\dive\\eprocess.py": "788e43d11870d689f63130456a9c96cf7f5433f8eb65857279ada83081b5a656",
       "src\\shiftlab\\dive\\estimators.py": "ccf8cab60b73ca139f1c9eebf70f53d003201b3664f9bab99e126ec0739647b0",
       "src\\shiftlab\\dive\\evaluation.py": "9b64eea3d7dd708104d25ad51e927451811c91e66295ee480fc791ac884432c4",
-      "src\\shiftlab\\dive\\experiment.py": "31e28065a15fd37308f7432d8a0ad78839b0030bc9af04f3872d6b37643f00cf",
+      "src\\shiftlab\\dive\\experiment.py": "070e2f0368c1a7781d9b66da11f41fa5cd09cb761e41cafb31dfa484c4afdd9a",
       "src\\shiftlab\\dive\\hard_budget.py": "8b892660b06f306922826bd4f3d09e8dd5bb2a248037044815ad38a2bf9c4548",
       "src\\shiftlab\\dive\\horizon_hedge_sweep.py": "cb94b4aef9d9aa231f94f0d56e892fffddb27e9c2547975953dc97f8fc64fd49",
       "src\\shiftlab\\dive\\intervention_calibration_replication.py": "0ee75c9c787020e28448632d15cc4d56c1b3ef9e1da94617a9a9d70d9e6f27fd",
@@ -126,7 +126,8 @@
       "src\\shiftlab\\dive\\start_prior_sweep.py": "7b36032aaea65da53dfd8386fd0b146c576dee470cb01b89bff8fc89f8ec7988",
       "src\\shiftlab\\dive\\start_prior_validation.py": "42eca75b0824b05ef7a06c4dbef4d09d214f8b86202dd1cbdb675210b9f72f8f",
       "src\\shiftlab\\decision_harm_experiment.py": "963d2a794ec0638f08f24dd75eabec457f209ae2df3759e89a6f6dadeca9fa41",
-      "scripts\\analyze_monitor_signal.py": "f9c677cfc314fefb4c0c0b3a6bfb6a1eedf79ff9d290b978d367b1cb36c586ed"
+      "scripts\\analyze_monitor_signal.py": "5ed6ad7128c4d44489657b125ede90f340ed85f2a23ff402e4e3aafd1dbfe9d0",
+      "scripts\\compare_propensity_floor.py": "debcfb35d2f76a6eeb6dd05750a8fc5aeaf572bb757afe912971ba19fc704ef1"
     }
   }
 }

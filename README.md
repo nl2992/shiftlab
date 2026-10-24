@@ -703,10 +703,11 @@ H_0:\quad
 
 The project now implements a mathematically valid baseline for this target: a fixed mixture of bounded
 factors built from paired prediction-powered cost estimates, with query propensities and support bounds
-chosen predictably from prior monitor history. Under the eventwise conditional-mean null, a frozen
-current/reference action pair, positive randomized query propensities, complete outcomes whenever
-queried, and the stated filtration, the bounded-factor supermartingale argument gives anytime false
-escalation control. This is standard e-process reasoning, not a novelty claim. Two independent 4,000-
+chosen predictably from prior monitor history. Under the registered zero-margin eventwise
+conditional-mean null (or after centering by a prespecified margin and enlarging the support bound),
+a frozen current/reference action pair, positive randomized query propensities, complete outcomes
+whenever queried, and the stated filtration, the bounded-factor supermartingale argument gives
+anytime false-escalation control. This is standard e-process reasoning, not a novelty claim. Two independent 4,000-
 stream CUDA studies passed their prespecified synthetic calibration and power gates: one under
 independent events and one under a two-state Markov volatility process whose conditional mean is zero
 in each state. In the Markov validation, the predictable-bound system improved four-dose mean detection

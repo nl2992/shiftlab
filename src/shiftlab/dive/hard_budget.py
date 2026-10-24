@@ -56,6 +56,7 @@ from .query import (
     AdaptiveQueryPolicy,
     EvidenceDirectedQueryPolicy,
     ExactMixtureGrowthQueryPolicy,
+    RobustActiveInferenceQueryPolicy,
     RobustMixtureGrowthQueryPolicy,
     cost_mixture_weight_for_tolerance,
     expected_cost_drift_bound,
@@ -83,6 +84,7 @@ EVIDENCE_DIRECTED_GRID_METHODS = {
 HARD_BUDGET_METHODS = (
     *BASE_HARD_BUDGET_METHODS[:-2],
     *EVIDENCE_DIRECTED_GRID_METHODS,
+    "robust_active_inference_proxy",
     *BASE_HARD_BUDGET_METHODS[-2:],
 )
 DEFAULT_HARD_BUDGET_METHODS = BASE_HARD_BUDGET_METHODS[:-2]
@@ -113,6 +115,7 @@ class HardBudgetConfig:
     cost_stability_tolerance: float = 0.05
     exact_growth_adaptive_weight: float = 1.0
     robust_growth_probability_radius: float = 0.0
+    robust_active_inference_radius_fraction: float = 0.5
     monitor_comparators: tuple[str, ...] = ()
     pprm_block_size: int = 20
     pprm_labels_per_block: int = 4
@@ -191,6 +194,11 @@ class HardBudgetConfig:
             or not 0 <= self.robust_growth_probability_radius <= 1
         ):
             raise ValueError("robust_growth_probability_radius must lie in [0, 1]")
+        if (
+            not np.isfinite(self.robust_active_inference_radius_fraction)
+            or self.robust_active_inference_radius_fraction < 0
+        ):
+            raise ValueError("robust_active_inference_radius_fraction must be nonnegative")
         if len(set(self.monitor_comparators)) != len(self.monitor_comparators) or not set(
             self.monitor_comparators
         ) <= set(HARD_BUDGET_MONITOR_COMPARATORS):
@@ -244,6 +252,7 @@ def _one_method(
         "cost_stabilized_proxy": "cost_variance",
         "exact_mixture_growth_proxy": "exact_mixture_growth",
         "robust_mixture_growth_proxy": "robust_mixture_growth",
+        "robust_active_inference_proxy": "robust_active_inference",
     }[method]
     evidence_policy = None
     if query_kind == "evidence_directed":
@@ -280,6 +289,18 @@ def _one_method(
             probability_positive=validation_probability,
             contrast_zero=contrast_zero[train_end:validation_end],
             contrast_one=contrast_one[train_end:validation_end],
+            label_costs=validation_costs,
+        )
+    elif query_kind == "robust_active_inference":
+        policy = RobustActiveInferenceQueryPolicy(
+            target_rate=config.budget_rate,
+            q_min=config.q_min,
+            q_max=config.q_max,
+            radius_fraction=config.robust_active_inference_radius_fraction,
+        ).fit_multiplier(
+            proxy=proxy.predict(validation_x),
+            residual_second_moment=proxy.predict_residual_second_moment(validation_x),
+            uncertainty=validation_uncertainty,
             label_costs=validation_costs,
         )
     else:
@@ -592,6 +613,17 @@ def _one_method(
             if method == "robust_mixture_growth_proxy"
             else None
         ),
+        "robust_active_inference_rho": (
+            policy.rho if method == "robust_active_inference_proxy" else None
+        ),
+        "robust_active_inference_radius": (
+            policy.uncertainty_radius if method == "robust_active_inference_proxy" else None
+        ),
+        "robust_active_inference_radius_fraction": (
+            config.robust_active_inference_radius_fraction
+            if method == "robust_active_inference_proxy"
+            else None
+        ),
         "material_harm": harm_onset is not None,
         "population_null_control": scenario.name in POPULATION_NULL_CONTROLS,
         "sample_path_material_harm": sample_path_material_harm,
@@ -818,6 +850,9 @@ def _one_pprm_block_method(
         "exact_growth_adaptive_weight": None,
         "exact_growth_expected_spend_drift_bound": None,
         "robust_growth_probability_radius": None,
+        "robust_active_inference_rho": None,
+        "robust_active_inference_radius": None,
+        "robust_active_inference_radius_fraction": None,
         "material_harm": harm_onset is not None,
         "population_null_control": scenario.name in POPULATION_NULL_CONTROLS,
         "sample_path_material_harm": sample_path_material_harm,
@@ -1515,6 +1550,7 @@ def run_hard_budget(config: HardBudgetConfig, output: Path) -> Path:
                 f"--q-min {config.q_min} --q-max {config.q_max} --device {config.device} "
                 f"--exact-growth-adaptive-weight {config.exact_growth_adaptive_weight} "
                 f"--robust-growth-probability-radius {config.robust_growth_probability_radius} "
+                f"--robust-active-inference-radius-fraction {config.robust_active_inference_radius_fraction} "
                 f"--pprm-block-size {config.pprm_block_size} "
                 f"--pprm-labels-per-block {config.pprm_labels_per_block} "
                 f"--pprm-max-reliance {config.pprm_max_reliance} "
@@ -1589,6 +1625,7 @@ def main(argv: list[str] | None = None) -> None:
     parser.add_argument("--cost-stability-tolerance", type=float, default=0.05)
     parser.add_argument("--exact-growth-adaptive-weight", type=float, default=1.0)
     parser.add_argument("--robust-growth-probability-radius", type=float, default=0.0)
+    parser.add_argument("--robust-active-inference-radius-fraction", type=float, default=0.5)
     parser.add_argument("--pprm-block-size", type=int, default=20)
     parser.add_argument("--pprm-labels-per-block", type=int, default=4)
     parser.add_argument("--pprm-max-reliance", type=float, default=PPRM_MAX_RELIANCE)
@@ -1626,6 +1663,7 @@ def main(argv: list[str] | None = None) -> None:
         cost_stability_tolerance=args.cost_stability_tolerance,
         exact_growth_adaptive_weight=args.exact_growth_adaptive_weight,
         robust_growth_probability_radius=args.robust_growth_probability_radius,
+        robust_active_inference_radius_fraction=args.robust_active_inference_radius_fraction,
         pprm_block_size=args.pprm_block_size,
         pprm_labels_per_block=args.pprm_labels_per_block,
         pprm_max_reliance=args.pprm_max_reliance,

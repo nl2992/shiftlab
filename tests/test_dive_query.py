@@ -8,6 +8,7 @@ from shiftlab.dive.query import (
     EvidenceDirectedQueryPolicy,
     EvidenceGrowthQueryPolicy,
     ExactMixtureGrowthQueryPolicy,
+    RobustActiveInferenceQueryPolicy,
     RobustMixtureGrowthQueryPolicy,
     cost_mixture_weight_for_tolerance,
     cost_neutral_propensities,
@@ -135,6 +136,63 @@ def test_cost_variance_rejects_invalid_or_misaligned_label_costs():
             residual_second_moment=np.ones(2),
             uncertainty=np.ones(2),
             label_costs=np.array([1.0, 0.0]),
+        )
+
+
+def test_robust_active_inference_path_is_precalibrated_bounded_and_minimax_selected():
+    variance = np.linspace(0.05, 2.0, 200)
+    costs = np.linspace(0.7, 2.2, 200)
+    proxy = np.zeros_like(variance)
+    uncertainty = np.zeros_like(variance)
+    policy = RobustActiveInferenceQueryPolicy(
+        target_rate=0.2,
+        q_min=0.05,
+        q_max=0.5,
+        radius_fraction=0.4,
+        path_grid=(0.0, 0.25, 0.5, 0.75, 1.0),
+    ).fit_multiplier(
+        proxy=proxy,
+        residual_second_moment=variance,
+        uncertainty=uncertainty,
+        label_costs=costs,
+    )
+    q = policy.probabilities(
+        proxy=proxy,
+        residual_second_moment=variance,
+        uncertainty=uncertainty,
+        label_costs=costs,
+    )
+    assert policy.rho in (0.0, 0.25, 0.5, 0.75, 1.0)
+    assert policy.uncertainty_radius == pytest.approx(0.4 * np.linalg.norm(variance))
+    assert np.all((q >= 0.05) & (q <= 0.5))
+    assert np.mean(q * costs) == pytest.approx(0.2 * np.mean(costs), abs=1e-8)
+
+    def objective(probabilities):
+        return float(
+            np.mean(variance / probabilities)
+            + policy.uncertainty_radius * np.linalg.norm(1 / probabilities) / len(probabilities)
+        )
+
+    scores = []
+    for rho in policy.path_grid:
+        raw = np.power(np.sqrt(variance / costs), 1 - rho) * 0.2**rho
+        low, high = 0.0, 0.5 / max(float(raw.min()), 1e-12)
+        for _ in range(80):
+            middle = (low + high) / 2
+            spend = np.mean(np.clip(middle * raw, 0.05, 0.5) * costs)
+            if spend < 0.2 * np.mean(costs):
+                low = middle
+            else:
+                high = middle
+        candidate_q = np.clip(((low + high) / 2) * raw, 0.05, 0.5)
+        scores.append(objective(candidate_q))
+    assert objective(q) == pytest.approx(min(scores))
+
+
+def test_robust_active_inference_rejects_invalid_radius():
+    with pytest.raises(ValueError, match="radius_fraction"):
+        RobustActiveInferenceQueryPolicy(
+            target_rate=0.2, q_min=0.05, q_max=0.5, radius_fraction=-0.1
         )
 
 

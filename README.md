@@ -191,6 +191,15 @@ the closest prior work and current novelty boundary are in
 [`references/closest_competitors.md`](references/closest_competitors.md). Open proof targets are in
 [`docs/theory_targets.md`](docs/theory_targets.md).
 
+The hard-budget runner now also includes a development adaptation of robust active statistical
+inference: it selects a path between residual-variance and uniform querying using a validation-only
+minimax variance score. On 30 CUDA seeds in each of three scenarios, it reduced stream-mean RMSE
+relative to uniform in the benign-nuisance cell, but did not improve uniformly across scenarios or
+increase harm detections (all allocation variants detected 0/30 boundary-local harms). This is an
+exploratory comparator with an uncalibrated radius setting, not a sequential guarantee or novelty
+claim. See the [development results](docs/robust_active_inference_development_results.md) and
+machine-readable [Parquet output](outputs/robust_active_inference_development/metrics/hard_budget_comparison.parquet).
+
 The paired acquisition-budget frontier evaluates seven policies at 10%, 20%, and 25% hard
 label-dollar caps over 60 common-seed streams in four scenarios. Every method respected its cap;
 all methods detected 0/60 reachable harmful streams at every cap, while exact and robust

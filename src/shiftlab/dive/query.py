@@ -135,6 +135,112 @@ class AdaptiveQueryPolicy:
         return np.maximum(scores, 1e-12)
 
 
+class RobustActiveInferenceQueryPolicy:
+    """Validation-selected robust path between Neyman and uniform acquisition.
+
+    This is a DIVE adaptation of robust active statistical inference, not a
+    sequential guarantee from that batch method. The validation objective is
+    ``mean(v_hat / q) + c * ||1/q||_2 / n`` for an L2 residual-variance
+    uncertainty radius ``c``. The selected path point and multiplier are frozen
+    before monitoring; the caller's hard budget still truncates acquisition.
+    """
+
+    def __init__(
+        self,
+        *,
+        target_rate: float,
+        q_min: float,
+        q_max: float,
+        radius_fraction: float = 0.5,
+        path_grid: tuple[float, ...] = tuple(np.linspace(0.0, 1.0, 21)),
+    ) -> None:
+        if not 0 < q_min <= target_rate <= q_max <= 1:
+            raise ValueError("require 0 < q_min <= target_rate <= q_max <= 1")
+        if not np.isfinite(radius_fraction) or radius_fraction < 0:
+            raise ValueError("radius_fraction must be finite and nonnegative")
+        if not path_grid or any(not np.isfinite(r) or not 0 <= r <= 1 for r in path_grid):
+            raise ValueError("path_grid values must lie in [0, 1]")
+        self.target_rate = float(target_rate)
+        self.q_min = float(q_min)
+        self.q_max = float(q_max)
+        self.radius_fraction = float(radius_fraction)
+        self.path_grid = tuple(float(r) for r in path_grid)
+        self.rho: float | None = None
+        self.multiplier: float | None = None
+        self.uncertainty_radius: float | None = None
+
+    @staticmethod
+    def _validated_inputs(
+        residual_second_moment: np.ndarray, label_costs: np.ndarray | None, size: int
+    ) -> tuple[np.ndarray, np.ndarray]:
+        variance = np.asarray(residual_second_moment, dtype=float).reshape(-1)
+        costs = AdaptiveQueryPolicy._costs(label_costs, size)
+        if len(variance) != size or not np.isfinite(variance).all() or np.any(variance < 0):
+            raise ValueError("residual_second_moment must be finite, nonnegative, and match inputs")
+        return variance, costs
+
+    def _calibrated(self, raw: np.ndarray, costs: np.ndarray) -> tuple[np.ndarray, float]:
+        target_spend = self.target_rate * float(costs.mean())
+        low, high = 0.0, self.q_max / max(float(raw.min()), 1e-12)
+        for _ in range(80):
+            middle = (low + high) / 2
+            spend = float(np.mean(np.clip(middle * raw, self.q_min, self.q_max) * costs))
+            if spend < target_spend:
+                low = middle
+            else:
+                high = middle
+        multiplier = (low + high) / 2
+        return np.clip(multiplier * raw, self.q_min, self.q_max), multiplier
+
+    def fit_multiplier(
+        self,
+        *,
+        proxy: np.ndarray,
+        residual_second_moment: np.ndarray,
+        uncertainty: np.ndarray,
+        label_costs: np.ndarray | None = None,
+    ) -> RobustActiveInferenceQueryPolicy:
+        del uncertainty
+        del proxy
+        size = len(np.asarray(residual_second_moment).reshape(-1))
+        variance, costs = self._validated_inputs(residual_second_moment, label_costs, size)
+        active_score = np.sqrt(variance / costs)
+        active_score = np.maximum(active_score, 1e-12)
+        self.uncertainty_radius = self.radius_fraction * float(np.linalg.norm(variance))
+        best: tuple[float, float, float] | None = None
+        for rho in self.path_grid:
+            raw = np.power(active_score, 1 - rho) * self.target_rate**rho
+            probabilities, multiplier = self._calibrated(raw, costs)
+            criterion = float(
+                np.mean(variance / probabilities)
+                + self.uncertainty_radius * np.linalg.norm(1.0 / probabilities) / size
+            )
+            candidate = (criterion, rho, multiplier)
+            if best is None or candidate < best:
+                best = candidate
+        assert best is not None
+        _, self.rho, self.multiplier = best
+        return self
+
+    def probabilities(
+        self,
+        *,
+        proxy: np.ndarray,
+        residual_second_moment: np.ndarray,
+        uncertainty: np.ndarray,
+        label_costs: np.ndarray | None = None,
+    ) -> np.ndarray:
+        del proxy
+        del uncertainty
+        if self.rho is None or self.multiplier is None:
+            raise RuntimeError("fit_multiplier must use pre-monitor validation data")
+        size = len(np.asarray(residual_second_moment).reshape(-1))
+        variance, costs = self._validated_inputs(residual_second_moment, label_costs, size)
+        active_score = np.maximum(np.sqrt(variance / costs), 1e-12)
+        raw = np.power(active_score, 1 - self.rho) * self.target_rate**self.rho
+        return np.clip(self.multiplier * raw, self.q_min, self.q_max)
+
+
 class EvidenceDirectedQueryPolicy:
     """Predictable query urgency driven by the previous bounded e-value.
 

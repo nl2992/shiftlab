@@ -33,6 +33,48 @@ AnyRank narrows the policy-evaluation contribution: sequential ranking with acti
 
 This first implementation is a benchmark scaffold and not a reproduction of the cited methods. Its bounded betting process is a transparent baseline; it does not implement the conformal constructions, confidence-sequence details, adaptive model handling, or guarantees of the cited papers. In particular, the PPRM-style reliance analogue is not the PPRM baseline itself.
 
+## Allocation-level comparator audit: Active Statistical Inference
+
+The query-allocation baseline needs a more precise match than the broad label
+“uncertainty sampling.” [Active Statistical Inference (ASI)](https://proceedings.mlr.press/v235/zrnic24a.html)
+derives model-assisted sampling for a fixed-horizon estimator. In the equal-cost mean-estimation
+case, its oracle allocation is proportional to the conditional residual standard deviation,
+`q(x) ∝ sqrt(E[e² | X=x])`, subject to budget and propensity constraints. ShiftLab's
+`variance_proxy` uses residual-second-moment power `0.5`, so it already implements this allocation
+shape when that conditional second moment is correctly estimated. The `allocation_grid` power
+sweep is a sensitivity analysis around this established rule, not a new allocation family. With
+unequal query costs, `cost_variance_proxy` instead uses the familiar `sqrt(E[e²|X]/k(x))` score;
+that too is an established cost-adjusted Neyman allocation. These are allocation correspondences,
+not a claim that the online hard-budget runner reproduces ASI's estimator or fixed-horizon theory.
+
+[Robust Sampling for Active Statistical Inference (NeurIPS 2025)](https://papers.nips.cc/paper_files/paper/2025/file/6389470564214983604d1ac81631c2c5-Paper-Conference.pdf)
+is a closer missing comparator for residual-model misspecification. It studies the variance term
+`E[e²(X)/q(X)]`, constructs budget-preserving paths between active and uniform sampling, and
+selects a path point using a minimax objective over an L2 uncertainty set for estimated residual
+second moments. The [authors' implementation](https://github.com/lphLeo/Robust-Active-Statistical-Inference)
+uses the objective `mean(v_hat/q) + c/n * ||1/q||_2` and searches a geometric active-to-uniform path.
+The current `robust_mixture_growth_proxy` is **not** this method: it robustifies the outcome
+probability in a one-step log-growth objective. ShiftLab now includes a separately named
+`robust_active_inference_proxy` adaptation: it selects a point on a 21-point geometric path from
+cost-adjusted square-root residual-variance scores to uniform querying, using only pre-monitor
+validation predictions. The validation criterion is the paper's L2 robust variance objective;
+its radius is the prespecified `robust_active_inference_radius_fraction` times the validation
+residual-second-moment norm (default 0.5). The chosen path point and multiplier are frozen before
+monitoring; current covariate-specific propensities can still respond to past-fitted residual
+models, and actual spend is capped by the runner's hard-dollar stop. This is an adaptation for
+comparison, not a reproduction of the paper's batch estimator. In particular, the batch
+asymptotic variance result is not a sequential e-process guarantee and is not transferred here.
+The radius default is a development setting, not a calibrated or universally justified value; it
+should be included in a prespecified sensitivity study before confirmatory claims.
+
+WATCH is likewise not a drop-in paired-cost comparator. Its weighted conformal test martingales
+test conformal validity under stated calibration and shift assumptions; the current DIVE target is
+a paired deployed-minus-reference decision-cost contrast with selective label acquisition. A fair
+WATCH comparison requires specifying a cost-linked conformity score and an explicit mapping from
+its validity null to the harm null before interpreting detections as decision-harm evidence.
+Until that mapping exists, WATCH should remain a scope reference rather than be scored in the same
+table as the paired-cost e-process.
+
 ## Decision record: intervention-framework scope audit (2026-10-24)
 
 The proposed action set—continue, query, recalibrate, adapt, retrain, or fall back—and a costed

@@ -163,6 +163,32 @@ def test_hard_budget_records_policy_specific_propensity_support_bounds(tmp_path)
     assert adaptive.eprocess_support_bound == pytest.approx(96.9)
 
 
+def test_robust_active_inference_runs_under_hard_budget_and_records_validation_choice(tmp_path):
+    assert "robust_active_inference_proxy" in HARD_BUDGET_METHODS
+    output = run_hard_budget(
+        HardBudgetConfig(
+            n=1600,
+            seeds=1,
+            budget_rate=0.20,
+            q_min=0.10,
+            q_max=0.80,
+            common_eprocess_bound=True,
+            generate_figure=False,
+            device="cpu",
+            scenario_subset=("stationary",),
+            method_subset=("robust_active_inference_proxy",),
+        ),
+        tmp_path / "robust_active_inference",
+    )
+    metrics = pd.read_parquet(output / "metrics" / "hard_budget_comparison.parquet")
+    assert len(metrics) == 1
+    row = metrics.iloc[0]
+    assert bool(row.budget_respected)
+    assert row.robust_active_inference_rho in (0.0, *np.linspace(0.0, 1.0, 21))
+    assert row.robust_active_inference_radius >= 0
+    assert row.eprocess_minimum_propensity == pytest.approx(0.10)
+
+
 def test_parallel_hard_budget_replicates_match_serial_seed_results(tmp_path):
     common = {
         "n": 1600,

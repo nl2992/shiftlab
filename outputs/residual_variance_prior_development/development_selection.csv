@@ -1,0 +1,6 @@
+method,macro_detection_primary_rates,maximin_severity_detection,selection_cells,selected
+quarter_start_beta_4_12,0.13055555555555556,0.041666666666666664,6,True
+center_start_mixture,0.13055555555555554,0.041666666666666664,6,False
+early_start_mixture,0.13055555555555554,0.03333333333333333,6,False
+uniform_start_mixture,0.11944444444444442,0.03333333333333333,6,False
+late_start_mixture,0.1111111111111111,0.041666666666666664,6,False

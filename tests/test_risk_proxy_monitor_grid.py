@@ -27,7 +27,14 @@ def test_monitor_grid_cpu_smoke_has_matched_paths_and_valid_processes():
         device="cpu",
     ).validate()
     scenario = next(item for item in SCENARIOS if item.name == "stationary")
-    methods = (*PROCESS_NAMES, "uniform_start_mixture", "late_start_mixture")
+    methods = (
+        *PROCESS_NAMES,
+        "uniform_start_mixture",
+        "early_start_mixture",
+        "late_start_mixture",
+        "center_start_mixture",
+        "quarter_start_beta_4_12",
+    )
     rows = _run_stream(scenario, config.seed_offset, 0.4, config, methods=methods)
     assert {row["method"] for row in rows} == set(methods)
     assert len({row["labels_queried"] for row in rows}) == 1

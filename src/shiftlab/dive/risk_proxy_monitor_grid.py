@@ -38,6 +38,13 @@ from .experiment import _binary_cost, _material_harm_onset, _synthetic_label_cos
 from .start_prior_sweep import beta_start_weights
 
 PROCESS_NAMES = ("fixed_mixture", "predictable_kelly", "plug_in_empirical_bernstein")
+START_PRIOR_SHAPES = {
+    "uniform_start_mixture": (1.0, 1.0),
+    "early_start_mixture": (1.0, 2.0),
+    "late_start_mixture": (2.0, 1.0),
+    "center_start_mixture": (2.0, 2.0),
+    "quarter_start_beta_4_12": (4.0, 12.0),
+}
 NULL_SCENARIOS = ("stationary", "benign_nuisance")
 ALTERNATIVE_SCENARIOS = (
     "boundary_local_harm",
@@ -223,19 +230,13 @@ def _run_stream(
     for method in methods:
         if method in PROCESS_NAMES:
             process = _process(method, bound, config.alpha)
-        elif method == "uniform_start_mixture":
+        elif method in START_PRIOR_SHAPES:
+            beta_shape = START_PRIOR_SHAPES[method]
             process = VectorizedStartedMixtureEProcess(
                 bound=bound,
                 alpha=config.alpha,
                 starts=start_positions,
-                weights=beta_start_weights(1.0, 1.0),
-            )
-        elif method == "late_start_mixture":
-            process = VectorizedStartedMixtureEProcess(
-                bound=bound,
-                alpha=config.alpha,
-                starts=start_positions,
-                weights=beta_start_weights(2.0, 1.0),
+                weights=beta_start_weights(*beta_shape),
             )
         else:
             raise ValueError(f"unknown monitor method {method!r}")

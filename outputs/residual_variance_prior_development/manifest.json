@@ -1,0 +1,82 @@
+{
+  "created_at_utc": "2026-10-24T10:54:09.372553+00:00",
+  "purpose": "development screen only; no null calibration or confirmatory inference",
+  "scenario": "residual_variance / target_variance",
+  "severities": [
+    1.5,
+    3.0,
+    4.5
+  ],
+  "query_rates": [
+    0.4,
+    0.8,
+    1.0
+  ],
+  "primary_selection_rates": [
+    0.8,
+    1.0
+  ],
+  "seeds_per_cell": 60,
+  "seed_range_inclusive": [
+    31302026,
+    31302085
+  ],
+  "n": 2400,
+  "methods": [
+    "fixed_mixture",
+    "uniform_start_mixture",
+    "early_start_mixture",
+    "late_start_mixture",
+    "center_start_mixture",
+    "quarter_start_beta_4_12"
+  ],
+  "prior_shapes": {
+    "uniform_start_mixture": [
+      1.0,
+      1.0
+    ],
+    "early_start_mixture": [
+      1.0,
+      2.0
+    ],
+    "late_start_mixture": [
+      2.0,
+      1.0
+    ],
+    "center_start_mixture": [
+      2.0,
+      2.0
+    ],
+    "quarter_start_beta_4_12": [
+      4.0,
+      12.0
+    ]
+  },
+  "planned_monitor_horizon": 1600,
+  "selection_rule": "maximize macro detection averaged equally across severity x primary query-rate cells; tie-break on maximin detection across severity groups",
+  "bootstrap_replicates": 10000,
+  "metric_rows": 3240,
+  "metrics_sha256": "10e3326dd7ca550387aee4038122758f0ec001cdc4e074dc807f53b0a24dbc6c",
+  "code_sha256": {
+    "residual_variance_prior_development.py": "4febc3a453a482b5f67c2e1fe5e4c8044358f033f69361614a1c556c49014724",
+    "risk_proxy_monitor_grid.py": "95c4dd3fd75f3d285ba3793c34da6243ce7f040fa153229adf64f291059c8a1c",
+    "start_prior_sweep.py": "7b36032aaea65da53dfd8386fd0b146c576dee470cb01b89bff8fc89f8ec7988"
+  },
+  "environment": {
+    "cpu_ram_bytes": 16858472448,
+    "disk_free_bytes": 21398859776,
+    "cuda_available": true,
+    "nvidia_smi": "NVIDIA GeForce RTX 4060 Laptop GPU, 8188 MiB, 592.82, 0 %, 97 MiB",
+    "torch_version": "2.9.1+cu130",
+    "cuda_runtime": "13.0",
+    "gpu_name": "NVIDIA GeForce RTX 4060 Laptop GPU",
+    "gpu_memory_bytes": 8585216000,
+    "versions": {
+      "numpy": "2.5.4",
+      "scipy": "1.18.1",
+      "pandas": "3.0.6",
+      "pyarrow": "25.0.1",
+      "folktables": "0.0.12"
+    }
+  }
+}

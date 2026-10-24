@@ -1,0 +1,89 @@
+{
+  "created_at_utc": "2026-10-24T22:48:55.458871+00:00",
+  "purpose": "exploratory regime-warning versus fixed abstention and promotion-rollback benchmark",
+  "status": "development_only_no_independent_selection_or_confirmation",
+  "scenarios": [
+    "stationary",
+    "benign_nuisance",
+    "boundary_local_harm",
+    "harmful_adaptation",
+    "persistent_benefit",
+    "rollback_boundary"
+  ],
+  "seeds_per_scenario": 500,
+  "seed_offset": 79102024,
+  "horizon_per_phase": 400,
+  "signal_strengths": [
+    0.0,
+    0.5,
+    1.0,
+    2.0
+  ],
+  "warning_false_positive_rates": [
+    0.01,
+    0.05,
+    0.1
+  ],
+  "static_coverages": [
+    0.25,
+    0.5,
+    0.75
+  ],
+  "warning_cost_per_event": 0.0005,
+  "promotion_cost": 0.05,
+  "rollback_cost": 0.05,
+  "query_rate": 0.8,
+  "budget_rate": 0.4,
+  "warning_feature_visible_at_prediction": true,
+  "oracle_truth_used_by_policy": false,
+  "all_label_caps_respected": true,
+  "metric_rows": 66000,
+  "contrast_rows": 756,
+  "metrics_sha256": "ec55038700cc2b4d78b4bcda70a61456edd89b5963da246b8809b4e5c601b200",
+  "code_sha256": {
+    "regime_warning_grid.py": "88cd9fea462f88f873e0a5474d8193c4f58269eb8a8de064f4d4ec753d454a8e",
+    "feature_intervention.py": "166dd06f5fc8ab2488b5d0660416fa511aad775cc67ea4fe90ec8ffe8e4d790c",
+    "closed_loop_intervention.py": "ad33b9a999814d447e95fcd9e8cbe1e39a78661dab2ca4a74a9c63da82fe44f8"
+  },
+  "environment": {
+    "cpu_ram_bytes": 16858472448,
+    "disk_free_bytes": 20389908480,
+    "cuda_available": true,
+    "nvidia_smi": "NVIDIA GeForce RTX 4060 Laptop GPU, 8188 MiB, 592.82, 0 %, 141 MiB",
+    "torch_version": "2.9.1+cu130",
+    "cuda_runtime": "13.0",
+    "gpu_name": "NVIDIA GeForce RTX 4060 Laptop GPU",
+    "gpu_memory_bytes": 8585216000,
+    "versions": {
+      "numpy": "2.5.4",
+      "scipy": "1.18.1",
+      "pandas": "3.0.6",
+      "pyarrow": "25.0.1",
+      "folktables": "0.0.12"
+    }
+  },
+  "command": [
+    "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\shift-research-starter\\.venv\\Scripts\\shiftlab-dive-regime-warning-grid",
+    "--seeds",
+    "500",
+    "--seed-offset",
+    "79102024",
+    "--horizon",
+    "400",
+    "--signal-strengths",
+    "0",
+    "0.5",
+    "1",
+    "2",
+    "--warning-false-positive-rates",
+    "0.01",
+    "0.05",
+    "0.10",
+    "--device",
+    "cuda",
+    "--bootstrap-replicates",
+    "2000",
+    "--output-dir",
+    "outputs/regime_warning_grid_500"
+  ]
+}

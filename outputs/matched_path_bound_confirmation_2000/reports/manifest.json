@@ -1,0 +1,58 @@
+{
+  "artifact_sha256": {
+    "metrics\\stream_metrics.parquet": "e5dd8f2bbf209170b7f6c98368c6d908024dd6468a0d0b30ef4942aa07347197",
+    "metrics\\summary.csv": "c9735f211cc7b7456341d19bb52110f2123f829986f52807960546a564b2a25d",
+    "outputs\\matched_path_bound_calibration_2000\\metrics\\calibration.csv": "7e9ecd2c0ca1433f202af6ba4004095f0de0aaadfa99d853c7c293754ddb988d",
+    "reports\\confirmation_results.md": "ffc21d57f5dc6210c802e042d6bf2e1c06c8ea5ed425c0442e95d03f68a6ee09",
+    "reports\\primary_result.json": "ae4ae442aee46464e1a8453dd77d71c3b274d2e6c232b157ed9c2cdbca6beab3"
+  },
+  "bound_modes": [
+    "fixed",
+    "eventwise"
+  ],
+  "cuda_version": "13.0",
+  "delay": 12,
+  "device_requested": "cuda",
+  "device_resolved": "cuda",
+  "experiment": "matched_path_bound_confirmation",
+  "generated_at_utc": "2026-10-24T21:13:30.600007+00:00",
+  "git_revision": "3172e5f409eb21ca82a5849d50fe9e82e9ff8144",
+  "horizon": 2400,
+  "limitations": [
+    "two-state Markov-volatility DGP only",
+    "fixed outcome-independent complete 12-event label delay",
+    "event-time full-history conditional-mean null required",
+    "frozen action pair and source proxy",
+    "standard predictable bounded-factor e-process; no novelty claim"
+  ],
+  "path_identity": "fixed/eventwise arms share queried labels, registered events, and processed prefix",
+  "python_version": "3.13.1",
+  "rows": 16000,
+  "runtime_seconds": 183.02001670002937,
+  "scenarios": [
+    "markov_volatility_harm_d0.04",
+    "markov_volatility_harm_d0.20",
+    "markov_volatility_harm_d0.40",
+    "markov_volatility_harm_d0.60"
+  ],
+  "schedule": {
+    "high_slots_per_10": 2,
+    "name": "periodic_q080",
+    "q_high": 0.8,
+    "q_low": 0.05
+  },
+  "seed_root": 28604027,
+  "source_sha256": {
+    "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\shift-research-starter\\scripts\\confirm_matched_path_bound_ablation.py": "e12d86a846b5a1a2cd54bf41cccdaa2337236cc2931f44b1465c7864cc8bced4",
+    "docs\\delayed_event_prefix_validity.md": "b577f4b47f01bce29dbe3857281d40babbd1572f471d1f0275f5f4b05354eb7a",
+    "docs\\matched_path_bound_ablation_protocol.md": "9b937d0271f7eae60adeaff4375a9c021e0a02c61e16abc5b441d8fe788d1c0c",
+    "docs\\matched_path_bound_confirmation_protocol.md": "acd640341da3c8fa2f94f24279a0dbe9582383592f89b791c31fe69088ff8a34",
+    "scripts\\calibrate_history_predictable_query_bounds.py": "d690fada02bab08c73f81bc7489ff97ec9a8af4f02375c24f374a61b89e390ee",
+    "scripts\\confirm_history_predictable_query_bounds.py": "c19b7eee90177393c1ca3063c6187ffe6d65a410b77f3c6cdbed85e8bfdbd871",
+    "scripts\\run_matched_path_bound_ablation.py": "3087d5ac019912c8ac4a6212ef73b50cb4383b6a2a9073e7b3b2c38134873024",
+    "scripts\\validate_markov_predictable_query_bounds.py": "e412848a89e4c2eb99c5766b416615cbac596bfd6a2e251e9ad4522ad2d43b6b"
+  },
+  "status": "disjoint_confirmation",
+  "streams_per_scenario_arm": 2000,
+  "torch_version": "2.9.1+cu130"
+}

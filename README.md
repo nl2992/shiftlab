@@ -162,6 +162,15 @@ block. These null cells are too small to calibrate false alarms, and schedule se
 exploratory. See the [protocol and results](docs/matched_path_bound_ablation_results.md) and
 [stream-level metrics](outputs/matched_path_bound_ablation_60/).
 
+An independent calibration and disjoint confirmation then tested the frozen `q∈{0.05,0.80}`
+periodic schedule. All four simultaneous 95% null upper limits were at most 3.29%, below the
+registered 5% gate. With query paths held identical, eventwise bounds improved mean detection by
+5.41 points (paired 95% interval [4.59, 6.25]) and used exactly the same labels as the fixed bound.
+The effect was concentrated at harm effects 0.40 and 0.60, while the weakest dose remained difficult.
+This isolates a simulator-specific range effect; it does not establish a new betting algorithm or
+external validity. See the [confirmation report](docs/matched_path_bound_confirmation_results.md)
+and the [calibration and confirmation artifacts](outputs/matched_path_bound_confirmation_2000/).
+
 The separate Paper 3 DIVE benchmark has 1,260 CUDA-generated rows (30 paired seeds, six scenarios,
 seven monitoring/query variants). The corrected null audit counts every alarm on stationary and
 benign-nuisance population-null streams as a false escalation, even when that particular finite

@@ -1,0 +1,5 @@
+scenario,bound_mode,streams,false_escalations,false_escalation_rate,detection_rate,onset_reach_rate,mean_labels,mean_events_processed,mean_event_delay,mean_wall_delay,mean_expected_exposure
+markov_volatility_exact_marginal_null,eventwise,2000,48,0.024,0.0,,474.7455,2373.744,,,0.0
+markov_volatility_exact_marginal_null,fixed,2000,15,0.0075,0.0,,474.7455,2373.744,,,0.0
+markov_volatility_strict_negative_control,eventwise,2000,42,0.021,0.0,,474.7455,2373.744,,,0.0
+markov_volatility_strict_negative_control,fixed,2000,10,0.005,0.0,,474.7455,2373.744,,,0.0

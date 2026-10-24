@@ -1,0 +1,85 @@
+{
+  "bootstrap_replicates": 10000,
+  "bootstrap_seed_root": 28703028,
+  "detection_gate_lower_bound": 0.02,
+  "dose_results": [
+    {
+      "effect": 0.04,
+      "eventwise_detection": 0.0055,
+      "eventwise_mean_expected_exposure": 45.777786666666664,
+      "eventwise_mean_labels": 475.0565,
+      "eventwise_pre_onset_alarms": 41,
+      "fixed_detection": 0.0075,
+      "fixed_mean_expected_exposure": 46.53510666666666,
+      "fixed_mean_labels": 475.0565,
+      "paired_detection_difference": -0.002,
+      "paired_expected_exposure_difference": -0.7573199999999999,
+      "paired_label_difference": 0.0,
+      "scenario": "markov_volatility_harm_d0.04"
+    },
+    {
+      "effect": 0.2,
+      "eventwise_detection": 0.017,
+      "eventwise_mean_expected_exposure": 227.79406666666665,
+      "eventwise_mean_labels": 475.0565,
+      "eventwise_pre_onset_alarms": 41,
+      "fixed_detection": 0.0115,
+      "fixed_mean_expected_exposure": 232.40466666666669,
+      "fixed_mean_labels": 475.0565,
+      "paired_detection_difference": 0.0055,
+      "paired_expected_exposure_difference": -4.610600000000001,
+      "paired_label_difference": 0.0,
+      "scenario": "markov_volatility_harm_d0.20"
+    },
+    {
+      "effect": 0.4,
+      "eventwise_detection": 0.0755,
+      "eventwise_mean_expected_exposure": 447.7538666666667,
+      "eventwise_mean_labels": 475.0565,
+      "eventwise_pre_onset_alarms": 41,
+      "fixed_detection": 0.027,
+      "fixed_mean_expected_exposure": 462.3657333333334,
+      "fixed_mean_labels": 475.0565,
+      "paired_detection_difference": 0.0485,
+      "paired_expected_exposure_difference": -14.611866666666668,
+      "paired_label_difference": 0.0,
+      "scenario": "markov_volatility_harm_d0.40"
+    },
+    {
+      "effect": 0.6,
+      "eventwise_detection": 0.219,
+      "eventwise_mean_expected_exposure": 641.565,
+      "eventwise_mean_labels": 475.0565,
+      "eventwise_pre_onset_alarms": 41,
+      "fixed_detection": 0.0545,
+      "fixed_mean_expected_exposure": 688.0598,
+      "fixed_mean_labels": 475.0565,
+      "paired_detection_difference": 0.1645,
+      "paired_expected_exposure_difference": -46.494800000000005,
+      "paired_label_difference": 0.0,
+      "scenario": "markov_volatility_harm_d0.60"
+    }
+  ],
+  "independent_calibration_path": "outputs\\matched_path_bound_calibration_2000\\metrics\\calibration.csv",
+  "independent_calibration_sha256": "7e9ecd2c0ca1433f202af6ba4004095f0de0aaadfa99d853c7c293754ddb988d",
+  "paired_bootstrap_95_ci_detection": [
+    0.045875,
+    0.0625
+  ],
+  "paired_bootstrap_95_ci_expected_exposure": [
+    -19.573534999999996,
+    -13.770513333333335
+  ],
+  "paired_bootstrap_95_ci_labels": [
+    0.0,
+    0.0
+  ],
+  "paired_mean_detection_difference": 0.054125,
+  "paired_mean_expected_exposure_difference": -16.618646666666667,
+  "paired_mean_label_difference": 0.0,
+  "passes_calibration_gate": true,
+  "passes_detection_gate": true,
+  "passes_no_extra_labels_gate": true,
+  "primary_estimand": "equal-weight macro over four doses of paired eventwise-minus-fixed post-onset detection under the frozen periodic q={0.05,0.80} schedule",
+  "retention_rule_passes": true
+}

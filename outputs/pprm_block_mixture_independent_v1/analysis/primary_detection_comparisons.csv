@@ -1,0 +1,10 @@
+scenario,comparator,streams,mixture_detections,mixture_rate,comparator_detections,comparator_rate,mixture_only,comparator_only,rate_difference_mixture_minus_comparator,difference_bootstrap_95_low,difference_bootstrap_95_high,mcnemar_exact_p,holm_adjusted_p
+boundary_local_harm,uniform_proxy,200,113,0.565,179,0.895,13,79,-0.33000000000000007,-0.415,-0.25,1.0733747410748014e-12,2.1467494821496028e-12
+boundary_local_harm,uniform_proxy_frozen,200,113,0.565,176,0.88,15,78,-0.31500000000000006,-0.4,-0.23,1.9393097995260696e-11,
+boundary_local_harm,pprm_block_adaptive,200,113,0.565,0,0.0,113,0,0.565,0.495,0.635,1.925929944387236e-34,
+recurring_regimes,uniform_proxy,200,119,0.595,172,0.86,13,66,-0.265,-0.345,-0.185,1.0781441177091488e-09,1.0781441177091488e-09
+recurring_regimes,uniform_proxy_frozen,200,119,0.595,172,0.86,13,66,-0.265,-0.345,-0.185,1.0781441177091488e-09,
+recurring_regimes,pprm_block_adaptive,200,119,0.595,0,0.0,119,0,0.595,0.525,0.66,3.009265538105056e-36,
+harmful_adaptation,uniform_proxy,200,116,0.58,194,0.97,2,80,-0.39,-0.46,-0.32,1.4078614025652531e-21,4.223584207695759e-21
+harmful_adaptation,uniform_proxy_frozen,200,116,0.58,191,0.955,4,79,-0.375,-0.45,-0.305,3.9973254947441296e-19,
+harmful_adaptation,pprm_block_adaptive,200,116,0.58,0,0.0,116,0,0.58,0.51,0.65,2.407412430484045e-35,

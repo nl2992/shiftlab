@@ -1,0 +1,19 @@
+{
+  "analysis": "independent_fixed_pprm_block_mixture_validation",
+  "candidate_mixture_weight": 0.1,
+  "seed_range": [
+    20373000,
+    20373199
+  ],
+  "run_manifest_sha256": "3c7707d16a4c57b63d257729f9cad3cbd37f169689cf773e5571f67af9bfbab8",
+  "input_metrics_sha256": "b7dadaa62530ec0001edc6173d5bc4e63ccbad72f620dbb92749f4534493b858",
+  "protocol_sha256": "8ad880d318d2ee0ef8fb8a4857f61fb0e774a0fd23a52ca9b5d6bcc232f01929",
+  "analysis_script_sha256": "c8deb3889e1487074f563674eb1931849b3763bcd444cb5b3b1c2b24afe42394",
+  "outputs_sha256": {
+    "primary_detection_comparisons.csv": "b934814cb4d2459dfb1d7d05d806e406966cd3e8b4a9d1bcdb12b44ee13d2394",
+    "null_control_false_escalations.csv": "946298a8b6c794950316db4c7e5fde2e913707596b802e1a98c50d4141728fb3",
+    "estimation_and_costs.csv": "d71023ba45b5407718b1c0929a591382a1079a2b1fca08959ced4b7dee4827ca",
+    "independent_mixture_validation.md": "73343094220e819da5d4e704db4d9512db1a97a36de39c5afbe96296e1e04db9",
+    "independent_mixture_detection.png": "a0f9a064633c7bf37780d00f0e864275b7086e456e63ccee9588b13cb88e99a5"
+  }
+}

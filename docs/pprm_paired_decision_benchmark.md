@@ -231,6 +231,41 @@ at the boundary. These counts are consistent with the nominal 5% level for this 
 endpoint design. They do not cover serially dependent feedback, non-immediate labels, or each
 registered synthetic null scenario, and they do not replace the theorem's assumptions.
 
+### Independent fixed-mixture validation
+
+The 10% mixture was then frozen and tested on a disjoint 200-seed block (seeds 20,373,000–20,373,199)
+at \(n=6400\), \(B=20\), four labels per block, and a 20% hard label budget. The experiment included
+200 streams each for stationary, benign-nuisance, residual-variance, boundary-local-harm,
+recurring-regime, and harmful-adaptation scenarios. The protocol, exact reproduction commands, and
+pre-run sample-size calculation are in
+[`docs/pprm_block_mixture_confirmation_protocol.md`](pprm_block_mixture_confirmation_protocol.md).
+
+The independent results do **not** support the block mixture as a better harm monitor. Its detection
+rates were 113/200 (56.5%) for boundary-local harm, 119/200 (59.5%) for recurring regimes, and
+116/200 (58.0%) for harmful adaptation. Eventwise updating PPI detected 179/200 (89.5%), 172/200
+(86.0%), and 194/200 (97.0%), respectively. Paired mixture-minus-eventwise differences were
+−33.0, −26.5, and −39.0 percentage points; each paired-bootstrap 95% interval excluded zero, and
+exact paired McNemar tests remained significant after Holm correction across the three primary
+scenarios. Harm onsets were reached in every harmful stream and no method exceeded its hard label
+budget. Mean label counts were similar (about 952 for the block method and 945 for eventwise PPI in
+harm scenarios), so the detection gap is not explained by a substantially lower query count. The
+mixture detected more harm than block CM-EB alone (0/200 in each scenario), but was inferior to both
+eventwise PPI comparators in detection rate. It should remain a research comparator, not advance as
+the preferred monitor.
+
+The fixed mixture and block CM-EB made 0/200 false escalations in each of the stationary,
+benign-nuisance, and residual-variance controls; eventwise controls also made none. These 200-stream
+scenario checks are useful independent diagnostics, but they do not satisfy the separate target of
+2,000 streams per registered null cell. The 2,000-stream endpoint stress test remains limited to
+i.i.d. two-point nulls. The sequential guarantee still depends on its conditional-mean, predictable-
+query, boundedness, and feedback assumptions; neither these simulations nor the e-process mixture
+settle those assumptions for delayed or adaptively sampled labels.
+
+The raw matched metrics, source/configuration manifest, paired analysis tables, and detection figure
+are under [`outputs/pprm_block_mixture_independent_v1/`](../outputs/pprm_block_mixture_independent_v1/).
+The main report is
+[`analysis/independent_mixture_validation.md`](../outputs/pprm_block_mixture_independent_v1/analysis/independent_mixture_validation.md).
+
 ## Matched experiment
 
 Compare the PPRM-style paired-cost confidence-sequence monitor with:

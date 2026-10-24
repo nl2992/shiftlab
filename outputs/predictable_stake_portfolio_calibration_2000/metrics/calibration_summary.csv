@@ -1,0 +1,5 @@
+scenario,method,streams,false_escalations,false_escalation_rate,simultaneous_one_sided_95_upper,budget_violations,support_violations
+markov_volatility_exact_marginal_null,fixed_mixture_eta1,2000,48,0.024,0.03285661932298278,0,0
+markov_volatility_exact_marginal_null,uniform_rebalanced_eta0,2000,88,0.044,0.055406842896192736,0,0
+markov_volatility_strict_negative_control,fixed_mixture_eta1,2000,4,0.002,0.005629306874382004,0,0
+markov_volatility_strict_negative_control,uniform_rebalanced_eta0,2000,5,0.0025,0.006370222909640552,0,0

@@ -1,0 +1,85 @@
+{
+  "candidates": [
+    {
+      "bootstrap_95_low": 0.025,
+      "dose_detection_differences": [
+        0.016666666666666666,
+        0.016666666666666666,
+        0.05,
+        0.11666666666666667
+      ],
+      "eta": 0.0,
+      "macro_detection_gain": 0.05,
+      "minimum_dose_detection_difference": 0.016666666666666666,
+      "passes_nomination_gate": true
+    },
+    {
+      "bootstrap_95_low": 0.0,
+      "dose_detection_differences": [
+        0.016666666666666666,
+        0.0,
+        0.0,
+        0.033333333333333354
+      ],
+      "eta": 0.25,
+      "macro_detection_gain": 0.0125,
+      "minimum_dose_detection_difference": 0.0,
+      "passes_nomination_gate": false
+    },
+    {
+      "bootstrap_95_low": 0.0,
+      "dose_detection_differences": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "eta": 0.5,
+      "macro_detection_gain": 0.0,
+      "minimum_dose_detection_difference": 0.0,
+      "passes_nomination_gate": false
+    },
+    {
+      "bootstrap_95_low": 0.0,
+      "dose_detection_differences": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "eta": 0.75,
+      "macro_detection_gain": 0.0,
+      "minimum_dose_detection_difference": 0.0,
+      "passes_nomination_gate": false
+    },
+    {
+      "bootstrap_95_low": 0.0,
+      "dose_detection_differences": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "eta": 1.5,
+      "macro_detection_gain": 0.0,
+      "minimum_dose_detection_difference": 0.0,
+      "passes_nomination_gate": false
+    },
+    {
+      "bootstrap_95_low": 0.0,
+      "dose_detection_differences": [
+        0.0,
+        0.0,
+        0.016666666666666663,
+        0.016666666666666663
+      ],
+      "eta": 2.0,
+      "macro_detection_gain": 0.008333333333333333,
+      "minimum_dose_detection_difference": 0.0,
+      "passes_nomination_gate": false
+    }
+  ],
+  "interpretation": "Any nomination requires fresh independent null calibration and disjoint confirmation; this development block does not establish validity or performance.",
+  "selected_eta": 0.0,
+  "status": "development_nomination_only"
+}

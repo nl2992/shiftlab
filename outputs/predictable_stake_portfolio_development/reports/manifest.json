@@ -1,0 +1,162 @@
+{
+  "artifact_sha256": {
+    "metrics\\paired_detection_contrasts.csv": "1512a58775c98c3a586c25effcc1dc2bcfe32d3422b4ad738690724c831712c7",
+    "metrics\\stream_metrics.parquet": "2d594b36c002e1cd56450c07818d47bd5e23e68cc4b1588f6a229bbf1c1f873b",
+    "metrics\\summary.csv": "cde8061da3c2fc26cf2ff1e9ab222ad4ed45ec2cb8f3c674857685a9293b36d8",
+    "reports\\development_results.md": "39aff64d9e60bdb78cae77eb862a68d793e422ea0f7b8b1a13d7bea1ab1414fa",
+    "reports\\selection.json": "9313f384a2f36528f622678fa8f330586b7557ff82f88a1d70f9317fb9af4c5b"
+  },
+  "budget_rate": 0.2,
+  "checks": {
+    "all_label_budgets_respected": true,
+    "eta_one_equals_fixed_mixture": true,
+    "no_support_bound_violations": true,
+    "shared_paths_across_eta": true
+  },
+  "cuda_version": "13.0",
+  "delay": 12,
+  "device_requested": "cuda",
+  "device_resolved": "cuda",
+  "etas": [
+    0.0,
+    0.25,
+    0.5,
+    0.75,
+    1.0,
+    1.5,
+    2.0
+  ],
+  "experiment": "predictable_stake_portfolio_development",
+  "generated_at_utc": "2026-10-24T21:21:55.520803+00:00",
+  "git_revision": "6e3bb34fc0b3968b4556baa02deac54aa0db91c9",
+  "horizon": 2400,
+  "limitations": [
+    "60-stream development only; no false-alarm calibration",
+    "two-state Markov-volatility DGP only",
+    "fixed complete outcome-independent delay of 12 events",
+    "fixed policy pair and source-trained proxy",
+    "predictable convex factor portfolio is a standard construction; no novelty claim"
+  ],
+  "python_version": "3.13.1",
+  "rows": 2520,
+  "runtime_seconds": 140.5005856999196,
+  "scenarios": [
+    "markov_volatility_exact_marginal_null",
+    "markov_volatility_strict_negative_control",
+    "markov_volatility_harm_d0.04",
+    "markov_volatility_harm_d0.20",
+    "markov_volatility_harm_d0.40",
+    "markov_volatility_harm_d0.60"
+  ],
+  "schedule": {
+    "high": 0.8,
+    "high_slots_per_10": 2,
+    "low": 0.05,
+    "name": "periodic_q080"
+  },
+  "seed_root": 28704027,
+  "selection": {
+    "candidates": [
+      {
+        "bootstrap_95_low": 0.025,
+        "dose_detection_differences": [
+          0.016666666666666666,
+          0.016666666666666666,
+          0.05,
+          0.11666666666666667
+        ],
+        "eta": 0.0,
+        "macro_detection_gain": 0.05,
+        "minimum_dose_detection_difference": 0.016666666666666666,
+        "passes_nomination_gate": true
+      },
+      {
+        "bootstrap_95_low": 0.0,
+        "dose_detection_differences": [
+          0.016666666666666666,
+          0.0,
+          0.0,
+          0.033333333333333354
+        ],
+        "eta": 0.25,
+        "macro_detection_gain": 0.0125,
+        "minimum_dose_detection_difference": 0.0,
+        "passes_nomination_gate": false
+      },
+      {
+        "bootstrap_95_low": 0.0,
+        "dose_detection_differences": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "eta": 0.5,
+        "macro_detection_gain": 0.0,
+        "minimum_dose_detection_difference": 0.0,
+        "passes_nomination_gate": false
+      },
+      {
+        "bootstrap_95_low": 0.0,
+        "dose_detection_differences": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "eta": 0.75,
+        "macro_detection_gain": 0.0,
+        "minimum_dose_detection_difference": 0.0,
+        "passes_nomination_gate": false
+      },
+      {
+        "bootstrap_95_low": 0.0,
+        "dose_detection_differences": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "eta": 1.5,
+        "macro_detection_gain": 0.0,
+        "minimum_dose_detection_difference": 0.0,
+        "passes_nomination_gate": false
+      },
+      {
+        "bootstrap_95_low": 0.0,
+        "dose_detection_differences": [
+          0.0,
+          0.0,
+          0.016666666666666663,
+          0.016666666666666663
+        ],
+        "eta": 2.0,
+        "macro_detection_gain": 0.008333333333333333,
+        "minimum_dose_detection_difference": 0.0,
+        "passes_nomination_gate": false
+      }
+    ],
+    "interpretation": "Any nomination requires fresh independent null calibration and disjoint confirmation; this development block does not establish validity or performance.",
+    "selected_eta": 0.0,
+    "status": "development_nomination_only"
+  },
+  "source_sha256": {
+    "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\shift-research-starter\\scripts\\run_predictable_stake_portfolio.py": "938b08b6e5375cf36a93a3060929b61e1820622593cdb2c19a3ffa51a80b2256",
+    "docs\\\\predictable_stake_portfolio_development_protocol.md": "02726a712defdd0db883e0ef5dfd7712a302f7ceb5ced14cd046de711e430330",
+    "docs\\delayed_event_prefix_validity.md": "b577f4b47f01bce29dbe3857281d40babbd1572f471d1f0275f5f4b05354eb7a",
+    "scripts\\calibrate_history_predictable_query_bounds.py": "d690fada02bab08c73f81bc7489ff97ec9a8af4f02375c24f374a61b89e390ee",
+    "scripts\\confirm_history_predictable_query_bounds.py": "c19b7eee90177393c1ca3063c6187ffe6d65a410b77f3c6cdbed85e8bfdbd871",
+    "scripts\\run_matched_path_bound_ablation.py": "3087d5ac019912c8ac4a6212ef73b50cb4383b6a2a9073e7b3b2c38134873024",
+    "scripts\\validate_markov_predictable_query_bounds.py": "e412848a89e4c2eb99c5766b416615cbac596bfd6a2e251e9ad4522ad2d43b6b"
+  },
+  "stakes": [
+    0.05,
+    0.1,
+    0.2,
+    0.4,
+    0.8
+  ],
+  "status": "development_only_not_calibration_or_confirmation",
+  "streams_per_scenario_eta": 60,
+  "torch_version": "2.9.1+cu130"
+}

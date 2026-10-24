@@ -1,0 +1,62 @@
+{
+  "artifact_sha256": {
+    "metrics\\calibration_summary.csv": "ea77a65672f8fd5c4030c604d9065929950f7f6924776252eacf4433e80db3ad",
+    "metrics\\stream_metrics.parquet": "205465a4c2f5f7160223823f71b02071982314eafcca1008be4ee85954ce642d",
+    "reports\\calibration_results.md": "bf7e92bb450ee2d84048541b56532bbc19f00e3bfe3a38a2e94696a737896b8b"
+  },
+  "budget_and_support_checks_passed": true,
+  "budget_rate": 0.2,
+  "calibration_gate_passed": false,
+  "calibration_summary": null,
+  "cuda_version": "13.0",
+  "delay": 12,
+  "development_manifest": "outputs\\predictable_stake_portfolio_development\\reports\\manifest.json",
+  "device_requested": "cuda",
+  "device_resolved": "cuda",
+  "experiment": "predictable_stake_portfolio_calibration",
+  "generated_at_utc": "2026-10-24T21:27:49.439743+00:00",
+  "git_revision": "6e3bb34fc0b3968b4556baa02deac54aa0db91c9",
+  "horizon": 2400,
+  "limitations": [
+    "two-state Markov-volatility DGP only",
+    "fixed complete outcome-independent delay of 12 events",
+    "fixed action pair and source-trained proxy",
+    "standard predictable convex betting construction; no novelty claim"
+  ],
+  "methods": [
+    "uniform_rebalanced_eta0",
+    "fixed_mixture_eta1"
+  ],
+  "python_version": "3.13.1",
+  "rows": 8000,
+  "runtime_seconds": 110.5553809000412,
+  "scenarios": [
+    "markov_volatility_exact_marginal_null",
+    "markov_volatility_strict_negative_control"
+  ],
+  "schedule": {
+    "high": 0.8,
+    "high_slots_per_10": 2,
+    "low": 0.05,
+    "name": "periodic_q080"
+  },
+  "seed_root": 28714027,
+  "shared_path_checks": {
+    "events_processed": true,
+    "labels_queried": true,
+    "registered_events": true
+  },
+  "source_sha256": {
+    "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\shift-research-starter\\scripts\\confirm_predictable_stake_portfolio.py": "4223c149e99e026e73fe6715ff40d77b2c7e5abb83f557358a60bc2e64f2c80b",
+    "docs/predictable_stake_portfolio_calibration_protocol_as_run.md": "738ee068547343ed6078ec0e780363c3db12dc7dfbf0535ace0fec5849f47f78",
+    "docs\\delayed_event_prefix_validity.md": "b577f4b47f01bce29dbe3857281d40babbd1572f471d1f0275f5f4b05354eb7a",
+    "scripts\\calibrate_history_predictable_query_bounds.py": "d690fada02bab08c73f81bc7489ff97ec9a8af4f02375c24f374a61b89e390ee",
+    "scripts\\confirm_history_predictable_query_bounds.py": "c19b7eee90177393c1ca3063c6187ffe6d65a410b77f3c6cdbed85e8bfdbd871",
+    "scripts\\run_matched_path_bound_ablation.py": "3087d5ac019912c8ac4a6212ef73b50cb4383b6a2a9073e7b3b2c38134873024",
+    "scripts\\run_predictable_stake_portfolio.py": "938b08b6e5375cf36a93a3060929b61e1820622593cdb2c19a3ffa51a80b2256",
+    "scripts\\validate_markov_predictable_query_bounds.py": "e412848a89e4c2eb99c5766b416615cbac596bfd6a2e251e9ad4522ad2d43b6b"
+  },
+  "status": "independent_null_calibration",
+  "streams_per_scenario_method": 2000,
+  "torch_version": "2.9.1+cu130"
+}

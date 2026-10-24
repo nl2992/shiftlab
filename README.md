@@ -171,6 +171,18 @@ This isolates a simulator-specific range effect; it does not establish a new bet
 external validity. See the [confirmation report](docs/matched_path_bound_confirmation_results.md)
 and the [calibration and confirmation artifacts](outputs/matched_path_bound_confirmation_2000/).
 
+A separate predictable stake-portfolio screen compared equal per-event rebalancing with the fixed
+mixture on identical delayed-feedback paths. In the 60-seed development block, equal rebalancing
+increased macro detection from 6.25% to 11.25% (+5.00 points; paired bootstrap 95% interval
+[+2.50, +7.92]). Its fresh 2,000-stream-per-cell null calibration did not clear the frozen
+simultaneous 5% upper-limit gate: the exact-null upper limit was 5.54% for equal rebalancing.
+Therefore the disjoint harm confirmation was not run; the development power result is exploratory
+only. The selected `eta=0` rule uses uniform weights at each event and is not history-adaptive.
+This is a standard predictable betting construction, with no novelty claim. See the
+[protocol and decision](docs/predictable_stake_portfolio_results.md),
+[development artifacts](outputs/predictable_stake_portfolio_development/), and
+[null calibration](outputs/predictable_stake_portfolio_calibration_2000/).
+
 The separate Paper 3 DIVE benchmark has 1,260 CUDA-generated rows (30 paired seeds, six scenarios,
 seven monitoring/query variants). The corrected null audit counts every alarm on stationary and
 benign-nuisance population-null streams as a false escalation, even when that particular finite

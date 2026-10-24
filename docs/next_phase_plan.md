@@ -1,5 +1,13 @@
 # Next research phase: decision-harm evidence efficiency
 
+**Latest diagnostic:** the 60-seed 20% comparison was re-analyzed with learner and full-feedback
+event traces. Under boundary-local harm, full feedback crossed in 60/60 streams at mean delay 396,
+while PPI monitoring crossed in 6/60 uniform and 4/60 evidence-curve streams at delays around
+1,466–1,502 events. Mean PPI increment variance was 7.66–8.67 versus 1.47 for full feedback.
+This points to sparse-feedback estimator/support variance as the signal bottleneck; the evidence
+curve did not help. These are same-seed descriptive diagnostics, not fresh confirmation. See
+[`monitor_signal_diagnostic_results.md`](monitor_signal_diagnostic_results.md).
+
 **Status:** Updated after the 30-seed harm severity/onset/horizon grid completed. This is an experiment sequence, not a claim that the repository's three paper tracks are complete.
 
 ## Decision from the latest study

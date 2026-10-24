@@ -200,6 +200,8 @@ Thumbs.db
 !outputs/evidence_urgency_curve_grid_30/**
 !outputs/evidence_budget20_comparison_60/
 !outputs/evidence_budget20_comparison_60/**
+!outputs/monitor_signal_diagnostic_20_60_v2/
+!outputs/monitor_signal_diagnostic_20_60_v2/**
 !outputs/closed_loop_intervention/
 !outputs/closed_loop_intervention/**
 !outputs/intervention_sensitivity_development/

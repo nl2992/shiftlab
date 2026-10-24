@@ -306,6 +306,37 @@ def test_hard_budget_null_control_generates_report_without_harm_scenario(tmp_pat
     assert (output / "figures" / "hard_budget_tradeoff.png").is_file()
 
 
+def test_event_trace_separates_unobserved_labels_and_evaluator_feedback(tmp_path):
+    output = run_hard_budget(
+        HardBudgetConfig(
+            n=1200,
+            seeds=1,
+            budget_rate=0.20,
+            q_min=0.10,
+            q_max=0.80,
+            device="cpu",
+            scenario_subset=("boundary_local_harm",),
+            method_subset=("uniform_proxy",),
+            generate_figure=False,
+            record_event_traces=True,
+        ),
+        tmp_path / "event_trace",
+    )
+    trace = pd.read_parquet(output / "metrics" / "event_traces.parquet")
+    assert len(trace) > 0
+    assert trace.propensity.between(0.10, 0.80).all()
+    assert trace.loc[~trace.queried, "learner_observed_excess_cost"].isna().all()
+    assert trace.loc[trace.queried, "learner_observed_excess_cost"].notna().all()
+    assert "evaluator_expected_excess_cost" in trace
+    assert np.allclose(
+        trace.evaluator_expected_excess_cost,
+        trace.evaluator_expected_paired_cost_difference - trace.evaluator_harm_margin,
+    )
+    assert "evaluator_full_feedback_log_e" in trace
+    assert "expected_cost_difference" not in trace
+    assert not (output / "figures" / "hard_budget_tradeoff.png").exists()
+
+
 def test_exact_growth_cost_neutral_branch_has_target_spend_compensator(tmp_path):
     output = run_hard_budget(
         HardBudgetConfig(

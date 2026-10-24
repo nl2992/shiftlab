@@ -119,6 +119,7 @@ class HardBudgetConfig:
     max_label_cost: float = 2.5
     common_eprocess_bound: bool = False
     generate_figure: bool = True
+    record_event_traces: bool = False
     scenario_severity: float | None = None
     change_fraction: float = 0.5
     device: str = "auto"
@@ -217,6 +218,7 @@ def _one_method(
     common_uniforms: np.ndarray,
     contrast_zero: np.ndarray,
     contrast_one: np.ndarray,
+    event_trace_rows: list[dict[str, object]] | None = None,
 ) -> dict[str, object]:
     validation_end = monitor_start
     validation_x = x[train_end:validation_end]
@@ -325,6 +327,9 @@ def _one_method(
     process = BoundedMeanEProcess(
         bound=prediction_powered_bound(proxy.clip, minimum_propensity), alpha=config.alpha
     )
+    # Evaluator-only full-feedback comparator. Its updates are never exposed to
+    # the acquisition policy, proxy, or learner-side monitor.
+    evaluator_process = BoundedMeanEProcess(bound=proxy.clip, alpha=config.alpha)
     start_positions = tuple(sorted({0, event_count // 4, event_count // 2, 3 * event_count // 4}))
     started_mixture_process = StartedMixtureEProcess(
         bound=prediction_powered_bound(proxy.clip, minimum_propensity),
@@ -456,6 +461,36 @@ def _one_method(
         truths.append(float(centered_cost_difference[index]))
         processed += 1
         process_value = process.update(estimate)
+        evaluator_increment = float(centered_cost_difference[index])
+        evaluator_process.update(evaluator_increment)
+        if event_trace_rows is not None:
+            event_trace_rows.append(
+                {
+                    "seed": seed,
+                    "scenario": scenario.name,
+                    "method": method,
+                    "event_offset": offset,
+                    "stream_index": index,
+                    "propensity": propensity,
+                    "queried": queried,
+                    # Missing by construction when the learner did not query.
+                    "learner_observed_excess_cost": observed,
+                    "proxy_prediction": h_now,
+                    "ppi_increment": estimate,
+                    "learner_log_e": process.log_e_value,
+                    "evaluator_expected_paired_cost_difference": float(
+                        expected_cost_difference[index]
+                    ),
+                    "evaluator_harm_margin": config.harm_margin,
+                    "evaluator_expected_excess_cost": float(
+                        expected_cost_difference[index] - config.harm_margin
+                    ),
+                    "evaluator_full_feedback_increment": evaluator_increment,
+                    "evaluator_full_feedback_log_e": evaluator_process.log_e_value,
+                    "evaluator_harm_onset_event": harm_onset,
+                    "evaluator_threshold_log": threshold,
+                }
+            )
         if first_alarm is None and process_value >= threshold:
             first_alarm = offset
         started_mixture_value = started_mixture_process.update(estimate)
@@ -848,7 +883,11 @@ def _one_pprm_block_method(
 
 
 def _generate_stream_rows(
-    scenario, seed: int, config: HardBudgetConfig, common_uniforms: np.ndarray
+    scenario,
+    seed: int,
+    config: HardBudgetConfig,
+    common_uniforms: np.ndarray,
+    event_trace_rows: list[dict[str, object]] | None = None,
 ) -> list[dict[str, object]]:
     if config.scenario_severity is not None:
         scenario = replace(scenario, severity=config.scenario_severity)
@@ -959,6 +998,7 @@ def _generate_stream_rows(
                     common_uniforms=common_uniforms,
                     contrast_zero=contrast_zero,
                     contrast_one=contrast_one,
+                    event_trace_rows=event_trace_rows,
                 )
             )
     if "robust_mixture_growth_proxy" in config.method_subset:
@@ -1331,6 +1371,7 @@ def run_hard_budget(config: HardBudgetConfig, output: Path) -> Path:
     scenario_set = set(config.scenario_subset)
     selected_scenarios = [scenario for scenario in SCENARIOS if scenario.name in scenario_set]
     rows = []
+    event_trace_rows: list[dict[str, object]] = []
     for scenario in selected_scenarios:
         for replicate in range(config.seeds):
             seed = config.seed_offset + replicate
@@ -1340,12 +1381,27 @@ def run_hard_budget(config: HardBudgetConfig, output: Path) -> Path:
                 f"hard-budget scenario={scenario.name} replicate={replicate + 1}/{config.seeds} device={config.device}",
                 flush=True,
             )
-            rows.extend(_generate_stream_rows(scenario, seed, config, common_uniforms))
+            rows.extend(
+                _generate_stream_rows(
+                    scenario,
+                    seed,
+                    config,
+                    common_uniforms,
+                    event_trace_rows if config.record_event_traces else None,
+                )
+            )
     metrics = pd.DataFrame(rows)
     metrics = apply_population_null_classification(metrics)
     if not metrics.budget_respected.all():
         raise RuntimeError("a run exceeded its hard label-dollar budget")
     metrics.to_parquet(metrics_path, index=False)
+    if config.record_event_traces:
+        trace_path = metrics_dir / "event_traces.parquet"
+        if not event_trace_rows:
+            raise RuntimeError(
+                "event tracing requested but no learner monitor events were recorded"
+            )
+        pd.DataFrame(event_trace_rows).to_parquet(trace_path, index=False)
     summary = _summarize(metrics)
     summary.to_csv(metrics_dir / "hard_budget_summary.csv", index=False)
 
@@ -1432,6 +1488,7 @@ def run_hard_budget(config: HardBudgetConfig, output: Path) -> Path:
                 f"--methods {' '.join(config.method_subset)} "
                 f"{'--common-eprocess-bound ' if config.common_eprocess_bound else ''}"
                 f"{'--skip-figure ' if not config.generate_figure else ''}"
+                f"{'--record-event-traces ' if config.record_event_traces else ''}"
                 f"--output {output.as_posix()}`."
             ),
             "",
@@ -1467,6 +1524,7 @@ def run_hard_budget(config: HardBudgetConfig, output: Path) -> Path:
             "E-process validity requires the conditional-mean null and bounded corrected increments.",
             "The sum of q_t * tariff_t along the realized stopping path is a compensator, not pathwise-capped actual spend.",
             "E-process minimum propensities are recorded per method; common_eprocess_bound can enforce a shared q_min bound for sensitivity runs.",
+            "Optional event traces keep learner-observed values separate from evaluator-only expected costs and full-feedback outcomes.",
         ],
     }
     (reports_dir / "manifest.json").write_text(json.dumps(manifest, indent=2), encoding="utf-8")
@@ -1510,6 +1568,11 @@ def main(argv: list[str] | None = None) -> None:
         action="store_true",
         help="omit chart generation when PaperBanana is unavailable",
     )
+    parser.add_argument(
+        "--record-event-traces",
+        action="store_true",
+        help="save eventwise learner and evaluator diagnostic traces (evaluator fields are never learner inputs)",
+    )
     parser.add_argument("--scenarios", nargs="+", choices=[scenario.name for scenario in SCENARIOS])
     parser.add_argument("--methods", nargs="+", choices=HARD_BUDGET_METHODS)
     parser.add_argument("--device", choices=["auto", "cpu", "cuda"], default="auto")
@@ -1533,6 +1596,7 @@ def main(argv: list[str] | None = None) -> None:
         pprm_initial_reliance=args.pprm_initial_reliance,
         common_eprocess_bound=args.common_eprocess_bound,
         generate_figure=not args.skip_figure,
+        record_event_traces=args.record_event_traces,
         device=args.device,
         scenario_subset=tuple(args.scenarios or HardBudgetConfig.scenario_subset),
         method_subset=tuple(args.methods or DEFAULT_HARD_BUDGET_METHODS),

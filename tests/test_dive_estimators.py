@@ -3,6 +3,7 @@ import pytest
 
 from shiftlab.dive.estimators import (
     AdaptiveReliance,
+    pprm_block_estimate,
     prediction_powered_bound,
     prediction_powered_estimate,
 )
@@ -42,3 +43,49 @@ def test_adaptive_reliance_uses_only_past_pairs_and_updates_after_feedback():
     assert 0 <= initial <= reliance.max_reliance
     reliance.observe(proxy_value=0.9, observed_value=0.45)
     assert len(reliance.observed_values) == 21
+
+
+def test_pprm_block_estimate_matches_labeled_mean_when_proxy_is_constant():
+    labeled = np.array([0.2, 0.8, 0.4])
+    estimate = pprm_block_estimate(
+        labeled,
+        np.full(3, 0.3),
+        np.full(12, 0.3),
+        reliance=0.75,
+    )
+    assert estimate == pytest.approx(labeled.mean())
+
+
+def test_pprm_block_estimator_has_declared_support_and_rejects_bad_inputs():
+    for reliance in (0.0, 0.25, 1.0, 3.5):
+        estimate = pprm_block_estimate(
+            np.array([0.0, 1.0]),
+            np.array([1.0, 0.0]),
+            np.array([0.0, 1.0, 0.5]),
+            reliance=reliance,
+        )
+        assert -reliance <= estimate <= 1 + reliance
+    with pytest.raises(ValueError, match="nonempty"):
+        pprm_block_estimate(np.array([]), np.array([]), np.array([0.5]), reliance=1.0)
+    with pytest.raises(ValueError, match=r"\[0, 1\]"):
+        pprm_block_estimate(np.array([1.1]), np.array([0.5]), np.array([0.5]), reliance=1.0)
+
+
+def test_pprm_block_estimator_is_unbiased_under_identical_disjoint_sample_laws():
+    # Exact enumeration for one independent labeled and one unlabeled draw from
+    # the same finite population; no Monte Carlo tolerance is needed.
+    values = np.array([0.0, 1.0, 0.25])
+    proxies = np.array([0.2, 0.8, 0.6])
+    probabilities = np.array([0.2, 0.5, 0.3])
+    reliance = 1.4
+    expected = 0.0
+    for label_index, p_label in enumerate(probabilities):
+        for unlabeled_index, p_unlabeled in enumerate(probabilities):
+            estimate = pprm_block_estimate(
+                np.array([values[label_index]]),
+                np.array([proxies[label_index]]),
+                np.array([proxies[unlabeled_index]]),
+                reliance=reliance,
+            )
+            expected += p_label * p_unlabeled * estimate
+    assert expected == pytest.approx(float(np.dot(probabilities, values)))

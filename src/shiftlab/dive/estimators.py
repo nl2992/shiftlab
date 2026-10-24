@@ -39,6 +39,40 @@ def prediction_powered_bound(outcome_bound: float, min_propensity: float) -> flo
     return float(outcome_bound * (2 / min_propensity - 1))
 
 
+def pprm_block_estimate(
+    labeled_values: np.ndarray,
+    labeled_proxy_values: np.ndarray,
+    unlabeled_proxy_values: np.ndarray,
+    *,
+    reliance: float,
+) -> float:
+    """Return a PPI block estimate from disjoint labeled and unlabeled samples.
+
+    Inputs must be in ``[0, 1]``. The two samples must represent the same block
+    distribution, and ``reliance`` must be fixed before the block is observed.
+    Under those conditions the result is unbiased for the block mean for any
+    nonnegative reliance value. It lies in ``[-reliance, 1 + reliance]``.
+    This estimator alone is not a confidence sequence or a monitoring guarantee.
+    """
+    labeled = np.asarray(labeled_values, dtype=float).reshape(-1)
+    labeled_proxy = np.asarray(labeled_proxy_values, dtype=float).reshape(-1)
+    unlabeled_proxy = np.asarray(unlabeled_proxy_values, dtype=float).reshape(-1)
+    if len(labeled) == 0 or len(unlabeled_proxy) == 0:
+        raise ValueError("PPI blocks require nonempty labeled and unlabeled samples")
+    if len(labeled) != len(labeled_proxy):
+        raise ValueError("labeled values and labeled proxy values must match")
+    if not np.isfinite(reliance) or reliance < 0:
+        raise ValueError("reliance must be finite and nonnegative")
+    for name, values in (
+        ("labeled_values", labeled),
+        ("labeled_proxy_values", labeled_proxy),
+        ("unlabeled_proxy_values", unlabeled_proxy),
+    ):
+        if not np.isfinite(values).all() or np.any((values < 0) | (values > 1)):
+            raise ValueError(f"{name} must contain finite values in [0, 1]")
+    return float(reliance * unlabeled_proxy.mean() + np.mean(labeled - reliance * labeled_proxy))
+
+
 class AdaptiveReliance:
     """Prequential PPRM-style scalar tuning of reliance on a loss proxy.
 

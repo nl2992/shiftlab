@@ -158,24 +158,33 @@ def _paired_contrasts(
         raise ValueError("confirmation does not contain the frozen cell and seed family")
     if query_policies == ("uniform",):
         comparisons = [
-            (name, "uniform", comparator, "uniform", primary)
+            (name, "uniform", EVENTWISE_METHOD, "uniform", comparator, primary)
             for name, comparator, primary in COMPARATORS
         ]
     elif set(query_policies) == {"uniform", "variance"}:
         comparisons = [
-            ("variance_eventwise_minus_rank", "variance", EVENTWISE_METHOD, "variance", True),
+            (
+                "variance_eventwise_minus_rank",
+                "variance",
+                EVENTWISE_METHOD,
+                "variance",
+                "rank",
+                True,
+            ),
             (
                 "variance_eventwise_minus_nested_volume",
                 "variance",
-                "rank_context_volume",
+                EVENTWISE_METHOD,
                 "variance",
+                "rank_context_volume",
                 True,
             ),
             (
                 "variance_eventwise_minus_minimum_bound",
                 "variance",
-                "scout_context_policy",
+                EVENTWISE_METHOD,
                 "variance",
+                "scout_context_policy",
                 False,
             ),
             (
@@ -183,15 +192,21 @@ def _paired_contrasts(
                 "variance",
                 EVENTWISE_METHOD,
                 "uniform",
+                EVENTWISE_METHOD,
                 False,
             ),
         ]
     else:
         raise ValueError("confirmation supports the uniform baseline or matched uniform/variance")
     rows: list[dict[str, object]] = []
-    for contrast_index, (name, candidate_query, comparator, comparator_query, primary) in enumerate(
-        comparisons
-    ):
+    for contrast_index, (
+        name,
+        candidate_query,
+        candidate_method,
+        comparator_query,
+        comparator_method,
+        primary,
+    ) in enumerate(comparisons):
         difference = np.empty((len(cells), len(seeds)), dtype=float)
         for cell_index, (scenario, budget_rate) in enumerate(cells):
             cell = detail.loc[
@@ -199,10 +214,11 @@ def _paired_contrasts(
             ]
             candidate = cell.loc[
                 cell["query_policy"].eq(candidate_query)
-                & cell["alpha_allocation"].eq(EVENTWISE_METHOD)
+                & cell["alpha_allocation"].eq(candidate_method)
             ].sort_values("seed")
             baseline = cell.loc[
-                cell["query_policy"].eq(comparator_query) & cell["alpha_allocation"].eq(comparator)
+                cell["query_policy"].eq(comparator_query)
+                & cell["alpha_allocation"].eq(comparator_method)
             ].sort_values("seed")
             if (
                 len(candidate) != len(seeds)
@@ -543,6 +559,99 @@ def run_confirmation(
     return report_path
 
 
+def reanalyze_existing_confirmation(
+    *,
+    output: Path,
+    bootstrap_draws: int = BOOTSTRAP_DRAWS,
+    bootstrap_seed: int = BOOTSTRAP_SEED,
+) -> Path:
+    """Recompute frozen paired contrasts from an existing, integrity-checked stream table."""
+    reports_dir = output / "reports"
+    metrics_dir = output / "metrics"
+    manifest_path = reports_dir / "manifest.json"
+    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    detail_path = metrics_dir / "eventwise_markov_confirmation_streams.parquet"
+    detail = pd.read_parquet(detail_path)
+    configuration = manifest["configuration"]
+    query_policies = tuple(configuration.get("query_policies", ("uniform",)))
+    seeds = int(configuration["seeds_per_cell"])
+    expected_cells = detail[["scenario", "budget_rate"]].drop_duplicates().shape[0]
+    expected_rows = seeds * expected_cells * len(METHODS) * len(query_policies)
+    key = ["scenario", "query_policy", "budget_rate", "seed", "alpha_allocation"]
+    if len(detail) != expected_rows or detail.duplicated(key).any():
+        raise ValueError("cannot reanalyze an incomplete or duplicated confirmation stream table")
+    if set(detail.query_policy) != set(query_policies):
+        raise ValueError("confirmation stream query policies disagree with its manifest")
+    if detail.cap_violation.any() or detail.propensity_min.isna().any():
+        raise ValueError("cannot reanalyze streams that failed cap or support checks")
+
+    contrasts = _paired_contrasts(
+        detail,
+        draws=bootstrap_draws,
+        seed=bootstrap_seed,
+        query_policies=query_policies,
+        expected_cells=expected_cells,
+    )
+    contrasts_path = metrics_dir / "eventwise_markov_confirmation_contrasts.parquet"
+    contrasts.to_parquet(contrasts_path, index=False)
+    primary = contrasts.loc[contrasts.primary_comparison]
+    full_design = seeds >= MIN_SEEDS
+    confirmation_pass = bool(full_design and primary.familywise_one_sided_lower.gt(0).all())
+    status = (
+        "confirmed_on_registered_grid"
+        if confirmation_pass
+        else "not_confirmed"
+        if full_design
+        else "smoke_only_not_confirmation"
+    )
+
+    previous_hashes = manifest.get("sha256", {})
+    manifest.setdefault(
+        "simulation_source_hashes_before_analysis_correction",
+        previous_hashes.get("source_files", {}),
+    )
+    raw_stream_hash = hashlib.sha256(detail_path.read_bytes()).hexdigest()
+    manifest["status"] = status
+    manifest["analysis_correction"] = {
+        "raw_stream_metrics_sha256": raw_stream_hash,
+        "description": (
+            "A post-run audit corrected the paired-contrast method mapping: the variance-query "
+            "eventwise-minus-rank contrast had selected the eventwise method on both sides. "
+            "The frozen candidate, comparator, endpoint, seed block, simulator, and raw stream "
+            "metrics are unchanged; all registered contrasts were recomputed from the saved rows."
+        ),
+        "bootstrap_draws": bootstrap_draws,
+        "bootstrap_seed": bootstrap_seed,
+        "method": "seed-cluster percentile bootstrap, equal weight over registered cells",
+    }
+    manifest["inference"]["primary_comparisons"] = primary.to_dict(orient="records")
+    manifest["inference"]["primary_gate_pass"] = confirmation_pass
+    manifest["inference"]["total_rows"] = len(detail)
+    report_path = reports_dir / "eventwise_markov_confirmation.md"
+    protocol = manifest["protocol"]
+    report = [
+        "# Eventwise-scout confirmation under persistent contexts",
+        "",
+        f"Status: **{status}**. Device: {configuration['device']}; seeds per cell: {seeds}; seed block: {configuration['seed_offset']}–{configuration['seed_end_inclusive']}; workers: {configuration['workers']}.",
+        "",
+        f"The matched grid contains {expected_cells} positive-signal cells, query policies {', '.join(query_policies)}, {len(METHODS)} methods, and {len(detail):,} method-cell-seed-query rows. The endpoint is evaluator-known expected postpromotion net decision gain, equally weighted over cells and paired by seed cluster.",
+        "",
+        contrasts.to_markdown(index=False, floatfmt=".4f"),
+        "",
+        "The primary comparisons are eventwise variance-query scouting versus pooled rank and nested context-volume under variance querying. Their one-sided 97.5% seed-cluster bootstrap lower limits use Bonferroni allocation for approximate simultaneous 95% familywise assessment. The gate passes only when both limits exceed zero. The minimum-bound and uniform-query contrasts are secondary. Bootstrap coverage is approximate, not an exact finite-sample guarantee.",
+        "",
+        f"Integrity: {len(detail):,}/{expected_rows:,} expected unique rows; positive propensities verified; {int(detail.cap_violation.sum())} cap violations; {int(detail.harmful_postpromotion_promotion.sum())} harmful promotions by evaluator-known future utility.",
+        "",
+        "Analysis correction: a post-run audit found that the initial primary variance-eventwise-minus-rank contrast selected eventwise on both sides. The saved streams were not changed; the frozen contrast mapping was corrected and all contrasts recomputed from the row-level metrics. This correction does not tune or select a method using confirmation outcomes.",
+        "",
+        f"Frozen protocol: {protocol['path']} (SHA-256 {protocol['sha256']}). No figure was generated.",
+    ]
+    report_path.write_text("\n".join(report) + "\n", encoding="utf-8")
+    manifest_path.write_text(json.dumps(manifest, indent=2), encoding="utf-8")
+    finalize_manifest(output)
+    return report_path
+
+
 def main(argv: list[str] | None = None) -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
@@ -568,7 +677,18 @@ def main(argv: list[str] | None = None) -> None:
         "--persistences", nargs="+", type=float, choices=PERSISTENCES, default=list(PERSISTENCES)
     )
     parser.add_argument("--null-calibration-manifest", type=Path, default=NULL_CALIBRATION_MANIFEST)
+    parser.add_argument("--reanalyze-existing-output", type=Path)
     args = parser.parse_args(argv)
+    if args.reanalyze_existing_output is not None:
+        print(
+            reanalyze_existing_confirmation(
+                output=args.reanalyze_existing_output,
+                bootstrap_draws=args.bootstrap_draws,
+                bootstrap_seed=args.bootstrap_seed,
+            ),
+            flush=True,
+        )
+        return
     print(
         run_confirmation(
             output=args.output,

@@ -4,10 +4,12 @@ import json
 from pathlib import Path
 
 import pandas as pd
+import pytest
 
 from shiftlab.dive.budgeted_promotion_context_markov_eventwise_confirmation import (
     FAMILY_CELLS,
     METHODS,
+    reanalyze_existing_confirmation,
     run_confirmation,
 )
 
@@ -72,6 +74,11 @@ def test_eventwise_query_confirmation_smoke_uses_matching_calibration(tmp_path: 
         null_calibration_manifest=calibration,
     )
     output = report_path.parent.parent
+    reanalyze_existing_confirmation(
+        output=output,
+        bootstrap_draws=200,
+        bootstrap_seed=21_300_600,
+    )
     detail = pd.read_parquet(output / "metrics/eventwise_markov_confirmation_streams.parquet")
     summary = pd.read_parquet(output / "metrics/eventwise_markov_confirmation_cells.parquet")
     contrasts = pd.read_parquet(output / "metrics/eventwise_markov_confirmation_contrasts.parquet")
@@ -91,5 +98,20 @@ def test_eventwise_query_confirmation_smoke_uses_matching_calibration(tmp_path: 
         "variance_eventwise_minus_minimum_bound",
         "variance_eventwise_minus_uniform_eventwise",
     }
+    variance_rows = detail.loc[detail.query_policy.eq("variance")]
+    paired = variance_rows.pivot(
+        index=["scenario", "budget_rate", "seed"],
+        columns="alpha_allocation",
+        values="expected_postpromotion_net_gain",
+    )
+    direct_eventwise_rank = (
+        paired["scout_context_policy_eventwise_propensity_bound"] - paired["rank"]
+    ).mean()
+    reported = contrasts.loc[
+        contrasts.contrast.eq("variance_eventwise_minus_rank"), "mean_paired_difference"
+    ].item()
+    assert reported == pytest.approx(direct_eventwise_rank)
     assert manifest["prerequisite_null_calibration"]["status"] == "passed"
     assert manifest["status"] == "smoke_only_not_confirmation"
+    assert "analysis_correction" in manifest
+    assert manifest["inference"]["primary_gate_pass"] is False

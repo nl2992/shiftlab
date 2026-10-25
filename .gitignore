@@ -140,6 +140,8 @@ outputs/figures/*
 !outputs/delayed_feedback_replication_2000/**
 !outputs/delayed_feedback_grid_confirmation_2000/
 !outputs/delayed_feedback_grid_confirmation_2000/**
+!outputs/delayed_adaptive_query_development_60/
+!outputs/delayed_adaptive_query_development_60/**
 !outputs/start_prior_development/
 !outputs/start_prior_development/**
 !outputs/start_prior_validation/

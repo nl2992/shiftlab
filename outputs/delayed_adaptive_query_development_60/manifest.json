@@ -1,0 +1,116 @@
+{
+  "title": "Delayed feedback with predictable variance-adaptive querying: development screen",
+  "config": {
+    "seeds": 60,
+    "seed_offset": 20271000,
+    "n_source": 1000,
+    "n_target": 3000,
+    "base_query_rate": 0.25,
+    "q_min": 0.1,
+    "q_max": 0.4,
+    "alpha": 0.05,
+    "epsilon": 0.02,
+    "onset_fraction": 0.4,
+    "harm_increase": 0.12,
+    "base_amplitude": 0.6,
+    "benign_amplitude": 0.25,
+    "delay_max": 12,
+    "variance_window": 64,
+    "device": "cuda"
+  },
+  "created_utc": "2026-10-25T17:44:25.669380+00:00",
+  "runtime": {
+    "cpu_ram_bytes": 16858472448,
+    "disk_free_bytes": 19989958656,
+    "cuda_available": true,
+    "nvidia_smi": "NVIDIA GeForce RTX 4060 Laptop GPU, 8188 MiB, 592.82, 0 %, 107 MiB",
+    "torch_version": "2.9.1+cu130",
+    "cuda_runtime": "13.0",
+    "gpu_name": "NVIDIA GeForce RTX 4060 Laptop GPU",
+    "gpu_memory_bytes": 8585216000,
+    "versions": {
+      "numpy": "2.5.4",
+      "scipy": "1.18.1",
+      "pandas": "3.0.6",
+      "pyarrow": "25.0.1",
+      "folktables": "0.0.12"
+    }
+  },
+  "source_sha256": "813e3aa9af73824981e22fe57eacb3811c07c967e893bab25e35569b9f3efa7c",
+  "rows": 360,
+  "device": "cuda",
+  "summary": [
+    {
+      "scenario": "benign_variance_shift",
+      "query_policy": "uniform",
+      "streams": 60,
+      "alarm_rate": 0.016666666666666666,
+      "labels": 750.8166666666667,
+      "mean_propensity": 0.25,
+      "alarm_latency": NaN,
+      "pending": 0,
+      "propensity_violations": 0
+    },
+    {
+      "scenario": "benign_variance_shift",
+      "query_policy": "variance_adaptive",
+      "streams": 60,
+      "alarm_rate": 0.016666666666666666,
+      "labels": 516.2166666666667,
+      "mean_propensity": 0.17122971513500573,
+      "alarm_latency": NaN,
+      "pending": 0,
+      "propensity_violations": 0
+    },
+    {
+      "scenario": "boundary_harm",
+      "query_policy": "uniform",
+      "streams": 60,
+      "alarm_rate": 0.38333333333333336,
+      "labels": 750.8166666666667,
+      "mean_propensity": 0.25,
+      "alarm_latency": 1234.2272727272727,
+      "pending": 0,
+      "propensity_violations": 0
+    },
+    {
+      "scenario": "boundary_harm",
+      "query_policy": "variance_adaptive",
+      "streams": 60,
+      "alarm_rate": 0.38333333333333336,
+      "labels": 750.8166666666667,
+      "mean_propensity": 0.24999998447276764,
+      "alarm_latency": 1234.2272727272727,
+      "pending": 0,
+      "propensity_violations": 0
+    },
+    {
+      "scenario": "stationary",
+      "query_policy": "uniform",
+      "streams": 60,
+      "alarm_rate": 0.016666666666666666,
+      "labels": 750.8166666666667,
+      "mean_propensity": 0.25,
+      "alarm_latency": NaN,
+      "pending": 0,
+      "propensity_violations": 0
+    },
+    {
+      "scenario": "stationary",
+      "query_policy": "variance_adaptive",
+      "streams": 60,
+      "alarm_rate": 0.016666666666666666,
+      "labels": 750.8166666666667,
+      "mean_propensity": 0.24999998447276764,
+      "alarm_latency": NaN,
+      "pending": 0,
+      "propensity_violations": 0
+    }
+  ],
+  "limitations": [
+    "Development-only synthetic screen; no independent calibration or confirmation.",
+    "The variance-adaptive propensity is a standard heuristic, not a claimed novel method or optimal policy.",
+    "Validity requires the stated event-history conditional-mean null, randomized queries, correct propensities, predictable support bounds, and alarms based only on the resolved event prefix.",
+    "The reported query cap is a loose q_max pathwise ceiling, not an equal realized-budget comparison; compare labels explicitly."
+  ]
+}

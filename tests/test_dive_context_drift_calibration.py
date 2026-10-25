@@ -70,3 +70,27 @@ def test_eventwise_drift_calibration_smoke_uses_exact_bound_mode(tmp_path: Path)
     assert detail.candidate_is_monitor_null.all()
     assert (detail.labels_queried <= detail.label_budget).all()
     assert "Bound mode: eventwise_propensity" in report_path.read_text(encoding="utf-8")
+
+
+def test_parallel_eventwise_calibration_matches_serial_metrics(tmp_path: Path):
+    protocol = (
+        Path(__file__).parents[1] / "docs/scout_context_policy_eventwise_drift_null_protocol.md"
+    )
+    common = {
+        "seeds": 2,
+        "seed_offset": 20_269_100,
+        "n": 1000,
+        "d": 4,
+        "device": "cpu",
+        "bound_mode": "eventwise_propensity",
+        "protocol": protocol,
+    }
+    serial_report = run_calibration(output=tmp_path / "serial", workers=1, **common)
+    parallel_report = run_calibration(output=tmp_path / "parallel", workers=2, **common)
+    serial = pd.read_parquet(
+        serial_report.parent.parent / "metrics/scout_context_drift_null_streams.parquet"
+    )
+    parallel = pd.read_parquet(
+        parallel_report.parent.parent / "metrics/scout_context_drift_null_streams.parquet"
+    )
+    pd.testing.assert_frame_equal(serial, parallel, check_exact=False, rtol=1e-12, atol=1e-12)

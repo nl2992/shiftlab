@@ -1,6 +1,6 @@
 # Target-scout eventwise-bound null calibration under abrupt context drift
 
-**Status:** frozen 2026-10-25 before execution. This independent null calibration evaluates the eventwise-propensity-bound scout variant after its development screen. It uses fresh seeds and the same abrupt context-prevalence family as the already passed minimum-propensity-bound calibration.
+**Status:** frozen 2026-10-25 before the complete calibration run. This independent null calibration evaluates the eventwise-propensity-bound scout variant after its development screen. It uses fresh seeds and the same abrupt context-prevalence family as the already passed minimum-propensity-bound calibration. An earlier serial execution was stopped before publishing any artifacts when its runtime proved impractical; the statistical design and seed block are unchanged.
 
 ## Conditional null and bound argument
 
@@ -22,6 +22,7 @@ has predictable support (B_t=C/q+\kappa). Under (E[G_t\mid\mathcal F_{t-1}]\le0)
 - Cross each pair with proxy error 0 and 0.25, switching charges 0.00 and 0.05, and realized label caps 20% and 40%, for 24 cells.
 - Preserve the scout selector, fixed-mixture certification, alpha 0.05, uniform direct-IPW querying, global decision-cost bound (C=5), (n=3,200), (d=16), and the scout/certification split.
 - Require every stream to satisfy the evaluator-defined eventwise conditional null, have positive query support, and respect its realized cap. Each cell must contain at least 1,000 streams and have a one-sided exact Clopper–Pearson promotion-rate upper limit at most 0.05 using simultaneous 95% Bonferroni coverage (per-cell alpha 0.05/24). The family passes only if all cells pass.
+- Each seed uses explicit seed-derived random generators and can be evaluated independently. The runner may distribute seeds across worker processes; it restores seed order before writing metrics and records the worker count in the manifest. Worker count does not change the registered streams. The reproduction command uses six workers, with native numerical libraries limited to one thread per worker to avoid oversubscription.
 
 Passing supports calibration under this registered DGP and query process. It does not establish power, generalize to adaptive propensities, or validate delayed/selective feedback. A disjoint positive-signal confirmation is allowed only if this calibration passes and the development analysis is frozen before opening confirmation results. No figure is planned; use PaperBanana for any figure.
 
@@ -30,7 +31,7 @@ Passing supports calibration under this registered DGP and query process. It doe
 ```powershell
 uv run shiftlab-dive-scout-drift-calibration `
   --bound-mode eventwise_propensity --seeds 1000 --seed-offset 20269000 `
-  --n 3200 --d 16 --device cuda `
+  --n 3200 --d 16 --device cuda --workers 6 `
   --protocol docs/scout_context_policy_eventwise_drift_null_protocol.md `
   --output outputs/scout_context_policy_eventwise_drift_null_1000
 ```

@@ -2,8 +2,28 @@ from types import SimpleNamespace
 
 import pytest
 
-from shiftlab.dive.budgeted_promotion import BudgetedPromotionConfig, _run_seed
+from shiftlab.dive.budgeted_promotion import (
+    BudgetedPromotionConfig,
+    _budget_limited_prefix_length,
+    _run_seed,
+)
 from shiftlab.dive.promotion_grid import _time_splits
+
+
+@pytest.mark.parametrize(
+    ("query_flags", "available_budget", "expected_prefix"),
+    [
+        ([False, True, False, True], 1, 2),
+        ([False, True, False, True], 2, 4),
+        ([False, True, False, True], 3, 4),
+        ([False, False, False], 1, 3),
+        ([True, True], 0, 0),
+    ],
+)
+def test_budget_limited_prefix_matches_eventwise_stop_rule(
+    query_flags: list[bool], available_budget: int, expected_prefix: int
+):
+    assert _budget_limited_prefix_length(query_flags, available_budget) == expected_prefix
 
 
 @pytest.mark.parametrize("budget_rate", [0.20, 0.40])

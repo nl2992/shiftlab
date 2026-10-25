@@ -973,6 +973,16 @@ def _monitor_validation_context_policy(
     }
 
 
+def _budget_limited_prefix_length(query_flags: np.ndarray, available_budget: int) -> int:
+    """Return the event prefix processed before the next event hits an exhausted cap."""
+    flags = np.asarray(query_flags, dtype=bool)
+    if available_budget < 1:
+        return 0
+    cumulative_queries = np.cumsum(flags, dtype=np.int64)
+    exhausted = np.flatnonzero(cumulative_queries >= available_budget)
+    return int(exhausted[0] + 1) if exhausted.size else len(flags)
+
+
 def _monitor_scout_context_policy(
     *,
     family: dict[str, Any],
@@ -1008,26 +1018,54 @@ def _monitor_scout_context_policy(
     expected_labels = 0.0
     scout_processed = 0
     stop_reason = "monitor_horizon"
-    for relative in range(scout_length):
-        if budget - labels_used < 1:
-            stop_reason = "label_budget_exhausted_during_scout"
-            break
-        event_index = start + relative
-        group = int(family["contexts"][event_index])
-        propensity = float(q_path[relative])
-        if propensity + 1e-12 < q_min:
+    if config.scout_bound_mode == "eventwise_propensity":
+        scout_query_flags = query_uniforms[:scout_length] < q_path[:scout_length]
+        scout_processed = _budget_limited_prefix_length(scout_query_flags, budget)
+        scout_indices = start + np.arange(scout_processed)
+        scout_propensities = q_path[:scout_processed]
+        if np.any(scout_propensities + 1e-12 < q_min):
             raise RuntimeError("query policy violated its registered propensity floor")
-        scout_counts[group] += 1
-        scout_processed += 1
-        expected_labels += propensity
-        queried = bool(query_uniforms[relative] < propensity)
-        if queried:
-            labels_used += 1
-            scout_labels += 1
-            observed = (
-                family["z1"][:, event_index] if y[event_index] else family["z0"][:, event_index]
-            )
-            scout_sums[:, group] += observed / propensity
+        scout_contexts = np.asarray(family["contexts"][scout_indices], dtype=int)
+        scout_observed = np.where(
+            y[scout_indices][None, :] == 1,
+            family["z1"][:, scout_indices],
+            family["z0"][:, scout_indices],
+        )
+        scout_ipw = np.where(
+            scout_query_flags[:scout_processed][None, :],
+            scout_observed / scout_propensities[None, :],
+            0.0,
+        )
+        for group in (0, 1):
+            use_group = scout_contexts == group
+            scout_counts[group] = int(np.sum(use_group))
+            scout_sums[:, group] = np.sum(scout_ipw[:, use_group], axis=1)
+        scout_labels = int(np.sum(scout_query_flags[:scout_processed]))
+        labels_used = scout_labels
+        expected_labels = float(np.sum(scout_propensities))
+        if scout_processed < scout_length:
+            stop_reason = "label_budget_exhausted_during_scout"
+    else:
+        for relative in range(scout_length):
+            if budget - labels_used < 1:
+                stop_reason = "label_budget_exhausted_during_scout"
+                break
+            event_index = start + relative
+            group = int(family["contexts"][event_index])
+            propensity = float(q_path[relative])
+            if propensity + 1e-12 < q_min:
+                raise RuntimeError("query policy violated its registered propensity floor")
+            scout_counts[group] += 1
+            scout_processed += 1
+            expected_labels += propensity
+            queried = bool(query_uniforms[relative] < propensity)
+            if queried:
+                labels_used += 1
+                scout_labels += 1
+                observed = (
+                    family["z1"][:, event_index] if y[event_index] else family["z0"][:, event_index]
+                )
+                scout_sums[:, group] += observed / propensity
 
     selected_by_context: dict[int, int | None] = {}
     selection_gain_by_context: dict[int, float | None] = {}
@@ -1048,50 +1086,100 @@ def _monitor_scout_context_policy(
     processed = 0
     bound_total = 0.0
     max_event_bound = 0.0
-    for relative in range(scout_length, length):
-        if budget - labels_used < 1:
+    if config.scout_bound_mode == "eventwise_propensity":
+        remaining_budget = budget - labels_used
+        cert_relative = np.arange(scout_length, length)
+        cert_query_flags = query_uniforms[scout_length:length] < q_path[scout_length:length]
+        if remaining_budget < 1:
             stop_reason = "label_budget_exhausted_during_certification"
-            break
-        event_index = start + relative
-        propensity = float(q_path[relative])
-        if propensity + 1e-12 < q_min:
-            raise RuntimeError("query policy violated its registered propensity floor")
-        group = int(family["contexts"][event_index])
-        selected = selected_by_context[group]
-        expected_labels += propensity
-        queried = bool(query_uniforms[relative] < propensity)
-        if queried:
-            labels_used += 1
-            if selected is None:
-                estimate = 0.0
-            else:
-                observed_gain = (
-                    family["z1"][selected, event_index]
-                    if y[event_index]
-                    else family["z0"][selected, event_index]
-                )
-                estimate = observed_gain / propensity
         else:
-            estimate = 0.0
-        increment = estimate - switch_rate if selected is not None else 0.0
-        event_bound = (
-            outcome_bound / propensity + switch_rate
-            if config.scout_bound_mode == "eventwise_propensity"
-            else process_bound
-        )
-        if abs(increment) > event_bound + 1e-10:
-            raise RuntimeError("scout-policy increment exceeded its registered support bound")
-        factors = bounded_betting_factors(
-            np.asarray([increment]), np.asarray([event_bound]), BETTING_STAKES
-        )[0]
-        if np.any(factors <= 0):
-            raise RuntimeError("nonpositive scout-policy betting factor")
-        log_wealth += np.log(factors)
-        log_e_value = float(logsumexp(log_wealth + BETTING_LOG_WEIGHTS))
-        certified |= log_e_value >= -np.log(config.alpha)
-        bound_total += event_bound
-        max_event_bound = max(max_event_bound, event_bound)
-        processed += 1
+            processed = _budget_limited_prefix_length(cert_query_flags, remaining_budget)
+            if processed < len(cert_relative):
+                stop_reason = "label_budget_exhausted_during_certification"
+            cert_relative = cert_relative[:processed]
+            cert_query_flags = cert_query_flags[:processed]
+            cert_indices = start + cert_relative
+            cert_propensities = q_path[cert_relative]
+            if np.any(cert_propensities + 1e-12 < q_min):
+                raise RuntimeError("query policy violated its registered propensity floor")
+            cert_contexts = np.asarray(family["contexts"][cert_indices], dtype=int)
+            selected_for_event = np.asarray(
+                [selected_by_context[int(group)] for group in cert_contexts], dtype=object
+            )
+            has_selected = np.fromiter(
+                (selected is not None for selected in selected_for_event),
+                dtype=bool,
+                count=processed,
+            )
+            estimates = np.zeros(processed, dtype=float)
+            for group, selected in selected_by_context.items():
+                if selected is None:
+                    continue
+                queried_in_group = (cert_contexts == group) & cert_query_flags
+                queried_indices = cert_indices[queried_in_group]
+                observed_gain = np.where(
+                    y[queried_indices] == 1,
+                    family["z1"][selected, queried_indices],
+                    family["z0"][selected, queried_indices],
+                )
+                estimates[queried_in_group] = observed_gain / cert_propensities[queried_in_group]
+            increments = np.where(has_selected, estimates - switch_rate, 0.0)
+            event_bounds = outcome_bound / cert_propensities + switch_rate
+            if np.any(np.abs(increments) > event_bounds + 1e-10):
+                raise RuntimeError("scout-policy increment exceeded its registered support bound")
+            factors = 1.0 + increments[:, None] * BETTING_STAKES[None, :] / event_bounds[:, None]
+            if np.any(factors <= 0):
+                raise RuntimeError("nonpositive scout-policy betting factor")
+            cumulative_log_wealth = np.cumsum(np.log(factors), axis=0)
+            log_e_values = logsumexp(cumulative_log_wealth + BETTING_LOG_WEIGHTS[None, :], axis=1)
+            certified = bool(np.any(log_e_values >= -np.log(config.alpha)))
+            log_wealth = cumulative_log_wealth[-1] if processed else log_wealth
+            log_e_value = float(log_e_values[-1]) if processed else log_e_value
+            labels_used += int(np.sum(cert_query_flags))
+            expected_labels += float(np.sum(cert_propensities))
+            bound_total = float(np.sum(event_bounds))
+            max_event_bound = float(np.max(event_bounds)) if processed else 0.0
+    else:
+        for relative in range(scout_length, length):
+            if budget - labels_used < 1:
+                stop_reason = "label_budget_exhausted_during_certification"
+                break
+            event_index = start + relative
+            propensity = float(q_path[relative])
+            if propensity + 1e-12 < q_min:
+                raise RuntimeError("query policy violated its registered propensity floor")
+            group = int(family["contexts"][event_index])
+            selected = selected_by_context[group]
+            expected_labels += propensity
+            queried = bool(query_uniforms[relative] < propensity)
+            if queried:
+                labels_used += 1
+                if selected is None:
+                    estimate = 0.0
+                else:
+                    observed_gain = (
+                        family["z1"][selected, event_index]
+                        if y[event_index]
+                        else family["z0"][selected, event_index]
+                    )
+                    estimate = observed_gain / propensity
+            else:
+                estimate = 0.0
+            increment = estimate - switch_rate if selected is not None else 0.0
+            event_bound = process_bound
+            if abs(increment) > event_bound + 1e-10:
+                raise RuntimeError("scout-policy increment exceeded its registered support bound")
+            factors = bounded_betting_factors(
+                np.asarray([increment]), np.asarray([event_bound]), BETTING_STAKES
+            )[0]
+            if np.any(factors <= 0):
+                raise RuntimeError("nonpositive scout-policy betting factor")
+            log_wealth += np.log(factors)
+            log_e_value = float(logsumexp(log_wealth + BETTING_LOG_WEIGHTS))
+            certified |= log_e_value >= -np.log(config.alpha)
+            bound_total += event_bound
+            max_event_bound = max(max_event_bound, event_bound)
+            processed += 1
 
     if labels_used > budget:
         raise RuntimeError("hard label budget was exceeded")

@@ -5,6 +5,8 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import os
+from concurrent.futures import ProcessPoolExecutor, as_completed
 from datetime import UTC, datetime
 from pathlib import Path
 from types import SimpleNamespace
@@ -42,6 +44,30 @@ def _profile_name(
     )
 
 
+def _run_calibration_replicate(
+    seed: int,
+    config: BudgetedPromotionConfig,
+    device: str,
+    fn_cost: float,
+    fp_cost: float,
+) -> list[dict[str, object]]:
+    """Run one seed independently using only its explicit seed-derived generators."""
+    scenario = SimpleNamespace(
+        name="candidate_context_heterogeneity",
+        fn_cost=fn_cost,
+        fp_cost=fp_cost,
+        harmful_adaptation=False,
+    )
+    return _run_seed(
+        scenario=scenario,
+        seed=seed,
+        config=config,
+        device=device,
+        scout_only=True,
+        scout_switching_costs=SWITCHING_COSTS,
+    )
+
+
 def run_calibration(
     *,
     output: Path,
@@ -51,9 +77,10 @@ def run_calibration(
     d: int = 16,
     device: str = "cuda",
     bound_mode: str = "minimum_propensity",
+    workers: int = 1,
     protocol: Path,
 ) -> Path:
-    if seeds < 2 or n < 1000 or d < 3:
+    if seeds < 2 or n < 1000 or d < 3 or workers < 1:
         raise ValueError("calibration requires seeds >=2, n >=1000, and d >=3")
     if seed_offset <= DEVELOPMENT_SEED_END:
         raise ValueError("drift calibration seeds must follow the frozen development block")
@@ -114,16 +141,59 @@ def run_calibration(
                 device=resolved_device,
             )
             config.validate()
-            for replicate in range(seeds):
-                seed = seed_offset + replicate
-                seed_rows = _run_seed(
-                    scenario=scenario,
-                    seed=seed,
-                    config=config,
-                    device=resolved_device,
-                    scout_only=True,
-                    scout_switching_costs=SWITCHING_COSTS,
+            seed_results: list[list[dict[str, object]] | None] = [None] * seeds
+            if workers == 1:
+                for replicate in range(seeds):
+                    seed_results[replicate] = _run_calibration_replicate(
+                        seed_offset + replicate,
+                        config,
+                        resolved_device,
+                        scenario.fn_cost,
+                        scenario.fp_cost,
+                    )
+            else:
+                thread_variables = (
+                    "OPENBLAS_NUM_THREADS",
+                    "OMP_NUM_THREADS",
+                    "MKL_NUM_THREADS",
+                    "NUMEXPR_NUM_THREADS",
                 )
+                previous_thread_limits = {key: os.environ.get(key) for key in thread_variables}
+                os.environ.update({key: "1" for key in thread_variables})
+                try:
+                    with ProcessPoolExecutor(max_workers=workers) as executor:
+                        futures = {
+                            executor.submit(
+                                _run_calibration_replicate,
+                                seed_offset + replicate,
+                                config,
+                                resolved_device,
+                                scenario.fn_cost,
+                                scenario.fp_cost,
+                            ): replicate
+                            for replicate in range(seeds)
+                        }
+                        for completed, future in enumerate(as_completed(futures), start=1):
+                            seed_results[futures[future]] = future.result()
+                            if completed % 100 == 0 or completed == seeds:
+                                print(
+                                    f"drift-null progress={completed}/{seeds} "
+                                    f"profile=p{round(100 * initial_prevalence):02d}"
+                                    f"_to_{round(100 * final_prevalence):02d}"
+                                    f"_error{round(100 * proxy_error):02d}",
+                                    flush=True,
+                                )
+                finally:
+                    for key, value in previous_thread_limits.items():
+                        if value is None:
+                            os.environ.pop(key, None)
+                        else:
+                            os.environ[key] = value
+
+            for replicate, seed_rows in enumerate(seed_results):
+                if seed_rows is None:
+                    raise RuntimeError(f"missing result for calibration replicate {replicate}")
+                seed = seed_offset + replicate
                 scout_rows = [
                     row
                     for row in seed_rows
@@ -204,7 +274,7 @@ def run_calibration(
         "",
         (
             f"Status: **{status}**. Device: {resolved_device}; seeds per cell: {seeds}; "
-            f"seed block: {seed_offset}–{seed_offset + seeds - 1}."
+            f"seed block: {seed_offset}–{seed_offset + seeds - 1}; worker processes: {workers}."
         ),
         "",
         (
@@ -241,6 +311,7 @@ def run_calibration(
             "n": n,
             "d": d,
             "device": resolved_device,
+            "workers": workers,
             "bound_mode": bound_mode,
             "prevalence_pairs": PREVALENCE_PAIRS,
             "signal_strength": 0.0,
@@ -283,6 +354,12 @@ def main(argv: list[str] | None = None) -> None:
     parser.add_argument("--n", type=int, default=3200)
     parser.add_argument("--d", type=int, default=16)
     parser.add_argument("--device", choices=("cpu", "cuda", "auto"), default="cuda")
+    parser.add_argument(
+        "--workers",
+        type=int,
+        default=min(6, os.cpu_count() or 1),
+        help="independent seed worker processes; use 1 for serial execution",
+    )
     parser.add_argument("--bound-mode", choices=SCOUT_BOUND_MODES, default="minimum_propensity")
     parser.add_argument(
         "--protocol", type=Path, default=Path("docs/scout_context_policy_drift_null_protocol.md")
@@ -297,6 +374,7 @@ def main(argv: list[str] | None = None) -> None:
             d=args.d,
             device=args.device,
             bound_mode=args.bound_mode,
+            workers=args.workers,
             protocol=args.protocol,
         ),
         flush=True,

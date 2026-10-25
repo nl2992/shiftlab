@@ -194,6 +194,8 @@ Thumbs.db
 !outputs/residual_variance_power_grid/**
 !outputs/residual_variance_start_prior/
 !outputs/residual_variance_start_prior/**
+!outputs/scout_context_temporal_query_development_60/
+!outputs/scout_context_temporal_query_development_60/**
 !outputs/context_budgeted_promotion_grid_30/
 !outputs/context_budgeted_promotion_grid_30/**
 !outputs/validation_selected_context_policy_30/

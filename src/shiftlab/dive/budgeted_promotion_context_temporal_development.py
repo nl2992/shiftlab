@@ -16,7 +16,7 @@ import numpy as np
 import pandas as pd
 
 from ..data.gpu.environment import environment, resolve_device
-from .budgeted_promotion import BudgetedPromotionConfig, _run_seed
+from .budgeted_promotion import QUERY_POLICIES, BudgetedPromotionConfig, _run_seed
 from .experiment import finalize_manifest
 
 SCHEDULES = (
@@ -37,10 +37,12 @@ METHODS = (
 )
 EVENTWISE_METHOD = METHODS[-1]
 SEED_OFFSET = 20_274_000
+QUERY_SEED_OFFSET = 21_420_000
 MIN_SEEDS = 60
 BOOTSTRAP_DRAWS = 10_000
 BOOTSTRAP_SEED = 20_274_060
-FAMILY_CELLS = len(SCHEDULES) * len(SIGNAL_STRENGTHS) * len(PROXY_ERRORS) * len(BUDGET_RATES)
+BASE_FAMILY_CELLS = len(SCHEDULES) * len(SIGNAL_STRENGTHS) * len(PROXY_ERRORS) * len(BUDGET_RATES)
+FAMILY_CELLS = BASE_FAMILY_CELLS
 POSITIVE_CELLS = len(SCHEDULES) * 2 * len(PROXY_ERRORS) * len(BUDGET_RATES)
 NULL_CELLS = FAMILY_CELLS - POSITIVE_CELLS
 SCENARIO = SimpleNamespace(
@@ -71,7 +73,7 @@ def _run_cell_seed(
         scout_bound_modes=("minimum_propensity", "eventwise_propensity"),
     )
     selected = [row for row in rows if row["alpha_allocation"] in METHODS]
-    if len(selected) != len(METHODS) * len(BUDGET_RATES):
+    if len(selected) != len(METHODS) * len(BUDGET_RATES) * len(config.query_policies):
         raise RuntimeError("temporal development stream is missing a method or cap result")
     for row in selected:
         row["scenario"] = _cell_name(schedule, signal, proxy_error)
@@ -84,27 +86,63 @@ def _run_cell_seed(
     return selected
 
 
-def _paired_contrasts(detail: pd.DataFrame, *, draws: int, seed: int) -> pd.DataFrame:
+def _paired_contrasts(
+    detail: pd.DataFrame,
+    *,
+    draws: int,
+    seed: int,
+    query_policies: tuple[str, ...] = ("uniform",),
+) -> pd.DataFrame:
     positive = detail.loc[detail["context_signal_strength"].gt(0)]
     seeds = np.sort(positive["seed"].unique())
     cells = sorted(
         positive[["scenario", "budget_rate"]].drop_duplicates().itertuples(index=False, name=None)
     )
     output: list[dict[str, object]] = []
-    for contrast_index, (contrast, comparator) in enumerate(
-        (
-            ("eventwise_minus_minimum_bound", "scout_context_policy"),
-            ("eventwise_minus_rank", "rank"),
-            ("eventwise_minus_nested_volume", "rank_context_volume"),
+    comparisons: list[tuple[str, str, str, str, str]] = []
+    for query in query_policies:
+        prefix = "" if query == "uniform" and len(query_policies) == 1 else f"{query}_"
+        comparisons.extend(
+            (f"{prefix}{name}", query, EVENTWISE_METHOD, query, comparator)
+            for name, comparator in (
+                ("eventwise_minus_minimum_bound", "scout_context_policy"),
+                ("eventwise_minus_rank", "rank"),
+                ("eventwise_minus_nested_volume", "rank_context_volume"),
+            )
         )
-    ):
+    if set(query_policies) == {"uniform", "variance"}:
+        comparisons.append(
+            (
+                "variance_eventwise_minus_uniform_eventwise",
+                "variance",
+                EVENTWISE_METHOD,
+                "uniform",
+                EVENTWISE_METHOD,
+            )
+        )
+    for contrast_index, (
+        contrast,
+        candidate_query,
+        candidate_method,
+        baseline_query,
+        baseline_method,
+    ) in enumerate(comparisons):
         differences = np.empty((len(cells), len(seeds)), dtype=float)
         for cell_index, (scenario, budget_rate) in enumerate(cells):
             cell = positive.loc[
-                positive["scenario"].eq(scenario) & positive["budget_rate"].eq(budget_rate)
+                positive["scenario"].eq(scenario)
+                & positive["budget_rate"].eq(budget_rate)
+                & positive["query_policy"].eq(candidate_query)
             ]
-            candidate = cell.loc[cell["alpha_allocation"].eq(EVENTWISE_METHOD)].sort_values("seed")
-            baseline = cell.loc[cell["alpha_allocation"].eq(comparator)].sort_values("seed")
+            candidate = cell.loc[cell["alpha_allocation"].eq(candidate_method)].sort_values("seed")
+            baseline_cell = positive.loc[
+                positive["scenario"].eq(scenario)
+                & positive["budget_rate"].eq(budget_rate)
+                & positive["query_policy"].eq(baseline_query)
+            ]
+            baseline = baseline_cell.loc[
+                baseline_cell["alpha_allocation"].eq(baseline_method)
+            ].sort_values("seed")
             if (
                 len(candidate) != len(seeds)
                 or len(baseline) != len(seeds)
@@ -150,11 +188,21 @@ def run_development(
     device: str = "cuda",
     workers: int = 1,
     bootstrap_draws: int = BOOTSTRAP_DRAWS,
+    query_policies: tuple[str, ...] = ("uniform",),
 ) -> Path:
     if seeds < 2 or seed_offset < 0 or n < 1000 or d < 3:
         raise ValueError("development requires >=2 nonnegative seeds, n>=1000, and d>=3")
-    if seeds >= MIN_SEEDS and seed_offset != SEED_OFFSET:
+    if (
+        not query_policies
+        or len(set(query_policies)) != len(query_policies)
+        or any(policy not in QUERY_POLICIES for policy in query_policies)
+        or set(query_policies) not in ({"uniform"}, {"uniform", "variance"})
+    ):
+        raise ValueError("query_policies must be uniform or matched uniform and variance")
+    required_seed_offset = SEED_OFFSET if query_policies == ("uniform",) else QUERY_SEED_OFFSET
+    if seeds >= MIN_SEEDS and seed_offset != required_seed_offset:
         raise ValueError("full development runs must use the frozen disjoint seed block")
+    family_cells = BASE_FAMILY_CELLS * len(query_policies)
     if workers < 1 or bootstrap_draws < 100:
         raise ValueError("workers must be positive and bootstrap draws must be >=100")
     if not protocol.is_file():
@@ -195,7 +243,8 @@ def run_development(
                             seed_offset=seed_offset,
                             switching_cost=SWITCHING_COST,
                             budget_rates=BUDGET_RATES,
-                            query_policies=("uniform",),
+                            query_policies=query_policies,
+                            shared_query_randomness=len(query_policies) > 1,
                             alpha_allocations=("rank", "rank_context_volume"),
                             estimators=("direct_ipw",),
                             monitoring_rules=("fixed_mixture",),
@@ -265,14 +314,14 @@ def run_development(
                 os.environ[key] = value
 
     detail = pd.DataFrame.from_records(records)
-    expected_rows = seeds * FAMILY_CELLS * len(METHODS)
+    expected_rows = seeds * family_cells * len(METHODS)
     if len(detail) != expected_rows:
         raise RuntimeError(f"expected {expected_rows} rows; received {len(detail)}")
-    key = ["scenario", "budget_rate", "seed", "alpha_allocation"]
+    key = ["scenario", "budget_rate", "seed", "query_policy", "alpha_allocation"]
     if detail.duplicated(key).any():
         raise RuntimeError("duplicate cell/seed/method rows")
-    counts = detail.groupby(["scenario", "budget_rate", "alpha_allocation"]).size()
-    if len(counts) != FAMILY_CELLS * len(METHODS) or not counts.eq(seeds).all():
+    counts = detail.groupby(["scenario", "budget_rate", "query_policy", "alpha_allocation"]).size()
+    if len(counts) != family_cells * len(METHODS) or not counts.eq(seeds).all():
         raise RuntimeError("development output has missing cell/method/seed rows")
     if detail["propensity_min"].isna().any() or not detail["propensity_min"].gt(0).all():
         raise RuntimeError("all methods require positive query support")
@@ -285,11 +334,17 @@ def run_development(
     if null_rows["expected_postpromotion_net_gain"].gt(1e-9).any():
         raise RuntimeError("zero-signal schedule contains positive expected net gain")
 
-    contrasts = _paired_contrasts(detail, draws=bootstrap_draws, seed=BOOTSTRAP_SEED)
+    contrasts = _paired_contrasts(
+        detail,
+        draws=bootstrap_draws,
+        seed=BOOTSTRAP_SEED,
+        query_policies=query_policies,
+    )
     group_fields = [
         "scenario",
         "context_prevalence_schedule",
         "budget_rate",
+        "query_policy",
         "alpha_allocation",
         "context_signal_strength",
         "context_proxy_error",
@@ -326,8 +381,9 @@ def run_development(
         ),
         "",
         (
-            f"The factorial has {FAMILY_CELLS} cells ({POSITIVE_CELLS} positive-signal and "
-            f"{NULL_CELLS} zero-signal controls), four methods per stream, and {len(detail):,} rows."
+            f"The factorial has {family_cells} query-policy/profile/cap cells ({POSITIVE_CELLS * len(query_policies)} "
+            f"positive-signal and {NULL_CELLS * len(query_policies)} zero-signal controls), "
+            f"four methods per stream, and {len(detail):,} rows. Query policies: {', '.join(query_policies)}."
         ),
         "",
         "## Paired expected-net-gain contrasts",
@@ -360,10 +416,11 @@ def run_development(
             "switching_cost": SWITCHING_COST,
             "budget_rates": BUDGET_RATES,
             "methods": METHODS,
-            "cell_count": FAMILY_CELLS,
-            "positive_signal_cells": POSITIVE_CELLS,
-            "null_cells": NULL_CELLS,
-            "query_policy": "uniform",
+            "cell_count": family_cells,
+            "positive_signal_cells": POSITIVE_CELLS * len(query_policies),
+            "null_cells": NULL_CELLS * len(query_policies),
+            "query_policies": query_policies,
+            "shared_query_randomness": len(query_policies) > 1,
             "alpha": 0.05,
             "bootstrap_draws": bootstrap_draws,
             "bootstrap_seed": BOOTSTRAP_SEED,
@@ -411,6 +468,12 @@ def main(argv: list[str] | None = None) -> None:
     parser.add_argument("--device", choices=("cpu", "cuda", "auto"), default="cuda")
     parser.add_argument("--workers", type=int, default=6)
     parser.add_argument("--bootstrap-draws", type=int, default=BOOTSTRAP_DRAWS)
+    parser.add_argument(
+        "--query-policies",
+        nargs="+",
+        choices=QUERY_POLICIES,
+        default=["uniform"],
+    )
     args = parser.parse_args(argv)
     print(
         run_development(
@@ -423,6 +486,7 @@ def main(argv: list[str] | None = None) -> None:
             device=args.device,
             workers=args.workers,
             bootstrap_draws=args.bootstrap_draws,
+            query_policies=tuple(args.query_policies),
         ),
         flush=True,
     )

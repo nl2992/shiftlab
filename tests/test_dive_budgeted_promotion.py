@@ -1,3 +1,4 @@
+import json
 from dataclasses import replace
 from itertools import product
 from types import SimpleNamespace
@@ -335,6 +336,47 @@ def test_fitted_context_heterogeneity_stream_respects_budget_and_records_design(
         assert row["context_target_prevalence"] == config.context_target_prevalence
         assert row["context_signal_strength"] == config.context_signal_strength
         assert row["context_proxy_error"] == config.context_proxy_error
+
+
+def test_validation_selected_context_policy_uses_one_global_alpha_and_hard_cap():
+    config = BudgetedPromotionConfig(
+        n=1000,
+        d=4,
+        seeds=1,
+        budget_rates=(0.4,),
+        query_policies=("uniform",),
+        alpha_allocations=("rank", *CONTEXT_ALPHA_ALLOCATIONS),
+        estimators=("direct_ipw",),
+        monitoring_rules=("fixed_mixture",),
+        bound_mode="global",
+        context_feature_index=3,
+        context_target_prevalence=0.3,
+        context_signal_strength=0.05,
+        context_proxy_error=0.1,
+        include_validation_context_policy=True,
+        scenario_subset=("candidate_context_heterogeneity",),
+        create_plot=False,
+        device="cpu",
+    )
+    rows = _run_seed(
+        scenario=SimpleNamespace(
+            name="candidate_context_heterogeneity",
+            fn_cost=5.0,
+            fp_cost=1.0,
+            harmful_adaptation=False,
+        ),
+        seed=20261026,
+        config=config,
+        device="cpu",
+    )
+    policy = next(row for row in rows if row["alpha_allocation"] == "validation_context_policy")
+    assert len(rows) == 4
+    assert policy["candidate_count"] == 1
+    assert policy["alpha_total"] == config.alpha
+    assert policy["familywise_alpha_sum"] == config.alpha
+    assert policy["labels_queried"] <= policy["label_budget"]
+    assert policy["bound_mode"] == "global"
+    assert set(json.loads(policy["selected_candidates_by_context"])) == {"0", "1"}
 
 
 def test_paired_bootstrap_contrasts_preserve_matched_seed_differences():

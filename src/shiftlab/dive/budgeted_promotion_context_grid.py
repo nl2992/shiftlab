@@ -25,6 +25,7 @@ SIGNAL_STRENGTHS = (0.0, 0.05, 0.10)
 PROXY_ERRORS = (0.0, 0.10, 0.25)
 BUDGET_RATES = (0.20, 0.40)
 ALPHA_ALLOCATIONS = ("rank", *CONTEXT_ALPHA_ALLOCATIONS)
+COMPOSITE_ALLOCATION = "validation_context_policy"
 DEVELOPMENT_SEED_OFFSET = 20_261_025
 BOOTSTRAP_SEED = 20_261_026
 
@@ -44,6 +45,11 @@ def _paired_cell_contrasts(detail: pd.DataFrame, *, draws: int = 10_000) -> pd.D
         ("rank_context_volume", "rank"),
         ("rank_context_volume", "rank_context_equal"),
     )
+    if COMPOSITE_ALLOCATION in set(detail.alpha_allocation):
+        comparisons += (
+            (COMPOSITE_ALLOCATION, "rank"),
+            (COMPOSITE_ALLOCATION, "rank_context_volume"),
+        )
     for (scenario, budget_rate), group in detail.groupby(["scenario", "budget_rate"], sort=False):
         for treatment_name, comparator_name in comparisons:
             treatment = group[group.alpha_allocation.eq(treatment_name)].sort_values("seed")
@@ -91,15 +97,36 @@ def _macro_signal_contrasts(detail: pd.DataFrame, *, draws: int = 10_000) -> pd.
     expected_cells = len(PREVALENCES) * len(PROXY_ERRORS) * (len(SIGNAL_STRENGTHS) - 1)
     if len(cells) != expected_cells:
         raise ValueError(f"expected {expected_cells} positive-signal cells, found {len(cells)}")
-    streams: dict[str, list[np.ndarray]] = {
-        "rank_context_volume_minus_rank": [],
-        "rank_context_volume_minus_rank_context_equal": [],
-    }
+    methods = set(alternatives.alpha_allocation)
+    composite_mode = COMPOSITE_ALLOCATION in methods
+    contrasts = (
+        (
+            (f"{COMPOSITE_ALLOCATION}_minus_rank", COMPOSITE_ALLOCATION, "rank"),
+            (
+                f"{COMPOSITE_ALLOCATION}_minus_rank_context_volume",
+                COMPOSITE_ALLOCATION,
+                "rank_context_volume",
+            ),
+        )
+        if composite_mode
+        else (
+            ("rank_context_volume_minus_rank", "rank_context_volume", "rank"),
+            (
+                "rank_context_volume_minus_rank_context_equal",
+                "rank_context_volume",
+                "rank_context_equal",
+            ),
+        )
+    )
+    streams: dict[str, list[np.ndarray]] = {name: [] for name, _, _ in contrasts}
     for scenario in cells:
         group = alternatives[alternatives.scenario.eq(scenario)]
+        required_methods = (
+            (*ALPHA_ALLOCATIONS, COMPOSITE_ALLOCATION) if composite_mode else ALPHA_ALLOCATIONS
+        )
         by_method = {
             name: group[group.alpha_allocation.eq(name)].sort_values("seed")
-            for name in ALPHA_ALLOCATIONS
+            for name in required_methods
         }
         for name, frame in by_method.items():
             if frame.empty or not np.array_equal(
@@ -107,14 +134,13 @@ def _macro_signal_contrasts(detail: pd.DataFrame, *, draws: int = 10_000) -> pd.
             ):
                 raise ValueError(f"unmatched seeds in macro cell {scenario} for {name}")
         metric = "expected_postpromotion_net_gain"
-        streams["rank_context_volume_minus_rank"].append(
-            by_method["rank_context_volume"][metric].to_numpy(dtype=float)
-            - by_method["rank"][metric].to_numpy(dtype=float)
-        )
-        streams["rank_context_volume_minus_rank_context_equal"].append(
-            by_method["rank_context_volume"][metric].to_numpy(dtype=float)
-            - by_method["rank_context_equal"][metric].to_numpy(dtype=float)
-        )
+        for contrast, treatment, comparator in contrasts:
+            if treatment not in by_method or comparator not in by_method:
+                raise ValueError(f"missing method for registered contrast {contrast}")
+            streams[contrast].append(
+                by_method[treatment][metric].to_numpy(dtype=float)
+                - by_method[comparator][metric].to_numpy(dtype=float)
+            )
     rows = []
     for contrast, by_cell in streams.items():
         matrix = np.stack(by_cell)
@@ -149,6 +175,7 @@ def run_context_grid(
     d: int = 16,
     device: str = "cuda",
     reuse_detail: bool = False,
+    policy_mode: bool = False,
 ) -> Path:
     if seeds < 2 or n < 1000 or d < 3:
         raise ValueError("development requires seeds >=2, n >=1000, and d >=3")
@@ -170,9 +197,12 @@ def run_context_grid(
             raise FileNotFoundError(f"missing seed-level metrics: {detail_path}")
         detail = pd.read_parquet(detail_path)
         expected_seeds = set(range(seed_offset, seed_offset + seeds))
+        expected_allocations = set(ALPHA_ALLOCATIONS) | (
+            {COMPOSITE_ALLOCATION} if policy_mode else set()
+        )
         if (
             set(detail.seed.unique()) != expected_seeds
-            or set(detail.alpha_allocation.unique()) != set(ALPHA_ALLOCATIONS)
+            or set(detail.alpha_allocation.unique()) != expected_allocations
             or set(detail.budget_rate.unique()) != set(BUDGET_RATES)
             or set(detail.scenario.unique())
             != {
@@ -215,6 +245,7 @@ def run_context_grid(
                         context_target_prevalence=prevalence,
                         context_signal_strength=signal,
                         context_proxy_error=proxy_error,
+                        include_validation_context_policy=policy_mode,
                         scenario_subset=("candidate_context_heterogeneity",),
                         create_plot=False,
                         device=resolved_device,
@@ -269,9 +300,15 @@ def run_context_grid(
         )
     )
     report_lines = [
-        "# Fitted context-nested promotion development grid",
+        "# Validation-selected contextual policy development grid"
+        if policy_mode
+        else "# Fitted context-nested promotion development grid",
         "",
-        f"This frozen CUDA grid used {seeds} matched seeds in each of 27 cells (`n={n}`, `d={d}`), with uniform direct-IPW monitoring and common 20%/40% hard label caps. It compares pooled candidate-rank alpha with equal-context and validation-volume nested allocations. The exact DGP and analysis were frozen in [the protocol](../../../docs/contextual_budgeted_promotion_grid_protocol.md).",
+        (
+            f"This frozen grid used {seeds} matched seeds in each of 27 cells (`n={n}`, `d={d}`), with uniform direct-IPW monitoring and common 20%/40% hard label caps. It compares pooled candidate-rank alpha, equal-context and validation-volume nested allocations, and one validation-selected composite policy tested at full alpha. The exact DGP and analysis were frozen in [the protocol](../../../docs/validation_selected_context_policy_protocol.md)."
+            if policy_mode
+            else f"This frozen CUDA grid used {seeds} matched seeds in each of 27 cells (`n={n}`, `d={d}`), with uniform direct-IPW monitoring and common 20%/40% hard label caps. It compares pooled candidate-rank alpha with equal-context and validation-volume nested allocations. The exact DGP and analysis were frozen in [the protocol](../../../docs/contextual_budgeted_promotion_grid_protocol.md)."
+        ),
         "",
         "The monitor/evaluator assumptions are unchanged from the fitted-controller benchmark. The context signal is applied from the monitor boundary; latent group membership is evaluator-only, and the learner's context rule uses the independently misclassified proxy feature. No figure was generated.",
         "",
@@ -282,10 +319,7 @@ def run_context_grid(
         "| Contrast | Mean paired future net gain | 97.5% bootstrap interval | Settings |",
         "|---|---:|---:|---:|",
     ]
-    for contrast in (
-        "rank_context_volume_minus_rank",
-        "rank_context_volume_minus_rank_context_equal",
-    ):
+    for contrast in macro_contrasts.contrast:
         row = macro.loc[contrast]
         report_lines.append(
             f"| {contrast} | {row.mean_paired_difference:.3f} | [{row.bootstrap_ci_low:.3f}, {row.bootstrap_ci_high:.3f}] | {int(row.n_settings)} |"
@@ -311,36 +345,46 @@ def run_context_grid(
     positive_signal_scenarios = set(detail.loc[detail.context_signal_strength.gt(0), "scenario"])
     volume_rank = volume_rank[volume_rank.scenario.isin(positive_signal_scenarios)]
     positive_cells = int(volume_rank.mean_paired_difference.gt(0).sum())
-    selected_cell = "context_p90_delta100_error00"
-    selected_contrast = volume_rank[volume_rank.scenario.eq(selected_cell)].iloc[0]
-    selected_methods = (
-        detail[detail.scenario.eq(selected_cell) & detail.budget_rate.eq(0.40)]
-        .groupby("alpha_allocation")
-        .agg(
-            promotion_rate=("promoted", "mean"),
-            mean_gain=("expected_postpromotion_net_gain", "mean"),
-        )
+    selected_method = COMPOSITE_ALLOCATION if policy_mode else "rank_context_volume"
+    selected_contrast_name = f"{selected_method}_minus_rank"
+    diagnostic = (
+        cell_contrasts[
+            cell_contrasts.budget_rate.eq(0.40)
+            & cell_contrasts.metric.eq("expected_postpromotion_net_gain")
+            & cell_contrasts.contrast.eq(selected_contrast_name)
+        ]
+        if policy_mode
+        else volume_rank
     )
+    positive_cells = int(diagnostic.mean_paired_difference.gt(0).sum())
+    selected_cell = str(diagnostic.sort_values("mean_paired_difference").iloc[-1].scenario)
+    selected_contrast = diagnostic[diagnostic.scenario.eq(selected_cell)].iloc[0]
     report_lines.extend(
         [
             "",
             "## Cellwise diagnostic",
             "",
-            f"Nested volume exceeded pooled-rank mean net gain in {positive_cells}/18 positive-signal cells at the 40% cap. The largest registered-cell contrast was `{selected_cell}`: nested volume minus rank-only was {selected_contrast.mean_paired_difference:.2f} [{selected_contrast.bootstrap_ci_low:.2f}, {selected_contrast.bootstrap_ci_high:.2f}] cumulative units, with promotion rates {selected_methods.loc['rank_context_volume', 'promotion_rate']:.3f} versus {selected_methods.loc['rank', 'promotion_rate']:.3f}. This cell was identified after examining the development grid; its interval is unadjusted and is not confirmation evidence. The two-way macro comparison remains the registered primary analysis.",
+            f"{selected_method} exceeded pooled-rank mean net gain in {positive_cells}/18 positive-signal cells at the 40% cap. The largest registered-cell contrast was `{selected_cell}`: {selected_method} minus rank-only was {selected_contrast.mean_paired_difference:.2f} [{selected_contrast.bootstrap_ci_low:.2f}, {selected_contrast.bootstrap_ci_high:.2f}] cumulative units. This cell was identified after examining the development grid; its interval is unadjusted and is not confirmation evidence. The macro comparison remains the registered primary analysis.",
             "",
             "The complete parameter-cell summaries, paired cell contrasts, and seed-level metrics are stored in Parquet. Cellwise intervals are descriptive and unadjusted across the factorial; the macro contrast averages only the registered positive-signal settings. The zero-signal cells are nondegenerate pointwise net-benefit nulls because both actions have equal expected cost before switching cost.",
             "",
             "## Reproduction",
             "",
-            f"`uv run shiftlab-dive-budgeted-context-grid develop --seeds {seeds} --seed-offset {seed_offset} --n {n} --d {d} --device {resolved_device} --output {output.as_posix()}`",
+            f"`uv run shiftlab-dive-budgeted-context-grid {'policy-develop' if policy_mode else 'develop'} --seeds {seeds} --seed-offset {seed_offset} --n {n} --d {d} --device {resolved_device} --output {output.as_posix()}`",
             "",
             "This is a development screen. Any method retained for a performance claim needs a new independent null calibration and a disjoint confirmation run. No novelty claim follows from weighted Bonferroni composition.",
         ]
     )
-    report_path = reports_dir / "context_budgeted_promotion_grid.md"
+    report_path = reports_dir / (
+        "validation_selected_context_policy.md"
+        if policy_mode
+        else "context_budgeted_promotion_grid.md"
+    )
     report_path.write_text("\n".join(report_lines) + "\n", encoding="utf-8")
     manifest = {
-        "experiment": "fitted_context_nested_alpha_development_grid",
+        "experiment": "validation_selected_context_policy_development_grid"
+        if policy_mode
+        else "fitted_context_nested_alpha_development_grid",
         "created_at_utc": datetime.now(UTC).isoformat(),
         "configuration": {
             "seeds": seeds,
@@ -352,7 +396,9 @@ def run_context_grid(
             "signal_strengths": SIGNAL_STRENGTHS,
             "proxy_errors": PROXY_ERRORS,
             "budget_rates": BUDGET_RATES,
-            "alpha_allocations": ALPHA_ALLOCATIONS,
+            "alpha_allocations": (*ALPHA_ALLOCATIONS, COMPOSITE_ALLOCATION)
+            if policy_mode
+            else ALPHA_ALLOCATIONS,
             "query_policy": "uniform",
             "estimator": "direct_ipw",
             "monitoring_rule": "fixed_mixture",
@@ -367,6 +413,9 @@ def run_context_grid(
             "macro_positive_signal_cells": 18,
             "macro_interval_level_per_contrast": 0.975,
             "practical_margin": 1.0,
+            "policy_selection": "fully labeled validation, frozen before monitor"
+            if policy_mode
+            else None,
             "development_only": True,
         },
         "artifacts": [
@@ -374,7 +423,7 @@ def run_context_grid(
             "metrics/context_budgeted_promotion_summary.parquet",
             "metrics/context_budgeted_promotion_cell_contrasts.parquet",
             "metrics/context_budgeted_promotion_macro_contrasts.parquet",
-            "reports/context_budgeted_promotion_grid.md",
+            f"reports/{report_path.name}",
         ],
     }
     (reports_dir / "manifest.json").write_text(json.dumps(manifest, indent=2), encoding="utf-8")
@@ -385,16 +434,32 @@ def run_context_grid(
 def main(argv: list[str] | None = None) -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     subparsers = parser.add_subparsers(dest="command", required=True)
-    develop = subparsers.add_parser("develop", help="run the frozen development factorial")
-    develop.add_argument(
-        "--output", type=Path, default=Path("outputs/context_budgeted_promotion_grid_30")
-    )
-    develop.add_argument("--seeds", type=int, default=30)
-    develop.add_argument("--seed-offset", type=int, default=DEVELOPMENT_SEED_OFFSET)
-    develop.add_argument("--n", type=int, default=3200)
-    develop.add_argument("--d", type=int, default=16)
-    develop.add_argument("--device", choices=("cpu", "cuda", "auto"), default="cuda")
-    develop.add_argument("--reuse-detail", action="store_true")
+    for command, default_output, help_text, policy_mode in (
+        (
+            "develop",
+            "outputs/context_budgeted_promotion_grid_30",
+            "run the frozen nested-alpha development factorial",
+            False,
+        ),
+        (
+            "policy-develop",
+            "outputs/validation_selected_context_policy_30",
+            "run the frozen validation-selected composite-policy factorial",
+            True,
+        ),
+    ):
+        develop = subparsers.add_parser(command, help=help_text)
+        develop.add_argument("--output", type=Path, default=Path(default_output))
+        develop.add_argument("--seeds", type=int, default=30)
+        develop.add_argument(
+            "--seed-offset",
+            type=int,
+            default=20261026 if policy_mode else DEVELOPMENT_SEED_OFFSET,
+        )
+        develop.add_argument("--n", type=int, default=3200)
+        develop.add_argument("--d", type=int, default=16)
+        develop.add_argument("--device", choices=("cpu", "cuda", "auto"), default="cuda")
+        develop.add_argument("--reuse-detail", action="store_true")
     args = parser.parse_args(argv)
     print(
         run_context_grid(
@@ -405,6 +470,7 @@ def main(argv: list[str] | None = None) -> None:
             d=args.d,
             device=args.device,
             reuse_detail=args.reuse_detail,
+            policy_mode=args.command == "policy-develop",
         ),
         flush=True,
     )

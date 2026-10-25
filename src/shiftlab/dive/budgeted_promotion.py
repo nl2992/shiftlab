@@ -68,6 +68,7 @@ class BudgetedPromotionConfig:
     context_target_prevalence: float = 0.5
     context_signal_strength: float = 0.0
     context_proxy_error: float = 0.0
+    include_validation_context_policy: bool = False
     scenario_subset: tuple[str, ...] = ()
     create_plot: bool = True
     device: str = "cuda"
@@ -140,6 +141,19 @@ class BudgetedPromotionConfig:
             and self.context_feature_index < 2
         ):
             raise ValueError("context heterogeneity requires a proxy feature outside signal x[0:2]")
+        if self.include_validation_context_policy:
+            if "candidate_context_heterogeneity" not in self.scenario_subset:
+                raise ValueError(
+                    "validation-selected context policy requires the registered context DGP"
+                )
+            if self.context_feature_index < 2 or self.bound_mode != "global":
+                raise ValueError(
+                    "validation-selected context policy requires a proxy feature and global bound"
+                )
+            if self.monitoring_rules != ("fixed_mixture",) or self.estimators != ("direct_ipw",):
+                raise ValueError(
+                    "validation-selected context policy currently requires fixed-mixture direct IPW"
+                )
         if self.device not in {"cpu", "cuda", "auto"}:
             raise ValueError("device must be cpu, cuda, or auto")
         return self
@@ -737,6 +751,206 @@ def _monitor_family(
     return output
 
 
+def _monitor_validation_context_policy(
+    *,
+    family: dict[str, Any],
+    y: np.ndarray,
+    scenario,
+    config: BudgetedPromotionConfig,
+    query_name: str,
+    budget_rate: float,
+    query_uniforms: np.ndarray,
+) -> dict[str, Any]:
+    """Select one contextual policy on validation and test it once on the monitor.
+
+    The candidate tuple is fixed before the monitor. Its one global e-process
+    tests the overall history-conditional mean net gain, so no alpha is split
+    across the tuple's context-specific components.
+    """
+    if not config.include_validation_context_policy:
+        raise ValueError("enable include_validation_context_policy to run this monitor")
+    start = family["validation_end"]
+    end = family["monitor_end"]
+    length = family["monitor_length"]
+    budget = int(np.floor(budget_rate * length))
+    if budget < 1:
+        raise ValueError("configured budget leaves no label for the monitor")
+    q_path = family["q_paths"][(query_name, budget_rate)]
+    q_min = family["q_min"][budget_rate]
+    switch_rate = config.switching_cost / family["deployment_length"]
+    outcome_bound = float(max(scenario.fn_cost, scenario.fp_cost))
+    process_bound = outcome_bound / q_min + switch_rate
+
+    validation_start = family["train_end"]
+    validation_contexts = np.asarray(family["contexts"][validation_start:start], dtype=int)
+    selected_by_context: dict[int, int | None] = {}
+    validation_counts: dict[int, int] = {}
+    for group in (0, 1):
+        group_indices = np.arange(validation_start, start)[validation_contexts == group]
+        validation_counts[group] = len(group_indices)
+        if not len(group_indices):
+            selected_by_context[group] = None
+            continue
+        observed = np.where(
+            y[group_indices][None, :] == 1,
+            family["z1"][:, group_indices],
+            family["z0"][:, group_indices],
+        )
+        validation_net_means = observed.mean(axis=1) - switch_rate
+        best = int(np.argmax(validation_net_means))
+        selected_by_context[group] = best if validation_net_means[best] > 0 else None
+
+    labels_used = 0
+    expected_labels = 0.0
+    processed = 0
+    log_wealth = np.zeros(len(BETTING_STAKES), dtype=float)
+    log_e_value = 0.0
+    certified = False
+    bound_total = 0.0
+    stop_reason = "monitor_horizon"
+    for relative, event_index in enumerate(range(start, end)):
+        if budget - labels_used < 1:
+            stop_reason = "label_budget_exhausted"
+            break
+        propensity = float(q_path[relative])
+        if propensity + 1e-12 < q_min or propensity > max(0.5, budget_rate) + 1e-12:
+            raise RuntimeError("query policy violated its registered propensity range")
+        group = int(family["contexts"][event_index])
+        selected = selected_by_context[group]
+        active = selected is not None
+        queried = bool(query_uniforms[relative] < propensity)
+        expected_labels += propensity
+        if queried:
+            labels_used += 1
+            if active:
+                observed_gain = (
+                    family["z1"][selected, event_index]
+                    if y[event_index]
+                    else family["z0"][selected, event_index]
+                )
+                estimate = observed_gain / propensity
+            else:
+                estimate = 0.0
+        else:
+            estimate = 0.0
+        net_estimate = estimate - switch_rate if active else 0.0
+        if abs(net_estimate) > process_bound + 1e-10:
+            raise RuntimeError("composite policy increment exceeded its registered support bound")
+        factors = bounded_betting_factors(
+            np.asarray([net_estimate]),
+            np.asarray([process_bound]),
+            BETTING_STAKES,
+        )[0]
+        if np.any(factors <= 0):
+            raise RuntimeError("nonpositive composite-policy betting factor")
+        log_wealth += np.log(factors)
+        log_e_value = float(logsumexp(log_wealth + BETTING_LOG_WEIGHTS))
+        certified |= log_e_value >= -np.log(config.alpha)
+        bound_total += process_bound
+        processed += 1
+
+    if labels_used > budget:
+        raise RuntimeError("hard label budget was exceeded")
+    stop_index = start + processed
+    monitor_contexts = np.asarray(family["contexts"][start:stop_index], dtype=int)
+    monitor_expected = np.zeros(processed, dtype=float)
+    for group, selected in selected_by_context.items():
+        if selected is None:
+            continue
+        selected_events = monitor_contexts == group
+        event_indices = np.arange(start, stop_index)[selected_events]
+        monitor_expected[selected_events] = family["h_truth"][selected, event_indices] - switch_rate
+    monitor_policy_mean = float(monitor_expected.mean()) if processed else 0.0
+    monitor_null = monitor_policy_mean <= 1e-12
+    deploy_indices = np.arange(stop_index, config.n)
+    deploy_contexts = np.asarray(family["contexts"][deploy_indices], dtype=int)
+    expected_net = 0.0
+    realized_net = 0.0
+    selected_monitor_count = 0
+    selected_count = 0
+    for group, selected in selected_by_context.items():
+        if selected is None:
+            continue
+        use_monitor = monitor_contexts == group
+        selected_monitor_count += int(use_monitor.sum())
+        use_deployment = deploy_contexts == group
+        future_indices = deploy_indices[use_deployment]
+        selected_count += len(future_indices)
+        expected_net += float(np.sum(family["h_truth"][selected, future_indices] - switch_rate))
+        observed_future_gain = np.where(
+            y[future_indices] == 1,
+            family["z1"][selected, future_indices],
+            family["z0"][selected, future_indices],
+        )
+        realized_net += float(np.sum(observed_future_gain - switch_rate))
+    promoted = bool(certified and any(value is not None for value in selected_by_context.values()))
+    if not promoted:
+        expected_net = realized_net = 0.0
+        selected_count = 0
+    selected_ids = {
+        str(group): None if selected is None else family["candidate_ids"][selected]
+        for group, selected in selected_by_context.items()
+    }
+    selected_ranks = {
+        str(group): None if selected is None else selected + 1
+        for group, selected in selected_by_context.items()
+    }
+    return {
+        "scenario": scenario.name,
+        "seed": None,
+        "query_policy": query_name,
+        "estimator": "direct_ipw",
+        "monitoring_rule": "fixed_mixture",
+        "budget_rate": budget_rate,
+        "label_budget": budget,
+        "alpha_allocation": "validation_context_policy",
+        "alpha_total": config.alpha,
+        "candidate_count": 1,
+        "candidate_id": json.dumps(selected_ids, sort_keys=True),
+        "candidate_validation_rank": None,
+        "candidate_validation_ranks_by_context": json.dumps(selected_ranks, sort_keys=True),
+        "selected_candidates_by_context": json.dumps(selected_ids, sort_keys=True),
+        "context_weights": None,
+        "validation_context_counts": json.dumps([validation_counts[group] for group in (0, 1)]),
+        "candidate_is_monitor_null": monitor_null,
+        "promoted": promoted,
+        "pointwise_null_candidate_certified": bool(certified and monitor_null),
+        "pointwise_null_candidate_certificate_count": int(certified and monitor_null),
+        "selected_candidate_monitor_expected_net_gain": (
+            monitor_policy_mean if selected_monitor_count else None
+        ),
+        "expected_postpromotion_net_gain": expected_net,
+        "realized_postpromotion_net_gain": realized_net,
+        "harmful_postpromotion_promotion": bool(promoted and expected_net <= 0),
+        "future_mean_net_gain_per_event": expected_net / max(1, config.n - stop_index),
+        "labels_queried": labels_used,
+        "expected_labels_queried": expected_labels,
+        "budget_utilization": labels_used / budget,
+        "monitor_events_processed": processed,
+        "monitor_fraction_processed": processed / length,
+        "process_bound": bound_total / max(1, processed),
+        "global_process_bound": process_bound,
+        "mean_event_process_bound": bound_total / max(1, processed),
+        "max_event_process_bound": process_bound if processed else 0.0,
+        "bound_mode": "global",
+        "stop_reason": stop_reason,
+        "q_min": q_min,
+        "propensity_min": float(q_path[:processed].min()) if processed else None,
+        "propensity_max": float(q_path[:processed].max()) if processed else None,
+        "switching_cost": switch_rate * selected_count,
+        "evaluation_start_index": stop_index,
+        "training_end_index": family["train_end"],
+        "validation_end_index": family["validation_end"],
+        "shadow_end_index": end,
+        "deployment_end_index": config.n,
+        "familywise_alpha_sum": config.alpha,
+        "pointwise_null_candidate_count": int(monitor_null),
+        "context_policy_events": selected_count,
+        "context_feature_index": config.context_feature_index,
+        "context_threshold": config.context_threshold,
+    }
+
+
 def _run_seed(
     *,
     scenario,
@@ -836,6 +1050,20 @@ def _run_seed(
                         row["query_rng_stream"] = query_index
                         row["top_validation_gain"] = family["top_validation_gain"]
                     output.extend(estimator_rows)
+            if config.include_validation_context_policy:
+                row = _monitor_validation_context_policy(
+                    family=family,
+                    y=y,
+                    scenario=scenario,
+                    config=config,
+                    query_name=query_name,
+                    budget_rate=budget_rate,
+                    query_uniforms=uniforms[query_index],
+                )
+                row["seed"] = seed
+                row["query_rng_stream"] = query_index
+                row["top_validation_gain"] = family["top_validation_gain"]
+                output.append(row)
     if scenario.name == "candidate_context_heterogeneity":
         observed_prevalence = float(
             family["validation_context_counts"][1] / family["validation_context_counts"].sum()

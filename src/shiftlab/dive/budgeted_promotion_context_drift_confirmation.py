@@ -39,10 +39,10 @@ COMPARATORS = (
     ("eventwise_minus_nested_volume", "rank_context_volume", True),
     ("eventwise_minus_minimum_bound", "scout_context_policy", False),
 )
-SEED_OFFSET = 20_270_000
+SEED_OFFSET = 20_271_000
 MIN_SEEDS = 600
 BOOTSTRAP_DRAWS = 10_000
-BOOTSTRAP_SEED = 20_270_600
+BOOTSTRAP_SEED = 20_271_600
 FAMILY_CELLS = len(PREVALENCE_PAIRS) * len(SIGNAL_STRENGTHS) * len(PROXY_ERRORS) * len(BUDGET_RATES)
 
 

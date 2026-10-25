@@ -1,6 +1,6 @@
 # Eventwise-propensity scout confirmation under abrupt context drift
 
-**Status:** frozen 2026-10-25 after the development screen and independent eventwise-bound null calibration. This confirmation evaluates the eventwise-bound scout on a seed block disjoint from both. It is a synthetic benchmark result, not a novelty test or a general deployment guarantee.
+**Status:** frozen 2026-10-25 after the development screen, independent eventwise-bound null calibration, and CUDA smoke test. Seed IDs 20270000–20270001 were reserved for execution smoke checks; this confirmation uses a new block disjoint from those checks, development, and null calibration. It is a synthetic benchmark result, not a novelty test or a general deployment guarantee.
 
 ## Confirmatory question and endpoint
 
@@ -14,7 +14,7 @@ Bootstrap coverage is approximate and relies on independent seed clusters; it is
 
 ## Frozen design
 
-- 600 independent seed clusters, 20270000–20270599. This block is disjoint from the 60-seed development block and the 1,000-seed-per-cell eventwise null calibration.
+- 600 independent seed clusters, 20271000–20271599. This block is disjoint from the 60-seed development block, the 1,000-seed-per-cell eventwise null calibration, and smoke seed IDs 20270000–20270001.
 - The 24 matched cells cross pre/post context prevalence (0.10→0.90, 0.50→0.50, 0.90→0.10), signal strength (0.05, 0.10), proxy error (0, 0.25), and realized label cap (20%, 40%).
 - Compare eventwise scout, minimum-propensity scout, pooled rank, and nested-volume on each stream. Use the registered uniform-query design, direct-IPW estimator, fixed-mixture certification, FN cost 5, FP cost 1, switching charge 0.05, context/candidate split, alpha 0.05, `n=3,200`, and `d=16`.
 - Require all 57,600 method-cell-seed rows, unique `(cell, budget, seed, method)` keys, positive propensities, verified evaluator truth, and no realized-cap violations. Save cellwise promotion, harmful-promotion, expected and realized utility, labels, and processed-event metrics along with the matched primary contrasts, manifest, protocol hash, and artifact checksums.
@@ -27,7 +27,7 @@ Passing the primary gate supports an advantage over the two prespecified baselin
 
 ```powershell
 uv run shiftlab-dive-scout-drift-confirm `
-  --seeds 600 --seed-offset 20270000 --n 3200 --d 16 --device cuda --workers 6 `
+  --seeds 600 --seed-offset 20271000 --n 3200 --d 16 --device cuda --workers 6 `
   --protocol docs/scout_context_policy_eventwise_bound_confirmation_protocol.md `
   --output outputs/scout_context_policy_eventwise_bound_confirmation_600
 ```

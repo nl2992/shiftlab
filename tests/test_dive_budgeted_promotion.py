@@ -6,7 +6,8 @@ import pandas as pd
 from scipy.special import logsumexp
 
 from shiftlab.dive.budgeted_promotion import (
-    ALPHA_ALLOCATIONS,
+    BASE_ALPHA_ALLOCATIONS,
+    CONTEXT_ALPHA_ALLOCATIONS,
     MONITORING_RULES,
     BudgetedPromotionConfig,
     _candidate_outcome_contrasts,
@@ -28,7 +29,7 @@ def test_candidate_alpha_allocations_respect_each_family_budget():
         for i in range(5)
     ]
     allocations = _candidate_alpha_allocations(candidates, alpha=0.05)
-    for name in ALPHA_ALLOCATIONS:
+    for name in BASE_ALPHA_ALLOCATIONS:
         values = [row[name] for row in allocations.values()]
         assert all(value > 0 for value in values)
         assert sum(values) <= 0.05 + 1e-12
@@ -105,7 +106,7 @@ def test_monitor_obeys_common_hard_label_cap_and_uses_only_certified_candidates(
         seeds=1,
         budget_rates=(0.2,),
         query_policies=("uniform",),
-        alpha_allocations=ALPHA_ALLOCATIONS,
+        alpha_allocations=BASE_ALPHA_ALLOCATIONS,
         device="cpu",
     )
     family = {
@@ -122,7 +123,7 @@ def test_monitor_obeys_common_hard_label_cap_and_uses_only_certified_candidates(
         "h_proxy": np.zeros((2, 1000)),
         "h_truth": np.zeros((2, 1000)),
         "alpha_matrix": np.asarray(
-            [[alpha[f"copy-{i}"][method] for method in ALPHA_ALLOCATIONS] for i in range(2)]
+            [[alpha[f"copy-{i}"][method] for method in BASE_ALPHA_ALLOCATIONS] for i in range(2)]
         ),
         "q_paths": {("uniform", 0.2): np.full(10, 0.5)},
         "q_min": {0.2: 0.1},
@@ -140,7 +141,7 @@ def test_monitor_obeys_common_hard_label_cap_and_uses_only_certified_candidates(
             query_uniforms=np.zeros(10),
             monitoring_rule=rule,
         )
-        assert len(rows) == len(ALPHA_ALLOCATIONS)
+        assert len(rows) == len(BASE_ALPHA_ALLOCATIONS)
         for row in rows:
             assert row["monitoring_rule"] == rule
             assert row["label_budget"] == 2
@@ -163,17 +164,98 @@ def test_monitor_obeys_common_hard_label_cap_and_uses_only_certified_candidates(
     assert all(row["process_bound"] < rows[0]["process_bound"] for row in direct_rows)
 
 
+def test_context_alpha_is_nested_and_does_not_certify_zero_gain_cells():
+    allocations = _candidate_alpha_allocations(
+        [
+            {"candidate_id": f"copy-{i}", "validation_gain": 0.0, "validation_gain_se": 0.0}
+            for i in range(2)
+        ],
+        alpha=0.05,
+    )
+    methods = ("rank", *CONTEXT_ALPHA_ALLOCATIONS)
+    config = BudgetedPromotionConfig(
+        n=1000,
+        d=2,
+        seeds=1,
+        budget_rates=(0.2,),
+        query_policies=("uniform",),
+        alpha_allocations=methods,
+        device="cpu",
+    )
+    family = {
+        "validation_end": 10,
+        "monitor_end": 30,
+        "monitor_length": 20,
+        "deployment_length": 70,
+        "train_end": 5,
+        "candidate_ids": ["copy-0", "copy-1"],
+        "actions": np.zeros((2, 1000), dtype=int),
+        "incumbent": np.zeros(1000, dtype=int),
+        "z0": np.zeros((2, 1000)),
+        "z1": np.zeros((2, 1000)),
+        "h_proxy": np.zeros((2, 1000)),
+        "h_truth": np.zeros((2, 1000)),
+        "alpha_matrix": np.asarray(
+            [[allocations[f"copy-{i}"]["rank"] for _ in methods] for i in range(2)]
+        ),
+        "contexts": np.tile([0, 1], 500),
+        "validation_context_counts": np.asarray([5, 5]),
+        "context_volume_weights": np.asarray([0.5, 0.5]),
+        "q_paths": {("uniform", 0.2): np.full(20, 0.1)},
+        "q_min": {0.2: 0.1},
+    }
+    config.validate()
+    rows = _monitor_family(
+        family=family,
+        y=np.zeros(1000, dtype=int),
+        scenario=SimpleNamespace(name="copy_null", fn_cost=5.0, fp_cost=1.0),
+        config=config,
+        query_name="uniform",
+        budget_rate=0.2,
+        estimator="direct_ipw",
+        query_uniforms=np.zeros(20),
+    )
+    by_method = {row["alpha_allocation"]: row for row in rows}
+    assert set(by_method) == set(methods)
+    assert (
+        sum(
+            family["alpha_matrix"][:, methods.index("rank_context_equal")].sum() * 0.5
+            for _ in (0, 1)
+        )
+        <= config.alpha
+    )
+    assert (
+        sum(
+            family["alpha_matrix"][:, methods.index("rank_context_volume")].sum() * 0.5
+            for _ in (0, 1)
+        )
+        <= config.alpha
+    )
+    assert not by_method["rank_context_equal"]["promoted"]
+    assert not by_method["rank_context_volume"]["promoted"]
+    assert (
+        by_method["rank_context_equal"]["labels_queried"]
+        <= by_method["rank_context_equal"]["label_budget"]
+    )
+
+
 def test_paired_bootstrap_contrasts_preserve_matched_seed_differences():
     rows = []
     for query, estimator, allocation, seed in product(
         ("uniform", "variance", "decision_value"),
         ("prediction_powered", "direct_ipw"),
-        ALPHA_ALLOCATIONS,
+        BASE_ALPHA_ALLOCATIONS,
         (1, 2),
     ):
         query_effect = {"uniform": 0.0, "variance": 1.0, "decision_value": 2.0}[query]
         estimator_effect = 3.0 if estimator == "direct_ipw" else 0.0
-        alpha_effect = {"rank": 4.0, "equal": 1.0, "validation_power": 2.0}[allocation]
+        alpha_effect = {
+            "rank": 4.0,
+            "equal": 1.0,
+            "validation_power": 2.0,
+            "rank_context_equal": 5.0,
+            "rank_context_volume": 6.0,
+        }[allocation]
         rows.append(
             {
                 "scenario": "stationary",

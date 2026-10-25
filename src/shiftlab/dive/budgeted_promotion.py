@@ -32,7 +32,9 @@ from .promotion_grid import (
 from .query import AdaptiveQueryPolicy
 
 QUERY_POLICIES = ("uniform", "variance", "decision_value")
-ALPHA_ALLOCATIONS = ("rank", "equal", "validation_power")
+BASE_ALPHA_ALLOCATIONS = ("rank", "equal", "validation_power")
+CONTEXT_ALPHA_ALLOCATIONS = ("rank_context_equal", "rank_context_volume")
+ALPHA_ALLOCATIONS = BASE_ALPHA_ALLOCATIONS + CONTEXT_ALPHA_ALLOCATIONS
 ESTIMATORS = ("prediction_powered", "direct_ipw")
 BOUND_MODES = ("global", "decision_local")
 MONITORING_RULES = (
@@ -57,10 +59,14 @@ class BudgetedPromotionConfig:
     switching_cost: float = 0.05
     budget_rates: tuple[float, ...] = (0.10, 0.20)
     query_policies: tuple[str, ...] = QUERY_POLICIES
-    alpha_allocations: tuple[str, ...] = ALPHA_ALLOCATIONS
+    alpha_allocations: tuple[str, ...] = BASE_ALPHA_ALLOCATIONS
     estimators: tuple[str, ...] = ESTIMATORS
     monitoring_rules: tuple[str, ...] = ("fixed_mixture",)
     bound_mode: str = "global"
+    context_feature_index: int = 0
+    context_threshold: float = 0.0
+    scenario_subset: tuple[str, ...] = ()
+    create_plot: bool = True
     device: str = "cuda"
 
     def validate(self) -> BudgetedPromotionConfig:
@@ -84,6 +90,13 @@ class BudgetedPromotionConfig:
             raise ValueError("alpha_allocations must be nonempty and unique")
         if any(name not in ALPHA_ALLOCATIONS for name in self.alpha_allocations):
             raise ValueError(f"alpha_allocations must be drawn from {ALPHA_ALLOCATIONS}")
+        if any(name in CONTEXT_ALPHA_ALLOCATIONS for name in self.alpha_allocations):
+            if "rank" not in self.alpha_allocations:
+                raise ValueError("context alpha comparisons require the pooled rank comparator")
+            if self.monitoring_rules != ("fixed_mixture",):
+                raise ValueError("context alpha currently requires the fixed_mixture monitor")
+            if self.bound_mode != "global":
+                raise ValueError("context alpha requires the common global support bound")
         if not self.estimators or len(set(self.estimators)) != len(self.estimators):
             raise ValueError("estimators must be nonempty and unique")
         if any(name not in ESTIMATORS for name in self.estimators):
@@ -96,6 +109,18 @@ class BudgetedPromotionConfig:
             raise ValueError(f"monitoring_rules must be drawn from {MONITORING_RULES}")
         if self.bound_mode not in BOUND_MODES:
             raise ValueError(f"bound_mode must be one of {BOUND_MODES}")
+        if self.context_feature_index < 0 or self.context_feature_index >= self.d:
+            raise ValueError("context_feature_index must identify a configured feature")
+        if not np.isfinite(self.context_threshold):
+            raise ValueError("context_threshold must be finite")
+        known_scenarios = {scenario.name for scenario in SCENARIOS} | {
+            "candidate_family_null",
+            "candidate_context_zero_mean",
+        }
+        if len(set(self.scenario_subset)) != len(self.scenario_subset) or any(
+            name not in known_scenarios for name in self.scenario_subset
+        ):
+            raise ValueError("scenario_subset must contain unique registered scenarios")
         if self.device not in {"cpu", "cuda", "auto"}:
             raise ValueError("device must be cpu, cuda, or auto")
         return self
@@ -197,6 +222,9 @@ def _fit_candidate_family(
             candidate["validation_gain_se"] = 0.0
 
     alpha_by_candidate = _candidate_alpha_allocations(candidates, alpha=config.alpha)
+    for allocation in alpha_by_candidate.values():
+        allocation["rank_context_equal"] = allocation["rank"]
+        allocation["rank_context_volume"] = allocation["rank"]
     alpha_matrix = np.asarray(
         [
             [alpha_by_candidate[name][allocation] for allocation in config.alpha_allocations]
@@ -214,6 +242,11 @@ def _fit_candidate_family(
     h_truth = (1 - probability_true[None, :]) * z0 + probability_true[None, :] * z1
     validation = slice(train_end, validation_end)
     monitor = slice(validation_end, monitor_end)
+    contexts = (x[:, config.context_feature_index] >= config.context_threshold).astype(int)
+    validation_context_counts = np.bincount(contexts[validation], minlength=2).astype(int)
+    context_volume_weights = (validation_context_counts + 0.5) / (
+        validation_context_counts.sum() + 1.0
+    )
     top = 0  # candidates are validation-ranked before any monitor feedback
     residual_variance = (
         probability_for_proxy * (1 - probability_for_proxy) * (z1[top] - z0[top]) ** 2
@@ -251,6 +284,9 @@ def _fit_candidate_family(
         "h_proxy": h_proxy,
         "h_truth": h_truth,
         "alpha_matrix": alpha_matrix,
+        "contexts": contexts,
+        "validation_context_counts": validation_context_counts,
+        "context_volume_weights": context_volume_weights,
         "q_paths": q_policy_paths,
         "q_min": min_propensities,
         "train_end": train_end,
@@ -297,6 +333,7 @@ def _monitor_family(
     if monitoring_rule not in MONITORING_RULES:
         raise ValueError(f"monitoring_rule must be one of {MONITORING_RULES}")
     log_wealth = np.zeros((candidates, len(BETTING_STAKES)), dtype=float)
+    contextual_log_wealth = np.zeros((candidates, 2, len(BETTING_STAKES)), dtype=float)
     kelly_log_wealth = np.zeros(candidates, dtype=float)
     kelly_sum = np.zeros(candidates, dtype=float)
     kelly_sum_squares = np.zeros(candidates, dtype=float)
@@ -307,6 +344,14 @@ def _monitor_family(
     pm_predictive_mean = np.full(candidates, 0.5, dtype=float)
     pm_predictive_variance = np.full(candidates, 0.25, dtype=float)
     certified = np.zeros((candidates, len(config.alpha_allocations)), dtype=bool)
+    contextual_certified = np.zeros((candidates, 2, len(config.alpha_allocations)), dtype=bool)
+    context_allocation_weights = {
+        "rank_context_equal": np.asarray([0.5, 0.5]),
+        "rank_context_volume": np.asarray(family.get("context_volume_weights", [0.5, 0.5])),
+    }
+    has_context_alpha = any(name in CONTEXT_ALPHA_ALLOCATIONS for name in config.alpha_allocations)
+    if has_context_alpha and "contexts" not in family:
+        raise ValueError("context alpha requires learner-visible context assignments")
     labels_used = 0
     expected_labels = 0.0
     processed = 0
@@ -370,6 +415,22 @@ def _monitor_family(
             log_e = logsumexp(log_wealth + BETTING_LOG_WEIGHTS[None, :], axis=1)
             level = thresholds if monitoring_rule == "fixed_mixture" else thresholds + np.log(2.0)
             certified |= log_e[:, None] >= level
+            if has_context_alpha and monitoring_rule == "fixed_mixture":
+                group = int(family["contexts"][event_index])
+                contextual_log_wealth[:, group, :] += np.log(factors)
+                context_log_e = logsumexp(
+                    contextual_log_wealth[:, group, :] + BETTING_LOG_WEIGHTS[None, :],
+                    axis=1,
+                )
+                for allocation in CONTEXT_ALPHA_ALLOCATIONS:
+                    if allocation not in config.alpha_allocations:
+                        continue
+                    column = config.alpha_allocations.index(allocation)
+                    cell_alpha = (
+                        family["alpha_matrix"][:, column]
+                        * context_allocation_weights[allocation][group]
+                    )
+                    contextual_certified[:, group, column] |= context_log_e >= -np.log(cell_alpha)
         elif monitoring_rule == "predictable_kelly":
             denominator = 4.0 + processed
             mean_hat = (4.0 * 0.05 + kelly_sum) / denominator
@@ -433,10 +494,149 @@ def _monitor_family(
         truth[:, start:stop_index] - switch_rate <= 1e-12,
         axis=1,
     )
+    context_null_candidates: dict[int, np.ndarray] = {}
+    if has_context_alpha:
+        monitor_contexts = np.asarray(family["contexts"][start:stop_index], dtype=int)
+        monitor_truth_by_candidate = truth[:, start:stop_index] - switch_rate
+        for group in range(2):
+            selected_events = monitor_contexts == group
+            context_null_candidates[group] = (
+                np.all(monitor_truth_by_candidate[:, selected_events] <= 1e-12, axis=1)
+                if selected_events.any()
+                else np.ones(candidates, dtype=bool)
+            )
     output: list[dict[str, Any]] = []
     allocation_index = {name: i for i, name in enumerate(config.alpha_allocations)}
     for allocation in config.alpha_allocations:
         a = allocation_index[allocation]
+        if allocation in CONTEXT_ALPHA_ALLOCATIONS:
+            deploy_indices = np.arange(stop_index, config.n)
+            deployment_contexts = np.asarray(family["contexts"][deploy_indices], dtype=int)
+            selected_by_context = {
+                group: next(
+                    (
+                        candidate
+                        for candidate in range(candidates)
+                        if contextual_certified[candidate, group, a]
+                    ),
+                    None,
+                )
+                for group in range(2)
+            }
+            expected_net = 0.0
+            realized_net = 0.0
+            selected_count = 0
+            selected_monitor_sum = 0.0
+            selected_monitor_events = 0
+            null_certificates = 0
+            null_candidate_cells = 0
+            selected_is_null = False
+            for group, selected in selected_by_context.items():
+                null_candidate_cells += int(context_null_candidates[group].sum())
+                null_certificates += int(
+                    np.sum(contextual_certified[:, group, a] & context_null_candidates[group])
+                )
+                if selected is None:
+                    continue
+                use_deployment = deployment_contexts == group
+                event_count = int(use_deployment.sum())
+                selected_count += event_count
+                expected_net += float(
+                    np.sum(truth[selected, deploy_indices[use_deployment]] - switch_rate)
+                )
+                observed = np.where(
+                    y[deploy_indices[use_deployment]] == 1,
+                    family["z1"][selected, deploy_indices[use_deployment]],
+                    family["z0"][selected, deploy_indices[use_deployment]],
+                )
+                realized_net += float(np.sum(observed - switch_rate))
+                use_monitor = monitor_contexts == group
+                if use_monitor.any():
+                    selected_monitor_sum += float(
+                        np.sum(truth[selected, start:stop_index][use_monitor] - switch_rate)
+                    )
+                    selected_monitor_events += int(use_monitor.sum())
+                selected_is_null = selected_is_null or bool(
+                    context_null_candidates[group][selected]
+                )
+            exposure_switching_cost = switch_rate * selected_count
+            selected_any = any(value is not None for value in selected_by_context.values())
+            selected_ids = {
+                str(group): None if value is None else family["candidate_ids"][value]
+                for group, value in selected_by_context.items()
+            }
+            selected_ranks = {
+                str(group): None if value is None else value + 1
+                for group, value in selected_by_context.items()
+            }
+            context_weights = context_allocation_weights[allocation]
+            output.append(
+                {
+                    "scenario": scenario.name,
+                    "seed": None,
+                    "query_policy": query_name,
+                    "estimator": estimator,
+                    "monitoring_rule": monitoring_rule,
+                    "budget_rate": budget_rate,
+                    "label_budget": budget,
+                    "alpha_allocation": allocation,
+                    "alpha_total": config.alpha,
+                    "candidate_count": candidates,
+                    "candidate_id": json.dumps(selected_ids, sort_keys=True),
+                    # Keep the pooled scalar rank column type-stable for Parquet.
+                    # Context ranks have a separate JSON field because two ranks may be selected.
+                    "candidate_validation_rank": None,
+                    "candidate_validation_ranks_by_context": json.dumps(
+                        selected_ranks, sort_keys=True
+                    ),
+                    "selected_candidates_by_context": json.dumps(selected_ids, sort_keys=True),
+                    "context_weights": json.dumps(context_weights.tolist()),
+                    "validation_context_counts": json.dumps(
+                        np.asarray(family["validation_context_counts"], dtype=int).tolist()
+                    ),
+                    "candidate_is_monitor_null": selected_is_null if selected_any else None,
+                    "promoted": selected_any,
+                    "pointwise_null_candidate_certified": bool(null_certificates),
+                    "pointwise_null_candidate_certificate_count": null_certificates,
+                    "selected_candidate_monitor_expected_net_gain": (
+                        selected_monitor_sum / selected_monitor_events
+                        if selected_monitor_events
+                        else None
+                    ),
+                    "expected_postpromotion_net_gain": expected_net,
+                    "realized_postpromotion_net_gain": realized_net,
+                    "harmful_postpromotion_promotion": bool(selected_any and expected_net <= 0),
+                    "future_mean_net_gain_per_event": expected_net / max(1, config.n - stop_index),
+                    "labels_queried": labels_used,
+                    "expected_labels_queried": expected_labels,
+                    "budget_utilization": labels_used / budget,
+                    "monitor_events_processed": processed,
+                    "monitor_fraction_processed": processed / length,
+                    "process_bound": bound_total / max(1, processed),
+                    "global_process_bound": process_bound,
+                    "mean_event_process_bound": bound_total / max(1, processed),
+                    "max_event_process_bound": max_event_bound,
+                    "bound_mode": bound_mode,
+                    "stop_reason": stop_reason,
+                    "q_min": q_min,
+                    "propensity_min": float(q_path[:processed].min()) if processed else None,
+                    "propensity_max": float(q_path[:processed].max()) if processed else None,
+                    "switching_cost": exposure_switching_cost,
+                    "evaluation_start_index": stop_index,
+                    "training_end_index": family["train_end"],
+                    "validation_end_index": family["validation_end"],
+                    "shadow_end_index": end,
+                    "deployment_end_index": config.n,
+                    "familywise_alpha_sum": float(
+                        np.sum(family["alpha_matrix"][:, a]) * context_weights.sum()
+                    ),
+                    "pointwise_null_candidate_count": null_candidate_cells,
+                    "context_policy_events": selected_count,
+                    "context_feature_index": config.context_feature_index,
+                    "context_threshold": config.context_threshold,
+                }
+            )
+            continue
         selected = next((i for i in range(candidates) if certified[i, a]), None)
         pointwise_null_certificates = certified[:, a] & pointwise_null_candidates
         if selected is None:
@@ -538,11 +738,27 @@ def _run_seed(
         seed_offset=seed,
         device=device,
     )
-    generation_scenario = SCENARIOS[0] if scenario.name == "candidate_family_null" else scenario
+    generation_scenario = (
+        SCENARIOS[0]
+        if scenario.name in {"candidate_family_null", "candidate_context_zero_mean"}
+        else scenario
+    )
     _, frame, oracle, _ = _generate(generation_scenario, seed, source_config)
     x = np.stack(frame.features.to_numpy()).astype(float)
     y = (frame.target.to_numpy(dtype=float) > 0).astype(int)
     probability_true = oracle.probability_positive.to_numpy(dtype=float)
+    if scenario.name == "candidate_context_zero_mean":
+        import torch
+
+        torch_generator = torch.Generator(device=device).manual_seed(seed + 8_271_019)
+        event_probability = scenario.fp_cost / (scenario.fn_cost + scenario.fp_cost)
+        y = (
+            (torch.rand(config.n, generator=torch_generator, device=device) < event_probability)
+            .cpu()
+            .numpy()
+            .astype(int)
+        )
+        probability_true = np.full(config.n, event_probability, dtype=float)
     family = _fit_candidate_family(
         x=x,
         y=y,
@@ -714,7 +930,7 @@ def _paired_bootstrap_contrasts(
         primary.estimator.eq("direct_ipw")
     ].groupby(keys, sort=False):
         rank = group[group.alpha_allocation.eq("rank")].sort_values("seed")
-        for allocation in ("equal", "validation_power"):
+        for allocation in ("equal", "validation_power", *CONTEXT_ALPHA_ALLOCATIONS):
             comparator = group[group.alpha_allocation.eq(allocation)].sort_values("seed")
             if rank.empty or comparator.empty:
                 continue
@@ -908,7 +1124,19 @@ def run_budgeted_promotion(
             dgp=SCENARIOS[0].dgp,
             description="All frozen candidates are exact copies of the incumbent policy.",
         ),
+        type(SCENARIOS[0])(
+            name="candidate_context_zero_mean",
+            dgp=SCENARIOS[0].dgp,
+            description=(
+                "Outcomes are independent of features with P(Y=1)=FP/(FN+FP), so every "
+                "frozen action has equal conditional expected cost in both feature contexts."
+            ),
+        ),
     )
+    if config.scenario_subset:
+        scenarios = tuple(
+            scenario for scenario in scenarios if scenario.name in config.scenario_subset
+        )
     if reuse_detail:
         if not detail_path.exists():
             raise FileNotFoundError(f"cannot reuse missing seed-level metrics: {detail_path}")
@@ -946,7 +1174,8 @@ def run_budgeted_promotion(
     paired = _paired_bootstrap_contrasts(detail)
     paired.to_parquet(paired_path, index=False)
     figure_path = output / "figures/budgeted_promotion_grid.png"
-    _plot(summary, figure_path)
+    if config.create_plot:
+        _plot(summary, figure_path)
 
     if config.bound_mode == "global":
         bound_description = (
@@ -959,6 +1188,9 @@ def run_budgeted_promotion(
             "certify positive average net gain, so a crossing in this mode is a conditional-null "
             "diagnostic and is not a promotion authorization."
         )
+    scenario_clause = (
+        f" --scenario-subset {' '.join(config.scenario_subset)}" if config.scenario_subset else ""
+    )
 
     lines = [
         "# Repeated-candidate promotion under a hard label budget",
@@ -968,6 +1200,7 @@ def run_budgeted_promotion(
         f"Candidates are trained on the training slice and ordered using the fully labeled validation slice. Validation also fixes candidate alpha weights and the acquisition score model. Monitor labels are revealed only when queried. This run uses query design(s) {', '.join(config.query_policies)}; propensities are predictable from current covariates and pre-monitor fits, with a positive floor. For each budget level the same maximum number of labels is available to every configured method. The monitor stops before the next event when no label remains affordable, so actual label counts never exceed the hard cap; realized counts and processed horizons are reported because policies need not spend the entire cap.",
         "",
         f"The implementation supports prediction-powered `h_tk + I_t/q_t (Z_tk-h_tk)` and direct inverse-propensity `I_t Z_tk/q_t` estimates; this run uses {', '.join(config.estimators)}. Both estimates are shifted by the amortized switching charge. Configured monitors are {', '.join(config.monitoring_rules)}. The fixed-mixture half-alpha reference matches the half-weighted hedge branch's threshold. They use the same candidate-level alpha spending rule(s) {', '.join(config.alpha_allocations)} and global bound. Here `Z` is incumbent cost minus candidate cost, `h` is a pre-monitor fitted expected-cost contrast, and the deployment horizon is `H`. With `|Z|,|h| <= M=max(FN,FP)`, the global-mode bounds are `M(2/q_min-1)+k_switch/H` and `M/q_min+k_switch/H`; local-mode bounds are computed per candidate and event from estimator support. Candidate alpha weights are fixed before monitor outcomes and sum to at most alpha. {bound_description} The global-null control replaces all candidates with incumbent copies; its zero-crossing result is a degenerate implementation diagnostic, not evidence of calibration.",
+        f"Context alpha methods define a learner-visible group by `x[{config.context_feature_index}] >= {config.context_threshold:g}`. The context weights use only validation covariate counts; candidate rank weights use validation outcomes; their products sum to at most alpha. They are currently restricted to the fixed-mixture monitor and common global support bound. Context-specific switching cost is prorated by the number of deployment events using that context's candidate (`k_switch/H` per such event); the pooled rank comparator pays the full charge when deployed on every event. This models exposure-scaled update/deployment cost and requires that interpretation for utility comparisons.",
         "",
         "The synthetic evaluator alone accesses true outcome probabilities and unqueried future labels. It scores expected and realized post-promotion value on the untouched remainder of the stream, subtracting the switching charge once. This assumes policy actions do not alter outcomes; the result does not identify policy value under performative feedback. The repeated query/alpha/scenario grid is descriptive: cellwise intervals are not adjusted for choosing a method, and no winner is selected from the evaluation results.",
         "",
@@ -987,9 +1220,9 @@ def run_budgeted_promotion(
             "",
             "## Reproduction",
             "",
-            f"`uv run shiftlab-dive-budgeted-promotion --seeds {config.seeds} --seed-offset {config.seed_offset} --n {config.n} --device {device} --bound-mode {config.bound_mode} --monitoring-rules {' '.join(config.monitoring_rules)} --query-policies {' '.join(config.query_policies)} --estimators {' '.join(config.estimators)} --alpha-allocations {' '.join(config.alpha_allocations)} --budget-rates {' '.join(str(rate) for rate in config.budget_rates)} --output {output.as_posix()}`",
+            f"`uv run shiftlab-dive-budgeted-promotion --seeds {config.seeds} --seed-offset {config.seed_offset} --n {config.n} --device {device} --bound-mode {config.bound_mode} --context-feature-index {config.context_feature_index} --context-threshold {config.context_threshold:g} --monitoring-rules {' '.join(config.monitoring_rules)} --query-policies {' '.join(config.query_policies)} --estimators {' '.join(config.estimators)} --alpha-allocations {' '.join(config.alpha_allocations)} --budget-rates {' '.join(str(rate) for rate in config.budget_rates)}{scenario_clause} --output {output.as_posix()}`",
             "",
-            "Detailed seed-level rows, aggregate metrics, figure, configuration, environment, and hashes are stored with this report.",
+            "Detailed seed-level rows, aggregate metrics, configuration, environment, and hashes are stored with this report.",
         ]
     )
     report_path = reports_dir / "budgeted_promotion_grid.md"
@@ -1013,6 +1246,8 @@ def run_budgeted_promotion(
             "a common pathwise cap is enforced before accessing each next event",
             "the oracle probability and unqueried outcomes are evaluator-only",
             "the global-null candidate family contains only exact copies of the incumbent",
+            "context assignments are a fixed learner-visible feature threshold; validation context weights use features only",
+            "context-specific policy activation incurs switching cost prorated by its exposure share",
             "decision-local crossings reject a pointwise conditional null and do not certify positive average net benefit",
             "the future-value evaluator assumes no action-dependent outcome process",
         ],
@@ -1020,10 +1255,11 @@ def run_budgeted_promotion(
             "metrics/budgeted_promotion_streams.parquet",
             "metrics/budgeted_promotion_summary.parquet",
             "metrics/budgeted_promotion_paired_contrasts.parquet",
-            "figures/budgeted_promotion_grid.png",
             "reports/budgeted_promotion_grid.md",
         ],
     }
+    if config.create_plot:
+        manifest["artifacts"].append("figures/budgeted_promotion_grid.png")
     (reports_dir / "manifest.json").write_text(json.dumps(manifest, indent=2), encoding="utf-8")
     finalize_manifest(output)
     return report_path
@@ -1037,6 +1273,10 @@ def main(argv: list[str] | None = None) -> None:
     parser.add_argument("--n", type=int, default=3200)
     parser.add_argument("--device", choices=["cpu", "cuda", "auto"], default="cuda")
     parser.add_argument("--bound-mode", choices=BOUND_MODES, default="global")
+    parser.add_argument("--context-feature-index", type=int, default=0)
+    parser.add_argument("--context-threshold", type=float, default=0.0)
+    parser.add_argument("--scenario-subset", nargs="+", default=[])
+    parser.add_argument("--skip-figure", action="store_true")
     parser.add_argument(
         "--monitoring-rules", nargs="+", choices=MONITORING_RULES, default=["fixed_mixture"]
     )
@@ -1045,7 +1285,10 @@ def main(argv: list[str] | None = None) -> None:
     )
     parser.add_argument("--estimators", nargs="+", choices=ESTIMATORS, default=list(ESTIMATORS))
     parser.add_argument(
-        "--alpha-allocations", nargs="+", choices=ALPHA_ALLOCATIONS, default=list(ALPHA_ALLOCATIONS)
+        "--alpha-allocations",
+        nargs="+",
+        choices=ALPHA_ALLOCATIONS,
+        default=list(BASE_ALPHA_ALLOCATIONS),
     )
     parser.add_argument("--budget-rates", nargs="+", type=float, default=[0.10, 0.20])
     parser.add_argument(
@@ -1065,6 +1308,10 @@ def main(argv: list[str] | None = None) -> None:
         estimators=tuple(args.estimators),
         alpha_allocations=tuple(args.alpha_allocations),
         budget_rates=tuple(args.budget_rates),
+        context_feature_index=args.context_feature_index,
+        context_threshold=args.context_threshold,
+        scenario_subset=tuple(args.scenario_subset),
+        create_plot=not args.skip_figure,
     )
     print(run_budgeted_promotion(config, args.output, reuse_detail=args.reuse_detail), flush=True)
 

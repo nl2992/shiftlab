@@ -94,3 +94,13 @@ def test_context_prevalence_shift_rejects_invalid_or_persistent_configurations()
             context_persistence=0.5,
             context_certification_prevalence=0.5,
         ).validate()
+
+
+def test_scout_bound_mode_is_validated():
+    with pytest.raises(ValueError, match="scout_bound_mode"):
+        BudgetedPromotionConfig(scout_bound_mode="unpredictable").validate()
+    with pytest.raises(ValueError, match="uniform query policy"):
+        BudgetedPromotionConfig(
+            scout_bound_mode="eventwise_propensity",
+            query_policies=("uniform", "variance"),
+        ).validate()

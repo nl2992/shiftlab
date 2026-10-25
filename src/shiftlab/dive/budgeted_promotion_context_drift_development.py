@@ -22,6 +22,7 @@ PROXY_ERRORS = (0.0, 0.25)
 BUDGET_RATES = (0.20, 0.40)
 SWITCHING_COST = 0.05
 METHODS = ("rank", "rank_context_volume", "scout_context_policy")
+EVENTWISE_SCOUT_METHOD = "scout_context_policy_eventwise_propensity_bound"
 SEED_OFFSET = 20_268_000
 MIN_SEEDS = 60
 BOOTSTRAP_DRAWS = 10_000
@@ -38,28 +39,48 @@ def _cell_name(
     )
 
 
-def _summarize_contrasts(detail: pd.DataFrame, *, draws: int) -> pd.DataFrame:
+def _summarize_contrasts(
+    detail: pd.DataFrame, *, draws: int, compare_eventwise_bound: bool = False
+) -> pd.DataFrame:
     cells = sorted(
         detail[["scenario", "budget_rate"]].drop_duplicates().itertuples(index=False, name=None)
     )
     seeds = np.sort(detail["seed"].unique())
     if len(cells) != FAMILY_CELLS or len(seeds) < 2:
         raise ValueError("development result does not contain the frozen cell and seed family")
-    contrast_specs = (
-        ("scout_minus_rank", "rank"),
-        ("scout_minus_nested_volume", "rank_context_volume"),
-    )
+    contrast_specs = [
+        ("scout_minimum_bound_minus_rank", "scout_context_policy", "rank"),
+        (
+            "scout_minimum_bound_minus_nested_volume",
+            "scout_context_policy",
+            "rank_context_volume",
+        ),
+    ]
+    if compare_eventwise_bound:
+        contrast_specs.extend(
+            [
+                ("scout_eventwise_bound_minus_rank", EVENTWISE_SCOUT_METHOD, "rank"),
+                (
+                    "scout_eventwise_bound_minus_nested_volume",
+                    EVENTWISE_SCOUT_METHOD,
+                    "rank_context_volume",
+                ),
+                (
+                    "eventwise_bound_minus_minimum_bound",
+                    EVENTWISE_SCOUT_METHOD,
+                    "scout_context_policy",
+                ),
+            ]
+        )
     rng = np.random.default_rng(BOOTSTRAP_SEED)
     output: list[dict[str, object]] = []
-    for contrast, comparator in contrast_specs:
+    for contrast, method, comparator in contrast_specs:
         matrix = np.empty((len(cells), len(seeds)), dtype=float)
         for cell_index, (scenario_name, budget_rate) in enumerate(cells):
             cell = detail.loc[
                 detail["scenario"].eq(scenario_name) & detail["budget_rate"].eq(budget_rate)
             ]
-            scout = cell.loc[cell["alpha_allocation"].eq("scout_context_policy")].sort_values(
-                "seed"
-            )
+            scout = cell.loc[cell["alpha_allocation"].eq(method)].sort_values("seed")
             baseline = cell.loc[cell["alpha_allocation"].eq(comparator)].sort_values("seed")
             if (
                 len(scout) != len(seeds)
@@ -105,6 +126,7 @@ def run_development(
     device: str = "cuda",
     protocol: Path,
     bootstrap_draws: int = BOOTSTRAP_DRAWS,
+    compare_eventwise_bound: bool = False,
 ) -> Path:
     if seeds < 2 or n < 1000 or d < 3 or bootstrap_draws < 100:
         raise ValueError(
@@ -131,6 +153,10 @@ def run_development(
         fn_cost=5.0,
         fp_cost=1.0,
         harmful_adaptation=False,
+    )
+    methods = METHODS + ((EVENTWISE_SCOUT_METHOD,) if compare_eventwise_bound else ())
+    bound_modes = (
+        ("minimum_propensity", "eventwise_propensity") if compare_eventwise_bound else None
     )
     records: list[dict[str, object]] = []
     for initial_prevalence, final_prevalence in PREVALENCE_PAIRS:
@@ -173,9 +199,10 @@ def run_development(
                         seed=seed,
                         config=config,
                         device=resolved_device,
+                        scout_bound_modes=bound_modes,
                     )
-                    selected = [row for row in seed_rows if row["alpha_allocation"] in METHODS]
-                    if len(selected) != len(METHODS) * len(BUDGET_RATES):
+                    selected = [row for row in seed_rows if row["alpha_allocation"] in methods]
+                    if len(selected) != len(methods) * len(BUDGET_RATES):
                         raise RuntimeError("stream is missing a method or budget result")
                     for row in selected:
                         row["scenario"] = cell_name
@@ -187,7 +214,7 @@ def run_development(
                         records.append(row)
 
     detail = pd.DataFrame.from_records(records)
-    expected_rows = seeds * FAMILY_CELLS * len(METHODS)
+    expected_rows = seeds * FAMILY_CELLS * len(methods)
     if len(detail) != expected_rows:
         raise RuntimeError(f"expected {expected_rows} development rows; received {len(detail)}")
     if detail.duplicated(["scenario", "budget_rate", "seed", "alpha_allocation"]).any():
@@ -197,7 +224,9 @@ def run_development(
     if (detail["labels_queried"] > detail["label_budget"]).any():
         raise RuntimeError("development exceeded a realized hard label cap")
 
-    contrasts = _summarize_contrasts(detail, draws=bootstrap_draws)
+    contrasts = _summarize_contrasts(
+        detail, draws=bootstrap_draws, compare_eventwise_bound=compare_eventwise_bound
+    )
     summary = detail.groupby(["scenario", "budget_rate", "alpha_allocation"], as_index=False).agg(
         streams=("seed", "count"),
         promotion_rate=("promoted", "mean"),
@@ -224,7 +253,7 @@ def run_development(
         ),
         "",
         (
-            "The grid has 24 cells and three methods per matched stream, with both 20% and 40% hard "
+            f"The grid has 24 cells and {len(methods)} methods per matched stream, with both 20% and 40% hard "
             "caps. The target prevalence changes at the scout/certification boundary except in the "
             "stable 50% control. Primary contrasts equally weight the 24 settings and resample matched "
             "seed IDs as clusters."
@@ -260,7 +289,8 @@ def run_development(
             "proxy_errors": PROXY_ERRORS,
             "switching_cost": SWITCHING_COST,
             "budget_rates": BUDGET_RATES,
-            "methods": METHODS,
+            "methods": methods,
+            "scout_bound_modes": bound_modes or ("minimum_propensity",),
             "query_policy": "uniform",
             "estimator": "direct_ipw",
             "monitoring_rule": "fixed_mixture",
@@ -307,6 +337,7 @@ def main(argv: list[str] | None = None) -> None:
         default=Path("docs/scout_context_policy_positive_drift_development_protocol.md"),
     )
     parser.add_argument("--bootstrap-draws", type=int, default=BOOTSTRAP_DRAWS)
+    parser.add_argument("--compare-eventwise-bound", action="store_true")
     args = parser.parse_args(argv)
     print(
         run_development(
@@ -318,6 +349,7 @@ def main(argv: list[str] | None = None) -> None:
             device=args.device,
             protocol=args.protocol,
             bootstrap_draws=args.bootstrap_draws,
+            compare_eventwise_bound=args.compare_eventwise_bound,
         ),
         flush=True,
     )

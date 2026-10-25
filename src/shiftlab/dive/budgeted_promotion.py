@@ -47,6 +47,7 @@ MONITORING_RULES = (
 )
 BETTING_STAKES = np.asarray((0.05, 0.1, 0.2, 0.4, 0.8), dtype=float)
 BETTING_LOG_WEIGHTS = np.full(len(BETTING_STAKES), -np.log(len(BETTING_STAKES)))
+SCOUT_BOUND_MODES = ("minimum_propensity", "eventwise_propensity")
 
 
 @dataclass(frozen=True)
@@ -70,6 +71,7 @@ class BudgetedPromotionConfig:
     context_proxy_error: float = 0.0
     context_persistence: float = 0.0
     context_certification_prevalence: float | None = None
+    scout_bound_mode: str = "minimum_propensity"
     include_validation_context_policy: bool = False
     include_scout_context_policy: bool = False
     scenario_subset: tuple[str, ...] = ()
@@ -143,6 +145,12 @@ class BudgetedPromotionConfig:
                 raise ValueError(
                     "context_certification_prevalence and context_persistence are mutually exclusive"
                 )
+        if self.scout_bound_mode not in SCOUT_BOUND_MODES:
+            raise ValueError(f"scout_bound_mode must be one of {SCOUT_BOUND_MODES}")
+        if self.scout_bound_mode == "eventwise_propensity" and self.query_policies != ("uniform",):
+            raise ValueError(
+                "eventwise propensity bounds currently require the registered uniform query policy"
+            )
         known_scenarios = {scenario.name for scenario in SCENARIOS} | {
             "candidate_family_null",
             "candidate_context_zero_mean",
@@ -1039,6 +1047,7 @@ def _monitor_scout_context_policy(
     certified = False
     processed = 0
     bound_total = 0.0
+    max_event_bound = 0.0
     for relative in range(scout_length, length):
         if budget - labels_used < 1:
             stop_reason = "label_budget_exhausted_during_certification"
@@ -1065,17 +1074,23 @@ def _monitor_scout_context_policy(
         else:
             estimate = 0.0
         increment = estimate - switch_rate if selected is not None else 0.0
-        if abs(increment) > process_bound + 1e-10:
+        event_bound = (
+            outcome_bound / propensity + switch_rate
+            if config.scout_bound_mode == "eventwise_propensity"
+            else process_bound
+        )
+        if abs(increment) > event_bound + 1e-10:
             raise RuntimeError("scout-policy increment exceeded its registered support bound")
         factors = bounded_betting_factors(
-            np.asarray([increment]), np.asarray([process_bound]), BETTING_STAKES
+            np.asarray([increment]), np.asarray([event_bound]), BETTING_STAKES
         )[0]
         if np.any(factors <= 0):
             raise RuntimeError("nonpositive scout-policy betting factor")
         log_wealth += np.log(factors)
         log_e_value = float(logsumexp(log_wealth + BETTING_LOG_WEIGHTS))
         certified |= log_e_value >= -np.log(config.alpha)
-        bound_total += process_bound
+        bound_total += event_bound
+        max_event_bound = max(max_event_bound, event_bound)
         processed += 1
 
     if labels_used > budget:
@@ -1132,7 +1147,11 @@ def _monitor_scout_context_policy(
         "monitoring_rule": "fixed_mixture",
         "budget_rate": budget_rate,
         "label_budget": budget,
-        "alpha_allocation": "scout_context_policy",
+        "alpha_allocation": (
+            "scout_context_policy"
+            if config.scout_bound_mode == "minimum_propensity"
+            else "scout_context_policy_eventwise_propensity_bound"
+        ),
         "alpha_total": config.alpha,
         "candidate_count": 1,
         "candidate_id": json.dumps(selected_ids, sort_keys=True),
@@ -1164,8 +1183,8 @@ def _monitor_scout_context_policy(
         "process_bound": bound_total / max(1, processed),
         "global_process_bound": process_bound,
         "mean_event_process_bound": bound_total / max(1, processed),
-        "max_event_process_bound": process_bound if processed else 0.0,
-        "bound_mode": "global",
+        "max_event_process_bound": max_event_bound,
+        "bound_mode": config.scout_bound_mode,
         "stop_reason": stop_reason,
         "q_min": q_min,
         "propensity_min": float(q_path[scout_length : scout_length + processed].min())
@@ -1200,6 +1219,7 @@ def _run_seed(
     device: str,
     scout_only: bool = False,
     scout_switching_costs: tuple[float, ...] | None = None,
+    scout_bound_modes: tuple[str, ...] | None = None,
 ) -> list[dict[str, Any]]:
     source_config = ExperimentConfig(
         n=config.n,
@@ -1274,6 +1294,8 @@ def _run_seed(
     output = []
     if scout_switching_costs is not None and not scout_only:
         raise ValueError("multiple scout switching charges require a scout-only run")
+    if scout_switching_costs is not None and scout_bound_modes is not None:
+        raise ValueError("set scout switching costs or bound modes, not both")
     if scout_switching_costs is not None and not config.include_scout_context_policy:
         raise ValueError("multiple scout switching charges require the scout policy")
     if scout_switching_costs is not None and (
@@ -1282,11 +1304,24 @@ def _run_seed(
         or any(not np.isfinite(cost) or cost < 0 for cost in scout_switching_costs)
     ):
         raise ValueError("scout switching charges must be finite, nonnegative, and unique")
-    scout_configs = (
-        tuple(replace(config, switching_cost=cost) for cost in scout_switching_costs)
-        if scout_switching_costs is not None
-        else (config,)
-    )
+    if scout_bound_modes is not None:
+        if not config.include_scout_context_policy:
+            raise ValueError("multiple scout bound modes require the scout policy")
+        if (
+            not scout_bound_modes
+            or len(set(scout_bound_modes)) != len(scout_bound_modes)
+            or any(mode not in SCOUT_BOUND_MODES for mode in scout_bound_modes)
+        ):
+            raise ValueError(f"scout_bound_modes must be unique members of {SCOUT_BOUND_MODES}")
+        if "eventwise_propensity" in scout_bound_modes and config.query_policies != ("uniform",):
+            raise ValueError("eventwise propensity bounds currently require uniform querying")
+        scout_configs = tuple(replace(config, scout_bound_mode=mode) for mode in scout_bound_modes)
+    elif scout_switching_costs is not None:
+        scout_configs = tuple(
+            replace(config, switching_cost=cost) for cost in scout_switching_costs
+        )
+    else:
+        scout_configs = (config,)
     for query_index, query_name in enumerate(config.query_policies):
         for budget_rate in config.budget_rates:
             if not scout_only:

@@ -1,0 +1,5 @@
+scenario,method,streams,mean_budget,mean_spend,budget_utilization,mean_labels,mean_monitor_fraction,stream_mean_rmse,harm_reachable_streams,harmful_streams,sample_path_materiality_flags,detection_rate_all_harm,detection_rate_reached_harm,false_escalation_rate,multiscale_detection_rate_all_harm,multiscale_detection_rate_reached_harm,multiscale_false_escalation_rate,protected_detection_rate_all_harm,protected_detection_rate_reached_harm,protected_false_escalation_rate
+benign_nuisance,evidence_curve_a0_p0.5,2000,719.9336412739042,398.74660105087725,0.5538677139420797,197.253,0.9989977083333333,0.06833693579874178,0,0,49,,,0.0,,,0.0,,,0.0
+benign_nuisance,uniform_proxy,2000,719.9336412739042,718.6439361729035,0.9982083413877456,362.779,0.7554633333333334,0.040219202310223245,0,0,49,,,0.0,,,0.0,,,0.0
+stationary,evidence_curve_a0_p0.5,2000,719.9336412739042,311.8644766598552,0.43317892417603004,207.9895,1.0,0.06773055288824253,0,0,1,,,0.0,,,0.0,,,0.0
+stationary,uniform_proxy,2000,719.9336412739042,706.5417370754036,0.9814885401586227,471.0855,0.9807795833333334,0.03515386012199694,0,0,1,,,0.0,,,0.0,,,0.0

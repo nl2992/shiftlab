@@ -1,0 +1,5 @@
+scenario,method,streams,false_escalations,false_escalation_rate,simultaneous_cp95_upper,cell_alpha,max_false_escalation_rate,cell_passes,mean_labels,mean_spend,mean_processed_events,max_cap_spend_overrun
+benign_nuisance,evidence_curve_a0_p0.5,2000,0,0.0,0.0021886147997063833,0.0125,0.05,True,197.253,398.74660105087725,2397.5945,-0.07089526757704334
+benign_nuisance,uniform_proxy,2000,0,0.0,0.0021886147997063833,0.0125,0.05,True,362.779,718.6439361729035,1813.112,-0.036776359394821156
+stationary,evidence_curve_a0_p0.5,2000,0,0.0,0.0021886147997063833,0.0125,0.05,True,207.9895,311.8644766598552,2400.0,-16.276920083617256
+stationary,uniform_proxy,2000,0,0.0,0.0021886147997063833,0.0125,0.05,True,471.0855,706.5417370754036,2353.871,-0.28059525643641337

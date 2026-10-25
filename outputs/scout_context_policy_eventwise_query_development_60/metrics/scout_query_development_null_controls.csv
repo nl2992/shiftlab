@@ -1,0 +1,13 @@
+query_policy,alpha_allocation,streams,promotions,harmful_promotions,promotion_rate,mean_labels,mean_bound
+decision_value,rank,1440,0,0,0.0,471.62430555555557,37.50006250000021
+decision_value,rank_context_volume,1440,0,0,0.0,471.62430555555557,37.50006250000021
+decision_value,scout_context_policy,1440,0,0,0.0,471.62430555555557,37.500062499999835
+decision_value,scout_context_policy_eventwise_propensity_bound,1440,0,0,0.0,471.62430555555557,20.038476620156988
+uniform,rank,1440,0,0,0.0,471.35833333333335,37.50006250000021
+uniform,rank_context_volume,1440,0,0,0.0,471.35833333333335,37.50006250000021
+uniform,scout_context_policy,1440,0,0,0.0,471.35833333333335,37.50006249999984
+uniform,scout_context_policy_eventwise_propensity_bound,1440,0,0,0.0,471.35833333333335,18.750062500000002
+variance,rank,1440,0,0,0.0,471.62430555555557,37.50006250000021
+variance,rank_context_volume,1440,0,0,0.0,471.62430555555557,37.50006250000021
+variance,scout_context_policy,1440,0,0,0.0,471.62430555555557,37.500062499999835
+variance,scout_context_policy_eventwise_propensity_bound,1440,0,0,0.0,471.62430555555557,20.038476620156988

@@ -1,0 +1,16 @@
+comparison,metric,n_positive_cells,n_seed_clusters,equal_cell_mean_difference,descriptive_bootstrap_ci_level,bootstrap_ci_low,bootstrap_ci_high,bootstrap_draws,bootstrap_seed,confirmatory
+eventwise_minus_minimum_bound__uniform,expected_postpromotion_net_gain,48,60,5.448038563368054,0.95,3.731125454644096,7.4029507519531235,10000,20930060,False
+eventwise_minus_minimum_bound__uniform,labels_queried,48,60,0.0,0.95,0.0,0.0,10000,20930061,False
+eventwise_minus_minimum_bound__uniform,mean_event_process_bound,48,60,-18.749999999999844,0.95,-18.749999999999865,-18.749999999999822,10000,20930062,False
+eventwise_minus_minimum_bound__variance,expected_postpromotion_net_gain,48,60,6.729291276041666,0.95,4.669047934027777,9.03378514485677,10000,20930063,False
+eventwise_minus_minimum_bound__variance,labels_queried,48,60,0.0,0.95,0.0,0.0,10000,20930064,False
+eventwise_minus_minimum_bound__variance,mean_event_process_bound,48,60,-17.46158587984285,0.95,-17.621671281012112,-17.301163464221855,10000,20930065,False
+eventwise_minus_minimum_bound__decision_value,expected_postpromotion_net_gain,48,60,6.729291276041666,0.95,4.661418846028646,9.01480913194444,10000,20930066,False
+eventwise_minus_minimum_bound__decision_value,labels_queried,48,60,0.0,0.95,0.0,0.0,10000,20930067,False
+eventwise_minus_minimum_bound__decision_value,mean_event_process_bound,48,60,-17.46158587984285,0.95,-17.623497565686478,-17.29894534626325,10000,20930068,False
+eventwise_variance_minus_uniform,expected_postpromotion_net_gain,48,60,2.1302023437499997,0.95,0.722074767795139,3.5898801925998263,10000,20930069,False
+eventwise_variance_minus_uniform,labels_queried,48,60,0.26597222222222233,0.95,-0.7673611111111109,1.2597222222222224,10000,20930070,False
+eventwise_variance_minus_uniform,mean_event_process_bound,48,60,1.288414120156984,0.95,1.1263379731522802,1.453060484806095,10000,20930071,False
+eventwise_decision_value_minus_uniform,expected_postpromotion_net_gain,48,60,2.1302023437499997,0.95,0.7148655452473961,3.60881909233941,10000,20930072,False
+eventwise_decision_value_minus_uniform,labels_queried,48,60,0.26597222222222233,0.95,-0.7334027777777775,1.2506944444444446,10000,20930073,False
+eventwise_decision_value_minus_uniform,mean_event_process_bound,48,60,1.288414120156984,0.95,1.1273171366789514,1.4538435160357486,10000,20930074,False

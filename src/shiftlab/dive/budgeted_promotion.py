@@ -68,6 +68,7 @@ class BudgetedPromotionConfig:
     context_target_prevalence: float = 0.5
     context_signal_strength: float = 0.0
     context_proxy_error: float = 0.0
+    context_persistence: float = 0.0
     include_validation_context_policy: bool = False
     include_scout_context_policy: bool = False
     scenario_subset: tuple[str, ...] = ()
@@ -128,6 +129,8 @@ class BudgetedPromotionConfig:
             raise ValueError("context_signal_strength must lie in [0, 1/6) for FN=5, FP=1")
         if not np.isfinite(self.context_proxy_error) or not (0 <= self.context_proxy_error < 0.5):
             raise ValueError("context_proxy_error must lie in [0, 0.5)")
+        if not np.isfinite(self.context_persistence) or not (0 <= self.context_persistence < 1):
+            raise ValueError("context_persistence must lie in [0, 1)")
         known_scenarios = {scenario.name for scenario in SCENARIOS} | {
             "candidate_family_null",
             "candidate_context_zero_mean",
@@ -1332,6 +1335,7 @@ def _run_seed(
             row["context_target_prevalence"] = config.context_target_prevalence
             row["context_signal_strength"] = config.context_signal_strength
             row["context_proxy_error"] = config.context_proxy_error
+            row["context_persistence"] = config.context_persistence
             row["context_observed_prevalence"] = observed_prevalence
     return output
 
@@ -1377,6 +1381,20 @@ def _inject_context_heterogeneity(
     latent_context = x[:, 0] >= latent_threshold
 
     context_generator = torch.Generator(device=device).manual_seed(seed + 9_733_101)
+    if config.context_persistence > 0:
+        _, validation_end, _ = _time_splits(len(y))
+        target_length = len(y) - validation_end
+        uniforms = np.random.default_rng(seed + 9_733_101).random(target_length)
+        persistent_context = np.empty(target_length, dtype=bool)
+        prevalence = config.context_target_prevalence
+        persistence = config.context_persistence
+        persistent_context[0] = uniforms[0] < prevalence
+        p_one_given_one = prevalence + persistence * (1.0 - prevalence)
+        p_one_given_zero = prevalence * (1.0 - persistence)
+        for index in range(1, target_length):
+            p_one = p_one_given_one if persistent_context[index - 1] else p_one_given_zero
+            persistent_context[index] = uniforms[index] < p_one
+        latent_context[validation_end:] = persistent_context
     proxy_flips = (
         torch.rand(len(x), generator=context_generator, device=device).cpu().numpy()
         < config.context_proxy_error

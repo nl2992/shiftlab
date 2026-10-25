@@ -208,6 +208,8 @@ Thumbs.db
 !outputs/scout_context_policy_null_calibration_1000/**
 !outputs/scout_context_policy_confirmation_600/
 !outputs/scout_context_policy_confirmation_600/**
+!outputs/scout_context_policy_markov_null_1000/
+!outputs/scout_context_policy_markov_null_1000/**
 !outputs/informative_delay_fixed_30/
 !outputs/informative_delay_fixed_30/**
 !outputs/informative_delay_positive_fast_30/

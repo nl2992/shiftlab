@@ -1,6 +1,6 @@
 {
   "experiment": "validation_selected_context_policy_development_grid",
-  "created_at_utc": "2026-10-25T02:13:27.435398+00:00",
+  "created_at_utc": "2026-10-25T02:17:50.751903+00:00",
   "configuration": {
     "seeds": 30,
     "seed_offset": 20261026,
@@ -37,11 +37,12 @@
     "monitoring_rule": "fixed_mixture",
     "context_feature_index": 15,
     "alpha": 0.05,
-    "switching_cost": 0.05
+    "switching_cost": 0.05,
+    "protocol": "docs/validation_selected_context_policy_protocol.md"
   },
   "environment": {
     "cpu_ram_bytes": 16858472448,
-    "disk_free_bytes": 20100452352,
+    "disk_free_bytes": 20098084864,
     "cuda_available": true,
     "nvidia_smi": "NVIDIA GeForce RTX 4060 Laptop GPU, 8188 MiB, 592.82, 0 %, 0 MiB",
     "torch_version": "2.9.1+cu130",
@@ -63,13 +64,47 @@
     "macro_interval_level_per_contrast": 0.975,
     "practical_margin": 1.0,
     "policy_selection": "fully labeled validation, frozen before monitor",
+    "overlap_with_earlier_nested_seed_ids": [
+      20261026,
+      20261027,
+      20261028,
+      20261029,
+      20261030,
+      20261031,
+      20261032,
+      20261033,
+      20261034,
+      20261035,
+      20261036,
+      20261037,
+      20261038,
+      20261039,
+      20261040,
+      20261041,
+      20261042,
+      20261043,
+      20261044,
+      20261045,
+      20261046,
+      20261047,
+      20261048,
+      20261049,
+      20261050,
+      20261051,
+      20261052,
+      20261053,
+      20261054
+    ],
+    "overlap_with_earlier_composite_seed_ids": [],
     "development_only": true
   },
   "artifacts": [
-    "metrics/context_budgeted_promotion_streams.parquet",
-    "metrics/context_budgeted_promotion_summary.parquet",
     "metrics/context_budgeted_promotion_cell_contrasts.parquet",
     "metrics/context_budgeted_promotion_macro_contrasts.parquet",
+    "metrics/context_budgeted_promotion_streams.parquet",
+    "metrics/context_budgeted_promotion_summary.parquet",
+    "metrics/context_policy_selection_diagnostic.parquet",
+    "reports/context_policy_selection_diagnostic.md",
     "reports/validation_selected_context_policy.md"
   ],
   "sha256": {
@@ -78,7 +113,9 @@
       "metrics\\context_budgeted_promotion_macro_contrasts.parquet": "bbc416ac8a1a1ced9e95c5de3a371ee4c83a83145bf0a000792667b315a69d86",
       "metrics\\context_budgeted_promotion_streams.parquet": "19cb221cd742e38e13de48f11bdadbaf67638d282cb8c254cda4328cc048b086",
       "metrics\\context_budgeted_promotion_summary.parquet": "54c563338fa9ed00207f51857933ca256ac2e77ebdb2175bc6dfb0f039a1d915",
-      "reports\\validation_selected_context_policy.md": "dab29b2254b56851dc9992749c59c861c8445eebc755e018f0f728fea403c0c6"
+      "metrics\\context_policy_selection_diagnostic.parquet": "a8ef47031e29447bf5b789671411e5cd5db1279ab43f96022b91c58adec9153e",
+      "reports\\context_policy_selection_diagnostic.md": "534a5f342ea87662d683ac1b21efd3d7697767ddf833ec437d5c040ecb97a3a3",
+      "reports\\validation_selected_context_policy.md": "90f99e16ba1dd65674167c1c5428362b21406836ac2bee75355f58158ef4b3cd"
     },
     "source_files": {
       "src\\shiftlab\\dive\\__init__.py": "d5c8a363ed59ef4ee0dea02c0dacc0c9a5164cabf4ca49989899678a8417a736",
@@ -86,7 +123,7 @@
       "src\\shiftlab\\dive\\analyze_residual_variance_start_prior.py": "126f9ce1666170457bb30560205013b422b8790292591a885cf76c300b1572a1",
       "src\\shiftlab\\dive\\analyze_risk_proxy_stress_grid.py": "4b2b081f99d54aa37bf3e2ecb6eb13a5c484e0b781465440172e124fd4f85b23",
       "src\\shiftlab\\dive\\budgeted_promotion.py": "6471fe9a601bfb343cf5e0a971fb40c20d92eeafe88a9faf31c56da1628a0c2c",
-      "src\\shiftlab\\dive\\budgeted_promotion_context_grid.py": "a9f784acb36b34766d227e9e3d4e47a8fa0fb6152701c9d324418c34abf4f296",
+      "src\\shiftlab\\dive\\budgeted_promotion_context_grid.py": "52112f4da0631306a45ee13baf05669a65cf9a9d1347d99e976ada2be84b1a24",
       "src\\shiftlab\\dive\\closed_loop_intervention.py": "ad33b9a999814d447e95fcd9e8cbe1e39a78661dab2ca4a74a9c63da82fe44f8",
       "src\\shiftlab\\dive\\contextual_stratified_intervention.py": "61f435bde8c7c8419a52513077e975851760e826d647fe836f26ff9bafc0f993",
       "src\\shiftlab\\dive\\contextual_stratified_validation.py": "192a6e155705e9782b6fc69e3875b6a26709c9acddddff5d76f4401293e0f89e",
@@ -102,7 +139,7 @@
       "src\\shiftlab\\dive\\eprocess.py": "186cb6cd152b127a7cd2e6a0082dd91762a983f8cf3b6ccb7b3e147e067e37a3",
       "src\\shiftlab\\dive\\estimators.py": "ccf8cab60b73ca139f1c9eebf70f53d003201b3664f9bab99e126ec0739647b0",
       "src\\shiftlab\\dive\\evaluation.py": "9b64eea3d7dd708104d25ad51e927451811c91e66295ee480fc791ac884432c4",
-      "src\\shiftlab\\dive\\experiment.py": "070e2f0368c1a7781d9b66da11f41fa5cd09cb761e41cafb31dfa484c4afdd9a",
+      "src\\shiftlab\\dive\\experiment.py": "db757b60dd0f5c482f12656961453b06e55e864a8419acdb43ac09b6f9eb92c8",
       "src\\shiftlab\\dive\\feature_intervention.py": "166dd06f5fc8ab2488b5d0660416fa511aad775cc67ea4fe90ec8ffe8e4d790c",
       "src\\shiftlab\\dive\\feature_intervention_calibration.py": "241852d2f908c3e7554b28f18eb6ae287250718bc52ac6901fe6131861979380",
       "src\\shiftlab\\dive\\feature_intervention_confirmation.py": "a1d16bb078aed1a6120b86df6fb5aa9487fa574d53dac51c6bc52ab96b273f78",
@@ -140,7 +177,12 @@
       "src\\shiftlab\\dive\\start_prior_validation.py": "42eca75b0824b05ef7a06c4dbef4d09d214f8b86202dd1cbdb675210b9f72f8f",
       "src\\shiftlab\\decision_harm_experiment.py": "963d2a794ec0638f08f24dd75eabec457f209ae2df3759e89a6f6dadeca9fa41",
       "scripts\\analyze_monitor_signal.py": "5ed6ad7128c4d44489657b125ede90f340ed85f2a23ff402e4e3aafd1dbfe9d0",
-      "scripts\\compare_propensity_floor.py": "debcfb35d2f76a6eeb6dd05750a8fc5aeaf572bb757afe912971ba19fc704ef1"
+      "scripts\\compare_propensity_floor.py": "debcfb35d2f76a6eeb6dd05750a8fc5aeaf572bb757afe912971ba19fc704ef1",
+      "scripts\\analyze_validation_context_policy.py": "e267c0a85a8a47b16eea1b89ecaf16c7d7074333caaeb5c80a2ee6c800c45089"
     }
+  },
+  "posthoc_diagnostic": {
+    "purpose": "separate selected-policy target value from monitor certification",
+    "inferential_status": "descriptive only; selected after inspecting development results"
   }
 }

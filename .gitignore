@@ -198,6 +198,12 @@ Thumbs.db
 !outputs/context_budgeted_promotion_grid_30/**
 !outputs/validation_selected_context_policy_30/
 !outputs/validation_selected_context_policy_30/**
+!outputs/validation_selected_context_policy_replication_30/
+!outputs/validation_selected_context_policy_replication_30/**
+!outputs/scout_selected_context_policy_30/
+!outputs/scout_selected_context_policy_30/**
+!outputs/scout_selected_context_policy_replication_60/
+!outputs/scout_selected_context_policy_replication_60/**
 !outputs/informative_delay_fixed_30/
 !outputs/informative_delay_fixed_30/**
 !outputs/informative_delay_positive_fast_30/

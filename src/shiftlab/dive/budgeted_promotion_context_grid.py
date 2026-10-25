@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 from datetime import UTC, datetime
 from pathlib import Path
@@ -26,8 +27,13 @@ PROXY_ERRORS = (0.0, 0.10, 0.25)
 BUDGET_RATES = (0.20, 0.40)
 ALPHA_ALLOCATIONS = ("rank", *CONTEXT_ALPHA_ALLOCATIONS)
 COMPOSITE_ALLOCATION = "validation_context_policy"
+SCOUT_ALLOCATION = "scout_context_policy"
+SINGLE_POLICY_ALLOCATIONS = (COMPOSITE_ALLOCATION, SCOUT_ALLOCATION)
 DEVELOPMENT_SEED_OFFSET = 20_261_025
 BOOTSTRAP_SEED = 20_261_026
+EARLIER_NESTED_SEEDS = range(20_261_025, 20_261_055)
+COMPOSITE_SCREEN_SEEDS = range(20_261_026, 20_261_056)
+SCOUT_SCREEN_SEEDS = range(20_261_130, 20_261_160)
 
 
 def _cell_name(prevalence: float, signal: float, error: float) -> str:
@@ -45,10 +51,14 @@ def _paired_cell_contrasts(detail: pd.DataFrame, *, draws: int = 10_000) -> pd.D
         ("rank_context_volume", "rank"),
         ("rank_context_volume", "rank_context_equal"),
     )
-    if COMPOSITE_ALLOCATION in set(detail.alpha_allocation):
+    policy_method = next(
+        (name for name in SINGLE_POLICY_ALLOCATIONS if name in set(detail.alpha_allocation)),
+        None,
+    )
+    if policy_method is not None:
         comparisons += (
-            (COMPOSITE_ALLOCATION, "rank"),
-            (COMPOSITE_ALLOCATION, "rank_context_volume"),
+            (policy_method, "rank"),
+            (policy_method, "rank_context_volume"),
         )
     for (scenario, budget_rate), group in detail.groupby(["scenario", "budget_rate"], sort=False):
         for treatment_name, comparator_name in comparisons:
@@ -98,17 +108,17 @@ def _macro_signal_contrasts(detail: pd.DataFrame, *, draws: int = 10_000) -> pd.
     if len(cells) != expected_cells:
         raise ValueError(f"expected {expected_cells} positive-signal cells, found {len(cells)}")
     methods = set(alternatives.alpha_allocation)
-    composite_mode = COMPOSITE_ALLOCATION in methods
+    policy_method = next((name for name in SINGLE_POLICY_ALLOCATIONS if name in methods), None)
     contrasts = (
         (
-            (f"{COMPOSITE_ALLOCATION}_minus_rank", COMPOSITE_ALLOCATION, "rank"),
+            (f"{policy_method}_minus_rank", policy_method, "rank"),
             (
-                f"{COMPOSITE_ALLOCATION}_minus_rank_context_volume",
-                COMPOSITE_ALLOCATION,
+                f"{policy_method}_minus_rank_context_volume",
+                policy_method,
                 "rank_context_volume",
             ),
         )
-        if composite_mode
+        if policy_method is not None
         else (
             ("rank_context_volume_minus_rank", "rank_context_volume", "rank"),
             (
@@ -122,7 +132,7 @@ def _macro_signal_contrasts(detail: pd.DataFrame, *, draws: int = 10_000) -> pd.
     for scenario in cells:
         group = alternatives[alternatives.scenario.eq(scenario)]
         required_methods = (
-            (*ALPHA_ALLOCATIONS, COMPOSITE_ALLOCATION) if composite_mode else ALPHA_ALLOCATIONS
+            (*ALPHA_ALLOCATIONS, policy_method) if policy_method is not None else ALPHA_ALLOCATIONS
         )
         by_method = {
             name: group[group.alpha_allocation.eq(name)].sort_values("seed")
@@ -176,7 +186,13 @@ def run_context_grid(
     device: str = "cuda",
     reuse_detail: bool = False,
     policy_mode: bool = False,
+    scout_mode: bool = False,
+    protocol_path: Path | None = None,
 ) -> Path:
+    if policy_mode and scout_mode:
+        raise ValueError("choose one single-policy selection mode")
+    single_policy_mode = policy_mode or scout_mode
+    policy_allocation = SCOUT_ALLOCATION if scout_mode else COMPOSITE_ALLOCATION
     if seeds < 2 or n < 1000 or d < 3:
         raise ValueError("development requires seeds >=2, n >=1000, and d >=3")
     resolved_device = resolve_device(device, n=n, d=d, chunk_size=2048)
@@ -198,7 +214,7 @@ def run_context_grid(
         detail = pd.read_parquet(detail_path)
         expected_seeds = set(range(seed_offset, seed_offset + seeds))
         expected_allocations = set(ALPHA_ALLOCATIONS) | (
-            {COMPOSITE_ALLOCATION} if policy_mode else set()
+            {policy_allocation} if single_policy_mode else set()
         )
         if (
             set(detail.seed.unique()) != expected_seeds
@@ -246,6 +262,7 @@ def run_context_grid(
                         context_signal_strength=signal,
                         context_proxy_error=proxy_error,
                         include_validation_context_policy=policy_mode,
+                        include_scout_context_policy=scout_mode,
                         scenario_subset=("candidate_context_heterogeneity",),
                         create_plot=False,
                         device=resolved_device,
@@ -287,6 +304,45 @@ def run_context_grid(
     macro_contrasts.to_parquet(macro_path, index=False)
 
     macro = macro_contrasts.set_index("contrast")
+    if protocol_path is None:
+        protocol_path = Path(
+            (
+                "docs/scout_selected_context_policy_protocol.md"
+                if scout_mode
+                else "docs/validation_selected_context_policy_protocol.md"
+            )
+            if single_policy_mode
+            else "docs/contextual_budgeted_promotion_grid_protocol.md"
+        )
+    protocol_link = f"../../../{protocol_path.as_posix()}"
+    current_seeds = set(range(seed_offset, seed_offset + seeds))
+    nested_overlap = sorted(current_seeds.intersection(EARLIER_NESTED_SEEDS))
+    composite_overlap = (
+        []
+        if output.name == "validation_selected_context_policy_30"
+        else sorted(current_seeds.intersection(COMPOSITE_SCREEN_SEEDS))
+    )
+    scout_overlap = (
+        []
+        if output.name == "scout_selected_context_policy_30"
+        else sorted(current_seeds.intersection(SCOUT_SCREEN_SEEDS))
+    )
+    seed_note = None
+    if single_policy_mode:
+        if nested_overlap or composite_overlap or scout_overlap:
+            seed_note = (
+                "**Seed-overlap caveat:** this run shares seed IDs with an earlier design screen "
+                f"(nested-alpha overlap: {len(nested_overlap)}; composite-screen overlap: "
+                f"{len(composite_overlap)}; scout-screen overlap: {len(scout_overlap)}). "
+                "The candidate design was selected after earlier "
+                "results were inspected, so the reported bootstrap intervals are descriptive "
+                "and are not independent inferential evidence."
+            )
+        else:
+            seed_note = (
+                f"This run uses seed IDs {seed_offset}–{seed_offset + seeds - 1}, disjoint from "
+                "the earlier nested-alpha, validation-composite, and target-scout development screens."
+            )
     summary_macro = (
         detail[detail.budget_rate.eq(0.40)]
         .groupby(["context_signal_strength", "alpha_allocation"], as_index=False)
@@ -300,21 +356,30 @@ def run_context_grid(
         )
     )
     report_lines = [
-        "# Validation-selected contextual policy development grid"
-        if policy_mode
-        else "# Fitted context-nested promotion development grid",
+        (
+            "# Target-scout selected contextual policy development grid"
+            if scout_mode
+            else "# Validation-selected contextual policy development grid"
+            if policy_mode
+            else "# Fitted context-nested promotion development grid"
+        ),
         "",
         (
-            f"This frozen grid used {seeds} matched seeds in each of 27 cells (`n={n}`, `d={d}`), with uniform direct-IPW monitoring and common 20%/40% hard label caps. It compares pooled candidate-rank alpha, equal-context and validation-volume nested allocations, and one validation-selected composite policy tested at full alpha. The exact DGP and analysis were frozen in [the protocol](../../../docs/validation_selected_context_policy_protocol.md)."
-            if policy_mode
+            f"This frozen grid used {seeds} matched seeds in each of 27 cells (`n={n}`, `d={d}`), with uniform direct-IPW monitoring and common 20%/40% hard label caps. It compares pooled candidate-rank alpha, equal-context and validation-volume nested allocations, and one {('target-scout-selected' if scout_mode else 'validation-selected')} composite policy tested at full alpha. The exact DGP and analysis were frozen in [the protocol]({protocol_link})."
+            if single_policy_mode
             else f"This frozen CUDA grid used {seeds} matched seeds in each of 27 cells (`n={n}`, `d={d}`), with uniform direct-IPW monitoring and common 20%/40% hard label caps. It compares pooled candidate-rank alpha with equal-context and validation-volume nested allocations. The exact DGP and analysis were frozen in [the protocol](../../../docs/contextual_budgeted_promotion_grid_protocol.md)."
         ),
+        *(["", seed_note] if seed_note else []),
         "",
         "The monitor/evaluator assumptions are unchanged from the fitted-controller benchmark. The context signal is applied from the monitor boundary; latent group membership is evaluator-only, and the learner's context rule uses the independently misclassified proxy feature. No figure was generated.",
         "",
         "## Primary macro contrasts",
         "",
-        "The primary summary equally averages the 18 positive-signal prevalence/error cells at the 40% cap. The two primary contrasts use 97.5% intervals for simultaneous coverage. The +1 cumulative utility margin is the existing development gate; this exploratory grid does not select a confirmation winner.",
+        (
+            "The primary summary equally averages the 18 positive-signal prevalence/error cells at the 40% cap. The reported 97.5% intervals are descriptive only because this seed block overlaps the earlier design screen. The +1 cumulative utility margin is the existing development gate; this exploratory grid does not select a confirmation winner."
+            if single_policy_mode and (nested_overlap or composite_overlap or scout_overlap)
+            else "The primary summary equally averages the 18 positive-signal prevalence/error cells at the 40% cap. The two primary contrasts use 97.5% intervals for simultaneous coverage under the frozen independent seed block. The +1 cumulative utility margin is the existing development gate; this exploratory grid does not select a confirmation winner."
+        ),
         "",
         "| Contrast | Mean paired future net gain | 97.5% bootstrap interval | Settings |",
         "|---|---:|---:|---:|",
@@ -329,7 +394,7 @@ def run_context_grid(
             "",
             "## 40% cap results by signal strength",
             "",
-            "| Signal delta | Allocation | Promotion rate | Mean future net gain | Future harmful rate | Mean labels / cap | Processed monitor fraction |",
+            "| Signal delta | Allocation | Promotion rate | Mean future net gain | Future harmful rate | Mean labels / cap | Monitor fraction processed for test |",
             "|---:|---|---:|---:|---:|---:|---:|",
         ]
     )
@@ -345,7 +410,7 @@ def run_context_grid(
     positive_signal_scenarios = set(detail.loc[detail.context_signal_strength.gt(0), "scenario"])
     volume_rank = volume_rank[volume_rank.scenario.isin(positive_signal_scenarios)]
     positive_cells = int(volume_rank.mean_paired_difference.gt(0).sum())
-    selected_method = COMPOSITE_ALLOCATION if policy_mode else "rank_context_volume"
+    selected_method = policy_allocation if single_policy_mode else "rank_context_volume"
     selected_contrast_name = f"{selected_method}_minus_rank"
     diagnostic = (
         cell_contrasts[
@@ -353,9 +418,10 @@ def run_context_grid(
             & cell_contrasts.metric.eq("expected_postpromotion_net_gain")
             & cell_contrasts.contrast.eq(selected_contrast_name)
         ]
-        if policy_mode
+        if single_policy_mode
         else volume_rank
     )
+    diagnostic = diagnostic[diagnostic.scenario.isin(positive_signal_scenarios)]
     positive_cells = int(diagnostic.mean_paired_difference.gt(0).sum())
     selected_cell = str(diagnostic.sort_values("mean_paired_difference").iloc[-1].scenario)
     selected_contrast = diagnostic[diagnostic.scenario.eq(selected_cell)].iloc[0]
@@ -370,22 +436,32 @@ def run_context_grid(
             "",
             "## Reproduction",
             "",
-            f"`uv run shiftlab-dive-budgeted-context-grid {'policy-develop' if policy_mode else 'develop'} --seeds {seeds} --seed-offset {seed_offset} --n {n} --d {d} --device {resolved_device} --output {output.as_posix()}`",
+            f"`uv run shiftlab-dive-budgeted-context-grid {'scout-develop' if scout_mode else 'policy-develop' if policy_mode else 'develop'} --seeds {seeds} --seed-offset {seed_offset} --n {n} --d {d} --device {resolved_device} --protocol {protocol_path.as_posix()} --output {output.as_posix()}`",
             "",
             "This is a development screen. Any method retained for a performance claim needs a new independent null calibration and a disjoint confirmation run. No novelty claim follows from weighted Bonferroni composition.",
         ]
     )
     report_path = reports_dir / (
-        "validation_selected_context_policy.md"
+        "scout_selected_context_policy.md"
+        if scout_mode
+        else "validation_selected_context_policy.md"
         if policy_mode
         else "context_budgeted_promotion_grid.md"
     )
     report_path.write_text("\n".join(report_lines) + "\n", encoding="utf-8")
     manifest = {
-        "experiment": "validation_selected_context_policy_development_grid"
+        "experiment": "target_scout_context_policy_development_grid"
+        if scout_mode
+        else "validation_selected_context_policy_development_grid"
         if policy_mode
         else "fitted_context_nested_alpha_development_grid",
         "created_at_utc": datetime.now(UTC).isoformat(),
+        "protocol": {
+            "path": protocol_path.as_posix(),
+            "sha256": hashlib.sha256(protocol_path.read_bytes()).hexdigest()
+            if protocol_path.is_file()
+            else None,
+        },
         "configuration": {
             "seeds": seeds,
             "seed_offset": seed_offset,
@@ -396,8 +472,8 @@ def run_context_grid(
             "signal_strengths": SIGNAL_STRENGTHS,
             "proxy_errors": PROXY_ERRORS,
             "budget_rates": BUDGET_RATES,
-            "alpha_allocations": (*ALPHA_ALLOCATIONS, COMPOSITE_ALLOCATION)
-            if policy_mode
+            "alpha_allocations": (*ALPHA_ALLOCATIONS, policy_allocation)
+            if single_policy_mode
             else ALPHA_ALLOCATIONS,
             "query_policy": "uniform",
             "estimator": "direct_ipw",
@@ -405,6 +481,7 @@ def run_context_grid(
             "context_feature_index": d - 1,
             "alpha": 0.05,
             "switching_cost": 0.05,
+            "protocol": protocol_path.as_posix(),
         },
         "environment": environment(),
         "inference": {
@@ -413,9 +490,14 @@ def run_context_grid(
             "macro_positive_signal_cells": 18,
             "macro_interval_level_per_contrast": 0.975,
             "practical_margin": 1.0,
-            "policy_selection": "fully labeled validation, frozen before monitor"
+            "policy_selection": "target-scout first half of monitor, frozen before certification half"
+            if scout_mode
+            else "fully labeled validation, frozen before monitor"
             if policy_mode
             else None,
+            "overlap_with_earlier_nested_seed_ids": nested_overlap,
+            "overlap_with_earlier_composite_seed_ids": composite_overlap,
+            "overlap_with_earlier_scout_seed_ids": scout_overlap,
             "development_only": True,
         },
         "artifacts": [
@@ -434,17 +516,26 @@ def run_context_grid(
 def main(argv: list[str] | None = None) -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     subparsers = parser.add_subparsers(dest="command", required=True)
-    for command, default_output, help_text, policy_mode in (
+    for command, default_output, help_text, policy_mode, scout_mode in (
         (
             "develop",
             "outputs/context_budgeted_promotion_grid_30",
             "run the frozen nested-alpha development factorial",
+            False,
             False,
         ),
         (
             "policy-develop",
             "outputs/validation_selected_context_policy_30",
             "run the frozen validation-selected composite-policy factorial",
+            True,
+            False,
+        ),
+        (
+            "scout-develop",
+            "outputs/scout_selected_context_policy_30",
+            "run the frozen target-scout composite-policy factorial",
+            False,
             True,
         ),
     ):
@@ -454,12 +545,17 @@ def main(argv: list[str] | None = None) -> None:
         develop.add_argument(
             "--seed-offset",
             type=int,
-            default=20261026 if policy_mode else DEVELOPMENT_SEED_OFFSET,
+            default=20261130
+            if scout_mode
+            else 20261026
+            if policy_mode
+            else DEVELOPMENT_SEED_OFFSET,
         )
         develop.add_argument("--n", type=int, default=3200)
         develop.add_argument("--d", type=int, default=16)
         develop.add_argument("--device", choices=("cpu", "cuda", "auto"), default="cuda")
         develop.add_argument("--reuse-detail", action="store_true")
+        develop.add_argument("--protocol", type=Path)
     args = parser.parse_args(argv)
     print(
         run_context_grid(
@@ -471,6 +567,8 @@ def main(argv: list[str] | None = None) -> None:
             device=args.device,
             reuse_detail=args.reuse_detail,
             policy_mode=args.command == "policy-develop",
+            scout_mode=args.command == "scout-develop",
+            protocol_path=args.protocol,
         ),
         flush=True,
     )

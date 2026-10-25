@@ -2,11 +2,13 @@
 
 This frozen grid used 30 matched seeds in each of 27 cells (`n=3200`, `d=16`), with uniform direct-IPW monitoring and common 20%/40% hard label caps. It compares pooled candidate-rank alpha, equal-context and validation-volume nested allocations, and one validation-selected composite policy tested at full alpha. The exact DGP and analysis were frozen in [the protocol](../../../docs/validation_selected_context_policy_protocol.md).
 
+**Seed-overlap caveat:** this run shares seed IDs with an earlier design screen (nested-alpha overlap: 29; composite-screen overlap: 0). The candidate design was selected after earlier results were inspected, so the reported bootstrap intervals are descriptive and are not independent inferential evidence.
+
 The monitor/evaluator assumptions are unchanged from the fitted-controller benchmark. The context signal is applied from the monitor boundary; latent group membership is evaluator-only, and the learner's context rule uses the independently misclassified proxy feature. No figure was generated.
 
 ## Primary macro contrasts
 
-The primary summary equally averages the 18 positive-signal prevalence/error cells at the 40% cap. The two primary contrasts use 97.5% intervals for simultaneous coverage. The +1 cumulative utility margin is the existing development gate; this exploratory grid does not select a confirmation winner.
+The primary summary equally averages the 18 positive-signal prevalence/error cells at the 40% cap. The reported 97.5% intervals are descriptive only because this seed block overlaps the earlier design screen. The +1 cumulative utility margin is the existing development gate; this exploratory grid does not select a confirmation winner.
 
 | Contrast | Mean paired future net gain | 97.5% bootstrap interval | Settings |
 |---|---:|---:|---:|

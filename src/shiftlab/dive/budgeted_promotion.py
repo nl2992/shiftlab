@@ -69,6 +69,7 @@ class BudgetedPromotionConfig:
     context_signal_strength: float = 0.0
     context_proxy_error: float = 0.0
     include_validation_context_policy: bool = False
+    include_scout_context_policy: bool = False
     scenario_subset: tuple[str, ...] = ()
     create_plot: bool = True
     device: str = "cuda"
@@ -141,19 +142,17 @@ class BudgetedPromotionConfig:
             and self.context_feature_index < 2
         ):
             raise ValueError("context heterogeneity requires a proxy feature outside signal x[0:2]")
-        if self.include_validation_context_policy:
+        if self.include_validation_context_policy and self.include_scout_context_policy:
+            raise ValueError("choose at most one single-policy context selection rule")
+        if self.include_validation_context_policy or self.include_scout_context_policy:
             if "candidate_context_heterogeneity" not in self.scenario_subset:
-                raise ValueError(
-                    "validation-selected context policy requires the registered context DGP"
-                )
+                raise ValueError("single-policy context rule requires the registered context DGP")
             if self.context_feature_index < 2 or self.bound_mode != "global":
                 raise ValueError(
-                    "validation-selected context policy requires a proxy feature and global bound"
+                    "single-policy context rule requires a proxy feature and global bound"
                 )
             if self.monitoring_rules != ("fixed_mixture",) or self.estimators != ("direct_ipw",):
-                raise ValueError(
-                    "validation-selected context policy currently requires fixed-mixture direct IPW"
-                )
+                raise ValueError("single-policy context rule requires fixed-mixture direct IPW")
         if self.device not in {"cpu", "cuda", "auto"}:
             raise ValueError("device must be cpu, cuda, or auto")
         return self
@@ -951,6 +950,233 @@ def _monitor_validation_context_policy(
     }
 
 
+def _monitor_scout_context_policy(
+    *,
+    family: dict[str, Any],
+    y: np.ndarray,
+    scenario,
+    config: BudgetedPromotionConfig,
+    query_name: str,
+    budget_rate: float,
+    query_uniforms: np.ndarray,
+) -> dict[str, Any]:
+    """Use an early target slice to select one policy, then certify it on fresh events."""
+    if not config.include_scout_context_policy:
+        raise ValueError("enable include_scout_context_policy to run this monitor")
+    start = family["validation_end"]
+    end = family["monitor_end"]
+    length = family["monitor_length"]
+    scout_length = length // 2
+    certification_start = start + scout_length
+    budget = int(np.floor(budget_rate * length))
+    if budget < 1 or scout_length < 1 or scout_length >= length:
+        raise ValueError("configured budget or monitor horizon is too small for two stages")
+    q_path = family["q_paths"][(query_name, budget_rate)]
+    q_min = family["q_min"][budget_rate]
+    switch_rate = config.switching_cost / family["deployment_length"]
+    outcome_bound = float(max(scenario.fn_cost, scenario.fp_cost))
+    process_bound = outcome_bound / q_min + switch_rate
+    candidates = family["actions"].shape[0]
+
+    scout_sums = np.zeros((candidates, 2), dtype=float)
+    scout_counts = np.zeros(2, dtype=int)
+    labels_used = 0
+    scout_labels = 0
+    expected_labels = 0.0
+    scout_processed = 0
+    stop_reason = "monitor_horizon"
+    for relative in range(scout_length):
+        if budget - labels_used < 1:
+            stop_reason = "label_budget_exhausted_during_scout"
+            break
+        event_index = start + relative
+        group = int(family["contexts"][event_index])
+        propensity = float(q_path[relative])
+        if propensity + 1e-12 < q_min:
+            raise RuntimeError("query policy violated its registered propensity floor")
+        scout_counts[group] += 1
+        scout_processed += 1
+        expected_labels += propensity
+        queried = bool(query_uniforms[relative] < propensity)
+        if queried:
+            labels_used += 1
+            scout_labels += 1
+            observed = (
+                family["z1"][:, event_index] if y[event_index] else family["z0"][:, event_index]
+            )
+            scout_sums[:, group] += observed / propensity
+
+    selected_by_context: dict[int, int | None] = {}
+    selection_gain_by_context: dict[int, float | None] = {}
+    for group in (0, 1):
+        if scout_counts[group] == 0:
+            selected_by_context[group] = None
+            selection_gain_by_context[group] = None
+            continue
+        estimated_gain = scout_sums[:, group] / scout_counts[group]
+        net_gain = estimated_gain - switch_rate
+        best = int(np.argmax(net_gain))
+        selection_gain_by_context[group] = float(net_gain[best])
+        selected_by_context[group] = best if net_gain[best] > 0 else None
+
+    log_wealth = np.zeros(len(BETTING_STAKES), dtype=float)
+    log_e_value = 0.0
+    certified = False
+    processed = 0
+    bound_total = 0.0
+    for relative in range(scout_length, length):
+        if budget - labels_used < 1:
+            stop_reason = "label_budget_exhausted_during_certification"
+            break
+        event_index = start + relative
+        propensity = float(q_path[relative])
+        if propensity + 1e-12 < q_min:
+            raise RuntimeError("query policy violated its registered propensity floor")
+        group = int(family["contexts"][event_index])
+        selected = selected_by_context[group]
+        expected_labels += propensity
+        queried = bool(query_uniforms[relative] < propensity)
+        if queried:
+            labels_used += 1
+            if selected is None:
+                estimate = 0.0
+            else:
+                observed_gain = (
+                    family["z1"][selected, event_index]
+                    if y[event_index]
+                    else family["z0"][selected, event_index]
+                )
+                estimate = observed_gain / propensity
+        else:
+            estimate = 0.0
+        increment = estimate - switch_rate if selected is not None else 0.0
+        if abs(increment) > process_bound + 1e-10:
+            raise RuntimeError("scout-policy increment exceeded its registered support bound")
+        factors = bounded_betting_factors(
+            np.asarray([increment]), np.asarray([process_bound]), BETTING_STAKES
+        )[0]
+        if np.any(factors <= 0):
+            raise RuntimeError("nonpositive scout-policy betting factor")
+        log_wealth += np.log(factors)
+        log_e_value = float(logsumexp(log_wealth + BETTING_LOG_WEIGHTS))
+        certified |= log_e_value >= -np.log(config.alpha)
+        bound_total += process_bound
+        processed += 1
+
+    if labels_used > budget:
+        raise RuntimeError("hard label budget was exceeded")
+    stop_index = start + scout_length + processed
+    cert_indices = np.arange(certification_start, stop_index)
+    cert_contexts = np.asarray(family["contexts"][cert_indices], dtype=int)
+    monitor_expected = np.zeros(processed, dtype=float)
+    for group, selected in selected_by_context.items():
+        if selected is not None:
+            use_group = cert_contexts == group
+            monitor_expected[use_group] = (
+                family["h_truth"][selected, cert_indices[use_group]] - switch_rate
+            )
+    monitor_policy_mean = float(monitor_expected.mean()) if processed else 0.0
+    monitor_null = monitor_policy_mean <= 1e-12
+
+    deploy_indices = np.arange(stop_index, config.n)
+    deployment_contexts = np.asarray(family["contexts"][deploy_indices], dtype=int)
+    expected_net = 0.0
+    realized_net = 0.0
+    selected_count = 0
+    for group, selected in selected_by_context.items():
+        if selected is None:
+            continue
+        use_group = deployment_contexts == group
+        future_indices = deploy_indices[use_group]
+        selected_count += len(future_indices)
+        expected_net += float(np.sum(family["h_truth"][selected, future_indices] - switch_rate))
+        observed_future = np.where(
+            y[future_indices] == 1,
+            family["z1"][selected, future_indices],
+            family["z0"][selected, future_indices],
+        )
+        realized_net += float(np.sum(observed_future - switch_rate))
+    promoted = bool(certified and any(value is not None for value in selected_by_context.values()))
+    if not promoted:
+        expected_net = realized_net = 0.0
+        selected_count = 0
+
+    selected_ids = {
+        str(group): None if selected is None else family["candidate_ids"][selected]
+        for group, selected in selected_by_context.items()
+    }
+    selected_ranks = {
+        str(group): None if selected is None else selected + 1
+        for group, selected in selected_by_context.items()
+    }
+    return {
+        "scenario": scenario.name,
+        "seed": None,
+        "query_policy": query_name,
+        "estimator": "direct_ipw",
+        "monitoring_rule": "fixed_mixture",
+        "budget_rate": budget_rate,
+        "label_budget": budget,
+        "alpha_allocation": "scout_context_policy",
+        "alpha_total": config.alpha,
+        "candidate_count": 1,
+        "candidate_id": json.dumps(selected_ids, sort_keys=True),
+        "candidate_validation_rank": None,
+        "candidate_validation_ranks_by_context": json.dumps(selected_ranks, sort_keys=True),
+        "selected_candidates_by_context": json.dumps(selected_ids, sort_keys=True),
+        "context_weights": None,
+        "validation_context_counts": json.dumps(scout_counts.tolist()),
+        "scout_selection_gain_by_context": json.dumps(selection_gain_by_context, sort_keys=True),
+        "candidate_is_monitor_null": monitor_null,
+        "promoted": promoted,
+        "pointwise_null_candidate_certified": bool(certified and monitor_null),
+        "pointwise_null_candidate_certificate_count": int(certified and monitor_null),
+        "selected_candidate_monitor_expected_net_gain": (
+            monitor_policy_mean if processed else None
+        ),
+        "expected_postpromotion_net_gain": expected_net,
+        "realized_postpromotion_net_gain": realized_net,
+        "harmful_postpromotion_promotion": bool(promoted and expected_net <= 0),
+        "future_mean_net_gain_per_event": expected_net / max(1, config.n - stop_index),
+        "labels_queried": labels_used,
+        "scout_labels_queried": scout_labels,
+        "expected_labels_queried": expected_labels,
+        "budget_utilization": labels_used / budget,
+        "monitor_events_processed": processed,
+        "scout_events_processed": scout_processed,
+        "monitor_fraction_processed": processed / length,
+        "certification_fraction_processed": processed / max(1, length - scout_length),
+        "process_bound": bound_total / max(1, processed),
+        "global_process_bound": process_bound,
+        "mean_event_process_bound": bound_total / max(1, processed),
+        "max_event_process_bound": process_bound if processed else 0.0,
+        "bound_mode": "global",
+        "stop_reason": stop_reason,
+        "q_min": q_min,
+        "propensity_min": float(q_path[scout_length : scout_length + processed].min())
+        if processed
+        else None,
+        "propensity_max": float(q_path[scout_length : scout_length + processed].max())
+        if processed
+        else None,
+        "switching_cost": switch_rate * selected_count,
+        "evaluation_start_index": stop_index,
+        "training_end_index": family["train_end"],
+        "validation_end_index": family["validation_end"],
+        "shadow_end_index": end,
+        "deployment_end_index": config.n,
+        "familywise_alpha_sum": config.alpha,
+        "pointwise_null_candidate_count": int(monitor_null),
+        "context_policy_events": selected_count,
+        "context_feature_index": config.context_feature_index,
+        "context_threshold": config.context_threshold,
+        "selection_start_index": start,
+        "selection_end_index": certification_start,
+        "certification_start_index": certification_start,
+        "scout_fraction": 0.5,
+    }
+
+
 def _run_seed(
     *,
     scenario,
@@ -1052,6 +1278,20 @@ def _run_seed(
                     output.extend(estimator_rows)
             if config.include_validation_context_policy:
                 row = _monitor_validation_context_policy(
+                    family=family,
+                    y=y,
+                    scenario=scenario,
+                    config=config,
+                    query_name=query_name,
+                    budget_rate=budget_rate,
+                    query_uniforms=uniforms[query_index],
+                )
+                row["seed"] = seed
+                row["query_rng_stream"] = query_index
+                row["top_validation_gain"] = family["top_validation_gain"]
+                output.append(row)
+            elif config.include_scout_context_policy:
+                row = _monitor_scout_context_policy(
                     family=family,
                     y=y,
                     scenario=scenario,

@@ -1,8 +1,13 @@
 # Validation-selected contextual challenger: fresh development protocol
 
-**Status:** frozen development protocol, 2026-10-24. This is a new exploratory
-comparison on a seed block disjoint from the earlier context-alpha grid. It is
-not calibration or confirmation.
+**Status:** frozen development design, 2026-10-24. A seed audit after the run
+found that it was not independent of the earlier context-alpha grid: the earlier
+run used seeds 20261025–20261054, while this run used 20261026–20261055, so 29
+of 30 seed IDs overlap. The method was also proposed after inspecting that
+earlier grid. Treat this run's effects and intervals as post-selection
+descriptive development evidence, not independent inferential evidence,
+calibration, or confirmation. A separate disjoint-seed replication protocol
+must be used for any inferential assessment.
 
 ## Question
 

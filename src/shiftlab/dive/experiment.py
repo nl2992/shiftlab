@@ -1065,6 +1065,7 @@ def finalize_manifest(output: Path) -> None:
     for source in (
         Path("scripts/analyze_monitor_signal.py"),
         Path("scripts/compare_propensity_floor.py"),
+        Path("scripts/analyze_validation_context_policy.py"),
     ):
         if source.exists():
             sources.append(source)

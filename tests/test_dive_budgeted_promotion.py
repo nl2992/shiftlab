@@ -379,6 +379,51 @@ def test_validation_selected_context_policy_uses_one_global_alpha_and_hard_cap()
     assert set(json.loads(policy["selected_candidates_by_context"])) == {"0", "1"}
 
 
+def test_target_scout_context_policy_uses_disjoint_certification_slice_and_cap():
+    config = BudgetedPromotionConfig(
+        n=1000,
+        d=4,
+        seeds=1,
+        budget_rates=(0.4,),
+        query_policies=("uniform",),
+        alpha_allocations=("rank", *CONTEXT_ALPHA_ALLOCATIONS),
+        estimators=("direct_ipw",),
+        monitoring_rules=("fixed_mixture",),
+        bound_mode="global",
+        context_feature_index=3,
+        context_target_prevalence=0.5,
+        context_signal_strength=0.1,
+        context_proxy_error=0.0,
+        include_scout_context_policy=True,
+        scenario_subset=("candidate_context_heterogeneity",),
+        create_plot=False,
+        device="cpu",
+    )
+    rows = _run_seed(
+        scenario=SimpleNamespace(
+            name="candidate_context_heterogeneity",
+            fn_cost=5.0,
+            fp_cost=1.0,
+            harmful_adaptation=False,
+        ),
+        seed=20261130,
+        config=config,
+        device="cpu",
+    )
+    policy = next(row for row in rows if row["alpha_allocation"] == "scout_context_policy")
+    assert len(rows) == 4
+    assert policy["candidate_count"] == 1
+    assert policy["alpha_total"] == config.alpha
+    assert policy["familywise_alpha_sum"] == config.alpha
+    assert policy["labels_queried"] <= policy["label_budget"]
+    assert policy["scout_events_processed"] == 250
+    assert policy["monitor_events_processed"] <= 250
+    assert policy["scout_labels_queried"] <= policy["labels_queried"]
+    assert policy["selection_end_index"] == policy["certification_start_index"]
+    assert policy["certification_start_index"] > policy["selection_start_index"]
+    assert set(json.loads(policy["selected_candidates_by_context"])) == {"0", "1"}
+
+
 def test_paired_bootstrap_contrasts_preserve_matched_seed_differences():
     rows = []
     for query, estimator, allocation, seed in product(

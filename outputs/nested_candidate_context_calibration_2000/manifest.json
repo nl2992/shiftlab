@@ -1,0 +1,59 @@
+{
+  "experiment": "nested_candidate_context_alpha_calibration",
+  "created_at_utc": "2026-10-25T00:58:15.249644+00:00",
+  "status": "passed",
+  "seed_offset": 2124102026,
+  "seeds_per_cell": 2000,
+  "familywise_cells": 108,
+  "familywise_alpha": 0.05,
+  "seed_block_end": 2159104690,
+  "candidate_count": 13,
+  "profiles": [
+    "null",
+    "strict_negative"
+  ],
+  "prevalences": [
+    0.1,
+    0.5,
+    0.9
+  ],
+  "proxy_errors": [
+    0.0,
+    0.05,
+    0.1
+  ],
+  "budget_rates": [
+    0.2,
+    0.4
+  ],
+  "methods": [
+    "rank_only",
+    "nested_equal",
+    "nested_volume"
+  ],
+  "all_cells_pass": true,
+  "all_caps_respected": true,
+  "environment": {
+    "cpu_ram_bytes": 16858472448,
+    "disk_free_bytes": 20132261888,
+    "cuda_available": true,
+    "nvidia_smi": "NVIDIA GeForce RTX 4060 Laptop GPU, 8188 MiB, 592.82, 0 %, 457 MiB",
+    "torch_version": "2.9.1+cu130",
+    "cuda_runtime": "13.0",
+    "gpu_name": "NVIDIA GeForce RTX 4060 Laptop GPU",
+    "gpu_memory_bytes": 8585216000,
+    "versions": {
+      "numpy": "2.5.4",
+      "scipy": "1.18.1",
+      "pandas": "3.0.6",
+      "pyarrow": "25.0.1",
+      "folktables": "0.0.12"
+    }
+  },
+  "limitation": "Monte Carlo calibration of the stated gate-level simulator; validity follows from bounded e-process assumptions, not empirical non-rejection. Candidate policies are utility processes, not fitted classifiers.",
+  "artifacts_sha256": {
+    "calibration_streams.parquet": "800d4bafe6aa5310d0b5761a03ba1601a7eb643fcca90630b195052858e9f4b9",
+    "calibration_summary.csv": "ae739949c1b0e0d957dc15b35726401a96097b8c6fd0825296b0b0a35a7fe749"
+  },
+  "source_sha256": "9b3deb3dcc73f65002a4ef74f1c12eeb78c07fd4de4e3be4322b6361cb718062"
+}

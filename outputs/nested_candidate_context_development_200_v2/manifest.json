@@ -1,0 +1,58 @@
+{
+  "experiment": "nested_candidate_context_alpha_development",
+  "created_at_utc": "2026-10-25T00:57:03.536125+00:00",
+  "status": "development_only",
+  "seed_offset": 1124202026,
+  "seeds_per_cell": 200,
+  "seed_block_end": 1177203232,
+  "candidate_count": 13,
+  "profiles": [
+    "homogeneous_benefit",
+    "specialists",
+    "reversal"
+  ],
+  "prevalences": [
+    0.1,
+    0.5,
+    0.9
+  ],
+  "proxy_errors": [
+    0.0,
+    0.05,
+    0.1
+  ],
+  "budget_rates": [
+    0.2,
+    0.4
+  ],
+  "query_rate": 0.8,
+  "methods": [
+    "rank_only",
+    "nested_equal",
+    "nested_volume"
+  ],
+  "environment": {
+    "cpu_ram_bytes": 16858472448,
+    "disk_free_bytes": 20133654528,
+    "cuda_available": true,
+    "nvidia_smi": "NVIDIA GeForce RTX 4060 Laptop GPU, 8188 MiB, 592.82, 38 %, 153 MiB",
+    "torch_version": "2.9.1+cu130",
+    "cuda_runtime": "13.0",
+    "gpu_name": "NVIDIA GeForce RTX 4060 Laptop GPU",
+    "gpu_memory_bytes": 8585216000,
+    "versions": {
+      "numpy": "2.5.4",
+      "scipy": "1.18.1",
+      "pandas": "3.0.6",
+      "pyarrow": "25.0.1",
+      "folktables": "0.0.12"
+    }
+  },
+  "limitation": "Gate-level utility-process simulator; no fitted classifier, delayed labels, adaptive query policy, or application-grounded utility. Results are exploratory and do not establish type-I control or novelty.",
+  "artifacts_sha256": {
+    "development_streams.parquet": "97901a81426f73b1f62f8afbf1db3f9a35ddb7f1bbea6038323ac94dc26e004d",
+    "development_paired.parquet": "2459f936fbc94b836bc4e3115933c25ac3c7102423120fabe6882cc9556ed1cd",
+    "development_summary.csv": "e9f2ab627caa28893f27282c2538cc6d7a7244d2061b4826fd80173cc75f6b25"
+  },
+  "source_sha256": "9b3deb3dcc73f65002a4ef74f1c12eeb78c07fd4de4e3be4322b6361cb718062"
+}

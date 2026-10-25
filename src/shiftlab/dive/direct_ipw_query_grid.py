@@ -42,6 +42,7 @@ class DirectIPWQueryGridConfig:
     query_floors: tuple[float, ...] = DEFAULT_QUERY_FLOORS
     scenarios: tuple[str, ...] = DEFAULT_SCENARIOS
     device: str = "cuda"
+    workers: int = 4
     bootstrap_replicates: int = 5000
 
     def validate(self) -> DirectIPWQueryGridConfig:
@@ -60,6 +61,8 @@ class DirectIPWQueryGridConfig:
             raise ValueError("scenarios must be registered in decision_harm_experiment")
         if self.device not in {"auto", "cpu", "cuda"}:
             raise ValueError("device must be auto, cpu, or cuda")
+        if isinstance(self.workers, bool) or self.workers < 1:
+            raise ValueError("workers must be a positive integer")
         if self.bootstrap_replicates < 100:
             raise ValueError("bootstrap_replicates must be at least 100")
         return self
@@ -219,7 +222,7 @@ def run_direct_ipw_query_grid(config: DirectIPWQueryGridConfig, output: Path) ->
             common_eprocess_bound=True,
             generate_figure=False,
             device=config.device,
-            workers=1,
+            workers=config.workers,
             scenario_subset=config.scenarios,
             method_subset=METHODS,
         )
@@ -353,6 +356,7 @@ def main(argv: list[str] | None = None) -> None:
     parser.add_argument("--n", type=int, default=3200)
     parser.add_argument("--d", type=int, default=16)
     parser.add_argument("--device", choices=("auto", "cpu", "cuda"), default="cuda")
+    parser.add_argument("--workers", type=int, default=4)
     args = parser.parse_args(argv)
     config = DirectIPWQueryGridConfig(
         seeds=args.seeds,
@@ -360,6 +364,7 @@ def main(argv: list[str] | None = None) -> None:
         n=args.n,
         d=args.d,
         device=args.device,
+        workers=args.workers,
     )
     print(run_direct_ipw_query_grid(config, args.output), flush=True)
 

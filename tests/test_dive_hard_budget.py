@@ -149,6 +149,7 @@ def test_direct_ipw_query_grid_runner_writes_paired_metrics_and_hashes(tmp_path)
             query_floors=(0.10,),
             scenarios=("stationary",),
             device="cpu",
+            workers=1,
             bootstrap_replicates=200,
         ),
         tmp_path / "direct_ipw_grid",

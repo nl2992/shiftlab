@@ -31,7 +31,9 @@ bounded-mean e-process, not a new algorithmic guarantee.
   uniforms across methods. Use `common_eprocess_bound=True` so uniform and adaptive
   arms at a given floor share the same global support bound. Floors are a separate
   sensitivity axis and therefore change the common bound across floor blocks.
-- Run on CUDA; retain CPU smoke tests. Do not create a figure in this run.
+- Run on CUDA with four independent stream workers; retain CPU smoke tests.
+  Stream seeds are explicit, so worker scheduling does not alter generated records.
+  Do not create a figure in this run.
 
 ## Estimand and validity
 
@@ -58,6 +60,7 @@ null calibration before a separate disjoint confirmation.
 ```powershell
 uv run shiftlab-dive-direct-ipw-query-grid `
   --device cuda `
+  --workers 4 `
   --seeds 30 `
   --seed-offset 31025000 `
   --n 3200 `

@@ -47,3 +47,50 @@ def test_persistent_context_is_stationary_and_preserves_eventwise_null():
 def test_context_persistence_must_be_a_valid_markov_correlation():
     with pytest.raises(ValueError, match="context_persistence"):
         BudgetedPromotionConfig(context_persistence=1.0).validate()
+
+
+def test_context_prevalence_can_shift_at_certification_without_decision_harm():
+    start_prevalence, end_prevalence = 0.15, 0.85
+    config = BudgetedPromotionConfig(
+        n=12_000,
+        d=4,
+        context_feature_index=3,
+        context_target_prevalence=start_prevalence,
+        context_signal_strength=0.0,
+        context_proxy_error=0.0,
+        context_certification_prevalence=end_prevalence,
+        device="cpu",
+    )
+    config.validate()
+    features = np.random.default_rng(101).normal(size=(config.n, config.d))
+    labels = np.zeros(config.n, dtype=int)
+    probability = np.full(config.n, 1 / 6)
+    x, _, probability = _inject_context_heterogeneity(
+        x=features,
+        y=labels,
+        probability_true=probability,
+        seed=102,
+        config=config,
+        device="cpu",
+    )
+
+    _, validation_end, monitor_end = _time_splits(config.n)
+    certification_start = validation_end + (monitor_end - validation_end) // 2
+    context = x[:, config.context_feature_index] > 0
+    assert context[validation_end:certification_start].mean() == pytest.approx(
+        start_prevalence, abs=0.04
+    )
+    assert context[certification_start:monitor_end].mean() == pytest.approx(
+        end_prevalence, abs=0.04
+    )
+    assert np.allclose(probability[validation_end:], 1 / 6)
+
+
+def test_context_prevalence_shift_rejects_invalid_or_persistent_configurations():
+    with pytest.raises(ValueError, match="context_certification_prevalence"):
+        BudgetedPromotionConfig(context_certification_prevalence=1.0).validate()
+    with pytest.raises(ValueError, match="mutually exclusive"):
+        BudgetedPromotionConfig(
+            context_persistence=0.5,
+            context_certification_prevalence=0.5,
+        ).validate()

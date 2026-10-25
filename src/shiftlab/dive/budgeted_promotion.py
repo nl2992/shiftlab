@@ -69,6 +69,7 @@ class BudgetedPromotionConfig:
     context_signal_strength: float = 0.0
     context_proxy_error: float = 0.0
     context_persistence: float = 0.0
+    context_certification_prevalence: float | None = None
     include_validation_context_policy: bool = False
     include_scout_context_policy: bool = False
     scenario_subset: tuple[str, ...] = ()
@@ -131,6 +132,17 @@ class BudgetedPromotionConfig:
             raise ValueError("context_proxy_error must lie in [0, 0.5)")
         if not np.isfinite(self.context_persistence) or not (0 <= self.context_persistence < 1):
             raise ValueError("context_persistence must lie in [0, 1)")
+        if self.context_certification_prevalence is not None:
+            if not np.isfinite(self.context_certification_prevalence) or not (
+                0 < self.context_certification_prevalence < 1
+            ):
+                raise ValueError(
+                    "context_certification_prevalence must lie strictly between zero and one"
+                )
+            if self.context_persistence > 0:
+                raise ValueError(
+                    "context_certification_prevalence and context_persistence are mutually exclusive"
+                )
         known_scenarios = {scenario.name for scenario in SCENARIOS} | {
             "candidate_family_null",
             "candidate_context_zero_mean",
@@ -1336,6 +1348,7 @@ def _run_seed(
             row["context_signal_strength"] = config.context_signal_strength
             row["context_proxy_error"] = config.context_proxy_error
             row["context_persistence"] = config.context_persistence
+            row["context_certification_prevalence"] = config.context_certification_prevalence
             row["context_observed_prevalence"] = observed_prevalence
     return output
 
@@ -1395,6 +1408,11 @@ def _inject_context_heterogeneity(
             p_one = p_one_given_one if persistent_context[index - 1] else p_one_given_zero
             persistent_context[index] = uniforms[index] < p_one
         latent_context[validation_end:] = persistent_context
+    elif config.context_certification_prevalence is not None:
+        _, validation_end, monitor_end = _time_splits(len(y))
+        certification_start = validation_end + (monitor_end - validation_end) // 2
+        threshold = norm.ppf(1 - config.context_certification_prevalence)
+        latent_context[certification_start:] = x[certification_start:, 0] >= threshold
     proxy_flips = (
         torch.rand(len(x), generator=context_generator, device=device).cpu().numpy()
         < config.context_proxy_error

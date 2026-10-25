@@ -102,6 +102,16 @@ full-feedback Hoeffding e-process across stationary, benign nuisance, localized 
 residual-variance, recurring-regime, and deliberately harmful-adaptation settings. This is a
 reproducible baseline study, not a claim of a new method; see the [closest prior-work audit](docs/closest_prior_work.md).
 
+The subsequent target-scout work has a separate frozen protocol and evidence trail. On the
+registered abrupt context-prevalence grid, the eventwise-propensity-bound scout passed an
+independent null calibration and fresh positive-signal confirmation. A development-only Markov
+context screen then found higher expected postpromotion utility than the minimum-bound scout,
+pooled rank, and nested-volume baselines across the tested signal and persistence slices. Its
+zero-signal controls are not a Markov calibration; a fresh, exact-method Markov null calibration is
+the next gate. See the [Markov development results](docs/scout_context_policy_eventwise_markov_development_results.md),
+[frozen protocol](docs/scout_context_policy_eventwise_markov_development_protocol.md), and
+[experiment artifacts](outputs/scout_context_policy_eventwise_markov_development_60/).
+
 Run the smoke version with `uv run shiftlab-decision-harm --quick`, or reproduce the configured
 30-seed run with `uv run shiftlab-decision-harm --seeds 30 --calibration-seeds 60 --n 3200 --device auto`.
 Auto selects CUDA only for the large synthetic-generation range supported by the committed host

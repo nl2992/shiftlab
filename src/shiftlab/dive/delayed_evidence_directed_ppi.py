@@ -22,7 +22,11 @@ import torch
 
 from ..data.gpu.environment import environment
 from .delayed_feedback import EventOrderBuffer, ResolvedEvidence
-from .eprocess import BoundedMeanEProcess, PredictableBoundMeanEProcess
+from .eprocess import (
+    BoundedMeanEProcess,
+    PredictableBoundMeanEProcess,
+    PredictableStartedMixtureEProcess,
+)
 from .query import EvidenceDirectedQueryPolicy
 
 ACTIVATIONS = (0.0, 0.025, 0.05)
@@ -175,8 +179,22 @@ def _simulate_method(
     z_target: np.ndarray,
     delays: np.ndarray,
     onset: int,
+    monitor_variant: str = "full_stream",
+    monitor_starts: tuple[int, ...] = (),
+    query_driver_variant: str = "monitor",
+    continue_after_alarm: bool = False,
 ) -> dict[str, object]:
     kind, activation, power = _method_parameters(method)
+    if monitor_variant not in {"full_stream", "fixed_start_mixture"}:
+        raise ValueError(f"unregistered monitor variant: {monitor_variant}")
+    if query_driver_variant not in {"monitor", "full_stream"}:
+        raise ValueError(f"unregistered query driver: {query_driver_variant}")
+    if query_driver_variant == "full_stream" and kind == "fixed":
+        raise ValueError("full-stream query driving requires a predictable-bound query process")
+    if monitor_variant == "fixed_start_mixture" and (kind == "fixed" or not monitor_starts):
+        raise ValueError(
+            "fixed-start mixture requires a predictable-bound monitor and fixed starts"
+        )
     intercept, slope = _fit_source_proxy(x_source, z_source)
     # Frozen source-trained proxy: learner-visible contexts only, clipped to
     # the known paired-cost support. No target outcomes enter proxy formation.
@@ -185,9 +203,13 @@ def _simulate_method(
     remaining = budget
     if kind == "uniform":
         policy = None
-        process: BoundedMeanEProcess | PredictableBoundMeanEProcess = PredictableBoundMeanEProcess(
-            alpha=config.alpha
+        process: (
+            BoundedMeanEProcess | PredictableBoundMeanEProcess | PredictableStartedMixtureEProcess
         )
+        if monitor_variant == "fixed_start_mixture":
+            process = PredictableStartedMixtureEProcess(alpha=config.alpha, starts=monitor_starts)
+        else:
+            process = PredictableBoundMeanEProcess(alpha=config.alpha)
     else:
         policy = EvidenceDirectedQueryPolicy(
             q_min=config.q_min,
@@ -201,7 +223,18 @@ def _simulate_method(
             fixed_bound = (config.amplitude + config.epsilon) * (2 / config.q_min - 1)
             process = BoundedMeanEProcess(bound=fixed_bound, alpha=config.alpha)
         else:
-            process = PredictableBoundMeanEProcess(alpha=config.alpha)
+            if monitor_variant == "fixed_start_mixture":
+                process = PredictableStartedMixtureEProcess(
+                    alpha=config.alpha, starts=monitor_starts
+                )
+            else:
+                process = PredictableBoundMeanEProcess(alpha=config.alpha)
+
+    query_process: (
+        BoundedMeanEProcess | PredictableBoundMeanEProcess | PredictableStartedMixtureEProcess
+    ) = process
+    if query_driver_variant == "full_stream" and monitor_variant == "fixed_start_mixture":
+        query_process = PredictableBoundMeanEProcess(alpha=config.alpha)
 
     shared_query_uniforms = np.random.default_rng(seed + 6_512_819).random(config.n_target)
     buffer = EventOrderBuffer()
@@ -220,9 +253,17 @@ def _simulate_method(
         nonlocal first_alarm_event, first_alarm_wall, processed_events, final_e_value
         for row in rows:
             if kind == "fixed":
+                assert isinstance(process, BoundedMeanEProcess)
                 final_e_value = process.update(row.value)
             else:
+                assert isinstance(
+                    process,
+                    (PredictableBoundMeanEProcess, PredictableStartedMixtureEProcess),
+                )
                 final_e_value = process.update(row.value, bound=event_bounds[row.event_index])
+                if query_process is not process:
+                    assert isinstance(query_process, PredictableBoundMeanEProcess)
+                    query_process.update(row.value, bound=event_bounds[row.event_index])
             processed_events += 1
             if first_alarm_event is None and process.alarm:
                 first_alarm_event = row.event_index
@@ -239,14 +280,18 @@ def _simulate_method(
                 buffer.resolve(event, available_time=float(wall), value=centered_increment),
             )
 
-        if wall >= config.n_target or first_alarm_event is not None or remaining == 0:
+        if (
+            wall >= config.n_target
+            or (first_alarm_event is not None and not continue_after_alarm)
+            or remaining == 0
+        ):
             continue
         remaining_fraction = remaining / budget if budget else 0.0
         if policy is None:
             propensity = config.budget_rate
         else:
             propensity = policy.propensity(
-                log_e_value=process.log_e_value,
+                log_e_value=query_process.log_e_value,
                 remaining_fraction=remaining_fraction,
             )
         if not config.q_min - 1e-12 <= propensity <= config.q_max + 1e-12:
@@ -316,10 +361,15 @@ def _simulate_method(
             first_alarm_wall - onset
             if first_alarm_wall is not None
             and scenario == "boundary_harm"
+            and first_alarm_event is not None
             and first_alarm_event >= onset
             else np.nan
         ),
         "labels_queried": query_cost,
+        "query_schedule_sha256": hashlib.sha256(
+            np.asarray(q_values, dtype="<f8").tobytes()
+            + np.asarray(queried_events, dtype="<i8").tobytes()
+        ).hexdigest(),
         "hard_label_cap": budget,
         "budget_respected": query_cost <= budget,
         "budget_exhausted": remaining == 0,

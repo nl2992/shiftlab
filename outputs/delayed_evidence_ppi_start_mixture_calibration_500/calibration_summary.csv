@@ -1,0 +1,3 @@
+method,monitor_variant,streams,false_escalations,alarm_rate,mean_labels,cap_violations,simultaneous_one_sided_upper,cell_alpha,calibration_gate_cell_pass
+evidence_a0p025_p0p5_eventwise,fixed_start_mixture,500,1,0.002,139.524,0,0.011092476898968787,0.025,True
+evidence_a0p025_p0p5_eventwise,full_stream,500,2,0.004,139.524,0,0.014374078562200309,0.025,True

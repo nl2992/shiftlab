@@ -1,0 +1,27 @@
+{
+  "seed_clusters": 300,
+  "onset_fractions": [
+    0.25,
+    0.5,
+    0.75
+  ],
+  "candidate": "fixed_start_mixture",
+  "reference": "full_stream",
+  "candidate_detection_rate": 0.24222222222222223,
+  "full_stream_detection_rate": 0.18777777777777777,
+  "paired_detection_difference": 0.05444444444444444,
+  "cluster_bootstrap_95_low": 0.03777777777777777,
+  "cluster_bootstrap_95_high": 0.07333333333333333,
+  "candidate_only_detections": 50,
+  "full_stream_only_detections": 1,
+  "candidate_mean_labels": 196.43555555555557,
+  "full_stream_mean_labels": 196.43555555555557,
+  "paired_label_difference": 0.0,
+  "paired_event_count_mismatches": 0,
+  "pre_onset_candidate_alarms": 3,
+  "cap_violations": 0,
+  "unresolved_labels": 0,
+  "event_count_mismatches": 0,
+  "matched_query_paths_pass": true,
+  "confirmation_gate_pass": true
+}

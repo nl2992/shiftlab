@@ -1,0 +1,117 @@
+{
+  "experiment": "delayed_evidence_ppi_fixed_start_matched_shadow_markov_null_calibration",
+  "config": {
+    "seeds": 500,
+    "seed_offset": 20321000,
+    "n_source": 1200,
+    "n_target": 2400,
+    "budget_rate": 0.2,
+    "alpha": 0.05,
+    "epsilon": 0.05,
+    "q_min": 0.05,
+    "q_max": 0.8,
+    "amplitude": 1.0,
+    "harm_shift": 0.2,
+    "onset_fraction": 0.5,
+    "max_delay": 12,
+    "benign_amplitude": 0.55,
+    "device": "cuda"
+  },
+  "query_methods": [
+    "evidence_a0p025_p0p5_eventwise"
+  ],
+  "monitor_variants": [
+    "full_stream",
+    "fixed_start_mixture"
+  ],
+  "start_events": [
+    0,
+    300,
+    600,
+    900,
+    1200,
+    1500,
+    1800,
+    2100
+  ],
+  "start_weights": [
+    0.125,
+    0.125,
+    0.125,
+    0.125,
+    0.125,
+    0.125,
+    0.125,
+    0.125
+  ],
+  "query_driver": "full_stream",
+  "continue_after_alarm": true,
+  "scenario": "markov_variance_null",
+  "rows": 1000,
+  "seed_range": [
+    20321000,
+    20321499
+  ],
+  "protocol_sha256": "232332078660a684d4da066a1e9c1c2d9c34430e9c0a492b8a505ae33388e4c3",
+  "source_hashes": {
+    "delayed_evidence_ppi_start_mixture_calibration.py": "c2fba63bb598d62a3f6f9311e2e75ac1e644dea5cf25daf3f1d7a2af4b104a81",
+    "delayed_evidence_directed_ppi.py": "356a8f6cb5ffebbfd39ebb2e57c414e28714d5cbc2ff60a26cf96a39cfd84267",
+    "delayed_evidence_directed_ppi_markov_calibration.py": "eca3ab4df21f1f5ecf2f473cfcfa1c8af9351d6fcc072f89953f144c354be026",
+    "eprocess.py": "a9355d3883118ed32039feafe0db0b01fd8824dfbaed2e3d70e6710964565d41"
+  },
+  "familywise_alpha": 0.05,
+  "cell_alpha": 0.025,
+  "summary": [
+    {
+      "method": "evidence_a0p025_p0p5_eventwise",
+      "monitor_variant": "fixed_start_mixture",
+      "streams": 500,
+      "false_escalations": 1,
+      "alarm_rate": 0.002,
+      "mean_labels": 139.524,
+      "cap_violations": 0,
+      "simultaneous_one_sided_upper": 0.011092476898968787,
+      "cell_alpha": 0.025,
+      "calibration_gate_cell_pass": true
+    },
+    {
+      "method": "evidence_a0p025_p0p5_eventwise",
+      "monitor_variant": "full_stream",
+      "streams": 500,
+      "false_escalations": 2,
+      "alarm_rate": 0.004,
+      "mean_labels": 139.524,
+      "cap_violations": 0,
+      "simultaneous_one_sided_upper": 0.014374078562200309,
+      "cell_alpha": 0.025,
+      "calibration_gate_cell_pass": true
+    }
+  ],
+  "gate_pass": true,
+  "invariants_pass": true,
+  "matched_query_paths_pass": true,
+  "conditional_null": "E[Z_t | complete prior event history] = 0 under fresh fair sign innovations; the amplitude regime may be persistent.",
+  "created_utc": "2026-10-25T21:51:32.330263+00:00",
+  "runtime": {
+    "cpu_ram_bytes": 16858472448,
+    "disk_free_bytes": 19659780096,
+    "cuda_available": true,
+    "nvidia_smi": "NVIDIA GeForce RTX 4060 Laptop GPU, 8188 MiB, 592.82, 0 %, 107 MiB",
+    "torch_version": "2.9.1+cu130",
+    "cuda_runtime": "13.0",
+    "gpu_name": "NVIDIA GeForce RTX 4060 Laptop GPU",
+    "gpu_memory_bytes": 8585216000,
+    "versions": {
+      "numpy": "2.5.4",
+      "scipy": "1.18.1",
+      "pandas": "3.0.6",
+      "pyarrow": "25.0.1",
+      "folktables": "0.0.12"
+    }
+  },
+  "limitations": [
+    "Finite calibration for one Markov-persistent-scale null with independent fair signs only.",
+    "Does not cover persistent signs, informative delays, nonstationary conditional means, or real data.",
+    "The fixed start mixture is a standard convex mixture of valid e-processes, not a novelty claim."
+  ]
+}

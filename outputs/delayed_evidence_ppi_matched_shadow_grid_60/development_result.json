@@ -1,0 +1,22 @@
+{
+  "primary_query_method": "evidence_a0p025_p0p5_eventwise",
+  "candidate": "fixed_start_mixture",
+  "reference": "full_stream",
+  "onset_fractions": [
+    0.25,
+    0.5,
+    0.75
+  ],
+  "paired_detection_difference": 0.044444444444444446,
+  "detection_cluster_bootstrap_95_low": 0.011111111111111112,
+  "detection_cluster_bootstrap_95_high": 0.07777777777777777,
+  "paired_label_difference": 0.0,
+  "label_cluster_bootstrap_95_low": 0.0,
+  "label_cluster_bootstrap_95_high": 0.0,
+  "candidate_only_detections": 9,
+  "full_stream_only_detections": 1,
+  "cap_violations": 0,
+  "unresolved_labels": 0,
+  "event_count_mismatches": 0,
+  "advance_to_independent_validation": true
+}

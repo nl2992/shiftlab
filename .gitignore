@@ -206,6 +206,14 @@ Thumbs.db
 !outputs/residual_variance_start_prior/**
 !outputs/delayed_evidence_ppi_markov_confirmation_1000/
 !outputs/delayed_evidence_ppi_markov_confirmation_1000/**
+!outputs/delayed_evidence_ppi_start_mixture_grid_60/
+!outputs/delayed_evidence_ppi_start_mixture_grid_60/**
+!outputs/delayed_evidence_ppi_matched_shadow_grid_60/
+!outputs/delayed_evidence_ppi_matched_shadow_grid_60/**
+!outputs/delayed_evidence_ppi_start_mixture_calibration_500/
+!outputs/delayed_evidence_ppi_start_mixture_calibration_500/**
+!outputs/delayed_evidence_ppi_start_mixture_confirmation_300/
+!outputs/delayed_evidence_ppi_start_mixture_confirmation_300/**
 !outputs/scout_context_temporal_query_development_60/
 !outputs/scout_context_temporal_query_development_60/**
 !outputs/scout_context_policy_eventwise_temporal_variance_null_1000/

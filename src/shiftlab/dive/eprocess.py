@@ -167,6 +167,68 @@ class PredictableBoundMeanEProcess:
         return self.log_e_value
 
 
+class PredictableStartedMixtureEProcess:
+    """Fixed mixture of predictable-bound e-processes with prespecified starts.
+
+    Each component remains at one until its registered start event, then receives
+    the same value and predictable bound as the other active components. If every
+    component is an e-process for the same filtration and null, their fixed convex
+    mixture is an e-process as well. Start times and weights must be set in advance.
+    """
+
+    def __init__(
+        self,
+        *,
+        alpha: float = 0.05,
+        starts: tuple[int, ...],
+        weights: tuple[float, ...] | None = None,
+        stakes: tuple[float, ...] = (0.05, 0.1, 0.2, 0.4, 0.8),
+    ):
+        if not np.isfinite(alpha) or not 0 < alpha < 1:
+            raise ValueError("alpha must lie in (0, 1)")
+        if not starts or any(isinstance(start, bool) or start < 0 for start in starts):
+            raise ValueError("starts must be a nonempty collection of nonnegative integers")
+        if tuple(sorted(set(starts))) != starts:
+            raise ValueError("starts must be strictly increasing")
+        if weights is None:
+            weight_array = np.full(len(starts), 1 / len(starts), dtype=float)
+        else:
+            weight_array = np.asarray(weights, dtype=float)
+            if (
+                weight_array.shape != (len(starts),)
+                or not np.isfinite(weight_array).all()
+                or np.any(weight_array <= 0)
+                or not np.isclose(weight_array.sum(), 1.0)
+            ):
+                raise ValueError("weights must be positive, sum to one, and match starts")
+        self.alpha = float(alpha)
+        self.starts = starts
+        self.weights = weight_array
+        self.processes = [PredictableBoundMeanEProcess(alpha=alpha, stakes=stakes) for _ in starts]
+        self.time = 0
+
+    @property
+    def log_e_value(self) -> float:
+        component_logs = np.asarray(
+            [
+                process.log_e_value if self.time >= start else 0.0
+                for start, process in zip(self.starts, self.processes, strict=True)
+            ]
+        )
+        return float(logsumexp(component_logs + np.log(self.weights)))
+
+    @property
+    def alarm(self) -> bool:
+        return self.log_e_value >= -np.log(self.alpha)
+
+    def update(self, value: float, *, bound: float) -> float:
+        for start, process in zip(self.starts, self.processes, strict=True):
+            if self.time >= start:
+                process.update(value, bound=bound)
+        self.time += 1
+        return self.log_e_value
+
+
 class PredictableVarianceAdaptiveEProcess:
     """One-sided plug-in Kelly e-process for globally bounded mean gains.
 

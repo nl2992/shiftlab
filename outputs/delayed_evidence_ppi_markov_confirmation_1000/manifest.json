@@ -1,0 +1,84 @@
+{
+  "experiment": "delayed_evidence_directed_ppi_markov_scale_harm_confirmation",
+  "config": {
+    "seeds": 1000,
+    "seed_offset": 20292000,
+    "n_source": 1200,
+    "n_target": 2400,
+    "budget_rate": 0.2,
+    "alpha": 0.05,
+    "epsilon": 0.05,
+    "q_min": 0.05,
+    "q_max": 0.8,
+    "amplitude": 1.0,
+    "harm_shift": 0.2,
+    "onset_fraction": 0.5,
+    "max_delay": 12,
+    "benign_amplitude": 0.55,
+    "device": "cuda"
+  },
+  "scenario": "boundary_harm",
+  "markov_flip_probability": 0.05,
+  "amplitudes": [
+    0.55,
+    1.0
+  ],
+  "harm_shift": 0.2,
+  "candidate": "evidence_a0p025_p0p5_eventwise",
+  "reference": "uniform_eventwise",
+  "calibration_manifest_sha256": "919465c6bac3554196a13c18f691f73cf4cb70b71a57e7b813ba68b739d065e1",
+  "rows": 2000,
+  "result": {
+    "streams": 1000,
+    "candidate": "evidence_a0p025_p0p5_eventwise",
+    "reference": "uniform_eventwise",
+    "candidate_detection_rate": 0.146,
+    "uniform_detection_rate": 0.075,
+    "detection_difference": 0.071,
+    "detection_ci_low": 0.047,
+    "detection_ci_high": 0.095,
+    "candidate_only_detections": 111,
+    "uniform_only_detections": 40,
+    "mcnemar_one_sided_p": 3.2368667408683537e-09,
+    "candidate_mean_labels": 164.439,
+    "uniform_mean_labels": 468.189,
+    "label_difference": -303.75,
+    "label_ci_low": -307.983075,
+    "label_ci_high": -299.40085000000005,
+    "candidate_mean_events": 2333.901,
+    "uniform_mean_events": 2336.521,
+    "candidate_mean_delay_events": 779.8698630136986,
+    "candidate_mean_delay_wall": 787.568493150685,
+    "pre_onset_candidate_alarms": 3,
+    "gate_pass": true
+  },
+  "created_utc": "2026-10-25T19:57:16.962912+00:00",
+  "runtime": {
+    "cpu_ram_bytes": 16858472448,
+    "disk_free_bytes": 19747958784,
+    "cuda_available": true,
+    "nvidia_smi": "NVIDIA GeForce RTX 4060 Laptop GPU, 8188 MiB, 592.82, 0 %, 107 MiB",
+    "torch_version": "2.9.1+cu130",
+    "cuda_runtime": "13.0",
+    "gpu_name": "NVIDIA GeForce RTX 4060 Laptop GPU",
+    "gpu_memory_bytes": 8585216000,
+    "versions": {
+      "numpy": "2.5.4",
+      "scipy": "1.18.1",
+      "pandas": "3.0.6",
+      "pyarrow": "25.0.1",
+      "folktables": "0.0.12"
+    }
+  },
+  "source_hashes": {
+    "confirmation": "ceb3055d14ca7d1e7b7023f0c56a4b51eb9e0597b700e79fd55e6921a6865a8d",
+    "markov_generator": "eca3ab4df21f1f5ecf2f473cfcfa1c8af9351d6fcc072f89953f144c354be026",
+    "development_module": "1517838c03b5150beaa012554538723c762c60c355327e052e25d79916498f41"
+  },
+  "conditional_mean": "0 before onset and exactly 0.20 after onset conditional on the persistent regime and complete prior history.",
+  "limitations": [
+    "Power comparison under one registered Markov-scale alternative only; type-I calibration is recorded separately.",
+    "Signs are independent conditional on regime; persistent sign dependence and informative delays are out of scope.",
+    "The query rule and e-process use established constructions; no novelty claim is made."
+  ]
+}

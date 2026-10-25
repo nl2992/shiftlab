@@ -212,6 +212,8 @@ Thumbs.db
 !outputs/scout_context_policy_markov_null_1000/**
 !outputs/scout_context_policy_drift_null_1000/
 !outputs/scout_context_policy_drift_null_1000/**
+!outputs/scout_context_policy_positive_drift_development_60/
+!outputs/scout_context_policy_positive_drift_development_60/**
 !outputs/informative_delay_fixed_30/
 !outputs/informative_delay_fixed_30/**
 !outputs/informative_delay_positive_fast_30/

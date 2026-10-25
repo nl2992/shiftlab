@@ -7,6 +7,7 @@ import pandas as pd
 import pytest
 
 from shiftlab.dive.budgeted_promotion_context_markov_eventwise_calibration import (
+    BASE_FAMILY_CELLS,
     FAMILY_CELLS,
     _cp_upper,
     run_calibration,
@@ -45,6 +46,40 @@ def test_eventwise_markov_null_smoke_checks_all_cells(tmp_path: Path):
     assert manifest["status"] == "smoke_only_not_calibration"
     assert manifest["inference"]["calibration_pass"] is False
     assert "smoke_only_not_calibration" in report_path.read_text(encoding="utf-8")
+
+
+def test_eventwise_markov_null_smoke_supports_multiple_query_policies(tmp_path: Path):
+    protocol = (
+        Path(__file__).parents[1]
+        / "docs/scout_context_eventwise_query_null_calibration_protocol.md"
+    )
+    report_path = run_calibration(
+        output=tmp_path / "eventwise_query_markov_null_smoke",
+        protocol=protocol,
+        seeds=2,
+        seed_offset=21_209_000,
+        n=1000,
+        d=4,
+        device="cpu",
+        workers=2,
+        query_policies=("uniform", "variance"),
+    )
+    root = report_path.parent.parent
+    detail = pd.read_parquet(root / "metrics/eventwise_markov_null_streams.parquet")
+    summary = pd.read_parquet(root / "metrics/eventwise_markov_null_summary.parquet")
+    manifest = json.loads((report_path.parent / "manifest.json").read_text(encoding="utf-8"))
+
+    assert len(detail) == 2 * BASE_FAMILY_CELLS * 2
+    assert not detail.duplicated(
+        ["scenario", "query_policy", "budget_rate", "seed", "alpha_allocation"]
+    ).any()
+    assert set(detail.query_policy) == {"uniform", "variance"}
+    assert len(summary) == BASE_FAMILY_CELLS * 2
+    assert manifest["inference"]["simultaneous_cells"] == BASE_FAMILY_CELLS * 2
+    assert manifest["configuration"]["query_policies"] == ("uniform", "variance") or manifest[
+        "configuration"
+    ]["query_policies"] == ["uniform", "variance"]
+    assert manifest["status"] == "smoke_only_not_calibration"
 
 
 def test_clopper_pearson_zero_event_upper_is_exact():

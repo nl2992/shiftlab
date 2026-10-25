@@ -16,7 +16,7 @@ import pandas as pd
 from scipy.stats import beta
 
 from ..data.gpu.environment import environment, resolve_device
-from .budgeted_promotion import BudgetedPromotionConfig, _run_seed
+from .budgeted_promotion import QUERY_POLICIES, BudgetedPromotionConfig, _run_seed
 from .experiment import finalize_manifest
 
 PREVALENCES = (0.10, 0.50, 0.90)
@@ -27,7 +27,9 @@ SWITCHING_COST = 0.05
 SEED_OFFSET = 20_300_000
 MIN_SEEDS = 1_000
 FAMILY_ALPHA = 0.05
-FAMILY_CELLS = len(PREVALENCES) * len(PERSISTENCES) * len(PROXY_ERRORS) * len(BUDGET_RATES)
+BASE_FAMILY_CELLS = len(PREVALENCES) * len(PERSISTENCES) * len(PROXY_ERRORS) * len(BUDGET_RATES)
+# Preserve the original one-policy family size for the original calibration and tests.
+FAMILY_CELLS = BASE_FAMILY_CELLS
 SCENARIO = SimpleNamespace(
     name="candidate_context_heterogeneity",
     fn_cost=5.0,
@@ -67,8 +69,9 @@ def _run_null_seed(
         scout_bound_modes=("eventwise_propensity",),
     )
     selected = [row for row in rows if row["alpha_allocation"] == EVENTWISE_METHOD]
-    if len(selected) != len(BUDGET_RATES):
-        raise RuntimeError("eventwise calibration stream is missing a label-cap result")
+    expected_rows = len(BUDGET_RATES) * len(config.query_policies)
+    if len(selected) != expected_rows:
+        raise RuntimeError("eventwise calibration stream is missing a query-policy/cap result")
     for row in selected:
         row["scenario"] = _profile_name(prevalence, persistence, proxy_error)
         row["context_target_prevalence"] = prevalence
@@ -135,6 +138,7 @@ def run_calibration(
     d: int = 16,
     device: str = "cuda",
     workers: int = 6,
+    query_policies: tuple[str, ...] = ("uniform",),
 ) -> Path:
     if seeds < 2 or seed_offset < 0 or n < 1000 or d < 3:
         raise ValueError("calibration requires >=2 nonnegative seeds, n>=1000, and d>=3")
@@ -142,6 +146,13 @@ def run_calibration(
         raise ValueError("full calibration runs must use the frozen disjoint seed block")
     if workers < 1:
         raise ValueError("workers must be positive")
+    if (
+        not query_policies
+        or len(set(query_policies)) != len(query_policies)
+        or any(policy not in QUERY_POLICIES for policy in query_policies)
+    ):
+        raise ValueError(f"query_policies must be unique members of {QUERY_POLICIES}")
+    family_cells = BASE_FAMILY_CELLS * len(query_policies)
     if not protocol.is_file():
         raise FileNotFoundError(f"frozen calibration protocol not found: {protocol}")
     resolved_device = resolve_device(device, n=n, d=d, chunk_size=2048)
@@ -185,7 +196,7 @@ def run_calibration(
                             seed_offset=seed_offset,
                             switching_cost=SWITCHING_COST,
                             budget_rates=BUDGET_RATES,
-                            query_policies=("uniform",),
+                            query_policies=query_policies,
                             alpha_allocations=("rank",),
                             estimators=("direct_ipw",),
                             monitoring_rules=("fixed_mixture",),
@@ -221,10 +232,10 @@ def run_calibration(
                 os.environ[key] = value
 
     detail = pd.DataFrame.from_records(records)
-    expected_rows = seeds * FAMILY_CELLS
+    expected_rows = seeds * family_cells
     if len(detail) != expected_rows:
         raise RuntimeError(f"expected {expected_rows} calibration rows; received {len(detail)}")
-    key = ["scenario", "budget_rate", "seed", "alpha_allocation"]
+    key = ["scenario", "query_policy", "budget_rate", "seed", "alpha_allocation"]
     if detail.duplicated(key).any():
         raise RuntimeError("duplicate eventwise calibration cell/seed rows")
     if not detail["candidate_is_monitor_null"].astype(bool).all():
@@ -232,9 +243,11 @@ def run_calibration(
     if detail["propensity_min"].isna().any() or not detail["propensity_min"].gt(0).all():
         raise RuntimeError("calibration streams require positive query support")
     detail["cap_violation"] = detail["labels_queried"] > detail["label_budget"]
-    family_cell_alpha = FAMILY_ALPHA / FAMILY_CELLS
+    family_cell_alpha = FAMILY_ALPHA / family_cells
     cell_rows = []
-    for (profile, budget_rate), group in detail.groupby(["scenario", "budget_rate"], sort=True):
+    for (profile, query_policy, budget_rate), group in detail.groupby(
+        ["scenario", "query_policy", "budget_rate"], sort=True
+    ):
         events = int(group["promoted"].sum())
         trials = len(group)
         cap_violations = int(group["cap_violation"].sum())
@@ -242,6 +255,7 @@ def run_calibration(
         cell_rows.append(
             {
                 "scenario": profile,
+                "query_policy": query_policy,
                 "budget_rate": float(budget_rate),
                 "context_target_prevalence": float(group["context_target_prevalence"].iloc[0]),
                 "context_persistence": float(group["context_persistence"].iloc[0]),
@@ -274,7 +288,7 @@ def run_calibration(
         "",
         f"Status: **{status}**. Device: {resolved_device}; seeds per cell: {seeds}; seed block: {seed_offset}–{seed_offset + seeds - 1}; workers: {workers}.",
         "",
-        f"The family has {FAMILY_CELLS} cells and {len(detail):,} eventwise stream records. It crosses three stationary context prevalences, three persistence values, two proxy-error levels, and two hard label caps. Simultaneous one-sided exact Clopper–Pearson limits use per-cell alpha 0.05/{FAMILY_CELLS}={family_cell_alpha:.8f}; every cell requires at least {MIN_SEEDS} streams, upper limit at most 0.05, and zero cap violations.",
+        f"The family has {family_cells} query-policy/profile/cap cells and {len(detail):,} eventwise stream records. It crosses query policies {', '.join(query_policies)}, three stationary context prevalences, three persistence values, two proxy-error levels, and two hard label caps. Simultaneous one-sided exact Clopper–Pearson limits use per-cell alpha 0.05/{family_cells}={family_cell_alpha:.8f}; every cell requires at least {MIN_SEEDS} streams, upper limit at most 0.05, and zero cap violations.",
         "",
         summary.to_markdown(index=False, floatfmt=".5f"),
         "",
@@ -305,12 +319,12 @@ def run_calibration(
             "switching_cost": SWITCHING_COST,
             "budget_rates": BUDGET_RATES,
             "method": EVENTWISE_METHOD,
-            "query_policy": "uniform",
+            "query_policies": query_policies,
             "alpha": FAMILY_ALPHA,
         },
         "inference": {
             "familywise_alpha": FAMILY_ALPHA,
-            "simultaneous_cells": FAMILY_CELLS,
+            "simultaneous_cells": family_cells,
             "per_cell_one_sided_alpha": family_cell_alpha,
             "minimum_streams_per_cell": MIN_SEEDS,
             "calibration_pass": passed,
@@ -347,6 +361,12 @@ def main(argv: list[str] | None = None) -> None:
     parser.add_argument("--device", choices=("cpu", "cuda", "auto"), default="cuda")
     parser.add_argument("--workers", type=int, default=6)
     parser.add_argument(
+        "--query-policies",
+        nargs="+",
+        choices=QUERY_POLICIES,
+        default=["uniform"],
+    )
+    parser.add_argument(
         "--protocol",
         type=Path,
         default=Path("docs/scout_context_policy_eventwise_markov_null_protocol.md"),
@@ -362,6 +382,7 @@ def main(argv: list[str] | None = None) -> None:
             d=args.d,
             device=args.device,
             workers=args.workers,
+            query_policies=tuple(args.query_policies),
         ),
         flush=True,
     )

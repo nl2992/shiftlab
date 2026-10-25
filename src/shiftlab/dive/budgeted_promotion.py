@@ -71,6 +71,9 @@ class BudgetedPromotionConfig:
     context_proxy_error: float = 0.0
     context_persistence: float = 0.0
     context_certification_prevalence: float | None = None
+    context_prevalence_schedule: str = "stationary"
+    context_schedule_low: float = 0.10
+    context_schedule_high: float = 0.90
     scout_bound_mode: str = "minimum_propensity"
     include_validation_context_policy: bool = False
     include_scout_context_policy: bool = False
@@ -145,6 +148,31 @@ class BudgetedPromotionConfig:
                 raise ValueError(
                     "context_certification_prevalence and context_persistence are mutually exclusive"
                 )
+        prevalence_schedules = {
+            "stationary",
+            "gradual_up",
+            "gradual_down",
+            "recurring_low_first",
+            "recurring_high_first",
+        }
+        if self.context_prevalence_schedule not in prevalence_schedules:
+            raise ValueError(
+                f"context_prevalence_schedule must be one of {tuple(sorted(prevalence_schedules))}"
+            )
+        if any(
+            not np.isfinite(value) or not 0 < value < 1
+            for value in (self.context_schedule_low, self.context_schedule_high)
+        ):
+            raise ValueError("context schedule prevalences must lie strictly between zero and one")
+        if self.context_schedule_low >= self.context_schedule_high:
+            raise ValueError("context_schedule_low must be below context_schedule_high")
+        if self.context_prevalence_schedule != "stationary" and (
+            self.context_persistence > 0 or self.context_certification_prevalence is not None
+        ):
+            raise ValueError(
+                "temporal context prevalence schedules cannot be combined with "
+                "Markov persistence or the certification step"
+            )
         if self.scout_bound_mode not in SCOUT_BOUND_MODES:
             raise ValueError(f"scout_bound_mode must be one of {SCOUT_BOUND_MODES}")
         if self.scout_bound_mode == "eventwise_propensity" and self.query_policies != ("uniform",):
@@ -1487,6 +1515,31 @@ def _wilson(successes: int, total: int) -> tuple[float, float]:
     return max(0.0, center - radius), min(1.0, center + radius)
 
 
+def _context_prevalence_path(
+    length: int,
+    *,
+    schedule: str,
+    low: float,
+    high: float,
+) -> np.ndarray:
+    """Return a deterministic eventwise prevalence path for target contexts."""
+    if length < 1:
+        raise ValueError("context prevalence path length must be positive")
+    if not (0 < low < high < 1):
+        raise ValueError("context prevalence endpoints must satisfy 0 < low < high < 1")
+    phase = (np.arange(length, dtype=float) + 0.5) / length
+    if schedule == "gradual_up":
+        return low + (high - low) * phase
+    if schedule == "gradual_down":
+        return high - (high - low) * phase
+    if schedule in {"recurring_low_first", "recurring_high_first"}:
+        high_phase = (np.floor(phase * 4).astype(int) % 2) == 1
+        if schedule == "recurring_high_first":
+            high_phase = ~high_phase
+        return np.where(high_phase, high, low)
+    raise ValueError(f"unsupported nonstationary context prevalence schedule: {schedule}")
+
+
 def _inject_context_heterogeneity(
     *,
     x: np.ndarray,
@@ -1517,7 +1570,18 @@ def _inject_context_heterogeneity(
     latent_context = x[:, 0] >= latent_threshold
 
     context_generator = torch.Generator(device=device).manual_seed(seed + 9_733_101)
-    if config.context_persistence > 0:
+    if config.context_prevalence_schedule != "stationary":
+        _, validation_end, _ = _time_splits(len(y))
+        target_length = len(y) - validation_end
+        prevalence_path = _context_prevalence_path(
+            target_length,
+            schedule=config.context_prevalence_schedule,
+            low=config.context_schedule_low,
+            high=config.context_schedule_high,
+        )
+        uniforms = np.random.default_rng(seed + 9_733_101).random(target_length)
+        latent_context[validation_end:] = uniforms < prevalence_path
+    elif config.context_persistence > 0:
         _, validation_end, _ = _time_splits(len(y))
         target_length = len(y) - validation_end
         uniforms = np.random.default_rng(seed + 9_733_101).random(target_length)

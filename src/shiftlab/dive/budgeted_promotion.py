@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import argparse
 import json
-from dataclasses import asdict, dataclass
+from dataclasses import asdict, dataclass, replace
 from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any, cast
@@ -1183,6 +1183,8 @@ def _run_seed(
     seed: int,
     config: BudgetedPromotionConfig,
     device: str,
+    scout_only: bool = False,
+    scout_switching_costs: tuple[float, ...] | None = None,
 ) -> list[dict[str, Any]]:
     source_config = ExperimentConfig(
         n=config.n,
@@ -1255,27 +1257,43 @@ def _run_seed(
         .numpy()
     )
     output = []
+    if scout_switching_costs is not None and not scout_only:
+        raise ValueError("multiple scout switching charges require a scout-only run")
+    if scout_switching_costs is not None and not config.include_scout_context_policy:
+        raise ValueError("multiple scout switching charges require the scout policy")
+    if scout_switching_costs is not None and (
+        not scout_switching_costs
+        or len(set(scout_switching_costs)) != len(scout_switching_costs)
+        or any(not np.isfinite(cost) or cost < 0 for cost in scout_switching_costs)
+    ):
+        raise ValueError("scout switching charges must be finite, nonnegative, and unique")
+    scout_configs = (
+        tuple(replace(config, switching_cost=cost) for cost in scout_switching_costs)
+        if scout_switching_costs is not None
+        else (config,)
+    )
     for query_index, query_name in enumerate(config.query_policies):
         for budget_rate in config.budget_rates:
-            for estimator in config.estimators:
-                for monitoring_rule in config.monitoring_rules:
-                    estimator_rows = _monitor_family(
-                        family=family,
-                        y=y,
-                        scenario=scenario,
-                        config=config,
-                        query_name=query_name,
-                        budget_rate=budget_rate,
-                        estimator=estimator,
-                        query_uniforms=uniforms[query_index],
-                        bound_mode=config.bound_mode,
-                        monitoring_rule=monitoring_rule,
-                    )
-                    for row in estimator_rows:
-                        row["seed"] = seed
-                        row["query_rng_stream"] = query_index
-                        row["top_validation_gain"] = family["top_validation_gain"]
-                    output.extend(estimator_rows)
+            if not scout_only:
+                for estimator in config.estimators:
+                    for monitoring_rule in config.monitoring_rules:
+                        estimator_rows = _monitor_family(
+                            family=family,
+                            y=y,
+                            scenario=scenario,
+                            config=config,
+                            query_name=query_name,
+                            budget_rate=budget_rate,
+                            estimator=estimator,
+                            query_uniforms=uniforms[query_index],
+                            bound_mode=config.bound_mode,
+                            monitoring_rule=monitoring_rule,
+                        )
+                        for row in estimator_rows:
+                            row["seed"] = seed
+                            row["query_rng_stream"] = query_index
+                            row["top_validation_gain"] = family["top_validation_gain"]
+                        output.extend(estimator_rows)
             if config.include_validation_context_policy:
                 row = _monitor_validation_context_policy(
                     family=family,
@@ -1291,19 +1309,21 @@ def _run_seed(
                 row["top_validation_gain"] = family["top_validation_gain"]
                 output.append(row)
             elif config.include_scout_context_policy:
-                row = _monitor_scout_context_policy(
-                    family=family,
-                    y=y,
-                    scenario=scenario,
-                    config=config,
-                    query_name=query_name,
-                    budget_rate=budget_rate,
-                    query_uniforms=uniforms[query_index],
-                )
-                row["seed"] = seed
-                row["query_rng_stream"] = query_index
-                row["top_validation_gain"] = family["top_validation_gain"]
-                output.append(row)
+                for scout_config in scout_configs:
+                    row = _monitor_scout_context_policy(
+                        family=family,
+                        y=y,
+                        scenario=scenario,
+                        config=scout_config,
+                        query_name=query_name,
+                        budget_rate=budget_rate,
+                        query_uniforms=uniforms[query_index],
+                    )
+                    row["seed"] = seed
+                    row["query_rng_stream"] = query_index
+                    row["top_validation_gain"] = family["top_validation_gain"]
+                    row["registered_switching_cost"] = scout_config.switching_cost
+                    output.append(row)
     if scenario.name == "candidate_context_heterogeneity":
         observed_prevalence = float(
             family["validation_context_counts"][1] / family["validation_context_counts"].sum()

@@ -409,9 +409,12 @@ def test_target_scout_context_policy_uses_disjoint_certification_slice_and_cap()
         seed=20261130,
         config=config,
         device="cpu",
+        scout_only=True,
+        scout_switching_costs=(0.0, 0.05),
     )
-    policy = next(row for row in rows if row["alpha_allocation"] == "scout_context_policy")
-    assert len(rows) == 4
+    policy = next(row for row in rows if row["registered_switching_cost"] == 0.05)
+    assert len(rows) == 2
+    assert {row["registered_switching_cost"] for row in rows} == {0.0, 0.05}
     assert policy["candidate_count"] == 1
     assert policy["alpha_total"] == config.alpha
     assert policy["familywise_alpha_sum"] == config.alpha

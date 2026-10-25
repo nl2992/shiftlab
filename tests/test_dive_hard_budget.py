@@ -5,6 +5,11 @@ import numpy as np
 import pandas as pd
 import pytest
 
+from shiftlab.dive.direct_ipw_query_calibration import (
+    CALIBRATION_METHODS,
+    CALIBRATION_SCENARIOS,
+    summarize_direct_ipw_query_calibration,
+)
 from shiftlab.dive.direct_ipw_query_grid import (
     DirectIPWQueryGridConfig,
     run_direct_ipw_query_grid,
@@ -163,6 +168,53 @@ def test_direct_ipw_query_grid_runner_writes_paired_metrics_and_hashes(tmp_path)
     assert len(contrasts) == len(EVIDENCE_DIRECTED_GRID_METHODS)
     assert manifest["cap_violations"] == 0
     assert "metrics/direct_ipw_query_grid.parquet" in manifest["sha256"]
+
+
+def test_direct_ipw_query_calibration_uses_simultaneous_exact_upper_bounds():
+    rows = []
+    for scenario in CALIBRATION_SCENARIOS:
+        for method in CALIBRATION_METHODS:
+            for seed in range(100):
+                rows.append(
+                    {
+                        "scenario": scenario,
+                        "seed": seed,
+                        "method": method,
+                        "population_null_control": True,
+                        "material_harm": False,
+                        "single_e_false_escalation": False,
+                        "budget_respected": True,
+                        "monitor_estimator": "direct_ipw",
+                        "query_propensity_min": 0.05,
+                        "eprocess_support_bound": 100.0,
+                        "labels_queried": 20,
+                        "realized_label_spend": 40.0,
+                        "hard_budget": 100.0,
+                        "processed_events": 1000,
+                    }
+                )
+    summary = summarize_direct_ipw_query_calibration(pd.DataFrame(rows), expected_seeds=100)
+    assert len(summary) == 4
+    assert summary.simultaneous_cp95_upper.nunique() == 1
+    assert summary.simultaneous_cp95_upper.iloc[0] == pytest.approx(1 - 0.0125 ** (1 / 100))
+    assert not summary.cell_passes.any()
+
+
+def test_direct_ipw_query_calibration_rejects_nonnull_input():
+    row = {
+        "scenario": "stationary",
+        "seed": 0,
+        "method": "uniform_proxy",
+        "population_null_control": False,
+        "material_harm": False,
+        "single_e_false_escalation": False,
+        "budget_respected": True,
+        "monitor_estimator": "direct_ipw",
+        "query_propensity_min": 0.05,
+        "eprocess_support_bound": 100.0,
+    }
+    with pytest.raises(ValueError, match="non-null stream"):
+        summarize_direct_ipw_query_calibration(pd.DataFrame([row]), expected_seeds=1)
 
 
 def test_evidence_urgency_grid_has_nine_explicit_candidates_without_expanding_defaults():

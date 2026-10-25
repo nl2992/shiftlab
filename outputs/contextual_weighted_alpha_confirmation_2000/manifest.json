@@ -1,0 +1,58 @@
+{
+  "created_at_utc": "2026-10-25T00:41:14.206540+00:00",
+  "status": "passed",
+  "purpose": "fresh-seed confirmation of volume-weighted versus equal context-alpha allocation",
+  "seed_offset": 113102024,
+  "seeds_per_profile": 2000,
+  "calibration_seed_offset": 103102024,
+  "calibration_manifest_sha256": "36cf6d4a7d385c818497e283b713ed4b3ec11ea17f7ddf23ea931048798a605e",
+  "horizon_per_phase": 400,
+  "query_rate": 0.8,
+  "cost_multipliers": [
+    0.0,
+    1.0,
+    2.0,
+    4.0
+  ],
+  "budget_rates": [
+    0.2,
+    0.4,
+    0.6
+  ],
+  "primary_minimum_gain_per_800_event_stream": 1.0,
+  "primary_mean_difference": 1.4843551851851855,
+  "primary_ci95": [
+    1.3749080856481481,
+    1.597140733796296
+  ],
+  "primary_gate_passed": true,
+  "profile_count": 9,
+  "settings_per_profile": 12,
+  "all_label_caps_respected": true,
+  "metric_rows": 432000,
+  "metrics_sha256": "12428bf44ce671803b673715657c00763be187cd890595cdbcf7ad4a72e12df6",
+  "primary_contrast_sha256": "c2a1e7509d4cedb90e0c8c2f010076a37534a851a8bbb29cd302fc67ded3e7e8",
+  "code_sha256": {
+    "contextual_weighted_alpha_validation.py": "ad57c064270a41f58e83871573320625b41f4b280c9d1263bd077e1829f648cc",
+    "contextual_weighted_alpha_grid.py": "b0367a28b3766df176b493d33ae697ab46532fe84a78fe833c2c413df169272a",
+    "closed_loop_intervention.py": "ad33b9a999814d447e95fcd9e8cbe1e39a78661dab2ca4a74a9c63da82fe44f8"
+  },
+  "environment": {
+    "cpu_ram_bytes": 16858472448,
+    "disk_free_bytes": 20147429376,
+    "cuda_available": true,
+    "nvidia_smi": "NVIDIA GeForce RTX 4060 Laptop GPU, 8188 MiB, 592.82, 0 %, 147 MiB",
+    "torch_version": "2.9.1+cu130",
+    "cuda_runtime": "13.0",
+    "gpu_name": "NVIDIA GeForce RTX 4060 Laptop GPU",
+    "gpu_memory_bytes": 8585216000,
+    "versions": {
+      "numpy": "2.5.4",
+      "scipy": "1.18.1",
+      "pandas": "3.0.6",
+      "pyarrow": "25.0.1",
+      "folktables": "0.0.12"
+    }
+  },
+  "interpretation_limit": "Confirmation targets only the equal-weight synthetic factor-grid average; it is not a claim of superiority for every prevalence/noise/cost/budget cell or an application-grounded utility gain."
+}

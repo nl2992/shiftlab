@@ -1,0 +1,61 @@
+{
+  "created_at_utc": "2026-10-25T00:38:53.292306+00:00",
+  "status": "passed",
+  "purpose": "independent simultaneous calibration for equal and pilot-volume-weighted context alpha allocations",
+  "seed_offset": 103102024,
+  "seeds_per_cell": 2000,
+  "development_seed_offset": 92102024,
+  "horizon_per_phase": 400,
+  "query_rate": 0.8,
+  "budget_rate": 0.4,
+  "promotion_cost": 0.05,
+  "rollback_cost": 0.05,
+  "familywise_alpha": 0.05,
+  "simultaneous_cells": 54,
+  "cell_alpha": 0.000925925925925926,
+  "prevalences": [
+    0.05,
+    0.25,
+    0.5
+  ],
+  "proxy_errors": [
+    0.0,
+    0.05,
+    0.1
+  ],
+  "calibration_types": [
+    "promotion_null",
+    "rollback_boundary",
+    "persistent_benefit"
+  ],
+  "methods": [
+    "equal_alpha",
+    "volume_weighted_alpha"
+  ],
+  "all_cells_pass": true,
+  "all_label_caps_respected": true,
+  "calibration_sha256": "ecf0f5fdb79fb7cbe71bf9cdc1e79ea1f32fe53bbbb9c66e782c558778539d24",
+  "code_sha256": {
+    "contextual_weighted_alpha_validation.py": "ad57c064270a41f58e83871573320625b41f4b280c9d1263bd077e1829f648cc",
+    "contextual_weighted_alpha_grid.py": "b0367a28b3766df176b493d33ae697ab46532fe84a78fe833c2c413df169272a",
+    "closed_loop_intervention.py": "ad33b9a999814d447e95fcd9e8cbe1e39a78661dab2ca4a74a9c63da82fe44f8"
+  },
+  "environment": {
+    "cpu_ram_bytes": 16858472448,
+    "disk_free_bytes": 20213805056,
+    "cuda_available": true,
+    "nvidia_smi": "NVIDIA GeForce RTX 4060 Laptop GPU, 8188 MiB, 592.82, 0 %, 127 MiB",
+    "torch_version": "2.9.1+cu130",
+    "cuda_runtime": "13.0",
+    "gpu_name": "NVIDIA GeForce RTX 4060 Laptop GPU",
+    "gpu_memory_bytes": 8585216000,
+    "versions": {
+      "numpy": "2.5.4",
+      "scipy": "1.18.1",
+      "pandas": "3.0.6",
+      "pyarrow": "25.0.1",
+      "folktables": "0.0.12"
+    }
+  },
+  "limitation": "Finite-sample calibration for the registered bounded synthetic profiles; the validity argument remains conditional on the predictable pilot weights, per-context nulls, and randomized query assumptions."
+}

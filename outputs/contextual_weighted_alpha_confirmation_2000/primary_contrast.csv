@@ -1,0 +1,2 @@
+estimand,method,reference,paired_mean_realized_utility_difference,bootstrap_ci95_low,bootstrap_ci95_high,minimum_practical_gain,primary_gate_passed,profile_count,settings_per_profile,seed_clusters_per_profile,bootstrap_replicates
+equal-weight average over 9 prevalence/noise profiles and 12 cost/budget settings,volume_weighted_alpha,equal_alpha,1.4843551851851855,1.3749080856481481,1.597140733796296,1.0,True,9,12,2000,5000

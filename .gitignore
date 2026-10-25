@@ -212,6 +212,8 @@ Thumbs.db
 !outputs/scout_context_policy_markov_null_1000/**
 !outputs/scout_context_policy_drift_null_1000/
 !outputs/scout_context_policy_drift_null_1000/**
+!outputs/scout_context_policy_eventwise_drift_null_1000/
+!outputs/scout_context_policy_eventwise_drift_null_1000/**
 !outputs/scout_context_policy_positive_drift_development_60/
 !outputs/scout_context_policy_positive_drift_development_60/**
 !outputs/scout_context_policy_eventwise_bound_development_60/

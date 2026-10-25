@@ -38,3 +38,35 @@ def test_drift_calibration_smoke_records_all_registered_cells(tmp_path: Path):
     assert (detail["propensity_min"] > 0).all()
     assert (detail["labels_queried"] <= detail["label_budget"]).all()
     assert "smoke_only_not_calibration" in report_path.read_text(encoding="utf-8")
+
+
+def test_eventwise_drift_calibration_smoke_uses_exact_bound_mode(tmp_path: Path):
+    protocol = (
+        Path(__file__).parents[1] / "docs/scout_context_policy_eventwise_drift_null_protocol.md"
+    )
+    report_path = run_calibration(
+        output=tmp_path / "eventwise_drift_smoke",
+        seeds=2,
+        seed_offset=20_269_000,
+        n=1000,
+        d=4,
+        device="cpu",
+        bound_mode="eventwise_propensity",
+        protocol=protocol,
+    )
+
+    detail = pd.read_parquet(
+        report_path.parent.parent / "metrics/scout_context_drift_null_streams.parquet"
+    )
+    summary = pd.read_parquet(
+        report_path.parent.parent / "metrics/scout_context_drift_null_summary.parquet"
+    )
+    assert len(detail) == 2 * FAMILY_CELLS
+    assert len(summary) == FAMILY_CELLS
+    assert set(detail.alpha_allocation.unique()) == {
+        "scout_context_policy_eventwise_propensity_bound"
+    }
+    assert set(detail.bound_mode.unique()) == {"eventwise_propensity"}
+    assert detail.candidate_is_monitor_null.all()
+    assert (detail.labels_queried <= detail.label_budget).all()
+    assert "Bound mode: eventwise_propensity" in report_path.read_text(encoding="utf-8")

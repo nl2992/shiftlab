@@ -13,7 +13,7 @@ import pandas as pd
 from scipy.stats import beta
 
 from ..data.gpu.environment import environment, resolve_device
-from .budgeted_promotion import BudgetedPromotionConfig, _run_seed
+from .budgeted_promotion import SCOUT_BOUND_MODES, BudgetedPromotionConfig, _run_seed
 from .experiment import finalize_manifest
 
 PREVALENCE_PAIRS = ((0.10, 0.90), (0.50, 0.50), (0.90, 0.10))
@@ -50,12 +50,15 @@ def run_calibration(
     n: int = 3200,
     d: int = 16,
     device: str = "cuda",
+    bound_mode: str = "minimum_propensity",
     protocol: Path,
 ) -> Path:
     if seeds < 2 or n < 1000 or d < 3:
         raise ValueError("calibration requires seeds >=2, n >=1000, and d >=3")
     if seed_offset <= DEVELOPMENT_SEED_END:
         raise ValueError("drift calibration seeds must follow the frozen development block")
+    if bound_mode not in SCOUT_BOUND_MODES:
+        raise ValueError(f"bound_mode must be one of {SCOUT_BOUND_MODES}")
     if not protocol.is_file():
         raise FileNotFoundError(f"frozen protocol not found: {protocol}")
     resolved_device = resolve_device(device, n=n, d=d, chunk_size=2048)
@@ -104,6 +107,7 @@ def run_calibration(
                 context_proxy_error=proxy_error,
                 context_persistence=0.0,
                 context_certification_prevalence=final_prevalence,
+                scout_bound_mode=bound_mode,
                 include_scout_context_policy=True,
                 scenario_subset=("candidate_context_heterogeneity",),
                 create_plot=False,
@@ -121,7 +125,14 @@ def run_calibration(
                     scout_switching_costs=SWITCHING_COSTS,
                 )
                 scout_rows = [
-                    row for row in seed_rows if row["alpha_allocation"] == "scout_context_policy"
+                    row
+                    for row in seed_rows
+                    if row["alpha_allocation"]
+                    == (
+                        "scout_context_policy"
+                        if bound_mode == "minimum_propensity"
+                        else "scout_context_policy_eventwise_propensity_bound"
+                    )
                 ]
                 expected_per_seed = len(BUDGET_RATES) * len(SWITCHING_COSTS)
                 if len(scout_rows) != expected_per_seed:
@@ -136,6 +147,7 @@ def run_calibration(
                     row["context_signal_strength"] = 0.0
                     row["context_proxy_error"] = proxy_error
                     row["context_persistence"] = 0.0
+                    row["scout_bound_mode"] = bound_mode
                     row["seed"] = seed
                     if not bool(row["candidate_is_monitor_null"]):
                         raise RuntimeError(
@@ -208,7 +220,9 @@ def run_calibration(
             "At signal delta zero, the outcome probability remains at the decision threshold at every "
             "event and in every context, including after the abrupt prevalence change. Thus the "
             "eventwise conditional expected gross candidate gain is zero. The finite calibration "
-            "addresses this registered context-distribution shift only; it does not cover delayed or "
+            f"Bound mode: {bound_mode}. The eventwise mode uses the registered uniform query probability "
+            "and the same eventwise conditional-mean null. This finite calibration addresses this "
+            "registered context-distribution shift only; it does not cover delayed or "
             "selective feedback, shifts that violate the conditional null, or real applications."
         ),
         "",
@@ -216,7 +230,7 @@ def run_calibration(
     ]
     report_path.write_text("\n".join(report) + "\n", encoding="utf-8")
     manifest = {
-        "experiment": "target_scout_context_drift_null_calibration",
+        "experiment": f"target_scout_context_drift_null_calibration_{bound_mode}",
         "created_at_utc": datetime.now(UTC).isoformat(),
         "status": status,
         "protocol": {"path": protocol.as_posix(), "sha256": protocol_hash},
@@ -227,6 +241,7 @@ def run_calibration(
             "n": n,
             "d": d,
             "device": resolved_device,
+            "bound_mode": bound_mode,
             "prevalence_pairs": PREVALENCE_PAIRS,
             "signal_strength": 0.0,
             "proxy_errors": PROXY_ERRORS,
@@ -268,6 +283,7 @@ def main(argv: list[str] | None = None) -> None:
     parser.add_argument("--n", type=int, default=3200)
     parser.add_argument("--d", type=int, default=16)
     parser.add_argument("--device", choices=("cpu", "cuda", "auto"), default="cuda")
+    parser.add_argument("--bound-mode", choices=SCOUT_BOUND_MODES, default="minimum_propensity")
     parser.add_argument(
         "--protocol", type=Path, default=Path("docs/scout_context_policy_drift_null_protocol.md")
     )
@@ -280,6 +296,7 @@ def main(argv: list[str] | None = None) -> None:
             n=args.n,
             d=args.d,
             device=args.device,
+            bound_mode=args.bound_mode,
             protocol=args.protocol,
         ),
         flush=True,

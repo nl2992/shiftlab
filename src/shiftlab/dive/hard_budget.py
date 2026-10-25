@@ -160,6 +160,7 @@ class HardBudgetConfig:
     harm_margin: float = 0.10
     budget_rate: float = 0.10
     budget_dollars: float | None = None
+    monitor_estimator: str = "prediction_powered"
     monitor_horizon_events: int | None = None
     q_min: float = 0.05
     q_max: float = 0.50
@@ -200,6 +201,8 @@ class HardBudgetConfig:
             not np.isfinite(self.budget_dollars) or self.budget_dollars <= 0
         ):
             raise ValueError("budget_dollars must be finite and positive when provided")
+        if self.monitor_estimator not in {"prediction_powered", "direct_ipw"}:
+            raise ValueError("monitor_estimator must be prediction_powered or direct_ipw")
         if self.monitor_horizon_events is not None and (
             isinstance(self.monitor_horizon_events, bool)
             or not isinstance(self.monitor_horizon_events, int)
@@ -259,6 +262,17 @@ class HardBudgetConfig:
             raise ValueError("scenario_subset must contain registered scenario names")
         if not self.method_subset or not set(self.method_subset) <= set(HARD_BUDGET_METHODS):
             raise ValueError("method_subset must contain registered hard-budget methods")
+        if self.monitor_estimator == "direct_ipw":
+            direct_ipw_methods = {
+                "uniform_proxy",
+                "uniform_proxy_frozen",
+                "evidence_directed_proxy",
+                *EVIDENCE_DIRECTED_GRID_METHODS,
+            }
+            if not set(self.method_subset) <= direct_ipw_methods:
+                raise ValueError(
+                    "direct_ipw currently supports uniform and history-evidence query methods"
+                )
         return self
 
 
@@ -269,6 +283,7 @@ def _one_method(
     scenario,
     config: HardBudgetConfig,
     x: np.ndarray,
+    gross_cost_difference: np.ndarray,
     centered_cost_difference: np.ndarray,
     expected_cost_difference: np.ndarray,
     label_costs: np.ndarray,
@@ -290,7 +305,9 @@ def _one_method(
     validation_probability = classifier.predict_proba(validation_x)[:, 1]
     validation_uncertainty = _entropy(validation_probability)
     proxy = copy.deepcopy(proxy_template)
-    proxy_updates_enabled = method != "uniform_proxy_frozen"
+    proxy_updates_enabled = (
+        method != "uniform_proxy_frozen" and config.monitor_estimator == "prediction_powered"
+    )
 
     query_kind = {
         "uniform_proxy": "uniform",
@@ -404,7 +421,12 @@ def _one_method(
         if config.common_eprocess_bound or query_kind != "uniform"
         else config.budget_rate
     )
-    process_bound = prediction_powered_bound(proxy.clip, minimum_propensity)
+    if config.monitor_estimator == "prediction_powered":
+        process_bound = prediction_powered_bound(proxy.clip, minimum_propensity)
+    else:
+        process_bound = (
+            max(scenario.fn_cost, scenario.fp_cost) / minimum_propensity + config.harm_margin
+        )
     process = BoundedMeanEProcess(bound=process_bound, alpha=config.alpha)
     # Evaluator-only full-feedback comparator. Its updates are never exposed to
     # the acquisition policy, proxy, or learner-side monitor.
@@ -535,7 +557,14 @@ def _one_method(
             queried_count += 1
             spent += cost_now
             remaining -= cost_now
-        estimate = prediction_powered_estimate(h_now, queried, observed, propensity)
+        if config.monitor_estimator == "prediction_powered":
+            estimate = prediction_powered_estimate(h_now, queried, observed, propensity)
+        else:
+            estimate = (
+                float(gross_cost_difference[index]) / propensity - config.harm_margin
+                if queried
+                else -config.harm_margin
+            )
         estimates.append(estimate)
         truths.append(float(centered_cost_difference[index]))
         processed += 1
@@ -555,7 +584,14 @@ def _one_method(
                     # Missing by construction when the learner did not query.
                     "learner_observed_excess_cost": observed,
                     "proxy_prediction": h_now,
-                    "ppi_increment": estimate,
+                    "monitor_estimator": config.monitor_estimator,
+                    "monitor_increment": estimate,
+                    "ppi_increment": (
+                        estimate if config.monitor_estimator == "prediction_powered" else None
+                    ),
+                    "direct_ipw_increment": (
+                        estimate if config.monitor_estimator == "direct_ipw" else None
+                    ),
                     "learner_log_e": process.log_e_value,
                     "evaluator_expected_paired_cost_difference": float(
                         expected_cost_difference[index]
@@ -638,6 +674,7 @@ def _one_method(
         "change_fraction": config.change_fraction,
         "seed": seed,
         "method": method,
+        "monitor_estimator": config.monitor_estimator,
         "proxy_updates_enabled": proxy_updates_enabled,
         "hard_budget": budget,
         "realized_label_spend": spent,
@@ -1101,6 +1138,7 @@ def _generate_stream_rows(
                     scenario=scenario,
                     config=config,
                     x=x,
+                    gross_cost_difference=paired_difference,
                     centered_cost_difference=centered_difference,
                     expected_cost_difference=expected_difference,
                     label_costs=label_costs,
@@ -1567,7 +1605,7 @@ def run_hard_budget(config: HardBudgetConfig, output: Path) -> Path:
         (
             "The eventwise e-process monitors use the common configured propensity floor in their support bound; the PPRM-style block confidence sequence instead uses its declared fixed block support."
             if config.common_eprocess_bound
-            else f"The primary eventwise monitors use policy-specific support bounds: adaptive query policies use the configured q_min={config.q_min:.2f}, and uniform querying uses its fixed q={config.budget_rate:.2f}. The resulting minimum propensity and PPI support bound are recorded per method-stream."
+            else f"The primary eventwise monitors use policy-specific support bounds: adaptive query policies use the configured q_min={config.q_min:.2f}, and uniform querying uses its fixed q={config.budget_rate:.2f}. The resulting minimum propensity and estimator support bound are recorded per method-stream."
         ),
         "",
         "Each monitor is evaluated only through its budget stopping time. Harm detection is reported both over evaluator-labeled alternative streams and over harmful streams whose onset occurred before budget stopping; the latter avoids calling an unobserved late onset a monitor miss. Stationary and benign-nuisance controls are population nulls; finite-stream oracle flags are reported separately and every alarm on these controls counts as a false escalation. Stream seeds are the inferential units. The outcomes and tariffs are synthetic; current and reference policy costs are paired on the same label.",
@@ -1621,6 +1659,7 @@ def run_hard_budget(config: HardBudgetConfig, output: Path) -> Path:
                 "Reproduce with `uv run shiftlab-dive-hard-budget "
                 f"--seeds {config.seeds} --seed-offset {config.seed_offset} "
                 f"--n {config.n} --d {config.d} --budget-rate {config.budget_rate} "
+                f"--monitor-estimator {config.monitor_estimator} "
                 f"{'--budget-dollars ' + str(config.budget_dollars) + ' ' if config.budget_dollars is not None else ''}"
                 f"{'--monitor-horizon-events ' + str(config.monitor_horizon_events) + ' ' if config.monitor_horizon_events is not None else ''}"
                 f"--q-min {config.q_min} --q-max {config.q_max} --device {config.device} "
@@ -1694,6 +1733,11 @@ def main(argv: list[str] | None = None) -> None:
         default=None,
         help="fixed pathwise label-dollar cap; overrides the horizon-scaled cap, not the query target rate",
     )
+    parser.add_argument(
+        "--monitor-estimator",
+        choices=("prediction_powered", "direct_ipw"),
+        default="prediction_powered",
+    )
     parser.add_argument("--monitor-horizon-events", type=int, default=None)
     parser.add_argument("--q-min", type=float, default=0.05)
     parser.add_argument("--seed-offset", type=int, default=20361022)
@@ -1726,6 +1770,11 @@ def main(argv: list[str] | None = None) -> None:
     parser.add_argument("--device", choices=["auto", "cpu", "cuda"], default="auto")
     parser.add_argument("--workers", type=int, default=1)
     args = parser.parse_args(argv)
+    default_methods = (
+        ("uniform_proxy", "evidence_directed_proxy")
+        if args.monitor_estimator == "direct_ipw"
+        else DEFAULT_HARD_BUDGET_METHODS
+    )
     config = HardBudgetConfig(
         n=args.n,
         d=args.d,
@@ -1733,6 +1782,7 @@ def main(argv: list[str] | None = None) -> None:
         seed_offset=args.seed_offset,
         budget_rate=args.budget_rate,
         budget_dollars=args.budget_dollars,
+        monitor_estimator=args.monitor_estimator,
         monitor_horizon_events=args.monitor_horizon_events,
         q_min=args.q_min,
         q_max=args.q_max,
@@ -1750,7 +1800,7 @@ def main(argv: list[str] | None = None) -> None:
         device=args.device,
         workers=args.workers,
         scenario_subset=tuple(args.scenarios or HardBudgetConfig.scenario_subset),
-        method_subset=tuple(args.methods or DEFAULT_HARD_BUDGET_METHODS),
+        method_subset=tuple(args.methods or default_methods),
     )
     print(run_hard_budget(config, args.output), flush=True)
 

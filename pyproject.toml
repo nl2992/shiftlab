@@ -57,6 +57,7 @@ shiftlab-dive-nested-candidate-context = "shiftlab.dive.nested_candidate_context
 shiftlab-dive-grid = "shiftlab.dive.allocation_grid:main"
 shiftlab-dive-robust-grid = "shiftlab.dive.allocation_grid:robust_main"
 shiftlab-dive-hard-budget = "shiftlab.dive.hard_budget:main"
+shiftlab-dive-direct-ipw-query-grid = "shiftlab.dive.direct_ipw_query_grid:main"
 shiftlab-dive-delayed = "shiftlab.dive.delayed_benchmark:main"
 shiftlab-dive-delayed-grid = "shiftlab.dive.delayed_grid:main"
 shiftlab-dive-delayed-calibration = "shiftlab.dive.delayed_calibration:main"

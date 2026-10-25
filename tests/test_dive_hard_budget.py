@@ -1,9 +1,14 @@
+import json
 from types import SimpleNamespace
 
 import numpy as np
 import pandas as pd
 import pytest
 
+from shiftlab.dive.direct_ipw_query_grid import (
+    DirectIPWQueryGridConfig,
+    run_direct_ipw_query_grid,
+)
 from shiftlab.dive.hard_budget import (
     DEFAULT_HARD_BUDGET_METHODS,
     EVIDENCE_DIRECTED_GRID_METHODS,
@@ -84,6 +89,79 @@ def test_hard_budget_config_validates_scenario_grid_parameters():
         HardBudgetConfig(budget_dollars=0).validate()
     with pytest.raises(ValueError, match="monitor_horizon_events"):
         HardBudgetConfig(n=1600, monitor_horizon_events=801).validate()
+    direct_ipw = HardBudgetConfig(
+        monitor_estimator="direct_ipw",
+        method_subset=("uniform_proxy", "evidence_directed_proxy"),
+    ).validate()
+    assert direct_ipw.monitor_estimator == "direct_ipw"
+    with pytest.raises(ValueError, match="monitor_estimator"):
+        HardBudgetConfig(monitor_estimator="unknown").validate()
+    with pytest.raises(ValueError, match="direct_ipw currently supports"):
+        HardBudgetConfig(
+            monitor_estimator="direct_ipw",
+            method_subset=("variance_proxy",),
+        ).validate()
+
+
+def test_direct_ipw_history_query_smoke_preserves_estimator_bound_and_label_masking(tmp_path):
+    output = run_hard_budget(
+        HardBudgetConfig(
+            n=1600,
+            seeds=1,
+            budget_rate=0.20,
+            budget_dollars=100.0,
+            monitor_estimator="direct_ipw",
+            q_min=0.10,
+            q_max=0.80,
+            common_eprocess_bound=True,
+            device="cpu",
+            scenario_subset=("stationary", "boundary_local_harm"),
+            method_subset=("uniform_proxy", "evidence_directed_proxy"),
+            generate_figure=False,
+            record_event_traces=True,
+        ),
+        tmp_path / "direct_ipw_history_query",
+    )
+    metrics = pd.read_parquet(output / "metrics" / "hard_budget_comparison.parquet")
+    traces = pd.read_parquet(output / "metrics" / "event_traces.parquet")
+    assert set(metrics.monitor_estimator) == {"direct_ipw"}
+    assert metrics.budget_respected.all()
+    assert metrics.eprocess_support_bound.eq(50.1).all()
+    assert set(metrics.method) == {"uniform_proxy", "evidence_directed_proxy"}
+    assert traces.loc[~traces.queried, "learner_observed_excess_cost"].isna().all()
+    assert traces.loc[traces.queried, "learner_observed_excess_cost"].notna().all()
+    assert traces.direct_ipw_increment.notna().all()
+    assert traces.ppi_increment.isna().all()
+    assert np.allclose(
+        traces.loc[traces.queried, "direct_ipw_increment"],
+        (traces.loc[traces.queried, "learner_observed_excess_cost"] + 0.10)
+        / traces.loc[traces.queried, "propensity"]
+        - 0.10,
+    )
+    assert np.allclose(traces.loc[~traces.queried, "direct_ipw_increment"], -0.10)
+
+
+def test_direct_ipw_query_grid_runner_writes_paired_metrics_and_hashes(tmp_path):
+    output = run_direct_ipw_query_grid(
+        DirectIPWQueryGridConfig(
+            seeds=2,
+            n=1200,
+            query_floors=(0.10,),
+            scenarios=("stationary",),
+            device="cpu",
+            bootstrap_replicates=200,
+        ),
+        tmp_path / "direct_ipw_grid",
+    )
+    metrics = pd.read_parquet(output / "metrics" / "direct_ipw_query_grid.parquet")
+    contrasts = pd.read_csv(output / "metrics" / "paired_contrasts_vs_uniform.csv")
+    manifest = json.loads((output / "reports" / "manifest.json").read_text())
+    assert len(metrics) == 2 * (len(EVIDENCE_DIRECTED_GRID_METHODS) + 1)
+    assert set(metrics.monitor_estimator) == {"direct_ipw"}
+    assert metrics.budget_respected.all()
+    assert len(contrasts) == len(EVIDENCE_DIRECTED_GRID_METHODS)
+    assert manifest["cap_violations"] == 0
+    assert "metrics/direct_ipw_query_grid.parquet" in manifest["sha256"]
 
 
 def test_evidence_urgency_grid_has_nine_explicit_candidates_without_expanding_defaults():

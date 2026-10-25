@@ -96,11 +96,16 @@ def test_context_prevalence_shift_rejects_invalid_or_persistent_configurations()
         ).validate()
 
 
-def test_scout_bound_mode_is_validated():
+def test_scout_bound_mode_is_validated_and_allows_predictable_query_policies():
     with pytest.raises(ValueError, match="scout_bound_mode"):
         BudgetedPromotionConfig(scout_bound_mode="unpredictable").validate()
-    with pytest.raises(ValueError, match="uniform query policy"):
-        BudgetedPromotionConfig(
-            scout_bound_mode="eventwise_propensity",
-            query_policies=("uniform", "variance"),
-        ).validate()
+    config = BudgetedPromotionConfig(
+        scout_bound_mode="eventwise_propensity",
+        query_policies=("uniform", "variance", "decision_value"),
+        estimators=("direct_ipw",),
+        monitoring_rules=("fixed_mixture",),
+        include_scout_context_policy=True,
+        scenario_subset=("candidate_context_heterogeneity",),
+        context_feature_index=3,
+    ).validate()
+    assert config.query_policies == ("uniform", "variance", "decision_value")

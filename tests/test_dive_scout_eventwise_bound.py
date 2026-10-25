@@ -1,10 +1,12 @@
 from types import SimpleNamespace
 
+import numpy as np
 import pytest
 
 from shiftlab.dive.budgeted_promotion import (
     BudgetedPromotionConfig,
     _budget_limited_prefix_length,
+    _query_uniform_matrix,
     _run_seed,
 )
 from shiftlab.dive.promotion_grid import _time_splits
@@ -24,6 +26,26 @@ def test_budget_limited_prefix_matches_eventwise_stop_rule(
     query_flags: list[bool], available_budget: int, expected_prefix: int
 ):
     assert _budget_limited_prefix_length(query_flags, available_budget) == expected_prefix
+
+
+def test_query_uniforms_can_be_shared_for_matched_policy_comparisons():
+    shared = _query_uniform_matrix(
+        seed=123,
+        query_policy_count=3,
+        horizon=20,
+        device="cpu",
+        shared=True,
+    )
+    independent = _query_uniform_matrix(
+        seed=123,
+        query_policy_count=3,
+        horizon=20,
+        device="cpu",
+        shared=False,
+    )
+    assert np.array_equal(shared[0], shared[1])
+    assert np.array_equal(shared[1], shared[2])
+    assert not np.array_equal(independent[0], independent[1])
 
 
 @pytest.mark.parametrize("budget_rate", [0.20, 0.40])
@@ -79,3 +101,60 @@ def test_eventwise_uniform_propensity_bound_uses_known_query_rate(budget_rate: f
     assert exact["candidate_is_monitor_null"]
     assert exact["labels_queried"] <= exact["label_budget"]
     assert validation_end < exact["certification_start_index"] < monitor_end
+
+
+def test_eventwise_propensity_bound_supports_predictable_covariate_query_policies():
+    budget_rate = 0.20
+    config = BudgetedPromotionConfig(
+        n=1200,
+        d=8,
+        seeds=1,
+        switching_cost=0.05,
+        budget_rates=(budget_rate,),
+        query_policies=("uniform", "variance", "decision_value"),
+        shared_query_randomness=True,
+        alpha_allocations=("rank", "rank_context_volume"),
+        estimators=("direct_ipw",),
+        monitoring_rules=("fixed_mixture",),
+        context_feature_index=7,
+        context_target_prevalence=0.1,
+        context_signal_strength=0.05,
+        context_proxy_error=0.0,
+        context_certification_prevalence=0.9,
+        include_scout_context_policy=True,
+        scenario_subset=("candidate_context_heterogeneity",),
+        create_plot=False,
+        device="cpu",
+    ).validate()
+    scenario = SimpleNamespace(
+        name="candidate_context_heterogeneity",
+        fn_cost=5.0,
+        fp_cost=1.0,
+        harmful_adaptation=False,
+    )
+    rows = _run_seed(
+        scenario=scenario,
+        seed=20_268_902,
+        config=config,
+        device="cpu",
+        scout_only=True,
+        scout_bound_modes=("minimum_propensity", "eventwise_propensity"),
+    )
+
+    scouts = {(row["query_policy"], row["bound_mode"]): row for row in rows}
+    assert len(scouts) == len(config.query_policies) * 2
+    for query_policy in config.query_policies:
+        eventwise = scouts[(query_policy, "eventwise_propensity")]
+        minimum = scouts[(query_policy, "minimum_propensity")]
+        assert eventwise["propensity_min"] >= budget_rate / 2
+        assert eventwise["propensity_max"] <= max(0.5, budget_rate)
+        deployment_length = config.n - _time_splits(config.n)[2]
+        switching_rate = config.switching_cost / deployment_length
+        assert eventwise["mean_event_process_bound"] == pytest.approx(
+            5 * eventwise["mean_reciprocal_propensity"] + switching_rate
+        )
+        assert eventwise["mean_event_process_bound"] <= minimum["global_process_bound"]
+        assert eventwise["labels_queried"] <= eventwise["label_budget"]
+    for query_policy in ("variance", "decision_value"):
+        eventwise = scouts[(query_policy, "eventwise_propensity")]
+        assert eventwise["propensity_max"] > eventwise["propensity_min"]

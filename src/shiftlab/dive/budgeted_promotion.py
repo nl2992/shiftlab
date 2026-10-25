@@ -60,6 +60,7 @@ class BudgetedPromotionConfig:
     switching_cost: float = 0.05
     budget_rates: tuple[float, ...] = (0.10, 0.20)
     query_policies: tuple[str, ...] = QUERY_POLICIES
+    shared_query_randomness: bool = False
     alpha_allocations: tuple[str, ...] = BASE_ALPHA_ALLOCATIONS
     estimators: tuple[str, ...] = ESTIMATORS
     monitoring_rules: tuple[str, ...] = ("fixed_mixture",)
@@ -175,10 +176,6 @@ class BudgetedPromotionConfig:
             )
         if self.scout_bound_mode not in SCOUT_BOUND_MODES:
             raise ValueError(f"scout_bound_mode must be one of {SCOUT_BOUND_MODES}")
-        if self.scout_bound_mode == "eventwise_propensity" and self.query_policies != ("uniform",):
-            raise ValueError(
-                "eventwise propensity bounds currently require the registered uniform query policy"
-            )
         known_scenarios = {scenario.name for scenario in SCENARIOS} | {
             "candidate_family_null",
             "candidate_context_zero_mean",
@@ -1167,7 +1164,11 @@ def _monitor_scout_context_policy(
             expected_labels += float(np.sum(cert_propensities))
             bound_total = float(np.sum(event_bounds))
             max_event_bound = float(np.max(event_bounds)) if processed else 0.0
+            mean_reciprocal_propensity = (
+                float(np.mean(1.0 / cert_propensities)) if processed else None
+            )
     else:
+        cert_propensities_for_summary: list[float] = []
         for relative in range(scout_length, length):
             if budget - labels_used < 1:
                 stop_reason = "label_budget_exhausted_during_certification"
@@ -1179,6 +1180,7 @@ def _monitor_scout_context_policy(
             group = int(family["contexts"][event_index])
             selected = selected_by_context[group]
             expected_labels += propensity
+            cert_propensities_for_summary.append(propensity)
             queried = bool(query_uniforms[relative] < propensity)
             if queried:
                 labels_used += 1
@@ -1208,6 +1210,11 @@ def _monitor_scout_context_policy(
             bound_total += event_bound
             max_event_bound = max(max_event_bound, event_bound)
             processed += 1
+        mean_reciprocal_propensity = (
+            float(np.mean(1.0 / np.asarray(cert_propensities_for_summary)))
+            if cert_propensities_for_summary
+            else None
+        )
 
     if labels_used > budget:
         raise RuntimeError("hard label budget was exceeded")
@@ -1299,6 +1306,7 @@ def _monitor_scout_context_policy(
         "process_bound": bound_total / max(1, processed),
         "global_process_bound": process_bound,
         "mean_event_process_bound": bound_total / max(1, processed),
+        "mean_reciprocal_propensity": mean_reciprocal_propensity,
         "max_event_process_bound": max_event_bound,
         "bound_mode": config.scout_bound_mode,
         "stop_reason": stop_reason,
@@ -1395,17 +1403,12 @@ def _run_seed(
         config=config,
     )
 
-    import torch
-
-    generator = torch.Generator(device=device).manual_seed(seed + 700_001)
-    uniforms = (
-        torch.rand(
-            (len(config.query_policies), family["monitor_length"]),
-            generator=generator,
-            device=device,
-        )
-        .cpu()
-        .numpy()
+    uniforms = _query_uniform_matrix(
+        seed=seed + 700_001,
+        query_policy_count=len(config.query_policies),
+        horizon=family["monitor_length"],
+        device=device,
+        shared=config.shared_query_randomness,
     )
     output = []
     if scout_switching_costs is not None and not scout_only:
@@ -1429,8 +1432,6 @@ def _run_seed(
             or any(mode not in SCOUT_BOUND_MODES for mode in scout_bound_modes)
         ):
             raise ValueError(f"scout_bound_modes must be unique members of {SCOUT_BOUND_MODES}")
-        if "eventwise_propensity" in scout_bound_modes and config.query_policies != ("uniform",):
-            raise ValueError("eventwise propensity bounds currently require uniform querying")
         scout_configs = tuple(replace(config, scout_bound_mode=mode) for mode in scout_bound_modes)
     elif scout_switching_costs is not None:
         scout_configs = tuple(
@@ -1502,6 +1503,20 @@ def _run_seed(
             row["context_certification_prevalence"] = config.context_certification_prevalence
             row["context_observed_prevalence"] = observed_prevalence
     return output
+
+
+def _query_uniform_matrix(
+    *, seed: int, query_policy_count: int, horizon: int, device: str, shared: bool
+) -> np.ndarray:
+    """Draw policy-matched Bernoulli uniforms for a seed-specific monitor path."""
+    import torch
+
+    if query_policy_count < 1 or horizon < 1:
+        raise ValueError("query policy count and horizon must be positive")
+    generator = torch.Generator(device=device).manual_seed(seed)
+    rows = 1 if shared else query_policy_count
+    uniforms = torch.rand((rows, horizon), generator=generator, device=device).cpu().numpy()
+    return np.repeat(uniforms, query_policy_count, axis=0) if shared else uniforms
 
 
 def _wilson(successes: int, total: int) -> tuple[float, float]:

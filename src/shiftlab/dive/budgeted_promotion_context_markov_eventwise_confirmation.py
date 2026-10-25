@@ -16,7 +16,7 @@ import numpy as np
 import pandas as pd
 
 from ..data.gpu.environment import environment, resolve_device
-from .budgeted_promotion import BudgetedPromotionConfig, _run_seed
+from .budgeted_promotion import QUERY_POLICIES, BudgetedPromotionConfig, _run_seed
 from .experiment import finalize_manifest
 
 PREVALENCES = (0.10, 0.50, 0.90)
@@ -78,7 +78,7 @@ def _run_seed_profile(
         scout_bound_modes=("minimum_propensity", "eventwise_propensity"),
     )
     selected = [row for row in rows if row["alpha_allocation"] in METHODS]
-    if len(selected) != len(METHODS) * len(BUDGET_RATES):
+    if len(selected) != len(METHODS) * len(BUDGET_RATES) * len(config.query_policies):
         raise RuntimeError("Markov confirmation stream is missing a method or budget result")
     cell = _cell_name(prevalence, persistence, signal, proxy_error)
     for row in selected:
@@ -142,22 +142,68 @@ def _run_profile(
     return [result for result in results if result is not None]
 
 
-def _paired_contrasts(detail: pd.DataFrame, *, draws: int, seed: int) -> pd.DataFrame:
+def _paired_contrasts(
+    detail: pd.DataFrame,
+    *,
+    draws: int,
+    seed: int,
+    query_policies: tuple[str, ...] = ("uniform",),
+    expected_cells: int = FAMILY_CELLS,
+) -> pd.DataFrame:
     cells = sorted(
         detail[["scenario", "budget_rate"]].drop_duplicates().itertuples(index=False, name=None)
     )
     seeds = np.sort(detail["seed"].unique())
-    if len(cells) != FAMILY_CELLS or len(seeds) < 2:
+    if len(cells) != expected_cells or len(seeds) < 2:
         raise ValueError("confirmation does not contain the frozen cell and seed family")
+    if query_policies == ("uniform",):
+        comparisons = [
+            (name, "uniform", comparator, "uniform", primary)
+            for name, comparator, primary in COMPARATORS
+        ]
+    elif set(query_policies) == {"uniform", "variance"}:
+        comparisons = [
+            ("variance_eventwise_minus_rank", "variance", EVENTWISE_METHOD, "variance", True),
+            (
+                "variance_eventwise_minus_nested_volume",
+                "variance",
+                "rank_context_volume",
+                "variance",
+                True,
+            ),
+            (
+                "variance_eventwise_minus_minimum_bound",
+                "variance",
+                "scout_context_policy",
+                "variance",
+                False,
+            ),
+            (
+                "variance_eventwise_minus_uniform_eventwise",
+                "variance",
+                EVENTWISE_METHOD,
+                "uniform",
+                False,
+            ),
+        ]
+    else:
+        raise ValueError("confirmation supports the uniform baseline or matched uniform/variance")
     rows: list[dict[str, object]] = []
-    for contrast_index, (name, comparator, primary) in enumerate(COMPARATORS):
+    for contrast_index, (name, candidate_query, comparator, comparator_query, primary) in enumerate(
+        comparisons
+    ):
         difference = np.empty((len(cells), len(seeds)), dtype=float)
         for cell_index, (scenario, budget_rate) in enumerate(cells):
             cell = detail.loc[
                 detail["scenario"].eq(scenario) & detail["budget_rate"].eq(budget_rate)
             ]
-            candidate = cell.loc[cell["alpha_allocation"].eq(EVENTWISE_METHOD)].sort_values("seed")
-            baseline = cell.loc[cell["alpha_allocation"].eq(comparator)].sort_values("seed")
+            candidate = cell.loc[
+                cell["query_policy"].eq(candidate_query)
+                & cell["alpha_allocation"].eq(EVENTWISE_METHOD)
+            ].sort_values("seed")
+            baseline = cell.loc[
+                cell["query_policy"].eq(comparator_query) & cell["alpha_allocation"].eq(comparator)
+            ].sort_values("seed")
             if (
                 len(candidate) != len(seeds)
                 or len(baseline) != len(seeds)
@@ -197,15 +243,26 @@ def _paired_contrasts(detail: pd.DataFrame, *, draws: int, seed: int) -> pd.Data
     return pd.DataFrame(rows)
 
 
-def _verify_null_calibration() -> tuple[dict[str, object], str]:
-    if not NULL_CALIBRATION_MANIFEST.is_file():
-        raise FileNotFoundError(
-            f"required passed null calibration is missing: {NULL_CALIBRATION_MANIFEST}"
-        )
-    manifest_bytes = NULL_CALIBRATION_MANIFEST.read_bytes()
+def _verify_null_calibration(
+    manifest_path: Path = NULL_CALIBRATION_MANIFEST,
+    query_policies: tuple[str, ...] = ("uniform",),
+) -> tuple[dict[str, object], str]:
+    if not manifest_path.is_file():
+        raise FileNotFoundError(f"required passed null calibration is missing: {manifest_path}")
+    manifest_bytes = manifest_path.read_bytes()
     calibration = json.loads(manifest_bytes)
     inference = calibration.get("inference", {})
     configuration = calibration.get("configuration", {})
+    calibrated_query_policies = tuple(
+        configuration.get(
+            "query_policies",
+            (
+                configuration.get(
+                    "query_policy",
+                ),
+            ),
+        )
+    )
     if (
         calibration.get("status") != "passed"
         or calibration.get("experiment") != "target_scout_eventwise_context_markov_null_calibration"
@@ -217,6 +274,7 @@ def _verify_null_calibration() -> tuple[dict[str, object], str]:
         or tuple(configuration.get("prevalences", ())) != PREVALENCES
         or tuple(configuration.get("proxy_errors", ())) != PROXY_ERRORS
         or tuple(configuration.get("budget_rates", ())) != BUDGET_RATES
+        or not set(query_policies).issubset(calibrated_query_policies)
     ):
         raise ValueError(
             "required eventwise Markov null-calibration gate has not passed as registered"
@@ -235,6 +293,10 @@ def run_confirmation(
     device: str = "cuda",
     workers: int = 6,
     bootstrap_draws: int = BOOTSTRAP_DRAWS,
+    bootstrap_seed: int = BOOTSTRAP_SEED,
+    query_policies: tuple[str, ...] = ("uniform",),
+    persistence_values: tuple[float, ...] = PERSISTENCES,
+    null_calibration_manifest: Path = NULL_CALIBRATION_MANIFEST,
 ) -> Path:
     if seeds < 2 or seed_offset < 0 or n < 1000 or d < 3:
         raise ValueError("confirmation requires >=2 nonnegative seeds, n>=1000, and d>=3")
@@ -242,9 +304,24 @@ def run_confirmation(
         raise ValueError("full confirmation runs must use the frozen disjoint seed block")
     if workers < 1 or bootstrap_draws < 100:
         raise ValueError("workers must be positive and bootstrap draws must be >=100")
+    if (
+        not query_policies
+        or len(set(query_policies)) != len(query_policies)
+        or any(policy not in QUERY_POLICIES for policy in query_policies)
+        or not persistence_values
+        or len(set(persistence_values)) != len(persistence_values)
+        or any(value not in PERSISTENCES for value in persistence_values)
+    ):
+        raise ValueError("query policies or persistence values are invalid")
     if not protocol.is_file():
         raise FileNotFoundError(f"frozen confirmation protocol not found: {protocol}")
-    calibration_manifest, calibration_manifest_hash = _verify_null_calibration()
+    calibration_manifest, calibration_manifest_hash = _verify_null_calibration(
+        null_calibration_manifest, query_policies
+    )
+    profile_count = (
+        len(PREVALENCES) * len(persistence_values) * len(SIGNAL_STRENGTHS) * len(PROXY_ERRORS)
+    )
+    family_cells = profile_count * len(BUDGET_RATES)
     resolved_device = resolve_device(device, n=n, d=d, chunk_size=2048)
     output.mkdir(parents=True, exist_ok=True)
     children = list(output.iterdir())
@@ -271,7 +348,7 @@ def run_confirmation(
     try:
         with pool_context as executor:
             for prevalence in PREVALENCES:
-                for persistence in PERSISTENCES:
+                for persistence in persistence_values:
                     for signal in SIGNAL_STRENGTHS:
                         for proxy_error in PROXY_ERRORS:
                             cell = _cell_name(prevalence, persistence, signal, proxy_error)
@@ -287,7 +364,8 @@ def run_confirmation(
                                 seed_offset=seed_offset,
                                 switching_cost=SWITCHING_COST,
                                 budget_rates=BUDGET_RATES,
-                                query_policies=("uniform",),
+                                query_policies=query_policies,
+                                shared_query_randomness=len(query_policies) > 1,
                                 alpha_allocations=("rank", "rank_context_volume"),
                                 estimators=("direct_ipw",),
                                 monitoring_rules=("fixed_mixture",),
@@ -323,14 +401,17 @@ def run_confirmation(
                 os.environ[key] = value
 
     detail = pd.DataFrame.from_records(records)
-    expected_rows = seeds * FAMILY_CELLS * len(METHODS)
+    expected_rows = seeds * family_cells * len(METHODS) * len(query_policies)
     if len(detail) != expected_rows:
         raise RuntimeError(f"expected {expected_rows} confirmation rows; received {len(detail)}")
-    key = ["scenario", "budget_rate", "seed", "alpha_allocation"]
+    key = ["scenario", "query_policy", "budget_rate", "seed", "alpha_allocation"]
     if detail.duplicated(key).any():
         raise RuntimeError("duplicate cell/seed/method rows in confirmation")
-    counts = detail.groupby(["scenario", "budget_rate", "alpha_allocation"]).size()
-    if len(counts) != FAMILY_CELLS * len(METHODS) or not counts.eq(seeds).all():
+    counts = detail.groupby(["scenario", "query_policy", "budget_rate", "alpha_allocation"]).size()
+    if (
+        len(counts) != family_cells * len(METHODS) * len(query_policies)
+        or not counts.eq(seeds).all()
+    ):
         raise RuntimeError("confirmation has missing cell/method/seed rows")
     if detail["propensity_min"].isna().any() or not detail["propensity_min"].gt(0).all():
         raise RuntimeError("all methods require positive query support")
@@ -341,7 +422,13 @@ def run_confirmation(
     if not np.isfinite(detail["expected_postpromotion_net_gain"].to_numpy(dtype=float)).all():
         raise RuntimeError("evaluator-known expected utility contains non-finite values")
 
-    contrasts = _paired_contrasts(detail, draws=bootstrap_draws, seed=BOOTSTRAP_SEED)
+    contrasts = _paired_contrasts(
+        detail,
+        draws=bootstrap_draws,
+        seed=bootstrap_seed,
+        query_policies=query_policies,
+        expected_cells=family_cells,
+    )
     primary = contrasts.loc[contrasts.primary_comparison]
     full_design = seeds >= MIN_SEEDS
     confirmation_pass = bool(full_design and primary.familywise_one_sided_lower.gt(0).all())
@@ -355,6 +442,7 @@ def run_confirmation(
     summary = detail.groupby(
         [
             "scenario",
+            "query_policy",
             "budget_rate",
             "alpha_allocation",
             "context_target_prevalence",
@@ -386,11 +474,11 @@ def run_confirmation(
         "",
         f"Status: **{status}**. Device: {resolved_device}; seeds per cell: {seeds}; seed block: {seed_offset}–{seed_offset + seeds - 1}; workers: {workers}.",
         "",
-        f"The matched grid contains {FAMILY_CELLS} positive-signal cells, {len(METHODS)} methods, and {len(detail):,} method-cell-seed rows. The primary endpoint is evaluator-known expected postpromotion net decision gain, equally weighted over cells and paired by seed cluster.",
+        f"The matched grid contains {family_cells} positive-signal cells, query policies {', '.join(query_policies)}, {len(METHODS)} methods, and {len(detail):,} method-cell-seed-query rows. The primary endpoint is evaluator-known expected postpromotion net decision gain, equally weighted over cells and paired by seed cluster.",
         "",
         contrasts.to_markdown(index=False, floatfmt=".4f"),
         "",
-        "The primary comparisons are eventwise versus pooled rank and nested context-volume. Their one-sided 97.5% seed-cluster bootstrap lower limits use Bonferroni allocation for approximate simultaneous 95% familywise assessment. The primary gate passes only when both limits exceed zero; coverage is approximate and is not an exact finite-sample guarantee. The minimum-bound comparison is secondary.",
+        "For the variance-query candidate, the primary comparisons are eventwise versus pooled rank and nested context-volume under the same variance query policy. Their one-sided 97.5% seed-cluster bootstrap lower limits use Bonferroni allocation for approximate simultaneous 95% familywise assessment. The uniform eventwise contrast isolates query allocation; the minimum-bound contrast is secondary. The original uniform-only design retains its registered comparison interpretation. Bootstrap coverage is approximate, not an exact finite-sample guarantee.",
         "",
         f"Integrity: all expected unique rows present; positive propensities verified; {cap_violations} cap violations; {int(detail.harmful_postpromotion_promotion.sum())} harmful promotions by evaluator-known future utility. These results apply only to the frozen synthetic grid and feedback design.",
         "",
@@ -403,7 +491,7 @@ def run_confirmation(
         "status": status,
         "protocol": {"path": protocol.as_posix(), "sha256": protocol_hash},
         "prerequisite_null_calibration": {
-            "path": NULL_CALIBRATION_MANIFEST.as_posix(),
+            "path": null_calibration_manifest.as_posix(),
             "manifest_sha256": calibration_manifest_hash,
             "status": calibration_manifest["status"],
             "familywise_alpha": calibration_manifest["inference"]["familywise_alpha"],
@@ -418,18 +506,18 @@ def run_confirmation(
             "device": resolved_device,
             "workers": workers,
             "prevalences": PREVALENCES,
-            "context_persistences": PERSISTENCES,
+            "context_persistences": persistence_values,
             "signal_strengths": SIGNAL_STRENGTHS,
             "proxy_errors": PROXY_ERRORS,
             "switching_cost": SWITCHING_COST,
             "budget_rates": BUDGET_RATES,
             "methods": METHODS,
-            "query_policy": "uniform",
+            "query_policies": query_policies,
             "estimator": "direct_ipw",
             "monitoring_rule": "fixed_mixture",
             "alpha": 0.05,
             "bootstrap_draws": bootstrap_draws,
-            "bootstrap_seed": BOOTSTRAP_SEED,
+            "bootstrap_seed": bootstrap_seed,
         },
         "inference": {
             "primary_comparisons": primary.to_dict(orient="records"),
@@ -474,6 +562,12 @@ def main(argv: list[str] | None = None) -> None:
     parser.add_argument("--device", choices=("cpu", "cuda", "auto"), default="cuda")
     parser.add_argument("--workers", type=int, default=6)
     parser.add_argument("--bootstrap-draws", type=int, default=BOOTSTRAP_DRAWS)
+    parser.add_argument("--bootstrap-seed", type=int, default=BOOTSTRAP_SEED)
+    parser.add_argument("--query-policies", nargs="+", choices=QUERY_POLICIES, default=["uniform"])
+    parser.add_argument(
+        "--persistences", nargs="+", type=float, choices=PERSISTENCES, default=list(PERSISTENCES)
+    )
+    parser.add_argument("--null-calibration-manifest", type=Path, default=NULL_CALIBRATION_MANIFEST)
     args = parser.parse_args(argv)
     print(
         run_confirmation(
@@ -486,6 +580,10 @@ def main(argv: list[str] | None = None) -> None:
             device=args.device,
             workers=args.workers,
             bootstrap_draws=args.bootstrap_draws,
+            bootstrap_seed=args.bootstrap_seed,
+            query_policies=tuple(args.query_policies),
+            persistence_values=tuple(args.persistences),
+            null_calibration_manifest=args.null_calibration_manifest,
         ),
         flush=True,
     )

@@ -224,6 +224,8 @@ Thumbs.db
 !outputs/scout_context_policy_eventwise_markov_development_60/**
 !outputs/scout_context_policy_eventwise_markov_eventwise_null_1000/
 !outputs/scout_context_policy_eventwise_markov_eventwise_null_1000/**
+!outputs/scout_context_policy_eventwise_markov_confirmation_600/
+!outputs/scout_context_policy_eventwise_markov_confirmation_600/**
 !outputs/informative_delay_fixed_30/
 !outputs/informative_delay_fixed_30/**
 !outputs/informative_delay_positive_fast_30/

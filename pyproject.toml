@@ -49,6 +49,7 @@ shiftlab-dive-scout-drift-development = "shiftlab.dive.budgeted_promotion_contex
 shiftlab-dive-scout-drift-confirm = "shiftlab.dive.budgeted_promotion_context_drift_confirmation:main"
 shiftlab-dive-scout-markov-development = "shiftlab.dive.budgeted_promotion_context_markov_development:main"
 shiftlab-dive-scout-markov-eventwise-calibration = "shiftlab.dive.budgeted_promotion_context_markov_eventwise_calibration:main"
+shiftlab-dive-scout-markov-eventwise-confirm = "shiftlab.dive.budgeted_promotion_context_markov_eventwise_confirmation:main"
 shiftlab-dive-nested-candidate-context = "shiftlab.dive.nested_candidate_context_alpha:main"
 shiftlab-dive-grid = "shiftlab.dive.allocation_grid:main"
 shiftlab-dive-robust-grid = "shiftlab.dive.allocation_grid:robust_main"

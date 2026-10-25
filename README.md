@@ -107,10 +107,13 @@ registered abrupt context-prevalence grid, the eventwise-propensity-bound scout 
 independent null calibration and fresh positive-signal confirmation. A development-only Markov
 context screen then found higher expected postpromotion utility than the minimum-bound scout,
 pooled rank, and nested-volume baselines across the tested signal and persistence slices. Its
-zero-signal controls are not a Markov calibration; a fresh, exact-method Markov null calibration is
-the next gate. See the [Markov development results](docs/scout_context_policy_eventwise_markov_development_results.md),
-[frozen protocol](docs/scout_context_policy_eventwise_markov_development_protocol.md), and
-[experiment artifacts](outputs/scout_context_policy_eventwise_markov_development_60/).
+zero-signal controls are not a Markov calibration. A separate exact-method Markov calibration is
+now complete: all 36 simultaneous cellwise limits passed across 36,000 streams (largest upper limit
+3.175%). The next gate is an independent positive-signal confirmation. See the [Markov development
+results](docs/scout_context_policy_eventwise_markov_development_results.md), [null-calibration
+results](docs/scout_context_policy_eventwise_markov_null_results.md), [development protocol](docs/scout_context_policy_eventwise_markov_development_protocol.md),
+[development artifacts](outputs/scout_context_policy_eventwise_markov_development_60/), and
+[calibration artifacts](outputs/scout_context_policy_eventwise_markov_eventwise_null_1000/).
 
 Run the smoke version with `uv run shiftlab-decision-harm --quick`, or reproduce the configured
 30-seed run with `uv run shiftlab-decision-harm --seeds 30 --calibration-seeds 60 --n 3200 --device auto`.

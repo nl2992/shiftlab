@@ -51,15 +51,12 @@ per stream across the equally weighted caps.
 
 ## Interpretation and next gate
 
-The positive-signal utility result supports continuing to test the eventwise scout under persistent
-contexts. It does not show that the eventwise rule controls false promotion in this Markov family:
-the existing 1,000-stream-per-cell eventwise null calibration covers abrupt prevalence profiles,
-while the existing Markov calibration covers the minimum-bound scout. Before a Markov confirmation,
-freeze and run a separate eventwise Markov null calibration on fresh seeds, including all 36
-zero-signal prevalence × persistence × proxy-error × budget cells, with simultaneous exact
-one-sided binomial limits and evaluator-verified nulls. If that calibration passes, freeze a
-disjoint positive-signal confirmation; otherwise retain the calibration failure and revise the
-method only in a new development cycle.
+The positive-signal utility result supported continuing to test the eventwise scout under persistent
+contexts. A fresh eventwise-specific Markov null calibration has since passed all 36 simultaneous
+cellwise exact upper-limit gates using 1,000 streams per cell; the largest upper limit was 3.175%.
+See [`scout_context_policy_eventwise_markov_null_results.md`](scout_context_policy_eventwise_markov_null_results.md).
+This calibration now permits a disjoint positive-signal Markov confirmation under the same
+registered design; it does not extend the error-control evidence to other feedback regimes.
 
 The result still relies on uniform randomized querying, immediate feedback, the fixed split,
 bounded paired costs, predictable scout selection, and the registered synthetic oracle. It does not

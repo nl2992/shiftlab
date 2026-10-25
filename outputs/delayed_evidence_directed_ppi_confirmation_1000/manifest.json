@@ -1,0 +1,76 @@
+{
+  "experiment": "delayed_evidence_directed_ppi_disjoint_harm_confirmation",
+  "config": {
+    "seeds": 1000,
+    "seed_offset": 20282000,
+    "n_source": 1200,
+    "n_target": 2400,
+    "budget_rate": 0.2,
+    "alpha": 0.05,
+    "epsilon": 0.05,
+    "q_min": 0.05,
+    "q_max": 0.8,
+    "amplitude": 1.0,
+    "harm_shift": 0.2,
+    "onset_fraction": 0.5,
+    "max_delay": 12,
+    "benign_amplitude": 0.55,
+    "device": "cuda"
+  },
+  "scenario": "boundary_harm",
+  "candidate": "evidence_a0p025_p0p5_eventwise",
+  "reference": "uniform_eventwise",
+  "calibration_manifest_sha256": "5b138cfe0180618e7c5d31e41bf0539156ba3f237b210dfb8ec24b30cea7fd06",
+  "rows": 2000,
+  "result": {
+    "streams": 1000,
+    "candidate": "evidence_a0p025_p0p5_eventwise",
+    "reference": "uniform_eventwise",
+    "candidate_detection_rate": 0.092,
+    "uniform_detection_rate": 0.036,
+    "detection_difference": 0.056,
+    "detection_ci_low": 0.037,
+    "detection_ci_high": 0.075,
+    "candidate_only_detections": 76,
+    "uniform_only_detections": 20,
+    "mcnemar_one_sided_p": 3.659683994760746e-09,
+    "candidate_mean_labels": 158.766,
+    "uniform_mean_labels": 467.423,
+    "label_difference": -308.657,
+    "label_ci_low": -312.728025,
+    "label_ci_high": -304.456,
+    "candidate_mean_events": 2354.075,
+    "uniform_mean_events": 2341.677,
+    "candidate_mean_delay_events": 778.6739130434783,
+    "candidate_mean_delay_wall": 785.9130434782609,
+    "pre_onset_candidate_alarms": 4,
+    "gate_pass": true
+  },
+  "created_utc": "2026-10-25T19:09:30.441206+00:00",
+  "runtime": {
+    "cpu_ram_bytes": 16858472448,
+    "disk_free_bytes": 19774840832,
+    "cuda_available": true,
+    "nvidia_smi": "NVIDIA GeForce RTX 4060 Laptop GPU, 8188 MiB, 592.82, 0 %, 107 MiB",
+    "torch_version": "2.9.1+cu130",
+    "cuda_runtime": "13.0",
+    "gpu_name": "NVIDIA GeForce RTX 4060 Laptop GPU",
+    "gpu_memory_bytes": 8585216000,
+    "versions": {
+      "numpy": "2.5.4",
+      "scipy": "1.18.1",
+      "pandas": "3.0.6",
+      "pyarrow": "25.0.1",
+      "folktables": "0.0.12"
+    }
+  },
+  "source_hashes": {
+    "confirmation": "e7aea1b5a3e092c3f8dfe3808b98117fb10b39b1f721d245fa559648ae8fc76a",
+    "development_module": "1517838c03b5150beaa012554538723c762c60c355327e052e25d79916498f41"
+  },
+  "limitations": [
+    "Power comparison on the single registered synthetic alternative; independent null calibration is a separate necessary gate.",
+    "The candidate is an established evidence-directed query rule with a predictable-bound e-process, not a new algorithm or theorem.",
+    "No result establishes validity under serial dependence, informative missingness, changing policies, or real decision costs."
+  ]
+}

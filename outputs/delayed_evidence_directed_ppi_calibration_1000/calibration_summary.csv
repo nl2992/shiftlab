@@ -1,0 +1,5 @@
+scenario,method,streams,false_escalations,alarm_rate,mean_labels,mean_events,cap_violations,simultaneous_one_sided_upper,cell_alpha,calibration_gate_cell_pass
+benign_variance_shift,evidence_a0p025_p0p5_eventwise,1000,4,0.004,137.918,2390.94,0,0.011238134876521963,0.0125,True
+benign_variance_shift,uniform_eventwise,1000,4,0.004,470.68,2352.143,0,0.011238134876521963,0.0125,True
+stationary,evidence_a0p025_p0p5_eventwise,1000,4,0.004,138.867,2390.94,0,0.011238134876521963,0.0125,True
+stationary,uniform_eventwise,1000,4,0.004,470.68,2352.143,0,0.011238134876521963,0.0125,True

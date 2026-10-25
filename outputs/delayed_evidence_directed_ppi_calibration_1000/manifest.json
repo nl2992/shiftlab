@@ -1,0 +1,127 @@
+{
+  "experiment": "delayed_evidence_directed_ppi_independent_null_calibration",
+  "config": {
+    "seeds": 1000,
+    "seed_offset": 20280000,
+    "n_source": 1200,
+    "n_target": 2400,
+    "budget_rate": 0.2,
+    "alpha": 0.05,
+    "epsilon": 0.05,
+    "q_min": 0.05,
+    "q_max": 0.8,
+    "amplitude": 1.0,
+    "harm_shift": 0.2,
+    "onset_fraction": 0.5,
+    "max_delay": 12,
+    "benign_amplitude": 0.55,
+    "device": "cuda"
+  },
+  "methods": [
+    "uniform_eventwise",
+    "evidence_a0p025_p0p5_eventwise"
+  ],
+  "scenarios": [
+    "stationary",
+    "benign_variance_shift"
+  ],
+  "familywise_alpha": 0.05,
+  "cell_alpha": 0.0125,
+  "rows": 4000,
+  "candidate_methods_registered_in_grid": [
+    "uniform_eventwise",
+    "evidence_a0_p0p5_eventwise",
+    "evidence_a0_p1_eventwise",
+    "evidence_a0_p2_eventwise",
+    "evidence_a0p025_p0p5_eventwise",
+    "evidence_a0p025_p1_eventwise",
+    "evidence_a0p025_p2_eventwise",
+    "evidence_a0p05_p0p5_eventwise",
+    "evidence_a0p05_p1_eventwise",
+    "evidence_a0p05_p2_eventwise",
+    "evidence_a0p05_p0p5_fixed"
+  ],
+  "source_hashes": {
+    "calibration": "8b886cf70697409dd1f7277f2d8a57eadb8b02bd458dbbb1bd308c80a1cf5803",
+    "development_module": "1517838c03b5150beaa012554538723c762c60c355327e052e25d79916498f41"
+  },
+  "created_utc": "2026-10-25T18:53:08.026982+00:00",
+  "runtime": {
+    "cpu_ram_bytes": 16858472448,
+    "disk_free_bytes": 19764207616,
+    "cuda_available": true,
+    "nvidia_smi": "NVIDIA GeForce RTX 4060 Laptop GPU, 8188 MiB, 592.82, 0 %, 107 MiB",
+    "torch_version": "2.9.1+cu130",
+    "cuda_runtime": "13.0",
+    "gpu_name": "NVIDIA GeForce RTX 4060 Laptop GPU",
+    "gpu_memory_bytes": 8585216000,
+    "versions": {
+      "numpy": "2.5.4",
+      "scipy": "1.18.1",
+      "pandas": "3.0.6",
+      "pyarrow": "25.0.1",
+      "folktables": "0.0.12"
+    }
+  },
+  "summary": [
+    {
+      "scenario": "benign_variance_shift",
+      "method": "evidence_a0p025_p0p5_eventwise",
+      "streams": 1000,
+      "false_escalations": 4,
+      "alarm_rate": 0.004,
+      "mean_labels": 137.918,
+      "mean_events": 2390.94,
+      "cap_violations": 0,
+      "simultaneous_one_sided_upper": 0.011238134876521963,
+      "cell_alpha": 0.0125,
+      "calibration_gate_cell_pass": true
+    },
+    {
+      "scenario": "benign_variance_shift",
+      "method": "uniform_eventwise",
+      "streams": 1000,
+      "false_escalations": 4,
+      "alarm_rate": 0.004,
+      "mean_labels": 470.68,
+      "mean_events": 2352.143,
+      "cap_violations": 0,
+      "simultaneous_one_sided_upper": 0.011238134876521963,
+      "cell_alpha": 0.0125,
+      "calibration_gate_cell_pass": true
+    },
+    {
+      "scenario": "stationary",
+      "method": "evidence_a0p025_p0p5_eventwise",
+      "streams": 1000,
+      "false_escalations": 4,
+      "alarm_rate": 0.004,
+      "mean_labels": 138.867,
+      "mean_events": 2390.94,
+      "cap_violations": 0,
+      "simultaneous_one_sided_upper": 0.011238134876521963,
+      "cell_alpha": 0.0125,
+      "calibration_gate_cell_pass": true
+    },
+    {
+      "scenario": "stationary",
+      "method": "uniform_eventwise",
+      "streams": 1000,
+      "false_escalations": 4,
+      "alarm_rate": 0.004,
+      "mean_labels": 470.68,
+      "mean_events": 2352.143,
+      "cap_violations": 0,
+      "simultaneous_one_sided_upper": 0.011238134876521963,
+      "cell_alpha": 0.0125,
+      "calibration_gate_cell_pass": true
+    }
+  ],
+  "gate_pass": true,
+  "invariants_pass": true,
+  "limitations": [
+    "Monte Carlo calibration only for the frozen IID synthetic null family, propensity rule, support, proxy, and resolved-prefix implementation.",
+    "It does not establish power, robustness to serial dependence, non-random feedback, changing policy pairs, or real-world validity.",
+    "All methods use established evidence-directed query and bounded-mean e-process constructions; no novelty claim is made."
+  ]
+}

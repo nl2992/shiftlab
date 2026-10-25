@@ -196,6 +196,12 @@ Thumbs.db
 !outputs/residual_variance_start_prior/**
 !outputs/scout_context_temporal_query_development_60/
 !outputs/scout_context_temporal_query_development_60/**
+!outputs/scout_context_policy_eventwise_temporal_variance_null_1000/
+!outputs/scout_context_policy_eventwise_temporal_variance_null_1000/**
+!outputs/scout_context_policy_eventwise_temporal_confirmation_600/
+!outputs/scout_context_policy_eventwise_temporal_confirmation_600/**
+!outputs/scout_context_policy_eventwise_temporal_variance_confirmation_600/
+!outputs/scout_context_policy_eventwise_temporal_variance_confirmation_600/**
 !outputs/context_budgeted_promotion_grid_30/
 !outputs/context_budgeted_promotion_grid_30/**
 !outputs/validation_selected_context_policy_30/

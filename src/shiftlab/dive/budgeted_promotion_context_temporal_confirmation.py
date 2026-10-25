@@ -16,7 +16,7 @@ import numpy as np
 import pandas as pd
 
 from ..data.gpu.environment import environment, resolve_device
-from .budgeted_promotion import BudgetedPromotionConfig, _run_seed
+from .budgeted_promotion import QUERY_POLICIES, BudgetedPromotionConfig, _run_seed
 from .experiment import finalize_manifest
 
 SCHEDULES = (
@@ -42,10 +42,15 @@ COMPARATORS = (
     ("eventwise_minus_minimum_bound", "scout_context_policy", False),
 )
 SEED_OFFSET = 20_920_000
+VARIANCE_QUERY_SEED_OFFSET = 21_440_000
+SEED_OFFSETS = {("uniform",): SEED_OFFSET, ("uniform", "variance"): VARIANCE_QUERY_SEED_OFFSET}
 MIN_SEEDS = 600
 BOOTSTRAP_DRAWS = 10_000
 BOOTSTRAP_SEED = 20_920_600
-EXPECTED_CALIBRATION_SHA256 = "1c81c4f6812d237d4a455ecdcf10fdfc8e824683e91139f04393b9243a5485e6"
+EXPECTED_CALIBRATION_SHA256 = {
+    "uniform": "1c81c4f6812d237d4a455ecdcf10fdfc8e824683e91139f04393b9243a5485e6",
+    "variance": "e60dc80185335cd0328cc80a57fdec82ad23d611361db9773201cf64185b97a0",
+}
 FAMILY_CELLS = len(SCHEDULES) * len(SIGNAL_STRENGTHS) * len(PROXY_ERRORS) * len(BUDGET_RATES)
 SCENARIO = SimpleNamespace(
     name="candidate_context_heterogeneity",
@@ -75,7 +80,7 @@ def _run_cell_seed(
         scout_bound_modes=("minimum_propensity", "eventwise_propensity"),
     )
     selected = [row for row in rows if row["alpha_allocation"] in METHODS]
-    if len(selected) != len(METHODS) * len(BUDGET_RATES):
+    if len(selected) != len(METHODS) * len(BUDGET_RATES) * len(config.query_policies):
         raise RuntimeError("temporal confirmation stream is missing a method or budget result")
     for row in selected:
         row["scenario"] = _cell_name(schedule, signal, proxy_error)
@@ -136,7 +141,13 @@ def _run_cell(
     return [row for rows in by_replicate if rows is not None for row in rows]
 
 
-def _paired_contrasts(detail: pd.DataFrame, *, draws: int, seed: int) -> tuple[pd.DataFrame, bool]:
+def _paired_contrasts(
+    detail: pd.DataFrame,
+    *,
+    draws: int,
+    seed: int,
+    query_policies: tuple[str, ...] = ("uniform",),
+) -> tuple[pd.DataFrame, bool]:
     cells = sorted(
         detail[["scenario", "budget_rate"]].drop_duplicates().itertuples(index=False, name=None)
     )
@@ -144,14 +155,58 @@ def _paired_contrasts(detail: pd.DataFrame, *, draws: int, seed: int) -> tuple[p
     if len(cells) != FAMILY_CELLS or len(seeds) < 2:
         raise ValueError("confirmation does not contain the frozen cell and seed family")
     rows: list[dict[str, object]] = []
-    for contrast_index, (name, comparator, primary) in enumerate(COMPARATORS):
+    infer_query = "variance" if "variance" in query_policies else "uniform"
+    comparisons: list[tuple[str, str, str, str, str, bool]] = []
+    for query in query_policies:
+        prefix = "" if len(query_policies) == 1 else f"{query}_"
+        comparisons.extend(
+            (
+                f"{prefix}{name}",
+                query,
+                EVENTWISE_METHOD,
+                query,
+                comparator,
+                query == infer_query and primary,
+            )
+            for name, comparator, primary in COMPARATORS
+        )
+    if set(query_policies) == {"uniform", "variance"}:
+        comparisons.append(
+            (
+                "variance_eventwise_minus_uniform_eventwise",
+                "variance",
+                EVENTWISE_METHOD,
+                "uniform",
+                EVENTWISE_METHOD,
+                False,
+            )
+        )
+    for contrast_index, (
+        name,
+        candidate_query,
+        candidate_method,
+        baseline_query,
+        baseline_method,
+        primary,
+    ) in enumerate(comparisons):
         difference = np.empty((len(cells), len(seeds)), dtype=float)
         for cell_index, (scenario, budget_rate) in enumerate(cells):
-            cell = detail.loc[
-                detail["scenario"].eq(scenario) & detail["budget_rate"].eq(budget_rate)
+            candidate_cell = detail.loc[
+                detail["scenario"].eq(scenario)
+                & detail["budget_rate"].eq(budget_rate)
+                & detail["query_policy"].eq(candidate_query)
             ]
-            candidate = cell.loc[cell["alpha_allocation"].eq(EVENTWISE_METHOD)].sort_values("seed")
-            baseline = cell.loc[cell["alpha_allocation"].eq(comparator)].sort_values("seed")
+            baseline_cell = detail.loc[
+                detail["scenario"].eq(scenario)
+                & detail["budget_rate"].eq(budget_rate)
+                & detail["query_policy"].eq(baseline_query)
+            ]
+            candidate = candidate_cell.loc[
+                candidate_cell["alpha_allocation"].eq(candidate_method)
+            ].sort_values("seed")
+            baseline = baseline_cell.loc[
+                baseline_cell["alpha_allocation"].eq(baseline_method)
+            ].sort_values("seed")
             if (
                 len(candidate) != len(seeds)
                 or len(baseline) != len(seeds)
@@ -193,14 +248,16 @@ def _paired_contrasts(detail: pd.DataFrame, *, draws: int, seed: int) -> tuple[p
     return contrasts, bool(primary["familywise_one_sided_lower"].gt(0).all())
 
 
-def _verify_null_calibration(manifest_path: Path) -> tuple[dict[str, object], str]:
+def _verify_null_calibration(
+    manifest_path: Path, *, query_policy: str
+) -> tuple[dict[str, object], str]:
     if not manifest_path.is_file():
         raise FileNotFoundError(
             f"required passed temporal null calibration is missing: {manifest_path}"
         )
     manifest_bytes = manifest_path.read_bytes()
     normalized_hash = hashlib.sha256(manifest_bytes.replace(b"\r\n", b"\n")).hexdigest()
-    if normalized_hash != EXPECTED_CALIBRATION_SHA256:
+    if normalized_hash != EXPECTED_CALIBRATION_SHA256[query_policy]:
         raise ValueError("temporal calibration manifest hash differs from the frozen protocol")
     calibration = json.loads(manifest_bytes)
     inference = calibration.get("inference", {})
@@ -218,6 +275,7 @@ def _verify_null_calibration(manifest_path: Path) -> tuple[dict[str, object], st
         or tuple(configuration.get("schedules", ())) != SCHEDULES
         or tuple(configuration.get("proxy_errors", ())) != PROXY_ERRORS
         or tuple(configuration.get("budget_rates", ())) != BUDGET_RATES
+        or configuration.get("query_policy") != query_policy
     ):
         raise ValueError("required temporal null-calibration gate has not passed as registered")
     return calibration, normalized_hash
@@ -235,16 +293,24 @@ def run_confirmation(
     device: str = "cuda",
     workers: int = 6,
     bootstrap_draws: int = BOOTSTRAP_DRAWS,
+    query_policies: tuple[str, ...] = ("uniform",),
 ) -> Path:
     if seeds < 2 or seed_offset < 0 or n < 1000 or d < 3:
         raise ValueError("confirmation requires >=2 nonnegative seeds, n>=1000, and d>=3")
-    if seeds >= MIN_SEEDS and seed_offset != SEED_OFFSET:
+    if query_policies not in (("uniform",), ("uniform", "variance")):
+        raise ValueError(
+            "confirmation supports uniform alone or matched uniform and variance queries"
+        )
+    if seeds >= MIN_SEEDS and seed_offset != SEED_OFFSETS[query_policies]:
         raise ValueError("full confirmation runs must use the frozen disjoint seed block")
     if workers < 1 or bootstrap_draws < 100:
         raise ValueError("workers must be positive and bootstrap draws must be >=100")
     if not protocol.is_file():
         raise FileNotFoundError(f"frozen confirmation protocol not found: {protocol}")
-    calibration, calibration_hash = _verify_null_calibration(calibration_manifest)
+    calibration_query = "variance" if "variance" in query_policies else "uniform"
+    calibration, calibration_hash = _verify_null_calibration(
+        calibration_manifest, query_policy=calibration_query
+    )
     resolved_device = resolve_device(device, n=n, d=d, chunk_size=2048)
     output.mkdir(parents=True, exist_ok=True)
     children = list(output.iterdir())
@@ -280,7 +346,8 @@ def run_confirmation(
                             seed_offset=seed_offset,
                             switching_cost=SWITCHING_COST,
                             budget_rates=BUDGET_RATES,
-                            query_policies=("uniform",),
+                            query_policies=query_policies,
+                            shared_query_randomness=len(query_policies) > 1,
                             alpha_allocations=("rank", "rank_context_volume"),
                             estimators=("direct_ipw",),
                             monitoring_rules=("fixed_mixture",),
@@ -321,14 +388,17 @@ def run_confirmation(
                 os.environ[key] = value
 
     detail = pd.DataFrame.from_records(records)
-    expected_rows = seeds * FAMILY_CELLS * len(METHODS)
+    expected_rows = seeds * FAMILY_CELLS * len(METHODS) * len(query_policies)
     if len(detail) != expected_rows:
         raise RuntimeError(f"expected {expected_rows} confirmation rows; received {len(detail)}")
-    key = ["scenario", "budget_rate", "seed", "alpha_allocation"]
+    key = ["scenario", "budget_rate", "seed", "query_policy", "alpha_allocation"]
     if detail.duplicated(key).any():
         raise RuntimeError("duplicate cell/seed/method rows in confirmation")
-    counts = detail.groupby(["scenario", "budget_rate", "alpha_allocation"]).size()
-    if len(counts) != FAMILY_CELLS * len(METHODS) or not counts.eq(seeds).all():
+    counts = detail.groupby(["scenario", "budget_rate", "query_policy", "alpha_allocation"]).size()
+    if (
+        len(counts) != FAMILY_CELLS * len(METHODS) * len(query_policies)
+        or not counts.eq(seeds).all()
+    ):
         raise RuntimeError("confirmation has missing cell/method/seed rows")
     if detail["propensity_min"].isna().any() or not detail["propensity_min"].gt(0).all():
         raise RuntimeError("confirmation streams require positive query support")
@@ -340,7 +410,10 @@ def run_confirmation(
         raise RuntimeError("confirmation contains non-finite evaluator utility")
 
     contrasts, confirmation_pass = _paired_contrasts(
-        detail, draws=bootstrap_draws, seed=BOOTSTRAP_SEED
+        detail,
+        draws=bootstrap_draws,
+        seed=BOOTSTRAP_SEED,
+        query_policies=query_policies,
     )
     status = (
         "confirmed_on_registered_grid"
@@ -352,6 +425,7 @@ def run_confirmation(
             "scenario",
             "context_prevalence_schedule",
             "budget_rate",
+            "query_policy",
             "alpha_allocation",
             "context_signal_strength",
             "context_proxy_error",
@@ -376,7 +450,7 @@ def run_confirmation(
     protocol_hash = hashlib.sha256(protocol.read_bytes().replace(b"\r\n", b"\n")).hexdigest()
     report_path = reports_dir / "eventwise_temporal_confirmation.md"
     report = [
-        "# Eventwise-scout confirmation under gradual and recurring contexts",
+        f"# Eventwise-scout confirmation under gradual and recurring contexts ({', '.join(query_policies)} queries)",
         "",
         (
             f"Status: **{status}**. Device: {resolved_device}; seeds per cell: {seeds}; seed block: "
@@ -384,7 +458,8 @@ def run_confirmation(
         ),
         "",
         (
-            f"The matched grid contains {FAMILY_CELLS} positive-signal cells, {len(METHODS)} methods, "
+            f"The matched grid contains {FAMILY_CELLS} positive-signal profile/cap cells and "
+            f"{len(METHODS)} methods for each query policy ({', '.join(query_policies)}), "
             f"and {len(detail):,} method-cell-seed rows. The endpoint is evaluator-known expected "
             "postpromotion net decision gain, equally weighted over cells and paired by seed cluster."
         ),
@@ -392,19 +467,21 @@ def run_confirmation(
         contrasts.to_markdown(index=False, floatfmt=".4f"),
         "",
         (
-            "The primary comparisons are eventwise versus pooled rank and nested context-volume. "
+            "The primary comparisons are variance-query eventwise versus pooled rank and nested "
+            "context-volume. "
             "Their one-sided 97.5% seed-cluster bootstrap lower limits use Bonferroni allocation "
             "for approximate simultaneous 95% familywise assessment. The primary gate passes only "
             "when both limits exceed zero; this bootstrap coverage is approximate, not an exact "
-            "finite-sample guarantee. The minimum-bound comparison is secondary."
+            "finite-sample guarantee. Minimum-bound and variance-versus-uniform comparisons are "
+            "secondary."
         ),
         "",
         (
             f"Integrity: all expected unique rows present; positive propensities verified; "
             f"{cap_violations} cap violations; "
             f"{int(detail.harmful_postpromotion_promotion.sum())} harmful promotions by "
-            "evaluator-known future utility. Results apply only to the frozen synthetic grid and "
-            "feedback design."
+            "evaluator-known future utility. Results apply only to the frozen synthetic grid, "
+            f"{', '.join(query_policies)} query policies, and feedback design."
         ),
         "",
         f"Frozen protocol: {protocol.as_posix()} (normalized SHA-256 {protocol_hash}). No figure was generated.",
@@ -436,7 +513,9 @@ def run_confirmation(
             "switching_cost": SWITCHING_COST,
             "budget_rates": BUDGET_RATES,
             "methods": METHODS,
-            "query_policy": "uniform",
+            "query_policies": query_policies,
+            "shared_query_randomness": len(query_policies) > 1,
+            "primary_query_policy": calibration_query,
             "estimator": "direct_ipw",
             "monitoring_rule": "fixed_mixture",
             "alpha": 0.05,
@@ -493,6 +572,12 @@ def main(argv: list[str] | None = None) -> None:
     parser.add_argument("--device", choices=("cpu", "cuda", "auto"), default="cuda")
     parser.add_argument("--workers", type=int, default=6)
     parser.add_argument("--bootstrap-draws", type=int, default=BOOTSTRAP_DRAWS)
+    parser.add_argument(
+        "--query-policies",
+        nargs="+",
+        choices=QUERY_POLICIES,
+        default=["uniform"],
+    )
     args = parser.parse_args(argv)
     print(
         run_confirmation(
@@ -506,6 +591,7 @@ def main(argv: list[str] | None = None) -> None:
             device=args.device,
             workers=args.workers,
             bootstrap_draws=args.bootstrap_draws,
+            query_policies=tuple(args.query_policies),
         ),
         flush=True,
     )

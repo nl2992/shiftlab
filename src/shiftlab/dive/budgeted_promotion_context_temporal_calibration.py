@@ -29,6 +29,8 @@ PROXY_ERRORS = (0.0, 0.25)
 BUDGET_RATES = (0.20, 0.40)
 SWITCHING_COST = 0.05
 SEED_OFFSET = 20_275_000
+VARIANCE_QUERY_SEED_OFFSET = 21_430_000
+SEED_OFFSETS = {"uniform": SEED_OFFSET, "variance": VARIANCE_QUERY_SEED_OFFSET}
 MIN_SEEDS = 1_000
 FAMILY_ALPHA = 0.05
 FAMILY_CELLS = len(SCHEDULES) * len(PROXY_ERRORS) * len(BUDGET_RATES)
@@ -57,6 +59,7 @@ def _run_null_seed(
     device: str,
     schedule: str,
     proxy_error: float,
+    query_policy: str = "uniform",
 ) -> list[dict[str, object]]:
     rows = _run_seed(
         scenario=SCENARIO,
@@ -66,7 +69,11 @@ def _run_null_seed(
         scout_only=True,
         scout_bound_modes=("eventwise_propensity",),
     )
-    selected = [row for row in rows if row["alpha_allocation"] == EVENTWISE_METHOD]
+    selected = [
+        row
+        for row in rows
+        if row["alpha_allocation"] == EVENTWISE_METHOD and row["query_policy"] == query_policy
+    ]
     if len(selected) != len(BUDGET_RATES):
         raise RuntimeError("temporal calibration stream is missing a label-cap result")
     for row in selected:
@@ -75,6 +82,7 @@ def _run_null_seed(
         row["context_signal_strength"] = 0.0
         row["context_proxy_error"] = proxy_error
         row["registered_switching_cost"] = SWITCHING_COST
+        row["registered_query_policy"] = query_policy
         row["seed"] = seed
         if not bool(row["candidate_is_monitor_null"]):
             raise RuntimeError("temporal calibration stream violated the evaluator null")
@@ -90,13 +98,14 @@ def _run_profile(
     schedule: str,
     proxy_error: float,
     executor: ProcessPoolExecutor | None,
+    query_policy: str = "uniform",
 ) -> list[dict[str, object]]:
     if executor is None:
         return [
             row
             for replicate in range(seeds)
             for row in _run_null_seed(
-                seed_offset + replicate, config, device, schedule, proxy_error
+                seed_offset + replicate, config, device, schedule, proxy_error, query_policy
             )
         ]
     futures = {
@@ -107,6 +116,7 @@ def _run_profile(
             device,
             schedule,
             proxy_error,
+            query_policy,
         ): replicate
         for replicate in range(seeds)
     }
@@ -134,11 +144,14 @@ def run_calibration(
     d: int = 16,
     device: str = "cuda",
     workers: int = 6,
+    query_policy: str = "uniform",
 ) -> Path:
     if seeds < 2 or seed_offset < 0 or n < 1000 or d < 3:
         raise ValueError("calibration requires >=2 nonnegative seeds, n>=1000, and d>=3")
-    if seeds >= MIN_SEEDS and seed_offset != SEED_OFFSET:
-        raise ValueError("full calibration runs must use the frozen disjoint seed block")
+    if query_policy not in {"uniform", "variance"}:
+        raise ValueError("temporal null calibration supports uniform or variance queries")
+    if seeds >= MIN_SEEDS and seed_offset != SEED_OFFSETS[query_policy]:
+        raise ValueError("full calibration runs must use the frozen query-policy seed block")
     if workers < 1:
         raise ValueError("workers must be positive")
     if not protocol.is_file():
@@ -183,7 +196,7 @@ def run_calibration(
                         seed_offset=seed_offset,
                         switching_cost=SWITCHING_COST,
                         budget_rates=BUDGET_RATES,
-                        query_policies=("uniform",),
+                        query_policies=(query_policy,),
                         alpha_allocations=("rank",),
                         estimators=("direct_ipw",),
                         monitoring_rules=("fixed_mixture",),
@@ -208,6 +221,7 @@ def run_calibration(
                             schedule=schedule,
                             proxy_error=proxy_error,
                             executor=executor,
+                            query_policy=query_policy,
                         )
                     )
     finally:
@@ -221,7 +235,7 @@ def run_calibration(
     expected_rows = seeds * FAMILY_CELLS
     if len(detail) != expected_rows:
         raise RuntimeError(f"expected {expected_rows} calibration rows; received {len(detail)}")
-    key = ["scenario", "budget_rate", "seed", "alpha_allocation"]
+    key = ["scenario", "budget_rate", "seed", "query_policy", "alpha_allocation"]
     if detail.duplicated(key).any():
         raise RuntimeError("duplicate temporal calibration cell/seed rows")
     if not detail["candidate_is_monitor_null"].astype(bool).all():
@@ -267,7 +281,7 @@ def run_calibration(
     protocol_hash = hashlib.sha256(protocol.read_bytes()).hexdigest()
     report_path = reports_dir / "eventwise_temporal_null_calibration.md"
     report = [
-        "# Eventwise-scout null calibration under gradual and recurring contexts",
+        f"# Eventwise-scout null calibration under gradual and recurring contexts ({query_policy} queries)",
         "",
         (
             f"Status: **{status}**. Device: {resolved_device}; seeds per cell: {seeds}; seed block: "
@@ -292,8 +306,8 @@ def run_calibration(
         ),
         "",
         (
-            "This is finite calibration evidence for the registered event-conditional null and "
-            "eventwise rule. It does not extend to delayed/selective feedback, adaptive propensities, or "
+            f"This is finite calibration evidence for the registered event-conditional null, "
+            f"{query_policy} query process, and eventwise rule. It does not extend to delayed/selective feedback, adaptive propensities, or "
             "other outcome processes. No figure was generated."
         ),
         "",
@@ -319,7 +333,7 @@ def run_calibration(
             "switching_cost": SWITCHING_COST,
             "budget_rates": BUDGET_RATES,
             "method": EVENTWISE_METHOD,
-            "query_policy": "uniform",
+            "query_policy": query_policy,
             "alpha": FAMILY_ALPHA,
         },
         "inference": {
@@ -360,6 +374,7 @@ def main(argv: list[str] | None = None) -> None:
     parser.add_argument("--d", type=int, default=16)
     parser.add_argument("--device", choices=("cpu", "cuda", "auto"), default="cuda")
     parser.add_argument("--workers", type=int, default=6)
+    parser.add_argument("--query-policy", choices=("uniform", "variance"), default="uniform")
     parser.add_argument(
         "--protocol",
         type=Path,
@@ -376,6 +391,7 @@ def main(argv: list[str] | None = None) -> None:
             d=args.d,
             device=args.device,
             workers=args.workers,
+            query_policy=args.query_policy,
         ),
         flush=True,
     )

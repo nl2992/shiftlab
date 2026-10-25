@@ -1,0 +1,104 @@
+{
+  "created_at_utc": "2026-10-25T00:28:22.854161+00:00",
+  "purpose": "development factorial comparing global and predictable weighted-Bonferroni context gates under proxy noise, rarity, cost, and hard-budget variation",
+  "status": "development_only_no_independent_calibration_or_confirmation",
+  "scenarios": [
+    "heterogeneous_reversal",
+    "homogeneous_reversal",
+    "persistent_heterogeneity"
+  ],
+  "seeds_per_cell": 200,
+  "seed_offset": 92102024,
+  "horizon_per_phase": 400,
+  "true_harmful_prevalences": [
+    0.05,
+    0.25,
+    0.5
+  ],
+  "proxy_error_rates": [
+    0.0,
+    0.05,
+    0.1
+  ],
+  "intervention_cost_multipliers": [
+    0.0,
+    1.0,
+    2.0,
+    4.0
+  ],
+  "budget_rates": [
+    0.2,
+    0.4,
+    0.6
+  ],
+  "query_rate": 0.8,
+  "label_price": 0.01,
+  "alpha_total_per_stage_family": 0.05,
+  "allocation_methods": [
+    "equal_alpha",
+    "volume_weighted_alpha",
+    "rare_protected_alpha"
+  ],
+  "alpha_weights_from_pre_stream_unlabeled_pilot": true,
+  "all_alpha_weights_from_pre_stream_unlabeled_pilot": true,
+  "pilot_size": 500,
+  "pilot_smoothing": 0.5,
+  "all_label_caps_respected": true,
+  "metric_rows": 324000,
+  "contrast_rows": 2916,
+  "metrics_sha256": "e32cbe105522789cec2cb37281606ef5488777dfc361b89fa9e70f007ac5ad7f",
+  "code_sha256": {
+    "contextual_weighted_alpha_grid.py": "b0367a28b3766df176b493d33ae697ab46532fe84a78fe833c2c413df169272a",
+    "closed_loop_intervention.py": "ad33b9a999814d447e95fcd9e8cbe1e39a78661dab2ca4a74a9c63da82fe44f8"
+  },
+  "environment": {
+    "cpu_ram_bytes": 16858472448,
+    "disk_free_bytes": 20234018816,
+    "cuda_available": true,
+    "nvidia_smi": "NVIDIA GeForce RTX 4060 Laptop GPU, 8188 MiB, 592.82, 0 %, 111 MiB",
+    "torch_version": "2.9.1+cu130",
+    "cuda_runtime": "13.0",
+    "gpu_name": "NVIDIA GeForce RTX 4060 Laptop GPU",
+    "gpu_memory_bytes": 8585216000,
+    "versions": {
+      "numpy": "2.5.4",
+      "scipy": "1.18.1",
+      "pandas": "3.0.6",
+      "pyarrow": "25.0.1",
+      "folktables": "0.0.12"
+    }
+  },
+  "command": [
+    "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\shift-research-starter\\.venv\\Scripts\\shiftlab-dive-contextual-weighted-alpha-grid",
+    "--seeds",
+    "200",
+    "--seed-offset",
+    "92102024",
+    "--horizon",
+    "400",
+    "--true-harmful-prevalences",
+    "0.05",
+    "0.25",
+    "0.50",
+    "--proxy-error-rates",
+    "0",
+    "0.05",
+    "0.10",
+    "--intervention-cost-multipliers",
+    "0",
+    "1",
+    "2",
+    "4",
+    "--budget-rates",
+    "0.20",
+    "0.40",
+    "0.60",
+    "--device",
+    "cuda",
+    "--bootstrap-replicates",
+    "1000",
+    "--output-dir",
+    "outputs/contextual_weighted_alpha_grid_200"
+  ],
+  "statistical_claim_limit": "Weighted Bonferroni preserves the registered familywise false-escalation bound conditional on the independent outcome-free pilot and valid per-context e-process assumptions. This development grid does not calibrate that bound under every profile."
+}

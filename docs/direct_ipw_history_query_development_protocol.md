@@ -65,7 +65,7 @@ uv run shiftlab-dive-direct-ipw-query-grid `
   --seed-offset 31025000 `
   --n 3200 `
   --d 16 `
-  --output outputs/direct_ipw_query_development_30
+  --output outputs/direct_ipw_query_development_30_w4
 ```
 
 The runner writes per-floor source runs, a combined Parquet file, per-cell

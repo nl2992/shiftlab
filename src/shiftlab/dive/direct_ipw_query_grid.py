@@ -349,7 +349,7 @@ def run_direct_ipw_query_grid(config: DirectIPWQueryGridConfig, output: Path) ->
 def main(argv: list[str] | None = None) -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
-        "--output", type=Path, default=Path("outputs/direct_ipw_query_development_30")
+        "--output", type=Path, default=Path("outputs/direct_ipw_query_development_30_w4")
     )
     parser.add_argument("--seeds", type=int, default=30)
     parser.add_argument("--seed-offset", type=int, default=31_025_000)

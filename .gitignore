@@ -194,6 +194,8 @@ Thumbs.db
 !outputs/residual_variance_power_grid/**
 !outputs/residual_variance_start_prior/
 !outputs/residual_variance_start_prior/**
+!outputs/context_budgeted_promotion_grid_30/
+!outputs/context_budgeted_promotion_grid_30/**
 !outputs/informative_delay_fixed_30/
 !outputs/informative_delay_fixed_30/**
 !outputs/informative_delay_positive_fast_30/

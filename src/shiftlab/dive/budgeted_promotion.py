@@ -65,6 +65,9 @@ class BudgetedPromotionConfig:
     bound_mode: str = "global"
     context_feature_index: int = 0
     context_threshold: float = 0.0
+    context_target_prevalence: float = 0.5
+    context_signal_strength: float = 0.0
+    context_proxy_error: float = 0.0
     scenario_subset: tuple[str, ...] = ()
     create_plot: bool = True
     device: str = "cuda"
@@ -113,14 +116,30 @@ class BudgetedPromotionConfig:
             raise ValueError("context_feature_index must identify a configured feature")
         if not np.isfinite(self.context_threshold):
             raise ValueError("context_threshold must be finite")
+        if not np.isfinite(self.context_target_prevalence) or not (
+            0 < self.context_target_prevalence < 1
+        ):
+            raise ValueError("context_target_prevalence must lie strictly between zero and one")
+        if not np.isfinite(self.context_signal_strength) or not (
+            0 <= self.context_signal_strength < 1 / 6
+        ):
+            raise ValueError("context_signal_strength must lie in [0, 1/6) for FN=5, FP=1")
+        if not np.isfinite(self.context_proxy_error) or not (0 <= self.context_proxy_error < 0.5):
+            raise ValueError("context_proxy_error must lie in [0, 0.5)")
         known_scenarios = {scenario.name for scenario in SCENARIOS} | {
             "candidate_family_null",
             "candidate_context_zero_mean",
+            "candidate_context_heterogeneity",
         }
         if len(set(self.scenario_subset)) != len(self.scenario_subset) or any(
             name not in known_scenarios for name in self.scenario_subset
         ):
             raise ValueError("scenario_subset must contain unique registered scenarios")
+        if (
+            "candidate_context_heterogeneity" in self.scenario_subset
+            and self.context_feature_index < 2
+        ):
+            raise ValueError("context heterogeneity requires a proxy feature outside signal x[0:2]")
         if self.device not in {"cpu", "cuda", "auto"}:
             raise ValueError("device must be cpu, cuda, or auto")
         return self
@@ -740,7 +759,12 @@ def _run_seed(
     )
     generation_scenario = (
         SCENARIOS[0]
-        if scenario.name in {"candidate_family_null", "candidate_context_zero_mean"}
+        if scenario.name
+        in {
+            "candidate_family_null",
+            "candidate_context_zero_mean",
+            "candidate_context_heterogeneity",
+        }
         else scenario
     )
     _, frame, oracle, _ = _generate(generation_scenario, seed, source_config)
@@ -759,6 +783,17 @@ def _run_seed(
             .astype(int)
         )
         probability_true = np.full(config.n, event_probability, dtype=float)
+    elif scenario.name == "candidate_context_heterogeneity":
+        x, y, probability_true = _inject_context_heterogeneity(
+            x=x,
+            y=y,
+            probability_true=probability_true,
+            seed=seed,
+            config=config,
+            device=device,
+            fn_cost=scenario.fn_cost,
+            fp_cost=scenario.fp_cost,
+        )
     family = _fit_candidate_family(
         x=x,
         y=y,
@@ -801,6 +836,15 @@ def _run_seed(
                         row["query_rng_stream"] = query_index
                         row["top_validation_gain"] = family["top_validation_gain"]
                     output.extend(estimator_rows)
+    if scenario.name == "candidate_context_heterogeneity":
+        observed_prevalence = float(
+            family["validation_context_counts"][1] / family["validation_context_counts"].sum()
+        )
+        for row in output:
+            row["context_target_prevalence"] = config.context_target_prevalence
+            row["context_signal_strength"] = config.context_signal_strength
+            row["context_proxy_error"] = config.context_proxy_error
+            row["context_observed_prevalence"] = observed_prevalence
     return output
 
 
@@ -813,6 +857,68 @@ def _wilson(successes: int, total: int) -> tuple[float, float]:
     center = (p + z * z / (2 * total)) / denominator
     radius = z * np.sqrt(p * (1 - p) / total + z * z / (4 * total**2)) / denominator
     return max(0.0, center - radius), min(1.0, center + radius)
+
+
+def _inject_context_heterogeneity(
+    *,
+    x: np.ndarray,
+    y: np.ndarray,
+    probability_true: np.ndarray,
+    seed: int,
+    config: BudgetedPromotionConfig,
+    device: str,
+    fn_cost: float = 5.0,
+    fp_cost: float = 1.0,
+) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
+    """Add a frozen noisy context feature and a target-only context signal.
+
+    Latent group membership is used only to generate evaluator probabilities and
+    outcomes. The learner receives its independently corrupted binary proxy as a
+    feature, before any monitor outcome is revealed.
+    """
+    import torch
+
+    if config.context_feature_index < 2:
+        raise ValueError("context heterogeneity needs a proxy feature outside signal x[0:2]")
+    if fn_cost != 5.0 or fp_cost != 1.0:
+        raise ValueError("registered context heterogeneity DGP assumes FN=5 and FP=1")
+    x = np.asarray(x, dtype=float).copy()
+    y = np.asarray(y, dtype=int).copy()
+    probability_true = np.asarray(probability_true, dtype=float).copy()
+    latent_threshold = norm.ppf(1 - config.context_target_prevalence)
+    latent_context = x[:, 0] >= latent_threshold
+
+    context_generator = torch.Generator(device=device).manual_seed(seed + 9_733_101)
+    proxy_flips = (
+        torch.rand(len(x), generator=context_generator, device=device).cpu().numpy()
+        < config.context_proxy_error
+    )
+    observed_context = np.logical_xor(latent_context, proxy_flips)
+    x[:, config.context_feature_index] = np.where(observed_context, 1.0, -1.0)
+
+    # Begin the target law at the monitor boundary. At delta=0 both actions have
+    # equal expected cost; positive delta moves groups to opposite sides of the
+    # FN=5, FP=1 Bayes threshold and creates heterogeneous candidate value.
+    _, validation_end, _ = _time_splits(len(y))
+    decision_threshold = fp_cost / (fn_cost + fp_cost)
+    target_probability = np.where(
+        latent_context,
+        decision_threshold + config.context_signal_strength,
+        decision_threshold - config.context_signal_strength,
+    )
+    outcome_generator = torch.Generator(device=device).manual_seed(seed + 9_733_102)
+    outcome_uniforms = (
+        torch.rand(
+            len(y) - validation_end,
+            generator=outcome_generator,
+            device=device,
+        )
+        .cpu()
+        .numpy()
+    )
+    y[validation_end:] = (outcome_uniforms < target_probability[validation_end:]).astype(int)
+    probability_true[validation_end:] = target_probability[validation_end:]
+    return x, y, probability_true
 
 
 def _summarize(detail: pd.DataFrame) -> pd.DataFrame:

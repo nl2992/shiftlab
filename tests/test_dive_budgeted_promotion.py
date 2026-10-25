@@ -1,9 +1,12 @@
+from dataclasses import replace
 from itertools import product
 from types import SimpleNamespace
 
 import numpy as np
 import pandas as pd
+import pytest
 from scipy.special import logsumexp
+from scipy.stats import norm
 
 from shiftlab.dive.budgeted_promotion import (
     BASE_ALPHA_ALLOCATIONS,
@@ -12,11 +15,13 @@ from shiftlab.dive.budgeted_promotion import (
     BudgetedPromotionConfig,
     _candidate_outcome_contrasts,
     _decision_local_bounds,
+    _inject_context_heterogeneity,
     _monitor_family,
     _paired_bootstrap_contrasts,
+    _run_seed,
 )
 from shiftlab.dive.eprocess import bounded_betting_factors
-from shiftlab.dive.promotion_grid import _candidate_alpha_allocations
+from shiftlab.dive.promotion_grid import _candidate_alpha_allocations, _time_splits
 
 
 def test_candidate_alpha_allocations_respect_each_family_budget():
@@ -237,6 +242,99 @@ def test_context_alpha_is_nested_and_does_not_certify_zero_gain_cells():
         by_method["rank_context_equal"]["labels_queried"]
         <= by_method["rank_context_equal"]["label_budget"]
     )
+
+
+def test_context_heterogeneity_generator_preserves_proxy_and_decision_null_contract():
+    rng = np.random.default_rng(20261024)
+    n = 1000
+    x = rng.normal(size=(n, 4))
+    y = rng.binomial(1, 0.5, size=n)
+    probability = np.full(n, 0.4)
+    config = BudgetedPromotionConfig(
+        n=n,
+        d=4,
+        seeds=1,
+        context_feature_index=3,
+        context_target_prevalence=0.3,
+        context_signal_strength=0.0,
+        context_proxy_error=0.0,
+        device="cpu",
+    )
+    config.validate()
+    changed_x, changed_y, changed_probability = _inject_context_heterogeneity(
+        x=x,
+        y=y,
+        probability_true=probability,
+        seed=17,
+        config=config,
+        device="cpu",
+    )
+    _, validation_end, _ = _time_splits(n)
+    latent = x[:, 0] >= norm.ppf(0.7)
+    assert np.array_equal(changed_x[:, 3] > 0, latent)
+    assert np.array_equal(changed_y[:validation_end], y[:validation_end])
+    assert np.array_equal(changed_probability[:validation_end], probability[:validation_end])
+    assert np.allclose(changed_probability[validation_end:], 1 / 6)
+    # At p=FP/(FN+FP), action 0 and action 1 have equal expected costs.
+    assert np.allclose(
+        5 * changed_probability[validation_end:], 1 - changed_probability[validation_end:]
+    )
+
+    shifted_config = replace(config, context_signal_strength=0.05, context_proxy_error=0.2)
+    shifted_x, _, shifted_probability = _inject_context_heterogeneity(
+        x=x,
+        y=y,
+        probability_true=probability,
+        seed=17,
+        config=shifted_config,
+        device="cpu",
+    )
+    expected = np.where(latent, 1 / 6 + 0.05, 1 / 6 - 0.05)
+    assert np.allclose(shifted_probability[validation_end:], expected[validation_end:])
+    assert np.isin(shifted_x[:, 3], (-1.0, 1.0)).all()
+    assert np.mean((shifted_x[:, 3] > 0) != latent) == pytest.approx(0.2, abs=0.06)
+
+
+def test_fitted_context_heterogeneity_stream_respects_budget_and_records_design():
+    config = BudgetedPromotionConfig(
+        n=1000,
+        d=4,
+        seeds=1,
+        budget_rates=(0.4,),
+        query_policies=("uniform",),
+        alpha_allocations=("rank", *CONTEXT_ALPHA_ALLOCATIONS),
+        estimators=("direct_ipw",),
+        monitoring_rules=("fixed_mixture",),
+        context_feature_index=3,
+        context_target_prevalence=0.3,
+        context_signal_strength=0.05,
+        context_proxy_error=0.1,
+        scenario_subset=("candidate_context_heterogeneity",),
+        create_plot=False,
+        device="cpu",
+    )
+    rows = _run_seed(
+        scenario=SimpleNamespace(
+            name="candidate_context_heterogeneity",
+            fn_cost=5.0,
+            fp_cost=1.0,
+            harmful_adaptation=False,
+        ),
+        seed=20261024,
+        config=config,
+        device="cpu",
+    )
+    assert {row["alpha_allocation"] for row in rows} == {
+        "rank",
+        "rank_context_equal",
+        "rank_context_volume",
+    }
+    for row in rows:
+        assert row["labels_queried"] <= row["label_budget"]
+        assert row["familywise_alpha_sum"] <= config.alpha + 1e-12
+        assert row["context_target_prevalence"] == config.context_target_prevalence
+        assert row["context_signal_strength"] == config.context_signal_strength
+        assert row["context_proxy_error"] == config.context_proxy_error
 
 
 def test_paired_bootstrap_contrasts_preserve_matched_seed_differences():

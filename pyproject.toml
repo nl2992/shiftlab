@@ -40,6 +40,7 @@ shiftlab-dive-contextual-weighted-alpha-grid = "shiftlab.dive.contextual_weighte
 shiftlab-dive-contextual-weighted-alpha-calibrate = "shiftlab.dive.contextual_weighted_alpha_validation:main_calibration"
 shiftlab-dive-contextual-weighted-alpha-confirm = "shiftlab.dive.contextual_weighted_alpha_validation:main_confirmation"
 shiftlab-dive-budgeted-promotion = "shiftlab.dive.budgeted_promotion:main"
+shiftlab-dive-budgeted-context-grid = "shiftlab.dive.budgeted_promotion_context_grid:main"
 shiftlab-dive-nested-candidate-context = "shiftlab.dive.nested_candidate_context_alpha:main"
 shiftlab-dive-grid = "shiftlab.dive.allocation_grid:main"
 shiftlab-dive-robust-grid = "shiftlab.dive.allocation_grid:robust_main"

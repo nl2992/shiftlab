@@ -1,0 +1,144 @@
+{
+  "experiment": "fitted_context_nested_alpha_development_grid",
+  "created_at_utc": "2026-10-25T01:39:59.705478+00:00",
+  "configuration": {
+    "seeds": 30,
+    "seed_offset": 20261025,
+    "n": 3200,
+    "d": 16,
+    "device": "cuda",
+    "prevalences": [
+      0.1,
+      0.5,
+      0.9
+    ],
+    "signal_strengths": [
+      0.0,
+      0.05,
+      0.1
+    ],
+    "proxy_errors": [
+      0.0,
+      0.1,
+      0.25
+    ],
+    "budget_rates": [
+      0.2,
+      0.4
+    ],
+    "alpha_allocations": [
+      "rank",
+      "rank_context_equal",
+      "rank_context_volume"
+    ],
+    "query_policy": "uniform",
+    "estimator": "direct_ipw",
+    "monitoring_rule": "fixed_mixture",
+    "context_feature_index": 15,
+    "alpha": 0.05,
+    "switching_cost": 0.05
+  },
+  "environment": {
+    "cpu_ram_bytes": 16858472448,
+    "disk_free_bytes": 20113899520,
+    "cuda_available": true,
+    "nvidia_smi": "NVIDIA GeForce RTX 4060 Laptop GPU, 8188 MiB, 592.82, 0 %, 0 MiB",
+    "torch_version": "2.9.1+cu130",
+    "cuda_runtime": "13.0",
+    "gpu_name": "NVIDIA GeForce RTX 4060 Laptop GPU",
+    "gpu_memory_bytes": 8585216000,
+    "versions": {
+      "numpy": "2.5.4",
+      "scipy": "1.18.1",
+      "pandas": "3.0.6",
+      "pyarrow": "25.0.1",
+      "folktables": "0.0.12"
+    }
+  },
+  "inference": {
+    "cellwise_bootstrap_draws": 10000,
+    "macro_bootstrap_draws": 10000,
+    "macro_positive_signal_cells": 18,
+    "macro_interval_level_per_contrast": 0.975,
+    "practical_margin": 1.0,
+    "development_only": true
+  },
+  "artifacts": [
+    "metrics/context_budgeted_promotion_streams.parquet",
+    "metrics/context_budgeted_promotion_summary.parquet",
+    "metrics/context_budgeted_promotion_cell_contrasts.parquet",
+    "metrics/context_budgeted_promotion_macro_contrasts.parquet",
+    "reports/context_budgeted_promotion_grid.md"
+  ],
+  "sha256": {
+    "artifacts": {
+      "metrics\\context_budgeted_promotion_cell_contrasts.parquet": "f25a1a64205418d77467105cb379b0962d0c990dbf8c0dd9a75a0b1b587edbf3",
+      "metrics\\context_budgeted_promotion_macro_contrasts.parquet": "b17a5abfe07df60c97506a4d8cb26d421c90d5f079985d0f8904f3692237c55c",
+      "metrics\\context_budgeted_promotion_streams.parquet": "8ee151d220a608a001904862679fe10da65c2fc4ceb479fc944ba2b8f98d9f64",
+      "metrics\\context_budgeted_promotion_summary.parquet": "4d4affc80bca70824707247e9db8c34f6d9b9ebbe56a40731fa70632a2005c91",
+      "reports\\context_budgeted_promotion_grid.md": "93cb3316addd8e267b1900eb95e65bd1c56b84a15ab8666452b37021371b5833"
+    },
+    "source_files": {
+      "src\\shiftlab\\dive\\__init__.py": "d5c8a363ed59ef4ee0dea02c0dacc0c9a5164cabf4ca49989899678a8417a736",
+      "src\\shiftlab\\dive\\allocation_grid.py": "8619d5f9f36e33eed1a5888b50c1c0cc54f621b9d001be89ed4f3ba9b42a6fab",
+      "src\\shiftlab\\dive\\analyze_residual_variance_start_prior.py": "126f9ce1666170457bb30560205013b422b8790292591a885cf76c300b1572a1",
+      "src\\shiftlab\\dive\\analyze_risk_proxy_stress_grid.py": "4b2b081f99d54aa37bf3e2ecb6eb13a5c484e0b781465440172e124fd4f85b23",
+      "src\\shiftlab\\dive\\budgeted_promotion.py": "5259931fbff487fccfbf98cacb5739d1440aae39f09571a69a5781dfec1bc888",
+      "src\\shiftlab\\dive\\budgeted_promotion_context_grid.py": "88103a61dc01e14948890a9c562fd92a96c1131302159812f3b8289b8b0e6b1f",
+      "src\\shiftlab\\dive\\closed_loop_intervention.py": "ad33b9a999814d447e95fcd9e8cbe1e39a78661dab2ca4a74a9c63da82fe44f8",
+      "src\\shiftlab\\dive\\contextual_stratified_intervention.py": "61f435bde8c7c8419a52513077e975851760e826d647fe836f26ff9bafc0f993",
+      "src\\shiftlab\\dive\\contextual_stratified_validation.py": "192a6e155705e9782b6fc69e3875b6a26709c9acddddff5d76f4401293e0f89e",
+      "src\\shiftlab\\dive\\contextual_weighted_alpha_grid.py": "b0367a28b3766df176b493d33ae697ab46532fe84a78fe833c2c413df169272a",
+      "src\\shiftlab\\dive\\contextual_weighted_alpha_validation.py": "ad57c064270a41f58e83871573320625b41f4b280c9d1263bd077e1829f648cc",
+      "src\\shiftlab\\dive\\controller.py": "bdeb77dcf4089d72a795d54bd1d2fd9a415757feeb7be020860e3a02b796178c",
+      "src\\shiftlab\\dive\\delayed_benchmark.py": "d82de14fc1fde9e77fdf1ab1bc32241412fe4bff172ed1bf970202642af39552",
+      "src\\shiftlab\\dive\\delayed_calibration.py": "59bf69f3de949c59efe0bf6209b060de4a1407edc258b56df97cec66e65a9a45",
+      "src\\shiftlab\\dive\\delayed_confirmation.py": "7a89d15454bb4f958a6d2428ccd98aa15cd04de954b37edae9fc3f047e2fff58",
+      "src\\shiftlab\\dive\\delayed_feedback.py": "f0f957ffee752130bbe8bcee35e7db724426b94db0952c9a2e132db5769644a8",
+      "src\\shiftlab\\dive\\delayed_grid.py": "62e6f65f904bcd0dd6077aef5ed43f0f3cbf996d511b8858d834dbd61374e59a",
+      "src\\shiftlab\\dive\\delayed_grid_confirmation.py": "553352e836086cbc3439d01dce0cde52a7de44d861741be8e9f82f409a93f3f1",
+      "src\\shiftlab\\dive\\eprocess.py": "186cb6cd152b127a7cd2e6a0082dd91762a983f8cf3b6ccb7b3e147e067e37a3",
+      "src\\shiftlab\\dive\\estimators.py": "ccf8cab60b73ca139f1c9eebf70f53d003201b3664f9bab99e126ec0739647b0",
+      "src\\shiftlab\\dive\\evaluation.py": "9b64eea3d7dd708104d25ad51e927451811c91e66295ee480fc791ac884432c4",
+      "src\\shiftlab\\dive\\experiment.py": "070e2f0368c1a7781d9b66da11f41fa5cd09cb761e41cafb31dfa484c4afdd9a",
+      "src\\shiftlab\\dive\\feature_intervention.py": "166dd06f5fc8ab2488b5d0660416fa511aad775cc67ea4fe90ec8ffe8e4d790c",
+      "src\\shiftlab\\dive\\feature_intervention_calibration.py": "241852d2f908c3e7554b28f18eb6ae287250718bc52ac6901fe6131861979380",
+      "src\\shiftlab\\dive\\feature_intervention_confirmation.py": "a1d16bb078aed1a6120b86df6fb5aa9487fa574d53dac51c6bc52ab96b273f78",
+      "src\\shiftlab\\dive\\hard_budget.py": "53d42d50e1d41c3788df970e22b21333d59e3dc85db50c54456ac9458a585f9e",
+      "src\\shiftlab\\dive\\horizon_hedge_sweep.py": "cb94b4aef9d9aa231f94f0d56e892fffddb27e9c2547975953dc97f8fc64fd49",
+      "src\\shiftlab\\dive\\intervention_calibration_replication.py": "0ee75c9c787020e28448632d15cc4d56c1b3ef9e1da94617a9a9d70d9e6f27fd",
+      "src\\shiftlab\\dive\\intervention_confirmation.py": "d20d1348c3784e1d9e81c228e5ddbc93836889fa7962ab40b8a66bbae534f144",
+      "src\\shiftlab\\dive\\intervention_sensitivity.py": "af377e66982e988bb4f0df8e64cfcecdb4535afa98f278df37f2f966630b3676",
+      "src\\shiftlab\\dive\\late_prior_confirmation.py": "019099fdd165efc08707fdcaa56d667c0ee899d6898f3102691256e952a5e073",
+      "src\\shiftlab\\dive\\nested_candidate_context_alpha.py": "9b3deb3dcc73f65002a4ef74f1c12eeb78c07fd4de4e3be4322b6361cb718062",
+      "src\\shiftlab\\dive\\oracle_diagnostics.py": "14118dc2912b8236fb4215dd64ebe2108870c51a1963816eaa004f583e9dda8c",
+      "src\\shiftlab\\dive\\persistence_promotion.py": "9a43d8e14dc4bac5ebc048837ab5d09f268e3bb5f79c615eda39a655b357710b",
+      "src\\shiftlab\\dive\\power.py": "d3796dde1cb378ddf7a2a401a2971a8902d126b0db82e48e88556333fa4dde53",
+      "src\\shiftlab\\dive\\predictable_bound_replay.py": "62d3148d76e0b220e2837c061eb680a0388cf47e02fd34b152a681f28671d9dd",
+      "src\\shiftlab\\dive\\promotion.py": "d15e22a7217a15f5c70348766f67ae034409f782b67bfaa0a9b154a6094f24e3",
+      "src\\shiftlab\\dive\\promotion_experiment.py": "93ba08750effdfc1cfc131a0b3cbda1c363118c774c143c4f633a18aeaa7a546",
+      "src\\shiftlab\\dive\\promotion_grid.py": "307ee2137936c1ba8938ef026cb2e611b26ccc15bc6ad3fe4c7ffbed3ec930ce",
+      "src\\shiftlab\\dive\\promotion_robustness.py": "c8601c63b1ada4765e5613b7e5a8753731a60bbd3fceab8fc4b6590657df2e01",
+      "src\\shiftlab\\dive\\promotion_timing.py": "59240fbf930d74a745429b80c9956849f96b9b03363c14eacc5ffc64f930a2e1",
+      "src\\shiftlab\\dive\\proxy.py": "77546752c6796c37795fc7eeb14de678e0bf53509248bda56b1cb1bcecb3a102",
+      "src\\shiftlab\\dive\\proxy_aggregation.py": "2cdcb77b1d8fbd080d76d49aacd841c2b931656d993a643c148ccc4b07547c43",
+      "src\\shiftlab\\dive\\proxy_hedge_benchmark.py": "54eb3abcaf922b45a965aa4ea769f724616b04bee75997954bac978c85f5f493",
+      "src\\shiftlab\\dive\\query.py": "868b2113b2c5c2d99f8635da67de98d8aa941c4e0b458d537c623a46e9ea9c7b",
+      "src\\shiftlab\\dive\\regime_warning_grid.py": "d9f135afc6ed88d884bbf2dffe814777951b7cd3f5f9b8c11720d5268e75ddb3",
+      "src\\shiftlab\\dive\\residual_variance_discounted_betting.py": "f144d4a3b6a829bf41da67c1711a1b9fae88177738a428724e4ee0d257089347",
+      "src\\shiftlab\\dive\\residual_variance_power_grid.py": "83eb9b2bc046a0d272865471c2abc2577aa9ab8584bf308e5671e70f6e960c69",
+      "src\\shiftlab\\dive\\residual_variance_prior_development.py": "4febc3a453a482b5f67c2e1fe5e4c8044358f033f69361614a1c556c49014724",
+      "src\\shiftlab\\dive\\residual_variance_start_prior.py": "e895ff23e15607d6118576e46a1d9b8c28b1bddc2552d23a537ddf1d3226f654",
+      "src\\shiftlab\\dive\\risk_proxy_monitor_confirmation.py": "9880df4b70cb955b9dea22987edebf2c46ce8592198c0e8fb1cf4e862c288707",
+      "src\\shiftlab\\dive\\risk_proxy_monitor_grid.py": "032b508fc998c5ebe9c4bfe206f8828715c22339afa6ba8b048c4b15dfba04d9",
+      "src\\shiftlab\\dive\\risk_proxy_stress_grid.py": "74222a66bf1b496898fbf874b63283c32639bd3b3fe2b62ff094e0c69ac5dbac",
+      "src\\shiftlab\\dive\\start_prior_robust_mix.py": "5c8dc4fbb8dde7eba16a9ba87493dc3d8ecd225ea9054b2c4c212b62c41966bd",
+      "src\\shiftlab\\dive\\start_prior_robustness.py": "224b76c2a8158ee54425f40eb3fbb127b2a455543d4a95fcb7716b881deda6f6",
+      "src\\shiftlab\\dive\\start_prior_sweep.py": "7b36032aaea65da53dfd8386fd0b146c576dee470cb01b89bff8fc89f8ec7988",
+      "src\\shiftlab\\dive\\start_prior_validation.py": "42eca75b0824b05ef7a06c4dbef4d09d214f8b86202dd1cbdb675210b9f72f8f",
+      "src\\shiftlab\\decision_harm_experiment.py": "963d2a794ec0638f08f24dd75eabec457f209ae2df3759e89a6f6dadeca9fa41",
+      "scripts\\analyze_monitor_signal.py": "5ed6ad7128c4d44489657b125ede90f340ed85f2a23ff402e4e3aafd1dbfe9d0",
+      "scripts\\compare_propensity_floor.py": "debcfb35d2f76a6eeb6dd05750a8fc5aeaf572bb757afe912971ba19fc704ef1"
+    }
+  }
+}

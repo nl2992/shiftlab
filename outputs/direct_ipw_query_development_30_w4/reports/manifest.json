@@ -1,0 +1,118 @@
+{
+  "experiment": "direct_ipw_history_evidence_query_development_grid",
+  "status": "exploratory_development_only",
+  "started_utc": "2026-10-25T11:58:22.119408+00:00",
+  "config": {
+    "seeds": 30,
+    "seed_offset": 31025000,
+    "n": 3200,
+    "d": 16,
+    "budget_rate": 0.2,
+    "q_max": 0.8,
+    "alpha": 0.05,
+    "harm_margin": 0.1,
+    "query_floors": [
+      0.05,
+      0.1,
+      0.2
+    ],
+    "scenarios": [
+      "stationary",
+      "benign_nuisance",
+      "boundary_local_harm",
+      "residual_variance",
+      "recurring_regimes",
+      "harmful_adaptation"
+    ],
+    "device": "cuda",
+    "workers": 4,
+    "bootstrap_replicates": 5000
+  },
+  "methods": [
+    "uniform_proxy",
+    "evidence_curve_a0_p0.5",
+    "evidence_curve_a0_p1",
+    "evidence_curve_a0_p2",
+    "evidence_curve_a0.025_p0.5",
+    "evidence_curve_a0.025_p1",
+    "evidence_curve_a0.025_p2",
+    "evidence_curve_a0.05_p0.5",
+    "evidence_curve_a0.05_p1",
+    "evidence_curve_a0.05_p2"
+  ],
+  "matched_design": {
+    "same_stream_seed_by_floor": true,
+    "same_query_uniforms_within_stream": true,
+    "common_eprocess_bound_within_floor": true,
+    "hard_dollar_cap": true,
+    "estimator": "direct_ipw",
+    "feedback": "immediate",
+    "eventwise_bounds": false
+  },
+  "runtime": {
+    "cpu_ram_bytes": 16858472448,
+    "disk_free_bytes": 20056875008,
+    "cuda_available": true,
+    "nvidia_smi": "NVIDIA GeForce RTX 4060 Laptop GPU, 8188 MiB, 592.82, 0 %, 0 MiB",
+    "torch_version": "2.9.1+cu130",
+    "cuda_runtime": "13.0",
+    "gpu_name": "NVIDIA GeForce RTX 4060 Laptop GPU",
+    "gpu_memory_bytes": 8585216000,
+    "versions": {
+      "numpy": "2.5.4",
+      "scipy": "1.18.1",
+      "pandas": "3.0.6",
+      "pyarrow": "25.0.1",
+      "folktables": "0.0.12"
+    }
+  },
+  "elapsed_seconds": 2846.331930799992,
+  "rows": 5400,
+  "cap_violations": 0,
+  "output_files": [
+    "metrics/direct_ipw_query_grid.parquet",
+    "metrics/grid_summary.csv",
+    "metrics/paired_contrasts_vs_uniform.csv",
+    "reports/direct_ipw_query_grid_results.md"
+  ],
+  "sha256": {
+    "metrics/alternative_macro_contrasts.csv": "5e0ad3f161d5bc60dee79d765bb6926dbc1b52455f79897404ed5e1e6d866a38",
+    "metrics/direct_ipw_query_grid.parquet": "37b980cf8f9f321de627b4ab32b8ec47958a55a7985c465af0acd8370d651efa",
+    "metrics/grid_summary.csv": "c86c01f4db978e029cd876e5991e960841c196c14cc26edacd50d7aac2caa755",
+    "metrics/paired_contrasts_vs_uniform.csv": "0b8dc406385c579d5864531642738ce1e97094f0cb81e7fc337f6b79d1aba6a0",
+    "reports/direct_ipw_query_grid_results.md": "813ec7e08a2bd4c8908c5cea2e4c325ad6224c95d52e65b7dfb52729a8cb96f7",
+    "runs/q_min_0p05/metrics/hard_budget_comparison.parquet": "1dd45ddf11998819df8749161607fcd704d687c65769dbef768030eecfd8c187",
+    "runs/q_min_0p05/metrics/hard_budget_summary.csv": "1de2faf6385c78b6fd1f28ef6e949c729dcad43ebeb4d9538352c793d3f5933d",
+    "runs/q_min_0p05/metrics/paired_effects_vs_uniform.csv": "d1542dd47e753669a71124bc828836897ba15014a692ed4d6393b7b643e2eb0e",
+    "runs/q_min_0p05/reports/hard_budget_comparison.md": "25f2ccb3655645deead867fb4fa48bdc7206044718fc173e470b84a2c2a22567",
+    "runs/q_min_0p05/reports/manifest.json": "e79a60d1ea94a25156655b8e69b2177861093bb836f5461eec3fea59c0263515",
+    "runs/q_min_0p10/metrics/hard_budget_comparison.parquet": "4397f790dd3e3f44eb3ba651e6a0523faac4298887b7bf2cba1fda92e2053d48",
+    "runs/q_min_0p10/metrics/hard_budget_summary.csv": "1b493433bb0dc7651c97b6536af0a36790e8947b762912bbf49951ed5bbf10c1",
+    "runs/q_min_0p10/metrics/paired_effects_vs_uniform.csv": "8e70b8e575e57970049ed276612900309ab36aaffe94cb844ccba4a1037e568f",
+    "runs/q_min_0p10/reports/hard_budget_comparison.md": "865811f44b434a0ae2b0d38b44c2d6c80926356247e5395919ccb13faaad8fcd",
+    "runs/q_min_0p10/reports/manifest.json": "57d8d050097a8ffc1a96fa95e16b965bd0552db74051c4a8f9f7783e290fd08e",
+    "runs/q_min_0p20/metrics/hard_budget_comparison.parquet": "c5200806d0d1942284a8b5caf22d2d14a06f5b60f7b281d861127d6b9d447750",
+    "runs/q_min_0p20/metrics/hard_budget_summary.csv": "4dd3468cc10adeeae44ff1dd8c6c233e283dc2e131a3e2459a22b63dd7aba2eb",
+    "runs/q_min_0p20/metrics/paired_effects_vs_uniform.csv": "7f77fec05e28e2822f86452d216e8aa9d11878268b07b6aaf76d8bff47cc882c",
+    "runs/q_min_0p20/reports/hard_budget_comparison.md": "e65dda400aefcc54191ed5d1765915a1e4dce205ead8842abd15ad1bdf2033b9",
+    "runs/q_min_0p20/reports/manifest.json": "fd10dba96c8c589c72bd8c46f852bb9afa6a5dc3e038df96093483f68e708fcf"
+  },
+  "analysis": {
+    "script": "src/shiftlab/dive/analyze_direct_ipw_query_grid.py",
+    "endpoint": "equal-weight average over registered harmful scenarios per seed",
+    "bootstrap": "paired seed-cluster percentile bootstrap, descriptive and unadjusted",
+    "bootstrap_replicates": 10000,
+    "bootstrap_seed": 31106773,
+    "alternative_scenarios": [
+      "boundary_local_harm",
+      "residual_variance",
+      "recurring_regimes",
+      "harmful_adaptation"
+    ],
+    "does_not_establish": [
+      "nominal false-alarm control",
+      "confirmation",
+      "novelty"
+    ]
+  }
+}

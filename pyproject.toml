@@ -69,6 +69,7 @@ shiftlab-dive-delayed-adaptive-query = "shiftlab.dive.delayed_adaptive_query:mai
 shiftlab-dive-delayed-evidence-ppi-grid = "shiftlab.dive.delayed_evidence_directed_ppi:main"
 shiftlab-dive-delayed-evidence-ppi-calibrate = "shiftlab.dive.delayed_evidence_directed_ppi_calibration:main"
 shiftlab-dive-delayed-evidence-ppi-confirm = "shiftlab.dive.delayed_evidence_directed_ppi_confirmation:main"
+shiftlab-dive-delayed-evidence-ppi-markov-calibrate = "shiftlab.dive.delayed_evidence_directed_ppi_markov_calibration:main"
 shiftlab-dive-start-prior-sweep = "shiftlab.dive.start_prior_sweep:main"
 shiftlab-dive-start-prior-validation = "shiftlab.dive.start_prior_validation:main"
 shiftlab-dive-start-prior-robustness = "shiftlab.dive.start_prior_robustness:main"

@@ -1,0 +1,3 @@
+method,streams,false_escalations,alarm_rate,mean_labels,mean_events,cap_violations,simultaneous_one_sided_upper,cell_alpha,calibration_gate_cell_pass
+evidence_a0p025_p0p5_eventwise,1000,4,0.004,138.569,2392.11,0,0.010209664683929871,0.025,True
+uniform_eventwise,1000,4,0.004,470.551,2353.869,0,0.010209664683929871,0.025,True

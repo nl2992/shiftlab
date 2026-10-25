@@ -1,0 +1,89 @@
+{
+  "experiment": "delayed_evidence_directed_ppi_markov_variance_null_calibration",
+  "config": {
+    "seeds": 1000,
+    "seed_offset": 20290000,
+    "n_source": 1200,
+    "n_target": 2400,
+    "budget_rate": 0.2,
+    "alpha": 0.05,
+    "epsilon": 0.05,
+    "q_min": 0.05,
+    "q_max": 0.8,
+    "amplitude": 1.0,
+    "harm_shift": 0.2,
+    "onset_fraction": 0.5,
+    "max_delay": 12,
+    "benign_amplitude": 0.55,
+    "device": "cuda"
+  },
+  "methods": [
+    "uniform_eventwise",
+    "evidence_a0p025_p0p5_eventwise"
+  ],
+  "scenario": "markov_variance_null",
+  "flip_probability": 0.05,
+  "amplitudes": [
+    0.55,
+    1.0
+  ],
+  "familywise_alpha": 0.05,
+  "cell_alpha": 0.025,
+  "rows": 2000,
+  "source_hashes": {
+    "calibration": "eca3ab4df21f1f5ecf2f473cfcfa1c8af9351d6fcc072f89953f144c354be026",
+    "development_module": "1517838c03b5150beaa012554538723c762c60c355327e052e25d79916498f41"
+  },
+  "created_utc": "2026-10-25T19:37:33.359177+00:00",
+  "runtime": {
+    "cpu_ram_bytes": 16858472448,
+    "disk_free_bytes": 19756777472,
+    "cuda_available": true,
+    "nvidia_smi": "NVIDIA GeForce RTX 4060 Laptop GPU, 8188 MiB, 592.82, 0 %, 107 MiB",
+    "torch_version": "2.9.1+cu130",
+    "cuda_runtime": "13.0",
+    "gpu_name": "NVIDIA GeForce RTX 4060 Laptop GPU",
+    "gpu_memory_bytes": 8585216000,
+    "versions": {
+      "numpy": "2.5.4",
+      "scipy": "1.18.1",
+      "pandas": "3.0.6",
+      "pyarrow": "25.0.1",
+      "folktables": "0.0.12"
+    }
+  },
+  "summary": [
+    {
+      "method": "evidence_a0p025_p0p5_eventwise",
+      "streams": 1000,
+      "false_escalations": 4,
+      "alarm_rate": 0.004,
+      "mean_labels": 138.569,
+      "mean_events": 2392.11,
+      "cap_violations": 0,
+      "simultaneous_one_sided_upper": 0.010209664683929871,
+      "cell_alpha": 0.025,
+      "calibration_gate_cell_pass": true
+    },
+    {
+      "method": "uniform_eventwise",
+      "streams": 1000,
+      "false_escalations": 4,
+      "alarm_rate": 0.004,
+      "mean_labels": 470.551,
+      "mean_events": 2353.869,
+      "cap_violations": 0,
+      "simultaneous_one_sided_upper": 0.010209664683929871,
+      "cell_alpha": 0.025,
+      "calibration_gate_cell_pass": true
+    }
+  ],
+  "gate_pass": true,
+  "invariants_pass": true,
+  "conditional_null": "E[Z_t | complete prior event history] = 0: fresh fair signs are independent of the persistent amplitude regime.",
+  "limitations": [
+    "Finite Monte Carlo calibration for one IID-sign, persistent-scale Markov generator only.",
+    "It does not establish validity for Markov-persistent signs, outcome-dependent delays, changing conditional means, or real data.",
+    "The query policy and e-process are established constructions; this is not a novelty claim."
+  ]
+}

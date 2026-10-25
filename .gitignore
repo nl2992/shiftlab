@@ -148,6 +148,8 @@ outputs/figures/*
 !outputs/delayed_evidence_directed_ppi_calibration_1000/**
 !outputs/delayed_evidence_directed_ppi_confirmation_1000/
 !outputs/delayed_evidence_directed_ppi_confirmation_1000/**
+!outputs/delayed_evidence_ppi_markov_calibration_1000/
+!outputs/delayed_evidence_ppi_markov_calibration_1000/**
 !outputs/start_prior_development/
 !outputs/start_prior_development/**
 !outputs/start_prior_validation/

@@ -56,6 +56,57 @@ def test_predictable_bound_eprocess_uses_event_specific_bounds():
         process.update(0.0, bound=0.0)
 
 
+def test_history_predictable_direct_ipw_bound_has_valid_exact_factors():
+    # Enumerate the query coin and current gross gain conditional on each past
+    # state. q and B are fixed by that past state before either is realized.
+    c = 1.0
+    switching_charge = 0.5
+    stakes = np.array([0.1, 0.5, 1.0])
+    histories = ((-2.0, 0.8, 0.0), (0.0, 0.4, 0.5), (1.5, 0.2, 1.0))
+    gain_distributions = ((0.75, 1.0), (0.5, 0.0), (0.25, -1.0))
+
+    for _log_wealth, q, remaining_fraction in histories:
+        assert 0 < q <= 1
+        assert 0 <= remaining_fraction <= 1
+        bound = c / q + switching_charge
+        for probability_positive, positive_gain in gain_distributions:
+            expected_factors = np.zeros_like(stakes)
+            conditional_mean = (
+                probability_positive * positive_gain + (1 - probability_positive) * -1.0
+            )
+            assert conditional_mean <= switching_charge + 1e-12
+            gain_values = (positive_gain, -1.0)
+            gain_probabilities = (probability_positive, 1 - probability_positive)
+            for gain, gain_probability in zip(gain_values, gain_probabilities, strict=True):
+                for queried, query_probability in ((True, q), (False, 1 - q)):
+                    increment = (gain / q if queried else 0.0) - switching_charge
+                    assert abs(increment) <= bound + 1e-12
+                    factors = 1 + stakes * increment / bound
+                    assert np.all(factors >= 0)
+                    expected_factors += gain_probability * query_probability * factors
+            assert np.all(expected_factors <= 1 + 1e-12)
+
+
+def test_current_context_eventwise_bound_can_break_a_marginal_null():
+    # E[G]=kappa, but q is chosen from the current context correlated with G.
+    # Inverse-propensity weighting preserves E[X] while scaling by B(X) does not.
+    switching_charge = 0.5
+    states = ((0.75, 1.0, 1.0), (0.25, -1.0, 0.1))
+    assert sum(probability * gain for probability, gain, _q in states) == pytest.approx(
+        switching_charge
+    )
+    expected_normalized_increment = 0.0
+    for probability, gain, q in states:
+        bound = 1 / q + switching_charge
+        queried = gain / q - switching_charge
+        not_queried = -switching_charge
+        expected_normalized_increment += probability * (
+            q * queried / bound + (1 - q) * not_queried / bound
+        )
+    assert expected_normalized_increment == pytest.approx(3 / 14)
+    assert expected_normalized_increment > 0
+
+
 def test_variance_adaptive_stake_uses_only_prior_values_and_respects_global_bound():
     process = PredictableVarianceAdaptiveEProcess(bound=2.0)
     assert process.stake == pytest.approx(0.2)

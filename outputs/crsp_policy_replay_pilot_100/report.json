@@ -1,0 +1,308 @@
+{
+  "experiment": "CRSP CIZ retrospective decision-policy pilot",
+  "dataset": "crsp_ciz_next_day",
+  "dataset_version": "5211412140dcb86f08f9",
+  "dataset_manifest_sha256": "58f3ab8e656fa3ab896410c0071e72131b96b8f3a08dbb016ed409ff5513d133",
+  "observations_sha256": "a5bd25cbd9a6059f2653eca58c6316351a9237748cdf5521c18d18c0a76993a3",
+  "seed": 20261025,
+  "cohort_rule": "sample PERMNOs only from train-split identifiers; no test-presence condition",
+  "training_universe_permnos": 11472,
+  "sampled_training_permnos": 100,
+  "test_permno_count": 30,
+  "train_rows": 166753,
+  "test_rows": 40557,
+  "train_dates": [
+    "2000-01-03",
+    "2014-12-30"
+  ],
+  "test_dates": [
+    "2020-01-02",
+    "2025-12-30"
+  ],
+  "model": "training-only median imputation, standardization, Ridge(alpha=1)",
+  "model_device": "cuda",
+  "model_rmse": 0.03994267284442018,
+  "training_mean_rmse": 0.03978585571501611,
+  "candidate_policy": "long if train-only Ridge prediction of next observed return is positive",
+  "reference_policy": "long if same-date value-weighted CRSP market return (vwretd) is positive",
+  "utility": {
+    "definition": "negative long-action times next return clipped to [-0.10, +0.10], plus per-turnover charge",
+    "return_cap": 0.1,
+    "transaction_cost_bps": [
+      0,
+      5,
+      10,
+      25
+    ],
+    "turnover": "entry, position changes, and terminal close within each sampled PERMNO test path"
+  },
+  "cost_comparison": [
+    {
+      "transaction_cost_bps_per_turnover": 0,
+      "n_test_events": 40557,
+      "mean_candidate_cost": -0.0005241607120842271,
+      "mean_reference_cost": -2.084774514880294e-05,
+      "mean_candidate_minus_reference_cost": -0.0005033129669354243,
+      "circular_20_day_block_interval_95": [
+        -0.0008750751731403647,
+        -0.00015436175058094567
+      ],
+      "candidate_long_action_rate": 0.5499174002021846,
+      "reference_long_action_rate": 0.5449860689893237,
+      "return_clipped_fraction": 0.022634810267031586
+    },
+    {
+      "transaction_cost_bps_per_turnover": 5,
+      "n_test_events": 40557,
+      "mean_candidate_cost": -0.00032382538156175243,
+      "mean_reference_cost": 0.0002343239884606851,
+      "mean_candidate_minus_reference_cost": -0.0005581493700224376,
+      "circular_20_day_block_interval_95": [
+        -0.000911851489507186,
+        -0.00020205679956661554
+      ],
+      "candidate_long_action_rate": 0.5499174002021846,
+      "reference_long_action_rate": 0.5449860689893237,
+      "return_clipped_fraction": 0.022634810267031586
+    },
+    {
+      "transaction_cost_bps_per_turnover": 10,
+      "n_test_events": 40557,
+      "mean_candidate_cost": -0.00012349005103927786,
+      "mean_reference_cost": 0.000489495722070173,
+      "mean_candidate_minus_reference_cost": -0.0006129857731094509,
+      "circular_20_day_block_interval_95": [
+        -0.0009648418416988063,
+        -0.00025085435352379786
+      ],
+      "candidate_long_action_rate": 0.5499174002021846,
+      "reference_long_action_rate": 0.5449860689893237,
+      "return_clipped_fraction": 0.022634810267031586
+    },
+    {
+      "transaction_cost_bps_per_turnover": 25,
+      "n_test_events": 40557,
+      "mean_candidate_cost": 0.00047751594052814573,
+      "mean_reference_cost": 0.0012550109228986366,
+      "mean_candidate_minus_reference_cost": -0.000777494982370491,
+      "circular_20_day_block_interval_95": [
+        -0.0011673966301869003,
+        -0.00039227560414206134
+      ],
+      "candidate_long_action_rate": 0.5499174002021846,
+      "reference_long_action_rate": 0.5449860689893237,
+      "return_clipped_fraction": 0.022634810267031586
+    }
+  ],
+  "yearly_cost_comparison": [
+    {
+      "year": 2020,
+      "transaction_cost_bps_per_turnover": 0,
+      "n": 7590,
+      "candidate_mean_cost": -0.00042186073781291165,
+      "reference_mean_cost": 0.0003688675889328064,
+      "candidate_minus_reference_cost": -0.000790728326745718
+    },
+    {
+      "year": 2021,
+      "transaction_cost_bps_per_turnover": 0,
+      "n": 7526,
+      "candidate_mean_cost": -0.0012755526175923465,
+      "reference_mean_cost": -0.0005385055806537337,
+      "candidate_minus_reference_cost": -0.0007370470369386128
+    },
+    {
+      "year": 2022,
+      "transaction_cost_bps_per_turnover": 0,
+      "n": 6804,
+      "candidate_mean_cost": -1.5287624926513892e-05,
+      "reference_mean_cost": 0.00041894121105232214,
+      "candidate_minus_reference_cost": -0.000434228835978836
+    },
+    {
+      "year": 2023,
+      "transaction_cost_bps_per_turnover": 0,
+      "n": 6713,
+      "candidate_mean_cost": -0.0009489037688067929,
+      "reference_mean_cost": -0.0008329578429912112,
+      "candidate_minus_reference_cost": -0.00011594592581558171
+    },
+    {
+      "year": 2024,
+      "transaction_cost_bps_per_turnover": 0,
+      "n": 6197,
+      "candidate_mean_cost": -0.00037784298854284326,
+      "reference_mean_cost": -3.766322414071324e-05,
+      "candidate_minus_reference_cost": -0.00034017976440213005
+    },
+    {
+      "year": 2025,
+      "transaction_cost_bps_per_turnover": 0,
+      "n": 5727,
+      "candidate_mean_cost": 6.265880914964203e-05,
+      "reference_mean_cost": 0.0005905596298236425,
+      "candidate_minus_reference_cost": -0.0005279008206740003
+    },
+    {
+      "year": 2020,
+      "transaction_cost_bps_per_turnover": 5,
+      "n": 7590,
+      "candidate_mean_cost": -0.00022133372859025016,
+      "reference_mean_cost": 0.00064752371541502,
+      "candidate_minus_reference_cost": -0.0008688574440052702
+    },
+    {
+      "year": 2021,
+      "transaction_cost_bps_per_turnover": 5,
+      "n": 7526,
+      "candidate_mean_cost": -0.0010676068296571882,
+      "reference_mean_cost": -0.0002906979803348391,
+      "candidate_minus_reference_cost": -0.0007769088493223492
+    },
+    {
+      "year": 2022,
+      "transaction_cost_bps_per_turnover": 5,
+      "n": 6804,
+      "candidate_mean_cost": 0.00018797516166960628,
+      "reference_mean_cost": 0.0006701169900058791,
+      "candidate_minus_reference_cost": -0.00048214182833627284
+    },
+    {
+      "year": 2023,
+      "transaction_cost_bps_per_turnover": 5,
+      "n": 6713,
+      "candidate_mean_cost": -0.000759793088038135,
+      "reference_mean_cost": -0.0005889536719797406,
+      "candidate_minus_reference_cost": -0.00017083941605839422
+    },
+    {
+      "year": 2024,
+      "transaction_cost_bps_per_turnover": 5,
+      "n": 6197,
+      "candidate_mean_cost": -0.00017605179925770523,
+      "reference_mean_cost": 0.0002161692754558659,
+      "candidate_minus_reference_cost": -0.0003922210747135711
+    },
+    {
+      "year": 2025,
+      "transaction_cost_bps_per_turnover": 5,
+      "n": 5727,
+      "candidate_mean_cost": 0.00026084284965950774,
+      "reference_mean_cost": 0.0008435716780164137,
+      "candidate_minus_reference_cost": -0.0005827288283569059
+    },
+    {
+      "year": 2020,
+      "transaction_cost_bps_per_turnover": 10,
+      "n": 7590,
+      "candidate_mean_cost": -2.0806719367588718e-05,
+      "reference_mean_cost": 0.0009261798418972335,
+      "candidate_minus_reference_cost": -0.0009469865612648223
+    },
+    {
+      "year": 2021,
+      "transaction_cost_bps_per_turnover": 10,
+      "n": 7526,
+      "candidate_mean_cost": -0.0008596610417220302,
+      "reference_mean_cost": -4.289038001594449e-05,
+      "candidate_minus_reference_cost": -0.0008167706617060854
+    },
+    {
+      "year": 2022,
+      "transaction_cost_bps_per_turnover": 10,
+      "n": 6804,
+      "candidate_mean_cost": 0.00039123794826572626,
+      "reference_mean_cost": 0.0009212927689594358,
+      "candidate_minus_reference_cost": -0.0005300548206937097
+    },
+    {
+      "year": 2023,
+      "transaction_cost_bps_per_turnover": 10,
+      "n": 6713,
+      "candidate_mean_cost": -0.000570682407269477,
+      "reference_mean_cost": -0.00034494950096827033,
+      "candidate_minus_reference_cost": -0.00022573290630120672
+    },
+    {
+      "year": 2024,
+      "transaction_cost_bps_per_turnover": 10,
+      "n": 6197,
+      "candidate_mean_cost": 2.57393900274328e-05,
+      "reference_mean_cost": 0.00047000177505244497,
+      "candidate_minus_reference_cost": -0.0004442623850250122
+    },
+    {
+      "year": 2025,
+      "transaction_cost_bps_per_turnover": 10,
+      "n": 5727,
+      "candidate_mean_cost": 0.0004590268901693733,
+      "reference_mean_cost": 0.0010965837262091847,
+      "candidate_minus_reference_cost": -0.0006375568360398114
+    },
+    {
+      "year": 2020,
+      "transaction_cost_bps_per_turnover": 25,
+      "n": 7590,
+      "candidate_mean_cost": 0.0005807743083003958,
+      "reference_mean_cost": 0.001762148221343874,
+      "candidate_minus_reference_cost": -0.0011813739130434786
+    },
+    {
+      "year": 2021,
+      "transaction_cost_bps_per_turnover": 25,
+      "n": 7526,
+      "candidate_mean_cost": -0.0002358236779165557,
+      "reference_mean_cost": 0.000700532420940739,
+      "candidate_minus_reference_cost": -0.0009363560988572948
+    },
+    {
+      "year": 2022,
+      "transaction_cost_bps_per_turnover": 25,
+      "n": 6804,
+      "candidate_mean_cost": 0.001001026308054086,
+      "reference_mean_cost": 0.001674820105820106,
+      "candidate_minus_reference_cost": -0.00067379379776602
+    },
+    {
+      "year": 2023,
+      "transaction_cost_bps_per_turnover": 25,
+      "n": 6713,
+      "candidate_mean_cost": -3.3503649635034406e-06,
+      "reference_mean_cost": 0.00038706301206614056,
+      "candidate_minus_reference_cost": -0.0003904133770296441
+    },
+    {
+      "year": 2024,
+      "transaction_cost_bps_per_turnover": 25,
+      "n": 6197,
+      "candidate_mean_cost": 0.0006311129578828467,
+      "reference_mean_cost": 0.001231499273842182,
+      "candidate_minus_reference_cost": -0.0006003863159593351
+    },
+    {
+      "year": 2025,
+      "transaction_cost_bps_per_turnover": 25,
+      "n": 5727,
+      "candidate_mean_cost": 0.0010535790116989702,
+      "reference_mean_cost": 0.001855619870787498,
+      "candidate_minus_reference_cost": -0.000802040859088528
+    }
+  ],
+  "uncertainty": {
+    "method": "circular moving-block bootstrap of date-level paired cost sums/counts",
+    "block_trading_dates": 20,
+    "replicates": 2000,
+    "seed": 20261025,
+    "interpretation": "descriptive only; does not establish sequential validity or transport to a live market"
+  },
+  "limitations": [
+    "Training-selected 100-PERMNO pilot is not representative inference over the CRSP universe.",
+    "CRSP timestamps encode retrospective daily-close ordering, not verified historical publication times.",
+    "Returns are dependent across securities and dates; block intervals do not prove e-process assumptions.",
+    "The capped long-only utility and transaction costs are imposed sensitivity values, not a sourced trading-cost model.",
+    "Results are retrospective diagnostics, not trading profitability or deployment evidence."
+  ],
+  "script_sha256": "a9842c341ee5e201a42b8f1f01f3e3dee159610442215c8c9d7206622708414b",
+  "created_utc": "2026-10-26T00:53:59.660960+00:00",
+  "protocol_sha256": "ade6f58cda1f01b918805b2a32be9786dd1b7364ad83b149b228ce250e04b7b5"
+}

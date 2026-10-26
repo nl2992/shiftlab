@@ -1,0 +1,138 @@
+{
+  "experiment": "delayed_ppi_uniform_mixture_development_grid",
+  "base_config": {
+    "seeds": 100,
+    "seed_offset": 20450000,
+    "n_source": 1200,
+    "n_target": 2400,
+    "budget_rate": 0.2,
+    "alpha": 0.05,
+    "epsilon": 0.05,
+    "q_min": 0.05,
+    "q_max": 0.8,
+    "amplitude": 1.0,
+    "harm_shift": 0.2,
+    "onset_fraction": 0.5,
+    "max_delay": 12,
+    "benign_amplitude": 0.55,
+    "device": "cuda"
+  },
+  "harm_shifts": [
+    0.1,
+    0.2,
+    0.3
+  ],
+  "onset_fractions": [
+    0.25,
+    0.5,
+    0.75
+  ],
+  "blend_weights": [
+    0.25,
+    0.5,
+    0.75
+  ],
+  "methods": [
+    "uniform_eventwise",
+    "evidence_a0p025_p0p5_eventwise",
+    "evidence_blend_25_a0p025_p0p5_eventwise",
+    "evidence_blend_50_a0p025_p0p5_eventwise",
+    "evidence_blend_75_a0p025_p0p5_eventwise"
+  ],
+  "delay_profile": "fixed12",
+  "seed_range_per_cell": [
+    20450000,
+    20450099
+  ],
+  "rows": 4500,
+  "protocol_sha256": "ddaab64a56400acd665d8125512b2f80786a35a23ad8cce8848bc0adbce20f2a",
+  "source_hashes": {
+    "runner_source_at_execution.py": "a9508a1161df97cd94373c35a3aafc7f90cd9e5072d8f79413be2b37cc214007",
+    "simulator_source_at_execution.py": "88bff4c6f4d2be9403f11b586bf82b541a203c9e711013a3f102fcd7a7e42e50"
+  },
+  "runtime": {
+    "cpu_ram_bytes": 16858472448,
+    "disk_free_bytes": 19567591424,
+    "cuda_available": true,
+    "nvidia_smi": "NVIDIA GeForce RTX 4060 Laptop GPU, 8188 MiB, 592.82, 0 %, 107 MiB",
+    "torch_version": "2.9.1+cu130",
+    "cuda_runtime": "13.0",
+    "gpu_name": "NVIDIA GeForce RTX 4060 Laptop GPU",
+    "gpu_memory_bytes": 8585216000,
+    "versions": {
+      "numpy": "2.5.4",
+      "scipy": "1.18.1",
+      "pandas": "3.0.6",
+      "pyarrow": "25.0.1",
+      "folktables": "0.0.12"
+    }
+  },
+  "resolved_device": "cuda",
+  "workers": 4,
+  "macro_results": {
+    "evidence_a0p025_p0p5_eventwise": {
+      "macro_detection_difference_vs_uniform": -0.012222222222222221,
+      "seed_cluster_bootstrap_95": [
+        -0.04222222222222222,
+        0.017777777777777778
+      ],
+      "macro_label_difference_vs_uniform": -287.0677777777778,
+      "label_seed_cluster_bootstrap_95": [
+        -298.73333333333335,
+        -274.71441666666664
+      ],
+      "worst_cell_detection_difference": -0.1,
+      "nomination_gate": false
+    },
+    "evidence_blend_25_a0p025_p0p5_eventwise": {
+      "macro_detection_difference_vs_uniform": 0.002222222222222223,
+      "seed_cluster_bootstrap_95": [
+        -0.01777777777777778,
+        0.023333333333333334
+      ],
+      "macro_label_difference_vs_uniform": -208.51888888888888,
+      "label_seed_cluster_bootstrap_95": [
+        -217.3433611111111,
+        -199.1855
+      ],
+      "worst_cell_detection_difference": -0.03,
+      "nomination_gate": false
+    },
+    "evidence_blend_50_a0p025_p0p5_eventwise": {
+      "macro_detection_difference_vs_uniform": -0.005555555555555558,
+      "seed_cluster_bootstrap_95": [
+        -0.024444444444444446,
+        0.013333333333333334
+      ],
+      "macro_label_difference_vs_uniform": -135.35,
+      "label_seed_cluster_bootstrap_95": [
+        -141.88888888888889,
+        -128.40769444444445
+      ],
+      "worst_cell_detection_difference": -0.03,
+      "nomination_gate": false
+    },
+    "evidence_blend_75_a0p025_p0p5_eventwise": {
+      "macro_detection_difference_vs_uniform": -0.003333333333333333,
+      "seed_cluster_bootstrap_95": [
+        -0.017777777777777778,
+        0.01111111111111111
+      ],
+      "macro_label_difference_vs_uniform": -65.80555555555556,
+      "label_seed_cluster_bootstrap_95": [
+        -69.46444444444444,
+        -61.95658333333334
+      ],
+      "worst_cell_detection_difference": -0.01,
+      "nomination_gate": false
+    }
+  },
+  "invariants_pass": true,
+  "interpretation": "Post-selection development screen only; any nominated fixed blend requires independent null calibration and disjoint harm confirmation.",
+  "created_utc": "2026-10-26T00:46:45.211763+00:00",
+  "execution_source_snapshot": [
+    "runner_source_at_execution.py",
+    "simulator_source_at_execution.py"
+  ],
+  "execution_source_note": "The simulator snapshot preserves the exact implementation bytes used for this run. It was isolated under delayed_evidence_directed_ppi_mixture.py to preserve hashes of earlier calibrated experiments that use delayed_evidence_directed_ppi.py."
+}

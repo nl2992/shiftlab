@@ -1,0 +1,13 @@
+delay_profile,method,monitor_variant,streams,false_escalations,alarm_rate,mean_labels,mean_events,mean_alarm_event,mean_alarm_wall,cap_violations,simultaneous_95_one_sided_upper,cell_alpha,cell_pass
+fixed12,evidence_a0p025_p0p5_eventwise,fixed_start_mixture,250,2,0.008,172.7,2400.0,333.0,345.0,0,0.037431163482056905,0.004166666666666667,True
+fixed12,evidence_a0p025_p0p5_eventwise,full_stream,250,5,0.02,142.072,2400.0,187.8,199.8,0,0.05659457945853116,0.004166666666666667,False
+fixed12,uniform_eventwise,fixed_start_mixture,250,0,0.0,472.196,2359.592,,,0,0.02168400287843423,0.004166666666666667,True
+fixed12,uniform_eventwise,full_stream,250,0,0.0,472.196,2359.592,,,0,0.02168400287843423,0.004166666666666667,True
+positive_fast,evidence_a0p025_p0p5_eventwise,fixed_start_mixture,250,0,0.0,174.524,2400.0,,,0,0.02168400287843423,0.004166666666666667,True
+positive_fast,evidence_a0p025_p0p5_eventwise,full_stream,250,3,0.012,140.564,2400.0,78.0,83.33333333333333,0,0.04414344937336528,0.004166666666666667,True
+positive_fast,uniform_eventwise,fixed_start_mixture,250,0,0.0,472.196,2359.592,,,0,0.02168400287843423,0.004166666666666667,True
+positive_fast,uniform_eventwise,full_stream,250,0,0.0,472.196,2359.592,,,0,0.02168400287843423,0.004166666666666667,True
+positive_slow,evidence_a0p025_p0p5_eventwise,fixed_start_mixture,250,2,0.008,165.98,2400.0,340.5,352.5,0,0.037431163482056905,0.004166666666666667,True
+positive_slow,evidence_a0p025_p0p5_eventwise,full_stream,250,3,0.012,139.028,2400.0,109.33333333333333,121.33333333333333,0,0.04414344937336528,0.004166666666666667,True
+positive_slow,uniform_eventwise,fixed_start_mixture,250,0,0.0,472.196,2359.592,,,0,0.02168400287843423,0.004166666666666667,True
+positive_slow,uniform_eventwise,full_stream,250,0,0.0,472.196,2359.592,,,0,0.02168400287843423,0.004166666666666667,True

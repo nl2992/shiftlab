@@ -1,0 +1,2 @@
+method,delay_profile,monitor_variant,streams,false_escalations,alarm_rate,one_sided_95_upper,gate_pass,mean_labels_queried,mean_events_updated,cap_violations,pending_labels_total
+evidence_a0p025_p0p5_eventwise,fixed12,full_stream,2000,9,0.0045,0.007839446211579703,True,139.278,2400.0,0,0

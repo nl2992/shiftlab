@@ -102,6 +102,33 @@ full-feedback Hoeffding e-process across stationary, benign nuisance, localized 
 residual-variance, recurring-regime, and deliberately harmful-adaptation settings. This is a
 reproducible baseline study, not a claim of a new method; see the [closest prior-work audit](docs/closest_prior_work.md).
 
+The latest delayed-PPI assumption screen stresses persistent outcome signs and outcome-dependent
+label delays. It confirms that the conditional-mean null is materially stronger than a zero
+marginal mean, and that informative delays change evidence availability without changing the
+event-time process when only the resolved prefix is monitored. The [protocol](docs/delayed_ppi_persistent_sign_stress_protocol.md),
+[results](docs/delayed_ppi_persistent_sign_stress_results.md), and checksummed CUDA artifacts
+under `outputs/delayed_ppi_assumption_stress_2000_registered/` make the scope explicit.
+The follow-up used the actual history-adaptive replay under outcome-dependent label delays. Eleven
+of twelve simultaneous calibration cells passed; one fixed-12-delay cell had a 5.66% upper limit.
+A disjoint 2,000-stream replication of that cell had 9 alarms (0.45%, exact one-sided 95% upper
+0.784%) and cleared its single-cell calibration gate. A subsequent disjoint fixed-delay harm
+confirmation found 8.2% detection versus 4.1% for uniform querying, with 301.9 fewer labels on
+average; the paired 95% interval was [+2.2, +6.1] points. These results cover one synthetic harm
+profile. See the [null replication](docs/delayed_ppi_adaptive_fixed12_replication_results.md),
+[harm protocol](docs/delayed_ppi_adaptive_fixed12_harm_confirmation_protocol.md),
+[harm results](docs/delayed_ppi_adaptive_fixed12_harm_confirmation_results.md), and
+[artifacts](outputs/delayed_ppi_adaptive_fixed12_harm_confirmation_1000/).
+
+The follow-up registered dose-by-onset grid did not support a broad advantage for the evidence-directed query rule: the equal-weight detection difference was -0.17 points (95% seed-cluster interval [-2.33, +2.06]), with 282 fewer labels on average but a 17-point loss for early, strong harm. Benefits were concentrated in selected middle-onset settings, so the broad nomination gate failed. See the [grid report](docs/delayed_ppi_fixed12_dose_onset_grid_results.md), [protocol](docs/delayed_ppi_fixed12_dose_onset_grid_protocol.md), and checksummed outputs at `outputs/delayed_ppi_fixed12_dose_onset_grid_200/`.
+
+A predictable convex blend of the evidence-directed query propensity with uniform querying was then screened at 25%, 50%, and 75% uniform weight on fresh seeds. None cleared the fixed nomination gate: the 25% blend had a +0.22-point macro detection difference versus uniform (95% seed-cluster interval [-1.78, +2.33]) and saved 208.5 labels, but no blend had a positive lower interval bound. Blending reduced the early/strong-harm worst-cell loss, while also shrinking label savings. This branch is not selected for confirmation. See the [blend report](docs/delayed_ppi_uniform_mixture_grid_results.md), [protocol](docs/delayed_ppi_uniform_mixture_grid_protocol.md), and checksummed outputs at `outputs/delayed_ppi_uniform_mixture_grid_100/`.
+
+The first retrospective CRSP decision-policy pilot used a train-only CUDA Ridge model and compared its long/flat decisions with a same-date market-direction rule on 40,557 test events from 30 test-period PERMNOs sampled indirectly from a 100-name training-selected cohort. Candidate-minus-reference capped cost was negative at all imposed turnover charges (for 5 bps, -0.000558 per event; 95% date-block interval [-0.000912, -0.000202]); the Ridge model's RMSE was slightly worse than the training-mean predictor. This is an exploratory result under a capped, imposed utility and retrospective daily-close clock, not a trading or anytime-valid claim. See the [protocol](docs/crsp_decision_policy_replay_protocol.md), [results](docs/crsp_decision_policy_replay_results.md), and aggregate-only artifacts in `outputs/crsp_policy_replay_pilot_100/`.
+
+The subsequent full-cohort retrospective monitor comparison applies one pooled, train-only CUDA Ridge policy to all 7.62 million test events from 7,350 PERMNOs. At 5 bps imposed turnover cost, candidate-minus-reference cost was -0.000336 per event (two-way PERMNO-cluster × 20-date-block 95% descriptive interval [-0.000655, -0.000041]); this is still a historical, utility-dependent comparison. Paired-cost CUSUM and the bounded e-process did not cross their thresholds; predictive-loss CUSUM crossed in March 2020, while sampled feature MMD had weak ranking for next-20-date positive-cost windows (AUROC 0.551). The future-window labels are hindsight-only, and the CRSP path cannot verify conditional-mean assumptions or release times. See the [frozen protocol](docs/crsp_monitor_comparison_protocol.md), [full report](docs/crsp_monitor_comparison_results.md), runner `scripts/evaluate_crsp_monitor_comparison.py`, and aggregate outputs under `outputs/crsp_monitor_comparison_full/`.
+
+A matched replay then compared four existing bounded-mean e-processes on the same 1,507 daily CRSP paired-cost increments. Fixed mixture, predictable Kelly, plug-in empirical Bernstein, and a uniform eight-start mixture all remained far below the `log(20)` threshold. Predictable Kelly had the highest AUROC for hindsight next-20-date positive-cost windows (0.491), still near chance; all methods had average precision below the 42.2% positive-window prevalence. The uniform-start mixture’s narrow synthetic gain did not transfer to this CRSP diagnostic. This does not establish e-process validity or a false-alarm rate on CRSP. See the [protocol](docs/crsp_eprocess_candidate_replay_protocol.md), [results](docs/crsp_eprocess_candidate_replay_results.md), runner `scripts/replay_crsp_eprocess_candidates.py`, and aggregate output `outputs/crsp_eprocess_candidate_replay/`.
+
 The subsequent target-scout work has a separate frozen protocol and evidence trail. On the
 registered abrupt context-prevalence grid, the eventwise-propensity-bound scout passed an
 independent null calibration and fresh positive-signal confirmation. A development-only Markov

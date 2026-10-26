@@ -1,0 +1,91 @@
+{
+  "experiment": "CRSP retrospective replay of established bounded-mean e-process candidates",
+  "input_directory": "outputs/crsp_monitor_comparison_full",
+  "input_trajectory_sha256": "78a1afad69d6ae0abed990127dd3262dcae2ead022ea328f0bc31de4fea89874",
+  "input_checksum_file_sha256": "fdfcaf829f7104aa4d9e35df54f94458ada357ccdcdcd8f8d8c0ea3dd168025f",
+  "protocol_sha256": "01b9b34f6e40f235fc9fc7d0e1516676a6fa1a0f31713163c140e1f3869a5229",
+  "dates": [
+    "2020-01-02",
+    "2025-12-30"
+  ],
+  "test_dates": 1507,
+  "turnover_cost_bps": 5,
+  "daily_increment": "cross-sectional mean paired candidate-minus-reference capped cost for each CRSP date",
+  "bound": 0.202,
+  "alpha": 0.05,
+  "start_mixture": {
+    "component_count": 8,
+    "start_indices": [
+      0,
+      188,
+      377,
+      565,
+      754,
+      942,
+      1130,
+      1319
+    ],
+    "weights": "equal and fixed before replay"
+  },
+  "future_harm_label": "evaluator-only positive mean paired cost over the next 20 test dates; overlapping hindsight labels",
+  "monitors": [
+    {
+      "monitor": "fixed_stake_mixture",
+      "alpha_threshold_log_e": 2.995732273553991,
+      "first_crossing_date": null,
+      "crossing_fraction_of_test_dates": 0.0,
+      "maximum_log_e_value": 0.0621629489056128,
+      "auroc_for_next_20_date_harm": 0.41297650207988845,
+      "average_precision_for_next_20_date_harm": 0.3647072683358478,
+      "positive_harm_windows": 628,
+      "updates": 1507,
+      "interpretation": "retrospective diagnostic; e-process assumptions unverified on CRSP"
+    },
+    {
+      "monitor": "predictable_kelly",
+      "alpha_threshold_log_e": 2.995732273553991,
+      "first_crossing_date": null,
+      "crossing_fraction_of_test_dates": 0.0,
+      "maximum_log_e_value": 0.04540492905526616,
+      "auroc_for_next_20_date_harm": 0.49060342718165845,
+      "average_precision_for_next_20_date_harm": 0.40524383449981677,
+      "positive_harm_windows": 628,
+      "updates": 1507,
+      "interpretation": "retrospective diagnostic; e-process assumptions unverified on CRSP"
+    },
+    {
+      "monitor": "plug_in_empirical_bernstein",
+      "alpha_threshold_log_e": 2.995732273553991,
+      "first_crossing_date": null,
+      "crossing_fraction_of_test_dates": 0.0,
+      "maximum_log_e_value": 0.04955672853289142,
+      "auroc_for_next_20_date_harm": 0.41330090536322045,
+      "average_precision_for_next_20_date_harm": 0.3646718878773354,
+      "positive_harm_windows": 628,
+      "updates": 1507,
+      "interpretation": "retrospective diagnostic; e-process assumptions unverified on CRSP"
+    },
+    {
+      "monitor": "uniform_eight_start_mixture",
+      "alpha_threshold_log_e": 2.995732273553991,
+      "first_crossing_date": null,
+      "crossing_fraction_of_test_dates": 0.0,
+      "maximum_log_e_value": 0.007985001148627102,
+      "auroc_for_next_20_date_harm": 0.41712886410653777,
+      "average_precision_for_next_20_date_harm": 0.3659316180003067,
+      "positive_harm_windows": 628,
+      "updates": 1507,
+      "interpretation": "retrospective diagnostic; e-process assumptions unverified on CRSP"
+    }
+  ],
+  "limitations": [
+    "All methods replay one dependent historical sequence and share the same fixed policy and daily paired-cost increments.",
+    "The conditional-on-past mean null, per-date independence/dependence structure, and CRSP release times are not established; crossing frequencies are not false-alarm rates.",
+    "Start locations use the registered fixed full test horizon and are not adapted to observed costs.",
+    "Future-harm labels are used only for retrospective ranking and do not establish prospective detection quality.",
+    "The bound is intentionally kept equal to the preceding CRSP fixed-mixture diagnostic to preserve comparability, though a tighter paired-action-specific bound may be possible after a separate audit.",
+    "These are established e-process constructions; no novelty, real-data validity, or deployment claim is made."
+  ],
+  "source_sha256": "69d7f5a45e1b551264d26116138e2bf99113cd42ac49ecc2731907dd55eab224",
+  "created_utc": "2026-10-26T01:22:43.496570+00:00"
+}

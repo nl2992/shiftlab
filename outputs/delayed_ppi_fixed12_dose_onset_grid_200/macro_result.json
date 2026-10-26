@@ -1,0 +1,12 @@
+{
+  "design_cells": 9,
+  "seed_clusters": 200,
+  "equal_weight_macro_detection_difference": -0.0016666666666666657,
+  "seed_cluster_bootstrap_95_low": -0.023333333333333338,
+  "seed_cluster_bootstrap_95_high": 0.020555555555555553,
+  "equal_weight_macro_label_difference": -282.4194444444444,
+  "label_seed_cluster_bootstrap_95_low": -290.6761388888889,
+  "label_seed_cluster_bootstrap_95_high": -273.7920833333333,
+  "worst_cell_detection_difference": -0.17,
+  "development_nomination_gate": false
+}

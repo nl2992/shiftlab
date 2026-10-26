@@ -74,6 +74,12 @@ shiftlab-dive-delayed-evidence-ppi-markov-confirm = "shiftlab.dive.delayed_evide
 shiftlab-dive-delayed-evidence-ppi-start-grid = "shiftlab.dive.delayed_evidence_ppi_start_mixture:main"
 shiftlab-dive-delayed-evidence-ppi-start-calibrate = "shiftlab.dive.delayed_evidence_ppi_start_mixture_calibration:main"
 shiftlab-dive-delayed-evidence-ppi-start-confirm = "shiftlab.dive.delayed_evidence_ppi_start_mixture_confirmation:main"
+shiftlab-dive-delayed-ppi-assumption-stress = "shiftlab.dive.delayed_ppi_assumption_stress:main"
+shiftlab-dive-delayed-ppi-adaptive-informative-calibrate = "shiftlab.dive.delayed_ppi_adaptive_informative_delay:main"
+shiftlab-dive-delayed-ppi-fixed12-replicate = "shiftlab.dive.delayed_ppi_adaptive_fixed12_replication:main"
+shiftlab-dive-delayed-ppi-fixed12-confirm = "shiftlab.dive.delayed_ppi_adaptive_fixed12_harm_confirmation:main"
+shiftlab-dive-delayed-ppi-fixed12-dose-onset-grid = "shiftlab.dive.delayed_ppi_fixed12_dose_onset_grid:main"
+shiftlab-dive-delayed-ppi-uniform-mixture-grid = "shiftlab.dive.delayed_ppi_uniform_mixture_grid:main"
 shiftlab-dive-start-prior-sweep = "shiftlab.dive.start_prior_sweep:main"
 shiftlab-dive-start-prior-validation = "shiftlab.dive.start_prior_validation:main"
 shiftlab-dive-start-prior-robustness = "shiftlab.dive.start_prior_robustness:main"
@@ -85,6 +91,7 @@ shiftlab-dive-risk-proxy-stress = "shiftlab.dive.risk_proxy_stress_grid:main"
 shiftlab-dive-risk-proxy-stress-analyze = "shiftlab.dive.analyze_risk_proxy_stress_grid:main"
 shiftlab-dive-risk-proxy-monitor-grid = "shiftlab.dive.risk_proxy_monitor_grid:main"
 shiftlab-dive-risk-proxy-monitor-confirm = "shiftlab.dive.risk_proxy_monitor_confirmation:main"
+shiftlab-dive-residual-variance-pva-grid = "shiftlab.dive.residual_variance_pva_grid:main"
 
 [tool.pytest.ini_options]
 pythonpath = [".", "src"]

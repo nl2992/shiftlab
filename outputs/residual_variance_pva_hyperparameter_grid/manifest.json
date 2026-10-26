@@ -1,0 +1,612 @@
+{
+  "experiment": "residual-variance PVA prior and stake-cap development grid",
+  "config": {
+    "seeds": 60,
+    "seed_offset": 31304000,
+    "n": 2400,
+    "d": 16,
+    "device": "cuda",
+    "batch_streams": 60
+  },
+  "risk_proxy_config": {
+    "n": 2400,
+    "d": 16,
+    "null_seeds": 2,
+    "alternative_seeds": 60,
+    "seed_offset": 31304000,
+    "alpha": 0.05,
+    "harm_margin": 0.1,
+    "max_label_cost": 2.5,
+    "device": "cuda"
+  },
+  "severities": [
+    1.5,
+    3.0,
+    4.5
+  ],
+  "query_rates": [
+    0.8,
+    1.0
+  ],
+  "pva_configurations": [
+    {
+      "prior_strength": 1.0,
+      "prior_mean": 0.0,
+      "prior_second_moment": 0.05,
+      "max_stake": 0.25
+    },
+    {
+      "prior_strength": 1.0,
+      "prior_mean": 0.0,
+      "prior_second_moment": 0.05,
+      "max_stake": 0.5
+    },
+    {
+      "prior_strength": 1.0,
+      "prior_mean": 0.0,
+      "prior_second_moment": 0.05,
+      "max_stake": 0.8
+    },
+    {
+      "prior_strength": 1.0,
+      "prior_mean": 0.0,
+      "prior_second_moment": 0.25,
+      "max_stake": 0.25
+    },
+    {
+      "prior_strength": 1.0,
+      "prior_mean": 0.0,
+      "prior_second_moment": 0.25,
+      "max_stake": 0.5
+    },
+    {
+      "prior_strength": 1.0,
+      "prior_mean": 0.0,
+      "prior_second_moment": 0.25,
+      "max_stake": 0.8
+    },
+    {
+      "prior_strength": 1.0,
+      "prior_mean": 0.0,
+      "prior_second_moment": 0.75,
+      "max_stake": 0.25
+    },
+    {
+      "prior_strength": 1.0,
+      "prior_mean": 0.0,
+      "prior_second_moment": 0.75,
+      "max_stake": 0.5
+    },
+    {
+      "prior_strength": 1.0,
+      "prior_mean": 0.0,
+      "prior_second_moment": 0.75,
+      "max_stake": 0.8
+    },
+    {
+      "prior_strength": 1.0,
+      "prior_mean": 0.05,
+      "prior_second_moment": 0.05,
+      "max_stake": 0.25
+    },
+    {
+      "prior_strength": 1.0,
+      "prior_mean": 0.05,
+      "prior_second_moment": 0.05,
+      "max_stake": 0.5
+    },
+    {
+      "prior_strength": 1.0,
+      "prior_mean": 0.05,
+      "prior_second_moment": 0.05,
+      "max_stake": 0.8
+    },
+    {
+      "prior_strength": 1.0,
+      "prior_mean": 0.05,
+      "prior_second_moment": 0.25,
+      "max_stake": 0.25
+    },
+    {
+      "prior_strength": 1.0,
+      "prior_mean": 0.05,
+      "prior_second_moment": 0.25,
+      "max_stake": 0.5
+    },
+    {
+      "prior_strength": 1.0,
+      "prior_mean": 0.05,
+      "prior_second_moment": 0.25,
+      "max_stake": 0.8
+    },
+    {
+      "prior_strength": 1.0,
+      "prior_mean": 0.05,
+      "prior_second_moment": 0.75,
+      "max_stake": 0.25
+    },
+    {
+      "prior_strength": 1.0,
+      "prior_mean": 0.05,
+      "prior_second_moment": 0.75,
+      "max_stake": 0.5
+    },
+    {
+      "prior_strength": 1.0,
+      "prior_mean": 0.05,
+      "prior_second_moment": 0.75,
+      "max_stake": 0.8
+    },
+    {
+      "prior_strength": 1.0,
+      "prior_mean": 0.1,
+      "prior_second_moment": 0.05,
+      "max_stake": 0.25
+    },
+    {
+      "prior_strength": 1.0,
+      "prior_mean": 0.1,
+      "prior_second_moment": 0.05,
+      "max_stake": 0.5
+    },
+    {
+      "prior_strength": 1.0,
+      "prior_mean": 0.1,
+      "prior_second_moment": 0.05,
+      "max_stake": 0.8
+    },
+    {
+      "prior_strength": 1.0,
+      "prior_mean": 0.1,
+      "prior_second_moment": 0.25,
+      "max_stake": 0.25
+    },
+    {
+      "prior_strength": 1.0,
+      "prior_mean": 0.1,
+      "prior_second_moment": 0.25,
+      "max_stake": 0.5
+    },
+    {
+      "prior_strength": 1.0,
+      "prior_mean": 0.1,
+      "prior_second_moment": 0.25,
+      "max_stake": 0.8
+    },
+    {
+      "prior_strength": 1.0,
+      "prior_mean": 0.1,
+      "prior_second_moment": 0.75,
+      "max_stake": 0.25
+    },
+    {
+      "prior_strength": 1.0,
+      "prior_mean": 0.1,
+      "prior_second_moment": 0.75,
+      "max_stake": 0.5
+    },
+    {
+      "prior_strength": 1.0,
+      "prior_mean": 0.1,
+      "prior_second_moment": 0.75,
+      "max_stake": 0.8
+    },
+    {
+      "prior_strength": 4.0,
+      "prior_mean": 0.0,
+      "prior_second_moment": 0.05,
+      "max_stake": 0.25
+    },
+    {
+      "prior_strength": 4.0,
+      "prior_mean": 0.0,
+      "prior_second_moment": 0.05,
+      "max_stake": 0.5
+    },
+    {
+      "prior_strength": 4.0,
+      "prior_mean": 0.0,
+      "prior_second_moment": 0.05,
+      "max_stake": 0.8
+    },
+    {
+      "prior_strength": 4.0,
+      "prior_mean": 0.0,
+      "prior_second_moment": 0.25,
+      "max_stake": 0.25
+    },
+    {
+      "prior_strength": 4.0,
+      "prior_mean": 0.0,
+      "prior_second_moment": 0.25,
+      "max_stake": 0.5
+    },
+    {
+      "prior_strength": 4.0,
+      "prior_mean": 0.0,
+      "prior_second_moment": 0.25,
+      "max_stake": 0.8
+    },
+    {
+      "prior_strength": 4.0,
+      "prior_mean": 0.0,
+      "prior_second_moment": 0.75,
+      "max_stake": 0.25
+    },
+    {
+      "prior_strength": 4.0,
+      "prior_mean": 0.0,
+      "prior_second_moment": 0.75,
+      "max_stake": 0.5
+    },
+    {
+      "prior_strength": 4.0,
+      "prior_mean": 0.0,
+      "prior_second_moment": 0.75,
+      "max_stake": 0.8
+    },
+    {
+      "prior_strength": 4.0,
+      "prior_mean": 0.05,
+      "prior_second_moment": 0.05,
+      "max_stake": 0.25
+    },
+    {
+      "prior_strength": 4.0,
+      "prior_mean": 0.05,
+      "prior_second_moment": 0.05,
+      "max_stake": 0.5
+    },
+    {
+      "prior_strength": 4.0,
+      "prior_mean": 0.05,
+      "prior_second_moment": 0.05,
+      "max_stake": 0.8
+    },
+    {
+      "prior_strength": 4.0,
+      "prior_mean": 0.05,
+      "prior_second_moment": 0.25,
+      "max_stake": 0.25
+    },
+    {
+      "prior_strength": 4.0,
+      "prior_mean": 0.05,
+      "prior_second_moment": 0.25,
+      "max_stake": 0.5
+    },
+    {
+      "prior_strength": 4.0,
+      "prior_mean": 0.05,
+      "prior_second_moment": 0.25,
+      "max_stake": 0.8
+    },
+    {
+      "prior_strength": 4.0,
+      "prior_mean": 0.05,
+      "prior_second_moment": 0.75,
+      "max_stake": 0.25
+    },
+    {
+      "prior_strength": 4.0,
+      "prior_mean": 0.05,
+      "prior_second_moment": 0.75,
+      "max_stake": 0.5
+    },
+    {
+      "prior_strength": 4.0,
+      "prior_mean": 0.05,
+      "prior_second_moment": 0.75,
+      "max_stake": 0.8
+    },
+    {
+      "prior_strength": 4.0,
+      "prior_mean": 0.1,
+      "prior_second_moment": 0.05,
+      "max_stake": 0.25
+    },
+    {
+      "prior_strength": 4.0,
+      "prior_mean": 0.1,
+      "prior_second_moment": 0.05,
+      "max_stake": 0.5
+    },
+    {
+      "prior_strength": 4.0,
+      "prior_mean": 0.1,
+      "prior_second_moment": 0.05,
+      "max_stake": 0.8
+    },
+    {
+      "prior_strength": 4.0,
+      "prior_mean": 0.1,
+      "prior_second_moment": 0.25,
+      "max_stake": 0.25
+    },
+    {
+      "prior_strength": 4.0,
+      "prior_mean": 0.1,
+      "prior_second_moment": 0.25,
+      "max_stake": 0.5
+    },
+    {
+      "prior_strength": 4.0,
+      "prior_mean": 0.1,
+      "prior_second_moment": 0.25,
+      "max_stake": 0.8
+    },
+    {
+      "prior_strength": 4.0,
+      "prior_mean": 0.1,
+      "prior_second_moment": 0.75,
+      "max_stake": 0.25
+    },
+    {
+      "prior_strength": 4.0,
+      "prior_mean": 0.1,
+      "prior_second_moment": 0.75,
+      "max_stake": 0.5
+    },
+    {
+      "prior_strength": 4.0,
+      "prior_mean": 0.1,
+      "prior_second_moment": 0.75,
+      "max_stake": 0.8
+    },
+    {
+      "prior_strength": 16.0,
+      "prior_mean": 0.0,
+      "prior_second_moment": 0.05,
+      "max_stake": 0.25
+    },
+    {
+      "prior_strength": 16.0,
+      "prior_mean": 0.0,
+      "prior_second_moment": 0.05,
+      "max_stake": 0.5
+    },
+    {
+      "prior_strength": 16.0,
+      "prior_mean": 0.0,
+      "prior_second_moment": 0.05,
+      "max_stake": 0.8
+    },
+    {
+      "prior_strength": 16.0,
+      "prior_mean": 0.0,
+      "prior_second_moment": 0.25,
+      "max_stake": 0.25
+    },
+    {
+      "prior_strength": 16.0,
+      "prior_mean": 0.0,
+      "prior_second_moment": 0.25,
+      "max_stake": 0.5
+    },
+    {
+      "prior_strength": 16.0,
+      "prior_mean": 0.0,
+      "prior_second_moment": 0.25,
+      "max_stake": 0.8
+    },
+    {
+      "prior_strength": 16.0,
+      "prior_mean": 0.0,
+      "prior_second_moment": 0.75,
+      "max_stake": 0.25
+    },
+    {
+      "prior_strength": 16.0,
+      "prior_mean": 0.0,
+      "prior_second_moment": 0.75,
+      "max_stake": 0.5
+    },
+    {
+      "prior_strength": 16.0,
+      "prior_mean": 0.0,
+      "prior_second_moment": 0.75,
+      "max_stake": 0.8
+    },
+    {
+      "prior_strength": 16.0,
+      "prior_mean": 0.05,
+      "prior_second_moment": 0.05,
+      "max_stake": 0.25
+    },
+    {
+      "prior_strength": 16.0,
+      "prior_mean": 0.05,
+      "prior_second_moment": 0.05,
+      "max_stake": 0.5
+    },
+    {
+      "prior_strength": 16.0,
+      "prior_mean": 0.05,
+      "prior_second_moment": 0.05,
+      "max_stake": 0.8
+    },
+    {
+      "prior_strength": 16.0,
+      "prior_mean": 0.05,
+      "prior_second_moment": 0.25,
+      "max_stake": 0.25
+    },
+    {
+      "prior_strength": 16.0,
+      "prior_mean": 0.05,
+      "prior_second_moment": 0.25,
+      "max_stake": 0.5
+    },
+    {
+      "prior_strength": 16.0,
+      "prior_mean": 0.05,
+      "prior_second_moment": 0.25,
+      "max_stake": 0.8
+    },
+    {
+      "prior_strength": 16.0,
+      "prior_mean": 0.05,
+      "prior_second_moment": 0.75,
+      "max_stake": 0.25
+    },
+    {
+      "prior_strength": 16.0,
+      "prior_mean": 0.05,
+      "prior_second_moment": 0.75,
+      "max_stake": 0.5
+    },
+    {
+      "prior_strength": 16.0,
+      "prior_mean": 0.05,
+      "prior_second_moment": 0.75,
+      "max_stake": 0.8
+    },
+    {
+      "prior_strength": 16.0,
+      "prior_mean": 0.1,
+      "prior_second_moment": 0.05,
+      "max_stake": 0.25
+    },
+    {
+      "prior_strength": 16.0,
+      "prior_mean": 0.1,
+      "prior_second_moment": 0.05,
+      "max_stake": 0.5
+    },
+    {
+      "prior_strength": 16.0,
+      "prior_mean": 0.1,
+      "prior_second_moment": 0.05,
+      "max_stake": 0.8
+    },
+    {
+      "prior_strength": 16.0,
+      "prior_mean": 0.1,
+      "prior_second_moment": 0.25,
+      "max_stake": 0.25
+    },
+    {
+      "prior_strength": 16.0,
+      "prior_mean": 0.1,
+      "prior_second_moment": 0.25,
+      "max_stake": 0.5
+    },
+    {
+      "prior_strength": 16.0,
+      "prior_mean": 0.1,
+      "prior_second_moment": 0.25,
+      "max_stake": 0.8
+    },
+    {
+      "prior_strength": 16.0,
+      "prior_mean": 0.1,
+      "prior_second_moment": 0.75,
+      "max_stake": 0.25
+    },
+    {
+      "prior_strength": 16.0,
+      "prior_mean": 0.1,
+      "prior_second_moment": 0.75,
+      "max_stake": 0.5
+    },
+    {
+      "prior_strength": 16.0,
+      "prior_mean": 0.1,
+      "prior_second_moment": 0.75,
+      "max_stake": 0.8
+    }
+  ],
+  "pva_grid_cardinality": 81,
+  "baseline_methods": [
+    "fixed_stake_mixture",
+    "uniform_eight_start_mixture"
+  ],
+  "rows": 29880,
+  "expected_rows": 29880,
+  "device": "cuda",
+  "environment": {
+    "cpu_ram_bytes": 16858472448,
+    "disk_free_bytes": 13172514816,
+    "cuda_available": true,
+    "nvidia_smi": "NVIDIA GeForce RTX 4060 Laptop GPU, 8188 MiB, 592.82, 0 %, 107 MiB",
+    "torch_version": "2.9.1+cu130",
+    "cuda_runtime": "13.0",
+    "gpu_name": "NVIDIA GeForce RTX 4060 Laptop GPU",
+    "gpu_memory_bytes": 8585216000,
+    "versions": {
+      "numpy": "2.5.4",
+      "scipy": "1.18.1",
+      "pandas": "3.0.6",
+      "pyarrow": "25.0.1",
+      "folktables": "0.0.12"
+    }
+  },
+  "seed_ids": [
+    31304000,
+    31304001,
+    31304002,
+    31304003,
+    31304004,
+    31304005,
+    31304006,
+    31304007,
+    31304008,
+    31304009,
+    31304010,
+    31304011,
+    31304012,
+    31304013,
+    31304014,
+    31304015,
+    31304016,
+    31304017,
+    31304018,
+    31304019,
+    31304020,
+    31304021,
+    31304022,
+    31304023,
+    31304024,
+    31304025,
+    31304026,
+    31304027,
+    31304028,
+    31304029,
+    31304030,
+    31304031,
+    31304032,
+    31304033,
+    31304034,
+    31304035,
+    31304036,
+    31304037,
+    31304038,
+    31304039,
+    31304040,
+    31304041,
+    31304042,
+    31304043,
+    31304044,
+    31304045,
+    31304046,
+    31304047,
+    31304048,
+    31304049,
+    31304050,
+    31304051,
+    31304052,
+    31304053,
+    31304054,
+    31304055,
+    31304056,
+    31304057,
+    31304058,
+    31304059
+  ],
+  "protocol_sha256": "a890f010996915154142ce0e6e4246a69a187d638422807246856e27a031e7cc",
+  "source_sha256": "c13652676a6127c2a4b5e3bac7d896ad71f738eb11966d9722fd9a444655583b",
+  "eprocess_source_sha256": "a9355d3883118ed32039feafe0db0b01fd8824dfbaed2e3d70e6710964565d41",
+  "generator_source_sha256": "20b2d03d6756fe9715792a5d4002520c07fd623ba0ad7f41f7c52a77217ee2fc",
+  "created_utc": "2026-10-26T01:31:42.440285+00:00",
+  "interpretation": "alternative-only hyperparameter development screen after a broad grid search; no null calibration, confirmation, inferential winner, or novelty claim"
+}

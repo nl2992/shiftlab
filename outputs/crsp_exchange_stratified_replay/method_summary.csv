@@ -1,0 +1,3 @@
+method,exchange_mixture_first_crossing_date,exchange_mixture_crossing_fraction,exchange_mixture_max_log_e,first_bonferroni_subgroup_crossing,subgroup_log_e_threshold_alpha_over_6,pooled_auroc_next_20_date_harm,pooled_average_precision_next_20_date_harm,pooled_positive_harm_windows,updates_per_exchange,interpretation
+fixed_stake_mixture,,0.0,0.03111838238909459,False,4.787491742782046,0.504267690600513,0.37123657932448495,2318,1507,exploratory retrospective replay; no CRSP error-control claim
+uniform_eight_start_mixture,,0.0,0.38446052668820274,False,4.787491742782046,0.5082448578004622,0.4090664612947887,2318,1507,exploratory retrospective replay; no CRSP error-control claim

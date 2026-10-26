@@ -1,0 +1,5 @@
+monitor,alpha_threshold_log_e,first_crossing_date,crossing_fraction_of_test_dates,maximum_log_e_value,auroc_for_next_20_date_harm,average_precision_for_next_20_date_harm,positive_harm_windows,updates,interpretation
+fixed_stake_mixture,2.995732273553991,,0.0,0.0621629489056128,0.41297650207988845,0.3647072683358478,628,1507,retrospective diagnostic; e-process assumptions unverified on CRSP
+predictable_kelly,2.995732273553991,,0.0,0.04540492905526616,0.49060342718165845,0.40524383449981677,628,1507,retrospective diagnostic; e-process assumptions unverified on CRSP
+plug_in_empirical_bernstein,2.995732273553991,,0.0,0.04955672853289142,0.41330090536322045,0.3646718878773354,628,1507,retrospective diagnostic; e-process assumptions unverified on CRSP
+uniform_eight_start_mixture,2.995732273553991,,0.0,0.007985001148627102,0.41712886410653777,0.3659316180003067,628,1507,retrospective diagnostic; e-process assumptions unverified on CRSP

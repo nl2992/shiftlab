@@ -1,0 +1,188 @@
+{
+  "experiment": "CRSP full-cohort retrospective decision-harm monitor comparison",
+  "dataset": "crsp_ciz_next_day",
+  "dataset_version": "5211412140dcb86f08f9",
+  "dataset_manifest_sha256": "58f3ab8e656fa3ab896410c0071e72131b96b8f3a08dbb016ed409ff5513d133",
+  "observations_sha256": "a5bd25cbd9a6059f2653eca58c6316351a9237748cdf5521c18d18c0a76993a3",
+  "protocol_sha256": "1cf67e9233d19b713b514cb775da3d1ac2832f15538c8645f77b1ef1002bbfbc",
+  "seed": 20261025,
+  "cohort_rule": "all panel test-split observations; one global model fit on all train rows; no test sampling",
+  "rows_by_split": {
+    "train": 19662345,
+    "calibration": 2178352,
+    "test": 7621543
+  },
+  "test_permnos": 7350,
+  "test_dates": [
+    "2020-01-02",
+    "2025-12-30"
+  ],
+  "model": "standardized Ridge(alpha=1), train-only exact median imputation and scaling",
+  "model_device": "cuda",
+  "candidate_policy": "long when train-only Ridge next-observed-return prediction is positive",
+  "reference_policy": "long when same-date CRSP vwretd is positive",
+  "primary_turnover_cost_bps": 5,
+  "primary_event_weighted_excess_cost": -0.0003356795488787507,
+  "primary_two_way_cluster_date_block_interval_95": [
+    -0.0006550257844851574,
+    -4.146642324048049e-05
+  ],
+  "uncertainty": {
+    "method": "product bootstrap: PERMNO resampling times circular 20-trading-date block resampling",
+    "replicates": 2000,
+    "interpretation": "descriptive fixed-policy retrospective interval; does not account for model refitting uncertainty"
+  },
+  "split_policy_cost_metrics": [
+    {
+      "split": "calibration",
+      "turnover_cost_bps": 0,
+      "events": 2178352,
+      "permnos": 4858,
+      "trading_dates": 502,
+      "event_weighted_mean_excess_cost": 7.73062250728991e-06,
+      "date_equal_weighted_mean_excess_cost": 6.701475502683492e-06,
+      "candidate_long_rate": 0.51663505255349,
+      "reference_long_rate": 0.5615644303583627
+    },
+    {
+      "split": "calibration",
+      "turnover_cost_bps": 5,
+      "events": 2178352,
+      "permnos": 4858,
+      "trading_dates": 502,
+      "event_weighted_mean_excess_cost": -2.090340909090911e-05,
+      "date_equal_weighted_mean_excess_cost": -2.1989469813224412e-05,
+      "candidate_long_rate": 0.51663505255349,
+      "reference_long_rate": 0.5615644303583627
+    },
+    {
+      "split": "calibration",
+      "turnover_cost_bps": 10,
+      "events": 2178352,
+      "permnos": 4858,
+      "trading_dates": 502,
+      "event_weighted_mean_excess_cost": -4.953744068910813e-05,
+      "date_equal_weighted_mean_excess_cost": -5.068041512912521e-05,
+      "candidate_long_rate": 0.51663505255349,
+      "reference_long_rate": 0.5615644303583627
+    },
+    {
+      "split": "calibration",
+      "turnover_cost_bps": 25,
+      "events": 2178352,
+      "permnos": 4858,
+      "trading_dates": 502,
+      "event_weighted_mean_excess_cost": -0.00013543953548370512,
+      "date_equal_weighted_mean_excess_cost": -0.0001367532510768429,
+      "candidate_long_rate": 0.51663505255349,
+      "reference_long_rate": 0.5615644303583627
+    },
+    {
+      "split": "test",
+      "turnover_cost_bps": 0,
+      "events": 7621543,
+      "permnos": 7350,
+      "trading_dates": 1507,
+      "event_weighted_mean_excess_cost": -0.00028519725152767624,
+      "date_equal_weighted_mean_excess_cost": -0.00030580668860132477,
+      "candidate_long_rate": 0.5362259322029673,
+      "reference_long_rate": 0.5418978807834581
+    },
+    {
+      "split": "test",
+      "turnover_cost_bps": 5,
+      "events": 7621543,
+      "permnos": 7350,
+      "trading_dates": 1507,
+      "event_weighted_mean_excess_cost": -0.0003356795488787507,
+      "date_equal_weighted_mean_excess_cost": -0.0003569743440154855,
+      "candidate_long_rate": 0.5362259322029673,
+      "reference_long_rate": 0.5418978807834581
+    },
+    {
+      "split": "test",
+      "turnover_cost_bps": 10,
+      "events": 7621543,
+      "permnos": 7350,
+      "trading_dates": 1507,
+      "event_weighted_mean_excess_cost": -0.0003861618462298252,
+      "date_equal_weighted_mean_excess_cost": -0.0004081419994296328,
+      "candidate_long_rate": 0.5362259322029673,
+      "reference_long_rate": 0.5418978807834581
+    },
+    {
+      "split": "test",
+      "turnover_cost_bps": 25,
+      "events": 7621543,
+      "permnos": 7350,
+      "trading_dates": 1507,
+      "event_weighted_mean_excess_cost": -0.0005376087382830485,
+      "date_equal_weighted_mean_excess_cost": -0.0005616449656720956,
+      "candidate_long_rate": 0.5362259322029673,
+      "reference_long_rate": 0.5418978807834581
+    }
+  ],
+  "monitor_comparison": [
+    {
+      "monitor": "paired_cost_cusum",
+      "threshold": 81.71729494185422,
+      "first_crossing_date": null,
+      "crossing_fraction_of_test_dates": 0.0,
+      "maximum_score": 27.138177084684116,
+      "threshold_status": "empirical calibration-period diagnostic threshold; no error guarantee",
+      "auc_for_next_20_date_harm": 0.4218410535135656,
+      "average_precision_for_next_20_date_harm": 0.3645046034640558,
+      "positive_harm_windows": 628
+    },
+    {
+      "monitor": "bounded_excess_cost_log_e",
+      "threshold": 2.995732273553991,
+      "first_crossing_date": null,
+      "crossing_fraction_of_test_dates": 0.0,
+      "maximum_score": 0.0621629489056128,
+      "threshold_status": "conditional-mean e-process threshold; validity assumptions unverified on CRSP",
+      "auc_for_next_20_date_harm": 0.41297650207988845,
+      "average_precision_for_next_20_date_harm": 0.3647072683358478,
+      "positive_harm_windows": 628
+    },
+    {
+      "monitor": "predictive_loss_cusum",
+      "threshold": 245.3319144304735,
+      "first_crossing_date": "2020-03-20",
+      "crossing_fraction_of_test_dates": 0.9641672196416722,
+      "maximum_score": 2646.3651564903903,
+      "threshold_status": "empirical calibration-period diagnostic threshold; no error guarantee",
+      "auc_for_next_20_date_harm": 0.5047158968731231,
+      "average_precision_for_next_20_date_harm": 0.43090031250602145,
+      "positive_harm_windows": 628
+    },
+    {
+      "monitor": "rbf_mmd_squared",
+      "threshold": 0.08550709967887826,
+      "first_crossing_date": "2020-03-27",
+      "crossing_fraction_of_test_dates": 0.15925680159256803,
+      "maximum_score": 0.39331219972722714,
+      "threshold_status": "empirical calibration-period diagnostic threshold; no error guarantee",
+      "auc_for_next_20_date_harm": 0.5505285552822285,
+      "average_precision_for_next_20_date_harm": 0.4881209888712934,
+      "positive_harm_windows": 623
+    }
+  ],
+  "future_harm_forecast_definition": "evaluator-only indicator that mean paired candidate-minus-reference cost over the next 20 test dates is positive; overlapping hindsight labels, not a validated online target",
+  "calibration": {
+    "split": "2018-2019 calibration rows, with the train-only policy frozen",
+    "cusum_threshold": "95th percentile of 2,000 circular 20-date block bootstrap maxima over a test-length horizon; empirical only",
+    "mmd_reference": "first 20 calibration dates, uniformly sampled up to 256 rows; threshold is the 95th percentile of nonoverlapping calibration-window MMD\u00b2 values",
+    "eprocess": "bounded daily mean excess cost, epsilon=0, alpha=.05; bound 0.20 + 4*fee from clipped-return and binary-turnover envelope"
+  },
+  "limitations": [
+    "The CRSP panel supplies one retrospective historical path, not independent null or harm episodes.",
+    "CUSUM and MMD calibration thresholds are empirical diagnostics; calibration-period stationarity is unverified.",
+    "The bounded e-process guarantee requires the stated conditional-on-past harm null, predictable frozen actions, complete outcomes, and correct bound; CRSP dependence and historical release times do not establish these assumptions.",
+    "Date order is retrospective close-date order; label release times are not verified.",
+    "Future-harm labels use outcomes only for evaluator-side retrospective ranking and cannot support a prospective alarm guarantee.",
+    "Utility clips simple returns at 10 percent and applies imposed turnover charges; it is not a brokerage cost model."
+  ],
+  "script_sha256": "e94ecf350a3ba31686b609b59209176037739efacbc595fecbac704ad738a9f3",
+  "created_utc": "2026-10-26T01:18:42.399618+00:00"
+}

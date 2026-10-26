@@ -4,3 +4,4 @@ repos:
     hooks:
       - id: ruff-check
       - id: ruff-format
+        exclude: ^outputs/.+\.py$

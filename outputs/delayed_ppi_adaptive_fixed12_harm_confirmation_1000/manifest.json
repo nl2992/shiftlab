@@ -1,0 +1,86 @@
+{
+  "experiment": "adaptive_ppi_fixed12_boundary_harm_confirmation",
+  "config": {
+    "seeds": 1000,
+    "seed_offset": 20430000,
+    "n_source": 1200,
+    "n_target": 2400,
+    "budget_rate": 0.2,
+    "alpha": 0.05,
+    "epsilon": 0.05,
+    "q_min": 0.05,
+    "q_max": 0.8,
+    "amplitude": 1.0,
+    "harm_shift": 0.2,
+    "onset_fraction": 0.5,
+    "max_delay": 12,
+    "benign_amplitude": 0.55,
+    "device": "cuda"
+  },
+  "scenario": "boundary_harm",
+  "delay_profile": "fixed12",
+  "candidate": "evidence_a0p025_p0p5_eventwise",
+  "reference": "uniform_eventwise",
+  "rows": 2000,
+  "seed_range": [
+    20430000,
+    20430999
+  ],
+  "calibration_manifest_sha256": "f7229fb5b8a48ffd2470aeac9d30a6148d9e07540932db12dea736e0c8ccd084",
+  "protocol_sha256": "adc0e20e148bbc0d9cd25bdc310de05201f2adaae65da93503afd9cd7c95e9db",
+  "source_hashes": {
+    "confirmation": "433aa1502af6847fda1f5858c08a265e45d76aa7c609f1a7f2ece4044f2a770d",
+    "stream_generator": "356a8f6cb5ffebbfd39ebb2e57c414e28714d5cbc2ff60a26cf96a39cfd84267"
+  },
+  "runtime": {
+    "cpu_ram_bytes": 16858472448,
+    "disk_free_bytes": 19581730816,
+    "cuda_available": true,
+    "nvidia_smi": "NVIDIA GeForce RTX 4060 Laptop GPU, 8188 MiB, 592.82, 0 %, 107 MiB",
+    "torch_version": "2.9.1+cu130",
+    "cuda_runtime": "13.0",
+    "gpu_name": "NVIDIA GeForce RTX 4060 Laptop GPU",
+    "gpu_memory_bytes": 8585216000,
+    "versions": {
+      "numpy": "2.5.4",
+      "scipy": "1.18.1",
+      "pandas": "3.0.6",
+      "pyarrow": "25.0.1",
+      "folktables": "0.0.12"
+    }
+  },
+  "resolved_device": "cuda",
+  "workers": 4,
+  "chunks": 4,
+  "result": {
+    "streams": 1000,
+    "candidate": "evidence_a0p025_p0p5_eventwise",
+    "reference": "uniform_eventwise",
+    "candidate_post_onset_detection_rate": 0.082,
+    "uniform_post_onset_detection_rate": 0.041,
+    "paired_detection_difference": 0.041,
+    "paired_detection_ci95_low": 0.022,
+    "paired_detection_ci95_high": 0.061,
+    "candidate_only_detections": 69,
+    "uniform_only_detections": 28,
+    "mcnemar_one_sided_p": 1.9018974028776726e-05,
+    "candidate_mean_labels": 169.867,
+    "uniform_mean_labels": 471.746,
+    "paired_label_difference": -301.879,
+    "paired_label_ci95_low": -306.60605,
+    "paired_label_ci95_high": -296.96195,
+    "candidate_mean_events": 2400.0,
+    "uniform_mean_events": 2360.697,
+    "pre_onset_candidate_alarms": 6,
+    "candidate_mean_event_delay_after_onset": 777.7439024390244,
+    "candidate_mean_wall_delay_after_onset": 789.6463414634146,
+    "gate_pass": true
+  },
+  "invariants_pass": true,
+  "limitations": [
+    "One boundary-harm effect and onset under fixed 12-event delays only.",
+    "Alarm detection is not direct evidence of prevented decision harm.",
+    "Both query and monitor procedures are established; no novelty claim is made."
+  ],
+  "created_utc": "2026-10-26T00:18:38.040639+00:00"
+}

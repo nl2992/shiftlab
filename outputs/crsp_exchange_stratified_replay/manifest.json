@@ -1,0 +1,35 @@
+{
+  "experiment": "exploratory exchange-stratified CRSP decision-harm monitor replay",
+  "input_panel": "data/processed/crsp_ciz_next_day/5211412140dcb86f08f9",
+  "input_panel_manifest_sha256": "58f3ab8e656fa3ab896410c0071e72131b96b8f3a08dbb016ed409ff5513d133",
+  "input_observations_sha256": "a5bd25cbd9a6059f2653eca58c6316351a9237748cdf5521c18d18c0a76993a3",
+  "protocol_sha256": "2c7b14715b93e22f45f2806f0e881fc866a71bec3c57f9b1927deae0abe5482d",
+  "source_sha256": "d491c25763780a703d5a318284411d9ae17829536061721e385c48b30fccd67a",
+  "monitor_source_sha256": "a9355d3883118ed32039feafe0db0b01fd8824dfbaed2e3d70e6710964565d41",
+  "policy_source_sha256": "e349c0c5dc93cebac09338493f53c0530ab7e4176ca1cd09979c7964149d7d66",
+  "policy": "same train-only standardized Ridge(alpha=1) long/flat policy and same-date VWRETD reference as the full-cohort CRSP comparison",
+  "turnover_cost_bps": 5,
+  "bound": 0.202,
+  "alpha_reference": 0.05,
+  "exchange_codes": [
+    "A",
+    "B",
+    "I",
+    "N",
+    "Q",
+    "R"
+  ],
+  "aggregation": "equal-weight mixture of six exchange-specific e-processes; subgroup intersection null, separate from the population-average null",
+  "future_label": "evaluator-only positive mean paired cost over next 20 test dates, overlapping windows",
+  "test_events": 7621543,
+  "test_dates": 1507,
+  "test_permnos": 7350,
+  "device": "cuda",
+  "created_utc": "2026-10-26T01:50:52.867942+00:00",
+  "limitations": [
+    "The full 2020-2025 CRSP test period was already inspected in earlier analyses; this replay is exploratory, not independent confirmation.",
+    "The stratified mixture targets an intersection of exchange-specific conditional-mean nulls and does not test the population-average harm null.",
+    "CRSP release times, the conditional-on-past null, temporal dependence and real label availability are unverified; nominal alpha does not establish a CRSP error rate.",
+    "The policy uses an imposed clipped-return and turnover utility, not validated market impact or causal deployment outcomes."
+  ]
+}

@@ -1,0 +1,83 @@
+{
+  "experiment": "adaptive_ppi_fixed12_independent_null_replication",
+  "config": {
+    "seeds": 2000,
+    "seed_offset": 20420000,
+    "n_source": 1200,
+    "n_target": 2400,
+    "budget_rate": 0.2,
+    "alpha": 0.05,
+    "epsilon": 0.05,
+    "q_min": 0.05,
+    "q_max": 0.8,
+    "amplitude": 1.0,
+    "harm_shift": 0.2,
+    "onset_fraction": 0.5,
+    "max_delay": 12,
+    "benign_amplitude": 0.55,
+    "device": "cuda"
+  },
+  "method": "evidence_a0p025_p0p5_eventwise",
+  "delay_profile": "fixed12",
+  "monitor_variant": "full_stream",
+  "seed_range": [
+    20420000,
+    20421999
+  ],
+  "rows": 2000,
+  "false_escalations": 9,
+  "alarm_rate": 0.0045,
+  "one_sided_95_exact_upper": 0.007839446211579703,
+  "calibration_gate_pass": true,
+  "invariants_pass": true,
+  "protocol_sha256": "c5799aa83583e10758577a5e18e497ee2f2352791aa2cfda42f917534426be0f",
+  "source_hashes": {
+    "delayed_ppi_adaptive_fixed12_replication.py": "861c4036114d01b0edaca81717e5737a394c75262889504bd6e7eef7c782f10f",
+    "delayed_evidence_directed_ppi.py": "356a8f6cb5ffebbfd39ebb2e57c414e28714d5cbc2ff60a26cf96a39cfd84267",
+    "delayed_evidence_directed_ppi_calibration.py": "8b886cf70697409dd1f7277f2d8a57eadb8b02bd458dbbb1bd308c80a1cf5803",
+    "eprocess.py": "a9355d3883118ed32039feafe0db0b01fd8824dfbaed2e3d70e6710964565d41"
+  },
+  "runtime": {
+    "cpu_ram_bytes": 16858472448,
+    "disk_free_bytes": 19569446912,
+    "cuda_available": true,
+    "nvidia_smi": "NVIDIA GeForce RTX 4060 Laptop GPU, 8188 MiB, 592.82, 0 %, 107 MiB",
+    "torch_version": "2.9.1+cu130",
+    "cuda_runtime": "13.0",
+    "gpu_name": "NVIDIA GeForce RTX 4060 Laptop GPU",
+    "gpu_memory_bytes": 8585216000,
+    "versions": {
+      "numpy": "2.5.4",
+      "scipy": "1.18.1",
+      "pandas": "3.0.6",
+      "pyarrow": "25.0.1",
+      "folktables": "0.0.12"
+    }
+  },
+  "resolved_device": "cuda",
+  "workers": 4,
+  "chunks": 4,
+  "summary": [
+    {
+      "method": "evidence_a0p025_p0p5_eventwise",
+      "delay_profile": "fixed12",
+      "monitor_variant": "full_stream",
+      "streams": 2000,
+      "false_escalations": 9,
+      "alarm_rate": 0.0045,
+      "one_sided_95_upper": 0.007839446211579703,
+      "gate_pass": true,
+      "mean_labels_queried": 139.278,
+      "mean_events_updated": 2400.0,
+      "cap_violations": 0,
+      "pending_labels_total": 0
+    }
+  ],
+  "conditional_null": "E[Z_t | complete prior event history] = 0 <= epsilon under the IID stationary synthetic generator.",
+  "limitations": [
+    "Independent finite calibration of one frozen synthetic cell only.",
+    "Does not validate power, informative delays, persistent-sign dependence, or real data.",
+    "Existing e-process and query allocation are established constructions; no novelty claim is made."
+  ],
+  "created_utc": "2026-10-26T00:12:01.586603+00:00"
+}

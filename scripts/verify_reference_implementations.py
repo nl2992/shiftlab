@@ -10,6 +10,15 @@ from pathlib import Path
 from typing import Any
 
 MANIFEST = Path("papers/shiftguard_unified/reference_implementations_v1.json")
+_TEXT_SUFFIXES = {".csv", ".json", ".md", ".py", ".toml", ".txt"}
+
+
+def _sha256(path: Path) -> str:
+    """Hash text with canonical LF endings so verification is OS-independent."""
+    payload = path.read_bytes()
+    if path.suffix.lower() in _TEXT_SUFFIXES:
+        payload = payload.replace(b"\r\n", b"\n").replace(b"\r", b"\n")
+    return hashlib.sha256(payload).hexdigest()
 
 
 def _entries(value: Any) -> Iterator[dict[str, str]]:
@@ -55,7 +64,7 @@ def verify(root: Path, manifest_path: Path = MANIFEST) -> list[str]:
         if not path.is_file():
             errors.append(f"missing frozen file: {relative}")
             continue
-        actual = hashlib.sha256(path.read_bytes()).hexdigest()
+        actual = _sha256(path)
         if actual != expected:
             errors.append(f"SHA-256 mismatch for {relative}: expected {expected}, got {actual}")
     if not expected_by_path:

@@ -1,0 +1,177 @@
+{
+  "experiment": "target_scout_fixed_split_independent_confirmation",
+  "created_at_utc": "2026-10-26T07:45:48.222424+00:00",
+  "status": "completed",
+  "protocol": {
+    "path": "papers/shiftguard_unified/target_scout_fixed_split_confirmation_protocol.md",
+    "sha256": "bcbcb73afb1e3ac24f382c4658b5745c19b0d8c809ea763b667e6ff419114a77"
+  },
+  "configuration": {
+    "seeds": 300,
+    "seed_offset": 99010000,
+    "n": 3200,
+    "d": 16,
+    "device": "cuda",
+    "protocol_sha256": "bcbcb73afb1e3ac24f382c4658b5745c19b0d8c809ea763b667e6ff419114a77",
+    "runner_sha256": "54bf18bc6eaa79beae934ee46d0049d75a9427a1f0f786c66765f5ad19c68d52",
+    "calibration_manifest_sha256": "f05b8928c02894653809aa6cc3f41bf893c853417fb57b304ec8588a6fa88611",
+    "prevalences": [
+      0.1,
+      0.5,
+      0.9
+    ],
+    "signals": [
+      0.05,
+      0.1
+    ],
+    "proxy_errors": [
+      0.0,
+      0.1,
+      0.25
+    ],
+    "methods": [
+      "pooled_rank",
+      "fixed_sample_split",
+      "target_scout"
+    ],
+    "budget_rate": 0.4,
+    "alpha": 0.05,
+    "switching_cost": 0.05,
+    "bootstrap_draws": 10000,
+    "bootstrap_seed": 2026102699,
+    "practical_margin": 1.0
+  },
+  "calibration_manifest_sha256": "f05b8928c02894653809aa6cc3f41bf893c853417fb57b304ec8588a6fa88611",
+  "environment": {
+    "cpu_ram_bytes": 16858472448,
+    "disk_free_bytes": 8627408896,
+    "cuda_available": true,
+    "nvidia_smi": "NVIDIA GeForce RTX 4060 Laptop GPU, 8188 MiB, 592.82, 0 %, 97 MiB",
+    "torch_version": "2.9.1+cu130",
+    "cuda_runtime": "13.0",
+    "gpu_name": "NVIDIA GeForce RTX 4060 Laptop GPU",
+    "gpu_memory_bytes": 8585216000,
+    "versions": {
+      "numpy": "2.5.4",
+      "scipy": "1.18.1",
+      "pandas": "3.0.6",
+      "pyarrow": "25.0.1",
+      "folktables": "0.0.12"
+    }
+  },
+  "rows": 16200,
+  "primary_contrasts": [
+    {
+      "contrast": "target_scout_minus_fixed_sample_split",
+      "metric": "expected_postpromotion_net_gain",
+      "positive_signal_cells": 18,
+      "matched_seed_blocks": 300,
+      "mean_paired_difference": 8.760675798611109,
+      "simultaneous_ci_level": 0.975,
+      "bootstrap_ci_low": 7.230098271846063,
+      "bootstrap_ci_high": 10.366816467737268,
+      "practical_margin": 1.0,
+      "material_benefit_confirmed": true,
+      "bootstrap_draws": 10000,
+      "bootstrap_seed": 2026102699
+    },
+    {
+      "contrast": "target_scout_minus_pooled_rank",
+      "metric": "expected_postpromotion_net_gain",
+      "positive_signal_cells": 18,
+      "matched_seed_blocks": 300,
+      "mean_paired_difference": 6.665952094907407,
+      "simultaneous_ci_level": 0.975,
+      "bootstrap_ci_low": 5.274546234375,
+      "bootstrap_ci_high": 8.053873124131945,
+      "practical_margin": 1.0,
+      "material_benefit_confirmed": true,
+      "bootstrap_draws": 10000,
+      "bootstrap_seed": 2026102699
+    }
+  ],
+  "all_caps_respected": true,
+  "paired_label_mismatches": 0,
+  "source_hashes": {
+    "scripts/confirm_target_scout_fixed_split.py": "54bf18bc6eaa79beae934ee46d0049d75a9427a1f0f786c66765f5ad19c68d52",
+    "scripts/compare_target_scout_fixed_split.py": "a92be049198c8d12215de517bbba75c8ec1ba2114f798274703cda6b1e7ccbc4",
+    "src/shiftlab/dive/budgeted_promotion.py": "8eada2f9fc4e8c2c57f681e157d1b8d97a48fae054d55cc74749fa5b0339fc4f",
+    "src/shiftlab/decision_harm_experiment.py": "963d2a794ec0638f08f24dd75eabec457f209ae2df3759e89a6f6dadeca9fa41",
+    "src/shiftlab/data/gpu/environment.py": "eb084c9dc9e306d9de48fda978b20a120725f14ae2793fc5533d75429e4b90b3",
+    "pyproject.toml": "2e797021f4d4e056b5684b126a0b7d7882176e072a1e1d6cb6bed8e83411ad41",
+    "uv.lock": "fef34318bdde44c46fadf782c617c6399571311e46da009f9b6dface4c365588",
+    "papers/shiftguard_unified/target_scout_fixed_split_confirmation_protocol.md": "bcbcb73afb1e3ac24f382c4658b5745c19b0d8c809ea763b667e6ff419114a77"
+  },
+  "artifacts": {
+    "streams.csv": "bcf81c327dca1de025cff5c5e15b8485fd733e3502d50baf66301507d58f639e",
+    "streams.parquet": "0eca772accd014d9fd3ad2dcc596eed8acb87e45867ee853b3c229868fa3757d",
+    "summary.csv": "103bebe058d3936078015acb219e5f335e7fa653abdbc3de20b96a7ed83c02bb",
+    "summary.parquet": "e51a969eb99c9d7c3ef1abd0fed184e24218297e30e4647dd3e30ef25beb1a58",
+    "primary_contrasts.csv": "9af2fd12f9cf5b8da8bd3288ce4715a57950a45dd2ed4bb7c61eddf556d78117",
+    "primary_contrasts.parquet": "0584679bc8aa66b8a618cba96e1267cbab70fcd82c897d313f3cb1e01f067bf4",
+    "results.md": "48d013868a8d6c3cdd93b536d562cdd4d86646ecdcd6d0b30539be2a572c41ff",
+    "verification.json": "632c6edd47639b02e1f2b44dc6013fab4aedb0bcb4655be48702dd916c193f88",
+    "method_summary.csv": "1c22a23236dcd61e46cc9a03c8a69e0b60eda002fd080e1f6dd746539406ed4c",
+    "method_summary.parquet": "563f6b77ec39288f14ba8313b8fedf9ae2eac9d2c37e4bb0685d42a26629dc85"
+  },
+  "independent_verification": {
+    "status": "passed",
+    "verified_at_utc": "2026-10-26T07:47:19.504205+00:00",
+    "stream_rows": 16200,
+    "positive_signal_cells": 18,
+    "seeds_per_method_cell": 300,
+    "pathwise_cap_violations": 0,
+    "paired_query_count_mismatches": 0,
+    "recomputed_primary_contrasts": {
+      "target_scout_minus_fixed_sample_split": {
+        "mean_paired_difference": 8.760675798611109,
+        "bootstrap_ci_low": 7.230098271846063,
+        "bootstrap_ci_high": 10.366816467737268,
+        "material_benefit_confirmed": true
+      },
+      "target_scout_minus_pooled_rank": {
+        "mean_paired_difference": 6.665952094907407,
+        "bootstrap_ci_low": 5.274546234375,
+        "bootstrap_ci_high": 8.053873124131945,
+        "material_benefit_confirmed": true
+      }
+    },
+    "runner_sha256": "54bf18bc6eaa79beae934ee46d0049d75a9427a1f0f786c66765f5ad19c68d52",
+    "protocol_sha256": "bcbcb73afb1e3ac24f382c4658b5745c19b0d8c809ea763b667e6ff419114a77",
+    "calibration_manifest_sha256": "f05b8928c02894653809aa6cc3f41bf893c853417fb57b304ec8588a6fa88611",
+    "all_original_artifacts_verified": true,
+    "verifier_sha256": "f18cf8ebe1c823213f59fd7010a3ced317954cf74f8c4462cc77f78c07e32d16"
+  },
+  "method_summary": [
+    {
+      "method": "fixed_sample_split",
+      "streams": 5400,
+      "promotions": 48,
+      "harmful_promotions": 0,
+      "promotion_rate": 0.008888888888888889,
+      "mean_labels": 631.7866666666666,
+      "mean_expected_net_gain": 0.4121744444444444,
+      "mean_realized_net_gain": 0.4232670370370368
+    },
+    {
+      "method": "pooled_rank",
+      "streams": 5400,
+      "promotions": 101,
+      "harmful_promotions": 0,
+      "promotion_rate": 0.018703703703703705,
+      "mean_labels": 631.7866666666666,
+      "mean_expected_net_gain": 2.506898148148147,
+      "mean_realized_net_gain": 2.604805555555555
+    },
+    {
+      "method": "target_scout",
+      "streams": 5400,
+      "promotions": 296,
+      "harmful_promotions": 0,
+      "promotion_rate": 0.054814814814814816,
+      "mean_labels": 631.7866666666666,
+      "mean_expected_net_gain": 9.172850243055553,
+      "mean_realized_net_gain": 9.031794687499996
+    }
+  ]
+}

@@ -21,8 +21,8 @@
       ],
       "protocol": {"path": "papers/shiftguard_unified/integrated_efficacy_confirmation_protocol_v1.md", "sha256": "0dac5a5fc605ec39c7e9bff591a64d422427fdab5526c51e9da5aa07bfc4b20a"},
       "evidence": [
-        {"path": "outputs/shiftguard_unified/integrated_confirmation/efficacy_100_v1/manifest.json", "sha256": "6d9586599679b0e67a39a22e25c11f5e4d507148390429a0b1ced00d749b91bb"},
-        {"path": "outputs/shiftguard_unified/integrated_confirmation/efficacy_100_v1/analysis_v3/verification.json", "sha256": "06acc06bc65315382fa4408ee95731571836dcb2c6b065de8525c97c6df9cdcd"}
+        {"path": "outputs/shiftguard_unified/integrated_confirmation/efficacy_100_v1/manifest.json", "sha256": "e1bc156d663ed1c7b53bfe0b882ab96deba41237bb86a18f806c33372c3cc7d8"},
+        {"path": "outputs/shiftguard_unified/integrated_confirmation/efficacy_100_v1/analysis_v3/verification.json", "sha256": "2d05080e093da3f1bbeb843de6ade804885f52b14bd3671965841f71a5393715"}
       ],
       "estimand_and_assumptions": "Direct bounded incumbent-minus-deployed paired decision-cost increments. Anytime-valid conditional-mean control requires the signed increment, bound, and event filtration to match the declared null; the implementation cannot establish those data assumptions. This is the frozen DIVE component reference, not a claim that DIVE is superior to established monitors."
     },
@@ -31,16 +31,16 @@
       "implementation": [
         {"path": "scripts/compare_target_scout_fixed_split.py", "sha256": "c597ae0a81b573b0599b4a5c38b51424d36fd9e10e33edd59cc71e81e4bcfd62"},
         {"path": "scripts/confirm_target_scout_fixed_split.py", "sha256": "54bf18bc6eaa79beae934ee46d0049d75a9427a1f0f786c66765f5ad19c68d52"},
-        {"path": "scripts/calibrate_target_scout_fixed_split.py", "sha256": "30162c22363a7b512992a4e0e99f2a55fbe444a5785df34afd6f0e1362590487"},
+        {"path": "scripts/calibrate_target_scout_fixed_split.py", "sha256": "11303043cd4c64db1d03e1e1fa32c645be27c0671ae7ca930a337a40aa50b3d2"},
         {"path": "src/shiftlab/dive/budgeted_promotion.py", "sha256": "681a4e13fd4ebff212dbac1e67c84da3c8d224a9009b59ed0043a1695ad75bc0", "symbol": "_monitor_scout_context_policy (integrated variant)"}
       ],
       "tests": {"path": "tests/test_target_scout_fixed_split_calibration.py", "sha256": "07f004721415af1a4d594514c30c0081f943b01eca68a8bb4be6293a62b7d514"},
       "protocol": {"path": "papers/shiftguard_unified/target_scout_fixed_split_confirmation_protocol.md", "sha256": "bcbcb73afb1e3ac24f382c4658b5745c19b0d8c809ea763b667e6ff419114a77"},
       "null_protocol": {"path": "papers/shiftguard_unified/target_scout_fixed_split_null_calibration_protocol.md", "sha256": "aa2b26715a7c551e1abd9473266a09d03825b6eaca21494534dacf77dde76392"},
       "evidence": [
-        {"path": "outputs/shiftguard_unified/sota_reproductions/target_scout_fixed_split_null_calibration_v1/manifest.json", "sha256": "f05b8928c02894653809aa6cc3f41bf893c853417fb57b304ec8588a6fa88611"},
-        {"path": "outputs/shiftguard_unified/sota_reproductions/target_scout_fixed_split_confirmation_v1/manifest.json", "sha256": "176fa7e247c4600314f980ae0bc490f1c2aa0ecb28d9f9e1781f6839ae75efe8"},
-        {"path": "outputs/shiftguard_unified/sota_reproductions/target_scout_fixed_split_confirmation_v1/verification.json", "sha256": "632c6edd47639b02e1f2b44dc6013fab4aedb0bcb4655be48702dd916c193f88"}
+        {"path": "outputs/shiftguard_unified/sota_reproductions/target_scout_fixed_split_null_calibration_v1/manifest.json", "sha256": "a4af3d03ee493879258fe1db872df8dbb501f4674c6f1107b538f01ca99491b3"},
+        {"path": "outputs/shiftguard_unified/sota_reproductions/target_scout_fixed_split_confirmation_v1/manifest.json", "sha256": "d517bf9b09df27ae5ec3b9471fac5a6760633d03572034c51644d838d8a5e821"},
+        {"path": "outputs/shiftguard_unified/sota_reproductions/target_scout_fixed_split_confirmation_v1/verification.json", "sha256": "66e030b019c1f3acd8ba977ea05af5ab3707e3152e46b7c5efab4fed0f3d3014"}
       ],
       "estimand_and_assumptions": "Select a candidate using an early target slice, then certify on fresh events under the registered synthetic candidate family, randomized direct-IPW monitoring, shared query-uniforms, total label cap, and exact-rule null calibration gate. Confirmation is specific to that DGP and is not a real-data or universal advantage claim."
     },
@@ -56,8 +56,8 @@
       ],
       "protocol": {"path": "papers/shiftguard_unified/integrated_efficacy_confirmation_protocol_v1.md", "sha256": "0dac5a5fc605ec39c7e9bff591a64d422427fdab5526c51e9da5aa07bfc4b20a"},
       "evidence": [
-        {"path": "outputs/shiftguard_unified/integrated_confirmation/efficacy_100_v1/manifest.json", "sha256": "6d9586599679b0e67a39a22e25c11f5e4d507148390429a0b1ced00d749b91bb"},
-        {"path": "outputs/shiftguard_unified/integrated_confirmation/efficacy_100_v1/analysis_v3/verification.json", "sha256": "06acc06bc65315382fa4408ee95731571836dcb2c6b065de8525c97c6df9cdcd"}
+        {"path": "outputs/shiftguard_unified/integrated_confirmation/efficacy_100_v1/manifest.json", "sha256": "e1bc156d663ed1c7b53bfe0b882ab96deba41237bb86a18f806c33372c3cc7d8"},
+        {"path": "outputs/shiftguard_unified/integrated_confirmation/efficacy_100_v1/analysis_v3/verification.json", "sha256": "2d05080e093da3f1bbeb843de6ade804885f52b14bd3671965841f71a5393715"}
       ],
       "estimand_and_assumptions": "One-step action ranking uses forecast net value with explicit label, compute, and switching costs, while promotion/fallback require separate authorization. The integrated synthetic confirmation spans the registered eight-scenario, 100-seed-per-cell design and 640-label total cap. Evidence shows no general advantage over simpler methods; this is a reference baseline, not an endorsed deployment policy."
     }

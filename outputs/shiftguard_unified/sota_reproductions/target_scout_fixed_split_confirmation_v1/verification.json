@@ -1,0 +1,28 @@
+{
+  "status": "passed",
+  "verified_at_utc": "2026-10-26T07:47:19.504205+00:00",
+  "stream_rows": 16200,
+  "positive_signal_cells": 18,
+  "seeds_per_method_cell": 300,
+  "pathwise_cap_violations": 0,
+  "paired_query_count_mismatches": 0,
+  "recomputed_primary_contrasts": {
+    "target_scout_minus_fixed_sample_split": {
+      "mean_paired_difference": 8.760675798611109,
+      "bootstrap_ci_low": 7.230098271846063,
+      "bootstrap_ci_high": 10.366816467737268,
+      "material_benefit_confirmed": true
+    },
+    "target_scout_minus_pooled_rank": {
+      "mean_paired_difference": 6.665952094907407,
+      "bootstrap_ci_low": 5.274546234375,
+      "bootstrap_ci_high": 8.053873124131945,
+      "material_benefit_confirmed": true
+    }
+  },
+  "runner_sha256": "54bf18bc6eaa79beae934ee46d0049d75a9427a1f0f786c66765f5ad19c68d52",
+  "protocol_sha256": "bcbcb73afb1e3ac24f382c4658b5745c19b0d8c809ea763b667e6ff419114a77",
+  "calibration_manifest_sha256": "f05b8928c02894653809aa6cc3f41bf893c853417fb57b304ec8588a6fa88611",
+  "all_original_artifacts_verified": true,
+  "verifier_sha256": "f18cf8ebe1c823213f59fd7010a3ced317954cf74f8c4462cc77f78c07e32d16"
+}

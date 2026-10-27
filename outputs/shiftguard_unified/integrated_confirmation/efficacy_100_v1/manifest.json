@@ -1,0 +1,105 @@
+{
+  "experiment": "integrated_q1_target_scout_rollback_matched_comparison",
+  "status": "independent_efficacy_confirmation",
+  "created_utc": "2026-10-26T14:19:54.732216+00:00",
+  "seeds": {
+    "offset": 2026104000,
+    "count_per_scenario": 100
+  },
+  "scenarios": [
+    "stationary",
+    "benign_nuisance",
+    "boundary_local_harm",
+    "post_promotion_reversal",
+    "recurring_regimes",
+    "residual_variance",
+    "harmful_adaptation_at_monitor",
+    "harmful_adaptation_native"
+  ],
+  "methods": [
+    "continue",
+    "scheduled_promote",
+    "two_gate",
+    "two_gate_controller",
+    "q1_fallback",
+    "full_pipeline",
+    "full_pipeline_controller",
+    "fixed_candidate_certification",
+    "full_pipeline_fixed_certification"
+  ],
+  "scenario_transform": {
+    "harmful_adaptation_at_monitor": "Stationary outcome law; the deployed policy changes to the all-positive action at event 800 after fitting, aligned with the Q1 monitor start.",
+    "harmful_adaptation_native": "Stationary outcome law; the deployed policy changes to all-positive at event 1,600, just after the Q1 monitoring block, preserving the source scenario timing.",
+    "post_promotion_reversal": "Uses the same event-800 adaptation; from event 2,400, labels equal the frozen all-positive incumbent action, making that incumbent optimal while candidate actions remain frozen. This is a declared synthetic reversal stress profile."
+  },
+  "stages": {
+    "fit_end": 800,
+    "monitor_end": 1600,
+    "scout_cert_end": 2400,
+    "stream_end": 3200
+  },
+  "monitor_query_rate": 0.4,
+  "scout_query_rate_rule": "predictable scout label cap / 800 events; between 0.20 and 0.40",
+  "scout_bound_mode": "eventwise_propensity; q is constant within each scout/certification block",
+  "rollback_query_rate": 0.2,
+  "label_caps": {
+    "total": 640,
+    "monitor": 320,
+    "scout_cert": 320,
+    "rollback": 160
+  },
+  "alpha": {
+    "monitor": 0.02,
+    "promotion": 0.015,
+    "rollback": 0.015,
+    "sum": 0.05
+  },
+  "device": "cuda",
+  "hardware": {
+    "cpu_ram_bytes": 16858472448,
+    "disk_free_bytes": 1808347136,
+    "cuda_available": true,
+    "nvidia_smi": "NVIDIA GeForce RTX 4060 Laptop GPU, 8188 MiB, 592.82, 0 %, 97 MiB",
+    "torch_version": "2.9.1+cu130",
+    "cuda_runtime": "13.0",
+    "gpu_name": "NVIDIA GeForce RTX 4060 Laptop GPU",
+    "gpu_memory_bytes": 8585216000,
+    "versions": {
+      "numpy": "2.5.4",
+      "scipy": "1.18.1",
+      "pandas": "3.0.6",
+      "pyarrow": "25.0.1",
+      "folktables": "0.0.12"
+    }
+  },
+  "source_sha256": {
+    "src\\shiftlab\\dive\\integrated_pipeline.py": "657de5c973f8866db0e018fa6a0b131b83290d013b73275d391f395ede4bcfdc",
+    "src\\shiftlab\\dive\\budgeted_promotion.py": "681a4e13fd4ebff212dbac1e67c84da3c8d224a9009b59ed0043a1695ad75bc0",
+    "src\\shiftlab\\dive\\eprocess.py": "a9355d3883118ed32039feafe0db0b01fd8824dfbaed2e3d70e6710964565d41",
+    "src\\shiftlab\\dive\\controller.py": "bdeb77dcf4089d72a795d54bd1d2fd9a415757feeb7be020860e3a02b796178c",
+    "src\\shiftlab\\decision_harm_experiment.py": "963d2a794ec0638f08f24dd75eabec457f209ae2df3759e89a6f6dadeca9fa41",
+    "papers\\shiftguard_unified\\integrated_efficacy_confirmation_protocol_v1.md": "0dac5a5fc605ec39c7e9bff591a64d422427fdab5526c51e9da5aa07bfc4b20a"
+  },
+  "protocol_snapshot": "outputs\\shiftguard_unified\\integrated_confirmation\\efficacy_100_v1\\protocol_snapshot.md",
+  "protocol_snapshot_sha256": "0dac5a5fc605ec39c7e9bff591a64d422427fdab5526c51e9da5aa07bfc4b20a",
+  "metrics_sha256": "8f183fb72346547a2c2310462fd9f6730eb113e63175e7f2e387074c65f24f51",
+  "summary_sha256": "977dae86770a584d40128989b19bc534c424715730c45b6cfba4c3cf4687894c",
+  "paired_contrasts_sha256": "6f5b93d9877ed13e08152cbc6889b70aad47643332732e51c5e4e003fa87bdf7",
+  "learner_event_log": {
+    "path": "learner_event_log.parquet",
+    "rows": 23040000,
+    "sha256": "ee2323e20859c2143c522cd67d5002633eab4448a613ba4ef2f90f619697b5ad",
+    "schema": "scenario: string\nseed: int64\nmethod: string\nevent_index: int32\nfeature_available_index: int32\nprediction_decision_index: int32\nstage: string\npolicy_version: string\naction: int8\nquery_requested: bool\nquery_probability: double\nquery_stage: string\ncandidate_selection_available: bool\nselected_candidate_id: string\nlabel_available_index: int32\nobserved_label: int8\nq1_log_e_value: double\ncertification_log_e_value: double\nrollback_log_e_value: double\nq1_triggered_here: bool\npromotion_certified_here: bool\nrollback_triggered_here: bool\ncontroller_action: string\nlabel_resource_units: int8\nintervention_cost_units: double"
+  },
+  "evaluator_event_log": {
+    "path": "evaluator_event_log.parquet",
+    "rows": 23040000,
+    "sha256": "b87a54ae0f1e2084f5dcf0b28ac01c6fc754e8c96b6fd7496eda514bcbc82837",
+    "schema": "scenario: string\nseed: int64\nmethod: string\nevent_index: int32\ntrue_label: int8\ntrue_positive_probability: double\nincumbent_action: int8\nreference_action: int8\ndeployed_action: int8\nincumbent_cost: double\nreference_cost: double\ndeployed_cost: double\nrealized_incumbent_minus_deployed_gain: double\nexpected_incumbent_minus_deployed_gain: double\nintervention_cost_units: double\nevaluator_only: bool"
+  },
+  "limitations": [
+    "The null calibration is limited to the separately registered synthetic controls and does not calibrate efficacy outcomes.",
+    "The stagewise error allocation is supported only under the registered feedback and predictability assumptions.",
+    "The synthetic workflow uses immediate labels and non-performative outcomes; no real-data transfer is established."
+  ]
+}

@@ -1,0 +1,95 @@
+{
+  "experiment": "target_scout_fixed_split_exact_rule_null_calibration",
+  "created_at_utc": "2026-10-26T06:57:35.687275+00:00",
+  "status": "passed",
+  "configuration": {
+    "seeds": 1000,
+    "seed_offset": 99000000,
+    "n": 3200,
+    "d": 16,
+    "device": "cuda",
+    "protocol_sha256": "aa2b26715a7c551e1abd9473266a09d03825b6eaca21494534dacf77dde76392",
+    "runner_sha256": "a470e6377413bc453d3c9e7ed9ad405169d2938bcb98e6edb48a3d306164a3f8",
+    "smoke": false,
+    "prevalences": [
+      0.1,
+      0.5,
+      0.9
+    ],
+    "signals": [
+      0.0
+    ],
+    "proxy_errors": [
+      0.0,
+      0.1,
+      0.25
+    ],
+    "methods": [
+      "pooled_rank",
+      "fixed_sample_split",
+      "target_scout"
+    ],
+    "budget_rate": 0.4,
+    "alpha": 0.05,
+    "switching_cost": 0.05,
+    "familywise_alpha": 0.05,
+    "simultaneous_strata": 27
+  },
+  "inference": {
+    "pass": true,
+    "all_cells_pass": true,
+    "all_caps_respected": true,
+    "positive_net_gain_promotions": 0,
+    "conditional_null_analytically_verified": true
+  },
+  "environment": {
+    "cpu_ram_bytes": 16858472448,
+    "disk_free_bytes": 8629268480,
+    "cuda_available": true,
+    "nvidia_smi": "NVIDIA GeForce RTX 4060 Laptop GPU, 8188 MiB, 592.82, 0 %, 97 MiB",
+    "torch_version": "2.9.1+cu130",
+    "cuda_runtime": "13.0",
+    "gpu_name": "NVIDIA GeForce RTX 4060 Laptop GPU",
+    "gpu_memory_bytes": 8585216000,
+    "versions": {
+      "numpy": "2.5.4",
+      "scipy": "1.18.1",
+      "pandas": "3.0.6",
+      "pyarrow": "25.0.1",
+      "folktables": "0.0.12"
+    }
+  },
+  "rows": 27000,
+  "source_hashes": {
+    "scripts/calibrate_target_scout_fixed_split.py": "a470e6377413bc453d3c9e7ed9ad405169d2938bcb98e6edb48a3d306164a3f8",
+    "scripts/compare_target_scout_fixed_split.py": "a92be049198c8d12215de517bbba75c8ec1ba2114f798274703cda6b1e7ccbc4",
+    "src/shiftlab/dive/budgeted_promotion.py": "8eada2f9fc4e8c2c57f681e157d1b8d97a48fae054d55cc74749fa5b0339fc4f",
+    "src/shiftlab/decision_harm_experiment.py": "963d2a794ec0638f08f24dd75eabec457f209ae2df3759e89a6f6dadeca9fa41",
+    "src/shiftlab/data/gpu/environment.py": "eb084c9dc9e306d9de48fda978b20a120725f14ae2793fc5533d75429e4b90b3",
+    "pyproject.toml": "2e797021f4d4e056b5684b126a0b7d7882176e072a1e1d6cb6bed8e83411ad41",
+    "uv.lock": "fef34318bdde44c46fadf782c617c6399571311e46da009f9b6dface4c365588",
+    "papers/shiftguard_unified/target_scout_fixed_split_null_calibration_protocol.md": "aa2b26715a7c551e1abd9473266a09d03825b6eaca21494534dacf77dde76392"
+  },
+  "artifacts": {
+    "streams.csv": "28d519e00e86c9ea545a2455184af46a84c175de668629514af8deb5d15e005e",
+    "streams.parquet": "a121d1eb9b90e7116bf42b3cf3abbb1e44bc499e586115564ba617fa785c8100",
+    "summary.csv": "65b0a8a088a4025e03063aad6c6347527169d01fe83adceaeb3909c02d73b315",
+    "summary.parquet": "2d65dc567889bdc2c8d5d4c5158e3af1a263aa3b9bcfbac5fc7a750aebb1eb12",
+    "results.md": "2acb411861c4d12e48629fafbfe7b3c0a7f4135edfc0bb8f833296a7c0daea46",
+    "verification.json": "d52f445f8c67c90a478cb35337b85c0961fe66a8b48f797ea1a0b0d47a9100ac"
+  },
+  "independent_verification": {
+    "status": "passed",
+    "verified_at_utc": "2026-10-26T06:58:06.931102+00:00",
+    "stream_rows": 27000,
+    "method_cell_strata": 27,
+    "streams_per_stratum": 1000,
+    "pathwise_cap_violations": 0,
+    "paired_query_count_mismatches": 0,
+    "positive_net_gain_promotions": 0,
+    "recomputed_calibration_gate_pass": true,
+    "runner_snapshot_sha256": "a470e6377413bc453d3c9e7ed9ad405169d2938bcb98e6edb48a3d306164a3f8",
+    "protocol_sha256": "aa2b26715a7c551e1abd9473266a09d03825b6eaca21494534dacf77dde76392",
+    "all_original_artifacts_verified": true
+  }
+}

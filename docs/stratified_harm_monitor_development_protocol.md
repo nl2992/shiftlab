@@ -2,6 +2,8 @@
 
 **Status:** specification frozen before any 587/588/589 block use, 2026-10-27.
 The follow-up header records this specification's commit. This is development, not confirmation.
+**Freeze commit:** `7dd8d94aae2073305df468fdf5fb2677055fc0e1`
+**Freeze recorded at:** `2026-10-27T14:08:27Z` (no live-data clock).
 The [phase goal](agent_goal_stratified_monitor_phase.md), [comparator supplement](agent_goal_sota_benchmark_supplement.md),
 [regime map](stratified_monitor_regime_map.md), and charter govern this protocol.
 

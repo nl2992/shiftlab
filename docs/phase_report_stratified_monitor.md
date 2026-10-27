@@ -10,8 +10,8 @@ stopped at their prescreens; WP1 must finish before checkpoint B can be declared
 | WP1 S0 implementation | Passed | [Implementation checks](gated_monitor_implementation_results.md) |
 | WP1 S1 fidelity | Passed: 6/60 at 96.9; 47/60 at 45.9 | [Fidelity receipt](gated_monitor_fidelity_results.md) |
 | WP1 smoke | Passed integrity, excluded from inference | [Smoke and runtime receipt](gated_monitor_smoke_results.md) |
-| WP1 S2 calibration | Running; no decision available | `outputs/gated_monitor_null/launch.json` |
-| WP1 S3 comparison | Not started; requires primary null gate | [Frozen WP1 protocol](gated_vs_ungated_monitor_comparison_protocol.md) |
+| WP1 S2 calibration | Passed: primary and all panel arms below 5% simultaneous upper bound | [Null calibration](gated_monitor_null_calibration_results.md) |
+| WP1 S3 comparison | Running on the disjoint registered block | [Frozen WP1 protocol](gated_vs_ungated_monitor_comparison_protocol.md), `outputs/gated_monitor_compare/launch.json` |
 | WP2 G0/theory | Standard subgroup composition identified; no priority claim | [Novelty audit](../papers/shiftguard_unified/novelty_audit.md), [theory](../papers/paper1_decision_drift/theory_notes.md) |
 | WP2 G1 | Failed; stop before development/calibration | [Analytic results](stratified_growth_prescreen_results.md) |
 | WP3 G0/theory | Complete with scoped independent algebra check | Novelty audit and theory note above |

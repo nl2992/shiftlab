@@ -1,6 +1,6 @@
 # Prediction-Powered E-Values: paper-to-code audit
 
-**Audit date:** 2026-10-26. **Primary source:** Csillag, Zrnic, and Ramdas,
+**Audit date:** 2026-10-26 (author list corrected 2026-10-27 against the PMLR record). **Primary source:** Csillag, Struchiner, and Goedert,
 [*Prediction-Powered E-Values*](https://proceedings.mlr.press/v267/csillag25a.html),
 ICML 2025, PMLR 267, 11493–11514. The PMLR record links the authors' software
 repository, but that link returned 404 during this audit. The paper PDF remains

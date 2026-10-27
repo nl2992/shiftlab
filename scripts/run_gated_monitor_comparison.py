@@ -5,6 +5,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import os
 import re
 import subprocess
 import sys
@@ -86,6 +87,34 @@ def one_task(task: tuple) -> list[dict]:
     return comparison_seed(*task)
 
 
+def starting_provenance() -> dict:
+    sources = sorted(
+        set((ROOT / "src/shiftlab").rglob("*.py"))
+        | {
+            PROTOCOL,
+            Path(__file__),
+            ROOT / "uv.lock",
+            ROOT / "scripts/reproduce_timans_risk_monitor_paired_cost.py",
+            ROOT / "docs/stratified_monitor_regime_map.md",
+        }
+    )
+    return {
+        "started_at_utc": datetime.now(UTC).isoformat(),
+        "git_head": git("rev-parse", "HEAD"),
+        "dirty_paths": git("status", "--porcelain").splitlines(),
+        "source_sha256": {str(p.relative_to(ROOT)): digest(p) for p in sources},
+        "thread_environment": {
+            key: os.environ.get(key)
+            for key in (
+                "OMP_NUM_THREADS",
+                "MKL_NUM_THREADS",
+                "OPENBLAS_NUM_THREADS",
+                "NUMEXPR_NUM_THREADS",
+            )
+        },
+    }
+
+
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--stage", choices=["fidelity", "smoke", "null", "compare"], required=True)
@@ -106,6 +135,7 @@ def main() -> None:
         raise FileExistsError(f"refusing to overwrite {out}")
     device = "cpu" if args.stage == "fidelity" else ("cuda" if torch.cuda.is_available() else "cpu")
     hardware = environment()
+    provenance = starting_provenance()
     start = time.perf_counter()
     inputs = {}
     if args.stage == "fidelity":
@@ -149,6 +179,22 @@ def main() -> None:
                 for budget in (0.02, 0.05, 0.1, 0.2)
                 for seed in range(58400000, 58400100)
             ]
+        out.mkdir(parents=True, exist_ok=True)
+        (out / "launch.json").write_text(
+            json.dumps(
+                {
+                    **provenance,
+                    "stage": args.stage,
+                    "workers": args.workers,
+                    "device": device,
+                    "tasks": len(tasks),
+                    "hardware": hardware,
+                },
+                indent=2,
+            )
+            + "\n",
+            encoding="utf-8",
+        )
         if args.workers == 1:
             rows = [row for task in tasks for row in one_task(task)]
         else:
@@ -159,36 +205,19 @@ def main() -> None:
     out.mkdir(parents=True, exist_ok=True)
     frame.to_parquet(out / "streams.parquet", index=False)
     (out / "decision.json").write_text(json.dumps(result, indent=2) + "\n", encoding="utf-8")
-    sources = [
-        PROTOCOL,
-        Path(__file__),
-        ROOT / "src/shiftlab/dive/gated_monitor_comparison.py",
-        ROOT / "src/shiftlab/dive/hard_budget.py",
-        ROOT / "src/shiftlab/dive/eprocess.py",
-        ROOT / "src/shiftlab/dive/proxy.py",
-        ROOT / "uv.lock",
-    ]
-    sources = sorted(
-        set(sources)
-        | set((ROOT / "src/shiftlab").rglob("*.py"))
-        | {
-            ROOT / "scripts/reproduce_timans_risk_monitor_paired_cost.py",
-            ROOT / "docs/stratified_monitor_regime_map.md",
-        }
-    )
     elapsed = time.perf_counter() - start
     manifest = {
+        **provenance,
         "stage": args.stage,
         "recorded_at_utc": datetime.now(UTC).isoformat(),
-        "git_head": git("rev-parse", "HEAD"),
-        "dirty_paths": git("status", "--porcelain").splitlines(),
+        "git_head_at_end": git("rev-parse", "HEAD"),
+        "dirty_paths_at_end": git("status", "--porcelain").splitlines(),
         "command": subprocess.list2cmdline(sys.argv),
         "device": device,
         "hardware": hardware,
         "runtime_seconds": elapsed,
         "workers": args.workers,
         "config": {"n": 3200, "d": 16, "epsilon": 0.1, "alpha": 0.05},
-        "source_sha256": {str(p.relative_to(ROOT)): digest(p) for p in sources},
         "inputs_sha256": inputs,
         "outputs_sha256": {p.name: digest(p) for p in out.iterdir() if p.is_file()},
     }

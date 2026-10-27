@@ -16,9 +16,10 @@ all subsequent factors equal 1. No DE-CuSum upward drift is added during a skip.
 
 For every fixed start j, products of these factors are nonnegative supermartingales.
 Mixing fixed stakes preserves that fact. A horizon H0=2400 has at most H0 starts;
-the sum of terminal start processes has expectation at most H0. The nonnegative
-submartingale-style SR recursion, or equivalently a stopped crossing argument for
-the sum over starts, gives P(max SR>=H0/alpha)<=alpha. CUSUM is bounded by SR
+the sum of terminal start processes has expectation at most H0. More precisely,
+`SR_t + H0-t` is a nonnegative supermartingale starting at H0, since the
+conditional expected SR increment is at most1. Ville's inequality therefore gives
+P(max SR>=H0/alpha)<=alpha. CUSUM is bounded by SR
 pathwise. Threshold is 48000 at alpha=.05, not 20. A fixed convex mixture of
 start-specific e-processes instead uses threshold 20. Skips advance calendar starts.
 This is a standard composition, not a new e-detector validity theorem.

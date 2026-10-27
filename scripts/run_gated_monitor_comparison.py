@@ -7,6 +7,7 @@ import hashlib
 import json
 import re
 import subprocess
+import sys
 import time
 from concurrent.futures import ProcessPoolExecutor
 from datetime import UTC, datetime
@@ -22,6 +23,8 @@ from shiftlab.dive.gated_monitor_comparison import comparison_seed
 from shiftlab.dive.predictable_bound_replay import first_crossing, replay_mixture_log_e
 
 ROOT = Path(__file__).resolve().parents[1]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
 PROTOCOL = ROOT / "docs/gated_vs_ungated_monitor_comparison_protocol.md"
 HISTORIC = ROOT / "outputs/monitor_signal_diagnostic_20_60_v2"
 
@@ -52,7 +55,7 @@ def fidelity() -> tuple[pd.DataFrame, dict]:
         group = group.sort_values("event_offset")
         np.testing.assert_array_equal(group.event_offset, np.arange(len(group)))
         np.testing.assert_allclose(group.propensity, 0.2, rtol=0, atol=1e-14)
-        values = group.monitor_increment.to_numpy(dtype=float)
+        values = group.ppi_increment.to_numpy(dtype=float)
         for arm, bound in [("uniform_ppi_common96p9", 96.9), ("uniform_ppi", 45.9)]:
             log_e = replay_mixture_log_e(values, bound, alpha=0.05)
             alarm = first_crossing(log_e, alpha=0.05)
@@ -179,7 +182,7 @@ def main() -> None:
         "recorded_at_utc": datetime.now(UTC).isoformat(),
         "git_head": git("rev-parse", "HEAD"),
         "dirty_paths": git("status", "--porcelain").splitlines(),
-        "command": subprocess.list2cmdline(__import__("sys").argv),
+        "command": subprocess.list2cmdline(sys.argv),
         "device": device,
         "hardware": hardware,
         "runtime_seconds": elapsed,

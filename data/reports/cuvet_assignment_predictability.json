@@ -1,0 +1,125 @@
+{
+  "audit": "cuvet_feature_only_assignment_predictability",
+  "timestamp_utc": "2026-10-26T21:15:35.200707+00:00",
+  "git_head": "525c79e36614c1611a801e3e39d598412efba9ad",
+  "script_sha256": "b4995182d1fc1f86a7aa059b3cb93a0df2211513eb23c80c84219ea03694fd0f",
+  "source": {
+    "source_revision": "36583ac60379ed83fd375c84d2bf8ce1c73869c1",
+    "train_file": "cuvet_policy_train.csv",
+    "train_bytes": 10317675360,
+    "train_git_oid": "f3700741375c68a267de6ed8eae6b05652766ec8",
+    "etag": "\"2cb1a5a7b4bde0db7ffe811ed79ada5f0c88b08ebdea13bcf8d9e7fc6f88353f\"",
+    "ranges_read": 128,
+    "range_bytes": 1048576,
+    "bytes_read_upper_bound": 134217728,
+    "rows_sampled": 845867,
+    "malformed_or_boundary_rows_skipped": 0,
+    "elapsed_seconds": 88.5,
+    "raw_rows_persisted": false,
+    "uses_outcome_columns": false
+  },
+  "information_contract": {
+    "predictors": [
+      "f0",
+      "f1",
+      "f2",
+      "f3",
+      "f4"
+    ],
+    "target": "randomized treatment arm (policy)",
+    "outcomes_used": false,
+    "source_test_accessed": false,
+    "source_test_rows_used": false,
+    "raw_rows_persisted": false,
+    "row_id_used_as_predictor": false
+  },
+  "split": {
+    "method": "seeded 70/15/15 split by disjoint train-only byte-range blocks",
+    "seed": 20261026,
+    "n_train": 588143,
+    "n_validation": 125556,
+    "n_test": 132168,
+    "range_blocks_train": 89,
+    "range_blocks_validation": 19,
+    "range_blocks_test": 20,
+    "training_arm_counts": {
+      "0.8": 49831,
+      "0.9": 54640,
+      "1.0": 354075,
+      "1.1": 63184,
+      "1.2": 66413
+    }
+  },
+  "training": {
+    "device": "cuda",
+    "gpu_name": "NVIDIA GeForce RTX 4060 Laptop GPU",
+    "torch_version": "2.9.1+cu130",
+    "models": [
+      {
+        "name": "linear_multinomial",
+        "architecture": "linear 5->5",
+        "early_stopping": true
+      },
+      {
+        "name": "nonlinear_mlp",
+        "architecture": "5->32 ReLU ->32 ReLU ->5",
+        "early_stopping": true
+      }
+    ]
+  },
+  "heldout_train_sample_metrics": {
+    "prevalence_only": {
+      "multiclass_log_loss": 1.2192775011062622,
+      "accuracy": 0.6034062504768372,
+      "balanced_accuracy": 0.20000000298023224,
+      "per_arm_recall": {
+        "0.8": 0.0,
+        "0.9": 0.0,
+        "1.0": 1.0,
+        "1.1": 0.0,
+        "1.2": 0.0
+      }
+    },
+    "linear_multinomial": {
+      "multiclass_log_loss": 1.2192784547805786,
+      "accuracy": 0.6034062504768372,
+      "balanced_accuracy": 0.20000000298023224,
+      "per_arm_recall": {
+        "0.8": 0.0,
+        "0.9": 0.0,
+        "1.0": 1.0,
+        "1.1": 0.0,
+        "1.2": 0.0
+      },
+      "paired_log_loss_gain_vs_prevalence_only": -8.836448728288815e-07,
+      "paired_range_block_se_descriptive": 2.93905395665206e-05,
+      "paired_range_block_t_95_interval_descriptive": [
+        -6.23980441855565e-05,
+        6.063075443989873e-05
+      ],
+      "selected_epoch": 20,
+      "best_validation_log_loss": 1.2211071252822876
+    },
+    "nonlinear_mlp": {
+      "multiclass_log_loss": 1.219468593597412,
+      "accuracy": 0.6034062504768372,
+      "balanced_accuracy": 0.20000000298023224,
+      "per_arm_recall": {
+        "0.8": 0.0,
+        "0.9": 0.0,
+        "1.0": 1.0,
+        "1.1": 0.0,
+        "1.2": 0.0
+      },
+      "paired_log_loss_gain_vs_prevalence_only": -0.00019115400209557265,
+      "paired_range_block_se_descriptive": 6.420598947443068e-05,
+      "paired_range_block_t_95_interval_descriptive": [
+        -0.00032553713806555604,
+        -5.677086612558923e-05
+      ],
+      "selected_epoch": 9,
+      "best_validation_log_loss": 1.2211689949035645
+    }
+  },
+  "interpretation": "This train-only prediction diagnostic asks whether released features predict treatment better than a train-prevalence-only model. Improvement is evidence of observed-feature assignment dependence; lack of improvement does not prove randomization, rule out hidden confounding, or validate the experiment's design probabilities. Intervals are descriptive cluster-based t intervals over held-out byte ranges; they assume independent sampled ranges and are not tests of the randomization design."
+}

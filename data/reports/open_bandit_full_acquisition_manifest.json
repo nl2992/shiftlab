@@ -1,0 +1,464 @@
+{
+  "manifest_schema_version": "1.0.0",
+  "dataset": "open_bandit_dataset_full_all_campaign",
+  "version": "08/18/2020 Open Bandit Dataset 1.0",
+  "created_at_utc": "2026-10-26T16:22:25.000734+00:00",
+  "status": "full_random_logger_processed_bts_reference_streamed_not_confirmation",
+  "source": {
+    "publisher": "ZOZO Research / ZOZO, Inc.",
+    "url": "https://research.zozo.com/data_release/open_bandit_dataset.zip",
+    "citation": "Saito et al. (2020), Open Bandit Dataset and Pipeline, arXiv:2008.07146",
+    "license": "CC BY 4.0, as stated in the full archive README",
+    "archive_path": "data/raw/open_bandit_dataset_full.zip",
+    "archive_bytes": 412931917,
+    "archive_sha256": "e8ec18196582a5937381a1776382ca940689b90a18d2dcd1fb635be6df614d78",
+    "archive_readme_sha256": "e18324d426498b7b51c4511b2330ed7746f4e88241cedcb7be4a38f17bb480bd",
+    "archive_version": "08/18/2020 Open Bandit Dataset 1.0",
+    "full_archive_uncompressed_bytes": 11746769342,
+    "archive_members": [
+      {
+        "name": "open_bandit_dataset/README",
+        "uncompressed_bytes": 2659,
+        "compressed_bytes": 1283
+      },
+      {
+        "name": "open_bandit_dataset/bts/all/item_context.csv",
+        "uncompressed_bytes": 10041,
+        "compressed_bytes": 1884
+      },
+      {
+        "name": "open_bandit_dataset/bts/all/all.csv",
+        "uncompressed_bytes": 6321017454,
+        "compressed_bytes": 203592547
+      },
+      {
+        "name": "open_bandit_dataset/bts/men/item_context.csv",
+        "uncompressed_bytes": 4287,
+        "compressed_bytes": 1067
+      },
+      {
+        "name": "open_bandit_dataset/bts/men/men.csv",
+        "uncompressed_bytes": 1332891122,
+        "compressed_bytes": 57454131
+      },
+      {
+        "name": "open_bandit_dataset/bts/women/item_context.csv",
+        "uncompressed_bytes": 5792,
+        "compressed_bytes": 1288
+      },
+      {
+        "name": "open_bandit_dataset/bts/women/women.csv",
+        "uncompressed_bytes": 2913666740,
+        "compressed_bytes": 110919836
+      },
+      {
+        "name": "open_bandit_dataset/VERSION",
+        "uncompressed_bytes": 34,
+        "compressed_bytes": 36
+      },
+      {
+        "name": "open_bandit_dataset/random/all/item_context.csv",
+        "uncompressed_bytes": 10041,
+        "compressed_bytes": 1886
+      },
+      {
+        "name": "open_bandit_dataset/random/all/all.csv",
+        "uncompressed_bytes": 695501426,
+        "compressed_bytes": 22089763
+      },
+      {
+        "name": "open_bandit_dataset/random/men/item_context.csv",
+        "uncompressed_bytes": 4287,
+        "compressed_bytes": 1070
+      },
+      {
+        "name": "open_bandit_dataset/random/men/men.csv",
+        "uncompressed_bytes": 151946449,
+        "compressed_bytes": 6446314
+      },
+      {
+        "name": "open_bandit_dataset/random/women/item_context.csv",
+        "uncompressed_bytes": 5792,
+        "compressed_bytes": 1283
+      },
+      {
+        "name": "open_bandit_dataset/random/women/women.csv",
+        "uncompressed_bytes": 331703218,
+        "compressed_bytes": 12415545
+      }
+    ]
+  },
+  "random_all": {
+    "source_member": "open_bandit_dataset/random/all/all.csv",
+    "source_member_uncompressed_bytes": 695501426,
+    "source_member_compressed_bytes": 22089763,
+    "rows": 1374327,
+    "columns": 90,
+    "column_names": [
+      "Unnamed: 0",
+      "timestamp",
+      "item_id",
+      "position",
+      "click",
+      "propensity_score",
+      "user_feature_0",
+      "user_feature_1",
+      "user_feature_2",
+      "user_feature_3",
+      "user-item_affinity_0",
+      "user-item_affinity_1",
+      "user-item_affinity_2",
+      "user-item_affinity_3",
+      "user-item_affinity_4",
+      "user-item_affinity_5",
+      "user-item_affinity_6",
+      "user-item_affinity_7",
+      "user-item_affinity_8",
+      "user-item_affinity_9",
+      "user-item_affinity_10",
+      "user-item_affinity_11",
+      "user-item_affinity_12",
+      "user-item_affinity_13",
+      "user-item_affinity_14",
+      "user-item_affinity_15",
+      "user-item_affinity_16",
+      "user-item_affinity_17",
+      "user-item_affinity_18",
+      "user-item_affinity_19",
+      "user-item_affinity_20",
+      "user-item_affinity_21",
+      "user-item_affinity_22",
+      "user-item_affinity_23",
+      "user-item_affinity_24",
+      "user-item_affinity_25",
+      "user-item_affinity_26",
+      "user-item_affinity_27",
+      "user-item_affinity_28",
+      "user-item_affinity_29",
+      "user-item_affinity_30",
+      "user-item_affinity_31",
+      "user-item_affinity_32",
+      "user-item_affinity_33",
+      "user-item_affinity_34",
+      "user-item_affinity_35",
+      "user-item_affinity_36",
+      "user-item_affinity_37",
+      "user-item_affinity_38",
+      "user-item_affinity_39",
+      "user-item_affinity_40",
+      "user-item_affinity_41",
+      "user-item_affinity_42",
+      "user-item_affinity_43",
+      "user-item_affinity_44",
+      "user-item_affinity_45",
+      "user-item_affinity_46",
+      "user-item_affinity_47",
+      "user-item_affinity_48",
+      "user-item_affinity_49",
+      "user-item_affinity_50",
+      "user-item_affinity_51",
+      "user-item_affinity_52",
+      "user-item_affinity_53",
+      "user-item_affinity_54",
+      "user-item_affinity_55",
+      "user-item_affinity_56",
+      "user-item_affinity_57",
+      "user-item_affinity_58",
+      "user-item_affinity_59",
+      "user-item_affinity_60",
+      "user-item_affinity_61",
+      "user-item_affinity_62",
+      "user-item_affinity_63",
+      "user-item_affinity_64",
+      "user-item_affinity_65",
+      "user-item_affinity_66",
+      "user-item_affinity_67",
+      "user-item_affinity_68",
+      "user-item_affinity_69",
+      "user-item_affinity_70",
+      "user-item_affinity_71",
+      "user-item_affinity_72",
+      "user-item_affinity_73",
+      "user-item_affinity_74",
+      "user-item_affinity_75",
+      "user-item_affinity_76",
+      "user-item_affinity_77",
+      "user-item_affinity_78",
+      "user-item_affinity_79"
+    ],
+    "missing_cells": 0,
+    "rows_out_of_file_order": 0,
+    "timestamp_min_utc": "2019-11-24",
+    "timestamp_max_utc": "2019-11-30",
+    "unique_items": 80,
+    "positions": [
+      1,
+      2,
+      3
+    ],
+    "propensity_min": 0.0125,
+    "propensity_max": 0.0125,
+    "propensity_unique_values": 1,
+    "click_rate": 0.0034693344451502445,
+    "daily": {
+      "2019-11-24": {
+        "rows": 206619,
+        "clicks": 700,
+        "click_rate": 0.0033878781719009383
+      },
+      "2019-11-25": {
+        "rows": 163989,
+        "clicks": 528,
+        "click_rate": 0.0032197281524980336
+      },
+      "2019-11-26": {
+        "rows": 179290,
+        "clicks": 684,
+        "click_rate": 0.0038150482458586647
+      },
+      "2019-11-27": {
+        "rows": 209738,
+        "clicks": 635,
+        "click_rate": 0.0030275867987679867
+      },
+      "2019-11-28": {
+        "rows": 231175,
+        "clicks": 848,
+        "click_rate": 0.003668216718935871
+      },
+      "2019-11-29": {
+        "rows": 200254,
+        "clicks": 693,
+        "click_rate": 0.0034606050316098556
+      },
+      "2019-11-30": {
+        "rows": 183262,
+        "clicks": 680,
+        "click_rate": 0.003710534644388908
+      }
+    },
+    "by_position": {
+      "1": {
+        "rows": 458005,
+        "clicks": 1622,
+        "click_rate": 0.003541446054082379,
+        "propensity_min": 0.0125,
+        "propensity_max": 0.0125,
+        "unique_items": 80
+      },
+      "2": {
+        "rows": 458158,
+        "clicks": 1590,
+        "click_rate": 0.0034704185019141867,
+        "propensity_min": 0.0125,
+        "propensity_max": 0.0125,
+        "unique_items": 80
+      },
+      "3": {
+        "rows": 458164,
+        "clicks": 1556,
+        "click_rate": 0.0033961638190691543,
+        "propensity_min": 0.0125,
+        "propensity_max": 0.0125,
+        "unique_items": 80
+      }
+    },
+    "parquet_path": "data/interim/open_bandit_full_all_v4/random_all.parquet",
+    "parquet_sha256": "7aa553753953b527439090d5ba5a5fe8e46b479ccc6c2f3ee3f55001156db8f1",
+    "parquet_bytes": 13729999
+  },
+  "bts_all_on_policy_reference": {
+    "source_member": "open_bandit_dataset/bts/all/all.csv",
+    "source_member_uncompressed_bytes": 6321017454,
+    "source_member_compressed_bytes": 203592547,
+    "rows": 12357200,
+    "propensity_min": 1e-06,
+    "propensity_max": 0.95424,
+    "click_rate": 0.004953225649823585,
+    "daily": {
+      "2019-11-24": {
+        "rows": 1871061,
+        "clicks": 9005,
+        "click_rate": 0.004812777349322122
+      },
+      "2019-11-25": {
+        "rows": 1479442,
+        "clicks": 7295,
+        "click_rate": 0.004930913141576351
+      },
+      "2019-11-26": {
+        "rows": 1611904,
+        "clicks": 7865,
+        "click_rate": 0.0048793228380846505
+      },
+      "2019-11-27": {
+        "rows": 1881508,
+        "clicks": 9601,
+        "click_rate": 0.005102821779126105
+      },
+      "2019-11-28": {
+        "rows": 2070362,
+        "clicks": 9885,
+        "click_rate": 0.00477452735318751
+      },
+      "2019-11-29": {
+        "rows": 1799911,
+        "clicks": 8666,
+        "click_rate": 0.004814682503746019
+      },
+      "2019-11-30": {
+        "rows": 1643012,
+        "clicks": 8891,
+        "click_rate": 0.0054114029599296905
+      }
+    },
+    "by_position": {
+      "1": {
+        "rows": 4118481,
+        "clicks": 20357,
+        "click_rate": 0.0049428417904562386
+      },
+      "2": {
+        "rows": 4119618,
+        "clicks": 20597,
+        "click_rate": 0.004999735412361049
+      },
+      "3": {
+        "rows": 4119101,
+        "clicks": 20254,
+        "click_rate": 0.004917092346121156
+      }
+    }
+  },
+  "item_context": {
+    "source_member": "open_bandit_dataset/random/all/item_context.csv",
+    "rows": 80,
+    "columns": [
+      "Unnamed: 0",
+      "item_id",
+      "item_feature_0",
+      "item_feature_1",
+      "item_feature_2",
+      "item_feature_3"
+    ],
+    "parquet_path": "data/interim/open_bandit_full_all_v4/item_context.parquet",
+    "parquet_sha256": "3e24cbb33c8fbd209aaee328d23cc8b38acc5978e4fd0b371266714bf3c4009c",
+    "parquet_bytes": 6173
+  },
+  "included_random_log_columns": [
+    "Unnamed: 0",
+    "timestamp",
+    "item_id",
+    "position",
+    "click",
+    "propensity_score",
+    "user_feature_0",
+    "user_feature_1",
+    "user_feature_2",
+    "user_feature_3",
+    "user-item_affinity_0",
+    "user-item_affinity_1",
+    "user-item_affinity_2",
+    "user-item_affinity_3",
+    "user-item_affinity_4",
+    "user-item_affinity_5",
+    "user-item_affinity_6",
+    "user-item_affinity_7",
+    "user-item_affinity_8",
+    "user-item_affinity_9",
+    "user-item_affinity_10",
+    "user-item_affinity_11",
+    "user-item_affinity_12",
+    "user-item_affinity_13",
+    "user-item_affinity_14",
+    "user-item_affinity_15",
+    "user-item_affinity_16",
+    "user-item_affinity_17",
+    "user-item_affinity_18",
+    "user-item_affinity_19",
+    "user-item_affinity_20",
+    "user-item_affinity_21",
+    "user-item_affinity_22",
+    "user-item_affinity_23",
+    "user-item_affinity_24",
+    "user-item_affinity_25",
+    "user-item_affinity_26",
+    "user-item_affinity_27",
+    "user-item_affinity_28",
+    "user-item_affinity_29",
+    "user-item_affinity_30",
+    "user-item_affinity_31",
+    "user-item_affinity_32",
+    "user-item_affinity_33",
+    "user-item_affinity_34",
+    "user-item_affinity_35",
+    "user-item_affinity_36",
+    "user-item_affinity_37",
+    "user-item_affinity_38",
+    "user-item_affinity_39",
+    "user-item_affinity_40",
+    "user-item_affinity_41",
+    "user-item_affinity_42",
+    "user-item_affinity_43",
+    "user-item_affinity_44",
+    "user-item_affinity_45",
+    "user-item_affinity_46",
+    "user-item_affinity_47",
+    "user-item_affinity_48",
+    "user-item_affinity_49",
+    "user-item_affinity_50",
+    "user-item_affinity_51",
+    "user-item_affinity_52",
+    "user-item_affinity_53",
+    "user-item_affinity_54",
+    "user-item_affinity_55",
+    "user-item_affinity_56",
+    "user-item_affinity_57",
+    "user-item_affinity_58",
+    "user-item_affinity_59",
+    "user-item_affinity_60",
+    "user-item_affinity_61",
+    "user-item_affinity_62",
+    "user-item_affinity_63",
+    "user-item_affinity_64",
+    "user-item_affinity_65",
+    "user-item_affinity_66",
+    "user-item_affinity_67",
+    "user-item_affinity_68",
+    "user-item_affinity_69",
+    "user-item_affinity_70",
+    "user-item_affinity_71",
+    "user-item_affinity_72",
+    "user-item_affinity_73",
+    "user-item_affinity_74",
+    "user-item_affinity_75",
+    "user-item_affinity_76",
+    "user-item_affinity_77",
+    "user-item_affinity_78",
+    "user-item_affinity_79"
+  ],
+  "task_contract_status": {
+    "available": [
+      "UTC impression time",
+      "item action",
+      "position",
+      "click outcome",
+      "logged propensity"
+    ],
+    "unknown": [
+      "click feedback release time",
+      "feature delivery time",
+      "user/session identifier",
+      "whole-slate request identifier"
+    ],
+    "scope": "fixed-horizon off-policy policy-value comparison only; no online or anytime-valid claim"
+  },
+  "limitations": [
+    "The archive covers a 7-day historical experiment; it has only seven coarse calendar blocks.",
+    "The 10,000-row small sample and full archive are not independent datasets; the small sample is a subset for plumbing only.",
+    "The logged click is real platform feedback, not revenue, conversion, welfare, or net business utility.",
+    "The published method assumes per-item click reward depends on item and position; reproduce that assumption explicitly for slate evaluation.",
+    "User-item affinity features encode prior clicks and are excluded from any learner until their as-of availability is verified.",
+    "The Random log is stored in a projected research-ready Parquet; the BTS log was streamed into aggregate on-policy reference metrics and was not expanded to disk."
+  ]
+}

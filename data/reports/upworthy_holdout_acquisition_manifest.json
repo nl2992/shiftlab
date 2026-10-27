@@ -1,0 +1,19 @@
+{
+  "schema_version": "1.0.0",
+  "dataset": "Upworthy Research Archive",
+  "partition": "official holdout",
+  "source_url": "https://osf.io/jd64p/",
+  "osf_node": "jd64p",
+  "osf_file_id": "608ff68c5533b4028ee21eb8",
+  "filename": "upworthy-archive-holdout-packages-03.12.2020.csv",
+  "bytes": 14174776,
+  "sha256": "93832660b831aca16bbe314c60dba4a6815b0a5f9cdded1217671cfbfa5186ea",
+  "license": "CC BY 4.0",
+  "acquired_at_utc": "2026-10-27T00:57:45.885639+00:00",
+  "protocol": "papers/shiftguard_unified/upworthy_policy_selection_protocol_v1.md",
+  "protocol_sha256": "a8b6bb74a627674b9b007023bea562991eff78d3a5fa017931e73a146b82715f",
+  "evaluation_runner_sha256": "825c86069c26db326a623234e475d1c3f4548506e328344317d973ec09771a50",
+  "policy_implementation_sha256": "f5004163bb7eed139d943c2e4167215f177a71be8d6ef98f475bfb00edb2fb62",
+  "acquisition_script_sha256": "152cbf15844eee142c2a702214b76caf406a47ea6d09ae932b6ac97b12feb59f",
+  "data_opened_after_protocol_freeze": true
+}

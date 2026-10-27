@@ -7,6 +7,7 @@ from shiftlab.dive.residual_variance_pva_grid import (
     _vectorized_pva,
     pva_grid,
 )
+from shiftlab.dive.stratified_eprocess import ContextStratifiedEProcess
 
 
 def test_pva_grid_matches_scalar_reference_with_padded_streams():
@@ -53,3 +54,23 @@ def test_pva_development_grid_has_expected_cardinality_and_fixed_parameters():
     candidates = pva_grid()
     assert len(candidates) == 81
     assert len({candidate.name for candidate in candidates}) == 81
+
+
+def test_context_stratified_process_updates_only_selected_group_and_splits_alpha():
+    process = ContextStratifiedEProcess(
+        contexts=("boundary", "non_boundary"), bound=1.0, alpha=0.05
+    )
+    assert process.processes["boundary"].alpha == 0.025
+    assert process.processes["non_boundary"].alpha == 0.025
+    assert process.update(0.2, context="boundary") == process.log_e_values["boundary"]
+    assert process.processes["non_boundary"].n_updates == 0
+    assert not process.alarm
+    for _ in range(100):
+        process.update(1.0, context="boundary")
+    assert process.alarmed_contexts == ("boundary",)
+    try:
+        process.update(0.0, context="unknown")
+    except ValueError as exc:
+        assert "unknown context" in str(exc)
+    else:
+        raise AssertionError("unknown context should be rejected")

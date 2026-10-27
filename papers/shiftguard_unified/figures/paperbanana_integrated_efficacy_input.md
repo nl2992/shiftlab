@@ -1,0 +1,33 @@
+# PaperBanana input: integrated efficacy forest plot
+
+Create a publication-style statistical forest plot from the exact data below. Plot mean paired expected-utility difference on the x-axis; positive values favor Full pipeline. Use three facets by comparator, with the eight profiles in the same order in each facet. Plot the supplied descriptive paired-seed bootstrap 95% intervals as bars and the mean as a point; add a vertical zero line. Preserve every row and numeric value exactly. The plotted intervals are descriptive, not multiplicity-adjusted and not the registered tests. Do not infer or invent values.
+
+Caption: Integrated synthetic efficacy confirmation (100 independent streams per profile). Each point is the mean paired expected-utility difference of the full monitor–scout–certify–intervene pipeline relative to the named baseline; positive values favor the full pipeline. Bars show descriptive paired-seed bootstrap 95% intervals. The registered 22 one-sided contrasts use Holm adjustment; see the result table for adjusted tests and simultaneous lower bounds. Synthetic results under the frozen 640-label cap; not real-data confirmation.
+
+Validate every plotted point and interval against the CSV before publication.
+
+```csv
+profile,comparison,streams,mean_paired_expected_utility_difference,bootstrap_ci_low_95_descriptive,bootstrap_ci_high_95_descriptive,holm_adjusted_p,holm_reject_at_0_05,bonferroni_simultaneous_lower_95,interval_note
+Boundary-local harm,Full pipeline vs Continue,100,118.00595700049622,89.92540794931276,147.17904555258258,2.0895324503381417e-11,True,75.37436623484231,Descriptive paired-seed bootstrap 95% CI; not multiplicity-adjusted
+Post-promotion reversal,Full pipeline vs Continue,100,-143.75799999999998,-170.07302499999994,-117.79899999999999,1.0,False,-182.4770752656544,Descriptive paired-seed bootstrap 95% CI; not multiplicity-adjusted
+Recurring regimes,Full pipeline vs Continue,100,0.0,0.0,0.0,1.0,False,0.0,Descriptive paired-seed bootstrap 95% CI; not multiplicity-adjusted
+Residual-variance shift,Full pipeline vs Continue,100,0.0,0.0,0.0,1.0,False,0.0,Descriptive paired-seed bootstrap 95% CI; not multiplicity-adjusted
+Adaptation begins during monitor,Full pipeline vs Continue,100,161.1609602194227,134.0769474912281,187.45942521980868,3.1490516218563317e-19,True,120.99603260694937,Descriptive paired-seed bootstrap 95% CI; not multiplicity-adjusted
+Adaptation begins after monitor,Full pipeline vs Continue,100,0.0,0.0,0.0,1.0,False,0.0,Descriptive paired-seed bootstrap 95% CI; not multiplicity-adjusted
+Stationary,Full pipeline vs Two-gate,100,0.0,0.0,0.0,1.0,False,0.0,Descriptive paired-seed bootstrap 95% CI; not multiplicity-adjusted
+Benign nuisance shift,Full pipeline vs Two-gate,100,0.0,0.0,0.0,1.0,False,0.0,Descriptive paired-seed bootstrap 95% CI; not multiplicity-adjusted
+Boundary-local harm,Full pipeline vs Two-gate,100,-68.53008304443405,-94.41698202685298,-44.19761869542358,1.0,False,-106.4130266213347,Descriptive paired-seed bootstrap 95% CI; not multiplicity-adjusted
+Post-promotion reversal,Full pipeline vs Two-gate,100,37.264,19.107,57.91902500000001,0.0024823806287365183,True,8.693271919073652,Descriptive paired-seed bootstrap 95% CI; not multiplicity-adjusted
+Recurring regimes,Full pipeline vs Two-gate,100,0.0,0.0,0.0,1.0,False,0.0,Descriptive paired-seed bootstrap 95% CI; not multiplicity-adjusted
+Residual-variance shift,Full pipeline vs Two-gate,100,-8.916007375259488,-15.789925053000353,-2.881276581945311,1.0,False,-18.493359057817766,Descriptive paired-seed bootstrap 95% CI; not multiplicity-adjusted
+Adaptation begins during monitor,Full pipeline vs Two-gate,100,-40.09504778670036,-60.241003461320815,-22.51000721432484,1.0,False,-68.88736579754169,Descriptive paired-seed bootstrap 95% CI; not multiplicity-adjusted
+Adaptation begins after monitor,Full pipeline vs Two-gate,100,-201.256008006123,-225.3675165153942,-176.46979246692797,1.0,False,-238.06654737973577,Descriptive paired-seed bootstrap 95% CI; not multiplicity-adjusted
+Stationary,Full pipeline vs Fixed-candidate pipeline,100,0.0,0.0,0.0,1.0,False,0.0,Descriptive paired-seed bootstrap 95% CI; not multiplicity-adjusted
+Benign nuisance shift,Full pipeline vs Fixed-candidate pipeline,100,0.0,0.0,0.0,1.0,False,0.0,Descriptive paired-seed bootstrap 95% CI; not multiplicity-adjusted
+Boundary-local harm,Full pipeline vs Fixed-candidate pipeline,100,-129.50749543278653,-158.27520905491482,-100.83090148213714,1.0,False,-172.62890885139302,Descriptive paired-seed bootstrap 95% CI; not multiplicity-adjusted
+Post-promotion reversal,Full pipeline vs Fixed-candidate pipeline,100,73.22800000000001,48.17094999999999,99.98917499999992,3.3049749834164456e-06,True,34.39397812578865,Descriptive paired-seed bootstrap 95% CI; not multiplicity-adjusted
+Recurring regimes,Full pipeline vs Fixed-candidate pipeline,100,0.0,0.0,0.0,1.0,False,0.0,Descriptive paired-seed bootstrap 95% CI; not multiplicity-adjusted
+Residual-variance shift,Full pipeline vs Fixed-candidate pipeline,100,0.0,0.0,0.0,1.0,False,0.0,Descriptive paired-seed bootstrap 95% CI; not multiplicity-adjusted
+Adaptation begins during monitor,Full pipeline vs Fixed-candidate pipeline,100,-82.31663148778179,-108.8784137468106,-56.75159935799804,1.0,False,-120.91118469102896,Descriptive paired-seed bootstrap 95% CI; not multiplicity-adjusted
+Adaptation begins after monitor,Full pipeline vs Fixed-candidate pipeline,100,0.0,0.0,0.0,1.0,False,0.0,Descriptive paired-seed bootstrap 95% CI; not multiplicity-adjusted
+```

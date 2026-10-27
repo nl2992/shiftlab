@@ -1,0 +1,124 @@
+{
+  "schema_version": "1.0.0",
+  "status": "completed_frozen_fixed_horizon_holdout_evaluation",
+  "created_at_utc": "2026-10-27T00:58:06.128616+00:00",
+  "protocol": {
+    "path": "papers/shiftguard_unified/upworthy_policy_selection_protocol_v1.md",
+    "sha256": "a8b6bb74a627674b9b007023bea562991eff78d3a5fa017931e73a146b82715f",
+    "primary_null": "equal-test mean selected-package CTR minus uniform-over-packages CTR <= 0",
+    "candidate": "text-only regularized binomial logistic CTR predictor",
+    "reference": "uniform random choice over eligible packages within each test",
+    "c_grid": [
+      0.01,
+      0.1,
+      1.0,
+      10.0
+    ],
+    "risk_window_inclusive": [
+      "2013-06-24",
+      "2014-01-11"
+    ],
+    "bootstrap": {
+      "week_clusters": 90,
+      "bootstrap_replicates": 10000,
+      "seed": 20261026,
+      "delta_ci_95": [
+        0.0008501072400074344,
+        0.0011696499241074935
+      ],
+      "delta_one_sided_lower_95": 0.0008722718374134762,
+      "selected_ctr_ci_95": [
+        0.013523821660482896,
+        0.015481039296027139
+      ],
+      "uniform_ctr_ci_95": [
+        0.012616128301724434,
+        0.014373480026455707
+      ]
+    }
+  },
+  "source": {
+    "dataset": "Upworthy Research Archive",
+    "license": "CC BY 4.0",
+    "training_partition": {
+      "filename": "upworthy-archive-exploratory-packages-03.12.2020.csv",
+      "sha256": "8368313b060f4015a0c6fb34e6d788163cee29554144aba9390b14922eb9d8ce",
+      "raw_rows": 22666,
+      "raw_tests": 4873,
+      "eligibility": {
+        "input_tests": 4873,
+        "risk_window_tests": 1057,
+        "invalid_count_tests": 0,
+        "singleton_tests": 0,
+        "eligible_tests": 3816,
+        "eligible_arms": 18362
+      }
+    },
+    "evaluation_partition": {
+      "filename": "upworthy-archive-holdout-packages-03.12.2020.csv",
+      "sha256": "93832660b831aca16bbe314c60dba4a6815b0a5f9cdded1217671cfbfa5186ea",
+      "raw_rows": 22600,
+      "raw_tests": 4871,
+      "eligibility": {
+        "input_tests": 4871,
+        "risk_window_tests": 1063,
+        "invalid_count_tests": 0,
+        "singleton_tests": 0,
+        "eligible_tests": 3808,
+        "eligible_arms": 18278
+      },
+      "experiment_id_overlap_with_training": 0
+    }
+  },
+  "model": {
+    "selected_C": 0.01,
+    "grouped_cv_mean_delta_by_C": {
+      "0.01": 0.000763156615125184,
+      "0.1": 0.0007441463157754362,
+      "1.0": 0.0007009893400772256,
+      "10.0": 0.0007311086664354962
+    },
+    "features": [
+      "headline",
+      "excerpt"
+    ],
+    "vectorizer": {
+      "ngram_range": [
+        1,
+        2
+      ],
+      "min_df": 3,
+      "max_features": 50000,
+      "sublinear_tf": true
+    },
+    "estimator": "LogisticRegression(solver='liblinear', max_iter=1000, random_state=20261026; sample weights = clicks/non-clicks)",
+    "inference_device": "CPU sparse linear model; dense GPU conversion not justified for this small text corpus"
+  },
+  "results": {
+    "eligible_tests": 3808,
+    "eligible_arms": 18278,
+    "equal_test_selected_ctr": 0.014455001135516902,
+    "equal_test_uniform_ctr": 0.01345303501275872,
+    "equal_test_delta_ctr": 0.0010019661227581836,
+    "impression_weighted_delta_ctr": 0.0009810250651544664,
+    "evaluator_only_best_arm_ctr": 0.017467104285645796,
+    "evaluation_impressions": 63787875,
+    "primary_lower_bound_above_zero": true
+  },
+  "limitations": [
+    "The holdout partition is public and project-relative, not globally secret.",
+    "The archive provides aggregate randomized arm outcomes, not impression-level feedback.",
+    "The result is fixed-horizon package choice only; no sequential monitoring, delayed feedback, or resource-allocation claim.",
+    "CTR is not revenue, welfare, or net business utility.",
+    "A date-based exclusion addresses the publisher-reported suspected assignment issue but is not a corrected row-level Problem flag.",
+    "Experiment-level transport to future stories is not established by this historical archive."
+  ],
+  "runtime": {
+    "started_at_utc": "2026-10-27T00:57:51.789347+00:00",
+    "finished_at_utc": "2026-10-27T00:58:06.128616+00:00"
+  },
+  "software": {
+    "scikit_learn": "1.9.1",
+    "pandas": "3.0.6"
+  }
+}

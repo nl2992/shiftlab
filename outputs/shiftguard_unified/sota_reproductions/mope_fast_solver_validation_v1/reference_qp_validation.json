@@ -1,0 +1,13 @@
+{
+  "status": "passed",
+  "seed": 2026102607,
+  "cases": 250,
+  "wmax": 80,
+  "reference_repository_commit": "a4b8584b622f3a8296932568c520c1bb3e1957f0",
+  "reference_file_sha256": "b439f24839d689f10b9d97b36a8348ea6180dda3ab442a75036e6c800f8df5cc",
+  "fast_solver_file_sha256": "00b4031919cb97fb4027eb08829de392abdae65b0bee8bafa76168a279a530b8",
+  "maximum_absolute_solution_difference": 8.316848559147827e-07,
+  "maximum_objective_difference": 1.4804693929115764e-13,
+  "infeasible_reference_solution_count": 0,
+  "claim_scope": "optimizer equivalence only; not OBD confidence-sequence validity"
+}

@@ -1,0 +1,65 @@
+{
+  "schema_version": 1,
+  "freeze_status": "working_tree_snapshot",
+  "created_date": "2026-10-27",
+  "repository": {
+    "head": "525c79e36614c1611a801e3e39d598412efba9ad",
+    "branch": "main",
+    "worktree_clean": false,
+    "note": "Hashes freeze the listed files and evidence outputs in this snapshot; HEAD alone does not identify these uncommitted changes. Re-freeze after review/commit before publication."
+  },
+  "references": {
+    "q1_dive_direct_paired_cost_monitor": {
+      "status": "frozen_component_reference",
+      "implementation": [
+        {"path": "src/shiftlab/dive/eprocess.py", "sha256": "a9355d3883118ed32039feafe0db0b01fd8824dfbaed2e3d70e6710964565d41", "symbol": "BoundedMeanEProcess"},
+        {"path": "src/shiftlab/dive/integrated_pipeline.py", "sha256": "657de5c973f8866db0e018fa6a0b131b83290d013b73275d391f395ede4bcfdc", "symbol": "run_seed / direct monitor path"}
+      ],
+      "tests": [
+        {"path": "tests/test_dive_eprocess.py", "sha256": "9f2bf9a4f8d757ea547231200d5a52a07afa45cb280c5f8e51837bbca06b0a14"},
+        {"path": "tests/test_integrated_pipeline.py", "sha256": "bb6db6b3d4fe5c9537bdf831eb18560ee4d80dbd33c6ff29cdbd4a25a78be117"}
+      ],
+      "protocol": {"path": "papers/shiftguard_unified/integrated_efficacy_confirmation_protocol_v1.md", "sha256": "0dac5a5fc605ec39c7e9bff591a64d422427fdab5526c51e9da5aa07bfc4b20a"},
+      "evidence": [
+        {"path": "outputs/shiftguard_unified/integrated_confirmation/efficacy_100_v1/manifest.json", "sha256": "e1bc156d663ed1c7b53bfe0b882ab96deba41237bb86a18f806c33372c3cc7d8"},
+        {"path": "outputs/shiftguard_unified/integrated_confirmation/efficacy_100_v1/analysis_v3/verification.json", "sha256": "2d05080e093da3f1bbeb843de6ade804885f52b14bd3671965841f71a5393715"}
+      ],
+      "estimand_and_assumptions": "Direct bounded incumbent-minus-deployed paired decision-cost increments. Anytime-valid conditional-mean control requires the signed increment, bound, and event filtration to match the declared null; the implementation cannot establish those data assumptions. This is the frozen DIVE component reference, not a claim that DIVE is superior to established monitors."
+    },
+    "q2_target_scout_fresh_certification": {
+      "status": "frozen_component_reference",
+      "implementation": [
+        {"path": "scripts/compare_target_scout_fixed_split.py", "sha256": "c597ae0a81b573b0599b4a5c38b51424d36fd9e10e33edd59cc71e81e4bcfd62"},
+        {"path": "scripts/confirm_target_scout_fixed_split.py", "sha256": "54bf18bc6eaa79beae934ee46d0049d75a9427a1f0f786c66765f5ad19c68d52"},
+        {"path": "scripts/calibrate_target_scout_fixed_split.py", "sha256": "11303043cd4c64db1d03e1e1fa32c645be27c0671ae7ca930a337a40aa50b3d2"},
+        {"path": "src/shiftlab/dive/budgeted_promotion.py", "sha256": "681a4e13fd4ebff212dbac1e67c84da3c8d224a9009b59ed0043a1695ad75bc0", "symbol": "_monitor_scout_context_policy (integrated variant)"}
+      ],
+      "tests": {"path": "tests/test_target_scout_fixed_split_calibration.py", "sha256": "07f004721415af1a4d594514c30c0081f943b01eca68a8bb4be6293a62b7d514"},
+      "protocol": {"path": "papers/shiftguard_unified/target_scout_fixed_split_confirmation_protocol.md", "sha256": "bcbcb73afb1e3ac24f382c4658b5745c19b0d8c809ea763b667e6ff419114a77"},
+      "null_protocol": {"path": "papers/shiftguard_unified/target_scout_fixed_split_null_calibration_protocol.md", "sha256": "aa2b26715a7c551e1abd9473266a09d03825b6eaca21494534dacf77dde76392"},
+      "evidence": [
+        {"path": "outputs/shiftguard_unified/sota_reproductions/target_scout_fixed_split_null_calibration_v1/manifest.json", "sha256": "a4af3d03ee493879258fe1db872df8dbb501f4674c6f1107b538f01ca99491b3"},
+        {"path": "outputs/shiftguard_unified/sota_reproductions/target_scout_fixed_split_confirmation_v1/manifest.json", "sha256": "d517bf9b09df27ae5ec3b9471fac5a6760633d03572034c51644d838d8a5e821"},
+        {"path": "outputs/shiftguard_unified/sota_reproductions/target_scout_fixed_split_confirmation_v1/verification.json", "sha256": "66e030b019c1f3acd8ba977ea05af5ab3707e3152e46b7c5efab4fed0f3d3014"}
+      ],
+      "estimand_and_assumptions": "Select a candidate using an early target slice, then certify on fresh events under the registered synthetic candidate family, randomized direct-IPW monitoring, shared query-uniforms, total label cap, and exact-rule null calibration gate. Confirmation is specific to that DGP and is not a real-data or universal advantage claim."
+    },
+    "q3_cost_aware_controller_and_integrated_reference": {
+      "status": "frozen_component_reference_not_validated_as_unified_winner",
+      "implementation": [
+        {"path": "src/shiftlab/dive/controller.py", "sha256": "bdeb77dcf4089d72a795d54bd1d2fd9a415757feeb7be020860e3a02b796178c", "symbols": ["InterventionController", "CertifiedPromotionRollback"]},
+        {"path": "src/shiftlab/dive/integrated_pipeline.py", "sha256": "657de5c973f8866db0e018fa6a0b131b83290d013b73275d391f395ede4bcfdc"}
+      ],
+      "tests": [
+        {"path": "tests/test_dive_controller.py", "sha256": "31fa927e6122316ab2c498f09a0d7a1f83b2ca50d6295f333a5a9e3297501561"},
+        {"path": "tests/test_integrated_pipeline.py", "sha256": "bb6db6b3d4fe5c9537bdf831eb18560ee4d80dbd33c6ff29cdbd4a25a78be117"}
+      ],
+      "protocol": {"path": "papers/shiftguard_unified/integrated_efficacy_confirmation_protocol_v1.md", "sha256": "0dac5a5fc605ec39c7e9bff591a64d422427fdab5526c51e9da5aa07bfc4b20a"},
+      "evidence": [
+        {"path": "outputs/shiftguard_unified/integrated_confirmation/efficacy_100_v1/manifest.json", "sha256": "e1bc156d663ed1c7b53bfe0b882ab96deba41237bb86a18f806c33372c3cc7d8"},
+        {"path": "outputs/shiftguard_unified/integrated_confirmation/efficacy_100_v1/analysis_v3/verification.json", "sha256": "2d05080e093da3f1bbeb843de6ade804885f52b14bd3671965841f71a5393715"}
+      ],
+      "estimand_and_assumptions": "One-step action ranking uses forecast net value with explicit label, compute, and switching costs, while promotion/fallback require separate authorization. The integrated synthetic confirmation spans the registered eight-scenario, 100-seed-per-cell design and 640-label total cap. Evidence shows no general advantage over simpler methods; this is a reference baseline, not an endorsed deployment policy."
+    }
+  }
+}

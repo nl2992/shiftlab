@@ -1107,6 +1107,7 @@ def _monitor_scout_context_policy(
 
     log_wealth = np.zeros(len(BETTING_STAKES), dtype=float)
     log_e_value = 0.0
+    certification_log_e_path: list[float] = []
     certified = False
     processed = 0
     bound_total = 0.0
@@ -1157,6 +1158,7 @@ def _monitor_scout_context_policy(
                 raise RuntimeError("nonpositive scout-policy betting factor")
             cumulative_log_wealth = np.cumsum(np.log(factors), axis=0)
             log_e_values = logsumexp(cumulative_log_wealth + BETTING_LOG_WEIGHTS[None, :], axis=1)
+            certification_log_e_path = log_e_values.astype(float).tolist()
             certified = bool(np.any(log_e_values >= -np.log(config.alpha)))
             log_wealth = cumulative_log_wealth[-1] if processed else log_wealth
             log_e_value = float(log_e_values[-1]) if processed else log_e_value
@@ -1206,6 +1208,7 @@ def _monitor_scout_context_policy(
                 raise RuntimeError("nonpositive scout-policy betting factor")
             log_wealth += np.log(factors)
             log_e_value = float(logsumexp(log_wealth + BETTING_LOG_WEIGHTS))
+            certification_log_e_path.append(log_e_value)
             certified |= log_e_value >= -np.log(config.alpha)
             bound_total += event_bound
             max_event_bound = max(max_event_bound, event_bound)
@@ -1219,6 +1222,14 @@ def _monitor_scout_context_policy(
     if labels_used > budget:
         raise RuntimeError("hard label budget was exceeded")
     stop_index = start + scout_length + processed
+    certification_crossings = np.flatnonzero(
+        np.asarray(certification_log_e_path, dtype=np.float64) >= -np.log(config.alpha)
+    )
+    certification_event = (
+        int(certification_start + certification_crossings[0])
+        if len(certification_crossings)
+        else None
+    )
     cert_indices = np.arange(certification_start, stop_index)
     cert_contexts = np.asarray(family["contexts"][cert_indices], dtype=int)
     monitor_expected = np.zeros(processed, dtype=float)
@@ -1286,6 +1297,8 @@ def _monitor_scout_context_policy(
         "scout_selection_gain_by_context": json.dumps(selection_gain_by_context, sort_keys=True),
         "candidate_is_monitor_null": monitor_null,
         "promoted": promoted,
+        "promotion_event": certification_event if promoted else None,
+        "certification_log_e_path": certification_log_e_path,
         "pointwise_null_candidate_certified": bool(certified and monitor_null),
         "pointwise_null_candidate_certificate_count": int(certified and monitor_null),
         "selected_candidate_monitor_expected_net_gain": (
@@ -1949,7 +1962,7 @@ def run_budgeted_promotion(
     paired_path = metrics_dir / "budgeted_promotion_paired_contrasts.parquet"
     if (detail_path.exists() or summary_path.exists()) and not reuse_detail:
         raise FileExistsError(f"refusing to overwrite existing budgeted promotion run: {output}")
-    scenarios = (
+    scenarios: tuple[Any, ...] = (
         *SCENARIOS,
         type(SCENARIOS[0])(
             name="candidate_family_null",
@@ -2091,7 +2104,7 @@ def run_budgeted_promotion(
         ],
     }
     if config.create_plot:
-        manifest["artifacts"].append("figures/budgeted_promotion_grid.png")
+        cast(list[str], manifest["artifacts"]).append("figures/budgeted_promotion_grid.png")
     (reports_dir / "manifest.json").write_text(json.dumps(manifest, indent=2), encoding="utf-8")
     finalize_manifest(output)
     return report_path

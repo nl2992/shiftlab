@@ -1,0 +1,279 @@
+{
+  "audit": "cuvet_policy_source_access",
+  "audit_timestamp_utc": "2026-10-26T21:51:46.348189+00:00",
+  "dataset_id": "anonadata/CUVET-policy",
+  "dataset_revision": "36583ac60379ed83fd375c84d2bf8ce1c73869c1",
+  "license_reported_by_source": "cc-by-nc-sa-4.0",
+  "source_files": {
+    "cuvet_policy_train.csv": {
+      "api_size_bytes": 10317675360,
+      "api_oid": "f3700741375c68a267de6ed8eae6b05652766ec8",
+      "http_status": 200,
+      "final_url_host": "us.aws.cdn.hf.co",
+      "content_length_bytes": 10317675360,
+      "etag": "\"2cb1a5a7b4bde0db7ffe811ed79ada5f0c88b08ebdea13bcf8d9e7fc6f88353f\"",
+      "x_linked_etag": null,
+      "xet_hash": null,
+      "accept_ranges": "bytes"
+    },
+    "cuvet_policy_test.csv": {
+      "api_size_bytes": 3395873532,
+      "api_oid": "a170a2a3572e7f7cfe608ee5eab72e684603c44b",
+      "http_status": 200,
+      "final_url_host": "us.aws.cdn.hf.co",
+      "content_length_bytes": 3395873532,
+      "etag": "\"2d335d074bad1f12c92d42a31ef4730efd273a0d67b7f22242ab1da741ea5df9\"",
+      "x_linked_etag": null,
+      "xet_hash": null,
+      "accept_ranges": "bytes"
+    }
+  },
+  "bounded_remote_read": null,
+  "train_assignment_sample": null,
+  "train_full_stream": {
+    "split": "full train only; official test file not read",
+    "method": "single HTTP stream; aggregate counts, missingness, feature moments, and treatment-by-is_val outcome sums only; no row persistence",
+    "content_length_bytes": 10317675360,
+    "records_parsed": 65031420,
+    "malformed_rows": 0,
+    "missing_cells_by_field": {},
+    "treatment_assignment": {
+      "0.8": {
+        "n": 5517017,
+        "empirical_train_fraction": 0.08483617611302352,
+        "feature_smd_vs_reference": {
+          "f0": 0.0008117716940662002,
+          "f1": -0.012012676843255044,
+          "f2": 0.0050112500661621704,
+          "f3": 0.004062353688331047,
+          "f4": 0.005587948477732476
+        },
+        "max_abs_feature_smd_vs_reference": 0.012012676843255044
+      },
+      "0.9": {
+        "n": 5994552,
+        "empirical_train_fraction": 0.0921793188584841,
+        "feature_smd_vs_reference": {
+          "f0": -0.0016533793507841111,
+          "f1": -0.006818707913303051,
+          "f2": 0.000650323722945108,
+          "f3": 0.0023944765047783385,
+          "f4": 0.0025871730713474743
+        },
+        "max_abs_feature_smd_vs_reference": 0.006818707913303051
+      },
+      "1.0": {
+        "n": 39183711,
+        "empirical_train_fraction": 0.6025350668953561
+      },
+      "1.1": {
+        "n": 6953681,
+        "empirical_train_fraction": 0.10692802033232551,
+        "feature_smd_vs_reference": {
+          "f0": -0.00033041070435571313,
+          "f1": 0.010221459240881655,
+          "f2": -0.000597636044540278,
+          "f3": -0.0015758721653266383,
+          "f4": 0.002884876379157407
+        },
+        "max_abs_feature_smd_vs_reference": 0.010221459240881655
+      },
+      "1.2": {
+        "n": 7382459,
+        "empirical_train_fraction": 0.11352141780081075,
+        "feature_smd_vs_reference": {
+          "f0": -0.0020640559702088924,
+          "f1": 0.01330172465822536,
+          "f2": 0.0004915982758737181,
+          "f3": -0.0025401524470707432,
+          "f4": -0.0018444977338122445
+        },
+        "max_abs_feature_smd_vs_reference": 0.01330172465822536
+      }
+    },
+    "treatment_shares_by_source_row_id_band_10m": {
+      "000000000s": {
+        "n": 5439971,
+        "empirical_arm_shares": {
+          "0.8": 0.08511295372714303,
+          "0.9": 0.0922308225540173,
+          "1.0": 0.6023146079271379,
+          "1.1": 0.10699284977805948,
+          "1.2": 0.11334876601364235
+        }
+      },
+      "010000000s": {
+        "n": 5852639,
+        "empirical_arm_shares": {
+          "0.8": 0.085091699658906,
+          "0.9": 0.09223890282657106,
+          "1.0": 0.6024029501905038,
+          "1.1": 0.10686102457370085,
+          "1.2": 0.11340542275031827
+        }
+      },
+      "020000000s": {
+        "n": 6668806,
+        "empirical_arm_shares": {
+          "0.8": 0.08477694507832437,
+          "0.9": 0.0919852819230309,
+          "1.0": 0.6029957986482138,
+          "1.1": 0.10694013291134875,
+          "1.2": 0.1133018414390822
+        }
+      },
+      "030000000s": {
+        "n": 7420197,
+        "empirical_arm_shares": {
+          "0.8": 0.08503952118791455,
+          "0.9": 0.09226385768464099,
+          "1.0": 0.6025763197392199,
+          "1.1": 0.1067719630624362,
+          "1.2": 0.11334833832578839
+        }
+      },
+      "040000000s": {
+        "n": 7414009,
+        "empirical_arm_shares": {
+          "0.8": 0.08485719399585298,
+          "0.9": 0.0924387871662956,
+          "1.0": 0.6022893956562502,
+          "1.1": 0.10690100322241314,
+          "1.2": 0.11351361995918807
+        }
+      },
+      "050000000s": {
+        "n": 7403747,
+        "empirical_arm_shares": {
+          "0.8": 0.08474533232969739,
+          "0.9": 0.09209931133519285,
+          "1.0": 0.6031023210274473,
+          "1.1": 0.10652065771561346,
+          "1.2": 0.113532377592049
+        }
+      },
+      "060000000s": {
+        "n": 7487666,
+        "empirical_arm_shares": {
+          "0.8": 0.08491030449274847,
+          "0.9": 0.09210720670499993,
+          "1.0": 0.6019728978295773,
+          "1.1": 0.10727575188316359,
+          "1.2": 0.11373383908951067
+        }
+      },
+      "070000000s": {
+        "n": 7488153,
+        "empirical_arm_shares": {
+          "0.8": 0.08459589434136829,
+          "0.9": 0.09204339174159502,
+          "1.0": 0.6025802357403754,
+          "1.1": 0.10703266880364223,
+          "1.2": 0.11374780937301895
+        }
+      },
+      "080000000s": {
+        "n": 7498949,
+        "empirical_arm_shares": {
+          "0.8": 0.08459945520365587,
+          "0.9": 0.0921249097706892,
+          "1.0": 0.6026124460907789,
+          "1.1": 0.10705980264701094,
+          "1.2": 0.11360338628786514
+        }
+      },
+      "090000000s": {
+        "n": 2357283,
+        "empirical_arm_shares": {
+          "0.8": 0.08459060706754344,
+          "0.9": 0.09246450256502932,
+          "1.0": 0.6023256435481018,
+          "1.1": 0.10690994674801456,
+          "1.2": 0.11370930007131091
+        }
+      }
+    },
+    "validation_flag_counts_by_treatment": {
+      "0.8|0": 3679231,
+      "0.8|1": 1837786,
+      "0.9|0": 3998074,
+      "0.9|1": 1996478,
+      "1.0|0": 26120103,
+      "1.0|1": 13063608,
+      "1.1|0": 4636186,
+      "1.1|1": 2317495,
+      "1.2|0": 4920686,
+      "1.2|1": 2461773
+    },
+    "mean_outcomes_by_treatment_and_is_val": {
+      "0.8|is_val=0": {
+        "n": 3679231,
+        "mean_value": 0.0002601639506688377,
+        "mean_spend": 0.05734053555192096
+      },
+      "0.8|is_val=1": {
+        "n": 1837786,
+        "mean_value": 0.0002617891139423764,
+        "mean_spend": 0.057364103208903415
+      },
+      "0.9|is_val=0": {
+        "n": 3998074,
+        "mean_value": 0.00024325686853435898,
+        "mean_spend": 0.06009221062600996
+      },
+      "0.9|is_val=1": {
+        "n": 1996478,
+        "mean_value": 0.00024423571278395787,
+        "mean_spend": 0.06014001054765035
+      },
+      "1.0|is_val=0": {
+        "n": 26120103,
+        "mean_value": 3.8071914822043126e-05,
+        "mean_spend": 0.010382516746238826
+      },
+      "1.0|is_val=1": {
+        "n": 13063608,
+        "mean_value": 3.798836270669877e-05,
+        "mean_spend": 0.010369323527313849
+      },
+      "1.1|is_val=0": {
+        "n": 4636186,
+        "mean_value": 0.00021760352597819524,
+        "mean_spend": 0.06465572606349802
+      },
+      "1.1|is_val=1": {
+        "n": 2317495,
+        "mean_value": 0.00021613607750538573,
+        "mean_spend": 0.06466199146900369
+      },
+      "1.2|is_val=0": {
+        "n": 4920686,
+        "mean_value": 0.0002061128607130982,
+        "mean_spend": 0.06717074648280875
+      },
+      "1.2|is_val=1": {
+        "n": 2461773,
+        "mean_value": 0.0002058494903608121,
+        "mean_spend": 0.06723918686342263
+      }
+    },
+    "root_power_law_response_fit": {
+      "is_val=0": {
+        "value_elasticity_gamma": -0.7481026667225874,
+        "spend_elasticity_eta": 0.20715854483798762,
+        "source_power_law_ordering_holds": false
+      },
+      "is_val=1": {
+        "value_elasticity_gamma": -0.7743020096421916,
+        "spend_elasticity_eta": 0.20745181346087094,
+        "source_power_law_ordering_holds": false
+      }
+    },
+    "elapsed_seconds": 1144.3,
+    "interpretation": "Full training-split descriptive audit; arm shares by source row-ID band diagnose assignment-rate heterogeneity but do not establish design probabilities or randomization. Balance in feature means is not proof of randomization.",
+    "raw_bytes_written": false
+  },
+  "local_dataset_downloaded": false,
+  "local_rows_persisted": false,
+  "local_disk_free_bytes_after_audit": 349024256
+}

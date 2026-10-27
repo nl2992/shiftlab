@@ -1,0 +1,17 @@
+# Integrated controller smoke run
+
+**Status:** CUDA implementation smoke only; not calibration, confirmation, or efficacy evidence.  
+**Protocol:** [`integrated_benchmark_protocol.md`](integrated_benchmark_protocol.md), snapshot SHA-256 `e1ca710af17dfd1a28bd140ef0d771110caff7ed7329a3f26a9c8660293939c5`.  
+**Artifacts:** [`pipeline_controller_dev_v2/`](../../outputs/shiftguard_unified/integrated_development/pipeline_controller_dev_v2/).
+
+The smoke grid ran two seeds (`2026102700–2026102701`) across six profiles and seven policies, producing 84 paired method-stream rows. It used the NVIDIA GeForce RTX 4060 Laptop GPU and the same 3,200-event stream and 640-label hard cap as the earlier pilot. The two seeds overlap that pilot and are not independent confirmation data.
+
+The new `two_gate_controller` and `full_pipeline_controller` arms invoked `InterventionController` after certification. The controller estimate used inverse-propensity weighted paired costs from queried certification events only, scaled to the deployment horizon and charged the declared switching cost. A candidate was promoted only when the existing independent promotion e-process had certified it and the controller chose `PROMOTE`. Tests verify that changing unqueried labels does not change the controller estimate and that a failed certificate blocks promotion.
+
+In these two-seed smoke cells, both controller arms made the same promote/continue choices as their corresponding certificate-only arms. No run triggered rollback; this small grid does not test rollback efficacy. The maximum observed label count was 632, below the pathwise cap of 640. Scheduled promotion produced positive realized incremental utility in both seeds in the stationary, benign-nuisance, and residual-variance profiles, illustrating why it remains an unsafe no-gate control rather than a deployable recommendation. These counts are smoke diagnostics only.
+
+The runner copied the protocol before execution. The saved snapshot hash matches both the source protocol and manifest. The manifest also records hashes for the runner, controller, monitor, candidate-certification implementation, generator and metric artifacts; all four saved artifact hashes were independently rechecked. The exact runner bytes matching the execution hash are retained under `execution_sources/`. The first run attempt is preserved in `pipeline_controller_dev_v1/EXECUTION_FAILURE.txt`; its trial outputs were written, but the relative-path manifest operation failed. The versioned v2 artifacts are complete. The console then exposed a Windows encoding issue when printing the workspace's non-ASCII absolute path; `main()` now prints a repository-relative ASCII result path.
+
+Verification passed for the new controller unit test, integrated-pipeline tests, controller tests, Ruff, mypy and `git diff --check`. This run does not establish false-alarm, false-promotion, false-rollback or utility rates. The next valid research step is a development-only reversal-after-promotion stress profile with a concrete rollback trigger, followed by a frozen state machine and fresh simultaneous null calibration before any confirmation run.
+
+**Follow-up:** the reversal profile was subsequently added and exercised in the seven-profile CUDA run documented in [`integrated_reversal_development_report.md`](integrated_reversal_development_report.md). It produced one rollback crossing in a promoted stream; this remains a two-seed smoke result, not calibration.

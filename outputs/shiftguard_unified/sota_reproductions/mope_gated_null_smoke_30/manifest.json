@@ -1,0 +1,53 @@
+{
+  "schema_version": "1.0.0",
+  "status": "iid_null_smoke_only_not_calibration",
+  "created_at_utc": "2026-10-26T16:30:02.928472+00:00",
+  "method": "MOPE / official gated-deployment confidence sequence",
+  "source": {
+    "repository": "https://github.com/n17s/mope",
+    "commit": "a4b8584b622f3a8296932568c520c1bb3e1957f0",
+    "license": "MIT",
+    "file_sha256": {
+      "opebetrp.py": "b439f24839d689f10b9d97b36a8348ea6180dda3ab442a75036e6c800f8df5cc",
+      "opebet.py": "ee18ea04ac955b4c26ba3cf9d0382947a6110890f6c18548b55329a06c8f123c",
+      "LICENSE": "25b93e9ed4131ea6c8230f5b79c7d55a4b52ceccc6330c3c0b1d9a8ac6cc5c77"
+    }
+  },
+  "protocol": {
+    "purpose": "exercise the unmodified official gated-deployment routine on a known IID null",
+    "seeds": 30,
+    "seed_offset": 2026102600,
+    "events_per_seed": 200,
+    "alpha": 0.05,
+    "behavior_probabilities": [
+      0.5,
+      0.5
+    ],
+    "target_probabilities": [
+      0.2,
+      0.8
+    ],
+    "known_importance_weight_support": [
+      0.4,
+      1.6
+    ],
+    "reward_probability_by_action": [
+      0.4,
+      0.4
+    ],
+    "true_target_minus_behavior_value": 0.0,
+    "cpu_only_reason": "the reference implementation uses NumPy, SciPy, and Numba CPU code"
+  },
+  "results": {
+    "cs_containment_failures": 0,
+    "false_promotions": 0,
+    "mean_final_width": 0.1415674900823415,
+    "mean_final_lower": -0.07828782878287827,
+    "mean_final_upper": 0.06327966129946325
+  },
+  "limitations": [
+    "This small IID synthetic run is an execution and arithmetic smoke check, not a type-I calibration.",
+    "It does not test dependent contexts, delayed/selective feedback, adaptive policy selection, or OBD.",
+    "The comparison is policy-value improvement under logged bandit feedback, not a generic paired-cost harm monitor."
+  ]
+}

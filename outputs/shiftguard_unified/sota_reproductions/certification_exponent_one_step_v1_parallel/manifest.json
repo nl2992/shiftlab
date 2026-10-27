@@ -1,0 +1,86 @@
+{
+  "schema_version": "1.0.0",
+  "status": "completed_source_faithful_one_step_adaptation_synthetic_only",
+  "created_at_utc": "2026-10-27T00:57:32.601212-04:00",
+  "repository_head": "525c79e36614c1611a801e3e39d598412efba9ad",
+  "protocol": {
+    "path": "papers\\shiftguard_unified\\certification_exponent_one_step_protocol_v1.md",
+    "sha256": "6f183b4f2f47493985b8ca16febe78e4b04790e9576c2c4540874022a67c7ce5",
+    "alpha": 0.05,
+    "horizon": 200,
+    "null_streams": 1000,
+    "alternative_streams": 300,
+    "seed_schemes": {
+      "null": 101026,
+      "alternative": 202026
+    },
+    "null_reward_means_action0_action1": [
+      0.5,
+      0.5
+    ],
+    "alternative_reward_means_action0_action1": [
+      0.35,
+      0.65
+    ],
+    "logger": [
+      0.5,
+      0.5
+    ],
+    "target_action": 1,
+    "feedback": "IID stationary action/reward episodes with immediate complete reward"
+  },
+  "methods": {
+    "projected_kelly": {
+      "code_sha256": "c531602b8e08d4b5ac0ef885263dbe209e5fe244bd925d22666da1f053b6e2a3",
+      "deviations": [
+        "one-step binary-reward specialization only",
+        "trivial feasible bet until both actions have appeared",
+        "SLSQP fit may be suboptimal; pathwise feasibility is retained as the soundness condition"
+      ]
+    },
+    "mope": {
+      "repository": "https://github.com/n17s/mope",
+      "commit": "a4b8584b622f3a8296932568c520c1bb3e1957f0",
+      "source_sha256": {
+        "opebetrp.py": "b439f24839d689f10b9d97b36a8348ea6180dda3ab442a75036e6c800f8df5cc",
+        "opebet.py": "ee18ea04ac955b4c26ba3cf9d0382947a6110890f6c18548b55329a06c8f123c",
+        "LICENSE": "25b93e9ed4131ea6c8230f5b79c7d55a4b52ceccc6330c3c0b1d9a8ac6cc5c77"
+      }
+    },
+    "fixed_horizon": "one-sided Hoeffding lower bound at T only; no optional-stopping claim"
+  },
+  "runtime": {
+    "python": "3.13.1",
+    "numpy": "2.5.4",
+    "pandas": "3.0.6",
+    "device": "cuda",
+    "gpu_name": "NVIDIA GeForce RTX 4060 Laptop GPU",
+    "cpu_parallel_workers_for_mope": 4
+  },
+  "paired_contrasts": {
+    "projected_kelly_vs_mope_alternative": {
+      "kelly_only_promotions": 5,
+      "mope_only_promotions": 14,
+      "paired_rate_difference": -0.03,
+      "mcnemar_exact_two_sided_p": 0.063568115234375,
+      "interpretation": "paired synthetic stream contrast; no OBD validity claim"
+    }
+  },
+  "artifacts_sha256": {
+    "per_stream_metrics.csv": "f049fe4e5afbd362430a62c96be455c1e06aa5c8e0e9beb6d669d29033aa1466",
+    "summary.csv": "2e483e5fd87f701a76d4873127e17af18dae006bf009fb5245ff720690af9abb",
+    "runner_at_run.py": "fbe1c6f1a643145c2068d9d56aa616ea69bbac2add35b4ea232f06140a499769",
+    "independent_verification.json": "ba3e292421f0f05c589f52d0c97e1548065b625d87f9c90b460c9de68f53d6bc"
+  },
+  "limitations": [
+    "The experiment is context-free IID stationary synthetic logged-bandit data.",
+    "It is not a reproduction of the paper's multi-step trees or its complete experiment suite.",
+    "It does not validate the assumptions of the real Open Bandit Dataset replay.",
+    "The fitted optimizer is an adaptation; infeasible numerical iterates fall back to zero bet."
+  ],
+  "execution_source": {
+    "runner_snapshot": "runner_at_run.py",
+    "runner_sha256": "fbe1c6f1a643145c2068d9d56aa616ea69bbac2add35b4ea232f06140a499769",
+    "capture_note": "Exact runner file copied after completion; no runner edits were made during execution."
+  }
+}

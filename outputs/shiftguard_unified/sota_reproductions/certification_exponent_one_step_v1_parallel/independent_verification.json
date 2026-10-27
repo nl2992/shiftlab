@@ -1,0 +1,18 @@
+{
+  "status": "passed_full_seed_stream_and_pinned_reference_reconstruction",
+  "metrics_rows_reconstructed": 3900,
+  "registered_streams": 1300,
+  "mope_paths_reconstructed": 1300,
+  "methods_reconstructed": [
+    "certification_exponent_projected_kelly_1step",
+    "fixed_horizon_hoeffding",
+    "official_mope_gate"
+  ],
+  "protocol_sha256": "6f183b4f2f47493985b8ca16febe78e4b04790e9576c2c4540874022a67c7ce5",
+  "per_stream_metrics_sha256": "f049fe4e5afbd362430a62c96be455c1e06aa5c8e0e9beb6d669d29033aa1466",
+  "summary_sha256": "2e483e5fd87f701a76d4873127e17af18dae006bf009fb5245ff720690af9abb",
+  "runner_sha256_at_execution": "fbe1c6f1a643145c2068d9d56aa616ea69bbac2add35b4ea232f06140a499769",
+  "verifier_sha256": "992c349a4852afca13f1e3016a5dfd61409937d06ca5845a151ad51a351582b4",
+  "command": "uv run --no-sync --with tqdm --with cvxpy --with numba python scripts/verify_certification_exponent_one_step.py --output outputs/shiftguard_unified/sota_reproductions/certification_exponent_one_step_v1_parallel --workers 4 --device cuda",
+  "limitations": "Reconstructs registered synthetic streams and methods; does not validate assumptions on OBD or reproduce the full multi-step-tree paper experiments."
+}

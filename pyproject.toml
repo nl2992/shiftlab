@@ -12,6 +12,7 @@ dependencies = ["numpy>=1.24", "scikit-learn>=1.3", "scipy>=1.10", "pandas>=2.0"
 [project.optional-dependencies]
 wilds = ["wilds>=2.0", "torchvision==0.24.1"]
 data-sources = ["folktables>=0.0.12"]
+drift = ["river==0.26.1"]
 neural = ["torch==2.9.1"]
 tracking = ["mlflow>=2.19"]
 dev = ["pytest>=7.4", "ruff>=0.5", "mypy>=1.13", "types-PyYAML", "pre-commit>=4"]
@@ -54,6 +55,7 @@ shiftlab-dive-scout-temporal-calibrate = "shiftlab.dive.budgeted_promotion_conte
 shiftlab-dive-scout-temporal-confirm = "shiftlab.dive.budgeted_promotion_context_temporal_confirmation:main"
 shiftlab-dive-scout-markov-eventwise-calibration = "shiftlab.dive.budgeted_promotion_context_markov_eventwise_calibration:main"
 shiftlab-dive-scout-markov-eventwise-confirm = "shiftlab.dive.budgeted_promotion_context_markov_eventwise_confirmation:main"
+shiftlab-dive-residual-variance-context-grid = "shiftlab.dive.residual_variance_context_grid:main"
 shiftlab-dive-nested-candidate-context = "shiftlab.dive.nested_candidate_context_alpha:main"
 shiftlab-dive-grid = "shiftlab.dive.allocation_grid:main"
 shiftlab-dive-robust-grid = "shiftlab.dive.allocation_grid:robust_main"
@@ -94,10 +96,12 @@ shiftlab-dive-risk-proxy-monitor-confirm = "shiftlab.dive.risk_proxy_monitor_con
 shiftlab-dive-residual-variance-pva-grid = "shiftlab.dive.residual_variance_pva_grid:main"
 
 [tool.pytest.ini_options]
+testpaths = ["tests"]
 pythonpath = [".", "src"]
 
 [tool.ruff]
 line-length = 100
+exclude = ["data", "outputs", "tmp", "references"]
 
 [tool.mypy]
 files = ["src/shiftlab/core"]

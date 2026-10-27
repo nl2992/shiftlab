@@ -2,6 +2,8 @@
 
 **Status:** specification before any 590 block use, 2026-10-27. A follow-up commit
 records this specification's hash. This is a small development screen, not confirmation.
+**Freeze commit:** `d0a350a08099deb04a51897216b956b3c417a695`
+**Freeze recorded at:** `2026-10-27T14:30:35Z` (no live-data clock).
 
 ## Target and proof
 

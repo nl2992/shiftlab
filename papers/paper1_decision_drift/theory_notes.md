@@ -188,14 +188,25 @@ For fixed start j let E_(j,t) be its product of valid factors. With calendar SR
 Consequently M_t=R_t+T-t is a nonnegative supermartingale starting at T. Since
 R_t>=T/alpha implies M_t>=T/alpha, Ville's inequality gives
 `P(max_(t<=T) R_t>=T/alpha)<=alpha`. A fixed mixture over stake-specific SRs
-has the same proof; the corresponding CUSUM maximum is bounded by SR pathwise.
+has the same proof. Here CUSUM is defined by `C_t=F_t*max(1,C_(t-1))`, without
+an outer floor after multiplication, and is bounded by SR pathwise. The customary
+outer-reflected scalar variant need not be pointwise below SR when SR<1; at a
+threshold above1 its crossing event is still contained in the SR crossing event.
 Every skip still opens a calendar start. An equal-weight mixture of a fixed set
 of start-specific e-processes (including dormant wealth1 before each start) is
 instead an e-process and uses threshold1/alpha. Restart adaptive betting history
 at each such start, or explicitly prove the chosen shared-history construction.
+Only betting state restarts in this prescreen; the shared predictable observation
+policy and proxy path continue.
 
 This is a known e-factor/e-detector composition. Its proof gives no guarantee
 that an adaptive sampling policy beats paced sampling, a temporal budget policy,
 or a stronger betting engine. WP3 tests that separate efficiency question with
 the full matched panel under its frozen prescreen protocol. The 20 alternative
 seeds do not establish empirical null calibration or a confirmed method win.
+
+**Independent algebra check:** a scoped smaller-model read verified the optional
+factor, predictable cap stop, SR drift and Ville crossing proof, mixture and
+dormant-start accounting. The primary agent checked its CUSUM convention caveat
+against the implemented recursion and made that convention explicit above.
+This is a mathematical consistency check, not external peer review or calibration.

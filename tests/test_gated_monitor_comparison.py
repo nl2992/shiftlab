@@ -180,3 +180,34 @@ def test_runner_matches_existing_ungated_and_oracle_perturbation_is_learner_inva
             assert row["dollars"] <= row["budget"]
         if not row["detected"] and row["onset"] is not None:
             assert row["censored_delay"] == 2400 - row["onset"]
+
+
+class _SaturatedProxy:
+    clip = 5.1
+
+    def predict(self, x):
+        return np.full(len(x), self.clip)
+
+    def observe(self, x, z):
+        return False
+
+
+def test_ppi_anchor_at_clip_snaps_rounding_to_exact_bound():
+    # Saturated proxy plus Z = -5 makes |increment| equal its bound up to ~1e-14 rounding.
+    rng = np.random.default_rng(3)
+    n = 400
+    active = rng.random(n) < 0.3
+    result = comparison.replay_gated(
+        arm="gated_ppi_paced",
+        x=rng.normal(size=(n, 2)),
+        paired_cost=np.where(active, -5.0, 0.0),
+        disagreement=active,
+        tariffs=np.ones(n),
+        uniforms=rng.random(n),
+        validation_disagreement=rng.random(200) < 0.37,
+        validation_tariffs=np.ones(200),
+        budget_rate=0.2,
+        proxy_template=_SaturatedProxy(),
+    )
+    assert result.queried.any()
+    assert np.all(np.abs(result.increments) <= result.bounds)

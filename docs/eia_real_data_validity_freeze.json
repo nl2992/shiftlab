@@ -1,0 +1,13 @@
+{
+  "protocol_sha256": "c40620ba990c02ab4ba23579e328b5c4e38587835d2d813a4da4a5ceaf13b5ea",
+  "code_sha256": {
+    "src/shiftlab/dive/reserve_costs.py": "1b7e61e519c32c341b5617de56ef4e849b853b78d5b738c827a870fd5df56a3b",
+    "src/shiftlab/dive/eia_paired_reserve.py": "cc9b9becd1daef48debbcc9a0a3b9073b90a1aa663a2b9fc7e39af6675150478",
+    "src/shiftlab/dive/orientation_replay.py": "285bf1ba6bdb3f8e47a56a41e45b597aaba8284b1a88a087aa289deb350ca43b",
+    "src/shiftlab/dive/eia_injected_harm.py": "c18e18ac022f8372a1e5a3148f30e71b80bee3f37fb622492106e814efba9a91",
+    "src/shiftlab/dive/eia_validity_analysis.py": "cad4539fa1479b460cf3fd2d4b779020fa6b827e17eb645b85159494da1edc35",
+    "scripts/run_eia_real_data_validity.py": "616442ac81c376fe7303bad3269ebfd17ac19361701feeab67adcdcc6c0f828e"
+  },
+  "streams_sha256": "bcb3bcbee8127d3ea1da3dc49800b3b4a40407f3d6b9271f20e38e68675909ee",
+  "freeze_utc": "2026-10-27T20:58:55.211134+00:00"
+}

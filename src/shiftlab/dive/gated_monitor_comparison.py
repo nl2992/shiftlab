@@ -201,6 +201,11 @@ def replay_gated(
             anchor=anchor,
             epsilon=epsilon,
         )
+        # A clipped PPI anchor makes the support bound exactly tight; snap pure rounding only.
+        if abs(value) > bound:
+            if abs(value) - bound > 1e-9 * bound:
+                raise ValueError("increment exceeds its predictable support bound")
+            value = float(np.copysign(bound, value))
         current_log_e = (
             eb.update(value / bound)
             if arm == "gated_eb_paced"

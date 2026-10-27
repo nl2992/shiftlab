@@ -305,3 +305,16 @@ uv run --no-sync python scripts/run_gated_monitor_comparison.py --stage null
 uv run --no-sync python scripts/run_gated_monitor_comparison.py --stage compare
 uv run --no-sync python scripts/analyze_gated_monitor_comparison.py
 ```
+
+## 9. Dated clarification, 2026-10-27, before S1 or any fresh stream
+
+No registered outputs exist at this clarification. Nondetections, including pre-onset alarms
+and budget-censored paths, receive the full horizon-minus-onset censored delay; stopping the
+query process early cannot manufacture a delay improvement. Processed horizon is reported
+separately. This specifies the existing censored-delay endpoint; detection rules are unchanged.
+
+If the observed ungated mean growth is nonpositive, P1 remains undefined as above. If at least
+2.5% of paired bootstrap resamples have a nonpositive denominator, its one-sided 97.5% ratio
+lower bound is not a usable positive finite bound; mark it unsupported and do not pass P1.
+Do not discard those resamples to manufacture a ratio. The P1 threshold, seed blocks, alpha,
+arms and two co-primary endpoints are unchanged.

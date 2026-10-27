@@ -2,6 +2,8 @@
 
 **Status:** frozen specification, 2026-10-27. No registered stage has been run at freeze.
 The follow-up header records the commit containing this specification before Stage 1.
+**Freeze commit:** `50c4314fbca7183ef4860204925d07e2776151b4`
+**Freeze recorded at:** `2026-10-27T08:40:32Z` (specification only; not a live-data arm clock).
 This study verifies a *predicted* effect from
 [G1](adg_growth_prescreen_results.md). It is not a new-method study. Disagreement gating is
 DISCERN's contribution ([Balachandran, arXiv:2609.17560](https://arxiv.org/abs/2609.17560)); this

@@ -1,5 +1,8 @@
 # Paper 1 algorithm search: mechanism ledger and exit condition
 
+**Outcome (2026-10-27): all three exit conditions are met. The Paper 1 algorithm search stops at
+an evidenced NO-GO (goal checkpoint B).**
+
 **Written 2026-10-27, before WP1 S3 results existed.** This document applies
 [the SOTA supplement](agent_goal_sota_benchmark_supplement.md), Section 3, and
 [the phase goal](agent_goal_stratified_monitor_phase.md), Section 8. It records which legitimate
@@ -38,7 +41,9 @@ following hold:
 2. **S3 reveals no uncredited mechanism.** WP1 S3 completes under its frozen protocol. No arm or
    composition shows at least 1.5× growth or +10 detection points over the strongest equally
    equipped incumbent from a source not already credited to a published method (gating to
-   DISCERN, engines to their authors). *Pending S3.*
+   DISCERN, engines to their authors). *Met (2026-10-27): the best selective arms are gated
+   HT/PPI with Timans GRAPA and the PPE gated alias; see
+   [S3 results](gated_monitor_comparison_results.md).*
 3. **No new derivable candidate.** No mechanism outside the ledger has a derivation predicting at
    least 1.5× growth over the strongest incumbent that could be pre-screened within the phase's
    remaining commit budget (the hard stop is 60 commits; 41 were used before this session's

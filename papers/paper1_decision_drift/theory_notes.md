@@ -166,3 +166,36 @@ agent reviewed the report and incorporated its three precision clarifications: c
 within-stratum q for the moment formula, infeasible floors/upper probability caps, and equal
 local/pooled bounds in the homogeneous no-gain statement. This is an independent algebra check,
 not a calibration result or a formal external theorem review.
+
+## Predictable observation control for WP3 (2026-10-27)
+
+Let H_t=D_t-epsilon, |H_t|<=B, and E[H_t|F_(t-1)]<=0. Choose theta_t from
+F_(t-1), before current X_t, and draw an independent Bernoulli I_t. For any
+predictable stake s_t in [0,1], the factor `1+s_t I_t H_t/B` has conditional
+expectation at most1 and is nonnegative. A skipped event has factor1. A selected
+agreement has exactly known H=-epsilon without needing a label; retaining that
+score preserves the pooled-null argument. Selecting only current disagreements
+and dropping agreement scores would require a different argument/null.
+
+A hard-cap stop based on past spend and the known maximum tariff is predictable,
+so setting all later factors to1 is valid. The lagged pacer and lagged SR statistic
+may choose theta, but a current sentinel may affect only the next decision.
+The present prescreen uses only lagged SR and past tariffs/actions. This removes
+the DE-CuSum drift during skips, which is not a null e-factor by itself.
+
+For fixed start j let E_(j,t) be its product of valid factors. With calendar SR
+`R_t=sum_(j=1)^t E_(j,t)` and horizon T, E[R_t|F_(t-1)]<=R_(t-1)+1.
+Consequently M_t=R_t+T-t is a nonnegative supermartingale starting at T. Since
+R_t>=T/alpha implies M_t>=T/alpha, Ville's inequality gives
+`P(max_(t<=T) R_t>=T/alpha)<=alpha`. A fixed mixture over stake-specific SRs
+has the same proof; the corresponding CUSUM maximum is bounded by SR pathwise.
+Every skip still opens a calendar start. An equal-weight mixture of a fixed set
+of start-specific e-processes (including dormant wealth1 before each start) is
+instead an e-process and uses threshold1/alpha. Restart adaptive betting history
+at each such start, or explicitly prove the chosen shared-history construction.
+
+This is a known e-factor/e-detector composition. Its proof gives no guarantee
+that an adaptive sampling policy beats paced sampling, a temporal budget policy,
+or a stronger betting engine. WP3 tests that separate efficiency question with
+the full matched panel under its frozen prescreen protocol. The 20 alternative
+seeds do not establish empirical null calibration or a confirmed method win.

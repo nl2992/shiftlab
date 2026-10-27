@@ -1,0 +1,118 @@
+{
+  "schema_version": "1.0.0",
+  "status": "full_archive_descriptive_ope_development_not_confirmation",
+  "created_at_utc": "2026-10-26T16:36:43.212249+00:00",
+  "source": {
+    "publisher": "ZOZO Research / ZOZO, Inc.",
+    "paper": "Saito et al. (2021), Open Bandit Dataset and Pipeline, arXiv:2008.07146",
+    "archive_version": "08/18/2020 Open Bandit Dataset 1.0",
+    "license": "CC BY 4.0; cite the OBD paper",
+    "archive_path": "data/raw/open_bandit_dataset_full.zip",
+    "archive_sha256": "e8ec18196582a5937381a1776382ca940689b90a18d2dcd1fb635be6df614d78",
+    "bts_source_member": "open_bandit_dataset/bts/all/all.csv",
+    "random_manifest_path": "data/reports/open_bandit_full_acquisition_manifest.json"
+  },
+  "protocol": {
+    "target_policy": "uniform Random policy, probability 1/80 for each item at each position",
+    "behavior_policy": "Bernoulli Thompson Sampling (BTS), observed item-position propensity from source log",
+    "estimand": "mean binary click reward per item-position impression, equal-weight average across positions 1, 2, 3",
+    "estimators": [
+      "IPS",
+      "SNIPS"
+    ],
+    "comparison": "position-specific OPE values versus the full Random/all on-policy position click rates",
+    "position_stratification": "predeclared to respect source reward and propensity definitions by display slot",
+    "paper_reported_bts_rows": 12168084,
+    "archive_streamed_bts_rows": 12357200,
+    "bts_count_discrepancy": 189116
+  },
+  "results": {
+    "overall": {
+      "random_on_policy_click_rate": 0.003469342791688574,
+      "ips_random_value_from_bts": 0.0034337660087751364,
+      "snips_random_value_from_bts": 0.0033043789067462408,
+      "ips_absolute_error": 3.5576782913437476e-05,
+      "snips_absolute_error": 0.00016496388494233313,
+      "ips_relative_error": 0.010254617387093594,
+      "snips_relative_error": 0.047549030132604184
+    },
+    "by_position": [
+      {
+        "position": 1,
+        "bts_rows": 4118481,
+        "bts_click_rate": 0.0049428417904562386,
+        "random_on_policy_click_rate": 0.003541446054082379,
+        "ips_random_value_from_bts": 0.003481045346945249,
+        "snips_random_value_from_bts": 0.0035038941489089425,
+        "ips_absolute_error_vs_random": 6.040070713713005e-05,
+        "snips_absolute_error_vs_random": 3.7551905173436456e-05,
+        "ips_relative_error_vs_random": 0.017055379699347256,
+        "snips_relative_error_vs_random": 0.01060355137420454,
+        "importance_weight_ess": 95841.65333362584,
+        "importance_weight_ess_fraction": 0.023271117029221657,
+        "observed_items": 80,
+        "observed_propensity_min": 1e-05,
+        "observed_weight_max": 1250.0
+      },
+      {
+        "position": 2,
+        "bts_rows": 4119618,
+        "bts_click_rate": 0.004999735412361049,
+        "random_on_policy_click_rate": 0.0034704185019141867,
+        "ips_random_value_from_bts": 0.0032779090011898064,
+        "snips_random_value_from_bts": 0.003019595028464787,
+        "ips_absolute_error_vs_random": 0.00019250950072438036,
+        "snips_absolute_error_vs_random": 0.00045082347344939985,
+        "ips_relative_error_vs_random": 0.05547155209615136,
+        "snips_relative_error_vs_random": 0.1299046421060567,
+        "importance_weight_ess": 4720.909435740401,
+        "importance_weight_ess_fraction": 0.0011459580562422052,
+        "observed_items": 80,
+        "observed_propensity_min": 1e-06,
+        "observed_weight_max": 12500.000000000002
+      },
+      {
+        "position": 3,
+        "bts_rows": 4119101,
+        "bts_click_rate": 0.004917092346121156,
+        "random_on_policy_click_rate": 0.0033961638190691543,
+        "ips_random_value_from_bts": 0.003542343678190354,
+        "snips_random_value_from_bts": 0.0033896475428649934,
+        "ips_absolute_error_vs_random": 0.00014617985912119972,
+        "snips_absolute_error_vs_random": 6.516276204160919e-06,
+        "ips_relative_error_vs_random": 0.04304264072905228,
+        "snips_relative_error_vs_random": 0.001918716690747547,
+        "importance_weight_ess": 4743.617870435807,
+        "importance_weight_ess_fraction": 0.001151614847617431,
+        "observed_items": 80,
+        "observed_propensity_min": 1e-06,
+        "observed_weight_max": 12500.000000000002
+      }
+    ]
+  },
+  "diagnostics": {
+    "bts_archive_rows": 12357200,
+    "random_archive_rows": 1374327,
+    "bts_observed_propensity_min": 1e-06,
+    "bts_observed_propensity_max": 0.95424,
+    "bts_observed_weight_max": 12500.000000000002,
+    "bts_member_uncompressed_bytes": 6321017454,
+    "bts_member_compressed_bytes": 203592547,
+    "bts_days": 7,
+    "source_archive_total_uncompressed_bytes": 11746769342
+  },
+  "limitations": [
+    "Point estimates and observed-weight diagnostics only; no confidence interval or sequential guarantee is reported.",
+    "The 2020 archive has 189,116 more BTS/all records than the count in the OBD paper; resolve the version difference before claiming exact paper reproduction.",
+    "The OPE calculation follows the paper's per-impression and item-position reward assumption; it does not identify business value or user welfare.",
+    "The source exposes no user/session key, and impression timestamps are not click-release times; dependence and prospective feedback timing are not established.",
+    "Observed positive propensity values do not alone certify population-wide action support; do not use the observed minimum as a theoretical global bound.",
+    "No candidate was learned or selected here; this is an OPE estimator reproduction only, not a model-adaptation result."
+  ],
+  "artifacts": {
+    "position_metrics_csv": "outputs/shiftguard_unified/real_data_development/open_bandit_random_policy_ope_v1/position_metrics.csv",
+    "position_metrics_sha256": "a9ff31185246253117acdc6aaf0e97d4f812a674d22976b12c49791f77625b66",
+    "bts_daily_position_metrics_csv": "outputs/shiftguard_unified/real_data_development/open_bandit_random_policy_ope_v1/bts_daily_position_metrics.csv",
+    "bts_daily_position_metrics_sha256": "582bfa20366d533d06c2635c107c7ecce9873e297cedfdd27fee89ea8260cd52"
+  }
+}

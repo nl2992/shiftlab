@@ -10,6 +10,7 @@ from dataclasses import asdict, dataclass
 from datetime import UTC, datetime
 from functools import lru_cache
 from pathlib import Path
+from typing import Any
 
 import numpy as np
 import pandas as pd
@@ -36,9 +37,16 @@ from .eprocess import (
 )
 from .estimators import prediction_powered_bound, prediction_powered_estimate
 from .experiment import _binary_cost, _material_harm_onset, _synthetic_label_costs
+from .prediction_powered_evalues import PredictionPoweredEProcess
 from .start_prior_sweep import beta_start_weights
 
-PROCESS_NAMES = ("fixed_mixture", "predictable_kelly", "plug_in_empirical_bernstein")
+PROCESS_NAMES = (
+    "fixed_mixture",
+    "predictable_kelly",
+    "plug_in_empirical_bernstein",
+    "ppe_fixed_stake",
+)
+PPE_STAKE = 0.1
 START_PRIOR_SHAPES = {
     "uniform_start_mixture": (1.0, 1.0),
     "early_start_mixture": (1.0, 2.0),
@@ -229,7 +237,13 @@ def _run_stream(
     start_positions = tuple(round(i * available_horizon / 8) for i in range(8))
     output = []
     for method in methods:
-        if method in PROCESS_NAMES:
+        process: Any
+        if method == "ppe_fixed_stake":
+            process = PredictionPoweredEProcess(
+                lower=1 - PPE_STAKE,
+                upper=1 + PPE_STAKE,
+            )
+        elif method in PROCESS_NAMES:
             process = _process(method, bound, config.alpha)
         elif method in START_PRIOR_SHAPES:
             beta_shape = START_PRIOR_SHAPES[method]
@@ -258,7 +272,21 @@ def _run_stream(
         ):
             observed = float(truth) if queried else None
             estimate = prediction_powered_estimate(proxy, bool(queried), observed, query_rate)
-            log_e = process.update(estimate)
+            if method == "ppe_fixed_stake":
+                # PPE applies the proxy correction to the base e-value itself.
+                # The fixed stake is selected to meet the lowest registered
+                # propensity (q=.20); no current outcome enters the proxy.
+                proxy_factor = 1 + PPE_STAKE * float(proxy) / clip
+                observed_factor = 1 + PPE_STAKE * float(truth) / clip if queried else None
+                log_e = process.update(
+                    proxy_factor=proxy_factor,
+                    queried=bool(queried),
+                    propensity=query_rate,
+                    observed_factor=observed_factor,
+                )
+                log_e = process.log_wealth
+            else:
+                log_e = process.update(estimate)
             estimates.append(estimate)
             truths.append(float(truth))
             if queried:
@@ -377,11 +405,14 @@ def _summarize(metrics: pd.DataFrame, null_seed_count: int):
 
 def _paired_power_contrasts(metrics: pd.DataFrame) -> pd.DataFrame:
     alternatives = metrics[metrics.material_harm]
-    rows = []
+    rows: list[dict[str, object]] = []
     contrasts = (
         (PROCESS_NAMES[0], PROCESS_NAMES[1]),
         (PROCESS_NAMES[0], PROCESS_NAMES[2]),
         (PROCESS_NAMES[1], PROCESS_NAMES[2]),
+        ("ppe_fixed_stake", PROCESS_NAMES[0]),
+        ("ppe_fixed_stake", PROCESS_NAMES[1]),
+        ("ppe_fixed_stake", PROCESS_NAMES[2]),
     )
     for (scenario, query_rate), group in alternatives.groupby(
         ["scenario", "query_rate"], sort=True

@@ -1,0 +1,40 @@
+{
+  "status": "passed_independent_full_reconstruction",
+  "source_sha256": {
+    "training": "8368313b060f4015a0c6fb34e6d788163cee29554144aba9390b14922eb9d8ce",
+    "holdout": "93832660b831aca16bbe314c60dba4a6815b0a5f9cdded1217671cfbfa5186ea"
+  },
+  "source_code_sha256": {
+    "protocol": "a8b6bb74a627674b9b007023bea562991eff78d3a5fa017931e73a146b82715f",
+    "runner": "825c86069c26db326a623234e475d1c3f4548506e328344317d973ec09771a50",
+    "implementation": "f5004163bb7eed139d943c2e4167215f177a71be8d6ef98f475bfb00edb2fb62"
+  },
+  "output_sha256": {
+    "per_test_metrics.csv": "291275f7ea801fc3f854838735a92995f77bceba2d51263e033eb644b0252871",
+    "summary.json": "a7eb60817d0a239fc27080ea3e167e97e23f17f1372493f590f8a2dca74689ff",
+    "report.md": "8c35e15ad8960e476f58fd5f0578964e0412ddba9b775f821215b3bd5fb4e8af"
+  },
+  "reconstructed_training_tests": 3816,
+  "reconstructed_evaluation_tests": 3808,
+  "reconstructed_evaluation_arms": 18278,
+  "reconstructed_delta_ctr": 0.0010019661227581836,
+  "reconstructed_bootstrap": {
+    "week_clusters": 90,
+    "bootstrap_replicates": 10000,
+    "seed": 20261026,
+    "delta_ci_95": [
+      0.0008501072400074344,
+      0.0011696499241074935
+    ],
+    "delta_one_sided_lower_95": 0.0008722718374134762,
+    "selected_ctr_ci_95": [
+      0.013523821660482896,
+      0.015481039296027139
+    ],
+    "uniform_ctr_ci_95": [
+      0.012616128301724434,
+      0.014373480026455707
+    ]
+  },
+  "verifier_scope": "separate process reran training, policy selection, per-test value, and bootstrap using hash-pinned shared implementation; no holdout tuning"
+}

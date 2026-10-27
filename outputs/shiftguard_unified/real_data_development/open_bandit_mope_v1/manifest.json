@@ -1,0 +1,49 @@
+{
+  "schema_version": "1.0.0",
+  "status": "exploratory_retrospective_development_not_confirmation",
+  "source": {
+    "dataset": "open_bandit_dataset_full_all_campaign",
+    "version": "08/18/2020 Open Bandit Dataset 1.0",
+    "license": "CC BY 4.0, as stated in the full archive README",
+    "parquet_path": "data/interim/open_bandit_full_all_v4/random_all.parquet",
+    "parquet_sha256": "7aa553753953b527439090d5ba5a5fe8e46b479ccc6c2f3ee3f55001156db8f1",
+    "source_manifest_sha256": "56d6d992b6b6fd7ab4c11f751860caa9e180fa0d6e4303dad9fedb17be58fe75",
+    "source_rows": 1374327
+  },
+  "protocol_sha256": "4982f6d211d05735066b67cd645096f757c4eb60c51337484cbdbf6a5b70731e",
+  "runner": "scripts/reproduce_open_bandit_mope_development.py",
+  "runner_sha256": "a25fed5593d1ae9f011c0d4c3b04531bd3a64c799f4a3dc43a2725d0356b75b3",
+  "method": {
+    "name": "official MOPE gated-deployment confidence sequence",
+    "repository": "https://github.com/n17s/mope",
+    "commit": "a4b8584b622f3a8296932568c520c1bb3e1957f0",
+    "implementation_file_sha256": "b439f24839d689f10b9d97b36a8348ea6180dda3ab442a75036e6c800f8df5cc",
+    "numeric_device": "CPU",
+    "optimizer_mode": "exact analytic 2-D concave-QP optimizer, independently compared to pinned CVXPY reference",
+    "fast_optimizer_file_sha256": "00b4031919cb97fb4027eb08829de392abdae65b0bee8bafa76168a279a530b8",
+    "fast_optimizer_validation_path": "outputs/shiftguard_unified/sota_reproductions/mope_fast_solver_validation_v2/reference_qp_and_path_validation.json",
+    "fast_optimizer_validation_sha256": "de8b424e2bd151164c988ea1f61478e3787739ec1c3e4812194832fdc91de93c"
+  },
+  "artifacts": {
+    "summary.json": "27b8cb9305435e111e0ec8aa0f6003e8fee305d06cf209a02f783d52409847ff",
+    "daily_metrics.csv": "567f3742436c193232c686b5b7397e8773d2c6e72d7ba4a71dfbf6818516d4a9",
+    "report.md": "793bf07205533d628fd5f7ab6a8754f6cc0a8f1d9d2bb36272cfa9338754a9ee"
+  },
+  "key_results": {
+    "evaluation_events": 274737,
+    "evaluation_clicks": 943,
+    "incumbent_observed_click_rate": 0.003432373506298751,
+    "candidate_ipw_value": 0.0052413762980595986,
+    "candidate_minus_incumbent_ipw": 0.0018090027917608477,
+    "mope_first_lower_crossing_event": null,
+    "mope_first_empty_set_event": 866,
+    "mope_promoted_before_empty_set": false,
+    "mope_lower_at_horizon": -0.0005000500050004186,
+    "mope_upper_at_horizon": -0.9981998199819984,
+    "fixed_horizon_hoeffding_lower_at_horizon": -0.18498714357544924,
+    "fixed_horizon_hoeffding_promoted": false,
+    "labels_or_feedback_records_used_at_promotion": 274737,
+    "mope_empty_set_count": 273872,
+    "fixed_horizon_score_range_width": 80.0
+  }
+}

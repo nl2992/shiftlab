@@ -1,0 +1,66 @@
+{
+  "status": "source_and_structure_verified",
+  "audit_type": "streamed_data_eligibility_not_method_evaluation",
+  "dataset": "criteo/criteo-uplift",
+  "revision": "2424920019e49d52d72c13ac1143ec5d53af276b",
+  "filename": "criteo-research-uplift-v2.1.csv.gz",
+  "source_url": "https://huggingface.co/datasets/criteo/criteo-uplift/resolve/2424920019e49d52d72c13ac1143ec5d53af276b/criteo-research-uplift-v2.1.csv.gz",
+  "license": "CC BY-NC-SA 4.0 per the official Criteo dataset page",
+  "compressed_bytes": 311422618,
+  "compressed_sha256": "2716e1bf0fd157a93b5bf86924d9088419dfbac2022c6cd90030220634f616dc",
+  "rows": 13979592,
+  "columns": [
+    "f0",
+    "f1",
+    "f2",
+    "f3",
+    "f4",
+    "f5",
+    "f6",
+    "f7",
+    "f8",
+    "f9",
+    "f10",
+    "f11",
+    "treatment",
+    "conversion",
+    "visit",
+    "exposure"
+  ],
+  "header_present": true,
+  "treatment_fraction": 0.8500001287591226,
+  "conversion_rate_by_assignment": {
+    "treated": 0.0030894610674129645,
+    "control": 0.0019375880152813366
+  },
+  "visit_rate_by_assignment": {
+    "treated": 0.048543360048743316,
+    "control": 0.03820095691954503
+  },
+  "exposure_by_assignment": {
+    "treated_mean": 0.036036727482199896,
+    "control_mean": 0.0,
+    "control_with_exposure": 0
+  },
+  "treatment_predictability": {
+    "sample_rows": 349911,
+    "train_rows": 279928,
+    "test_rows": 69983,
+    "device": "cuda",
+    "model": "12-32-16-1 MLP; 12 epochs; feature-only treatment predictability diagnostic",
+    "test_auc": 0.5076218641574799,
+    "interpretation": "descriptive source-eligibility diagnostic only; chance-level performance does not prove randomization or identify a causal propensity"
+  },
+  "elapsed_seconds": 174.944,
+  "raw_data_written": false,
+  "record_values_written": false,
+  "timestamp_or_feedback_delay_available": false,
+  "interpretation_limits": [
+    "The source aggregates multiple randomized incrementality tests and is non-uniformly subsampled.",
+    "The released file has no trial identifier, event time, or label-release time.",
+    "The exposure field is post-assignment and must not enter a targeting policy's features.",
+    "A feature-only treatment classifier is a diagnostic, not proof of the randomization mechanism.",
+    "Any treatment cost is research-imposed unless independently grounded."
+  ],
+  "audited_at_utc": "2026-10-26T19:48:01.691235+00:00"
+}

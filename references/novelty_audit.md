@@ -1,3 +1,3 @@
 # Novelty audit
 
-No novelty claim. Conventional baselines only. Verified literature matrix and closest-prior-work analysis must precede any new method.
+No novelty claim. Conventional baselines only. The 2026 preprint on cost–reliability-volatility control under temporal shift rules out generic cost-aware update-policy novelty. Ahmed et al. (2026) also publish a close temporal-shift audit of label-free monitoring/adaptation failures, so ShiftLab cannot claim that framing or mechanistic monitoring failure under shift as novel. See `papers/shiftguard_unified/label_free_temporal_audit_prior_work.md`. The research decision is NO-GO for a new algorithm and PIVOT to a claim-bounded retrospective benchmark/failure-analysis manuscript; whether that paper has a sufficiently differentiated empirical contribution remains unverified.

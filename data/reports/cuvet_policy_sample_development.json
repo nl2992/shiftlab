@@ -1,0 +1,131 @@
+{
+  "audit": "exploratory_cuvet_quantile_tree_train_sample",
+  "created_utc": "2026-10-26T21:54:37.920573+00:00",
+  "git_head": "525c79e36614c1611a801e3e39d598412efba9ad",
+  "script_sha256": "bee90b2373d9f41ad295c2b4588654d799096f1879a9066c04ef65360249cdc5",
+  "source": {
+    "source_revision": "36583ac60379ed83fd375c84d2bf8ce1c73869c1",
+    "train_file": "cuvet_policy_train.csv",
+    "train_file_bytes": 10317675360,
+    "train_git_oid": "f3700741375c68a267de6ed8eae6b05652766ec8",
+    "etag": "\"2cb1a5a7b4bde0db7ffe811ed79ada5f0c88b08ebdea13bcf8d9e7fc6f88353f\"",
+    "ranges_read": 128,
+    "range_bytes": 1048576,
+    "bytes_read_upper_bound": 134217728,
+    "rows_sampled": 845867,
+    "malformed_or_boundary_rows_skipped": 0,
+    "sampled_outcome_sign_counts": {
+      "value": {
+        "negative": 0,
+        "zero": 0,
+        "positive": 845867
+      },
+      "spend": {
+        "negative": 0,
+        "zero": 3,
+        "positive": 845864
+      }
+    },
+    "range_selection_seed": 20261026,
+    "elapsed_seconds": 78.69,
+    "raw_rows_persisted": false,
+    "official_test_requested": false,
+    "source_rows_sorted_or_used_as_predictors": false
+  },
+  "information_contract": {
+    "fit_rows": 555101,
+    "validation_rows": 290766,
+    "fit_split": "is_val=0 only",
+    "validation_split": "is_val=1; used for both candidate reporting and selection, so development-only",
+    "predictors": [
+      "f0",
+      "f1",
+      "f2",
+      "f3",
+      "f4"
+    ],
+    "outcomes": [
+      "value",
+      "spend"
+    ],
+    "propensity": "empirical arm shares in sampled is_val=0 rows; working assumption, not documented design probabilities",
+    "policy_support": "continuous CUVET-style predictions rounded to nearest randomized arm",
+    "official_test_requested": false,
+    "raw_rows_persisted": false
+  },
+  "sampled_train_propensities": {
+    "0.8": 0.08509802720585984,
+    "0.9": 0.09237598202849572,
+    "1.0": 0.6029227113624367,
+    "1.1": 0.10716248034141534,
+    "1.2": 0.11244079906179236
+  },
+  "arm_mean_response_diagnostics": {
+    "0.8": {
+      "n": 47238,
+      "mean_value": 0.00025903727666739954,
+      "mean_spend": 0.055714762678974086
+    },
+    "0.9": {
+      "n": 51278,
+      "mean_value": 0.00024576334441620993,
+      "mean_spend": 0.05872436748182474
+    },
+    "1.0": {
+      "n": 334683,
+      "mean_value": 3.808319935469115e-05,
+      "mean_spend": 0.01033790722512849
+    },
+    "1.1": {
+      "n": 59486,
+      "mean_value": 0.00021689584108829826,
+      "mean_spend": 0.06387357773626892
+    },
+    "1.2": {
+      "n": 62416,
+      "mean_value": 0.0002034928854290986,
+      "mean_spend": 0.06754940381934767
+    },
+    "power_law_fit": {
+      "value_elasticity_gamma": -0.7758981643488316,
+      "cost_elasticity_eta": 0.2857524083516093,
+      "reference_mean_value": 0.00015938747054032514,
+      "reference_mean_spend": 0.043062125622408166,
+      "source_assumptions_hold_at_root": false
+    }
+  },
+  "reference": {
+    "arm": 1.0,
+    "ipw_estimated_value_per_row": 3.809307003262986e-05,
+    "ipw_estimated_spend_per_row": 0.010208978154158027
+  },
+  "candidates": [
+    {
+      "candidate": "quantile_cuvet_clipped_depth_0",
+      "status": "not_fit",
+      "reason": "Value elasticity must be positive"
+    },
+    {
+      "candidate": "quantile_cuvet_clipped_depth_1",
+      "status": "not_fit",
+      "reason": "Value elasticity must be positive"
+    },
+    {
+      "candidate": "quantile_cuvet_clipped_depth_2",
+      "status": "not_fit",
+      "reason": "Value elasticity must be positive"
+    },
+    {
+      "candidate": "quantile_cuvet_clipped_depth_3",
+      "status": "not_fit",
+      "reason": "Value elasticity must be positive"
+    }
+  ],
+  "limitations": [
+    "The quantile split generator and arm-mean elasticity fit are ShiftLab adaptation choices, not a paper reproduction.",
+    "Train validation data are sampled from byte ranges and the same validation rows report/select candidates; no confirmatory claim is allowed.",
+    "Exact assignment probabilities and the assignment mechanism are undocumented; IPW values are conditional on the stated working propensity assumption.",
+    "Byte-range cluster bootstrap intervals are exploratory and depend on sampled blocks representing independent source regions.",
+    "The official test split was not requested or accessed."
+  ]
+}

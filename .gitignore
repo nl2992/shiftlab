@@ -12,6 +12,28 @@ dist/
 
 # Local experiments, data and checkpoints
 outputs/*
+!outputs/shiftguard_unified/
+outputs/shiftguard_unified/*
+!outputs/shiftguard_unified/sota_reproductions/
+outputs/shiftguard_unified/sota_reproductions/*
+!outputs/shiftguard_unified/sota_reproductions/mope_gated_null_smoke_30/
+!outputs/shiftguard_unified/sota_reproductions/mope_gated_null_smoke_30/**
+!outputs/shiftguard_unified/sota_reproductions/mope_fast_solver_validation_v1/
+!outputs/shiftguard_unified/sota_reproductions/mope_fast_solver_validation_v1/**
+!outputs/shiftguard_unified/sota_reproductions/mope_fast_solver_validation_v2/
+!outputs/shiftguard_unified/sota_reproductions/mope_fast_solver_validation_v2/**
+!outputs/shiftguard_unified/sota_reproductions/certification_exponent_one_step_v1_parallel/
+!outputs/shiftguard_unified/sota_reproductions/certification_exponent_one_step_v1_parallel/**
+!outputs/shiftguard_unified/real_data_development/
+outputs/shiftguard_unified/real_data_development/*
+!outputs/shiftguard_unified/real_data_development/open_bandit_random_policy_ope_v1/
+!outputs/shiftguard_unified/real_data_development/open_bandit_random_policy_ope_v1/**
+!outputs/shiftguard_unified/real_data_development/upworthy_policy_v1/
+!outputs/shiftguard_unified/real_data_development/upworthy_policy_v1/**
+!outputs/shiftguard_unified/real_data_development/open_bandit_mope_v1/
+!outputs/shiftguard_unified/real_data_development/open_bandit_mope_v1/**
+!outputs/shiftguard_unified/real_data_development/crsp_decision_policy_pilot_100_v1/
+!outputs/shiftguard_unified/real_data_development/crsp_decision_policy_pilot_100_v1/**
 !outputs/robust_active_inference_radius_exposure_development/
 !outputs/robust_active_inference_radius_exposure_development/**
 !outputs/robust_active_inference_radius_budget20_development/
@@ -179,6 +201,8 @@ data/synthetic/
 data/manifests/
 data/reports/decision_harm_phase2/*/
 data/gpu_auto_verification/
+tmp/
+tmp_asi_paper.*
 checkpoints/
 *.pt
 *.pth

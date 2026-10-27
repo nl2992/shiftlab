@@ -82,7 +82,7 @@ def test_null_calibration_uses_familywise_one_sided_exact_bound():
                 }
             )
     _summary, calibration = _summarize(pd.DataFrame(records), 1000)
-    assert len(calibration) == 3
+    assert len(calibration) == 4
     assert calibration.bonferroni_one_sided_cp95_upper.max() < 0.05
     assert calibration.calibration_pass.all()
 
@@ -95,6 +95,7 @@ def test_paired_power_contrasts_preserve_stream_matching():
         "fixed_mixture": [True, False, True],
         "predictable_kelly": [False, False, True],
         "plug_in_empirical_bernstein": [True, True, False],
+        "ppe_fixed_stake": [True, False, True],
     }
     for method, values in outcomes.items():
         for seed, detected in enumerate(values):
@@ -109,7 +110,9 @@ def test_paired_power_contrasts_preserve_stream_matching():
                 }
             )
     contrasts = _paired_power_contrasts(pd.DataFrame(rows))
-    assert len(contrasts) == 3
+    assert len(contrasts) == 6
     baseline = contrasts[contrasts.second_method == "predictable_kelly"].iloc[0]
     assert baseline.first_only == 1
     assert baseline.second_only == 0
+    ppe = contrasts[contrasts.first_method == "ppe_fixed_stake"].iloc[0]
+    assert ppe.paired_detection_difference == 0

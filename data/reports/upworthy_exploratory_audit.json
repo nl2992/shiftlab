@@ -1,0 +1,63 @@
+{
+  "schema_version": "1.0.0",
+  "status": "exploratory_source_and_schema_qualification_only",
+  "dataset": "Upworthy Research Archive, exploratory packages split",
+  "source": {
+    "url": "https://osf.io/jd64p/",
+    "osf_node": "jd64p",
+    "osf_file_id": "608ff67f5533b40296e21e5a",
+    "filename": "upworthy-archive-exploratory-packages-03.12.2020.csv",
+    "bytes": 14260949,
+    "sha256": "8368313b060f4015a0c6fb34e6d788163cee29554144aba9390b14922eb9d8ce",
+    "license": "CC BY 4.0",
+    "citation": "Matias et al. (2021), Scientific Data, doi:10.1038/s41597-021-00934-7; author correction doi:10.1038/s41597-024-03600-w"
+  },
+  "audit": {
+    "rows": 22666,
+    "experiments": 4873,
+    "columns": [
+      "clickability_test_id",
+      "clicks",
+      "created_at",
+      "impressions",
+      "test_week",
+      "updated_at",
+      "winner"
+    ],
+    "missing_experiment_ids": 0,
+    "missing_or_invalid_arm_totals": 0,
+    "experiments_with_one_arm": 0,
+    "arms_per_experiment": {
+      "min": 2,
+      "median": 4.0,
+      "max": 14
+    },
+    "experiments_with_multiple_editor_winners": 1,
+    "created_at_naive_range": {
+      "min": "2013-01-26 20:10:36",
+      "max": "2015-04-29 22:46:43.618000",
+      "timezone": "not specified by source; parsed as naive timestamps"
+    },
+    "publisher_flagged_problem_column_present": false,
+    "conservative_assignment_risk_window": {
+      "start_inclusive": "2013-06-24",
+      "end_inclusive": "2014-01-11",
+      "rationale": "one-day buffer around the publisher's reported 2013-06-25 through 2014-01-10 concern period because created_at timezone is unspecified",
+      "experiments_with_any_package_created_in_window": 1057
+    },
+    "test_week_range": [
+      201303,
+      201517
+    ],
+    "total_impressions": 81024151,
+    "total_clicks": 1231208
+  },
+  "scope_limitations": [
+    "Only the exploratory partition was opened; confirmatory and holdout partitions remain unopened.",
+    "The OSF exploratory CSV predates the 2024 archive update and does not contain the publisher's Problem flag.",
+    "The potential assignment-integrity period is excluded conservatively by package creation date with a one-day buffer; timestamp timezone is unspecified.",
+    "Outcomes are package-level aggregate clicks and impressions, not impression-level feedback or release times.",
+    "The source supports consideration of fixed-horizon experiment-level policy selection only; it does not establish sequential monitoring or online resource-allocation eligibility.",
+    "No candidate-selection performance was computed in this audit."
+  ]
+}

@@ -1,0 +1,168 @@
+{
+  "audit": "eia_2026_out_of_time_holdout_readiness",
+  "audit_timestamp_utc": "2026-10-26T22:09:34.131271+00:00",
+  "source_url": "https://www.eia.gov/opendata/bulk/EBA.zip",
+  "source_retrieved_at": "2026-10-20T01:32:49.393495+00:00",
+  "source_last_modified": "Mon, 19 Oct 2026 19:54:51 GMT",
+  "source_bytes": 697661852,
+  "source_sha256": "3a6143c4bd853c3d6a9d9d3bb3ca7f1603a641835e9c7a050e5c8a927101936f",
+  "source_receipt_sha256": "c9c18708aeb681055da20342134a670b5fcef4e7b4aa45a98e83453958bd3f42",
+  "prior_processed_manifest_sha256": "f319d09c88b645a68c03ef487146a570beaa8dce35b5a47e524712b8261cff8c",
+  "audit_script_sha256": "bb5456aa261b0fd7fe3770cb728346eb3244a77c51f87fbc7e527bd3a07aa84f",
+  "coverage_only_inspection": true,
+  "raw_rows_or_policy_metrics_persisted": false,
+  "series_coverage": {
+    "EBA.CISO-ALL.D.H": {
+      "n_periods": 68369,
+      "n_null_values": 22,
+      "first_period_utc": "2019-01-01T00:00:00+00:00",
+      "last_period_utc": "2026-10-19T18:00:00+00:00"
+    },
+    "EBA.CISO-ALL.DF.H": {
+      "n_periods": 68264,
+      "n_null_values": 0,
+      "first_period_utc": "2019-01-01T00:00:00+00:00",
+      "last_period_utc": "2026-10-20T07:00:00+00:00"
+    },
+    "EBA.CISO-ALL.NG.H": {
+      "n_periods": 68335,
+      "n_null_values": 20,
+      "first_period_utc": "2019-01-01T00:00:00+00:00",
+      "last_period_utc": "2026-10-19T06:00:00+00:00"
+    },
+    "EBA.CISO-ALL.TI.H": {
+      "n_periods": 67853,
+      "n_null_values": 0,
+      "first_period_utc": "2019-01-01T00:00:00+00:00",
+      "last_period_utc": "2026-10-19T06:00:00+00:00"
+    },
+    "EBA.ERCO-ALL.D.H": {
+      "n_periods": 68370,
+      "n_null_values": 0,
+      "first_period_utc": "2019-01-01T00:00:00+00:00",
+      "last_period_utc": "2026-10-19T18:00:00+00:00"
+    },
+    "EBA.ERCO-ALL.DF.H": {
+      "n_periods": 68238,
+      "n_null_values": 0,
+      "first_period_utc": "2019-01-01T00:00:00+00:00",
+      "last_period_utc": "2026-10-20T05:00:00+00:00"
+    },
+    "EBA.ERCO-ALL.NG.H": {
+      "n_periods": 68333,
+      "n_null_values": 0,
+      "first_period_utc": "2019-01-01T00:00:00+00:00",
+      "last_period_utc": "2026-10-19T04:00:00+00:00"
+    },
+    "EBA.ERCO-ALL.TI.H": {
+      "n_periods": 68202,
+      "n_null_values": 0,
+      "first_period_utc": "2019-01-01T00:00:00+00:00",
+      "last_period_utc": "2026-10-19T04:00:00+00:00"
+    }
+  },
+  "forecast_rows_by_domain_and_split": {
+    "CISO": {
+      "train": {
+        "rows_with_observed_next_hour_target": 52558,
+        "rows_with_complete_four_feature_vector": 52079,
+        "first_complete_event_utc": "2019-01-01T00:00:00+00:00",
+        "last_complete_event_utc": "2024-12-30T23:00:00+00:00",
+        "non_hourly_gaps_in_complete_event_sequence": 34,
+        "largest_event_gap_seconds": 266400
+      },
+      "calibration": {
+        "rows_with_observed_next_hour_target": 8736,
+        "rows_with_complete_four_feature_vector": 8640,
+        "first_complete_event_utc": "2025-01-01T00:00:00+00:00",
+        "last_complete_event_utc": "2025-12-30T23:00:00+00:00",
+        "non_hourly_gaps_in_complete_event_sequence": 2,
+        "largest_event_gap_seconds": 180000
+      },
+      "test": {
+        "rows_with_observed_next_hour_target": 7002,
+        "rows_with_complete_four_feature_vector": 6943,
+        "first_complete_event_utc": "2026-01-01T00:00:00+00:00",
+        "last_complete_event_utc": "2026-10-19T06:00:00+00:00",
+        "non_hourly_gaps_in_complete_event_sequence": 2,
+        "largest_event_gap_seconds": 172800
+      }
+    },
+    "ERCO": {
+      "train": {
+        "rows_with_observed_next_hour_target": 52582,
+        "rows_with_complete_four_feature_vector": 52571,
+        "first_complete_event_utc": "2019-01-01T00:00:00+00:00",
+        "last_complete_event_utc": "2024-12-30T23:00:00+00:00",
+        "non_hourly_gaps_in_complete_event_sequence": 11,
+        "largest_event_gap_seconds": 10800
+      },
+      "calibration": {
+        "rows_with_observed_next_hour_target": 8736,
+        "rows_with_complete_four_feature_vector": 8664,
+        "first_complete_event_utc": "2025-01-01T00:00:00+00:00",
+        "last_complete_event_utc": "2025-12-30T23:00:00+00:00",
+        "non_hourly_gaps_in_complete_event_sequence": 1,
+        "largest_event_gap_seconds": 262800
+      },
+      "test": {
+        "rows_with_observed_next_hour_target": 7002,
+        "rows_with_complete_four_feature_vector": 6797,
+        "first_complete_event_utc": "2026-01-01T00:00:00+00:00",
+        "last_complete_event_utc": "2026-10-19T04:00:00+00:00",
+        "non_hourly_gaps_in_complete_event_sequence": 4,
+        "largest_event_gap_seconds": 176400
+      }
+    }
+  },
+  "prior_shiftlab_exposure_audit": {
+    "processed_development_dataset_version": "e47bdef8b208f8e7d788",
+    "processed_development_event_coverage": [
+      "1672531200.0",
+      "1767218400.0"
+    ],
+    "processed_development_ends_before_2026": true,
+    "prior_result_manifests_using_processed_version": [
+      {
+        "path": "outputs/shiftguard_unified/real_data_development/cara_eia_frontier_v1/manifest.json",
+        "study": "cara_eia_matched_retraining_frontier_v1",
+        "dataset_version": "e47bdef8b208f8e7d788"
+      },
+      {
+        "path": "outputs/shiftguard_unified/real_data_development/eia_drift_detectors_v1/manifest.json",
+        "study": "eia_mature_feedback_adwin_ddm_retraining_v1",
+        "dataset_version": "e47bdef8b208f8e7d788"
+      },
+      {
+        "path": "outputs/shiftguard_unified/real_data_development/eia_retraining_v1/manifest.json",
+        "study": "eia_retraining_resource_frontier_v1",
+        "dataset_version": "e47bdef8b208f8e7d788"
+      },
+      {
+        "path": "outputs/shiftguard_unified/real_data_development/rccda_eia_frontier_v1/manifest.json",
+        "study": "rccda_eia_matched_retraining_frontier_development_v1",
+        "dataset_version": "e47bdef8b208f8e7d788"
+      },
+      {
+        "path": "outputs/shiftguard_unified/real_data_development/rccda_eia_frontier_v2/manifest.json",
+        "study": "rccda_eia_matched_retraining_frontier_development_v2",
+        "dataset_version": "e47bdef8b208f8e7d788"
+      },
+      {
+        "path": "outputs/shiftguard_unified/real_data_development/upf_eia_frontier_v1/manifest.json",
+        "study": "upf_eia_bounded_retraining_cost_frontier_development_v1",
+        "dataset_version": "e47bdef8b208f8e7d788"
+      },
+      {
+        "path": "outputs/shiftguard_unified/real_data_development/upf_eia_frontier_v2/manifest.json",
+        "study": "upf_eia_bounded_retraining_cost_frontier_development_v2",
+        "dataset_version": "e47bdef8b208f8e7d788"
+      }
+    ],
+    "eia_result_text_files_scanned": 44,
+    "explicit_2026_event_date_matches_in_prior_eia_result_text": [],
+    "interpretation": "Manifest and text audit supports no prior ShiftLab scoring of the 2026 period; it is not a proof about unrecorded human inspection. The 2026 EBA source dates were inspected for coverage only."
+  },
+  "protocol": "papers/shiftguard_unified/eia_2026_out_of_time_confirmation_protocol_v1.md",
+  "eligibility": "candidate out-of-time period; score only after gap-safe runner and frozen protocol checks pass"
+}

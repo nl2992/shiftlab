@@ -1,0 +1,7 @@
+scenario,method,streams,promotions,promotion_rate,promotion_ci95_low,promotion_ci95_high,mean_labels_used,median_censored_stopping_time,empty_paths
+equal_value_null,certification_exponent_projected_kelly_1step,1000,16,0.016,0.00917231926922208,0.02585324908137346,197.439,201.0,0
+equal_value_null,fixed_horizon_hoeffding,1000,0,0.0,0.0,0.003682083896865671,200.0,200.0,0
+equal_value_null,official_mope_gate,1000,11,0.011,0.0055035941923135875,0.019596628222016514,198.844,201.0,3
+target_improves,certification_exponent_projected_kelly_1step,300,270,0.9,0.8603266926448977,0.9315083155089265,96.18333333333334,85.5,0
+target_improves,fixed_horizon_hoeffding,300,92,0.30666666666666664,0.25496114899898814,0.3622389593884639,200.0,200.0,0
+target_improves,official_mope_gate,300,279,0.93,0.8949860004499501,0.9561496552445705,114.03666666666666,107.5,0

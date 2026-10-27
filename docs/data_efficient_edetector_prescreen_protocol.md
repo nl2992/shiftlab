@@ -99,3 +99,9 @@ to increase intensity. A fail stops WP3 development and yields a ranked fallback
 recommendation. Do not change intensity, clock, thresholds or cells after outcomes.
 Every run records starting HEAD, source/output hashes, device, hardware and runtime.
 PaperBanana is required for figures; tabular output is sufficient here.
+
+**Implementation clarification before any 590 outcomes, 2026-10-27:** skipped zero
+scores advance adaptive engines' predictable internal histories. Started variants
+restart the corresponding engine at each registered start. Descriptive paired
+detection intervals use 10,000 seed-bootstrap resamples and fixed RNG123456;
+these intervals do not alter the prescreen's point-estimate advancement gate.

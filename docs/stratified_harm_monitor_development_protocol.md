@@ -139,6 +139,12 @@ effect sizes, allocations, stakes or thresholds after inspecting these outputs.
 G1 CPU learner slices: 58700000–58700019, rechecked before freeze. No monitor-window field
 enters G1. If G1 fails, write results/research-log entries and stop WP2 before simulation.
 
+**Pre-G1 clarification, 2026-10-27:** the generator scenario for these learner slices is
+`boundary_local_harm`; only train/validation events 0–799 enter the calculations. This
+names the scenario omitted in the original seed-registry sentence. No 587 block slice or
+G1 outcome has been computed before this amendment. The registered working laws replace
+outcome probabilities analytically; natural monitor-window outcomes are never inspected.
+
 Only if G1 passes: complete the stream adapter and formula/invariance tests before development.
 Use the exact vector binary null from `stratified_harm_design`: on an action pair with costs
 {+5,-1}, boundary probability is (1+epsilon)/6, not 0.5; on the reverse pair it is

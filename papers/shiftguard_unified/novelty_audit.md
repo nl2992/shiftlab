@@ -104,3 +104,58 @@ For the [anchored, gated monitor protocol](../../docs/anchored_gated_harm_monito
 - **Xu, Karampatziakis & Mineiro** ([NeurIPS 2024](https://arxiv.org/abs/2406.10490), Sections 2–3): the null is `rho(beta) >= theta`. The predictor `rhat` maps into `[0,1]`. The stake range `[0, (1/q_min - theta)^(-1)]` depends on `q_min` and `theta`, not on `rhat`. Setting `rhat = 0` is mentioned only as recovering the active process; endpoint choices that remove `q_min` are not discussed. The setting is i.i.d. with no paired-policy comparison or delays.
 
 **Decision:** G0 passes in the narrow sense that none of these three sources publishes a support-boundary anchor that makes the one-sided stake range independent of the label probability for signed paired contrasts. In Xu et al.'s own sign convention, `rhat = 1` would already make their IPW correction nonnegative and the range `q_min`-free, so the ingredient is a small step from published constructions. The weight-free one-sided principle itself is in Waudby-Smith et al. (JDS 2024). Disagreement gating belongs to DISCERN. Any ADG claim is therefore limited to this transfer, its variance trade-off, and the composition under drift and delay, and is contingent on G1–G7. The literature search was targeted, not exhaustive.
+
+## Stratified phase G0: published subgroup compositions, 2026-10-27
+
+**Disposition: proceed only to the registered pre-screen; no construction novelty established.**
+The bounded search did not find the exact application statement
+`E[c(pi_t,Y_t)-c(ref_t,Y_t)-epsilon | past,G_t=k]<=0` verbatim. That is not evidence of priority:
+generic bounded conditional-risk theorems already apply after an affine score transform.
+
+An independently assisted full-text pass covered the following primary sources. The primary
+agent checked Chugg's Appendix B directly and reviewed the mappings and conditions against the
+existing repository audits. See also the [Chugg paper-to-code audit](../../docs/chugg_group_betting_paper_to_code_audit.md)
+and the [theory note](../paper1_decision_drift/theory_notes.md).
+
+| Primary source | Exact overlap and remaining scope distinction |
+|---|---|
+| [Chugg, Cortes-Gomez, Wilder and Ramdas, NeurIPS 2023](https://proceedings.neurips.cc/paper_files/paper/2023/file/1338c277525011f20166cf740952bb47-Paper-Conference.pdf), full proceedings text, Appendix B Proposition 5 | Parallel group betting and alpha/J thresholds with a union bound are explicit. Their application tests equality of group means. Replacing each game with a bounded conditional paired-cost score is a standard transfer, not a new multiplicity mechanism. |
+| [Vovk and Wang, 2021](https://arxiv.org/pdf/1912.06116), full preprint | Fixed convex e-value combinations are established. Sequential use here additionally requires component e-processes under the common filtration; a fixed-time merging statement alone does not supply that. |
+| [Wang and Ramdas, e-BH](https://sas.uwaterloo.ca/~wang/papers/2021Wang-Ramdas-JRSSB.pdf), full text | FDR across e-values is a different target from the fixed weighted-Bonferroni FWER and intersection-null mixture used here. Do not substitute the guarantees. |
+| [Timans et al., UAI 2025](https://proceedings.mlr.press/v286/timans25a.html), full final text | Its bounded conditional-risk guarantee maps to paired harm; applying it on a fixed stratum subsequence is immediate once the local conditional null is stated. Give its betting engine to the subgroup incumbent too. |
+| [Xu et al., NeurIPS 2024](https://arxiv.org/pdf/2406.10490), full v2 | Active predictor-based betting, propensity restrictions and square-root residual-moment allocation are established. The paired-cost sign/support map and any drift extension must be labelled adaptations. |
+| [DISCERN, v1](https://arxiv.org/pdf/2609.17560), full text including Appendix A | Disagreement-only paired-loss queries are established. Agreement/disagreement is the allocation special case; positive-margin pooled wealth still includes the known agreement contribution. |
+| [Zhou et al., v2](https://arxiv.org/pdf/2605.07002v2), full text | Targeted subgroup/local-risk search found adaptive subgroup auditing with anytime guarantees. Its omnibus performance target and adaptive-sampling assumptions differ, but it further narrows any claim based merely on finding harmful subgroups. |
+
+The strongest same-null incumbent is a Chugg-style subgroup composition equipped with the same
+gating, local bounds, propensity allocation, alpha weights and betting engines as the candidate.
+When all those pieces coincide, the wealth paths coincide by algebra; changing their names is
+not an improvement. A pooled comparison belongs next to it, explicitly marked as testing a
+different null in mixed-sign alternatives. Any development advantage must isolate allocation
+or another actual difference and survive that equally equipped incumbent. The literature search
+was targeted, not exhaustive; neither this audit nor the standard wrapper establishes a new method.
+
+## Data-efficient detector G0: observation control, 2026-10-27
+
+**Disposition: a predictable sampling policy may be pre-screened; no new validity principle.**
+The independent primary-source pass covered Banerjee and Veeravalli
+([1105.1361](https://arxiv.org/pdf/1105.1361), [1211.3729](https://arxiv.org/pdf/1211.3729)),
+[Hou, Bidkhori and Banerjee](https://arxiv.org/pdf/2412.20207), Lubenia and Banerjee
+([2509.14186v2](https://arxiv.org/pdf/2509.14186v2), including the expanded data-efficient
+algorithms/theorem), [Shin, Ramdas and Rinaldo](https://arxiv.org/pdf/2203.03532), and
+[Saha and Ramdas](https://arxiv.org/pdf/2607.28322). The primary agent verified the source
+identities/versions and reviewed the recursion and guarantee mappings.
+
+The observation-control papers already optimize sensing cost and detection delay under
+likelihood models and classical false-alarm/ARL constraints. DE-CuSum and its robust/multiple
+experiment descendants deliberately move their log statistics upward during skipped observations.
+That step cannot be imported as an e-valid evidence update. Setting a skipped e-factor to one
+and retaining the horizon-calibrated SR bound follows directly from the conditional e-process
+framework; see the [detector audit](../../docs/horizon_edetectors_paper_to_code_audit.md).
+
+A targeted search combining e-detectors with sampling/observation control did not reveal the exact
+costed gated paired-harm setup. This limited search does not establish novelty. The only remaining
+empirical question here is whether a completely prespecified predictable intensity rule improves
+the matched label/delay frontier over equally equipped gated e-detectors. Selection on the current
+covariate may invalidate a pooled-null factor unless its correction/conditional-null argument
+accounts for that selection; past-only intensity avoids that particular issue.

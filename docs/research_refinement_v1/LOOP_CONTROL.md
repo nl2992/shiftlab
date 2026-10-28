@@ -57,7 +57,7 @@ Historical audit files elsewhere in the repository are never overwritten.
 - [x] E1 `ADVERSARIAL_REVIEW_1.md`: four perspectives; fatal and major weaknesses, remedies,
       required evidence.
 - [x] E2 `REFINEMENT_ROUND_2.md`: claim-by-claim response.
-- [ ] E3 `ADVERSARIAL_REVIEW_2.md`: a full second review. Run rounds 3–5 only while they resolve
+- [x] E3 `ADVERSARIAL_REVIEW_2.md`: a full second review. Run rounds 3–5 only while they resolve
       significant objections, as `REFINEMENT_ROUND_n.md` / `ADVERSARIAL_REVIEW_n.md`.
 - [ ] F1 `FINAL_RESEARCH_PROPOSAL.md`: decision BENCHMARK_PAPER, NEW_METHOD, PIVOT or NO_GO, plus
       the abandonment criterion.
@@ -96,3 +96,4 @@ score.
 | 8b | 2026-10-28 | User | E4 approved for planning only: plan the post-freeze EIA pull for around 2026-12-08, with **no download until the user confirms method and size**. Plan recorded as an addendum to round 2 (API v2 route recommended; key set by user) |
 | 8c | 2026-10-28 | User | Use local data first. E4 revised to locked held-out EIA balancing authorities from the existing snapshot (about 55 BAs; only CISO, ERCO and NYIS ever used), with an outcome-free coverage gate and a dev/locked split. OPSD and Folktables recorded as secondary. Prospective pull deferred and optional |
 | 9 | 2026-10-28 | E3 attempt | The first Codex round-2 run hung on stdin and timed out after 25 min (exit 124, no output). Retried once with stdin closed |
+| 9b | 2026-10-28 | E3 | Codex round-2 review done: all 5 round-1 fatals RESOLVED; BENCHMARK_PAPER conditional (ICML 3/10, D&B 5/10). New items: Claim B ratio error (lead-verified: 5.63x and 4.26x on two profiles), fixed-not-later overclaim, unfrozen E2 and E3, E4 selection and delay clocks. **Exit condition 2 met (converged): refinement stops at two rounds; next F1** |

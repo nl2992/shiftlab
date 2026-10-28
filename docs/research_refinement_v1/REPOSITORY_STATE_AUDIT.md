@@ -55,7 +55,7 @@ Phase A2 must treat these as the most recent evidence.
 - `papers/`: `paper1_decision_drift`, `paper2_adaptive_conformal`,
   `paper3_cost_aware_adaptation` and `shiftguard_unified`.
 
-**Full test suite:** TEST_STATUS_PLACEHOLDER
+**Full test suite:** 1,869 passed, 1 skipped in 769 s (`uv run --no-sync pytest -q`, run at HEAD `c0f84af` on 2026-10-27).
 
 ## Tooling for this refinement
 

@@ -36,7 +36,7 @@ Historical audit files elsewhere in the repository are never overwritten.
 
 ## Checklist (one or more steps per tick)
 
-- [ ] A1 `REPOSITORY_STATE_AUDIT.md`: remotes, branch, ahead/behind, working tree, unpublished
+- [x] A1 `REPOSITORY_STATE_AUDIT.md`: remotes, branch, ahead/behind, working tree, unpublished
       commits, file availability, test-suite status.
 - [ ] A2 `RESEARCH_EVIDENCE_INVENTORY.md`: methods with code locations; intended versus implemented
       assumptions; experiments, datasets, comparators, metrics, results and artifacts; positive,
@@ -83,4 +83,4 @@ score.
 | Tick | UTC | Steps done | Notes |
 |---|---|---|---|
 | 0 | 2026-10-27 | Setup | ARIS installed; Codex limit hit until 2026-11-02; cron job `1bdae48e` (`7-59/20 * * * *`; replaced `99821f78` to add the commit-and-merge rule) |
-| 1 | 2026-10-27 | A1 drafted | No GitLab remote; 42 local commits unpublished; full pytest running (fill `TEST_STATUS_PLACEHOLDER` when done) |
+| 1 | 2026-10-27 | A1 drafted | No GitLab remote; 42 local commits unpublished; full pytest 1,869 passed, 1 skipped |

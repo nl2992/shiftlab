@@ -104,3 +104,9 @@ Both parts are research targets, not results.
 - **Cross-cutting.** Labels are free everywhere, so the budget, the switching cost and the burst structure are imposed on every dataset.
 - **Next:** R1, a frozen OPSD task spec with a declared clock assumption and a holdout declaration. |
 | 8 | 2026-10-28 | R1 | The user granted data-fetch permission ("feel free to fetch data… we already have loads locally"); recorded in memory, with local data still first. Fetched ETHUSDT 1h klines 2025-02 to 2026-09 from data.binance.vision into `<main>/data/raw/binance/` (20 files, publisher checksums verified, receipts in the existing format; gitignored). R1 frozen task specs (OPSD primary, Binance secondary) started by Sonnet, specs to be written before any outcome inspection. |
+| 9 | 2026-10-28 | R1 | Two frozen task specs written before any outcome inspection (`R1_task_specs.md`).
+- **(A) OPSD:** ENTSO-E day-ahead forecast vs a frozen per-hour ridge (2015–16 training), reserve-cost action, decision D-1 10:00 UTC, d=2 rounds, development 2018–19, locked 2020-01..09. The forking path is stated: the 2020 disturbance is public knowledge.
+- **(B) Binance:** 24- vs 168-bar momentum long/flat, d=1, fee 0.1% per side, development 2025, locked 2026-01..09. Disagreement is dense (about 0.38, from an approximation), which is fine for Lane A's switching contract but not a sparse-burst testbed.
+- **Not a G4 pass alone.** Neither task passes G4 by itself (Binance is stronger on clocks and costs; OPSD on the policy pair and drift).
+- **External refs only partly verified.** The ENTSO-E rule and Binance fee page are only partially verified (WAF challenges blocked scripted fetches; noted for a human check). OPSD revision status and the DE zone across the 2018-10 split are unverified.
+- **Next:** R2, measuring disagreement density on development windows only, then a contract-interface adapter and a smoke run with existing baselines. |

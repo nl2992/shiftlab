@@ -41,7 +41,10 @@ The harness raises on a `propensity` outside `[0, 1]` (including NaN) and on a n
 
 1. Import only the standard library, `numpy`, `scipy` and `interface`. The adapter runs in an
    isolated subprocess (`python -I`, working directory = the packet, stripped environment,
-   `shiftlab` blocked); events and feedback arrive as JSON, so state must live in your object.
+   `shiftlab` blocked, and an audit-hook guard denying file access outside the packet, subprocess,
+   sockets and ctypes; stdlib, numpy and scipy remain readable); events and feedback arrive as
+   JSON, so state must live in your object. Residual: the guard is in-process, not an OS sandbox,
+   so the procedural packet-only rule still applies.
    `shiftlab.contract.isolation.check_imports(path)` is a lint only. It does not establish
    isolation.
 2. Your e-process must be valid for the eventwise null with your own propensity. If you test a

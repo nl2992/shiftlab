@@ -77,11 +77,18 @@ environment, not by lint:
   `build_monitor()`.
 - The AST import check (`shiftlab.contract.isolation`) stays as an extra **lint** only: standard
   library, `numpy`, `scipy`, `interface`.
-- The sandbox is an accident-proof boundary, not an adversarial one: a process can still open
-  absolute paths. Full isolation therefore additionally requires the **implementer session to be
+- Before the adapter loads, the runner installs a `sys.addaudithook` guard (audit hooks cannot be
+  removed from Python code). It denies opening files outside the packet (read-only access is
+  allowed only under the Python prefixes needed for stdlib, numpy and scipy), `os.listdir`,
+  `os.scandir` and `glob.glob` outside the packet and those prefixes, subprocess, `os.system`,
+  `os.exec*`, `os.spawn*`, `os.posix_spawn`, fork, `socket.*`, `ctypes.*`, and importing
+  `ctypes`/`_ctypes`/`cffi`. **Residual:** audit hooks are a strong in-process guard, not an OS
+  sandbox. A determined native-extension escape is out of scope, and the adapter can still tamper
+  with in-process state. Full isolation therefore additionally requires the **implementer session to be
   given only the packet** (procedural). The session identifier and the packet manifest are
   recorded as provenance. A tested malicious adapter (`import shiftlab`, reading
-  `../../src/...`) fails inside the sandbox (`tests/test_contract_sandbox.py`).
+  `../../src/...`, absolute paths to evaluator files, subprocess, socket, ctypes) fails inside the
+  sandbox (`tests/test_contract_sandbox.py`).
 - Harness semantics are locked: reserve stop when the remaining reserve is below
   `price_range[1]` (default, recorded in `HarnessResult.reserve_stop_rule`); NaN or infinite
   `log_e_value` is rejected.

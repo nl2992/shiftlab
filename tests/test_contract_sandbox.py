@@ -113,7 +113,7 @@ def test_adapter_cannot_read_repo_by_relative_path(tmp_path):
         "from pathlib import Path\n"
         "text = Path('../../src/shiftlab/contract/interface.py').read_text()\n" + GOOD
     )
-    with pytest.raises(SandboxError, match="FileNotFoundError"):
+    with pytest.raises(SandboxError, match="FileNotFoundError|denied"):
         SandboxedMonitor(_write(tmp_path, source))
 
 
@@ -145,4 +145,44 @@ def test_readme_example_adapter_passes_lint_and_runs_in_sandbox(tmp_path):
     assert check_imports(path) == []
     events, costs, coins, prices, spec = _stream(80)
     with SandboxedMonitor(path) as monitor:
+        assert run_monitor(monitor, spec, events, costs, coins, prices).processed > 0
+
+
+REPO = Path(__file__).resolve().parents[1]
+
+
+@pytest.mark.parametrize(
+    "snippet",
+    [
+        f"open({str(REPO / 'src/shiftlab/contract/harness.py')!r}).read()",
+        f"open({str(REPO / 'README.md')!r}, 'rb').read()",
+        f"import pathlib; pathlib.Path({str(REPO / 'AGENTS.md')!r}).read_text()",
+        f"import os; os.listdir({str(REPO)!r})",
+        f"import glob; glob.glob({str(REPO / '*')!r})",
+        "import subprocess; subprocess.run(['python', '-c', 'pass'])",
+        "import os; os.system('echo hi')",
+        "import socket; socket.socket()",
+        "import ctypes",
+        "import _ctypes",
+        f"open({str(REPO / 'pwned.txt')!r}, 'w')",
+    ],
+)
+def test_audit_guard_denies_escapes(tmp_path, snippet):
+    source = snippet + "\n" + GOOD
+    with pytest.raises(SandboxError, match="denied|PermissionError"):
+        SandboxedMonitor(_write(tmp_path, source))
+    assert not (REPO / "pwned.txt").exists()
+
+
+def test_audit_guard_allows_packet_and_numeric_stack(tmp_path):
+    source = (
+        "import json, math, pathlib\n"
+        "import numpy as np\n"
+        "from scipy import special, stats\n"
+        "special.gammaln(3.0); stats.norm.cdf(0.0)\n"
+        "pathlib.Path('scratch.txt').write_text('ok')\n"
+        "assert pathlib.Path('interface.py').exists()\n" + GOOD
+    )
+    events, costs, coins, prices, spec = _stream(30)
+    with SandboxedMonitor(_write(tmp_path, source)) as monitor:
         assert run_monitor(monitor, spec, events, costs, coins, prices).processed > 0

@@ -10,10 +10,16 @@ file, the P4 and contract-README documents and a small runner. The adapter runs 
 packet, a stripped environment, and ``shiftlab`` removed from ``sys.path`` and blocked by a
 meta-path finder. The harness stays in the parent; events and feedback cross as JSON lines.
 
-Limits, stated plainly: this is an accident-proof boundary, not an adversarial security
-sandbox. A process can still open absolute paths or tamper with its own import machinery. Full
-isolation additionally requires the implementer session to receive only the packet, which is a
-procedural requirement recorded in the P4 protocol.
+Before the adapter is loaded the runner installs a ``sys.addaudithook`` guard (hooks cannot be
+removed from Python code). It denies: opening any file outside the packet except read-only access
+under the Python prefixes (stdlib and site-packages); ``os.listdir``/``os.scandir``/``glob.glob``
+outside the packet and those prefixes; subprocess, ``os.system``, ``os.exec*``, ``os.spawn*``,
+``os.posix_spawn``, fork; ``socket.*``; ``ctypes.*``; and importing ctypes/_ctypes/cffi.
+
+Residual, stated plainly: audit hooks are a strong in-process guard, not an OS sandbox. A
+determined escape through a native extension is out of scope, and the adapter can still tamper
+with in-process state. Full isolation additionally requires the implementer session to receive
+only the packet, which is a procedural requirement recorded in the P4 protocol.
 
 The adapter file must define ``build_monitor()`` returning a ``Monitor`` and import the contract
 as ``from interface import ...``.
@@ -71,11 +77,76 @@ def send(obj):
     _out.flush()
 
 
+def _install_guard():
+    real, norm, common, fsdecode = os.path.realpath, os.path.normcase, os.path.commonpath, os.fsdecode
+
+    def canon(p):
+        return norm(real(fsdecode(p)))
+
+    packet = canon(PACKET)
+    std_roots = [
+        canon(r) for r in {sys.prefix, sys.base_prefix, sys.exec_prefix, sys.base_exec_prefix}
+    ]
+    blocked_modules = ("ctypes", "_ctypes", "cffi", "_cffi_backend")
+    blocked_events = ("os.system", "os.posix_spawn", "os.fork", "os.forkpty", "os.startfile")
+    blocked_prefixes = ("subprocess.", "socket.", "ctypes.", "os.exec", "os.spawn")
+    write_flags = os.O_WRONLY | os.O_RDWR | os.O_APPEND | os.O_CREAT | os.O_TRUNC
+
+    def under(path, roots):
+        try:
+            return any(common([path, r]) == r for r in roots)
+        except ValueError:
+            return False
+
+    def deny(what):
+        raise PermissionError("sandbox audit guard denied: " + what)
+
+    def hook(event, args):
+        if event == "open":
+            path = args[0]
+            if path is None or isinstance(path, int):
+                return
+            p = canon(path)
+            if under(p, [packet]):
+                return
+            mode = args[1] if len(args) > 1 and isinstance(args[1], str) else "r"
+            flags = args[2] if len(args) > 2 and isinstance(args[2], int) else 0
+            writing = any(c in mode for c in "wax+") or bool(flags & write_flags)
+            if not writing and under(p, std_roots):
+                return
+            deny("open " + str(path))
+        elif event in ("os.listdir", "os.scandir") or event.startswith("glob.glob"):
+            path = args[0] if args else None
+            if path is None or isinstance(path, int):
+                return
+            if not under(canon(path), [packet] + std_roots):
+                deny(event + " " + str(path))
+        elif event == "import":
+            name = args[0]
+            if name.split(".")[0] in blocked_modules:
+                deny("import " + name)
+        elif event in blocked_events or event.startswith(blocked_prefixes):
+            deny(event)
+
+    sys.addaudithook(hook)
+
+
 try:
     import numpy as np
     import interface
 
-    spec = importlib.util.spec_from_file_location("adapter", os.path.join(PACKET, ADAPTER_NAME))
+    # Preload what numeric adapters need so their imports never touch the guard, then forget
+    # ctypes so that an adapter importing it triggers an audited (and denied) import.
+    for _name in ("scipy.special", "scipy.stats", "scipy.optimize", "scipy.linalg"):
+        try:
+            __import__(_name)
+        except ImportError:
+            pass
+    for _name in [m for m in sys.modules if m.split(".")[0] in ("ctypes", "_ctypes", "cffi")]:
+        del sys.modules[_name]
+    _install_guard()
+
+    spec =importlib.util.spec_from_file_location("adapter", os.path.join(PACKET, ADAPTER_NAME))
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
     monitor = module.build_monitor()

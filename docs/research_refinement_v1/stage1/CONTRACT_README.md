@@ -43,8 +43,11 @@ The harness raises on a `propensity` outside `[0, 1]` (including NaN) and on a n
    isolated subprocess (`python -I`, working directory = the packet, stripped environment,
    `shiftlab` blocked, and an audit-hook guard denying file access outside the packet, subprocess,
    sockets and ctypes; stdlib, numpy and scipy remain readable); events and feedback arrive as
-   JSON, so state must live in your object. Residual: the guard is in-process, not an OS sandbox,
-   so the procedural packet-only rule still applies.
+   JSON, so state must live in your object. Do not use `gc`, `inspect`, `ctypes`, frame, closure,
+   `__code__`, `__globals__` or `__builtins__` access; the lint rejects them and the guard denies
+   them. Threat model: a non-adversarial implementer, adapter source reviewed and hashed by the
+   lead before the run, plus this in-process guard. It is not an OS sandbox, so the procedural
+   packet-only rule still applies.
    `shiftlab.contract.isolation.check_imports(path)` is a lint only. It does not establish
    isolation.
 2. Your e-process must be valid for the eventwise null with your own propensity. If you test a

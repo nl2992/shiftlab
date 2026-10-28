@@ -16,6 +16,33 @@ CONTRACT_PACKAGE = "shiftlab.contract"
 # External adapters may use the interface only, never the evaluator-side or baseline modules.
 FORBIDDEN_CONTRACT_MODULES = frozenset({"harness", "baselines", "isolation"})
 DYNAMIC_IMPORT_NAMES = frozenset({"__import__", "import_module"})
+# Standard-library modules that give introspection or native-code access.
+FORBIDDEN_STDLIB = frozenset({"gc", "inspect", "ctypes", "_ctypes", "cffi", "_cffi_backend"})
+# Attributes / names / string literals used to reach frames, closures, globals or builtins.
+FORBIDDEN_NAMES = frozenset(
+    {
+        "_getframe",
+        "_current_frames",
+        "__closure__",
+        "cell_contents",
+        "__code__",
+        "__globals__",
+        "__defaults__",
+        "__kwdefaults__",
+        "__subclasses__",
+        "__builtins__",
+        "f_back",
+        "f_globals",
+        "f_locals",
+        "f_builtins",
+        "tb_frame",
+        "get_objects",
+        "get_referrers",
+        "get_referents",
+        "gc",
+        "inspect",
+    }
+)
 
 
 def _top_level(name: str) -> str:
@@ -23,6 +50,8 @@ def _top_level(name: str) -> str:
 
 
 def _module_violation(module: str) -> str | None:
+    if _top_level(module) in FORBIDDEN_STDLIB:
+        return f"forbidden introspection/native module {module}"
     if _top_level(module) in sys.stdlib_module_names or _top_level(module) in ALLOWED_THIRD_PARTY:
         return None
     if module == CONTRACT_PACKAGE:
@@ -58,6 +87,16 @@ def check_source(source: str, filename: str = "<adapter>") -> list[str]:
                         violations.append(
                             f"{filename}:{line}: forbidden contract module {alias.name}"
                         )
+        elif isinstance(node, ast.Attribute) and node.attr in FORBIDDEN_NAMES:
+            violations.append(f"{filename}:{line}: forbidden attribute .{node.attr}")
+        elif isinstance(node, ast.Name) and node.id in FORBIDDEN_NAMES:
+            violations.append(f"{filename}:{line}: forbidden name {node.id}")
+        elif (
+            isinstance(node, ast.Constant)
+            and isinstance(node.value, str)
+            and node.value in FORBIDDEN_NAMES
+        ):
+            violations.append(f"{filename}:{line}: forbidden name string {node.value!r}")
         elif isinstance(node, ast.Call):
             func = node.func
             name = func.id if isinstance(func, ast.Name) else getattr(func, "attr", None)

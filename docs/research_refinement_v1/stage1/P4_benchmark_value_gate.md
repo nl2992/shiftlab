@@ -82,9 +82,18 @@ environment, not by lint:
   allowed only under the Python prefixes needed for stdlib, numpy and scipy), `os.listdir`,
   `os.scandir` and `glob.glob` outside the packet and those prefixes, subprocess, `os.system`,
   `os.exec*`, `os.spawn*`, `os.posix_spawn`, fork, `socket.*`, `ctypes.*`, and importing
-  `ctypes`/`_ctypes`/`cffi`. **Residual:** audit hooks are a strong in-process guard, not an OS
-  sandbox. A determined native-extension escape is out of scope, and the adapter can still tamper
-  with in-process state. Full isolation therefore additionally requires the **implementer session to be
+  `ctypes`/`_ctypes`/`cffi`. The hook is generated with the packet path and allowed roots
+  embedded as literals in its code object (no closure, defaults or global allowlist), runs on a
+  private copy of `builtins`, and also denies `gc.get_objects/get_referrers/get_referents`,
+  `sys._getframe`, `sys._current_frames`, `sys.settrace/setprofile`, assignment to `__code__`,
+  `__closure__`, `__globals__`, `__defaults__`, `__kwdefaults__` or `__builtins__`, extension
+  modules loaded from outside the allowed roots, and importing `gc`, `inspect`, `ctypes`,
+  `_ctypes` or `cffi`. The AST lint additionally rejects those names and frame/closure/global
+  attribute access. **Threat model:** a non-adversarial implementer; adapter source reviewed and
+  hashed by the lead before the run; plus this in-process guard. It is not an OS sandbox:
+  CPython does not audit module-attribute writes, cell contents or `dict` item assignment, so a
+  determined adapter could tamper with in-process state, and a native-extension escape is out of
+  scope. Full isolation therefore additionally requires the **implementer session to be
   given only the packet** (procedural). The session identifier and the packet manifest are
   recorded as provenance. A tested malicious adapter (`import shiftlab`, reading
   `../../src/...`, absolute paths to evaluator files, subprocess, socket, ctypes) fails inside the

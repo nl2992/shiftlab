@@ -217,3 +217,63 @@ Both routes already exist in `src/shiftlab/data/real/eia.py`:
 - About 1,000 hours per respondent is the earliest useful check.
 - The result is the first **prospective** real-data evidence in the programme. It stays
   descriptive unless the protocol pre-registers a confirmatory endpoint.
+
+## Addendum 2 (2026-10-28): use local data first; the E4 pull is deferred
+
+**User direction (2026-10-28):** use the data already on disk (about 42 GB under `data/`) for
+testing, rather than pull more. **The post-freeze pull above is deferred. It stays optional, as a
+later prospective check, and still needs explicit confirmation of method and size.**
+
+**Lead inventory (read-only):**
+- The verified local snapshot `data/raw/eia/EBA.zip` (receipt present; 2019 to 2026-10-19)
+  contains **70 hourly demand series** (`EBA.<BA>-ALL.D.H`).
+- 14 of them are regional or national aggregates: CAL, CAR, CENT, FLA, MIDA, MIDW, NE, NW, NY, SE,
+  SW, TEN, TEX, US48.
+- That leaves **about 55 balancing authorities.**
+- Only **CISO and ERCO** were used in any ShiftLab decision-harm or forecasting analysis.
+- **NYIS** appears in 5 files: the loader default and early configs.
+- PJM, MISO, ISNE, SWPP, SOCO, FPL, BPAT, TVA, DUK and the rest have **zero references** in docs,
+  papers, configs or scripts.
+
+**Revised E4: locked held-out balancing authorities from the existing snapshot (no download).**
+1. **Outcome-free selection rule, frozen before any look at outcomes.**
+   - Exclude the 14 aggregates and the examined authorities (CISO, ERCO, NYIS).
+   - Keep the authorities whose demand series passes a coverage gate on demand availability alone
+     (for example ≥ 95% observed hours in 2019–2024 and in the evaluation window).
+   - Record the list and its hash.
+2. **Split.**
+   - With a pre-registered seed, assign about one third of the eligible authorities to a
+     **development** set, used only for implementation checks and smoke runs.
+   - Assign about two thirds to a **locked evaluation** set, which nobody opens until the
+     protocol is frozen.
+3. **Task.** The frozen WP4 paired reserve-procurement construction, unchanged:
+   - tau = the 90th percentile of each authority's 2019–2024 demand;
+   - shortfall and idle costs 5/1;
+   - frozen Ridge against weekly-refit Ridge, with a 24-hour label delay;
+   - a 2024 rehearsal for the pacer and the injection band.
+   Analyses (a)–(c) as registered: the per-path orientation null, unmodified streams, and injected
+   harm with known onset. The E2 arms (gated HT, uniform HT, uniform PPI; fixed against paced) are
+   added under the same contract.
+4. **What it adds.** Many new real paths for null validity and for the replication of findings 1
+   and 2, on authorities never examined for this task.
+5. **Limits, stated up front.**
+   - The calendar period overlaps the examined CISO and ERCO windows. Authorities share weather,
+     calendar and market shocks, so paths are correlated, not independent deployments. Use
+     cluster-aware or per-path reporting.
+   - Costs remain imposed, and publisher release timing is still unverified.
+   - The result is **task-untouched retrospective** evidence, not prospective evidence.
+
+**Other local sources considered:**
+
+| Source | Size | Prior use | Fit to this proposal |
+|---|---|---|---|
+| OPSD (`data/raw/opsd`, 2020-10-06 snapshot; DE and DK hourly load, wind, solar, price, 2019) | 125 MB | Task report only (`docs/opsd_tasks.md`); no decision-harm run | **Secondary replication on a different grid**, under the same reserve construction, if its coverage passes. A short single year limits the rehearsal and evaluation split. |
+| Folktables / ACS PUMS (2017–2019, by state) | 660 MB | Adapters only; no frozen task | **Offline cross-domain Q2 panel** (certify a candidate across state or year shift with an imposed cost matrix; the common label identifies both actions' costs). It is not sequential. Its use belongs to E3 or certification, not to monitoring. |
+| Monash archive | 77 MB | Official-horizon diagnostics | Possible extra forecasting paths. Release times are unknown. Lower priority. |
+| Open Bandit full (394 MB), Hillstrom | — | MOPE exploratory replay; exposed split | Action-dependent feedback (matrix G1). **Out of scope for Claim B.** |
+| CriteoPrivateAds | 32 GB | One-seed delayed-feedback prediction replay | Prediction only, with no decision costs. Not needed. |
+| CRSP (licensed) | 2.6 GB | Test window reused at least 5 times | Exposed; do not use for new claims. |
+
+**Compute:** the WP4 build took about 85 s for 2 authorities (CUDA Ridge) and the vectorised replay
+about 290 s on CPU. Roughly 35 locked authorities would take about an hour on CPU for the replay,
+after a smoke run on the development set. That is CPU-sized, with no new data.

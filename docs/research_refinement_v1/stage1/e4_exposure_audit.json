@@ -1,0 +1,329 @@
+{
+  "artifact": "e4_exposure_audit",
+  "run_utc": "2026-10-28T18:44:13.087388+00:00",
+  "scan_roots": [
+    "outputs",
+    "configs",
+    "docs",
+    "papers",
+    "scripts",
+    "src",
+    "tests"
+  ],
+  "excluded": "docs/research_refinement_v1/stage1/ (this registration)",
+  "patterns": {
+    "token": "case-sensitive id bounded by non-alphanumerics",
+    "series_style": "EBA.<ID>-"
+  },
+  "scanned": {
+    "text_files": 3356,
+    "parquet_files": 669
+  },
+  "skipped_by_suffix": {
+    ".npz": 78,
+    ".pdf": 14,
+    ".png": 326,
+    ".pyc": 570,
+    ".sha256": 24,
+    "none": 1,
+    "parquet_too_large": 2
+  },
+  "groups": {
+    "locked": [
+      "CHPD",
+      "CPLE",
+      "CPLW",
+      "DUK",
+      "EPE",
+      "FPC",
+      "FPL",
+      "GCPD",
+      "HST",
+      "IPCO",
+      "LDWP",
+      "LGEE",
+      "MISO",
+      "NEVP",
+      "PACW",
+      "PGE",
+      "PJM",
+      "SEC",
+      "SOCO",
+      "TEPC",
+      "TPWR"
+    ],
+    "development": [
+      "AECI",
+      "AVA",
+      "BPAT",
+      "DOPD",
+      "FMPP",
+      "ISNE",
+      "PACE",
+      "PNM",
+      "SCL",
+      "TAL"
+    ]
+  },
+  "hits": {
+    "CHPD": {
+      "group": "locked",
+      "token_file_count": 0,
+      "series_style_file_count": 0,
+      "token_files": {},
+      "series_style_files": {}
+    },
+    "CPLE": {
+      "group": "locked",
+      "token_file_count": 0,
+      "series_style_file_count": 0,
+      "token_files": {},
+      "series_style_files": {}
+    },
+    "CPLW": {
+      "group": "locked",
+      "token_file_count": 0,
+      "series_style_file_count": 0,
+      "token_files": {},
+      "series_style_files": {}
+    },
+    "DUK": {
+      "group": "locked",
+      "token_file_count": 1,
+      "series_style_file_count": 0,
+      "token_files": {
+        "docs/research_refinement_v1/REFINEMENT_ROUND_2.md": 1
+      },
+      "series_style_files": {}
+    },
+    "EPE": {
+      "group": "locked",
+      "token_file_count": 0,
+      "series_style_file_count": 0,
+      "token_files": {},
+      "series_style_files": {}
+    },
+    "FPC": {
+      "group": "locked",
+      "token_file_count": 0,
+      "series_style_file_count": 0,
+      "token_files": {},
+      "series_style_files": {}
+    },
+    "FPL": {
+      "group": "locked",
+      "token_file_count": 1,
+      "series_style_file_count": 0,
+      "token_files": {
+        "docs/research_refinement_v1/REFINEMENT_ROUND_2.md": 1
+      },
+      "series_style_files": {}
+    },
+    "GCPD": {
+      "group": "locked",
+      "token_file_count": 0,
+      "series_style_file_count": 0,
+      "token_files": {},
+      "series_style_files": {}
+    },
+    "HST": {
+      "group": "locked",
+      "token_file_count": 0,
+      "series_style_file_count": 0,
+      "token_files": {},
+      "series_style_files": {}
+    },
+    "IPCO": {
+      "group": "locked",
+      "token_file_count": 0,
+      "series_style_file_count": 0,
+      "token_files": {},
+      "series_style_files": {}
+    },
+    "LDWP": {
+      "group": "locked",
+      "token_file_count": 0,
+      "series_style_file_count": 0,
+      "token_files": {},
+      "series_style_files": {}
+    },
+    "LGEE": {
+      "group": "locked",
+      "token_file_count": 0,
+      "series_style_file_count": 0,
+      "token_files": {},
+      "series_style_files": {}
+    },
+    "MISO": {
+      "group": "locked",
+      "token_file_count": 1,
+      "series_style_file_count": 0,
+      "token_files": {
+        "docs/research_refinement_v1/REFINEMENT_ROUND_2.md": 1
+      },
+      "series_style_files": {}
+    },
+    "NEVP": {
+      "group": "locked",
+      "token_file_count": 0,
+      "series_style_file_count": 0,
+      "token_files": {},
+      "series_style_files": {}
+    },
+    "PACW": {
+      "group": "locked",
+      "token_file_count": 0,
+      "series_style_file_count": 0,
+      "token_files": {},
+      "series_style_files": {}
+    },
+    "PGE": {
+      "group": "locked",
+      "token_file_count": 0,
+      "series_style_file_count": 0,
+      "token_files": {},
+      "series_style_files": {}
+    },
+    "PJM": {
+      "group": "locked",
+      "token_file_count": 1,
+      "series_style_file_count": 0,
+      "token_files": {
+        "docs/research_refinement_v1/REFINEMENT_ROUND_2.md": 1
+      },
+      "series_style_files": {}
+    },
+    "SEC": {
+      "group": "locked",
+      "token_file_count": 0,
+      "series_style_file_count": 0,
+      "token_files": {},
+      "series_style_files": {}
+    },
+    "SOCO": {
+      "group": "locked",
+      "token_file_count": 1,
+      "series_style_file_count": 0,
+      "token_files": {
+        "docs/research_refinement_v1/REFINEMENT_ROUND_2.md": 1
+      },
+      "series_style_files": {}
+    },
+    "TEPC": {
+      "group": "locked",
+      "token_file_count": 0,
+      "series_style_file_count": 0,
+      "token_files": {},
+      "series_style_files": {}
+    },
+    "TPWR": {
+      "group": "locked",
+      "token_file_count": 0,
+      "series_style_file_count": 0,
+      "token_files": {},
+      "series_style_files": {}
+    },
+    "AECI": {
+      "group": "development",
+      "token_file_count": 4,
+      "series_style_file_count": 0,
+      "token_files": {
+        "outputs/e4_heldout/smoke_AECI/injected.csv": 102,
+        "outputs/e4_heldout/smoke_AECI/null_cells.csv": 68,
+        "outputs/e4_heldout/smoke_AECI/summary.json": 3,
+        "outputs/e4_heldout/smoke_AECI/unmodified.csv": 32
+      },
+      "series_style_files": {}
+    },
+    "AVA": {
+      "group": "development",
+      "token_file_count": 0,
+      "series_style_file_count": 0,
+      "token_files": {},
+      "series_style_files": {}
+    },
+    "BPAT": {
+      "group": "development",
+      "token_file_count": 1,
+      "series_style_file_count": 0,
+      "token_files": {
+        "docs/research_refinement_v1/REFINEMENT_ROUND_2.md": 1
+      },
+      "series_style_files": {}
+    },
+    "DOPD": {
+      "group": "development",
+      "token_file_count": 0,
+      "series_style_file_count": 0,
+      "token_files": {},
+      "series_style_files": {}
+    },
+    "FMPP": {
+      "group": "development",
+      "token_file_count": 0,
+      "series_style_file_count": 0,
+      "token_files": {},
+      "series_style_files": {}
+    },
+    "ISNE": {
+      "group": "development",
+      "token_file_count": 1,
+      "series_style_file_count": 0,
+      "token_files": {
+        "docs/research_refinement_v1/REFINEMENT_ROUND_2.md": 1
+      },
+      "series_style_files": {}
+    },
+    "PACE": {
+      "group": "development",
+      "token_file_count": 21,
+      "series_style_file_count": 0,
+      "token_files": {
+        "docs/next_phase_plan.md": 4,
+        "docs/research_refinement_v1/PRIOR_ART_AND_NOVELTY_MATRIX.md": 3,
+        "docs/research_refinement_v1/RESEARCH_EVIDENCE_INVENTORY.md": 4,
+        "outputs/shiftguard_unified/real_data_development/wilds_pace_gate_v1/execution_sources/evaluate_wilds_pace_gate.py": 8,
+        "outputs/shiftguard_unified/real_data_development/wilds_pace_gate_v1/execution_sources/verify_wilds_pace_gate.py": 5,
+        "outputs/shiftguard_unified/real_data_development/wilds_pace_gate_v1/execution_sources/wilds_pace_gate_protocol_v1.md": 12,
+        "outputs/shiftguard_unified/real_data_development/wilds_pace_gate_v1/manifest.json": 2,
+        "outputs/shiftguard_unified/real_data_development/wilds_pace_gate_v1/results.md": 4,
+        "papers/shiftguard_unified/comparator_applicability_audit_v1.md": 1,
+        "papers/shiftguard_unified/evidence_inventory.md": 3,
+        "papers/shiftguard_unified/gap_analysis.md": 4,
+        "papers/shiftguard_unified/manuscript_draft_v0.md": 4,
+        "papers/shiftguard_unified/method_decision.md": 1,
+        "papers/shiftguard_unified/programme_completion_audit.md": 1,
+        "papers/shiftguard_unified/real_data_development_results.md": 4,
+        "papers/shiftguard_unified/real_data_task_contracts.md": 3,
+        "papers/shiftguard_unified/sota_fidelity_matrix.md": 3,
+        "papers/shiftguard_unified/synthetic_benchmark_protocol.md": 1,
+        "papers/shiftguard_unified/wilds_pace_gate_protocol_v1.md": 12,
+        "scripts/evaluate_wilds_pace_gate.py": 8,
+        "scripts/verify_wilds_pace_gate.py": 5
+      },
+      "series_style_files": {}
+    },
+    "PNM": {
+      "group": "development",
+      "token_file_count": 0,
+      "series_style_file_count": 0,
+      "token_files": {},
+      "series_style_files": {}
+    },
+    "SCL": {
+      "group": "development",
+      "token_file_count": 0,
+      "series_style_file_count": 0,
+      "token_files": {},
+      "series_style_files": {}
+    },
+    "TAL": {
+      "group": "development",
+      "token_file_count": 0,
+      "series_style_file_count": 0,
+      "token_files": {},
+      "series_style_files": {}
+    }
+  },
+  "interpretation_note": "Token hits can be incidental words or abbreviations; they are triaged by hand in P3_E4_protocol.md. Series-style hits are strong evidence of use."
+}

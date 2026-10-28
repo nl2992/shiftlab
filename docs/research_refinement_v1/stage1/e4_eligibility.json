@@ -1,0 +1,2951 @@
+{
+  "artifact": "e4_eligibility",
+  "contains": "identifiers, availability counts and exclusion reasons only; no data values",
+  "counts": {
+    "demand_series": 70,
+    "eligible": 31,
+    "excluded_aggregates": 14,
+    "excluded_other": 22,
+    "excluded_previously_exposed": 3
+  },
+  "eligible": [
+    "AECI",
+    "AVA",
+    "BPAT",
+    "CHPD",
+    "CPLE",
+    "CPLW",
+    "DOPD",
+    "DUK",
+    "EPE",
+    "FMPP",
+    "FPC",
+    "FPL",
+    "GCPD",
+    "HST",
+    "IPCO",
+    "ISNE",
+    "LDWP",
+    "LGEE",
+    "MISO",
+    "NEVP",
+    "PACE",
+    "PACW",
+    "PGE",
+    "PJM",
+    "PNM",
+    "SCL",
+    "SEC",
+    "SOCO",
+    "TAL",
+    "TEPC",
+    "TPWR"
+  ],
+  "environment": {
+    "python": "3.13.1",
+    "runtime_seconds": 70.7
+  },
+  "exclusion_log": [
+    {
+      "ba": "AEC",
+      "reasons": [
+        "coverage_below_0.95:fit_2019_2023,rehearsal_2024,path_2025,path_2026"
+      ]
+    },
+    {
+      "ba": "AZPS",
+      "reasons": [
+        "coverage_below_0.95:path_2026"
+      ]
+    },
+    {
+      "ba": "BANC",
+      "reasons": [
+        "coverage_below_0.95:path_2026"
+      ]
+    },
+    {
+      "ba": "BHBA",
+      "reasons": [
+        "coverage_below_0.95:fit_2019_2023,rehearsal_2024,path_2025,path_2026"
+      ]
+    },
+    {
+      "ba": "CAL",
+      "reasons": [
+        "aggregate"
+      ]
+    },
+    {
+      "ba": "CAR",
+      "reasons": [
+        "aggregate"
+      ]
+    },
+    {
+      "ba": "CENT",
+      "reasons": [
+        "aggregate"
+      ]
+    },
+    {
+      "ba": "CISO",
+      "reasons": [
+        "previously_used_or_exposed"
+      ]
+    },
+    {
+      "ba": "ERCO",
+      "reasons": [
+        "previously_used_or_exposed"
+      ]
+    },
+    {
+      "ba": "FLA",
+      "reasons": [
+        "aggregate"
+      ]
+    },
+    {
+      "ba": "GVL",
+      "reasons": [
+        "coverage_below_0.95:fit_2019_2023"
+      ]
+    },
+    {
+      "ba": "IID",
+      "reasons": [
+        "coverage_below_0.95:path_2025,path_2026"
+      ]
+    },
+    {
+      "ba": "JEA",
+      "reasons": [
+        "coverage_below_0.95:fit_2019_2023"
+      ]
+    },
+    {
+      "ba": "MIDA",
+      "reasons": [
+        "aggregate"
+      ]
+    },
+    {
+      "ba": "MIDW",
+      "reasons": [
+        "aggregate"
+      ]
+    },
+    {
+      "ba": "NE",
+      "reasons": [
+        "aggregate"
+      ]
+    },
+    {
+      "ba": "NSB",
+      "reasons": [
+        "coverage_below_0.95:fit_2019_2023,rehearsal_2024,path_2025,path_2026"
+      ]
+    },
+    {
+      "ba": "NW",
+      "reasons": [
+        "aggregate"
+      ]
+    },
+    {
+      "ba": "NWMT",
+      "reasons": [
+        "coverage_below_0.95:path_2025"
+      ]
+    },
+    {
+      "ba": "NY",
+      "reasons": [
+        "aggregate"
+      ]
+    },
+    {
+      "ba": "NYIS",
+      "reasons": [
+        "previously_used_or_exposed"
+      ]
+    },
+    {
+      "ba": "PSCO",
+      "reasons": [
+        "coverage_below_0.95:path_2026"
+      ]
+    },
+    {
+      "ba": "PSEI",
+      "reasons": [
+        "coverage_below_0.95:fit_2019_2023"
+      ]
+    },
+    {
+      "ba": "SC",
+      "reasons": [
+        "coverage_below_0.95:path_2025,path_2026"
+      ]
+    },
+    {
+      "ba": "SCEG",
+      "reasons": [
+        "coverage_below_0.95:path_2026"
+      ]
+    },
+    {
+      "ba": "SE",
+      "reasons": [
+        "aggregate"
+      ]
+    },
+    {
+      "ba": "SPA",
+      "reasons": [
+        "coverage_below_0.95:rehearsal_2024,path_2025,path_2026"
+      ]
+    },
+    {
+      "ba": "SRP",
+      "reasons": [
+        "coverage_below_0.95:fit_2019_2023,path_2026"
+      ]
+    },
+    {
+      "ba": "SW",
+      "reasons": [
+        "aggregate"
+      ]
+    },
+    {
+      "ba": "SWPP",
+      "reasons": [
+        "coverage_below_0.95:path_2026"
+      ]
+    },
+    {
+      "ba": "TEC",
+      "reasons": [
+        "coverage_below_0.95:path_2026"
+      ]
+    },
+    {
+      "ba": "TEN",
+      "reasons": [
+        "aggregate"
+      ]
+    },
+    {
+      "ba": "TEX",
+      "reasons": [
+        "aggregate"
+      ]
+    },
+    {
+      "ba": "TIDC",
+      "reasons": [
+        "coverage_below_0.95:path_2026"
+      ]
+    },
+    {
+      "ba": "TVA",
+      "reasons": [
+        "coverage_below_0.95:path_2026"
+      ]
+    },
+    {
+      "ba": "US48",
+      "reasons": [
+        "aggregate"
+      ]
+    },
+    {
+      "ba": "WACM",
+      "reasons": [
+        "coverage_below_0.95:path_2026"
+      ]
+    },
+    {
+      "ba": "WALC",
+      "reasons": [
+        "coverage_below_0.95:path_2026"
+      ]
+    },
+    {
+      "ba": "WAUW",
+      "reasons": [
+        "coverage_below_0.95:path_2026"
+      ]
+    }
+  ],
+  "per_authority_availability": {
+    "AEC": {
+      "duplicate_hours_by_series": {
+        "D": 0,
+        "DF": 0,
+        "NG": 0,
+        "TI": 0
+      },
+      "n_periods_by_series": {
+        "D": 23382,
+        "DF": 23229,
+        "NG": 23382,
+        "TI": 23281
+      },
+      "n_unavailable_by_series": {
+        "D": 101,
+        "DF": 0,
+        "NG": 101,
+        "TI": 0
+      },
+      "series_present": {
+        "D": true,
+        "DF": true,
+        "NG": true,
+        "TI": true
+      },
+      "windows": {
+        "fit_2019_2023": {
+          "complete_rows_with_next_hour_demand": 23171,
+          "coverage": 0.528729,
+          "expected_hours": 43824
+        },
+        "path_2025": {
+          "complete_rows_with_next_hour_demand": 0,
+          "coverage": 0.0,
+          "expected_hours": 8736
+        },
+        "path_2026": {
+          "complete_rows_with_next_hour_demand": 0,
+          "coverage": 0.0,
+          "expected_hours": 7002
+        },
+        "rehearsal_2024": {
+          "complete_rows_with_next_hour_demand": 0,
+          "coverage": 0.0,
+          "expected_hours": 8760
+        }
+      }
+    },
+    "AECI": {
+      "duplicate_hours_by_series": {
+        "D": 0,
+        "DF": 0,
+        "NG": 0,
+        "TI": 0
+      },
+      "n_periods_by_series": {
+        "D": 68371,
+        "DF": 68382,
+        "NG": 68357,
+        "TI": 68346
+      },
+      "n_unavailable_by_series": {
+        "D": 11,
+        "DF": 0,
+        "NG": 11,
+        "TI": 0
+      },
+      "series_present": {
+        "D": true,
+        "DF": true,
+        "NG": true,
+        "TI": true
+      },
+      "windows": {
+        "fit_2019_2023": {
+          "complete_rows_with_next_hour_demand": 43812,
+          "coverage": 0.999726,
+          "expected_hours": 43824
+        },
+        "path_2025": {
+          "complete_rows_with_next_hour_demand": 8736,
+          "coverage": 1.0,
+          "expected_hours": 8736
+        },
+        "path_2026": {
+          "complete_rows_with_next_hour_demand": 6989,
+          "coverage": 0.998143,
+          "expected_hours": 7002
+        },
+        "rehearsal_2024": {
+          "complete_rows_with_next_hour_demand": 8760,
+          "coverage": 1.0,
+          "expected_hours": 8760
+        }
+      }
+    },
+    "AVA": {
+      "duplicate_hours_by_series": {
+        "D": 0,
+        "DF": 0,
+        "NG": 0,
+        "TI": 0
+      },
+      "n_periods_by_series": {
+        "D": 68371,
+        "DF": 68288,
+        "NG": 68359,
+        "TI": 68287
+      },
+      "n_unavailable_by_series": {
+        "D": 25,
+        "DF": 0,
+        "NG": 24,
+        "TI": 0
+      },
+      "series_present": {
+        "D": true,
+        "DF": true,
+        "NG": true,
+        "TI": true
+      },
+      "windows": {
+        "fit_2019_2023": {
+          "complete_rows_with_next_hour_demand": 43773,
+          "coverage": 0.998836,
+          "expected_hours": 43824
+        },
+        "path_2025": {
+          "complete_rows_with_next_hour_demand": 8736,
+          "coverage": 1.0,
+          "expected_hours": 8736
+        },
+        "path_2026": {
+          "complete_rows_with_next_hour_demand": 6871,
+          "coverage": 0.981291,
+          "expected_hours": 7002
+        },
+        "rehearsal_2024": {
+          "complete_rows_with_next_hour_demand": 8760,
+          "coverage": 1.0,
+          "expected_hours": 8760
+        }
+      }
+    },
+    "AZPS": {
+      "duplicate_hours_by_series": {
+        "D": 0,
+        "DF": 0,
+        "NG": 0,
+        "TI": 0
+      },
+      "n_periods_by_series": {
+        "D": 68371,
+        "DF": 67904,
+        "NG": 68311,
+        "TI": 67903
+      },
+      "n_unavailable_by_series": {
+        "D": 25,
+        "DF": 0,
+        "NG": 24,
+        "TI": 0
+      },
+      "series_present": {
+        "D": true,
+        "DF": true,
+        "NG": true,
+        "TI": true
+      },
+      "windows": {
+        "fit_2019_2023": {
+          "complete_rows_with_next_hour_demand": 43749,
+          "coverage": 0.998289,
+          "expected_hours": 43824
+        },
+        "path_2025": {
+          "complete_rows_with_next_hour_demand": 8448,
+          "coverage": 0.967033,
+          "expected_hours": 8736
+        },
+        "path_2026": {
+          "complete_rows_with_next_hour_demand": 6559,
+          "coverage": 0.936732,
+          "expected_hours": 7002
+        },
+        "rehearsal_2024": {
+          "complete_rows_with_next_hour_demand": 8760,
+          "coverage": 1.0,
+          "expected_hours": 8760
+        }
+      }
+    },
+    "BANC": {
+      "duplicate_hours_by_series": {
+        "D": 0,
+        "DF": 0,
+        "NG": 0,
+        "TI": 0
+      },
+      "n_periods_by_series": {
+        "D": 68370,
+        "DF": 67631,
+        "NG": 68359,
+        "TI": 67975
+      },
+      "n_unavailable_by_series": {
+        "D": 7,
+        "DF": 0,
+        "NG": 6,
+        "TI": 0
+      },
+      "series_present": {
+        "D": true,
+        "DF": true,
+        "NG": true,
+        "TI": true
+      },
+      "windows": {
+        "fit_2019_2023": {
+          "complete_rows_with_next_hour_demand": 43536,
+          "coverage": 0.993428,
+          "expected_hours": 43824
+        },
+        "path_2025": {
+          "complete_rows_with_next_hour_demand": 8497,
+          "coverage": 0.972642,
+          "expected_hours": 8736
+        },
+        "path_2026": {
+          "complete_rows_with_next_hour_demand": 6369,
+          "coverage": 0.909597,
+          "expected_hours": 7002
+        },
+        "rehearsal_2024": {
+          "complete_rows_with_next_hour_demand": 8760,
+          "coverage": 1.0,
+          "expected_hours": 8760
+        }
+      }
+    },
+    "BHBA": {
+      "duplicate_hours_by_series": {
+        "D": 0,
+        "DF": 0,
+        "NG": 0,
+        "TI": 0
+      },
+      "n_periods_by_series": {
+        "D": 3444,
+        "DF": 3408,
+        "NG": 3431,
+        "TI": 3407
+      },
+      "n_unavailable_by_series": {
+        "D": 0,
+        "DF": 0,
+        "NG": 0,
+        "TI": 0
+      },
+      "series_present": {
+        "D": true,
+        "DF": true,
+        "NG": true,
+        "TI": true
+      },
+      "windows": {
+        "fit_2019_2023": {
+          "complete_rows_with_next_hour_demand": 0,
+          "coverage": 0.0,
+          "expected_hours": 43824
+        },
+        "path_2025": {
+          "complete_rows_with_next_hour_demand": 0,
+          "coverage": 0.0,
+          "expected_hours": 8736
+        },
+        "path_2026": {
+          "complete_rows_with_next_hour_demand": 3359,
+          "coverage": 0.47972,
+          "expected_hours": 7002
+        },
+        "rehearsal_2024": {
+          "complete_rows_with_next_hour_demand": 0,
+          "coverage": 0.0,
+          "expected_hours": 8760
+        }
+      }
+    },
+    "BPAT": {
+      "duplicate_hours_by_series": {
+        "D": 0,
+        "DF": 0,
+        "NG": 0,
+        "TI": 0
+      },
+      "n_periods_by_series": {
+        "D": 68371,
+        "DF": 68288,
+        "NG": 68359,
+        "TI": 68254
+      },
+      "n_unavailable_by_series": {
+        "D": 49,
+        "DF": 0,
+        "NG": 48,
+        "TI": 0
+      },
+      "series_present": {
+        "D": true,
+        "DF": true,
+        "NG": true,
+        "TI": true
+      },
+      "windows": {
+        "fit_2019_2023": {
+          "complete_rows_with_next_hour_demand": 43719,
+          "coverage": 0.997604,
+          "expected_hours": 43824
+        },
+        "path_2025": {
+          "complete_rows_with_next_hour_demand": 8735,
+          "coverage": 0.999886,
+          "expected_hours": 8736
+        },
+        "path_2026": {
+          "complete_rows_with_next_hour_demand": 6893,
+          "coverage": 0.984433,
+          "expected_hours": 7002
+        },
+        "rehearsal_2024": {
+          "complete_rows_with_next_hour_demand": 8759,
+          "coverage": 0.999886,
+          "expected_hours": 8760
+        }
+      }
+    },
+    "CHPD": {
+      "duplicate_hours_by_series": {
+        "D": 0,
+        "DF": 0,
+        "NG": 0,
+        "TI": 0
+      },
+      "n_periods_by_series": {
+        "D": 68370,
+        "DF": 68318,
+        "NG": 68359,
+        "TI": 68293
+      },
+      "n_unavailable_by_series": {
+        "D": 67,
+        "DF": 0,
+        "NG": 66,
+        "TI": 0
+      },
+      "series_present": {
+        "D": true,
+        "DF": true,
+        "NG": true,
+        "TI": true
+      },
+      "windows": {
+        "fit_2019_2023": {
+          "complete_rows_with_next_hour_demand": 43751,
+          "coverage": 0.998334,
+          "expected_hours": 43824
+        },
+        "path_2025": {
+          "complete_rows_with_next_hour_demand": 8736,
+          "coverage": 1.0,
+          "expected_hours": 8736
+        },
+        "path_2026": {
+          "complete_rows_with_next_hour_demand": 6991,
+          "coverage": 0.998429,
+          "expected_hours": 7002
+        },
+        "rehearsal_2024": {
+          "complete_rows_with_next_hour_demand": 8760,
+          "coverage": 1.0,
+          "expected_hours": 8760
+        }
+      }
+    },
+    "CPLE": {
+      "duplicate_hours_by_series": {
+        "D": 0,
+        "DF": 0,
+        "NG": 0,
+        "TI": 0
+      },
+      "n_periods_by_series": {
+        "D": 68370,
+        "DF": 68284,
+        "NG": 68355,
+        "TI": 68261
+      },
+      "n_unavailable_by_series": {
+        "D": 70,
+        "DF": 0,
+        "NG": 70,
+        "TI": 0
+      },
+      "series_present": {
+        "D": true,
+        "DF": true,
+        "NG": true,
+        "TI": true
+      },
+      "windows": {
+        "fit_2019_2023": {
+          "complete_rows_with_next_hour_demand": 43725,
+          "coverage": 0.997741,
+          "expected_hours": 43824
+        },
+        "path_2025": {
+          "complete_rows_with_next_hour_demand": 8711,
+          "coverage": 0.997138,
+          "expected_hours": 8736
+        },
+        "path_2026": {
+          "complete_rows_with_next_hour_demand": 6988,
+          "coverage": 0.998001,
+          "expected_hours": 7002
+        },
+        "rehearsal_2024": {
+          "complete_rows_with_next_hour_demand": 8760,
+          "coverage": 1.0,
+          "expected_hours": 8760
+        }
+      }
+    },
+    "CPLW": {
+      "duplicate_hours_by_series": {
+        "D": 0,
+        "DF": 0,
+        "NG": 0,
+        "TI": 0
+      },
+      "n_periods_by_series": {
+        "D": 68370,
+        "DF": 68306,
+        "NG": 68355,
+        "TI": 68284
+      },
+      "n_unavailable_by_series": {
+        "D": 47,
+        "DF": 0,
+        "NG": 47,
+        "TI": 0
+      },
+      "series_present": {
+        "D": true,
+        "DF": true,
+        "NG": true,
+        "TI": true
+      },
+      "windows": {
+        "fit_2019_2023": {
+          "complete_rows_with_next_hour_demand": 43748,
+          "coverage": 0.998266,
+          "expected_hours": 43824
+        },
+        "path_2025": {
+          "complete_rows_with_next_hour_demand": 8711,
+          "coverage": 0.997138,
+          "expected_hours": 8736
+        },
+        "path_2026": {
+          "complete_rows_with_next_hour_demand": 6988,
+          "coverage": 0.998001,
+          "expected_hours": 7002
+        },
+        "rehearsal_2024": {
+          "complete_rows_with_next_hour_demand": 8760,
+          "coverage": 1.0,
+          "expected_hours": 8760
+        }
+      }
+    },
+    "DOPD": {
+      "duplicate_hours_by_series": {
+        "D": 0,
+        "DF": 0,
+        "NG": 0,
+        "TI": 0
+      },
+      "n_periods_by_series": {
+        "D": 68370,
+        "DF": 67904,
+        "NG": 67830,
+        "TI": 66895
+      },
+      "n_unavailable_by_series": {
+        "D": 1417,
+        "DF": 0,
+        "NG": 888,
+        "TI": 0
+      },
+      "series_present": {
+        "D": true,
+        "DF": true,
+        "NG": true,
+        "TI": true
+      },
+      "windows": {
+        "fit_2019_2023": {
+          "complete_rows_with_next_hour_demand": 41984,
+          "coverage": 0.958014,
+          "expected_hours": 43824
+        },
+        "path_2025": {
+          "complete_rows_with_next_hour_demand": 8736,
+          "coverage": 1.0,
+          "expected_hours": 8736
+        },
+        "path_2026": {
+          "complete_rows_with_next_hour_demand": 6895,
+          "coverage": 0.984719,
+          "expected_hours": 7002
+        },
+        "rehearsal_2024": {
+          "complete_rows_with_next_hour_demand": 8759,
+          "coverage": 0.999886,
+          "expected_hours": 8760
+        }
+      }
+    },
+    "DUK": {
+      "duplicate_hours_by_series": {
+        "D": 0,
+        "DF": 0,
+        "NG": 0,
+        "TI": 0
+      },
+      "n_periods_by_series": {
+        "D": 68370,
+        "DF": 68330,
+        "NG": 68355,
+        "TI": 68308
+      },
+      "n_unavailable_by_series": {
+        "D": 23,
+        "DF": 0,
+        "NG": 23,
+        "TI": 0
+      },
+      "series_present": {
+        "D": true,
+        "DF": true,
+        "NG": true,
+        "TI": true
+      },
+      "windows": {
+        "fit_2019_2023": {
+          "complete_rows_with_next_hour_demand": 43797,
+          "coverage": 0.999384,
+          "expected_hours": 43824
+        },
+        "path_2025": {
+          "complete_rows_with_next_hour_demand": 8711,
+          "coverage": 0.997138,
+          "expected_hours": 8736
+        },
+        "path_2026": {
+          "complete_rows_with_next_hour_demand": 6988,
+          "coverage": 0.998001,
+          "expected_hours": 7002
+        },
+        "rehearsal_2024": {
+          "complete_rows_with_next_hour_demand": 8760,
+          "coverage": 1.0,
+          "expected_hours": 8760
+        }
+      }
+    },
+    "EPE": {
+      "duplicate_hours_by_series": {
+        "D": 0,
+        "DF": 0,
+        "NG": 0,
+        "TI": 0
+      },
+      "n_periods_by_series": {
+        "D": 68371,
+        "DF": 68312,
+        "NG": 68335,
+        "TI": 68283
+      },
+      "n_unavailable_by_series": {
+        "D": 7,
+        "DF": 0,
+        "NG": 5,
+        "TI": 0
+      },
+      "series_present": {
+        "D": true,
+        "DF": true,
+        "NG": true,
+        "TI": true
+      },
+      "windows": {
+        "fit_2019_2023": {
+          "complete_rows_with_next_hour_demand": 43810,
+          "coverage": 0.999681,
+          "expected_hours": 43824
+        },
+        "path_2025": {
+          "complete_rows_with_next_hour_demand": 8736,
+          "coverage": 1.0,
+          "expected_hours": 8736
+        },
+        "path_2026": {
+          "complete_rows_with_next_hour_demand": 6871,
+          "coverage": 0.981291,
+          "expected_hours": 7002
+        },
+        "rehearsal_2024": {
+          "complete_rows_with_next_hour_demand": 8760,
+          "coverage": 1.0,
+          "expected_hours": 8760
+        }
+      }
+    },
+    "FMPP": {
+      "duplicate_hours_by_series": {
+        "D": 0,
+        "DF": 0,
+        "NG": 0,
+        "TI": 0
+      },
+      "n_periods_by_series": {
+        "D": 68348,
+        "DF": 68112,
+        "NG": 68309,
+        "TI": 68208
+      },
+      "n_unavailable_by_series": {
+        "D": 75,
+        "DF": 0,
+        "NG": 75,
+        "TI": 0
+      },
+      "series_present": {
+        "D": true,
+        "DF": true,
+        "NG": true,
+        "TI": true
+      },
+      "windows": {
+        "fit_2019_2023": {
+          "complete_rows_with_next_hour_demand": 43526,
+          "coverage": 0.9932,
+          "expected_hours": 43824
+        },
+        "path_2025": {
+          "complete_rows_with_next_hour_demand": 8663,
+          "coverage": 0.991644,
+          "expected_hours": 8736
+        },
+        "path_2026": {
+          "complete_rows_with_next_hour_demand": 6988,
+          "coverage": 0.998001,
+          "expected_hours": 7002
+        },
+        "rehearsal_2024": {
+          "complete_rows_with_next_hour_demand": 8759,
+          "coverage": 0.999886,
+          "expected_hours": 8760
+        }
+      }
+    },
+    "FPC": {
+      "duplicate_hours_by_series": {
+        "D": 0,
+        "DF": 0,
+        "NG": 0,
+        "TI": 0
+      },
+      "n_periods_by_series": {
+        "D": 68370,
+        "DF": 68329,
+        "NG": 68355,
+        "TI": 68308
+      },
+      "n_unavailable_by_series": {
+        "D": 23,
+        "DF": 0,
+        "NG": 23,
+        "TI": 0
+      },
+      "series_present": {
+        "D": true,
+        "DF": true,
+        "NG": true,
+        "TI": true
+      },
+      "windows": {
+        "fit_2019_2023": {
+          "complete_rows_with_next_hour_demand": 43797,
+          "coverage": 0.999384,
+          "expected_hours": 43824
+        },
+        "path_2025": {
+          "complete_rows_with_next_hour_demand": 8711,
+          "coverage": 0.997138,
+          "expected_hours": 8736
+        },
+        "path_2026": {
+          "complete_rows_with_next_hour_demand": 6988,
+          "coverage": 0.998001,
+          "expected_hours": 7002
+        },
+        "rehearsal_2024": {
+          "complete_rows_with_next_hour_demand": 8759,
+          "coverage": 0.999886,
+          "expected_hours": 8760
+        }
+      }
+    },
+    "FPL": {
+      "duplicate_hours_by_series": {
+        "D": 0,
+        "DF": 0,
+        "NG": 0,
+        "TI": 0
+      },
+      "n_periods_by_series": {
+        "D": 68347,
+        "DF": 68200,
+        "NG": 67828,
+        "TI": 68269
+      },
+      "n_unavailable_by_series": {
+        "D": 703,
+        "DF": 0,
+        "NG": 199,
+        "TI": 0
+      },
+      "series_present": {
+        "D": true,
+        "DF": true,
+        "NG": true,
+        "TI": true
+      },
+      "windows": {
+        "fit_2019_2023": {
+          "complete_rows_with_next_hour_demand": 43026,
+          "coverage": 0.981791,
+          "expected_hours": 43824
+        },
+        "path_2025": {
+          "complete_rows_with_next_hour_demand": 8711,
+          "coverage": 0.997138,
+          "expected_hours": 8736
+        },
+        "path_2026": {
+          "complete_rows_with_next_hour_demand": 6986,
+          "coverage": 0.997715,
+          "expected_hours": 7002
+        },
+        "rehearsal_2024": {
+          "complete_rows_with_next_hour_demand": 8683,
+          "coverage": 0.99121,
+          "expected_hours": 8760
+        }
+      }
+    },
+    "GCPD": {
+      "duplicate_hours_by_series": {
+        "D": 0,
+        "DF": 0,
+        "NG": 0,
+        "TI": 0
+      },
+      "n_periods_by_series": {
+        "D": 68370,
+        "DF": 68320,
+        "NG": 68359,
+        "TI": 68333
+      },
+      "n_unavailable_by_series": {
+        "D": 2,
+        "DF": 0,
+        "NG": 1,
+        "TI": 0
+      },
+      "series_present": {
+        "D": true,
+        "DF": true,
+        "NG": true,
+        "TI": true
+      },
+      "windows": {
+        "fit_2019_2023": {
+          "complete_rows_with_next_hour_demand": 43821,
+          "coverage": 0.999932,
+          "expected_hours": 43824
+        },
+        "path_2025": {
+          "complete_rows_with_next_hour_demand": 8688,
+          "coverage": 0.994505,
+          "expected_hours": 8736
+        },
+        "path_2026": {
+          "complete_rows_with_next_hour_demand": 6952,
+          "coverage": 0.992859,
+          "expected_hours": 7002
+        },
+        "rehearsal_2024": {
+          "complete_rows_with_next_hour_demand": 8758,
+          "coverage": 0.999772,
+          "expected_hours": 8760
+        }
+      }
+    },
+    "GVL": {
+      "duplicate_hours_by_series": {
+        "D": 0,
+        "DF": 0,
+        "NG": 0,
+        "TI": 0
+      },
+      "n_periods_by_series": {
+        "D": 67548,
+        "DF": 67008,
+        "NG": 67476,
+        "TI": 66790
+      },
+      "n_unavailable_by_series": {
+        "D": 418,
+        "DF": 0,
+        "NG": 418,
+        "TI": 0
+      },
+      "series_present": {
+        "D": true,
+        "DF": true,
+        "NG": true,
+        "TI": true
+      },
+      "windows": {
+        "fit_2019_2023": {
+          "complete_rows_with_next_hour_demand": 41463,
+          "coverage": 0.946125,
+          "expected_hours": 43824
+        },
+        "path_2025": {
+          "complete_rows_with_next_hour_demand": 8588,
+          "coverage": 0.983059,
+          "expected_hours": 8736
+        },
+        "path_2026": {
+          "complete_rows_with_next_hour_demand": 6669,
+          "coverage": 0.952442,
+          "expected_hours": 7002
+        },
+        "rehearsal_2024": {
+          "complete_rows_with_next_hour_demand": 8754,
+          "coverage": 0.999315,
+          "expected_hours": 8760
+        }
+      }
+    },
+    "HST": {
+      "duplicate_hours_by_series": {
+        "D": 0,
+        "DF": 0,
+        "NG": 0,
+        "TI": 0
+      },
+      "n_periods_by_series": {
+        "D": 68370,
+        "DF": 68044,
+        "NG": 68346,
+        "TI": 68282
+      },
+      "n_unavailable_by_series": {
+        "D": 49,
+        "DF": 0,
+        "NG": 51,
+        "TI": 0
+      },
+      "series_present": {
+        "D": true,
+        "DF": true,
+        "NG": true,
+        "TI": true
+      },
+      "windows": {
+        "fit_2019_2023": {
+          "complete_rows_with_next_hour_demand": 43596,
+          "coverage": 0.994797,
+          "expected_hours": 43824
+        },
+        "path_2025": {
+          "complete_rows_with_next_hour_demand": 8683,
+          "coverage": 0.993933,
+          "expected_hours": 8736
+        },
+        "path_2026": {
+          "complete_rows_with_next_hour_demand": 6891,
+          "coverage": 0.984147,
+          "expected_hours": 7002
+        },
+        "rehearsal_2024": {
+          "complete_rows_with_next_hour_demand": 8724,
+          "coverage": 0.99589,
+          "expected_hours": 8760
+        }
+      }
+    },
+    "IID": {
+      "duplicate_hours_by_series": {
+        "D": 0,
+        "DF": 0,
+        "NG": 0,
+        "TI": 0
+      },
+      "n_periods_by_series": {
+        "D": 68347,
+        "DF": 67208,
+        "NG": 67997,
+        "TI": 67303
+      },
+      "n_unavailable_by_series": {
+        "D": 96,
+        "DF": 0,
+        "NG": 96,
+        "TI": 0
+      },
+      "series_present": {
+        "D": true,
+        "DF": true,
+        "NG": true,
+        "TI": true
+      },
+      "windows": {
+        "fit_2019_2023": {
+          "complete_rows_with_next_hour_demand": 43701,
+          "coverage": 0.997193,
+          "expected_hours": 43824
+        },
+        "path_2025": {
+          "complete_rows_with_next_hour_demand": 7832,
+          "coverage": 0.89652,
+          "expected_hours": 8736
+        },
+        "path_2026": {
+          "complete_rows_with_next_hour_demand": 6190,
+          "coverage": 0.884033,
+          "expected_hours": 7002
+        },
+        "rehearsal_2024": {
+          "complete_rows_with_next_hour_demand": 8615,
+          "coverage": 0.983447,
+          "expected_hours": 8760
+        }
+      }
+    },
+    "IPCO": {
+      "duplicate_hours_by_series": {
+        "D": 0,
+        "DF": 0,
+        "NG": 0,
+        "TI": 0
+      },
+      "n_periods_by_series": {
+        "D": 68370,
+        "DF": 68384,
+        "NG": 68359,
+        "TI": 68359
+      },
+      "n_unavailable_by_series": {
+        "D": 1,
+        "DF": 0,
+        "NG": 0,
+        "TI": 0
+      },
+      "series_present": {
+        "D": true,
+        "DF": true,
+        "NG": true,
+        "TI": true
+      },
+      "windows": {
+        "fit_2019_2023": {
+          "complete_rows_with_next_hour_demand": 43821,
+          "coverage": 0.999932,
+          "expected_hours": 43824
+        },
+        "path_2025": {
+          "complete_rows_with_next_hour_demand": 8736,
+          "coverage": 1.0,
+          "expected_hours": 8736
+        },
+        "path_2026": {
+          "complete_rows_with_next_hour_demand": 6991,
+          "coverage": 0.998429,
+          "expected_hours": 7002
+        },
+        "rehearsal_2024": {
+          "complete_rows_with_next_hour_demand": 8760,
+          "coverage": 1.0,
+          "expected_hours": 8760
+        }
+      }
+    },
+    "ISNE": {
+      "duplicate_hours_by_series": {
+        "D": 0,
+        "DF": 0,
+        "NG": 0,
+        "TI": 0
+      },
+      "n_periods_by_series": {
+        "D": 68370,
+        "DF": 68381,
+        "NG": 68356,
+        "TI": 68348
+      },
+      "n_unavailable_by_series": {
+        "D": 4,
+        "DF": 0,
+        "NG": 3,
+        "TI": 0
+      },
+      "series_present": {
+        "D": true,
+        "DF": true,
+        "NG": true,
+        "TI": true
+      },
+      "windows": {
+        "fit_2019_2023": {
+          "complete_rows_with_next_hour_demand": 43821,
+          "coverage": 0.999932,
+          "expected_hours": 43824
+        },
+        "path_2025": {
+          "complete_rows_with_next_hour_demand": 8734,
+          "coverage": 0.999771,
+          "expected_hours": 8736
+        },
+        "path_2026": {
+          "complete_rows_with_next_hour_demand": 6985,
+          "coverage": 0.997572,
+          "expected_hours": 7002
+        },
+        "rehearsal_2024": {
+          "complete_rows_with_next_hour_demand": 8754,
+          "coverage": 0.999315,
+          "expected_hours": 8760
+        }
+      }
+    },
+    "JEA": {
+      "duplicate_hours_by_series": {
+        "D": 0,
+        "DF": 0,
+        "NG": 0,
+        "TI": 0
+      },
+      "n_periods_by_series": {
+        "D": 68321,
+        "DF": 65092,
+        "NG": 68295,
+        "TI": 67846
+      },
+      "n_unavailable_by_series": {
+        "D": 267,
+        "DF": 0,
+        "NG": 298,
+        "TI": 0
+      },
+      "series_present": {
+        "D": true,
+        "DF": true,
+        "NG": true,
+        "TI": true
+      },
+      "windows": {
+        "fit_2019_2023": {
+          "complete_rows_with_next_hour_demand": 40659,
+          "coverage": 0.927779,
+          "expected_hours": 43824
+        },
+        "path_2025": {
+          "complete_rows_with_next_hour_demand": 8729,
+          "coverage": 0.999199,
+          "expected_hours": 8736
+        },
+        "path_2026": {
+          "complete_rows_with_next_hour_demand": 6988,
+          "coverage": 0.998001,
+          "expected_hours": 7002
+        },
+        "rehearsal_2024": {
+          "complete_rows_with_next_hour_demand": 8337,
+          "coverage": 0.951712,
+          "expected_hours": 8760
+        }
+      }
+    },
+    "LDWP": {
+      "duplicate_hours_by_series": {
+        "D": 0,
+        "DF": 0,
+        "NG": 0,
+        "TI": 0
+      },
+      "n_periods_by_series": {
+        "D": 68344,
+        "DF": 67995,
+        "NG": 68332,
+        "TI": 68195
+      },
+      "n_unavailable_by_series": {
+        "D": 137,
+        "DF": 0,
+        "NG": 137,
+        "TI": 0
+      },
+      "series_present": {
+        "D": true,
+        "DF": true,
+        "NG": true,
+        "TI": true
+      },
+      "windows": {
+        "fit_2019_2023": {
+          "complete_rows_with_next_hour_demand": 43481,
+          "coverage": 0.992173,
+          "expected_hours": 43824
+        },
+        "path_2025": {
+          "complete_rows_with_next_hour_demand": 8709,
+          "coverage": 0.996909,
+          "expected_hours": 8736
+        },
+        "path_2026": {
+          "complete_rows_with_next_hour_demand": 6942,
+          "coverage": 0.991431,
+          "expected_hours": 7002
+        },
+        "rehearsal_2024": {
+          "complete_rows_with_next_hour_demand": 8757,
+          "coverage": 0.999658,
+          "expected_hours": 8760
+        }
+      }
+    },
+    "LGEE": {
+      "duplicate_hours_by_series": {
+        "D": 0,
+        "DF": 0,
+        "NG": 0,
+        "TI": 0
+      },
+      "n_periods_by_series": {
+        "D": 68351,
+        "DF": 68160,
+        "NG": 68273,
+        "TI": 68041
+      },
+      "n_unavailable_by_series": {
+        "D": 152,
+        "DF": 0,
+        "NG": 141,
+        "TI": 0
+      },
+      "series_present": {
+        "D": true,
+        "DF": true,
+        "NG": true,
+        "TI": true
+      },
+      "windows": {
+        "fit_2019_2023": {
+          "complete_rows_with_next_hour_demand": 43583,
+          "coverage": 0.994501,
+          "expected_hours": 43824
+        },
+        "path_2025": {
+          "complete_rows_with_next_hour_demand": 8616,
+          "coverage": 0.986264,
+          "expected_hours": 8736
+        },
+        "path_2026": {
+          "complete_rows_with_next_hour_demand": 6869,
+          "coverage": 0.981005,
+          "expected_hours": 7002
+        },
+        "rehearsal_2024": {
+          "complete_rows_with_next_hour_demand": 8760,
+          "coverage": 1.0,
+          "expected_hours": 8760
+        }
+      }
+    },
+    "MISO": {
+      "duplicate_hours_by_series": {
+        "D": 0,
+        "DF": 0,
+        "NG": 0,
+        "TI": 0
+      },
+      "n_periods_by_series": {
+        "D": 68371,
+        "DF": 68214,
+        "NG": 68357,
+        "TI": 68232
+      },
+      "n_unavailable_by_series": {
+        "D": 35,
+        "DF": 0,
+        "NG": 35,
+        "TI": 0
+      },
+      "series_present": {
+        "D": true,
+        "DF": true,
+        "NG": true,
+        "TI": true
+      },
+      "windows": {
+        "fit_2019_2023": {
+          "complete_rows_with_next_hour_demand": 43730,
+          "coverage": 0.997855,
+          "expected_hours": 43824
+        },
+        "path_2025": {
+          "complete_rows_with_next_hour_demand": 8736,
+          "coverage": 1.0,
+          "expected_hours": 8736
+        },
+        "path_2026": {
+          "complete_rows_with_next_hour_demand": 6821,
+          "coverage": 0.97415,
+          "expected_hours": 7002
+        },
+        "rehearsal_2024": {
+          "complete_rows_with_next_hour_demand": 8708,
+          "coverage": 0.994064,
+          "expected_hours": 8760
+        }
+      }
+    },
+    "NEVP": {
+      "duplicate_hours_by_series": {
+        "D": 0,
+        "DF": 0,
+        "NG": 0,
+        "TI": 0
+      },
+      "n_periods_by_series": {
+        "D": 68371,
+        "DF": 68302,
+        "NG": 68208,
+        "TI": 68317
+      },
+      "n_unavailable_by_series": {
+        "D": 18,
+        "DF": 0,
+        "NG": 18,
+        "TI": 0
+      },
+      "series_present": {
+        "D": true,
+        "DF": true,
+        "NG": true,
+        "TI": true
+      },
+      "windows": {
+        "fit_2019_2023": {
+          "complete_rows_with_next_hour_demand": 43764,
+          "coverage": 0.998631,
+          "expected_hours": 43824
+        },
+        "path_2025": {
+          "complete_rows_with_next_hour_demand": 8674,
+          "coverage": 0.992903,
+          "expected_hours": 8736
+        },
+        "path_2026": {
+          "complete_rows_with_next_hour_demand": 6854,
+          "coverage": 0.978863,
+          "expected_hours": 7002
+        },
+        "rehearsal_2024": {
+          "complete_rows_with_next_hour_demand": 8760,
+          "coverage": 1.0,
+          "expected_hours": 8760
+        }
+      }
+    },
+    "NSB": {
+      "duplicate_hours_by_series": {
+        "D": 0,
+        "DF": 0,
+        "NG": 0,
+        "TI": 0
+      },
+      "n_periods_by_series": {
+        "D": 8713,
+        "DF": 8423,
+        "NG": 8689,
+        "TI": 8447
+      },
+      "n_unavailable_by_series": {
+        "D": 266,
+        "DF": 0,
+        "NG": 241,
+        "TI": 0
+      },
+      "series_present": {
+        "D": true,
+        "DF": true,
+        "NG": true,
+        "TI": true
+      },
+      "windows": {
+        "fit_2019_2023": {
+          "complete_rows_with_next_hour_demand": 8147,
+          "coverage": 0.185903,
+          "expected_hours": 43824
+        },
+        "path_2025": {
+          "complete_rows_with_next_hour_demand": 0,
+          "coverage": 0.0,
+          "expected_hours": 8736
+        },
+        "path_2026": {
+          "complete_rows_with_next_hour_demand": 0,
+          "coverage": 0.0,
+          "expected_hours": 7002
+        },
+        "rehearsal_2024": {
+          "complete_rows_with_next_hour_demand": 0,
+          "coverage": 0.0,
+          "expected_hours": 8760
+        }
+      }
+    },
+    "NWMT": {
+      "duplicate_hours_by_series": {
+        "D": 0,
+        "DF": 0,
+        "NG": 0,
+        "TI": 0
+      },
+      "n_periods_by_series": {
+        "D": 68370,
+        "DF": 66551,
+        "NG": 67897,
+        "TI": 67011
+      },
+      "n_unavailable_by_series": {
+        "D": 27,
+        "DF": 0,
+        "NG": 26,
+        "TI": 0
+      },
+      "series_present": {
+        "D": true,
+        "DF": true,
+        "NG": true,
+        "TI": true
+      },
+      "windows": {
+        "fit_2019_2023": {
+          "complete_rows_with_next_hour_demand": 43284,
+          "coverage": 0.987678,
+          "expected_hours": 43824
+        },
+        "path_2025": {
+          "complete_rows_with_next_hour_demand": 6695,
+          "coverage": 0.766369,
+          "expected_hours": 8736
+        },
+        "path_2026": {
+          "complete_rows_with_next_hour_demand": 6846,
+          "coverage": 0.977721,
+          "expected_hours": 7002
+        },
+        "rehearsal_2024": {
+          "complete_rows_with_next_hour_demand": 8760,
+          "coverage": 1.0,
+          "expected_hours": 8760
+        }
+      }
+    },
+    "PACE": {
+      "duplicate_hours_by_series": {
+        "D": 0,
+        "DF": 0,
+        "NG": 0,
+        "TI": 0
+      },
+      "n_periods_by_series": {
+        "D": 68371,
+        "DF": 68311,
+        "NG": 68358,
+        "TI": 68358
+      },
+      "n_unavailable_by_series": {
+        "D": 0,
+        "DF": 0,
+        "NG": 0,
+        "TI": 0
+      },
+      "series_present": {
+        "D": true,
+        "DF": true,
+        "NG": true,
+        "TI": true
+      },
+      "windows": {
+        "fit_2019_2023": {
+          "complete_rows_with_next_hour_demand": 43824,
+          "coverage": 1.0,
+          "expected_hours": 43824
+        },
+        "path_2025": {
+          "complete_rows_with_next_hour_demand": 8736,
+          "coverage": 1.0,
+          "expected_hours": 8736
+        },
+        "path_2026": {
+          "complete_rows_with_next_hour_demand": 6918,
+          "coverage": 0.988003,
+          "expected_hours": 7002
+        },
+        "rehearsal_2024": {
+          "complete_rows_with_next_hour_demand": 8760,
+          "coverage": 1.0,
+          "expected_hours": 8760
+        }
+      }
+    },
+    "PACW": {
+      "duplicate_hours_by_series": {
+        "D": 0,
+        "DF": 0,
+        "NG": 0,
+        "TI": 0
+      },
+      "n_periods_by_series": {
+        "D": 68371,
+        "DF": 68384,
+        "NG": 68359,
+        "TI": 68359
+      },
+      "n_unavailable_by_series": {
+        "D": 0,
+        "DF": 0,
+        "NG": 0,
+        "TI": 0
+      },
+      "series_present": {
+        "D": true,
+        "DF": true,
+        "NG": true,
+        "TI": true
+      },
+      "windows": {
+        "fit_2019_2023": {
+          "complete_rows_with_next_hour_demand": 43824,
+          "coverage": 1.0,
+          "expected_hours": 43824
+        },
+        "path_2025": {
+          "complete_rows_with_next_hour_demand": 8736,
+          "coverage": 1.0,
+          "expected_hours": 8736
+        },
+        "path_2026": {
+          "complete_rows_with_next_hour_demand": 6991,
+          "coverage": 0.998429,
+          "expected_hours": 7002
+        },
+        "rehearsal_2024": {
+          "complete_rows_with_next_hour_demand": 8760,
+          "coverage": 1.0,
+          "expected_hours": 8760
+        }
+      }
+    },
+    "PGE": {
+      "duplicate_hours_by_series": {
+        "D": 0,
+        "DF": 0,
+        "NG": 0,
+        "TI": 0
+      },
+      "n_periods_by_series": {
+        "D": 68155,
+        "DF": 68097,
+        "NG": 68136,
+        "TI": 68047
+      },
+      "n_unavailable_by_series": {
+        "D": 98,
+        "DF": 0,
+        "NG": 96,
+        "TI": 0
+      },
+      "series_present": {
+        "D": true,
+        "DF": true,
+        "NG": true,
+        "TI": true
+      },
+      "windows": {
+        "fit_2019_2023": {
+          "complete_rows_with_next_hour_demand": 43433,
+          "coverage": 0.991078,
+          "expected_hours": 43824
+        },
+        "path_2025": {
+          "complete_rows_with_next_hour_demand": 8736,
+          "coverage": 1.0,
+          "expected_hours": 8736
+        },
+        "path_2026": {
+          "complete_rows_with_next_hour_demand": 6985,
+          "coverage": 0.997572,
+          "expected_hours": 7002
+        },
+        "rehearsal_2024": {
+          "complete_rows_with_next_hour_demand": 8759,
+          "coverage": 0.999886,
+          "expected_hours": 8760
+        }
+      }
+    },
+    "PJM": {
+      "duplicate_hours_by_series": {
+        "D": 0,
+        "DF": 0,
+        "NG": 0,
+        "TI": 0
+      },
+      "n_periods_by_series": {
+        "D": 68370,
+        "DF": 68143,
+        "NG": 68353,
+        "TI": 68167
+      },
+      "n_unavailable_by_series": {
+        "D": 116,
+        "DF": 0,
+        "NG": 117,
+        "TI": 0
+      },
+      "series_present": {
+        "D": true,
+        "DF": true,
+        "NG": true,
+        "TI": true
+      },
+      "windows": {
+        "fit_2019_2023": {
+          "complete_rows_with_next_hour_demand": 43654,
+          "coverage": 0.996121,
+          "expected_hours": 43824
+        },
+        "path_2025": {
+          "complete_rows_with_next_hour_demand": 8711,
+          "coverage": 0.997138,
+          "expected_hours": 8736
+        },
+        "path_2026": {
+          "complete_rows_with_next_hour_demand": 6965,
+          "coverage": 0.994716,
+          "expected_hours": 7002
+        },
+        "rehearsal_2024": {
+          "complete_rows_with_next_hour_demand": 8712,
+          "coverage": 0.994521,
+          "expected_hours": 8760
+        }
+      }
+    },
+    "PNM": {
+      "duplicate_hours_by_series": {
+        "D": 0,
+        "DF": 0,
+        "NG": 0,
+        "TI": 0
+      },
+      "n_periods_by_series": {
+        "D": 68371,
+        "DF": 68265,
+        "NG": 68335,
+        "TI": 68240
+      },
+      "n_unavailable_by_series": {
+        "D": 0,
+        "DF": 0,
+        "NG": 0,
+        "TI": 0
+      },
+      "series_present": {
+        "D": true,
+        "DF": true,
+        "NG": true,
+        "TI": true
+      },
+      "windows": {
+        "fit_2019_2023": {
+          "complete_rows_with_next_hour_demand": 43824,
+          "coverage": 1.0,
+          "expected_hours": 43824
+        },
+        "path_2025": {
+          "complete_rows_with_next_hour_demand": 8570,
+          "coverage": 0.980998,
+          "expected_hours": 8736
+        },
+        "path_2026": {
+          "complete_rows_with_next_hour_demand": 6943,
+          "coverage": 0.991574,
+          "expected_hours": 7002
+        },
+        "rehearsal_2024": {
+          "complete_rows_with_next_hour_demand": 8760,
+          "coverage": 1.0,
+          "expected_hours": 8760
+        }
+      }
+    },
+    "PSCO": {
+      "duplicate_hours_by_series": {
+        "D": 0,
+        "DF": 0,
+        "NG": 0,
+        "TI": 0
+      },
+      "n_periods_by_series": {
+        "D": 68251,
+        "DF": 67040,
+        "NG": 68142,
+        "TI": 67806
+      },
+      "n_unavailable_by_series": {
+        "D": 48,
+        "DF": 0,
+        "NG": 48,
+        "TI": 0
+      },
+      "series_present": {
+        "D": true,
+        "DF": true,
+        "NG": true,
+        "TI": true
+      },
+      "windows": {
+        "fit_2019_2023": {
+          "complete_rows_with_next_hour_demand": 42815,
+          "coverage": 0.976976,
+          "expected_hours": 43824
+        },
+        "path_2025": {
+          "complete_rows_with_next_hour_demand": 8496,
+          "coverage": 0.972527,
+          "expected_hours": 8736
+        },
+        "path_2026": {
+          "complete_rows_with_next_hour_demand": 6558,
+          "coverage": 0.93659,
+          "expected_hours": 7002
+        },
+        "rehearsal_2024": {
+          "complete_rows_with_next_hour_demand": 8760,
+          "coverage": 1.0,
+          "expected_hours": 8760
+        }
+      }
+    },
+    "PSEI": {
+      "duplicate_hours_by_series": {
+        "D": 0,
+        "DF": 0,
+        "NG": 0,
+        "TI": 0
+      },
+      "n_periods_by_series": {
+        "D": 59304,
+        "DF": 68384,
+        "NG": 59287,
+        "TI": 58783
+      },
+      "n_unavailable_by_series": {
+        "D": 172,
+        "DF": 0,
+        "NG": 168,
+        "TI": 0
+      },
+      "series_present": {
+        "D": true,
+        "DF": true,
+        "NG": true,
+        "TI": true
+      },
+      "windows": {
+        "fit_2019_2023": {
+          "complete_rows_with_next_hour_demand": 34237,
+          "coverage": 0.781239,
+          "expected_hours": 43824
+        },
+        "path_2025": {
+          "complete_rows_with_next_hour_demand": 8736,
+          "coverage": 1.0,
+          "expected_hours": 8736
+        },
+        "path_2026": {
+          "complete_rows_with_next_hour_demand": 6991,
+          "coverage": 0.998429,
+          "expected_hours": 7002
+        },
+        "rehearsal_2024": {
+          "complete_rows_with_next_hour_demand": 8760,
+          "coverage": 1.0,
+          "expected_hours": 8760
+        }
+      }
+    },
+    "SC": {
+      "duplicate_hours_by_series": {
+        "D": 0,
+        "DF": 0,
+        "NG": 0,
+        "TI": 0
+      },
+      "n_periods_by_series": {
+        "D": 68369,
+        "DF": 66527,
+        "NG": 67993,
+        "TI": 66521
+      },
+      "n_unavailable_by_series": {
+        "D": 190,
+        "DF": 0,
+        "NG": 189,
+        "TI": 0
+      },
+      "series_present": {
+        "D": true,
+        "DF": true,
+        "NG": true,
+        "TI": true
+      },
+      "windows": {
+        "fit_2019_2023": {
+          "complete_rows_with_next_hour_demand": 43693,
+          "coverage": 0.997011,
+          "expected_hours": 43824
+        },
+        "path_2025": {
+          "complete_rows_with_next_hour_demand": 7118,
+          "coverage": 0.814789,
+          "expected_hours": 8736
+        },
+        "path_2026": {
+          "complete_rows_with_next_hour_demand": 5691,
+          "coverage": 0.812768,
+          "expected_hours": 7002
+        },
+        "rehearsal_2024": {
+          "complete_rows_with_next_hour_demand": 8587,
+          "coverage": 0.980251,
+          "expected_hours": 8760
+        }
+      }
+    },
+    "SCEG": {
+      "duplicate_hours_by_series": {
+        "D": 0,
+        "DF": 0,
+        "NG": 0,
+        "TI": 0
+      },
+      "n_periods_by_series": {
+        "D": 68113,
+        "DF": 67465,
+        "NG": 68067,
+        "TI": 67851
+      },
+      "n_unavailable_by_series": {
+        "D": 96,
+        "DF": 0,
+        "NG": 96,
+        "TI": 0
+      },
+      "series_present": {
+        "D": true,
+        "DF": true,
+        "NG": true,
+        "TI": true
+      },
+      "windows": {
+        "fit_2019_2023": {
+          "complete_rows_with_next_hour_demand": 43555,
+          "coverage": 0.993862,
+          "expected_hours": 43824
+        },
+        "path_2025": {
+          "complete_rows_with_next_hour_demand": 8327,
+          "coverage": 0.953182,
+          "expected_hours": 8736
+        },
+        "path_2026": {
+          "complete_rows_with_next_hour_demand": 6628,
+          "coverage": 0.946587,
+          "expected_hours": 7002
+        },
+        "rehearsal_2024": {
+          "complete_rows_with_next_hour_demand": 8662,
+          "coverage": 0.988813,
+          "expected_hours": 8760
+        }
+      }
+    },
+    "SCL": {
+      "duplicate_hours_by_series": {
+        "D": 0,
+        "DF": 0,
+        "NG": 0,
+        "TI": 0
+      },
+      "n_periods_by_series": {
+        "D": 68371,
+        "DF": 67972,
+        "NG": 68359,
+        "TI": 68232
+      },
+      "n_unavailable_by_series": {
+        "D": 7,
+        "DF": 0,
+        "NG": 6,
+        "TI": 0
+      },
+      "series_present": {
+        "D": true,
+        "DF": true,
+        "NG": true,
+        "TI": true
+      },
+      "windows": {
+        "fit_2019_2023": {
+          "complete_rows_with_next_hour_demand": 43550,
+          "coverage": 0.993748,
+          "expected_hours": 43824
+        },
+        "path_2025": {
+          "complete_rows_with_next_hour_demand": 8735,
+          "coverage": 0.999886,
+          "expected_hours": 8736
+        },
+        "path_2026": {
+          "complete_rows_with_next_hour_demand": 6751,
+          "coverage": 0.964153,
+          "expected_hours": 7002
+        },
+        "rehearsal_2024": {
+          "complete_rows_with_next_hour_demand": 8732,
+          "coverage": 0.996804,
+          "expected_hours": 8760
+        }
+      }
+    },
+    "SEC": {
+      "duplicate_hours_by_series": {
+        "D": 0,
+        "DF": 0,
+        "NG": 0,
+        "TI": 0
+      },
+      "n_periods_by_series": {
+        "D": 68287,
+        "DF": 68035,
+        "NG": 68302,
+        "TI": 67823
+      },
+      "n_unavailable_by_series": {
+        "D": 203,
+        "DF": 0,
+        "NG": 234,
+        "TI": 0
+      },
+      "series_present": {
+        "D": true,
+        "DF": true,
+        "NG": true,
+        "TI": true
+      },
+      "windows": {
+        "fit_2019_2023": {
+          "complete_rows_with_next_hour_demand": 43478,
+          "coverage": 0.992105,
+          "expected_hours": 43824
+        },
+        "path_2025": {
+          "complete_rows_with_next_hour_demand": 8564,
+          "coverage": 0.980311,
+          "expected_hours": 8736
+        },
+        "path_2026": {
+          "complete_rows_with_next_hour_demand": 6819,
+          "coverage": 0.973865,
+          "expected_hours": 7002
+        },
+        "rehearsal_2024": {
+          "complete_rows_with_next_hour_demand": 8709,
+          "coverage": 0.994178,
+          "expected_hours": 8760
+        }
+      }
+    },
+    "SOCO": {
+      "duplicate_hours_by_series": {
+        "D": 0,
+        "DF": 0,
+        "NG": 0,
+        "TI": 0
+      },
+      "n_periods_by_series": {
+        "D": 68370,
+        "DF": 68327,
+        "NG": 68355,
+        "TI": 68308
+      },
+      "n_unavailable_by_series": {
+        "D": 24,
+        "DF": 0,
+        "NG": 24,
+        "TI": 0
+      },
+      "series_present": {
+        "D": true,
+        "DF": true,
+        "NG": true,
+        "TI": true
+      },
+      "windows": {
+        "fit_2019_2023": {
+          "complete_rows_with_next_hour_demand": 43794,
+          "coverage": 0.999315,
+          "expected_hours": 43824
+        },
+        "path_2025": {
+          "complete_rows_with_next_hour_demand": 8735,
+          "coverage": 0.999886,
+          "expected_hours": 8736
+        },
+        "path_2026": {
+          "complete_rows_with_next_hour_demand": 6941,
+          "coverage": 0.991288,
+          "expected_hours": 7002
+        },
+        "rehearsal_2024": {
+          "complete_rows_with_next_hour_demand": 8759,
+          "coverage": 0.999886,
+          "expected_hours": 8760
+        }
+      }
+    },
+    "SPA": {
+      "duplicate_hours_by_series": {
+        "D": 0,
+        "DF": 0,
+        "NG": 0,
+        "TI": 0
+      },
+      "n_periods_by_series": {
+        "D": 68214,
+        "DF": 64138,
+        "NG": 68118,
+        "TI": 67806
+      },
+      "n_unavailable_by_series": {
+        "D": 24,
+        "DF": 0,
+        "NG": 24,
+        "TI": 0
+      },
+      "series_present": {
+        "D": true,
+        "DF": true,
+        "NG": true,
+        "TI": true
+      },
+      "windows": {
+        "fit_2019_2023": {
+          "complete_rows_with_next_hour_demand": 42995,
+          "coverage": 0.981083,
+          "expected_hours": 43824
+        },
+        "path_2025": {
+          "complete_rows_with_next_hour_demand": 7733,
+          "coverage": 0.885188,
+          "expected_hours": 8736
+        },
+        "path_2026": {
+          "complete_rows_with_next_hour_demand": 5556,
+          "coverage": 0.793488,
+          "expected_hours": 7002
+        },
+        "rehearsal_2024": {
+          "complete_rows_with_next_hour_demand": 7520,
+          "coverage": 0.858447,
+          "expected_hours": 8760
+        }
+      }
+    },
+    "SRP": {
+      "duplicate_hours_by_series": {
+        "D": 0,
+        "DF": 0,
+        "NG": 0,
+        "TI": 0
+      },
+      "n_periods_by_series": {
+        "D": 68371,
+        "DF": 63004,
+        "NG": 68334,
+        "TI": 67875
+      },
+      "n_unavailable_by_series": {
+        "D": 243,
+        "DF": 0,
+        "NG": 215,
+        "TI": 0
+      },
+      "series_present": {
+        "D": true,
+        "DF": true,
+        "NG": true,
+        "TI": true
+      },
+      "windows": {
+        "fit_2019_2023": {
+          "complete_rows_with_next_hour_demand": 38527,
+          "coverage": 0.87913,
+          "expected_hours": 43824
+        },
+        "path_2025": {
+          "complete_rows_with_next_hour_demand": 8637,
+          "coverage": 0.988668,
+          "expected_hours": 8736
+        },
+        "path_2026": {
+          "complete_rows_with_next_hour_demand": 6631,
+          "coverage": 0.947015,
+          "expected_hours": 7002
+        },
+        "rehearsal_2024": {
+          "complete_rows_with_next_hour_demand": 8662,
+          "coverage": 0.988813,
+          "expected_hours": 8760
+        }
+      }
+    },
+    "SWPP": {
+      "duplicate_hours_by_series": {
+        "D": 0,
+        "DF": 0,
+        "NG": 0,
+        "TI": 0
+      },
+      "n_periods_by_series": {
+        "D": 68370,
+        "DF": 67734,
+        "NG": 68357,
+        "TI": 68261
+      },
+      "n_unavailable_by_series": {
+        "D": 25,
+        "DF": 0,
+        "NG": 25,
+        "TI": 96
+      },
+      "series_present": {
+        "D": true,
+        "DF": true,
+        "NG": true,
+        "TI": true
+      },
+      "windows": {
+        "fit_2019_2023": {
+          "complete_rows_with_next_hour_demand": 43750,
+          "coverage": 0.998311,
+          "expected_hours": 43824
+        },
+        "path_2025": {
+          "complete_rows_with_next_hour_demand": 8520,
+          "coverage": 0.975275,
+          "expected_hours": 8736
+        },
+        "path_2026": {
+          "complete_rows_with_next_hour_demand": 6485,
+          "coverage": 0.926164,
+          "expected_hours": 7002
+        },
+        "rehearsal_2024": {
+          "complete_rows_with_next_hour_demand": 8709,
+          "coverage": 0.994178,
+          "expected_hours": 8760
+        }
+      }
+    },
+    "TAL": {
+      "duplicate_hours_by_series": {
+        "D": 0,
+        "DF": 0,
+        "NG": 0,
+        "TI": 0
+      },
+      "n_periods_by_series": {
+        "D": 68371,
+        "DF": 68357,
+        "NG": 67660,
+        "TI": 67612
+      },
+      "n_unavailable_by_series": {
+        "D": 720,
+        "DF": 0,
+        "NG": 24,
+        "TI": 0
+      },
+      "series_present": {
+        "D": true,
+        "DF": true,
+        "NG": true,
+        "TI": true
+      },
+      "windows": {
+        "fit_2019_2023": {
+          "complete_rows_with_next_hour_demand": 43103,
+          "coverage": 0.983548,
+          "expected_hours": 43824
+        },
+        "path_2025": {
+          "complete_rows_with_next_hour_demand": 8688,
+          "coverage": 0.994505,
+          "expected_hours": 8736
+        },
+        "path_2026": {
+          "complete_rows_with_next_hour_demand": 6988,
+          "coverage": 0.998001,
+          "expected_hours": 7002
+        },
+        "rehearsal_2024": {
+          "complete_rows_with_next_hour_demand": 8760,
+          "coverage": 1.0,
+          "expected_hours": 8760
+        }
+      }
+    },
+    "TEC": {
+      "duplicate_hours_by_series": {
+        "D": 0,
+        "DF": 0,
+        "NG": 0,
+        "TI": 0
+      },
+      "n_periods_by_series": {
+        "D": 68323,
+        "DF": 67563,
+        "NG": 68260,
+        "TI": 67532
+      },
+      "n_unavailable_by_series": {
+        "D": 80,
+        "DF": 0,
+        "NG": 79,
+        "TI": 0
+      },
+      "series_present": {
+        "D": true,
+        "DF": true,
+        "NG": true,
+        "TI": true
+      },
+      "windows": {
+        "fit_2019_2023": {
+          "complete_rows_with_next_hour_demand": 43673,
+          "coverage": 0.996554,
+          "expected_hours": 43824
+        },
+        "path_2025": {
+          "complete_rows_with_next_hour_demand": 8398,
+          "coverage": 0.96131,
+          "expected_hours": 8736
+        },
+        "path_2026": {
+          "complete_rows_with_next_hour_demand": 5980,
+          "coverage": 0.854042,
+          "expected_hours": 7002
+        },
+        "rehearsal_2024": {
+          "complete_rows_with_next_hour_demand": 8705,
+          "coverage": 0.993721,
+          "expected_hours": 8760
+        }
+      }
+    },
+    "TEPC": {
+      "duplicate_hours_by_series": {
+        "D": 0,
+        "DF": 0,
+        "NG": 0,
+        "TI": 0
+      },
+      "n_periods_by_series": {
+        "D": 67530,
+        "DF": 68142,
+        "NG": 67519,
+        "TI": 67325
+      },
+      "n_unavailable_by_series": {
+        "D": 147,
+        "DF": 0,
+        "NG": 146,
+        "TI": 0
+      },
+      "series_present": {
+        "D": true,
+        "DF": true,
+        "NG": true,
+        "TI": true
+      },
+      "windows": {
+        "fit_2019_2023": {
+          "complete_rows_with_next_hour_demand": 42828,
+          "coverage": 0.977273,
+          "expected_hours": 43824
+        },
+        "path_2025": {
+          "complete_rows_with_next_hour_demand": 8736,
+          "coverage": 1.0,
+          "expected_hours": 8736
+        },
+        "path_2026": {
+          "complete_rows_with_next_hour_demand": 6895,
+          "coverage": 0.984719,
+          "expected_hours": 7002
+        },
+        "rehearsal_2024": {
+          "complete_rows_with_next_hour_demand": 8662,
+          "coverage": 0.988813,
+          "expected_hours": 8760
+        }
+      }
+    },
+    "TIDC": {
+      "duplicate_hours_by_series": {
+        "D": 0,
+        "DF": 0,
+        "NG": 0,
+        "TI": 0
+      },
+      "n_periods_by_series": {
+        "D": 68371,
+        "DF": 67928,
+        "NG": 68335,
+        "TI": 67788
+      },
+      "n_unavailable_by_series": {
+        "D": 145,
+        "DF": 0,
+        "NG": 144,
+        "TI": 0
+      },
+      "series_present": {
+        "D": true,
+        "DF": true,
+        "NG": true,
+        "TI": true
+      },
+      "windows": {
+        "fit_2019_2023": {
+          "complete_rows_with_next_hour_demand": 43437,
+          "coverage": 0.991169,
+          "expected_hours": 43824
+        },
+        "path_2025": {
+          "complete_rows_with_next_hour_demand": 8544,
+          "coverage": 0.978022,
+          "expected_hours": 8736
+        },
+        "path_2026": {
+          "complete_rows_with_next_hour_demand": 6583,
+          "coverage": 0.94016,
+          "expected_hours": 7002
+        },
+        "rehearsal_2024": {
+          "complete_rows_with_next_hour_demand": 8760,
+          "coverage": 1.0,
+          "expected_hours": 8760
+        }
+      }
+    },
+    "TPWR": {
+      "duplicate_hours_by_series": {
+        "D": 0,
+        "DF": 0,
+        "NG": 0,
+        "TI": 0
+      },
+      "n_periods_by_series": {
+        "D": 68370,
+        "DF": 68383,
+        "NG": 68358,
+        "TI": 68359
+      },
+      "n_unavailable_by_series": {
+        "D": 1,
+        "DF": 0,
+        "NG": 0,
+        "TI": 0
+      },
+      "series_present": {
+        "D": true,
+        "DF": true,
+        "NG": true,
+        "TI": true
+      },
+      "windows": {
+        "fit_2019_2023": {
+          "complete_rows_with_next_hour_demand": 43821,
+          "coverage": 0.999932,
+          "expected_hours": 43824
+        },
+        "path_2025": {
+          "complete_rows_with_next_hour_demand": 8736,
+          "coverage": 1.0,
+          "expected_hours": 8736
+        },
+        "path_2026": {
+          "complete_rows_with_next_hour_demand": 6991,
+          "coverage": 0.998429,
+          "expected_hours": 7002
+        },
+        "rehearsal_2024": {
+          "complete_rows_with_next_hour_demand": 8758,
+          "coverage": 0.999772,
+          "expected_hours": 8760
+        }
+      }
+    },
+    "TVA": {
+      "duplicate_hours_by_series": {
+        "D": 0,
+        "DF": 0,
+        "NG": 0,
+        "TI": 0
+      },
+      "n_periods_by_series": {
+        "D": 68371,
+        "DF": 67955,
+        "NG": 68357,
+        "TI": 67992
+      },
+      "n_unavailable_by_series": {
+        "D": 145,
+        "DF": 0,
+        "NG": 145,
+        "TI": 0
+      },
+      "series_present": {
+        "D": true,
+        "DF": true,
+        "NG": true,
+        "TI": true
+      },
+      "windows": {
+        "fit_2019_2023": {
+          "complete_rows_with_next_hour_demand": 43459,
+          "coverage": 0.991671,
+          "expected_hours": 43824
+        },
+        "path_2025": {
+          "complete_rows_with_next_hour_demand": 8735,
+          "coverage": 0.999886,
+          "expected_hours": 8736
+        },
+        "path_2026": {
+          "complete_rows_with_next_hour_demand": 6557,
+          "coverage": 0.936447,
+          "expected_hours": 7002
+        },
+        "rehearsal_2024": {
+          "complete_rows_with_next_hour_demand": 8759,
+          "coverage": 0.999886,
+          "expected_hours": 8760
+        }
+      }
+    },
+    "WACM": {
+      "duplicate_hours_by_series": {
+        "D": 0,
+        "DF": 0,
+        "NG": 0,
+        "TI": 0
+      },
+      "n_periods_by_series": {
+        "D": 63485,
+        "DF": 63008,
+        "NG": 63407,
+        "TI": 62936
+      },
+      "n_unavailable_by_series": {
+        "D": 1,
+        "DF": 0,
+        "NG": 0,
+        "TI": 0
+      },
+      "series_present": {
+        "D": true,
+        "DF": true,
+        "NG": true,
+        "TI": true
+      },
+      "windows": {
+        "fit_2019_2023": {
+          "complete_rows_with_next_hour_demand": 43509,
+          "coverage": 0.992812,
+          "expected_hours": 43824
+        },
+        "path_2025": {
+          "complete_rows_with_next_hour_demand": 8400,
+          "coverage": 0.961538,
+          "expected_hours": 8736
+        },
+        "path_2026": {
+          "complete_rows_with_next_hour_demand": 1808,
+          "coverage": 0.258212,
+          "expected_hours": 7002
+        },
+        "rehearsal_2024": {
+          "complete_rows_with_next_hour_demand": 8760,
+          "coverage": 1.0,
+          "expected_hours": 8760
+        }
+      }
+    },
+    "WALC": {
+      "duplicate_hours_by_series": {
+        "D": 0,
+        "DF": 0,
+        "NG": 0,
+        "TI": 0
+      },
+      "n_periods_by_series": {
+        "D": 68331,
+        "DF": 68080,
+        "NG": 68290,
+        "TI": 67815
+      },
+      "n_unavailable_by_series": {
+        "D": 96,
+        "DF": 0,
+        "NG": 72,
+        "TI": 0
+      },
+      "series_present": {
+        "D": true,
+        "DF": true,
+        "NG": true,
+        "TI": true
+      },
+      "windows": {
+        "fit_2019_2023": {
+          "complete_rows_with_next_hour_demand": 43702,
+          "coverage": 0.997216,
+          "expected_hours": 43824
+        },
+        "path_2025": {
+          "complete_rows_with_next_hour_demand": 8732,
+          "coverage": 0.999542,
+          "expected_hours": 8736
+        },
+        "path_2026": {
+          "complete_rows_with_next_hour_demand": 6613,
+          "coverage": 0.944444,
+          "expected_hours": 7002
+        },
+        "rehearsal_2024": {
+          "complete_rows_with_next_hour_demand": 8475,
+          "coverage": 0.967466,
+          "expected_hours": 8760
+        }
+      }
+    },
+    "WAUW": {
+      "duplicate_hours_by_series": {
+        "D": 0,
+        "DF": 0,
+        "NG": 0,
+        "TI": 0
+      },
+      "n_periods_by_series": {
+        "D": 63571,
+        "DF": 63559,
+        "NG": 63548,
+        "TI": 63535
+      },
+      "n_unavailable_by_series": {
+        "D": 7,
+        "DF": 0,
+        "NG": 5,
+        "TI": 0
+      },
+      "series_present": {
+        "D": true,
+        "DF": true,
+        "NG": true,
+        "TI": true
+      },
+      "windows": {
+        "fit_2019_2023": {
+          "complete_rows_with_next_hour_demand": 43815,
+          "coverage": 0.999795,
+          "expected_hours": 43824
+        },
+        "path_2025": {
+          "complete_rows_with_next_hour_demand": 8736,
+          "coverage": 1.0,
+          "expected_hours": 8736
+        },
+        "path_2026": {
+          "complete_rows_with_next_hour_demand": 2167,
+          "coverage": 0.309483,
+          "expected_hours": 7002
+        },
+        "rehearsal_2024": {
+          "complete_rows_with_next_hour_demand": 8745,
+          "coverage": 0.998288,
+          "expected_hours": 8760
+        }
+      }
+    }
+  },
+  "rule": {
+    "R20_rehearsal_procure_events_min": 20,
+    "R20_status": "deferred: needs the Ridge policy on values; evaluated by scripts/run_e4_heldout.py per authority before any monitor result",
+    "coverage_min_each_window": 0.95,
+    "coverage_windows_utc_epoch": {
+      "fit_2019_2023": [
+        1546300800,
+        1704063600
+      ],
+      "path_2025": [
+        1735689600,
+        1767135600
+      ],
+      "path_2026": [
+        1767225600,
+        1792429200
+      ],
+      "rehearsal_2024": [
+        1704067200,
+        1735599600
+      ]
+    },
+    "event": "hour with D, DF, NG and TI all present and next-hour D observed",
+    "exclusions": {
+      "aggregates": [
+        "CAL",
+        "CAR",
+        "CENT",
+        "FLA",
+        "MIDA",
+        "MIDW",
+        "NE",
+        "NW",
+        "NY",
+        "SE",
+        "SW",
+        "TEN",
+        "TEX",
+        "US48"
+      ],
+      "previously_used_or_exposed": [
+        "CISO",
+        "ERCO",
+        "NYIS"
+      ]
+    },
+    "required_series": [
+      "EBA.<BA>-ALL.D.H",
+      "EBA.<BA>-ALL.DF.H",
+      "EBA.<BA>-ALL.NG.H",
+      "EBA.<BA>-ALL.TI.H"
+    ]
+  },
+  "script": {
+    "path": "scripts/e4_eligibility.py",
+    "prerun_record": {
+      "note": "Recorded before the script was first run and before any EBA.zip content was read for E4. Line endings: hash of working-tree bytes as stored.",
+      "recorded_utc": "2026-10-28T18:34:33+00:00",
+      "script": "scripts/e4_eligibility.py",
+      "script_sha256": "2ae257140448373400e1e0cac63b3b158d9a7fb3ee1dcc8a91cf07e6654225cf"
+    },
+    "reused_unchanged": {
+      "path": "scripts/audit_eia_2026_holdout_readiness.py",
+      "sha256": "bb5456aa261b0fd7fe3770cb728346eb3244a77c51f87fbc7e527bd3a07aa84f",
+      "symbols": [
+        "_eligible_rows",
+        "SPLITS",
+        "TYPES",
+        "HOUR"
+      ]
+    },
+    "run_utc": "2026-10-28T18:34:35.503807+00:00",
+    "sha256": "2ae257140448373400e1e0cac63b3b158d9a7fb3ee1dcc8a91cf07e6654225cf"
+  },
+  "source": {
+    "archive": "data/raw/eia/EBA.zip",
+    "receipt_sha256": "c9c18708aeb681055da20342134a670b5fcef4e7b4aa45a98e83453958bd3f42",
+    "sha256": "3a6143c4bd853c3d6a9d9d3bb3ca7f1603a641835e9c7a050e5c8a927101936f"
+  },
+  "split": {
+    "development": [
+      "AECI",
+      "AVA",
+      "BPAT",
+      "DOPD",
+      "FMPP",
+      "ISNE",
+      "PACE",
+      "PNM",
+      "SCL",
+      "TAL"
+    ],
+    "locked": [
+      "CHPD",
+      "CPLE",
+      "CPLW",
+      "DUK",
+      "EPE",
+      "FPC",
+      "FPL",
+      "GCPD",
+      "HST",
+      "IPCO",
+      "LDWP",
+      "LGEE",
+      "MISO",
+      "NEVP",
+      "PACW",
+      "PGE",
+      "PJM",
+      "SEC",
+      "SOCO",
+      "TEPC",
+      "TPWR"
+    ],
+    "method": "ids sorted ascending; numpy.random.default_rng(seed).permutation(n); first round(n/3) of the permutation are development, the rest locked",
+    "n_development": 10,
+    "n_locked": 21,
+    "numpy": "2.5.4",
+    "seed": 100400000
+  }
+}

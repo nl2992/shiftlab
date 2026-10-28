@@ -1,0 +1,18 @@
+{
+  "artifact": "e4_region_map",
+  "status": "PROVISIONAL. Reporting clusters only; it affects no eligibility, split, seed or test. Assigned from the EIA-930 region grouping as recalled by the author; NOT verified against an EIA list in this repository (the EBA archive carries no region field). Verify against EIA's published balancing-authority list before the locked run, correct this file if needed, and re-record its SHA-256 in P3_E4_protocol.md. Entries marked uncertain are the ones most likely to need correction.",
+  "region_codes": {
+    "CAL": "California", "CAR": "Carolinas", "FLA": "Florida", "MIDA": "Mid-Atlantic",
+    "MIDW": "Midwest", "NW": "Northwest", "SE": "Southeast", "SW": "Southwest"
+  },
+  "region_of": {
+    "AECI": "MIDW", "AVA": "NW", "BPAT": "NW", "CHPD": "NW", "CPLE": "CAR", "CPLW": "CAR",
+    "DOPD": "NW", "DUK": "CAR", "EPE": "SW", "FMPP": "FLA", "FPC": "FLA", "FPL": "FLA",
+    "GCPD": "NW", "HST": "FLA", "IPCO": "NW", "ISNE": "NE", "LDWP": "CAL", "LGEE": "MIDW",
+    "MISO": "MIDW", "NEVP": "SW", "PACE": "NW", "PACW": "NW", "PGE": "NW", "PJM": "MIDA",
+    "PNM": "SW", "SCL": "NW", "SEC": "FLA", "SOCO": "SE", "TAL": "FLA", "TEPC": "SW",
+    "TPWR": "NW"
+  },
+  "uncertain": ["AECI", "LGEE", "PACE", "HST", "FMPP"],
+  "reporting_rule": "Clusters with at least 3 locked authorities are reported on their own; the rest are pooled as 'other'. Per-authority rows are always reported."
+}

@@ -310,7 +310,7 @@ def test_uniform_ht_pays_for_agreements_and_covers_fewer_disagreements_than_gate
     dis = active[start:]
     events = [PublicEvent(i, x[start + i], int(dis[i]), 0, False, 0.0, 0.0) for i in range(n)]
     args = (events, paired[start:], uniforms, tariffs[start:])
-    uniform = run_monitor(UniformHT(), spec, *args)
+    uniform = run_monitor(UniformHT(q=0.2), spec, *args)
     gated = run_monitor(
         GatedHTFixed(
             validation_disagreement=active[400:800],
@@ -326,3 +326,69 @@ def test_uniform_ht_pays_for_agreements_and_covers_fewer_disagreements_than_gate
     assert gated.spend[~d_g].sum() == 0  # gated never pays for agreements
     assert uniform.queried[d_u].sum() < gated.queried[d_g].sum()
     assert np.all(uniform.propensities == uniform.propensities[0])
+
+
+@pytest.mark.parametrize("seed", [1, 2, 3])
+@pytest.mark.parametrize("rate", [0.05, 0.2])
+def test_uniform_ht_parity_with_e2_replay_uniform(seed, rate):
+    from shiftlab.dive.e2_acquisition_pacing import MonitorInputs, replay_uniform
+
+    n = 600
+    x, paired, active, tariffs, uniforms = _synthetic_stream(seed, n=n)
+    start = 800
+    m = MonitorInputs(
+        x=x[start:],
+        paired_cost=paired[start:],
+        disagreement=active[start:],
+        tariffs=tariffs[start:],
+        uniforms=uniforms,
+        validation_disagreement=active[400:800],
+        validation_tariffs=tariffs[400:800],
+        proxy=None,
+        budget_rate=rate,
+    )
+    ref = replay_uniform(arm="uniform_ht", m=m)
+    pacer = DisagreementPacer(active[400:800], tariffs[400:800], rate)
+    spec = TaskSpec(5.0, 0.1, 0.05, n, pacer.target * n, (0.5, 2.5))
+    events = [
+        PublicEvent(i, x[start + i], int(active[start + i]), 0, False, 0.0, 0.0) for i in range(n)
+    ]
+    result = run_monitor(UniformHT(q=rate), spec, events, paired[start:], uniforms, tariffs[start:])
+    np.testing.assert_array_equal(result.log_e, ref.log_e)
+    np.testing.assert_array_equal(result.queried, ref.queried)
+    assert result.total_spend == ref.dollars and result.budget == ref.budget
+    assert result.processed == len(ref.log_e)
+
+
+def test_uniform_ht_requires_explicit_q():
+    with pytest.raises(TypeError):
+        UniformHT()  # type: ignore[call-arg]
+    with pytest.raises(ValueError):
+        UniformHT(q=0.0)
+
+
+class _BadLogE(_SpyMonitor):
+    def __init__(self, value):
+        super().__init__(q=0.0)
+        self.value = value
+
+    @property
+    def log_e_value(self):
+        return self.value
+
+
+@pytest.mark.parametrize("bad", [float("nan"), float("inf"), float("-inf")])
+def test_nonfinite_log_e_rejected(bad):
+    n = 4
+    with pytest.raises(ValueError, match="not finite"):
+        run_monitor(
+            _BadLogE(bad), _spec(n), _simple_events(n), np.zeros(n), np.zeros(n), np.ones(n)
+        )
+
+
+def test_reserve_stop_rule_recorded():
+    n = 4
+    args = (_spec(n), _simple_events(n), np.zeros(n), np.zeros(n), np.ones(n))
+    assert run_monitor(_SpyMonitor(0.0), *args).reserve_stop_rule is True
+    off = run_monitor(_SpyMonitor(0.0), *args, stop_when_reserve_below_max_price=False)
+    assert off.reserve_stop_rule is False

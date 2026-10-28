@@ -1,4 +1,8 @@
-"""Static import-isolation check for external adapters (P4 section 1)."""
+"""Static import lint for external adapters (P4 section 1).
+
+This is only a lint. It cannot establish isolation (allowed stdlib modules can still reach files
+or process state); isolation comes from ``sandbox.py`` plus the procedural packet rule.
+"""
 
 from __future__ import annotations
 
@@ -6,7 +10,8 @@ import ast
 import sys
 from pathlib import Path
 
-ALLOWED_THIRD_PARTY = frozenset({"numpy", "scipy"})
+# ``interface`` is the standalone copy of interface.py shipped in the sandbox packet.
+ALLOWED_THIRD_PARTY = frozenset({"numpy", "scipy", "interface"})
 CONTRACT_PACKAGE = "shiftlab.contract"
 # External adapters may use the interface only, never the evaluator-side or baseline modules.
 FORBIDDEN_CONTRACT_MODULES = frozenset({"harness", "baselines", "isolation"})

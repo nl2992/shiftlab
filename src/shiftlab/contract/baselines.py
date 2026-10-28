@@ -133,27 +133,20 @@ class UniformHT(_HorvitzThompsonMonitor):
 
     It returns ``q`` on every event and pays for labels on agreements as well. The increment is
     ``Z/q - epsilon`` for a queried event and ``-epsilon`` otherwise, with bound ``C/q + epsilon``.
-    ``q`` defaults to ``min(1, label_budget / (horizon * mean price))`` with the mean price taken
-    as the midpoint of ``price_range``, so its expected spend matches the reserve.
+    ``q`` must be passed explicitly (for the E2 parity it is the budget rate ``r``, so expected
+    spend ``q * E[price]`` matches the gated target); there is no default.
     """
 
-    def __init__(self, q: float | None = None) -> None:
+    def __init__(self, q: float) -> None:
         super().__init__()
-        if q is not None and not 0 < q <= 1:
+        if not 0 < q <= 1:
             raise ValueError("q must lie in (0, 1]")
-        self._fixed_q = q
-        self._q_value: float | None = None
+        self._q_value: float = float(q)
 
     def reset(self, spec: TaskSpec) -> None:
         super().reset(spec)
-        mid = sum(spec.price_range) / 2
-        default = min(1.0, spec.label_budget / (spec.horizon * mid))
-        self._q_value = self._fixed_q if self._fixed_q is not None else default
-        if not self._q_value > 0:
-            raise ValueError("uniform propensity must be positive")
 
     def _choose(self, event: PublicEvent) -> tuple[float, float]:
-        assert self._q_value is not None
         return self._q_value, self._q_value
 
     def _increment(self, event: PublicEvent, observed: float | None, q: float) -> float:

@@ -62,9 +62,29 @@ class Monitor(Protocol):
 - **Oracle quantities never cross the interface.** These are the evaluator's expected costs, onset
   times and scenario labels.
 
-**Isolation check (automated):** a test parses the external adapter's imports and fails if it imports
-anything except the standard library, `numpy`, `scipy` and `shiftlab.contract`. Above all, it must
-not import `shiftlab.dive`, `shiftlab.decision_harm_experiment` or the evaluator.
+**Isolation (Codex review 1: an AST import check cannot establish isolation, because `pathlib`,
+`sys` or `inspect` can still read files and process state).** Isolation is by execution
+environment, not by lint:
+
+- `shiftlab.contract.sandbox` builds an **implementation packet**: a temporary directory holding
+  only a standalone copy of `interface.py`, the adapter file, this protocol and
+  `CONTRACT_README.md`, and a small runner (its sha256 manifest is recorded).
+- The adapter runs in a separate interpreter: `python -I`, `cwd` = the packet, a stripped
+  environment (no `PYTHONPATH`; only the variables Python needs to start), `shiftlab` removed from
+  `sys.path` and blocked by a meta-path finder. Events and feedback cross as JSON lines over
+  stdin/stdout; the harness stays in the parent and is the sole owner of the coin, prices,
+  reserve and costs. The adapter imports the contract as `from interface import ...` and defines
+  `build_monitor()`.
+- The AST import check (`shiftlab.contract.isolation`) stays as an extra **lint** only: standard
+  library, `numpy`, `scipy`, `interface`.
+- The sandbox is an accident-proof boundary, not an adversarial one: a process can still open
+  absolute paths. Full isolation therefore additionally requires the **implementer session to be
+  given only the packet** (procedural). The session identifier and the packet manifest are
+  recorded as provenance. A tested malicious adapter (`import shiftlab`, reading
+  `../../src/...`) fails inside the sandbox (`tests/test_contract_sandbox.py`).
+- Harness semantics are locked: reserve stop when the remaining reserve is below
+  `price_range[1]` (default, recorded in `HarnessResult.reserve_stop_rule`); NaN or infinite
+  `log_e_value` is rejected.
 
 ## 2. External method
 
@@ -75,8 +95,20 @@ not import `shiftlab.dive`, `shiftlab.decision_harm_experiment` or the evaluator
   construction is acceptable if implemented from the paper.
 - **Fallback, if the Comparecast adapter cannot be made to fit the interface:** a WATCH-style
   (Prinster et al., ICML 2025) weighted conformal test martingale. This needs a stated score bridge
-  from paired cost to conformity score, and a disclosure that its null is distributional, not a
-  decision-cost mean.
+  from paired cost to conformity score. Its null is distributional, not a decision-cost mean, and
+  disclosure does not transfer decision-mean validity. A WATCH adapter is reported as a
+  **different-null comparator only**: it is not scored on the validity criterion for the
+  eventwise-mean null and cannot count as the gate's primary method.
+
+**Required submission contents (a generic betting reimplementation or an always-zero statistic must
+not pass):**
+- **Paper-faithful numerical fixture:** the adapter must reproduce at least one worked example or
+  figure value from the paper (or a derivation-checked fixture written by the implementer, with the
+  derivation), as a runnable test inside the packet that passes without the repository.
+- **Explicit HT / null / bound argument:** a written argument that the Horvitz–Thompson weighting
+  is unbiased for the paired cost, which null the statistic is an e-process for, and that its
+  bound is valid for the propensities it returns (global bound, or the stronger context-conditional
+  null when the propensity depends on the current event; see `CONTRACT_README.md`).
 
 **Who implements it:** a separate agent session, given only:
 - this document;
@@ -97,18 +129,27 @@ Seeds are allocated by `shiftlab.seed_registry.allocate` and registered before t
 
 ## 4. Gate criteria (all must pass)
 
-1. **Interface:** the adapter passes the isolation check and runs end to end through the harness on
-   every reference cell, without harness changes made for that adapter.
+1. **Interface:** the adapter passes the import lint, runs inside the sandbox (implementation
+   packet) end to end through the harness on every reference cell without harness changes made
+   for that adapter, and ships the numerical fixture and written argument of section 2.
 2. **Validity:** on R5-null, the per-cell exact one-sided Clopper–Pearson upper bound on the
    false-alarm rate, with Bonferroni across the 8 cells, is ≤ α = 0.05. If this fails, the adapter is
    reported as invalid and the gate fails on validity. A bug found and fixed is rerun on a new seed
    block, and both blocks are reported.
 3. **Hashed results:** per-stream outputs, manifest (git HEAD, adapter sha256, seed block, config
    sha256) and summary are written, and their SHA-256 values are recorded in a results file.
-4. **Comparable reporting:** R5-alt detection rates and labels spent are reported next to the
+4. **Functionality (power floor):** on R5-alt, the pooled detection rate over the three cells must
+   exceed a minimal power floor `F` registered in the freeze record before the implementer session
+   starts (it must sit clearly above alpha; a statistic that never alarms has detection 0). If it
+   does not, the adapter is reported as **non-functional** and the gate fails on functionality.
+   **Registered value (lead, 2026-10-28): `F = 0.25`.** On E2 development seeds, the weakest valid
+   contract baseline, uniform HT, pooled 0.27 over these cells (0.00 / 0.06 / 0.74), and the gated
+   arms about 0.85. `F` is set just below the weakest baseline and five times alpha, so it rules out
+   non-functional statistics without requiring the adapter to compete.
+5. **Comparable reporting:** R5-alt detection rates and labels spent are reported next to the
    contract baselines on the same streams. This is descriptive only, and no ranking claim is made.
 
-**Outcome:** PASS if 1–3 hold (4 is reporting). FAIL otherwise, and the failure mode is recorded.
+**Outcome:** PASS if 1–4 hold (5 is reporting). FAIL otherwise, and the failure mode is recorded.
 
 ## 5. What this gate does not show
 
@@ -120,9 +161,10 @@ Seeds are allocated by `shiftlab.seed_registry.allocate` and registered before t
 
 ## 6. Order of work
 
-1. Implement `src/shiftlab/contract/` and the harness, and port two in-repo baselines through it
-   (gated HT fixed; uniform HT) as a parity check. They must reproduce E2 results on shared seeds
-   exactly.
-2. Freeze this protocol, the contract source hashes and the seed blocks.
-3. Start the separate implementer session.
+1. Implement `src/shiftlab/contract/` and the harness, and port in-repo baselines through it
+   (gated HT fixed and paced; uniform HT with `q = r` passed explicitly) as a parity check. They
+   reproduce `replay_gated` and E2's `replay_uniform` log-e paths exactly on shared inputs
+   (`tests/test_contract.py`). Done.
+2. Freeze this protocol, the contract source hashes, the power floor `F` and the seed blocks.
+3. Start the separate implementer session with only the packet (sandbox `build_packet`).
 4. Run R5 and record the results.

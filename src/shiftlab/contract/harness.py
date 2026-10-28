@@ -15,6 +15,8 @@ from .interface import Feedback, Monitor, PublicEvent, TaskSpec
 
 # Same numerical slack as ``replay_gated``'s reserve test.
 _RESERVE_SLACK = 1e-12
+# Locked reserve-stop semantics: one documented default, recorded in every ``HarnessResult``.
+RESERVE_STOP_DEFAULT = True
 
 
 @dataclass
@@ -36,6 +38,7 @@ class HarnessResult:
     first_alarm: int | None
     processed: int
     stopped_early: bool
+    reserve_stop_rule: bool
 
 
 def run_monitor(
@@ -46,7 +49,7 @@ def run_monitor(
     uniforms: np.ndarray,
     prices: np.ndarray,
     *,
-    stop_when_reserve_below_max_price: bool = True,
+    stop_when_reserve_below_max_price: bool = RESERVE_STOP_DEFAULT,
 ) -> HarnessResult:
     """Run ``monitor`` through the P4 harness obligations on one stream.
 
@@ -63,7 +66,8 @@ def run_monitor(
     an unqueried event delivers ``None``. A monitor that exploits ``event.disagreement`` can
     return ``q = 0`` on agreements and avoid paying for them.
 
-    With ``stop_when_reserve_below_max_price`` (default), the stream stops before an event when the
+    With ``stop_when_reserve_below_max_price`` (default ``RESERVE_STOP_DEFAULT`` = True, recorded
+    in ``HarnessResult.reserve_stop_rule``), the stream stops before an event when the
     remaining reserve is below the largest possible price, matching ``replay_gated``'s predictable
     reserve stop ``budget - spent < 2.5``. The alarm is the first event with
     ``log_e >= log(1/alpha)``; the run continues past it so the full path is recorded.
@@ -119,6 +123,8 @@ def run_monitor(
         monitor.observe(event, feedback)
         spent += charge
         value = float(monitor.log_e_value)
+        if not np.isfinite(value):
+            raise ValueError(f"log_e_value {value!r} at event {i} is not finite")
         log_e.append(value)
         props.append(q)
         queried.append(bought)
@@ -137,4 +143,5 @@ def run_monitor(
         first_alarm=first_alarm,
         processed=len(log_e),
         stopped_early=stopped_early,
+        reserve_stop_rule=stop_when_reserve_below_max_price,
     )

@@ -33,6 +33,7 @@ from shiftlab.dive import e3_intervention_factorial as e3
 from shiftlab.freeze import require_freeze
 from shiftlab.seed_registry import load_registry
 
+CONFIRMATION_N = 1000
 BLOCK_IDS = {"dev": "e3_dev_smoke", "confirmation": "e3_confirmation"}
 PROTOCOL = ROOT / "docs/research_refinement_v1/stage1/P2_E3_protocol.md"
 FREEZE_RECORD = ROOT / "docs/research_refinement_v1/stage1/P2_E3_freeze.json"
@@ -116,8 +117,13 @@ def main() -> None:
     capacity = block.end - block.start + 1 - args.first_seed_index
     if args.first_seed_index < 0 or not 1 <= args.n_per_cell <= capacity:
         raise SystemExit(f"--n-per-cell must lie in [1, {capacity}] for block {block.id}")
-    if args.block == "confirmation" and args.first_seed_index != 0:
-        raise SystemExit("confirmation must start at the first seed of its block")
+    if args.block == "confirmation" and (
+        args.first_seed_index != 0 or args.n_per_cell != CONFIRMATION_N
+    ):
+        raise SystemExit(
+            f"confirmation requires --n-per-cell {CONFIRMATION_N} and first seed index 0 "
+            "(seeds 100300000..100300999)"
+        )
     freeze = require_confirmation_freeze() if args.block == "confirmation" else None
     out = args.out.resolve()
     out.mkdir(parents=True, exist_ok=True)

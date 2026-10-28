@@ -44,6 +44,8 @@ POWER_TARGET = 0.9
 EFFECT_SHRINK = 0.75  # development effects are shrunk before sizing (winner's curse)
 NEXT_BLOCK_MAX = 10_000
 MIN_CONFIRMATION_N = 500
+CONFIRMATION_FIRST_SEED = 100300000
+CONFIRMATION_N = 1000
 
 
 def validate_grid(rows: pd.DataFrame) -> None:
@@ -70,6 +72,28 @@ def validate_grid(rows: pd.DataFrame) -> None:
     counts = rows.groupby("seed").size()
     if not (counts == per_seed).all():
         raise ValueError(f"incomplete grid: every seed needs exactly {per_seed} rows")
+
+
+def validate_confirmation_seeds(rows: pd.DataFrame) -> None:
+    """Confirmation needs exactly seeds 100300000-100300999 (n = 1000): no more, none missing."""
+    expected = set(range(CONFIRMATION_FIRST_SEED, CONFIRMATION_FIRST_SEED + CONFIRMATION_N))
+    observed = {int(x) for x in rows.seed.unique()}
+    if observed != expected:
+        missing, extra = sorted(expected - observed), sorted(observed - expected)
+        raise ValueError(
+            f"confirmation requires exactly seeds {CONFIRMATION_FIRST_SEED}.."
+            f"{CONFIRMATION_FIRST_SEED + CONFIRMATION_N - 1}: "
+            f"{len(missing)} missing, {len(extra)} extra"
+        )
+
+
+def is_confirmation(rows: pd.DataFrame, manifest: dict, forced: bool) -> bool:
+    in_block = bool(
+        (
+            (rows.seed >= CONFIRMATION_FIRST_SEED) & (rows.seed < CONFIRMATION_FIRST_SEED + 10_000)
+        ).any()
+    )
+    return forced or manifest.get("block") == "confirmation" or in_block
 
 
 def wide_utility(rows: pd.DataFrame, value: str = UTILITY) -> pd.DataFrame:
@@ -124,24 +148,40 @@ def simultaneous_band(matrix: np.ndarray) -> pd.DataFrame:
 
 
 def crossover(band: pd.DataFrame) -> dict[str, object]:
-    """Grid-bracketed crossover of D = revert - promote (positive: revert better)."""
-    revert_side = band.dose[band.band_low > 0].tolist()
-    promote_side = band.dose[band.band_high < 0].tolist()
+    """Grid-bracketed crossover of D = revert - promote (positive: revert better).
+
+    Bracket = (last dose below the threshold whose simultaneous band is entirely on the revert
+    side, first dose whose band is entirely on the promote side]. If those doses are not
+    adjacent on the grid, the wider interval is reported and the doses between them are listed
+    as unresolved (neither side established). No crossover is claimed without a resolved
+    revert-side dose below the first promote-side dose.
+    """
+    doses = [float(d) for d in band.dose]
+    revert_side = [float(d) for d in band.dose[band.band_low > 0]]
+    promote_side = [float(d) for d in band.dose[band.band_high < 0]]
+    unresolved_all = [d for d in doses if d not in revert_side and d not in promote_side]
     threshold = None
-    bracket = None
+    lower_resolved = None
     for dose in promote_side:
-        if any(r < dose for r in revert_side):
-            threshold = float(dose)
-            lower = [d for d in DOSES if d < dose]
-            bracket = (float(lower[-1]) if lower else None, threshold)
+        below = [r for r in revert_side if r < dose]
+        if below:
+            threshold, lower_resolved = dose, max(below)
             break
+    between = (
+        [d for d in doses if lower_resolved < d < threshold]
+        if threshold is not None and lower_resolved is not None
+        else []
+    )
     point_zero = [float(d) for d, m in zip(band.dose, band["mean"], strict=True) if m < 0]
     return {
-        "revert_side_doses": [float(d) for d in revert_side],
-        "promote_side_doses": [float(d) for d in promote_side],
+        "revert_side_doses": revert_side,
+        "promote_side_doses": promote_side,
+        "unresolved_doses": unresolved_all,
         "crossover_found": threshold is not None,
         "threshold_dose": threshold,
-        "bracket": bracket,
+        "bracket": (lower_resolved, threshold) if threshold is not None else None,
+        "bracket_adjacent": threshold is not None and not between,
+        "unresolved_doses_inside_bracket": between,
         "first_dose_with_negative_point_estimate": point_zero[0] if point_zero else None,
     }
 
@@ -149,8 +189,9 @@ def crossover(band: pd.DataFrame) -> dict[str, object]:
 def promotion_supported_doses(tables: dict[str, pd.DataFrame]) -> list[float]:
     """Promote-side doses (D band upper < 0) where promotion beats `continue` (band lower > 0).
 
-    Doses on the promote side without this property are abstention-only: promote wins because
-    reverting loses, not because a promoted candidate adds utility.
+    Other promote-side doses are reported as "promotion benefit not detected": an inconclusive
+    band does not establish that promotion adds nothing, and no negligible-effect margin is
+    registered, so no "abstention-only" claim is made.
     """
     d = tables["D_revert_minus_promote"]
     pb = tables["promotion_component_promote_vs_continue"]
@@ -289,12 +330,15 @@ def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--rows", type=Path, required=True)
     parser.add_argument("--out", type=Path, required=True)
+    parser.add_argument("--confirmation", action="store_true")
     args = parser.parse_args()
     rows = pd.read_parquet(args.rows)
     manifest_path = args.rows.parent / "manifest.json"
     manifest = (
         json.loads(manifest_path.read_text(encoding="utf-8")) if manifest_path.is_file() else {}
     )
+    if is_confirmation(rows, manifest, args.confirmation):
+        validate_confirmation_seeds(rows)
     wide = wide_utility(rows)  # validates the grid
     curves = stratum_curves(wide)
     tables = dose_tables(curves)

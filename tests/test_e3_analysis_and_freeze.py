@@ -184,3 +184,72 @@ def test_promotion_supported_doses_separate_abstention_from_promotion() -> None:
 
 def rng_zero(rows: pd.DataFrame) -> pd.Series:
     return pd.Series(0.0, index=rows.index[rows.response == "certify_promote"])
+
+
+def _band(low_high: list[tuple[float, float]]) -> pd.DataFrame:
+    low = [lo for lo, _ in low_high]
+    high = [hi for _, hi in low_high]
+    return pd.DataFrame(
+        {
+            "dose": an.DOSES,
+            "mean": [(lo + hi) / 2 for lo, hi in low_high],
+            "sd": 1.0,
+            "se": 0.1,
+            "crit": 3.0,
+            "band_low": low,
+            "band_high": high,
+        }
+    )
+
+
+def test_bracket_uses_last_resolved_revert_dose_and_lists_unresolved() -> None:
+    # revert side at 0, 0.15; unresolved at 0.3 and 0.45; promote side from 0.6
+    bands = [(5, 9), (5, 9), (-2, 4), (-3, 3), (-9, -5), (-9, -5), (-9, -5)]
+    cross = an.crossover(_band(bands))
+    assert cross["crossover_found"]
+    assert cross["bracket"] == (0.15, 0.6)  # not (0.45, 0.6]: 0.45 is unresolved
+    assert cross["bracket_adjacent"] is False
+    assert cross["unresolved_doses_inside_bracket"] == [0.3, 0.45]
+    assert cross["unresolved_doses"] == [0.3, 0.45]
+
+
+def test_adjacent_bracket_and_no_resolved_revert_side() -> None:
+    adjacent = an.crossover(_band([(5, 9)] * 4 + [(-9, -5)] * 3))
+    assert adjacent["bracket"] == (0.45, 0.6) and adjacent["bracket_adjacent"]
+    none = an.crossover(_band([(-1, 4)] * 4 + [(-9, -5)] * 3))  # no dose resolved on revert side
+    assert not none["crossover_found"] and none["bracket"] is None
+
+
+def test_confirmation_seed_set_must_be_exact() -> None:
+    first = an.CONFIRMATION_FIRST_SEED
+    exact = pd.DataFrame({"seed": range(first, first + an.CONFIRMATION_N)})
+    an.validate_confirmation_seeds(exact)
+    with pytest.raises(ValueError, match="1 missing"):
+        an.validate_confirmation_seeds(exact.iloc[:-1])
+    with pytest.raises(ValueError, match="1 extra"):
+        an.validate_confirmation_seeds(pd.concat([exact, pd.DataFrame({"seed": [first + 5000]})]))
+    with pytest.raises(ValueError, match="extra"):
+        an.validate_confirmation_seeds(pd.DataFrame({"seed": range(first + 1, first + 1001)}))
+    assert an.is_confirmation(exact, {}, False)
+    assert not an.is_confirmation(pd.DataFrame({"seed": [100200200]}), {"block": "dev"}, False)
+    assert an.is_confirmation(pd.DataFrame({"seed": [1]}), {"block": "confirmation"}, False)
+
+
+def test_runner_enforces_confirmation_n_and_seed_start(monkeypatch) -> None:
+    for argv in (
+        ["--block", "confirmation", "--n-per-cell", "999", "--out", "x"],
+        [
+            "--block",
+            "confirmation",
+            "--n-per-cell",
+            "1000",
+            "--first-seed-index",
+            "1",
+            "--out",
+            "x",
+        ],
+    ):
+        monkeypatch.setattr(sys, "argv", ["run", *argv])
+        with pytest.raises(SystemExit, match="requires --n-per-cell 1000"):
+            runner.main()
+    assert runner.CONFIRMATION_N == an.CONFIRMATION_N == 1000

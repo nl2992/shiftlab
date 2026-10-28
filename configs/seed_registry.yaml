@@ -1607,9 +1607,9 @@ studies:
 - id: e2_dev_smoke_and_power
   start: 100000000
   end: 100001999
-  source: docs/research_refinement_v1/stage1/ (allocated 2026-10-28 via shiftlab.seed_registry.allocate)
-  status: reserved_unused
-  used_by: []
+  source: docs/research_refinement_v1/stage1/P1_E2_protocol.md (allocated 2026-10-28)
+  status: development
+  used_by: [e2_dev]
   derivation: allocated
   note: 'E2 development: smoke and McNemar power from discordance (P1)'
 - id: e2_confirmation

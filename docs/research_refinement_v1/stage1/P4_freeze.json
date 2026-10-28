@@ -1,0 +1,27 @@
+{
+  "experiment": "P4",
+  "frozen_utc": "2026-10-28T20:03:23Z",
+  "git_head": "28229f884c73a9a51980f660a865e39901e202b7",
+  "hash_rule": "sha256 over CRLF->LF normalised bytes",
+  "protocol": "docs/research_refinement_v1/stage1/P4_benchmark_value_gate.md",
+  "seed_blocks": [
+    "R5 blocks to be allocated from the registry before the run"
+  ],
+  "sha256": {
+    "docs/research_refinement_v1/stage1/P4_benchmark_value_gate.md": "cb27206ab5d8119925f12ae1bc429e6e7c3fcf99bbc8430adad04e0ddc5ee78b",
+    "src/shiftlab/contract/__init__.py": "6fc989bf18fd67f723c32c85cc1de0a947a8f22a7ea71d6758326285bff3f668",
+    "src/shiftlab/contract/interface.py": "3faf1d1b15176e9eaf8802e48598bc57a804515f664aab777c11e78cdfaf194e",
+    "src/shiftlab/contract/harness.py": "5e3cf43561a9a9879fdb009996eaa5c11397e6162a4708d4d7e4b15f11bc5026",
+    "src/shiftlab/contract/baselines.py": "78e112f8729b46357ca599af972605d451231ca5f2312c4d55dc0203fc261282",
+    "src/shiftlab/contract/isolation.py": "cb85ea150b436f3d5ea7dd964b3be51a4507c5ad51bd559566a571a6caea30e3",
+    "src/shiftlab/contract/sandbox.py": "b8c963426c1cd0c4752b1c84de582fe841b862932a9b0021bfd4c03f26affd06",
+    "tests/test_contract.py": "ff74db66ff1a6e27139f81e93c17693cd85de57c31d497fe09a4b391a2980c80",
+    "tests/test_contract_sandbox.py": "84b21d9aeaec2b0912439978a5fcf27d33d8ddc31a1eb3b2a46c20495ed024b2",
+    "docs/research_refinement_v1/stage1/CONTRACT_README.md": "7169b8e69fbf4197860a821faf9f08063ac354c91809f74dd5d3b2f05358a772",
+    "src/shiftlab/dive/gated_monitor_comparison.py": "c4e0281f4f10f1444a43801c52ffb3441ba35224a84d64428e9091d41e823f82",
+    "src/shiftlab/dive/eprocess.py": "a9355d3883118ed32039feafe0db0b01fd8824dfbaed2e3d70e6710964565d41",
+    "src/shiftlab/dive/e2_acquisition_pacing.py": "00a4e8b27ad690c76721b556e6edae2b52eb90bc17bd05dc6c99283d734804d8",
+    "configs/seed_registry.yaml": "53917b90bf1bc1901222efef82d25b0d43e19e9fd0f983285288c3f54c382090"
+  },
+  "note": "Codex round 4: FREEZE-WITH-NOTES (procedural claim; notes applied). Power floor F=0.25."
+}

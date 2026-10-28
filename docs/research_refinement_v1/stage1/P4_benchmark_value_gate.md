@@ -54,8 +54,10 @@ class Monitor(Protocol):
   drawing the coin and refuses a value outside `[0, 1]`.
 - It charges the price and refuses a query that would overdraw the reserve. A refused query counts as
   unqueried, and the refusal is recorded.
-- It passes `Feedback` only for queried events, after the coin. On agreements the paired cost is
-  known to be zero, so the harness passes `Feedback(paired_cost=0.0)` without charging.
+- It passes `Feedback` only for queried events, after the coin, and charges **every** query,
+  agreements included. A queried agreement returns `Feedback(paired_cost=0.0)`. A monitor that
+  exploits the free disagreement flag returns `q = 0` on agreements; one that does not (uniform HT)
+  pays for agreement labels. This difference is what H-B1a measures.
 - It records `log_e_value` after each `observe` and declares an alarm at `log_e_value >= log(1/alpha)`.
 - **Oracle quantities never cross the interface.** These are the evaluator's expected costs, onset
   times and scenario labels.

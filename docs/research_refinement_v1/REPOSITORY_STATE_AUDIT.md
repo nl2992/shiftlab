@@ -60,8 +60,8 @@ Phase A2 must treat these as the most recent evidence.
 ## Tooling for this refinement
 
 - **ARIS:** commit `18bceb3`, installed as described in `LOOP_CONTROL.md`.
-- **Independent cross-model reviewer:** Codex CLI is signed in but over its usage limit until
-  2026-11-02 01:08. **No independent review has taken place yet.**
+- **Independent cross-model reviewer:** Codex CLI (GPT-6) was restored and smoke-tested on 2026-10-27, after an earlier usage limit (originally until
+  2026-11-02 01:08). **No independent review has taken place yet.**
 - **PaperBanana:** no working configuration in the pinned environment, as of the phase report.
 
 ## Implications for the refinement

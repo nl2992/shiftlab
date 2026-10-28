@@ -31,8 +31,8 @@ Historical audit files elsewhere in the repository are never overwritten.
 | Item | Status |
 |---|---|
 | ARIS | Cloned at `~/aris_repo` (commit `18bceb3`, 2026-10-24). 16 skills copied to `~/.claude/skills`: research-lit, novelty-check, research-review, research-refine, research-refine-pipeline, experiment-plan, kill-argument, result-to-claim, proof-checker, citation-audit, experiment-audit, paper-claim-audit, arxiv, semantic-scholar, openalex, shared-references. Scanned for risky instructions before install. Skills installed mid-session may not load until a restart, so read `~/.claude/skills/<name>/SKILL.md` directly and follow it. |
-| Codex reviewer (independent, cross-model) | Binary `~/.codex/plugins/.plugin-appserver/codex.exe` (codex-cli 0.163.0-alpha.10.2) is signed in, but its **usage limit is hit until 2026-11-02 01:08**. The ARIS MCP bridge (`~/aris_repo/mcp-servers/codex-exec/server.py`) is **not registered**: no `claude` CLI on PATH, and `python3` is the Store stub, so use `C:/Users/nigel/AppData/Local/Programs/Python/Python313/python.exe` and `CODEX_BIN=<binary above>`. Each review tick retries `codex exec --sandbox read-only` once. If the limit still blocks it, run the Claude persona fallback below and record the review as **not independent**. |
-| Persona fallback | Four Claude subagents (statistical theorist, prior-art specialist, empirical ML reviewer, skeptical PC member), each with fresh context. Label the output "same-family review, not an independent cross-model review". Queue a Codex re-review for after 2026-11-02. |
+| Codex reviewer (independent, cross-model) | Binary `~/.codex/plugins/.plugin-appserver/codex.exe` (codex-cli 0.163.0-alpha.10.2) is signed in. **Available again from 2026-10-27 (smoke test returned `REVIEWER_OK GPT-6`; the session header shows model `gpt-6.1-sol`).** An earlier usage limit blocked it until the user restored access. The ARIS MCP bridge (`~/aris_repo/mcp-servers/codex-exec/server.py`) is **not registered**: no `claude` CLI on PATH, and `python3` is the Store stub, so use `C:/Users/nigel/AppData/Local/Programs/Python/Python313/python.exe` and `CODEX_BIN=<binary above>`. Run reviews with `codex exec --sandbox read-only` (use `codex exec resume <session id>` to continue a review thread). If it fails, retry once, then run the Claude persona fallback below and record the review as **not independent**. |
+| Persona fallback | Four Claude subagents (statistical theorist, prior-art specialist, empirical ML reviewer, skeptical PC member), each with fresh context. Label the output "same-family review, not an independent cross-model review". Queue a Codex re-review once access returns. |
 
 ## Checklist (one or more steps per tick)
 
@@ -84,3 +84,4 @@ score.
 |---|---|---|---|
 | 0 | 2026-10-27 | Setup | ARIS installed; Codex limit hit until 2026-11-02; cron job `1bdae48e` (`7-59/20 * * * *`; replaced `99821f78` to add the commit-and-merge rule) |
 | 1 | 2026-10-27 | A1 drafted | No GitLab remote; 42 local commits unpublished; full pytest 1,869 passed, 1 skipped |
+| 1b | 2026-10-27 | Tooling | Codex reviewer restored and smoke-tested (`REVIEWER_OK GPT-6`) |

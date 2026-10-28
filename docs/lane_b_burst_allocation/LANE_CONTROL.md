@@ -103,3 +103,4 @@ Both parts are research targets, not results.
 - **Other datasets.** Gas sensor, NOAA and Monash are DEVELOPMENT-ONLY; elec2, FRED and Folktables are INELIGIBLE.
 - **Cross-cutting.** Labels are free everywhere, so the budget, the switching cost and the burst structure are imposed on every dataset.
 - **Next:** R1, a frozen OPSD task spec with a declared clock assumption and a holdout declaration. |
+| 8 | 2026-10-28 | R1 | The user granted data-fetch permission ("feel free to fetch data… we already have loads locally"); recorded in memory, with local data still first. Fetched ETHUSDT 1h klines 2025-02 to 2026-09 from data.binance.vision into `<main>/data/raw/binance/` (20 files, publisher checksums verified, receipts in the existing format; gitignored). R1 frozen task specs (OPSD primary, Binance secondary) started by Sonnet, specs to be written before any outcome inspection. |

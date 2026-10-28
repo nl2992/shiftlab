@@ -88,3 +88,12 @@ Both parts are research targets, not results.
 - **Geng correction.** Greedy optimality there applies to replenishing rights only.
 
 **The B1 claim as drafted is withdrawn** (W-B1). **New target (pivot within acquisition):** a minimax budget–duration–delay frontier for hard-budget screening across multiple indistinguishable finite harmful windows with delayed labels, with a lower bound over ALL adaptive policies and a matching implementable rule, benchmarked against the strongest multistage-screening composition. **Theory first; no simulation sweep until the theorem is frozen.** Stop if ordinary screening plus a capped detector attains the frontier (keep the two-window result as a note). |
+| 6 | 2026-10-28 | reconcile | **The pivot target duplicates Lane A; stopped.**
+- **Already done in Lane A.** `switching_budget_delay_lower_bound_v1.md` already proves a finite-horizon obstruction in B, d, pulse duration and global false promotion over adaptive randomised query policies. Lane A has also audited Chandar–Tchamkerten scout/confirm (Lemma 1), Geng finite rights, Ryabchenko fixed-delay capacity scheduling and DAL restarts. Lane B's minimax screening frontier would repeat that work, so per the coordination rule the algorithm search in Lane B is closed: B1 is withdrawn and the pivot is a duplicate.
+- **New Lane B mission (non-duplicative, unblocks Lane A's G4).** A real-data testbed with *verifiable* observation timing on local datasets that Lane A's eligibility audit (`switching_real_data_eligibility_v1.md`: CRSP, Criteo, CriteoPrivateAds, OBD, WILDS) did not cover: **Binance** (exact trade timestamps, known return-horizon label delay, published fee schedule as switching cost, finance motivation), plus OPSD, NOAA, FRED, elec2, gas_sensor and Monash.
+- **New gates.**
+  - **R0:** metadata-only eligibility audit against Lane A's contract: paired common-label outcome, verified availability clocks, chronological untouched windows, cost interpretation, licence, exposure. No values go in docs.
+  - **R1:** a frozen task spec for the best candidate, with a timing audit.
+  - **R2:** an adapter to the contract interface and a smoke run with existing baselines.
+- **Exit:** if no dataset passes R0, record the precise missing information and stop the lane.
+- The Chandar–Tchamkerten reader already running is allowed to finish (no new work started). |

@@ -41,6 +41,7 @@ VARIANT_RHO = {"A_agree_in_eprocess": 0.05, "B_disagree_only": 0.05, "B2_disagre
 SEED_BASE = 100600000
 CELL_STRIDE = 10000
 NULL_OFFSET = 5000
+MIX_STEP = 25
 BURST_RUN = 3  # a disagreement is burst-type when the current consecutive run is >= 3
 SPRT_DELTA = 0.2
 
@@ -102,6 +103,8 @@ def mean_path(scenario: str) -> np.ndarray:
     mu = np.full(T, MU_BURST_HARMLESS)
     if scenario == "H":
         mu[S0:] = MU_HARM
+    elif scenario == "Htrans":  # corrective check: harm only during the burst
+        mu[S0 : S0 + L] = MU_HARM
     elif scenario == "N":
         mu[S0 + L :] = MU_HARM
     elif scenario == "null":
@@ -123,6 +126,7 @@ def simulate(
     variant: str,
     record: bool = False,
     restart_rows: np.ndarray | None = None,
+    monitor: str = "single",
 ):
     """Run one rule on a stack of rows. mu has shape (rows, T) (mean of Z per row/time)."""
     rows = d_mat.shape[0]
@@ -147,8 +151,18 @@ def simulate(
     p0, p1 = p_of_mean(EPS), p_of_mean(MU_HARM)
     l_pos, l_neg = np.log(p1 / p0), np.log((1 - p1) / (1 - p0))
     lo = np.log(SPRT_DELTA / (1 - SPRT_DELTA))
+    mixture = monitor == "mixture"
+    if mixture:
+        n_starts = len(range(0, T, MIX_STEP))
+        lcum = np.zeros((rows, len(STAKES)))
+        log_a = np.full((rows, len(STAKES)), -np.inf)
+        started = 0
     for t in range(T):
         d_t = d_mat[:, t]
+        if mixture and t % MIX_STEP == 0:
+            # component starting at t: wealth_k(t') = exp(lcum(t') - lcum(t)), weight 1/n_starts
+            log_a = np.logaddexp(log_a, -np.log(n_starts) - lcum)
+            started += 1
         if restart_rows is not None and t == S0 + L:
             logw[restart_rows] = 0.0  # ORACLE diagnostic only: wipes burst debt in flagged rows
         # labels that arrived strictly before t: event s = t - delay - 1
@@ -200,9 +214,18 @@ def simulate(
         # q_t = 0 events are a predictable skip (stake zero, factor one); they carry no label.
         upd = np.where(d_t, q > 0, variant.startswith("A_"))
         step = np.log1p(STAKES[None, :] * (v / bound)[:, None])
-        logw += np.where(upd[:, None], step, 0.0)
-        mx = logw.max(axis=1)
-        log_e = mx + np.log(np.exp(logw - mx[:, None]).sum(axis=1)) - log_k
+        step = np.where(upd[:, None], step, 0.0)
+        logw += step
+        if mixture:
+            lcum += step
+            z = lcum + log_a
+            mx = z.max(axis=1)
+            log_e = mx + np.log(np.exp(z - mx[:, None]).sum(axis=1)) - log_k
+            if started < n_starts:  # unstarted components are constant at one
+                log_e = np.logaddexp(log_e, np.log((n_starts - started) / n_starts))
+        else:
+            mx = logw.max(axis=1)
+            log_e = mx + np.log(np.exp(logw - mx[:, None]).sum(axis=1)) - log_k
         hit = (log_e[:, None] >= thr[None, :]) & ~done & (t + delay < T)
         if hit.any():
             alarm_t[hit] = t + delay
@@ -360,6 +383,136 @@ def make_tables(all_rows):
     return "\n".join(lines)
 
 
+# ---------------------------------------------------------------------------
+# Registered corrective check (LANE_CONTROL tick 3): transient harm in H and the
+# all-onset e-detector mixture (starts every MIX_STEP events) as the shared monitor.
+# Seeds: old stride m = j % 8 of the development block, gap [1000, 5000) of that stride
+# (the first check only used offsets [0, 1000) and [5000, 6000) of strides 0-9, and
+# the K_alpha reference at 100690000-100692999), sub-slot j // 8 of width 2000:
+# H/N rows at base + [0, 1000), null rows at base + 1000 + [0, 1000).
+# ---------------------------------------------------------------------------
+CORR_RHOS = (0.05, 0.2)
+
+
+def corrective_base(rho_idx: int, delay_idx: int, budget_idx: int) -> int:
+    j = (rho_idx * 2 + delay_idx) * 4 + budget_idx
+    return SEED_BASE + (j % 8) * CELL_STRIDE + 1000 + (j // 8) * 2000
+
+
+def run_cell_corrective(args):
+    rho, delay, budget, n, n_null = args
+    base = corrective_base(CORR_RHOS.index(rho), DELAYS.index(delay), BUDGETS.index(budget))
+    d1, uz1, ug1 = draw_world(base + np.arange(n), rho)
+    d0, uz0, ug0 = draw_world(base + 1000 + np.arange(n_null), rho)
+    d_mat = np.concatenate([d1, d1, d0])
+    uz = np.concatenate([uz1, uz1, uz0])
+    ug = np.concatenate([ug1, ug1, ug0])
+    mu = np.concatenate(
+        [
+            np.broadcast_to(mean_path("Htrans"), (n, T)),
+            np.broadcast_to(mean_path("N"), (n, T)),
+            np.broadcast_to(mean_path("null"), (n_null, T)),
+        ]
+    )
+    out = []
+    for cfg in oblivious_configs(budget) + responsive_configs():
+        res = simulate(
+            cfg,
+            d_mat,
+            uz,
+            ug,
+            mu,
+            budget=budget,
+            delay=delay,
+            variant="B_disagree_only",
+            monitor="mixture",
+        )
+        for r in summarise(res, n, n_null):
+            fam = "oblivious" if cfg.rule in ("fixed", "burst", "paced") else cfg.rule[:2]
+            out.append(
+                {"rho": rho, "d": delay, "B": budget, "family": fam, "rule": cfg.label(), **r}
+            )
+    return out
+
+
+def corrective_verdict(rows):
+    """Pre-registered: separation FAILS if at every tight B some oblivious rule's min(P_H,P_N)
+    is within 0.05 of (or above) the best responsive rule's min(P_H,P_N)."""
+
+    def mp(r):
+        return min(r["P_H"], r["P_N"])
+
+    lines = []
+    for rho in CORR_RHOS:
+        for d in DELAYS:
+            for alpha in ALPHAS:
+                gaps = []
+                for budget in (40, 60, 80):
+                    s = [
+                        r
+                        for r in rows
+                        if r["rho"] == rho
+                        and r["d"] == d
+                        and r["alpha"] == alpha
+                        and r["B"] == budget
+                    ]
+                    bo = max((r for r in s if r["family"] == "oblivious"), key=mp)
+                    br = max((r for r in s if r["family"] in ("r1", "r2")), key=mp)
+                    gaps.append((budget, mp(bo), bo["rule"], mp(br), br["rule"]))
+                fails = all(go >= gr - 0.05 for _, go, _, gr, _ in gaps)
+                lines.append((rho, d, alpha, gaps, fails))
+    return lines
+
+
+def main_corrective(n: int, n_null: int):
+    t0 = time.time()
+    jobs = [(rho, d, b, n, n_null) for rho in CORR_RHOS for d in DELAYS for b in BUDGETS]
+    with Pool(6) as pool:
+        results = pool.map(run_cell_corrective, jobs)
+    rows = [r for res in results for r in res]
+    with open(DOCS / "B1_corrective_check_grid.csv", "w", newline="", encoding="utf-8") as f:
+        w = csv.DictWriter(f, fieldnames=list(rows[0].keys()))
+        w.writeheader()
+        for r in rows:
+            w.writerow({k: (f"{v:.5g}" if isinstance(v, float) else v) for k, v in r.items()})
+    verdict = corrective_verdict(rows)
+    head = [f"<!-- AUTO n={n} n_null={n_null} runtime {time.time() - t0:.0f}s -->"]
+    head.append(
+        "| rho | d | alpha | B | best obl min P (rule) | best responsive min P (rule) | gap |"
+    )
+    head.append("|---|---|---|---|---|---|---|")
+    for rho, d, alpha, gaps, fails in verdict:
+        for budget, go, ro, gr, rr in gaps:
+            head.append(
+                f"| {rho} | {d} | {alpha} | {budget} | {go:.3f} ({ro}) | {gr:.3f} ({rr}) | "
+                f"{gr - go:+.3f} |"
+            )
+        verdict_txt = "separation FAILS" if fails else "separation NOT refuted"
+        head.append(f"| {rho} | {d} | {alpha} | all tight B | | | {verdict_txt} |")
+    out = list(head)
+    out.append("\n### Full tables (every rule)\n")
+    for rho in CORR_RHOS:
+        for d in DELAYS:
+            for alpha in ALPHAS:
+                out.append(f"\n#### rho={rho}, d={d}, alpha={alpha}\n")
+                out.append(
+                    "| B | rule | min P | P_H | P_N | delay_H | delay_N | labels_H | labels_N | "
+                    "null FA | exact 95% upper |"
+                )
+                out.append("|---|---|---|---|---|---|---|---|---|---|---|")
+                for r in rows:
+                    if (r["rho"], r["d"], r["alpha"]) == (rho, d, alpha):
+                        out.append(
+                            f"| {r['B']} | {r['rule']} | {min(r['P_H'], r['P_N']):.3f} | "
+                            f"{r['P_H']:.3f} | {r['P_N']:.3f} | {r['delay_H']:.0f} | "
+                            f"{r['delay_N']:.0f} | {r['labels_H']:.0f} | {r['labels_N']:.0f} | "
+                            f"{r['fa_count']}/{r['n_null']} | {r['fa_upper95']:.4f} |"
+                        )
+    (DOCS / "B1_corrective_check_tables.md").write_text("\n".join(out), encoding="utf-8")
+    print("\n".join(head))
+    print("runtime", time.time() - t0)
+
+
 def main():
     n = int(sys.argv[1]) if len(sys.argv) > 1 else 1000
     n_null = int(sys.argv[2]) if len(sys.argv) > 2 else 1000
@@ -433,4 +586,10 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    if len(sys.argv) > 1 and sys.argv[1] == "corrective":
+        main_corrective(
+            int(sys.argv[2]) if len(sys.argv) > 2 else 1000,
+            int(sys.argv[3]) if len(sys.argv) > 3 else 1000,
+        )
+    else:
+        main()

@@ -1660,6 +1660,14 @@ studies:
   used_by: []
   derivation: allocated
   note: 'Lane B toy Bernoulli separation checks and B3 development; never confirmatory'
+- id: lane_b_toy_first_check_overflow
+  start: 100700000
+  end: 100830999
+  source: scripts/lane_b/separation_check.py (first B1 check, seed map 100600000+k*10000, k<=23)
+  status: development
+  used_by: [lane_b B1 first numerical check]
+  derivation: disclosed_overrun
+  note: 'found 2026-10-28: the first B1 check ran past the registered lane_b_toy_development end; recorded here, do not reuse'
 excluded_scalar_seeds:
 - {output: shiftguard_unified/real_data_development/gas_sensor_candidates_v1, seed: 20261026, reason: 'dataset split, encoder, cross-fit or bootstrap seed on real data, not a stream block'}
 - {output: shiftguard_unified/real_data_development/gas_sensor_candidates_v2, seed: 20261026, reason: 'dataset split, encoder, cross-fit or bootstrap seed on real data, not a stream block'}

@@ -93,8 +93,8 @@ environment, not by lint:
   hashed by the lead before the run; plus this in-process guard. It is not an OS sandbox:
   CPython does not audit module-attribute writes, cell contents or `dict` item assignment, so a
   determined adapter could tamper with in-process state, and a native-extension escape is out of
-  scope. Full isolation therefore additionally requires the **implementer session to be
-  given only the packet** (procedural). The session identifier and the packet manifest are
+  scope. The claim therefore rests on **procedural separation under this threat model**: the
+  implementer session is given only the packet. The session identifier and the packet manifest are
   recorded as provenance. A tested malicious adapter (`import shiftlab`, reading
   `../../src/...`, absolute paths to evaluator files, subprocess, socket, ctypes) fails inside the
   sandbox (`tests/test_contract_sandbox.py`).
@@ -128,11 +128,20 @@ not pass):**
 
 **Who implements it:** a separate agent session, given only:
 - this document;
-- the contract module's source and docstrings;
+- the standalone `interface.py` and its docstrings (as copied into the packet), not the harness or baseline source;
 - the published paper.
 
 It must not read `src/shiftlab/dive/comparecast_gamma_mixture.py` or any other repository
-implementation. Its transcript or session identifier is recorded as provenance.
+implementation. Provenance record (required before any claim): a fresh session with no
+inherited evaluator context; the packet manifest and paper version supplied; any later
+assistance given; the preserved transcript or an auditable access record; and the lead's review
+sign-off tied to the SHA-256 of the adapter that was executed.
+
+**The only claim this gate can support** (and only after it passes): "A separate cooperative
+agent implemented the adapter from the public packet and the published paper, without
+consulting the evaluator implementation or private evaluation artifacts; at run time its inputs
+were restricted to the public interface." Freezing this protocol approves the procedure; it does
+not by itself support the claim.
 
 ## 3. Reference suite (all on fresh registry seeds; no exposed test windows)
 

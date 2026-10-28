@@ -118,3 +118,4 @@ Both parts are research targets, not results.
 - **Amendment A-B2:** Binance Z is now the position-return difference only, with fees moved to the switching channel (agreement means Z=0).
 - **Disclosed:** the OPSD ridge penalty sits at the grid edge.
 - **Next:** R3, freeze both tasks (protocol plus freeze record, with the delay-aware harness noted), Codex methodology review, then hand off to Lane A via the coordination note. |
+| 12 | 2026-10-28 | R2 | Waiting: the A-B2 implementation (Binance Z = position-return difference) is still running, so no duplicate was started. Lane A's newest checkpoints (six-round oracle certificate; belief-grid FSC not a novelty candidate) do not overlap; there are no OPSD or Binance mentions there. Note: the global stop rule (12 ticks without passing B1) applied to the withdrawn algorithm search; the real-data mission has passed R0–R2 and continues to R3 freeze and handoff. |

@@ -195,3 +195,25 @@ work.
 The target is **NeurIPS Datasets & Benchmarks or TMLR**. ICML main track is unlikely; Codex scored
 it 3/10 before revision. **No new-method claim. The G4 / Paper 3 pre-screen stays separately gated
 and is expected to stop** (tick-6 correction).
+
+## Addendum (2026-10-28): E4 data-pull plan, approved for planning only
+
+**User decision (2026-10-28):** plan the post-freeze EIA pull for around 2026-12-08. **Download
+nothing until the user confirms the exact method and size.**
+
+Both routes already exist in `src/shiftlab/data/real/eia.py`:
+
+| Route | How | What it needs from the user | Expected size | Notes |
+|---|---|---|---|---|
+| **A. EIA API v2 (recommended)** | `acquire()` → `https://api.eia.gov/v2/electricity/rto/region-data/data/`, facets `respondent ∈ {CISO, ERCO}`, the WP4 series types, hourly, from 2026-10-19T18:00Z (snapshot end) to the pull date | A free EIA API key placed in the `EIA_API_KEY` environment variable **by the user**; the agent never handles the key | Small: about 2 respondents × a few series × ~1,200 hours. Estimated well under 5 MB as JSON. **To be measured with one metadata-only request (no data rows) before confirmation.** | Paged requests. Store raw JSON under ignored `data/raw/eia_api/` with a SHA-256 receipt. |
+| B. Bulk snapshot | `_acquire_bulk()` → `https://www.eia.gov/opendata/bulk/EBA.zip` | Approval of a large download | About 700 MB (as for the previous snapshot) | Same extractor as the frozen bundle; heavier. |
+
+**Protocol constraints for E4 (to freeze before any pull):**
+- The evaluation window starts at the WP4 freeze, `2026-10-27T20:58:55Z`. Hours between the
+  snapshot end (2026-10-19T18:00Z) and the freeze may only be used as feature warm-up.
+- The frozen WP4 bundle (policies, tau, pacer, arms) is hash-checked against
+  `docs/eia_real_data_validity_freeze.json`. The LF/CRLF re-hash issue must be resolved first.
+- The 24-hour label delay is respected. Analyses (a)–(c) are as registered.
+- About 1,000 hours per respondent is the earliest useful check.
+- The result is the first **prospective** real-data evidence in the programme. It stays
+  descriptive unless the protocol pre-registers a confirmatory endpoint.

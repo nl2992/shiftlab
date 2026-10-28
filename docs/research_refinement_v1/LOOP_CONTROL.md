@@ -46,7 +46,7 @@ Historical audit files elsewhere in the repository are never overwritten.
       synthetic, CRSP, EIA, Upworthy, ShiftGuard).
 - [x] B1 `PRIOR_ART_AND_NOVELTY_MATRIX.md`, part 1: verify the existing bibliography
       (`docs/closest_prior_work.md`, `papers/shiftguard_unified/novelty_audit.md`, SOTA supplement).
-- [ ] B2 Part 2: fresh search through 2026-10-27 (ARIS research-lit and novelty-check;
+- [x] B2 Part 2: fresh search through 2026-10-27 (ARIS research-lit and novelty-check;
       arXiv/OpenReview/PMLR). Fill the full column set and run the "two existing algorithms" test on
       each claim.
 - [ ] C1 `COMPETING_RESEARCH_DIRECTIONS.md`: paths A–D (and others found), every assessment
@@ -87,3 +87,4 @@ score.
 | 1b | 2026-10-27 | Tooling | Codex reviewer restored and smoke-tested (`REVIEWER_OK GPT-6`) |
 | 2 | 2026-10-27 | A2 | Four Sonnet surveys plus lead synthesis and verification. Key: `q1_fallback` dominates integrated system on 3 profiles (undiscussed); no untouched real holdout; S2 seed-doc typo; 2 undisclosed seed overlaps; Target-Scout hash drift |
 | 3 | 2026-10-28 | B1 | Three Sonnet clusters plus lead identity checks. Combination test: Q1, Q2 generic and Q3a all YES (reject). Narrow survivors: bandit-feedback paired harm, persistence-aware post-switch certificate, validity through intervention, finite-budget burst allocation theorem. Uncited: Drift2Act, Zhang-Wu-Qian 2609.13714, Zhou-Li-Zhu 2610.10393; DISCERN missing from manuscript. Ledger M8 wording overstated. RADAR identity needs user |
+| 4 | 2026-10-28 | B2 | Full reads, G1-G4 search, PPRM resolved (no implementation error). **First independent review: Codex gpt-6.1-sol xhigh** (dossier `NOVELTY_DOSSIER_B2.md`). Verdicts: G4 PROCEED (only gap passing both tests), G2 narrow (prospective-certifiability theorem), G3 reject generic, G1 section only. No NO-GO reversal. RADAR identity confirmed by user. 9 Codex-added papers (2 lead-fetched) |

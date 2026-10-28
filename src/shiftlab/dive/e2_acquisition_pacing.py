@@ -37,11 +37,15 @@ ALPHA = 0.05
 NOISE = 0.3
 SEED_BLOCKS = {
     "dev": {"id": "e2_dev_smoke_and_power", "start": 100_000_000, "end": 100_001_999},
+    "grid": {"id": "e2_dev_grid", "start": 100_500_000, "end": 100_509_999},
     "confirmation": {"id": "e2_confirmation", "start": 100_100_000, "end": 100_149_999},
 }
-# Sub-block sizes. Primary cells come first, then the mechanism cells.
-SUB_BLOCK = {"dev": (250, 80), "confirmation": (6000, 2000)}
-ARMS = ("gated_ht_fixed", "gated_ht_paced", "uniform_ht", "uniform_ppi")
+# Development sub-block sizes (primary cells, then mechanism cells).
+SUB_BLOCK = {"dev": (250, 80)}
+GRID_WIDTH = 100  # seeds per grid-selection cell in the e2_dev_grid block
+CONFIRMATION_WIDTH = 3000  # seeds per confirmation cell (at most 16 cells)
+GATED_ARMS_E2 = ("gated_ht_fixed", "gated_ht_paced", "gated_ht_horizon")
+ARMS = (*GATED_ARMS_E2, "uniform_ht", "uniform_ppi")
 ENGINES = ("fixed08", "timans_grapa")  # fixed08 = default mixture; GRAPA is secondary
 WINDOW = 300  # fixed informative-label window after onset (mechanism check)
 
@@ -57,19 +61,25 @@ class CellSpec:
     kind: str  # "b1", "burst_i", "burst_ii", "burst_iii", "mech"
     budget_rate: float
     severity: float = 1.5
-    role: str = "primary"  # "primary" | "mech_train" | "mech_heldout"
+    role: str = "primary"  # "primary" | "mech_train" | "mech_heldout" | "grid"
     arms: tuple[str, ...] = ARMS
+    burst_len: int = 0  # 0 = the kind's default length
+    burst_frac: float = 0.0  # 0 = the kind's default fraction of events replaced by a burst
 
 
-PRIMARY_CELLS = (
+_MECH = ("gated_ht_fixed",)
+CORE_B1_CELLS = (
     CellSpec("b1_r0.02", "b1", 0.02),
     CellSpec("b1_r0.05", "b1", 0.05),
     CellSpec("b1_r0.20", "b1", 0.20),
+)
+# Original (ceiling) burst cells: development only. Confirmation uses locked grid cells.
+LEGACY_BURST_CELLS = (
     CellSpec("b2_i", "burst_i", 0.10),
     CellSpec("b2_ii", "burst_ii", 0.10),
     CellSpec("b2_iii", "burst_iii", 0.10),
 )
-_MECH = ("gated_ht_fixed",)
+PRIMARY_CELLS = CORE_B1_CELLS + LEGACY_BURST_CELLS
 MECH_CELLS = (
     CellSpec("mech_s0.8_r0.02", "mech", 0.02, 0.8, "mech_train", _MECH),
     CellSpec("mech_s0.8_r0.10", "mech", 0.10, 0.8, "mech_train", _MECH),
@@ -78,28 +88,70 @@ MECH_CELLS = (
     CellSpec("mech_s1.0_r0.05", "mech", 0.05, 1.0, "mech_heldout", _MECH),
     CellSpec("mech_s2.0_r0.05", "mech", 0.05, 2.0, "mech_heldout", _MECH),
 )
-ALL_CELLS = PRIMARY_CELLS + MECH_CELLS
-CELLS = {c.name: c for c in ALL_CELLS}
+ALL_CELLS = PRIMARY_CELLS + MECH_CELLS  # development-block cells
+
+# Grid for development-only selection (block e2_dev_grid): severity x budget x burst length.
+GRID_SEVERITIES = (0.15, 0.25, 0.4, 0.7)
+GRID_RATES = (0.02, 0.05, 0.10)
+GRID_LENGTHS = {"i": (200, 500), "iii": (150, 300)}
+GRID_II_RATES = (0.05, 0.10, 0.20)
+GRID_II_LENGTHS = (60, 120, 200, 300, 450)
 
 
-def cell_seed_range(block: str, cell: str) -> tuple[int, int]:
-    """Inclusive seed range of one cell: disjoint sub-blocks inside the registered block."""
-    primary, mech = SUB_BLOCK[block]
+def _grid() -> tuple[CellSpec, ...]:
+    cells = []
+    for tag in ("i", "iii"):
+        for sev in GRID_SEVERITIES:
+            for r in GRID_RATES:
+                for length in GRID_LENGTHS[tag]:
+                    name = f"g_{tag}_s{sev}_r{r}_L{length}"
+                    cells.append(
+                        CellSpec(name, f"burst_{tag}", r, sev, "grid", GATED_ARMS_E2, length, 0.5)
+                    )
+    for r in GRID_II_RATES:
+        for length in GRID_II_LENGTHS:
+            name = f"g_ii_s1.5_r{r}_L{length}"
+            cells.append(CellSpec(name, "burst_ii", r, 1.5, "grid", GATED_ARMS_E2, length, 0.8))
+    return tuple(cells)
+
+
+GRID_CELLS = _grid()
+CELLS = {c.name: c for c in (*ALL_CELLS, *GRID_CELLS)}
+CONFIRMATION_CORE = tuple(c.name for c in (*CORE_B1_CELLS, *MECH_CELLS))
+
+
+def cell_seed_range(block: str, cell: str, order: list[str] | None = None) -> tuple[int, int]:
+    """Inclusive seed range of one cell: disjoint sub-blocks inside the registered block.
+
+    ``order`` is required for the confirmation block: the ordered cell names (core cells, then the
+    locked grid cells) whose index fixes the sub-block.
+    """
     start = SEED_BLOCKS[block]["start"]
-    names = [c.name for c in ALL_CELLS]
-    k = names.index(cell)
-    if k < len(PRIMARY_CELLS):
-        lo, size = start + k * primary, primary
+    if block == "dev":
+        primary, mech = SUB_BLOCK["dev"]
+        names = [c.name for c in ALL_CELLS]
+        k = names.index(cell)
+        if k < len(PRIMARY_CELLS):
+            lo, size = start + k * primary, primary
+        else:
+            lo, size = start + len(PRIMARY_CELLS) * primary + (k - len(PRIMARY_CELLS)) * mech, mech
+    elif block == "grid":
+        k = [c.name for c in GRID_CELLS].index(cell)
+        lo, size = start + k * GRID_WIDTH, GRID_WIDTH
+    elif block == "confirmation":
+        if order is None or len(set(order)) != len(order) or len(order) > 16:
+            raise ValueError("confirmation needs an ordered list of at most 16 distinct cells")
+        lo, size = start + order.index(cell) * CONFIRMATION_WIDTH, CONFIRMATION_WIDTH
     else:
-        lo, size = start + len(PRIMARY_CELLS) * primary + (k - len(PRIMARY_CELLS)) * mech, mech
+        raise ValueError(f"unknown block {block!r}")
     hi = lo + size - 1
     if hi > SEED_BLOCKS[block]["end"]:
         raise RuntimeError("cell sub-block exceeds the registered seed block")
     return lo, hi
 
 
-def cell_seeds(block: str, cell: str, n: int) -> list[int]:
-    lo, hi = cell_seed_range(block, cell)
+def cell_seeds(block: str, cell: str, n: int, order: list[str] | None = None) -> list[int]:
+    lo, hi = cell_seed_range(block, cell, order)
     if not 0 < n <= hi - lo + 1:
         raise ValueError(f"n={n} exceeds sub-block capacity {hi - lo + 1} for {cell}")
     return list(range(lo, lo + n))  # the seed is used directly as the stream seed
@@ -138,42 +190,49 @@ class Stream:
     cell: str
 
 
-def _plan(kind: str, rng: np.random.Generator) -> list[tuple[int, int, str]]:
-    """Regimes in monitored coordinates: (start, end, label). Labels: harm, harm_burst, burst0.
+def _plan(cell: CellSpec, rng: np.random.Generator) -> list[tuple[int, int, str]]:
+    """Regimes in monitored coordinates: (start, end, label).
 
     ``harm``: boundary-local harm (w=1). ``harm_burst``: harm plus a disagreement burst of
     in-band events. ``harmless_burst``: in-band events confined to a narrow subband whose paired
-    cost mean is below epsilon.
+    cost mean is below epsilon (w=0). ``cell.burst_len`` is the burst length (class i, ii) or
+    the harm-window length (class iii).
     """
     h = HORIZON
+    kind = cell.kind
     if kind in {"b1", "mech"}:
         onset = int(rng.integers(300, 1501))
         return [(onset, h, "harm")]
     if kind == "burst_i":
+        length = cell.burst_len or 500
         onset = int(rng.integers(300, 1201))
         start = onset + int(rng.integers(100, 301))
         return [
             (onset, start, "harm"),
-            (start, start + 500, "harm_burst"),
-            (start + 500, h, "harm"),
+            (start, start + length, "harm_burst"),
+            (start + length, h, "harm"),
         ]
     if kind == "burst_ii":
+        length = cell.burst_len or 400
         b0 = int(rng.integers(100, 401))
-        onset = b0 + 400 + int(rng.integers(100, 501))
-        return [(b0, b0 + 400, "harmless_burst"), (onset, h, "harm")]
+        onset = b0 + length + int(rng.integers(100, 501))
+        return [(b0, b0 + length, "harmless_burst"), (onset, h, "harm")]
     if kind == "burst_iii":
+        length = cell.burst_len or 300
         onset = int(rng.integers(200, 601))
         out = []
         start = onset
         while start < h:
-            out.append((start, min(start + 300, h), "harm_burst"))
-            start += 600
+            out.append((start, min(start + length, h), "harm_burst"))
+            start += 2 * length
         return out
     raise ValueError(f"unknown cell kind {kind!r}")
 
 
-def burst_fraction(label: str) -> float:
-    return {"harm": 0.0, "harm_burst": 0.5, "harmless_burst": 0.8}[label]
+def burst_fraction(cell: CellSpec, label: str) -> float:
+    if label == "harm":
+        return 0.0
+    return cell.burst_frac or (0.8 if label == "harmless_burst" else 0.5)
 
 
 def build_stream(cell: CellSpec, seed: int) -> Stream:
@@ -185,7 +244,7 @@ def build_stream(cell: CellSpec, seed: int) -> Stream:
     mean0 = x[:, 0] - 0.9 * x[:, 1]
     z = (frame.target.to_numpy(dtype=float) - mean0) / NOISE
     rng = np.random.default_rng([seed, 0xE2A1])
-    regimes = _plan(cell.kind, rng)
+    regimes = _plan(cell, rng)
     burst_rng = np.random.default_rng([seed, 0xE2B2])
     weight = np.zeros(N_EVENTS)
     burst = np.zeros(N_EVENTS, dtype=bool)
@@ -193,7 +252,7 @@ def build_stream(cell: CellSpec, seed: int) -> Stream:
         lo, hi = MONITOR_START + start, MONITOR_START + end
         if label in {"harm", "harm_burst"}:
             weight[lo:hi] = 1.0
-        frac = burst_fraction(label)
+        frac = burst_fraction(cell, label)
         if frac > 0:
             members = burst_rng.random(hi - lo) < frac
             width = HARMLESS_WIDTH if label == "harmless_burst" else -BAND_LO
@@ -222,12 +281,13 @@ def build_stream(cell: CellSpec, seed: int) -> Stream:
     sample_path_onset = _material_harm_onset(
         expected, EPSILON, change_times=cuts, monitor_start=MONITOR_START
     )
-    first_harm = next(((a, b) for a, b, lab in regimes if lab in {"harm", "harm_burst"}), None)
     onset = None
-    if first_harm is not None:
-        a, b = first_harm
-        if float(expected[MONITOR_START + a : MONITOR_START + b].mean()) > EPSILON:
-            onset = a
+    for a_, b_, label in regimes:
+        if label in {"harm", "harm_burst"} and (
+            float(expected[MONITOR_START + a_ : MONITOR_START + b_].mean()) > EPSILON
+        ):
+            onset = a_  # first planned harm regime that is material at the population level
+            break
     active = deployed != reference
     tariffs = _synthetic_label_costs(x)
     centered = paired - EPSILON
@@ -330,6 +390,64 @@ def copy_proxy(proxy: DecisionLossProxy) -> DecisionLossProxy:
     return copy.deepcopy(proxy)
 
 
+@dataclass
+class HorizonReplay:
+    increments: np.ndarray
+    bounds: np.ndarray
+    queried: np.ndarray
+    log_e: np.ndarray
+    dollars: float
+    budget: float
+
+
+def replay_gated_horizon(
+    *, m: MonitorInputs, epsilon: float = EPSILON, alpha: float = ALPHA
+) -> HorizonReplay:
+    """Horizon-aware reserve baseline: gated HT whose propensity caps spend per remaining event.
+
+    ``q_t = clip(min(q_fixed, (reserve - spent) / ((T - t) * rate)), 0.10, 1)`` where ``rate`` is the
+    validation mean of ``D * tariff`` and ``q_fixed`` is the frozen validation propensity. It uses
+    only the validation data, the elapsed time and the past spend, so it is predictable; the HT
+    increment, bound ``5/q + eps`` and reserve stop are those of the other gated arms. It reacts to
+    spend, not to the disagreement rate, so it is a simple alternative to the 200-event pacer.
+    """
+    pacer = DisagreementPacer(m.validation_disagreement, m.validation_tariffs, m.budget_rate)
+    rate = max(float(np.mean(m.validation_disagreement * m.validation_tariffs)), 1e-6)
+    n = len(m.x)
+    budget = pacer.target * n
+    process = PredictableBoundMeanEProcess(alpha=alpha)
+    spent = 0.0
+    inc, bnd, qry, logs = [], [], [], []
+    for i in range(n):
+        if budget - spent + 1e-12 < 2.5:
+            break
+        allowed = (budget - spent) / (n - i)
+        q = float(np.clip(min(pacer.fixed, allowed / rate), 0.10, 1.0))
+        bound = 5 / q + epsilon
+        query = bool(m.disagreement[i] and m.uniforms[i] < q)
+        observed = float(m.paired_cost[i]) if query else None
+        value = gated_increment(
+            disagreement=bool(m.disagreement[i]),
+            observed_cost=observed,
+            propensity=q,
+            epsilon=epsilon,
+        )
+        logs.append(process.update(value, bound=bound))
+        if query:
+            spent += float(m.tariffs[i])
+        inc.append(value)
+        bnd.append(bound)
+        qry.append(query)
+    return HorizonReplay(
+        np.asarray(inc),
+        np.asarray(bnd),
+        np.asarray(qry, dtype=bool),
+        np.asarray(logs),
+        spent,
+        budget,
+    )
+
+
 def _ensure_scripts_importable() -> None:
     """``replay_engine`` imports the Timans reproduction from the repository's ``scripts``."""
     import importlib.util
@@ -351,7 +469,11 @@ def run_arms(stream: Stream, arms: tuple[str, ...], engines: tuple[str, ...]) ->
         _ensure_scripts_importable()
     rows = []
     for arm in arms:
-        if arm.startswith("gated"):
+        if arm == "gated_ht_horizon":
+            h = replay_gated_horizon(m=m)
+            values, bounds, queried, log_e = h.increments, h.bounds, h.queried, h.log_e
+            dollars, budget = h.dollars, h.budget
+        elif arm.startswith("gated"):
             r = replay_gated(
                 arm=arm,
                 x=m.x,
@@ -370,6 +492,7 @@ def run_arms(stream: Stream, arms: tuple[str, ...], engines: tuple[str, ...]) ->
             u = replay_uniform(arm=arm, m=m)
             values, bounds, queried, log_e = u.increments, u.bounds, u.queried, u.log_e
             dollars, budget = u.dollars, u.budget
+        spend = queried * m.tariffs[: len(queried)]
         for engine in engines:
             logs = log_e if engine == "fixed08" else replay_engine(values, bounds, engine)
             alarm = _alarm(logs)
@@ -377,6 +500,7 @@ def run_arms(stream: Stream, arms: tuple[str, ...], engines: tuple[str, ...]) ->
             detected = alarm is not None and onset is not None and alarm >= onset
             end = alarm + 1 if alarm is not None else len(queried)
             window = int(queried[onset : onset + WINDOW].sum()) if onset is not None else 0
+            pre = float(spend[:onset].sum()) if onset is not None else float(spend.sum())
             rows.append(
                 {
                     "cell": stream.cell,
@@ -395,6 +519,13 @@ def run_arms(stream: Stream, arms: tuple[str, ...], engines: tuple[str, ...]) ->
                     "budget": float(budget),
                     "processed": len(queried),
                     "window_labels": window,
+                    "dollars_pre_onset": pre,
+                    "dollars_post_onset": float(dollars) - pre,
+                    "reserve_used_frac_pre_onset": pre / float(budget),
+                    "reserve_exhausted": len(queried) < HORIZON,
+                    "reserve_exhausted_before_onset": bool(
+                        onset is not None and len(queried) <= onset
+                    ),
                 }
             )
     return rows
@@ -402,12 +533,14 @@ def run_arms(stream: Stream, arms: tuple[str, ...], engines: tuple[str, ...]) ->
 
 def run_stream(cell_name: str, seed: int, engines: tuple[str, ...] = ENGINES) -> list[dict]:
     cell = CELLS[cell_name]
+    if cell.role == "grid" and engines == ENGINES:
+        engines = ("fixed08",)  # grid selection uses the primary engine only
     return run_arms(build_stream(cell, seed), cell.arms, engines)
 
 
 def config_digest(extra: dict | None = None) -> str:
     payload = {
-        "cells": [dataclasses.asdict(c) for c in ALL_CELLS],
+        "cells": [dataclasses.asdict(c) for c in (*ALL_CELLS, *GRID_CELLS)],
         "seed_blocks": SEED_BLOCKS,
         "sub_block": SUB_BLOCK,
         "arms": ARMS,

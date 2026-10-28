@@ -5,6 +5,7 @@ import sys
 from pathlib import Path
 
 import numpy as np
+import pandas as pd
 import pytest
 import yaml
 
@@ -17,6 +18,16 @@ def _load_analysis():
     spec = importlib.util.spec_from_file_location("analyze_e2", ROOT / "scripts" / "analyze_e2.py")
     module = importlib.util.module_from_spec(spec)
     sys.modules["analyze_e2"] = module
+    spec.loader.exec_module(module)
+    return module
+
+
+def _load_runner():
+    spec = importlib.util.spec_from_file_location(
+        "run_e2_acquisition_pacing", ROOT / "scripts" / "run_e2_acquisition_pacing.py"
+    )
+    module = importlib.util.module_from_spec(spec)
+    sys.modules["run_e2_acquisition_pacing"] = module
     spec.loader.exec_module(module)
     return module
 
@@ -71,18 +82,175 @@ def test_bursts_raise_disagreement_rate():
 def test_seed_blocks_are_disjoint_and_inside_registry():
     registry = yaml.safe_load((ROOT / "configs" / "seed_registry.yaml").read_text("utf-8"))
     entries = {b["id"]: b for b in registry["studies"]}
+    order = [*e2.CONFIRMATION_CORE, *[c.name for c in e2.GRID_CELLS[:7]]]
+    spans = {
+        "dev": [e2.cell_seed_range("dev", c.name) for c in e2.ALL_CELLS],
+        "grid": [e2.cell_seed_range("grid", c.name) for c in e2.GRID_CELLS],
+        "confirmation": [e2.cell_seed_range("confirmation", name, order) for name in order],
+    }
     for block, spec in e2.SEED_BLOCKS.items():
         reg = entries[spec["id"]]
         assert (reg["start"], reg["end"]) == (spec["start"], spec["end"])
-        ranges = sorted(e2.cell_seed_range(block, c.name) for c in e2.ALL_CELLS)
+        ranges = sorted(spans[block])
         assert ranges[0][0] >= spec["start"] and ranges[-1][1] <= spec["end"]
         for (_, hi), (lo, _) in itertools.pairwise(ranges):
             assert hi < lo
-    dev = {s for c in e2.ALL_CELLS for s in e2.cell_seeds("dev", c.name, 5)}
-    conf = {s for c in e2.ALL_CELLS for s in e2.cell_seeds("confirmation", c.name, 5)}
-    assert not dev & conf
+    blocks = [(v["start"], v["end"]) for v in e2.SEED_BLOCKS.values()]
+    for (_, hi), (lo, _) in itertools.pairwise(sorted(blocks)):
+        assert hi < lo
     with pytest.raises(ValueError):
         e2.cell_seeds("dev", "b2_i", 251)
+    with pytest.raises(ValueError):
+        e2.cell_seed_range("confirmation", "b1_r0.02")  # needs the locked order
+
+
+def test_horizon_baseline_is_predictable_bounded_and_protects_reserve():
+    cell = e2.CELLS["g_ii_s1.5_r0.05_L200"]
+    s = e2.build_stream(cell, e2.cell_seeds("grid", cell.name, 1)[0])
+    h = e2.replay_gated_horizon(m=s.monitor)
+    assert np.all(np.abs(h.increments) <= h.bounds)
+    assert h.dollars <= h.budget
+    # q depends on past spend only: altering the cost of an event that is never queried is inert
+    spend_first = h.queried.copy()
+    again = e2.replay_gated_horizon(
+        m=dataclasses.replace(s.monitor, paired_cost=s.monitor.paired_cost + 0.0)
+    )
+    np.testing.assert_array_equal(spend_first, again.queried)
+    fixed = e2.replay_gated(
+        arm="gated_ht_fixed",
+        x=s.monitor.x,
+        paired_cost=s.monitor.paired_cost,
+        disagreement=s.monitor.disagreement,
+        tariffs=s.monitor.tariffs,
+        uniforms=s.monitor.uniforms,
+        validation_disagreement=s.monitor.validation_disagreement,
+        validation_tariffs=s.monitor.validation_tariffs,
+        budget_rate=s.monitor.budget_rate,
+    )
+    assert len(h.queried) >= len(fixed.queried)  # survives at least as long as the fixed arm
+
+
+def test_row_expenditure_and_reserve_columns():
+    cell = e2.CELLS["g_ii_s1.5_r0.1_L300"]
+    stream = e2.build_stream(cell, e2.cell_seeds("grid", cell.name, 1)[0])
+    rows = e2.run_arms(stream, cell.arms, ("fixed08",))
+    assert [r["arm"] for r in rows] == list(e2.GATED_ARMS_E2)
+    for r in rows:
+        assert r["dollars_pre_onset"] + r["dollars_post_onset"] == pytest.approx(r["dollars"])
+        assert 0 <= r["reserve_used_frac_pre_onset"] <= 1 + 1e-9
+
+
+def _fake_rows(cells, seeds, arms=("gated_ht_fixed", "gated_ht_paced"), engine="fixed08"):
+    out = []
+    for cell in cells:
+        for seed in seeds:
+            for arm in arms:
+                out.append(
+                    {
+                        "cell": cell,
+                        "seed": seed,
+                        "arm": arm,
+                        "engine": engine,
+                        "onset": 100,
+                        "first_alarm": 150,
+                        "detected": True,
+                        "false_alarm_pre_onset": False,
+                        "labels_to_alarm_or_horizon": 10,
+                        "dollars": 5.0,
+                    }
+                )
+    return pd.DataFrame(out)
+
+
+def test_analysis_rejects_duplicates_ragged_nan_and_wrong_seeds():
+    an = _load_analysis()
+    good = _fake_rows(["c"], [1, 2, 3])
+    an.validate_rows(good, {"c": [1, 2, 3]})
+    with pytest.raises(ValueError, match="duplicate"):
+        an.validate_rows(pd.concat([good, good.iloc[:1]]))
+    with pytest.raises(ValueError, match="incomplete"):
+        an.validate_rows(good.drop(good.index[0]))
+    nan = good.copy()
+    nan["dollars"] = nan["dollars"].astype(float)
+    nan.loc[nan.index[0], "dollars"] = np.nan
+    with pytest.raises(ValueError, match="NaN"):
+        an.validate_rows(nan)
+    with pytest.raises(ValueError, match="seeds differ"):
+        an.validate_rows(good, {"c": [1, 2, 4]})
+    with pytest.raises(ValueError, match="cells differ"):
+        an.validate_rows(good, {"c": [1, 2, 3], "d": [1]})
+    # pairing helper refuses to drop unpaired streams or take duplicate first values
+    with pytest.raises(ValueError):
+        an.paired_table(good.drop(good.index[0]), "c", "gated_ht_fixed", "gated_ht_paced")
+    with pytest.raises(ValueError):
+        an.paired_table(pd.concat([good, good.iloc[:1]]), "c", "gated_ht_fixed", "gated_ht_paced")
+
+
+def test_grid_selection_rules_on_synthetic_rows():
+    an = _load_analysis()
+    rng = np.random.default_rng(0)
+    names = {
+        "g_i_mid": ("i", 0.5, 0.7),  # paced detection 0.5: eligible
+        "g_i_high": ("i", 0.97, 0.99),  # ceiling: not eligible
+        "g_iii_high": ("iii", 0.98, 0.99),  # no eligible iii cell -> uninformative
+        "g_ii_partial": ("ii", 0.95, 0.1),  # fixed mostly detects only 10%: exhaustion band B
+    }
+    rows = []
+    for cell, (tag, p_paced, p_fixed) in names.items():
+        for seed in range(100):
+            for arm, p in (
+                ("gated_ht_paced", p_paced),
+                ("gated_ht_fixed", p_fixed),
+                ("gated_ht_horizon", p_paced),
+            ):
+                exhausted = tag == "ii" and rng.random() < 0.5
+                rows.append(
+                    {
+                        "cell": cell,
+                        "seed": seed,
+                        "arm": arm,
+                        "engine": "fixed08",
+                        "onset": 100,
+                        "first_alarm": 150,
+                        "detected": bool(rng.random() < p),
+                        "false_alarm_pre_onset": False,
+                        "labels_to_alarm_or_horizon": 10,
+                        "dollars": 5.0,
+                        "reserve_exhausted_before_onset": exhausted
+                        if arm == "gated_ht_fixed"
+                        else False,
+                        "reserve_used_frac_pre_onset": 0.3,
+                    }
+                )
+    grid = pd.DataFrame(rows)
+    dev = _fake_rows(["b1_r0.02", "b1_r0.05"], range(50), ("gated_ht_paced", "uniform_ht"))
+    dev.loc[dev.arm == "uniform_ht", "detected"] = False
+    locked = an.select_grid(grid, dev)
+    cells = {t["cell"]: t for t in locked["h_b2"]}
+    assert "g_i_mid" in cells and "g_i_high" not in cells
+    assert "iii" in locked["uninformative"]
+    assert cells["g_ii_partial"]["type"] == "superior"
+    assert all(an.FLOOR_N <= t["n"] <= an.CEIL_N for t in locked["h_b2"])
+    assert locked["order"][: len(an.CORE_NAMES)] == list(an.CORE_NAMES)
+    assert set(locked["n"]) == set(locked["order"])
+
+
+def test_confirmation_runner_checks_freeze_before_any_seed(tmp_path, monkeypatch):
+    runner = _load_runner()
+
+    def forbidden(*_a, **_k):
+        raise AssertionError("a confirmation seed was generated before the freeze check")
+
+    monkeypatch.setattr(runner.e2, "cell_seeds", forbidden)
+    monkeypatch.setattr(runner.e2, "run_stream", forbidden)
+    bogus = tmp_path / "freeze.json"
+    bogus.write_text('{"sha256": {"README.md": "' + "0" * 64 + '"}}', encoding="utf-8")
+    monkeypatch.setattr(runner, "FREEZE_RECORD", bogus)
+    with pytest.raises(RuntimeError, match="freeze check failed"):
+        runner.main(["--block", "confirmation", "--out", str(tmp_path / "out")])
+    monkeypatch.setattr(runner, "FREEZE_RECORD", tmp_path / "missing.json")
+    with pytest.raises(FileNotFoundError):
+        runner.main(["--block", "confirmation", "--out", str(tmp_path / "out")])
 
 
 def test_uniform_ht_is_unbiased_and_ignores_disagreement():

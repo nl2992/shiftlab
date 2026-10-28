@@ -1,325 +1,360 @@
 # P1: E2 acquisition and pacing protocol (H-B1a, H-B1b, H-B2)
 
-**Status: draft for freeze review. Not frozen. No confirmation seed has been used.**
-Development smoke run on the development block only (section 9). Hypotheses are those of
-`FINAL_RESEARCH_PROPOSAL.md` section 4, unchanged. The mechanism (disagreement gating) is DISCERN's;
-this study is a replication under the repository's decision-cost contract, and a pacing test.
+**Status: revised after the Codex Stage 1 review (`CODEX_PROTOCOL_REVIEW_1.md`); ready for freeze
+review. Not frozen. No confirmation seed has been used.** The design in section 3 was selected on
+development blocks only and is locked in `P1_E2_locked_design.json` (cells, order, n, multiplicity).
+Hypotheses are those of `FINAL_RESEARCH_PROPOSAL.md` section 4. The mechanism (disagreement gating)
+is DISCERN's; H-B1 is a replication under the repository's decision-cost contract and H-B2 is a
+pacing test.
 
 ## 1. Scientific scope
 
 - Quantity monitored: incumbent decision harm, `E[Z_t | F_{t-1}] <= epsilon` with
   `Z_t = c(pi_t(X_t), Y_t) - c(pi_ref(X_t), Y_t)`, `epsilon = 0.1`, `|Z_t| <= C = 5`, `Z_t = 0`
   whenever the deployed and reference actions agree (`D_t = 0`).
-- Filtration: `F_{t-1}` holds past features, past disagreement indicators, past tariffs, past
-  coins and past *queried* costs. Feedback is immediate for queried events and absent otherwise.
-  Propensities `q_t` are `F_{t-1}`-predictable (constant, frozen from validation, or a 200-event
-  past-only tariff window); coins are independent of `Z_t`.
-- Validity of each arm is as in `stage0/VALIDITY_TABLE.md` (CA-1..CA-3). The reserve stop is a
-  stopping time of past spend. Nothing here establishes validity of an arm beyond that table; the
-  stop rule in section 8 checks it empirically.
-- Synthetic oracle truth (regime weights, expected costs, burst masks, onsets) lives in
-  `Oracle` and is used only for summary endpoints. Replays receive `MonitorInputs` only; a test
-  scrambles every oracle field and checks that alarms, labels and dollars are unchanged.
-- Credit: gating is DISCERN's. Lemma L explains label-time propensity invariance of zero-anchor HT
-  at `epsilon = 0`; it does **not** hold at the registered `epsilon = 0.1`, so fixed and paced HT
-  are genuinely different monitors here.
+- Filtration: `F_{t-1}` holds past features, disagreement indicators, tariffs, coins and queried
+  costs. Feedback is immediate for queried events and absent otherwise. Propensities `q_t` are
+  `F_{t-1}`-predictable (constant; frozen from validation; a 200-event past-only tariff window; or
+  a function of elapsed time and past spend); coins are independent of `Z_t`.
+- Validity of each arm follows `stage0/VALIDITY_TABLE.md` (CA-1 to CA-3). The reserve stop is a
+  stopping time of past spend. The stop rule in section 8 checks validity empirically.
+- Synthetic oracle truth (regime weights, expected costs, burst masks, onsets) lives in `Oracle` and
+  is used only for summary endpoints. Replays receive `MonitorInputs` only; a test scrambles every
+  oracle field and checks that alarms, labels and dollars do not change.
+- Credit: gating is DISCERN's. Lemma L covers zero-anchor HT at `epsilon = 0` only; at the registered
+  `epsilon = 0.1` fixed and paced HT are genuinely different monitors.
 
 ## 2. Arms and engines
 
 All arms use the identical engine `PredictableBoundMeanEProcess` (the default fixed-stake mixture,
 stakes `(0.05, 0.1, 0.2, 0.4, 0.8)`, equal weights, `alpha = 0.05`, labelled `fixed08`), the same
-increments convention and the same hard dollar reserve `target * horizon`, where
+increment conventions and the same hard dollar reserve `target * horizon`, with
 `target = r * mean(validation tariffs)`. A reserve stop occurs before an event whose maximum tariff
-(2.5) the remaining reserve cannot cover. Tariffs are in `[0.5, 2.5]`.
+(2.5) the remaining reserve cannot cover (past spend only). Tariffs lie in `[0.5, 2.5]`.
 
 | Arm | Query rule | Increment | Bound `B_t` |
 |---|---|---|---|
 | `gated_ht_fixed` | disagreements only, `q` frozen from validation: `min(1, target / mean(validation D*tariff))` | `Z/q - eps` if queried, else `-eps` | `5/q + eps` |
 | `gated_ht_paced` | disagreements only, `q_t = clip(target / mean(last 200 D*tariff), 0.10, 1)` | same | `5/q_t + eps` |
+| `gated_ht_horizon` (new baseline) | disagreements only, `q_t = clip(min(q_fixed, (reserve - spent) / ((T - t) * rate)), 0.10, 1)` with `rate = mean(validation D*tariff)` | same | `5/q_t + eps` |
 | `uniform_ht` | **every event** (agreements included), constant `q = r`, coin `U_t < q` | `Z/q - eps` if queried, else `-eps` | `5/q + eps` |
-| `uniform_ppi` | every event, constant `q = r`; ridge proxy `h` fitted on pre-monitor events and updated on queried events | `h + (Z - eps - h)/q` if queried, else `h` | `(5+eps)(2/q - 1)` |
+| `uniform_ppi` | every event, constant `q = r`; ridge proxy `h` fitted before monitoring, updated on queries | `h + (Z - eps - h)/q` if queried, else `h` | `(5+eps)(2/q - 1)` |
 
-**Uniform HT definition (lead requirement).** `uniform_ht` does not use the free disagreement
-indicator `D_t`. It queries every event with constant `q = r`, pays the label tariff for every
-query (including queries on agreement events, where `Z_t = 0`), uses increment `Z_t/q - eps` if
-queried and `-eps` otherwise, and bound `C/q + eps`. Because `E[tariff * 1{queried}] = q E[tariff]`,
-`q = r` makes its expected spend per event equal the gated target `r * E[tariff]`, i.e. the same
-reserve. A test (`test_uniform_ht_spends_on_agreements`) shows it buys labels on a stream where
-every event is an agreement while the gated arm buys none, and another that flipping the
-disagreement flags leaves it unchanged. Without this the arm would collapse to fixed gated HT and
-H-B1a would be vacuous.
+**Horizon-aware reserve baseline.** `gated_ht_horizon` caps spend per remaining-horizon fraction. It
+reacts to spend, not to the disagreement rate, and uses only validation data, elapsed time and past
+spend (predictable). It is the simple reserve-protection alternative that the 200-event pacer must
+beat for a pacing claim to mean more than "anything that conserves the reserve works". It is
+reported (detection, expenditure, reserve survival) in every burst cell, and is not in a Holm family.
 
-**Engines.** Primary engine `fixed08` (default mixture; Lemma L applies at `eps = 0` only).
-Secondary engine `timans_grapa` (Timans et al. GRAPA, replayed through `replay_engine` on the same
-increments and bounds, 100-event source burn-in). GRAPA rows are reported for every arm but are
-**not in any Holm family**.
+**Uniform HT definition.** `uniform_ht` does not use the free disagreement indicator `D_t`. It
+queries every event with constant `q = r`, pays the tariff for every query (agreements included,
+where `Z_t = 0`), uses increment `Z_t/q - eps` if queried and `-eps` otherwise, and bound `C/q + eps`.
+Because `E[tariff * 1{queried}] = q E[tariff]`, `q = r` matches its **expected** spend per event to
+the gated target `r * E[tariff]`, and the reserve is the same. Realised spend is not matched and is
+reported per arm. Tests: it buys labels on a stream made only of agreements while the gated arm buys
+none; flipping the disagreement flags changes nothing.
+
+**H-B1a is a gating ablation.** It compares the same engine with and without the free zero-cost
+knowledge of agreements. It replicates DISCERN's label economics under this contract; it does not
+establish a new allocation method.
+
+**Engines.** Primary engine `fixed08`. Secondary engine `timans_grapa` (Timans et al. GRAPA through
+`replay_engine`, 100-event burn-in) is run on the core cells only and is not in any Holm family. Grid
+and burst cells use `fixed08` only.
 
 ## 3. Cells and generators
 
 Stream length 3,200 events (`d = 16`); events 0-399 proxy training, 400-799 validation (pacer seed,
-proxy validation); monitoring starts at event 800 and the monitored horizon is 2,400 events. All
+proxy validation); monitoring starts at event 800 and the horizon is 2,400 monitored events. All
 indices below are in monitored coordinates. Pre-monitor events are always stationary.
 
-All new generators call the existing synthetic generator (`_generate`, scenario
-`boundary_local_harm`, severity set to 0) to obtain `X` and the standardised noise `z`, which are
-identical for every severity. They then re-apply the unmodified mechanism
-`mean = X0 - 0.9 X1 + severity * w_t * exp(-5 |X0 - 0.9 X1|)`, `Y = 1{mean + 0.3 z > 0}`, with a
-stream-specific weight `w_t`, and the existing policies (deployed: threshold 0.5 on
-`ndtr(score/0.3)`; reference: `_source_action`, FN 5, FP 1). The disagreement band is score in
-`(0.3 Phi^-1(1/6), 0) = (-0.290, 0)`. Existing code is not modified (`src/shiftlab/dive/e2_acquisition_pacing.py`).
+New generators call the existing generator (`_generate`, scenario `boundary_local_harm`, severity
+0) for `X` and the standardised noise `z` (identical for every severity), then re-apply the
+unmodified mechanism `mean = X0 - 0.9 X1 + severity * w_t * exp(-5 |X0 - 0.9 X1|)`,
+`Y = 1{mean + 0.3 z > 0}` with a stream-specific weight `w_t`, and the existing policies (deployed
+threshold 0.5 on `ndtr(score/0.3)`; reference `_source_action`, FN 5, FP 1). The disagreement band
+is score in `(-0.290, 0)`. A **burst** replaces a random fraction `pi` of the events in a window by
+in-band events (`X0 := 0.9 X1 + s`); `X1`, the tariff coordinate and `z` are untouched. Existing code
+is not modified.
 
-A **burst** replaces a random fraction `pi` of the events in a window by in-band events:
-`X0 := 0.9 X1 + s` with `s` drawn from a band. `X1`, the tariff coordinate, and `z` are untouched.
+**Core cells (locked, n in section 7).**
 
-| Cell | Generator | Budget `r` | Severity |
+| Cell | Generator | `r` | Severity |
 |---|---|---|---|
-| `b1_r0.02`, `b1_r0.05`, `b1_r0.20` | `boundary_local_harm`, `w_t = 1[t >= onset]`; onset ~ DiscreteUniform{300..1500} | 0.02, 0.05, 0.20 | 1.5 |
-| `b2_i` (class i) | harm from `onset ~ DU{300..1200}`; **disagreement burst after onset**: window `[onset+g, onset+g+500)`, `g ~ DU{100..300}`, `pi = 0.5`, `s ~ U(-0.290, 0)` (full band, harmful) | 0.10 | 1.5 |
-| `b2_ii` (class ii) | **harmless burst, then late harm**: burst window `[b0, b0+400)`, `b0 ~ DU{100..400}`, `pi = 0.8`, `s ~ U(-0.290, -0.275)` with `w = 0` (narrow subband at `p` in `[1/6, 0.18]`); onset `= b0 + 400 + DU{100..500}`, harm to the end, no burst | 0.10 | 1.5 |
-| `b2_iii` (class iii) | **recurrent harmful regimes**: harm windows `[o + 600k, o + 600k + 300)` for `k = 0, 1, ...` inside the horizon, `o ~ DU{200..600}`; each harm window carries a burst (`pi = 0.5`, full band); null in between | 0.10 | 1.5 |
+| `b1_r0.02`, `b1_r0.05`, `b1_r0.20` | `boundary_local_harm`, `w_t = 1[t >= onset]`, onset ~ DU{300..1500} | 0.02, 0.05, 0.20 | 1.5 |
+| six `mech_*` cells | same generator, gated fixed only; training cells `(severity, r)` in `{0.8, 1.5} x {0.02, 0.10}`, held-out `(1.0, 0.05)`, `(2.0, 0.05)` | | |
 
-Onsets are drawn per stream from the stated distributions with
-`np.random.default_rng([seed, 0xE2A1])`, independently of the stage boundaries (monitor start 800,
-original change 1,600, end 3,200); burst masks and in-band scores use `[seed, 0xE2B2]`; the common
-query coins are `default_rng(seed + 9173).random(...)` (as in `comparison_seed`).
+**Burst-class generators** (parameters: severity `s`, budget `r`, length `L`, burst fraction `pi`):
 
-**Null property in class (ii).** In the burst window the per-event expected paired cost is
-`E[D Z] = 6p - 1` on in-band events with `p = Phi(score/0.3) <= 0.18`, hence below `epsilon`. A test
-checks the oracle expectation `<= epsilon` in every checked stream, and the sample mean within
-Monte Carlo noise. The pre-burst baseline mean (about 0.07) is also below `epsilon`.
+- **(i) disagreement burst after onset.** Harm from `onset ~ DU{300..1200}`; burst window
+  `[onset + g, onset + g + L)`, `g ~ DU{100..300}`, `pi = 0.5`, scores `U(-0.290, 0)` (harmful).
+- **(ii) harmless burst, then late harm.** Burst window `[b0, b0 + L)`, `b0 ~ DU{100..400}`,
+  `pi = 0.8`, scores `U(-0.290, -0.275)` with `w = 0` (in-band events with `p <= 0.18`, per-event
+  expected paired cost below `epsilon`, so the null holds); onset `= b0 + L + DU{100..500}`, harm to
+  the end, no burst after onset. Burst expenditure relative to the reserve is varied through `L` and
+  `r` so that cells span reserve exhaustion and non-exhaustion.
+- **(iii) recurrent harmful regimes.** Harm windows `[o + 2Lk, o + 2Lk + L)`, `k = 0, 1, ...`,
+  `o ~ DU{200..600}`, each with a burst (`pi = 0.5`, full band); null in between.
 
-**Onset definition (evaluator-side).** The onset is the start of the first planned harm regime,
-provided the evaluator's expected cost over that regime exceeds `epsilon`. The repository's
-`_material_harm_onset` (first regime whose finite-stream average exceeds the margin) is stored as
-`sample_path_onset` but **not used**: in development it labelled a null gap after the harmless burst
-as the onset, because baseline averages can cross `epsilon` by chance. Fixing this was a pre-run
-generator change; development was rerun (section 9).
+Onsets and burst masks are drawn from `default_rng([seed, 0xE2A1])` and `[seed, 0xE2B2]`, independent
+of the stage boundaries (monitor start 800, original change 1,600, end 3,200); query coins are
+`default_rng(seed + 9173)` as in `comparison_seed`.
 
-**Held-out mechanism cells (descriptive, section 6).** Variants of the same generator as `b1`
-(`gated_ht_fixed`, `fixed08` only): training cells `(severity, r)` in
-`{0.8, 1.5} x {0.02, 0.10}`; held-out cells `(1.0, 0.05)` and `(2.0, 0.05)`.
+**Onset (evaluator-side).** The onset is the start of the first *planned* harm regime whose expected
+paired cost over the regime exceeds `epsilon` (population-level by construction). The repository's
+sample-path rule is stored as `sample_path_onset` and not used: it labelled null gaps as onsets in an
+earlier development run.
+
+### 3.1 Development grid and selection rule (block `e2_dev_grid`)
+
+Grid, 100 streams per cell (63 cells, `fixed`/`paced`/`horizon` arms, `fixed08`):
+- classes (i), (iii): severity `{0.15, 0.25, 0.4, 0.7}` x `r {0.02, 0.05, 0.10}` x `L` in
+  `{200, 500}` (i) or `{150, 300}` (iii);
+- class (ii): severity 1.5, `r {0.05, 0.10, 0.20}` x `L {60, 120, 200, 300, 450}`.
+
+Pre-specified rules, applied by `scripts/analyze_e2.py select-grid` to the development grid only:
+- **(i), (iii):** a cell is eligible when paced detection is in `[0.20, 0.80]` and the planned harm is
+  material in at least 95% of streams. Select at most 2 per class, closest to 0.5 (ties by name). If
+  none is eligible the class is registered as **UNINFORMATIVE** (not support) and is excluded from
+  the Holm family.
+- **(ii):** bands by the fixed arm's share of streams whose reserve is exhausted before onset: `A`
+  `[0, 0.2)`, `B` `[0.2, 0.8)`, `C` `[0.8, 1]`; select, per band, the cell closest to the band centre
+  (0.1, 0.5, 0.9).
+
+**Locked selection (from the development grid; see `P1_E2_locked_design.json` for all 63 cells).**
+Development detection (100 streams, selection-biased):
+
+| Cell | Class | Role | Paced | Fixed | Horizon | Fixed reserve exhausted pre-onset | Reserve used pre-onset (fixed / paced) |
+|---|---|---|---:|---:|---:|---:|---|
+| `g_i_s0.4_r0.02_L500` | i | NI | 0.59 | 0.57 | 0.64 | 0.00 | 0.33 / 0.34 |
+| `g_i_s0.25_r0.05_L500` | i | NI | 0.40 | 0.72 | 0.72 | 0.00 | 0.33 / 0.34 |
+| `g_iii_s0.25_r0.02_L150` | iii | NI | 0.51 | 0.53 | 0.50 | 0.00 | 0.17 / 0.18 |
+| `g_iii_s0.25_r0.02_L300` | iii | NI | 0.53 | 0.66 | 0.67 | 0.00 | 0.17 / 0.17 |
+| `g_ii_s1.5_r0.05_L120` | ii | paced > fixed (band A) | 1.00 | 0.59 | 0.94 | 0.06 | 0.72 / 0.35 |
+| `g_ii_s1.5_r0.05_L200` | ii | paced > fixed (band B) | 1.00 | 0.08 | 0.70 | 0.62 | 0.94 / 0.40 |
+| `g_ii_s1.5_r0.1_L300` | ii | paced > fixed (band C) | 1.00 | 0.00 | 0.58 | 0.97 | 0.99 / 0.39 |
+
+Classes (i) and (iii) were at the ceiling in the first draft (severity 1.5, `r = 0.10`: all arms
+about 100%), which Codex judged uninformative. In the grid, paced detection leaves the ceiling at
+lower severity and budget. In several class-(i) cells paced is clearly **worse** than fixed
+(for example 0.12 against 0.38 at severity 0.15, `r = 0.05`, `L = 200`): the pacer throttles queries
+during an after-onset burst. This is why fixed-vs-paced non-inferiority is a real test here.
 
 ## 4. Endpoints and censoring
 
-- **Detection by the horizon** (primary): `detected = 1` iff the *first* alarm of the e-process
-  (`log E >= log(1/alpha)`) occurs at index `>= onset`. An alarm before onset counts as a false
-  alarm (`false_alarm_pre_onset = 1`) and **not** as a detection; both are reported. An alarm at or
-  after onset counts. No-alarm and reserve-exhausted streams count as not detected; all streams are
-  analysed.
-- **Labels to alarm or horizon:** the number of queried labels at indices `<= first_alarm`; for
-  streams with no alarm, the total labels bought up to the horizon or reserve stop (right
-  censored, kept at the censoring value). Pre-onset labels are included for both arms.
+- **Detection by the horizon** (primary): `detected = 1` iff the *first* alarm (`log E >= log(1/alpha)`)
+  occurs at index `>= onset`. A pre-onset alarm counts as a false alarm (`false_alarm_pre_onset = 1`),
+  not a detection; both are reported. No-alarm and reserve-exhausted streams count as not detected;
+  all streams are analysed.
+- **Labels to alarm or horizon:** queried labels at indices `<= first_alarm`; for streams with no
+  alarm, total labels up to the horizon or reserve stop (right censored, kept at the censoring
+  value). Pre-onset labels are included for both arms.
+- **Expenditure and reserve survival:** `dollars` (realised), `dollars_pre_onset`,
+  `dollars_post_onset`, `reserve_used_frac_pre_onset`, `reserve_exhausted`,
+  `reserve_exhausted_before_onset` (processed events `<= onset`). Reported for every arm and cell.
 - Per-stream rows: cell, seed, arm, engine, onset, first_alarm, detected, false_alarm_pre_onset,
-  labels_spent, labels_to_alarm_or_horizon, dollars, plus budget, processed events and
-  `window_labels` (labels queried in `[onset, onset + 300)`, for section 6).
+  labels_spent, labels_to_alarm_or_horizon, dollars, plus budget, processed events,
+  `window_labels` (labels in `[onset, onset + 300)`) and the columns above.
 
 ## 5. Hypotheses and exact tests
 
-One-sided family-wise level `alpha_F = 0.025` throughout ("97.5%"). Pairing is by seed (same
-stream and coins for all arms).
+One-sided family-wise level `alpha_F = 0.025` throughout. Pairing is by seed (same stream and coins
+for all arms). The analysis **rejects** (raises) duplicate `(cell, seed, arm, engine)` rows, cells
+whose seeds differ in their arm/engine rows, NaN statistics, unpaired streams, and seed sets that
+differ from the registered ones; it never drops pairs or takes a first duplicate.
 
-**H-B1a.** `gated_ht_paced` (the S3-registered gated arm) detects by the horizon more often than
-`uniform_ht` (both `fixed08`) in `b1_r0.02` and `b1_r0.05`. Per budget, with `b` = streams where
-gated detects and uniform does not and `c` the reverse, the exact one-sided McNemar p-value is
-`P(Bin(b + c, 1/2) >= b)` (`p = 1` when `b + c = 0`). Holm over 2 at `alpha_F`.
-Finding 1 is withdrawn if either budget fails. Secondary, not in the family: the same test for
-`gated_ht_fixed`, and against `uniform_ppi`.
+**H-B1a (gating ablation).** `gated_ht_paced` detects by the horizon more often than `uniform_ht`
+(both `fixed08`) at `b1_r0.02` and `b1_r0.05`. Per budget, exact one-sided McNemar
+`P(Bin(b + c, 1/2) >= b)`; Holm over 2 at `alpha_F`. Finding 1 is withdrawn if either fails.
+Expected spend is matched, realised spend differs and is reported per arm (dollars, labels).
+Secondary, outside the family: `gated_ht_fixed`, `gated_ht_horizon`, `uniform_ppi`, GRAPA.
 
-**H-B1b.** At `b1_r0.20`, with `L_g, L_u` the labels-to-alarm-or-horizon of `gated_ht_paced` and
-`uniform_ht`, the ratio of means `mean(L_g) / mean(L_u)` has a paired-bootstrap upper 97.5% bound
-`< 0.5`: 10,000 resamples of streams (seed 20261028), percentile 97.5. Single test at `alpha_F`.
-Censoring is as in section 4; the pre-onset labels count against the gated arm.
+**H-B1b (acquisition expenditure, not faster detection).** At `b1_r0.20`, ratio of means
+`mean(L_gated) / mean(L_uniform)` of labels-to-alarm-or-horizon for `gated_ht_paced` and
+`uniform_ht`: paired-bootstrap (10,000 stream resamples, seed 20261028) upper 97.5% percentile
+`< 0.5`, **and** the joint detection condition: the Newcombe (method 10) one-sided 97.5% lower bound
+of `P(gated detects) - P(uniform detects)` exceeds `-0.05`. Both must hold (an intersection-union
+test, so no further adjustment), so cheap non-detection cannot count as efficiency. Pre-onset labels
+count against the gated arm; the result does not show lower post-onset sample complexity.
 
-**H-B2.** At `r = 0.10`, `d = P(fixed detects) - P(paced detects)` (paired, `fixed08`).
-- Classes (i) `b2_i` and (iii) `b2_iii`: non-inferiority of fixed, `d > -0.05`, i.e. the one-sided
-  97.5% lower bound of `d` exceeds -0.05. CI method: **Newcombe (1998) method 10**: Wilson limits
-  for the two marginals with the continuity-corrected `phi` correlation adjustment for paired
-  proportions (`scripts/analyze_e2.py:newcombe_lower`). The p-value for Holm is the smallest
-  one-sided level at which the lower bound exceeds -0.05 (monotone, found by bisection).
-- Class (ii) `b2_ii`: paced beats fixed, exact one-sided McNemar p-value as above.
-- Holm over the 3 p-values at `alpha_F`. Fixed failing in (i) or (iii), or paced not winning in
-  (ii), are admissible outcomes and are reported.
+**H-B2 (burst classes, locked cells only).** At the locked cells of section 3.1, with
+`d = P(fixed detects) - P(paced detects)` (paired, `fixed08`):
+- classes (i), (iii): non-inferiority of fixed, `d > -0.05`: Newcombe (1998, method 10) one-sided 97.5%
+  lower bound with the continuity-corrected `phi` adjustment; the Holm p-value is the smallest
+  one-sided level at which the bound exceeds -0.05 (bisection);
+- class (ii): paced detects more than fixed, exact one-sided McNemar;
+- **multiplicity: one Holm family over all `K = 7` locked H-B2 tests, equal weights, `alpha_F`**.
+  Class (ii) bands A and C are expected to show weaker or null contrasts by design (A: reserve
+  mostly survives; C: both fail only if exhausted); they are tests, not forced successes.
+- If a class has no eligible grid cell it is **UNINFORMATIVE** (no class lacked a cell in this
+  selection). A cell flagged `underpowered` in the locked design, when not rejected, means
+  inadequate power, not disconfirmation.
 
-**Not tested, reported:** GRAPA rows, `uniform_ppi`, `gated_ht_fixed` in `b1`, per-cell detection
-proportions with Wilson intervals, censored delay, labels and dollars.
+**Reported, not tested:** per-cell detection with Wilson intervals, expenditure and reserve survival
+for all arms including `gated_ht_horizon`, censored delay, GRAPA rows.
 
-## 6. Mechanism check (registered as descriptive)
+## 6. Mechanism check (descriptive; a retrospective association)
 
-On the mechanism cells, fit by least squares on the training cells and evaluate on the held-out
-cells, per stream, the outcome `y = log(1 + delay)` where delay is `first_alarm - onset` (zero if
-the alarm preceded onset) and `horizon - onset` when there is no alarm.
-- Mechanism predictor: `log(1 + window_labels)` (fixed 300-event informative-label count after
-  onset; every query in a gated arm is on a disagreement) plus intercept.
-- Baseline predictor: design parameters only, `log r` and severity plus intercept.
-- Report held-out RMSE and Spearman against the baseline and the training-mean constant. No
-  threshold decides a claim; this is not a hypothesis test.
+On the mechanism cells fit least squares on the training cells and evaluate on the held-out cells,
+per stream: outcome `log(1 + delay)` (delay `= first_alarm - onset`, zero if the alarm preceded onset,
+`horizon - onset` when none).
+- Mechanism predictor: `log(1 + window_labels)`, the fixed 300-event count of labels queried after
+  onset. This is a **post-onset** count: a retrospective association, not an online delay predictor
+  or a demonstrated mechanism.
+- Baseline: design parameters only (`log r`, severity).
+- Report held-out RMSE and Spearman against the baseline and the training-mean constant. No claim
+  follows from this check.
+- **Development result, stated plainly:** the window-count predictor *lost* to the design-parameter
+  baseline (held-out RMSE 0.478 against 0.458; training-mean constant 0.534; Spearman 0.37 for both).
 
 ## 7. Power and sample size
 
-For McNemar contrasts the number of discordant pairs is `M ~ Bin(n, delta)` and, given `M`, the
-wins are `Bin(M, psi)` with `psi = b/(b+c)` from development. The exact one-sided test rejects when
-the wins reach `k(M) = min{k : P(Bin(M, 1/2) >= k) <= alpha'}`, so
+Exact McNemar power: `M ~ Bin(n, delta)` discordant pairs, wins `| M ~ Bin(M, psi)`, reject when
+the wins reach `k(M) = min{k : P(Bin(M, 1/2) >= k) <= alpha'}`:
 
     power(n) = sum_m Bin(m; n, delta) * P(Bin(m, psi) >= k(m)),
 
-with `alpha' = alpha_F / 2` for H-B1a and `alpha_F / 3` for H-B2(ii) (Bonferroni levels, sufficient
-for Holm to reject all). The smallest `n` with power >= 0.9 is computed twice: at the development
-plug-in `(delta, psi)`, and pessimistically at the Wilson 80% lower limits of both. The
-non-inferiority contrast is powered by simulating the paired multinomial (Jeffreys-smoothed
-development cells, 400 replications per `n`, `alpha' = alpha_F / 3`). The H-B1b bound is powered by
-resampling development streams.
+`alpha' = alpha_F / m` for the Holm family of size `m` (Bonferroni, sufficient for Holm). The smallest
+`n` with power >= 0.9 uses Wilson 80% lower limits for `delta` and `psi` (pessimistic). The
+non-inferiority cells are powered by simulation (300 replications, seed 1, Jeffreys-smoothed cells)
+under a **true difference of zero** with discordance at the Wilson 80% upper limit of the
+100-stream development discordance, at `alpha_F / 7`. `n` is rounded up to 100, floored at 1,000 and
+capped at 3,000 per cell; a cell that needs more is flagged `underpowered`.
 
-Development-set values (section 9, 250 streams per cell):
+| Contrast | Dev table (both, first only, second only, neither) | Pessimistic n (power >= 0.9) | Registered n |
+|---|---|---:|---:|
+| H-B1a `b1_r0.02` | 0, 179, 0, 71 | 13 | 1,000 (floor) |
+| H-B1a `b1_r0.05` | 14, 226, 0, 10 | 9 | 1,000 (floor) |
+| H-B1b (`b1_r0.20`) | ratio 0.299, detection +0.19 lower bound (250 dev streams) | n/a | 1,000 |
+| (i) `g_i_s0.4_r0.02_L500` NI | 48, 9, 11, 32 | 2,000 | 2,000 |
+| (i) `g_i_s0.25_r0.05_L500` NI | 38, 34, 2, 26 | 3,000 | 3,000 |
+| (iii) `g_iii_s0.25_r0.02_L150` NI | 37, 16, 14, 33 | 3,000 | 3,000 |
+| (iii) `g_iii_s0.25_r0.02_L300` NI | 44, 22, 9, 25 | 3,000 | 3,000 |
+| (ii) `g_ii_s1.5_r0.05_L120` | 59, 0, 41, 0 (paced only 41) | 36 | 1,000 (floor) |
+| (ii) `g_ii_s1.5_r0.05_L200` | paced only 92, fixed only 0 | 12 | 1,000 (floor) |
+| (ii) `g_ii_s1.5_r0.1_L300` | paced only 100, fixed only 0 | 10 | 1,000 (floor) |
+| mechanism cells (6) | descriptive | n/a | 500 each |
 
-| Contrast | dev cells (both, first only, second only, neither) | `delta` | `psi` | n (plug-in) | n (pessimistic) |
-|---|---|---:|---:|---:|---:|
-| H-B1a, `b1_r0.02` | 0, 179, 0, 71 | 0.716 | 1.00 | 12 | 13 |
-| H-B1a, `b1_r0.05` | 14, 226, 0, 10 | 0.904 | 1.00 | 9 | 9 |
-| H-B2 (ii) | 0, 249, 0, 1 | 0.996 | 1.00 | 7 | 7 |
-| H-B2 (i) non-inferiority | 249, 0, 0, 1 | 0 | n/a | grid n = 400 reaches power 1.00 (n = 200: 0.71) | n/a |
-| H-B2 (iii) non-inferiority | 250, 0, 0, 0 | 0 | n/a | same | n/a |
-| H-B1b | ratio 0.299 (dev) | | | power 1.00 already at n = 50 | |
+**Total: 20,000 confirmation streams** (3 x 1,000 + 6 x 500 + 2,000 + 3 x 3,000 + 3 x 1,000), inside the 50,000
+ceiling and the 48,000 seeds of 16 sub-blocks. Runtime at about 0.15 s per stream with 8 workers:
+roughly 45 minutes. The three 3,000 cells sit at the simulation's 0.9 boundary (the ceiling): their
+power is about 0.86-0.9, so a failed non-inferiority result there is reported as possibly
+underpowered. The Newcombe interval and the Holm level (`alpha_F / 7`) are what keep these n high.
 
-**Registered n.** The power-driven requirement is at most 400 streams per cell (non-inferiority
-cells). The development effects are near-deterministic (zero reversed pairs), so the McNemar
-requirements are tiny. A **precision floor of 1,000 streams per primary cell** is registered so
-that detection proportions have Wilson half-widths <= 0.031, the bootstrap is stable, and the
-non-inferiority tests keep power >= 0.9 under a true fixed-minus-paced difference of -2 points
-(simulated 0.93 and 0.97 at n = 1,000 for two discordance patterns). Mechanism cells: 500 streams
-each.
+## 8. Seed blocks, registry mapping, freeze and stop rule
 
-- `n = 1,000` for each of the 6 primary cells (6,000 streams) and 500 for each of 6 mechanism cells
-  (3,000): **9,000 streams in total**, well inside the 50,000-stream ceiling. At about 0.15 s per
-  stream with 8 workers (section 9) this is about 25 minutes on CPU.
-- Low-information caveat: because the development effects are close to deterministic, the power
-  calculation is not informative about smaller effects. H-B1a and H-B2(ii) will almost surely be
-  rejected if development behaviour carries over; the contrasts that can still fail are the
-  non-inferiority tests and H-B1b.
+Registry (`configs/seed_registry.yaml`): `e2_dev_smoke_and_power` 100000000-100001999 (used, development),
+`e2_dev_grid` 100500000-100509999 (used, development), `e2_confirmation` 100100000-100149999
+(reserved). A stream's seed **is** the generator seed (derived streams are seed-indexed). Each cell
+owns a disjoint sub-block.
 
-## 8. Seed blocks, registry mapping, and stop rule
+- `e2_dev_smoke_and_power`: primary cells 250 wide in order `b1_r0.02, b1_r0.05, b1_r0.20, b2_i,
+  b2_ii, b2_iii`, then the six mechanism cells 80 wide (ends 100001979).
+- `e2_dev_grid`: the 63 grid cells in `GRID_CELLS` order, 100 seeds each (ends 100506299).
+- `e2_confirmation`: 16 sub-blocks of 3,000 seeds (100100000 + 3,000 k), in the locked order:
+  `b1_r0.02, b1_r0.05, b1_r0.20`, the six mechanism cells, then the seven locked burst cells
+  (`P1_E2_locked_design.json: order`). The first `n` seeds of each sub-block are used.
+  Sub-blocks end at 100147999.
 
-Registry (`configs/seed_registry.yaml`): `e2_dev_smoke_and_power` 100000000-100001999 and
-`e2_confirmation` 100100000-100149999. A stream's seed **is** the generator seed (no offset; the
-derived streams in section 3 are seed-indexed). Cells own disjoint consecutive sub-blocks; the first
-`n` seeds of a sub-block are used and the rest stay reserved.
+Tests check that sub-blocks are disjoint and inside the registered blocks, that the three blocks are
+disjoint and that registry entries match.
 
-| Cell | Development sub-block (n used) | Confirmation sub-block (n registered) |
-|---|---|---|
-| `b1_r0.02` | 100000000-100000249 (250) | 100100000-100105999 (1,000) |
-| `b1_r0.05` | 100000250-100000499 (250) | 100106000-100111999 (1,000) |
-| `b1_r0.20` | 100000500-100000749 (250) | 100112000-100117999 (1,000) |
-| `b2_i` | 100000750-100000999 (250) | 100118000-100123999 (1,000) |
-| `b2_ii` | 100001000-100001249 (250) | 100124000-100129999 (1,000) |
-| `b2_iii` | 100001250-100001499 (250) | 100130000-100135999 (1,000) |
-| `mech_s0.8_r0.02` | 100001500-100001579 (80) | 100136000-100137999 (500) |
-| `mech_s0.8_r0.10` | 100001580-100001659 (80) | 100138000-100139999 (500) |
-| `mech_s1.5_r0.02` | 100001660-100001739 (80) | 100140000-100141999 (500) |
-| `mech_s1.5_r0.10` | 100001740-100001819 (80) | 100142000-100143999 (500) |
-| `mech_s1.0_r0.05` (held out) | 100001820-100001899 (80) | 100144000-100145999 (500) |
-| `mech_s2.0_r0.05` (held out) | 100001900-100001979 (80) | 100146000-100147999 (500) |
-
-Primary sub-blocks are 250 (development) and 6,000 (confirmation) seeds wide; mechanism sub-blocks
-are 80 and 2,000. Development ends at 100001979 (1,999 is spare). Confirmation ends at 100147999
-(100149999 is spare). The three `b1` budgets are separate streams, not reused paths. A test checks
-that sub-blocks are disjoint and inside the registered blocks and that the registry entries match.
+**Freeze gate.** `scripts/run_e2_acquisition_pacing.py --block confirmation` calls
+`shiftlab.freeze.require_freeze(docs/research_refinement_v1/stage1/P1_E2_freeze.json)` before any
+confirmation seed is generated and reads cells, order and n only from the locked design (CLI sample
+sizes are rejected). A test shows no seed or stream is produced when the freeze check fails.
 
 **Stop rule on validity failure.** For every (arm, engine), pool all streams in all cells and count
-`false_alarm_pre_onset`. The arm-engine is **withdrawn** (all its results reported as invalid, and any
-hypothesis that depends on it is withdrawn) if the exact one-sided binomial p-value of
-`k` pre-onset alarms in `n` streams against rate 0.05 is `< 0.05/8` (8 arm-engine pairs). In the
-class-(ii) cells the harmless burst lies before onset, so a validity failure there is also a failure
-of the null property.
+`false_alarm_pre_onset`. The arm-engine is **withdrawn** (results reported as invalid; any dependent
+hypothesis withdrawn) if the exact one-sided binomial p-value of `k` pre-onset alarms in `n` streams
+against rate 0.05 is `< 0.05 / (number of arm-engine pairs)`.
 
 ## 9. Implementation and smoke record
 
-**Files (new only):** `src/shiftlab/dive/e2_acquisition_pacing.py`,
-`scripts/run_e2_acquisition_pacing.py`, `scripts/analyze_e2.py`,
-`tests/test_e2_acquisition_pacing.py`. No existing file edited.
+**Files (all new in P1; edited in place after Codex review):**
+`src/shiftlab/dive/e2_acquisition_pacing.py`, `scripts/run_e2_acquisition_pacing.py`,
+`scripts/analyze_e2.py`, `tests/test_e2_acquisition_pacing.py`,
+`docs/research_refinement_v1/stage1/P1_E2_locked_design.json`; `configs/seed_registry.yaml` edited
+only to mark `e2_dev_grid` as used (development).
 
-**Code state.** Git HEAD at the time of the run `da38c6fb22c4688f563071beae1ac1a954af2385`
-(branch `research/phase-progress-2026-10-27`) plus the four uncommitted new files above; config
-SHA-256 (`e2.config_digest()`) `36c5b05ec4090dc6b2e2fd08020f8ef1442d5c2ed5f7f1e3995ecc96a0827bab`.
-The manifest in `outputs/e2_dev/manifest.json` records `git_dirty = true`.
+**Code state.** Git HEAD `8faeea1` plus uncommitted edits to the files above; config SHA-256
+(`e2.config_digest()`) `5b75903fbc22ee6b4b06e37208733afa9d3a7cdf776f3f3fab6635c93d622b30`.
 
 **Commands (Git Bash, repository root):**
 
-    uv run --no-sync pytest tests/test_e2_acquisition_pacing.py -q
-    uv run --no-sync ruff check <the four files>; uv run --no-sync ruff format <the four files>
+    uv run --no-sync pytest tests/test_e2_acquisition_pacing.py tests/test_seed_registry.py -q
+    uv run --no-sync ruff check <files>; uv run --no-sync ruff format <files>
     uv run --no-sync python scripts/run_e2_acquisition_pacing.py --block dev --n-per-cell 250 \
         --n-mech 80 --out outputs/e2_dev --workers 8
-    uv run --no-sync python scripts/analyze_e2.py confirm --rows outputs/e2_dev/rows.parquet \
-        --out outputs/e2_dev/confirm_on_dev.json
-    uv run --no-sync python scripts/analyze_e2.py power --rows outputs/e2_dev/rows.parquet \
-        --out outputs/e2_dev/power_plan.json
-    # confirmation (NOT YET RUN):
-    # ... run_e2_acquisition_pacing.py --block confirmation --n-per-cell 1000 --n-mech 500 \
-    #       --out outputs/e2_confirmation --workers 8
+    uv run --no-sync python scripts/run_e2_acquisition_pacing.py --block grid --n-per-cell 100 \
+        --out outputs/e2_grid --workers 8
+    uv run --no-sync python scripts/analyze_e2.py select-grid --rows outputs/e2_grid/rows.parquet \
+        --dev-rows outputs/e2_dev/rows.parquet \
+        --out docs/research_refinement_v1/stage1/P1_E2_locked_design.json
+    # confirmation (NOT YET RUN; requires the freeze record):
+    #   run_e2_acquisition_pacing.py --block confirmation --out outputs/e2_confirmation --workers 8
+    #   analyze_e2.py confirm --rows outputs/e2_confirmation/rows.parquet --locked <locked design> \
+    #       --out outputs/e2_confirmation/confirm.json
 
-Tests: 8 pass (about 17 s). Ruff check and format clean.
+**Runtime.** Dev block: 1,980 streams, 15,960 rows (five arms in the core cells), 335 s on 8
+workers. Grid block: 6,300 streams, 18,900 rows, 710 s on 8 workers. About 0.1-0.15 s per stream
+effective (0.85 s per stream on one worker for the core cells including GRAPA). `outputs/` is
+gitignored; nothing under it is for commit.
 
-**Runtime.** 5 streams per cell on one worker: 60 streams in 51 s (0.85 s per stream, all arms and
-both engines). Development block: 1,980 streams, 12,960 rows, 307 s with 8 workers.
-`outputs/` is gitignored; nothing under `outputs/e2_dev/` is for commit.
+**Tests:** 20 pass (this file plus the seed registry). They cover: class-(ii) null property
+(oracle expectation below `epsilon`), harm above `epsilon`, burst disagreement rate, seed
+disjointness for dev/grid/confirmation and registry match, uniform HT unbiasedness and its
+independence of `D_t`, uniform HT spending on agreements, horizon baseline (bounds, reserve,
+predictable), expenditure columns, rejection of duplicate/ragged/NaN/wrong-seed rows and unpaired
+streams, grid-selection rules including the UNINFORMATIVE path, an end-to-end tiny run with oracle
+scrambling, and the freeze gate running before any seed.
 
-**Development issues recorded.**
-1. A first development run used the repository's sample-path onset rule; it mislabelled a null gap as
-   the onset in class (ii) (for example onset at the burst end). Replaced by the design onset
-   (section 3) and the development block was rerun in full. Class-wise results were unchanged because
-   the dominant cases had matching onsets, but the bug was real.
-2. A severity exploration at 0.3 and 0.5 (100 streams per burst class, development seeds, gated and
-   uniform HT only) tried to avoid the ceiling in classes (i) and (iii); detection stayed 0.96-1.00
-   for gated arms. Severity 1.5 (the existing generator's value) was kept. Not part of any claim.
-3. One parallel launch failed with a Windows DLL-load error from too many simultaneous worker starts;
-   rerun with 8 workers.
+**Development results (DEVELOPMENT, descriptive; not confirmatory evidence).** Core cells, 250
+streams each, `fixed08`: detection / mean labels to alarm or horizon / realised dollars.
 
-**Development results (DEVELOPMENT, descriptive only; not confirmatory evidence).**
-Engine `fixed08`; 250 streams per cell; detection, pre-onset false-alarm rate, mean labels to alarm
-or horizon.
+| Cell | gated fixed | gated paced | gated horizon | uniform HT | uniform PPI |
+|---|---|---|---|---|---|
+| `b1_r0.02` | 0.68 / 34 / 64 | 0.72 / 36 / 68 | 0.72 / 34 / 64 | 0.00 / 44 / 66 | 0.00 / 44 / 66 |
+| `b1_r0.05` | 0.95 / 72 / 169 | 0.96 / 73 / 178 | 0.96 / 70 / 168 | 0.06 / 114 / 173 | 0.00 / 115 / 173 |
+| `b1_r0.20` | 0.99 / 111 / 307 | 0.99 / 111 / 307 | 0.99 / 111 / 307 | 0.74 / 371 / 707 | 0.58 / 410 / 707 |
 
-| Cell | gated fixed | gated paced | uniform HT | uniform PPI |
-|---|---|---|---|---|
-| `b1_r0.02` | 0.676 / 0.004 / 34 | 0.716 / 0.004 / 36 | 0.000 / 0.000 / 44 | 0.000 / 0.000 / 44 |
-| `b1_r0.05` | 0.948 / 0.000 / 72 | 0.960 / 0.000 / 73 | 0.056 / 0.000 / 114 | 0.000 / 0.000 / 115 |
-| `b1_r0.20` | 0.992 / 0.000 / 111 | 0.992 / 0.000 / 111 | 0.740 / 0.000 / 371 | 0.580 / 0.000 / 410 |
-| `b2_i` | 0.996 / 0.004 / 94 | 0.996 / 0.004 / 93 | 1.000 / 0.000 / 114 | 1.000 / 0.000 / 124 |
-| `b2_ii` | 0.000 / 0.000 / 239 | 0.996 / 0.004 / 141 | 0.160 / 0.000 / 227 | 0.056 / 0.000 / 232 |
-| `b2_iii` | 1.000 / 0.000 / 53 | 1.000 / 0.000 / 52 | 1.000 / 0.000 / 62 | 1.000 / 0.000 / 84 |
+Realised spend differs between gated and uniform arms (307 against 707 dollars at `r = 0.20`),
+because gated arms stop paying at an early alarm and only query disagreements; expected spend and
+the reserve are matched. Registered tests on the development rows (labelled development): H-B1a
+179:0 and 226:0; H-B1b ratio 0.299, upper bound 0.308, detection lower bound +0.199, so the joint
+condition holds in development. Burst cells (selection-biased, 100 streams, from the grid) are in the
+table of section 3.1; the pipeline run on the locked cells gave Holm rejections in five of seven H-B2
+tests (not for `g_i_s0.4_r0.02_L500` and `g_iii_s0.25_r0.02_L150`, where fixed and paced are equal
+within noise). In the class-(ii) cells the horizon baseline sits between fixed and paced
+(detection 0.94/0.70/0.58 against fixed 0.59/0.08/0.00 and paced 1.00 in bands A/B/C), so the
+200-event pacer's advantage is not just reserve conservation. Pre-onset false alarms are at most 2
+per 1,450-1,930 streams for the fixed08 gated arms and 0 for uniform arms; no arm-engine would be
+withdrawn. The older ceiling cells `b2_i`, `b2_ii`, `b2_iii` remain in the development block only.
 
-GRAPA (secondary) detection: gated paced 0.748 / 0.984 / 0.996 in `b1`; uniform HT 0.000 / 0.200 /
-0.772; gated fixed in `b2_ii` 0.000, paced 0.996. The registered tests applied to the development
-rows (labelled development): H-B1a McNemar 179:0 and 226:0 (p about 1e-54 and 1e-69); H-B1b ratio
-0.299, upper 97.5% bound 0.308; H-B2 non-inferiority lower bounds -0.017 (i) and -0.015 (iii), and
-paced wins 249:0 in (ii). Validity: pre-onset alarms among 1,980 gated-fixed streams: 2; gated-paced
-and uniform arms among 1,500 streams: at most 3 per arm-engine; no arm-engine would be withdrawn.
-Mechanism (descriptive): held-out RMSE of `log(1 + delay)` 0.478 for the fixed-window label count,
-0.458 for the design-parameter baseline, 0.534 for the training mean; Spearman 0.37 for both. The
-label-count predictor did **not** beat the simpler baseline in development.
+## 10. Design problems and risks
 
-## 10. Design problems and risks stated plainly
+1. **Selection on 100 streams per grid cell is noisy.** Detection in band `[0.20, 0.80]` in
+   development need not hold in confirmation; a cell may leave the band. The tests are still
+   valid (the design is locked), but information may be lower than selected for. Confirmation
+   reports the confirmation detection of each cell.
+2. **Three non-inferiority cells are near their power ceiling** (about 0.86-0.9 at n = 3,000 under
+   a true difference of zero). In development fixed was *better* than paced in two of them, so real
+   power is likely higher, but this is not assumed.
+3. **Class (ii) mechanism is reserve exhaustion** and its band-A/C contrasts follow from construction.
+   Band B and the comparison with `gated_ht_horizon` are the informative parts.
+4. **H-B1b counts pre-onset labels** and is an acquisition-expenditure result; the joint detection
+   condition prevents cheap non-detection from qualifying.
+5. **Mechanism check lost to the design-parameter baseline** in development and is an association.
+6. **Engine and scope.** `fixed08` only for burst cells; GRAPA on core cells. Synthetic, one generator
+   family, `d = 16`, one tariff rule; no real-data transfer claim.
+7. **Composition** across monitor, certify and promote is not controlled and not claimed.
 
-1. **Near-deterministic McNemar contrasts.** H-B1a and H-B2(ii) have zero reversed pairs in
-   development. They test a large, structural effect, not a close call. For `uniform_ht` at
-   `r = 0.02` the bound `C/q + eps = 250.1` makes every bet tiny, so zero detection is expected.
-2. **Class (ii) mechanism is reserve exhaustion.** Fixed gating spends its reserve inside the
-   harmless burst (processed events about 520 of 2,400) and cannot detect the late harm. The
-   prediction is therefore confirmed by construction, as a *design-sensitive* property. A longer
-   gap or a smaller burst would weaken it. This is why the result is "informative either way".
-3. **Ceiling in classes (i) and (iii).** All four arms detect about 100%; the non-inferiority tests
-   pass because nothing separates the arms, and say little about milder regimes. The earlier S3
-   finding (fixed no worse than paced under `harmful_adaptation`) is not contradicted.
-4. **H-B1b counts pre-onset labels.** The gated arm's ratio is partly the 0.086/0.20 disagreement
-   rate against the uniform rate, not only faster detection. The registered ratio is kept.
-5. **Mechanism check unsupported in development.** Reported as descriptive; a negative result will
-   be recorded.
-6. **Engine caveat.** `fixed08` is the only primary engine; GRAPA's burn-in and adaptive bets are
-   outside Lemma L. Dev GRAPA false alarms are within bounds.
-7. **Composition and generator scope.** Synthetic, single-generator family, `d = 16`, one tariff
-   rule; no real-data transfer claim.
+## 11. Freeze checklist
 
-## 11. Freeze checklist (open)
-
-- [ ] SHA-256 freeze record of this file and of the four code files.
-- [ ] Codex protocol review.
-- [ ] Update `configs/seed_registry.yaml` status of `e2_dev_smoke_and_power` to used (dev run done)
-      before confirmation; `e2_confirmation` stays reserved until the freeze.
-- [ ] Commit the code, then run the confirmation exactly as in section 9.
+- [ ] Commit code, locked design and this protocol.
+- [ ] `shiftlab.freeze.write_freeze`: experiment `E2`, protocol `P1_E2_protocol.md`, files listed in
+      the hand-off message (every repository module and script the run imports, the registry and the
+      locked design), seed block `e2_confirmation`; record at
+      `docs/research_refinement_v1/stage1/P1_E2_freeze.json`.
+- [ ] Codex protocol re-review of this revision.
+- [ ] Run the confirmation exactly as in section 9.

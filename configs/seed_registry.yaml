@@ -1648,8 +1648,8 @@ studies:
   start: 100500000
   end: 100509999
   source: docs/research_refinement_v1/stage1/P1_E2_protocol.md (allocated 2026-10-28 after Codex protocol review)
-  status: reserved_unused
-  used_by: []
+  status: development
+  used_by: [e2_grid]
   derivation: allocated
   note: 'E2 development grid selection (severity/budget/burst cells placed away from ceiling, per Codex Stage 1 review)'
 excluded_scalar_seeds:

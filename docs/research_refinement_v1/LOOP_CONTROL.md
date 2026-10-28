@@ -61,9 +61,9 @@ Historical audit files elsewhere in the repository are never overwritten.
       significant objections, as `REFINEMENT_ROUND_n.md` / `ADVERSARIAL_REVIEW_n.md`.
 - [x] F1 `FINAL_RESEARCH_PROPOSAL.md`: decision BENCHMARK_PAPER, NEW_METHOD, PIVOT or NO_GO, plus
       the abandonment criterion.
-- [ ] F2 `IMPLEMENTATION_READINESS_GATE.md`, `CLAIM_TO_EVIDENCE_MATRIX.md` and `handoff.json`
+- [x] F2 `IMPLEMENTATION_READINESS_GATE.md`, `CLAIM_TO_EVIDENCE_MATRIX.md` and `handoff.json`
       (approved tasks, rejected approaches, unresolved blockers).
-- [ ] F3 Final consistency check across all files. Stop the loop and report to the user.
+- [x] F3 Final consistency check across all files. Stop the loop and report to the user.
 
 ## Exit conditions (stop the loop on any of these)
 
@@ -98,3 +98,4 @@ score.
 | 9 | 2026-10-28 | E3 attempt | The first Codex round-2 run hung on stdin and timed out after 25 min (exit 124, no output). Retried once with stdin closed |
 | 9b | 2026-10-28 | E3 | Codex round-2 review done: all 5 round-1 fatals RESOLVED; BENCHMARK_PAPER conditional (ICML 3/10, D&B 5/10). New items: Claim B ratio error (lead-verified: 5.63x and 4.26x on two profiles), fixed-not-later overclaim, unfrozen E2 and E3, E4 selection and delay clocks. **Exit condition 2 met (converged): refinement stops at two rounds; next F1** |
 | 10 | 2026-10-28 | F1 | `FINAL_RESEARCH_PROPOSAL.md`: decision BENCHMARK_PAPER (NeurIPS D&B or TMLR); contract plus 3 bounded findings; H-B1 to H-B4 with discriminating burst-class prediction; separated decision rules; 4 abandonment triggers; 6 unresolved objections |
+| 11 | 2026-10-28 | F2, F3 | Readiness gate (Stage 0 ready; E2-E4 blocked until protocol freezes), claim matrix (K1-K13 kept, W1-W10 withdrawn), `handoff.json` (validated; 16 tasks). Consistency check passed: 11/11 deliverables present, no stale ratios. **Exit condition 1 met: loop stopped, cron `1bdae48e` deleted** |

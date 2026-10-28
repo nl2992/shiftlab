@@ -56,7 +56,7 @@ Historical audit files elsewhere in the repository are never overwritten.
       research-refine.
 - [x] E1 `ADVERSARIAL_REVIEW_1.md`: four perspectives; fatal and major weaknesses, remedies,
       required evidence.
-- [ ] E2 `REFINEMENT_ROUND_2.md`: claim-by-claim response.
+- [x] E2 `REFINEMENT_ROUND_2.md`: claim-by-claim response.
 - [ ] E3 `ADVERSARIAL_REVIEW_2.md`: a full second review. Run rounds 3–5 only while they resolve
       significant objections, as `REFINEMENT_ROUND_n.md` / `ADVERSARIAL_REVIEW_n.md`.
 - [ ] F1 `FINAL_RESEARCH_PROPOSAL.md`: decision BENCHMARK_PAPER, NEW_METHOD, PIVOT or NO_GO, plus
@@ -92,3 +92,4 @@ score.
 | 5 | 2026-10-28 | C1 | Lead-written direction comparison; Haiku identity checks (6 match, 1 partial). New derivation: growth per label is independent of q unless the bet cap binds, so G4 partly reduces to known online allocation and is inference-specific only in the strong-signal regime. Ranking A (benchmark) > C1 (G4) > C2 > D, C3; B and E rejected. Phase D refines A, with the regime analysis as the supporting claim and G4 as a separately gated theory pre-screen |
 | 6 | 2026-10-28 | D1 | Wrote `REFINEMENT_ROUND_1.md` (Claim A benchmark with H1-H4; supporting Proposition S label invariance; E1-E3). **Corrected tick-5 derivation:** a numerical check shows per-label growth is q-invariant in both regimes, so pacing loss is temporal allocation and G4 novelty risk is high. C1 doc annotated, not rewritten |
 | 7 | 2026-10-28 | E1 | Codex gpt-6.1-sol xhigh four-lens review: BENCHMARK_PAPER with substantial revision (ICML 3/10, D&B 4/10). Five fatals accepted after lead checks: null mis-stated (author added X_t), Prop S corollary overreach, DISCERN mis-described (provisional; §6.4 to verify), H4 confounded by stage timing and rollback asymmetry, Claim A overgeneral. Codex arithmetic re-checked |
+| 8 | 2026-10-28 | E2 | `REFINEMENT_ROUND_2.md`: claim-by-claim log for all 5 fatals and the majors. Claim B is contract-centred; H1 and H2 credited as a DISCERN replication (Haiku confirmed DISCERN §6.4 head-to-head, but it has no decision costs, reserves or intervention); Lemma L restricted, with an applicability table; H4 descriptive; E2 (uniform-HT arm, onset sweep) and E3 (matched-opportunity factorial) added. Blocker: the second task (post-freeze EIA) needs user data approval |

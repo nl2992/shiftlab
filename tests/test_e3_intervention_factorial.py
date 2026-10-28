@@ -10,7 +10,8 @@ import pytest
 
 from shiftlab.dive import e3_intervention_factorial as e3
 
-SEEDS = (100200000, 100200001)
+SEEDS = (100200200, 100200201)
+DOSE_SUBSET = (0.0, 0.6)
 
 
 @pytest.fixture(scope="module")
@@ -22,15 +23,17 @@ def bundles() -> dict[int, e3.StreamBundle]:
 def frame(bundles: dict[int, e3.StreamBundle]) -> pd.DataFrame:
     rows: list[dict[str, object]] = []
     for seed in SEEDS:
-        rows.extend(e3.run_stream(seed, bundle=bundles[seed], onsets=["before", "at"]))
+        rows.extend(
+            e3.run_stream(seed, bundle=bundles[seed], onsets=["before", "at"], doses=DOSE_SUBSET)
+        )
     return pd.DataFrame(rows)
 
 
 def test_row_grid_is_complete(frame: pd.DataFrame) -> None:
-    per_seed = 2 * len(e3.COVERAGE_END) * len(e3.ROLLBACKS) * len(e3.REFERENCE_STATES)
+    per_seed = 2 * len(e3.COVERAGE_END) * len(e3.ROLLBACKS) * len(DOSE_SUBSET)
     assert len(frame) == len(SEEDS) * per_seed * len(e3.RESPONSES)
     assert (
-        frame.groupby(["seed", "onset", "coverage", "rollback", "reference_state"])
+        frame.groupby(["seed", "onset", "coverage", "rollback", "dose"])
         .size()
         .eq(len(e3.RESPONSES))
         .all()
@@ -65,9 +68,7 @@ def test_matched_trigger_across_arms_and_reference_states(frame: pd.DataFrame) -
 
 
 def test_revert_while_certifying_matches_revert_and_certify(frame: pd.DataFrame) -> None:
-    cells = frame.set_index(
-        ["seed", "onset", "coverage", "rollback", "reference_state", "response"]
-    )
+    cells = frame.set_index(["seed", "onset", "coverage", "rollback", "dose", "response"])
     rwc = cells.xs("revert_while_certifying", level="response")
     cert = cells.xs("certify_promote", level="response")
     rev = cells.xs("revert", level="response")
@@ -86,7 +87,7 @@ def test_rollback_parity_and_off(frame: pd.DataFrame) -> None:
     off = frame[frame.rollback == "off"]
     assert (off.labels_rollback == 0).all() and (off.rollbacks == 0).all()
     on = frame[(frame.rollback == "parity") & frame.alarmed & (frame.response != "continue")]
-    deploys = on.response.isin(["revert", "revert_while_certifying"]) | (on.deploy >= 0)
+    deploys = (on.revert_start >= 0) | (on.deploy >= 0)
     assert (on[deploys].labels_rollback > 0).all()  # every deploying arm carries the monitor
     assert (on[~deploys].labels_rollback == 0).all()  # nothing deployed, nothing monitored
     # rollback labels never exceed the per-arm cap and rolled-back arms paid for it
@@ -103,7 +104,7 @@ def test_label_caps_are_per_stage_and_matched_within_cell(frame: pd.DataFrame) -
         assert (group.labels_q1 <= e3.monitor_label_cap(str(coverage))).all()
         assert (group.labels_total <= e3.total_label_cap(str(coverage))).all()
     assert (frame.labels_cert <= e3.SCOUT_CERT_LABEL_CAP).all()
-    keys = ["seed", "onset", "coverage", "rollback", "reference_state"]
+    keys = ["seed", "onset", "coverage", "rollback", "dose"]
     assert (frame.groupby(keys).labels_q1.nunique() == 1).all()  # same trigger information
 
 
@@ -112,7 +113,7 @@ def test_reference_deterioration_starts_after_trigger_and_keeps_history(
 ) -> None:
     bundle = bundles[SEEDS[0]]
     _, incumbent = e3.family_for_onset(bundle, e3.ONSETS["before"])
-    y_safe, _ = e3.realised_outcomes(bundle, "safe", e3.N_EVENTS)
+    y_safe, _ = e3.realised_outcomes(bundle, 0.0, e3.N_EVENTS)
     safe = e3.run_q1_monitor(
         incumbent=incumbent,
         reference=bundle.reference,
@@ -123,7 +124,7 @@ def test_reference_deterioration_starts_after_trigger_and_keeps_history(
     assert safe.trigger is not None
     start = e3.deterioration_start(safe.trigger)
     assert start == safe.trigger + 1
-    y_det, oracle = e3.realised_outcomes(bundle, "deteriorating", start)
+    y_det, oracle = e3.realised_outcomes(bundle, 0.6, start)
     assert np.array_equal(y_det[:start], y_safe[:start])
     assert (y_det[start:] >= y_safe[start:]).all()  # positive shift only adds positives
     rerun = e3.run_q1_monitor(
@@ -146,14 +147,17 @@ def test_oracle_never_reaches_learner_functions(bundles: dict[int, e3.StreamBund
     assert not np.any(bundle.family["h_truth"])  # decoy, not truth
     assert not np.any(bundle.family["h_proxy"])
     # Decisions are invariant to the oracle: poison it and compare every learner-side column.
-    clean = pd.DataFrame(e3.run_stream(SEEDS[0], bundle=bundle, onsets=["before"]))
+    clean = pd.DataFrame(
+        e3.run_stream(SEEDS[0], bundle=bundle, onsets=["before"], doses=DOSE_SUBSET)
+    )
     poison = e3.OracleView(np.full(e3.N_EVENTS, np.nan))
     poisoned = pd.DataFrame(
         e3.run_stream(
             SEEDS[0],
             bundle=bundle,
             onsets=["before"],
-            oracle_override={"safe": poison, "deteriorating": poison},
+            oracle_override=poison,
+            doses=DOSE_SUBSET,
         )
     )
     learner_cols = [
@@ -233,5 +237,44 @@ def test_registered_levels_are_exact() -> None:
     assert e3.ONSETS == {"before": 800, "at": 1600, "after": 2000}
     assert e3.COVERAGE_END == {"short": 1600, "long": 3200}
     assert e3.ROLLBACKS == ("off", "parity")
-    assert e3.RESPONSES == ("continue", "revert", "certify_promote", "revert_while_certifying")
-    assert len(e3.all_cells()) == 24
+    assert e3.RESPONSES == (
+        "continue",
+        "revert",
+        "certify_promote",
+        "revert_while_certifying",
+        "wait_revert",
+    )
+    assert e3.DOSES == (0.0, 0.15, 0.3, 0.45, 0.6, 0.8, 1.0)
+    assert len(e3.all_cells()) == 84
+
+
+def test_wait_revert_is_a_matched_wait_without_certification(frame: pd.DataFrame) -> None:
+    wait = frame[(frame.response == "wait_revert") & frame.alarmed]
+    assert len(wait) > 0
+    assert (wait.labels_cert == 0).all() and not wait.certified.any()
+    feasible = wait[wait.revert_start >= 0]
+    assert (feasible.revert_start == feasible.trigger + 1 + e3.CERT_WINDOW).all()
+    assert (feasible.switches == 1).all()
+    assert (wait[wait.revert_start < 0].switches == 0).all()
+
+
+def test_dose_zero_is_safe_and_doses_share_prealarm_history(frame: pd.DataFrame) -> None:
+    keys = ["seed", "onset", "coverage", "rollback", "response"]
+    assert (frame.groupby(keys).trigger.nunique() == 1).all()  # trigger identical across doses
+    zero = frame[frame.dose == 0.0]
+    assert (zero.deterioration_start == -1).all()
+
+
+def test_monitoring_diagnostics_columns(frame: pd.DataFrame) -> None:
+    rwc = frame[(frame.response == "revert_while_certifying") & (frame.rollback == "parity")]
+    starved = rwc[rwc.candidate_monitor_starved]
+    # a starved candidate monitor means the reference monitor spent the whole shared allowance
+    assert (starved.reference_monitor_labels >= e3.ROLLBACK_LABEL_CAP).all()
+    assert (starved.labels_rollback == starved.reference_monitor_labels).all()
+    off = frame[frame.rollback == "off"]
+    assert not off.candidate_monitor_starved.any()
+    cert = frame[
+        frame.response.isin(["certify_promote", "revert_while_certifying"]) & frame.alarmed
+    ]
+    assert (cert.abstained == (~cert.deployed)).all()
+    assert (frame.deployed == (frame.deploy >= 0)).all()

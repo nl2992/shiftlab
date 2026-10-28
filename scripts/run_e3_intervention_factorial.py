@@ -30,10 +30,13 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
 from shiftlab.dive import e3_intervention_factorial as e3
+from shiftlab.freeze import require_freeze
 from shiftlab.seed_registry import load_registry
 
 BLOCK_IDS = {"dev": "e3_dev_smoke", "confirmation": "e3_confirmation"}
 PROTOCOL = ROOT / "docs/research_refinement_v1/stage1/P2_E3_protocol.md"
+FREEZE_RECORD = ROOT / "docs/research_refinement_v1/stage1/P2_E3_freeze.json"
+CONFIG_FILE = ROOT / "configs/e3_intervention_config.json"
 
 
 def _sha256_bytes(data: bytes) -> str:
@@ -50,15 +53,14 @@ def _git(*args: str) -> str:
     ).stdout.strip()
 
 
-def config_dict(shift: float) -> dict[str, object]:
+def config_dict() -> dict[str, object]:
     return {
         "onsets": e3.ONSETS,
         "coverage_end": e3.COVERAGE_END,
         "rollbacks": list(e3.ROLLBACKS),
-        "reference_states": list(e3.REFERENCE_STATES),
+        "doses": list(e3.DOSES),
         "responses": list(e3.RESPONSES),
         "deterioration_lag": e3.DETERIORATION_LAG,
-        "deterioration_shift": shift,
         "cert_window": e3.CERT_WINDOW,
         "monitor_rate": e3.MONITOR_QUERY_RATE,
         "cert_label_cap": e3.SCOUT_CERT_LABEL_CAP,
@@ -77,19 +79,20 @@ def config_dict(shift: float) -> dict[str, object]:
     }
 
 
-def _work(args: tuple[int, str, float]) -> list[dict[str, object]]:
-    seed, device, shift = args
-    return e3.run_stream(seed, device=device, shift=shift)  # type: ignore[return-value]
+def _work(args: tuple[int, str]) -> list[dict[str, object]]:
+    seed, device = args
+    return e3.run_stream(seed, device=device)  # type: ignore[return-value]
 
 
-def check_freeze(record: Path | None) -> dict[str, object]:
-    if record is None or not record.is_file():
-        raise SystemExit("confirmation block requires --freeze-record (protocol freeze record)")
-    data = json.loads(record.read_text(encoding="utf-8"))
-    expected = _sha256_file(PROTOCOL)
-    if data.get("protocol_sha256") != expected:
-        raise SystemExit("freeze record protocol_sha256 does not match the protocol document")
-    return data
+def require_confirmation_freeze() -> dict[str, object]:
+    """Executable freeze gate: protocol, code, config and clean tree (shiftlab.freeze)."""
+    try:
+        record = require_freeze(FREEZE_RECORD)
+    except (RuntimeError, FileNotFoundError) as error:
+        raise SystemExit(f"confirmation refused: {error}") from error
+    if json.loads(CONFIG_FILE.read_text(encoding="utf-8")) != json.loads(json.dumps(config_dict())):
+        raise SystemExit("confirmation refused: registered config file differs from code config")
+    return record
 
 
 def main() -> None:
@@ -102,33 +105,33 @@ def main() -> None:
     parser.add_argument("--workers", type=int, default=1)
     parser.add_argument("--device", choices=("cpu",), default="cpu")
     parser.add_argument(
-        "--shift",
-        type=float,
-        default=e3.DETERIORATION_SHIFT,
-        help="deterioration shift; non-default values are development sensitivity only",
+        "--first-seed-index",
+        type=int,
+        default=0,
+        help="dev only: offset into the block (200 skips the seeds used by the first smoke)",
     )
-    parser.add_argument("--freeze-record", type=Path, default=None)
     args = parser.parse_args()
 
     block = next(b for b in load_registry().blocks if b.id == BLOCK_IDS[args.block])
-    capacity = block.end - block.start + 1
-    if not 1 <= args.n_per_cell <= capacity:
+    capacity = block.end - block.start + 1 - args.first_seed_index
+    if args.first_seed_index < 0 or not 1 <= args.n_per_cell <= capacity:
         raise SystemExit(f"--n-per-cell must lie in [1, {capacity}] for block {block.id}")
-    if args.block == "confirmation" and args.shift != e3.DETERIORATION_SHIFT:
-        raise SystemExit("confirmation must use the registered deterioration shift")
-    freeze = check_freeze(args.freeze_record) if args.block == "confirmation" else None
+    if args.block == "confirmation" and args.first_seed_index != 0:
+        raise SystemExit("confirmation must start at the first seed of its block")
+    freeze = require_confirmation_freeze() if args.block == "confirmation" else None
     out = args.out.resolve()
     out.mkdir(parents=True, exist_ok=True)
     if any(out.iterdir()):
         raise SystemExit(f"refusing to overwrite nonempty output directory {out}")
 
-    seeds = list(range(block.start, block.start + args.n_per_cell))
+    first = block.start + args.first_seed_index
+    seeds = list(range(first, first + args.n_per_cell))
     started = time.time()
     done_rows: dict[int, list[dict[str, object]]] = {}
     if args.workers > 1:
         try:
             with ProcessPoolExecutor(max_workers=args.workers) as pool:
-                futures = {pool.submit(_work, (s, args.device, args.shift)): s for s in seeds}
+                futures = {pool.submit(_work, (s, args.device)): s for s in seeds}
                 for future in as_completed(futures):
                     done_rows[futures[future]] = future.result()
                     if len(done_rows) % 10 == 0:
@@ -143,7 +146,7 @@ def main() -> None:
             )
     for seed in seeds:
         if seed not in done_rows:
-            done_rows[seed] = _work((seed, args.device, args.shift))
+            done_rows[seed] = _work((seed, args.device))
             if len(done_rows) % 10 == 0:
                 print(
                     f"{len(done_rows)}/{len(seeds)} seeds, {time.time() - started:.0f}s", flush=True
@@ -155,7 +158,7 @@ def main() -> None:
         raise RuntimeError(f"row count {len(detail)} != expected {expected_rows}")
     path = out / "e3_rows.parquet"
     detail.to_parquet(path, index=False)
-    cfg = config_dict(args.shift)
+    cfg = config_dict()
     cfg_sha = _sha256_bytes(json.dumps(cfg, sort_keys=True).encode("utf-8"))
     source_files = [
         ROOT / "src/shiftlab/dive/e3_intervention_factorial.py",

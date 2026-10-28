@@ -1,16 +1,22 @@
-"""Analyse E3 factorial rows (protocol P2): registered contrasts, Holm, descriptives, power.
+"""Analyse E3 dose-response rows (protocol P2 v2): operating-region estimand.
 
   uv run --no-sync python scripts/analyze_e3.py --rows RUN/e3_rows.parquet --out RUN/analysis
 
-Registered family (all in the primary stratum S* = onset "before", coverage averaged over
-both levels, rollback "parity"), d = U(revert) - U(certify_promote):
-  C1  interaction  mean[d_safe - d_deteriorating] > 0
-  C2  safe sign    mean[d_safe] > 0
-  C3  det. sign    mean[-d_deteriorating] > 0
-  C4  background   mean[U(revert_while_certifying) - U(revert)]_deteriorating > 0
-One-sided paired t on per-seed scalars, Holm over the four, alpha = 0.05. Paired bootstrap
-intervals are a sensitivity check. U = expected_net_gain_vs_incumbent. Every seed is
-analysed (no conditioning on alarms).
+Primary estimand (stratum S* = onset "before", rollback "parity", coverage averaged):
+the dose curve D(dose) = E[U(revert) - U(certify_promote)] over the registered dose grid,
+with 95% simultaneous paired-bootstrap max-t bands across the whole grid. Promote side:
+band upper < 0; revert side: band lower > 0. The crossover threshold is the first grid dose
+whose band lies on the promote side, bracketed by the previous dose, and it is reported only
+if a lower dose lies on the revert side. A per-seed OLS slope of D on dose is the registered
+monotone-trend statistic (secondary, one-sided t, descriptive support).
+
+Decomposition (exact identity, per dose): promote advantage -D = U(promote) - U(revert)
+  = [0 - U(revert)]  abstention component (staying on the incumbent instead of reverting)
+  + [U(promote) - 0] promotion component (incremental utility versus `continue`).
+Matched-wait control: U(promote) - U(wait_revert) and U(wait_revert) - U(revert) separate the
+value of certifying from reverting later. Every seed is analysed; certification-conditional
+utility is descriptive only. Failure to find a crossover is reported as "no crossover
+detected on the grid at this n", never as "timing and rollback only".
 """
 
 from __future__ import annotations
@@ -24,132 +30,211 @@ import pandas as pd
 from scipy import stats
 
 UTILITY = "expected_net_gain_vs_incumbent"
-KEYS = ["seed", "onset", "coverage", "rollback", "reference_state"]
+DOSES = (0.0, 0.15, 0.3, 0.45, 0.6, 0.8, 1.0)
+ONSETS = ("before", "at", "after")
+COVERAGES = ("short", "long")
+ROLLBACKS = ("off", "parity")
+RESPONSES = ("continue", "revert", "certify_promote", "revert_while_certifying", "wait_revert")
+KEYS = ["seed", "onset", "coverage", "rollback", "dose"]
 STRATUM = {"onset": "before", "rollback": "parity"}
-ALPHA = 0.05
+BAND_LEVEL = 0.95
 BOOT_DRAWS = 10_000
 BOOT_SEED = 20261030
 POWER_TARGET = 0.9
 EFFECT_SHRINK = 0.75  # development effects are shrunk before sizing (winner's curse)
 NEXT_BLOCK_MAX = 10_000
+MIN_CONFIRMATION_N = 500
+
+
+def validate_grid(rows: pd.DataFrame) -> None:
+    """Reject incomplete grids, duplicate rows, unregistered levels and NaN utilities."""
+    required = set(KEYS) | {"response", UTILITY, "realized_net_gain_vs_incumbent"}
+    if missing := required - set(rows.columns):
+        raise ValueError(f"missing columns: {sorted(missing)}")
+    if rows.duplicated(KEYS + ["response"]).any():
+        raise ValueError("duplicate seed x cell x response rows")
+    if rows[UTILITY].isna().any() or not np.isfinite(rows[UTILITY]).all():
+        raise ValueError("non-finite utilities")
+    observed = sorted(rows.dose.unique())
+    if len(observed) != len(DOSES) or not np.allclose(observed, DOSES):
+        raise ValueError(f"dose levels {observed} differ from registered {DOSES}")
+    for column, levels in (
+        ("onset", ONSETS),
+        ("coverage", COVERAGES),
+        ("rollback", ROLLBACKS),
+        ("response", RESPONSES),
+    ):
+        if set(rows[column].unique()) != set(levels):
+            raise ValueError(f"{column} levels differ from registered {levels}")
+    per_seed = len(ONSETS) * len(COVERAGES) * len(ROLLBACKS) * len(DOSES) * len(RESPONSES)
+    counts = rows.groupby("seed").size()
+    if not (counts == per_seed).all():
+        raise ValueError(f"incomplete grid: every seed needs exactly {per_seed} rows")
 
 
 def wide_utility(rows: pd.DataFrame, value: str = UTILITY) -> pd.DataFrame:
-    wide = rows.pivot_table(index=KEYS, columns="response", values=value, aggfunc="first")
-    if wide.isna().any().any():
-        raise ValueError("unmatched response rows: every seed must enter every cell and response")
-    return wide
+    validate_grid(rows)
+    return rows.pivot(index=KEYS, columns="response", values=value)
 
 
-def stratum_scalars(wide: pd.DataFrame) -> pd.DataFrame:
-    """Per-seed scalars in S*: averages over the coverage levels, rows aligned by seed."""
-    index = wide.index
-    mask = (index.get_level_values("onset") == STRATUM["onset"]) & (
-        index.get_level_values("rollback") == STRATUM["rollback"]
+def stratum_curves(wide: pd.DataFrame) -> pd.DataFrame:
+    """Per (seed, dose) responses in S*, averaged over the coverage levels."""
+    idx = wide.index
+    mask = (idx.get_level_values("onset") == STRATUM["onset"]) & (
+        idx.get_level_values("rollback") == STRATUM["rollback"]
     )
-    sub = wide[mask].reset_index()
-    out = {}
-    for state in ("safe", "deteriorating"):
-        part = sub[sub.reference_state == state].groupby("seed")
-        d = (part["revert"].mean() - part["certify_promote"].mean()).rename(f"d_{state}")
-        bg = (part["revert_while_certifying"].mean() - part["revert"].mean()).rename(f"bg_{state}")
-        out[f"d_{state}"], out[f"bg_{state}"] = d, bg
+    return wide[mask].reset_index().groupby(["seed", "dose"], as_index=True)[list(RESPONSES)].mean()
+
+
+def curve_matrix(curves: pd.DataFrame, fn) -> np.ndarray:
+    """seeds x doses matrix of a per-(seed, dose) statistic."""
+    values = fn(curves)
+    return values.unstack("dose").reindex(columns=list(DOSES)).to_numpy(dtype=float)
+
+
+def simultaneous_band(matrix: np.ndarray) -> pd.DataFrame:
+    """Paired bootstrap max-t simultaneous band over the dose columns (two-sided)."""
+    n = matrix.shape[0]
+    mean = matrix.mean(axis=0)
+    se = matrix.std(axis=0, ddof=1) / np.sqrt(n)
+    rng = np.random.default_rng(BOOT_SEED)
+    max_t = np.empty(BOOT_DRAWS)
+    chunk = 500
+    for start in range(0, BOOT_DRAWS, chunk):
+        size = min(chunk, BOOT_DRAWS - start)
+        idx = rng.integers(0, n, size=(size, n))
+        draws = matrix[idx]  # size x n x doses
+        boot_mean = draws.mean(axis=1)
+        boot_se = draws.std(axis=1, ddof=1) / np.sqrt(n)
+        with np.errstate(divide="ignore", invalid="ignore"):
+            t = np.where(boot_se > 0, (boot_mean - mean) / boot_se, 0.0)
+        max_t[start : start + size] = np.abs(t).max(axis=1)
+    crit = float(np.quantile(max_t, BAND_LEVEL))
+    return pd.DataFrame(
+        {
+            "dose": DOSES,
+            "mean": mean,
+            "sd": matrix.std(axis=0, ddof=1),
+            "se": se,
+            "crit": crit,
+            "band_low": mean - crit * se,
+            "band_high": mean + crit * se,
+        }
+    )
+
+
+def crossover(band: pd.DataFrame) -> dict[str, object]:
+    """Grid-bracketed crossover of D = revert - promote (positive: revert better)."""
+    revert_side = band.dose[band.band_low > 0].tolist()
+    promote_side = band.dose[band.band_high < 0].tolist()
+    threshold = None
+    bracket = None
+    for dose in promote_side:
+        if any(r < dose for r in revert_side):
+            threshold = float(dose)
+            lower = [d for d in DOSES if d < dose]
+            bracket = (float(lower[-1]) if lower else None, threshold)
+            break
+    point_zero = [float(d) for d, m in zip(band.dose, band["mean"], strict=True) if m < 0]
+    return {
+        "revert_side_doses": [float(d) for d in revert_side],
+        "promote_side_doses": [float(d) for d in promote_side],
+        "crossover_found": threshold is not None,
+        "threshold_dose": threshold,
+        "bracket": bracket,
+        "first_dose_with_negative_point_estimate": point_zero[0] if point_zero else None,
+    }
+
+
+def promotion_supported_doses(tables: dict[str, pd.DataFrame]) -> list[float]:
+    """Promote-side doses (D band upper < 0) where promotion beats `continue` (band lower > 0).
+
+    Doses on the promote side without this property are abstention-only: promote wins because
+    reverting loses, not because a promoted candidate adds utility.
+    """
+    d = tables["D_revert_minus_promote"]
+    pb = tables["promotion_component_promote_vs_continue"]
+    flag = (d.band_high < 0) & (pb.band_low > 0)
+    return [float(x) for x in d.dose[flag]]
+
+
+def trend_test(matrix: np.ndarray) -> dict[str, float]:
+    """Registered monotone trend: per-seed OLS slope of D on dose, one-sided t (slope < 0)."""
+    x = np.asarray(DOSES) - np.mean(DOSES)
+    slopes = matrix @ x / np.sum(x**2)
+    mean, sd = float(slopes.mean()), float(slopes.std(ddof=1))
+    t = mean / (sd / np.sqrt(len(slopes))) if sd > 0 else (-np.inf if mean < 0 else np.inf)
+    return {
+        "mean_slope": mean,
+        "sd": sd,
+        "p_one_sided_negative": float(stats.t.cdf(t, len(slopes) - 1)),
+    }
+
+
+def dose_tables(curves: pd.DataFrame) -> dict[str, pd.DataFrame]:
+    defs = {
+        "D_revert_minus_promote": lambda c: c["revert"] - c["certify_promote"],
+        "abstention_component_neg_revert": lambda c: -c["revert"],
+        "promotion_component_promote_vs_continue": lambda c: c["certify_promote"],
+        "promote_minus_wait_revert": lambda c: c["certify_promote"] - c["wait_revert"],
+        "wait_revert_minus_revert_timing": lambda c: c["wait_revert"] - c["revert"],
+        "background_cert_over_revert": lambda c: c["revert_while_certifying"] - c["revert"],
+        "revert_vs_continue": lambda c: c["revert"],
+    }
+    return {name: simultaneous_band(curve_matrix(curves, fn)) for name, fn in defs.items()}
+
+
+def probability_table(rows: pd.DataFrame) -> pd.DataFrame:
+    """Alarm / certification / deployment / abstention / rollback probabilities per dose (S*)."""
+    sub = rows[(rows.onset == STRATUM["onset"]) & (rows.rollback == STRATUM["rollback"])]
+    out = []
+    for (dose, response), g in sub.groupby(["dose", "response"]):
+        cert = response in {"certify_promote", "revert_while_certifying"}
+        out.append(
+            {
+                "dose": dose,
+                "response": response,
+                "n_rows": len(g),
+                "p_alarm": g.alarmed.mean(),
+                "p_cert_infeasible": g.cert_infeasible.mean() if cert else np.nan,
+                "p_certified": g.certified.mean() if cert else np.nan,
+                "p_deployed": g.deployed.mean() if cert else np.nan,
+                "p_abstained_given_alarm": (
+                    g.abstained.sum() / max(1, g.alarmed.sum()) if cert else np.nan
+                ),
+                "p_reference_rollback": (g.reference_rollback >= 0).mean(),
+                "p_candidate_rollback": (g.candidate_rollback >= 0).mean(),
+                "p_candidate_monitor_starved_given_deploy": (
+                    g.candidate_monitor_starved.sum() / max(1, g.deployed.sum())
+                    if response == "revert_while_certifying"
+                    else np.nan
+                ),
+                "mean_utility": g[UTILITY].mean(),
+                "mean_utility_given_certified": (
+                    g.loc[g.certified, UTILITY].mean() if cert and g.certified.any() else np.nan
+                ),
+                "mean_utility_given_not_certified": (
+                    g.loc[~g.certified, UTILITY].mean() if cert and (~g.certified).any() else np.nan
+                ),
+                "mean_labels_total": g.labels_total.mean(),
+                "mean_labels_cert": g.labels_cert.mean(),
+                "mean_labels_rollback": g.labels_rollback.mean(),
+                "mean_compute_units": g.compute_units.mean(),
+                "mean_switches": g.switches.mean(),
+                "mean_rollbacks": g.rollbacks.mean(),
+            }
+        )
     return pd.DataFrame(out)
 
 
-def holm(pvalues: dict[str, float]) -> dict[str, float]:
-    order = sorted(pvalues, key=pvalues.__getitem__)
-    adjusted, running = {}, 0.0
-    for rank, name in enumerate(order):
-        running = max(running, min(1.0, (len(order) - rank) * pvalues[name]))
-        adjusted[name] = running
-    return adjusted
-
-
-def one_sided_t(values: np.ndarray) -> tuple[float, float, float]:
-    """Mean, sd and one-sided p for H1: mean > 0 (paired t on per-seed scalars)."""
-    mean, sd = float(values.mean()), float(values.std(ddof=1))
-    if sd == 0.0:
-        return mean, sd, 0.0 if mean > 0 else 1.0
-    t = mean / (sd / np.sqrt(len(values)))
-    return mean, sd, float(stats.t.sf(t, df=len(values) - 1))
-
-
-def bootstrap_ci(values: np.ndarray) -> tuple[float, float]:
-    rng = np.random.default_rng(BOOT_SEED)
-    idx = rng.integers(0, len(values), size=(BOOT_DRAWS, len(values)))
-    means = values[idx].mean(axis=1)
-    return float(np.quantile(means, 0.025)), float(np.quantile(means, 0.975))
-
-
-def registered_contrasts(scalars: pd.DataFrame) -> pd.DataFrame:
-    series = {
-        "C1_interaction_safe_minus_det": scalars.d_safe - scalars.d_deteriorating,
-        "C2_revert_over_promote_when_safe": scalars.d_safe,
-        "C3_promote_over_revert_when_deteriorating": -scalars.d_deteriorating,
-        "C4_background_cert_over_revert_when_deteriorating": scalars.bg_deteriorating,
-    }
-    rows, pvals = [], {}
-    for name, values in series.items():
-        arr = values.to_numpy(dtype=float)
-        mean, sd, p = one_sided_t(arr)
-        lo, hi = bootstrap_ci(arr)
-        rows.append(
-            {
-                "contrast": name,
-                "n_seeds": len(arr),
-                "mean": mean,
-                "sd": sd,
-                "p_one_sided": p,
-                "boot_ci95_low": lo,
-                "boot_ci95_high": hi,
-            }
-        )
-        pvals[name] = p
-    adj = holm(pvals)
-    frame = pd.DataFrame(rows)
-    frame["p_holm"] = frame.contrast.map(adj)
-    frame["reject_holm_0.05"] = frame.p_holm < ALPHA
-    return frame
-
-
-def power_table(contrasts: pd.DataFrame) -> pd.DataFrame:
-    z_alpha = stats.norm.isf(ALPHA / len(contrasts))  # conservative: full Bonferroni level
-    z_beta = stats.norm.isf(1 - POWER_TARGET)
-    rows = []
-    for rec in contrasts.itertuples():
-        effect = EFFECT_SHRINK * rec.mean
-        if effect <= 0 or rec.sd == 0:
-            n = float("inf")
-        else:
-            n = float(np.ceil(((z_alpha + z_beta) * rec.sd / effect) ** 2))
-        rows.append(
-            {
-                "contrast": rec.contrast,
-                "dev_mean": rec.mean,
-                "dev_sd": rec.sd,
-                "shrunk_effect": effect,
-                "n_for_power_0.9": n,
-            }
-        )
-    frame = pd.DataFrame(rows)
-    finite = frame["n_for_power_0.9"].replace(np.inf, np.nan).dropna()
-    frame.attrs["recommended_n"] = (
-        int(min(NEXT_BLOCK_MAX, max(finite.max(), 200))) if len(finite) else None
-    )
-    frame.attrs["unreachable"] = frame.loc[
-        ~np.isfinite(frame["n_for_power_0.9"]), "contrast"
-    ].tolist()
-    return frame
-
-
 def cell_descriptives(rows: pd.DataFrame) -> pd.DataFrame:
-    group = rows.groupby(["onset", "coverage", "rollback", "reference_state", "response"])
+    group = rows.groupby(["onset", "coverage", "rollback", "dose", "response"])
     return group.agg(
         n=("seed", "nunique"),
         alarm_rate=("alarmed", "mean"),
         certified_rate=("certified", "mean"),
         infeasible_rate=("cert_infeasible", "mean"),
+        deployed_rate=("deployed", "mean"),
         mean_expected_net_gain=(UTILITY, "mean"),
         sd_expected_net_gain=(UTILITY, "std"),
         mean_realized_net_gain=("realized_net_gain_vs_incumbent", "mean"),
@@ -161,40 +246,43 @@ def cell_descriptives(rows: pd.DataFrame) -> pd.DataFrame:
     ).reset_index()
 
 
-def main_effects(rows: pd.DataFrame) -> pd.DataFrame:
-    """Descriptive only: mean utility by single factor level and response."""
-    parts = []
-    for factor in ("onset", "coverage", "rollback", "reference_state"):
-        part = rows.groupby([factor, "response"])[UTILITY].mean().reset_index()
-        part.insert(0, "factor", factor)
-        part = part.rename(columns={factor: "level"})
-        parts.append(part)
-    return pd.concat(parts, ignore_index=True)
+def power_table(bands: dict[str, pd.DataFrame]) -> pd.DataFrame:
+    """n so each decisive dose (dev band excludes 0) keeps its band off 0 with power 0.9."""
+    z_beta = stats.norm.isf(1 - POWER_TARGET)
+    rows = []
+    for name, band in bands.items():
+        for rec in band.itertuples():
+            decisive = rec.band_low > 0 or rec.band_high < 0
+            effect = EFFECT_SHRINK * abs(rec.mean)
+            n = (
+                float(np.ceil(((rec.crit + z_beta) * rec.sd / effect) ** 2))
+                if effect > 0
+                else np.inf
+            )
+            rows.append(
+                {
+                    "curve": name,
+                    "dose": rec.dose,
+                    "dev_mean": rec.mean,
+                    "dev_sd": rec.sd,
+                    "decisive_in_dev": decisive,
+                    "n_for_power_0.9": n,
+                }
+            )
+    frame = pd.DataFrame(rows)
+    need = frame.loc[frame.decisive_in_dev, "n_for_power_0.9"]
+    need = need[np.isfinite(need)]
+    rec_n = MIN_CONFIRMATION_N
+    if len(need):
+        rec_n = int(min(NEXT_BLOCK_MAX, max(MIN_CONFIRMATION_N, np.ceil(need.max() / 100) * 100)))
+    frame.attrs["recommended_n"] = rec_n
+    return frame
 
 
-def all_cell_interactions(wide: pd.DataFrame) -> pd.DataFrame:
-    """Descriptive: the revert-minus-promote interaction in every onset/coverage/rollback cell."""
-    d = (wide["revert"] - wide["certify_promote"]).unstack("reference_state")
-    delta = (d["safe"] - d["deteriorating"]).rename("interaction")
-    out = (
-        pd.concat([d["safe"].rename("d_safe"), d["deteriorating"].rename("d_det"), delta], axis=1)
-        .groupby(["onset", "coverage", "rollback"])
-        .agg(["mean", "std"])
-    )
-    out.columns = ["_".join(c) for c in out.columns]
-    return out.reset_index()
-
-
-def verdict(contrasts: pd.DataFrame) -> str:
-    rejected = dict(zip(contrasts.contrast, contrasts["reject_holm_0.05"], strict=True))
-    c1 = rejected["C1_interaction_safe_minus_det"]
-    c2 = rejected["C2_revert_over_promote_when_safe"]
-    c3 = rejected["C3_promote_over_revert_when_deteriorating"]
-    if c1 and c2 and c3:
-        return "crossover_supported"
-    if c1:
-        return "interaction_without_full_crossover"
-    return "no_interaction_ranking_set_by_timing_and_rollback_only"
+def verdict(cross: dict[str, object]) -> str:
+    if cross["crossover_found"]:
+        return f"crossover_located_in_bracket_{cross['bracket']}"
+    return "no_crossover_detected_on_grid_at_this_n"
 
 
 def main() -> None:
@@ -207,18 +295,25 @@ def main() -> None:
     manifest = (
         json.loads(manifest_path.read_text(encoding="utf-8")) if manifest_path.is_file() else {}
     )
-    wide = wide_utility(rows)
-    scalars = stratum_scalars(wide)
-    contrasts = registered_contrasts(scalars)
-    power = power_table(contrasts)
-    args.out.mkdir(parents=True, exist_ok=True)
-    contrasts.to_csv(args.out / "registered_contrasts.csv", index=False)
-    power.to_csv(args.out / "power_from_dev.csv", index=False)
-    cell_descriptives(rows).to_csv(args.out / "cell_descriptives.csv", index=False)
-    main_effects(rows).to_csv(args.out / "main_effects_descriptive.csv", index=False)
-    all_cell_interactions(wide).to_csv(
-        args.out / "all_cell_interactions_descriptive.csv", index=False
+    wide = wide_utility(rows)  # validates the grid
+    curves = stratum_curves(wide)
+    tables = dose_tables(curves)
+    primary = tables["D_revert_minus_promote"]
+    cross = crossover(primary)
+    trend = trend_test(curve_matrix(curves, lambda c: c["revert"] - c["certify_promote"]))
+    power = power_table(
+        {
+            k: tables[k]
+            for k in ("D_revert_minus_promote", "promotion_component_promote_vs_continue")
+        }
     )
+    supported = promotion_supported_doses(tables)
+    args.out.mkdir(parents=True, exist_ok=True)
+    for name, table in tables.items():
+        table.to_csv(args.out / f"dose_curve_{name}.csv", index=False)
+    power.to_csv(args.out / "power_from_dev.csv", index=False)
+    probability_table(rows).to_csv(args.out / "dose_probabilities_stratum.csv", index=False)
+    cell_descriptives(rows).to_csv(args.out / "cell_descriptives.csv", index=False)
     summary = {
         "block": manifest.get("block"),
         "status": manifest.get("status"),
@@ -226,16 +321,24 @@ def main() -> None:
         "rows": len(rows),
         "utility": UTILITY,
         "stratum": {**STRATUM, "coverage": "mean of short and long"},
-        "verdict": verdict(contrasts),
+        "doses": list(DOSES),
+        "simultaneous_band_level": BAND_LEVEL,
+        "primary_crit": float(primary.crit.iloc[0]),
+        "crossover": cross,
+        "promotion_supported_promote_side_doses": supported,
+        "trend": trend,
+        "verdict": verdict(cross),
         "recommended_n_for_confirmation": power.attrs["recommended_n"],
-        "unreachable_power_contrasts": power.attrs["unreachable"],
-        "contrasts": contrasts.to_dict(orient="records"),
+        "primary_curve": primary.to_dict(orient="records"),
         "power": power.to_dict(orient="records"),
     }
     (args.out / "summary.json").write_text(json.dumps(summary, indent=2), encoding="utf-8")
-    pd.set_option("display.width", 220)
-    print(contrasts.round(4).to_string(index=False))
-    print(power.round(2).to_string(index=False))
+    pd.set_option("display.width", 240)
+    for name, table in tables.items():
+        print(name)
+        print(table.round(2).to_string(index=False))
+    print(json.dumps({"crossover": cross, "trend": trend}, indent=1))
+    print(power.round(1).to_string(index=False))
     print(
         "verdict:",
         summary["verdict"],

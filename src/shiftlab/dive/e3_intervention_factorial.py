@@ -57,18 +57,22 @@ CERT_WINDOW = 800  # scout (400) + fresh certification (400), as in the integrat
 ONSETS: dict[str, int] = {"before": 800, "at": 1600, "after": 2000}
 COVERAGE_END: dict[str, int] = {"short": 1600, "long": N_EVENTS}
 ROLLBACKS: tuple[str, ...] = ("off", "parity")
-REFERENCE_STATES: tuple[str, ...] = ("safe", "deteriorating")
+# Registered dose grid of post-alarm reference deterioration (latent-target shift). 0 = safe.
+# Chosen from development evidence (protocol section 3.1): 0 anchors the safe regime, 0.15-0.45
+# lie below the dev transition, the dev crossover appeared between 0.45 and 0.6, and 0.8 / 1.0
+# are in the degenerate regime where certification almost never succeeds.
+DOSES: tuple[float, ...] = (0.0, 0.15, 0.3, 0.45, 0.6, 0.8, 1.0)
 RESPONSES: tuple[str, ...] = (
     "continue",
     "revert",
     "certify_promote",
     "revert_while_certifying",
+    "wait_revert",
 )
 # Reference deterioration (evaluator side): from the first event after the cell's Q1 alarm
 # (alarm index + 1 + DETERIORATION_LAG) every latent target is shifted by
 # +DETERIORATION_SHIFT before thresholding at zero. No Q1 alarm -> no deterioration.
 DETERIORATION_LAG = 0
-DETERIORATION_SHIFT = 0.6
 SCORE_SCALE = 0.3  # the generator's label noise scale; p = ndtr(score / 0.3)
 BASE_SEED_OFFSET = 700_001  # query-uniform stream offset, as in integrated_pipeline
 
@@ -77,18 +81,12 @@ FN_COST, FP_COST = SCENARIO.fn_cost, SCENARIO.fp_cost
 COST_BOUND = float(max(FN_COST, FP_COST))
 
 
-def cell_key(onset: str, coverage: str, rollback: str, reference: str) -> str:
+def cell_key(onset: str, coverage: str, rollback: str, reference: float) -> str:
     return f"{onset}|{coverage}|{rollback}|{reference}"
 
 
-def all_cells() -> list[tuple[str, str, str, str]]:
-    return [
-        (o, c, r, s)
-        for o in ONSETS
-        for c in COVERAGE_END
-        for r in ROLLBACKS
-        for s in REFERENCE_STATES
-    ]
+def all_cells() -> list[tuple[str, str, str, float]]:
+    return [(o, c, r, s) for o in ONSETS for c in COVERAGE_END for r in ROLLBACKS for s in DOSES]
 
 
 def _cost(actions: np.ndarray, y: np.ndarray) -> np.ndarray:
@@ -197,24 +195,24 @@ def deterioration_start(trigger: int | None) -> int:
 
 
 def realised_outcomes(
-    bundle: StreamBundle, reference_state: str, start: int, shift: float = DETERIORATION_SHIFT
+    bundle: StreamBundle, dose: float, start: int
 ) -> tuple[np.ndarray, OracleView]:
-    """Observed labels and evaluator-side truth for a reference state.
+    """Observed labels and evaluator-side truth for a deterioration dose.
 
-    ``deteriorating``: for t >= ``start`` the latent target is shifted by +0.6, so
-    y_t = 1{target_t + 0.6 > 0} and p_t = ndtr((score_t + 0.6) / 0.3). Features are
-    unchanged (pure concept shift): the fixed source reference misses boundary-region
-    positives (false-negative cost 5) while liberal logistic candidates in the frozen
-    family do not. ``safe``: the stationary labels.
+    dose 0: the stationary labels. dose > 0: for t >= ``start`` the latent target is
+    shifted by +dose, so y_t = 1{target_t + dose > 0} and p_t = ndtr((score_t + dose) / 0.3).
+    Features are unchanged (pure concept shift): the fixed source reference misses
+    boundary-region positives (false-negative cost 5) while liberal logistic candidates in
+    the frozen family may not.
     """
-    if reference_state == "safe":
+    if dose < 0 or not np.isfinite(dose):
+        raise ValueError(f"invalid deterioration dose {dose}")
+    if dose == 0.0:
         return (bundle.target > 0).astype(int), OracleView(bundle.probability_safe.copy())
-    if reference_state != "deteriorating":
-        raise ValueError(f"unknown reference state {reference_state}")
     target = bundle.target.copy()
     p = bundle.probability_safe.copy()
-    target[start:] += shift
-    p[start:] = ndtr((bundle.score[start:] + shift) / SCORE_SCALE)
+    target[start:] += dose
+    p[start:] = ndtr((bundle.score[start:] + dose) / SCORE_SCALE)
     return (target > 0).astype(int), OracleView(p)
 
 
@@ -439,6 +437,8 @@ class Timeline:
     cert_labels: int = 0
     rollback_labels: int = 0
     compute_units: int = 0
+    reference_monitor_labels: int = 0
+    candidate_monitor_starved: bool = False
 
     @property
     def total_labels(self) -> int:
@@ -482,6 +482,33 @@ def build_timeline(
     if q1.trigger is None or response == "continue":
         return line
     trigger = q1.trigger
+    if response == "wait_revert":
+        # Matched-wait control: idle for the certification duration, then revert unconditionally.
+        wake = trigger + 1 + CERT_WINDOW
+        line.cert_start = trigger + 1
+        line.cert_complete = wake
+        if wake < N_EVENTS:
+            line.revert_start = wake
+            policy[wake:] = REFERENCE
+            line.switches += 1
+            if rollback_on:
+                res = run_rollback_monitor(
+                    start=wake,
+                    end=N_EVENTS,
+                    deployed=reference,
+                    incumbent=incumbent,
+                    y=y,
+                    uniforms=uniforms,
+                    label_cap=ROLLBACK_LABEL_CAP,
+                )
+                line.rollback_labels += res.labels
+                line.reference_monitor_labels = res.labels
+                line.compute_units += res.processed
+                if res.alarm is not None:
+                    line.reference_rollback = res.alarm
+                    line.rollbacks += 1
+                    policy[res.alarm + 1 :] = INCUMBENT
+        return line
     reverts = response in {"revert", "revert_while_certifying"}
     certifies = response in {"certify_promote", "revert_while_certifying"}
 
@@ -523,6 +550,7 @@ def build_timeline(
             )
             cap_left -= res.labels
             line.rollback_labels += res.labels
+            line.reference_monitor_labels = res.labels
             line.compute_units += res.processed
             if res.alarm is not None:
                 line.reference_rollback = res.alarm
@@ -532,6 +560,7 @@ def build_timeline(
         policy[deploy:] = CANDIDATE
         line.switches += 1
         if rollback_on:
+            line.candidate_monitor_starved = cap_left < 1
             res = run_rollback_monitor(
                 start=deploy,
                 end=N_EVENTS,
@@ -604,8 +633,8 @@ def run_stream(
     onsets: Sequence[str] | None = None,
     coverages: Sequence[str] | None = None,
     bundle: StreamBundle | None = None,
-    oracle_override: dict[str, OracleView] | None = None,
-    shift: float = DETERIORATION_SHIFT,
+    oracle_override: OracleView | None = None,
+    doses: Sequence[float] | None = None,
 ) -> list[dict[str, Any]]:
     """All cells x responses for one seed (every seed enters every cell)."""
     bundle = bundle or build_stream(seed, device)
@@ -614,7 +643,7 @@ def run_stream(
         onset = ONSETS[onset_name]
         family, incumbent = family_for_onset(bundle, onset)
         for coverage in coverages or COVERAGE_END:
-            y_safe, _ = realised_outcomes(bundle, "safe", N_EVENTS)
+            y_safe, _ = realised_outcomes(bundle, 0.0, N_EVENTS)
             q1 = run_q1_monitor(
                 incumbent=incumbent,
                 reference=bundle.reference,
@@ -623,10 +652,10 @@ def run_stream(
                 coverage=coverage,
             )
             t_det = deterioration_start(q1.trigger)
-            for state in REFERENCE_STATES:
-                y, oracle = realised_outcomes(bundle, state, t_det, shift)
-                if oracle_override and state in oracle_override:
-                    oracle = oracle_override[state]
+            for dose in doses or DOSES:
+                y, oracle = realised_outcomes(bundle, dose, t_det)
+                if oracle_override is not None:
+                    oracle = oracle_override
                 cert = (
                     run_certification(
                         family=family,
@@ -671,10 +700,9 @@ def run_stream(
                                 "onset_index": onset,
                                 "coverage": coverage,
                                 "rollback": rollback,
-                                "reference_state": state,
+                                "dose": float(dose),
                                 "response": response,
-                                "deterioration_shift": shift,
-                                "deterioration_start": t_det if state == "deteriorating" else -1,
+                                "deterioration_start": t_det if dose > 0 else -1,
                                 "trigger": -1 if line.trigger is None else line.trigger,
                                 "alarmed": q1.trigger is not None,
                                 "revert_start": -1
@@ -705,6 +733,14 @@ def run_stream(
                                 "labels_rollback": line.rollback_labels,
                                 "labels_total": line.total_labels,
                                 "compute_units": line.compute_units,
+                                "reference_monitor_labels": line.reference_monitor_labels,
+                                "candidate_monitor_starved": line.candidate_monitor_starved,
+                                "deployed": line.deploy is not None,
+                                "abstained": bool(
+                                    q1.trigger is not None
+                                    and response in {"certify_promote", "revert_while_certifying"}
+                                    and line.deploy is None
+                                ),
                                 **score,
                             }
                         )

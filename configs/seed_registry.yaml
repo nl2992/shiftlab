@@ -1625,7 +1625,7 @@ studies:
   end: 100200999
   source: docs/research_refinement_v1/stage1/P2_E3_protocol.md (allocated 2026-10-28)
   status: development
-  used_by: [e3/dev (seeds 100200000-100200199 used; deterioration shift tuned on these)]
+  used_by: [e3/dev (100200000-100200199 v1 smoke; deterioration shift tuned on these), e3/dev_v2_n400 (100200200-100200599; dose grid chosen from these), 100200600-100200999 unused]
   derivation: allocated
   note: 'E3 CPU smoke and development (P2)'
 - id: e3_confirmation

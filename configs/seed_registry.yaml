@@ -1644,6 +1644,14 @@ studies:
   used_by: []
   derivation: allocated
   note: 'E4 dev/locked authority split seed (first id) and orientation-null replicates (P3)'
+- id: e2_dev_grid
+  start: 100500000
+  end: 100509999
+  source: docs/research_refinement_v1/stage1/P1_E2_protocol.md (allocated 2026-10-28 after Codex protocol review)
+  status: reserved_unused
+  used_by: []
+  derivation: allocated
+  note: 'E2 development grid selection (severity/budget/burst cells placed away from ceiling, per Codex Stage 1 review)'
 excluded_scalar_seeds:
 - {output: shiftguard_unified/real_data_development/gas_sensor_candidates_v1, seed: 20261026, reason: 'dataset split, encoder, cross-fit or bootstrap seed on real data, not a stream block'}
 - {output: shiftguard_unified/real_data_development/gas_sensor_candidates_v2, seed: 20261026, reason: 'dataset split, encoder, cross-fit or bootstrap seed on real data, not a stream block'}

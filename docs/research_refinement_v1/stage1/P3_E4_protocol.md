@@ -229,9 +229,14 @@ adaptations are not run (WP1 S3 only); the stratified arm is not alive.
   - A path is screened by `D_p >= 30` disagreements. 30 is about four times the 8 events that are
     needed for any alarm even when every disagreement has the maximum value +5 (computed from the
     frozen mixture); it is a screen, not a proof of adequacy.
-  - For each cell the runner also reports the **expected queried disagreements**
-    `sum_t D_t q_t` (before the reserve stop; `r D_p` for ungated; `D_p` for full feedback) and the
-    mean labels. A cell is **informative** if `D_p >= 30` and the expected queried disagreements
+  - For each cell the runner also reports the **expected queried disagreements over the processed
+    prefix only**: `sum_t D_t q_t P(event t is processed)`, where `P` is estimated from the arm's own
+    null replicates (the share of replicates whose reserve stop falls after `t`). Event `t` is
+    processed or not depending only on coins at earlier events, and the coin at `t` is independent
+    of that, so this is the exact expectation; the reserve stop depends on realised queries and is
+    not deterministic, hence the replicate estimate. Disagreements after the reserve is exhausted
+    do not count, and a test covers exhaustion before the disagreements. The mean labels are also
+    reported. A cell is **informative** if `D_p >= 30` and the expected queried disagreements
     are at least **8**. An **arm-informative path** is a path whose cell at the arm's largest budget
     (`r = 0.20`; full feedback has one cell) is informative.
   - The numbers 30, 8, 6 and 3 are conservative engineering choices, not derived optima.
@@ -374,7 +379,14 @@ writing it is 55 files (38 under `src/shiftlab/`), listed below. Each is hashed 
   record), `outputs/eia_paired_reserve/streams.parquet` (pinned by the WP4 freeze record, which
   this record includes; it is ignored by Git and so cannot be committed).
 
-Other preconditions: the lead verifies the region map and re-hashes it; the seed registry is updated;
+**Region-map amendment (replaces the earlier verification precondition).** No download is allowed, and
+nothing in the repository can verify the authority-to-region assignments. The map is therefore
+**reporting-only**; its entries are unverified; every regional table and cluster line must carry the
+flag `region_map_unverified` and mark the uncertain entries (AECI, DOPD, FMPP, HST, LGEE, PACE); and
+**no hypothesis decision, eligibility, split, seed or verdict depends on it**. A later correction
+would change only the reporting tables. This amendment satisfies the region-map precondition.
+
+Other preconditions: the seed registry is updated (the region map no longer needs verification);
 the freeze record is written **after** the last edit and all listed files are committed.
 
 **Cost.** About 168 s per authority (Section 12), so **about one hour for 21 authorities** plus one
@@ -400,11 +412,12 @@ uv run --no-sync python scripts/run_e4_heldout.py freeze-list
 uv run --no-sync pytest -q tests/test_e4_heldout.py
 ```
 
-**Tests (`tests/test_e4_heldout.py`, 15 tests, synthetic data only, temp directories):** coin
+**Tests (`tests/test_e4_heldout.py`, 16 tests, synthetic data only, temp directories):** coin
 replacement changes exactly three names and uses the registered seeds; seed ranges are disjoint and
 inside the block; the null loop never calls the re-run coins; replication count certifies zero alarms
 at m = 714 (187 does, 186 does not); Bonferroni family size is enforced and the 30/1,000 example is
 insufficient with no re-run; arm support verdicts; H-B4(b) stratification (q = 1 cannot support);
+information counted over the processed prefix only (exhaustion before the disagreements);
 empty paths; a full synthetic run that keeps an R20 failure; atomic opening; refusal without a valid
 or complete freeze record; marker before any read and a refused second opening; smoke refuses a
 locked authority before any read; the freeze list covers the imported modules.
@@ -415,14 +428,15 @@ counts (null 1,000, unmodified 200, injected 200), no re-run. Code git HEAD at t
 
 | Stage | Seconds |
 |---|---:|
-| Read the four series (one archive pass) | 44.8 |
-| Build rehearsal, 2025, 2026 streams | 4.2 |
-| (a) Orientation null, 2 paths x 17 cells x 2 epsilons | 113.6 |
-| (b) Unmodified | 12.6 |
-| (c) Injected harm | 38.2 |
-| **Total** | **213.5** |
+| Read the four series (one archive pass) | 31.9 |
+| Build rehearsal, 2025, 2026 streams | 3.0 |
+| (a) Orientation null, 2 paths x 17 cells x 2 epsilons | 97.3 |
+| (b) Unmodified | 10.2 |
+| (c) Injected harm | 30.8 |
+| **Total** | **173.2** |
 
-Analysis without reading and building: about 164 s per authority. Results, development only:
+Analysis without reading and building: about 138 s per authority on this run (164 s on the previous
+run; machine load varies), so the 1 h estimate stands. Results, development only:
 R20 passes (653 procure events); 2 paths with 1 disagreement each, so every arm is INCONCLUSIVE; at
 m = 34 no cell is insufficiently validated (the minimum zero-alarm count is 128 replicates);
 H-B4(b): all 9 detectable cells are in the `q = 1` structural stratum, so the state is INCONCLUSIVE.

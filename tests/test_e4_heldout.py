@@ -301,6 +301,7 @@ def test_full_synthetic_run_retains_r20_failures_and_computes_family(tmp_path, r
     summary = rh.write_outputs(result, out, {"mode": "test"})
     assert "arm_states" in summary["null"] and summary["hb4b"]["state"]
     assert set(summary["regions"]["per_authority"]) == {"AAA"}
+    assert summary["regions"]["region_map_unverified"] is True
     with pytest.raises(FileExistsError):
         rh.run_authorities(
             ["AAA"],
@@ -421,3 +422,46 @@ def test_freeze_list_covers_runner_and_imported_modules():
     ):
         assert needed in files
     assert set(rh.REQUIRED_FROZEN) <= set(files)
+
+
+# ---- information over the processed prefix only ---------------------------------------------
+def _late_disagreement_path(n: int = 400, late: int = 100):
+    import dataclasses
+
+    base = _stream("AAA", "2025", n, 2)
+    dis = np.zeros(n, dtype=bool)
+    dis[-late:] = True
+    z = np.where(dis, np.where(np.arange(n) % 2 == 0, 1.0, -1.0), 0.0)
+    stream = dataclasses.replace(base, disagreement=dis, paired_cost=z)
+    return eva.PathData(0, stream, _stream("AAA", "rehearsal_2024", 300, 1))
+
+
+def test_information_ignores_disagreements_after_reserve_exhaustion(restore_coins):
+    rh.install_e4_coins()
+    p = _late_disagreement_path()
+    reps = 200
+    signs, uniforms = eva.orientation_coins(p.k, p.n, reps)
+    batch = eva._replay(
+        p,
+        "ungated_ht",
+        0.02,
+        paired_cost=p.stream.paired_cost,
+        disagreement=p.stream.disagreement,
+        signs=signs,
+        uniforms=uniforms,
+        epsilon=0.1,
+    )
+    # the reserve (0.02 * 400 = 8 tariff units) is spent long before the late disagreements
+    assert batch.processed.mean() < 0.9 * p.n
+    naive = 0.02 * 100  # the old full-path figure
+    info = rh.cell_information(p, "ungated_ht", 0.02, batch.processed)
+    alive = (batch.processed[:, None] > np.arange(p.n)[None, :]).mean(axis=0)
+    assert info == pytest.approx(0.02 * alive[-100:].sum())
+    assert info < 0.5 * naive
+    assert rh.cell_information(p, "full_feedback", None, np.full(reps, p.n)) == 100.0
+    # a path with no exhaustion keeps the full figure
+    assert rh.cell_information(p, "ungated_ht", 0.02, np.full(reps, p.n)) == pytest.approx(naive)
+    # the screen: the same path is not informative for the exhausted cell
+    df = rh.e4_null_analysis([p], 60)
+    row = df[(df.arm == "ungated_ht") & (df.budget == 0.02) & (df.epsilon == 0.1)].iloc[0]
+    assert row["expected_queried_disagreements"] < rh.MIN_EXPECTED_QUERIED

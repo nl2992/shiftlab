@@ -197,18 +197,31 @@ def authority_paths(streams: list, ba: str, rank: int) -> list[eva.PathData]:
 # ---------------------------------------------------------------------------------------------
 # E4 null loop: fixed replication count, no re-run
 # ---------------------------------------------------------------------------------------------
-def cell_information(p: eva.PathData, arm: str, budget: float | None) -> float:
-    """Expected queried disagreements before any reserve stop (arm/budget-specific information)."""
+def cell_information(
+    p: eva.PathData, arm: str, budget: float | None, processed: np.ndarray
+) -> float:
+    """Expected queried disagreements over the PROCESSED prefix (arm/budget-specific).
+
+    ``processed[r]`` is the number of events replicate r processes before the reserve stop. Whether
+    event t is processed depends only on coins at events before t, and the query coin at t is
+    independent of that, so the expected queried disagreements are
+    ``sum_t D_t q_t P(t is processed)``, with ``P`` estimated from the null replicates of the arm's
+    own coin stream. Disagreements after the reserve is exhausted therefore do not count.
+    """
     active = np.asarray(p.stream.disagreement, dtype=bool)
-    d = float(active.sum())
+    n = len(active)
+    proc = np.asarray(processed)
+    alive = (proc[:, None] > np.arange(n)[None, :]).mean(axis=0)  # P(event t processed)
     if arm == "full_feedback":
-        return d
-    if arm == "ungated_ht":
-        return float(budget) * d
-    q, _ = _propensity_path(
-        arm, active, p.tariffs, p.validation_disagreement, p.validation_tariffs, float(budget)
-    )
-    return float(np.asarray(q)[active].sum())
+        q = np.ones(n)
+    elif arm == "ungated_ht":
+        q = np.full(n, float(budget))
+    else:
+        q, _ = _propensity_path(
+            arm, active, p.tariffs, p.validation_disagreement, p.validation_tariffs, float(budget)
+        )
+        q = np.asarray(q)
+    return float((active * q * alive).sum())
 
 
 def fixed_propensity(p: eva.PathData, budget: float) -> float:
@@ -222,9 +235,9 @@ def e4_null_analysis(paths: list[eva.PathData], replicates: int) -> pd.DataFrame
         signs, uniforms = eva.orientation_coins(p.k, p.n, replicates)
         for j, (arm, budget) in enumerate(eva.registered_cells()):
             fb = arm == "full_feedback"
-            info = cell_information(p, arm, budget)
+            batches = {}
             for eps in eva.EPSILONS:
-                batch = eva._replay(
+                batches[eps] = eva._replay(
                     p,
                     arm,
                     budget,
@@ -234,6 +247,9 @@ def e4_null_analysis(paths: list[eva.PathData], replicates: int) -> pd.DataFrame
                     uniforms=None if fb else uniforms,
                     epsilon=eps,
                 )
+            # the reserve stop depends on queries only, so both epsilons share it
+            info = cell_information(p, arm, budget, batches[eva.EPSILONS[0]].processed)
+            for eps, batch in batches.items():
                 row = eva._null_row(p, arm, budget, eps, batch, "fixed")
                 row["cell_index"] = j
                 row["expected_queried_disagreements"] = info
@@ -436,7 +452,13 @@ def region_report(
         if c is not None:
             c["hb4b_q_lt_1"][0] += int(r["match_exact_events"])
             c["hb4b_q_lt_1"][1] += 1
-    return {"per_authority": per_authority, "clusters": clusters}
+    uncertain = json.loads(REGION_MAP.read_text(encoding="utf-8")).get("uncertain", [])
+    return {
+        "region_map_unverified": True,
+        "uncertain_entries": sorted(set(uncertain) & set(per_authority)),
+        "per_authority": per_authority,
+        "clusters": clusters,
+    }
 
 
 # ---------------------------------------------------------------------------------------------

@@ -19,8 +19,11 @@ Historical audit files elsewhere in the repository are never overwritten.
   alone. Mark inaccessible papers as unverified.
 - **Labels.** Mark every statement as one of: established theorem, plausible unproved theorem,
   engineering heuristic, or empirical hypothesis.
-- **Git.** No pushes and no changes to `main`. Commit on the current branch only when the user
-  asks. Keep licensed or raw data (CRSP, raw EIA) out of everything, including reviewer prompts.
+- **Git.** The user asked on 2026-10-27 that every update be committed and merged into `main`.
+  After each tick's changes, commit on `research/phase-progress-2026-10-27` (end the message with
+  the Co-Authored-By line), then fast-forward the local `main` with `git fetch . HEAD:main`, with
+  no checkout. If that is not a fast-forward, stop and ask. Never push (not authorised). Keep
+  licensed or raw data (CRSP, raw EIA) out of everything, including reviewer prompts.
 - **Figures.** Use PaperBanana if a figure is needed; if it is unavailable, report that.
 
 ## Tooling status
@@ -79,5 +82,5 @@ score.
 
 | Tick | UTC | Steps done | Notes |
 |---|---|---|---|
-| 0 | 2026-10-27 | Setup | ARIS installed; Codex limit hit until 2026-11-02; cron job `99821f78` (`7-59/20 * * * *`) |
+| 0 | 2026-10-27 | Setup | ARIS installed; Codex limit hit until 2026-11-02; cron job `1bdae48e` (`7-59/20 * * * *`; replaced `99821f78` to add the commit-and-merge rule) |
 | 1 | 2026-10-27 | A1 drafted | No GitLab remote; 42 local commits unpublished; full pytest running (fill `TEST_STATUS_PLACEHOLDER` when done) |

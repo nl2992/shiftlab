@@ -52,7 +52,7 @@ Historical audit files elsewhere in the repository are never overwritten.
       each claim.
 - [x] C1 `COMPETING_RESEARCH_DIRECTIONS.md`: paths A–D (and others found), every assessment
       field, a ranking, and a minimal falsification experiment for each.
-- [ ] D1 `REFINEMENT_ROUND_1.md`: proposal for the strongest surviving direction, following ARIS
+- [x] D1 `REFINEMENT_ROUND_1.md`: proposal for the strongest surviving direction, following ARIS
       research-refine.
 - [ ] E1 `ADVERSARIAL_REVIEW_1.md`: four perspectives; fatal and major weaknesses, remedies,
       required evidence.
@@ -90,3 +90,4 @@ score.
 | 3 | 2026-10-28 | B1 | Three Sonnet clusters plus lead identity checks. Combination test: Q1, Q2 generic and Q3a all YES (reject). Narrow survivors: bandit-feedback paired harm, persistence-aware post-switch certificate, validity through intervention, finite-budget burst allocation theorem. Uncited: Drift2Act, Zhang-Wu-Qian 2609.13714, Zhou-Li-Zhu 2610.10393; DISCERN missing from manuscript. Ledger M8 wording overstated. RADAR identity needs user |
 | 4 | 2026-10-28 | B2 | Full reads, G1-G4 search, PPRM resolved (no implementation error). **First independent review: Codex gpt-6.1-sol xhigh** (dossier `NOVELTY_DOSSIER_B2.md`). Verdicts: G4 PROCEED (only gap passing both tests), G2 narrow (prospective-certifiability theorem), G3 reject generic, G1 section only. No NO-GO reversal. RADAR identity confirmed by user. 9 Codex-added papers (2 lead-fetched) |
 | 5 | 2026-10-28 | C1 | Lead-written direction comparison; Haiku identity checks (6 match, 1 partial). New derivation: growth per label is independent of q unless the bet cap binds, so G4 partly reduces to known online allocation and is inference-specific only in the strong-signal regime. Ranking A (benchmark) > C1 (G4) > C2 > D, C3; B and E rejected. Phase D refines A, with the regime analysis as the supporting claim and G4 as a separately gated theory pre-screen |
+| 6 | 2026-10-28 | D1 | Wrote `REFINEMENT_ROUND_1.md` (Claim A benchmark with H1-H4; supporting Proposition S label invariance; E1-E3). **Corrected tick-5 derivation:** a numerical check shows per-label growth is q-invariant in both regimes, so pacing loss is temporal allocation and G4 novelty risk is high. C1 doc annotated, not rewritten |

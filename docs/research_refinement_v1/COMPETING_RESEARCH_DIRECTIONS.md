@@ -9,7 +9,32 @@ carries one of four status labels:
 - **[hypothesis]**: empirical, untested;
 - **[heuristic]**: an engineering rule.
 
-## 0. One new derivation that reshapes G4 [derivation, lead, unchecked]
+## 0. One new derivation that reshapes G4
+
+> **Correction (tick 6, 2026-10-28): the strong-signal half of this section is wrong.** It is kept
+> below as written in tick 5 for the record. The second-order expansion misled. For stakes set as
+> a fixed fraction `c` of the predictable cap, `λ = c/B` with `B = 5/q + ε` and an `h = 0` anchor,
+> the **exact** per-label log-growth is:
+>
+> `E log(1 + c(Z − εq)/(5 + εq)) − (1 − q)·cε/(5 + εq)`, plus a term of order `cεq`.
+>
+> This is free of `q` when `ε = 0`, and nearly so for `ε = 0.1`, **in both the weak- and
+> strong-signal regimes**. A numerical check (scratch calculation; `Z = ±5`; `μ ∈ {0.2, 1, 3}`;
+> `q ∈ {0.1, 0.25, 0.5, 1}`; `c ∈ {0.05, 0.2, 0.8}`) gave per-label growth equal across `q` to
+> within 2%.
+>
+> Revised reading:
+> - Gated evidence is governed by **how many labels land on informative (post-onset disagreement)
+>   events**, not by the propensity.
+> - The fixed-versus-paced reversal is a **temporal-allocation** effect: the pacer throttles
+>   post-onset spending during bursts. It is not a bound-inflation effect.
+> - G4 therefore reduces, in all regimes, to allocating a budget against an unknown onset and
+>   bursts. That is close to sampling-rights detection and online knapsack. **G4's novelty risk is
+>   high**, and its ranking below should be read with that in mind.
+>
+> Phase D uses the corrected statement.
+
+### As written in tick 5 [derivation, lead, unchecked; superseded]
 
 Codex warned that G4 might reduce to an existing problem. Here is a check of when burst-robust
 allocation can matter at all. Take a gated HT increment with propensity `q`, paired cost `Z` in
@@ -207,7 +232,7 @@ Each criterion is scored 1–5. Scores are lead judgement, informed by Codex.
 | Path | Importance | Novelty | Theoretical tractability | Empirical feasibility | Evidence already present | Total |
 |---|---:|---:|---:|---:|---:|---:|
 | **A. Benchmark / failure analysis** | 4 | 2–3 | 4 (propositions only) | 5 | 5 | **20–21** |
-| **C1. G4 hard-budget allocation** | 2–3 | 3–4 | 2 (unproven; partly reduces) | 4 | 2 | **13–15** |
+| **C1. G4 hard-budget allocation** | 2–3 | 3–4 (tick 6: 2, since it reduces to temporal allocation) | 2 (unproven; partly reduces) | 4 | 2 | **13–15** (tick 6: 11–13) |
 | C2. G2 prospective certifiability | 3–4 | 3 | 1–2 | 2 | 1 | 10–12 |
 | D. Partial identification / tail harm | 3 | 2 | 3 | 1 | 0 | 9 |
 | C3. G1 delayed bandit feedback | 2 | 1–2 | 3 | 2 | 1 | 9–10 |

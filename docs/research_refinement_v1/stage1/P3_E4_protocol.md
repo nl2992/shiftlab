@@ -2,7 +2,8 @@
 
 **Status.** 2026-10-28. Eligibility and split are done and recorded. The locked authorities have
 **not** been opened. This file registers the E4 analysis before any locked value is read.
-**It is a draft until the lead records the freeze hashes (Section 11).** No demand, forecast or
+**It is a draft until the lead writes the freeze record (Section 11); revised 2026-10-28 after
+the Codex review (`CODEX_PROTOCOL_REVIEW_1.md`, P3/E4).** No demand, forecast or
 generation value appears in this file or in any file listed here.
 
 Charter links: `FINAL_RESEARCH_PROPOSAL.md` Section 5 (E4) and H-B4; `REFINEMENT_ROUND_2.md`
@@ -47,12 +48,19 @@ Coverage windows (event time, inclusive, UTC): `fit_2019_2023` 2019-01-01T00 to 
 audit drops 2024-12-31 and 2025-12-31, inherited). This gate is stricter than Addendum 2's
 "95% in 2019-2024 and in the evaluation window" because each registered window must pass.
 
-**R20 is defined here and evaluated later.** Counting procure events needs the frozen Ridge
-forecast and `tau` (the 90th percentile of demand), so it cannot be computed from availability
-alone. The runner applies it to each authority before any monitor result is computed. An authority
-that fails R20 is excluded and **reported as a post-split exclusion**, with its count, in the final
-table. R20 uses demand and forecasts but never `Z` or any monitor output. It is evaluated on the
-development authorities in the smoke run, and on the locked authorities at the single locked run.
+**R20 is an explicit deterministic amendment, applied after the split.** Counting procure events
+needs the frozen Ridge forecast and `tau` (the 90th percentile of demand), so it cannot be computed
+from availability alone, and it does **not** satisfy the original promise that eligibility is fixed
+before any value is touched. It is frozen here as follows.
+- It is applied by the runner to each authority in the list order, before any monitor result.
+- An authority with fewer than 20 deployed-policy procure events in its 2024 rehearsal is
+  **excluded and retained in the report** with its count and the reason `R20`.
+- **No replacement, no re-splitting, no changed threshold**, and the split lists above stay as
+  recorded. The Bonferroni family (Section 7) is computed from the authorities that remain.
+- R20 uses demand and forecasts but never `Z` or any monitor output. If every locked authority
+  fails R20 the result is empty and is reported as such (tested).
+- It is evaluated on the development authorities in the smoke run, and on the locked authorities at
+  the single locked run.
 
 **Freeze order, as executed.** `scripts/e4_eligibility.py` SHA-256 =
 `2ae257140448373400e1e0cac63b3b158d9a7fb3ee1dcc8a91cf07e6654225cf`, recorded in
@@ -137,12 +145,22 @@ WP4 freeze does not hash. They are recorded here (and must be in the Section 11 
 | `src/shiftlab/dive/gated_monitor_comparison.py` | `c4e0281f4f10f1444a43801c52ffb3441ba35224a84d64428e9091d41e823f82` |
 | `src/shiftlab/dive/eprocess.py` | `a9355d3883118ed32039feafe0db0b01fd8824dfbaed2e3d70e6710964565d41` |
 
-**Only two changes from WP4**, both in the wrapper `scripts/run_e4_heldout.py`
-(SHA-256 `8ec99783a7b1b907acd21ae07b08d59696675af2b460c7106d1396a09a846e1b` at the time of
-writing; re-record at freeze):
+**The effective program is a new E4 composition, not the WP4 program.** The unchanged WP4 file
+hashes do not freeze what actually runs. The freeze record (Section 11) therefore lists the runner
+`scripts/run_e4_heldout.py`, which contains every replacement, and every module it imports. The
+composition differs from WP4 as follows.
 1. An equivalent series reader for any authority (the audit's reader is fixed to CISO and ERCO).
-2. The coin functions of `eia_validity_analysis` are replaced at run time with the E4 seed layout
-   (Section 8). The frozen file on disk is untouched, and its hash is unchanged.
+2. Three coin functions of `eia_validity_analysis` (`orientation_coins`, `unmodified_coins`,
+   `injection_coins`) are replaced at run time by the E4 seed layout (Section 9). The file on disk is
+   untouched. A test asserts that exactly these three names change, and that the seeds equal the
+   registered formulas and stay inside the block.
+3. **No re-run.** The WP4 null loop re-runs a failing cell with 4,000 replicates when the cell's
+   *unadjusted* 95% bound exceeds 0.05. That trigger does not match the Bonferroni decision (30 alarms
+   in 1,000 passes the trigger and fails the 714-cell criterion, so the re-run would be skipped),
+   and choosing between two looks needs its own correction. E4 therefore uses its own null loop
+   (`e4_null_analysis`): a fixed replication count per cell, one look, no re-run. The re-run coin
+   function is not used and a test fails if it is called.
+4. E4 summaries (Sections 7-9), which only read the analysis tables.
 
 ## 5. Four-clock contract (VALIDITY_TABLE obligation 3)
 
@@ -180,65 +198,75 @@ adaptations are not run (WP1 S3 only); the stratified arm is not alive.
 
 ## 7. H-B4(a): per-path orientation nulls (validity criterion)
 
-- **Per path** (authority x {2025, 2026}) and **per cell** (the 17 arm/budget cells): 1,000
-  replicates with random orientation signs, all arms and budgets sharing the coins; primary
-  `epsilon = 0.1`; sensitivity at `epsilon = 0` is descriptive, with no pass rule.
+- **Per path** (authority x {2025, 2026}) and **per cell** (the 17 arm/budget cells): **1,000**
+  replicates (fixed), random orientation signs, all arms and budgets sharing the coins; primary
+  `epsilon = 0.1`; sensitivity at `epsilon = 0` is descriptive, with no pass rule. **One look, no
+  re-run.**
 - **Statistic.** Alarm before the reserve stop or the end of the path.
-- **Exact bound with Bonferroni.** Let `m` be the number of primary cells actually evaluated
-  (17 x the number of evaluated paths, at most 17 x 42 = 714 for 21 locked authorities; this
-  counts every authority x window x arm x budget cell, so it is stricter than authorities x arms).
-  A cell passes if the one-sided Clopper-Pearson upper bound at level `1 - 0.05/m` is **at most
-  0.05**. The family-wise claim is that every cell passes. For m = 714 and 1,000 replicates a cell
-  with no alarm has upper bound 0.0095, and the cell passes with up to 25 alarms; for m = 34 the
-  numbers are 0.0065 and 30.
-- **One registered fix, as WP4.** A failing primary cell is re-run once with 4,000 fresh
-  replicates, judged by the same Bonferroni bound (up to 149 alarms at m = 714). Failing both is a
-  validity failure for that arm.
+- **Family and exact bound.** Let `m` be the number of primary cells evaluated:
+  `m = 17 x (evaluated paths)`, at most `17 x 2 x 21 = 714`. The family counts every authority x
+  window x arm x budget cell, so it is stricter than authorities x arms. A cell is **validated** if
+  its one-sided Clopper-Pearson upper bound at level `1 - 0.05/m` is at most 0.05; otherwise the cell
+  is **insufficiently validated**.
+- **The replication count is chosen so that validation is possible.** With `R` replicates and no
+  alarm, the bound is `1 - (0.05/m)^(1/R)`, which is at most 0.05 when
+  `R >= ln(20 m)/(-ln 0.95)`: **187 at m = 714** (128 at the m = 34 of the smoke). The runner raises
+  if `R` is below that. The registered `R = 1000` gives a zero-alarm bound of 0.0095 at m = 714 and
+  validates a cell with up to **25 alarms** (30 at m = 34). It costs about one hour (Section 11).
+- **What a failure means.** An upper bound above 0.05 means **insufficient validation**, not a
+  demonstrated invalidity. The stronger statement "the observed alarm rate itself exceeds 0.05" is
+  flagged separately (`point_exceeds_alpha`) and is the only case read as evidence of an invalid
+  monitor. If sample size is the problem, a larger fresh-seed count is a **new registered run**, not
+  a re-run of this one.
 - **Per-arm decision.**
-  - **FAIL** if any cell of the arm fails after the re-run. The arm is withdrawn from every
-    efficiency claim (proposal "Validity stop"), whatever the other arms do.
-  - **SUPPORTED** if no cell fails **and** the arm has at least **6 informative paths from at least
-    3 authorities**.
-  - **INCONCLUSIVE** otherwise. A pass on uninformative paths is reported as vacuous and is never
-    counted as support.
-- **Minimum-disagreement requirement (VALIDITY_TABLE obligation 4).** A path is *informative for
-  the null* if it has at least **30 disagreements** (`D_p >= 30`). Rationale, stated before the
-  run: with every disagreement at its maximum value +5 the full-feedback mixture needs at least 8
-  events to reach `1/alpha = 20` (computed from the frozen mixture, with `epsilon` = 0.1 or 0), so
-  paths with fewer than 8 disagreements cannot alarm at all, and WP4's three paths with 1-7
-  disagreements were exactly that. 30 is about four times that minimum, so that sign-randomised
-  paths have room to cross the threshold by chance. WP4's single informative path had 150. The
-  number 30 and the 6/3 path/authority counts are conservative engineering choices, not derived
-  optima. `gated_ht_fixed` is additionally vacuous (propensity 1, no HT weighting) on any path
-  where the rehearsal disagreement rate leaves it at 1; the runner reports the realised fixed
-  propensity per authority, and the report states which authorities exercised HT weighting. The
-  paced and ungated arms at low `r` can be low-information even on informative paths, and are
-  reported with their labels per cell.
+  - **NOT_VALIDATED** if any cell of the arm is insufficiently validated. This is a validity stop:
+    the arm is withdrawn from efficiency claims (proposal "Validity stop"), with the wording above.
+  - **SUPPORTED** if no cell is insufficient **and** the arm has at least **6 arm-informative paths
+    from at least 3 authorities**.
+  - **INCONCLUSIVE** otherwise. A pass on uninformative cells is vacuous and never counts as
+    support. INCONCLUSIVE is an expected, legitimate outcome.
+- **Information, per path, arm and budget (VALIDITY_TABLE obligation 4).**
+  - A path is screened by `D_p >= 30` disagreements. 30 is about four times the 8 events that are
+    needed for any alarm even when every disagreement has the maximum value +5 (computed from the
+    frozen mixture); it is a screen, not a proof of adequacy.
+  - For each cell the runner also reports the **expected queried disagreements**
+    `sum_t D_t q_t` (before the reserve stop; `r D_p` for ungated; `D_p` for full feedback) and the
+    mean labels. A cell is **informative** if `D_p >= 30` and the expected queried disagreements
+    are at least **8**. An **arm-informative path** is a path whose cell at the arm's largest budget
+    (`r = 0.20`; full feedback has one cell) is informative.
+  - The numbers 30, 8, 6 and 3 are conservative engineering choices, not derived optima.
+- **Limit that stays.** Random orientation validates the monitor mechanics conditional on the
+  realised path. It does not test the real moving-reference null (obligation 3). A SUPPORTED
+  verdict is about the code under that construction.
 
 ## 8. H-B4(b): injected harm (descriptive replication criterion)
 
 - **Injection and onsets: exactly WP4.** Onsets at floor(f n) for f in {0.25, 0.50, 0.75}.
   After onset every deployed procure event whose frozen margin lies in `(0, m]` is switched to no
   reserve, with `m` the median positive margin among the deployed procure events in the
-  authority's own 2024 rehearsal (set before looking at any registered path). 200 query
-  replicates per path and onset; the full-feedback monitor is deterministic.
-- **Detectable cell** (as WP4's 10 of 12): a path-onset cell in which the deterministic
-  `full_feedback` monitor alarms **at or after onset** (`detection_rate = 1`). Cells with no flipped
-  event, or where full feedback does not detect before the path ends, are excluded from the
-  denominator and counted.
-- **Matches** (primary, exactly as WP4 compared them): the `gated_ht_fixed` median delay **in
-  events** equals the full-feedback median delay in events, in the same path-onset cell, at the
-  same budget. Cells are (path, onset, `r in {0.05, 0.10, 0.20}`). Pre-onset alarms are never
-  detections.
-- **Criterion.** The primary match fraction over all detectable cells is **at least 0.80**. If it
-  is not, the transfer statement is withdrawn (proposal H-B4). A fraction is reported, not a test.
-  The denominator is cells, **not** independent deployments.
-- **Secondary (descriptive, labelled as such).** Median delay in hours within `max(24 h, 10% of
-  the full-feedback delay)`. It is reported next to the primary and cannot rescue it. This is
-  added because exact equality is expected to hold only where the fixed propensity is 1 (WP4's
-  result), and a primary that equals 1 for a trivial reason would say little.
-- **Reported separately:** pre-onset alarm rate, detection rate, labels and dollars per cell;
-  `gated_ht_fixed` at `r = 0.02` (where its reserve was too small in WP4) is reported, not counted.
+  authority's own 2024 rehearsal. 200 query replicates per path and onset; full feedback is
+  deterministic.
+- **Detectable cell**: a (path, onset) cell in which `full_feedback` alarms at or after onset
+  (`detection_rate = 1`). Cells with no effective injection, or where full feedback does not
+  detect, are excluded from the denominator and counted.
+- **Matches** (primary, as WP4): the `gated_ht_fixed` median delay in events equals the
+  full-feedback median delay in events in the same (path, onset), at the same `r`. Cells are
+  (path, onset, `r in {0.05, 0.10, 0.20}`). Pre-onset alarms are never detections.
+- **Stratification by the fixed propensity.** For each cell the runner computes the fixed
+  propensity `q_fixed = min(1, r / rehearsal disagreement rate)` (the arm's own value).
+  - **`q = 1` cells are structural.** Fixed gating then labels every disagreement, so matching the
+    full-feedback delay follows from the construction (as in WP4's 10 of 10). They are reported in
+    their own stratum and **never count toward support**.
+  - **The criterion is evaluated on the `q < 1` stratum only.**
+- **Rule.** Let `N` be the number of detectable `q < 1` cells and `A` their number of authorities.
+  - `N >= 10` and `A >= 3` and primary match fraction `>= 0.80`: **SUPPORTED**.
+  - `N >= 10` and `A >= 3` and fraction `< 0.80`: **WITHDRAWN** (the transfer statement is withdrawn).
+  - Otherwise: **INCONCLUSIVE**. The fraction is reported, not tested; cells are not independent
+    deployments.
+- **Secondary (descriptive, labelled as such):** median delay in hours within `max(24 h, 10% of the
+  full-feedback delay)`, in each stratum. It cannot rescue the primary.
+- **Also reported:** pre-onset alarm rate, detection rate, labels and dollars per cell;
+  `gated_ht_fixed` at `r = 0.02` is reported, not counted.
 
 ## 9. Reporting, clusters and the seed layout
 
@@ -246,14 +274,15 @@ adaptations are not run (WP1 S3 only); the stratified arm is not alive.
   the fixed propensity, R20 count, the informative flag, and each arm's verdict. No pooled p-value
   or pooled "independent deployments" statement is made anywhere.
 - **Regional clusters.** The 8 locked clusters are by EIA region, from
-  `stage1/e4_region_map.json` (SHA-256
-  `26909570316302bd4241e811b62300fd3cc993b3de41d3dd26de682f16423cdd`). **The map is
-  provisional: it is not verified against an EIA list** (the archive has no region field), and
-  five entries are marked uncertain. It affects reporting only. It must be verified and
-  re-hashed before the locked run. Locked clusters: NW 6 (CHPD, GCPD, IPCO, PACW, PGE, TPWR), FLA 4
-  (FPC, FPL, HST, SEC), CAR 3 (CPLE, CPLW, DUK), SW 3 (EPE, NEVP, TEPC), MIDW 2 (LGEE, MISO), CAL 1
-  (LDWP), MIDA 1 (PJM), SE 1 (SOCO). Clusters of three or more are reported on their own, the rest
-  are pooled as "other"; every authority row is always shown.
+  `stage1/e4_region_map.json`. **The map is provisional and unverified.** The repository was
+  searched (docs, papers, src, scripts, configs, reports, and the EIA bulk manifest) for any
+  authority-to-region assignment: none exists and the EBA archive has no region field, so **no entry
+  could be verified without a download**. Entries come from recollection. Uncertain: AECI, DOPD,
+  FMPP, HST, LGEE, PACE (locked: HST, LGEE). The map affects reporting only. Locked clusters:
+  NW 6 (CHPD, GCPD, IPCO, PACW, PGE, TPWR), FLA 4 (FPC, FPL, HST, SEC), CAR 3 (CPLE, CPLW, DUK), SW 3
+  (EPE, NEVP, TEPC), MIDW 2 (LGEE, MISO), CAL 1 (LDWP), MIDA 1 (PJM), SE 1 (SOCO). Regions with fewer
+  than 3 evaluated authorities are pooled as "other"; every authority row is always shown. Per
+  cluster: insufficiently validated cells and the `q < 1` H-B4(b) matches.
 - **Dependence.** H-B4(b) is also reported as the fraction within each cluster, and as the
   fraction of authorities whose own detectable cells all match. Standard errors are not computed
   across authorities as if independent.
@@ -266,15 +295,14 @@ follows it).
 
 | Use | Seed | Range |
 |---|---|---|
-| Orientation null (1,000 replicates: signs, then uniforms) | `100400001 + k` | 100400001-100400110 |
+| Orientation null (1,000 replicates: signs, then uniforms; fixed, no re-run) | `100400001 + k` | 100400001-100400110 |
 | Unmodified streams (200 uniform replicates) | `100400111 + k` | 100400111-100400220 |
 | Injected harm (200 replicates) | `100400221 + 3k + o` | 100400221-100400550 |
-| Single re-run (4,000 replicates) | `100400551 + (17k + j) mod 449` | 100400551-100400999 |
+| Reserved, unused (the re-run is dropped) | | 100400551-100400999 |
 
-`j` is the registered cell index (0-16). The re-run streams can collide across cells; this is
-harmless for validity because each cell is judged on its own bound. The block is `reserved_unused`
-in the registry; the registry file was **not** edited here. Seeds consumed so far by the
-development smoke (AECI, rank 0): 100400001-100400002, 100400111-100400112, 100400221-100400226.
+The block is `reserved_unused` in the registry; the registry file was **not** edited here. Seeds
+consumed so far by the development smoke (AECI, rank 0): 100400001-100400002, 100400111-100400112,
+100400221-100400226.
 
 ## 10. Exposure audit
 
@@ -306,102 +334,111 @@ Findings:
   the earlier audit: it cannot rule out unrecorded human inspection, and it does not cover the time
   before the repository. The 2026 EBA source dates were inspected for coverage only.
 
-## 11. Locked set opened once (preconditions)
+## 11. Locked set opened once: implemented guard and freeze list
 
-The locked run is authorised only after the lead:
-1. verifies `region_map` against an EIA list and re-hashes it;
-2. confirms this protocol (and, if changed, re-records the hashes above);
-3. writes `stage1/P3_E4_freeze.json` containing UTC time and the SHA-256 of this protocol, the
-   runner, `e4_eligibility.py`, `e4_eligibility.json`, `e4_region_map.json`, the 7 WP4 files, the 4
-   extra dependencies and `streams.parquet`;
-4. updates the seed registry (`used_by`);
-5. implements the `locked` mode of the runner. **It is a refusing stub today.** It must check the
-   freeze record, write `stage1/e4_locked_opened.json` before reading any locked series, and
-   refuse a second run.
+**Locked mode is implemented and tested** (`run_e4_heldout.py locked`, synthetic tests only). Order of
+operations:
+1. `shiftlab.freeze.require_freeze(docs/research_refinement_v1/stage1/P3_E4_freeze.json)` must pass
+   (every listed file unchanged and committed). The record must list at least the protocol, the
+   runner, the eligibility script and JSON, the region map and the two analysis modules, or the run
+   refuses. A failed check creates nothing.
+2. An exclusive marker `outputs/e4_heldout/locked/opened.json` is created with `O_CREAT|O_EXCL`
+   (atomic; eight racing threads give exactly one winner in the test). It records UTC time, git HEAD,
+   the freeze-record SHA-256 and the number of locked authorities. **It is created before any locked
+   value is read** (a test asserts the marker exists when the first read happens).
+3. If the marker exists the run refuses and reads nothing. If a run crashes after step 2 the marker
+   stays: a re-run needs an explicit, recorded decision by the lead, never silent deletion.
+4. Then, and only then, one archive pass reads all locked authorities, R20 is applied (Section 2),
+   and analyses (a)-(c) and the summaries run. Output: `outputs/e4_heldout/locked/results/`.
 
-The locked run reads one archive pass for all 21 authorities, applies R20, runs analyses (a)-(c)
-and the summaries above, and writes only to a new directory under `outputs/e4_heldout/`.
-Estimated cost from the smoke (below): about 160 s of replay per authority, so roughly one hour
-for 21 authorities on CPU, plus about 45 s to read the archive.
+**Freeze file list (what `uv run --no-sync python scripts/run_e4_heldout.py freeze-list` prints).**
+It is computed from the modules the runner actually loads, so it follows the code. At the time of
+writing it is 55 files (38 under `src/shiftlab/`), listed below. Each is hashed over LF-normalised bytes by `write_freeze`.
+
+- Protocol: `docs/research_refinement_v1/stage1/P3_E4_protocol.md` (passed as `protocol`).
+- Runner and tests: `scripts/run_e4_heldout.py`, `tests/test_e4_heldout.py`.
+- Eligibility: `scripts/e4_eligibility.py`, `docs/research_refinement_v1/stage1/e4_eligibility.json`,
+  `e4_eligibility_prerun.json`, `e4_region_map.json`, `e4_exposure_audit.json`.
+- Reused scripts: `scripts/audit_eia_2026_holdout_readiness.py`,
+  `scripts/evaluate_eia_retraining_frontier.py`, `scripts/verify_wp4_freeze.py`,
+  `scripts/run_eia_real_data_validity.py`.
+- WP4 record and protocol: `docs/eia_real_data_validity_freeze.json`,
+  `docs/eia_real_data_validity_protocol.md`.
+- Every loaded `src/shiftlab/**` module (the package `__init__` pulls in `shiftlab.data`,
+  `shiftlab.dive` and `shiftlab.monitoring`), including `src/shiftlab/freeze.py`,
+  `eia_validity_analysis.py`, `orientation_replay.py`, `eia_paired_reserve.py`,
+  `eia_injected_harm.py`, `reserve_costs.py`, `gated_monitor_comparison.py`, `eprocess.py`.
+- Configuration and environment: `configs/seed_registry.yaml` (after the `used_by` update),
+  `pyproject.toml`, `uv.lock`.
+- Not listed, by design: the data archive (pinned by SHA-256 inside the runner and eligibility
+  record), `outputs/eia_paired_reserve/streams.parquet` (pinned by the WP4 freeze record, which
+  this record includes; it is ignored by Git and so cannot be committed).
+
+Other preconditions: the lead verifies the region map and re-hashes it; the seed registry is updated;
+the freeze record is written **after** the last edit and all listed files are committed.
+
+**Cost.** About 168 s per authority (Section 12), so **about one hour for 21 authorities** plus one
+archive pass (about 45 s). That is inside the 2 h limit, so the family is not reduced. If a locked
+authority has far more disagreements the paced arms loop in Python and may take longer; the budget
+stays 2 h.
 
 ## 12. Implementation and smoke record
 
-**Files (all new; nothing existing was edited):**
+**Files (new; nothing existing was edited).** Current hashes are in the freeze record, not typed here,
+so they cannot go stale. Immutable records: `e4_eligibility_prerun.json` SHA-256
+`3ecfbf5eb41c4048573ea392a7ce29d29f77d5a4a6e2cd4f1b23760dcbe9e56d` and `scripts/e4_eligibility.py`
+SHA-256 `2ae257140448373400e1e0cac63b3b158d9a7fb3ee1dcc8a91cf07e6654225cf` (unchanged since the
+recorded pre-run time).
 
-| File | SHA-256 |
-|---|---|
-| `scripts/e4_eligibility.py` | `2ae257140448373400e1e0cac63b3b158d9a7fb3ee1dcc8a91cf07e6654225cf` |
-| `scripts/run_e4_heldout.py` | `8ec99783a7b1b907acd21ae07b08d59696675af2b460c7106d1396a09a846e1b` |
-| `stage1/e4_eligibility_prerun.json` | `3ecfbf5eb41c4048573ea392a7ce29d29f77d5a4a6e2cd4f1b23760dcbe9e56d` |
-| `stage1/e4_eligibility.json` | `bdd1eb38f119b7e620fe0c3bcbdcb0c4584bfa8a0af2cc8fe87d54ced755a324` |
-| `stage1/e4_exposure_audit.json` | `5b90f0a9ed32c1d22ad317435c1d77f9ac82abb7f7334bd2d5b832d86c4540ab` |
-| `stage1/e4_region_map.json` | `26909570316302bd4241e811b62300fd3cc993b3de41d3dd26de682f16423cdd` |
-
-**Commands (Windows, Git Bash, from the repository root):**
+**Commands (Windows, Git Bash, repository root):**
 ```
 uv run --no-sync python scripts/verify_wp4_freeze.py
-uv run --no-sync python scripts/e4_eligibility.py
+uv run --no-sync python scripts/e4_eligibility.py            # done: 2026-10-28T18:34:35Z
 uv run --no-sync python scripts/run_e4_heldout.py exposure-audit
 uv run --no-sync python scripts/run_e4_heldout.py smoke --authority AECI
+uv run --no-sync python scripts/run_e4_heldout.py freeze-list
+uv run --no-sync pytest -q tests/test_e4_heldout.py
 ```
 
-**Eligibility run:** about 72 s wall-clock (one pass over the 4.4 GB `EBA.txt` member). Outputs:
-31 eligible, 10 development, 21 locked (Sections 2-3).
+**Tests (`tests/test_e4_heldout.py`, 15 tests, synthetic data only, temp directories):** coin
+replacement changes exactly three names and uses the registered seeds; seed ranges are disjoint and
+inside the block; the null loop never calls the re-run coins; replication count certifies zero alarms
+at m = 714 (187 does, 186 does not); Bonferroni family size is enforced and the 30/1,000 example is
+insufficient with no re-run; arm support verdicts; H-B4(b) stratification (q = 1 cannot support);
+empty paths; a full synthetic run that keeps an R20 failure; atomic opening; refusal without a valid
+or complete freeze record; marker before any read and a refused second opening; smoke refuses a
+locked authority before any read; the freeze list covers the imported modules.
 
-**Smoke run (development authority AECI, rank 0, CPU, torch 2.9.1+cu130, CPU Ridge).** Registered
-replicate counts (null 1,000; re-run 4,000; unmodified 200; injected 200). Code git HEAD
-`ef60fc075fa3a595d0ea877ffa1322bfc5cd77b7` with the new files untracked. Output
-`outputs/e4_heldout/smoke_AECI/` (ignored by Git).
+**Smoke run (development authority AECI, rank 0, CPU, torch 2.9.1+cu130), final code.** Registered
+counts (null 1,000, unmodified 200, injected 200), no re-run. Code git HEAD at the time:
+`01a5232` plus the uncommitted edits to the runner.
 
 | Stage | Seconds |
 |---|---:|
-| Read the four series (one archive pass) | 31.8 |
-| Build rehearsal, 2025 and 2026 streams | 2.9 |
-| (a) Orientation null, 2 paths x 17 cells x 2 epsilons | 112.6 |
-| (b) Unmodified | 10.7 |
-| (c) Injected harm | 32.8 |
-| **Total** | **190.9** |
+| Read the four series (one archive pass) | 44.8 |
+| Build rehearsal, 2025, 2026 streams | 4.2 |
+| (a) Orientation null, 2 paths x 17 cells x 2 epsilons | 113.6 |
+| (b) Unmodified | 12.6 |
+| (c) Injected harm | 38.2 |
+| **Total** | **213.5** |
 
-(A first identical run took 184 s; two earlier attempts failed with `MemoryError` because the machine
-had about 1 GB free, and succeeded unchanged when memory was available. The reported run is the
-second complete one and uses the final wrapper hash.)
+Analysis without reading and building: about 164 s per authority. Results, development only:
+R20 passes (653 procure events); 2 paths with 1 disagreement each, so every arm is INCONCLUSIVE; at
+m = 34 no cell is insufficiently validated (the minimum zero-alarm count is 128 replicates);
+H-B4(b): all 9 detectable cells are in the `q = 1` structural stratum, so the state is INCONCLUSIVE.
 
-Results on AECI, development only, descriptive:
-- R20: 653 deployed procure events in the rehearsal, passes.
-- Paths: 2025 with 8,736 events and 1 disagreement; 2026 with 6,989 events and 1 disagreement.
-  Both are **uninformative** for the null (D < 30); the arm verdicts are all INCONCLUSIVE, which is
-  the intended behaviour of the informativeness rule.
-- Null at `m = 34`, level 0.99853: 34/34 cells pass, 0 informative cells, 0 failing. WP4-style
-  decision (68-cell rule on the 4-path layout, here 2 paths): pass.
-- H-B4(b) machinery: 9 detectable cells, 9 of 9 exact matches (and 9 of 9 within tolerance). With
-  one disagreement per path this reflects a fixed propensity of 1, as in WP4, and is not evidence.
-- The coin override was exercised (the seed layout is applied, not WP4's). The locked refusal was
-  tested: `smoke --authority CHPD` exits with "LOCKED authority" before any series is read;
-  `locked` exits without freeze.
-- Existing WP4 tests pass (`tests/test_eia_real_data_validity.py`, `test_eia_paired_reserve.py`,
-  `test_eia_injected_harm.py`: 36 passed). No new unit tests were added for the wrapper.
+**Open items.**
+1. R20 remains a post-split amendment (Section 2).
+2. The coverage gate removed 22 authorities, mostly on the 2026 window (Section 2).
+3. The region map is unverified and affects reporting only (Section 9).
+4. Many locked paths will probably be uninformative; INCONCLUSIVE is a likely outcome for H-B4(a)
+   support and for H-B4(b), since a `q < 1` stratum needs at least 10 detectable cells.
+5. The seed registry still shows the block as `reserved_unused`.
+6. The runner patches three module-level functions of a frozen module at run time. The freeze list
+   now includes the runner and every loaded module, and tests pin the patched names.
+7. The previous AECI smoke output (older code, with the WP4-style re-run logic) was deleted and
+   re-generated from the final code; it was development output only.
 
-**Problems and open items:**
-1. **R20 is evaluated after the split**, on values (the Ridge forecast and `tau`). Every R20 failure
-   must be reported as a post-split exclusion.
-2. **The coverage gate removed 22 authorities**, including large ones. Mostly `path_2026` below 95%.
-   Whether this is a data artefact of the 2026 snapshot (recent revisions) was not examined and
-   would need values or finer availability analysis. It is not a problem for validity, only for
-   representativeness.
-3. **Region map is unverified** (Section 9).
-4. **Many locked paths will probably be uninformative**, as AECI is (1 disagreement). The rate of
-   informative locked paths is unknown until the run. The 6-path, 3-authority rule makes
-   INCONCLUSIVE a real possible outcome for H-B4(a) support. That is honest, not a defect.
-5. **Wrapper `locked` mode is a stub**, and the registry is not updated (Section 11).
-6. **Unfrozen dependencies of WP4** (Section 4) were hashed here, not in the WP4 freeze.
-7. The runner patches module-level functions of a frozen module at run time. The file hash is
-   unchanged and the patch is tiny, but it is a monkeypatch, and a reviewer should check that the
-   replaced functions are exactly `orientation_coins`, `rerun_coins`, `unmodified_coins` and
-   `injection_coins`.
-8. Memory: the machine had about 1 GB free during the work; the full locked run reads one archive
-   pass and holds 1,000 x n replicate arrays per path (about 150 MB), so it should be run when
-   memory is free.
-
-**Continue / pivot / stop.** Continue to the freeze (Section 11). E4 is cheap and well specified,
-but its main risk is power: the validity null on real paths is informative only where disagreements
-are plentiful, and the previous four paths had one such path.
+**Continue / pivot / stop.** Continue to the freeze. The risk is power: the real-data validity check
+is informative only where disagreements are plentiful, and the support rules are meant to let
+INCONCLUSIVE stand.

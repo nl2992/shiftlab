@@ -1639,9 +1639,9 @@ studies:
 - id: e4_split_and_orientation
   start: 100400000
   end: 100400999
-  source: docs/research_refinement_v1/stage1/ (allocated 2026-10-28 via shiftlab.seed_registry.allocate)
-  status: reserved_unused
-  used_by: []
+  source: docs/research_refinement_v1/stage1/P3_E4_protocol.md (allocated 2026-10-28)
+  status: confirmation
+  used_by: [e4 split seed 100400000 (used 2026-10-28), e4_heldout/smoke_AECI (development authority only; coin seeds 100400001-100400550 are per-authority-keyed), 100400551-100400999 reserved unused]
   derivation: allocated
   note: 'E4 dev/locked authority split seed (first id) and orientation-null replicates (P3)'
 - id: e2_dev_grid

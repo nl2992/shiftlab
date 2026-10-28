@@ -1,0 +1,75 @@
+# Lane B: evidence-responsive budget allocation under unknown bursts (Claude lane)
+
+**Opened 2026-10-28.** This is an iterative research loop working toward the user's methodological
+goal (as Codex records it in `docs/budgeted_switching_research_goals.md`, in the main checkout): one
+genuinely new acquisition-and-switching mechanism under a hard observation budget and delayed
+feedback, with a defensible theorem and matched-budget evidence. ShiftGuard is the platform, not
+the contribution.
+
+**Status: no mechanism, novelty or theorem established.**
+
+## Coordination with the Codex lane (do not duplicate)
+
+| | Lane A (Codex, main checkout, uncommitted files `docs/switching_*`) | Lane B (Claude, this worktree, branch `research/claude-lane-burst-allocation`) |
+|---|---|---|
+| Question | G1 theory-first novelty gate for two-policy economic switching: comparator, false-switch event, lower bounds, finite Bellman/LP references | **How to spend a hard label reserve when the learner cannot tell in advance whether a disagreement burst is harmful** |
+| Already covered there (do not redo) | one-step VOI (rejected); receding burst rollout (standard); risk-budget Bellman planner (rejected); movement-compatible channel selection (rejected); Cheng paid observation; Prabhu controlled sensing; dynamic indicator regret; delayed switching-cost optimisation; Shin–Ramdas–Rinaldo e-detector all-onset mixture (baseline); noisy delay-budget-safety lower bound; current-regime vs null validity | — |
+| Motivating evidence | integrated efficacy confirmation (late harm, certification delay, reversal loss, inert controller) | **E2 confirmation (`docs/research_refinement_v1/stage1/STAGE2_RESULTS.md`)**: paced gating loses 8–22 points to fixed in harmful post-onset bursts; fixed loses up to 99 points to paced under harmless pre-onset bursts; the horizon cap is a compromise that loses in both |
+
+Rules:
+- Lane B never edits Lane A's files and never stages files in the main checkout.
+- Lane B commits only on its own branch, and fast-forwards `main` only if `main` has not diverged.
+- Before each tick, read the latest checkpoint in `docs/budgeted_switching_research_goals.md` in the
+  main checkout. If Lane A has started on burst allocation, stop and reconcile.
+- Lane A's baselines (e-detector mixture, Cheng-style paid observation) are reused as comparators
+  and credited.
+- `docs/LANE_COORDINATION.md` in the main checkout (untracked, for Codex to read) mirrors this
+  table.
+
+## Research question (B1, to be made precise)
+
+There is a hard label budget `B`, label prices, and a stream with a free disagreement indicator
+`D_t`. Bursts of disagreements arrive, and each burst is harmful (`E[Z_t] > ε`) or harmless
+(`E[Z_t] ≤ ε`); harmfulness is unknown before labels arrive. Labels have delay `d`, and the
+budget is charged at request. The decision layer is an anytime-valid switch (alarm, then revert)
+with false-switch control under the charter null.
+
+**Conjecture (falsifiable):**
+1. **Lower bound.** Every oblivious rule (fixed, paced or horizon-capped `q_t`, a function of
+   `D` history and budget only, not of label values) has detection-delay regret Ω(·) against an
+   oracle in at least one of the two burst classes.
+2. **Upper bound.** An *evidence-responsive* rule, whose `q_t` is a predictable function of the
+   running e-process or CUSUM-type statistic, retains anytime validity and achieves regret within
+   O(·) of the oracle in both classes under a stated burst model.
+
+Both parts are research targets, not results.
+
+## Gates and exit conditions
+
+| Gate | Deliverable | Pass | Exit (stop or pivot the lane) |
+|---|---|---|---|
+| B0 novelty pre-screen | `B0_prior_art.md`: DE-CuSum (Banerjee–Veeravalli 1211.3729), on-off observation control (1105.1361), Hou–Bidkhori–Banerjee 2412.20207, budgeted/data-efficient QCD with hard sampling budgets, bandits-with-knapsacks and online-knapsack allocation, Geng–Bayraktar–Lai, Zhang–Cheung, DISCERN 2609.17560; plus Lane A's controlled-sensing and observation-control audits (read, do not redo) | Precise residual: what none of them gives (hard pathwise budget + unknown burst harmfulness + anytime-valid null + delayed labels) | **A published method already gives an evidence-responsive sampling rule with a hard budget and an anytime false-alarm guarantee, with a delay bound in both burst regimes → pivot** |
+| B1 problem + separation | `B1_problem.md`: burst model, oracle comparator, the oblivious-rule lower bound (proof or a finite-instance numerical counterexample) | The separation holds under a nontrivial model | The lower bound fails (some oblivious rule is near-oracle in both classes) → stop |
+| B2 mechanism + validity | Rule pseudocode; anytime-validity proof (a predictable `q` from past wealth suffices; check it); an upper-bound attempt | Validity proved; upper bound proved or numerically supported on a finite instance | Validity needs non-predictable information → redesign once, then stop |
+| B3 dev prototype | `src/shiftlab/dive/lane_b_*.py` plus tests; E2 platform cells on a **new registry dev block** | Beats the best of {fixed, paced, horizon, DE-CuSum-style, e-detector mixture} in **both** burst classes on dev, at matched budget, with no validity loss | It fails to beat the best oblivious rule in both classes → record the negative result and stop |
+| B4 switching tie-in | Alarm → revert/promote on the E3 platform, with net utility including query and switch costs | Gain in net utility, not only detection | — |
+| B5 confirm | Frozen protocol, Codex review, fresh seeds, real-data eligibility audit | Registered gain | — |
+
+**Global stop:** after 12 ticks without passing B1, stop the lane and report.
+
+## Tooling
+
+- **Python:** from this worktree run
+  `PYTHONIOENCODING=utf-8 PYTHONPATH=$PWD/src UV_PROJECT_ENVIRONMENT=<main>/.venv uv run --no-sync python ...`.
+  `<main>` is `C:/Users/nigel/OneDrive/桌面/ICML/shift-research-starter`.
+- **Subagents:** Haiku for fetching and reading papers, Sonnet for drafts and code, Opus for
+  verification.
+- **Codex reviewer:** run with `codex exec --sandbox read-only ... < /dev/null`, and phrase reviews as
+  methodology questions.
+- **Data:** no downloads. Raw data is read only from `<main>/data`.
+
+## Tick log
+
+| Tick | Date | Gate | Outcome |
+|---|---|---|---|
+| 0 | 2026-10-28 | setup | Worktree, lane control and coordination note created. E2–E4 confirmation results recorded on `main` (`6527fe9`). P4 external adapter paused (benchmark is no longer the contribution; resume only if needed as a comparator). |

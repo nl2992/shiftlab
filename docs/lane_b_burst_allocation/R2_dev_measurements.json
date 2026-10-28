@@ -1,0 +1,198 @@
+{
+  "opsd": {
+    "ridge_penalty": 1.0,
+    "validation_mse_by_penalty": {
+      "1.0": 8092571.067441612,
+      "10.0": 8173820.929501705,
+      "100.0": 9408268.012018621,
+      "1000.0": 17735112.569655668
+    },
+    "n_train_days_hour0": 724,
+    "validation_exclusions": {
+      "calendar_irregular": 0,
+      "missing_actual_or_incumbent": 0,
+      "missing_candidate_feature": 0,
+      "tau_unavailable": 0
+    },
+    "development": {
+      "n_rounds": 728,
+      "exclusions": {
+        "calendar_irregular": 0,
+        "missing_actual_or_incumbent": 2,
+        "missing_candidate_feature": 0,
+        "tau_unavailable": 0
+      },
+      "disagreement_rate": 0.21703296703296704,
+      "n_disagreement_rounds": 158,
+      "n_runs": 54,
+      "run_length_mean": 2.925925925925926,
+      "run_length_median": 3.0,
+      "run_length_p90": 5.0,
+      "run_length_max": 5,
+      "iid_expected_mean_run": 1.2771929824561403,
+      "p_disagree_given_prev_disagree": 0.6582278481012658,
+      "share_of_disagreement_rounds_in_runs_ge3": 0.7658227848101266,
+      "share_of_disagreement_rounds_in_runs_ge10": 0.0,
+      "mean_paired_loss_all_rounds": 0.007200091575091573,
+      "n_agreement_rounds_with_nonzero_Z": 0,
+      "max_abs_Z_on_agreement_rounds": 0.0,
+      "min_Z": -0.3333333333333333,
+      "max_Z": 0.49999999999999994,
+      "mean_paired_loss_on_disagreement": 0.033175105485232066,
+      "sd_paired_loss_on_disagreement": 0.14672188064824676,
+      "share_disagreement_with_Z_positive": 0.5632911392405063,
+      "share_disagreement_with_Z_negative": 0.4240506329113924,
+      "mean_paired_loss_on_disagreement_first_half": -0.04229957805907173,
+      "mean_paired_loss_on_disagreement_second_half": 0.10864978902953586
+    },
+    "informative_2_to_60_percent": true,
+    "release_round_offsets_used": [
+      1,
+      2
+    ],
+    "smoke_B10pct": {
+      "GatedHTFixed": {
+        "label": "opsd_dev",
+        "alarm_count_of_seeds": 0,
+        "n_seeds": 200,
+        "median_first_alarm_round": null,
+        "mean_label_spend": 67.52,
+        "budget": 72.8,
+        "mean_labels_on_disagreement": 67.52,
+        "mean_labels_on_agreement": 0.0,
+        "stopped_early_count": 61,
+        "mean_max_log_e": 0.7490205203428547,
+        "log_threshold": 2.995732273553991
+      },
+      "GatedHTPaced": {
+        "label": "opsd_dev",
+        "alarm_count_of_seeds": 0,
+        "n_seeds": 200,
+        "median_first_alarm_round": null,
+        "mean_label_spend": 72.0,
+        "budget": 72.8,
+        "mean_labels_on_disagreement": 72.0,
+        "mean_labels_on_agreement": 0.0,
+        "stopped_early_count": 200,
+        "mean_max_log_e": 1.1450401733647653,
+        "log_threshold": 2.995732273553991
+      },
+      "UniformHT": {
+        "label": "opsd_dev",
+        "alarm_count_of_seeds": 0,
+        "n_seeds": 200,
+        "median_first_alarm_round": null,
+        "mean_label_spend": 69.66,
+        "budget": 72.8,
+        "mean_labels_on_disagreement": 14.785,
+        "mean_labels_on_agreement": 54.875,
+        "stopped_early_count": 114,
+        "mean_max_log_e": 0.15694353894686533,
+        "log_threshold": 2.995732273553991
+      }
+    }
+  },
+  "binance": {
+    "development_all_rounds": {
+      "n_rounds": 8590,
+      "exclusions": {
+        "clipped_policy_bars": 0
+      },
+      "disagreement_rate": 0.3990686845168801,
+      "n_disagreement_rounds": 3428,
+      "n_runs": 554,
+      "run_length_mean": 6.187725631768953,
+      "run_length_median": 2.0,
+      "run_length_p90": 17.69999999999999,
+      "run_length_max": 62,
+      "iid_expected_mean_run": 1.664083688492832,
+      "p_disagree_given_prev_disagree": 0.838389731621937,
+      "share_of_disagreement_rounds_in_runs_ge3": 0.8830221703617269,
+      "share_of_disagreement_rounds_in_runs_ge10": 0.6534422403733956,
+      "mean_paired_loss_all_rounds": 0.0008414453054096471,
+      "n_agreement_rounds_with_nonzero_Z": 554,
+      "max_abs_Z_on_agreement_rounds": 0.0050000000000000044,
+      "min_Z": -0.4777731429776044,
+      "max_Z": 0.22197664614048096,
+      "mean_paired_loss_on_disagreement": 0.001735126946752878,
+      "sd_paired_loss_on_disagreement": 0.03666523099554956,
+      "share_disagreement_with_Z_positive": 0.5367561260210035,
+      "share_disagreement_with_Z_negative": 0.4629521586931155,
+      "mean_paired_loss_on_disagreement_first_half": 0.00254713155140609,
+      "mean_paired_loss_on_disagreement_second_half": 0.0009231223420996662
+    },
+    "pacer_seed_rounds": 720,
+    "monitor_stream": {
+      "n_rounds": 7870,
+      "exclusions": {
+        "clipped_policy_bars": 0
+      },
+      "disagreement_rate": 0.3980940279542567,
+      "n_disagreement_rounds": 3133,
+      "n_runs": 506,
+      "run_length_mean": 6.191699604743083,
+      "run_length_median": 2.0,
+      "run_length_p90": 18.0,
+      "run_length_max": 62,
+      "iid_expected_mean_run": 1.6613890648089507,
+      "p_disagree_given_prev_disagree": 0.8384934567507182,
+      "share_of_disagreement_rounds_in_runs_ge3": 0.8819023300351101,
+      "share_of_disagreement_rounds_in_runs_ge10": 0.6581551228854133,
+      "mean_paired_loss_all_rounds": 0.0008525293974616061,
+      "n_agreement_rounds_with_nonzero_Z": 506,
+      "max_abs_Z_on_agreement_rounds": 0.0050000000000000044,
+      "min_Z": -0.4777731429776044,
+      "max_Z": 0.22197664614048096,
+      "mean_paired_loss_on_disagreement": 0.0017457409377666263,
+      "sd_paired_loss_on_disagreement": 0.03597877647989353,
+      "share_disagreement_with_Z_positive": 0.5397382700287264,
+      "share_disagreement_with_Z_negative": 0.4599425470794765,
+      "mean_paired_loss_on_disagreement_first_half": 0.0028022202301353147,
+      "mean_paired_loss_on_disagreement_second_half": 0.0006899358504345483
+    },
+    "release_round_offsets_used": [
+      1
+    ],
+    "smoke_B5pct": {
+      "GatedHTFixed": {
+        "label": "binance_dev",
+        "alarm_count_of_seeds": 0,
+        "n_seeds": 200,
+        "median_first_alarm_round": null,
+        "mean_label_spend": 380.495,
+        "budget": 393.5,
+        "mean_labels_on_disagreement": 380.495,
+        "mean_labels_on_agreement": 0.0,
+        "stopped_early_count": 61,
+        "mean_max_log_e": 0.3290838241105003,
+        "log_threshold": 2.995732273553991
+      },
+      "GatedHTPaced": {
+        "label": "binance_dev",
+        "alarm_count_of_seeds": 0,
+        "n_seeds": 200,
+        "median_first_alarm_round": null,
+        "mean_label_spend": 392.615,
+        "budget": 393.5,
+        "mean_labels_on_disagreement": 392.615,
+        "mean_labels_on_agreement": 0.0,
+        "stopped_early_count": 187,
+        "mean_max_log_e": 0.33269789039086306,
+        "log_threshold": 2.995732273553991
+      },
+      "UniformHT": {
+        "label": "binance_dev",
+        "alarm_count_of_seeds": 0,
+        "n_seeds": 200,
+        "median_first_alarm_round": null,
+        "mean_label_spend": 386.785,
+        "budget": 393.5,
+        "mean_labels_on_disagreement": 153.25,
+        "mean_labels_on_agreement": 233.535,
+        "stopped_early_count": 120,
+        "mean_max_log_e": 0.16017929705519493,
+        "log_threshold": 2.995732273553991
+      }
+    }
+  }
+}

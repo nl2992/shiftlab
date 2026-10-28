@@ -1,0 +1,197 @@
+"""Lane B real-data replay tasks (R1 frozen specs): OPSD reserve and Binance momentum.
+
+Each task builds, per decision round, a public event (features available at decision time,
+deployed = incumbent action, reference = candidate action), an evaluator-side outcome stream
+(losses, paired cost ``Z = l(incumbent) - l(candidate)`` and the time/round at which that label is
+released), and imposed cost parameters. Oracle/outcome values never enter ``PublicEvent``.
+
+Window guard: only development windows may be touched. The locked holdouts (OPSD from
+2020-01-01, Binance from 2026-01-01) raise ``HoldoutAccessError`` before any file is opened.
+"""
+
+from __future__ import annotations
+
+from collections.abc import Iterator
+from dataclasses import dataclass, field
+
+import numpy as np
+
+from ..contract.interface import PublicEvent, TaskSpec
+
+OPSD_HOLDOUT_START = np.datetime64("2020-01-01T00:00:00")
+BINANCE_HOLDOUT_START = np.datetime64("2026-01-01T00:00:00")
+
+
+class HoldoutAccessError(RuntimeError):
+    """A locked-holdout timestamp was requested."""
+
+
+def guard_timestamps(timestamps, holdout_start: np.datetime64, what: str) -> None:
+    """Raise if any timestamp lies at or after ``holdout_start`` (UTC, naive datetime64)."""
+    stamps = np.asarray(timestamps).astype("datetime64[ns]")
+    if stamps.size and stamps.max() >= holdout_start.astype("datetime64[ns]"):
+        raise HoldoutAccessError(f"{what}: timestamps at or after {holdout_start} are locked")
+
+
+@dataclass(frozen=True)
+class CostParams:
+    """Imposed (not observed) budget, query cost and switch cost, all in normalised loss units."""
+
+    budget_fractions: tuple[float, ...]
+    primary_budget: float
+    query_costs: tuple[float, ...]
+    primary_query_cost: float
+    switch_costs: tuple[float, ...]
+    primary_switch_cost: float
+    description: str = ""
+
+
+@dataclass(frozen=True)
+class PublicRounds:
+    """Public side: nothing here depends on an outcome of the same or a later round."""
+
+    round_time: np.ndarray  # event time (datetime64[ns], UTC)
+    decision_time: np.ndarray  # instant at which the action is chosen
+    x: np.ndarray  # (n, p) features available at decision_time
+    deployed_action: np.ndarray  # int64 (OPSD: 24-bit mask of hourly reserve decisions)
+    reference_action: np.ndarray
+    disagreement_units: np.ndarray  # secondary count (OPSD: hours differing; Binance: 0/1)
+    adjacent_to_previous: np.ndarray  # True iff the previous round is the immediately preceding one
+
+    @property
+    def disagreement(self) -> np.ndarray:
+        return self.deployed_action != self.reference_action
+
+    def __len__(self) -> int:
+        return len(self.round_time)
+
+
+@dataclass(frozen=True)
+class EvaluatorOutcomes:
+    """Evaluator side only. ``release_round[t]`` is the first round whose decision time is at or
+    after ``label_available_time[t]`` (``n`` when it is never released inside the stream)."""
+
+    loss_incumbent: np.ndarray
+    loss_candidate: np.ndarray
+    paired_cost: np.ndarray
+    label_available_time: np.ndarray
+    release_round: np.ndarray
+
+    def visible_at_round(self, t: int) -> np.ndarray:
+        """Indices of rounds whose labels are visible when the action of round ``t`` is chosen."""
+        return np.flatnonzero(self.release_round <= t)
+
+
+@dataclass(frozen=True)
+class RealTask:
+    name: str
+    public: PublicRounds
+    outcomes: EvaluatorOutcomes
+    costs: CostParams
+    cost_bound: float = 1.0
+    price_unit: float = 1.0  # harness budget accounting: one label = one price unit
+    exclusions: dict[str, int] = field(default_factory=dict)
+    meta: dict = field(default_factory=dict)
+
+    def __len__(self) -> int:
+        return len(self.public)
+
+    def public_events(self) -> Iterator[PublicEvent]:
+        """Yield contract events. ``t``, ``disagreement``-consistency, ``price`` and
+        ``remaining_budget`` are re-assigned by the harness; placeholders are given here."""
+        pub = self.public
+        for i in range(len(pub)):
+            yield PublicEvent(
+                t=i,
+                x=pub.x[i],
+                deployed_action=int(pub.deployed_action[i]),
+                reference_action=int(pub.reference_action[i]),
+                disagreement=bool(pub.deployed_action[i] != pub.reference_action[i]),
+                price=self.price_unit,
+                remaining_budget=0.0,
+            )
+
+    def evaluator_outcomes(self) -> EvaluatorOutcomes:
+        return self.outcomes
+
+    def task_spec(self, budget_fraction: float, *, alpha: float = 0.05, epsilon: float = 0.0):
+        return TaskSpec(
+            cost_bound=self.cost_bound,
+            epsilon=epsilon,
+            alpha=alpha,
+            horizon=len(self),
+            label_budget=float(budget_fraction) * len(self) * self.price_unit,
+            price_range=(self.price_unit, self.price_unit),
+        )
+
+    def slice(self, start: int, stop: int) -> RealTask:
+        sl = slice(start, stop)
+        pub, out = self.public, self.outcomes
+        public = PublicRounds(
+            pub.round_time[sl],
+            pub.decision_time[sl],
+            pub.x[sl],
+            pub.deployed_action[sl],
+            pub.reference_action[sl],
+            pub.disagreement_units[sl],
+            pub.adjacent_to_previous[sl],
+        )
+        release = np.clip(out.release_round[sl] - start, 0, None)
+        outcomes = EvaluatorOutcomes(
+            out.loss_incumbent[sl],
+            out.loss_candidate[sl],
+            out.paired_cost[sl],
+            out.label_available_time[sl],
+            release,
+        )
+        return RealTask(
+            self.name,
+            public,
+            outcomes,
+            self.costs,
+            self.cost_bound,
+            self.price_unit,
+            dict(self.exclusions),
+            dict(self.meta),
+        )
+
+
+def release_rounds(decision_time: np.ndarray, available: np.ndarray) -> np.ndarray:
+    """First round whose decision time is >= the label availability time (release, then act)."""
+    return np.searchsorted(decision_time, available, side="left").astype(np.int64)
+
+
+def run_length_summary(flags: np.ndarray, adjacent: np.ndarray) -> dict:
+    """Runs of consecutive disagreement rounds; a non-adjacent round (calendar gap) breaks a run."""
+    flags = np.asarray(flags, dtype=bool)
+    runs: list[int] = []
+    length = 0
+    for i, flag in enumerate(flags):
+        if flag and (length == 0 or adjacent[i]):
+            length += 1
+        else:
+            if length:
+                runs.append(length)
+            length = 1 if flag else 0
+    if length:
+        runs.append(length)
+    arr = np.asarray(runs, dtype=float)
+    n = len(flags)
+    p = float(flags.mean()) if n else float("nan")
+    prev = flags[:-1] & adjacent[1:]
+    p_stay = float(flags[1:][prev].mean()) if prev.any() else float("nan")
+    if not len(arr):
+        return {"n_runs": 0, "disagreement_rate": p}
+    return {
+        "disagreement_rate": p,
+        "n_disagreement_rounds": int(flags.sum()),
+        "n_runs": len(runs),
+        "run_length_mean": float(arr.mean()),
+        "run_length_median": float(np.median(arr)),
+        "run_length_p90": float(np.quantile(arr, 0.9)),
+        "run_length_max": int(arr.max()),
+        "iid_expected_mean_run": float(1.0 / (1.0 - p)) if p < 1 else float("inf"),
+        "p_disagree_given_prev_disagree": p_stay,
+        "share_of_disagreement_rounds_in_runs_ge3": float(arr[arr >= 3].sum() / arr.sum()),
+        "share_of_disagreement_rounds_in_runs_ge10": float(arr[arr >= 10].sum() / arr.sum()),
+    }

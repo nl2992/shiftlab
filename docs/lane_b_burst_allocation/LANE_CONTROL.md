@@ -111,3 +111,10 @@ Both parts are research targets, not results.
 - **External refs only partly verified.** The ENTSO-E rule and Binance fee page are only partially verified (WAF challenges blocked scripted fetches; noted for a human check). OPSD revision status and the DE zone across the 2018-10 split are unverified.
 - **Next:** R2, measuring disagreement density on development windows only, then a contract-interface adapter and a smoke run with existing baselines. |
 | 10 | 2026-10-28 | R1b/R2 | The user asked for assumptions or a browser check instead of manual steps. ENTSO-E Art. 6(2) clocks, the Binance 0.100% fee and the OPSD DE series definition were verified in the built-in browser (no bot challenge); A1–A5 declared (`R1b_verified_refs_and_assumptions.md`). Lane A's newest checkpoints (monotonicity LP, response-adaptive switching-cost prior) show no real-data overlap. R2 started (Sonnet): task adapters with a code-enforced holdout guard, and disagreement density measured on development windows only. |
+| 11 | 2026-10-28 | R2 | Adapters `src/shiftlab/real_tasks/` with a code-enforced holdout guard; 21 tests. **Development only:**
+- **OPSD 2018–19:** 728 rounds, disagreement 21.7% (158 rounds), runs mean 2.9 / max 5 against 1.28 if independent (short workweek blocks), mean Z on disagreement rounds 0.033 (sd 0.147). Informative under the R1 rule.
+- **Binance 2025:** 8,590 rounds, disagreement 39.9%, runs mean 6.2 / max 62, mean Z 0.0017 (sd 0.037). Dense, with a near-zero, noisy signal.
+- **Harness smoke** (zero-delay upper bound): no alarms at the primary budgets; uniform HT spends 60–79% of labels on agreements.
+- **Amendment A-B2:** Binance Z is now the position-return difference only, with fees moved to the switching channel (agreement means Z=0).
+- **Disclosed:** the OPSD ridge penalty sits at the grid edge.
+- **Next:** R3, freeze both tasks (protocol plus freeze record, with the delay-aware harness noted), Codex methodology review, then hand off to Lane A via the coordination note. |

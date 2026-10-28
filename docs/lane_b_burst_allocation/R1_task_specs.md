@@ -366,3 +366,20 @@ report G4 as unmet in cost grounding in both and use the two tasks as complement
 4. Disagreement densities for both tasks are unmeasured; the development-window measurement is the
    first R2 step, and the density gates (A.7) are fixed here.
 5. Freeze hashes are placeholders; no holdout may be opened before they are filled.
+
+## Amendment A-B2 (2026-10-28, before any freeze; development data only)
+
+R2 found that the frozen B.2 loss puts each policy's own turnover fee inside `Z`. As a result
+`Z != 0` on 554 of 5,162 development agreement rounds (by at most 0.005). That violates the
+contract's rule that an agreement has `Z = 0`.
+
+**Amended B.2:** `Z_t` is the difference in position returns only,
+`(a_cand,t − a_inc,t) · r_{t+1}` with the sign convention of B.2. When the two policies agree, the
+positions are equal, so `Z_t = 0` exactly. Trading fees are charged through the switching and
+turnover cost channel `k` (0.100% per side, from A4) in the net-utility accounting, not inside `Z`.
+
+Lead decision, recorded under the user's standing instruction to proceed on best judgement. No
+holdout was touched.
+
+**Also disclosed:** the OPSD ridge penalty selected on 2017 is 1.0, the lower edge of the frozen
+grid. The grid stays frozen as specified, so the optimum may lie below it.

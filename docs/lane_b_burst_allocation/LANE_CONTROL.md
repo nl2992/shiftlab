@@ -97,3 +97,9 @@ Both parts are research targets, not results.
   - **R2:** an adapter to the contract interface and a smoke run with existing baselines.
 - **Exit:** if no dataset passes R0, record the precise missing information and stop the lane.
 - The Chandar–Tchamkerten reader already running is allowed to finish (no new work started). |
+| 7 | 2026-10-28 | R0 | Metadata-only audit (`R0_real_data_eligibility.md`).
+- **OPSD hourly German load is ELIGIBLE-CANDIDATE.** It pairs the ENTSO-E day-ahead forecast with a frozen forecaster on the common actual load. 2015–2017 and 2020-01 to 2020-09 appear unexposed. Caveats: the publication clock is not in the data (the ENTSO-E deadline is external and unverified); there is no licence field; costs are imposed; disagreement density is unknown. Choosing 2020 (which includes the COVID disturbance) as the holdout is a forking path and must be declared before opening.
+- **Binance has the best clock** (exact UTC bars; label delay of one bar) but is DEVELOPMENT-ONLY locally (one hourly month). Making it eligible needs about 12 months of ETHUSDT 1h klines (about 500 KB) and a dated fee-schedule snapshot. That is a download, so it is **blocked pending user OK** under the standing no-download rule.
+- **Other datasets.** Gas sensor, NOAA and Monash are DEVELOPMENT-ONLY; elec2, FRED and Folktables are INELIGIBLE.
+- **Cross-cutting.** Labels are free everywhere, so the budget, the switching cost and the burst structure are imposed on every dataset.
+- **Next:** R1, a frozen OPSD task spec with a declared clock assumption and a holdout declaration. |

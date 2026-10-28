@@ -50,7 +50,7 @@ Historical audit files elsewhere in the repository are never overwritten.
 - [x] B2 Part 2: fresh search through 2026-10-27 (ARIS research-lit and novelty-check;
       arXiv/OpenReview/PMLR). Fill the full column set and run the "two existing algorithms" test on
       each claim.
-- [ ] C1 `COMPETING_RESEARCH_DIRECTIONS.md`: paths A–D (and others found), every assessment
+- [x] C1 `COMPETING_RESEARCH_DIRECTIONS.md`: paths A–D (and others found), every assessment
       field, a ranking, and a minimal falsification experiment for each.
 - [ ] D1 `REFINEMENT_ROUND_1.md`: proposal for the strongest surviving direction, following ARIS
       research-refine.
@@ -89,3 +89,4 @@ score.
 | 2 | 2026-10-27 | A2 | Four Sonnet surveys plus lead synthesis and verification. Key: `q1_fallback` dominates integrated system on 3 profiles (undiscussed); no untouched real holdout; S2 seed-doc typo; 2 undisclosed seed overlaps; Target-Scout hash drift |
 | 3 | 2026-10-28 | B1 | Three Sonnet clusters plus lead identity checks. Combination test: Q1, Q2 generic and Q3a all YES (reject). Narrow survivors: bandit-feedback paired harm, persistence-aware post-switch certificate, validity through intervention, finite-budget burst allocation theorem. Uncited: Drift2Act, Zhang-Wu-Qian 2609.13714, Zhou-Li-Zhu 2610.10393; DISCERN missing from manuscript. Ledger M8 wording overstated. RADAR identity needs user |
 | 4 | 2026-10-28 | B2 | Full reads, G1-G4 search, PPRM resolved (no implementation error). **First independent review: Codex gpt-6.1-sol xhigh** (dossier `NOVELTY_DOSSIER_B2.md`). Verdicts: G4 PROCEED (only gap passing both tests), G2 narrow (prospective-certifiability theorem), G3 reject generic, G1 section only. No NO-GO reversal. RADAR identity confirmed by user. 9 Codex-added papers (2 lead-fetched) |
+| 5 | 2026-10-28 | C1 | Lead-written direction comparison; Haiku identity checks (6 match, 1 partial). New derivation: growth per label is independent of q unless the bet cap binds, so G4 partly reduces to known online allocation and is inference-specific only in the strong-signal regime. Ranking A (benchmark) > C1 (G4) > C2 > D, C3; B and E rejected. Phase D refines A, with the regime analysis as the supporting claim and G4 as a separately gated theory pre-screen |

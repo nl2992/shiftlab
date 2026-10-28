@@ -581,7 +581,7 @@ used as evidence.
 | Zhang & Cheung, "Piecewise-Stationary Bandits with Knapsacks", NeurIPS 2024 | Codex-reported | G4 inventory reservation |
 | Valdrighi, Valera & Raimundo, "Performative Prediction with Selective Labels", arXiv 2610.08272 | Codex-reported | G3 performative selective labels |
 
-**Codex-reported identities must be fetched before any of them is cited in a proposal.**
+**Identity update (tick 5, Haiku fetch of primary pages):** Shimizu 2025, Chandak 2022, Feng 2024, Efroni 2021, Zhang & Cheung 2024 and Valdrighi 2026 MATCH on title and authors. Valdrighi carries an author-stated NeurIPS 2026 acceptance. The Zhang & Cheung author string came back garbled; confirm it before citing. Geng–Bayraktar–Lai is PARTIAL: arXiv 1309.5396 matches on title and authors, but the IEEE TIT 60(10) 2014 venue is unconfirmed.
 
 ## B2.5 Consequences for Phase C
 

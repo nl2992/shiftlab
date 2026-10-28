@@ -1604,6 +1604,46 @@ studies:
   status: confirmation
   used_by: [nested_candidate_context_confirmation_2000]
   derivation: block_end
+- id: e2_dev_smoke_and_power
+  start: 100000000
+  end: 100001999
+  source: docs/research_refinement_v1/stage1/ (allocated 2026-10-28 via shiftlab.seed_registry.allocate)
+  status: reserved_unused
+  used_by: []
+  derivation: allocated
+  note: 'E2 development: smoke and McNemar power from discordance (P1)'
+- id: e2_confirmation
+  start: 100100000
+  end: 100149999
+  source: docs/research_refinement_v1/stage1/ (allocated 2026-10-28 via shiftlab.seed_registry.allocate)
+  status: reserved_unused
+  used_by: []
+  derivation: allocated
+  note: 'E2 registered confirmation; n per cell set by P1 power calculation, unused tail stays reserved'
+- id: e3_dev_smoke
+  start: 100200000
+  end: 100200999
+  source: docs/research_refinement_v1/stage1/ (allocated 2026-10-28 via shiftlab.seed_registry.allocate)
+  status: reserved_unused
+  used_by: []
+  derivation: allocated
+  note: 'E3 CPU smoke and development (P2)'
+- id: e3_confirmation
+  start: 100300000
+  end: 100309999
+  source: docs/research_refinement_v1/stage1/ (allocated 2026-10-28 via shiftlab.seed_registry.allocate)
+  status: reserved_unused
+  used_by: []
+  derivation: allocated
+  note: 'E3 registered factorial (P2)'
+- id: e4_split_and_orientation
+  start: 100400000
+  end: 100400999
+  source: docs/research_refinement_v1/stage1/ (allocated 2026-10-28 via shiftlab.seed_registry.allocate)
+  status: reserved_unused
+  used_by: []
+  derivation: allocated
+  note: 'E4 dev/locked authority split seed (first id) and orientation-null replicates (P3)'
 excluded_scalar_seeds:
 - {output: shiftguard_unified/real_data_development/gas_sensor_candidates_v1, seed: 20261026, reason: 'dataset split, encoder, cross-fit or bootstrap seed on real data, not a stream block'}
 - {output: shiftguard_unified/real_data_development/gas_sensor_candidates_v2, seed: 20261026, reason: 'dataset split, encoder, cross-fit or bootstrap seed on real data, not a stream block'}

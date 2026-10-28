@@ -24,6 +24,7 @@ Historical audit files elsewhere in the repository are never overwritten.
   the Co-Authored-By line), then fast-forward the local `main` with `git fetch . HEAD:main`, with
   no checkout. If that is not a fast-forward, stop and ask. Never push (not authorised). Keep
   licensed or raw data (CRSP, raw EIA) out of everything, including reviewer prompts.
+- **Subagent cost (user, 2026-10-28).** Use the cheapest model that can do the job. Haiku for bulk reading, fetching, extraction, grep-style inventory and identity checks. Sonnet only when a task needs multi-step technical judgement (theorem reading, synthesis across papers). Opus (lead) only for verification, decisions and final text. Keep briefs tight, cap output length, and do not re-read material already summarised in this folder.
 - **Figures.** Use PaperBanana if a figure is needed; if it is unavailable, report that.
 
 ## Tooling status

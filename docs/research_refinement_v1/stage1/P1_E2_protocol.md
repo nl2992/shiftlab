@@ -216,30 +216,43 @@ the wins reach `k(M) = min{k : P(Bin(M, 1/2) >= k) <= alpha'}`:
 
 `alpha' = alpha_F / m` for the Holm family of size `m` (Bonferroni, sufficient for Holm). The smallest
 `n` with power >= 0.9 uses Wilson 80% lower limits for `delta` and `psi` (pessimistic). The
-non-inferiority cells are powered by simulation (300 replications, seed 1, Jeffreys-smoothed cells)
-under a **true difference of zero** with discordance at the Wilson 80% upper limit of the
-100-stream development discordance, at `alpha_F / 7`. `n` is rounded up to 100, floored at 1,000 and
-capped at 3,000 per cell; a cell that needs more is flagged `underpowered`.
+non-inferiority cells are powered by **simulation estimates** (500 replications, seed 1,
+Jeffreys-smoothed cells, repaired test) at `alpha_F / 7` in two scenarios that must both reach 0.9:
+(1) a **true difference of zero** with discordance at the Wilson 80% upper limit of the 100-stream
+development discordance, and (2) the development table taken at face value (its observed
+fixed-minus-paced difference). `n` is rounded up to 100, floored at 1,000 and capped at 3,000 per
+cell; a cell that needs more is flagged `underpowered`.
+
+**Repair before any confirmation (Codex round 2).** The first non-inferiority p-value inversion
+searched alpha up to 0.999, beyond the range (alpha <= 0.5, i.e. z >= 0) where the Newcombe lower
+bound is monotone, and returned p = 1 for counts (1100, 420, 480, 1000) whose bound at 0.025/7 is
+-0.0468 (passes). It now searches alpha in (0, 0.5], so that `p <= alpha` holds exactly when the
+lower bound at `alpha` exceeds -0.05 (regression and monotonicity tests added). The earlier power
+numbers were computed with the faulty inversion and were conservative; the locked design was
+regenerated from the existing development outputs (no new seeds).
 
 | Contrast | Dev table (both, first only, second only, neither) | Pessimistic n (power >= 0.9) | Registered n |
 |---|---|---:|---:|
 | H-B1a `b1_r0.02` | 0, 179, 0, 71 | 13 | 1,000 (floor) |
 | H-B1a `b1_r0.05` | 14, 226, 0, 10 | 9 | 1,000 (floor) |
 | H-B1b (`b1_r0.20`) | ratio 0.299, detection +0.19 lower bound (250 dev streams) | n/a | 1,000 |
-| (i) `g_i_s0.4_r0.02_L500` NI | 48, 9, 11, 32 | 2,000 | 2,000 |
+| (i) `g_i_s0.4_r0.02_L500` NI | 48, 9, 11, 32 | not reached (0.81 at 3,000 in scenario 2) | 3,000, **underpowered** |
 | (i) `g_i_s0.25_r0.05_L500` NI | 38, 34, 2, 26 | 3,000 | 3,000 |
-| (iii) `g_iii_s0.25_r0.02_L150` NI | 37, 16, 14, 33 | 3,000 | 3,000 |
-| (iii) `g_iii_s0.25_r0.02_L300` NI | 44, 22, 9, 25 | 3,000 | 3,000 |
+| (iii) `g_iii_s0.25_r0.02_L150` NI | 37, 16, 14, 33 | 2,500 | 2,500 |
+| (iii) `g_iii_s0.25_r0.02_L300` NI | 44, 22, 9, 25 | 2,500 | 2,500 |
 | (ii) `g_ii_s1.5_r0.05_L120` | 59, 0, 41, 0 (paced only 41) | 36 | 1,000 (floor) |
 | (ii) `g_ii_s1.5_r0.05_L200` | paced only 92, fixed only 0 | 12 | 1,000 (floor) |
 | (ii) `g_ii_s1.5_r0.1_L300` | paced only 100, fixed only 0 | 10 | 1,000 (floor) |
 | mechanism cells (6) | descriptive | n/a | 500 each |
 
-**Total: 20,000 confirmation streams** (3 x 1,000 + 6 x 500 + 2,000 + 3 x 3,000 + 3 x 1,000), inside the 50,000
+**Total: 20,000 confirmation streams** (3 x 1,000 + 6 x 500 + 2 x 3,000 + 2 x 2,500 + 3 x 1,000), inside the 50,000
 ceiling and the 48,000 seeds of 16 sub-blocks. Runtime at about 0.15 s per stream with 8 workers:
-roughly 45 minutes. The three 3,000 cells sit at the simulation's 0.9 boundary (the ceiling): their
-power is about 0.86-0.9, so a failed non-inferiority result there is reported as possibly
-underpowered. The Newcombe interval and the Holm level (`alpha_F / 7`) are what keep these n high.
+roughly 45 minutes. Simulation power at the registered n (1,000 replications, seeds 11/12), scenario
+(1) zero true difference / scenario (2) development table: `g_i_s0.25_r0.05_L500` 0.949 / 1.00;
+`g_iii_s0.25_r0.02_L150` 0.952 (at 2,500) / 1.00; `g_iii_s0.25_r0.02_L300` 0.938 (at 2,500) / 1.00;
+`g_i_s0.4_r0.02_L500` 0.996 / **0.81** (at 3,000). The last cell is flagged `underpowered`: the
+development table shows fixed 2 points worse than paced there, and a failure to reject is then
+inadequate power, not disconfirmation. The 3,000-seed sub-block cap was not exceeded.
 
 ## 8. Seed blocks, registry mapping, freeze and stop rule
 
@@ -301,12 +314,13 @@ workers. Grid block: 6,300 streams, 18,900 rows, 710 s on 8 workers. About 0.1-0
 effective (0.85 s per stream on one worker for the core cells including GRAPA). `outputs/` is
 gitignored; nothing under it is for commit.
 
-**Tests:** 20 pass (this file plus the seed registry). They cover: class-(ii) null property
+**Tests:** 22 pass (this file plus the seed registry). They cover: class-(ii) null property
 (oracle expectation below `epsilon`), harm above `epsilon`, burst disagreement rate, seed
 disjointness for dev/grid/confirmation and registry match, uniform HT unbiasedness and its
 independence of `D_t`, uniform HT spending on agreements, horizon baseline (bounds, reserve,
-predictable), expenditure columns, rejection of duplicate/ragged/NaN/wrong-seed rows and unpaired
-streams, grid-selection rules including the UNINFORMATIVE path, an end-to-end tiny run with oracle
+predictable), expenditure columns, rejection of duplicate/ragged/NaN/wrong-seed rows, unpaired
+streams and a whole arm or engine missing from every seed (registered arm x engine set), the
+non-inferiority p-value regression and monotonicity, grid-selection rules including the UNINFORMATIVE path, an end-to-end tiny run with oracle
 scrambling, and the freeze gate running before any seed.
 
 **Development results (DEVELOPMENT, descriptive; not confirmatory evidence).** Core cells, 250
@@ -325,7 +339,7 @@ the reserve are matched. Registered tests on the development rows (labelled deve
 condition holds in development. Burst cells (selection-biased, 100 streams, from the grid) are in the
 table of section 3.1; the pipeline run on the locked cells gave Holm rejections in five of seven H-B2
 tests (not for `g_i_s0.4_r0.02_L500` and `g_iii_s0.25_r0.02_L150`, where fixed and paced are equal
-within noise). In the class-(ii) cells the horizon baseline sits between fixed and paced
+within noise; repaired-test p-values 0.255 and 0.103). In the class-(ii) cells the horizon baseline sits between fixed and paced
 (detection 0.94/0.70/0.58 against fixed 0.59/0.08/0.00 and paced 1.00 in bands A/B/C), so the
 200-event pacer's advantage is not just reserve conservation. Pre-onset false alarms are at most 2
 per 1,450-1,930 streams for the fixed08 gated arms and 0 for uniform arms; no arm-engine would be
@@ -337,9 +351,9 @@ withdrawn. The older ceiling cells `b2_i`, `b2_ii`, `b2_iii` remain in the devel
    development need not hold in confirmation; a cell may leave the band. The tests are still
    valid (the design is locked), but information may be lower than selected for. Confirmation
    reports the confirmation detection of each cell.
-2. **Three non-inferiority cells are near their power ceiling** (about 0.86-0.9 at n = 3,000 under
-   a true difference of zero). In development fixed was *better* than paced in two of them, so real
-   power is likely higher, but this is not assumed.
+2. **One non-inferiority cell is underpowered** (`g_i_s0.4_r0.02_L500`, 0.81 at the 3,000 cap if
+   fixed is truly 2 points worse). The other three reach 0.94-0.95 or better in the pessimistic
+   scenario. These are simulation estimates from 100-stream development discordance.
 3. **Class (ii) mechanism is reserve exhaustion** and its band-A/C contrasts follow from construction.
    Band B and the comparison with `gated_ht_horizon` are the informative parts.
 4. **H-B1b counts pre-onset labels** and is an acquisition-expenditure result; the joint detection

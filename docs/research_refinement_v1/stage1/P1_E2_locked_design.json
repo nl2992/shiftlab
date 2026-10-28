@@ -54,10 +54,10 @@
     "mech_s1.5_r0.10": 500,
     "mech_s1.0_r0.05": 500,
     "mech_s2.0_r0.05": 500,
-    "g_i_s0.4_r0.02_L500": 2000,
+    "g_i_s0.4_r0.02_L500": 3000,
     "g_i_s0.25_r0.05_L500": 3000,
-    "g_iii_s0.25_r0.02_L150": 3000,
-    "g_iii_s0.25_r0.02_L300": 3000,
+    "g_iii_s0.25_r0.02_L150": 2500,
+    "g_iii_s0.25_r0.02_L300": 2500,
     "g_ii_s1.5_r0.05_L120": 1000,
     "g_ii_s1.5_r0.05_L200": 1000,
     "g_ii_s1.5_r0.1_L300": 1000
@@ -67,9 +67,9 @@
       "cell": "g_i_s0.4_r0.02_L500",
       "class": "i",
       "type": "ni",
-      "n_power": 2000,
-      "n": 2000,
-      "underpowered": false
+      "n_power": null,
+      "n": 3000,
+      "underpowered": true
     },
     {
       "cell": "g_i_s0.25_r0.05_L500",
@@ -83,16 +83,16 @@
       "cell": "g_iii_s0.25_r0.02_L150",
       "class": "iii",
       "type": "ni",
-      "n_power": 3000,
-      "n": 3000,
+      "n_power": 2500,
+      "n": 2500,
       "underpowered": false
     },
     {
       "cell": "g_iii_s0.25_r0.02_L300",
       "class": "iii",
       "type": "ni",
-      "n_power": 3000,
-      "n": 3000,
+      "n_power": 2500,
+      "n": 2500,
       "underpowered": false
     },
     {

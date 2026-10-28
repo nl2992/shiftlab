@@ -40,7 +40,25 @@ EXHAUSTION_BANDS = {
 FLOOR_N, CEIL_N, CORE_B1_N, MECH_N = 1000, 3000, 1000, 500
 
 
-def validate_rows(rows: pd.DataFrame, expected: dict[str, list[int]] | None = None) -> None:
+def registered_combos(cells) -> dict[str, frozenset]:
+    """Registered (arm, engine) set of each cell known to the E2 module."""
+    from shiftlab.dive import e2_acquisition_pacing as e2
+
+    out = {}
+    for cell in cells:
+        spec = e2.CELLS.get(cell)
+        if spec is None:
+            continue
+        engines = ("fixed08",) if spec.role == "grid" else e2.ENGINES
+        out[cell] = frozenset((a, e) for a in spec.arms for e in engines)
+    return out
+
+
+def validate_rows(
+    rows: pd.DataFrame,
+    expected: dict[str, list[int]] | None = None,
+    combos: dict[str, frozenset] | None = None,
+) -> None:
     """Reject duplicate rows, ragged cells, NaN statistics and unregistered seed sets."""
     keys = ["cell", "seed", "arm", "engine"]
     if rows.duplicated(keys).any():
@@ -49,11 +67,13 @@ def validate_rows(rows: pd.DataFrame, expected: dict[str, list[int]] | None = No
     if rows[stats].isna().any().any():
         raise ValueError("NaN in a registered statistic")
     for cell, g in rows.groupby("cell"):
-        combos = g.groupby("seed").apply(
+        combos_by_seed = g.groupby("seed").apply(
             lambda x: frozenset(zip(x.arm, x.engine, strict=True)), include_groups=False
         )
-        if combos.nunique() != 1:
+        if combos_by_seed.nunique() != 1:
             raise ValueError(f"cell {cell!r} is incomplete: seeds differ in their arm/engine rows")
+        if combos is not None and cell in combos and combos_by_seed.iloc[0] != combos[cell]:
+            raise ValueError(f"cell {cell!r}: arm/engine set differs from the registered set")
         if expected is not None and sorted(g.seed.unique()) != sorted(expected.get(cell, [])):
             raise ValueError(f"cell {cell!r}: seeds differ from the registered set")
     if expected is not None and set(expected) != set(rows.cell.unique()):
@@ -108,8 +128,15 @@ def newcombe_lower(a: int, b: int, c: int, d: int, alpha: float) -> float:
 
 
 def ni_pvalue(a: int, b: int, c: int, d: int, margin: float = MARGIN) -> float:
-    """Smallest one-sided level at which the Newcombe lower bound exceeds the margin."""
-    lo, hi = 1e-14, 0.999
+    """Smallest one-sided level at which the Newcombe lower bound exceeds the margin.
+
+    The lower bound is searched only on alpha in (0, 0.5], i.e. z >= 0, where it is monotone
+    (non-increasing in z). At alpha = 0.5 the bound equals the point estimate ``p1 - p2``; if even
+    that does not exceed the margin the p-value is reported as 1.0 (any p above 0.5 can never
+    reject at a level of at most 0.025). A test passes at level ``alpha`` exactly when this p-value
+    is at most ``alpha`` (the decision rule is the registered-level bound compared with the margin).
+    """
+    lo, hi = 1e-14, 0.5
     if newcombe_lower(a, b, c, d, lo) > margin:
         return lo
     if newcombe_lower(a, b, c, d, hi) <= margin:
@@ -230,7 +257,7 @@ def cell_summary(rows: pd.DataFrame, cell: str, engine: str = ENGINE) -> dict:
 
 
 def confirm(rows: pd.DataFrame, locked: dict, expected: dict[str, list[int]] | None = None):
-    validate_rows(rows, expected)
+    validate_rows(rows, expected, registered_combos(rows.cell.unique()))
     result: dict = {}
     p1a, detail = {}, {}
     for cell in H1_CELLS:
@@ -348,7 +375,7 @@ def _n_for(psi: float, delta: float, alpha: float) -> int | None:
     return smallest_n(lambda n: mcnemar_power(n, psi, delta, alpha))
 
 
-def ni_power(table: tuple[int, int, int, int], n: int, alpha: float, reps=300, seed=1) -> float:
+def ni_power(table: tuple[int, int, int, int], n: int, alpha: float, reps=500, seed=1) -> float:
     probs = np.array(table, float)
     probs = (probs + 0.5) / (probs.sum() + 2)  # Jeffreys-style smoothing of dev cells
     rng = np.random.default_rng(seed)
@@ -382,8 +409,15 @@ def _size_cell(test_type: str, tab: tuple[int, int, int, int], alpha: float) -> 
         base = max(pbar - half, 0.0)
         pessimistic = (round(base * 10_000), round(half * 10_000), round(half * 10_000))
         pessimistic += (10_000 - sum(pessimistic),)
+        # Two scenarios, both must reach power 0.9: (1) true difference zero with the Wilson-80%
+        # upper discordance; (2) the development table taken at face value (its observed
+        # fixed-minus-paced difference, which can be negative).
         raw = next(
-            (n for n in (1000, 1500, 2000, 2500, 3000) if ni_power(pessimistic, n, alpha) >= 0.9),
+            (
+                n
+                for n in (1000, 1500, 2000, 2500, 3000)
+                if ni_power(pessimistic, n, alpha) >= 0.9 and ni_power(tab, n, alpha) >= 0.9
+            ),
             None,
         )
     under = raw is None or raw > CEIL_N
@@ -393,7 +427,7 @@ def _size_cell(test_type: str, tab: tuple[int, int, int, int], alpha: float) -> 
 
 def select_grid(grid: pd.DataFrame, dev: pd.DataFrame) -> dict:
     """Select confirmation burst cells from the development grid and lock the design."""
-    validate_rows(grid)
+    validate_rows(grid, None, registered_combos(grid.cell.unique()))
     stats = {}
     for cell, g in grid.groupby("cell"):
         paced = g[g.arm == GATED_PRIMARY]

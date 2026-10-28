@@ -360,3 +360,46 @@ def test_registered_test_helpers():
     assert an.ni_pvalue(50, 0, 0, 50) < 0.025
     assert an.ni_pvalue(50, 0, 40, 10) > 0.025
     assert an.mcnemar_power(30, 1.0, 0.7, 0.0125) > 0.99
+
+
+def test_ni_pvalue_regression_and_monotonicity():
+    an = _load_analysis()
+    table = (1100, 420, 480, 1000)
+    level = 0.025 / 7
+    assert an.newcombe_lower(*table, level) == pytest.approx(-0.04684, abs=1e-4)
+    p = an.ni_pvalue(*table)
+    assert p <= level  # the bound passes at the registered level, so the p-value must too
+    # the lower bound is non-increasing as alpha decreases on (0, 0.5]
+    alphas = [0.5, 0.25, 0.1, 0.025, 0.01, 0.0036, 1e-4, 1e-8]
+    bounds = [an.newcombe_lower(*table, a) for a in alphas]
+    assert all(x >= y - 1e-12 for x, y in itertools.pairwise(bounds))
+    # decision rule consistency on random tables: p <= alpha  iff  lower(alpha) > margin
+    rng = np.random.default_rng(5)
+    for _ in range(60):
+        t = tuple(int(v) for v in rng.integers(0, 400, 4))
+        if sum(t) == 0:
+            continue
+        p = an.ni_pvalue(*t)
+        for alpha in (0.025, 0.025 / 7):
+            assert (p <= alpha) == (an.newcombe_lower(*t, alpha) > an.MARGIN)
+    # p-value is monotone in the margin
+    assert an.ni_pvalue(*table, margin=-0.10) <= an.ni_pvalue(*table, margin=-0.05)
+
+
+def test_removing_a_whole_arm_from_every_seed_fails():
+    an = _load_analysis()
+    cell = "g_i_s0.4_r0.02_L500"
+    arms = e2.CELLS[cell].arms
+    rows = _fake_rows([cell], range(5), arms)
+    combos = an.registered_combos([cell])
+    an.validate_rows(rows, {cell: list(range(5))}, combos)
+    with pytest.raises(ValueError, match="registered set"):
+        an.validate_rows(rows[rows.arm != "gated_ht_horizon"], {cell: list(range(5))}, combos)
+    with pytest.raises(ValueError, match="registered set"):
+        an.validate_rows(rows.assign(engine="timans_grapa"), {cell: list(range(5))}, combos)
+    core = "b1_r0.02"
+    full = _fake_rows([core], range(3), e2.CELLS[core].arms)
+    full = pd.concat([full.assign(engine=eng) for eng in e2.ENGINES], ignore_index=True)
+    an.validate_rows(full, None, an.registered_combos([core]))
+    with pytest.raises(ValueError, match="registered set"):
+        an.validate_rows(full[full.engine == "fixed08"], None, an.registered_combos([core]))

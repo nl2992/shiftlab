@@ -27,8 +27,9 @@ class Instance:
     alpha: float = 0.2
     bet_fraction: float = 0.5
     p_context: tuple[float, ...] = (0.5, 0.5)
-    p_alt: tuple[float, ...] = (0.8, 0.7)
-    p_null: tuple[float, ...] = (0.5, 0.5)
+    p_alt: tuple = (0.8, 0.7)
+    p_null: tuple = (0.5, 0.5)
+    levels: tuple[float, ...] = (-1.0, 1.0)
     proxy: tuple[float, ...] = (0.6, 0.0)
     grid: tuple[float, ...] = (0.25, 0.5, 0.75, 1.0)
 
@@ -38,10 +39,17 @@ class Instance:
 
     def bet(self, context: int, q: float) -> float:
         h = self.proxy[context]
-        x_min = min(h, h + (-1.0 - h) / q, h + (1.0 - h) / q)
+        x_min = min(h, *(h + (z - h) / q for z in self.levels))
         return self.bet_fraction / abs(x_min)
 
-    def factor(self, context: int, q: float, z: int) -> float:
+    def support(self, context: int, p_z: tuple) -> list[tuple[float, float]]:
+        """(level, probability) pairs; a float entry means P(Z=+1) on the binary levels."""
+        entry = p_z[context]
+        if isinstance(entry, float | int):
+            return [(self.levels[0], 1.0 - entry), (self.levels[-1], float(entry))]
+        return list(zip(self.levels, entry, strict=True))
+
+    def factor(self, context: int, q: float, z: float) -> float:
         h = self.proxy[context]
         return 1.0 + self.bet(context, q) * (h + (z - h) / q)
 
@@ -57,7 +65,7 @@ class Evaluator:
     """Success probability of a policy (or the optimum when ``policy`` is None)."""
 
     inst: Instance
-    p_z: tuple[float, ...]
+    p_z: tuple
     budget: int
     policy: Policy | None = None
     _post: dict = field(default_factory=dict)
@@ -81,14 +89,16 @@ class Evaluator:
         if not idx:
             return [(1.0, w, buf, False)]
         outs = []
-        for zs in itertools.product((-1, 1), repeat=len(idx)):
+        supports = [self.inst.support(buf[i][2], self.p_z) for i in idx]
+        for combo in itertools.product(*supports):
             prob = 1.0
             new = list(buf)
-            for i, z in zip(idx, zs, strict=True):
+            for i, (z, pz) in zip(idx, combo, strict=True):
                 _, _, ctx, q = buf[i]
-                pz = self.p_z[ctx]
-                prob *= pz if z == 1 else 1.0 - pz
+                prob *= pz
                 new[i] = ("d", self.inst.factor(ctx, q, z))
+            if prob == 0.0:
+                continue
             w2, b2, succ = self._flush(w, tuple(new))
             outs.append((prob, w2, b2, succ))
         return outs
@@ -159,9 +169,9 @@ def constant_table(table: dict[int, float]) -> Policy:
 def neyman_table(inst: Instance) -> dict[int, float]:
     """Propensity proportional to sqrt(E[(Z-H)^2 | x]) under the alternative, max scaled to 1."""
     scores = []
-    for ctx, p in enumerate(inst.p_alt):
+    for ctx in range(len(inst.p_alt)):
         h = inst.proxy[ctx]
-        scores.append((p * (1 - h) ** 2 + (1 - p) * (-1 - h) ** 2) ** 0.5)
+        scores.append(sum(pz * (z - h) ** 2 for z, pz in inst.support(ctx, inst.p_alt)) ** 0.5)
     top = max(scores)
     return {
         ctx: min(inst.grid, key=lambda g, s=s: abs(g - s / top)) for ctx, s in enumerate(scores)
@@ -195,8 +205,17 @@ def _nonincreasing(sets: list[tuple[float, ...]]) -> bool:
     return True
 
 
+def min_changes(sets: list[tuple[float, ...]]) -> int:
+    """Fewest changes of a selection from ``sets`` (ordered by wealth)."""
+    best: dict[float, int] = {v: 0 for v in sets[0]}
+    for s_i in sets[1:]:
+        floor = min(best.values())
+        best = {v: min(best.get(v, floor + 1), floor + 1) for v in s_i}
+    return min(best.values())
+
+
 def structure_report(ev: Evaluator) -> dict:
-    tested = passed = 0
+    tested = passed = banded = 0
     failing = []
     for key, rows in ev.groups.items():
         by_w: dict[float, tuple[float, ...]] = {}
@@ -205,6 +224,8 @@ def structure_report(ev: Evaluator) -> dict:
         if len(by_w) < 3:
             continue
         tested += 1
+        ordered = [st for _, st in sorted(by_w.items())]
+        banded += min_changes(ordered) <= 2
         if monotone_in_wealth(list(by_w.items())):
             passed += 1
         elif len(failing) < 10:
@@ -213,6 +234,8 @@ def structure_report(ev: Evaluator) -> dict:
         "groups_tested": tested,
         "groups_monotone": passed,
         "fraction_monotone": passed / tested if tested else None,
+        "groups_banded_le2_changes": banded,
+        "fraction_banded_le2_changes": banded / tested if tested else None,
         "example_failures": failing,
     }
 
@@ -253,26 +276,42 @@ def run_budget(inst: Instance) -> dict:
     }
 
 
+def levels_instance(budget: int, horizon: int = 8) -> Instance:
+    """S3b instance: four contrast levels (see docs/rpoq_s3b_banded_protocol_v1.md)."""
+    uniform = (0.25, 0.25, 0.25, 0.25)
+    return Instance(
+        horizon=horizon,
+        budget=budget,
+        levels=(-1.0, -0.5, 0.5, 1.0),
+        proxy=(0.5, 0.0),
+        p_alt=((0.05, 0.15, 0.30, 0.50), (0.10, 0.20, 0.30, 0.40)),
+        p_null=(uniform, uniform),
+    )
+
+
 def main(argv: list[str] | None = None) -> None:
     args = argv if argv is not None else sys.argv[1:]
-    budgets = [int(a) for a in args] or [2, 3, 4, 6]
+    levels_mode = bool(args) and args[0] == "levels"
+    if levels_mode:
+        args = args[1:]
+    budgets = [int(a) for a in args] or ([3, 4, 5] if levels_mode else [2, 3, 4, 6])
     sys.setrecursionlimit(10000)
     results = []
     for b in budgets:
-        res = run_budget(Instance(budget=b))
+        res = run_budget(levels_instance(b) if levels_mode else Instance(budget=b))
         results.append(res)
         print(
             f"B={b} power_opt={res['power_optimal']:.4f} "
             f"best_const={res['best_constant_table']['power']:.4f} "
             f"neyman={res['power_neyman']:.4f} q1={res['power_always_q1']:.4f} "
             f"null_opt={res['null_alarm_optimal']:.4f} "
-            f"mono={res['structure']['fraction_monotone']} states={res['n_states']} "
+            f"mono={res['structure']['fraction_monotone']} banded2={res['structure']['fraction_banded_le2_changes']} states={res['n_states']} "
             f"{res['seconds']:.1f}s",
             flush=True,
         )
-    out = Path("outputs/rpoq_s3_structure_v1")
+    out = Path("outputs/rpoq_s3b_levels_v1" if levels_mode else "outputs/rpoq_s3_structure_v1")
     out.mkdir(parents=True, exist_ok=True)
-    (out / "results.json").write_text(json.dumps({"instance": Instance().__dict__, "results": results}, indent=2, default=str))
+    (out / "results.json").write_text(json.dumps({"instance": (levels_instance(0) if levels_mode else Instance()).__dict__, "results": results}, indent=2, default=str))
 
 
 if __name__ == "__main__":

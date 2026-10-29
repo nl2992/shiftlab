@@ -185,6 +185,13 @@ sample-size/futility pattern with delayed feedback. Its source-matched prior-art
 equivalence remains a serious objection, so it is retained as a baseline and does
 not count as a candidate method or pass G1.
 
+The branchwise monotonicity follow-up also passed: both deterministic components
+are monotone on every potential-label tape, their exact robust risks are `1/8` and
+`1/16`, and their `3/5`–`2/5` mixture reproduces the oracle cost and risk `1/10`.
+This improves the verified synthetic comparator but remains oracle-extracted
+standard sequential testing. It does not establish an efficient optimizer over
+this class or a value bound against the unrestricted policy class.
+
 ### Step 2 — State one candidate theorem before coding
 
 Use the audit to propose one history compression or allocation rule that captures
@@ -214,6 +221,13 @@ automaton or a response-continuation quotient can be derived with a state bound
 smaller than the learner sequence form. Otherwise close this pricing route and
 advance to a structurally different Candidate C mechanism; do not implement a
 belief-only pricing DP.
+
+Candidate C's branchwise-monotone class now has an exact risk certificate on this
+cell, but no approximation theorem or efficient policy-generation procedure. The
+next G1 test is to identify a constructible subclass with a nonvacuous value bound
+against the full two-law oracle. If the only route is enumerating arbitrary
+deterministic plans or using standard group-sequential optimization, record the
+equivalence and move on; do not call the oracle-extracted mixture the candidate.
 
 ### Step 3 — Register a bounded, paired development comparison
 

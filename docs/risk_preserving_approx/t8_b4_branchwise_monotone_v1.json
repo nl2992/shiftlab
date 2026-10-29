@@ -1,0 +1,90 @@
+{
+  "protocol_sha256": "ff626577da60b86a83867e53cf7979074f6465637a2ab98097732dc7b210d055",
+  "input_sha256": "0e1c69e9209030822108195725be49f42399bae2f60e3e75d15db36ce06b2aa3",
+  "runner_sha256": "1b6432cb88bce49ca2a14d3853b7fa5096d45ee0274b5cd901c10c28476c7d7d",
+  "config": {
+    "horizon": 8,
+    "budget": 4,
+    "delay": 2,
+    "alpha": "1/10"
+  },
+  "randomization_state": {
+    "history": [
+      [
+        0,
+        1
+      ],
+      [
+        0,
+        1
+      ],
+      [
+        0,
+        1
+      ]
+    ],
+    "released": [
+      [
+        1,
+        1
+      ],
+      [
+        2,
+        1
+      ]
+    ],
+    "wait_weight": "3/5",
+    "query_fourth_weight": "2/5"
+  },
+  "branches": {
+    "wait": {
+      "iid_tape_risk": "1/8",
+      "iid_recursion_risk": "1/8",
+      "independent_robust_risk": "1/8",
+      "game_robust_risk": "1/8",
+      "monotonicity_violations": 0,
+      "potential_tapes_checked": 256,
+      "maximum_queries": 4,
+      "expected_metrics": [
+        "19775839204/6103515625",
+        "360381/12500000",
+        "357378711/7812500000",
+        "360381/125000",
+        "357378711/781250000"
+      ],
+      "expected_cost": "161848068857/48828125000"
+    },
+    "query": {
+      "iid_tape_risk": "1/16",
+      "iid_recursion_risk": "1/16",
+      "independent_robust_risk": "1/16",
+      "game_robust_risk": "1/16",
+      "monotonicity_violations": 0,
+      "potential_tapes_checked": 256,
+      "maximum_queries": 4,
+      "expected_metrics": [
+        "21336254308/6103515625",
+        "36679/1250000",
+        "52802041/1562500000",
+        "36679/12500",
+        "52802041/156250000"
+      ],
+      "expected_cost": "695091486731/195312500000"
+    }
+  },
+  "mixture": {
+    "cost": "1666179899873/488281250000",
+    "weighted_component_cost": "1666179899873/488281250000",
+    "robust_risk": "1/10",
+    "framework_robust_risk": "1/10",
+    "weighted_component_risk": "1/10",
+    "expected_metrics": [
+      "102000026228/30517578125",
+      "1814723/62500000",
+      "1600156543/39062500000",
+      "1814723/625000",
+      "1600156543/3906250000"
+    ]
+  },
+  "status": "PASS"
+}

@@ -510,3 +510,31 @@
 - Artifact: `CANDIDATE_B_PRICING_STATE_COUNTEREXAMPLE_V1.md`. No experiments,
   seeds, real data or holdouts were used. G1/G3 remain open; next require a proof
   of a compact response quotient or move to a distinct Candidate C mechanism.
+
+
+## 2026-10-29 — Branchwise monotone certificate for the T=8, B=4 witness
+
+- Registered before execution and split the saved full-decomposition behavior at
+  its sole randomized pre-promotion information state into deterministic wait and
+  fourth-query branches. Exhaustively evaluated all 256 potential-label tapes per
+  branch, checked deterministic behavior and the hard cap, and found zero
+  coordinatewise promotion-event monotonicity violations.
+- Independent exact causal-null recursion and the framework evaluator each give
+  robust risks equal to IID fair-tape risks: `1/8` for the three-sample branch and
+  `1/16` for the four-sample branch. The public-history mixture weights `3/5` and
+  `2/5` produce exact risk `1/10`. Weighted branch costs match the saved policy
+  exactly at `1666179899873/488281250000`; this is `11126044659/976562500000`
+  below the best fixed calendar and finite calendar portfolio in the cell.
+- This is a verified, stronger baseline and risk certificate, but its policies and
+  weights were extracted from the exact optimizer. Monotone-event coupling,
+  randomized sample-size allocation and delayed group-sequential testing are
+  established; there is no efficient generator or value guarantee against the
+  unrestricted class. No G1 or G3 claim, seeds, real rows or holdouts.
+- Artifacts: `T8_B4_BRANCHWISE_MONOTONE_PROTOCOL_V1.md`,
+  `T8_B4_BRANCHWISE_MONOTONE_RESULTS_V1.md`,
+  `t8_b4_branchwise_monotone_v1.json`, and
+  `verify_t8_b4_branchwise_monotone.py`; executed-source SHA-256
+  `1b6432cb88bce49ca2a14d3853b7fa5096d45ee0274b5cd901c10c28476c7d7d`, result
+  JSON SHA-256 `aa6f42806ea717bca2b73c00cb57e1af201b9011d9378763f91eda6bcc93465a`.
+  Next seek a constructible class with a proved value bound; otherwise close this
+  Candidate C branch and advance.

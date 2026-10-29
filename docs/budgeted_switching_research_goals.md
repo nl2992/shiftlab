@@ -2151,3 +2151,19 @@ the finite benchmark. Source limitation: RAO* full text/proof not inspected in t
 - The matched switch counts were `425159/1250000` and `1507279/6250000` in the two active cells,
   and zero in the two no-query cells. The result JSON stores all 15 calendar rows, solver residuals,
   sequence/node counts, and source hashes; output remains ignored and reproducible from the script.
+
+### G1 certified timing no-go 2026-10-29: fixed calendars attain the adaptive optimum
+
+- Added rational primal/dual brackets for the same four registered cells and an optimizer-free
+  verifier. It checks source hashes, exact null realization flow, dual signs, all free-column
+  equalities, learner-sequence inequalities with a conservative residual correction, and forward
+  policy cost/risk. It also matches each feasible primal to the best fixed-calendar witness from
+  the earlier screen.
+- The unrestricted adaptive optimum is within `1.001e-12` of the fixed-calendar feasible cost in
+  every cell (exact widths are tabulated in `switching_asymmetric_timing_certificate_protocol_v1.md`).
+  This certifies no meaningful timing gain over the entire adaptive class on these instances; it
+  strengthens the recovered-policy screen but remains a finite four-cell result.
+- Decision: close query-opportunity timing as a method candidate for this registered setup. Do not
+  broaden the grid or claim a recurrent-HMM theorem. G1 remains open for a different mechanism;
+  G2–G5 remain held. Historical promotion validity remains distinct from current-regime value
+  after reversal.

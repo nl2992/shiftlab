@@ -26,6 +26,37 @@ def rationalize(value: float, denominator: int = 10**9) -> F:
     return F(float(value)).limit_denominator(denominator)
 
 
+def rationalize_dual(value: float) -> F:
+    return F(float(value)).limit_denominator(10**9)
+
+
+def ceil_fraction(value: F, denominator: int) -> F:
+    numerator = (value.numerator * denominator + value.denominator - 1) // value.denominator
+    return F(numerator, denominator)
+
+
+def opponent_realization_from_dual(game, null_dual, risk_dual):
+    """Recover a feasible exact null realization plan for free-column dual equalities."""
+    if risk_dual == 0:
+        approximate = [0.0] * game.opponent.count
+    else:
+        approximate = [max(0.0, value / float(risk_dual)) for value in null_dual]
+    realization = [F(0)] * game.opponent.count
+    realization[0] = F(1)
+    for parent, children, _choices in game.opponent.infos.values():
+        masses = [F(str(approximate[child])) for child in children]
+        total = sum(masses)
+        if total:
+            behavior = [rationalize(float(mass / total)) for mass in masses]
+            normalizer = sum(behavior)
+            behavior = [weight / normalizer for weight in behavior]
+        else:
+            behavior = [F(1)] + [F(0)] * (len(children) - 1)
+        for child, weight in zip(children, behavior, strict=True):
+            realization[child] = realization[parent] * weight
+    return realization
+
+
 def exact_costs(game: CausalSwitchingGame) -> list[F]:
     costs = [F(0)] * game.learner.count
 
@@ -103,10 +134,13 @@ def solve_and_certify(config, model):
     )
     if not result.success:
         raise RuntimeError(f"registered LP failed: {result.message}")
-    dual_ub = [rationalize(x) for x in result.ineqlin.marginals]
-    dual_eq = [rationalize(x) for x in result.eqlin.marginals]
-    if any(y > 0 for y in dual_ub):
+    proposed_ub = [rationalize_dual(x) for x in result.ineqlin.marginals]
+    dual_eq = [rationalize_dual(x) for x in result.eqlin.marginals]
+    if any(y > 0 for y in proposed_ub):
         raise RuntimeError("rationalized dual has a positive inequality multiplier")
+    risk_dual = proposed_ub[-1]
+    null_realization = opponent_realization_from_dual(game, proposed_ub[:-1], risk_dual)
+    dual_ub = [risk_dual * value for value in null_realization] + [risk_dual]
 
     a_csc, e_csc = inequality.tocsc(), equality.tocsc()
     residuals, free_residual = [], F(0)
@@ -130,8 +164,9 @@ def solve_and_certify(config, model):
     dual_value = sum(y * b for y, b in zip(dual_ub, dual_rhs, strict=True))
     dual_value += sum(rationalize(float(b)) * y for b, y in zip(e_rhs, dual_eq, strict=True))
     correction = sum(residuals)
-    lower = dual_value - correction
-    policy, _ = game.recover(result.x[:nx])
+    correction_upper = ceil_fraction(correction, 10**12)
+    lower = dual_value - correction_upper
+    policy, policy_records = game.recover(result.x[:nx])
     metrics = game.expected_metrics(policy)
     upper = sum(metrics[:3])
     risk = game.null_risk(policy)
@@ -143,7 +178,7 @@ def solve_and_certify(config, model):
         "opponent_sequences": ny,
         "solver_objective": float(result.fun),
         "dual_value": str(dual_value),
-        "correction": str(correction),
+        "correction_upper": str(correction_upper),
         "certified_lower": str(lower),
         "feasible_upper": str(upper),
         "gap": str(upper - lower),
@@ -151,6 +186,10 @@ def solve_and_certify(config, model):
         "metrics": [str(v) for v in metrics],
         "free_column_residual": str(free_residual),
         "max_exact_column_violation": str(max(residuals, default=F(0))),
+        "dual_inequality": [str(value) for value in dual_ub],
+        "dual_equality": [str(value) for value in dual_eq],
+        "null_realization": [str(value) for value in null_realization],
+        "policy_records": policy_records,
     }
 
 
@@ -191,6 +230,7 @@ def main():
             path: hashlib.sha256(Path(path).read_bytes()).hexdigest()
             for path in (
                 "scripts/certify_switching_asymmetric_timing.py",
+                "scripts/verify_switching_asymmetric_timing_certificates.py",
                 "src/shiftlab/dive/causal_switching_game.py",
                 "src/shiftlab/dive/delayed_regime_information.py",
                 "docs/switching_asymmetric_timing_protocol_v1.md",

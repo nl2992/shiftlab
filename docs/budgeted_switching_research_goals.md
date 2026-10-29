@@ -2132,3 +2132,22 @@ the finite benchmark. Source limitation: RAO* full text/proof not inspected in t
   stop-and-wait acquisition. The acquisition contribution must improve net decision/switch cost
   under this valid baseline, not re-prove its safety. Historical promotion evidence remains
   separate from post-reversal current value. G1 remains open; G2–G5 held.
+
+### G1 adaptive timing screen 2026-10-29: no recovered gap in asymmetric recurrent HMMs
+
+- Registered four asymmetric transition/prior cells at `T=6,B=3,d=2`, with the same emissions,
+  causal-null level, query/switch fees and action class as the full oracle. Compared unrestricted
+  query timing against all 15 useful fixed calendars with adaptive query skipping and the same
+  action/rollback flexibility.
+- In every cell the best fixed-calendar policy matched the unrestricted recovered policy's exact
+  rationalized cost and metrics. Two cells chose no queries; two used calendar `(1,2,3)`, with
+  adaptive cost/query/risk tuples respectively `(1441738869/390625000,259/125,1/10)` and
+  `(6655587789/1953125000,1214/625,1/10)`. All four recovered gaps were zero. LP optimization is
+  numerical, so this is a screen rather than an optimality theorem; no timing headroom appeared.
+- Apply the registered stop rule: close adaptive query-opportunity timing as the next candidate in
+  this recurrent family and do not broaden the grid. The baseline permits adaptive query skipping
+  and all deployment actions at calendar dates. G1 remains open for a different mechanism; G2–G5
+  remain held and no confirmatory or real-data study is opened.
+- The matched switch counts were `425159/1250000` and `1507279/6250000` in the two active cells,
+  and zero in the two no-query cells. The result JSON stores all 15 calendar rows, solver residuals,
+  sequence/node counts, and source hashes; output remains ignored and reproducible from the script.

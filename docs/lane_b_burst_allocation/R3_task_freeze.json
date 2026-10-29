@@ -1,0 +1,39 @@
+{
+  "experiment": "lane_b_real_task_contract",
+  "frozen_utc": "2026-10-29T04:02:59Z",
+  "git_head": "1a49decbacd1a34855a14800008acdb2b736edd1",
+  "hash_rule": "sha256 over CRLF->LF normalised bytes",
+  "protocol": "docs/lane_b_burst_allocation/R1_task_specs.md",
+  "seed_blocks": [
+    "development-only harness smoke: 200 streams per arm; seeds 20261028-20261227"
+  ],
+  "sha256": {
+    "docs/lane_b_burst_allocation/R1_task_specs.md": "ae1d09a3197c04410f1c0923e8f5f7d53092d9e7c89ead5b2bce4730139919f4",
+    "src/shiftlab/real_tasks/__init__.py": "1d9c99dec43dfe584b3c22490d99be09ff7a9f2b9aec2f6750c8953a15655332",
+    "src/shiftlab/real_tasks/opsd_reserve.py": "be7601b0d849078602a14b657c58c1fe74547d4654d0070a024c00de047cc793",
+    "src/shiftlab/real_tasks/binance_momentum.py": "a0faeeffef69574602f662e4df3945feb38f85b824072992b29dfcf04ca3e939",
+    "src/shiftlab/real_tasks/r2_dev_measurements.py": "3e81dc4e33f5435432fe436caf5172e12735c45f05957fab04a06bf8b907d3d3",
+    "src/shiftlab/real_tasks/v2_smoke.py": "b89dcccf016e4dbd88a13b60b9e2f09d34d7ab9bb6fb232827614375acf8ae35",
+    "src/shiftlab/contract/interface.py": "3faf1d1b15176e9eaf8802e48598bc57a804515f664aab777c11e78cdfaf194e",
+    "src/shiftlab/contract/harness.py": "5e3cf43561a9a9879fdb009996eaa5c11397e6162a4708d4d7e4b15f11bc5026",
+    "src/shiftlab/contract/baselines.py": "78e112f8729b46357ca599af972605d451231ca5f2312c4d55dc0203fc261282",
+    "src/shiftlab/contract/interface_v2.py": "66b48eddd0381919a21927c5be5f15dce4d3a621bdc109c81eed09335e52e081",
+    "src/shiftlab/contract/harness_v2.py": "cef57f39922a0c25e73b4ccbcf6523ec37e4d35659707430b41f9c23b953eead",
+    "src/shiftlab/contract/baselines_v2.py": "7e450d09634270d57e231ec721beaadfc5625a597420f589bd16031cc5b81523",
+    "src/shiftlab/dive/eprocess.py": "a9355d3883118ed32039feafe0db0b01fd8824dfbaed2e3d70e6710964565d41",
+    "src/shiftlab/dive/gated_monitor_comparison.py": "c4e0281f4f10f1444a43801c52ffb3441ba35224a84d64428e9091d41e823f82",
+    "src/shiftlab/dive/reserve_costs.py": "1b7e61e519c32c341b5617de56ef4e849b853b78d5b738c827a870fd5df56a3b",
+    "src/shiftlab/data/real/binance.py": "36cd1cb5720e35ab4a10462a5bb08835b50ac96d68b4ffc643e2bf42278392b4",
+    "src/shiftlab/freeze.py": "00c9838bd9c4ef33ba29278a0ecf73d036abc6a1ebf56c39890b026ae9799f91",
+    "tests/test_real_tasks.py": "42f669efd5dc8d75fdc74d57686e3dcd910ae781db29fbee56f81353e0adcb2d",
+    "tests/test_contract.py": "ff74db66ff1a6e27139f81e93c17693cd85de57c31d497fe09a4b391a2980c80",
+    "tests/test_contract_v2.py": "72930d0f9a55c67fd1a20aa3f9a7e6549c129bc521741f25ea8891b473351f07",
+    "docs/lane_b_burst_allocation/R1b_verified_refs_and_assumptions.md": "3772491a1aca6a9294afaa7a7d9b3c86330b92c5e39a49fd21443355eb8fd0e8",
+    "docs/lane_b_burst_allocation/R2_dev_measurements.json": "fedc9241608beb6e32e926d75528c7c9ba3c8ecdb6ffb22bb962d452d6c375e9",
+    "docs/lane_b_burst_allocation/R2_dev_measurements.md": "2b847f3df0678cf16b05fc27abb5dfbafdfe3ba4a78f1b79ab5bac8310d353d0",
+    "configs/seed_registry.yaml": "97522312925bd9cc2c37932396433d172c2cd3ed6c21aeef0d77976dcca3c8f3",
+    "pyproject.toml": "3ed0f91be452a0a02ff03e92a17ce94973fa3ba17cb692014492fba3fc4b3d35",
+    "uv.lock": "a50f921c44e4f37d0e746f9a2680c8ec823d21a1f6a8901406620e1ca55c44fd"
+  },
+  "note": "Task contract and development evidence only; no holdout access or method-validity claim."
+}

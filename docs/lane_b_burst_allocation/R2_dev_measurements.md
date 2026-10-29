@@ -1,6 +1,6 @@
 # R2: DEV measurements of the two frozen real-data tasks (Lane B)
 
-**Date:** 2026-10-28. **Gate:** R2, revised for Amendments A-B2 and A-R3 (see the end of
+**Date:** 2026-10-29. **Gate:** R2, revised for Amendments A-B2, A-R3 and A-R3b (see the end of
 `R1_task_specs.md`). **Status:** development windows only; descriptive. Nothing here is a result, an
 eligibility claim for confirmation, or a statement about any monitor's merit. Earlier versions of
 this document (UTC-day OPSD rounds, raw-return public features, fees inside Binance `Z`) are
@@ -13,8 +13,9 @@ Binance ETHUSDT 1h 2025-01..2025-12. **Not touched:** OPSD from local 2020-01-01
 The OPSD loader refuses a later cutoff before opening the file and compares only the 19-character
 timestamp prefix of each raw line; a line at or past the cutoff is never given to the CSV parser. The
 Binance loader refuses any month `>= 2026-01` before opening any zip. Builders re-check every series,
-window end and table end. Tests (`tests/test_real_tasks.py`, 30 tests) cover the guard, clocks,
-public-information contract, missing data, embargo, bounds and determinism; ruff clean.
+window end and table end. Tests (`tests/test_real_tasks.py` and the v2 contract tests; 108 pass with `test_contract.py`) cover
+the guard, clocks, DST lags, public-information contract, missing data, embargo, release sentinel,
+bounds, determinism and `DelayedHT`; ruff clean.
 
 Code: `src/shiftlab/real_tasks/{__init__,opsd_reserve,binance_momentum,r2_dev_measurements}.py`.
 Reproduce: `python -m shiftlab.real_tasks.r2_dev_measurements --out R2_dev_measurements.json`
@@ -28,12 +29,13 @@ Reproduce: `python -m shiftlab.real_tasks.r2_dev_measurements --out R2_dev_measu
   scramble all outcomes and forecasts and check that `x`, round times and decision times are
   unchanged; only the actions (a deliberate public channel, computed from public data) react.
 - **Label timing.** A label reaches the actions of no earlier round than its release round (tested by
-  perturbing a day's actual load and a bar's close). The only declared earlier use is the OPSD
-  `L(D-1, 07:00)` candidate feature, which affects round s+1's candidate action before day s's label
-  is released (tested to touch exactly that round).
+  perturbing a day's actual load and a bar's close). The OPSD `L(D-1, 07:00)` feature is removed
+  (A-R3b), so there is no earlier use. For each round near the four DST changes of 2018-19,
+  perturbing every load of local day >= D-1 leaves all actions of rounds <= D unchanged.
 - **OPSD (A.2/A.3 with A-R3).** Local-day rounds (23/24/25 hours), decision time 10:00 local D-1,
   labels at local day end + 1 h (`release_round` offset 2 on ordinary days). 24 ridge models by local
-  clock hour (15 features), trained on local 2015-16, penalty chosen from {1,10,100,1000} on
+  clock hour (14 features: lags by local day and slot 2, 3 and 7 days earlier, each masked unless its
+  source day was released strictly before the decision; weekday one-hot; annual harmonics), trained on local 2015-16, penalty chosen from {1,10,100,1000} on
   embargoed local 2017, then frozen (chosen 1.0, the grid minimum; the 2017 MSE rises monotonically
   with the penalty, so the optimum may lie below the pre-declared grid). Rolling `tau_D` over local
   days D-365..D-2. Loss = daily cost / 125.
@@ -44,7 +46,10 @@ Reproduce: `python -m shiftlab.real_tasks.r2_dev_measurements --out R2_dev_measu
 - **Contract mapping.** `deployed_action` = incumbent, `reference_action` = candidate, `Z > 0` means
   the incumbent is worse. `EvaluatorOutcomes` (losses, `Z`, availability time, release round,
   `label_observed`) is separate from `PublicRounds`.
-- **Sensitivities implemented, not run:** `label_slack_days=1` (d=3), `drop_lag07`, `fixed_tau`.
+- **Release sentinel.** Labels never released in-stream are `UNRELEASED` and never delivered: every
+  delivered OPSD label has d = 2 (2 terminal labels unreleased), every delivered Binance label d = 1
+  (1 unreleased).
+- **Sensitivities implemented, not run:** `label_slack_days=1` (d=3), `fixed_tau`.
 
 ## Counts (reported before outcome analysis)
 
@@ -58,19 +63,19 @@ Reproduce: `python -m shiftlab.real_tasks.r2_dev_measurements --out R2_dev_measu
 
 | | OPSD dev (729 rounds) | Binance dev (8,590 rounds) |
 |---|---|---|
-| Disagreement rate | 0.230 | 0.399 |
-| Disagreement rounds | 168 | 3,428 |
-| Runs of consecutive disagreement rounds | 57 | 554 |
-| Run length mean / median / p90 / max | 2.95 / 2 / 5 / 5 | 6.19 / 2 / 17.7 / 62 |
-| Mean run if disagreements were iid at the same rate | 1.30 | 1.66 |
-| P(disagree at t given disagree at t-1) | 0.661 | 0.838 |
-| Share of disagreement rounds in runs >= 3 / >= 10 | 0.744 / 0 | 0.883 / 0.653 |
-| Mean paired loss Z, disagreement rounds | 0.0372 | 0.00135 |
-| SD of Z, disagreement rounds | 0.141 | 0.0366 |
-| Share of disagreement rounds with Z > 0 / Z < 0 | 0.571 / 0.423 | 0.529 / 0.470 |
-| Mean Z on disagreement rounds, first half / second half | -0.022 / +0.096 | 0.00223 / 0.00048 |
-| Range of Z | [-0.320, 0.480] | [-0.478, 0.222] |
-| Mean Z over all labelled rounds | 0.0086 | 0.00054 |
+| Disagreement rate | 0.221 | 0.399 |
+| Disagreement rounds | 161 | 3,428 |
+| Runs of consecutive disagreement rounds | 53 | 554 |
+| Run length mean / median / p90 / max | 3.04 / 3 / 5 / 5 | 6.19 / 2 / 17.7 / 62 |
+| Mean run if disagreements were iid at the same rate | 1.28 | 1.66 |
+| P(disagree at t given disagree at t-1) | 0.671 | 0.838 |
+| Share of disagreement rounds in runs >= 3 / >= 10 | 0.739 / 0 | 0.883 / 0.653 |
+| Mean paired loss Z, disagreement rounds | 0.0061 | 0.00135 |
+| SD of Z, disagreement rounds | 0.139 | 0.0366 |
+| Share of disagreement rounds with Z > 0 / Z < 0 | 0.478 / 0.516 | 0.529 / 0.470 |
+| Mean Z on disagreement rounds, first half / second half | -0.052 / +0.064 | 0.00223 / 0.00048 |
+| Range of Z | [-0.344, 0.480] | [-0.478, 0.222] |
+| Mean Z over all labelled rounds | 0.0013 | 0.00054 |
 | Agreement rounds with Z != 0 | 0 | 0 |
 | Diagnostic standalone position switches, incumbent / candidate (not k) | n/a | 859 / 342 |
 
@@ -79,18 +84,18 @@ never exceed 5 consecutive days (a workweek-sized block); none reaches 10. Binan
 runs, rate close to the 0.38 back-of-envelope in B.5; median run 2 but 65% of disagreement rounds sit
 in runs of 10 or more, longest 62 bars. Not the sparse-burst process of the toy model.
 
-**Informativeness rule (A.7).** OPSD dev disagreement share 23.0% is inside [2%, 60%]: **informative
+**Informativeness rule (A.7).** OPSD dev disagreement share 22.1% is inside [2%, 60%]: **informative
 by the frozen rule**. This says nothing about harm. The negative-then-positive half-split of OPSD mean
-Z is descriptive, not a test (168 serially dependent rounds).
+Z is descriptive, not a test (161 serially dependent rounds).
 
 **Is Z a function of the public stream? (disagreement rounds with labels)**
 
 | Key | OPSD | Binance |
 |---|---|---|
-| Full key (x rounded + actions at t and 3 previous rounds): keys / repeated keys / repeated keys with varying Z | 168 / 0 / 0 (all unique) | 1,349 / 489 / 489 |
-| Coarse key (differing units and action bit counts): keys / repeated / repeated with varying Z | 100 / 32 / 21 | 2 / 2 / 2 |
+| Full key (x rounded + actions at t and 3 previous rounds): keys / repeated keys / repeated keys with varying Z | 161 / 0 / 0 (all unique) | 1,349 / 489 / 489 |
+| Coarse key (differing units and action bit counts): keys / repeated / repeated with varying Z | 97 / 36 / 25 | 2 / 2 / 2 |
 
-Z varies inside every repeated Binance key and inside 21 of 32 repeated OPSD coarse keys, so the
+Z varies inside every repeated Binance key and inside 25 of 36 repeated OPSD coarse keys, so the
 public stream does not determine Z. This is a measurement on one development sample, not a proof, and
 the actions still carry indirect information about earlier outcomes from their release onward
 (disclosed in A-R3 item 1).
@@ -107,9 +112,9 @@ round on either task).
 
 | Task | Monitor | Alarms (of 200) | Mean labels | Of which on agreements | Streams stopped by reserve rule | Mean max log-e (threshold 3.00) |
 |---|---|---|---|---|---|---|
-| OPSD | GatedHTFixed | 0 | 69.7 | 0 | 105 | 0.86 |
-| OPSD | GatedHTPaced | 0 | 72.0 | 0 | 200 | 0.88 |
-| OPSD | UniformHT | 0 | 69.7 | 54.2 | 117 | 0.18 |
+| OPSD | GatedHTFixed | 0 | 66.6 | 0 | 57 | 0.20 |
+| OPSD | GatedHTPaced | 0 | 72.0 | 0 | 200 | 0.47 |
+| OPSD | UniformHT | 0 | 69.7 | 54.7 | 117 | 0.07 |
 | Binance | GatedHTFixed | 0 | 380.5 | 0 | 61 | 0.29 |
 | Binance | GatedHTPaced | 0 | 392.6 | 0 | 187 | 0.29 |
 | Binance | UniformHT | 0 | 386.8 | 233.5 | 120 | 0.15 |
@@ -120,10 +125,11 @@ coins; it ranks nothing and carries no power claim.
 
 ## Open items carried forward
 
-1. **Hour-07 candidate feature** still reaches round s+1's candidate action before day s's label is
-   released; `drop_lag07` removes it and is a declared sensitivity, but the default is unchanged.
-2. **Harness limits:** no label delay and no missing feedback at release (v1 harness); the smoke
-   cannot validate delayed switching or net-cost accounting.
+1. **Public actions remain a channel**: policies consume unrestricted public history, the audit is
+   a measurement, and unique OPSD full keys give no non-reconstructability evidence.
+2. **Harness limits:** the v1 smoke here has no label delay and no missing feedback; the v2 harness
+   and `DelayedHT` (missing label = increment -epsilon; out-of-order release raises) cover those, and
+   validity of delayed updating is bounded by `R3_delayed_update_validity_note.md`.
 3. **Not implemented:** CET/CEST string cross-check from `opsd.py` (the UTC calendar plus
    Europe/Berlin conversion is the only clock used). Zero irregular days found.
 4. **Ridge grid boundary** (penalty 1.0) recorded, not changed.
@@ -131,10 +137,8 @@ coins; it ranks nothing and carries no power claim.
 
 ## Continue / pivot / stop
 
-**Continue to re-review and the freeze for both tasks.** OPSD is informative, has short clustered
-disagreement blocks and a bounded `Z` with a positive mean on disagreements (descriptive). Runs of at
+**Continue to re-review and the freeze for both tasks.** (The OPSD numbers changed with the
+local-slot lags of A-R3b: the candidate is now slightly weaker; the earlier positive mean was not stable.) OPSD is informative, has short clustered
+disagreement blocks and a bounded `Z` whose mean on disagreement rounds is close to zero (0.006, sd 0.139; descriptive). Runs of at
 most 5 days mean "burst" there is a workweek effect. Binance is dense with long runs and a near-zero,
 noisy `Z`, so a net-gain test will be hard. No holdout was opened.
-
-
-**Rerun 2026-10-29 with `drop_lag07=True` (A-R3 lead decision).** The OPSD development aggregates are unchanged: disagreement rate 0.230, 168 rounds, maximum run 5, ridge penalty 1.0. The same JSON was regenerated by this run.

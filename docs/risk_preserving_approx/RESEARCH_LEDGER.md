@@ -107,3 +107,24 @@
   the pre-promotion risk/optimization bottleneck under the original full objective;
   retained source is a development baseline and is not thread-safe outside serial
   process isolation. No synthetic/real baseline win has been established.
+
+## 2026-10-29 — Causal-null constraint-generation diagnostic
+
+- Committed `CAUSAL_CUTS_PROTOCOL_V1.md` before running. Built the existing full
+  pre-promotion learner/null trees and solved restricted learner masters with
+  exact-form null best-response LPs; independently recovered and risk-evaluated
+  each policy. The method is sourced standard cutting-plane/double-oracle
+  machinery, not a novelty claim.
+- T=5 and T=6 numerically reached reference cost after 26 and 51 cuts; all
+  evaluated root-activated policies had exact causal-null risk <=1/10. T=7 hit
+  the 64-cut limit with best safe cost 59747/17500 versus reference numerical
+  cost 10788127/3200000. Complete iterations and hashes are preserved in
+  `causal_cuts_development_v1.json`; executed source is preserved byte-for-byte.
+- Total master plus separation solver times exceeded the single reference LP
+  solve on the registered small cells; tree construction is unchanged. Timings
+  exclude policy recovery and exact verification. No speed, memory, efficacy or
+  real-data advantage is established. Numerical master values are not claimed as
+  rigorous lower bounds or certified anytime gaps.
+- Decision: retain as a baseline; continue toward an implicit risk response or
+  stronger structural approximation against the original oracle. No new seeds,
+  real-data reads or changes to historical outputs.

@@ -1,0 +1,192 @@
+"""Registered diagnostic for null-response constraint generation."""
+
+from __future__ import annotations
+
+import hashlib
+import json
+import time
+from fractions import Fraction as F
+from pathlib import Path
+
+import numpy as np
+from scipy.optimize import linprog
+from scipy.sparse import coo_matrix, csr_matrix, vstack
+
+from shiftlab.dive.causal_switching_game import GameConfig
+from shiftlab.dive.delayed_regime_information import RegimeModel
+from shiftlab.dive.first_promotion_decomposition import FirstPromotionDecomposedGame
+
+ROOT = Path(__file__).resolve().parents[2]
+TARGET = ROOT / "docs/risk_preserving_approx/causal_cuts_development_v1.json"
+
+
+def digest(path):
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def run(horizon):
+    config = GameConfig(horizon=horizon, budget=3, delay=1, alpha=F(1, 10))
+    model = RegimeModel(
+        transition01=F(1, 4),
+        transition10=F(1, 4),
+        emission0=F(1, 20),
+        emission1=F(19, 20),
+        prior1=F(1, 2),
+    )
+    game = FirstPromotionDecomposedGame(config, model)
+    start = time.perf_counter()
+    game.build()
+    build_s = time.perf_counter() - start
+    e_matrix, e = game.learner.matrix()
+    f_matrix, f = game.opponent.matrix()
+    n_x, n_y = game.learner.count, game.opponent.count
+    keys = list(game.risk)
+    a = coo_matrix(
+        ([game.risk[key] for key in keys], ([key[0] for key in keys], [key[1] for key in keys])),
+        shape=(n_x, n_y),
+    ).tocsr()
+    c = np.zeros(n_x)
+    for column, value in game.cost.items():
+        c[column] = value
+    start = time.perf_counter()
+    ref_report, ref_policy, _ = game.solve()
+    reference_s = time.perf_counter() - start
+    cuts = []
+    signatures = set()
+    log = []
+    best_upper = None
+    status = "iteration_limit"
+    always = lambda history, outcomes: tuple(
+        F(choice == (0, 0)) for choice in game.choices(history)
+    )
+    safe_cost = sum(game.expected_metrics(always)[:3])
+    options = {
+        "time_limit": 60.0,
+        "primal_feasibility_tolerance": 1e-9,
+        "dual_feasibility_tolerance": 1e-9,
+    }
+    for iteration in range(65):
+        start = time.perf_counter()
+        master = linprog(
+            c,
+            A_ub=vstack(cuts).tocsr() if cuts else None,
+            b_ub=np.full(len(cuts), float(config.alpha)) if cuts else None,
+            A_eq=e_matrix,
+            b_eq=e,
+            bounds=(0, None),
+            method="highs",
+            options=options,
+        )
+        master_s = time.perf_counter() - start
+        if not master.success:
+            status = "master_failure: " + str(master.message)
+            break
+        start = time.perf_counter()
+        response = linprog(
+            -(a.T @ master.x),
+            A_eq=f_matrix,
+            b_eq=f,
+            bounds=(0, None),
+            method="highs",
+            options=options,
+        )
+        separation_s = time.perf_counter() - start
+        if not response.success:
+            status = "response_failure: " + str(response.message)
+            break
+        y = np.rint(response.x)
+        flow_residual = float(np.max(np.abs(f_matrix @ y - f)))
+        integrality_residual = float(np.max(np.abs(y - response.x)))
+        if flow_residual > 1e-9 or integrality_residual > 1e-8 or np.any(y < 0):
+            status = "invalid_or_fractional_response"
+            break
+        cut = a @ y
+        lp_risk = float(cut @ master.x)
+        policy, _ = game.recover(master.x)
+        exact_risk = game.null_risk(policy)
+        raw_cost = sum(game.expected_metrics(policy)[:3])
+        activation = min(F(1), config.alpha / exact_risk) if exact_risk else F(1)
+        upper = activation * raw_cost + (1 - activation) * safe_cost
+        best_upper = upper if best_upper is None else min(upper, best_upper)
+        actual_risk = activation * exact_risk
+        row = {
+            "iteration": iteration,
+            "master_numeric": float(master.fun),
+            "master_s": master_s,
+            "separation_s": separation_s,
+            "response_risk_numeric": lp_risk,
+            "recovered_risk": str(exact_risk),
+            "activation": str(activation),
+            "safe_upper": str(upper),
+            "safe_risk": str(actual_risk),
+            "best_safe_upper": str(best_upper),
+            "opponent_flow_residual": flow_residual,
+            "response_integrality_residual": integrality_residual,
+            "risk_difference": abs(lp_risk - float(exact_risk)),
+        }
+        log.append(row)
+        if actual_risk > config.alpha or row["risk_difference"] > 1e-7:
+            status = "risk_crosscheck_failed"
+            break
+        if lp_risk <= float(config.alpha) + 1e-9:
+            status = "numerical_master_converged"
+            break
+        signature = tuple(int(v) for v in y)
+        if signature in signatures:
+            status = "duplicate_violating_response"
+            break
+        if iteration == 64:
+            break
+        signatures.add(signature)
+        cuts.append(csr_matrix(cut.reshape(1, -1)))
+    return {
+        "horizon": horizon,
+        "status": status,
+        "nodes": game.nodes,
+        "learner_sequences": n_x,
+        "null_sequences": n_y,
+        "build_s": build_s,
+        "reference_s": reference_s,
+        "reference_numeric": ref_report["solver_objective"],
+        "reference_recovered_cost": str(sum(game.expected_metrics(ref_policy)[:3])),
+        "reference_risk": str(game.null_risk(ref_policy)),
+        "cuts": len(cuts),
+        "iterations": log,
+        "best_safe_upper": None if best_upper is None else str(best_upper),
+    }
+
+
+def main():
+    if TARGET.exists():
+        raise FileExistsError(f"Refusing to overwrite {TARGET}")
+    source = Path(__file__)
+    protocol = ROOT / "docs/risk_preserving_approx/CAUSAL_CUTS_PROTOCOL_V1.md"
+    payload = {
+        "source_sha256": digest(source),
+        "protocol_sha256": digest(protocol),
+        "reference_source_sha256": digest(
+            ROOT / "src/shiftlab/dive/first_promotion_decomposition.py"
+        ),
+        "rows": [],
+    }
+    for horizon in (5, 6, 7):
+        try:
+            result = run(horizon)
+        except Exception as exc:  # noqa: BLE001 - Preserve failed diagnostic cells.
+            result = {
+                "horizon": horizon,
+                "status": "exception",
+                "error": f"{type(exc).__name__}: {exc}",
+            }
+        payload["rows"].append(result)
+        TARGET.write_text(json.dumps(payload, indent=2) + "\n", encoding="utf-8")
+        print(
+            json.dumps(
+                {"horizon": horizon, "status": result["status"], "cuts": result.get("cuts")}
+            ),
+            flush=True,
+        )
+
+
+if __name__ == "__main__":
+    main()

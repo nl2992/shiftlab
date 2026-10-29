@@ -1,6 +1,18 @@
 # Validity of release-time e-process updates in harness v2 (lead note, 2026-10-29)
 
-**Status: a lead derivation; it has not been independently reviewed.** It scopes what harness v2's
+**Status: CORRECTED after Codex review (`CODEX_R3_REVIEW_2.md`), which rated v1 of this note INCORRECT.** The corrections are in the section below; the original text is kept underneath for the record.
+
+## Corrections (2026-10-29)
+
+1. **Out-of-order or stochastic delays: claim WITHDRAWN.** Event-time conditional means do not imply release-order conditional means. Codex counterexample: with q=C=1 and ε=0, release a later all-positive block before the earlier losses; the stake mixture crosses 1/α with probability ≥ 0.075 > 0.05. Out-of-order updating is **not valid** in general.
+2. **Fixed delay: correct only with qualifications.** Unqueried events update immediately (factor `1−λε/B ≤ 1`), so wealth is not literally a shifted prefix. It is dominated by the chronological prefix when ε ≥ 0. This needs the null to hold given the full chronological history and current context, not only the released-label history.
+3. **Missing labels.** A missing label must apply the increment −ε, not skip the update. The conditional-mean calculation holds under MAR (missing at random) relative to the same filtration, with ε ≥ 0. "Only removes positive evidence" is false pathwise: dropping negative observations can raise wealth.
+4. **OPSD's delay is fixed at d=2.** The offset of 1 was a `searchsorted` horizon-sentinel artefact for the unreleased terminal label. OPSD therefore falls under the fixed-delay row and needs no out-of-order argument.
+
+---
+
+*Original note (superseded where it conflicts with the corrections above):*
+ It scopes what harness v2's
 `DelayedHT` may claim. Lane A records the fixed-delay case: under a fixed, ordered label delay with
 predictable querying and a pathwise budget, the event-time Ville argument still holds (Lane A
 checkpoint on the e-detector baseline). This note restates that for the v2 implementation and marks

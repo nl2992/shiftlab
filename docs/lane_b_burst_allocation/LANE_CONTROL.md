@@ -137,3 +137,9 @@ Both parts are research targets, not results.
 - **Development smoke (descriptive):** no alarms on OPSD or Binance at the primary budgets, so alarm-then-switch never switched. Net utility is not comparable across arms (different processed prefixes after the reserve stop).
 - **Validity limits:** validity of e-process updating under delay is not claimed. False promotions are reported only with an evaluator null mask (an extension of Lane A's definition). |
 | 21 | 2026-10-29 | R3 side task | 21:50 local; Codex still blocked. Lead note `R3_delayed_update_validity_note.md` (not reviewed): release-time updates in v2's DelayedHT are valid under fixed delay (time-shifted Ville), under calendar-driven delays independent of outcomes (release-order supermartingale), and under missing-at-random labels (validity with lost power). Informative delay or missingness is not covered. It goes to Codex together with the R3 recheck once the limit resets. |
+| 22 | 2026-10-29 | R3 | Codex was live early (22:20). **Recheck** (`CODEX_R3_REVIEW_2.md`):
+- **Binance: FREEZE-WITH-NOTES.** It may only be read as a narrowed audit-budget benchmark: imposed costs, idealised execution, descriptive real-stream claims.
+- **OPSD: DO-NOT-FREEZE.** (a) The autumn-DST 48-hour lag reaches Saturday 00:00 before Saturday's label releases; (b) future timestamp irregularities veto policy pairs without a decision-time justification.
+- **Validity note: INCORRECT.** The out-of-order delay claim is withdrawn (counterexample, P ≥ 0.075). The fixed-delay derivation is qualified. A missing label must apply −ε, not skip. OPSD's delay is actually fixed d=2. The note is corrected in place.
+- **Both tasks are frozen together after the OPSD fix** (they share one protocol file).
+- **Fixes sent:** the OPSD DST lag and availability mask, the timestamp-veto rule, the DelayedHT missing-label increment, and the release-offset sentinel. |

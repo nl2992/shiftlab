@@ -1,0 +1,12 @@
+[
+  {
+    "name": "ao_etal_online_resource_allocation_average_budget_2024",
+    "url": "https://arxiv.org/pdf/2402.11425",
+    "record_url": "https://arxiv.org/abs/2402.11425",
+    "bytes": 935264,
+    "sha256": "D5B15A5359179877E43032598C2FE53DDD0E1D41D268956D051A3FDD07028AFC",
+    "status": "full_arxiv_pdf_inspected_model_contributions_and_online_fdr_application",
+    "retrieved_date": "2026-10-29",
+    "cache_path": "outputs/switching_source_audit_v1/ao_etal_bayesian_online_multiple_testing_2024.pdf"
+  }
+]

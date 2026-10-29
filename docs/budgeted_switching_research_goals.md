@@ -1816,3 +1816,18 @@ the finite benchmark. Source limitation: RAO* full text/proof not inspected in t
   established. It must be included in matched-budget comparisons. It lacks priced acquisition,
   recurrent reversible economics and ShiftLab's causal-null contract; these mismatches alone do
   not establish novelty. G1 remains open; G2–G5 stay held.
+
+### G1 source boundary 2026-10-29: online resource allocation already prices evaluations
+
+- Audited Ao et al., “Online Resource Allocation with Average Budget Constraints,”
+  arXiv:2402.11425, from its full PDF, including the online knapsack model and its online-FDR
+  application. The paper optimizes reward under a running-average cost constraint with random
+  exogenous replenishment; candidate secondary evaluation is the FDR interpretation. It gives
+  O(sqrt(T)) regret generally and logarithmic-buffer guarantees for discrete arrivals.
+  `switching_bayesian_online_resource_prior_audit_v1.md` records its assumptions and source hash.
+- Decision: reject broad “online budgeted model evaluation” as novelty. A hard total query cap,
+  delayed shared labels and repeated reversible deployment are different resource and action
+  contracts, but those gaps alone do not establish a contribution. Compare after adapting resource
+  allocation to the identical query chronology and global any-false-promotion constraint; do not
+  transfer the source regret guarantee without proof. G1 remains open; G2–G5 stay held. Evidence
+  supporting past promotion remains separate from current-regime value after reversal.

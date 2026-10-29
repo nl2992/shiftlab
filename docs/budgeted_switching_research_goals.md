@@ -2442,3 +2442,18 @@ the finite benchmark. Source limitation: RAO* full text/proof not inspected in t
   `switching_filter_forgetting_risk_coupling_screen_v1.md`.
 - G1 remains open; G2–G5 remain held. The previous-regime promotion risk statement still does not
   certify challenger value after reversal.
+
+### G1 scope correction 2026-10-29: query-conditioned deployment
+
+- The prior action-dependent acquisition no-go fixes one target deployment probability across
+  query strata. That averaging argument does not extend to query-conditioned deployment. An exact
+  local witness with randomized incumbent action, two query slots and continuation score
+  `1{query slot = next action}` has net value `1` under action-conditioned acquisition versus
+  `1-k/2` under the best acquisition-independent channel for switch fee `k in (0,1)`.
+- This is only a one-step separation with supplied continuation values and ignored labels; it does
+  not establish a learning or safety result. Joint costly-observation/action choice already has
+  prior art (Atan & van der Schaar; Reyzin et al.), and the full delayed causal-null problem is the
+  finite extensive-form game. See
+  `switching_query_conditioned_deployment_extension_screen_v1.md` for the derivation and source
+  boundary. G1 remains open; no efficacy study is authorized by this local witness; G2–G5 remain
+  held.

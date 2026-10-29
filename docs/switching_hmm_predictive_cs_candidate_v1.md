@@ -93,3 +93,30 @@ rule has a nontrivial theorem-level advantage beyond the confidence-set gate, ac
 FSC/POSG planning, and sequence-form oracle. Next: audit the exact delayed/adaptive likelihood
 factorization (including query-policy terms), derive a small exact HMM confidence-set example, then
 source-audit the proposed query score. The full research goal and G2-G5 remain open/held.
+
+## Exact adaptive-delay mechanism check
+
+`python scripts/check_switching_hmm_predictive_cs.py` enumerates a two-model one-state HMM
+(Bernoulli parameters `1/10` and `9/10`, prior `1/2`), with `alpha=1/8`, fixed delay one and
+pathwise budget two. It always queries event 1, queries event 2 iff the released first label is
+positive, and otherwise queries event 3. This is predictable, uses exactly two queries on every
+path, and respects release times. Exact enumeration gives confidence-set failure probability
+`1/100` under either true model; after one released label neither model is excluded, and only the
+two-same-sign outcome after two labels excludes the true model. The script and JSON output are
+mechanism verification only; the one-state family has no latent reversal and no acquisition/value
+comparison.
+
+## Expanded source boundary
+
+Arnold et al.'s sequential model confidence sets define strong superiority using conditional loss
+differences at every time and provide simultaneous time-uniform coverage for the superior set;
+they also study weaker average superiority. This confirms that time-uniform conditional forecast
+comparison is established. Their theorem is not itself the parameter-set/filter construction above.
+Kapoor and Nair, AISTATS/PMLR 2026, already formulate costed sensing as an MDP whose state records
+when sensing is due, prove policy suboptimality bounds, and give an efficient policy-improvement
+algorithm. Together with the repository's delayed-POMDP and constrained-POMDP audits, this means
+that “confidence-set state + delayed queue + hard remaining budget + expected value of sensing”
+is at high risk of being a standard state augmentation and planning composition. See the [PMLR
+primary paper](https://proceedings.mlr.press/v300/kapoor26a.html) and the [JRSS B primary article](https://doi.org/10.1093/jrsssb/qkag066).
+The source boundary does not say these papers solve ShiftLab's exact robust two-law problem; it
+means their gap differences are not a novelty argument by themselves.

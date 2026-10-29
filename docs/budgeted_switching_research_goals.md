@@ -2087,3 +2087,20 @@ the finite benchmark. Source limitation: RAO* full text/proof not inspected in t
   First audit the adaptive delayed HMM likelihood and acquisition prior art; close the candidate if
   it reduces to generic controlled sensing. No experiment is registered or run yet; G1 remains
   open and G2-G5 remain held. The guarantee is explicitly not robust to arbitrary model drift.
+
+### G1 mechanism check 2026-10-29: delayed HMM confidence-set gate
+
+- Exact enumeration in `scripts/check_switching_hmm_predictive_cs.py` verified an adaptive
+  predictable query schedule under two one-state HMM parameters, fixed delay one and pathwise
+  budget two. The finite-model likelihood-ratio confidence set excludes the true parameter with
+  exact probability `1/100` under either model, below `alpha=1/8`; all paths use exactly two
+  queries. This checks the delayed/adaptive likelihood mechanism only, not acquisition utility,
+  latent reversals, or a method advantage. Output is in the ignored `outputs/` directory.
+- Source boundary: sequential model confidence sets already give time-uniform conditional
+  forecast-superiority inference; AISTATS 2026 state-sensing-cost MDPs optimize when to acquire
+  costly state information with value bounds and policy improvement. Delayed-POMDP and constrained-
+  POMDP state augmentation are also established in prior audits. Thus the confidence gate plus a
+  generic budgeted belief planner is not a novelty claim.
+- Keep the finite-HMM confidence-set corollary as a safety baseline. The candidate remains open
+  only if a specific acquisition rule yields a nontrivial theorem beyond these methods and the
+  exact two-law oracle. No efficacy or real-data study; G1 unresolved, G2-G5 held.

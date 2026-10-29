@@ -142,4 +142,3 @@ method claim. G1 survives only if a concrete joint allocation rule has a proved 
 approximation advantage over (i) this two-gate composition, (ii) costed sensing / loss-driven active
 learning, and (iii) the exact two-law oracle. Otherwise close this candidate and revise the research
 hypothesis. No additional experiment is authorized by this screen.
-

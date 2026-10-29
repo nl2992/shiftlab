@@ -142,3 +142,52 @@ method claim. G1 survives only if a concrete joint allocation rule has a proved 
 approximation advantage over (i) this two-gate composition, (ii) costed sensing / loss-driven active
 learning, and (iii) the exact two-law oracle. Otherwise close this candidate and revise the research
 hypothesis. No additional experiment is authorized by this screen.
+
+## Delayed HMM likelihood audit and exact adaptive check
+
+At decision time `t`, write `R_t` for queried event indices whose labels have actually been
+released, `Y_{R_t}` for their observed values, and `H_{<t}` for the observed query/action
+transcript. Under a fixed ordered delay and outcome-independent querying, the likelihood of a
+valid transcript under parameter `theta` is
+
+```text
+P_theta(H_<t, Y_Rt)
+  = [product_{s<t} kappa(a_s,q_s | H_s)]
+    * sum_{z_1:t, x_1:t} pi_theta(z_1)
+        product_{s<t} A_theta(z_s,z_{s+1})
+        product_{s<=t} g_theta(x_s | z_s)
+        product_{s in R_t} 1{x_s = y_s}.
+```
+
+Here `kappa` is the learner's policy kernel and is common across candidate parameters. Pending
+queried outcomes, unqueried outcomes, and hidden states are marginalized; they must not be inserted
+as if observed. For a realized transcript, the policy-kernel factor cancels from likelihood ratios.
+This remains true when query choices are predictable functions of released labels, because the
+choice at `s` is fixed conditional on the observed history that generated it. Parameter-dependent
+querying, outcome-dependent arrival, informative delay, parameter-dependent covariate laws, or
+incorrectly using pending labels would invalidate this cancellation and require a different joint
+likelihood.
+
+This factorization uses the standard HMM missing-observation likelihood construction; Perets et
+al.'s primary [AISTATS 2023 paper](https://proceedings.mlr.press/v202/perets23a/perets23a.pdf),
+Appendix B, writes the HMM joint distribution and handles known missing observation locations by
+marginalizing them. Emmenegger, Mutny and Krause's primary [NeurIPS 2023 paper](https://papers.nips.cc/paper_files/paper/2023/hash/5491280797f3192b895bce84eb83df8d-Abstract-Conference.html)
+establishes anytime-valid likelihood-ratio confidence sets for sequential decisions. These sources
+support the ingredients; neither is a theorem about this project's delayed adaptive query policy,
+and their combination is not claimed as a novelty result. The martingale coverage corollary above
+follows directly from the Radon–Nikodym likelihood-ratio martingale for the observed transcript.
+
+The exact check in `scripts/check_switching_delayed_hmm_likelihood.py` enumerates a two-state,
+two-parameter Bernoulli-emission HMM for `T=8`, fixed delay `d=2`, and hard query cap `B=4`. The
+learner queries the first two events, then queries only when the latest due queried label is 1 and
+budget remains. Across all `2^8 * 2^8 = 65,536` hidden-state/outcome paths, all 88 distinct
+valid-prefix/model likelihoods agree exactly with the forward HMM likelihood after pending and
+unqueried outcomes are marginalized. For the prior-weighted mixture likelihood ratio with
+`alpha=1/20`, exact all-time confidence-set failure probabilities are `1379/200000 = 0.006895`
+under model 0 and `0` under model 1. The result JSON is
+`outputs/switching_delayed_hmm_likelihood_v1/results.json` and is ignored by Git.
+
+This is a likelihood and coverage-mechanism check for one correctly specified finite family. It
+does not show power or acquisition value, compare switching utility, handle the broad causal-null
+adversary, justify HMM specification, or establish safety under parameter drift. It validates the
+confidence-set gate as a comparator only; G1 remains open and no efficacy experiment follows.

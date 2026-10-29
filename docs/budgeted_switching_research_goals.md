@@ -2253,3 +2253,22 @@ the finite benchmark. Source limitation: RAO* full text/proof not inspected in t
   persistence model or calibrated contemporaneous signal, report test-epoch false-promotion control
   and measure post-reversal exposure/loss separately. This is a claim/measurement invariant, not a
   new algorithm or current-value safety theorem. G1 remains open; G2–G5 remain held.
+
+### G1 delayed-HMM likelihood audit 2026-10-29: adaptive transcript factorization verified
+
+- Derived the observed-transcript likelihood for a fixed ordered delay: the predictable,
+  parameter-independent query/action kernels factor out; released queried outcomes enter the HMM
+  likelihood; pending and unqueried outcomes are marginalized. The cancellation fails if querying,
+  arrival, or covariate laws depend on the candidate parameter or outcomes beyond the observable
+  filtration. The exact conditions and primary-source boundary are recorded in
+  `switching_hmm_predictive_cs_candidate_v1.md`.
+- Read Perets et al.'s primary AISTATS 2023 HMM missing-observation source (Appendix B) and
+  Emmenegger et al.'s primary NeurIPS 2023 likelihood-ratio confidence-set source. They establish
+  the missing-observation HMM and anytime-LR ingredients, not this delayed adaptive switching
+  contract; no novelty is inferred from their conjunction.
+- Exact rational check `scripts/check_switching_delayed_hmm_likelihood.py` enumerated all 65,536
+  hidden-state/outcome paths for `T=8,d=2,B=4`. All 88 valid-prefix/model transcript likelihoods
+  matched the forward HMM likelihood. At `alpha=.05`, exact all-time confidence-set failure was
+  `.006895` under model 0 and `0` under model 1. This verifies one correctly specified confidence
+  gate only; it supplies no acquisition-value, utility, causal-null, or misspecification result.
+  G1 remains open, G2–G5 held, and no efficacy/real-data study is opened.

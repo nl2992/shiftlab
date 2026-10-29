@@ -354,3 +354,63 @@
   holdouts were accessed.
 - Decision: retain as baseline and continue the research search; do not elevate
   this fixed composition to a candidate contribution.
+
+
+## 2026-10-29 — Strong calendar comparisons at T=7 and T=8
+
+- Registered and ran the T=7, d=1 certified cell against all 42 eligible calendars,
+  m=2 pre-promotion cap, decomposed reference and threshold-4 e-process planner.
+  The calendar `[1,2,3]` matches the full recovered upper `10788127/3200000`;
+  the cap/e-process cost `1349103/400000` is higher by `4697/3200000`. The
+  optimizer-free full certificate still brackets V* to <1.57e-12, so this is a
+  certified cap suboptimality bound on that cell. The saved certificate verifier passed.
+- Registered and ran the T=8, d=1 cell against all 64 calendars. The m=2 cap,
+  threshold-4 e-process and decomposed reference all recover exact cost
+  `24735833/6400000` at risk 1/10, matching best calendar `[1,2,5]`. Cap builder
+  nodes/time were 1,290 / 0.506s versus 5,700 / 1.550s for the decomposed reference
+  in this single run. T=8 lacks an independent completed full-sequence certificate;
+  do not infer exact unrestricted optimality. Threshold 8 loses by `551/640000`.
+- Registered and ran T=8, d=2 over six known HMM cells and 42 calendars per cell.
+  Every row completed. The best calendar matched the decomposed recovered reference
+  in each cell. The cap lost in four active cells and tied two no-query cells;
+  threshold 4/8 gates each tied some cells but lost in others. No method strictly
+  beat the calendar cost. The initial result JSON duplicated each mutable cell row
+  42 times; duplicates were verified identical and complete, the raw artifact and
+  exact executed runner were preserved, and a distinct deduplicated artifact was
+  created. The tracked runner was lint-fixed after execution.
+- Decision: no G1 novelty or G3 synthetic baseline win. Retain cap as a small-cell
+  compute-reduction candidate and the gates as standard baselines. Do not open the
+  CRSP replay: the upstream G1–G3 prerequisite remains unmet. Details and hashes:
+  `STRONG_CALENDAR_RESULTS_V1.md`, `t7_strong_calendar_v1.json`,
+  `t8_strong_calendar_v1.json`, and `t8_delay2_calendar_deduplicated_v1.json`.
+  No new seeds, CRSP observations or holdouts were accessed.
+
+
+## 2026-10-29 — T=8 cap policy rational optimality certificate
+
+- Registered a certificate attempt for the already exposed T=8, B=3, d=1 cell.
+  Generated an exact rational dual lower bound for the full first-promotion
+  decomposed LP and re-evaluated the m=2 cap policy from saved behavior using
+  the exact alternative and full-history null recursions. The optimizer-free
+  verifier passed: lower `3.864973906245213...`, upper/cap cost
+  `24735833/6400000 = 3.86497390625`, exact cap risk 1/10, bracket width
+  `4.7869475491e-12`. This certifies the cap policy to that tolerance of the
+  unrestricted optimum under the proved decomposition. It is not a completed
+  generic sequence-form builder run or a general approximation theorem.
+- The cost also equals the best T=8,d=1 calendar; the cap is not an economic
+  win, but has a small single-run solver-time/node reduction against the full
+  decomposition. Threshold 8 loses by `551/640000`. Details and reproducible
+  certificate: `FULL_T8_DECOMPOSED_CERT_RESULTS_V1.md`, the certificate JSON,
+  and `scripts/research_risk_approx/verify_full_t8_decomposed_certificate.py`.
+- The T=8,d=2 six-cell screen completed 252/252 calendar runs. The cap never
+  strictly beat the best calendar: four losses and two no-query ties. Threshold
+  gates also tied or lost, with no strict calendar win. Raw JSON had a repeated
+  mutable-row serialization bug; every duplicate group was verified identical,
+  raw output and executed source were preserved, and a six-cell deduplicated
+  artifact was created. Ruff and focused invariant tests passed.
+- Decision: the cap now has a strong instance-specific compute/value certificate,
+  but no G1 theorem novelty or G3 economic win over the best calendar. Keep the
+  real-data gate closed under the upstream research plan and revise the method
+  search. No CRSP rows, new seeds or holdouts were accessed. Full comparisons are
+  documented in `STRONG_CALENDAR_RESULTS_V1.md`; source hashes are recorded in
+  the JSON artifacts.

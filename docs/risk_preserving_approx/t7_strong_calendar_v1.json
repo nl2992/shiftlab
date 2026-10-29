@@ -1,0 +1,1149 @@
+{
+  "protocol_sha256": "a6cb5e697e5d961ab0bc6f138198b297405e030b092dfef32ea362e08bd3aee1",
+  "certificate_sha256": "19f60e2621f85eb6d4b6186e3cf101f8b36b6f09c3a0b4fb007affcb35bd6c6b",
+  "runner_sha256": "0ea4167fe65b51d0414f7fb9869381baa25ef056e94fa77ce3bc9d191770241d",
+  "sources": {
+    "scripts/decompose_switching_calendar_gap.py": "16dc05e76e94b8b02684609de767596a7ea0b5111e6dbf376ec741226777ece4",
+    "src/shiftlab/dive/causal_switching_game.py": "54b1347c3e213407b3feb09a801dc9ea40b3663fe6a4a227b7878b9b0a2d770a",
+    "src/shiftlab/dive/first_promotion_decomposition.py": "838bab025e72bb637a4b45df38f7e8ddf048d133462b20d0dff295cc09a86d75",
+    "src/shiftlab/dive/prepromotion_cap.py": "3c691916a3b335217e4db8289c6f255fbd7dcf43c4a8ba7fb25372b926c0dc03",
+    "src/shiftlab/dive/eprocess_gated_planner.py": "e8a50b5c4fd143b08fd4b323649f98a1c8ef3ce3c205dfd1d5d6a5f4373d23e5"
+  },
+  "full_oracle_lower_bound": "179456774937495596135267671152603063560241523129340141737811831701768847734502462669340788922128359285216611224106225073713395926729645649300394307536051873099621397397565194089670012212853252838007123586937885424055465922129339979391744760143883974618549101235324277412445222673563985197947186392598393825404142429034431065259506588511842689904374254500691910150324681842244651423450459984190269037529709778047966174771532474147845235102070897242601193783380577405272938911613836664082138893736357623553766142421492066403276034902191903734759231054800070357192034849150312086944343326492083436336560839879593409231193827312187467691140159675741405889/53230897244744364067859677838890050459861596075393768800228764012919484752791426475319114856155577272492451336001210112998871381866564229075900584526498566045335312685455555818402616770582130583448428902589434411571119787519913070324457062941859261849358649884078216560872338475328918019297585908085893968534901738831183288056576028682550178632308743387079432245664863901742331328568628618595668730459170148865020910206699589177542752856406283868721468422989351910090568327550893771618024667003464611697068374640594748504627957458447333911405318047111256406664104227438134047076966366763927145580235420187485946222024343264134428879277135436006400000",
+  "full": {
+    "raw_cost": "10788127/3200000",
+    "raw_risk": "1/10",
+    "activation": "1",
+    "calibrated_cost": "10788127/3200000",
+    "calibrated_risk_bound": "1/10",
+    "metrics": [
+      "2135267/640000",
+      "1481/100000",
+      "161/8000",
+      "1481/1000",
+      "161/800"
+    ],
+    "nodes": 3334,
+    "learner_sequences": 1317,
+    "null_sequences": 771,
+    "solver_objective": 3.3712896875,
+    "equality_residual": 0.0,
+    "inequality_violation": 0.0,
+    "solve_seconds": 0.5500804001931101,
+    "gap_to_full_certificate_lower": "16648404090642188543850000288901679385068704031729611171545596079352049063403252811396853829313477310050413552081772419195367447915397570670962618511039947699810496098270485764967473950184592087763370826376178072746831097911923037708913386111178721558336904523081606464373858208738194595380674987204257382591091437594018709068587704002213279250560104568048082158056693352226362739735937126701536925703729856035468851378250838618555174843419304180062522304764256414522727916337571050608829726350468597346305619406448820332060568526111262016749506352593201847404754041774580912697379311879607204141455563659285301629804200653805894841557323/10646179448948872813571935567778010091972319215078753760045752802583896950558285295063822971231115454498490267200242022599774276373312845815180116905299713209067062537091111163680523354116426116689685780517886882314223957503982614064891412588371852369871729976815643312174467695065783603859517181617178793706980347766236657611315205736510035726461748677415886449132972780348466265713725723719133746091834029773004182041339917835508550571281256773744293684597870382018113665510178754323604933400692922339413674928118949700925591491689466782281063609422251281332820845487626809415393273352785429116047084037497189244404868652826885775855427087201280000",
+    "gap_to_best_calendar": "0"
+  },
+  "cap_m2": {
+    "raw_cost": "1349103/400000",
+    "raw_risk": "1/10",
+    "activation": "1",
+    "calibrated_cost": "1349103/400000",
+    "calibrated_risk_bound": "1/10",
+    "metrics": [
+      "2676637/800000",
+      "1481/200000",
+      "3129/160000",
+      "1481/2000",
+      "3129/16000"
+    ],
+    "nodes": 884,
+    "learner_sequences": 477,
+    "null_sequences": 141,
+    "solver_objective": 3.3727575000000005,
+    "equality_residual": 0.0,
+    "inequality_violation": 0.0,
+    "solve_seconds": 0.21248880005441606,
+    "gap_to_full_certificate_lower": "78132976445293357336566226097145803635123995914757436425733838535441361610466910990320602331785127411847712776876343979395017996172853547067458180080114269028618477150172713516051519753407453297940857487398908329115124626853227893095232321243914728339155351074658079861163461640188018523891210792615701176711422371483603407970636547443544204084802073655648051983330368836059632464346453892912140641934785312649587784940115497630916165019819722758154251269931669624351094395896935845840937084580171532108946160383676076321693325467280069937390928479773022807372664723360306339848064258702573372770025323401222033735441614496408319658393444564949759/53230897244744364067859677838890050459861596075393768800228764012919484752791426475319114856155577272492451336001210112998871381866564229075900584526498566045335312685455555818402616770582130583448428902589434411571119787519913070324457062941859261849358649884078216560872338475328918019297585908085893968534901738831183288056576028682550178632308743387079432245664863901742331328568628618595668730459170148865020910206699589177542752856406283868721468422989351910090568327550893771618024667003464611697068374640594748504627957458447333911405318047111256406664104227438134047076966366763927145580235420187485946222024343264134428879277135436006400000",
+    "gap_to_best_calendar": "4697/3200000"
+  },
+  "eprocess_threshold4": {
+    "raw_cost": "509103/160000",
+    "raw_risk": "1/4",
+    "activation": "2/5",
+    "calibrated_cost": "1349103/400000",
+    "calibrated_risk": "1/10",
+    "metrics": [
+      "2676637/800000",
+      "1481/200000",
+      "3129/160000",
+      "1481/2000",
+      "3129/16000"
+    ],
+    "state_counts": {
+      "prepromotion_value_states": 353,
+      "prepromotion_decision_states": 469,
+      "postpromotion_decision_states": 150
+    },
+    "gap_to_best_calendar": "4697/3200000"
+  },
+  "calendars": [
+    {
+      "raw_cost": "7/2",
+      "raw_risk": "0",
+      "activation": "1",
+      "calibrated_cost": "7/2",
+      "calibrated_risk_bound": "0",
+      "metrics": [
+        "7/2",
+        "0",
+        "0",
+        "0",
+        "0"
+      ],
+      "nodes": 263,
+      "learner_sequences": 255,
+      "null_sequences": 1,
+      "solver_objective": 3.5,
+      "equality_residual": 0.0,
+      "inequality_violation": 0.0,
+      "solve_seconds": 0.01042490010149777,
+      "calendar": []
+    },
+    {
+      "raw_cost": "43933/12800",
+      "raw_risk": "1/10",
+      "activation": "1",
+      "calibrated_cost": "43933/12800",
+      "calibrated_risk_bound": "1/10",
+      "metrics": [
+        "218897/64000",
+        "1/500",
+        "1/100",
+        "1/5",
+        "1/10"
+      ],
+      "nodes": 792,
+      "learner_sequences": 761,
+      "null_sequences": 3,
+      "solver_objective": 3.4322656250000003,
+      "equality_residual": 5.551115123125783e-17,
+      "inequality_violation": 0.0,
+      "solve_seconds": 0.02076039998792112,
+      "calendar": [
+        1
+      ]
+    },
+    {
+      "raw_cost": "109873/32000",
+      "raw_risk": "1/10",
+      "activation": "1",
+      "calibrated_cost": "109873/32000",
+      "calibrated_risk_bound": "1/10",
+      "metrics": [
+        "109489/32000",
+        "1/500",
+        "1/100",
+        "1/5",
+        "1/10"
+      ],
+      "nodes": 785,
+      "learner_sequences": 755,
+      "null_sequences": 3,
+      "solver_objective": 3.4335312500000006,
+      "equality_residual": 5.551115123125783e-17,
+      "inequality_violation": 0.0,
+      "solve_seconds": 0.021352099953219295,
+      "calendar": [
+        2
+      ]
+    },
+    {
+      "raw_cost": "54977/16000",
+      "raw_risk": "1/10",
+      "activation": "1",
+      "calibrated_cost": "54977/16000",
+      "calibrated_risk_bound": "1/10",
+      "metrics": [
+        "10957/3200",
+        "1/500",
+        "1/100",
+        "1/5",
+        "1/10"
+      ],
+      "nodes": 774,
+      "learner_sequences": 743,
+      "null_sequences": 3,
+      "solver_objective": 3.4360625000000002,
+      "equality_residual": 5.551115123125783e-17,
+      "inequality_violation": 0.0,
+      "solve_seconds": 0.02035450004041195,
+      "calendar": [
+        3
+      ]
+    },
+    {
+      "raw_cost": "27529/8000",
+      "raw_risk": "1/10",
+      "activation": "1",
+      "calibrated_cost": "27529/8000",
+      "calibrated_risk_bound": "1/10",
+      "metrics": [
+        "27433/8000",
+        "1/500",
+        "1/100",
+        "1/5",
+        "1/10"
+      ],
+      "nodes": 755,
+      "learner_sequences": 719,
+      "null_sequences": 3,
+      "solver_objective": 3.4411250000000004,
+      "equality_residual": 5.551115123125783e-17,
+      "inequality_violation": 0.0,
+      "solve_seconds": 0.01929329987615347,
+      "calendar": [
+        4
+      ]
+    },
+    {
+      "raw_cost": "2761/800",
+      "raw_risk": "1/10",
+      "activation": "1",
+      "calibrated_cost": "2761/800",
+      "calibrated_risk_bound": "1/10",
+      "metrics": [
+        "13757/4000",
+        "1/500",
+        "1/100",
+        "1/5",
+        "1/10"
+      ],
+      "nodes": 720,
+      "learner_sequences": 671,
+      "null_sequences": 3,
+      "solver_objective": 3.4512500000000004,
+      "equality_residual": 5.551115123125783e-17,
+      "inequality_violation": 0.0,
+      "solve_seconds": 0.018082299968227744,
+      "calendar": [
+        5
+      ]
+    },
+    {
+      "raw_cost": "6943/2000",
+      "raw_risk": "1/10",
+      "activation": "1",
+      "calibrated_cost": "6943/2000",
+      "calibrated_risk_bound": "1/10",
+      "metrics": [
+        "6919/2000",
+        "1/500",
+        "1/100",
+        "1/5",
+        "1/10"
+      ],
+      "nodes": 653,
+      "learner_sequences": 575,
+      "null_sequences": 3,
+      "solver_objective": 3.4715000000000003,
+      "equality_residual": 5.551115123125783e-17,
+      "inequality_violation": 0.0,
+      "solve_seconds": 0.017093000002205372,
+      "calendar": [
+        6
+      ]
+    },
+    {
+      "raw_cost": "1088751/320000",
+      "raw_risk": "1/10",
+      "activation": "1",
+      "calibrated_cost": "1088751/320000",
+      "calibrated_risk_bound": "1/10",
+      "metrics": [
+        "216467/64000",
+        "3/500",
+        "281/20000",
+        "3/5",
+        "281/2000"
+      ],
+      "nodes": 2376,
+      "learner_sequences": 2261,
+      "null_sequences": 11,
+      "solver_objective": 3.4023468750000005,
+      "equality_residual": 0.0,
+      "inequality_violation": 0.0,
+      "solve_seconds": 0.052055299980565906,
+      "calendar": [
+        1,
+        2
+      ]
+    },
+    {
+      "raw_cost": "2181617/640000",
+      "raw_risk": "1/10",
+      "activation": "1",
+      "calibrated_cost": "2181617/640000",
+      "calibrated_risk_bound": "1/10",
+      "metrics": [
+        "434149/128000",
+        "3/1000",
+        "1119/80000",
+        "3/10",
+        "1119/8000"
+      ],
+      "nodes": 2340,
+      "learner_sequences": 2225,
+      "null_sequences": 11,
+      "solver_objective": 3.4087765625,
+      "equality_residual": 5.551115123125783e-17,
+      "inequality_violation": 0.0,
+      "solve_seconds": 0.05128859984688461,
+      "calendar": [
+        1,
+        3
+      ]
+    },
+    {
+      "raw_cost": "2180321/640000",
+      "raw_risk": "1/10",
+      "activation": "1",
+      "calibrated_cost": "2180321/640000",
+      "calibrated_risk_bound": "1/10",
+      "metrics": [
+        "17353/5120",
+        "3/1000",
+        "2319/160000",
+        "3/10",
+        "2319/16000"
+      ],
+      "nodes": 2280,
+      "learner_sequences": 2153,
+      "null_sequences": 11,
+      "solver_objective": 3.4067515625,
+      "equality_residual": 5.551115123125783e-17,
+      "inequality_violation": 0.0,
+      "solve_seconds": 0.04930080007761717,
+      "calendar": [
+        1,
+        4
+      ]
+    },
+    {
+      "raw_cost": "2182103/640000",
+      "raw_risk": "1/10",
+      "activation": "1",
+      "calibrated_cost": "2182103/640000",
+      "calibrated_risk_bound": "1/10",
+      "metrics": [
+        "434149/128000",
+        "3/1000",
+        "4719/320000",
+        "3/10",
+        "4719/32000"
+      ],
+      "nodes": 2172,
+      "learner_sequences": 2009,
+      "null_sequences": 11,
+      "solver_objective": 3.4095359375000003,
+      "equality_residual": 5.551115123125783e-17,
+      "inequality_violation": 0.0,
+      "solve_seconds": 0.048616900108754635,
+      "calendar": [
+        1,
+        5
+      ]
+    },
+    {
+      "raw_cost": "1093927/320000",
+      "raw_risk": "1/10",
+      "activation": "1",
+      "calibrated_cost": "1093927/320000",
+      "calibrated_risk_bound": "1/10",
+      "metrics": [
+        "435283/128000",
+        "3/1000",
+        "9519/640000",
+        "3/10",
+        "9519/64000"
+      ],
+      "nodes": 1968,
+      "learner_sequences": 1721,
+      "null_sequences": 11,
+      "solver_objective": 3.418521875,
+      "equality_residual": 5.551115123125783e-17,
+      "inequality_violation": 0.0,
+      "solve_seconds": 0.04085659980773926,
+      "calendar": [
+        1,
+        6
+      ]
+    },
+    {
+      "raw_cost": "544983/160000",
+      "raw_risk": "1/10",
+      "activation": "1",
+      "calibrated_cost": "544983/160000",
+      "calibrated_risk_bound": "1/10",
+      "metrics": [
+        "21671/6400",
+        "3/500",
+        "281/20000",
+        "3/5",
+        "281/2000"
+      ],
+      "nodes": 2333,
+      "learner_sequences": 2219,
+      "null_sequences": 11,
+      "solver_objective": 3.4061437500000005,
+      "equality_residual": 0.0,
+      "inequality_violation": 0.0,
+      "solve_seconds": 0.0501849998254329,
+      "calendar": [
+        2,
+        3
+      ]
+    },
+    {
+      "raw_cost": "1091821/320000",
+      "raw_risk": "1/10",
+      "activation": "1",
+      "calibrated_cost": "1091821/320000",
+      "calibrated_risk_bound": "1/10",
+      "metrics": [
+        "217277/64000",
+        "3/1000",
+        "1119/80000",
+        "3/10",
+        "1119/8000"
+      ],
+      "nodes": 2273,
+      "learner_sequences": 2147,
+      "null_sequences": 11,
+      "solver_objective": 3.4119406250000006,
+      "equality_residual": 5.551115123125783e-17,
+      "inequality_violation": 0.0,
+      "solve_seconds": 0.05222790013067424,
+      "calendar": [
+        2,
+        4
+      ]
+    },
+    {
+      "raw_cost": "1091983/320000",
+      "raw_risk": "1/10",
+      "activation": "1",
+      "calibrated_cost": "1091983/320000",
+      "calibrated_risk_bound": "1/10",
+      "metrics": [
+        "217277/64000",
+        "3/1000",
+        "2319/160000",
+        "3/10",
+        "2319/16000"
+      ],
+      "nodes": 2165,
+      "learner_sequences": 2003,
+      "null_sequences": 11,
+      "solver_objective": 3.412446875,
+      "equality_residual": 5.551115123125783e-17,
+      "inequality_violation": 0.0,
+      "solve_seconds": 0.046819400042295456,
+      "calendar": [
+        2,
+        5
+      ]
+    },
+    {
+      "raw_cost": "547247/160000",
+      "raw_risk": "1/10",
+      "activation": "1",
+      "calibrated_cost": "547247/160000",
+      "calibrated_risk_bound": "1/10",
+      "metrics": [
+        "217763/64000",
+        "3/1000",
+        "4719/320000",
+        "3/10",
+        "4719/32000"
+      ],
+      "nodes": 1961,
+      "learner_sequences": 1715,
+      "null_sequences": 11,
+      "solver_objective": 3.4202937500000004,
+      "equality_residual": 5.551115123125783e-17,
+      "inequality_violation": 0.0,
+      "solve_seconds": 0.04060409986414015,
+      "calendar": [
+        2,
+        6
+      ]
+    },
+    {
+      "raw_cost": "273099/80000",
+      "raw_risk": "1/10",
+      "activation": "1",
+      "calibrated_cost": "273099/80000",
+      "calibrated_risk_bound": "1/10",
+      "metrics": [
+        "54299/16000",
+        "3/500",
+        "281/20000",
+        "3/5",
+        "281/2000"
+      ],
+      "nodes": 2262,
+      "learner_sequences": 2135,
+      "null_sequences": 11,
+      "solver_objective": 3.4137375000000003,
+      "equality_residual": 0.0,
+      "inequality_violation": 0.0,
+      "solve_seconds": 0.04938869993202388,
+      "calendar": [
+        3,
+        4
+      ]
+    },
+    {
+      "raw_cost": "546923/160000",
+      "raw_risk": "1/10",
+      "activation": "1",
+      "calibrated_cost": "546923/160000",
+      "calibrated_risk_bound": "1/10",
+      "metrics": [
+        "108841/32000",
+        "3/1000",
+        "1119/80000",
+        "3/10",
+        "1119/8000"
+      ],
+      "nodes": 2154,
+      "learner_sequences": 1991,
+      "null_sequences": 11,
+      "solver_objective": 3.41826875,
+      "equality_residual": 5.551115123125783e-17,
+      "inequality_violation": 0.0,
+      "solve_seconds": 0.048050699988380075,
+      "calendar": [
+        3,
+        5
+      ]
+    },
+    {
+      "raw_cost": "273907/80000",
+      "raw_risk": "1/10",
+      "activation": "1",
+      "calibrated_cost": "273907/80000",
+      "calibrated_risk_bound": "1/10",
+      "metrics": [
+        "109003/32000",
+        "3/1000",
+        "2319/160000",
+        "3/10",
+        "2319/16000"
+      ],
+      "nodes": 1950,
+      "learner_sequences": 1703,
+      "null_sequences": 11,
+      "solver_objective": 3.4238375000000003,
+      "equality_residual": 5.551115123125783e-17,
+      "inequality_violation": 0.0,
+      "solve_seconds": 0.04098849999718368,
+      "calendar": [
+        3,
+        6
+      ]
+    },
+    {
+      "raw_cost": "137157/40000",
+      "raw_risk": "1/10",
+      "activation": "1",
+      "calibrated_cost": "137157/40000",
+      "calibrated_risk_bound": "1/10",
+      "metrics": [
+        "27271/8000",
+        "3/500",
+        "281/20000",
+        "3/5",
+        "281/2000"
+      ],
+      "nodes": 2135,
+      "learner_sequences": 1967,
+      "null_sequences": 11,
+      "solver_objective": 3.428925,
+      "equality_residual": 0.0,
+      "inequality_violation": 0.0,
+      "solve_seconds": 0.04581010015681386,
+      "calendar": [
+        4,
+        5
+      ]
+    },
+    {
+      "raw_cost": "137237/40000",
+      "raw_risk": "1/10",
+      "activation": "1",
+      "calibrated_cost": "137237/40000",
+      "calibrated_risk_bound": "1/10",
+      "metrics": [
+        "54623/16000",
+        "3/1000",
+        "1119/80000",
+        "3/10",
+        "1119/8000"
+      ],
+      "nodes": 1931,
+      "learner_sequences": 1679,
+      "null_sequences": 11,
+      "solver_objective": 3.4309250000000002,
+      "equality_residual": 5.551115123125783e-17,
+      "inequality_violation": 0.0,
+      "solve_seconds": 0.040964100044220686,
+      "calendar": [
+        4,
+        6
+      ]
+    },
+    {
+      "raw_cost": "34451/10000",
+      "raw_risk": "1/10",
+      "activation": "1",
+      "calibrated_cost": "34451/10000",
+      "calibrated_risk_bound": "1/10",
+      "metrics": [
+        "27433/8000",
+        "3/1000",
+        "519/40000",
+        "3/10",
+        "519/4000"
+      ],
+      "nodes": 1896,
+      "learner_sequences": 1631,
+      "null_sequences": 11,
+      "solver_objective": 3.4451000000000005,
+      "equality_residual": 5.551115123125783e-17,
+      "inequality_violation": 0.0,
+      "solve_seconds": 0.03906560014002025,
+      "calendar": [
+        5,
+        6
+      ]
+    },
+    {
+      "raw_cost": "10788127/3200000",
+      "raw_risk": "1/10",
+      "activation": "1",
+      "calibrated_cost": "10788127/3200000",
+      "calibrated_risk_bound": "1/10",
+      "metrics": [
+        "2135267/640000",
+        "1481/100000",
+        "161/8000",
+        "1481/1000",
+        "161/800"
+      ],
+      "nodes": 7080,
+      "learner_sequences": 6653,
+      "null_sequences": 43,
+      "solver_objective": 3.3712896875,
+      "equality_residual": 0.0,
+      "inequality_violation": 0.0,
+      "solve_seconds": 0.19291399978101254,
+      "calendar": [
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "raw_cost": "1349103/400000",
+      "raw_risk": "1/10",
+      "activation": "1",
+      "calibrated_cost": "1349103/400000",
+      "calibrated_risk_bound": "1/10",
+      "metrics": [
+        "2676637/800000",
+        "1481/200000",
+        "3129/160000",
+        "1481/2000",
+        "3129/16000"
+      ],
+      "nodes": 6888,
+      "learner_sequences": 6437,
+      "null_sequences": 43,
+      "solver_objective": 3.3727575,
+      "equality_residual": 0.0,
+      "inequality_violation": 0.0,
+      "solve_seconds": 0.14721570000983775,
+      "calendar": [
+        1,
+        2,
+        4
+      ]
+    },
+    {
+      "raw_cost": "2158743/640000",
+      "raw_risk": "1/10",
+      "activation": "1",
+      "calibrated_cost": "2158743/640000",
+      "calibrated_risk_bound": "1/10",
+      "metrics": [
+        "10705009/3200000",
+        "1481/200000",
+        "6501/320000",
+        "1481/2000",
+        "6501/32000"
+      ],
+      "nodes": 6552,
+      "learner_sequences": 6005,
+      "null_sequences": 43,
+      "solver_objective": 3.3730359375,
+      "equality_residual": 0.0,
+      "inequality_violation": 0.0,
+      "solve_seconds": 0.13733389996923506,
+      "calendar": [
+        1,
+        2,
+        5
+      ]
+    },
+    {
+      "raw_cost": "5414151/1600000",
+      "raw_risk": "1/10",
+      "activation": "1",
+      "calibrated_cost": "5414151/1600000",
+      "calibrated_risk_bound": "1/10",
+      "metrics": [
+        "10738381/3200000",
+        "1481/200000",
+        "2649/128000",
+        "1481/2000",
+        "2649/12800"
+      ],
+      "nodes": 5928,
+      "learner_sequences": 5141,
+      "null_sequences": 43,
+      "solver_objective": 3.3838443750000002,
+      "equality_residual": 0.0,
+      "inequality_violation": 0.0,
+      "solve_seconds": 0.12039260007441044,
+      "calendar": [
+        1,
+        2,
+        6
+      ]
+    },
+    {
+      "raw_cost": "2172821/640000",
+      "raw_risk": "1/10",
+      "activation": "1",
+      "calibrated_cost": "2172821/640000",
+      "calibrated_risk_bound": "1/10",
+      "metrics": [
+        "431881/128000",
+        "1/250",
+        "1357/80000",
+        "2/5",
+        "1357/8000"
+      ],
+      "nodes": 6852,
+      "learner_sequences": 6401,
+      "null_sequences": 43,
+      "solver_objective": 3.3950328125000007,
+      "equality_residual": 5.551115123125783e-17,
+      "inequality_violation": 0.0,
+      "solve_seconds": 0.14527919981628656,
+      "calendar": [
+        1,
+        3,
+        4
+      ]
+    },
+    {
+      "raw_cost": "2170229/640000",
+      "raw_risk": "1/10",
+      "activation": "1",
+      "calibrated_cost": "2170229/640000",
+      "calibrated_risk_bound": "1/10",
+      "metrics": [
+        "431233/128000",
+        "1/250",
+        "719/40000",
+        "2/5",
+        "719/4000"
+      ],
+      "nodes": 6516,
+      "learner_sequences": 5969,
+      "null_sequences": 43,
+      "solver_objective": 3.3909828125,
+      "equality_residual": 5.551115123125783e-17,
+      "inequality_violation": 0.0,
+      "solve_seconds": 0.13418329996056855,
+      "calendar": [
+        1,
+        3,
+        5
+      ]
+    },
+    {
+      "raw_cost": "2173793/640000",
+      "raw_risk": "1/10",
+      "activation": "1",
+      "calibrated_cost": "2173793/640000",
+      "calibrated_risk_bound": "1/10",
+      "metrics": [
+        "431881/128000",
+        "1/250",
+        "2957/160000",
+        "2/5",
+        "2957/16000"
+      ],
+      "nodes": 5892,
+      "learner_sequences": 5105,
+      "null_sequences": 43,
+      "solver_objective": 3.3965515624999996,
+      "equality_residual": 5.551115123125783e-17,
+      "inequality_violation": 0.0,
+      "solve_seconds": 0.11686230008490384,
+      "calendar": [
+        1,
+        3,
+        6
+      ]
+    },
+    {
+      "raw_cost": "434629/128000",
+      "raw_risk": "1/10",
+      "activation": "1",
+      "calibrated_cost": "434629/128000",
+      "calibrated_risk_bound": "1/10",
+      "metrics": [
+        "431881/128000",
+        "1/250",
+        "559/32000",
+        "2/5",
+        "559/3200"
+      ],
+      "nodes": 6456,
+      "learner_sequences": 5897,
+      "null_sequences": 43,
+      "solver_objective": 3.3955390624999997,
+      "equality_residual": 5.551115123125783e-17,
+      "inequality_violation": 0.0,
+      "solve_seconds": 0.17878830013796687,
+      "calendar": [
+        1,
+        4,
+        5
+      ]
+    },
+    {
+      "raw_cost": "2173793/640000",
+      "raw_risk": "1/10",
+      "activation": "1",
+      "calibrated_cost": "2173793/640000",
+      "calibrated_risk_bound": "1/10",
+      "metrics": [
+        "431881/128000",
+        "1/250",
+        "2957/160000",
+        "2/5",
+        "2957/16000"
+      ],
+      "nodes": 5832,
+      "learner_sequences": 5033,
+      "null_sequences": 43,
+      "solver_objective": 3.3965515625,
+      "equality_residual": 5.551115123125783e-17,
+      "inequality_violation": 0.0,
+      "solve_seconds": 0.1140546000096947,
+      "calendar": [
+        1,
+        4,
+        6
+      ]
+    },
+    {
+      "raw_cost": "2178167/640000",
+      "raw_risk": "1/10",
+      "activation": "1",
+      "calibrated_cost": "2178167/640000",
+      "calibrated_risk_bound": "1/10",
+      "metrics": [
+        "432853/128000",
+        "1/250",
+        "5671/320000",
+        "2/5",
+        "5671/32000"
+      ],
+      "nodes": 5724,
+      "learner_sequences": 4889,
+      "null_sequences": 43,
+      "solver_objective": 3.4033859375000004,
+      "equality_residual": 5.551115123125783e-17,
+      "inequality_violation": 0.0,
+      "solve_seconds": 0.11158450017683208,
+      "calendar": [
+        1,
+        5,
+        6
+      ]
+    },
+    {
+      "raw_cost": "5411519/1600000",
+      "raw_risk": "1/10",
+      "activation": "1",
+      "calibrated_cost": "5411519/1600000",
+      "calibrated_risk_bound": "1/10",
+      "metrics": [
+        "5355623/1600000",
+        "1481/100000",
+        "161/8000",
+        "1481/1000",
+        "161/800"
+      ],
+      "nodes": 6845,
+      "learner_sequences": 6395,
+      "null_sequences": 43,
+      "solver_objective": 3.382199375,
+      "equality_residual": 0.0,
+      "inequality_violation": 0.0,
+      "solve_seconds": 0.14496730011887848,
+      "calendar": [
+        2,
+        3,
+        4
+      ]
+    },
+    {
+      "raw_cost": "541083/160000",
+      "raw_risk": "1/10",
+      "activation": "1",
+      "calibrated_cost": "541083/160000",
+      "calibrated_risk_bound": "1/10",
+      "metrics": [
+        "1341923/400000",
+        "1481/200000",
+        "3129/160000",
+        "1481/2000",
+        "3129/16000"
+      ],
+      "nodes": 6509,
+      "learner_sequences": 5963,
+      "null_sequences": 43,
+      "solver_objective": 3.3817687500000004,
+      "equality_residual": 0.0,
+      "inequality_violation": 0.0,
+      "solve_seconds": 0.13655420020222664,
+      "calendar": [
+        2,
+        3,
+        5
+      ]
+    },
+    {
+      "raw_cost": "84729/25000",
+      "raw_risk": "1/10",
+      "activation": "1",
+      "calibrated_cost": "84729/25000",
+      "calibrated_risk_bound": "1/10",
+      "metrics": [
+        "5378303/1600000",
+        "1481/200000",
+        "6501/320000",
+        "1481/2000",
+        "6501/32000"
+      ],
+      "nodes": 5885,
+      "learner_sequences": 5099,
+      "null_sequences": 43,
+      "solver_objective": 3.3891600000000004,
+      "equality_residual": 0.0,
+      "inequality_violation": 0.0,
+      "solve_seconds": 0.1205901000648737,
+      "calendar": [
+        2,
+        3,
+        6
+      ]
+    },
+    {
+      "raw_cost": "1088233/320000",
+      "raw_risk": "1/10",
+      "activation": "1",
+      "calibrated_cost": "1088233/320000",
+      "calibrated_risk_bound": "1/10",
+      "metrics": [
+        "43261/12800",
+        "1/250",
+        "1357/80000",
+        "2/5",
+        "1357/8000"
+      ],
+      "nodes": 6449,
+      "learner_sequences": 5891,
+      "null_sequences": 43,
+      "solver_objective": 3.4007281250000005,
+      "equality_residual": 5.551115123125783e-17,
+      "inequality_violation": 0.0,
+      "solve_seconds": 0.13090489991009235,
+      "calendar": [
+        2,
+        4,
+        5
+      ]
+    },
+    {
+      "raw_cost": "1088557/320000",
+      "raw_risk": "1/10",
+      "activation": "1",
+      "calibrated_cost": "1088557/320000",
+      "calibrated_risk_bound": "1/10",
+      "metrics": [
+        "43261/12800",
+        "1/250",
+        "719/40000",
+        "2/5",
+        "719/4000"
+      ],
+      "nodes": 5825,
+      "learner_sequences": 5027,
+      "null_sequences": 43,
+      "solver_objective": 3.4017406250000004,
+      "equality_residual": 5.551115123125783e-17,
+      "inequality_violation": 0.0,
+      "solve_seconds": 0.12007099995389581,
+      "calendar": [
+        2,
+        4,
+        6
+      ]
+    },
+    {
+      "raw_cost": "218003/64000",
+      "raw_risk": "1/10",
+      "activation": "1",
+      "calibrated_cost": "218003/64000",
+      "calibrated_risk_bound": "1/10",
+      "metrics": [
+        "216629/64000",
+        "1/250",
+        "559/32000",
+        "2/5",
+        "559/3200"
+      ],
+      "nodes": 5717,
+      "learner_sequences": 4883,
+      "null_sequences": 43,
+      "solver_objective": 3.4062968750000002,
+      "equality_residual": 5.551115123125783e-17,
+      "inequality_violation": 0.0,
+      "solve_seconds": 0.16126159997656941,
+      "calendar": [
+        2,
+        5,
+        6
+      ]
+    },
+    {
+      "raw_cost": "217551/64000",
+      "raw_risk": "1/10",
+      "activation": "1",
+      "calibrated_cost": "217551/64000",
+      "calibrated_risk_bound": "1/10",
+      "metrics": [
+        "5398067/1600000",
+        "1481/200000",
+        "1443/80000",
+        "1481/2000",
+        "1443/8000"
+      ],
+      "nodes": 6438,
+      "learner_sequences": 5879,
+      "null_sequences": 43,
+      "solver_objective": 3.3992343750000003,
+      "equality_residual": 0.0,
+      "inequality_violation": 0.0,
+      "solve_seconds": 0.13139270013198256,
+      "calendar": [
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "raw_cost": "2719833/800000",
+      "raw_risk": "1/10",
+      "activation": "1",
+      "calibrated_cost": "2719833/800000",
+      "calibrated_risk_bound": "1/10",
+      "metrics": [
+        "337283/100000",
+        "1481/200000",
+        "3129/160000",
+        "1481/2000",
+        "3129/16000"
+      ],
+      "nodes": 5814,
+      "learner_sequences": 5015,
+      "null_sequences": 43,
+      "solver_objective": 3.3997912500000003,
+      "equality_residual": 0.0,
+      "inequality_violation": 0.0,
+      "solve_seconds": 0.112029799958691,
+      "calendar": [
+        3,
+        4,
+        6
+      ]
+    },
+    {
+      "raw_cost": "545939/160000",
+      "raw_risk": "1/10",
+      "activation": "1",
+      "calibrated_cost": "545939/160000",
+      "calibrated_risk_bound": "1/10",
+      "metrics": [
+        "108517/32000",
+        "1/250",
+        "1357/80000",
+        "2/5",
+        "1357/8000"
+      ],
+      "nodes": 5706,
+      "learner_sequences": 4871,
+      "null_sequences": 43,
+      "solver_objective": 3.4121187500000003,
+      "equality_residual": 5.551115123125783e-17,
+      "inequality_violation": 0.0,
+      "solve_seconds": 0.10984629997983575,
+      "calendar": [
+        3,
+        5,
+        6
+      ]
+    },
+    {
+      "raw_cost": "2736843/800000",
+      "raw_risk": "1/10",
+      "activation": "1",
+      "calibrated_cost": "2736843/800000",
+      "calibrated_risk_bound": "1/10",
+      "metrics": [
+        "2716489/800000",
+        "1481/200000",
+        "1443/80000",
+        "1481/2000",
+        "1443/8000"
+      ],
+      "nodes": 5687,
+      "learner_sequences": 4847,
+      "null_sequences": 43,
+      "solver_objective": 3.42105375,
+      "equality_residual": 0.0,
+      "inequality_violation": 0.0,
+      "solve_seconds": 0.10924839996732771,
+      "calendar": [
+        4,
+        5,
+        6
+      ]
+    }
+  ],
+  "best_calendar": [
+    1,
+    2,
+    3
+  ],
+  "best_calendar_cost": "10788127/3200000",
+  "status": "completed"
+}

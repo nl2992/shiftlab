@@ -1,0 +1,193 @@
+"""Generate a rational full-decomposed lower bound and capped-policy upper."""
+
+from __future__ import annotations
+
+import hashlib
+import json
+from fractions import Fraction as F
+from pathlib import Path
+
+import numpy as np
+from cut_certificate_helpers import exact_costs, exact_payoff, game_for
+from scipy.optimize import linprog
+from scipy.sparse import coo_matrix, csr_matrix, hstack, vstack
+
+ROOT = Path(__file__).resolve().parents[2]
+OUT = ROOT / "docs/risk_preserving_approx"
+PROTOCOL = OUT / "FULL_T8_DECOMPOSED_CERT_PROTOCOL_V1.md"
+TARGET = OUT / "full_t8_decomposed_certificate_v1.json"
+FAILURE = OUT / "full_t8_decomposed_certificate_attempt_v1.json"
+
+
+def matrix_for(game):
+    emat, erhs = game.learner.matrix()
+    fmat, frhs = game.opponent.matrix()
+    payoff = exact_payoff(game)
+    keys = list(payoff)
+    a = coo_matrix(
+        ([float(payoff[k]) for k in keys], ([k[0] for k in keys], [k[1] for k in keys])),
+        shape=(game.learner.count, game.opponent.count),
+    ).tocsr()
+    inequality = vstack(
+        [
+            hstack([a.T, -fmat.T]),
+            hstack([csr_matrix((1, game.learner.count)), csr_matrix(frhs.reshape(1, -1))]),
+        ]
+    ).tocsr()
+    equality = hstack([emat, csr_matrix((len(erhs), len(frhs)))]).tocsr()
+    return inequality, equality, erhs, frhs
+
+
+def exact_residual(game, exact, inequality, equality, dual_ub, dual_eq, erhs):
+    if any(value > 0 for value in dual_ub):
+        raise ValueError("inequality dual sign invalid")
+    n_x = game.learner.count
+    a, e = inequality.tocsc(), equality.tocsc()
+    correction = F(0)
+    for col in range(inequality.shape[1]):
+        lhs = sum(
+            (
+                F(float(a.data[i])) * dual_ub[a.indices[i]]
+                for i in range(a.indptr[col], a.indptr[col + 1])
+            ),
+            F(0),
+        )
+        lhs += sum(
+            (
+                F(float(e.data[i])) * dual_eq[e.indices[i]]
+                for i in range(e.indptr[col], e.indptr[col + 1])
+            ),
+            F(0),
+        )
+        if col < n_x:
+            correction += max(F(0), lhs - exact[col])
+        elif lhs:
+            raise ValueError(f"free-column equality residual at column {col}: {lhs}")
+    dual = game.config.alpha * dual_ub[-1] + sum(
+        (F(int(value)) * multiplier for value, multiplier in zip(erhs, dual_eq, strict=True)), F(0)
+    )
+    return dual - correction, dual, correction
+
+
+def opponent_flow(game, raw):
+    flow = [None] * game.opponent.count
+    flow[0] = F(1)
+    for parent, children, _ in game.opponent.infos.values():
+        if flow[parent] is None:
+            raise ValueError("opponent parent is not initialized")
+        masses = [F(float(max(0.0, -raw[child]))).limit_denominator(10**7) for child in children]
+        if not sum(masses):
+            masses[0] = F(1)
+        total = sum(masses)
+        for child, mass in zip(children, masses, strict=True):
+            flow[child] = flow[parent] * mass / total
+    if any(value is None for value in flow):
+        raise ValueError("incomplete opponent flow")
+    return flow
+
+
+def main():
+    if TARGET.exists() or FAILURE.exists():
+        raise FileExistsError("Refusing to overwrite a T=8 certificate or attempt record")
+    try:
+        full = game_for(8)
+        exact = exact_costs(full)
+        inequality, equality, erhs, frhs = matrix_for(full)
+        objective = np.r_[np.array([float(value) for value in exact]), np.zeros(len(frhs))]
+        rhs = np.r_[np.zeros(full.opponent.count), float(full.config.alpha)]
+        result = linprog(
+            objective,
+            A_ub=inequality,
+            b_ub=rhs,
+            A_eq=equality,
+            b_eq=erhs,
+            bounds=[(0, None)] * full.learner.count + [(None, None)] * len(frhs),
+            method="highs",
+            options={
+                "time_limit": 60.0,
+                "primal_feasibility_tolerance": 1e-9,
+                "dual_feasibility_tolerance": 1e-9,
+            },
+        )
+        if not result.success:
+            raise RuntimeError(f"registered LP did not finish: {result.message}")
+        raw = list(result.ineqlin.marginals)
+        alpha_dual = F(float(raw[-1])).limit_denominator(10**7)
+        if alpha_dual > 0:
+            raise ValueError("risk dual multiplier has wrong sign")
+        dual_ub = [alpha_dual * value for value in opponent_flow(full, raw[:-1])] + [alpha_dual]
+        dual_eq = [F(float(value)).limit_denominator(10**7) for value in result.eqlin.marginals]
+        lower, dual_value, correction = exact_residual(
+            full, exact, inequality, equality, dual_ub, dual_eq, erhs
+        )
+
+        full_policy, full_records = full.recover(result.x[: full.learner.count])
+        full_metrics = full.expected_metrics(full_policy)
+        full_risk = full.null_risk(full_policy)
+        full_activation = min(F(1), full.config.alpha / full_risk) if full_risk else F(1)
+        noquery = lambda history, outcomes: tuple(
+            F(choice == (0, 0)) for choice in full.choices(history)
+        )
+        safe_cost = sum(full.expected_metrics(noquery)[:3])
+        full_upper = full_activation * sum(full_metrics[:3]) + (1 - full_activation) * safe_cost
+
+        cap = PrePromotionCapGame(full.config, full.model, pre_cap=2)
+        cap_report, cap_policy, cap_records = cap.solve()
+        cap_metrics = cap.expected_metrics(cap_policy)
+        cap_risk = cap.null_risk(cap_policy)
+        cap_cost = sum(cap_metrics[:3])
+        if cap_risk > cap.config.alpha:
+            raise ValueError(f"cap policy is not risk-safe: {cap_risk}")
+        upper = min(full_upper, cap_cost)
+        if lower > upper:
+            raise ValueError(f"invalid lower/upper bracket: {lower} > {upper}")
+        cert = {
+            "horizon": 8,
+            "dual_ub": [str(value) for value in dual_ub],
+            "dual_eq": [str(value) for value in dual_eq],
+            "lower": str(lower),
+            "dual_value": str(dual_value),
+            "correction": str(correction),
+            "full_upper": str(full_upper),
+            "full_raw_cost": str(sum(full_metrics[:3])),
+            "full_raw_risk": str(full_risk),
+            "full_activation": str(full_activation),
+            "full_behavior": full_records,
+            "cap_cost": str(cap_cost),
+            "cap_risk": str(cap_risk),
+            "cap_behavior": cap_records,
+            "upper": str(upper),
+            "gap": str(upper - lower),
+        }
+        encoded = json.dumps(cert, sort_keys=True, separators=(",", ":")).encode()
+        payload = {
+            "certificate": cert,
+            "certificate_sha256": hashlib.sha256(encoded).hexdigest(),
+            "numeric_objective": float(result.fun),
+            "source_sha256": hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
+            "protocol_sha256": hashlib.sha256(PROTOCOL.read_bytes()).hexdigest(),
+        }
+        TARGET.write_text(json.dumps(payload, indent=2) + "\n", encoding="utf-8")
+        print(
+            json.dumps(
+                {
+                    "lower": str(lower),
+                    "upper": str(upper),
+                    "gap": str(upper - lower),
+                    "cap_cost": str(cap_cost),
+                }
+            )
+        )
+    except Exception as exc:
+        FAILURE.write_text(
+            json.dumps({"status": "failed", "error": f"{type(exc).__name__}: {exc}"}, indent=2)
+            + "\n",
+            encoding="utf-8",
+        )
+        raise
+
+
+if __name__ == "__main__":
+    from shiftlab.dive.prepromotion_cap import PrePromotionCapGame
+
+    main()

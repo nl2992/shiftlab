@@ -5,7 +5,7 @@ finite-horizon switching oracle, with an economic value bound and a worst-case
 causal-null promotion-risk guarantee. The governing scope is `RESEARCH_BRIEF.md`.
 **Current state (2026-10-29):** reference anchors and exact-risk checks are
 reproduced. Several candidate mechanisms have been falsified as main methods or
-remain unresolved: query caps lose to the stronger calendar baseline; simple
+remain unresolved: query caps lose to the stronger calendar baseline economically (one T=8 recovered-policy tie also shows a small compute reduction); simple
 belief grids lack tractable state counts and a closed transfer proof; generic
 null-cut and dominance pruning do not reduce the pre-promotion tree; policy-column
 generation still lacks a compact pricing oracle. No candidate has yet established

@@ -1657,3 +1657,22 @@ the finite benchmark. Source limitation: RAO* full text/proof not inspected in t
   remains valuable. Any continuation-value claim must use post-change evidence or state a defensible
   persistence/predictive-signal assumption. G1 remains open; G2–G5 remain held, with no efficacy
   grid or real-data confirmation authorized by this checkpoint.
+
+### G1 screen 2026-10-29: IID delayed terminal testing is insufficient
+
+- `switching_iid_delayed_terminal_test_screen_v1.md` analyzes a growing family with a pathwise
+  budget, one-step label release, and the original history-adaptive causal null. For monotone tests,
+  common-uniform coupling reduces worst-null risk exactly to IID `Bernoulli(1/2)`. The known IID
+  alternative then gives a Neyman–Pearson randomized upper-tail test on the positive-label count.
+  Every robust-feasible test is feasible under the boundary null, and the most-powerful upper-tail
+  test is itself causally safe, so it is optimal for the full robust terminal-test class. A count,
+  one-label queue and public clock give a polynomial-size exact controller; there is no memory lower
+  bound or oracle gap for this family.
+- Decision: reject this as the target method. Fixed-schedule terminal testing is classical and
+  adaptive finite-horizon testing with a maximum sample count is already audited. This kills the
+  simplest growing-family route, but does not resolve the full objective.
+- Next G1 screen must retain the interaction removed here: repeated/reversible deployment before
+  all delayed outcomes clear, recurring economic regimes, and the separate global causal-null
+  promotion event. Compare any compact state against the full-history two-law oracle on that family.
+  G1 remains open; do not launch an efficacy grid. Current-regime benefit after reversal still
+  requires post-change evidence or a declared persistence/predictive-signal model.

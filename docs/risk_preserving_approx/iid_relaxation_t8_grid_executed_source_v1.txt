@@ -1,0 +1,259 @@
+"""Apply and profile the IID relaxation on the unrun T=8 baseline cells."""
+
+from __future__ import annotations
+
+import hashlib
+import json
+import sys
+import time
+from fractions import Fraction as F
+from pathlib import Path
+
+import numpy as np
+from scipy.optimize import linprog
+from scipy.sparse import csr_matrix
+
+ROOT = Path(__file__).resolve().parents[2]
+sys.path.insert(0, str(ROOT / "src"))
+sys.path.insert(0, str(ROOT / "scripts/research_risk_approx"))
+
+PROTOCOL = ROOT / "docs/risk_preserving_approx/IID_RELAXATION_T8_GRID_PROTOCOL_V1.md"
+GRID = ROOT / "docs/risk_preserving_approx/t8_b4_calendar_v1.json"
+OUTPUT = ROOT / "docs/risk_preserving_approx/iid_relaxation_t8_grid_v1.json"
+PREVIOUS_CELL = ("1/10", ("1/50", "49/50"))
+
+
+def sha(path: Path) -> str:
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def run_cell(row: dict, baseline: dict) -> dict:
+    from cut_certificate_helpers import exact_costs
+    from iid_relaxation_certified_pipeline import (
+        exact_dual_lower_bound,
+        exact_risk,
+        iid_risk_coefficients,
+        learner_only_game,
+    )
+    from shiftlab.dive.causal_switching_game import GameConfig
+    from shiftlab.dive.delayed_regime_information import RegimeModel
+    from shiftlab.dive.eprocess_gated_planner import mix_with_never_promote
+
+    transition = F(row["transition"])
+    emission0, emission1 = map(F, row["emissions"])
+    config = GameConfig(
+        horizon=8,
+        budget=4,
+        delay=2,
+        alpha=F(1, 10),
+        query_cost=F(1, 100),
+        switch_cost=F(1, 10),
+        max_nodes=200_000,
+    )
+    model = RegimeModel(
+        transition01=transition,
+        transition10=transition,
+        emission0=emission0,
+        emission1=emission1,
+        prior1=F(1, 2),
+    )
+    phase = {}
+    total_started = time.perf_counter()
+
+    started = time.perf_counter()
+    game = learner_only_game(config, model)
+    phase["learner_tree_build_seconds"] = time.perf_counter() - started
+
+    started = time.perf_counter()
+    costs = exact_costs(game)
+    phase["alternative_objective_seconds"] = time.perf_counter() - started
+
+    started = time.perf_counter()
+    risks = iid_risk_coefficients(game)
+    phase["iid_coefficient_seconds"] = time.perf_counter() - started
+
+    flow, flow_rhs = game.learner.matrix()
+    started = time.perf_counter()
+    lp = linprog(
+        np.asarray([float(value) for value in costs]),
+        A_ub=csr_matrix(np.asarray([[float(value) for value in risks]])),
+        b_ub=np.asarray([float(config.alpha)]),
+        A_eq=flow,
+        b_eq=flow_rhs,
+        bounds=[(0, None)] * game.learner.count,
+        method="highs",
+        options={
+            "time_limit": 60.0,
+            "primal_feasibility_tolerance": 1e-9,
+            "dual_feasibility_tolerance": 1e-9,
+        },
+    )
+    phase["lp_seconds"] = time.perf_counter() - started
+    if not lp.success:
+        return {
+            "status": "failed",
+            "error": lp.message,
+            "config": row,
+            "learner_variables": game.learner.count,
+            "flow_equalities": int(flow.shape[0]),
+            "builder_nodes": game.nodes,
+            "phase_seconds": phase,
+            "total_seconds": time.perf_counter() - total_started,
+            "baselines": baseline,
+        }
+
+    started = time.perf_counter()
+    dual_risk = F(float(lp.ineqlin.marginals[0])).limit_denominator(10**9)
+    dual_flow = [F(float(value)).limit_denominator(10**9) for value in lp.eqlin.marginals]
+    lower, dual_value, correction = exact_dual_lower_bound(
+        game, costs, risks, flow, flow_rhs, dual_risk, dual_flow
+    )
+    phase["dual_certificate_seconds"] = time.perf_counter() - started
+
+    started = time.perf_counter()
+    raw_policy, _records = game.recover(lp.x)
+    raw_metrics = game.expected_metrics(raw_policy)
+    raw_iid_risk, iid_states = exact_risk(game, raw_policy, iid=True)
+    raw_robust_risk, robust_states = exact_risk(game, raw_policy, iid=False)
+    framework_raw_risk = game.null_risk(raw_policy)
+    if raw_iid_risk > config.alpha or raw_robust_risk != framework_raw_risk:
+        raise AssertionError("candidate failed independent raw-policy risk checks")
+    activation = min(F(1), config.alpha / raw_robust_risk) if raw_robust_risk else F(1)
+
+    def safe_policy(history, outcomes):
+        return tuple(F(choice == (0, 0)) for choice in game.choices(history))
+
+    safe_cost = sum(game.expected_metrics(safe_policy)[:3])
+    repaired = mix_with_never_promote(game, raw_policy, activation)
+    metrics = game.expected_metrics(repaired)
+    cost = sum(metrics[:3])
+    risk, verifier_states = exact_risk(game, repaired, iid=False)
+    framework_risk = game.null_risk(repaired)
+    if risk != framework_risk or risk > config.alpha or lower > cost:
+        raise AssertionError("candidate failed exact repaired-policy certificate")
+    phase["policy_recovery_and_exact_verification_seconds"] = time.perf_counter() - started
+
+    ref = baseline["reference"]
+    return {
+        "status": "completed",
+        "config": {
+            "transition": str(transition),
+            "emissions": [str(emission0), str(emission1)],
+            "horizon": config.horizon,
+            "budget": config.budget,
+            "delay": config.delay,
+            "alpha": str(config.alpha),
+        },
+        "candidate": {
+            "numeric_lp_objective": float(lp.fun),
+            "learner_variables": game.learner.count,
+            "flow_equalities": int(flow.shape[0]),
+            "risk_rows": 1,
+            "opponent_variables": 0,
+            "builder_nodes": game.nodes,
+            "raw_cost": str(sum(raw_metrics[:3])),
+            "raw_iid_risk": str(raw_iid_risk),
+            "raw_robust_risk": str(raw_robust_risk),
+            "repair_activation": str(activation),
+            "safe_policy_cost": str(safe_cost),
+            "feasible_cost": str(cost),
+            "feasible_risk": str(risk),
+            "lower_bound": str(lower),
+            "dual_risk_multiplier": str(dual_risk),
+            "dual_flow_multipliers": [str(value) for value in dual_flow],
+            "dual_value_before_correction": str(dual_value),
+            "reduced_cost_correction": str(correction),
+            "certified_gap": str(cost - lower),
+            "iid_verifier_states": iid_states,
+            "robust_verifier_states": robust_states,
+            "repaired_verifier_states": verifier_states,
+            "expected_metrics": [str(value) for value in metrics],
+        },
+        "baselines": baseline,
+        "comparisons": {
+            "candidate_minus_reference": str(cost - F(ref["calibrated_cost"])),
+            "candidate_minus_best_calendar": str(cost - F(row["best_calendar_cost"])),
+            "candidate_minus_portfolio": (
+                str(cost - F(baseline["calendar_portfolio_cost"]))
+                if baseline.get("calendar_portfolio_cost") is not None
+                else None
+            ),
+            "candidate_minus_cap_m3": str(cost - F(row["methods"]["cap_m3"]["calibrated_cost"])),
+            "candidate_minus_best_gate": min(
+                F(cost) - F(row["methods"][key]["calibrated_cost"])
+                for key in row["methods"]
+                if key.startswith("gate_") and row["methods"][key]["status"] == "completed"
+            ).__str__(),
+        },
+        "phase_seconds": phase,
+        "total_seconds": time.perf_counter() - total_started,
+    }
+
+
+def main() -> None:
+    if OUTPUT.exists():
+        raise FileExistsError(f"Refusing to overwrite {OUTPUT}")
+    payload = {
+        "status": "running",
+        "protocol_sha256": sha(PROTOCOL),
+        "runner_sha256": sha(Path(__file__)),
+        "input_sha256": sha(GRID),
+        "source_hashes": {
+            "scripts/research_risk_approx/iid_relaxation_certified_pipeline.py": sha(
+                ROOT / "scripts/research_risk_approx/iid_relaxation_certified_pipeline.py"
+            ),
+            "scripts/research_risk_approx/cut_certificate_helpers.py": sha(
+                ROOT / "scripts/research_risk_approx/cut_certificate_helpers.py"
+            ),
+            "src/shiftlab/dive/first_promotion_decomposition.py": sha(
+                ROOT / "src/shiftlab/dive/first_promotion_decomposition.py"
+            ),
+        },
+        "cells": [],
+        "scope": "five unrun fixed synthetic cells; no seeds or real-data rows",
+    }
+    OUTPUT.write_text(json.dumps(payload, indent=2) + "\n", encoding="utf-8")
+    grid = json.loads(GRID.read_text(encoding="utf-8"))
+    for row in grid["cells"]:
+        if (row["transition"], tuple(row["emissions"])) == PREVIOUS_CELL:
+            continue
+        methods = row["methods"]
+        portfolio_cost = None
+        baseline = {
+            "best_calendar_cost": row["best_calendar_cost"],
+            "best_calendar": row["best_calendar"],
+            "reference": methods["reference"],
+            "cap_m3": methods["cap_m3"],
+            "gates": {key: value for key, value in methods.items() if key.startswith("gate_")},
+            "calendar_portfolio_cost": portfolio_cost,
+        }
+        result = run_cell(row, baseline)
+        payload["cells"].append(result)
+        OUTPUT.write_text(json.dumps(payload, indent=2) + "\n", encoding="utf-8")
+        print(
+            json.dumps(
+                {
+                    "transition": row["transition"],
+                    "emissions": row["emissions"],
+                    "status": result["status"],
+                    "candidate_cost": result.get("candidate", {}).get("feasible_cost"),
+                    "risk": result.get("candidate", {}).get("feasible_risk"),
+                    "gap": result.get("candidate", {}).get("certified_gap"),
+                    "minus_calendar": result.get("comparisons", {}).get(
+                        "candidate_minus_best_calendar"
+                    ),
+                    "seconds": result.get("total_seconds"),
+                }
+            ),
+            flush=True,
+        )
+    payload["status"] = (
+        "completed"
+        if all(cell["status"] == "completed" for cell in payload["cells"])
+        else "partial"
+    )
+    OUTPUT.write_text(json.dumps(payload, indent=2) + "\n", encoding="utf-8")
+
+
+if __name__ == "__main__":
+    main()

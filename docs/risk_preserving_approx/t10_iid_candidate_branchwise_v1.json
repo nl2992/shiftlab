@@ -1,0 +1,59 @@
+{
+  "status": "FAILED",
+  "protocol_sha256": "c8fea044dfd7fa772847a86889ed53200a2916ecdb904d9fc2b86688b139d74d",
+  "input_sha256": "d50e5af537a09ad7e1fe6dfe8ce9a4183e9fedeb181ec15f7cbbd79fb26c1cb2",
+  "runner_sha256": "6c6989c8c13abc3f68993375d340635521790408963cd650b9c330c2a3bf97d8",
+  "candidate_runner_sha256": "0625795c1d40165ea944decc84f1cc65a61b306ba275c70fe7cade0918d99edf",
+  "randomized_information_state": {
+    "history": [
+      [
+        0,
+        1
+      ],
+      [
+        0,
+        1
+      ],
+      [
+        0,
+        1
+      ]
+    ],
+    "released": [
+      [
+        1,
+        1
+      ],
+      [
+        2,
+        1
+      ]
+    ],
+    "choices": [
+      [
+        0,
+        0
+      ],
+      [
+        0,
+        1
+      ],
+      [
+        1,
+        0
+      ],
+      [
+        1,
+        1
+      ]
+    ],
+    "probabilities": [
+      "3/5",
+      "2/5",
+      "0",
+      "0"
+    ]
+  },
+  "branches": [],
+  "error": "Initial verifier omitted the post-promotion continuation policy and raised a missing-history KeyError during alternative cost evaluation; corrected output is t10_iid_candidate_branchwise_v2.json."
+}

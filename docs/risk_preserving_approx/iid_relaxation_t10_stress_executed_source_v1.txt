@@ -1,0 +1,324 @@
+"""Stress the certified IID-null relaxation against T=10 robust baselines."""
+
+from __future__ import annotations
+
+import gc
+import hashlib
+import json
+import sys
+import time
+from fractions import Fraction as F
+from itertools import combinations
+from pathlib import Path
+
+import numpy as np
+from scipy.optimize import linprog
+from scipy.sparse import csr_matrix
+
+ROOT = Path(__file__).resolve().parents[2]
+sys.path.insert(0, str(ROOT / "src"))
+sys.path.insert(0, str(ROOT / "scripts"))
+sys.path.insert(0, str(ROOT / "scripts/research_risk_approx"))
+
+PROTOCOL = ROOT / "docs/risk_preserving_approx/IID_RELAXATION_T10_STRESS_PROTOCOL_V1.md"
+OUTPUT = ROOT / "docs/risk_preserving_approx/iid_relaxation_t10_stress_v1.json"
+
+
+def sha(path: Path) -> str:
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def write(payload: dict) -> None:
+    OUTPUT.write_text(json.dumps(payload, indent=2) + "\n", encoding="utf-8")
+
+
+def main() -> None:
+    from cut_certificate_helpers import exact_costs
+    from decompose_switching_calendar_gap import CalendarOpportunityGame
+    from iid_relaxation_certified_pipeline import (
+        exact_dual_lower_bound,
+        exact_risk,
+        iid_risk_coefficients,
+        learner_only_game,
+    )
+    from shiftlab.dive.causal_switching_game import GameConfig
+    from shiftlab.dive.delayed_regime_information import RegimeModel
+    from shiftlab.dive.eprocess_gated_planner import mix_with_never_promote
+    from shiftlab.dive.first_promotion_decomposition import FirstPromotionDecomposedGame
+
+    if OUTPUT.exists():
+        raise FileExistsError(f"Refusing to overwrite {OUTPUT}")
+    import psutil
+
+    process = psutil.Process()
+    started = time.perf_counter()
+    config = GameConfig(
+        horizon=10,
+        budget=4,
+        delay=2,
+        alpha=F(1, 10),
+        query_cost=F(1, 100),
+        switch_cost=F(1, 10),
+        max_nodes=200_000,
+    )
+    model = RegimeModel(
+        transition01=F(1, 10),
+        transition10=F(1, 10),
+        emission0=F(1, 50),
+        emission1=F(49, 50),
+        prior1=F(1, 2),
+    )
+    payload = {
+        "status": "running",
+        "protocol_sha256": sha(PROTOCOL),
+        "runner_sha256": sha(Path(__file__)),
+        "source_hashes": {
+            path: sha(ROOT / path)
+            for path in (
+                "scripts/research_risk_approx/iid_relaxation_certified_pipeline.py",
+                "scripts/research_risk_approx/cut_certificate_helpers.py",
+                "scripts/decompose_switching_calendar_gap.py",
+                "src/shiftlab/dive/causal_switching_game.py",
+                "src/shiftlab/dive/first_promotion_decomposition.py",
+                "src/shiftlab/dive/eprocess_gated_planner.py",
+            )
+        },
+        "config": {
+            "horizon": config.horizon,
+            "budget": config.budget,
+            "delay": config.delay,
+            "alpha": str(config.alpha),
+            "query_cost": str(config.query_cost),
+            "switch_cost": str(config.switch_cost),
+            "transition": str(model.transition01),
+            "emissions": [str(model.emission0), str(model.emission1)],
+            "prior": str(model.prior1),
+            "max_nodes": config.max_nodes,
+            "seeds": [],
+            "data_access": "synthetic model only; no real rows or holdouts",
+        },
+        "candidate": {},
+        "reference": {},
+        "calendar_search": {"status": "running", "rows": []},
+    }
+    write(payload)
+
+    # IID-null lower-bound master, with no opponent tree.
+    candidate_started = time.perf_counter()
+    rss_before = process.memory_info().rss
+    game = learner_only_game(config, model)
+    costs = exact_costs(game)
+    risks = iid_risk_coefficients(game)
+    flow, flow_rhs = game.learner.matrix()
+    lp = linprog(
+        np.asarray([float(value) for value in costs]),
+        A_ub=csr_matrix(np.asarray([[float(value) for value in risks]])),
+        b_ub=np.asarray([float(config.alpha)]),
+        A_eq=flow,
+        b_eq=flow_rhs,
+        bounds=[(0, None)] * game.learner.count,
+        method="highs",
+        options={
+            "time_limit": 60.0,
+            "primal_feasibility_tolerance": 1e-9,
+            "dual_feasibility_tolerance": 1e-9,
+        },
+    )
+    if not lp.success:
+        payload["status"] = "candidate_lp_failed"
+        payload["candidate"] = {"status": lp.message, "builder_nodes": game.nodes}
+        write(payload)
+        return
+    dual_risk = F(float(lp.ineqlin.marginals[0])).limit_denominator(10**9)
+    dual_flow = [F(float(value)).limit_denominator(10**9) for value in lp.eqlin.marginals]
+    lower, dual_value, correction = exact_dual_lower_bound(
+        game, costs, risks, flow, flow_rhs, dual_risk, dual_flow
+    )
+    raw_policy, records = game.recover(lp.x)
+    raw_metrics = game.expected_metrics(raw_policy)
+    raw_cost = sum(raw_metrics[:3])
+    raw_iid_risk, iid_states = exact_risk(game, raw_policy, iid=True)
+    raw_robust_risk, robust_states = exact_risk(game, raw_policy, iid=False)
+    framework_risk = game.null_risk(raw_policy)
+    if raw_robust_risk != framework_risk:
+        raise AssertionError("independent and framework causal-null risks disagree")
+    if raw_iid_risk > config.alpha:
+        raise AssertionError("IID master policy violates its exact risk constraint")
+    activation = min(F(1), config.alpha / raw_robust_risk) if raw_robust_risk else F(1)
+
+    def safe_policy(history, outcomes):
+        return tuple(F(choice == (0, 0)) for choice in game.choices(history))
+
+    safe_cost = sum(game.expected_metrics(safe_policy)[:3])
+    repaired = mix_with_never_promote(game, raw_policy, activation)
+    repaired_metrics = game.expected_metrics(repaired)
+    repaired_cost = sum(repaired_metrics[:3])
+    repaired_risk, repaired_states = exact_risk(game, repaired, iid=False)
+    if repaired_risk != game.null_risk(repaired) or repaired_risk > config.alpha:
+        raise AssertionError("repaired policy fails exact full-null verification")
+    if lower > repaired_cost:
+        raise AssertionError("exact dual lower bound exceeds feasible repaired cost")
+    payload["candidate"] = {
+        "status": "completed",
+        "numeric_lp_objective": float(lp.fun),
+        "learner_variables": game.learner.count,
+        "flow_equalities": int(flow.shape[0]),
+        "risk_rows": 1,
+        "opponent_variables": 0,
+        "builder_nodes": game.nodes,
+        "exact_dual_risk_multiplier": str(dual_risk),
+        "exact_dual_value": str(dual_value),
+        "exact_reduced_cost_correction": str(correction),
+        "lower_bound": str(lower),
+        "raw_cost": str(raw_cost),
+        "raw_iid_risk": str(raw_iid_risk),
+        "raw_robust_risk": str(raw_robust_risk),
+        "framework_raw_robust_risk": str(framework_risk),
+        "repair_activation": str(activation),
+        "safe_policy_cost": str(safe_cost),
+        "feasible_cost": str(repaired_cost),
+        "feasible_risk": str(repaired_risk),
+        "certified_gap": str(repaired_cost - lower),
+        "expected_metrics": [str(value) for value in repaired_metrics],
+        "iid_verifier_states": iid_states,
+        "robust_verifier_states": robust_states,
+        "repair_verifier_states": repaired_states,
+        "policy_records": records,
+        "candidate_elapsed_seconds": time.perf_counter() - candidate_started,
+        "candidate_rss_delta_bytes": process.memory_info().rss - rss_before,
+    }
+    write(payload)
+
+    # Attempt the matched exact decomposed robust reference under the registered cap.
+    reference_started = time.perf_counter()
+    rss_before = process.memory_info().rss
+    reference = FirstPromotionDecomposedGame(config, model)
+    try:
+        report, ref_policy, ref_records = reference.solve()
+        ref_metrics = reference.expected_metrics(ref_policy)
+        ref_risk = reference.null_risk(ref_policy)
+        payload["reference"] = {
+            "status": "completed",
+            "cost": str(sum(ref_metrics[:3])),
+            "risk": str(ref_risk),
+            "solver_objective": report["solver_objective"],
+            "builder_nodes": reference.nodes,
+            "learner_variables": reference.learner.count,
+            "opponent_variables": reference.opponent.count - 1,
+            "policy_records": len(ref_records),
+            "elapsed_seconds": time.perf_counter() - reference_started,
+            "rss_delta_bytes": process.memory_info().rss - rss_before,
+        }
+    except Exception as exc:  # noqa: BLE001 - Preserve cap and solver failures.
+        payload["reference"] = {
+            "status": "failed",
+            "error": f"{type(exc).__name__}: {exc}",
+            "builder_nodes": reference.nodes,
+            "learner_variables": reference.learner.count,
+            "opponent_variables": reference.opponent.count,
+            "elapsed_seconds": time.perf_counter() - reference_started,
+            "rss_delta_bytes": process.memory_info().rss - rss_before,
+        }
+    write(payload)
+
+    # Exhaustive robust fixed-calendar search over all useful schedules.
+    calendar_started = time.perf_counter()
+    eligible = tuple(range(1, config.horizon - config.delay + 1))
+    schedules = [
+        schedule for size in range(config.budget + 1) for schedule in combinations(eligible, size)
+    ]
+    rows = []
+    for index, schedule in enumerate(schedules, start=1):
+        started = time.perf_counter()
+        rss_before = process.memory_info().rss
+        calendar = CalendarOpportunityGame(config, model, schedule)
+        try:
+            report, policy, _records = calendar.solve()
+            metrics = calendar.expected_metrics(policy)
+            risk = calendar.null_risk(policy)
+            calibrated_cost = F(report["calibrated_total_cost"])
+            if risk > config.alpha:
+                raise AssertionError("saved calendar policy exceeds alpha")
+            rows.append(
+                {
+                    "schedule": list(schedule),
+                    "status": "completed",
+                    "raw_cost": str(sum(metrics[:3])),
+                    "risk": str(risk),
+                    "calibrated_cost": str(calibrated_cost),
+                    "nodes": calendar.nodes,
+                    "learner_variables": calendar.learner.count,
+                    "opponent_variables": calendar.opponent.count - 1,
+                    "elapsed_seconds": time.perf_counter() - started,
+                    "rss_delta_bytes": process.memory_info().rss - rss_before,
+                }
+            )
+        except Exception as exc:  # noqa: BLE001 - Keep every schedule attempt.
+            rows.append(
+                {
+                    "schedule": list(schedule),
+                    "status": "failed",
+                    "error": f"{type(exc).__name__}: {exc}",
+                    "nodes": calendar.nodes,
+                    "elapsed_seconds": time.perf_counter() - started,
+                }
+            )
+        payload["calendar_search"] = {
+            "status": "running",
+            "eligible_slots": list(eligible),
+            "registered_schedule_count": len(schedules),
+            "completed_attempts": index,
+            "rows": rows,
+            "elapsed_seconds": time.perf_counter() - calendar_started,
+        }
+        write(payload)
+        del calendar
+        gc.collect()
+
+    valid = [row for row in rows if row["status"] == "completed"]
+    best = min(valid, key=lambda row: F(row["calibrated_cost"])) if valid else None
+    payload["calendar_search"].update(
+        {
+            "status": "completed" if len(valid) == len(schedules) else "partial",
+            "best_calendar": best,
+            "elapsed_seconds": time.perf_counter() - calendar_started,
+        }
+    )
+    payload["comparisons"] = {
+        "candidate_minus_best_calendar": (
+            str(F(payload["candidate"]["feasible_cost"]) - F(best["calibrated_cost"]))
+            if best
+            else None
+        ),
+        "candidate_minus_reference": (
+            str(F(payload["candidate"]["feasible_cost"]) - F(payload["reference"]["cost"]))
+            if payload["reference"].get("status") == "completed"
+            else None
+        ),
+        "all_calendars_completed": len(valid) == len(schedules),
+    }
+    payload["resources"] = {"total_elapsed_seconds": time.perf_counter() - started}
+    payload["status"] = "completed"
+    write(payload)
+    print(
+        json.dumps(
+            {
+                "candidate_cost": payload["candidate"]["feasible_cost"],
+                "risk": payload["candidate"]["feasible_risk"],
+                "lower_bound": payload["candidate"]["lower_bound"],
+                "gap": payload["candidate"]["certified_gap"],
+                "reference": payload["reference"].get("status"),
+                "best_calendar": best,
+                "candidate_minus_best_calendar": payload["comparisons"][
+                    "candidate_minus_best_calendar"
+                ],
+                "total_seconds": payload["resources"]["total_elapsed_seconds"],
+            },
+            indent=2,
+        ),
+        flush=True,
+    )
+
+
+if __name__ == "__main__":
+    main()

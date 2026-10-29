@@ -1,0 +1,109 @@
+{
+  "status": "PASS",
+  "protocol_sha256": "c8fea044dfd7fa772847a86889ed53200a2916ecdb904d9fc2b86688b139d74d",
+  "input_sha256": "d50e5af537a09ad7e1fe6dfe8ce9a4183e9fedeb181ec15f7cbbd79fb26c1cb2",
+  "runner_sha256": "52a93f785f9e801ae14212eb876651fa472f0fd0296327995cb867b5cdb5f52b",
+  "candidate_runner_sha256": "0625795c1d40165ea944decc84f1cc65a61b306ba275c70fe7cade0918d99edf",
+  "randomized_information_state": {
+    "history": [
+      [
+        0,
+        1
+      ],
+      [
+        0,
+        1
+      ],
+      [
+        0,
+        1
+      ]
+    ],
+    "released": [
+      [
+        1,
+        1
+      ],
+      [
+        2,
+        1
+      ]
+    ],
+    "choices": [
+      [
+        0,
+        0
+      ],
+      [
+        0,
+        1
+      ],
+      [
+        1,
+        0
+      ],
+      [
+        1,
+        1
+      ]
+    ],
+    "probabilities": [
+      "3/5",
+      "2/5",
+      "0",
+      "0"
+    ]
+  },
+  "branches": [
+    {
+      "choice_at_randomized_state": [
+        0,
+        0
+      ],
+      "root_mixture_weight": "3/5",
+      "potential_label_tapes": 1024,
+      "coordinatewise_cover_edges": 5120,
+      "monotonicity_violations": 0,
+      "maximum_queries": 3,
+      "iid_risk": "1/8",
+      "independent_robust_risk": "1/8",
+      "framework_robust_risk": "1/8",
+      "alternative_metrics": [
+        "611337064709/152587890625",
+        "360381/12500000",
+        "1878399219/39062500000",
+        "360381/125000",
+        "1878399219/3906250000"
+      ],
+      "iid_verifier_states": 49,
+      "robust_verifier_states": 49
+    },
+    {
+      "choice_at_randomized_state": [
+        0,
+        1
+      ],
+      "root_mixture_weight": "2/5",
+      "potential_label_tapes": 1024,
+      "coordinatewise_cover_edges": 5120,
+      "monotonicity_violations": 0,
+      "maximum_queries": 4,
+      "iid_risk": "1/16",
+      "independent_robust_risk": "1/16",
+      "framework_robust_risk": "1/16",
+      "alternative_metrics": [
+        "656931666053/152587890625",
+        "36679/1250000",
+        "52802041/1562500000",
+        "36679/12500",
+        "52802041/156250000"
+      ],
+      "iid_verifier_states": 64,
+      "robust_verifier_states": 64
+    }
+  ],
+  "weighted_cost": "51237636737353/12207031250000",
+  "weighted_robust_risk_bound": "1/10",
+  "elapsed_seconds": 0.1318061000201851,
+  "interpretation": "Each deterministic branch has a coordinatewise monotone promotion event, so the root lottery is safe under every causal-null strategy by branchwise coupling."
+}

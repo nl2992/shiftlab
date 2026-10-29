@@ -569,3 +569,74 @@
   `iid_relaxation_certified_pipeline_v1.json`. Ruff passed. Continue only with
   profiling and source-matched prior-art comparison on a preregistered paired
   synthetic test; no real data or holdouts were accessed.
+
+
+## 2026-10-29 — Candidate B T=10 stress and branchwise certificate
+
+- Registered `IID_RELAXATION_T10_STRESS_PROTOCOL_V1.md` before execution. On
+  T=10/B=4/d=2, transition `1/10`, emissions `(1/50,49/50)`, the IID LP used
+  13,421 learner variables, 4,868 equalities, one risk row, zero opponent
+  variables and 10,813 builder nodes. Exact recovered cost was
+  `51237636737353/12207031250000`; exact full-null risk was `1/10`; the exact
+  dual/feasible interval width is approximately `1.52e-11`.
+- The robust decomposed reference independently returned the same cost and risk
+  with 58,806 nodes and 13,790 null variables. It ran in 58.01s; the candidate's
+  end-to-end stage took 114.84s. Candidate node count is smaller but runtime and
+  process RSS do not improve. Exhaustive robust evaluation of all 163 fixed
+  calendars selected `[1,2,3,4]`; candidate cost was lower by exact
+  `875921971899/24414062500000` (about `0.03588`). This is a synthetic economic
+  win over calendars, not over the oracle, with no compute win.
+- The T=10 recovered behavioral policy has exactly one randomized information
+  state: after queries 1–3 with labels 1 and 2 released positive, wait w.p. 3/5
+  or query at event 4 w.p. 2/5. A corrected independent verifier split it into
+  deterministic branches and exhaustively checked 1,024 tapes and 5,120 cover
+  edges per branch. Both were monotone with zero violations; exact branch risks
+  are `1/8` and `1/16`, and their weighted risk is exactly `1/10`. Costs also
+  reproduce the saved candidate exactly. The conditional monotone-coupling
+  certificate is proved for this finite policy and declared causal-null family;
+  it is not a new optimizer theorem.
+- Preserve the first verifier failure: it omitted post-promotion continuation
+  and raised a missing-history `KeyError`. The corrected verifier routes
+  post-promotion histories through the exact continuation DP and passes. A
+  lint-clean rerun to `t10_iid_candidate_branchwise_v3.json` also passes and
+  binds the current source hash. Both failed-attempt traces and the partial
+  failed JSON remain in the artifact directory.
+- Correction: the interim message misstated the T=10 gap as `1.52e-6`; exact
+  output is `1.5218859452e-11`. The JSON total elapsed field (`3.534s`) is
+  corrupted by timer-variable shadowing. The measured candidate, reference and
+  exhaustive-calendar components sum to `548.9616437s`; preserve the original
+  output and use `IID_RELAXATION_T10_STRESS_CORRECTION_V1.md`.
+
+## 2026-10-29 — Candidate B paired T=8 synthetic grid
+
+- Registered `IID_RELAXATION_T8_GRID_PROTOCOL_V1.md` before execution and ran
+  only the five not-yet-tested frozen-grid cells. Together with the earlier
+  sixth-cell run, the IID candidate matches the full robust reference cost in
+  all six cells, has exact causal-null risk `0` or `1/10`, and each exact dual
+  interval is about `0.84e-12` to `1.26e-12` wide.
+- In both low-persistence cells where the reference beats calendars, the
+  candidate reproduces that gain; it ties calendars in the four controls. It
+  also beats the cap/gate baselines in the adaptive-gain cells. T=8 runtimes are
+  9.4–10.4s versus 5.1–5.4s for the robust reference, despite 3,441 versus
+  17,922 builder nodes. It is not a compute win. Full per-cell dual flow vectors
+  and comparisons are in `iid_relaxation_t8_grid_v1.json`.
+- Primary-source comparison confirms the general ingredients are established:
+  Khonji et al. (2019), Theorem 5.4/Corollary 5.5, give a fixed-horizon
+  chance-constrained POMDP FPTAS for a single known model; Cubuktepe et al.
+  (2021) use exact robust verification after approximate uncertain-POMDP
+  synthesis. The exact causal-null/two-law reduction is still unresolved, but
+  these experiments do not establish a novelty or complexity advantage.
+- Candidate B is retained as a useful exact certificate and synthetic comparator,
+  not nominated as the lead method. G1 and G2 remain open; G3 is promising on
+  deterministic synthetic model cells but is not closed as a methodological
+  efficacy gate; G4/real data remain untouched per the plan. No data rows or
+  holdouts were opened.
+- Artifacts: `IID_RELAXATION_T8_GRID_PROTOCOL_V1.md`,
+  `IID_RELAXATION_T8_GRID_RESULTS_V1.md`,
+  `IID_RELAXATION_T10_STRESS_RESULTS_V1.md`,
+  `T10_IID_CANDIDATE_BRANCHWISE_PROTOCOL_V1.md`,
+  `t10_iid_candidate_branchwise_v3.json`, executed-source snapshots, and the
+  versioned correction note. Next: test a distinct Candidate C response-state
+  quotient against the saved alias and signed-value counterexamples; require a
+  two-law value/risk bound before implementation. Do not repeat Candidate B's
+  fixed cells or initiate real-data evaluation.

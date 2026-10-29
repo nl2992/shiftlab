@@ -1,0 +1,37 @@
+Traceback (most recent call last):
+  File "C:\Users\nigel\OneDrive\\u684c\u9762\ICML\shiftlab-risk-approx-2026-10-29\scripts\research_risk_approx\verify_t10_iid_candidate_branches.py", line 209, in <module>
+    main()
+    ~~~~^^
+  File "C:\Users\nigel\OneDrive\\u684c\u9762\ICML\shiftlab-risk-approx-2026-10-29\scripts\research_risk_approx\verify_t10_iid_candidate_branches.py", line 156, in main
+    metrics = game.expected_metrics(policy)
+  File "C:\Users\nigel\OneDrive\\u684c\u9762\ICML\shiftlab-risk-approx-2026-10-29\src\shiftlab\dive\causal_switching_game.py", line 299, in expected_metrics
+    return visit((), (), self.model.prior1)
+  File "C:\Users\nigel\OneDrive\\u684c\u9762\ICML\shiftlab-risk-approx-2026-10-29\src\shiftlab\dive\causal_switching_game.py", line 286, in visit
+    following = visit(
+        next_history,
+        outcomes + ((time, y),),
+        state1 * likelihood1 / probability,
+    )
+  File "C:\Users\nigel\OneDrive\\u684c\u9762\ICML\shiftlab-risk-approx-2026-10-29\src\shiftlab\dive\causal_switching_game.py", line 286, in visit
+    following = visit(
+        next_history,
+        outcomes + ((time, y),),
+        state1 * likelihood1 / probability,
+    )
+  File "C:\Users\nigel\OneDrive\\u684c\u9762\ICML\shiftlab-risk-approx-2026-10-29\src\shiftlab\dive\causal_switching_game.py", line 286, in visit
+    following = visit(
+        next_history,
+        outcomes + ((time, y),),
+        state1 * likelihood1 / probability,
+    )
+  File "C:\Users\nigel\OneDrive\\u684c\u9762\ICML\shiftlab-risk-approx-2026-10-29\src\shiftlab\dive\causal_switching_game.py", line 295, in visit
+    future = visit(next_history, outcomes, state1)
+  File "C:\Users\nigel\OneDrive\\u684c\u9762\ICML\shiftlab-risk-approx-2026-10-29\src\shiftlab\dive\causal_switching_game.py", line 295, in visit
+    future = visit(next_history, outcomes, state1)
+  File "C:\Users\nigel\OneDrive\\u684c\u9762\ICML\shiftlab-risk-approx-2026-10-29\src\shiftlab\dive\causal_switching_game.py", line 270, in visit
+    self.choices(history), policy(history, outcomes), strict=True
+                           ~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\nigel\OneDrive\\u684c\u9762\ICML\shiftlab-risk-approx-2026-10-29\scripts\research_risk_approx\verify_t10_iid_candidate_branches.py", line 108, in policy
+    return branch_behavior[game.information(history, outcomes)]
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+KeyError: (((0, 1), (0, 1), (0, 1), (0, 0), (1, 0)), ((1, 1), (2, 1), (3, 1)))

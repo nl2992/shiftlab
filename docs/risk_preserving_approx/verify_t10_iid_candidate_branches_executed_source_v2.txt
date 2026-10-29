@@ -1,0 +1,219 @@
+"""Exhaustively verify branchwise monotonicity of the saved T=10 LP policy."""
+
+from __future__ import annotations
+
+import hashlib
+import json
+import sys
+import time
+from fractions import Fraction as F
+from itertools import product
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[2]
+sys.path.insert(0, str(ROOT / "src"))
+sys.path.insert(0, str(ROOT / "scripts/research_risk_approx"))
+
+PROTOCOL = ROOT / "docs/risk_preserving_approx/T10_IID_CANDIDATE_BRANCHWISE_PROTOCOL_V1.md"
+INPUT = ROOT / "docs/risk_preserving_approx/iid_relaxation_t10_stress_v1.json"
+OUTPUT = ROOT / "docs/risk_preserving_approx/t10_iid_candidate_branchwise_v2.json"
+
+
+def sha(path: Path) -> str:
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def main() -> None:
+    from iid_relaxation_certified_pipeline import exact_risk, learner_only_game
+    from shiftlab.dive.causal_switching_game import GameConfig
+    from shiftlab.dive.delayed_regime_information import RegimeModel
+
+    if OUTPUT.exists():
+        raise FileExistsError(f"Refusing to overwrite {OUTPUT}")
+    saved = json.loads(INPUT.read_text(encoding="utf-8"))
+    if saved["status"] != "completed" or saved["candidate"]["status"] != "completed":
+        raise ValueError("T=10 candidate input did not complete")
+    cfg = saved["config"]
+    config = GameConfig(
+        horizon=cfg["horizon"],
+        budget=cfg["budget"],
+        delay=cfg["delay"],
+        alpha=F(cfg["alpha"]),
+        query_cost=F(cfg["query_cost"]),
+        switch_cost=F(cfg["switch_cost"]),
+        max_nodes=cfg["max_nodes"],
+    )
+    model = RegimeModel(
+        transition01=F(cfg["transition"]),
+        transition10=F(cfg["transition"]),
+        emission0=F(cfg["emissions"][0]),
+        emission1=F(cfg["emissions"][1]),
+        prior1=F(cfg["prior"]),
+    )
+    game = learner_only_game(config, model)
+    behavior = {}
+    randomized = []
+    for record in saved["candidate"]["policy_records"]:
+        history = tuple(tuple(item) for item in record["history"])
+        released = tuple(tuple(item) for item in record["released"])
+        choices = tuple(tuple(item) for item in record["choices"])
+        probabilities = tuple(F(value) for value in record["probabilities"])
+        if choices != game.choices(history) or sum(probabilities) != 1:
+            raise ValueError("saved behavioral row is invalid")
+        key = (history, released)
+        behavior[key] = (choices, probabilities)
+        nonzero = [index for index, value in enumerate(probabilities) if value]
+        if len(nonzero) > 1:
+            randomized.append((key, choices, probabilities, nonzero))
+    if set(behavior) != set(game.learner.infos):
+        raise ValueError("saved policy does not cover the rebuilt learner tree")
+    if len(randomized) != 1:
+        raise ValueError(f"expected one randomized information state; found {len(randomized)}")
+    random_key, random_choices, random_probs, nonzero = randomized[0]
+    if len(nonzero) != 2:
+        raise ValueError("randomized state does not have exactly two branches")
+
+    branch_rows = []
+    total_started = time.perf_counter()
+    partial = {
+        "status": "running",
+        "protocol_sha256": sha(PROTOCOL),
+        "input_sha256": sha(INPUT),
+        "runner_sha256": sha(Path(__file__)),
+        "candidate_runner_sha256": saved["runner_sha256"],
+        "randomized_information_state": {
+            "history": random_key[0],
+            "released": random_key[1],
+            "choices": random_choices,
+            "probabilities": [str(value) for value in random_probs],
+        },
+        "branches": branch_rows,
+    }
+    OUTPUT.write_text(json.dumps(partial, indent=2) + "\n", encoding="utf-8")
+    for branch_index in nonzero:
+        selected_choice = random_choices[branch_index]
+        branch_behavior = {}
+        for key, (choices, probabilities) in behavior.items():
+            if key == random_key:
+                branch_behavior[key] = tuple(F(choice == selected_choice) for choice in choices)
+            else:
+                selected = [index for index, mass in enumerate(probabilities) if mass]
+                if len(selected) != 1:
+                    raise ValueError("unexpected randomization outside the split state")
+                branch_behavior[key] = tuple(
+                    F(index == selected[0]) for index in range(len(choices))
+                )
+
+        def policy(history, outcomes):
+            if any(action for action, _query in history):
+                time_index = len(history) + 1
+                remaining = config.budget - sum(query for _action, query in history)
+                belief = game._belief_from_history(history, outcomes)
+                key = (time_index, history[-1][0], remaining, belief)
+                if key not in game._continuation_actions:
+                    game._decision_value(time_index, history[-1][0], remaining, belief)
+                action, query = game._continuation_actions[key]
+                choices = game.choices(history)
+                return tuple(F(choice == (action, query)) for choice in choices)
+            return branch_behavior[game.information(history, outcomes)]
+
+        def tape_event(tape):
+            history = ()
+            outcomes = ()
+            queries = 0
+            promoted = False
+            for event_time in range(1, config.horizon + 1):
+                choices, probabilities = behavior[game.information(history, outcomes)]
+                if history == random_key[0] and game.information(history, outcomes) == random_key:
+                    probabilities = branch_behavior[random_key]
+                selected = [
+                    choice for choice, mass in zip(choices, probabilities, strict=True) if mass
+                ]
+                if len(selected) != 1:
+                    raise ValueError("branch policy is not deterministic")
+                action, query = selected[0]
+                if query:
+                    queries += 1
+                    outcomes += ((event_time, tape[event_time - 1]),)
+                if action:
+                    promoted = True
+                    break
+                history += ((action, query),)
+            return promoted, queries
+
+        tapes = tuple(product((0, 1), repeat=config.horizon))
+        event_by_tape = {}
+        max_queries = 0
+        for tape in tapes:
+            event, queries = tape_event(tape)
+            event_by_tape[tape] = event
+            max_queries = max(max_queries, queries)
+            if queries > config.budget:
+                raise AssertionError("candidate branch exceeds the pathwise query cap")
+        violations = []
+        for tape in tapes:
+            for coordinate, value in enumerate(tape):
+                if value:
+                    continue
+                successor = tape[:coordinate] + (1,) + tape[coordinate + 1 :]
+                if event_by_tape[tape] and not event_by_tape[successor]:
+                    violations.append((tape, successor))
+        if violations:
+            raise AssertionError(f"branch is not monotone: {violations[:3]}")
+        iid_risk, iid_states = exact_risk(game, policy, iid=True)
+        robust_risk, robust_states = exact_risk(game, policy, iid=False)
+        framework_risk = game.null_risk(policy)
+        metrics = game.expected_metrics(policy)
+        if iid_risk != F(sum(event_by_tape.values()), 2**config.horizon):
+            raise AssertionError("enumerated IID tape risk mismatch")
+        if robust_risk != framework_risk or robust_risk != iid_risk:
+            raise AssertionError("branch causal-null risk does not equal its IID risk")
+        branch_rows.append(
+            {
+                "choice_at_randomized_state": list(selected_choice),
+                "root_mixture_weight": str(random_probs[branch_index]),
+                "potential_label_tapes": len(tapes),
+                "coordinatewise_cover_edges": config.horizon * 2 ** (config.horizon - 1),
+                "monotonicity_violations": len(violations),
+                "maximum_queries": max_queries,
+                "iid_risk": str(iid_risk),
+                "independent_robust_risk": str(robust_risk),
+                "framework_robust_risk": str(framework_risk),
+                "alternative_metrics": [str(value) for value in metrics],
+                "iid_verifier_states": iid_states,
+                "robust_verifier_states": robust_states,
+            }
+        )
+        OUTPUT.write_text(json.dumps(partial, indent=2) + "\n", encoding="utf-8")
+
+    weighted_cost = sum(
+        (
+            F(row["root_mixture_weight"])
+            * sum(F(value) for value in row["alternative_metrics"][:3])
+            for row in branch_rows
+        ),
+        F(0),
+    )
+    weighted_risk = sum(
+        (F(row["root_mixture_weight"]) * F(row["iid_risk"]) for row in branch_rows),
+        F(0),
+    )
+    candidate = saved["candidate"]
+    if weighted_cost != F(candidate["feasible_cost"]):
+        raise AssertionError("weighted branch cost does not reproduce saved candidate")
+    if weighted_risk != F(candidate["feasible_risk"]):
+        raise AssertionError("weighted branch risk does not reproduce saved candidate")
+    result = {
+        **partial,
+        "status": "PASS",
+        "weighted_cost": str(weighted_cost),
+        "weighted_robust_risk_bound": str(weighted_risk),
+        "elapsed_seconds": time.perf_counter() - total_started,
+        "interpretation": "Each deterministic branch has a coordinatewise monotone promotion event, so the root lottery is safe under every causal-null strategy by branchwise coupling.",
+    }
+    OUTPUT.write_text(json.dumps(result, indent=2) + "\n", encoding="utf-8")
+    print(json.dumps(result, indent=2))
+
+
+if __name__ == "__main__":
+    main()

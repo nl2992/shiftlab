@@ -271,3 +271,51 @@ notification is implied. Before any tool-driven workflow is described as active,
 verify that Ponytail, HKUSTDial and ARIS are actually available in the environment
 and follow their installed instructions; this plan does not claim an unavailable
 integration has been installed or launched.
+
+### Checkpoint: IID-relaxation candidate screened on synthetic cases
+
+The Candidate B IID-relaxation / exact-null-verification pipeline was compared
+against the five remaining cells in the frozen T=8 grid; the sixth had already
+been run. Across all six, every returned policy exactly matches the robust
+reference cost, has full causal-null risk at or below `1/10`, and has a rational
+dual lower bound within roughly `1e-12` of its feasible upper cost. It beats the
+best calendar and the cap/gate baselines in the registered low-persistence cells,
+and ties calendars in controls. It does not improve on the exact robust reference.
+
+On a preregistered T=10 stress cell, it also beats all 163 fixed calendars by
+`0.03587776397` with a certified value interval about `1.52e-11` wide. A
+branchwise verifier split the recovered policy's sole 3/5–2/5 lottery; both
+deterministic promotion events were monotone over 1,024 tapes, with exact robust
+branch risks `1/8` and `1/16`. This gives a direct finite-instance causal-null
+certificate by monotone coupling.
+
+The method is **not** a compute win: T=8 complete runtimes were about 9.4–10.4s
+versus 5.1–5.4s for the robust reference. At T=10 it used fewer builder nodes
+(10,813 versus 58,806) but took 114.84s versus 58.01s and had no measured memory
+advantage. A reporting bug in the T=10 aggregate elapsed field is preserved and
+corrected in `IID_RELAXATION_T10_STRESS_CORRECTION_V1.md`. A first branchwise
+verifier attempt omitted post-promotion continuation; its failure is retained,
+and the corrected verifier passes.
+
+The source-matched audit now classifies relaxation, exact verification, dual
+bounding and mixture repair as established generic ingredients. Candidate B
+remains a useful generator and a-posteriori certificate, but it does not pass G1
+or establish methodological novelty. The fixed synthetic grid shows economic
+gains over restricted baselines, but no end-to-end computational advantage and
+no pulled-real-data evaluation. G2 and the full G3 gate remain open; CRSP and
+reserved real-data holdouts stay closed.
+
+**Next decision:** stop tuning this standard pipeline as the lead method. The
+posterior-only, continuation-grid, and belief-only pricing variants of Candidate A
+already have explicit counterexamples or no-compute-gain results; do not repeat
+them. Preserve those no-go records and move to a structurally distinct Candidate
+C: seek a compact causal-null response-continuation quotient that retains pending
+outcomes and exact public-history dependence. State an equivalence relation and
+prove or bound its impact on both alternative cost and robust risk before coding;
+test it against the existing posterior-alias and arbitrary signed-future-value
+counterexamples. If the quotient has no bound smaller than the full learner
+sequence form, record that result and move to a new mechanism rather than repeat
+dominance, generic null cuts, or monotone-event screens. Preserve Candidate B as
+the strongest current synthetic comparator. Real-data work starts only after the
+novelty, mechanism/theory and matched-synthetic gates pass and the eligible-data
+audit authorizes the particular task.

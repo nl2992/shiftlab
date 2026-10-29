@@ -21,3 +21,27 @@ A candidate-specific audit must fill in shared/different assumptions, necessity
 of each difference, proof adaptation and the missing lemma; only then decide
 proved equivalent, proved distinct, unresolved or falsified. Candidate A has not
 yet provided that theorem or representation.
+
+## Candidate B: IID relaxation plus exact causal-null verification (2026-10-29)
+
+The tested pipeline minimizes alternative cost subject to learner flow constraints
+and one IID fair-label chance constraint, then exactly verifies full adaptive
+causal-null risk and repairs any unsafe policy by an upfront lottery with the
+never-promote plan. Its rational dual supplies a lower bound and the repaired
+policy supplies a feasible upper bound. This is a standard primal/dual relaxation
+and verification pattern. The branch-specific content is an exact lower/upper
+interval for this two-law ShiftLab game, not a new general optimization principle.
+
+| Source | Exact relevant result | Candidate relation | Status |
+| --- | --- | --- | --- |
+| Khonji, Jasour & Williams, IJCAI 2019, Theorem 5.4 / Corollary 5.5 | FPTAS for constant-horizon constrained and chance-constrained POMDP via And-Or / precedence-knapsack formulation; policy approximation and complexity assume fixed horizon and a single known model. [Primary paper](https://www.ijcai.org/proceedings/2019/0775.pdf) | The fixed IID boundary fits the single-law chance-constrained form after a finite-horizon encoding. The target supremum ranges over causal responses that see pending outcomes; encoding all response constraints is not the single-constraint reduction used here and may be exponential. No transfer of the FPTAS to the two-law robust target is proved. | UNRESOLVED — EXACT REDUCTION REQUIRED; no novelty established for relaxation/repair |
+| Cubuktepe et al., AAAI 2021, robust FSC synthesis and verification | Approximate synthesis for uncertain POMDPs is followed by exact robust verification of the fixed policy. [Primary paper](https://cdn.aaai.org/ojs/17401/17401-13-20895-1-2-20210518.pdf) | Confirms that separating candidate synthesis from exact robust verification is established. Their finite-state-controller and transition-uncertainty model does not provide the current hard query budget, two-law economic continuation, or this exact dual interval. This is a model-specific engineering delta, not an established new theorem. | Exact guarantee not equivalent; algorithmic novelty remains unestablished |
+| ShiftLab sequence-form duality and exact first-promotion decomposition | Full causal-null response is a one-sided partially observable game; decomposition separates first-promotion risk from alternative continuation. | IID relaxation lower-bound direction and root-mixture repair are elementary. T=10 branchwise monotonicity is a coupling certificate for the returned policy, not a compact optimizer. | PROVED for saved finite results; no general approximation complexity |
+
+The T=8 and T=10 experiments return a policy with the same exact cost as the
+robust reference and beat calendar/cap/gate baselines in the low-persistence
+cells. At T=10 the pipeline is slower end to end and has no measured memory
+advantage over the reference. Thus no computational or novelty claim is
+established. Retain the exact certificate as a candidate-generation diagnostic;
+continue to Candidate A or a structurally distinct Candidate C before any
+real-data gate.

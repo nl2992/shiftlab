@@ -60,7 +60,8 @@ existing reports define what has actually been implemented and validated.
 
 ## Codex autonomous research lane
 
-This checkout is the independent Codex lane on `research/codex-autoresearch`.
+This checkout is the independent Codex lane on
+`research/risk-preserving-switching-approx-2026-10-29`.
 Keep all edits, environments, run state and outputs in this checkout. Never edit,
 reset, clean, merge into, or run jobs from the main or Claude worktrees. Do not
 reuse their writable environments or output directories. No global skill or hook
@@ -72,4 +73,12 @@ research evaluation and evidence-grounded writing, and ARIS Codex skills for
 experiment and review orchestration. Existing scientific protocols and explicit
 user scope govern experiments; third-party defaults do not authorize paid jobs,
 remote deployment, notifications, publication, or opening confirmation data.
-Use existing research goals rather than inventing a new direction during setup.
+The governing branch mission is [the user research brief](docs/risk_preserving_approx/RESEARCH_BRIEF.md).
+Read it and [the initial plan](docs/risk_preserving_approx/INITIAL_PLAN.md) before
+research. It supersedes older future-work priorities and any ingredient-only
+novelty rejection standard. Preserve historical verdicts and evidence unchanged.
+Retain the finite-horizon two-law switching formulation; investigate A, B, then C.
+Specify the theorem and audit complete guarantees before candidate implementation.
+All branch-local documentation, simulation and commits belong in this worktree.
+Record negative results and proof status in the append-only research ledger.
+Push only this designated branch. Never merge automatically or open holdouts.

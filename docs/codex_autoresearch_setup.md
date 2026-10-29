@@ -1,7 +1,10 @@
 # Independent Codex research setup
 
-Branch: `research/codex-autoresearch`, based on `ec42a2d` from main.
-Checkout: `shift-codex-autoresearch`, beside the main and Claude checkouts.
+Branch: `research/risk-preserving-switching-approx-2026-10-29`, based on
+`ec42a2da9fdf59a6cf26970fb19aa9d5fb8973cc` from fetched origin/main.
+Checkout: `shiftlab-risk-approx-2026-10-29`, beside the other isolated checkouts.
+The governing mission is `risk_preserving_approx/RESEARCH_BRIEF.md`; the original
+`research/codex-autoresearch` setup branch remains preserved separately.
 
 ## Installed toolkit
 
@@ -37,4 +40,5 @@ large datasets and ignored artifacts have not been copied from the main checkout
 
 This commit sets up the toolkit only. No experiment, autonomous research loop,
 recurring automation, remote job, or external notification has been launched.
-Choose the concrete research task and compute/time budget before an overnight run.
+The mission and initial research plan are now recorded in `risk_preserving_approx/`.
+Keep initial checks bounded; register each new experiment before execution.

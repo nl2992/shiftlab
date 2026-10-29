@@ -1,0 +1,106 @@
+{
+  "base_ref": "origin/main",
+  "base_commit": "ec42a2da9fdf59a6cf26970fb19aa9d5fb8973cc",
+  "branch": "research/risk-preserving-switching-approx-2026-10-29",
+  "date": "2026-10-29",
+  "brief_sha256": "f5dde5227883f2bff41b621d8a23be4db45ba53dfc519013504a5c0b5d9890d5",
+  "artifacts": [
+    {
+      "path": "docs/budgeted_switching_research_goals.md",
+      "git_blob": "e66e525dc986d39398e754d0bd2043c167ac9ffd",
+      "bytes": 154632,
+      "sha256": "9fcb7adbad0c6b401cf63de8809c6df35f4e889b6826156c91015b0b1a3bde91"
+    },
+    {
+      "path": "docs/switching_alt_belief_risk_alias_counterexample_v1.md",
+      "git_blob": "20c5d55ec904261d8fcb8eb9e701fb290779f131",
+      "bytes": 5035,
+      "sha256": "0122ba564204ecd303242d08267de16d438db0679960f276353310d3d4bd4475"
+    },
+    {
+      "path": "docs/switching_causal_game_results_v1.md",
+      "git_blob": "d1349f56f68d994ac1c1f3a75389cccbe4d155d7",
+      "bytes": 5122,
+      "sha256": "2b7abdae9fd4ba8ce1d86627bab0d59b072c753e9ee841b2329ada9039f9fa7a"
+    },
+    {
+      "path": "docs/switching_finite_memory_approximation_prior_audit_v1.md",
+      "git_blob": "cba92d40664fe5288622c07e3ae0a8374cf5c18a",
+      "bytes": 5635,
+      "sha256": "e804fe395facc631729ccc87065754cbb847c6c50dff229fd5e4021bddb5cb47"
+    },
+    {
+      "path": "docs/switching_first_promotion_decomposition_v1.md",
+      "git_blob": "e96870db48265c01b80052e88d9d67d2c7456956",
+      "bytes": 10459,
+      "sha256": "76862526604a38f322b88206d4d1fd218eaa228813b645fb119529acc3af6a08"
+    },
+    {
+      "path": "docs/switching_first_promotion_scaling_protocol_v1.md",
+      "git_blob": "fb70d9b8fea51183e5ff67d1f0105fd98c7767b2",
+      "bytes": 2049,
+      "sha256": "d1b79304364ccd3f38b17f8509496644d42911f6826a50268a021b32ef375182"
+    },
+    {
+      "path": "docs/switching_lagrangian_posg_reduction_v1.md",
+      "git_blob": "afcbc1dee393aa7a5d864aa5a320a1d8d3f423d9",
+      "bytes": 5329,
+      "sha256": "c435e76dd607013c221cf7391ff2a95390187dafcfa826f54d8dd055b2cf0664"
+    },
+    {
+      "path": "docs/switching_novelty_delta_v1.md",
+      "git_blob": "fa53889569f958071758a7694baaa4850457f270",
+      "bytes": 29161,
+      "sha256": "154febfd04964fbafbb8eafaf465241881f7042afedd9e2e9b9459b8a48f7492"
+    },
+    {
+      "path": "docs/switching_paired_copy_compact_screen_v1.md",
+      "git_blob": "7fa20b46ba5156e51b5ca0624389747099e63e27",
+      "bytes": 5454,
+      "sha256": "d5206caf014c6761544bc202155f1b8f930def3973ab4f333f2d9c35d1ef3423"
+    },
+    {
+      "path": "docs/switching_problem_v1.md",
+      "git_blob": "7c92f9f35d232fcc72133e21f0d642722cafcf21",
+      "bytes": 7143,
+      "sha256": "eb1cc7e4b81571ad0b68151b3ad6fdfb01f0657846d42da9eb3222e58571437d"
+    },
+    {
+      "path": "docs/switching_reversal_lp_certificate_v1.md",
+      "git_blob": "6d152ad2b9363f86c3b7ae2f57579bdfa5e9ecf5",
+      "bytes": 2658,
+      "sha256": "ebd906e482239d296e7d6e6f491a3d77aca21dbb53fb406772c71864f6875c56"
+    },
+    {
+      "path": "docs/switching_robust_fsc_reduction_audit_v1.md",
+      "git_blob": "d9d7f5e8d91d451e2497a099008e4c5bc75ad941",
+      "bytes": 4802,
+      "sha256": "e0065ae22d8b6d264d68018f4fbd995fb9c11cebc5af4f849960490f70a4ecb7"
+    },
+    {
+      "path": "docs/switching_two_law_game_duality_v1.md",
+      "git_blob": "48e71be559e97095d9d4cedb32bc15a238cce8de",
+      "bytes": 6123,
+      "sha256": "3bf58ab4c15e6895f8d654a7da6ba2259e61d09306f1e7fb49c9586948bb58a0"
+    },
+    {
+      "path": "src/shiftlab/dive/causal_switching_game.py",
+      "git_blob": "6651a04db72beb53b8ae88d1b4d1a802ba2f7120",
+      "bytes": 18378,
+      "sha256": "54b1347c3e213407b3feb09a801dc9ea40b3663fe6a4a227b7878b9b0a2d770a"
+    },
+    {
+      "path": "src/shiftlab/dive/first_promotion_decomposition.py",
+      "git_blob": "094438f60cb707cab050bdbba186e36278c44de6",
+      "bytes": 13296,
+      "sha256": "838bab025e72bb637a4b45df38f7e8ddf048d133462b20d0dff295cc09a86d75"
+    },
+    {
+      "path": "tests/test_first_promotion_decomposition.py",
+      "git_blob": "07cfed683059f3cb6e56e18072e1b856095c5a19",
+      "bytes": 1884,
+      "sha256": "32004f4657e790ab99332e62d68732782d85ccbaf6371fb3b64db299f53075cd"
+    }
+  ],
+  "scope": "Git-tracked reference bytes only; ignored data, source caches, and outputs are not copied or certified."
+}

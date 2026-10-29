@@ -2280,3 +2280,23 @@ the finite benchmark. Source limitation: RAO* full text/proof not inspected in t
   efficacy experiment follows. Overall G1 remains open for a different acquisition/switching rule
   with a proved advantage over matched active sensing and the exact two-law oracle; G2–G5 remain
   held.
+
+### G1 prior-art screen 2026-10-29: SAB belief aggregation
+
+- Audited Hammar et al.'s AAAI 2026 primary source on Shapley iteration with aggregated beliefs
+  (SAB). Its Proposition 4 provides a discounted infinite-horizon scalar value error bound in
+  terms of within-cell value variation; Proposition 5 gives convergence for increasingly fine
+  uniform belief grids. The source notes that its value approximation supports an epsilon-Nash
+  equilibrium via prior analysis.
+- Our exact hidden-root Lagrangian reduction puts each fixed risk multiplier in the same one-sided
+  POSG family. Thus generic belief aggregation/value approximation is established prior art. The
+  cited result does not itself transfer to our undiscounted finite horizon, produce a policy-level
+  bound, or separately control economic cost and worst causal-null promotion risk; feasible-policy
+  recovery and a useful complexity bound also remain open.
+- Decision: close generic SAB aggregation/scalarization as a novelty route. Reopen only with a
+  structural partition/state and a finite-horizon policy theorem giving separate economic and
+  causal-risk errors, exact risk feasibility after repair/recovery, and a complexity or regret
+  improvement over SAB/one-sided-POSG planning and the sequence-form oracle. Full audit:
+  `switching_sab_aggregation_prior_audit_v1.md`.
+- No experiments or current-value claims follow. The test-epoch promotion guarantee remains
+  separate from current-regime benefit after reversal. G1 remains open; G2–G5 remain held.

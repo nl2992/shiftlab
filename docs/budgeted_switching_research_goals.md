@@ -1722,3 +1722,22 @@ the finite benchmark. Source limitation: RAO* full text/proof not inspected in t
   delayed observations, and recurring reversible economic switching, compared against an exact or
   provably strong resource-matched controller. Promotion evidence remains distinct from current
   challenger value after regime reversal. G1 remains open; G2–G5 stay held.
+
+### G1 growing-family screen 2026-10-29: paired-copy labels admit compact safe testing
+
+- Constructed a growing finite-state alternative emitting adjacent copied Bernoulli bits, with
+  fixed one-round feedback delay and the original full-history causal null. If `Z_i` marks a pair
+  of positive labels, then its conditional null probability is at most `1/4`, while it is `1/2`
+  under the alternative. Therefore the exact worst-null promotion risk for a count threshold is
+  the `Binomial(m,1/4)` tail; alternative power is the `Binomial(m,1/2)` tail.
+- `switching_paired_copy_compact_screen_v1.md` gives the finite-state count controller, exact
+  test, Hoeffding scaling, and a coarse additive value bound against the full-history oracle. An
+  exact rational screen at `alpha=.1` reaches power at least `.99` with 50 pairs, 100 pathwise
+  queries, 206 controller states and relative gap upper bound about `.0078` at 10,000 reward
+  rounds. The full oracle itself was not solved in this growing family.
+- Decision: this refutes a blanket finite-memory lower-bound strategy based only on longer delayed
+  tapes. The pair-success statistic is an ordinary Bernoulli test, and fixed-sample testing plus
+  a compact counter are established ingredients; reject it as the new algorithm. A future lower
+  bound must survive compact sufficient event statistics and compare against the strongest
+  resource-matched safe test. G1 remains open; G2–G5 stay held. Promotion validity still does not
+  certify current value after reversal.

@@ -2272,3 +2272,11 @@ the finite benchmark. Source limitation: RAO* full text/proof not inspected in t
   `.006895` under model 0 and `0` under model 1. This verifies one correctly specified confidence
   gate only; it supplies no acquisition-value, utility, causal-null, or misspecification result.
   G1 remains open, G2–G5 held, and no efficacy/real-data study is opened.
+- Decision: close the delayed-HMM confidence-set gate as a method candidate and retain it as a
+  model-conditional safety baseline. The confidence-set construction and likelihood-ratio coverage
+  are established ingredients; its sign-ambiguity query score reduces to decision-focused VOI / a
+  costed-sensing belief planner, while adding the causal-null gate gives no performance theorem.
+  See the candidate decision in `switching_hmm_predictive_cs_candidate_v1.md`. No controller or
+  efficacy experiment follows. Overall G1 remains open for a different acquisition/switching rule
+  with a proved advantage over matched active sensing and the exact two-law oracle; G2–G5 remain
+  held.

@@ -191,3 +191,18 @@ This is a likelihood and coverage-mechanism check for one correctly specified fi
 does not show power or acquisition value, compare switching utility, handle the broad causal-null
 adversary, justify HMM specification, or establish safety under parameter drift. It validates the
 confidence-set gate as a comparator only; G1 remains open and no efficacy experiment follows.
+
+## Candidate decision: retain as a baseline, close as a method
+
+The delayed transcript likelihood and model-conditional current-value gate are valid under this
+fixed-HMM contract, but the gate is a direct likelihood-ratio confidence-set construction and its
+coverage proof is the standard likelihood-ratio martingale argument. The proposed confidence-set
+ambiguity query score is decision-focused value of information; costed sensing and finite-horizon
+belief-state planning already cover that generic acquisition objective. Adding the broad causal-null
+gate still supplies no performance theorem and returns to the robust two-law planning problem.
+
+Therefore close this HMM confidence-set gate as a candidate contribution and retain it as a strong
+model-conditional safety baseline. Do not build a controller or run efficacy/real-data experiments
+from it. The overall G1 remains open for a different mechanism with a proved net switching-utility
+or regret advantage over matched active-sensing baselines and the exact two-law oracle. This is a
+candidate-level no-go, not a stop decision on the research objective.

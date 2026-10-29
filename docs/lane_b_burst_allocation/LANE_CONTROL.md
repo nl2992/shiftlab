@@ -184,4 +184,9 @@ The user chose pivot 1 from `C_PIVOT_MEMO.md`. **Structure:** each disagreement 
 | D5 confirm | Frozen protocol, Codex review, holdout opened once | Registered win | — |
 
 **Global stop:** 16 ticks without passing D2.
-
+| D-1 | 2026-10-29 | D0 | **Narrow, conditional PASS** (`D0_prior_art.md`; many reads are summary or snippet level).
+- **Target corrected.** The composition C* (gold-certified delayed PPI promotion, a surrogate CUSUM/e-detector rollback, a fixed split with a paired-calibration bias UCB) already attains rollback without certification, gold-valid promotion, and the delta*(d_g - d_f) gain over gold-only. **D2 must separate from C*, not from single-channel methods.** The realistic gain is a constant/log or regime-dependent factor.
+- **Residual.** A hard-budget, delayed-release allocation across channels and time that beats the best stationary split, with rollback that stays safe when the surrogate bias is learned from late gold labels and may shift at the reversal. The biggest exit risk is reduction to a delay-shifted controlled-sensing index plus a bias margin.
+- **Closest sources.** Kandasamy MF-MAB; Ao et al. 2601.21471 (anytime CS over a cheap biased judge plus gold audits; snippet only); the repo's CertifiedPromotionRollback plus delayed PPI.
+- **Before freezing D2:** a targeted search on multi-rate change detection, guardrail rollback with surrogate metrics, and early stopping on proxies.
+- D1 (OPSD task) is still running. |

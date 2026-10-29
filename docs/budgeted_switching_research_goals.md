@@ -2023,3 +2023,17 @@ the finite benchmark. Source limitation: RAO* full text/proof not inspected in t
   increasing horizons while preserving a separate causal-null risk certificate and current-regime
   value tracking. Do not advance to efficacy or real-data studies on this evidence. G1 remains
   unresolved; G2–G5 remain held.
+
+### G1 contract update 2026-10-29: delayed paired-loss switching
+
+- Froze event order, fixed-delay release, hard pathwise query accounting (including pending labels),
+  paired-loss observability, utility, switching fees, and operational versus evaluator comparator
+  in `switching_information_risk_contract_v1.md`.
+- Explicitly separated a test-epoch conditional-null guarantee from the event “promote while
+  current conditional benefit is below hurdle.” A historic e-process cannot certify value after an
+  unmodeled reversal; require a persistence model or contemporaneous evidence for any current-value
+  claim, and measure rollback loss separately.
+- Primary-source screen of Prabhu et al. confirms adaptive sensing, switching costs, false-detection
+  control and asymptotic cost optimality predate this project. Thus those ingredients alone fail G1.
+  The hard-cap/delayed/recurrent deployment distinctions are only a candidate gap statement, not
+  proof of novelty. G1 remains open; G2-G5 remain held.

@@ -1923,3 +1923,24 @@ the finite benchmark. Source limitation: RAO* full text/proof not inspected in t
   not finish at T8, that cost has no direct optimality cross-check there. Results and hashes are in
   `outputs/first_promotion_decomposition_scaling_v1/results.json`. This supports computational
   value but does not pass novelty or policy-efficacy gates; G1 remains open.
+
+### G1 decision 2026-10-29: risk-state compression is not yet a method
+
+- The exact causal-risk verifier's product state `(time, deterministic controller memory,
+  incumbent, remaining budget, pending-label queue)` is sufficient once a controller is fixed.
+  It is not a policy-independent statistic from which to optimize that controller: changing its
+  memory/update rule changes the reachability recursion. Posterior-only compression already fails
+  on the registered alias cell, while a fixed-controller memory state trivially retains the
+  distinguishing information.
+- Generic finite-memory synthesis under partially observed transition uncertainty and robust
+  reachability is established by Cubuktepe et al., AAAI 2021; the primary-source scope and exact
+  ShiftLab history augmentation are recorded in
+  `switching_robust_fsc_reduction_audit_v1.md`. The hidden-root scalarization already reduces our
+  two-law constraint to a partially observed game for each multiplier. Together these results
+  mean that “add risk memory and optimize an FSC” is a standard representation/solver combination.
+- Decision: stop the risk-state-compression branch as a novelty candidate. It remains a useful
+  implementation baseline and verification tool. Reopen only with a quantitative theorem for the
+  two-law delayed objective that improves on robust FSC synthesis / one-sided-POSG planning and
+  the sequence-form oracle, with separate economic-value and causal-risk errors. Do not infer such
+  a result from the T=8 runtime comparison, where the full oracle did not finish. G1 is unresolved;
+  G2–G5 stay held. Promotion validity remains distinct from current-regime value after reversal.

@@ -1977,3 +1977,18 @@ the finite benchmark. Source limitation: RAO* full text/proof not inspected in t
   gain in the recurrent delayed two-law problem beyond standard costed sequential design and
   switching control. G2–G5 remain held; no efficacy or real-data study follows from this result.
   Historical promotion validity remains separate from current-regime value after reversal.
+
+### G1 candidate no-go 2026-10-29: generic finite-window belief compression is established
+
+- Audited Kara and Yüksel, JMLR 23(11), 2022, from the official full paper. Their finite-window
+  policy construction and Theorems 12, 16 and 17 give near-optimality/value bounds under filter
+  stability, including exponential memory-window rates for known-model POMDP control. Provenance
+  and the exact claim boundary are in `switching_finite_memory_approximation_prior_audit_v1.md`
+  and source manifest v33.
+- Decision: close truncating old alternative-HMM evidence, or adding budget and pending-label
+  coordinates to a finite-window POMDP, as a novelty claim. The source does not provide a bound for
+  the project's hidden-pending-label causal null and separate anytime promotion-risk constraint;
+  that mismatch remains a theorem obligation, not a novelty inference. Any continuation must show
+  separate nonvacuous economic-value and worst-case causal-risk errors and a complexity gain over
+  robust FSC synthesis and the sequence-form oracle. No efficacy or real-data study follows from
+  this screen. G1 remains open; G2–G5 stay held.

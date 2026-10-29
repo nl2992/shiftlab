@@ -1,0 +1,12 @@
+[
+  {
+    "name": "kara_yuksel_jmlr_finite_memory_pomdp_2022",
+    "url": "https://jmlr2020.csail.mit.edu/papers/volume23/20-1152/20-1152.pdf",
+    "record_url": "https://jmlr.org/papers/v23/20-1152.html",
+    "bytes": 436384,
+    "sha256": "8F967EB90151973668E15FF7FA17AF19831F4355E1341087B7BDCC761A422597",
+    "status": "official_full_pdf_inspected_finite_window_model_and_theorems_12_16_17_scope_audited",
+    "retrieved_date": "2026-10-29",
+    "cache_path": "outputs/switching_source_audit_v1/kara_yuksel_finite_memory_pomdp_2022.pdf"
+  }
+]

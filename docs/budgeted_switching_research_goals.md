@@ -2199,3 +2199,23 @@ the finite benchmark. Source limitation: RAO* full text/proof not inspected in t
   improve the safe economic switching frontier over this adapter plus valid risk control, under
   the exact delayed observation contract; do not treat calendarization or an e-process wrapper as
   the contribution. G2–G5 remain held; no empirical sweep was run.
+
+### G1 comparator refinement 2026-10-29: finite-horizon onset-mixture frontier
+
+- Corrected a weakness in the persistent one-change safe baseline: its all-onset e-detector used
+  infinite-horizon weights although `T` and `B` are known. For the same fixed calendar and
+  Bernoulli model, derived a finite-mixture bound and optimized its weights for worst-onset
+  calendar regret. The exact one-dimensional feasibility condition is
+  `N(r) exp(a-kappa*(r-d+1)/L)/alpha <= 1`, where `N(r)` counts onset cells whose remaining
+  horizon exceeds `r`; see `switching_finite_horizon_mixture_frontier_v1.md` and
+  `scripts/optimize_switching_onset_mixture.py`.
+- Reproduction check: at `T=120,B=20,alpha=.05,d=1,epsilon=.49`, the optimized worst-onset
+  regret-horizon bound is `57.224508`, versus `62.854339` for uniform mixture weights and
+  `74.916892` for the old infinite-horizon weights. At the registered `epsilon=.10`, all three
+  bounds cap at `T=120`, so this does not create useful headroom in the moderate-signal cell.
+- Scope: this is standard e-mixture reweighting and a comparator-only bound refinement, not an
+  acquisition/switching mechanism or a minimax theorem over all policies. It remains a one-change
+  persistent alternative and carries no current-value certificate after reversal. G1 remains open;
+  G2–G5 remain held and no efficacy or real-data study is opened. Future candidate comparisons
+  should use the strongest contract-matched baseline available, including this finite-horizon
+  weight tuning, rather than the default infinite-horizon prior.

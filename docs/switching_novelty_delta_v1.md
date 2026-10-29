@@ -243,3 +243,13 @@ reachability constraint with hidden pending outcomes, so the full two-law proble
 remaining novelty target is a risk-preserving information state with a bound against the full
 two-law oracle, or a growing-family memory lower bound. Source hash and cache path are in manifest
 v27. This closes only queue/belief augmentation, not G1 overall.
+
+### Comparator update 2026-10-29: finite-horizon onset weights
+
+The persistent one-change calendar/e-detector comparator has a stronger finite-horizon version:
+optimize its start-mixture weights against the worst-onset regret bound, rather than use the
+infinite-horizon default prior. The derivation and implementation are in
+[`switching_finite_horizon_mixture_frontier_v1.md`](switching_finite_horizon_mixture_frontier_v1.md)
+and `scripts/optimize_switching_onset_mixture.py`. This tightens a standard comparator only; it
+does not close the delayed recurrent-switching gap or establish novelty. The registered
+moderate-signal case remains vacuous under this bound.

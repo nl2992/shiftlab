@@ -1705,3 +1705,20 @@ the finite benchmark. Source limitation: RAO* full text/proof not inspected in t
 - Decision: reject this extension as a lower-bound family. Future memory screens must optimize over
   all later triggers and compact event summaries, and preserve the pending-feedback/reversible
   decision interaction. G1 remains open; no efficacy sweep follows.
+
+### G1 source boundary 2026-10-29: adaptive robust sequential tests are established
+
+- Audited Saha and Ramdas, arXiv:2408.14015, from the official arXiv PDF: adaptive conditional
+  contamination under composite nulls, Corollary 3.4, Section 4.1, Theorem 4.1 and its appendix
+  proof. Their robust likelihood-ratio and predictable plug-in constructions already give
+  test-supermartingale/anytime risk control under history-adaptive conditional null laws.
+  `switching_robust_sequential_testing_prior_audit_v1.md` records the theorem scope and source hash
+  (manifest v28).
+- Consequently, an e-process gate, composite-null likelihood ratio, or predictable safe-factor
+  product is not the methodological contribution. Predictable acquisition, finite stopping, and
+  delayed label release appear reducible to event-time filtration bookkeeping; formalize that
+  reduction before making it a proof claim.
+- Residual G1 must concern the interaction between a global any-promotion risk constraint, limited
+  delayed observations, and recurring reversible economic switching, compared against an exact or
+  provably strong resource-matched controller. Promotion evidence remains distinct from current
+  challenger value after regime reversal. G1 remains open; G2–G5 stay held.

@@ -146,9 +146,9 @@ read the applicable skill before use. Tool availability does not authorize a
 separate overnight schedule, remote computation or notification. Update the ledger
 with the commit, checks, failures and next research decision at every checkpoint.
 
-## Immediate next sprint: explain and capture the B=4 adaptive gain
+## Checkpoint: B=4 adaptive policy understood; no novelty claim
 
-The next sprint is intentionally narrow. It uses the registered T=8, B=4, d=2
+The completed audit uses the registered T=8, B=4, d=2
 low-persistence cell as a diagnostic witness, not as confirmation evidence. The
 full decomposed reference is cheaper than the best fixed calendar in two registered
 cells, but all tested restricted policies and the finite calendar portfolio miss
@@ -180,6 +180,11 @@ and action probabilities—not aggregate event counts. Record the economic-cost
 verification scope separately. If the audit is inconsistent, stop mechanism design
 until corrected.
 
+**Outcome:** this gate passed. The exact adaptive branch is a finite randomized
+sample-size/futility pattern with delayed feedback. Its source-matched prior-art
+equivalence remains a serious objection, so it is retained as a baseline and does
+not count as a candidate method or pass G1.
+
 ### Step 2 — State one candidate theorem before coding
 
 Use the audit to propose one history compression or allocation rule that captures
@@ -200,6 +205,15 @@ justified candidate without changing the problem formulation.
 **Exit gate:** a precise algorithm and theorem statement, a minimal instance where
 it matters, and a source-level novelty delta survive counterexample and prior-art
 checks. Otherwise record a no-go and select the next candidate in A/B/C order.
+
+**Next candidate test:** Candidate B's hidden-root pricing belief must retain enough
+state to evaluate each fixed active null response. The audit in
+`CANDIDATE_B_PRICING_STATE_COUNTEREXAMPLE_V1.md` falsifies belief-only merging under
+the unrestricted history-adaptive null. Continue only if a bounded response
+automaton or a response-continuation quotient can be derived with a state bound
+smaller than the learner sequence form. Otherwise close this pricing route and
+advance to a structurally different Candidate C mechanism; do not implement a
+belief-only pricing DP.
 
 ### Step 3 — Register a bounded, paired development comparison
 

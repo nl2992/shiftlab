@@ -489,3 +489,24 @@
   This adaptive sample-size split is a descriptive witness, not a novel algorithm;
   randomized sequential testing/alpha spending and delayed futility are explicit
   prior-art obligations. No real data or holdouts were accessed. G1/G3 remain open.
+
+
+## 2026-10-29 — Candidate B pricing-state counterexample
+
+- Tested whether a fixed active null response's pricing continuation can be
+  represented by time, budget, deployment and belief over hidden root/physical
+  state alone. Constructed two delay-one histories with the same one positive
+  released label, query count, empty pending queue, stationary alternative
+  posterior and hidden null-mode belief, but with the query/label at different
+  event times. An admissible full-history null response assigns next-query rates
+  0 versus 1/2 to these histories. A query-then-positive-only-promotion
+  continuation therefore has risks 0 versus 1/2.
+- This falsifies belief-only merging for the unrestricted active response family.
+  An exact pricing state must include public history or a sufficient automaton for
+  each active null strategy. No uniform compact response-memory bound is known;
+  the counterexample does not exclude structured response families or a new
+  continuation quotient. Keep column generation as an exact reformulation and do
+  not implement the invalid compressed DP.
+- Artifact: `CANDIDATE_B_PRICING_STATE_COUNTEREXAMPLE_V1.md`. No experiments,
+  seeds, real data or holdouts were used. G1/G3 remain open; next require a proof
+  of a compact response quotient or move to a distinct Candidate C mechanism.

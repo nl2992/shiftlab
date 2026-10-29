@@ -2295,12 +2295,38 @@ the finite benchmark. Source limitation: RAO* full text/proof not inspected in t
   POSG family. Thus generic belief aggregation/value approximation is established prior art. SAB's
   scalar approximation does not separately control economic cost and worst causal-null promotion
   risk or guarantee primal feasibility; uniform multiplier control, policy extraction and feasible
-  recovery remain open. The audit gives the exact reduction and a generic risk-repair lemma, while
-  explaining why that lemma does not supply the needed risk-violation bound.
-- Decision: close generic SAB aggregation/scalarization as a novelty route. Reopen only with a
-  structural partition/state and a finite-horizon policy theorem giving separate economic and
-  causal-risk errors, exact risk feasibility after repair/recovery, and a complexity or regret
-  improvement over SAB/one-sided-POSG planning and the sequence-form oracle. Full audit:
+  recovery remain open. Added a generic frontier baseline: two scalar policies within `epsilon`
+  scalar exploitability and `delta` of the dual optimum, whose separately verified risks bracket
+  `alpha`, can be mixed to obtain robust risk at most `alpha` and cost at most `V*+epsilon+delta`.
+  This is ordinary Lagrangian recovery, not novelty; policy risk must be computed under the original
+  null, and bracket/finite-controller verification costs remain unresolved. The audit gives the
+  exact reduction and the risk-repair alternative when the bracket condition fails.
+- Decision: close generic SAB aggregation/scalarization and generic Lagrangian policy mixing as
+  novelty routes. Reopen only with a structural partition/state and a finite-horizon policy theorem
+  giving separate economic and causal-risk errors, exact risk feasibility after repair/recovery,
+  and a complexity or regret improvement over SAB plus exact risk verification, one-sided-POSG
+  planning and the sequence-form oracle. Full audit:
   `switching_sab_aggregation_prior_audit_v1.md`.
 - No experiments or current-value claims follow. The test-epoch promotion guarantee remains
   separate from current-regime benefit after reversal. G1 remains open; G2–G5 remain held.
+
+### G1 baseline screen 2026-10-29: scalarized frontier recovery
+
+- Derived the generic two-policy recovery lemma: if near-optimal scalarized policies at multipliers
+  near the dual optimum have separately verified robust risks bracketing `alpha`, a persistent
+  root mixture reaches risk at most `alpha` with cost at most `V*+epsilon+delta`. This is ordinary
+  convex Lagrangian recovery, not a candidate method.
+- Implemented `scripts/screen_switching_lagrange_frontier_recovery.py` and ran it on the certified
+  `T=6,B=3,d=1` recurrent-HMM instance. The policies at multipliers `1.18231201171875` and
+  `1.182342529296875` have exact verified risks `1/4` and `0`; the `2/5`–`3/5` persistent mixture
+  has exact risk `1/10` and cost `461083/160000`, equal to the certified full-oracle feasible
+  upper policy. The multiplier separation is `1/32768`. Numerical scalar LP solves and one-cell
+  agreement do not certify a general approximation rate or novelty.
+- A first implementation that averaged per-history action distributions gave risk `2/125`; it was
+  corrected to represent one persistent root lottery, after which exact forward cost/risk matched
+  the mixture calculation. This is a useful implementation invariant for future Lagrangian
+  baselines. Details and reproduction command are in
+  `switching_lagrange_frontier_recovery_screen_v1.md`.
+- Decision: include this method as a mandatory constrained-game baseline, not as the contribution.
+  No G1 novelty gate is passed; G2–G5 remain held. Current-regime value evidence remains distinct
+  from test-epoch promotion-risk control after reversal.

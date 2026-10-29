@@ -33,12 +33,8 @@ Generic approximate one-sided-POSG value solving is prior art here, too.
 The remaining gap is the constrained-policy recovery, not finite-horizon scalar-game value
 approximation. The scalar value error depends on within-cell variation of the true value function;
 SAB's cited propositions do not by themselves give separate errors for the alternative economic
-cost and worst history-adaptive causal-null promotion probability of the recovered policy. Nor
-does a near-equilibrium for one multiplier alone ensure risk at most `alpha`. A complete transfer
-would need uniform error control over the relevant dual multiplier range, a policy extraction and
-duality argument, and a risk-feasibility repair with a bound on its economic cost under the exact
-hard-cap/delay contract. The simple finite-horizon embedding above supplies none of those
-multiobjective recovery guarantees.
+cost and worst history-adaptive causal-null promotion probability of the recovered policy. A
+single near-equilibrium at one multiplier does not ensure risk at most `alpha`.
 
 There is a generic exact repair once a candidate policy's robust risk has been independently
 computed. Let its cost and risk be `(C,R)`, let the never-promote policy have cost `C0` and risk
@@ -49,6 +45,29 @@ most `min(1,(R-alpha)/alpha)*(Cmax-Cmin)`. This makes the missing quantity expli
 SAB value or exploitability bound does not provide the candidate's separate `R` or bound its risk
 violation. The repair is a recovery lemma, not a new acquisition method.
 
+There is also a generic two-policy frontier recovery that avoids the risk-repair penalty when
+risks bracket the boundary. Let `g(lambda)=min_x {C(x)+lambda(R(x)-alpha)}` and let `lambda*`
+maximize `g`. Suppose `lambda_-` and `lambda_+` are each within `delta` of `lambda*`, and policies
+`x_-`,`x_+` are respectively `epsilon`-optimal for their scalar problems, with separately
+verified robust risks `R_-=R(x_-) >= alpha >= R_+=R(x_+)`. Choose a mixture weight so its average
+component risk equals `alpha` (or use a boundary policy alone if equality holds). Since
+`R(x)=sup_nu R(x,nu)` is convex in the learner realization plan, the mixture's actual robust risk
+is at most `alpha`. Each component obeys
+`C(x_i)+lambda*(R_i-alpha) <= g(lambda*)+epsilon+delta`, because the risk slope has magnitude at
+most one and `g(lambda_i) <= g(lambda*)`. Averaging with component risks equal to `alpha` gives
+
+`C(mixture) <= V* + epsilon + delta`.
+
+This generic Lagrangian recovery fact is not a new switching result. Its operational requirements
+matter: SAB must return policies with the claimed scalar exploitability; their risks must be
+evaluated under the original full-history null (not the aggregate game); and the two verified risks
+must bracket `alpha`. A deterministic public-memory controller permits exact reachability
+verification by dynamic programming over time, controller state, budget and pending labels. If the
+extracted controller uses private memory randomization, its posterior under the null's observable
+history must also be tracked; otherwise the full history may still be needed. When bracketing fails,
+the bound does not apply; the never-promote repair remains available if a quantitative risk
+violation is known.
+
 The belief state must also preserve the learner's shared information across the hidden economic/null
 root, while the null branch sees generated but pending labels. A generic belief grid may therefore
 have a large state and action representation; the cited value theorem alone gives no useful
@@ -57,13 +76,14 @@ complexity bound for this family.
 ## Decision and reopening test
 
 Close generic SAB-style aggregation and scalarization as a novelty route, including their generic
-finite-horizon extension by time augmentation and reward rescaling. Retain SAB as a mandatory
-scalar-game solver baseline if a finite-horizon constrained approximation is later prototyped.
-Reopen only with a specific structural state/partition and a proved policy-level result that (i)
-gives separate economic-value and worst causal-null-risk errors for the original finite-horizon
-game, (ii) recovers a truly feasible policy at risk level `alpha`, and (iii) improves a relevant
-complexity or regret bound over SAB/one-sided-POSG planning and the sequence-form oracle. A
-discretization convergence statement or scalarized value bound alone does not pass this gate.
+finite-horizon extension by time augmentation and reward rescaling. Retain SAB plus exact risk
+verification and two-policy multiplier recovery as a mandatory constrained-game baseline if a
+finite-horizon approximation is prototyped. Reopen only with a specific structural state/partition
+and a proved policy-level result that (i) gives separate economic-value and worst causal-null-risk
+errors for the original finite-horizon game, (ii) recovers a truly feasible policy at risk level
+`alpha`, and (iii) improves a relevant complexity or regret bound over this baseline,
+one-sided-POSG planning and the sequence-form oracle. A discretization convergence statement or
+scalarized value bound alone does not pass this gate.
 
 Any later promotion procedure must also preserve the project invariant: historical evidence can
 control its declared test-epoch false-promotion event, but it does not certify current challenger

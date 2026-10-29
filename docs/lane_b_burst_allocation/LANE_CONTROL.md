@@ -119,3 +119,9 @@ Both parts are research targets, not results.
 - **Disclosed:** the OPSD ridge penalty sits at the grid edge.
 - **Next:** R3, freeze both tasks (protocol plus freeze record, with the delay-aware harness noted), Codex methodology review, then hand off to Lane A via the coordination note. |
 | 12 | 2026-10-28 | R2 | Waiting: the A-B2 implementation (Binance Z = position-return difference) is still running, so no duplicate was started. Lane A's newest checkpoints (six-round oracle certificate; belief-grid FSC not a novelty candidate) do not overlap; there are no OPSD or Binance mentions there. Note: the global stop rule (12 ticks without passing B1) applied to the withdrawn algorithm search; the real-data mission has passed R0–R2 and continues to R3 freeze and handoff. |
+| 13 | 2026-10-29 | R3 | A-B2 implemented (`5625425`): Z=0 on all agreement rounds. **Codex pre-freeze review: DO-NOT-FREEZE for both tasks** (`CODEX_R3_REVIEW_1.md`).
+- **Shared issue: outcomes leak into the public features.** OPSD loads and Binance returns reconstruct the paired losses without queries, so the budget would be fictitious. Lead decision: declare the monitor a **label-limited auditor**. Its filtration is the actions, disagreement, prices, queried Z and calendar features only. The frozen policies may use public data, but evaluator-side only.
+- **OPSD fixes:** align delivery blocks to CET/CEST local days (the UTC day spans two forecast deadlines); keep scheduled rounds when the label is missing; embargo the split boundaries using availability timestamps; the holdout reader must check the timestamp before parsing a row.
+- **Binance fixes:** choose gross clipped signal loss plus a constant imposed k (turnover accounting removed from the switching cost, or declared separately); freeze the exact normalised and clipped Z formula; preserve microsecond close timestamps.
+- **Assumptions:** A2 and A3 stay disclosed as unresolved.
+- Fixes sent to the R2 implementer. |

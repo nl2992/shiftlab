@@ -1692,3 +1692,16 @@ the finite benchmark. Source limitation: RAO* full text/proof not inspected in t
 - Next G1 work must focus on the risk-preserving information state itself and compare it with the
   full-history two-law oracle, or prove a growing memory lower bound. A generic risk-budget state is
   also prior art. No method has passed G1; G2–G5 remain held.
+
+### G1 scaling screen 2026-10-29: posterior-alias witness does not grow
+
+- Tried extending the two-label posterior-alias example by appending labels from the deterministic
+  favorable HMM state. `switching_alias_family_scaling_screen_v1.md` gives the exact safe-test
+  comparison: the full-history prefix test has power `(9/10) min(1, alpha*2^B)`, but a one-bit
+  suffix-positive trigger has power `min(1, alpha*2^(B-1))` at the same query cost. At
+  `alpha=0.1`, the latter reaches power one by `B=5` with causal-null risk `1/16`. The proposed
+  growing family therefore has no asymptotic memory gap; the newest labels provide a compact,
+  safer trigger.
+- Decision: reject this extension as a lower-bound family. Future memory screens must optimize over
+  all later triggers and compact event summaries, and preserve the pending-feedback/reversible
+  decision interaction. G1 remains open; no efficacy sweep follows.

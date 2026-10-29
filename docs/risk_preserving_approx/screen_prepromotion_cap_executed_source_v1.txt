@@ -1,0 +1,149 @@
+"""Registered development screen for the pre-promotion query cap."""
+
+from __future__ import annotations
+
+import hashlib
+import json
+import time
+from fractions import Fraction as F
+from pathlib import Path
+
+from verify_cut_certificate import verify
+
+from shiftlab.dive.causal_switching_game import GameConfig
+from shiftlab.dive.delayed_regime_information import RegimeModel
+from shiftlab.dive.first_promotion_decomposition import FirstPromotionDecomposedGame
+from shiftlab.dive.prepromotion_cap import PrePromotionCapGame
+
+ROOT = Path(__file__).resolve().parents[2]
+OUT = ROOT / "docs/risk_preserving_approx"
+TARGET = OUT / "prepromotion_cap_screen_v1.json"
+
+
+def sha(path):
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def cell(horizon, cap):
+    config = GameConfig(horizon=horizon, budget=3, delay=1, alpha=F(1, 10), max_nodes=200_000)
+    model = RegimeModel(
+        transition01=F(1, 4),
+        transition10=F(1, 4),
+        emission0=F(1, 20),
+        emission1=F(19, 20),
+        prior1=F(1, 2),
+    )
+    game = (
+        FirstPromotionDecomposedGame(config, model)
+        if cap is None
+        else PrePromotionCapGame(config, model, pre_cap=cap)
+    )
+    start = time.perf_counter()
+    game.build()
+    build_s = time.perf_counter() - start
+    cache = len(game._decision_cache)
+    start = time.perf_counter()
+    report, policy, _ = game.solve()
+    solve_s = time.perf_counter() - start
+    risk = game.null_risk(policy)
+    metrics = game.expected_metrics(policy)
+    cost = sum(metrics[:3])
+    always = lambda history, outcomes: tuple(
+        F(choice == (0, 0)) for choice in game.choices(history)
+    )
+    no_cost = sum(game.expected_metrics(always)[:3])
+    activation = min(F(1), config.alpha / risk) if risk else F(1)
+    safe_cost = activation * cost + (1 - activation) * no_cost
+    return {
+        "horizon": horizon,
+        "pre_cap": cap,
+        "status": "completed",
+        "numeric_objective": report["solver_objective"],
+        "raw_cost": str(cost),
+        "raw_risk": str(risk),
+        "activation": str(activation),
+        "safe_cost": str(safe_cost),
+        "safe_risk_bound": str(activation * risk),
+        "metrics": [str(v) for v in metrics],
+        "nodes": game.nodes,
+        "learner_sequences": game.learner.count,
+        "null_sequences": game.opponent.count,
+        "learner_infos": len(game.learner.infos),
+        "continuation_cache": cache,
+        "build_s": build_s,
+        "solve_s": solve_s,
+        "equality_residual": report["equality_residual"],
+        "inequality_violation": report["inequality_violation"],
+    }
+
+
+def main():
+    if TARGET.exists():
+        raise FileExistsError(f"Refusing to overwrite {TARGET}")
+    lower = {}
+    for horizon in (6, 7):
+        path = OUT / f"causal_cut_certificate_t{horizon}_v1.json"
+        verify(path)
+        lower[horizon] = F(json.loads(path.read_text(encoding="utf-8"))["certificate"]["lower"])
+    sources = [
+        Path(__file__),
+        ROOT / "src/shiftlab/dive/prepromotion_cap.py",
+        ROOT / "src/shiftlab/dive/first_promotion_decomposition.py",
+        OUT / "PREPROMOTION_CAP_PROTOCOL_V1.md",
+    ]
+    output = {
+        "hashes": {p.relative_to(ROOT).as_posix(): sha(p) for p in sources},
+        "rows": [],
+        "comparisons": [],
+    }
+    for horizon in (5, 6, 7, 8):
+        for cap in (None, 0, 1, 2, 3):
+            try:
+                row = cell(horizon, cap)
+                if F(row["safe_risk_bound"]) > F(1, 10):
+                    raise ValueError("Safe-risk bound exceeds alpha")
+                if horizon in lower:
+                    row["certified_gap_upper"] = str(F(row["safe_cost"]) - lower[horizon])
+                    if F(row["certified_gap_upper"]) < 0:
+                        raise ValueError("Safe cost below verified full lower bound")
+            except Exception as exc:  # noqa: BLE001 - Preserve every registered failed cell.
+                row = {
+                    "horizon": horizon,
+                    "pre_cap": cap,
+                    "status": "failed",
+                    "error": f"{type(exc).__name__}: {exc}",
+                }
+            output["rows"].append(row)
+            TARGET.write_text(json.dumps(output, indent=2) + "\n", encoding="utf-8")
+            print(
+                json.dumps(
+                    {
+                        "horizon": horizon,
+                        "cap": cap,
+                        "status": row["status"],
+                        "cost": row.get("safe_cost"),
+                    }
+                ),
+                flush=True,
+            )
+        rows = [r for r in output["rows"] if r["horizon"] == horizon and r["status"] == "completed"]
+        by_cap = {r["pre_cap"]: r for r in rows}
+        if set(by_cap) == {None, 0, 1, 2, 3}:
+            ordered = [by_cap[m]["numeric_objective"] for m in (0, 1, 2, 3)]
+            output["comparisons"].append(
+                {
+                    "horizon": horizon,
+                    "numeric_objective_nonincreasing": all(
+                        a + 1e-7 >= b for a, b in zip(ordered, ordered[1:], strict=False)
+                    ),
+                    "cap_b_matches_reference": abs(
+                        by_cap[3]["numeric_objective"] - by_cap[None]["numeric_objective"]
+                    )
+                    <= 1e-7,
+                }
+            )
+            TARGET.write_text(json.dumps(output, indent=2) + "\n", encoding="utf-8")
+
+
+if __name__ == "__main__":
+    main()

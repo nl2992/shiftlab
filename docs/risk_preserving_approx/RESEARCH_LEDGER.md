@@ -175,3 +175,29 @@
 - Decision: no benefit from mixture optimization on this candidate set. Retain
   the evidence and move toward a different structural pre-promotion approximation.
   No real data, held-out outcomes or new seeds were accessed.
+
+## 2026-10-29 — Pre-promotion query-cap development comparison
+
+- Registered `PREPROMOTION_CAP_PROTOCOL_V1.md` before the 20-cell screen. The
+  adapter caps requests before/on first promotion but retains total B after it;
+  a stopped-policy coupling gives a conditional full-oracle value bound. The
+  unknown probability in that bound is not a practical general rate. Six focused
+  tests passed, including delayed/pending feedback and post-promotion rights.
+- All T=5–8/m=0–3 screen cells completed, numerical objectives respected nesting,
+  m=B matched the decomposed reference, and recovered policies were exactly
+  risk-checked. T=6/8 m=2 matched the full reference's recovered cost; T=7 m=2
+  cost 1349103/400000, above the full reference 10788127/3200000.
+- Under `FULL_T7_CERT_PROTOCOL_V1.md`, generated an exact full-oracle dual lower
+  bound with exact free-column equations. Optimizer-free verifiers checked full
+  and m=2 witnesses: full gap <1.564e-12 and m=2 gap <0.001467812502, risk 1/10.
+  These checks share model/coefficient helpers and are not an independently
+  implemented HMM model. T=8 has no independent full-oracle certificate.
+- Under `PRECAP_RESOURCE_PROTOCOL_V1.md`, 30 fresh worker processes completed.
+  Median build+solve+evaluation seconds, full vs m=2: T6 0.2326/0.1063; T7
+  0.5679/0.2564; T8 1.4668/0.5130. Corrected worker-side peak working-set
+  medians and all raw measurements are saved. Single-machine small-cell timing
+  is not a complexity proof. No new seeds or real data were accessed.
+- Decision: continue as a promising computational tradeoff, not a novelty or
+  economic-superiority claim. Complete prior-art audit, stronger baseline and
+  registered synthetic comparisons before an eligible real-data development
+  replay. Existing failure evidence and holdout restrictions remain intact.

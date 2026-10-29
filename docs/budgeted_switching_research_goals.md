@@ -1997,3 +1997,11 @@ the finite benchmark. Source limitation: RAO* full text/proof not inspected in t
   three released labels has power at most `27/128` by Neyman–Pearson under the included IID fair
   null, producing an exact net-value gap `243/2560` at the specified fees. This only rejects raw
   suffix truncation; carrying a cumulative risk state can evade it and must be audited separately.
+- Follow-up exact reduction: on policies whose every pure any-promotion event is coordinatewise
+  increasing, the causal-null supremum equals the IID `Ber(1/2)` risk. A hidden root mode then
+  turns each cost/risk scalarization into an expected-cost finite-horizon POMDP with HMM mode,
+  budget, incumbent, promotion flag and pending-label queue. This is standard chance-constrained
+  POMDP scalarization/state augmentation (RAO*; Khonji et al.); moreover, unrestricted solvers can
+  leave the monotone class and invalidate the risk identity. See
+  `switching_monotone_risk_ccpomdp_reduction_v1.md`. Close the generic reduction as a novelty
+  claim; require a compact monotone synthesis theorem with separate utility/risk bounds to reopen.

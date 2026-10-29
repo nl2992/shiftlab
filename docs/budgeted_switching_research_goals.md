@@ -1790,3 +1790,17 @@ the finite benchmark. Source limitation: RAO* full text/proof not inspected in t
   satisfy the any-false-promotion event. At minimum use online alpha spending/fallback for valid
   sequential p-values; use ADDIS only when its assumptions are justified. Do not combine guarantees
   from different methods without a proof. G1 remains open; G2–G5 stay held.
+
+### G1 source boundary 2026-10-29: adaptive model approval is established
+
+- Audited Feng et al., “Sequential Algorithmic Modification with Test Data Reuse,” UAI 2022,
+  including Algorithm 1, Theorems 1–2 and supplementary FWER proof route. Adaptive model updates
+  selected from binary approval feedback can already use correlation-aware sequentially rejective
+  graphical tests with FWER control; the paper includes an eICU update study.
+  `switching_sequential_model_modification_prior_audit_v1.md` records its scope and cached-source
+  hashes.
+- Decision: reject generic safe model replacement, test-report feedback, and alpha recycling as
+  novelty claims. The residual gap must exploit costed delayed observation allocation and
+  current-regime reversible economics under the exact global risk event, while beating adaptive
+  SRGP and online-FWER comparators. Promotion validity still does not guarantee current value after
+  reversal; G1 remains open and G2–G5 stay held.

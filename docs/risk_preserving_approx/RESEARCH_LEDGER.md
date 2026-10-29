@@ -146,3 +146,16 @@
 - Decision: preserve the standard cut generator as a baseline; T=7 is not
   near-optimal enough and the full null tree remains. No computational superiority,
   synthetic efficacy or real-data comparison is established. No data or seeds read.
+
+## 2026-10-29 — Conservative mixture of incumbent policies
+
+- Registered MIXTURE_INCUMBENT_PROTOCOL_V1.md before execution. Re-generated the
+  T=7 64-cut candidate sequence; minimized the weighted sum of individual exact
+  worst risks and exact costs over safe singleton/pair root mixtures.
+- The best mixture was identical to prior root repair: iteration-0 policy weight
+  4/35 plus never-promote 31/35, cost 59747/17500, exact combined risk 1/10,
+  rigorous gap about 0.072566086302 to the prior verified master lower bound.
+  An optimizer-free verifier checked the complete certificate and component metrics.
+- No improvement, novelty, runtime or real/synthetic efficacy claim. The summed
+  worst-risk bound can be conservative; investigate exact joint null response
+  before concluding that all mixtures fail. No data, seed or holdout was opened.

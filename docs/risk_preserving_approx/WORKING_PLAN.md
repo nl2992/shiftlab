@@ -8,7 +8,10 @@ reproduced. Several candidate mechanisms have been falsified as main methods or
 remain unresolved: query caps lose to the stronger calendar baseline economically (one T=8 recovered-policy tie also shows a small compute reduction); simple
 belief grids lack tractable state counts and a closed transfer proof; generic
 null-cut and dominance pruning do not reduce the pre-promotion tree; policy-column
-generation still lacks a compact pricing oracle. No candidate has yet established
+generation still lacks a compact pricing oracle. At T=8,B=4,d=2 the exact adaptive
+reference beats the best fixed calendar in two cells, but capped/e-process candidates
+miss that gain; a finite root-portfolio over calendar risk frontiers also selected
+the best single calendar and did not close the gap. No candidate has yet established
 the required synthetic and real-data baseline wins. See the append-only ledger.
 
 ## Operating contract
@@ -142,3 +145,98 @@ source-grounded evaluation, and the installed ARIS skills when their workflows f
 read the applicable skill before use. Tool availability does not authorize a
 separate overnight schedule, remote computation or notification. Update the ledger
 with the commit, checks, failures and next research decision at every checkpoint.
+
+## Immediate next sprint: explain and capture the B=4 adaptive gain
+
+The next sprint is intentionally narrow. It uses the registered T=8, B=4, d=2
+low-persistence cell as a diagnostic witness, not as confirmation evidence. The
+full decomposed reference is cheaper than the best fixed calendar in two registered
+cells, but all tested restricted policies and the finite calendar portfolio miss
+that gain. The task is to identify the exact information-dependent decision that
+creates the gap, then derive a compact rule with a theorem target before widening
+the experiment grid.
+
+### Step 1 — Close the policy-shape audit
+
+- Independently reconstruct the saved reference policy from `t8_b4_policy_shape_v1.json`.
+  Check its exact alternative cost and full-history causal-null risk, plus its
+  event-by-event query, promotion, rollback and re-promotion behavior.
+- Resolve the audit's apparent mismatch between the grouped action probabilities
+  and the reported exact risk `1/10`. Trace the implementation's information key,
+  action semantics and risk recursion; do not infer the policy structure from
+  marginal summaries alone. Preserve the failed first runner and its correction.
+- Compare the resulting policy against explicit sequential-testing patterns:
+  likelihood-ratio/futility boundaries, alpha spending, delayed group-sequential
+  tests, and adaptive sensing. Credit any exact reduction to established methods.
+- Deliver a source-grounded policy-shape note and an optimizer-free verifier.
+  If the discrepancy is a bug, issue a separately versioned correction and retain
+  the original output unchanged.
+
+**Exit gate:** the verifier independently reproduces the reference policy's exact
+metrics, and every claimed structural feature is tied to histories and action
+probabilities—not just aggregate event counts. If the audit is inconsistent, stop
+mechanism design until corrected.
+
+### Step 2 — State one candidate theorem before coding
+
+Use the audit to propose one history compression or allocation rule that captures
+the adaptive timing gain while preserving the full causal-null information. Specify
+the candidate's state, update rule, policy class, assumptions, exact risk certificate,
+economic approximation bound, and runtime/memory dependence on `T`, `B`, delay,
+state resolution and numerical precision. State the closest established theorem and
+the precise missing lemma. Test the existing alternative-posterior/risk-alias example
+against the proposed state immediately.
+
+No scalar risk budget, root lottery, likelihood threshold, or finite-memory policy
+is treated as a contribution by itself. The method must either provide a proved
+nonvacuous value/risk/complexity guarantee or be clearly labeled conjectural with
+one sharply isolated proof obligation. If a source-matched prior method already
+provides the guarantee, record the equivalence and move to the next mathematically
+justified candidate without changing the problem formulation.
+
+**Exit gate:** a precise algorithm and theorem statement, a minimal instance where
+it matters, and a source-level novelty delta survive counterexample and prior-art
+checks. Otherwise record a no-go and select the next candidate in A/B/C order.
+
+### Step 3 — Register a bounded, paired development comparison
+
+Only after Step 2 passes, register a new protocol and unique output paths. Start with
+the two B=4 cells where the full reference beats calendars, then include matched
+control cells from the existing six-cell grid. Compare under identical budgets,
+delays, costs and risk level against the decomposed reference, best fixed calendar,
+finite calendar portfolio, m=3 cap, and the strongest faithfully implementable
+sequential-test or robust-controller baseline. Do not rerun completed screens or
+expand to a factorial sweep without a theorem-driven reason.
+
+Report exact worst-case null risk, alternative cost and oracle gap, maximum pathwise
+queries, policy/controller size, builder nodes, runtime and memory. Independently
+reconstruct candidate behavior and exact metrics wherever tractable. Register
+development versus confirmation seeds through existing repository mechanisms; do
+not use development outcomes as confirmation.
+
+**Exit gate:** invariant and independent-verification checks pass, the candidate
+meets its proved risk guarantee, and it improves on the strongest matched baseline
+in at least one predeclared meaningful dimension without a disqualifying value loss.
+Compute savings alone do not pass the methodological or efficacy gate.
+
+### Step 4 — Apply the upstream research gates
+
+G1 (novelty delta), G2 (mechanism and theory), and G3 (matched synthetic utility)
+must pass in order. Until then, keep CRSP and all reserved real-data holdouts closed;
+do not schedule or launch overnight/remote jobs or notifications as an implied part
+of this plan. After G3, separately audit eligible real data for paired outcomes,
+chronology, delay semantics, costs, provenance and licensing before requesting or
+running any real-data evaluation. Freeze a distinct confirmation protocol before
+confirmation data are touched. A failed gate is a recorded decision point, not a
+reason to broaden the benchmark or publication scope.
+
+### Overnight execution boundary
+
+If this plan is later run unattended, the bounded unit is one preregistered sprint
+at a time: execute only the registered checks, stop on a failed invariant, preserve
+all partial logs and outputs, append a ledger entry, and leave the branch unmerged.
+No new data access, confirmation-seed allocation, remote workload or automatic
+notification is implied. Before any tool-driven workflow is described as active,
+verify that Ponytail, HKUSTDial and ARIS are actually available in the environment
+and follow their installed instructions; this plan does not claim an unavailable
+integration has been installed or launched.

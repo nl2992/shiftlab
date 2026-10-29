@@ -253,3 +253,27 @@
 - Existing cap failed the stronger calendar comparison; no claim of real-data
   superiority or completed G1–G3. No real rows, holdouts or seeds were accessed.
   Continue method/baseline work and develop a frozen real replay only when eligible.
+
+
+## 2026-10-29 — Candidate A1 finite-grid complexity audit
+
+- Audited the post-promotion denominator-grid proposal against the existing exact
+  continuation DP and its stated TV transfer sketch. The grid size is
+  `binomial(N+K-1,K-1)` for `K=2^(min(B,d-1)+1)`. At the proposed `N=4662`,
+  the T=6,B=3,d=1 loose count is 4,663 beliefs per context and 223,824
+  time/budget/deployment context pairs; at d=2 it is 16,909,250,380 beliefs per
+  context. Exact integer arithmetic and full values are in
+  `candidate_a1_complexity_audit_v1.json`.
+- Risk invariance and budget preservation hold conditionally when the pre-promotion
+  controller and remaining-rights checks are unchanged. The cost transfer proof
+  remains SKETCHED: the reset-model coupling and off-support full-history policy
+  comparison are not fully established. Pre-promotion XP growth remains intact, so
+  no end-to-end complexity gain is shown. Novelty remains unresolved against
+  finite-grid POMDP prior art.
+- Decision: no implementation or efficacy run for the current full-simplex grid;
+  retain it as a diagnostic and seek a sparse-by-proof representation or method
+  that reduces robust pre-promotion search. No data, seeds or holdouts were opened.
+  The primary objective remains active; stronger calendar results and prior
+  failures remain binding.
+- Files: `CANDIDATE_A1_COMPLEXITY_AUDIT_V1.md` and
+  `candidate_a1_complexity_audit_v1.json`.

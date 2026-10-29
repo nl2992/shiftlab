@@ -1885,6 +1885,14 @@ the finite benchmark. Source limitation: RAO* full text/proof not inspected in t
   `switching_first_promotion_decomposition_v1.md`. Keep the reduced exact solver as a
   computational artifact; G1 remains open pending a nontrivial result against robust stopping,
   sequential design and delayed-POMDP continuation methods. G2–G5 remain held.
+- Robust-stopping audit (2026-10-29): Bayraktar–Yao, Theorem 5.1, supplies a robust Snell-envelope
+  solution for worst-case expected payoff stopping under a pasted family of laws. This closes
+  “robust stopping plus a continuation value” as a novelty claim. Its criterion does not directly
+  optimize alternative-law economic cost subject to separate global causal-null reachability risk
+  with pending-label asymmetry, a pathwise hard cap and recurrent switching. As recorded in
+  `switching_robust_optimal_stopping_boundary_v1.md`, this is an unresolved reduction boundary,
+  not evidence that the gap is novel. G1 remains open pending a theorem-level advantage or a
+  stronger equivalence; G2–G5 remain held.
 - The registered fixed-`B=3`, `d=1` scaling run matches full and reduced values/metrics/risks at
   `T=7` with learner sequences reduced `54,861 -> 1,317` and nodes `71,401 -> 3,334`. At `T=8`,
   the generic builder hits its frozen 200,000-node limit; the reduced solver completes in 5,700

@@ -1944,3 +1944,16 @@ the finite benchmark. Source limitation: RAO* full text/proof not inspected in t
   the sequence-form oracle, with separate economic-value and causal-risk errors. Do not infer such
   a result from the T=8 runtime comparison, where the full oracle did not finish. G1 is unresolved;
   G2–G5 stay held. Promotion validity remains distinct from current-regime value after reversal.
+
+### G1 comparator theorem 2026-10-29: uniform calendar plus all-onset e-detector
+
+- `switching_uniform_calendar_e_detector_regret_v1.md` derives an explicit finite regret upper
+  bound for a pathwise `B`-query calendar under fixed release delay and the full-history
+  conditional null. A mixture of all query-time starts controls any promotion at level `alpha`;
+  under a persistent Bernoulli gain `epsilon`, known to the rule, the one-switch regret is bounded
+  by `cB + 2 epsilon * min(H, d-1 + ceil(T/B)*(log(s(s+1)/alpha)+log(1+2epsilon))/kappa)`.
+- This is a valid standard-composition comparator, not a candidate method. Its onset-weight
+  penalty and uniform calendar leave a large gap in moderate-signal cells; it does not establish
+  an advantage over adaptive sampling or the noisy-information lower bound. It also has no
+  post-reversal value certificate. G1 remains open; next compare a stronger adaptive safe sampler
+  with this bound and the exact oracle before advancing any method candidate. G2–G5 stay held.

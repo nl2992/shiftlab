@@ -125,3 +125,4 @@ Both parts are research targets, not results.
 - **Binance fixes:** choose gross clipped signal loss plus a constant imposed k (turnover accounting removed from the switching cost, or declared separately); freeze the exact normalised and clipped Z formula; preserve microsecond close timestamps.
 - **Assumptions:** A2 and A3 stay disclosed as unresolved.
 - Fixes sent to the R2 implementer. |
+| 14 | 2026-10-29 | R3 | Waiting: the A-R3 fix implementer is still running (edits visible in the worktree), so no duplicate was started. Lane A's newest checkpoints (monotone terminal tests; delayed-reversal oracle cell) do not overlap. |

@@ -2330,3 +2330,18 @@ the finite benchmark. Source limitation: RAO* full text/proof not inspected in t
 - Decision: include this method as a mandatory constrained-game baseline, not as the contribution.
   No G1 novelty gate is passed; G2–G5 remain held. Current-regime value evidence remains distinct
   from test-epoch promotion-risk control after reversal.
+
+### G1 verification infrastructure 2026-10-29: compact FSC risk recursion
+
+- Added `src/shiftlab/dive/switching_fsc_risk.py`, an exact memoized reachability recursion for a
+  fixed deterministic public-memory controller. Its state retains controller memory, remaining
+  pathwise query rights, and the full pending-label queue visible to the causal-null opponent; the
+  endpoint maximization over conditional label probabilities `[0,1/2]` is exact by affinity.
+- Cross-checked it against the full-history causal-game evaluator: the one-delay two-positive rule
+  has risk `1/4`; the two-delay nonmonotone XOR rule has risk `3/4`. A third test confirms that an
+  attempted query beyond the hard cap is rejected. The implementation and scope are recorded in
+  `docs/switching_fsc_risk_verifier_v1.md`; focused tests and Ruff pass.
+- Scope: this verifies a fixed public-memory policy, not randomized private-memory controllers,
+  policy optimization, or approximation to the unrestricted oracle. It is generic infrastructure,
+  not a method. Use it to certify candidate policies and Lagrangian recovery outputs. G1 remains
+  open; G2–G5 remain held; no efficacy experiment or current-value claim follows.

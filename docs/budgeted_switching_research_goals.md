@@ -1867,3 +1867,12 @@ the finite benchmark. Source limitation: RAO* full text/proof not inspected in t
   generic sequence-form oracle and established sequential-design plus delayed-POMDP methods.
   If it merely implements Bellman optimal stopping plus standard continuation planning, revise G1;
   keep G2–G5 held. First-promotion validity still does not certify current benefit after reversal.
+- Implemented the exact decomposition in `src/shiftlab/dive/first_promotion_decomposition.py` and
+  compared it with the untouched sequence-form reference on three configurations (`T=5,6`,
+  `B=2,3`, `d=1,2`). Every recovered cost, five-metric tuple, and causal-null risk agrees exactly.
+  On `T=6,B=3,d=1`, realization variables fall from 15,693 to 705 and builder nodes from 21,733
+  to 1,799; the full value remains inside its certified bracket. The focused test suite passes.
+  This is a promising exact-solver reduction, not yet a novel acquisition policy or an ICML claim.
+- Next compare the reduced solver's growth at fixed `B` against the generic oracle, and audit
+  source-level prior art on robust stopping with separate alternative utility and null risk. G1
+  remains open; no efficacy or real-data gate is opened, and G2–G5 stay held.

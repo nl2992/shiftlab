@@ -61,18 +61,48 @@ alternative-model economic forecast that uses the current posterior and subseque
 pre-promotion likelihood-ratio wealth is treated as evidence that the challenger remains
 beneficial after a reversal.
 
-## Next test and stop condition
+## Exact solver prototype and checks
 
-Implement the two stages without changing the full sequence-form reference: (1) compute the exact
-delayed-HMM continuation table `V_t` over promotion information histories, remaining budget and
-pending feedback; (2) optimize the robust pre-promotion stopping game against the full-history null.
-On the registered small cell, require equality with the certified oracle bracket and exact
-independent risk verification. Then compare tree/state growth as `T` and `B` increase against the
-generic oracle and the best established safe sequential-design / delayed-POMDP composition. A
-method claim survives only if a source-audited theorem proves a meaningful computational or
-approximation advantage while preserving the same value and risk. If this is simply standard
-optimal stopping plus a delayed-POMDP continuation table with no new guarantee, reject the route;
-do not open G3–G5.
+`src/shiftlab/dive/first_promotion_decomposition.py` implements the reduction without changing the
+full sequence-form reference. It computes the post-promotion value with an exact-rational belief DP
+over the current HMM state and pending queried outcomes, then leaves only pre-promotion learner
+sequences and the full-history null response in the sequence-form LP. The continuation policy is
+recovered from that DP. Focused tests independently compare the full and reduced optimizers, their
+forward expected metrics, and their exact causal-null risks on three small configurations:
+
+| `T,B,d` | Full learner sequences | Reduced learner sequences | Full nodes | Reduced nodes | Recovered cost | Null risk |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| `5,2,2` | 1,509 | 141 | 2,586 | 347 | `7713/3125` | `1/10` |
+| `5,2,1` | 1,901 | 181 | 2,586 | 347 | `193099/80000` | `1/10` |
+| `6,3,1` | 15,693 | 705 | 21,733 | 1,799 | `461083/160000` | `1/10` |
+
+All five independently evaluated expected metrics match the full reference exactly in each case;
+the six-round value also matches the certified full-oracle bracket of width `4.5e-11`. At
+`T=6,B=3,d=1`, the reduced LP has 95.5% fewer learner realization variables and the builder
+visits 91.7% fewer nodes. Focused validation: `uv run pytest -q
+tests/test_first_promotion_decomposition.py` (3 passed), Ruff, and mypy.
+
+For fixed query budget `B`, a crude history count bounds the pre-promotion learner/null trees by
+`O(T * sum_{q=0}^B binom(T,q) 2^q)`, since the incumbent action is fixed before promotion and
+each requested binary label contributes one outcome bit. The post-promotion DP can merge action
+histories by `(time, current action, remaining budget, delayed-HMM belief)`; its reachable beliefs
+are indexed by query times and queried outcomes and obey the same XP-in-`B` history bound. This is
+polynomial in `T` for fixed `B`, but exponential in `B`; it is not an FPT or uniform-polynomial
+result. The implementation's measured small-cell reduction supports feasibility, not a practical
+scaling claim.
+
+## Novelty gate and next test
+
+The first-promotion proposition and backward-induction decomposition are standard. The current
+prototype is an exact optimization algorithm for the desired policy class, but it does not define
+a new policy or establish an advantage over a source-matched safe sequential-design plus delayed-
+POMDP method. The next G1 step is a source-level audit of exact event-tree elimination / robust
+optimal-stopping decompositions under separate alternative utility and full-information null risk,
+then the fixed-budget scaling protocol in
+[`switching_first_promotion_scaling_protocol_v1.md`](switching_first_promotion_scaling_protocol_v1.md).
+A method claim survives only if this implementation has a nontrivial complexity/value guarantee
+beyond that prior work and the selected policy has a matched-budget utility advantage. Otherwise
+retain the solver as a verification tool and revise G1; do not open G3–G5.
 
 ## Existing source boundary
 

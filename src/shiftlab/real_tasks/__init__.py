@@ -24,6 +24,10 @@ OPSD_HOLDOUT_START = np.datetime64("2019-12-31T23:00:00")
 BINANCE_HOLDOUT_START = np.datetime64("2026-01-01T00:00:00")
 
 
+# Release round of a label that is never released inside the stream (not a delay, not delivered).
+UNRELEASED = int(np.iinfo(np.int64).max // 4)
+
+
 class HoldoutAccessError(RuntimeError):
     """A locked-holdout timestamp was requested."""
 
@@ -89,6 +93,16 @@ class EvaluatorOutcomes:
         if self.label_observed is None:
             return np.ones(len(self.paired_cost), dtype=bool)
         return self.label_observed
+
+    @property
+    def released(self) -> np.ndarray:
+        """True where the label is released inside the stream (False: never delivered)."""
+        return self.release_round < UNRELEASED
+
+    def delay_rounds(self) -> np.ndarray:
+        """Release round minus event round for released labels; -1 marks never-released labels."""
+        rounds = np.arange(len(self.release_round))
+        return np.where(self.released, self.release_round - rounds, -1)
 
     def visible_at_round(self, t: int) -> np.ndarray:
         """Indices of rounds whose labels are visible when the action of round ``t`` is chosen."""
@@ -159,7 +173,9 @@ class RealTask:
             pub.disagreement_units[sl],
             pub.adjacent_to_previous[sl],
         )
-        release = np.clip(out.release_round[sl] - start, 0, None)
+        raw = out.release_round[sl]
+        inside = raw < min(stop, len(out.release_round))
+        release = np.where(inside & (raw < UNRELEASED), np.clip(raw - start, 0, None), UNRELEASED)
         outcomes = EvaluatorOutcomes(
             out.loss_incumbent[sl],
             out.loss_candidate[sl],
@@ -187,8 +203,11 @@ class RealTask:
 
 
 def release_rounds(decision_time: np.ndarray, available: np.ndarray) -> np.ndarray:
-    """First round whose decision time is >= the label availability time (release, then act)."""
-    return np.searchsorted(decision_time, available, side="left").astype(np.int64)
+    """First round whose decision time is >= the label availability time (release, then act).
+
+    A label available only after the last decision is ``UNRELEASED`` (never delivered)."""
+    rounds = np.searchsorted(decision_time, available, side="left").astype(np.int64)
+    return np.where(rounds >= len(decision_time), UNRELEASED, rounds)
 
 
 def run_length_summary(flags: np.ndarray, adjacent: np.ndarray) -> dict:

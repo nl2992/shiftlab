@@ -17,6 +17,7 @@ from shiftlab.contract.harness import run_monitor
 from shiftlab.real_tasks import (
     BINANCE_HOLDOUT_START,
     OPSD_HOLDOUT_START,
+    UNRELEASED,
     HoldoutAccessError,
     guard_timestamps,
     public_stream_audit,
@@ -186,7 +187,6 @@ def test_opsd_label_clock_and_release(opsd):
     _, tasks, _ = opsd
     task = tasks["development"]
     pub, out = task.public, task.outcomes
-    n = len(task)
     nxt_start = op.day_start_utc(pub.round_time.astype("datetime64[D]") + np.timedelta64(1, "D"))
     # NB: round_time is UTC; the local day label is recovered through the local calendar
     local_day = (
@@ -201,9 +201,12 @@ def test_opsd_label_clock_and_release(opsd):
         out.label_available_time, nxt_start + HOUR.astype("timedelta64[ns]")
     )
     assert np.all(out.label_available_time > pub.decision_time)
-    offset = out.release_round - np.arange(n)
-    assert set(offset[:-3]) == {2}  # nominal d = 2 rounds
-    inside = out.release_round < n
+    delays = out.delay_rounds()
+    assert set(delays[out.released]) == {2}  # every delivered label has d = 2
+    assert int((~out.released).sum()) == 2  # the last two labels are never released in-stream
+    assert np.all(delays[~out.released] == -1)  # marked unreleased, not an offset
+    assert np.all(out.release_round[~out.released] >= UNRELEASED)
+    inside = out.released
     assert np.all(out.label_available_time[inside] <= pub.decision_time[out.release_round[inside]])
     before = out.release_round[inside] - 1
     assert np.all(out.label_available_time[inside] > pub.decision_time[before])
@@ -213,8 +216,9 @@ def test_opsd_label_slack_shifts_release(opsd):
     series, _, _ = opsd
     tasks, _ = op.build_opsd_tasks(series, label_slack_days=1)
     task = tasks["development"]
-    offset = task.outcomes.release_round - np.arange(len(task))
-    assert set(offset[:-4]) == {3}
+    out = task.outcomes
+    assert set(out.delay_rounds()[out.released]) == {3}
+    assert int((~out.released).sum()) == 3
 
 
 # ---------------------------------------------------------------- public-information contract
@@ -268,9 +272,8 @@ def test_opsd_no_future_information_in_actions(opsd):
 
 
 def test_opsd_labels_reach_actions_no_earlier_than_release(opsd):
-    """Day s's label (24 hours) is released at the end of day s + 1 h. Actions of earlier rounds do
-    not depend on it, except through the declared hour-07 feature (excluded here by perturbing
-    the other clock hours; hour 07 is tested separately)."""
+    """Day s's label is released at the end of day s + 1 h. Perturbing the whole day leaves every
+    earlier action unchanged (there is no hour-level early disclosure)."""
     series, tasks, _ = opsd
     base = tasks["development"]
     pub, out = base.public, base.outcomes
@@ -279,27 +282,52 @@ def test_opsd_labels_reach_actions_no_earlier_than_release(opsd):
     )
     checked = 0
     for s in np.flatnonzero(pub.disagreement & out.observed)[:3]:
-        day = local_days[s]
-        others = [h for h in range(24) if h != 7]
-        other = op.build_opsd_tasks(_perturbed(series, actual_day=day, actual_hours=others))[0][
-            "development"
-        ]
+        other = op.build_opsd_tasks(_perturbed(series, actual_day=local_days[s]))[0]["development"]
         rel = int(out.release_round[s])
         _same_public(base, other, slice(0, rel))
-        assert (
-            other.outcomes.paired_cost[s] != out.paired_cost[s]
-        )  # Z is not reproduced by the stream
-        only7 = op.build_opsd_tasks(_perturbed(series, actual_day=day, actual_hours=[7]))[0][
-            "development"
-        ]
-        changed = np.flatnonzero(
-            (base.public.deployed_action != only7.public.deployed_action)
-            | (base.public.reference_action != only7.public.reference_action)
-        )
-        changed = changed[changed < rel]
-        assert set(changed) <= {s + 1}  # the declared edge-of-availability feature, round s+1 only
+        assert other.outcomes.paired_cost[s] != out.paired_cost[s]
         checked += 1
     assert checked == 3
+
+
+@pytest.mark.parametrize(
+    "transition",
+    ["2018-03-25", "2019-03-31", "2018-10-28", "2019-10-27"],  # spring and autumn, both years
+)
+def test_opsd_dst_lags_never_use_loads_released_at_or_after_decision(opsd, transition):
+    """For every round D within a week either side of a DST change, perturbing every load whose
+    local day is >= D-1 (released at D 01:00 local, after the decision at D-1 10:00) must leave all
+    actions of rounds <= D unchanged. Elapsed-hour lags failed this on the autumn change."""
+    series, tasks, _ = opsd
+    base = tasks["development"]
+    local_days = (
+        pd.DatetimeIndex(base.public.round_time)
+        .tz_localize("UTC")
+        .tz_convert(op.BERLIN)
+        .tz_localize(None)
+        .values.astype("datetime64[D]")
+    )
+    tday = np.datetime64(transition)
+    local_hours = series.actual.index.tz_localize("UTC").tz_convert(op.BERLIN).tz_localize(None)
+    for offset in range(-2, 9):
+        day = tday + np.timedelta64(offset, "D")
+        r = int(np.flatnonzero(local_days == day)[0])
+        actual = series.actual.copy()
+        actual[local_hours.normalize() >= pd.Timestamp(day - np.timedelta64(1, "D"))] += 25000.0
+        other = op.build_opsd_tasks(op.HourlySeries(actual, series.forecast, frozenset()))[0][
+            "development"
+        ]
+        _same_public(base, other, slice(0, r + 1))
+
+
+def test_opsd_lag_release_precedes_decision_for_lags_two_and_up():
+    days = np.arange(
+        np.datetime64("2018-03-20"), np.datetime64("2018-04-10"), dtype="datetime64[D]"
+    )
+    avail = op.label_available_utc(days)
+    dec = op.decision_time_utc(days)
+    assert np.all(avail[:-2] < dec[2:]) and np.all(avail[:-3] < dec[3:])
+    assert not np.any(avail[:-1] < dec[1:])  # the previous day is never released in time
 
 
 def test_opsd_stream_audit_reports_z_not_a_function_of_public_stream(opsd):
@@ -332,6 +360,25 @@ def test_opsd_missing_data_keeps_rounds_and_marks_missing_feedback():
     np.testing.assert_array_equal(task.public.x, ref.public.x)
     assert task.exclusions["label_missing_at_release"] >= 1
     assert task.exclusions["decision_unusable_no_pair"] >= 1
+
+
+def test_opsd_irregular_timestamps_found_later_do_not_veto_earlier_rounds(opsd):
+    series, tasks, _ = opsd
+    clean = tasks["development"]
+    day = pd.Timestamp("2018-09-10")
+    flagged = op.HourlySeries(
+        series.actual, series.forecast, frozenset({np.datetime64("2018-09-10")})
+    )
+    task = op.build_opsd_tasks(flagged)[0]["development"]
+    _same_public(clean, task)  # every pair, including the flagged day's, is kept
+    local = pd.DatetimeIndex(task.public.round_time).tz_localize("UTC").tz_convert(op.BERLIN)
+    r = int(np.flatnonzero(local.tz_localize(None).normalize() == day)[0])
+    assert not task.outcomes.observed[r] and np.isnan(task.outcomes.paired_cost[r])
+    assert task.outcomes.observed.sum() == clean.outcomes.observed.sum() - 1
+    assert (
+        task.exclusions["decision_unusable_no_pair"]
+        == clean.exclusions["decision_unusable_no_pair"]
+    )
 
 
 def test_opsd_embargo_purges_boundary_rounds(opsd):
@@ -425,6 +472,7 @@ def test_binance_clocks_decision_at_hour_boundary_both_precisions():
         # the decision instant is after the archived close stamp at either precision
         assert np.all(pub.decision_time - bars.close_time[idx] == tick.astype("timedelta64[ns]"))
         assert np.all(out.release_round[:-1] == np.arange(n - 1) + 1)  # d = 1
+        assert not out.released[-1] and out.released[:-1].all()  # last label never released
         np.testing.assert_array_equal(out.label_available_time[:-1], pub.decision_time[1:])
         assert np.all(out.label_available_time > pub.decision_time)
 

@@ -9,7 +9,12 @@ import pytest
 
 from shiftlab.contract import PublicEvent, TaskSpec
 from shiftlab.contract.baselines import GatedHTFixed, GatedHTPaced, UniformHT
-from shiftlab.contract.baselines_v2 import AlarmThenSwitch, DelayedHT, V1MonitorShim
+from shiftlab.contract.baselines_v2 import (
+    AlarmThenSwitch,
+    DelayedHT,
+    OutOfOrderRelease,
+    V1MonitorShim,
+)
 from shiftlab.contract.harness import run_monitor
 from shiftlab.contract.harness_v2 import run_monitor_v2
 from shiftlab.contract.interface import Feedback
@@ -351,6 +356,81 @@ def test_delayed_ht_handles_missing_and_matches_unobserved_term():
     assert res.n_missing_delivered == int(((~observed) & (np.arange(n) % 2 == 0)).sum())
 
 
+def _tap(mon):
+    updates = []
+    real = mon._inner._process.update
+
+    def spy(value, bound=None):
+        updates.append((round(value, 12), bound))
+        return real(value, bound=bound)
+
+    mon._inner._process.update = spy
+    return updates
+
+
+def test_delayed_ht_missing_label_applies_minus_epsilon_at_release_not_skip():
+    """A queried disagreement with a missing label updates the e-process with -epsilon."""
+    spec = TaskSpec(1.0, 0.1, 0.05, 10, 1000.0, (1.0, 1.0))
+    mon = DelayedHT(UniformHT(1.0))
+    mon.reset(spec)
+    updates = _tap(mon)
+    e0 = PublicEvent(0, np.zeros(1), 1, 0, True, 1.0, 0.0)
+    assert mon.propensity(e0) == 1.0
+    mon.observe(e0, PendingQuery(0, 1.0))
+    assert updates == []  # nothing applied while pending
+    mon.receive(1, (MissingFeedback(0, 1.0),))
+    assert updates == [(-0.1, 1.1)]  # -epsilon at release, update not skipped
+    e1 = PublicEvent(1, np.zeros(1), 1, 0, True, 1.0, 0.0)
+    mon.propensity(e1)
+    mon.observe(e1, MissingFeedback(1, 1.0))  # same-round missing feedback
+    assert updates[-1][0] == -0.1 and len(updates) == 2
+
+
+def test_delayed_ht_gated_missing_label_is_minus_epsilon():
+    spec = TaskSpec(1.0, 0.1, 0.05, 10, 1000.0, (1.0, 1.0))
+    mon = DelayedHT(
+        GatedHTFixed(
+            validation_disagreement=np.ones(5, bool),
+            validation_tariffs=np.ones(5),
+            budget_rate=0.5,
+        )
+    )
+    mon.reset(spec)
+    updates = _tap(mon)
+    e0 = PublicEvent(0, np.zeros(1), 1, 0, True, 1.0, 0.0)
+    q = mon.propensity(e0)
+    mon.observe(e0, PendingQuery(0, q))
+    mon.receive(2, (MissingFeedback(0, q),))
+    assert [u[0] for u in updates] == [-0.1]
+
+
+def _deliver(mon, order):
+    mon.reset(TaskSpec(1.0, 0.0, 0.05, 10, 1000.0, (1.0, 1.0)))
+    events = [PublicEvent(i, np.zeros(1), 1, 0, True, 1.0, 0.0) for i in range(3)]
+    for e in events:
+        mon.propensity(e)
+        mon.observe(e, PendingQuery(e.t, 1.0))
+    for t in order:
+        mon.receive(5, (Feedback(t, 0.5, 1.0),))
+
+
+def test_delayed_ht_rejects_out_of_order_release_unless_flagged():
+    _deliver(DelayedHT(UniformHT(1.0)), [0, 1, 2])  # event order: fine
+    with pytest.raises(OutOfOrderRelease):
+        _deliver(DelayedHT(UniformHT(1.0)), [1, 0, 2])
+    _deliver(DelayedHT(UniformHT(1.0), allow_out_of_order=True), [2, 0, 1])  # diagnostics only
+    mon = DelayedHT(UniformHT(1.0))  # a same-round delivery followed by an earlier pending label
+    mon.reset(TaskSpec(1.0, 0.0, 0.05, 10, 1000.0, (1.0, 1.0)))
+    e0 = PublicEvent(0, np.zeros(1), 1, 0, True, 1.0, 0.0)
+    e1 = PublicEvent(1, np.zeros(1), 1, 0, True, 1.0, 0.0)
+    mon.propensity(e0)
+    mon.observe(e0, PendingQuery(0, 1.0))
+    mon.propensity(e1)
+    mon.observe(e1, Feedback(1, 0.5, 1.0))
+    with pytest.raises(OutOfOrderRelease):
+        mon.receive(3, (Feedback(0, 0.5, 1.0),))
+
+
 # ------------------------------------------------------------------ switching accounting
 
 
@@ -538,8 +618,10 @@ def test_real_task_adapter_uses_declared_release_and_holdout_guard_intact():
     task = tasks["development"]
     coins = np.random.default_rng(0).random(len(task))
     res = run_task_v2(task, DelayedHT(UniformHT(0.10)), 0.10, coins)
-    delays = task.outcomes.release_round - np.arange(len(task))
-    assert set(delays.tolist()) <= {1, 2} and 2 in delays  # one or two rounds later (A-R3 clocks)
+    out = task.outcomes
+    assert set(out.delay_rounds()[out.released].tolist()) == {2}  # calendar d = 2, no other delay
+    assert int((~out.released).sum()) == 2  # terminal labels are unreleased, never delivered
+    assert len(res.deliveries) <= int(out.released.sum())
     for round_, t, _ in res.deliveries:
         assert round_ == task.outcomes.release_round[t]
     assert res.total_spend <= task.task_spec(0.10).label_budget + 1e-9

@@ -169,10 +169,10 @@ def smoke_v2(task: RealTask, seed_task: RealTask, budget_fraction: float, label:
 
 def delay_summary(task: RealTask) -> dict:
     out = task.outcomes
-    delay = out.release_round - np.arange(len(task))
+    delay = out.delay_rounds()[out.released]
     return {
         "release_round_offsets": sorted({int(v) for v in delay}),
-        "labels_never_released_in_stream": int((out.release_round >= len(task)).sum()),
+        "labels_never_released_in_stream": int((~out.released).sum()),
         "labels_missing": int((~out.observed).sum()),
         "disagreement_rounds_missing": int(((~out.observed) & task.public.disagreement).sum()),
         "price_unit": task.price_unit,

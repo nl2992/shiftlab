@@ -67,6 +67,11 @@ def stream_stats(task: RealTask) -> dict:
     return stats
 
 
+def _delays(task: RealTask) -> list[int]:
+    d = task.outcomes.delay_rounds()
+    return sorted({int(v) for v in d[task.outcomes.released]})
+
+
 def smoke(task: RealTask, seed_task: RealTask, budget_fraction: float, label: str) -> dict:
     """Run GatedHTFixed/GatedHTPaced/UniformHT through the harness over many coin seeds.
 
@@ -141,9 +146,8 @@ def main(argv=None) -> int:
             "informative_2_to_60_percent": opsd_informative(
                 float(opsd_dev.public.disagreement.mean())
             ),
-            "release_round_offsets_used": sorted(
-                {int(v) for v in (opsd_dev.outcomes.release_round - np.arange(len(opsd_dev)))}
-            ),
+            "release_delays_of_released_labels": _delays(opsd_dev),
+            "labels_never_released": int((~opsd_dev.outcomes.released).sum()),
             "validation_n_rounds": len(opsd_val),
             "validation_exclusions": opsd_val.exclusions,
             "smoke_B10pct": smoke(opsd_dev, opsd_val, 0.10, "opsd_dev"),
@@ -152,9 +156,8 @@ def main(argv=None) -> int:
             "development_all_rounds": stream_stats(bin_all),
             "pacer_seed_rounds": seed_n,
             "monitor_stream": stream_stats(bin_dev),
-            "release_round_offsets_used": sorted(
-                {int(v) for v in (bin_all.outcomes.release_round - np.arange(len(bin_all)))}
-            ),
+            "release_delays_of_released_labels": _delays(bin_all),
+            "labels_never_released": int((~bin_all.outcomes.released).sum()),
             "smoke_B5pct": smoke(bin_dev, bin_seed, 0.05, "binance_dev"),
         },
     }

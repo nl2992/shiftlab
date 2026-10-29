@@ -4,11 +4,13 @@
 ``UniformHT``). The propensity and its predictable support bound are fixed at the event, the
 pacer advances at the event (it uses only public disagreement and price), and the e-process
 increment of a bought query is applied when its label is released, in release order. An
-unqueried event is applied immediately. A ``MissingFeedback`` is applied as an unobserved label
-(HT term 0), which is a conservative missing-at-random simplification, not a validity claim.
-Validity of the e-process under delayed, out-of-order updating is NOT established here: with
-delay 0 and no missing labels this reproduces the v1 monitor exactly; otherwise results are
-descriptive.
+unqueried event is applied immediately. A ``MissingFeedback`` applies the increment ``-epsilon``
+at release (HT term 0 minus ``epsilon``; the update is never skipped), valid only under
+missingness at random given the public past (see ``R3_delayed_update_validity_note.md``).
+Labels must be released in event order (non-decreasing event index); an out-of-order release
+raises ``OutOfOrderRelease`` because updating in release order is not valid in general. Pass
+``allow_out_of_order=True`` only for diagnostics, never for validity claims. With delay 0 and no
+missing labels this reproduces the v1 monitor exactly.
 
 ``V1MonitorShim`` runs an unmodified v1 monitor in the v2 harness and rejects any delayed or
 missing outcome, so it can only be used where v2 must reproduce v1.
@@ -58,19 +60,36 @@ class V1MonitorShim:
         return self._monitor.log_e_value
 
 
+class OutOfOrderRelease(ValueError):
+    """A label was released after the label of a later event (release order != event order)."""
+
+
 class DelayedHT:
     """Delay-aware wrapper for the HT baselines (see module docstring for the update rule)."""
 
-    def __init__(self, inner: _HorvitzThompsonMonitor) -> None:
+    def __init__(self, inner: _HorvitzThompsonMonitor, *, allow_out_of_order: bool = False) -> None:
         self._inner = inner
+        self._allow_out_of_order = allow_out_of_order
         self._pending: dict[int, tuple[PublicEvent, float]] = {}
+        self._last_released = -1
 
     def reset(self, spec: TaskSpec) -> None:
         self._inner.reset(spec)
         self._pending = {}
+        self._last_released = -1
+
+    def _note_release(self, t: int) -> None:
+        if t < self._last_released and not self._allow_out_of_order:
+            raise OutOfOrderRelease(
+                f"label of event {t} released after the label of event {self._last_released}; "
+                "release-order updating is not valid in general (allow_out_of_order is for "
+                "diagnostics only)"
+            )
+        self._last_released = max(self._last_released, t)
 
     def receive(self, t: int, released: Sequence[Delivery]) -> None:
         for item in released:
+            self._note_release(item.t)
             event, latent = self._pending.pop(item.t)
             observed = float(item.paired_cost) if isinstance(item, Feedback) else None
             self._apply(event, observed, latent)
@@ -87,8 +106,11 @@ class DelayedHT:
             inner._after_event(event)  # public-only pacing step; the e-process waits for the label
             inner._latent_q = inner._returned_q = None
         elif isinstance(outcome, MissingFeedback):
-            inner.observe(event, None)  # unobserved label: HT term 0
+            self._note_release(event.t)
+            inner.observe(event, None)  # missing label: increment -epsilon, never skipped
         else:
+            if outcome is not None:
+                self._note_release(event.t)
             inner.observe(event, outcome)
 
     def _apply(self, event: PublicEvent, observed: float | None, latent: float) -> None:

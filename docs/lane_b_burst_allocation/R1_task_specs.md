@@ -449,3 +449,42 @@ candidate then uses only lags released before its decision time. This is a conse
 made before any freeze, and no holdout was touched. The ridge must be refit on 2015–16 without
 that feature (the penalty is still selected on 2017 with the embargo applied), and the development
 measurements must be rerun.
+
+## Amendment A-R3b (2026-10-29, before any freeze; development data only)
+
+Responds to `CODEX_R3_REVIEW_2.md`. No holdout was touched.
+
+1. **OPSD lags by local calendar day and slot, masked by availability.** The candidate's lags are the
+   value of the same local clock slot 2, 3 and 7 local days earlier (not 48/72/168 elapsed hours,
+   which on the autumn change let Saturday's load reach Sunday's action before Saturday's label was
+   released). An ambiguous autumn 02:00 uses its first occurrence; the missing spring 02:00 slot
+   falls back to the preceding slot. A lag value is used only if its source day's release time
+   (local day end + 1 h, nominal clock) is strictly before the round's decision time (D-1 10:00
+   local); otherwise it is missing. For k >= 2 this always holds; for the previous day it never does.
+   The `L(D-1, 07:00)` feature is removed entirely (it could not satisfy this day-level rule), so
+   A.2 item 2 and the A.10 sensitivity `drop_lag07` no longer exist. Test: for every round within a
+   week either side of each DST change (spring and autumn 2018 and 2019), perturbing all loads of
+   local days >= D-1 leaves the actions of all rounds <= D unchanged.
+2. **No availability veto from later data.** A round's policy pair depends only on information at its
+   decision time: forecast rows present, candidate lags released, `tau` window coverage. Archived
+   timestamp irregularities, which are detected over the whole file, no longer remove a pair; a
+   flagged local day keeps its round and pair and its label is treated as missing feedback at
+   release. (Tested: flagging a day changes nothing public and removes only that label.)
+3. **Release sentinel.** A label that is never released inside the stream carries
+   `UNRELEASED` in `release_round` (a huge round index), is reported by `released == False`, has
+   `delay_rounds() == -1`, and is never delivered. The earlier "offset 1" was the horizon sentinel of
+   the last round, not a delay: every delivered OPSD label has d = 2 (tested; 2 terminal labels
+   unreleased), every delivered Binance label d = 1 (1 unreleased). Sliced tasks mark labels released
+   after the slice as unreleased.
+4. **`DelayedHT`.** (a) A queried disagreement or agreement with a missing label applies the
+   increment `-epsilon` (HT term 0) at release; the update is never skipped (tested at release and in
+   the same round, for UniformHT and a gated monitor). (b) Releases must arrive in event order: an
+   out-of-order release (a label delivered after the label of a later event, including a same-round
+   delivery) raises `OutOfOrderRelease`, because release-order updating is not valid in general
+   (`R3_delayed_update_validity_note.md`). `allow_out_of_order=True` exists for diagnostics only and
+   supports no validity claim.
+
+**Unchanged and still open:** public actions are a channel (policies consume unrestricted public
+history; the audit is a measurement, not a non-reconstructability proof), A2 revision look-ahead, A3
+licence assumption, imposed costs, idealised Binance execution, no calibrated false-promotion or
+profitability claim.

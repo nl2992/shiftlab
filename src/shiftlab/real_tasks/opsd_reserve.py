@@ -234,7 +234,6 @@ def build_opsd_tasks(
     windows=DEFAULT_WINDOWS,
     *,
     label_slack_days: int = 0,
-    drop_lag07: bool = True,
     fixed_tau: bool = False,
 ) -> tuple[dict[str, RealTask], RidgeModel]:
     """Fit the frozen ridge and build one ``RealTask`` per window.
@@ -279,24 +278,33 @@ def build_opsd_tasks(
     row_date = all_days[row_day]
     slot = idx.tz_localize("UTC").tz_convert(BERLIN).hour.to_numpy()
 
+    # Lags by local calendar day and local delivery slot (not elapsed hours): the value of the same
+    # local clock hour 2, 3 and 7 local days earlier. Ambiguous autumn 02:00 uses its first
+    # occurrence; the missing spring 02:00 slot falls back to the preceding slot. A lag is used
+    # only if its source day's label release (local day end + 1 h) is strictly before the round's
+    # decision time, so no feature depends on a load released at or after D-1 10:00 local.
+    first = np.ones(len(actual), dtype=bool)
+    first[1:] = (row_day[1:] != row_day[:-1]) | (slot[1:] != slot[:-1])
+    table = np.full((len(all_days), 24), np.nan)
+    exists = np.zeros((len(all_days), 24), dtype=bool)
+    table[row_day[first], slot[first]] = actual[first]
+    exists[row_day[first], slot[first]] = True
+    for s_ in range(1, 24):
+        gap = ~exists[:, s_]
+        table[gap, s_] = table[gap, s_ - 1]
+    release_by_day = label_available_utc(all_days)  # nominal clock; slack only delays delivery
+    decision_by_day = decision_time_utc(all_days)
+
     def lag(k):
         out = np.full(len(actual), np.nan)
-        out[k:] = actual[:-k]
+        src = row_day - k
+        ok = src >= 0
+        ok[ok] &= release_by_day[src[ok]] < decision_by_day[row_day[ok]]
+        out[ok] = table[src[ok], slot[ok]]
         return out
 
-    lag07_day = np.full(len(all_days), np.nan)
-    inst = _utc(
-        pd.DatetimeIndex(
-            (all_days - np.timedelta64(1, "D")).astype("datetime64[ns]") + np.timedelta64(7, "h")
-        )
-    )
-    pos = idx.get_indexer(pd.DatetimeIndex(inst))
-    lag07_day[pos >= 0] = actual[pos[pos >= 0]]
     cal = calendar_features(all_days, n_hours)[:, :-1]  # calendar block without day length
-    blocks = [lag(48)[:, None], lag(72)[:, None], lag(168)[:, None]]
-    if not drop_lag07:
-        blocks.append(lag07_day[row_day][:, None])
-    blocks.append(cal[row_day])
+    blocks = [lag(2)[:, None], lag(3)[:, None], lag(7)[:, None], cal[row_day]]
     features = np.concatenate(blocks, axis=1)
 
     model = fit_frozen_ridge(features, actual, slot, row_date, validation_days)
@@ -362,17 +370,15 @@ def _build_window(
         rows = slice(offsets[i], offsets[i + 1])
         tau = fixed_tau if fixed_tau is not None else _rolling_tau(actual, offsets, int(i))
         usable = (
-            np.isfinite(forecast[rows]).all()
-            and np.isfinite(pred[rows]).all()
-            and np.isfinite(tau)
-            and days[r] not in irregular
+            np.isfinite(forecast[rows]).all() and np.isfinite(pred[rows]).all() and np.isfinite(tau)
         )
         if not usable:  # known at decision time: no policy pair can be formed
             invalid += 1
             continue
         a0, a1 = reserve_actions(forecast[rows], tau), reserve_actions(pred[rows], tau)
         dep[r], ref[r], units[r] = _pack(a0), _pack(a1), int((a0 != a1).sum())
-        if np.isfinite(actual[rows]).all():
+        # archived-timestamp irregularities are found in later data: they only affect the label
+        if np.isfinite(actual[rows]).all() and days[r] not in irregular:
             observed[r] = True
             loss0[r] = decision_cost(a0, actual[rows], tau).sum() / LOSS_SCALE
             loss1[r] = decision_cost(a1, actual[rows], tau).sum() / LOSS_SCALE

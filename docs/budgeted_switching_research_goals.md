@@ -2287,12 +2287,16 @@ the finite benchmark. Source limitation: RAO* full text/proof not inspected in t
   (SAB). Its Proposition 4 provides a discounted infinite-horizon scalar value error bound in
   terms of within-cell value variation; Proposition 5 gives convergence for increasingly fine
   uniform belief grids. The source notes that its value approximation supports an epsilon-Nash
-  equilibrium via prior analysis.
+  equilibrium via prior analysis. Corrected the transfer boundary: any finite-horizon scalarized
+  instance embeds exactly by adding time to the state, making the horizon absorbing, and scaling
+  reward at stage t by gamma^-t. With gamma=T/(T+1), the rescaled reward stays below eG for
+  per-stage bound G, so generic finite-horizon scalar-game approximation is prior art as well.
 - Our exact hidden-root Lagrangian reduction puts each fixed risk multiplier in the same one-sided
-  POSG family. Thus generic belief aggregation/value approximation is established prior art. The
-  cited result does not itself transfer to our undiscounted finite horizon, produce a policy-level
-  bound, or separately control economic cost and worst causal-null promotion risk; feasible-policy
-  recovery and a useful complexity bound also remain open.
+  POSG family. Thus generic belief aggregation/value approximation is established prior art. SAB's
+  scalar approximation does not separately control economic cost and worst causal-null promotion
+  risk or guarantee primal feasibility; uniform multiplier control, policy extraction and feasible
+  recovery remain open. The audit gives the exact reduction and a generic risk-repair lemma, while
+  explaining why that lemma does not supply the needed risk-violation bound.
 - Decision: close generic SAB aggregation/scalarization as a novelty route. Reopen only with a
   structural partition/state and a finite-horizon policy theorem giving separate economic and
   causal-risk errors, exact risk feasibility after repair/recovery, and a complexity or regret

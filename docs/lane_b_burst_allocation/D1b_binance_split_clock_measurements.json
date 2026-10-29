@@ -1,0 +1,62 @@
+{
+  "n_bars": 8760,
+  "n_rounds": 8590,
+  "disagreement_share": 0.3990686845168801,
+  "delays": {
+    "fast": [
+      1
+    ],
+    "gold": [
+      24
+    ],
+    "gold_unreleased": 24
+  },
+  "quality": {
+    "n_disagreement_rounds": 3420,
+    "share_fast_exactly_zero": 0.00029239766081871346,
+    "corr_pearson": 0.1768632550926834,
+    "corr_spearman": 0.15971517057544876,
+    "sign_agreement_all": 0.5630301257677683,
+    "n_gold_nonzero": 3419,
+    "sign_agreement_both_nonzero": 0.5631948507899356,
+    "slope_gold_on_fast": 0.16291110540008408,
+    "intercept_gold_on_fast": 0.0012262521898636237,
+    "mean_gold": 0.0014487525499403684,
+    "mean_fast": 0.0013657777321583946,
+    "bias_fast_minus_gold": -8.297481778197448e-05,
+    "sd_gold": 0.033752281814098214,
+    "sd_fast": 0.03664291893291585,
+    "passes_sign_floor": false
+  },
+  "gold_autocorrelation_all_rounds": {
+    "1": 0.77393943272174,
+    "2": 0.6604403473960139,
+    "12": 0.17103534986262958,
+    "23": -0.05010366367592744,
+    "24": -0.06123618037395423,
+    "25": -0.061828598128627274,
+    "48": -0.05387081833212595
+  },
+  "monthly_mean_rms_shift": {
+    "fast": 0.0029403955909789448,
+    "gold": 0.006876782390914869
+  },
+  "trade_off_alpha_0.05": {
+    "disagreement_share": 0.3981373690337602,
+    "fast": {
+      "kl_per_label": 0.0032195962028931527,
+      "labels_needed": 930.4683211087166,
+      "bars_to_collect": 2337.0534731941157
+    },
+    "gold_thinned_one_per_H_bars": {
+      "kl_per_label": 0.02075555212897199,
+      "labels_needed": 144.33401987761854,
+      "bars_to_collect": 8700.556005254339
+    },
+    "gold_if_overlap_ignored_INVALID": {
+      "kl_per_label": 0.02075555212897199,
+      "labels_needed": 144.33401987761854,
+      "bars_to_collect": 362.52316688559745
+    }
+  }
+}

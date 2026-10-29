@@ -2167,3 +2167,16 @@ the finite benchmark. Source limitation: RAO* full text/proof not inspected in t
   broaden the grid or claim a recurrent-HMM theorem. G1 remains open for a different mechanism;
   G2–G5 remain held. Historical promotion validity remains distinct from current-regime value
   after reversal.
+
+### G1 prior-art update 2026-10-29: hard-budget pacing is established
+
+- Read the full primary source for Braverman et al., arXiv:2610.11074, submitted 2026-10-08.
+  Theorem 4.6 gives near-optimal regret against D-pacing experts under hard resource budgets;
+  Theorem 5.8 and Corollary 5.9 cover sampled full-information play with pathwise feasibility and
+  high-probability regret. The observed reward/cost vectors and pacing-expert comparator differ
+  from selectively acquired delayed labels and a recurrent switching comparator. Full scope is in
+  `switching_budget_pacing_prior_audit_v1.md` and the updated `switching_novelty_delta_v1.md`.
+- Decision: remove generic pacing, online spending potentials, and hard-budget regret as candidate
+  contributions. The paper does not supply the missing delayed, query-contingent, causal-null safe
+  switching result; that mismatch remains an obligation, not a novelty claim. G1 remains open,
+  G2–G5 stay held. Do not build a pacing wrapper or start efficacy experiments from this audit.

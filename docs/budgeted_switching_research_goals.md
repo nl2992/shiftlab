@@ -1520,3 +1520,22 @@ the finite benchmark. Source limitation: RAO* full text/proof not inspected in t
   preservation obligations for a valid reduction. G1 remains open; no new algorithm or theorem is
   claimed, and G2–G5 remain held. Continue by proving the reduction on a growing finite family or
   identify a structural restriction that yields a compact recursion and a risk/error guarantee.
+
+### Checkpoint 2026-10-28: two-law constrained-game reduction
+
+- Inspected the existing reference implementation and its information sets: alternative and null
+  traversals share the same learner realization variables; pending labels are hidden from the
+  learner; the null opponent sees them; budget is removed at request time; and first promotion is
+  the absorbing risk event. The focused semantic suite passes: `uv run pytest -q
+  tests/test_causal_switching_game.py tests/test_causal_switching_game_reversal.py` (12 passed).
+- `switching_two_law_game_duality_v1.md` gives the finite constrained sequence-form formulation
+  and Lagrangian zero-sum game reduction. Perfect recall, endpoint maximization of the rectangular
+  causal null, and convex Slater duality for alpha>0 establish the representation. Sequence form
+  is standard and linear in the expanded game tree, which may still be exponential in horizon.
+- Decision: **no-go** for presenting the generic two-law constrained game, its scalarization, or
+  the small exact LP as the methodological contribution. This closes that version of G1 rather
+  than claiming the full research goal is achieved. Keep the overall goal active and G2–G5 held;
+  only reopen G1 for a concrete structural family that admits a sub-exponential policy
+  representation/approximation preserving causal-null risk and a value bound against the full
+  oracle. Posterior-only belief compression is already counterexample-screened, so the next
+  hypothesis must state which extra risk-relevant memory it retains before any broad experiment.

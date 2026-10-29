@@ -196,3 +196,20 @@ The user chose pivot 1 from `C_PIVOT_MEMO.md`. **Structure:** each disagreement 
 - Next: D2 mechanism and theorem against the composition C*, after the targeted search D0 required (multi-rate change detection, guardrail rollback on surrogate metrics, early stopping on proxies). |
 | D-4 | 2026-10-29 | D2 | Merged main (no Lane A split-clock or surrogate overlap). The D2 agent is still running (simulation script and seed-registry edit in progress, uncommitted), so no duplicate was started. Ticks without passing D2: 1/16. |
 | D-5 | 2026-10-29 | D2 → EXIT | **Phase D exits** (`D2_split_clock_mechanism.md`). The candidate is a composition (per-phase index, surrogate CUSUM, gold backstop, scout/confirm). Proved impossibility: rollback before d_g is impossible when the bias shift b ≥ 2βΔ. Monte Carlo: the plain two-phase composition wins 8/9 cells; the fast channel helps only at sign agreement 0.8 with no shift. Disclosed: detector settings tuned on smoke seeds; best-of-family selection on evaluation seeds. Seed block lane_b_d2_split_clock_development 100900000–100919999 registered. Pivot memo updated; loop stopped. |
+
+## Phase E: many candidates sharing one queried label (opened 2026-10-29)
+
+The user chose pivot 1 from `C_PIVOT_MEMO.md`. **Structure:** an incumbent plus K frozen candidates. One queried event reveals the paired losses of *all* K candidates against the incumbent (common label). Label cost does not grow with K, but certification multiplicity does (any-false-promotion over K, or over a growing candidate stream). The disagreement set depends on which candidates are still alive. Delay, hard budget and reversible switching as before.
+
+**Question:** how to allocate queries (which events, given the live candidates' disagreement patterns) and when to promote, demote or switch among candidates, with a multiplicity-controlled any-false-promotion guarantee. The target is a theorem showing a gain over (i) per-candidate testing with Bonferroni or alpha spending, (ii) e-BH-style multiple testing, and (iii) best-arm identification with full information, as K grows. Example: a sample cost that grows like log K with an acquisition rule that exploits the overlap structure of disagreement sets.
+
+| Gate | Deliverable | Pass | Exit |
+|---|---|---|---|
+| E0 audit | `E0_prior_art.md`: best-arm identification (full-information / shared-observation, fixed confidence, anytime), pure exploration with feedback graphs, AnyRank, OCS, Digalakis Challenger, e-BH and online multiple testing with e-values, selective inference and conformal selection, and Lane A's audits (do not redo) | A precise non-composition residual | A known method already gives the shared-label, delayed, hard-budget, multiplicity-controlled switching rule with the target scaling → stop |
+| E1 mechanism + theorem | Rule plus proof or counterexample of the K-scaling advantage over the baseline class | Proved or sharply bounded, and not equivalent to a standard estimator plus planner | Composition → stop |
+| E2 synthetic | Monte Carlo with K in {2, 8, 32}, matched budget, delay and costs | Wins on net utility with any-false-promotion controlled | Fails → stop |
+| E3 real data | K-candidate versions of OPSD (ridge variants) and Binance (momentum lookbacks), development windows only | Same ordering | — |
+| E4 confirm | Frozen protocol, Codex review, holdout opened once | Registered win | — |
+
+**Global stop:** 16 ticks without passing E1.
+

@@ -159,3 +159,19 @@
 - No improvement, novelty, runtime or real/synthetic efficacy claim. The summed
   worst-risk bound can be conservative; investigate exact joint null response
   before concluding that all mixtures fail. No data, seed or holdout was opened.
+
+## 2026-10-29 — Joint causal-null mixture of incumbents
+
+- Committed JOINT_MIXTURE_PROTOCOL_V1.md before execution. Reconstructed the
+  65 T=7 cut-master candidate policies plus never-promote and solved the standard
+  joint null-response mixture LP, preserving hidden root randomization.
+- The two-component recovered mixture was the same as the conservative repair:
+  weights 31/35 and 4/35; cost 59747/17500; exact full causal-null risk 1/10;
+  prior certified lower-bound gap <0.072566086303. Numerical LP residuals were
+  <=1.39e-17. No exact mixture-LP dual certificate was generated.
+- An optimizer-free verifier rebuilt the mixture, component costs, worst-case
+  risk, previous lower certificate and checksums. Generator and verifier share
+  economic-model helpers; this is not a second independent model implementation.
+- Decision: no benefit from mixture optimization on this candidate set. Retain
+  the evidence and move toward a different structural pre-promotion approximation.
+  No real data, held-out outcomes or new seeds were accessed.

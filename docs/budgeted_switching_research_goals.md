@@ -2121,3 +2121,14 @@ the finite benchmark. Source limitation: RAO* full text/proof not inspected in t
   causal-null any-promotion guarantee silently. A surviving method needs a proved joint gain over
   both gates, loss-driven active learning/costed sensing, and the exact two-law oracle. No new
   experiments; G1 remains open, G2–G5 remain held.
+
+### G1 information-asymmetry screen 2026-10-29: predictable safety betting remains valid
+
+- Formalized the query-index betting argument in `switching_pending_null_information_lemma_v1.md`.
+  Because the learner's query/stake is predictable in the richer null filtration, the bounded
+  betting factor remains a supermartingale even when the null adversary sees pending labels. A
+  deterministic ordered delay postpones learner updates but does not invalidate Ville control.
+- Decision: hidden pending-label visibility alone does not create a new safety mechanism or require
+  stop-and-wait acquisition. The acquisition contribution must improve net decision/switch cost
+  under this valid baseline, not re-prove its safety. Historical promotion evidence remains
+  separate from post-reversal current value. G1 remains open; G2–G5 held.

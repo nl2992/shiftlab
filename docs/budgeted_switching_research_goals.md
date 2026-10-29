@@ -1804,3 +1804,15 @@ the finite benchmark. Source limitation: RAO* full text/proof not inspected in t
   current-regime reversible economics under the exact global risk event, while beating adaptive
   SRGP and online-FWER comparators. Promotion validity still does not guarantee current value after
   reversal; G1 remains open and G2–G5 stay held.
+
+### G1 source boundary 2026-10-29: sequential MHT already allocates samples adaptively
+
+- Audited Malek et al., “Sequential Multiple Hypothesis Testing with Type I Error Control,”
+  AISTATS 2017, including Algorithm 1, Theorem 5.4 and its proof outline. A monotone fixed-horizon
+  multiple-testing rule can be converted to sequential p-values, stop individual tests early, and
+  allocate samples based on previous sequential p-values while inheriting FWER/FDR guarantees.
+  `switching_sequential_multiple_testing_prior_audit_v1.md` records the boundary (manifest v31).
+- Decision: data-dependent sampling among candidate tests with sequential type-I validity is
+  established. It must be included in matched-budget comparisons. It lacks priced acquisition,
+  recurrent reversible economics and ShiftLab's causal-null contract; these mismatches alone do
+  not establish novelty. G1 remains open; G2–G5 stay held.

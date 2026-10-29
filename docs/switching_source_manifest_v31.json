@@ -1,0 +1,12 @@
+[
+  {
+    "name": "malek_et_al_sequential_multiple_hypothesis_testing_aistats_2017",
+    "url": "https://proceedings.mlr.press/v54/malek17a/malek17a.pdf",
+    "record_url": "https://proceedings.mlr.press/v54/malek17a.html",
+    "bytes": 561551,
+    "sha256": "9F63C35191EFA89AD362CC14BCCBA08BA6B705DAAD35D77D89EFF951731BDEB8",
+    "status": "official_pdf_inspected_sequential_pvalues_algorithm_1_theorem_5_4_proof_outline",
+    "retrieved_date": "2026-10-29",
+    "cache_path": "outputs/switching_source_audit_v1/malek_sequential_mht_2017.pdf"
+  }
+]

@@ -1851,3 +1851,19 @@ the finite benchmark. Source limitation: RAO* full text/proof not inspected in t
   the full-oracle value to below `4.5e-11` on this cell. Record no joint-allocation gain here. Any
   continuation must compare against a stronger history-dependent split and show a growing-family
   advantage; the fixed split alone is not an adequate comparator.
+
+### G1 structural reduction 2026-10-29: first-promotion risk is an absorbing boundary
+
+- Proved the exact first-promotion decomposition in
+  `switching_first_promotion_decomposition_v1.md`: the robust any-promotion event is fixed at
+  first promotion, so the remaining delayed-HMM switching problem is an unconstrained economic
+  continuation value indexed by the promotion history, pending labels and remaining query rights.
+  The pre-promotion problem is a robust optimal-stopping/acquisition problem with that continuation
+  value. The proof preserves the full-history causal null and the learner's hidden pending labels.
+- Decision: this is a standard dynamic-programming decomposition, not a new algorithm. It explains
+  the exact 2+1 budget split in the certified cell and closes “joint allocation across promotion
+  and rollback” as a novelty claim by itself. Continue G1 only to test whether the decomposition
+  yields a source-audited compact algorithm or provable computational/value advantage over the
+  generic sequence-form oracle and established sequential-design plus delayed-POMDP methods.
+  If it merely implements Bellman optimal stopping plus standard continuation planning, revise G1;
+  keep G2–G5 held. First-promotion validity still does not certify current benefit after reversal.

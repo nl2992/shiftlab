@@ -24,7 +24,7 @@ On real security-day paired decision costs, how much can *any* label-allocation 
 
 ## Monitor (frozen)
 
-Prediction-powered increment `X = H + Q (Y − H)/q`, with `H` a train-only Ridge prediction of `Y` clipped to the bound `M = 0.20 + 4·0.0005`. Predictable bound `B_t = M(2/q_t − 1)`. Bet: plug-in Kelly `λ = clip(μ̂₊/(σ̂² + μ̂²), 0, 0.5/B_t)` from resolved increments (prior shrinkage: one pseudo-observation of zero). Threshold `1/α`, `α = 0.05`.
+Prediction-powered increment `X = H + Q (Y − H)/q`, with `H` a train-only Ridge prediction of `Y` clipped to the bound `M = 0.20 + 4·0.0005`. Predictable bound `B_t = M(2/q_t − 1)`. Bet: plug-in Kelly `λ_i = min(μ̂₊/m̂₂, 0.5/B_i)` per event, where `B_i` is that event's own predictable bound and `μ̂, m̂₂` come from increments resolved before its date (prior shrinkage: one pseudo-observation of zero). Threshold `1/α`, `α = 0.05`.
 
 ## Allocation rules
 
@@ -49,3 +49,7 @@ CRSP returns are cross-sectionally and serially dependent, the close-date orderi
 ## Reproduction
 
 `uv run python -m shiftlab.dive.rpoq_crsp_replay --panel <path to observations.parquet>` writes `outputs/rpoq_s6_crsp_headroom_v1/`.
+
+## Amendment before the registered run (2026-10-29)
+
+A one-cohort, two-seed smoke run (not a result; discarded) showed that a single date-wide bet cap based on the date's largest bound throttled all non-uniform rules and put the oracle below uniform. The cap was changed to the per-event form now written in the Monitor section, which applies identically to every rule. No other parameter changed and no registered output existed.

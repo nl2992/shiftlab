@@ -2406,3 +2406,11 @@ the finite benchmark. Source limitation: RAO* full text/proof not inspected in t
 - This closes a comparator-engineering prerequisite only. No efficacy study or novel method has
   been run; the baseline must be paired with an equally specified safety layer if reported on the
   causal-null risk endpoint. G1 remains open and G2–G5 remain held.
+- Comparator audit extension: CAMS (Liu et al., arXiv:2207.06030v4) already provides contextual
+  active model selection with stochastic gap-dependent high-probability regret/query bounds and
+  adversarial sublinear expected regret/query bounds. Its feedback is immediate and queried labels
+  reveal the full classifier loss vector; it has no repeated switching cost or causal-null risk
+  guarantee. It is a stronger active-selection comparator than Online LLM Picker where contextual
+  policies apply. Add a hard-budget/delayed-update/costed-deployment CAMS adaptation to the baseline
+  roster before any efficacy comparison; do not treat those protocol changes as novelty. Source
+  scope is recorded in `switching_contextual_active_model_selection_audit_v1.md`.

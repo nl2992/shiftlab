@@ -2037,3 +2037,19 @@ the finite benchmark. Source limitation: RAO* full text/proof not inspected in t
   control and asymptotic cost optimality predate this project. Thus those ingredients alone fail G1.
   The hard-cap/delayed/recurrent deployment distinctions are only a candidate gap statement, not
   proof of novelty. G1 remains open; G2-G5 remain held.
+
+### G1 impossibility boundary 2026-10-29: distribution-free current-value risk has no power
+
+- Under the v1 delayed-feedback contract, compared two one-event environments with identical
+  pre-action observations and paired benefit `X_1=-1` versus `+1`. With delay `d>=1`, the queried
+  outcome cannot distinguish them before the first action. Any policy therefore promotes with
+  the same probability `p` in both. Uniform false-promotion risk `P(F)<=alpha` in the negative
+  environment forces `p<=alpha`, so first-opportunity promotion power in the positive environment
+  is also at most alpha. The proof and extension to a common observable history are in
+  `switching_information_risk_contract_v1.md`.
+- This closes distribution-free current-value safety under unrestricted reversals as a useful
+  target: no acquisition/switching algorithm can have both that guarantee and nontrivial immediate
+  power absent structure or pre-action information. It is an elementary indistinguishability result,
+  not a novelty claim. G1 must now specify a persistence/transition assumption, a calibrated
+  pre-action covariate signal, or the weaker test-epoch null with explicit post-reversal loss.
+  G2–G5 remain held. Do not interpret historical evidence as a post-reversal value certificate.

@@ -79,3 +79,31 @@ statistical risk and economic regret. The method must beat the strongest equally
 baseline on a registered synthetic family and remain below the exact sequence-form oracle cost on
 small cells. Current-value safety cannot be borrowed from historical promotion validity. G2-G5
 remain held; no confirmatory or real-data study is authorized by this contract alone.
+
+## Impossibility boundary for current-value false promotion
+
+The distribution-free version of the current-value event above has no nontrivial power under
+unrestricted reversals. Consider the one-event subclass with no pre-action labels (fixed delay
+`d >= 1`), identical public covariates, and `X_1=-1` under law `P_-` versus `X_1=+1` under
+law `P_+`. The learner's pre-action observable sigma-field has the same law in both environments,
+so any randomized policy promotes with the same probability `p`. Under `P_-`, `mu_1=-1<=h`
+(for `h=0`), hence a bound `P_-(F)<=alpha` implies `p<=alpha`. Under `P_+`, `mu_1=+1`, so
+power to promote at this first opportunity is also at most `alpha`. Queries cannot distinguish the
+laws before the action because their outcomes arrive only after the decision. Therefore a
+uniform, distribution-free current-value false-promotion guarantee and nontrivial first-opportunity
+power are incompatible. The bound is exact and does not depend on the query budget or computation.
+
+The same argument applies at any decision time after a common observable history: let the two
+worlds have identical observable histories through that decision, with conditional means on
+opposite sides of the hurdle. Conditional promotion probabilities coincide. Any uniform safety
+claim must then bound power in the beneficial world by the allowed error probability (or by the
+conditional/unconditional risk budget remaining at that history).
+
+This is a no-go result for the unrestricted contract, not a no-go for useful switching under
+additional assumptions. A viable target must explicitly choose among: (a) a test-epoch/global-null
+false-promotion guarantee plus separately measured reversal loss; (b) a known or estimable
+transition/persistence model with a model-conditional current-value risk statement; or (c) a
+pre-action observable signal with a calibrated conditional relation to current benefit. Any such
+assumption must appear in the comparator and theorem, and the method must state what happens when
+it is misspecified. This basic indistinguishability argument is a necessary-assumption screen, not
+a novelty claim.

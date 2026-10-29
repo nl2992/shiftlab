@@ -220,3 +220,20 @@
   real-data performance are not established. No data or seeds were opened.
 - Decision: continue candidate assessment, including source-matched competitors,
   a computable value bound and appropriately frozen real-data development design.
+
+## 2026-10-29 — Strong calendar-opportunity comparison
+
+- Registered CAP_CALENDAR_PROTOCOL_V1.md before execution. All six previously
+  exposed HMM cells and 90 adaptive-skip calendar solves completed; exact
+  recovered-policy risk and calibrated cost were checked. Focused tests: 17 passed.
+- Best model-aware calendar matched the full recovered oracle in all six cells
+  and had lower cost than the capped planner in three by 0.016532736, 0.053004739,
+  and 0.002930624; remaining three tied. Thus the earlier episode-baseline wins
+  do not establish superiority against this stronger comparator. LPs are numerical;
+  these are exact evaluations of recovered policies, not class-optimal certificates.
+- Results, individual calendar rows and hashes are in
+  `cap_calendar_synthetic_v1.json`. This is a single exposed model family; no
+  general dominance, runtime advantage against the calendar planner, published
+  robust-FSC comparison, independent confirmation or real-data result is claimed.
+- Decision: retain the cap as a computational baseline and continue searching
+  for a candidate with defensible value/risk guarantees and strong-baseline gains.

@@ -2446,11 +2446,13 @@ the finite benchmark. Source limitation: RAO* full text/proof not inspected in t
 ### G1 quantitative filter screen 2026-10-29: registered HMM contraction
 
 - Checked the registered recurrent two-state HMM directly: its transition cross-ratio is `9`, so
-  the Birkhoff coefficient for each queried or missing-observation update is exactly `1/2`. The
-  resulting pathwise filter bound, combined with a slope-one logistic action rule, gives null-risk
-  perturbation `0.05148` at `T=6,k=5` and `0.02146` at `T=20,k=8`. The corresponding cost perturbation
-  bounds under per-round cost at most `1.11` are `0.2000` and `0.2501`. The delay-aware storage
-  convention retains `k+d` observable event records and the pending calendar.
+  the Birkhoff coefficient for each queried or missing-observation update is `1/2`. A sharper
+  probability-coordinate derivative calculation gives a uniform `1/2`-Lipschitz filter update.
+  Exact enumeration of all `3^k` queried/missing sequences through `k=8` attains but never exceeds
+  the resulting `2^-k` bound. With a slope-one logistic action rule, null-risk perturbation is
+  `0.046875` at `T=6,k=5` and `0.01953125` at `T=20,k=8`; cost perturbation bounds under per-round
+  cost at most `1.11` are `0.1821` and `0.2276`. Delay-aware storage retains `k+d` observable event
+  records and the pending calendar. Reproducible checker: `scripts/check_switching_filter_contraction.py`.
 - This changes the status of the assumption: uniform forgetting is feasible and quantitatively
   nonvacuous on the registered cells. It does not repair the novelty failure; the bound only
   transfers performance/risk for a supplied smooth policy and gives no efficient policy optimizer

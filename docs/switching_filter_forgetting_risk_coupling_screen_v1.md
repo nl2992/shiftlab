@@ -49,12 +49,25 @@ event and propagate the posterior to the current time. Pending outcomes remain h
 The filter recomputation then uses the same `P` or `D_y P` positive matrices over the retained
 event-time window.
 
+The projective bound above is conservative for this particular HMM. In probability coordinates,
+the unqueried update is `f(p)=1/4+p/2`, with derivative `1/2`. For an observed label, let
+`q=1/4+p/2` and `g(q)=q a_1/(q a_1+(1-q)a_0)`, where `(a_0,a_1)` is either
+`(1/20,19/20)` or its complement. On `q in [1/4,3/4]`, direct differentiation gives
+`max |d(g o f)/dp| = 38/121 < 1/2`. Therefore every queried or missing-observation update is
+`1/2`-Lipschitz in total variation, and after any common sequence of `k` source-event updates,
+
+`TV(b_t,bhat_t) <= 2^(-k)`.
+
+The exact script `scripts/check_switching_filter_contraction.py` independently enumerates all
+`3^k` missing/zero/one strings for `k=1,...,8` from the extreme priors 0 and 1; all observed
+worst discrepancies are at most `2^(-k)`.
+
 For the illustrative binary action rule `P(A=1|b)=sigmoid(b-b*)`, the belief-to-action
-Lipschitz constant is `L=1/4`. At `T=6,k=5`, the resulting `epsilon` is `0.008580`, so the
-causal-null risk perturbation is at most `0.05148` and leaves `0.04852` of an `alpha=0.1`
-constraint for the uncompressed policy. At `T=20,k=8`, the perturbation is at most `0.02146`,
-leaving `0.07854`. If each round's loss plus query and switch charges is bounded by `1.11`,
-the corresponding absolute cost perturbation bounds are `0.2000` and `0.2501`.
+Lipschitz constant is `L=1/4`. At `T=6,k=5`, `epsilon=0.0078125`, so the causal-null risk
+perturbation is at most `0.046875` and leaves `0.053125` of an `alpha=0.1` constraint for the
+uncompressed policy. At `T=20,k=8`, the perturbation is at most `0.01953125`, leaving
+`0.08046875`. If each round's loss plus query and switch charges is bounded by `1.11`, the
+corresponding absolute cost perturbation bounds are `0.1821` and `0.2276`.
 
 Thus uniform forgetting is not the practical obstruction in this registered HMM: the explicit
 bound is nonvacuous at these horizons for a smooth policy. The unresolved obstruction is

@@ -1,0 +1,11 @@
+[
+  {
+    "name": "ho_etal_recursively_constrained_pomdp_uai24",
+    "url": "https://raw.githubusercontent.com/mlresearch/v244/main/assets/ho24a/ho24a.pdf",
+    "bytes": 942744,
+    "sha256": "6394C5B9201867A177A67A653AD1E44107174A75668CD73FD4C96C6E010CCC20",
+    "status": "downloaded_primary_source_inspected_sections_2_to_5_proposition_2_theorems_1_to_4_and_ARCS",
+    "retrieved_date": "2026-10-29",
+    "cache_path": "temporary_system_cache_only_not_committed"
+  }
+]

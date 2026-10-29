@@ -1576,3 +1576,29 @@ the finite benchmark. Source limitation: RAO* full text/proof not inspected in t
   construction with a value bound to the full-history oracle, or a growing-family lower bound that
   forces a hypothesis change. No broad experiment is authorized by this checkpoint. Promotion
   validity remains separate from current-regime benefit and rollback evidence after reversal.
+
+### Checkpoint 2026-10-29: memory lower-bound gate after source audit
+
+- PR #8 merged the recursive constrained-POMDP audit and source manifest at `1fb33d6` after the
+  full CI suite passed. The active main checkout is clean. This closes the generic remaining-risk-
+  budget recursion as a novelty route; it does not close the overall research goal.
+- The available exact alias result only rules out alternative-posterior-only state. Its one-bit
+  repair, the robust-FSC history augmentation, and the exact two-law sequence-form oracle do not
+  establish how much memory is required as horizon grows. Exponential oracle size is not itself a
+  lower bound on a useful controller.
+- Next G1 gate: formulate a growing family of promotion events over delayed queried tapes for
+  which (i) worst full-history causal-null probability is computed exactly, (ii) alternative-HMM
+  value is explicit, and (iii) any policy with at most `M` controller states has a proved value
+  gap from the full-history safe oracle for a stated scaling of `M`, horizon, budget and delay.
+  First screen candidate event languages with the exact causal-null backward recursion and a
+  distinguishability argument for the finite controller; the learner must never see pending
+  outcomes. A numerical separation or hard instance alone does not satisfy this gate.
+- If the family fails because a small statistic suffices, record that statistic and test its
+  policy-sufficiency for the shared alternative-value / causal-null-risk objective. If no growing
+  lower bound or compact risk-preserving construction survives comparison with robust-FSC and
+  RC-POMDP prior work, stop this memory-compression route and revise G1. G2–G5 remain held; no broad
+  efficacy sweep or holdout opening follows from this checkpoint.
+- Preserve the separate evidence contract: a promotion-risk state controls the declared null;
+  current-regime benefit requires post-change evidence or an explicit persistence model. Historical
+  likelihood-ratio wealth cannot certify value after reversal, and rollback delay loss remains a
+  separate outcome.

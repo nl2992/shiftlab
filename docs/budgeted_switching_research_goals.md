@@ -1557,3 +1557,22 @@ the finite benchmark. Source limitation: RAO* full text/proof not inspected in t
   established memory, sensing, switching and delay bounds. G2–G5 remain held; do not run a broad
   efficacy grid until that theorem target and comparator are concrete. Promotion validity and
   post-reversal current-value evidence remain separate.
+
+### Checkpoint 2026-10-29: recursive constrained-POMDP prior
+
+- Read Ho et al.'s primary UAI 2024 paper through Sections 2–5, Proposition 2, Theorems 1–4 and
+  the ARCS algorithm. RC-POMDP already augments belief with a history-dependent admissible-cost
+  budget, restores Bellman structure, proves deterministic optimality, and gives sound/
+  epsilon-optimal output when ARCS terminates; ARCS is incomplete. This closes the generic
+  “remaining risk budget as state” / dynamic-programming idea.
+- Its guarantee applies to expected cumulative costs under a single POMDP law. ShiftLab instead
+  scores economic cost under an alternative HMM and constrains any-promotion probability under a
+  separate history-adaptive causal null that sees pending labels hidden from the learner. A direct
+  RC-POMDP transfer would have to preserve that asymmetric information and shared policy; the
+  generic two-law sequence-form reference does so only with potentially exponential tree size.
+  `switching_rc_pomdp_prior_audit_v1.md` records the scope boundary and primary-source hash.
+- Decision: reject a generic RC-POMDP wrapper or scalar risk-budget planner as the method. No
+  algorithm or theorem passed G1/G2. Next require a sub-exponential, policy-sufficient risk-memory
+  construction with a value bound to the full-history oracle, or a growing-family lower bound that
+  forces a hypothesis change. No broad experiment is authorized by this checkpoint. Promotion
+  validity remains separate from current-regime benefit and rollback evidence after reversal.

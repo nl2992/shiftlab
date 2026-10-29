@@ -1634,3 +1634,26 @@ the finite benchmark. Source limitation: RAO* full text/proof not inspected in t
 - Decision: a surviving theorem must compare against both stationary cost-aware bandits and Markov
   state-sensing control, and exploit the exact two-law, delayed, reversible contract. No method has
   passed G1. Hold G2–G5 and keep promotion validity separate from post-reversal current value.
+
+### Continuation checkpoint 2026-10-29: exact oracle and next G1 screen
+
+- Independently reran `scripts/verify_switching_reversal_lp_certificate.py` without an optimizer.
+  The saved rational certificate verifies the registered `T=6, B=3, d=1` full-history oracle in
+  `[576353749991/200000000000, 461083/160000]`, a width of `9/200000000000`. This confirms the
+  finite reference value, not a scalable controller or a method-versus-baseline result; its
+  feasible upper policy was fitted on the same cell.
+- The fixed-calendar/action-oracle study already supplies a small exact adaptive-timing separation,
+  while episode composition and adaptive stopping explain most of the simple acquisition gap. The
+  remaining memory-compression direction therefore needs a theorem rather than another small-cell
+  sweep.
+- Immediate next G1 screen: define a growing delayed-label family and its full-history safe oracle;
+  then either prove an `M`-state value lower bound under the same causal-null anytime risk, or
+  construct a compact risk state with an explicit oracle gap. Start with a simple IID subfamily to
+  test candidate distinguishability arguments, but retain a one-step release queue and request-time
+  budget accounting. A failed lower-bound attempt should be recorded as a counterexample/pivot, not
+  turned into an empirical novelty claim.
+- Promotion-risk validity remains a separate guarantee from current-regime benefit: after an
+  unobserved reversal, pre-reversal likelihood-ratio wealth does not certify that the challenger
+  remains valuable. Any continuation-value claim must use post-change evidence or state a defensible
+  persistence/predictive-signal assumption. G1 remains open; G2–G5 remain held, with no efficacy
+  grid or real-data confirmation authorized by this checkpoint.

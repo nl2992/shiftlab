@@ -52,6 +52,27 @@ query at request time, reserve budget for pending requests, and log current-regi
 separately from cumulative evidence. Reversal evaluation reports detection/rollback delay and
 loss accumulated before rollback; rollback does not retroactively make a promotion valid.
 
+### Implementation and claim invariant: evidence is not a current-value forecast
+
+Maintain two separately named state channels in any implementation and result artifact:
+
+1. **Test-epoch statistical evidence** (for example, an e-value or likelihood ratio), whose null,
+   sampling filtration, reset/alpha-accounting rule, and validity horizon are specified. Its claim
+   is limited to that null and epoch. Once data from a beneficial regime have raised the evidence,
+   a later reversal does not erase that history or make the old evidence a certificate of present
+   benefit.
+2. **Current-regime economic forecast**, such as a model-based conditional mean of paired loss
+   difference and its uncertainty, based only on information available at the decision time. Any
+   current-value safety claim must derive from an explicit transition/persistence model or a
+   calibrated pre-action signal; it cannot be inferred from crossing the historical evidence
+   threshold.
+
+Report the two values and their provenance separately at promotion and rollback. If no defensible
+current-regime forecast is available, report the guarantee as test-epoch false-promotion control
+and report post-reversal exposure/loss as an economic outcome. Do not relabel an e-process crossing,
+or a later decline in its wealth, as a current-regime certificate. This invariant is required for
+interpretation; it does not itself supply a new algorithm or guarantee.
+
 The exact finite causal-game sequence-form LP in `src/shiftlab/dive/causal_switching_game.py` is
 the small-instance oracle. Its null is a worst-case event-time conditional Bernoulli response
 process and its objective is known-HMM expected loss plus fees. It is finite-horizon and numerically

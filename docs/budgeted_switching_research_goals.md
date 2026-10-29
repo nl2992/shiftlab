@@ -2242,3 +2242,14 @@ the finite benchmark. Source limitation: RAO* full text/proof not inspected in t
   controls only alternative predictive value. It does not control perturbations of worst causal-null
   promotion risk under the separate full-history adversary. Any windowed-filter algorithm must prove
   both bounds for its actual policy; otherwise reject it before experiments.
+
+### Contract invariant: historical evidence versus current-regime value
+
+- Made the separation operational in `switching_information_risk_contract_v1.md`: implementations
+  and result artifacts must store/report test-epoch statistical evidence separately from the
+  current-regime economic forecast, including each channel's assumptions and provenance.
+- A likelihood-ratio/e-process crossing may support only its specified epoch-null claim. Evidence
+  accumulated in a beneficial regime does not certify value after reversal; without an explicit
+  persistence model or calibrated contemporaneous signal, report test-epoch false-promotion control
+  and measure post-reversal exposure/loss separately. This is a claim/measurement invariant, not a
+  new algorithm or current-value safety theorem. G1 remains open; G2–G5 remain held.

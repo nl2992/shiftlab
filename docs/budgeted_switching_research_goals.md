@@ -1831,3 +1831,17 @@ the finite benchmark. Source limitation: RAO* full text/proof not inspected in t
   allocation to the identical query chronology and global any-false-promotion constraint; do not
   transfer the source regret guarantee without proof. G1 remains open; G2–G5 stay held. Evidence
   supporting past promotion remains separate from current-regime value after reversal.
+
+### G1 candidate refinement 2026-10-29: promotion versus reversal-monitoring budget
+
+- Specified a falsifiable interaction: allocate a hard query budget between anytime-valid
+  pre-promotion evidence and retained post-promotion evidence for economic rollback. Derived the
+  finite information lower bound `kl(1-gamma||beta) <= kappa min(R,n-d+1)` under bounded
+  per-query post-reversal KL, fixed delay, and explicit false-rollback/detection targets.
+  `switching_reversal_budget_frontier_candidate_v1.md` contains assumptions, proof route, and the
+  required comparator.
+- Decision: the information lower bound is standard and the reserve-query rule may reduce to
+  alpha spending plus delayed CUSUM and a constrained-planning wrapper. No method claim is made.
+  Next G1 gate is the exact joint recursion versus an optimized separable budget split on growing
+  instances; stop this candidate if it collapses to that composition. Keep promotion validity
+  separate from current-regime forecasts and evidence after reversal. G2–G5 remain held.

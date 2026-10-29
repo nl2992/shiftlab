@@ -70,3 +70,23 @@
 - No candidate code, experiments, seed allocation, real-data read or superiority
   claim. Decision: audit the coupling/DP proof and compare full complexity; continue
   to B/C if this does not yield a defensible advantage.
+
+## 2026-10-29 — Promotion-dominance structural screen
+
+- Starting revision 169d17e. Registered both diagnostics before execution in
+  PROMOTION_DOMINANCE_PROTOCOL_V1.md and PROMOTION_RESTRICTED_ORACLE_PROTOCOL_V1.md.
+- Derived a model-specific, exactly safe epsilon-dominance pruning lemma against
+  the original full-history oracle. A coupling argument replaces a marked first
+  promotion by never promoting, so worst-case null risk cannot increase; the
+  conditional alternative cost rises by at most epsilon. Generic POMDP
+  branch-and-bound and chance-constrained pruning are established prior art.
+- Ran the exact screen: T=5/6/7 passed 170/352/658 lower-bound comparisons. The
+  T=6 screen marked 93/236 histories at epsilon 0 and 98/236 at epsilon 1/100.
+- Ran restricted oracle at T=6: zeroed 132 or 140 promotion columns respectively;
+  both returned 461083/160000 and exact recovered risk 1/10, matching unrestricted.
+  Scripts, protocols, source hashes and complete results are tracked in this branch.
+- Limitation: the diagnostic builds the full original tree and exact continuation
+  cache first; all solves use 1,799 builder nodes. No runtime benefit, novelty,
+  synthetic efficacy or real-data result has been established. No seeds or real
+  datasets were opened. Next: test early pruning without changing information or
+  risk, compare end-to-end cost/resources, and continue B/C if not competitive.

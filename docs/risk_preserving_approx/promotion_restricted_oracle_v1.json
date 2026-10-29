@@ -1,0 +1,47 @@
+{
+  "protocol": "docs/risk_preserving_approx/PROMOTION_RESTRICTED_ORACLE_PROTOCOL_V1.md",
+  "protocol_sha256": "ad7d95ef460ec90a73fe078daec88bde393dd705a4f26225761628536ad33de3",
+  "source_sha256": "e945d390a78ddf4d9a38674697df992e6b0baa89ebb61e978e4600d743c2ca98",
+  "reference_source_sha256": "838bab025e72bb637a4b45df38f7e8ddf048d133462b20d0dff295cc09a86d75",
+  "rows": [
+    {
+      "epsilon": null,
+      "marked_histories": 0,
+      "fixed_promotion_columns": 0,
+      "solver_objective": 2.8817687499999995,
+      "recovered_cost": "461083/160000",
+      "causal_null_risk": "1/10",
+      "risk_feasible": true,
+      "equality_residual": 0.0,
+      "inequality_violation": 0.0,
+      "builder_nodes": 1799,
+      "recovered_gap": "0"
+    },
+    {
+      "epsilon": "0",
+      "marked_histories": 93,
+      "fixed_promotion_columns": 132,
+      "solver_objective": 2.8817687499999995,
+      "recovered_cost": "461083/160000",
+      "causal_null_risk": "1/10",
+      "risk_feasible": true,
+      "equality_residual": 0.0,
+      "inequality_violation": 0.0,
+      "builder_nodes": 1799,
+      "recovered_gap": "0"
+    },
+    {
+      "epsilon": "1/100",
+      "marked_histories": 98,
+      "fixed_promotion_columns": 140,
+      "solver_objective": 2.8817687499999995,
+      "recovered_cost": "461083/160000",
+      "causal_null_risk": "1/10",
+      "risk_feasible": true,
+      "equality_residual": 0.0,
+      "inequality_violation": 0.0,
+      "builder_nodes": 1799,
+      "recovered_gap": "0"
+    }
+  ]
+}

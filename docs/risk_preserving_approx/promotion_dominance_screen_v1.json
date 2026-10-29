@@ -1,0 +1,46 @@
+{
+  "protocol": "docs/risk_preserving_approx/PROMOTION_DOMINANCE_PROTOCOL_V1.md",
+  "source_sha256": "5ade0324065c39380660ff48737602d0ea4816483e7d349a20dcca20a5535e8e",
+  "protocol_sha256": "c745fdd43025df83a75eea9f3fba9a21aa0b1f0eb4ec99682ffe79b197a2cbda",
+  "reference_source_sha256": "838bab025e72bb637a4b45df38f7e8ddf048d133462b20d0dff295cc09a86d75",
+  "starting_commit": "169d17e",
+  "seed": null,
+  "rows": [
+    {
+      "horizon": 5,
+      "histories": 105,
+      "strictly_dominated": 44,
+      "ties": 0,
+      "one_cent_near_dominated": 46,
+      "continuation_checks": 170,
+      "minimum_exact_minus_bound": "0",
+      "builder_nodes": 872,
+      "learner_sequences": 341,
+      "continuation_decision_cache": 205
+    },
+    {
+      "horizon": 6,
+      "histories": 236,
+      "strictly_dominated": 93,
+      "ties": 0,
+      "one_cent_near_dominated": 98,
+      "continuation_checks": 352,
+      "minimum_exact_minus_bound": "0",
+      "builder_nodes": 1799,
+      "learner_sequences": 705,
+      "continuation_decision_cache": 467
+    },
+    {
+      "horizon": 7,
+      "histories": 469,
+      "strictly_dominated": 172,
+      "ties": 0,
+      "one_cent_near_dominated": 182,
+      "continuation_checks": 658,
+      "minimum_exact_minus_bound": "0",
+      "builder_nodes": 3334,
+      "learner_sequences": 1317,
+      "continuation_decision_cache": 933
+    }
+  ]
+}

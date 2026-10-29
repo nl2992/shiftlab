@@ -120,3 +120,26 @@ is at high risk of being a standard state augmentation and planning composition.
 primary paper](https://proceedings.mlr.press/v300/kapoor26a.html) and the [JRSS B primary article](https://doi.org/10.1093/jrsssb/qkag066).
 The source boundary does not say these papers solve ShiftLab's exact robust two-law problem; it
 means their gap differences are not a novelty argument by themselves.
+
+## Acquisition-score no-go 2026-10-29
+
+The proposed score “query when the current confidence set straddles the switching hurdle and the
+label is expected to resolve that ambiguity” is a decision-focused value-of-information rule. It
+is not a novelty delta: [Huang, Bickford Smith and Rainforth, AISTATS/PMLR 2026](https://proceedings.mlr.press/v300/huang26b.html), derive acquisition
+objectives directly from downstream decision loss; Kapoor and Nair, AISTATS/PMLR 2026, formulate
+costed sensing as a belief-state MDP with a policy-improvement algorithm and suboptimality bounds.
+The repository also already has an exact fixed-gate counterexample in
+`switching_economic_acquisition_screen_v1.md`: one-step VOI spends no labels when a three-label
+complementary test has positive value. Thus this particular myopic score is rejected before any
+additional experiments.
+
+A dynamic planner over `(HMM belief, parameter confidence set, delay queue, remaining budget,
+incumbent, promotion state)` would be the corresponding standard state augmentation. The current
+candidate also needs to preserve the original broad causal-null any-promotion guarantee; the HMM
+parameter confidence set alone gives only model-conditional safety. A version with both gates is a
+plausible comparator, but adding two established certificates and a constrained planner is not a
+method claim. G1 survives only if a concrete joint allocation rule has a proved finite-sample or
+approximation advantage over (i) this two-gate composition, (ii) costed sensing / loss-driven active
+learning, and (iii) the exact two-law oracle. Otherwise close this candidate and revise the research
+hypothesis. No additional experiment is authorized by this screen.
+

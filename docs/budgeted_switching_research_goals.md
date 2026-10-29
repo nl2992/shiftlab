@@ -2104,3 +2104,20 @@ the finite benchmark. Source limitation: RAO* full text/proof not inspected in t
 - Keep the finite-HMM confidence-set corollary as a safety baseline. The candidate remains open
   only if a specific acquisition rule yields a nontrivial theorem beyond these methods and the
   exact two-law oracle. No efficacy or real-data study; G1 unresolved, G2-G5 held.
+
+### G1 acquisition-source screen 2026-10-29: sign-ambiguity VOI is established
+
+- Rejected the proposed myopic query score that prioritizes labels expected to resolve whether the
+  HMM confidence set straddles the switching hurdle. Loss-driven Bayesian active learning already
+  derives acquisition objectives from downstream decision loss; costed state sensing is already
+  a belief-state MDP with policy-improvement and value bounds. See Huang et al. (AISTATS 2026,
+  PMLR 300, `huang26b`) and Kapoor & Nair (AISTATS 2026, PMLR 300, `kapoor26a`).
+- The repository's exact VOI screen also shows one-step decision value can miss complementary
+  labels needed to pass a safety gate (`switching_economic_acquisition_screen_v1.md`). A query
+  policy based only on sign ambiguity is therefore both prior-art exposed and vulnerable to
+  complementarity.
+- This closes the current acquisition-score proposal, not the full objective. The HMM confidence
+  gate itself is only a model-conditional safety baseline and must not replace the broad
+  causal-null any-promotion guarantee silently. A surviving method needs a proved joint gain over
+  both gates, loss-driven active learning/costed sensing, and the exact two-law oracle. No new
+  experiments; G1 remains open, G2–G5 remain held.

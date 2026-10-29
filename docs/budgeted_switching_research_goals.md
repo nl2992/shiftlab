@@ -1539,3 +1539,21 @@ the finite benchmark. Source limitation: RAO* full text/proof not inspected in t
   representation/approximation preserving causal-null risk and a value bound against the full
   oracle. Posterior-only belief compression is already counterexample-screened, so the next
   hypothesis must state which extra risk-relevant memory it retains before any broad experiment.
+
+### Checkpoint 2026-10-28: bounded-memory testing prior
+
+- Inspected Managoli and Prabhakaran (2026 preprint), including its adaptive adversary/FSM
+  information structure, Theorem 1, Corollary 1, Theorem 2 and proof sections. It already gives
+  memory-dependent minimax error bounds for adversarial testing with a randomized finite-state
+  machine.
+- Its theorem controls asymptotic average classification error for a sample arriving every step.
+  It does not give finite-horizon probability of any false promotion, paid/pathwise-budgeted query
+  acquisition, delayed releases, reversible deployment costs or alternative-HMM decision regret.
+  `switching_finite_memory_adversarial_testing_prior_audit_v1.md` records that boundary. A generic
+  finite-memory detector/controller is now also closed as a novelty claim.
+- The posterior-belief compression candidate remains rejected. No algorithm has passed the current
+  novelty gate. The next admissible hypothesis must prove a finite-horizon acquisition-and-switch
+  cost/regret improvement under the original causal risk and delay contract, beyond a sum of
+  established memory, sensing, switching and delay bounds. G2–G5 remain held; do not run a broad
+  efficacy grid until that theorem target and comparator are concrete. Promotion validity and
+  post-reversal current-value evidence remain separate.

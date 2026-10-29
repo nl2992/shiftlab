@@ -1,0 +1,12 @@
+[
+  {
+    "name": "lu_etal_feedback_enhanced_online_multiple_testing_jmlr_2026",
+    "url": "https://jmlr.org/papers/volume27/25-2123/25-2123.pdf",
+    "record_url": "https://jmlr.org/papers/v27/25-2123.html",
+    "bytes": 1301120,
+    "sha256": "8C9002A68DD63B732731061A606388A48ACE1A83149D355BF88F0AACF3D8BCEF",
+    "status": "official_pdf_inspected_model_feedback_definitions_theorems_3_7_9",
+    "retrieved_date": "2026-10-29",
+    "cache_path": "outputs/switching_source_audit_v1/lu_etal_feedback_enhanced_online_multiple_testing_2026.pdf"
+  }
+]

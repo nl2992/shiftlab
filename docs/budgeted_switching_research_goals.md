@@ -1763,3 +1763,18 @@ the finite benchmark. Source limitation: RAO* full text/proof not inspected in t
   Any candidate claiming power must compare with this asymptotic envelope where applicable, then
   prove a finite-sample gain under the exact delayed two-law contract. G1 remains open; G2–G5 stay
   held. Promotion-risk validity and post-reversal current value remain separate.
+
+### G1 source boundary 2026-10-29: feedback-aware online testing is established
+
+- Audited Lu, Huo, Ren, Wang and Zou, “Feedback-Enhanced Online Multiple Testing with
+  Applications to Conformal Selection,” JMLR 27(186), 2026, from the official full PDF. Theorem 3
+  gives online mFDR under conditional super-uniformity and FDR under additional independence and
+  monotonicity; Theorems 7 and 9 cover adaptive alpha allocation and local dependence (mFDR).
+  Fixed-delay full/bandit outcome feedback sharpens the FDP estimate and recycles alpha wealth.
+  `switching_feedback_online_testing_prior_audit_v1.md` records the boundary (manifest v30).
+- Decision: reject delayed feedback-based alpha recycling as a generic contribution. The target
+  any-false-promotion event is stronger than FDR/mFDR, and ShiftLab's causal adaptive labels,
+  hard pending-query cap, and switching economics differ; these gaps are obligations, not novelty.
+  G1 remains open only for a theorem-level advantage over a feedback-aware risk-matched testing
+  plus switching controller. Continue to separate global promotion validity from current value
+  after reversal; G2–G5 remain held and no efficacy or real-data study is opened.

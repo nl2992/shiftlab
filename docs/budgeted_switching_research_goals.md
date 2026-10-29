@@ -2345,3 +2345,19 @@ the finite benchmark. Source limitation: RAO* full text/proof not inspected in t
   policy optimization, or approximation to the unrestricted oracle. It is generic infrastructure,
   not a method. Use it to certify candidate policies and Lagrangian recovery outputs. G1 remains
   open; G2–G5 remain held; no efficacy experiment or current-value claim follows.
+
+### G1 targeted family screen 2026-10-29: fixed compact controller loses horizon uniformity
+
+- Used the exact FSC risk recursion and full-history reference to extend the post-hoc six-round
+  two-mode controller across `T=6,7,8,9` at the same `B=3,d=1,alpha=1/10`, recurrent HMM and
+  costs. The fixed controller's risk remains exactly `1/10`; its cost matches at `T=6`, then has
+  gaps `4697/3200000`, `20979/6400000`, and `64719/12800000` against the recovered first-promotion
+  solver policies at `T=7,8,9`.
+- The six-round oracle has a rational optimum certificate; the longer-horizon comparator values
+  come from numerical recovered policies, so these rows are not global optimality comparisons.
+  The exact policy metrics and limits are in `switching_fixed_fsc_horizon_growth_screen_v1.md`.
+- Decision: reject holding the six-round FSM graph fixed as a horizon-scalable economic rule. Its
+  finite-state risk certificate is useful, but it gives no horizon-uniform value guarantee. Any
+  continuation must use horizon-aware switching/acquisition and prove a cost-risk guarantee beyond
+  standard HMM control, safe sequential testing and the resource-matched baselines. G1 remains open;
+  G2–G5 remain held; this is not efficacy evidence.

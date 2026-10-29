@@ -1845,3 +1845,9 @@ the finite benchmark. Source limitation: RAO* full text/proof not inspected in t
   Next G1 gate is the exact joint recursion versus an optimized separable budget split on growing
   instances; stop this candidate if it collapses to that composition. Keep promotion validity
   separate from current-regime forecasts and evidence after reversal. G2–G5 remain held.
+- The registered six-event oracle is already a decisive first screen: its certified optimum bracket
+  is `[2.881768749955, 2.88176875]`, and the risk-checked upper policy uses at most two
+  pre-promotion queries and one post-promotion rollback query. Therefore the `(2,1)` split attains
+  the full-oracle value to below `4.5e-11` on this cell. Record no joint-allocation gain here. Any
+  continuation must compare against a stronger history-dependent split and show a growing-family
+  advantage; the fixed split alone is not an adequate comparator.

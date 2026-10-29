@@ -77,3 +77,24 @@ held until this comparison establishes a real delta.
   [`switching_robust_sequential_testing_prior_audit_v1.md`](switching_robust_sequential_testing_prior_audit_v1.md).
 - The exact two-law small-game oracle and its exponential generic sequence-form representation are
   recorded in [`switching_two_law_game_duality_v1.md`](switching_two_law_game_duality_v1.md).
+
+## Registered small-cell result: no joint-allocation gain
+
+The existing registered `T=6, B=3, d=1` recurrent-HMM cell already provides a decisive first
+screen. Its full-history two-law optimum is certified in
+[`switching_reversal_lp_certificate_v1.md`](switching_reversal_lp_certificate_v1.md) to lie in
+`[2.881768749955, 2.88176875]`. The independently risk-checked feasible policy in
+[`switching_two_component_fsc_lp_v1.md`](switching_two_component_fsc_lp_v1.md) uses no more than two
+queries before its first promotion and one query after promotion for rollback; its exact cost is
+`461083/160000 = 2.88176875`, with causal-null promotion risk `1/10`. It is therefore feasible in
+the split class `(B_P,B_R)=(2,1)`. Since the full-game lower bound applies to every policy, the
+best policy in that split class is bracketed by the same interval. Joint allocation does not
+improve the split on this cell, to a certified tolerance below `4.5e-11`.
+
+This is a no-go for claiming a joint-allocation advantage from the registered small cell. It does
+not establish equality on a growing family. A continued test must strengthen the comparator from a
+fixed `(B_P,B_R)` pair to an adaptive, history-dependent partition whose continuation policy sees
+the promotion history, current economic belief, pending labels and remaining query rights. If the
+full two-law recursion is just this Bellman composition on growing instances, reject this candidate
+as a method and revise G1. The policy's promotion risk certificate still says nothing about current
+benefit after reversal.

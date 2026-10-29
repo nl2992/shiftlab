@@ -26,3 +26,29 @@
 - Planning only; no new solver execution, experiment, seed allocation or theorem
   claim. Next checkpoint: reconstruct the reference problem and verify available
   small-instance anchors in a branch-local environment.
+
+## 2026-10-29 — Reference verification and theorem target
+
+- Starting commit e04e5ad; base ec42a2da9fdf59a6cf26970fb19aa9d5fb8973cc.
+- Created branch-local locked environment with `uv sync --locked --extra dev`.
+- Focused tests: 14 passed in 25.47 s. Re-ran registered T=6–8 fixed-budget
+  solver protocol to `outputs/risk_preserving_approx/oracle_reproduction_20261029`;
+  tracked copy `oracle_reproduction_20261029.json`, SHA-256
+  8dfa7dbd6a90a6910b9016720ded1119abe9be87e4a7a80e5d4c702748b1663c.
+  T6/T7 reference values and exact recovered risk reproduced; T8 full builder
+  reached node cap, so no T8 independent full-oracle certification.
+- All 16 baseline reference Git blobs matched the recorded base hashes. No prior
+  file, protocol, seed or historical output was changed. No real-data rows or
+  reserved holdouts were opened; existing CRSP panel presence was checked only.
+- Added problem/theorem specification, initial primary-source comparison and an
+  elementary PROVED conditional safety-repair lemma. This lemma is standard
+  mixing, not a novel method or proof of a scalable near-optimal planner.
+- The alternative-posterior aliasing example is a concrete obstruction to A's
+  simplest representation. Compact risk-relevant state, efficient certification
+  and a value guarantee remain unresolved; the source equivalence audit remains
+  incomplete. No algorithm is selected and no efficacy experiment has run.
+- Decision: continue A's structural abstraction screen; independently examine B's
+  verification/optimization distinction and then C if the A lemma fails. Existing
+  real-data source audits limit CRSP to exploratory retrospective predictive replay;
+  success requires an appropriately matched real-data comparison, not a synthetic
+  check alone.

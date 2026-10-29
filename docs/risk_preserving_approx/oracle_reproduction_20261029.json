@@ -1,0 +1,114 @@
+{
+  "rows": [
+    {
+      "horizon": 6,
+      "budget": 3,
+      "delay": 1,
+      "full": {
+        "nodes": 21733,
+        "learner_sequences": 15693,
+        "learner_information_sets": 5491,
+        "opponent_sequences": 463,
+        "solver_objective": 2.8817687499999995,
+        "recovered_cost": "461083/160000",
+        "metrics": [
+          "1141923/400000",
+          "1481/200000",
+          "3129/160000",
+          "1481/2000",
+          "3129/16000"
+        ],
+        "causal_null_risk": "1/10",
+        "pathwise_query_cap": 3
+      },
+      "decomposed": {
+        "nodes": 1799,
+        "learner_sequences": 705,
+        "learner_information_sets": 236,
+        "opponent_sequences": 463,
+        "solver_objective": 2.8817687499999995,
+        "recovered_cost": "461083/160000",
+        "metrics": [
+          "1141923/400000",
+          "1481/200000",
+          "3129/160000",
+          "1481/2000",
+          "3129/16000"
+        ],
+        "causal_null_risk": "1/10",
+        "pathwise_query_cap": 3
+      },
+      "status": "completed"
+    },
+    {
+      "horizon": 7,
+      "budget": 3,
+      "delay": 1,
+      "full": {
+        "nodes": 71401,
+        "learner_sequences": 54861,
+        "learner_information_sets": 20403,
+        "opponent_sequences": 771,
+        "solver_objective": 3.3712896875,
+        "recovered_cost": "10788127/3200000",
+        "metrics": [
+          "2135267/640000",
+          "1481/100000",
+          "161/8000",
+          "1481/1000",
+          "161/800"
+        ],
+        "causal_null_risk": "1/10",
+        "pathwise_query_cap": 3
+      },
+      "decomposed": {
+        "nodes": 3334,
+        "learner_sequences": 1317,
+        "learner_information_sets": 469,
+        "opponent_sequences": 771,
+        "solver_objective": 3.3712896875,
+        "recovered_cost": "10788127/3200000",
+        "metrics": [
+          "2135267/640000",
+          "1481/100000",
+          "161/8000",
+          "1481/1000",
+          "161/800"
+        ],
+        "causal_null_risk": "1/10",
+        "pathwise_query_cap": 3
+      },
+      "status": "completed"
+    },
+    {
+      "horizon": 8,
+      "budget": 3,
+      "delay": 1,
+      "full_failure": "RuntimeError: registered tree node limit exceeded",
+      "decomposed": {
+        "nodes": 5700,
+        "learner_sequences": 2273,
+        "learner_information_sets": 848,
+        "opponent_sequences": 1193,
+        "solver_objective": 3.86497390625,
+        "recovered_cost": "24735833/6400000",
+        "metrics": [
+          "24558421/6400000",
+          "1481/200000",
+          "6501/320000",
+          "1481/2000",
+          "6501/32000"
+        ],
+        "causal_null_risk": "1/10",
+        "pathwise_query_cap": 3
+      },
+      "status": "reference_failed_decomposed_completed"
+    }
+  ],
+  "sha256": {
+    "scripts/benchmark_first_promotion_decomposition.py": "f7404946b0171518b91cf15305568ace2885ef30cc37cbe6c32d9f7721de0f4e",
+    "src/shiftlab/dive/first_promotion_decomposition.py": "838bab025e72bb637a4b45df38f7e8ddf048d133462b20d0dff295cc09a86d75",
+    "src/shiftlab/dive/causal_switching_game.py": "54b1347c3e213407b3feb09a801dc9ea40b3663fe6a4a227b7878b9b0a2d770a",
+    "docs/switching_first_promotion_scaling_protocol_v1.md": "d1b79304364ccd3f38b17f8509496644d42911f6826a50268a021b32ef375182"
+  }
+}

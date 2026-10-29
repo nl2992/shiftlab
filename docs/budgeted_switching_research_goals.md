@@ -2390,3 +2390,19 @@ the finite benchmark. Source limitation: RAO* full text/proof not inspected in t
   evaluated. Any ShiftLab comparison must explicitly adapt it to hard request reservation and
   delayed updates, and report it as an adaptation. This is now recorded in
   `switching_online_active_model_selection_audit_v1.md`; it does not create a novelty claim.
+
+### G1 comparator implementation checkpoint 2026-10-29: hard-budget delayed Online LLM Picker
+
+- Implemented `HardBudgetDelayedOnlinePicker` as an explicitly adapted comparator. It reserves each
+  request against a pathwise cap at request time, releases queried loss vectors on the fixed delay,
+  and applies importance-weighted updates using the request propensity. Its acquisition score uses
+  committee disagreement and posterior entropy from the audited source; the exact-match discrepancy
+  is stated as the default for categorical synthetic outputs. It is not a safety method, and its
+  post-cap censored estimates are not claimed unbiased for the whole horizon.
+- The four focused tests pass, covering delayed update timing, pending-request budget reservation,
+  hard-cap exhaustion and zero disagreement. Ruff, formatting and mypy pass. The source/limitations
+  are in `src/shiftlab/dive/hard_budget_delayed_online_picker.py` and
+  `docs/hard_budget_delayed_online_picker_baseline_v1.md`.
+- This closes a comparator-engineering prerequisite only. No efficacy study or novel method has
+  been run; the baseline must be paired with an equally specified safety layer if reported on the
+  causal-null risk endpoint. G1 remains open and G2–G5 remain held.

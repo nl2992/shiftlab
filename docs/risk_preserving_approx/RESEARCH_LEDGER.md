@@ -52,3 +52,21 @@
   real-data source audits limit CRSP to exploratory retrospective predictive replay;
   success requires an appropriately matched real-data comparison, not a synthetic
   check alone.
+
+## 2026-10-29 — Risk-preserving continuation approximation screen
+
+- Starting commit d5507e3. Read the existing deterministic-FSC risk recursion,
+  posterior-aliasing and monotone-event counterexamples, and robust/recursive
+  constrained-POMDP source audits. The deterministic FSC verifier does not extend
+  unchanged to hidden persistent randomized controller memory.
+- Formulated candidate A1 in `CANDIDATE_A1_CONTINUATION_GRID.md`: retain the exact
+  pre-promotion robust risk game and approximate only the post-promotion alternative
+  DP. Sketched a conservative end-to-end value bound, an exact-risk argument and
+  finite-grid size; the proof and source equivalence require further checking.
+- The main limitation is material: the pre-promotion tree remains XP in B and the
+  grid dimension grows with delay. For T=6,d=1, the coarse bound needs N>=4662
+  for 0.01 absolute error, with no demonstrated runtime or memory advantage.
+  This is an ordinary composition until a complete reduction proves otherwise.
+- No candidate code, experiments, seed allocation, real-data read or superiority
+  claim. Decision: audit the coupling/DP proof and compare full complexity; continue
+  to B/C if this does not yield a defensible advantage.

@@ -76,6 +76,9 @@ class EvaluatorOutcomes:
     paired_cost: np.ndarray
     label_available_time: np.ndarray
     release_round: np.ndarray
+    # Fees are a separate accounting channel (net utility), never inside the paired cost.
+    turnover_fee_incumbent: np.ndarray | None = None
+    turnover_fee_candidate: np.ndarray | None = None
 
     def visible_at_round(self, t: int) -> np.ndarray:
         """Indices of rounds whose labels are visible when the action of round ``t`` is chosen."""
@@ -143,6 +146,8 @@ class RealTask:
             out.paired_cost[sl],
             out.label_available_time[sl],
             release,
+            None if out.turnover_fee_incumbent is None else out.turnover_fee_incumbent[sl],
+            None if out.turnover_fee_candidate is None else out.turnover_fee_candidate[sl],
         )
         return RealTask(
             self.name,

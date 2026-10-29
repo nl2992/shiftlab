@@ -109,17 +109,21 @@
       "p_disagree_given_prev_disagree": 0.838389731621937,
       "share_of_disagreement_rounds_in_runs_ge3": 0.8830221703617269,
       "share_of_disagreement_rounds_in_runs_ge10": 0.6534422403733956,
-      "mean_paired_loss_all_rounds": 0.0008414453054096471,
-      "n_agreement_rounds_with_nonzero_Z": 554,
-      "max_abs_Z_on_agreement_rounds": 0.0050000000000000044,
+      "mean_paired_loss_all_rounds": 0.0005405139899265268,
+      "n_agreement_rounds_with_nonzero_Z": 0,
+      "max_abs_Z_on_agreement_rounds": 0.0,
       "min_Z": -0.4777731429776044,
       "max_Z": 0.22197664614048096,
-      "mean_paired_loss_on_disagreement": 0.001735126946752878,
-      "sd_paired_loss_on_disagreement": 0.03666523099554956,
-      "share_disagreement_with_Z_positive": 0.5367561260210035,
-      "share_disagreement_with_Z_negative": 0.4629521586931155,
-      "mean_paired_loss_on_disagreement_first_half": 0.00254713155140609,
-      "mean_paired_loss_on_disagreement_second_half": 0.0009231223420996662
+      "turnover_fee_total_incumbent": 0.8590000000000001,
+      "turnover_fee_total_candidate": 0.342,
+      "position_switches_incumbent": 859,
+      "position_switches_candidate": 342,
+      "mean_paired_loss_on_disagreement": 0.0013544384986781987,
+      "sd_paired_loss_on_disagreement": 0.03660550059865403,
+      "share_disagreement_with_Z_positive": 0.529463243873979,
+      "share_disagreement_with_Z_negative": 0.47024504084014,
+      "mean_paired_loss_on_disagreement_first_half": 0.0022291618897958216,
+      "mean_paired_loss_on_disagreement_second_half": 0.00047971510756057587
     },
     "pacer_seed_rounds": 720,
     "monitor_stream": {
@@ -138,17 +142,21 @@
       "p_disagree_given_prev_disagree": 0.8384934567507182,
       "share_of_disagreement_rounds_in_runs_ge3": 0.8819023300351101,
       "share_of_disagreement_rounds_in_runs_ge10": 0.6581551228854133,
-      "mean_paired_loss_all_rounds": 0.0008525293974616061,
-      "n_agreement_rounds_with_nonzero_Z": 506,
-      "max_abs_Z_on_agreement_rounds": 0.0050000000000000044,
+      "mean_paired_loss_all_rounds": 0.0005323260937767267,
+      "n_agreement_rounds_with_nonzero_Z": 0,
+      "max_abs_Z_on_agreement_rounds": 0.0,
       "min_Z": -0.4777731429776044,
       "max_Z": 0.22197664614048096,
-      "mean_paired_loss_on_disagreement": 0.0017457409377666263,
-      "sd_paired_loss_on_disagreement": 0.03597877647989353,
-      "share_disagreement_with_Z_positive": 0.5397382700287264,
-      "share_disagreement_with_Z_negative": 0.4599425470794765,
-      "mean_paired_loss_on_disagreement_first_half": 0.0028022202301353147,
-      "mean_paired_loss_on_disagreement_second_half": 0.0006899358504345483
+      "turnover_fee_total_incumbent": 0.801,
+      "turnover_fee_total_candidate": 0.29700000000000004,
+      "position_switches_incumbent": 801,
+      "position_switches_candidate": 297,
+      "mean_paired_loss_on_disagreement": 0.001337186836266466,
+      "sd_paired_loss_on_disagreement": 0.03590582563987674,
+      "share_disagreement_with_Z_positive": 0.5314395148420045,
+      "share_disagreement_with_Z_negative": 0.46824130226619853,
+      "mean_paired_loss_on_disagreement_first_half": 0.0024254641637240755,
+      "mean_paired_loss_on_disagreement_second_half": 0.0002496040061460986
     },
     "release_round_offsets_used": [
       1
@@ -164,7 +172,7 @@
         "mean_labels_on_disagreement": 380.495,
         "mean_labels_on_agreement": 0.0,
         "stopped_early_count": 61,
-        "mean_max_log_e": 0.3290838241105003,
+        "mean_max_log_e": 0.29262288137665443,
         "log_threshold": 2.995732273553991
       },
       "GatedHTPaced": {
@@ -177,7 +185,7 @@
         "mean_labels_on_disagreement": 392.615,
         "mean_labels_on_agreement": 0.0,
         "stopped_early_count": 187,
-        "mean_max_log_e": 0.33269789039086306,
+        "mean_max_log_e": 0.294114762421777,
         "log_threshold": 2.995732273553991
       },
       "UniformHT": {
@@ -190,7 +198,7 @@
         "mean_labels_on_disagreement": 153.25,
         "mean_labels_on_agreement": 233.535,
         "stopped_early_count": 120,
-        "mean_max_log_e": 0.16017929705519493,
+        "mean_max_log_e": 0.14765812988558047,
         "log_threshold": 2.995732273553991
       }
     }

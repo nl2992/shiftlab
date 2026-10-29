@@ -333,10 +333,21 @@ def test_binance_bounds_and_determinism():
     assert a.costs.primary_switch_cost == pytest.approx(0.005)
 
 
-def test_binance_fee_zero_makes_agreement_cost_zero():
-    task = build_binance_task(_bars(1500, seed=5), fee=0.0)
+def test_binance_z_zero_on_agreement_and_fees_separate():
+    bars = _bars(1500, seed=5)
+    task = build_binance_task(bars)
+    free = build_binance_task(bars, fee=0.0)
     agree = ~task.public.disagreement
-    assert np.all(task.outcomes.paired_cost[agree] == 0.0)
+    assert agree.any() and (~agree).any()
+    assert np.all(task.outcomes.paired_cost[agree] == 0.0)  # Amendment A-B2, exact
+    # fees do not enter Z or the losses; they are reported on their own channel
+    np.testing.assert_array_equal(task.outcomes.paired_cost, free.outcomes.paired_cost)
+    np.testing.assert_array_equal(task.outcomes.loss_incumbent, free.outcomes.loss_incumbent)
+    fee0, fee1 = task.outcomes.turnover_fee_incumbent, task.outcomes.turnover_fee_candidate
+    assert fee0 is not None and fee1 is not None
+    assert set(np.unique(np.round(fee0 / 0.001, 9))) <= {0.0, 1.0}
+    assert fee0.sum() > 0 and fee1.sum() > 0
+    assert np.all(free.outcomes.turnover_fee_incumbent == 0.0)
 
 
 # ---------------------------------------------------------------- generator + harness

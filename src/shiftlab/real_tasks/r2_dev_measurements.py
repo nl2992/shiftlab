@@ -41,6 +41,11 @@ def stream_stats(task: RealTask) -> dict:
         "min_Z": float(z.min()),
         "max_Z": float(z.max()),
     }
+    if out.turnover_fee_incumbent is not None:
+        stats["turnover_fee_total_incumbent"] = float(out.turnover_fee_incumbent.sum())
+        stats["turnover_fee_total_candidate"] = float(out.turnover_fee_candidate.sum())
+        stats["position_switches_incumbent"] = int((out.turnover_fee_incumbent > 0).sum())
+        stats["position_switches_candidate"] = int((out.turnover_fee_candidate > 0).sum())
     if flags.any():
         zd = z[flags]
         stats.update(

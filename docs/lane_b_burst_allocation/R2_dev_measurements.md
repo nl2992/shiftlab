@@ -3,6 +3,13 @@
 **Date:** 2026-10-28. **Gate:** R2. **Status:** development windows only; descriptive. Nothing here is a
 result, an eligibility claim for confirmation, or a statement about any monitor's merit.
 
+**Amendment A-B2 applied (2026-10-28).** The Binance numbers below were recomputed after the lead's
+amendment: `Z_t` is the position-return difference only (`l = 0.5(1 - clip(p r_{t+1}/0.10, -1, 1))`,
+`Z = l_inc - l_cand`), so `Z = 0` exactly on agreement rounds (tested). Fees (0.100% per side) are a
+separate turnover channel (`turnover_fee_incumbent/candidate` on the evaluator outcomes) for net-utility
+accounting. OPSD numbers are unchanged. The first version of this document (fees inside `Z`) is
+superseded.
+
 **Windows touched.** OPSD UTC 2015-01-01..2019-12-31 (train 2015-16, penalty selection 2017,
 development 2018-19). Binance ETHUSDT 1h 2025-01..2025-12. **Not touched:** OPSD 2020, Binance 2026.
 The guard is in code (`HoldoutAccessError`, `src/shiftlab/real_tasks/__init__.py`). The OPSD loader
@@ -29,9 +36,9 @@ Reproduce: `python -m shiftlab.real_tasks.r2_dev_measurements --out R2_dev_measu
   used for both policies and both losses. Round = delivery day; action = 24-bit mask; loss = daily
   cost/120. Decision time `T_D` = D-1 10:00 UTC; label available D+1 01:00; `release_round` = first
   round whose decision time is at or after that.
-- **Binance (spec B).** Positions `p = 1{ln(C_t/C_{t-m}) > 0}`, m = 24 (incumbent) and 168 (candidate),
-  closes only. `P_a(t) = p_a(t) r_{t+1} - f |p_a(t) - p_a(t-1)|`, `l = 0.5(1 - clip(P/0.10, -1, 1))`,
-  f = 0.001. Decision time = bar close (`open + 1 h - 1 ms`); the label is the next bar's close, which
+- **Binance (spec B, as amended).** Positions `p = 1{ln(C_t/C_{t-m}) > 0}`, m = 24 (incumbent) and 168 (candidate),
+  closes only. `P_a(t) = p_a(t) r_{t+1}` (fee-free), `l = 0.5(1 - clip(P/0.10, -1, 1))`,
+  separate fee channel `f |p_a(t) - p_a(t-1)|`, f = 0.001. Decision time = bar close (`open + 1 h - 1 ms`); the label is the next bar's close, which
   is the next round's decision instant, so d = 1 by construction.
 - **Contract mapping.** `deployed_action` = incumbent, `reference_action` = candidate, so `Z > 0`
   means the incumbent is worse. `PublicRounds` holds time, features, both actions and the
@@ -59,12 +66,14 @@ Reproduce: `python -m shiftlab.real_tasks.r2_dev_measurements --out R2_dev_measu
 | Mean run if disagreements were iid at the same rate | 1.28 | 1.66 |
 | P(disagree at t given disagree at t-1) | 0.658 | 0.838 |
 | Share of disagreement rounds in runs >= 3 / >= 10 | 0.766 / 0 | 0.883 / 0.653 |
-| Mean paired loss Z, disagreement rounds | 0.0332 | 0.00174 |
-| SD of Z, disagreement rounds | 0.147 | 0.0367 |
-| Share of disagreement rounds with Z > 0 / Z < 0 | 0.563 / 0.424 | 0.537 / 0.463 |
-| Mean Z on disagreement rounds, first half / second half | -0.042 / +0.109 | 0.00255 / 0.00092 |
+| Mean paired loss Z, disagreement rounds | 0.0332 | 0.00135 |
+| SD of Z, disagreement rounds | 0.147 | 0.0366 |
+| Share of disagreement rounds with Z > 0 / Z < 0 | 0.563 / 0.424 | 0.529 / 0.470 |
+| Mean Z on disagreement rounds, first half / second half | -0.042 / +0.109 | 0.00223 / 0.00048 |
 | Range of Z | [-0.333, 0.500] | [-0.478, 0.222] |
-| Mean Z over all rounds | 0.0072 | 0.00084 |
+| Mean Z over all rounds | 0.0072 | 0.00054 |
+| Agreement rounds with Z != 0 | 0 | 0 |
+| Position switches, incumbent / candidate (fee channel, 0.001 each) | n/a | 859 / 342 (total fee 0.859 / 0.342 notional) |
 
 **Bursty or not.**
 - **OPSD:** clustered but short. Disagreement runs are 2-3 times longer than iid at the same rate
@@ -92,9 +101,9 @@ labels).
 | OPSD | GatedHTFixed | 0 | 67.5 | 0 | 61 | 0.75 |
 | OPSD | GatedHTPaced | 0 | 72.0 | 0 | 200 | 1.15 |
 | OPSD | UniformHT | 0 | 69.7 | 54.9 | 114 | 0.16 |
-| Binance | GatedHTFixed | 0 | 380.5 | 0 | 61 | 0.33 |
-| Binance | GatedHTPaced | 0 | 392.6 | 0 | 187 | 0.33 |
-| Binance | UniformHT | 0 | 386.8 | 233.5 | 120 | 0.16 |
+| Binance | GatedHTFixed | 0 | 380.5 | 0 | 61 | 0.29 |
+| Binance | GatedHTPaced | 0 | 392.6 | 0 | 187 | 0.29 |
+| Binance | UniformHT | 0 | 386.8 | 233.5 | 120 | 0.15 |
 
 No alarm occurred in any stream. At epsilon = 0 the mean maximum log-e stayed at or below about 1.15
 (threshold 3.0). The paced rule uses almost all of the budget before the stream ends. UniformHT spends
@@ -105,15 +114,11 @@ far from the threshold.
 
 ## Spec deviations and findings to carry forward
 
-1. **Binance `Z` is non-zero on some agreement rounds.** The frozen B.2 loss includes each policy's own
-   standalone turnover fee, so when the two positions agree at `t` but differed at `t-1`, the fees
-   differ. This happens on 554 of 5,162 agreement rounds (one per disagreement-run end) with
-   `|Z|` at most 0.005 (= k). It breaks the contract's Assumption L (agreement implies `Z = 0`), and the
-   harness sets the paired cost of a queried agreement to 0 without reading it. The stored `paired_cost`
-   is spec-exact, so the smoke sees `Z` on disagreements only. The mean `Z` over Binance agreement
-   rounds is about 2.5e-4 (derived from the aggregates above): small against the disagreement mean but
-   not zero. A confirmatory protocol must either accept this or revise B.2 before the freeze. OPSD
-   satisfies Assumption L exactly (tested).
+1. **Binance `Z` on agreement rounds (resolved by Amendment A-B2).** The frozen B.2 loss put each
+   policy's own turnover fee inside `Z`, giving `Z != 0` on 554 of 5,162 agreement rounds (at most
+   0.005). The amendment removes fees from `Z`; the recomputed development stream has 0 such rounds.
+   The fee channel is reported separately (859 incumbent and 342 candidate position switches). The
+   smoke now sees the full `Z`; the harness and the stored `paired_cost` agree.
 2. **Binance round count.** 8,590 rounds, not "about 8,592": the first round is bar 169 (so that
    `p_{t-1}` exists for the 168-bar rule) and the last is `N-2` (the final December bar's label is the
    locked January 2026 close).
@@ -142,4 +147,4 @@ far from the threshold.
 clustered disagreement blocks and a bounded `Z` with a positive mean on disagreements (descriptive).
 Runs of at most 5 days mean "burst" there is a workweek effect, not the long episodes of the toy model.
 Binance is dense with long runs and a near-zero, noisy `Z`, so a net-gain test will be hard (R1 B.7
-item 4), and deviation 1 must be decided first. No holdout was opened.
+item 4), and fees now sit entirely in the k channel. No holdout was opened.

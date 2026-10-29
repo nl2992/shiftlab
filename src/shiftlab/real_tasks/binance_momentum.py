@@ -112,8 +112,12 @@ def build_binance_task(bars: Bars, fee: float = FEE_PRIMARY, name: str = "develo
     p1 = momentum_position(c, SLOW_BARS)
     rounds = np.arange(SLOW_BARS + 1, n_bars - 1)
     nxt = c[rounds + 1] / c[rounds] - 1.0
-    pnl0 = p0[rounds] * nxt - fee * np.abs(p0[rounds] - p0[rounds - 1])
-    pnl1 = p1[rounds] * nxt - fee * np.abs(p1[rounds] - p1[rounds - 1])
+    # Amendment A-B2: Z is the position-return difference only, so Z == 0 exactly on agreement.
+    # Fees are a separate turnover channel (net-utility accounting).
+    pnl0 = p0[rounds] * nxt
+    pnl1 = p1[rounds] * nxt
+    fee0 = fee * np.abs(p0[rounds] - p0[rounds - 1])
+    fee1 = fee * np.abs(p1[rounds] - p1[rounds - 1])
     loss0, loss1 = loss_from_pnl(pnl0), loss_from_pnl(pnl1)
     logret = np.diff(np.log(c), prepend=np.nan)
     x = np.zeros((len(rounds), 4))
@@ -137,7 +141,13 @@ def build_binance_task(bars: Bars, fee: float = FEE_PRIMARY, name: str = "develo
         np.concatenate([[False], np.ones(n - 1, dtype=bool)]),
     )
     outcomes = EvaluatorOutcomes(
-        loss0, loss1, loss0 - loss1, available, release_rounds(decision, available)
+        loss0,
+        loss1,
+        loss0 - loss1,
+        available,
+        release_rounds(decision, available),
+        fee0,
+        fee1,
     )
     clipped = int((np.abs(pnl0 / PNL_SCALE) > 1).sum() + (np.abs(pnl1 / PNL_SCALE) > 1).sum())
     return RealTask(

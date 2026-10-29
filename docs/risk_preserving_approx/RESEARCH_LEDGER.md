@@ -330,3 +330,27 @@
 - The average promotion-probability table over `(Y2,Y3)` is `(0,1/2,1/2,1/2)`, coordinatewise monotone with IID risk `3/8`. Exact branchwise causal-null risks are each `1/2`; the null conditions on the public branch, so the mixture's true worst risk is `1/2`, strictly larger than the IID value. The exact-fraction checker, protocol and output are `scripts/research_risk_approx/check_monotone_mixture_risk.py`, `MONOTONE_MIXTURE_RISK_PROTOCOL_V1.md`, and `monotone_mixture_risk_v1.json`.
 - This does not contradict the pure deterministic monotone-event lemma or mixtures whose every branch has its own valid monotone certificate. It shows that monotonicity of the *averaged* event is insufficient when the null can observe branch-revealing public actions. Thus null-tree removal requires branchwise monotonicity or a sharper information-conditioned mixture bound.
 - Decision: continue investigating monotone-event compression only with branchwise safety semantics; do not remove robust null constraints based on the marginal tape table. No dataset outcomes or seeds were used.
+
+
+## 2026-10-29 — E-process-gated economic planner baseline
+
+- Implemented the registered fixed-stake, threshold-four promotion gate as an
+  exact product-state HMM planner. The state retains economic belief, pending
+  queried labels, remaining rights, time and capped wealth; post-promotion
+  behavior uses the existing exact delayed-HMM continuation DP.
+- The conditional-mean null supermartingale argument proves raw crossing risk at
+  most 1/4 under predictable queries and the registered release-order semantics.
+  Exact full-history causal-null checks confirmed risk at most 1/4 on all six
+  previously exposed development cells. Root activation yielded risk at most
+  alpha=1/10; independent exact metrics matched the root mixture componentwise.
+- The calibrated planner tied the best registered calendar in three cells and
+  lost in three, with no wins. Its exact gaps to the decomposed oracle were
+  0, 0, 1/6250, 113637/7812500, 199508757/4882812500, 0 (in registered-cell
+  order). This is a required standard-composition baseline, not a novelty claim.
+  Small state counts do not establish improved asymptotic complexity.
+- Focused check: `uv run --no-sync pytest -q tests/test_eprocess_gated_planner.py`
+  (1 passed); Ruff passed. Result provenance: `EPROCESS_GATED_PLANNER_RESULTS_V1.md`
+  and `eprocess_gated_planner_synthetic_v1.json`. No new seeds, real outcomes or
+  holdouts were accessed.
+- Decision: retain as baseline and continue the research search; do not elevate
+  this fixed composition to a candidate contribution.

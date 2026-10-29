@@ -1,0 +1,228 @@
+{
+  "protocol": "EPROCESS_GATED_PLANNER_PROTOCOL_V1.md",
+  "protocol_sha256": "6bb067ed343e7ec6debcf6585f0917ea8c2f8d17b122f7c9de1ca828b98aafc0",
+  "reference_sha256": "c1e519b347104e2d79f57c63bfbc377b57820a56e7fd666f0a95a70984b1408a",
+  "runner_sha256": "2dde24e4ff32c9fcb244e33df58b10c666f233606977ee19dade53fead5f614c",
+  "planner_sha256": "e8a50b5c4fd143b08fd4b323649f98a1c8ef3ce3c205dfd1d5d6a5f4373d23e5",
+  "cells": [
+    {
+      "transition": "1/10",
+      "emissions": [
+        "1/10",
+        "9/10"
+      ],
+      "status": "completed",
+      "raw_cost": "406733/156250",
+      "raw_risk": "1/4",
+      "ville_risk_bound": "1/4",
+      "activation": "2/5",
+      "calibrated_cost": "1109858/390625",
+      "calibrated_risk": "1/10",
+      "metrics": [
+        "1098723/390625",
+        "1189/125000",
+        "11871/625000",
+        "1189/1250",
+        "11871/62500"
+      ],
+      "oracle_cost": "22083523/7812500",
+      "oracle_gap": "113637/7812500",
+      "best_calendar": [
+        1,
+        2,
+        3
+      ],
+      "best_calendar_cost": "22083523/7812500",
+      "calendar_gap": "113637/7812500",
+      "state_counts": {
+        "prepromotion_value_states": 123,
+        "prepromotion_decision_states": 171,
+        "postpromotion_decision_states": 24
+      },
+      "solve_seconds": 0.012727499939501286,
+      "independent_metrics_match": true,
+      "maximum_queries_bounded_by": 3
+    },
+    {
+      "transition": "1/10",
+      "emissions": [
+        "1/50",
+        "49/50"
+      ],
+      "status": "completed",
+      "raw_cost": "232953309/97656250",
+      "raw_risk": "1/4",
+      "ville_risk_bound": "1/4",
+      "activation": "2/5",
+      "calibrated_cost": "672406434/244140625",
+      "calibrated_risk": "1/10",
+      "metrics": [
+        "664963059/244140625",
+        "30429/3125000",
+        "324231/15625000",
+        "30429/31250",
+        "324231/1562500"
+      ],
+      "oracle_cost": "13248619923/4882812500",
+      "oracle_gap": "199508757/4882812500",
+      "best_calendar": [
+        1,
+        2,
+        3
+      ],
+      "best_calendar_cost": "13248619923/4882812500",
+      "calendar_gap": "199508757/4882812500",
+      "state_counts": {
+        "prepromotion_value_states": 123,
+        "prepromotion_decision_states": 171,
+        "postpromotion_decision_states": 24
+      },
+      "solve_seconds": 0.011921699857339263,
+      "independent_metrics_match": true,
+      "maximum_queries_bounded_by": 3
+    },
+    {
+      "transition": "1/4",
+      "emissions": [
+        "1/10",
+        "9/10"
+      ],
+      "status": "completed",
+      "raw_cost": "29459/10000",
+      "raw_risk": "1/4",
+      "ville_risk_bound": "1/4",
+      "activation": "2/5",
+      "calibrated_cost": "74459/25000",
+      "calibrated_risk": "1/10",
+      "metrics": [
+        "73761/25000",
+        "233/25000",
+        "93/5000",
+        "233/250",
+        "93/500"
+      ],
+      "oracle_cost": "14891/5000",
+      "oracle_gap": "1/6250",
+      "best_calendar": [
+        1,
+        3
+      ],
+      "best_calendar_cost": "14891/5000",
+      "calendar_gap": "1/6250",
+      "state_counts": {
+        "prepromotion_value_states": 123,
+        "prepromotion_decision_states": 171,
+        "postpromotion_decision_states": 24
+      },
+      "solve_seconds": 0.011936699971556664,
+      "independent_metrics_match": true,
+      "maximum_queries_bounded_by": 3
+    },
+    {
+      "transition": "1/4",
+      "emissions": [
+        "1/50",
+        "49/50"
+      ],
+      "status": "completed",
+      "raw_cost": "18057709/6250000",
+      "raw_risk": "1/4",
+      "ville_risk_bound": "1/4",
+      "activation": "2/5",
+      "calibrated_cost": "46182709/15625000",
+      "calibrated_risk": "1/10",
+      "metrics": [
+        "11434521/3906250",
+        "1/100",
+        "2307/125000",
+        "1",
+        "2307/12500"
+      ],
+      "oracle_cost": "46182709/15625000",
+      "oracle_gap": "0",
+      "best_calendar": [
+        1,
+        2,
+        3
+      ],
+      "best_calendar_cost": "46182709/15625000",
+      "calendar_gap": "0",
+      "state_counts": {
+        "prepromotion_value_states": 123,
+        "prepromotion_decision_states": 171,
+        "postpromotion_decision_states": 24
+      },
+      "solve_seconds": 0.05134640005417168,
+      "independent_metrics_match": true,
+      "maximum_queries_bounded_by": 3
+    },
+    {
+      "transition": "9/20",
+      "emissions": [
+        "1/10",
+        "9/10"
+      ],
+      "status": "completed",
+      "raw_cost": "3",
+      "raw_risk": "0",
+      "ville_risk_bound": "1/4",
+      "activation": "1",
+      "calibrated_cost": "3",
+      "calibrated_risk": "0",
+      "metrics": [
+        "3",
+        "0",
+        "0",
+        "0",
+        "0"
+      ],
+      "oracle_cost": "3",
+      "oracle_gap": "0",
+      "best_calendar": [],
+      "best_calendar_cost": "3",
+      "calendar_gap": "0",
+      "state_counts": {
+        "prepromotion_value_states": 123,
+        "prepromotion_decision_states": 171,
+        "postpromotion_decision_states": 24
+      },
+      "solve_seconds": 0.01271370006725192,
+      "independent_metrics_match": true,
+      "maximum_queries_bounded_by": 3
+    },
+    {
+      "transition": "9/20",
+      "emissions": [
+        "1/50",
+        "49/50"
+      ],
+      "status": "completed",
+      "raw_cost": "3",
+      "raw_risk": "0",
+      "ville_risk_bound": "1/4",
+      "activation": "1",
+      "calibrated_cost": "3",
+      "calibrated_risk": "0",
+      "metrics": [
+        "3",
+        "0",
+        "0",
+        "0",
+        "0"
+      ],
+      "oracle_cost": "3",
+      "oracle_gap": "0",
+      "best_calendar": [],
+      "best_calendar_cost": "3",
+      "calendar_gap": "0",
+      "state_counts": {
+        "prepromotion_value_states": 123,
+        "prepromotion_decision_states": 171,
+        "postpromotion_decision_states": 24
+      },
+      "solve_seconds": 0.01186149986460805,
+      "independent_metrics_match": true,
+      "maximum_queries_bounded_by": 3
+    }
+  ]
+}

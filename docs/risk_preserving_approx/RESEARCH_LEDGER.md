@@ -90,3 +90,20 @@
   synthetic efficacy or real-data result has been established. No seeds or real
   datasets were opened. Next: test early pruning without changing information or
   risk, compare end-to-end cost/resources, and continue B/C if not competitive.
+
+## 2026-10-29 — Early-pruning prototype and development comparison
+
+- Protocol committed before implementation; source adapter and isolated runner
+  are tracked. Focused tests: 6 passed, including hidden pending-label invariance,
+  B=0, alpha=0, unavailable labels, delay 2 and reference information-set equality.
+- 24 fresh-process runs at T=5–8 returned matched recovered costs and risk 1/10.
+  T=6 matched 461083/160000. All run records and source hashes are in
+  `early_pruning_development_v1.json`; no real data or seeds used.
+- The adapter skipped continuation calls but did not reduce the decision cache or
+  builder-node count. Median timings were mixed and noisy; no speedup is established.
+- Memory measurement failed: the sampled Windows venv launcher is not the worker
+  interpreter. The saved launcher RSS values are invalid as worker memory figures.
+- Decision: do not select this adapter as the main algorithm. Continue investigating
+  the pre-promotion risk/optimization bottleneck under the original full objective;
+  retained source is a development baseline and is not thread-safe outside serial
+  process isolation. No synthetic/real baseline win has been established.

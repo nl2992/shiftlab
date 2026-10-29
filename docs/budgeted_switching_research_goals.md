@@ -1505,3 +1505,18 @@ programming can express the same asymmetric null information and separate constr
 then identify whether any scalable structure remains beyond generic exponential planning. If no
 nontrivial scalable advantage survives, revise or stop this method hypothesis instead of polishing
 the finite benchmark. Source limitation: RAO* full text/proof not inspected in this pass.
+
+### Checkpoint 2026-10-28: source-level POSG boundary
+
+- Read the full primary HTML source for Wen, Xia and Yu (2025), including model assumptions and
+  Theorem 3, plus the primary RSS source for Carr et al. (2021). They close broad claims about
+  probability-criterion partially observed games and reward-plus-safety POSGs respectively.
+- They do not directly establish the constrained two-law objective here: alternative-HMM expected
+  economic cost and worst-case null reachability are evaluated under separate laws for the same
+  learner policy; the null adversary sees pending outcomes hidden from the learner; and query budget
+  is pathwise at request time. Conversely, generic finite-game representability proves no novelty
+  or tractability.
+- `switching_posg_reduction_boundary_v2.md` records the scalarized formulation and the exact
+  preservation obligations for a valid reduction. G1 remains open; no new algorithm or theorem is
+  claimed, and G2–G5 remain held. Continue by proving the reduction on a growing finite family or
+  identify a structural restriction that yields a compact recursion and a risk/error guarantee.

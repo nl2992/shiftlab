@@ -1,6 +1,6 @@
 # CAMS under ShiftLab's delayed switching contract
 
-**Date:** 2026-10-29. **Status:** comparator adaptation contract; no adapted implementation or theorem yet.
+**Date:** 2026-10-29. **Status:** comparator adaptation implemented and unit-tested; no efficacy result or theorem.
 
 ## Published method and target mismatch
 
@@ -59,4 +59,10 @@ tasks without a separately justified response-space and acquisition-score adapta
 Retain CAMS as an active-selection baseline for compatible binary synthetic tasks. Pair it with
 the exact two-law oracle on small horizons and a risk-aware scalable baseline for safety comparisons.
 Do not use the immediate-feedback theorem as evidence for the delayed/costed switching contract.
-The adaptation has not been implemented or empirically evaluated; G1 remains open.
+The implementation in `src/shiftlab/dive/hard_budget_delayed_cams.py` preserves the
+cost-oblivious policy weights, weighted-vote recommendation and disagreement query score, while
+queuing queried binary labels for fixed-delay updates and reserving requests at query time under a
+pathwise cap. Four unit tests cover the delay, reservation, contextual experts, and submission
+lifecycle. This is comparator plumbing only: it has no efficacy result, cost-aware rule, false-switch
+guarantee, or inherited CAMS theorem. Because its update timing changes CAMS's estimator history,
+even the uncosted published delayed-feedback claims are not asserted.

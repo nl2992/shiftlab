@@ -2420,5 +2420,7 @@ the finite benchmark. Source limitation: RAO* full text/proof not inspected in t
   for pending labels under delay. It fixes a compatible binary paired-loss task, delayed updates,
   and external query/switch charges. The initial adaptation is cost-oblivious; a cost-aware policy
   extension needs its own state and feedback derivation. CAMS's immediate-feedback results are not
-  inherited because delayed updates alter the estimator analysis. No adapter or efficacy result
-  exists yet, and no risk theorem is implied.
+  inherited because delayed updates alter the estimator analysis. The cost-oblivious delayed
+  adapter is now implemented in `src/shiftlab/dive/hard_budget_delayed_cams.py`; four tests and
+  Ruff/format/mypy checks pass. It remains comparator plumbing only: no efficacy result, risk
+  theorem, or CAMS guarantee transfer is claimed. G1 remains open and G2–G5 remain held.

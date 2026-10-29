@@ -1,0 +1,13 @@
+[
+  {
+    "name": "gafni26_icml_proceedings_full_theorem_appendix_audit",
+    "url": "https://raw.githubusercontent.com/mlresearch/v306/main/assets/gafni26a/gafni26a.pdf",
+    "record_url": "https://proceedings.mlr.press/v306/gafni26a.html",
+    "bytes": 4162686,
+    "pages": 39,
+    "sha256": "46FCF1CC8E105B523C4DBA6B23E3BAD9A5EB4F229CA743FCDC183D55785D4691",
+    "status": "official_proceedings_full_pdf_and_relevant_appendix_proofs_inspected",
+    "retrieved_date": "2026-10-29",
+    "cache_path": "outputs/switching_source_audit_v1/gafni_icml26_proceedings.pdf"
+  }
+]

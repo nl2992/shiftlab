@@ -2180,3 +2180,22 @@ the finite benchmark. Source limitation: RAO* full text/proof not inspected in t
   contributions. The paper does not supply the missing delayed, query-contingent, causal-null safe
   switching result; that mismatch remains an obligation, not a novelty claim. G1 remains open,
   G2–G5 stay held. Do not build a pacing wrapper or start efficacy experiments from this audit.
+
+### G1 comparator audit 2026-10-29: complete the ATC theorem boundary
+
+- Replaced the earlier proof-sketch-only read of Gafni et al. with the official ICML 2026
+  proceedings PDF. Theorems 4.1–4.2 and Appendices A.3/A.5/A.6 were checked. ATC is near-minimax
+  for immediate full-observation piecewise-IID mean tracking; the lower proof combines distinct
+  detection and estimation relaxations by their maximum, not an additive same-instance bound.
+  Exact proof scope and source hash are recorded in `switching_gafni_theorem_audit_v1.md` and
+  `switching_source_manifest_v34.json`.
+- Derived the fixed-calendar adapter bound in `switching_delayed_atc_calendar_baseline_v1.md`:
+  for `B` pathwise queries and fixed delay `d`, calendar-time squared-mean tracking is bounded by
+  `d + 2L R_ATC(B,S_q) + 2M^2 S(L+d)`, where `L` is the maximum calendar gap. It exposes the
+  sample-gap and release-staleness penalties, but does not provide causal-null promotion safety,
+  a useful switch-count bound, or a costed dynamic-switching theorem. Treat it as a tracking
+  baseline, not a candidate method.
+- Decision: this strengthens the comparator set but does not pass G1. The next candidate must
+  improve the safe economic switching frontier over this adapter plus valid risk control, under
+  the exact delayed observation contract; do not treat calendarization or an e-process wrapper as
+  the contribution. G2–G5 remain held; no empirical sweep was run.

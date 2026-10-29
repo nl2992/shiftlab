@@ -75,16 +75,23 @@ Correct the earlier broad summary: this displayed boundary is not a finite-sampl
 That distinction alone is not our contribution: bounded-martingale finite-sample tools already
 exist. The future switching-benefit target is also distinct from their calendar-time reward target.
 
-### Gafni, Iyengar and Zeevi (arXiv v2, corresponding ICML paper)
+### Gafni, Iyengar and Zeevi (official ICML 2026 proceedings)
 
-[Primary source](https://arxiv.org/pdf/2602.11406).
-Read Section 2, Theorems 4.1–4.2 and their proof sketches. Observations are independent,
-piecewise IID with sub-Gaussian noise. The learner predicts an unknown changing mean using
-the full observed history; the objective is cumulative squared tracking error. ATC controls
-missed-change contamination and obtains near-minimax change-count-dependent regret.
-These theorems do not directly establish a two-policy costed switching guarantee under a hard
-query cap. Mean-estimation success is not economic intervention success. Full appendix proof
-verification remains unperformed; no new claim depends on contradicting their theorem.
+[Official record and PDF](https://proceedings.mlr.press/v306/gafni26a.html). The proceedings
+version was downloaded, hashed in source manifest v34, and inspected through Theorems 4.1–4.2
+and relevant Appendices A.3, A.5 and A.6. The model has independent piecewise-IID sub-Gaussian
+observations, full immediate feedback, and expected cumulative squared error for predicting the
+changing mean. ATC's upper proof decomposes variance and post-change bias, controls random restarts
+through fixed-restart confidence events, and bounds contamination after missed changes through a
+population SNR inequality. The lower proof combines a revealed-means detection relaxation and a
+revealed-change-points estimation relaxation by taking their maximum; Remark A.11 explicitly does
+not assert additivity on one hard instance.
+
+The theorem is near-minimax for its full-observation tracking objective. It does not directly
+establish two-policy economic switching under a query budget, delayed label releases, query fees,
+or a causal-null any-promotion constraint. A fixed-calendar adapter is a plausible baseline, but
+needs a new mapping from query-index tracking loss to calendar-time cost plus delay and a separate
+safe-switch rule. Details and exact scope are in `switching_gafni_theorem_audit_v1.md`.
 
 ### Ginart, Zhang and Zou, MLDemon (AISTATS 2022)
 

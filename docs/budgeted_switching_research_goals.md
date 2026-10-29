@@ -1907,6 +1907,15 @@ the finite benchmark. Source limitation: RAO* full text/proof not inspected in t
   bounds beyond one-sided-POSG planning and the sequence-form oracle, or a revision/stop decision.
   G2–G5 remain held; no efficacy or real-data study is opened. Current-regime value after reversal
   stays distinct from historical promotion evidence.
+- Robust Markov-test boundary (2026-10-29): inspected Fauß, Zoubir and Poor (Annals of Statistics
+  2020), Sections 2–6, Corollary 1 and Theorems 5–8. Their uncertainty model and optimal stopping
+  recursion already cover Markov sufficient statistics, adaptive least-favorable observation laws,
+  likelihood-ratio state, and error-constrained sequential testing. They do not directly include
+  delayed hidden labels, a pathwise request cap, or economic switching continuation under a
+  separate law; these are reduction obligations, not novelty evidence. See
+  `switching_markov_robust_sequential_testing_prior_audit_v1.md`. This further rejects generic
+  “robust Markov test plus switching controller.” G1 remains open only for a proved advantage in
+  the exact delayed two-law problem; G2–G5 remain held and no empirical gate is opened.
 - The registered fixed-`B=3`, `d=1` scaling run matches full and reduced values/metrics/risks at
   `T=7` with learner sequences reduced `54,861 -> 1,317` and nodes `71,401 -> 3,334`. At `T=8`,
   the generic builder hits its frozen 200,000-node limit; the reduced solver completes in 5,700

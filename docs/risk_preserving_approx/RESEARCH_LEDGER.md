@@ -128,3 +128,21 @@
 - Decision: retain as a baseline; continue toward an implicit risk response or
   stronger structural approximation against the original oracle. No new seeds,
   real-data reads or changes to historical outputs.
+
+## 2026-10-29 — Exact restricted-master certificates
+
+- Registered CAUSAL_CUT_CERT_PROTOCOL_V1.md before running. Reconstructed the
+  decomposed economic coefficients in exact fractions, regenerated the T=6/7
+  null-cut masters, and saved all cut strategies, rational duals and upper-policy
+  behavior in `causal_cut_certificate_t6_v1.json` and `_t7_v1.json`.
+- An optimizer-free verifier rebuilt both games and checked null flow, dual signs
+  and residual corrections, certificate checksums, and exact recovered-policy
+  risk/cost. T=6: 51 cuts, interval [2.881768749998432..., 2.88176875], gap
+  1.5678812615e-12. T=7: 64 cuts, interval [3.341548199412250..., 59747/17500],
+  gap 0.0725660863021. Root-repaired risk bound is 1/10 in each cell.
+- The verifier shares exact coefficient helpers with the generator; it verifies
+  the saved certificate but is not an independently coded economic-model solver.
+  Numerical master objectives are not treated as certificates.
+- Decision: preserve the standard cut generator as a baseline; T=7 is not
+  near-optimal enough and the full null tree remains. No computational superiority,
+  synthetic efficacy or real-data comparison is established. No data or seeds read.

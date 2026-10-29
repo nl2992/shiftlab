@@ -1,9 +1,10 @@
-# R3: freeze and handoff for the real tasks (DRAFT, not frozen)
+# R3: task-contract freeze and handoff for the real tasks
 
-**Status: ready for a task-contract freeze, 2026-10-29.** Amendment A-R3b is implemented and its
-focused validation passed. The R2 development measurements were rerun after the amendments; no
-holdout data were read. This freezes only the real-task contract and development evidence for a
-later method-specific evaluation. It does not authorize opening either holdout.
+**Status: task contract frozen 2026-10-29** in `R3_task_freeze.json` (26 hashed files; source
+commit `1a49dec`). Amendment A-R3b is implemented and its focused validation passed. The R2
+development measurements were rerun after the amendments; no holdout data were read. This freezes
+only the real-task contract and development evidence for a later method-specific evaluation. It
+does not authorize opening either holdout.
 
 ## Freeze contents (to be hashed with `shiftlab.freeze.write_freeze`)
 
@@ -24,8 +25,9 @@ the A-R3b correction, and the R2 disclosure. The freeze record must include at l
 - `docs/lane_b_burst_allocation/R2_dev_measurements.json`
 - `docs/lane_b_burst_allocation/R2_dev_measurements.md`
 
-The freeze record itself is not yet written. Write it only after this document and the protocol
-are committed, then run `shiftlab.freeze.check_freeze` against the committed tree.
+`shiftlab.freeze.check_freeze` passed against the committed tree when the record was created. The
+hand-off document is a status report and is not part of the hashed protocol; the protocol, code,
+tests, environment lock, seed registry and development outputs are hashed.
 
 Raw-data pins are recorded in the protocol, not hashed in Git:
 

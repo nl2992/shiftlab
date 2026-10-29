@@ -159,12 +159,14 @@ the experiment grid.
 ### Step 1 — Close the policy-shape audit
 
 - Independently reconstruct the saved reference policy from `t8_b4_policy_shape_v1.json`.
-  Check its exact alternative cost and full-history causal-null risk, plus its
-  event-by-event query, promotion, rollback and re-promotion behavior.
-- Resolve the audit's apparent mismatch between the grouped action probabilities
-  and the reported exact risk `1/10`. Trace the implementation's information key,
-  action semantics and risk recursion; do not infer the policy structure from
-  marginal summaries alone. Preserve the failed first runner and its correction.
+  Verify the full-history causal-null risk from saved behavior and trace its
+  event-by-event query and first-promotion behavior. The optimizer-recorded
+  alternative cost is cross-referenced to the registered calendar comparison;
+  the risk verifier does not independently recompute post-promotion continuation.
+- Resolve the apparent `1/8` versus `1/10` risk mismatch from the exact histories:
+  it is a mixture of promotion after three positives and after four positives,
+  with probabilities `3/5` and `2/5` at a released-label boundary. Preserve the
+  failed first runner and its correction.
 - Compare the resulting policy against explicit sequential-testing patterns:
   likelihood-ratio/futility boundaries, alpha spending, delayed group-sequential
   tests, and adaptive sensing. Credit any exact reduction to established methods.
@@ -172,10 +174,11 @@ the experiment grid.
   If the discrepancy is a bug, issue a separately versioned correction and retain
   the original output unchanged.
 
-**Exit gate:** the verifier independently reproduces the reference policy's exact
-metrics, and every claimed structural feature is tied to histories and action
-probabilities—not just aggregate event counts. If the audit is inconsistent, stop
-mechanism design until corrected.
+**Exit gate:** the verifier independently reproduces exact causal-null and IID
+risk from saved policy behavior, and every structural claim is tied to histories
+and action probabilities—not aggregate event counts. Record the economic-cost
+verification scope separately. If the audit is inconsistent, stop mechanism design
+until corrected.
 
 ### Step 2 — State one candidate theorem before coding
 

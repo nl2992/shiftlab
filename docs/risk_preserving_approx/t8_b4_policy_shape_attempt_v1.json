@@ -1,0 +1,7 @@
+{
+  "status": "failed_diagnostic_reconstruction",
+  "error": "ValueError: released queried label missing from learner history; the posterior summary passed an empty released-outcome tuple. The optimizer run completed, but the shape artifact was not written.",
+  "runner_sha256": "c2f61b7fdca2e8444c68361b3449095977d04dba671141d6408a1ea4efc1c3d0",
+  "protocol_sha256": "0a70019ec237e245552b5fcc19746b155c0dc8ea7aa6fb82cf000f10dd768f52",
+  "source_snapshot": "t8_b4_policy_shape_failed_source_v1.txt"
+}

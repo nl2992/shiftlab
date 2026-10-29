@@ -414,3 +414,78 @@
   search. No CRSP rows, new seeds or holdouts were accessed. Full comparisons are
   documented in `STRONG_CALENDAR_RESULTS_V1.md`; source hashes are recorded in
   the JSON artifacts.
+
+
+## 2026-10-29 — T=8, B=4 adaptive timing screen
+
+- Registered six previously exposed HMM cells at T=8, B=4, d=2 and compared
+  the full first-promotion decomposition, m=3 cap, stake-one e-process gates
+  at thresholds 4/8/16, and every 57 feasible calendars per cell (342 total).
+  All methods and calendar LPs completed with exact independent policy cost/risk
+  reconstruction and no failed calendars.
+- The unrestricted reference beats the best calendar in both low-persistence
+  cells by `6744087/781250000` and `11126044659/976562500000`. The m=3 cap and
+  all e-process gates lose to calendars in those cells; restricted methods only
+  tie calendars in some other cells. Thus adaptive timing has economic value,
+  but the tested restricted candidate classes miss it.
+- Result and executed-source provenance: `T8_B4_CALENDAR_RESULTS_V1.md`,
+  `t8_b4_calendar_v1.json`, `t8_b4_calendar_executed_source_v1.txt`. Ruff passed.
+  No new seeds, real data or holdouts were accessed.
+- Decision: reject the fixed m=3 cap and threshold-gate variants as the route to a
+  synthetic baseline win. Next strengthen the calendar comparator via a root
+  portfolio across schedules/risk frontiers, then seek a candidate that captures
+  the verified adaptive timing value while preserving the full null guarantee.
+  This result does not pass G1/G3; real-data replay remains closed.
+
+
+## 2026-10-29 — T=8, B=4 adaptive-value and calendar-portfolio checks
+
+- The registered six-cell T=8,B=4,d=2 grid completed 342/342 calendar runs. In
+  the two transition=1/10 cells, the full decomposed adaptive reference strictly
+  beats the best calendar by `6744087/781250000` and
+  `11126044659/976562500000`. The m=3 cap and e-process thresholds 4/8/16 all
+  lose in both cells; they do not capture this adaptive timing value. In the other
+  cells calendar was optimal for the recovered reference or the policy chose no queries.
+- To strengthen the comparison, registered a finite root-mixture risk frontier on
+  the larger-gap cell: 57 calendars at six working alpha values, plus the safe
+  policy. Exact pair enumeration selected one component only, `[1,2,3,4]` at
+  alpha=1/10. An optimizer-free verifier reconstructed its exact behavior and
+  confirmed cost/risk, exact full-history null risk, weighted risk bound and
+  minimum over the finite candidate bank. Portfolio cost exactly equaled the best
+  single calendar and remained `11126044659/976562500000` above the unrestricted
+  reference. The finite-bank result does not rule out all randomized calendar policies.
+- Artifacts: `T8_B4_CALENDAR_RESULTS_V1.md`, `t8_b4_calendar_v1.json`,
+  `T8_B4_CALENDAR_PORTFOLIO_RESULTS_V1.md`, and
+  `t8_b4_calendar_portfolio_v1.json`. No seeds, real rows or holdouts were accessed.
+- Decision: the B=4 low-persistence synthetic cell demonstrates an adaptive-value
+  opportunity, but all implemented restricted candidates miss it and the finite
+  calendar portfolio does not close the gap. Continue G1 search focused on the
+  history-dependent timing mechanism; G1/G3 remain open and real-data replay remains held.
+
+
+## 2026-10-29 — T=8, B=4 policy-shape risk verification
+
+- Reconstructed the two supported promotion paths from the saved full-decomposition
+  behavior. After three scheduled queries, the policy waits with probability 3/5
+  or queries a fourth with probability 2/5 when the first two released outcomes
+  are positive. It promotes at event 5 after three positives on the wait branch,
+  or at event 6 after four positives on the fourth-query branch.
+- A new optimizer-free verifier independently evaluated the behavioral policy under
+  the full history-adaptive endpoint null recursion and the IID fair boundary.
+  Both exact risks are 1/10. IID promotion masses by time are 3/40 at event 5 and
+  1/40 at event 6. This resolves the apparent 1/8 reading: the event-5 branch is
+  weighted by 3/5 and the other 2/5 is held for a fourth observation. The event-5
+  query occurs simultaneously with first promotion; its outcome only affects
+  post-promotion continuation.
+- Verifier source hash: `4bf89a684378afde64588c99fd03ec72a6831b652d182c19a5dade5295ac33e7`;
+  verification JSON hash: `7b7e7cfa8ef95652493fb50de55929042b98df946d697910f0785c203592717a`.
+  The exact executed verifier source is preserved. Ruff initially reported one
+  unused import and formatting issue after execution; those were corrected in the
+  tracked runner, and lint/format checks then passed. The output preserves the
+  hash of the source that produced it.
+- The policy's optimizer-recorded cost is `1666179899873/488281250000`, beating
+  the best calendar by `11126044659/976562500000` in the registered cell. The new
+  verifier does not independently recompute post-promotion economic continuation.
+  This adaptive sample-size split is a descriptive witness, not a novel algorithm;
+  randomized sequential testing/alpha spending and delayed futility are explicit
+  prior-art obligations. No real data or holdouts were accessed. G1/G3 remain open.

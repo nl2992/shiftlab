@@ -54,9 +54,11 @@ V^*=\sup_{\lambda\geq0}\;\min_{x\in X}
 
 For fixed \(\lambda\), the inner problem is a finite zero-sum extensive-form game: the learner
 minimizes, the null opponent maximizes, and payoff is \(C(x)+\lambda R(x,\nu)-\lambda\alpha\).
-This scalarization is not a compact-state dynamic program. The hidden-mode construction (sample
-alternative or null at the root, hide the mode from the learner, and scale branch payoffs) is an
-equivalent expected-payoff game, but it does not reduce history dependence or the expanded tree.
+The hidden-mode construction (sample alternative or null at the root, hide the mode from the
+learner, and scale branch payoffs) is also an exact one-sided partially observed game, so its
+finite-horizon value admits backward induction on the augmented game. It does not reduce history
+dependence or the expanded tree. The explicit reduction and information-set argument are in
+[`switching_lagrangian_posg_reduction_v1.md`](switching_lagrangian_posg_reduction_v1.md).
 
 ## Novelty consequence
 

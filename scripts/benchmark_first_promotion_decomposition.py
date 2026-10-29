@@ -51,29 +51,39 @@ def main() -> dict[str, object]:
             max_nodes=200_000,
         )
         row: dict[str, object] = {"horizon": horizon, "budget": 3, "delay": 1}
+        full_summary = None
         try:
             full = CausalSwitchingGame(config, model)
             full_report, full_policy, _ = full.solve()
+            full_summary = summarize(full, full_report, full_policy)
+            row["full"] = full_summary
+        except RuntimeError as error:  # Preserve registered node/time-limit failures as data.
+            row["full_failure"] = f"{type(error).__name__}: {error}"
+
+        try:
             reduced = FirstPromotionDecomposedGame(config, model)
             reduced_report, reduced_policy, _ = reduced.solve()
-            full_summary = summarize(full, full_report, full_policy)
             reduced_summary = summarize(reduced, reduced_report, reduced_policy)
-            full_cost = F(full_summary["recovered_cost"])
-            reduced_cost = F(reduced_summary["recovered_cost"])
-            assert full.null_risk(full_policy) <= config.alpha
+            row["decomposed"] = reduced_summary
+            reduced_cost = F(str(reduced_summary["recovered_cost"]))
             assert reduced.null_risk(reduced_policy) <= config.alpha
-            assert abs(float(full_cost) - full_report["solver_objective"]) <= 1e-7
             assert abs(float(reduced_cost) - reduced_report["solver_objective"]) <= 1e-7
-            assert abs(float(full_cost) - float(reduced_cost)) <= 1e-7
-            row.update(
-                {
-                    "status": "completed",
-                    "full": full_summary,
-                    "decomposed": reduced_summary,
-                }
-            )
         except RuntimeError as error:  # Preserve registered node/time-limit failures as data.
-            row.update({"status": "failed", "failure": f"{type(error).__name__}: {error}"})
+            row["decomposed_failure"] = f"{type(error).__name__}: {error}"
+
+        if full_summary is not None and "decomposed" in row:
+            full_cost = F(str(full_summary["recovered_cost"]))
+            reduced_cost = F(str(reduced_summary["recovered_cost"]))
+            assert full.null_risk(full_policy) <= config.alpha
+            assert abs(float(full_cost) - full_report["solver_objective"]) <= 1e-7
+            assert abs(float(full_cost) - float(reduced_cost)) <= 1e-7
+            row["status"] = "completed"
+        elif full_summary is None and "decomposed" in row:
+            row["status"] = "reference_failed_decomposed_completed"
+        elif full_summary is not None:
+            row["status"] = "decomposed_failed_reference_completed"
+        else:
+            row["status"] = "both_failed"
         rows.append(row)
         (OUTPUT / "results.json").write_text(
             json.dumps(
@@ -93,8 +103,6 @@ def main() -> dict[str, object]:
             + "\n",
             encoding="utf-8",
         )
-        if row["status"] != "completed":
-            break
     hashes = {
         str(path.relative_to(ROOT)).replace("\\", "/"): hashlib.sha256(
             path.read_bytes()

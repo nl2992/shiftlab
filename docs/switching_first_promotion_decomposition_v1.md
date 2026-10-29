@@ -91,6 +91,18 @@ polynomial in `T` for fixed `B`, but exponential in `B`; it is not an FPT or uni
 result. The implementation's measured small-cell reduction supports feasibility, not a practical
 scaling claim.
 
+The registered fixed-`B=3`, `d=1` scaling run extended this comparison to `T=7,8`. At `T=7`, the
+full and reduced solvers again return exactly the same rational cost `10788127/3200000`, all five
+metrics, and risk `1/10`; realization variables fall from 54,861 to 1,317 and nodes from 71,401 to
+3,334. At `T=8`, the generic builder exceeds its frozen 200,000-node cap, while the reduced solver
+completes with 2,273 learner sequences, 848 information sets, 5,700 builder nodes, recovered cost
+`24735833/6400000`, and exact risk `1/10`. The T8 cost has no direct full-oracle comparison because
+the reference hit its registered limit; the structural proposition and smaller exact comparisons
+support the reduction, but this cell alone does not independently certify equality to the generic
+oracle optimum. Full output is
+`outputs/first_promotion_decomposition_scaling_v1/results.json` (3,424 bytes; SHA256
+`65E823B198C81EFE32C824D3BF4A5FB7967563CBFDD96CFA14C5B23AF3613C32`).
+
 ## Novelty gate and next test
 
 The first-promotion proposition and backward-induction decomposition are standard. The current
@@ -115,3 +127,23 @@ retain the solver as a verification tool and revise G1; do not open G3–G5.
   [`switching_two_law_game_duality_v1.md`](switching_two_law_game_duality_v1.md).
 - The registered six-round oracle bracket is in
   [`switching_reversal_lp_certificate_v1.md`](switching_reversal_lp_certificate_v1.md).
+
+## Source-level decomposition audit (2026-10-29)
+
+Horák et al., *Solving Zero-Sum One-Sided Partially Observable Stochastic Games*,
+Sections 6–7 and Proposition 6.2, explicitly decompose a behavioral strategy into its
+next-stage strategy and continuation strategies for each resulting action/observation
+subgame, then derive the corresponding recursive value composition and Bellman equation.
+The source is the authors' primary paper at https://arxiv.org/abs/2010.11243 (published as
+Artificial Intelligence 316, 2023, DOI 10.1016/j.artint.2022.103838). This confirms that
+strategy/continuation decomposition and its value recursion are established dynamic
+programming structure. It does not itself solve this project's asymmetric objective: the
+alternative-law economic cost plus a global false-promotion constraint against a
+history-adaptive causal null, with hidden pending labels and a hard query cap. Thus it is
+relevant prior structure, not a direct theorem-equivalence result for the two-law game.
+
+Audit decision: close “first-promotion decomposition alone is novel” as a claim. Keep the
+exact LP reduction as a computational artifact. Any further claim must isolate a new result
+for the robust pre-promotion stopping problem or demonstrate a source-audited complexity or
+value advantage beyond standard strategy composition, robust optimal stopping, and delayed
+POMDP continuation planning. The current evidence does not pass G1, and G2–G5 remain held.

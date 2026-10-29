@@ -1876,3 +1876,104 @@ the finite benchmark. Source limitation: RAO* full text/proof not inspected in t
 - Next compare the reduced solver's growth at fixed `B` against the generic oracle, and audit
   source-level prior art on robust stopping with separate alternative utility and null risk. G1
   remains open; no efficacy or real-data gate is opened, and G2–G5 stay held.
+- Source audit update (2026-10-29): Horák et al. (2023), Sections 6–7 and Proposition 6.2,
+  explicitly establish next-stage/continuation strategy composition and the matching Bellman
+  recursion for one-sided partially observable stochastic games. This closes the generic
+  decomposition itself as a novelty claim, while not directly resolving the project's distinct
+  two-law objective (alternative economic utility plus global history-adaptive causal-null
+  promotion risk, hidden pending labels, and a hard query cap). Record this boundary in
+  `switching_first_promotion_decomposition_v1.md`. Keep the reduced exact solver as a
+  computational artifact; G1 remains open pending a nontrivial result against robust stopping,
+  sequential design and delayed-POMDP continuation methods. G2–G5 remain held.
+- Robust-stopping audit (2026-10-29): Bayraktar–Yao, Theorem 5.1, supplies a robust Snell-envelope
+  solution for worst-case expected payoff stopping under a pasted family of laws. This closes
+  “robust stopping plus a continuation value” as a novelty claim. Its criterion does not directly
+  optimize alternative-law economic cost subject to separate global causal-null reachability risk
+  with pending-label asymmetry, a pathwise hard cap and recurrent switching. As recorded in
+  `switching_robust_optimal_stopping_boundary_v1.md`, this is an unresolved reduction boundary,
+  not evidence that the gap is novel. G1 remains open pending a theorem-level advantage or a
+  stronger equivalence; G2–G5 remain held.
+- G1 scalarized-game resolution (2026-10-29): for every fixed risk multiplier, the exact
+  alternative-cost / worst-case causal-null promotion-risk objective is a one-sided partially
+  observed zero-sum game with a hidden root mode selecting the economic or null law. Branch payoff
+  scaling gives `C_alt + lambda * R_null`; learner information sets merge identical action and
+  released-label histories across branches, while the null player retains pending-label visibility.
+  Finite-horizon backward induction applies to the expanded game, and strong LP duality recovers
+  the constrained optimum. The exact mapping and conditions are in
+  `switching_lagrangian_posg_reduction_v1.md`. This closes “the shared two-law policy or
+  information asymmetry prevents a scalarized DP” as a novelty gap. It supplies no compactness or
+  runtime improvement: generic histories remain exponential and dualized policies can require
+  mixing. G1 now requires a structural compression/approximation with separate value and risk
+  bounds beyond one-sided-POSG planning and the sequence-form oracle, or a revision/stop decision.
+  G2–G5 remain held; no efficacy or real-data study is opened. Current-regime value after reversal
+  stays distinct from historical promotion evidence.
+- Robust Markov-test boundary (2026-10-29): inspected Fauß, Zoubir and Poor (Annals of Statistics
+  2020), Sections 2–6, Corollary 1 and Theorems 5–8. Their uncertainty model and optimal stopping
+  recursion already cover Markov sufficient statistics, adaptive least-favorable observation laws,
+  likelihood-ratio state, and error-constrained sequential testing. They do not directly include
+  delayed hidden labels, a pathwise request cap, or economic switching continuation under a
+  separate law; these are reduction obligations, not novelty evidence. See
+  `switching_markov_robust_sequential_testing_prior_audit_v1.md`. This further rejects generic
+  “robust Markov test plus switching controller.” G1 remains open only for a proved advantage in
+  the exact delayed two-law problem; G2–G5 remain held and no empirical gate is opened.
+- The registered fixed-`B=3`, `d=1` scaling run matches full and reduced values/metrics/risks at
+  `T=7` with learner sequences reduced `54,861 -> 1,317` and nodes `71,401 -> 3,334`. At `T=8`,
+  the generic builder hits its frozen 200,000-node limit; the reduced solver completes in 5,700
+  builder nodes with risk `1/10` and recovered cost `24735833/6400000`. Since the full oracle did
+  not finish at T8, that cost has no direct optimality cross-check there. Results and hashes are in
+  `outputs/first_promotion_decomposition_scaling_v1/results.json`. This supports computational
+  value but does not pass novelty or policy-efficacy gates; G1 remains open.
+
+### G1 decision 2026-10-29: risk-state compression is not yet a method
+
+- The exact causal-risk verifier's product state `(time, deterministic controller memory,
+  incumbent, remaining budget, pending-label queue)` is sufficient once a controller is fixed.
+  It is not a policy-independent statistic from which to optimize that controller: changing its
+  memory/update rule changes the reachability recursion. Posterior-only compression already fails
+  on the registered alias cell, while a fixed-controller memory state trivially retains the
+  distinguishing information.
+- Generic finite-memory synthesis under partially observed transition uncertainty and robust
+  reachability is established by Cubuktepe et al., AAAI 2021; the primary-source scope and exact
+  ShiftLab history augmentation are recorded in
+  `switching_robust_fsc_reduction_audit_v1.md`. The hidden-root scalarization already reduces our
+  two-law constraint to a partially observed game for each multiplier. Together these results
+  mean that “add risk memory and optimize an FSC” is a standard representation/solver combination.
+- Decision: stop the risk-state-compression branch as a novelty candidate. It remains a useful
+  implementation baseline and verification tool. Reopen only with a quantitative theorem for the
+  two-law delayed objective that improves on robust FSC synthesis / one-sided-POSG planning and
+  the sequence-form oracle, with separate economic-value and causal-risk errors. Do not infer such
+  a result from the T=8 runtime comparison, where the full oracle did not finish. G1 is unresolved;
+  G2–G5 stay held. Promotion validity remains distinct from current-regime value after reversal.
+
+### G1 comparator theorem 2026-10-29: uniform calendar plus all-onset e-detector
+
+- `switching_uniform_calendar_e_detector_regret_v1.md` derives an explicit finite regret upper
+  bound for a pathwise `B`-query calendar under fixed release delay and the full-history
+  conditional null. A mixture of all query-time starts controls any promotion at level `alpha`;
+  under a persistent Bernoulli gain `epsilon`, known to the rule, the one-switch regret is bounded
+  by `cB + 2 epsilon * min(H, d-1 + ceil(T/B)*(log(s(s+1)/alpha)+log(1+2epsilon))/kappa)`.
+- This is a valid standard-composition comparator, not a candidate method. Its onset-weight
+  penalty and uniform calendar leave a large gap in moderate-signal cells; it does not establish
+  an advantage over adaptive sampling or the noisy-information lower bound. It also has no
+  post-reversal value certificate. G1 remains open; next compare a stronger adaptive safe sampler
+  with this bound and the exact oracle before advancing any method candidate. G2–G5 stay held.
+
+### G1 candidate no-go 2026-10-29: positive-prefix acquisition is group-sequential futility
+
+- Reran the registered action-matched acquisition comparison and exact verifier. Source hashes
+  now match; exact reconstruction verifies all 26 deterministic-calendar rational dual bounds,
+  the adaptive rule's cost `1179063/400000` and causal-null risk `1/10`, and its feasible gap from
+  that deterministic-calendar class. The LP optimizer is still numerical, and this result does
+  not cover every randomized calendar mixture.
+- Primary-text review of Hampson–Jennison (2013) confirms delayed-response group-sequential
+  testing with futility/acceptance, pipeline labels, sampling-cost optimization, and backward
+  induction; Brown–Rutemiller (1971) directly studies costed early stopping after Bernoulli
+  failures. The exact finite policy stops on the first zero while preserving the terminal `111`
+  test. Its `919/100000` cost saving is solely the query fee on `919/1000` avoided labels; no
+  terminal action changes. This is standard futility, not a new acquisition mechanism. See the
+  source-scope and reduction in `switching_positive_prefix_prior_art_audit_v1.md`.
+- Decision: close positive-prefix stopping as a novelty candidate despite its certified finite
+  class separation. Retain it as a baseline. G1 remains open only for a distinct, theorem-backed
+  gain in the recurrent delayed two-law problem beyond standard costed sequential design and
+  switching control. G2–G5 remain held; no efficacy or real-data study follows from this result.
+  Historical promotion validity remains separate from current-regime value after reversal.

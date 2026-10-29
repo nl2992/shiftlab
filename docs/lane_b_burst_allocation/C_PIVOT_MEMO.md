@@ -89,3 +89,39 @@ Remaining information structures, which are untested and goal-level choices:
    exploration–deployment coupling.
 3. **Retrospective gold audits of past rounds selected on fast labels** (Ao-style auditing with
    delay and reversibility). This has high composition risk because of Ao et al. and delayed PPI.
+
+## Update 2026-10-29: phase E (many candidates sharing one queried label) also exits
+
+`E0_prior_art.md` and `E0b_chaining_search.md`:
+- **Covered by prior work:**
+  - Model Picker already queries only on disagreement.
+  - Alpha spending and e-BH cover multiplicity.
+  - With shared labels, Bonferroni costs only an additive ln K.
+- **R1 (cost scaling with a covering number in the disagreement metric) is covered as a composition:**
+  - IWAL (Beygelzimer–Dasgupta–Langford 2009) gives the disagreement-gated importance-weighted query
+    rule, uniform over time and over pairs, with label complexity priced by the disagreement
+    coefficient in the same metric.
+  - Replacing ln|H| by a covering number is an elementary chaining/stitching step, and the gain is
+    capped at a log K factor.
+- **R2 (reversible re-baselining) is covered** by IWAL's maximum over all live pairs.
+- **What remains** is a matching lower bound, which is expected to be standard (Fano).
+
+## Cumulative assessment after four Lane B phases
+
+Every candidate on four information structures has decomposed into established components:
+- burst allocation;
+- recurrence locking;
+- split clock;
+- shared-label multi-candidate selection.
+
+These components are: sequential design, change detection, planning, futility stopping, PPI or
+controlled sensing, and IWAL with chaining. Lane A's G1 record reaches the same conclusion for the
+two-policy contract. The remaining untested structure is selective (bandit) labels, where outcomes
+are observed only for the deployed policy. That is where exploration and deployment genuinely
+couple, but existing anytime-valid bandit-feedback monitoring (Waudby-Smith et al., Lindon–Kallus)
+largely covers it.
+
+The evidence suggests that a novel algorithm on these structures is unlikely without a genuinely
+new information or utility structure from an application. Candidates are: performative or
+action-dependent outcomes; costly *interventions* rather than costly labels; or adversarial
+reference drift.

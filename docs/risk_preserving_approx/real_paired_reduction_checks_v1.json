@@ -1,0 +1,19 @@
+{
+  "status": "exact_algebraic_checks_passed",
+  "grid_cases": 50,
+  "overlapping_observation_example": {
+    "pair_a": [
+      "1/2",
+      "1/4"
+    ],
+    "pair_b": [
+      "1/4",
+      "1/2"
+    ],
+    "encoded_positive_probability_a": "5/8",
+    "encoded_positive_probability_b": "3/8"
+  },
+  "scope": "Data-free exact arithmetic; no real-data or HMM fit performed.",
+  "source_sha256": "18d3a7bb0f78f3a38451f2bfd12a47e69c36a9eb8fd5fa96564d7cb0067ca3ab",
+  "protocol_sha256": "b091bf044297e8c22df57d57d54b1968b9c0a5b72ec2f529130c61d541a1d028"
+}

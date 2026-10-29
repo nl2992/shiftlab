@@ -237,3 +237,19 @@
   robust-FSC comparison, independent confirmation or real-data result is claimed.
 - Decision: retain the cap as a computational baseline and continue searching
   for a candidate with defensible value/risk guarantees and strong-baseline gains.
+
+## 2026-10-29 — Real paired-loss encoding audit
+
+- Registered REAL_PAIRED_REDUCTION_PROTOCOL_V1.md before data-free algebra checks.
+  The initial protocol and first checker incorrectly halved fees and doubled the
+  loss/offset; the checker failed. Preserved its source and recorded the correction
+  in REAL_PAIRED_REDUCTION_AUDIT_V1.md; corrected 50 exact-fraction cases passed.
+- A fresh independent binary encoding of bounded paired-loss differences preserves
+  expected decision costs up to a policy-independent common offset under exogenous
+  outcomes. Query and switch charges remain unchanged. Under the corresponding
+  full-information conditional mean null and appropriate filtration, it preserves
+  the one-step binary null. It does not preserve real-valued feedback information,
+  pathwise losses, HMM correctness or a null guarantee from empirical calibration.
+- Existing cap failed the stronger calendar comparison; no claim of real-data
+  superiority or completed G1–G3. No real rows, holdouts or seeds were accessed.
+  Continue method/baseline work and develop a frozen real replay only when eligible.

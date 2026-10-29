@@ -91,6 +91,18 @@ polynomial in `T` for fixed `B`, but exponential in `B`; it is not an FPT or uni
 result. The implementation's measured small-cell reduction supports feasibility, not a practical
 scaling claim.
 
+The registered fixed-`B=3`, `d=1` scaling run extended this comparison to `T=7,8`. At `T=7`, the
+full and reduced solvers again return exactly the same rational cost `10788127/3200000`, all five
+metrics, and risk `1/10`; realization variables fall from 54,861 to 1,317 and nodes from 71,401 to
+3,334. At `T=8`, the generic builder exceeds its frozen 200,000-node cap, while the reduced solver
+completes with 2,273 learner sequences, 848 information sets, 5,700 builder nodes, recovered cost
+`24735833/6400000`, and exact risk `1/10`. The T8 cost has no direct full-oracle comparison because
+the reference hit its registered limit; the structural proposition and smaller exact comparisons
+support the reduction, but this cell alone does not independently certify equality to the generic
+oracle optimum. Full output is
+`outputs/first_promotion_decomposition_scaling_v1/results.json` (3,424 bytes; SHA256
+`65E823B198C81EFE32C824D3BF4A5FB7967563CBFDD96CFA14C5B23AF3613C32`).
+
 ## Novelty gate and next test
 
 The first-promotion proposition and backward-induction decomposition are standard. The current

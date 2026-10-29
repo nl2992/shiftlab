@@ -1876,3 +1876,10 @@ the finite benchmark. Source limitation: RAO* full text/proof not inspected in t
 - Next compare the reduced solver's growth at fixed `B` against the generic oracle, and audit
   source-level prior art on robust stopping with separate alternative utility and null risk. G1
   remains open; no efficacy or real-data gate is opened, and G2–G5 stay held.
+- The registered fixed-`B=3`, `d=1` scaling run matches full and reduced values/metrics/risks at
+  `T=7` with learner sequences reduced `54,861 -> 1,317` and nodes `71,401 -> 3,334`. At `T=8`,
+  the generic builder hits its frozen 200,000-node limit; the reduced solver completes in 5,700
+  builder nodes with risk `1/10` and recovered cost `24735833/6400000`. Since the full oracle did
+  not finish at T8, that cost has no direct optimality cross-check there. Results and hashes are in
+  `outputs/first_promotion_decomposition_scaling_v1/results.json`. This supports computational
+  value but does not pass novelty or policy-efficacy gates; G1 remains open.

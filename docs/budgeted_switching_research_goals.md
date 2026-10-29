@@ -2424,3 +2424,21 @@ the finite benchmark. Source limitation: RAO* full text/proof not inspected in t
   adapter is now implemented in `src/shiftlab/dive/hard_budget_delayed_cams.py`; four tests and
   Ruff/format/mypy checks pass. It remains comparator plumbing only: no efficacy result, risk
   theorem, or CAMS guarantee transfer is claimed. G1 remains open and G2–G5 remain held.
+
+### G1 structural approximation screen 2026-10-29: filter forgetting plus robust-risk coupling
+
+- Derived a finite-horizon common-history coupling bound for a supplied full-history policy and a
+  uniformly `epsilon`-close compressed action kernel: worst causal-null promotion risk changes by
+  at most `T*epsilon`, and bounded cumulative cost changes by at most
+  `cmax*epsilon*T(T+1)/2`. A uniform alternative-belief filter-forgetting condition and a Lipschitz
+  action rule would make `epsilon` decay geometrically with memory length, permitting risk-target
+  tightening by `T*epsilon`.
+- This does not establish existence or efficient construction of a near-optimal compressed policy;
+  optimal policies can be discontinuous, and forgetting must hold pathwise for all queried label
+  strings the causal-null opponent can generate. The derivation is an immediate coupling extension
+  of established finite-memory POMDP approximation (Kara & Yüksel 2022; Kim 2026), and does not
+  improve on robust FSC synthesis for optimizing the controller. It therefore fails the G1 novelty
+  gate; do not launch efficacy experiments from it. Full assumptions and proof are in
+  `switching_filter_forgetting_risk_coupling_screen_v1.md`.
+- G1 remains open; G2–G5 remain held. The previous-regime promotion risk statement still does not
+  certify challenger value after reversal.

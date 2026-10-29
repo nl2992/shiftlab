@@ -2460,6 +2460,20 @@ the finite benchmark. Source limitation: RAO* full text/proof not inspected in t
   recorded in `switching_filter_forgetting_risk_coupling_screen_v1.md`. G1 remains open, and G2–G5
   remain held.
 
+### G1 two-law state screen 2026-10-29: fixed FSC product recursion
+
+- Confirmed that, for a supplied deterministic public-memory FSC, exact alternative cost and exact
+  worst causal-null promotion risk admit finite product-state recursions. The economic branch
+  needs HMM state, controller memory, incumbent, remaining budget and pending queue; the null branch
+  needs controller memory, incumbent, budget, pending outcomes and the absorbing promotion flag.
+  Its queried-outcome backup is endpoint-exact because it is affine in the null conditional rate.
+- The queue cannot be removed or shown only through the HMM belief, but this does not produce a
+  controller-independent compact statistic. The state count is polynomial for fixed controller
+  memory/delay, while finding the controller remains a standard nonconvex robust-FSC problem. This
+  restates the source-audited finite-controller representation and fails G1 as a method contribution.
+  Details are in `switching_hmm_risk_product_state_screen_v1.md`; G1 remains open and G2–G5 remain
+  held.
+
 ### G1 scope correction 2026-10-29: query-conditioned deployment
 
 - The prior action-dependent acquisition no-go fixes one target deployment probability across

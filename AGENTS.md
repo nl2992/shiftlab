@@ -57,3 +57,19 @@ The existing `papers/paper1_decision_drift` work is a decision-loss monitoring b
 `papers/paper3_cost_aware_adaptation` contains adaptation-cost baselines. Their current directory
 names are retained for continuity. The research charter defines the candidate paper questions;
 existing reports define what has actually been implemented and validated.
+
+## Codex autonomous research lane
+
+This checkout is the independent Codex lane on `research/codex-autoresearch`.
+Keep all edits, environments, run state and outputs in this checkout. Never edit,
+reset, clean, merge into, or run jobs from the main or Claude worktrees. Do not
+reuse their writable environments or output directories. No global skill or hook
+installation is required. Read `docs/codex_autoresearch_setup.md` before using
+this lane's project-local skills.
+
+Use Ponytail for small reusable implementations, HKUSTDial Supervisor-Skills for
+research evaluation and evidence-grounded writing, and ARIS Codex skills for
+experiment and review orchestration. Existing scientific protocols and explicit
+user scope govern experiments; third-party defaults do not authorize paid jobs,
+remote deployment, notifications, publication, or opening confirmation data.
+Use existing research goals rather than inventing a new direction during setup.

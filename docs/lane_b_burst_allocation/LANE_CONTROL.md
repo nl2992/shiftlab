@@ -160,4 +160,9 @@ The user's instruction: "please follow our initial goal… developing a potentia
 | C2 theory | Proof or counterexample of the theorem target | Proved or sharply bounded | Disproved → back to C0 |
 | C3 real data | OPSD and Binance development windows through harness v2 | Same ordering as synthetic | — |
 | C4 confirm | Frozen protocol, Codex review, fresh seeds, holdout opened once | Registered win | — |
-
+| C-1 | 2026-10-29 | C0 | `C0_candidates.md`: **RLS (recurrence-locked switching) survives conditionally**. Split-clock switching needs a surrogate channel (high novelty risk); harm-budgeted deployment is discarded (constant-sum symmetry). **Codex screen: NARROW** (`CODEX_C0_REVIEW_1.md`).
+- **Comparator class:** the "needs post-change evidence" class is legitimate but too narrow, and has a loophole (switch one round early).
+- **Prior art:** no verified prior theorem gives the RLS bound under budget, delay and the causal null. Mandatory competitors: Periodic EXP4 (Oh–Meetoo Appavoo–Gilbert, ICALP 2019), Cheng 2023 Thm 2, and a duration-aware forecasting controller.
+- **Theorem defects:** accumulated vs bounded jitter; future information in the error term; chronological bisection unproved; the reactive lower bound assumes a schedule; certification needs power and budget-exhaustion terms; switch costs on both sides; no proved iff transition.
+- **Real-data arithmetic:** the Binance figure is an evidence scale, not a minimum (about 70% power at 3,428 labels); OPSD halves are descriptive only.
+- **Next (C0→C2 narrowed):** known period, latent offset, explicit emission law, one jitter model; prove causal localisation and promotion validity before any efficacy grid. Kill if a contract-matched schedule learner or duration-aware controller attains the same rate by standard composition. |

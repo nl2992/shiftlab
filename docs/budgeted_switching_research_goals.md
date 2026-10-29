@@ -1957,3 +1957,23 @@ the finite benchmark. Source limitation: RAO* full text/proof not inspected in t
   an advantage over adaptive sampling or the noisy-information lower bound. It also has no
   post-reversal value certificate. G1 remains open; next compare a stronger adaptive safe sampler
   with this bound and the exact oracle before advancing any method candidate. G2–G5 stay held.
+
+### G1 candidate no-go 2026-10-29: positive-prefix acquisition is group-sequential futility
+
+- Reran the registered action-matched acquisition comparison and exact verifier. Source hashes
+  now match; exact reconstruction verifies all 26 deterministic-calendar rational dual bounds,
+  the adaptive rule's cost `1179063/400000` and causal-null risk `1/10`, and its feasible gap from
+  that deterministic-calendar class. The LP optimizer is still numerical, and this result does
+  not cover every randomized calendar mixture.
+- Primary-text review of Hampson–Jennison (2013) confirms delayed-response group-sequential
+  testing with futility/acceptance, pipeline labels, sampling-cost optimization, and backward
+  induction; Brown–Rutemiller (1971) directly studies costed early stopping after Bernoulli
+  failures. The exact finite policy stops on the first zero while preserving the terminal `111`
+  test. Its `919/100000` cost saving is solely the query fee on `919/1000` avoided labels; no
+  terminal action changes. This is standard futility, not a new acquisition mechanism. See the
+  source-scope and reduction in `switching_positive_prefix_prior_art_audit_v1.md`.
+- Decision: close positive-prefix stopping as a novelty candidate despite its certified finite
+  class separation. Retain it as a baseline. G1 remains open only for a distinct, theorem-backed
+  gain in the recurrent delayed two-law problem beyond standard costed sequential design and
+  switching control. G2–G5 remain held; no efficacy or real-data study follows from this result.
+  Historical promotion validity remains separate from current-regime value after reversal.

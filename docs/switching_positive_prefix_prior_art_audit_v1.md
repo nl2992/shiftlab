@@ -13,6 +13,39 @@
 
 The source-level check therefore rejects novelty of the positive-prefix/futility mechanism itself. It also rejects any claim that adding feedback delay to that mechanism is new. It does **not** prove that the full composed objective has been solved in the literature: the differences listed above are real contract differences, but they are a motivation for an exact equivalence audit, not evidence of a novel algorithm.
 
+## Primary-text addendum — 2026-10-29
+
+The delayed-response source was checked against the full author-hosted 40-page manuscript,
+including its formal rule (Section 2.1), canonical-joint-distribution Theorem 1 (Section 2.2),
+constrained optimality construction and backward-induction criterion (Section 2.4 and Appendix
+8.1), response-dependent group-size extension (Section 3.3), and delayed-response error-spending
+construction (Section 4.1). It explicitly treats stopping for acceptance/futility, pending
+responses, expected sampling cost and optimization subject to type-I/type-II requirements. The
+paper's exact distributional theorem is for its normal-response canonical model; it is not a
+theorem for the ShiftLab causal conditional null or recurrent HMM. The full Brown–Rutemiller
+primary PDF was also checked: it considers sequential Bernoulli acceptance tests and stopping
+after early failures using estimated continuation and abandonment costs, but its cost rule is a
+plug-in heuristic, not a robust risk guarantee. The publisher's full Gould–Pecore PDF was not
+accessible, so only its abstract is used as corroboration, not as a verified theorem.
+
+The finite ShiftLab policy has an exact reduction to this established futility structure. It
+promotes only if the three-label terminal word is `111`; the adaptive rule requests the next label
+only while the observed prefix is all positive. On the first zero it stops, and its terminal
+decision is then the same no-promotion decision as the fixed three-query test on that tape. The
+private `4/5` entry lottery makes causal-null risk `(4/5)(1/2)^3=1/10`; it is standard test
+randomization. Under the alternative HMM, early stopping saves `919/1000` expected queries, hence
+exactly `919/100000` query cost at `c=1/100`, with no change to the tape-wise terminal action.
+Thus the entire observed gain over the matched cohort lottery is classical cost-saving futility
+stopping; the finite adaptive-versus-deterministic-calendar separation is not a new acquisition
+mechanism.
+
+The registered script and independent exact verifier were rerun on 2026-10-29 after refreshing
+source hashes. The verifier confirms exact risk/cost reconstruction, all 26 rational calendar
+dual certificates, and the certified positive gap from the deterministic-calendar class. It does
+not certify optimality over every randomized calendar mixture, and the recovered adaptive LP
+optimizer remains numerical. This reinforces the candidate no-go; it does not settle whether a
+different recurrent two-law objective admits a new theorem.
+
 ## Registered finite result and implication
 
 In `switching_action_matched_adaptive_acquisition_v1.md`, an explicit positive-prefix policy reproduces the recovered adaptive LP policy exactly in expected metrics and causal-null risk. Rational dual lower bounds for all 26 deterministic terminal calendars are checked without an optimizer, establishing a finite separation from that deterministic class. A feasible static lottery over no query and calendar `(3,4,5)` shows that early stopping after a negative label saves `919/1000` expected queries and `919/100000` cost in the registered cell at the same risk.

@@ -52,3 +52,18 @@ Log-wealth is negative for every implementable rule (for example uniform −0.46
 ## Consequence for the goal
 
 "Verified win on synthetic and real data over the known benchmarks" is **not met**: S3 and S3b closed the adaptive-policy branch, and the best implementable real-data candidate ties uniform. The real-data result is a clean negative with a measured headroom (oracle − uniform of +2.5 and +4.2 log units) that a better implementable rule would have to approach.
+
+## S6c (registered): calibration-tuned mixture, benefit direction
+
+Protocol: [`rpoq_s6c_calibration_tuned_mixture_protocol_v1.md`](rpoq_s6c_calibration_tuned_mixture_protocol_v1.md). `ε` chosen on the calibration split (2018–2019), the test split run once.
+
+| Budget | Chosen ε | ASI-MIX (test) | ASI-MIX − uniform | ASI-MIX − oracle |
+|---|---|---|---|---|
+| 5% | 0.25 | 1.39 [0.96, 1.79] | −0.02 [−0.20, +0.17] | −2.48 [−3.64, −1.19] |
+| 20% | 0.00 | 6.06 [4.91, 7.21] | −0.49 [−1.27, +0.32] | −4.66 [−8.37, −0.99] |
+
+**Registered verdict: not supported** (needs ≥ +0.5 over uniform with a positive lower bound at both budgets). At 20% the selected ε is 0, so ASI-MIX is the same allocation as ASI-VS and reproduces its S6b numbers exactly. At 5% it is indistinguishable from uniform.
+
+Observation on the development split: mean calibration-split log-wealth was **negative** for every ε and both budgets (for example −0.74 for uniform at 20%, −0.27 for pure active), so there was little benefit signal in 2018–2019 to tune against. The choice of ε therefore rests on weak evidence, and an ε tuned on a period where the candidate is not clearly better than the reference need not carry over to 2020–2025. This is a limit of the development design, not a finding about allocation.
+
+Across S6, S6b and S6c, no implementable allocation rule tested beat uniform querying on CRSP at matched label budgets.

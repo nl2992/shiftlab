@@ -1893,6 +1893,20 @@ the finite benchmark. Source limitation: RAO* full text/proof not inspected in t
   `switching_robust_optimal_stopping_boundary_v1.md`, this is an unresolved reduction boundary,
   not evidence that the gap is novel. G1 remains open pending a theorem-level advantage or a
   stronger equivalence; G2–G5 remain held.
+- G1 scalarized-game resolution (2026-10-29): for every fixed risk multiplier, the exact
+  alternative-cost / worst-case causal-null promotion-risk objective is a one-sided partially
+  observed zero-sum game with a hidden root mode selecting the economic or null law. Branch payoff
+  scaling gives `C_alt + lambda * R_null`; learner information sets merge identical action and
+  released-label histories across branches, while the null player retains pending-label visibility.
+  Finite-horizon backward induction applies to the expanded game, and strong LP duality recovers
+  the constrained optimum. The exact mapping and conditions are in
+  `switching_lagrangian_posg_reduction_v1.md`. This closes “the shared two-law policy or
+  information asymmetry prevents a scalarized DP” as a novelty gap. It supplies no compactness or
+  runtime improvement: generic histories remain exponential and dualized policies can require
+  mixing. G1 now requires a structural compression/approximation with separate value and risk
+  bounds beyond one-sided-POSG planning and the sequence-form oracle, or a revision/stop decision.
+  G2–G5 remain held; no efficacy or real-data study is opened. Current-regime value after reversal
+  stays distinct from historical promotion evidence.
 - The registered fixed-`B=3`, `d=1` scaling run matches full and reduced values/metrics/risks at
   `T=7` with learner sequences reduced `54,861 -> 1,317` and nodes `71,401 -> 3,334`. At `T=8`,
   the generic builder hits its frozen 200,000-node limit; the reduced solver completes in 5,700

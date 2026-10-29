@@ -54,30 +54,32 @@ exact. One can also scalarize a fixed multiplier \(\lambda\geq0\):
  +\lambda\sup_{\nu\in\mathcal N}R_{\mathrm{null}}(\pi,\nu)-\lambda\alpha.
 \]
 
-This is a robust constrained-game objective, not automatically a Shapley recursion: expected
-alternative cost and null reachability are evaluated under distinct laws, and the same learner
-policy must satisfy the constraint. To turn the scalarization into a tractable dynamic program
-requires a valid information-state construction, rectangularity/duality conditions and a proof
-that the policy class and pathwise budget are preserved. No such reduction has been established
-in this audit. Generic sequence-form LP size remains exponential; no scalable advantage or new
-bound follows from representability.
+This is not automatically a Shapley recursion in its original constrained form. However, for each
+fixed Lagrange multiplier, a hidden root mode mixing the alternative and null worlds converts the
+scalarized payoff into a finite-horizon one-sided partially observed stochastic game; the null
+player acts only in the null branch and sees pending labels. Strong duality recovers the constrained
+value. The construction and its information-set proof are recorded in
+`switching_lagrangian_posg_reduction_v1.md`. Thus the generic objective does admit a standard
+dynamic-programming representation after scalarization. Generic reachable histories and full
+null states still grow exponentially, and no scalable advantage or new bound follows from
+representability.
 
-Thus the defensible current conclusion is: existing results cover adjacent pieces, but the audited
-theorems do not establish the exact constrained two-law result. Neither “already solved” nor
-“novel” is supported. The G1 gate stays open pending an explicit reduction or a theorem-level
-separation; no prototype claim should be made yet.
+Thus the defensible current conclusion is: the exact finite constrained two-law problem is
+representable by standard sequence-form optimization and, after scalarization, by a hidden-root
+one-sided POSG. This closes the generic formulation as a novelty claim. The remaining G1 gate is
+whether a structural restriction admits a nontrivial compression or approximation guarantee
+beyond those standard methods; no such result is currently established.
 
 ## Required next test
 
-Construct a growing finite family and attempt a reduction to (i) a constrained robust POMDP/POSG
-with an augmented state and (ii) a sequence-form constrained stochastic game. Prove the learner's
+Seek a declared structural family where a compact recursion or certified approximation improves
+on the hidden-root one-sided-POSG dynamic program and sequence-form oracle. Preserve the learner's
 nonanticipating information sets, pending-label visibility asymmetry, request-time hard budget,
-shared policy across laws, repeated switching costs and absorbing any-promotion event are all
-preserved. If the reduction is generic and exponentially large, treat it as a characterization,
-not a method. Then seek a structural restriction under which a compact recursion is provably valid,
-or stop the proposed exact-game method. Any approximation must separately quantify objective error
-and null-risk violation. The current-regime alternative-model forecast remains a separate output
-from the null-risk certificate.
+shared policy across laws, repeated switching costs and absorbing any-promotion event. If no
+structural compression retains the risk-relevant history with useful bounds, stop the generic
+exact-game method. Any approximation must separately quantify objective error and null-risk
+violation. The current-regime alternative-model forecast remains separate from the null-risk
+certificate.
 
 ## Primary sources
 

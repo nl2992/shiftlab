@@ -78,10 +78,15 @@ for false-promotion control as distinct state quantities.
 
 ## Conclusion and next discriminating test
 
-The audited literature closes broad ingredient claims. It does not prove that the full contract is
-new, and it also does not establish that no existing constrained stochastic-game method can solve
-it after state augmentation. The prior-source boundary remains unresolved at the level required by
-G1. No algorithm is nominated and G2–G5 remain held.
+The audited literature closes broad ingredient claims. A follow-up exact Lagrangian reduction now
+resolves the generic representation question: for each multiplier, a hidden root mode makes the
+scalarized alternative-cost/null-risk game a one-sided partially observed stochastic game; see
+[`switching_lagrangian_posg_reduction_v1.md`](switching_lagrangian_posg_reduction_v1.md). Strong
+duality recovers the original constrained value. This does not prove that every existing solver
+implements the same contract efficiently, nor does it establish a compact approximation or any
+novelty. The remaining G1 boundary is specifically a proved structural compression/approximation
+that improves on generic one-sided-POSG planning and the extensive-form LP. No such method is
+nominated and G2–G5 remain held.
 
 The next test is an exact reduction audit, not another small-policy-class gap: on a registered
 growing family, instantiate a resource-matched baseline from (a) robust partially observable game

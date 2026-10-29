@@ -18,3 +18,11 @@
 - Decision: continue problem reconstruction and theorem specification before code.
 - Remaining uncertainty: compact risk-relevant state, nonvacuous value error,
   optimization versus verification complexity, and exact prior-art equivalence.
+
+## 2026-10-29 — Working plan
+
+- Added `WORKING_PLAN.md` with the operating contract, ordered research stages,
+  candidate-specific checks, exit gates, oracle comparisons and evidence rules.
+- Planning only; no new solver execution, experiment, seed allocation or theorem
+  claim. Next checkpoint: reconstruct the reference problem and verify available
+  small-instance anchors in a branch-local environment.

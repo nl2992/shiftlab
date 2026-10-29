@@ -277,3 +277,28 @@
   failures remain binding.
 - Files: `CANDIDATE_A1_COMPLEXITY_AUDIT_V1.md` and
   `candidate_a1_complexity_audit_v1.json`.
+
+
+## 2026-10-29 — Candidate B policy-column pricing audit
+
+- Derived the exact deterministic-policy master: minimize alternative cost over a
+  root mixture of nonanticipating hard-cap policies, subject to one risk constraint
+  per pure causal-null response. Perfect-recall realization equivalence makes this
+  the same finite problem as the behavioral sequence form. Restricting null rows
+  gives a lower bound; exact pricing and full null separation are both required for
+  termination/optimality.
+- The existing causal-cut method only restricts null rows; it still materializes
+  all learner realization variables. True policy-column generation would require
+  minimizing alternative cost plus dual-weighted null risks. This is a hidden-mode
+  POMDP pricing problem whose belief must preserve pending outcomes and each null
+  response's full-history state. A direct DP retains exponential history growth,
+  while no compact reachable-belief bound is known.
+- Audited primary-source comparisons to Walraven–Spaan constrained-POMDP column
+  generation, Bošanský et al. sequence-form double oracle, and Cubuktepe et al.
+  robust FSC synthesis. Generic methods are established; the potentially useful
+  distinction would be a strictly cheaper, exact/certified pricing oracle. No such
+  result is established.
+- Decision: no policy-column implementation until a pricing recursion and state
+  count demonstrate actual compression. Candidate B remains unresolved; proceed
+  to Candidate C's structural route. No model outcomes, seeds or holdouts accessed.
+- Details and citations: `CANDIDATE_B_POLICY_PRICING_AUDIT_V1.md`.

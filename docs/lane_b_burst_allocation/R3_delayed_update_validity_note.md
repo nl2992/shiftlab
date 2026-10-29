@@ -46,7 +46,8 @@ are fixed at event time, which satisfies this.
   and `X_t` (missing completely at random given the public past). The increment is then effectively
   `V_t = G_t M_t Z_t / q_t − ε`, where `M_t` is the observation indicator.
   - Under the null, `E[V_t | F] = P(M=1) E[Z_t] − ε`.
-  - If the null holds with `E[Z_t] ≤ ε`, this is at most `ε(P(M=1) − 1) ≤ 0`, so validity holds:
+  - If the null holds with `E[Z_t] ≤ ε`, then `P(M=1) E[Z_t] ≤ max(E[Z_t], 0) ≤ ε` (ε ≥ 0), so the
+    conditional mean is at most 0 and validity holds:
     missing labels can only remove positive evidence. Power is lost.
   - The argument uses `E[Z|M=1] = E[Z]` (missing at random).
 - **Informative missingness.** Missingness that depends on `Z` is **not covered**.

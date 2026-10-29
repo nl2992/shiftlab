@@ -322,3 +322,11 @@
   posterior-alias distinctions under the robust null. No outcomes, seeds or
   holdouts were accessed.
 - Details: `CANDIDATE_C_DOMINANCE_LIMIT_V1.md`.
+
+
+## 2026-10-29 — Aggregate monotonicity fails under public branch revelation
+
+- Registered and exactly checked a T=4, B=3, d=1, two-branch construction. Branch A queries at events 1–3 and promotes on `(Y2,Y3)=01`; branch B skips event 1, queries at events 2–3 and promotes when `Y2=1`. The event-1 query choice reveals the upfront branch to the null before the tested outcomes. Both branches respect the hard cap.
+- The average promotion-probability table over `(Y2,Y3)` is `(0,1/2,1/2,1/2)`, coordinatewise monotone with IID risk `3/8`. Exact branchwise causal-null risks are each `1/2`; the null conditions on the public branch, so the mixture's true worst risk is `1/2`, strictly larger than the IID value. The exact-fraction checker, protocol and output are `scripts/research_risk_approx/check_monotone_mixture_risk.py`, `MONOTONE_MIXTURE_RISK_PROTOCOL_V1.md`, and `monotone_mixture_risk_v1.json`.
+- This does not contradict the pure deterministic monotone-event lemma or mixtures whose every branch has its own valid monotone certificate. It shows that monotonicity of the *averaged* event is insufficient when the null can observe branch-revealing public actions. Thus null-tree removal requires branchwise monotonicity or a sharper information-conditioned mixture bound.
+- Decision: continue investigating monotone-event compression only with branchwise safety semantics; do not remove robust null constraints based on the marginal tape table. No dataset outcomes or seeds were used.

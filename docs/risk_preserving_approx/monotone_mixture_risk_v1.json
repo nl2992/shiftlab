@@ -1,0 +1,38 @@
+{
+  "protocol": "docs/risk_preserving_approx/MONOTONE_MIXTURE_RISK_PROTOCOL_V1.md",
+  "protocol_sha256": "23a3eee616c49ade81fefdb72f37db0e07e8e34245e396ae673c8b5165f6a418",
+  "source_sha256": "40f6c8a46dad0842a05cf9256225514e08108a1d9610e83a865d4ceaeca739fa",
+  "table": [
+    {
+      "tape_y2y3": "00",
+      "branch_a": "0",
+      "branch_b": "0",
+      "mixture_event": "0"
+    },
+    {
+      "tape_y2y3": "01",
+      "branch_a": "1",
+      "branch_b": "0",
+      "mixture_event": "1/2"
+    },
+    {
+      "tape_y2y3": "10",
+      "branch_a": "0",
+      "branch_b": "1",
+      "mixture_event": "1/2"
+    },
+    {
+      "tape_y2y3": "11",
+      "branch_a": "0",
+      "branch_b": "1",
+      "mixture_event": "1/2"
+    }
+  ],
+  "iid_risk_of_aggregate_event": "3/8",
+  "branch_a_causal_risk": "1/2",
+  "branch_b_causal_risk": "1/2",
+  "public_branch_mixture_causal_risk": "1/2",
+  "query_cap": 3,
+  "maximum_queries_branch_a": 3,
+  "maximum_queries_branch_b": 2
+}

@@ -2070,3 +2070,20 @@ the finite benchmark. Source limitation: RAO* full text/proof not inspected in t
   one-sided POSG / sequence-form oracle, or revise the hypothesis. No efficacy/real-data gate opens;
   G2–G5 remain held. The current-value impossibility result still requires explicit persistence,
   calibrated side information, or a weaker test-epoch risk target.
+
+### G1 candidate, registered 2026-10-29: delayed-HMM predictive confidence gate
+
+- Reframed current-value safety after the distribution-free indistinguishability no-go: assume a
+  fixed but unknown parameter in a declared finite recurrent HMM family, while allowing latent
+  regime reversals. A time-uniform likelihood-ratio confidence set over HMM parameters, followed
+  by a gate on the minimum current filtered benefit across the set, gives a model-conditional
+  `alpha` false-promotion bound by Ville plus set containment. Full statement and proof route are
+  in `switching_hmm_predictive_cs_candidate_v1.md`.
+- Source screen: Arnold et al. 2026 sequential model confidence sets already cover generic anytime
+  confidence sets for conditional forecaster superiority; likelihood-ratio confidence sequences,
+  HMM filtering and active sensing are also established. The Ville corollary alone is not new.
+- Candidate contribution, if any, is the joint delayed-budget query rule and a finite regret or
+  approximation guarantee beyond active sensing, robust FSC/POSG planning and the exact oracle.
+  First audit the adaptive delayed HMM likelihood and acquisition prior art; close the candidate if
+  it reduces to generic controlled sensing. No experiment is registered or run yet; G1 remains
+  open and G2-G5 remain held. The guarantee is explicitly not robust to arbitrary model drift.

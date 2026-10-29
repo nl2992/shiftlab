@@ -1,0 +1,12 @@
+[
+  {
+    "name": "schur_lago_fiez_costly_bandits_uai26",
+    "url": "https://raw.githubusercontent.com/mlresearch/v337/main/assets/schur26a/schur26a.pdf",
+    "record_url": "https://proceedings.mlr.press/v337/schur26a.html",
+    "bytes": 1127454,
+    "sha256": "3D33DA792D99F163868AF8689ACD840B7632C137A60CED3DC1D53F43108F49B5",
+    "status": "downloaded_primary_source_inspected_round_protocol_lemma_1_appendix_b1_proof_cost_adjusted_information_gain_algorithms_1_2_theorems_4_to_7_and_hard_budget_discussion",
+    "retrieved_date": "2026-10-29",
+    "cache_path": "outputs/switching_source_audit_v1/schur_lago_fiez_uai26_price_of_knowledge.pdf"
+  }
+]

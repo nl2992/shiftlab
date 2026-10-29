@@ -206,3 +206,15 @@ design paper already uses conditional error to adapt sample size while preservin
 level; thus generic adaptive risk recycling is established. The ShiftLab toy has no reversible
 control or delay-driven acquisition advantage and does not pass G1. Keep as a baseline, not a
 candidate.
+
+### Cost-aware correlated-action bandits and two-phase reduction (2026-10-29)
+
+`switching_costly_bandits_two_phase_audit_v1.md` records primary-source inspection of Schur,
+Lago and Fiez (UAI 2026), including Lemma 1 and its Appendix B.1 proof. Their stationary model
+already supports action-dependent observation costs, correlated rewards, cost-sensitive acquisition,
+and a uniform reduction from arbitrary policies to an initial labeled prefix followed by one-action
+commitment. The result does not cover delayed labels, a pathwise total query cap, recurrent hidden
+regimes, repeated reversible deployment, or causal-null promotion risk. Thus it closes another
+generic acquisition/two-phase claim, while the exact contract mismatch remains a comparison
+obligation rather than evidence of novelty. No efficacy grid was run; G1 remains unresolved and
+G2–G5 remain held.

@@ -1602,3 +1602,20 @@ the finite benchmark. Source limitation: RAO* full text/proof not inspected in t
   current-regime benefit requires post-change evidence or an explicit persistence model. Historical
   likelihood-ratio wealth cannot certify value after reversal, and rollback delay loss remains a
   separate outcome.
+
+### Checkpoint 2026-10-29: cost-aware bandit two-phase prior
+
+- Audited Schur, Lago and Fiez (UAI 2026) from the official PMLR PDF, including the proof of their
+  two-phase policy reduction. Under stationary independent reward noise, action-dependent
+  observation prices and correlated actions, they show that an arbitrary policy is uniformly
+  dominated in regret by one that observes only in an initial phase and commits afterward. Their
+  cost-adjusted information-gain guarantees further close generic costly-acquisition rules.
+- The reduction does not preserve recurrent hidden regimes, delayed paired feedback, request-time
+  hard budgets with pending labels, reversible switching, or the causal-null any-promotion event.
+  `switching_costly_bandits_two_phase_audit_v1.md` records the exact theorem boundary and source
+  hash. Assumption mismatch alone does not establish a novel method.
+- Decision: retain the current method goal only if a theorem exploits the interaction of those
+  ShiftLab-specific elements and beats a fully state-aware costed-sensing baseline under the same
+  contract. The query-stratum-dependent `p_j` movement-coupling idea remains unvalidated and must
+  account for actual continuation utility, not arbitrary scores. No efficacy grid or holdout access
+  is authorized before that comparison passes G1/G2.

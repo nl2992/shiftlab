@@ -1,0 +1,29 @@
+[
+  {
+    "name": "khonji_jasour_williams_constant_horizon_ccpomdp_2019",
+    "url": "https://www.ijcai.org/proceedings/2019/0775.pdf",
+    "bytes": 232825,
+    "sha256": "43f94914cd623bda169bea17419113d93b3f23b209bd650e38939d2a7a8506b0",
+    "status": "downloaded_primary_source_inspected_definitions_2_1_2_2_sequence_formulation_hardness_theorem_5_4_and_corollary_5_5",
+    "retrieved_date": "2026-10-28",
+    "cache_path": "outputs/switching_source_audit_v1/khonji_constant_horizon_ccpomdp_2019.pdf"
+  },
+  {
+    "name": "hardwick_stout_response_adaptive_switching_2007",
+    "url": "https://web.eecs.umich.edu/~qstout/pap/JSPI07Switch.pdf",
+    "bytes": 216140,
+    "sha256": "618ce65e687c05b3c894ad5abc61ebf32151b514fc1c50ff7dd139853e450147",
+    "status": "downloaded_author_primary_source_inspected_sections_2_to_4_appendix_algorithms_7_8_complexity",
+    "retrieved_date": "2026-10-28",
+    "cache_path": "outputs/switching_source_audit_v1/hardwick_stout_response_adaptive_switching_2007.pdf"
+  },
+  {
+    "name": "bayraktar_ludkovski_hidden_markov_switching_2008",
+    "url": "https://arxiv.org/pdf/0712.0413",
+    "bytes": 490946,
+    "sha256": "366E930AABBF7E81C2E6A43E78B2C472A3D0FB8616E50982AB0E0B35F00F6BBC",
+    "status": "downloaded_primary_source_inspected_sections_1_to_4_and_finite_horizon_dynamic_program",
+    "retrieved_date": "2026-10-28",
+    "cache_path": "outputs/switching_source_audit_v1/bayraktar_ludkovski_hidden_markov_switching_2008.pdf"
+  }
+]

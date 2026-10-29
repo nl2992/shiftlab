@@ -1,5 +1,11 @@
 # Research red-team and second-pass refinement: loop control
 
+> **Direction update — 2026-10-28:** Future continuation follows
+> [budgeted switching research goals](../budgeted_switching_research_goals.md), as explicitly
+> requested by the user. Do not continue benchmark manuscript execution from this historical loop.
+> Existing negative results remain evidence; reopening the narrower switching problem does not
+> establish a new method or reverse previous failed screens.
+
 **Started 2026-10-27.** This folder holds the red-team and refinement pass that the user requested
 on 2026-10-27 (brief kept verbatim in `BRIEF.md`). Each 20-minute loop tick reads this file, does
 the next unchecked step, updates the checklist and the tick log, and stops at an exit condition.

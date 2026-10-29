@@ -1,5 +1,9 @@
 # Final research proposal
 
+> **Historical proposal; direction superseded 2026-10-28 by the user.** Follow
+> [budgeted switching research goals](../budgeted_switching_research_goals.md).
+> The benchmark-paper selection below is retained as a decision record; its evidence remains valid.
+
 **Recorded 2026-10-28, loop tick 10 (Phase F1).** This proposal follows two refinement rounds and
 two independent Codex (`gpt-6.1-sol`, xhigh) adversarial reviews. All five round-1 fatal
 objections were resolved, and refinement converged under loop exit condition 2.

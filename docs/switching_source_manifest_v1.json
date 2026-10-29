@@ -1,0 +1,51 @@
+[
+  {
+    "name": "cheng23",
+    "url": "https://proceedings.mlr.press/v202/cheng23f/cheng23f.pdf",
+    "bytes": 505920,
+    "sha256": "01275cb90376c916c359ffb275b6c068ddc4d50112083d39a3da27a57e317237",
+    "status": "downloaded_and_extracted"
+  },
+  {
+    "name": "gafni26",
+    "url": "https://arxiv.org/pdf/2602.11406",
+    "bytes": 4088984,
+    "sha256": "0a91b4a88dc087f3943740c2a9cb449221b533db68697f45479115a8f6748161",
+    "status": "downloaded_and_extracted"
+  },
+  {
+    "name": "lindon26",
+    "url": "https://arxiv.org/pdf/2603.25971",
+    "bytes": 1684439,
+    "sha256": "6def33bcc1c54ba4246968485d661c7fddea7508f513d4262edc9cea50a566a4",
+    "status": "downloaded_and_extracted"
+  },
+  {
+    "name": "drift2act",
+    "url": "https://arxiv.org/pdf/2603.08578",
+    "bytes": 1338841,
+    "sha256": "6ece39e72a45188f5f3459d1ab334a056d76d65fdd55f2343faa7f353f2e67f1",
+    "status": "downloaded_and_extracted"
+  },
+  {
+    "name": "challenger",
+    "url": "https://arxiv.org/pdf/2512.18390v2",
+    "bytes": 1273880,
+    "sha256": "c7065a611f723182eed3abb68051c35523960a295186c1e2f101d65e6cea18f1",
+    "status": "downloaded_and_extracted"
+  },
+  {
+    "name": "mldemon",
+    "url": "https://proceedings.mlr.press/v151/ginart22a/ginart22a.pdf",
+    "bytes": 2441241,
+    "sha256": "1d974aba9c64f25e590ae33c4769d772e3fdf1ac57565f59f2ca8016a3270b1f",
+    "status": "downloaded_and_extracted"
+  },
+  {
+    "name": "joulani13",
+    "url": "https://proceedings.mlr.press/v28/joulani13.pdf",
+    "bytes": 378885,
+    "sha256": "0f2317fdd858aaa2d9c7f7a34f8420882593693bc353f9a2caf9c1078f94b284",
+    "status": "downloaded_and_extracted"
+  }
+]

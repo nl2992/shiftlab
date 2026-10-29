@@ -1,0 +1,11 @@
+[
+  {
+    "name": "lau_tay_observation_switching_qcd_2021_v4",
+    "url": "https://arxiv.org/pdf/1912.11693v4",
+    "bytes": 995474,
+    "sha256": "5166eae40b6c66aea3db3a94fce2b68c0e79a557cf193ab796881399e42cb4f9",
+    "status": "downloaded_primary_source_inspected_model_glr_cusum_lemma_2_proposition_1_theorem_1_open_loop_design_and_section_vi_two_stage_policy",
+    "retrieved_date": "2026-10-28",
+    "cache_path": "outputs/switching_source_audit_v1/lau_tay_observation_switching_qcd_2021.pdf"
+  }
+]

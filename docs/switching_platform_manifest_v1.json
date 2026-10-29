@@ -1,0 +1,151 @@
+{
+  "recorded_date": "2026-10-28",
+  "source_revision": "7ea6923fbc784aab81e4821a03268fa683b04238",
+  "scope": "Selected platform sources, frozen integrated confirmation protocol and historical evidence anchors; not a full artifact release.",
+  "verification": "All listed anchor hashes were checked in this checkout. The saved independent confirmation verifier reports passed; scripts/verify_switching_platform_manifest.py rechecks the saved source/output hashes and frozen row/cap counts without rerunning or mutating the historical experiment.",
+  "entries": [
+    {
+      "path": "AGENTS.md",
+      "bytes": 4393,
+      "sha256": "723a4bba1d7f2590e227dd80f84dc871283f9b6dc18bd66145453dd49f7b3194"
+    },
+    {
+      "path": "docs/streaming_decision_contract.md",
+      "bytes": 3337,
+      "sha256": "32ab156b9d4a2cbdaae3f52c0952e9d69bcbede365f06377b5ec70efd3096982"
+    },
+    {
+      "path": "docs/algorithm_search_exit_ledger.md",
+      "bytes": 5588,
+      "sha256": "60f6bdec4d4c7dede72362536dbf8ae504bd5885126f7a2f45d948457ca130ba"
+    },
+    {
+      "path": "src/shiftlab/dive/integrated_pipeline.py",
+      "bytes": 53339,
+      "sha256": "657de5c973f8866db0e018fa6a0b131b83290d013b73275d391f395ede4bcfdc"
+    },
+    {
+      "path": "src/shiftlab/dive/hard_budget.py",
+      "bytes": 86935,
+      "sha256": "1cb7d02eba3eb11fde723e42240111e15d063a0967b9b16c7f6f796be0724485"
+    },
+    {
+      "path": "src/shiftlab/dive/delayed_feedback.py",
+      "bytes": 3987,
+      "sha256": "f0f957ffee752130bbe8bcee35e7db724426b94db0952c9a2e132db5769644a8"
+    },
+    {
+      "path": "papers/shiftguard_unified/integrated_efficacy_confirmation_protocol_v1.md",
+      "bytes": 5907,
+      "sha256": "0dac5a5fc605ec39c7e9bff591a64d422427fdab5526c51e9da5aa07bfc4b20a"
+    },
+    {
+      "path": "papers/shiftguard_unified/integrated_efficacy_confirmation_results_v1.md",
+      "bytes": 8364,
+      "sha256": "0d141a2b060346a681e01d1b250466011aadeed0405f3e7add7c3dbbc8f3883b"
+    },
+    {
+      "path": "outputs/shiftguard_unified/integrated_confirmation/efficacy_100_v1/manifest.json",
+      "bytes": 5696,
+      "sha256": "6d9586599679b0e67a39a22e25c11f5e4d507148390429a0b1ced00d749b91bb"
+    },
+    {
+      "path": "outputs/shiftguard_unified/integrated_confirmation/efficacy_100_v1/protocol_snapshot.md",
+      "bytes": 5907,
+      "sha256": "0dac5a5fc605ec39c7e9bff591a64d422427fdab5526c51e9da5aa07bfc4b20a"
+    },
+    {
+      "path": "outputs/shiftguard_unified/integrated_confirmation/efficacy_100_v1/analysis_v3/primary_contrasts.csv",
+      "bytes": 3651,
+      "sha256": "ec3a6bf0f7b19fcc0bac54d89341e3dabba424734967ed7b83523a2e9409bf7d"
+    },
+    {
+      "path": "scripts/analyze_integrated_efficacy_confirmation.py",
+      "bytes": 15498,
+      "sha256": "d711a80073ac7ad016135dbe537b0682fe41023d561c58277529cccfdf3b85d8"
+    },
+    {
+      "path": "scripts/verify_integrated_pipeline_calibration.py",
+      "bytes": 12711,
+      "sha256": "a6b53b169faf90ff3a805e4a96d7ea5a643e94f8194e3407b1d0a88e76d76d60"
+    },
+    {
+      "path": "src/shiftlab/dive/budgeted_promotion.py",
+      "bytes": 107112,
+      "sha256": "681a4e13fd4ebff212dbac1e67c84da3c8d224a9009b59ed0043a1695ad75bc0"
+    },
+    {
+      "path": "src/shiftlab/dive/eprocess.py",
+      "bytes": 40578,
+      "sha256": "a9355d3883118ed32039feafe0db0b01fd8824dfbaed2e3d70e6710964565d41"
+    },
+    {
+      "path": "src/shiftlab/dive/controller.py",
+      "bytes": 9157,
+      "sha256": "bdeb77dcf4089d72a795d54bd1d2fd9a415757feeb7be020860e3a02b796178c"
+    },
+    {
+      "path": "outputs/shiftguard_unified/integrated_confirmation/efficacy_100_v1/analysis_v3/verification.json",
+      "bytes": 3178,
+      "sha256": "06acc06bc65315382fa4408ee95731571836dcb2c6b065de8525c97c6df9cdcd"
+    },
+    {
+      "path": "outputs/shiftguard_unified/integrated_confirmation/efficacy_100_v1/analysis_v3/confirmation_report.md",
+      "bytes": 11271,
+      "sha256": "3279a5b635ee534df7c7fcd8feebdcbe9a7d4581d9b83db5aaaf2d2eb4b08beb"
+    }
+  ],
+  "reproducible_integrity_check": "python scripts/verify_switching_platform_manifest.py",
+  "reusable_components": [
+    {
+      "path": "src/shiftlab/dive/integrated_pipeline.py",
+      "role": "preserved end-to-end Q1 monitor, candidate selection/certification, intervention and rollback simulator"
+    },
+    {
+      "path": "src/shiftlab/dive/hard_budget.py",
+      "role": "hard label-budget accounting and predictable query allocation"
+    },
+    {
+      "path": "src/shiftlab/dive/delayed_feedback.py",
+      "role": "delayed-label queue and release semantics; historical integrated confirmation itself used immediate labels"
+    },
+    {
+      "path": "src/shiftlab/dive/eprocess.py",
+      "role": "bounded-mean sequential evidence baseline"
+    },
+    {
+      "path": "scripts/analyze_integrated_efficacy_confirmation.py",
+      "role": "independent reconstruction and output-hash verification for the frozen efficacy block"
+    }
+  ],
+  "verified_failure_modes": [
+    {
+      "failure": "late shift after the fixed monitoring window",
+      "evidence": "0% Q1 trigger in the native late-onset profile; full pipeline mean incremental expected utility 0 versus continue"
+    },
+    {
+      "failure": "selection and certification opportunity cost",
+      "evidence": "full pipeline underperformed the two-gate workflow by 68.53 expected utility units on boundary-local harm and 40.10 on monitor-aligned adaptation"
+    },
+    {
+      "failure": "losses accrue before rollback",
+      "evidence": "post-promotion reversal full pipeline mean incremental expected utility -143.758; rollback occurred in 58% of streams"
+    },
+    {
+      "failure": "controller adds no measured value in registered comparisons",
+      "evidence": "controller and non-controller variants made identical decisions in all eight profiles"
+    }
+  ],
+  "preservation_rules": [
+    "Treat all listed historical protocol, result, code and output paths as frozen evidence.",
+    "Keep new algorithms, seeds, protocols and outputs in separately named development/confirmation artifacts.",
+    "Do not rerun into historical output directories; the integrity checker is read-only.",
+    "Do not treat this synthetic, immediate-feedback confirmation as delayed-feedback or real-data evidence."
+  ],
+  "known_limitations": [
+    "The selected manifest is not a complete archive of all ShiftGuard experiments or raw event logs.",
+    "The integrated efficacy block is synthetic, immediate-label and non-performative.",
+    "Existing failures motivate design requirements but do not demonstrate novelty or current-regime guarantees.",
+    "Real-data confirmation, delayed-label efficacy, and causal market timing remain unverified."
+  ]
+}

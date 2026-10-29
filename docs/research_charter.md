@@ -1,5 +1,11 @@
 # ShiftLab research charter
 
+> **Active-direction update — 2026-10-28:** The user has selected one methodological contribution
+> in budget-aware model switching under delayed feedback. The governing execution goals and
+> precedence over earlier benchmark-paper plans are in
+> [budgeted switching research goals](budgeted_switching_research_goals.md). The three questions
+> below remain motivation and scientific safeguards; they are no longer three intended papers.
+
 **Status:** Governing research direction and decision record  
 **Updated:** 2026-10-22, integrating the supplied ShiftLab Research and Agent Pack and the user's
 decision-harm formulation.  

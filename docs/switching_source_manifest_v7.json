@@ -1,0 +1,132 @@
+[
+  {
+    "name": "cheng23",
+    "url": "https://proceedings.mlr.press/v202/cheng23f/cheng23f.pdf",
+    "bytes": 505920,
+    "sha256": "01275cb90376c916c359ffb275b6c068ddc4d50112083d39a3da27a57e317237",
+    "status": "downloaded_and_extracted"
+  },
+  {
+    "name": "gafni26",
+    "url": "https://arxiv.org/pdf/2602.11406",
+    "bytes": 4088984,
+    "sha256": "0a91b4a88dc087f3943740c2a9cb449221b533db68697f45479115a8f6748161",
+    "status": "downloaded_and_extracted"
+  },
+  {
+    "name": "lindon26",
+    "url": "https://arxiv.org/pdf/2603.25971",
+    "bytes": 1684439,
+    "sha256": "6def33bcc1c54ba4246968485d661c7fddea7508f513d4262edc9cea50a566a4",
+    "status": "downloaded_and_extracted"
+  },
+  {
+    "name": "drift2act",
+    "url": "https://arxiv.org/pdf/2603.08578",
+    "bytes": 1338841,
+    "sha256": "6ece39e72a45188f5f3459d1ab334a056d76d65fdd55f2343faa7f353f2e67f1",
+    "status": "downloaded_and_extracted"
+  },
+  {
+    "name": "challenger",
+    "url": "https://arxiv.org/pdf/2512.18390v2",
+    "bytes": 1273880,
+    "sha256": "c7065a611f723182eed3abb68051c35523960a295186c1e2f101d65e6cea18f1",
+    "status": "downloaded_and_extracted"
+  },
+  {
+    "name": "mldemon",
+    "url": "https://proceedings.mlr.press/v151/ginart22a/ginart22a.pdf",
+    "bytes": 2441241,
+    "sha256": "1d974aba9c64f25e590ae33c4769d772e3fdf1ac57565f59f2ca8016a3270b1f",
+    "status": "downloaded_and_extracted"
+  },
+  {
+    "name": "joulani13",
+    "url": "https://proceedings.mlr.press/v28/joulani13.pdf",
+    "bytes": 378885,
+    "sha256": "0f2317fdd858aaa2d9c7f7a34f8420882593693bc353f9a2caf9c1078f94b284",
+    "status": "downloaded_and_extracted"
+  },
+  {
+    "name": "quanrud15",
+    "url": "https://papers.neurips.cc/paper/5833-online-learning-with-adversarial-delays.pdf",
+    "bytes": 268306,
+    "sha256": "071d86eaf54cdf4ba0d119a5f935fd62c38f045885e13514a106916449b80485",
+    "status": "downloaded_and_extracted"
+  },
+  {
+    "name": "yang23",
+    "url": "https://proceedings.neurips.cc/paper_files/paper/2023/file/915125efea950af378435518b3542e6a-Paper-Conference.pdf",
+    "bytes": 479774,
+    "sha256": "1fb1ae8deffae2962123c7f00e836f0dc5da5ad40ada0727376ab24f01c1b67a",
+    "status": "downloaded_and_extracted"
+  },
+  {
+    "name": "chick17",
+    "url": "https://eprints.whiterose.ac.uk/110768/1/delaypaperDriver.pdf",
+    "bytes": 854217,
+    "sha256": "781eb506398bfd9a84635fdfca1c4e7c31f5867ce2a7ae981433624eca26b594",
+    "status": "downloaded_and_extracted"
+  },
+  {
+    "name": "chandar15",
+    "url": "https://arxiv.org/pdf/1501.05930",
+    "bytes": 268098,
+    "sha256": "17891e2cd173d5f3d740cd2b78480de03e9cbf3277960526017aec91fe427bf0",
+    "status": "downloaded_and_extracted"
+  },
+  {
+    "name": "geng14",
+    "url": "https://faculty.engineering.ucdavis.edu/lai/wp-content/uploads/sites/38/2021/06/06862025.pdf",
+    "bytes": 989426,
+    "sha256": "c53d24aae562b643e6026d7a9977c8cd521a735a6571c2b24df9bc0390bf1cd4",
+    "status": "downloaded_and_extracted"
+  },
+  {
+    "name": "prudent_banker26",
+    "url": "https://arxiv.org/pdf/2605.23351v1",
+    "sha256": "da82b909d0e8c7cecc04ed45312e8345f0bd97461ed62b5170467a31f9739fa6",
+    "bytes": 2103937,
+    "status": "downloaded_and_extracted_selected_methods_and_proof_passages_inspected",
+    "retrieved_date": "2026-10-28",
+    "cache_path": "outputs/switching_source_audit_v1/prudent_banker26.pdf"
+  },
+  {
+    "name": "osogami15",
+    "url": "https://proceedings.mlr.press/v37/osogami15.pdf",
+    "sha256": "863f0cb023cd4e0d42a12f16b0f9499e0a07f6f9a2789869ff58f9b09f53c3c0",
+    "bytes": 367622,
+    "status": "downloaded_and_extracted_selected_methods_and_proof_passages_inspected",
+    "retrieved_date": "2026-10-28",
+    "cache_path": "outputs/switching_source_audit_v1/osogami15.pdf"
+  },
+  {
+    "name": "koller_pfeffer95",
+    "url": "https://ijcai.org/proceedings/1995/0153.pdf",
+    "bytes": 6222177,
+    "sha256": "8c043f9fa8318b77dbc41c1d2f89c73da6b8955f97ff46a10df8b083b9dc1c0f",
+    "status": "downloaded_section4_realization_flow_and_theorem4_1_inspected_via_primary_web_text",
+    "retrieved_date": "2026-10-28"
+  },
+  {
+    "name": "gong26_paid_observation",
+    "url": "https://proceedings.mlr.press/v306/gong26i.html",
+    "pdf_url": "https://raw.githubusercontent.com/mlresearch/v306/main/assets/gong26i/gong26i.pdf",
+    "bytes": 499079,
+    "sha256": "5d30ced568a0e959956906c41ac6df76b52201a9d14f6afbacf23797935e874f",
+    "status": "downloaded_and_extracted; primary full text inspected for protocol, Theorems 2.1/3.1/3.2, and switching-cost reduction",
+    "retrieved_date": "2026-10-28",
+    "cache_path": "outputs/switching_source_audit_v1/gong26_paid_observation.pdf"
+  },
+  {
+    "name": "lau_tay_observation_switching_cost",
+    "url": "https://arxiv.org/abs/1912.11693",
+    "pdf_url": "https://arxiv.org/pdf/1912.11693",
+    "bytes": 995474,
+    "sha256": "5166eae40b6c66aea3db3a94fce2b68c0e79a557cf193ab796881399e42cb4f9",
+    "status": "downloaded_and_extracted; inspected model, objective, AOSC/ARL constraints, open-loop asymptotic result, and latency discussion",
+    "retrieved_date": "2026-10-28",
+    "cache_path": "outputs/switching_source_audit_v1/lau_tay_observation_switching_cost.pdf"
+  }
+]

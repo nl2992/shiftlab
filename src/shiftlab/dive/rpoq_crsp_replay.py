@@ -125,6 +125,8 @@ def build_cohort(table, cohort_permnos: np.ndarray) -> dict | None:
 def _propensity(rule: str, c: dict, y: np.ndarray, h: np.ndarray, frac: float) -> np.ndarray:
     if rule == "full":
         return np.ones(c["n_events"])
+    if rule == "custom":
+        return c["q_custom"]
     if rule == "uniform":
         return np.full(c["n_events"], frac)
     if rule == "neyman":

@@ -55,7 +55,7 @@ def _propensity_from_root(root: np.ndarray, val_mean: float, frac: float) -> np.
     return np.clip(frac * score / val_mean, 0.1 * frac, 1.0)
 
 
-def build_cohort_b(table, cohort_permnos: np.ndarray) -> dict | None:
+def build_cohort_b(table, cohort_permnos: np.ndarray, eval_split: str = "test") -> dict | None:
     permno = table["permno"].to_numpy()
     mask = np.isin(permno, cohort_permnos)
     split = np.asarray(table["split"].to_pylist(), dtype=object)[mask]
@@ -66,7 +66,7 @@ def build_cohort_b(table, cohort_permnos: np.ndarray) -> dict | None:
     ok = np.isfinite(sub_y)
     split, date, sub_x, sub_y, sub_p = split[ok], date[ok], sub_x[ok], sub_y[ok], sub_p[ok]
     train = split == "train"
-    if train.sum() < 1000 or (split == "test").sum() < 1000:
+    if train.sum() < 1000 or (split == eval_split).sum() < 1000:
         return None
     med = np.nanmedian(sub_x[train], axis=0)
     xs = np.where(np.isfinite(sub_x), sub_x, med)
@@ -84,7 +84,7 @@ def build_cohort_b(table, cohort_permnos: np.ndarray) -> dict | None:
             z[m] = (-cand[m] * clipped[m] + FEE * ct) - (-ref[m] * clipped[m] + FEE * rt)
     h = np.clip(_predict(_ridge(xs[train], z[train]), xs), -BOUND, BOUND)
     resid2 = (z - h) ** 2
-    val, test = split == "validation", split == "test"
+    val, test = split == "validation", split == eval_split
     roots = {m: _sqrt_r(m, xs, resid2, train) for m in MODELS}
     order = np.lexsort((sub_p[test], date[test]))
     idx = np.flatnonzero(test)[order]

@@ -34,3 +34,15 @@ real-data testbed with verifiable observation timing, on local datasets that
 return-horizon delay, published fees as switching cost), then OPSD, NOAA, FRED, elec2, gas_sensor
 and Monash. The aim is to give Lane A's G4 an eligible real task. If Lane A is already auditing
 these datasets, please note it here.
+
+
+**Update 2026-10-29 (Lane B, phase C).** Lane B is back on algorithm development and is pursuing
+one candidate: **recurrence-locked switching (RLS)**. It localises the phase of recurring regimes
+with budgeted causal probes, certifies once with a valid test, and then switches at predicted
+boundaries. The target is a gain over reactive detection whose size grows with the number of
+recurrences. Codex screened it as NARROW (`docs/lane_b_burst_allocation/CODEX_C0_REVIEW_1.md`).
+The current work is narrowed theory with known period, latent offset and bounded jitter. The kill
+test is equivalence to a duration-aware MLE forecaster. Lane A's last checkpoint leaves G1 open
+for recurrent delayed two-law gains; to avoid duplicate work, Lane A please do not take up
+recurrence/phase localisation without noting it here. Lane B reuses Lane A's baselines (positive-
+prefix futility, uniform calendar plus all-onset e-detector, Cheng) and credits them.

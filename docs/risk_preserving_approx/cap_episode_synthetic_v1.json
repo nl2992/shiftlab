@@ -1,0 +1,440 @@
+{
+  "hashes": {
+    "scripts/research_risk_approx/compare_cap_episode_synthetic.py": "24f400d092ee726aff242bf6ed65fa72d20368b47c422e43cb184284074c1980",
+    "scripts/compare_switching_episode_composition.py": "527180feb623db591b676365e9a1a024a719ec24afec99af0ff18ffaa1427f8f",
+    "src/shiftlab/dive/prepromotion_cap.py": "3c691916a3b335217e4db8289c6f255fbd7dcf43c4a8ba7fb25372b926c0dc03",
+    "src/shiftlab/dive/first_promotion_decomposition.py": "838bab025e72bb637a4b45df38f7e8ddf048d133462b20d0dff295cc09a86d75",
+    "src/shiftlab/dive/causal_switching_game.py": "54b1347c3e213407b3feb09a801dc9ea40b3663fe6a4a227b7878b9b0a2d770a",
+    "docs/risk_preserving_approx/CAP_EPISODE_SYNTHETIC_PROTOCOL_V1.md": "6a6d87ef60c041f310f9b983178fdbfdf292814d6479272b09e50e9765fefe8d"
+  },
+  "cells": [
+    {
+      "transition": "1/10",
+      "emissions": [
+        "1/10",
+        "9/10"
+      ],
+      "full": {
+        "raw_cost": "22083523/7812500",
+        "raw_risk": "1/10",
+        "activation": "1",
+        "safe_cost": "22083523/7812500",
+        "safe_risk_bound": "1/10",
+        "metrics": [
+          "5434287/1953125",
+          "1/50",
+          "1521/62500",
+          "2",
+          "1521/6250"
+        ],
+        "numeric_objective": 2.826690944,
+        "nodes": 1799,
+        "learner_sequences": 525,
+        "null_sequences": 463,
+        "solve_including_build_and_internal_eval_s": 0.2770918000023812,
+        "equality_residual": 0.0,
+        "inequality_violation": 0.0
+      },
+      "cap2": {
+        "raw_cost": "4442537/1562500",
+        "raw_risk": "1/10",
+        "activation": "1",
+        "safe_cost": "4442537/1562500",
+        "safe_risk_bound": "1/10",
+        "metrics": [
+          "1101603/390625",
+          "1/125",
+          "189/12500",
+          "4/5",
+          "189/1250"
+        ],
+        "numeric_objective": 2.84322368,
+        "nodes": 574,
+        "learner_sequences": 245,
+        "null_sequences": 103,
+        "solve_including_build_and_internal_eval_s": 0.10120219993405044,
+        "equality_residual": 0.0,
+        "inequality_violation": 0.0
+      },
+      "best_episode": {
+        "raw_cost": "4502761/1562500",
+        "raw_risk": "1/10",
+        "activation": "1",
+        "safe_cost": "4502761/1562500",
+        "safe_risk_bound": "1/10",
+        "metrics": [
+          "1119459/390625",
+          "3/1000",
+          "1619/125000",
+          "3/10",
+          "1619/12500"
+        ],
+        "calendar": [
+          1,
+          3
+        ],
+        "spending": "frontloaded"
+      },
+      "baseline_candidates": 45,
+      "episode_minus_cap": "15056/390625",
+      "cap_minus_full": "64581/3906250",
+      "status": "completed"
+    },
+    {
+      "transition": "1/10",
+      "emissions": [
+        "1/50",
+        "49/50"
+      ],
+      "full": {
+        "raw_cost": "13248619923/4882812500",
+        "raw_risk": "1/10",
+        "activation": "1",
+        "safe_cost": "13248619923/4882812500",
+        "safe_risk_bound": "1/10",
+        "metrics": [
+          "3250333887/1220703125",
+          "1/50",
+          "47881/1562500",
+          "2",
+          "47881/156250"
+        ],
+        "numeric_objective": 2.7133173602304,
+        "nodes": 1799,
+        "learner_sequences": 525,
+        "null_sequences": 463,
+        "solve_including_build_and_internal_eval_s": 0.2524192000273615,
+        "equality_residual": 0.0,
+        "inequality_violation": 0.0
+      },
+      "cap2": {
+        "raw_cost": "108059457/39062500",
+        "raw_risk": "1/10",
+        "activation": "1",
+        "safe_cost": "108059457/39062500",
+        "safe_risk_bound": "1/10",
+        "metrics": [
+          "26767083/9765625",
+          "1/125",
+          "5429/312500",
+          "4/5",
+          "5429/31250"
+        ],
+        "numeric_objective": 2.7663220991999995,
+        "nodes": 574,
+        "learner_sequences": 245,
+        "null_sequences": 103,
+        "solve_including_build_and_internal_eval_s": 0.10192959988489747,
+        "equality_residual": 0.0,
+        "inequality_violation": 0.0
+      },
+      "best_episode": {
+        "raw_cost": "55071866563/19531250000",
+        "raw_risk": "1/10",
+        "activation": "1",
+        "safe_cost": "55071866563/19531250000",
+        "safe_risk_bound": "1/10",
+        "metrics": [
+          "3421236543/1220703125",
+          "1/250",
+          "406331/31250000",
+          "2/5",
+          "406331/3125000"
+        ],
+        "calendar": [
+          1,
+          3,
+          4
+        ],
+        "spending": "frontloaded"
+      },
+      "baseline_candidates": 45,
+      "episode_minus_cap": "1042138063/19531250000",
+      "cap_minus_full": "129406101/2441406250",
+      "status": "completed"
+    },
+    {
+      "transition": "1/4",
+      "emissions": [
+        "1/10",
+        "9/10"
+      ],
+      "full": {
+        "raw_cost": "14891/5000",
+        "raw_risk": "1/10",
+        "activation": "1",
+        "safe_cost": "14891/5000",
+        "safe_risk_bound": "1/10",
+        "metrics": [
+          "2961/1000",
+          "3/1000",
+          "71/5000",
+          "3/10",
+          "71/500"
+        ],
+        "numeric_objective": 2.9782,
+        "nodes": 1799,
+        "learner_sequences": 525,
+        "null_sequences": 463,
+        "solve_including_build_and_internal_eval_s": 0.2229309999383986,
+        "equality_residual": 5.551115123125783e-17,
+        "inequality_violation": 0.0
+      },
+      "cap2": {
+        "raw_cost": "14891/5000",
+        "raw_risk": "1/10",
+        "activation": "1",
+        "safe_cost": "14891/5000",
+        "safe_risk_bound": "1/10",
+        "metrics": [
+          "2961/1000",
+          "3/1000",
+          "71/5000",
+          "3/10",
+          "71/500"
+        ],
+        "numeric_objective": 2.9782,
+        "nodes": 574,
+        "learner_sequences": 245,
+        "null_sequences": 103,
+        "solve_including_build_and_internal_eval_s": 0.10405609989538789,
+        "equality_residual": 5.551115123125783e-17,
+        "inequality_violation": 0.0
+      },
+      "best_episode": {
+        "raw_cost": "14891/5000",
+        "raw_risk": "1/10",
+        "activation": "1",
+        "safe_cost": "14891/5000",
+        "safe_risk_bound": "1/10",
+        "metrics": [
+          "2961/1000",
+          "3/1000",
+          "71/5000",
+          "3/10",
+          "71/500"
+        ],
+        "calendar": [
+          1,
+          3
+        ],
+        "spending": "frontloaded"
+      },
+      "baseline_candidates": 45,
+      "episode_minus_cap": "0",
+      "cap_minus_full": "0",
+      "status": "completed"
+    },
+    {
+      "transition": "1/4",
+      "emissions": [
+        "1/50",
+        "49/50"
+      ],
+      "full": {
+        "raw_cost": "46182709/15625000",
+        "raw_risk": "1/10",
+        "activation": "1",
+        "safe_cost": "46182709/15625000",
+        "safe_risk_bound": "1/10",
+        "metrics": [
+          "11434521/3906250",
+          "1/100",
+          "2307/125000",
+          "1",
+          "2307/12500"
+        ],
+        "numeric_objective": 2.9556933759999997,
+        "nodes": 1799,
+        "learner_sequences": 525,
+        "null_sequences": 463,
+        "solve_including_build_and_internal_eval_s": 0.21883649984374642,
+        "equality_residual": 0.0,
+        "inequality_violation": 0.0
+      },
+      "cap2": {
+        "raw_cost": "92457/31250",
+        "raw_risk": "1/10",
+        "activation": "1",
+        "safe_cost": "92457/31250",
+        "safe_risk_bound": "1/10",
+        "metrics": [
+          "18363/6250",
+          "1/250",
+          "517/31250",
+          "2/5",
+          "517/3125"
+        ],
+        "numeric_objective": 2.9586240000000004,
+        "nodes": 574,
+        "learner_sequences": 245,
+        "null_sequences": 103,
+        "solve_including_build_and_internal_eval_s": 0.1071458999067545,
+        "equality_residual": 5.551115123125783e-17,
+        "inequality_violation": 0.0
+      },
+      "best_episode": {
+        "raw_cost": "92494903/31250000",
+        "raw_risk": "1/10",
+        "activation": "1",
+        "safe_cost": "92494903/31250000",
+        "safe_risk_bound": "1/10",
+        "metrics": [
+          "22971507/7812500",
+          "1/250",
+          "3871/250000",
+          "2/5",
+          "3871/25000"
+        ],
+        "calendar": [
+          1,
+          3,
+          4
+        ],
+        "spending": "frontloaded"
+      },
+      "baseline_candidates": 45,
+      "episode_minus_cap": "37903/31250000",
+      "cap_minus_full": "45791/15625000",
+      "status": "completed"
+    },
+    {
+      "transition": "9/20",
+      "emissions": [
+        "1/10",
+        "9/10"
+      ],
+      "full": {
+        "raw_cost": "3",
+        "raw_risk": "0",
+        "activation": "1",
+        "safe_cost": "3",
+        "safe_risk_bound": "0",
+        "metrics": [
+          "3",
+          "0",
+          "0",
+          "0",
+          "0"
+        ],
+        "numeric_objective": 3.0,
+        "nodes": 1799,
+        "learner_sequences": 525,
+        "null_sequences": 463,
+        "solve_including_build_and_internal_eval_s": 0.2171602000016719,
+        "equality_residual": 0.0,
+        "inequality_violation": 0.0
+      },
+      "cap2": {
+        "raw_cost": "3",
+        "raw_risk": "0",
+        "activation": "1",
+        "safe_cost": "3",
+        "safe_risk_bound": "0",
+        "metrics": [
+          "3",
+          "0",
+          "0",
+          "0",
+          "0"
+        ],
+        "numeric_objective": 3.0,
+        "nodes": 574,
+        "learner_sequences": 245,
+        "null_sequences": 103,
+        "solve_including_build_and_internal_eval_s": 0.10075380001217127,
+        "equality_residual": 0.0,
+        "inequality_violation": 0.0
+      },
+      "best_episode": {
+        "raw_cost": "3",
+        "raw_risk": "0",
+        "activation": "1",
+        "safe_cost": "3",
+        "safe_risk_bound": "0",
+        "metrics": [
+          "3",
+          "0",
+          "0",
+          "0",
+          "0"
+        ],
+        "calendar": [],
+        "spending": "geometric"
+      },
+      "baseline_candidates": 45,
+      "episode_minus_cap": "0",
+      "cap_minus_full": "0",
+      "status": "completed"
+    },
+    {
+      "transition": "9/20",
+      "emissions": [
+        "1/50",
+        "49/50"
+      ],
+      "full": {
+        "raw_cost": "3",
+        "raw_risk": "0",
+        "activation": "1",
+        "safe_cost": "3",
+        "safe_risk_bound": "0",
+        "metrics": [
+          "3",
+          "0",
+          "0",
+          "0",
+          "0"
+        ],
+        "numeric_objective": 3.0,
+        "nodes": 1799,
+        "learner_sequences": 525,
+        "null_sequences": 463,
+        "solve_including_build_and_internal_eval_s": 0.22722829994745553,
+        "equality_residual": 0.0,
+        "inequality_violation": 0.0
+      },
+      "cap2": {
+        "raw_cost": "3",
+        "raw_risk": "0",
+        "activation": "1",
+        "safe_cost": "3",
+        "safe_risk_bound": "0",
+        "metrics": [
+          "3",
+          "0",
+          "0",
+          "0",
+          "0"
+        ],
+        "numeric_objective": 3.0,
+        "nodes": 574,
+        "learner_sequences": 245,
+        "null_sequences": 103,
+        "solve_including_build_and_internal_eval_s": 0.10360489995218813,
+        "equality_residual": 0.0,
+        "inequality_violation": 0.0
+      },
+      "best_episode": {
+        "raw_cost": "3",
+        "raw_risk": "0",
+        "activation": "1",
+        "safe_cost": "3",
+        "safe_risk_bound": "0",
+        "metrics": [
+          "3",
+          "0",
+          "0",
+          "0",
+          "0"
+        ],
+        "calendar": [],
+        "spending": "geometric"
+      },
+      "baseline_candidates": 45,
+      "episode_minus_cap": "0",
+      "cap_minus_full": "0",
+      "status": "completed"
+    }
+  ]
+}

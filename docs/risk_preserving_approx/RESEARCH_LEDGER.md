@@ -201,3 +201,22 @@
   economic-superiority claim. Complete prior-art audit, stronger baseline and
   registered synthetic comparisons before an eligible real-data development
   replay. Existing failure evidence and holdout restrictions remain intact.
+
+## 2026-10-29 — Capped planner versus episode baseline on known HMMs
+
+- Registered CAP_EPISODE_SYNTHETIC_PROTOCOL_V1.md before execution. All six
+  previously exposed T=6, B=3, d=2 HMM cells completed. Best of 45 existing
+  episode calendar/spending policies was compared with the m=2 capped planner
+  and full decomposed oracle at matched model, information, costs and null risk.
+- The capped planner beat the selected episode policy on exact expected cost in
+  three cells by 0.03854336, 0.053357468 and 0.001212896; three cells tied.
+  It remained costlier than the full oracle by 0.016532736, 0.053004739 and
+  0.002930624 in the winning cells. Exact recovered-policy null risks were at
+  most 1/10. All six historical episode costs were reproduced.
+- `cap_episode_synthetic_v1.json` records exact fractions and source hashes;
+  focused repository tests: 20 passed. All comparisons are known-model
+  development on previously inspected cells, not independent confirmation or
+  a certified general approximation result. Stronger published comparators and
+  real-data performance are not established. No data or seeds were opened.
+- Decision: continue candidate assessment, including source-matched competitors,
+  a computable value bound and appropriately frozen real-data development design.

@@ -253,3 +253,13 @@ infinite-horizon default prior. The derivation and implementation are in
 and `scripts/optimize_switching_onset_mixture.py`. This tightens a standard comparator only; it
 does not close the delayed recurrent-switching gap or establish novelty. The registered
 moderate-signal case remains vacuous under this bound.
+
+### Candidate boundary: two-law belief-grid approximation
+
+`switching_two_law_belief_grid_screen_v1.md` records why generic belief quantization does not
+close the remaining gap. Fixed-kernel POMDP approximation and finite-horizon chance-constrained
+planning are established, while the project’s causal-null branch is history-adaptive and sees
+pending outcomes unavailable to the learner. Alternative-belief distance alone supplies no bound
+on that null risk; enforcing exact robust reachability returns to established robust-FSC synthesis.
+The screen rejects this generic approximation route, not the full methodological objective. G1
+remains open for a structure with separate economic and robust-risk approximation guarantees.

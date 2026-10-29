@@ -1,0 +1,64 @@
+# Belief-grid approximation of the two-law switching oracle: G1 screen
+
+**Date:** 2026-10-29. **Status:** candidate no-go for generic belief quantization; no algorithm
+or novelty claim.
+
+## Candidate tested
+
+The proposed route was to replace the history tree in the delayed switching oracle by a finite
+grid over the alternative HMM belief, pending outcomes, action, remaining query rights, promotion
+flag, and a scalar risk coordinate. A finite-horizon approximate dynamic program would then return
+a small controller. The target guarantee would need separate bounds on alternative expected cost
+and worst causal-null probability of any promotion.
+
+## Prior boundary
+
+Approximate POMDP planning over reachable belief covers is established. Hsu, Lee and Rong show a
+polynomial-time approximate solution in the covering number of the reachable belief space for a
+fixed-kernel discounted POMDP, and show that exploiting only a small *optimal*-reachable region is
+NP-hard; see the primary [NeurIPS paper](https://papers.nips.cc/paper_files/paper/2007/file/cfa0860e83a4c3a763a7e62d825349f7-Paper.pdf),
+Sections 3–4 and Theorems 1–5. This gives no guarantee that the ShiftLab reachable cover is small.
+The primary [RAO* paper](https://ojs.aaai.org/index.php/AAAI/article/view/10423) already formulates
+finite-horizon expected-utility planning with a fixed-model chance constraint. Khonji, Jasour and
+Williams give an FPTAS for constant-horizon constrained/chance-constrained POMDPs, with runtime
+exponential in the horizon in their stated bound; see the [IJCAI primary text](https://www.ijcai.org/proceedings/2019/0775.pdf),
+Theorem 5.4 and Corollary 5.5. Budget, delay-queue and switch-cost state augmentation alone is
+therefore not a contribution.
+
+## Why the direct reduction fails
+
+The economic alternative is a known finite-state HMM, but the safety model is not a second fixed
+transition kernel: its causal-null adversary selects each queried outcome law from the full event
+history and sees outcomes that are still pending and hidden from the learner. The exact Lagrangian
+construction in [`switching_lagrangian_posg_reduction_v1.md`](switching_lagrangian_posg_reduction_v1.md)
+represents this as a one-sided partially observed stochastic game. It proves finite-horizon
+representation and strong duality, but not a compact belief state or a risk-preserving grid.
+
+Approximating only the alternative HMM posterior is insufficient. The exact
+[`alternative-belief alias counterexample`](switching_alt_belief_risk_alias_counterexample_v1.md)
+has histories with the same economic posterior but different hidden pending outcomes and distinct
+continuation null risks. Adding one scalar risk allowance also does not solve the synthesis issue:
+the risk recursion depends on the controller's memory/update rule. Exact verification for a fixed
+finite-state controller is a useful tool, but optimizing that controller is the established robust
+FSC problem audited in [`switching_robust_fsc_reduction_audit_v1.md`](switching_robust_fsc_reduction_audit_v1.md).
+
+There is one exact route to a fixed-kernel safety branch: restrict every pure policy's
+any-promotion event to be coordinatewise monotone, so the worst causal null is IID
+`Ber(1/2)`. But the registered [`nonmonotone terminal counterexample`](switching_monotone_restriction_counterexample_v1.md)
+shows that this restriction can lose utility under the recurrent alternative. Thus this reduction
+does not approximate the unrestricted two-law oracle without a new bound on that loss.
+
+## G1 decision and reopen condition
+
+Reject a generic alternative-belief grid plus scalar risk budget as the method. Existing POMDP
+approximation results cover the single fixed-kernel part; the proposed construction supplies no
+separate worst-null-risk error bound, and simply adding a robust risk state returns to established
+finite-state-controller synthesis. Do not run an efficacy grid from this candidate.
+
+Reopen only if a structural assumption yields all three of the following: (i) a compact state
+sufficient for the *shared learner policy* across the economic and causal-null branches, including
+the null-visible pending queue; (ii) an explicit approximation bound on economic cost and a separate
+bound on worst causal-null promotion risk; and (iii) a complexity or value guarantee beyond
+reachable-belief approximation, robust FSC synthesis, and the sequence-form oracle. Promotion
+validity must remain distinct from current-regime value after reversal. G1 remains open; G2–G5
+remain held.

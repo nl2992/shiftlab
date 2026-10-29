@@ -2219,3 +2219,22 @@ the finite benchmark. Source limitation: RAO* full text/proof not inspected in t
   G2–G5 remain held and no efficacy or real-data study is opened. Future candidate comparisons
   should use the strongest contract-matched baseline available, including this finite-horizon
   weight tuning, rather than the default infinite-horizon prior.
+
+### G1 candidate screen 2026-10-29: generic two-law belief-grid approximation
+
+- Tested a finite belief-grid route intended to compress the delayed HMM switching oracle while
+  retaining separate economic-cost and causal-null-risk errors. Primary-source comparison confirms
+  reachable-belief covering approximation for fixed-kernel POMDPs (Hsu, Lee and Rong, NeurIPS
+  2007), finite-horizon chance-constrained POMDP planning (RAO*, AAAI 2016), and a constant-horizon
+  constrained/chance-constrained POMDP FPTAS (Khonji et al., IJCAI 2019). These do not directly
+  cover the project’s history-adaptive null player or its pending-label information advantage.
+- The candidate has no risk-preserving reduction: alternative-posterior aliases can have different
+  continuation null risk; a scalar risk state is controller-dependent; and an IID fair-null branch
+  is exact only for monotone promotion events, a restriction already shown to lose recurrent-model
+  value. The source scope and precise reopening conditions are in
+  `switching_two_law_belief_grid_screen_v1.md`.
+- Decision: reject generic belief quantization plus risk-budget augmentation as a standalone
+  method. G1 stays open only for a structural compact state or approximation with separate
+  economic/risk errors beyond robust FSC and the sequence-form oracle. No efficacy or real-data
+  experiment was run; G2–G5 remain held. Current-regime evidence after reversal remains separate
+  from historical promotion validity.

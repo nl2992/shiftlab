@@ -1,0 +1,11 @@
+[
+  {
+    "name": "detection_augmented_learning_nonstationary_bandits_2026_v1",
+    "url": "https://arxiv.org/pdf/2610.25782v1",
+    "bytes": 12601412,
+    "sha256": "edcc53134aac26d0f002c213dc49512fe60ff6b01cf6146680481beee6730e17",
+    "status": "downloaded_primary_source_inspected_model_algorithm_1_theorem_iii_9_assumptions_and_appendix_e_proof_scope",
+    "retrieved_date": "2026-10-28",
+    "cache_path": "outputs/switching_source_audit_v1/detection_augmented_learning_2026.pdf"
+  }
+]

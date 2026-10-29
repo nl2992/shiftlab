@@ -1,0 +1,2300 @@
+# Seed registry (task T0.1). Checked by tests/test_seed_registry.py; do not edit overlaps silently.
+version: 1
+description: Registry of every seed range used by experiments. start/end are inclusive stream seed ids.
+status_vocabulary: {development: tuning or exploratory development runs, calibration: null or bound calibration runs, confirmation: 'registered confirmation, replication or verification runs', exploratory: status could not be inferred from the study name, smoke: 'integrity or runtime smoke runs, excluded from inference', replay: deliberate replay of an earlier block, reserved_unused: registered in a protocol but no run found; do not reuse}
+limitations: [Intervals are the declared base block seed_offset..seed_offset+n-1 (or an explicit interval/end field in the manifest). Streams derived with strides inside a runner (e.g. seed_offset + scenario_index * 107003) are not expanded., 'status for manifest-derived entries is inferred from the output directory name, not from a protocol; treat it as a hint.', Entries of the same interval used by several output directories are merged; see used_by., 'Where a manifest records only a start offset, the count came from a streams/replicates/attempts field or the output directory name (derivation field).', 'docs/gated_monitor_null_calibration_results.md:8 says S2 seeds are 58300000-58301999; the runner (scripts/run_gated_monitor_comparison.py:168) and protocol use 58500000-58501999. The registry records the actual range; the doc typo is left unedited.', 'Scalar dataset-split, encoder and bootstrap seeds are not stream blocks and are excluded; see excluded_scalar_seeds.']
+studies:
+- id: robustness_smoke_debug_1000
+  start: 1000
+  end: 1001
+  source: outputs/robustness_smoke_debug/manifest.json:6
+  status: smoke
+  used_by: [robustness_smoke_debug]
+  derivation: explicit
+- id: robustness_smoke_debug_2000
+  start: 2000
+  end: 2001
+  source: outputs/robustness_smoke_debug/manifest.json:7
+  status: smoke
+  used_by: [robustness_smoke_debug]
+  derivation: explicit
+- id: repeated_candidate_null_smoke
+  start: 19991023
+  end: 19991023
+  source: outputs/repeated_candidate_null_smoke/reports/manifest.json:7
+  status: smoke
+  used_by: [repeated_candidate_null_smoke, repeated_candidate_null_smoke2]
+  derivation: single_seed
+- id: online_process_mixture_smoke
+  start: 19991024
+  end: 19991024
+  source: outputs/online_process_mixture_smoke/reports/manifest.json:7
+  status: smoke
+  used_by: [online_process_mixture_smoke]
+  derivation: single_seed
+- id: cost_aware_smoke
+  start: 20261022
+  end: 20261023
+  source: outputs/cost_aware_smoke/reports/manifest.json:8
+  status: smoke
+  used_by: [cost_aware_smoke, cost_stabilized_comparison_smoke, cost_stabilized_smoke, cost_stabilized_tolerance_smoke, dive/smoke-20261023-r3, dive/smoke-20261023-r4, dive/smoke-20261023-r5, dive/smoke-20261023-r6]
+  derivation: offset+n
+- id: cost_tolerance_01_exploratory_10
+  start: 20261022
+  end: 20261031
+  source: outputs/cost_tolerance_0025_exploratory_10/reports/manifest.json:8
+  status: development
+  used_by: [cost_tolerance_0025_exploratory_10, cost_tolerance_005_exploratory_10, cost_tolerance_01_exploratory_10]
+  derivation: offset+n
+- id: reports_20261022
+  start: 20261022
+  end: 20261051
+  source: outputs/cost_aware/reports/manifest.json:8
+  status: development
+  used_by: [cost_aware, cost_stabilized_pilot_30, cost_tolerance_001_30, reports]
+  derivation: offset+n
+- id: delayed_feedback_development
+  start: 20261024
+  end: 20261053
+  source: outputs/delayed_feedback_development/manifest.json:5
+  status: development
+  used_by: [delayed_feedback_development, iter_context_alpha_pilot_20261024]
+  derivation: offset+n
+- id: context_budgeted_promotion_grid_30
+  start: 20261025
+  end: 20261054
+  source: outputs/context_budgeted_promotion_grid_30/reports/manifest.json:6
+  status: development
+  used_by: [context_budgeted_promotion_grid_30]
+  derivation: offset+n
+- id: validation_selected_context_policy_30
+  start: 20261026
+  end: 20261055
+  source: outputs/validation_selected_context_policy_30/reports/manifest.json:6
+  status: development
+  used_by: [validation_selected_context_policy_30]
+  derivation: offset+n
+- id: smoke_validation_selected_context_policy
+  start: 20261100
+  end: 20261101
+  source: outputs/_smoke_validation_selected_context_policy/reports/manifest.json:6
+  status: smoke
+  used_by: [_smoke_validation_selected_context_policy]
+  derivation: offset+n
+- id: validation_selected_context_policy_replication_30
+  start: 20261100
+  end: 20261129
+  source: outputs/validation_selected_context_policy_replication_30/reports/manifest.json:10
+  status: confirmation
+  used_by: [validation_selected_context_policy_replication_30]
+  derivation: offset+n
+- id: smoke_scout_context_policy
+  start: 20261130
+  end: 20261131
+  source: outputs/_smoke_scout_context_policy/reports/manifest.json:10
+  status: smoke
+  used_by: [_smoke_scout_context_policy]
+  derivation: offset+n
+- id: scout_selected_context_policy_30
+  start: 20261130
+  end: 20261159
+  source: outputs/scout_selected_context_policy_30/reports/manifest.json:10
+  status: exploratory
+  used_by: [scout_selected_context_policy_30]
+  derivation: offset+n
+- id: scout_selected_context_policy_replication_60
+  start: 20261200
+  end: 20261259
+  source: outputs/scout_selected_context_policy_replication_60/reports/manifest.json:10
+  status: confirmation
+  used_by: [scout_selected_context_policy_replication_60]
+  derivation: offset+n
+- id: scout_context_policy_null_calibration_1000
+  start: 20261300
+  end: 20262299
+  source: outputs/scout_context_policy_null_calibration_1000/reports/manifest.json:11
+  status: calibration
+  used_by: [scout_context_policy_null_calibration_1000]
+  derivation: end_inclusive
+- id: delayed_grid_cli_smoke
+  start: 20262000
+  end: 20262000
+  source: outputs/delayed_grid_cli_smoke/manifest.json:5
+  status: smoke
+  used_by: [delayed_grid_cli_smoke]
+  derivation: offset+n
+- id: start_prior_development
+  start: 20262000
+  end: 20262029
+  source: outputs/delayed_feedback_grid_development/manifest.json:5
+  status: development
+  used_by: [delayed_feedback_grid_development, start_prior_development]
+  derivation: explicit,offset+n
+- id: scout_null_calibration_smoke_2
+  start: 20263000
+  end: 20263001
+  source: outputs/scout_null_calibration_smoke_2/reports/manifest.json:11
+  status: smoke
+  used_by: [scout_null_calibration_smoke_2]
+  derivation: end_inclusive
+- id: scout_null_calibration_cached_smoke_2
+  start: 20263020
+  end: 20263021
+  source: outputs/scout_null_calibration_cached_smoke_2/reports/manifest.json:11
+  status: smoke
+  used_by: [scout_null_calibration_cached_smoke_2]
+  derivation: end_inclusive
+- id: scout_context_policy_confirmation_smoke_2
+  start: 20263040
+  end: 20263041
+  source: outputs/scout_context_policy_confirmation_smoke_2/reports/manifest.json:11
+  status: smoke
+  used_by: [scout_context_policy_confirmation_smoke_2]
+  derivation: end_inclusive
+- id: scout_context_policy_confirmation_600
+  start: 20264000
+  end: 20264599
+  source: outputs/scout_context_policy_confirmation_600/reports/manifest.json:11
+  status: confirmation
+  used_by: [scout_context_policy_confirmation_600]
+  derivation: end_inclusive
+- id: delayed_null_calibration_2000
+  start: 20264000
+  end: 20265999
+  source: outputs/delayed_null_calibration_2000/manifest.json:5
+  status: calibration
+  used_by: [delayed_null_calibration_2000]
+  derivation: explicit
+- id: shiftguard_unified_sota_reproductions_target_scout_fixed_split_dev_v1
+  start: 20265000
+  end: 20265059
+  source: outputs/shiftguard_unified/sota_reproductions/target_scout_fixed_split_dev_v1/manifest.json:11
+  status: development
+  used_by: [shiftguard_unified/sota_reproductions/target_scout_fixed_split_dev_v1]
+  derivation: end_inclusive
+- id: scout_context_policy_markov_null_1000
+  start: 20265000
+  end: 20265999
+  source: outputs/scout_context_policy_markov_null_1000/reports/manifest.json:11
+  status: calibration
+  used_by: [scout_context_policy_markov_null_1000]
+  derivation: end_inclusive
+- id: scout_context_markov_smoke_2
+  start: 20266000
+  end: 20266001
+  source: outputs/scout_context_markov_smoke_2/reports/manifest.json:11
+  status: smoke
+  used_by: [scout_context_markov_smoke_2]
+  derivation: end_inclusive
+- id: delayed_feedback_confirmation_2000
+  start: 20266000
+  end: 20267999
+  source: outputs/delayed_feedback_confirmation_2000/manifest.json:5
+  status: confirmation
+  used_by: [delayed_feedback_confirmation_2000]
+  derivation: explicit
+- id: scout_context_policy_drift_null_1000
+  start: 20267000
+  end: 20267999
+  source: outputs/scout_context_policy_drift_null_1000/reports/manifest.json:11
+  status: calibration
+  used_by: [scout_context_policy_drift_null_1000]
+  derivation: end_inclusive
+- id: scout_context_policy_positive_drift_development_60
+  start: 20268000
+  end: 20268059
+  source: outputs/scout_context_policy_positive_drift_development_60/reports/manifest.json:11
+  status: development
+  used_by: [scout_context_policy_positive_drift_development_60]
+  derivation: end_inclusive
+- id: delayed_feedback_replication_2000
+  start: 20268000
+  end: 20269999
+  source: outputs/delayed_feedback_replication_2000/manifest.json:5
+  status: confirmation
+  used_by: [delayed_feedback_replication_2000]
+  derivation: explicit
+- id: scout_context_policy_eventwise_bound_development_60
+  start: 20268100
+  end: 20268159
+  source: outputs/scout_context_policy_eventwise_bound_development_60/reports/manifest.json:11
+  status: development
+  used_by: [scout_context_policy_eventwise_bound_development_60]
+  derivation: end_inclusive
+- id: scout_context_policy_eventwise_drift_null_smoke_2
+  start: 20269000
+  end: 20269001
+  source: outputs/scout_context_policy_eventwise_drift_null_cuda_smoke_2/reports/manifest.json:11
+  status: smoke
+  used_by: [scout_context_policy_eventwise_drift_null_cuda_smoke_2, scout_context_policy_eventwise_drift_null_cuda_workers_smoke_2, scout_context_policy_eventwise_drift_null_smoke_2]
+  derivation: end_inclusive
+- id: scout_context_policy_eventwise_drift_null_1000
+  start: 20269000
+  end: 20269999
+  source: outputs/scout_context_policy_eventwise_drift_null_1000/reports/manifest.json:11
+  status: calibration
+  used_by: [scout_context_policy_eventwise_drift_null_1000]
+  derivation: end_inclusive
+- id: shiftguard_unified_sota_reproductions_target_scout_fixed_split_cuda_smoke_v1
+  start: 20269999
+  end: 20270000
+  source: outputs/shiftguard_unified/sota_reproductions/target_scout_fixed_split_cuda_smoke_v1/manifest.json:11
+  status: smoke
+  used_by: [shiftguard_unified/sota_reproductions/target_scout_fixed_split_cuda_smoke_v1]
+  derivation: end_inclusive
+- id: scout_context_policy_eventwise_bound_confirmation_cuda_smoke_2
+  start: 20270000
+  end: 20270001
+  source: outputs/scout_context_policy_eventwise_bound_confirmation_cuda_smoke_2/reports/manifest.json:11
+  status: smoke
+  used_by: [scout_context_policy_eventwise_bound_confirmation_cuda_smoke_2]
+  derivation: end_inclusive
+- id: delayed_feedback_grid_confirmation_2000
+  start: 20270000
+  end: 20271999
+  source: outputs/delayed_feedback_grid_confirmation_2000/manifest.json:5
+  status: confirmation
+  used_by: [delayed_feedback_grid_confirmation_2000]
+  derivation: explicit
+- id: delayed_adaptive_query_development_60
+  start: 20271000
+  end: 20271059
+  source: outputs/delayed_adaptive_query_development_60/manifest.json:5
+  status: development
+  used_by: [delayed_adaptive_query_development_60]
+  derivation: offset+n
+- id: scout_context_policy_eventwise_bound_confirmation_600
+  start: 20271000
+  end: 20271599
+  source: outputs/scout_context_policy_eventwise_bound_confirmation_600/reports/manifest.json:11
+  status: confirmation
+  used_by: [scout_context_policy_eventwise_bound_confirmation_600]
+  derivation: end_inclusive
+- id: evidence_growth_smoke
+  start: 20271023
+  end: 20271024
+  source: outputs/evidence_growth_smoke/reports/manifest.json:8
+  status: smoke
+  used_by: [evidence_growth_smoke]
+  derivation: offset+n
+- id: evidence_growth_smoke_v2
+  start: 20271024
+  end: 20271025
+  source: outputs/evidence_growth_smoke_v2/reports/manifest.json:8
+  status: smoke
+  used_by: [evidence_growth_smoke_v2]
+  derivation: offset+n
+- id: evidence_growth_replication_30
+  start: 20271024
+  end: 20271053
+  source: outputs/evidence_growth_replication_30/reports/manifest.json:8
+  status: confirmation
+  used_by: [evidence_growth_replication_30]
+  derivation: offset+n
+- id: delayed_evidence_directed_ppi_smoke_2
+  start: 20271990
+  end: 20271991
+  source: outputs/delayed_evidence_directed_ppi_smoke_2/manifest.json:5
+  status: smoke
+  used_by: [delayed_evidence_directed_ppi_smoke_2]
+  derivation: offset+n
+- id: scout_context_policy_eventwise_markov_development_cuda_smoke_2
+  start: 20272000
+  end: 20272001
+  source: outputs/scout_context_policy_eventwise_markov_development_cuda_smoke_2/reports/manifest.json:11
+  status: smoke
+  used_by: [scout_context_policy_eventwise_markov_development_cuda_smoke_2]
+  derivation: end_inclusive
+- id: delayed_evidence_directed_ppi_grid_30
+  start: 20272000
+  end: 20272029
+  source: outputs/delayed_evidence_directed_ppi_grid_30/manifest.json:5
+  status: development
+  used_by: [delayed_evidence_directed_ppi_grid_30]
+  derivation: offset+n
+- id: evidence_growth_stabilized_smoke
+  start: 20272024
+  end: 20272025
+  source: outputs/evidence_growth_stabilized_smoke/reports/manifest.json:8
+  status: smoke
+  used_by: [evidence_growth_stabilized_smoke]
+  derivation: offset+n
+- id: evidence_growth_stabilized_replication_30
+  start: 20272024
+  end: 20272053
+  source: outputs/evidence_growth_stabilized_replication_30/reports/manifest.json:8
+  status: confirmation
+  used_by: [evidence_growth_stabilized_replication_30]
+  derivation: offset+n
+- id: scout_context_policy_eventwise_markov_development_60
+  start: 20273000
+  end: 20273059
+  source: outputs/scout_context_policy_eventwise_markov_development_60/reports/manifest.json:11
+  status: development
+  used_by: [scout_context_policy_eventwise_markov_development_60]
+  derivation: end_inclusive
+- id: scout_context_policy_eventwise_temporal_development_60
+  start: 20274000
+  end: 20274059
+  source: outputs/scout_context_policy_eventwise_temporal_development_60/reports/manifest.json:11
+  status: development
+  used_by: [scout_context_policy_eventwise_temporal_development_60]
+  derivation: end_inclusive
+- id: start_prior_validation_20274000
+  start: 20274000
+  end: 20275999
+  source: outputs/start_prior_validation/manifest.json:6
+  status: development
+  used_by: [start_prior_validation]
+  derivation: explicit
+- id: scout_context_policy_eventwise_temporal_null_1000
+  start: 20275000
+  end: 20275999
+  source: outputs/scout_context_policy_eventwise_temporal_null_1000/reports/manifest.json:11
+  status: calibration
+  used_by: [scout_context_policy_eventwise_temporal_null_1000]
+  derivation: end_inclusive
+- id: start_prior_validation_20276000
+  start: 20276000
+  end: 20277999
+  source: outputs/start_prior_validation/manifest.json:7
+  status: development
+  used_by: [start_prior_validation]
+  derivation: explicit
+- id: start_prior_robustness_20278000
+  start: 20278000
+  end: 20278199
+  source: outputs/start_prior_robustness/manifest.json:6
+  status: exploratory
+  used_by: [start_prior_robustness]
+  derivation: explicit
+- id: start_prior_robustness_20280000
+  start: 20280000
+  end: 20280499
+  source: outputs/start_prior_robustness/manifest.json:7
+  status: exploratory
+  used_by: [start_prior_robustness]
+  derivation: explicit
+- id: delayed_evidence_directed_ppi_calibration_1000
+  start: 20280000
+  end: 20280999
+  source: outputs/delayed_evidence_directed_ppi_calibration_1000/manifest.json:5
+  status: calibration
+  used_by: [delayed_evidence_directed_ppi_calibration_1000]
+  derivation: offset+n
+- id: horizon_hedge_development_20282000
+  start: 20282000
+  end: 20282199
+  source: outputs/horizon_hedge_development/manifest.json:6
+  status: development
+  used_by: [horizon_hedge_development]
+  derivation: explicit
+- id: delayed_evidence_directed_ppi_confirmation_1000
+  start: 20282000
+  end: 20282999
+  source: outputs/delayed_evidence_directed_ppi_confirmation_1000/manifest.json:5
+  status: confirmation
+  used_by: [delayed_evidence_directed_ppi_confirmation_1000]
+  derivation: offset+n
+- id: horizon_hedge_development_20284000
+  start: 20284000
+  end: 20284499
+  source: outputs/horizon_hedge_development/manifest.json:7
+  status: development
+  used_by: [horizon_hedge_development]
+  derivation: explicit
+- id: late_prior_confirmation_20286000
+  start: 20286000
+  end: 20287999
+  source: outputs/late_prior_confirmation/manifest.json:6
+  status: confirmation
+  used_by: [late_prior_confirmation]
+  derivation: explicit
+- id: late_prior_confirmation_20288000
+  start: 20288000
+  end: 20289999
+  source: outputs/late_prior_confirmation/manifest.json:7
+  status: confirmation
+  used_by: [late_prior_confirmation]
+  derivation: explicit
+- id: delayed_evidence_ppi_markov_smoke_2
+  start: 20289990
+  end: 20289991
+  source: outputs/delayed_evidence_ppi_markov_smoke_2/manifest.json:5
+  status: smoke
+  used_by: [delayed_evidence_ppi_markov_smoke_2]
+  derivation: offset+n
+- id: start_prior_robust_mix_development_20290000
+  start: 20290000
+  end: 20290499
+  source: outputs/start_prior_robust_mix_development/manifest.json:6
+  status: development
+  used_by: [start_prior_robust_mix_development]
+  derivation: explicit
+- id: delayed_evidence_ppi_markov_calibration_1000
+  start: 20290000
+  end: 20290999
+  source: outputs/delayed_evidence_ppi_markov_calibration_1000/manifest.json:5
+  status: calibration
+  used_by: [delayed_evidence_ppi_markov_calibration_1000]
+  derivation: offset+n
+- id: start_prior_robust_mix_development_20291000
+  start: 20291000
+  end: 20291999
+  source: outputs/start_prior_robust_mix_development/manifest.json:7
+  status: development
+  used_by: [start_prior_robust_mix_development]
+  derivation: explicit
+- id: delayed_evidence_ppi_markov_confirmation_1000
+  start: 20292000
+  end: 20292999
+  source: outputs/delayed_evidence_ppi_markov_confirmation_1000/manifest.json:5
+  status: confirmation
+  used_by: [delayed_evidence_ppi_markov_confirmation_1000]
+  derivation: offset+n
+- id: scout_context_policy_eventwise_markov_eventwise_null_1000
+  start: 20300000
+  end: 20300999
+  source: outputs/scout_context_policy_eventwise_markov_eventwise_null_1000/reports/manifest.json:11
+  status: calibration
+  used_by: [scout_context_policy_eventwise_markov_eventwise_null_1000]
+  derivation: end_inclusive
+- id: shiftguard_unified_sota_reproductions_anyrank_shiftguard_pilot_v1
+  start: 20310000
+  end: 20310005
+  source: outputs/shiftguard_unified/sota_reproductions/anyrank_pilot_oracle_diagnostic_v1/manifest.json:7
+  status: development
+  used_by: [shiftguard_unified/sota_reproductions/anyrank_pilot_oracle_diagnostic_v1, shiftguard_unified/sota_reproductions/anyrank_pilot_oracle_diagnostic_v2, shiftguard_unified/sota_reproductions/anyrank_shiftguard_pilot_v1, shiftguard_unified/sota_reproductions/anyrank_shiftguard_pilot_v2]
+  derivation: end_inclusive,explicit
+- id: delayed_evidence_ppi_start_mixture_grid_60
+  start: 20310000
+  end: 20310059
+  source: outputs/delayed_evidence_ppi_start_mixture_grid_60/manifest.json:5
+  status: development
+  used_by: [delayed_evidence_ppi_start_mixture_grid_60]
+  derivation: explicit
+- id: delayed_evidence_ppi_matched_shadow_grid_60
+  start: 20320000
+  end: 20320059
+  source: outputs/delayed_evidence_ppi_matched_shadow_grid_60/manifest.json:5
+  status: development
+  used_by: [delayed_evidence_ppi_matched_shadow_grid_60]
+  derivation: explicit
+- id: delayed_evidence_ppi_start_mixture_calibration_500
+  start: 20321000
+  end: 20321499
+  source: outputs/delayed_evidence_ppi_start_mixture_calibration_500/manifest.json:5
+  status: calibration
+  used_by: [delayed_evidence_ppi_start_mixture_calibration_500]
+  derivation: explicit
+- id: delayed_evidence_ppi_start_mixture_confirmation_300
+  start: 20322000
+  end: 20322299
+  source: outputs/delayed_evidence_ppi_start_mixture_confirmation_300/manifest.json:5
+  status: confirmation
+  used_by: [delayed_evidence_ppi_start_mixture_confirmation_300]
+  derivation: explicit
+- id: hard_budget_smoke
+  start: 20361022
+  end: 20361022
+  source: outputs/dive/promotion-smoke/reports/manifest.json:7
+  status: smoke
+  used_by: [dive/promotion-smoke, hard_budget_smoke]
+  derivation: offset+n
+- id: pprm_paired_smoke3
+  start: 20361022
+  end: 20361023
+  source: outputs/pprm_adaptive_cm_eb_cuda_smoke_2/reports/manifest.json:7
+  status: smoke
+  used_by: [pprm_adaptive_cm_eb_cuda_smoke_2, pprm_block_cm_eb_cuda_smoke_2, pprm_block_cuda_smoke_2, pprm_paired_smoke3, pprm_paired_smoke4, pprm_paired_smoke5]
+  derivation: offset+n
+- id: reports_20361022
+  start: 20361022
+  end: 20361051
+  source: outputs/hard_budget_common_bound_sensitivity_30/reports/manifest.json:7
+  status: development
+  used_by: [hard_budget_common_bound_sensitivity_30, hard_budget_pilot_30, hard_budget_pilot_30_noncommon_rng, hard_budget_pilot_30_wrong_uniform_bound, promotion_experiment_corrected, reports]
+  derivation: offset+n
+- id: hard_budget_matched_qmin_010_replication_60
+  start: 20362022
+  end: 20362081
+  source: outputs/hard_budget_matched_qmin_010_replication_60/reports/manifest.json:7
+  status: confirmation
+  used_by: [hard_budget_matched_qmin_010_replication_60]
+  derivation: offset+n
+- id: hard_budget_extended_scenarios_60
+  start: 20363022
+  end: 20363081
+  source: outputs/hard_budget_extended_scenarios_60/reports/manifest.json:7
+  status: exploratory
+  used_by: [hard_budget_extended_scenarios_60]
+  derivation: offset+n
+- id: hard_budget_multiscale_stakes_60
+  start: 20364022
+  end: 20364081
+  source: outputs/hard_budget_multiscale_null_controls_validated_60/reports/manifest.json:7
+  status: calibration
+  used_by: [hard_budget_multiscale_null_controls_validated_60, hard_budget_multiscale_stakes_60]
+  derivation: offset+n
+- id: hard_budget_protected_multiscale_60
+  start: 20365022
+  end: 20365081
+  source: outputs/hard_budget_protected_multiscale_60/reports/manifest.json:7
+  status: exploratory
+  used_by: [hard_budget_protected_multiscale_60]
+  derivation: offset+n
+- id: pprm_cm_eb_adaptive_cuda_smoke_2
+  start: 20371023
+  end: 20371024
+  source: outputs/pprm_cm_eb_adaptive_cuda_smoke_2/reports/manifest.json:7
+  status: smoke
+  used_by: [pprm_cm_eb_adaptive_cuda_smoke_2]
+  derivation: offset+n
+- id: evidence_directed_allocation_30
+  start: 20371024
+  end: 20371053
+  source: outputs/evidence_directed_allocation_30/reports/manifest.json:7
+  status: exploratory
+  used_by: [evidence_directed_allocation_30]
+  derivation: offset+n
+- id: pprm_variance_diagnostic_v1
+  start: 20372023
+  end: 20372052
+  source: outputs/pprm_adaptive_development_30/reports/manifest.json:7
+  status: development
+  used_by: [pprm_adaptive_development_30, pprm_adaptive_matched_proxy_development_30, pprm_block_grid_corrected_v1/block_05, pprm_block_grid_corrected_v1/block_10, pprm_block_grid_corrected_v1/block_20, pprm_block_grid_corrected_v1/block_40, pprm_block_grid_development_v1/block_05, pprm_block_grid_development_v1/block_10, pprm_block_grid_development_v1/block_20, pprm_block_grid_development_v1/block_40, pprm_reliance_bound_development_v1/eta_0p10, pprm_reliance_bound_development_v1/eta_0p25, pprm_reliance_bound_development_v1/eta_0p50, pprm_reliance_bound_development_v1/eta_1p00, pprm_variance_diagnostic_corrected_v1, pprm_variance_diagnostic_v1]
+  derivation: offset+n
+- id: evidence_urgency_curve_grid_30
+  start: 20372024
+  end: 20372053
+  source: outputs/evidence_urgency_curve_grid_30/reports/manifest.json:7
+  status: development
+  used_by: [evidence_urgency_curve_grid_30]
+  derivation: offset+n
+- id: pprm_horizon_corrected_v1_analysis
+  start: 20372123
+  end: 20372123
+  source: outputs/pprm_horizon_corrected_v1/analysis/manifest.json:4
+  status: development
+  used_by: [pprm_horizon_corrected_v1/analysis, pprm_horizon_development_v1/analysis]
+  derivation: offset+n_assumed_1
+- id: pprm_horizon_corrected_v1_n_1600
+  start: 20372123
+  end: 20372152
+  source: outputs/pprm_block_eprocess_comparison_corrected_v1/block_20/reports/manifest.json:7
+  status: development
+  used_by: [pprm_block_eprocess_comparison_corrected_v1/block_20, pprm_block_mixture_weights_development_v1/block_20, pprm_horizon_corrected_v1/n_1600, pprm_horizon_corrected_v1/n_3200, pprm_horizon_corrected_v1/n_6400, pprm_horizon_development_v1/n_1600, pprm_horizon_development_v1/n_3200, pprm_horizon_development_v1/n_6400, pprm_long_horizon_block_grid_corrected_v1/block_05, pprm_long_horizon_block_grid_corrected_v1/block_10]
+  derivation: offset+n
+- id: pprm_block_mixture_independent_v1_block_20
+  start: 20373000
+  end: 20373199
+  source: outputs/pprm_block_mixture_independent_v1/block_20/reports/manifest.json:7
+  status: confirmation
+  used_by: [pprm_block_mixture_independent_v1/block_20]
+  derivation: offset+n
+- id: propensity_floor_diagnostic_qmin020_30
+  start: 20373024
+  end: 20373053
+  source: outputs/propensity_floor_diagnostic_qmin020_30/reports/manifest.json:7
+  status: development
+  used_by: [propensity_floor_diagnostic_qmin020_30]
+  derivation: offset+n
+- id: evidence_budget20_comparison_60
+  start: 20373024
+  end: 20373083
+  source: outputs/evidence_budget20_comparison_60/reports/manifest.json:7
+  status: development
+  used_by: [evidence_budget20_comparison_60, monitor_signal_diagnostic_20_60, monitor_signal_diagnostic_20_60_v2, predictable_query_bound_replay_60]
+  derivation: offset+n
+- {id: gated_wp1_s1_fidelity_replay, start: 20373024, end: 20373083, source: 'docs/gated_vs_ungated_monitor_comparison_protocol.md:193', status: replay, derivation: curated, note: Replays the historic 20373024-20373083 block (U1/U2 fidelity check); reuse is by design.}
+- id: pprm_block_mixture_calibration_v1
+  start: 20373123
+  end: 20373123
+  source: outputs/pprm_block_mixture_calibration_v1/manifest.json:7
+  status: calibration
+  used_by: [pprm_block_mixture_calibration_v1]
+  derivation: single_seed
+- id: pprm_registered_null_calibration_smoke
+  start: 20374000
+  end: 20374001
+  source: outputs/pprm_registered_null_calibration_smoke/reports/manifest.json:6
+  status: smoke
+  used_by: [pprm_registered_null_calibration_smoke]
+  derivation: explicit
+- id: pprm_registered_null_calibration_batched_smoke
+  start: 20374000
+  end: 20374003
+  source: outputs/pprm_registered_null_calibration_batched_smoke/reports/manifest.json:7
+  status: smoke
+  used_by: [pprm_registered_null_calibration_batched_smoke]
+  derivation: explicit
+- id: pprm_registered_null_calibration_2000_v1
+  start: 20374000
+  end: 20375999
+  source: outputs/pprm_registered_null_calibration_2000_v1/reports/manifest.json:7
+  status: calibration
+  used_by: [pprm_registered_null_calibration_2000_v1]
+  derivation: explicit
+- id: promotion_grid
+  start: 20381023
+  end: 20381052
+  source: outputs/promotion_grid/reports/manifest.json:8
+  status: confirmation
+  used_by: [promotion_grid, promotion_grid_alpha, promotion_grid_alpha_final, promotion_grid_alpha_v2, promotion_grid_corrected, promotion_grid_eb]
+  derivation: offset+n
+- id: delayed_ppi_assumption_stress_2000
+  start: 20400000
+  end: 20401999
+  source: outputs/delayed_ppi_assumption_stress_2000/manifest.json:4
+  status: confirmation
+  used_by: [delayed_ppi_assumption_stress_2000, delayed_ppi_assumption_stress_2000_final, delayed_ppi_assumption_stress_2000_registered, delayed_ppi_assumption_stress_2000_verified]
+  derivation: explicit
+- id: persistence_promotion_smoke
+  start: 20401023
+  end: 20401032
+  source: outputs/persistence_promotion_smoke/reports/manifest.json:7
+  status: smoke
+  used_by: [persistence_promotion_smoke]
+  derivation: offset+n
+- id: promotion_timing
+  start: 20401023
+  end: 20402022
+  source: outputs/persistence_promotion_grid/reports/manifest.json:7
+  status: development
+  used_by: [persistence_promotion_grid, promotion_timing, promotion_timing_v2, promotion_timing_v3, promotion_timing_v4, promotion_timing_v6]
+  derivation: offset+n
+- id: prequential_proxy_hedge_development
+  start: 20401024
+  end: 20401123
+  source: outputs/prequential_proxy_hedge_development/manifest.json:7
+  status: development
+  used_by: [prequential_proxy_hedge_development]
+  derivation: offset+n
+- id: risk_proxy_stress_grid
+  start: 20402024
+  end: 20402035
+  source: outputs/risk_proxy_stress_grid/manifest.json:5
+  status: development
+  used_by: [risk_proxy_stress_grid]
+  derivation: offset+n
+- id: risk_proxy_monitor_smoke
+  start: 20403024
+  end: 20403025
+  source: outputs/risk_proxy_monitor_smoke/manifest.json:8
+  status: smoke
+  used_by: [risk_proxy_monitor_smoke]
+  derivation: offset+n
+- id: risk_proxy_monitor_grid
+  start: 20403024
+  end: 20404023
+  source: outputs/risk_proxy_monitor_grid/manifest.json:8
+  status: development
+  used_by: [risk_proxy_monitor_grid]
+  derivation: offset+n
+- id: risk_proxy_monitor_confirmation
+  start: 20405024
+  end: 20407023
+  source: outputs/risk_proxy_monitor_confirmation/manifest.json:7
+  status: confirmation
+  used_by: [risk_proxy_monitor_confirmation]
+  derivation: offset+n
+- id: delayed_ppi_adaptive_informative_delay_250
+  start: 20410000
+  end: 20410249
+  source: outputs/delayed_ppi_adaptive_informative_delay_250/manifest.json:5
+  status: exploratory
+  used_by: [delayed_ppi_adaptive_informative_delay_250]
+  derivation: explicit
+- id: delayed_ppi_adaptive_fixed12_replication_2000
+  start: 20420000
+  end: 20421999
+  source: outputs/delayed_ppi_adaptive_fixed12_replication_2000/manifest.json:5
+  status: confirmation
+  used_by: [delayed_ppi_adaptive_fixed12_replication_2000]
+  derivation: explicit
+- id: delayed_ppi_adaptive_fixed12_harm_confirmation_1000
+  start: 20430000
+  end: 20430999
+  source: outputs/delayed_ppi_adaptive_fixed12_harm_confirmation_1000/manifest.json:5
+  status: confirmation
+  used_by: [delayed_ppi_adaptive_fixed12_harm_confirmation_1000]
+  derivation: explicit
+- id: delayed_ppi_fixed12_dose_onset_grid_200
+  start: 20440000
+  end: 20440199
+  source: outputs/delayed_ppi_fixed12_dose_onset_grid_200/manifest.json:5
+  status: development
+  used_by: [delayed_ppi_fixed12_dose_onset_grid_200]
+  derivation: explicit
+- id: delayed_ppi_uniform_mixture_grid_100
+  start: 20450000
+  end: 20450099
+  source: outputs/delayed_ppi_uniform_mixture_grid_100/manifest.json:5
+  status: development
+  used_by: [delayed_ppi_uniform_mixture_grid_100]
+  derivation: explicit
+- id: scout_context_policy_eventwise_markov_confirmation_600
+  start: 20910000
+  end: 20910599
+  source: outputs/scout_context_policy_eventwise_markov_confirmation_600/reports/manifest.json:18
+  status: confirmation
+  used_by: [scout_context_policy_eventwise_markov_confirmation_600]
+  derivation: end_inclusive
+- id: scout_context_policy_eventwise_temporal_confirmation_600
+  start: 20920000
+  end: 20920599
+  source: outputs/scout_context_policy_eventwise_temporal_confirmation_600/reports/manifest.json:18
+  status: confirmation
+  used_by: [scout_context_policy_eventwise_temporal_confirmation_600]
+  derivation: end_inclusive
+- id: scout_context_policy_eventwise_query_smoke
+  start: 20929998
+  end: 20929999
+  source: outputs/scout_context_policy_eventwise_query_smoke/reports/manifest.json:11
+  status: smoke
+  used_by: [scout_context_policy_eventwise_query_smoke]
+  derivation: end_inclusive
+- id: scout_context_policy_eventwise_query_development_60
+  start: 20930000
+  end: 20930059
+  source: outputs/scout_context_policy_eventwise_query_development_60/reports/manifest.json:11
+  status: development
+  used_by: [scout_context_policy_eventwise_query_development_60]
+  derivation: end_inclusive
+- id: scout_context_eventwise_query_null_calibration_1000
+  start: 21210000
+  end: 21210999
+  source: outputs/scout_context_eventwise_query_null_calibration_1000/reports/manifest.json:11
+  status: calibration
+  used_by: [scout_context_eventwise_query_null_calibration_1000]
+  derivation: end_inclusive
+- id: scout_context_eventwise_query_confirmation_600
+  start: 21300000
+  end: 21300599
+  source: outputs/scout_context_eventwise_query_confirmation_600/reports/manifest.json:18
+  status: confirmation
+  used_by: [scout_context_eventwise_query_confirmation_600]
+  derivation: end_inclusive
+- id: scout_context_temporal_query_development_60
+  start: 21420000
+  end: 21420059
+  source: outputs/scout_context_temporal_query_development_60/reports/manifest.json:11
+  status: development
+  used_by: [scout_context_temporal_query_development_60]
+  derivation: end_inclusive
+- id: scout_context_policy_eventwise_temporal_variance_null_1000
+  start: 21430000
+  end: 21430999
+  source: outputs/scout_context_policy_eventwise_temporal_variance_null_1000/reports/manifest.json:11
+  status: calibration
+  used_by: [scout_context_policy_eventwise_temporal_variance_null_1000]
+  derivation: end_inclusive
+- id: scout_context_policy_eventwise_temporal_variance_confirmation_600
+  start: 21440000
+  end: 21440599
+  source: outputs/scout_context_policy_eventwise_temporal_variance_confirmation_600/reports/manifest.json:18
+  status: confirmation
+  used_by: [scout_context_policy_eventwise_temporal_variance_confirmation_600]
+  derivation: end_inclusive
+- id: hedged_betting_comparison_v2_23102026
+  start: 23102026
+  end: 23102026
+  source: outputs/hedged_betting_comparison_v2_23102026/reports/manifest.json:7
+  status: confirmation
+  used_by: [hedged_betting_comparison_v2_23102026, hedged_positive_branch_replication_23102026]
+  derivation: single_seed
+- id: promotion_robustness_grid
+  start: 23102026
+  end: 23103025
+  source: outputs/promotion_robustness_grid/reports/manifest.json:7
+  status: development
+  used_by: [promotion_robustness_grid, promotion_robustness_grid_corrected]
+  derivation: offset+n
+- id: hedged_betting_comparison_v3_24102026
+  start: 24102026
+  end: 24102026
+  source: outputs/hedged_betting_comparison_final_24102026/reports/manifest.json:7
+  status: confirmation
+  used_by: [hedged_betting_comparison_final_24102026, hedged_betting_comparison_v3_24102026]
+  derivation: single_seed
+- id: budgeted_promotion_grid
+  start: 24102026
+  end: 24102085
+  source: outputs/budgeted_promotion_grid/reports/manifest.json:8
+  status: development
+  used_by: [budgeted_promotion_grid, budgeted_promotion_grid_ipw, budgeted_promotion_grid_local_bound]
+  derivation: offset+n
+- id: promotion_monitor_comparison_60
+  start: 25102026
+  end: 25102085
+  source: outputs/promotion_monitor_comparison_60/reports/manifest.json:8
+  status: development
+  used_by: [promotion_monitor_comparison_60]
+  derivation: offset+n
+- id: decision_local_bound_calibration
+  start: 26102026
+  end: 26102026
+  source: outputs/decision_local_bound_calibration/reports/manifest.json:7
+  status: calibration
+  used_by: [decision_local_bound_calibration, repeated_candidate_null_calibration_2000]
+  derivation: single_seed
+- id: budgeted_promotion_local_smoke_retry
+  start: 26102027
+  end: 26102027
+  source: outputs/budgeted_promotion_local_smoke_retry/reports/manifest.json:8
+  status: smoke
+  used_by: [budgeted_promotion_local_smoke_retry]
+  derivation: offset+n
+- id: history_predictable_bound_confirmation_smoke
+  start: 27000001
+  end: 27000100
+  source: outputs/history_predictable_bound_confirmation_smoke/reports/manifest.json:44
+  status: smoke
+  used_by: [history_predictable_bound_confirmation_smoke]
+  derivation: explicit
+- id: history_predictable_bound_smoke_cuda2
+  start: 27101900
+  end: 27101963
+  source: outputs/history_predictable_bound_smoke_cuda2/reports/manifest.json:44
+  status: smoke
+  used_by: [history_predictable_bound_smoke_cuda2, history_predictable_bound_smoke_dosegrid]
+  derivation: explicit
+- id: mixed_mean_null_local_bound
+  start: 27102026
+  end: 27102026
+  source: outputs/mixed_mean_null_local_bound/reports/manifest.json:7
+  status: calibration
+  used_by: [mixed_mean_null_local_bound, online_process_mixture_2000]
+  derivation: single_seed
+- id: history_predictable_bound_smoke
+  start: 27102027
+  end: 27102090
+  source: outputs/history_predictable_bound_smoke/reports/manifest.json:44
+  status: smoke
+  used_by: [history_predictable_bound_smoke]
+  derivation: explicit
+- id: history_predictable_bound_calibration_2000
+  start: 27102027
+  end: 27104026
+  source: outputs/history_predictable_bound_calibration_2000/reports/manifest.json:52
+  status: calibration
+  used_by: [history_predictable_bound_calibration_2000]
+  derivation: explicit
+- id: history_predictable_bound_confirmation
+  start: 27104027
+  end: 27108026
+  source: outputs/history_predictable_bound_confirmation/reports/manifest.json:45
+  status: confirmation
+  used_by: [history_predictable_bound_confirmation]
+  derivation: explicit
+- id: markov_predictable_bound_validation
+  start: 27108027
+  end: 27112026
+  source: outputs/markov_predictable_bound_validation/reports/manifest.json:55
+  status: development
+  used_by: [markov_predictable_bound_validation]
+  derivation: explicit
+- id: markov_predictable_bound_validation_smoke
+  start: 27112027
+  end: 27112126
+  source: outputs/markov_predictable_bound_validation_smoke/reports/manifest.json:55
+  status: smoke
+  used_by: [markov_predictable_bound_validation_smoke]
+  derivation: explicit
+- id: delayed_history_predictable_development_30
+  start: 27204027
+  end: 27204056
+  source: outputs/delayed_history_predictable_development_30/reports/manifest.json:27
+  status: development
+  used_by: [delayed_history_predictable_development_30, delayed_history_predictable_development_30_optimized, delayed_history_predictable_development_smoke]
+  derivation: offset+streams_per_scenario_per_arm
+- id: delayed_history_predictable_calibration_2000
+  start: 27304027
+  end: 27306026
+  source: outputs/delayed_history_predictable_calibration_2000/reports/manifest.json:33
+  status: calibration
+  used_by: [delayed_history_predictable_calibration_2000]
+  derivation: offset+streams_per_scenario_per_arm
+- id: delayed_history_predictable_grid_30
+  start: 27404027
+  end: 27404056
+  source: outputs/delayed_history_predictable_grid_30/reports/manifest.json:49
+  status: development
+  used_by: [delayed_history_predictable_grid_30]
+  derivation: offset+n_from_dirname
+- id: delayed_history_predictable_selected_calibration_2000
+  start: 27504027
+  end: 27506026
+  source: outputs/delayed_history_predictable_selected_calibration_2000/reports/manifest.json:34
+  status: calibration
+  used_by: [delayed_history_predictable_selected_calibration_2000]
+  derivation: offset+streams_per_scenario_per_arm
+- id: delayed_history_predictable_confirmation_2000
+  start: 27604027
+  end: 27606026
+  source: outputs/delayed_history_predictable_confirmation_2000/reports/manifest.json:37
+  status: confirmation
+  used_by: [delayed_history_predictable_confirmation_2000]
+  derivation: offset+n_from_dirname
+- id: informative_delay_fixed_30
+  start: 27804027
+  end: 27804056
+  source: outputs/informative_delay_fixed_30/reports/manifest.json:29
+  status: confirmation
+  used_by: [informative_delay_fixed_30, informative_delay_positive_fast_30, informative_delay_positive_slow_30, informative_delay_stress_grid_30, informative_delay_stress_grid_30_final]
+  derivation: offset+n_from_dirname,offset+streams_per_scenario_per_arm
+- id: predictable_stake_calibration
+  start: 28102026
+  end: 28102026
+  source: outputs/predictable_stake_calibration/reports/manifest.json:7
+  status: calibration
+  used_by: [predictable_stake_calibration]
+  derivation: single_seed
+- id: exact_mixture_growth_smoke
+  start: 28102026
+  end: 28102028
+  source: outputs/exact_mixture_growth_smoke/reports/manifest.json:8
+  status: smoke
+  used_by: [exact_mixture_growth_smoke]
+  derivation: offset+n
+- id: delayed_markov_predictable_development_60
+  start: 28104027
+  end: 28104086
+  source: outputs/delayed_markov_predictable_development_60/reports/manifest.json:41
+  status: development
+  used_by: [delayed_markov_predictable_development_60]
+  derivation: offset+streams_per_scenario_arm
+- id: exact_mixture_growth_hard_budget_smoke
+  start: 28202026
+  end: 28202028
+  source: outputs/exact_mixture_growth_hard_budget_smoke/reports/manifest.json:7
+  status: smoke
+  used_by: [exact_mixture_growth_hard_budget_smoke]
+  derivation: offset+n
+- id: delayed_markov_predictable_calibration_2000
+  start: 28204027
+  end: 28206026
+  source: outputs/delayed_markov_predictable_calibration_2000/reports/manifest.json:37
+  status: calibration
+  used_by: [delayed_markov_predictable_calibration_2000]
+  derivation: offset+streams_per_scenario_arm
+- id: exact_mixture_growth_matched_60
+  start: 28302026
+  end: 28302085
+  source: outputs/exact_mixture_growth_matched_60/reports/manifest.json:7
+  status: exploratory
+  used_by: [exact_mixture_growth_matched_60]
+  derivation: offset+n
+- id: delayed_markov_predictable_confirmation_2000
+  start: 28304027
+  end: 28306026
+  source: outputs/delayed_markov_predictable_confirmation_2000/reports/manifest.json:40
+  status: confirmation
+  used_by: [delayed_markov_predictable_confirmation_2000]
+  derivation: offset+streams_per_scenario_arm
+- id: cost_neutral_growth_grid_smoke
+  start: 28402026
+  end: 28402026
+  source: outputs/cost_neutral_growth_grid_smoke/reports/manifest.json:23
+  status: smoke
+  used_by: [cost_neutral_growth_grid_smoke, cost_neutral_growth_grid_smoke/runs/adaptive_weight_0.00, cost_neutral_growth_grid_smoke/runs/adaptive_weight_0.25, cost_neutral_growth_grid_smoke/runs/adaptive_weight_0.50, cost_neutral_growth_grid_smoke/runs/adaptive_weight_0.75, cost_neutral_growth_grid_smoke/runs/adaptive_weight_1.00, cost_neutral_growth_grid_smoke/runs/uniform]
+  derivation: offset+n
+- id: cost_neutral_growth_grid_development
+  start: 28402026
+  end: 28402055
+  source: outputs/cost_neutral_growth_grid_development/reports/manifest.json:23
+  status: development
+  used_by: [cost_neutral_growth_grid_development, cost_neutral_growth_grid_development/runs/adaptive_weight_0.00, cost_neutral_growth_grid_development/runs/adaptive_weight_0.25, cost_neutral_growth_grid_development/runs/adaptive_weight_0.50, cost_neutral_growth_grid_development/runs/adaptive_weight_0.75, cost_neutral_growth_grid_development/runs/adaptive_weight_1.00, cost_neutral_growth_grid_development/runs/uniform]
+  derivation: offset+n
+- id: matched_path_bound_ablation_60
+  start: 28404027
+  end: 28404086
+  source: outputs/matched_path_bound_ablation_60/reports/manifest.json:69
+  status: development
+  used_by: [matched_path_bound_ablation_60]
+  derivation: offset+n_from_dirname
+- id: cost_neutral_growth_grid_fresh_60
+  start: 28502026
+  end: 28502085
+  source: outputs/cost_neutral_growth_grid_fresh_60/reports/manifest.json:7
+  status: confirmation
+  used_by: [cost_neutral_growth_grid_fresh_60]
+  derivation: offset+n
+- id: matched_path_bound_calibration_2000
+  start: 28504027
+  end: 28506026
+  source: outputs/matched_path_bound_calibration_2000/reports/manifest.json:41
+  status: calibration
+  used_by: [matched_path_bound_calibration_2000]
+  derivation: offset+streams_per_scenario_arm
+- id: robust_growth_grid_smoke
+  start: 28602026
+  end: 28602026
+  source: outputs/robust_growth_grid_smoke/reports/manifest.json:19
+  status: smoke
+  used_by: [robust_growth_grid_smoke, robust_growth_grid_smoke/runs/established_baselines, robust_growth_grid_smoke/runs/probability_radius_0.00, robust_growth_grid_smoke/runs/probability_radius_0.05, robust_growth_grid_smoke/runs/probability_radius_0.10, robust_growth_grid_smoke/runs/probability_radius_0.20, robust_growth_grid_smoke/runs/probability_radius_0.40]
+  derivation: offset+n
+- id: robust_growth_grid_development
+  start: 28602026
+  end: 28602055
+  source: outputs/robust_growth_grid_development/reports/manifest.json:19
+  status: development
+  used_by: [robust_growth_grid_development, robust_growth_grid_development/runs/established_baselines, robust_growth_grid_development/runs/probability_radius_0.00, robust_growth_grid_development/runs/probability_radius_0.05, robust_growth_grid_development/runs/probability_radius_0.10, robust_growth_grid_development/runs/probability_radius_0.20, robust_growth_grid_development/runs/probability_radius_0.40]
+  derivation: offset+n
+- id: matched_path_bound_confirmation_2000
+  start: 28604027
+  end: 28606026
+  source: outputs/matched_path_bound_confirmation_2000/reports/manifest.json:44
+  status: confirmation
+  used_by: [matched_path_bound_confirmation_2000]
+  derivation: offset+streams_per_scenario_arm
+- id: robust_growth_grid_fresh_60
+  start: 28702026
+  end: 28702085
+  source: outputs/robust_growth_grid_fresh_60/reports/manifest.json:7
+  status: confirmation
+  used_by: [robust_growth_grid_fresh_60]
+  derivation: offset+n
+- id: predictable_stake_portfolio_development
+  start: 28704027
+  end: 28704027
+  source: outputs/predictable_stake_portfolio_development/reports/manifest.json:57
+  status: development
+  used_by: [predictable_stake_portfolio_development]
+  derivation: offset+n_assumed_1
+- id: predictable_stake_portfolio_calibration_2000
+  start: 28714027
+  end: 28716026
+  source: outputs/predictable_stake_portfolio_calibration_2000/reports/manifest.json:43
+  status: calibration
+  used_by: [predictable_stake_portfolio_calibration_2000]
+  derivation: offset+n_from_dirname
+- {id: predictable_stake_portfolio_confirmation_reserved, start: 28724027, end: 28726026, source: 'docs/predictable_stake_portfolio_calibration_protocol.md:78', status: reserved_unused, derivation: curated, note: 'Registered confirmation root, 2000 streams (--streams 2000); no outputs/predictable_stake_portfolio_confirmation_2000 found by T0.1, so treated as registered but unused.'}
+- id: budget_frontier_smoke
+  start: 28802026
+  end: 28802026
+  source: outputs/budget_frontier_smoke/budget_0p10/reports/manifest.json:7
+  status: smoke
+  used_by: [budget_frontier_smoke, budget_frontier_smoke/budget_0p10]
+  derivation: offset+n
+- id: budget_frontier_60
+  start: 28802026
+  end: 28802085
+  source: outputs/budget_frontier_60/budget_0p10/reports/manifest.json:7
+  status: exploratory
+  used_by: [budget_frontier_60, budget_frontier_60/budget_0p10, budget_frontier_60/budget_0p20, budget_frontier_60/budget_0p25]
+  derivation: offset+n
+- id: predictable_betting_comparison
+  start: 29102026
+  end: 29102026
+  source: outputs/predictable_betting_comparison/reports/manifest.json:7
+  status: development
+  used_by: [predictable_betting_comparison, predictable_betting_comparison_preupdate_variance]
+  derivation: single_seed
+- id: monitor_power_smoke
+  start: 30102026
+  end: 30102026
+  source: outputs/monitor_bound_smoke_qmin020/reports/manifest.json:7
+  status: smoke
+  used_by: [monitor_bound_smoke_qmin020, monitor_bound_smoke_qmin020_fixed, monitor_power_smoke, monitor_power_smoke_bound]
+  derivation: offset+n
+- id: shiftguard_unified_sota_reproductions_comparecast_paired_cost_smoke
+  start: 30325000
+  end: 30325001
+  source: outputs/shiftguard_unified/sota_reproductions/comparecast_paired_cost_dev_v1_run001/manifest.json:7
+  status: development
+  used_by: [shiftguard_unified/sota_reproductions/comparecast_paired_cost_dev_v1_run001, shiftguard_unified/sota_reproductions/comparecast_paired_cost_smoke, shiftguard_unified/sota_reproductions/comparecast_paired_cost_smoke_v2]
+  derivation: offset+n
+- id: shiftguard_unified_sota_reproductions_comparecast_paired_cost_dev_v1
+  start: 30325000
+  end: 30325029
+  source: outputs/shiftguard_unified/sota_reproductions/comparecast_paired_cost_dev_v1/manifest.json:7
+  status: development
+  used_by: [shiftguard_unified/sota_reproductions/comparecast_paired_cost_dev_v1, shiftguard_unified/sota_reproductions/comparecast_paired_cost_dev_v2]
+  derivation: offset+n
+- id: direct_ipw_query_development_30_w4
+  start: 31025000
+  end: 31025029
+  source: outputs/direct_ipw_query_development_30_w4/reports/manifest.json:7
+  status: development
+  used_by: [direct_ipw_query_development_30_w4, direct_ipw_query_development_30_w4/runs/q_min_0p05, direct_ipw_query_development_30_w4/runs/q_min_0p10, direct_ipw_query_development_30_w4/runs/q_min_0p20]
+  derivation: offset+n
+- id: residual_variance_power_grid
+  start: 31102026
+  end: 31102125
+  source: outputs/residual_variance_power_grid/manifest.json:22
+  status: development
+  used_by: [residual_variance_power_grid]
+  derivation: explicit
+- id: residual_variance_start_prior_smoke
+  start: 31202026
+  end: 31202028
+  source: outputs/residual_variance_start_prior_smoke/manifest.json:18
+  status: smoke
+  used_by: [residual_variance_start_prior_smoke, residual_variance_start_prior_vectorized_smoke]
+  derivation: explicit
+- id: residual_variance_start_prior
+  start: 31202026
+  end: 31202085
+  source: outputs/residual_variance_start_prior/manifest.json:18
+  status: exploratory
+  used_by: [residual_variance_start_prior]
+  derivation: explicit
+- id: residual_variance_prior_development
+  start: 31302026
+  end: 31302085
+  source: outputs/residual_variance_prior_development/manifest.json:21
+  status: development
+  used_by: [residual_variance_prior_development]
+  derivation: explicit
+- id: residual_variance_discounted_betting
+  start: 31303026
+  end: 31303085
+  source: outputs/residual_variance_discounted_betting/manifest.json:16
+  status: exploratory
+  used_by: [residual_variance_discounted_betting]
+  derivation: explicit
+- id: residual_variance_pva_hyperparameter_grid
+  start: 31304000
+  end: 31304059
+  source: outputs/residual_variance_pva_hyperparameter_grid/manifest.json:5
+  status: development
+  used_by: [residual_variance_pva_hyperparameter_grid]
+  derivation: offset+n
+- id: residual_variance_pva_smoke_2
+  start: 31304900
+  end: 31304901
+  source: outputs/residual_variance_pva_smoke_2/manifest.json:5
+  status: smoke
+  used_by: [residual_variance_pva_smoke_2]
+  derivation: explicit
+- id: residual_variance_context_isolated_smoke_2
+  start: 31305000
+  end: 31305001
+  source: outputs/residual_variance_context_isolated_smoke_2/manifest.json:15
+  status: smoke
+  used_by: [residual_variance_context_isolated_smoke_2]
+  derivation: offset+n
+- id: residual_variance_context_grid_60
+  start: 31305000
+  end: 31305059
+  source: outputs/residual_variance_context_grid_60/manifest.json:15
+  status: development
+  used_by: [residual_variance_context_grid_60]
+  derivation: offset+n
+- id: closed_loop_intervention_smoke
+  start: 31404026
+  end: 31404030
+  source: outputs/closed_loop_intervention_smoke/manifest.json:19
+  status: smoke
+  used_by: [closed_loop_intervention_smoke]
+  derivation: offset+n
+- id: closed_loop_intervention
+  start: 31404026
+  end: 31406025
+  source: outputs/closed_loop_intervention/manifest.json:19
+  status: exploratory
+  used_by: [closed_loop_intervention]
+  derivation: offset+n
+- id: residual_variance_baseline_context_smoke_2
+  start: 31997000
+  end: 31997001
+  source: outputs/residual_variance_baseline_context_smoke_2/manifest.json:15
+  status: smoke
+  used_by: [residual_variance_baseline_context_smoke_2]
+  derivation: offset+n
+- id: residual_variance_context_smoke_2
+  start: 31999000
+  end: 31999001
+  source: outputs/residual_variance_context_smoke_2/manifest.json:15
+  status: smoke
+  used_by: [residual_variance_context_smoke_2]
+  derivation: offset+n
+- id: direct_ipw_query_calibration_smoke
+  start: 32100000
+  end: 32100001
+  source: outputs/direct_ipw_query_calibration_smoke/reports/manifest.json:7
+  status: smoke
+  used_by: [direct_ipw_query_calibration_smoke]
+  derivation: offset+n
+- id: direct_ipw_query_calibration_2000
+  start: 32102026
+  end: 32104025
+  source: outputs/direct_ipw_query_calibration_2000/reports/manifest.json:7
+  status: calibration
+  used_by: [direct_ipw_query_calibration_2000]
+  derivation: offset+n
+- id: monitor_power_diagnostic_30
+  start: 39102026
+  end: 39102055
+  source: outputs/monitor_bound_sensitivity_qmin020/reports/manifest.json:7
+  status: development
+  used_by: [monitor_bound_sensitivity_qmin020, monitor_power_diagnostic_30]
+  derivation: offset+n
+- id: intervention_sensitivity_development
+  start: 42102626
+  end: 42102685
+  source: outputs/intervention_sensitivity_development/manifest.json:5
+  status: development
+  used_by: [intervention_sensitivity_development]
+  derivation: offset+n
+- id: null_calibration_qmin020_2000
+  start: 52000000
+  end: 52001999
+  source: outputs/null_calibration_qmin020_2000/reports/manifest.json:7
+  status: calibration
+  used_by: [null_calibration_qmin020_2000]
+  derivation: offset+n
+- id: intervention_confirmation
+  start: 52102626
+  end: 52104625
+  source: outputs/intervention_confirmation/manifest.json:5
+  status: confirmation
+  used_by: [intervention_confirmation]
+  derivation: offset+n
+- id: harm_confirmation_qmin020_200
+  start: 53000000
+  end: 53000199
+  source: outputs/harm_confirmation_qmin020_200/reports/manifest.json:7
+  status: confirmation
+  used_by: [harm_confirmation_qmin020_200]
+  derivation: offset+n
+- id: power_grid_smoke_recurring_regimes
+  start: 53990000
+  end: 53990000
+  source: outputs/power_grid_smoke_boundary_local_harm/reports/manifest.json:7
+  status: smoke
+  used_by: [power_grid_smoke_boundary_local_harm, power_grid_smoke_recurring_regimes]
+  derivation: offset+n
+- id: harm_power_grid_smoke
+  start: 53990001
+  end: 53990001
+  source: outputs/harm_power_grid_smoke/reports/manifest.json:5
+  status: smoke
+  used_by: [harm_power_grid_smoke]
+  derivation: offset+n
+- id: harm_power_grid_smoke2
+  start: 53990002
+  end: 53990002
+  source: outputs/harm_power_grid_smoke2/reports/manifest.json:5
+  status: smoke
+  used_by: [harm_power_grid_smoke2]
+  derivation: offset+n
+- id: harm_power_grid_30
+  start: 54000000
+  end: 54000029
+  source: outputs/harm_power_grid_30/reports/manifest.json:5
+  status: development
+  used_by: [harm_power_grid_30]
+  derivation: offset+n
+- id: policy_bound_null_calibration_500
+  start: 54000000
+  end: 54000499
+  source: outputs/policy_bound_null_calibration_500/reports/manifest.json:7
+  status: calibration
+  used_by: [policy_bound_null_calibration_500]
+  derivation: offset+n
+- id: policy_bound_harm_confirmation_200
+  start: 55000000
+  end: 55000199
+  source: outputs/policy_bound_harm_confirmation_200/reports/manifest.json:7
+  status: confirmation
+  used_by: [policy_bound_harm_confirmation_200]
+  derivation: offset+n
+- id: fixed_dollar_horizon_grid_smoke_horizon_1000_stationary
+  start: 56000000
+  end: 56000000
+  source: outputs/fixed_dollar_horizon_grid_smoke/horizon_1000/benign_nuisance/reports/manifest.json:7
+  status: smoke
+  used_by: [fixed_dollar_horizon_grid_smoke/horizon_1000/benign_nuisance, fixed_dollar_horizon_grid_smoke/horizon_1000/boundary_early, fixed_dollar_horizon_grid_smoke/horizon_1000/boundary_late, fixed_dollar_horizon_grid_smoke/horizon_1000/harmful_adaptation, fixed_dollar_horizon_grid_smoke/horizon_1000/recurring_regimes, fixed_dollar_horizon_grid_smoke/horizon_1000/stationary, fixed_dollar_horizon_grid_smoke/horizon_1800/benign_nuisance, fixed_dollar_horizon_grid_smoke/horizon_1800/boundary_early, fixed_dollar_horizon_grid_smoke/horizon_1800/boundary_late, fixed_dollar_horizon_grid_smoke/horizon_1800/harmful_adaptation, fixed_dollar_horizon_grid_smoke/horizon_1800/recurring_regimes, fixed_dollar_horizon_grid_smoke/horizon_1800/stationary, fixed_dollar_horizon_grid_smoke/horizon_2600/benign_nuisance, fixed_dollar_horizon_grid_smoke/horizon_2600/boundary_early, fixed_dollar_horizon_grid_smoke/horizon_2600/boundary_late, fixed_dollar_horizon_grid_smoke/horizon_2600/harmful_adaptation, fixed_dollar_horizon_grid_smoke/horizon_2600/recurring_regimes,
+    fixed_dollar_horizon_grid_smoke/horizon_2600/stationary]
+  derivation: offset+n
+- id: propensity_floor_bound_development_60
+  start: 56000000
+  end: 56000059
+  source: outputs/propensity_floor_bound_development_60/reports/manifest.json:8
+  status: development
+  used_by: [propensity_floor_bound_development_60]
+  derivation: explicit
+- id: fixed_dollar_horizon_grid_development_horizon_1000_stationary
+  start: 56100000
+  end: 56100029
+  source: outputs/fixed_dollar_horizon_grid_development/horizon_1000/benign_nuisance/reports/manifest.json:7
+  status: development
+  used_by: [fixed_dollar_horizon_grid_development/horizon_1000/benign_nuisance, fixed_dollar_horizon_grid_development/horizon_1000/boundary_early, fixed_dollar_horizon_grid_development/horizon_1000/boundary_late, fixed_dollar_horizon_grid_development/horizon_1000/harmful_adaptation, fixed_dollar_horizon_grid_development/horizon_1000/recurring_regimes, fixed_dollar_horizon_grid_development/horizon_1000/stationary, fixed_dollar_horizon_grid_development/horizon_1800/benign_nuisance, fixed_dollar_horizon_grid_development/horizon_1800/boundary_early, fixed_dollar_horizon_grid_development/horizon_1800/boundary_late, fixed_dollar_horizon_grid_development/horizon_1800/harmful_adaptation, fixed_dollar_horizon_grid_development/horizon_1800/recurring_regimes, fixed_dollar_horizon_grid_development/horizon_1800/stationary, fixed_dollar_horizon_grid_development/horizon_2600/benign_nuisance, fixed_dollar_horizon_grid_development/horizon_2600/boundary_early, fixed_dollar_horizon_grid_development/horizon_2600/boundary_late,
+    fixed_dollar_horizon_grid_development/horizon_2600/harmful_adaptation, fixed_dollar_horizon_grid_development/horizon_2600/recurring_regimes, fixed_dollar_horizon_grid_development/horizon_2600/stationary]
+  derivation: offset+n
+- id: robust_active_inference_development
+  start: 56110000
+  end: 56110029
+  source: outputs/robust_active_inference_development/reports/manifest.json:7
+  status: development
+  used_by: [robust_active_inference_development]
+  derivation: offset+n
+- id: robust_active_inference_radius_development
+  start: 56220000
+  end: 56220029
+  source: outputs/robust_active_inference_radius_development/reports/manifest.json:7
+  status: development
+  used_by: [robust_active_inference_radius_development, robust_active_inference_radius_exposure_development]
+  derivation: offset+n
+- id: robust_active_inference_radius_budget20_development
+  start: 56300000
+  end: 56300029
+  source: outputs/robust_active_inference_radius_budget20_development/reports/manifest.json:7
+  status: development
+  used_by: [robust_active_inference_radius_budget20_development]
+  derivation: offset+n
+- id: started_mixture_horizon_development_horizon_1000_stationary
+  start: 57100000
+  end: 57100029
+  source: outputs/started_mixture_horizon_development/horizon_1000/benign_nuisance/reports/manifest.json:7
+  status: development
+  used_by: [started_mixture_horizon_development/horizon_1000/benign_nuisance, started_mixture_horizon_development/horizon_1000/boundary_early, started_mixture_horizon_development/horizon_1000/boundary_late, started_mixture_horizon_development/horizon_1000/harmful_adaptation, started_mixture_horizon_development/horizon_1000/recurring_regimes, started_mixture_horizon_development/horizon_1000/stationary, started_mixture_horizon_development/horizon_1800/benign_nuisance, started_mixture_horizon_development/horizon_1800/boundary_early, started_mixture_horizon_development/horizon_1800/boundary_late, started_mixture_horizon_development/horizon_1800/harmful_adaptation, started_mixture_horizon_development/horizon_1800/recurring_regimes, started_mixture_horizon_development/horizon_1800/stationary, started_mixture_horizon_development/horizon_2600/benign_nuisance, started_mixture_horizon_development/horizon_2600/boundary_early, started_mixture_horizon_development/horizon_2600/boundary_late, started_mixture_horizon_development/horizon_2600/harmful_adaptation,
+    started_mixture_horizon_development/horizon_2600/recurring_regimes, started_mixture_horizon_development/horizon_2600/stationary]
+  derivation: offset+n
+- id: adg_growth_prescreen_20
+  start: 58000000
+  end: 58000019
+  source: outputs/adg_growth_prescreen_20/manifest.json:6
+  status: development
+  used_by: [adg_growth_prescreen_20]
+  derivation: offset+n
+- {id: adg_development_reserved, start: 58100000, end: 58100059, source: 'docs/anchored_gated_harm_monitor_development_protocol.md:291', status: reserved_unused, derivation: curated, note: ADG development block; ADG stopped at G1.}
+- {id: adg_null_calibration_reserved, start: 58200000, end: 58201999, source: 'docs/anchored_gated_harm_monitor_development_protocol.md:292', status: reserved_unused, derivation: curated, note: ADG null calibration block per cell; not used.}
+- {id: adg_confirmation_reserved, start: 58300000, end: 58300999, source: 'docs/anchored_gated_harm_monitor_development_protocol.md:293', status: reserved_unused, derivation: curated, note: 'ADG confirmation block; not used. NOTE: the S2 results-doc typo 58300000-58301999 would collide with this block on paper only.'}
+- {id: gated_wp1_s3_comparison, start: 58400000, end: 58400099, source: 'scripts/run_gated_monitor_comparison.py:180', status: confirmation, derivation: curated, note: WP1 S3 fresh comparison (100 per scenario x budget).}
+- {id: gated_wp1_s2_null_calibration, start: 58500000, end: 58501999, source: 'scripts/run_gated_monitor_comparison.py:168', status: calibration, derivation: curated, note: 'Actual S2 seeds per runner and protocol (docs/gated_vs_ungated_monitor_comparison_protocol.md:194). docs/gated_monitor_null_calibration_results.md:8 says 58300000-58301999: a documentation typo, not edited here.'}
+- {id: gated_wp1_smoke, start: 58600000, end: 58600004, source: 'scripts/run_gated_monitor_comparison.py:161', status: smoke, derivation: curated, note: 'Smoke block, excluded from inference.'}
+- {id: wp2_g1_learner_slices, start: 58700000, end: 58700019, source: 'scripts/run_stratified_growth_prescreen.py:128', status: development, derivation: curated, note: 'WP2 G1 pre-screen, learner slices only; stopped at G1.'}
+- {id: wp2_development_reserved, start: 58800000, end: 58800059, source: 'docs/stratified_harm_monitor_development_protocol.md:155', status: reserved_unused, derivation: curated, note: WP2 development block; not used (stopped at G1).}
+- {id: wp2_intersection_null_reserved, start: 58900000, end: 58901999, source: 'docs/stratified_harm_monitor_development_protocol.md:161', status: reserved_unused, derivation: curated, note: WP2 intersection-null block per cell; not used.}
+- {id: wp3_data_efficient_prescreen, start: 59000000, end: 59000019, source: 'scripts/run_data_efficient_prescreen.py:204', status: development, derivation: curated, note: WP3 data-efficient e-detector pre-screen (2 onsets x 4 budgets reuse the same 20 seeds).}
+- {id: wp2_future_confirmation_reserved, start: 59100000, end: 59100999, source: 'docs/agent_goal_stratified_monitor_phase.md:355', status: reserved_unused, derivation: curated, note: Reserved for a future WP2 confirmation; must stay unused until a new protocol allocates it.}
+- {id: wp4_eia_orientation_null, start: 59200000, end: 59200003, source: 'docs/eia_real_data_validity_protocol.md:189', status: confirmation, derivation: curated, note: WP4 EIA validity block (default_rng(59200000 + k)).}
+- {id: wp4_eia_onset, start: 59210000, end: 59210032, source: 'docs/eia_real_data_validity_protocol.md:189', status: confirmation, derivation: curated, note: WP4 EIA block (default_rng(59210000 + 10k + o)).}
+- {id: wp4_eia_query, start: 59220000, end: 59220003, source: 'docs/eia_real_data_validity_protocol.md:190', status: confirmation, derivation: curated, note: WP4 EIA block (default_rng(59220000 + k)).}
+- {id: wp4_eia_cells, start: 59230000, end: 59230399, source: 'docs/eia_real_data_validity_protocol.md:190', status: confirmation, derivation: curated, note: WP4 EIA block (default_rng(59230000 + 100k + j)).}
+- id: shiftguard_unified_sota_reproductions_comparecast_weak_null_calibration_v1
+  start: 60000000
+  end: 60001999
+  source: outputs/shiftguard_unified/sota_reproductions/comparecast_weak_null_calibration_v1/manifest.json:7
+  status: calibration
+  used_by: [shiftguard_unified/sota_reproductions/comparecast_weak_null_calibration_v1, shiftguard_unified/sota_reproductions/comparecast_weak_null_calibration_v2]
+  derivation: offset+n
+- id: intervention_calibration_replication
+  start: 62102626
+  end: 62112625
+  source: outputs/intervention_calibration_replication/manifest.json:5
+  status: confirmation
+  used_by: [intervention_calibration_replication]
+  derivation: offset+n
+- id: shiftguard_unified_sota_reproductions_pprm_predictive_risk_cuda_smoke_v1
+  start: 69900000
+  end: 69900001
+  source: outputs/shiftguard_unified/sota_reproductions/pprm_predictive_risk_cuda_smoke_v1/manifest.json:8
+  status: smoke
+  used_by: [shiftguard_unified/sota_reproductions/pprm_predictive_risk_cuda_smoke_v1]
+  derivation: offset+n
+- id: shiftguard_unified_sota_reproductions_pprm_predictive_risk_cuda_smoke_v2
+  start: 69900002
+  end: 69900003
+  source: outputs/shiftguard_unified/sota_reproductions/pprm_predictive_risk_cuda_smoke_v2/manifest.json:8
+  status: smoke
+  used_by: [shiftguard_unified/sota_reproductions/pprm_predictive_risk_cuda_smoke_v2]
+  derivation: offset+n
+- id: shiftguard_unified_sota_reproductions_pprm_predictive_risk_dev_v1
+  start: 70000000
+  end: 70000029
+  source: outputs/shiftguard_unified/sota_reproductions/pprm_predictive_risk_dev_v1/manifest.json:8
+  status: development
+  used_by: [shiftguard_unified/sota_reproductions/pprm_predictive_risk_dev_v1]
+  derivation: offset+n
+- id: shiftguard_unified_sota_reproductions_pprm_predictive_risk_confirmation_v1
+  start: 71000000
+  end: 71000299
+  source: outputs/shiftguard_unified/sota_reproductions/pprm_predictive_risk_confirmation_v1/manifest.json:8
+  status: confirmation
+  used_by: [shiftguard_unified/sota_reproductions/pprm_predictive_risk_confirmation_v1]
+  derivation: offset+n
+- id: feature_intervention_development
+  start: 76102024
+  end: 76102053
+  source: outputs/feature_intervention_development/manifest.json:19
+  status: development
+  used_by: [feature_intervention_development, feature_intervention_grid/q40_b20, feature_intervention_grid/q40_b40, feature_intervention_grid/q80_b20, feature_intervention_grid/q80_b40]
+  derivation: offset+n
+- id: feature_intervention_calibration_2000
+  start: 77102024
+  end: 77104023
+  source: outputs/feature_intervention_calibration_2000/manifest.json:6
+  status: calibration
+  used_by: [feature_intervention_calibration_2000]
+  derivation: offset+n
+- id: feature_intervention_confirmation_2000
+  start: 78102024
+  end: 78104023
+  source: outputs/feature_intervention_confirmation_2000/manifest.json:20
+  status: confirmation
+  used_by: [feature_intervention_confirmation_2000]
+  derivation: offset+n
+- id: regime_warning_grid_500
+  start: 79102024
+  end: 79102523
+  source: outputs/regime_warning_grid_500/manifest.json:14
+  status: development
+  used_by: [regime_warning_grid_500]
+  derivation: offset+n
+- id: contextual_stratified_grid_500
+  start: 80102024
+  end: 80102523
+  source: outputs/contextual_stratified_grid_500/manifest.json:15
+  status: development
+  used_by: [contextual_stratified_grid_500]
+  derivation: offset+n
+- id: contextual_stratified_calibration_2000
+  start: 90102024
+  end: 90104023
+  source: outputs/contextual_stratified_calibration_2000/grid/manifest.json:15
+  status: calibration
+  used_by: [contextual_stratified_calibration_2000, contextual_stratified_calibration_2000/grid]
+  derivation: offset+n
+- id: contextual_stratified_confirmation_2000
+  start: 91102024
+  end: 91104023
+  source: outputs/contextual_stratified_confirmation_2000/grid/manifest.json:15
+  status: confirmation
+  used_by: [contextual_stratified_confirmation_2000, contextual_stratified_confirmation_2000/grid]
+  derivation: offset+n
+- id: contextual_weighted_alpha_grid_200
+  start: 92102024
+  end: 92102223
+  source: outputs/contextual_weighted_alpha_grid_200/manifest.json:11
+  status: development
+  used_by: [contextual_weighted_alpha_grid_200]
+  derivation: offset+n
+- id: shiftguard_unified_sota_reproductions_target_scout_fixed_split_null_calibration_v1
+  start: 99000000
+  end: 99000999
+  source: outputs/shiftguard_unified/sota_reproductions/target_scout_fixed_split_null_calibration_v1/manifest.json:7
+  status: calibration
+  used_by: [shiftguard_unified/sota_reproductions/target_scout_fixed_split_null_calibration_v1]
+  derivation: offset+n
+- id: shiftguard_unified_sota_reproductions_target_scout_fixed_split_confirmation_v1
+  start: 99010000
+  end: 99010299
+  source: outputs/shiftguard_unified/sota_reproductions/target_scout_fixed_split_confirmation_v1/manifest.json:11
+  status: confirmation
+  used_by: [shiftguard_unified/sota_reproductions/target_scout_fixed_split_confirmation_v1]
+  derivation: offset+n
+- id: shiftguard_unified_sota_reproductions_comparecast_paired_cost_confirmation_v1
+  start: 99100000
+  end: 99100299
+  source: outputs/shiftguard_unified/sota_reproductions/comparecast_paired_cost_confirmation_v1/manifest.json:7
+  status: confirmation
+  used_by: [shiftguard_unified/sota_reproductions/comparecast_paired_cost_confirmation_v1]
+  derivation: explicit
+- id: contextual_weighted_alpha_calibration_2000
+  start: 103102024
+  end: 103104023
+  source: outputs/contextual_weighted_alpha_calibration_2000/manifest.json:5
+  status: calibration
+  used_by: [contextual_weighted_alpha_calibration_2000]
+  derivation: offset+n
+- id: contextual_weighted_alpha_confirmation_2000
+  start: 113102024
+  end: 113104023
+  source: outputs/contextual_weighted_alpha_confirmation_2000/manifest.json:5
+  status: confirmation
+  used_by: [contextual_weighted_alpha_confirmation_2000]
+  derivation: offset+n
+- id: nested_candidate_context_development_200
+  start: 1124202026
+  end: 1124202225
+  source: outputs/nested_candidate_context_development_200/manifest.json:5
+  status: development
+  used_by: [nested_candidate_context_development_200]
+  derivation: offset+n
+- id: nested_candidate_context_development_200_v2
+  start: 1124202026
+  end: 1177203232
+  source: outputs/nested_candidate_context_development_200_v2/manifest.json:5
+  status: development
+  used_by: [nested_candidate_context_development_200_v2]
+  derivation: block_end
+- id: shiftguard_unified_sota_reproductions_timans_unknown_shift_paired_cost_v1_1500000000
+  start: 1500000000
+  end: 1500000999
+  source: outputs/shiftguard_unified/sota_reproductions/timans_unknown_shift_paired_cost_v1/manifest.json:33
+  status: exploratory
+  used_by: [shiftguard_unified/sota_reproductions/timans_unknown_shift_paired_cost_v1]
+  derivation: explicit
+- id: shiftguard_unified_sota_reproductions_timans_unknown_shift_paired_cost_v1_1500001000
+  start: 1500001000
+  end: 1500001299
+  source: outputs/shiftguard_unified/sota_reproductions/timans_unknown_shift_paired_cost_v1/manifest.json:37
+  status: exploratory
+  used_by: [shiftguard_unified/sota_reproductions/timans_unknown_shift_paired_cost_v1]
+  derivation: explicit
+- id: shiftguard_unified_sota_reproductions_ppe_paired_cost_smoke_v1
+  start: 2026102600
+  end: 2026102601
+  source: outputs/shiftguard_unified/sota_reproductions/ppe_paired_cost_smoke_v1/manifest.json:8
+  status: smoke
+  used_by: [shiftguard_unified/sota_reproductions/ppe_paired_cost_smoke_v1]
+  derivation: offset+n
+- id: shiftguard_unified_sota_reproductions_mope_gated_null_smoke_30
+  start: 2026102600
+  end: 2026102629
+  source: outputs/shiftguard_unified/sota_reproductions/mope_gated_null_smoke_30/manifest.json:19
+  status: development
+  used_by: [shiftguard_unified/sota_reproductions/mope_gated_null_smoke_30, shiftguard_unified/sota_reproductions/ppe_paired_cost_development_v1]
+  derivation: offset+n
+- id: shiftguard_unified_sota_reproductions_ppe_paired_cost_confirmation_v1
+  start: 2026102700
+  end: 2026103699
+  source: outputs/shiftguard_unified/sota_reproductions/ppe_paired_cost_confirmation_v1/manifest.json:8
+  status: confirmation
+  used_by: [shiftguard_unified/sota_reproductions/ppe_paired_cost_confirmation_v1]
+  derivation: offset+n
+- {id: integrated_efficacy_confirmation, start: 2026104000, end: 2026104099, source: 'scripts/analyze_integrated_efficacy_confirmation.py:98', status: confirmation, derivation: curated, note: Expected seed set of the integrated efficacy confirmation.}
+- {id: integrated_null_q1_stationary, start: 2026112000, end: 2026112999, source: 'scripts/calibrate_integrated_pipeline.py:38', status: calibration, derivation: curated, note: From outputs/shiftguard_unified/integrated_development/integrated_null_calibration_v1/manifest.json seed_blocks (count 1000); v2 identical.}
+- {id: integrated_null_q1_benign_nuisance, start: 2026113000, end: 2026113999, source: 'scripts/calibrate_integrated_pipeline.py:39', status: calibration, derivation: curated, note: 'Manifest seed_blocks, count 1000.'}
+- {id: integrated_null_q2_candidate_null, start: 2026114000, end: 2026115088, source: 'scripts/calibrate_integrated_pipeline.py:40', status: calibration, derivation: curated, note: 'Manifest seed_blocks: 1089 attempted streams scanned from the start, 1000 eligible. The attempt scan runs past 2026115000, the Q3 start.'}
+- {id: integrated_null_q3_rollback_null, start: 2026115000, end: 2026116265, source: 'scripts/calibrate_integrated_pipeline.py:41', status: calibration, derivation: curated, note: 'Manifest seed_blocks: 1266 attempted streams, 1000 eligible. The scan runs past 2026116000, the fixed-candidate null start.'}
+- id: shiftguard_unified_integrated_development_fixed_candidate_null_pilot_v1
+  start: 2026116000
+  end: 2026116000
+  source: outputs/shiftguard_unified/integrated_development/fixed_candidate_null_pilot_v1/manifest.json:15
+  status: calibration
+  used_by: [shiftguard_unified/integrated_development/fixed_candidate_null_pilot_v1, shiftguard_unified/integrated_development/fixed_candidate_null_pilot_v2, shiftguard_unified/integrated_development/fixed_candidate_null_pilot_v3]
+  derivation: offset+replicates
+- id: shiftguard_unified_integrated_development_fixed_candidate_null_calibration_v1
+  start: 2026116000
+  end: 2026116999
+  source: outputs/shiftguard_unified/integrated_development/fixed_candidate_null_calibration_v1/manifest.json:15
+  status: calibration
+  used_by: [shiftguard_unified/integrated_development/fixed_candidate_null_calibration_v1]
+  derivation: offset+replicates
+- id: shiftguard_unified_sota_reproductions_mope_gated_calibration_smoke_20261026
+  start: 2040000000
+  end: 2040000001
+  source: outputs/shiftguard_unified/sota_reproductions/mope_gated_calibration_horizon_benchmark_processv2/manifest.json:12
+  status: calibration
+  used_by: [shiftguard_unified/sota_reproductions/mope_gated_calibration_horizon_benchmark_processv2, shiftguard_unified/sota_reproductions/mope_gated_calibration_horizon_benchmark_threads, shiftguard_unified/sota_reproductions/mope_gated_calibration_smoke_20261026, shiftguard_unified/sota_reproductions/mope_gated_calibration_smoke_20261026_processv2, shiftguard_unified/sota_reproductions/mope_gated_calibration_smoke_20261026_threadsv2, shiftguard_unified/sota_reproductions/mope_gated_calibration_smoke_20261026_v2]
+  derivation: offset+streams_per_cell
+- id: shiftguard_unified_sota_reproductions_mope_gated_calibration_v1
+  start: 2040000000
+  end: 2040000999
+  source: outputs/shiftguard_unified/sota_reproductions/mope_gated_calibration_v1/manifest.json:12
+  status: calibration
+  used_by: [shiftguard_unified/sota_reproductions/mope_gated_calibration_v1]
+  derivation: offset+streams_per_cell
+- id: nested_candidate_context_calibration_2000
+  start: 2124102026
+  end: 2159104690
+  source: outputs/nested_candidate_context_calibration_2000/manifest.json:5
+  status: calibration
+  used_by: [nested_candidate_context_calibration_2000]
+  derivation: block_end
+- id: nested_candidate_context_confirmation_2000
+  start: 3124302026
+  end: 3141304348
+  source: outputs/nested_candidate_context_confirmation_2000/manifest.json:5
+  status: confirmation
+  used_by: [nested_candidate_context_confirmation_2000]
+  derivation: block_end
+- id: e2_dev_smoke_and_power
+  start: 100000000
+  end: 100001999
+  source: docs/research_refinement_v1/stage1/P1_E2_protocol.md (allocated 2026-10-28)
+  status: development
+  used_by: [e2_dev]
+  derivation: allocated
+  note: 'E2 development: smoke and McNemar power from discordance (P1)'
+- id: e2_confirmation
+  start: 100100000
+  end: 100149999
+  source: docs/research_refinement_v1/stage1/ (allocated 2026-10-28 via shiftlab.seed_registry.allocate)
+  status: reserved_unused
+  used_by: []
+  derivation: allocated
+  note: 'E2 registered confirmation; n per cell set by P1 power calculation, unused tail stays reserved'
+- id: e3_dev_smoke
+  start: 100200000
+  end: 100200999
+  source: docs/research_refinement_v1/stage1/P2_E3_protocol.md (allocated 2026-10-28)
+  status: development
+  used_by: [e3/dev (100200000-100200199 v1 smoke; deterioration shift tuned on these), e3/dev_v2_n400 (100200200-100200599; dose grid chosen from these), 100200600-100200999 unused]
+  derivation: allocated
+  note: 'E3 CPU smoke and development (P2)'
+- id: e3_confirmation
+  start: 100300000
+  end: 100309999
+  source: docs/research_refinement_v1/stage1/ (allocated 2026-10-28 via shiftlab.seed_registry.allocate)
+  status: reserved_unused
+  used_by: []
+  derivation: allocated
+  note: 'E3 registered factorial (P2)'
+- id: e4_split_and_orientation
+  start: 100400000
+  end: 100400999
+  source: docs/research_refinement_v1/stage1/P3_E4_protocol.md (allocated 2026-10-28)
+  status: confirmation
+  used_by: [e4 split seed 100400000 (used 2026-10-28), e4_heldout/smoke_AECI (development authority only; coin seeds 100400001-100400550 are per-authority-keyed), 100400551-100400999 reserved unused]
+  derivation: allocated
+  note: 'E4 dev/locked authority split seed (first id) and orientation-null replicates (P3)'
+- id: e2_dev_grid
+  start: 100500000
+  end: 100509999
+  source: docs/research_refinement_v1/stage1/P1_E2_protocol.md (allocated 2026-10-28 after Codex protocol review)
+  status: development
+  used_by: [e2_grid]
+  derivation: allocated
+  note: 'E2 development grid selection (severity/budget/burst cells placed away from ceiling, per Codex Stage 1 review)'
+- id: lane_b_toy_development
+  start: 100600000
+  end: 100699999
+  source: docs/lane_b_burst_allocation/B1_problem_draft.md (allocated 2026-10-28, lane B worktree)
+  status: development
+  used_by: []
+  derivation: allocated
+  note: 'Lane B toy Bernoulli separation checks and B3 development; never confirmatory'
+- id: lane_b_toy_first_check_overflow
+  start: 100700000
+  end: 100830999
+  source: scripts/lane_b/separation_check.py (first B1 check, seed map 100600000+k*10000, k<=23)
+  status: development
+  used_by: [lane_b B1 first numerical check]
+  derivation: disclosed_overrun
+  note: 'found 2026-10-28: the first B1 check ran past the registered lane_b_toy_development end; recorded here, do not reuse'
+excluded_scalar_seeds:
+- {output: shiftguard_unified/real_data_development/gas_sensor_candidates_v1, seed: 20261026, reason: 'dataset split, encoder, cross-fit or bootstrap seed on real data, not a stream block'}
+- {output: shiftguard_unified/real_data_development/gas_sensor_candidates_v2, seed: 20261026, reason: 'dataset split, encoder, cross-fit or bootstrap seed on real data, not a stream block'}
+- {output: shiftguard_unified/real_data_development/gas_sensor_candidates_v3, seed: 20261026, reason: 'dataset split, encoder, cross-fit or bootstrap seed on real data, not a stream block'}
+- {output: shiftguard_unified/real_data_development/gas_sensor_candidates_v4, seed: 20261026, reason: 'dataset split, encoder, cross-fit or bootstrap seed on real data, not a stream block'}
+- {output: shiftguard_unified/sota_reproductions/robust_asi_acs_smoke_v1, seed: 20261026, reason: 'dataset split, encoder, cross-fit or bootstrap seed on real data, not a stream block'}
+- {output: shiftguard_unified/sota_reproductions/robust_asi_acs_smoke_v2, seed: 20261026, reason: 'dataset split, encoder, cross-fit or bootstrap seed on real data, not a stream block'}
+- {output: shiftguard_unified/sota_reproductions/robust_asi_acs_smoke_v3, seed: 20261026, reason: 'dataset split, encoder, cross-fit or bootstrap seed on real data, not a stream block'}
+- {output: shiftguard_unified/sota_reproductions/robust_asi_acs_smoke_v4, seed: 20261026, reason: 'dataset split, encoder, cross-fit or bootstrap seed on real data, not a stream block'}
+- {output: shiftguard_unified/sota_reproductions/robust_asi_acs_v1, seed: 20261026, reason: 'dataset split, encoder, cross-fit or bootstrap seed on real data, not a stream block'}
+- {output: shiftguard_unified/sota_reproductions/robust_asi_acs_v2, seed: 20261026, reason: 'dataset split, encoder, cross-fit or bootstrap seed on real data, not a stream block'}
+disclosed_overlaps:
+- a: cost_aware_smoke
+  b: cost_tolerance_01_exploratory_10
+  kind: nested
+  overlap: [20261022, 20261023]
+  disclosure: found_by_T0.1
+  note: 'found by T0.1, previously undisclosed: same start offset, one block is a prefix of the other (smoke/pilot/rerun reuse).'
+- a: cost_aware_smoke
+  b: reports_20261022
+  kind: nested
+  overlap: [20261022, 20261023]
+  disclosure: found_by_T0.1
+  note: 'found by T0.1, previously undisclosed: same start offset, one block is a prefix of the other (smoke/pilot/rerun reuse).'
+- a: cost_tolerance_01_exploratory_10
+  b: reports_20261022
+  kind: nested
+  overlap: [20261022, 20261031]
+  disclosure: found_by_T0.1
+  note: 'found by T0.1, previously undisclosed: same start offset, one block is a prefix of the other (smoke/pilot/rerun reuse).'
+- a: cost_tolerance_01_exploratory_10
+  b: delayed_feedback_development
+  kind: partial
+  overlap: [20261024, 20261031]
+  disclosure: found_by_T0.1
+  note: 'found by T0.1, previously undisclosed: different start offsets with overlapping seed ids; the two studies share generator seeds and are not independent draws.'
+- a: delayed_feedback_development
+  b: reports_20261022
+  kind: partial
+  overlap: [20261024, 20261051]
+  disclosure: found_by_T0.1
+  note: 'found by T0.1, previously undisclosed: different start offsets with overlapping seed ids; the two studies share generator seeds and are not independent draws.'
+- a: context_budgeted_promotion_grid_30
+  b: cost_tolerance_01_exploratory_10
+  kind: partial
+  overlap: [20261025, 20261031]
+  disclosure: found_by_T0.1
+  note: 'found by T0.1, previously undisclosed: different start offsets with overlapping seed ids; the two studies share generator seeds and are not independent draws.'
+- a: context_budgeted_promotion_grid_30
+  b: delayed_feedback_development
+  kind: partial
+  overlap: [20261025, 20261053]
+  disclosure: found_by_T0.1
+  note: 'found by T0.1, previously undisclosed: different start offsets with overlapping seed ids; the two studies share generator seeds and are not independent draws.'
+- a: context_budgeted_promotion_grid_30
+  b: reports_20261022
+  kind: partial
+  overlap: [20261025, 20261051]
+  disclosure: found_by_T0.1
+  note: 'found by T0.1, previously undisclosed: different start offsets with overlapping seed ids; the two studies share generator seeds and are not independent draws.'
+- a: context_budgeted_promotion_grid_30
+  b: validation_selected_context_policy_30
+  kind: partial
+  overlap: [20261026, 20261054]
+  disclosure: found_by_T0.1
+  note: 'found by T0.1, previously undisclosed: different start offsets with overlapping seed ids; the two studies share generator seeds and are not independent draws.'
+- a: cost_tolerance_01_exploratory_10
+  b: validation_selected_context_policy_30
+  kind: partial
+  overlap: [20261026, 20261031]
+  disclosure: found_by_T0.1
+  note: 'found by T0.1, previously undisclosed: different start offsets with overlapping seed ids; the two studies share generator seeds and are not independent draws.'
+- a: delayed_feedback_development
+  b: validation_selected_context_policy_30
+  kind: partial
+  overlap: [20261026, 20261053]
+  disclosure: found_by_T0.1
+  note: 'found by T0.1, previously undisclosed: different start offsets with overlapping seed ids; the two studies share generator seeds and are not independent draws.'
+- a: reports_20261022
+  b: validation_selected_context_policy_30
+  kind: partial
+  overlap: [20261026, 20261051]
+  disclosure: found_by_T0.1
+  note: 'found by T0.1, previously undisclosed: different start offsets with overlapping seed ids; the two studies share generator seeds and are not independent draws.'
+- a: smoke_validation_selected_context_policy
+  b: validation_selected_context_policy_replication_30
+  kind: nested
+  overlap: [20261100, 20261101]
+  disclosure: found_by_T0.1
+  note: 'found by T0.1, previously undisclosed: same start offset, one block is a prefix of the other (smoke/pilot/rerun reuse).'
+- a: scout_selected_context_policy_30
+  b: smoke_scout_context_policy
+  kind: nested
+  overlap: [20261130, 20261131]
+  disclosure: found_by_T0.1
+  note: 'found by T0.1, previously undisclosed: same start offset, one block is a prefix of the other (smoke/pilot/rerun reuse).'
+- a: delayed_grid_cli_smoke
+  b: scout_context_policy_null_calibration_1000
+  kind: nested
+  overlap: [20262000, 20262000]
+  disclosure: found_by_T0.1
+  note: 'found by T0.1, previously undisclosed: different start offsets with overlapping seed ids; the two studies share generator seeds and are not independent draws.'
+- a: delayed_grid_cli_smoke
+  b: start_prior_development
+  kind: nested
+  overlap: [20262000, 20262000]
+  disclosure: found_by_T0.1
+  note: 'found by T0.1, previously undisclosed: same start offset, one block is a prefix of the other (smoke/pilot/rerun reuse).'
+- a: scout_context_policy_null_calibration_1000
+  b: start_prior_development
+  kind: nested
+  overlap: [20262000, 20262029]
+  disclosure: found_by_T0.1
+  note: 'found by T0.1, previously undisclosed: different start offsets with overlapping seed ids; the two studies share generator seeds and are not independent draws.'
+- a: delayed_null_calibration_2000
+  b: scout_context_policy_confirmation_600
+  kind: nested
+  overlap: [20264000, 20264599]
+  disclosure: found_by_T0.1
+  note: 'found by T0.1, previously undisclosed: same start offset, one block is a prefix of the other (smoke/pilot/rerun reuse).'
+- a: delayed_null_calibration_2000
+  b: scout_context_policy_markov_null_1000
+  kind: nested
+  overlap: [20265000, 20265999]
+  disclosure: found_by_T0.1
+  note: 'found by T0.1, previously undisclosed: different start offsets with overlapping seed ids; the two studies share generator seeds and are not independent draws.'
+- a: delayed_null_calibration_2000
+  b: shiftguard_unified_sota_reproductions_target_scout_fixed_split_dev_v1
+  kind: nested
+  overlap: [20265000, 20265059]
+  disclosure: found_by_T0.1
+  note: 'found by T0.1, previously undisclosed: different start offsets with overlapping seed ids; the two studies share generator seeds and are not independent draws.'
+- a: scout_context_policy_markov_null_1000
+  b: shiftguard_unified_sota_reproductions_target_scout_fixed_split_dev_v1
+  kind: nested
+  overlap: [20265000, 20265059]
+  disclosure: found_by_T0.1
+  note: 'found by T0.1, previously undisclosed: same start offset, one block is a prefix of the other (smoke/pilot/rerun reuse).'
+- a: delayed_feedback_confirmation_2000
+  b: scout_context_markov_smoke_2
+  kind: nested
+  overlap: [20266000, 20266001]
+  disclosure: found_by_T0.1
+  note: 'found by T0.1, previously undisclosed: same start offset, one block is a prefix of the other (smoke/pilot/rerun reuse).'
+- a: delayed_feedback_confirmation_2000
+  b: scout_context_policy_drift_null_1000
+  kind: nested
+  overlap: [20267000, 20267999]
+  disclosure: found_by_T0.1
+  note: 'found by T0.1, previously undisclosed: different start offsets with overlapping seed ids; the two studies share generator seeds and are not independent draws.'
+- a: delayed_feedback_replication_2000
+  b: scout_context_policy_positive_drift_development_60
+  kind: nested
+  overlap: [20268000, 20268059]
+  disclosure: found_by_T0.1
+  note: 'found by T0.1, previously undisclosed: same start offset, one block is a prefix of the other (smoke/pilot/rerun reuse).'
+- a: delayed_feedback_replication_2000
+  b: scout_context_policy_eventwise_bound_development_60
+  kind: nested
+  overlap: [20268100, 20268159]
+  disclosure: found_by_T0.1
+  note: 'found by T0.1, previously undisclosed: different start offsets with overlapping seed ids; the two studies share generator seeds and are not independent draws.'
+- a: delayed_feedback_replication_2000
+  b: scout_context_policy_eventwise_drift_null_1000
+  kind: nested
+  overlap: [20269000, 20269999]
+  disclosure: found_by_T0.1
+  note: 'found by T0.1, previously undisclosed: different start offsets with overlapping seed ids; the two studies share generator seeds and are not independent draws.'
+- a: delayed_feedback_replication_2000
+  b: scout_context_policy_eventwise_drift_null_smoke_2
+  kind: nested
+  overlap: [20269000, 20269001]
+  disclosure: found_by_T0.1
+  note: 'found by T0.1, previously undisclosed: different start offsets with overlapping seed ids; the two studies share generator seeds and are not independent draws.'
+- a: scout_context_policy_eventwise_drift_null_1000
+  b: scout_context_policy_eventwise_drift_null_smoke_2
+  kind: nested
+  overlap: [20269000, 20269001]
+  disclosure: found_by_T0.1
+  note: 'found by T0.1, previously undisclosed: same start offset, one block is a prefix of the other (smoke/pilot/rerun reuse).'
+- a: delayed_feedback_replication_2000
+  b: shiftguard_unified_sota_reproductions_target_scout_fixed_split_cuda_smoke_v1
+  kind: partial
+  overlap: [20269999, 20269999]
+  disclosure: found_by_T0.1
+  note: 'found by T0.1, previously undisclosed: different start offsets with overlapping seed ids; the two studies share generator seeds and are not independent draws.'
+- a: scout_context_policy_eventwise_drift_null_1000
+  b: shiftguard_unified_sota_reproductions_target_scout_fixed_split_cuda_smoke_v1
+  kind: partial
+  overlap: [20269999, 20269999]
+  disclosure: found_by_T0.1
+  note: 'found by T0.1, previously undisclosed: different start offsets with overlapping seed ids; the two studies share generator seeds and are not independent draws.'
+- a: delayed_feedback_grid_confirmation_2000
+  b: scout_context_policy_eventwise_bound_confirmation_cuda_smoke_2
+  kind: nested
+  overlap: [20270000, 20270001]
+  disclosure: found_by_T0.1
+  note: 'found by T0.1, previously undisclosed: same start offset, one block is a prefix of the other (smoke/pilot/rerun reuse).'
+- a: delayed_feedback_grid_confirmation_2000
+  b: shiftguard_unified_sota_reproductions_target_scout_fixed_split_cuda_smoke_v1
+  kind: partial
+  overlap: [20270000, 20270000]
+  disclosure: found_by_T0.1
+  note: 'found by T0.1, previously undisclosed: different start offsets with overlapping seed ids; the two studies share generator seeds and are not independent draws.'
+- a: scout_context_policy_eventwise_bound_confirmation_cuda_smoke_2
+  b: shiftguard_unified_sota_reproductions_target_scout_fixed_split_cuda_smoke_v1
+  kind: partial
+  overlap: [20270000, 20270000]
+  disclosure: found_by_T0.1
+  note: 'found by T0.1, previously undisclosed: different start offsets with overlapping seed ids; the two studies share generator seeds and are not independent draws.'
+- a: delayed_adaptive_query_development_60
+  b: delayed_feedback_grid_confirmation_2000
+  kind: nested
+  overlap: [20271000, 20271059]
+  disclosure: found_by_T0.1
+  note: 'found by T0.1, previously undisclosed: different start offsets with overlapping seed ids; the two studies share generator seeds and are not independent draws.'
+- a: delayed_adaptive_query_development_60
+  b: scout_context_policy_eventwise_bound_confirmation_600
+  kind: nested
+  overlap: [20271000, 20271059]
+  disclosure: found_by_T0.1
+  note: 'found by T0.1, previously undisclosed: same start offset, one block is a prefix of the other (smoke/pilot/rerun reuse).'
+- a: delayed_feedback_grid_confirmation_2000
+  b: scout_context_policy_eventwise_bound_confirmation_600
+  kind: nested
+  overlap: [20271000, 20271599]
+  disclosure: found_by_T0.1
+  note: 'found by T0.1, previously undisclosed: different start offsets with overlapping seed ids; the two studies share generator seeds and are not independent draws.'
+- a: delayed_adaptive_query_development_60
+  b: evidence_growth_smoke
+  kind: nested
+  overlap: [20271023, 20271024]
+  disclosure: found_by_T0.1
+  note: 'found by T0.1, previously undisclosed: different start offsets with overlapping seed ids; the two studies share generator seeds and are not independent draws.'
+- a: delayed_feedback_grid_confirmation_2000
+  b: evidence_growth_smoke
+  kind: nested
+  overlap: [20271023, 20271024]
+  disclosure: found_by_T0.1
+  note: 'found by T0.1, previously undisclosed: different start offsets with overlapping seed ids; the two studies share generator seeds and are not independent draws.'
+- a: evidence_growth_smoke
+  b: scout_context_policy_eventwise_bound_confirmation_600
+  kind: nested
+  overlap: [20271023, 20271024]
+  disclosure: found_by_T0.1
+  note: 'found by T0.1, previously undisclosed: different start offsets with overlapping seed ids; the two studies share generator seeds and are not independent draws.'
+- a: delayed_adaptive_query_development_60
+  b: evidence_growth_replication_30
+  kind: nested
+  overlap: [20271024, 20271053]
+  disclosure: found_by_T0.1
+  note: 'found by T0.1, previously undisclosed: different start offsets with overlapping seed ids; the two studies share generator seeds and are not independent draws.'
+- a: delayed_adaptive_query_development_60
+  b: evidence_growth_smoke_v2
+  kind: nested
+  overlap: [20271024, 20271025]
+  disclosure: found_by_T0.1
+  note: 'found by T0.1, previously undisclosed: different start offsets with overlapping seed ids; the two studies share generator seeds and are not independent draws.'
+- a: delayed_feedback_grid_confirmation_2000
+  b: evidence_growth_replication_30
+  kind: nested
+  overlap: [20271024, 20271053]
+  disclosure: found_by_T0.1
+  note: 'found by T0.1, previously undisclosed: different start offsets with overlapping seed ids; the two studies share generator seeds and are not independent draws.'
+- a: delayed_feedback_grid_confirmation_2000
+  b: evidence_growth_smoke_v2
+  kind: nested
+  overlap: [20271024, 20271025]
+  disclosure: found_by_T0.1
+  note: 'found by T0.1, previously undisclosed: different start offsets with overlapping seed ids; the two studies share generator seeds and are not independent draws.'
+- a: evidence_growth_replication_30
+  b: evidence_growth_smoke
+  kind: partial
+  overlap: [20271024, 20271024]
+  disclosure: found_by_T0.1
+  note: 'found by T0.1, previously undisclosed: different start offsets with overlapping seed ids; the two studies share generator seeds and are not independent draws.'
+- a: evidence_growth_replication_30
+  b: evidence_growth_smoke_v2
+  kind: nested
+  overlap: [20271024, 20271025]
+  disclosure: found_by_T0.1
+  note: 'found by T0.1, previously undisclosed: same start offset, one block is a prefix of the other (smoke/pilot/rerun reuse).'
+- a: evidence_growth_replication_30
+  b: scout_context_policy_eventwise_bound_confirmation_600
+  kind: nested
+  overlap: [20271024, 20271053]
+  disclosure: found_by_T0.1
+  note: 'found by T0.1, previously undisclosed: different start offsets with overlapping seed ids; the two studies share generator seeds and are not independent draws.'
+- a: evidence_growth_smoke
+  b: evidence_growth_smoke_v2
+  kind: partial
+  overlap: [20271024, 20271024]
+  disclosure: found_by_T0.1
+  note: 'found by T0.1, previously undisclosed: different start offsets with overlapping seed ids; the two studies share generator seeds and are not independent draws.'
+- a: evidence_growth_smoke_v2
+  b: scout_context_policy_eventwise_bound_confirmation_600
+  kind: nested
+  overlap: [20271024, 20271025]
+  disclosure: found_by_T0.1
+  note: 'found by T0.1, previously undisclosed: different start offsets with overlapping seed ids; the two studies share generator seeds and are not independent draws.'
+- a: delayed_evidence_directed_ppi_smoke_2
+  b: delayed_feedback_grid_confirmation_2000
+  kind: nested
+  overlap: [20271990, 20271991]
+  disclosure: found_by_T0.1
+  note: 'found by T0.1, previously undisclosed: different start offsets with overlapping seed ids; the two studies share generator seeds and are not independent draws.'
+- a: delayed_evidence_directed_ppi_grid_30
+  b: scout_context_policy_eventwise_markov_development_cuda_smoke_2
+  kind: nested
+  overlap: [20272000, 20272001]
+  disclosure: found_by_T0.1
+  note: 'found by T0.1, previously undisclosed: same start offset, one block is a prefix of the other (smoke/pilot/rerun reuse).'
+- a: delayed_evidence_directed_ppi_grid_30
+  b: evidence_growth_stabilized_replication_30
+  kind: partial
+  overlap: [20272024, 20272029]
+  disclosure: found_by_T0.1
+  note: 'found by T0.1, previously undisclosed: different start offsets with overlapping seed ids; the two studies share generator seeds and are not independent draws.'
+- a: delayed_evidence_directed_ppi_grid_30
+  b: evidence_growth_stabilized_smoke
+  kind: nested
+  overlap: [20272024, 20272025]
+  disclosure: found_by_T0.1
+  note: 'found by T0.1, previously undisclosed: different start offsets with overlapping seed ids; the two studies share generator seeds and are not independent draws.'
+- a: evidence_growth_stabilized_replication_30
+  b: evidence_growth_stabilized_smoke
+  kind: nested
+  overlap: [20272024, 20272025]
+  disclosure: found_by_T0.1
+  note: 'found by T0.1, previously undisclosed: same start offset, one block is a prefix of the other (smoke/pilot/rerun reuse).'
+- a: scout_context_policy_eventwise_temporal_development_60
+  b: start_prior_validation_20274000
+  kind: nested
+  overlap: [20274000, 20274059]
+  disclosure: found_by_T0.1
+  note: 'found by T0.1, previously undisclosed: same start offset, one block is a prefix of the other (smoke/pilot/rerun reuse).'
+- a: scout_context_policy_eventwise_temporal_null_1000
+  b: start_prior_validation_20274000
+  kind: nested
+  overlap: [20275000, 20275999]
+  disclosure: found_by_T0.1
+  note: 'found by T0.1, previously undisclosed: different start offsets with overlapping seed ids; the two studies share generator seeds and are not independent draws.'
+- a: delayed_evidence_directed_ppi_calibration_1000
+  b: start_prior_robustness_20280000
+  kind: nested
+  overlap: [20280000, 20280499]
+  disclosure: found_by_T0.1
+  note: 'found by T0.1, previously undisclosed: same start offset, one block is a prefix of the other (smoke/pilot/rerun reuse).'
+- a: delayed_evidence_directed_ppi_confirmation_1000
+  b: horizon_hedge_development_20282000
+  kind: nested
+  overlap: [20282000, 20282199]
+  disclosure: found_by_T0.1
+  note: 'found by T0.1, previously undisclosed: same start offset, one block is a prefix of the other (smoke/pilot/rerun reuse).'
+- a: delayed_evidence_ppi_markov_smoke_2
+  b: late_prior_confirmation_20288000
+  kind: nested
+  overlap: [20289990, 20289991]
+  disclosure: found_by_T0.1
+  note: 'found by T0.1, previously undisclosed: different start offsets with overlapping seed ids; the two studies share generator seeds and are not independent draws.'
+- a: delayed_evidence_ppi_markov_calibration_1000
+  b: start_prior_robust_mix_development_20290000
+  kind: nested
+  overlap: [20290000, 20290499]
+  disclosure: known
+  note: 'Known overlap: both register seed offset 20290000 (docs/delayed_evidence_ppi_markov_calibration_protocol.md:19; docs/start_prior_robust_mix_protocol.md:35). Shared overlap is 20290000-20290499 (alternative block of start-prior robust mix inside the Markov PPI calibration block).'
+- a: delayed_evidence_ppi_start_mixture_grid_60
+  b: shiftguard_unified_sota_reproductions_anyrank_shiftguard_pilot_v1
+  kind: nested
+  overlap: [20310000, 20310005]
+  disclosure: found_by_T0.1
+  note: 'found by T0.1, previously undisclosed: same start offset, one block is a prefix of the other (smoke/pilot/rerun reuse).'
+- a: hard_budget_smoke
+  b: pprm_paired_smoke3
+  kind: nested
+  overlap: [20361022, 20361022]
+  disclosure: found_by_T0.1
+  note: 'found by T0.1, previously undisclosed: same start offset, one block is a prefix of the other (smoke/pilot/rerun reuse).'
+- a: hard_budget_smoke
+  b: reports_20361022
+  kind: nested
+  overlap: [20361022, 20361022]
+  disclosure: found_by_T0.1
+  note: 'found by T0.1, previously undisclosed: same start offset, one block is a prefix of the other (smoke/pilot/rerun reuse).'
+- a: pprm_paired_smoke3
+  b: reports_20361022
+  kind: nested
+  overlap: [20361022, 20361023]
+  disclosure: found_by_T0.1
+  note: 'found by T0.1, previously undisclosed: same start offset, one block is a prefix of the other (smoke/pilot/rerun reuse).'
+- a: evidence_directed_allocation_30
+  b: pprm_cm_eb_adaptive_cuda_smoke_2
+  kind: partial
+  overlap: [20371024, 20371024]
+  disclosure: found_by_T0.1
+  note: 'found by T0.1, previously undisclosed: different start offsets with overlapping seed ids; the two studies share generator seeds and are not independent draws.'
+- a: evidence_urgency_curve_grid_30
+  b: pprm_variance_diagnostic_v1
+  kind: partial
+  overlap: [20372024, 20372052]
+  disclosure: found_by_T0.1
+  note: 'found by T0.1, previously undisclosed: different start offsets with overlapping seed ids; the two studies share generator seeds and are not independent draws.'
+- a: pprm_horizon_corrected_v1_analysis
+  b: pprm_horizon_corrected_v1_n_1600
+  kind: nested
+  overlap: [20372123, 20372123]
+  disclosure: found_by_T0.1
+  note: 'found by T0.1, previously undisclosed: same start offset, one block is a prefix of the other (smoke/pilot/rerun reuse).'
+- a: evidence_budget20_comparison_60
+  b: gated_wp1_s1_fidelity_replay
+  kind: identical
+  overlap: [20373024, 20373083]
+  disclosure: found_by_T0.1
+  note: 'found by T0.1, previously undisclosed: same start offset, one block is a prefix of the other (smoke/pilot/rerun reuse).'
+- a: evidence_budget20_comparison_60
+  b: pprm_block_mixture_independent_v1_block_20
+  kind: nested
+  overlap: [20373024, 20373083]
+  disclosure: found_by_T0.1
+  note: 'found by T0.1, previously undisclosed: different start offsets with overlapping seed ids; the two studies share generator seeds and are not independent draws.'
+- a: evidence_budget20_comparison_60
+  b: propensity_floor_diagnostic_qmin020_30
+  kind: nested
+  overlap: [20373024, 20373053]
+  disclosure: found_by_T0.1
+  note: 'found by T0.1, previously undisclosed: same start offset, one block is a prefix of the other (smoke/pilot/rerun reuse).'
+- a: gated_wp1_s1_fidelity_replay
+  b: pprm_block_mixture_independent_v1_block_20
+  kind: nested
+  overlap: [20373024, 20373083]
+  disclosure: found_by_T0.1
+  note: 'found by T0.1, previously undisclosed: different start offsets with overlapping seed ids; the two studies share generator seeds and are not independent draws.'
+- a: gated_wp1_s1_fidelity_replay
+  b: propensity_floor_diagnostic_qmin020_30
+  kind: nested
+  overlap: [20373024, 20373053]
+  disclosure: found_by_T0.1
+  note: 'found by T0.1, previously undisclosed: same start offset, one block is a prefix of the other (smoke/pilot/rerun reuse).'
+- a: pprm_block_mixture_independent_v1_block_20
+  b: propensity_floor_diagnostic_qmin020_30
+  kind: nested
+  overlap: [20373024, 20373053]
+  disclosure: found_by_T0.1
+  note: 'found by T0.1, previously undisclosed: different start offsets with overlapping seed ids; the two studies share generator seeds and are not independent draws.'
+- a: pprm_block_mixture_calibration_v1
+  b: pprm_block_mixture_independent_v1_block_20
+  kind: nested
+  overlap: [20373123, 20373123]
+  disclosure: found_by_T0.1
+  note: 'found by T0.1, previously undisclosed: different start offsets with overlapping seed ids; the two studies share generator seeds and are not independent draws.'
+- a: pprm_registered_null_calibration_2000_v1
+  b: pprm_registered_null_calibration_batched_smoke
+  kind: nested
+  overlap: [20374000, 20374003]
+  disclosure: found_by_T0.1
+  note: 'found by T0.1, previously undisclosed: same start offset, one block is a prefix of the other (smoke/pilot/rerun reuse).'
+- a: pprm_registered_null_calibration_2000_v1
+  b: pprm_registered_null_calibration_smoke
+  kind: nested
+  overlap: [20374000, 20374001]
+  disclosure: found_by_T0.1
+  note: 'found by T0.1, previously undisclosed: same start offset, one block is a prefix of the other (smoke/pilot/rerun reuse).'
+- a: pprm_registered_null_calibration_batched_smoke
+  b: pprm_registered_null_calibration_smoke
+  kind: nested
+  overlap: [20374000, 20374001]
+  disclosure: found_by_T0.1
+  note: 'found by T0.1, previously undisclosed: same start offset, one block is a prefix of the other (smoke/pilot/rerun reuse).'
+- a: delayed_ppi_assumption_stress_2000
+  b: persistence_promotion_smoke
+  kind: nested
+  overlap: [20401023, 20401032]
+  disclosure: found_by_T0.1
+  note: 'found by T0.1, previously undisclosed: different start offsets with overlapping seed ids; the two studies share generator seeds and are not independent draws.'
+- a: delayed_ppi_assumption_stress_2000
+  b: promotion_timing
+  kind: partial
+  overlap: [20401023, 20401999]
+  disclosure: found_by_T0.1
+  note: 'found by T0.1, previously undisclosed: different start offsets with overlapping seed ids; the two studies share generator seeds and are not independent draws.'
+- a: persistence_promotion_smoke
+  b: promotion_timing
+  kind: nested
+  overlap: [20401023, 20401032]
+  disclosure: found_by_T0.1
+  note: 'found by T0.1, previously undisclosed: same start offset, one block is a prefix of the other (smoke/pilot/rerun reuse).'
+- a: delayed_ppi_assumption_stress_2000
+  b: prequential_proxy_hedge_development
+  kind: nested
+  overlap: [20401024, 20401123]
+  disclosure: found_by_T0.1
+  note: 'found by T0.1, previously undisclosed: different start offsets with overlapping seed ids; the two studies share generator seeds and are not independent draws.'
+- a: persistence_promotion_smoke
+  b: prequential_proxy_hedge_development
+  kind: partial
+  overlap: [20401024, 20401032]
+  disclosure: found_by_T0.1
+  note: 'found by T0.1, previously undisclosed: different start offsets with overlapping seed ids; the two studies share generator seeds and are not independent draws.'
+- a: prequential_proxy_hedge_development
+  b: promotion_timing
+  kind: nested
+  overlap: [20401024, 20401123]
+  disclosure: found_by_T0.1
+  note: 'found by T0.1, previously undisclosed: different start offsets with overlapping seed ids; the two studies share generator seeds and are not independent draws.'
+- a: risk_proxy_monitor_grid
+  b: risk_proxy_monitor_smoke
+  kind: nested
+  overlap: [20403024, 20403025]
+  disclosure: found_by_T0.1
+  note: 'found by T0.1, previously undisclosed: same start offset, one block is a prefix of the other (smoke/pilot/rerun reuse).'
+- a: hedged_betting_comparison_v2_23102026
+  b: promotion_robustness_grid
+  kind: nested
+  overlap: [23102026, 23102026]
+  disclosure: found_by_T0.1
+  note: 'found by T0.1, previously undisclosed: same start offset, one block is a prefix of the other (smoke/pilot/rerun reuse).'
+- a: budgeted_promotion_grid
+  b: hedged_betting_comparison_v3_24102026
+  kind: nested
+  overlap: [24102026, 24102026]
+  disclosure: found_by_T0.1
+  note: 'found by T0.1, previously undisclosed: same start offset, one block is a prefix of the other (smoke/pilot/rerun reuse).'
+- a: history_predictable_bound_calibration_2000
+  b: history_predictable_bound_smoke
+  kind: nested
+  overlap: [27102027, 27102090]
+  disclosure: found_by_T0.1
+  note: 'found by T0.1, previously undisclosed: same start offset, one block is a prefix of the other (smoke/pilot/rerun reuse).'
+- a: exact_mixture_growth_smoke
+  b: predictable_stake_calibration
+  kind: nested
+  overlap: [28102026, 28102026]
+  disclosure: found_by_T0.1
+  note: 'found by T0.1, previously undisclosed: same start offset, one block is a prefix of the other (smoke/pilot/rerun reuse).'
+- a: cost_neutral_growth_grid_development
+  b: cost_neutral_growth_grid_smoke
+  kind: nested
+  overlap: [28402026, 28402026]
+  disclosure: found_by_T0.1
+  note: 'found by T0.1, previously undisclosed: same start offset, one block is a prefix of the other (smoke/pilot/rerun reuse).'
+- a: robust_growth_grid_development
+  b: robust_growth_grid_smoke
+  kind: nested
+  overlap: [28602026, 28602026]
+  disclosure: found_by_T0.1
+  note: 'found by T0.1, previously undisclosed: same start offset, one block is a prefix of the other (smoke/pilot/rerun reuse).'
+- a: budget_frontier_60
+  b: budget_frontier_smoke
+  kind: nested
+  overlap: [28802026, 28802026]
+  disclosure: found_by_T0.1
+  note: 'found by T0.1, previously undisclosed: same start offset, one block is a prefix of the other (smoke/pilot/rerun reuse).'
+- a: shiftguard_unified_sota_reproductions_comparecast_paired_cost_dev_v1
+  b: shiftguard_unified_sota_reproductions_comparecast_paired_cost_smoke
+  kind: nested
+  overlap: [30325000, 30325001]
+  disclosure: found_by_T0.1
+  note: 'found by T0.1, previously undisclosed: same start offset, one block is a prefix of the other (smoke/pilot/rerun reuse).'
+- a: residual_variance_start_prior
+  b: residual_variance_start_prior_smoke
+  kind: nested
+  overlap: [31202026, 31202028]
+  disclosure: found_by_T0.1
+  note: 'found by T0.1, previously undisclosed: same start offset, one block is a prefix of the other (smoke/pilot/rerun reuse).'
+- a: residual_variance_context_grid_60
+  b: residual_variance_context_isolated_smoke_2
+  kind: nested
+  overlap: [31305000, 31305001]
+  disclosure: found_by_T0.1
+  note: 'found by T0.1, previously undisclosed: same start offset, one block is a prefix of the other (smoke/pilot/rerun reuse).'
+- a: closed_loop_intervention
+  b: closed_loop_intervention_smoke
+  kind: nested
+  overlap: [31404026, 31404030]
+  disclosure: found_by_T0.1
+  note: 'found by T0.1, previously undisclosed: same start offset, one block is a prefix of the other (smoke/pilot/rerun reuse).'
+- a: harm_power_grid_30
+  b: policy_bound_null_calibration_500
+  kind: nested
+  overlap: [54000000, 54000029]
+  disclosure: known
+  note: 'Known overlap: 54000000-54000029 (harm power grid, 30 seeds) is a subset of 54000000-54000499 (policy-bound null calibration, 500 seeds); both protocols register seed block 54000000 (docs/harm_power_grid_protocol.md:11, docs/policy_bound_null_calibration_protocol.md:15).'
+- a: fixed_dollar_horizon_grid_smoke_horizon_1000_stationary
+  b: propensity_floor_bound_development_60
+  kind: nested
+  overlap: [56000000, 56000000]
+  disclosure: found_by_T0.1
+  note: 'found by T0.1, previously undisclosed: same start offset, one block is a prefix of the other (smoke/pilot/rerun reuse).'
+- a: nested_candidate_context_development_200
+  b: nested_candidate_context_development_200_v2
+  kind: nested
+  overlap: [1124202026, 1124202225]
+  disclosure: found_by_T0.1
+  note: 'found by T0.1, previously undisclosed: same start offset, one block is a prefix of the other (smoke/pilot/rerun reuse).'
+- a: shiftguard_unified_sota_reproductions_mope_gated_null_smoke_30
+  b: shiftguard_unified_sota_reproductions_ppe_paired_cost_smoke_v1
+  kind: nested
+  overlap: [2026102600, 2026102601]
+  disclosure: found_by_T0.1
+  note: 'found by T0.1, previously undisclosed: same start offset, one block is a prefix of the other (smoke/pilot/rerun reuse).'
+- a: integrated_null_q2_candidate_null
+  b: integrated_null_q3_rollback_null
+  kind: partial
+  overlap: [2026115000, 2026115088]
+  disclosure: found_by_T0.1
+  note: 'found by T0.1, previously undisclosed: different start offsets with overlapping seed ids; the two studies share generator seeds and are not independent draws.'
+- a: integrated_null_q3_rollback_null
+  b: shiftguard_unified_integrated_development_fixed_candidate_null_calibration_v1
+  kind: partial
+  overlap: [2026116000, 2026116265]
+  disclosure: found_by_T0.1
+  note: 'found by T0.1, previously undisclosed: different start offsets with overlapping seed ids; the two studies share generator seeds and are not independent draws.'
+- a: integrated_null_q3_rollback_null
+  b: shiftguard_unified_integrated_development_fixed_candidate_null_pilot_v1
+  kind: nested
+  overlap: [2026116000, 2026116000]
+  disclosure: found_by_T0.1
+  note: 'found by T0.1, previously undisclosed: different start offsets with overlapping seed ids; the two studies share generator seeds and are not independent draws.'
+- a: shiftguard_unified_integrated_development_fixed_candidate_null_calibration_v1
+  b: shiftguard_unified_integrated_development_fixed_candidate_null_pilot_v1
+  kind: nested
+  overlap: [2026116000, 2026116000]
+  disclosure: found_by_T0.1
+  note: 'found by T0.1, previously undisclosed: same start offset, one block is a prefix of the other (smoke/pilot/rerun reuse).'
+- a: shiftguard_unified_sota_reproductions_mope_gated_calibration_smoke_20261026
+  b: shiftguard_unified_sota_reproductions_mope_gated_calibration_v1
+  kind: nested
+  overlap: [2040000000, 2040000001]
+  disclosure: found_by_T0.1
+  note: 'found by T0.1, previously undisclosed: same start offset, one block is a prefix of the other (smoke/pilot/rerun reuse).'

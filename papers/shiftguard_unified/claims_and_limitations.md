@@ -64,6 +64,13 @@ the corresponding gates pass. The claim-level artifact map is
    profiles, but simpler arms did better there, other onset/reversal profiles
    exposed failures, and the controller ablation did not change decisions.
    This does not support a general integrated-system advantage.
+9. **The new stratified and adaptive-observation candidates both stopped at
+   registered prescreens.** The stratified construction tied an equally
+   equipped standard subgroup composition to numerical precision and did not
+   clear its 1.5x growth gate. At the late-onset primary cell, the adaptive
+   controller detected 11/20 streams while a pre-registered temporal schedule
+   detected 20/20. These findings select stronger baselines for the benchmark;
+   they are development evidence, not equivalence, validity or confirmation.
 
 ## Claims not currently supported
 
@@ -89,6 +96,9 @@ the corresponding gates pass. The claim-level artifact map is
   WATCH, Comparecast, PPE, PPRM, policy-selection, and safe-adaptation
   literature remains unverified. See
   [`label-free temporal audit`](label_free_temporal_audit_prior_work.md).
+- A method claim for the stratified monitor or adaptive observation controller.
+  The former is covered by the equally equipped standard subgroup composition
+  in its screen; the latter failed its complete-panel late-onset gate.
 
 ## Remaining evidence gates
 

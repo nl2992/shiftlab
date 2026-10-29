@@ -1,5 +1,11 @@
 # ShiftGuard unified research goal
 
+> **Superseded direction — 2026-10-28:** Follow
+> [budgeted switching research goals](../../docs/budgeted_switching_research_goals.md).
+> Preserve ShiftGuard as the experimental platform. The active objective is a new algorithm,
+> defensible theory and matched empirical evidence; retrospective manuscript polishing is paused.
+> The text below records the earlier programme, not the current execution objective.
+
 **Status:** active research programme; this file records scope and decision gates, not a novelty claim.
 
 ShiftLab will determine whether one coherent system can improve decisions under distribution shift through (Q1) monitoring downstream decision harm, (Q2) selecting and statistically certifying candidate adaptations, and (Q3) allocating labels, monitoring, updates, retraining, switching, and fallback resources. The primary objective is cumulative net decision cost relative to a declared incumbent, subject to explicit information, statistical, and resource constraints.

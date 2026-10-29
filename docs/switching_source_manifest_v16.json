@@ -1,0 +1,11 @@
+[
+  {
+    "name": "capacity_constrained_online_learning_with_delays_2025",
+    "url": "https://arxiv.org/pdf/2503.19856",
+    "bytes": 641769,
+    "sha256": "cc6fd81926bdbba7dd297bf50d6dae59965418a88610294096411ca3fea7d7c0",
+    "status": "downloaded_primary_source_and_inspected_section_1_1_algorithm_1_theorems_3_1_3_2_and_section_4_1",
+    "retrieved_date": "2026-10-28",
+    "cache_path": "outputs/switching_source_audit_v1/capacity_constrained_delayed_learning_2025.pdf"
+  }
+]

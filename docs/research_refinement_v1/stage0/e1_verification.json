@@ -1,0 +1,1137 @@
+{
+  "checks": [
+    {
+      "claim": "H1 growth ratio gated-HT/uniform-PPI, r=0.20 (point)",
+      "recomputed": 7.201415,
+      "claimed": 7.2014,
+      "tolerance": 5e-05,
+      "status": "PASS",
+      "note": "ratio of means of per-stream best-fixed-stake post-onset growth (stored per row; the underlying e-process paths are not stored). CI reproduces the recorded procedure: seed 20261027, B=10000, default_rng.integers, percentile 2.5/97.5"
+    },
+    {
+      "claim": "H1 bootstrap 95% CI lower",
+      "recomputed": 6.884482,
+      "claimed": 6.8845,
+      "tolerance": 5e-05,
+      "status": "PASS",
+      "note": "ratio of means of per-stream best-fixed-stake post-onset growth (stored per row; the underlying e-process paths are not stored). CI reproduces the recorded procedure: seed 20261027, B=10000, default_rng.integers, percentile 2.5/97.5"
+    },
+    {
+      "claim": "H1 bootstrap 95% CI upper",
+      "recomputed": 7.551239,
+      "claimed": 7.5512,
+      "tolerance": 5e-05,
+      "status": "PASS",
+      "note": "ratio of means of per-stream best-fixed-stake post-onset growth (stored per row; the underlying e-process paths are not stored). CI reproduces the recorded procedure: seed 20261027, B=10000, default_rng.integers, percentile 2.5/97.5"
+    },
+    {
+      "claim": "H1 CI, independent seed 777 B=20000 (procedure-level)",
+      "recomputed": [
+        6.881,
+        7.5432
+      ],
+      "claimed": [
+        6.8845,
+        7.5512
+      ],
+      "tolerance": 0.05,
+      "status": "PASS",
+      "note": "Monte Carlo sampling difference expected; PASS if endpoints within 0.05 of claimed"
+    },
+    {
+      "claim": "H1 McNemar discordant wins (gated-HT detects, uniform-PPI not), r=0.05",
+      "recomputed": 100,
+      "claimed": 100,
+      "tolerance": 0.0,
+      "status": "PASS",
+      "note": ""
+    },
+    {
+      "claim": "H1 McNemar discordant losses",
+      "recomputed": 0,
+      "claimed": 0,
+      "tolerance": 0.0,
+      "status": "PASS",
+      "note": ""
+    },
+    {
+      "claim": "H1 McNemar exact one-sided p, r=0.05",
+      "recomputed": 7.888609052210118e-31,
+      "claimed": 7.9e-31,
+      "tolerance": 5e-33,
+      "status": "PASS",
+      "note": "tolerance = half unit in last digit of 7.9e-31; exact value is 0.5**100"
+    },
+    {
+      "claim": "H1 spend labels gated-HT (r=0.05)",
+      "recomputed": 118.11,
+      "claimed": 118.1,
+      "tolerance": 0.05,
+      "status": "PASS",
+      "note": ""
+    },
+    {
+      "claim": "H1 spend labels uniform-PPI",
+      "recomputed": 114.11,
+      "claimed": 114.1,
+      "tolerance": 0.05,
+      "status": "PASS",
+      "note": ""
+    },
+    {
+      "claim": "H1 spend dollars gated-HT",
+      "recomputed": 177.2888,
+      "claimed": 177.3,
+      "tolerance": 0.05,
+      "status": "PASS",
+      "note": ""
+    },
+    {
+      "claim": "H1 spend dollars uniform-PPI",
+      "recomputed": 170.8659,
+      "claimed": 170.9,
+      "tolerance": 0.05,
+      "status": "PASS",
+      "note": ""
+    },
+    {
+      "claim": "H2 observed growth ratio r=0.02",
+      "recomputed": 17.467667,
+      "claimed": 17.47,
+      "tolerance": 0.005,
+      "status": "PASS",
+      "note": "analytic predictions 18/18/15/7.5 are pre-registered constants, not recomputed"
+    },
+    {
+      "claim": "H2 observed growth ratio r=0.05",
+      "recomputed": 20.614848,
+      "claimed": 20.61,
+      "tolerance": 0.005,
+      "status": "PASS",
+      "note": "analytic predictions 18/18/15/7.5 are pre-registered constants, not recomputed"
+    },
+    {
+      "claim": "H2 observed growth ratio r=0.10",
+      "recomputed": 14.733614,
+      "claimed": 14.73,
+      "tolerance": 0.005,
+      "status": "PASS",
+      "note": "analytic predictions 18/18/15/7.5 are pre-registered constants, not recomputed"
+    },
+    {
+      "claim": "H2 observed growth ratio r=0.20",
+      "recomputed": 7.201415,
+      "claimed": 7.2,
+      "tolerance": 0.005,
+      "status": "PASS",
+      "note": "analytic predictions 18/18/15/7.5 are pre-registered constants, not recomputed"
+    },
+    {
+      "claim": "H3 S3 harmful_adaptation r=0.10 detection, default mixture fixed",
+      "recomputed": 0.86,
+      "claimed": 0.86,
+      "tolerance": 0.005,
+      "status": "PASS",
+      "note": "default mixture = engine fixed08; GRAPA = timans_grapa"
+    },
+    {
+      "claim": "H3 S3 harmful_adaptation r=0.10 detection, default mixture paced",
+      "recomputed": 0.76,
+      "claimed": 0.76,
+      "tolerance": 0.005,
+      "status": "PASS",
+      "note": "default mixture = engine fixed08; GRAPA = timans_grapa"
+    },
+    {
+      "claim": "H3 S3 harmful_adaptation r=0.10 detection, GRAPA fixed",
+      "recomputed": 0.94,
+      "claimed": 0.94,
+      "tolerance": 0.005,
+      "status": "PASS",
+      "note": "default mixture = engine fixed08; GRAPA = timans_grapa"
+    },
+    {
+      "claim": "H3 S3 harmful_adaptation r=0.10 detection, GRAPA paced",
+      "recomputed": 0.91,
+      "claimed": 0.91,
+      "tolerance": 0.005,
+      "status": "PASS",
+      "note": "default mixture = engine fixed08; GRAPA = timans_grapa"
+    },
+    {
+      "claim": "H3 S3 phase-table CSV agrees with claimed values",
+      "recomputed": true,
+      "claimed": true,
+      "tolerance": 0,
+      "status": "PASS",
+      "note": ""
+    },
+    {
+      "claim": "H1 own point estimate vs decision.json p1.estimate",
+      "recomputed": 7.201414940598405,
+      "claimed": 7.201414940598405,
+      "tolerance": 1e-09,
+      "status": "PASS",
+      "note": "summary-vs-recompute"
+    },
+    {
+      "claim": "H1 own CI lower vs decision.json",
+      "recomputed": 6.884481569358765,
+      "claimed": 6.884481569358765,
+      "tolerance": 1e-09,
+      "status": "PASS",
+      "note": "summary-vs-recompute"
+    },
+    {
+      "claim": "H1 own CI upper vs decision.json",
+      "recomputed": 7.55123907578657,
+      "claimed": 7.55123907578657,
+      "tolerance": 1e-09,
+      "status": "PASS",
+      "note": "summary-vs-recompute"
+    },
+    {
+      "claim": "H3 EIA number of detectable cells (12 path-onset cells less 2 non-detectable)",
+      "recomputed": 10,
+      "claimed": 10,
+      "tolerance": 0,
+      "status": "PASS",
+      "note": ""
+    },
+    {
+      "claim": "H3 EIA fixed matches full-feedback median delay, r=0.05 (of detectable cells)",
+      "recomputed": 10,
+      "claimed": 10,
+      "tolerance": 0,
+      "status": "PASS",
+      "note": "match = fixed detection_rate == 1 and median_delay_events equal; hourly data so events == hours"
+    },
+    {
+      "claim": "H3 EIA same test on median_delay_hours, r=0.05",
+      "recomputed": 10,
+      "claimed": 10,
+      "tolerance": 0,
+      "status": "PASS",
+      "note": ""
+    },
+    {
+      "claim": "H3 EIA fixed matches full-feedback median delay, r=0.10 (of detectable cells)",
+      "recomputed": 10,
+      "claimed": 10,
+      "tolerance": 0,
+      "status": "PASS",
+      "note": "match = fixed detection_rate == 1 and median_delay_events equal; hourly data so events == hours"
+    },
+    {
+      "claim": "H3 EIA same test on median_delay_hours, r=0.10",
+      "recomputed": 10,
+      "claimed": 10,
+      "tolerance": 0,
+      "status": "PASS",
+      "note": ""
+    },
+    {
+      "claim": "H3 EIA fixed matches full-feedback median delay, r=0.20 (of detectable cells)",
+      "recomputed": 10,
+      "claimed": 10,
+      "tolerance": 0,
+      "status": "PASS",
+      "note": "match = fixed detection_rate == 1 and median_delay_events equal; hourly data so events == hours"
+    },
+    {
+      "claim": "H3 EIA same test on median_delay_hours, r=0.20",
+      "recomputed": 10,
+      "claimed": 10,
+      "tolerance": 0,
+      "status": "PASS",
+      "note": ""
+    },
+    {
+      "claim": "H4 mean net expected gain boundary_local_harm / q1_fallback",
+      "recomputed": 664.643197,
+      "claimed": 664.64,
+      "tolerance": 0.005,
+      "status": "PASS",
+      "note": "from evaluator_event_log: sum(expected gain) - sum(intervention_cost_units), mean of 100 seeds"
+    },
+    {
+      "claim": "H4 mean net expected gain harmful_adaptation_at_monitor / q1_fallback",
+      "recomputed": 685.910891,
+      "claimed": 685.91,
+      "tolerance": 0.005,
+      "status": "PASS",
+      "note": "from evaluator_event_log: sum(expected gain) - sum(intervention_cost_units), mean of 100 seeds"
+    },
+    {
+      "claim": "H4 mean net expected gain recurring_regimes / q1_fallback",
+      "recomputed": 447.963744,
+      "claimed": 447.96,
+      "tolerance": 0.005,
+      "status": "PASS",
+      "note": "from evaluator_event_log: sum(expected gain) - sum(intervention_cost_units), mean of 100 seeds"
+    },
+    {
+      "claim": "H4 mean net expected gain boundary_local_harm / full_pipeline",
+      "recomputed": 118.005957,
+      "claimed": 118.01,
+      "tolerance": 0.005,
+      "status": "PASS",
+      "note": "from evaluator_event_log: sum(expected gain) - sum(intervention_cost_units), mean of 100 seeds"
+    },
+    {
+      "claim": "H4 mean net expected gain harmful_adaptation_at_monitor / full_pipeline",
+      "recomputed": 161.16096,
+      "claimed": 161.16,
+      "tolerance": 0.005,
+      "status": "PASS",
+      "note": "from evaluator_event_log: sum(expected gain) - sum(intervention_cost_units), mean of 100 seeds"
+    },
+    {
+      "claim": "H4 mean net expected gain recurring_regimes / full_pipeline",
+      "recomputed": 0.0,
+      "claimed": 0.0,
+      "tolerance": 0.005,
+      "status": "PASS",
+      "note": "from evaluator_event_log: sum(expected gain) - sum(intervention_cost_units), mean of 100 seeds"
+    },
+    {
+      "claim": "H4 mean net expected gain post_promotion_reversal / q1_fallback",
+      "recomputed": -1148.456116,
+      "claimed": -1148.46,
+      "tolerance": 0.005,
+      "status": "PASS",
+      "note": "from evaluator_event_log: sum(expected gain) - sum(intervention_cost_units), mean of 100 seeds"
+    },
+    {
+      "claim": "H4 mean net expected gain post_promotion_reversal / full_pipeline",
+      "recomputed": -143.758,
+      "claimed": -143.76,
+      "tolerance": 0.005,
+      "status": "PASS",
+      "note": "from evaluator_event_log: sum(expected gain) - sum(intervention_cost_units), mean of 100 seeds"
+    },
+    {
+      "claim": "H4 event-log net vs seed_metrics.expected_deployment_gain, max abs per-seed deviation",
+      "recomputed": 2.2737367544323206e-13,
+      "claimed": 0.0,
+      "tolerance": 1e-09,
+      "status": "PASS",
+      "note": "definition check of 'expected gain' (cost coefficient 1)"
+    },
+    {
+      "claim": "H4 recomputed means vs integrated_pipeline_summary.csv mean_expected_gain, max abs deviation",
+      "recomputed": 1.1368683772161603e-13,
+      "claimed": 0.0,
+      "tolerance": 1e-09,
+      "status": "PASS",
+      "note": ""
+    },
+    {
+      "claim": "S2 every cell has exactly the 2,000 seeds 58500000-58501999",
+      "recomputed": true,
+      "claimed": true,
+      "tolerance": 0,
+      "status": "PASS",
+      "note": ""
+    },
+    {
+      "claim": "S2 number of arms",
+      "recomputed": 41,
+      "claimed": 41,
+      "tolerance": 0,
+      "status": "PASS",
+      "note": ""
+    },
+    {
+      "claim": "S2 arms with simultaneous exact upper bound <= 5%",
+      "recomputed": 41,
+      "claimed": 41,
+      "tolerance": 0,
+      "status": "PASS",
+      "note": ""
+    },
+    {
+      "claim": "S2 max upper bound over all arms/cells (claim: <= 5%)",
+      "recomputed": 0.019534,
+      "claimed": 0.05,
+      "tolerance": 0.0,
+      "status": "PASS",
+      "note": "PASS if recomputed <= 0.05"
+    },
+    {
+      "claim": "S2 per-cell alarm counts equal summary.csv",
+      "recomputed": 0,
+      "claimed": 0,
+      "tolerance": 0,
+      "status": "PASS",
+      "note": ""
+    },
+    {
+      "claim": "S2 per-cell upper bounds equal summary.csv, max abs deviation",
+      "recomputed": 9.324138683375338e-17,
+      "claimed": 0.0,
+      "tolerance": 1e-09,
+      "status": "PASS",
+      "note": ""
+    },
+    {
+      "claim": "S2 cells compared",
+      "recomputed": 294,
+      "claimed": 294,
+      "tolerance": 0,
+      "status": "PASS",
+      "note": ""
+    },
+    {
+      "claim": "S2 gated_ht_paced stationary r=0.02 alarms / upper bound %",
+      "recomputed": [
+        0,
+        0.253
+      ],
+      "claimed": [
+        0,
+        0.253
+      ],
+      "tolerance": 0.0005,
+      "status": "PASS",
+      "note": "doc table: alarms/2000 and bound in percent to 3 decimals"
+    },
+    {
+      "claim": "S2 gated_ht_paced stationary r=0.05 alarms / upper bound %",
+      "recomputed": [
+        1,
+        0.358
+      ],
+      "claimed": [
+        1,
+        0.358
+      ],
+      "tolerance": 0.0005,
+      "status": "PASS",
+      "note": "doc table: alarms/2000 and bound in percent to 3 decimals"
+    },
+    {
+      "claim": "S2 gated_ht_paced stationary r=0.10 alarms / upper bound %",
+      "recomputed": [
+        4,
+        0.613
+      ],
+      "claimed": [
+        4,
+        0.613
+      ],
+      "tolerance": 0.0005,
+      "status": "PASS",
+      "note": "doc table: alarms/2000 and bound in percent to 3 decimals"
+    },
+    {
+      "claim": "S2 gated_ht_paced stationary r=0.20 alarms / upper bound %",
+      "recomputed": [
+        6,
+        0.764
+      ],
+      "claimed": [
+        6,
+        0.764
+      ],
+      "tolerance": 0.0005,
+      "status": "PASS",
+      "note": "doc table: alarms/2000 and bound in percent to 3 decimals"
+    },
+    {
+      "claim": "S2 gated_ht_paced benign_nuisance r=0.02 alarms / upper bound %",
+      "recomputed": [
+        0,
+        0.253
+      ],
+      "claimed": [
+        0,
+        0.253
+      ],
+      "tolerance": 0.0005,
+      "status": "PASS",
+      "note": "doc table: alarms/2000 and bound in percent to 3 decimals"
+    },
+    {
+      "claim": "S2 gated_ht_paced benign_nuisance r=0.05 alarms / upper bound %",
+      "recomputed": [
+        2,
+        0.449
+      ],
+      "claimed": [
+        2,
+        0.449
+      ],
+      "tolerance": 0.0005,
+      "status": "PASS",
+      "note": "doc table: alarms/2000 and bound in percent to 3 decimals"
+    },
+    {
+      "claim": "S2 gated_ht_paced benign_nuisance r=0.10 alarms / upper bound %",
+      "recomputed": [
+        4,
+        0.613
+      ],
+      "claimed": [
+        4,
+        0.613
+      ],
+      "tolerance": 0.0005,
+      "status": "PASS",
+      "note": "doc table: alarms/2000 and bound in percent to 3 decimals"
+    },
+    {
+      "claim": "S2 gated_ht_paced benign_nuisance r=0.20 alarms / upper bound %",
+      "recomputed": [
+        6,
+        0.764
+      ],
+      "claimed": [
+        6,
+        0.764
+      ],
+      "tolerance": 0.0005,
+      "status": "PASS",
+      "note": "doc table: alarms/2000 and bound in percent to 3 decimals"
+    },
+    {
+      "claim": "S2 doc: largest bound anywhere 1.953% (ppe_gated, 24/2000)",
+      "recomputed": [
+        "ppe_gated",
+        24,
+        1.953
+      ],
+      "claimed": [
+        "ppe_gated",
+        24,
+        1.953
+      ],
+      "tolerance": 0.0005,
+      "status": "PASS",
+      "note": ""
+    },
+    {
+      "claim": "S2 doc: next-largest 1.115% (gated_ht_paced__fixed1, 11/2000)",
+      "recomputed": [
+        "gated_ht_paced__fixed1",
+        11,
+        1.115
+      ],
+      "claimed": [
+        "gated_ht_paced__fixed1",
+        11,
+        1.115
+      ],
+      "tolerance": 0.0005,
+      "status": "PASS",
+      "note": ""
+    },
+    {
+      "claim": "WP4 primary (epsilon=0.1) null cells with 0 alarms / 1000 (claim 68/68)",
+      "recomputed": "68/68",
+      "claimed": "68/68",
+      "tolerance": 0,
+      "status": "PASS",
+      "note": ""
+    },
+    {
+      "claim": "WP4 primary total alarms across the 68 cells",
+      "recomputed": 0,
+      "claimed": 0,
+      "tolerance": 0,
+      "status": "PASS",
+      "note": ""
+    },
+    {
+      "claim": "WP4 all-cell Bonferroni exact one-sided upper bound, 68 primary cells, percent",
+      "recomputed": 0.7189,
+      "claimed": 0.72,
+      "tolerance": 0.005,
+      "status": "PASS",
+      "note": "0/1000 closed form 1-(alpha/k)^(1/1000) = 0.7189%; claim '~0.72%'; tolerance half unit of last digit"
+    },
+    {
+      "claim": "WP4 null_cells.csv cp_upper recomputed (one-sided 95%, unadjusted) max abs deviation",
+      "recomputed": 9.497611030973019e-17,
+      "claimed": 0.0,
+      "tolerance": 1e-08,
+      "status": "PASS",
+      "note": ""
+    },
+    {
+      "claim": "WP4 arms in null cells",
+      "recomputed": [
+        "full_feedback",
+        "gated_eb_paced",
+        "gated_ht_fixed",
+        "gated_ht_paced",
+        "ungated_ht"
+      ],
+      "claimed": [
+        "full_feedback",
+        "gated_eb_paced",
+        "gated_ht_fixed",
+        "gated_ht_paced",
+        "ungated_ht"
+      ],
+      "tolerance": 0,
+      "status": "PASS",
+      "note": ""
+    },
+    {
+      "claim": "WP4 INFO epsilon=0 (descriptive null boundary) cells with 0 alarms / total",
+      "recomputed": "53/68; total alarms 265; max cell 28/1000",
+      "claimed": "not claimed (docs call epsilon=0 descriptive)",
+      "tolerance": 0,
+      "status": "INFO",
+      "note": "README row description says 'primary and epsilon = 0'; the 68/68 claim holds only for primary epsilon=0.1. A reader taking 136 rows as 68/68 would be wrong; at epsilon=0 the orientation null is not a null for the bound."
+    }
+  ],
+  "hashes": [
+    {
+      "artifact": "compare/streams.parquet",
+      "path": "outputs/gated_monitor_compare/streams.parquet",
+      "sha256": "5f1f2ca1981cd29401efd1afdea577137a6bf50a7e16b5aa1ef17d4d47c037df",
+      "recorded": "5f1f2ca1981cd29401efd1afdea577137a6bf50a7e16b5aa1ef17d4d47c037df",
+      "recorded_in": "outputs/gated_monitor_compare/manifest.json",
+      "status": "MATCH"
+    },
+    {
+      "artifact": "compare/decision.json",
+      "path": "outputs/gated_monitor_compare/decision.json",
+      "sha256": "12df491fd7ff3fb8560ff29351985e972b3762e84e725b5b00546fa286547c02",
+      "recorded": "12df491fd7ff3fb8560ff29351985e972b3762e84e725b5b00546fa286547c02",
+      "recorded_in": "outputs/gated_monitor_compare/manifest.json",
+      "status": "MATCH"
+    },
+    {
+      "artifact": "compare/launch.json",
+      "path": "outputs/gated_monitor_compare/launch.json",
+      "sha256": "69bc4f457c9541782197438a7c461777496fd8a0b6f3d4307f295424e846e2b9",
+      "recorded": "69bc4f457c9541782197438a7c461777496fd8a0b6f3d4307f295424e846e2b9",
+      "recorded_in": "outputs/gated_monitor_compare/manifest.json",
+      "status": "MATCH"
+    },
+    {
+      "artifact": "compare/streams.parquet (analysis input)",
+      "path": "outputs/gated_monitor_compare/streams.parquet",
+      "sha256": "5f1f2ca1981cd29401efd1afdea577137a6bf50a7e16b5aa1ef17d4d47c037df",
+      "recorded": "5f1f2ca1981cd29401efd1afdea577137a6bf50a7e16b5aa1ef17d4d47c037df",
+      "recorded_in": "compare/analysis/manifest.json:input_sha256",
+      "status": "MATCH"
+    },
+    {
+      "artifact": "compare/analysis/summary.csv",
+      "path": "outputs/gated_monitor_compare/analysis/summary.csv",
+      "sha256": "670833915b3ec749882abd598d48dcff91df431e72eea9c81ce21dcef876ed03",
+      "recorded": "670833915b3ec749882abd598d48dcff91df431e72eea9c81ce21dcef876ed03",
+      "recorded_in": "compare/analysis/manifest.json",
+      "status": "MATCH"
+    },
+    {
+      "artifact": "compare/analysis/decision.json",
+      "path": "outputs/gated_monitor_compare/analysis/decision.json",
+      "sha256": "e5827d8b81d36fb05f93125eb047c1c5a449d4a71ca667a3b6f2245c54d0cd5c",
+      "recorded": "e5827d8b81d36fb05f93125eb047c1c5a449d4a71ca667a3b6f2245c54d0cd5c",
+      "recorded_in": "compare/analysis/manifest.json",
+      "status": "MATCH"
+    },
+    {
+      "artifact": "compare/analysis/summary.csv vs README",
+      "path": "outputs/gated_monitor_compare/analysis/summary.csv",
+      "sha256": "670833915b3ec749882abd598d48dcff91df431e72eea9c81ce21dcef876ed03",
+      "recorded": "670833915b3ec749882abd598d48dcff91df431e72eea9c81ce21dcef876ed03",
+      "recorded_in": "docs/phase_tables_stratified_monitor/README.md",
+      "status": "MATCH"
+    },
+    {
+      "artifact": "docs copy wp1_s3_comparison_summary.csv",
+      "path": "docs/phase_tables_stratified_monitor/wp1_s3_comparison_summary.csv",
+      "sha256": "670833915b3ec749882abd598d48dcff91df431e72eea9c81ce21dcef876ed03",
+      "recorded": "670833915b3ec749882abd598d48dcff91df431e72eea9c81ce21dcef876ed03",
+      "recorded_in": "docs/phase_tables_stratified_monitor/README.md",
+      "status": "MATCH"
+    },
+    {
+      "artifact": "null/streams.parquet",
+      "path": "outputs/gated_monitor_null/streams.parquet",
+      "sha256": "17b719edb2826f25fe8cf6aecf09525814f628b01464221ee417d9ae7f27e7a2",
+      "recorded": "17b719edb2826f25fe8cf6aecf09525814f628b01464221ee417d9ae7f27e7a2",
+      "recorded_in": "outputs/gated_monitor_null/manifest.json",
+      "status": "MATCH"
+    },
+    {
+      "artifact": "null/decision.json",
+      "path": "outputs/gated_monitor_null/decision.json",
+      "sha256": "12a7da49c55c6f5a16b7730149f97e936c62085da2a97cb9be630ff49968ef00",
+      "recorded": "12a7da49c55c6f5a16b7730149f97e936c62085da2a97cb9be630ff49968ef00",
+      "recorded_in": "outputs/gated_monitor_null/manifest.json",
+      "status": "MATCH"
+    },
+    {
+      "artifact": "null/launch.json",
+      "path": "outputs/gated_monitor_null/launch.json",
+      "sha256": "bb289a598b3cd99d9c80e20bbd90bf781039f0d86b22f431b75fc1d08c09de9c",
+      "recorded": "bb289a598b3cd99d9c80e20bbd90bf781039f0d86b22f431b75fc1d08c09de9c",
+      "recorded_in": "outputs/gated_monitor_null/manifest.json",
+      "status": "MATCH"
+    },
+    {
+      "artifact": "null/streams.parquet (analysis input)",
+      "path": "outputs/gated_monitor_null/streams.parquet",
+      "sha256": "17b719edb2826f25fe8cf6aecf09525814f628b01464221ee417d9ae7f27e7a2",
+      "recorded": "17b719edb2826f25fe8cf6aecf09525814f628b01464221ee417d9ae7f27e7a2",
+      "recorded_in": "null/analysis/manifest.json:input_sha256",
+      "status": "MATCH"
+    },
+    {
+      "artifact": "null/analysis/summary.csv",
+      "path": "outputs/gated_monitor_null/analysis/summary.csv",
+      "sha256": "e34483bd66d377e51d7c0c31b7301ce25b873406e29a200ebc22e3162bfdd40c",
+      "recorded": "e34483bd66d377e51d7c0c31b7301ce25b873406e29a200ebc22e3162bfdd40c",
+      "recorded_in": "null/analysis/manifest.json",
+      "status": "MATCH"
+    },
+    {
+      "artifact": "null/analysis/decision.json",
+      "path": "outputs/gated_monitor_null/analysis/decision.json",
+      "sha256": "8a3b4b9770f89596f0a4e492dfca70c835823cf2be07c4e3ca0101268f607722",
+      "recorded": "8a3b4b9770f89596f0a4e492dfca70c835823cf2be07c4e3ca0101268f607722",
+      "recorded_in": "null/analysis/manifest.json",
+      "status": "MATCH"
+    },
+    {
+      "artifact": "null/analysis/summary.csv vs README",
+      "path": "outputs/gated_monitor_null/analysis/summary.csv",
+      "sha256": "e34483bd66d377e51d7c0c31b7301ce25b873406e29a200ebc22e3162bfdd40c",
+      "recorded": "e34483bd66d377e51d7c0c31b7301ce25b873406e29a200ebc22e3162bfdd40c",
+      "recorded_in": "docs/phase_tables_stratified_monitor/README.md",
+      "status": "MATCH"
+    },
+    {
+      "artifact": "docs copy wp1_null_summary.csv",
+      "path": "docs/phase_tables_stratified_monitor/wp1_null_summary.csv",
+      "sha256": "e34483bd66d377e51d7c0c31b7301ce25b873406e29a200ebc22e3162bfdd40c",
+      "recorded": "e34483bd66d377e51d7c0c31b7301ce25b873406e29a200ebc22e3162bfdd40c",
+      "recorded_in": "docs/phase_tables_stratified_monitor/README.md",
+      "status": "MATCH"
+    },
+    {
+      "artifact": "eia/injected.csv",
+      "path": "outputs/eia_real_data_validity/injected.csv",
+      "sha256": "8d21426355112b134c8864412206bc38e597279e9ae7733b64cf81fc9d182cd7",
+      "recorded": "8d21426355112b134c8864412206bc38e597279e9ae7733b64cf81fc9d182cd7",
+      "recorded_in": "outputs/eia_real_data_validity/manifest.json",
+      "status": "MATCH"
+    },
+    {
+      "artifact": "eia/injected.csv vs README",
+      "path": "outputs/eia_real_data_validity/injected.csv",
+      "sha256": "8d21426355112b134c8864412206bc38e597279e9ae7733b64cf81fc9d182cd7",
+      "recorded": "8d21426355112b134c8864412206bc38e597279e9ae7733b64cf81fc9d182cd7",
+      "recorded_in": "docs/phase_tables_stratified_monitor/README.md",
+      "status": "MATCH"
+    },
+    {
+      "artifact": "docs copy wp4_eia_injected.csv",
+      "path": "docs/phase_tables_stratified_monitor/wp4_eia_injected.csv",
+      "sha256": "8d21426355112b134c8864412206bc38e597279e9ae7733b64cf81fc9d182cd7",
+      "recorded": "8d21426355112b134c8864412206bc38e597279e9ae7733b64cf81fc9d182cd7",
+      "recorded_in": "docs/phase_tables_stratified_monitor/README.md",
+      "status": "MATCH"
+    },
+    {
+      "artifact": "eia/null_cells.csv",
+      "path": "outputs/eia_real_data_validity/null_cells.csv",
+      "sha256": "788932ab9100ecf6aef26957b84de0f8b141cb74257e725a39f378ebc6a4b5f2",
+      "recorded": "788932ab9100ecf6aef26957b84de0f8b141cb74257e725a39f378ebc6a4b5f2",
+      "recorded_in": "outputs/eia_real_data_validity/manifest.json",
+      "status": "MATCH"
+    },
+    {
+      "artifact": "eia/null_cells.csv vs README",
+      "path": "outputs/eia_real_data_validity/null_cells.csv",
+      "sha256": "788932ab9100ecf6aef26957b84de0f8b141cb74257e725a39f378ebc6a4b5f2",
+      "recorded": "788932ab9100ecf6aef26957b84de0f8b141cb74257e725a39f378ebc6a4b5f2",
+      "recorded_in": "docs/phase_tables_stratified_monitor/README.md",
+      "status": "MATCH"
+    },
+    {
+      "artifact": "docs copy wp4_eia_null_cells.csv",
+      "path": "docs/phase_tables_stratified_monitor/wp4_eia_null_cells.csv",
+      "sha256": "788932ab9100ecf6aef26957b84de0f8b141cb74257e725a39f378ebc6a4b5f2",
+      "recorded": "788932ab9100ecf6aef26957b84de0f8b141cb74257e725a39f378ebc6a4b5f2",
+      "recorded_in": "docs/phase_tables_stratified_monitor/README.md",
+      "status": "MATCH"
+    },
+    {
+      "artifact": "eia/unmodified.csv",
+      "path": "outputs/eia_real_data_validity/unmodified.csv",
+      "sha256": "32575cb4bd1ade54c6ed487dbacc6e6b551ada1208bdab40c4ce38c5cb51aa4f",
+      "recorded": "32575cb4bd1ade54c6ed487dbacc6e6b551ada1208bdab40c4ce38c5cb51aa4f",
+      "recorded_in": "outputs/eia_real_data_validity/manifest.json",
+      "status": "MATCH"
+    },
+    {
+      "artifact": "eia/unmodified.csv vs README",
+      "path": "outputs/eia_real_data_validity/unmodified.csv",
+      "sha256": "32575cb4bd1ade54c6ed487dbacc6e6b551ada1208bdab40c4ce38c5cb51aa4f",
+      "recorded": "32575cb4bd1ade54c6ed487dbacc6e6b551ada1208bdab40c4ce38c5cb51aa4f",
+      "recorded_in": "docs/phase_tables_stratified_monitor/README.md",
+      "status": "MATCH"
+    },
+    {
+      "artifact": "docs copy wp4_eia_unmodified.csv",
+      "path": "docs/phase_tables_stratified_monitor/wp4_eia_unmodified.csv",
+      "sha256": "32575cb4bd1ade54c6ed487dbacc6e6b551ada1208bdab40c4ce38c5cb51aa4f",
+      "recorded": "32575cb4bd1ade54c6ed487dbacc6e6b551ada1208bdab40c4ce38c5cb51aa4f",
+      "recorded_in": "docs/phase_tables_stratified_monitor/README.md",
+      "status": "MATCH"
+    },
+    {
+      "artifact": "eia/decision.json",
+      "path": "outputs/eia_real_data_validity/decision.json",
+      "sha256": "3d55c52e6981498bd915d27caa47d8b77d83c7d556049eec3b8d153095b678f0",
+      "recorded": "3d55c52e6981498bd915d27caa47d8b77d83c7d556049eec3b8d153095b678f0",
+      "recorded_in": "outputs/eia_real_data_validity/manifest.json",
+      "status": "MATCH"
+    },
+    {
+      "artifact": "efficacy_100_v1/integrated_pipeline_seed_metrics.parquet",
+      "path": "outputs/shiftguard_unified/integrated_confirmation/efficacy_100_v1/integrated_pipeline_seed_metrics.parquet",
+      "sha256": "8f183fb72346547a2c2310462fd9f6730eb113e63175e7f2e387074c65f24f51",
+      "recorded": "8f183fb72346547a2c2310462fd9f6730eb113e63175e7f2e387074c65f24f51",
+      "recorded_in": "efficacy_100_v1/manifest.json:metrics_sha256",
+      "status": "MATCH"
+    },
+    {
+      "artifact": "efficacy_100_v1/integrated_pipeline_summary.csv",
+      "path": "outputs/shiftguard_unified/integrated_confirmation/efficacy_100_v1/integrated_pipeline_summary.csv",
+      "sha256": "977dae86770a584d40128989b19bc534c424715730c45b6cfba4c3cf4687894c",
+      "recorded": "977dae86770a584d40128989b19bc534c424715730c45b6cfba4c3cf4687894c",
+      "recorded_in": "efficacy_100_v1/manifest.json:summary_sha256",
+      "status": "MATCH"
+    },
+    {
+      "artifact": "efficacy_100_v1/integrated_pipeline_paired_contrasts.csv",
+      "path": "outputs/shiftguard_unified/integrated_confirmation/efficacy_100_v1/integrated_pipeline_paired_contrasts.csv",
+      "sha256": "6f5b93d9877ed13e08152cbc6889b70aad47643332732e51c5e4e003fa87bdf7",
+      "recorded": "6f5b93d9877ed13e08152cbc6889b70aad47643332732e51c5e4e003fa87bdf7",
+      "recorded_in": "efficacy_100_v1/manifest.json:paired_contrasts_sha256",
+      "status": "MATCH"
+    },
+    {
+      "artifact": "efficacy_100_v1/protocol_snapshot.md",
+      "path": "outputs/shiftguard_unified/integrated_confirmation/efficacy_100_v1/protocol_snapshot.md",
+      "sha256": "0dac5a5fc605ec39c7e9bff591a64d422427fdab5526c51e9da5aa07bfc4b20a",
+      "recorded": "0dac5a5fc605ec39c7e9bff591a64d422427fdab5526c51e9da5aa07bfc4b20a",
+      "recorded_in": "efficacy_100_v1/manifest.json:protocol_snapshot_sha256",
+      "status": "MATCH"
+    },
+    {
+      "artifact": "efficacy_100_v1/evaluator_event_log.parquet",
+      "path": "outputs/shiftguard_unified/integrated_confirmation/efficacy_100_v1/evaluator_event_log.parquet",
+      "sha256": "b87a54ae0f1e2084f5dcf0b28ac01c6fc754e8c96b6fd7496eda514bcbc82837",
+      "recorded": "b87a54ae0f1e2084f5dcf0b28ac01c6fc754e8c96b6fd7496eda514bcbc82837",
+      "recorded_in": "efficacy_100_v1/manifest.json:evaluator_event_log",
+      "status": "MATCH"
+    },
+    {
+      "artifact": "efficacy_100_v1/learner_event_log.parquet",
+      "path": "outputs/shiftguard_unified/integrated_confirmation/efficacy_100_v1/learner_event_log.parquet",
+      "sha256": "ee2323e20859c2143c522cd67d5002633eab4448a613ba4ef2f90f619697b5ad",
+      "recorded": "ee2323e20859c2143c522cd67d5002633eab4448a613ba4ef2f90f619697b5ad",
+      "recorded_in": "efficacy_100_v1/manifest.json:learner_event_log",
+      "status": "MATCH"
+    }
+  ],
+  "s2_per_arm": [
+    {
+      "arm": "feature_adwin",
+      "total_alarms": 0,
+      "max_cell_alarms": 0,
+      "cells": 4,
+      "max_upper": 0.0021886147997063833
+    },
+    {
+      "arm": "full_feedback",
+      "total_alarms": 48,
+      "max_cell_alarms": 6,
+      "cells": 8,
+      "max_upper": 0.007638868517651837
+    },
+    {
+      "arm": "full_feedback__fixed1",
+      "total_alarms": 80,
+      "max_cell_alarms": 10,
+      "cells": 8,
+      "max_upper": 0.010471275817870569
+    },
+    {
+      "arm": "full_feedback__plugin",
+      "total_alarms": 32,
+      "max_cell_alarms": 4,
+      "cells": 8,
+      "max_upper": 0.006126729389429661
+    },
+    {
+      "arm": "full_feedback__timans_approx_grapa",
+      "total_alarms": 16,
+      "max_cell_alarms": 2,
+      "cells": 8,
+      "max_upper": 0.004490360798898933
+    },
+    {
+      "arm": "full_feedback__timans_grapa",
+      "total_alarms": 80,
+      "max_cell_alarms": 10,
+      "cells": 8,
+      "max_upper": 0.010471275817870569
+    },
+    {
+      "arm": "gated_eb_paced",
+      "total_alarms": 0,
+      "max_cell_alarms": 0,
+      "cells": 8,
+      "max_upper": 0.0025343699556337933
+    },
+    {
+      "arm": "gated_ht_fixed",
+      "total_alarms": 28,
+      "max_cell_alarms": 6,
+      "cells": 8,
+      "max_upper": 0.007638868517651837
+    },
+    {
+      "arm": "gated_ht_fixed__fixed1",
+      "total_alarms": 49,
+      "max_cell_alarms": 10,
+      "cells": 8,
+      "max_upper": 0.010471275817870569
+    },
+    {
+      "arm": "gated_ht_fixed__plugin",
+      "total_alarms": 18,
+      "max_cell_alarms": 4,
+      "cells": 8,
+      "max_upper": 0.006126729389429661
+    },
+    {
+      "arm": "gated_ht_fixed__timans_approx_grapa",
+      "total_alarms": 12,
+      "max_cell_alarms": 2,
+      "cells": 8,
+      "max_upper": 0.004490360798898933
+    },
+    {
+      "arm": "gated_ht_fixed__timans_grapa",
+      "total_alarms": 58,
+      "max_cell_alarms": 10,
+      "cells": 8,
+      "max_upper": 0.010471275817870569
+    },
+    {
+      "arm": "gated_ht_paced",
+      "total_alarms": 23,
+      "max_cell_alarms": 6,
+      "cells": 8,
+      "max_upper": 0.007638868517651837
+    },
+    {
+      "arm": "gated_ht_paced__fixed1",
+      "total_alarms": 60,
+      "max_cell_alarms": 11,
+      "cells": 8,
+      "max_upper": 0.011153415520960915
+    },
+    {
+      "arm": "gated_ht_paced__plugin",
+      "total_alarms": 14,
+      "max_cell_alarms": 4,
+      "cells": 8,
+      "max_upper": 0.006126729389429661
+    },
+    {
+      "arm": "gated_ht_paced__timans_approx_grapa",
+      "total_alarms": 8,
+      "max_cell_alarms": 2,
+      "cells": 8,
+      "max_upper": 0.004490360798898933
+    },
+    {
+      "arm": "gated_ht_paced__timans_grapa",
+      "total_alarms": 63,
+      "max_cell_alarms": 10,
+      "cells": 8,
+      "max_upper": 0.010471275817870569
+    },
+    {
+      "arm": "gated_ppi_paced",
+      "total_alarms": 25,
+      "max_cell_alarms": 6,
+      "cells": 8,
+      "max_upper": 0.007638868517651837
+    },
+    {
+      "arm": "gated_ppi_paced__fixed1",
+      "total_alarms": 37,
+      "max_cell_alarms": 10,
+      "cells": 8,
+      "max_upper": 0.010471275817870569
+    },
+    {
+      "arm": "gated_ppi_paced__plugin",
+      "total_alarms": 14,
+      "max_cell_alarms": 4,
+      "cells": 8,
+      "max_upper": 0.006126729389429661
+    },
+    {
+      "arm": "gated_ppi_paced__timans_approx_grapa",
+      "total_alarms": 6,
+      "max_cell_alarms": 2,
+      "cells": 8,
+      "max_upper": 0.004490360798898933
+    },
+    {
+      "arm": "gated_ppi_paced__timans_grapa",
+      "total_alarms": 42,
+      "max_cell_alarms": 10,
+      "cells": 8,
+      "max_upper": 0.010471275817870569
+    },
+    {
+      "arm": "no_action",
+      "total_alarms": 0,
+      "max_cell_alarms": 0,
+      "cells": 8,
+      "max_upper": 0.0025343699556337933
+    },
+    {
+      "arm": "ppe_gated",
+      "total_alarms": 151,
+      "max_cell_alarms": 24,
+      "cells": 8,
+      "max_upper": 0.01953422707523372
+    },
+    {
+      "arm": "ppe_uniform",
+      "total_alarms": 6,
+      "max_cell_alarms": 3,
+      "cells": 8,
+      "max_upper": 0.005329775393306754
+    },
+    {
+      "arm": "uniform_ppi",
+      "total_alarms": 0,
+      "max_cell_alarms": 0,
+      "cells": 8,
+      "max_upper": 0.0025343699556337933
+    },
+    {
+      "arm": "uniform_ppi__fixed1",
+      "total_alarms": 0,
+      "max_cell_alarms": 0,
+      "cells": 8,
+      "max_upper": 0.0025343699556337933
+    },
+    {
+      "arm": "uniform_ppi__plugin",
+      "total_alarms": 0,
+      "max_cell_alarms": 0,
+      "cells": 8,
+      "max_upper": 0.0025343699556337933
+    },
+    {
+      "arm": "uniform_ppi__timans_approx_grapa",
+      "total_alarms": 0,
+      "max_cell_alarms": 0,
+      "cells": 8,
+      "max_upper": 0.0025343699556337933
+    },
+    {
+      "arm": "uniform_ppi__timans_grapa",
+      "total_alarms": 1,
+      "max_cell_alarms": 1,
+      "cells": 8,
+      "max_upper": 0.0035826791748358147
+    },
+    {
+      "arm": "uniform_ppi_common96p9",
+      "total_alarms": 0,
+      "max_cell_alarms": 0,
+      "cells": 2,
+      "max_upper": 0.0018427397934059364
+    },
+    {
+      "arm": "uniform_ppi_common96p9__fixed1",
+      "total_alarms": 0,
+      "max_cell_alarms": 0,
+      "cells": 2,
+      "max_upper": 0.0018427397934059364
+    },
+    {
+      "arm": "uniform_ppi_common96p9__plugin",
+      "total_alarms": 0,
+      "max_cell_alarms": 0,
+      "cells": 2,
+      "max_upper": 0.0018427397934059364
+    },
+    {
+      "arm": "uniform_ppi_common96p9__timans_approx_grapa",
+      "total_alarms": 0,
+      "max_cell_alarms": 0,
+      "cells": 2,
+      "max_upper": 0.0018427397934059364
+    },
+    {
+      "arm": "uniform_ppi_common96p9__timans_grapa",
+      "total_alarms": 0,
+      "max_cell_alarms": 0,
+      "cells": 2,
+      "max_upper": 0.0018427397934059364
+    },
+    {
+      "arm": "variance_ppi",
+      "total_alarms": 0,
+      "max_cell_alarms": 0,
+      "cells": 8,
+      "max_upper": 0.0025343699556337933
+    },
+    {
+      "arm": "variance_ppi__fixed1",
+      "total_alarms": 0,
+      "max_cell_alarms": 0,
+      "cells": 8,
+      "max_upper": 0.0025343699556337933
+    },
+    {
+      "arm": "variance_ppi__plugin",
+      "total_alarms": 0,
+      "max_cell_alarms": 0,
+      "cells": 8,
+      "max_upper": 0.0025343699556337933
+    },
+    {
+      "arm": "variance_ppi__timans_approx_grapa",
+      "total_alarms": 0,
+      "max_cell_alarms": 0,
+      "cells": 8,
+      "max_upper": 0.0025343699556337933
+    },
+    {
+      "arm": "variance_ppi__timans_grapa",
+      "total_alarms": 0,
+      "max_cell_alarms": 0,
+      "cells": 8,
+      "max_upper": 0.0025343699556337933
+    },
+    {
+      "arm": "xu_active",
+      "total_alarms": 0,
+      "max_cell_alarms": 0,
+      "cells": 8,
+      "max_upper": 0.0025343699556337933
+    }
+  ]
+}

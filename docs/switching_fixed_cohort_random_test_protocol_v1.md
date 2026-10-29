@@ -1,0 +1,20 @@
+# Registered one-cell randomized cohort-test comparison
+
+**Registered:** 2026-10-28 before execution. One exact decision-class diagnostic, not a new algorithm or efficacy study.
+
+Use the persistent strong-signal cell from the prior screen: T=6, B=3, d=2, alpha=1/10, c=1/100, k=1/10, symmetric HMM transition 1/10, emissions (1/50,49/50), prior P(S0=1)=1/2. Query exactly events 1,2,3 and wait for their labels at the starts of rounds 3,4,5. At round 5, choose a randomized one-time promotion probability f(y1,y2,y3) in [0,1], hold action 1 through T, and use no further queries. Compare to action 0 throughout and charge all three requests regardless of test result. This fixes query acquisition and decision timing, so only the terminal test function is optimized.
+
+Maximize HMM expected economic gain from promotion minus the single switch charge, subject to the exact worst-case causal conditional-null probability of promotion being at most alpha. Under the null, enumerate all endpoint conditional Bernoulli kernels: p1 in {0,1/2}, p2(y1) in {0,1/2}, and p3(y1,y2) in {0,1/2}, giving 128 linear risk constraints on the eight test probabilities. This admits arbitrary nonmonotone rejection functions and private randomization. Alternative tape probabilities and conditional expected round-5/6 gains are computed by exact HMM filtering. After the floating LP, rationalize f and recompute every null risk exactly; scale the whole test toward no-promotion if needed to restore risk. Query cap is exactly three on every path.
+
+Compare its safe expected cost with (a) the existing one-label episode composition and (b) the recovered robust causal-game policy in the same cell. Report the LP solver value as numerical, and make no exact optimality or method claim without an exact dual certificate. The all-policy risk LP and randomized finite test design are established theory; this is a diagnostic isolating test-function flexibility.
+
+Run `PYTHONPATH=src python scripts/solve_switching_fixed_cohort_random_test.py`; save full outcomes, risk rows, parameters and code hashes in `outputs/switching_fixed_cohort_random_test_v1/results.json`. Do not tune the cell or alter the registered test time after seeing output.
+## Result and interpretation
+
+The recovered test assigns promotion probability 4/5 to tape 111 and zero to the other seven tapes. Its worst null risk over all 128 causal endpoint kernels is exactly 1/10: the all-positive tape has maximum null probability 1/8, followed by test randomization 4/5. No risk calibration mixture was needed. The pathwise query count is exactly three.
+
+Under the HMM alternative, the fixed cohort's exact total cost is `3324362012/1220703125` = 2.7233173602304, including the three query charges. Expected test gain net of switch cost is `1497473827/4882812500`; expected promotions are computed in the output. The episode composition cost is 2.8196795680256, so the fixed-cohort test improves by 0.0963622077952. The recovered unrestricted causal-game policy costs 2.7133173602304, only 0.01 lower than the fixed-cohort test. Thus most of the gap from the simple episode policy in this cell is test class/decision design, not query opportunity timing. The LP has no rational dual certificate, so neither fixed-cohort nor causal-game numerical solver result is claimed to be globally optimal. The exact safety calculation and cost of the displayed recovered test are verified rationally.
+
+This is standard finite randomized test design under a hard cohort cap, related to the exact fixed-cohort frontier in `switching_economic_test_frontier_v1.md`; it is not a novel algorithm or a theorem about recurrent switching. It uses no real data and does not pass G1.
+
+Reproduction: `PYTHONPATH=src python scripts/solve_switching_fixed_cohort_random_test.py`. The output contains all eight tape values, exact risks for 128 null kernels, parameters and source hashes at `outputs/switching_fixed_cohort_random_test_v1/results.json`. Ruff and `git diff --check` passed; the targeted causal-game suite reported 12 passed.

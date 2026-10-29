@@ -1,0 +1,6 @@
+{
+  "script": "scripts/e4_eligibility.py",
+  "script_sha256": "2ae257140448373400e1e0cac63b3b158d9a7fb3ee1dcc8a91cf07e6654225cf",
+  "recorded_utc": "2026-10-28T18:34:33+00:00",
+  "note": "Recorded before the script was first run and before any EBA.zip content was read for E4. Line endings: hash of working-tree bytes as stored."
+}

@@ -1,0 +1,318 @@
+{
+  "schema": "shiftlab-research-handoff/v1",
+  "recorded_utc_date": "2026-10-28",
+  "source_branch": "research/phase-progress-2026-10-27",
+  "decision": "BENCHMARK_PAPER",
+  "target_venues": [
+    "NeurIPS Datasets and Benchmarks",
+    "TMLR"
+  ],
+  "prior_decisions_standing": [
+    {
+      "date": "2026-10-26",
+      "decision": "NO_GO",
+      "scope": "RIVE/ASC/unified monitor-certify-intervene algorithm",
+      "doc": "papers/shiftguard_unified/decision_gate_report_2026-10-26.md"
+    },
+    {
+      "date": "2026-10-27",
+      "decision": "NO_GO (checkpoint B)",
+      "scope": "new Paper 1 monitoring algorithm",
+      "doc": "docs/phase_report_stratified_monitor.md"
+    }
+  ],
+  "selected_contribution": "Matched-resource evaluation contract for paired decision-harm monitoring and intervention, with three bounded findings (gating replication credited to DISCERN; burst-class pacing pattern; intervention-ranking dependence on timing and rollback design) and credited Lemma L.",
+  "proposal_doc": "docs/research_refinement_v1/FINAL_RESEARCH_PROPOSAL.md",
+  "readiness_gate_doc": "docs/research_refinement_v1/IMPLEMENTATION_READINESS_GATE.md",
+  "claim_matrix_doc": "docs/research_refinement_v1/CLAIM_TO_EVIDENCE_MATRIX.md",
+  "approved_tasks": [
+    {
+      "id": "T0.1",
+      "stage": 0,
+      "task": "Machine-checked seed registry with overlap test; disclose known overlaps",
+      "requires_new_seeds": false,
+      "requires_new_data": false,
+      "status": "done",
+      "commit": "596c06b"
+    },
+    {
+      "id": "T0.2",
+      "stage": 0,
+      "task": "E1 independent verifier for H1-H4, S2 and WP4 tables from frozen artifacts with hash checks",
+      "requires_new_seeds": false,
+      "requires_new_data": false,
+      "status": "done",
+      "commit": "6c9a39b"
+    },
+    {
+      "id": "T0.3",
+      "stage": 0,
+      "task": "Deterministic Lemma L test (HT mixture propensity invariance at eps=0; PPI differs)",
+      "requires_new_seeds": false,
+      "requires_new_data": false,
+      "status": "done",
+      "commit": "0a31348"
+    },
+    {
+      "id": "T0.4",
+      "stage": 0,
+      "task": "Errata file: S2 seed typo, stale rollback sentence, bibliography corrections, Claim B ratio",
+      "requires_new_seeds": false,
+      "requires_new_data": false,
+      "status": "done",
+      "commit": "f4108d7"
+    },
+    {
+      "id": "T0.5",
+      "stage": 0,
+      "task": "Target-Scout budgeted_promotion.py hash drift equivalence check (8eada2f9 vs 681a4e13)",
+      "requires_new_seeds": false,
+      "requires_new_data": false,
+      "status": "done",
+      "commit": "c3008a0"
+    },
+    {
+      "id": "T0.6",
+      "stage": 0,
+      "task": "Portable LF re-hash of WP4 freeze record",
+      "requires_new_seeds": false,
+      "requires_new_data": false,
+      "status": "done",
+      "commit": "d9292e7"
+    },
+    {
+      "id": "T0.7",
+      "stage": 0,
+      "task": "Arm-by-arm validity table including Xu, PPE and reference-training channel; Codex review",
+      "requires_new_seeds": false,
+      "requires_new_data": false,
+      "status": "done",
+      "commit": "71106b2"
+    },
+    {
+      "id": "T0.8",
+      "stage": 0,
+      "task": "Lemma L write-up with applicability table and local eps statement",
+      "requires_new_seeds": false,
+      "requires_new_data": false,
+      "status": "done",
+      "commit": "cce969f"
+    },
+    {
+      "id": "P1",
+      "stage": 1,
+      "task": "Freeze E2 protocol (H-B1a, H-B1b, H-B2; power from dev discordance; burst classes i-iii)",
+      "blocks": [
+        "R2"
+      ]
+    },
+    {
+      "id": "P2",
+      "stage": 1,
+      "task": "Freeze E3 protocol (executable timeline; response x rollback parity x coverage x onset x post-alarm reference; revert-while-certifying arm)",
+      "blocks": [
+        "R3"
+      ]
+    },
+    {
+      "id": "P3",
+      "stage": 1,
+      "task": "Freeze E4 protocol (eligibility algorithm hashed before value inspection; dev/locked split; four clocks; exposure audit)",
+      "blocks": [
+        "R4"
+      ]
+    },
+    {
+      "id": "P4",
+      "stage": 1,
+      "task": "Specify benchmark-value gate external method via public interface",
+      "blocks": [
+        "R5"
+      ]
+    },
+    {
+      "id": "R2",
+      "stage": 2,
+      "task": "Run E2 on CPU after dev smoke",
+      "after": [
+        "P1",
+        "T0.1"
+      ]
+    },
+    {
+      "id": "R3",
+      "stage": 2,
+      "task": "Run E3 CPU smoke; CUDA-scale needs user approval",
+      "after": [
+        "P2",
+        "T0.1"
+      ],
+      "needs_user_approval_for": "CUDA-scale run"
+    },
+    {
+      "id": "R4",
+      "stage": 2,
+      "task": "Run E4 on locked held-out EIA authorities from local snapshot",
+      "after": [
+        "P3",
+        "T0.1",
+        "T0.6"
+      ]
+    },
+    {
+      "id": "R5",
+      "stage": 2,
+      "task": "External-method benchmark-value gate",
+      "after": [
+        "P4"
+      ]
+    }
+  ],
+  "hypotheses": [
+    {
+      "id": "H-B1a",
+      "statement": "Gated HT detects more often than uniform HT (same engine/stakes) at r in {0.02, 0.05}, boundary_local_harm",
+      "test": "exact one-sided McNemar, Holm over 2"
+    },
+    {
+      "id": "H-B1b",
+      "statement": "Gated/uniform HT labels-to-alarm ratio < 0.5 at r=0.20",
+      "test": "paired bootstrap upper 97.5% bound"
+    },
+    {
+      "id": "H-B2",
+      "statement": "Fixed non-inferior to paced in burst classes (i) post-onset and (iii) recurrent; paced superior in (ii) harmless pre-onset burst then late harm",
+      "test": "non-inferiority margin -5 pts one-sided 97.5% and one-sided McNemar, Holm over 3"
+    },
+    {
+      "id": "H-B3",
+      "statement": "Revert-minus-promote utility sign crosses with post-alarm reference deterioration under matched opportunities",
+      "test": "registered interaction contrast, paired seeds, Holm"
+    },
+    {
+      "id": "H-B4",
+      "statement": "Locked held-out EIA authorities: orientation nulls hold; fixed gating matches full-feedback median delay in >=80% of detectable injected cells at r>=0.05",
+      "test": "exact Bonferroni bounds; registered descriptive replication criterion"
+    }
+  ],
+  "rejected_approaches": [
+    {
+      "approach": "RIVE/ASC/unified algorithm",
+      "reason": "2026-10-26 NO-GO; integrated results profile-specific; Drift2Act + Regol/CARA + CPC cover framing"
+    },
+    {
+      "approach": "New Paper 1 monitoring mechanisms (stratified, data-efficient controller, ADG anchor, controller variants)",
+      "reason": "Failed registered screens; checkpoint B"
+    },
+    {
+      "approach": "Statistically controlled promotion method (path B)",
+      "reason": "Combination test: OCS/HCPI/OPI/AnyRank/Digalakis/Zhang-Wu-Qian"
+    },
+    {
+      "approach": "G1 bandit-feedback harm monitor",
+      "reason": "Waudby-Smith et al. and Lindon-Kallus cover core; section at most"
+    },
+    {
+      "approach": "G3 intervention-validity theory",
+      "reason": "Bookkeeping covered (DISCERN, Guo 2026); causal estimand unfixed"
+    },
+    {
+      "approach": "G2 prospective-certifiability theory",
+      "reason": "Parked; persistence assumption carries the result; no repository evidence"
+    },
+    {
+      "approach": "Partial-identification / tail-harm monitor",
+      "reason": "Likely combination; no evidence; parked"
+    },
+    {
+      "approach": "New claims on CRSP, Upworthy, or exposed EIA windows",
+      "reason": "Exposed test windows"
+    }
+  ],
+  "separately_gated": [
+    {
+      "id": "G4",
+      "task": "Pencil-and-paper minimax pre-screen for finite-budget gated detection under bursts",
+      "stop_if": "optimal schedule is fixed/uniform up to constants or maps to Geng-Bayraktar-Lai or Zhang-Cheung",
+      "expected": "stop"
+    }
+  ],
+  "abandonment_triggers": [
+    "Validity-critical E1 failure not explained by an implementation fault",
+    "H-B1a fails at both budgets and H-B2/H-B3 show no discriminating pattern",
+    "Benchmark-value gate fails",
+    "Published benchmark covering reserve/temporal allocation and intervention comparisons under decision costs"
+  ],
+  "unresolved_blockers": [
+    {
+      "id": "U1",
+      "blocker": "CUDA-scale E3 approval",
+      "owner": "user"
+    },
+    {
+      "id": "U2",
+      "blocker": "Deferred post-freeze EIA pull: confirm method (user-set API key or ~700 MB bulk) and size before any download",
+      "owner": "user"
+    },
+    {
+      "id": "U3",
+      "blocker": "Whether a GitLab mirror exists (only GitHub origin configured)",
+      "owner": "user"
+    },
+    {
+      "id": "U4",
+      "blocker": "Push authorisation; local main diverges from origin/main by the PR #1 merge commit",
+      "owner": "user"
+    }
+  ],
+  "unresolved_objections": [
+    "Main-track importance (Codex ICML 3/10)",
+    "Real-data breadth: one task family, imposed costs, correlated held-out authorities, no prospective evidence yet",
+    "H4 qualitative precedent (Conformal Policy Control, SPIBB)",
+    "Synthetic evaluator-oracle utilities with imposed cost scale",
+    "Contract specified but not delivered",
+    "Common-label contract excludes action-dependent feedback"
+  ],
+  "constraints": [
+    "No pushes; commit on research branch and fast-forward local main",
+    "No new downloads without explicit user confirmation of method and size",
+    "No reruns of frozen evaluations without a written verification reason",
+    "Fresh seeds only via the machine-checked registry",
+    "Licensed/raw data stays out of Git and out of reviewer prompts",
+    "PaperBanana for figures; report if unavailable"
+  ],
+  "independent_reviews": [
+    {
+      "round": "B2 novelty",
+      "reviewer": "codex gpt-6.1-sol xhigh",
+      "doc": "docs/research_refinement_v1/PRIOR_ART_AND_NOVELTY_MATRIX.md#appendix-g"
+    },
+    {
+      "round": 1,
+      "reviewer": "codex gpt-6.1-sol xhigh",
+      "verdict": "BENCHMARK_PAPER with substantial revision",
+      "scores": {
+        "icml_main": 3,
+        "neurips_db": 4
+      },
+      "doc": "docs/research_refinement_v1/ADVERSARIAL_REVIEW_1.md"
+    },
+    {
+      "round": 2,
+      "reviewer": "codex gpt-6.1-sol xhigh",
+      "verdict": "BENCHMARK_PAPER, continue conditionally",
+      "scores": {
+        "icml_main": 3,
+        "neurips_db": 5
+      },
+      "doc": "docs/research_refinement_v1/ADVERSARIAL_REVIEW_2.md"
+    }
+  ],
+  "stage0_summary_doc": "docs/research_refinement_v1/stage0/STAGE0_SUMMARY.md",
+  "stage0_findings_for_stage1": [
+    "Take E2-E4 seeds from shiftlab.seed_registry.allocate() and register them first; 101 previously undisclosed overlaps now disclosed",
+    "Q2 certificate tests E[I_t(g_t - s)|F] <= 0, not full-cost net benefit; P2 must state the certify-arm estimand",
+    "K8: WP4 68/68 holds at primary eps=0.1 only; K6/H4 values are expected (oracle) net gain",
+    "PPE gated alias = gated PPI at stake 0.9; PPRM calibration figure belongs to paired-cost block monitors"
+  ]
+}

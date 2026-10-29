@@ -1,0 +1,11 @@
+[
+  {
+    "name": "khonji_jasour_williams_constant_horizon_ccpomdp_2019",
+    "url": "https://www.ijcai.org/proceedings/2019/0775.pdf",
+    "bytes": 232825,
+    "sha256": "43f94914cd623bda169bea17419113d93b3f23b209bd650e38939d2a7a8506b0",
+    "status": "downloaded_primary_source_inspected_definitions_2_1_2_2_sequence_formulation_hardness_theorem_5_4_and_corollary_5_5",
+    "retrieved_date": "2026-10-28",
+    "cache_path": "outputs/switching_source_audit_v1/khonji_constant_horizon_ccpomdp_2019.pdf"
+  }
+]

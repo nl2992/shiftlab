@@ -1,5 +1,9 @@
 # ShiftLab
 
+The active research objective is a novel budget-aware acquisition-and-model-switching method
+under delayed feedback, with theory and matched empirical evidence. ShiftGuard remains the
+experimental platform. See the [current goals and acceptance gates](docs/budgeted_switching_research_goals.md).
+
 ShiftLab is a reproducible research codebase for studying distribution shift when predictions,
 labels, decisions, and model updates happen over time. It combines a focused three-track benchmark
 with a reusable data framework for controlled simulations and selected public or licensed sources.

@@ -1,0 +1,47 @@
+{
+  "alphas": {
+    "monitor": 0.02,
+    "promotion": 0.015,
+    "rollback": 0.015
+  },
+  "cert_label_cap": 320,
+  "cert_window": 800,
+  "coverage_end": {
+    "long": 3200,
+    "short": 1600
+  },
+  "deploy_rule": "window_end",
+  "deterioration_lag": 0,
+  "doses": [
+    0.0,
+    0.15,
+    0.3,
+    0.45,
+    0.6,
+    0.8,
+    1.0
+  ],
+  "harm_margin": 0.1,
+  "monitor_rate": 0.4,
+  "n_events": 3200,
+  "onsets": {
+    "after": 2000,
+    "at": 1600,
+    "before": 800
+  },
+  "responses": [
+    "continue",
+    "revert",
+    "certify_promote",
+    "revert_while_certifying",
+    "wait_revert"
+  ],
+  "rollback_cost": 0.05,
+  "rollback_label_cap": 160,
+  "rollback_rate": 0.2,
+  "rollbacks": [
+    "off",
+    "parity"
+  ],
+  "switch_cost": 0.05
+}

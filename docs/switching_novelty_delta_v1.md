@@ -218,3 +218,14 @@ regimes, repeated reversible deployment, or causal-null promotion risk. Thus it 
 generic acquisition/two-phase claim, while the exact contract mismatch remains a comparison
 obligation rather than evidence of novelty. No efficacy grid was run; G1 remains unresolved and
 G2–G5 remain held.
+
+### Markov state sensing cost and truncated planning (2026-10-29)
+
+`switching_markov_state_sensing_cost_audit_v1.md` records a primary-source audit of Kapoor and
+Nair (AISTATS 2026), including the state-expansion protocol, SPI, and Theorems 4.1, 4.2 and 4.4.
+The paper already provides Markov-state sensing costs, blind-action look-ahead, an always-sense
+optimality threshold, and a computable truncation/suboptimality bound. It observes the latent state
+when sensing, and has neither delayed noisy paired labels nor a hard total budget, reversible
+deployment fees, or the separate causal-null reachability constraint. Thus it closes generic
+Markov sensing and approximate-planning claims but does not resolve the exact ShiftLab interaction.
+The mismatch remains an obligation, not a novelty claim; G1 is still open and G2–G5 are held.

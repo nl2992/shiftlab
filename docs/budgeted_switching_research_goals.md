@@ -1619,3 +1619,18 @@ the finite benchmark. Source limitation: RAO* full text/proof not inspected in t
   contract. The query-stratum-dependent `p_j` movement-coupling idea remains unvalidated and must
   account for actual continuation utility, not arbitrary scores. No efficacy grid or holdout access
   is authorized before that comparison passes G1/G2.
+
+### Checkpoint 2026-10-29: Markov state-sensing planner prior
+
+- Audited Kapoor and Nair (AISTATS 2026) from the official PMLR PDF, including the hidden-state
+  sensing protocol, SPI, and Theorems 4.1, 4.2 and 4.4. They already formulate Markov control with
+  recurring state-sensing costs, blind action sequences, and a computable truncation/suboptimality
+  guarantee. `switching_markov_state_sensing_cost_audit_v1.md` records the theorem boundary and
+  source hash.
+- Their sensing action reveals the latent state under a single discounted law. It does not preserve
+  ShiftLab's delayed noisy paired labels, pathwise total query cap, reversible deployment costs, or
+  separate causal-null any-promotion constraint. Merely augmenting this planner with queue, budget
+  and risk variables is not a methodological result.
+- Decision: a surviving theorem must compare against both stationary cost-aware bandits and Markov
+  state-sensing control, and exploit the exact two-law, delayed, reversible contract. No method has
+  passed G1. Hold G2–G5 and keep promotion validity separate from post-reversal current value.

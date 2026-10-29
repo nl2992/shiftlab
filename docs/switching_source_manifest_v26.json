@@ -1,0 +1,12 @@
+[
+  {
+    "name": "kapoor_nair_markov_state_sensing_cost_aistats26",
+    "url": "https://raw.githubusercontent.com/mlresearch/v300/main/assets/kapoor26a/kapoor26a.pdf",
+    "record_url": "https://proceedings.mlr.press/v300/kapoor26a.html",
+    "bytes": 2488816,
+    "sha256": "C5ACB51B05385B16697DF4F82B39DE90C2901388F7BE2222C4ADC05DFA626380",
+    "status": "downloaded_primary_source_inspected_problem_protocol_state_expansion_SPI_theorem_4_1_theorem_4_2_and_theorem_4_4",
+    "retrieved_date": "2026-10-29",
+    "cache_path": "outputs/switching_source_audit_v1/kapoor_nair_aistats26_state_sensing_cost.pdf"
+  }
+]

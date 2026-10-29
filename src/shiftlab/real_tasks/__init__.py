@@ -3,10 +3,11 @@
 Each task builds, per decision round, a public event (features available at decision time,
 deployed = incumbent action, reference = candidate action), an evaluator-side outcome stream
 (losses, paired cost ``Z = l(incumbent) - l(candidate)`` and the time/round at which that label is
-released), and imposed cost parameters. Oracle/outcome values never enter ``PublicEvent``.
+released), and imposed cost parameters. Oracle/outcome values never enter ``PublicEvent``: ``x`` holds calendar fields only (Amendment A-R3);
+the two policies' actions are a deliberate public channel (they depend on public data).
 
 Window guard: only development windows may be touched. The locked holdouts (OPSD from
-2020-01-01, Binance from 2026-01-01) raise ``HoldoutAccessError`` before any file is opened.
+2020-01-01 local = 2019-12-31T23:00 UTC, Binance from 2026-01-01) raise ``HoldoutAccessError`` before any file is opened.
 """
 
 from __future__ import annotations
@@ -18,7 +19,8 @@ import numpy as np
 
 from ..contract.interface import PublicEvent, TaskSpec
 
-OPSD_HOLDOUT_START = np.datetime64("2020-01-01T00:00:00")
+# Local midnight of 2020-01-01 in CET is 2019-12-31T23:00 UTC: the first holdout delivery hour.
+OPSD_HOLDOUT_START = np.datetime64("2019-12-31T23:00:00")
 BINANCE_HOLDOUT_START = np.datetime64("2026-01-01T00:00:00")
 
 
@@ -76,9 +78,17 @@ class EvaluatorOutcomes:
     paired_cost: np.ndarray
     label_available_time: np.ndarray
     release_round: np.ndarray
-    # Fees are a separate accounting channel (net utility), never inside the paired cost.
-    turnover_fee_incumbent: np.ndarray | None = None
-    turnover_fee_candidate: np.ndarray | None = None
+    # False: the label is missing at release (no Z); paired_cost/losses are NaN there.
+    label_observed: np.ndarray | None = None
+    # Evaluator diagnostic only (standalone-policy turnover fee); NOT part of the switch cost k.
+    diagnostic_turnover_fee_incumbent: np.ndarray | None = None
+    diagnostic_turnover_fee_candidate: np.ndarray | None = None
+
+    @property
+    def observed(self) -> np.ndarray:
+        if self.label_observed is None:
+            return np.ones(len(self.paired_cost), dtype=bool)
+        return self.label_observed
 
     def visible_at_round(self, t: int) -> np.ndarray:
         """Indices of rounds whose labels are visible when the action of round ``t`` is chosen."""
@@ -127,6 +137,16 @@ class RealTask:
             price_range=(self.price_unit, self.price_unit),
         )
 
+    def harness_paired_costs(self) -> tuple[np.ndarray, int]:
+        """Paired costs for ``run_monitor``; missing labels (no Z) become 0 and are counted.
+
+        The v1 harness cannot represent missing feedback at release, so this is a smoke-only
+        approximation; the count of affected disagreement rounds is returned."""
+        cost = self.outcomes.paired_cost
+        missing = ~self.outcomes.observed
+        affected = int((missing & self.public.disagreement).sum())
+        return np.where(missing, 0.0, cost), affected
+
     def slice(self, start: int, stop: int) -> RealTask:
         sl = slice(start, stop)
         pub, out = self.public, self.outcomes
@@ -146,8 +166,13 @@ class RealTask:
             out.paired_cost[sl],
             out.label_available_time[sl],
             release,
-            None if out.turnover_fee_incumbent is None else out.turnover_fee_incumbent[sl],
-            None if out.turnover_fee_candidate is None else out.turnover_fee_candidate[sl],
+            None if out.label_observed is None else out.label_observed[sl],
+            None
+            if out.diagnostic_turnover_fee_incumbent is None
+            else out.diagnostic_turnover_fee_incumbent[sl],
+            None
+            if out.diagnostic_turnover_fee_candidate is None
+            else out.diagnostic_turnover_fee_candidate[sl],
         )
         return RealTask(
             self.name,
@@ -199,4 +224,54 @@ def run_length_summary(flags: np.ndarray, adjacent: np.ndarray) -> dict:
         "p_disagree_given_prev_disagree": p_stay,
         "share_of_disagreement_rounds_in_runs_ge3": float(arr[arr >= 3].sum() / arr.sum()),
         "share_of_disagreement_rounds_in_runs_ge10": float(arr[arr >= 10].sum() / arr.sum()),
+    }
+
+
+def public_stream_audit(task: RealTask, history: int = 3) -> dict:
+    """Is Z a deterministic function of the public stream? Disagreement rounds with labels are
+    grouped by (i) a *full* key (x rounded and the actions at t and the previous ``history``
+    rounds; nearly unique by construction) and (ii) a *coarse* key (differing-unit count and the
+    two actions' bit counts, i.e. what the action pair says about direction and size). Z varying
+    inside a repeated key shows the stream does not determine Z."""
+    pub, out = task.public, task.outcomes
+    mask = pub.disagreement & out.observed
+    full: dict[tuple, list[float]] = {}
+    coarse: dict[tuple, list[float]] = {}
+    for i in np.flatnonzero(mask):
+        lo = max(0, i - history)
+        z = float(out.paired_cost[i])
+        full.setdefault(
+            (
+                tuple(np.round(pub.x[i], 6)),
+                tuple(pub.deployed_action[lo : i + 1]),
+                tuple(pub.reference_action[lo : i + 1]),
+            ),
+            [],
+        ).append(z)
+        coarse.setdefault(
+            (
+                int(pub.disagreement_units[i]),
+                int(pub.deployed_action[i]).bit_count(),
+                int(pub.reference_action[i]).bit_count(),
+            ),
+            [],
+        ).append(z)
+
+    def summarise(groups):
+        repeated = [v for v in groups.values() if len(v) >= 2]
+        varying = [v for v in repeated if np.ptp(v) > 1e-12]
+        return {
+            "n_keys": len(groups),
+            "n_repeated_keys": len(repeated),
+            "n_repeated_keys_with_varying_Z": len(varying),
+            "share_of_rounds_in_repeated_keys": float(
+                sum(len(v) for v in repeated) / max(mask.sum(), 1)
+            ),
+        }
+
+    return {
+        "n_rounds": len(task),
+        "n_labelled_disagreement_rounds": int(mask.sum()),
+        "full_key": summarise(full),
+        "coarse_key": summarise(coarse),
     }

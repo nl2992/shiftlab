@@ -28,21 +28,37 @@ SLOW_BARS = 168
 PNL_SCALE = 0.10
 FEE_PRIMARY = 0.001
 BAR = np.timedelta64(1, "h")
-COSTS = CostParams(
-    budget_fractions=(0.02, 0.05, 0.10),
-    primary_budget=0.05,
-    query_costs=(0.0, 0.0005, 0.002),
-    primary_query_cost=0.0005,
-    switch_costs=(FEE_PRIMARY / (2 * PNL_SCALE),),
-    primary_switch_cost=FEE_PRIMARY / (2 * PNL_SCALE),
-    description="imposed budget and c; k = f/(2*0.10) with f the one-notional fee (upper bound)",
-)
+X_FIELDS = (*(f"dow{i}" for i in range(7)), "hour_sin", "hour_cos")
+
+
+def costs_for_fee(fee: float) -> CostParams:
+    """Imposed costs; the switch cost k is the one-way fee as a share of the loss range:
+    k = f / (2 * 0.10) (loss range 1 over a P&L range of 0.2), so f = 0 gives k = 0."""
+    k = fee / (2 * PNL_SCALE)
+    return CostParams(
+        budget_fractions=(0.02, 0.05, 0.10),
+        primary_budget=0.05,
+        query_costs=(0.0, 0.0005, 0.002),
+        primary_query_cost=0.0005,
+        switch_costs=(k,),
+        primary_switch_cost=k,
+        description="imposed budget and c; k = f/(2*0.10), charged per policy switch",
+    )
+
+
+def calendar_features(open_time: np.ndarray) -> np.ndarray:
+    """Public calendar fields of the bar open time (``X_FIELDS`` order)."""
+    t = np.asarray(open_time).astype("datetime64[ns]")
+    dow = ((t.astype("datetime64[D]").astype(np.int64)) + 3) % 7
+    hour = (t - t.astype("datetime64[D]").astype("datetime64[ns]")) // np.timedelta64(1, "h")
+    angle = 2 * np.pi * hour.astype(float) / 24.0
+    return np.concatenate([np.eye(7)[dow], np.sin(angle)[:, None], np.cos(angle)[:, None]], axis=1)
 
 
 @dataclass(frozen=True)
 class Bars:
     open_time: np.ndarray  # datetime64[ns], UTC bar open
-    close_time: np.ndarray  # datetime64[ns], bar open + 1 h - 1 ms
+    close_time: np.ndarray  # datetime64[ns], archived close stamp at full precision
     close: np.ndarray
 
 
@@ -68,12 +84,12 @@ def load_binance_bars(root: str | Path, months: list[str], symbol: str = "ETHUSD
         c = frame[6].to_numpy(np.int64)
         divisor = calendar(month, "1h", o, c)
         opens.append(o // divisor)
-        closes.append(c // (divisor // 1000))  # milliseconds
+        closes.append(c * (1_000_000_000 // divisor))  # nanoseconds, precision kept
         close_px.append(pd.to_numeric(frame[4]).to_numpy(float))
     open_s = np.concatenate(opens)
     bars = Bars(
         open_s.astype("datetime64[s]").astype("datetime64[ns]"),
-        np.concatenate(closes).astype("datetime64[ms]").astype("datetime64[ns]"),
+        np.concatenate(closes).astype("datetime64[ns]"),
         np.concatenate(close_px),
     )
     return _validated(bars)
@@ -112,24 +128,19 @@ def build_binance_task(bars: Bars, fee: float = FEE_PRIMARY, name: str = "develo
     p1 = momentum_position(c, SLOW_BARS)
     rounds = np.arange(SLOW_BARS + 1, n_bars - 1)
     nxt = c[rounds + 1] / c[rounds] - 1.0
-    # Amendment A-B2: Z is the position-return difference only, so Z == 0 exactly on agreement.
-    # Fees are a separate turnover channel (net-utility accounting).
+    # Amendments A-B2/A-R3: Z is the gross clipped signal-loss difference, so Z == 0 exactly on
+    # agreement. Switching cost is the imposed k (costs_for_fee). Standalone-policy turnover is an
+    # evaluator diagnostic only, not part of k.
     pnl0 = p0[rounds] * nxt
     pnl1 = p1[rounds] * nxt
     fee0 = fee * np.abs(p0[rounds] - p0[rounds - 1])
     fee1 = fee * np.abs(p1[rounds] - p1[rounds - 1])
     loss0, loss1 = loss_from_pnl(pnl0), loss_from_pnl(pnl1)
-    logret = np.diff(np.log(c), prepend=np.nan)
-    x = np.zeros((len(rounds), 4))
-    for r, t in enumerate(rounds):
-        x[r] = [
-            logret[t],
-            np.log(c[t] / c[t - FAST_BARS]),
-            np.log(c[t] / c[t - SLOW_BARS]),
-            float(np.std(logret[t - FAST_BARS + 1 : t + 1])),
-        ]
-    decision = bars.close_time[rounds]
-    available = bars.close_time[rounds + 1]
+    # Decisions are declared at the hour boundary after the bar (open + 1 h), which is after the
+    # archived close stamp (open + 1 h - 1 ms or 1 us) at either precision.
+    decision = bars.open_time[rounds] + BAR.astype("timedelta64[ns]")
+    available = bars.open_time[rounds + 1] + BAR.astype("timedelta64[ns]")
+    x = calendar_features(bars.open_time[rounds])
     n = len(rounds)
     public = PublicRounds(
         bars.open_time[rounds],
@@ -146,6 +157,7 @@ def build_binance_task(bars: Bars, fee: float = FEE_PRIMARY, name: str = "develo
         loss0 - loss1,
         available,
         release_rounds(decision, available),
+        None,
         fee0,
         fee1,
     )
@@ -154,7 +166,7 @@ def build_binance_task(bars: Bars, fee: float = FEE_PRIMARY, name: str = "develo
         f"binance_momentum_{name}",
         public,
         outcomes,
-        COSTS,
+        costs_for_fee(fee),
         1.0,
         1.0,
         {"clipped_policy_bars": clipped},

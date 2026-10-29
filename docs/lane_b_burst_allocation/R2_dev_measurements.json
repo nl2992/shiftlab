@@ -2,92 +2,111 @@
   "opsd": {
     "ridge_penalty": 1.0,
     "validation_mse_by_penalty": {
-      "1.0": 8092571.067441612,
-      "10.0": 8173820.929501705,
-      "100.0": 9408268.012018621,
-      "1000.0": 17735112.569655668
+      "1.0": 7842159.968628914,
+      "10.0": 7918347.911668851,
+      "100.0": 9157922.418496761,
+      "1000.0": 17275153.278650492
     },
-    "n_train_days_hour0": 724,
-    "validation_exclusions": {
-      "calendar_irregular": 0,
-      "missing_actual_or_incumbent": 0,
-      "missing_candidate_feature": 0,
-      "tau_unavailable": 0
-    },
+    "n_train_days_hour0": 723,
     "development": {
-      "n_rounds": 728,
+      "n_rounds": 729,
+      "n_labels_missing_at_release": 1,
       "exclusions": {
-        "calendar_irregular": 0,
-        "missing_actual_or_incumbent": 2,
-        "missing_candidate_feature": 0,
-        "tau_unavailable": 0
+        "purged_by_embargo": 1,
+        "decision_unusable_no_pair": 1,
+        "label_missing_at_release": 0
       },
-      "disagreement_rate": 0.21703296703296704,
-      "n_disagreement_rounds": 158,
-      "n_runs": 54,
-      "run_length_mean": 2.925925925925926,
-      "run_length_median": 3.0,
+      "disagreement_rate": 0.23045267489711935,
+      "n_disagreement_rounds": 168,
+      "n_runs": 57,
+      "run_length_mean": 2.9473684210526314,
+      "run_length_median": 2.0,
       "run_length_p90": 5.0,
       "run_length_max": 5,
-      "iid_expected_mean_run": 1.2771929824561403,
-      "p_disagree_given_prev_disagree": 0.6582278481012658,
-      "share_of_disagreement_rounds_in_runs_ge3": 0.7658227848101266,
+      "iid_expected_mean_run": 1.2994652406417113,
+      "p_disagree_given_prev_disagree": 0.6607142857142857,
+      "share_of_disagreement_rounds_in_runs_ge3": 0.7440476190476191,
       "share_of_disagreement_rounds_in_runs_ge10": 0.0,
-      "mean_paired_loss_all_rounds": 0.007200091575091573,
+      "mean_paired_loss_all_labelled_rounds": 0.008582417582417583,
       "n_agreement_rounds_with_nonzero_Z": 0,
-      "max_abs_Z_on_agreement_rounds": 0.0,
-      "min_Z": -0.3333333333333333,
-      "max_Z": 0.49999999999999994,
-      "mean_paired_loss_on_disagreement": 0.033175105485232066,
-      "sd_paired_loss_on_disagreement": 0.14672188064824676,
-      "share_disagreement_with_Z_positive": 0.5632911392405063,
-      "share_disagreement_with_Z_negative": 0.4240506329113924,
-      "mean_paired_loss_on_disagreement_first_half": -0.04229957805907173,
-      "mean_paired_loss_on_disagreement_second_half": 0.10864978902953586
+      "min_Z": -0.32,
+      "max_Z": 0.48000000000000004,
+      "public_stream_audit": {
+        "n_rounds": 729,
+        "n_labelled_disagreement_rounds": 168,
+        "full_key": {
+          "n_keys": 168,
+          "n_repeated_keys": 0,
+          "n_repeated_keys_with_varying_Z": 0,
+          "share_of_rounds_in_repeated_keys": 0.0
+        },
+        "coarse_key": {
+          "n_keys": 100,
+          "n_repeated_keys": 32,
+          "n_repeated_keys_with_varying_Z": 21,
+          "share_of_rounds_in_repeated_keys": 0.5952380952380952
+        }
+      },
+      "n_labelled_disagreement_rounds": 168,
+      "mean_paired_loss_on_disagreement": 0.0371904761904762,
+      "sd_paired_loss_on_disagreement": 0.14116202744572015,
+      "share_disagreement_with_Z_positive": 0.5714285714285714,
+      "share_disagreement_with_Z_negative": 0.4226190476190476,
+      "mean_paired_loss_on_disagreement_first_half": -0.022000000000000002,
+      "mean_paired_loss_on_disagreement_second_half": 0.0963809523809524
     },
     "informative_2_to_60_percent": true,
     "release_round_offsets_used": [
       1,
       2
     ],
+    "validation_n_rounds": 364,
+    "validation_exclusions": {
+      "purged_by_embargo": 1,
+      "decision_unusable_no_pair": 0,
+      "label_missing_at_release": 0
+    },
     "smoke_B10pct": {
       "GatedHTFixed": {
         "label": "opsd_dev",
+        "missing_label_disagreement_rounds_treated_as_zero": 0,
         "alarm_count_of_seeds": 0,
         "n_seeds": 200,
         "median_first_alarm_round": null,
-        "mean_label_spend": 67.52,
-        "budget": 72.8,
-        "mean_labels_on_disagreement": 67.52,
+        "mean_label_spend": 69.65,
+        "budget": 72.9,
+        "mean_labels_on_disagreement": 69.65,
         "mean_labels_on_agreement": 0.0,
-        "stopped_early_count": 61,
-        "mean_max_log_e": 0.7490205203428547,
+        "stopped_early_count": 105,
+        "mean_max_log_e": 0.8554387414664961,
         "log_threshold": 2.995732273553991
       },
       "GatedHTPaced": {
         "label": "opsd_dev",
+        "missing_label_disagreement_rounds_treated_as_zero": 0,
         "alarm_count_of_seeds": 0,
         "n_seeds": 200,
         "median_first_alarm_round": null,
         "mean_label_spend": 72.0,
-        "budget": 72.8,
+        "budget": 72.9,
         "mean_labels_on_disagreement": 72.0,
         "mean_labels_on_agreement": 0.0,
         "stopped_early_count": 200,
-        "mean_max_log_e": 1.1450401733647653,
+        "mean_max_log_e": 0.882911296161784,
         "log_threshold": 2.995732273553991
       },
       "UniformHT": {
         "label": "opsd_dev",
+        "missing_label_disagreement_rounds_treated_as_zero": 0,
         "alarm_count_of_seeds": 0,
         "n_seeds": 200,
         "median_first_alarm_round": null,
-        "mean_label_spend": 69.66,
-        "budget": 72.8,
-        "mean_labels_on_disagreement": 14.785,
-        "mean_labels_on_agreement": 54.875,
-        "stopped_early_count": 114,
-        "mean_max_log_e": 0.15694353894686533,
+        "mean_label_spend": 69.72,
+        "budget": 72.9,
+        "mean_labels_on_disagreement": 15.52,
+        "mean_labels_on_agreement": 54.2,
+        "stopped_early_count": 117,
+        "mean_max_log_e": 0.178319319629557,
         "log_threshold": 2.995732273553991
       }
     }
@@ -95,6 +114,7 @@
   "binance": {
     "development_all_rounds": {
       "n_rounds": 8590,
+      "n_labels_missing_at_release": 0,
       "exclusions": {
         "clipped_policy_bars": 0
       },
@@ -109,15 +129,29 @@
       "p_disagree_given_prev_disagree": 0.838389731621937,
       "share_of_disagreement_rounds_in_runs_ge3": 0.8830221703617269,
       "share_of_disagreement_rounds_in_runs_ge10": 0.6534422403733956,
-      "mean_paired_loss_all_rounds": 0.0005405139899265268,
+      "mean_paired_loss_all_labelled_rounds": 0.0005405139899265268,
       "n_agreement_rounds_with_nonzero_Z": 0,
-      "max_abs_Z_on_agreement_rounds": 0.0,
       "min_Z": -0.4777731429776044,
       "max_Z": 0.22197664614048096,
-      "turnover_fee_total_incumbent": 0.8590000000000001,
-      "turnover_fee_total_candidate": 0.342,
-      "position_switches_incumbent": 859,
-      "position_switches_candidate": 342,
+      "public_stream_audit": {
+        "n_rounds": 8590,
+        "n_labelled_disagreement_rounds": 3428,
+        "full_key": {
+          "n_keys": 1349,
+          "n_repeated_keys": 489,
+          "n_repeated_keys_with_varying_Z": 489,
+          "share_of_rounds_in_repeated_keys": 0.7491248541423571
+        },
+        "coarse_key": {
+          "n_keys": 2,
+          "n_repeated_keys": 2,
+          "n_repeated_keys_with_varying_Z": 2,
+          "share_of_rounds_in_repeated_keys": 1.0
+        }
+      },
+      "diagnostic_turnover_switches_incumbent": 859,
+      "diagnostic_turnover_switches_candidate": 342,
+      "n_labelled_disagreement_rounds": 3428,
       "mean_paired_loss_on_disagreement": 0.0013544384986781987,
       "sd_paired_loss_on_disagreement": 0.03660550059865403,
       "share_disagreement_with_Z_positive": 0.529463243873979,
@@ -128,6 +162,7 @@
     "pacer_seed_rounds": 720,
     "monitor_stream": {
       "n_rounds": 7870,
+      "n_labels_missing_at_release": 0,
       "exclusions": {
         "clipped_policy_bars": 0
       },
@@ -142,15 +177,29 @@
       "p_disagree_given_prev_disagree": 0.8384934567507182,
       "share_of_disagreement_rounds_in_runs_ge3": 0.8819023300351101,
       "share_of_disagreement_rounds_in_runs_ge10": 0.6581551228854133,
-      "mean_paired_loss_all_rounds": 0.0005323260937767267,
+      "mean_paired_loss_all_labelled_rounds": 0.0005323260937767267,
       "n_agreement_rounds_with_nonzero_Z": 0,
-      "max_abs_Z_on_agreement_rounds": 0.0,
       "min_Z": -0.4777731429776044,
       "max_Z": 0.22197664614048096,
-      "turnover_fee_total_incumbent": 0.801,
-      "turnover_fee_total_candidate": 0.29700000000000004,
-      "position_switches_incumbent": 801,
-      "position_switches_candidate": 297,
+      "public_stream_audit": {
+        "n_rounds": 7870,
+        "n_labelled_disagreement_rounds": 3133,
+        "full_key": {
+          "n_keys": 1273,
+          "n_repeated_keys": 451,
+          "n_repeated_keys_with_varying_Z": 451,
+          "share_of_rounds_in_repeated_keys": 0.7376316629428663
+        },
+        "coarse_key": {
+          "n_keys": 2,
+          "n_repeated_keys": 2,
+          "n_repeated_keys_with_varying_Z": 2,
+          "share_of_rounds_in_repeated_keys": 1.0
+        }
+      },
+      "diagnostic_turnover_switches_incumbent": 801,
+      "diagnostic_turnover_switches_candidate": 297,
+      "n_labelled_disagreement_rounds": 3133,
       "mean_paired_loss_on_disagreement": 0.001337186836266466,
       "sd_paired_loss_on_disagreement": 0.03590582563987674,
       "share_disagreement_with_Z_positive": 0.5314395148420045,
@@ -164,6 +213,7 @@
     "smoke_B5pct": {
       "GatedHTFixed": {
         "label": "binance_dev",
+        "missing_label_disagreement_rounds_treated_as_zero": 0,
         "alarm_count_of_seeds": 0,
         "n_seeds": 200,
         "median_first_alarm_round": null,
@@ -177,6 +227,7 @@
       },
       "GatedHTPaced": {
         "label": "binance_dev",
+        "missing_label_disagreement_rounds_treated_as_zero": 0,
         "alarm_count_of_seeds": 0,
         "n_seeds": 200,
         "median_first_alarm_round": null,
@@ -190,6 +241,7 @@
       },
       "UniformHT": {
         "label": "binance_dev",
+        "missing_label_disagreement_rounds_treated_as_zero": 0,
         "alarm_count_of_seeds": 0,
         "n_seeds": 200,
         "median_first_alarm_round": null,

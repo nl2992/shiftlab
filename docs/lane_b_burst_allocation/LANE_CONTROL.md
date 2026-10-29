@@ -126,3 +126,4 @@ Both parts are research targets, not results.
 - **Assumptions:** A2 and A3 stay disclosed as unresolved.
 - Fixes sent to the R2 implementer. |
 | 14 | 2026-10-29 | R3 | Waiting: the A-R3 fix implementer is still running (edits visible in the worktree), so no duplicate was started. Lane A's newest checkpoints (monotone terminal tests; delayed-reversal oracle cell) do not overlap. |
+| 15 | 2026-10-29 | R3 | Amendment A-R3 implemented: label-limited auditor (public x = calendar features only; tests scramble outcomes), Europe/Berlin local-day rounds with the decision at 10:00 local D-1, missing labels kept as missing feedback, embargoed boundaries, timestamp-prefix holdout reader, Binance Z frozen as gross clipped signal loss with k = f/(2*0.10), hour-boundary decisions. Lead decision: drop the OPSD hour-07 lag (the only early-information feature); OPSD development aggregates unchanged (0.230, 168 rounds). 30 tests pass. Next: Codex pre-freeze recheck. |

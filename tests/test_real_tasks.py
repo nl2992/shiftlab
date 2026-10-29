@@ -1,10 +1,11 @@
-"""Tests for the Lane B real-data tasks: holdout guard, clocks, bounds, determinism.
-
-Synthetic series only (no raw data), except one optional dev-window check.
+"""Tests for the Lane B real-data tasks: holdout guard, clocks, public-information contract,
+bounds, determinism. Synthetic series only, except one optional dev-window check.
 """
 
 from __future__ import annotations
 
+import csv
+import zipfile
 from pathlib import Path
 
 import numpy as np
@@ -18,16 +19,11 @@ from shiftlab.real_tasks import (
     OPSD_HOLDOUT_START,
     HoldoutAccessError,
     guard_timestamps,
+    public_stream_audit,
     run_length_summary,
 )
-from shiftlab.real_tasks.binance_momentum import Bars, build_binance_task, load_binance_bars
-from shiftlab.real_tasks.opsd_reserve import (
-    DEFAULT_WINDOWS,
-    HourlySeries,
-    build_opsd_tasks,
-    load_opsd_hourly,
-    opsd_informative,
-)
+from shiftlab.real_tasks import binance_momentum as bm
+from shiftlab.real_tasks import opsd_reserve as op
 
 HOUR = np.timedelta64(1, "h")
 MAIN_OPSD = Path(
@@ -35,7 +31,10 @@ MAIN_OPSD = Path(
 )
 
 
-def _opsd_series(seed: int = 0, end: str = "2019-12-31T23:00") -> HourlySeries:
+# ---------------------------------------------------------------- synthetic OPSD
+
+
+def _opsd_series(seed: int = 0, end: str = "2019-12-31T22:00") -> op.HourlySeries:
     rng = np.random.default_rng(seed)
     stamps = np.arange(np.datetime64("2014-12-31T23:00"), np.datetime64(end) + HOUR, HOUR)
     t = np.arange(len(stamps))
@@ -47,47 +46,49 @@ def _opsd_series(seed: int = 0, end: str = "2019-12-31T23:00") -> HourlySeries:
         + rng.normal(0, 1500, len(t))
     )
     forecast = load + rng.normal(0, 1200, len(t))
-    series = HourlySeries(
-        pd.Series(load, index=pd.DatetimeIndex(stamps)),
-        pd.Series(forecast, index=pd.DatetimeIndex(stamps)),
-        frozenset(),
+    index = pd.DatetimeIndex(stamps)
+    return op.HourlySeries(
+        pd.Series(load, index=index), pd.Series(forecast, index=index), frozenset()
     )
-    return series
 
 
-def _perturbed(
-    series: HourlySeries, actual_from=None, forecast_from=None, day_only=None, hours=None
-):
+def _perturbed(series, actual_from=None, forecast_from=None, actual_hours=None, actual_day=None):
     actual, forecast = series.actual.copy(), series.forecast.copy()
     if actual_from is not None:
         actual[actual.index >= pd.Timestamp(actual_from)] += 25000.0
     if forecast_from is not None:
         forecast[forecast.index >= pd.Timestamp(forecast_from)] += 25000.0
-    if day_only is not None:
-        mask = actual.index.normalize() == pd.Timestamp(day_only)
-        if hours is not None:
-            mask = mask & np.isin(actual.index.hour, hours)
+    if actual_day is not None:  # local day, optionally restricted to local clock hours
+        local = actual.index.tz_localize("UTC").tz_convert(op.BERLIN)
+        mask = local.normalize().tz_localize(None) == pd.Timestamp(actual_day)
+        if actual_hours is not None:
+            mask = mask & np.isin(local.hour, actual_hours)
         actual[mask] += 25000.0
-    return HourlySeries(actual, forecast, series.irregular_days)
+    return op.HourlySeries(actual, forecast, series.irregular_days)
 
 
 @pytest.fixture(scope="module")
 def opsd():
     series = _opsd_series()
-    tasks, model = build_opsd_tasks(series)
+    tasks, model = op.build_opsd_tasks(series)
     return series, tasks, model
+
+
+def _same_public(a, b, upto=None):
+    sl = slice(None) if upto is None else upto
+    for name in ("round_time", "decision_time", "x", "deployed_action", "reference_action"):
+        np.testing.assert_array_equal(getattr(a.public, name)[sl], getattr(b.public, name)[sl])
 
 
 # ---------------------------------------------------------------- holdout guard
 
 
 def test_guard_timestamps_boundary():
-    guard_timestamps(
-        np.array(["2019-12-31T23:00"], dtype="datetime64[ns]"), OPSD_HOLDOUT_START, "x"
-    )
-    with pytest.raises(HoldoutAccessError):
+    ok = np.array(["2019-12-31T22:00"], dtype="datetime64[ns]")
+    guard_timestamps(ok, OPSD_HOLDOUT_START, "x")
+    with pytest.raises(HoldoutAccessError):  # first holdout delivery hour = local 2020-01-01 00:00
         guard_timestamps(
-            np.array(["2020-01-01T00:00"], dtype="datetime64[ns]"), OPSD_HOLDOUT_START, "x"
+            np.array(["2019-12-31T23:00"], dtype="datetime64[ns]"), OPSD_HOLDOUT_START, "x"
         )
     with pytest.raises(HoldoutAccessError):
         guard_timestamps(
@@ -98,150 +99,267 @@ def test_guard_timestamps_boundary():
 def test_opsd_loader_refuses_holdout_before_opening_file(tmp_path):
     missing = tmp_path / "does_not_exist.csv"
     with pytest.raises(HoldoutAccessError):
-        load_opsd_hourly(missing, end_exclusive=np.datetime64("2020-02-01"))
-    with pytest.raises(FileNotFoundError):  # allowed window reaches the file system
-        load_opsd_hourly(missing)
+        op.load_opsd_hourly(missing, end_exclusive=np.datetime64("2020-02-01"))
+    with pytest.raises(FileNotFoundError):  # an allowed window reaches the file system
+        op.load_opsd_hourly(missing)
 
 
-def test_opsd_loader_never_parses_holdout_rows(tmp_path):
+def test_opsd_loader_checks_timestamp_before_parsing_any_field(tmp_path, monkeypatch):
     path = tmp_path / "h.csv"
     path.write_text(
         "utc_timestamp,cet,DE_load_actual_entsoe_transparency,DE_load_forecast_entsoe_transparency\n"
-        "2019-12-31T22:00:00Z,x,1.0,2.0\n"
-        "2019-12-31T23:00:00Z,x,3.0,4.0\n"
-        "2020-01-01T00:00:00Z,x,GARBAGE,GARBAGE\n"
-        "2020-01-01T01:00:00Z,x,GARBAGE,GARBAGE\n",
+        "2019-12-31T21:00:00Z,x,1.0,2.0\n"
+        "2019-12-31T22:00:00Z,x,3.0,4.0\n"
+        '2019-12-31T23:00:00Z,"UNBALANCED,GARBAGE,GARBAGE\n'
+        "2020-01-01T00:00:00Z,x,GARBAGE,GARBAGE\n",
         encoding="utf-8",
     )
-    series = load_opsd_hourly(path)
+    seen: list[str] = []
+    real_reader = csv.reader
+
+    def spy(lines, *args, **kwargs):
+        seen.extend(lines)
+        return real_reader(lines, *args, **kwargs)
+
+    monkeypatch.setattr(csv, "reader", spy)
+    series = op.load_opsd_hourly(path)
     assert len(series.actual) == 2
-    assert series.actual.index.max() < pd.Timestamp("2020-01-01")
+    assert not any(line.startswith(("2019-12-31T23", "2020")) for line in seen)
 
 
 def test_opsd_build_refuses_holdout_window_and_series():
     series = _opsd_series()
     with pytest.raises(HoldoutAccessError):
-        build_opsd_tasks(
+        op.build_opsd_tasks(
             series, (("bad", np.datetime64("2019-06-01"), np.datetime64("2020-03-01")),)
         )
-    longer = _opsd_series(end="2020-01-02T23:00")
     with pytest.raises(HoldoutAccessError):
-        build_opsd_tasks(longer)
+        op.build_opsd_tasks(_opsd_series(end="2020-01-02T23:00"))
 
 
 def test_binance_loader_refuses_holdout_months_without_opening(tmp_path):
     with pytest.raises(HoldoutAccessError):
-        load_binance_bars(tmp_path, ["2026-01"])
+        bm.load_binance_bars(tmp_path, ["2026-01"])
     with pytest.raises(HoldoutAccessError):
-        load_binance_bars(tmp_path, ["2025-12", "2026-03"])  # none of the files exist
+        bm.load_binance_bars(tmp_path, ["2025-12", "2026-03"])  # none of the files exist
     with pytest.raises(FileNotFoundError):
-        load_binance_bars(tmp_path, ["2025-12"])
+        bm.load_binance_bars(tmp_path, ["2025-12"])
 
 
-def _bars(n: int, start: str = "2025-01-01T00:00", seed: int = 1) -> Bars:
+def _bars(n: int, start: str = "2025-01-01T00:00", seed: int = 1, precision: str = "ms") -> bm.Bars:
     rng = np.random.default_rng(seed)
     opens = np.arange(np.datetime64(start), np.datetime64(start) + n * HOUR, HOUR).astype(
         "datetime64[ns]"
     )
-    close_time = opens + np.timedelta64(3600_000 - 1, "ms").astype("timedelta64[ns]")
+    tick = np.timedelta64(1, "ms" if precision == "ms" else "us").astype("timedelta64[ns]")
     close = 3000 * np.exp(np.cumsum(rng.normal(0, 0.004, n)))
-    return Bars(opens, close_time, close)
+    return bm.Bars(opens, opens + HOUR.astype("timedelta64[ns]") - tick, close)
 
 
 def test_binance_build_refuses_holdout_bars():
     with pytest.raises(HoldoutAccessError):
-        build_binance_task(_bars(500, start="2025-12-25T00:00"))
+        bm.build_binance_task(_bars(500, start="2025-12-25T00:00"))
 
 
-# ---------------------------------------------------------------- OPSD clocks
+# ---------------------------------------------------------------- OPSD local-day clocks
 
 
-def test_opsd_decision_and_label_clocks(opsd):
+def test_opsd_rounds_are_local_days_with_regulatory_decision_time(opsd):
+    _, tasks, _ = opsd
+    task = tasks["development"]
+    pub = task.public
+    start_local = pd.DatetimeIndex(pub.round_time).tz_localize("UTC").tz_convert(op.BERLIN)
+    decision_local = pd.DatetimeIndex(pub.decision_time).tz_localize("UTC").tz_convert(op.BERLIN)
+    assert np.all(start_local.hour == 0) and np.all(start_local.minute == 0)
+    assert np.all(decision_local.hour == 10) and np.all(decision_local.minute == 0)
+    wall = lambda i: i.tz_localize(None).normalize()
+    assert np.all(wall(decision_local) == wall(start_local) - pd.Timedelta(days=1))
+    hours = pub.x[:, op.X_FIELDS.index("hours_in_local_day")]
+    assert set(hours) == {23.0, 24.0, 25.0}
+    assert (hours == 23).sum() == 2 and (hours == 25).sum() == 2  # 2018 and 2019 DST changes
+    # every delivery hour of round D falls in [start_D, start_{D+1}): deadline is D-1 10:00 local
+    nxt = np.append(pub.round_time[1:], pub.round_time[-1] + np.timedelta64(24, "h"))
+    assert np.all((nxt - pub.round_time) // HOUR >= 23)
+
+
+def test_opsd_label_clock_and_release(opsd):
     _, tasks, _ = opsd
     task = tasks["development"]
     pub, out = task.public, task.outcomes
-    day = pub.round_time
-    assert np.all(pub.decision_time == day - np.timedelta64(14, "h"))  # D-1 10:00 UTC
-    assert np.all(out.label_available_time == day + np.timedelta64(25, "h"))  # D+1 01:00
     n = len(task)
-    consecutive = pub.adjacent_to_previous[1:]
-    assert consecutive.mean() > 0.99
-    # nominal delay: a label is first visible at the decision of round t+2, never earlier
-    offset = out.release_round - np.arange(n)
-    assert set(offset[:-3]) == {2}
+    nxt_start = op.day_start_utc(pub.round_time.astype("datetime64[D]") + np.timedelta64(1, "D"))
+    # NB: round_time is UTC; the local day label is recovered through the local calendar
+    local_day = (
+        pd.DatetimeIndex(pub.round_time)
+        .tz_localize("UTC")
+        .tz_convert(op.BERLIN)
+        .tz_localize(None)
+        .values
+    ).astype("datetime64[D]")
+    nxt_start = op.day_start_utc(local_day + np.timedelta64(1, "D"))
+    np.testing.assert_array_equal(
+        out.label_available_time, nxt_start + HOUR.astype("timedelta64[ns]")
+    )
     assert np.all(out.label_available_time > pub.decision_time)
+    offset = out.release_round - np.arange(n)
+    assert set(offset[:-3]) == {2}  # nominal d = 2 rounds
     inside = out.release_round < n
     assert np.all(out.label_available_time[inside] <= pub.decision_time[out.release_round[inside]])
+    before = out.release_round[inside] - 1
+    assert np.all(out.label_available_time[inside] > pub.decision_time[before])
 
 
 def test_opsd_label_slack_shifts_release(opsd):
     series, _, _ = opsd
-    tasks, _ = build_opsd_tasks(series, label_slack_days=1)
+    tasks, _ = op.build_opsd_tasks(series, label_slack_days=1)
     task = tasks["development"]
     offset = task.outcomes.release_round - np.arange(len(task))
     assert set(offset[:-4]) == {3}
 
 
-def test_opsd_no_future_information_in_public_round(opsd):
+# ---------------------------------------------------------------- public-information contract
+
+
+def test_opsd_public_x_is_calendar_only_and_ignores_all_outcomes(opsd):
     series, tasks, _ = opsd
     base = tasks["development"]
-    day = pd.Timestamp("2018-06-13")
-    cutoff = day - pd.Timedelta(hours=16)  # D-1 08:00: first hour not yet published at T_D
-    perturbed, _ = build_opsd_tasks(
-        _perturbed(series, actual_from=cutoff, forecast_from=day + pd.Timedelta(days=1))
+    assert base.public.x.shape[1] == len(op.X_FIELDS)
+    days = (
+        pd.DatetimeIndex(base.public.round_time)
+        .tz_localize("UTC")
+        .tz_convert(op.BERLIN)
+        .tz_localize(None)
+        .values.astype("datetime64[D]")
     )
-    other = perturbed["development"]
-    upto = base.public.round_time <= np.datetime64(day)
-    assert upto.sum() > 100
-    np.testing.assert_array_equal(base.public.x[upto], other.public.x[upto])
+    hours = base.public.x[:, -1]
+    np.testing.assert_array_equal(base.public.x, op.calendar_features(days, hours))
+    # perturb every outcome and forecast from 2016 on (not the training window): x is unchanged,
+    # only the actions (a deliberate public channel) and later evaluator quantities may react
+    other, _ = op.build_opsd_tasks(
+        _perturbed(series, actual_from="2017-06-01", forecast_from="2017-06-01")
+    )
+    np.testing.assert_array_equal(base.public.x, other["development"].public.x)
+    np.testing.assert_array_equal(base.public.round_time, other["development"].public.round_time)
     np.testing.assert_array_equal(
-        base.public.deployed_action[upto], other.public.deployed_action[upto]
+        base.public.decision_time, other["development"].public.decision_time
     )
-    np.testing.assert_array_equal(
-        base.public.reference_action[upto], other.public.reference_action[upto]
+    assert not np.array_equal(
+        base.public.deployed_action, other["development"].public.deployed_action
     )
-    # the perturbation is not vacuous: later rounds do see it
-    assert not np.array_equal(base.public.x, other.public.x)
 
 
-def test_opsd_labels_unused_before_release(opsd):
-    """A day's 24-hour label is released at D+1 01:00. The only earlier use of day-s actuals is the
-    declared hour-07 feature of round s+1 (published 09:00, before T_{s+1} = 10:00)."""
+def test_opsd_no_future_information_in_actions(opsd):
+    series, tasks, _ = opsd
+    base = tasks["development"]
+    s = 400
+    t_dec = base.public.decision_time[s]
+    cutoff = pd.Timestamp(t_dec) - pd.Timedelta(
+        hours=1
+    )  # hour starting 09:00 local D-1 is unpublished
+    other = op.build_opsd_tasks(
+        _perturbed(
+            series,
+            actual_from=cutoff,
+            forecast_from=pd.Timestamp(base.public.round_time[s]) + pd.Timedelta(days=1),
+        )
+    )[0]["development"]
+    _same_public(base, other, slice(0, s + 1))
+    assert not np.array_equal(base.public.deployed_action, other.public.deployed_action)
+
+
+def test_opsd_labels_reach_actions_no_earlier_than_release(opsd):
+    """Day s's label (24 hours) is released at the end of day s + 1 h. Actions of earlier rounds do
+    not depend on it, except through the declared hour-07 feature (excluded here by perturbing
+    the other clock hours; hour 07 is tested separately)."""
     series, tasks, _ = opsd
     base = tasks["development"]
     pub, out = base.public, base.outcomes
-    all_hours = list(range(24))
-    for s in (50, 300, 600):
-        day = pd.Timestamp(pub.round_time[s])
-        before = pub.decision_time < out.label_available_time[s]
-        assert before.sum() >= s + 1
-        # a first round that may see the full label is exactly the release round
-        assert out.release_round[s] == np.flatnonzero(~before)[0]
-        without07 = [h for h in all_hours if h != 7]
-        other = build_opsd_tasks(_perturbed(series, day_only=day, hours=without07))[0][
+    local_days = (
+        pd.DatetimeIndex(pub.round_time).tz_localize("UTC").tz_convert(op.BERLIN).tz_localize(None)
+    )
+    checked = 0
+    for s in np.flatnonzero(pub.disagreement & out.observed)[:3]:
+        day = local_days[s]
+        others = [h for h in range(24) if h != 7]
+        other = op.build_opsd_tasks(_perturbed(series, actual_day=day, actual_hours=others))[0][
             "development"
         ]
-        np.testing.assert_array_equal(pub.x[before], other.public.x[before])
-        np.testing.assert_array_equal(
-            pub.deployed_action[before], other.public.deployed_action[before]
+        rel = int(out.release_round[s])
+        _same_public(base, other, slice(0, rel))
+        assert (
+            other.outcomes.paired_cost[s] != out.paired_cost[s]
+        )  # Z is not reproduced by the stream
+        only7 = op.build_opsd_tasks(_perturbed(series, actual_day=day, actual_hours=[7]))[0][
+            "development"
+        ]
+        changed = np.flatnonzero(
+            (base.public.deployed_action != only7.public.deployed_action)
+            | (base.public.reference_action != only7.public.reference_action)
         )
-        np.testing.assert_array_equal(
-            pub.reference_action[before], other.public.reference_action[before]
-        )
-        only07 = build_opsd_tasks(_perturbed(series, day_only=day, hours=[7]))[0]["development"]
-        changed = np.flatnonzero((pub.x != only07.public.x).any(axis=1) & before)
-        assert list(changed) == [s + 1]  # exactly the declared edge-of-availability feature
+        changed = changed[changed < rel]
+        assert set(changed) <= {s + 1}  # the declared edge-of-availability feature, round s+1 only
+        checked += 1
+    assert checked == 3
+
+
+def test_opsd_stream_audit_reports_z_not_a_function_of_public_stream(opsd):
+    _, tasks, _ = opsd
+    audit = public_stream_audit(tasks["development"])
+    assert audit["n_labelled_disagreement_rounds"] > 20
+    assert audit["coarse_key"]["n_repeated_keys_with_varying_Z"] > 0
+
+
+# ---------------------------------------------------------------- missing data and embargo
+
+
+def test_opsd_missing_data_keeps_rounds_and_marks_missing_feedback():
+    series = _opsd_series()
+    actual, forecast = series.actual.copy(), series.forecast.copy()
+    actual[(actual.index >= "2018-05-10T05:00") & (actual.index < "2018-05-10T07:00")] = np.nan
+    forecast[(forecast.index >= "2018-08-01T00:00") & (forecast.index < "2018-08-01T03:00")] = (
+        np.nan
+    )
+    tasks, _ = op.build_opsd_tasks(op.HourlySeries(actual, forecast, frozenset()))
+    clean, _ = op.build_opsd_tasks(series)
+    task, ref = tasks["development"], clean["development"]
+    assert len(task) == len(ref) == 729  # 2018-01-01 .. 2019-12-30 after the embargo purge
+    assert int((~task.outcomes.observed).sum()) >= 2
+    miss = np.flatnonzero(~task.outcomes.observed)
+    assert np.all(np.isnan(task.outcomes.paired_cost[miss]))
+    assert np.all(np.isfinite(task.outcomes.label_available_time[miss].astype("int64")))
+    # rounds are scheduled regardless; release rounds are identical to the clean stream
+    np.testing.assert_array_equal(task.outcomes.release_round, ref.outcomes.release_round)
+    np.testing.assert_array_equal(task.public.x, ref.public.x)
+    assert task.exclusions["label_missing_at_release"] >= 1
+    assert task.exclusions["decision_unusable_no_pair"] >= 1
+
+
+def test_opsd_embargo_purges_boundary_rounds(opsd):
+    series, tasks, model = opsd
+    val, dev = tasks["validation"], tasks["development"]
+    assert val.exclusions["purged_by_embargo"] == 1 and dev.exclusions["purged_by_embargo"] == 1
+    assert val.meta["last_day"] == "2017-12-30" and dev.meta["last_day"] == "2019-12-30"
+    first_dev = dev.public.decision_time[0]
+    assert np.all(val.outcomes.label_available_time <= first_dev)
+    holdout_first_decision = op.decision_time_utc(np.array(["2020-01-01"], dtype="datetime64[D]"))[
+        0
+    ]
+    assert np.all(dev.outcomes.label_available_time <= holdout_first_decision)
+    # outcomes of the purged boundary days cannot touch the fit or the dev stream
+    _, model2 = op.build_opsd_tasks(_perturbed(series, actual_day="2017-12-31"))
+    np.testing.assert_array_equal(model.beta, model2.beta)
+    assert model.penalty == model2.penalty
+    other = op.build_opsd_tasks(_perturbed(series, actual_day="2019-12-31"))[0]["development"]
+    np.testing.assert_array_equal(dev.outcomes.paired_cost, other.outcomes.paired_cost)
 
 
 def test_opsd_ridge_frozen_and_validation_only(opsd):
     series, _, model = opsd
-    _, model2 = build_opsd_tasks(_perturbed(series, actual_from="2018-01-01"))
+    _, model2 = op.build_opsd_tasks(_perturbed(series, actual_from="2018-01-01"))
     np.testing.assert_array_equal(model.beta, model2.beta)
-    assert model.penalty == model2.penalty
     assert model.penalty in (1.0, 10.0, 100.0, 1000.0)
     assert model.validation_mse[model.penalty] == min(model.validation_mse.values())
-    # perturbing the training window must change the fit
-    _, model3 = build_opsd_tasks(_perturbed(series, actual_from="2016-06-01"))
+    _, model3 = op.build_opsd_tasks(_perturbed(series, actual_from="2016-06-01"))
     assert not np.array_equal(model.beta, model3.beta)
 
 
@@ -252,20 +370,24 @@ def test_opsd_paired_loss_bounds(opsd):
     _, tasks, _ = opsd
     for task in tasks.values():
         out, pub = task.outcomes, task.public
-        assert np.all((out.loss_incumbent >= 0) & (out.loss_incumbent <= 1))
-        assert np.all((out.loss_candidate >= 0) & (out.loss_candidate <= 1))
-        assert np.all(np.abs(out.paired_cost) <= 1.0)
-        np.testing.assert_allclose(out.paired_cost, out.loss_incumbent - out.loss_candidate)
-        agree = ~pub.disagreement
-        assert np.all(out.paired_cost[agree] == 0.0)  # Assumption L holds exactly for OPSD
+        obs = out.observed
+        assert np.all((out.loss_incumbent[obs] >= 0) & (out.loss_incumbent[obs] <= 1))
+        assert np.all((out.loss_candidate[obs] >= 0) & (out.loss_candidate[obs] <= 1))
+        assert np.all(np.abs(out.paired_cost[obs]) <= 1.0)
+        np.testing.assert_allclose(
+            out.paired_cost[obs], (out.loss_incumbent - out.loss_candidate)[obs]
+        )
+        assert np.all(out.paired_cost[obs & ~pub.disagreement] == 0.0)  # Assumption L, exact
         assert np.array_equal(pub.disagreement, pub.disagreement_units > 0)
 
 
 def test_opsd_deterministic():
-    a, model_a = build_opsd_tasks(_opsd_series())
-    b, model_b = build_opsd_tasks(_opsd_series())
+    a, model_a = op.build_opsd_tasks(_opsd_series())
+    b, model_b = op.build_opsd_tasks(_opsd_series())
     np.testing.assert_array_equal(model_a.beta, model_b.beta)
-    np.testing.assert_array_equal(a["development"].public.x, b["development"].public.x)
+    np.testing.assert_array_equal(
+        a["development"].public.deployed_action, b["development"].public.deployed_action
+    )
     np.testing.assert_array_equal(
         a["development"].outcomes.paired_cost, b["development"].outcomes.paired_cost
     )
@@ -273,81 +395,129 @@ def test_opsd_deterministic():
 
 def test_opsd_windows_chronological(opsd):
     _, tasks, _ = opsd
-    names = [w[0] for w in DEFAULT_WINDOWS]
-    assert names == ["validation", "development"]
     assert (
         tasks["validation"].public.round_time.max() < tasks["development"].public.round_time.min()
     )
-    assert tasks["development"].public.round_time.max() < np.datetime64(OPSD_HOLDOUT_START, "ns")
+    assert tasks["development"].outcomes.label_available_time.max() <= np.datetime64(
+        "2019-12-31T10:00"
+    ) - np.timedelta64(0, "h") + np.timedelta64(24, "h")
 
 
 def test_informativeness_rule():
-    assert not opsd_informative(0.019) and opsd_informative(0.02)
-    assert opsd_informative(0.60) and not opsd_informative(0.601)
+    assert not op.opsd_informative(0.019) and op.opsd_informative(0.02)
+    assert op.opsd_informative(0.60) and not op.opsd_informative(0.601)
 
 
-# ---------------------------------------------------------------- Binance clocks and bounds
+# ---------------------------------------------------------------- Binance
 
 
-def test_binance_clocks_and_actions_use_only_past_closes():
+def test_binance_clocks_decision_at_hour_boundary_both_precisions():
+    for precision, tick in (("ms", np.timedelta64(1, "ms")), ("us", np.timedelta64(1, "us"))):
+        bars = _bars(900, precision=precision)
+        task = bm.build_binance_task(bars)
+        pub, out = task.public, task.outcomes
+        n = len(task)
+        assert n == 900 - 169 - 1
+        np.testing.assert_array_equal(
+            pub.decision_time, pub.round_time + HOUR.astype("timedelta64[ns]")
+        )
+        idx = np.searchsorted(bars.open_time, pub.round_time)
+        # the decision instant is after the archived close stamp at either precision
+        assert np.all(pub.decision_time - bars.close_time[idx] == tick.astype("timedelta64[ns]"))
+        assert np.all(out.release_round[:-1] == np.arange(n - 1) + 1)  # d = 1
+        np.testing.assert_array_equal(out.label_available_time[:-1], pub.decision_time[1:])
+        assert np.all(out.label_available_time > pub.decision_time)
+
+
+def test_binance_loader_preserves_microsecond_close(tmp_path):
+    start = int(pd.Timestamp("2025-01-01", tz="UTC").timestamp())
+    rows = []
+    for k in range(744):
+        o = (start + 3600 * k) * 1_000_000
+        rows.append(f"{o},1,1,1,{3000 + k},1,{o + 3600 * 1_000_000 - 1},1,1,1,1,0")
+    with zipfile.ZipFile(tmp_path / "ETHUSDT-1h-2025-01.zip", "w") as z:
+        z.writestr("ETHUSDT-1h-2025-01.csv", "\n".join(rows) + "\n")
+    bars = bm.load_binance_bars(tmp_path, ["2025-01"])
+    assert np.all(bars.open_time + np.timedelta64(3600_000_000_000 - 1000, "ns") == bars.close_time)
+
+
+def test_binance_public_x_is_calendar_only():
     bars = _bars(900)
-    task = build_binance_task(bars)
+    task = bm.build_binance_task(bars)
+    assert task.public.x.shape[1] == len(bm.X_FIELDS)
+    np.testing.assert_array_equal(task.public.x, bm.calendar_features(task.public.round_time))
+    # scrambling every close leaves x, round and decision times unchanged (positions react)
+    other = bm.build_binance_task(
+        bm.Bars(
+            bars.open_time,
+            bars.close_time,
+            bars.close * np.exp(np.random.default_rng(9).normal(0, 0.05, 900)),
+        )
+    )
+    np.testing.assert_array_equal(task.public.x, other.public.x)
+    np.testing.assert_array_equal(task.public.decision_time, other.public.decision_time)
+    assert not np.array_equal(task.public.deployed_action, other.public.deployed_action)
+
+
+def test_binance_no_future_information_and_labels_reach_actions_at_release():
+    bars = _bars(900)
+    task = bm.build_binance_task(bars)
     pub, out = task.public, task.outcomes
-    n = len(task)
-    assert n == 900 - 169 - 1
-    assert np.all(out.release_round[:-1] == np.arange(n - 1) + 1)  # d = 1
-    np.testing.assert_array_equal(out.label_available_time[:-1], pub.decision_time[1:])
-    assert np.all(out.label_available_time > pub.decision_time)
     t0 = 500
     cut = np.flatnonzero(bars.open_time == pub.round_time[t0])[0]
     close = bars.close.copy()
-    close[cut + 1 :] *= 1.7 ** np.arange(len(close) - cut - 1)
-    other = build_binance_task(Bars(bars.open_time, bars.close_time, close))
-    np.testing.assert_array_equal(pub.x[: t0 + 1], other.public.x[: t0 + 1])
-    np.testing.assert_array_equal(
-        pub.deployed_action[: t0 + 1], other.public.deployed_action[: t0 + 1]
+    close[cut + 1] *= 1.5  # round t0's own label (the next bar's close)
+    other = bm.build_binance_task(bm.Bars(bars.open_time, bars.close_time, close))
+    _same_public(task, other, slice(0, t0 + 1))
+    assert out.release_round[t0] == t0 + 1
+    changed = np.flatnonzero(
+        (pub.deployed_action != other.public.deployed_action)
+        | (pub.reference_action != other.public.reference_action)
     )
-    np.testing.assert_array_equal(
-        pub.reference_action[: t0 + 1], other.public.reference_action[: t0 + 1]
-    )
-    assert not np.array_equal(pub.x, other.public.x)
-    # label of round t0 is the close of bar t0+1: perturbing only that bar leaves rounds <= t0
-    close2 = bars.close.copy()
-    close2[cut + 1] *= 1.5
-    third = build_binance_task(Bars(bars.open_time, bars.close_time, close2))
-    np.testing.assert_array_equal(pub.x[: t0 + 1], third.public.x[: t0 + 1])
-    assert not np.array_equal(pub.x[t0 + 1], third.public.x[t0 + 1])  # visible from round t0+1
+    assert changed.size == 0 or changed.min() >= out.release_round[t0]
 
 
-def test_binance_bounds_and_determinism():
-    bars = _bars(2000, seed=3)
-    a, b = build_binance_task(bars), build_binance_task(bars)
-    out = a.outcomes
-    assert np.all((out.loss_incumbent >= 0) & (out.loss_incumbent <= 1))
-    assert np.all((out.loss_candidate >= 0) & (out.loss_candidate <= 1))
-    assert np.all(np.abs(out.paired_cost) <= 1.0)
-    np.testing.assert_array_equal(out.paired_cost, b.outcomes.paired_cost)
-    np.testing.assert_array_equal(a.public.x, b.public.x)
-    # positions are sign rules without parameters: p in {0, 1}
-    assert set(np.unique(a.public.deployed_action)) <= {0, 1}
-    assert a.costs.primary_switch_cost == pytest.approx(0.005)
-
-
-def test_binance_z_zero_on_agreement_and_fees_separate():
+def test_binance_z_zero_on_agreement_and_gross_loss_formula():
     bars = _bars(1500, seed=5)
-    task = build_binance_task(bars)
-    free = build_binance_task(bars, fee=0.0)
-    agree = ~task.public.disagreement
+    task = bm.build_binance_task(bars)
+    pub, out = task.public, task.outcomes
+    agree = ~pub.disagreement
     assert agree.any() and (~agree).any()
-    assert np.all(task.outcomes.paired_cost[agree] == 0.0)  # Amendment A-B2, exact
-    # fees do not enter Z or the losses; they are reported on their own channel
-    np.testing.assert_array_equal(task.outcomes.paired_cost, free.outcomes.paired_cost)
-    np.testing.assert_array_equal(task.outcomes.loss_incumbent, free.outcomes.loss_incumbent)
-    fee0, fee1 = task.outcomes.turnover_fee_incumbent, task.outcomes.turnover_fee_candidate
-    assert fee0 is not None and fee1 is not None
-    assert set(np.unique(np.round(fee0 / 0.001, 9))) <= {0.0, 1.0}
-    assert fee0.sum() > 0 and fee1.sum() > 0
-    assert np.all(free.outcomes.turnover_fee_incumbent == 0.0)
+    assert np.all(out.paired_cost[agree] == 0.0)
+    # exact frozen formula: l = 0.5 (1 - clip(p r / 0.10, -1, 1)), Z = l_inc - l_cand, no fees
+    c = bars.close
+    t = np.arange(169, len(c) - 1)
+    r = c[t + 1] / c[t] - 1
+    expect = 0.5 * (1 - np.clip(pub.deployed_action * r / 0.10, -1, 1)) - 0.5 * (
+        1 - np.clip(pub.reference_action * r / 0.10, -1, 1)
+    )
+    np.testing.assert_allclose(out.paired_cost, expect)
+    assert np.all((out.loss_incumbent >= 0) & (out.loss_incumbent <= 1))
+    assert np.all(np.abs(out.paired_cost) <= 1.0)
+
+
+def test_binance_switch_cost_k_flows_from_fee_and_turnover_is_diagnostic_only():
+    bars = _bars(1500, seed=5)
+    base = bm.build_binance_task(bars)
+    free = bm.build_binance_task(bars, fee=0.0)
+    cheap = bm.build_binance_task(bars, fee=0.00075)
+    assert base.costs.primary_switch_cost == pytest.approx(0.005)
+    assert free.costs.primary_switch_cost == 0.0
+    assert cheap.costs.primary_switch_cost == pytest.approx(0.00075 / 0.2)
+    np.testing.assert_array_equal(base.outcomes.paired_cost, free.outcomes.paired_cost)
+    np.testing.assert_array_equal(base.outcomes.loss_incumbent, free.outcomes.loss_incumbent)
+    fee0 = base.outcomes.diagnostic_turnover_fee_incumbent
+    assert fee0 is not None and fee0.sum() > 0
+    assert np.all(free.outcomes.diagnostic_turnover_fee_incumbent == 0.0)
+
+
+def test_binance_z_not_function_of_public_stream_and_determinism():
+    bars = _bars(4000, seed=3)
+    a, b = bm.build_binance_task(bars), bm.build_binance_task(bars)
+    np.testing.assert_array_equal(a.outcomes.paired_cost, b.outcomes.paired_cost)
+    audit = public_stream_audit(a)
+    assert audit["coarse_key"]["n_repeated_keys_with_varying_Z"] > 0
+    assert set(np.unique(a.public.deployed_action)) <= {0, 1}
 
 
 # ---------------------------------------------------------------- generator + harness
@@ -360,10 +530,9 @@ def test_generator_feeds_contract_harness(opsd):
     assert len(events) == len(task)
     assert all(e.disagreement == bool(task.public.disagreement[i]) for i, e in enumerate(events))
     spec = task.task_spec(0.10)
+    costs, _ = task.harness_paired_costs()
     coins = np.random.default_rng(0).random(len(events))
-    result = run_monitor(
-        UniformHT(0.10), spec, events, task.outcomes.paired_cost, coins, np.ones(len(events))
-    )
+    result = run_monitor(UniformHT(0.10), spec, events, costs, coins, np.ones(len(events)))
     assert result.total_spend <= spec.label_budget + 1e-9
 
 
@@ -372,11 +541,11 @@ def test_run_length_summary_runs_and_gaps():
     adjacent = np.ones(9, dtype=bool)
     s = run_length_summary(flags, adjacent)
     assert s["n_runs"] == 3 and s["run_length_max"] == 3
-    adjacent[4] = False  # a calendar gap splits the second run
+    adjacent[4] = False
     assert run_length_summary(flags, adjacent)["n_runs"] == 4
 
 
 @pytest.mark.skipif(not MAIN_OPSD.exists(), reason="raw OPSD snapshot not available")
 def test_real_opsd_loader_stays_in_development_window():
-    series = load_opsd_hourly(MAIN_OPSD)
-    assert series.actual.index.max() < pd.Timestamp("2020-01-01")
+    series = op.load_opsd_hourly(MAIN_OPSD)
+    assert series.actual.index.max() < pd.Timestamp("2019-12-31T23:00")

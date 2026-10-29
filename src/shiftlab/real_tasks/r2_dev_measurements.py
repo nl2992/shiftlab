@@ -14,7 +14,7 @@ import numpy as np
 
 from ..contract.baselines import GatedHTFixed, GatedHTPaced, UniformHT
 from ..contract.harness import run_monitor
-from . import RealTask, run_length_summary
+from . import RealTask, public_stream_audit, run_length_summary
 from .binance_momentum import build_binance_task, load_binance_bars
 from .opsd_reserve import build_opsd_tasks, load_opsd_hourly, opsd_informative
 
@@ -30,26 +30,32 @@ BINANCE_PACER_SEED_ROUNDS = 720
 def stream_stats(task: RealTask) -> dict:
     pub, out = task.public, task.outcomes
     flags = pub.disagreement
-    z = out.paired_cost
+    obs = out.observed
+    z = out.paired_cost[obs]
+    flags_obs = flags[obs]
     stats = {
         "n_rounds": len(task),
+        "n_labels_missing_at_release": int((~obs).sum()),
         "exclusions": task.exclusions,
         **run_length_summary(flags, pub.adjacent_to_previous),
-        "mean_paired_loss_all_rounds": float(z.mean()),
-        "n_agreement_rounds_with_nonzero_Z": int(((~flags) & (np.abs(z) > 1e-12)).sum()),
-        "max_abs_Z_on_agreement_rounds": float(np.abs(z[~flags]).max()) if (~flags).any() else 0.0,
+        "mean_paired_loss_all_labelled_rounds": float(z.mean()),
+        "n_agreement_rounds_with_nonzero_Z": int(((~flags_obs) & (np.abs(z) > 1e-12)).sum()),
         "min_Z": float(z.min()),
         "max_Z": float(z.max()),
+        "public_stream_audit": public_stream_audit(task),
     }
-    if out.turnover_fee_incumbent is not None:
-        stats["turnover_fee_total_incumbent"] = float(out.turnover_fee_incumbent.sum())
-        stats["turnover_fee_total_candidate"] = float(out.turnover_fee_candidate.sum())
-        stats["position_switches_incumbent"] = int((out.turnover_fee_incumbent > 0).sum())
-        stats["position_switches_candidate"] = int((out.turnover_fee_candidate > 0).sum())
-    if flags.any():
-        zd = z[flags]
+    if out.diagnostic_turnover_fee_incumbent is not None:
+        stats["diagnostic_turnover_switches_incumbent"] = int(
+            (out.diagnostic_turnover_fee_incumbent > 0).sum()
+        )
+        stats["diagnostic_turnover_switches_candidate"] = int(
+            (out.diagnostic_turnover_fee_candidate > 0).sum()
+        )
+    if flags_obs.any():
+        zd = z[flags_obs]
         stats.update(
             {
+                "n_labelled_disagreement_rounds": int(flags_obs.sum()),
                 "mean_paired_loss_on_disagreement": float(zd.mean()),
                 "sd_paired_loss_on_disagreement": float(zd.std(ddof=1)) if len(zd) > 1 else None,
                 "share_disagreement_with_Z_positive": float((zd > 0).mean()),
@@ -68,6 +74,7 @@ def smoke(task: RealTask, seed_task: RealTask, budget_fraction: float, label: st
     only). The contract harness has no label delay: feedback is delivered immediately (d=0).
     """
     events = list(task.public_events())
+    costs, missing_disagreements = task.harness_paired_costs()
     spec = task.task_spec(budget_fraction)
     val_dis = seed_task.public.disagreement
     ones_val = np.ones(len(val_dis))
@@ -87,7 +94,7 @@ def smoke(task: RealTask, seed_task: RealTask, budget_fraction: float, label: st
         alarms, first, spend, agree_q, dis_q, early, maxlog = [], [], [], [], [], [], []
         for s in range(SMOKE_SEEDS):
             coins = np.random.default_rng(SMOKE_SEED_BASE + s).random(len(events))
-            res = run_monitor(make(), spec, events, task.outcomes.paired_cost, coins, prices)
+            res = run_monitor(make(), spec, events, costs, coins, prices)
             alarms.append(res.first_alarm is not None)
             if res.first_alarm is not None:
                 first.append(res.first_alarm)
@@ -99,6 +106,7 @@ def smoke(task: RealTask, seed_task: RealTask, budget_fraction: float, label: st
             maxlog.append(float(res.log_e.max()))
         result[name] = {
             "label": label,
+            "missing_label_disagreement_rounds_treated_as_zero": missing_disagreements,
             "alarm_count_of_seeds": int(sum(alarms)),
             "n_seeds": SMOKE_SEEDS,
             "median_first_alarm_round": float(np.median(first)) if first else None,
@@ -129,7 +137,6 @@ def main(argv=None) -> int:
             "ridge_penalty": model.penalty,
             "validation_mse_by_penalty": model.validation_mse,
             "n_train_days_hour0": model.n_train,
-            "validation_exclusions": opsd_val.exclusions,
             "development": stream_stats(opsd_dev),
             "informative_2_to_60_percent": opsd_informative(
                 float(opsd_dev.public.disagreement.mean())
@@ -137,6 +144,8 @@ def main(argv=None) -> int:
             "release_round_offsets_used": sorted(
                 {int(v) for v in (opsd_dev.outcomes.release_round - np.arange(len(opsd_dev)))}
             ),
+            "validation_n_rounds": len(opsd_val),
+            "validation_exclusions": opsd_val.exclusions,
             "smoke_B10pct": smoke(opsd_dev, opsd_val, 0.10, "opsd_dev"),
         },
         "binance": {

@@ -383,3 +383,69 @@ holdout was touched.
 
 **Also disclosed:** the OPSD ridge penalty selected on 2017 is 1.0, the lower edge of the frozen
 grid. The grid stays frozen as specified, so the optimum may lie below it.
+
+## Amendment A-R3 (2026-10-28, before any freeze; development data only)
+
+Responds to the Codex pre-freeze review (`CODEX_R3_REVIEW_1.md`). Implemented in
+`src/shiftlab/real_tasks/` and tested in `tests/test_real_tasks.py`. No holdout was touched.
+
+1. **Label-limited auditor contract (both tasks).** `PublicEvent.x` holds calendar fields only.
+   OPSD: day-of-week one-hot (7), two annual harmonics (4), number of local hours in the day
+   (23/24/25). Binance: day-of-week one-hot (7), hour-of-day sin/cos. No lagged load, price, return,
+   `tau`, forecast value or prediction is exposed. The previous Binance feature `ln(C_t/C_{t-1})` gave
+   round t's label to round t+1 for free and is removed.
+   **Actions are a deliberate public channel.** Both policies compute their actions from public data
+   (loads, closes) on the evaluator side, so an action stream carries indirect information about past
+   outcomes, from the decision at which those outcomes are public, i.e. at or after label release
+   (tested: perturbing a label leaves every action before its release round unchanged). The one
+   declared earlier use is the OPSD hour-07 feature, which can change round s+1's candidate action
+   before day s's label is released (it is the only one; `drop_lag07` removes it). Z is not a
+   deterministic function of the public stream: on development data, for disagreement rounds grouped
+   by (differing-hour count, action bit counts), Z varies inside 21 of 32 repeated OPSD groups and in
+   both Binance groups; the full keys (x plus three rounds of action history) never determine Z
+   either (OPSD: all 168 keys unique; Binance: all 489 repeated keys have varying Z). This is a
+   measurement, not a proof of non-reconstructability.
+2. **OPSD local-day alignment.** A round is a Europe/Berlin local delivery day (23, 24 or 25 hours).
+   Decision time is exactly 10:00 local on D-1 (two hours before the 12:00 gate closure; every
+   delivery hour of D has this single deadline, so all incumbent forecasts are available). Labels
+   are available at the end of the local day plus 1 h. The loss is the daily cost divided by 125
+   (25 hours x 5), keeping it in [0, 1] on every day length; `tau_D` uses local days D-365..D-2; the
+   candidate's lags are 48, 72 and 168 hours before each delivery hour plus local 07:00 of D-1, one
+   model per local clock hour. Replaces the UTC-day clock of A.4 (and A1's fixed 10:00 UTC).
+3. **Missing data.** Every scheduled local day is a round. A round whose incumbent forecast,
+   candidate features or `tau` window is unusable at decision time has no policy pair (actions set
+   equal, no disagreement). A round whose actual load is incomplete keeps its actions and has
+   missing feedback at release (`Z` undefined, `label_observed = False`). Inclusion never depends on
+   future completeness. The v1 harness cannot express missing feedback, so smoke runs treat a missing
+   label as `Z = 0` and report the count.
+4. **Embargo.** Penalty selection uses only local-2017 days whose labels are released by the first
+   development decision (2017-12-31 10:00 local), so 2017-12-31 is purged. The development window
+   keeps only days released by the first holdout decision (2019-12-31 10:00 local), so 2019-12-31 is
+   purged: development is 2018-01-01..2019-12-30. The holdout starts at local 2020-01-01 00:00, that
+   is 2019-12-31T23:00 UTC; the code guard uses that instant.
+5. **Holdout reader.** The OPSD loader compares the 19-character timestamp prefix of each raw line
+   with the cutoff before any field is parsed; a line at or past the cutoff is never passed to the CSV
+   parser (tested with a malformed holdout line and a spy on the parser).
+6. **Binance accounting (frozen formula).** `P_a(t) = p_a(t) * r_{t+1}`, `r_{t+1} = C_{t+1}/C_t - 1`,
+   `l_t(a) = 0.5 * (1 - clip(P_a(t) / 0.10, -1, 1))`, `Z_t = l_t(incumbent) - l_t(candidate)`; no fee in
+   `Z`, so `Z_t = 0` on every agreement round. The switching cost is the constant imposed
+   `k = f / (2 * 0.10)` per policy switch, with f = 0.001 (0.100% of notional; 0 when f = 0, 0.00375 for
+   f = 0.00075), computed from the fee argument. Each policy's standalone turnover fee
+   (`diagnostic_turnover_fee_*`) is an evaluator diagnostic only and is not part of k.
+7. **Binance timestamps.** The loader keeps the archived close stamps at full precision. Decisions
+   are declared at the next hour boundary (bar open + 1 h), after the close stamp at either precision;
+   a label is available at the following boundary (d = 1). Tested at millisecond and microsecond
+   precision and with a synthetic microsecond archive.
+
+**Unchanged and still open:** the hour-07 feature (A.2) and its early action effect, A2 revision
+look-ahead, A3 licence assumption, imposed costs, and the d = 0 harness smoke. No claim of anytime
+validity, false-promotion calibration, causal onset or profitability is made.
+
+### A-R3 lead decision: drop the hour-07 lag (2026-10-29)
+
+`drop_lag07` now defaults to `True`. The candidate ridge no longer uses the day-D−1 hour-07 load,
+the only feature that could move round s+1's action before day s's label is released. The
+candidate then uses only lags released before its decision time. This is a conservative choice
+made before any freeze, and no holdout was touched. The ridge must be refit on 2015–16 without
+that feature (the penalty is still selected on 2017 with the embargo applied), and the development
+measurements must be rerun.

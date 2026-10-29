@@ -1992,3 +1992,8 @@ the finite benchmark. Source limitation: RAO* full text/proof not inspected in t
   separate nonvacuous economic-value and worst-case causal-risk errors and a complexity gain over
   robust FSC synthesis and the sequence-form oracle. No efficacy or real-data study follows from
   this screen. G1 remains open; G2–G5 stay held.
+- Exact counterexample: at `T=6,B=4,d=1,alpha=1/16`, an all-four-positive terminal test is
+  causal-null safe and has alternative promotion power `81/256`. Any rule restricted to the last
+  three released labels has power at most `27/128` by Neyman–Pearson under the included IID fair
+  null, producing an exact net-value gap `243/2560` at the specified fees. This only rejects raw
+  suffix truncation; carrying a cumulative risk state can evade it and must be audited separately.

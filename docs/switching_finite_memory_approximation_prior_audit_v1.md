@@ -47,3 +47,39 @@ evaluation follows from this screen.
 
 Primary links: [JMLR article](https://jmlr.org/papers/v23/20-1152.html),
 [official full PDF](https://jmlr2020.csail.mit.edu/papers/volume23/20-1152/20-1152.pdf).
+
+## Exact counterexample to raw-window risk preservation
+
+Filter stability controls how much old observations affect the *alternative hidden-state belief*;
+it does not imply that old observations can be discarded from the promotion-risk account. The
+following finite test makes the distinction explicit.
+
+Use `T=6`, query cap `B=4`, fixed delay `d=1`, query fee `c=1/100`, switch fee `k=1/10`, and
+global causal null `P(Y_s=1 | full past, query choice) <= 1/2`. The working alternative is IID
+`Ber(3/4)`. Request labels at events 1–4, keep action 0 through event 4, and make one terminal
+promotion decision at event 5 after all four labels have arrived; hold a promoted action through
+event 6. Set `alpha=1/16`.
+
+The full-history rule promotes only on `1111`. Under every causal null its promotion probability
+is at most `2^-4=1/16`; under the alternative its promotion probability is `(3/4)^4=81/256`.
+Its expected net gain per promotion over staying at 0, including the switch fee, is
+`2*(2*(3/4)-1)-1/10=9/10`. It pays the same fixed query charge `4c=1/25` on every path.
+
+Now retain the same mandatory query calendar but restrict the terminal rule to the last three
+released labels, with no earlier action or query history used to encode the discarded label. Any
+such level-`1/16` rule must also have size at most
+`1/16` under the IID fair-coin null, which is a member of the causal-null class. By the
+Neyman–Pearson lemma, its maximum power against `Ber(3/4)` is attained by promoting with
+probability `1/2` on suffix `111`, and nowhere else: the null mass of `111` is `1/8`, twice the
+allowed size. Its power is therefore `(1/2)*(3/4)^3=27/128=54/256`. The full-history rule's net
+value exceeds this raw three-label-window class by exactly
+
+`(9/10) * (81/256 - 54/256) = 243/2560`.
+
+This is a precise finite separation for a *suffix-only terminal test*, not a lower bound for all
+finite-state controllers: a controller that carries an accumulated risk/evidence state can retain
+the information in `Y_1` without storing the raw history. It shows why the Kara–Yüksel alternative
+filter approximation theorem alone cannot justify truncating the safety evidence. Any compressed
+controller must represent both the economic hidden-state belief and sufficient accumulated
+promotion-risk information, and must prove separate value and robust-risk errors. That dual-state
+approximation remains an open G1 obligation; the example does not establish that it is novel.

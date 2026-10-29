@@ -1709,8 +1709,8 @@ the finite benchmark. Source limitation: RAO* full text/proof not inspected in t
 ### G1 source boundary 2026-10-29: adaptive robust sequential tests are established
 
 - Audited Saha and Ramdas, arXiv:2408.14015, from the official arXiv PDF: adaptive conditional
-  contamination under composite nulls, Corollary 3.4, Section 4.1, Theorem 4.1 and its appendix
-  proof. Their robust likelihood-ratio and predictable plug-in constructions already give
+  contamination under composite nulls, Corollary 3.4, Section 4.2, and Theorem 4.6. Their robust
+  likelihood-ratio and predictable plug-in constructions already give
   test-supermartingale/anytime risk control under history-adaptive conditional null laws.
   `switching_robust_sequential_testing_prior_audit_v1.md` records the theorem scope and source hash
   (manifest v28).

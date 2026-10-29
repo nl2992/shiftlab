@@ -143,3 +143,4 @@ Both parts are research targets, not results.
 - **Validity note: INCORRECT.** The out-of-order delay claim is withdrawn (counterexample, P ≥ 0.075). The fixed-delay derivation is qualified. A missing label must apply −ε, not skip. OPSD's delay is actually fixed d=2. The note is corrected in place.
 - **Both tasks are frozen together after the OPSD fix** (they share one protocol file).
 - **Fixes sent:** the OPSD DST lag and availability mask, the timestamp-veto rule, the DelayedHT missing-label increment, and the release-offset sentinel. |
+| 23 | 2026-10-29 | R3 | Waiting: the A-R3b fix implementer is still running (OPSD DST lag and availability veto, release sentinel, DelayedHT missing-label and out-of-order fixes), so no duplicate was started. Lane A's new checkpoint (small-family separation from deterministic query calendars) does not overlap. |

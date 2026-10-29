@@ -101,7 +101,7 @@ pythonpath = [".", "src"]
 
 [tool.ruff]
 line-length = 100
-exclude = ["data", "outputs", "tmp", "references"]
+exclude = ["data", "outputs", "tmp", "references", ".agents", ".aris/upstream"]
 
 [tool.mypy]
 files = ["src/shiftlab/core"]

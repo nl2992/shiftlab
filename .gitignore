@@ -368,3 +368,7 @@ Thumbs.db
 !outputs/delayed_history_predictable_confirmation_2000/**
 !outputs/residual_variance_start_prior/
 !outputs/residual_variance_start_prior/**
+
+# Codex lane machine-local research state
+.aris/installed-skills-codex.txt
+.aris/runs/

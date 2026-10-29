@@ -3,8 +3,13 @@
 **Mission:** develop a computationally useful approximation to the existing two-law,
 finite-horizon switching oracle, with an economic value bound and a worst-case
 causal-null promotion-risk guarantee. The governing scope is `RESEARCH_BRIEF.md`.
-**Current state:** the branch, brief, toolkit and baseline manifest are in place.
-No candidate algorithm, new theorem or new experiment has been established.
+**Current state (2026-10-29):** reference anchors and exact-risk checks are
+reproduced. Several candidate mechanisms have been falsified as main methods or
+remain unresolved: query caps lose to the stronger calendar baseline; simple
+belief grids lack tractable state counts and a closed transfer proof; generic
+null-cut and dominance pruning do not reduce the pre-promotion tree; policy-column
+generation still lacks a compact pricing oracle. No candidate has yet established
+the required synthetic and real-data baseline wins. See the append-only ledger.
 
 ## Operating contract
 
@@ -76,6 +81,13 @@ continue to the next candidate rather than abandon the formulation.
    bound, restricted policy families and structural assumptions. Prove any error
    budget and classify complexity accurately as FPT, XP, pseudo-polynomial or an
    empirical speedup. Test any monotone-event restriction for its value loss.
+
+   Current evidence: the registered promotion-dominance rule is safe but removes
+   action columns rather than the shared pre-promotion information tree. Its
+   measured pruning runs had the same builder-node and continuation-cache counts
+   as the reference. Do not repeat that sweep on the same HMM cells; a new C
+   candidate must compact pre-promotion histories and preserve the causal-null
+   response information, including the posterior-alias counterexample.
 
 For each candidate, preserve its formal assumptions, counterexamples, nearest
 prior art, proof status and continue/narrow/stop decision in the ledger. Move to

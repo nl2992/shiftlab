@@ -302,3 +302,23 @@
   count demonstrate actual compression. Candidate B remains unresolved; proceed
   to Candidate C's structural route. No model outcomes, seeds or holdouts accessed.
 - Details and citations: `CANDIDATE_B_POLICY_PRICING_AUDIT_V1.md`.
+
+
+## 2026-10-29 — Candidate C dominance-pruning limit
+
+- Re-audited the proven promotion-dominance pruning rule against its actual build
+  path. It removes immediate-promotion choices and continuation calls, but every
+  marked information history retains its nonpromotion continuation. That history
+  remains available to the learner and is relevant to the full-history causal
+  null, so the lemma does not justify merging/removing it.
+- Registered evidence across T=5–8 shows skipped promotion calls (68/132/230/370)
+  but identical builder-node and continuation-cache counts versus reference;
+  resource timings were mixed. The T=5–7 exact screen marked 44/105, 93/236 and
+  172/469 histories. This falsifies the measured tree-reduction claim for this
+  rule/cells only, not all structural pruning.
+- Updated the working-plan state and Candidate C decision. Retain the rule as a
+  safe baseline; stop repeating epsilon sweeps on the same exposed family. Any new
+  candidate must compact the pre-promotion history representation and preserve
+  posterior-alias distinctions under the robust null. No outcomes, seeds or
+  holdouts were accessed.
+- Details: `CANDIDATE_C_DOMINANCE_LIMIT_V1.md`.

@@ -2411,6 +2411,14 @@ the finite benchmark. Source limitation: RAO* full text/proof not inspected in t
   adversarial sublinear expected regret/query bounds. Its feedback is immediate and queried labels
   reveal the full classifier loss vector; it has no repeated switching cost or causal-null risk
   guarantee. It is a stronger active-selection comparator than Online LLM Picker where contextual
-  policies apply. Add a hard-budget/delayed-update/costed-deployment CAMS adaptation to the baseline
-  roster before any efficacy comparison; do not treat those protocol changes as novelty. Source
+  policies apply. Add a pending-aware delayed-update/costed-deployment CAMS adaptation (preserving
+  its existing query-budget gate) to the baseline roster before any efficacy comparison; do not
+  treat those protocol changes as novelty. Source
   scope is recorded in `switching_contextual_active_model_selection_audit_v1.md`.
+- The explicit CAMS comparator contract is in `switching_cams_comparator_contract_v1.md`. CAMS
+  already has a query-budget gate, so a hard cap alone is not a gap; the adaptation reserves rights
+  for pending labels under delay. It fixes a compatible binary paired-loss task, delayed updates,
+  and external query/switch charges. The initial adaptation is cost-oblivious; a cost-aware policy
+  extension needs its own state and feedback derivation. CAMS's immediate-feedback results are not
+  inherited because delayed updates alter the estimator analysis. No adapter or efficacy result
+  exists yet, and no risk theorem is implied.

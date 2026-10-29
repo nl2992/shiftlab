@@ -29,16 +29,22 @@ CAMS is direct prior art for active online selection among contextual predictors
 including regret/query-complexity guarantees under stochastic and adversarial streams. This closes
 generic “context-aware model selection plus active acquisition” as a novelty claim. Its setting
 reveals all candidate losses for a queried event immediately, and its objective compares against the
-best contextual selection policy or single model. The inspected formulation does not include fixed
-delayed label releases, repeated deployment charges, a pathwise cap that reserves pending requests,
-or anytime causal-null false-promotion risk. Those differences are obligations to test reductions,
-not proof of a gap.
+best contextual selection policy or single model. Algorithm 1 already includes a query-budget gate,
+and its experiments report maximum query counts. The inspected formulation does not include fixed
+delayed label releases with pending-request reservation, repeated deployment charges, or anytime
+causal-null false-promotion risk. Those differences are obligations to test reductions, not proof
+of a gap.
 
 For any later empirical study, adapt CAMS to request-time pathwise budget reservation and delayed
 updates, then specify how its per-event recommendation is converted to a deployed switching action
 with the same switching fee as the candidate. That adaptation must be labeled as such. The existing
 Online LLM Picker adaptation is not a substitute for CAMS where contextual policies are available.
 Neither CAMS nor its regret theorem certifies current challenger value after a regime reversal.
+
+The explicit comparator protocol and theorem-transfer boundary are specified in
+[`switching_cams_comparator_contract_v1.md`](switching_cams_comparator_contract_v1.md). Its first
+adaptation is cost-oblivious when recommending actions; a cost-aware extension would require a
+separate stateful policy and feedback definition.
 
 ## Decision
 

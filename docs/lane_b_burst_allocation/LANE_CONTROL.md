@@ -169,3 +169,19 @@ The user's instruction: "please follow our initial goal… developing a potentia
 | C-2 | 2026-10-29 | C2 | Merged main. Lane A's newest no-go (positive-prefix acquisition is group-sequential futility; kept as a baseline) leaves G1 open only for recurrent delayed two-law gains, which is the RLS area. RLS is claimed in `docs/LANE_COORDINATION.md` (main checkout and branch) to avoid duplication. The narrowed RLS theory and small-instance check are still running, so no duplicate was started. |
 | C-3 | 2026-10-29 | C2 | Merged main (Lane A's newest no-go: generic finite-window belief compression is established; no RLS overlap). The RLS theory agent's 2,000-seed small-instance run is still in progress (draft files present, uncommitted), so no duplicate was started. |
 | C-4 | 2026-10-29 | C2 → EXIT | **RLS killed** (`C2_rls_narrowed_theory.md`, 2,000 seeds per cell, seeds 100696000–100699999). It is equivalent to a duration-aware MLE forecaster plus a standard planner and gate; the design edge is standard BED, and Thompson sampling matches or beats it at primary budgets. No other C0 candidate survives on the frozen information structure. **Phase C exit rule applied:** `C_PIVOT_MEMO.md` written, loop stopped. Recommended pivot: delay-heterogeneous label channels (split-clock) with an OPSD fast-surrogate task; alternatives are multi-candidate shared labels and selective labels. |
+
+## Phase D: split-clock (delay-heterogeneous label channels), opened 2026-10-29
+
+The user chose pivot 1 from `C_PIVOT_MEMO.md`. **Structure:** each disagreement can be labelled through a fast, biased surrogate channel (short delay `d_f`, price `c_f`) and/or a slow gold channel (long delay `d_g > d_f`, price `c_g`). The question is how to allocate the budget across channels and time, using the fast channel for rollback (which needs no alpha-certification) and the gold channel for certified promotion. **Target:** a per-reversal gain of order Δ·(d_g − d_f) over every single-channel method and over standard compositions, with promotion validity kept on gold evidence.
+
+| Gate | Deliverable | Pass | Exit |
+|---|---|---|---|
+| D0 audit | `D0_prior_art.md`: controlled sensing (Prabhu et al.; read Lane A's audit, do not redo), the repo's delayed-PPI and evidence-directed PPI work, prediction-powered e-values and active inference, multi-fidelity bandits and BO, bandits with intermediate or surrogate observations and delays, surrogate-index methods, multi-source change detection with sensing costs | A precise residual that is not a composition | A published or in-repo method already gives a fast-surrogate rollback plus gold-certified promotion rule with a delay-gap advantage → stop and choose the next pivot |
+| D1 task | `D1_opsd_split_clock_task.md`: an OPSD fast-surrogate task spec (clocks, surrogate definition and bias, prices, development and holdout windows, Codex review, freeze) | Frozen, with a measured development surrogate-gold correlation | No usable fast channel → evaluate a Binance alternative (short-horizon return as surrogate for a long-horizon P&L label) |
+| D2 mechanism + theorem | Rule plus proof or counterexample of the delay-gap advantage | Proved or sharply bounded | Reduces to a composition → stop |
+| D3 synthetic | E3-style simulator with two channels; baselines: gold-only, surrogate-only (invalid-promotion control), PPI-composed, controlled-sensing planner | Wins on net utility with safety held | Fails → stop |
+| D4 real data | OPSD (and Binance) development windows via harness v2, extended to two channels | Same ordering | — |
+| D5 confirm | Frozen protocol, Codex review, holdout opened once | Registered win | — |
+
+**Global stop:** 16 ticks without passing D2.
+

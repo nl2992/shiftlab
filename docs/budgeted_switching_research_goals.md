@@ -2005,3 +2005,21 @@ the finite benchmark. Source limitation: RAO* full text/proof not inspected in t
   leave the monotone class and invalidate the risk identity. See
   `switching_monotone_risk_ccpomdp_reduction_v1.md`. Close the generic reduction as a novelty
   claim; require a compact monotone synthesis theorem with separate utility/risk bounds to reopen.
+
+### G1 candidate screen 2026-10-29: monotone terminal promotion can lose value
+
+- Registered and ran `switching_monotone_restriction_counterexample_v1.md`. At `T=4`, the
+  unrestricted randomized terminal map has exactly verified causal-null risk `1/20` and savings
+  `0.077536404`; the monotone-map class is bounded above by its rational dual certificate at about
+  `0.0696564`. The certified gap is approximately `0.007880004`, with identical label schedule,
+  fees, action timing and risk limit. The reversal-sensitive alternative makes one adverse label
+  pattern valuable to reject even though its coordinatewise-superpattern has negative value.
+- This closes the proposed monotone-map restriction as a lossless simplification. It is not a
+  scalable method, an anytime guarantee, or evidence of an unoccupied literature gap. Standard
+  belief-state control for regime-changing Markov decisions exists; the finite separation alone
+  does not clear G1.
+- Retain the unrestricted policy as an exact small-instance benchmark. A next candidate must
+  improve computational or statistical guarantees over robust FSC/sequence-form synthesis at
+  increasing horizons while preserving a separate causal-null risk certificate and current-regime
+  value tracking. Do not advance to efficacy or real-data studies on this evidence. G1 remains
+  unresolved; G2–G5 remain held.

@@ -1876,6 +1876,15 @@ the finite benchmark. Source limitation: RAO* full text/proof not inspected in t
 - Next compare the reduced solver's growth at fixed `B` against the generic oracle, and audit
   source-level prior art on robust stopping with separate alternative utility and null risk. G1
   remains open; no efficacy or real-data gate is opened, and G2–G5 stay held.
+- Source audit update (2026-10-29): Horák et al. (2023), Sections 6–7 and Proposition 6.2,
+  explicitly establish next-stage/continuation strategy composition and the matching Bellman
+  recursion for one-sided partially observable stochastic games. This closes the generic
+  decomposition itself as a novelty claim, while not directly resolving the project's distinct
+  two-law objective (alternative economic utility plus global history-adaptive causal-null
+  promotion risk, hidden pending labels, and a hard query cap). Record this boundary in
+  `switching_first_promotion_decomposition_v1.md`. Keep the reduced exact solver as a
+  computational artifact; G1 remains open pending a nontrivial result against robust stopping,
+  sequential design and delayed-POMDP continuation methods. G2–G5 remain held.
 - The registered fixed-`B=3`, `d=1` scaling run matches full and reduced values/metrics/risks at
   `T=7` with learner sequences reduced `54,861 -> 1,317` and nodes `71,401 -> 3,334`. At `T=8`,
   the generic builder hits its frozen 200,000-node limit; the reduced solver completes in 5,700

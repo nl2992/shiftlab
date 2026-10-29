@@ -127,3 +127,23 @@ retain the solver as a verification tool and revise G1; do not open G3–G5.
   [`switching_two_law_game_duality_v1.md`](switching_two_law_game_duality_v1.md).
 - The registered six-round oracle bracket is in
   [`switching_reversal_lp_certificate_v1.md`](switching_reversal_lp_certificate_v1.md).
+
+## Source-level decomposition audit (2026-10-29)
+
+Horák et al., *Solving Zero-Sum One-Sided Partially Observable Stochastic Games*,
+Sections 6–7 and Proposition 6.2, explicitly decompose a behavioral strategy into its
+next-stage strategy and continuation strategies for each resulting action/observation
+subgame, then derive the corresponding recursive value composition and Bellman equation.
+The source is the authors' primary paper at https://arxiv.org/abs/2010.11243 (published as
+Artificial Intelligence 316, 2023, DOI 10.1016/j.artint.2022.103838). This confirms that
+strategy/continuation decomposition and its value recursion are established dynamic
+programming structure. It does not itself solve this project's asymmetric objective: the
+alternative-law economic cost plus a global false-promotion constraint against a
+history-adaptive causal null, with hidden pending labels and a hard query cap. Thus it is
+relevant prior structure, not a direct theorem-equivalence result for the two-law game.
+
+Audit decision: close “first-promotion decomposition alone is novel” as a claim. Keep the
+exact LP reduction as a computational artifact. Any further claim must isolate a new result
+for the robust pre-promotion stopping problem or demonstrate a source-audited complexity or
+value advantage beyond standard strategy composition, robust optimal stopping, and delayed
+POMDP continuation planning. The current evidence does not pass G1, and G2–G5 remain held.

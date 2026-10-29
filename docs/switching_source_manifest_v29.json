@@ -1,0 +1,12 @@
+[
+  {
+    "name": "adusumilli_optimal_tests_following_sequential_experiments_jpe26_arxiv2305_00403",
+    "url": "https://arxiv.org/pdf/2305.00403",
+    "record_url": "https://www.journals.uchicago.edu/doi/abs/10.1086/742418",
+    "bytes": 1779527,
+    "sha256": "19329601743C64F755E3E5AA7F3F905759EFFE5E16939603EFC9D730C6D79FD2",
+    "status": "downloaded_primary_preprint_inspected_theorems_1_2_3_costly_sampling_and_appendix_proofs",
+    "retrieved_date": "2026-10-29",
+    "cache_path": "outputs/switching_source_audit_v1/adusumilli_optimal_tests_sequential_experiments_2023.pdf"
+  }
+]

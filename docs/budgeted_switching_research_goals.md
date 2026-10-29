@@ -1745,3 +1745,21 @@ the finite benchmark. Source limitation: RAO* full text/proof not inspected in t
   bound must survive compact sufficient event statistics and compare against the strongest
   resource-matched safe test. G1 remains open; G2–G5 stay held. Promotion validity still does not
   certify current value after reversal.
+
+### G1 source boundary 2026-10-29: optimal tests after sequential experiments
+
+- Audited Adusumilli, “Optimal Tests Following Sequential Experiments,” JPE 2026, from the full
+  arXiv preprint and checked the published record. Theorems 1–2 give local-asymptotic power
+  envelopes for bounded stopping-time experiments, including conditional alpha spending; Theorem
+  3 covers sampling updated in finitely many batches. Counts and terminal score/EIF processes give
+  fixed-dimensional asymptotic sufficient statistics. `switching_sequential_experiment_tests_prior_audit_v1.md`
+  records assumptions and the boundary (manifest v29).
+- The source explicitly scopes its type-I guarantee to following the registered sampling and
+  stopping protocol, in contrast to anytime-valid inference. It does not cover finite-sample
+  history-adaptive causal-null risk, pending delayed labels under a pathwise total cap, recurrent
+  switching/rollback costs or decision regret. These are comparison obligations, not novelty
+  proof.
+- Decision: reject generic optimal testing after costly adaptive acquisition as a contribution.
+  Any candidate claiming power must compare with this asymptotic envelope where applicable, then
+  prove a finite-sample gain under the exact delayed two-law contract. G1 remains open; G2–G5 stay
+  held. Promotion-risk validity and post-reversal current value remain separate.

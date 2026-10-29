@@ -2238,3 +2238,7 @@ the finite benchmark. Source limitation: RAO* full text/proof not inspected in t
   economic/risk errors beyond robust FSC and the sequence-form oracle. No efficacy or real-data
   experiment was run; G2–G5 remain held. Current-regime evidence after reversal remains separate
   from historical promotion validity.
+- A candidate structural assumption is uniform mixing of the alternative HMM, but filter forgetting
+  controls only alternative predictive value. It does not control perturbations of worst causal-null
+  promotion risk under the separate full-history adversary. Any windowed-filter algorithm must prove
+  both bounds for its actual policy; otherwise reject it before experiments.

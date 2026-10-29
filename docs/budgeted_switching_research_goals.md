@@ -1479,3 +1479,29 @@ regime after reversal. G1/G2 remain open and G3/G4 remain held. Next perform the
 equivalence audit for this exact cost-saving coupling against delayed controlled sequential tests
 and costed sensing, then seek a non-classical contribution in recurrent switching economics,
 current-regime forecasts and delayed risk accounting rather than relabeling futility stopping.
+
+### Checkpoint 2026-10-28: exact-game/POSG equivalence boundary
+
+`switching_posg_equivalence_audit_v1.md` makes the information structure explicit as a finite
+imperfect-private-monitoring stochastic game: the learner's alternative-HMM utility and the
+history-adaptive conditional-null reachability risk are separate probability models; pending labels,
+request-time budget reservation, deployment state and the absorbing any-promotion event must be
+represented. The small-cell sequence-form LP is an exact generic solver, not a method contribution.
+A standard belief-state POMDP is insufficient without representing the null player's hidden history.
+
+Primary-source audit confirms substantial overlap with robust partially observable control
+(Rasouli–Saghafian, Theorems 3–4), chance-constrained POMDP planning (RAO*, abstract/record only
+in this pass), finite-horizon adaptive sensing and stopping (Li et al., including a finite maximum
+sample horizon), and delayed group-sequential designs (Hampson–Jennison). These sources block
+broad novelty claims but do not establish full theorem equivalence. The POSG state augmentation
+may reproduce the exact objective generically; the audited evidence does not yet show whether an
+existing algorithm solves the same constrained information structure or supplies the desired
+scalable guarantee. Regime belief/current expected utility remains distinct from global
+false-promotion control, including after a reversal.
+
+Decision: continue G1, no method selected, and do not open G2–G5. Next conduct the required
+proof-level equivalence audit on a growing family, first checking whether robust POSG dynamic
+programming can express the same asymmetric null information and separate constrained objective;
+then identify whether any scalable structure remains beyond generic exponential planning. If no
+nontrivial scalable advantage survives, revise or stop this method hypothesis instead of polishing
+the finite benchmark. Source limitation: RAO* full text/proof not inspected in this pass.

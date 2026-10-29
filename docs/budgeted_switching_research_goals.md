@@ -1718,6 +1718,10 @@ the finite benchmark. Source limitation: RAO* full text/proof not inspected in t
   product is not the methodological contribution. Predictable acquisition, finite stopping, and
   delayed label release appear reducible to event-time filtration bookkeeping; formalize that
   reduction before making it a proof claim.
+- The robust-test audit now gives the exact fixed-delay reduction: the visible wealth at event `t`
+  is the event-time product through `t-d`; Ville then controls every visible threshold crossing,
+  including adaptive stopping at a hard request cap. This depends on fixed ordered releases and
+  does not justify multiplying only revealed factors under outcome-dependent/out-of-order delay.
 - Residual G1 must concern the interaction between a global any-promotion risk constraint, limited
   delayed observations, and recurring reversible economic switching, compared against an exact or
   provably strong resource-matched controller. Promotion evidence remains distinct from current

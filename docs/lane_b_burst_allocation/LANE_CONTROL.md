@@ -212,4 +212,7 @@ The user chose pivot 1 from `C_PIVOT_MEMO.md`. **Structure:** an incumbent plus 
 | E4 confirm | Frozen protocol, Codex review, holdout opened once | Registered win | — |
 
 **Global stop:** 16 ticks without passing E1.
-
+| E-1 | 2026-10-29 | E0 | **Narrow, low-confidence PASS** (`E0_prior_art.md`; about 25–30% chance E1 survives).
+- **Headline target dead.** Model Picker (Karimi et al. 2010.09818) already queries only on disagreement and matches full-information experts with fewer labels. Alpha spending and e-BH cover multiplicity. Against a shared-label baseline, Bonferroni costs only an additive ln K (about a 1.2x wait at K=2, 2.2x at K=32), so 'log K vs K' is the wrong target.
+- **Residuals.** R1: certification pays a covering number in the disagreement metric rho(c,c')=P(c(x)≠c'(x)) instead of ln K, with the gain capped at about a log K factor. R2: reversible re-baselining needs a sampling floor on the union of pairwise disagreements.
+- **Required before E1:** a time-uniform chaining / covering-number confidence-sequence search, with exit if prior art covers R1. The composition baseline is spelled out in E0. |

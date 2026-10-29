@@ -2,10 +2,10 @@
   "opsd": {
     "ridge_penalty": 1.0,
     "validation_mse_by_penalty": {
-      "1.0": 7842159.968628914,
-      "10.0": 7918347.911668851,
-      "100.0": 9157922.418496761,
-      "1000.0": 17275153.278650492
+      "1.0": 9151122.181827998,
+      "10.0": 9258663.021703592,
+      "100.0": 10670803.46901705,
+      "1000.0": 18888820.48689949
     },
     "n_train_days_hour0": 723,
     "development": {
@@ -16,50 +16,50 @@
         "decision_unusable_no_pair": 1,
         "label_missing_at_release": 0
       },
-      "disagreement_rate": 0.23045267489711935,
-      "n_disagreement_rounds": 168,
-      "n_runs": 57,
-      "run_length_mean": 2.9473684210526314,
-      "run_length_median": 2.0,
+      "disagreement_rate": 0.22085048010973937,
+      "n_disagreement_rounds": 161,
+      "n_runs": 53,
+      "run_length_mean": 3.0377358490566038,
+      "run_length_median": 3.0,
       "run_length_p90": 5.0,
       "run_length_max": 5,
-      "iid_expected_mean_run": 1.2994652406417113,
-      "p_disagree_given_prev_disagree": 0.6607142857142857,
-      "share_of_disagreement_rounds_in_runs_ge3": 0.7440476190476191,
+      "iid_expected_mean_run": 1.2834507042253522,
+      "p_disagree_given_prev_disagree": 0.6708074534161491,
+      "share_of_disagreement_rounds_in_runs_ge3": 0.7391304347826086,
       "share_of_disagreement_rounds_in_runs_ge10": 0.0,
-      "mean_paired_loss_all_labelled_rounds": 0.008582417582417583,
+      "mean_paired_loss_all_labelled_rounds": 0.0013406593406593411,
       "n_agreement_rounds_with_nonzero_Z": 0,
-      "min_Z": -0.32,
+      "min_Z": -0.344,
       "max_Z": 0.48000000000000004,
       "public_stream_audit": {
         "n_rounds": 729,
-        "n_labelled_disagreement_rounds": 168,
+        "n_labelled_disagreement_rounds": 161,
         "full_key": {
-          "n_keys": 168,
+          "n_keys": 161,
           "n_repeated_keys": 0,
           "n_repeated_keys_with_varying_Z": 0,
           "share_of_rounds_in_repeated_keys": 0.0
         },
         "coarse_key": {
-          "n_keys": 100,
-          "n_repeated_keys": 32,
-          "n_repeated_keys_with_varying_Z": 21,
-          "share_of_rounds_in_repeated_keys": 0.5952380952380952
+          "n_keys": 97,
+          "n_repeated_keys": 36,
+          "n_repeated_keys_with_varying_Z": 25,
+          "share_of_rounds_in_repeated_keys": 0.6211180124223602
         }
       },
-      "n_labelled_disagreement_rounds": 168,
-      "mean_paired_loss_on_disagreement": 0.0371904761904762,
-      "sd_paired_loss_on_disagreement": 0.14116202744572015,
-      "share_disagreement_with_Z_positive": 0.5714285714285714,
-      "share_disagreement_with_Z_negative": 0.4226190476190476,
-      "mean_paired_loss_on_disagreement_first_half": -0.022000000000000002,
-      "mean_paired_loss_on_disagreement_second_half": 0.0963809523809524
+      "n_labelled_disagreement_rounds": 161,
+      "mean_paired_loss_on_disagreement": 0.006062111801242236,
+      "sd_paired_loss_on_disagreement": 0.1390446731018935,
+      "share_disagreement_with_Z_positive": 0.4782608695652174,
+      "share_disagreement_with_Z_negative": 0.515527950310559,
+      "mean_paired_loss_on_disagreement_first_half": -0.0522,
+      "mean_paired_loss_on_disagreement_second_half": 0.06360493827160495
     },
     "informative_2_to_60_percent": true,
-    "release_round_offsets_used": [
-      1,
+    "release_delays_of_released_labels": [
       2
     ],
+    "labels_never_released": 2,
     "validation_n_rounds": 364,
     "validation_exclusions": {
       "purged_by_embargo": 1,
@@ -73,12 +73,12 @@
         "alarm_count_of_seeds": 0,
         "n_seeds": 200,
         "median_first_alarm_round": null,
-        "mean_label_spend": 69.65,
+        "mean_label_spend": 66.58,
         "budget": 72.9,
-        "mean_labels_on_disagreement": 69.65,
+        "mean_labels_on_disagreement": 66.58,
         "mean_labels_on_agreement": 0.0,
-        "stopped_early_count": 105,
-        "mean_max_log_e": 0.8554387414664961,
+        "stopped_early_count": 57,
+        "mean_max_log_e": 0.20295558876333858,
         "log_threshold": 2.995732273553991
       },
       "GatedHTPaced": {
@@ -92,7 +92,7 @@
         "mean_labels_on_disagreement": 72.0,
         "mean_labels_on_agreement": 0.0,
         "stopped_early_count": 200,
-        "mean_max_log_e": 0.882911296161784,
+        "mean_max_log_e": 0.46581432910089143,
         "log_threshold": 2.995732273553991
       },
       "UniformHT": {
@@ -103,10 +103,10 @@
         "median_first_alarm_round": null,
         "mean_label_spend": 69.72,
         "budget": 72.9,
-        "mean_labels_on_disagreement": 15.52,
-        "mean_labels_on_agreement": 54.2,
+        "mean_labels_on_disagreement": 15.005,
+        "mean_labels_on_agreement": 54.715,
         "stopped_early_count": 117,
-        "mean_max_log_e": 0.178319319629557,
+        "mean_max_log_e": 0.07493120268889474,
         "log_threshold": 2.995732273553991
       }
     }
@@ -207,9 +207,10 @@
       "mean_paired_loss_on_disagreement_first_half": 0.0024254641637240755,
       "mean_paired_loss_on_disagreement_second_half": 0.0002496040061460986
     },
-    "release_round_offsets_used": [
+    "release_delays_of_released_labels": [
       1
     ],
+    "labels_never_released": 1,
     "smoke_B5pct": {
       "GatedHTFixed": {
         "label": "binance_dev",

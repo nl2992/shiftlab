@@ -1,0 +1,781 @@
+{
+  "instance": {
+    "horizon": 10,
+    "delay": 2,
+    "budget": 4,
+    "alpha": 0.2,
+    "bet_fraction": 0.5,
+    "p_context": [
+      0.5,
+      0.5
+    ],
+    "p_alt": [
+      0.8,
+      0.7
+    ],
+    "p_null": [
+      0.5,
+      0.5
+    ],
+    "proxy": [
+      0.6,
+      0.0
+    ],
+    "grid": [
+      0.25,
+      0.5,
+      0.75,
+      1.0
+    ]
+  },
+  "results": [
+    {
+      "budget": 2,
+      "power_optimal": 0.0007477878034114838,
+      "null_alarm_optimal": 0.00032570958137512207,
+      "best_constant_table": {
+        "q_A": 0.75,
+        "q_B": 0.5,
+        "power": 0.00018180899322032927,
+        "null_alarm": 8.379342034459114e-05
+      },
+      "gap_vs_best_constant": 0.0005659788101911546,
+      "neyman_table": {
+        "0": 0.75,
+        "1": 1.0
+      },
+      "power_neyman": 7.443111389875411e-05,
+      "null_alarm_neyman": 3.5107601433992386e-05,
+      "power_always_q1": 0.0,
+      "max_null_alarm_constants": 8.379342034459114e-05,
+      "structure": {
+        "groups_tested": 162,
+        "groups_monotone": 123,
+        "fraction_monotone": 0.7592592592592593,
+        "example_failures": [
+          {
+            "t": 8,
+            "context": 0,
+            "budget": 2,
+            "n_wealth": 548
+          },
+          {
+            "t": 8,
+            "context": 0,
+            "budget": 1,
+            "n_wealth": 334
+          },
+          {
+            "t": 8,
+            "context": 0,
+            "budget": 1,
+            "n_wealth": 334
+          },
+          {
+            "t": 8,
+            "context": 0,
+            "budget": 1,
+            "n_wealth": 334
+          },
+          {
+            "t": 8,
+            "context": 0,
+            "budget": 1,
+            "n_wealth": 334
+          },
+          {
+            "t": 7,
+            "context": 0,
+            "budget": 2,
+            "n_wealth": 334
+          },
+          {
+            "t": 8,
+            "context": 0,
+            "budget": 1,
+            "n_wealth": 334
+          },
+          {
+            "t": 8,
+            "context": 0,
+            "budget": 1,
+            "n_wealth": 334
+          },
+          {
+            "t": 8,
+            "context": 0,
+            "budget": 1,
+            "n_wealth": 334
+          },
+          {
+            "t": 8,
+            "context": 0,
+            "budget": 1,
+            "n_wealth": 334
+          }
+        ]
+      },
+      "n_states": 155361,
+      "seconds": 2.6821389198303223,
+      "constant_tables": [
+        {
+          "q_A": 0.25,
+          "q_B": 0.25,
+          "power": 0.0,
+          "null_alarm": 0.0
+        },
+        {
+          "q_A": 0.25,
+          "q_B": 0.5,
+          "power": 0.0,
+          "null_alarm": 0.0
+        },
+        {
+          "q_A": 0.25,
+          "q_B": 0.75,
+          "power": 0.0,
+          "null_alarm": 0.0
+        },
+        {
+          "q_A": 0.25,
+          "q_B": 1.0,
+          "power": 0.0,
+          "null_alarm": 0.0
+        },
+        {
+          "q_A": 0.5,
+          "q_B": 0.25,
+          "power": 1.0514259338378904e-06,
+          "null_alarm": 5.364418029785156e-07
+        },
+        {
+          "q_A": 0.5,
+          "q_B": 0.5,
+          "power": 4.205703735351562e-06,
+          "null_alarm": 2.1457672119140625e-06
+        },
+        {
+          "q_A": 0.5,
+          "q_B": 0.75,
+          "power": 9.462833404541013e-06,
+          "null_alarm": 4.827976226806641e-06
+        },
+        {
+          "q_A": 0.5,
+          "q_B": 1.0,
+          "power": 1.6822814941406247e-05,
+          "null_alarm": 8.58306884765625e-06
+        },
+        {
+          "q_A": 0.75,
+          "q_B": 0.25,
+          "power": 0.0001741260290145874,
+          "null_alarm": 7.856916636228561e-05
+        },
+        {
+          "q_A": 0.75,
+          "q_B": 0.5,
+          "power": 0.00018180899322032927,
+          "null_alarm": 8.379342034459114e-05
+        },
+        {
+          "q_A": 0.75,
+          "q_B": 0.75,
+          "power": 0.00012863364070653916,
+          "null_alarm": 6.009358912706375e-05
+        },
+        {
+          "q_A": 0.75,
+          "q_B": 1.0,
+          "power": 7.443111389875411e-05,
+          "null_alarm": 3.5107601433992386e-05
+        },
+        {
+          "q_A": 1.0,
+          "q_B": 0.25,
+          "power": 0.0,
+          "null_alarm": 0.0
+        },
+        {
+          "q_A": 1.0,
+          "q_B": 0.5,
+          "power": 0.0,
+          "null_alarm": 0.0
+        },
+        {
+          "q_A": 1.0,
+          "q_B": 0.75,
+          "power": 0.0,
+          "null_alarm": 0.0
+        },
+        {
+          "q_A": 1.0,
+          "q_B": 1.0,
+          "power": 0.0,
+          "null_alarm": 0.0
+        }
+      ]
+    },
+    {
+      "budget": 3,
+      "power_optimal": 0.03296207544207573,
+      "null_alarm_optimal": 0.009414427913725376,
+      "best_constant_table": {
+        "q_A": 0.75,
+        "q_B": 0.5,
+        "power": 0.006336188361048698,
+        "null_alarm": 0.0020381794311106205
+      },
+      "gap_vs_best_constant": 0.026625887081027033,
+      "neyman_table": {
+        "0": 0.75,
+        "1": 1.0
+      },
+      "power_neyman": 0.0042677676007151595,
+      "null_alarm_neyman": 0.0014177937991917133,
+      "power_always_q1": 0.0,
+      "max_null_alarm_constants": 0.0020381794311106205,
+      "structure": {
+        "groups_tested": 304,
+        "groups_monotone": 191,
+        "fraction_monotone": 0.6282894736842105,
+        "example_failures": [
+          {
+            "t": 8,
+            "context": 0,
+            "budget": 3,
+            "n_wealth": 548
+          },
+          {
+            "t": 8,
+            "context": 0,
+            "budget": 2,
+            "n_wealth": 334
+          },
+          {
+            "t": 8,
+            "context": 0,
+            "budget": 2,
+            "n_wealth": 334
+          },
+          {
+            "t": 8,
+            "context": 0,
+            "budget": 2,
+            "n_wealth": 334
+          },
+          {
+            "t": 8,
+            "context": 0,
+            "budget": 2,
+            "n_wealth": 334
+          },
+          {
+            "t": 7,
+            "context": 0,
+            "budget": 3,
+            "n_wealth": 334
+          },
+          {
+            "t": 8,
+            "context": 0,
+            "budget": 2,
+            "n_wealth": 334
+          },
+          {
+            "t": 8,
+            "context": 0,
+            "budget": 2,
+            "n_wealth": 334
+          },
+          {
+            "t": 8,
+            "context": 0,
+            "budget": 2,
+            "n_wealth": 334
+          },
+          {
+            "t": 8,
+            "context": 0,
+            "budget": 2,
+            "n_wealth": 334
+          }
+        ]
+      },
+      "n_states": 445860,
+      "seconds": 13.921058416366577,
+      "constant_tables": [
+        {
+          "q_A": 0.25,
+          "q_B": 0.25,
+          "power": 0.0,
+          "null_alarm": 0.0
+        },
+        {
+          "q_A": 0.25,
+          "q_B": 0.5,
+          "power": 0.0,
+          "null_alarm": 0.0
+        },
+        {
+          "q_A": 0.25,
+          "q_B": 0.75,
+          "power": 0.0,
+          "null_alarm": 0.0
+        },
+        {
+          "q_A": 0.25,
+          "q_B": 1.0,
+          "power": 0.0,
+          "null_alarm": 0.0
+        },
+        {
+          "q_A": 0.5,
+          "q_B": 0.25,
+          "power": 0.000792554438114166,
+          "null_alarm": 0.0002809092402458191
+        },
+        {
+          "q_A": 0.5,
+          "q_B": 0.5,
+          "power": 0.0030489215850830072,
+          "null_alarm": 0.0010898113250732422
+        },
+        {
+          "q_A": 0.5,
+          "q_B": 0.75,
+          "power": 0.004685736000537871,
+          "null_alarm": 0.0016771182417869568
+        },
+        {
+          "q_A": 0.5,
+          "q_B": 1.0,
+          "power": 0.004619117736816406,
+          "null_alarm": 0.0016574859619140625
+        },
+        {
+          "q_A": 0.75,
+          "q_B": 0.25,
+          "power": 0.005047581605613232,
+          "null_alarm": 0.0015468597412109375
+        },
+        {
+          "q_A": 0.75,
+          "q_B": 0.5,
+          "power": 0.006336188361048698,
+          "null_alarm": 0.0020381794311106205
+        },
+        {
+          "q_A": 0.75,
+          "q_B": 0.75,
+          "power": 0.005571603514254093,
+          "null_alarm": 0.0018291696906089783
+        },
+        {
+          "q_A": 0.75,
+          "q_B": 1.0,
+          "power": 0.0042677676007151595,
+          "null_alarm": 0.0014177937991917133
+        },
+        {
+          "q_A": 1.0,
+          "q_B": 0.25,
+          "power": 0.0,
+          "null_alarm": 0.0
+        },
+        {
+          "q_A": 1.0,
+          "q_B": 0.5,
+          "power": 0.0,
+          "null_alarm": 0.0
+        },
+        {
+          "q_A": 1.0,
+          "q_B": 0.75,
+          "power": 0.0,
+          "null_alarm": 0.0
+        },
+        {
+          "q_A": 1.0,
+          "q_B": 1.0,
+          "power": 0.0,
+          "null_alarm": 0.0
+        }
+      ]
+    },
+    {
+      "budget": 4,
+      "power_optimal": 0.36839429619759323,
+      "null_alarm_optimal": 0.0625,
+      "best_constant_table": {
+        "q_A": 1.0,
+        "q_B": 0.25,
+        "power": 0.35593759276159115,
+        "null_alarm": 0.060100137488916516
+      },
+      "gap_vs_best_constant": 0.012456703436002081,
+      "neyman_table": {
+        "0": 0.75,
+        "1": 1.0
+      },
+      "power_neyman": 0.12013768947571515,
+      "null_alarm_neyman": 0.027168788481503725,
+      "power_always_q1": 0.31640625,
+      "max_null_alarm_constants": 0.0625,
+      "structure": {
+        "groups_tested": 428,
+        "groups_monotone": 251,
+        "fraction_monotone": 0.5864485981308412,
+        "example_failures": [
+          {
+            "t": 8,
+            "context": 0,
+            "budget": 4,
+            "n_wealth": 548
+          },
+          {
+            "t": 8,
+            "context": 0,
+            "budget": 3,
+            "n_wealth": 334
+          },
+          {
+            "t": 8,
+            "context": 0,
+            "budget": 3,
+            "n_wealth": 334
+          },
+          {
+            "t": 8,
+            "context": 0,
+            "budget": 3,
+            "n_wealth": 334
+          },
+          {
+            "t": 8,
+            "context": 0,
+            "budget": 3,
+            "n_wealth": 334
+          },
+          {
+            "t": 7,
+            "context": 0,
+            "budget": 4,
+            "n_wealth": 334
+          },
+          {
+            "t": 8,
+            "context": 0,
+            "budget": 3,
+            "n_wealth": 334
+          },
+          {
+            "t": 8,
+            "context": 0,
+            "budget": 3,
+            "n_wealth": 334
+          },
+          {
+            "t": 8,
+            "context": 0,
+            "budget": 3,
+            "n_wealth": 334
+          },
+          {
+            "t": 8,
+            "context": 0,
+            "budget": 3,
+            "n_wealth": 334
+          }
+        ]
+      },
+      "n_states": 902561,
+      "seconds": 40.06643199920654,
+      "constant_tables": [
+        {
+          "q_A": 0.25,
+          "q_B": 0.25,
+          "power": 0.003912733829021452,
+          "null_alarm": 0.0010006381198763847
+        },
+        {
+          "q_A": 0.25,
+          "q_B": 0.5,
+          "power": 0.029633499795198436,
+          "null_alarm": 0.007603403180837631
+        },
+        {
+          "q_A": 0.25,
+          "q_B": 0.75,
+          "power": 0.0709869115233421,
+          "null_alarm": 0.018215727992355824
+        },
+        {
+          "q_A": 0.25,
+          "q_B": 1.0,
+          "power": 0.10569702196121214,
+          "null_alarm": 0.02715170383453369
+        },
+        {
+          "q_A": 0.5,
+          "q_B": 0.25,
+          "power": 0.020153817026689645,
+          "null_alarm": 0.0045421302784234285
+        },
+        {
+          "q_A": 0.5,
+          "q_B": 0.5,
+          "power": 0.06364017753601073,
+          "null_alarm": 0.015050649642944336
+        },
+        {
+          "q_A": 0.5,
+          "q_B": 0.75,
+          "power": 0.09531417762525377,
+          "null_alarm": 0.023163679288700223
+        },
+        {
+          "q_A": 0.5,
+          "q_B": 1.0,
+          "power": 0.1063084732055664,
+          "null_alarm": 0.026338577270507812
+        },
+        {
+          "q_A": 0.75,
+          "q_B": 0.25,
+          "power": 0.08318380646705628,
+          "null_alarm": 0.016300258925184608
+        },
+        {
+          "q_A": 0.75,
+          "q_B": 0.5,
+          "power": 0.11331323532760143,
+          "null_alarm": 0.023913773242384195
+        },
+        {
+          "q_A": 0.75,
+          "q_B": 0.75,
+          "power": 0.12037985155880451,
+          "null_alarm": 0.026456204941496253
+        },
+        {
+          "q_A": 0.75,
+          "q_B": 1.0,
+          "power": 0.12013768947571515,
+          "null_alarm": 0.027168788481503725
+        },
+        {
+          "q_A": 1.0,
+          "q_B": 0.25,
+          "power": 0.35593759276159115,
+          "null_alarm": 0.060100137488916516
+        },
+        {
+          "q_A": 1.0,
+          "q_B": 0.5,
+          "power": 0.3442715549468994,
+          "null_alarm": 0.062280893325805664
+        },
+        {
+          "q_A": 1.0,
+          "q_B": 0.75,
+          "power": 0.3286198170322925,
+          "null_alarm": 0.06249747169204056
+        },
+        {
+          "q_A": 1.0,
+          "q_B": 1.0,
+          "power": 0.31640625,
+          "null_alarm": 0.0625
+        }
+      ]
+    },
+    {
+      "budget": 6,
+      "power_optimal": 0.3866736288088114,
+      "null_alarm_optimal": 0.0677159046754241,
+      "best_constant_table": {
+        "q_A": 1.0,
+        "q_B": 0.25,
+        "power": 0.35593759276159115,
+        "null_alarm": 0.060100137488916516
+      },
+      "gap_vs_best_constant": 0.03073603604722025,
+      "neyman_table": {
+        "0": 0.75,
+        "1": 1.0
+      },
+      "power_neyman": 0.2740471474224925,
+      "null_alarm_neyman": 0.050759468285832554,
+      "power_always_q1": 0.31640625,
+      "max_null_alarm_constants": 0.0625,
+      "structure": {
+        "groups_tested": 622,
+        "groups_monotone": 269,
+        "fraction_monotone": 0.432475884244373,
+        "example_failures": [
+          {
+            "t": 8,
+            "context": 0,
+            "budget": 6,
+            "n_wealth": 548
+          },
+          {
+            "t": 8,
+            "context": 0,
+            "budget": 5,
+            "n_wealth": 334
+          },
+          {
+            "t": 8,
+            "context": 0,
+            "budget": 5,
+            "n_wealth": 334
+          },
+          {
+            "t": 8,
+            "context": 0,
+            "budget": 5,
+            "n_wealth": 334
+          },
+          {
+            "t": 8,
+            "context": 0,
+            "budget": 5,
+            "n_wealth": 334
+          },
+          {
+            "t": 7,
+            "context": 0,
+            "budget": 6,
+            "n_wealth": 334
+          },
+          {
+            "t": 8,
+            "context": 0,
+            "budget": 5,
+            "n_wealth": 334
+          },
+          {
+            "t": 8,
+            "context": 0,
+            "budget": 5,
+            "n_wealth": 334
+          },
+          {
+            "t": 8,
+            "context": 0,
+            "budget": 5,
+            "n_wealth": 334
+          },
+          {
+            "t": 8,
+            "context": 0,
+            "budget": 5,
+            "n_wealth": 334
+          }
+        ]
+      },
+      "n_states": 1970867,
+      "seconds": 161.05164504051208,
+      "constant_tables": [
+        {
+          "q_A": 0.25,
+          "q_B": 0.25,
+          "power": 0.012254055437445639,
+          "null_alarm": 0.0022305012971628457
+        },
+        {
+          "q_A": 0.25,
+          "q_B": 0.5,
+          "power": 0.07286397054791449,
+          "null_alarm": 0.014172261231578887
+        },
+        {
+          "q_A": 0.25,
+          "q_B": 0.75,
+          "power": 0.15515017903268336,
+          "null_alarm": 0.03125688308500685
+        },
+        {
+          "q_A": 0.25,
+          "q_B": 1.0,
+          "power": 0.20677331666946405,
+          "null_alarm": 0.04288860084488988
+        },
+        {
+          "q_A": 0.5,
+          "q_B": 0.25,
+          "power": 0.07434443027892709,
+          "null_alarm": 0.011427508667111397
+        },
+        {
+          "q_A": 0.5,
+          "q_B": 0.5,
+          "power": 0.18002089649868008,
+          "null_alarm": 0.03105640411376953
+        },
+        {
+          "q_A": 0.5,
+          "q_B": 0.75,
+          "power": 0.236920847215563,
+          "null_alarm": 0.04372066538780928
+        },
+        {
+          "q_A": 0.5,
+          "q_B": 1.0,
+          "power": 0.24736884503173823,
+          "null_alarm": 0.048145592212677
+        },
+        {
+          "q_A": 0.75,
+          "q_B": 0.25,
+          "power": 0.22655377477438196,
+          "null_alarm": 0.03319390810793266
+        },
+        {
+          "q_A": 0.75,
+          "q_B": 0.5,
+          "power": 0.2751178702117205,
+          "null_alarm": 0.044970250892220065
+        },
+        {
+          "q_A": 0.75,
+          "q_B": 0.75,
+          "power": 0.27931791305602527,
+          "null_alarm": 0.049103041499620304
+        },
+        {
+          "q_A": 0.75,
+          "q_B": 1.0,
+          "power": 0.2740471474224925,
+          "null_alarm": 0.050759468285832554
+        },
+        {
+          "q_A": 1.0,
+          "q_B": 0.25,
+          "power": 0.35593759276159115,
+          "null_alarm": 0.060100137488916516
+        },
+        {
+          "q_A": 1.0,
+          "q_B": 0.5,
+          "power": 0.3442715549468994,
+          "null_alarm": 0.062280893325805664
+        },
+        {
+          "q_A": 1.0,
+          "q_B": 0.75,
+          "power": 0.3286198170322925,
+          "null_alarm": 0.06249747169204056
+        },
+        {
+          "q_A": 1.0,
+          "q_B": 1.0,
+          "power": 0.31640625,
+          "null_alarm": 0.0625
+        }
+      ]
+    }
+  ]
+}

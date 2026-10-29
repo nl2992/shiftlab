@@ -98,3 +98,30 @@ the promotion history, current economic belief, pending labels and remaining que
 full two-law recursion is just this Bellman composition on growing instances, reject this candidate
 as a method and revise G1. The policy's promotion risk certificate still says nothing about current
 benefit after reversal.
+
+## Exact adaptive-allocation equivalence (candidate closure)
+
+Let a feasible policy observe the same queried paired labels, under the same fixed-delay queue,
+request-time hard cap, actions, switching costs and global causal-null promotion event. Consider an
+augmented implementation that assigns each query an internal purpose tag `Z_t` in
+`{promotion, rollback}` and may change that tag based on the learner's released history. If the
+label is available to both evidence processes, the tag changes no observation, transition, reward,
+query charge or risk event. Erasing tags maps every tagged policy to a feasible policy of the
+original two-law game with identical pathwise actions, query times, released information,
+alternative cost and null promotion probability. Conversely, any original-game policy can be
+implemented in the tagged form by assigning an arbitrary tag (or by tagging from its internal
+history without changing decisions). Thus the tagged adaptive-allocation class and the original
+oracle class have the same attainable cost-risk pairs, exactly at every finite horizon.
+
+If the tag instead withholds a queried label from one evidence process, or a reserved sub-budget
+prevents use by the other process, the tagged class is a restriction of the original policy class.
+Its optimum cannot be better than the full oracle; any improvement over a fixed split is ordinary
+policy-class headroom until a separate theorem proves a structural gain over the strongest
+history-dependent split. It is not evidence that the label-purpose wrapper itself is new.
+
+This is a policy-equivalence argument, not a new theorem of statistical or computational value.
+It closes the proposed joint-allocation wrapper as a standalone method. A surviving candidate must
+supply an actual structure: for example, a proved compact sufficient state or an approximation
+with separate economic-value and causal-risk errors that improves on the full-history game. That
+requirement is already the G1 boundary in `switching_lagrangian_posg_reduction_v1.md`; the small
+cell's exact `(2,1)` split match does not weaken it.

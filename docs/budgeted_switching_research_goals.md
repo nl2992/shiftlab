@@ -2053,3 +2053,20 @@ the finite benchmark. Source limitation: RAO* full text/proof not inspected in t
   not a novelty claim. G1 must now specify a persistence/transition assumption, a calibrated
   pre-action covariate signal, or the weaker test-epoch null with explicit post-reversal loss.
   G2–G5 remain held. Do not interpret historical evidence as a post-reversal value certificate.
+
+### G1 candidate closure 2026-10-29: adaptive promotion/rollback query tags are policy-equivalent
+
+- For the registered promotion-versus-reversal-monitoring candidate, if every queried paired label
+  is visible to both evidence processes, an internal purpose tag affects no information, action,
+  cost, transition or risk event. Erasing the tag preserves the exact pathwise policy; any original
+  oracle policy can also be represented with arbitrary tags. Therefore the tagged and full two-law
+  policy classes have exactly the same attainable cost-risk frontier at every finite horizon.
+- If purpose tags instead reserve or hide labels, the policy class is a restriction and cannot
+  outperform the full oracle. Any headroom over a fixed split is baseline-comparator headroom, not
+  a method theorem. This closes the allocation wrapper itself; proof is appended to
+  `switching_reversal_budget_frontier_candidate_v1.md`.
+- Decision: stop this candidate as a standalone method. G1 remains open only for a nontrivial
+  structural compression/approximation with separate economic and null-risk guarantees beyond the
+  one-sided POSG / sequence-form oracle, or revise the hypothesis. No efficacy/real-data gate opens;
+  G2–G5 remain held. The current-value impossibility result still requires explicit persistence,
+  calibrated side information, or a weaker test-epoch risk target.

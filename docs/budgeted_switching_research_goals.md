@@ -1778,3 +1778,15 @@ the finite benchmark. Source limitation: RAO* full text/proof not inspected in t
   G1 remains open only for a theorem-level advantage over a feedback-aware risk-matched testing
   plus switching controller. Continue to separate global promotion validity from current value
   after reversal; G2–G5 remain held and no efficacy or real-data study is opened.
+
+### G1 comparator correction 2026-10-29: use online FWER baselines
+
+- Checked Tian and Ramdas, “Online control of the familywise error rate,” *Statistical Methods in
+  Medical Research* 30(4), 2021, in the publisher's full article. Alpha spending and online fallback
+  control FWER under arbitrary dependence; ADDIS-Spending improves power under its independence or
+  local-dependence assumptions. The comparison boundary is in
+  `switching_online_fwer_comparator_audit_v1.md`.
+- Comparator correction: delayed GAIF is a feedback-aware FDR/mFDR comparator, but cannot alone
+  satisfy the any-false-promotion event. At minimum use online alpha spending/fallback for valid
+  sequential p-values; use ADDIS only when its assumptions are justified. Do not combine guarantees
+  from different methods without a proof. G1 remains open; G2–G5 stay held.

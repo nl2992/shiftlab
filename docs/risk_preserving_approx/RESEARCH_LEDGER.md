@@ -538,3 +538,34 @@
   JSON SHA-256 `aa6f42806ea717bca2b73c00cb57e1af201b9011d9378763f91eda6bcc93465a`.
   Next seek a constructible class with a proved value bound; otherwise close this
   Candidate C branch and advance.
+
+
+## 2026-10-29 — IID relaxation with exact causal-null certification and repair
+
+- Registered `IID_RELAXATION_CERTIFIED_PIPELINE_PROTOCOL_V1.md` before execution.
+  The single fixed T=8/B=4 low-persistence witness used no seeds or real/holdout
+  data. The master has the exact alternative continuation objective and learner
+  flow constraints, with one IID fair-label null-risk row and no opponent tree.
+- The solver returned cost `1666179899873/488281250000`; independent exact IID
+  tape recursion matched its realization-flow risk `1/10`. Independent full
+  history-adaptive null recursion and the framework verifier both gave `1/10`.
+  Repair activation was 1, so exact feasible cost remained equal to the full
+  robust reference and below the best calendar/finite calendar portfolio by
+  `11126044659/976562500000`.
+- Exact rational dual validation with a uniform reduced-cost correction gives
+  lower bound
+  `33912681199052617326248234060483/9938258388540204617167802375000`; the
+  feasible-cost interval is approximately `1.03e-9`. This establishes a useful
+  value certificate for this finite witness only, not an approximation theorem.
+- Master size was 3,869 learner variables, 1,276 equalities, one risk row and
+  zero opponent variables; builder nodes 3,441 versus 17,922 in the reference.
+  End-to-end elapsed time was 10.11s versus 5.39s reference solve time, so a
+  total-runtime win was not shown. Reference peak RSS was unavailable. Candidate
+  screen is mixed and does not pass the preregistered resource-advantage gate.
+  Relaxation plus exact repair is standard in form; G1 and G3 remain open.
+- Artifacts: `IID_RELAXATION_CERTIFIED_PIPELINE_PROTOCOL_V1.md`,
+  `IID_RELAXATION_CERTIFIED_PIPELINE_RESULTS_V1.md`,
+  `iid_relaxation_certified_pipeline.py`, and
+  `iid_relaxation_certified_pipeline_v1.json`. Ruff passed. Continue only with
+  profiling and source-matched prior-art comparison on a preregistered paired
+  synthetic test; no real data or holdouts were accessed.

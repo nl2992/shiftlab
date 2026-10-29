@@ -2361,3 +2361,26 @@ the finite benchmark. Source limitation: RAO* full text/proof not inspected in t
   continuation must use horizon-aware switching/acquisition and prove a cost-risk guarantee beyond
   standard HMM control, safe sequential testing and the resource-matched baselines. G1 remains open;
   G2–G5 remain held; this is not efficacy evidence.
+
+### G1 prior-art/decision checkpoint 2026-10-29: online active model selection and horizon-aware rule
+
+- Audited Turrin et al., “Which LLM to pick? Online Active Model Selection for Large Language
+  Models,” arXiv:2610.01592v1 from its primary full text, Sections 1 and 3.1–3.2. Their method
+  queries an incoming stream under an annotation budget using committee-loss variance and posterior
+  entropy, updates a posterior over the best model with importance-weighted losses, and targets
+  cumulative regret to the best single model. This closes generic online active model selection and
+  uncertainty-driven querying as novelty claims. Its inspected formulation does not state delayed
+  releases, pending-request pathwise caps, reversible deployment charges or the global causal-null
+  promotion event; those distinctions remain theorem obligations. Scope is recorded in
+  `switching_online_active_model_selection_audit_v1.md`.
+- The existing audits already close generic finite-horizon utility VOI, delayed-POMDP information
+  state, safe sequential testing, robust finite-state synthesis, and scalarized two-law game planning.
+  Therefore no additional “horizon-aware acquisition rule” is nominated from these ingredients.
+  The live G1 target is narrowed to a structural approximation of the cost-versus-worst-causal-risk
+  frontier with separate nonvacuous error bounds and a complexity advantage over sequence-form /
+  robust-FSC planning, under explicit recurrence/mixing assumptions. If no such result survives the
+  source-level equivalence test, revise or stop this algorithm hypothesis; do not proceed to G2–G5
+  or efficacy runs on a heuristic rule.
+- Evidence remains separated: historical test-epoch promotion validity is not current challenger
+  value after reversal. A likelihood-ratio/e-process crossing cannot certify post-reversal benefit
+  without contemporaneous evidence or an explicit persistence model.

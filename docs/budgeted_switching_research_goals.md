@@ -2384,3 +2384,9 @@ the finite benchmark. Source limitation: RAO* full text/proof not inspected in t
 - Evidence remains separated: historical test-epoch promotion validity is not current challenger
   value after reversal. A likelihood-ratio/e-process crossing cannot certify post-reversal benefit
   without contemporaneous evidence or an explicit persistence model.
+- Comparator protocol correction from the primary source: Online LLM Picker's Section 4.3 samples
+  IID prompts from each test set and tunes methods to match annotation counts on average, despite
+  the problem statement's use of “maximum budget.” It is not a pathwise hard-budget baseline as
+  evaluated. Any ShiftLab comparison must explicitly adapt it to hard request reservation and
+  delayed updates, and report it as an adaptation. This is now recorded in
+  `switching_online_active_model_selection_audit_v1.md`; it does not create a novelty claim.

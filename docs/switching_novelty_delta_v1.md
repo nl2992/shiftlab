@@ -229,3 +229,16 @@ when sensing, and has neither delayed noisy paired labels nor a hard total budge
 deployment fees, or the separate causal-null reachability constraint. Thus it closes generic
 Markov sensing and approximate-planning claims but does not resolve the exact ShiftLab interaction.
 The mismatch remains an obligation, not a novelty claim; G1 is still open and G2–G5 are held.
+
+### Delayed-observation information states (2026-10-29)
+
+`switching_delayed_pomdp_information_state_audit_v1.md` records a primary-source check of
+Subramanian et al. (JMLR 2022), Theorem 5 and its proof, and the delayed-POMDP example in Section
+2.4. Exact Bellman planning from a sufficient information state is established; for delayed POMDPs
+the cited example uses a delayed-state belief and the last delay-window controls. Consequently,
+adding a known-HMM belief, pending-label queue, request budget and deployed action is not a method
+contribution for the economic single-law problem. The source does not cover the separate causal-null
+reachability constraint with hidden pending outcomes, so the full two-law problem remains open. The
+remaining novelty target is a risk-preserving information state with a bound against the full
+two-law oracle, or a growing-family memory lower bound. Source hash and cache path are in manifest
+v27. This closes only queue/belief augmentation, not G1 overall.

@@ -1,0 +1,12 @@
+[
+  {
+    "name": "subramanian_sinha_seraj_mahajan_approximate_information_state_jmlr22",
+    "url": "https://jmlr.org/papers/volume23/20-1165/20-1165.pdf",
+    "record_url": "https://jmlr.org/papers/v23/20-1165.html",
+    "bytes": 3684989,
+    "sha256": "247D75B379D18F5355921A1CA2884551210927E7BFA6E9D6878E0EE24A8EC8F5",
+    "status": "downloaded_primary_source_inspected_finite_horizon_information_state_theorem_5_proof_and_delayed_pomdp_example",
+    "retrieved_date": "2026-10-29",
+    "cache_path": "outputs/switching_source_audit_v1/subramanian_sinha_seraj_mahajan_jmlr22_approximate_information_state.pdf"
+  }
+]

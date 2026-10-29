@@ -1676,3 +1676,19 @@ the finite benchmark. Source limitation: RAO* full text/proof not inspected in t
   promotion event. Compare any compact state against the full-history two-law oracle on that family.
   G1 remains open; do not launch an efficacy grid. Current-regime benefit after reversal still
   requires post-change evidence or a declared persistence/predictive-signal model.
+
+### G1 source boundary 2026-10-29: delayed belief and queue are established
+
+- Audited Subramanian et al. (JMLR 2022), Theorem 5 and its proof plus the delayed-POMDP example in
+  Section 2.4, from the official PDF. Their exact information-state dynamic program already covers
+  delayed observations using the delayed-state belief and recent controls. With finite ShiftLab
+  delays, augmenting an HMM belief by pending outcomes/release clocks, query budget and deployed
+  action is ordinary single-law POMDP state construction, not the algorithmic contribution.
+  `switching_delayed_pomdp_information_state_audit_v1.md` records the scope and hash (manifest v27).
+- The theorem does not cover the separate history-adaptive causal-null reachability criterion: the
+  null sees pending labels hidden from the learner, and alternative-posterior aliases can have
+  distinct continuation risk. Thus it closes the economic-belief/queue compression claim but not
+  the two-law objective.
+- Next G1 work must focus on the risk-preserving information state itself and compare it with the
+  full-history two-law oracle, or prove a growing memory lower bound. A generic risk-budget state is
+  also prior art. No method has passed G1; G2–G5 remain held.

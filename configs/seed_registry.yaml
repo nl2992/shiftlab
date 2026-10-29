@@ -1668,6 +1668,14 @@ studies:
   used_by: [lane_b B1 first numerical check]
   derivation: disclosed_overrun
   note: 'found 2026-10-28: the first B1 check ran past the registered lane_b_toy_development end; recorded here, do not reuse'
+- id: lane_b_d2_split_clock_development
+  start: 100900000
+  end: 100919999
+  source: scripts/lane_b/split_clock_small.py (allocated 2026-10-29 via shiftlab.seed_registry.allocate, lane B worktree, gate D2)
+  status: development
+  used_by: [lane_b D2 split-clock small Monte Carlo]
+  derivation: allocated
+  note: 'seed id = start + cell_index*1000 + replicate (12 cells x 1000 used); development only, never confirmatory'
 excluded_scalar_seeds:
 - {output: shiftguard_unified/real_data_development/gas_sensor_candidates_v1, seed: 20261026, reason: 'dataset split, encoder, cross-fit or bootstrap seed on real data, not a stream block'}
 - {output: shiftguard_unified/real_data_development/gas_sensor_candidates_v2, seed: 20261026, reason: 'dataset split, encoder, cross-fit or bootstrap seed on real data, not a stream block'}

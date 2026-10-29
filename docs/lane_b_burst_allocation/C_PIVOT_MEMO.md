@@ -59,3 +59,33 @@ These are ranked by plausibility of a non-composition theorem plus real data to 
 The phase C exit rule fired: every candidate failed C0/C1 on the current information structure.
 The Lane B algorithm loop is stopped (cron deleted). Resuming means choosing one of the pivots
 above, which changes the task contract (a new task spec and freeze) and is a goal-level decision.
+
+## Update 2026-10-29: phase D (split-clock) also exits
+
+`D2_split_clock_mechanism.md`:
+- **Search.** The targeted search (including a proper read of Ao et al. 2601.21471) found no published
+  method covering the full target.
+- **Composition.** The adaptive split-clock rule still decomposes into a per-phase index, a
+  change-detection CUSUM on the surrogate, a gold backstop, scout/confirm, and a betting e-process.
+- **Impossibility (proved).** With a bias shift `b ≥ 2βΔ`, no rule rolls back before `d_g` without
+  spending its false-rollback budget.
+- **Monte Carlo.** The plain two-phase composition wins 8 of 9 cells. The fast channel helps rollback
+  only at sign agreement 0.8 with no bias shift, and never at Binance's 0.563.
+- **Real data.** Neither real task has an informative fast channel: OPSD 0.069 and Binance 0.563
+  against the 0.6 floor.
+
+## Cumulative assessment (Lanes A and B, 2026-10-28/29)
+
+Across three Lane B candidate families (burst allocation, recurrence locking, split clock) and
+Lane A's G1 record, every mechanism on this two-policy, common-label, delayed, hard-budget,
+causal-null contract decomposes into standard sequential design, change detection, planning or
+futility pieces. Separations, where they exist, are between compositions, or against oracles that
+cannot separate learners.
+
+Remaining information structures, which are untested and goal-level choices:
+1. **Many candidates sharing one queried label**, where certification multiplicity grows while
+   label cost does not.
+2. **Selective (bandit) labels**, observed only for the deployed policy, which is genuine
+   exploration–deployment coupling.
+3. **Retrospective gold audits of past rounds selected on fast labels** (Ao-style auditing with
+   delay and reversibility). This has high composition risk because of Ao et al. and delayed PPI.

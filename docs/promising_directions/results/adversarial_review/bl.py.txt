@@ -1,0 +1,79 @@
+import sys, math, json
+import numpy as np
+W="C:/Users/nigel/OneDrive/桌面/ICML/shiftlab-promising-directions-2026-10-30/scripts/promising_directions"
+sys.path.insert(0,W)
+import b1_certified_switching as B
+
+class Batch:
+    """fixed-sample paired test on non-overlapping batches of nv released disagreement labels"""
+    def __init__(s,n,budget,p,nv,thr):
+        s.n,s.p,s.nv,s.thr=n,p,nv,thr
+        s.dep=np.zeros(n,dtype=np.int8); s.rem=np.full(n,budget); s.seg=np.zeros(n,dtype=np.int64)
+        s.cnt=np.zeros(n); s.sm=np.zeros(n)
+        s.xbuf=np.zeros((p.delay,n)); s.abuf=np.zeros((p.delay,n),dtype=bool)
+        s.queries=np.zeros(n,dtype=np.int64); s.switches=np.zeros(n,dtype=np.int64); s.loss=np.zeros(n)
+        s.t_prom=np.full(n,np.nan); s.rollbacks=np.zeros(n,dtype=np.int64)
+    def step(s,t,l0t,l1t,dis,u,ndis):
+        p=s.p
+        s.loss+=np.where(s.dep==0,l0t,l1t)
+        slot=t%p.delay
+        rate=(ndis+p.prior_rate*p.prior_w)/(t+p.prior_w)
+        q=np.clip(s.rem/np.maximum(rate*(p.T-t),1e-9),p.pmin,1.0); q=np.where(s.rem>0,q,0.0)
+        ask=dis&(u<q); v=np.where(ask,(l0t-l1t),0.0)
+        s.rem=s.rem-ask; s.queries+=ask
+        sd=t-p.delay
+        if sd>=0:
+            vo,ao=s.xbuf[slot],s.abuf[slot]
+            live=(sd>=s.seg)&ao
+            sg=np.where(s.dep==0,1.0,-1.0)
+            s.cnt+=live; s.sm+=np.where(live,sg*vo,0.0)
+        s.xbuf[slot],s.abuf[slot]=v,ask
+        full=s.cnt>=s.nv
+        fire=full&(s.sm/np.maximum(s.cnt,1)>s.thr)
+        s.t_prom=np.where(fire&(s.dep==0)&np.isnan(s.t_prom),t+1,s.t_prom)
+        s.rollbacks+=fire&(s.dep==1)
+        s.switches+=fire; s.dep=np.where(fire,1-s.dep,s.dep).astype(np.int8); s.seg=np.where(fire,t+1,s.seg)
+        s.cnt=np.where(full,0.0,s.cnt); s.sm=np.where(full,0.0,s.sm)
+
+class AlarmG(B.Alarm):
+    """disagreement-gated incumbent-harm alarm: queries disagreements only at P3's pacer rate,
+    e-process on incumbent loss given disagreement vs nominal 0.30+0.05 (pre-change P(l0=1|dis)=0.3)"""
+    def __init__(s,n,budget,p):
+        super().__init__(n,budget,p); s.nom=0.35; s.rem=np.full(n,budget)
+    def step(s,t,l0t,l1t,dis,u,ndis):
+        p=s.p
+        s.loss+=np.where(s.dep==0,l0t,l1t)
+        slot=t%p.delay
+        rate=(ndis+p.prior_rate*p.prior_w)/(t+p.prior_w)
+        q=np.clip(s.rem/np.maximum(rate*(p.T-t),1e-9),p.pmin,1.0); q=np.where(s.rem>0,q,0.0)
+        active=(s.dep==0)&(s.rem>0)&dis
+        ask=active&(u<q)
+        x=np.where(active,ask*l0t/np.maximum(q,1e-9)-s.nom,0.0)
+        s.rem=s.rem-ask; s.queries+=ask
+        lam=np.clip(B.bet_from_stats(s.s1,s.s2,s.cnt,p,kelly=True),0,q/2)
+        sd=t-p.delay
+        if sd>=0:
+            xo,lo=s.xbuf[slot],s.lbuf[slot]
+            live=(s.dep==0)&(sd>=s.seg)
+            s.logw+=np.where(live,np.log1p(lo*xo),0.0)
+            s.s1=np.where(live,p.gamma*s.s1+xo,s.s1); s.s2=np.where(live,p.gamma*s.s2+xo*xo,s.s2); s.cnt=np.where(live,p.gamma*s.cnt+1.0,s.cnt)
+        s.xbuf[slot],s.lbuf[slot]=x,lam
+        fire=(s.dep==0)&(s.logw>=s.thr)
+        s.t_alarm=np.where(fire&np.isnan(s.t_alarm),t+1,s.t_alarm)
+        s.dep=np.where(fire,1,s.dep).astype(np.int8)
+
+def run(world,budget,n,seed_base,p,batches):
+    s=B.make_stream(world,p,n,seed_base,B.WORLDS.index(world))
+    l0,l1,u=s['l0'],s['l1'],s['u']; dis=l0!=l1
+    pols={'P3b':B.Cert(n,budget,0,'P3b',p),'P3':B.Cert(n,budget,0,'P3',p),'P2g':AlarmG(n,budget,p)}
+    for nv,thr in batches: pols[f'Bt{nv}_{thr}']=Batch(n,budget,p,nv,thr)
+    p2=B.Alarm(n,budget,p); nd=np.zeros(n)
+    for t in range(p.T):
+        p2.step(t,l0[t],l1[t],u[t])
+        for k,pol in pols.items(): pol.step(t,l0[t],l1[t],dis[t],u[t],nd)
+        nd=nd+dis[t]
+    out={'P2':B.alarm_out(p2)}
+    for k,pol in pols.items():
+        out[k]=B.alarm_out(pol) if k=='P2g' else dict(loss=pol.loss,queries=pol.queries,switches=pol.switches)
+    p0,p1=B.simple_out(l0,l1); out['P0'],out['P1']=p0,p1
+    return out

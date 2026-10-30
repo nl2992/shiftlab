@@ -1,0 +1,12 @@
+import json, random
+from a1_probe import base
+rng=random.Random(7)
+cells=[]
+for i in range(72):
+    acc=rng.choice(['7/10','4/5','9/10','49/50'])
+    from fractions import Fraction as F
+    a=F(acc)
+    cells.append(base(T=7,B=rng.choice([3,4]),d=rng.choice([1,2]),prior1=rng.choice(['1/20','1/5','1/2']),
+        t01=rng.choice(['1/20','1/10','1/5','2/5']),t10=rng.choice(['1/20','1/10','1/5','2/5']),
+        e0=str(1-a),e1=str(a),cq=rng.choice(['1/100','1/100','1/20']),cs=rng.choice(['1/20','1/10','1/2']),alpha=rng.choice(['1/20','1/10','1/5'])))
+json.dump(cells,open('cells2.json','w'))

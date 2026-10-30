@@ -2489,3 +2489,26 @@ the finite benchmark. Source limitation: RAO* full text/proof not inspected in t
   a novelty result. Full source-level boundary is in
   `switching_query_conditioned_deployment_extension_screen_v1.md`. G1 remains open; no efficacy
   study is authorized by this local witness; G2–G5 remain held.
+
+### G1 structural screen 2026-10-29: symmetric-HMM terminal monotonicity
+
+- Registered and solved nine exact LP pairs for a fixed `T=4`, three-label acquisition schedule,
+  symmetric positively persistent two-state HMMs, and the same full-history causal-null risk
+  constraint. In every frozen cell, an unrestricted feasible policy matched the monotone LP's
+  rational dual upper bound. This fails to refute a monotonicity theorem in this narrow terminal
+  problem; it is not evidence for adaptive acquisition, longer horizons or general HMMs. The
+  earlier asymmetric counterexample remains in force. Protocol, exact certificates and
+  reproduction command are in `switching_symmetric_hmm_monotonicity_screen_v1.md` and
+  `scripts/screen_symmetric_hmm_monotonicity.py`.
+- A separate isolated risk-approximation lane proved a distinguishability lower bound only for
+  deterministic, strategy-independent quotients required to preserve every causal-null response
+  kernel. It gives no robust-risk/value lower bound and does not rule out policy-specific
+  approximation or implicit separation. This supports dropping universal null-response
+  quotients as a compact-state route, not claiming a method contribution. The lane's result is
+  recorded at its source branch commit `81f4ffe`; the full branch is intentionally not merged
+  because it bundles large general-purpose tooling with the research artifacts.
+- Next, do not scale this monotonicity grid. Return to the registered G1 target: find a
+  nonstandard acquisition-and-switching rule with a precise complexity advantage and separate
+  value/risk guarantee, or close the hypothesis if every candidate reduces to established
+  robust-FSC, constrained-POMDP or active-testing machinery. G2–G5 remain held, and accumulated
+  evidence remains distinct from current-regime benefit after reversal.

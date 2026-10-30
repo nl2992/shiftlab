@@ -77,7 +77,9 @@ def run_arm(y, ctx, u, h_ctx, q_ctx, bet, n_seeds):
         else:
             a1, a2, n = m1.sum(1), m2.sum(1), cnt.sum(1)
         mean, second = a1 / (n + 1), a2 / (n + 1)
-        lam[:, t] = np.minimum(np.where(second > 0, np.maximum(mean, 0) / np.maximum(second, 1e-12), 0.0), cap[:, t])
+        lam[:, t] = np.minimum(
+            np.where(second > 0, np.maximum(mean, 0) / np.maximum(second, 1e-12), 0.0), cap[:, t]
+        )
         a = spent < BUDGET
         query = a & (u[:, t] < q[:, t])
         x[:, t] = np.where(a, h[:, t] + query * (y[:, t] - h[:, t]) / q[:, t], 0.0)
@@ -88,7 +90,9 @@ def run_arm(y, ctx, u, h_ctx, q_ctx, bet, n_seeds):
     return crossed, log_w, spent
 
 
-def simulate(setting, rho, n_seeds, seed=7, bets=("ctx", "common"), kinds=("uniform", "neyman", "growth")):
+def simulate(
+    setting, rho, n_seeds, seed=7, bets=("ctx", "common"), kinds=("uniform", "neyman", "growth")
+):
     mu_true, sigma = SETTINGS[setting]
     mu, h, r = exact_moments(mu_true, sigma, rho)
     rng = np.random.default_rng(seed)
@@ -98,7 +102,11 @@ def simulate(setting, rho, n_seeds, seed=7, bets=("ctx", "common"), kinds=("unif
     out = {}
     for kind in kinds:
         # allocator gets the alternative's exact moments, also on the null stream (calibration check)
-        alt_mu, alt_h, alt_r = exact_moments(SETTINGS["het"][0], SETTINGS["het"][1], rho) if setting == "null" else (mu, h, r)
+        alt_mu, alt_h, alt_r = (
+            exact_moments(SETTINGS["het"][0], SETTINGS["het"][1], rho)
+            if setting == "null"
+            else (mu, h, r)
+        )
         q_ctx = propensities(kind, alt_mu, alt_h, alt_r)
         for bet in bets:
             out[f"{kind}+{bet}"] = run_arm(y, ctx, u, h, q_ctx, bet, n_seeds)
@@ -111,11 +119,29 @@ def main():
     for setting in ("null", "hom", "het", "anti"):
         for rho in (0.0, 0.6):
             sim = simulate(setting, rho, n_seeds)
-            res[f"{setting}|rho={rho}"] = {a: {"power": float(c.mean()), "mean_log_wealth": float(w.mean()), "mean_spent": float(s.mean()), "crossed": c.astype(int).tolist()} for a, (c, w, s) in sim.items()}
-            print(setting, rho, {a: round(v["power"], 3) for a, v in res[f"{setting}|rho={rho}"].items()}, f"{time.time() - t0:.0f}s", flush=True)
+            res[f"{setting}|rho={rho}"] = {
+                a: {
+                    "power": float(c.mean()),
+                    "mean_log_wealth": float(w.mean()),
+                    "mean_spent": float(s.mean()),
+                    "crossed": c.astype(int).tolist(),
+                }
+                for a, (c, w, s) in sim.items()
+            }
+            print(
+                setting,
+                rho,
+                {a: round(v["power"], 3) for a, v in res[f"{setting}|rho={rho}"].items()},
+                f"{time.time() - t0:.0f}s",
+                flush=True,
+            )
     out = Path("outputs/rpoq_next/screen_a1")
     out.mkdir(parents=True, exist_ok=True)
-    (out / "results.json").write_text(json.dumps({"n_seeds": n_seeds, "protocol": "docs/rpoq_next/SYNTHETIC_PROTOCOL.md", "results": res}))
+    (out / "results.json").write_text(
+        json.dumps(
+            {"n_seeds": n_seeds, "protocol": "docs/rpoq_next/SYNTHETIC_PROTOCOL.md", "results": res}
+        )
+    )
 
 
 if __name__ == "__main__":

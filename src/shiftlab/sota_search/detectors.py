@@ -647,7 +647,9 @@ def pp_ons_baseline(
     return logw
 
 
-def pp_cost_multi(sim, frac=0.1, delay=5, lseed=0, tol=0.0, guided=False, gammas=(0.9, 0.99, 0.999, 1.0), **_):
+def pp_cost_multi(
+    sim, frac=0.1, delay=5, lseed=0, tol=0.0, guided=False, gammas=(0.9, 0.99, 0.999, 1.0), **_
+):
     """C6: equal-weight mixture over discount horizons of cost-null e-processes (a mixture of valid e-processes is valid).
 
     ``guided=False``: discounted-Kelly cost evidence at each horizon. ``guided=True``: Brier-guided (H2c) at each horizon.
@@ -655,9 +657,24 @@ def pp_cost_multi(sim, frac=0.1, delay=5, lseed=0, tol=0.0, guided=False, gammas
     logs = []
     for gm in gammas:
         if guided:
-            logs.append(pp_cost_guided(sim, frac=frac, delay=delay, lseed=lseed, tol=tol, mode="guided_disc", gamma=gm))
+            logs.append(
+                pp_cost_guided(
+                    sim, frac=frac, delay=delay, lseed=lseed, tol=tol, mode="guided_disc", gamma=gm
+                )
+            )
         else:
-            logs.append(pp_fix(sim, frac=frac, delay=delay, lseed=lseed, tol=tol, risk="cost", gamma=gm, uniform_cap=True))
+            logs.append(
+                pp_fix(
+                    sim,
+                    frac=frac,
+                    delay=delay,
+                    lseed=lseed,
+                    tol=tol,
+                    risk="cost",
+                    gamma=gm,
+                    uniform_cap=True,
+                )
+            )
     arr = np.stack(logs)
     m = arr.max(0)
     return m + np.log(np.exp(arr - m).mean(0))

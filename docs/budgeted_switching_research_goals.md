@@ -2899,3 +2899,31 @@ the finite benchmark. Source limitation: RAO* full text/proof not inspected in t
 - This is a screening gate, not a new method. G1 remains open; G2–G5 remain held. Do not start
   efficacy sweeps or real-data claims until F1 and then G1 pass. Historical evidence and
   post-reversal current-regime forecasts remain separate.
+
+### G1 continuation: action-dependence screen reconciled with existing audits 2026-10-29
+
+- Cross-checking the repository shows that action-dependent/performative feedback is already
+  present in the interactive simulator (`docs/data_phase1.md`) and prior-art reviews for G1/G3
+  (`docs/research_refinement_v1/PRIOR_ART_AND_NOVELTY_MATRIX.md`,
+  `docs/research_refinement_v1/COMPETING_RESEARCH_DIRECTIONS.md`). The possible randomized causal
+  regime-comparison route still lacks a fixed estimand, theorem-level separation and eligible real
+  data; do not treat it as a fresh pivot or restart its broad audit.
+- The active G1 continuation is the joint utility-risk abstraction problem from the immediately
+  following checkpoint. Its first bound is in
+  `docs/switching_joint_risk_abstraction_derivation_v1.md`; it explicitly preserves the controller's
+  information restriction against the null opponent's private pending-label history. G1 remains
+  open, G2–G5 remain held, and no efficacy work is authorized by this derivation.
+
+### G1 continuation: joint utility-risk abstraction bound 2026-10-29
+
+- Derived a finite-horizon coupling bound for state aggregation in the existing two-law game:
+  alternative value error is at most `H eps_r + eps_1 H(H-1)/2`, and robust-null reachability
+  error is at most `H eps_0`, under rectangular null kernels and a promotion-absorbing state.
+  Details and the proof obligations are in
+  `docs/switching_joint_risk_abstraction_derivation_v1.md`.
+- The lemma is standard approximate bisimulation applied to the paired objective/risk game; it is
+  not the method. The unresolved issue is whether a compact state can compute a conservative
+  null-risk envelope over the null player's hidden history while preserving pending-label and
+  request-time budget semantics. If this is exponential or reduces to generic constrained-POMDP
+  discretization, kill the route. G1 remains open; G2–G5 remain held and no efficacy study is
+  opened.

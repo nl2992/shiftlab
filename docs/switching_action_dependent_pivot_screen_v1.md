@@ -63,3 +63,15 @@ strong composition) before any broad empirical study.
 
 Historical promotion evidence and a forecast of current-regime utility remain distinct. Evidence
 from a previously beneficial regime does not by itself certify benefit after reversal.
+
+## Status correction from repository cross-check
+
+The generic action-dependent-outcome route is not the next untested structure in this repository.
+`docs/data_phase1.md` already documents an interactive performative environment, while
+`docs/research_refinement_v1/PRIOR_ART_AND_NOVELTY_MATRIX.md` and
+`docs/research_refinement_v1/COMPETING_RESEARCH_DIRECTIONS.md` record the G1/G3 audits for
+selective and performative feedback. Those records identify a possible causal, randomized
+regime-comparison estimand, but no fixed estimand, source-backed strict separation, or eligible
+real-data task. Reopening that route would repeat an existing screen. Treat F1 above as a future
+reopening checklist only; the active next step remains the G1 joint utility-risk compression
+question, now developed in `switching_joint_risk_abstraction_derivation_v1.md`.

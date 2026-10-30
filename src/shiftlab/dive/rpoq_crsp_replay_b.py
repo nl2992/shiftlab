@@ -55,6 +55,11 @@ def _propensity_from_root(root: np.ndarray, val_mean: float, frac: float) -> np.
     return np.clip(frac * score / val_mean, 0.1 * frac, 1.0)
 
 
+def _bins(col: np.ndarray, train: np.ndarray, n: int = 8) -> np.ndarray:
+    """Bin index from train-split quantile edges (no outcome information)."""
+    return np.digitize(col, np.quantile(col[train], np.linspace(0, 1, n + 1)[1:-1]))
+
+
 def build_cohort_b(table, cohort_permnos: np.ndarray, eval_split: str = "test") -> dict | None:
     permno = table["permno"].to_numpy()
     mask = np.isin(permno, cohort_permnos)
@@ -70,6 +75,7 @@ def build_cohort_b(table, cohort_permnos: np.ndarray, eval_split: str = "test") 
         return None
     med = np.nanmedian(sub_x[train], axis=0)
     xs = np.where(np.isfinite(sub_x), sub_x, med)
+    xr = xs.copy()
     xs = (xs - xs[train].mean(0)) / (xs[train].std(0) + 1e-12)
     pred = _predict(_ridge(xs[train], np.clip(sub_y[train], -RETURN_CAP, RETURN_CAP)), xs)
     cand = (pred > 0).astype(np.int8)
@@ -95,6 +101,8 @@ def build_cohort_b(table, cohort_permnos: np.ndarray, eval_split: str = "test") 
         "date_index": date_index,
         "n_dates": int(date_index.max()) + 1,
         "n_events": len(idx),
+        "ctx_size": _bins(xr[:, 5], train)[idx],
+        "ctx_abs_return": _bins(np.abs(xr[:, 0]), train)[idx],
         "choice": {},
         "root_by_budget": {},
         "val_objective": {},

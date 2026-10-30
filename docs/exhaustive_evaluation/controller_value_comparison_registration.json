@@ -1,0 +1,233 @@
+{
+  "registered_utc": "2026-10-30T17:38:28.443125+00:00",
+  "stage": "matched model-quality diagnostic, not new synthesis theorem",
+  "cells": [
+    [
+      4,
+      3,
+      1
+    ],
+    [
+      4,
+      3,
+      2
+    ],
+    [
+      5,
+      4,
+      1
+    ],
+    [
+      5,
+      4,
+      2
+    ]
+  ],
+  "alpha": "1/20",
+  "alternative_positive": "4/5",
+  "query_cost": "1/100",
+  "switch_cost": "1/10",
+  "controllers": [
+    {
+      "start": 1,
+      "stride": 1,
+      "streak": 1,
+      "special": ""
+    },
+    {
+      "start": 1,
+      "stride": 1,
+      "streak": 2,
+      "special": ""
+    },
+    {
+      "start": 1,
+      "stride": 1,
+      "streak": 3,
+      "special": ""
+    },
+    {
+      "start": 1,
+      "stride": 1,
+      "streak": 4,
+      "special": ""
+    },
+    {
+      "start": 1,
+      "stride": 1,
+      "streak": 5,
+      "special": ""
+    },
+    {
+      "start": 1,
+      "stride": 2,
+      "streak": 1,
+      "special": ""
+    },
+    {
+      "start": 1,
+      "stride": 2,
+      "streak": 2,
+      "special": ""
+    },
+    {
+      "start": 1,
+      "stride": 2,
+      "streak": 3,
+      "special": ""
+    },
+    {
+      "start": 1,
+      "stride": 2,
+      "streak": 4,
+      "special": ""
+    },
+    {
+      "start": 1,
+      "stride": 2,
+      "streak": 5,
+      "special": ""
+    },
+    {
+      "start": 2,
+      "stride": 1,
+      "streak": 1,
+      "special": ""
+    },
+    {
+      "start": 2,
+      "stride": 1,
+      "streak": 2,
+      "special": ""
+    },
+    {
+      "start": 2,
+      "stride": 1,
+      "streak": 3,
+      "special": ""
+    },
+    {
+      "start": 2,
+      "stride": 1,
+      "streak": 4,
+      "special": ""
+    },
+    {
+      "start": 2,
+      "stride": 1,
+      "streak": 5,
+      "special": ""
+    },
+    {
+      "start": 2,
+      "stride": 2,
+      "streak": 1,
+      "special": ""
+    },
+    {
+      "start": 2,
+      "stride": 2,
+      "streak": 2,
+      "special": ""
+    },
+    {
+      "start": 2,
+      "stride": 2,
+      "streak": 3,
+      "special": ""
+    },
+    {
+      "start": 2,
+      "stride": 2,
+      "streak": 4,
+      "special": ""
+    },
+    {
+      "start": 2,
+      "stride": 2,
+      "streak": 5,
+      "special": ""
+    },
+    {
+      "start": 3,
+      "stride": 1,
+      "streak": 1,
+      "special": ""
+    },
+    {
+      "start": 3,
+      "stride": 1,
+      "streak": 2,
+      "special": ""
+    },
+    {
+      "start": 3,
+      "stride": 1,
+      "streak": 3,
+      "special": ""
+    },
+    {
+      "start": 3,
+      "stride": 1,
+      "streak": 4,
+      "special": ""
+    },
+    {
+      "start": 3,
+      "stride": 1,
+      "streak": 5,
+      "special": ""
+    },
+    {
+      "start": 3,
+      "stride": 2,
+      "streak": 1,
+      "special": ""
+    },
+    {
+      "start": 3,
+      "stride": 2,
+      "streak": 2,
+      "special": ""
+    },
+    {
+      "start": 3,
+      "stride": 2,
+      "streak": 3,
+      "special": ""
+    },
+    {
+      "start": 3,
+      "stride": 2,
+      "streak": 4,
+      "special": ""
+    },
+    {
+      "start": 3,
+      "stride": 2,
+      "streak": 5,
+      "special": ""
+    },
+    {
+      "start": 1,
+      "stride": 1,
+      "streak": 1,
+      "special": "never"
+    },
+    {
+      "start": 1,
+      "stride": 1,
+      "streak": 1,
+      "special": "always"
+    }
+  ],
+  "node_cap": 200000,
+  "primary": "finite-class exact feasible cost minus numerical unrestricted LP objective; no certified lower value claim from solver objective alone",
+  "sources_sha256": {
+    "scripts/exhaustive_evaluation/compare_controller_value.py": "9c363077dd9f62895d18aee2451ed86d06ff238457de1992ea325b1f8456537d",
+    "scripts/exhaustive_evaluation/pilot_controller_synthesis.py": "6f6ae426eab8e3be232d13d9da35f4d2c6668e4eb969102f69e0c6a816e5ef5a",
+    "src/shiftlab/dive/causal_switching_game.py": "54b1347c3e213407b3feb09a801dc9ea40b3663fe6a4a227b7878b9b0a2d770a",
+    "src/shiftlab/dive/delayed_regime_information.py": "28a921215b0c58e1682b01e0da2df46b1100c9fc2618b74d7d137ad9fce8047e",
+    "src/shiftlab/dive/risk_preserving_approx/controller_risk_verifier.py": "65847d92b1283dfdb4b7d9420f95cd69fba2fc28a9b8bedacab4e9438a7f1e73"
+  }
+}

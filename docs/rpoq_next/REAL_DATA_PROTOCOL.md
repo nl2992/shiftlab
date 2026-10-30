@@ -17,3 +17,24 @@ Candidate A (restricted verdict, `SYNTHETIC_RESULTS.md`) can only help where sig
 - **Stable** if the Spearman correlation between the 8 validation bin SNRs and the 8 calibration bin SNRs is ≥ 0.5 **and** the validation top bin has a calibration `μ̂` of the same sign.
 - **Mechanism has purchase on CRSP** only if both hold for at least one context definition. Otherwise R0 closes the real-data path for Candidate A, and this is reported as a negative result.
 - No allocation rule is run in R0. A replay would require a new protocol, and the test split would remain exposed (it has been examined many times), so any such replay is labelled exploratory.
+
+---
+
+# Real-data protocol R1: exploratory allocation replay on the size context (frozen before any run)
+
+**Date:** 2026-10-30. **Status:** exploratory. The 2020–2025 test split has been examined repeatedly (S6, S6b, S6c), so it is **not** a confirmation set. A pass is a descriptive screen only. **Gate:** R0 passed for the size context (`REAL_DATA_RESULTS.md`); the synthetic gate is only partially passed (A3: supported with restriction).
+
+## Design (fixed before looking at R1 outcomes)
+- Same 10 cohorts, action pair, paired cost, 5 bps, proxy, delay clock (label resolves the next date), hard budgets 5% and 20% of events, 20 query seeds (S6 seed scheme), benefit direction.
+- **Contexts:** the 8 *size* bins of R0 (train-split quantile edges).
+- **Estimates for the allocator:** per bin, `μ̂_k`, `r̂_k`, mean proxy `ĥ_k` and event share `p_k`, computed from the **validation and calibration splits pooled** (both pre-test). No burn-in is needed and no test data is used to choose anything.
+- **Arms:** `uniform`; `neyman` (`q ∝ sqrt(r̂_k)`); `growth` (`allocate()` with `μ̂_k, ĥ_k, r̂_k`, bound `M = 0.202`); `random_conc` (all spare labels on one bin chosen uniformly at random per cohort and seed, independent of data). Every arm is rescaled so that `Σ p_k q_k = frac`, with `q ∈ [0.1·frac, 1]`.
+- **Bets:** each arm is run with per-bin Kelly moments (`ctx`) and pooled moments (`common`); the plug-in Kelly bet and per-event bound cap are those of S6. Each arm is scored with its better bet type over all cohorts and seeds (a disclosed upward bias for every arm).
+
+## Metrics and decision
+- Mean final log-wealth per (cohort, arm), averaged over seeds; cohort-cluster bootstrap 95% intervals (2,000 resamples). Crossing rate at `α = 0.05` is secondary.
+- **Primary:** `Δ = growth(best bet) − max{uniform, neyman, random_conc}(best bet)` at both budgets.
+- **Supported on CRSP (exploratory):** `Δ ≥ +0.5` log-wealth units with lower bound > 0 at **both** budgets. Otherwise not supported. A negative `Δ` with an interval excluding 0 is reported as harm.
+
+## What this cannot show
+No error-controlled validity on real data; the next-date clock, 5 bps costs and conditional-mean null are imposed. Small-cap costs are not credible at 5 bps. The test split is exposed. The repo's evidence-directed rule, Robust ASI proper, PPRM, Podkopaev–Ramdas and `comparecast` are not run, so a win here would be over uniform, Neyman and a placebo only.

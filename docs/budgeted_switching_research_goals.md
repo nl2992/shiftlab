@@ -3213,3 +3213,30 @@ re-screened against them.
 
 Next steps: inventory the local real datasets, re-screen the closed candidate ledger under R1–R3,
 and register exploratory prototypes for any survivors.
+
+### G1 re-screen under R1–R6 2026-10-30
+
+- A ledger re-screen classified every closure by kill basis. About 25 closures rested only on
+  "ingredients are established" and/or oracle-advantage wording, and are invalid under R1/R2.
+  Theorem-based and exact-counterexample kills stand: one-step VOI, static null mixtures,
+  posterior-only compression, slack alone, distribution-free current-value risk, and
+  positive-prefix futility (group-sequential prior art). The log also contains contradictions:
+  Li et al. and DAL are cited both as covering the contract and as not transferring to it, and the
+  R3 four-condition subsets were never screened.
+- Reopened shortlist, ranked:
+  - **C1 (medium):** delayed-HMM predictive confidence-set gate with a new query rule. The killed
+    sign-ambiguity VOI score stays killed.
+  - **C2 (medium-low):** promotion-versus-reversal-monitor budget frontier.
+  - **C3 (theory):** first-promotion XP solver with a computational separation.
+  - **C4 (low-medium):** risk-slack finite-memory abstraction.
+
+  The episode-wise/fixed-cohort composition is an R6 baseline, not a candidate.
+- Plan:
+  - **Exploratory prototypes (R4)** for C1 and C2 against R6 baselines. These run on registered
+    recurrent synthetic cells and on development windows of local paired-loss streams with
+    imposed timing: CRSP, EIA and ELEC2, with two frozen forecasters each. Chronological final
+    windows stay locked.
+  - **Theory track:** the C1 promotion power/sample-complexity target, the C2 matching
+    upper/lower frontier, and the R3 subset screen.
+
+  No novelty, theorem or efficacy claim follows from this entry.

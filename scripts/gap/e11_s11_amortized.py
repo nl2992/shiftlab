@@ -50,28 +50,37 @@ def collect(pa, budget):
 
 
 t_all = time.time()
-Xs, ys, t_oracle, n_states = [], [], 0.0, 0
-for pa, b in itertools.product(TRAIN_ALT, BUDGETS):
-    _, _, _, X, y, dt = collect(pa, b)
-    Xs.append(X)
-    ys.append(y)
-    t_oracle += dt
-X, y = np.vstack(Xs), np.concatenate(ys)
-n_all = len(X)
-sub = np.random.default_rng(0).choice(
-    n_all, 200_000, replace=False
-)  # 4.4M oracle states -> 200k for fitting
-np.savez_compressed("outputs/gap_closure/e11_oracle_states_subsample.npz", X=X[sub], y=y[sub])
-X, y = X[sub], y[sub]
-cls = np.array([GRID.index(q) for q in y])  # classifiers need discrete labels
-print("training states", len(X), "oracle seconds", round(t_oracle, 1), flush=True)
+CACHE = "outputs/gap_closure/e11_oracle_states_subsample.npz"
+import os  # noqa: E402
+
+if os.path.exists(
+    CACHE
+):  # collected by an earlier identical run of this script (398.2 s of exact solving, 4,439,928 states)
+    z_ = np.load(CACHE)
+    X, y = z_["X"], z_["y"]
+    t_oracle, n_all = 398.2, 4_439_928
+    cls = np.array([GRID.index(q) for q in y])
+else:
+    Xs, ys, t_oracle = [], [], 0.0
+    for pa, b in itertools.product(TRAIN_ALT, BUDGETS):
+        _, _, _, X, y, dt = collect(pa, b)
+        Xs.append(X)
+        ys.append(y)
+        t_oracle += dt
+    X, y = np.vstack(Xs), np.concatenate(ys)
+    n_all = len(X)
+    sub = np.random.default_rng(0).choice(n_all, 200_000, replace=False)
+    np.savez_compressed(CACHE, X=X[sub], y=y[sub])
+    X, y = X[sub], y[sub]
+    cls = np.array([GRID.index(q) for q in y])
+print("training states", n_all, "fit on", len(X), "oracle seconds", round(t_oracle, 1), flush=True)
 
 models = {}
 t0 = time.time()
 models["tree_d6"] = DecisionTreeClassifier(max_depth=6, random_state=0).fit(X, cls)
 models["tree_d3"] = DecisionTreeClassifier(max_depth=3, random_state=0).fit(X, cls)
 models["mlp_16"] = MLPClassifier((16,), max_iter=60, random_state=0).fit(
-    (X - X.mean(0)) / (X.std(0) + 1e-9), y
+    (X - X.mean(0)) / (X.std(0) + 1e-9), cls
 )
 mu, sd = X.mean(0), X.std(0) + 1e-9
 fit_time = time.time() - t0

@@ -1,0 +1,23 @@
+{
+  "frozen_on": "2026-10-30",
+  "selected_from": "development pools only (S03-S06 screens, stress matrix, e14 second-round fix worlds); no confirmation data seen",
+  "fracs": [0.1, 0.2],
+  "frac": 0.2,
+  "delay": 5,
+  "alpha": 0.05,
+  "engine_arms": [
+    {"name": "pprm", "cfg": {"risk": "brier"}},
+    {"name": "HG", "cfg": {"risk": "brier", "gamma": 0.99, "gate_w": 100}},
+    {"name": "cost", "cfg": {"risk": "cost", "gamma": 0.99}},
+    {"name": "HG_robustmix", "cfg": {"risk": "brier", "gamma": 0.99, "gate_w": 100, "alloc": "mix", "mix": [0.5, 0.5, 0.0], "mix_mode": "conservative"},
+     "note": "S05 survivor: robust variance/uniform mixture; the only allocation rule that did not lose power under the repaired bound"},
+    {"name": "HG_F2lrv100", "cfg": {"risk": "brier", "gamma": 0.99, "gate_w": 100, "lrv": true, "lrv_lags": 100},
+     "note": "INFORMATIONAL ONLY: failed its preregistered acceptance rule (restored nominal size for 1 of 3 parents); included to quantify size / power on new dependence nulls, not to claim an improvement"}
+  ],
+  "classical_arms": [
+    {"name": "ph", "delta": 0.05, "calibration": "independent null stream of the same world family, 95% quantile of the horizon maximum"},
+    {"name": "cusum", "slack": 0.25, "calibration": "same"}
+  ],
+  "primary_comparisons": [["HG", "pprm"], ["HG", "ph"], ["HG", "cusum"], ["HG_robustmix", "HG"], ["HG_F2lrv100", "HG"]],
+  "rejected_after_development": ["F1 floored variance allocation", "F2 as an improvement claim", "F3 multi-window mixture", "S03 reliability gating", "S04 growth-aware querying", "S05 growth shares", "S06 pacing rules"]
+}

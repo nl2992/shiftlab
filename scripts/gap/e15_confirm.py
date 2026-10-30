@@ -1,6 +1,7 @@
 """Phase 12 confirmation: frozen arms (configs/gap_closure/frozen_confirmation_v1.json) on NEW G3-G6 pools, new seeds.
 No tuning after this run. Primary metrics and comparisons are fixed in docs/sota_gap_closure/FINAL_SYNTHETIC_CONFIRMATION_PROTOCOL.md."""
 
+import itertools
 import json
 import time
 from functools import partial
@@ -16,7 +17,7 @@ R = W.Regime
 T = 2000
 SEED0 = 900_000
 SPEC = json.load(open("configs/gap_closure/frozen_confirmation_v1.json"))
-FRAC = SPEC["frac"]
+FRACS = SPEC["fracs"]
 
 
 def lw(name, regs, shape="abrupt", t0=700, delay=5, grp="confirm", P=None, **noise):
@@ -113,16 +114,16 @@ def classical(st, frac, delay, mu, sd, kind, param, thr, qseed):
 
 def main():
     harm, null = pool()
+
+    def tup(c):
+        return {k: (tuple(v) if isinstance(v, list) else v) for k, v in c.items()}
+
     arms = {
-        a["name"]: E.Cfg(**{**a["cfg"], "frac": FRAC})
+        f"{a['name']}@{f}": E.Cfg(**{**tup(a["cfg"]), "frac": f})
         for a in SPEC["engine_arms"]
-        if "mix" not in a
+        for f in FRACS
     }
-    mixes = {
-        a["name"]: [E.Cfg(**{**c, "frac": FRAC}) for c in a["mix"]]
-        for a in SPEC["engine_arms"]
-        if "mix" in a
-    }
+    mixes = {}
     rows = []
     t0 = time.time()
     for wi, (sp, S) in enumerate([(s, 400) for s in harm] + [(s, 1000) for s in null]):
@@ -163,11 +164,7 @@ def main():
         ref = next((n for n in null if n.name.startswith(base_name)), null[0])
         refst = ref.make(400, SEED0 + 700_000 + 1000 * wi)
         mu, sd = float(refst["loss"].mean()), float(refst["loss"].std())
-        for kind, param in (("ph", 0.05), ("cusum", 0.25)):
-            calres = []
-            first_ref = classical(refst, FRAC, 5, mu, sd, kind, param, 1e18, 15)
-            del first_ref
-            # horizon maximum on the null stream = the threshold: run with infinite threshold and track max by a second pass
+        for (kind, param), FRAC in itertools.product((("ph", 0.05), ("cusum", 0.25)), FRACS):
             thr = null_threshold(refst, FRAC, mu, sd, kind, param)
             first = classical(st, FRAC, dly, mu, sd, kind, param, thr, 15)
             stats = E.alarm_stats(first, st["truth"], T)

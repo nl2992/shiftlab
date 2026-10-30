@@ -1104,6 +1104,184 @@ Findings: none of the distribution tests separates harmful from benign shift whe
         )
 
 
+# ------------------------------------------------------------------------------------------- synthesis
+def synthesis():
+    from shiftlab.gap import store as St
+
+    e6 = pd.read_csv(O / "e6_stress_main/summary_by_world.csv")
+    fa = e6.pivot_table(index="world", columns="config", values="fa")
+    pw = e6[e6.role == "harm"].pivot_table(index="world", columns="config", values="power")
+    d5 = pd.read_csv(O / "e3_s04_delay5/summary_by_world.csv")
+    d5 = d5[d5.role == "harm"].assign(
+        parent=lambda d: d.config.str.split("|").str[0],
+        arm=lambda d: d.config.str.split("|").str[1],
+        frac=lambda d: d.config.str.split("|").str[2],
+    )
+    s04 = d5.groupby(["parent", "frac", "arm"]).power.mean().unstack()
+    s04d = (s04.sub(s04["uniform"], axis=0)).drop(columns="uniform")
+    s08 = pd.read_csv(O / "e10_s08_balanced/summary_by_world.csv")
+    s08h = s08[s08.role == "harm"].groupby("config").power.mean()
+    q3 = pd.read_parquet(O / "e8_q3/perseed.parquet")
+    q3b = q3[q3.cost == "base"].groupby("policy").n_sw.mean()
+    sens = pd.read_csv(O / "e2b_s03_sensitivity/summary_by_world.csv")
+    sp = sens.pivot_table(index="config", columns="world", values="power")
+    f = lambda a, b: f"{a:.3f}"  # noqa: E731
+    dep = {
+        k: (fa.loc[k, "HG"], fa.loc[k, "pprm"], fa.loc[k, "cost"])
+        for k in (
+            "X04|null|cluster400_s1.5",
+            "X04|null|cluster100_s1.5",
+            "G4|fin_null",
+            "X14|null|fin_heavy_tail_clip",
+        )
+    }
+    rows = [
+        (
+            "F1 dependence-induced false alarms",
+            "all e-process monitors (pprm, HG, cost)",
+            f"cluster-400: HG {dep['X04|null|cluster400_s1.5'][0]:.3f}, pprm {dep['X04|null|cluster400_s1.5'][1]:.3f}, cost {dep['X04|null|cluster400_s1.5'][2]:.3f}; cluster-100: HG {dep['X04|null|cluster100_s1.5'][0]:.3f}; GARCH null: HG {dep['G4|fin_null'][0]:.3f}, pprm {dep['G4|fin_null'][1]:.3f}",
+            5,
+            3,
+            "G3-G6 stress (X03/X04/G4); 3 independent null families",
+            "tested: F2",
+            "validity: heuristic only",
+        ),
+        (
+            "F2 cap-floor penalty of non-uniform querying",
+            "variance/ASI, growth, mixtures with growth, pacing, balanced sampling, context variance (Q2), uniform certification (Q3)",
+            f"HG 10% labels: variance {s04d.loc[('HG', 'f0.1'), 'variance']:+.3f}, growth {s04d.loc[('HG', 'f0.1'), 'growth']:+.3f}, growth_oracle {s04d.loc[('HG', 'f0.1'), 'growth_oracle']:+.3f} power vs uniform; S08 balanced {s08h['HG|balanced|f0.1']:.3f} vs uniform {s08h['HG|uniform|f0.1']:.3f}",
+            4,
+            7,
+            "S04, S05, S06 v1, S08, Q2 S09a, Q3 cert_uniform",
+            "tested: F1",
+            "valid by construction",
+        ),
+        (
+            "F3 transient / recurrent harm",
+            "all monitors",
+            f"X10 transient d=1.5/2/3, 20% labels: HG {pw.loc['X10|concept1.5_transient', 'HG']:.2f}/{pw.loc['X10|concept2_transient', 'HG']:.2f}/{pw.loc['X10|concept3_transient', 'HG']:.2f}, pprm {pw.loc['X10|concept1.5_transient', 'pprm']:.2f}/{pw.loc['X10|concept2_transient', 'pprm']:.2f}/{pw.loc['X10|concept3_transient', 'pprm']:.2f}; recurrent HG {pw.loc['X11|concept2_recurrent', 'HG']:.2f}",
+            3,
+            5,
+            "previous phase F2 + X10/X11 + Q3 temp scenario",
+            "tested: F3",
+            "valid",
+        ),
+        (
+            "F4 label starvation",
+            "all labelled monitors",
+            f"X12 power at 0.2/0.5/1/2% labels: HG {lo_pw(0)}",
+            3,
+            8,
+            "previous phase F5 + X12",
+            "none (information-limited)",
+            "-",
+        ),
+        (
+            "F5 late-onset harm under a fixed budget",
+            "all pacing rules",
+            "S06: onset .8 power 0.0-0.125 vs 0.65 at onset .2",
+            3,
+            8,
+            "S06",
+            "none",
+            "-",
+        ),
+        (
+            "F6 head-of-line blocking of in-order release",
+            "any prefix-release e-process",
+            "heavy-tailed delays: power drops (see FINAL results, C6 heavy)",
+            2,
+            3,
+            "G6 heavy",
+            "outcome-independent delay can use arrival-ordered release (valid under iid)",
+            "trade-off between validity scope and power",
+        ),
+        (
+            "F7 proxy failure costs power",
+            "PP monitors",
+            f"HG at 10% labels: blend0 {sp.loc['HG|parent|f0.1', 'S03|concept2|blend0.0']:.2f} -> blend1 {sp.loc['HG|parent|f0.1', 'S03|concept2|blend1.0']:.2f}",
+            2,
+            2,
+            "S03",
+            "tested (S03): no improvement",
+            "-",
+        ),
+        (
+            "F8 HG slower than PH under persistent harm when a blind promotion follows",
+            "HG-triggered switching",
+            f"switches/seed HG {q3b['hg_switch']:.2f} vs PH {q3b['ph_switch']:.2f}; regret +19..+26 in persistent-harm scenarios",
+            3,
+            2,
+            "Q3",
+            "none",
+            "-",
+        ),
+        (
+            "F9 certification after ranking reversal",
+            "e-process certification (all Q2 methods)",
+            "incorrect promotion after reversal up to 0.018 for CAMS-style; zero-gap FWER <= 0.023",
+            2,
+            8,
+            "Q2",
+            "windowed / forgetting evidence (no valid anytime form found)",
+            "open",
+        ),
+        (
+            "F10 feature-space detectors cannot separate harm from benign shift",
+            "MMD, C2ST, BBSD",
+            "S12 and previous phase F1",
+            4,
+            4,
+            "S12 + phase 1",
+            "none (by design: sentinels)",
+            "-",
+        ),
+    ]
+    tab = pd.DataFrame(
+        rows,
+        columns=[
+            "failure",
+            "methods affected",
+            "evidence",
+            "severity (1-5, judgement)",
+            "# families affected",
+            "reproducibility",
+            "fix tested",
+            "statistical-correctness note",
+        ],
+    )
+    w(
+        "UPDATED_FAILURE_MATRIX.md",
+        f"""# Updated failure matrix (after S03-S12, Q2, Q3, G3-G6 and the stress matrix)
+Built from the stored per-seed results. Severity is a judgement (5 = invalidates a headline guarantee).
+
+{md(tab, index=False)}
+""",
+    )
+    w(
+        "CROSS_METHOD_WEAKNESS_CLUSTERS.md",
+        """# Cross-method weakness clusters
+**Cluster A - the predictable-bound tax (F2).** Variance/ASI, growth, hybrid, paced, balanced and context-weighted allocation (S04, S05, S06, S08, S09a) all lose to plain uniform querying under the repaired validity constraint. They share one mechanism: any non-uniform propensity has a floor q_min, the admissible bet is cap / (pmax (1/q_min - 1) + r0), and a floor of frac/4 shrinks the bet ~4x. The same effect hits Q3's `cert_uniform` (cap = 0.01) and explains why CAMS-style querying wins in Q2 (the cap can use the disagreement-event inclusion probability, ~2x larger). The weakness is shared by methods with different foundations (variance targeting, evidence growth, pacing, balancing) and across Q1/Q2/Q3, so a single correction (floors >= frac/2, or caps that use the inclusion probability on the events where the increment is non-zero) can help several parents.
+**Cluster B - conditional-null failure under dependence (F1).** pprm, HG and the decision-cost e-process fail together under clustered or GARCH-dependent outcomes, regardless of cap, release or proxy: the failure is the conditional null.
+**Cluster C - information starvation (F4, F5, F3).** Transient harm, late onset and tiny label rates are information-limited for every labelled monitor; no allocation rule recovers power that the data do not contain.
+**Cluster D - detector choice vs action (F8, F10).** Detection speed on a benchmark does not equal economic benefit once an action follows; feature-space detectors do not separate harm.
+Answers to the synthesis questions: (1) recurring failures: A, B, C; (2) strong algorithms fail under dependence and under non-uniform propensities; (3) shared across mathematical foundations: yes (A); (4) a targeted correction can improve multiple parents: F1/F3 tested on three parents (`SECOND_ROUND_FIX_CANDIDATES.md`); (5) variance-aware vs growth-aware: no regime was found where growth-aware wins (S04/S05); (6) the decision-harm gate improves more than one monitor: tested on the Brier e-process only (the cost parent is already decision-based); (7) label budgets are wasted predictably: yes, by spending before onset (S06) and on events where models agree (Q2); (8) approximation can accelerate several planners: the incremental RFF-MMD update yes (S12), the amortised exact policy only on the toy (S11); (9) transient and recurrent shifts: a common bottleneck, partly information-limited.
+""",
+    )
+
+
+def lo_pw(i):
+    lo = St_summ(O / "e6_stress_lowlabel/perseed.parquet")
+    r = lo[lo.world == "X12|concept2"].set_index("config").power
+    return "/".join(f"{r[f'HG|f{f}']:.3f}" for f in (0.002, 0.005, 0.01, 0.02))
+
+
+def St_summ(p):
+    from shiftlab.gap import store as St
+
+    return St.summarise(pd.read_parquet(p))
+
+
 if __name__ == "__main__":
     which = sys.argv[1:] or ["phase1"]
     for fn in which:

@@ -30,20 +30,27 @@ retained. The T=8 monotone-branch result is a verified certificate for a policy
 recovered from the exact oracle, not an optimizer or an approximation theorem.
 G1–G3 have not passed; no real-data evaluation is eligible.
 
-**Next bounded investigation — monotone promotion structure.** Test whether the
-existing HMM assumptions imply an optimality or value guarantee for a
-monotone first-promotion event when paired with the IID fair-label risk
-certificate. Separate three claims that must not be conflated: (i) a fixed
-monotone event has equal IID and worst-case causal-null risk; (ii) an optimal
-policy can be restricted to such events with bounded economic loss; and (iii)
-an optimizer over that class avoids extensive-form history enumeration. The
-first is already supported for deterministic events by coupling; the second
-and third remain open. Begin with the smallest delayed-feedback and budgeted
-instances, prove the relevant coupling or construct an exact counterexample,
-and include rollback/re-promotion and pending outcomes where they affect the
-claim. Use exact rational arithmetic and the registered exact references.
-Do not implement a large optimizer unless the restriction has a nonvacuous
-value bound and a credible construction-complexity advantage.
+**Monotone-promotion route: closed as a general lead.** The branch already has
+an exact signed-future-value counterexample to universal utility preservation,
+a certified same-contract T=6 match to the unrestricted oracle within
+`4.5e-11`, and a 576-cell asymmetric-HMM screen with identical recovered costs.
+The T=8 branchwise certificate establishes safety for an oracle-recovered policy,
+not a compact optimizer. These artifacts separate the fixed-event IID/null
+coupling fact from the unsupported optimality and complexity claims. Do not
+rerun monotone screens or use this class as the main mechanism absent a new,
+substantive assumption with a nonvacuous theorem and source-level delta.
+
+**Next bounded investigation — structurally different implicit optimization.**
+Resume Work package 2 from the demonstrated bottleneck: find a method that avoids
+materializing or traversing essentially the same public-history tree while
+retaining full-history causal-null access, pending outcomes, and rollback. Start
+with a one-page candidate card and a source-level reduction attempt; include
+posterior aliasing, signed continuation, hidden pending labels, and
+rollback/re-promotion as falsification tests. Candidate H rules out assuming
+that a generic response automaton supplies compression. No implementation or
+new experiment is justified until the card gives a concrete state/work bound,
+nonvacuous value/risk guarantee, and a plausible distinction from the closest
+established method.
 
 **Decision sequence for each new candidate:**
 

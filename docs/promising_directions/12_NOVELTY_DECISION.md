@@ -12,7 +12,7 @@ row depends on A1b (`protocols/A1b-growing-family.md`); see the A1b section.
 | D HG | Decision-harm monitoring vs classical detectors | +0.029 / +0.052 power vs PPRM parent; harm 15% / 25% lower on harm worlds | Page–Hinkley / CUSUM (HG −0.066 / −0.110, n.s.) | Inferior to PH/CUSUM; invalid under dependence (FAR up to .23) | Repaired composition | **Retain as reference; stop generic betting refinements** |
 | E disagreement querying | Gain beyond CAMS-style querying | Structural-zero querying is used inside P3 / P3b | CAMS-style / batch paired test | CAMS-style methods attain the mechanism | Not novel | **Treat CAMS as the baseline** |
 | F action-set-aware regime harm | When does a conditional alarm justify action? | Inherited stylised result: 601.5 → 298.0 vs oracle 213.4 with a useful fallback; +6–10% worse without one | Regime-aware oracle / no-switch | Explanatory. Critic: P3b false-promotes 20.8% under a persistent-regime *marginal* null | Conditional monitoring + decision theory | **Benchmark / explanatory finding only** |
-| G risk-preserving optimisation | Scalable controller with value guarantee | Abandonment controller class matches the sequence-form reference in all tested cells (inherited) | Exact decomposed planner | Nothing to approximate unless A1b finds a growing gap | — | **Hold pending A1b** |
+| G risk-preserving optimisation | Scalable controller with value guarantee | Abandonment controller class matches the sequence-form reference in all tested cells (inherited) | Exact decomposed planner | A1b found no gap at the programme's alpha levels | — | **Stop**: no material gap to approximate |
 
 ## Contradictions resolved
 

@@ -63,6 +63,12 @@ elementary decision theory, not a novelty claim.
 Setting: Section 1, with randomisation from the public `U_t` (so randomised policies are
 `H_t`-measurable functions of `U`).
 
+Assumption (made explicit after adversarial review, `11_ADVERSARIAL_REVIEW.md`): *every* randomised
+action (promotion, rollback, root-mixture calibration coin) draws its randomness from the recorded
+public `U`. If an action rule uses a private coin invisible to the acquisition rule, (i) can fail.
+The repository's root-mixture calibration needs no private coin. Under this assumption (i) is close to a
+tautology. Its value is in pinning down which separations are informational, not in its depth.
+
 Let `Pi_J` be all pairs `(q, a)` of query rules and action rules adapted as in Section 1. A
 "separable" class fixes a sub-sigma-field `G_t subseteq H_t` that the query rule may use.
 

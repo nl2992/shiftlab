@@ -562,6 +562,87 @@ def pp_ons_gated(
     return logw
 
 
+def pp_cost_guided(
+    sim, frac=0.1, delay=5, lseed=0, tol=0.0, cap=0.5, mode="cost_ons", gamma=0.99, **_
+):
+    """H2: e-process on the decision-COST increment (null: conditional cost <= nominal), Brier-guided bets.
+
+    ``cost_ons``: ONS bet on the cost increment. ``guided``: the bet is the Brier ONS bet's relative position
+    in its allowed interval, re-expressed on the cost interval. ``guided_disc``: same with a discounted Kelly
+    Brier bet. Bets use labels resolved by s only, so the cost-null supermartingale argument holds for fixed delay.
+    """
+    xc, _q, _l, bc = _pp_parts(sim, frac, lseed, "cost", None, None, tol, uniform_cap=True)
+    xb, _q2, _l2, bb = _pp_parts(sim, frac, lseed, "brier", None, None, tol, uniform_cap=True)
+    S, T = xc.shape
+    hic, hib = cap / bc, cap / bb
+    if mode == "guided_disc":
+        ones = np.ones_like(xb)
+        n = shift_time(_ewm_cumsum(ones, gamma), delay + 1)
+        m1 = shift_time(_ewm_cumsum(xb, gamma), delay + 1) / (n + 1)
+        m2 = shift_time(_ewm_cumsum(xb**2, gamma), delay + 1) / (n + 1)
+        rel = (
+            np.minimum(np.where(m2 > 0, np.maximum(m1, 0) / np.maximum(m2, 1e-12), 0.0), hib) / hib
+        )
+        lam = rel * hic
+        return np.cumsum(shift_time(np.log1p(lam * xc), delay), 1)
+    c = 2.0 / (2.0 - np.log(3.0))
+    x_run, hi_run = (xc, hic) if mode == "cost_ons" else (xb, hib)
+    cur, a_, acc = np.zeros(S), np.ones(S), np.zeros(S)
+    lam_hist = np.zeros((S, T))
+    logw = np.zeros((S, T))
+    for s_ in range(T):
+        lam_hist[:, s_] = cur
+        r = s_ - delay
+        if r >= 0:
+            applied = (
+                lam_hist[:, r] if mode == "cost_ons" else lam_hist[:, r] / hib[:, r] * hic[:, r]
+            )
+            acc = acc + np.log1p(applied * xc[:, r])
+            z = x_run[:, r] / (1.0 + lam_hist[:, r] * x_run[:, r])
+            a_ = a_ + z * z
+            cur = np.clip(cur + c * z / a_, 0.0, hi_run[:, min(s_ + 1, T - 1)])
+        logw[:, s_] = acc
+    return logw
+
+
+def pp_ons_baseline(
+    sim, frac=0.1, delay=5, lseed=0, tol=0.0, cap=0.5, gamma_b=0.999, n0=200.0, **_
+):
+    """H3a: ONS on the Brier PP increment against a PREDICTABLE conditional baseline.
+
+    The nominal risk r0 is replaced by r_hat_t = (n0*r0 + discounted sum of resolved unbiased risk estimates)
+    / (n0 + discounted count), built from labels resolved by t only. The null is 'conditional risk <= r_hat_t + tol'
+    (change relative to the recent past), not 'risk <= nominal'; slow drift is partly absorbed by design.
+    """
+    r0 = source_moments(_family(sim))["brier"][0]
+    S, T = sim["y"].shape
+    qv = np.full((S, T), frac)
+    qm = label_mask(sim, frac, lseed).astype(float)
+    pr = sim["p"] * (1 - sim["p"])
+    u = pr + (qm / qv) * (sim["brier"] - pr)  # unbiased estimate of R_t given the context
+    ones = np.ones_like(u)
+    n = shift_time(_ewm_cumsum(ones, gamma_b), delay + 1)
+    su = shift_time(_ewm_cumsum(u, gamma_b), delay + 1)
+    rhat = (n0 * r0 + su) / (n0 + n)
+    x = u - rhat - tol
+    bound = 0.25 * (1.0 / frac - 1.0) + rhat + tol
+    hi = cap / bound
+    cur, a_, acc = np.zeros(S), np.ones(S), np.zeros(S)
+    c = 2.0 / (2.0 - np.log(3.0))
+    lam_hist = np.zeros((S, T))
+    logw = np.zeros((S, T))
+    for s_ in range(T):
+        lam_hist[:, s_] = cur
+        r = s_ - delay
+        if r >= 0:
+            acc = acc + np.log1p(lam_hist[:, r] * x[:, r])
+            z = x[:, r] / (1.0 + lam_hist[:, r] * x[:, r])
+            a_ = a_ + z * z
+            cur = np.clip(cur + c * z / a_, 0.0, hi[:, min(s_ + 1, T - 1)])
+        logw[:, s_] = acc
+    return logw
+
+
 DETECTORS = {
     "mmd": mmd,
     "c2st": c2st,
@@ -582,6 +663,8 @@ DETECTORS = {
     "pp_mixture": pp_mixture,
     "pp_ons": pp_ons,
     "pp_ons_gated": pp_ons_gated,
+    "pp_cost_guided": pp_cost_guided,
+    "pp_ons_baseline": pp_ons_baseline,
 }
 THEORY_THRESHOLD = {
     "pr_cs": 0.0,
@@ -595,6 +678,8 @@ THEORY_THRESHOLD = {
     "pp_mixture": float(np.log(1 / ALPHA)),
     "pp_ons": float(np.log(1 / ALPHA)),
     "pp_ons_gated": float(np.log(1 / ALPHA)),
+    "pp_cost_guided": float(np.log(1 / ALPHA)),
+    "pp_ons_baseline": float(np.log(1 / ALPHA)),
 }
 
 

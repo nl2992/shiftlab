@@ -1,0 +1,12 @@
+{
+  "frozen_sources_match": true,
+  "sha256": {
+    "scripts/exhaustive_evaluation/pilot_controller_synthesis.py": "6f6ae426eab8e3be232d13d9da35f4d2c6668e4eb969102f69e0c6a816e5ef5a",
+    "src/shiftlab/dive/risk_preserving_approx/controller_risk_verifier.py": "65847d92b1283dfdb4b7d9420f95cd69fba2fc28a9b8bedacab4e9438a7f1e73",
+    "tests/test_controller_synthesis_pilot.py": "1997f852cda5fc2edcd6e032d366e00263ee3fb03744cfec800f0876a85d181b",
+    "docs/exhaustive_evaluation/controller_synthesis_pilot_registration.json": "1ae8d17407dde271460b6c15426156c0db24738f3057edc0e534a6110b149fb9",
+    "docs/exhaustive_evaluation/controller_synthesis_pilot_results.json": "581bc82ca92a88a33b790974d5d469777d508451e7bc2138a055237a0ab6bf05",
+    "docs/exhaustive_evaluation/CONTROLLER_SYNTHESIS_PILOT_REPORT.md": "dcd5900c074ae743b06b24b6c4283c505b4638495c1c64dc64bfdd3bc763f763",
+    "docs/exhaustive_evaluation/BASELINE_COVERAGE.md": "f52281dee9c670c52c3d129d0d71c7691a246f38bbb088a4eab29e0524786340"
+  }
+}

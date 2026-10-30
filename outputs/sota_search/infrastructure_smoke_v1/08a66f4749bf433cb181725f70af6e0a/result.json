@@ -1,0 +1,15 @@
+{
+  "primary_metric": {
+    "alarm_by_horizon": true
+  },
+  "secondary_metrics": {
+    "first_alarm": 284,
+    "censored_delay": 284,
+    "horizon": 512,
+    "true_risk": 0.5,
+    "comparison_note": "effective coefficients matched; constant-proxy factors coincide"
+  },
+  "labels_used": 120,
+  "uncertainty_estimates": null,
+  "validity_status": "diagnostic_only_iid_known_risk_null_expected_label_budget"
+}

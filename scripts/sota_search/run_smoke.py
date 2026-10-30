@@ -5,7 +5,9 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import platform
 import subprocess
+from importlib.metadata import version
 from pathlib import Path
 
 from shiftlab.sota_search.supervisor import Limits, run_batch
@@ -16,6 +18,24 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--output", required=True, type=Path)
     args = parser.parse_args()
+    dirty = subprocess.check_output(
+        [
+            "git",
+            "status",
+            "--porcelain",
+            "--untracked-files=all",
+            "--",
+            "src",
+            "scripts/sota_search",
+            "configs/sota_search",
+            "pyproject.toml",
+            "uv.lock",
+        ],
+        cwd=repo,
+        encoding="utf-8",
+    )
+    if dirty.strip():
+        raise RuntimeError("commit research source before launching a registered batch")
     commit = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=repo, text=True).strip()
     files = sorted((repo / "src/shiftlab/sota_search").glob("*.py")) + [
         repo / "src/shiftlab/dive/eprocess.py",
@@ -56,6 +76,13 @@ def main():
                             "source_hash": source.hexdigest(),
                             "baseline_version": "local_repository_adapter_v1",
                             "validity_status": "diagnostic_only",
+                            "environment": {
+                                "python": platform.python_version(),
+                                "platform": platform.platform(),
+                                "packages": {
+                                    name: version(name) for name in ("numpy", "scipy", "psutil")
+                                },
+                            },
                         },
                         "argv": [
                             "-m",

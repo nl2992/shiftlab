@@ -1,0 +1,528 @@
+{
+  "limits": {
+    "max_runs": 1500,
+    "batch_wall_seconds": 3600,
+    "run_wall_seconds": 60,
+    "run_cpu_seconds": 60,
+    "memory_bytes": 2147483648,
+    "storage_bytes": 536870912
+  },
+  "jobs": [
+    {
+      "metadata": {
+        "parent_algorithm": "PPE",
+        "candidate_algorithm": "ppe",
+        "modification_id": "infrastructure_smoke",
+        "component_configuration": {
+          "horizon": 512,
+          "feedback": "immediate"
+        },
+        "hyperparameters": {
+          "stake": 0.08,
+          "threshold": 0.2
+        },
+        "generator_family": "iid_bernoulli_diagnostic",
+        "shift_type": "stationary_null",
+        "shift_magnitude": 0,
+        "predictive_degradation": 0.0,
+        "decision_harm": null,
+        "proxy_quality": "constant_nominal",
+        "delay_model": "immediate",
+        "label_budget": {
+          "expected_fraction": 0.2
+        },
+        "cost_configuration": {
+          "label": 1
+        },
+        "random_seed": 271000,
+        "code_commit": "18878af0ff9fcdeae261c4c8fed86e53d82db61d",
+        "source_hash": "2d3ff4b26505f271f74e586f6801ff7f825a39028b912404a04fd2f04be0f751",
+        "baseline_version": "local_repository_adapter_v1",
+        "validity_status": "diagnostic_only"
+      },
+      "argv": [
+        "-m",
+        "shiftlab.sota_search.smoke_worker",
+        "--method",
+        "ppe",
+        "--risk",
+        "0.2",
+        "--seed",
+        "271000"
+      ]
+    },
+    {
+      "metadata": {
+        "parent_algorithm": "PPE",
+        "candidate_algorithm": "ppe",
+        "modification_id": "infrastructure_smoke",
+        "component_configuration": {
+          "horizon": 512,
+          "feedback": "immediate"
+        },
+        "hyperparameters": {
+          "stake": 0.08,
+          "threshold": 0.2
+        },
+        "generator_family": "iid_bernoulli_diagnostic",
+        "shift_type": "stationary_null",
+        "shift_magnitude": 0,
+        "predictive_degradation": 0.0,
+        "decision_harm": null,
+        "proxy_quality": "constant_nominal",
+        "delay_model": "immediate",
+        "label_budget": {
+          "expected_fraction": 0.2
+        },
+        "cost_configuration": {
+          "label": 1
+        },
+        "random_seed": 271001,
+        "code_commit": "18878af0ff9fcdeae261c4c8fed86e53d82db61d",
+        "source_hash": "2d3ff4b26505f271f74e586f6801ff7f825a39028b912404a04fd2f04be0f751",
+        "baseline_version": "local_repository_adapter_v1",
+        "validity_status": "diagnostic_only"
+      },
+      "argv": [
+        "-m",
+        "shiftlab.sota_search.smoke_worker",
+        "--method",
+        "ppe",
+        "--risk",
+        "0.2",
+        "--seed",
+        "271001"
+      ]
+    },
+    {
+      "metadata": {
+        "parent_algorithm": "PPE",
+        "candidate_algorithm": "ppe",
+        "modification_id": "infrastructure_smoke",
+        "component_configuration": {
+          "horizon": 512,
+          "feedback": "immediate"
+        },
+        "hyperparameters": {
+          "stake": 0.08,
+          "threshold": 0.2
+        },
+        "generator_family": "iid_bernoulli_diagnostic",
+        "shift_type": "stationary_null",
+        "shift_magnitude": 0,
+        "predictive_degradation": 0.0,
+        "decision_harm": null,
+        "proxy_quality": "constant_nominal",
+        "delay_model": "immediate",
+        "label_budget": {
+          "expected_fraction": 0.2
+        },
+        "cost_configuration": {
+          "label": 1
+        },
+        "random_seed": 271002,
+        "code_commit": "18878af0ff9fcdeae261c4c8fed86e53d82db61d",
+        "source_hash": "2d3ff4b26505f271f74e586f6801ff7f825a39028b912404a04fd2f04be0f751",
+        "baseline_version": "local_repository_adapter_v1",
+        "validity_status": "diagnostic_only"
+      },
+      "argv": [
+        "-m",
+        "shiftlab.sota_search.smoke_worker",
+        "--method",
+        "ppe",
+        "--risk",
+        "0.2",
+        "--seed",
+        "271002"
+      ]
+    },
+    {
+      "metadata": {
+        "parent_algorithm": "PPE",
+        "candidate_algorithm": "ppe",
+        "modification_id": "infrastructure_smoke",
+        "component_configuration": {
+          "horizon": 512,
+          "feedback": "immediate"
+        },
+        "hyperparameters": {
+          "stake": 0.08,
+          "threshold": 0.2
+        },
+        "generator_family": "iid_bernoulli_diagnostic",
+        "shift_type": "stationary_alternative",
+        "shift_magnitude": 0,
+        "predictive_degradation": 0.3,
+        "decision_harm": null,
+        "proxy_quality": "constant_nominal",
+        "delay_model": "immediate",
+        "label_budget": {
+          "expected_fraction": 0.2
+        },
+        "cost_configuration": {
+          "label": 1
+        },
+        "random_seed": 271000,
+        "code_commit": "18878af0ff9fcdeae261c4c8fed86e53d82db61d",
+        "source_hash": "2d3ff4b26505f271f74e586f6801ff7f825a39028b912404a04fd2f04be0f751",
+        "baseline_version": "local_repository_adapter_v1",
+        "validity_status": "diagnostic_only"
+      },
+      "argv": [
+        "-m",
+        "shiftlab.sota_search.smoke_worker",
+        "--method",
+        "ppe",
+        "--risk",
+        "0.5",
+        "--seed",
+        "271000"
+      ]
+    },
+    {
+      "metadata": {
+        "parent_algorithm": "PPE",
+        "candidate_algorithm": "ppe",
+        "modification_id": "infrastructure_smoke",
+        "component_configuration": {
+          "horizon": 512,
+          "feedback": "immediate"
+        },
+        "hyperparameters": {
+          "stake": 0.08,
+          "threshold": 0.2
+        },
+        "generator_family": "iid_bernoulli_diagnostic",
+        "shift_type": "stationary_alternative",
+        "shift_magnitude": 0,
+        "predictive_degradation": 0.3,
+        "decision_harm": null,
+        "proxy_quality": "constant_nominal",
+        "delay_model": "immediate",
+        "label_budget": {
+          "expected_fraction": 0.2
+        },
+        "cost_configuration": {
+          "label": 1
+        },
+        "random_seed": 271001,
+        "code_commit": "18878af0ff9fcdeae261c4c8fed86e53d82db61d",
+        "source_hash": "2d3ff4b26505f271f74e586f6801ff7f825a39028b912404a04fd2f04be0f751",
+        "baseline_version": "local_repository_adapter_v1",
+        "validity_status": "diagnostic_only"
+      },
+      "argv": [
+        "-m",
+        "shiftlab.sota_search.smoke_worker",
+        "--method",
+        "ppe",
+        "--risk",
+        "0.5",
+        "--seed",
+        "271001"
+      ]
+    },
+    {
+      "metadata": {
+        "parent_algorithm": "PPE",
+        "candidate_algorithm": "ppe",
+        "modification_id": "infrastructure_smoke",
+        "component_configuration": {
+          "horizon": 512,
+          "feedback": "immediate"
+        },
+        "hyperparameters": {
+          "stake": 0.08,
+          "threshold": 0.2
+        },
+        "generator_family": "iid_bernoulli_diagnostic",
+        "shift_type": "stationary_alternative",
+        "shift_magnitude": 0,
+        "predictive_degradation": 0.3,
+        "decision_harm": null,
+        "proxy_quality": "constant_nominal",
+        "delay_model": "immediate",
+        "label_budget": {
+          "expected_fraction": 0.2
+        },
+        "cost_configuration": {
+          "label": 1
+        },
+        "random_seed": 271002,
+        "code_commit": "18878af0ff9fcdeae261c4c8fed86e53d82db61d",
+        "source_hash": "2d3ff4b26505f271f74e586f6801ff7f825a39028b912404a04fd2f04be0f751",
+        "baseline_version": "local_repository_adapter_v1",
+        "validity_status": "diagnostic_only"
+      },
+      "argv": [
+        "-m",
+        "shiftlab.sota_search.smoke_worker",
+        "--method",
+        "ppe",
+        "--risk",
+        "0.5",
+        "--seed",
+        "271002"
+      ]
+    },
+    {
+      "metadata": {
+        "parent_algorithm": "bounded_betting",
+        "candidate_algorithm": "ipw",
+        "modification_id": "infrastructure_smoke",
+        "component_configuration": {
+          "horizon": 512,
+          "feedback": "immediate"
+        },
+        "hyperparameters": {
+          "stake": 0.08,
+          "threshold": 0.2
+        },
+        "generator_family": "iid_bernoulli_diagnostic",
+        "shift_type": "stationary_null",
+        "shift_magnitude": 0,
+        "predictive_degradation": 0.0,
+        "decision_harm": null,
+        "proxy_quality": "constant_nominal",
+        "delay_model": "immediate",
+        "label_budget": {
+          "expected_fraction": 0.2
+        },
+        "cost_configuration": {
+          "label": 1
+        },
+        "random_seed": 271000,
+        "code_commit": "18878af0ff9fcdeae261c4c8fed86e53d82db61d",
+        "source_hash": "2d3ff4b26505f271f74e586f6801ff7f825a39028b912404a04fd2f04be0f751",
+        "baseline_version": "local_repository_adapter_v1",
+        "validity_status": "diagnostic_only"
+      },
+      "argv": [
+        "-m",
+        "shiftlab.sota_search.smoke_worker",
+        "--method",
+        "ipw",
+        "--risk",
+        "0.2",
+        "--seed",
+        "271000"
+      ]
+    },
+    {
+      "metadata": {
+        "parent_algorithm": "bounded_betting",
+        "candidate_algorithm": "ipw",
+        "modification_id": "infrastructure_smoke",
+        "component_configuration": {
+          "horizon": 512,
+          "feedback": "immediate"
+        },
+        "hyperparameters": {
+          "stake": 0.08,
+          "threshold": 0.2
+        },
+        "generator_family": "iid_bernoulli_diagnostic",
+        "shift_type": "stationary_null",
+        "shift_magnitude": 0,
+        "predictive_degradation": 0.0,
+        "decision_harm": null,
+        "proxy_quality": "constant_nominal",
+        "delay_model": "immediate",
+        "label_budget": {
+          "expected_fraction": 0.2
+        },
+        "cost_configuration": {
+          "label": 1
+        },
+        "random_seed": 271001,
+        "code_commit": "18878af0ff9fcdeae261c4c8fed86e53d82db61d",
+        "source_hash": "2d3ff4b26505f271f74e586f6801ff7f825a39028b912404a04fd2f04be0f751",
+        "baseline_version": "local_repository_adapter_v1",
+        "validity_status": "diagnostic_only"
+      },
+      "argv": [
+        "-m",
+        "shiftlab.sota_search.smoke_worker",
+        "--method",
+        "ipw",
+        "--risk",
+        "0.2",
+        "--seed",
+        "271001"
+      ]
+    },
+    {
+      "metadata": {
+        "parent_algorithm": "bounded_betting",
+        "candidate_algorithm": "ipw",
+        "modification_id": "infrastructure_smoke",
+        "component_configuration": {
+          "horizon": 512,
+          "feedback": "immediate"
+        },
+        "hyperparameters": {
+          "stake": 0.08,
+          "threshold": 0.2
+        },
+        "generator_family": "iid_bernoulli_diagnostic",
+        "shift_type": "stationary_null",
+        "shift_magnitude": 0,
+        "predictive_degradation": 0.0,
+        "decision_harm": null,
+        "proxy_quality": "constant_nominal",
+        "delay_model": "immediate",
+        "label_budget": {
+          "expected_fraction": 0.2
+        },
+        "cost_configuration": {
+          "label": 1
+        },
+        "random_seed": 271002,
+        "code_commit": "18878af0ff9fcdeae261c4c8fed86e53d82db61d",
+        "source_hash": "2d3ff4b26505f271f74e586f6801ff7f825a39028b912404a04fd2f04be0f751",
+        "baseline_version": "local_repository_adapter_v1",
+        "validity_status": "diagnostic_only"
+      },
+      "argv": [
+        "-m",
+        "shiftlab.sota_search.smoke_worker",
+        "--method",
+        "ipw",
+        "--risk",
+        "0.2",
+        "--seed",
+        "271002"
+      ]
+    },
+    {
+      "metadata": {
+        "parent_algorithm": "bounded_betting",
+        "candidate_algorithm": "ipw",
+        "modification_id": "infrastructure_smoke",
+        "component_configuration": {
+          "horizon": 512,
+          "feedback": "immediate"
+        },
+        "hyperparameters": {
+          "stake": 0.08,
+          "threshold": 0.2
+        },
+        "generator_family": "iid_bernoulli_diagnostic",
+        "shift_type": "stationary_alternative",
+        "shift_magnitude": 0,
+        "predictive_degradation": 0.3,
+        "decision_harm": null,
+        "proxy_quality": "constant_nominal",
+        "delay_model": "immediate",
+        "label_budget": {
+          "expected_fraction": 0.2
+        },
+        "cost_configuration": {
+          "label": 1
+        },
+        "random_seed": 271000,
+        "code_commit": "18878af0ff9fcdeae261c4c8fed86e53d82db61d",
+        "source_hash": "2d3ff4b26505f271f74e586f6801ff7f825a39028b912404a04fd2f04be0f751",
+        "baseline_version": "local_repository_adapter_v1",
+        "validity_status": "diagnostic_only"
+      },
+      "argv": [
+        "-m",
+        "shiftlab.sota_search.smoke_worker",
+        "--method",
+        "ipw",
+        "--risk",
+        "0.5",
+        "--seed",
+        "271000"
+      ]
+    },
+    {
+      "metadata": {
+        "parent_algorithm": "bounded_betting",
+        "candidate_algorithm": "ipw",
+        "modification_id": "infrastructure_smoke",
+        "component_configuration": {
+          "horizon": 512,
+          "feedback": "immediate"
+        },
+        "hyperparameters": {
+          "stake": 0.08,
+          "threshold": 0.2
+        },
+        "generator_family": "iid_bernoulli_diagnostic",
+        "shift_type": "stationary_alternative",
+        "shift_magnitude": 0,
+        "predictive_degradation": 0.3,
+        "decision_harm": null,
+        "proxy_quality": "constant_nominal",
+        "delay_model": "immediate",
+        "label_budget": {
+          "expected_fraction": 0.2
+        },
+        "cost_configuration": {
+          "label": 1
+        },
+        "random_seed": 271001,
+        "code_commit": "18878af0ff9fcdeae261c4c8fed86e53d82db61d",
+        "source_hash": "2d3ff4b26505f271f74e586f6801ff7f825a39028b912404a04fd2f04be0f751",
+        "baseline_version": "local_repository_adapter_v1",
+        "validity_status": "diagnostic_only"
+      },
+      "argv": [
+        "-m",
+        "shiftlab.sota_search.smoke_worker",
+        "--method",
+        "ipw",
+        "--risk",
+        "0.5",
+        "--seed",
+        "271001"
+      ]
+    },
+    {
+      "metadata": {
+        "parent_algorithm": "bounded_betting",
+        "candidate_algorithm": "ipw",
+        "modification_id": "infrastructure_smoke",
+        "component_configuration": {
+          "horizon": 512,
+          "feedback": "immediate"
+        },
+        "hyperparameters": {
+          "stake": 0.08,
+          "threshold": 0.2
+        },
+        "generator_family": "iid_bernoulli_diagnostic",
+        "shift_type": "stationary_alternative",
+        "shift_magnitude": 0,
+        "predictive_degradation": 0.3,
+        "decision_harm": null,
+        "proxy_quality": "constant_nominal",
+        "delay_model": "immediate",
+        "label_budget": {
+          "expected_fraction": 0.2
+        },
+        "cost_configuration": {
+          "label": 1
+        },
+        "random_seed": 271002,
+        "code_commit": "18878af0ff9fcdeae261c4c8fed86e53d82db61d",
+        "source_hash": "2d3ff4b26505f271f74e586f6801ff7f825a39028b912404a04fd2f04be0f751",
+        "baseline_version": "local_repository_adapter_v1",
+        "validity_status": "diagnostic_only"
+      },
+      "argv": [
+        "-m",
+        "shiftlab.sota_search.smoke_worker",
+        "--method",
+        "ipw",
+        "--risk",
+        "0.5",
+        "--seed",
+        "271002"
+      ]
+    }
+  ]
+}

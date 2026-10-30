@@ -1,0 +1,15 @@
+{
+  "attempts": 12,
+  "events": 24,
+  "paired_worlds": 6,
+  "paired_identity_passed": true,
+  "total_worker_wall_seconds": 37.094450699398294,
+  "max_sampled_memory_bytes": 160538624,
+  "source_code_commit": "18878af0ff9fcdeae261c4c8fed86e53d82db61d",
+  "source_hash": "2d3ff4b26505f271f74e586f6801ff7f825a39028b912404a04fd2f04be0f751",
+  "alarms_by_method": {
+    "ppe": 3,
+    "ipw": 3
+  },
+  "interpretation": "infrastructure diagnostic only; no scientific power or improvement claim"
+}

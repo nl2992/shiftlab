@@ -2605,3 +2605,21 @@ the finite benchmark. Source limitation: RAO* full text/proof not inspected in t
   ShiftLab pilot under this route. G1 remains active only for a newly specified structural theorem
   that beats the full two-law oracle in value, risk and computational scaling; if no such structure
   survives prior-art review, stop or revise the methodological hypothesis before G2.
+
+### G1 source boundary 2026-10-29: CMAS adjacent sequential replacement
+
+- Audited Alzahrani's primary arXiv v1, *Conservative Meta-Agent Search: Architecture Adaptation
+  under Non-Stationarity* (arXiv:2610.31436). It already frames sequential incumbent replacement
+  with switching costs, delayed dependent utility, paired candidate/incumbent evaluation,
+  promotion and rollback. Generic “switching system plus delayed evaluation and rollback” is
+  therefore not a contribution claim; CMAS is a required adjacent comparator where applicable.
+- Its implemented variance-only score over overlapping replay windows is explicitly empirical,
+  not the valid confidence radius assumed by its idealized Proposition 1. The paper reports an
+  11.4% per-stream rate with at least one false promotion and says its anytime sequence-level
+  schedule was not activated in the reported experiments. Its formal protocol also lacks
+  ShiftLab's pathwise request cap with pending-label reservation and full-history causal-null
+  event. Full source-level boundary is in `switching_cmas_adjacent_source_audit_v1.md`.
+- Novelty boundary is sharpened, not passed: any surviving mechanism needs a theorem for
+  observation-budgeted acquisition under delayed release and the exact causal-null any-promotion
+  event, and must evaluate current-regime value separately after reversal. Contract mismatch is
+  an obligation, not evidence of novelty. No efficacy or real-data gate opens.

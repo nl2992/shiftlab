@@ -42,6 +42,7 @@ class Cfg:
     unq_delay: bool = False  # legacy: unqueried events also wait ``delay`` steps
     cap: float = 0.5
     force_bet: bool = False  # audit only: always bet the maximal admissible lambda
+    pace_floor: float = 0.25  # propensity floor of pacing rules as a fraction of frac (v1 of S06 used 0.25; v2 uses 0.5)
     lrv: bool = False  # F2: scale the Kelly denominator by a Bartlett long-run-variance inflation (heuristic, dependence)
     lrv_lags: int = 10
     qmin: float = 0.0  # lower bound of q_t used by the sup cap (0 -> frac for non-uniform q)
@@ -134,9 +135,11 @@ def run(stream: dict, cfg: Cfg, delay: int | np.ndarray = 5, qseed: int = 0) -> 
     pi_true = stream.get("pi_true")  # (S,T) true P(y=1|x) for oracle growth only
     piT = np.ascontiguousarray(pi_true.T) if (pi_true is not None and cfg.oracle_alt) else None
 
-    qbase = cfg.qmin if cfg.qmin > 0 else cfg.frac / 4.0  # floor of non-uniform allocations
-    if cfg.alloc == "uniform" and cfg.pacing == "none":
-        qmin_eff = cfg.frac
+    qbase = (
+        cfg.qmin if cfg.qmin > 0 else cfg.frac * (cfg.pace_floor if cfg.pacing != "none" else 0.25)
+    )  # floor of non-uniform rules
+    if cfg.alloc == "uniform" and cfg.pacing in ("none", "const"):
+        qmin_eff = cfg.frac  # constant propensity: the exact floor
     elif cfg.alloc == "mix" and cfg.pacing == "none":
         u_min = max(cfg.mix[0], 0.5) if cfg.mix_mode == "conservative" else cfg.mix[0]
         qmin_eff = u_min * cfg.frac + (1.0 - u_min) * qbase
@@ -351,7 +354,8 @@ def run(stream: dict, cfg: Cfg, delay: int | np.ndarray = 5, qseed: int = 0) -> 
                     base * (q / max(cfg.frac, 1e-9) if cfg.alloc != "uniform" else rel_sc), 0.0, 1.0
                 )
             elif p == "reserve":
-                q_hi, q_lo = np.minimum(1.0, 3 * base), 0.25 * base
+                hi_m, lo_m = (3.0, 0.25) if cfg.pace_floor < 0.5 else (2.0, cfg.pace_floor)
+                q_hi, q_lo = np.minimum(1.0, hi_m * base), lo_m * base
                 q = np.where(rel_sc >= 1.0, q_hi, q_lo)
             elif p == "two_stage":
                 frac_t = t / T

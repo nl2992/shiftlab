@@ -1,0 +1,13 @@
+generator,regime,discrepancy_MMD2,predictive_dBrier,decision_harm,class
+G3/G5 regime,none delta=0 FN=5,0.0,0.0,0.0,benign / null
+G3/G5 regime,concept delta=2 FN=5,0.004076859263523691,0.09906439330938022,0.24076666666666668,"harmful, little discrepancy"
+G3/G5 regime,cov_benign delta=3 FN=5,0.3000361718947248,0.0013775529783332796,0.0036333333333333218,benign discrepancy
+G3/G5 regime,prior delta=1.5 FN=5,0.006077890155004817,0.034929442600622224,-0.010866666666666691,benign / null
+G3/G5 regime,cost delta=0 FN=20,0.0,0.001286072923588094,0.23299999999999998,"harmful, little discrepancy"
+G4 finance,signal loading beta=1,0.0,0.0,0.0,benign / null
+G4 finance,signal loading beta=0.3,0.003603457193389281,-0.023035944824755072,0.052172852534239644,"harmful, little discrepancy"
+G4 finance,signal loading beta=-1,0.03492429804905306,0.11555296244134947,0.147900907209848,harmful + discrepant
+G1,G1 cov_benign d=3,0.2995595943755017,0.0022996780313602194,-0.0010333333333333306,benign discrepancy
+G1,G1 concept d=2,0.004076859263523691,0.09906439330938022,0.24076666666666668,"harmful, little discrepancy"
+G2,G2 concept d=2,0.004106876956405325,0.0891463732406908,0.20863333333333334,"harmful, little discrepancy"
+G2,G2 cov_benign d=3,0.31643117243092267,0.09585250054739852,0.21923333333333328,harmful + discrepant

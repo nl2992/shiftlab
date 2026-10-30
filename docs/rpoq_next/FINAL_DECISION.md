@@ -49,3 +49,8 @@ Candidate A (growth-aware allocation) ended negative on real data; Candidate C (
 **Revised ranking.** (1) Candidate B (robust hybrid / explicit nonstationarity hedge) is the only candidate whose motivation survives the evidence, but it is gated on reading the Robust ASI paper and the two unread 2026 preprints, which may already contain it. (2) A base-monitor improvement (tighter predictable bounds so the `0.5/(M(2/q−1))` bet cap binds less) is a plausible, allocation-independent direction, but this repository already has predictable-bound modules and prior audits, so its novelty is unassessed. (3) Candidates A and C are closed as method claims.
 
 **Status of the goal "verified win on synthetic and real data over known benchmarks": not met.** No candidate has beaten a strong benchmark on both data types, the evidence-directed rule, PPRM, Podkopaev–Ramdas and `comparecast` were never run, and the source gate remains open (hosts still unreachable from the session).
+
+---
+
+## Addendum 2026-10-30 (source scan)
+A web-search scan (abstract/snippet level, `SOURCE_UPDATE.md`) found that (i) Candidate A's growth-based querying idea is already published in Hsu and Shekhar (2607.17409), and (ii) two 2026 papers independently report that uniform querying is competitive with or better than adaptive querying in sequential active prediction-powered settings, as our CRSP results did. **Revised conclusion:** the evidence supports a *negative-result / benchmark* contribution ("when and why uniform querying is hard to beat for budgeted sequential monitoring"), not a new allocation method. Any method claim would need full-text theorem audits that remain impossible from this session.

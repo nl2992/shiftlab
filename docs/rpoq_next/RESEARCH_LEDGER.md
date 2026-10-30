@@ -49,3 +49,7 @@ Repo evidence-directed rule imported unchanged and run on the CRSP stream: worse
 ## 2026-10-30, B2 spend-matched benchmark
 
 Evidence-directed rule with `q_min = frac`: ties uniform at 5% (−0.04 [−0.16, +0.08]), worse at 20% (−2.02 [−2.46, −1.60]), spend matched within 1%. A first launch silently reused B1's configuration (identical output); caught by the identical-digits check, discarded, wiring factored into `make_policy` and tested.
+
+## 2026-10-30, source scan via web search (user: "scan online")
+
+Hosts still blocked in-session after the user's grant (environment-level setting). Web search worked; results are abstract/snippet level only (`SOURCE_UPDATE.md`). Key results: Pro-Active Inference and Active MPPI are estimation methods (not e-process monitoring); **Sfyraki and Wang (ICLR 2026) and Hsu and Shekhar (2026) both report uniform querying competitive with or better than adaptive querying**, corroborating the CRSP results; Hsu and Shekhar's growth-oriented querying rule is direct prior art for Candidate A. Candidate A is therefore not novel. Full-text theorem audits remain open.

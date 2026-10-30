@@ -21,5 +21,6 @@ outputs/exhaustive_evaluation/real_development/** -text -eol whitespace=cr-at-eo
 outputs/exhaustive_evaluation/cusum_comparison/** -text -eol whitespace=cr-at-eol
 outputs/exhaustive_evaluation/cusum_strict/** -text -eol whitespace=cr-at-eol
 outputs/exhaustive_evaluation/learned_rcps_development/** -text -eol whitespace=cr-at-eol
+outputs/exhaustive_evaluation/learned_rcps_range/** -text -eol whitespace=cr-at-eol
 *.bat text eol=crlf
 *.cmd text eol=crlf

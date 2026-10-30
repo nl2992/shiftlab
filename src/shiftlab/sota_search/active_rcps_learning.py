@@ -60,6 +60,12 @@ class FixedRiskPredictor:
     def predict(self, features):
         return np.clip(np.sum(self.optimizer.value * features, axis=1), 0, 1)
 
+    def bounds(self):
+        """Exact extrema over all proxy guesses at the fixed beta=.5."""
+        weights = self.optimizer.value
+        knots = weights[:, 3:6] + weights[:, 9:12] + weights[:, 12, None]
+        return np.clip(knots.min(axis=1), 0, 1), np.clip(knots.max(axis=1), 0, 1)
+
     def update(self, features, target, observed):
         raw = np.sum(self.optimizer.value * features, axis=1)
         derivative = 2 * (np.clip(raw, 0, 1) - target) * ((raw >= 0) & (raw <= 1)) * observed

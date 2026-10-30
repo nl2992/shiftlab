@@ -1,5 +1,6 @@
 import numpy as np
 
+from shiftlab.sota_search.active_rcps_learning import FixedRiskPredictor, fixed_question_features
 from shiftlab.sota_search.learned_paired_rcps import learned_paired_rcps
 
 
@@ -78,3 +79,34 @@ def test_projected_paper_normalizer_stays_finite_at_long_horizon():
     assert np.isfinite(result["total_cost"]).all()
     assert result["labels"][0] <= 400
     assert np.all((result["trace"]["q"] >= 0.05) & (result["trace"]["q"] <= 1))
+
+
+def test_predictor_bounds_cover_all_proxy_inputs():
+    rng = np.random.default_rng(271)
+    model = FixedRiskPredictor(7)
+    model.optimizer.value[:] = rng.normal(0, 0.2, (7, 13))
+    lower, upper = model.bounds()
+    for x in np.linspace(0, 1, 101):
+        value = model.predict(fixed_question_features(np.full(7, x)))
+        assert np.all(value >= lower - 1e-14)
+        assert np.all(value <= upper + 1e-14)
+    at_knots = np.stack(
+        [model.predict(fixed_question_features(np.full(7, x))) for x in [0, 0.5, 1]]
+    )
+    np.testing.assert_allclose(at_knots.min(0), lower, atol=1e-14)
+    np.testing.assert_allclose(at_knots.max(0), upper, atol=1e-14)
+
+
+def test_predictable_ranges_bound_issued_values_and_factors():
+    a = stream(paths=3, horizon=300)
+    a["loss"][:] = np.random.default_rng(52).random((3, 300))
+    result = learned_paired_rcps(a, cap_mode="predictor", seed=27, return_trace=True)
+    trace = result["trace"]
+    assert np.all(trace["q"] >= trace["q_bound"] - 1e-12)
+    assert np.all(trace["cv"] >= trace["cv_min"] - 1e-12)
+    assert np.all(1 + trace["lambda"] * trace["xi"] >= 0.5 - 1e-12)
+    np.testing.assert_allclose(
+        trace["logwealth"][:, 5:],
+        np.cumsum(np.log1p(trace["lambda"] * trace["xi"]), axis=1)[:, :-5],
+        atol=1e-12,
+    )

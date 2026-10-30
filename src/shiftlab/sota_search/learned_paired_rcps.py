@@ -24,7 +24,10 @@ def learned_paired_rcps(
     query_cost=0.001,
     switch_cost=1,
     return_trace=False,
+    cap_mode="global",
 ):
+    if cap_mode not in ("global", "query", "predictor"):
+        raise ValueError("unknown predictable range bound")
     if variance_target not in ("source", "residual") or normalization not in (
         "source",
         "paper",
@@ -61,7 +64,20 @@ def learned_paired_rcps(
     rng = np.random.default_rng(seed).random(loss.shape)
     pending = [None] * (delay + 1)
     trace = (
-        {k: np.zeros(loss.shape) for k in ["q", "cv", "lambda", "xi", "logwealth", "query"]}
+        {
+            k: np.zeros(loss.shape)
+            for k in [
+                "q",
+                "cv",
+                "lambda",
+                "xi",
+                "logwealth",
+                "query",
+                "q_bound",
+                "cv_min",
+                "stake_cap",
+            ]
+        }
         if return_trace
         else None
     )
@@ -78,8 +94,23 @@ def learned_paired_rcps(
         hit = (first == horizon) & (wealth >= 1 / alpha) & ((horizon - t) * margin >= switch_cost)
         first[hit] = t
         active = (first == horizon) & (spent < budget)
+        # These extrema depend on released history, before the current covariates.
+        q_bound = np.full(paths, floor)
+        cv_min = np.zeros(paths)
+        live_cap = np.full(paths, cap)
+        if cap_mode != "global":
+            if normalization == "uniform":
+                q_bound = np.full(paths, frac)
+            else:
+                q_bound = np.maximum(floor, normalizer.predict(variance.bounds()[0])[0] - 0.001)
+            if cap_mode == "predictor":
+                cv_min = mean.bounds()[0]
+            minimum = theta + (1 / q_bound - 1) * cv_min - 1 / q_bound
+            live_cap = 0.5 / np.abs(minimum)
         lam = np.clip(
-            np.divide(total, total + square, out=np.zeros(paths), where=total + square != 0), 0, cap
+            np.divide(total, total + square, out=np.zeros(paths), where=total + square != 0),
+            0,
+            live_cap,
         )
         a0, a1 = p[:, t] >= 1 / 6, candidate_p[:, t] >= 1 / 6
         # Model-derived proxy uses incumbent probability, never evaluator truth.
@@ -92,6 +123,8 @@ def learned_paired_rcps(
         q, raw, inverse = normalizer.predict(var)
         if normalization == "uniform":
             q = np.full(paths, frac)
+        if np.any(q < q_bound - 1e-12) or np.any(cv < cv_min - 1e-12):
+            raise ArithmeticError("predictable query or CV range violated")
         queried = (rng[:, t] < q) & active
         spent += queried
         if normalization != "uniform":
@@ -111,6 +144,9 @@ def learned_paired_rcps(
                 ("xi", x),
                 ("logwealth", np.log(wealth)),
                 ("query", queried),
+                ("q_bound", q_bound),
+                ("cv_min", cv_min),
+                ("stake_cap", live_cap),
             ]:
                 trace[k][:, t] = v
     inc = np.pad(np.cumsum(loss, axis=1), ((0, 0), (1, 0)))

@@ -1,5 +1,6 @@
 """Registered development comparison of learned-query fixed-question adaptations."""
 
+import argparse
 import hashlib
 import json
 from datetime import UTC, datetime
@@ -15,8 +16,12 @@ ROOT = Path(__file__).resolve().parents[2]
 DOC = ROOT / "docs/exhaustive_evaluation"
 
 
-def main():
-    regpath = DOC / "learned_rcps_development_registration.json"
+def main(profile="original"):
+    if profile not in ("original", "range"):
+        raise ValueError("unknown registered profile")
+    ranged = profile == "range"
+    prefix = "learned_rcps_range" if ranged else "learned_rcps_development"
+    regpath = DOC / f"{prefix}_registration.json"
     if regpath.exists():
         raise FileExistsError("inspect existing native process/status before rerun")
     variants = [
@@ -33,6 +38,19 @@ def main():
         }
         for floor in [0.05, 0.2]
     ]
+    if ranged:
+        base = variants
+        variants = [
+            {**v, "id": v["id"] + "_" + mode, "cap_mode": mode}
+            for v in base[:4]
+            for mode in ["global", "query", "predictor"]
+        ]
+        # Uniform query-bound modes alias the tight-floor control; avoid counting copies.
+        variants += [
+            {**base[4], "cap_mode": "global"},
+            {**base[5], "cap_mode": "global"},
+            {**base[5], "id": "uniform_predictor", "cap_mode": "predictor"},
+        ]
     thresholds = json.loads((DOC / "cusum_strict_thresholds.json").read_text())["thresholds"]
     sources = [
         "src/shiftlab/sota_search/active_rcps_learning.py",
@@ -57,15 +75,15 @@ def main():
             "small",
             "reversal",
         ],
-        "paths_per_case": 256,
+        "paths_per_case": 128 if ranged else 256,
         "batch": 128,
         "horizon": 2000,
-        "world_seed": 202654000,
-        "query_seed": 202655000,
+        "world_seed": 202658000 if ranged else 202654000,
+        "query_seed": 202659000 if ranged else 202655000,
         "contract": "frac.2 cap400 delay5 alpha.05 margin.01 query.001 switch1; common query uniforms; models frozen",
         "paper_variant": "paper-payoff minimization with native dual cap and explicit normalization-parameter projection[-20,20]; residual target is saved issue-time residual squared",
-        "adaptation": "fixed beta=.5; fixed global floor stake; source query/predictor primitives checked against author; no full original grid or expected-budget claim",
-        "primary": "all six variants equal-weight persistent case net cost versus tuned FTL; no test-selected winner",
+        "adaptation": "fixed beta=.5; explicit cap modes; fresh released-history range computed before current covariates; source component parity, not full native-loop timing/grid or expected-budget claim",
+        "primary": "all registered variants equal-weight persistent case net cost versus tuned FTL; no test-selected winner",
         "references": ["paired_Kelly", "tuned_FTL", "CUSUM_slack.05", "CUSUM_slack.1"],
         "cusum_thresholds": thresholds[2:],
         "cusum_threshold_source_sha256": hashlib.sha256(
@@ -74,10 +92,10 @@ def main():
         "sources_sha256": {p: hashlib.sha256((ROOT / p).read_bytes()).hexdigest() for p in sources},
     }
     regpath.write_text(json.dumps(reg, indent=2), encoding="utf-8")
-    statuspath = DOC / "learned_rcps_development_status.json"
+    statuspath = DOC / f"{prefix}_status.json"
     status = {"status": "running", "completed": []}
     statuspath.write_text(json.dumps(status), encoding="utf-8")
-    out = ROOT / "outputs/exhaustive_evaluation/learned_rcps_development"
+    out = ROOT / f"outputs/exhaustive_evaluation/{prefix}"
     out.mkdir(parents=True, exist_ok=True)
     configs = [
         PairedConfig("direct", "uniform", 0.98, 0.75, restart, "none", bet)
@@ -86,7 +104,7 @@ def main():
     rows = []
     for j, kind in enumerate(reg["cases"]):
         batches = []
-        for b in range(2):
+        for b in range(reg["paths_per_case"] // reg["batch"]):
             offset = j * 100 + b
             stream = paired_world(kind, paths=128, horizon=2000, seed=reg["world_seed"] + offset)
             kw = {"seed": reg["query_seed"] + offset}
@@ -120,7 +138,7 @@ def main():
                 {
                     "case": kind,
                     "method": name,
-                    "paths": 256,
+                    "paths": reg["paths_per_case"],
                     "promotion_rate": float(np.mean(merged["first"][i] < 2000)),
                     "labels": float(merged["labels"][i].mean()),
                     "total_cost": float(merged["total_cost"][i].mean()),
@@ -130,7 +148,7 @@ def main():
         status["completed"].append(kind)
         statuspath.write_text(json.dumps(status), encoding="utf-8")
         print(kind, "complete", flush=True)
-    (DOC / "learned_rcps_development_results.json").write_text(
+    (DOC / f"{prefix}_results.json").write_text(
         json.dumps({"rows": rows}, indent=2), encoding="utf-8"
     )
     status["status"] = "completed"
@@ -138,4 +156,6 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--profile", choices=["original", "range"], default="original")
+    main(parser.parse_args().profile)

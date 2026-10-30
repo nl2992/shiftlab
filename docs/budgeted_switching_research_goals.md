@@ -3092,3 +3092,27 @@ the finite benchmark. Source limitation: RAO* full text/proof not inspected in t
   the goal's hypothesis-revision gate, not another restatement of the same lower bound. Do not run
   efficacy studies or open 2026 holdouts without a genuinely new structural assumption and a
   source-audited separation. G2–G5 remain held.
+
+### G1 hypothesis-revision gate: no surviving candidate under the current contract 2026-10-30
+
+- Revalidated the authoritative candidate ledger and the most relevant primary-source audits.
+  Utility-directed finite-horizon sensing/stopping is covered by
+  `switching_finite_horizon_sensing_prior_audit_v1.md`; action-dependent feedback by
+  `switching_action_dependent_pivot_screen_v1.md` and the performative-bandit audits; adaptive
+  delayed learning by `switching_dal_prior_audit_v1.md`; and delayed hard-budget safety, reversal
+  loss, and current-regime evidence by `switching_noisy_information_lower_bound_v1.md`,
+  `switching_reversal_budget_frontier_candidate_v1.md`, and
+  `switching_current_regime_evidence_v1.md`. Risk-preserving state approximation and exact robust
+  planning are also screened in `switching_filter_forgetting_risk_coupling_screen_v1.md`,
+  `switching_finite_memory_approximation_prior_audit_v1.md`, and
+  `switching_lagrangian_posg_reduction_v1.md`.
+- The joint controlled-HMM / acquisition / delayed-switching task remains mathematically coherent,
+  but no candidate presently has a source-audited theorem-level delta from constrained active
+  sensing, delayed change-point learning, and the exact one-sided-POSG/sequence-form comparator.
+  The prior two-world lower-bound addition was removed because stronger equivalent results already
+  existed. This is a failed novelty gate, not a completed methodological contribution.
+- Keep the full objective intact; do not advance to G2–G5 or manuscript work. Reopening G1 requires
+  a materially new, explicit structure (e.g. a changed release/observation mechanism or a justified
+  restricted hypothesis class) plus a primary-source separation. The Binance price-taker
+  account-utility replay remains a possible later evaluation only; it cannot supply method novelty
+  or identify market impact. The current research path is blocked pending that structural change.

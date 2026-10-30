@@ -11,6 +11,7 @@ from importlib.metadata import version
 from pathlib import Path
 
 from shiftlab.sota_search.supervisor import Limits, run_batch
+from shiftlab.sota_search.budget import ProgrammeBudget, ProgrammeLimits
 
 
 def main():
@@ -96,7 +97,19 @@ def main():
                         ],
                     }
                 )
-    results = run_batch(args.output, jobs, limits, repo)
+    programme = ProgrammeBudget(
+        repo / "outputs/sota_search",
+        ProgrammeLimits(
+            **json.loads((repo / "configs/sota_search/programme_budget.json").read_text())
+        ),
+    )
+    try:
+        programme.import_previous(
+            default_wall=limits.run_wall_seconds, default_cpu=limits.run_cpu_seconds
+        )
+        results = run_batch(args.output, jobs, limits, repo, programme=programme)
+    finally:
+        programme.close()
     counts = {}
     for row in results:
         status = row["execution_status"]

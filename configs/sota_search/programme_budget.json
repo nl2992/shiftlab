@@ -1,0 +1,6 @@
+{
+  "max_runs": 20000,
+  "wall_seconds": 14400,
+  "cpu_seconds": 14400,
+  "storage_bytes": 2147483648
+}

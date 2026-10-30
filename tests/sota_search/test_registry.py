@@ -50,3 +50,17 @@ def test_constant_nominal_proxy_matches_ipw_with_same_effective_coefficient(risk
         ppe = simulate(method="ppe", risk=risk, seed=seed)
         ipw = simulate(method="ipw", risk=risk, seed=seed)
         assert ppe == ipw
+
+
+def test_zero_exit_without_metrics_is_a_retained_failure(tmp_path):
+    result = run_batch(
+        tmp_path / "missing", [{"metadata": {}, "argv": ["-c", "pass"]}], Limits(), tmp_path
+    )
+    assert result[0]["execution_status"] == "implementation_defect"
+    assert result[0]["failure_reason"] == "missing_result_artifact"
+
+
+@pytest.mark.parametrize("invalid", [float("nan"), float("inf"), -1, True])
+def test_resource_limits_reject_nonfinite_or_boolean_values(invalid):
+    with pytest.raises(ValueError):
+        Limits(run_cpu_seconds=invalid)

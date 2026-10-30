@@ -38,3 +38,23 @@ successive-halving criteria, matched baseline tuning, Q1/Q2/Q3 primary metrics,
 development/validation/confirmation seed separation, multiple-comparison handling,
 and held-out generator-family pools must be frozen in a later protocol before
 the substantive screen. This smoke protocol does not replace those requirements.
+
+## Checkpoint 2 — programme budget and generator diagnostics
+
+The shared `configs/sota_search/programme_budget.json` now caps cumulative worker
+wall time and CPU time at four hours each, worker launches at 20,000, and programme
+artifact storage at 2 GiB. These are programme-wide caps, not reset per batch.
+Each worker reserves its full per-run allowance transactionally before launch;
+its measured usage is settled after termination. A crashed supervisor's full
+reservation remains charged. Short processes lacking a CPU sample conservatively
+charge their wall time. The previous smoke is imported once by run ID using
+read-only access to its registry. Reopening the programme with a different policy
+is refused. Test execution/development time is outside the experiment-worker cap.
+
+Production batches require this ledger. The original one-hour batch, one-minute
+worker, 2 GiB worker memory and 512 MiB snapshot caps still apply. Resource checks
+are sampled and can overshoot by a polling interval; these are not exact OS quotas.
+
+The next preregistered batch is the 52 generator-contract diagnostics specified
+in 02_SYNTHETIC_GENERATOR_CONTRACT.md. These diagnostics are additional preparation;
+they do not count as the requested substantive 500–1,500 candidate configurations.

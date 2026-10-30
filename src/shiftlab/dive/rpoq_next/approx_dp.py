@@ -45,11 +45,12 @@ def certify(inst: Instance, delta: float, fine_delta: float | None = None) -> di
     null = Evaluator(inst, inst.p_null, inst.budget, policy=ev.act).value()
     return {
         "delta": delta,
+        "fine_delta": fine_delta,
         "states": len(ev._post),
         "solve_seconds": solve_s,
         "snapped_model_value": approx_value,
-        "exact_power": power,
-        "exact_null_alarm": null,
+        "policy_power": power,
+        "policy_null_alarm": null,
     }
 
 
@@ -76,7 +77,7 @@ def main():
         )
         base = {
             "budget": b,
-            "exact_power": exact_power,
+            "optimal_power": exact_power,
             "exact_states": len(exact._post),
             "exact_seconds": exact_s,
             "best_constant_power": best_const,

@@ -1,0 +1,17 @@
+{
+  "status": "all_recorded_arrays_identical",
+  "cases": [
+    "00_null_d5",
+    "01_nuisance_d5",
+    "02_abrupt_d5",
+    "03_small_d5",
+    "04_late_d5",
+    "05_recurring_d5",
+    "06_guidance_failure_d5",
+    "07_abrupt_d24"
+  ],
+  "distinct_configs": 540,
+  "current_engine_sha256": "82c2a8e6c2a506307dab96ccf88e0b8f31dc946496237185ef9da9d61befe2cb",
+  "original_engine_sha256": "d2d6c87bc2d322651b629cd3c0a227e13c89d70a6f206a14f9992076ca6f4576",
+  "scope": "post-lint replay, same seeds; not independent confirmation"
+}

@@ -1,0 +1,52 @@
+[
+  {
+    "name": "active_rcps_paper",
+    "url": "https://arxiv.org/html/2406.10490v2",
+    "retrieved_utc": "2026-10-30T08:36:09.229940+00:00",
+    "status": 200,
+    "bytes": 443541,
+    "sha256": "0840759d8de89950d0b6754b7af1029031ec861f3f7997aab20228574d224e57",
+    "path": "outputs\\exhaustive_evaluation\\sources\\active_rcps_paper.txt"
+  },
+  {
+    "name": "pprm_paper",
+    "url": "https://arxiv.org/html/2602.02229v1",
+    "retrieved_utc": "2026-10-30T08:36:09.409624+00:00",
+    "status": 200,
+    "bytes": 420144,
+    "sha256": "e7ee1ccd1164098425c3fe41b8e2dcfbbde4f045275ae5cafeb2a9de3026983a",
+    "path": "outputs\\exhaustive_evaluation\\sources\\pprm_paper.txt"
+  },
+  {
+    "name": "active_rcps_code",
+    "url": "https://raw.githubusercontent.com/neilzxu/active-rcps/main/simulation.py",
+    "retrieved_utc": "2026-10-30T08:36:09.535589+00:00",
+    "status": "blocked",
+    "error": "HTTP Error 404: Not Found"
+  },
+  {
+    "name": "robust_fsc_paper",
+    "url": "https://ojs.aaai.org/index.php/AAAI/article/view/17401/17208",
+    "retrieved_utc": "2026-10-30T08:36:09.684025+00:00",
+    "status": "blocked",
+    "error": "Remote end closed connection without response"
+  },
+  {
+    "name": "hsu_shekhar_paper",
+    "url": "https://arxiv.org/html/2607.17409v1",
+    "retrieved_utc": "2026-10-30T08:36:09.996367+00:00",
+    "status": 200,
+    "bytes": 913873,
+    "sha256": "eb22d50512addd3bfdc3552ffdf70b2a1eb64bf9c257285df54f96158ceeea30",
+    "path": "outputs\\exhaustive_evaluation\\sources\\hsu_shekhar_paper.txt"
+  },
+  {
+    "name": "betting_predictions_paper",
+    "url": "https://arxiv.org/html/2605.28533v1",
+    "retrieved_utc": "2026-10-30T08:36:10.144015+00:00",
+    "status": 200,
+    "bytes": 1019482,
+    "sha256": "1ac47efa9565addd22962675eb3c6b380b97ce35a76db3a4a837094859994047",
+    "path": "outputs\\exhaustive_evaluation\\sources\\betting_predictions_paper.txt"
+  }
+]

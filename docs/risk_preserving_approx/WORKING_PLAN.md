@@ -629,3 +629,136 @@ A separate idea—Lagrangian backward induction over the same graph instead of t
 POMDP dynamic-programming reduction. Audit its exact source equivalence before
 implementation and do not claim novelty without a remaining theorem or resource
 advantage. See the Candidate G protocol and result.
+
+## Active execution plan after Candidate G (2026-10-29)
+
+This section is the current run order and supersedes earlier “next step” notes
+that predate the E–G screens. The governing objective and preservation rules in
+`RESEARCH_BRIEF.md` remain unchanged. The branch is still in discovery: no
+candidate has passed G1 (novelty), G2 (theorem/mechanism), or G3 (matched
+synthetic utility). The existing IID-relaxation result is a useful synthetic
+comparison, not a qualifying contribution. Keep all real-data work, reserved
+holdouts, confirmation seeds, remote jobs and notifications closed.
+
+### Work package 1 — close the Candidate G Bellman-DP question
+
+1. Compare the proposed scalarized Bellman recurrence, state, terminal rewards,
+   policy recovery and dual bound line by line against the existing IID
+   relaxation and primary constrained-POMDP sources. Include request-time budget
+   charges, label release order, hidden root mode, pending outcomes, first
+   promotion, post-promotion alternative continuation and exact full-null
+   verification in the reduction.
+2. Record whether the reduction is exactly standard constrained-POMDP
+   Lagrangian DP. If so, close it as an established-algorithm comparator unless
+   a concrete, source-supported end-to-end resource advantage remains after
+   policy extraction, exact risk verification and safety repair. Do not build a
+   DP merely because its recurrence is available.
+3. If such an engineering comparison is justified, register one bounded
+   development protocol first: same T=10/B=4/d=2 instance, fixed multiplier
+   grid, same cost/risk metrics, a 60-second local CPU cap per solve, and exact
+   checks against the existing IID LP and full causal-null verifier. No new
+   seeds or broader sweep. This can establish a baseline implementation
+   comparison, not novelty by itself.
+
+**Exit:** commit an exact reduction/equivalence note and a continue/close
+decision. A standard-equivalence finding closes this search branch and does not
+count as a setback to the overarching formulation.
+
+### Work package 2 — identify a structurally different optimization mechanism
+
+Resume from the demonstrated bottleneck: methods that first traverse essentially
+the same public-history tree (E and G) do not reduce construction effort enough;
+the IID root-belief graph also has no state compression. Candidate D remains a
+comparator, while F’s betting gate and ordinary sequential tests lack an
+unrestricted economic approximation theorem. Search for a compact
+representation or implicit optimization method that reduces work before or
+during tree/LP construction while retaining the causal null’s access to pending
+outcomes.
+
+For each new idea, write a one-page candidate card before coding. It must specify:
+
+- the exact policy class and a constructive policy-generation algorithm;
+- a state/response representation and bound on its size relative to the
+  sequence-form reference;
+- exact or bounded worst-case causal-null risk, not risk under the alternative
+  or IID surrogate alone;
+- a nonvacuous economic loss bound against the unrestricted two-law optimum;
+- runtime and memory including preprocessing, pricing, extraction, verification
+  and repair;
+- the closest primary theorem/source and an explicit reduction attempt;
+- a minimal counterexample test covering posterior aliasing, signed future
+  continuation value, hidden pending outcomes, and rollback/re-promotion.
+
+Do not rerun closed screens with parameter tweaks. Record each failed candidate
+with its counterexample or measured bottleneck. A plausible but uncertain
+prior-art match remains `UNRESOLVED — EXACT REDUCTION REQUIRED` until the
+reduction is attempted.
+
+**G1 gate:** continue only if the source audit leaves a precise algorithmic,
+theoretical or end-to-end computational delta. A familiar ingredient is neither
+an automatic rejection nor a novelty claim.
+
+### Work package 3 — theory before implementation
+
+For the first surviving candidate, write and audit the full theorem statement:
+assumptions; nonanticipating hard-budget policy class; alternative expected
+cost; full-history causal-null promotion event; risk guarantee; economic value
+gap; complexity in T, B, delay, resolution/model size and precision; and all
+failure conditions. Prove the smallest instance and boundary cases first. State
+the unresolved lemma narrowly enough that a counterexample or proof attempt can
+settle it. Use exact rational arithmetic wherever the finite model permits.
+
+**G2 gate:** no implementation beyond a minimal proof-checking prototype until
+the guarantee is proved or one sharply isolated conditional lemma remains, and
+all known counterexamples have been tested. A conjecture may motivate a bounded
+diagnostic, but its output remains exploratory and cannot be called a guarantee.
+
+### Work package 4 — registered synthetic test and strongest baselines
+
+Only after G1 and G2, register a paired development protocol on the smallest
+exactly solvable instances where the candidate predicts an advantage. Compare
+against the decomposed and full exact references when available, the best fixed
+calendar, the strongest adaptive/sequential baseline, Candidate B’s IID
+relaxation plus exact verifier, and any faithfully implementable robust-FSC or
+constrained-POMDP comparator. Match the pathwise query budget, delay, costs and
+risk level. Include controls and known counterexamples; freeze metrics and
+resource limits before execution.
+
+Report alternative cost and oracle gap, exact worst-case causal-null risk and
+certificate, maximum pathwise queries, policy size, construction nodes, wall
+time, peak memory, and extraction/verification/repair costs. Independently
+reconstruct returned policies. Use development results only to decide whether
+to register a separate confirmation protocol; do not relabel them as
+confirmation.
+
+**G3 gate:** the candidate must satisfy its proved risk/value statement and
+beat the strongest matched baseline on a preregistered meaningful utility or
+complexity criterion without unacceptable loss on controls. Compute savings
+alone are insufficient if they do not support the methodological claim.
+
+### Work package 5 — real-data eligibility, only after G3
+
+After a synthetic pass, select a source only if its chronology, point-in-time
+features, paired outcomes, label availability, utility/cost definition,
+provenance and licensing support the switching estimand. Keep reserved holdouts
+closed until a separate protocol is frozen and handled under the existing
+repository process. If observational data cannot identify causal promotion
+risk, use them only for the explicitly supported economic component and do not
+claim real-world null-risk validation.
+
+### Tool and checkpoint discipline
+
+The isolated toolkit is already present in this worktree: Ponytail for focused
+implementation/review habits, HKUSTDial Supervisor-Skills for research
+evaluation and evidence-grounded writing, and ARIS for experiment/review
+orchestration. Before applying a skill, read its installed instructions and
+record the exact workflow used. These tools support this plan; they do not
+authorize scheduled overnight loops, cloud/remote compute, paid jobs,
+notifications, publication or external data access. Keep runs local and bounded
+unless the user separately requests a specific action.
+
+At every checkpoint, append the hypothesis, protocol, exact command, commit,
+artifact hashes, checks, proof status, negative evidence and next decision to
+`RESEARCH_LEDGER.md`. Use a unique output path; preserve prior failures and
+historical artifacts. Commit each completed checkpoint to this branch and push
+only the designated branch. Never merge automatically.

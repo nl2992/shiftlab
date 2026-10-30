@@ -1,0 +1,111 @@
+{
+  "stage": "all eight contrasts reported; no selected winner",
+  "efficacy_family_size": 8,
+  "normal_approximation": true,
+  "rows": [
+    {
+      "cusum_slack": 0,
+      "reference": "paired_Kelly",
+      "paired_mean_cost_difference": 26.814568499999965,
+      "bonferroni_95_family_interval": [
+        26.019776776050563,
+        27.609360223949366
+      ],
+      "relative_cost_reduction": -0.13137770475752494,
+      "max_null_upper": 0.03689803603398226,
+      "empirical_safety_screen_pass": true,
+      "practical_10percent_gate": false
+    },
+    {
+      "cusum_slack": 0,
+      "reference": "tuned_FTL",
+      "paired_mean_cost_difference": 24.712822999999908,
+      "bonferroni_95_family_interval": [
+        24.01389126775291,
+        25.411754732246905
+      ],
+      "relative_cost_reduction": -0.11984611111787422,
+      "max_null_upper": 0.03689803603398226,
+      "empirical_safety_screen_pass": true,
+      "practical_10percent_gate": false
+    },
+    {
+      "cusum_slack": 0.01,
+      "reference": "paired_Kelly",
+      "paired_mean_cost_difference": 18.522616000000053,
+      "bonferroni_95_family_interval": [
+        17.782019108814026,
+        19.26321289118608
+      ],
+      "relative_cost_reduction": -0.09075136809249859,
+      "max_null_upper": 0.03571434944342054,
+      "empirical_safety_screen_pass": true,
+      "practical_10percent_gate": false
+    },
+    {
+      "cusum_slack": 0.01,
+      "reference": "tuned_FTL",
+      "paired_mean_cost_difference": 16.420870499999996,
+      "bonferroni_95_family_interval": [
+        15.80416428743394,
+        17.03757671256605
+      ],
+      "relative_cost_reduction": -0.07963385933671882,
+      "max_null_upper": 0.03571434944342054,
+      "empirical_safety_screen_pass": true,
+      "practical_10percent_gate": false
+    },
+    {
+      "cusum_slack": 0.05,
+      "reference": "paired_Kelly",
+      "paired_mean_cost_difference": -0.015297499999853699,
+      "bonferroni_95_family_interval": [
+        -0.7197961301656165,
+        0.689201130165909
+      ],
+      "relative_cost_reduction": 7.494994515794726e-05,
+      "max_null_upper": 0.043344706996586616,
+      "empirical_safety_screen_pass": true,
+      "practical_10percent_gate": false
+    },
+    {
+      "cusum_slack": 0.05,
+      "reference": "tuned_FTL",
+      "paired_mean_cost_difference": -2.1170429999999105,
+      "bonferroni_95_family_interval": [
+        -2.6794316840035837,
+        -1.5546543159962376
+      ],
+      "relative_cost_reduction": 0.010266709336254624,
+      "max_null_upper": 0.043344706996586616,
+      "empirical_safety_screen_pass": true,
+      "practical_10percent_gate": false
+    },
+    {
+      "cusum_slack": 0.1,
+      "reference": "paired_Kelly",
+      "paired_mean_cost_difference": -3.9900709999998853,
+      "bonferroni_95_family_interval": [
+        -4.795895345278013,
+        -3.1842466547217576
+      ],
+      "relative_cost_reduction": 0.01954931215095063,
+      "max_null_upper": 0.03630668708150822,
+      "empirical_safety_screen_pass": true,
+      "practical_10percent_gate": false
+    },
+    {
+      "cusum_slack": 0.1,
+      "reference": "tuned_FTL",
+      "paired_mean_cost_difference": -6.091816499999942,
+      "bonferroni_95_family_interval": [
+        -6.788563496281517,
+        -5.395069503718366
+      ],
+      "relative_cost_reduction": 0.029542578651119512,
+      "max_null_upper": 0.03630668708150822,
+      "empirical_safety_screen_pass": true,
+      "practical_10percent_gate": false
+    }
+  ]
+}

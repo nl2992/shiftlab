@@ -1,0 +1,69 @@
+# Held-out synthetic confirmation (part 1: G1 held-out pool)
+
+**Frozen before running:** `configs/sota_search/frozen_finalists_v1.json` (committed in the same commit as this preamble). Finalists were selected on the development pool only; the held-out pool is evaluated **once** and nothing is re-tuned afterwards. The held-out pool has different shift magnitudes, onsets and schedules (recurrent, onset 500 and 1100) and fresh seeds (400 per world, seed block 5000).
+
+Held-out worlds: concept recurrent δ=2.5, concept abrupt δ=1.2 (onset 1100), concept gradual δ=2.5 (ramp 400), subgroup recurrent δ=4, `cov_benign` recurrent δ=2.5, `cov_inform` gradual δ=1.5, `prior` abrupt δ=1.5 (onset 1100), null.
+
+Decision rule: see the frozen file. Results are filled below after the single run.
+
+## Part 1 results: G1 held-out parameters (single run, 400 seeds per world, registry `registry_heldout_g1.sqlite`)
+
+3 harm worlds, 4 benign-shift worlds, 1 null world. Mean over worlds; each cell is one frozen configuration.
+
+| Arm | Label rate | Power (harm) | False alarm (benign) | False alarm (null) | Harm before alarm |
+|---|---|---|---|---|---|
+| `pprm_tight` (strongest valid baseline) | 0.10 | 0.513 | 0.021 | 0.012 | 162.5 |
+| **`HG_brier`** (frozen finalist) | 0.10 | **0.566** | 0.022 | 0.008 | 146.3 |
+| Page–Hinkley (empirical) | 0.10 | 0.570 | 0.052 | 0.042 | 157.9 |
+| CUSUM (empirical) | 0.10 | 0.514 | 0.076 | 0.032 | 152.4 |
+| `pp_cost_tight` | 0.10 | 0.170 | 0.008 | 0.010 | 215.6 |
+| `DK_cost` | 0.10 | 0.244 | 0.009 | 0.012 | 206.1 |
+| `BD_cost` (marginal control `CTRL_BD_cost` 0.245) | 0.10 | 0.290 | 0.017 | 0.015 | 196.2 |
+| `pprm_tight` | 0.20 | 0.715 | 0.042 | 0.012 | 120.4 |
+| **`HG_brier`** | 0.20 | **0.801** | 0.051 | 0.010 | **95.5** |
+| Page–Hinkley | 0.20 | 0.731 | 0.054 | 0.030 | 126.3 |
+| CUSUM | 0.20 | 0.684 | 0.078 | 0.032 | 120.7 |
+| `pp_cost_tight` | 0.20 | 0.375 | 0.009 | 0.005 | 185.5 |
+| `DK_cost` | 0.20 | 0.482 | 0.010 | 0.008 | 166.9 |
+| `BD_cost` (control 0.478) | 0.20 | 0.554 | 0.026 | 0.015 | 151.0 |
+
+Per-world harm power, `HG_brier` vs `pprm_tight`: 10% labels: abrupt δ=1.2 0.185 vs 0.065; gradual δ=2.5 0.945 vs 0.925; recurrent δ=2.5 0.568 vs 0.548. 20% labels: 0.462 vs 0.242; 0.998 vs 0.992; 0.942 vs 0.910. **No harm world is worse.**
+
+### Verdict against the frozen rule
+- **HG_brier: improvement over its parent and over the strongest valid baseline `pprm_tight` at both label rates** (power +0.053 and +0.086; benign false alarm +0.001 and +0.009; null ≤ 0.012). At 20% labels it is better than Page–Hinkley and CUSUM on power, benign false alarm and harm before alarm; at 10% labels it ties Page–Hinkley on power (0.566 vs 0.570) and is better on benign false alarm (0.022 vs 0.052) and harm before alarm.
+- **DK_cost, BD_cost: improve their parent `pp_cost_tight`** (+0.074 / +0.120 at 10%; +0.107 / +0.179 at 20%); BD's marginal effect over the same-γ control is +0.045 (10%) and +0.076 (20%). **Neither goes beyond `pprm_tight`** (0.244–0.290 and 0.482–0.554 vs 0.513 and 0.715), so they are not improvements over the strongest valid baseline.
+
+### Limits of this part
+Only three harm worlds; same generator family, different parameters; the +0.053 gain at 10% labels sits at the registered +0.05 boundary; intervals not computed here (see the paired analysis planned in part 3). Part 2 (a different generator family) follows.
+
+## Part 2: held-out generator family G2 (frozen before running)
+
+**G2:** the true boundary adds a nonlinear term `0.8·x₀x₁ − 0.5·(x₂² − 1)` (zero mean under the source) that the **linear deployed model cannot represent**, so the model-implied risk proxy is biased even before any shift. Same shift kinds, ground-truth effect curves recomputed per family. Nominal source risks, calibration scores and the boundary-sampling normalizer are family-specific.
+
+**Finding about the generator that changes roles:** in G2 the "nuisance" `cov_benign` shift (mean of dimension 2) is **harmful** (decision harm +0.225 at δ=3) because it moves the curvature term. Roles are assigned from ground truth, so it is scored as a harm world.
+
+**Pool** (`harness.heldout_g2_pool()`): concept abrupt δ=2, concept gradual δ=3, concept recurrent δ=2, `cov_benign` abrupt δ=3 (harmful here); `cov_inform` abrupt δ=1 and gradual δ=2 (decision cost falls), `prior` abrupt δ=1, `subgroup` abrupt δ=4 (harm 0.046, below threshold), null. 400 seeds, seed block 7000, label seed block 7500. Null-stream calibration of Page–Hinkley and CUSUM uses a G2 null stream.
+
+**Rule:** identical to the frozen file (`frozen_finalists_v1.json`); the finalists are NOT re-tuned. `watch` is not run (its calibration scores are G1-specific).
+
+### Part 2 results (G2, one run, 400 seeds/world, finalists unchanged; 4 harm / 4 benign-or-negative / 1 null)
+
+| label rate | arm | harm power | benign FA | null FA | harm before alarm |
+|---|---|---|---|---|---|
+| 10% | pprm_tight (parent) | .617 | .018 | .008 | 203.5 |
+| 10% | **HG_brier** | **.668** | .020 | .010 | 179.5 |
+| 10% | page_hinkley | .651 | .073 | .042 | 194.3 |
+| 10% | cusum | .415 | .074 | .065 | 208.0 |
+| 10% | pp_cost_tight / DK_cost / BD_cost (ctrl) | .252 / .386 / .408 (.386) | ≤ .015 | ≤ .022 | 254 / 226 / 222 |
+| 20% | pprm_tight (parent) | .857 | .034 | .012 | 144.9 |
+| 20% | **HG_brier** | **.892** | .040 | .020 | 111.9 |
+| 20% | page_hinkley | .831 | .069 | .042 | 152.0 |
+| 20% | cusum | .542 | .094 | .055 | 180.3 |
+| 20% | pp_cost_tight / DK_cost / BD_cost (ctrl) | .529 / .611 / .641 (.608) | ≤ .018 | ≤ .015 | 216 / 178 / 169 |
+
+**Verdict against the frozen rule (power gain over parent ≥ +0.05 at both label rates, no harm world worse by > .05, benign FA change ≤ .02, null FA ≤ .07):**
+- **HG_brier: PARTIAL.** Gain +0.051 at 10% labels (meets), **+0.035 at 20% labels (does not meet +0.05)**. No harm world worse by more than .005; benign FA change ≤ +.006; null FA ≤ .020. It beats Page–Hinkley and CUSUM on power at 20% and on benign FA and harm-before-alarm at both rates; at 10% it ties Page–Hinkley on power (+.017) with ~4× lower benign FA. Largest gains are on the recurrent world at 20% (.642 vs .525) and on the G2-harmful `cov_benign` world at 10% (+.12); the saturated worlds (gradual δ=3, `cov_benign` at 20%) leave no headroom.
+- **DK_cost: meets the rule relative to its own parent** (`pp_cost_tight`, +.134 / +.082) but remains far below `pprm_tight` (.386 vs .617 at 10%), so it is not a competitive detector.
+- **BD_cost: marginal over its same-γ control is +.022 / +.033, below the +.05 marginal criterion.** Boundary-weighted querying does not replicate as an independent contribution on G2; it stays classified as unconfirmed.
+
+**Honest reading.** The gating-plus-discounting fix transfers in direction (power up, false alarms unchanged, no regression) to a generator whose deployed model is misspecified, but its magnitude is smaller than on G1 and fails the frozen threshold at one of two label rates. No re-tuning was done after this run. G1 and G2 share the shift schedules and the same linear-model/cost structure; this is a family change, not an independent real-world check. The G2 pool has 4 harm worlds, no confidence intervals have been computed, and the G2 `cov_benign` role reversal (harmful) is itself a finding: feature-space detectors scored there are not "wrongly alarming".

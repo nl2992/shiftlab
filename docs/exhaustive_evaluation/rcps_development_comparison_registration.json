@@ -1,0 +1,46 @@
+{
+  "registered_utc": "2026-10-30T08:41:59.811698+00:00",
+  "stage": "post-grid exploratory baseline comparison, not confirmation",
+  "baseline": "active-RCPS fixed-target FTL complement-risk adapter",
+  "source_commit": "a67f85d603df2bb3e32ef007f445191923ebd990",
+  "adaptation": "fixed target, uniform q, hard stop at B, issuance-time bets with fixed delay",
+  "alpha": 0.05,
+  "cases": [
+    [
+      "null",
+      5
+    ],
+    [
+      "nuisance",
+      5
+    ],
+    [
+      "abrupt",
+      5
+    ],
+    [
+      "small",
+      5
+    ],
+    [
+      "late",
+      5
+    ],
+    [
+      "recurring",
+      5
+    ],
+    [
+      "guidance_failure",
+      5
+    ],
+    [
+      "abrupt",
+      24
+    ]
+  ],
+  "paths": 64,
+  "horizon": 1200,
+  "runner_sha256": "6c8406fe7d1263ec69fc530325d61d85ba3949f34703c6bb725ef564a418a0fe",
+  "baseline_sha256": "6bb637431529658cc580df232d292b5f65bcfae2356cbab992b140db49b2621f"
+}

@@ -1,0 +1,150 @@
+{
+  "registered_utc": "2026-10-30T15:03:51.799622+00:00",
+  "stage": "development baseline diagnostic, NOT confirmation or novel mechanism",
+  "variants": [
+    {
+      "id": "source_source_global",
+      "variance_target": "source",
+      "normalization": "source",
+      "floor": 0.05,
+      "cap_mode": "global"
+    },
+    {
+      "id": "source_source_query",
+      "variance_target": "source",
+      "normalization": "source",
+      "floor": 0.05,
+      "cap_mode": "query"
+    },
+    {
+      "id": "source_source_predictor",
+      "variance_target": "source",
+      "normalization": "source",
+      "floor": 0.05,
+      "cap_mode": "predictor"
+    },
+    {
+      "id": "source_paper_global",
+      "variance_target": "source",
+      "normalization": "paper",
+      "floor": 0.05,
+      "cap_mode": "global"
+    },
+    {
+      "id": "source_paper_query",
+      "variance_target": "source",
+      "normalization": "paper",
+      "floor": 0.05,
+      "cap_mode": "query"
+    },
+    {
+      "id": "source_paper_predictor",
+      "variance_target": "source",
+      "normalization": "paper",
+      "floor": 0.05,
+      "cap_mode": "predictor"
+    },
+    {
+      "id": "residual_source_global",
+      "variance_target": "residual",
+      "normalization": "source",
+      "floor": 0.05,
+      "cap_mode": "global"
+    },
+    {
+      "id": "residual_source_query",
+      "variance_target": "residual",
+      "normalization": "source",
+      "floor": 0.05,
+      "cap_mode": "query"
+    },
+    {
+      "id": "residual_source_predictor",
+      "variance_target": "residual",
+      "normalization": "source",
+      "floor": 0.05,
+      "cap_mode": "predictor"
+    },
+    {
+      "id": "residual_paper_global",
+      "variance_target": "residual",
+      "normalization": "paper",
+      "floor": 0.05,
+      "cap_mode": "global"
+    },
+    {
+      "id": "residual_paper_query",
+      "variance_target": "residual",
+      "normalization": "paper",
+      "floor": 0.05,
+      "cap_mode": "query"
+    },
+    {
+      "id": "residual_paper_predictor",
+      "variance_target": "residual",
+      "normalization": "paper",
+      "floor": 0.05,
+      "cap_mode": "predictor"
+    },
+    {
+      "id": "uniform_floor0.05",
+      "variance_target": "source",
+      "normalization": "uniform",
+      "floor": 0.05,
+      "cap_mode": "global"
+    },
+    {
+      "id": "uniform_floor0.2",
+      "variance_target": "source",
+      "normalization": "uniform",
+      "floor": 0.2,
+      "cap_mode": "global"
+    },
+    {
+      "id": "uniform_predictor",
+      "variance_target": "source",
+      "normalization": "uniform",
+      "floor": 0.2,
+      "cap_mode": "predictor"
+    }
+  ],
+  "cases": [
+    "harmful",
+    "tie",
+    "harmful_after_shift",
+    "useful_initial",
+    "useful",
+    "late",
+    "small",
+    "reversal"
+  ],
+  "paths_per_case": 128,
+  "batch": 128,
+  "horizon": 2000,
+  "world_seed": 202658000,
+  "query_seed": 202659000,
+  "contract": "frac.2 cap400 delay5 alpha.05 margin.01 query.001 switch1; common query uniforms; models frozen",
+  "paper_variant": "paper-payoff minimization with native dual cap and explicit normalization-parameter projection[-20,20]; residual target is saved issue-time residual squared",
+  "adaptation": "fixed beta=.5; explicit cap modes; fresh released-history range computed before current covariates; source component parity, not full native-loop timing/grid or expected-budget claim",
+  "primary": "all registered variants equal-weight persistent case net cost versus tuned FTL; no test-selected winner",
+  "references": [
+    "paired_Kelly",
+    "tuned_FTL",
+    "CUSUM_slack.05",
+    "CUSUM_slack.1"
+  ],
+  "cusum_thresholds": [
+    6.820000000000014,
+    4.479999999999999
+  ],
+  "cusum_threshold_source_sha256": "fce7f88a56465cb72f64ceddc7554ec53edd70550a9e69a574c8137b6c79c716",
+  "sources_sha256": {
+    "src/shiftlab/sota_search/active_rcps_learning.py": "587cbf7ddce308422f4cdbcb432db58680de6dba05172f8249ed17307bd98404",
+    "src/shiftlab/sota_search/learned_paired_rcps.py": "0eb2634d136c3b5cdf7d5eace75523c6ce895daa5938b47ef886e876b8035fa8",
+    "src/shiftlab/sota_search/paired_control.py": "f629e0b6db64ec094ef47cf238ed2d894f48cdadd237629ecfb1d508afd9fd61",
+    "src/shiftlab/sota_search/paired_cusum.py": "0c829641bacf4652618b84f57c32d764c3ed4664f5f80490de86ef93e72373a2",
+    "src/shiftlab/sota_search/paired_references.py": "0dc89e24398e2761f4f56dd143b03ff587d9fbf2cedd4355f44fa0db626004b8",
+    "src/shiftlab/sota_search/combination_screen.py": "ff995be8d0c74dda2d8f8729b3bb07a1758c9c2cec03f05c4001a37cc023dcac",
+    "scripts/exhaustive_evaluation/compare_learned_rcps.py": "0350a8877b38452b2f2753957e765a11bca2464e7c5b8546b89668dde074d957"
+  }
+}

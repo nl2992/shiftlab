@@ -1,0 +1,54 @@
+{
+  "0.05": {
+    "best_bet": {
+      "uniform": "common",
+      "neyman": "common",
+      "growth": "common",
+      "random_conc": "ctx"
+    },
+    "best_baseline": "neyman",
+    "delta": [
+      -1.1513566834471933,
+      -1.5591205418341298,
+      -0.7555504526418344
+    ],
+    "mean_lw": {
+      "uniform": 1.413446649696964,
+      "neyman": 1.4254270670945852,
+      "growth": 0.274070383647392,
+      "random_conc": 0.9781436050833102
+    },
+    "crossing": {
+      "uniform": 0.31,
+      "neyman": 0.31,
+      "growth": 0.005,
+      "random_conc": 0.36
+    }
+  },
+  "0.2": {
+    "best_bet": {
+      "uniform": "common",
+      "neyman": "common",
+      "growth": "ctx",
+      "random_conc": "ctx"
+    },
+    "best_baseline": "uniform",
+    "delta": [
+      -3.2093689018640177,
+      -5.156647616648085,
+      -0.8721121830953212
+    ],
+    "mean_lw": {
+      "uniform": 6.544060375791517,
+      "neyman": 6.501044634490043,
+      "growth": 3.3346914739274993,
+      "random_conc": 2.7122031688523403
+    },
+    "crossing": {
+      "uniform": 0.845,
+      "neyman": 0.8550000000000001,
+      "growth": 0.6399999999999999,
+      "random_conc": 0.5549999999999999
+    }
+  }
+}

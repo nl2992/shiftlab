@@ -1,0 +1,11 @@
+{
+  "registered_utc": "2026-10-30T14:41:04.185397+00:00",
+  "stage": "exploratory; all batches have prior repository exposure",
+  "source_sha256": "6e6fb7cd478cbd6a4c27779b9ec754b416ea92e8e027b8705ece0fd4cc9f6ac6",
+  "archive_sha256": "91e8f466f202e7a093d657673ce47311c3e90416f7df3057966058961c351fe4",
+  "bank": "incumbent train1-3 C=1; candidates train1-5 C=.01,.1,1; standardized logistic max_iter=1000",
+  "selection": "batch6 minimum decision cost including incumbent; fixed order tie break",
+  "primary": "symmetric decision cost; batches7-10 pooled and individually",
+  "sensitivity": "class6 false-negative cost multipliers2,5; reported separately",
+  "limits": "no online ordering/delay/safety claim, no independent confirmation, no new algorithm"
+}

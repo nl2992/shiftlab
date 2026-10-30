@@ -1,0 +1,30 @@
+{
+  "python": "3.13.1",
+  "frozen_registration_sources_match": true,
+  "sha256": {
+    "src/shiftlab/sota_search/active_rcps_learning.py": "587cbf7ddce308422f4cdbcb432db58680de6dba05172f8249ed17307bd98404",
+    "src/shiftlab/sota_search/learned_paired_rcps.py": "0eb2634d136c3b5cdf7d5eace75523c6ce895daa5938b47ef886e876b8035fa8",
+    "src/shiftlab/sota_search/paired_control.py": "f629e0b6db64ec094ef47cf238ed2d894f48cdadd237629ecfb1d508afd9fd61",
+    "src/shiftlab/sota_search/paired_cusum.py": "0c829641bacf4652618b84f57c32d764c3ed4664f5f80490de86ef93e72373a2",
+    "src/shiftlab/sota_search/paired_references.py": "0dc89e24398e2761f4f56dd143b03ff587d9fbf2cedd4355f44fa0db626004b8",
+    "src/shiftlab/sota_search/combination_screen.py": "ff995be8d0c74dda2d8f8729b3bb07a1758c9c2cec03f05c4001a37cc023dcac",
+    "scripts/exhaustive_evaluation/compare_learned_rcps.py": "0350a8877b38452b2f2753957e765a11bca2464e7c5b8546b89668dde074d957",
+    "scripts/exhaustive_evaluation/check_rcps_range_parity.py": "b1badf2d3d95871c835ac390444922aa883813bda6d09007577d44fb34626bb8",
+    "tests/test_learned_paired_rcps.py": "d138d7f463a94334eb3d716988f590e23d318deb5da1a15603913d2ce55d8a26",
+    "docs/exhaustive_evaluation/learned_rcps_range_registration.json": "5dc2c95a123fcd490ce3e387230d6df4f0d21d1a2b155de82d919011026d4672",
+    "docs/exhaustive_evaluation/learned_rcps_range_results.json": "439024a99442cdf99349b1eac1c9c7ac9096fc66a99a919c1bfe251a7e353e74",
+    "docs/exhaustive_evaluation/learned_rcps_range_status.json": "29720b7a3ff83cc5ed7713ae68b26f30a5290b60436a739109745602563fa465",
+    "docs/exhaustive_evaluation/rcps_range_component_parity.json": "3df2dacde8cb8f0e15b646c3c5bc91d76e3cb58e35c8f348256788517de826d9",
+    "docs/exhaustive_evaluation/RCPS_RANGE_REPORT.md": "71bc8fdfcbf63b82564d45b57645d9ae6a6ebf921cee0cabc9b65365c6224537",
+    "docs/exhaustive_evaluation/HSU_SHEKHAR_APPLICABILITY.md": "63fd5ec5430f6fc1098f150dd1281836e04502344c93953a4512bc4cffe7c715",
+    "docs/exhaustive_evaluation/BASELINE_COVERAGE.md": "61cfb88dca48d98923cc516c627c17e6548904812a27b91e6531502b9b89271e",
+    "outputs/exhaustive_evaluation/learned_rcps_range/harmful_000.npz": "7c3872db7a8b60d487dc87a37657460dae414b14d5f937b106e0cc3bbf2b016c",
+    "outputs/exhaustive_evaluation/learned_rcps_range/harmful_after_shift_000.npz": "1a72dc8c01ae5ef14721507809867f853c601e6082ef6c447827d20e4df9079c",
+    "outputs/exhaustive_evaluation/learned_rcps_range/late_000.npz": "98cef065c4adf3d7ea64c04edb657036e9e57f06411c597339016cc52d481700",
+    "outputs/exhaustive_evaluation/learned_rcps_range/reversal_000.npz": "2ddf83b20e466e40a168b7fb108db5236c2e979068ff4f7854f6db74cdf9df71",
+    "outputs/exhaustive_evaluation/learned_rcps_range/small_000.npz": "ce5e11ad50ab91431bc6c53d54cd0eb8022afb902e6034cb95c293d65cc545fc",
+    "outputs/exhaustive_evaluation/learned_rcps_range/tie_000.npz": "7b210c50da0b2f2ea71f951f61e60350b810a29cc5529cd18e028bd41b14317a",
+    "outputs/exhaustive_evaluation/learned_rcps_range/useful_000.npz": "1621a2de99fe0d78c40c71bc7f7bba89e4a00324c7b16509736d6281f15b22bf",
+    "outputs/exhaustive_evaluation/learned_rcps_range/useful_initial_000.npz": "0b483b8444aeeaa53b5d61a93db9f6909b7b2ed7da9e40092c1a4ba27f2898b3"
+  }
+}

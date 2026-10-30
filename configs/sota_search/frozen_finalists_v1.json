@@ -1,0 +1,25 @@
+{
+  "frozen_on": "2026-10-30",
+  "selected_from": "development pool only (docs/sota_synthetic_search/09_NOVELTY_FIX_DESIGNS.md rule, scripts/sota_search/analyze_fixes.py)",
+  "heldout": {"pool": "harness.heldout_pool()", "seeds": 400, "seed_block": 5000, "label_seed_block": 5500, "used_for_selection": false},
+  "fracs": [0.10, 0.20],
+  "delay": 5,
+  "tol": 0.0,
+  "finalists": {
+    "DK_cost": {"detector": "fix_cost", "params": {"gamma": 0.995}, "parent": "pp_cost_tight"},
+    "HG_brier": {"detector": "fix_brier", "params": {"gamma": 0.99, "gate_w": 100}, "parent": "pprm_tight"},
+    "BD_cost": {"detector": "fix_cost", "params": {"gamma": 0.99, "alloc": [1.0, 0.5]}, "parent": "pp_cost_tight", "marginal_control": {"detector": "fix_cost", "params": {"gamma": 0.99}}}
+  },
+  "comparators": {
+    "pprm_tight": {"detector": "pprm_tight", "params": {}},
+    "pp_cost_tight": {"detector": "pp_cost_tight", "params": {}},
+    "page_hinkley": {"detector": "page_hinkley", "params": {"delta": 0.05}, "calibration": "null stream, 1-alpha quantile of horizon max"},
+    "cusum": {"detector": "cusum", "params": {"slack": 0.25}, "calibration": "null stream, 1-alpha quantile of horizon max"}
+  },
+  "decision_rule": {
+    "improvement_over_parent": "mean harm-world power gain >= 0.05, no harm world worse by more than 0.05, mean benign-world false alarm increase <= 0.02, null false alarm <= 0.07",
+    "beyond_strongest_valid_baseline": "same rule against pprm_tight at identical frac/delay/tol",
+    "versus_page_hinkley": "reported as Pareto (power, benign false alarm, harm before alarm); no dominance claimed unless better on all three",
+    "no_retuning": true
+  }
+}

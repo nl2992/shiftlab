@@ -1,0 +1,14 @@
+{
+  "status": "analyzed",
+  "primary_paired_delta": -75.89192124999873,
+  "paired_normal_95_interval": [
+    -76.70114866729429,
+    -75.08269383270317
+  ],
+  "relative_cost_reduction": 0.2709285964742196,
+  "practical_gate_pass": true,
+  "safety_gate_pass": true,
+  "reversal_mean_excess": 4.639629000002218,
+  "adversarial_gate_pass": true,
+  "scope": "restricted synthetic component confirmation, not real transfer or novelty"
+}

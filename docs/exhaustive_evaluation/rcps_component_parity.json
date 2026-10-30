@@ -1,0 +1,13 @@
+{
+  "status": "fixed_target_component_parity_pass",
+  "max_logwealth_error": 1.3322676295501878e-15,
+  "source_commit": "a67f85d603df2bb3e32ef007f445191923ebd990",
+  "delay": 1,
+  "not_verified": [
+    "full simulation reproduction",
+    "RCPS grid inversion",
+    "learned query policy",
+    "hard-cap extension theorem",
+    "original-code parity for delay > 1"
+  ]
+}

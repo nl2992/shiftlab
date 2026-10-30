@@ -1,0 +1,12 @@
+{
+  "status": "passed",
+  "updates": 160,
+  "maximum_errors": {
+    "q": 5.551115123125783e-17,
+    "cv": 1.1102230246251565e-16,
+    "mean_weights": 1.1102230246251565e-16,
+    "variance_weights": 1.1102230246251565e-16,
+    "normalizer": 2.220446049250313e-16
+  },
+  "scope": "source-as-written fixed beta=.5 with three knots; query/CV and learning/normalization parity, not grid inversion or delayed theorem"
+}

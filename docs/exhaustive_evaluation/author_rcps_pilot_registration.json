@@ -1,0 +1,38 @@
+{
+  "registered_utc": "2026-10-30T14:48:18.241565+00:00",
+  "stage": "native-task descriptive pilot, NOT paper-scale reproduction or cost-switching confirmation",
+  "seeds": [
+    17,
+    29,
+    43
+  ],
+  "parameters": {
+    "label_ct": 200,
+    "theta": 0.05,
+    "q_min": 0.1,
+    "target_rate": 0.3,
+    "beta_dim": 3,
+    "est_loss_dim": 3
+  },
+  "source_commit": "a67f85d603df2bb3e32ef007f445191923ebd990",
+  "primary": "reported and actual certified beta at equal200 labels; all6 arms, no selection",
+  "truth": "native p uniform[0,1], Y|p Bernoulli(p); risk(beta)=(1-beta)^2/2; beta_star=1-sqrt(2theta)",
+  "limits": "three seeds cannot validate alpha; no delay, no deployment switches; original expected-budget normalization retained; nominal label-all arm queries every observation",
+  "repairs": "same declared inactive-branch syntax/type repairs as original smoke; original source unchanged",
+  "source_hashes": {
+    "scripts/exhaustive_evaluation/pilot_author_rcps.py": "8f205abddb5c2b12399a3057866a7dde0f7bf26ac0ee0df0f687dd5cecc4fd0e",
+    "scripts/exhaustive_evaluation/smoke_author_rcps.py": "243f4933f3a0fcf1c7db49ca10aa7861904d57fe14ca2698f82fb1efc39cb967",
+    "outputs/exhaustive_evaluation/active-rcps/cocob.py": "43e0c9ac27885830531e5c7281b5257150d79b9de1cf722d8200a42667402ed4",
+    "outputs/exhaustive_evaluation/active-rcps/Features.py": "688861f622fbdbffe739bd6be41fae5d4ba38d811177a00ef04c7bc7651ca908",
+    "outputs/exhaustive_evaluation/active-rcps/imagenet_v2.py": "3a167aaa88bf1f15e1b004204015bbf30afe1118fb714f9cb782c601b7066d9b",
+    "outputs/exhaustive_evaluation/active-rcps/IwUpperMartingale.py": "675d6225f43d71e06349deef5e282fa6778edc6916bca21818715e070e7e5937",
+    "outputs/exhaustive_evaluation/active-rcps/load_data.py": "22ac5e2cf5f75f59cde35f088f4ee79ef3fae5023762a1696125994b8c446f91",
+    "outputs/exhaustive_evaluation/active-rcps/LogisticRegression.py": "8916d9d020c4b8d0ba800d4e54584d74e8304b5c03b12354684fe79ecaabd45c",
+    "outputs/exhaustive_evaluation/active-rcps/OnlineMinimax.py": "433d265207985963d7cbac5eb2dd1bf7abb458c9883cee9b34985a0e7d829cbd",
+    "outputs/exhaustive_evaluation/active-rcps/Player.py": "4fa11f645f1af22906b75ac303b905494a3839afeefbc477c9aa60fead8bdf97",
+    "outputs/exhaustive_evaluation/active-rcps/Predictor.py": "5c50c19323f7fc24229685075876a58c130abb8be21dc4f8aebafa3f52841740",
+    "outputs/exhaustive_evaluation/active-rcps/Risk.py": "973526dbb94687c60bac54820088fbf28a8f9e735ce248fade1824a94e84deb7",
+    "outputs/exhaustive_evaluation/active-rcps/simulation.py": "f8e60d2cc153f34ffe85af9d7f4823ad4e66b4ff09bd2a3b4384cb3421a50e8f",
+    "outputs/exhaustive_evaluation/active-rcps/visualize.py": "d684e0262e05ee899eb8be92df69dd2284d526a7ed1818b67a191433d645d63c"
+  }
+}

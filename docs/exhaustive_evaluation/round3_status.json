@@ -1,0 +1,56 @@
+{
+  "status": "completed",
+  "started_utc": "2026-10-30T09:11:31.669318+00:00",
+  "registration_sha256": "6e5bda63363cf10495df3cc4b5e8059b5d47bbf382ad3035b0e00186a398d18e",
+  "completed_cases": [
+    {
+      "case": "00_harmful_d5",
+      "configurations": 648,
+      "seconds": 10.264395300066099
+    },
+    {
+      "case": "01_tie_d5",
+      "configurations": 648,
+      "seconds": 10.895396400010213
+    },
+    {
+      "case": "02_identical_d5",
+      "configurations": 648,
+      "seconds": 9.953316299943253
+    },
+    {
+      "case": "03_useful_initial_d5",
+      "configurations": 648,
+      "seconds": 10.106320299906656
+    },
+    {
+      "case": "04_useful_d5",
+      "configurations": 648,
+      "seconds": 9.945622800150886
+    },
+    {
+      "case": "05_small_d5",
+      "configurations": 648,
+      "seconds": 10.22055960004218
+    },
+    {
+      "case": "06_late_d5",
+      "configurations": 648,
+      "seconds": 10.626925399992615
+    },
+    {
+      "case": "07_reversal_d5",
+      "configurations": 648,
+      "seconds": 9.972445799969137
+    },
+    {
+      "case": "08_useful_d24",
+      "configurations": 648,
+      "seconds": 10.018364799907431
+    }
+  ],
+  "finished_utc": "2026-10-30T09:13:03.678372+00:00",
+  "effective_configurations": 648,
+  "config_case_evaluations": 5832,
+  "metrics_sha256": "af8cd8df25571c0dc11be2d1932bb5551c59fcd60adc68de5485a5fce845c50d"
+}

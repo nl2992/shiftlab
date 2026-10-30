@@ -9,5 +9,18 @@
 *.zip binary
 # Preserve byte-exact experiment artifacts because their manifests hash file bytes.
 outputs/direct_ipw_query_*/** -text -eol
+# These registrations/results contain byte hashes of executed source and outputs.
+docs/exhaustive_evaluation/** -text -eol whitespace=cr-at-eol
+# Reports retain literal pandas-aligned console tables, including padded headers.
+docs/exhaustive_evaluation/*REPORT*.md whitespace=-blank-at-eol,cr-at-eol
+docs/risk_preserving_approx/** -text -eol whitespace=cr-at-eol
+outputs/exhaustive_evaluation/round1/** -text -eol whitespace=cr-at-eol
+outputs/exhaustive_evaluation/round1_corrected/** -text -eol whitespace=cr-at-eol
+outputs/exhaustive_evaluation/round2/** -text -eol whitespace=cr-at-eol
+outputs/exhaustive_evaluation/real_development/** -text -eol whitespace=cr-at-eol
+outputs/exhaustive_evaluation/cusum_comparison/** -text -eol whitespace=cr-at-eol
+outputs/exhaustive_evaluation/cusum_strict/** -text -eol whitespace=cr-at-eol
+outputs/exhaustive_evaluation/learned_rcps_development/** -text -eol whitespace=cr-at-eol
+outputs/exhaustive_evaluation/learned_rcps_range/** -text -eol whitespace=cr-at-eol
 *.bat text eol=crlf
 *.cmd text eol=crlf

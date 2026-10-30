@@ -259,6 +259,10 @@ def _pp_parts(sim, frac, lseed, risk, q, mask, tol, uniform_cap=False):
     else:
         proxy, r, m = p * (1 - p), sim["brier"], 1.0
     r0 = source_moments(_family(sim))["loss" if risk == "cost" else "brier"][0]
+    if (
+        risk == "cost" and sim.get("r0_cost") is not None
+    ):  # nominal-risk upper bound from a calibration sample
+        r0 = sim["r0_cost"]
     x = proxy + (qm / qv) * (r - proxy) - r0 - tol
     loose = m * (2.0 / qv - 1.0) + m  # symmetric worst-case range (initial implementation)
     # one-sided exact minimum of the increment: label queried with zero loss (R=0), predictable from proxy and q

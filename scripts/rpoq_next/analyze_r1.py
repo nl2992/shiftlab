@@ -49,5 +49,6 @@ for frac in (0.05, 0.20):
     print(f"budget {frac:.0%}: best bets {best}; best baseline = {base}")
     for a, vals in m.items():
         print(f"   {a:12s} LW={np.mean(list(vals.values())):7.2f}  crossing={cr[a]:.2f}")
-    print("   Delta growth - best baseline: %.2f [%.2f, %.2f]" % out[str(frac)]["delta"])
+    d, lo, hi = out[str(frac)]["delta"]
+    print(f"   Delta growth - best baseline: {d:.2f} [{lo:.2f}, {hi:.2f}]")
 Path("outputs/rpoq_next/r1/summary.json").write_text(json.dumps(out, indent=2))

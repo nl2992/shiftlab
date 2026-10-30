@@ -75,11 +75,14 @@ class SequenceFlow:
 
 
 class CausalSwitchingGame:
-    def __init__(self, config: GameConfig, model: RegimeModel):
+    def __init__(self, config: GameConfig, model: RegimeModel, *, exact_coefficients: bool = False):
         self.config, self.model = config, model
         self.learner, self.opponent = SequenceFlow(), SequenceFlow()
-        self.cost: dict[int, float] = defaultdict(float)
-        self.risk: dict[tuple[int, int], float] = defaultdict(float)
+        self.exact_coefficients = exact_coefficients
+        self.cost: dict[int, float | F] = defaultdict(F if exact_coefficients else float)
+        self.risk: dict[tuple[int, int], float | F] = defaultdict(
+            F if exact_coefficients else float
+        )
         self.nodes = 0
         self.built = False
 
@@ -101,7 +104,9 @@ class CausalSwitchingGame:
         self._node()
         time = len(history) + 1
         if time > self.config.horizon:
-            self.cost[sequence] += float(weight * total_cost)
+            self.cost[sequence] += (
+                weight * total_cost if self.exact_coefficients else float(weight * total_cost)
+            )
             return
         state1 = self.model.propagate(posterior, 1)
         positive = self.model.emission(state1)
@@ -137,7 +142,9 @@ class CausalSwitchingGame:
         for (action, query), child in zip(choices, children, strict=True):
             if action:
                 # The first promotion determines the event; later choices cannot undo it.
-                self.risk[child, opponent_sequence] += float(weight)
+                self.risk[child, opponent_sequence] += (
+                    weight if self.exact_coefficients else float(weight)
+                )
                 continue
             next_history = history + ((action, query),)
             if query:
@@ -334,7 +341,10 @@ class CausalSwitchingGame:
         n_x, n_y = self.learner.count, self.opponent.count
         indices = list(self.risk)
         null_payoff = coo_matrix(
-            ([self.risk[k] for k in indices], ([k[0] for k in indices], [k[1] for k in indices])),
+            (
+                [float(self.risk[k]) for k in indices],
+                ([k[0] for k in indices], [k[1] for k in indices]),
+            ),
             shape=(n_x, n_y),
         ).tocsr()
         objective = np.zeros(n_x + len(f))

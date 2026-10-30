@@ -882,3 +882,42 @@
 - The graph had exactly 4,867 decision states and 4,866 transitions, equal to the 4,867 public-history states in the matched Candidate E count output; ratio `1`. Candidate B's sequence-form LP had 13,420 pre-promotion realization columns. Belief construction took 0.340 seconds with exact fractions, but it did not reduce the decision graph by the preregistered 50% threshold. No LP or policy was solved.
 - Decision: close exact belief-state **compression** as registered; preserve its screen and do not optimize parameters. A distinct follow-up could replace the IID relaxation's sequence-form LP with scalarized Bellman DP on this same graph, but that is the standard constrained-POMDP Lagrangian/dynamic-programming reduction (see Isom, Meyn & Braatz 2008 and Poupart et al. 2011). Before implementation, complete the exact source-matched equivalence audit and determine whether any implementation-specific computational delta can be justified without claiming methodological novelty. Real data and holdouts remain closed.
 - Protocol, runner and output: `CANDIDATE_G_IID_BELIEF_COMPRESSION_PROTOCOL_V1.md`, `scripts/research_risk_approx/screen_candidate_g_iid_beliefs.py`, and `candidate_g_iid_belief_screen_v1.json`.
+
+## 2026-10-29 — Candidate G scalarized Bellman DP source match and screen
+
+- Exact source audit: for each fixed multiplier, minimizing alternative expected
+  cost plus multiplier times IID first-promotion risk is a finite-horizon
+  constrained-POMDP scalar-reward Bellman problem on the hidden-root belief,
+  with request budget, delayed-label queue and alternative continuation
+  included. This is the standard constrained-POMDP dynamic-programming
+  construction of Isom, Meyn & Braatz (AAAI 2008) and Kim et al. (IJCAI 2011).
+  No novel recurrence, compact state count or robust-null guarantee follows.
+  Full-null verification and root safety repair remain the existing Candidate B
+  composition. Audit: `CANDIDATE_G_SCALARIZED_DP_EQUIVALENCE_AUDIT_V1.md`.
+- Registered one fixed-cell comparison in
+  `CANDIDATE_G_SCALARIZED_DP_SCREEN_PROTOCOL_V1.md` before its successful
+  execution. Exact belief graph reproduced 4,867 states and 4,866 edges.
+  Across multipliers `{0,1,2,4,8,16,32}`, Bellman values matched independent
+  exact cost-plus-IID-risk calculations. A root mixture of lambda 4 and 8 had
+  cost `51237636737353/12207031250000` and exact full causal-null risk `1/10`;
+  maximum deterministic component query count was 4. This cost beats the best
+  calendar (`20670239089321/4882812500000`) but ties Candidate B and the
+  decomposed exact reference.
+- End-to-end time was 60.7995 seconds, peak RSS 223,936,512 bytes, exceeding the
+  registered 29.0069-second threshold (half the 58.0139-second decomposed
+  reference time). The screen therefore fails its compute gate; Candidate G's
+  scalarized implementation is closed as a lead and retained only as a
+  constrained-POMDP comparator. No G1 novelty delta or G3 win over the strongest
+  baseline is established. The first two executions failed before writing an
+  output artifact (a tuple/scalar recursion bug, then an import-path error); the
+  corrected third execution is the sole result artifact.
+- Reproduction: `uv run python
+  scripts/research_risk_approx/run_candidate_g_scalarized_dp_screen.py`.
+  Result: `candidate_g_scalarized_dp_screen_v1.json`; protocol SHA-256
+  `395b4a13da8f9413d8b4502b365c2170614ea9c1c876ad97dafaf5f42942f1a8`, runner
+  SHA-256 `57b2f0d618a1c55cf459644a8364dc4b6a3f3bf04c193522ec7bdf9127950037`,
+  result SHA-256
+  `0943d4cbff4c09bbe1cb26e2c6a61525577861f97bde179ae569f722fd053e79`.
+  Synthetic model only; no real rows, new seeds or holdouts accessed. Next:
+  pursue a structurally different implicit optimization mechanism before any
+  wider synthetic evaluation. G1–G3 remain open.

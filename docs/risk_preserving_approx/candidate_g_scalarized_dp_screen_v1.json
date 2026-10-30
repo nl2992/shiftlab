@@ -1,0 +1,213 @@
+{
+  "status": "completed",
+  "decision": "close_scalarized_dp_route",
+  "protocol": "CANDIDATE_G_SCALARIZED_DP_SCREEN_PROTOCOL_V1.md",
+  "protocol_sha256": "395b4a13da8f9413d8b4502b365c2170614ea9c1c876ad97dafaf5f42942f1a8",
+  "runner_sha256": "57b2f0d618a1c55cf459644a8364dc4b6a3f3bf04c193522ec7bdf9127950037",
+  "baseline_sha256": "d50e5af537a09ad7e1fe6dfe8ce9a4183e9fedeb181ec15f7cbbd79fb26c1cb2",
+  "belief_screen_sha256": "aeffb02c307d2ba3b1902bca9d99548a8c1bb79fa78bfea172adc47dc42b7453",
+  "source_hashes": {
+    "belief_graph_runner": "f8f71f475903e31af1ef01462c82b0ec5601f267affd1b8aaa758fd1852043ed",
+    "iid_pipeline": "630e2b5b0874e48f5f5e677aa736d32aba1f60de84aa32a416be7f84fd66497a",
+    "first_promotion_decomposition": "838bab025e72bb637a4b45df38f7e8ddf048d133462b20d0dff295cc09a86d75",
+    "causal_switching_game": "54b1347c3e213407b3feb09a801dc9ea40b3663fe6a4a227b7878b9b0a2d770a"
+  },
+  "config": {
+    "horizon": 10,
+    "budget": 4,
+    "delay": 2,
+    "alpha": "1/10",
+    "query_cost": "1/100",
+    "switch_cost": "1/10",
+    "transition": "1/10",
+    "emissions": [
+      "1/50",
+      "49/50"
+    ],
+    "prior": "1/2",
+    "max_nodes": 200000,
+    "seeds": [],
+    "data_access": "synthetic model only; no real rows or holdouts"
+  },
+  "multipliers": [
+    "0",
+    "1",
+    "2",
+    "4",
+    "8",
+    "16",
+    "32"
+  ],
+  "belief_graph_states": 4867,
+  "belief_graph_transitions": 4866,
+  "decision_results": [
+    {
+      "lambda": "0",
+      "scalarized_bellman_value": "9463/3125",
+      "independent_scalarized_value": "9463/3125",
+      "alternative_cost": "9463/3125",
+      "iid_risk": "15/16",
+      "causal_null_risk": "15/16",
+      "dual_lower_bound": "9463/3125",
+      "iid_verifier_states": 19,
+      "causal_null_verifier_states": 19,
+      "decision_states_evaluated": 4867
+    },
+    {
+      "lambda": "1",
+      "scalarized_bellman_value": "4711963777713/1220703125000",
+      "independent_scalarized_value": "4711963777713/1220703125000",
+      "alternative_cost": "987256081147/305175781250",
+      "iid_risk": "5/8",
+      "causal_null_risk": "5/8",
+      "dual_lower_bound": "4589893465213/1220703125000",
+      "iid_verifier_states": 28,
+      "causal_null_verifier_states": 28,
+      "decision_states_evaluated": 4867
+    },
+    {
+      "lambda": "2",
+      "scalarized_bellman_value": "41824279951/9765625000",
+      "independent_scalarized_value": "41824279951/9765625000",
+      "alternative_cost": "36941467451/9765625000",
+      "iid_risk": "1/4",
+      "causal_null_risk": "1/4",
+      "dual_lower_bound": "39871154951/9765625000",
+      "iid_verifier_states": 32,
+      "causal_null_verifier_states": 32,
+      "decision_states_evaluated": 4867
+    },
+    {
+      "lambda": "4",
+      "scalarized_bellman_value": "5594941512797/1220703125000",
+      "independent_scalarized_value": "5594941512797/1220703125000",
+      "alternative_cost": "4984589950297/1220703125000",
+      "iid_risk": "1/8",
+      "causal_null_risk": "1/8",
+      "dual_lower_bound": "5106660262797/1220703125000",
+      "iid_verifier_states": 49,
+      "causal_null_verifier_states": 49,
+      "decision_states_evaluated": 4867
+    },
+    {
+      "lambda": "8",
+      "scalarized_bellman_value": "23771503285571/4882812500000",
+      "independent_scalarized_value": "23771503285571/4882812500000",
+      "alternative_cost": "21330097035571/4882812500000",
+      "iid_risk": "1/16",
+      "causal_null_risk": "1/16",
+      "dual_lower_bound": "19865253285571/4882812500000",
+      "iid_verifier_states": 64,
+      "causal_null_verifier_states": 64,
+      "decision_states_evaluated": 4867
+    },
+    {
+      "lambda": "16",
+      "scalarized_bellman_value": "5",
+      "independent_scalarized_value": "5",
+      "alternative_cost": "5",
+      "iid_risk": "0",
+      "causal_null_risk": "0",
+      "dual_lower_bound": "17/5",
+      "iid_verifier_states": 11,
+      "causal_null_verifier_states": 11,
+      "decision_states_evaluated": 4867
+    },
+    {
+      "lambda": "32",
+      "scalarized_bellman_value": "5",
+      "independent_scalarized_value": "5",
+      "alternative_cost": "5",
+      "iid_risk": "0",
+      "causal_null_risk": "0",
+      "dual_lower_bound": "9/5",
+      "iid_verifier_states": 11,
+      "causal_null_verifier_states": 11,
+      "decision_states_evaluated": 4867
+    }
+  ],
+  "robust_feasible_candidates": [
+    {
+      "name": "lambda_0_safe_repair",
+      "cost": "374193/78125",
+      "iid_risk": "1/10",
+      "risk": "1/10"
+    },
+    {
+      "name": "lambda_1_safe_repair",
+      "cost": "17996240677919/3814697265625",
+      "iid_risk": "1/10",
+      "risk": "1/10"
+    },
+    {
+      "name": "lambda_2_safe_repair",
+      "cost": "110183654951/24414062500",
+      "iid_risk": "1/10",
+      "risk": "1/10"
+    },
+    {
+      "name": "lambda_4_safe_repair",
+      "cost": "6510468856547/1525878906250",
+      "iid_risk": "1/10",
+      "risk": "1/10"
+    },
+    {
+      "name": "lambda_8",
+      "cost": "21330097035571/4882812500000",
+      "iid_risk": "1/16",
+      "risk": "1/16"
+    },
+    {
+      "name": "lambda_16",
+      "cost": "5",
+      "iid_risk": "0",
+      "risk": "0"
+    },
+    {
+      "name": "lambda_32",
+      "cost": "5",
+      "iid_risk": "0",
+      "risk": "0"
+    },
+    {
+      "name": "root_mix_lambda_4_8",
+      "cost": "51237636737353/12207031250000",
+      "iid_risk": "1/10",
+      "risk": "1/10"
+    },
+    {
+      "name": "never_promote",
+      "cost": "5",
+      "iid_risk": "0",
+      "risk": "0"
+    }
+  ],
+  "selected": {
+    "name": "root_mix_lambda_4_8",
+    "cost": "51237636737353/12207031250000",
+    "iid_risk": "1/10",
+    "risk": "1/10"
+  },
+  "max_queries_on_deterministic_paths": 4,
+  "calendar_cost": "20670239089321/4882812500000",
+  "calendar_schedule": [
+    1,
+    2,
+    3,
+    4
+  ],
+  "dual_lower_bound": "5106660262797/1220703125000",
+  "certified_gap_upper": "171034109383/12207031250000",
+  "end_to_end_seconds": 60.7994841998443,
+  "runtime_threshold_seconds": 29.006934450007975,
+  "rss_delta_bytes": 45846528,
+  "peak_rss_bytes": 223936512,
+  "baseline_reference_seconds": 58.01386890001595,
+  "baseline_candidate_seconds": 114.84486029995605,
+  "pass_utility": true,
+  "pass_runtime": false,
+  "pass_budget": true,
+  "pass_risk": true,
+  "pass": false,
+  "claim_scope": "one-cell implementation comparison; established CPOMDP reduction; no novelty claim"
+}

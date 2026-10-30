@@ -22,6 +22,56 @@ of each difference, proof adaptation and the missing lemma; only then decide
 proved equivalent, proved distinct, unresolved or falsified. Candidate A has not
 yet provided that theorem or representation.
 
+## Candidate G: scalarized Bellman DP for the IID relaxation (2026-10-29)
+
+For a fixed multiplier, the IID-relaxed objective is a scalar reward on a finite
+POMDP whose belief includes the hidden alternative-versus-IID root mode, regime,
+and pending labels. Time, remaining query rights, deployment and the existing
+exact post-promotion alternative continuation complete the state. This is a
+standard constrained-POMDP Lagrangian/dynamic-programming reduction, not a new
+recurrence. Isom, Meyn & Braatz give exact dynamic-programming updates for
+constrained POMDPs ([AAAI 2008](https://cdn.aaai.org/AAAI/2008/AAAI08-046.pdf));
+Kim et al. give exact and approximate dynamic programming for randomized
+constrained-POMDP policies ([IJCAI 2011](https://ijcai.org/proceedings/2011/329)).
+
+The ShiftLab model-specific implementation retained the standard null-model
+limitation: it optimized IID risk, not the full causal-null supremum, so exact
+null verification and root safety repair remained mandatory. A fixed-grid root
+mixture exactly matched the known Candidate B/reference cost and risk and beat
+the best calendar cost on one synthetic instance. Its 60.7995-second end-to-end
+time failed the preregistered 29.0069-second threshold and was slower than the
+58.0139-second decomposed reference. The reachable belief graph also had the
+same 4,867 decision states as the public-history tree. Thus the candidate has
+neither a source-level novelty delta nor a measured end-to-end computational
+advantage. Close it as a lead; retain the code/result as a comparator. See the
+exact audit, frozen screen protocol and result artifact for complete hashes and
+metrics.
+
+## Candidate G: scalarized Bellman DP for the IID relaxation (2026-10-29)
+
+For a fixed multiplier, the IID-relaxed objective is a scalar reward on a finite
+POMDP whose belief includes the hidden alternative-versus-IID root mode, regime,
+and pending labels. Time, remaining query rights, deployment and the existing
+exact post-promotion alternative continuation complete the state. This is a
+standard constrained-POMDP Lagrangian/dynamic-programming reduction, not a new
+recurrence. Isom, Meyn & Braatz give exact dynamic-programming updates for
+constrained POMDPs ([AAAI 2008](https://cdn.aaai.org/AAAI/2008/AAAI08-046.pdf));
+Kim et al. give exact and approximate dynamic programming for randomized
+constrained-POMDP policies ([IJCAI 2011](https://ijcai.org/proceedings/2011/329)).
+
+The ShiftLab model-specific implementation retained the standard null-model
+limitation: it optimized IID risk, not the full causal-null supremum, so exact
+null verification and root safety repair remained mandatory. A fixed-grid root
+mixture exactly matched the known Candidate B/reference cost and risk and beat
+the best calendar cost on one synthetic instance. Its 60.7995-second end-to-end
+time failed the preregistered 29.0069-second threshold and was slower than the
+58.0139-second decomposed reference. The reachable belief graph also had the
+same 4,867 decision states as the public-history tree. Thus the candidate has
+neither a source-level novelty delta nor a measured end-to-end computational
+advantage. Close it as a lead; retain the code/result as a comparator. See the
+exact audit, frozen screen protocol and result artifact for complete hashes and
+metrics.
+
 ## Candidate B: IID relaxation plus exact causal-null verification (2026-10-29)
 
 The tested pipeline minimizes alternative cost subject to learner flow constraints

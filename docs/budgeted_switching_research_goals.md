@@ -3148,3 +3148,16 @@ the finite benchmark. Source limitation: RAO* full text/proof not inspected in t
   method, or progress toward G2. The strongest multi-change/delayed-budget baselines remain
   mandatory; arbitrary recurrence by itself is not a novelty assumption. G2–G5 and holdouts remain
   held. Historical promotion evidence still cannot certify current-regime benefit after reversal.
+
+### G1 source refresh: 2025–2026 paid observation and delay methods 2026-10-30
+
+- Inspected the primary texts for Gong–Zhang (ICML 2026), Qiu et al. (ICML 2026), and Ryabchenko,
+  Attias, and Roy (COLT 2025). Their protocols/theorems directly cover paid action-loss observation
+  with a finite free-observation budget, dynamic regret with time-varying movement costs and delayed
+  full gradients, and capacity-constrained delayed-feedback scheduling, respectively.
+- `switching_recent_paid_delay_movement_prior_audit_v1.md` records theorem-level scope and precise
+  mismatches. This materially raises the novelty bar: simple composition is not a contribution.
+  The residual candidate must prove an advantage under the joint selective paired-label, delayed
+  release, request-time total-cap, reversible deployment-value, and anytime conditional-null risk
+  contract against each applicable source method and the exact two-law oracle. The mismatch itself
+  is not a novelty result; no candidate or experiment is authorized by this source refresh.

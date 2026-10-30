@@ -3038,3 +3038,19 @@ the finite benchmark. Source limitation: RAO* full text/proof not inspected in t
   randomized execution/intervention log meeting that contract, or explicitly scope a
   simulation-only causal design. Historical promotion evidence and post-reversal current-regime
   value forecasts remain separate.
+
+### Dataset interpretation correction 2026-10-30
+
+- The user clarified that many datasets have already been pulled locally. Re-screening the existing
+  data notes shows a viable, deliberately narrower local finance task: Binance ETHUSDT hourly data
+  can evaluate fee-adjusted account utility of the frozen 24-bar/168-bar long-flat strategies under
+  a common exogenous return path, full fills, zero market impact, and the documented fee assumption.
+- Do not describe this as historical randomized assignment, market-impact evaluation, or a natural
+  label-acquisition budget. Any online randomized policy has known protocol propensities; the
+  offline replay is paired policy scoring, and the hard review budget is imposed. 2025 remains
+  exposed development; do not access the 2026 holdout before a separate committed protocol freeze.
+- This supersedes the preceding entry's claim that no eligible local real-data path exists. AHL
+  access remains relevant for stronger execution/market-impact claims. See the correction at the top
+  of the data-eligibility section in `g1_intersection_task_contract_screen_v1.md`. The annotation's
+  caution remains controlling: historical evidence accumulated before a reversal cannot certify
+  current-regime benefit after that reversal.

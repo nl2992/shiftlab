@@ -2973,3 +2973,31 @@ the finite benchmark. Source limitation: RAO* full text/proof not inspected in t
   oracle and matched established control methods.
 - Promotion-risk evidence still concerns the declared historical test-epoch null. Forecasts of
   current-regime benefit after reversal remain a separate quantity.
+
+### G1 candidate inventory audit: no live method hypothesis 2026-10-29
+
+- Rechecked the current candidate ledger after the monotone-route closure. The remaining named
+  constructions have registered boundaries: generic belief compression/finite-memory FSC,
+  first-promotion decomposition, promotion/rollback budget splitting, delayed-HMM confidence-set
+  acquisition, movement-compatible query/action coupling, and the monotone-event reduction each
+  reduce to established planning/testing or have an exact counterexample/no-go. The checked
+  entry points are `switching_belief_compression_candidate_audit_v1.md`,
+  `switching_first_promotion_xp_complexity_v1.md`,
+  `switching_reversal_budget_frontier_candidate_v1.md`,
+  `switching_hmm_predictive_cs_candidate_v1.md`,
+  `switching_transport_acquisition_candidate_v1.md`, and
+  `switching_query_conditioned_deployment_extension_screen_v1.md`.
+- Therefore there is currently **no live G1 algorithm hypothesis** to take into G2. This is a
+  hypothesis-revision gate, not completion of the research objective and not permission to polish
+  a benchmark paper. Do not start efficacy or real-data runs until a new candidate states (i) the
+  changed information/model assumption, (ii) its decision and risk estimands, (iii) a source-audited
+  distinction from the appropriate controlled-sensing / sequential-design / robust-planning
+  composition, and (iv) a theorem target that is not already the exact finite-horizon oracle.
+- The existing real-data eligibility audit still finds no untouched dataset with verified
+  point-in-time features, label availability timing, a common paired outcome, and defensible
+  costs; CRSP remains development-only under imposed daily timing assumptions. A real-data run
+  cannot compensate for the missing G1 method theorem.
+- Current-regime predictive forecasts remain separate from historical promotion evidence and
+  post-reversal rollback loss. G1 remains active at the program level but has no candidate; G2–G5
+  are held. Next action is to introduce a genuinely new structural assumption/task or stop this
+  methodological direction, then reopen source review only around that precise delta.

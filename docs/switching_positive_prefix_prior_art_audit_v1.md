@@ -40,14 +40,16 @@ stopping; the finite adaptive-versus-deterministic-calendar separation is not a 
 mechanism.
 
 The registered script and independent exact verifier were rerun on 2026-10-29 after refreshing
-source hashes. The verifier confirms exact risk/cost reconstruction, all 26 rational calendar
-dual certificates, and the certified positive gap from the deterministic-calendar class. It does
-not certify optimality over every randomized calendar mixture, and the recovered adaptive LP
-optimizer remains numerical. This reinforces the candidate no-go; it does not settle whether a
-different recurrent two-law objective admits a new theorem.
+source hashes. In a subsequent strengthening, the verifier also checks a rational dual certificate
+for the full adaptive terminal-action LP. It brackets the exact adaptive optimum between
+`2.947657499998814...` and the independently evaluated feasible cost `2.9476575`, a width of about
+`1.2e-12`. Since randomized mixtures of fixed calendars are a subset of the adaptive policy class,
+the certificate covers them as well as all deterministic calendars. This closes the finite-cell
+comparator gap; it does not settle whether a different recurrent two-law objective admits a new
+theorem.
 
 ## Registered finite result and implication
 
 In `switching_action_matched_adaptive_acquisition_v1.md`, an explicit positive-prefix policy reproduces the recovered adaptive LP policy exactly in expected metrics and causal-null risk. Rational dual lower bounds for all 26 deterministic terminal calendars are checked without an optimizer, establishing a finite separation from that deterministic class. A feasible static lottery over no query and calendar `(3,4,5)` shows that early stopping after a negative label saves `919/1000` expected queries and `919/100000` cost in the registered cell at the same risk.
 
-This result supplies an acquisition-only structural diagnostic and a strong baseline implementation. It does not beat the established conceptual class of cost-aware sequential/futility designs and does not optimize the full randomized-calendar class. The next G1 step is to formulate a faithful composition of delayed sequential testing, finite-horizon hidden-regime control and the exact causal-null constraint, then search for a theorem or counterexample beyond classical futility stopping. Keep false-promotion validity distinct from evidence of present-regime benefit after a reversal. G1/G2 remain open; G3/G4 remain held.
+This result supplies an acquisition-only structural diagnostic and a strong baseline implementation. It does not beat the established conceptual class of cost-aware sequential/futility designs. The exact adaptive optimum certificate closes the remaining randomized-calendar comparator in this finite cell, but does not create a novelty result. The next G1 step is to formulate a faithful composition of delayed sequential testing, finite-horizon hidden-regime control and the exact causal-null constraint, then search for a theorem or counterexample beyond classical futility stopping. Keep false-promotion validity distinct from evidence of present-regime benefit after a reversal. G1/G2 remain open; G3/G4 remain held.

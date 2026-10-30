@@ -1963,8 +1963,8 @@ the finite benchmark. Source limitation: RAO* full text/proof not inspected in t
 - Reran the registered action-matched acquisition comparison and exact verifier. Source hashes
   now match; exact reconstruction verifies all 26 deterministic-calendar rational dual bounds,
   the adaptive rule's cost `1179063/400000` and causal-null risk `1/10`, and its feasible gap from
-  that deterministic-calendar class. The LP optimizer is still numerical, and this result does
-  not cover every randomized calendar mixture.
+  that deterministic-calendar class. A later adaptive-game dual certificate brackets the full
+  terminal-action optimum to about `1.2e-12`, including randomized calendar mixtures.
 - Primary-text review of Hampson–Jennison (2013) confirms delayed-response group-sequential
   testing with futility/acceptance, pipeline labels, sampling-cost optimization, and backward
   induction; Brown–Rutemiller (1971) directly studies costed early stopping after Bernoulli
@@ -1977,6 +1977,24 @@ the finite benchmark. Source limitation: RAO* full text/proof not inspected in t
   gain in the recurrent delayed two-law problem beyond standard costed sequential design and
   switching control. G2–G5 remain held; no efficacy or real-data study follows from this result.
   Historical promotion validity remains separate from current-regime value after reversal.
+
+### G1 full adaptive terminal-action certificate 2026-10-29
+
+- Extended the action-matched finite acquisition verifier to check a rational dual lower bound for
+  the unrestricted adaptive terminal-action sequence-form LP, not only the 26 fixed-calendar LPs.
+  The exact feasible positive-prefix rule costs `1179063/400000`; the verified lower bound is about
+  `2.947657499998814`, giving a bracket width of roughly `1.2e-12`. The policy makes `1481/1000`
+  expected queries and has exact causal-null risk `1/10`. Every randomized calendar mixture is a
+  subset of this adaptive class, so the comparator gap is now fully resolved for this frozen cell.
+- Reproduction: `uv run python -m scripts.compare_switching_action_matched_adaptive_acquisition`
+  followed by `uv run python -m scripts.verify_switching_action_matched_adaptive_acquisition`.
+  The verifier checks the dual signs and all exact column constraints, independently evaluates the
+  feasible policy's cost and risk, and rechecks all fixed-calendar certificates and code hashes.
+- This closes a finite comparator question only. The optimal rule is the established early-futility
+  group-sequential design already audited in `switching_positive_prefix_prior_art_audit_v1.md`; it
+  is not a new scalable mechanism. G1 remains open for a distinct theorem-backed recurrent
+  delayed-two-law gain; G2–G5 remain held. Current-regime forecasts and promotion risk remain
+  separate after reversal.
 
 ### G1 candidate no-go 2026-10-29: generic finite-window belief compression is established
 

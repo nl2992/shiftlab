@@ -185,9 +185,13 @@ def main():
     )
     adaptive_game = TerminalAdaptiveAcquisition(config, model)
     adaptive = solve_safely(adaptive_game)
+    adaptive_certificate = certify_game(adaptive_game)
     explicit_policy = positive_prefix_futility_policy(adaptive_game)
     explicit_metrics = adaptive_game.expected_metrics(explicit_policy)
     explicit_risk = adaptive_game.null_risk(explicit_policy)
+    explicit_adaptive_upper = sum(explicit_metrics[:3])
+    adaptive_certified_lower = F(adaptive_certificate["lower_bound"])
+    assert adaptive_certified_lower <= explicit_adaptive_upper
     static_lottery_policy = static_cohort_lottery_policy(adaptive_game)
     static_lottery_metrics = adaptive_game.expected_metrics(static_lottery_policy)
     static_lottery_risk = adaptive_game.null_risk(static_lottery_policy)
@@ -202,7 +206,6 @@ def main():
     best = min(fixed, key=lambda row: F(row["calibrated_cost"]))
     gap = F(best["calibrated_cost"]) - F(adaptive["calibrated_cost"])
     best_certified_lower = min(F(row["certificate"]["lower_bound"]) for row in fixed)
-    adaptive_upper = sum(explicit_metrics[:3])
     result = {
         "status": "completed_action_matched_finite_acquisition_ablation",
         "protocol": "docs/switching_action_matched_adaptive_acquisition_v1.md",
@@ -218,6 +221,7 @@ def main():
             "causal_endpoint_null": True,
         },
         "adaptive_acquisition": adaptive,
+        "adaptive_certificate": adaptive_certificate,
         "explicit_positive_prefix_futility_rule": {
             "query_rule": "lottery 4/5 at event 3; query at event 4 iff label 3 is positive; query at event 5 iff labels 3 and 4 are positive",
             "promotion_rule": "promote at event 6 iff labels 3, 4 and 5 are all positive",
@@ -244,11 +248,15 @@ def main():
         ),
         "best_fixed_minus_adaptive_cost": str(gap),
         "certified_best_fixed_lower_bound": str(best_certified_lower),
-        "explicit_adaptive_feasible_upper_bound": str(adaptive_upper),
-        "certified_fixed_class_gap_lower_bound": str(best_certified_lower - adaptive_upper),
+        "adaptive_certified_lower_bound": str(adaptive_certified_lower),
+        "explicit_adaptive_feasible_upper_bound": str(explicit_adaptive_upper),
+        "adaptive_optimum_bracket_width": str(explicit_adaptive_upper - adaptive_certified_lower),
+        "certified_fixed_class_gap_lower_bound": str(
+            best_certified_lower - explicit_adaptive_upper
+        ),
         "all_fixed_calendars": fixed,
-        "interpretation": "All 26 terminal fixed-calendar policies have independently checked rational dual lower bounds. The explicit adaptive positive-prefix policy is feasible with exactly evaluated cost/risk, proving a finite class gap. The reported adaptive LP optimizer remains numerical; this is not a scalable method or novelty result.",
-        "claim_scope": "Certified finite separation from every deterministic calendar with terminal-only action, using rational dual lower bounds and an explicit adaptive feasible policy; not a certified adaptive optimum and not a separation from all randomized calendar mixtures.",
+        "interpretation": "All 26 terminal fixed-calendar policies and the full adaptive terminal-action class have independently checked rational dual lower bounds. The explicit adaptive positive-prefix policy matches the adaptive optimum to the reported certified bracket. Every randomized calendar mixture is contained in the adaptive class. This is a finite exact-oracle result, not a scalable method or novelty result.",
+        "claim_scope": "Certified finite adaptive optimum bracket and separation from every deterministic or randomized fixed-calendar policy with terminal-only action; no scalable method or novelty claim.",
         "sha256": {
             path: hashlib.sha256(Path(path).read_bytes()).hexdigest()
             for path in (

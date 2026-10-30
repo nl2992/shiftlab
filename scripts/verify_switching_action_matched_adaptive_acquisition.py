@@ -127,6 +127,7 @@ def main():
     model = RegimeModel(F(1, 4), F(1, 4), F(1, 20), F(19, 20), F(1, 2))
     adaptive_game = TerminalAdaptiveAcquisition(config, model)
     adaptive_metrics, adaptive_risk = verify_one(adaptive_game, result["adaptive_acquisition"])
+    adaptive_lower = verify_dual(adaptive_game, result["adaptive_certificate"])
     explicit_policy = positive_prefix_futility_policy(adaptive_game)
     explicit_metrics = adaptive_game.expected_metrics(explicit_policy)
     explicit_risk = adaptive_game.null_risk(explicit_policy)
@@ -160,6 +161,9 @@ def main():
     gap = best_cost - sum(adaptive_metrics[:3])
     assert gap == F(result["best_fixed_minus_adaptive_cost"])
     assert adaptive_risk == config.alpha
+    adaptive_upper = sum(explicit_metrics[:3])
+    assert adaptive_lower <= adaptive_upper
+    assert adaptive_upper - adaptive_lower == F(result["adaptive_optimum_bracket_width"])
     certified_best_lower = min(certified_lowers)
     explicit_adaptive_cost = sum(explicit_metrics[:3])
     assert certified_best_lower == F(result["certified_best_fixed_lower_bound"])
@@ -176,6 +180,10 @@ def main():
                 "rational_dual_certificates_checked": len(certified_lowers),
                 "adaptive_cost": str(sum(adaptive_metrics[:3])),
                 "adaptive_null_risk": str(adaptive_risk),
+                "adaptive_certified_lower_bound": str(adaptive_lower),
+                "adaptive_feasible_upper_bound": str(adaptive_upper),
+                "adaptive_optimum_bracket_width": str(adaptive_upper - adaptive_lower),
+                "randomized_calendar_mixtures_covered_by_adaptive_oracle": True,
                 "explicit_rule_matches_adaptive_recovered_policy": True,
                 "static_lottery_cost": str(sum(static_metrics[:3])),
                 "static_lottery_queries": str(static_metrics[3]),
@@ -188,7 +196,7 @@ def main():
                 "certified_best_fixed_lower_bound": str(certified_best_lower),
                 "explicit_adaptive_feasible_upper_bound": str(explicit_adaptive_cost),
                 "certified_gap_lower_bound": str(certified_best_lower - explicit_adaptive_cost),
-                "claim_scope": "All deterministic terminal calendars separated by rational lower bounds; adaptive policy is an exact feasible upper bound. No claim against all randomized calendar mixtures or of novelty.",
+                "claim_scope": "The adaptive terminal-action optimum is bracketed by an independently checked rational dual lower bound and an exact feasible policy upper bound; this includes every randomized calendar mixture. No scalable method or novelty claim.",
                 "source_hashes_match": True,
             },
             indent=2,

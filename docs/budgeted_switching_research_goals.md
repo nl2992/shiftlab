@@ -3240,3 +3240,31 @@ and register exploratory prototypes for any survivors.
     upper/lower frontier, and the R3 subset screen.
 
   No novelty, theorem or efficacy claim follows from this entry.
+
+### Re-screen outcome 2026-10-30: C1/C2 exploratory stop; one theory route left
+
+- **Theory:**
+  - C1 survives R2 on a theorem-level source read (`switching_c1_source_theorem_audit_v1.md`).
+  - Lemma 0, forgetting under sparse/delayed observation, burst-class per-query information,
+    1/κ LLR concentration and Theorem C1-B (modulo Ville) are proved in
+    `switching_c1_upper_bound_proofs_v1.md`. The constants are 13–38x the Monte Carlo values, so
+    no tightness is claimed.
+  - C2 is demoted to a supporting frontier, and C3 is stopped as standalone
+    (`switching_theory_targets_c1_c2_v1.md`).
+  - No audited theorem covers any R3 4-of-5 subset (`switching_r3_subset_screen_v1.md`).
+- **Exploratory prototype (R4)**, reported in `switching_c1_c2_exploratory_results_v1.md`:
+  - Neither C1 nor C2 beats the strongest matched baseline: 0 of 64 synthetic cells better for
+    either. Their largest losses are on late-onset and reversal cells.
+  - The started-mixture episode composition is the hard gated baseline.
+  - On EIA, C1 beats the strongest gated baseline in 3 of 8 imposed-timing settings, but never
+    the strongest baseline overall. CRSP and ELEC2 supply no exploitable benefit.
+  - Both C1 and C2 stop as methods; C1 is kept as a model-conditional safety baseline.
+  - R6 coverage is incomplete: the Gong–Zhang, Qiu and Ryabchenko delayed wrappers and online
+    FWER were not implemented.
+- **Remaining live route:** C1-E. Under HMM dynamics, information from spaced single queries
+  decays geometrically in spacing (L2 counterexample 2), whereas burst queries keep a positive
+  block rate. A burst-versus-calendar query separation theorem, plus an exploratory test of a
+  burst-query variant of the strong episode composition, is the next screen. This is a
+  hypothesis, not a result.
+- The revised bar reopened candidates, but empirical evidence closed C1 and C2. The earlier
+  blockage was partly the bar and partly genuinely weak candidates.

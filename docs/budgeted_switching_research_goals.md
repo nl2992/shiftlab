@@ -2657,3 +2657,18 @@ the finite benchmark. Source limitation: RAO* full text/proof not inspected in t
 - G1 remains open only for a theorem-backed acquisition-and-reversible-switching advantage beyond
   this detector, delayed-budget learning, and exact constrained-control baselines. No efficacy or
   real-data gate opens; G2–G5 remain held.
+
+### G1 exact mechanism attribution 2026-10-29: fixed-calendar timing
+
+- Upgraded the registered six-cell comparison of unrestricted query timing against a fixed
+  opportunity calendar `(1,2,3)` from floating-point recovered-policy equality to rational LP
+  certificates. In all six `T=6,B=3,d=2` symmetric recurrent-HMM cells, an independently
+  evaluated fixed-calendar policy is within `1.6e-10` of a verified lower bound on the unrestricted
+  optimum; one cell matches exactly. The saved dual certificates and fixed-calendar policy
+  records are independently checked without optimization by
+  `uv run python scripts/certify_switching_calendar_value.py --verify`.
+- This closes event-time flexibility as the explanation for the registered episode-composition
+  gaps on these six cells. It is not a general no-timing theorem, scalable controller, or novelty
+  claim. The remaining finite-cell gap lies within the robust test/action policy class for a fixed
+  calendar; the next G1 step is a source-level equivalence check of that class against sequential
+  test design and constrained-POMDP planning, before proposing a mechanism. G2–G5 remain held.

@@ -36,11 +36,18 @@ for t in range(T):
             s = (s + w[u]) * (1.0 + lam(hist[:u]) * hist[u])
         m_prev = s + tail[t]
         exp_m = sum(
-            (p_hi if v == x_hi else 1 - p_hi) * ((s + w[t]) * (1.0 + lam(hist) * v) + (tail[t + 1] if t + 1 < T else 0.0))
+            (p_hi if v == x_hi else 1 - p_hi)
+            * ((s + w[t]) * (1.0 + lam(hist) * v) + (tail[t + 1] if t + 1 < T else 0.0))
             for v in (x_hi, x_lo)
         )
         worst_drift = max(worst_drift, exp_m - m_prev)
-out = {"T": T, "alpha": ALPHA, "exact_P_sup_M_ge_1/alpha": p_cross, "bound": ALPHA, "max_conditional_drift_E[M_t|F]-M_{t-1}": worst_drift}
+out = {
+    "T": T,
+    "alpha": ALPHA,
+    "exact_P_sup_M_ge_1/alpha": p_cross,
+    "bound": ALPHA,
+    "max_conditional_drift_E[M_t|F]-M_{t-1}": worst_drift,
+}
 print(out)
 with open("outputs/h2c_restart/exact_restart_test.json", "w") as fh:
     json.dump(out, fh, indent=2)

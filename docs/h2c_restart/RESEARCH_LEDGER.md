@@ -1,0 +1,1 @@
+- Restart dev: valid restart mixtures do not beat ordinary H2c (geometric +.003/.009/.023); SR at ARL threshold false-alarms 100% over T=2000; Mode C: H2c-SR beats existing SR by +.05/.09/.14 but its empirical calibration does not transfer (.03-.13; .19-.30 under rho=.98).

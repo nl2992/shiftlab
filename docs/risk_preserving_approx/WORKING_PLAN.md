@@ -586,3 +586,20 @@ threshold-only variants. Preserve the protocol and result as a comparator, and
 resume with a mathematically distinct policy-side or implicit-search mechanism
 that addresses the known aliasing and signed-future-value counterexamples.
 G1–G3 remain open and real data/holdouts stay closed.
+
+## Candidate E safe-history pruning checkpoint (2026-10-29)
+
+Forcing a safe incumbent continuation at selected pre-promotion public histories
+has a simple conditional guarantee: it can only remove first-promotion paths,
+and if every feasible policy reaches the selected set with alternative
+probability at most `epsilon`, exact restricted optimization loses at most
+`L*T*epsilon`. The T=10 feasibility screen did not find enough pruning under
+small explicit loss budgets: its best reduction was 4.10% of pre-promotion
+realization columns at a 0.05 cost bound, below the registered 5% continue gate.
+The exact likelihood-envelope pass itself traversed 10,813 alternative nodes,
+matching Candidate B's builder count. RAO* risk-based branch pruning and POMDP
+hypothesis-pruning loss bounds also cover the generic ingredients. Candidate E
+is closed without implementation or novelty claim. Next, search for a mechanism
+that reduces optimization work before/during tree construction; keep the full
+causal-null model and all data gates unchanged. See its theorem note, protocol,
+runner and exact feasibility output.

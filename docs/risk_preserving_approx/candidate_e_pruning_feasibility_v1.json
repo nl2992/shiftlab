@@ -1,0 +1,122 @@
+{
+  "protocol": "CANDIDATE_E_PRUNING_FEASIBILITY_PROTOCOL_V1.md",
+  "protocol_sha256": "dfbc04f20b05dc301c3401489a9f6992abb788c76af3a8e9cfcfe3a2a09691f8",
+  "reference_protocol_sha256": "e456e1dbbc5e5e901a1d0aec35a05c08aaa1c9b8285bf4ad4783b9b6798aa674",
+  "runner_sha256": "de8662aaba4d3acb48c25b558f3a5e55b7ab8ed9b07c1451053a5bcc1171255e",
+  "game_source_sha256": "54b1347c3e213407b3feb09a801dc9ea40b3663fe6a4a227b7878b9b0a2d770a",
+  "config": {
+    "horizon": 10,
+    "budget": 4,
+    "delay": 2,
+    "alpha": "1/10",
+    "query_cost": "1/100",
+    "switch_cost": "1/10",
+    "transition": "1/10",
+    "emissions": [
+      "1/50",
+      "49/50"
+    ],
+    "prior1": "1/2"
+  },
+  "exact_pre_promotion_public_histories": 4867,
+  "pre_promotion_realization_columns": 13420,
+  "hidden_alternative_recursion_nodes_for_envelope_pass": 10813,
+  "screens": [
+    {
+      "decision_event": 5,
+      "loss_budget": "1/100",
+      "selected_safe_histories": 0,
+      "candidate_histories_at_depth": 54,
+      "policy_uniform_alt_probability_upper_bound": "0",
+      "certified_value_loss_upper_bound": "0",
+      "collapsed_information_sets": 0,
+      "prepromotion_realization_columns_removed": 0,
+      "prepromotion_realization_columns_total": 200,
+      "fraction_prepromotion_columns_removed": "0"
+    },
+    {
+      "decision_event": 5,
+      "loss_budget": "1/20",
+      "selected_safe_histories": 0,
+      "candidate_histories_at_depth": 54,
+      "policy_uniform_alt_probability_upper_bound": "0",
+      "certified_value_loss_upper_bound": "0",
+      "collapsed_information_sets": 0,
+      "prepromotion_realization_columns_removed": 0,
+      "prepromotion_realization_columns_total": 200,
+      "fraction_prepromotion_columns_removed": "0"
+    },
+    {
+      "decision_event": 6,
+      "loss_budget": "1/100",
+      "selected_safe_histories": 0,
+      "candidate_histories_at_depth": 146,
+      "policy_uniform_alt_probability_upper_bound": "0",
+      "certified_value_loss_upper_bound": "0",
+      "collapsed_information_sets": 0,
+      "prepromotion_realization_columns_removed": 0,
+      "prepromotion_realization_columns_total": 488,
+      "fraction_prepromotion_columns_removed": "0"
+    },
+    {
+      "decision_event": 6,
+      "loss_budget": "1/20",
+      "selected_safe_histories": 2,
+      "candidate_histories_at_depth": 146,
+      "policy_uniform_alt_probability_upper_bound": "386041/78125000",
+      "certified_value_loss_upper_bound": "42850551/1562500000",
+      "collapsed_information_sets": 10,
+      "prepromotion_realization_columns_removed": 20,
+      "prepromotion_realization_columns_total": 488,
+      "fraction_prepromotion_columns_removed": "5/122"
+    },
+    {
+      "decision_event": 7,
+      "loss_budget": "1/100",
+      "selected_safe_histories": 0,
+      "candidate_histories_at_depth": 342,
+      "policy_uniform_alt_probability_upper_bound": "0",
+      "certified_value_loss_upper_bound": "0",
+      "collapsed_information_sets": 0,
+      "prepromotion_realization_columns_removed": 0,
+      "prepromotion_realization_columns_total": 1048,
+      "fraction_prepromotion_columns_removed": "0"
+    },
+    {
+      "decision_event": 7,
+      "loss_budget": "1/20",
+      "selected_safe_histories": 4,
+      "candidate_histories_at_depth": 342,
+      "policy_uniform_alt_probability_upper_bound": "386041/39062500",
+      "certified_value_loss_upper_bound": "42850551/976562500",
+      "collapsed_information_sets": 16,
+      "prepromotion_realization_columns_removed": 32,
+      "prepromotion_realization_columns_total": 1048,
+      "fraction_prepromotion_columns_removed": "4/131"
+    },
+    {
+      "decision_event": 8,
+      "loss_budget": "1/100",
+      "selected_safe_histories": 1,
+      "candidate_histories_at_depth": 706,
+      "policy_uniform_alt_probability_upper_bound": "386041/156250000",
+      "certified_value_loss_upper_bound": "128551653/15625000000",
+      "collapsed_information_sets": 3,
+      "prepromotion_realization_columns_removed": 6,
+      "prepromotion_realization_columns_total": 2024,
+      "fraction_prepromotion_columns_removed": "3/1012"
+    },
+    {
+      "decision_event": 8,
+      "loss_budget": "1/20",
+      "selected_safe_histories": 6,
+      "candidate_histories_at_depth": 706,
+      "policy_uniform_alt_probability_upper_bound": "1158123/78125000",
+      "certified_value_loss_upper_bound": "385654959/7812500000",
+      "collapsed_information_sets": 18,
+      "prepromotion_realization_columns_removed": 36,
+      "prepromotion_realization_columns_total": 2024,
+      "fraction_prepromotion_columns_removed": "9/506"
+    }
+  ]
+}

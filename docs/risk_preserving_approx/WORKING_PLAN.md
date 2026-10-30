@@ -603,3 +603,17 @@ is closed without implementation or novelty claim. Next, search for a mechanism
 that reduces optimization work before/during tree construction; keep the full
 causal-null model and all data gates unchanged. See its theorem note, protocol,
 runner and exact feasibility output.
+
+## Candidate F adaptive delayed betting gate audit (2026-10-29)
+
+A predictable stake can be attached to each query and applied on ordered label
+release. Under the conditional causal-null mean bound and fixed feedback delay,
+the capital process is a nonnegative supermartingale and its threshold has a
+Ville risk guarantee. The proof does not solve the unrestricted two-law economic
+optimization. Recent anytime-valid testing work already gives wealth/time
+Bellman control and a complete class of predictable affine betting processes;
+controlled sensing with costs is also established. The proposed ShiftLab planner
+would be a direct composition without a cost-loss or resource theorem, so do not
+implement it as the lead. Continue searching for a candidate that reduces
+optimization complexity and has a defensible value guarantee. See
+`CANDIDATE_F_ADAPTIVE_BET_GATE_AUDIT_V1.md`.

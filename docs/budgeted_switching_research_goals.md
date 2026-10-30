@@ -3135,3 +3135,16 @@ the finite benchmark. Source limitation: RAO* full text/proof not inspected in t
   matching utility/assignment contract. Do not infer release time from event delay alone. The
   annotation's caveat remains in force: historical promotion evidence cannot certify benefit in
   the current regime after a reversal.
+
+### Recurrent-regime lower-bound screen 2026-10-30
+
+- Tested the proposed extension from a one-reversal KL floor to arbitrary recurrent regimes. The
+  per-episode floor cannot be summed without a single joint alternative: a recurrent latent type or
+  public regime schedule can let the learner reuse one queried label across later episodes. Fresh
+  independent hidden episode innovations may require repeated information, but need a new
+  transcript-level argument that counts labels once and retains global promotion risk.
+- Recorded the failed additive step and minimum valid theorem contract in
+  `switching_recurrent_regime_lower_bound_screen_v1.md`. This is a candidate kill, not a theorem,
+  method, or progress toward G2. The strongest multi-change/delayed-budget baselines remain
+  mandatory; arbitrary recurrence by itself is not a novelty assumption. G2–G5 and holdouts remain
+  held. Historical promotion evidence still cannot certify current-regime benefit after reversal.

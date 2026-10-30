@@ -2946,3 +2946,28 @@ the finite benchmark. Source limitation: RAO* full text/proof not inspected in t
   event with delayed labels is not established by that source. The residual and kill test are in
   the registered protocol. G1 remains open only for that theorem-level distinction; G2–G5 remain
   held, and no efficacy study is opened.
+
+### G1 certificate follow-up and route closure: monotone-promotion restriction 2026-10-29
+
+- Added `scripts/certify_switching_monotone_promotion_grid.py` and generated
+  `outputs/switching_monotone_promotion_grid_cert_v1/results.json`. Rational dual lower bounds
+  and exact recovered-policy upper bounds close for both policy classes in all nine preregistered
+  M1–M9 cells; the largest bracket is `7/500000000000`. Reproduce with
+  `uv run python scripts/certify_switching_monotone_promotion_grid.py`.
+- This upgrades those finite comparisons from solver evidence to exact optimality brackets, but
+  does not change the structural decision. The repository already contains the registered exact
+  counterexample in `switching_monotone_restriction_counterexample_v1.md`, where a monotone
+  terminal-promotion restriction loses value under a recurrent alternative. The new nine-cell
+  matches are compatible with that counterexample: they show only that the restriction happens to
+  be lossless in those cells. Therefore close monotone promotion as a general lossless policy-class
+  reduction; retain the causal-null/IID identity only as a lemma for policies independently known
+  to have monotone promotion events.
+- Generic fair-coin POMDP scalarization remains the standard constrained-POMDP construction in
+  `switching_monotone_risk_ccpomdp_reduction_v1.md`, with exponentially many tape constraints if
+  monotonicity is enforced directly. The controlled-sensing MLR results do not override the exact
+  counterexample or supply a growing-family theorem for this two-law global-risk game. This route
+  does not pass G1; no G2–G5, efficacy, or real-data gate opens. Resume only with a different,
+  explicit compression/approximation or strict separation against the robust-FSC/sequence-form
+  oracle and matched established control methods.
+- Promotion-risk evidence still concerns the declared historical test-epoch null. Forecasts of
+  current-regime benefit after reversal remain a separate quantity.

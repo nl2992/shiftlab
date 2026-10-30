@@ -91,8 +91,12 @@ is about value monotonicity; it does not state the two-law global promotion-risk
 history-adaptive null opponent, or pending-label/request-budget process here. Classical POMDP
 threshold results therefore raise the novelty bar; they are not an exact reduction by themselves.
 
-**Decision:** continue G1 only with a theorem or counterexample for this exact gap: whether the
-optimal *promotion event* (not merely a belief-state action rule) can be chosen coordinatewise
-monotone under the two-law risk-constrained objective with delayed controlled observations. If the
-result follows directly from standard monotone POMDP/one-sided Neyman-Pearson arguments after a
-simple Lagrange transform, kill it as a composition. No G2–G5 work is opened.
+**Decision update:** a separate registered, exact counterexample already establishes that the
+monotone terminal-promotion class can lose economic value under a recurrent alternative; see
+`docs/switching_monotone_restriction_counterexample_v1.md`. The nine exact brackets above do not
+reverse that result. Close monotone promotion as a general lossless restriction and do not attempt
+to elevate the finite matches into a theorem. The exact causal-null/IID identity remains available
+for policies independently shown to have increasing promotion events. Generic constrained-POMDP
+scalarization remains a standard reduction, not a method contribution. Any reopening requires a
+different theorem-backed compression/approximation or strict growing-family separation against
+robust-FSC/sequence-form and matched established control baselines. G2–G5 remain closed.

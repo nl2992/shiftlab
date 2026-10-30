@@ -671,3 +671,19 @@
   a policy-side or implicit optimization mechanism retaining the full causal-null
   family; require explicit value/risk/runtime guarantees and a bounded exact-
   oracle comparison before scaling. The overall goal remains open.
+
+## 2026-10-29 — Candidate D active plan
+
+- Updated `WORKING_PLAN.md` to supersede the stale next-step instruction after
+  Candidate C's universal response-kernel quotient no-go. Candidate D is now the
+  next bounded test: finite-horizon OS-POSG scalarized planning with exact
+  causal-null verification and conditional multiplier-bracket recovery.
+- Set sequential gates: source/model-match and strategy extraction; theorem and
+  source-level prior-art audit; only then a preregistered small exact-oracle
+  pilot; continue only on certified risk/value and end-to-end resource advantage.
+  Explicit stop rules cover a reduction that restores the full sequence tree,
+  inadequate risk endpoint bounds, or loss of compute gains in extraction and
+  verification. CRSP and reserved real-data holdouts remain closed through G1–G3.
+- No solver run, new seed, data access, remote job or overnight schedule was
+  started. Candidate D's recovery lemma remains conditional and is not claimed as
+  novel. Next action: finish D1/D2 before any implementation or efficacy run.

@@ -339,3 +339,73 @@ then state its value/risk/runtime theorem and compare it with the full-history
 oracle on a bounded synthetic case. The posterior-alias and signed-future-value
 counterexamples remain mandatory checks. Preserve the synthetic/real-data gates;
 no holdout is opened by this checkpoint.
+
+### Active working plan: Candidate D model-match and bounded pilot
+
+This section supersedes the prior “continue by identifying” instruction above:
+Candidate D is the current next test. It is a scalarized one-sided POSG (OS-POSG)
+solver with exact worst-case risk verification and two-policy multiplier-bracket
+recovery. The recovery lemma is conditional and is not itself a novelty claim.
+The universal response-kernel quotient no-go remains in force; it does not rule
+out this policy-search route.
+
+**Objective.** Determine whether finite-horizon OS-POSG value approximation can
+produce a risk-bracketing pair with a certified cost gap and an end-to-end
+resource advantage over the exact decomposed sequence-form oracle, while
+preserving the original two-law information structure and unrestricted causal
+null. Do not open real data or claim novelty during this test.
+
+**Gate D1 — source and model match (documentation/proof only).** Before coding,
+write a source-matched reduction covering: finite-horizon-to-discounted or
+finite-horizon OS-POSG conversion; state augmentation for hidden root, HMM state,
+pending-label queue/release times, remaining query budget, deployment, promotion,
+and time; learner and null observations/actions at each event; bounded payoff
+representing the scalarized objective; and strategy-gadget/perfect-recall
+extraction. Map the precise assumptions of the cited HSVI theorem to this game.
+The output must identify which side controls each transition and show that
+first-promotion risk—not a different discounted or expected surrogate—is what
+the scalarized payoff charges. Check both the posterior-alias and
+signed-future-value counterexamples. If this reduction fails or only works by
+restoring the full sequence-form tree, stop Candidate D and record why.
+
+**Gate D2 — theorem and prior-art audit.** Validate the finite-LP strong-duality
+conditions, multiplier range, recovery inequality, and root-mixture risk bound
+against the exact model. For approximate risk endpoints, require rigorous bounds
+that establish the bracket; empirical estimates do not count. Compare the whole
+solver-plus-recovery guarantee and complexity with the closest OS-POSG,
+constrained-POMDP, robust-controller, and existing ShiftLab results. Treat the
+method as established composition unless a precise source-level delta remains.
+Do not proceed to an efficacy sweep if there is no plausible state/strategy
+representation with a resource advantage.
+
+**Gate D3 — preregistered pilot.** If D1–D2 survive, add a versioned protocol
+before execution, with a fresh output path and source/config hashes. Use one
+small instance where both exact oracles finish, then at most one matched stress
+instance selected from already registered synthetic settings. Fix multiplier
+search points, HSVI tolerances, stopping limits, random seeds, and peak-memory
+measurement in advance. Compare end-to-end wall time, peak memory, solver nodes
+or belief points, controller memory, scalarized gap, exact alternative cost,
+and exact full-history causal-null risk. Include strategy extraction, endpoint
+verification, multiplier search, and mixture recovery in resource totals. Retain
+all failed runs. An independently implemented policy evaluator must check query
+budget on every path, delayed-release chronology, null access to pending labels,
+first-promotion risk, and post-promotion rollback/re-promotion economics.
+
+**Gate D4 — decision.** Continue only if the recovered policy satisfies the
+proved risk guarantee, its observed cost is within the preregistered certified
+gap, and it demonstrates a meaningful end-to-end resource improvement against
+the strongest matched baseline without a disqualifying value loss. A cheaper
+scalarized subproblem that loses its advantage during strategy extraction or
+exact verification is a no-go. If successful, expand only under a new frozen
+synthetic scaling protocol and then revisit G1 (novelty), G2 (mechanism/theory),
+and G3 (matched synthetic utility) in order. CRSP and reserved real-data
+holdouts remain closed until all three gates pass; any later real-data use needs
+its own eligible-data, provenance, chronology, licensing, and confirmation
+protocol audit.
+
+**Checkpoint discipline.** Keep all work in this branch/worktree. Record the
+exact command, source/data/config hashes, checks, failures, and decision in the
+append-only ledger. Commit and push completed checkpoints to the designated
+branch only. Do not schedule a recurring, remote, or unattended job or send
+notifications as part of this plan; any bounded local run must finish with
+preserved logs and an explicit stop condition.

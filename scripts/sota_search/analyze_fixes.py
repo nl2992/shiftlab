@@ -8,7 +8,7 @@ import pandas as pd
 split = sys.argv[1] if len(sys.argv) > 1 else "fix"
 fix_csv = f"outputs/sota_search/q1_baselines_summary_{split}.csv"
 par_csv = sys.argv[2] if len(sys.argv) > 2 else "outputs/sota_search/q1_baselines_summary_cand.csv"
-read = dict(keep_default_na=False, na_values=[""])
+read = {"keep_default_na": False, "na_values": [""]}
 fx, par = pd.read_csv(fix_csv, **read), pd.read_csv(par_csv, **read)
 for d in (fx, par):
     d["p"] = d.params.map(json.loads)

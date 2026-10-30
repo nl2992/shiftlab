@@ -368,6 +368,17 @@ the scalarized payoff charges. Check both the posterior-alias and
 signed-future-value counterexamples. If this reduction fails or only works by
 restoring the full sequence-form tree, stop Candidate D and record why.
 
+**D1 outcome (2026-10-29):** the exact model mapping passes, using two
+microstages per event because the null responds after observing the learner's
+request. Finite-horizon payoffs can be embedded into discounted OS-POSG rewards
+by time-indexed rescaling and an absorbing terminal state. This is exact for
+each fixed finite instance, but the rescaled reward range can worsen numerical
+bounds, and the source theorem gives no useful complexity bound for this family.
+The alias and signed-reversal counterexamples remain covered only if full
+learner information and post-promotion alternative continuation are preserved.
+See `CANDIDATE_D_MODEL_MATCH_AUDIT_V1.md`. D1 therefore does not by itself
+authorize an efficacy sweep or imply a compute win.
+
 **Gate D2 — theorem and prior-art audit.** Validate the finite-LP strong-duality
 conditions, multiplier range, recovery inequality, and root-mixture risk bound
 against the exact model. For approximate risk endpoints, require rigorous bounds

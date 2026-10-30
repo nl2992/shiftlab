@@ -24,9 +24,13 @@ Let
 `V* = inf{ C(pi) : R(pi) <= alpha }`,
 
 where the policy class is the original randomized, nonanticipating,
-pathwise-budget class, `0 < alpha < 1`, costs satisfy `0 <= C(pi) <= T`, and
-`R(pi) = sup_nu P_nu(first promotion by T)`. The finite constrained sequence-form
-LP is strictly feasible because never-promote has risk zero. Define
+pathwise-budget class, `0 < alpha < 1`, `C(pi) >= 0`, a never-promote policy has
+risk zero and cost at most `T`, and `R(pi) = sup_nu P_nu(first promotion by T)`.
+The latter cost bound holds in this repository because incumbent per-round
+decision loss is at most one and the never-promote policy can avoid both query
+and switching charges; it does not assert that every policy's cumulative cost
+is at most `T`. The finite constrained sequence-form LP is strictly feasible
+because never-promote has risk zero. Define
 
 `g(lambda) = inf_pi { C(pi) + lambda (R(pi) - alpha) }`.
 

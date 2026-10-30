@@ -687,3 +687,29 @@
 - No solver run, new seed, data access, remote job or overnight schedule was
   started. Candidate D's recovery lemma remains conditional and is not claimed as
   novel. Next action: finish D1/D2 before any implementation or efficacy run.
+
+## 2026-10-29 — Candidate D finite-horizon model match
+
+- Read the exact hidden-root reduction, the event-order implementations, and the
+  primary OS-POSG paper sections on model definition, HSVI, strategy extraction,
+  and Theorem 4. The representation matches only after splitting each round into
+  learner and null-response microstages; a simultaneous-stage transcription would
+  hide the request from the null and change the game.
+- Established an exact per-instance finite-horizon embedding via time-augmented
+  state, absorbing terminal state, and time-rescaled rewards. This imports the
+  discounted OS-POSG strategy theorem conditionally on faithful implementation,
+  but does not give a useful complexity bound; reward scaling and controller
+  extraction may erase empirical savings. Full learner history, pending-label
+  visibility for the null, and alternative post-promotion continuation remain
+  mandatory.
+- Corrected Candidate D's recovery theorem assumptions: only a risk-zero
+  never-promote policy with cost at most T is needed for the multiplier bound;
+  the repository does not guarantee every policy has total cost at most T when
+  query and switching charges are included. Exact-risk root-mixture recovery
+  remains conditional on a bracket and does not establish that HSVI finds one.
+- Artifacts: `CANDIDATE_D_MODEL_MATCH_AUDIT_V1.md`, corrected
+  `CANDIDATE_D_LAGRANGIAN_OSPOSG_RECOVERY_V1.md`, and updated `WORKING_PLAN.md`.
+  No code, experiment, seed, or real data was accessed. D1 passes as a reduction;
+  D2 and the end-to-end pilot remain open. Next: inspect a reproducible OS-POSG
+  implementation and determine whether a bounded faithful pilot can plausibly
+  beat the exact decomposed solver after extraction and robust verification.

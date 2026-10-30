@@ -47,4 +47,5 @@ for k in (1.0, 3.0, 6.0):
                 round(float(sim["brier"].mean()), 3),
                 flush=True,
             )
-json.dump(out, open("outputs/hg_validation/07_PROXY_MISSPEC.json", "w"), indent=2)
+with open("outputs/hg_validation/07_PROXY_MISSPEC.json", "w") as fh:
+    json.dump(out, fh, indent=2)

@@ -30,7 +30,8 @@ def paired(fam, frac, new, base="parent"):
     idx = rng.integers(0, len(diff), (4000, len(diff)))
     within = diff.values[idx].mean(1).mean(1)
     # across-world: cluster bootstrap over worlds (seeds resampled inside each)
-    pw = np.array(
+    # shortcut: result unused, but the draws advance the seeded RNG that the published CIs depend on
+    _ = np.array(
         [
             diff.values[rng.integers(0, len(diff), len(diff)), j].mean()
             for j in range(diff.shape[1])

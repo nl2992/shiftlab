@@ -53,4 +53,5 @@ for family in ("G1", "G2"):
                 )
                 out[f"{family}/rho{rho}/{frac}/{arm}"] = fa
                 print(family, rho, frac, arm, round(fa, 3), flush=True)
-json.dump(out, open("outputs/hg_validation/06_DEPENDENCE_NULL.json", "w"), indent=2)
+with open("outputs/hg_validation/06_DEPENDENCE_NULL.json", "w") as fh:
+    json.dump(out, fh, indent=2)

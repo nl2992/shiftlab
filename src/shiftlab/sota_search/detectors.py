@@ -506,6 +506,62 @@ def pp_ons(sim, frac=0.1, delay=5, lseed=0, tol=0.0, risk="brier", cap=0.5, **_)
     return logw
 
 
+def _gate(xc, delay, kind, w=100, a=1.0, b=0.0, k=1.0, w_short=30, w_long=200):
+    """Predictable gate in [0, 1] from resolved decision-cost increments (labels <= s - delay - 1)."""
+    ones = np.ones_like(xc)
+
+    def stats(win):
+        gg = 1.0 - 1.0 / win
+        n = shift_time(_ewm_cumsum(ones, gg), delay + 1)
+        m = shift_time(_ewm_cumsum(xc, gg), delay + 1) / (n + 1)
+        v = shift_time(_ewm_cumsum(xc**2, gg), delay + 1) / (n + 1) - m**2
+        n2 = shift_time(_ewm_cumsum(ones, gg * gg), delay + 1)
+        return m, np.maximum(v, 1e-12), n, n2
+
+    if kind == "hard":
+        return (stats(w)[0] > 0).astype(float)
+    if kind == "multi":
+        return ((stats(w_short)[0] > 0) & (stats(w_long)[0] > 0)).astype(float)
+    m, v, n, n2 = stats(w)
+    if kind == "soft":  # bounded sigmoid of the standardised discounted mean
+        z = m / np.sqrt(v)
+        return 1.0 / (1.0 + np.exp(-(a * z * 10.0 + b)))
+    if kind == "unc":  # t-statistic with effective sample size
+        neff = np.maximum(n**2 / np.maximum(n2, 1e-12), 1.0)
+        return 1.0 / (1.0 + np.exp(-k * m / np.sqrt(v / neff)))
+    raise ValueError(kind)
+
+
+def pp_ons_gated(
+    sim, frac=0.1, delay=5, lseed=0, tol=0.0, cap=0.5, gate="hard", virtual=True, **gk
+):
+    """H1: ONS betting on the uniform-cap Brier PP increment multiplied by a predictable decision-cost gate.
+
+    ``virtual=True`` runs the ONS state on the ungated gradient (the gate only scales the applied bet).
+    """
+    x, _q, _l, bound = _pp_parts(sim, frac, lseed, "brier", None, None, tol, uniform_cap=True)
+    xc, _q2, _l2, _b2 = _pp_parts(sim, frac, lseed, "cost", None, None, tol, uniform_cap=True)
+    gt = _gate(xc, delay, gate, **gk)
+    S, T = x.shape
+    hi = cap / bound
+    cur, a_, acc = np.zeros(S), np.ones(S), np.zeros(S)
+    c = 2.0 / (2.0 - np.log(3.0))
+    lam_hist = np.zeros((S, T))
+    logw = np.zeros((S, T))
+    for s in range(T):
+        lam_hist[:, s] = cur
+        r = s - delay
+        if r >= 0:
+            applied = lam_hist[:, r] * gt[:, r]
+            acc = acc + np.log1p(applied * x[:, r])
+            eff = lam_hist[:, r] if virtual else applied
+            z = x[:, r] / (1.0 + eff * x[:, r])
+            a_ = a_ + z * z
+            cur = np.clip(cur + c * z / a_, 0.0, hi[:, min(s + 1, T - 1)])
+        logw[:, s] = acc
+    return logw
+
+
 DETECTORS = {
     "mmd": mmd,
     "c2st": c2st,
@@ -525,6 +581,7 @@ DETECTORS = {
     "fix_cost": fix_cost,
     "pp_mixture": pp_mixture,
     "pp_ons": pp_ons,
+    "pp_ons_gated": pp_ons_gated,
 }
 THEORY_THRESHOLD = {
     "pr_cs": 0.0,
@@ -537,6 +594,7 @@ THEORY_THRESHOLD = {
     "fix_cost": float(np.log(1 / ALPHA)),
     "pp_mixture": float(np.log(1 / ALPHA)),
     "pp_ons": float(np.log(1 / ALPHA)),
+    "pp_ons_gated": float(np.log(1 / ALPHA)),
 }
 
 

@@ -105,3 +105,13 @@ def test_mixture_and_ons_stay_valid_on_the_null_and_react_to_a_shift():
         fa = (d.DETECTORS[name](null, frac=0.2, delay=5, lseed=1).max(1) >= thr).mean()
         hit = (d.DETECTORS[name](shifted, frac=0.2, delay=5, lseed=1).max(1) >= thr).mean()
         assert fa <= 0.08 and hit > fa
+
+
+def test_gated_ons_with_open_gate_equals_ons_and_zero_gate_never_alarms():
+    sim = g.simulate(g.World(kind="concept", delta=2.0, T=600, t0=200), 20, 8)
+    ons = d.pp_ons(sim, frac=0.2, delay=5, lseed=2)
+    # a 'soft' gate with huge offset is ~1; the exact-identity check uses a hard gate on an always-positive stat
+    opened = d.pp_ons_gated(sim, frac=0.2, delay=5, lseed=2, gate="soft", a=0.0, b=50.0)
+    assert np.allclose(ons, opened, atol=1e-6)
+    closed = d.pp_ons_gated(sim, frac=0.2, delay=5, lseed=2, gate="soft", a=0.0, b=-50.0)
+    assert np.abs(closed).max() < 1e-6

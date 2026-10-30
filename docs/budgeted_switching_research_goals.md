@@ -2927,3 +2927,22 @@ the finite benchmark. Source limitation: RAO* full text/proof not inspected in t
   request-time budget semantics. If this is exponential or reduces to generic constrained-POMDP
   discretization, kill the route. G1 remains open; G2–G5 remain held and no efficacy study is
   opened.
+
+### G1 structural screen: monotone first-promotion policy family 2026-10-29
+
+- Registered before execution `docs/switching_monotone_promotion_grid_protocol_v1.md` and evaluated
+  nine finite two-law LP cells with exact rational inputs, horizon 5, query budgets 2–3, delays
+  1–2, three risk levels, varied query/switch costs, monotone two-state HMM transitions, and two
+  emission strengths.
+  Across all cells, the unrestricted solver recovered a coordinatewise monotone first-promotion
+  event and the monotone-constrained solver recovered the same calibrated cost. In the eight
+  cells with nonzero promotion, exact causal-null recursion equaled the iid Bernoulli(1/2)
+  boundary risk. M7 never promoted and is uninformative. Maximum solver residual was `5.56e-17`;
+  the output includes all event tables and hashes at
+  `outputs/switching_monotone_promotion_grid_v1/results.json`.
+- This is finite solver evidence, not an optimality certificate or theorem. A primary-source
+  screen found established MLR-monotone value results for controlled-sensing POMDPs under TP2
+  transition/observation matrices and ordered costs; the exact two-law risk-constrained promotion
+  event with delayed labels is not established by that source. The residual and kill test are in
+  the registered protocol. G1 remains open only for that theorem-level distinction; G2–G5 remain
+  held, and no efficacy study is opened.

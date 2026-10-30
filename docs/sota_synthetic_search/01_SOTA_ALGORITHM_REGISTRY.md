@@ -46,3 +46,31 @@ loss, nominal risk 0.2, immediate labels, and 20% expected query fraction. PPE's
 constant nominal proxy makes its factor identical to direct IPW betting after
 matching the effective coefficient. This is a numerical integration identity,
 not evidence of algorithmic improvement or a faithful reproduction of a whole paper.
+
+## Offline audit update — checkpoint 2
+
+Located and read the pre-existing
+`papers/shiftguard_unified/ppe_paper_implementation_audit.md`. It records a primary
+paper formula check of the correction, propensity floor and product construction,
+and explicitly classifies the endpoint change as a paired-cost adaptation. The
+unchanged `prediction_powered_evalues.py` core is therefore eligible for
+**FAITHFUL_ADAPTATION** in a new synthetic paired-cost adapter that preserves its
+stated conditions. This upgrades the initial source-inspired core label; it does
+not assert that the new multi-model adapter or all application experiments have
+already been reproduced. Source-style positivity and the base null still need
+checking in every newly assembled contract.
+
+Also read the existing Robust ASI reproduction protocol and result report. They
+record source-paper/code inspection, corrected score scaling, exact expected-budget
+normalization and independent verification for the existing allocation module.
+Reusing those checked allocation operations for a synthetic fixed-horizon mean
+estimator is eligible for **FAITHFUL_ADAPTATION**. Any strict-streaming, delayed,
+hard-budget or sequential-evidence extension remains a separate adaptation and
+inherits no estimator-variance or monitoring guarantee automatically. No underlying
+real dataset was opened or rerun for this source audit.
+
+`docs/delayed_event_prefix_validity.md` supplies an existing resolved-prefix proof
+under a full event-time conditional null and finite eventual feedback. The new
+broker is an ordering/data contract, not a new delayed-testing theorem. Its
+outcome-dependent delay and missing-label settings remain stress contracts until
+each adapter's null and treatment of incomplete evidence are justified.

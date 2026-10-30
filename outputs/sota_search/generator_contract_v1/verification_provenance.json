@@ -1,0 +1,6 @@
+{
+  "verifier_source_sha256": "196e023a5d4c8c78b79fef9de168a4e66809aa90c5fa773be0c1b458b1e4e8a9",
+  "numpy": "2.4.2",
+  "scipy": "1.17.1",
+  "scope": "52 raw loss recomputations and source/configuration provenance; no algorithm evaluation"
+}

@@ -33,3 +33,44 @@ executed smoke source was rehashed and archived alongside the immutable batch.
 Artifact checkpoint b12aa54 also adds clean research-source enforcement and
 dependency-version capture for future smoke manifests. Worktree is clean and the
 historical-output diff excluding this new programme remains empty.
+
+## 2026-10-29 — Four-family generator and feedback checkpoint
+
+Implemented G1 Gaussian/logistic, G2 nonlinear/subgroup, G3 AR/hidden-Markov and
+G4 bounded synthetic-return worlds with three frozen model predictions each.
+Public events, delayed/missing feedback, evaluator truth and raw artifacts are
+separate. The broker reserves hard label counts at purchase time and withholds
+future arrival times. Source and development namespaces are disjoint; final
+confirmation remains locked. Added thirteen controlled scenario relations per
+family, auxiliary-proxy quality controls, and independent expected-risk checks.
+
+Added shared programme-wide reservations (four worker-hours wall and CPU each,
+20,000 launches and 2 GiB storage). Production batches cannot bypass this ledger.
+Prior smoke usage is imported once via read-only historical DB access. A crashed
+supervisor retains its full reservation; policy changes cannot silently reset it.
+
+Committed implementation/protocol as 2ead80b before the 52-run validation batch.
+All 52 jobs completed, generating 104 append-only events. Separate raw-loss
+recomputation passed all 52 worlds and all source/configuration provenance checks.
+All four families exhibit nuisance-without-harm, prediction-only deterioration,
+and cost-only deterioration. Registered diagnostics, source archives and exact
+verification details are in GENERATOR_VALIDATION_RESULTS_V1.md and the immutable
+outputs/sota_search/generator_contract_v1 snapshot. Cumulative worker accounting:
+64 launches, 170.681969 wall seconds, 131.015625 sampled CPU seconds.
+
+Focused preregistration tests: 83 passed. Broader synthetic regression: 115 passed
+in 12.35 seconds. Added two corruption-detection verifier tests: both passed.
+One budget-policy reopening unit test initially failed due to closing a connection
+inside its transaction context; fixed before registered execution. No registered
+job was deleted, overwritten, failed, or rerun. No real data or confirmation pool
+was opened, and no SOTA improvement or novelty conclusion is claimed.
+
+Read the pre-existing PPE paper-to-code audit and Robust ASI reproduction reports.
+The registry now recognizes their checked core operations as eligible faithful
+adaptations under the documented contracts. No publication-level reproduction,
+sequential guarantee transfer, or new theorem is inferred from those records.
+
+Next checkpoint: assemble Q1/Q2/Q3 baseline and candidate adapters, implement the
+remaining scenario/parameter coverage, freeze the substantive staged-screen
+protocol and execute the requested controlled algorithm search. Full-archive
+failure synthesis, targeted repair and independent confirmation remain mandatory.

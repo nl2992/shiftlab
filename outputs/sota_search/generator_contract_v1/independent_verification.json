@@ -1,0 +1,328 @@
+{
+  "verified_worlds": 52,
+  "registry_events": 104,
+  "family_counts": {
+    "G1": 13,
+    "G2": 13,
+    "G3": 13,
+    "G4": 13
+  },
+  "source_hash": "8d71225a66a1f7829dad104f9b7bbcda621ddd1fda7cb05103d2211661092b41",
+  "raw_loss_recomputation_passed": true,
+  "matched_dimension_relations_passed": true,
+  "diagnostics": [
+    {
+      "family": "G1",
+      "scenario": "stationary",
+      "risk_change": 0.0,
+      "cost_change": 0.0
+    },
+    {
+      "family": "G1",
+      "scenario": "benign_covariate",
+      "risk_change": 0.0,
+      "cost_change": 0.0
+    },
+    {
+      "family": "G1",
+      "scenario": "harmful_concept",
+      "risk_change": 0.18044675599551502,
+      "cost_change": 0.028849707405422455
+    },
+    {
+      "family": "G1",
+      "scenario": "risk_without_harm",
+      "risk_change": 0.18044675599551502,
+      "cost_change": 0.0
+    },
+    {
+      "family": "G1",
+      "scenario": "harm_without_accuracy",
+      "risk_change": 0.0,
+      "cost_change": 0.14087944167559896
+    },
+    {
+      "family": "G1",
+      "scenario": "incumbent_best",
+      "risk_change": -0.01670088231988131,
+      "cost_change": -0.0031681033476321486
+    },
+    {
+      "family": "G1",
+      "scenario": "transient_challenger",
+      "risk_change": 0.07139622181699531,
+      "cost_change": 0.011458280219046041
+    },
+    {
+      "family": "G1",
+      "scenario": "challenger_optimal",
+      "risk_change": 0.18044675599551502,
+      "cost_change": 0.028849707405422455
+    },
+    {
+      "family": "G1",
+      "scenario": "tied_models",
+      "risk_change": 0.0,
+      "cost_change": 0.0
+    },
+    {
+      "family": "G1",
+      "scenario": "labels_too_expensive",
+      "risk_change": 0.18044675599551502,
+      "cost_change": 0.028849707405422455
+    },
+    {
+      "family": "G1",
+      "scenario": "localized_harm",
+      "risk_change": 0.007199466995858006,
+      "cost_change": 0.013179953150910488
+    },
+    {
+      "family": "G1",
+      "scenario": "gradual",
+      "risk_change": 0.1421375523108557,
+      "cost_change": 0.022780333783968203
+    },
+    {
+      "family": "G1",
+      "scenario": "recurrent",
+      "risk_change": 0.017434577910067015,
+      "cost_change": 0.0027840283789017247
+    },
+    {
+      "family": "G2",
+      "scenario": "stationary",
+      "risk_change": 0.0,
+      "cost_change": 0.0
+    },
+    {
+      "family": "G2",
+      "scenario": "benign_covariate",
+      "risk_change": 0.0,
+      "cost_change": 0.0
+    },
+    {
+      "family": "G2",
+      "scenario": "harmful_concept",
+      "risk_change": 0.2101036600025133,
+      "cost_change": 0.03121308900967926
+    },
+    {
+      "family": "G2",
+      "scenario": "risk_without_harm",
+      "risk_change": 0.2101036600025133,
+      "cost_change": 0.0
+    },
+    {
+      "family": "G2",
+      "scenario": "harm_without_accuracy",
+      "risk_change": 0.0,
+      "cost_change": 0.13024422445644335
+    },
+    {
+      "family": "G2",
+      "scenario": "incumbent_best",
+      "risk_change": -0.017088184614556853,
+      "cost_change": -0.0030518174659849365
+    },
+    {
+      "family": "G2",
+      "scenario": "transient_challenger",
+      "risk_change": 0.09099948751819492,
+      "cost_change": 0.013222578677796817
+    },
+    {
+      "family": "G2",
+      "scenario": "challenger_optimal",
+      "risk_change": 0.2101036600025133,
+      "cost_change": 0.03121308900967926
+    },
+    {
+      "family": "G2",
+      "scenario": "tied_models",
+      "risk_change": 0.0,
+      "cost_change": 0.0
+    },
+    {
+      "family": "G2",
+      "scenario": "labels_too_expensive",
+      "risk_change": 0.2101036600025133,
+      "cost_change": 0.03121308900967926
+    },
+    {
+      "family": "G2",
+      "scenario": "localized_harm",
+      "risk_change": 0.020735272736392602,
+      "cost_change": 0.027382181129379513
+    },
+    {
+      "family": "G2",
+      "scenario": "gradual",
+      "risk_change": 0.16547601091607164,
+      "cost_change": 0.024649000970158166
+    },
+    {
+      "family": "G2",
+      "scenario": "recurrent",
+      "risk_change": 0.025164118982756327,
+      "cost_change": 0.003593002405522369
+    },
+    {
+      "family": "G3",
+      "scenario": "stationary",
+      "risk_change": 0.0,
+      "cost_change": 0.0
+    },
+    {
+      "family": "G3",
+      "scenario": "benign_covariate",
+      "risk_change": 0.0,
+      "cost_change": 0.0
+    },
+    {
+      "family": "G3",
+      "scenario": "harmful_concept",
+      "risk_change": 0.18891703203313998,
+      "cost_change": 0.02903423625629881
+    },
+    {
+      "family": "G3",
+      "scenario": "risk_without_harm",
+      "risk_change": 0.18891703203313998,
+      "cost_change": 0.0
+    },
+    {
+      "family": "G3",
+      "scenario": "harm_without_accuracy",
+      "risk_change": 0.0,
+      "cost_change": 0.14447260697675968
+    },
+    {
+      "family": "G3",
+      "scenario": "incumbent_best",
+      "risk_change": -0.017497401314354934,
+      "cost_change": -0.0032113304734632487
+    },
+    {
+      "family": "G3",
+      "scenario": "transient_challenger",
+      "risk_change": 0.07524254873266609,
+      "cost_change": 0.011942836222442691
+    },
+    {
+      "family": "G3",
+      "scenario": "challenger_optimal",
+      "risk_change": 0.18891703203313998,
+      "cost_change": 0.02903423625629881
+    },
+    {
+      "family": "G3",
+      "scenario": "tied_models",
+      "risk_change": 0.0,
+      "cost_change": 0.0
+    },
+    {
+      "family": "G3",
+      "scenario": "labels_too_expensive",
+      "risk_change": 0.18891703203313998,
+      "cost_change": 0.02903423625629881
+    },
+    {
+      "family": "G3",
+      "scenario": "localized_harm",
+      "risk_change": 0.017927615127432447,
+      "cost_change": 0.026024702387341548
+    },
+    {
+      "family": "G3",
+      "scenario": "gradual",
+      "risk_change": 0.15013644845364263,
+      "cost_change": 0.02310383941351617
+    },
+    {
+      "family": "G3",
+      "scenario": "recurrent",
+      "risk_change": 0.015390350847212873,
+      "cost_change": 0.0028025687495319748
+    },
+    {
+      "family": "G4",
+      "scenario": "stationary",
+      "risk_change": 0.0,
+      "cost_change": 0.0
+    },
+    {
+      "family": "G4",
+      "scenario": "benign_covariate",
+      "risk_change": 0.0,
+      "cost_change": 0.0
+    },
+    {
+      "family": "G4",
+      "scenario": "harmful_concept",
+      "risk_change": 0.022126511063277184,
+      "cost_change": 0.057540153568172284
+    },
+    {
+      "family": "G4",
+      "scenario": "risk_without_harm",
+      "risk_change": 0.022126511063277184,
+      "cost_change": 0.0
+    },
+    {
+      "family": "G4",
+      "scenario": "harm_without_accuracy",
+      "risk_change": 0.0,
+      "cost_change": 0.06360206278741609
+    },
+    {
+      "family": "G4",
+      "scenario": "incumbent_best",
+      "risk_change": 0.0007221612098151745,
+      "cost_change": -0.011404174487986153
+    },
+    {
+      "family": "G4",
+      "scenario": "transient_challenger",
+      "risk_change": 0.0096794079877579,
+      "cost_change": 0.02486630597207262
+    },
+    {
+      "family": "G4",
+      "scenario": "challenger_optimal",
+      "risk_change": 0.022126511063277184,
+      "cost_change": 0.057540153568172284
+    },
+    {
+      "family": "G4",
+      "scenario": "tied_models",
+      "risk_change": 0.0,
+      "cost_change": 0.0
+    },
+    {
+      "family": "G4",
+      "scenario": "labels_too_expensive",
+      "risk_change": 0.022126511063277184,
+      "cost_change": 0.057540153568172284
+    },
+    {
+      "family": "G4",
+      "scenario": "localized_harm",
+      "risk_change": 0.0015507256056614173,
+      "cost_change": 0.0038633343651704936
+    },
+    {
+      "family": "G4",
+      "scenario": "gradual",
+      "risk_change": 0.015691358403613062,
+      "cost_change": 0.04528619594779755
+    },
+    {
+      "family": "G4",
+      "scenario": "recurrent",
+      "risk_change": 0.0027716001667880985,
+      "cost_change": 0.007214820172868422
+    }
+  ],
+  "interpretation": "generator validation only; no SOTA, power or novelty conclusion"
+}

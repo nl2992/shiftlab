@@ -1,0 +1,26 @@
+{
+  "primary_metric": {
+    "generator_contract_passed": true
+  },
+  "secondary_metrics": {
+    "family": "G3",
+    "scenario": "harmful_concept",
+    "mean_feature_displacement": 0.0,
+    "feature_mmd2_unbiased": 0.008312548203115444,
+    "feature_mmd_interpretation": "descriptive_pre_post_no_test_calibration",
+    "conditional_mean_displacement": 0.2903423625629881,
+    "predictive_deterioration": 0.18891703203313998,
+    "decision_deterioration": 0.02903423625629881,
+    "challenger_benefit": 0.012150164313220649,
+    "best_model_regret": 0.031048986923685167,
+    "proxy_predictive_loss_rmse": 0.30838710583596446,
+    "contract": "bounded_full_feedback_no_causal_effect_of_action_on_outcome",
+    "purchased_labels": 64,
+    "received_labels_by_horizon": 64,
+    "pending_at_horizon": 0,
+    "label_spend": 0.06400000000000004
+  },
+  "uncertainty_estimates": null,
+  "labels_used": 64,
+  "validity_status": "generator_contract_diagnostic_no_statistical_claim"
+}

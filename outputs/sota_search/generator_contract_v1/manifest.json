@@ -1,0 +1,3507 @@
+{
+  "limits": {
+    "max_runs": 1500,
+    "batch_wall_seconds": 3600,
+    "run_wall_seconds": 60,
+    "run_cpu_seconds": 60,
+    "memory_bytes": 2147483648,
+    "storage_bytes": 536870912
+  },
+  "jobs": [
+    {
+      "metadata": {
+        "code_commit": "2ead80b06ead38cae995fb9b8b61f04f1253abc7",
+        "source_hash": "8d71225a66a1f7829dad104f9b7bbcda621ddd1fda7cb05103d2211661092b41",
+        "source_hash_scheme": "sorted_posix_path_NUL_sha256_file_bytes_v2",
+        "environment": {
+          "python": "3.13.1",
+          "platform": "Windows-11-10.0.26200-SP0",
+          "packages": {
+            "numpy": "2.4.2",
+            "scipy": "1.17.1",
+            "psutil": "7.0.0",
+            "pandas": "3.0.1",
+            "pydantic": "2.13.4"
+          }
+        },
+        "parent_algorithm": null,
+        "candidate_algorithm": "generator_contract",
+        "modification_id": null,
+        "component_configuration": {
+          "family": "G1",
+          "scenario": "stationary",
+          "horizon": 512,
+          "dimension": 6,
+          "change_fraction": 0.4,
+          "severity": 1.0,
+          "proxy_quality": "stale",
+          "delay": 3,
+          "delay_model": "independent_random",
+          "missing_probability": 0.0,
+          "label_cost": 0.001,
+          "switch_cost": 0.01,
+          "persistence": 0.97
+        },
+        "hyperparameters": {},
+        "generator_family": "G1",
+        "shift_type": "stationary",
+        "shift_magnitude": 1.0,
+        "predictive_degradation": null,
+        "decision_harm": null,
+        "proxy_quality": "stale",
+        "delay_model": "independent_random",
+        "label_budget": {
+          "hard_label_count": 64
+        },
+        "cost_configuration": {
+          "label_cost": 0.001,
+          "switch_cost": 0.01
+        },
+        "random_seed": 281001,
+        "baseline_version": "generator_contract_v1",
+        "validity_status": "diagnostic_only",
+        "provenance_class": "ORACLE_ONLY"
+      },
+      "argv": [
+        "-m",
+        "shiftlab.sota_search.generator_worker",
+        "--family",
+        "G1",
+        "--scenario",
+        "stationary",
+        "--seed",
+        "281001",
+        "--horizon",
+        "512"
+      ]
+    },
+    {
+      "metadata": {
+        "code_commit": "2ead80b06ead38cae995fb9b8b61f04f1253abc7",
+        "source_hash": "8d71225a66a1f7829dad104f9b7bbcda621ddd1fda7cb05103d2211661092b41",
+        "source_hash_scheme": "sorted_posix_path_NUL_sha256_file_bytes_v2",
+        "environment": {
+          "python": "3.13.1",
+          "platform": "Windows-11-10.0.26200-SP0",
+          "packages": {
+            "numpy": "2.4.2",
+            "scipy": "1.17.1",
+            "psutil": "7.0.0",
+            "pandas": "3.0.1",
+            "pydantic": "2.13.4"
+          }
+        },
+        "parent_algorithm": null,
+        "candidate_algorithm": "generator_contract",
+        "modification_id": null,
+        "component_configuration": {
+          "family": "G1",
+          "scenario": "benign_covariate",
+          "horizon": 512,
+          "dimension": 6,
+          "change_fraction": 0.4,
+          "severity": 1.0,
+          "proxy_quality": "stale",
+          "delay": 3,
+          "delay_model": "independent_random",
+          "missing_probability": 0.0,
+          "label_cost": 0.001,
+          "switch_cost": 0.01,
+          "persistence": 0.97
+        },
+        "hyperparameters": {},
+        "generator_family": "G1",
+        "shift_type": "benign_covariate",
+        "shift_magnitude": 1.0,
+        "predictive_degradation": null,
+        "decision_harm": null,
+        "proxy_quality": "stale",
+        "delay_model": "independent_random",
+        "label_budget": {
+          "hard_label_count": 64
+        },
+        "cost_configuration": {
+          "label_cost": 0.001,
+          "switch_cost": 0.01
+        },
+        "random_seed": 281001,
+        "baseline_version": "generator_contract_v1",
+        "validity_status": "diagnostic_only",
+        "provenance_class": "ORACLE_ONLY"
+      },
+      "argv": [
+        "-m",
+        "shiftlab.sota_search.generator_worker",
+        "--family",
+        "G1",
+        "--scenario",
+        "benign_covariate",
+        "--seed",
+        "281001",
+        "--horizon",
+        "512"
+      ]
+    },
+    {
+      "metadata": {
+        "code_commit": "2ead80b06ead38cae995fb9b8b61f04f1253abc7",
+        "source_hash": "8d71225a66a1f7829dad104f9b7bbcda621ddd1fda7cb05103d2211661092b41",
+        "source_hash_scheme": "sorted_posix_path_NUL_sha256_file_bytes_v2",
+        "environment": {
+          "python": "3.13.1",
+          "platform": "Windows-11-10.0.26200-SP0",
+          "packages": {
+            "numpy": "2.4.2",
+            "scipy": "1.17.1",
+            "psutil": "7.0.0",
+            "pandas": "3.0.1",
+            "pydantic": "2.13.4"
+          }
+        },
+        "parent_algorithm": null,
+        "candidate_algorithm": "generator_contract",
+        "modification_id": null,
+        "component_configuration": {
+          "family": "G1",
+          "scenario": "harmful_concept",
+          "horizon": 512,
+          "dimension": 6,
+          "change_fraction": 0.4,
+          "severity": 1.0,
+          "proxy_quality": "stale",
+          "delay": 3,
+          "delay_model": "independent_random",
+          "missing_probability": 0.0,
+          "label_cost": 0.001,
+          "switch_cost": 0.01,
+          "persistence": 0.97
+        },
+        "hyperparameters": {},
+        "generator_family": "G1",
+        "shift_type": "harmful_concept",
+        "shift_magnitude": 1.0,
+        "predictive_degradation": null,
+        "decision_harm": null,
+        "proxy_quality": "stale",
+        "delay_model": "independent_random",
+        "label_budget": {
+          "hard_label_count": 64
+        },
+        "cost_configuration": {
+          "label_cost": 0.001,
+          "switch_cost": 0.01
+        },
+        "random_seed": 281001,
+        "baseline_version": "generator_contract_v1",
+        "validity_status": "diagnostic_only",
+        "provenance_class": "ORACLE_ONLY"
+      },
+      "argv": [
+        "-m",
+        "shiftlab.sota_search.generator_worker",
+        "--family",
+        "G1",
+        "--scenario",
+        "harmful_concept",
+        "--seed",
+        "281001",
+        "--horizon",
+        "512"
+      ]
+    },
+    {
+      "metadata": {
+        "code_commit": "2ead80b06ead38cae995fb9b8b61f04f1253abc7",
+        "source_hash": "8d71225a66a1f7829dad104f9b7bbcda621ddd1fda7cb05103d2211661092b41",
+        "source_hash_scheme": "sorted_posix_path_NUL_sha256_file_bytes_v2",
+        "environment": {
+          "python": "3.13.1",
+          "platform": "Windows-11-10.0.26200-SP0",
+          "packages": {
+            "numpy": "2.4.2",
+            "scipy": "1.17.1",
+            "psutil": "7.0.0",
+            "pandas": "3.0.1",
+            "pydantic": "2.13.4"
+          }
+        },
+        "parent_algorithm": null,
+        "candidate_algorithm": "generator_contract",
+        "modification_id": null,
+        "component_configuration": {
+          "family": "G1",
+          "scenario": "risk_without_harm",
+          "horizon": 512,
+          "dimension": 6,
+          "change_fraction": 0.4,
+          "severity": 1.0,
+          "proxy_quality": "stale",
+          "delay": 3,
+          "delay_model": "independent_random",
+          "missing_probability": 0.0,
+          "label_cost": 0.001,
+          "switch_cost": 0.01,
+          "persistence": 0.97
+        },
+        "hyperparameters": {},
+        "generator_family": "G1",
+        "shift_type": "risk_without_harm",
+        "shift_magnitude": 1.0,
+        "predictive_degradation": null,
+        "decision_harm": null,
+        "proxy_quality": "stale",
+        "delay_model": "independent_random",
+        "label_budget": {
+          "hard_label_count": 64
+        },
+        "cost_configuration": {
+          "label_cost": 0.001,
+          "switch_cost": 0.01
+        },
+        "random_seed": 281001,
+        "baseline_version": "generator_contract_v1",
+        "validity_status": "diagnostic_only",
+        "provenance_class": "ORACLE_ONLY"
+      },
+      "argv": [
+        "-m",
+        "shiftlab.sota_search.generator_worker",
+        "--family",
+        "G1",
+        "--scenario",
+        "risk_without_harm",
+        "--seed",
+        "281001",
+        "--horizon",
+        "512"
+      ]
+    },
+    {
+      "metadata": {
+        "code_commit": "2ead80b06ead38cae995fb9b8b61f04f1253abc7",
+        "source_hash": "8d71225a66a1f7829dad104f9b7bbcda621ddd1fda7cb05103d2211661092b41",
+        "source_hash_scheme": "sorted_posix_path_NUL_sha256_file_bytes_v2",
+        "environment": {
+          "python": "3.13.1",
+          "platform": "Windows-11-10.0.26200-SP0",
+          "packages": {
+            "numpy": "2.4.2",
+            "scipy": "1.17.1",
+            "psutil": "7.0.0",
+            "pandas": "3.0.1",
+            "pydantic": "2.13.4"
+          }
+        },
+        "parent_algorithm": null,
+        "candidate_algorithm": "generator_contract",
+        "modification_id": null,
+        "component_configuration": {
+          "family": "G1",
+          "scenario": "harm_without_accuracy",
+          "horizon": 512,
+          "dimension": 6,
+          "change_fraction": 0.4,
+          "severity": 1.0,
+          "proxy_quality": "stale",
+          "delay": 3,
+          "delay_model": "independent_random",
+          "missing_probability": 0.0,
+          "label_cost": 0.001,
+          "switch_cost": 0.01,
+          "persistence": 0.97
+        },
+        "hyperparameters": {},
+        "generator_family": "G1",
+        "shift_type": "harm_without_accuracy",
+        "shift_magnitude": 1.0,
+        "predictive_degradation": null,
+        "decision_harm": null,
+        "proxy_quality": "stale",
+        "delay_model": "independent_random",
+        "label_budget": {
+          "hard_label_count": 64
+        },
+        "cost_configuration": {
+          "label_cost": 0.001,
+          "switch_cost": 0.01
+        },
+        "random_seed": 281001,
+        "baseline_version": "generator_contract_v1",
+        "validity_status": "diagnostic_only",
+        "provenance_class": "ORACLE_ONLY"
+      },
+      "argv": [
+        "-m",
+        "shiftlab.sota_search.generator_worker",
+        "--family",
+        "G1",
+        "--scenario",
+        "harm_without_accuracy",
+        "--seed",
+        "281001",
+        "--horizon",
+        "512"
+      ]
+    },
+    {
+      "metadata": {
+        "code_commit": "2ead80b06ead38cae995fb9b8b61f04f1253abc7",
+        "source_hash": "8d71225a66a1f7829dad104f9b7bbcda621ddd1fda7cb05103d2211661092b41",
+        "source_hash_scheme": "sorted_posix_path_NUL_sha256_file_bytes_v2",
+        "environment": {
+          "python": "3.13.1",
+          "platform": "Windows-11-10.0.26200-SP0",
+          "packages": {
+            "numpy": "2.4.2",
+            "scipy": "1.17.1",
+            "psutil": "7.0.0",
+            "pandas": "3.0.1",
+            "pydantic": "2.13.4"
+          }
+        },
+        "parent_algorithm": null,
+        "candidate_algorithm": "generator_contract",
+        "modification_id": null,
+        "component_configuration": {
+          "family": "G1",
+          "scenario": "incumbent_best",
+          "horizon": 512,
+          "dimension": 6,
+          "change_fraction": 0.4,
+          "severity": 1.0,
+          "proxy_quality": "stale",
+          "delay": 3,
+          "delay_model": "independent_random",
+          "missing_probability": 0.0,
+          "label_cost": 0.001,
+          "switch_cost": 0.01,
+          "persistence": 0.97
+        },
+        "hyperparameters": {},
+        "generator_family": "G1",
+        "shift_type": "incumbent_best",
+        "shift_magnitude": 1.0,
+        "predictive_degradation": null,
+        "decision_harm": null,
+        "proxy_quality": "stale",
+        "delay_model": "independent_random",
+        "label_budget": {
+          "hard_label_count": 64
+        },
+        "cost_configuration": {
+          "label_cost": 0.001,
+          "switch_cost": 0.01
+        },
+        "random_seed": 281001,
+        "baseline_version": "generator_contract_v1",
+        "validity_status": "diagnostic_only",
+        "provenance_class": "ORACLE_ONLY"
+      },
+      "argv": [
+        "-m",
+        "shiftlab.sota_search.generator_worker",
+        "--family",
+        "G1",
+        "--scenario",
+        "incumbent_best",
+        "--seed",
+        "281001",
+        "--horizon",
+        "512"
+      ]
+    },
+    {
+      "metadata": {
+        "code_commit": "2ead80b06ead38cae995fb9b8b61f04f1253abc7",
+        "source_hash": "8d71225a66a1f7829dad104f9b7bbcda621ddd1fda7cb05103d2211661092b41",
+        "source_hash_scheme": "sorted_posix_path_NUL_sha256_file_bytes_v2",
+        "environment": {
+          "python": "3.13.1",
+          "platform": "Windows-11-10.0.26200-SP0",
+          "packages": {
+            "numpy": "2.4.2",
+            "scipy": "1.17.1",
+            "psutil": "7.0.0",
+            "pandas": "3.0.1",
+            "pydantic": "2.13.4"
+          }
+        },
+        "parent_algorithm": null,
+        "candidate_algorithm": "generator_contract",
+        "modification_id": null,
+        "component_configuration": {
+          "family": "G1",
+          "scenario": "transient_challenger",
+          "horizon": 512,
+          "dimension": 6,
+          "change_fraction": 0.4,
+          "severity": 1.0,
+          "proxy_quality": "stale",
+          "delay": 3,
+          "delay_model": "independent_random",
+          "missing_probability": 0.0,
+          "label_cost": 0.001,
+          "switch_cost": 0.01,
+          "persistence": 0.97
+        },
+        "hyperparameters": {},
+        "generator_family": "G1",
+        "shift_type": "transient_challenger",
+        "shift_magnitude": 1.0,
+        "predictive_degradation": null,
+        "decision_harm": null,
+        "proxy_quality": "stale",
+        "delay_model": "independent_random",
+        "label_budget": {
+          "hard_label_count": 64
+        },
+        "cost_configuration": {
+          "label_cost": 0.001,
+          "switch_cost": 0.01
+        },
+        "random_seed": 281001,
+        "baseline_version": "generator_contract_v1",
+        "validity_status": "diagnostic_only",
+        "provenance_class": "ORACLE_ONLY"
+      },
+      "argv": [
+        "-m",
+        "shiftlab.sota_search.generator_worker",
+        "--family",
+        "G1",
+        "--scenario",
+        "transient_challenger",
+        "--seed",
+        "281001",
+        "--horizon",
+        "512"
+      ]
+    },
+    {
+      "metadata": {
+        "code_commit": "2ead80b06ead38cae995fb9b8b61f04f1253abc7",
+        "source_hash": "8d71225a66a1f7829dad104f9b7bbcda621ddd1fda7cb05103d2211661092b41",
+        "source_hash_scheme": "sorted_posix_path_NUL_sha256_file_bytes_v2",
+        "environment": {
+          "python": "3.13.1",
+          "platform": "Windows-11-10.0.26200-SP0",
+          "packages": {
+            "numpy": "2.4.2",
+            "scipy": "1.17.1",
+            "psutil": "7.0.0",
+            "pandas": "3.0.1",
+            "pydantic": "2.13.4"
+          }
+        },
+        "parent_algorithm": null,
+        "candidate_algorithm": "generator_contract",
+        "modification_id": null,
+        "component_configuration": {
+          "family": "G1",
+          "scenario": "challenger_optimal",
+          "horizon": 512,
+          "dimension": 6,
+          "change_fraction": 0.4,
+          "severity": 1.0,
+          "proxy_quality": "stale",
+          "delay": 3,
+          "delay_model": "independent_random",
+          "missing_probability": 0.0,
+          "label_cost": 0.001,
+          "switch_cost": 0.01,
+          "persistence": 0.97
+        },
+        "hyperparameters": {},
+        "generator_family": "G1",
+        "shift_type": "challenger_optimal",
+        "shift_magnitude": 1.0,
+        "predictive_degradation": null,
+        "decision_harm": null,
+        "proxy_quality": "stale",
+        "delay_model": "independent_random",
+        "label_budget": {
+          "hard_label_count": 64
+        },
+        "cost_configuration": {
+          "label_cost": 0.001,
+          "switch_cost": 0.01
+        },
+        "random_seed": 281001,
+        "baseline_version": "generator_contract_v1",
+        "validity_status": "diagnostic_only",
+        "provenance_class": "ORACLE_ONLY"
+      },
+      "argv": [
+        "-m",
+        "shiftlab.sota_search.generator_worker",
+        "--family",
+        "G1",
+        "--scenario",
+        "challenger_optimal",
+        "--seed",
+        "281001",
+        "--horizon",
+        "512"
+      ]
+    },
+    {
+      "metadata": {
+        "code_commit": "2ead80b06ead38cae995fb9b8b61f04f1253abc7",
+        "source_hash": "8d71225a66a1f7829dad104f9b7bbcda621ddd1fda7cb05103d2211661092b41",
+        "source_hash_scheme": "sorted_posix_path_NUL_sha256_file_bytes_v2",
+        "environment": {
+          "python": "3.13.1",
+          "platform": "Windows-11-10.0.26200-SP0",
+          "packages": {
+            "numpy": "2.4.2",
+            "scipy": "1.17.1",
+            "psutil": "7.0.0",
+            "pandas": "3.0.1",
+            "pydantic": "2.13.4"
+          }
+        },
+        "parent_algorithm": null,
+        "candidate_algorithm": "generator_contract",
+        "modification_id": null,
+        "component_configuration": {
+          "family": "G1",
+          "scenario": "tied_models",
+          "horizon": 512,
+          "dimension": 6,
+          "change_fraction": 0.4,
+          "severity": 1.0,
+          "proxy_quality": "stale",
+          "delay": 3,
+          "delay_model": "independent_random",
+          "missing_probability": 0.0,
+          "label_cost": 0.001,
+          "switch_cost": 0.01,
+          "persistence": 0.97
+        },
+        "hyperparameters": {},
+        "generator_family": "G1",
+        "shift_type": "tied_models",
+        "shift_magnitude": 1.0,
+        "predictive_degradation": null,
+        "decision_harm": null,
+        "proxy_quality": "stale",
+        "delay_model": "independent_random",
+        "label_budget": {
+          "hard_label_count": 64
+        },
+        "cost_configuration": {
+          "label_cost": 0.001,
+          "switch_cost": 0.01
+        },
+        "random_seed": 281001,
+        "baseline_version": "generator_contract_v1",
+        "validity_status": "diagnostic_only",
+        "provenance_class": "ORACLE_ONLY"
+      },
+      "argv": [
+        "-m",
+        "shiftlab.sota_search.generator_worker",
+        "--family",
+        "G1",
+        "--scenario",
+        "tied_models",
+        "--seed",
+        "281001",
+        "--horizon",
+        "512"
+      ]
+    },
+    {
+      "metadata": {
+        "code_commit": "2ead80b06ead38cae995fb9b8b61f04f1253abc7",
+        "source_hash": "8d71225a66a1f7829dad104f9b7bbcda621ddd1fda7cb05103d2211661092b41",
+        "source_hash_scheme": "sorted_posix_path_NUL_sha256_file_bytes_v2",
+        "environment": {
+          "python": "3.13.1",
+          "platform": "Windows-11-10.0.26200-SP0",
+          "packages": {
+            "numpy": "2.4.2",
+            "scipy": "1.17.1",
+            "psutil": "7.0.0",
+            "pandas": "3.0.1",
+            "pydantic": "2.13.4"
+          }
+        },
+        "parent_algorithm": null,
+        "candidate_algorithm": "generator_contract",
+        "modification_id": null,
+        "component_configuration": {
+          "family": "G1",
+          "scenario": "labels_too_expensive",
+          "horizon": 512,
+          "dimension": 6,
+          "change_fraction": 0.4,
+          "severity": 1.0,
+          "proxy_quality": "stale",
+          "delay": 3,
+          "delay_model": "independent_random",
+          "missing_probability": 0.0,
+          "label_cost": 0.001,
+          "switch_cost": 0.01,
+          "persistence": 0.97
+        },
+        "hyperparameters": {},
+        "generator_family": "G1",
+        "shift_type": "labels_too_expensive",
+        "shift_magnitude": 1.0,
+        "predictive_degradation": null,
+        "decision_harm": null,
+        "proxy_quality": "stale",
+        "delay_model": "independent_random",
+        "label_budget": {
+          "hard_label_count": 64
+        },
+        "cost_configuration": {
+          "label_cost": 2,
+          "switch_cost": 0.01
+        },
+        "random_seed": 281001,
+        "baseline_version": "generator_contract_v1",
+        "validity_status": "diagnostic_only",
+        "provenance_class": "ORACLE_ONLY"
+      },
+      "argv": [
+        "-m",
+        "shiftlab.sota_search.generator_worker",
+        "--family",
+        "G1",
+        "--scenario",
+        "labels_too_expensive",
+        "--seed",
+        "281001",
+        "--horizon",
+        "512"
+      ]
+    },
+    {
+      "metadata": {
+        "code_commit": "2ead80b06ead38cae995fb9b8b61f04f1253abc7",
+        "source_hash": "8d71225a66a1f7829dad104f9b7bbcda621ddd1fda7cb05103d2211661092b41",
+        "source_hash_scheme": "sorted_posix_path_NUL_sha256_file_bytes_v2",
+        "environment": {
+          "python": "3.13.1",
+          "platform": "Windows-11-10.0.26200-SP0",
+          "packages": {
+            "numpy": "2.4.2",
+            "scipy": "1.17.1",
+            "psutil": "7.0.0",
+            "pandas": "3.0.1",
+            "pydantic": "2.13.4"
+          }
+        },
+        "parent_algorithm": null,
+        "candidate_algorithm": "generator_contract",
+        "modification_id": null,
+        "component_configuration": {
+          "family": "G1",
+          "scenario": "localized_harm",
+          "horizon": 512,
+          "dimension": 6,
+          "change_fraction": 0.4,
+          "severity": 1.0,
+          "proxy_quality": "stale",
+          "delay": 3,
+          "delay_model": "independent_random",
+          "missing_probability": 0.0,
+          "label_cost": 0.001,
+          "switch_cost": 0.01,
+          "persistence": 0.97
+        },
+        "hyperparameters": {},
+        "generator_family": "G1",
+        "shift_type": "localized_harm",
+        "shift_magnitude": 1.0,
+        "predictive_degradation": null,
+        "decision_harm": null,
+        "proxy_quality": "stale",
+        "delay_model": "independent_random",
+        "label_budget": {
+          "hard_label_count": 64
+        },
+        "cost_configuration": {
+          "label_cost": 0.001,
+          "switch_cost": 0.01
+        },
+        "random_seed": 281001,
+        "baseline_version": "generator_contract_v1",
+        "validity_status": "diagnostic_only",
+        "provenance_class": "ORACLE_ONLY"
+      },
+      "argv": [
+        "-m",
+        "shiftlab.sota_search.generator_worker",
+        "--family",
+        "G1",
+        "--scenario",
+        "localized_harm",
+        "--seed",
+        "281001",
+        "--horizon",
+        "512"
+      ]
+    },
+    {
+      "metadata": {
+        "code_commit": "2ead80b06ead38cae995fb9b8b61f04f1253abc7",
+        "source_hash": "8d71225a66a1f7829dad104f9b7bbcda621ddd1fda7cb05103d2211661092b41",
+        "source_hash_scheme": "sorted_posix_path_NUL_sha256_file_bytes_v2",
+        "environment": {
+          "python": "3.13.1",
+          "platform": "Windows-11-10.0.26200-SP0",
+          "packages": {
+            "numpy": "2.4.2",
+            "scipy": "1.17.1",
+            "psutil": "7.0.0",
+            "pandas": "3.0.1",
+            "pydantic": "2.13.4"
+          }
+        },
+        "parent_algorithm": null,
+        "candidate_algorithm": "generator_contract",
+        "modification_id": null,
+        "component_configuration": {
+          "family": "G1",
+          "scenario": "gradual",
+          "horizon": 512,
+          "dimension": 6,
+          "change_fraction": 0.4,
+          "severity": 1.0,
+          "proxy_quality": "stale",
+          "delay": 3,
+          "delay_model": "independent_random",
+          "missing_probability": 0.0,
+          "label_cost": 0.001,
+          "switch_cost": 0.01,
+          "persistence": 0.97
+        },
+        "hyperparameters": {},
+        "generator_family": "G1",
+        "shift_type": "gradual",
+        "shift_magnitude": 1.0,
+        "predictive_degradation": null,
+        "decision_harm": null,
+        "proxy_quality": "stale",
+        "delay_model": "independent_random",
+        "label_budget": {
+          "hard_label_count": 64
+        },
+        "cost_configuration": {
+          "label_cost": 0.001,
+          "switch_cost": 0.01
+        },
+        "random_seed": 281001,
+        "baseline_version": "generator_contract_v1",
+        "validity_status": "diagnostic_only",
+        "provenance_class": "ORACLE_ONLY"
+      },
+      "argv": [
+        "-m",
+        "shiftlab.sota_search.generator_worker",
+        "--family",
+        "G1",
+        "--scenario",
+        "gradual",
+        "--seed",
+        "281001",
+        "--horizon",
+        "512"
+      ]
+    },
+    {
+      "metadata": {
+        "code_commit": "2ead80b06ead38cae995fb9b8b61f04f1253abc7",
+        "source_hash": "8d71225a66a1f7829dad104f9b7bbcda621ddd1fda7cb05103d2211661092b41",
+        "source_hash_scheme": "sorted_posix_path_NUL_sha256_file_bytes_v2",
+        "environment": {
+          "python": "3.13.1",
+          "platform": "Windows-11-10.0.26200-SP0",
+          "packages": {
+            "numpy": "2.4.2",
+            "scipy": "1.17.1",
+            "psutil": "7.0.0",
+            "pandas": "3.0.1",
+            "pydantic": "2.13.4"
+          }
+        },
+        "parent_algorithm": null,
+        "candidate_algorithm": "generator_contract",
+        "modification_id": null,
+        "component_configuration": {
+          "family": "G1",
+          "scenario": "recurrent",
+          "horizon": 512,
+          "dimension": 6,
+          "change_fraction": 0.4,
+          "severity": 1.0,
+          "proxy_quality": "stale",
+          "delay": 3,
+          "delay_model": "independent_random",
+          "missing_probability": 0.0,
+          "label_cost": 0.001,
+          "switch_cost": 0.01,
+          "persistence": 0.97
+        },
+        "hyperparameters": {},
+        "generator_family": "G1",
+        "shift_type": "recurrent",
+        "shift_magnitude": 1.0,
+        "predictive_degradation": null,
+        "decision_harm": null,
+        "proxy_quality": "stale",
+        "delay_model": "independent_random",
+        "label_budget": {
+          "hard_label_count": 64
+        },
+        "cost_configuration": {
+          "label_cost": 0.001,
+          "switch_cost": 0.01
+        },
+        "random_seed": 281001,
+        "baseline_version": "generator_contract_v1",
+        "validity_status": "diagnostic_only",
+        "provenance_class": "ORACLE_ONLY"
+      },
+      "argv": [
+        "-m",
+        "shiftlab.sota_search.generator_worker",
+        "--family",
+        "G1",
+        "--scenario",
+        "recurrent",
+        "--seed",
+        "281001",
+        "--horizon",
+        "512"
+      ]
+    },
+    {
+      "metadata": {
+        "code_commit": "2ead80b06ead38cae995fb9b8b61f04f1253abc7",
+        "source_hash": "8d71225a66a1f7829dad104f9b7bbcda621ddd1fda7cb05103d2211661092b41",
+        "source_hash_scheme": "sorted_posix_path_NUL_sha256_file_bytes_v2",
+        "environment": {
+          "python": "3.13.1",
+          "platform": "Windows-11-10.0.26200-SP0",
+          "packages": {
+            "numpy": "2.4.2",
+            "scipy": "1.17.1",
+            "psutil": "7.0.0",
+            "pandas": "3.0.1",
+            "pydantic": "2.13.4"
+          }
+        },
+        "parent_algorithm": null,
+        "candidate_algorithm": "generator_contract",
+        "modification_id": null,
+        "component_configuration": {
+          "family": "G2",
+          "scenario": "stationary",
+          "horizon": 512,
+          "dimension": 6,
+          "change_fraction": 0.4,
+          "severity": 1.0,
+          "proxy_quality": "stale",
+          "delay": 3,
+          "delay_model": "independent_random",
+          "missing_probability": 0.0,
+          "label_cost": 0.001,
+          "switch_cost": 0.01,
+          "persistence": 0.97
+        },
+        "hyperparameters": {},
+        "generator_family": "G2",
+        "shift_type": "stationary",
+        "shift_magnitude": 1.0,
+        "predictive_degradation": null,
+        "decision_harm": null,
+        "proxy_quality": "stale",
+        "delay_model": "independent_random",
+        "label_budget": {
+          "hard_label_count": 64
+        },
+        "cost_configuration": {
+          "label_cost": 0.001,
+          "switch_cost": 0.01
+        },
+        "random_seed": 281001,
+        "baseline_version": "generator_contract_v1",
+        "validity_status": "diagnostic_only",
+        "provenance_class": "ORACLE_ONLY"
+      },
+      "argv": [
+        "-m",
+        "shiftlab.sota_search.generator_worker",
+        "--family",
+        "G2",
+        "--scenario",
+        "stationary",
+        "--seed",
+        "281001",
+        "--horizon",
+        "512"
+      ]
+    },
+    {
+      "metadata": {
+        "code_commit": "2ead80b06ead38cae995fb9b8b61f04f1253abc7",
+        "source_hash": "8d71225a66a1f7829dad104f9b7bbcda621ddd1fda7cb05103d2211661092b41",
+        "source_hash_scheme": "sorted_posix_path_NUL_sha256_file_bytes_v2",
+        "environment": {
+          "python": "3.13.1",
+          "platform": "Windows-11-10.0.26200-SP0",
+          "packages": {
+            "numpy": "2.4.2",
+            "scipy": "1.17.1",
+            "psutil": "7.0.0",
+            "pandas": "3.0.1",
+            "pydantic": "2.13.4"
+          }
+        },
+        "parent_algorithm": null,
+        "candidate_algorithm": "generator_contract",
+        "modification_id": null,
+        "component_configuration": {
+          "family": "G2",
+          "scenario": "benign_covariate",
+          "horizon": 512,
+          "dimension": 6,
+          "change_fraction": 0.4,
+          "severity": 1.0,
+          "proxy_quality": "stale",
+          "delay": 3,
+          "delay_model": "independent_random",
+          "missing_probability": 0.0,
+          "label_cost": 0.001,
+          "switch_cost": 0.01,
+          "persistence": 0.97
+        },
+        "hyperparameters": {},
+        "generator_family": "G2",
+        "shift_type": "benign_covariate",
+        "shift_magnitude": 1.0,
+        "predictive_degradation": null,
+        "decision_harm": null,
+        "proxy_quality": "stale",
+        "delay_model": "independent_random",
+        "label_budget": {
+          "hard_label_count": 64
+        },
+        "cost_configuration": {
+          "label_cost": 0.001,
+          "switch_cost": 0.01
+        },
+        "random_seed": 281001,
+        "baseline_version": "generator_contract_v1",
+        "validity_status": "diagnostic_only",
+        "provenance_class": "ORACLE_ONLY"
+      },
+      "argv": [
+        "-m",
+        "shiftlab.sota_search.generator_worker",
+        "--family",
+        "G2",
+        "--scenario",
+        "benign_covariate",
+        "--seed",
+        "281001",
+        "--horizon",
+        "512"
+      ]
+    },
+    {
+      "metadata": {
+        "code_commit": "2ead80b06ead38cae995fb9b8b61f04f1253abc7",
+        "source_hash": "8d71225a66a1f7829dad104f9b7bbcda621ddd1fda7cb05103d2211661092b41",
+        "source_hash_scheme": "sorted_posix_path_NUL_sha256_file_bytes_v2",
+        "environment": {
+          "python": "3.13.1",
+          "platform": "Windows-11-10.0.26200-SP0",
+          "packages": {
+            "numpy": "2.4.2",
+            "scipy": "1.17.1",
+            "psutil": "7.0.0",
+            "pandas": "3.0.1",
+            "pydantic": "2.13.4"
+          }
+        },
+        "parent_algorithm": null,
+        "candidate_algorithm": "generator_contract",
+        "modification_id": null,
+        "component_configuration": {
+          "family": "G2",
+          "scenario": "harmful_concept",
+          "horizon": 512,
+          "dimension": 6,
+          "change_fraction": 0.4,
+          "severity": 1.0,
+          "proxy_quality": "stale",
+          "delay": 3,
+          "delay_model": "independent_random",
+          "missing_probability": 0.0,
+          "label_cost": 0.001,
+          "switch_cost": 0.01,
+          "persistence": 0.97
+        },
+        "hyperparameters": {},
+        "generator_family": "G2",
+        "shift_type": "harmful_concept",
+        "shift_magnitude": 1.0,
+        "predictive_degradation": null,
+        "decision_harm": null,
+        "proxy_quality": "stale",
+        "delay_model": "independent_random",
+        "label_budget": {
+          "hard_label_count": 64
+        },
+        "cost_configuration": {
+          "label_cost": 0.001,
+          "switch_cost": 0.01
+        },
+        "random_seed": 281001,
+        "baseline_version": "generator_contract_v1",
+        "validity_status": "diagnostic_only",
+        "provenance_class": "ORACLE_ONLY"
+      },
+      "argv": [
+        "-m",
+        "shiftlab.sota_search.generator_worker",
+        "--family",
+        "G2",
+        "--scenario",
+        "harmful_concept",
+        "--seed",
+        "281001",
+        "--horizon",
+        "512"
+      ]
+    },
+    {
+      "metadata": {
+        "code_commit": "2ead80b06ead38cae995fb9b8b61f04f1253abc7",
+        "source_hash": "8d71225a66a1f7829dad104f9b7bbcda621ddd1fda7cb05103d2211661092b41",
+        "source_hash_scheme": "sorted_posix_path_NUL_sha256_file_bytes_v2",
+        "environment": {
+          "python": "3.13.1",
+          "platform": "Windows-11-10.0.26200-SP0",
+          "packages": {
+            "numpy": "2.4.2",
+            "scipy": "1.17.1",
+            "psutil": "7.0.0",
+            "pandas": "3.0.1",
+            "pydantic": "2.13.4"
+          }
+        },
+        "parent_algorithm": null,
+        "candidate_algorithm": "generator_contract",
+        "modification_id": null,
+        "component_configuration": {
+          "family": "G2",
+          "scenario": "risk_without_harm",
+          "horizon": 512,
+          "dimension": 6,
+          "change_fraction": 0.4,
+          "severity": 1.0,
+          "proxy_quality": "stale",
+          "delay": 3,
+          "delay_model": "independent_random",
+          "missing_probability": 0.0,
+          "label_cost": 0.001,
+          "switch_cost": 0.01,
+          "persistence": 0.97
+        },
+        "hyperparameters": {},
+        "generator_family": "G2",
+        "shift_type": "risk_without_harm",
+        "shift_magnitude": 1.0,
+        "predictive_degradation": null,
+        "decision_harm": null,
+        "proxy_quality": "stale",
+        "delay_model": "independent_random",
+        "label_budget": {
+          "hard_label_count": 64
+        },
+        "cost_configuration": {
+          "label_cost": 0.001,
+          "switch_cost": 0.01
+        },
+        "random_seed": 281001,
+        "baseline_version": "generator_contract_v1",
+        "validity_status": "diagnostic_only",
+        "provenance_class": "ORACLE_ONLY"
+      },
+      "argv": [
+        "-m",
+        "shiftlab.sota_search.generator_worker",
+        "--family",
+        "G2",
+        "--scenario",
+        "risk_without_harm",
+        "--seed",
+        "281001",
+        "--horizon",
+        "512"
+      ]
+    },
+    {
+      "metadata": {
+        "code_commit": "2ead80b06ead38cae995fb9b8b61f04f1253abc7",
+        "source_hash": "8d71225a66a1f7829dad104f9b7bbcda621ddd1fda7cb05103d2211661092b41",
+        "source_hash_scheme": "sorted_posix_path_NUL_sha256_file_bytes_v2",
+        "environment": {
+          "python": "3.13.1",
+          "platform": "Windows-11-10.0.26200-SP0",
+          "packages": {
+            "numpy": "2.4.2",
+            "scipy": "1.17.1",
+            "psutil": "7.0.0",
+            "pandas": "3.0.1",
+            "pydantic": "2.13.4"
+          }
+        },
+        "parent_algorithm": null,
+        "candidate_algorithm": "generator_contract",
+        "modification_id": null,
+        "component_configuration": {
+          "family": "G2",
+          "scenario": "harm_without_accuracy",
+          "horizon": 512,
+          "dimension": 6,
+          "change_fraction": 0.4,
+          "severity": 1.0,
+          "proxy_quality": "stale",
+          "delay": 3,
+          "delay_model": "independent_random",
+          "missing_probability": 0.0,
+          "label_cost": 0.001,
+          "switch_cost": 0.01,
+          "persistence": 0.97
+        },
+        "hyperparameters": {},
+        "generator_family": "G2",
+        "shift_type": "harm_without_accuracy",
+        "shift_magnitude": 1.0,
+        "predictive_degradation": null,
+        "decision_harm": null,
+        "proxy_quality": "stale",
+        "delay_model": "independent_random",
+        "label_budget": {
+          "hard_label_count": 64
+        },
+        "cost_configuration": {
+          "label_cost": 0.001,
+          "switch_cost": 0.01
+        },
+        "random_seed": 281001,
+        "baseline_version": "generator_contract_v1",
+        "validity_status": "diagnostic_only",
+        "provenance_class": "ORACLE_ONLY"
+      },
+      "argv": [
+        "-m",
+        "shiftlab.sota_search.generator_worker",
+        "--family",
+        "G2",
+        "--scenario",
+        "harm_without_accuracy",
+        "--seed",
+        "281001",
+        "--horizon",
+        "512"
+      ]
+    },
+    {
+      "metadata": {
+        "code_commit": "2ead80b06ead38cae995fb9b8b61f04f1253abc7",
+        "source_hash": "8d71225a66a1f7829dad104f9b7bbcda621ddd1fda7cb05103d2211661092b41",
+        "source_hash_scheme": "sorted_posix_path_NUL_sha256_file_bytes_v2",
+        "environment": {
+          "python": "3.13.1",
+          "platform": "Windows-11-10.0.26200-SP0",
+          "packages": {
+            "numpy": "2.4.2",
+            "scipy": "1.17.1",
+            "psutil": "7.0.0",
+            "pandas": "3.0.1",
+            "pydantic": "2.13.4"
+          }
+        },
+        "parent_algorithm": null,
+        "candidate_algorithm": "generator_contract",
+        "modification_id": null,
+        "component_configuration": {
+          "family": "G2",
+          "scenario": "incumbent_best",
+          "horizon": 512,
+          "dimension": 6,
+          "change_fraction": 0.4,
+          "severity": 1.0,
+          "proxy_quality": "stale",
+          "delay": 3,
+          "delay_model": "independent_random",
+          "missing_probability": 0.0,
+          "label_cost": 0.001,
+          "switch_cost": 0.01,
+          "persistence": 0.97
+        },
+        "hyperparameters": {},
+        "generator_family": "G2",
+        "shift_type": "incumbent_best",
+        "shift_magnitude": 1.0,
+        "predictive_degradation": null,
+        "decision_harm": null,
+        "proxy_quality": "stale",
+        "delay_model": "independent_random",
+        "label_budget": {
+          "hard_label_count": 64
+        },
+        "cost_configuration": {
+          "label_cost": 0.001,
+          "switch_cost": 0.01
+        },
+        "random_seed": 281001,
+        "baseline_version": "generator_contract_v1",
+        "validity_status": "diagnostic_only",
+        "provenance_class": "ORACLE_ONLY"
+      },
+      "argv": [
+        "-m",
+        "shiftlab.sota_search.generator_worker",
+        "--family",
+        "G2",
+        "--scenario",
+        "incumbent_best",
+        "--seed",
+        "281001",
+        "--horizon",
+        "512"
+      ]
+    },
+    {
+      "metadata": {
+        "code_commit": "2ead80b06ead38cae995fb9b8b61f04f1253abc7",
+        "source_hash": "8d71225a66a1f7829dad104f9b7bbcda621ddd1fda7cb05103d2211661092b41",
+        "source_hash_scheme": "sorted_posix_path_NUL_sha256_file_bytes_v2",
+        "environment": {
+          "python": "3.13.1",
+          "platform": "Windows-11-10.0.26200-SP0",
+          "packages": {
+            "numpy": "2.4.2",
+            "scipy": "1.17.1",
+            "psutil": "7.0.0",
+            "pandas": "3.0.1",
+            "pydantic": "2.13.4"
+          }
+        },
+        "parent_algorithm": null,
+        "candidate_algorithm": "generator_contract",
+        "modification_id": null,
+        "component_configuration": {
+          "family": "G2",
+          "scenario": "transient_challenger",
+          "horizon": 512,
+          "dimension": 6,
+          "change_fraction": 0.4,
+          "severity": 1.0,
+          "proxy_quality": "stale",
+          "delay": 3,
+          "delay_model": "independent_random",
+          "missing_probability": 0.0,
+          "label_cost": 0.001,
+          "switch_cost": 0.01,
+          "persistence": 0.97
+        },
+        "hyperparameters": {},
+        "generator_family": "G2",
+        "shift_type": "transient_challenger",
+        "shift_magnitude": 1.0,
+        "predictive_degradation": null,
+        "decision_harm": null,
+        "proxy_quality": "stale",
+        "delay_model": "independent_random",
+        "label_budget": {
+          "hard_label_count": 64
+        },
+        "cost_configuration": {
+          "label_cost": 0.001,
+          "switch_cost": 0.01
+        },
+        "random_seed": 281001,
+        "baseline_version": "generator_contract_v1",
+        "validity_status": "diagnostic_only",
+        "provenance_class": "ORACLE_ONLY"
+      },
+      "argv": [
+        "-m",
+        "shiftlab.sota_search.generator_worker",
+        "--family",
+        "G2",
+        "--scenario",
+        "transient_challenger",
+        "--seed",
+        "281001",
+        "--horizon",
+        "512"
+      ]
+    },
+    {
+      "metadata": {
+        "code_commit": "2ead80b06ead38cae995fb9b8b61f04f1253abc7",
+        "source_hash": "8d71225a66a1f7829dad104f9b7bbcda621ddd1fda7cb05103d2211661092b41",
+        "source_hash_scheme": "sorted_posix_path_NUL_sha256_file_bytes_v2",
+        "environment": {
+          "python": "3.13.1",
+          "platform": "Windows-11-10.0.26200-SP0",
+          "packages": {
+            "numpy": "2.4.2",
+            "scipy": "1.17.1",
+            "psutil": "7.0.0",
+            "pandas": "3.0.1",
+            "pydantic": "2.13.4"
+          }
+        },
+        "parent_algorithm": null,
+        "candidate_algorithm": "generator_contract",
+        "modification_id": null,
+        "component_configuration": {
+          "family": "G2",
+          "scenario": "challenger_optimal",
+          "horizon": 512,
+          "dimension": 6,
+          "change_fraction": 0.4,
+          "severity": 1.0,
+          "proxy_quality": "stale",
+          "delay": 3,
+          "delay_model": "independent_random",
+          "missing_probability": 0.0,
+          "label_cost": 0.001,
+          "switch_cost": 0.01,
+          "persistence": 0.97
+        },
+        "hyperparameters": {},
+        "generator_family": "G2",
+        "shift_type": "challenger_optimal",
+        "shift_magnitude": 1.0,
+        "predictive_degradation": null,
+        "decision_harm": null,
+        "proxy_quality": "stale",
+        "delay_model": "independent_random",
+        "label_budget": {
+          "hard_label_count": 64
+        },
+        "cost_configuration": {
+          "label_cost": 0.001,
+          "switch_cost": 0.01
+        },
+        "random_seed": 281001,
+        "baseline_version": "generator_contract_v1",
+        "validity_status": "diagnostic_only",
+        "provenance_class": "ORACLE_ONLY"
+      },
+      "argv": [
+        "-m",
+        "shiftlab.sota_search.generator_worker",
+        "--family",
+        "G2",
+        "--scenario",
+        "challenger_optimal",
+        "--seed",
+        "281001",
+        "--horizon",
+        "512"
+      ]
+    },
+    {
+      "metadata": {
+        "code_commit": "2ead80b06ead38cae995fb9b8b61f04f1253abc7",
+        "source_hash": "8d71225a66a1f7829dad104f9b7bbcda621ddd1fda7cb05103d2211661092b41",
+        "source_hash_scheme": "sorted_posix_path_NUL_sha256_file_bytes_v2",
+        "environment": {
+          "python": "3.13.1",
+          "platform": "Windows-11-10.0.26200-SP0",
+          "packages": {
+            "numpy": "2.4.2",
+            "scipy": "1.17.1",
+            "psutil": "7.0.0",
+            "pandas": "3.0.1",
+            "pydantic": "2.13.4"
+          }
+        },
+        "parent_algorithm": null,
+        "candidate_algorithm": "generator_contract",
+        "modification_id": null,
+        "component_configuration": {
+          "family": "G2",
+          "scenario": "tied_models",
+          "horizon": 512,
+          "dimension": 6,
+          "change_fraction": 0.4,
+          "severity": 1.0,
+          "proxy_quality": "stale",
+          "delay": 3,
+          "delay_model": "independent_random",
+          "missing_probability": 0.0,
+          "label_cost": 0.001,
+          "switch_cost": 0.01,
+          "persistence": 0.97
+        },
+        "hyperparameters": {},
+        "generator_family": "G2",
+        "shift_type": "tied_models",
+        "shift_magnitude": 1.0,
+        "predictive_degradation": null,
+        "decision_harm": null,
+        "proxy_quality": "stale",
+        "delay_model": "independent_random",
+        "label_budget": {
+          "hard_label_count": 64
+        },
+        "cost_configuration": {
+          "label_cost": 0.001,
+          "switch_cost": 0.01
+        },
+        "random_seed": 281001,
+        "baseline_version": "generator_contract_v1",
+        "validity_status": "diagnostic_only",
+        "provenance_class": "ORACLE_ONLY"
+      },
+      "argv": [
+        "-m",
+        "shiftlab.sota_search.generator_worker",
+        "--family",
+        "G2",
+        "--scenario",
+        "tied_models",
+        "--seed",
+        "281001",
+        "--horizon",
+        "512"
+      ]
+    },
+    {
+      "metadata": {
+        "code_commit": "2ead80b06ead38cae995fb9b8b61f04f1253abc7",
+        "source_hash": "8d71225a66a1f7829dad104f9b7bbcda621ddd1fda7cb05103d2211661092b41",
+        "source_hash_scheme": "sorted_posix_path_NUL_sha256_file_bytes_v2",
+        "environment": {
+          "python": "3.13.1",
+          "platform": "Windows-11-10.0.26200-SP0",
+          "packages": {
+            "numpy": "2.4.2",
+            "scipy": "1.17.1",
+            "psutil": "7.0.0",
+            "pandas": "3.0.1",
+            "pydantic": "2.13.4"
+          }
+        },
+        "parent_algorithm": null,
+        "candidate_algorithm": "generator_contract",
+        "modification_id": null,
+        "component_configuration": {
+          "family": "G2",
+          "scenario": "labels_too_expensive",
+          "horizon": 512,
+          "dimension": 6,
+          "change_fraction": 0.4,
+          "severity": 1.0,
+          "proxy_quality": "stale",
+          "delay": 3,
+          "delay_model": "independent_random",
+          "missing_probability": 0.0,
+          "label_cost": 0.001,
+          "switch_cost": 0.01,
+          "persistence": 0.97
+        },
+        "hyperparameters": {},
+        "generator_family": "G2",
+        "shift_type": "labels_too_expensive",
+        "shift_magnitude": 1.0,
+        "predictive_degradation": null,
+        "decision_harm": null,
+        "proxy_quality": "stale",
+        "delay_model": "independent_random",
+        "label_budget": {
+          "hard_label_count": 64
+        },
+        "cost_configuration": {
+          "label_cost": 2,
+          "switch_cost": 0.01
+        },
+        "random_seed": 281001,
+        "baseline_version": "generator_contract_v1",
+        "validity_status": "diagnostic_only",
+        "provenance_class": "ORACLE_ONLY"
+      },
+      "argv": [
+        "-m",
+        "shiftlab.sota_search.generator_worker",
+        "--family",
+        "G2",
+        "--scenario",
+        "labels_too_expensive",
+        "--seed",
+        "281001",
+        "--horizon",
+        "512"
+      ]
+    },
+    {
+      "metadata": {
+        "code_commit": "2ead80b06ead38cae995fb9b8b61f04f1253abc7",
+        "source_hash": "8d71225a66a1f7829dad104f9b7bbcda621ddd1fda7cb05103d2211661092b41",
+        "source_hash_scheme": "sorted_posix_path_NUL_sha256_file_bytes_v2",
+        "environment": {
+          "python": "3.13.1",
+          "platform": "Windows-11-10.0.26200-SP0",
+          "packages": {
+            "numpy": "2.4.2",
+            "scipy": "1.17.1",
+            "psutil": "7.0.0",
+            "pandas": "3.0.1",
+            "pydantic": "2.13.4"
+          }
+        },
+        "parent_algorithm": null,
+        "candidate_algorithm": "generator_contract",
+        "modification_id": null,
+        "component_configuration": {
+          "family": "G2",
+          "scenario": "localized_harm",
+          "horizon": 512,
+          "dimension": 6,
+          "change_fraction": 0.4,
+          "severity": 1.0,
+          "proxy_quality": "stale",
+          "delay": 3,
+          "delay_model": "independent_random",
+          "missing_probability": 0.0,
+          "label_cost": 0.001,
+          "switch_cost": 0.01,
+          "persistence": 0.97
+        },
+        "hyperparameters": {},
+        "generator_family": "G2",
+        "shift_type": "localized_harm",
+        "shift_magnitude": 1.0,
+        "predictive_degradation": null,
+        "decision_harm": null,
+        "proxy_quality": "stale",
+        "delay_model": "independent_random",
+        "label_budget": {
+          "hard_label_count": 64
+        },
+        "cost_configuration": {
+          "label_cost": 0.001,
+          "switch_cost": 0.01
+        },
+        "random_seed": 281001,
+        "baseline_version": "generator_contract_v1",
+        "validity_status": "diagnostic_only",
+        "provenance_class": "ORACLE_ONLY"
+      },
+      "argv": [
+        "-m",
+        "shiftlab.sota_search.generator_worker",
+        "--family",
+        "G2",
+        "--scenario",
+        "localized_harm",
+        "--seed",
+        "281001",
+        "--horizon",
+        "512"
+      ]
+    },
+    {
+      "metadata": {
+        "code_commit": "2ead80b06ead38cae995fb9b8b61f04f1253abc7",
+        "source_hash": "8d71225a66a1f7829dad104f9b7bbcda621ddd1fda7cb05103d2211661092b41",
+        "source_hash_scheme": "sorted_posix_path_NUL_sha256_file_bytes_v2",
+        "environment": {
+          "python": "3.13.1",
+          "platform": "Windows-11-10.0.26200-SP0",
+          "packages": {
+            "numpy": "2.4.2",
+            "scipy": "1.17.1",
+            "psutil": "7.0.0",
+            "pandas": "3.0.1",
+            "pydantic": "2.13.4"
+          }
+        },
+        "parent_algorithm": null,
+        "candidate_algorithm": "generator_contract",
+        "modification_id": null,
+        "component_configuration": {
+          "family": "G2",
+          "scenario": "gradual",
+          "horizon": 512,
+          "dimension": 6,
+          "change_fraction": 0.4,
+          "severity": 1.0,
+          "proxy_quality": "stale",
+          "delay": 3,
+          "delay_model": "independent_random",
+          "missing_probability": 0.0,
+          "label_cost": 0.001,
+          "switch_cost": 0.01,
+          "persistence": 0.97
+        },
+        "hyperparameters": {},
+        "generator_family": "G2",
+        "shift_type": "gradual",
+        "shift_magnitude": 1.0,
+        "predictive_degradation": null,
+        "decision_harm": null,
+        "proxy_quality": "stale",
+        "delay_model": "independent_random",
+        "label_budget": {
+          "hard_label_count": 64
+        },
+        "cost_configuration": {
+          "label_cost": 0.001,
+          "switch_cost": 0.01
+        },
+        "random_seed": 281001,
+        "baseline_version": "generator_contract_v1",
+        "validity_status": "diagnostic_only",
+        "provenance_class": "ORACLE_ONLY"
+      },
+      "argv": [
+        "-m",
+        "shiftlab.sota_search.generator_worker",
+        "--family",
+        "G2",
+        "--scenario",
+        "gradual",
+        "--seed",
+        "281001",
+        "--horizon",
+        "512"
+      ]
+    },
+    {
+      "metadata": {
+        "code_commit": "2ead80b06ead38cae995fb9b8b61f04f1253abc7",
+        "source_hash": "8d71225a66a1f7829dad104f9b7bbcda621ddd1fda7cb05103d2211661092b41",
+        "source_hash_scheme": "sorted_posix_path_NUL_sha256_file_bytes_v2",
+        "environment": {
+          "python": "3.13.1",
+          "platform": "Windows-11-10.0.26200-SP0",
+          "packages": {
+            "numpy": "2.4.2",
+            "scipy": "1.17.1",
+            "psutil": "7.0.0",
+            "pandas": "3.0.1",
+            "pydantic": "2.13.4"
+          }
+        },
+        "parent_algorithm": null,
+        "candidate_algorithm": "generator_contract",
+        "modification_id": null,
+        "component_configuration": {
+          "family": "G2",
+          "scenario": "recurrent",
+          "horizon": 512,
+          "dimension": 6,
+          "change_fraction": 0.4,
+          "severity": 1.0,
+          "proxy_quality": "stale",
+          "delay": 3,
+          "delay_model": "independent_random",
+          "missing_probability": 0.0,
+          "label_cost": 0.001,
+          "switch_cost": 0.01,
+          "persistence": 0.97
+        },
+        "hyperparameters": {},
+        "generator_family": "G2",
+        "shift_type": "recurrent",
+        "shift_magnitude": 1.0,
+        "predictive_degradation": null,
+        "decision_harm": null,
+        "proxy_quality": "stale",
+        "delay_model": "independent_random",
+        "label_budget": {
+          "hard_label_count": 64
+        },
+        "cost_configuration": {
+          "label_cost": 0.001,
+          "switch_cost": 0.01
+        },
+        "random_seed": 281001,
+        "baseline_version": "generator_contract_v1",
+        "validity_status": "diagnostic_only",
+        "provenance_class": "ORACLE_ONLY"
+      },
+      "argv": [
+        "-m",
+        "shiftlab.sota_search.generator_worker",
+        "--family",
+        "G2",
+        "--scenario",
+        "recurrent",
+        "--seed",
+        "281001",
+        "--horizon",
+        "512"
+      ]
+    },
+    {
+      "metadata": {
+        "code_commit": "2ead80b06ead38cae995fb9b8b61f04f1253abc7",
+        "source_hash": "8d71225a66a1f7829dad104f9b7bbcda621ddd1fda7cb05103d2211661092b41",
+        "source_hash_scheme": "sorted_posix_path_NUL_sha256_file_bytes_v2",
+        "environment": {
+          "python": "3.13.1",
+          "platform": "Windows-11-10.0.26200-SP0",
+          "packages": {
+            "numpy": "2.4.2",
+            "scipy": "1.17.1",
+            "psutil": "7.0.0",
+            "pandas": "3.0.1",
+            "pydantic": "2.13.4"
+          }
+        },
+        "parent_algorithm": null,
+        "candidate_algorithm": "generator_contract",
+        "modification_id": null,
+        "component_configuration": {
+          "family": "G3",
+          "scenario": "stationary",
+          "horizon": 512,
+          "dimension": 6,
+          "change_fraction": 0.4,
+          "severity": 1.0,
+          "proxy_quality": "stale",
+          "delay": 3,
+          "delay_model": "independent_random",
+          "missing_probability": 0.0,
+          "label_cost": 0.001,
+          "switch_cost": 0.01,
+          "persistence": 0.97
+        },
+        "hyperparameters": {},
+        "generator_family": "G3",
+        "shift_type": "stationary",
+        "shift_magnitude": 1.0,
+        "predictive_degradation": null,
+        "decision_harm": null,
+        "proxy_quality": "stale",
+        "delay_model": "independent_random",
+        "label_budget": {
+          "hard_label_count": 64
+        },
+        "cost_configuration": {
+          "label_cost": 0.001,
+          "switch_cost": 0.01
+        },
+        "random_seed": 281001,
+        "baseline_version": "generator_contract_v1",
+        "validity_status": "diagnostic_only",
+        "provenance_class": "ORACLE_ONLY"
+      },
+      "argv": [
+        "-m",
+        "shiftlab.sota_search.generator_worker",
+        "--family",
+        "G3",
+        "--scenario",
+        "stationary",
+        "--seed",
+        "281001",
+        "--horizon",
+        "512"
+      ]
+    },
+    {
+      "metadata": {
+        "code_commit": "2ead80b06ead38cae995fb9b8b61f04f1253abc7",
+        "source_hash": "8d71225a66a1f7829dad104f9b7bbcda621ddd1fda7cb05103d2211661092b41",
+        "source_hash_scheme": "sorted_posix_path_NUL_sha256_file_bytes_v2",
+        "environment": {
+          "python": "3.13.1",
+          "platform": "Windows-11-10.0.26200-SP0",
+          "packages": {
+            "numpy": "2.4.2",
+            "scipy": "1.17.1",
+            "psutil": "7.0.0",
+            "pandas": "3.0.1",
+            "pydantic": "2.13.4"
+          }
+        },
+        "parent_algorithm": null,
+        "candidate_algorithm": "generator_contract",
+        "modification_id": null,
+        "component_configuration": {
+          "family": "G3",
+          "scenario": "benign_covariate",
+          "horizon": 512,
+          "dimension": 6,
+          "change_fraction": 0.4,
+          "severity": 1.0,
+          "proxy_quality": "stale",
+          "delay": 3,
+          "delay_model": "independent_random",
+          "missing_probability": 0.0,
+          "label_cost": 0.001,
+          "switch_cost": 0.01,
+          "persistence": 0.97
+        },
+        "hyperparameters": {},
+        "generator_family": "G3",
+        "shift_type": "benign_covariate",
+        "shift_magnitude": 1.0,
+        "predictive_degradation": null,
+        "decision_harm": null,
+        "proxy_quality": "stale",
+        "delay_model": "independent_random",
+        "label_budget": {
+          "hard_label_count": 64
+        },
+        "cost_configuration": {
+          "label_cost": 0.001,
+          "switch_cost": 0.01
+        },
+        "random_seed": 281001,
+        "baseline_version": "generator_contract_v1",
+        "validity_status": "diagnostic_only",
+        "provenance_class": "ORACLE_ONLY"
+      },
+      "argv": [
+        "-m",
+        "shiftlab.sota_search.generator_worker",
+        "--family",
+        "G3",
+        "--scenario",
+        "benign_covariate",
+        "--seed",
+        "281001",
+        "--horizon",
+        "512"
+      ]
+    },
+    {
+      "metadata": {
+        "code_commit": "2ead80b06ead38cae995fb9b8b61f04f1253abc7",
+        "source_hash": "8d71225a66a1f7829dad104f9b7bbcda621ddd1fda7cb05103d2211661092b41",
+        "source_hash_scheme": "sorted_posix_path_NUL_sha256_file_bytes_v2",
+        "environment": {
+          "python": "3.13.1",
+          "platform": "Windows-11-10.0.26200-SP0",
+          "packages": {
+            "numpy": "2.4.2",
+            "scipy": "1.17.1",
+            "psutil": "7.0.0",
+            "pandas": "3.0.1",
+            "pydantic": "2.13.4"
+          }
+        },
+        "parent_algorithm": null,
+        "candidate_algorithm": "generator_contract",
+        "modification_id": null,
+        "component_configuration": {
+          "family": "G3",
+          "scenario": "harmful_concept",
+          "horizon": 512,
+          "dimension": 6,
+          "change_fraction": 0.4,
+          "severity": 1.0,
+          "proxy_quality": "stale",
+          "delay": 3,
+          "delay_model": "independent_random",
+          "missing_probability": 0.0,
+          "label_cost": 0.001,
+          "switch_cost": 0.01,
+          "persistence": 0.97
+        },
+        "hyperparameters": {},
+        "generator_family": "G3",
+        "shift_type": "harmful_concept",
+        "shift_magnitude": 1.0,
+        "predictive_degradation": null,
+        "decision_harm": null,
+        "proxy_quality": "stale",
+        "delay_model": "independent_random",
+        "label_budget": {
+          "hard_label_count": 64
+        },
+        "cost_configuration": {
+          "label_cost": 0.001,
+          "switch_cost": 0.01
+        },
+        "random_seed": 281001,
+        "baseline_version": "generator_contract_v1",
+        "validity_status": "diagnostic_only",
+        "provenance_class": "ORACLE_ONLY"
+      },
+      "argv": [
+        "-m",
+        "shiftlab.sota_search.generator_worker",
+        "--family",
+        "G3",
+        "--scenario",
+        "harmful_concept",
+        "--seed",
+        "281001",
+        "--horizon",
+        "512"
+      ]
+    },
+    {
+      "metadata": {
+        "code_commit": "2ead80b06ead38cae995fb9b8b61f04f1253abc7",
+        "source_hash": "8d71225a66a1f7829dad104f9b7bbcda621ddd1fda7cb05103d2211661092b41",
+        "source_hash_scheme": "sorted_posix_path_NUL_sha256_file_bytes_v2",
+        "environment": {
+          "python": "3.13.1",
+          "platform": "Windows-11-10.0.26200-SP0",
+          "packages": {
+            "numpy": "2.4.2",
+            "scipy": "1.17.1",
+            "psutil": "7.0.0",
+            "pandas": "3.0.1",
+            "pydantic": "2.13.4"
+          }
+        },
+        "parent_algorithm": null,
+        "candidate_algorithm": "generator_contract",
+        "modification_id": null,
+        "component_configuration": {
+          "family": "G3",
+          "scenario": "risk_without_harm",
+          "horizon": 512,
+          "dimension": 6,
+          "change_fraction": 0.4,
+          "severity": 1.0,
+          "proxy_quality": "stale",
+          "delay": 3,
+          "delay_model": "independent_random",
+          "missing_probability": 0.0,
+          "label_cost": 0.001,
+          "switch_cost": 0.01,
+          "persistence": 0.97
+        },
+        "hyperparameters": {},
+        "generator_family": "G3",
+        "shift_type": "risk_without_harm",
+        "shift_magnitude": 1.0,
+        "predictive_degradation": null,
+        "decision_harm": null,
+        "proxy_quality": "stale",
+        "delay_model": "independent_random",
+        "label_budget": {
+          "hard_label_count": 64
+        },
+        "cost_configuration": {
+          "label_cost": 0.001,
+          "switch_cost": 0.01
+        },
+        "random_seed": 281001,
+        "baseline_version": "generator_contract_v1",
+        "validity_status": "diagnostic_only",
+        "provenance_class": "ORACLE_ONLY"
+      },
+      "argv": [
+        "-m",
+        "shiftlab.sota_search.generator_worker",
+        "--family",
+        "G3",
+        "--scenario",
+        "risk_without_harm",
+        "--seed",
+        "281001",
+        "--horizon",
+        "512"
+      ]
+    },
+    {
+      "metadata": {
+        "code_commit": "2ead80b06ead38cae995fb9b8b61f04f1253abc7",
+        "source_hash": "8d71225a66a1f7829dad104f9b7bbcda621ddd1fda7cb05103d2211661092b41",
+        "source_hash_scheme": "sorted_posix_path_NUL_sha256_file_bytes_v2",
+        "environment": {
+          "python": "3.13.1",
+          "platform": "Windows-11-10.0.26200-SP0",
+          "packages": {
+            "numpy": "2.4.2",
+            "scipy": "1.17.1",
+            "psutil": "7.0.0",
+            "pandas": "3.0.1",
+            "pydantic": "2.13.4"
+          }
+        },
+        "parent_algorithm": null,
+        "candidate_algorithm": "generator_contract",
+        "modification_id": null,
+        "component_configuration": {
+          "family": "G3",
+          "scenario": "harm_without_accuracy",
+          "horizon": 512,
+          "dimension": 6,
+          "change_fraction": 0.4,
+          "severity": 1.0,
+          "proxy_quality": "stale",
+          "delay": 3,
+          "delay_model": "independent_random",
+          "missing_probability": 0.0,
+          "label_cost": 0.001,
+          "switch_cost": 0.01,
+          "persistence": 0.97
+        },
+        "hyperparameters": {},
+        "generator_family": "G3",
+        "shift_type": "harm_without_accuracy",
+        "shift_magnitude": 1.0,
+        "predictive_degradation": null,
+        "decision_harm": null,
+        "proxy_quality": "stale",
+        "delay_model": "independent_random",
+        "label_budget": {
+          "hard_label_count": 64
+        },
+        "cost_configuration": {
+          "label_cost": 0.001,
+          "switch_cost": 0.01
+        },
+        "random_seed": 281001,
+        "baseline_version": "generator_contract_v1",
+        "validity_status": "diagnostic_only",
+        "provenance_class": "ORACLE_ONLY"
+      },
+      "argv": [
+        "-m",
+        "shiftlab.sota_search.generator_worker",
+        "--family",
+        "G3",
+        "--scenario",
+        "harm_without_accuracy",
+        "--seed",
+        "281001",
+        "--horizon",
+        "512"
+      ]
+    },
+    {
+      "metadata": {
+        "code_commit": "2ead80b06ead38cae995fb9b8b61f04f1253abc7",
+        "source_hash": "8d71225a66a1f7829dad104f9b7bbcda621ddd1fda7cb05103d2211661092b41",
+        "source_hash_scheme": "sorted_posix_path_NUL_sha256_file_bytes_v2",
+        "environment": {
+          "python": "3.13.1",
+          "platform": "Windows-11-10.0.26200-SP0",
+          "packages": {
+            "numpy": "2.4.2",
+            "scipy": "1.17.1",
+            "psutil": "7.0.0",
+            "pandas": "3.0.1",
+            "pydantic": "2.13.4"
+          }
+        },
+        "parent_algorithm": null,
+        "candidate_algorithm": "generator_contract",
+        "modification_id": null,
+        "component_configuration": {
+          "family": "G3",
+          "scenario": "incumbent_best",
+          "horizon": 512,
+          "dimension": 6,
+          "change_fraction": 0.4,
+          "severity": 1.0,
+          "proxy_quality": "stale",
+          "delay": 3,
+          "delay_model": "independent_random",
+          "missing_probability": 0.0,
+          "label_cost": 0.001,
+          "switch_cost": 0.01,
+          "persistence": 0.97
+        },
+        "hyperparameters": {},
+        "generator_family": "G3",
+        "shift_type": "incumbent_best",
+        "shift_magnitude": 1.0,
+        "predictive_degradation": null,
+        "decision_harm": null,
+        "proxy_quality": "stale",
+        "delay_model": "independent_random",
+        "label_budget": {
+          "hard_label_count": 64
+        },
+        "cost_configuration": {
+          "label_cost": 0.001,
+          "switch_cost": 0.01
+        },
+        "random_seed": 281001,
+        "baseline_version": "generator_contract_v1",
+        "validity_status": "diagnostic_only",
+        "provenance_class": "ORACLE_ONLY"
+      },
+      "argv": [
+        "-m",
+        "shiftlab.sota_search.generator_worker",
+        "--family",
+        "G3",
+        "--scenario",
+        "incumbent_best",
+        "--seed",
+        "281001",
+        "--horizon",
+        "512"
+      ]
+    },
+    {
+      "metadata": {
+        "code_commit": "2ead80b06ead38cae995fb9b8b61f04f1253abc7",
+        "source_hash": "8d71225a66a1f7829dad104f9b7bbcda621ddd1fda7cb05103d2211661092b41",
+        "source_hash_scheme": "sorted_posix_path_NUL_sha256_file_bytes_v2",
+        "environment": {
+          "python": "3.13.1",
+          "platform": "Windows-11-10.0.26200-SP0",
+          "packages": {
+            "numpy": "2.4.2",
+            "scipy": "1.17.1",
+            "psutil": "7.0.0",
+            "pandas": "3.0.1",
+            "pydantic": "2.13.4"
+          }
+        },
+        "parent_algorithm": null,
+        "candidate_algorithm": "generator_contract",
+        "modification_id": null,
+        "component_configuration": {
+          "family": "G3",
+          "scenario": "transient_challenger",
+          "horizon": 512,
+          "dimension": 6,
+          "change_fraction": 0.4,
+          "severity": 1.0,
+          "proxy_quality": "stale",
+          "delay": 3,
+          "delay_model": "independent_random",
+          "missing_probability": 0.0,
+          "label_cost": 0.001,
+          "switch_cost": 0.01,
+          "persistence": 0.97
+        },
+        "hyperparameters": {},
+        "generator_family": "G3",
+        "shift_type": "transient_challenger",
+        "shift_magnitude": 1.0,
+        "predictive_degradation": null,
+        "decision_harm": null,
+        "proxy_quality": "stale",
+        "delay_model": "independent_random",
+        "label_budget": {
+          "hard_label_count": 64
+        },
+        "cost_configuration": {
+          "label_cost": 0.001,
+          "switch_cost": 0.01
+        },
+        "random_seed": 281001,
+        "baseline_version": "generator_contract_v1",
+        "validity_status": "diagnostic_only",
+        "provenance_class": "ORACLE_ONLY"
+      },
+      "argv": [
+        "-m",
+        "shiftlab.sota_search.generator_worker",
+        "--family",
+        "G3",
+        "--scenario",
+        "transient_challenger",
+        "--seed",
+        "281001",
+        "--horizon",
+        "512"
+      ]
+    },
+    {
+      "metadata": {
+        "code_commit": "2ead80b06ead38cae995fb9b8b61f04f1253abc7",
+        "source_hash": "8d71225a66a1f7829dad104f9b7bbcda621ddd1fda7cb05103d2211661092b41",
+        "source_hash_scheme": "sorted_posix_path_NUL_sha256_file_bytes_v2",
+        "environment": {
+          "python": "3.13.1",
+          "platform": "Windows-11-10.0.26200-SP0",
+          "packages": {
+            "numpy": "2.4.2",
+            "scipy": "1.17.1",
+            "psutil": "7.0.0",
+            "pandas": "3.0.1",
+            "pydantic": "2.13.4"
+          }
+        },
+        "parent_algorithm": null,
+        "candidate_algorithm": "generator_contract",
+        "modification_id": null,
+        "component_configuration": {
+          "family": "G3",
+          "scenario": "challenger_optimal",
+          "horizon": 512,
+          "dimension": 6,
+          "change_fraction": 0.4,
+          "severity": 1.0,
+          "proxy_quality": "stale",
+          "delay": 3,
+          "delay_model": "independent_random",
+          "missing_probability": 0.0,
+          "label_cost": 0.001,
+          "switch_cost": 0.01,
+          "persistence": 0.97
+        },
+        "hyperparameters": {},
+        "generator_family": "G3",
+        "shift_type": "challenger_optimal",
+        "shift_magnitude": 1.0,
+        "predictive_degradation": null,
+        "decision_harm": null,
+        "proxy_quality": "stale",
+        "delay_model": "independent_random",
+        "label_budget": {
+          "hard_label_count": 64
+        },
+        "cost_configuration": {
+          "label_cost": 0.001,
+          "switch_cost": 0.01
+        },
+        "random_seed": 281001,
+        "baseline_version": "generator_contract_v1",
+        "validity_status": "diagnostic_only",
+        "provenance_class": "ORACLE_ONLY"
+      },
+      "argv": [
+        "-m",
+        "shiftlab.sota_search.generator_worker",
+        "--family",
+        "G3",
+        "--scenario",
+        "challenger_optimal",
+        "--seed",
+        "281001",
+        "--horizon",
+        "512"
+      ]
+    },
+    {
+      "metadata": {
+        "code_commit": "2ead80b06ead38cae995fb9b8b61f04f1253abc7",
+        "source_hash": "8d71225a66a1f7829dad104f9b7bbcda621ddd1fda7cb05103d2211661092b41",
+        "source_hash_scheme": "sorted_posix_path_NUL_sha256_file_bytes_v2",
+        "environment": {
+          "python": "3.13.1",
+          "platform": "Windows-11-10.0.26200-SP0",
+          "packages": {
+            "numpy": "2.4.2",
+            "scipy": "1.17.1",
+            "psutil": "7.0.0",
+            "pandas": "3.0.1",
+            "pydantic": "2.13.4"
+          }
+        },
+        "parent_algorithm": null,
+        "candidate_algorithm": "generator_contract",
+        "modification_id": null,
+        "component_configuration": {
+          "family": "G3",
+          "scenario": "tied_models",
+          "horizon": 512,
+          "dimension": 6,
+          "change_fraction": 0.4,
+          "severity": 1.0,
+          "proxy_quality": "stale",
+          "delay": 3,
+          "delay_model": "independent_random",
+          "missing_probability": 0.0,
+          "label_cost": 0.001,
+          "switch_cost": 0.01,
+          "persistence": 0.97
+        },
+        "hyperparameters": {},
+        "generator_family": "G3",
+        "shift_type": "tied_models",
+        "shift_magnitude": 1.0,
+        "predictive_degradation": null,
+        "decision_harm": null,
+        "proxy_quality": "stale",
+        "delay_model": "independent_random",
+        "label_budget": {
+          "hard_label_count": 64
+        },
+        "cost_configuration": {
+          "label_cost": 0.001,
+          "switch_cost": 0.01
+        },
+        "random_seed": 281001,
+        "baseline_version": "generator_contract_v1",
+        "validity_status": "diagnostic_only",
+        "provenance_class": "ORACLE_ONLY"
+      },
+      "argv": [
+        "-m",
+        "shiftlab.sota_search.generator_worker",
+        "--family",
+        "G3",
+        "--scenario",
+        "tied_models",
+        "--seed",
+        "281001",
+        "--horizon",
+        "512"
+      ]
+    },
+    {
+      "metadata": {
+        "code_commit": "2ead80b06ead38cae995fb9b8b61f04f1253abc7",
+        "source_hash": "8d71225a66a1f7829dad104f9b7bbcda621ddd1fda7cb05103d2211661092b41",
+        "source_hash_scheme": "sorted_posix_path_NUL_sha256_file_bytes_v2",
+        "environment": {
+          "python": "3.13.1",
+          "platform": "Windows-11-10.0.26200-SP0",
+          "packages": {
+            "numpy": "2.4.2",
+            "scipy": "1.17.1",
+            "psutil": "7.0.0",
+            "pandas": "3.0.1",
+            "pydantic": "2.13.4"
+          }
+        },
+        "parent_algorithm": null,
+        "candidate_algorithm": "generator_contract",
+        "modification_id": null,
+        "component_configuration": {
+          "family": "G3",
+          "scenario": "labels_too_expensive",
+          "horizon": 512,
+          "dimension": 6,
+          "change_fraction": 0.4,
+          "severity": 1.0,
+          "proxy_quality": "stale",
+          "delay": 3,
+          "delay_model": "independent_random",
+          "missing_probability": 0.0,
+          "label_cost": 0.001,
+          "switch_cost": 0.01,
+          "persistence": 0.97
+        },
+        "hyperparameters": {},
+        "generator_family": "G3",
+        "shift_type": "labels_too_expensive",
+        "shift_magnitude": 1.0,
+        "predictive_degradation": null,
+        "decision_harm": null,
+        "proxy_quality": "stale",
+        "delay_model": "independent_random",
+        "label_budget": {
+          "hard_label_count": 64
+        },
+        "cost_configuration": {
+          "label_cost": 2,
+          "switch_cost": 0.01
+        },
+        "random_seed": 281001,
+        "baseline_version": "generator_contract_v1",
+        "validity_status": "diagnostic_only",
+        "provenance_class": "ORACLE_ONLY"
+      },
+      "argv": [
+        "-m",
+        "shiftlab.sota_search.generator_worker",
+        "--family",
+        "G3",
+        "--scenario",
+        "labels_too_expensive",
+        "--seed",
+        "281001",
+        "--horizon",
+        "512"
+      ]
+    },
+    {
+      "metadata": {
+        "code_commit": "2ead80b06ead38cae995fb9b8b61f04f1253abc7",
+        "source_hash": "8d71225a66a1f7829dad104f9b7bbcda621ddd1fda7cb05103d2211661092b41",
+        "source_hash_scheme": "sorted_posix_path_NUL_sha256_file_bytes_v2",
+        "environment": {
+          "python": "3.13.1",
+          "platform": "Windows-11-10.0.26200-SP0",
+          "packages": {
+            "numpy": "2.4.2",
+            "scipy": "1.17.1",
+            "psutil": "7.0.0",
+            "pandas": "3.0.1",
+            "pydantic": "2.13.4"
+          }
+        },
+        "parent_algorithm": null,
+        "candidate_algorithm": "generator_contract",
+        "modification_id": null,
+        "component_configuration": {
+          "family": "G3",
+          "scenario": "localized_harm",
+          "horizon": 512,
+          "dimension": 6,
+          "change_fraction": 0.4,
+          "severity": 1.0,
+          "proxy_quality": "stale",
+          "delay": 3,
+          "delay_model": "independent_random",
+          "missing_probability": 0.0,
+          "label_cost": 0.001,
+          "switch_cost": 0.01,
+          "persistence": 0.97
+        },
+        "hyperparameters": {},
+        "generator_family": "G3",
+        "shift_type": "localized_harm",
+        "shift_magnitude": 1.0,
+        "predictive_degradation": null,
+        "decision_harm": null,
+        "proxy_quality": "stale",
+        "delay_model": "independent_random",
+        "label_budget": {
+          "hard_label_count": 64
+        },
+        "cost_configuration": {
+          "label_cost": 0.001,
+          "switch_cost": 0.01
+        },
+        "random_seed": 281001,
+        "baseline_version": "generator_contract_v1",
+        "validity_status": "diagnostic_only",
+        "provenance_class": "ORACLE_ONLY"
+      },
+      "argv": [
+        "-m",
+        "shiftlab.sota_search.generator_worker",
+        "--family",
+        "G3",
+        "--scenario",
+        "localized_harm",
+        "--seed",
+        "281001",
+        "--horizon",
+        "512"
+      ]
+    },
+    {
+      "metadata": {
+        "code_commit": "2ead80b06ead38cae995fb9b8b61f04f1253abc7",
+        "source_hash": "8d71225a66a1f7829dad104f9b7bbcda621ddd1fda7cb05103d2211661092b41",
+        "source_hash_scheme": "sorted_posix_path_NUL_sha256_file_bytes_v2",
+        "environment": {
+          "python": "3.13.1",
+          "platform": "Windows-11-10.0.26200-SP0",
+          "packages": {
+            "numpy": "2.4.2",
+            "scipy": "1.17.1",
+            "psutil": "7.0.0",
+            "pandas": "3.0.1",
+            "pydantic": "2.13.4"
+          }
+        },
+        "parent_algorithm": null,
+        "candidate_algorithm": "generator_contract",
+        "modification_id": null,
+        "component_configuration": {
+          "family": "G3",
+          "scenario": "gradual",
+          "horizon": 512,
+          "dimension": 6,
+          "change_fraction": 0.4,
+          "severity": 1.0,
+          "proxy_quality": "stale",
+          "delay": 3,
+          "delay_model": "independent_random",
+          "missing_probability": 0.0,
+          "label_cost": 0.001,
+          "switch_cost": 0.01,
+          "persistence": 0.97
+        },
+        "hyperparameters": {},
+        "generator_family": "G3",
+        "shift_type": "gradual",
+        "shift_magnitude": 1.0,
+        "predictive_degradation": null,
+        "decision_harm": null,
+        "proxy_quality": "stale",
+        "delay_model": "independent_random",
+        "label_budget": {
+          "hard_label_count": 64
+        },
+        "cost_configuration": {
+          "label_cost": 0.001,
+          "switch_cost": 0.01
+        },
+        "random_seed": 281001,
+        "baseline_version": "generator_contract_v1",
+        "validity_status": "diagnostic_only",
+        "provenance_class": "ORACLE_ONLY"
+      },
+      "argv": [
+        "-m",
+        "shiftlab.sota_search.generator_worker",
+        "--family",
+        "G3",
+        "--scenario",
+        "gradual",
+        "--seed",
+        "281001",
+        "--horizon",
+        "512"
+      ]
+    },
+    {
+      "metadata": {
+        "code_commit": "2ead80b06ead38cae995fb9b8b61f04f1253abc7",
+        "source_hash": "8d71225a66a1f7829dad104f9b7bbcda621ddd1fda7cb05103d2211661092b41",
+        "source_hash_scheme": "sorted_posix_path_NUL_sha256_file_bytes_v2",
+        "environment": {
+          "python": "3.13.1",
+          "platform": "Windows-11-10.0.26200-SP0",
+          "packages": {
+            "numpy": "2.4.2",
+            "scipy": "1.17.1",
+            "psutil": "7.0.0",
+            "pandas": "3.0.1",
+            "pydantic": "2.13.4"
+          }
+        },
+        "parent_algorithm": null,
+        "candidate_algorithm": "generator_contract",
+        "modification_id": null,
+        "component_configuration": {
+          "family": "G3",
+          "scenario": "recurrent",
+          "horizon": 512,
+          "dimension": 6,
+          "change_fraction": 0.4,
+          "severity": 1.0,
+          "proxy_quality": "stale",
+          "delay": 3,
+          "delay_model": "independent_random",
+          "missing_probability": 0.0,
+          "label_cost": 0.001,
+          "switch_cost": 0.01,
+          "persistence": 0.97
+        },
+        "hyperparameters": {},
+        "generator_family": "G3",
+        "shift_type": "recurrent",
+        "shift_magnitude": 1.0,
+        "predictive_degradation": null,
+        "decision_harm": null,
+        "proxy_quality": "stale",
+        "delay_model": "independent_random",
+        "label_budget": {
+          "hard_label_count": 64
+        },
+        "cost_configuration": {
+          "label_cost": 0.001,
+          "switch_cost": 0.01
+        },
+        "random_seed": 281001,
+        "baseline_version": "generator_contract_v1",
+        "validity_status": "diagnostic_only",
+        "provenance_class": "ORACLE_ONLY"
+      },
+      "argv": [
+        "-m",
+        "shiftlab.sota_search.generator_worker",
+        "--family",
+        "G3",
+        "--scenario",
+        "recurrent",
+        "--seed",
+        "281001",
+        "--horizon",
+        "512"
+      ]
+    },
+    {
+      "metadata": {
+        "code_commit": "2ead80b06ead38cae995fb9b8b61f04f1253abc7",
+        "source_hash": "8d71225a66a1f7829dad104f9b7bbcda621ddd1fda7cb05103d2211661092b41",
+        "source_hash_scheme": "sorted_posix_path_NUL_sha256_file_bytes_v2",
+        "environment": {
+          "python": "3.13.1",
+          "platform": "Windows-11-10.0.26200-SP0",
+          "packages": {
+            "numpy": "2.4.2",
+            "scipy": "1.17.1",
+            "psutil": "7.0.0",
+            "pandas": "3.0.1",
+            "pydantic": "2.13.4"
+          }
+        },
+        "parent_algorithm": null,
+        "candidate_algorithm": "generator_contract",
+        "modification_id": null,
+        "component_configuration": {
+          "family": "G4",
+          "scenario": "stationary",
+          "horizon": 512,
+          "dimension": 6,
+          "change_fraction": 0.4,
+          "severity": 1.0,
+          "proxy_quality": "stale",
+          "delay": 3,
+          "delay_model": "independent_random",
+          "missing_probability": 0.0,
+          "label_cost": 0.001,
+          "switch_cost": 0.01,
+          "persistence": 0.97
+        },
+        "hyperparameters": {},
+        "generator_family": "G4",
+        "shift_type": "stationary",
+        "shift_magnitude": 1.0,
+        "predictive_degradation": null,
+        "decision_harm": null,
+        "proxy_quality": "stale",
+        "delay_model": "independent_random",
+        "label_budget": {
+          "hard_label_count": 64
+        },
+        "cost_configuration": {
+          "label_cost": 0.001,
+          "switch_cost": 0.01
+        },
+        "random_seed": 281001,
+        "baseline_version": "generator_contract_v1",
+        "validity_status": "diagnostic_only",
+        "provenance_class": "ORACLE_ONLY"
+      },
+      "argv": [
+        "-m",
+        "shiftlab.sota_search.generator_worker",
+        "--family",
+        "G4",
+        "--scenario",
+        "stationary",
+        "--seed",
+        "281001",
+        "--horizon",
+        "512"
+      ]
+    },
+    {
+      "metadata": {
+        "code_commit": "2ead80b06ead38cae995fb9b8b61f04f1253abc7",
+        "source_hash": "8d71225a66a1f7829dad104f9b7bbcda621ddd1fda7cb05103d2211661092b41",
+        "source_hash_scheme": "sorted_posix_path_NUL_sha256_file_bytes_v2",
+        "environment": {
+          "python": "3.13.1",
+          "platform": "Windows-11-10.0.26200-SP0",
+          "packages": {
+            "numpy": "2.4.2",
+            "scipy": "1.17.1",
+            "psutil": "7.0.0",
+            "pandas": "3.0.1",
+            "pydantic": "2.13.4"
+          }
+        },
+        "parent_algorithm": null,
+        "candidate_algorithm": "generator_contract",
+        "modification_id": null,
+        "component_configuration": {
+          "family": "G4",
+          "scenario": "benign_covariate",
+          "horizon": 512,
+          "dimension": 6,
+          "change_fraction": 0.4,
+          "severity": 1.0,
+          "proxy_quality": "stale",
+          "delay": 3,
+          "delay_model": "independent_random",
+          "missing_probability": 0.0,
+          "label_cost": 0.001,
+          "switch_cost": 0.01,
+          "persistence": 0.97
+        },
+        "hyperparameters": {},
+        "generator_family": "G4",
+        "shift_type": "benign_covariate",
+        "shift_magnitude": 1.0,
+        "predictive_degradation": null,
+        "decision_harm": null,
+        "proxy_quality": "stale",
+        "delay_model": "independent_random",
+        "label_budget": {
+          "hard_label_count": 64
+        },
+        "cost_configuration": {
+          "label_cost": 0.001,
+          "switch_cost": 0.01
+        },
+        "random_seed": 281001,
+        "baseline_version": "generator_contract_v1",
+        "validity_status": "diagnostic_only",
+        "provenance_class": "ORACLE_ONLY"
+      },
+      "argv": [
+        "-m",
+        "shiftlab.sota_search.generator_worker",
+        "--family",
+        "G4",
+        "--scenario",
+        "benign_covariate",
+        "--seed",
+        "281001",
+        "--horizon",
+        "512"
+      ]
+    },
+    {
+      "metadata": {
+        "code_commit": "2ead80b06ead38cae995fb9b8b61f04f1253abc7",
+        "source_hash": "8d71225a66a1f7829dad104f9b7bbcda621ddd1fda7cb05103d2211661092b41",
+        "source_hash_scheme": "sorted_posix_path_NUL_sha256_file_bytes_v2",
+        "environment": {
+          "python": "3.13.1",
+          "platform": "Windows-11-10.0.26200-SP0",
+          "packages": {
+            "numpy": "2.4.2",
+            "scipy": "1.17.1",
+            "psutil": "7.0.0",
+            "pandas": "3.0.1",
+            "pydantic": "2.13.4"
+          }
+        },
+        "parent_algorithm": null,
+        "candidate_algorithm": "generator_contract",
+        "modification_id": null,
+        "component_configuration": {
+          "family": "G4",
+          "scenario": "harmful_concept",
+          "horizon": 512,
+          "dimension": 6,
+          "change_fraction": 0.4,
+          "severity": 1.0,
+          "proxy_quality": "stale",
+          "delay": 3,
+          "delay_model": "independent_random",
+          "missing_probability": 0.0,
+          "label_cost": 0.001,
+          "switch_cost": 0.01,
+          "persistence": 0.97
+        },
+        "hyperparameters": {},
+        "generator_family": "G4",
+        "shift_type": "harmful_concept",
+        "shift_magnitude": 1.0,
+        "predictive_degradation": null,
+        "decision_harm": null,
+        "proxy_quality": "stale",
+        "delay_model": "independent_random",
+        "label_budget": {
+          "hard_label_count": 64
+        },
+        "cost_configuration": {
+          "label_cost": 0.001,
+          "switch_cost": 0.01
+        },
+        "random_seed": 281001,
+        "baseline_version": "generator_contract_v1",
+        "validity_status": "diagnostic_only",
+        "provenance_class": "ORACLE_ONLY"
+      },
+      "argv": [
+        "-m",
+        "shiftlab.sota_search.generator_worker",
+        "--family",
+        "G4",
+        "--scenario",
+        "harmful_concept",
+        "--seed",
+        "281001",
+        "--horizon",
+        "512"
+      ]
+    },
+    {
+      "metadata": {
+        "code_commit": "2ead80b06ead38cae995fb9b8b61f04f1253abc7",
+        "source_hash": "8d71225a66a1f7829dad104f9b7bbcda621ddd1fda7cb05103d2211661092b41",
+        "source_hash_scheme": "sorted_posix_path_NUL_sha256_file_bytes_v2",
+        "environment": {
+          "python": "3.13.1",
+          "platform": "Windows-11-10.0.26200-SP0",
+          "packages": {
+            "numpy": "2.4.2",
+            "scipy": "1.17.1",
+            "psutil": "7.0.0",
+            "pandas": "3.0.1",
+            "pydantic": "2.13.4"
+          }
+        },
+        "parent_algorithm": null,
+        "candidate_algorithm": "generator_contract",
+        "modification_id": null,
+        "component_configuration": {
+          "family": "G4",
+          "scenario": "risk_without_harm",
+          "horizon": 512,
+          "dimension": 6,
+          "change_fraction": 0.4,
+          "severity": 1.0,
+          "proxy_quality": "stale",
+          "delay": 3,
+          "delay_model": "independent_random",
+          "missing_probability": 0.0,
+          "label_cost": 0.001,
+          "switch_cost": 0.01,
+          "persistence": 0.97
+        },
+        "hyperparameters": {},
+        "generator_family": "G4",
+        "shift_type": "risk_without_harm",
+        "shift_magnitude": 1.0,
+        "predictive_degradation": null,
+        "decision_harm": null,
+        "proxy_quality": "stale",
+        "delay_model": "independent_random",
+        "label_budget": {
+          "hard_label_count": 64
+        },
+        "cost_configuration": {
+          "label_cost": 0.001,
+          "switch_cost": 0.01
+        },
+        "random_seed": 281001,
+        "baseline_version": "generator_contract_v1",
+        "validity_status": "diagnostic_only",
+        "provenance_class": "ORACLE_ONLY"
+      },
+      "argv": [
+        "-m",
+        "shiftlab.sota_search.generator_worker",
+        "--family",
+        "G4",
+        "--scenario",
+        "risk_without_harm",
+        "--seed",
+        "281001",
+        "--horizon",
+        "512"
+      ]
+    },
+    {
+      "metadata": {
+        "code_commit": "2ead80b06ead38cae995fb9b8b61f04f1253abc7",
+        "source_hash": "8d71225a66a1f7829dad104f9b7bbcda621ddd1fda7cb05103d2211661092b41",
+        "source_hash_scheme": "sorted_posix_path_NUL_sha256_file_bytes_v2",
+        "environment": {
+          "python": "3.13.1",
+          "platform": "Windows-11-10.0.26200-SP0",
+          "packages": {
+            "numpy": "2.4.2",
+            "scipy": "1.17.1",
+            "psutil": "7.0.0",
+            "pandas": "3.0.1",
+            "pydantic": "2.13.4"
+          }
+        },
+        "parent_algorithm": null,
+        "candidate_algorithm": "generator_contract",
+        "modification_id": null,
+        "component_configuration": {
+          "family": "G4",
+          "scenario": "harm_without_accuracy",
+          "horizon": 512,
+          "dimension": 6,
+          "change_fraction": 0.4,
+          "severity": 1.0,
+          "proxy_quality": "stale",
+          "delay": 3,
+          "delay_model": "independent_random",
+          "missing_probability": 0.0,
+          "label_cost": 0.001,
+          "switch_cost": 0.01,
+          "persistence": 0.97
+        },
+        "hyperparameters": {},
+        "generator_family": "G4",
+        "shift_type": "harm_without_accuracy",
+        "shift_magnitude": 1.0,
+        "predictive_degradation": null,
+        "decision_harm": null,
+        "proxy_quality": "stale",
+        "delay_model": "independent_random",
+        "label_budget": {
+          "hard_label_count": 64
+        },
+        "cost_configuration": {
+          "label_cost": 0.001,
+          "switch_cost": 0.01
+        },
+        "random_seed": 281001,
+        "baseline_version": "generator_contract_v1",
+        "validity_status": "diagnostic_only",
+        "provenance_class": "ORACLE_ONLY"
+      },
+      "argv": [
+        "-m",
+        "shiftlab.sota_search.generator_worker",
+        "--family",
+        "G4",
+        "--scenario",
+        "harm_without_accuracy",
+        "--seed",
+        "281001",
+        "--horizon",
+        "512"
+      ]
+    },
+    {
+      "metadata": {
+        "code_commit": "2ead80b06ead38cae995fb9b8b61f04f1253abc7",
+        "source_hash": "8d71225a66a1f7829dad104f9b7bbcda621ddd1fda7cb05103d2211661092b41",
+        "source_hash_scheme": "sorted_posix_path_NUL_sha256_file_bytes_v2",
+        "environment": {
+          "python": "3.13.1",
+          "platform": "Windows-11-10.0.26200-SP0",
+          "packages": {
+            "numpy": "2.4.2",
+            "scipy": "1.17.1",
+            "psutil": "7.0.0",
+            "pandas": "3.0.1",
+            "pydantic": "2.13.4"
+          }
+        },
+        "parent_algorithm": null,
+        "candidate_algorithm": "generator_contract",
+        "modification_id": null,
+        "component_configuration": {
+          "family": "G4",
+          "scenario": "incumbent_best",
+          "horizon": 512,
+          "dimension": 6,
+          "change_fraction": 0.4,
+          "severity": 1.0,
+          "proxy_quality": "stale",
+          "delay": 3,
+          "delay_model": "independent_random",
+          "missing_probability": 0.0,
+          "label_cost": 0.001,
+          "switch_cost": 0.01,
+          "persistence": 0.97
+        },
+        "hyperparameters": {},
+        "generator_family": "G4",
+        "shift_type": "incumbent_best",
+        "shift_magnitude": 1.0,
+        "predictive_degradation": null,
+        "decision_harm": null,
+        "proxy_quality": "stale",
+        "delay_model": "independent_random",
+        "label_budget": {
+          "hard_label_count": 64
+        },
+        "cost_configuration": {
+          "label_cost": 0.001,
+          "switch_cost": 0.01
+        },
+        "random_seed": 281001,
+        "baseline_version": "generator_contract_v1",
+        "validity_status": "diagnostic_only",
+        "provenance_class": "ORACLE_ONLY"
+      },
+      "argv": [
+        "-m",
+        "shiftlab.sota_search.generator_worker",
+        "--family",
+        "G4",
+        "--scenario",
+        "incumbent_best",
+        "--seed",
+        "281001",
+        "--horizon",
+        "512"
+      ]
+    },
+    {
+      "metadata": {
+        "code_commit": "2ead80b06ead38cae995fb9b8b61f04f1253abc7",
+        "source_hash": "8d71225a66a1f7829dad104f9b7bbcda621ddd1fda7cb05103d2211661092b41",
+        "source_hash_scheme": "sorted_posix_path_NUL_sha256_file_bytes_v2",
+        "environment": {
+          "python": "3.13.1",
+          "platform": "Windows-11-10.0.26200-SP0",
+          "packages": {
+            "numpy": "2.4.2",
+            "scipy": "1.17.1",
+            "psutil": "7.0.0",
+            "pandas": "3.0.1",
+            "pydantic": "2.13.4"
+          }
+        },
+        "parent_algorithm": null,
+        "candidate_algorithm": "generator_contract",
+        "modification_id": null,
+        "component_configuration": {
+          "family": "G4",
+          "scenario": "transient_challenger",
+          "horizon": 512,
+          "dimension": 6,
+          "change_fraction": 0.4,
+          "severity": 1.0,
+          "proxy_quality": "stale",
+          "delay": 3,
+          "delay_model": "independent_random",
+          "missing_probability": 0.0,
+          "label_cost": 0.001,
+          "switch_cost": 0.01,
+          "persistence": 0.97
+        },
+        "hyperparameters": {},
+        "generator_family": "G4",
+        "shift_type": "transient_challenger",
+        "shift_magnitude": 1.0,
+        "predictive_degradation": null,
+        "decision_harm": null,
+        "proxy_quality": "stale",
+        "delay_model": "independent_random",
+        "label_budget": {
+          "hard_label_count": 64
+        },
+        "cost_configuration": {
+          "label_cost": 0.001,
+          "switch_cost": 0.01
+        },
+        "random_seed": 281001,
+        "baseline_version": "generator_contract_v1",
+        "validity_status": "diagnostic_only",
+        "provenance_class": "ORACLE_ONLY"
+      },
+      "argv": [
+        "-m",
+        "shiftlab.sota_search.generator_worker",
+        "--family",
+        "G4",
+        "--scenario",
+        "transient_challenger",
+        "--seed",
+        "281001",
+        "--horizon",
+        "512"
+      ]
+    },
+    {
+      "metadata": {
+        "code_commit": "2ead80b06ead38cae995fb9b8b61f04f1253abc7",
+        "source_hash": "8d71225a66a1f7829dad104f9b7bbcda621ddd1fda7cb05103d2211661092b41",
+        "source_hash_scheme": "sorted_posix_path_NUL_sha256_file_bytes_v2",
+        "environment": {
+          "python": "3.13.1",
+          "platform": "Windows-11-10.0.26200-SP0",
+          "packages": {
+            "numpy": "2.4.2",
+            "scipy": "1.17.1",
+            "psutil": "7.0.0",
+            "pandas": "3.0.1",
+            "pydantic": "2.13.4"
+          }
+        },
+        "parent_algorithm": null,
+        "candidate_algorithm": "generator_contract",
+        "modification_id": null,
+        "component_configuration": {
+          "family": "G4",
+          "scenario": "challenger_optimal",
+          "horizon": 512,
+          "dimension": 6,
+          "change_fraction": 0.4,
+          "severity": 1.0,
+          "proxy_quality": "stale",
+          "delay": 3,
+          "delay_model": "independent_random",
+          "missing_probability": 0.0,
+          "label_cost": 0.001,
+          "switch_cost": 0.01,
+          "persistence": 0.97
+        },
+        "hyperparameters": {},
+        "generator_family": "G4",
+        "shift_type": "challenger_optimal",
+        "shift_magnitude": 1.0,
+        "predictive_degradation": null,
+        "decision_harm": null,
+        "proxy_quality": "stale",
+        "delay_model": "independent_random",
+        "label_budget": {
+          "hard_label_count": 64
+        },
+        "cost_configuration": {
+          "label_cost": 0.001,
+          "switch_cost": 0.01
+        },
+        "random_seed": 281001,
+        "baseline_version": "generator_contract_v1",
+        "validity_status": "diagnostic_only",
+        "provenance_class": "ORACLE_ONLY"
+      },
+      "argv": [
+        "-m",
+        "shiftlab.sota_search.generator_worker",
+        "--family",
+        "G4",
+        "--scenario",
+        "challenger_optimal",
+        "--seed",
+        "281001",
+        "--horizon",
+        "512"
+      ]
+    },
+    {
+      "metadata": {
+        "code_commit": "2ead80b06ead38cae995fb9b8b61f04f1253abc7",
+        "source_hash": "8d71225a66a1f7829dad104f9b7bbcda621ddd1fda7cb05103d2211661092b41",
+        "source_hash_scheme": "sorted_posix_path_NUL_sha256_file_bytes_v2",
+        "environment": {
+          "python": "3.13.1",
+          "platform": "Windows-11-10.0.26200-SP0",
+          "packages": {
+            "numpy": "2.4.2",
+            "scipy": "1.17.1",
+            "psutil": "7.0.0",
+            "pandas": "3.0.1",
+            "pydantic": "2.13.4"
+          }
+        },
+        "parent_algorithm": null,
+        "candidate_algorithm": "generator_contract",
+        "modification_id": null,
+        "component_configuration": {
+          "family": "G4",
+          "scenario": "tied_models",
+          "horizon": 512,
+          "dimension": 6,
+          "change_fraction": 0.4,
+          "severity": 1.0,
+          "proxy_quality": "stale",
+          "delay": 3,
+          "delay_model": "independent_random",
+          "missing_probability": 0.0,
+          "label_cost": 0.001,
+          "switch_cost": 0.01,
+          "persistence": 0.97
+        },
+        "hyperparameters": {},
+        "generator_family": "G4",
+        "shift_type": "tied_models",
+        "shift_magnitude": 1.0,
+        "predictive_degradation": null,
+        "decision_harm": null,
+        "proxy_quality": "stale",
+        "delay_model": "independent_random",
+        "label_budget": {
+          "hard_label_count": 64
+        },
+        "cost_configuration": {
+          "label_cost": 0.001,
+          "switch_cost": 0.01
+        },
+        "random_seed": 281001,
+        "baseline_version": "generator_contract_v1",
+        "validity_status": "diagnostic_only",
+        "provenance_class": "ORACLE_ONLY"
+      },
+      "argv": [
+        "-m",
+        "shiftlab.sota_search.generator_worker",
+        "--family",
+        "G4",
+        "--scenario",
+        "tied_models",
+        "--seed",
+        "281001",
+        "--horizon",
+        "512"
+      ]
+    },
+    {
+      "metadata": {
+        "code_commit": "2ead80b06ead38cae995fb9b8b61f04f1253abc7",
+        "source_hash": "8d71225a66a1f7829dad104f9b7bbcda621ddd1fda7cb05103d2211661092b41",
+        "source_hash_scheme": "sorted_posix_path_NUL_sha256_file_bytes_v2",
+        "environment": {
+          "python": "3.13.1",
+          "platform": "Windows-11-10.0.26200-SP0",
+          "packages": {
+            "numpy": "2.4.2",
+            "scipy": "1.17.1",
+            "psutil": "7.0.0",
+            "pandas": "3.0.1",
+            "pydantic": "2.13.4"
+          }
+        },
+        "parent_algorithm": null,
+        "candidate_algorithm": "generator_contract",
+        "modification_id": null,
+        "component_configuration": {
+          "family": "G4",
+          "scenario": "labels_too_expensive",
+          "horizon": 512,
+          "dimension": 6,
+          "change_fraction": 0.4,
+          "severity": 1.0,
+          "proxy_quality": "stale",
+          "delay": 3,
+          "delay_model": "independent_random",
+          "missing_probability": 0.0,
+          "label_cost": 0.001,
+          "switch_cost": 0.01,
+          "persistence": 0.97
+        },
+        "hyperparameters": {},
+        "generator_family": "G4",
+        "shift_type": "labels_too_expensive",
+        "shift_magnitude": 1.0,
+        "predictive_degradation": null,
+        "decision_harm": null,
+        "proxy_quality": "stale",
+        "delay_model": "independent_random",
+        "label_budget": {
+          "hard_label_count": 64
+        },
+        "cost_configuration": {
+          "label_cost": 2,
+          "switch_cost": 0.01
+        },
+        "random_seed": 281001,
+        "baseline_version": "generator_contract_v1",
+        "validity_status": "diagnostic_only",
+        "provenance_class": "ORACLE_ONLY"
+      },
+      "argv": [
+        "-m",
+        "shiftlab.sota_search.generator_worker",
+        "--family",
+        "G4",
+        "--scenario",
+        "labels_too_expensive",
+        "--seed",
+        "281001",
+        "--horizon",
+        "512"
+      ]
+    },
+    {
+      "metadata": {
+        "code_commit": "2ead80b06ead38cae995fb9b8b61f04f1253abc7",
+        "source_hash": "8d71225a66a1f7829dad104f9b7bbcda621ddd1fda7cb05103d2211661092b41",
+        "source_hash_scheme": "sorted_posix_path_NUL_sha256_file_bytes_v2",
+        "environment": {
+          "python": "3.13.1",
+          "platform": "Windows-11-10.0.26200-SP0",
+          "packages": {
+            "numpy": "2.4.2",
+            "scipy": "1.17.1",
+            "psutil": "7.0.0",
+            "pandas": "3.0.1",
+            "pydantic": "2.13.4"
+          }
+        },
+        "parent_algorithm": null,
+        "candidate_algorithm": "generator_contract",
+        "modification_id": null,
+        "component_configuration": {
+          "family": "G4",
+          "scenario": "localized_harm",
+          "horizon": 512,
+          "dimension": 6,
+          "change_fraction": 0.4,
+          "severity": 1.0,
+          "proxy_quality": "stale",
+          "delay": 3,
+          "delay_model": "independent_random",
+          "missing_probability": 0.0,
+          "label_cost": 0.001,
+          "switch_cost": 0.01,
+          "persistence": 0.97
+        },
+        "hyperparameters": {},
+        "generator_family": "G4",
+        "shift_type": "localized_harm",
+        "shift_magnitude": 1.0,
+        "predictive_degradation": null,
+        "decision_harm": null,
+        "proxy_quality": "stale",
+        "delay_model": "independent_random",
+        "label_budget": {
+          "hard_label_count": 64
+        },
+        "cost_configuration": {
+          "label_cost": 0.001,
+          "switch_cost": 0.01
+        },
+        "random_seed": 281001,
+        "baseline_version": "generator_contract_v1",
+        "validity_status": "diagnostic_only",
+        "provenance_class": "ORACLE_ONLY"
+      },
+      "argv": [
+        "-m",
+        "shiftlab.sota_search.generator_worker",
+        "--family",
+        "G4",
+        "--scenario",
+        "localized_harm",
+        "--seed",
+        "281001",
+        "--horizon",
+        "512"
+      ]
+    },
+    {
+      "metadata": {
+        "code_commit": "2ead80b06ead38cae995fb9b8b61f04f1253abc7",
+        "source_hash": "8d71225a66a1f7829dad104f9b7bbcda621ddd1fda7cb05103d2211661092b41",
+        "source_hash_scheme": "sorted_posix_path_NUL_sha256_file_bytes_v2",
+        "environment": {
+          "python": "3.13.1",
+          "platform": "Windows-11-10.0.26200-SP0",
+          "packages": {
+            "numpy": "2.4.2",
+            "scipy": "1.17.1",
+            "psutil": "7.0.0",
+            "pandas": "3.0.1",
+            "pydantic": "2.13.4"
+          }
+        },
+        "parent_algorithm": null,
+        "candidate_algorithm": "generator_contract",
+        "modification_id": null,
+        "component_configuration": {
+          "family": "G4",
+          "scenario": "gradual",
+          "horizon": 512,
+          "dimension": 6,
+          "change_fraction": 0.4,
+          "severity": 1.0,
+          "proxy_quality": "stale",
+          "delay": 3,
+          "delay_model": "independent_random",
+          "missing_probability": 0.0,
+          "label_cost": 0.001,
+          "switch_cost": 0.01,
+          "persistence": 0.97
+        },
+        "hyperparameters": {},
+        "generator_family": "G4",
+        "shift_type": "gradual",
+        "shift_magnitude": 1.0,
+        "predictive_degradation": null,
+        "decision_harm": null,
+        "proxy_quality": "stale",
+        "delay_model": "independent_random",
+        "label_budget": {
+          "hard_label_count": 64
+        },
+        "cost_configuration": {
+          "label_cost": 0.001,
+          "switch_cost": 0.01
+        },
+        "random_seed": 281001,
+        "baseline_version": "generator_contract_v1",
+        "validity_status": "diagnostic_only",
+        "provenance_class": "ORACLE_ONLY"
+      },
+      "argv": [
+        "-m",
+        "shiftlab.sota_search.generator_worker",
+        "--family",
+        "G4",
+        "--scenario",
+        "gradual",
+        "--seed",
+        "281001",
+        "--horizon",
+        "512"
+      ]
+    },
+    {
+      "metadata": {
+        "code_commit": "2ead80b06ead38cae995fb9b8b61f04f1253abc7",
+        "source_hash": "8d71225a66a1f7829dad104f9b7bbcda621ddd1fda7cb05103d2211661092b41",
+        "source_hash_scheme": "sorted_posix_path_NUL_sha256_file_bytes_v2",
+        "environment": {
+          "python": "3.13.1",
+          "platform": "Windows-11-10.0.26200-SP0",
+          "packages": {
+            "numpy": "2.4.2",
+            "scipy": "1.17.1",
+            "psutil": "7.0.0",
+            "pandas": "3.0.1",
+            "pydantic": "2.13.4"
+          }
+        },
+        "parent_algorithm": null,
+        "candidate_algorithm": "generator_contract",
+        "modification_id": null,
+        "component_configuration": {
+          "family": "G4",
+          "scenario": "recurrent",
+          "horizon": 512,
+          "dimension": 6,
+          "change_fraction": 0.4,
+          "severity": 1.0,
+          "proxy_quality": "stale",
+          "delay": 3,
+          "delay_model": "independent_random",
+          "missing_probability": 0.0,
+          "label_cost": 0.001,
+          "switch_cost": 0.01,
+          "persistence": 0.97
+        },
+        "hyperparameters": {},
+        "generator_family": "G4",
+        "shift_type": "recurrent",
+        "shift_magnitude": 1.0,
+        "predictive_degradation": null,
+        "decision_harm": null,
+        "proxy_quality": "stale",
+        "delay_model": "independent_random",
+        "label_budget": {
+          "hard_label_count": 64
+        },
+        "cost_configuration": {
+          "label_cost": 0.001,
+          "switch_cost": 0.01
+        },
+        "random_seed": 281001,
+        "baseline_version": "generator_contract_v1",
+        "validity_status": "diagnostic_only",
+        "provenance_class": "ORACLE_ONLY"
+      },
+      "argv": [
+        "-m",
+        "shiftlab.sota_search.generator_worker",
+        "--family",
+        "G4",
+        "--scenario",
+        "recurrent",
+        "--seed",
+        "281001",
+        "--horizon",
+        "512"
+      ]
+    }
+  ],
+  "programme_limits": {
+    "max_runs": 20000,
+    "wall_seconds": 14400,
+    "cpu_seconds": 14400,
+    "storage_bytes": 2147483648
+  },
+  "programme_usage_before": {
+    "wall_seconds": 37.094450699398294,
+    "cpu_seconds": 28.203125,
+    "runs": 12
+  }
+}

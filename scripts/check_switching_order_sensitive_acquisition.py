@@ -37,9 +37,22 @@ def posterior(labels: tuple[int, ...]) -> F:
 
 
 def no_query_switch_value(prob_good_s3: F) -> F:
-    # Choose once at t=4 and hold through t=6.
-    gross = F(7, 4) * prob_good_s3 - F(7, 8)
+    # Choose once at t=4 and hold through t=6. Include one HMM transition
+    # before the first action and discount the belief at every future round.
+    gross = sum(
+        (
+            2 * (EMIT_BAD + (EMIT_GOOD - EMIT_BAD) * predict_n(prob_good_s3, step)) - 1
+            for step in (1, 2, 3)
+        ),
+        F(0),
+    )
     return max(F(0), gross - SWITCH_COST)
+
+
+def predict_n(prob_good: F, steps: int) -> F:
+    for _ in range(steps):
+        prob_good = predict_one_step(prob_good)
+    return prob_good
 
 
 def query_value_before_query_cost(prob_good_s3: F) -> F:
@@ -50,7 +63,14 @@ def query_value_before_query_cost(prob_good_s3: F) -> F:
     posterior_negative = update(prior_s4, 0)
 
     def continuation_value(prob_good_s4: F) -> F:
-        gross = F(3, 2) * prob_good_s4 - F(3, 4)
+        # The label is for S_4. Switching begins at t=5 and is held through t=6.
+        gross = sum(
+            (
+                2 * (EMIT_BAD + (EMIT_GOOD - EMIT_BAD) * predict_n(prob_good_s4, step)) - 1
+                for step in (1, 2)
+            ),
+            F(0),
+        )
         return max(F(0), gross - SWITCH_COST)
 
     return p_positive * continuation_value(posterior_positive) + (
@@ -97,15 +117,16 @@ def main() -> None:
         }
 
     null_risk = exact_causal_null_risk()
-    assert rows["+-+"]["query_optimal"]
-    assert not rows["-++"]["query_optimal"]
     assert rows["+-+"]["belief_good_s3"] == [54, 65]
     assert rows["-++"]["belief_good_s3"] == [33, 35]
-    assert rows["+-+"]["query_gross_value"] == [339, 26000]
-    assert rows["-++"]["query_gross_value"] == [363, 14000]
-    assert rows["+-+"]["query_net_value_with_safe_lottery"] == [209, 130000]
-    assert rows["-++"]["query_net_value_with_safe_lottery"] == [293, 70000]
-    assert rows["-++"]["safe_immediate_switch_value"] == [1, 40]
+    assert rows["+-+"]["query_gross_value"] == [0, 1]
+    assert rows["-++"]["query_gross_value"] == [0, 1]
+    assert rows["+-+"]["query_net_value_with_safe_lottery"] == [-1, 1000]
+    assert rows["-++"]["query_net_value_with_safe_lottery"] == [-1, 1000]
+    assert rows["+-+"]["safe_immediate_switch_value"] == [0, 1]
+    assert rows["-++"]["safe_immediate_switch_value"] == [0, 1]
+    assert not rows["+-+"]["query_optimal"]
+    assert not rows["-++"]["query_optimal"]
     assert null_risk == ALPHA
     assert sorted(histories["+-+"]) == sorted(histories["-++"])
     assert histories["+-+"][-1] == histories["-++"][-1] == 1
@@ -125,6 +146,8 @@ def main() -> None:
                 "histories": rows,
                 "worst_causal_null_promotion_risk": as_pair(null_risk),
                 "score_multiset_and_current_score_match": True,
+                "order_sensitive_query_separation_survives": False,
+                "interpretation": "The histories have different posteriors, but with the registered switch cost and future belief decay, neither warrants a query or switch. The prior economic separation was caused by an overstated hand-derived payoff formula.",
             },
             indent=2,
         )

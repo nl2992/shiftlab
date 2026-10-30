@@ -2741,3 +2741,18 @@ the finite benchmark. Source limitation: RAO* full text/proof not inspected in t
   against the exact oracle on a growing, predeclared family and determine whether a nontrivial bound
   exists beyond standard constrained planning. G2–G5 remain held; this constructed example is not an
   efficacy study.
+
+### G1 correction: order-sensitive example rejected 2026-10-29
+
+- Exact payoff propagation found an error in the hand-derived switching-value formulas in
+  `switching_order_sensitive_acquisition_separation_v1.md`. They overstated gains by failing to
+  propagate the HMM belief through all future decision rounds. The corrected checker shows both
+  same-score histories favor no query and no switch under the registered horizon and costs; the
+  query has zero gross switching value. The exact causal-null risk calculation still returns
+  `1/20`, but risk validity does not establish economic benefit.
+- Retract the claimed order-sensitive acquisition separation. Keep the histories only as a warning
+  that belief updates must be translated into round-specific expected utility before claiming a
+  switching advantage. A restricted sequence-form causal-game oracle independently chooses
+  stay/no-query at both histories, with exact total cost `3003/1000`. G1 remains open, and G2–G5
+  remain held. The next candidate must pass an independent exact cash-flow calculation and the
+  full causal-game oracle before any broader empirical sweep.

@@ -272,7 +272,7 @@ Notes: the A1 solver path defaults to `a1.DEFAULT_SOLVER_ROOT` (the `2bd2e8e` wo
 
 ## 9. Terminal report
 
-1. **Branch and SHA:** `research/shiftlab-promising-directions-2026-10-30`, HEAD `<HEAD>`.
+1. **Branch and SHA:** `research/shiftlab-promising-directions-2026-10-30`, report committed at `1a717bcd04a0fdc9b9908e430d8e27b3f39962d5` (branch tip is the following commit, which only fills in this SHA).
 2. **Cycles completed:** 1 loop-scheduled smoke cycle (`cycle-0001-C0-smoke`, plumbing only) plus 5 registered research executions: A1, B1, B2, A1b and the adversarial review. A1, B1, B2 and A1b ran outside the loop scheduler and are recorded in `RESEARCH_LEDGER.md`.
 3. **Implemented:** resumable research loop with state, smoke cycle and artifact verification (`research_loop.py`, `run_one_cycle.py`, `verify_artifacts.py`); A1 exact-separation runner; A1b growing-family runner; B1/B2 certified-switching simulator and policies P0-P5 and P3b; unit tests under `tests/promising_directions/` (the full suite was recorded as 19 of 19 passing at `041bc26`); documents `00` to `12` and four registered protocols.
 4. **Executed:** A1 (488 exact cells plus sanity), A1b (10 planned cells; T=12 failed on the node cap), B1 (500 seeds x 4 worlds x 4 settings), B2 (same design, fresh seeds), adversarial review with critic reruns, H2c analysis-level recompute, HG e15 analysis recompute, one H2c single-cell simulation check.

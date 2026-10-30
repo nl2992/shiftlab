@@ -51,3 +51,18 @@ Descriptive notes (the diagnostic below is post-hoc and not part of the register
 The allocator sent about half the labels to bin 0, whose benefit fell from 15 bps before 2020 to 5 bps in the test period, and starved bins 2 to 7, which hold about 80% of test events and had higher benefit. This is the synthetic `het_flip` failure condition on real data (with a second effect: the test-period size distribution moved toward large caps, 36% of events in bin 7). A stability check on the pre-test periods (R0, ρ = 0.74 between validation and calibration) did **not** warn of it, so a pre-test stationarity diagnostic is not sufficient protection.
 
 **Spend was not exactly matched** (mean labels, runs.csv): at 5% budget uniform 5455, neyman 5319, growth 5073, random_conc 5028; at 20% uniform 21,878, neyman 21,289, growth 20,224, random_conc 12,676. Growth spent about 7–8% fewer labels than uniform (a mild disadvantage); the placebo at 20% spent far less because a small bin cannot absorb the budget, so that placebo comparison is not budget-matched. Neither changes the sign of the main result.
+
+## B1 (protocol [`REAL_DATA_PROTOCOL.md`](REAL_DATA_PROTOCOL.md), third section): repo evidence-directed rule as a benchmark on CRSP
+
+10 cohorts × 20 seeds, 2020–2025 test split (exposed), benefit direction, pooled Kelly bet. `EvidenceDirectedQueryPolicy` imported unchanged; `q_min = 0.25·frac`, `q_max = min(1, 2.5·frac)`, default curve. Artifacts: `outputs/rpoq_next/b1/runs.csv`, `summary.json`; code `src/shiftlab/dive/rpoq_next/crsp_b1.py`.
+
+| Budget | uniform LW (crossing) | evidence-directed LW (crossing) | Difference [95% CI] | Mean labels, uniform vs ED |
+|---|---|---|---|---|
+| 5% | 1.41 (0.31) | 0.66 (0.135) | **−0.75 [−1.00, −0.51]** | 5,455 vs 2,441 |
+| 20% | 6.54 (0.845) | 2.63 (0.47) | **−3.91 [−4.77, −2.98]** | 21,878 vs 12,221 |
+
+Uniform reproduces the S6/R1 values (1.41 and 6.54) exactly.
+
+**Reading (descriptive; no gate).** The repo's evidence-directed rule is significantly worse than uniform on this stream at both budgets. It is **not label-matched**: it spends 45% (5% budget) and 56% (20% budget) of what uniform spends, because its propensity sits at the `q_min` floor while evidence is low and the budget taper reduces it further. Per label spent, log-wealth is similar at the 5% budget (about 2.7e-4 per label for both) and lower for ED at 20% (2.2e-4 vs 3.0e-4). So the comparison shows "worse at the configured spend", not "less efficient per label", and a spend-matched version (for example a higher `q_min`) was not run; it would be a new protocol.
+
+Benchmarks still not run: PPRM, Podkopaev–Ramdas, `comparecast`, Robust ASI proper (S6b/A2 used an adaptation).

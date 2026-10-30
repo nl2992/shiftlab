@@ -41,3 +41,7 @@ Local full suite (base dependencies only, no `neural`/`drift` extras): 1639 pass
 - Network allowlist still not applied in this session (all six hosts unreachable); the user needs to add them under the environment's Network access.
 - Candidate C: C1 (wealth snapping) and C2 (threshold-adaptive grid) both NOT SUPPORTED: 80–1000× fewer states, but certified recovery at most +0.38 at `B=6` and far below the static-table baseline at `B=4`. One bookkeeping bug caught and fixed before recording (key collision `exact_power`), plus a chained-run mistake (run launched before tests passed; killed and rerun after the fix). Raw results `outputs/rpoq_next/c1/results.json`.
 - Synthesis written in `FINAL_DECISION.md`. Candidates A and C closed; B gated on sources.
+
+## 2026-10-30, B1 benchmark run
+
+Repo evidence-directed rule imported unchanged and run on the CRSP stream: worse than uniform (−0.75, −3.91 log-wealth units) at 45–56% of uniform's label spend (not matched). Uniform reproduces S6/R1 exactly. No candidate of mine involved. Remaining unrun benchmarks: PPRM, Podkopaev–Ramdas, `comparecast`, Robust ASI proper.

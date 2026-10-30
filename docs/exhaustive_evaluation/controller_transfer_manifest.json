@@ -1,0 +1,16 @@
+{
+  "frozen_sources_and_class_verified": true,
+  "sha256": {
+    "scripts/exhaustive_evaluation/validate_controller_transfer.py": "8c56ba174e1b854cae212cdf9c21b5d4cfc39a799f38fbc6c8e488298cd1ae1e",
+    "scripts/exhaustive_evaluation/test_controller_abandonment.py": "5db1f6ed0db58f98b594ddb8284f55e2454f00c22cf7eb056ac2f0b05a45cdbf",
+    "scripts/exhaustive_evaluation/pilot_controller_synthesis.py": "6f6ae426eab8e3be232d13d9da35f4d2c6668e4eb969102f69e0c6a816e5ef5a",
+    "src/shiftlab/dive/causal_switching_game.py": "54b1347c3e213407b3feb09a801dc9ea40b3663fe6a4a227b7878b9b0a2d770a",
+    "src/shiftlab/dive/delayed_regime_information.py": "28a921215b0c58e1682b01e0da2df46b1100c9fc2618b74d7d137ad9fce8047e",
+    "src/shiftlab/dive/risk_preserving_approx/controller_risk_verifier.py": "65847d92b1283dfdb4b7d9420f95cd69fba2fc28a9b8bedacab4e9438a7f1e73",
+    "docs/exhaustive_evaluation/controller_transfer_registration.json": "f0a708612cc932b24939a250c6ee761a50176afeef05a048acfbced38cc5746e",
+    "docs/exhaustive_evaluation/controller_transfer_status.json": "4f9da6d7c5747bb30b2b63196089e48f5ce237c789e6c7fd24a72bbd5eca34cf",
+    "docs/exhaustive_evaluation/controller_transfer_results.json": "488dd102b14a958c4d79af2c8c3becf3080bc5a1036b31487fca79001564af55",
+    "docs/exhaustive_evaluation/CONTROLLER_TRANSFER_REPORT.md": "c7d85fd3e8d9e65ae9547937fc5dca9ed7e9b435bf9e4260aa070418199a6907",
+    "docs/exhaustive_evaluation/BASELINE_COVERAGE.md": "6e56026f998cc9ea396572e080362760bf76a0c4813d741d88a60bc769796018"
+  }
+}

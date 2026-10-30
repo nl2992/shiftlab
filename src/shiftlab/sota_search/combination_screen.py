@@ -110,6 +110,7 @@ def screen(
     tolerance=0.0,
     alpha=0.05,
     return_wealth=False,
+    return_accounting=False,
 ):
     """Evaluate configurations using the same uniform query randomness.
 
@@ -137,7 +138,13 @@ def screen(
     guide = np.array([c.guidance for c in configs])[:, None]
     alloc = np.array([c.allocation for c in configs])[:, None]
     restart = np.array([c.restart for c in configs])[:, None]
-    qfloor = np.where(alloc == "uniform", frac, frac / 4)
+    pace = np.array([getattr(c, "pace", "none") for c in configs])[:, None]
+    guard = np.array([getattr(c, "guard", "off") for c in configs])[:, None]
+    if np.any(~np.isin(pace, ["none", "remaining", "reserve", "evidence"])) or np.any(
+        ~np.isin(guard, ["off", "agreement", "cost_floor"])
+    ):
+        raise ValueError("unknown pacing or guard")
+    qfloor = np.where((alloc == "uniform") & (pace == "none"), frac, frac / 4)
     bc = stream["proxy_max"] * (1 / qfloor - 1) + stream["r0"] + tolerance
     bb = stream["bproxy_max"] * (1 / qfloor - 1) + stream["b0"]
     hc, hb = cap / bc, cap / bb
@@ -148,6 +155,7 @@ def screen(
     wealth, mix_wealth = np.ones((C, S)), np.zeros((C, S))
     spent = np.zeros((C, S), dtype=int)
     first = np.full((C, S), T, dtype=int)
+    labels_at_alarm = np.zeros((C, S), dtype=int)
     maxlog = np.zeros((C, S))
     history = np.zeros((C, S, T)) if return_wealth else None
     starts = sorted({0, T // 4, T // 2, 3 * T // 4})
@@ -173,6 +181,7 @@ def screen(
         visible = np.where(restart, mix_wealth + max(future_mass, 0), wealth)
         hit = (first == T) & (visible >= threshold)
         first[hit] = t
+        labels_at_alarm[hit] = spent[hit]
         logs = np.log(np.maximum(visible, 1e-300))
         maxlog = np.maximum(maxlog, logs)
         if history is not None:
@@ -180,7 +189,10 @@ def screen(
         # New bets use only factors released by t. They do not see current loss.
         relc = np.clip(np.maximum(m1, 0) / np.maximum(m2, 1e-12) / hc, 0, 1)
         relb = np.clip(np.maximum(b1, 0) / np.maximum(b2, 1e-12) / hb, 0, 1)
-        lam = ((1 - guide) * relc + guide * relb) * hc
+        effective_guide = np.where((guard == "agreement") & ((m1 <= 0) | (b1 <= 0)), 0, guide)
+        relative = (1 - effective_guide) * relc + effective_guide * relb
+        relative = np.where(guard == "cost_floor", np.maximum(relative, 0.5 * relc), relative)
+        lam = relative * hc
         p = stream["score"][:, t]
         uncertainty = np.clip(4 * p * (1 - p), 0, 1)
         boundary = np.exp(-12 * np.abs(p - 1 / 6))
@@ -190,6 +202,11 @@ def screen(
             frac / 4 + 1.5 * frac * np.where(alloc == "uncertainty", uncertainty, boundary),
         )
         q = np.minimum(q, 1)
+        rate = (budget - spent) / max(T - t, 1)
+        paced_rate = np.where(pace == "reserve", frac * (0.25 + 1.5 * t / T), rate)
+        paced_rate = np.where(pace == "evidence", rate * (0.5 + (relc > 0)), paced_rate)
+        paced_q = np.clip(q * paced_rate / frac, qfloor, 1)
+        q = np.where(pace == "none", q, paced_q)
         available = spent < budget
         queried = (U[:, t] < q) & available
         spent += queried
@@ -211,6 +228,8 @@ def screen(
         due = (t + delay) % (delay + 1)
         X[due], Y[due], F[due] = xc, xb, factor
     result = {"first": first, "labels": spent, "maxlog": maxlog}
+    if return_accounting:
+        result["labels_at_alarm"] = np.where(first < T, labels_at_alarm, spent)
     if history is not None:
         result["logwealth"] = history
     return result

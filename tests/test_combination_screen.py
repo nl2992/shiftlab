@@ -3,6 +3,7 @@ from dataclasses import replace
 import numpy as np
 import pytest
 
+from shiftlab.sota_search.bottleneck_round import bottleneck_combinations, effective_config_key
 from shiftlab.sota_search.combination_screen import Combination, combinations, make_world, screen
 
 
@@ -82,3 +83,26 @@ def test_evaluator_harm_is_zero_on_null_and_localized_after_shift():
     s = make_world("abrupt", paths=4, horizon=90, seed=22)
     assert np.all(s["evaluator"]["harm"][:, :30] == 0)
     assert np.all(s["evaluator"]["harm"][:, 30:] > 0)
+
+
+def test_round2_distinct_active_compositions_and_budget_accounting():
+    configs = bottleneck_combinations()
+    assert len(configs) == len(set(configs)) == 756
+    # 108 syntactically distinct guard settings are mathematically inactive.
+    assert len({effective_config_key(c) for c in configs}) == 648
+    assert all(c.guard == "off" for c in configs if c.guidance == 0)
+    s = make_world("abrupt", paths=6, horizon=100, seed=4)
+    result = screen(s, configs, budget=12, delay=5, return_accounting=True)
+    assert result["labels"].max() <= 12
+    assert np.all(result["labels_at_alarm"] <= result["labels"])
+
+
+def test_pacing_does_not_read_hidden_future_labels():
+    configs = bottleneck_combinations()[::70]
+    s = make_world("abrupt", paths=3, horizon=100, seed=5)
+    changed = {**s, "loss": s["loss"].copy(), "brier": s["brier"].copy()}
+    changed["loss"][:, 40:] = 1 - changed["loss"][:, 40:]
+    changed["brier"][:, 40:] = 1 - changed["brier"][:, 40:]
+    a = screen(s, configs, seed=9, delay=5, return_wealth=True)
+    b = screen(changed, configs, seed=9, delay=5, return_wealth=True)
+    np.testing.assert_array_equal(a["logwealth"][:, :, :45], b["logwealth"][:, :, :45])

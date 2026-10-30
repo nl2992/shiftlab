@@ -16,3 +16,10 @@ Status 2026-10-30. “Exhaustive” means completing this explicit applicable fa
 | Markov testing, Sethi et al. | Primary PMLR page, dependence branch reproduction | Not yet independently reproduced here | Applies to observed finite-state chains, not arbitrary hidden/dependent real losses |
 
 The 540 combinations are compositions of known predictable betting, guidance blending, discounting, sampling and restart capital. Testing them is not evidence of 540 novel methods. A stronger baseline may remove every apparent gain. Novelty remains UNRESOLVED, and no final SOTA superiority statement is justified.
+
+## Second-turn update (SOURCE_FORMULA_AUDIT_V2.md)
+
+- PR PM-EB and PPRM batch/CM-EB formula-based cost adaptations execute in round2 and both real development tasks. Full original experiments and source-side PPI betting calibration remain open.
+- Historical H2c one-cell reproduction matches all 600 paths for three methods and both query rates. This is not the full 32-cell study or new confirmation.
+- Robust FSC publisher full text and author repository are retrieved at `0cc828d25a2a66597947135f53ded27ef92827bf`. Storm/Gurobi imports need a portability/model audit. Fixed-controller product verification is known machinery; two-law synthesis/value-gap superiority remains unresolved.
+- Full learned active-RCPS, Hsu–Shekhar querying, Betting-on-Predictions applicability, PH/CUSUM empirical calibration and independent Markov comparisons remain incomplete. Do not call coverage exhaustive yet.

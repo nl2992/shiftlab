@@ -2882,3 +2882,20 @@ the finite benchmark. Source limitation: RAO* full text/proof not inspected in t
   sweeps from this screen. G1 remains open only for that joint, computable error control and a
   complexity/value advantage over robust-FSC and two-law sequence-form planning. G2–G5 remain
   held. Historical test evidence remains distinct from current-regime value after reversal.
+
+### G1 pivot screen: action-dependent outcomes 2026-10-29
+
+- The Phase C recurrence candidate, Phase D split-clock candidate, and Phase E shared-label
+  multi-candidate candidate all exited under their registered kill criteria or source audits. The
+  next plausible structural change is policy-dependent outcomes, but this phrase alone is not a
+  contribution: performative prediction, performative feedback, performative bandit feedback, and
+  delayed nonstationary bandits already cover substantial parts of that setting.
+- The source-level boundary and F1 gate are recorded in
+  `docs/switching_action_dependent_pivot_screen_v1.md`. Before an algorithm proposal, require a
+  causal timeline, identifiable counterfactual utility estimand, precise causal-null/budget
+  contract, a minimal strict separation from a resource-matched composition, and eligible data.
+  Kill the route if it reduces to standard performative/bandit learning plus delayed change
+  detection and switching control.
+- This is a screening gate, not a new method. G1 remains open; G2–G5 remain held. Do not start
+  efficacy sweeps or real-data claims until F1 and then G1 pass. Historical evidence and
+  post-reversal current-regime forecasts remain separate.

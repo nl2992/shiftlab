@@ -1,0 +1,23 @@
+{
+  "status": "verified",
+  "scope": "source gradient at unclipped q=.5; not a theorem refutation or corrected algorithm efficacy test",
+  "rows": [
+    {
+      "dual": 0.0,
+      "q_before": 0.5,
+      "source_gradient": -1.0,
+      "source_loss_derivative": -1.0,
+      "negative_eq75_payoff_derivative": 1.0,
+      "normalizer_parameter_after_one_step": 0.01
+    },
+    {
+      "dual": 0.3068528194400547,
+      "q_before": 0.5,
+      "source_gradient": -1.1534264097200273,
+      "source_loss_derivative": -1.1534264097200273,
+      "negative_eq75_payoff_derivative": 0.8465735902799727,
+      "normalizer_parameter_after_one_step": 0.01
+    }
+  ],
+  "source_sha256": "4fa11f645f1af22906b75ac303b905494a3839afeefbc477c9aa60fead8bdf97"
+}

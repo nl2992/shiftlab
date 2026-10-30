@@ -1,0 +1,57 @@
+{
+  "status": "completed",
+  "parameters": {
+    "seed": 17,
+    "label_ct": 20,
+    "theta": 0.05,
+    "q_min": 0.1,
+    "target_rate": 0.3,
+    "beta_dim": 3,
+    "est_loss_dim": 3
+  },
+  "source_commit": "a67f85d603df2bb3e32ef007f445191923ebd990",
+  "simulation_sha256": "f8e60d2cc153f34ffe85af9d7f4823ad4e66b4ff09bd2a3b4384cb3421a50e8f",
+  "scope": "author six-arm function with declared syntax/type repairs; not unmodified reproduction or cost-risk adaptation",
+  "repairs": [
+    "remove dangling dot in add_pretrain branch (False for every tested arm)",
+    "convert ximin return to numpy for modern numpy/torch assert interoperability"
+  ],
+  "arms": [
+    {
+      "name": "oblivious",
+      "labels": 20.0,
+      "final_beta": 0.98989898989899,
+      "data_points": 69
+    },
+    {
+      "name": "label all",
+      "labels": 20.0,
+      "final_beta": 0.98989898989899,
+      "data_points": 19
+    },
+    {
+      "name": "optimal",
+      "labels": 20.0,
+      "final_beta": 0.98989898989899,
+      "data_points": 226
+    },
+    {
+      "name": "learned",
+      "labels": 20.0,
+      "final_beta": 0.98989898989899,
+      "data_points": 158
+    },
+    {
+      "name": "cv only",
+      "labels": 20.0,
+      "final_beta": 0.98989898989899,
+      "data_points": 78
+    },
+    {
+      "name": "cv + learn_var",
+      "labels": 20.0,
+      "final_beta": 0.98989898989899,
+      "data_points": 197
+    }
+  ]
+}

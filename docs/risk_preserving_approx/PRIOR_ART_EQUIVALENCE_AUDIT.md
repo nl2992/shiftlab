@@ -45,3 +45,27 @@ advantage over the reference. Thus no computational or novelty claim is
 established. Retain the exact certificate as a candidate-generation diagnostic;
 continue to Candidate A or a structurally distinct Candidate C before any
 real-data gate.
+
+## Candidate C: universal quotient of causal-null response histories (2026-10-29)
+
+The tested proposal maps histories with the same time, query budget, deployment,
+pending outcomes and alternative belief to a common state, then asks that this
+state preserve every full-history null response kernel. The result is a
+strategy-independent quotient lower bound, not a risk/value approximation
+lower bound.
+
+| Source | Closest established result | Shared assumptions / mechanism | Difference and remaining scope | Status |
+| --- | --- | --- | --- | --- |
+| Rabin & Scott (1959), *Finite Automata and Their Decision Problems*, Theorem 2 / Corollary 2.1 ([primary PDF](https://www.cs.miami.edu/home/burt/learning/csc427.222/docs/rabin-scott.pdf)) | Myhill–Nerode continuation equivalence characterizes the minimum states of deterministic automata | Distinct histories are separated by a continuation that produces different outputs; finite state maps must identify equivalent histories | We distinguish conditional Bernoulli response kernels, with a one-step separation of 0 versus 1/2. This is an elementary application of the same state-distinguishability principle, not a new automata result. | Equivalent proof principle; no method novelty |
+| Horák et al. (2020), *Solving Zero-Sum One-Sided Partially Observable Stochastic Games* ([primary paper](https://arxiv.org/abs/2010.11243), §§6–7, §10 Example 10.1) | Strategy composition/value recursion; explicit example where belief is insufficient for the imperfect-information player | Asymmetric information and history-dependent strategy selection in finite games | Their work supplies approximate game-value machinery, while our statement is a finite conditional-kernel quotient bound; it does not establish a bound on robust policy value or runtime. | Adjacent prior art; no algorithmic novelty |
+| Chatterjee, Doyen & Henzinger (2011), *Partial-Observation Stochastic Games: How to Win when Belief Fails* ([primary paper](https://arxiv.org/abs/1107.2141), §3, Theorem 3.1) | Belief insufficiency and memory bounds for qualitative one-sided games | Imperfect observation with an opponent that has full observation | Different reachability objective and strategy assumptions; it is background for memory requirements, not a direct theorem for quantitative causal-risk optimization. | Related but not an equivalence proof |
+
+**Conclusion:** the quotient theorem is a proved diagnostic no-go only for
+uniform, strategy-independent preservation of every conditional null kernel.
+The final-query continuation's robust risk supremum is 1/2 at both histories,
+so the witness gives no robust-risk or economic-value separation and need not be
+alpha-safe. It does not rule out null-specific abstractions, direct robust
+optimization, implicit separation, or policy-specific approximation. Its state
+count is not a runtime lower bound; for fixed `q`, `binom(T-2,q)` is polynomial
+in T. Full scope and proof are in
+`CANDIDATE_C_RESPONSE_QUOTIENT_LOWER_BOUND_V1.md`.

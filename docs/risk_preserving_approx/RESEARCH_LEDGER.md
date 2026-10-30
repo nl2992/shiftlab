@@ -640,3 +640,34 @@
   quotient against the saved alias and signed-value counterexamples; require a
   two-law value/risk bound before implementation. Do not repeat Candidate B's
   fixed cells or initiate real-data evaluation.
+
+## 2026-10-29 — Candidate C universal response-state quotient lower bound
+
+- Proved a finite distinguishability result for universal quotient states of the
+  unrestricted history-adaptive causal-null response family. At event `T-1`,
+  `binom(T-2,q)` histories can agree on time, query count, deployment, pending
+  queue, alternative belief and physical state while differing in public
+  query-time transcript. A single learner randomizes uniformly across those
+  calendars; under the null prefix response `p=0`, each all-zero transcript has
+  positive probability. For any merged pair, an allowed full-history null can
+  assign next-query rates 0 and 1/2. Any common quotient kernel incurs uniform
+  conditional-kernel error at least 1/4.
+- Proof status: PROVED for the specified strategy-independent quotient of every
+  conditional response kernel. The quantifier is `forall quotient, exists null
+  response`. The robust continuation risk supremum itself is 1/2 after either
+  history, so this is not a robust-risk/value separation, not a lower bound on
+  policy-specific approximation, and not a runtime lower bound.
+- Reviewed primary sources: Chatterjee, Doyen & Henzinger (2011), Theorem 3.1,
+  on belief insufficiency and memory in one-sided partial-observation games;
+  Horák et al. (2020), including the belief-insufficiency example in §10 and
+  approximate value machinery. The new finite-history argument is elementary
+  and no method novelty claim follows.
+- Artifacts: `CANDIDATE_C_RESPONSE_QUOTIENT_LOWER_BOUND_V1.md`; updated
+  `WORKING_PLAN.md`. Fresh same-family adversarial review confirmed the proof
+  under its precise quotient definition and flagged the supremum/value boundary,
+  now stated explicitly in the note. No code, seeds, data rows or holdouts were
+  accessed.
+- Decision: do not implement universal response-state quotienting. Next search
+  a policy-side or implicit optimization mechanism retaining the full causal-null
+  family; require explicit value/risk/runtime guarantees and a bounded exact-
+  oracle comparison before scaling. The overall goal remains open.

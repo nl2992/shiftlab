@@ -319,3 +319,23 @@ dominance, generic null cuts, or monotone-event screens. Preserve Candidate B as
 the strongest current synthetic comparator. Real-data work starts only after the
 novelty, mechanism/theory and matched-synthetic gates pass and the eligible-data
 audit authorizes the particular task.
+
+### Checkpoint: universal response-state quotient screened
+
+The exact response-state quotient was tested before implementation. At a common
+event, query count, deployment, empty pending queue and uninformative alternative
+belief, the full-history causal null can still choose different next-query
+probabilities for different public query-time transcripts. For `q` prior
+requests among `T-2` events, this gives `binom(T-2,q)` pairwise distinguishable
+histories and a uniform conditional-kernel approximation floor of `1/4` for any
+strategy-independent quotient that merges a pair. The proof and its quantifiers
+are recorded in `CANDIDATE_C_RESPONSE_QUOTIENT_LOWER_BOUND_V1.md`.
+
+This closes only universal null-response-kernel quotienting; it is not a lower
+bound against policy-specific risk/value approximation or implicit optimization.
+Do not implement this quotient. Continue by identifying a policy-side or
+implicit-optimization mechanism that preserves the unrestricted causal null,
+then state its value/risk/runtime theorem and compare it with the full-history
+oracle on a bounded synthetic case. The posterior-alias and signed-future-value
+counterexamples remain mandatory checks. Preserve the synthetic/real-data gates;
+no holdout is opened by this checkpoint.

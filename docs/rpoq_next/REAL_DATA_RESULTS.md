@@ -36,3 +36,18 @@ Uniform reproduces the S6 values (1.41 and 6.54) exactly, which is a consistency
 Descriptive notes (the diagnostic below is post-hoc and not part of the registered rule):
 - Neyman is indistinguishable from uniform here (residual second moments are similar across size bins), so variance-based allocation has nothing to exploit on this stream either.
 - The random-concentration placebo is also worse than uniform, so concentrating labels in one bin is costly on this stream whether or not the bin is informed.
+
+### R1 post-hoc diagnostic (not part of the registered rule): why the allocation lost
+
+`scripts/rpoq_next/r1_diagnostic.py`, same cohorts. Averages over cohorts (bps of benefit per event; bins 0 to 7, smallest to largest cap):
+
+| | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 |
+|---|---|---|---|---|---|---|---|---|
+| pre-test μ̂ (validation + calibration) | 15.1 | 7.4 | 4.7 | 2.2 | 3.3 | 1.7 | 1.7 | 1.7 |
+| test-period μ | 5.0 | 7.3 | 7.8 | 7.7 | 8.3 | 7.1 | 6.8 | 3.9 |
+| growth `q` at 5% budget | 0.488 | 0.212 | 0.01 | 0.01 | 0.01 | 0.01 | 0.01 | 0.01 |
+| test event share | 0.064 | 0.069 | 0.077 | 0.085 | 0.084 | 0.097 | 0.165 | 0.359 |
+
+The allocator sent about half the labels to bin 0, whose benefit fell from 15 bps before 2020 to 5 bps in the test period, and starved bins 2 to 7, which hold about 80% of test events and had higher benefit. This is the synthetic `het_flip` failure condition on real data (with a second effect: the test-period size distribution moved toward large caps, 36% of events in bin 7). A stability check on the pre-test periods (R0, ρ = 0.74 between validation and calibration) did **not** warn of it, so a pre-test stationarity diagnostic is not sufficient protection.
+
+**Spend was not exactly matched** (mean labels, runs.csv): at 5% budget uniform 5455, neyman 5319, growth 5073, random_conc 5028; at 20% uniform 21,878, neyman 21,289, growth 20,224, random_conc 12,676. Growth spent about 7–8% fewer labels than uniform (a mild disadvantage); the placebo at 20% spent far less because a small bin cannot absorb the budget, so that placebo comparison is not budget-matched. Neither changes the sign of the main result.

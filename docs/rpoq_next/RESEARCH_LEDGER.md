@@ -28,3 +28,10 @@ Local full suite (base dependencies only, no `neural`/`drift` extras): 1639 pass
 - A1 NOT PASSED (oracle subgroup effect; tie prediction was wrong: SNR must be constant). A2 NOT PASSED (tie control; `growth_online` worse than uniform). A2b INCONCLUSIVE (placebo). A3: **SUPPORTED WITH RESTRICTION** (fair baselines, calibrated; `het` Δ ≈ +0.215; `het_flip` Δ = −0.120).
 - Decision: Candidate A survives only as a restricted, stationary heterogeneous-SNR mechanism. The failure condition is the burn-in favourite losing its signal. Cycle 4 allows at most two substantive revisions; revision 1 targets exactly that failure (see `METHOD_DESIGN.md` addendum, to be written before running).
 - Real data: not yet. The synthetic gate is only partially passed, so only a *development-split heterogeneity/stability check* (no test split) is permitted next.
+
+## 2026-10-30, Cycle 5–6 closed
+
+- R0 passed for size contexts (development splits only). R1 (exploratory, exposed test split): Candidate A **worse** than uniform/Neyman (Δ −1.15, −3.21 log-wealth units); post-hoc diagnostic shows the synthetic `het_flip` failure on real data (pre-test favourite bin 15 → 5 bps).
+- Caveats recorded in `VALIDITY_AUDIT.md`: anti-conservative cohort-cluster intervals, unmatched realized spend, borderline label-availability convention, several mission validity tests not run.
+- Deliverables written: `PRIOR_ART_DELTA.md`, `VALIDITY_AUDIT.md`, `THEORY_AND_LIMITATIONS.md`, `FINAL_DECISION.md`.
+- **Decision: stop Candidate A as a method claim.** No candidate has a verified win over a strong benchmark. Open blockers: unreadable primary sources, no untouched evaluation period, benchmarks not run, Candidate C not started.

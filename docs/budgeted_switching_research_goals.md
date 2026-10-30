@@ -2807,3 +2807,23 @@ the finite benchmark. Source limitation: RAO* full text/proof not inspected in t
   strongest matched sequential-control comparator. The next attempt must produce that structure
   before code or empirical work; G2–G5 remain held. Keep post-reversal current-regime value
   forecasts distinct from historical test evidence.
+
+### G1 continuation: recurrent controlled-sensing boundary 2026-10-29
+
+- Screened the next plausible route: a recurrent regime-change detector that allocates a hard
+  label budget across detection and maintenance while switching actions. Primary-source checks
+  confirm that costly side observations and regret under piecewise-stationary reward changes are
+  already studied (Kveton et al., ICML 2009; Liu, Lee and Shroff, AAAI 2018), and controlled
+  sensing for quickest change detection already has an asymptotically optimal adaptive-CuSum method
+  (Veeravalli, Fellouris and Moustakides, 2023). These methods do not directly establish ShiftLab's
+  exact delayed-feedback, recurrent deployment/rollback, hard pathwise query cap, and global
+  full-history causal-null any-promotion guarantee. That contract mismatch is a comparator
+  obligation, not evidence of novelty.
+- No acquisition rule, theorem or separation has yet been stated that beats the faithful
+  combination of those controlled-sensing/change-detection methods, delayed switching control,
+  and ShiftLab's two-law oracle. Do not implement this broad route or run efficacy/real-data
+  studies. G1 remains open only if a candidate exploits a specific structural interaction among
+  finite label budget, pending feedback, global causal-null risk, and reversible economic action,
+  and proves a strict theorem-level advantage against resource-matched versions of those
+  comparators. G2–G5 remain held. Historical test evidence must remain distinct from a
+  post-reversal current-regime value forecast.

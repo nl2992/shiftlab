@@ -918,6 +918,11 @@
   SHA-256 `57b2f0d618a1c55cf459644a8364dc4b6a3f3bf04c193522ec7bdf9127950037`,
   result SHA-256
   `0943d4cbff4c09bbe1cb26e2c6a61525577861f97bde179ae569f722fd053e79`.
+  The runner's exact executed source is archived as
+  `candidate_g_scalarized_dp_screen_executed_source_v1.txt`. Runtime package
+  versions were omitted from the result JSON; the post-run environment note
+  records this limitation and current locked environment without altering the
+  result artifact.
   Synthetic model only; no real rows, new seeds or holdouts accessed. Next:
   pursue a structurally different implicit optimization mechanism before any
   wider synthetic evaluation. G1–G3 remain open.

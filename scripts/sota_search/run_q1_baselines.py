@@ -31,15 +31,19 @@ def configs():
         yield "watch", {"frac": f, "delay": d}
 
 
-def main(n_seeds=200, limit_s=1800):
+def main(n_seeds=200, limit_s=3000, subset="all"):
     t_start = time.time()
-    reg = Registry("outputs/sota_search/registry.sqlite")
+    reg = Registry(f"outputs/sota_search/registry_q1_{subset}.sqlite")
     worlds = h.dev_pool()
     sims = {w.key() + str(i): g.simulate(w, n_seeds, 1000 + i) for i, w in enumerate(worlds)}
     keys = list(sims)
     null_sim = g.simulate(g.World(kind="none"), 400, 9000)
     rows = []
-    for ci, (name, params) in enumerate(configs()):
+    windowed = ("mmd", "c2st", "bbsd")
+    todo = [
+        (n, p) for n, p in configs() if subset == "all" or (subset == "window") == (n in windowed)
+    ]
+    for ci, (name, params) in enumerate(todo):
         if time.time() - t_start > limit_s:
             print("time limit reached; stopping cleanly", flush=True)
             break
@@ -128,7 +132,7 @@ def main(n_seeds=200, limit_s=1800):
         reg.flush()
         if ci % 20 == 0:
             print(f"config {ci} {name} {params} ({time.time() - t_start:.0f}s)", flush=True)
-    out = Path("outputs/sota_search/q1_baselines_summary.csv")
+    out = Path(f"outputs/sota_search/q1_baselines_summary_{subset}.csv")
     with out.open("w", newline="") as fh:
         w = csv.DictWriter(fh, fieldnames=list(rows[0]))
         w.writeheader()
@@ -137,4 +141,7 @@ def main(n_seeds=200, limit_s=1800):
 
 
 if __name__ == "__main__":
-    main(int(sys.argv[1]) if len(sys.argv) > 1 else 200)
+    main(
+        int(sys.argv[1]) if len(sys.argv) > 1 else 200,
+        subset=sys.argv[2] if len(sys.argv) > 2 else "all",
+    )

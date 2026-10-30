@@ -1,0 +1,9 @@
+{
+  "solver_commit": "2bd2e8e41639073c8d22ffb17ef0bcc68111e321",
+  "solver_file_sha256": {
+    "src/shiftlab/dive/causal_switching_game.py": "54b1347c3e213407b3feb09a801dc9ea40b3663fe6a4a227b7878b9b0a2d770a",
+    "scripts/decompose_switching_calendar_gap.py": "16dc05e76e94b8b02684609de767596a7ea0b5111e6dbf376ec741226777ece4"
+  },
+  "protocol_sha256": "d439eb500fcc40e572de14805adb1b600558b91fe6f5ba31fdf5dd73d3874cba",
+  "protocol_commit": "892c3bd"
+}

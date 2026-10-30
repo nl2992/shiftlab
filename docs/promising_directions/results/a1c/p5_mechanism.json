@@ -1,0 +1,113 @@
+{
+  "params": {
+    "B": 3,
+    "d": 1,
+    "trans": "1/20",
+    "e0": "1/50",
+    "e1": "49/50",
+    "cq": "1/100",
+    "cs": "1/20",
+    "prior1": "1/5",
+    "alpha": "1/5",
+    "T": 8
+  },
+  "note": "distributions are under the HMM model, raw (pre-activation)",
+  "feasible": true,
+  "joint": {
+    "nodes": 44,
+    "p_promote_raw": "79706911/312500000",
+    "p_promote_raw_float": 0.2550621152,
+    "p_rollback_raw": "0",
+    "p_rollback_raw_float": 0.0,
+    "p_no_query_raw": "0",
+    "first_query_time_dist_raw_float": {
+      "1": 1.0
+    },
+    "by_first_label": {
+      "0": {
+        "prob": "949/1250",
+        "query_time_given_label": {
+          "1": "1"
+        },
+        "query_time_given_label_float": {
+          "1": 1.0
+        },
+        "second_query_time_given_label_float": {
+          "4": 0.6,
+          "None": 0.4
+        },
+        "promote_prob_given_label": "18358071/237250000",
+        "rollback_prob_given_label": "0"
+      },
+      "1": {
+        "prob": "301/1250",
+        "query_time_given_label": {
+          "1": "1"
+        },
+        "query_time_given_label_float": {
+          "1": 1.0
+        },
+        "second_query_time_given_label_float": {
+          "2": 1.0
+        },
+        "promote_prob_given_label": "219103/268750",
+        "rollback_prob_given_label": "0"
+      }
+    },
+    "raw_null_risk": "1/5",
+    "activation_probability": "1",
+    "p_promote_activated_float": 0.2550621152,
+    "p_rollback_activated_float": 0.0
+  },
+  "best_calendar": {
+    "nodes": 42,
+    "p_promote_raw": "8015567/39062500",
+    "p_promote_raw_float": 0.2051985152,
+    "p_rollback_raw": "173481/19531250",
+    "p_rollback_raw_float": 0.0088822272,
+    "p_no_query_raw": "0",
+    "first_query_time_dist_raw_float": {
+      "1": 1.0
+    },
+    "by_first_label": {
+      "0": {
+        "prob": "949/1250",
+        "query_time_given_label": {
+          "1": "1"
+        },
+        "query_time_given_label_float": {
+          "1": 1.0
+        },
+        "second_query_time_given_label_float": {
+          "None": 1.0
+        },
+        "promote_prob_given_label": "0",
+        "rollback_prob_given_label": "0"
+      },
+      "1": {
+        "prob": "301/1250",
+        "query_time_given_label": {
+          "1": "1"
+        },
+        "query_time_given_label_float": {
+          "1": 1.0
+        },
+        "second_query_time_given_label_float": {
+          "2": 1.0
+        },
+        "promote_prob_given_label": "1145081/1343750",
+        "rollback_prob_given_label": "24783/671875"
+      }
+    },
+    "raw_null_risk": "1/5",
+    "activation_probability": "1",
+    "p_promote_activated_float": 0.2051985152,
+    "p_rollback_activated_float": 0.0088822272,
+    "calendar": [
+      1,
+      2,
+      3
+    ]
+  },
+  "reason": "policy(history, outcomes) exposes the recovered behavior strategy; exact enumeration over histories under the model."
+}

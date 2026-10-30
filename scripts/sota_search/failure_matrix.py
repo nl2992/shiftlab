@@ -10,7 +10,9 @@ df = pd.concat(
     [pd.read_csv(f, keep_default_na=False, na_values=[""]) for f in files], ignore_index=True
 )
 df["cfg"] = df.detector + "|" + df.params
-df = df.drop_duplicates(["cfg", "world"])  # loose pprm/pp_cost appear in both batches with identical seeds
+df = df.drop_duplicates(
+    ["cfg", "world"]
+)  # loose pprm/pp_cost appear in both batches with identical seeds
 null_fa = df[df.role == "null"].set_index("cfg").false_alarm_prob
 df["fa_null"] = df.cfg.map(null_fa)
 elig = df[(df.fa_null <= 0.07) & (df.role != "null")].copy()

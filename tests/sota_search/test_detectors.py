@@ -60,3 +60,28 @@ def test_tight_cap_is_more_powerful_than_loose_cap():
     loose = (d.first_cross(d.pp_cost(sim, frac=0.2, delay=5, lseed=4), thr) < 1500).mean()
     tight = (d.first_cross(d.pp_cost_tight(sim, frac=0.2, delay=5, lseed=4), thr) < 1500).mean()
     assert tight > loose + 0.2
+
+
+def test_fix_identity_reproduces_tight_baselines_exactly():
+    sim = g.simulate(g.World(kind="concept", delta=2.0, t0=200, T=800), 30, 21)
+    for risk, ref in (("brier", d.pprm_tight), ("cost", d.pp_cost_tight)):
+        a = d.pp_fix(sim, frac=0.2, delay=5, lseed=3, risk=risk)
+        sim.pop("_labels", None)
+        assert np.allclose(a, ref(sim, frac=0.2, delay=5, lseed=3))
+
+
+def test_fixes_keep_null_validity_and_boundary_sampling_matches_label_rate():
+    null = g.simulate(g.World(kind="none", T=1500), 300, 22)
+    thr = d.THEORY_THRESHOLD["fix_brier"]
+    for kw in (
+        {"gamma": 0.98},
+        {"gate_w": 100},
+        {"alloc": (1.0, 0.25)},
+        {"gamma": 0.99, "gate_w": 100, "alloc": (1.0, 0.25)},
+    ):
+        stat = d.fix_brier(null, frac=0.2, delay=5, lseed=4, **kw)
+        rate = (d.first_cross(stat, thr) < 1500).mean()
+        assert rate <= 0.08, (kw, rate)
+        used = null["_labels"][:, -1].mean() / 1500
+        assert abs(used - 0.2) < 0.03, (kw, used)
+        null.pop("_labels", None)

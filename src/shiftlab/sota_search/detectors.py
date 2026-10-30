@@ -312,6 +312,94 @@ def sr_edetector(
     return out
 
 
+def _ewm_cumsum(x, gamma):
+    """Discounted running sum c_t = gamma * c_{t-1} + x_t (gamma = 1 is the plain cumulative sum)."""
+    if gamma >= 1.0:
+        return np.cumsum(x, 1)
+    out = np.empty_like(x, dtype=float)
+    c = np.zeros(x.shape[0])
+    for t in range(x.shape[1]):
+        c = gamma * c + x[:, t]
+        out[:, t] = c
+    return out
+
+
+_W_BAR: dict = {}
+
+
+def boundary_weight(p, h, floor):
+    logit = np.log(np.clip(p, 1e-9, 1 - 1e-9) / (1 - np.clip(p, 1e-9, 1 - 1e-9)))
+    return np.exp(-0.5 * ((logit - np.log(g.TAU / (1 - g.TAU))) / h) ** 2) + floor
+
+
+def _boundary_q(sim, frac, h, floor):
+    key = (h, floor)
+    if key not in _W_BAR:
+        src = g.simulate(g.World(T=4000), 50, 31337)
+        _W_BAR[key] = float(boundary_weight(src["p"], h, floor).mean())
+    return np.clip(frac * boundary_weight(sim["p"], h, floor) / _W_BAR[key], 0.02, 1.0)
+
+
+def pp_fix(
+    sim,
+    frac=0.1,
+    delay=5,
+    lseed=0,
+    tol=0.0,
+    risk="brier",
+    gamma=1.0,
+    gate_w=None,
+    alloc=None,
+    cap=0.5,
+    **_,
+):
+    """Tight-capped prediction-powered e-process with optional fixes (see docs 09_*).
+
+    gamma < 1: discounted predictable Kelly bet (DK). gate_w: set the bet to zero unless the discounted
+    mean decision-cost increment (same labels) is positive (HG). alloc = (h, floor): query probability
+    concentrated near the decision boundary with a matching propensity (BD). With gamma = 1, no gate and
+    no allocation this is exactly ``pp_eprocess(..., tight=True)``. Every change acts on the predictable
+    bet or query probability only, so the one-sided cap keeps 1 + lam * X >= 1 - cap > 0.
+    """
+    S, T = sim["y"].shape
+    if alloc is None:
+        qv, qm = np.full((S, T), frac), None
+    else:
+        qv = _boundary_q(sim, frac, *alloc)
+        qm = (np.random.default_rng(lseed).random((S, T)) < qv).astype(float)
+    x, qv, _loose, tight_b = _pp_parts(
+        sim, frac, lseed, risk, qv if alloc is not None else None, qm, tol
+    )
+    mask = qm if qm is not None else label_mask(sim, frac, lseed).astype(float)
+    sim["_labels"] = np.cumsum(mask, 1)
+    ones = np.ones_like(x)
+    c1 = shift_time(_ewm_cumsum(x, gamma), delay + 1)
+    c2 = shift_time(_ewm_cumsum(x**2, gamma), delay + 1)
+    n = shift_time(_ewm_cumsum(ones, gamma), delay + 1)
+    mean, second = c1 / (n + 1), c2 / (n + 1)
+    lam = np.minimum(
+        np.where(second > 0, np.maximum(mean, 0) / np.maximum(second, 1e-12), 0.0), cap / tight_b
+    )
+    if gate_w is not None:
+        xc, _q, _l, _t = _pp_parts(
+            sim, frac, lseed, "cost", qv if alloc is not None else None, qm, tol
+        )
+        gg = 1.0 - 1.0 / gate_w
+        gmean = shift_time(_ewm_cumsum(xc, gg), delay + 1) / (
+            shift_time(_ewm_cumsum(ones, gg), delay + 1) + 1
+        )
+        lam = lam * (gmean > 0)
+    return np.cumsum(shift_time(np.log1p(lam * x), delay), 1)
+
+
+def fix_brier(sim, **kw):
+    return pp_fix(sim, risk="brier", **kw)
+
+
+def fix_cost(sim, **kw):
+    return pp_fix(sim, risk="cost", **kw)
+
+
 def pprm(sim, **kw):
     return pp_eprocess(sim, risk="brier", **kw)
 
@@ -383,6 +471,8 @@ DETECTORS = {
     "pp_cost_tight": pp_cost_tight,
     "sr_cost_tight": sr_cost_tight,
     "sr_brier_tight": sr_brier_tight,
+    "fix_brier": fix_brier,
+    "fix_cost": fix_cost,
 }
 THEORY_THRESHOLD = {
     "pr_cs": 0.0,
@@ -391,6 +481,8 @@ THEORY_THRESHOLD = {
     "pp_cost": float(np.log(1 / ALPHA)),
     "pprm_tight": float(np.log(1 / ALPHA)),
     "pp_cost_tight": float(np.log(1 / ALPHA)),
+    "fix_brier": float(np.log(1 / ALPHA)),
+    "fix_cost": float(np.log(1 / ALPHA)),
 }
 
 

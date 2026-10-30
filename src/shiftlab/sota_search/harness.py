@@ -69,7 +69,7 @@ def wilson(k, n, z=1.96):
     return (float(c - h), float(c + h))
 
 
-def score(alarm: np.ndarray, world: g.World, frac: float | None) -> dict:
+def score(alarm: np.ndarray, world: g.World, frac: float | None, labels=None) -> dict:
     tr = g.truth(world)
     T = world.T
     first_harm = int(tr["harmful"].argmax()) if tr["harmful"].any() else T
@@ -86,7 +86,9 @@ def score(alarm: np.ndarray, world: g.World, frac: float | None) -> dict:
         "detect_ci": wilson(int(detected.sum()), n),
         "mean_delay": float((alarm[detected] - first_harm).mean()) if detected.any() else None,
         "mean_harm_before_alarm": float(harm_before.mean()),
-        "mean_labels": float((frac or 0.0) * np.minimum(alarm, T).mean()),
+        "mean_labels": float(labels[np.arange(n), np.minimum(alarm, T - 1)].mean())
+        if labels is not None
+        else float((frac or 0.0) * np.minimum(alarm, T).mean()),
         "first_harm": first_harm,
     }
 
@@ -97,4 +99,4 @@ def evaluate(
     t0 = time.time()
     stat = det.DETECTORS[name](sim, lseed=lseed, **params)
     alarm = det.first_cross(np.where(np.isfinite(stat), stat, -np.inf), thr)
-    return score(alarm, world, params.get("frac")), time.time() - t0
+    return score(alarm, world, params.get("frac"), sim.pop("_labels", None)), time.time() - t0

@@ -31,6 +31,22 @@ def configs():
         yield "watch", {"frac": f, "delay": d}
 
 
+def fix_configs():
+    """Preregistered in docs/sota_synthetic_search/09_NOVELTY_FIX_DESIGNS.md (delay 5, tol 0)."""
+    base = {"delay": 5, "tol": 0.0}
+    for f in (0.10, 0.20):
+        for name in ("fix_brier", "fix_cost"):
+            for gamma in (1.0, 0.995, 0.99, 0.98):
+                yield name, {**base, "frac": f, "gamma": gamma}
+        for gamma in (1.0, 0.99):
+            for w in (100, 200):
+                yield "fix_brier", {**base, "frac": f, "gamma": gamma, "gate_w": w}
+        for name in ("fix_brier", "fix_cost"):
+            for gamma in (1.0, 0.99):
+                for alloc in ((0.5, 0.25), (1.0, 0.25), (1.0, 0.5)):
+                    yield name, {**base, "frac": f, "gamma": gamma, "alloc": list(alloc)}
+
+
 def cand_configs():
     for f, d, tol in itertools.product(FRACS, DELAYS, (0.0, 0.05)):
         for name in (
@@ -53,7 +69,9 @@ def main(n_seeds=200, limit_s=3000, subset="all"):
     null_sim = g.simulate(g.World(kind="none"), 400, 9000)
     rows = []
     windowed = ("mmd", "c2st", "bbsd")
-    if subset == "cand":
+    if subset == "fix":
+        todo = list(fix_configs())
+    elif subset == "cand":
         todo = list(cand_configs())
     else:
         todo = [
@@ -61,7 +79,7 @@ def main(n_seeds=200, limit_s=3000, subset="all"):
             for n, p in configs()
             if subset == "all" or (subset == "window") == (n in windowed)
         ]
-    batch = "q1_candidates" if subset == "cand" else "q1_baselines"
+    batch = {"cand": "q1_candidates", "fix": "q1_fixes"}.get(subset, "q1_baselines")
     for ci, (name, params) in enumerate(todo):
         if time.time() - t_start > limit_s:
             print("time limit reached; stopping cleanly", flush=True)

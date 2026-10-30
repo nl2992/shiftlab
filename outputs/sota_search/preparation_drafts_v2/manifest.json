@@ -1,0 +1,11 @@
+{
+  "status": "drafts_not_used_by_running_screen",
+  "files": {
+    "SOTA_CORE_VALIDITY_DRAFT.md": "2d500d432630f09005b1771258b345475ace6a6567216626af76b2c10524198a",
+    "test_sota_fixed_stake_proof.py": "f51d61a98e5ad4b8e57447a7178504c73b741869b718ac0369d7e6320c8ee151",
+    "sota_pool_draft.py": "6c9430ad236849531f7c0de700da2f7918499c1e211cff28ad550d7811bfa59c",
+    "test_sota_pool_draft.py": "09d2bd60ca01070a119d3bdf60ee2f52d8395017009653a5e88a60ee7a33ff02"
+  },
+  "focused_tests": "4 passed across fixed-stake and staged-pool tests",
+  "claims": "conditional algebra and software contract checks only"
+}

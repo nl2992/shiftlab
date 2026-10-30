@@ -2786,3 +2786,24 @@ the finite benchmark. Source limitation: RAO* full text/proof not inspected in t
   demonstrates. If no such structure and theorem survive, revise or stop the methodological
   hypothesis rather than promote the finite benchmark result. Current-regime forecasts remain
   separate from historical promotion validity.
+
+### G1 continuation: out-of-order escrow candidate closed 2026-10-29
+
+- Audited the proposed “pending-wager escrow” boundary for known, outcome-independent,
+  heterogeneous release delays. Its elementary pathwise domination argument is valid: if each
+  pending factor is charged at its worst possible value, the resulting boundary is no larger than
+  the full event-time wealth, so a crossing is covered by Ville's inequality. This establishes
+  safety only; it provides no acquisition or economic advantage by itself.
+- The idea is redundant for ShiftLab. `delayed_event_prefix_validity.md` already gives a broader
+  pathwise event-prefix argument for arbitrary finite, possibly outcome-dependent delays, under its
+  stated full-history conditional-mean null and predictable bounded increments. It explicitly
+  handles arrival-time alarms without claiming the event-time wealth is an arrival-time
+  supermartingale. Hampson and Jennison's delayed-response group-sequential design also explicitly
+  accounts for pipeline outcomes. Thus neither “out-of-order delay” nor a pending-outcome safety
+  gate is a novelty delta; see [their primary article](https://academic.oup.com/jrsssb/article-abstract/75/1/3/7075424).
+- Close this candidate without implementation or efficacy experiments. G1 remains open only for a
+  structural compression/approximation theorem preserving the two-law global causal-null risk and
+  bounding economic cost against the full-history oracle, or a growing-family separation from the
+  strongest matched sequential-control comparator. The next attempt must produce that structure
+  before code or empirical work; G2–G5 remain held. Keep post-reversal current-regime value
+  forecasts distinct from historical test evidence.

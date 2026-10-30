@@ -2827,3 +2827,21 @@ the finite benchmark. Source limitation: RAO* full text/proof not inspected in t
   and proves a strict theorem-level advantage against resource-matched versions of those
   comparators. G2–G5 remain held. Historical test evidence must remain distinct from a
   post-reversal current-regime value forecast.
+
+### G1 continuation: information-compression lower-bound boundary 2026-10-29
+
+- Audited Chatterjee and Doyen's primary result, *Partial-Observation Stochastic Games: How to Win
+  When Belief Fails* (2011). In their one-sided finite-state games with pure strategies and
+  almost-sure/positive reachability objectives, belief-based strategies can be insufficient and
+  exponential memory may be necessary. This is evidence against assuming posterior compression
+  for a full-history opponent, but it is not a lower bound for ShiftLab: their objective is
+  infinite-horizon qualitative winning, whereas ShiftLab permits randomized policies and has a
+  finite-horizon expected-cost objective subject to a quantitative risk constraint.
+- The broader information-compression literature distinguishes strategy-independent and
+  strategy-dependent compression; the latter remains difficult even in finite dynamic games. It
+  does not supply ShiftLab's required two-law value/risk theorem. Record this as a source boundary,
+  not a claimed separation. A surviving G1 route must construct a strategy-dependent compressed
+  controller/state and prove both (i) original causal-null any-promotion feasibility and (ii) a
+  nonvacuous economic-cost bound against the full-history oracle, while beating robust FSC and
+  one-sided-POSG baselines. Generic belief compression and exponential-memory claims are closed
+  unless an exact reduction to their theorem assumptions is established. G2–G5 remain held.

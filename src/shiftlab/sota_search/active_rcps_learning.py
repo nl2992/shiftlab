@@ -35,3 +35,77 @@ class Cocob:
             self.initial + (self.reward + self.scale) * self.negative_gradients / denominator
         )
         return self.value
+
+
+def fixed_question_features(guess):
+    """Author sim_featurize with three knots and fixed beta=.5, plus bias."""
+    guess = np.asarray(guess, dtype=float)
+    if guess.ndim != 1 or not np.isfinite(guess).all() or np.any((guess < 0) | (guess > 1)):
+        raise ValueError("bounded one-dimensional proxy required")
+    digit = np.column_stack(
+        [np.maximum(1 - 2 * guess, 0), 1 - np.abs(2 * guess - 1), np.maximum(2 * guess - 1, 0)]
+    )
+    beta = np.array([0.0, 1.0, 0.0, 1.0])
+    return np.column_stack(
+        [(beta[None, :, None] * digit[:, None, :]).reshape(len(guess), -1), np.ones(len(guess))]
+    )
+
+
+class FixedRiskPredictor:
+    """One-beta LinearRiskPredictor, with the native clamp and COCOB update."""
+
+    def __init__(self, paths):
+        self.optimizer = Cocob(np.zeros((paths, 13)))
+
+    def predict(self, features):
+        return np.clip(np.sum(self.optimizer.value * features, axis=1), 0, 1)
+
+    def update(self, features, target, observed):
+        raw = np.sum(self.optimizer.value * features, axis=1)
+        derivative = 2 * (np.clip(raw, 0, 1) - target) * ((raw >= 0) & (raw <= 1)) * observed
+        self.optimizer.step(derivative[:, None] * features)
+
+
+class QueryNormalizer:
+    """Native query/dual normalization, or the explicit paper-payoff variant.
+
+    Neither expected-rate guarantee is claimed after adding a hard-cap wrapper.
+    The native finite dual cap is retained in both variants for transparency.
+    """
+
+    def __init__(self, paths, *, target=0.2, floor=0.05, objective="source"):
+        if not 0 < floor <= target <= 1 or objective not in ("source", "paper"):
+            raise ValueError("invalid normalization contract")
+        self.target, self.floor, self.objective = target, floor, objective
+        self.optimizer = Cocob(np.zeros(paths))
+        self.history = np.zeros((256, paths))
+        self.total = np.zeros(paths)
+        self.index = 0
+
+    def predict(self, variance):
+        if self.objective == "paper":
+            # Evaluate the same clipped ratio in log space; c may be very negative.
+            with np.errstate(divide="ignore"):
+                log_raw = 0.5 * np.log(variance) - self.optimizer.value
+            raw = np.exp(np.minimum(log_raw, 1))
+            return np.clip(raw, self.floor, 1), raw, np.zeros_like(raw)
+        inverse = np.exp(-self.optimizer.value)
+        if not np.isfinite(inverse).all():
+            raise ArithmeticError("normalizer overflow")
+        raw = np.sqrt(variance) * inverse
+        return np.clip(raw, self.floor, 1), raw, inverse
+
+    def update(self, q, raw, inverse, active):
+        violation = (q - self.target) * active
+        dual = (self.total + violation > 0) * (1 - np.log(2))
+        gradient = (
+            -inverse if self.objective == "source" else np.ones_like(inverse)
+        ) - dual * q * ((raw >= self.floor) & (raw <= 1))
+        self.optimizer.step(gradient * active)
+        if self.objective == "paper":
+            # Explicit projected variant: the native dual cap need not stabilize this payoff.
+            self.optimizer.value = np.clip(self.optimizer.value, -20, 20)
+        slot = self.index % 256
+        self.total += violation - self.history[slot]
+        self.history[slot] = violation
+        self.index += 1

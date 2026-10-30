@@ -2512,3 +2512,24 @@ the finite benchmark. Source limitation: RAO* full text/proof not inspected in t
   value/risk guarantee, or close the hypothesis if every candidate reduces to established
   robust-FSC, constrained-POMDP or active-testing machinery. G2–G5 remain held, and accumulated
   evidence remains distinct from current-regime benefit after reversal.
+
+### G1 candidate closure 2026-10-29: positive-prefix futility versus fixed calendars
+
+- Rechecked the action-matched terminal acquisition screen. Its exact feasible policy saves
+  `919/1000` expected queries and `919/100000` cost relative to the randomized fixed-cohort
+  comparator, and it has a certified gap over all 26 deterministic query calendars. The gain
+  comes from stopping purchases after the first negative prefix while preserving the same
+  all-positive terminal promotion event. Thus it establishes a finite separation from calendars
+  fixed in advance, not from adaptive sequential testing.
+- Primary-source scope confirms the operative rule is established cost-sensitive futility
+  stopping: Brown and Rutemiller study early abandonment when conditional pass probability is
+  small and test cost is high; Gould and Pecore allow early acceptance/rejection with cost
+  considerations; Hampson and Jennison explicitly design delayed-response group-sequential tests
+  that account for pipeline responses. The repository's source audit records the full references
+  and method boundary in `switching_action_matched_adaptive_acquisition_v1.md`.
+- Decision: close positive-prefix futility and its fixed-calendar gap as a method candidate. Keep
+  the exact cell as a compact regression/reference test; do not scale it or present it as evidence
+  beyond established group-sequential sampling. G1 remains open for a result that survives an
+  outcome-adaptive, delay-aware, risk-matched comparator and has a nontrivial theorem beyond
+  standard sequential testing and robust switching control. G2–G5 remain held. Historical test
+  wealth still does not certify current value after regime reversal.

@@ -27,7 +27,12 @@ from shiftlab.dive.rpoq_next.screen_a import (
 )
 
 N0, BURN, REALLOC = 400, 100, 400
-SETTINGS = {**SETTINGS, "const": (np.full(K, 0.05), np.full(K, 0.5))}
+SETTINGS = {
+    **SETTINGS,
+    "const": (np.full(K, 0.05), np.full(K, 0.5)),
+    "het_onset": SETTINGS["het"],
+    "het_flip": SETTINGS["het"],
+}
 ARMS = ("uniform", "neyman", "rasi", "growth_fixed", "growth_online")
 RANDOM_CONC_SEED = 1234
 
@@ -127,7 +132,14 @@ def simulate(setting, rho, n_seeds, seed=11, arms=ARMS, bet="ctx"):
     _, h, _ = exact_moments(mu_true if setting != "null" else SETTINGS["het"][0], sigma, rho)
     rng = np.random.default_rng(seed)
     ctx = rng.integers(0, K, (n_seeds, N))
-    y = np.clip(mu_true[ctx] + sigma[ctx] * rng.standard_normal((n_seeds, N)), -1, 1)
+    t = np.arange(N)[None, :]
+    if setting == "het_onset":  # null until N/2, then the het signals
+        mu_t = np.where(t >= N // 2, mu_true[ctx], 0.0)
+    elif setting == "het_flip":  # burn-in favourite becomes the weakest context after burn-in
+        mu_t = np.where(t < N0, mu_true[ctx], mu_true[::-1][ctx])
+    else:
+        mu_t = mu_true[ctx]
+    y = np.clip(mu_t + sigma[ctx] * rng.standard_normal((n_seeds, N)), -1, 1)
     u = rng.random((n_seeds, N))
     return {a: run_arm(y, ctx, u, h, a, bet) for a in arms}
 
@@ -167,7 +179,54 @@ def diagnostic(n_seeds=1000):
     )
 
 
+def confirm(n_seeds=1000):
+    """A3 confirmatory screen, see SYNTHETIC_PROTOCOL_A3.md (fresh seed base)."""
+    arms = ("uniform", "neyman", "rasi", "growth_fixed", "growth_online", "random_conc")
+    plan = [
+        ("null", 0.6),
+        ("const", 0.0),
+        ("const", 0.6),
+        ("het", 0.0),
+        ("het", 0.6),
+        ("het_onset", 0.6),
+        ("het_flip", 0.6),
+    ]
+    res, t0 = {}, time.time()
+    for setting, rho in plan:
+        key = f"{setting}|rho={rho}"
+        res[key] = {}
+        for bet in ("ctx", "common"):
+            for a, (c, w, sp) in simulate(
+                setting, rho, n_seeds, seed=2026, arms=arms, bet=bet
+            ).items():
+                res[key][f"{a}+{bet}"] = {
+                    "power": float(c.mean()),
+                    "mean_log_wealth": float(w.mean()),
+                    "mean_spent": float(sp.mean()),
+                    "crossed": c.astype(int).tolist(),
+                }
+        print(
+            key,
+            {a: round(v["power"], 3) for a, v in res[key].items()},
+            f"{time.time() - t0:.0f}s",
+            flush=True,
+        )
+    out = Path("outputs/rpoq_next/screen_a3")
+    out.mkdir(parents=True, exist_ok=True)
+    (out / "results.json").write_text(
+        json.dumps(
+            {
+                "n_seeds": n_seeds,
+                "protocol": "docs/rpoq_next/SYNTHETIC_PROTOCOL_A3.md",
+                "results": res,
+            }
+        )
+    )
+
+
 def main():
+    if len(sys.argv) > 1 and sys.argv[1] == "confirm":
+        return confirm(int(sys.argv[2]) if len(sys.argv) > 2 else 1000)
     if len(sys.argv) > 1 and sys.argv[1] == "diagnostic":
         return diagnostic(int(sys.argv[2]) if len(sys.argv) > 2 else 1000)
     n_seeds = int(sys.argv[1]) if len(sys.argv) > 1 else 1000

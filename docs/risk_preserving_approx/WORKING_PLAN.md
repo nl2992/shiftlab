@@ -573,3 +573,16 @@ its converter, extractor and verifier as comparators. The next step is to state
 and discriminate a new policy-side or implicit-search mechanism against the
 known posterior-alias and signed-future-value counterexamples before coding.
 See `CANDIDATE_D_T2_RECOVERY_RESULTS_V1.md` and the append-only ledger.
+
+## E-process maximum-wealth boundary screen (2026-10-29)
+
+The preregistered threshold-eight screen on the six exposed `T=6` development
+cells passed exact null-risk, alternative-cost and root-mixture verification,
+but did not improve the lead. It ties the exact oracle and strongest calendar
+on two cells while threshold four is cheaper; on two other cells it loses to
+threshold four, calendar and oracle; the final two remain no-query ties. Its
+state counts are unchanged and runtime is 0.010–0.045 seconds. Stop all
+threshold-only variants. Preserve the protocol and result as a comparator, and
+resume with a mathematically distinct policy-side or implicit-search mechanism
+that addresses the known aliasing and signed-future-value counterexamples.
+G1–G3 remain open and real data/holdouts stay closed.

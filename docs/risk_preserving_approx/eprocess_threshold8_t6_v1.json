@@ -1,0 +1,241 @@
+{
+  "protocol": "EPROCESS_MAX_WEALTH_BOUNDARY_PROTOCOL_V1.md",
+  "protocol_sha256": "d0ded24fa422e2339a5a66032daaddd636c54577359224dda2e0003f4b2b8f04",
+  "reference_sha256": "c1e519b347104e2d79f57c63bfbc377b57820a56e7fd666f0a95a70984b1408a",
+  "threshold4_sha256": "7de9842b029d2f4a9b9718850e8de21ab8a081df0d6101295fc45918b68fa77d",
+  "runner_sha256": "a8a87849fd7e42395670e0999077df46abfa5c83a52eee9a4f0a29099dc41370",
+  "planner_sha256": "e8a50b5c4fd143b08fd4b323649f98a1c8ef3ce3c205dfd1d5d6a5f4373d23e5",
+  "cells": [
+    {
+      "transition": "1/10",
+      "emissions": [
+        "1/10",
+        "9/10"
+      ],
+      "status": "completed",
+      "raw_cost": "17396023/6250000",
+      "raw_risk": "1/8",
+      "ville_risk_bound": "1/8",
+      "activation": "4/5",
+      "calibrated_cost": "22083523/7812500",
+      "calibrated_risk": "1/10",
+      "metrics": [
+        "5434287/1953125",
+        "1/50",
+        "1521/62500",
+        "2",
+        "1521/6250"
+      ],
+      "oracle_cost": "22083523/7812500",
+      "oracle_gap": "0",
+      "threshold4_cost": "1109858/390625",
+      "threshold4_gap": "-113637/7812500",
+      "best_calendar": [
+        1,
+        2,
+        3
+      ],
+      "best_calendar_cost": "22083523/7812500",
+      "calendar_gap": "0",
+      "state_counts": {
+        "prepromotion_value_states": 123,
+        "prepromotion_decision_states": 171,
+        "postpromotion_decision_states": 1
+      },
+      "solve_seconds": 0.010405000066384673,
+      "independent_metrics_match": true,
+      "maximum_queries_bounded_by": 3
+    },
+    {
+      "transition": "1/10",
+      "emissions": [
+        "1/50",
+        "49/50"
+      ],
+      "status": "completed",
+      "raw_cost": "10318932423/3906250000",
+      "raw_risk": "1/8",
+      "ville_risk_bound": "1/8",
+      "activation": "4/5",
+      "calibrated_cost": "13248619923/4882812500",
+      "calibrated_risk": "1/10",
+      "metrics": [
+        "3250333887/1220703125",
+        "1/50",
+        "47881/1562500",
+        "2",
+        "47881/156250"
+      ],
+      "oracle_cost": "13248619923/4882812500",
+      "oracle_gap": "0",
+      "threshold4_cost": "672406434/244140625",
+      "threshold4_gap": "-199508757/4882812500",
+      "best_calendar": [
+        1,
+        2,
+        3
+      ],
+      "best_calendar_cost": "13248619923/4882812500",
+      "calendar_gap": "0",
+      "state_counts": {
+        "prepromotion_value_states": 123,
+        "prepromotion_decision_states": 171,
+        "postpromotion_decision_states": 1
+      },
+      "solve_seconds": 0.010702200001105666,
+      "independent_metrics_match": true,
+      "maximum_queries_bounded_by": 3
+    },
+    {
+      "transition": "1/4",
+      "emissions": [
+        "1/10",
+        "9/10"
+      ],
+      "status": "completed",
+      "raw_cost": "14927/5000",
+      "raw_risk": "1/8",
+      "ville_risk_bound": "1/8",
+      "activation": "4/5",
+      "calibrated_cost": "18677/6250",
+      "calibrated_risk": "1/10",
+      "metrics": [
+        "36879/12500",
+        "1/50",
+        "9/500",
+        "2",
+        "9/50"
+      ],
+      "oracle_cost": "14891/5000",
+      "oracle_gap": "253/25000",
+      "threshold4_cost": "74459/25000",
+      "threshold4_gap": "249/25000",
+      "best_calendar": [
+        1,
+        3
+      ],
+      "best_calendar_cost": "14891/5000",
+      "calendar_gap": "253/25000",
+      "state_counts": {
+        "prepromotion_value_states": 123,
+        "prepromotion_decision_states": 171,
+        "postpromotion_decision_states": 1
+      },
+      "solve_seconds": 0.010038800071924925,
+      "independent_metrics_match": true,
+      "maximum_queries_bounded_by": 3
+    },
+    {
+      "transition": "1/4",
+      "emissions": [
+        "1/50",
+        "49/50"
+      ],
+      "status": "completed",
+      "raw_cost": "18477459/6250000",
+      "raw_risk": "1/8",
+      "ville_risk_bound": "1/8",
+      "activation": "4/5",
+      "calibrated_cost": "23164959/7812500",
+      "calibrated_risk": "1/10",
+      "metrics": [
+        "5710146/1953125",
+        "1/50",
+        "269/12500",
+        "2",
+        "269/1250"
+      ],
+      "oracle_cost": "46182709/15625000",
+      "oracle_gap": "147209/15625000",
+      "threshold4_cost": "46182709/15625000",
+      "threshold4_gap": "147209/15625000",
+      "best_calendar": [
+        1,
+        2,
+        3
+      ],
+      "best_calendar_cost": "46182709/15625000",
+      "calendar_gap": "147209/15625000",
+      "state_counts": {
+        "prepromotion_value_states": 123,
+        "prepromotion_decision_states": 171,
+        "postpromotion_decision_states": 1
+      },
+      "solve_seconds": 0.04461130010895431,
+      "independent_metrics_match": true,
+      "maximum_queries_bounded_by": 3
+    },
+    {
+      "transition": "9/20",
+      "emissions": [
+        "1/10",
+        "9/10"
+      ],
+      "status": "completed",
+      "raw_cost": "3",
+      "raw_risk": "0",
+      "ville_risk_bound": "1/8",
+      "activation": "1",
+      "calibrated_cost": "3",
+      "calibrated_risk": "0",
+      "metrics": [
+        "3",
+        "0",
+        "0",
+        "0",
+        "0"
+      ],
+      "oracle_cost": "3",
+      "oracle_gap": "0",
+      "threshold4_cost": "3",
+      "threshold4_gap": "0",
+      "best_calendar": [],
+      "best_calendar_cost": "3",
+      "calendar_gap": "0",
+      "state_counts": {
+        "prepromotion_value_states": 123,
+        "prepromotion_decision_states": 171,
+        "postpromotion_decision_states": 1
+      },
+      "solve_seconds": 0.010030200006440282,
+      "independent_metrics_match": true,
+      "maximum_queries_bounded_by": 3
+    },
+    {
+      "transition": "9/20",
+      "emissions": [
+        "1/50",
+        "49/50"
+      ],
+      "status": "completed",
+      "raw_cost": "3",
+      "raw_risk": "0",
+      "ville_risk_bound": "1/8",
+      "activation": "1",
+      "calibrated_cost": "3",
+      "calibrated_risk": "0",
+      "metrics": [
+        "3",
+        "0",
+        "0",
+        "0",
+        "0"
+      ],
+      "oracle_cost": "3",
+      "oracle_gap": "0",
+      "threshold4_cost": "3",
+      "threshold4_gap": "0",
+      "best_calendar": [],
+      "best_calendar_cost": "3",
+      "calendar_gap": "0",
+      "state_counts": {
+        "prepromotion_value_states": 123,
+        "prepromotion_decision_states": 171,
+        "postpromotion_decision_states": 1
+      },
+      "solve_seconds": 0.010127299930900335,
+      "independent_metrics_match": true,
+      "maximum_queries_bounded_by": 3
+    }
+  ]
+}

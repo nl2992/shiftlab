@@ -952,3 +952,10 @@
   or holdouts accessed. Next search must yield more than a generic controller
   representation. G1–G3 remain open; real-data evaluation remains gated.
   Audit SHA-256: `26f5bb1b07f23c85b5ce961823e0ca7bef926778816faa1121cfd701b53a6ac3`.
+
+## 2026-10-30 — Working-plan roadmap aligned to governing brief
+
+- Updated `WORKING_PLAN.md` with an active execution roadmap grounded in the governing research brief and completed branch evidence. The next bounded question is whether monotone first-promotion structure has an optimality/value guarantee and an optimizer with a real construction-complexity advantage; the already verified IID/causal-null equality for a fixed monotone event is explicitly not treated as either claim.
+- The roadmap reaffirms G1 theorem/prior-art screening, G2 proof/counterexample checks, registered exact-oracle synthetic testing at G3, and real-data eligibility only after G3. It also records the operating cadence and that toolkit use does not substitute for novelty evidence or authorize unattended/remote activity.
+- This is planning/documentation only. No algorithm, theorem, experiment, dataset, seed or holdout was accessed or changed. No tests were run; `git diff --check` passed.
+- Next action: attempt a minimal exact proof/counterexample for the monotone-promotion value claim before proposing implementation.

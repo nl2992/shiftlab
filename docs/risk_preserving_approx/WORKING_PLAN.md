@@ -14,6 +14,68 @@ miss that gain; a finite root-portfolio over calendar risk frontiers also select
 the best single calendar and did not close the gap. No candidate has yet established
 the required synthetic and real-data baseline wins. See the append-only ledger.
 
+## Active execution roadmap (2026-10-30)
+
+This roadmap operationalizes `RESEARCH_BRIEF.md` against work already completed
+in this branch. The objective remains the original two-law switching problem;
+a failed candidate changes the next mechanism, not the research question.
+
+**Completed foundation:** the isolated worktree and designated branch exist;
+the baseline manifest, problem contract, and reference-solver checks are in
+place. Candidates A–H have been screened to varying depths. Belief-only state
+compression, pruning, generic scalarized Bellman planning, and finite-response
+automata have not produced the required tractable risk/value/complexity result.
+Their counterexamples, source audits, negative results, and exact artifacts are
+retained. The T=8 monotone-branch result is a verified certificate for a policy
+recovered from the exact oracle, not an optimizer or an approximation theorem.
+G1–G3 have not passed; no real-data evaluation is eligible.
+
+**Next bounded investigation — monotone promotion structure.** Test whether the
+existing HMM assumptions imply an optimality or value guarantee for a
+monotone first-promotion event when paired with the IID fair-label risk
+certificate. Separate three claims that must not be conflated: (i) a fixed
+monotone event has equal IID and worst-case causal-null risk; (ii) an optimal
+policy can be restricted to such events with bounded economic loss; and (iii)
+an optimizer over that class avoids extensive-form history enumeration. The
+first is already supported for deterministic events by coupling; the second
+and third remain open. Begin with the smallest delayed-feedback and budgeted
+instances, prove the relevant coupling or construct an exact counterexample,
+and include rollback/re-promotion and pending outcomes where they affect the
+claim. Use exact rational arithmetic and the registered exact references.
+Do not implement a large optimizer unless the restriction has a nonvacuous
+value bound and a credible construction-complexity advantage.
+
+**Decision sequence for each new candidate:**
+
+1. State the proposed theorem, assumptions, minimal witness and closest
+   source-level result. Classify every part as proved, conditional, unresolved,
+   or falsified.
+2. Attempt an exact reduction to the closest prior method and attack the claim
+   with existing posterior-alias, signed-continuation, hidden-pending-label,
+   rollback and re-promotion examples. Close the candidate only on a proof,
+   decisive counterexample, full equivalence, or measured registered failure;
+   otherwise preserve `UNRESOLVED — EXACT REDUCTION REQUIRED`.
+3. Pass G1 only with a precise distinction and a plausible nonvacuous theorem.
+   Pass G2 only after the guarantee is proved or reduced to one isolated
+   conditional lemma and all known counterexamples are checked.
+4. Then register and run a bounded synthetic comparison against the exact
+   references, strongest matched calendar/adaptive baselines, Candidate B with
+   exact verification, and faithfully reproducible robust-FSC/constrained-POMDP
+   competitors. Independently reconstruct policies, report exact risk and
+   cost, and include construction/runtime/memory overhead.
+5. Pass G3 only if the registered method satisfies its risk/value statement
+   and beats a matched strongest baseline on a meaningful utility or complexity
+   criterion without unacceptable control losses. Only then choose eligible
+   real data, freeze a separate protocol, and leave reserved holdouts closed.
+
+**Operating cadence:** one bounded hypothesis per checkpoint; exact command,
+environment, source and artifact hashes in the append-only ledger; preserve
+failed runs and historical outputs; commit each completed checkpoint on this
+branch. Local CPU work only under the existing bounded protocols. No overnight
+loops, remote/cloud jobs, notifications, external data access, publication or
+merge are implied by this plan. Ponytail, HKUSTDial and ARIS are workflow aids,
+not evidence of novelty or permission to bypass the theorem and data gates.
+
 ## Operating contract
 
 The benchmark optimum ranges over nonanticipating policies with a pathwise query

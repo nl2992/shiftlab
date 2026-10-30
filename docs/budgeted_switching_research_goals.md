@@ -2709,3 +2709,19 @@ the finite benchmark. Source limitation: RAO* full text/proof not inspected in t
   composing them. G1 remains open for a structural algorithm/theorem beyond these required
   comparators and the exact oracle; G2–G5 remain held. Keep historical test evidence separate from
   current-regime value after reversal.
+
+### G1 source update 2026-10-29: delayed decision-loss priority
+
+- A search for remaining cost-aware delayed acquisition work surfaced Wang's ADOWIP
+  (arXiv:2606.25068), audited in `switching_adowip_prior_audit_v1.md`. It already prioritizes
+  delayed online adaptation by revealed downstream decision loss under a hard update-compute
+  budget, with exact budget feasibility, a convex-subproblem OGD bound, and conditional gate
+  selection results. Generic decision-loss-prioritized budget allocation is therefore closed as a
+  novelty claim.
+- Its budget is compute/update capacity rather than purchased labels; it adapts a forecaster rather
+  than switching between frozen policies and has no repeated economic rollback or global
+  causal-null false-promotion guarantee. This is a mandatory matched comparator, not a direct
+  solution to ShiftLab. A candidate must show a theorem-backed advantage specifically from the
+  value of requesting labels for future net switching decisions under the same hard label budget,
+  delay, switching costs and causal-risk contract. Simply adapting its score or adding a safe test
+  does not pass G1. G2–G5 remain held; evidence and present-regime forecast stay separate.

@@ -91,7 +91,11 @@ def _family(sim):
 def source_moments(kind: str):
     """Nominal (source) mean/std of decision cost and Brier loss, from a large independent source stream."""
     if kind not in _SOURCE_CACHE:
-        s = g.simulate(g.World(T=4000, family=kind), 100, 999)
+        s = (
+            g.simulate_g4(100, 999, T=4000, source_only=True)
+            if kind == "G4"
+            else g.simulate(g.World(T=4000, family=kind), 100, 999)
+        )
         _SOURCE_CACHE[kind] = {
             k: (float(s[k].mean()), float(s[k].std())) for k in ("loss", "brier")
         }

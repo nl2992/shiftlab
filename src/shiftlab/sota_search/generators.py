@@ -204,3 +204,61 @@ def simulate_g3(n_seeds: int, seed: int, T: int = 2000, transition=None):
         "harm": harm_by_regime[reg],
         "harmful": reg == 1,
     }
+
+
+# G4: financial-style decision regimes. Signal s_t is a weak AR(1) factor; the label is the sign of the next return
+# (logistic noise: heavy-tailed, exactly calibrated for the source model p = sigmoid(s)).
+G4_P = np.array(
+    [
+        [0.996, 0.002, 0.002],
+        [0.004, 0.994, 0.002],
+        [0.004, 0.002, 0.994],
+    ]
+)
+G4_BETA = np.array([1.0, -0.7, 1.0])  # regime 1: signal reversal
+G4_SIGMA = np.array(
+    [1.0, 1.0, 1.6]
+)  # regime 2: volatility increase (Brier +0.039, decision harm +0.079 < 0.10: benign)
+
+
+def simulate_g4(n_seeds: int, seed: int, T: int = 2000, source_only: bool = False, transition=None):
+    rng = np.random.default_rng(seed)
+    P = G4_P if transition is None else np.asarray(transition)
+    reg = np.zeros((n_seeds, T), dtype=np.int8)
+    if not source_only:
+        u = rng.random((n_seeds, T))
+        cum = P.cumsum(1)
+        for t in range(1, T):
+            reg[:, t] = (u[:, t, None] > cum[reg[:, t - 1]]).sum(1)
+    e = rng.standard_normal((n_seeds, T)) * 1.5
+    sig = np.empty_like(e)
+    sig[:, 0] = e[:, 0]
+    for t in range(1, T):
+        sig[:, t] = 0.6 * sig[:, t - 1] + np.sqrt(1 - 0.36) * e[:, t]
+    logit = G4_BETA[reg] * sig / G4_SIGMA[reg]
+    y = (rng.random((n_seeds, T)) < sigmoid(logit)).astype(np.int8)
+    p = sigmoid(sig)
+    act = (p >= TAU).astype(float)
+    loss = decision_cost(act, y)
+    out = {
+        "x": sig[..., None].astype(np.float32),
+        "y": y,
+        "p": p,
+        "loss": loss,
+        "brier": (p - y) ** 2,
+        "world": World(kind="none", T=T, family="G4"),
+        "regime": reg,
+    }
+    if not source_only:
+        src = simulate_g4(100, 998, T=2000, source_only=True)
+        base = float(src["loss"].mean())
+        by = np.zeros(3)
+        for k in range(3):
+            z = np.random.default_rng(997 + k)
+            sg = z.standard_normal(400_000) * 1.5
+            yy = (z.random(400_000) < sigmoid(G4_BETA[k] * sg / G4_SIGMA[k])).astype(np.int8)
+            by[k] = decision_cost((sigmoid(sg) >= TAU).astype(float), yy).mean() - base
+        out["harm_by_regime"] = by
+        out["harm"] = np.maximum(by, 0.0)[reg]
+        out["harmful"] = by[reg] >= HARM_THRESHOLD
+    return out

@@ -2861,3 +2861,24 @@ the finite benchmark. Source limitation: RAO* full text/proof not inspected in t
   algorithm. G1 remains open for a structure with those two bounds and an advantage over
   robust-FSC/POSG planning; G2–G5 remain held. Test-epoch evidence and post-reversal current
   economic value remain distinct.
+
+### G1 candidate screen: risk-slack approximate abstraction 2026-10-29
+
+- Tested whether standard approximate-state abstraction plus positive risk slack could close the
+  two-law compression gap. Approximate POMDP/value-directed belief methods already bound
+  single-law utility loss; chance-constrained POMDP methods already combine expected utility with
+  a fixed-kernel failure-probability constraint; approximate bisimulation supplies standard
+  reward/transition simulation bounds. Combining those bounds with “mix toward never-promote if
+  risk exceeds alpha” is a generic constrained-control construction, not a method contribution.
+- The existing exact alias counterexample shows the missing quantity: histories with identical
+  economic belief can have different relative mass under the alternative and causal null, changing
+  the best safe allocation even with positive risk slack. A useful theorem therefore needs a
+  computable, policy-compatible abstraction error that jointly bounds alternative cost and the
+  supremum causal-null reachability risk over all history-adaptive responses. The standard
+  single-kernel abstraction bounds do not provide that quantity. Primary sources checked:
+  [value-directed belief approximation](https://arxiv.org/abs/1301.3887) and
+  [constant-horizon constrained POMDP approximation](https://www.ijcai.org/proceedings/2019/0775.pdf).
+- No such metric or algorithm is established here; do not advance to implementation or empirical
+  sweeps from this screen. G1 remains open only for that joint, computable error control and a
+  complexity/value advantage over robust-FSC and two-law sequence-form planning. G2–G5 remain
+  held. Historical test evidence remains distinct from current-regime value after reversal.

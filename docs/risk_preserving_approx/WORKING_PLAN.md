@@ -762,3 +762,23 @@ artifact hashes, checks, proof status, negative evidence and next decision to
 `RESEARCH_LEDGER.md`. Use a unique output path; preserve prior failures and
 historical artifacts. Commit each completed checkpoint to this branch and push
 only the designated branch. Never merge automatically.
+
+## Candidate H finite-response-automaton pricing audit (2026-10-30)
+
+For each fixed active null response, a finite deterministic transducer lets the
+pricing Bellman recursion preserve public-history dependence exactly. This
+resolves the known belief-only aliasing example, but gives no uniform state-size
+advantage: transducer size can grow with the response history tree, and distinct
+public observations can still induce distinct pricing beliefs. The recurrence
+is standard constrained-POMDP policy-column generation; the old cut-generation
+screen had no end-to-end gain and did not retain response vectors for a
+retrospective automaton-size count. Close this route as a lead; do not rerun
+those cells to recover missing artifacts. Exact assumptions, conditional
+theorem, complexity boundary, counterexample and sources are in
+`CANDIDATE_H_AUTOMATON_PRICING_AUDIT_V1.md`.
+
+**Next:** search for a structurally different optimization method whose
+complexity reduction is accompanied by a nonvacuous value and full causal-null
+risk guarantee. Do not replace the full history with another generic controller
+state absent an explicit bound. G1–G3 remain open; real data and reserved
+holdouts remain closed.

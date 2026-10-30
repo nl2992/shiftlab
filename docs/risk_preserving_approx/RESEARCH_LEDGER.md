@@ -926,3 +926,29 @@
   Synthetic model only; no real rows, new seeds or holdouts accessed. Next:
   pursue a structurally different implicit optimization mechanism before any
   wider synthetic evaluation. G1–G3 remain open.
+
+## 2026-10-30 — Candidate H exact response-automaton pricing audit
+
+- Specified a finite-transducer representation for each fixed active null
+  response in policy-column pricing. Given finite exact transducers, the
+  hidden-root belief DP is an exact pricing oracle; it preserves null response
+  history, pending releases, the learner information filtration, and alternative
+  continuation. The two-history counterexample is resolved by retaining
+  transducer state.
+- Exact recurrence is a standard finite constrained-POMDP subproblem used in
+  policy-column generation/double oracle. Complexity depends on both the sum of
+  active response states `K` and the number `M` of reachable learner beliefs;
+  neither has a bound below the full public-history tree for the unrestricted
+  causal-null family. The universal quotient lower bound rules out a general
+  compact response state. The old null-cut artifact did not save response
+  vectors, so no retrospective automaton count is possible.
+- Decision: close Candidate H as a lead, retain its conditional exact reduction
+  as a comparator, and do not rerun prior null-cut cells. Audit:
+  `CANDIDATE_H_AUTOMATON_PRICING_AUDIT_V1.md`. Literature check used primary
+  sources: Walraven & Spaan 2018
+  (https://www.jair.org/index.php/jair/article/view/11216), Bošanský et al.
+  2014 (https://doi.org/10.1613/jair.4477), and Cubuktepe et al. 2021
+  (https://ojs.aaai.org/index.php/AAAI/article/view/17401). No code, seeds, data
+  or holdouts accessed. Next search must yield more than a generic controller
+  representation. G1–G3 remain open; real-data evaluation remains gated.
+  Audit SHA-256: `26f5bb1b07f23c85b5ce961823e0ca7bef926778816faa1121cfd701b53a6ac3`.

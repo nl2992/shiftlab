@@ -389,6 +389,25 @@ method as established composition unless a precise source-level delta remains.
 Do not proceed to an efficacy sweep if there is no plausible state/strategy
 representation with a resource advantage.
 
+**D2 outcome (2026-10-29):** finite-LP duality and the conditional risk-bracket
+recovery argument survive model matching. Horák et al.'s OS-POSG HSVI, its
+strategy extraction, constrained-POMDP optimization, and exact robust
+verification are established prior art; this scalarization-plus-recovery
+composition has no identified novelty delta. A bounded test remains worthwhile
+only as an established-algorithm baseline because point-based belief search may
+avoid the explicit learner tree on these finite models. The pinned Julia
+implementation currently exposes value bounds but not the required learner
+strategy gadget; a faithful adapter and independent controller verifier are
+needed before any ShiftLab efficacy run. See
+`CANDIDATE_D_IMPLEMENTATION_FEASIBILITY_V1.md`. Do not call Candidate D a novel
+lead unless a new theorem or computational mechanism emerges beyond that source.
+The public MIT Julia implementation's own suite completed with 53 passed and
+1 failed: its 60-second solve on a 143-state game returned gap `33.75048`
+instead of `<1`. This weakens the efficiency hypothesis but does not falsify
+performance on the smaller finite-horizon switching game. Keep any pilot
+strictly bounded and stop if the extracted strategy or exact verification erases
+the measured gain.
+
 **Gate D3 — preregistered pilot.** If D1–D2 survive, add a versioned protocol
 before execution, with a fresh output path and source/config hashes. Use one
 small instance where both exact oracles finish, then at most one matched stress

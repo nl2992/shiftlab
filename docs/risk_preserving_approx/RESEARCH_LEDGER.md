@@ -713,3 +713,38 @@
   D2 and the end-to-end pilot remain open. Next: inspect a reproducible OS-POSG
   implementation and determine whether a bounded faithful pilot can plausibly
   beat the exact decomposed solver after extraction and robust verification.
+
+## 2026-10-29 — Candidate D implementation feasibility screen
+
+- Inspected the MIT-licensed `HSVIforOSPOSGs.jl` source at commit
+  `05eaf101b38c1c9b301a1a5fb298bfe8b97f757d`. Its game format can represent
+  finite partitions, transitions, observations, actions and bounded rewards,
+  but `solve` returns bounds/statistics only; the public solver does not retain
+  the learner's theorem-backed strategy gadget/controller needed for exact
+  policy certification and multiplier-bracket recovery.
+- Julia was absent from the host and was installed per-user as v1.13.3; the
+  upstream project declares compatibility with v1.8. `Pkg.instantiate(); Pkg.test()`
+  has been launched once. Its main Julia process (PID 32108) and active child
+  precompile worker were verified live; CPU time continued advancing. The test
+  is not yet terminal, so no pass/fail is claimed and it has not been restarted.
+  The ignored checkout is unchanged at the pinned commit.
+- D2 finds no novelty delta in the standard Lagrangian/OS-POSG/verification
+  composition. Keep one bounded test only as a computational baseline: belief
+  search could plausibly reduce the explicit learner tree, but extraction and
+  exact verification may remove that gain. Next action: collect the same test's
+  terminal result, then implement/test only the finite-horizon gadget adapter;
+  preregister ShiftLab efficacy comparisons before executing them.
+
+### Correction to Candidate D implementation feasibility test
+
+- The same `Pkg.instantiate(); Pkg.test()` run recorded in the preceding entry
+  has now terminated. It completed 53/54 assertions: the 143-state `peg03`
+  solve test failed its 60-second gap threshold (`33.7504833` observed versus
+  `<1` expected); the reference-value containment check passed. The Julia
+  process is terminal and no restart was made. Full log is retained in the
+  ignored `.aris/runs/hsvi-osposg-upstream/upstream_test.log`; package checkout
+  remains pinned and clean.
+- Update: the package is not validated at its default settings on this host.
+  Keep one pilot only as a bounded feasibility check; no ShiftLab test or
+  efficacy claim has been run. The required strategy gadget remains absent from
+  the package's solve interface.

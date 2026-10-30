@@ -88,6 +88,9 @@ ARMS = {
 }
 
 
+PER_SEED = {}  # added after the first run (output only; computations unchanged)
+
+
 def run_stream(sim, tag, seed0):
     rows = []
     T = sim["y"].shape[1]
@@ -98,6 +101,7 @@ def run_stream(sim, tag, seed0):
                 thr = 0.0 if name.startswith("PR_") else THR
                 al = det.first_cross(stat, thr)
                 alarmed = al < T
+                PER_SEED[f"{tag}|{frac}|{tol}|{name}"] = al
                 # evaluator-side realised excess cost before alarm (uses all labels; never visible to monitors)
                 excess = np.cumsum(sim["loss"] - r0_hat, 1)
                 pre = np.where(alarmed, excess[np.arange(len(al)), np.minimum(al, T - 1)], excess[:, -1])
@@ -129,6 +133,7 @@ meta = dict(zip_sha256=hashlib.sha256(ZIP.read_bytes()).hexdigest(), n_cal=n_cal
             train_pos=int((batches[1][1] == POS_CLASS).sum()), sklearn_C=1.0)
 OUT.mkdir(parents=True, exist_ok=True)
 json.dump(dict(meta=meta, per_batch=desc, results=rowsA + rowsB), open(OUT / "d2_gas_sensor_replay.json", "w"), indent=1)
+np.savez_compressed(OUT / "d2_gas_sensor_per_seed_alarm_idx.npz", **PER_SEED)
 import pandas as pd
 d = pd.DataFrame(rowsA + rowsB)
 pd.set_option("display.width", 250)

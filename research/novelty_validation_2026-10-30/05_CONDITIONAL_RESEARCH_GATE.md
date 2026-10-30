@@ -1,0 +1,13 @@
+# 05. Conditional research gate record
+
+| gate | rule (task) | evidence | outcome |
+|---|---|---|---|
+| **A** | H2c ≡ or straightforward composition of prior techniques AND no independent theorem/algorithmic improvement ⇒ retain as benchmark, stop calling it novel, investigate joint acquisition + switching | 02 reduction: PP-IPW increment (Xu et al.; PPRM), predictable discounted Kelly/ONS, side-information bet, α-split; exact reduction verified numerically; no growth-rate theorem; validity is the generic betting argument | **TRIGGERED**. H2c = COMPOSITION; novelty withdrawn. |
+| C1 (diagnostic only) | attempt exact reduction, alternative class with higher growth, counterexample, calibration analysis | 07 §1 (X1) and §3 (D2): reduction exact; guidance helps only at low label rates when the Brier statistic co-moves; harmful when flat/opposed (−0.3 to −0.6 power) or when the guide has no nominal margin (real data); validity unaffected | **No theorem; characterised as a heuristic.** |
+| **B** | H2c fails to beat strongest faithful published comparator on matched registered problem ⇒ report failure, stop H2c development | 03: no faithful published cost-null comparator; D2 matched within-class comparators beat H2c (07 §3) | **TRIGGERED (fail).** |
+| **C** | joint advantage disappears ⇒ NO_GO; strict gain only on a toy and implied by standard DP ⇒ benchmark illustration; else scalable algorithm | 07 §2 (X2): joint > best separate in 27/192 instances, max 1.1 % of net cost, 0 violations of J ≤ separate; J **is** the belief-MDP optimum; repo already closed VOI / futility / delayed-POMDP / belief compression / restarts / recurrence | **Second branch: benchmark illustration, not novel methodology.** No scalable algorithm attempted (nothing to approximate that is not standard DP). |
+| **D** | gain vanishes/reverses on real data ⇒ investigate failure mechanism on development data, report negative, do not tune on exposed outcomes | 07 §3: D2 reversal (H2c later by 242–824 events, CIs exclude 0); mechanism: guide has no margin ⇒ bets against a negative-drift cost statistic. No retuning performed. | **TRIGGERED (reversal).** Only one real domain executed ⇒ the two-domain generality requirement is unmet in any case. |
+| E | adversarial audit of surviving method | no surviving method; counterexamples kept as tests (08) | not entered beyond counterexamples |
+| **F** | frozen confirmation of a frozen method | nothing eligible to freeze | **NOT ENTERED.** `09_…` / `10_…` deliberately not created (no empty documents). |
+
+Pivot budget: this programme took exactly one pivot (H2c → C2) after the Gate-A NO_GO; C2 closed at Gate C. No further search was run.

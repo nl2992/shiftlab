@@ -15,6 +15,12 @@ from shiftlab.dive.rpoq_crsp_replay_b import build_cohort_b
 ALPHA, FRACS, SEEDS = 0.05, (0.05, 0.20), 20
 
 
+def make_policy(frac, matched):
+    """B1 scales the repo defaults to the budget; B2 sets ``q_min`` to the uniform rate to match spend."""
+    q_lo, q_hi = (frac, 2.0 * frac) if matched else (0.25 * frac, 2.5 * frac)
+    return EvidenceDirectedQueryPolicy(q_min=q_lo, q_max=min(1.0, q_hi), alpha=ALPHA)
+
+
 def run(c, frac, u, policy):
     """Date-batched PPI e-process, pooled plug-in Kelly bet, propensity from ``policy`` (None = uniform)."""
     y, h, di, n = -c["z"], -c["h"], c["date_index"], c["n_events"]
@@ -68,9 +74,7 @@ def main():
         if c is None:
             continue
         for frac in FRACS:
-            ed = EvidenceDirectedQueryPolicy(
-                q_min=0.25 * frac, q_max=min(1.0, 2.5 * frac), alpha=ALPHA
-            )
+            ed = make_policy(frac, matched)
             for arm, pol in (("uniform", None), ("evidence_directed", ed)):
                 for s in range(SEEDS):
                     u = np.random.default_rng(SEED + 1000 * ci + s).random(c["n_events"])

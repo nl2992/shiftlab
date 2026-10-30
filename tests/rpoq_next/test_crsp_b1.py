@@ -25,3 +25,11 @@ def test_both_arms_respect_cap_and_null_rarely_crosses():
             assert r["spent"] <= round(0.1 * 2000)
             hits += r["crossed"]
     assert hits <= 12
+
+
+def test_matched_policy_queries_at_least_the_uniform_rate():
+    for frac in (0.05, 0.2):
+        matched, default = crsp_b1.make_policy(frac, True), crsp_b1.make_policy(frac, False)
+        low = {"log_e_value": 0.0, "remaining_fraction": 1.0}
+        assert matched.propensity(**low) >= frac - 1e-12
+        assert default.propensity(**low) < frac

@@ -1,0 +1,272 @@
+{
+  "status": "completed",
+  "stage": "exposed development diagnostic, NOT confirmation",
+  "rows": [
+    {
+      "dataset": "bike",
+      "model": "logistic_C1",
+      "selected_on_calibration": false,
+      "calibration_cost": 89.4,
+      "development_cost": 123.0,
+      "development_delta_vs_incumbent": 0.0,
+      "development_rows": 2920,
+      "monthly_delta": {
+        "2011-09": 0.0,
+        "2011-10": 0.0,
+        "2011-11": 0.0,
+        "2011-12": 0.0
+      }
+    },
+    {
+      "dataset": "bike",
+      "model": "logistic_C0.01",
+      "selected_on_calibration": false,
+      "calibration_cost": 84.0,
+      "development_cost": 226.60000000000002,
+      "development_delta_vs_incumbent": 103.60000000000002,
+      "development_rows": 2920,
+      "monthly_delta": {
+        "2011-09": 9.200000000000003,
+        "2011-10": 25.6,
+        "2011-11": 30.400000000000006,
+        "2011-12": 38.4
+      }
+    },
+    {
+      "dataset": "bike",
+      "model": "logistic_C100",
+      "selected_on_calibration": false,
+      "calibration_cost": 87.4,
+      "development_cost": 122.6,
+      "development_delta_vs_incumbent": -0.39999999999999947,
+      "development_rows": 2920,
+      "monthly_delta": {
+        "2011-09": -2.0,
+        "2011-10": -1.8,
+        "2011-11": 0.0,
+        "2011-12": 3.4000000000000004
+      }
+    },
+    {
+      "dataset": "bike",
+      "model": "hgb_7",
+      "selected_on_calibration": false,
+      "calibration_cost": 20.599999999999998,
+      "development_cost": 340.79999999999995,
+      "development_delta_vs_incumbent": 217.79999999999998,
+      "development_rows": 2920,
+      "monthly_delta": {
+        "2011-09": 4.800000000000001,
+        "2011-10": 37.599999999999994,
+        "2011-11": 92.80000000000001,
+        "2011-12": 82.6
+      }
+    },
+    {
+      "dataset": "bike",
+      "model": "hgb_15",
+      "selected_on_calibration": true,
+      "calibration_cost": 19.0,
+      "development_cost": 542.8,
+      "development_delta_vs_incumbent": 419.80000000000007,
+      "development_rows": 2920,
+      "monthly_delta": {
+        "2011-09": 23.400000000000002,
+        "2011-10": 108.59999999999998,
+        "2011-11": 151.4,
+        "2011-12": 136.4
+      }
+    },
+    {
+      "dataset": "bike",
+      "model": "positive",
+      "selected_on_calibration": false,
+      "calibration_cost": 84.0,
+      "development_cost": 226.60000000000002,
+      "development_delta_vs_incumbent": 103.60000000000002,
+      "development_rows": 2920,
+      "monthly_delta": {
+        "2011-09": 9.200000000000003,
+        "2011-10": 25.6,
+        "2011-11": 30.400000000000006,
+        "2011-12": 38.4
+      }
+    },
+    {
+      "dataset": "bike",
+      "model": "negative",
+      "selected_on_calibration": false,
+      "calibration_cost": 1055.0,
+      "development_cost": 1787.0,
+      "development_delta_vs_incumbent": 1664.0,
+      "development_rows": 2920,
+      "monthly_delta": {
+        "2011-09": 438.2,
+        "2011-10": 447.0,
+        "2011-11": 411.0,
+        "2011-12": 367.79999999999995
+      }
+    },
+    {
+      "dataset": "beijing",
+      "model": "logistic_C1",
+      "selected_on_calibration": false,
+      "calibration_cost": 237.0,
+      "development_cost": 874.5999999999999,
+      "development_delta_vs_incumbent": 0.0,
+      "development_rows": 8032,
+      "monthly_delta": {
+        "2011-01": 0.0,
+        "2011-02": 0.0,
+        "2011-03": 0.0,
+        "2011-04": 0.0,
+        "2011-05": 0.0,
+        "2011-06": 0.0,
+        "2011-07": 0.0,
+        "2011-08": 0.0,
+        "2011-09": 0.0,
+        "2011-10": 0.0,
+        "2011-11": 0.0,
+        "2011-12": 0.0
+      }
+    },
+    {
+      "dataset": "beijing",
+      "model": "logistic_C0.01",
+      "selected_on_calibration": true,
+      "calibration_cost": 237.0,
+      "development_cost": 874.5999999999999,
+      "development_delta_vs_incumbent": 0.0,
+      "development_rows": 8032,
+      "monthly_delta": {
+        "2011-01": 0.0,
+        "2011-02": 0.0,
+        "2011-03": 0.0,
+        "2011-04": 0.0,
+        "2011-05": 0.0,
+        "2011-06": 0.0,
+        "2011-07": 0.0,
+        "2011-08": 0.0,
+        "2011-09": 0.0,
+        "2011-10": 0.0,
+        "2011-11": 0.0,
+        "2011-12": 0.0
+      }
+    },
+    {
+      "dataset": "beijing",
+      "model": "logistic_C100",
+      "selected_on_calibration": false,
+      "calibration_cost": 237.0,
+      "development_cost": 874.5999999999999,
+      "development_delta_vs_incumbent": 0.0,
+      "development_rows": 8032,
+      "monthly_delta": {
+        "2011-01": 0.0,
+        "2011-02": 0.0,
+        "2011-03": 0.0,
+        "2011-04": 0.0,
+        "2011-05": 0.0,
+        "2011-06": 0.0,
+        "2011-07": 0.0,
+        "2011-08": 0.0,
+        "2011-09": 0.0,
+        "2011-10": 0.0,
+        "2011-11": 0.0,
+        "2011-12": 0.0
+      }
+    },
+    {
+      "dataset": "beijing",
+      "model": "hgb_7",
+      "selected_on_calibration": false,
+      "calibration_cost": 248.59999999999997,
+      "development_cost": 941.8,
+      "development_delta_vs_incumbent": 67.2,
+      "development_rows": 8032,
+      "monthly_delta": {
+        "2011-01": -6.6,
+        "2011-02": 0.0,
+        "2011-03": 0.0,
+        "2011-04": 18.599999999999998,
+        "2011-05": 3.2000000000000006,
+        "2011-06": 0.0,
+        "2011-07": 24.0,
+        "2011-08": 0.0,
+        "2011-09": 0.0,
+        "2011-10": 0.0,
+        "2011-11": 0.0,
+        "2011-12": 28.0
+      }
+    },
+    {
+      "dataset": "beijing",
+      "model": "hgb_15",
+      "selected_on_calibration": false,
+      "calibration_cost": 264.79999999999995,
+      "development_cost": 1117.4,
+      "development_delta_vs_incumbent": 242.8,
+      "development_rows": 8032,
+      "monthly_delta": {
+        "2011-01": 5.800000000000001,
+        "2011-02": 21.400000000000002,
+        "2011-03": -18.800000000000004,
+        "2011-04": 87.0,
+        "2011-05": 8.799999999999997,
+        "2011-06": 0.0,
+        "2011-07": 51.4,
+        "2011-08": 20.8,
+        "2011-09": 16.599999999999998,
+        "2011-10": 14.8,
+        "2011-11": 2.0,
+        "2011-12": 33.0
+      }
+    },
+    {
+      "dataset": "beijing",
+      "model": "positive",
+      "selected_on_calibration": false,
+      "calibration_cost": 237.0,
+      "development_cost": 874.5999999999999,
+      "development_delta_vs_incumbent": 0.0,
+      "development_rows": 8032,
+      "monthly_delta": {
+        "2011-01": 0.0,
+        "2011-02": 0.0,
+        "2011-03": 0.0,
+        "2011-04": 0.0,
+        "2011-05": 0.0,
+        "2011-06": 0.0,
+        "2011-07": 0.0,
+        "2011-08": 0.0,
+        "2011-09": 0.0,
+        "2011-10": 0.0,
+        "2011-11": 0.0,
+        "2011-12": 0.0
+      }
+    },
+    {
+      "dataset": "beijing",
+      "model": "negative",
+      "selected_on_calibration": false,
+      "calibration_cost": 965.0,
+      "development_cost": 3659.0,
+      "development_delta_vs_incumbent": 2784.4000000000005,
+      "development_rows": 8032,
+      "monthly_delta": {
+        "2011-01": -8.399999999999991,
+        "2011-02": 303.6,
+        "2011-03": 40.599999999999994,
+        "2011-04": 219.2,
+        "2011-05": 102.4,
+        "2011-06": 349.8,
+        "2011-07": 336.6,
+        "2011-08": 349.2,
+        "2011-09": 231.8,
+        "2011-10": 302.79999999999995,
+        "2011-11": 303.4,
+        "2011-12": 253.4
+      }
+    }
+  ]
+}

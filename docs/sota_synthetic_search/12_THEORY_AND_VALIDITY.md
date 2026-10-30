@@ -12,3 +12,6 @@
 
 **Empirical validity.** Null false alarm of fixed finalists ≤ .012 (G1) and ≤ .022 (G2) at 400 seeds, well under α=.05. Empirically-thresholded baselines (Page–Hinkley, CUSUM) show .04–.065 on the G2 null and up to .074–.094 on benign worlds, i.e. they have no guarantee.
 **Stress tests not run:** random/informative delay, proxy misspecification stronger than G2, heavy dependence, adversarial drift. These are listed for the real-data handoff, not claimed.
+
+---
+**Correction (2026-10-30, branch `research/hg-validation-and-novelty-2026-10-30`).** Rows T2/T3 above were over-claimed. With the context-dependent bet cap the e-process is valid only under the pointwise conditional null, not the marginal no-harm null (exact counterexample, `docs/hg_validation/02_VALIDITY_COUNTEREXAMPLES.md`). A uniform support cap restores validity under E[R_t | F_{t−1}] ≤ r0 for fixed known delay. Under strong covariate autocorrelation (ρ = .98) every variant, HG included, exceeds α, and HG is worse than its parent (`docs/hg_validation/06_DEPENDENCE_STRESS.md`). This file is kept unmodified above for the historical record.

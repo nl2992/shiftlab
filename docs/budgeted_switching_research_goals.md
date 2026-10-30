@@ -2672,3 +2672,21 @@ the finite benchmark. Source limitation: RAO* full text/proof not inspected in t
   claim. The remaining finite-cell gap lies within the robust test/action policy class for a fixed
   calendar; the next G1 step is a source-level equivalence check of that class against sequential
   test design and constrained-POMDP planning, before proposing a mechanism. G2–G5 remain held.
+
+### G1 source-equivalence boundary 2026-10-29: fixed-calendar policy class
+
+- Consolidated the existing source-level audits for robust sequential testing, utility-aware
+  sensing/stopping, usage-constrained experiments, chance-constrained POMDPs, and robust finite-
+  state controllers in `switching_fixed_calendar_policy_class_boundary_v1.md`.
+- The fixed-calendar planner is a finite controlled experiment; a single-kernel version is
+  standard constrained-POMDP/sequential-test design. The exact ShiftLab version still has two
+  distinct laws and a full-history null adversary that sees unreleased outcomes, so no audited
+  source directly supplies its exact guarantee. Exact history augmentation is only a finite
+  representation, not a scalable contribution. Adding query queues, budget/risk state, or an HMM
+  mode is not a novelty delta.
+- No new acquisition method or approximation theorem survives this check. G1 remains active only
+  for a structural compression/approximation theorem with causal-null risk and economic-cost
+  bounds against the full-history oracle, or a growing-family separation from the strongest
+  matched sequential-control comparator. Efficacy and real-data gates stay held; revise/stop the
+  hypothesis if subsequent work yields only generic state augmentation. Current-regime forecasts
+  and statistical evidence remain separate under the existing contract.

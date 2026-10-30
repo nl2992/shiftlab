@@ -35,3 +35,34 @@ Candidate A is **not falsified** and **not supported**: A1 shows an oracle-knowl
 
 ## A2 (to be registered): does it survive estimation?
 Needs: an SNR-constant control for the tie test; moments **learned** from burn-in labels counted against the same hard budget; equally equipped comparators (Neyman and the Robust-ASI path with estimated `r̂`; a sequential growth-learning allocator in the e-PS spirit); misspecification (wrong-sign `μ̂`); nonstationary alternatives.
+
+## A2 (protocol [`SYNTHETIC_PROTOCOL_A2.md`](SYNTHETIC_PROTOCOL_A2.md)): allocation from learned moments
+
+1,000 seeds, burn-in 400 events / 100 labels counted against the cap, per-context Kelly bets. Artifacts: `outputs/rpoq_next/screen_a2/results.json`. Null crossing ≤ 0.031 for every arm (limit 0.07), spend ≤ 398 of 400.
+
+Power, `ρ = 0 / 0.6`:
+
+| Setting | uniform | neyman-est | rasi-est | growth-fixed | growth-online |
+|---|---|---|---|---|---|
+| null | 0.017 / 0.015 | 0.018 / 0.018 | 0.015 / 0.016 | 0.031 / 0.031 | 0.011 / 0.009 |
+| const | 0.227 / 0.245 | 0.227 / 0.253 | 0.232 / 0.237 | 0.347 / 0.349 | 0.145 / 0.163 |
+| hom | 0.240 / 0.255 | 0.215 / 0.225 | 0.219 / 0.225 | 0.388 / 0.395 | 0.150 / 0.163 |
+| het | 0.256 / 0.262 | 0.310 / 0.296 | 0.284 / 0.279 | 0.523 / 0.516 | 0.254 / 0.301 |
+| anti | 0.170 / 0.177 | 0.265 / 0.252 | 0.200 / 0.206 | 0.365 / 0.367 | 0.161 / 0.181 |
+
+**Registered verdict: NOT PASSED.** Primary contrast (max of the growth arms minus the best of uniform/neyman/rasi, het): +0.239 [0.204, 0.275] at `ρ=0` and +0.265 [0.228, 0.302] at `ρ=0.6`, which meets that part. The tie control fails: `growth-online − neyman` in const is −0.082 [−0.109, −0.054] and −0.090 [−0.119, −0.063]. Reported as a fail. Observations: the sequential learner (`growth-online`) is **worse than uniform** in most settings (re-estimating from noisy data hurts), and `growth-fixed` beats Neyman in const by +0.120 [0.086, 0.153] where there is nothing to find, which prompted A2b.
+
+## A2b (protocol [`SYNTHETIC_PROTOCOL_A2B.md`](SYNTHETIC_PROTOCOL_A2B.md)): placebo and fair-bet diagnostic
+
+1,000 seeds. Artifacts: `outputs/rpoq_next/screen_a2b/results.json`. Null crossing ≤ 0.031.
+
+| Quantity (95% CI) | `ρ=0` | `ρ=0.6` |
+|---|---|---|
+| het: growth-fixed (best bet) − best baseline (best bet, incl. placebo) | +0.213 [0.176, 0.252] | +0.210 [0.172, 0.246] |
+| het: growth-fixed − random_conc (ctx bets) | +0.222 [0.183, 0.261] | +0.210 [0.173, 0.246] |
+| const: growth-fixed − random_conc (ctx bets) | +0.083 [0.051, 0.116] | +0.084 [0.051, 0.116] |
+| const: growth-fixed (best bet) − best baseline (best bet) | +0.022 [−0.014, 0.059] | +0.020 [−0.015, 0.054] |
+
+**Registered verdict: INCONCLUSIVE.** "Concentration explains the effect" is not triggered (het gap to the placebo ≈ +0.21). "Growth-aware selection adds value" requires the const gap to the placebo within ±0.03; it is +0.083. Reading: random concentration plus per-context bets is itself a handicapped arm (0.264 vs 0.325 for uniform with a pooled bet), and growth-aware selection merely recovers the level of the best pooled baseline in const (+0.02, not significant). In het, where signal differs across contexts, it is far ahead (+0.21) even against a fair best-bet baseline.
+
+**What is and is not established.** In this stationary generator with heterogeneous signal-to-noise and a stratified null, learned growth-aware concentration beats equally equipped baselines, calibrated and cap-respecting. Not established: robustness to nonstationary alternatives (concentrating on a burn-in favourite is exactly what fails when signal arrives later or moves), whether the gain is more than known active-subgroup/e-PS-style allocation, or any real-data effect. A3 tests the first.

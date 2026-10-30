@@ -9,3 +9,12 @@ Branch `research/rpoq-s1-fatal-flaw-audit`. Historical RPOQ protocols, results a
 - Repair: both fixed as one-line behavior-neutral edits; `ruff format` applied to the five RPOQ files it flagged (`rpoq_exact.py`, `rpoq_crsp_replay{,_b,_c}.py`, `tests/test_rpoq_exact.py`). No result file was regenerated or edited.
 - Verification: `ruff check .` clean; `ruff format --check .` clean (1173 files); `mypy` (configured for `src/shiftlab/core` only) clean; `tests/test_rpoq_exact.py` 6 passed; exact B=3 power still 0.0330 (matches the registered S3 value).
 - Not yet verified: the rest of the CI sequence (`pytest -q` over the whole repo, `scripts/validate_environment.py`) never ran remotely because CI stopped at Ruff. A local full-suite run follows.
+
+## 2026-10-30, Cycle 1–3 checkpoint
+
+- **Source access.** Primary-paper reads failed: `arxiv.org`, `proceedings.mlr.press`, `proceedings.neurips.cc`, `people.bath.ac.uk`, `doi.org`, `openreview.net` unreachable. Read this session: authors' released code for ASI and Robust ASI (GitHub). Pro-Active Inference (2610.34681) and Active MPPI (2605.08429) are `UNREAD` and absent from all repo audits. SOTA gate **not fully met**; all novelty statements provisional.
+- **Cycle 1.** `SOTA_GAP_AND_OPPORTUNITY_MATRIX.md`, `CANDIDATE_RANKING.md`: primary A (growth/signal-aware allocation with per-context bets), fallback C, deferred B.
+- **Cycle 2.** `growth_alloc.py` + tests: second-moment algebra verified by simulation; bang-bang split of marginal events fixed (budget now met exactly).
+- **Cycle 3 (A1).** Registered verdict NOT PASSED (tie condition violated). Large oracle effect from concentrating labels on one context; calibration clean. Diagnosis in `SYNTHETIC_RESULTS.md`. Prediction P1-tie was wrong (SNR, not signal, must be constant).
+- **CI.** Ruff/format/mypy repaired and verified; full-suite triage pending (task #4).
+- **Next.** Register A2 (estimation, equally equipped comparators), run, then decide A vs fallback.

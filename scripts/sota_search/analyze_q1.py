@@ -6,8 +6,11 @@ import sys
 import pandas as pd
 
 files = sys.argv[1:] or sorted(glob.glob("outputs/sota_search/q1_baselines_summary_*.csv"))
-df = pd.concat([pd.read_csv(f) for f in files], ignore_index=True)
+df = pd.concat(
+    [pd.read_csv(f, keep_default_na=False, na_values=[""]) for f in files], ignore_index=True
+)
 df["cfg"] = df["detector"] + "|" + df["params"]
+df = df.drop_duplicates(["cfg", "world"])
 harm = df[df.role == "harm"].groupby("cfg").detect_prob.mean().rename("power_harm")
 benign_fa = df[df.role == "benign"].groupby("cfg").false_alarm_prob.mean().rename("fa_benign")
 null_fa = df[df.role == "null"].groupby("cfg").false_alarm_prob.mean().rename("fa_null")

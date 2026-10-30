@@ -2953,7 +2953,9 @@ the finite benchmark. Source limitation: RAO* full text/proof not inspected in t
   `outputs/switching_monotone_promotion_grid_cert_v1/results.json`. Rational dual lower bounds
   and exact recovered-policy upper bounds close for both policy classes in all nine preregistered
   M1–M9 cells; the largest bracket is `7/500000000000`. Reproduce with
-  `uv run python scripts/certify_switching_monotone_promotion_grid.py`.
+  `uv run python scripts/certify_switching_monotone_promotion_grid.py`; replay the saved rational
+  primal policies and dual bounds without optimization using
+  `uv run python scripts/certify_switching_monotone_promotion_grid.py --verify`.
 - This upgrades those finite comparisons from solver evidence to exact optimality brackets, but
   does not change the structural decision. The repository already contains the registered exact
   counterexample in `switching_monotone_restriction_counterexample_v1.md`, where a monotone

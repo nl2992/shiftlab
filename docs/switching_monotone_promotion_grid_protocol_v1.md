@@ -58,7 +58,11 @@ monotone Bayesian control / isotone stochastic games / one-sided sequential test
 is a direct monotone-DP or Neyman–Pearson corollary, stop. No broad synthetic sweep, real-data run,
 or manuscript work follows from this screen alone.
 
-Reproduction command after implementation: `uv run python scripts/screen_switching_monotone_promotion_grid.py`.
+Reproduction commands after implementation:
+`uv run python scripts/screen_switching_monotone_promotion_grid.py`,
+`uv run python scripts/certify_switching_monotone_promotion_grid.py`, and
+`uv run python scripts/certify_switching_monotone_promotion_grid.py --verify` (the last command
+checks the saved rational policy/dual certificates without rerunning the optimizer).
 
 ## Results and updated decision (2026-10-29)
 
@@ -76,6 +80,8 @@ rational primal-dual optimality certificates. That limitation was addressed by
 `scripts/certify_switching_monotone_promotion_grid.py`, which rebuilds both LPs and verifies
 rationalized dual lower bounds and recovered-policy upper bounds using exact `Fraction` arithmetic.
 Reproduction command: `uv run python scripts/certify_switching_monotone_promotion_grid.py`.
+Independent optimization-free verification command:
+`uv run python scripts/certify_switching_monotone_promotion_grid.py --verify`.
 The certificate artifact is
 `outputs/switching_monotone_promotion_grid_cert_v1/results.json`. All 18 primal-dual brackets
 closed to within `1e-7`; every unrestricted recovered event remained monotone, and exact robust

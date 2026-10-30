@@ -1,0 +1,14 @@
+{
+  "frozen_sources_and_reference_verified": true,
+  "sha256": {
+    "scripts/exhaustive_evaluation/test_controller_abandonment.py": "5db1f6ed0db58f98b594ddb8284f55e2454f00c22cf7eb056ac2f0b05a45cdbf",
+    "scripts/exhaustive_evaluation/pilot_controller_synthesis.py": "6f6ae426eab8e3be232d13d9da35f4d2c6668e4eb969102f69e0c6a816e5ef5a",
+    "src/shiftlab/dive/risk_preserving_approx/controller_risk_verifier.py": "65847d92b1283dfdb4b7d9420f95cd69fba2fc28a9b8bedacab4e9438a7f1e73",
+    "src/shiftlab/dive/causal_switching_game.py": "54b1347c3e213407b3feb09a801dc9ea40b3663fe6a4a227b7878b9b0a2d770a",
+    "tests/test_controller_abandonment.py": "2823733df66d3b3c6b901a716a2ba14af96a6c6908ea322f937106c1188bcef8",
+    "docs/exhaustive_evaluation/controller_abandonment_registration.json": "b49e9121862e7b953041752bc2b0f33ab8b62e549a3ed50f65b364977548184f",
+    "docs/exhaustive_evaluation/controller_abandonment_results.json": "c4015c33cc4d1bda1a76c32039d071765e73bc3f95726c9c4e568540103b2b5e",
+    "docs/exhaustive_evaluation/CONTROLLER_ABANDONMENT_REPORT.md": "78e4607dccd5e619acb56654e559bec7420be9298dc52b5c2d38f5a61213eea2",
+    "docs/exhaustive_evaluation/BASELINE_COVERAGE.md": "e89c5b4fd895d0c367797fab11490ade8c56065b2be09313cdd8e3319b5abcb4"
+  }
+}

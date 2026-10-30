@@ -1,0 +1,683 @@
+{
+  "registered_utc": "2026-10-30T17:40:01.210683+00:00",
+  "stage": "mechanism-driven repair on exposed overlap cells, NOT confirmation or novelty",
+  "hypothesis": "abort evaluation after first released zero avoids sunk queries; compare cumulative-positive and streak rules",
+  "controllers": [
+    {
+      "type": "StreakController",
+      "start": 1,
+      "stride": 1,
+      "streak": 1,
+      "special": ""
+    },
+    {
+      "type": "StreakController",
+      "start": 1,
+      "stride": 1,
+      "streak": 2,
+      "special": ""
+    },
+    {
+      "type": "StreakController",
+      "start": 1,
+      "stride": 1,
+      "streak": 3,
+      "special": ""
+    },
+    {
+      "type": "StreakController",
+      "start": 1,
+      "stride": 1,
+      "streak": 4,
+      "special": ""
+    },
+    {
+      "type": "StreakController",
+      "start": 1,
+      "stride": 1,
+      "streak": 5,
+      "special": ""
+    },
+    {
+      "type": "StreakController",
+      "start": 1,
+      "stride": 2,
+      "streak": 1,
+      "special": ""
+    },
+    {
+      "type": "StreakController",
+      "start": 1,
+      "stride": 2,
+      "streak": 2,
+      "special": ""
+    },
+    {
+      "type": "StreakController",
+      "start": 1,
+      "stride": 2,
+      "streak": 3,
+      "special": ""
+    },
+    {
+      "type": "StreakController",
+      "start": 1,
+      "stride": 2,
+      "streak": 4,
+      "special": ""
+    },
+    {
+      "type": "StreakController",
+      "start": 1,
+      "stride": 2,
+      "streak": 5,
+      "special": ""
+    },
+    {
+      "type": "StreakController",
+      "start": 2,
+      "stride": 1,
+      "streak": 1,
+      "special": ""
+    },
+    {
+      "type": "StreakController",
+      "start": 2,
+      "stride": 1,
+      "streak": 2,
+      "special": ""
+    },
+    {
+      "type": "StreakController",
+      "start": 2,
+      "stride": 1,
+      "streak": 3,
+      "special": ""
+    },
+    {
+      "type": "StreakController",
+      "start": 2,
+      "stride": 1,
+      "streak": 4,
+      "special": ""
+    },
+    {
+      "type": "StreakController",
+      "start": 2,
+      "stride": 1,
+      "streak": 5,
+      "special": ""
+    },
+    {
+      "type": "StreakController",
+      "start": 2,
+      "stride": 2,
+      "streak": 1,
+      "special": ""
+    },
+    {
+      "type": "StreakController",
+      "start": 2,
+      "stride": 2,
+      "streak": 2,
+      "special": ""
+    },
+    {
+      "type": "StreakController",
+      "start": 2,
+      "stride": 2,
+      "streak": 3,
+      "special": ""
+    },
+    {
+      "type": "StreakController",
+      "start": 2,
+      "stride": 2,
+      "streak": 4,
+      "special": ""
+    },
+    {
+      "type": "StreakController",
+      "start": 2,
+      "stride": 2,
+      "streak": 5,
+      "special": ""
+    },
+    {
+      "type": "StreakController",
+      "start": 3,
+      "stride": 1,
+      "streak": 1,
+      "special": ""
+    },
+    {
+      "type": "StreakController",
+      "start": 3,
+      "stride": 1,
+      "streak": 2,
+      "special": ""
+    },
+    {
+      "type": "StreakController",
+      "start": 3,
+      "stride": 1,
+      "streak": 3,
+      "special": ""
+    },
+    {
+      "type": "StreakController",
+      "start": 3,
+      "stride": 1,
+      "streak": 4,
+      "special": ""
+    },
+    {
+      "type": "StreakController",
+      "start": 3,
+      "stride": 1,
+      "streak": 5,
+      "special": ""
+    },
+    {
+      "type": "StreakController",
+      "start": 3,
+      "stride": 2,
+      "streak": 1,
+      "special": ""
+    },
+    {
+      "type": "StreakController",
+      "start": 3,
+      "stride": 2,
+      "streak": 2,
+      "special": ""
+    },
+    {
+      "type": "StreakController",
+      "start": 3,
+      "stride": 2,
+      "streak": 3,
+      "special": ""
+    },
+    {
+      "type": "StreakController",
+      "start": 3,
+      "stride": 2,
+      "streak": 4,
+      "special": ""
+    },
+    {
+      "type": "StreakController",
+      "start": 3,
+      "stride": 2,
+      "streak": 5,
+      "special": ""
+    },
+    {
+      "type": "StreakController",
+      "start": 1,
+      "stride": 1,
+      "streak": 1,
+      "special": "never"
+    },
+    {
+      "type": "StreakController",
+      "start": 1,
+      "stride": 1,
+      "streak": 1,
+      "special": "always"
+    },
+    {
+      "type": "EvaluationController",
+      "start": 1,
+      "stride": 1,
+      "threshold": 1,
+      "mode": "abort"
+    },
+    {
+      "type": "EvaluationController",
+      "start": 1,
+      "stride": 1,
+      "threshold": 2,
+      "mode": "abort"
+    },
+    {
+      "type": "EvaluationController",
+      "start": 1,
+      "stride": 1,
+      "threshold": 3,
+      "mode": "abort"
+    },
+    {
+      "type": "EvaluationController",
+      "start": 1,
+      "stride": 1,
+      "threshold": 4,
+      "mode": "abort"
+    },
+    {
+      "type": "EvaluationController",
+      "start": 1,
+      "stride": 1,
+      "threshold": 5,
+      "mode": "abort"
+    },
+    {
+      "type": "EvaluationController",
+      "start": 1,
+      "stride": 2,
+      "threshold": 1,
+      "mode": "abort"
+    },
+    {
+      "type": "EvaluationController",
+      "start": 1,
+      "stride": 2,
+      "threshold": 2,
+      "mode": "abort"
+    },
+    {
+      "type": "EvaluationController",
+      "start": 1,
+      "stride": 2,
+      "threshold": 3,
+      "mode": "abort"
+    },
+    {
+      "type": "EvaluationController",
+      "start": 1,
+      "stride": 2,
+      "threshold": 4,
+      "mode": "abort"
+    },
+    {
+      "type": "EvaluationController",
+      "start": 1,
+      "stride": 2,
+      "threshold": 5,
+      "mode": "abort"
+    },
+    {
+      "type": "EvaluationController",
+      "start": 2,
+      "stride": 1,
+      "threshold": 1,
+      "mode": "abort"
+    },
+    {
+      "type": "EvaluationController",
+      "start": 2,
+      "stride": 1,
+      "threshold": 2,
+      "mode": "abort"
+    },
+    {
+      "type": "EvaluationController",
+      "start": 2,
+      "stride": 1,
+      "threshold": 3,
+      "mode": "abort"
+    },
+    {
+      "type": "EvaluationController",
+      "start": 2,
+      "stride": 1,
+      "threshold": 4,
+      "mode": "abort"
+    },
+    {
+      "type": "EvaluationController",
+      "start": 2,
+      "stride": 1,
+      "threshold": 5,
+      "mode": "abort"
+    },
+    {
+      "type": "EvaluationController",
+      "start": 2,
+      "stride": 2,
+      "threshold": 1,
+      "mode": "abort"
+    },
+    {
+      "type": "EvaluationController",
+      "start": 2,
+      "stride": 2,
+      "threshold": 2,
+      "mode": "abort"
+    },
+    {
+      "type": "EvaluationController",
+      "start": 2,
+      "stride": 2,
+      "threshold": 3,
+      "mode": "abort"
+    },
+    {
+      "type": "EvaluationController",
+      "start": 2,
+      "stride": 2,
+      "threshold": 4,
+      "mode": "abort"
+    },
+    {
+      "type": "EvaluationController",
+      "start": 2,
+      "stride": 2,
+      "threshold": 5,
+      "mode": "abort"
+    },
+    {
+      "type": "EvaluationController",
+      "start": 3,
+      "stride": 1,
+      "threshold": 1,
+      "mode": "abort"
+    },
+    {
+      "type": "EvaluationController",
+      "start": 3,
+      "stride": 1,
+      "threshold": 2,
+      "mode": "abort"
+    },
+    {
+      "type": "EvaluationController",
+      "start": 3,
+      "stride": 1,
+      "threshold": 3,
+      "mode": "abort"
+    },
+    {
+      "type": "EvaluationController",
+      "start": 3,
+      "stride": 1,
+      "threshold": 4,
+      "mode": "abort"
+    },
+    {
+      "type": "EvaluationController",
+      "start": 3,
+      "stride": 1,
+      "threshold": 5,
+      "mode": "abort"
+    },
+    {
+      "type": "EvaluationController",
+      "start": 3,
+      "stride": 2,
+      "threshold": 1,
+      "mode": "abort"
+    },
+    {
+      "type": "EvaluationController",
+      "start": 3,
+      "stride": 2,
+      "threshold": 2,
+      "mode": "abort"
+    },
+    {
+      "type": "EvaluationController",
+      "start": 3,
+      "stride": 2,
+      "threshold": 3,
+      "mode": "abort"
+    },
+    {
+      "type": "EvaluationController",
+      "start": 3,
+      "stride": 2,
+      "threshold": 4,
+      "mode": "abort"
+    },
+    {
+      "type": "EvaluationController",
+      "start": 3,
+      "stride": 2,
+      "threshold": 5,
+      "mode": "abort"
+    },
+    {
+      "type": "EvaluationController",
+      "start": 1,
+      "stride": 1,
+      "threshold": 1,
+      "mode": "count"
+    },
+    {
+      "type": "EvaluationController",
+      "start": 1,
+      "stride": 1,
+      "threshold": 2,
+      "mode": "count"
+    },
+    {
+      "type": "EvaluationController",
+      "start": 1,
+      "stride": 1,
+      "threshold": 3,
+      "mode": "count"
+    },
+    {
+      "type": "EvaluationController",
+      "start": 1,
+      "stride": 1,
+      "threshold": 4,
+      "mode": "count"
+    },
+    {
+      "type": "EvaluationController",
+      "start": 1,
+      "stride": 1,
+      "threshold": 5,
+      "mode": "count"
+    },
+    {
+      "type": "EvaluationController",
+      "start": 1,
+      "stride": 2,
+      "threshold": 1,
+      "mode": "count"
+    },
+    {
+      "type": "EvaluationController",
+      "start": 1,
+      "stride": 2,
+      "threshold": 2,
+      "mode": "count"
+    },
+    {
+      "type": "EvaluationController",
+      "start": 1,
+      "stride": 2,
+      "threshold": 3,
+      "mode": "count"
+    },
+    {
+      "type": "EvaluationController",
+      "start": 1,
+      "stride": 2,
+      "threshold": 4,
+      "mode": "count"
+    },
+    {
+      "type": "EvaluationController",
+      "start": 1,
+      "stride": 2,
+      "threshold": 5,
+      "mode": "count"
+    },
+    {
+      "type": "EvaluationController",
+      "start": 2,
+      "stride": 1,
+      "threshold": 1,
+      "mode": "count"
+    },
+    {
+      "type": "EvaluationController",
+      "start": 2,
+      "stride": 1,
+      "threshold": 2,
+      "mode": "count"
+    },
+    {
+      "type": "EvaluationController",
+      "start": 2,
+      "stride": 1,
+      "threshold": 3,
+      "mode": "count"
+    },
+    {
+      "type": "EvaluationController",
+      "start": 2,
+      "stride": 1,
+      "threshold": 4,
+      "mode": "count"
+    },
+    {
+      "type": "EvaluationController",
+      "start": 2,
+      "stride": 1,
+      "threshold": 5,
+      "mode": "count"
+    },
+    {
+      "type": "EvaluationController",
+      "start": 2,
+      "stride": 2,
+      "threshold": 1,
+      "mode": "count"
+    },
+    {
+      "type": "EvaluationController",
+      "start": 2,
+      "stride": 2,
+      "threshold": 2,
+      "mode": "count"
+    },
+    {
+      "type": "EvaluationController",
+      "start": 2,
+      "stride": 2,
+      "threshold": 3,
+      "mode": "count"
+    },
+    {
+      "type": "EvaluationController",
+      "start": 2,
+      "stride": 2,
+      "threshold": 4,
+      "mode": "count"
+    },
+    {
+      "type": "EvaluationController",
+      "start": 2,
+      "stride": 2,
+      "threshold": 5,
+      "mode": "count"
+    },
+    {
+      "type": "EvaluationController",
+      "start": 3,
+      "stride": 1,
+      "threshold": 1,
+      "mode": "count"
+    },
+    {
+      "type": "EvaluationController",
+      "start": 3,
+      "stride": 1,
+      "threshold": 2,
+      "mode": "count"
+    },
+    {
+      "type": "EvaluationController",
+      "start": 3,
+      "stride": 1,
+      "threshold": 3,
+      "mode": "count"
+    },
+    {
+      "type": "EvaluationController",
+      "start": 3,
+      "stride": 1,
+      "threshold": 4,
+      "mode": "count"
+    },
+    {
+      "type": "EvaluationController",
+      "start": 3,
+      "stride": 1,
+      "threshold": 5,
+      "mode": "count"
+    },
+    {
+      "type": "EvaluationController",
+      "start": 3,
+      "stride": 2,
+      "threshold": 1,
+      "mode": "count"
+    },
+    {
+      "type": "EvaluationController",
+      "start": 3,
+      "stride": 2,
+      "threshold": 2,
+      "mode": "count"
+    },
+    {
+      "type": "EvaluationController",
+      "start": 3,
+      "stride": 2,
+      "threshold": 3,
+      "mode": "count"
+    },
+    {
+      "type": "EvaluationController",
+      "start": 3,
+      "stride": 2,
+      "threshold": 4,
+      "mode": "count"
+    },
+    {
+      "type": "EvaluationController",
+      "start": 3,
+      "stride": 2,
+      "threshold": 5,
+      "mode": "count"
+    }
+  ],
+  "count": 92,
+  "cells": [
+    [
+      4,
+      3,
+      1
+    ],
+    [
+      4,
+      3,
+      2
+    ],
+    [
+      5,
+      4,
+      1
+    ],
+    [
+      5,
+      4,
+      2
+    ]
+  ],
+  "alpha": "1/20",
+  "contract": "same known IID4/5, query1/100,switch1/10; root mixture sufficient-risk bound; full causal null; same delayed clock",
+  "reference_sha256": "9a273b7a633be30f2c9bbcea4a0d62216f3f79b216d1e79b39ee312897e65999",
+  "sources_sha256": {
+    "scripts/exhaustive_evaluation/test_controller_abandonment.py": "5db1f6ed0db58f98b594ddb8284f55e2454f00c22cf7eb056ac2f0b05a45cdbf",
+    "scripts/exhaustive_evaluation/pilot_controller_synthesis.py": "6f6ae426eab8e3be232d13d9da35f4d2c6668e4eb969102f69e0c6a816e5ef5a",
+    "src/shiftlab/dive/risk_preserving_approx/controller_risk_verifier.py": "65847d92b1283dfdb4b7d9420f95cd69fba2fc28a9b8bedacab4e9438a7f1e73",
+    "src/shiftlab/dive/causal_switching_game.py": "54b1347c3e213407b3feb09a801dc9ea40b3663fe6a4a227b7878b9b0a2d770a"
+  }
+}

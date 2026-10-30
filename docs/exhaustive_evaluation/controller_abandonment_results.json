@@ -1,0 +1,505 @@
+{
+  "status": "completed",
+  "rows": [
+    {
+      "cell": [
+        4,
+        3,
+        1
+      ],
+      "contrasts": {
+        "streak": {
+          "cost": "617/200",
+          "risk_upper": "1/20",
+          "difference_vs_verified_reference_policy": "111/5000",
+          "mixture": [
+            {
+              "id": 30,
+              "weight": "19/20",
+              "controller": {
+                "type": "StreakController",
+                "start": 1,
+                "stride": 1,
+                "streak": 1,
+                "special": "never"
+              }
+            },
+            {
+              "id": 31,
+              "weight": "1/20",
+              "controller": {
+                "type": "StreakController",
+                "start": 1,
+                "stride": 1,
+                "streak": 1,
+                "special": "always"
+              }
+            }
+          ]
+        },
+        "streak_plus_abort": {
+          "cost": "7657/2500",
+          "risk_upper": "1/20",
+          "difference_vs_verified_reference_policy": "0",
+          "mixture": [
+            {
+              "id": 30,
+              "weight": "4/5",
+              "controller": {
+                "type": "StreakController",
+                "start": 1,
+                "stride": 1,
+                "streak": 1,
+                "special": "never"
+              }
+            },
+            {
+              "id": 33,
+              "weight": "1/5",
+              "controller": {
+                "type": "EvaluationController",
+                "start": 1,
+                "stride": 1,
+                "threshold": 2,
+                "mode": "abort"
+              }
+            }
+          ]
+        },
+        "streak_plus_count": {
+          "cost": "617/200",
+          "risk_upper": "1/20",
+          "difference_vs_verified_reference_policy": "111/5000",
+          "mixture": [
+            {
+              "id": 30,
+              "weight": "19/20",
+              "controller": {
+                "type": "StreakController",
+                "start": 1,
+                "stride": 1,
+                "streak": 1,
+                "special": "never"
+              }
+            },
+            {
+              "id": 31,
+              "weight": "1/20",
+              "controller": {
+                "type": "StreakController",
+                "start": 1,
+                "stride": 1,
+                "streak": 1,
+                "special": "always"
+              }
+            }
+          ]
+        },
+        "all": {
+          "cost": "7657/2500",
+          "risk_upper": "1/20",
+          "difference_vs_verified_reference_policy": "0",
+          "mixture": [
+            {
+              "id": 30,
+              "weight": "4/5",
+              "controller": {
+                "type": "StreakController",
+                "start": 1,
+                "stride": 1,
+                "streak": 1,
+                "special": "never"
+              }
+            },
+            {
+              "id": 33,
+              "weight": "1/5",
+              "controller": {
+                "type": "EvaluationController",
+                "start": 1,
+                "stride": 1,
+                "threshold": 2,
+                "mode": "abort"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "cell": [
+        4,
+        3,
+        2
+      ],
+      "contrasts": {
+        "streak": {
+          "cost": "617/200",
+          "risk_upper": "1/20",
+          "difference_vs_verified_reference_policy": "0",
+          "mixture": [
+            {
+              "id": 30,
+              "weight": "19/20",
+              "controller": {
+                "type": "StreakController",
+                "start": 1,
+                "stride": 1,
+                "streak": 1,
+                "special": "never"
+              }
+            },
+            {
+              "id": 31,
+              "weight": "1/20",
+              "controller": {
+                "type": "StreakController",
+                "start": 1,
+                "stride": 1,
+                "streak": 1,
+                "special": "always"
+              }
+            }
+          ]
+        },
+        "streak_plus_abort": {
+          "cost": "617/200",
+          "risk_upper": "1/20",
+          "difference_vs_verified_reference_policy": "0",
+          "mixture": [
+            {
+              "id": 30,
+              "weight": "19/20",
+              "controller": {
+                "type": "StreakController",
+                "start": 1,
+                "stride": 1,
+                "streak": 1,
+                "special": "never"
+              }
+            },
+            {
+              "id": 31,
+              "weight": "1/20",
+              "controller": {
+                "type": "StreakController",
+                "start": 1,
+                "stride": 1,
+                "streak": 1,
+                "special": "always"
+              }
+            }
+          ]
+        },
+        "streak_plus_count": {
+          "cost": "617/200",
+          "risk_upper": "1/20",
+          "difference_vs_verified_reference_policy": "0",
+          "mixture": [
+            {
+              "id": 30,
+              "weight": "19/20",
+              "controller": {
+                "type": "StreakController",
+                "start": 1,
+                "stride": 1,
+                "streak": 1,
+                "special": "never"
+              }
+            },
+            {
+              "id": 31,
+              "weight": "1/20",
+              "controller": {
+                "type": "StreakController",
+                "start": 1,
+                "stride": 1,
+                "streak": 1,
+                "special": "always"
+              }
+            }
+          ]
+        },
+        "all": {
+          "cost": "617/200",
+          "risk_upper": "1/20",
+          "difference_vs_verified_reference_policy": "0",
+          "mixture": [
+            {
+              "id": 30,
+              "weight": "19/20",
+              "controller": {
+                "type": "StreakController",
+                "start": 1,
+                "stride": 1,
+                "streak": 1,
+                "special": "never"
+              }
+            },
+            {
+              "id": 31,
+              "weight": "1/20",
+              "controller": {
+                "type": "StreakController",
+                "start": 1,
+                "stride": 1,
+                "streak": 1,
+                "special": "always"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "cell": [
+        5,
+        4,
+        1
+      ],
+      "contrasts": {
+        "streak": {
+          "cost": "180256/46875",
+          "risk_upper": "1/20",
+          "difference_vs_verified_reference_policy": "5717/93750",
+          "mixture": [
+            {
+              "id": 30,
+              "weight": "11/15",
+              "controller": {
+                "type": "StreakController",
+                "start": 1,
+                "stride": 1,
+                "streak": 1,
+                "special": "never"
+              }
+            },
+            {
+              "id": 2,
+              "weight": "4/15",
+              "controller": {
+                "type": "StreakController",
+                "start": 1,
+                "stride": 1,
+                "streak": 3,
+                "special": ""
+              }
+            }
+          ]
+        },
+        "streak_plus_abort": {
+          "cost": "23653/6250",
+          "risk_upper": "1/20",
+          "difference_vs_verified_reference_policy": "0",
+          "mixture": [
+            {
+              "id": 30,
+              "weight": "3/5",
+              "controller": {
+                "type": "StreakController",
+                "start": 1,
+                "stride": 1,
+                "streak": 1,
+                "special": "never"
+              }
+            },
+            {
+              "id": 34,
+              "weight": "2/5",
+              "controller": {
+                "type": "EvaluationController",
+                "start": 1,
+                "stride": 1,
+                "threshold": 3,
+                "mode": "abort"
+              }
+            }
+          ]
+        },
+        "streak_plus_count": {
+          "cost": "180256/46875",
+          "risk_upper": "1/20",
+          "difference_vs_verified_reference_policy": "5717/93750",
+          "mixture": [
+            {
+              "id": 30,
+              "weight": "11/15",
+              "controller": {
+                "type": "StreakController",
+                "start": 1,
+                "stride": 1,
+                "streak": 1,
+                "special": "never"
+              }
+            },
+            {
+              "id": 2,
+              "weight": "4/15",
+              "controller": {
+                "type": "StreakController",
+                "start": 1,
+                "stride": 1,
+                "streak": 3,
+                "special": ""
+              }
+            }
+          ]
+        },
+        "all": {
+          "cost": "23653/6250",
+          "risk_upper": "1/20",
+          "difference_vs_verified_reference_policy": "0",
+          "mixture": [
+            {
+              "id": 30,
+              "weight": "3/5",
+              "controller": {
+                "type": "StreakController",
+                "start": 1,
+                "stride": 1,
+                "streak": 1,
+                "special": "never"
+              }
+            },
+            {
+              "id": 34,
+              "weight": "2/5",
+              "controller": {
+                "type": "EvaluationController",
+                "start": 1,
+                "stride": 1,
+                "threshold": 3,
+                "mode": "abort"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "cell": [
+        5,
+        4,
+        2
+      ],
+      "contrasts": {
+        "streak": {
+          "cost": "771/200",
+          "risk_upper": "1/20",
+          "difference_vs_verified_reference_policy": "0",
+          "mixture": [
+            {
+              "id": 30,
+              "weight": "19/20",
+              "controller": {
+                "type": "StreakController",
+                "start": 1,
+                "stride": 1,
+                "streak": 1,
+                "special": "never"
+              }
+            },
+            {
+              "id": 31,
+              "weight": "1/20",
+              "controller": {
+                "type": "StreakController",
+                "start": 1,
+                "stride": 1,
+                "streak": 1,
+                "special": "always"
+              }
+            }
+          ]
+        },
+        "streak_plus_abort": {
+          "cost": "771/200",
+          "risk_upper": "1/20",
+          "difference_vs_verified_reference_policy": "0",
+          "mixture": [
+            {
+              "id": 30,
+              "weight": "19/20",
+              "controller": {
+                "type": "StreakController",
+                "start": 1,
+                "stride": 1,
+                "streak": 1,
+                "special": "never"
+              }
+            },
+            {
+              "id": 31,
+              "weight": "1/20",
+              "controller": {
+                "type": "StreakController",
+                "start": 1,
+                "stride": 1,
+                "streak": 1,
+                "special": "always"
+              }
+            }
+          ]
+        },
+        "streak_plus_count": {
+          "cost": "771/200",
+          "risk_upper": "1/20",
+          "difference_vs_verified_reference_policy": "0",
+          "mixture": [
+            {
+              "id": 30,
+              "weight": "19/20",
+              "controller": {
+                "type": "StreakController",
+                "start": 1,
+                "stride": 1,
+                "streak": 1,
+                "special": "never"
+              }
+            },
+            {
+              "id": 31,
+              "weight": "1/20",
+              "controller": {
+                "type": "StreakController",
+                "start": 1,
+                "stride": 1,
+                "streak": 1,
+                "special": "always"
+              }
+            }
+          ]
+        },
+        "all": {
+          "cost": "771/200",
+          "risk_upper": "1/20",
+          "difference_vs_verified_reference_policy": "0",
+          "mixture": [
+            {
+              "id": 30,
+              "weight": "19/20",
+              "controller": {
+                "type": "StreakController",
+                "start": 1,
+                "stride": 1,
+                "streak": 1,
+                "special": "never"
+              }
+            },
+            {
+              "id": 31,
+              "weight": "1/20",
+              "controller": {
+                "type": "StreakController",
+                "start": 1,
+                "stride": 1,
+                "streak": 1,
+                "special": "always"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

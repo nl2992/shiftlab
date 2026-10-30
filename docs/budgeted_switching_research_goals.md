@@ -2690,3 +2690,22 @@ the finite benchmark. Source limitation: RAO* full text/proof not inspected in t
   matched sequential-control comparator. Efficacy and real-data gates stay held; revise/stop the
   hypothesis if subsequent work yields only generic state augmentation. Current-regime forecasts
   and statistical evidence remain separate under the existing contract.
+
+### G1 source audit 2026-10-29: three named adjacent works
+
+- Completed primary-source reads of The Challenger (including Theorem 6.2 and OSE/LSEc schedules),
+  Drift2Act (including the window-risk certificate theorem and delayed budget protocol), and
+  Lindon–Kallus (including the delayed-outcome filtration and asymptotic confidence-sequence
+  theorems). Their theorem boundaries and source hashes are recorded in
+  `switching_three_named_works_source_audit_v1.md`.
+- The Challenger makes economic acquisition plus sequential one-way model switching a mandatory
+  comparator; its regret theorem assumes a single challenger/learning-curve problem and a
+  sufficiently accurate incremental-value switching rule. Drift2Act closes generic delayed,
+  budgeted random audits plus anytime risk gating, under uniform within-window sampling; its
+  controller has no switching regret theorem. Lindon–Kallus establish design-based asymptotic
+  confidence sequences for randomized experiments with staggered delayed outcomes, not active
+  label acquisition or switching.
+- None supplies the exact two-law global causal-null contract, and no method follows by merely
+  composing them. G1 remains open for a structural algorithm/theorem beyond these required
+  comparators and the exact oracle; G2–G5 remain held. Keep historical test evidence separate from
+  current-regime value after reversal.

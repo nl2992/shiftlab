@@ -74,3 +74,18 @@ Next checkpoint: assemble Q1/Q2/Q3 baseline and candidate adapters, implement th
 remaining scenario/parameter coverage, freeze the substantive staged-screen
 protocol and execute the requested controlled algorithm search. Full-archive
 failure synthesis, targeted repair and independent confirmation remain mandatory.
+
+## Core adapter implementation checkpoint
+
+Added streaming PPE/direct, fixed-start mixtures, reliability-gated proxies,
+block PPRM/reliance, CUSUM and cost-aware switching controls. Source calibration
+and public feedback are the only learner inputs. Added variance, robust-mixture,
+growth-surrogate, mixed and paced query rules with a global PPE positivity floor.
+Nineteen focused adapter tests passed. No candidate-search experiment has been
+launched and no performance or validity claim follows from these tests.
+
+ADAPTER_CONTRACT_V1.md records unresolved PPRM random-block/cap-truncation and
+source-reference dependence obligations. Those must be resolved or explicitly
+excluded from claims before substantive registered evaluation. Next work is the
+evaluator metric/trajectory runner and staged search preregistration, with matched
+information, source-label costs and independently calibrated operating points.

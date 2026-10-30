@@ -4,6 +4,27 @@
 Original repo source audits remain unchanged. Read primary passages listed below;
 absence of an identical statement does not prove a result novel.
 
+## 2026-10-30 source update: finite-window constrained POMDPs
+
+Zaccaria et al., [*Finite-Time Guarantees for Constrained Reinforcement
+Learning under Partial Observability*](https://arxiv.org/abs/2610.21548), arXiv
+v1 submitted 2026-10-15, is relevant to Candidate A's finite-window mechanism.
+It gives policy-transfer and constrained-value bounds for an infinite-horizon
+discounted single-controller CPOMDP under uniform filter stability and a Slater
+condition, then finite-time average primal-dual bounds. Its history-window CMDP
+has tabular size exponential in the window length. The constraint is expected
+discounted cost under one model, and its average iterate guarantee is not a
+per-policy worst-case chance constraint.
+
+It does not directly transfer to ShiftLab's separate full-history causal null.
+Alternative-HMM filter stability controls alternative cost approximation but
+does not control null responses that depend on old public transcripts and
+pending outcomes. The response-quotient lower bound in
+`CANDIDATE_C_RESPONSE_QUOTIENT_LOWER_BOUND_V1.md` is an explicit obstacle to a
+generic finite-window response state. Candidate A2 audit:
+`CANDIDATE_A2_FINITE_WINDOW_CPOMDP_AUDIT_V1.md`. Status: related prior art;
+exact joint risk/value reduction absent, no novelty established.
+
 | Source and inspected scope | Shared structure | Difference / remaining reduction | Status |
 | --- | --- | --- | --- |
 | [Kara and Yüksel, JMLR 2022](https://jmlr.org/papers/volume23/20-1152/20-1152.pdf), Theorems 16–17 and surrounding assumptions | Finite-memory approximation and explicit near-optimality bounds for known-model POMDPs | Discounted single-model objective and filter stability do not directly bound a separate causal-null worst-case event. Need prove whether an augmented hidden-root game plus constraint recovery transfers the claimed joint error/rate. | UNRESOLVED — EXACT REDUCTION REQUIRED |

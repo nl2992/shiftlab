@@ -2725,3 +2725,19 @@ the finite benchmark. Source limitation: RAO* full text/proof not inspected in t
   value of requesting labels for future net switching decisions under the same hard label budget,
   delay, switching costs and causal-risk contract. Simply adapting its score or adding a safe test
   does not pass G1. G2–G5 remain held; evidence and present-regime forecast stay separate.
+
+### G1 exact order-sensitive acquisition separation 2026-10-29
+
+- Constructed and rationally checked a `T=6`, `d=1`, `B=4` two-state-HMM example with global
+  causal-null `alpha=1/20`, query cost `1/1000`, switch cost `13/20`, and promotion randomization
+  that attains exact worst-null risk `1/20`. Histories `101` and `011` have the same observed-loss
+  multiset and current score, but different HMM posterior beliefs (`54/65` vs. `33/35`). The
+  conditional safe decision is to query after `101` and switch immediately without querying after
+  `011`; exact values and scope are recorded in
+  `switching_order_sensitive_acquisition_separation_v1.md`.
+- This separates from acquisition gates based only on current loss and an order-insensitive score
+  quantile. It does not separate from Bayesian VOI/POMDP planning or the full sequence-form oracle,
+  so it does not pass G1. The next test is to compare an order-sensitive economic-value query score
+  against the exact oracle on a growing, predeclared family and determine whether a nontrivial bound
+  exists beyond standard constrained planning. G2–G5 remain held; this constructed example is not an
+  efficacy study.

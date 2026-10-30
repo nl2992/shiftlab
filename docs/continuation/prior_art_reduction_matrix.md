@@ -32,3 +32,20 @@ Re-verification route: LaTeX source `https://arxiv.org/src/<id>` or PMLR PDF. No
 - Item 3 baselines: supervised PR confidence sequence handles bounded costs as published (adapt, `FAITHFUL_ADAPTATION`); PPRM-style semi-supervised version is `SOURCE_INSPIRED` until Thm 3.2 / eta_t rule / q(lambda) are verified from LaTeX source.
 - Next verification step: fetch `arxiv.org/src/2602.02229` and `2607.17409` (host open) to settle the unresolved cells; locate active-RCPS ID via search.
 - NYC-taxi real data: `BLOCKED_EXTERNAL_ACCESS` (403 on CloudFront).
+
+## Addendum 1 (iteration 1): verification from LaTeX sources
+Sources: `arxiv.org/src/2602.02229` (formal_paper.tex) and `arxiv.org/src/2607.17409` (arXiv_v0.tex), read directly.
+
+**PPRM (verified verbatim):**
+- Thm "Type-I Error Guarantee of PPRM": for any predictable {eta_t}, P_H0(exists t: Phi_t^PP=1) <= delta_S + delta_T. Proof is one sentence: unbiasedness (Lemma, predictable eta_t) plus the SRM lemma. Estimand is the running mean of risks.
+- Lower sequence: CM-EB conjugate mixture (Howard et al.) with V_t^PP = sum (R^PP_t' - Rbar^PP_{t'-1})^2. Source bound U_0^PP via the betting method of Einbinder et al. 2025.
+- Not present anywhere in the tex: Kelly, discounting, importance weighting by labelling probability, delay model, or a second statistic choosing a bet (grep). eta_t is chosen by a variance-minimising plug-in on a sliding window.
+- Consequence: the "second statistic's history chooses the bet" cell for PPRM moves from unresolved to **not present**. PPRM verdict stays **composition** relative to H2c (PP increment known; Q/q IPW, Kelly, Brier guidance not in PPRM).
+- Observation (not verified further): PPRM's proof asserts unbiasedness of the running average suffices for the CM-EB bound; whether the conditional-mean structure needed by the sub-exponential CS holds when eta_t is data-dependent is **not checked here**. I cannot confirm this.
+
+**Hsu & Shekhar (verbatim):**
+- Uses Kelly / log-growth explicitly for querying (line "also known as the Kelly criterion") and for bets; predictable plug-in r_t = p^_{t-1} is stated to keep the e-value guarantees (Prop. validity proofs only need F_{t-1}-measurable r_t). This **contradicts** the earlier tool summary that called the plug-in CS "not valid"; the heuristic part is the grid-based CS set, not the e-values.
+- Still no drift monitoring, tolerance term, discount, or Brier-guided bet.
+- Verdict unchanged: **known** for AIPW + predictable + growth-optimal betting engine.
+
+**Still unresolved:** Betting on Predictions (2605.28533, source not yet pulled), Podkopaev-Ramdas appendices, active RCPS (ID not located), Einbinder et al. 2025 (source bound, cited by PPRM).

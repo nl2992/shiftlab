@@ -84,10 +84,14 @@ def label_mask(sim, frac, seed):
 _SOURCE_CACHE: dict = {}
 
 
+def _family(sim):
+    return sim["world"].family
+
+
 def source_moments(kind: str):
     """Nominal (source) mean/std of decision cost and Brier loss, from a large independent source stream."""
     if kind not in _SOURCE_CACHE:
-        s = g.simulate(g.World(T=4000), 100, 999)
+        s = g.simulate(g.World(T=4000, family=kind), 100, 999)
         _SOURCE_CACHE[kind] = {
             k: (float(s[k].mean()), float(s[k].std())) for k in ("loss", "brier")
         }
@@ -172,7 +176,7 @@ def _labeled_obs(sim, frac, delay, lseed, key="loss"):
 
 def cusum(sim, frac=0.1, delay=5, lseed=0, slack=0.5, **_):
     obs, avail = _labeled_obs(sim, frac, delay, lseed)
-    mu, sd = source_moments("c")["loss"]
+    mu, sd = source_moments(_family(sim))["loss"]
     S, T = obs.shape
     st, out = np.zeros(S), np.zeros((S, T))
     for t in range(T):
@@ -183,7 +187,7 @@ def cusum(sim, frac=0.1, delay=5, lseed=0, slack=0.5, **_):
 
 def page_hinkley(sim, frac=0.1, delay=5, lseed=0, delta=0.1, **_):
     obs, avail = _labeled_obs(sim, frac, delay, lseed)
-    mu, sd = source_moments("c")["loss"]
+    mu, sd = source_moments(_family(sim))["loss"]
     S, T = obs.shape
     m, mmin, out = np.zeros(S), np.zeros(S), np.zeros((S, T))
     for t in range(T):
@@ -196,7 +200,7 @@ def page_hinkley(sim, frac=0.1, delay=5, lseed=0, delta=0.1, **_):
 
 def twowin(sim, frac=0.1, delay=5, lseed=0, w=60, **_):
     obs, avail = _labeled_obs(sim, frac, delay, lseed)
-    mu, sd = source_moments("c")["loss"]
+    mu, sd = source_moments(_family(sim))["loss"]
     cs, cn = np.cumsum(obs, 1), np.cumsum(avail, 1)
     T = obs.shape[1]
     # mean of the labels seen in the last 'recent' samples is approximated by a fixed time window of length w/frac
@@ -216,7 +220,7 @@ def hoeffding_width(n, bound):
 
 def pr_cs(sim, frac=0.1, delay=5, lseed=0, tol=0.0, **_):
     obs, avail = _labeled_obs(sim, frac, delay, lseed)
-    mu, _ = source_moments("c")["loss"]
+    mu, _ = source_moments(_family(sim))["loss"]
     n = np.cumsum(avail, 1)
     mean = np.cumsum(obs, 1) / np.maximum(n, 1)
     stat = mean - mu - tol - hoeffding_width(n, g.FN_COST)
@@ -233,7 +237,7 @@ def _pp_increment(sim, q_mask, q, risk):
     else:
         proxy = p * (1 - p)
         r, bound_m = sim["brier"], 1.0
-    r0 = source_moments("c")["loss" if risk == "cost" else "brier"][0]
+    r0 = source_moments(_family(sim))["loss" if risk == "cost" else "brier"][0]
     x = proxy + (q_mask / q) * (r - proxy) - r0
     return x, bound_m
 
@@ -249,7 +253,7 @@ def _pp_parts(sim, frac, lseed, risk, q, mask, tol):
         r, m = sim["loss"], g.FN_COST
     else:
         proxy, r, m = p * (1 - p), sim["brier"], 1.0
-    r0 = source_moments("c")["loss" if risk == "cost" else "brier"][0]
+    r0 = source_moments(_family(sim))["loss" if risk == "cost" else "brier"][0]
     x = proxy + (qm / qv) * (r - proxy) - r0 - tol
     loose = m * (2.0 / qv - 1.0) + m  # symmetric worst-case range (initial implementation)
     # one-sided exact minimum of the increment: label queried with zero loss (R=0), predictable from proxy and q
@@ -333,9 +337,9 @@ def boundary_weight(p, h, floor):
 
 
 def _boundary_q(sim, frac, h, floor):
-    key = (h, floor)
+    key = (h, floor, _family(sim))
     if key not in _W_BAR:
-        src = g.simulate(g.World(T=4000), 50, 31337)
+        src = g.simulate(g.World(T=4000, family=_family(sim)), 50, 31337)
         _W_BAR[key] = float(boundary_weight(src["p"], h, floor).mean())
     return np.clip(frac * boundary_weight(sim["p"], h, floor) / _W_BAR[key], 0.02, 1.0)
 

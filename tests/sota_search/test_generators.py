@@ -43,3 +43,12 @@ def test_registry_is_append_only_and_validates(tmp_path):
         except (KeyError, ValueError):
             continue
         raise AssertionError("schema not enforced")
+
+
+def test_g2_misspecification_makes_a_nuisance_shift_harmful_and_changes_the_source():
+    _, _, _, h1 = g.population_effects("cov_benign", 3.0, "G1")
+    _, _, _, h2 = g.population_effects("cov_benign", 3.0, "G2")
+    assert abs(h1[-1]) < 0.02 and h2[-1] > g.HARM_THRESHOLD
+    c1 = g.simulate(g.World(T=2000), 50, 1)["loss"].mean()
+    c2 = g.simulate(g.World(T=2000, family="G2"), 50, 1)["loss"].mean()
+    assert c2 > c1 + 0.03

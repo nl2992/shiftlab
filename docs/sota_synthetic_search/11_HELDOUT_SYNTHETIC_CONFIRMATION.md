@@ -35,3 +35,13 @@ Per-world harm power, `HG_brier` vs `pprm_tight`: 10% labels: abrupt δ=1.2 0.18
 
 ### Limits of this part
 Only three harm worlds; same generator family, different parameters; the +0.053 gain at 10% labels sits at the registered +0.05 boundary; intervals not computed here (see the paired analysis planned in part 3). Part 2 (a different generator family) follows.
+
+## Part 2: held-out generator family G2 (frozen before running)
+
+**G2:** the true boundary adds a nonlinear term `0.8·x₀x₁ − 0.5·(x₂² − 1)` (zero mean under the source) that the **linear deployed model cannot represent**, so the model-implied risk proxy is biased even before any shift. Same shift kinds, ground-truth effect curves recomputed per family. Nominal source risks, calibration scores and the boundary-sampling normalizer are family-specific.
+
+**Finding about the generator that changes roles:** in G2 the "nuisance" `cov_benign` shift (mean of dimension 2) is **harmful** (decision harm +0.225 at δ=3) because it moves the curvature term. Roles are assigned from ground truth, so it is scored as a harm world.
+
+**Pool** (`harness.heldout_g2_pool()`): concept abrupt δ=2, concept gradual δ=3, concept recurrent δ=2, `cov_benign` abrupt δ=3 (harmful here); `cov_inform` abrupt δ=1 and gradual δ=2 (decision cost falls), `prior` abrupt δ=1, `subgroup` abrupt δ=4 (harm 0.046, below threshold), null. 400 seeds, seed block 7000, label seed block 7500. Null-stream calibration of Page–Hinkley and CUSUM uses a G2 null stream.
+
+**Rule:** identical to the frozen file (`frozen_finalists_v1.json`); the finalists are NOT re-tuned. `watch` is not run (its calibration scores are G1-specific).

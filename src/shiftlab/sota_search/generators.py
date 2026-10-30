@@ -81,10 +81,17 @@ class World:
         return f"{self.family}|{self.kind}|{self.delta:g}|{self.shape}|{self.t0}"
 
 
-def _sample(rng, n: int, kind: str, delta: float, m: float):
+def nonlinear_term(x):
+    """G2: interaction and curvature the linear deployed model cannot represent (zero mean under the source)."""
+    return 0.8 * x[..., 0] * x[..., 1] - 0.5 * (x[..., 2] ** 2 - 1.0)
+
+
+def _sample(rng, n: int, kind: str, delta: float, m: float, family: str = "G1"):
     dmu, dw, db, dsub = _delta_terms(kind, delta)
     x = rng.standard_normal((n, D)) + m * dmu
     logit = x @ (W_SRC + m * dw) + B_SRC + m * db + m * dsub * (x[:, 2] > 1.0)
+    if family == "G2":
+        logit = logit + nonlinear_term(x)
     return x, (rng.random(n) < sigmoid(logit)).astype(np.int8)
 
 
@@ -102,18 +109,18 @@ def _rbf_mmd2(a, b, gamma):
 
 
 @lru_cache(maxsize=256)
-def population_effects(kind: str, delta: float, n: int = 40_000):
+def population_effects(kind: str, delta: float, family: str = "G1", n: int = 40_000):
     """Evaluator-only effect curves over shift strength m in [0, 1]: (m_grid, disc, pred, harm)."""
     grid = np.linspace(0.0, 1.0, 11)
     rng = np.random.default_rng(12345)
-    xs, ys = _sample(rng, n, "none", 0.0, 0.0)
+    xs, ys = _sample(rng, n, "none", 0.0, 0.0, family)
     ps = sigmoid(xs @ W_SRC + B_SRC)
     cost_src = decision_cost((ps >= TAU).astype(float), ys).mean()
     brier_src = ((ps - ys) ** 2).mean()
     ref = np.c_[xs[:1500], ys[:1500]]
     disc, pred, harm = [], [], []
     for m in grid:
-        x, y = _sample(np.random.default_rng(777), n, kind, delta, float(m))
+        x, y = _sample(np.random.default_rng(777), n, kind, delta, float(m), family)
         p = sigmoid(x @ W_SRC + B_SRC)
         harm.append(decision_cost((p >= TAU).astype(float), y).mean() - cost_src)
         pred.append(((p - y) ** 2).mean() - brier_src)
@@ -125,7 +132,7 @@ def population_effects(kind: str, delta: float, n: int = 40_000):
 def truth(world: World):
     """Per-step ground truth arrays (discrepancy, predictive deterioration, decision harm, harmful flag)."""
     m = schedule(world.shape, world.T, world.t0, world.ramp, world.length, world.period)
-    grid, disc, pred, harm = population_effects(world.kind, world.delta)
+    grid, disc, pred, harm = population_effects(world.kind, world.delta, world.family)
     d_t, p_t, h_t = np.interp(m, grid, disc), np.interp(m, grid, pred), np.interp(m, grid, harm)
     return {
         "m": m,
@@ -145,6 +152,8 @@ def simulate(world: World, n_seeds: int, seed: int):
     x = rng.standard_normal((n_seeds, T, D)) + m[None, :, None] * dmu
     w = W_SRC[None, None, :] + m[None, :, None] * dw
     logit = (x * w).sum(-1) + B_SRC + m * db + m * dsub * (x[:, :, 2] > 1.0)
+    if world.family == "G2":
+        logit = logit + nonlinear_term(x)
     y = (rng.random((n_seeds, T)) < sigmoid(logit)).astype(np.int8)
     p = sigmoid(x @ W_SRC + B_SRC)
     act = (p >= TAU).astype(float)

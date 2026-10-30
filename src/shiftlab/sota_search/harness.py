@@ -43,6 +43,22 @@ def heldout_pool() -> list[g.World]:
     ]
 
 
+def heldout_g2_pool() -> list[g.World]:
+    """Second generator family (nonlinear truth, misspecified linear deployed model). Frozen before running."""
+    fam = {"family": "G2"}
+    return [
+        g.World(kind="concept", delta=2.0, shape="abrupt", t0=700, **fam),
+        g.World(kind="concept", delta=3.0, shape="gradual", t0=600, ramp=300, **fam),
+        g.World(kind="concept", delta=2.0, shape="recurrent", t0=500, period=500, **fam),
+        g.World(kind="cov_benign", delta=3.0, shape="abrupt", t0=700, **fam),
+        g.World(kind="cov_inform", delta=1.0, shape="abrupt", t0=700, **fam),
+        g.World(kind="cov_inform", delta=2.0, shape="gradual", t0=600, ramp=300, **fam),
+        g.World(kind="prior", delta=1.0, shape="abrupt", t0=700, **fam),
+        g.World(kind="subgroup", delta=4.0, shape="abrupt", t0=700, **fam),
+        g.World(kind="none", **fam),
+    ]
+
+
 def role(world: g.World) -> str:
     tr = g.truth(world)
     if world.kind == "none":

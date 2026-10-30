@@ -3028,6 +3028,11 @@ the finite benchmark. Source limitation: RAO* full text/proof not inspected in t
   dynamics but no recurrent HMM, delay, or hard query cap; `CausalSwitchingGame` supplies recurrent
   HMM, delayed acquisition, and robust promotion risk but its outcome law is action-independent.
   Gluing them would define a new synthetic task, not validate the intended joint finance contract.
+- Specified a finite controlled-HMM likelihood confidence-set gate as a safety comparator in
+  `switching_controlled_hmm_cs_baseline_v1.md`. The model-conditional any-false-promotion bound
+  follows standard Ville containment after correctly marginalizing pending/unqueried outcomes and
+  action-dependent state transitions. This is not novel and does not solve acquisition regret; the
+  gated constrained planner is now an explicit baseline obligation for any candidate.
 - Exact task contract, estimand, risk event, source boundary, comparators, and data gate are in
   `g1_intersection_task_contract_screen_v1.md`. Next: reopen F1 only with an authorized
   randomized execution/intervention log meeting that contract, or explicitly scope a

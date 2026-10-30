@@ -474,3 +474,76 @@ this is a finite form of established max-justification, not a novelty claim.
 The run checks every solved LP constraint and the full discounted two-stage
 security value. The ShiftLab finite-horizon conversion, transformed numerical
 error, multiplier recovery, and end-to-end baseline advantage remain open.
+
+## Immediate execution plan: Candidate D T=2 compiler gate (2026-10-29)
+
+This is the next bounded task under the mission above; it does not change the
+research objective or authorize an overnight run. Work only in the isolated
+research worktree and preserve the frozen T=2 protocol and all failed outputs.
+
+1. **Confirm the starting state.** Record branch, commit, modified/untracked
+   files, pinned Julia package commit, and whether any prior solver process is
+   still running. Do not restart or overwrite an active run.
+2. **Validate the compiled game.** Parse the already compiled T=2 OS-POSG with
+   the pinned upstream Julia package. Capture stdout/stderr and exit status to a
+   fresh ignored run directory. Check parser counts and the exact model hash
+   against `CANDIDATE_D_OSPOSG_CONVERSION_T2_PROTOCOL_V1.md`.
+3. **Run the frozen comparison once.** Solve the compiled game under the
+   registered 30-second limit and compare its root interval to the independent
+   scalarized sequence-form LP value. Pass only if the LP is optimal, the
+   interval contains that value, and the interval width is at most `1e-4`.
+   Preserve timing, tolerances, solver output and generated model unchanged.
+4. **Stop or diagnose without moving the gate.** A parser/model mismatch,
+   timeout, non-containing interval or excess width is a recorded no-go for
+   this registered conversion. Preserve it first; any debugging changes must be
+   versioned separately and cannot alter the frozen result or threshold.
+5. **If T=2 passes, audit the remaining theorem steps.** Prove/verify reward
+   scaling under discounting, hidden-root scalarization, bounded-payoff error,
+   multiplier search and risk-bracket recovery, including exact endpoint risk
+   certificates. Compare total computation, including extraction and exact
+   verification, with both decomposed and full exact oracles where available.
+6. **Only then prepare a ShiftLab pilot.** Register one small exact-solvable
+   instance before running HSVI on it; preregister any single stress instance
+   separately. Include independent policy reconstruction and all delayed-label,
+   query-budget, null-information and post-promotion continuation invariants.
+   Proceed only if a mathematically justified risk/value guarantee survives and
+   end-to-end resources can plausibly beat the strongest matched baseline.
+7. **Reassess the research gates in order.** G1 novelty delta, G2 mechanism and
+   theory, then G3 matched synthetic utility. Candidate D currently has no
+   identified novelty delta and remains an established-algorithm baseline
+   unless new mathematics or a defensible computational mechanism appears.
+   Keep real-data and reserved holdouts closed until all gates pass and the
+   particular data source has a separate provenance/eligibility audit.
+
+At every completed checkpoint, append results and decision to
+`RESEARCH_LEDGER.md`, hash new outputs, run only relevant checks, and commit the
+checkpoint on this branch. The active converter protocol is
+`CANDIDATE_D_OSPOSG_CONVERSION_T2_PROTOCOL_V1.md`; its outputs belong under
+`.aris/runs/candidate_d_osposg_conversion_t2/`. Verify Ponytail, HKUSTDial and
+ARIS availability and their installed instructions before describing any of
+them as part of the execution workflow. No scheduled automation, remote run,
+notification, real-data access or merge is implied by this plan.
+
+## Candidate D T=2 compiler checkpoint (2026-10-29)
+
+The frozen v1 conversion test failed because its serializer omitted an explicit
+zero reward required by the pinned package; preserve that v1 NO-GO and its model.
+A separately registered v2 compiler now passes independent structural checks
+for all 101 legal state/action triples. HSVI reports the exact scalarized
+sequence-LP value `-1.0` with zero interval width after 18.16 seconds. The Julia
+harness exited after convergence because its final print expression used
+unexported helper names; this post-solve reporting defect is retained and the
+captured final solver row establishes the v2 interval. See the v1/v2 protocol
+and result records for hashes and limitations.
+
+**Next gate:** do not expand to T=6 yet. First close the model-level theory and
+output gap: prove the finite-game reward scaling and error correspondence for
+the actual `gamma=0.9`, inspect whether the upstream Recorder's stored bounds
+are sufficient to recover the required strategy gadget, and map a certified
+multiplier bracket to exact worst-case risks without using the exact oracle to
+select policies. If strategy extraction, endpoint certification, and the full
+policy evaluator cannot be independently implemented, stop Candidate D as an
+established value-computation baseline. If they can, preregister one exact-
+solvable ShiftLab pilot before any HSVI solve and measure all extraction and
+verification costs against the decomposed/full oracles and Candidate B. Real
+data remain gated on G1–G3.

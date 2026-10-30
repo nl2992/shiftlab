@@ -829,3 +829,16 @@
   finite form of the established max-justification argument, not a novelty claim. Full ShiftLab
   conversion and two-law recovery remain untested. No ShiftLab efficacy or baseline win is
   established.
+
+## 2026-10-29 — Candidate D T=2 OS-POSG conversion v1 no-go
+
+- Executed the frozen `CANDIDATE_D_OSPOSG_CONVERSION_T2_PROTOCOL_V1.md` once. The pinned parser accepted the model and matched its 65-state, 28-partition, 118-transition metadata. The independent scalarized sequence LP solved optimally at `-1.0`.
+- HSVI failed during `presolve_LB` with `KeyError: (1, 6, 1)` before producing a value interval. Source inspection identified the omitted explicit zero reward on the terminal self-loop, which the upstream implementation indexes unconditionally. Record this as a compiler conformance failure and v1 NO-GO, not a solver performance result. Full log/model/compiler hashes and reproduction command are in `CANDIDATE_D_OSPOSG_CONVERSION_T2_RESULTS_V1.md`; the ignored original model/logs remain preserved.
+- Next: preregister a distinct diagnostic compiler revision that emits complete reward support, then validate all parsed transition/reward keys before another HSVI call. Do not retune v1 or infer a ShiftLab value/risk result. Candidate D still has no novelty delta, ShiftLab efficacy result, baseline win or real-data evidence; G1–G3 remain open.
+
+## 2026-10-29 — Candidate D T=2 compiler repair v2 passes value equivalence
+
+- After preregistering `CANDIDATE_D_OSPOSG_CONVERSION_T2_REPAIR_V2_PROTOCOL.md`, a separate compiler version emitted explicit zero rewards. The independent structural validator passed all 101 legal state/action triples, unit transition mass, unique partition/action/observation targets and normalized root belief.
+- The pinned parser read 65 states, 28 partitions, 118 transitions and 101 rewards. The independent scalarized sequence LP remained optimal at `-1.0`. HSVI's final solver log reported `OK` after 18.16 seconds with bounds `[-1.00000,-1.00000]`, meeting the registered `1e-4` interval and 30-second limits. The output bundle, hashes and caveat are recorded in `CANDIDATE_D_OSPOSG_CONVERSION_T2_REPAIR_V2_RESULTS.md`.
+- The Julia process exited 1 only after convergence because the reporting expression used unexported `LB_value`/`UB_value` names without module qualification. Preserve this harness error; do not rerun the solver merely to restate the already logged result. Future value extraction must use `HSVIforOSPOSGs.LB_value` and `.UB_value`.
+- Decision: compiler/value equivalence is supported for the frozen T=2 scalarized game only. This does not establish constrained-policy recovery, multiplier bracketing, a ShiftLab risk/cost guarantee, end-to-end resource advantage, novelty, a baseline win or real-data performance. Next audit whether Candidate D's approximation and recovery machinery can satisfy those missing requirements before any T=6 pilot. G1–G3 remain open.

@@ -98,7 +98,14 @@ end
 function extract_controller(osposg, hsvi, partition, belief, rho, terminal_partition; depth = 0)
     depth <= 2 * length(osposg.partitions) || error("unexpected extraction depth")
     probabilities, child_gadgets, residual = gadget_stage(osposg, hsvi, partition, belief, rho)
-    _, opponent_policy, _ = HSVIforOSPOSGs.compute_LB(osposg, hsvi, partition, belief)
+    # Gadget feasibility is statewise and must cover every opponent action.
+    # Use a full-support reference response only to select the child belief for
+    # tie-breaking; an equilibrium response can assign zero mass to observable
+    # branches that a different valid opponent strategy can reach.
+    opponent_policy = [
+        fill(1.0 / length(osposg.states[s].player2_actions), length(osposg.states[s].player2_actions))
+        for s in partition.states
+    ]
     children = Dict{Tuple{Int,Int},ControllerNode}()
 
     for (a1, p1) in probabilities

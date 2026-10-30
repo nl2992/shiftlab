@@ -780,6 +780,26 @@
   extraction, delayed switching, or the exact two-law risk/cost verifier. No ShiftLab pilot, method
   claim, or novelty gate follows; G1 remains open.
 
+## 2026-10-29 — Candidate D sequential adversarial extraction development check
+
+- Added a two-stage, five-state zero-sum toy where the opponent's stage-one column determines the
+  learner's observation before a second simultaneous matching-pennies decision. The upstream
+  parser validated the serialized game at 5 states, 17 transitions, 17 rewards and 3 partitions.
+- The first recursive adapter version used the single opponent policy returned by `compute_LB` to
+  decide which observation branches to instantiate. During development this omitted a branch that
+  another legal opponent strategy can reach. Updated extraction to use a full-support opponent
+  reference only for child-belief tie-breaking and to recurse over all reachable observations.
+  This is an implementation correction, not a theorem or efficacy claim.
+- The resulting five-node controller independently attained pointwise security value zero at the
+  root and after either observation, against both pure opponent columns in each hidden state.
+  HSVI gap was `1.7689e-7`, maximum statewise payoff magnitude `3.9802e-8`, gadget residual
+  `7.9602e-8`; solve time was 6.245s. Result and hashes are recorded in
+  `CANDIDATE_D_SEQUENTIAL_ADVERSARIAL_GADGET_RESULTS_V1.md`.
+- This was an exploratory toy check, not a preregistered ShiftLab experiment. It does not validate
+  the delayed-query switching model, two-law risk recovery, multiplier bracketing, superiority to
+  exact baselines, or real-data performance. Candidate D remains unqualified for a ShiftLab pilot;
+  G1–G3 and the overall objective remain open.
+
 ## 2026-10-29 — Scheduled push validation checkpoint
 
 - Re-ran `test_hsvi_adversarial_gadget.jl` with Julia 1.13.3 and the branch-local

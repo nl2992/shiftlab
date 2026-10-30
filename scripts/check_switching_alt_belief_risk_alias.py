@@ -52,6 +52,20 @@ def main() -> dict:
     assert posterior_only_value == F(14, 25)
     assert gap == F(58, 125)
 
+    # Positive feasibility slack does not remove the loss from merging the two
+    # alternative histories with the same current HMM posterior.
+    risk_slack = F(1, 100)
+    slack_activation = (alpha - risk_slack) / event11_risk
+    slack_policy_risk = slack_activation * event11_risk
+    slack_alt_promotion_probability = alternative_tapes[(1, 1)] * slack_activation
+    slack_full_value = slack_alt_promotion_probability * per_promotion_value - safe_query_cost
+    slack_gap = slack_full_value - posterior_only_value
+    assert slack_activation == F(9, 25)
+    assert slack_policy_risk == F(9, 100)
+    assert alpha - slack_policy_risk == risk_slack
+    assert slack_full_value == F(2299, 2500)
+    assert slack_gap == F(899, 2500)
+
     alpha_sweep = []
     for level in (F(1, 20), F(1, 10), F(1, 4), F(2, 5)):
         full_activation = min(F(1), level / event11_risk)
@@ -104,6 +118,15 @@ def main() -> dict:
             "net_value_upper_bound": str(posterior_only_value),
         },
         "value_gap": str(gap),
+        "positive_slack_check": {
+            "target_alpha": str(alpha),
+            "risk_slack": str(risk_slack),
+            "full_history_activation": str(slack_activation),
+            "full_history_risk": str(slack_policy_risk),
+            "full_history_value": str(slack_full_value),
+            "posterior_only_value_upper_bound": str(posterior_only_value),
+            "gap": str(slack_gap),
+        },
         "same_model_alpha_sweep": alpha_sweep,
         "interpretation": "Rejects current-alternative-posterior-only policies; does not reject controllers with extra risk-relevant memory.",
         "script_sha256": hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),

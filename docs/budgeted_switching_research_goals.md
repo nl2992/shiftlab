@@ -2845,3 +2845,19 @@ the finite benchmark. Source limitation: RAO* full text/proof not inspected in t
   nonvacuous economic-cost bound against the full-history oracle, while beating robust FSC and
   one-sided-POSG baselines. Generic belief compression and exponential-memory claims are closed
   unless an exact reduction to their theorem assumptions is established. G2–G5 remain held.
+
+### G1 candidate screen: positive risk slack and posterior compression 2026-10-29
+
+- Tested whether a positive feasibility margin alone makes a compressed safe policy adequate.
+  Extended the exact posterior-alias checker: at `alpha=1/10`, a full-history policy with null
+  risk `9/100` (slack `1/100`) has value `2299/2500`, while the posterior-only policy class is
+  bounded by `14/25`; the exact gap remains `899/2500`. Reproduction passes with
+  `uv run python scripts/check_switching_alt_belief_risk_alias.py`; the derivation is in
+  `switching_alt_belief_risk_alias_counterexample_v1.md`.
+- This rejects “risk slack by itself repairs posterior aliasing.” It does not reject a compression
+  theorem that independently bounds alternative-cost error and worst causal-null risk error
+  uniformly; only such a risk-error bound can show that slack absorbs the approximation. The
+  result is still a fixed two-label counterexample, not a growing memory lower bound or new
+  algorithm. G1 remains open for a structure with those two bounds and an advantage over
+  robust-FSC/POSG planning; G2–G5 remain held. Test-epoch evidence and post-reversal current
+  economic value remain distinct.

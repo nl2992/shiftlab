@@ -74,3 +74,22 @@ is an ICML-level novelty result. The exact alpha sweep shows a positive gap for 
 two-label construction. Any compression theorem must quantify memory as horizon, budget, delay and
 alternative complexity grow, then compare its utility with the full-history robust oracle; an
 alternative-belief grid alone is insufficient.
+
+## Risk slack does not repair posterior aliasing
+
+At `alpha=1/10`, require the full-history policy to leave slack `eta=1/100`. Set its activation
+probability on tape `11` to `gamma=4(alpha-eta)=9/25`. Its causal-null promotion risk is exactly
+`gamma/4=9/100`, so the policy has the stipulated positive slack. Under the alternative, it
+promotes with probability `(9/10)gamma=81/250`. Since `G=29/10` is the net deployment value per
+promotion before query cost, its expected net value is
+
+`(81/250)(29/10)-2/100 = 2299/2500`.
+
+The posterior-only upper bound remains `14/25`: both supported histories share one posterior
+state, so the policy must use the same promotion probability `beta` on them; the causal null
+forces `beta/2<=1/10`, and the alternative has `Y_2=1` with probability one. The gap is therefore
+`2299/2500-14/25=899/2500`, despite the full-history policy's `1/100` risk slack. Thus a risk
+margin alone does not make posterior compression safe or economically accurate. A valid
+approximation result needs a separate, uniform bound on its causal-null risk error and its
+alternative cost error; only then can slack absorb the former. This remains a fixed two-label
+counterexample and gives no growing memory lower bound or algorithmic novelty claim.

@@ -18,3 +18,7 @@ Branch `research/rpoq-s1-fatal-flaw-audit`. Historical RPOQ protocols, results a
 - **Cycle 3 (A1).** Registered verdict NOT PASSED (tie condition violated). Large oracle effect from concentrating labels on one context; calibration clean. Diagnosis in `SYNTHETIC_RESULTS.md`. Prediction P1-tie was wrong (SNR, not signal, must be constant).
 - **CI.** Ruff/format/mypy repaired and verified; full-suite triage pending (task #4).
 - **Next.** Register A2 (estimation, equally equipped comparators), run, then decide A vs fallback.
+
+## 2026-10-30, CI triage result
+
+Local full suite (base dependencies only, no `neural`/`drift` extras): 1639 passed, 23 skipped, 33 failed, 82 collection errors. Every failure and error traces to a missing optional dependency: `torch` (collection and runtime `import torch` in `budgeted_promotion.py`) and `river` (8 collection errors). The same tests fail identically on `main` at `ec42a2d`, before this branch. **No code defect found.** CI installs `--extra neural --extra drift`; torch could not be installed here (the pinned `pytorch-cu130` index is outside the network allowlist), so the full suite has *not* been verified end to end in this environment. Remaining CI step `scripts/validate_environment.py` not run.

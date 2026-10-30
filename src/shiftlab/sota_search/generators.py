@@ -262,3 +262,80 @@ def simulate_g4(n_seeds: int, seed: int, T: int = 2000, source_only: bool = Fals
         out["harm"] = np.maximum(by, 0.0)[reg]
         out["harmful"] = by[reg] >= HARM_THRESHOLD
     return out
+
+
+# G5: deployed-model (proxy) defects with a correct per-condition nominal reference. The true boundary is the G1 linear
+# logit; the deployed model p = sigmoid(a * x.w + b + c * 1{x2 > 1}) is defective in the ways listed. Nominal risks are
+# always taken from the SAME condition's pre-shift source stream.
+G5_CONDITIONS = {
+    "accurate": (1.0, 0.0, 0.0),
+    "biased": (1.0, 0.8, 0.0),
+    "overconfident": (2.0, 0.0, 0.0),
+    "underconfident": (0.5, 0.0, 0.0),
+    "subgroup_failure": (1.0, 0.0, -3.0),
+    "anti_informative": (-0.3, 0.0, 0.0),
+}
+G5_SHIFTS = {"none": ("none", 0.0), "prior1": ("prior", 1.0), "concept2": ("concept", 2.0)}
+
+
+def _g5_p(x, cond):
+    a, b, c = G5_CONDITIONS[cond]
+    return sigmoid(a * (x @ W_SRC) + b + c * (x[..., 2] > 1.0))
+
+
+def _g5_stream(rng, shape_prefix, cond, shift, active):
+    """Draw x, y, p for samples where ``active`` (bool array broadcastable to ``shape_prefix``) marks post-shift."""
+    kind, delta = G5_SHIFTS[shift]
+    dmu, dw, db, dsub = _delta_terms(kind, delta)
+    m = np.asarray(active, dtype=float)
+    x = rng.standard_normal((*shape_prefix, D)) + m[..., None] * dmu
+    logit = (
+        (x * (W_SRC + m[..., None] * dw)).sum(-1) + B_SRC + m * db + m * dsub * (x[..., 2] > 1.0)
+    )
+    y = (rng.random(shape_prefix) < sigmoid(logit)).astype(np.int8)
+    return x, y, _g5_p(x, cond)
+
+
+@lru_cache(maxsize=64)
+def g5_effects(cond: str, shift: str):
+    """(source cost, source Brier, decision harm, Brier increase) under the deployed model of ``cond``."""
+    rng = np.random.default_rng(910)
+    xs, ys, ps = _g5_stream(rng, (300_000,), cond, "none", np.zeros(300_000))
+    xt, yt, pt = _g5_stream(rng, (300_000,), cond, shift, np.ones(300_000))
+    c0 = decision_cost((ps >= TAU).astype(float), ys).mean()
+    c1 = decision_cost((pt >= TAU).astype(float), yt).mean()
+    b0, b1 = ((ps - ys) ** 2).mean(), ((pt - yt) ** 2).mean()
+    return float(c0), float(b0), float(c1 - c0), float(b1 - b0)
+
+
+def simulate_g5(
+    cond: str,
+    shift: str,
+    n_seeds: int,
+    seed: int,
+    T: int = 2000,
+    t0: int = 700,
+    source_only: bool = False,
+):
+    rng = np.random.default_rng(seed)
+    active = (
+        np.zeros((n_seeds, T))
+        if (source_only or shift == "none")
+        else np.broadcast_to(np.arange(T) >= t0, (n_seeds, T))
+    )
+    x, y, p = _g5_stream(rng, (n_seeds, T), cond, shift, active)
+    act = (p >= TAU).astype(float)
+    harm = g5_effects(cond, shift)[2]
+    harmful = (np.arange(T) >= t0) & (harm >= HARM_THRESHOLD) & (shift != "none")
+    return {
+        "x": x.astype(np.float32),
+        "y": y,
+        "p": p,
+        "loss": decision_cost(act, y),
+        "brier": (p - y) ** 2,
+        "world": World(kind="none", T=T, family=f"G5:{cond}"),
+        "harm_post": harm,
+        "harmful": np.broadcast_to(harmful, (n_seeds, T)),
+        "regime": active.astype(np.int8),
+        "harm": np.broadcast_to(np.where(harmful, harm, 0.0), (n_seeds, T)),
+    }

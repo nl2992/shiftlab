@@ -242,7 +242,7 @@ def _pp_increment(sim, q_mask, q, risk):
     return x, bound_m
 
 
-def _pp_parts(sim, frac, lseed, risk, q, mask, tol):
+def _pp_parts(sim, frac, lseed, risk, q, mask, tol, uniform_cap=False):
     S, T = sim["y"].shape
     qv = np.full((S, T), frac) if q is None else q
     qm = (label_mask(sim, frac, lseed) if mask is None else mask).astype(float)
@@ -258,6 +258,10 @@ def _pp_parts(sim, frac, lseed, risk, q, mask, tol):
     loose = m * (2.0 / qv - 1.0) + m  # symmetric worst-case range (initial implementation)
     # one-sided exact minimum of the increment: label queried with zero loss (R=0), predictable from proxy and q
     tight = proxy * (1.0 / qv - 1.0) + r0 + tol
+    if uniform_cap:
+        # context-free support bound (proxy <= 1/4 for Brier, <= 5/6 for decision cost): the bet then depends on
+        # the resolved past only, which is what the marginal-null supermartingale argument needs (doc 02)
+        tight = (0.25 if risk == "brier" else 5.0 / 6.0) * (1.0 / qv - 1.0) + r0 + tol
     return x, qv, loose, tight
 
 
@@ -272,6 +276,7 @@ def pp_eprocess(
     mask=None,
     tight=False,
     cap=0.5,
+    uniform_cap=False,
     **_,
 ):
     """Betting e-process on the prediction-powered excess-risk increment; log-wealth (S, T).
@@ -280,7 +285,7 @@ def pp_eprocess(
     implementation); ``tight=True`` caps it by the exact one-sided minimum of the increment, which keeps
     ``1 + lam*X >= 1 - cap > 0`` and therefore the same validity argument.
     """
-    x, _qv, loose, tight_b = _pp_parts(sim, frac, lseed, risk, q, mask, tol)
+    x, _qv, loose, tight_b = _pp_parts(sim, frac, lseed, risk, q, mask, tol, uniform_cap)
     bound = tight_b if tight else loose
     T = x.shape[1]
     c1 = shift_time(np.cumsum(x, 1), delay + 1)
@@ -355,6 +360,7 @@ def pp_fix(
     gate_w=None,
     alloc=None,
     cap=0.5,
+    uniform_cap=False,
     **_,
 ):
     """Tight-capped prediction-powered e-process with optional fixes (see docs 09_*).
@@ -372,7 +378,7 @@ def pp_fix(
         qv = _boundary_q(sim, frac, *alloc)
         qm = (np.random.default_rng(lseed).random((S, T)) < qv).astype(float)
     x, qv, _loose, tight_b = _pp_parts(
-        sim, frac, lseed, risk, qv if alloc is not None else None, qm, tol
+        sim, frac, lseed, risk, qv if alloc is not None else None, qm, tol, uniform_cap
     )
     mask = qm if qm is not None else label_mask(sim, frac, lseed).astype(float)
     sim["_labels"] = np.cumsum(mask, 1)

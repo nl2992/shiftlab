@@ -85,3 +85,13 @@ def test_fixes_keep_null_validity_and_boundary_sampling_matches_label_rate():
         used = null["_labels"][:, -1].mean() / 1500
         assert abs(used - 0.2) < 0.03, (kw, used)
         null.pop("_labels", None)
+
+
+def test_uniform_cap_is_at_least_as_conservative_and_default_unchanged():
+    sim = g.simulate(g.World(kind="concept", delta=2.0, T=800, t0=300), 30, 3)
+    base = d.pp_fix(sim, frac=0.2, delay=5, lseed=1)
+    again = d.pp_fix(sim, frac=0.2, delay=5, lseed=1, uniform_cap=False)
+    assert np.allclose(base, again)
+    _x0, _q, _l, ctx = d._pp_parts(sim, 0.2, 1, "brier", None, None, 0.0)
+    _x, _q, _l, uni = d._pp_parts(sim, 0.2, 1, "brier", None, None, 0.0, uniform_cap=True)
+    assert (uni >= ctx - 1e-12).all()

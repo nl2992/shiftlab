@@ -1,0 +1,113 @@
+{
+  "status": "completed",
+  "cells": [
+    {
+      "T": 12,
+      "B": 6,
+      "d": 1,
+      "k": 3,
+      "exact_risk": "5/16",
+      "lp": {
+        "risk": 0.3125,
+        "states": 49,
+        "nonterminal_states": 46,
+        "constraints": 64,
+        "max_constraint_violation": 0.0
+      },
+      "risk_absolute_error": 0.0,
+      "dp_seconds": 0.0004794001579284668,
+      "lp_seconds": 0.00573659990914166,
+      "ratio_lp_over_dp": 11.966203628154917
+    },
+    {
+      "T": 24,
+      "B": 12,
+      "d": 1,
+      "k": 3,
+      "exact_risk": "2391/4096",
+      "lp": {
+        "risk": 0.583740234375,
+        "states": 103,
+        "nonterminal_states": 100,
+        "constraints": 142,
+        "max_constraint_violation": 0.0
+      },
+      "risk_absolute_error": 0.0,
+      "dp_seconds": 0.001083299983292818,
+      "lp_seconds": 0.00855490006506443,
+      "ratio_lp_over_dp": 7.897073937969428
+    },
+    {
+      "T": 24,
+      "B": 12,
+      "d": 2,
+      "k": 3,
+      "exact_risk": "2391/4096",
+      "lp": {
+        "risk": 0.583740234375,
+        "states": 162,
+        "nonterminal_states": 159,
+        "constraints": 235,
+        "max_constraint_violation": 0.0
+      },
+      "risk_absolute_error": 0.0,
+      "dp_seconds": 0.0009448998607695103,
+      "lp_seconds": 0.005236400058493018,
+      "ratio_lp_over_dp": 5.541751328260948
+    },
+    {
+      "T": 24,
+      "B": 12,
+      "d": 4,
+      "k": 3,
+      "exact_risk": "2391/4096",
+      "lp": {
+        "risk": 0.583740234375,
+        "states": 468,
+        "nonterminal_states": 465,
+        "constraints": 705,
+        "max_constraint_violation": 0.0
+      },
+      "risk_absolute_error": 0.0,
+      "dp_seconds": 0.0026587999891489744,
+      "lp_seconds": 0.010298099834471941,
+      "ratio_lp_over_dp": 3.8732134333158865
+    },
+    {
+      "T": 48,
+      "B": 24,
+      "d": 2,
+      "k": 6,
+      "exact_risk": "158105/1048576",
+      "lp": {
+        "risk": 0.15078067779541016,
+        "states": 645,
+        "nonterminal_states": 639,
+        "constraints": 1039,
+        "max_constraint_violation": 0.0
+      },
+      "risk_absolute_error": 0.0,
+      "dp_seconds": 0.0029945001006126404,
+      "lp_seconds": 0.009098700014874339,
+      "ratio_lp_over_dp": 3.038470432180934
+    },
+    {
+      "T": 48,
+      "B": 24,
+      "d": 4,
+      "k": 6,
+      "exact_risk": "158105/1048576",
+      "lp": {
+        "risk": 0.15078067779541016,
+        "states": 2001,
+        "nonterminal_states": 1995,
+        "constraints": 3435,
+        "max_constraint_violation": 0.0
+      },
+      "risk_absolute_error": 0.0,
+      "dp_seconds": 0.010123600019142032,
+      "lp_seconds": 0.026597199961543083,
+      "ratio_lp_over_dp": 2.627247215541135
+    }
+  ]
+}

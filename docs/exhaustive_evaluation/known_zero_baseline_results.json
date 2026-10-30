@@ -1,0 +1,85 @@
+{
+  "status": "completed",
+  "rows": [
+    {
+      "dataset": "bike",
+      "id": "R3_0036",
+      "skip_known_zero": false,
+      "labels": 575.625,
+      "promotion_rate": 0.0,
+      "delta_vs_incumbent": 0.5756249999999445,
+      "total_cost": 123.57562500000091,
+      "frozen_models_reproduced": true
+    },
+    {
+      "dataset": "bike",
+      "id": "R3_0043",
+      "skip_known_zero": false,
+      "labels": 575.625,
+      "promotion_rate": 0.0,
+      "delta_vs_incumbent": 0.5756249999999445,
+      "total_cost": 123.57562500000091,
+      "frozen_models_reproduced": true
+    },
+    {
+      "dataset": "bike",
+      "id": "R3_0036",
+      "skip_known_zero": true,
+      "labels": 173.625,
+      "promotion_rate": 0.0,
+      "delta_vs_incumbent": 0.17362499999994352,
+      "total_cost": 123.17362500000091,
+      "frozen_models_reproduced": true
+    },
+    {
+      "dataset": "bike",
+      "id": "R3_0043",
+      "skip_known_zero": true,
+      "labels": 173.625,
+      "promotion_rate": 0.0,
+      "delta_vs_incumbent": 0.17362499999994352,
+      "total_cost": 123.17362500000091,
+      "frozen_models_reproduced": true
+    },
+    {
+      "dataset": "beijing",
+      "id": "R3_0036",
+      "skip_known_zero": false,
+      "labels": 1596.5,
+      "promotion_rate": 0.0,
+      "delta_vs_incumbent": 1.5964999999998781,
+      "total_cost": 876.1965000000617,
+      "frozen_models_reproduced": true
+    },
+    {
+      "dataset": "beijing",
+      "id": "R3_0043",
+      "skip_known_zero": false,
+      "labels": 1596.5,
+      "promotion_rate": 0.0,
+      "delta_vs_incumbent": 1.5964999999998781,
+      "total_cost": 876.1965000000617,
+      "frozen_models_reproduced": true
+    },
+    {
+      "dataset": "beijing",
+      "id": "R3_0036",
+      "skip_known_zero": true,
+      "labels": 198.0625,
+      "promotion_rate": 0.0,
+      "delta_vs_incumbent": 0.19806249999988523,
+      "total_cost": 874.7980625000617,
+      "frozen_models_reproduced": true
+    },
+    {
+      "dataset": "beijing",
+      "id": "R3_0043",
+      "skip_known_zero": true,
+      "labels": 198.0625,
+      "promotion_rate": 0.0,
+      "delta_vs_incumbent": 0.19806249999988523,
+      "total_cost": 874.7980625000617,
+      "frozen_models_reproduced": true
+    }
+  ]
+}

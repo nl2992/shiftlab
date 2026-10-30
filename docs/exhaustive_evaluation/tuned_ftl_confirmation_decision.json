@@ -1,0 +1,72 @@
+{
+  "candidate": {
+    "id": "R3_0036",
+    "mode": "direct",
+    "allocation": "uniform",
+    "gamma": 0.98,
+    "cap": 0.75,
+    "restart": false,
+    "pace": "none",
+    "bet": "kelly"
+  },
+  "baseline": {
+    "id": "R3_0043",
+    "mode": "direct",
+    "allocation": "uniform",
+    "gamma": 0.98,
+    "cap": 0.75,
+    "restart": true,
+    "pace": "none",
+    "bet": "ftl"
+  },
+  "primary_delta": -1.976307250000056,
+  "paired_normal_95_interval": [
+    -2.217394607779736,
+    -1.7352198922203763
+  ],
+  "relative_cost_reduction": 0.00958232970580028,
+  "practical_gate_pass": false,
+  "cases": [
+    {
+      "case": "useful_initial",
+      "candidate_cost": 133.9666940000009,
+      "tuned_ftl_cost": 144.13929800000096,
+      "paired_difference": -10.172604000000067,
+      "candidate_delta_vs_incumbent": -485.4527060000007,
+      "baseline_delta_vs_incumbent": -475.2801020000007
+    },
+    {
+      "case": "useful",
+      "candidate_cost": 174.42509399999724,
+      "tuned_ftl_cost": 177.8640569999973,
+      "paired_difference": -3.4389630000000597,
+      "candidate_delta_vs_incumbent": -296.2557059999949,
+      "baseline_delta_vs_incumbent": -292.8167429999949
+    },
+    {
+      "case": "late",
+      "candidate_cost": 206.57921399999847,
+      "tuned_ftl_cost": 200.54623099999858,
+      "paired_difference": 6.03298299999989,
+      "candidate_delta_vs_incumbent": -75.60758599999858,
+      "baseline_delta_vs_incumbent": -81.64056899999845
+    },
+    {
+      "case": "small",
+      "candidate_cost": 302.10362699999564,
+      "tuned_ftl_cost": 302.43027199999557,
+      "paired_difference": -0.3266449999999866,
+      "candidate_delta_vs_incumbent": -1.3621729999998855,
+      "baseline_delta_vs_incumbent": -1.0355279999998988
+    },
+    {
+      "case": "reversal",
+      "candidate_cost": 325.56486699999715,
+      "tuned_ftl_cost": 329.15139599999725,
+      "paired_difference": -3.5865290000000614,
+      "candidate_delta_vs_incumbent": 5.542267000002183,
+      "baseline_delta_vs_incumbent": 9.128796000002243
+    }
+  ],
+  "interpretation": "Matched development-selected FTL comparator; fixed-component 27 percent result cannot substitute for this test"
+}

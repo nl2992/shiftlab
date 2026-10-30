@@ -1,0 +1,89 @@
+{
+  "registered_utc": "2026-10-30T14:23:56.678457+00:00",
+  "stage": "independent synthetic confirmation of restricted components; not novelty/G4 claim",
+  "cases": [
+    [
+      "harmful",
+      5000
+    ],
+    [
+      "tie",
+      5000
+    ],
+    [
+      "harmful_after_shift",
+      5000
+    ],
+    [
+      "useful_initial",
+      1000
+    ],
+    [
+      "useful",
+      1000
+    ],
+    [
+      "late",
+      1000
+    ],
+    [
+      "small",
+      1000
+    ],
+    [
+      "reversal",
+      1000
+    ]
+  ],
+  "horizon": 2000,
+  "batch_paths": 250,
+  "delay": 5,
+  "frac": 0.2,
+  "budget": 400,
+  "alpha": 0.05,
+  "margin": 0.01,
+  "query_cost": 0.001,
+  "switch_cost": 1,
+  "world_seed_base": 202620000,
+  "query_seed_base": 202621000,
+  "shortlist": "R3_0036 selected on development only; matched gamma=1 parent",
+  "candidates": [
+    {
+      "mode": "direct",
+      "allocation": "uniform",
+      "gamma": 0.98,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "none",
+      "bet": "kelly"
+    },
+    {
+      "mode": "direct",
+      "allocation": "uniform",
+      "gamma": 1,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "none",
+      "bet": "kelly"
+    }
+  ],
+  "methods": [
+    "selected_discounted",
+    "pooled_parent",
+    "fixed_mixture",
+    "paired_RCPS",
+    "unsafe_alarm_only"
+  ],
+  "primary": "equal-weight mean total cost across four persistent-benefit cases versus fixed paired_RCPS",
+  "practical_gate": ">=10 percent reduction in mean total cost, paired 95 percent interval below zero",
+  "safety_gate": "one-sided Clopper-Pearson upper <=.06 on each null; simultaneous confidence .95 across 4 paired methods x 3 nulls",
+  "adversarial_gate": "reversal mean cost excess <=5 versus no action; failure forbids general dynamic-benefit claim",
+  "inference": "independent paths; paired same streams; Bonferroni one-sided intervals for null size; fresh seeds disjoint from development",
+  "sources_sha256": {
+    "src/shiftlab/sota_search/paired_control.py": "ec2becc3bae3c1c37407cb532fc4654c6699bd31ed3ab2b3126a43cee6824fc3",
+    "src/shiftlab/sota_search/paired_references.py": "0dc89e24398e2761f4f56dd143b03ff587d9fbf2cedd4355f44fa0db626004b8",
+    "src/shiftlab/sota_search/combination_screen.py": "ff995be8d0c74dda2d8f8729b3bb07a1758c9c2cec03f05c4001a37cc023dcac",
+    "src/shiftlab/sota_search/published_baselines.py": "0dc85ed21a94fb210c4ddca57975e4b260652f8f14c1fd0e0d8e80a27af3dfb4",
+    "scripts/exhaustive_evaluation/confirm_paired_synthetic.py": "9f2bd9ccc34a6adb4a15e7f80190d8caaab2367e2aab8e2e0bc52c20ed872af8"
+  }
+}

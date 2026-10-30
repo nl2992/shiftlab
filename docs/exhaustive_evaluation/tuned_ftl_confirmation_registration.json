@@ -1,0 +1,55 @@
+{
+  "registered_utc": "2026-10-30T14:31:49.739323+00:00",
+  "stage": "new independent synthetic matched-tuning comparison",
+  "selection": "best FTL mean cost across all original development cases, empirical null screen <=.05; no per-confirmation-cell choice",
+  "development_sha256": "af8cd8df25571c0dc11be2d1932bb5551c59fcd60adc68de5485a5fce845c50d",
+  "configs": [
+    {
+      "id": "R3_0036",
+      "mode": "direct",
+      "allocation": "uniform",
+      "gamma": 0.98,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "none",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0043",
+      "mode": "direct",
+      "allocation": "uniform",
+      "gamma": 0.98,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "none",
+      "bet": "ftl"
+    }
+  ],
+  "FTL_parameter_settings_considered": 324,
+  "cases": [
+    "useful_initial",
+    "useful",
+    "late",
+    "small",
+    "reversal"
+  ],
+  "paths": 1000,
+  "batch": 250,
+  "horizon": 2000,
+  "frac": 0.2,
+  "budget": 400,
+  "delay": 5,
+  "alpha": 0.05,
+  "margin": 0.01,
+  "query_cost": 0.001,
+  "switch_cost": 1,
+  "world_seed_base": 202622000,
+  "query_seed_base": 202623000,
+  "primary": "equal-weight mean total cost, four persistent cases, main minus tuned FTL",
+  "practical_gate": ">=10 percent cost reduction, paired 95 percent interval below zero",
+  "extra": "reversal reported separately; no new real-data confirmation",
+  "sources": {
+    "src/shiftlab/sota_search/paired_control.py": "ec2becc3bae3c1c37407cb532fc4654c6699bd31ed3ab2b3126a43cee6824fc3",
+    "scripts/exhaustive_evaluation/confirm_tuned_ftl.py": "0a7347dc8d83f168348180b1aedf735ef3dfc91151e48925b50fa9e12e3b6e97"
+  }
+}

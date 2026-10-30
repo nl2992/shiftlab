@@ -36,7 +36,7 @@ def main() -> None:
         p = {**BASE, "alpha": alpha, "T": T}
         try:
             row = a1.solve_cell(p)
-        except MemoryError as e:
+        except (MemoryError, RuntimeError) as e:
             row = {"params": p, "status": "failed", "error": repr(e)}
         with path.open("a") as f:
             f.write(json.dumps(row) + "\n")

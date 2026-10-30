@@ -242,6 +242,8 @@ Thumbs.db
 !outputs/residual_variance_power_grid/**
 !outputs/residual_variance_start_prior/
 !outputs/residual_variance_start_prior/**
+!outputs/switching_symmetric_hmm_monotonicity_v1/
+!outputs/switching_symmetric_hmm_monotonicity_v1/**
 !outputs/delayed_evidence_ppi_markov_confirmation_1000/
 !outputs/delayed_evidence_ppi_markov_confirmation_1000/**
 !outputs/delayed_evidence_ppi_start_mixture_grid_60/

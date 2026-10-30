@@ -748,3 +748,19 @@
   Keep one pilot only as a bounded feasibility check; no ShiftLab test or
   efficacy claim has been run. The required strategy gadget remains absent from
   the package's solve interface.
+
+## 2026-10-29 — Candidate D gadget-extraction toy
+
+- Registered the two-hidden-state probe/guess toy and acceptance thresholds before execution in
+  `CANDIDATE_D_GADGET_ADAPTER_PROTOCOL_V1.md`. Implemented the published Algorithm 5 gadget LP
+  over the pinned HSVI lower-bound alpha vectors, recursively extracted the learner controller,
+  and independently evaluated that controller over the toy transition/reward model.
+- All thresholds passed. The exact target is `11/25=0.44`; HSVI's interval was
+  `[0.4399999283581686, 0.44000007402989255]`; the extracted three-node controller evaluated to
+  `0.44000000000000017`, with max gadget residual `8.38e-10`. Solve/extraction took 12.282/0.100s.
+  Source, protocol and ignored-output SHA-256 values and reproduction command are recorded in
+  `CANDIDATE_D_GADGET_TOY_RESULTS_V1.md`.
+- This validates an extraction adapter on a small known game only. It does not provide an exact
+  two-law ShiftLab verifier, a risk-bracketing pair, a resource advantage, or a novelty delta.
+  Candidate D remains a baseline-plumbing route; no ShiftLab pilot or real-data run is authorized
+  by this result. The overall research goal and G1 remain open.

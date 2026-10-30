@@ -31,6 +31,19 @@ def configs():
         yield "watch", {"frac": f, "delay": d}
 
 
+def cand_configs():
+    for f, d, tol in itertools.product(FRACS, DELAYS, (0.0, 0.05)):
+        for name in (
+            "pprm",
+            "pp_cost",
+            "pprm_tight",
+            "pp_cost_tight",
+            "sr_cost_tight",
+            "sr_brier_tight",
+        ):
+            yield name, {"frac": f, "delay": d, "tol": tol}
+
+
 def main(n_seeds=200, limit_s=3000, subset="all"):
     t_start = time.time()
     reg = Registry(f"outputs/sota_search/registry_q1_{subset}.sqlite")
@@ -40,9 +53,15 @@ def main(n_seeds=200, limit_s=3000, subset="all"):
     null_sim = g.simulate(g.World(kind="none"), 400, 9000)
     rows = []
     windowed = ("mmd", "c2st", "bbsd")
-    todo = [
-        (n, p) for n, p in configs() if subset == "all" or (subset == "window") == (n in windowed)
-    ]
+    if subset == "cand":
+        todo = list(cand_configs())
+    else:
+        todo = [
+            (n, p)
+            for n, p in configs()
+            if subset == "all" or (subset == "window") == (n in windowed)
+        ]
+    batch = "q1_candidates" if subset == "cand" else "q1_baselines"
     for ci, (name, params) in enumerate(todo):
         if time.time() - t_start > limit_s:
             print("time limit reached; stopping cleanly", flush=True)
@@ -56,7 +75,7 @@ def main(n_seeds=200, limit_s=3000, subset="all"):
             thr = h.calibrate(name, params, cal_sim)
         except Exception as e:  # noqa: BLE001
             reg.record(
-                "q1_baselines",
+                batch,
                 candidate_algorithm=name,
                 parent_algorithm=name,
                 hyperparameters=params,
@@ -70,7 +89,7 @@ def main(n_seeds=200, limit_s=3000, subset="all"):
                 status = "ok"
             except Exception as e:  # noqa: BLE001
                 reg.record(
-                    "q1_baselines",
+                    batch,
                     candidate_algorithm=name,
                     parent_algorithm=name,
                     hyperparameters=params,
@@ -83,7 +102,7 @@ def main(n_seeds=200, limit_s=3000, subset="all"):
             tr = g.truth(w)
             role = h.role(w)
             reg.record(
-                "q1_baselines",
+                batch,
                 parent_algorithm=name,
                 candidate_algorithm=name,
                 modification_id="none",

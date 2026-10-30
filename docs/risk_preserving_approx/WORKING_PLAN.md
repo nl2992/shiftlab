@@ -547,3 +547,29 @@ established value-computation baseline. If they can, preregister one exact-
 solvable ShiftLab pilot before any HSVI solve and measure all extraction and
 verification costs against the decomposed/full oracles and Candidate B. Real
 data remain gated on G1–G3.
+
+## Candidate D T=2 extraction checkpoint (2026-10-29)
+
+The extraction/gadget adapter now passes an exact-rational T=2 check: it
+reconstructs a four-node, no-query/never-promote policy with cost `1`, causal
+null risk `0`, and scalarized value `1`, matching the exact lambda-one LP.
+Local gadget residual is `4.45e-16`. This validates only extraction and
+verification plumbing; it is not an economic or computational improvement.
+The next possible test is a preregistered fixed multiplier set with an exact
+constrained-oracle audit of risk bracketing and the multiplier-location
+condition. If that does not produce a useful policy pair, stop Candidate D and
+resume the remaining candidate search. See
+`CANDIDATE_D_T2_EXTRACTION_RESULTS_V1.md`.
+
+## Candidate D recovery decision (2026-10-29)
+
+The preregistered T=2 multiplier pair brackets alpha and its root mixture exactly
+matches the constrained sequence-form optimum (`124/125`, risk upper bound
+`1/10`). This is a useful correctness check. It is not a promising lead: the
+only conditional cost bound uses multiplier width `0.99`, end-to-end HSVI
+solve/extraction takes `28.092s` versus `0.00538s` for the exact LP, and the
+composition has no novelty delta. Stop Candidate D as a lead while retaining
+its converter, extractor and verifier as comparators. The next step is to state
+and discriminate a new policy-side or implicit-search mechanism against the
+known posterior-alias and signed-future-value counterexamples before coding.
+See `CANDIDATE_D_T2_RECOVERY_RESULTS_V1.md` and the append-only ledger.

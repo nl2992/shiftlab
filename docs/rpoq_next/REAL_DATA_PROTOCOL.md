@@ -55,3 +55,9 @@ A difference whose interval excludes 0 is reported as such, in either direction.
 
 ## Not run, and why
 PPRM (block structure and a different single-policy estimand), Podkopaev–Ramdas (predictive-risk monitoring, different estimand) and `comparecast` (full-feedback comparison of forecasters, no label budget) are not run here; the full-feedback arm of S6 is the nearest analogue to the last. They remain unrun benchmarks.
+
+---
+
+# Real-data protocol B2: spend-matched evidence-directed benchmark (frozen before any run)
+
+**Date:** 2026-10-30. **Follows:** B1, where the repo's evidence-directed rule spent only 45–56% of uniform's labels. B2 removes that confound with **one** declared configuration and no grid: `q_min = frac` (the uniform rate) and `q_max = min(1, 2·frac)`, same default curve (`activation_fraction = 0`, `urgency_power = 1`, `budget_taper_power = 1`), same stream, seeds, pooled Kelly bet, budgets and metric as B1. With `q_min = frac` the rule can only query at or above the uniform rate, so it will tend to exhaust the cap earlier than uniform (the intrinsic trade-off of this rule); realized spend is reported for both arms. Descriptive, exploratory, exposed test split, anti-conservative intervals; no gate.

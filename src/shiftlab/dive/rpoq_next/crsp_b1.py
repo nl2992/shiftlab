@@ -47,6 +47,9 @@ def run(c, frac, u, policy):
 
 def main():
     panel = Path(sys.argv[1])
+    matched = (
+        len(sys.argv) > 2 and sys.argv[2] == "matched"
+    )  # B2: q_min = frac, q_max = min(1, 2*frac)
     t0 = time.time()
     base = _load_rows(panel, None, ["permno", "split"])
     permno_all, split_all = (
@@ -81,7 +84,7 @@ def main():
                         }
                     )
         print(f"cohort {ci} done ({time.time() - t0:.0f}s)", flush=True)
-    out = Path("outputs/rpoq_next/b1")
+    out = Path("outputs/rpoq_next/b2" if matched else "outputs/rpoq_next/b1")
     out.mkdir(parents=True, exist_ok=True)
     with (out / "runs.csv").open("w", newline="") as fh:
         w = csv.DictWriter(fh, fieldnames=list(runs[0]))

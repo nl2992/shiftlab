@@ -17,6 +17,16 @@ terminal events, failed jobs, resource timeout, snapshot overwrite refusal, and
 matched PPE/IPW diagnostics. These checks establish implementation properties,
 not reproduction of every published source.
 
+The broader synthetic-only regression command then passed **71 tests in 82.07 s**:
+
+```powershell
+python -m pytest -q tests/sota_search tests/test_prediction_powered_evalues.py tests/test_pprm_risk_monitor.py tests/test_robust_asi_fixed_horizon.py tests/test_rpoq_exact.py tests/test_dive_eprocess.py tests/test_monitoring.py tests/rpoq_next/test_growth_alloc.py tests/rpoq_next/test_screen_a.py tests/rpoq_next/test_screen_a2.py tests/rpoq_next/test_approx_dp.py
+```
+
+This includes existing null-calibration and hard-budget checks in RPOQ-next's
+synthetic tests. It does not upgrade this checkpoint's expected-budget smoke
+into a hard-budget benchmark.
+
 ## First registered batch
 
 Reproduction command from the isolated worktree root:

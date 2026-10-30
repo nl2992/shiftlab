@@ -26,3 +26,10 @@ opened. No source-faithfulness, SOTA improvement, or novelty claim is made.
 The full programme remains active. Next work: global budget accounting and clean
 source enforcement, G1–G4 generator contracts, remaining source adapters and audits,
 then the substantive staged search and subsequent mandatory novelty synthesis.
+
+Final checkpoint verification: 71 synthetic-only regression tests passed in 82.07
+seconds. Both Ruff versions pass; all 637 Python files pass formatting. The exact
+executed smoke source was rehashed and archived alongside the immutable batch.
+Artifact checkpoint b12aa54 also adds clean research-source enforcement and
+dependency-version capture for future smoke manifests. Worktree is clean and the
+historical-output diff excluding this new programme remains empty.

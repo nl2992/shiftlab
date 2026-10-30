@@ -1,7 +1,8 @@
-# First-promotion solver: fixed-query-budget complexity candidate
+# First-promotion solver: fixed-query-budget complexity screen
 
-**Date:** 2026-10-29. **Status:** exact algorithmic bound derived for the registered model;
-source-level novelty unresolved. This is a candidate result, not a method or publication claim.
+**Date:** 2026-10-29. **Status:** closed as a standalone method candidate after source-level
+equivalence audit. Preserve the exact algorithm and bound as a reference implementation/result,
+not as a novelty or publication claim.
 
 ## Contract
 
@@ -102,42 +103,49 @@ The existing focused tests compare both formulations on smaller cells.
 These are solver-complexity diagnostics, not matched-budget efficacy, independent confirmation,
 or real-data evidence.
 
-## Prior-art boundary and novelty test
+## Source-level equivalence audit and decision
 
 Finite-horizon belief-state dynamic programming, query-budget state augmentation, reachability
-constraints, constrained POMDPs, and sequence-form extensive-game optimization are established.
-The repository already audits RAO* and constrained-POMDP methods, recursive constraints, and
-one-sided POSGs. The candidate delta is only the exact composition of (i) first-promotion robust
-reachability against a full-information causal null and (ii) a separate alternative-HMM
-continuation, with an XP-in-(B) history bound that exploits action-independent outcomes.
+constraints, constrained POMDPs, multi-environment POMDPs, and sequence-form extensive-game
+optimization are established. For every Lagrange multiplier, the repository's hidden-root
+construction represents the shared-policy objective as a one-sided POSG. Equivalently, enumerate
+deterministic full-history null response policies as environments and give each environment a
+hidden initial chance mode mixing the alternative-HMM cost branch and that null policy's
+promotion-payoff branch. Maximizing the learner's common policy against those environments
+recovers the scalarized objective exactly. The null policy set can be exponentially large, so
+this is a model-class equivalence, not a compact implementation claim.
 
-The source-level comparison is scoped as follows. RAO* synthesizes optimal deterministic policies
-for finite-horizon chance-constrained POMDPs under one transition/observation model. Khonji et al.'s
-constant-horizon constrained-POMDP approximation is polynomial in its explicit sequence-tree size,
-not a polynomial-in-horizon bound here. Ho et al.'s recursive constraints restore Bellman planning
-for one POMDP's history-dependent cost limits, and Horák et al.'s OS-POSG work provides strategy
-composition/value recursion. None of these source results, as audited in the repo, directly states
-the shared-policy objective with an alternative HMM cost and a separate full-history null
-reachability constraint whose pending outcomes are hidden from the controller. This model mismatch
-does not by itself establish novelty: exact tree elimination may still be an immediate composition
-of those methods. Relevant primary-source audits are
+The first-promotion truncation and the post-promotion HMM belief continuation are standard
+absorbing-event decomposition and belief-state planning. The displayed `N_N(T,B)` count is a
+straightforward query-history bound under the declared hard budget and action-independent label
+law. It is a valid bound for this implementation, but this work has not established that the
+bound yields a complexity separation from established robust POMDP / multi-environment POMDP /
+one-sided-POSG planning, or that the decomposition is a new algorithmic mechanism.
+
+The source-level comparison includes RAO* finite-horizon chance-constrained POMDP planning;
+Khonji et al.'s sequence-tree constrained-POMDP approximation; Ho et al.'s recursive constraints;
+and Horák et al.'s one-sided-POSG strategy composition. More directly, Bovy et al. study robust
+planning over multiple POMDP environments, and Brice et al. give finite-horizon multi-environment
+POMDP complexity and exact/approximate algorithms. Those works do not, in the sources reviewed,
+state this exact economic-cost/causal-null formulation or this particular query-history bound.
+However, their robust shared-policy model class, together with the already-audited hidden-root
+one-sided-POSG reduction, is sufficient to show that the candidate is an instance of established
+robust partially observed planning. The local evidence only shows implementation efficiency
+against this repository's generic reference solver on one small scaling cell, not an advantage over
+the strongest applicable algorithms. Relevant primary-source audits are
 `switching_causal_risk_planner_audit_v1.md`, `switching_ccpomdp_approximation_audit_v1.md`,
 `switching_rc_pomdp_prior_audit_v1.md`, `switching_lagrangian_posg_reduction_v1.md`, and
 `switching_first_promotion_decomposition_v1.md`.
 
-This delta is not yet source-level novelty: it may be ordinary variable elimination / strategy
-composition for a resource-augmented constrained POSG. Before calling it a contribution, compare
-the exact representation and complexity against the strongest robust finite-horizon game and
-chance-constrained planning methods, not just the generic exponential tree implementation. If an
-existing method gives the same exact controller and bound under a direct model reduction, close
-this candidate. If the asymmetry prevents that reduction, the theorem above is a plausible
-algorithmic contribution, but G2 still needs a useful cost/risk guarantee under the declared
-economic model, G3 matched synthetic comparisons, and G4 eligible real-data evidence.
+The candidate is therefore closed as a standalone contribution route. Keep the decomposition,
+solver, and tests as exact reference artifacts; do not scale them or describe the XP bound as a
+novelty result without a later proof of a strict algorithmic separation from robust-FSC,
+multi-environment-POMDP, or one-sided-POSG methods. G1 remains open for a different candidate.
+G2–G5 remain held, and no real-data or efficacy study is authorized by this solver result.
 
-## Current decision
+## Verification boundary
 
-Retain this as a focused G1 candidate because it states a falsifiable complexity result and uses
-the already-preserved platform. Do not claim novelty, open a real-data holdout, or advance a paper
-on the current evidence. Next: complete the direct source-level equivalence audit and independently
-review the history-count/decomposition proof. If either fails, close the route rather than scaling
-the existing benchmark.
+The complexity proof remains a conditional statement for the finite registered model. It does not
+provide a regret bound under misspecification, guarantee utility after regime reversal, or show
+that historical promotion evidence certifies current challenger benefit. Economic continuation
+forecasts and historical null-risk evidence remain separate quantities.

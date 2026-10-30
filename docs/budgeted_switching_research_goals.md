@@ -2556,3 +2556,24 @@ the finite benchmark. Source limitation: RAO* full text/proof not inspected in t
   information asymmetry and separate alternative objective. Keep this as a G1 candidate, not a
   novelty result. Next: direct source-level equivalence audit and independent proof review; only
   if those survive should a larger solver-complexity comparison be registered. G2–G5 remain held.
+
+### G1 closure 2026-10-29: first-promotion fixed-budget solver
+
+- Completed the direct source-level equivalence audit. For each Lagrange multiplier, the
+  hidden-root construction is an exact one-sided POSG; equivalently, the finite set of
+  deterministic full-history null response policies can be viewed as robust POMDP environments
+  sharing one learner policy. Each environment uses a hidden chance mode to combine alternative
+  HMM economic cost and that null policy's promotion payoff. This is an exact model-class
+  equivalence; explicitly enumerating environments may be exponential.
+- First-promotion absorption, delayed-HMM belief continuation, and the `N_N(T,B)` query-history
+  count remain valid for the declared finite model. The reviewed robust finite-horizon
+  multi-environment POMDP and one-sided-POSG sources do not state this exact economics/null-risk
+  contract or this particular count, but our work has not shown that it produces a complexity
+  separation from their planning frameworks. Existing scaling compares against the repository's
+  generic reference solver only, with the previously recorded `T=8` optimality caveat.
+- Decision: close this solver as a standalone methodological contribution candidate and retain it
+  as an exact reference implementation/result. Do not scale the benchmark or claim novelty from
+  the XP bound absent a strict algorithmic separation. G1 remains open for a different acquisition-
+  and-switching mechanism; G2–G5 remain held. The source-level decision and boundaries are in
+  `switching_first_promotion_xp_complexity_v1.md`. Any future candidate must distinguish
+  historical evidence from current-regime benefit after reversal.

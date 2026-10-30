@@ -2623,3 +2623,20 @@ the finite benchmark. Source limitation: RAO* full text/proof not inspected in t
   observation-budgeted acquisition under delayed release and the exact causal-null any-promotion
   event, and must evaluate current-regime value separately after reversal. Contract mismatch is
   an obligation, not evidence of novelty. No efficacy or real-data gate opens.
+
+### Continuation check 2026-10-29: historical evidence remains separate from current value
+
+- Re-read the executable delayed-regime reference after the CMAS source audit. It stores the
+  accumulated null-valid `e_value` separately from `current_positive_probability`, which is
+  obtained by propagating the HMM posterior to the current round. The regression
+  `test_large_historical_evidence_does_not_certify_current_benefit_after_reversal` demonstrates
+  the intended distinction: after a long positive episode followed by negative observations,
+  historical evidence remains above 10 while the current forecast is below 1/2. This is a
+  correctness guard on claims and state semantics, not a new algorithm or current-benefit
+  guarantee for an arbitrary unobserved reversal.
+- Focused verification passed: `uv run pytest
+  tests/test_delayed_regime_information.py tests/test_causal_switching_game.py
+  tests/test_causal_switching_game_reversal.py tests/test_first_promotion_decomposition.py`
+  (`38 passed`). The test confirms implementation boundaries only; no novelty, regret advantage,
+  or efficacy gate passes. Keep G1 open for a distinct structure with a proved advantage over the
+  full two-law oracle and established delayed sequential-design baselines; G2-G5 remain held.

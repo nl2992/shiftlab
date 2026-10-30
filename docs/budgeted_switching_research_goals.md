@@ -3001,3 +3001,28 @@ the finite benchmark. Source limitation: RAO* full text/proof not inspected in t
   post-reversal rollback loss. G1 remains active at the program level but has no candidate; G2–G5
   are held. Next action is to introduce a genuinely new structural assumption/task or stop this
   methodological direction, then reopen source review only around that precise delta.
+
+### G1 intersection screen: recurrent regime × randomized intervention × finance 2026-10-29
+
+- Following the user's direction to pursue all three dimensions, screened a single controlled-HMM
+  task with randomized policy assignment, action-dependent rewards/transitions, delayed outcomes,
+  hard observation budget, and net switching costs. The old paired-loss finance replay cannot stand
+  in for this task: its evaluator-only common outcomes and price-taker assumption remove causal
+  action effects. Randomized assignment under action-dependent transitions instead requires a
+  policy-level counterfactual value estimand with carryover and induced state distributions.
+- Existing repository audits already cover generic performative/bandit feedback, the HMM predictive
+  confidence-set gate, controlled sensing, delayed feedback, and exact finite planning. Primary
+  sources also cover adaptive experiment inference and randomized treatment comparisons in MDPs.
+  Their combination is not a novelty claim; any candidate must beat a matched safe adaptive
+  experiment, controlled-HMM planner, and the exact small-cell oracle by a strict theorem-level
+  result.
+- Data eligibility fails for the intersection. Binance's task is explicitly an idealized
+  price-taker predictive-loss replay, and OPSD is a paired-loss replay; neither identifies
+  randomized action-dependent utility. No repo dataset supplies all required propensities,
+  action-dependent outcomes, point-in-time/release clocks, recurrent regimes, and defensible costs.
+  The locked real-data segments remain unopened and G2–G5 remain held.
+- Exact task contract, estimand, risk event, source boundary, comparators, and data gate are in
+  `g1_intersection_task_contract_screen_v1.md`. Next: reopen F1 only with an authorized
+  randomized execution/intervention log meeting that contract, or explicitly scope a
+  simulation-only causal design. Historical promotion evidence and post-reversal current-regime
+  value forecasts remain separate.

@@ -46,6 +46,10 @@ def engine_methods(frac):
         "HG_growth_alloc": lambda st: E.run(
             st, E.Cfg(gamma=0.99, gate_w=100, alloc="growth", **b), delay=5
         ),
+        "HG_robustmix": lambda st: E.run(
+            st, E.Cfg(gamma=0.99, gate_w=100, alloc="mix", mix=(0.5, 0.5, 0.0), mix_mode="conservative", **b), delay=5
+        ),
+        "cost_discount": lambda st: E.run(st, E.Cfg(risk="cost", frac=frac, gamma=0.99), delay=5),
         "HG_lrv100": lambda st: E.run(
             st, E.Cfg(gamma=0.99, gate_w=100, lrv=True, lrv_lags=100, **b), delay=5
         ),
@@ -63,16 +67,19 @@ def legacy_methods(frac):
 
 
 def timeit(fn, arg, reps=REPS):
-    ts, peaks = [], []
-    for i in range(reps):
+    """Clean wall-clock timing (no tracing), then ONE separate traced run for the numpy allocation peak."""
+    ts = []
+    for _ in range(reps):
         gc.collect()
-        tracemalloc.start()
         t0 = time.perf_counter()
         fn(arg)
         ts.append(time.perf_counter() - t0)
-        peaks.append(tracemalloc.get_traced_memory()[1])
-        tracemalloc.stop()
-    return ts[0], float(np.median(ts[1:])), float(np.std(ts[1:])), max(peaks) / 1e6
+    gc.collect()
+    tracemalloc.start()
+    fn(arg)
+    peak = tracemalloc.get_traced_memory()[1]
+    tracemalloc.stop()
+    return ts[0], float(np.median(ts[1:])), float(np.std(ts[1:])), peak / 1e6
 
 
 def main():
@@ -164,9 +171,10 @@ def main():
         for name in DT.METHODS:
             ts, pk = [], []
             for _ in range(REPS * 4):
-                _, wall, peak = DT.time_method(name, ref, win, rng, sw)
-                ts.append(wall)
-                pk.append(peak)
+                t0_ = time.perf_counter()
+                DT.METHODS[name](ref, win, rng, score_w=sw)
+                ts.append(time.perf_counter() - t0_)
+            pk.append(DT.time_method(name, ref, win, rng, sw)[2])  # one traced run, memory only
             rows.append(
                 {
                     "case": "drift_test",

@@ -10,8 +10,11 @@ from shiftlab.gap.store import wilson
 
 O = Path("outputs/gap_closure")
 D = Path("docs/sota_gap_closure")
-spec = json.load(open("configs/gap_closure/frozen_confirmation_v1.json"))
-df = pd.read_parquet(O / "e15_confirm/perseed.parquet")
+import os
+
+spec = json.load(open(os.environ.get("CONFIRM_CFG", "configs/gap_closure/frozen_confirmation_v1.json")))
+SUF = os.environ.get("DOC_SUFFIX", "")
+df = pd.read_parquet(O / os.environ.get("CONFIRM_OUT", "e15_confirm") / "perseed.parquet")
 df["has_harm"] = df.first_harm < df["T"]
 rng = np.random.default_rng(2026)
 
@@ -121,7 +124,7 @@ st["effect>=threshold"] = np.where(
     np.where(st.metric == "fa", st["diff (A-B)"].abs() >= 0.02, np.nan),
 )
 (
-    D / "FINAL_STATISTICAL_COMPARISONS.md"
+    D / f"FINAL_STATISTICAL_COMPARISONS{SUF}.md"
 ).write_text(f"""# Final statistical comparisons (frozen protocol; paired cluster bootstrap, 4,000 resamples; worlds weighted equally)
 Primary power comparisons are Holm-adjusted together (family size {m}); false-alarm and harm-before-alarm rows are secondary. Harm worlds: {len(harm_w)}; null worlds: {len(null_w)}. A - B > 0 favours A for power, favours B for false alarm and harm-before-alarm.
 
@@ -139,7 +142,7 @@ mean_arm = pd.DataFrame(
     }
 )
 (
-    D / "FINAL_SYNTHETIC_CONFIRMATION_RESULTS.md"
+    D / f"FINAL_SYNTHETIC_CONFIRMATION_RESULTS{SUF}.md"
 ).write_text(f"""# Final synthetic confirmation results (single run of `FINAL_SYNTHETIC_CONFIRMATION_PROTOCOL.md`; no tuning afterwards)
 Pools: G3 (2 harm + null), G4 (2 + null), G5 (6 proxy modes + null), G6 (5 delay models + 3 nulls); seeds 900000+; label fraction {spec["frac"]}, delay 5 unless the world sets a delay model; {len(df):,} per-seed rows.
 
@@ -153,7 +156,7 @@ Pools: G3 (2 harm + null), G4 (2 + null), G5 (6 proxy modes + null), G6 (5 delay
 {md(hb, "{:.1f}")}
 """)
 (
-    D / "FINAL_VALIDITY_RESULTS.md"
+    D / f"FINAL_VALIDITY_RESULTS{SUF}.md"
 ).write_text(f"""# Final validity results (null worlds; false-alarm rate with Wilson 95% interval; **>alpha** = lower bound above 0.05)
 {md(ci_tab(fa_n))}
 

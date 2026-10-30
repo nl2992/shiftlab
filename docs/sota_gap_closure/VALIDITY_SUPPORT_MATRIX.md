@@ -53,7 +53,9 @@ Columns: mathematical scope of the guarantee, and what was measured (repaired en
 | X12|concept2 | 0.000 | 0.000 | 0.000 | 0.000 | 0.000 | 0.000 | 0.000 | 0.003 |
 | X12|null | 0.000 | 0.000 | 0.000 | 0.000 | 0.000 | 0.000 | 0.001 | 0.002 |
 
-Power (concept shift): | world | HG|f0.002 | HG|f0.005 | HG|f0.01 | HG|f0.02 | pprm|f0.002 | pprm|f0.005 | pprm|f0.01 | pprm|f0.02 |
+Power (concept shift):
+
+| world | HG|f0.002 | HG|f0.005 | HG|f0.01 | HG|f0.02 | pprm|f0.002 | pprm|f0.005 | pprm|f0.01 | pprm|f0.02 |
 |---|---|---|---|---|---|---|---|---|
 | X12|concept2 | 0.000 | 0.001 | 0.007 | 0.059 | 0.001 | 0.005 | 0.018 | 0.064 |
 

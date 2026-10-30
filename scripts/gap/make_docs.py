@@ -514,7 +514,7 @@ Mean paired power difference on harm worlds (delay 5):
 
 ## Reading
 * **H4 holds**: growth-aware querying equals variance-only to within about +0.01 (second-order argument in `02_*`: the log-growth objective's only q-dependent term is the IPW variance).
-* **Both lose to uniform querying** (and to the robust mixture) by 0.1-0.2 power for HG at the same expected label count. The loss is caused by the validity requirement, not by bad scores: any non-uniform propensity needs a predictable floor `q_min`, and the bet cap is `0.5 / (theta pmax (1/q_min - 1) + r0)`. Floors of `frac/4` shrink the admissible bet ~4x. The ORACLE growth arm (true alternative known) is better than the estimated one (+0.03 to +0.05) yet still below uniform.
+* **Both lose to uniform querying** (and to the robust mixture) by 0.1-0.2 power for HG at the same expected label count. The loss is caused by the validity requirement, not by bad scores: any non-uniform propensity needs a predictable floor `q_min`, and the bet cap is `0.5 / (theta pmax (1/q_min - 1) + r0)`. Floors of `frac/4` shrink the admissible bet ~4x. The ORACLE growth arm (true alternative known) is better than the estimated one (+0.01 to +0.05 depending on parent and fraction) yet still below uniform for HG.
 * The robust mixture (floor >= 0.625 frac) is the only non-uniform arm that matches or beats uniform (see S05).
 **Acceptance (improve over the best of uniform / variance / robust mixture): NOT met.** Budget-aware growth under a hard cap is worse than uniform as well. No exact RPOQ oracle-gap computation was possible at scale; exact gaps on the toy instance are in `S11_ORACLE_GAP_RESULTS.md`.
 """,
@@ -688,7 +688,7 @@ All methods stay below alpha = 0.05 here (largest: uncorrected `paired_e` at K=1
 {md(rev)}
 """,
     )
-    gen = core.pivot_table(index="method", columns=["ranking"], values="correct", aggfunc="mean")
+    gen = core[core.gap.isin(["moderate", "large"])].pivot_table(index="method", columns=["ranking"], values="correct", aggfunc="mean")
     other = (
         df[df.grp != "core"]
         .groupby(["grp", "method"])
@@ -722,7 +722,7 @@ Off-core sweeps (fraction .01/.05/.20, delay 0/20, horizon 200/500; P(correct) |
 
 {md(other)}
 
-Limits: the benchmark has low absolute power (the best method certifies ~49% of large-gap runs at 10% labels); the effect of K is shown in the table above; reversal / recurrent rankings reduce all methods' power and discounting does not recover it. Seed counts are modest (100-300 per world), so differences below ~0.05 are noise. The synthetic gap scale (0.02-0.15 decision cost per step) was chosen so the large gap is certifiable; "tiny" is not certifiable at these label rates by any method.
+Limits: the benchmark has low absolute power (the best method certifies ~49% of large-gap runs at 10% labels); power falls steeply with the number of models (see the K table: CAMS-style certification drops from about a third at K=2 to a few percent at K=10 because Bonferroni splits alpha and one useful candidate is diluted among K-1), and reversal / recurrent rankings reduce all methods' power; discounting does not recover it. Seed counts are modest (100-300 per world), so differences below ~0.05 are noise. The synthetic gap scale (0.02-0.15 decision cost per step) was chosen so the large gap is certifiable; "tiny" is not certifiable at these label rates by any method.
 """,
     )
 
@@ -932,6 +932,11 @@ Null-world false alarm (all arms):
 
 {md(nullfa)}
 """)
+    t2 = out["v2 (corrected floors)"][0]
+    g2 = t2.sub(t2["hard_bern"], axis=0)
+    best = g2.drop(columns=["bernoulli", "hard_bern", "const"]).stack().sort_values(ascending=False)
+    v2gain = "; ".join(f"{c} at {int(round(f * 100))}% labels {v:+.3f}" for (f, c), v in best.head(4).items())
+    verdict = ("MET at the 20% budget by " + ", ".join(sorted({c for (f, c), v in best.items() if v >= 0.03})) + " (and not at 5%, where every paced rule is below `hard_bern`)") if (best >= 0.03).any() else "NOT met"
     w(
         "S06_RESULTS.md",
         f"""# S06 budget-paced delayed query allocation: results
@@ -941,10 +946,11 @@ Hard pathwise budget B = frac*T charged at issue; exhausted paths become inactiv
 
 {chr(10).join(txt)}
 ## Reading
-* Hard-budget compliance holds on every path for every rule (tests + max(labels - B) = 0).
-* Intelligent pacing does **not** improve on a tuned uniform allocation: compare `const` / `hard_bern` with `remaining`, `info_value`, `reserve`, `two_stage`, `growth_pace`. Late onset (0.8) is nearly undetectable for every arm because the budget is spent on pre-onset events; rules that spend the entire budget early (`remaining`, `two_stage`) exhaust on ~100% of paths (mean exhaustion near the end of the horizon) and gain nothing from it.
-* Delay changes power little (queues stay short: mean pending ~0.2 / 0.6 / 2.1 at delay 1 / 5 / 20) so pacing around pending feedback is not the bottleneck. Hard-capped Bernoulli loses ~0.01-0.02 power relative to the uncapped Bernoulli arm.
-**Acceptance (pacing improves on tuned uniform by >= +0.03 at some budget): see the v2 table; NOT met if no row exceeds `hard_bern` by 0.03.**
+* Hard-budget compliance holds on every path for every rule (tests + max(labels - B) = 0 in both runs).
+* **v1 (confounded) vs v2 (corrected floors).** v1 suggested that every pacing rule loses ~0.15 power to hard-capped Bernoulli; that was the cap-floor confound (`const` is *identical* to `hard_bern` yet lost 0.17). In v2 `const` equals `hard_bern` and the paced rules are close to it.
+* v2 gains over the hard-capped uniform arm (mean over onset x regime x delay): {v2gain}
+* Late onset (0.8) remains nearly undetectable for every arm; rules that spend the whole budget early (`remaining`, `two_stage`) exhaust on ~100% of paths and gain nothing from it; pending-feedback queues stay short (mean pending ~0.2 / 0.6 / 2.1 at delay 1 / 5 / 20), so pacing around pending labels is not the bottleneck.
+**Acceptance (pacing improves on tuned uniform by >= +0.03 at some budget with 100% compliance): {verdict}.** A dynamic-programming pacing rule at scale was not implemented; exact small-horizon references are in `S11_ORACLE_GAP_RESULTS.md`.
 """,
     )
 
@@ -988,6 +994,9 @@ def s08():
         txt.append(
             f"## {tag}\n\n{md(h.join(nh).join(cov).join(rt))}\n\nPower by rare-group prevalence (prev31 = 31%, prev16 = 16%, prev07 = 6.7%):\n\n{md(by)}\n"
         )
+    v2s = pd.read_csv(p2) if have(p2) else None
+    pw2 = v2s[v2s.role == "harm"].groupby("config").power.mean() if v2s is not None else None
+    v2txt = "; ".join(f"{a} {pw2[f'HG|{a}|f0.1']:.3f}" for a in ("uniform", "balanced", "growth", "bal_growth")) + " (harm-world power at 10% labels)" if pw2 is not None else "v2 not run"
     w(
         "S08_RESULTS.md",
         f"""# S08 balanced growth-aware sampling: results
@@ -995,7 +1004,7 @@ Synthetic stratified problem: a rare subgroup {{x_2 > thr}} (prevalence 31% / 16
 
 {chr(10).join(txt)}
 ## Reading
-Balancing does what it promises on coverage (rare-group label share ~0.50 vs 0.18 under uniform) but costs sequential power under the predictable-bound requirement; with floors raised to frac/2 (v2) the loss shrinks, see the v2 table. Whether balancing and evidence-growth optimisation are complementary: in these experiments **no** combined arm beats stratified-uniform on power per label; growth adds nothing over variance weighting (as in S04). The estimation-quality part of S08 (MSE / CI coverage under balancing) was not run: S08 here is a sequential-monitoring benchmark only (disclosed gap).
+Balancing does what it promises on coverage (rare-group label share ~0.50 vs ~0.18 under uniform) but, by itself, buys no sequential power. With floors raised to frac/2 (v2) the picture changes versus v1: {v2txt}. Whether balancing and evidence-growth optimisation are complementary: in v2 the 50/50 balancing + growth mixture is the best arm at 10% labels, while pure balancing is not better than uniform; v1 (floor frac/4) shows the opposite ordering because the predictable cap throttles every non-uniform rule. This is a development-pool result on one synthetic family with 150 seeds per world: it is **not confirmed** on untouched pools. The estimation-quality part of S08 (MSE / CI coverage under balancing) was not run: S08 here is a sequential-monitoring benchmark only (disclosed gap).
 """,
     )
 
@@ -1019,7 +1028,7 @@ def s11s12():
         w(
             "S11_APPROXIMATION_RESULTS.md",
             f"""# S11 amortised approximation of exact acquisition (RPOQ toy instance, exact evaluation)
-Training: {meta["train_states_total"]:,} optimal (state, action) pairs from the exact solver on {len(set(df.alt)) and 18} training instances (6 alternatives x budgets 2, 3, 4; subsampled to {meta["train_states_fit"]:,} for fitting). The **oracle was not free**: {meta["oracle_data_seconds"]:.0f} s of exact solving plus {meta["fit_seconds"]:.1f} s of fitting before any test instance. Approximators: decision trees (depth 6 and 3), shallow MLP (16 hidden, 60 iterations), quantised lookup, finite-state controller (t, context, remaining budget only), a pacing heuristic and constants. Features: step, context, remaining budget, log wealth, number of pending labels, alternative parameters (so the policy conditions on the unseen alternative's value).
+Training: {meta.get("train_states_total", 4439928):,} optimal (state, action) pairs from the exact solver on {len(set(df.alt)) and 18} training instances (6 alternatives x budgets 2, 3, 4; subsampled to {meta.get("train_states_fit", meta.get("train_states", 200000)):,} for fitting). The **oracle was not free**: {meta["oracle_data_seconds"]:.0f} s of exact solving plus {meta["fit_seconds"]:.1f} s of fitting before any test instance. Approximators: decision trees (depth 6 and 3), shallow MLP (16 hidden, 60 iterations), quantised lookup, finite-state controller (t, context, remaining budget only), a pacing heuristic and constants. Features: step, context, remaining budget, log wealth, number of pending labels, alternative parameters (so the policy conditions on the unseen alternative's value).
 Test: {len(set(df.alt))} alternatives never used in training x 3 budgets; policy values are evaluated **exactly** (policy plugged into the exact evaluator), not by simulation.
 
 {md(summ, "{:.4f}")}
@@ -1037,11 +1046,14 @@ Per-policy gap to the exact optimum (power = probability of crossing the thresho
 
 {md(summ[["gap_mean", "gap_max", "rel_gap", "decision_error", "null_alarm_mean"]], "{:.4f}")}
 
+The best learned approximator by mean gap is `{summ.loc[['tree_d6','tree_d3','mlp_16','fsc','lookup']].gap_mean.idxmin()}` (gap {summ.loc[['tree_d6','tree_d3','mlp_16','fsc','lookup']].gap_mean.min():.3f}); the trivial always-query policy has gap {summ.loc['always_1','gap_mean']:.3f} and the variance-optimal table gap {summ.loc['neyman','gap_mean']:.3f}; the exact optimum has mean power {df.v_opt.mean():.3f}. Learned policies reproduce the optimal action on most sampled states (decision error {summ.loc[['tree_d6','mlp_16','fsc']].decision_error.min():.3f}-{summ.loc[['tree_d6','mlp_16','fsc']].decision_error.max():.3f}) yet lose value: the few states where the optimal action matters (late, near the threshold, with pending labels) are rare in the training distribution, the standard imitation-learning failure. **S11 is negative on this instance: no compact approximator matched the exact oracle's value on unseen alternatives.** Amortisation cost: {meta['oracle_data_seconds']:.0f} s of exact solving to build the training set versus {df.exact_solve_s.mean():.0f} s per exact solve of a test instance, so amortisation would pay off only after about {meta['oracle_data_seconds'] / max(df.exact_solve_s.mean(), 1e-9):.0f} test instances even for a perfect approximator.
+
 Per-instance values: `outputs/gap_closure/e11_s11_amortized_test.csv`. Exact value of information for the first-promotion problem: `e11_exact_voi.csv`.
 """,
         )
     if have(O / "e12_s12_dist.csv"):
-        d = pd.read_csv(O / "e12_s12_dist.csv")
+        d = pd.read_csv(O / "e12_s12_dist.csv", keep_default_na=False)
+        d[["reject", "ms_per_test", "peak_kb", "decision_harm_scenario"]] = d[["reject", "ms_per_test", "peak_kb", "decision_harm_scenario"]].astype(float)
         main = d[d.method != "approx_error_rff_vs_exact"]
         ae = d[d.method == "approx_error_rff_vs_exact"][
             ["d", "window", "reject", "ms_per_test", "peak_kb"]
@@ -1073,7 +1085,7 @@ Per-instance values: `outputs/gap_closure/e11_s11_amortized_test.csv`. Exact val
         w(
             "S12_EFFICIENT_DETECTION_RESULTS.md",
             f"""# S12 efficient multi-scale distribution testing
-Methods: exact RBF MMD (median bandwidth), random-feature MMD (256 features), multi-bandwidth exact / RFF (median x {{.5, 1, 2}}, max of standardised statistics), standard C2ST (logistic regression, balanced held-out accuracy z), efficient C2ST (closed-form LDA direction, held-out t), BBSD (KS on model scores), incremental sliding-window RFF-MMD (O(D) per observation). d in {{5, 20, 100}}, window in {{32, 64, 128, 256}}, reference 512, 150 null calibration + 100 evaluation replicates per (setting, scenario) with thresholds from the 95% quantile of independent null replicates. **Every runtime includes all preprocessing and fitting** (bandwidth selection, feature sampling, classifier fitting). Benign shift = nuisance coordinate; harmful shift = the informative coordinate where the deployed linear model is misspecified (decision-cost increase on the evaluator side below).
+Methods: exact RBF MMD (median bandwidth), random-feature MMD (256 features), multi-bandwidth exact / RFF (median x {{.5, 1, 2}}, max of standardised statistics), standard C2ST (logistic regression, balanced held-out accuracy z), efficient C2ST (closed-form LDA direction, held-out t), BBSD (KS on model scores), incremental sliding-window RFF-MMD (O(D) per observation). d in {{5, 20, 100}}, window in {{32, 64, 128, 256}}, reference 512, 150 null calibration + 100 evaluation replicates per (setting, scenario) with thresholds from the 95% quantile of independent null replicates. **Every runtime includes all preprocessing and fitting** (bandwidth selection, feature sampling, classifier fitting). Benign shift = 0.3 sigma on a nuisance coordinate; harmful shift = -0.3 sigma on the informative coordinate where the deployed linear model is misspecified (decision-cost increase on the evaluator side below). **Disclosure:** a first run (`e12_s12_dist_v1_saturated_wrong_harm_sign.csv`, kept) used 1.2 sigma shifts, so every test saturated at power 1.0, and its 'harmful' direction had negative decision harm (-0.32); its numbers are not used.
 
 Evaluator-side decision harm of each shifted scenario:
 
@@ -1095,7 +1107,7 @@ Peak traced memory per test (kB, window 128):
 ## Approximation error and streaming cost
 {md(ae, "{:.4f}", index=False)}
 
-Findings: none of the distribution tests separates harmful from benign shift when both move the covariates comparably (rejection rates are similar; BBSD, which looks at the model score, is the only one that tracks the informative coordinate); feature-space detectors are sentinels, not harm detectors (consistent with earlier F1). RFF-MMD approximates exact MMD within the relative error in the table; the incremental form turns a per-window O(w n d) recompute into O(D) per observation (compare the last two columns). Speed claims above include preprocessing and fitting; no claim is made about C2ST with deep classifiers.
+Findings: none of the distribution tests separates harmful from benign shift when both move the covariates comparably (rejection rates are similar; BBSD, which looks at the model score, is the only one that tracks the informative coordinate); feature-space detectors are sentinels, not harm detectors (consistent with earlier F1). RFF-MMD with 256 features has **large relative error** on the unbiased MMD^2 whenever the true value is near zero (table; the statistic is signed and tiny under mild shifts), yet its calibrated rejection rates are within about 0.05-0.15 of the exact test at d = 5-20 and about 0.07-0.1 lower at d = 100; the incremental form turns a per-window O(w n d) recompute into O(D) per observation (compare the last two columns). Speed claims above include preprocessing and fitting; no claim is made about C2ST with deep classifiers.
 """,
         )
         w(
@@ -1280,6 +1292,284 @@ def St_summ(p):
     from shiftlab.gap import store as St
 
     return St.summarise(pd.read_parquet(p))
+
+
+def fixes():
+    r = pd.read_csv(O / "e14_fixes_dev2/fix_decisions.csv")
+    sm = pd.read_csv(O / "e14_fixes_dev2/summary_by_world.csv")
+    sm["parent"] = sm.config.str.split("|").str[0]
+    sm["variant"] = sm.config.str.split("|").str[1]
+    dep = sm[sm.world.str.contains("D2\\|null\\|(?:ar|cluster|fin)", regex=True) & (sm.variant.isin(["parent", "F2_lrv100"]))].pivot_table(index="world", columns=["parent", "variant"], values="fa")
+    ver = []
+    for fx, rule in (("F1_var_floor.5", "iid power gain >= +0.03 for >= 2 parents"), ("F2_lrv100", "dependence-null max FA <= 0.07 (Wilson hi <= 0.09) for >= 2 parents and iid power loss <= 0.05"), ("F3_multiwindow", "transient power gain >= +0.05 for >= 2 parents and non-harm FA change <= +0.02")):
+        q = r[r.variant == fx].set_index("parent")
+        if fx.startswith("F1"):
+            ok = (q.d_power_iid_harm >= 0.03).sum() >= 2 and (q.d_fa_nonharm <= 0.02).all()
+        elif fx.startswith("F2"):
+            ok = ((q.max_fa_dep_fix <= 0.07) & (q.dep_fix_ci_hi <= 0.09) & (q.d_power_iid_harm >= -0.05)).sum() >= 2
+        else:
+            ok = ((q.d_power_transient >= 0.05) & (q.d_fa_nonharm <= 0.02)).sum() >= 2
+        ver.append({"fix": fx, "preregistered rule": rule, "parents meeting": int({"F1": ((q.d_power_iid_harm >= 0.03) & (q.d_fa_nonharm <= 0.02)), "F2": ((q.max_fa_dep_fix <= 0.07) & (q.dep_fix_ci_hi <= 0.09) & (q.d_power_iid_harm >= -0.05)), "F3": ((q.d_power_transient >= 0.05) & (q.d_fa_nonharm <= 0.02))}[fx[:2]].sum()), "accepted": "YES" if ok else "NO"})
+    ver = pd.DataFrame(ver)
+    w("SECOND_ROUND_FIX_RESULTS.md", f"""# Second-round fixes on new development worlds (executed; rules in `SECOND_ROUND_FIX_CANDIDATES.md`)
+15 new development worlds (6 dependence nulls: AR .8 / .97, cluster 50 / 200, two GARCH settings; iid null; benign shift; 4 iid harm worlds; 3 transient / recurrent), 400 seeds (1000-path precision is not needed for the power rules), seed block 80000, fraction 0.2, delay 5; per-seed data in `outputs/gap_closure/e14_fixes_dev2`.
+
+Verdicts against the preregistered rules:
+
+{md(ver, index=False)}
+
+Decision table (mean over worlds; deltas vs the matched parent):
+
+{md(r.round(3), "{:.3f}", index=False)}
+
+False-alarm rate on the dependence nulls, parents vs F2 (lrv, 100 lags):
+
+{md(dep)}
+
+* **F1 floored allocation: rejected.** Raising the floor to frac/2 removes most of the unfloored loss (HG iid power -0.081 -> -0.048) and even helps transient worlds (+0.03 to +0.065), but it never beats uniform on iid harm worlds.
+* **F2 long-run-variance bet: rejected as an improvement claim; partial as a size mitigation.** It cuts the worst dependent-null false-alarm rate by 60-80% for all three parents (pprm .225 -> .092, HG .232 -> .048, cost .200 -> .092) but restores the nominal level for only one parent (HG: worst dependent-null FA 0.048); even that parent misses the preregistered power-loss limit (iid power change {r[(r.parent=='HG') & (r.variant=='F2_lrv100')].d_power_iid_harm.iloc[0]:+.4f} vs -0.05), so 0 of 3 parents pass. It costs 0.05-0.08 iid power and 0.07-0.21 transient power and is a heuristic with no proof.
+* **F3 multi-window mixture: rejected.** It raises pprm's transient power (+0.14) at the price of false alarms (+0.07 non-harm, worst dependence null 0.49); for HG and cost it lowers power.
+No fix generalizes to >= 2 parents. These negative results are recorded in the registry; none is promoted to confirmation (except F2-on-HG, included as an informational arm).
+""")
+
+
+def ranking():
+    w("NOVELTY_OPPORTUNITY_RANKING.md", """# Novelty opportunity ranking (judgement, grounded in the stored results)
+Scores 1-5 (5 = best). "Statistical correctness" = whether the mechanism keeps an anytime-valid guarantee under its null. Novelty is **unassessed against the literature** (primary sources unreachable): scores reflect only what was not present in this repository's baselines.
+
+| rank | opportunity | severity of the problem | methods affected | reproducibility | importance | fix feasibility | statistical correctness | potential novelty | status |
+|---|---|---|---|---|---|---|---|---|---|
+| 1 | Dependence-robust (conditional-null-safe) e-processes: long-run-variance-calibrated bets with a proof under mixing | 5 | 3+ | 5 | 5 | 2 (no proof; F2 is a heuristic that only partly works) | 1 now, could be 4 | 4 | OPEN: F2 partial |
+| 2 | Allocation-aware validity caps (use the inclusion probability on the events where the increment is non-zero) | 4 | 7 families | 5 | 4 | 4 (Q2: 0.77 -> 0.92 for CAMS-style certification) | 5 | 3 | partially realised in Q2 (disagreement-event cap) |
+| 3 | Disagreement-focused certification with exact zero increments (Q2/Q3) | 3 | 4 | 4 | 4 | 5 | 5 | 2 (CAMS-style) | realised; matches CAMS-style baseline |
+| 4 | Decision-cost gate for Brier evidence (HG) | 3 | 1 parent tested | 3 | 4 | 5 | 5 | 2 (composition of known ideas) | realised; survives repair |
+| 5 | Forgetting evidence for non-stationary certification / reversal | 2 | all Q2 | 2 | 4 | 1 (no anytime-valid forgetting form found) | 1 | 4 | open |
+| 6 | Growth-aware acquisition | 1 (does not help) | - | 5 | 3 | - | 5 | 1 | falsified (equals variance to second order; loses under the validity tax) |
+| 7 | Reliability-adaptive proxy weight | 1 (does not help) | - | 4 | 2 | - | 5 | 1 | falsified |
+| 8 | Budget pacing | 1 | - | 4 | 2 | - | 5 | 1 | falsified (v2 pending in results) |
+""")
+
+
+def runtime():
+    rt = pd.read_csv(O / "RUNTIME_SCALING.csv")
+    hw = json.load(open(O / "runtime_hardware.json")) if have(O / "runtime_hardware.json") else {}
+    mem = pd.read_csv(O / "MEMORY_SCALING.csv") if have(O / "MEMORY_SCALING.csv") else pd.DataFrame()
+    det = rt[rt.case == "detector"]
+    base = det[(det["T"] == 2000) & (det.S == 100) & (det.frac == 0.1)].set_index("method")[["cold_s", "warm_s", "warm_sd_s", "us_per_obs", "tracemalloc_peak_mb"]]
+    scT = det[(det.S == 100) & (det.frac == 0.1)].pivot_table(index="method", columns="T", values="warm_s")
+    scS = det[(det["T"] == 2000) & (det.frac == 0.1)].pivot_table(index="method", columns="S", values="warm_s")
+    scF = det[(det["T"] == 2000) & (det.S == 100)].pivot_table(index="method", columns="frac", values="warm_s")
+    cert = rt[rt.case == "certification"].pivot_table(index="method", columns="K", values="warm_s")
+    drift = rt[rt.case == "drift_test"].pivot_table(index="method", columns="d", values="warm_s")
+    dp = rt[rt.case == "approx_dp"][["method", "T", "cold_s", "warm_s", "warm_sd_s"]]
+    pareto = ""
+    if have(O / "e15_confirm/perseed.parquet"):
+        c = pd.read_parquet(O / "e15_confirm/perseed.parquet")
+        c = c[c.config.str.endswith("@0.2")]
+        c["has"] = c.first_harm < c["T"]
+        harm_w = c.groupby("world").has.mean().loc[lambda x: x > 0.5].index
+        pw_ = c[c.world.isin(harm_w) & c.has].groupby(["world", "config"]).detected.mean().groupby("config").mean()
+        fa_ = c[~c.world.isin(harm_w)].groupby(["world", "config"]).false_alarm.mean().groupby("config").mean()
+        name = {"pprm@0.2": "pprm_parent(engine)", "HG@0.2": "HG", "cost@0.2": "cost_discount", "HG_robustmix@0.2": "HG_robustmix", "HG_F2lrv100@0.2": "HG_lrv100", "ph@0.2": "page_hinkley", "cusum@0.2": "cusum"}
+        tt = pd.DataFrame({"us_per_obs": [det[(det.method == name[k]) & (det["T"] == 2000) & (det.S == 100) & (det.frac == 0.1)].us_per_obs.mean() for k in name], "power_conf": [pw_.get(k, np.nan) for k in name], "FA_null_conf": [fa_.get(k, np.nan) for k in name]}, index=list(name.values()))
+        tt["pareto (power up, time down)"] = [not ((tt.power_conf >= r.power_conf) & (tt.us_per_obs <= r.us_per_obs) & ((tt.power_conf > r.power_conf) | (tt.us_per_obs < r.us_per_obs))).any() for r in tt.itertuples()]
+        pareto = f"""## Compute / accuracy (confirmation pools, 20% labels; runtime: engine, T=2000, S=100, 10% labels; PH and CUSUM timed with their vectorised legacy implementation)
+{md(tt)}
+
+Caution: the event-level engine loops over time, the legacy detectors use cumulative sums; compare within an implementation style, not across. PH / CUSUM have no validity guarantee (empirical thresholds); only the engine rows carry the e-process guarantee under its null."""
+    w("COMPUTE_ACCURACY_PARETO.md", f"""# Compute vs accuracy
+Machine: {hw}. Five repeats per case; `cold_s` = first call in the process, `warm_s` = median of the remaining calls (sd given). Stream generation cost is separate (`RUNTIME_SCALING.csv`, column `gen_s`) and excluded from detector time; "model fitting" is zero for the e-processes (plug-in Kelly bets), included inside every drift-test timing; "policy construction" for allocation rules is inside the engine loop. Memory: `tracemalloc` peak of numpy allocations per call (`MEMORY_TRACEMALLOC.csv`) and clean-process peak RSS (`MEMORY_SCALING.csv`).
+
+## Base case (T=2000, S=100, 10% labels)
+{md(base.round(4), "{:.4f}")}
+
+Warm time (s) vs horizon T (S=100):
+{md(scT.round(4), "{:.4f}")}
+
+vs number of parallel streams S (T=2000):
+{md(scS.round(4), "{:.4f}")}
+
+vs label fraction (T=2000, S=100):
+{md(scF.round(4), "{:.4f}")}
+
+Certification methods vs number of models K (50 streams, T=2000), warm s:
+{md(cert.round(4), "{:.4f}")}
+
+Drift tests vs feature dimension d (window 128), warm s per test:
+{md(drift.round(5), "{:.5f}")}
+
+Approximate DP (exact RPOQ solver with wealth snapping), seconds:
+{md(dp, "{:.3f}", index=False)}
+
+Peak RSS in a clean process (MB):
+{md(mem.round(1), "{:.1f}", index=False) if len(mem) else "n/a"}
+
+{pareto}
+""")
+    w("FINAL_RUNTIME_RESULTS.md", f"""# Final runtime results (matched repeated runs on one idle machine)
+The frozen arms were timed on identical streams (T=2000, S=100, 10% labels, delay 5) with 5 repeats in one process after the statistical confirmation run finished; see `COMPUTE_ACCURACY_PARETO.md` for the full tables.
+
+{md(base.round(4), "{:.4f}")}
+
+HG costs ~{base.loc['HG', 'warm_s'] / base.loc['pprm_parent(engine)', 'warm_s']:.2f}x the parent per run in the event-level engine (the cost gate adds a second channel); the robust mixture and the long-run-variance bet add {base.loc['HG_robustmix', 'warm_s'] / base.loc['HG', 'warm_s']:.2f}x and {base.loc['HG_lrv100', 'warm_s'] / base.loc['HG', 'warm_s']:.2f}x over HG. HG takes {base.loc['HG', 'us_per_obs']:.1f} microseconds per stream-step in the engine (vectorised over 100 streams); compare with the 0.1-100 ms per window test of the drift tests in `S12_EFFICIENT_DETECTION_RESULTS.md`.
+""")
+
+
+def reports():
+    import importlib.util
+
+    spec = importlib.util.spec_from_file_location("mm", "scripts/gap/make_matrix.py")
+    mm = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mm)
+    st = pd.DataFrame([{"id": r[0], "requirement": r[1], "initial": r[11], "final": r[12], "limitation": r[21]} for r in mm.R])
+    counts = st.groupby(["initial", "final"]).size().unstack(fill_value=0)
+    conf = pd.read_parquet(O / "e15_confirm/perseed.parquet") if have(O / "e15_confirm/perseed.parquet") else None
+    cov = {}
+    if conf is not None:
+        conf["has"] = conf.first_harm < conf["T"]
+        hw_ = conf.groupby("world").has.mean().loc[lambda x: x > 0.5].index
+        for f in (0.1, 0.2):
+            c = conf[conf.config.str.endswith(f"@{f}")]
+            pw = c[c.world.isin(hw_) & c.has].groupby(["world", "config"]).detected.mean().groupby("config").mean()
+            fa = c[~c.world.isin(hw_)].groupby(["world", "config"]).false_alarm.mean().groupby("config").mean()
+            ok = c[~c.world.isin(hw_) & ~c.world.str.contains("ar0.9|cluster120|fin_null")].groupby(["world", "config"]).false_alarm.mean().groupby("config").max()
+            cov[f] = pd.DataFrame({"power_harm_worlds": pw, "FA_null_mean": fa, "FA_max_in_scope_nulls": ok})
+    conf_tab = "\n\n".join(f"Label fraction {f}:\n\n{md(t)}" for f, t in cov.items())
+    w("REPORT_A_EXPERIMENTAL_COVERAGE.md", f"""# Report A - experimental coverage
+Counts of mandate requirements by status (rows: status at the start of this task, columns: now):
+
+{md(counts)}
+
+Per requirement:
+
+{md(st, index=False)}
+
+**Finally completed (executed, with tests or validity experiments and results in the repository):** per-seed storage, paired design, hard budgets, validity audit and repair, 14-experiment stress matrix, generators G3-G6, S05, Q2 (S09), Q3 (S10), S12, runtime/memory benchmarks (when `RUNTIME_SCALING.csv` is present), second-round fixes and the frozen confirmation.
+**Executed but reduced (PARTIAL):** S03 (108 of 432 grid points per parent + a sensitivity run), S04 (exact oracle gaps toy-only), S06 (no DP at scale; v1 confounded, v2 corrected), S07 (PAI baseline not a verified reproduction), S08 (monitoring arm only), S11 (toy instance), the configuration search (count within range, few genuinely different algorithms).
+**Blocked / unreproducible:** verified reproductions of published methods and the literature novelty check (sources unreachable); G2 held-out and CRSP replay artifacts (never committed; marked REPRODUCTION_REQUIRED, not re-run).
+Disclosed process errors fixed in this task: S06 v1 floor confound; the `.gitignore` that lost earlier artifacts; a stray `.venv` created in the main checkout by an `uv run` launched from the wrong directory (gitignored, deletion was denied by the sandbox, left in place).
+""")
+    w("REPORT_B_ALGORITHMIC_IMPROVEMENTS.md", f"""# Report B - ranking of methods (synthetic evidence only; every ranking states its source)
+Confirmation results on new G3-G6 pools (frozen protocol; power over harm worlds, false alarm over null worlds; "in-scope" excludes the dependence nulls, where no e-process guarantee applies):
+
+{conf_tab}
+
+| criterion | ranking (best first) | evidence |
+|---|---|---|
+| general detection performance (Q1) | see confirmation tables; HG vs pprm vs PH vs CUSUM | `FINAL_SYNTHETIC_CONFIRMATION_RESULTS.md`, `FINAL_STATISTICAL_COMPARISONS.md` |
+| special-case performance | HG for decision-cost-gated benign shifts (earlier phase); robust mixture where labels are scarce | S05, earlier phase |
+| label efficiency | uniform / robust variance mixture; all growth / pacing / balancing rules lose | S04-S06, S08 |
+| false-alarm control | cost-only e-process (conservative); HG and pprm under iid null classes; none under dependence | stress matrix, `FINAL_VALIDITY_RESULTS.md` |
+| model certification (Q2) | CAMS-style disagreement querying ~ S09d ~ S09e_alloc_cams > S09b/c_cams > uniform Bonferroni > seqmcs | `Q2_CANDIDATE_RESULTS.md` |
+| intervention regret (Q3) | rolling recalibration (idealised) < certified promotion ~ hysteresis ~ PH < HG < frozen under persistent harm; frozen best when nothing is worthwhile | `Q3_*` |
+| runtime | e-process monitors are cheap (microseconds per stream-step); exact MMD / LR-C2ST are 10^2-10^4x more per decision | `COMPUTE_ACCURACY_PARETO.md`, `S12_*` |
+| memory | all O(T S) buffers in the engine; see MEMORY_SCALING.csv | `MEMORY_SCALING.csv` |
+| robustness | repaired cap + in-order release are the only validity-safe configuration; nothing is robust to dependence | `VALIDITY_SUPPORT_MATRIX.md` |
+""")
+    w("REPORT_C_SHARED_FAILURES_AND_NOVELTY.md", """# Report C - shared failures and novelty opportunities
+See `UPDATED_FAILURE_MATRIX.md`, `CROSS_METHOD_WEAKNESS_CLUSTERS.md`, `NOVELTY_OPPORTUNITY_RANKING.md`, `SECOND_ROUND_FIX_RESULTS.md`.
+* **Strongest common weaknesses:** (A) the predictable-bound tax on any non-uniform propensity (7 method families across Q1/Q2/Q3); (B) the conditional-null failure under dependent outcomes (all three e-process monitors); (C) information starvation (transient harm, late onset, tiny label rates).
+* **Strongest corrections tested:** the repaired cap + in-order release (validity, costs nothing); the disagreement-event cap in certification (CAMS-style 0.77 -> 0.92 on the smoke world, the dominant effect in Q2); the robust variance/uniform mixture (+0.033 power, lower false alarms, dev pool); F1 floors, F2 long-run-variance bet and F3 multi-window mixture **did not meet their preregistered rules**.
+* **Does a common fix improve more than one published-method family?** No tested fix met the multi-parent rule. The cap-awareness idea (let the validity bound use the inclusion probability on events with non-zero increments) is the only candidate that spans families (certification, allocation) and it was validated only inside Q2; it is a design principle, not a verified general improvement.
+""")
+    w("REPORT_D_RESEARCH_DECISION.md", """# Report D - research decision
+Based on synthetic evidence only; no real data touched; no VERIFIED_REPRODUCTION of any published baseline exists, so every "beats SOTA" statement means "beats source-inspired local baselines".
+1. **Principal candidate:** HG (decision-cost-gated discounted prediction-risk betting), in its repaired form (predictable cap, in-order release). It remains competitive: it beats `pprm` on the dev pool and, per `FINAL_STATISTICAL_COMPARISONS.md`, on the new confirmation pools; its comparison with Page-Hinkley and CUSUM is in the same file.
+2. **Is HG still competitive?** Yes under its stated null (iid-like, bounded, predictable bets, known or outcome-independent label timing). It is **not** valid under dependent outcomes (clusters, GARCH): measured false-alarm rates 0.09-0.23, shared with the other e-process monitors.
+3. **Is another candidate better?** The robust variance/uniform mixture (S05) is a small, consistent gain over uniform querying on dev pools; the confirmation shows whether it holds (`FINAL_STATISTICAL_COMPARISONS.md`). No growth-aware, reliability-adaptive, paced or balanced variant beats its parent. For certification, CAMS-style disagreement querying is the strong method; none of the S09 extensions improves on it.
+4. **Does an improvement survive a matched SOTA comparison?** Only against source-inspired baselines; the Q3 economic comparison shows HG's detection advantage does *not* convert into lower regret under persistent harm.
+5. **Defensible novel mechanism?** Not established. Candidates: the audit finding that a covariate-dependent bet cap voids the supermartingale step (with a clean repair); the disagreement-event cap; the composition in HG. Literature novelty is unassessed.
+6. **Real-data validation:** justified only as a *stress test of the dependence failure*, not as a performance test of HG: the earlier CRSP replay already showed DK worse than its parent, and the synthetic results show size inflation under clustered / volatility-clustered losses, i.e. exactly the structure real financial streams have. Recommended decision: **continue with a pivot** - keep HG as the baseline, make a dependence-robust (conditional-null-safe) e-process the primary research target (ranked first in `NOVELTY_OPPORTUNITY_RANKING.md`), and do not claim a detection advantage on real data before that is solved.
+""")
+
+
+def _boot(df, a, b, harm_worlds, B=2000, seed=0):
+    """Cluster bootstrap (worlds, then seeds) of the mean paired power difference a - b over harm worlds."""
+    rng = np.random.default_rng(seed)
+    diffs = []
+    for wd in harm_worlds:
+        x = df[(df.world == wd) & (df.config == a)].sort_values("seed")
+        y = df[(df.world == wd) & (df.config == b)].sort_values("seed")
+        m = (x.first_harm < x["T"]).values
+        if m.sum() == 0:
+            continue
+        diffs.append((x.detected.values.astype(float) - y.detected.values.astype(float))[m])
+    obs = np.mean([d.mean() for d in diffs])
+    bs = np.array([np.mean([diffs[i][rng.integers(0, len(diffs[i]), len(diffs[i]))].mean() for i in rng.integers(0, len(diffs), len(diffs))]) for _ in range(B)])
+    return obs, np.quantile(bs, 0.025), np.quantile(bs, 0.975)
+
+
+def s04v2():
+    if not have(O / "e3b_s04_floor/perseed.parquet"):
+        return
+    df = pd.read_parquet(O / "e3b_s04_floor/perseed.parquet")
+    sm = pd.read_csv(O / "e3b_s04_floor/summary_by_world.csv")
+    hw = sorted(sm[(sm.role == "harm")].world.unique())
+    rows = []
+    for par in ("HG", "pprm"):
+        for f in ("0.05", "0.1", "0.2"):
+            for arm, ref in (("variance", "uniform"), ("growth", "uniform"), ("growth_oracle", "uniform"), ("growth_harm", "uniform"), ("growth_look", "uniform"), ("robust_mix", "uniform"), ("growth", "variance"), ("growth", "robust_mix")):
+                o, lo, hi = _boot(df, f"{par}|{arm}|f{f}", f"{par}|{ref}|f{f}", hw)
+                rows.append({"parent": par, "label_frac": f, "A": arm, "B": ref, "power A-B": o, "ci_lo": lo, "ci_hi": hi})
+    t = pd.DataFrame(rows)
+    pw = sm[sm.role == "harm"].assign(parent=lambda d: d.config.str.split("|").str[0], arm=lambda d: d.config.str.split("|").str[1], frac=lambda d: d.config.str.split("|").str[2]).groupby(["parent", "frac", "arm"]).agg(power=("power", "mean"), labels=("labels", "mean"))
+    fa = sm[sm.role == "nonharm"].assign(parent=lambda d: d.config.str.split("|").str[0], arm=lambda d: d.config.str.split("|").str[1], frac=lambda d: d.config.str.split("|").str[2]).groupby(["parent", "frac", "arm"]).fa.mean().rename("fa_nonharm")
+    pwr = pw.reset_index()
+    lm = []
+    for par in ("HG", "pprm"):
+        u = pwr[(pwr.parent == par) & (pwr.arm == "uniform")].sort_values("labels")
+        for _, r in pwr[(pwr.parent == par) & (pwr.arm != "uniform")].iterrows():
+            lm.append({"parent": par, "frac": r.frac, "arm": r.arm, "labels": r.labels, "power": r.power, "uniform_power_at_same_labels": float(np.interp(r.labels, u.labels, u.power)), "label_matched_gain": r.power - float(np.interp(r.labels, u.labels, u.power))})
+    lm = pd.DataFrame(lm)
+    win = lm[(lm.arm == "growth") & (lm.label_matched_gain >= 0.03)]
+    txt = f"""# S04 v2: growth-aware querying with corrected propensity floors (frac/2)
+Same arms, worlds (23), seeds (150) and parents as `S04_RESULTS.md`, but the non-uniform arms use a propensity floor of frac/2 (v1: frac/4); label fractions .05 / .10 / .20; delay 5; expected-budget contract. Development pool only; nothing here is confirmed on untouched seeds.
+
+Mean power and false alarm by arm:
+
+{md(pw.join(fa))}
+
+Paired differences at the same *nominal* fraction (cluster bootstrap over worlds then seeds, 2,000 resamples; harm worlds equally weighted). **These are not label-matched**: the non-uniform arms realise 8-17% more labels than uniform at the same nominal fraction (floor plus running normalisation push mean propensity above frac):
+
+{md(t, "{:.3f}", index=False)}
+
+**Label-matched comparison.** Uniform's power-vs-realised-labels curve (nominal fractions .05 / .10 / .20) is interpolated at each arm's realised label count:
+
+{md(lm, "{:.3f}", index=False)}
+
+**Reading.** v1 concluded that growth-aware querying loses to uniform; that was largely a consequence of the frac/4 floor. With frac/2 floors growth-aware arms beat uniform at the same nominal fraction, but most of that is extra labels: label-matched gains of the estimated growth arm are >= +0.03 in {len(win)} of 6 (parent, fraction) cells, and the ORACLE-alternative arm (true P(y=1|x) known) keeps a larger label-matched gain, i.e. most of the available benefit is lost to estimating the alternative. Growth minus variance is within about +-0.02 (growth equals variance to second order). Acceptance for S04 (improves over the best of uniform / variance / robust mixture by >= +0.03 mean power, <= 25% of worlds worse than -0.03, non-harm FA change <= +0.02) is evaluated from the table above and stated in `FINAL` reports; because this is a development-pool result that was not frozen for confirmation it is reported as **unconfirmed**.
+"""
+    w("S04_V2_FLOOR_RESULTS.md", txt)
+
+
+def pareto():
+    d = pd.read_csv(O / "e12_s12_dist.csv", keep_default_na=False)
+    d[["reject", "ms_per_test"]] = d[["reject", "ms_per_test"]].astype(float)
+    m = d[(d.method != "approx_error_rff_vs_exact") & (d.window == 128)]
+    rows = []
+    for dd in (5, 20, 100):
+        sub = m[m.d == dd]
+        t = pd.DataFrame({"harmful_power": sub[sub.scenario == "harmful"].set_index("method").reject, "benign_rejection": sub[sub.scenario == "benign"].set_index("method").reject, "ms_per_test": sub[sub.scenario == "harmful"].set_index("method").ms_per_test})
+        t["pareto (harmful power up, time down)"] = [not ((t.harmful_power >= r.harmful_power) & (t.ms_per_test <= r.ms_per_test) & ((t.harmful_power > r.harmful_power) | (t.ms_per_test < r.ms_per_test))).any() for r in t.itertuples()]
+        t.insert(0, "d", dd)
+        rows.append(t)
+    s12 = pd.concat(rows)
+    s11 = pd.read_csv(O / "e11_s11_amortized_test.csv").groupby("policy").agg(gap=("gap", "mean"), latency_ms=("latency_ms_per_decision", "mean"))
+    s11["pareto (gap down, latency down)"] = [not ((s11.gap <= r.gap) & (s11.latency_ms <= r.latency_ms) & ((s11.gap < r.gap) | (s11.latency_ms < r.latency_ms))).any() for r in s11.itertuples()]
+    w("COMPUTATIONAL_PARETO_ANALYSIS.md", f"""# Computational Pareto analysis
+Three trade-offs, each with its own accuracy notion; runtimes include preprocessing and fitting.
+
+## Drift tests (S12, window 128; accuracy = power under a harmful 0.3-sigma shift)
+{md(s12, "{:.3f}")}
+BBSD is the only test whose benign-shift rejection stays at the null level while it has harmful-shift power; it is also by far the cheapest. Exact MMD is dominated by RFF-MMD at d = 5 and 20 only in time, not in power; at d = 100 the closed-form LDA test is slow because of the covariance solve.
+
+## Amortised planners (S11, exact toy instance; accuracy = mean gap to the exact optimum)
+{md(s11, "{:.4f}")}
+A learned approximator does not reach the Pareto set: the trivial always-query policy is both cheaper and closer to the optimum than every fitted model on this instance.
+
+## Sequential monitors
+See `COMPUTE_ACCURACY_PARETO.md` (engine and legacy detectors; confirmation-pool power vs microseconds per stream-step).
+""")
 
 
 if __name__ == "__main__":

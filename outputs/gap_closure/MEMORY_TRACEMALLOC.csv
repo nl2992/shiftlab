@@ -1,0 +1,128 @@
+case,method,T,S,K,d,window,frac,tracemalloc_peak_mb
+detector,pprm_parent(engine),500.0,100.0,,,,0.1,4.41574
+detector,HG,500.0,100.0,,,,0.1,5.624388
+detector,discount_only,500.0,100.0,,,,0.1,4.415804
+detector,costgate_only,500.0,100.0,,,,0.1,5.624452
+detector,multiwindow(3),500.0,100.0,,,,0.1,6.040868
+detector,HG_growth_alloc,500.0,100.0,,,,0.1,18.252324
+detector,HG_robustmix,500.0,100.0,,,,0.1,18.254164
+detector,cost_discount,500.0,100.0,,,,0.1,4.415804
+detector,HG_lrv100,500.0,100.0,,,,0.1,6.025556
+detector,pprm_tight(legacy cumsum),500.0,100.0,,,,0.1,4.807721
+detector,HG(legacy cumsum),500.0,100.0,,,,0.1,8.404187
+detector,page_hinkley,500.0,100.0,,,,0.1,1.651608
+detector,cusum,500.0,100.0,,,,0.1,1.651608
+detector,pprm_parent(engine),2000.0,100.0,,,,0.1,17.31574
+detector,HG,2000.0,100.0,,,,0.1,22.124388
+detector,discount_only,2000.0,100.0,,,,0.1,17.315804
+detector,costgate_only,2000.0,100.0,,,,0.1,22.124452
+detector,multiwindow(3),2000.0,100.0,,,,0.1,23.740852
+detector,HG_growth_alloc,2000.0,100.0,,,,0.1,71.952324
+detector,HG_robustmix,2000.0,100.0,,,,0.1,71.954164
+detector,cost_discount,2000.0,100.0,,,,0.1,17.315804
+detector,HG_lrv100,2000.0,100.0,,,,0.1,22.525556
+detector,pprm_tight(legacy cumsum),2000.0,100.0,,,,0.1,19.21967
+detector,HG(legacy cumsum),2000.0,100.0,,,,0.1,33.604187
+detector,page_hinkley,2000.0,100.0,,,,0.1,6.601608
+detector,cusum,2000.0,100.0,,,,0.1,6.601608
+detector,pprm_parent(engine),8000.0,100.0,,,,0.1,68.91574
+detector,HG,8000.0,100.0,,,,0.1,88.124388
+detector,discount_only,8000.0,100.0,,,,0.1,68.915804
+detector,costgate_only,8000.0,100.0,,,,0.1,88.124452
+detector,multiwindow(3),8000.0,100.0,,,,0.1,94.540868
+detector,HG_growth_alloc,8000.0,100.0,,,,0.1,286.752324
+detector,HG_robustmix,8000.0,100.0,,,,0.1,286.754164
+detector,cost_discount,8000.0,100.0,,,,0.1,68.915804
+detector,HG_lrv100,8000.0,100.0,,,,0.1,88.525556
+detector,pprm_tight(legacy cumsum),8000.0,100.0,,,,0.1,76.867721
+detector,HG(legacy cumsum),8000.0,100.0,,,,0.1,134.404187
+detector,page_hinkley,8000.0,100.0,,,,0.1,26.401608
+detector,cusum,8000.0,100.0,,,,0.1,26.401608
+detector,pprm_parent(engine),2000.0,1.0,,,,0.1,0.134067
+detector,HG,2000.0,1.0,,,,0.1,0.150795
+detector,discount_only,2000.0,1.0,,,,0.1,0.134131
+detector,costgate_only,2000.0,1.0,,,,0.1,0.150859
+detector,multiwindow(3),2000.0,1.0,,,,0.1,0.170491
+detector,HG_growth_alloc,2000.0,1.0,,,,0.1,0.662691
+detector,HG_robustmix,2000.0,1.0,,,,0.1,0.662947
+detector,cost_discount,2000.0,1.0,,,,0.1,0.134131
+detector,HG_lrv100,2000.0,1.0,,,,0.1,0.164396
+detector,pprm_tight(legacy cumsum),2000.0,1.0,,,,0.1,0.211721
+detector,HG(legacy cumsum),2000.0,1.0,,,,0.1,0.340187
+detector,page_hinkley,2000.0,1.0,,,,0.1,0.067608
+detector,cusum,2000.0,1.0,,,,0.1,0.067608
+detector,pprm_parent(engine),2000.0,1000.0,,,,0.1,173.054248
+detector,HG,2000.0,1000.0,,,,0.1,221.134896
+detector,discount_only,2000.0,1000.0,,,,0.1,173.054312
+detector,costgate_only,2000.0,1000.0,,,,0.1,221.13496
+detector,multiwindow(3),2000.0,1000.0,,,,0.1,237.26656
+detector,HG_growth_alloc,2000.0,1000.0,,,,0.1,719.307056
+detector,HG_robustmix,2000.0,1000.0,,,,0.1,719.323296
+detector,cost_discount,2000.0,1000.0,,,,0.1,173.054312
+detector,HG_lrv100,2000.0,1000.0,,,,0.1,224.971488
+detector,pprm_tight(legacy cumsum),2000.0,1000.0,,,,0.1,192.019721
+detector,HG(legacy cumsum),2000.0,1000.0,,,,0.1,336.004251
+detector,page_hinkley,2000.0,1000.0,,,,0.1,66.001608
+detector,cusum,2000.0,1000.0,,,,0.1,66.001608
+detector,pprm_parent(engine),2000.0,100.0,,,,0.01,17.31574
+detector,HG,2000.0,100.0,,,,0.01,22.124388
+detector,discount_only,2000.0,100.0,,,,0.01,17.315804
+detector,costgate_only,2000.0,100.0,,,,0.01,22.124452
+detector,multiwindow(3),2000.0,100.0,,,,0.01,23.740852
+detector,HG_growth_alloc,2000.0,100.0,,,,0.01,71.952436
+detector,HG_robustmix,2000.0,100.0,,,,0.01,71.954276
+detector,cost_discount,2000.0,100.0,,,,0.01,17.315804
+detector,HG_lrv100,2000.0,100.0,,,,0.01,22.525556
+detector,pprm_tight(legacy cumsum),2000.0,100.0,,,,0.01,19.219721
+detector,HG(legacy cumsum),2000.0,100.0,,,,0.01,33.604187
+detector,page_hinkley,2000.0,100.0,,,,0.01,6.601608
+detector,cusum,2000.0,100.0,,,,0.01,6.601608
+detector,pprm_parent(engine),2000.0,100.0,,,,0.5,17.31574
+detector,HG,2000.0,100.0,,,,0.5,22.124388
+detector,discount_only,2000.0,100.0,,,,0.5,17.315804
+detector,costgate_only,2000.0,100.0,,,,0.5,22.124452
+detector,multiwindow(3),2000.0,100.0,,,,0.5,23.740852
+detector,HG_growth_alloc,2000.0,100.0,,,,0.5,71.952324
+detector,HG_robustmix,2000.0,100.0,,,,0.5,71.954164
+detector,cost_discount,2000.0,100.0,,,,0.5,17.315804
+detector,HG_lrv100,2000.0,100.0,,,,0.5,22.525556
+detector,pprm_tight(legacy cumsum),2000.0,100.0,,,,0.5,19.219721
+detector,HG(legacy cumsum),2000.0,100.0,,,,0.5,33.604187
+detector,page_hinkley,2000.0,100.0,,,,0.5,6.601608
+detector,cusum,2000.0,100.0,,,,0.5,6.601608
+certification,paired_e_bonf,2000.0,50.0,2.0,,,,4.847896
+certification,cams,2000.0,50.0,2.0,,,,4.848248
+certification,seqmcs,2000.0,50.0,2.0,,,,6.46367
+certification,S09d_budget,2000.0,50.0,2.0,,,,4.849272
+certification,paired_e_bonf,2000.0,50.0,5.0,,,,16.90782
+certification,cams,2000.0,50.0,5.0,,,,16.908172
+certification,seqmcs,2000.0,50.0,5.0,,,,33.065686
+certification,S09d_budget,2000.0,50.0,5.0,,,,16.909196
+certification,paired_e_bonf,2000.0,50.0,10.0,,,,37.00636
+certification,cams,2000.0,50.0,10.0,,,,37.006712
+certification,seqmcs,2000.0,50.0,10.0,,,,109.727994
+certification,S09d_budget,2000.0,50.0,10.0,,,,37.007736
+drift_test,mmd_exact,,,,5.0,128.0,,6.292108
+drift_test,mmd_rff,,,,5.0,128.0,,3.208288
+drift_test,mmd_multi_exact,,,,5.0,128.0,,9.045268
+drift_test,mmd_multi_rff,,,,5.0,128.0,,3.492056
+drift_test,c2st_lr,,,,5.0,128.0,,0.071833
+drift_test,c2st_lda,,,,5.0,128.0,,0.017208
+drift_test,bbsd,,,,5.0,128.0,,0.031664
+drift_test,mmd_exact,,,,20.0,128.0,,12.832288
+drift_test,mmd_rff,,,,20.0,128.0,,12.832288
+drift_test,mmd_multi_exact,,,,20.0,128.0,,12.832288
+drift_test,mmd_multi_rff,,,,20.0,128.0,,12.832288
+drift_test,c2st_lr,,,,20.0,128.0,,0.175756
+drift_test,c2st_lda,,,,20.0,128.0,,0.062912
+drift_test,bbsd,,,,20.0,128.0,,0.086624
+drift_test,mmd_exact,,,,100.0,128.0,,64.160288
+drift_test,mmd_rff,,,,100.0,128.0,,64.160288
+drift_test,mmd_multi_exact,,,,100.0,128.0,,64.160288
+drift_test,mmd_multi_rff,,,,100.0,128.0,,64.160288
+drift_test,c2st_lr,,,,100.0,128.0,,0.733218
+drift_test,c2st_lda,,,,100.0,128.0,,0.447624
+drift_test,bbsd,,,,100.0,128.0,,0.414304
+approx_dp,approx_dp(delta=.25),6.0,,,,,,
+approx_dp,approx_dp(delta=.25),8.0,,,,,,
+approx_dp,approx_dp(delta=.25),10.0,,,,,,

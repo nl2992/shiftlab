@@ -15,8 +15,11 @@ from shiftlab.gap import worlds as W
 
 R = W.Regime
 T = 2000
-SEED0 = 900_000
-SPEC = json.load(open("configs/gap_closure/frozen_confirmation_v1.json"))
+import os
+
+SEED0 = int(os.environ.get("CONFIRM_SEED0", 900_000))
+SPEC = json.load(open(os.environ.get("CONFIRM_CFG", "configs/gap_closure/frozen_confirmation_v1.json")))
+OUT = os.environ.get("CONFIRM_OUT", "e15_confirm")
 FRACS = SPEC["fracs"]
 
 
@@ -118,11 +121,15 @@ def main():
     def tup(c):
         return {k: (tuple(v) if isinstance(v, list) else v) for k, v in c.items()}
 
-    arms = {
-        f"{a['name']}@{f}": E.Cfg(**{**tup(a["cfg"]), "frac": f})
-        for a in SPEC["engine_arms"]
-        for f in FRACS
-    }
+    def mk(a, f):
+        c = tup(a["cfg"])
+        if c.pop("hard_budget", False):
+            c["budget"] = round(f * T)
+        if "qmin_frac" in c:
+            c["qmin"] = f * c.pop("qmin_frac")
+        return E.Cfg(**{**c, "frac": f})
+
+    arms = {f"{a['name']}@{f}": mk(a, f) for a in SPEC["engine_arms"] for f in FRACS}
     mixes = {}
     rows = []
     t0 = time.time()
@@ -175,7 +182,7 @@ def main():
                         "T": T,
                         "world": sp.name,
                         "group": sp.group,
-                        "config": f"{kind}",
+                        "config": f"{kind}@{FRAC}",
                         "cfg_hash": kind,
                         "seed": SEED0 + 1000 * wi + np.arange(S),
                         "qseed": 15,
@@ -192,8 +199,8 @@ def main():
             )
         print("world done", sp.name, round(time.time() - t0), flush=True)
     df = pd.concat(rows, ignore_index=True)
-    (St.ROOT / "e15_confirm").mkdir(parents=True, exist_ok=True)
-    df.to_parquet(St.ROOT / "e15_confirm/perseed.parquet", index=False)
+    (St.ROOT / OUT).mkdir(parents=True, exist_ok=True)
+    df.to_parquet(St.ROOT / OUT / "perseed.parquet", index=False)
     print("rows", len(df))
 
 

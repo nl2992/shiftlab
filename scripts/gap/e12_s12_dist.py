@@ -10,7 +10,7 @@ import pandas as pd
 from shiftlab.gap import dist_tests as DT
 
 N_REF, R_CAL, R_EVAL, ALPHA = 512, 150, 100, 0.05
-SHIFT = 1.0
+SHIFT = 0.25  # v2: moderate shifts (v1 used 1.2 sigma: every test saturated at power 1 and the 'harmful' direction had NEGATIVE decision harm)
 
 
 def world_y_harm(d, shift_dir, delta, rng, n=40000):
@@ -36,10 +36,10 @@ def one_setting(args):
     score_w = np.zeros(d)
     score_w[0], score_w[1] = 1.5, 1.0
     mu_b, mu_h = np.zeros(d), np.zeros(d)
-    mu_b[d - 1] = SHIFT * 1.2  # nuisance coordinate (no effect on the label law)
-    mu_h[1] = SHIFT * 1.2  # informative coordinate where the linear model is misspecified
-    harm_b = world_y_harm(d, d - 1, SHIFT * 1.2, rng)
-    harm_h = world_y_harm(d, 1, SHIFT * 1.2, rng)
+    mu_b[d - 1] = 0.3  # nuisance coordinate (no effect on the label law)
+    mu_h[1] = -0.3  # informative coordinate where the linear model is misspecified
+    harm_b = world_y_harm(d, d - 1, 0.3, rng)
+    harm_h = world_y_harm(d, 1, -0.3, rng)
     rows = []
     ref0 = rng.standard_normal((N_REF, d))
     for name in DT.METHODS:

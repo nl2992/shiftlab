@@ -1,0 +1,21 @@
+{
+  "frozen_on": "2026-10-30",
+  "round": 2,
+  "selected_from": "corrected-floor development reruns S04 v2 (e3b), S06 v2 (e5b), S08 v2 (e10b); NOT evaluated on any confirmation data before this file was committed. Pool parameters equal round 1; seeds are fresh (block 1,100,000).",
+  "fracs": [0.1, 0.2],
+  "frac": 0.2,
+  "delay": 5,
+  "alpha": 0.05,
+  "engine_arms": [
+    {"name": "HG", "cfg": {"risk": "brier", "gamma": 0.99, "gate_w": 100}},
+    {"name": "HG_hardcap", "cfg": {"risk": "brier", "gamma": 0.99, "gate_w": 100, "hard_budget": true}, "note": "uniform Bernoulli with the pathwise cap B = frac*T (comparator for paced rules)"},
+    {"name": "HG_growth_floor", "cfg": {"risk": "brier", "gamma": 0.99, "gate_w": 100, "alloc": "growth", "qmin_frac": 0.5}},
+    {"name": "HG_growthlook_floor", "cfg": {"risk": "brier", "gamma": 0.99, "gate_w": 100, "alloc": "growth_look", "qmin_frac": 0.5}},
+    {"name": "HG_variance_floor", "cfg": {"risk": "brier", "gamma": 0.99, "gate_w": 100, "alloc": "variance", "qmin_frac": 0.5}},
+    {"name": "HG_infovalue_pace", "cfg": {"risk": "brier", "gamma": 0.99, "gate_w": 100, "pacing": "info_value", "alloc": "uniform", "pace_floor": 0.5, "hard_budget": true}},
+    {"name": "HG_robustmix", "cfg": {"risk": "brier", "gamma": 0.99, "gate_w": 100, "alloc": "mix", "mix": [0.5, 0.5, 0.0], "mix_mode": "conservative"}}
+  ],
+  "classical_arms": [],
+  "primary_comparisons": [["HG_growth_floor", "HG"], ["HG_growthlook_floor", "HG"], ["HG_variance_floor", "HG"], ["HG_infovalue_pace", "HG_hardcap"], ["HG_growthlook_floor", "HG_variance_floor"]],
+  "note_label_matching": "growth / variance arms realise more labels than uniform at the same nominal fraction: the analysis reports realised labels and the label-matched gain against the uniform power-vs-labels curve (HG arm at fractions .1 and .2 and hard-cap arm)"
+}

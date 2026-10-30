@@ -206,6 +206,10 @@ outputs/figures/*
 !outputs/risk_proxy_monitor_grid/**
 !outputs/risk_proxy_monitor_confirmation/
 !outputs/risk_proxy_monitor_confirmation/**
+!outputs/gap_closure/
+!outputs/gap_closure/**
+!outputs/sota_search/
+!outputs/sota_search/**
 results/*
 !results/.gitkeep
 data/raw/

@@ -16,3 +16,19 @@ Mean harm-power / benign-world false alarm / null false alarm (400 seeds per wor
 3. HG is therefore not shown to beat the best established adaptive-betting comparator; its distinguishing claim must be "similar adaptation with materially fewer benign alarms", which needs a formal frontier comparison (matched benign FA) before it can be claimed. Not yet done.
 4. The mixture of constant bets is dominated by ONS on G1 and by disc-only on most cells.
 **Still missing from Goal 4:** published PPRM/Podkopaev–Ramdas/WATCH reproductions (sources unreachable), ADWIN, BOCPD, restart/multi-start variants, ASI/Robust ASI/growth-aware querying, runtime accounting (the 2.31 s parent time includes first-call overhead and is not comparable). Provenance remains SOURCE_INSPIRED or LOCAL_HEURISTIC for every arm; none is a VERIFIED_REPRODUCTION.
+
+## Matched-false-alarm frontier (dev pool, threshold sweep; `outputs/hg_validation/04_FRONTIER_DEV.csv`)
+Each arm's threshold was swept (1/α from 2 to 500, so these are *empirical* operating points, not theory-valid thresholds) on the 19-world development pool (200 seeds, not a held-out pool). Best harm power with benign-world false alarm ≤ cap and null false alarm ≤ .07:
+
+| labels | benign FA cap | HG_unifcap | ONS | discounting only | mixture8 | parent |
+|---|---|---|---|---|---|---|
+| 10% | .02 | **.488** | .461 | .449 | .362 | .372 |
+| 10% | .03 | **.546** | .461 | .510 | .429 | .428 |
+| 10% | .05 | **.603** | .581 | .559 | .524 | .485 |
+| 10% | .08 | .663 | **.667** | **.667** | .577 | .537 |
+| 20% | .03 | **.659** | – | – | – | .512 |
+| 20% | .05 | **.757** | – | – | .607 | .569 |
+| 20% | .08 | **.818** | .759 | .758 | .688 | .687 |
+(– = no swept threshold met the cap; at 20% labels no arm reaches benign FA ≤ .02.)
+
+**Reading.** At matched benign false alarm HG_unifcap is on or above the frontier of every comparator at every cap except a tie at 10%/.08, with gains over ONS of +.027 to +.085 at 10% labels and +.059 at 20%/.08. This supports the narrower claim "HG gives more power than ONS and disc-only when benign false alarms must stay low", the first evidence for a defensible niche. It is development-pool evidence only: the swept thresholds forfeit the theory guarantee, the dev pool defines the benign worlds, and the same sweep has not been run on a held-out pool.

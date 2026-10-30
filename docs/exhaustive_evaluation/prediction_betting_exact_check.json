@@ -1,0 +1,77 @@
+{
+  "status": "passed",
+  "author_commit": "f99e196b0087128d7ffe0291df9e68042255eae8",
+  "null_replicates": 3,
+  "states_per_case": 16,
+  "maximum_author_formula_error": 0.0,
+  "scope": "Eq2 author-statistic parity and exact exchangeability diagnostic; proxy-only learner is allowed but not paper experiment reproduction; mismatch lies outside matched-null guarantee",
+  "rows": [
+    {
+      "observed_proxy_probability": "1/5",
+      "null_simulator_proxy_probability": "1/5",
+      "exact_expected_factor": "1",
+      "expected_factor": 1.0,
+      "matched_null": true
+    },
+    {
+      "observed_proxy_probability": "1/5",
+      "null_simulator_proxy_probability": "1/2",
+      "exact_expected_factor": "1187/1400",
+      "expected_factor": 0.8478571428571429,
+      "matched_null": false
+    },
+    {
+      "observed_proxy_probability": "1/5",
+      "null_simulator_proxy_probability": "4/5",
+      "exact_expected_factor": "3172/4375",
+      "expected_factor": 0.7250285714285715,
+      "matched_null": false
+    },
+    {
+      "observed_proxy_probability": "1/2",
+      "null_simulator_proxy_probability": "1/5",
+      "exact_expected_factor": "10223/8750",
+      "expected_factor": 1.1683428571428571,
+      "matched_null": false
+    },
+    {
+      "observed_proxy_probability": "1/2",
+      "null_simulator_proxy_probability": "1/2",
+      "exact_expected_factor": "1",
+      "expected_factor": 1.0,
+      "matched_null": true
+    },
+    {
+      "observed_proxy_probability": "1/2",
+      "null_simulator_proxy_probability": "4/5",
+      "exact_expected_factor": "7547/8750",
+      "expected_factor": 0.8625142857142857,
+      "matched_null": false
+    },
+    {
+      "observed_proxy_probability": "4/5",
+      "null_simulator_proxy_probability": "1/5",
+      "exact_expected_factor": "5848/4375",
+      "expected_factor": 1.3366857142857143,
+      "matched_null": false
+    },
+    {
+      "observed_proxy_probability": "4/5",
+      "null_simulator_proxy_probability": "1/2",
+      "exact_expected_factor": "1613/1400",
+      "expected_factor": 1.1521428571428571,
+      "matched_null": false
+    },
+    {
+      "observed_proxy_probability": "4/5",
+      "null_simulator_proxy_probability": "4/5",
+      "exact_expected_factor": "1",
+      "expected_factor": 1.0,
+      "matched_null": true
+    }
+  ],
+  "source_sha256": {
+    "outputs/exhaustive_evaluation/betting_on_predictions/sequential_tests/imputed.py": "15a9a9bb1674f4eebcb4e94c9a886830f4c16cb716e4d205f67b49b495ddffa9",
+    "scripts/exhaustive_evaluation/check_prediction_betting.py": "382a8590661ca7a46c87209dd70654484465e08cc30cac953b1223a705143d14"
+  }
+}

@@ -779,3 +779,14 @@
 - This tests only a one-step adversarial choice. It does not validate history-dependent opponent
   extraction, delayed switching, or the exact two-law risk/cost verifier. No ShiftLab pilot, method
   claim, or novelty gate follows; G1 remains open.
+
+## 2026-10-29 — Scheduled push validation checkpoint
+
+- Re-ran `test_hsvi_adversarial_gadget.jl` with Julia 1.13.3 and the branch-local
+  `.aris/runs/hsvi-osposg-upstream` project: passed, solver gap approximately
+  `1.77e-7`, independently evaluated security value zero and gadget residual zero.
+- Ran `test_hsvi_sequential_adversarial_gadget.jl` with the same project: failed
+  in upstream `presolve_LB` (`src/presolve.jl:37`) with `KeyError: (3, 3, 1)`.
+  This checkpoint preserves the sequential fixture and script as unfinished work;
+  it establishes no sequential extraction guarantee. Investigate the fixture and
+  upstream presolve contract before treating it as validation evidence.

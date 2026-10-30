@@ -22,8 +22,23 @@ def _g_sched(w: W.LogitWorld, shape: str, S: int, seed: int, t0: int = T0, **kw)
     return W.make_stream(w, S, seed, z=_zsched(shape, S, w.T, t0, **kw))
 
 
-def logit_sched_spec(name, kind, delta, shape="abrupt", t0=T0, family="G1", proxy="accurate", delay=5, group="G5", T=2000, fn=g.FN_COST, **noise):
-    w = W.LogitWorld(regimes=(R(), R(kind, delta, fn)), family=family, T=T, t0=0, name=name, **noise)
+def logit_sched_spec(
+    name,
+    kind,
+    delta,
+    shape="abrupt",
+    t0=T0,
+    family="G1",
+    proxy="accurate",
+    delay=5,
+    group="G5",
+    T=2000,
+    fn=g.FN_COST,
+    **noise,
+):
+    w = W.LogitWorld(
+        regimes=(R(), R(kind, delta, fn)), family=family, T=T, t0=0, name=name, **noise
+    )
 
     def make(S, seed, w=w, shape=shape, t0=t0, proxy=proxy):
         st = _g_sched(w, shape, S, seed, t0)
@@ -38,7 +53,9 @@ def g5_pool(delay=5) -> list[St.WorldSpec]:
     for px in ("accurate", "bias_after_shift", "anti", "subgroup", "calibration", "oracle_adapt"):
         out.append(logit_sched_spec(f"G5|concept2|{px}", "concept", 2.0, proxy=px, delay=delay))
     for px in ("accurate", "anti", "bias_after_shift"):
-        out.append(logit_sched_spec(f"G5|cov_benign3|{px}", "cov_benign", 3.0, proxy=px, delay=delay))
+        out.append(
+            logit_sched_spec(f"G5|cov_benign3|{px}", "cov_benign", 3.0, proxy=px, delay=delay)
+        )
     for px in ("static_bias", "calibration", "recover"):
         out.append(logit_sched_spec(f"G5|null|{px}", "none", 0.0, proxy=px, delay=delay))
     return out
@@ -47,10 +64,19 @@ def g5_pool(delay=5) -> list[St.WorldSpec]:
 def g3_specs(delay=5) -> list[St.WorldSpec]:
     """Markov-switching regimes: persistence, structure, regime-dependent accuracy and decision cost."""
     defs = {
-        "G3|K3_jump_p0.995": ((R(), R("concept", 2.0), R("cov_benign", 3.0)), W.transition(3, 0.995)),
+        "G3|K3_jump_p0.995": (
+            (R(), R("concept", 2.0), R("cov_benign", 3.0)),
+            W.transition(3, 0.995),
+        ),
         "G3|K3_jump_p0.98": ((R(), R("concept", 2.0), R("cov_benign", 3.0)), W.transition(3, 0.98)),
-        "G3|K3_cycle_p0.99": ((R(), R("concept", 2.0), R("cost", fn=20.0)), W.transition(3, 0.99, "cycle")),
-        "G3|K4_costshift_p0.995": ((R(), R("cost", fn=20.0), R("cov_benign", 3.0), R("prior", 1.0)), W.transition(4, 0.995)),
+        "G3|K3_cycle_p0.99": (
+            (R(), R("concept", 2.0), R("cost", fn=20.0)),
+            W.transition(3, 0.99, "cycle"),
+        ),
+        "G3|K4_costshift_p0.995": (
+            (R(), R("cost", fn=20.0), R("cov_benign", 3.0), R("prior", 1.0)),
+            W.transition(4, 0.995),
+        ),
         "G3|K5_mixed_p0.99": (
             (R(), R("concept", 1.5), R("cov_benign", 3.0), R("prior", 1.5), R("cost", fn=20.0)),
             W.transition(5, 0.99),
@@ -80,8 +106,12 @@ def g6_specs(base_delay=5) -> list[St.WorldSpec]:
     """Feedback/dependence stress on a harmful concept shift (power) and on the null (validity)."""
     out = []
     for kind in ("fixed", "uniform", "geometric", "outcome", "outcome_rev", "heavy", "burst"):
-        dl = (lambda st, kind=kind: W.delays(kind, *st["loss"].shape, loss=st["loss"], d=base_delay, seed=3))
-        out.append(logit_sched_spec(f"G6|concept2|delay={kind}", "concept", 2.0, delay=dl, group="G6"))
+        dl = lambda st, kind=kind: W.delays(
+            kind, *st["loss"].shape, loss=st["loss"], d=base_delay, seed=3
+        )
+        out.append(
+            logit_sched_spec(f"G6|concept2|delay={kind}", "concept", 2.0, delay=dl, group="G6")
+        )
     return out
 
 
@@ -90,4 +120,7 @@ def g1_g2_extra() -> list[St.WorldSpec]:
         g.World(kind="concept", delta=2.0, shape="abrupt", t0=T0, family="G2"),
         g.World(kind="cov_benign", delta=3.0, shape="abrupt", t0=T0, family="G2"),
     ]
-    return [St.WorldSpec(f"G2|{x.kind}|{x.shape}|{x.delta:g}", partial(St.g1_stream, x), 5, group="G2") for x in w]
+    return [
+        St.WorldSpec(f"G2|{x.kind}|{x.shape}|{x.delta:g}", partial(St.g1_stream, x), 5, group="G2")
+        for x in w
+    ]

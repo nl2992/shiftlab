@@ -42,6 +42,8 @@ class Cfg:
     unq_delay: bool = False  # legacy: unqueried events also wait ``delay`` steps
     cap: float = 0.5
     force_bet: bool = False  # audit only: always bet the maximal admissible lambda
+    lrv: bool = False  # F2: scale the Kelly denominator by a Bartlett long-run-variance inflation (heuristic, dependence)
+    lrv_lags: int = 10
     qmin: float = 0.0  # lower bound of q_t used by the sup cap (0 -> frac for non-uniform q)
     # S03 reliability-adaptive proxy weight
     rel: str | None = None  # None | 'hard' | 'soft' | 'unc'
@@ -123,6 +125,12 @@ def run(stream: dict, cfg: Cfg, delay: int | np.ndarray = 5, qseed: int = 0) -> 
     d_fixed = int(delay) if not np.ndim(delay) else 0
     yT = np.ascontiguousarray(stream["y"].T) if "y" in stream else None
     scoreT = np.ascontiguousarray(stream["score"].T)
+    grp_arr = stream.get(
+        "group", stream["x"][..., 2] > 1.0 if stream["x"].shape[-1] > 2 else np.zeros((S, T), bool)
+    )
+    grpT = np.ascontiguousarray(grp_arr.T)
+    lab_rare = np.zeros(S)
+    pi_g = np.full(S, 0.2)
     pi_true = stream.get("pi_true")  # (S,T) true P(y=1|x) for oracle growth only
     piT = np.ascontiguousarray(pi_true.T) if (pi_true is not None and cfg.oracle_alt) else None
 
@@ -178,6 +186,9 @@ def run(stream: dict, cfg: Cfg, delay: int | np.ndarray = 5, qseed: int = 0) -> 
     ew_cost_exc = np.zeros(S)
     ar = np.arange(S)
 
+    KL = cfg.lrv_lags
+    lag_buf, c_lag = np.zeros((KL, S)), np.zeros((KL, S))
+    wk = (1.0 - np.arange(1, KL + 1) / (KL + 1.0))[:, None]
     for t in range(T):
         # ----- absorb arrivals strictly before t into moment / reliability / variance states
         if t > 0:
@@ -198,9 +209,22 @@ def run(stream: dict, cfg: Cfg, delay: int | np.ndarray = 5, qseed: int = 0) -> 
                 vW = gam_v * vW + BW[a]
                 vY = gam_v * vY + BY[a]
             n_pending = n_pending + BP[a]
+            if cfg.lrv:
+                xn, has = BX[a], BN[a] > 0
+                c_lag = (cfg.gamma if cfg.gamma < 1 else 1.0) * c_lag + np.where(
+                    has, xn * lag_buf, 0.0
+                )
+                lag_buf = np.where(has, np.vstack([xn, lag_buf[:-1]]), lag_buf)
         # ----- predictable bet quantities
         mean = c1 / (cn + 1.0)
         second = c2 / (cn + 1.0)
+        if cfg.lrv:
+            vif = np.clip(
+                (second + 2.0 * (wk * c_lag).sum(0) / (cn + 1.0)) / np.maximum(second, 1e-12),
+                1.0,
+                20.0,
+            )
+            second = second * vif
         lam_raw = np.where(second > 0, np.maximum(mean, 0.0) / np.maximum(second, 1e-12), 0.0)
         # reliability weight theta_t
         theta = np.ones(S)
@@ -246,7 +270,11 @@ def run(stream: dict, cfg: Cfg, delay: int | np.ndarray = 5, qseed: int = 0) -> 
             vb = (vV[b_idx, ar] + nb * vbar) / (vW[b_idx, ar] + nb)
             s_var = np.sqrt(np.maximum(vb, 1e-12))
             s_g = s_var
-            if cfg.alloc.startswith("growth") or cfg.alloc == "mix" or cfg.pacing == "growth_pace":
+            if (
+                cfg.alloc.startswith("growth")
+                or cfg.alloc in ("mix", "bal_growth")
+                or cfg.pacing == "growth_pace"
+            ):
                 s_g = _growth_score(
                     cfg,
                     pt,
@@ -290,6 +318,20 @@ def run(stream: dict, cfg: Cfg, delay: int | np.ndarray = 5, qseed: int = 0) -> 
                     s_ = v_ + g_
                     v_, g_ = (v_ / s_ * (1 - u_), g_ / s_ * (1 - u_)) if s_ > 0 else (0.0, 0.0)
                 q_one = u_ * cfg.frac + v_ * qv + g_ * qg
+            if cfg.alloc in ("balanced", "bal_growth"):
+                w_g = np.where(
+                    grpT[t], 1.0 / np.maximum(pi_g, 0.01), 1.0 / np.maximum(1.0 - pi_g, 0.01)
+                )
+                q_bal = np.clip(
+                    cfg.frac * w_g / 2.0, qfloor, 1.0
+                )  # equal expected label counts per group
+                q_one = (
+                    q_bal
+                    if cfg.alloc == "balanced"
+                    else 0.5 * q_bal
+                    + 0.5 * np.clip(cfg.frac * s_g / np.maximum(ew_score, 1e-12), qfloor, 1.0)
+                )
+                pi_g = 0.995 * pi_g + 0.005 * grpT[t]
             if cfg.alloc != "uniform":
                 q = q_one
             ew_score = 0.995 * ew_score + 0.005 * ref
@@ -329,6 +371,7 @@ def run(stream: dict, cfg: Cfg, delay: int | np.ndarray = 5, qseed: int = 0) -> 
             newly = Q & (spent + 1 >= cfg.budget)
             exhaust_t = np.where(newly & (exhaust_t == T), t, exhaust_t)
         spent = spent + Q
+        lab_rare += Q & grpT[t]
         qs = np.where(active, q, 1.0)
         # ----- increment
         rt = rT[t]
@@ -413,8 +456,19 @@ def run(stream: dict, cfg: Cfg, delay: int | np.ndarray = 5, qseed: int = 0) -> 
         "mean_label_delay": arr_sum / np.maximum(arr_cnt, 1),
         "last_label_arrival": arr_last,
         "exhaust_t": exhaust_t,
+        "labels_rare": lab_rare,
         "runtime_s": time.perf_counter() - t_start,
     }
+
+
+def run_mixture(stream: dict, cfgs: list, delay=5, qseed: int = 0) -> dict:
+    """Equal-weight mixture of e-processes sharing one query matrix: an average of test supermartingales is one."""
+    runs = [run(stream, c, delay=delay, qseed=qseed) for c in cfgs]
+    W = np.mean([np.exp(r["logW"].astype(float)) for r in runs], 0)
+    logW = np.log(np.maximum(W, 1e-300))
+    hit = logW >= LOG_THR
+    alarm = np.where(hit.any(1), hit.argmax(1), logW.shape[1])
+    return {**runs[0], "logW": logW, "alarm": alarm, "runtime_s": sum(r["runtime_s"] for r in runs)}
 
 
 def _upd_ew(ew, s, _):

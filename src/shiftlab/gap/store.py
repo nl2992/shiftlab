@@ -22,19 +22,22 @@ import numpy as np
 import pandas as pd
 
 from shiftlab.gap import engine as E
-from shiftlab.gap import worlds as W
 from shiftlab.sota_search import generators as g
 
 ROOT = Path("outputs/gap_closure")
 
 
 def cfg_hash(cfg: E.Cfg, extra: dict | None = None) -> str:
-    return hashlib.sha256(json.dumps({**cfg.tag(), **(extra or {})}, sort_keys=True, default=str).encode()).hexdigest()[:12]
+    return hashlib.sha256(
+        json.dumps({**cfg.tag(), **(extra or {})}, sort_keys=True, default=str).encode()
+    ).hexdigest()[:12]
 
 
 def commit() -> str:
     try:
-        return subprocess.run(["git", "rev-parse", "HEAD"], capture_output=True, text=True, check=True).stdout.strip()
+        return subprocess.run(
+            ["git", "rev-parse", "HEAD"], capture_output=True, text=True, check=True
+        ).stdout.strip()
     except Exception:  # noqa: BLE001
         return "unknown"
 
@@ -56,7 +59,7 @@ def g1_stream(world: g.World, S: int, seed: int) -> dict:
     sim = g.simulate(world, S, seed)
     x = sim["x"].astype(float)
     m = g.schedule(world.shape, world.T, world.t0, world.ramp, world.length, world.period)
-    dmu, dw, db, dsub = g._delta_terms(world.kind, world.delta)
+    _dmu, dw, db, dsub = g._delta_terms(world.kind, world.delta)
     w = g.W_SRC[None, None, :] + m[None, :, None] * dw
     logit = (x * w).sum(-1) + g.B_SRC + m * db + m * dsub * (x[:, :, 2] > 1.0)
     if world.family == "G2":
@@ -64,21 +67,37 @@ def g1_stream(world: g.World, S: int, seed: int) -> dict:
     sim = E.ensure_stream(sim)
     sim["pi_true"] = g.sigmoid(logit)
     tr = g.truth(world)
-    sim["truth"] = {"harm": tr["harm"], "predictive": tr["predictive"], "discrepancy": tr["discrepancy"], "thr": g.HARM_THRESHOLD}
+    sim["truth"] = {
+        "harm": tr["harm"],
+        "predictive": tr["predictive"],
+        "discrepancy": tr["discrepancy"],
+        "thr": g.HARM_THRESHOLD,
+    }
     return sim
 
 
 def dev_worlds_g1() -> list[WorldSpec]:
     from shiftlab.sota_search import harness as h
 
-    return [WorldSpec(f"G1|{w.kind}|{w.shape}|{w.delta:g}", lambda S, sd, w=w: g1_stream(w, S, sd), 5, h.role(w), "G1dev") for w in h.dev_pool()]
+    return [
+        WorldSpec(
+            f"G1|{w.kind}|{w.shape}|{w.delta:g}",
+            lambda S, sd, w=w: g1_stream(w, S, sd),
+            5,
+            h.role(w),
+            "G1dev",
+        )
+        for w in h.dev_pool()
+    ]
 
 
 def _delay_arr(spec: WorldSpec, st: dict):
     return spec.delay(st) if callable(spec.delay) else spec.delay
 
 
-def run_cell(spec: WorldSpec, st: dict, cfg: E.Cfg, seed0: int, qseed: int, exp: str, cname: str) -> pd.DataFrame:
+def run_cell(
+    spec: WorldSpec, st: dict, cfg: E.Cfg, seed0: int, qseed: int, exp: str, cname: str
+) -> pd.DataFrame:
     S, T = st["loss"].shape
     rss0 = resource.getrusage(resource.RUSAGE_SELF).ru_maxrss
     t0 = time.perf_counter()
@@ -88,13 +107,31 @@ def run_cell(spec: WorldSpec, st: dict, cfg: E.Cfg, seed0: int, qseed: int, exp:
     stats = E.alarm_stats(res["alarm"], st["truth"], T)
     return pd.DataFrame(
         {
-            "exp": exp, "T": T, "world": spec.name, "group": spec.group, "config": cname, "cfg_hash": cfg_hash(cfg),
-            "seed": seed0 + np.arange(S), "qseed": qseed, "alarm_t": res["alarm"], "first_harm": stats["first_harm"],
-            "false_alarm": stats["false_alarm"], "detected": stats["detected"], "delay": stats["delay"],
-            "harm_before": stats["harm_before"], "labels": res["labels"], "mean_label_delay": res["mean_label_delay"],
-            "last_label_arrival": res["last_label_arrival"], "mean_pending": res["mean_pending"],
-            "max_pending": res["max_pending"], "exhaust_t": res["exhaust_t"],
-            "runtime_s_per_seed": wall / S, "batch_runtime_s": wall, "peak_rss_mb": peak, "rss_delta_mb": (peak - rss0 / 1024.0),
+            "exp": exp,
+            "T": T,
+            "world": spec.name,
+            "group": spec.group,
+            "config": cname,
+            "cfg_hash": cfg_hash(cfg),
+            "seed": seed0 + np.arange(S),
+            "qseed": qseed,
+            "alarm_t": res["alarm"],
+            "first_harm": stats["first_harm"],
+            "false_alarm": stats["false_alarm"],
+            "detected": stats["detected"],
+            "delay": stats["delay"],
+            "harm_before": stats["harm_before"],
+            "labels": res["labels"],
+            "mean_label_delay": res["mean_label_delay"],
+            "last_label_arrival": res["last_label_arrival"],
+            "labels_rare": res["labels_rare"],
+            "mean_pending": res["mean_pending"],
+            "max_pending": res["max_pending"],
+            "exhaust_t": res["exhaust_t"],
+            "runtime_s_per_seed": wall / S,
+            "batch_runtime_s": wall,
+            "peak_rss_mb": peak,
+            "rss_delta_mb": (peak - rss0 / 1024.0),
         }
     )
 
@@ -109,7 +146,16 @@ def _worker(i):
     return pd.concat(out, ignore_index=True)
 
 
-def run_grid(exp: str, specs: list[WorldSpec], cfgs: dict[str, E.Cfg], S: int = 200, seed0: int = 1000, qseed: int = 0, procs: int = 4, note: str = "") -> pd.DataFrame:
+def run_grid(
+    exp: str,
+    specs: list[WorldSpec],
+    cfgs: dict[str, E.Cfg],
+    S: int = 200,
+    seed0: int = 1000,
+    qseed: int = 0,
+    procs: int = 4,
+    note: str = "",
+) -> pd.DataFrame:
     """Run every (world, config) cell; world w uses seed0 + 1000 * w so all configs share the same worlds."""
     d = ROOT / exp
     d.mkdir(parents=True, exist_ok=True)
@@ -138,7 +184,21 @@ def register(exp, cfgs, specs, S, seed0, qseed, wall, nrows, note):
     for name, cfg in cfgs.items():
         con.execute(
             "INSERT INTO runs VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)",
-            (time.time(), exp, name, cfg_hash(cfg), json.dumps(cfg.tag(), default=str), len(specs), S, seed0, qseed, sha, wall, nrows, note),
+            (
+                time.time(),
+                exp,
+                name,
+                cfg_hash(cfg),
+                json.dumps(cfg.tag(), default=str),
+                len(specs),
+                S,
+                seed0,
+                qseed,
+                sha,
+                wall,
+                nrows,
+                note,
+            ),
         )
     con.commit()
     con.close()
@@ -161,8 +221,13 @@ def summarise(df: pd.DataFrame) -> pd.DataFrame:
     df = df.assign(has_harm=df.first_harm < df["T"])
     g_ = df.groupby(["config", "world", "group"], sort=False)
     out = g_.agg(
-        n=("seed", "size"), n_harm=("has_harm", "sum"), det=("detected", "sum"), fa=("false_alarm", "mean"),
-        harm_before=("harm_before", "mean"), labels=("labels", "mean"), runtime_s_per_seed=("runtime_s_per_seed", "mean"),
+        n=("seed", "size"),
+        n_harm=("has_harm", "sum"),
+        det=("detected", "sum"),
+        fa=("false_alarm", "mean"),
+        harm_before=("harm_before", "mean"),
+        labels=("labels", "mean"),
+        runtime_s_per_seed=("runtime_s_per_seed", "mean"),
     ).reset_index()
     out["power"] = np.where(out.n_harm > 0, out.det / out.n_harm.clip(lower=1), np.nan)
     out["role"] = np.where(out.n_harm / out.n > 0.5, "harm", "nonharm")
@@ -172,6 +237,19 @@ def summarise(df: pd.DataFrame) -> pd.DataFrame:
 
 def table(sm: pd.DataFrame) -> pd.DataFrame:
     """Per-config: mean harm-world power, mean non-harm-world false alarm, mean harm before alarm (harm worlds)."""
-    h = sm[sm.role == "harm"].groupby("config").agg(power=("power", "mean"), harm_before=("harm_before", "mean"), delay=("delay", "mean"), labels=("labels", "mean"))
-    nh = sm[sm.role == "nonharm"].groupby("config").agg(fa_nonharm=("fa", "mean"), fa_max=("fa", "max"))
+    h = (
+        sm[sm.role == "harm"]
+        .groupby("config")
+        .agg(
+            power=("power", "mean"),
+            harm_before=("harm_before", "mean"),
+            delay=("delay", "mean"),
+            labels=("labels", "mean"),
+        )
+    )
+    nh = (
+        sm[sm.role == "nonharm"]
+        .groupby("config")
+        .agg(fa_nonharm=("fa", "mean"), fa_max=("fa", "max"))
+    )
     return h.join(nh)

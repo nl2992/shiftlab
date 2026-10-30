@@ -63,6 +63,7 @@ class LogitWorld:
     cluster_sigma: float = 0.0
     harm_thr: float = 0.10
     name: str = ""
+    sub_thr: float = 1.0  # subgroup = {x_2 > sub_thr}
 
 
 def markov_path(P: np.ndarray, S: int, T: int, t0: int, rng) -> np.ndarray:
@@ -115,7 +116,7 @@ def _logit_sample(rng, w: LogitWorld, z: np.ndarray):
     dsub = np.array([d for _, _, _, d in tab])
     fn = np.array([r.fn for r in w.regimes])
     x = rng.standard_normal((S, T, D)) + dmu[z]
-    logit = (x * (W_SRC + dw[z])).sum(-1) + B_SRC + db[z] + dsub[z] * (x[..., 2] > 1.0)
+    logit = (x * (W_SRC + dw[z])).sum(-1) + B_SRC + db[z] + dsub[z] * (x[..., 2] > w.sub_thr)
     if w.family == "G2":
         logit = logit + g.nonlinear_term(x)
     u = _noise(rng, S, T, w)
@@ -194,6 +195,7 @@ def make_stream(
         "proxy_brier": p * (1 - p),
         "proxy_cost": act * (1 - p) * FP0 + (1 - act) * p * FN0,
         "pi_true": pi,
+        "group": x[..., 2] > w.sub_thr,
         "r0": source_risks(w),
         "pmax": {"brier": 0.25, "cost": FN0 / 6.0},
         "truth": _truth_from_regimes(w, z),
@@ -236,6 +238,11 @@ def apply_proxy(stream: dict, mode: str, t0: int = 800, length: int = 400) -> di
             new = pm * (np.clip(pr / pm, 1e-6, 1) ** 0.35)
         elif mode == "recover":
             new = np.where(window, pm - pr, pr)
+        elif mode.startswith(
+            "blend"
+        ):  # after the shift the proxy is a blend of accurate (0) and anti-informative (1)
+            sv = float(mode[5:])
+            new = np.where(after, (1 - sv) * pr + sv * (pm - pr), pr)
         elif mode == "oracle_adapt":
             pi = stream["pi_true"]
             p = stream["p"]

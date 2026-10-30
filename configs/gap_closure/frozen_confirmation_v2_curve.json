@@ -1,0 +1,12 @@
+{
+  "frozen_on": "2026-10-30",
+  "round": "2-curve",
+  "purpose": "Uniform-querying power-vs-labels curve on the SAME pools and seeds as round 2 (block 1,100,000), so that non-uniform arms that realise more labels than their nominal fraction can be compared at matched realised labels. Baseline densification only; the candidate set is unchanged.",
+  "fracs": [0.08, 0.12, 0.16, 0.25, 0.3],
+  "frac": 0.2,
+  "delay": 5,
+  "alpha": 0.05,
+  "engine_arms": [{"name": "HGu", "cfg": {"risk": "brier", "gamma": 0.99, "gate_w": 100}}],
+  "classical_arms": [],
+  "primary_comparisons": []
+}

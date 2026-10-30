@@ -581,7 +581,8 @@ def pp_cost_guided(
     Brier bet. Bets use labels resolved by s only, so the cost-null supermartingale argument holds for fixed delay.
     """
     xc, _q, _l, bc = _pp_parts(sim, frac, lseed, "cost", None, None, tol, uniform_cap=True)
-    xb, _q2, _l2, bb = _pp_parts(sim, frac, lseed, "brier", None, None, tol, uniform_cap=True)
+    # the Brier guidance statistic never takes the cost tolerance (identical to before when tol = 0)
+    xb, _q2, _l2, bb = _pp_parts(sim, frac, lseed, "brier", None, None, 0.0, uniform_cap=True)
     S, T = xc.shape
     hic, hib = cap / bc, cap / bb
     if mode == "guided_disc":

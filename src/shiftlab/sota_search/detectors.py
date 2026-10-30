@@ -238,23 +238,78 @@ def _pp_increment(sim, q_mask, q, risk):
     return x, bound_m
 
 
-def pp_eprocess(sim, frac=0.1, delay=5, lseed=0, tol=0.0, risk="cost", q=None, mask=None, **_):
-    """Betting e-process on the prediction-powered excess-risk increment; log-wealth (S, T)."""
+def _pp_parts(sim, frac, lseed, risk, q, mask, tol):
     S, T = sim["y"].shape
     qv = np.full((S, T), frac) if q is None else q
     qm = (label_mask(sim, frac, lseed) if mask is None else mask).astype(float)
-    x, bm = _pp_increment(sim, qm, qv, risk)
-    x = x - tol
-    bound = bm * (2.0 / qv - 1.0) + bm
+    p = sim["p"]
+    act = (p >= g.TAU).astype(float)
+    if risk == "cost":
+        proxy = act * (1 - p) * g.FP_COST + (1 - act) * p * g.FN_COST
+        r, m = sim["loss"], g.FN_COST
+    else:
+        proxy, r, m = p * (1 - p), sim["brier"], 1.0
+    r0 = source_moments("c")["loss" if risk == "cost" else "brier"][0]
+    x = proxy + (qm / qv) * (r - proxy) - r0 - tol
+    loose = m * (2.0 / qv - 1.0) + m  # symmetric worst-case range (initial implementation)
+    # one-sided exact minimum of the increment: label queried with zero loss (R=0), predictable from proxy and q
+    tight = proxy * (1.0 / qv - 1.0) + r0 + tol
+    return x, qv, loose, tight
+
+
+def pp_eprocess(
+    sim,
+    frac=0.1,
+    delay=5,
+    lseed=0,
+    tol=0.0,
+    risk="cost",
+    q=None,
+    mask=None,
+    tight=False,
+    cap=0.5,
+    **_,
+):
+    """Betting e-process on the prediction-powered excess-risk increment; log-wealth (S, T).
+
+    ``tight=False`` caps the bet by a symmetric worst-case range (the initial, over-conservative
+    implementation); ``tight=True`` caps it by the exact one-sided minimum of the increment, which keeps
+    ``1 + lam*X >= 1 - cap > 0`` and therefore the same validity argument.
+    """
+    x, _qv, loose, tight_b = _pp_parts(sim, frac, lseed, risk, q, mask, tol)
+    bound = tight_b if tight else loose
+    T = x.shape[1]
     c1 = shift_time(np.cumsum(x, 1), delay + 1)
     c2 = shift_time(np.cumsum(x**2, 1), delay + 1)
     n = np.maximum(np.arange(T)[None, :] - delay, 0).astype(float)
     mean, second = c1 / (n + 1), c2 / (n + 1)
     lam = np.minimum(
-        np.where(second > 0, np.maximum(mean, 0) / np.maximum(second, 1e-12), 0.0), 0.5 / bound
+        np.where(second > 0, np.maximum(mean, 0) / np.maximum(second, 1e-12), 0.0), cap / bound
     )
     log_inc = np.log1p(lam * x)
     return np.cumsum(shift_time(log_inc, delay), 1)
+
+
+def sr_edetector(
+    sim, frac=0.1, delay=5, lseed=0, tol=0.0, risk="cost", q=None, mask=None, cap=0.5, **_
+):
+    """Shiryaev-Roberts style e-detector: R_t = (1 + R_{t-1}) * f_t with tight-capped betting factors."""
+    x, _qv, _loose, tight_b = _pp_parts(sim, frac, lseed, risk, q, mask, tol)
+    T = x.shape[1]
+    c1 = shift_time(np.cumsum(x, 1), delay + 1)
+    c2 = shift_time(np.cumsum(x**2, 1), delay + 1)
+    n = np.maximum(np.arange(T)[None, :] - delay, 0).astype(float)
+    mean, second = c1 / (n + 1), c2 / (n + 1)
+    lam = np.minimum(
+        np.where(second > 0, np.maximum(mean, 0) / np.maximum(second, 1e-12), 0.0), cap / tight_b
+    )
+    f = shift_time(1.0 + lam * x, delay, fill=1.0)
+    out = np.zeros_like(f)
+    r = np.zeros(f.shape[0])
+    for t in range(T):
+        r = (1.0 + r) * f[:, t]
+        out[:, t] = r
+    return out
 
 
 def pprm(sim, **kw):
@@ -263,6 +318,22 @@ def pprm(sim, **kw):
 
 def pp_cost(sim, **kw):
     return pp_eprocess(sim, risk="cost", **kw)
+
+
+def pprm_tight(sim, **kw):
+    return pp_eprocess(sim, risk="brier", tight=True, **kw)
+
+
+def pp_cost_tight(sim, **kw):
+    return pp_eprocess(sim, risk="cost", tight=True, **kw)
+
+
+def sr_cost_tight(sim, **kw):
+    return sr_edetector(sim, risk="cost", **kw)
+
+
+def sr_brier_tight(sim, **kw):
+    return sr_edetector(sim, risk="brier", **kw)
 
 
 _CAL = {}
@@ -308,12 +379,18 @@ DETECTORS = {
     "pprm": pprm,
     "watch": watch,
     "pp_cost": pp_cost,
+    "pprm_tight": pprm_tight,
+    "pp_cost_tight": pp_cost_tight,
+    "sr_cost_tight": sr_cost_tight,
+    "sr_brier_tight": sr_brier_tight,
 }
 THEORY_THRESHOLD = {
     "pr_cs": 0.0,
     "pprm": float(np.log(1 / ALPHA)),
     "watch": float(np.log(1 / ALPHA)),
     "pp_cost": float(np.log(1 / ALPHA)),
+    "pprm_tight": float(np.log(1 / ALPHA)),
+    "pp_cost_tight": float(np.log(1 / ALPHA)),
 }
 
 

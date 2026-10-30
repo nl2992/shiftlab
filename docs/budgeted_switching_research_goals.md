@@ -3074,3 +3074,20 @@ the finite benchmark. Source limitation: RAO* full text/proof not inspected in t
   tracking and delayed risk-certification bounds. This remains a question, not a live method; derive
   and source-audit the lower bound before proposing an algorithm. G2–G5 and the 2026 holdout remain
   held. Historical promotion evidence still cannot certify post-reversal benefit.
+
+### G1 theorem screen: two-world fresh-query lower bound 2026-10-30
+
+- Formalized a two-world reversal test: pre-reversal transcripts are identical, post-reversal
+  queried labels are Bernoulli(1/2±eps), release delay is fixed d, query choices are adaptive, and
+  rollback must have false-rollback probability at most gamma in the persistent-good world and
+  miss probability at most beta by a deadline in the reversed world. KL chain rule plus Pinsker
+  proves `K * kl(1/2+eps || 1/2-eps) >= 2(1-beta-gamma)^2`; with one request per round this implies
+  a `d-1+K` minimum response latency. See `g1_reversal_fresh_query_lower_bound_v1.md` for proof and
+  assumptions.
+- This makes explicit why pre-reversal promotion evidence cannot certify post-reversal benefit.
+  It is a standard two-point lower bound, not a novel theorem; active quickest detection already
+  studies controlled sampling/false alarms/delay, and ICML 2026 ATC supplies a multiple-change
+  regret lower bound. No algorithm, experiment, or G1 pass follows from this lemma.
+- Keep the result as a falsification constraint. Any live candidate must prove a sharp repeated-
+  reversal budget/regret frontier under the controlled-HMM contract, compare against active QCD and
+  ATC-style tracking, and beat or match the exact small game. G2–G5 remain held; no holdout opens.

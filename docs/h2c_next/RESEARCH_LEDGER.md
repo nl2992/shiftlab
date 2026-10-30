@@ -1,0 +1,1 @@
+- Checkpoints A and C (dev, exploratory): H2c best/tied-best theory-valid cost-null method; Brier guidance adds ≈ +.13–.17 and is additive with discounting; cost SR e-detector has more power but no guarantee and 2–3× FA. Checkpoints B, D, E, F pending.

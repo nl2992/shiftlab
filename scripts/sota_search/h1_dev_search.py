@@ -45,9 +45,21 @@ for frac in (0.10, 0.20):
             m, _ = h.evaluate(name, p, w, sim, THR, lseed=45000 + i)
             role = h.role(w)
             per[role].append(m["detect_prob"] if role == "harm" else m["false_alarm_prob"])
-        al = det.first_cross(np.nan_to_num(det.DETECTORS[name](g3, lseed=46000, **p), nan=-np.inf), THR)
+        al = det.first_cross(
+            np.nan_to_num(det.DETECTORS[name](g3, lseed=46000, **p), nan=-np.inf), THR
+        )
         gp, gfa = g3_score(g3, al)
-        rows.append({"frac": frac, "arm": arm, "dev_harm_power": np.mean(per["harm"]), "dev_benign_fa": np.mean(per["benign"]), "dev_null_fa": np.mean(per["null"]), "g3dev_power": gp, "g3dev_fa": gfa})
+        rows.append(
+            {
+                "frac": frac,
+                "arm": arm,
+                "dev_harm_power": np.mean(per["harm"]),
+                "dev_benign_fa": np.mean(per["benign"]),
+                "dev_null_fa": np.mean(per["null"]),
+                "g3dev_power": gp,
+                "g3dev_fa": gfa,
+            }
+        )
         print(rows[-1], flush=True)
 df = pd.DataFrame(rows)
 df.to_csv("outputs/hg_v2/h1_dev_search.csv", index=False)

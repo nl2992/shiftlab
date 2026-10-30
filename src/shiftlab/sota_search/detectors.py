@@ -225,7 +225,7 @@ def pr_cs(sim, frac=0.1, delay=5, lseed=0, tol=0.0, **_):
 
 def _pp_increment(sim, q_mask, q, risk):
     """Prediction-powered per-event increment X_s = Rhat + Q/q (R - Rhat) - r0 for risk 'cost' or 'brier'."""
-    p, y = sim["p"], sim["y"]
+    p = sim["p"]
     act = (p >= g.TAU).astype(float)
     if risk == "cost":
         proxy = act * (1 - p) * g.FP_COST + (1 - act) * p * g.FN_COST

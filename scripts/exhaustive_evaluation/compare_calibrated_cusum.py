@@ -1,5 +1,6 @@
 """Independent finite-horizon classical-baseline comparison, not a new method."""
 
+import argparse
 import hashlib
 import json
 from datetime import UTC, datetime
@@ -17,8 +18,15 @@ NULLS = ["harmful", "tie", "harmful_after_shift"]
 ALTS = ["useful_initial", "useful", "late", "small", "reversal"]
 
 
-def main():
-    regpath = DOC / "cusum_comparison_registration.json"
+def main(profile="original"):
+    if profile not in ("original", "strict"):
+        raise ValueError("unknown registered experiment profile")
+    strict = profile == "strict"
+    prefix = "cusum_strict" if strict else "cusum_comparison"
+    quantile = 0.975 if strict else 0.95
+    world_seed = 202640000 if strict else 202630000
+    query_seed = 202641000 if strict else 202631000
+    regpath = DOC / f"{prefix}_registration.json"
     if regpath.exists():
         raise FileExistsError("inspect existing run before restarting")
     sources = [
@@ -39,19 +47,21 @@ def main():
         "test_paths_per_alternative": 500,
         "horizon": 2000,
         "batch": 250,
-        "world_seed_base": 202630000,
-        "query_seed_base": 202631000,
-        "calibration": "per-slack threshold=max across null cases of order statistic ceil(.95*(n+1)); strict crossing; no alternative tuning",
+        "world_seed_base": world_seed,
+        "query_seed_base": query_seed,
+        "calibration_quantile": quantile,
+        "calibration": "per-slack threshold=max across null cases of order statistic ceil(quantile*(n+1)); strict crossing; no alternative tuning",
         "contract": "uniform Bernoulli .2 hard cap400; delay5; margin.01; query.001; switch1; no rollback",
         "primary": "per-method equal-case persistent alternative total cost; all four slacks reported, no post-test winner claim",
         "safety": "empirical finite-horizon null rates with simultaneous one-sided bounds over six methods times three nulls; no arbitrary-null guarantee for CUSUM",
+        "screen": "all three null simultaneous upper bounds <=.06; practical gain >=10 percent against tuned comparator; report every slack separately",
         "sources": {p: hashlib.sha256((ROOT / p).read_bytes()).hexdigest() for p in sources},
     }
     regpath.write_text(json.dumps(reg, indent=2), encoding="utf-8")
-    statuspath = DOC / "cusum_comparison_status.json"
+    statuspath = DOC / f"{prefix}_status.json"
     status = {"status": "running", "completed": []}
     statuspath.write_text(json.dumps(status), encoding="utf-8")
-    out = ROOT / "outputs/exhaustive_evaluation/cusum_comparison"
+    out = ROOT / f"outputs/exhaustive_evaluation/{prefix}"
     out.mkdir(parents=True, exist_ok=True)
     configs = [
         PairedConfig("direct", "uniform", 0.98, 0.75, restart, "none", bet)
@@ -62,12 +72,15 @@ def main():
         values = []
         for b in range(4):
             offset = j * 100 + b
-            stream = paired_world(kind, paths=250, horizon=2000, seed=202630000 + offset)
-            values.append(paired_cusum(stream, reg["slacks"], seed=202631000 + offset)["maximum"])
+            stream = paired_world(kind, paths=250, horizon=2000, seed=world_seed + offset)
+            values.append(paired_cusum(stream, reg["slacks"], seed=query_seed + offset)["maximum"])
         values = np.concatenate(values, axis=1)
-        null_maxima.append(np.sort(values, axis=1)[:, int(np.ceil(0.95 * 1001)) - 1])
+        null_maxima.append(np.sort(values, axis=1)[:, int(np.ceil(quantile * 1001)) - 1])
     thresholds = np.max(null_maxima, axis=0)
-    (DOC / "cusum_calibrated_thresholds.json").write_text(
+    threshold_file = (
+        "cusum_strict_thresholds.json" if strict else "cusum_calibrated_thresholds.json"
+    )
+    (DOC / threshold_file).write_text(
         json.dumps(
             {"thresholds": thresholds.tolist(), "per_null": [v.tolist() for v in null_maxima]}
         ),
@@ -79,9 +92,9 @@ def main():
         values = []
         for b in range(n // 250):
             offset = 1000 + j * 100 + b
-            stream = paired_world(kind, paths=250, horizon=2000, seed=202630000 + offset)
-            classical = paired_cusum(stream, reg["slacks"], thresholds, seed=202631000 + offset)
-            betting = paired_screen(stream, configs, seed=202631000 + offset)
+            stream = paired_world(kind, paths=250, horizon=2000, seed=world_seed + offset)
+            classical = paired_cusum(stream, reg["slacks"], thresholds, seed=query_seed + offset)
+            betting = paired_screen(stream, configs, seed=query_seed + offset)
             result = {
                 k: np.concatenate([classical[k], betting[k]], axis=0)
                 for k in ["first", "labels", "total_cost", "delta_vs_incumbent"]
@@ -111,7 +124,7 @@ def main():
         status["completed"].append(kind)
         statuspath.write_text(json.dumps(status), encoding="utf-8")
         print(kind, "complete", flush=True)
-    (DOC / "cusum_comparison_results.json").write_text(
+    (DOC / f"{prefix}_results.json").write_text(
         json.dumps({"thresholds": thresholds.tolist(), "rows": rows}, indent=2), encoding="utf-8"
     )
     status["status"] = "completed"
@@ -119,4 +132,6 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--profile", choices=["original", "strict"], default="original")
+    main(parser.parse_args().profile)

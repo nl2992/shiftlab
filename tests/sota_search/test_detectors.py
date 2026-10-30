@@ -95,3 +95,13 @@ def test_uniform_cap_is_at_least_as_conservative_and_default_unchanged():
     _x0, _q, _l, ctx = d._pp_parts(sim, 0.2, 1, "brier", None, None, 0.0)
     _x, _q, _l, uni = d._pp_parts(sim, 0.2, 1, "brier", None, None, 0.0, uniform_cap=True)
     assert (uni >= ctx - 1e-12).all()
+
+
+def test_mixture_and_ons_stay_valid_on_the_null_and_react_to_a_shift():
+    null = g.simulate(g.World(kind="none", T=1000), 200, 4)
+    shifted = g.simulate(g.World(kind="concept", delta=2.0, T=1000, t0=300), 200, 5)
+    thr = np.log(20)
+    for name in ("pp_mixture", "pp_ons"):
+        fa = (d.DETECTORS[name](null, frac=0.2, delay=5, lseed=1).max(1) >= thr).mean()
+        hit = (d.DETECTORS[name](shifted, frac=0.2, delay=5, lseed=1).max(1) >= thr).mean()
+        assert fa <= 0.08 and hit > fa

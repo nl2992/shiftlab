@@ -466,6 +466,46 @@ def watch(sim, frac=0.1, delay=5, lseed=0, **_):
     return mx + np.log(np.exp(cum - mx[:, :, None]).mean(2))
 
 
+def pp_mixture(sim, frac=0.1, delay=5, lseed=0, tol=0.0, risk="brier", k=8, cap=0.5, **_):
+    """Equal-weight mixture over ``k`` fixed bets on the uniform-cap PP increment (LOCAL_HEURISTIC adaptation of
+    the standard mixture-of-bets e-process; valid under the marginal null because every bet is a constant)."""
+    x, _q, _l, bound = _pp_parts(sim, frac, lseed, risk, None, None, tol, uniform_cap=True)
+    lams = cap / bound[..., None] * (np.arange(1, k + 1) / k)
+    logs = np.cumsum(
+        shift_time(np.log1p(lams * x[..., None]).transpose(2, 0, 1).reshape(-1, x.shape[1]), delay),
+        1,
+    )
+    logs = logs.reshape(k, *x.shape)
+    m = logs.max(0)
+    return m + np.log(np.exp(logs - m).mean(0))
+
+
+def pp_ons(sim, frac=0.1, delay=5, lseed=0, tol=0.0, risk="brier", cap=0.5, **_):
+    """Online-Newton-step betting on the uniform-cap PP increment (Cutkosky-Orabona style step; SOURCE_INSPIRED).
+
+    The bet used for step s is fixed before X_s and updated only with labels resolved by s (index <= s - delay).
+    """
+    x, _q, _l, bound = _pp_parts(sim, frac, lseed, risk, None, None, tol, uniform_cap=True)
+    S, T = x.shape
+    hi = cap / bound
+    lam = np.zeros((S, T))
+    cur = np.zeros(S)
+    a = np.ones(S)
+    logw = np.zeros((S, T))
+    acc = np.zeros(S)
+    c = 2.0 / (2.0 - np.log(3.0))
+    for s in range(T):
+        lam[:, s] = cur
+        r = s - delay
+        if r >= 0:
+            z = x[:, r] / (1.0 + lam[:, r] * x[:, r])
+            acc = acc + np.log1p(lam[:, r] * x[:, r])
+            a = a + z * z
+            cur = np.clip(cur + c * z / a, 0.0, hi[:, min(s + 1, T - 1)])
+        logw[:, s] = acc
+    return logw
+
+
 DETECTORS = {
     "mmd": mmd,
     "c2st": c2st,
@@ -483,6 +523,8 @@ DETECTORS = {
     "sr_brier_tight": sr_brier_tight,
     "fix_brier": fix_brier,
     "fix_cost": fix_cost,
+    "pp_mixture": pp_mixture,
+    "pp_ons": pp_ons,
 }
 THEORY_THRESHOLD = {
     "pr_cs": 0.0,
@@ -493,6 +535,8 @@ THEORY_THRESHOLD = {
     "pp_cost_tight": float(np.log(1 / ALPHA)),
     "fix_brier": float(np.log(1 / ALPHA)),
     "fix_cost": float(np.log(1 / ALPHA)),
+    "pp_mixture": float(np.log(1 / ALPHA)),
+    "pp_ons": float(np.log(1 / ALPHA)),
 }
 
 

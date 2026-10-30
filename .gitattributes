@@ -10,9 +10,9 @@
 # Preserve byte-exact experiment artifacts because their manifests hash file bytes.
 outputs/direct_ipw_query_*/** -text -eol
 # These registrations/results contain byte hashes of executed source and outputs.
-docs/exhaustive_evaluation/** -text -eol
-docs/risk_preserving_approx/** -text -eol
-outputs/exhaustive_evaluation/round1/** -text -eol
-outputs/exhaustive_evaluation/round1_corrected/** -text -eol
+docs/exhaustive_evaluation/** -text -eol whitespace=cr-at-eol
+docs/risk_preserving_approx/** -text -eol whitespace=cr-at-eol
+outputs/exhaustive_evaluation/round1/** -text -eol whitespace=cr-at-eol
+outputs/exhaustive_evaluation/round1_corrected/** -text -eol whitespace=cr-at-eol
 *.bat text eol=crlf
 *.cmd text eol=crlf

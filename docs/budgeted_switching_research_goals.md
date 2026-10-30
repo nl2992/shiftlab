@@ -2591,3 +2591,10 @@ the finite benchmark. Source limitation: RAO* full text/proof not inspected in t
   composition remains established prior art. Candidate D stays a comparator-plumbing route; no
   ShiftLab efficacy or real-data gate opens. G1 remains open for a different method with a proved
   advantage over the exact two-law oracle and matched acquisition/switching baselines.
+- A separate frozen one-step matching-pennies OS-POSG check extracted a `1/2,1/2` learner strategy
+  with exact maximin value zero; independent payoffs against both pure opponent columns were zero,
+  and the HSVI interval width was `1.77e-7`. The first malformed fixture parser failure is retained
+  separately from the corrected run. Protocol and result hashes are recorded at lane commit
+  [`9c3b801`](https://github.com/nl2992/shiftlab/commit/9c3b801). This tests only root-level
+  adversarial action randomization, not history-dependent opponent strategies or the ShiftLab
+  delayed two-law model, so it does not change the Candidate D or G1 decision.

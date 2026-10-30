@@ -71,9 +71,17 @@ uninformative for the monotonicity claim. Maximum LP residual over all cells was
 `5.56e-17`. Results, all 32-label-tape event tables per cell, and source hashes are in
 `outputs/switching_monotone_promotion_grid_v1/results.json`.
 
-These are LP solver outputs plus exact evaluations of recovered policies, not rational primal-dual
-optimality certificates and not a theorem. They support continuing the structural proof attempt,
-but they do not establish equality of the two policy-class optima for a growing family.
+The initial screen contained LP solver outputs plus exact evaluations of recovered policies, not
+rational primal-dual optimality certificates. That limitation was addressed by
+`scripts/certify_switching_monotone_promotion_grid.py`, which rebuilds both LPs and verifies
+rationalized dual lower bounds and recovered-policy upper bounds using exact `Fraction` arithmetic.
+Reproduction command: `uv run python scripts/certify_switching_monotone_promotion_grid.py`.
+The certificate artifact is
+`outputs/switching_monotone_promotion_grid_cert_v1/results.json`. All 18 primal-dual brackets
+closed to within `1e-7`; every unrestricted recovered event remained monotone, and exact robust
+null risk equaled iid-boundary risk in all nine cells. These certificates establish equality of
+the unrestricted and monotone-constrained optima only for these nine finite instances. They do not
+establish equality for a growing family or a method contribution.
 
 The targeted source check found a close established component: Krishnamurthy's [*POMDP Structural
 Results for Controlled Sensing*](https://arxiv.org/abs/1701.00179), Theorem V.2, gives an MLR-

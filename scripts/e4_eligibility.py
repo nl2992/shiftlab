@@ -39,7 +39,7 @@ ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT / "scripts") not in sys.path:
     sys.path.insert(0, str(ROOT / "scripts"))
 
-import audit_eia_2026_holdout_readiness as audit  # reused unchanged
+import audit_eia_2026_holdout_readiness as audit  # reused unchanged  # noqa: E402 -- local script path bootstrap
 
 STAGE1 = ROOT / "docs/research_refinement_v1/stage1"
 PRERUN = STAGE1 / "e4_eligibility_prerun.json"

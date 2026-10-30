@@ -58,14 +58,14 @@ for extra in (ROOT, ROOT / "scripts"):
     if str(extra) not in sys.path:
         sys.path.insert(0, str(extra))
 
-import audit_eia_2026_holdout_readiness as audit  # reused unchanged
-import e4_eligibility as elig
+import audit_eia_2026_holdout_readiness as audit  # reused unchanged  # noqa: E402 -- local script path bootstrap
+import e4_eligibility as elig  # noqa: E402 -- local script path bootstrap
 
-from shiftlab import freeze
-from shiftlab.dive import eia_validity_analysis as eva
-from shiftlab.dive.eia_paired_reserve import build_respondent_streams
-from shiftlab.dive.gated_monitor_comparison import DisagreementPacer
-from shiftlab.dive.orientation_replay import _propensity_path
+from shiftlab import freeze  # noqa: E402 -- local script path bootstrap
+from shiftlab.dive import eia_validity_analysis as eva  # noqa: E402 -- local script path bootstrap
+from shiftlab.dive.eia_paired_reserve import build_respondent_streams  # noqa: E402 -- local script path bootstrap
+from shiftlab.dive.gated_monitor_comparison import DisagreementPacer  # noqa: E402 -- local script path bootstrap
+from shiftlab.dive.orientation_replay import _propensity_path  # noqa: E402 -- local script path bootstrap
 
 STAGE1 = ROOT / "docs/research_refinement_v1/stage1"
 OUT_ROOT = ROOT / "outputs/e4_heldout"

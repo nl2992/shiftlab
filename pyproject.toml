@@ -103,6 +103,10 @@ pythonpath = [".", "src"]
 line-length = 100
 exclude = ["data", "outputs", "tmp", "references"]
 
+[tool.ruff.lint]
+# Preserve the CI rule policy across Ruff versions, including pre-commit 0.17.
+select = ["E4", "E7", "E9", "F"]
+
 [tool.mypy]
 files = ["src/shiftlab/core"]
 ignore_missing_imports = true

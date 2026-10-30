@@ -16,9 +16,9 @@ from scipy.stats import beta
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
-from shiftlab.data.gpu.environment import environment, resolve_device
-from shiftlab.decision_harm_experiment import SCENARIOS
-from shiftlab.dive import integrated_pipeline as integrated
+from shiftlab.data.gpu.environment import environment, resolve_device  # noqa: E402 -- local script path bootstrap
+from shiftlab.decision_harm_experiment import SCENARIOS  # noqa: E402 -- local script path bootstrap
+from shiftlab.dive import integrated_pipeline as integrated  # noqa: E402 -- local script path bootstrap
 
 PROTOCOL = ROOT / "papers/shiftguard_unified/fixed_candidate_null_protocol_v1.md"
 SEED_START = 2_026_116_000

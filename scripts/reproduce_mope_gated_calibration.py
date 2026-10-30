@@ -28,10 +28,10 @@ for _thread_env in (
 ):
     os.environ[_thread_env] = "1"
 
-import numpy as np
-import pandas as pd
-import torch
-from scipy.stats import beta
+import numpy as np  # noqa: E402 -- local script path bootstrap
+import pandas as pd  # noqa: E402 -- local script path bootstrap
+import torch  # noqa: E402 -- local script path bootstrap
+from scipy.stats import beta  # noqa: E402 -- local script path bootstrap
 
 try:
     from scripts.reproduce_mope_gated_null_smoke import (

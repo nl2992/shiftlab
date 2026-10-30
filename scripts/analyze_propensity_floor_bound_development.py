@@ -12,10 +12,10 @@ ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-import numpy as np
-import pandas as pd
+import numpy as np  # noqa: E402 -- local script path bootstrap
+import pandas as pd  # noqa: E402 -- local script path bootstrap
 
-from scripts.run_propensity_floor_bound_development import (
+from scripts.run_propensity_floor_bound_development import (  # noqa: E402 -- local script path bootstrap
     FLOORS,
     METHODS,
     OUTPUT,
@@ -25,7 +25,7 @@ from scripts.run_propensity_floor_bound_development import (
     SEEDS,
     sha256,
 )
-from shiftlab.dive.estimators import prediction_powered_bound
+from shiftlab.dive.estimators import prediction_powered_bound  # noqa: E402 -- local script path bootstrap
 
 MONITORS = {
     "registered_bound": ("registered_bound_detected", "registered_bound_false_escalation"),

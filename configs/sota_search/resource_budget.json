@@ -1,0 +1,8 @@
+{
+  "max_runs": 1500,
+  "batch_wall_seconds": 3600,
+  "run_wall_seconds": 60,
+  "run_cpu_seconds": 60,
+  "memory_bytes": 2147483648,
+  "storage_bytes": 536870912
+}

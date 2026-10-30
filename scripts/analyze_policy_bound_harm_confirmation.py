@@ -14,19 +14,19 @@ ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-import numpy as np
-import pandas as pd
-from scipy.stats import binomtest, norm
+import numpy as np  # noqa: E402 -- local script path bootstrap
+import pandas as pd  # noqa: E402 -- local script path bootstrap
+from scipy.stats import binomtest, norm  # noqa: E402 -- local script path bootstrap
 
-from scripts.run_policy_bound_harm_confirmation import (
+from scripts.run_policy_bound_harm_confirmation import (  # noqa: E402 -- local script path bootstrap
     CALIBRATION,
     HARM_CONFIRMATION_CONFIG,
     PROTOCOL,
     sha256,
 )
-from shiftlab.decision_harm_experiment import SCENARIOS as SCENARIO_DEFINITIONS
-from shiftlab.dive.estimators import prediction_powered_bound
-from shiftlab.dive.experiment import finalize_manifest
+from shiftlab.decision_harm_experiment import SCENARIOS as SCENARIO_DEFINITIONS  # noqa: E402 -- local script path bootstrap
+from shiftlab.dive.estimators import prediction_powered_bound  # noqa: E402 -- local script path bootstrap
+from shiftlab.dive.experiment import finalize_manifest  # noqa: E402 -- local script path bootstrap
 
 DEFAULT_OUTPUT = ROOT / "outputs/policy_bound_harm_confirmation_200"
 METHODS = (

@@ -22,15 +22,15 @@ import pandas as pd
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
 
-from compare_target_scout_fixed_split import (
+from compare_target_scout_fixed_split import (  # noqa: E402 -- local script path bootstrap
     ALPHA,
     BUDGET_RATE,
     _make_config,
     _stream_for_seed,
 )
 
-from shiftlab.data.gpu.environment import environment, resolve_device
-from shiftlab.dive.budgeted_promotion import (
+from shiftlab.data.gpu.environment import environment, resolve_device  # noqa: E402 -- local script path bootstrap
+from shiftlab.dive.budgeted_promotion import (  # noqa: E402 -- local script path bootstrap
     _budget_limited_prefix_length,
     _monitor_family,
     _monitor_scout_context_policy,

@@ -173,7 +173,10 @@ def test_opsd_rounds_are_local_days_with_regulatory_decision_time(opsd):
     decision_local = pd.DatetimeIndex(pub.decision_time).tz_localize("UTC").tz_convert(op.BERLIN)
     assert np.all(start_local.hour == 0) and np.all(start_local.minute == 0)
     assert np.all(decision_local.hour == 10) and np.all(decision_local.minute == 0)
-    wall = lambda i: i.tz_localize(None).normalize()
+
+    def wall(i):
+        return i.tz_localize(None).normalize()
+
     assert np.all(wall(decision_local) == wall(start_local) - pd.Timedelta(days=1))
     hours = pub.x[:, op.X_FIELDS.index("hours_in_local_day")]
     assert set(hours) == {23.0, 24.0, 25.0}

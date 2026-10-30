@@ -17,8 +17,8 @@ ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from scripts.reproduce_molitor_mope_matched import generate_streams
-from scripts.reproduce_mope_gated_null_smoke import load_official_mope
+from scripts.reproduce_molitor_mope_matched import generate_streams  # noqa: E402 -- local script path bootstrap
+from scripts.reproduce_mope_gated_null_smoke import load_official_mope  # noqa: E402 -- local script path bootstrap
 
 OUTPUT = ROOT / "outputs/shiftguard_unified/sota_reproductions/molitor_mope_matched_v1"
 MOPE_REPO = ROOT / "tmp/mope_reference"

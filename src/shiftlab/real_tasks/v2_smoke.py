@@ -135,7 +135,10 @@ def smoke_v2(task: RealTask, seed_task: RealTask, budget_fraction: float, label:
                 acc["net_cand"].append(-cand - qc - res.switch_cost)  # same queries, switch at 0
                 acc["loss_dep"].append(res.deployed_loss_sum)
                 acc["early"].append(res.stopped_early)
-            mean = lambda v: float(np.mean(v)) if len(v) else None
+
+            def mean(v):
+                return float(np.mean(v)) if len(v) else None
+
             rows.append(
                 {
                     "task": label,

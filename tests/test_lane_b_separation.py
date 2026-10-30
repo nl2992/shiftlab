@@ -11,7 +11,7 @@ from shiftlab.dive.eprocess import PredictableBoundMeanEProcess
 _PATH = Path(__file__).resolve().parents[1] / "scripts" / "lane_b" / "separation_check.py"
 _SPEC = importlib.util.spec_from_file_location("lane_b_separation_check", _PATH)
 sc = importlib.util.module_from_spec(_SPEC)
-import sys
+import sys  # noqa: E402 -- local script path bootstrap
 
 sys.modules[_SPEC.name] = sc
 _SPEC.loader.exec_module(sc)

@@ -29,9 +29,9 @@ import pandas as pd
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
-from shiftlab.dive import e3_intervention_factorial as e3
-from shiftlab.freeze import require_freeze
-from shiftlab.seed_registry import load_registry
+from shiftlab.dive import e3_intervention_factorial as e3  # noqa: E402 -- local script path bootstrap
+from shiftlab.freeze import require_freeze  # noqa: E402 -- local script path bootstrap
+from shiftlab.seed_registry import load_registry  # noqa: E402 -- local script path bootstrap
 
 CONFIRMATION_N = 1000
 BLOCK_IDS = {"dev": "e3_dev_smoke", "confirmation": "e3_confirmation"}

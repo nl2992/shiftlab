@@ -24,8 +24,8 @@ ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from scripts import evaluate_wilds_candidate_selection as common
-from shiftlab.data.gpu.environment import environment
+from scripts import evaluate_wilds_candidate_selection as common  # noqa: E402 -- local script path bootstrap
+from shiftlab.data.gpu.environment import environment  # noqa: E402 -- local script path bootstrap
 
 DATASET_DIR = ROOT / "data/processed/wilds/c4f79606707951bcba11"
 PROTOCOL = ROOT / "papers/shiftguard_unified/wilds_pace_gate_protocol_v1.md"

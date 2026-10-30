@@ -17,8 +17,8 @@ from scipy.stats import beta
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
-from shiftlab.decision_harm_experiment import SCENARIOS
-from shiftlab.dive import integrated_pipeline as integrated
+from shiftlab.decision_harm_experiment import SCENARIOS  # noqa: E402 -- local script path bootstrap
+from shiftlab.dive import integrated_pipeline as integrated  # noqa: E402 -- local script path bootstrap
 
 PROTOCOL = ROOT / "papers/shiftguard_unified/fixed_candidate_null_protocol_v1.md"
 ALPHA = integrated.PROMOTION_ALPHA

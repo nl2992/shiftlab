@@ -28,8 +28,8 @@ import pandas as pd
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
-from shiftlab.dive import e2_acquisition_pacing as e2
-from shiftlab.freeze import require_freeze
+from shiftlab.dive import e2_acquisition_pacing as e2  # noqa: E402 -- local script path bootstrap
+from shiftlab.freeze import require_freeze  # noqa: E402 -- local script path bootstrap
 
 STAGE1 = Path("docs/research_refinement_v1/stage1")
 FREEZE_RECORD = ROOT / STAGE1 / "P1_E2_freeze.json"

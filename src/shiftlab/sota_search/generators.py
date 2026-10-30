@@ -308,8 +308,8 @@ def _g5_stream(rng, shape_prefix, cond, shift, active):
 def g5_effects(cond: str, shift: str):
     """(source cost, source Brier, decision harm, Brier increase) under the deployed model of ``cond``."""
     rng = np.random.default_rng(910)
-    xs, ys, ps = _g5_stream(rng, (300_000,), cond, "none", np.zeros(300_000))
-    xt, yt, pt = _g5_stream(rng, (300_000,), cond, shift, np.ones(300_000))
+    _xs, ys, ps = _g5_stream(rng, (300_000,), cond, "none", np.zeros(300_000))
+    _xt, yt, pt = _g5_stream(rng, (300_000,), cond, shift, np.ones(300_000))
     c0 = decision_cost((ps >= TAU).astype(float), ys).mean()
     c1 = decision_cost((pt >= TAU).astype(float), yt).mean()
     b0, b1 = ((ps - ys) ** 2).mean(), ((pt - yt) ** 2).mean()

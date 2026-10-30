@@ -226,8 +226,10 @@ src/shiftlab/real_tasks/v2_smoke.py
 src/shiftlab/sota_search/__init__.py
 src/shiftlab/sota_search/db.py
 src/shiftlab/sota_search/detectors.py
+src/shiftlab/sota_search/g6.py
 src/shiftlab/sota_search/generators.py
 src/shiftlab/sota_search/harness.py
+src/shiftlab/sota_search/restart.py
 tests/test_active_inference.py
 tests/test_adg_growth_prescreen.py
 tests/test_analyze_risk_proxy_stress_grid.py

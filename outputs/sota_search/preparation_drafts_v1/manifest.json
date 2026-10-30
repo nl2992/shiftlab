@@ -1,0 +1,18 @@
+{
+  "status": "isolated_preparation_drafts_not_running_experiment_source",
+  "test_result": "17 focused tests passed; one dependency deprecation warning",
+  "files": {
+    "sota_confirmation_draft.py": "220c513a84158bd74832bbf10dda3d66768d91cfef3e34bb407cb73e407f0902",
+    "sota_distribution_draft.py": "054cf6d7efd7b730ff6478bba9e9bd3422d470ceb8d53fa1e037be82d8f29ed4",
+    "sota_fixed_block_draft.py": "a3220a4c20865027433663415af25fc42924317016643964390f6cbe0ff9b163",
+    "sota_replication_draft.py": "808e38a74cd8b0e92030ef51aa8352ecc53ebe38e08b1ce62ac55cd14a89183d",
+    "sota_screen_analysis.py": "27d2dbeb6973784b4f6cafaa79e99b72c4f1eb1df147131d3f486dc9d47c082a",
+    "SOTA_SCREEN_INTERPRETATION_AUDIT.md": "fb290f27f51744827a85e256e34f78bda90314e4fe9939f24dca26932ff45523",
+    "sota_screen_verify.py": "04aae44fb50e93c72644dc393ef10086b5d56f237f694aa9742f732d5a7e6fa3",
+    "test_sota_confirmation_draft.py": "2376b418706b2c4683f17417b8eecc1fded96f3825c510336a023edbe03b2ce0",
+    "test_sota_distribution_draft.py": "68c5e73d1fe5285ed71be653037ed4b66d2091b8c6ee6bf9ad8471fa864d37da",
+    "test_sota_fixed_block_draft.py": "9d134e60944c4b064c7900bf621d809fa36ed56692e7209055d758700005ffed",
+    "test_sota_replication_draft.py": "e2d4ec004d1399daa28499b578dde1aa5c20e59d6de6d51296b4cdce2c5379a1",
+    "test_sota_screen_analysis.py": "0d14c6f49cb2858ad8b58f24ae63a596cb0e300dc5dc568c86734b929894b16a"
+  }
+}

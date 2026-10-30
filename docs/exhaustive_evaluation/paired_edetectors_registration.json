@@ -1,0 +1,34 @@
+{
+  "registered_utc": "2026-10-30T17:33:59.074775+00:00",
+  "stage": "development operational threshold comparison, not new method or author-scale reproduction",
+  "cases": [
+    "harmful",
+    "tie",
+    "harmful_after_shift",
+    "useful_initial",
+    "useful",
+    "late",
+    "small",
+    "reversal"
+  ],
+  "paths": 256,
+  "horizon": 2000,
+  "world_seed": 202666000,
+  "query_seed": 202667000,
+  "contract": "uniform frac.2 hard cap400 delay5 alpha.05 margin.01 query.001 switch1",
+  "methods": "SR/CUSUM fixed stakes.2/.5/.8 and equal mixture; horizon H/alpha versus explicitly nonmatched ARL1/alpha",
+  "primary": "horizon-safe operational net cost vs tuned FTL/CUSUM; all stake settings reported; ARL arms diagnostic only",
+  "skip": "unreleased events use factor1 and open starts; pending requests charged; no inherited real-data guarantee",
+  "cusum_thresholds": [
+    6.820000000000014,
+    4.479999999999999
+  ],
+  "sources_sha256": {
+    "src/shiftlab/sota_search/paired_edetectors.py": "3fc0276b6cb202512be2c890e05ebcdb28bacfbce530f8dfd8066d63a0d6233f",
+    "src/shiftlab/sota_search/paired_control.py": "f629e0b6db64ec094ef47cf238ed2d894f48cdadd237629ecfb1d508afd9fd61",
+    "src/shiftlab/sota_search/paired_references.py": "0dc89e24398e2761f4f56dd143b03ff587d9fbf2cedd4355f44fa0db626004b8",
+    "src/shiftlab/sota_search/paired_cusum.py": "0c829641bacf4652618b84f57c32d764c3ed4664f5f80490de86ef93e72373a2",
+    "src/shiftlab/sota_search/combination_screen.py": "ff995be8d0c74dda2d8f8729b3bb07a1758c9c2cec03f05c4001a37cc023dcac",
+    "scripts/exhaustive_evaluation/run_paired_edetectors.py": "346c09e1f2aa34f42a64fb2b54f4f695741fa4051057476e4b41fa83ab3f93c8"
+  }
+}

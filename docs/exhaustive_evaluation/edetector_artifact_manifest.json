@@ -1,0 +1,26 @@
+{
+  "frozen_sources_match": true,
+  "sha256": {
+    "src/shiftlab/sota_search/paired_edetectors.py": "3fc0276b6cb202512be2c890e05ebcdb28bacfbce530f8dfd8066d63a0d6233f",
+    "src/shiftlab/sota_search/paired_control.py": "f629e0b6db64ec094ef47cf238ed2d894f48cdadd237629ecfb1d508afd9fd61",
+    "src/shiftlab/sota_search/paired_references.py": "0dc89e24398e2761f4f56dd143b03ff587d9fbf2cedd4355f44fa0db626004b8",
+    "src/shiftlab/sota_search/paired_cusum.py": "0c829641bacf4652618b84f57c32d764c3ed4664f5f80490de86ef93e72373a2",
+    "src/shiftlab/sota_search/combination_screen.py": "ff995be8d0c74dda2d8f8729b3bb07a1758c9c2cec03f05c4001a37cc023dcac",
+    "scripts/exhaustive_evaluation/run_paired_edetectors.py": "346c09e1f2aa34f42a64fb2b54f4f695741fa4051057476e4b41fa83ab3f93c8",
+    "tests/test_paired_edetectors.py": "55825798c3562927df31a9800736aee1a3cf31902c6a4bc22c4b98bf232a98cf",
+    "src/shiftlab/dive/horizon_edetectors.py": "c61d726c04108239701b9ca2ece0b8c97442dd990599406f4e0291bf94388757",
+    "docs/exhaustive_evaluation/paired_edetectors_registration.json": "c472d0d96dd35119678fdd69ef48a9223d08818750bd85703b97a9042e4f2e02",
+    "docs/exhaustive_evaluation/paired_edetectors_results.json": "eef8dca1b6ec3a98062babcd96374b405261aaa1177a58b0c83cba3710a74967",
+    "docs/exhaustive_evaluation/paired_edetectors_status.json": "29720b7a3ff83cc5ed7713ae68b26f30a5290b60436a739109745602563fa465",
+    "docs/exhaustive_evaluation/PAIRED_EDETECTOR_REPORT.md": "b2b4389b94d53f19505c2a06657ac2dbc84921bf97a35513e2b49332e01437dd",
+    "docs/exhaustive_evaluation/BASELINE_COVERAGE.md": "ce8a0eced84ea64ea16bd6bfc1003cda1cb9a94023678c28af1df71f4541293e",
+    "outputs/exhaustive_evaluation/paired_edetectors/harmful.npz": "a275fa4b5fbf27ba6802ffa6a792f4cb4defa8bd116b87aeb313b1d60401a7c2",
+    "outputs/exhaustive_evaluation/paired_edetectors/harmful_after_shift.npz": "333bdd43983dd9d7c2f3de8680bdde99b206704c403ffcad391fa9b70295606d",
+    "outputs/exhaustive_evaluation/paired_edetectors/late.npz": "3d023dbddd88b0613dcff3348f455c3b1e1bdc35ca68d0f533a1d76c59d9d18e",
+    "outputs/exhaustive_evaluation/paired_edetectors/reversal.npz": "b0c57abcc691272fde2f0d04c85f738456ba750ed6d99c563f9bbf27d1e4f4f3",
+    "outputs/exhaustive_evaluation/paired_edetectors/small.npz": "d2a7b5ad3f86f40e2dc28cd05e132e88d771f8626b30ae97c6e4ec00f011458d",
+    "outputs/exhaustive_evaluation/paired_edetectors/tie.npz": "74538b07e059420186b774d4a4cc7818a4d3da199a50fcbc5ed464ffa8f4edde",
+    "outputs/exhaustive_evaluation/paired_edetectors/useful.npz": "6153cf4d36f8e3b0c8880ab9ae668bbc6b6627405f3da3d032855e37f601132f",
+    "outputs/exhaustive_evaluation/paired_edetectors/useful_initial.npz": "46c325b26dc63cedcc09c0bbc601bcaa6d6ae84ccc5d9ed24e6928817c73d378"
+  }
+}

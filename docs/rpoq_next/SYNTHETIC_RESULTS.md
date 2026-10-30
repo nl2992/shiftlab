@@ -66,3 +66,31 @@ Power, `ρ = 0 / 0.6`:
 **Registered verdict: INCONCLUSIVE.** "Concentration explains the effect" is not triggered (het gap to the placebo ≈ +0.21). "Growth-aware selection adds value" requires the const gap to the placebo within ±0.03; it is +0.083. Reading: random concentration plus per-context bets is itself a handicapped arm (0.264 vs 0.325 for uniform with a pooled bet), and growth-aware selection merely recovers the level of the best pooled baseline in const (+0.02, not significant). In het, where signal differs across contexts, it is far ahead (+0.21) even against a fair best-bet baseline.
 
 **What is and is not established.** In this stationary generator with heterogeneous signal-to-noise and a stratified null, learned growth-aware concentration beats equally equipped baselines, calibrated and cap-respecting. Not established: robustness to nonstationary alternatives (concentrating on a burn-in favourite is exactly what fails when signal arrives later or moves), whether the gain is more than known active-subgroup/e-PS-style allocation, or any real-data effect. A3 tests the first.
+
+## A3 (protocol [`SYNTHETIC_PROTOCOL_A3.md`](SYNTHETIC_PROTOCOL_A3.md)): confirmatory screen, fair baselines, nonstationary alternatives
+
+1,000 fresh seeds (base 2026), `scripts/rpoq_next/analyze_a3.py` applied to `outputs/rpoq_next/screen_a3/results.json`. `Δ = growth_fixed(best bet) − max{uniform, neyman, rasi, random_conc}(best bet)` in power, paired bootstrap 95% interval.
+
+| Setting | best-baseline power | growth_fixed (best bet) | Δ [95% CI] |
+|---|---|---|---|
+| null (`ρ=0.6`) | 0.029 | 0.028 | −0.001 [−0.013, +0.011] |
+| const `ρ=0` | 0.343 | 0.347 | +0.004 [−0.031, +0.039] |
+| const `ρ=0.6` | 0.345 | 0.354 | +0.009 [−0.028, +0.046] |
+| het `ρ=0` | 0.290 | 0.505 | **+0.215 [+0.177, +0.253]** |
+| het `ρ=0.6` | 0.298 | 0.514 | **+0.216 [+0.177, +0.255]** |
+| het_onset `ρ=0.6` | 0.055 | 0.084 | +0.029 [+0.010, +0.049] |
+| het_flip `ρ=0.6` | 0.342 | 0.222 | **−0.120 [−0.157, −0.082]** |
+
+Rule 1 (validity) pass: null crossing at most 0.029 for every arm; spend at most 398 of 400. Rule 2 (tie) pass. Rule 3 (primary) pass. Rule 4 (robustness): `het_onset` passes (but all arms have power ≤ 0.084, so it is nearly uninformative), `het_flip` **fails**.
+
+### Registered verdict: SUPPORTED WITH RESTRICTION (as a synthetic screen only)
+
+Growth-aware, learned-moment concentration with per-context bets beats equally equipped baselines, including the random-concentration placebo and each baseline's better bet type, **when the alternative is heterogeneous across observable contexts and stays put after the burn-in**. It is calibrated and respects the hard cap. It is **materially worse** when the signal moves after the burn-in: in `het_flip` the placebo that concentrates on a random context (0.342) beats the informed allocator (0.222), and so does plain uniform with per-context bets (0.279).
+
+### Failure condition (to be stated in any claim)
+The method bets on the burn-in's favourite context. If the favourite loses its signal, the allocator spends the budget in the wrong place and is worse than not trying. The sequential re-estimating variant (`growth_online`) did not fix this and was worse than uniform in most settings in A2.
+
+### What this is, and is not
+- It is a restricted, calibrated advantage in a stratified-null, heterogeneous-SNR, stationary-after-burn-in family. That is essentially active subgroup selection, a known idea family (e-PS-style allocation by estimated growth; unresolved against the two unread 2026 preprints).
+- It is not evidence for the general thesis that growth-aware allocation beats variance-based allocation: with a common bet the two coincide (derivation), and the advantage here comes from per-context bets plus concentration.
+- Nothing here is real-data evidence.

@@ -22,3 +22,9 @@ Branch `research/rpoq-s1-fatal-flaw-audit`. Historical RPOQ protocols, results a
 ## 2026-10-30, CI triage result
 
 Local full suite (base dependencies only, no `neural`/`drift` extras): 1639 passed, 23 skipped, 33 failed, 82 collection errors. Every failure and error traces to a missing optional dependency: `torch` (collection and runtime `import torch` in `budgeted_promotion.py`) and `river` (8 collection errors). The same tests fail identically on `main` at `ec42a2d`, before this branch. **No code defect found.** CI installs `--extra neural --extra drift`; torch could not be installed here (the pinned `pytorch-cu130` index is outside the network allowlist), so the full suite has *not* been verified end to end in this environment. Remaining CI step `scripts/validate_environment.py` not run.
+
+## 2026-10-30, Cycle 3 closed (A1–A3)
+
+- A1 NOT PASSED (oracle subgroup effect; tie prediction was wrong: SNR must be constant). A2 NOT PASSED (tie control; `growth_online` worse than uniform). A2b INCONCLUSIVE (placebo). A3: **SUPPORTED WITH RESTRICTION** (fair baselines, calibrated; `het` Δ ≈ +0.215; `het_flip` Δ = −0.120).
+- Decision: Candidate A survives only as a restricted, stationary heterogeneous-SNR mechanism. The failure condition is the burn-in favourite losing its signal. Cycle 4 allows at most two substantive revisions; revision 1 targets exactly that failure (see `METHOD_DESIGN.md` addendum, to be written before running).
+- Real data: not yet. The synthetic gate is only partially passed, so only a *development-split heterogeneity/stability check* (no test split) is permitted next.

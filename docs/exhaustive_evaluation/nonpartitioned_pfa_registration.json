@@ -1,0 +1,20 @@
+{
+  "registered_utc": "2026-10-30T17:35:45.615286+00:00",
+  "source_url": "https://arxiv.org/html/2607.28322v1",
+  "source_sha256": "09e7b1a1b5a89a4e457df15f07a9b989c4069d77a3391701c8575a8e832eca5a",
+  "script_sha256": "987ee6cea9ab31fdf158a8fc8f87f5223a67e3822b5a5716f18cbb4829a2fd3b",
+  "stage": "Eq3/6 numerical formula pilot, not author-code or complete experiment reproduction",
+  "horizon": 120,
+  "weights": "pi_s=1/120 for starts1..120, zero beyond horizon; finite support specialization",
+  "sigma_squared": 1,
+  "rho_squared": 1,
+  "alpha": 0.05,
+  "cases": [
+    "constant0",
+    "constant2",
+    "normal_null",
+    "normal_change"
+  ],
+  "seed": 202670000,
+  "optimization": "convex logsumexp of quadratics, scalar bounded minimization over hull of segment means; numerical result is an upper approximation to infimum, no certified PFA guarantee from numerical crossing"
+}

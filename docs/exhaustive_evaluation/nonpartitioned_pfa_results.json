@@ -1,0 +1,114 @@
+{
+  "status": "completed",
+  "rows": [
+    {
+      "case": "constant0",
+      "numerical_composite_first_crossing": null,
+      "known_zero_mean_first_crossing": null,
+      "final_composite_log_statistic": -1.8127242662501786,
+      "final_known_zero_log_statistic": -1.8127242662501786,
+      "optimizer_checks": [
+        {
+          "t": 30,
+          "fitted_mean": 0.0,
+          "log_infimum_numerical": -2.616755404147538,
+          "dense_grid_log_minimum": -2.616755404147538
+        },
+        {
+          "t": 60,
+          "fitted_mean": 0.0,
+          "log_infimum_numerical": -2.2054526481937224,
+          "dense_grid_log_minimum": -2.2054526481937224
+        },
+        {
+          "t": 120,
+          "fitted_mean": 0.0,
+          "log_infimum_numerical": -1.8127242662501786,
+          "dense_grid_log_minimum": -1.8127242662501786
+        }
+      ]
+    },
+    {
+      "case": "constant2",
+      "numerical_composite_first_crossing": null,
+      "known_zero_mean_first_crossing": 6,
+      "final_composite_log_statistic": -1.8127242662501786,
+      "final_known_zero_log_statistic": 230.9772289669204,
+      "optimizer_checks": [
+        {
+          "t": 30,
+          "fitted_mean": 2.0,
+          "log_infimum_numerical": -2.616755404147538,
+          "dense_grid_log_minimum": -2.616755404147538
+        },
+        {
+          "t": 60,
+          "fitted_mean": 2.0,
+          "log_infimum_numerical": -2.2054526481937224,
+          "dense_grid_log_minimum": -2.2054526481937224
+        },
+        {
+          "t": 120,
+          "fitted_mean": 2.0,
+          "log_infimum_numerical": -1.8127242662501786,
+          "dense_grid_log_minimum": -1.8127242662501786
+        }
+      ]
+    },
+    {
+      "case": "normal_null",
+      "numerical_composite_first_crossing": null,
+      "known_zero_mean_first_crossing": null,
+      "final_composite_log_statistic": -1.2083428172710264,
+      "final_known_zero_log_statistic": 0.5494630016746607,
+      "optimizer_checks": [
+        {
+          "t": 30,
+          "fitted_mean": 0.34469806027239797,
+          "log_infimum_numerical": -2.552604608669664,
+          "dense_grid_log_minimum": -2.5526045792881105
+        },
+        {
+          "t": 60,
+          "fitted_mean": -0.11592572584386589,
+          "log_infimum_numerical": -1.9319561764770432,
+          "dense_grid_log_minimum": -1.9319560333755192
+        },
+        {
+          "t": 120,
+          "fitted_mean": 0.23370128954544264,
+          "log_infimum_numerical": -1.2083428172710264,
+          "dense_grid_log_minimum": -1.208342750557522
+        }
+      ]
+    },
+    {
+      "case": "normal_change",
+      "numerical_composite_first_crossing": 67,
+      "known_zero_mean_first_crossing": 65,
+      "final_composite_log_statistic": 6.262190046016479,
+      "final_known_zero_log_statistic": 128.92256461270406,
+      "optimizer_checks": [
+        {
+          "t": 30,
+          "fitted_mean": 0.008177354665747498,
+          "log_infimum_numerical": -2.488125370387358,
+          "dense_grid_log_minimum": -2.4881246866701683
+        },
+        {
+          "t": 60,
+          "fitted_mean": 0.09155606170920944,
+          "log_infimum_numerical": -2.107170665619852,
+          "dense_grid_log_minimum": -2.107164750019046
+        },
+        {
+          "t": 120,
+          "fitted_mean": 1.5464051914387456,
+          "log_infimum_numerical": 6.262190046016479,
+          "dense_grid_log_minimum": 6.2622009544784385
+        }
+      ]
+    }
+  ],
+  "limits": "one path per case; numerical infimum is not certified lower bound, no experimental PFA validation or deployed detector guarantee"
+}

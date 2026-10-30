@@ -2598,3 +2598,10 @@ the finite benchmark. Source limitation: RAO* full text/proof not inspected in t
   [`9c3b801`](https://github.com/nl2992/shiftlab/commit/9c3b801). This tests only root-level
   adversarial action randomization, not history-dependent opponent strategies or the ShiftLab
   delayed two-law model, so it does not change the Candidate D or G1 decision.
+- Final decision: close Candidate D as adapter-feasibility work. Its reduction, scalarization,
+  strategy gadget and exact-evaluation composition have no identified novelty delta; the toy checks
+  provide no risk-bracketing pair or end-to-end resource result, and the upstream package's larger
+  registered convergence test still failed. Do not implement further HSVI adapters or start a
+  ShiftLab pilot under this route. G1 remains active only for a newly specified structural theorem
+  that beats the full two-law oracle in value, risk and computational scaling; if no such structure
+  survives prior-art review, stop or revise the methodological hypothesis before G2.

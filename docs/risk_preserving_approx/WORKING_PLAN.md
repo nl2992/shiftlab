@@ -617,3 +617,15 @@ would be a direct composition without a cost-loss or resource theorem, so do not
 implement it as the lead. Continue searching for a candidate that reduces
 optimization complexity and has a defensible value guarantee. See
 `CANDIDATE_F_ADAPTIVE_BET_GATE_AUDIT_V1.md`.
+
+## Candidate G exact IID-belief compression screen (2026-10-29)
+
+An exact rational hidden-root belief graph for the IID relaxation reproduced all
+4,867 public-history states on the registered T=10 case; it did not merge any
+histories. The screen took 0.340 seconds and generated 4,866 transitions, but
+failed the preregistered 50% compression gate. Stop exact belief-state compression.
+A separate idea—Lagrangian backward induction over the same graph instead of the
+13,420-variable LP—may still reduce solve time, but it is the standard constrained
+POMDP dynamic-programming reduction. Audit its exact source equivalence before
+implementation and do not claim novelty without a remaining theorem or resource
+advantage. See the Candidate G protocol and result.

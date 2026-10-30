@@ -1,0 +1,33 @@
+{
+  "status": "completed",
+  "error": null,
+  "protocol": "CANDIDATE_G_IID_BELIEF_COMPRESSION_PROTOCOL_V1.md",
+  "protocol_sha256": "490def08daf82108c5e12980028eb98a20acdf2a34991c28c651917e58c1b459",
+  "reference_protocol_sha256": "e456e1dbbc5e5e901a1d0aec35a05c08aaa1c9b8285bf4ad4783b9b6798aa674",
+  "runner_sha256": "f22e27d29d5d6e621c6b6a1fd3bbe891e88ac0d56983c0765c6b9064eb8e77fd",
+  "model_source_sha256": "28a921215b0c58e1682b01e0da2df46b1100c9fc2618b74d7d137ad9fce8047e",
+  "reference_counts_sha256": "b0b91c0b9e07975e596d232edb432b5aac5206f0585d4347b566be79c0b4a5fc",
+  "config": {
+    "horizon": 10,
+    "budget": 4,
+    "delay": 2,
+    "transition": "1/10",
+    "emissions": [
+      "1/50",
+      "49/50"
+    ],
+    "prior1": "1/2",
+    "root_mode_priors": [
+      "1/2",
+      "1/2"
+    ]
+  },
+  "exact_reachable_belief_decision_states": 4867,
+  "public_history_decision_states": 4867,
+  "prepromotion_realization_columns": 13420,
+  "state_ratio_to_public_histories": "1",
+  "transition_edges": 4866,
+  "terminal_promotion_actions_counted": 6004,
+  "build_seconds": 0.33985859993845224,
+  "all_beliefs_exact_rational": true
+}

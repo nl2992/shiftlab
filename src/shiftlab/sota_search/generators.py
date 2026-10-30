@@ -165,3 +165,42 @@ def simulate(world: World, n_seeds: int, seed: int):
         "brier": (p - y) ** 2,
         "world": world,
     }
+
+
+# G3: Markov-switching regimes. 0 = source, 1 = harmful concept shift (delta 2), 2 = benign covariate shift (delta 3).
+G3_P = np.array([[0.997, 0.0015, 0.0015], [0.003, 0.995, 0.002], [0.003, 0.002, 0.995]])
+G3_KINDS = (("none", 0.0), ("concept", 2.0), ("cov_benign", 3.0))
+
+
+def simulate_g3(n_seeds: int, seed: int, T: int = 2000, transition=None):
+    """Per-seed hidden regime paths with ground-truth regime labels; harm is a function of the regime."""
+    rng = np.random.default_rng(seed)
+    P = G3_P if transition is None else np.asarray(transition)
+    reg = np.zeros((n_seeds, T), dtype=np.int8)
+    u = rng.random((n_seeds, T))
+    cum = P.cumsum(1)
+    for t in range(1, T):
+        reg[:, t] = (u[:, t, None] > cum[reg[:, t - 1]]).sum(1)
+    terms = np.array([_delta_terms(k, d) for k, d in G3_KINDS], dtype=object)
+    dmu = np.stack([np.asarray(t[0], dtype=float) * np.ones(D) for t in terms])
+    dw = np.stack([np.asarray(t[1], dtype=float) * np.ones(D) for t in terms])
+    db = np.array([float(t[2]) for t in terms])
+    x = rng.standard_normal((n_seeds, T, D)) + dmu[reg]
+    logit = (x * (W_SRC + dw[reg])).sum(-1) + B_SRC + db[reg]
+    y = (rng.random((n_seeds, T)) < sigmoid(logit)).astype(np.int8)
+    p = sigmoid(x @ W_SRC + B_SRC)
+    act = (p >= TAU).astype(float)
+    harm_by_regime = np.array(
+        [0.0] + [max(population_effects(k, d)[3][-1], 0.0) for k, d in G3_KINDS[1:]]
+    )
+    return {
+        "x": x.astype(np.float32),
+        "y": y,
+        "p": p,
+        "loss": decision_cost(act, y),
+        "brier": (p - y) ** 2,
+        "world": World(kind="none", T=T),
+        "regime": reg,
+        "harm": harm_by_regime[reg],
+        "harmful": reg == 1,
+    }

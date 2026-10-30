@@ -1,0 +1,182 @@
+{
+ "variant=A,delta=0.05": {
+  "incumbent_only": {
+   "net_cost": 595.895,
+   "switches": 0.0
+  },
+  "fallback_only": {
+   "net_cost": 701.0000000000258,
+   "switches": 1.0
+  },
+  "oracle_regime_aware": {
+   "net_cost": 250.92158333333145,
+   "switches": 42.358333333333334
+  },
+  "cond_alarm_hold20": {
+   "net_cost": 527.5376666666691,
+   "switches": 24.713333333333335
+  },
+  "cond_alarm_hold100": {
+   "net_cost": 551.5897500000073,
+   "switches": 13.575
+  },
+  "marg_alarm_hold20": {
+   "net_cost": 595.895,
+   "switches": 0.0
+  },
+  "marg_alarm_hold100": {
+   "net_cost": 595.895,
+   "switches": 0.0
+  }
+ },
+ "variant=A,delta=0.01": {
+  "incumbent_only": {
+   "net_cost": 594.4133333333333,
+   "switches": 0.0
+  },
+  "fallback_only": {
+   "net_cost": 701.0000000000258,
+   "switches": 1.0
+  },
+  "oracle_regime_aware": {
+   "net_cost": 216.80966666666635,
+   "switches": 8.765
+  },
+  "cond_alarm_hold20": {
+   "net_cost": 418.1006666666694,
+   "switches": 36.58
+  },
+  "cond_alarm_hold100": {
+   "net_cost": 379.54833333333704,
+   "switches": 11.608333333333333
+  },
+  "marg_alarm_hold20": {
+   "net_cost": 594.4133333333333,
+   "switches": 0.0
+  },
+  "marg_alarm_hold100": {
+   "net_cost": 594.4133333333333,
+   "switches": 0.0
+  }
+ },
+ "variant=A,delta=0.003": {
+  "incumbent_only": {
+   "net_cost": 601.5066666666667,
+   "switches": 0.0
+  },
+  "fallback_only": {
+   "net_cost": 701.0000000000258,
+   "switches": 1.0
+  },
+  "oracle_regime_aware": {
+   "net_cost": 213.4240000000016,
+   "switches": 2.8966666666666665
+  },
+  "cond_alarm_hold20": {
+   "net_cost": 375.55316666667017,
+   "switches": 42.72666666666667
+  },
+  "cond_alarm_hold100": {
+   "net_cost": 298.0412500000033,
+   "switches": 11.415
+  },
+  "marg_alarm_hold20": {
+   "net_cost": 601.5066666666667,
+   "switches": 0.0
+  },
+  "marg_alarm_hold100": {
+   "net_cost": 601.5066666666667,
+   "switches": 0.0
+  }
+ },
+ "variant=B,delta=0.05": {
+  "incumbent_only": {
+   "net_cost": 605.9766666666667,
+   "switches": 0.0
+  },
+  "fallback_only": {
+   "net_cost": 706.9766666666545,
+   "switches": 1.0
+  },
+  "oracle_regime_aware": {
+   "net_cost": 678.8704999999978,
+   "switches": 42.595
+  },
+  "cond_alarm_hold20": {
+   "net_cost": 644.2709166666657,
+   "switches": 25.531666666666666
+  },
+  "cond_alarm_hold100": {
+   "net_cost": 654.42583333333,
+   "switches": 13.841666666666667
+  },
+  "marg_alarm_hold20": {
+   "net_cost": 605.9766666666667,
+   "switches": 0.0
+  },
+  "marg_alarm_hold100": {
+   "net_cost": 605.9766666666667,
+   "switches": 0.0
+  }
+ },
+ "variant=B,delta=0.01": {
+  "incumbent_only": {
+   "net_cost": 605.0233333333333,
+   "switches": 0.0
+  },
+  "fallback_only": {
+   "net_cost": 706.02333333332,
+   "switches": 1.0
+  },
+  "oracle_regime_aware": {
+   "net_cost": 644.0161666666617,
+   "switches": 8.741666666666667
+  },
+  "cond_alarm_hold20": {
+   "net_cost": 661.28758333333,
+   "switches": 37.51
+  },
+  "cond_alarm_hold100": {
+   "net_cost": 646.5294999999946,
+   "switches": 11.856666666666667
+  },
+  "marg_alarm_hold20": {
+   "net_cost": 605.0233333333333,
+   "switches": 0.0
+  },
+  "marg_alarm_hold100": {
+   "net_cost": 605.0233333333333,
+   "switches": 0.0
+  }
+ },
+ "variant=B,delta=0.003": {
+  "incumbent_only": {
+   "net_cost": 600.075,
+   "switches": 0.0
+  },
+  "fallback_only": {
+   "net_cost": 701.0749999999822,
+   "switches": 1.0
+  },
+  "oracle_regime_aware": {
+   "net_cost": 633.0054166666573,
+   "switches": 2.9266666666666667
+  },
+  "cond_alarm_hold20": {
+   "net_cost": 663.9975833333265,
+   "switches": 42.61666666666667
+  },
+  "cond_alarm_hold100": {
+   "net_cost": 639.872083333324,
+   "switches": 11.37
+  },
+  "marg_alarm_hold20": {
+   "net_cost": 600.075,
+   "switches": 0.0
+  },
+  "marg_alarm_hold100": {
+   "net_cost": 600.075,
+   "switches": 0.0
+  }
+ }
+}

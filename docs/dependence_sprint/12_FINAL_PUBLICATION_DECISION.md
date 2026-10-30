@@ -10,3 +10,7 @@ Secondary results (report separately, not as the main claim): repaired HG improv
 2. Reproduce Sethi et al.'s Algorithm 1 on the binary lazy chain and check the stopping times against the oracle ceiling; verify their Theorem 4.1 proof.
 3. Search for / attempt a hidden-Markov alpha-correct construction only inside the Gate-B feasible class (T*delta >= ~100-500) and only if a power theorem is attainable.
 4. If a switching contribution is wanted, look for a *separation* between joint and decoupled acquisition-switching (the exact toy hints at ~+0.02 power) rather than another monitor.
+
+## Update after the follow-up obligations
+Completed: (2) Sethi Algorithm 1 reproduced and shown to have ~zero power at alpha=0.05, T=2000 on persistent chains (doc 07); (1) estimand study (doc 11) — conditional alarms are net-beneficial iff a regime-local action exists. **Classification unchanged: F. NO_GO** for a novel dependence-robust marginal-null monitor. The follow-up sharpens the lesson: the real research object is the *action set* (does a cheap regime-robust fallback exist?), not the monitor.
+Still open: verify Sethi's Theorem 4.1 proof and my Theorem B1 independently; a sharp (~1/eps^2) lower bound for the chain; hidden-Markov alpha-correct construction (only inside T*delta >~ 100-500); a joint-vs-decoupled acquisition-switching separation (the exact toy hints at ~+0.02 power; no theorem).

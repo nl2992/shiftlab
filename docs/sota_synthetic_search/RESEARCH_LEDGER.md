@@ -6,3 +6,5 @@
 - Open: Q2, Q3, G3/G4, CIs over worlds, literature novelty check, stress tests.
 
 - 2026-10-31 dependence sprint (branch research/shiftlab-dependence-gates-2026-10-31): Gate A PASS (null-class mismatch), Gate B FAIL for marginal guarantee under persistence (Theorem B1 + oracle ceiling), Gate C UNRESOLVED general / KNOWN fully-observed. LRV heuristic EMPIRICAL_ONLY (does not transfer). Final: F NO_GO. See docs/dependence_sprint/12_FINAL_PUBLICATION_DECISION.md.
+
+- 2026-10-31 follow-up: Sethi Alg.1 reproduced (power ~0 at alpha=.05, T=2000, persistent chains); estimand study: conditional alarms net-beneficial iff a regime-local action exists. Classification F unchanged.

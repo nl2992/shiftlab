@@ -22,3 +22,6 @@ The conditional excess is visible directly: the regression slope of L_t on the p
 * Is the weaker (marginal) null testable with useful power? → Gate B.
 
 **GATE A: PASS** (classification: null-class mismatch; conditional-null monitor retained as the validated baseline). Unresolved sub-item: the economic estimand (conditional vs marginal) — see 11.
+
+## Update: economic estimand (resolved for the stylised case; see 11)
+`estimand_switching.json`: whether a conditional-null alarm is a "false alarm" or a correct detection depends on whether an action with **regime-local benefit** exists. If so (variant A) conditional-null alarms are net-beneficial (net cost 298-552 vs 595-601 incumbent-only) while the marginal-null monitor never fires; if not (variant B) they lose and the marginal monitor is safest. Gate A stays PASS; the estimand question is reduced to a property of the action set, not of the monitor.

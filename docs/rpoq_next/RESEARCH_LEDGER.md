@@ -35,3 +35,9 @@ Local full suite (base dependencies only, no `neural`/`drift` extras): 1639 pass
 - Caveats recorded in `VALIDITY_AUDIT.md`: anti-conservative cohort-cluster intervals, unmatched realized spend, borderline label-availability convention, several mission validity tests not run.
 - Deliverables written: `PRIOR_ART_DELTA.md`, `VALIDITY_AUDIT.md`, `THEORY_AND_LIMITATIONS.md`, `FINAL_DECISION.md`.
 - **Decision: stop Candidate A as a method claim.** No candidate has a verified win over a strong benchmark. Open blockers: unreadable primary sources, no untouched evaluation period, benchmarks not run, Candidate C not started.
+
+## 2026-10-30, Candidate C closed (user guidance: unblock sources, use existing data, candidate choice delegated)
+
+- Network allowlist still not applied in this session (all six hosts unreachable); the user needs to add them under the environment's Network access.
+- Candidate C: C1 (wealth snapping) and C2 (threshold-adaptive grid) both NOT SUPPORTED: 80–1000× fewer states, but certified recovery at most +0.38 at `B=6` and far below the static-table baseline at `B=4`. One bookkeeping bug caught and fixed before recording (key collision `exact_power`), plus a chained-run mistake (run launched before tests passed; killed and rerun after the fix). Raw results `outputs/rpoq_next/c1/results.json`.
+- Synthesis written in `FINAL_DECISION.md`. Candidates A and C closed; B gated on sources.

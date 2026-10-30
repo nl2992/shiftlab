@@ -94,3 +94,26 @@ The method bets on the burn-in's favourite context. If the favourite loses its s
 - It is a restricted, calibrated advantage in a stratified-null, heterogeneous-SNR, stationary-after-burn-in family. That is essentially active subgroup selection, a known idea family (e-PS-style allocation by estimated growth; unresolved against the two unread 2026 preprints).
 - It is not evidence for the general thesis that growth-aware allocation beats variance-based allocation: with a common bet the two coincide (derivation), and the advantage here comes from per-context bets plus concentration.
 - Nothing here is real-data evidence.
+
+## C1 and C2 (protocol [`SYNTHETIC_PROTOCOL_C1.md`](SYNTHETIC_PROTOCOL_C1.md)): wealth-snapping approximation of the exact RPOQ oracle
+
+S3 instance (`T=10`, `d=2`, `α=0.2`). Every reported power and false-alarm probability is the **exact** evaluation of the snapped policy under the true dynamics (no Monte Carlo). Artifacts: `outputs/rpoq_next/c1/results.json`; code `src/shiftlab/dive/rpoq_next/approx_dp.py`. The C1 numbers reproduced a first run exactly.
+
+| B | snap (coarse / fine) | states (ratio vs exact) | speedup | certified power | recovery of gap to best constant | null alarm |
+|---|---|---|---|---|---|---|
+| 4 | 0.5 / — | 1,340 (674×) | 791× | 0.162 | −15.6 | 0.030 |
+| 4 | 0.25 / — | 3,036 (297×) | 236× | 0.114 | −19.4 | 0.022 |
+| 4 | 0.1 / — | 6,507 (139×) | 130× | 0.164 | −15.5 | 0.031 |
+| 4 | 0.5 / 0.02 | 8,059 (112×) | 131× | 0.269 | −7.0 | 0.048 |
+| 4 | 0.25 / 0.02 | 11,460 (79×) | 47× | 0.269 | −7.0 | 0.048 |
+| 6 | 0.5 / — | 2,383 (827×) | 1007× | 0.364 | +0.27 | 0.063 |
+| 6 | 0.25 / — | 5,008 (394×) | 296× | 0.368 | +0.38 | 0.063 |
+| 6 | 0.1 / — | 10,655 (185×) | 185× | 0.326 | −0.98 | 0.053 |
+| 6 | 0.5 / 0.02 | 13,411 (147×) | 144× | 0.350 | −0.19 | 0.059 |
+| 6 | 0.25 / 0.02 | 17,673 (112×) | 89× | 0.354 | −0.05 | 0.059 |
+
+Reference values: `B=4` optimum 0.3684, best constant table 0.3559; `B=6` optimum 0.3867, best constant 0.3559. Exact solve: 902,561 states / 47 s at `B=4`; 1,970,867 states / 173 s at `B=6`.
+
+**Registered verdict (C1 and C2): NOT SUPPORTED.** The pass rule needed recovery ≥ 0.8 at `B ∈ {4, 6}`. The best case is +0.38 (`B=6`, C1); at `B=4` every snapped policy is far *below the best constant table*. Validity held throughout (null alarm ≤ 0.063). C2 helped at `B=3` (recovery +0.39 / +0.53, but all powers there are below 0.03, so it is uninformative) and did not help where the gap is material.
+
+**Reading.** Snapping buys 80× to 1000× fewer states and large speedups, but the policies it produces lose the oracle's edge and in `B=4` fall below a static table. The optimal decisions depend on the fine wealth lattice, as S3 and S3b already showed (no monotone or banded structure), and a coarse aggregation of that lattice changes the dynamics more than the whole gap it is trying to keep (the exact optimum beats the best static table by only +0.0125 at `B=4` and +0.0307 at `B=6`). The one-revision allowance is used; Candidate C is closed.

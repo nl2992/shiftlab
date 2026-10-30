@@ -206,6 +206,8 @@ outputs/figures/*
 !outputs/risk_proxy_monitor_grid/**
 !outputs/risk_proxy_monitor_confirmation/
 !outputs/risk_proxy_monitor_confirmation/**
+!outputs/dep_sprint/
+!outputs/dep_sprint/*.json
 !outputs/gap_closure/
 !outputs/gap_closure/**
 !outputs/sota_search/

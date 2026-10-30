@@ -1,0 +1,50 @@
+{
+ "eps=0.05,T*delta=0.2": {
+  "oracle_power": 0.0005,
+  "coupling_ceiling": 0.11
+ },
+ "eps=0.05,T*delta=1": {
+  "oracle_power": 0.022333333333333334,
+  "coupling_ceiling": 0.15000000000000002
+ },
+ "eps=0.05,T*delta=5": {
+  "oracle_power": 0.069,
+  "coupling_ceiling": 0.35000000000000003
+ },
+ "eps=0.05,T*delta=20": {
+  "oracle_power": 0.09216666666666666,
+  "coupling_ceiling": 1.0
+ },
+ "eps=0.05,T*delta=100": {
+  "oracle_power": 0.1925,
+  "coupling_ceiling": 1.0
+ },
+ "eps=0.05,T*delta=500": {
+  "oracle_power": 0.6063333333333333,
+  "coupling_ceiling": 1.0
+ },
+ "eps=0.1,T*delta=0.2": {
+  "oracle_power": 0.0018333333333333333,
+  "coupling_ceiling": 0.16999999999999998
+ },
+ "eps=0.1,T*delta=1": {
+  "oracle_power": 0.024166666666666666,
+  "coupling_ceiling": 0.25
+ },
+ "eps=0.1,T*delta=5": {
+  "oracle_power": 0.0985,
+  "coupling_ceiling": 0.6500000000000001
+ },
+ "eps=0.1,T*delta=20": {
+  "oracle_power": 0.18433333333333332,
+  "coupling_ceiling": 1.0
+ },
+ "eps=0.1,T*delta=100": {
+  "oracle_power": 0.476,
+  "coupling_ceiling": 1.0
+ },
+ "eps=0.1,T*delta=500": {
+  "oracle_power": 0.9755,
+  "coupling_ceiling": 1.0
+ }
+}

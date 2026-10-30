@@ -1,0 +1,953 @@
+                                              Anytime-valid FDR control with the stopped e-BH procedure∗
+                                                               Hongjian Wang1 , Sanjit Dandapanthula1 , and Aaditya Ramdas2
+                                                      1, 2
+                                                             Department of Statistics and Data Science, Carnegie Mellon University
+                                                                2
+                                                                  Machine Learning Department, Carnegie Mellon University
+                                                                           {hjnwang,sanjitd,aramdas}@cmu.edu
+
+                                                                                            August 6, 2025
+arXiv:2502.08539v3 [stat.ME] 5 Aug 2025
+
+
+
+
+                                                                                                Abstract
+                                                        The e-Benjamini-Hochberg (e-BH) procedure for multiple hypothesis testing is known
+                                                    to control the false discovery rate (FDR) under arbitrary dependence between the input e-
+                                                    values. This paper points out an important subtlety when applying e-BH to e-processes, the
+                                                    sequential counterparts of e-values: stopping multiple e-processes at a common stopping time
+                                                    only yields e-values if all the e-processes and the stopping time are with respect to the same
+                                                    global filtration. We show that this filtration issue is of real concern as e-processes are often
+                                                    constructed to be “local” as opposed to “global”. We formulate a condition under which
+                                                    these local e-processes are indeed global and thus applying e-BH to their stopped values (the
+                                                    “stopped e-BH procedure”) controls the FDR. The condition excludes confounding from the
+                                                    past and is met under most reasonable scenarios including genomics.
+
+
+                                          1        Introduction
+                                          We consider the false discovery rate (FDR) control problem in sequential multiple hypothesis
+                                          testing, where batches of data that corresponds to a fixed number of hypotheses arrive in se-
+                                          quence. The Benjamini-Hochberg (BH) procedure (Benjamini and Hochberg, 1995) is among
+                                          the most widely used approaches to FDR control. However, the BH procedure operates directly
+                                          on fixed-sample p-values, which are inherently non-sequential. Further, the BH procedure only
+                                          controls the FDR under independence or certain assumptions on the “positive correlation” be-
+                                          tween hypotheses (Finner et al., 2009), and may fail if the hypotheses are arbitrarily correlated.
+                                               Recently, Wang and Ramdas (2022) showed that, by applying BH to the reciprocals of e-
+                                          values, a procedure referred to as “e-BH”, the FDR control holds under arbitrary dependence
+                                          across hypotheses. Further, since e-values arise naturally in sequential experiments, e-BH opens
+                                          up the possibility of sequential multiple testing. The sequential version of e-BH was later spelled
+                                          out by Xu et al. (2021), whose result allows bandit-like active queries into the hypotheses, each
+                                          carrying an e-process (to be defined formally later), and the FDR is controlled at any stopping
+                                          time under arbitrary dependence.
+                                               This seemingly very satisfactory result by Xu et al. (2021), however, bears a very crucial
+                                          caveat. It is assumed that the e-processes of the hypotheses are valid under a shared “global”
+                                          filtration. This indicates that one can not, without further verification, simply apply e-BH to
+                                          e-processes each constructed “locally” within the hypotheses at a shared stopping time.
+                                               In this paper, we first formally define the local-global distinction of e-processes, and identify
+                                          some further conditions under which e-processes constructed within hypotheses using generic
+                                          methods are not only local, but also global e-processes. Additionally, we define the more
+                                              ∗
+                                                  To appear in the special issue “E-values and Multiple Testing” of Statistics & Probability Letters
+
+
+                                                                                                     1
+generalized notion of global compound e-processes, and show that e-BH with these processes is
+necessary and sufficient to obtain stopped FDR control.
+
+
+2     Background and problem set-up
+Throughout the paper, we shall liberally adopt the notations EP , Eθ etc. to denote the expected
+value of some random variable when the underlying data-generating distribution is P , or when
+the underlying parameter of interest takes the value of θ.
+
+2.1    Review: multiple testing with e-values and e-BH
+A nonnegative random variable E is called an e-value for the set of distributions P, if supP ∈P EP E ⩽
+1. To test the null hypothesis “the true distribution P ∗ ∈ P”, one constructs an e-value E for
+P and rejects if E ⩾ 1/α. This controls the type 1 error rate due to Markov’s inequality.
+    In the multiple testing set-up, let M be the set of all possible distributions, and let P 1 , . . . , P G ⊆
+M be G null sets. Let [G] be the set {1, . . . , G}. Let P ∗ be the unknown true distribution which
+belongs to M. It may belong to arbitrary number of null sets among (P g : g ∈ [G]). The g th
+null hypothesis H0g is true if rdP ∗ ∈ P g . For any random set R ⊆ [G], we denote its false
+discovery rate (FDR) under some P ∈ M by
+
+                                              g=1 1{P ∈ P } · 1{g ∈ R}
+                                         " PG                              #
+                                                            g
+                          fdrP [R] := EP                                     .                            (1)
+                                                 1∨ G  g=1 1{g ∈ R}
+                                                     P
+
+
+Let E(h) be the hth largest elements among (Eg : g ∈ [G]). The e-BH procedure (Wang and
+Ramdas, 2022) at level α is defined as
+
+                                                                       gE(g)
+                                                                                
+                                                      ∗                        1
+      eBHα (Eg : g ∈ [G]) = {g : Eg ⩾ E(g∗ ) } where g = max g ∈ [G] :       ⩾     ,
+                                                                        G      α
+
+and satisfies (Wang and Ramdas, 2022, Proposition 2):
+
+Lemma 2.1 (FDR control of e-BH). For each g ∈ [G], suppose Eg is an e-value for P g . Then
+fdrP [eBHα (Eg : g ∈ [G])] ⩽ α for any P ∈ M.
+
+   A generalization with “compound e-values” and a converse to Lemma 2.1 are discussed in
+Supp.3. We also remark that, in Lemma 2.1 and its downstream statements, we can replace
+eBHα with the “closed e-BH” procedure recently proposed by Xu et al. (2025), which improves
+the power while retaining the FDR control.
+
+2.2    Sequential multiple testing, filtrations, and the stopped e-BH
+We now introduce the sequential experiment setting and let us first review the terminology
+with a single hypothesis. Let {Fn }n⩾0 be a filtration. An {Fn }-adapted nonnegative process
+{Mn }n⩾1 is called an e-process for P on {Fn } if either of the following two equivalent conditions
+holds:
+
+    • At any {Fn }-stopping time τ , Mτ is an e-value for P.
+
+    • For any P ∈ P, there is a process {NnP } such that N0P = 1, it is a nonnegative super-
+      martingale under P , and NnP ⩾ Mn for all n.
+
+Therefore, one can stop at any {Fn }-stopping time τ and safely reject the null P if the stopped
+e-value Mτ ⩾ 1/α. In particular, τ can be min{n : Mn ⩾ 1/α}.
+
+
+
+                                                     2
+    With Lemma 2.1, it is tempting to consider the following sequential multiple testing scheme
+with e-processes: since “the stopped value of an e-process is an e-value”, if one runs an e-
+process for each hypothesis and computes e-BH with the stopped values of e-processes, does
+one achieve the sequential e-BH control at any stopping time? Here, however, lies the subtlety of
+the problem: filtrations. Let us carefully define the sequential problem with multiple hypotheses.
+    We assume G null sets of distributions P 1 , . . . , P G ⊆ M as before, and that the g th null H0g
+states that the underlying P ∗ belongs to P g . Further, for each g ∈ [G], there is a local filtration
+{Fng }n⩾0 generated from data for the hypothesis H0g . The combination of these G local filtrations
+gives rise to the global filtration Fn = σ(Fng : g ∈ [G]), representing all information gathered up
+to n observations from all hypotheses. To sequentially test each hypothesis H0g , one naturally
+utilizes data on {Fng } and constructs an e-processes on it. Formally, we refer to an e-process or
+a stopping time on {Fn } as a global one; and on {Fng }, a (g-)local one.
+    The following coin-toss example illustrates this local-global distinction, and the alerting fact
+that per-hypothesis e-processes are by default local, not global. We shall revisit this model
+later. Let Rad(p) be the Rademacher distribution with mass p and 1 − p on ±1 respectively.
+                                                                                    g     iid
+Example 2.2 (Multiple coin tosses). For each g ∈ [G], there is a stream     Qn {Yn } ∼    Rad(θg )
+                                 g         g       g                  g                 g
+leading to a local filtration Fn = σ(Yi , . . . , Yn ). The process Mn = i=1 (1 + Yi /2) is an
+e-process on the local filtration {Fng } for the null θg = 1/2. Without further assumptions, there
+is no guanratee that {Mng } is an e-process on the global filtration Fn = σ(Fng : g ∈ [G]).
+
+   The fact that {Mng } is a local e-process can be easily seen by noting Eθg =1/2 [1+Yig /2|Fn−1
+                                                                                              g
+                                                                                                  ]=
+1. This simple example already alarms that it is only safe to stop these G per-hypothesis e-
+processes at local stopping times. We shall later explicitly spell out an example where G = 2
+and the local e-process {Mn1 } is not an e-process on the global filtration {Fn }, in Supp.5.5.
+We also discuss in Supp.1 a deceptively promising variation of Example 2.2 by changing the
+“ambient filtration” in each local e-process.
+   The concept of local and global filtrations and e-processes leads to that of the stopped FDR
+control, which is only defined globally. We denote the set of all stopping times on {Fn } by T.
+
+Definition 2.3. A sequence of random sets {Rn } (each Rn ⊆ [G]) adapted to {Fn } satisfies
+the level-α stopped FDR control if supP ∈M fdrP [Rτ ] ⩽ α.
+                                          τ ∈T
+
+   Our definitions lead to the following procedure which we call the stopped e-BH. Its FDR
+ganruantee is a direct corollary of Lemma 2.1.
+
+Theorem 2.4 (Stopped e-BH). Let ({Mng } : g ∈ [G]) be global e-processes. Then, the set
+process {eBHα (Mng : g ∈ [G])} satisfies the level-α stopped FDR control.
+
+    We shall demonstrate in Supp.3 a converse to Theorem 2.4: a procedure controls the stopped
+FDR if and only if it is the stopped e-BH procedure with global “compound” e-processes. It
+is worth remarking here that Definition 2.3 and Theorem 2.4 arise since we desire stopping
+at a global stopping time τ ∈ T. Indeed, it is correct that if one wishes to stop at a g-local
+stopping time τ g for each hypothesis H0g , one can work with local e-processes: the stopped local
+e-process values (Mτgg : g ∈ [G]) are e-values to which one may safely apply e-BH. This, however,
+disallows stopping any stream after observing the output of e-BH, e.g. stopping after rejecting
+a certain subset of hypotheses. Optional stopping contingent on the final output is arguably
+a much stronger and more preferable form of selective inference than stopping contingent on
+some intermediate (e.g. “local” in this case) statistics.
+    Theorem 2.4 indicates that global e-processes lead to stopped FDR control. In fact, we shall
+establish in Supp.3 the necessity of globality for stopped FDR control. One can show that if
+the local filtrations are independent, then local e-processes are global e-processes (Supp.6.2).
+However, this rarely happens in reality as it is common to have cross-hypothesis dependence. As
+
+                                                  3
+Example 2.2 demonstrates, we usually end up constructing local e-processes with no globality
+guarantee. Therein lies the critical gap between single and multiple hypothesis sequential testing
+which the upcoming sections aim to address: global e-processes are necessary for sequential
+multiple testing, however, we only know how to construct local e-processes.
+     Xu et al. (2021) are aware of this issue, and in their formulation of bandit e-BH framework,
+they indeed assume that all e-processes are e-processes with respect to a shared global filtration.
+The same uncareful globality assumption is also made recently by Tavyrikov et al. (2025). It
+still remains to be answered under what circumstances one may construct e-processes locally
+within a hypothesis using any of the many existing e-processes in the literature and still enjoy
+the global property to stop them at a single cross-hypothesis stopping time.
+
+
+3    Global e-processes by a Markovian assumption
+We show in this section that a conditional independence assumption that resembles Markov
+chains solves the aforementioned filtration issue. We formulate the sequential multiple testing
+problem with the following set-up. Consider at time n = 1, 2, . . . , we observe the nth observation
+Zn = (Xn , Yn ) that includes the covariate Xn ∈ X and an array of response variables Yn =
+(Yn1 , . . . , YnG ) ∈ Y 1 × · · · × Y G .
+    We assume that the covariate-response pairs {(Xn , Yn )}n⩾1 follow a time-homogeneous
+marginal conditional model on Y|X:
+
+                              Y g |X ∼ pg (Y g |X, θ),       for all g ∈ [G],                      (2)
+
+which is completely specified by a parameter θ ∈ Θ. Here, pg (·|x, θ) is a distribution over Y g
+for any (x, θ) ∈ X × Θ. That is, denoting the ground truth parameter by θ∗ ∈ Θ, for any n ⩾ 1
+and g ∈ [G], the conditional distribution of Yng given Xn is pg (·|Xn , θ∗ ).
+     The model (2) is “marginal” in the sense that it describes only the marginal distribution
+of each component Yng among Yn , given Xn . This allows for arbitrary dependence between
+Yn1 , . . . , YnG given Xn . We further impose the following causal assumption, which becomes
+crucial in our later discussion on e-processes.
+
+Assumption 3.1. For any n ⩾ 2, Yn ⊥ (X1 , . . . , Xn−1 ; Y1 , . . . , Yn−1 )|Xn .
+
+    That is, the conditional distribution of Yn |Xn , whose G marginals are specified by the model
+(2), is also the conditional distribution of
+
+                                  Yn |(X1 , . . . , Xn ; Y1 , . . . , Yn−1 ).                      (3)
+
+We again stress that given the covariate Xn , there is allowed an arbitrary dependence between
+the G response variables Yn1 , . . . , YnG ; but the array of these response variables as a whole, Yn ,
+is independent from everything previously collected. The response Yn depends on the past only
+through its covariate Xn , a property akin to that of a Markov chain. In fact, Assumption 3.1
+states that the sequence {X1 , Y1 , X2 , Y2 , X3 , Y3 . . . } is Markovian at the Yn ’s. Further, As-
+sumption 3.1 poses no limitation on the covariate Xn . It can be random, deterministic, chosen
+or sampled adaptively depending on previous observations and inference results.
+     We now introduce the G null hypotheses into the model. Consider G subsets of the parameter
+set, Θg0 ⊆ Θ for each g ∈ [G]. The null hypothesis H0g is true if the ground truth parameter
+θ∗ ∈ Θg0 . Recall that in Section 2.1 we used the notation M to denote the set of all distributions
+in the model, and P g all null distributions satisfying the g th null hypothesis. The following
+remark clarifies the consistency from using the previous M and P g notations to using the
+marginal conditional model (2).
+
+
+
+                                                      4
+Remark 3.2. M contains all distributions of {Zn }n⩾1 such that (1) Assumption 3.1 holds;
+(2) there exists a θ∗ ∈ Θ such that, for all n ⩾ 1 and g ∈ [G], pg (·|·, θ∗ ) is the conditional
+distribution of Yng |Xn . P g contains all such distributions where the θ∗ above can be chosen from
+Θg0 .
+    We further remark that, while the covariate-response (Xn , Yn ) formulation suggests a regression-
+like set-up where all hypothesis streams receive in synchrony at time n a common covariate Xn ,
+our formulation allows more general set-ups. We can remove Xn by simply taking Xn to be a
+non-random quantity, thus allowing non-regression settings, which include the coin-toss Exam-
+ple 2.2. The topic of asynchrony is discussed separately in Supp.2.
+    The global filtration we work with differs slightly from the obvious choice {σ(Zi : 1 ⩽ i ⩽ n)}
+but is instead defined as the “look-ahead” filtration
+
+                           Fn = σ(Yi , Xj : 1 ⩽ i ⩽ n, 1 ⩽ j ⩽ n + 1).                         (4)
+
+That is, Fn includes all the information after the (n+1)st covariate is available but before the
+(n+1)st response variables are revealed. This filtration is one covariate finer than the “natural”
+filtration Gn = σ(Zi : 1 ⩽ i ⩽ n) which shall also appear in our upcoming theorem. With
+these definitions and assumptions above, we establish the following theorem stating that locally
+defined e-processes, constructed multiplicatively from stepwise e-values, can be lifted to this
+global filtration.
+Theorem 3.3. Let g ∈ [G]. Suppose for each n ⩾ 1, there is a Gn−1 -measurable random
+function Eng : Θg0 × X × Y g → R⩾0 that satisfies
+                                   Z
+                               sup     Eng (θ, x, y)pg (dy|x, θ) ⩽ 1.             (5)
+                                θ∈Θg0   Yg
+                                x∈X
+
+Then, under Assumption 3.1, under any θ∗ ∈ Θg0 , the process
+                                                  n
+                                                        Eig (θ∗ , Xi , Yig )
+                                                  Y
+                                   Mng (θ∗ ) =                                                 (6)
+                                                  i=1
+
+is a nonnegative supermartingale on {Fn }. Consequently, the process
+
+                                             Ung = infg Mng (θ)                                (7)
+                                                   θ∈Θ0
+
+is an e-process on {Fn } under the null H0g : θ∗ ∈ Θg0 .
+    The proof of the theorem above can be found in Supp.6.1. We remark that in the theorem
+above, the local e-process that tests H0g is computed via the infimum over a H0g -indexed family of
+nonnegative supermartingales, each incrementally updated by a stepwise e-value Eng (θ, Xn , Yng )
+at time n that only takes Xn and Yng . The assumption that Eng being Gn−1 -measurable is only for
+the sake of generality. In a purely local construction we often let Eng be σ(Xi , Yig : i ⩽ n − 1)-
+measurable without looking into other streams, which of course implies Gn−1 -measurability.
+Recalling the second equivalent definition of e-processes in the opening of Section 2.2, this
+procedure is universal as it encompasses every possible local construction of e-processes. The-
+orem 3.3 then states that these local e-processes are global.
+    Additionally, {Ung } are also e-processes on the natural global filtration {Gn } by a simple
+tower property argument. However, our statement that these are e-processes on {Fn } allows
+stopping decisions after peeking into the upcoming covariates Xn+1 , allowing more flexibility in
+practice.
+    Combining with Theorem 2.4, we see that these global e-processes stopped at a global
+stopping time can produce FDR-controlled multiple testing results with e-BH:
+
+                                                        5
+Corollary 3.4. The set process {eBHα (Ung : g ∈ [G])}, where {Ung }’s are obtained from (7),
+satisfies the level-α stopped FDR control on {Fn }.
+
+    We provide numerous practical examples in Supp.5, as well as a counterexample where the
+failture of Assumption 3.1 leads to the explicit non-globality of a local e-process. The following
+biostatistics example, to be elaborated in full in Supp.5.3, may be of particular interest.
+
+Example 3.5 (Sequential single-cell differential gene expression testing). We test H0g : β g = 0
+in the negative binomial generalized linear model
+
+                       Yng ∼ NB(mean = exp(Xn β g + γ g ), dispersion = αg )                        (8)
+
+by the universal inference (Wasserman et al., 2020) e-process
+                                           n
+                                           Y p(Yig |Xi , β̂i−1
+                                                           g       g
+                                                               , γ̂i−1 )
+                                   Ung =                                   .                        (9)
+                                                  p(Yig |Xi , 0, γ̂ng )
+                                           i=1
+
+Above, p(Yig |Xi , β g , γ g ) is the closed-form probability mass function given by the model (8)
+(assuming αg known); β̂ng , γ̂ng denote the maximum likelihood estimators of β g , γ g w.r.t. the
+local data stream {(Xi , Yig )}1⩽i⩽n . While this e-process is locally constructed, it can be globalized
+by Assumption 3.1, which is reasonable for biostatistics applications as elaborated in Supp.5.3.
+
+   Finally, if Assumption 3.1 fails, one may “adjust” a local e-process so it becomes global
+(Choe and Ramdas, 2024), discussed in Supp.4.
+
+
+4    Summary
+We propose the stopped e-BH procedure for sequential, anytime-valid multiple hypothesis test-
+ing, a procedure both necessary and sufficient for strict false discovery rate control at all stopping
+times. We carefully distinguish local and global stopping times and e-processes: local e-processes
+are more commonly constructed, but global (compound) e-processes are more relevant to the
+FDR control objective. A crucial causal condition is identified that bridges the local-global
+distinction. Our work demonstrates the theoretical foundation of using e-values and e-processes
+for large-scale and complex scientific experiments. These experiments can have arbitrarily de-
+pendent hypotheses, sample sizes and sampling schemes for which allowing optional stopping
+and continuation is necessarily beneficial.
+
+
+Acknowledgements
+The authors acknowledge support from NSF grant 2310718.
+
+
+References
+Y. Benjamini and Y. Hochberg. Controlling the false discovery rate: a practical and powerful
+  approach to multiple testing. Journal of the Royal Statistical Society: Series B (Methodolog-
+  ical), 57(1):289–300, 1995.
+
+Y. J. Choe and A. Ramdas.              Combining evidence across filtrations.          arXiv preprint
+  arXiv:2402.09698, 2024.
+
+S. Dandapanthula and A. Ramdas. Multiple testing in multi-stream sequential change detection.
+   arXiv e-prints, pages arXiv–2501, 2025.
+
+
+                                                     6
+H. Finner, T. Dickhaus, and M. Roters. On the false discovery rate and an asymptotically
+  optimal rejection curve. The Annals of Statistics, 37(2):596 – 618, 2009. doi: 10.1214/
+  07-AOS569.
+
+S. R. Howard, A. Ramdas, J. McAuliffe, and J. Sekhon. Time-uniform, nonparametric,
+  nonasymptotic confidence sequences. The Annals of Statistics, 49(2):pp. 1055–1080, 2021.
+  ISSN 00905364, 21688966.
+
+N. Ignatiadis, R. Wang, and A. Ramdas. Asymptotic and compound e-values: multiple testing
+  and empirical Bayes. arXiv preprint arXiv:2409.19812, 2024.
+
+G. Shafer, A. Shen, N. Vereshchagin, and V. Vovk. Test martingales, Bayes factors and p-values.
+  Statistical Science, 26(1):84 – 101, 2011. doi: 10.1214/10-STS347.
+
+Y. Tavyrikov, J. J. Goeman, and R. de Heide. Carefree multiple testing with e-processes. arXiv
+  preprint arXiv:2501.19360, 2025.
+
+H. Wang and A. Ramdas. Catoni-style confidence sequences for heavy-tailed mean estimation.
+  Stochastic Processes and their Applications, 163:168–202, 2023. ISSN 0304-4149. doi: 10.
+  1016/j.spa.2023.05.007.
+
+R. Wang and A. Ramdas. False discovery rate control with e-values. Journal of the Royal
+  Statistical Society Series B: Statistical Methodology, 84(3):822–852, 2022.
+
+L. Wasserman, A. Ramdas, and S. Balakrishnan. Universal inference. Proceedings of the Na-
+  tional Academy of Sciences, 117(29):16880–16890, 2020.
+
+Z. Xu, R. Wang, and A. Ramdas. A unified framework for bandit multiple testing. Advances
+  in Neural Information Processing Systems, 34:16833–16845, 2021.
+
+Z. Xu, L. Fischer, and A. Ramdas. Bringing closure to FDR control: beating the e-benjamini-
+  hochberg procedure. arXiv preprint arXiv:2504.11759, 2025.
+
+
+
+
+                                              7
+Supp.1         Ambient filtrations
+In Example 2.2, we utilize the stardard fact that if Y1 , Y2 , . . . are [−1, 1]-valued random variables,
+the “betting” process
+                                               n             
+                                              Y           Yi
+                                       Mn =         1+                                              (10)
+                                                           2
+                                                       i=1
+
+is an e-process for the null
+
+                                 E[Yn |Y1 , . . . , Yn−1 ] = 0,          for all n                  (11)
+
+on the natural filtration
+                                                  σ(Y1 , . . . , Yn ).                              (12)
+It is the natural filtration here that leads to the locality of the e-processes in the multiple testing
+case as described in Example 2.2.
+     However, here and in many other single-hypothesis e-process, the filtration need not be
+natural and can be instead an arbitrary enlargement. For example, if we assume the [−1, 1]-
+valued random variables Y1 , Y2 , . . . are adapted to some ambient filtration {Hn }, the very same
+process {Mn } is an e-process on this {Hn } for the null
+
+                                       E[Yn |Hn−1 ] = 0,             for all n.                     (13)
+
+If we take the ambient filtration {Hn } to be the global filtration in multiple testing, do we obtain
+global e-processes for free? However, while the e-processes become global, they are testing the
+wrong nulls! This can be seen from the change from (11) to (13) above. We write down now
+such “ambient filtration” variation of Example 2.2 below.
+
+Example Supp.1.1 (Multiple coin betting, ambient filtration). For each g ∈ [G], there is a
+              iid
+      {Yng } ∼ Rad(θg ). Define the global filtration Fn = σ(Yig , . . . , Yng : g ∈ [G]). The process
+streamQ
+Mn = ni=1 (1 + Yig /2) is an e-process on the global filtration {Fn } for the null
+   g
+
+
+                                            E[Yng |Fn−1 ] = 1/2.                                    (14)
+
+Without further causal assumptions, there is no guanratee that E[Yng |Fn−1 ] equals θg .
+
+   Indeed, it can be easily seen that should Assumption 3.1 be met, (Yng : g ∈ [G]) is indepen-
+dent from the past Fn−1 , then E[Yng |Fn−1 ] equals θg . In summary, using the global filtration as
+the ambient filtration does not avoid the issue of globality.
+
+
+Supp.2         Asynchrony
+We now discuss the situation where data streams of different hypotheses arrive asynchronously.
+                                                                                    iid
+We continue to work with the Rademacher coin toss model as Example 2.2. Let {Yn1 } ∼ Rad(θ1 )
+                                iid
+be a “fast” stream and {Yn2 } ∼ Rad(θ2 ) a slow stream, such that Y31 may exert a causal effect
+on Y22 (say Y31 = Y22 ). For example, assume the temporal order of observations follows Table 1.
+This setting is then similar to our counterexample in Appendix Supp.5.5 where one stream
+
+                                      Y11   Y21      Y31       Y41    Y51    ...
+                                            Y12                       Y22    ...
+
+                                      Table 1: Order of data arrival.
+
+foretells the other (here Y22 “foretells” Y31 , understood index-wise), and all the consequences
+
+                                                           8
+apply, if one aligns the observation counts by “waiting” for the slow stream and erroneously
+applying stopped e-BH to the local e-processes
+                                n                     n 
+                                        Yi1                     Yi2
+                               Y                     Y             
+                           1                      2
+                         Mn =       1+        , Mn =       1+         .                 (15)
+                                         2                       2
+                                i=1                               i=1
+
+   The correct approach here is to use the natural time instead, grouping and reindexing the
+sample. For example, with the data arrival scheme Table 1, define two new streams that are
+synchronized:
+
+                          W11 = (Y11 , Y21 ),       W21 = (Y31 , Y41 , Y51 ),   ...         (16)
+                                   W12 = Y12 ,        W22 = Y22 ,       ...                 (17)
+
+Then Assumption 3.1 requires the independence
+
+                                      Wn ⊥ (W1 , . . . , Wn−1 ).                            (18)
+
+Once (18) holds, one may now apply stopped e-BH on the reindexed local e-processes
+
+                                  f1 = M 1 ,
+                                  M                   f1 = M 1 ,
+                                                      M                 ...                 (19)
+                                    1   2               2   5
+
+                                  M = M 2,
+                                  f 2
+                                      1         1     M = M 2,
+                                                      f 2
+                                                           2     2      ...                 (20)
+
+    Note that in this setting we can allow causality from Y31 to Y22 (now as cross-hypthesis
+dependence within simultaneous observation), but not from Y21 to Y22 (as this would violate
+(18)). Indeed, after time synchronization, one still needs to make sure Assumption 3.1 holds,
+as is the case with synchronous streams.
+
+
+Supp.3       Compound e-processes and universality
+The e-BH procedure can be applied to random variables satisfying a condition weaker than
+being e-values (Wang and Ramdas, 2022, Proposition 3) while still holding the FDR control.
+Such random variables are named compound e-values by Ignatiadis et al. (2024, Definition 1.1).
+
+Definition Supp.3.1 (Compound e-values). G random variables E = (Eg : g ∈ [G]) ∈ RG⩾0
+are called compound e-values for (P g : g ∈ G) if,
+
+                                         1{P ∈ P g } · EP Eg ⩽ G.
+                                   X
+                              sup                                                (21)
+                               P ∈M
+                                      g∈[G]
+
+    Clearly, if each Eg is an e-value for P g , that is, supP ∈P g EP Eg ⩽ 1, then E are compound
+e-values. However compound e-values form a much larger class including weighted e-values.
+The e-BH on compound e-values controls the FDR due to Ignatiadis et al. (2024, Theorem 3.2).
+
+Lemma Supp.3.2 (FDR property of compound e-BH). Let E = (Eg : g ∈ [G]) be compound
+e-values for (P g : g ∈ [G]). Then, for any underlying P ∈ M,
+
+                                          fdrP [eBHα (E)] ⩽ α.                              (22)
+
+    It is worth noting that the converse to Lemma Supp.3.2 is also true, due to Ignatiadis et al.
+(2024, Theorems 3.1 and 3.3). That is, if a random set R ⊆ [G] whose FDR is below α, there
+exist G compound e-values E such that eBHα (E) = R.
+    We now spell out the sequential counterparts of these results. Below, we denote the set of
+all stopping times on {Fng } by Tg , and on {Fn } by T, and define local and global compound
+e-processes.
+
+                                                       9
+Definition Supp.3.3. Let ({Mng } : g ∈ [G]) be G nonnegative processes. They are called:
+  1. local e-processes for (P g : g ∈ [G]), if for any g ∈ [G], {Mng } is adapted to {Fng } and
+
+                                                   sup EP Mτg ⩽ 1;                                (23)
+                                               P ∈P g
+                                               τ ∈Tg
+
+  2. local compound e-processes for (P g : g ∈ [G]), if for any g ∈ [G], {Mng } is adapted to
+     {Fng } and                                               
+
+                                         1{P ∈ P g } · EP Mτgg  ⩽ G;
+                                     X
+                             sup                                                        (24)
+                                P ∈M
+                                τ 1 ∈T1    g∈[G]
+                                   ...
+                               τ G ∈TG
+
+  3. global e-processes for (P g : g ∈ [G]), if for any g ∈ [G], {Mng } is adapted to {Fn } and
+
+                                                   sup EP Mτg ⩽ 1;                                (25)
+                                               P ∈P g
+                                                τ ∈T
+
+  4. global compound e-processes for (P g : g ∈ [G]), if for any g ∈ [G], {Mng } is adapted to
+     {Fn } and                                               
+
+                                         1{P ∈ P g } · EP Mτg  ⩽ G.
+                                    X
+                             sup                                                         (26)
+                                P ∈M
+                                 τ ∈T      g∈[G]
+
+    These definitions satisfy the clear inclusion relations 1 ⊆ 2 and 3 ⊆ 4. 1 and 3, for example,
+are not included in either direction, because while adaptivity to a larger filtration is a weaker
+condition, returning an e-value at any stopping time on a larger filtration is a stronger condition.
+Nonetheless, local and local compound e-processes are much more natural and straightforward
+to construct, as we have previously argued in Example 2.2. The following statement extends
+Theorem 2.4, whose proof is straightforward.
+Proposition Supp.3.4. Let ({Mng } : g ∈ [G]) be global compound e-processes. Then, the set
+process {eBHα (Mng : g ∈ [G])} satisfies the level-α stopped FDR control.
+   We now establish the following converse to Proposition Supp.3.4.
+Theorem Supp.3.5 (Universality of stopped e-BH). Let {Rn } be a set process adapted to {Fn }
+satisfiying the level-α stopped FDR control. Then, there exist G global compound e-processes
+({Mng } : g ∈ [G]) for (P g : g ∈ [G]) such that
+
+                              Rn = eBHα (Mng : g ∈ [G])         for all n.                        (27)
+
+Proof. First, at any non-random n, since Rn is a Fn -measurable random set that controls the
+FDR at level α, it follows from Ignatiadis et al. (2024, Theorems 3.1 and 3.3) that
+
+                                     Rn = eBHα (Mng : g ∈ [G])                                    (28)
+
+for G compound e-values Mn1 , . . . , MnG defined by
+                                                   G 1{g ∈ Rn }
+                                          Mng =      ·           .                                (29)
+                                                   α   |Rn | ∨ 1
+Hence these compound e-values are Fn -measurable as well. We have thus defined the processes
+{Mng } for g ∈ [G], all globally adapted, and it remains to verify they are compound e-processes
+globally. Take any τ ∈ T. Since the FDR is controlled for the set Rτ , again we have
+
+                                     Rτ = eBHα (Eτg : g ∈ [G])                                    (30)
+
+                                                      10
+for G compound e-values Eτ1 , . . . , EτG where
+                                               G 1{g ∈ Rτ }
+                                       Eτg =     ·           ,                                  (31)
+                                               α   |Rτ | ∨ 1
+which equals Mτg . Therefore
+
+                          1{P ∈ P g }EP Mτg =   1{P ∈ P g }EP Eτg ⩽ G
+                     X                        X
+                                                                                                (32)
+                       g∈[G]                      g∈[G]
+
+under any P ∈ M, concluding that they are global compound e-processes.
+
+
+Supp.4        Global e-processes via adjusters
+While we have discussed in Section 3 certain conditions under which local e-processes are nat-
+urally global e-processes, we now quote a complementary recent result by Choe and Ramdas
+(2024) which states that by slightly “muting” an e-process, it becomes an e-process on arbi-
+trary refinement of the filtration. This is helpful when Assumption 3.1 does not hold or is not
+verifiable. We first recall the definition of an adjuster, which traces back to Shafer et al. (2011).
+Definition Supp.4.1. An adjuster is a non-decreasing function A : R⩾1 → R⩾0 such that
+                                         Z ∞
+                                             A(x)
+                                                   dx ⩽ 1.                                   (33)
+                                          1    x2
+                                                             √
+    Simple examples include x 7→ kx1−k for k ∈ (0, 1) and x − 1. Applying an adjuster to an
+e-process, or more generally the running maximum of an e-process is referred to as “e-lifting” by
+Choe and Ramdas (2024, Theorem 2) and yields an e-process for any finer filtrations. That is,
+if {Mn } is an e-process for P on {Gn }, then for any adjuster A and any filtration {Fn } ⊇ {Gn },
+the adjusted process {Mna } where
+                                                              
+                                   a           a
+                                 M0 = 1, Mn = A max Mi                                       (34)
+                                                          0⩽i⩽n
+
+is an e-process for P on {Fn }. Following the discussion on compound e-processes in Ap-
+pendix Supp.3, we formalize the concept of compound adjusters below for the sake of generality.
+Definition Supp.4.2. Let (Ag : g ∈ [G]) be a family of non-decreasing functions R⩾1 → R⩾0 .
+They are called compound adjusters if their average is an adjuster, i.e.,
+                                Z ∞P           g
+                                        g∈[G] A (x)
+                                                    dx ⩽ G.                           (35)
+                                 1          x2
+    That is, compound adjusters arise from decomposing an adjuster into G monotone compo-
+nents. For example, a vector of G adjusters are compound adjusters; and similar to compound
+e-values, one can construct compound adjusters by taking a weighted sum of G adjusters as
+long as weights sum up ⩽ G. The following statement shows that we can first apply compound
+adjusters then apply e-BH to local e-processes to control the stopped FDR.
+Corollary Supp.4.3. Let ({Mng } : g ∈ [G]) be local e-processes and (Ag : g ∈ [G]) be compound
+adjusters. Then, the set process {eBHα (Mnga : g ∈ [G])} satisfies the level-α stopped FDR
+control, where                                                
+                               M0ga = 1,    Mnga = Ag      max Mig .                            (36)
+                                                          0⩽i⩽n
+
+Proof. Since {Mnga } are global compound e-processes, this follows from Proposition Supp.3.4.
+
+
+                                                  11
+Supp.5        Examples and counterexamples
+Supp.5.1      Multivariate Z-test
+We present a simple example of Theorem 3.3 with dependence across hypotheses via the fol-
+lowing multivariate Z-test set-up. Let the covariates Xn ∈ X be non-existent (or constant) and
+responses Yng ∈ Y g = R for all g ∈ [G]. The joint response vectors Yn = (Yng : g ∈ [G]) are
+drawn i.i.d. from a multivariate normal distribution
+                                                      iid
+                                       Y1 , Y2 , . . . ∼ N (θ, Σ),                                (37)
+
+where the mean vector θ ∈ Θ = RG and the off-diagonal entries of the covariance matrix Σ are
+unknown, while the diagonal entries of Σ is known in advance. We test the null hypotheses
+
+                                        H0g : E[Yng ] = θg = 0.                                   (38)
+
+That is, the marginal conditional model (2) is furnished with distributions pg (·|x, θ) = N (θg , Σgg ),
+and the null sets Θg0 = {θ ∈ RG : θg = 0}. The model clearly meets Assumption 3.1. Notably,
+the off-diagonal entries of Σ induce instantaneous correlation across the G coordinates. However,
+as we shall see, only the diagonal entries of Σ are used in the construction of the e-processes.
+We define the stepwise e-value function as
+                                                                 
+                                 g                  g    1 g2
+                                En (θ, x, y) = exp ηn y − ηn Σgg ,                                (39)
+                                                         2
+
+where ηng is a Gn−1 -measurable “learning rate” parameter. By a direct calculation, (5) holds
+with equality. Note that the stepwise e-value function Eng (θ, x, y) does not dependent on the
+parameter θ. Therefore, the process {Mng (θ)} defined in (6) which is a global martingale under
+the ground truth θ∗ = θ ∈ Θg0 , is the same regardless of θ ∈ Θg0 . The corresponding e-process is
+therefore this martingale Mng (θ) with any θ ∈ Θg0 :
+                                           ( n                          )
+                                             X g g Σgg Pn η g2
+                         g       g                               i=1 i
+                       Un = Mn (θ) = exp         ηi Yi −                  .                  (40)
+                                                                2
+                                                i=1
+
+
+Supp.5.2      Multiple sequential probability ratio test
+The Gaussian example above is a special case of the simple-versus-simple sequential probability
+ratio test (SPRT). Let us spell out the general SPRT setup. Here, we allow arbitrary X and
+Y g (on which we equip a base measure and simply write it as dy) but assume that the nulls are
+“simple” in the following sense: for each g ∈ [G], all null parameters θ ∈ Θg0 share the same
+conditional probability density or mass function pg (·|x, θ) in the model (2), denoted by pg (·|x).
+We further specify an alternative conditional probability density or mass function qg (·|x) for
+each g ∈ [G]. We allow the Markov-like condition Assumption 3.1 satisfied with arbitrary cross-
+hypothesis dependence among Y|X. Then, the stepwise e-value function Eng takes the likelihood
+ratio
+                                                     qg (y|x)
+                                     Eng (θ, x, y) =          ,                               (41)
+                                                     pg (y|x)
+Once again, (5) holds with equality and Eng (θ, x, y) does not dependent on the parameter θ. The
+corresponding e-process therefore equals the global test martingale Mng (θ) with any θ ∈ Θg0 :
+                                                      n
+                                                      Y qg (Y g |Xi )
+                                   Ung = Mng (θ) =               i
+                                                                            .                     (42)
+                                                            pg (Yig |Xi )
+                                                      i=1
+
+
+
+
+                                                   12
+Supp.5.3      Parametric regression with universal inference
+Even more generally, Theorem 3.3 applies as long as we work with a parametric model with
+computable and optimizable likelihood functions. Nulls need not be simple and alternatives
+can evolve over time to approximate the ground truth. In this case, the e-processes can be
+computed with the universal inference method due to Wasserman et al. (2020). The example
+again allows the Markov-like condition Assumption 3.1 satisfied with arbitrary cross-hypothesis
+dependence among Y|X.
+   We assume the global parameter θ can be split into G Rm -valued, local parameters (θg =
+ϕ (θ) : g ∈ [G]) via G functions ϕg : Θ → Rm , with the g th null region being Φg0 ⊆ Rm ; that is,
+ g
+
+
+                                    Θg0 = {θ ∈ Θ : ϕg (θ) ∈ Φg0 }.                             (43)
+
+For example, Θ can be Rm×G and ϕg (θ) can be the g th column of the matrix θ. But our
+assumption above is more flexible. With a slight abuse of notations, we assume the model
+(2) is specified by the conditional probability density or mass functions pg (y|x, θg ). Then, the
+stepwise e-value function Eng of universal inference is defined as the likelihood ratio
+                                                                  g
+                                                       pg (y|x, θ̃n−1 )
+                                    Eng (θ, x, y) =                 g
+                                                                        ,                      (44)
+                                                        pg (y|x, θ )
+        g
+where θ̃n−1  is any estimator for θg computed from Z1 , . . . , Zn−1 , thus is Gn−1 -measurable. To
+see that (5) holds with equality again, for any θ ∈ Θg0 ,
+                      Z                               Z
+                           g                   g                     g
+                         En (θ, x, y)pg (y|x, θ )dy =     pg (y|x, θ̃n−1 )dy = 1.               (45)
+                      Yg                                      Yg
+
+In particular, define the maximum likelihood estimates within the null and the full models
+                               n                                        n
+                                  pg (Yig |Xi , θ),                        pg (Yig |Xi , θ).
+                              Y                                         Y
+                   g                                         g
+                 θ̂n = argmax                              θ̃n = argmax                        (46)
+                        θ∈Θg0 i=1                                 θ∈Θg i=1
+
+
+Then the e-processes {Ung } take the following simple form
+                                             n
+                                             Y pg (Yig |Xi , θ̃i−1
+                                                               g
+                                                                   )
+                                     Ung =             g        g      .                       (47)
+                                             i=1 pg (Yi |Xi , θ̂n )
+
+Numerous generalized regression-like statistical models take this form, including the single-cell
+differential gene expression testing problem we mentioned as Example 3.5. Let Yng be the
+RNA-seq count (i.e. gene expression level) of gene g and cell n. Let Xn ∈ {0, 1} be the group
+membership (disease or control) of this cell. The counts follow the negative binomial generalized
+linear model
+                     Yng ∼ NB(mean = exp(Xn β g + γ g ), dispersion = αg ).                  (48)
+The null hypothesis H0g that “gene g is not differentially expressed between the two groups”
+asserts that, in the model above, the coefficient β g equals 0.
+    One can then construct the universal inference e-process for H0g via the aforementioned
+scheme with θ = ((β g , γ g ) : g ∈ [G]) and Θg0 = {θ : β g = 0}. The process {Ung } can readily be
+written as
+                       Yn
+                            NB(Yig |mean = exp(Xi β̂i−1
+                                                     g         g
+                                                         + γ̂i−1  ), dispersion = αg )
+                 Ung =                                                                 .       (49)
+                                   NB(Yig |mean = exp(γ̂ng ), dispersion = αg )
+                      i=1
+For this to be a global e-process, Assumption 3.1 states that each cell’s counts are causally
+related to the past only through the cell’s own group membership indicator, a reasonable as-
+sumption for the generalized linear model.
+
+                                                      13
+Supp.5.4      Nonparametric heavy-tailed conditional mean testing
+Our final example of Theorem 3.3 is nonparametric, where Y g = R and for each g ∈ [G] we
+specify a function µg : X → R. We test the hypotheses
+
+                                         H0g : E[Y g |X] ⩽ µg (X)                             (50)
+
+under the finite conditional variance assumption Var[Y g |X] ⩽ v g (X). Therefore, the parameter
+set Θ indexes all conditional laws Y|X such that
+supg∈[G] (Var[Y g |X] − v g (X)) ⩽ 0, and Θg0 all those in Θ with E[Y g |X] ⩽ µg (X). Again,
+Assumption 3.1 is satisfied with arbitrary cross-hypothesis dependence among Y|X. We employ
+the following “Catoni-style” e-value due to Wang and Ramdas (2023):
+
+                        Eng (θ, x, y) = exp(ϕ(λn (y − µg (x))) − λ2n v g (x)/2)               (51)
+
+where                                (
+                                      log(1 + x + x2 /2),  x ⩾ 0,
+                              ϕ(x) =                  2
+                                                                                              (52)
+                                      − log(1 − x + x /2), x < 0,
+and λn > 0 is Gn−1 -measurable. Again, the function Eng does not dependent on the “parameter”
+θ that now lives in an infinite-dimensional space. The corresponding e-process therefore equals
+the supermartingale Mng (θ) with any θ ∈ Θg0 :
+                                   ( n                         Pn                )
+                                                                    λ 2 v g (X )
+                                                g                             i
+                                     X
+               Ung = Mng (θ) = exp      ϕ(λi (Yi − µg (Xi ))) − i=1 i              .       (53)
+                                                                     2
+                                         i=1
+
+If the nulls are E[Y g |X] ⩾ µg (X) instead, one can simply replace ϕ with −ϕ; and if they are
+E[Y g |X] = µg (X), use a convex combination (e.g. the average) of the e-process for E[Y g |X] ⩽
+µg (X) and the e-process for E[Y g |X] ⩾ µg (X). This example thus encompasses a wide scope
+of nonparametric problems including heavy-tailed linear regression.
+
+Supp.5.5      Failure of Assumption 3.1
+We now illustrate a simple counterexample where the Markovian causal condition (Assump-
+tion 3.1) does not hold. Our example is akin to a recent construction by Dandapanthula and
+Ramdas (2025, Section 9.2), and builds on the coin-toss setting of Example 2.2. This involves
+G = 2 streams of variables where the second stream “peeks into the future” of the first stream.
+    We construct two different set-ups distinguished by d ∈ {0, 1}. Consider empty covariates
+{Xn }, and the response variables for H01 , {Yn1 }, an i.i.d. sequence of Rademacher random
+variables with P[Y 1 = 1] = θ and P[Y 1 = −1] = 1 − θ. Now, we define Yn2 = Yn+d      1   for all
+n ⩾ 1, where we recall d is either 0 or 1. That is, the second stream, while also an i.i.d.
+Rademacher sequence, reproduces the coin tosses of the first stream if d = 0; and foretells the
+upcoming coin tosses of the first stream if d = 1. The statistician tests H01 : θ = 1/2 using
+{Yn1 }, and H02 : θ = 1/2 using {Yn2 } by applying the stopped e-BH to the two local e-processes
+(as Example 2.2)
+                                 n                       n 
+                                           Yi1                    Yi2
+                                 Y                       Y           
+                             1                       2
+                          Mn =         1+        , Mn =       1+        ,                   (54)
+                                            2                      2
+                                  i=1                                  i=1
+
+with respect to the local filtrations
+
+                           Fn1 = σ(Y11 , . . . , Yn1 ),        Fn2 = σ(Y12 , . . . , Yn2 ).   (55)
+                                            1 .
+Here, note that the global filtration Fn = Fn+d
+
+
+
+                                                          14
+   If d = 0, the test is perfectly valid as Assumption 3.1, equivalent to
+
+                                         Yn1 ⊥ (Y11 , . . . , Yn−1
+                                                               1
+                                                                   ),                         (56)
+
+holds due to the i.i.d. assumption.
+   However, if d = 1, Assumption 3.1 is now equivalent to
+
+                                      (Yn1 , Yn+1
+                                              1
+                                                  ) ⊥ (Y11 , . . . , Yn1 ),                   (57)
+
+and is therefore not satisfied. In this case, the following global stopping time breaks the first
+local e-process:
+                              τ = 1 + 1{Y12 = 1} = 1 + 1{Y21 = 1}.                          (58)
+To see that it is a stopping time with respect to {Fn }, {τ = 1} = {Y12 = −1} ∈ F1 . However,
+the calculation
+                                 Y11      M11     Y21        M21    τ   Mτ1
+                                                   1         2.25   2   2.25
+                                  1       1.5
+                                                  -1         0.75   1    1.5
+                                                   1         0.75   2   0.75
+                                 -1       0.5
+                                                  -1         0.25   1    0.5
+
+shows that Eθ=1/2 (Mτ1 ) = 1.25 > 1. The local e-process {Mn1 }, therefore, is not a global e-
+process. Intuitively, a gambler betting heads on the coin tosses {Yn1 } peeks into the future after
+one round of bet, only taking the next bet if it will be profitable.
+    It is worth remarking here, however, that the globally stopped local e-process Mτ1 , while
+not an e-value, still satisfies Pθ=1/2 (Mτ1 ⩾ 1/α) ⩽ α for any α ∈ (0, 1), i.e. Markov’s inequality
+as if Eθ=1/2 Mτ1 were 1. See Howard et al. (2021, Lemma 3). That is, 1/Mτ1 is a valid p-value.
+Recall that the e-BH procedure is defined as the BH procedure with inverted inputs (Wang and
+Ramdas, 2022, Section 4.1),
+                                                                          −1
+                           eBHα (E1 , . . . , EG ) = BHα (E1−1 , . . . , EG  ).               (59)
+
+Therefore, if one applies the stopped e-BH procedure to local e-processes at a global stopping
+time τ ,
+                                     eBHα (Mτg : g ∈ [G]),                                (60)
+one is essentially applying the BH procedure to G p-values,
+
+                                         BHα (1/Mτg : g ∈ [G]),                               (61)
+
+therefore potentially facing the same possible FDR inflation that can at worst be 1 + 2−1 + · · · +
+G−1 ≈ log G, as the one arising in applying BH to arbitrarily dependent p-values (Wang and
+Ramdas, 2022, Theorem 1).
+    The complication above does not happen as long as the time index n is a bona fide represen-
+tation of the chronological evolution of the experiment, and no retrocausality is allowed. Local
+e-processes may otherwise fail to be global e-processes. A remedy, we note, is the filtration-
+agnostic adjustment by Choe and Ramdas (2024) discussed in Appendix Supp.4.
+
+
+Supp.6        Omitted proofs
+Supp.6.1      Proof of Theorem 3.3
+Proof. Suppose the ground truth θ∗ ∈ Θg0 . Since the function Eng is Gn−1 -measurable, there
+exists a non-random function fE such that
+
+                              Eng (θ, Xn , Yng ) = fE (θ, Xn , Yng , Z n−1 )                  (62)
+
+                                                        15
+where Z n−1 = (Zi : 1 ⩽ i ⩽ n − 1). Now we have
+
+                                Eθ∗ [Eng (θ∗ , Xn , Yng )|Fn−1 ]                                  (63)
+                              =Eθ∗ [fE (θ∗ , Xn , Yng , Z n−1 )|Xn , Z n−1 ]                      (64)
+                                Z
+                              =      fE (θ∗ , Xn , y, Z n−1 )pg (dy|Xn , θ∗ )                     (65)
+                                   g
+                                ZY
+                              =      Eng (θ∗ , Xn , y)pg (dy|Xn , θ∗ ) ⩽ 1.                       (66)
+                                  Yg
+
+In the calculation above, the Markovian Assumption 3.1 is implicitly invoked at the second
+equality. On the one hand, pg (·|·, θ∗ ) specifies the conditional distribution of Yng |Xn . On
+the other hand, Assumption 3.1 implies Yng ⊥ Z n−1 |Xn , therefore Yng |Xn , Z n−1 has the same
+conditional distribution as Yng |Xn , which is pg (·|·, θ∗ ). This makes the second equality valid.
+    We have shown that under θ∗ , the conditional expectation given Fn−1 of Eng (θ∗ , Xn , Yng )
+is at most 1. Since Eng (θ∗ , Xn , Yng ) is itself Fn -measurable, the product Mng (θ∗ ) is therefore a
+supermartingale on {Fn }. This concludes the proof.
+
+Supp.6.2      Independent local filtrations
+In this section, we formally prove that when there is no cross-hypothesis dependence, local
+e-processes are always global e-processes.
+
+Proposition Supp.6.1. Following the terminology in Definition Supp.3.3, if the local σ-algebras
+              g
+at infinity (F∞ : g ∈ [G]) are independent, local e-processes ({Mng } : g ∈ [G]) are global.
+
+Proof. Our proof is based on the two equivalent definitions of e-processes mentioned in Sec-
+tion 2.2. Fix a g ∈ [G]. Since {Mng } is an e-process for P g on {Fng }, for every P ∈ P g , it is
+upper bounded by a nonnegative supermartingale {NnP } on {Fng } with N0P = 1. It suffices to
+prove it is a supermartingale on {Fn } as well. This follows from
+
+                  P              P                                  (∗)
+               E[Nn+1 |Fn ] = E[Nn+1 |Fng ; Fnh : h ∈ [G] \ {g}] = E[Nn+1
+                                                                      P
+                                                                          |Fng ] ⩽ Nn ,           (67)
+
+where the equality (∗) follows from lifting Lemma Supp.6.2 to σ-algebras: σ(Fnh : h ∈ [G] \ {g})
+being independent from σ(Nn+1P , F g ).
+                                   n
+
+Lemma Supp.6.2. Let A, B, C be events in a probability space such that B is independent
+from σ(A, C), and P[B], P[C] > 0. Then P[A|B ∩ C] = P[A|C].
+
+Proof. P[A|B ∩ C] = P[A∩B∩C] P[A∩C]P[B] P[A∩C]
+                     P[B∩C] = P[B]P[C] = P[C] = P[A|C].
+
+
+
+
+                                                    16
+

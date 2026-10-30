@@ -1,0 +1,145 @@
+{
+ "gateA": {
+  "iid_bernoulli": {
+   "pprm": [
+    0.0295,
+    0.03651037583716146
+   ],
+   "pprm_f0.2": [
+    0.016,
+    0.02143210541835591
+   ],
+   "HG_f0.2": [
+    0.036,
+    0.043627539685890775
+   ]
+  },
+  "cond_null_dependent_ARCH": {
+   "pprm": [
+    0.029,
+    0.03595992217696781
+   ],
+   "pprm_f0.2": [
+    0.0205,
+    0.02651737030981346
+   ],
+   "HG_f0.2": [
+    0.034,
+    0.04144474940344419
+   ]
+  },
+  "marginal_null_persistent_delta=0.5": {
+   "pprm": [
+    0.3495,
+    0.36744284698598884
+   ],
+   "pprm_f0.2": [
+    0.056,
+    0.06520231566169779
+   ],
+   "HG_f0.2": [
+    0.1385,
+    0.15184780575336632
+   ],
+   "cond_excess_slope": 0.3391256387631835
+  },
+  "marginal_null_persistent_delta=0.05": {
+   "pprm": [
+    0.8085,
+    0.8228810021645984
+   ],
+   "pprm_f0.2": [
+    0.5215,
+    0.5400908923869673
+   ],
+   "HG_f0.2": [
+    0.9545,
+    0.9619153615295631
+   ],
+   "cond_excess_slope": 0.7026396573914492
+  },
+  "marginal_null_persistent_delta=0.01": {
+   "pprm": [
+    0.7515,
+    0.7673641197439592
+   ],
+   "pprm_f0.2": [
+    0.6405,
+    0.6582382805764486
+   ],
+   "HG_f0.2": [
+    0.961,
+    0.967863426146008
+   ],
+   "cond_excess_slope": 0.9182712751469864
+  },
+  "marginal_null_persistent_delta=0.003": {
+   "pprm": [
+    0.6455,
+    0.6631780033924793
+   ],
+   "pprm_f0.2": [
+    0.5975,
+    0.6156726185918981
+   ],
+   "HG_f0.2": [
+    0.8115,
+    0.8257905922515545
+   ],
+   "cond_excess_slope": 0.9740623072672112
+  },
+  "marginal_null_persistent_delta=0.001": {
+   "pprm": [
+    0.4855,
+    0.5041392625109762
+   ],
+   "pprm_f0.2": [
+    0.4695,
+    0.4881301572271758
+   ],
+   "HG_f0.2": [
+    0.5795,
+    0.5978111500209204
+   ],
+   "cond_excess_slope": 0.9914731611345615
+  }
+ },
+ "gateB": {
+  "delta=0.0005": {
+   "NP_power_at_alpha": 0.06671701442613084,
+   "TV": 0.10022421420400703,
+   "bound_alpha_plus_eps_(1+n*delta)": 0.1508,
+   "coupling_TV_bound_eps_(1+n*delta)": 0.1008
+  },
+  "delta=0.01": {
+   "NP_power_at_alpha": 0.06778952488662791,
+   "TV": 0.10419829624674797,
+   "bound_alpha_plus_eps_(1+n*delta)": 0.16599999999999998,
+   "coupling_TV_bound_eps_(1+n*delta)": 0.11599999999999999
+  },
+  "delta=0.03": {
+   "NP_power_at_alpha": 0.07050467600657422,
+   "TV": 0.11101288796618045,
+   "bound_alpha_plus_eps_(1+n*delta)": 0.198,
+   "coupling_TV_bound_eps_(1+n*delta)": 0.148
+  },
+  "delta=0.1": {
+   "NP_power_at_alpha": 0.08037872458202815,
+   "TV": 0.1250361002579547,
+   "bound_alpha_plus_eps_(1+n*delta)": 0.31,
+   "coupling_TV_bound_eps_(1+n*delta)": 0.26
+  },
+  "delta=0.3": {
+   "NP_power_at_alpha": 0.10746694725440249,
+   "TV": 0.1686171611119449,
+   "bound_alpha_plus_eps_(1+n*delta)": 0.63,
+   "coupling_TV_bound_eps_(1+n*delta)": 0.58
+  },
+  "delta=1.0": {
+   "NP_power_at_alpha": 0.21306668747545268,
+   "TV": 0.3309419134021284,
+   "bound_alpha_plus_eps_(1+n*delta)": 1.7500000000000002,
+   "coupling_TV_bound_eps_(1+n*delta)": 1.7000000000000002
+  }
+ }
+}

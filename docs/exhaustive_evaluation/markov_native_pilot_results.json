@@ -1,0 +1,107 @@
+{
+  "status": "completed",
+  "rows": [
+    {
+      "case": "null",
+      "seed": 17,
+      "stopped": false,
+      "transitions": 2000,
+      "statistic": 0.2808100300483091,
+      "threshold": 16.484365045955176,
+      "fitted_null_theta": 0.6202049528671048
+    },
+    {
+      "case": "null",
+      "seed": 29,
+      "stopped": false,
+      "transitions": 2000,
+      "statistic": 0.02770166114027894,
+      "threshold": 16.359600730562708,
+      "fitted_null_theta": 0.6451262623591237
+    },
+    {
+      "case": "null",
+      "seed": 43,
+      "stopped": false,
+      "transitions": 2000,
+      "statistic": 0.11884939486691423,
+      "threshold": 16.611800797441088,
+      "fitted_null_theta": 0.595184600242346
+    },
+    {
+      "case": "alternative",
+      "seed": 17,
+      "stopped": true,
+      "transitions": 6,
+      "statistic": 7.741273228759832,
+      "threshold": 7.48063892334199,
+      "fitted_null_theta": 0.400006242294666
+    },
+    {
+      "case": "alternative",
+      "seed": 29,
+      "stopped": true,
+      "transitions": 6,
+      "statistic": 7.741273228759832,
+      "threshold": 7.48063892334199,
+      "fitted_null_theta": 0.400006242294666
+    },
+    {
+      "case": "alternative",
+      "seed": 43,
+      "stopped": true,
+      "transitions": 6,
+      "statistic": 7.741273228759832,
+      "threshold": 7.48063892334199,
+      "fitted_null_theta": 0.400006242294666
+    }
+  ],
+  "skipped_transition_check": {
+    "P": [
+      [
+        0.9,
+        0.1
+      ],
+      [
+        0.2,
+        0.8
+      ]
+    ],
+    "P_squared": [
+      [
+        0.8300000000000001,
+        0.17
+      ],
+      [
+        0.34,
+        0.66
+      ]
+    ],
+    "max_difference": 0.14,
+    "meaning": "observing every second state gives P^2, not P; known fixed gaps can be modeled explicitly"
+  },
+  "non_lumpable_loss_aggregation": {
+    "matrix": [
+      [
+        0.8,
+        0.1,
+        0.1
+      ],
+      [
+        0.1,
+        0.2,
+        0.7
+      ],
+      [
+        0.2,
+        0.3,
+        0.5
+      ]
+    ],
+    "aggregation": "states0,1 map loss0; state2 maps loss1",
+    "next_loss1_given_hidden0": 0.1,
+    "next_loss1_given_hidden1": 0.7,
+    "meaning": "same observed loss can conceal states with different next-loss laws; no guaranteed homogeneous Markov loss process"
+  },
+  "limits": "six paths cannot validate alpha or asymptotic efficiency; no general theorem refutation"
+}

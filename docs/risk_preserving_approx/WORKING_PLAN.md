@@ -439,3 +439,16 @@ append-only ledger. Commit and push completed checkpoints to the designated
 branch only. Do not schedule a recurring, remote, or unattended job or send
 notifications as part of this plan; any bounded local run must finish with
 preserved logs and an explicit stop condition.
+
+## Candidate D adapter checkpoint (2026-10-29)
+
+The first D3 prerequisite passed on the frozen one-action-opponent toy: the
+HSVI/gadget adapter attained the exact value 0.44 with a reported gap below
+`1e-4`, residual below `1e-7`, and the expected signal-conditioned controller.
+See `CANDIDATE_D_GADGET_ADAPTER_RESULTS_V1.md` and its append-only ledger row.
+This is adapter validation only. It does not show a strategy-security guarantee
+against an active opponent and does not establish a ShiftLab value or compute
+advantage. No ShiftLab efficacy pilot or real-data run is authorized by this
+result. The immediate next step is an adversarial toy plus independent maximin
+controller evaluation; separately, D3 still needs a scalable, certifiable rule
+for bracketing the optimal multiplier without relying on the exact benchmark LP.

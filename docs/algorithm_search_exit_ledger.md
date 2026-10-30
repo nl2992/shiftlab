@@ -76,3 +76,18 @@ already published or failed its pre-registered screen.
   OPI, Wang certification). It is unaffected by these Paper 1 failures.
 
 Either needs the user's approval for a new phase.
+
+## 5. Candidate D strategy-extraction adapter checkpoint (2026-10-29)
+
+The frozen toy protocol `docs/risk_preserving_approx/CANDIDATE_D_GADGET_ADAPTER_PROTOCOL_V1.md`
+passed: pinned HSVI gap `1.4567e-7`, extracted payoff `0.44000000000000017`
+against exact `0.44`, gadget residual `8.3819e-10`, and correct probe/signal-
+conditioned guesses. The run used the pinned upstream commit
+`05eaf101b38c1c9b301a1a5fb298bfe8b97f757d`; output and source hashes are in
+`CANDIDATE_D_GADGET_ADAPTER_RESULTS_V1.md`. This is only a one-action-opponent
+toy software check. It does not verify strategic security, switching-game
+semantics, causal-null risk or any efficacy/compute claim. No ShiftLab candidate
+or real data was run. Do not proceed to D3 until a two-action adversarial toy
+passes independent maximin evaluation and a multiplier bracket can be certified
+without access to the exact benchmark LP. Candidate D remains an established-
+algorithm baseline possibility, with novelty and utility gates open.

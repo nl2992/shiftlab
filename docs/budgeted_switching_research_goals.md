@@ -2640,3 +2640,20 @@ the finite benchmark. Source limitation: RAO* full text/proof not inspected in t
   (`38 passed`). The test confirms implementation boundaries only; no novelty, regret advantage,
   or efficacy gate passes. Keep G1 open for a distinct structure with a proved advantage over the
   full two-law oracle and established delayed sequential-design baselines; G2-G5 remain held.
+
+### G1 comparator and feasibility update 2026-10-29: finite-horizon QCD
+
+- Upgraded the finite-horizon Huang–Veeravalli QCD source from the Lane B abstract-level screen to
+  a primary-source audit of the full model, Theorems 1–3, and proofs. Finite-horizon familywise
+  false-alarm control with a high-probability latency target is established for fully observed
+  one-change detection; it is now a required comparator, not a novelty claim. The exact boundary
+  and citation are in `switching_finite_horizon_qcd_budget_delay_audit_v1.md`.
+- Derived a delayed hard-cap version of the standard change-of-measure lower bound. At the
+  registered weak-signal scale (`T=120`, `B=20`, delay 1, Bernoulli `0.5` vs `0.6`, false-alarm
+  level `.05`, miss level `.10`), at least 106 released labels are required even in the most
+  favorable onset packing, so the requested detection-latency quantile is infeasible. This
+  rejects high-probability detection latency as a target for that cell; expected net decision
+  regret remains the objective. The bound is supporting mathematics, not a new algorithm.
+- G1 remains open only for a theorem-backed acquisition-and-reversible-switching advantage beyond
+  this detector, delayed-budget learning, and exact constrained-control baselines. No efficacy or
+  real-data gate opens; G2–G5 remain held.

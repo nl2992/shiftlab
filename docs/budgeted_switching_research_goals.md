@@ -2577,3 +2577,17 @@ the finite benchmark. Source limitation: RAO* full text/proof not inspected in t
   and-switching mechanism; G2–G5 remain held. The source-level decision and boundaries are in
   `switching_first_promotion_xp_complexity_v1.md`. Any future candidate must distinguish
   historical evidence from current-regime benefit after reversal.
+
+### G1 baseline check 2026-10-29: finite OS-POSG strategy extraction
+
+- The isolated risk-approximation lane implemented the published HSVI strategy-gadget LP and
+  recursively extracted a three-node learner controller on a registered two-state probe/guess
+  toy. Its independently computed value was `0.44000000000000017`, matching exact `11/25`; the
+  HSVI interval width was `1.46e-7` and the maximum gadget residual was `8.4e-10`. The frozen
+  protocol, source, output hashes, and reproduction command are recorded with branch commit
+  [`df01d3d`](https://github.com/nl2992/shiftlab/commit/df01d3d).
+- This validates only the extraction adapter on a tiny known OS-POSG. It does not produce a
+  risk-bracketing pair or an exact ShiftLab two-law verifier, and the OS-POSG/scalarization/gadget
+  composition remains established prior art. Candidate D stays a comparator-plumbing route; no
+  ShiftLab efficacy or real-data gate opens. G1 remains open for a different method with a proved
+  advantage over the exact two-law oracle and matched acquisition/switching baselines.

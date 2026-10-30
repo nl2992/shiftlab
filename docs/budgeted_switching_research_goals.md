@@ -2767,3 +2767,22 @@ the finite benchmark. Source limitation: RAO* full text/proof not inspected in t
   stay/no-query at both histories, with exact total cost `3003/1000`. G1 remains open, and G2–G5
   remain held. The next candidate must pass an independent exact cash-flow calculation and the
   full causal-game oracle before any broader empirical sweep.
+
+### Continuation checkpoint 2026-10-29: full adaptive acquisition comparator
+
+- Completed the exact cash-flow/oracle check for the action-matched terminal-decision acquisition
+  candidate. The full adaptive sequence-form LP, which contains every randomized fixed-calendar
+  mixture, is bracketed by a verified rational dual lower bound and an independently evaluated
+  feasible policy with width about `1.2e-12`; exact policy risk is `1/10`. Reproduction and
+  certificate checks are recorded in `switching_action_matched_adaptive_acquisition_v1.md`.
+- This closes the candidate's finite comparator question, not G1. Its optimal rule is ordinary
+  positive-prefix futility stopping, already covered by delayed group-sequential prior art. The
+  prior acquisition claim based on order-sensitive local values is retracted, and no broader
+  efficacy or real-data study is opened.
+- The next G1 attempt must state a structural recurrent two-law advantage over the full-history
+  oracle and the faithful sequential-test/HMM-control composition before implementation. Generic
+  history augmentation, fixed-calendar comparisons, or event-monotonicity restrictions are not
+  enough; the latter can lose economic value under reversals, as the registered exact counterexample
+  demonstrates. If no such structure and theorem survive, revise or stop the methodological
+  hypothesis rather than promote the finite benchmark result. Current-regime forecasts remain
+  separate from historical promotion validity.

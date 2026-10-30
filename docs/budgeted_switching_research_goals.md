@@ -3116,3 +3116,22 @@ the finite benchmark. Source limitation: RAO* full text/proof not inspected in t
   restricted hypothesis class) plus a primary-source separation. The Binance price-taker
   account-utility replay remains a possible later evaluation only; it cannot supply method novelty
   or identify market impact. The current research path is blocked pending that structural change.
+
+### Local Criteo timing re-audit 2026-10-30
+
+- The user confirmed that many datasets are already local. Re-reading the pinned official
+  CriteoPrivateAd card and companion paper resolves a possible timing ambiguity: the click/sale
+  delay column is an event-time delta supplied to simulate Privacy Sandbox reporting, while every
+  display is placed at day 00:00 to hide complete timelines. The companion paper also documents
+  non-uniform label sampling and negative downsampling. Thus this local corpus does not supply an
+  observed online label-release process, and a chosen maturity horizon remains an imposed model.
+- Updated `switching_real_data_eligibility_v1.md` with the source-level interpretation. Criteo can
+  support weighted predictive-loss sensitivity under explicitly imposed delays, but it does not
+  reopen G1's method novelty gate or qualify as confirmation for budgeted delayed acquisition.
+  See the [publisher card](https://huggingface.co/datasets/criteo/CriteoPrivateAd/blob/ea4a79a5b87e7fa0c435a4b28ff112df12e222f3/README.md)
+  and [companion paper](https://arxiv.org/html/2502.12103).
+- Next eligible G1 reopening input remains a genuinely new structural assumption supported by
+  primary-source separation, or evidence of a local dataset with actual release timestamps and a
+  matching utility/assignment contract. Do not infer release time from event delay alone. The
+  annotation's caveat remains in force: historical promotion evidence cannot certify benefit in
+  the current regime after a reversal.

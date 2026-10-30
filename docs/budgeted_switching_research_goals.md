@@ -3024,6 +3024,10 @@ the finite benchmark. Source limitation: RAO* full text/proof not inspected in t
   to human vs algorithmic execution, per-order slippage), but order-level data are not published and
   the article's time-series randomization inference is already prior art. The locked real-data
   segments remain unopened and G2–G5 remain held.
+- Simulator cross-check: `PerformativeEnvironment` supplies policy-induced scalar Gaussian
+  dynamics but no recurrent HMM, delay, or hard query cap; `CausalSwitchingGame` supplies recurrent
+  HMM, delayed acquisition, and robust promotion risk but its outcome law is action-independent.
+  Gluing them would define a new synthetic task, not validate the intended joint finance contract.
 - Exact task contract, estimand, risk event, source boundary, comparators, and data gate are in
   `g1_intersection_task_contract_screen_v1.md`. Next: reopen F1 only with an authorized
   randomized execution/intervention log meeting that contract, or explicitly scope a

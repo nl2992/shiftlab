@@ -108,6 +108,23 @@ stronger than a synthetic causal simulation, but weaker than a point-in-time, de
 switching evaluation. It provides a concrete access lead for F1, not a current eligible real-data
 result.
 
+### Existing simulator/oracle boundary
+
+The repo's `PerformativeEnvironment` is a useful action-dependent component: deployed actions shift
+a scalar Gaussian target and the next scalar state. Its verified dynamics do not include a latent
+recurrent HMM, delayed label release, an observation/query cap, or order-level finance utility. The
+finite `CausalSwitchingGame` is a useful delayed-feedback/risk oracle with an HMM alternative and a
+history-adaptive null, but its HMM transition and paired binary outcome law are independent of the
+learner's action. The AHL paper supplies a randomized finance task family but not accessible logs.
+Combining these pieces in code would therefore create a *new synthetic contract*, not reuse an
+already-valid joint benchmark. No joint simulator or algorithm is implemented or evaluated yet.
+
+Before building that contract, the source-level G1 audit must still answer whether action-dependent
+controlled-HMM planning with delayed observations and a hard label cap has a theorem-level gap over
+Bayes-adaptive/constrained-POMDP planning, and whether the causal-null safety event adds more than
+standard safe exploration and sequential randomization inference. If not, revise the method
+hypothesis instead of treating simulator integration as the contribution.
+
 ## Sources checked
 
 - Hadad et al., *Confidence intervals for policy evaluation in adaptive experiments*,

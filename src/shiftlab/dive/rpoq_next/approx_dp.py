@@ -21,9 +21,13 @@ from shiftlab.dive.rpoq_exact import Evaluator, Instance, constant_table
 @dataclass
 class SnappedEvaluator(Evaluator):
     delta: float = 0.25
+    fine_delta: float | None = None  # C2: finer grid just below the alarm threshold
 
     def _snap(self, w: float) -> float:
-        return math.exp(round(math.log(w) / self.delta) * self.delta)
+        d = self.delta
+        if self.fine_delta is not None and w >= self.inst.threshold * math.exp(-1.0):
+            d = self.fine_delta
+        return math.exp(round(math.log(w) / d) * d)
 
     def post_value(self, t, w, buf, b):
         return super().post_value(t, self._snap(w), buf, b)
@@ -32,9 +36,9 @@ class SnappedEvaluator(Evaluator):
         return super().act(t, ctx, self._snap(w), buf, b)
 
 
-def certify(inst: Instance, delta: float) -> dict:
+def certify(inst: Instance, delta: float, fine_delta: float | None = None) -> dict:
     t0 = time.time()
-    ev = SnappedEvaluator(inst, inst.p_alt, inst.budget, delta=delta)
+    ev = SnappedEvaluator(inst, inst.p_alt, inst.budget, delta=delta, fine_delta=fine_delta)
     approx_value = ev.value()
     solve_s = time.time() - t0
     power = Evaluator(inst, inst.p_alt, inst.budget, policy=ev.act).value()
@@ -78,10 +82,10 @@ def main():
             "best_constant_power": best_const,
             "s3_registered_power": s3[b]["power_optimal"],
         }
-        for delta in (0.5, 0.25, 0.1):
-            r = certify(inst, delta)
+        for delta, fine in ((0.5, None), (0.25, None), (0.1, None), (0.5, 0.02), (0.25, 0.02)):
+            r = certify(inst, delta, fine)
             gap = exact_power - best_const
-            r["recovery"] = (r["exact_power"] - best_const) / gap if gap > 0.01 else None
+            r["recovery"] = (r["policy_power"] - best_const) / gap if gap > 0.01 else None
             r["state_ratio"] = base["exact_states"] / r["states"]
             r["speedup"] = exact_s / r["solve_seconds"]
             rows.append({**base, **r})

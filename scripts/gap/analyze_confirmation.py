@@ -12,7 +12,11 @@ O = Path("outputs/gap_closure")
 D = Path("docs/sota_gap_closure")
 import os
 
-spec = json.load(open(os.environ.get("CONFIRM_CFG", "configs/gap_closure/frozen_confirmation_v1.json")))
+spec = json.loads(
+    Path(
+        os.environ.get("CONFIRM_CFG", "configs/gap_closure/frozen_confirmation_v1.json")
+    ).read_text()
+)
 SUF = os.environ.get("DOC_SUFFIX", "")
 df = pd.read_parquet(O / os.environ.get("CONFIRM_OUT", "e15_confirm") / "perseed.parquet")
 df["has_harm"] = df.first_harm < df["T"]
@@ -166,5 +170,7 @@ False alarm before the first harmful step in harm worlds:
 
 Empirical size is not a proof. Null classes where the guarantee does not apply (dependent outcomes: `C6|null|ar0.9_s1.3`, `C6|null|cluster120_s1.3`, G4 GARCH null) are expected to show inflation; the others should not.
 """)
+st.to_csv(O / os.environ.get("CONFIRM_OUT", "e15_confirm") / "comparisons.csv", index=False)
+mean_arm.to_csv(O / os.environ.get("CONFIRM_OUT", "e15_confirm") / "arm_summary.csv")
 print(mean_arm.round(3).to_string())
 print(st.round(4).to_string())

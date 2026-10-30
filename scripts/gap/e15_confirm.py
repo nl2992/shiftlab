@@ -5,6 +5,7 @@ import itertools
 import json
 import time
 from functools import partial
+from pathlib import Path
 
 import numpy as np
 import pandas as pd
@@ -17,8 +18,12 @@ R = W.Regime
 T = 2000
 import os
 
-SEED0 = int(os.environ.get("CONFIRM_SEED0", 900_000))
-SPEC = json.load(open(os.environ.get("CONFIRM_CFG", "configs/gap_closure/frozen_confirmation_v1.json")))
+SEED0 = int(os.environ.get("CONFIRM_SEED0", "900000"))
+SPEC = json.loads(
+    Path(
+        os.environ.get("CONFIRM_CFG", "configs/gap_closure/frozen_confirmation_v1.json")
+    ).read_text()
+)
 OUT = os.environ.get("CONFIRM_OUT", "e15_confirm")
 FRACS = SPEC["fracs"]
 
@@ -166,7 +171,7 @@ def main():
                 )
             )
         # classical detectors: nominal moments and thresholds from an independent *null* stream of the same family
-        nullspec = null[0] if cal is None else sp
+        null[0] if cal is None else sp
         base_name = sp.name.split("|")[0]
         ref = next((n for n in null if n.name.startswith(base_name)), null[0])
         refst = ref.make(400, SEED0 + 700_000 + 1000 * wi)

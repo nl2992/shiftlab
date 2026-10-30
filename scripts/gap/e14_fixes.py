@@ -5,7 +5,6 @@ from functools import partial
 import numpy as np
 
 from shiftlab.gap import engine as E
-from shiftlab.gap import pools as P
 from shiftlab.gap import store as St
 from shiftlab.gap import worlds as W
 
@@ -92,9 +91,9 @@ def specs():
 def cfgs(frac=0.2):
     c = {}
     for pn, pk in (
-        ("pprm", dict(risk="brier")),
-        ("HG", dict(risk="brier", gamma=0.99, gate_w=100)),
-        ("cost", dict(risk="cost", gamma=0.99)),
+        ("pprm", {"risk": "brier"}),
+        ("HG", {"risk": "brier", "gamma": 0.99, "gate_w": 100}),
+        ("cost", {"risk": "cost", "gamma": 0.99}),
     ):
         b = dict(frac=frac, **pk)
         c[f"{pn}|parent"] = E.Cfg(**b)
@@ -124,9 +123,9 @@ if __name__ == "__main__":
     for i, s in enumerate(sp):
         st = s.make(400, 80000 + 1000 * i)
         for pn, pk in (
-            ("pprm", dict(risk="brier")),
-            ("HG", dict(risk="brier", gamma=0.99, gate_w=100)),
-            ("cost", dict(risk="cost", gamma=0.99)),
+            ("pprm", {"risk": "brier"}),
+            ("HG", {"risk": "brier", "gamma": 0.99, "gate_w": 100}),
+            ("cost", {"risk": "cost", "gamma": 0.99}),
         ):
             base = dict(frac=0.2, **pk)
             mix = [E.Cfg(**{**base, "gamma": g_}) for g_ in (1.0, 0.99, 0.95)]

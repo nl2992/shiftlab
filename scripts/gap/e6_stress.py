@@ -18,7 +18,8 @@ R = W.Regime
 S = 2000
 
 
-def lw(name, regs=(R(),), t0=800, shape="abrupt", delay=5, family="G1", **noise):
+def lw(name, regs=None, t0=800, shape="abrupt", delay=5, family="G1", **noise):
+    regs = regs if regs is not None else (R(),)
     w = W.LogitWorld(regimes=regs, family=family, t0=0, name=name, **noise)
     z_fn = lambda Sx, T: np.repeat(W.scheduled_regimes(shape, T, t0)[None], Sx, 0) * (len(regs) > 1)
     return St.WorldSpec(

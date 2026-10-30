@@ -8,6 +8,6 @@ Scores 1-5 (5 = best). "Statistical correctness" = whether the mechanism keeps a
 | 3 | Disagreement-focused certification with exact zero increments (Q2/Q3) | 3 | 4 | 4 | 4 | 5 | 5 | 2 (CAMS-style) | realised; matches CAMS-style baseline |
 | 4 | Decision-cost gate for Brier evidence (HG) | 3 | 1 parent tested | 3 | 4 | 5 | 5 | 2 (composition of known ideas) | realised; survives repair |
 | 5 | Forgetting evidence for non-stationary certification / reversal | 2 | all Q2 | 2 | 4 | 1 (no anytime-valid forgetting form found) | 1 | 4 | open |
-| 6 | Growth-aware acquisition | 1 (does not help) | - | 5 | 3 | - | 5 | 1 | falsified (equals variance to second order; loses under the validity tax) |
+| 6 | Growth-aware acquisition | 2 | - | 5 | 3 | - | 5 | 1 | equals variance to second order; loses under frac/4 floors; gains on development pools with frac/2 floors (label-matched +0.03..+0.07 at 10-20% labels) but **not confirmed** on fresh seeds (label-matched -0.02..-0.01); the oracle-alternative bound (+0.09..+0.13) shows the bottleneck is estimating the alternative |
 | 7 | Reliability-adaptive proxy weight | 1 (does not help) | - | 4 | 2 | - | 5 | 1 | falsified |
-| 8 | Budget pacing | 1 | - | 4 | 2 | - | 5 | 1 | falsified (v2 pending in results) |
+| 8 | Budget pacing | 2 | - | 4 | 2 | - | 5 | 1 | v1 confounded (floor); v2 development gain for info-value pacing at 20% labels (+0.068) **not confirmed** (round 2: -0.014, n.s.) |

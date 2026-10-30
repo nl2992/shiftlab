@@ -7,6 +7,7 @@ import itertools
 import json
 import sys
 import time
+from pathlib import Path
 
 import numpy as np
 import pandas as pd
@@ -51,7 +52,7 @@ def collect(pa, budget):
 
 t_all = time.time()
 CACHE = "outputs/gap_closure/e11_oracle_states_subsample.npz"
-import os  # noqa: E402
+import os
 
 if os.path.exists(
     CACHE
@@ -226,12 +227,13 @@ print(
     "fit seconds",
     round(fit_time, 2),
 )
-json.dump(
-    {
-        "train_states": len(X),
-        "oracle_data_seconds": t_oracle,
-        "fit_seconds": fit_time,
-        "total_seconds": time.time() - t_all,
-    },
-    open("outputs/gap_closure/e11_s11_meta.json", "w"),
+Path("outputs/gap_closure/e11_s11_meta.json").write_text(
+    json.dumps(
+        {
+            "train_states": len(X),
+            "oracle_data_seconds": t_oracle,
+            "fit_seconds": fit_time,
+            "total_seconds": time.time() - t_all,
+        }
+    )
 )

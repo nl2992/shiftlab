@@ -1,4 +1,3 @@
-import numpy as np
 import pandas as pd
 
 pd.set_option("display.width", 220)

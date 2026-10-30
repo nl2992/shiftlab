@@ -246,7 +246,7 @@ R = [
         "32",
         "23",
         "150",
-        "not supported; growth = variance to second order; floors dominate",
+        "v1 (floor frac/4) negative; v2 (floor frac/2) development gains of +0.03..+0.07 label-matched at 10-20% labels were NOT confirmed on fresh seeds (round 2: -0.02..-0.01); growth = variance to second order; oracle-alternative bound +0.09..+0.13",
         "exact RPOQ gaps on the toy instance only",
     ),
     (
@@ -342,7 +342,7 @@ R = [
         "10 + 10",
         "14",
         "150",
-        "balancing buys coverage, costs sequential power",
+        "balancing buys rare-group coverage (0.50 vs 0.18 label share) but no power; v2 growth / balanced+growth dev gains (+0.035 / +0.048 at 10% labels) not confirmed (no rare-group pool in round 2)",
         "monitoring only; estimation-quality arm not run; BAI not faithful",
     ),
     (
@@ -814,8 +814,10 @@ def initial():
     lines = [
         "# Mandate completion matrix: state at the START of this task (Phase 0 audit)",
         "",
-        "Branch `research/shiftlab-mandate-gap-closure-2026-10-30` cut from `origin/research/shiftlab-sota-synthetic-search-2026-10-29` at `bb74057`. Statuses are derived from source code, registries (`outputs/sota_search/registry_*.sqlite`, 5,999 rows, 281 distinct configurations) and tracked files, not from Markdown claims. "
-        "Provenance finding: `outputs/*` is git-ignored, so the G2 held-out summary / registry and the CRSP replay outputs were **never committed** and are absent from every checkout; their numbers survive only as prose in docs 11 and 16. They are marked REPRODUCTION_REQUIRED and are not re-run here (a reconstruction would not be an independent confirmation; CRSP is barred in this task). No real-data file was opened.",
+        (
+            "Branch `research/shiftlab-mandate-gap-closure-2026-10-30` cut from `origin/research/shiftlab-sota-synthetic-search-2026-10-29` at `bb74057`. Statuses are derived from source code, registries (`outputs/sota_search/registry_*.sqlite`, 5,999 rows, 281 distinct configurations) and tracked files, not from Markdown claims. "
+            "Provenance finding: `outputs/*` is git-ignored, so the G2 held-out summary / registry and the CRSP replay outputs were **never committed** and are absent from every checkout; their numbers survive only as prose in docs 11 and 16. They are marked REPRODUCTION_REQUIRED and are not re-run here (a reconstruction would not be an independent confirmation; CRSP is barred in this task). No real-data file was opened."
+        ),
         "",
         "| " + " | ".join(HEAD) + " |",
         "|" + "|".join("---" for _ in HEAD) + "|",

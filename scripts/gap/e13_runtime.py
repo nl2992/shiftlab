@@ -47,7 +47,16 @@ def engine_methods(frac):
             st, E.Cfg(gamma=0.99, gate_w=100, alloc="growth", **b), delay=5
         ),
         "HG_robustmix": lambda st: E.run(
-            st, E.Cfg(gamma=0.99, gate_w=100, alloc="mix", mix=(0.5, 0.5, 0.0), mix_mode="conservative", **b), delay=5
+            st,
+            E.Cfg(
+                gamma=0.99,
+                gate_w=100,
+                alloc="mix",
+                mix=(0.5, 0.5, 0.0),
+                mix_mode="conservative",
+                **b,
+            ),
+            delay=5,
         ),
         "cost_discount": lambda st: E.run(st, E.Cfg(risk="cost", frac=frac, gamma=0.99), delay=5),
         "HG_lrv100": lambda st: E.run(
@@ -224,6 +233,7 @@ def main():
                 [sys.executable, "-I", "-c", code, str(T), str(S), m],
                 capture_output=True,
                 text=True,
+                check=False,
                 env={**__import__("os").environ, "PYTHONPATH": "src"},
             )
             rss.append(

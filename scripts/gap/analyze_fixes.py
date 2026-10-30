@@ -1,4 +1,3 @@
-import numpy as np
 import pandas as pd
 
 from shiftlab.gap.store import wilson
@@ -18,7 +17,7 @@ for par in ("pprm", "HG", "cost"):
         if v == "parent":
             continue
 
-        def g(d, col):
+        def g(d, col, par=par, v=v):
             a = d[(d.parent == par) & (d.variant == v)].set_index("world")[col]
             b = d[(d.parent == par) & (d.variant == "parent")].set_index("world")[col]
             return a, b

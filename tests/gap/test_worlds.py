@@ -72,7 +72,7 @@ def test_dependence_in_latent_noise_inflates_block_mean_variance():
     iid = W.LogitWorld(regimes=(R(),), name="iid")
     cl = W.LogitWorld(regimes=(R(),), cluster_len=200, cluster_sigma=1.5, name="cluster")
     a, b = W.make_stream(iid, 300, 1), W.make_stream(cl, 300, 1)
-    vr = lambda s: s["loss"].reshape(300, 10, 200).mean(2).var()  # noqa: E731  variance of 200-step block means
+    vr = lambda s: s["loss"].reshape(300, 10, 200).mean(2).var()
     assert vr(b) > 1.5 * vr(a)  # clustered outcomes: long-run variance well above the iid value
     assert abs(a["r0"]["cost"] - 0.409) < 0.03
 

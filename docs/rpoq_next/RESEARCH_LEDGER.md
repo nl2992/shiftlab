@@ -45,3 +45,7 @@ Local full suite (base dependencies only, no `neural`/`drift` extras): 1639 pass
 ## 2026-10-30, B1 benchmark run
 
 Repo evidence-directed rule imported unchanged and run on the CRSP stream: worse than uniform (−0.75, −3.91 log-wealth units) at 45–56% of uniform's label spend (not matched). Uniform reproduces S6/R1 exactly. No candidate of mine involved. Remaining unrun benchmarks: PPRM, Podkopaev–Ramdas, `comparecast`, Robust ASI proper.
+
+## 2026-10-30, B2 spend-matched benchmark
+
+Evidence-directed rule with `q_min = frac`: ties uniform at 5% (−0.04 [−0.16, +0.08]), worse at 20% (−2.02 [−2.46, −1.60]), spend matched within 1%. A first launch silently reused B1's configuration (identical output); caught by the identical-digits check, discarded, wiring factored into `make_policy` and tested.

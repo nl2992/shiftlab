@@ -66,3 +66,16 @@ Uniform reproduces the S6/R1 values (1.41 and 6.54) exactly.
 **Reading (descriptive; no gate).** The repo's evidence-directed rule is significantly worse than uniform on this stream at both budgets. It is **not label-matched**: it spends 45% (5% budget) and 56% (20% budget) of what uniform spends, because its propensity sits at the `q_min` floor while evidence is low and the budget taper reduces it further. Per label spent, log-wealth is similar at the 5% budget (about 2.7e-4 per label for both) and lower for ED at 20% (2.2e-4 vs 3.0e-4). So the comparison shows "worse at the configured spend", not "less efficient per label", and a spend-matched version (for example a higher `q_min`) was not run; it would be a new protocol.
 
 Benchmarks still not run: PPRM, Podkopaev–Ramdas, `comparecast`, Robust ASI proper (S6b/A2 used an adaptation).
+
+## B2 (protocol [`REAL_DATA_PROTOCOL.md`](REAL_DATA_PROTOCOL.md), fourth section): spend-matched evidence-directed benchmark
+
+Same stream, seeds and pooled bet as B1; the rule's configuration is the single declared one (`q_min = frac`, `q_max = min(1, 2·frac)`). Artifacts: `outputs/rpoq_next/b2/`. (A first launch reused B1's configuration by mistake: the substitution silently missed, the output was identical to B1 to every digit, and it was discarded before commit. A regression test now covers the wiring.)
+
+| Budget | uniform LW (crossing) | evidence-directed LW (crossing) | Difference [95% CI] | Mean labels spent (uniform vs ED) |
+|---|---|---|---|---|
+| 5% | 1.41 (0.31) | 1.37 (0.30) | −0.04 [−0.16, +0.08] | 5,455 vs 5,476 |
+| 20% | 6.54 (0.845) | 4.53 (0.83) | **−2.02 [−2.46, −1.60]** | 21,878 vs 21,933 |
+
+**Reading (descriptive; anti-conservative intervals; exposed test split).** With spend matched, the repo's evidence-directed rule is indistinguishable from uniform at the 5% budget and significantly worse at the 20% budget (it exhausts the cap earlier in the stream, which is the intrinsic cost of urgency-driven querying when evidence only accumulates slowly). So B1's large deficit at 5% was mostly an underspend artifact, while the 20% deficit persists. No spend-matched variant of any candidate of mine beat uniform either.
+
+Benchmarks still not run: PPRM, Podkopaev–Ramdas, `comparecast`, Robust ASI proper.

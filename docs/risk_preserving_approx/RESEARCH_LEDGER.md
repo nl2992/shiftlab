@@ -764,3 +764,18 @@
   two-law ShiftLab verifier, a risk-bracketing pair, a resource advantage, or a novelty delta.
   Candidate D remains a baseline-plumbing route; no ShiftLab pilot or real-data run is authorized
   by this result. The overall research goal and G1 remain open.
+
+## 2026-10-29 — Candidate D adversarial gadget toy
+
+- A one-step matching-pennies OS-POSG toy was used to test extraction of a randomized learner
+  strategy against an adversarial opponent action. The first fixture failed during parsing because
+  its declared dimensions did not match its contents; that failure is retained separately and is
+  not counted as a solver result. A corrected isolated v2 fixture was run under the frozen protocol
+  `CANDIDATE_D_ADVERSARIAL_GADGET_PROTOCOL_V1.md`.
+- The corrected run passed. Exact maximin value is zero; HSVI returned width `1.77e-7`; the
+  extracted controller chose each row with probability `1/2` and independently evaluated to
+  payoff zero against both pure opponent columns. Gadget residual was zero; runtime was 5.303s.
+  Protocol, hashes and boundaries are in `CANDIDATE_D_ADVERSARIAL_GADGET_RESULTS_V1.md`.
+- This tests only a one-step adversarial choice. It does not validate history-dependent opponent
+  extraction, delayed switching, or the exact two-law risk/cost verifier. No ShiftLab pilot, method
+  claim, or novelty gate follows; G1 remains open.

@@ -274,8 +274,16 @@ G5_CONDITIONS = {
     "underconfident": (0.5, 0.0, 0.0),
     "subgroup_failure": (1.0, 0.0, -3.0),
     "anti_informative": (-0.3, 0.0, 0.0),
+    # added after the development run (held for the frozen confirmation; not used for any selection)
+    "biased_neg": (1.0, -0.8, 0.0),
+    "over_subgroup": (2.0, 0.0, -3.0),
 }
-G5_SHIFTS = {"none": ("none", 0.0), "prior1": ("prior", 1.0), "concept2": ("concept", 2.0)}
+G5_SHIFTS = {
+    "none": ("none", 0.0),
+    "prior1": ("prior", 1.0),
+    "concept2": ("concept", 2.0),
+    "concept1.5": ("concept", 1.5),  # added for the confirmation only
+}
 
 
 def _g5_p(x, cond):

@@ -1,0 +1,26 @@
+{
+  "sources_match": true,
+  "sha256": {
+    "src/shiftlab/sota_search/paced_epochs.py": "165c8b32933a687fd657cd899a22155e98e4e1b2aec8f17c130fd0092f935e4e",
+    "src/shiftlab/sota_search/paired_control.py": "f629e0b6db64ec094ef47cf238ed2d894f48cdadd237629ecfb1d508afd9fd61",
+    "src/shiftlab/sota_search/paired_cusum.py": "0c829641bacf4652618b84f57c32d764c3ed4664f5f80490de86ef93e72373a2",
+    "src/shiftlab/sota_search/paired_references.py": "0dc89e24398e2761f4f56dd143b03ff587d9fbf2cedd4355f44fa0db626004b8",
+    "src/shiftlab/sota_search/combination_screen.py": "ff995be8d0c74dda2d8f8729b3bb07a1758c9c2cec03f05c4001a37cc023dcac",
+    "scripts/exhaustive_evaluation/run_paced_epochs.py": "f2a733d6e62741e67839c78407836dc222aa2012964ba4f0187151884c965eb8",
+    "tests/test_paced_epochs.py": "0da6ab2a4eeb3e3af7b27a887e37ceeadb4727db9010485258c3ff70f4794c13",
+    "scripts/exhaustive_evaluation/analyze_paced_epochs.py": "22fa3b32ec56fc2df9be9e27ec5e4993a9dfb92d45acfa5ae8ba93f7e283812d",
+    "docs/exhaustive_evaluation/paced_epochs_decision.json": "e974185fde2ce9933ad742dcbdd59a85c000e2830efeba013e16ab3a7d6ac286",
+    "docs/exhaustive_evaluation/paced_epochs_registration.json": "8a929d281d6217751e0caa2b9a3b01159eee31c878c2c7a709f6fa724c642154",
+    "docs/exhaustive_evaluation/paced_epochs_results.json": "5c0ab2c204b600e0a6664ee0d22bee4075004c62331b8134a03d1db5ac57f814",
+    "docs/exhaustive_evaluation/paced_epochs_status.json": "29720b7a3ff83cc5ed7713ae68b26f30a5290b60436a739109745602563fa465",
+    "docs/exhaustive_evaluation/PACED_EPOCHS_REPORT.md": "4a810017b0f3ee5c177f1d0523b45a1f5c9f558e94b0ae1fd0e978235ac05f81",
+    "outputs/exhaustive_evaluation/paced_epochs/harmful.npz": "0c390cf07253f8e26ea4749296c4dbb6e769b64650b09357509b630736e13eb3",
+    "outputs/exhaustive_evaluation/paced_epochs/harmful_after_shift.npz": "f0db4b8d24ae4a4b36afa0e02a1bb36e23b7b2db27674d9034ecd0f95b05606f",
+    "outputs/exhaustive_evaluation/paced_epochs/late.npz": "14738c26c8620fcac088a6013c5664fc29ec4665a8ca3e6fbbb40c4c88f085dc",
+    "outputs/exhaustive_evaluation/paced_epochs/reversal.npz": "fa14b510d3cb06e53022389e2583df771e50551dd8724d6c8fcde540ffbdd181",
+    "outputs/exhaustive_evaluation/paced_epochs/small.npz": "de9a3c548b735eff9afc0a8b728c4867b6836f8394237ed16d61f71e88488326",
+    "outputs/exhaustive_evaluation/paced_epochs/tie.npz": "11e8c58033ab0d14387430e48e166c841377aa2ee651042c49ec07f76f803362",
+    "outputs/exhaustive_evaluation/paced_epochs/useful.npz": "30e750352d2ba5ab66fbc3e211e3c7af047f9378bd0dee3b01e818e545713a23",
+    "outputs/exhaustive_evaluation/paced_epochs/useful_initial.npz": "532726b6e39b839d2edc6ddda175525bbcbd4e081d8ccab079290b13172c8dc5"
+  }
+}

@@ -1,0 +1,351 @@
+{
+  "stage": "development selection, independent confirmation required",
+  "registered_configs": 504,
+  "distinct_observed_output_signatures": 290,
+  "note": "identical observed outputs are not proof of algorithmic identity; structural one-epoch quota aliases removed prospectively",
+  "selected_id": "EP_0025",
+  "selected_config": {
+    "allocation": "uniform",
+    "pace": "free",
+    "gamma": 0.98,
+    "bet": "kelly",
+    "cap": 0.75,
+    "epochs": 1
+  },
+  "selected_macro_delta": -107.87716015624908,
+  "selected_max_empirical_null": 0.0,
+  "ranked_top10": {
+    "EP_0025": -107.87716015624908,
+    "EP_0035": -105.82141992187411,
+    "EP_0026": -105.25265820312407,
+    "EP_0027": -104.47362890624905,
+    "EP_0020": -103.42015039062409,
+    "EP_0037": -103.39587304687406,
+    "EP_0036": -103.25817773437409,
+    "EP_0007": -102.5511542968741,
+    "EP_0030": -102.1201484374991,
+    "EP_0017": -101.7619160156241
+  },
+  "rows": [
+    {
+      "case": "harmful",
+      "id": "EP_0025",
+      "promotion_rate": 0.0,
+      "labels": 393.421875,
+      "total_cost": 170.9246718749992,
+      "delta_vs_incumbent": 0.3934218749999965
+    },
+    {
+      "case": "harmful",
+      "id": "Kelly",
+      "promotion_rate": 0.0,
+      "labels": 393.421875,
+      "total_cost": 170.9246718749992,
+      "delta_vs_incumbent": 0.3934218749999965
+    },
+    {
+      "case": "harmful",
+      "id": "tuned_FTL",
+      "promotion_rate": 0.0,
+      "labels": 393.421875,
+      "total_cost": 170.9246718749992,
+      "delta_vs_incumbent": 0.3934218749999965
+    },
+    {
+      "case": "harmful",
+      "id": "CUSUM_.05",
+      "promotion_rate": 0.0,
+      "labels": 393.421875,
+      "total_cost": 170.9246718749992,
+      "delta_vs_incumbent": 0.3934218749999965
+    },
+    {
+      "case": "harmful",
+      "id": "CUSUM_.1",
+      "promotion_rate": 0.0,
+      "labels": 393.421875,
+      "total_cost": 170.9246718749992,
+      "delta_vs_incumbent": 0.3934218749999965
+    },
+    {
+      "case": "tie",
+      "id": "EP_0025",
+      "promotion_rate": 0.0,
+      "labels": 392.203125,
+      "total_cost": 332.4484531249923,
+      "delta_vs_incumbent": 0.3922031249999831
+    },
+    {
+      "case": "tie",
+      "id": "Kelly",
+      "promotion_rate": 0.0,
+      "labels": 392.203125,
+      "total_cost": 332.4484531249923,
+      "delta_vs_incumbent": 0.3922031249999831
+    },
+    {
+      "case": "tie",
+      "id": "tuned_FTL",
+      "promotion_rate": 0.015625,
+      "labels": 391.34375,
+      "total_cost": 332.3663437499923,
+      "delta_vs_incumbent": 0.31009374999999206
+    },
+    {
+      "case": "tie",
+      "id": "CUSUM_.05",
+      "promotion_rate": 0.03125,
+      "labels": 389.703125,
+      "total_cost": 332.58657812499234,
+      "delta_vs_incumbent": 0.5303281250000103
+    },
+    {
+      "case": "tie",
+      "id": "CUSUM_.1",
+      "promotion_rate": 0.015625,
+      "labels": 390.65625,
+      "total_cost": 332.5719062499923,
+      "delta_vs_incumbent": 0.5156562500000037
+    },
+    {
+      "case": "harmful_after_shift",
+      "id": "EP_0025",
+      "promotion_rate": 0.0,
+      "labels": 390.90625,
+      "total_cost": 251.07215624999685,
+      "delta_vs_incumbent": 0.39090625000000845
+    },
+    {
+      "case": "harmful_after_shift",
+      "id": "Kelly",
+      "promotion_rate": 0.0,
+      "labels": 390.90625,
+      "total_cost": 251.07215624999685,
+      "delta_vs_incumbent": 0.39090625000000845
+    },
+    {
+      "case": "harmful_after_shift",
+      "id": "tuned_FTL",
+      "promotion_rate": 0.0,
+      "labels": 390.90625,
+      "total_cost": 251.07215624999685,
+      "delta_vs_incumbent": 0.39090625000000845
+    },
+    {
+      "case": "harmful_after_shift",
+      "id": "CUSUM_.05",
+      "promotion_rate": 0.0,
+      "labels": 390.90625,
+      "total_cost": 251.07215624999685,
+      "delta_vs_incumbent": 0.39090625000000845
+    },
+    {
+      "case": "harmful_after_shift",
+      "id": "CUSUM_.1",
+      "promotion_rate": 0.0,
+      "labels": 390.90625,
+      "total_cost": 251.07215624999685,
+      "delta_vs_incumbent": 0.39090625000000845
+    },
+    {
+      "case": "useful_initial",
+      "id": "EP_0025",
+      "promotion_rate": 1.0,
+      "labels": 24.28125,
+      "total_cost": 133.19928125000087,
+      "delta_vs_incumbent": -489.85384375000126
+    },
+    {
+      "case": "useful_initial",
+      "id": "Kelly",
+      "promotion_rate": 1.0,
+      "labels": 24.28125,
+      "total_cost": 133.19928125000087,
+      "delta_vs_incumbent": -489.85384375000126
+    },
+    {
+      "case": "useful_initial",
+      "id": "tuned_FTL",
+      "promotion_rate": 1.0,
+      "labels": 32.0625,
+      "total_cost": 142.86331250000094,
+      "delta_vs_incumbent": -480.1898125000012
+    },
+    {
+      "case": "useful_initial",
+      "id": "CUSUM_.05",
+      "promotion_rate": 1.0,
+      "labels": 35.390625,
+      "total_cost": 147.560390625001,
+      "delta_vs_incumbent": -475.49273437500113
+    },
+    {
+      "case": "useful_initial",
+      "id": "CUSUM_.1",
+      "promotion_rate": 1.0,
+      "labels": 31.25,
+      "total_cost": 142.33750000000094,
+      "delta_vs_incumbent": -480.7156250000012
+    },
+    {
+      "case": "useful",
+      "id": "EP_0025",
+      "promotion_rate": 1.0,
+      "labels": 171.359375,
+      "total_cost": 173.3557343749972,
+      "delta_vs_incumbent": -298.731765624995
+    },
+    {
+      "case": "useful",
+      "id": "Kelly",
+      "promotion_rate": 1.0,
+      "labels": 171.359375,
+      "total_cost": 173.3557343749972,
+      "delta_vs_incumbent": -298.731765624995
+    },
+    {
+      "case": "useful",
+      "id": "tuned_FTL",
+      "promotion_rate": 1.0,
+      "labels": 173.046875,
+      "total_cost": 176.35117187499725,
+      "delta_vs_incumbent": -295.736328124995
+    },
+    {
+      "case": "useful",
+      "id": "CUSUM_.05",
+      "promotion_rate": 1.0,
+      "labels": 167.578125,
+      "total_cost": 168.88320312499715,
+      "delta_vs_incumbent": -303.20429687499495
+    },
+    {
+      "case": "useful",
+      "id": "CUSUM_.1",
+      "promotion_rate": 1.0,
+      "labels": 163.3125,
+      "total_cost": 162.89143749999704,
+      "delta_vs_incumbent": -309.19606249999515
+    },
+    {
+      "case": "late",
+      "id": "EP_0025",
+      "promotion_rate": 1.0,
+      "labels": 342.71875,
+      "total_cost": 207.0489687499985,
+      "delta_vs_incumbent": -75.87290624999855
+    },
+    {
+      "case": "late",
+      "id": "Kelly",
+      "promotion_rate": 1.0,
+      "labels": 342.71875,
+      "total_cost": 207.0489687499985,
+      "delta_vs_incumbent": -75.87290624999855
+    },
+    {
+      "case": "late",
+      "id": "tuned_FTL",
+      "promotion_rate": 1.0,
+      "labels": 338.734375,
+      "total_cost": 201.71998437499855,
+      "delta_vs_incumbent": -81.20189062499848
+    },
+    {
+      "case": "late",
+      "id": "CUSUM_.05",
+      "promotion_rate": 1.0,
+      "labels": 338.359375,
+      "total_cost": 201.19460937499858,
+      "delta_vs_incumbent": -81.72726562499847
+    },
+    {
+      "case": "late",
+      "id": "CUSUM_.1",
+      "promotion_rate": 1.0,
+      "labels": 334.203125,
+      "total_cost": 195.94045312499867,
+      "delta_vs_incumbent": -86.98142187499836
+    },
+    {
+      "case": "small",
+      "id": "EP_0025",
+      "promotion_rate": 0.03125,
+      "labels": 385.796875,
+      "total_cost": 306.12642187499534,
+      "delta_vs_incumbent": -0.3235781249999592
+    },
+    {
+      "case": "small",
+      "id": "Kelly",
+      "promotion_rate": 0.03125,
+      "labels": 385.796875,
+      "total_cost": 306.12642187499534,
+      "delta_vs_incumbent": -0.3235781249999592
+    },
+    {
+      "case": "small",
+      "id": "tuned_FTL",
+      "promotion_rate": 0.015625,
+      "labels": 390.84375,
+      "total_cost": 306.06584374999534,
+      "delta_vs_incumbent": -0.38415624999997267
+    },
+    {
+      "case": "small",
+      "id": "CUSUM_.05",
+      "promotion_rate": 0.296875,
+      "labels": 354.78125,
+      "total_cost": 299.14853124999587,
+      "delta_vs_incumbent": -7.301468749999495
+    },
+    {
+      "case": "small",
+      "id": "CUSUM_.1",
+      "promotion_rate": 0.25,
+      "labels": 354.078125,
+      "total_cost": 299.1009531249957,
+      "delta_vs_incumbent": -7.349046874999552
+    },
+    {
+      "case": "reversal",
+      "id": "EP_0025",
+      "promotion_rate": 1.0,
+      "labels": 169.53125,
+      "total_cost": 321.48515624999715,
+      "delta_vs_incumbent": 0.5882812500021322
+    },
+    {
+      "case": "reversal",
+      "id": "Kelly",
+      "promotion_rate": 1.0,
+      "labels": 169.53125,
+      "total_cost": 321.48515624999715,
+      "delta_vs_incumbent": 0.5882812500021322
+    },
+    {
+      "case": "reversal",
+      "id": "tuned_FTL",
+      "promotion_rate": 1.0,
+      "labels": 172.765625,
+      "total_cost": 325.0540156249972,
+      "delta_vs_incumbent": 4.157140625002202
+    },
+    {
+      "case": "reversal",
+      "id": "CUSUM_.05",
+      "promotion_rate": 1.0,
+      "labels": 167.15625,
+      "total_cost": 318.1390312499971,
+      "delta_vs_incumbent": -2.757843749997919
+    },
+    {
+      "case": "reversal",
+      "id": "CUSUM_.1",
+      "promotion_rate": 1.0,
+      "labels": 162.390625,
+      "total_cost": 312.08739062499694,
+      "delta_vs_incumbent": -8.809484374998032
+    }
+  ]
+}

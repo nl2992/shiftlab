@@ -1,5 +1,6 @@
 """Single-shot held-out evaluation of the frozen finalists (configs/sota_search/frozen_finalists_v1.json)."""
 
+import sys
 import json
 import time
 from pathlib import Path

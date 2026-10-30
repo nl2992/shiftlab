@@ -1,0 +1,1663 @@
+{
+  "cells": {
+    "B200_cs5": {
+      "W1": {
+        "P0": {
+          "mean_cost": 479.944,
+          "mean_deployment_loss": 479.944,
+          "mean_labels": 0.0,
+          "mean_switches": 0.0,
+          "mean_rollbacks": 0.0,
+          "budget_violations": 0,
+          "promotion_rate": 0.0,
+          "mean_time_to_promotion": null
+        },
+        "P1": {
+          "mean_cost": 293.492,
+          "mean_deployment_loss": 288.492,
+          "mean_labels": 0.0,
+          "mean_switches": 1.0,
+          "mean_rollbacks": 0.0,
+          "budget_violations": 0,
+          "promotion_rate": 0.0,
+          "mean_time_to_promotion": null
+        },
+        "P2": {
+          "mean_cost": 402.7218,
+          "mean_deployment_loss": 391.382,
+          "mean_labels": 149.996,
+          "mean_switches": 0.768,
+          "mean_rollbacks": 0.0,
+          "budget_violations": 0,
+          "promotion_rate": 0.768,
+          "mean_time_to_promotion": 1357.8177083333333
+        },
+        "P3": {
+          "mean_cost": 385.7113,
+          "mean_deployment_loss": 370.722,
+          "mean_labels": 199.786,
+          "mean_switches": 1.0,
+          "mean_rollbacks": 0.0,
+          "budget_violations": 0,
+          "promotion_rate": 1.0,
+          "mean_time_to_promotion": 1391.108
+        },
+        "P3b": {
+          "mean_cost": 288.59929999999997,
+          "mean_deployment_loss": 273.61,
+          "mean_labels": 199.786,
+          "mean_switches": 1.0,
+          "mean_rollbacks": 0.0,
+          "budget_violations": 0,
+          "promotion_rate": 1.0,
+          "mean_time_to_promotion": 855.254
+        },
+        "P5": {
+          "mean_cost": 233.066,
+          "mean_deployment_loss": 228.066,
+          "mean_labels": 0.0,
+          "mean_switches": 1.0,
+          "mean_rollbacks": 0.0,
+          "budget_violations": 0,
+          "promotion_rate": 0.0,
+          "mean_time_to_promotion": null
+        },
+        "paired": {
+          "P3b_minus_BEST": {
+            "mean": -114.12250000000002,
+            "lo": -120.22231749999999,
+            "hi": -108.3413475
+          },
+          "P3b_minus_P3": {
+            "mean": -97.112,
+            "lo": -98.49405,
+            "hi": -95.72975000000001
+          },
+          "P3_minus_BEST": {
+            "mean": -17.010500000000004,
+            "lo": -22.905705000000005,
+            "hi": -11.216092500000002
+          }
+        }
+      },
+      "W2": {
+        "P0": {
+          "mean_cost": 479.982,
+          "mean_deployment_loss": 479.982,
+          "mean_labels": 0.0,
+          "mean_switches": 0.0,
+          "mean_rollbacks": 0.0,
+          "budget_violations": 0,
+          "promotion_rate": 0.0,
+          "mean_time_to_promotion": null,
+          "false_promotion_rate": 0.0,
+          "false_promotion_cp95_upper": 0.005973551516349557,
+          "false_promotion_cp95_lower": 0.0
+        },
+        "P1": {
+          "mean_cost": 614.83,
+          "mean_deployment_loss": 609.83,
+          "mean_labels": 0.0,
+          "mean_switches": 1.0,
+          "mean_rollbacks": 0.0,
+          "budget_violations": 0,
+          "promotion_rate": 0.0,
+          "mean_time_to_promotion": null,
+          "false_promotion_rate": 0.0,
+          "false_promotion_cp95_upper": 0.005973551516349557,
+          "false_promotion_cp95_lower": 0.0
+        },
+        "P2": {
+          "mean_cost": 516.333,
+          "mean_deployment_loss": 505.022,
+          "mean_labels": 149.82,
+          "mean_switches": 0.764,
+          "mean_rollbacks": 0.0,
+          "budget_violations": 0,
+          "promotion_rate": 0.764,
+          "mean_time_to_promotion": 1351.871727748691,
+          "false_promotion_rate": 0.764,
+          "false_promotion_cp95_upper": 0.795014726368573,
+          "false_promotion_cp95_lower": 0.730643308499521
+        },
+        "P3": {
+          "mean_cost": 489.972,
+          "mean_deployment_loss": 479.982,
+          "mean_labels": 199.8,
+          "mean_switches": 0.0,
+          "mean_rollbacks": 0.0,
+          "budget_violations": 0,
+          "promotion_rate": 0.0,
+          "mean_time_to_promotion": null,
+          "false_promotion_rate": 0.0,
+          "false_promotion_cp95_upper": 0.005973551516349557,
+          "false_promotion_cp95_lower": 0.0
+        },
+        "P3b": {
+          "mean_cost": 489.972,
+          "mean_deployment_loss": 479.982,
+          "mean_labels": 199.8,
+          "mean_switches": 0.0,
+          "mean_rollbacks": 0.0,
+          "budget_violations": 0,
+          "promotion_rate": 0.0,
+          "mean_time_to_promotion": null,
+          "false_promotion_rate": 0.0,
+          "false_promotion_cp95_upper": 0.005973551516349557,
+          "false_promotion_cp95_lower": 0.0
+        },
+        "P5": {
+          "mean_cost": 479.982,
+          "mean_deployment_loss": 479.982,
+          "mean_labels": 0.0,
+          "mean_switches": 0.0,
+          "mean_rollbacks": 0.0,
+          "budget_violations": 0,
+          "promotion_rate": 0.0,
+          "mean_time_to_promotion": null,
+          "false_promotion_rate": 0.0,
+          "false_promotion_cp95_upper": 0.005973551516349557,
+          "false_promotion_cp95_lower": 0.0
+        },
+        "paired": {
+          "P3b_minus_BEST": {
+            "mean": -26.361,
+            "lo": -28.296812499999998,
+            "hi": -24.5091275
+          },
+          "P3b_minus_P3": {
+            "mean": 0.0,
+            "lo": 0.0,
+            "hi": 0.0
+          },
+          "P3_minus_BEST": {
+            "mean": -26.361,
+            "lo": -28.296812499999998,
+            "hi": -24.5091275
+          }
+        }
+      },
+      "W3": {
+        "P0": {
+          "mean_cost": 231.084,
+          "mean_deployment_loss": 231.084,
+          "mean_labels": 0.0,
+          "mean_switches": 0.0,
+          "mean_rollbacks": 0.0,
+          "budget_violations": 0,
+          "promotion_rate": 0.0,
+          "mean_time_to_promotion": null
+        },
+        "P1": {
+          "mean_cost": 516.566,
+          "mean_deployment_loss": 511.566,
+          "mean_labels": 0.0,
+          "mean_switches": 1.0,
+          "mean_rollbacks": 0.0,
+          "budget_violations": 0,
+          "promotion_rate": 0.0,
+          "mean_time_to_promotion": null
+        },
+        "P2": {
+          "mean_cost": 246.1965,
+          "mean_deployment_loss": 236.47,
+          "mean_labels": 191.13,
+          "mean_switches": 0.034,
+          "mean_rollbacks": 0.0,
+          "budget_violations": 0,
+          "promotion_rate": 0.034,
+          "mean_time_to_promotion": 984.7647058823529
+        },
+        "P3": {
+          "mean_cost": 241.76,
+          "mean_deployment_loss": 231.74,
+          "mean_labels": 199.8,
+          "mean_switches": 0.006,
+          "mean_rollbacks": 0.0,
+          "budget_violations": 0,
+          "promotion_rate": 0.006,
+          "mean_time_to_promotion": 1274.3333333333333
+        },
+        "P3b": {
+          "mean_cost": 246.242,
+          "mean_deployment_loss": 233.872,
+          "mean_labels": 199.8,
+          "mean_switches": 0.476,
+          "mean_rollbacks": 0.238,
+          "budget_violations": 0,
+          "promotion_rate": 0.238,
+          "mean_time_to_promotion": 805.3361344537815
+        },
+        "P5": {
+          "mean_cost": 213.056,
+          "mean_deployment_loss": 203.056,
+          "mean_labels": 0.0,
+          "mean_switches": 2.0,
+          "mean_rollbacks": 0.0,
+          "budget_violations": 0,
+          "promotion_rate": 0.0,
+          "mean_time_to_promotion": null
+        },
+        "paired": {
+          "P3b_minus_BEST": {
+            "mean": 0.04549999999999807,
+            "lo": -2.9797000000000025,
+            "hi": 2.9827924999999964
+          },
+          "P3b_minus_P3": {
+            "mean": 4.482,
+            "lo": 2.5018,
+            "hi": 6.29805
+          },
+          "P3_minus_BEST": {
+            "mean": -4.436500000000001,
+            "lo": -7.417225000000002,
+            "hi": -1.8607025000000033
+          }
+        }
+      },
+      "W4": {
+        "P0": {
+          "mean_cost": 199.006,
+          "mean_deployment_loss": 199.006,
+          "mean_labels": 0.0,
+          "mean_switches": 0.0,
+          "mean_rollbacks": 0.0,
+          "budget_violations": 0,
+          "promotion_rate": 0.0,
+          "mean_time_to_promotion": null,
+          "false_promotion_rate": 0.0,
+          "false_promotion_cp95_upper": 0.005973551516349557,
+          "false_promotion_cp95_lower": 0.0
+        },
+        "P1": {
+          "mean_cost": 404.73,
+          "mean_deployment_loss": 399.73,
+          "mean_labels": 0.0,
+          "mean_switches": 1.0,
+          "mean_rollbacks": 0.0,
+          "budget_violations": 0,
+          "promotion_rate": 0.0,
+          "mean_time_to_promotion": null,
+          "false_promotion_rate": 0.0,
+          "false_promotion_cp95_upper": 0.005973551516349557,
+          "false_promotion_cp95_lower": 0.0
+        },
+        "P2": {
+          "mean_cost": 208.7274,
+          "mean_deployment_loss": 199.006,
+          "mean_labels": 194.428,
+          "mean_switches": 0.0,
+          "mean_rollbacks": 0.0,
+          "budget_violations": 0,
+          "promotion_rate": 0.0,
+          "mean_time_to_promotion": null,
+          "false_promotion_rate": 0.0,
+          "false_promotion_cp95_upper": 0.005973551516349557,
+          "false_promotion_cp95_lower": 0.0
+        },
+        "P3": {
+          "mean_cost": 208.9956,
+          "mean_deployment_loss": 199.006,
+          "mean_labels": 199.792,
+          "mean_switches": 0.0,
+          "mean_rollbacks": 0.0,
+          "budget_violations": 0,
+          "promotion_rate": 0.0,
+          "mean_time_to_promotion": null,
+          "false_promotion_rate": 0.0,
+          "false_promotion_cp95_upper": 0.005973551516349557,
+          "false_promotion_cp95_lower": 0.0
+        },
+        "P3b": {
+          "mean_cost": 208.9956,
+          "mean_deployment_loss": 199.006,
+          "mean_labels": 199.792,
+          "mean_switches": 0.0,
+          "mean_rollbacks": 0.0,
+          "budget_violations": 0,
+          "promotion_rate": 0.0,
+          "mean_time_to_promotion": null,
+          "false_promotion_rate": 0.0,
+          "false_promotion_cp95_upper": 0.005973551516349557,
+          "false_promotion_cp95_lower": 0.0
+        },
+        "P5": {
+          "mean_cost": 199.006,
+          "mean_deployment_loss": 199.006,
+          "mean_labels": 0.0,
+          "mean_switches": 0.0,
+          "mean_rollbacks": 0.0,
+          "budget_violations": 0,
+          "promotion_rate": 0.0,
+          "mean_time_to_promotion": null,
+          "false_promotion_rate": 0.0,
+          "false_promotion_cp95_upper": 0.005973551516349557,
+          "false_promotion_cp95_lower": 0.0
+        },
+        "paired": {
+          "P3b_minus_BEST": {
+            "mean": 0.2681999999999993,
+            "lo": 0.2316999999999996,
+            "hi": 0.3054224999999996
+          },
+          "P3b_minus_P3": {
+            "mean": 0.0,
+            "lo": 0.0,
+            "hi": 0.0
+          },
+          "P3_minus_BEST": {
+            "mean": 0.2681999999999993,
+            "lo": 0.2316999999999996,
+            "hi": 0.3054224999999996
+          }
+        }
+      }
+    },
+    "B200_cs20": {
+      "W1": {
+        "P0": {
+          "mean_cost": 479.944,
+          "mean_deployment_loss": 479.944,
+          "mean_labels": 0.0,
+          "mean_switches": 0.0,
+          "mean_rollbacks": 0.0,
+          "budget_violations": 0,
+          "promotion_rate": 0.0,
+          "mean_time_to_promotion": null
+        },
+        "P1": {
+          "mean_cost": 308.492,
+          "mean_deployment_loss": 288.492,
+          "mean_labels": 0.0,
+          "mean_switches": 1.0,
+          "mean_rollbacks": 0.0,
+          "budget_violations": 0,
+          "promotion_rate": 0.0,
+          "mean_time_to_promotion": null
+        },
+        "P2": {
+          "mean_cost": 414.24180000000007,
+          "mean_deployment_loss": 391.382,
+          "mean_labels": 149.996,
+          "mean_switches": 0.768,
+          "mean_rollbacks": 0.0,
+          "budget_violations": 0,
+          "promotion_rate": 0.768,
+          "mean_time_to_promotion": 1357.8177083333333
+        },
+        "P3": {
+          "mean_cost": 400.7113,
+          "mean_deployment_loss": 370.722,
+          "mean_labels": 199.786,
+          "mean_switches": 1.0,
+          "mean_rollbacks": 0.0,
+          "budget_violations": 0,
+          "promotion_rate": 1.0,
+          "mean_time_to_promotion": 1391.108
+        },
+        "P3b": {
+          "mean_cost": 303.59929999999997,
+          "mean_deployment_loss": 273.61,
+          "mean_labels": 199.786,
+          "mean_switches": 1.0,
+          "mean_rollbacks": 0.0,
+          "budget_violations": 0,
+          "promotion_rate": 1.0,
+          "mean_time_to_promotion": 855.254
+        },
+        "P5": {
+          "mean_cost": 248.066,
+          "mean_deployment_loss": 228.066,
+          "mean_labels": 0.0,
+          "mean_switches": 1.0,
+          "mean_rollbacks": 0.0,
+          "budget_violations": 0,
+          "promotion_rate": 0.0,
+          "mean_time_to_promotion": null
+        },
+        "paired": {
+          "P3b_minus_BEST": {
+            "mean": -176.34470000000002,
+            "lo": -178.1868875,
+            "hi": -174.42935749999998
+          },
+          "P3b_minus_P3": {
+            "mean": -97.112,
+            "lo": -98.49405,
+            "hi": -95.72975000000001
+          },
+          "P3_minus_BEST": {
+            "mean": -79.2327,
+            "lo": -81.36375000000001,
+            "hi": -77.14110000000001
+          }
+        }
+      },
+      "W2": {
+        "P0": {
+          "mean_cost": 479.982,
+          "mean_deployment_loss": 479.982,
+          "mean_labels": 0.0,
+          "mean_switches": 0.0,
+          "mean_rollbacks": 0.0,
+          "budget_violations": 0,
+          "promotion_rate": 0.0,
+          "mean_time_to_promotion": null,
+          "false_promotion_rate": 0.0,
+          "false_promotion_cp95_upper": 0.005973551516349557,
+          "false_promotion_cp95_lower": 0.0
+        },
+        "P1": {
+          "mean_cost": 629.83,
+          "mean_deployment_loss": 609.83,
+          "mean_labels": 0.0,
+          "mean_switches": 1.0,
+          "mean_rollbacks": 0.0,
+          "budget_violations": 0,
+          "promotion_rate": 0.0,
+          "mean_time_to_promotion": null,
+          "false_promotion_rate": 0.0,
+          "false_promotion_cp95_upper": 0.005973551516349557,
+          "false_promotion_cp95_lower": 0.0
+        },
+        "P2": {
+          "mean_cost": 527.793,
+          "mean_deployment_loss": 505.022,
+          "mean_labels": 149.82,
+          "mean_switches": 0.764,
+          "mean_rollbacks": 0.0,
+          "budget_violations": 0,
+          "promotion_rate": 0.764,
+          "mean_time_to_promotion": 1351.871727748691,
+          "false_promotion_rate": 0.764,
+          "false_promotion_cp95_upper": 0.795014726368573,
+          "false_promotion_cp95_lower": 0.730643308499521
+        },
+        "P3": {
+          "mean_cost": 489.972,
+          "mean_deployment_loss": 479.982,
+          "mean_labels": 199.8,
+          "mean_switches": 0.0,
+          "mean_rollbacks": 0.0,
+          "budget_violations": 0,
+          "promotion_rate": 0.0,
+          "mean_time_to_promotion": null,
+          "false_promotion_rate": 0.0,
+          "false_promotion_cp95_upper": 0.005973551516349557,
+          "false_promotion_cp95_lower": 0.0
+        },
+        "P3b": {
+          "mean_cost": 489.972,
+          "mean_deployment_loss": 479.982,
+          "mean_labels": 199.8,
+          "mean_switches": 0.0,
+          "mean_rollbacks": 0.0,
+          "budget_violations": 0,
+          "promotion_rate": 0.0,
+          "mean_time_to_promotion": null,
+          "false_promotion_rate": 0.0,
+          "false_promotion_cp95_upper": 0.005973551516349557,
+          "false_promotion_cp95_lower": 0.0
+        },
+        "P5": {
+          "mean_cost": 479.982,
+          "mean_deployment_loss": 479.982,
+          "mean_labels": 0.0,
+          "mean_switches": 0.0,
+          "mean_rollbacks": 0.0,
+          "budget_violations": 0,
+          "promotion_rate": 0.0,
+          "mean_time_to_promotion": null,
+          "false_promotion_rate": 0.0,
+          "false_promotion_cp95_upper": 0.005973551516349557,
+          "false_promotion_cp95_lower": 0.0
+        },
+        "paired": {
+          "P3b_minus_BEST": {
+            "mean": 9.989999999999998,
+            "lo": 9.987697499999996,
+            "hi": 9.992199999999999
+          },
+          "P3b_minus_P3": {
+            "mean": 0.0,
+            "lo": 0.0,
+            "hi": 0.0
+          },
+          "P3_minus_BEST": {
+            "mean": 9.989999999999998,
+            "lo": 9.987697499999996,
+            "hi": 9.992199999999999
+          }
+        }
+      },
+      "W3": {
+        "P0": {
+          "mean_cost": 231.084,
+          "mean_deployment_loss": 231.084,
+          "mean_labels": 0.0,
+          "mean_switches": 0.0,
+          "mean_rollbacks": 0.0,
+          "budget_violations": 0,
+          "promotion_rate": 0.0,
+          "mean_time_to_promotion": null
+        },
+        "P1": {
+          "mean_cost": 531.566,
+          "mean_deployment_loss": 511.566,
+          "mean_labels": 0.0,
+          "mean_switches": 1.0,
+          "mean_rollbacks": 0.0,
+          "budget_violations": 0,
+          "promotion_rate": 0.0,
+          "mean_time_to_promotion": null
+        },
+        "P2": {
+          "mean_cost": 246.7065,
+          "mean_deployment_loss": 236.47,
+          "mean_labels": 191.13,
+          "mean_switches": 0.034,
+          "mean_rollbacks": 0.0,
+          "budget_violations": 0,
+          "promotion_rate": 0.034,
+          "mean_time_to_promotion": 984.7647058823529
+        },
+        "P3": {
+          "mean_cost": 241.85,
+          "mean_deployment_loss": 231.74,
+          "mean_labels": 199.8,
+          "mean_switches": 0.006,
+          "mean_rollbacks": 0.0,
+          "budget_violations": 0,
+          "promotion_rate": 0.006,
+          "mean_time_to_promotion": 1274.3333333333333
+        },
+        "P3b": {
+          "mean_cost": 253.382,
+          "mean_deployment_loss": 233.872,
+          "mean_labels": 199.8,
+          "mean_switches": 0.476,
+          "mean_rollbacks": 0.238,
+          "budget_violations": 0,
+          "promotion_rate": 0.238,
+          "mean_time_to_promotion": 805.3361344537815
+        },
+        "P5": {
+          "mean_cost": 243.056,
+          "mean_deployment_loss": 203.056,
+          "mean_labels": 0.0,
+          "mean_switches": 2.0,
+          "mean_rollbacks": 0.0,
+          "budget_violations": 0,
+          "promotion_rate": 0.0,
+          "mean_time_to_promotion": null
+        },
+        "paired": {
+          "P3b_minus_BEST": {
+            "mean": 22.298,
+            "lo": 19.921587499999998,
+            "hi": 24.744099999999996
+          },
+          "P3b_minus_P3": {
+            "mean": 11.532,
+            "lo": 8.897499999999999,
+            "hi": 14.20825
+          },
+          "P3_minus_BEST": {
+            "mean": 10.765999999999998,
+            "lo": 9.989997499999996,
+            "hi": 11.792539999999999
+          }
+        }
+      },
+      "W4": {
+        "P0": {
+          "mean_cost": 199.006,
+          "mean_deployment_loss": 199.006,
+          "mean_labels": 0.0,
+          "mean_switches": 0.0,
+          "mean_rollbacks": 0.0,
+          "budget_violations": 0,
+          "promotion_rate": 0.0,
+          "mean_time_to_promotion": null,
+          "false_promotion_rate": 0.0,
+          "false_promotion_cp95_upper": 0.005973551516349557,
+          "false_promotion_cp95_lower": 0.0
+        },
+        "P1": {
+          "mean_cost": 419.73,
+          "mean_deployment_loss": 399.73,
+          "mean_labels": 0.0,
+          "mean_switches": 1.0,
+          "mean_rollbacks": 0.0,
+          "budget_violations": 0,
+          "promotion_rate": 0.0,
+          "mean_time_to_promotion": null,
+          "false_promotion_rate": 0.0,
+          "false_promotion_cp95_upper": 0.005973551516349557,
+          "false_promotion_cp95_lower": 0.0
+        },
+        "P2": {
+          "mean_cost": 208.7274,
+          "mean_deployment_loss": 199.006,
+          "mean_labels": 194.428,
+          "mean_switches": 0.0,
+          "mean_rollbacks": 0.0,
+          "budget_violations": 0,
+          "promotion_rate": 0.0,
+          "mean_time_to_promotion": null,
+          "false_promotion_rate": 0.0,
+          "false_promotion_cp95_upper": 0.005973551516349557,
+          "false_promotion_cp95_lower": 0.0
+        },
+        "P3": {
+          "mean_cost": 208.9956,
+          "mean_deployment_loss": 199.006,
+          "mean_labels": 199.792,
+          "mean_switches": 0.0,
+          "mean_rollbacks": 0.0,
+          "budget_violations": 0,
+          "promotion_rate": 0.0,
+          "mean_time_to_promotion": null,
+          "false_promotion_rate": 0.0,
+          "false_promotion_cp95_upper": 0.005973551516349557,
+          "false_promotion_cp95_lower": 0.0
+        },
+        "P3b": {
+          "mean_cost": 208.9956,
+          "mean_deployment_loss": 199.006,
+          "mean_labels": 199.792,
+          "mean_switches": 0.0,
+          "mean_rollbacks": 0.0,
+          "budget_violations": 0,
+          "promotion_rate": 0.0,
+          "mean_time_to_promotion": null,
+          "false_promotion_rate": 0.0,
+          "false_promotion_cp95_upper": 0.005973551516349557,
+          "false_promotion_cp95_lower": 0.0
+        },
+        "P5": {
+          "mean_cost": 199.006,
+          "mean_deployment_loss": 199.006,
+          "mean_labels": 0.0,
+          "mean_switches": 0.0,
+          "mean_rollbacks": 0.0,
+          "budget_violations": 0,
+          "promotion_rate": 0.0,
+          "mean_time_to_promotion": null,
+          "false_promotion_rate": 0.0,
+          "false_promotion_cp95_upper": 0.005973551516349557,
+          "false_promotion_cp95_lower": 0.0
+        },
+        "paired": {
+          "P3b_minus_BEST": {
+            "mean": 9.9896,
+            "lo": 9.9872,
+            "hi": 9.991899999999998
+          },
+          "P3b_minus_P3": {
+            "mean": 0.0,
+            "lo": 0.0,
+            "hi": 0.0
+          },
+          "P3_minus_BEST": {
+            "mean": 9.9896,
+            "lo": 9.9872,
+            "hi": 9.991899999999998
+          }
+        }
+      }
+    },
+    "B400_cs5": {
+      "W1": {
+        "P0": {
+          "mean_cost": 479.944,
+          "mean_deployment_loss": 479.944,
+          "mean_labels": 0.0,
+          "mean_switches": 0.0,
+          "mean_rollbacks": 0.0,
+          "budget_violations": 0,
+          "promotion_rate": 0.0,
+          "mean_time_to_promotion": null
+        },
+        "P1": {
+          "mean_cost": 293.492,
+          "mean_deployment_loss": 288.492,
+          "mean_labels": 0.0,
+          "mean_switches": 1.0,
+          "mean_rollbacks": 0.0,
+          "budget_violations": 0,
+          "promotion_rate": 0.0,
+          "mean_time_to_promotion": null
+        },
+        "P2": {
+          "mean_cost": 339.9088,
+          "mean_deployment_loss": 323.612,
+          "mean_labels": 226.336,
+          "mean_switches": 0.996,
+          "mean_rollbacks": 0.0,
+          "budget_violations": 0,
+          "promotion_rate": 0.996,
+          "mean_time_to_promotion": 1128.7650602409637
+        },
+        "P3": {
+          "mean_cost": 388.419,
+          "mean_deployment_loss": 363.48,
+          "mean_labels": 398.78,
+          "mean_switches": 1.0,
+          "mean_rollbacks": 0.0,
+          "budget_violations": 0,
+          "promotion_rate": 1.0,
+          "mean_time_to_promotion": 1351.1
+        },
+        "P3b": {
+          "mean_cost": 285.399,
+          "mean_deployment_loss": 260.46,
+          "mean_labels": 398.78,
+          "mean_switches": 1.0,
+          "mean_rollbacks": 0.0,
+          "budget_violations": 0,
+          "promotion_rate": 1.0,
+          "mean_time_to_promotion": 781.066
+        },
+        "P5": {
+          "mean_cost": 233.066,
+          "mean_deployment_loss": 228.066,
+          "mean_labels": 0.0,
+          "mean_switches": 1.0,
+          "mean_rollbacks": 0.0,
+          "budget_violations": 0,
+          "promotion_rate": 0.0,
+          "mean_time_to_promotion": null
+        },
+        "paired": {
+          "P3b_minus_BEST": {
+            "mean": -54.509800000000006,
+            "lo": -58.810607499999996,
+            "hi": -50.4767625
+          },
+          "P3b_minus_P3": {
+            "mean": -103.02,
+            "lo": -103.594,
+            "hi": -102.458
+          },
+          "P3_minus_BEST": {
+            "mean": 48.5102,
+            "lo": 44.3034525,
+            "hi": 52.489664999999995
+          }
+        }
+      },
+      "W2": {
+        "P0": {
+          "mean_cost": 479.982,
+          "mean_deployment_loss": 479.982,
+          "mean_labels": 0.0,
+          "mean_switches": 0.0,
+          "mean_rollbacks": 0.0,
+          "budget_violations": 0,
+          "promotion_rate": 0.0,
+          "mean_time_to_promotion": null,
+          "false_promotion_rate": 0.0,
+          "false_promotion_cp95_upper": 0.005973551516349557,
+          "false_promotion_cp95_lower": 0.0
+        },
+        "P1": {
+          "mean_cost": 614.83,
+          "mean_deployment_loss": 609.83,
+          "mean_labels": 0.0,
+          "mean_switches": 1.0,
+          "mean_rollbacks": 0.0,
+          "budget_violations": 0,
+          "promotion_rate": 0.0,
+          "mean_time_to_promotion": null,
+          "false_promotion_rate": 0.0,
+          "false_promotion_cp95_upper": 0.005973551516349557,
+          "false_promotion_cp95_lower": 0.0
+        },
+        "P2": {
+          "mean_cost": 540.3445,
+          "mean_deployment_loss": 524.122,
+          "mean_labels": 225.45,
+          "mean_switches": 0.99,
+          "mean_rollbacks": 0.0,
+          "budget_violations": 0,
+          "promotion_rate": 0.99,
+          "mean_time_to_promotion": 1119.3151515151515,
+          "false_promotion_rate": 0.99,
+          "false_promotion_cp95_upper": 0.9960516704108233,
+          "false_promotion_cp95_lower": 0.9790896770577329
+        },
+        "P3": {
+          "mean_cost": 499.9181,
+          "mean_deployment_loss": 479.982,
+          "mean_labels": 398.722,
+          "mean_switches": 0.0,
+          "mean_rollbacks": 0.0,
+          "budget_violations": 0,
+          "promotion_rate": 0.0,
+          "mean_time_to_promotion": null,
+          "false_promotion_rate": 0.0,
+          "false_promotion_cp95_upper": 0.005973551516349557,
+          "false_promotion_cp95_lower": 0.0
+        },
+        "P3b": {
+          "mean_cost": 499.9181,
+          "mean_deployment_loss": 479.982,
+          "mean_labels": 398.722,
+          "mean_switches": 0.0,
+          "mean_rollbacks": 0.0,
+          "budget_violations": 0,
+          "promotion_rate": 0.0,
+          "mean_time_to_promotion": null,
+          "false_promotion_rate": 0.0,
+          "false_promotion_cp95_upper": 0.005973551516349557,
+          "false_promotion_cp95_lower": 0.0
+        },
+        "P5": {
+          "mean_cost": 479.982,
+          "mean_deployment_loss": 479.982,
+          "mean_labels": 0.0,
+          "mean_switches": 0.0,
+          "mean_rollbacks": 0.0,
+          "budget_violations": 0,
+          "promotion_rate": 0.0,
+          "mean_time_to_promotion": null,
+          "false_promotion_rate": 0.0,
+          "false_promotion_cp95_upper": 0.005973551516349557,
+          "false_promotion_cp95_lower": 0.0
+        },
+        "paired": {
+          "P3b_minus_BEST": {
+            "mean": -40.426399999999994,
+            "lo": -41.973749999999995,
+            "hi": -38.9179275
+          },
+          "P3b_minus_P3": {
+            "mean": 0.0,
+            "lo": 0.0,
+            "hi": 0.0
+          },
+          "P3_minus_BEST": {
+            "mean": -40.426399999999994,
+            "lo": -41.973749999999995,
+            "hi": -38.9179275
+          }
+        }
+      },
+      "W3": {
+        "P0": {
+          "mean_cost": 231.084,
+          "mean_deployment_loss": 231.084,
+          "mean_labels": 0.0,
+          "mean_switches": 0.0,
+          "mean_rollbacks": 0.0,
+          "budget_violations": 0,
+          "promotion_rate": 0.0,
+          "mean_time_to_promotion": null
+        },
+        "P1": {
+          "mean_cost": 516.566,
+          "mean_deployment_loss": 511.566,
+          "mean_labels": 0.0,
+          "mean_switches": 1.0,
+          "mean_rollbacks": 0.0,
+          "budget_violations": 0,
+          "promotion_rate": 0.0,
+          "mean_time_to_promotion": null
+        },
+        "P2": {
+          "mean_cost": 267.45810000000006,
+          "mean_deployment_loss": 248.41,
+          "mean_labels": 370.362,
+          "mean_switches": 0.106,
+          "mean_rollbacks": 0.0,
+          "budget_violations": 0,
+          "promotion_rate": 0.106,
+          "mean_time_to_promotion": 915.7169811320755
+        },
+        "P3": {
+          "mean_cost": 252.357,
+          "mean_deployment_loss": 232.324,
+          "mean_labels": 398.86,
+          "mean_switches": 0.018,
+          "mean_rollbacks": 0.006,
+          "budget_violations": 0,
+          "promotion_rate": 0.012,
+          "mean_time_to_promotion": 1276.1666666666667
+        },
+        "P3b": {
+          "mean_cost": 254.43700000000004,
+          "mean_deployment_loss": 231.274,
+          "mean_labels": 398.86,
+          "mean_switches": 0.644,
+          "mean_rollbacks": 0.322,
+          "budget_violations": 0,
+          "promotion_rate": 0.322,
+          "mean_time_to_promotion": 764.0993788819876
+        },
+        "P5": {
+          "mean_cost": 213.056,
+          "mean_deployment_loss": 203.056,
+          "mean_labels": 0.0,
+          "mean_switches": 2.0,
+          "mean_rollbacks": 0.0,
+          "budget_violations": 0,
+          "promotion_rate": 0.0,
+          "mean_time_to_promotion": null
+        },
+        "paired": {
+          "P3b_minus_BEST": {
+            "mean": -13.0211,
+            "lo": -17.806625000000004,
+            "hi": -8.291650000000006
+          },
+          "P3b_minus_P3": {
+            "mean": 2.08,
+            "lo": -0.25410000000000005,
+            "hi": 4.108449999999997
+          },
+          "P3_minus_BEST": {
+            "mean": -15.1011,
+            "lo": -19.7347925,
+            "hi": -10.599842500000003
+          }
+        }
+      },
+      "W4": {
+        "P0": {
+          "mean_cost": 199.006,
+          "mean_deployment_loss": 199.006,
+          "mean_labels": 0.0,
+          "mean_switches": 0.0,
+          "mean_rollbacks": 0.0,
+          "budget_violations": 0,
+          "promotion_rate": 0.0,
+          "mean_time_to_promotion": null,
+          "false_promotion_rate": 0.0,
+          "false_promotion_cp95_upper": 0.005973551516349557,
+          "false_promotion_cp95_lower": 0.0
+        },
+        "P1": {
+          "mean_cost": 404.73,
+          "mean_deployment_loss": 399.73,
+          "mean_labels": 0.0,
+          "mean_switches": 1.0,
+          "mean_rollbacks": 0.0,
+          "budget_violations": 0,
+          "promotion_rate": 0.0,
+          "mean_time_to_promotion": null,
+          "false_promotion_rate": 0.0,
+          "false_promotion_cp95_upper": 0.005973551516349557,
+          "false_promotion_cp95_lower": 0.0
+        },
+        "P2": {
+          "mean_cost": 218.61870000000002,
+          "mean_deployment_loss": 199.006,
+          "mean_labels": 392.254,
+          "mean_switches": 0.0,
+          "mean_rollbacks": 0.0,
+          "budget_violations": 0,
+          "promotion_rate": 0.0,
+          "mean_time_to_promotion": null,
+          "false_promotion_rate": 0.0,
+          "false_promotion_cp95_upper": 0.005973551516349557,
+          "false_promotion_cp95_lower": 0.0
+        },
+        "P3": {
+          "mean_cost": 218.95149999999998,
+          "mean_deployment_loss": 199.006,
+          "mean_labels": 398.91,
+          "mean_switches": 0.0,
+          "mean_rollbacks": 0.0,
+          "budget_violations": 0,
+          "promotion_rate": 0.0,
+          "mean_time_to_promotion": null,
+          "false_promotion_rate": 0.0,
+          "false_promotion_cp95_upper": 0.005973551516349557,
+          "false_promotion_cp95_lower": 0.0
+        },
+        "P3b": {
+          "mean_cost": 218.95149999999998,
+          "mean_deployment_loss": 199.006,
+          "mean_labels": 398.91,
+          "mean_switches": 0.0,
+          "mean_rollbacks": 0.0,
+          "budget_violations": 0,
+          "promotion_rate": 0.0,
+          "mean_time_to_promotion": null,
+          "false_promotion_rate": 0.0,
+          "false_promotion_cp95_upper": 0.005973551516349557,
+          "false_promotion_cp95_lower": 0.0
+        },
+        "P5": {
+          "mean_cost": 199.006,
+          "mean_deployment_loss": 199.006,
+          "mean_labels": 0.0,
+          "mean_switches": 0.0,
+          "mean_rollbacks": 0.0,
+          "budget_violations": 0,
+          "promotion_rate": 0.0,
+          "mean_time_to_promotion": null,
+          "false_promotion_rate": 0.0,
+          "false_promotion_cp95_upper": 0.005973551516349557,
+          "false_promotion_cp95_lower": 0.0
+        },
+        "paired": {
+          "P3b_minus_BEST": {
+            "mean": 0.3327999999999985,
+            "lo": 0.2864949999999983,
+            "hi": 0.382507499999999
+          },
+          "P3b_minus_P3": {
+            "mean": 0.0,
+            "lo": 0.0,
+            "hi": 0.0
+          },
+          "P3_minus_BEST": {
+            "mean": 0.3327999999999985,
+            "lo": 0.2864949999999983,
+            "hi": 0.382507499999999
+          }
+        }
+      }
+    },
+    "B400_cs20": {
+      "W1": {
+        "P0": {
+          "mean_cost": 479.944,
+          "mean_deployment_loss": 479.944,
+          "mean_labels": 0.0,
+          "mean_switches": 0.0,
+          "mean_rollbacks": 0.0,
+          "budget_violations": 0,
+          "promotion_rate": 0.0,
+          "mean_time_to_promotion": null
+        },
+        "P1": {
+          "mean_cost": 308.492,
+          "mean_deployment_loss": 288.492,
+          "mean_labels": 0.0,
+          "mean_switches": 1.0,
+          "mean_rollbacks": 0.0,
+          "budget_violations": 0,
+          "promotion_rate": 0.0,
+          "mean_time_to_promotion": null
+        },
+        "P2": {
+          "mean_cost": 354.8488,
+          "mean_deployment_loss": 323.612,
+          "mean_labels": 226.336,
+          "mean_switches": 0.996,
+          "mean_rollbacks": 0.0,
+          "budget_violations": 0,
+          "promotion_rate": 0.996,
+          "mean_time_to_promotion": 1128.7650602409637
+        },
+        "P3": {
+          "mean_cost": 403.419,
+          "mean_deployment_loss": 363.48,
+          "mean_labels": 398.78,
+          "mean_switches": 1.0,
+          "mean_rollbacks": 0.0,
+          "budget_violations": 0,
+          "promotion_rate": 1.0,
+          "mean_time_to_promotion": 1351.1
+        },
+        "P3b": {
+          "mean_cost": 300.399,
+          "mean_deployment_loss": 260.46,
+          "mean_labels": 398.78,
+          "mean_switches": 1.0,
+          "mean_rollbacks": 0.0,
+          "budget_violations": 0,
+          "promotion_rate": 1.0,
+          "mean_time_to_promotion": 781.066
+        },
+        "P5": {
+          "mean_cost": 248.066,
+          "mean_deployment_loss": 228.066,
+          "mean_labels": 0.0,
+          "mean_switches": 1.0,
+          "mean_rollbacks": 0.0,
+          "budget_violations": 0,
+          "promotion_rate": 0.0,
+          "mean_time_to_promotion": null
+        },
+        "paired": {
+          "P3b_minus_BEST": {
+            "mean": -179.545,
+            "lo": -181.09221000000002,
+            "hi": -177.9586875
+          },
+          "P3b_minus_P3": {
+            "mean": -103.02,
+            "lo": -103.594,
+            "hi": -102.458
+          },
+          "P3_minus_BEST": {
+            "mean": -76.525,
+            "lo": -78.090355,
+            "hi": -74.92123000000001
+          }
+        }
+      },
+      "W2": {
+        "P0": {
+          "mean_cost": 479.982,
+          "mean_deployment_loss": 479.982,
+          "mean_labels": 0.0,
+          "mean_switches": 0.0,
+          "mean_rollbacks": 0.0,
+          "budget_violations": 0,
+          "promotion_rate": 0.0,
+          "mean_time_to_promotion": null,
+          "false_promotion_rate": 0.0,
+          "false_promotion_cp95_upper": 0.005973551516349557,
+          "false_promotion_cp95_lower": 0.0
+        },
+        "P1": {
+          "mean_cost": 629.83,
+          "mean_deployment_loss": 609.83,
+          "mean_labels": 0.0,
+          "mean_switches": 1.0,
+          "mean_rollbacks": 0.0,
+          "budget_violations": 0,
+          "promotion_rate": 0.0,
+          "mean_time_to_promotion": null,
+          "false_promotion_rate": 0.0,
+          "false_promotion_cp95_upper": 0.005973551516349557,
+          "false_promotion_cp95_lower": 0.0
+        },
+        "P2": {
+          "mean_cost": 555.1945,
+          "mean_deployment_loss": 524.122,
+          "mean_labels": 225.45,
+          "mean_switches": 0.99,
+          "mean_rollbacks": 0.0,
+          "budget_violations": 0,
+          "promotion_rate": 0.99,
+          "mean_time_to_promotion": 1119.3151515151515,
+          "false_promotion_rate": 0.99,
+          "false_promotion_cp95_upper": 0.9960516704108233,
+          "false_promotion_cp95_lower": 0.9790896770577329
+        },
+        "P3": {
+          "mean_cost": 499.9181,
+          "mean_deployment_loss": 479.982,
+          "mean_labels": 398.722,
+          "mean_switches": 0.0,
+          "mean_rollbacks": 0.0,
+          "budget_violations": 0,
+          "promotion_rate": 0.0,
+          "mean_time_to_promotion": null,
+          "false_promotion_rate": 0.0,
+          "false_promotion_cp95_upper": 0.005973551516349557,
+          "false_promotion_cp95_lower": 0.0
+        },
+        "P3b": {
+          "mean_cost": 499.9181,
+          "mean_deployment_loss": 479.982,
+          "mean_labels": 398.722,
+          "mean_switches": 0.0,
+          "mean_rollbacks": 0.0,
+          "budget_violations": 0,
+          "promotion_rate": 0.0,
+          "mean_time_to_promotion": null,
+          "false_promotion_rate": 0.0,
+          "false_promotion_cp95_upper": 0.005973551516349557,
+          "false_promotion_cp95_lower": 0.0
+        },
+        "P5": {
+          "mean_cost": 479.982,
+          "mean_deployment_loss": 479.982,
+          "mean_labels": 0.0,
+          "mean_switches": 0.0,
+          "mean_rollbacks": 0.0,
+          "budget_violations": 0,
+          "promotion_rate": 0.0,
+          "mean_time_to_promotion": null,
+          "false_promotion_rate": 0.0,
+          "false_promotion_cp95_upper": 0.005973551516349557,
+          "false_promotion_cp95_lower": 0.0
+        },
+        "paired": {
+          "P3b_minus_BEST": {
+            "mean": 19.9361,
+            "lo": 19.9258,
+            "hi": 19.946
+          },
+          "P3b_minus_P3": {
+            "mean": 0.0,
+            "lo": 0.0,
+            "hi": 0.0
+          },
+          "P3_minus_BEST": {
+            "mean": 19.9361,
+            "lo": 19.9258,
+            "hi": 19.946
+          }
+        }
+      },
+      "W3": {
+        "P0": {
+          "mean_cost": 231.084,
+          "mean_deployment_loss": 231.084,
+          "mean_labels": 0.0,
+          "mean_switches": 0.0,
+          "mean_rollbacks": 0.0,
+          "budget_violations": 0,
+          "promotion_rate": 0.0,
+          "mean_time_to_promotion": null
+        },
+        "P1": {
+          "mean_cost": 531.566,
+          "mean_deployment_loss": 511.566,
+          "mean_labels": 0.0,
+          "mean_switches": 1.0,
+          "mean_rollbacks": 0.0,
+          "budget_violations": 0,
+          "promotion_rate": 0.0,
+          "mean_time_to_promotion": null
+        },
+        "P2": {
+          "mean_cost": 269.04810000000003,
+          "mean_deployment_loss": 248.41,
+          "mean_labels": 370.362,
+          "mean_switches": 0.106,
+          "mean_rollbacks": 0.0,
+          "budget_violations": 0,
+          "promotion_rate": 0.106,
+          "mean_time_to_promotion": 915.7169811320755
+        },
+        "P3": {
+          "mean_cost": 252.627,
+          "mean_deployment_loss": 232.324,
+          "mean_labels": 398.86,
+          "mean_switches": 0.018,
+          "mean_rollbacks": 0.006,
+          "budget_violations": 0,
+          "promotion_rate": 0.012,
+          "mean_time_to_promotion": 1276.1666666666667
+        },
+        "P3b": {
+          "mean_cost": 264.097,
+          "mean_deployment_loss": 231.274,
+          "mean_labels": 398.86,
+          "mean_switches": 0.644,
+          "mean_rollbacks": 0.322,
+          "budget_violations": 0,
+          "promotion_rate": 0.322,
+          "mean_time_to_promotion": 764.0993788819876
+        },
+        "P5": {
+          "mean_cost": 243.056,
+          "mean_deployment_loss": 203.056,
+          "mean_labels": 0.0,
+          "mean_switches": 2.0,
+          "mean_rollbacks": 0.0,
+          "budget_violations": 0,
+          "promotion_rate": 0.0,
+          "mean_time_to_promotion": null
+        },
+        "paired": {
+          "P3b_minus_BEST": {
+            "mean": 33.013,
+            "lo": 30.798129999999997,
+            "hi": 35.30193
+          },
+          "P3b_minus_P3": {
+            "mean": 11.47,
+            "lo": 8.5855,
+            "hi": 14.30005
+          },
+          "P3_minus_BEST": {
+            "mean": 21.543,
+            "lo": 20.391644999999997,
+            "hi": 23.00632
+          }
+        }
+      },
+      "W4": {
+        "P0": {
+          "mean_cost": 199.006,
+          "mean_deployment_loss": 199.006,
+          "mean_labels": 0.0,
+          "mean_switches": 0.0,
+          "mean_rollbacks": 0.0,
+          "budget_violations": 0,
+          "promotion_rate": 0.0,
+          "mean_time_to_promotion": null,
+          "false_promotion_rate": 0.0,
+          "false_promotion_cp95_upper": 0.005973551516349557,
+          "false_promotion_cp95_lower": 0.0
+        },
+        "P1": {
+          "mean_cost": 419.73,
+          "mean_deployment_loss": 399.73,
+          "mean_labels": 0.0,
+          "mean_switches": 1.0,
+          "mean_rollbacks": 0.0,
+          "budget_violations": 0,
+          "promotion_rate": 0.0,
+          "mean_time_to_promotion": null,
+          "false_promotion_rate": 0.0,
+          "false_promotion_cp95_upper": 0.005973551516349557,
+          "false_promotion_cp95_lower": 0.0
+        },
+        "P2": {
+          "mean_cost": 218.61870000000002,
+          "mean_deployment_loss": 199.006,
+          "mean_labels": 392.254,
+          "mean_switches": 0.0,
+          "mean_rollbacks": 0.0,
+          "budget_violations": 0,
+          "promotion_rate": 0.0,
+          "mean_time_to_promotion": null,
+          "false_promotion_rate": 0.0,
+          "false_promotion_cp95_upper": 0.005973551516349557,
+          "false_promotion_cp95_lower": 0.0
+        },
+        "P3": {
+          "mean_cost": 218.95149999999998,
+          "mean_deployment_loss": 199.006,
+          "mean_labels": 398.91,
+          "mean_switches": 0.0,
+          "mean_rollbacks": 0.0,
+          "budget_violations": 0,
+          "promotion_rate": 0.0,
+          "mean_time_to_promotion": null,
+          "false_promotion_rate": 0.0,
+          "false_promotion_cp95_upper": 0.005973551516349557,
+          "false_promotion_cp95_lower": 0.0
+        },
+        "P3b": {
+          "mean_cost": 218.95149999999998,
+          "mean_deployment_loss": 199.006,
+          "mean_labels": 398.91,
+          "mean_switches": 0.0,
+          "mean_rollbacks": 0.0,
+          "budget_violations": 0,
+          "promotion_rate": 0.0,
+          "mean_time_to_promotion": null,
+          "false_promotion_rate": 0.0,
+          "false_promotion_cp95_upper": 0.005973551516349557,
+          "false_promotion_cp95_lower": 0.0
+        },
+        "P5": {
+          "mean_cost": 199.006,
+          "mean_deployment_loss": 199.006,
+          "mean_labels": 0.0,
+          "mean_switches": 0.0,
+          "mean_rollbacks": 0.0,
+          "budget_violations": 0,
+          "promotion_rate": 0.0,
+          "mean_time_to_promotion": null,
+          "false_promotion_rate": 0.0,
+          "false_promotion_cp95_upper": 0.005973551516349557,
+          "false_promotion_cp95_lower": 0.0
+        },
+        "paired": {
+          "P3b_minus_BEST": {
+            "mean": 19.9455,
+            "lo": 19.9367,
+            "hi": 19.953599999999998
+          },
+          "P3b_minus_P3": {
+            "mean": 0.0,
+            "lo": 0.0,
+            "hi": 0.0
+          },
+          "P3_minus_BEST": {
+            "mean": 19.9455,
+            "lo": 19.9367,
+            "hi": 19.953599999999998
+          }
+        }
+      }
+    }
+  },
+  "q1_settings": {
+    "B200_cs5": {
+      "best": "P2",
+      "world_avg_cost": {
+        "P0": 347.504,
+        "P1": 457.4045,
+        "P2": 343.49467500000003,
+        "P3": 331.60972499999997,
+        "P3b": 308.452225,
+        "P5": 281.2775
+      },
+      "p3b_minus_best": {
+        "mean": -35.042449999999995,
+        "lo": -36.80917375,
+        "hi": -33.39690437499999
+      },
+      "p3b_relative_reduction": 0.10201744757760808,
+      "p3b_worse_than_best_by_world": {
+        "W1": -0.2833780043692693,
+        "W2": -0.0510542614940358,
+        "W3": 0.00018481172559314807,
+        "W4": 0.0012849295300951802
+      },
+      "p3_relative_reduction": 0.03460009969586882,
+      "pass_10pct": true,
+      "pass_ci_excludes_0": true,
+      "pass_no_world_over_10pct_worse": true,
+      "no_better_than_best": false
+    },
+    "B200_cs20": {
+      "best": "P0",
+      "world_avg_cost": {
+        "P0": 347.504,
+        "P1": 472.4045,
+        "P2": 349.36717500000003,
+        "P3": 335.38222499999995,
+        "P3b": 313.98722499999997,
+        "P5": 292.5275
+      },
+      "p3b_minus_best": {
+        "mean": -33.516774999999996,
+        "lo": -34.250325625,
+        "hi": -32.76217187499999
+      },
+      "p3b_relative_reduction": 0.09645004086283913,
+      "p3b_worse_than_best_by_world": {
+        "W1": -0.36742765822679324,
+        "W2": 0.02081328049801856,
+        "W3": 0.09649305014626708,
+        "W4": 0.05019748148297043
+      },
+      "p3_relative_reduction": 0.0348824042313184,
+      "pass_10pct": false,
+      "pass_ci_excludes_0": true,
+      "pass_no_world_over_10pct_worse": true,
+      "no_better_than_best": false
+    },
+    "B400_cs5": {
+      "best": "P2",
+      "world_avg_cost": {
+        "P0": 347.504,
+        "P1": 457.4045,
+        "P2": 341.582525,
+        "P3": 339.91139999999996,
+        "P3b": 314.67639999999994,
+        "P5": 281.2775
+      },
+      "p3b_minus_best": {
+        "mean": -26.906124999999992,
+        "lo": -28.621204999999996,
+        "hi": -25.299786875
+      },
+      "p3b_relative_reduction": 0.07876903246148213,
+      "p3b_worse_than_best_by_world": {
+        "W1": -0.16036595698610923,
+        "W2": -0.07481597388332828,
+        "W3": -0.04868463508863641,
+        "W4": 0.001522285147610658
+      },
+      "p3_relative_reduction": 0.004892302379930056,
+      "pass_10pct": false,
+      "pass_ci_excludes_0": true,
+      "pass_no_world_over_10pct_worse": true,
+      "no_better_than_best": false
+    },
+    "B400_cs20": {
+      "best": "P0",
+      "world_avg_cost": {
+        "P0": 347.504,
+        "P1": 472.4045,
+        "P2": 349.427525,
+        "P3": 343.72889999999995,
+        "P3b": 320.84139999999996,
+        "P5": 292.5275
+      },
+      "p3b_minus_best": {
+        "mean": -26.662599999999998,
+        "lo": -27.357773749999996,
+        "hi": -25.964155624999997
+      },
+      "p3b_relative_reduction": 0.0767260232975737,
+      "p3b_worse_than_best_by_world": {
+        "W1": -0.37409572783491407,
+        "W2": 0.041535099232887784,
+        "W3": 0.14286147028786056,
+        "W4": 0.10022562133804991
+      },
+      "p3_relative_reduction": 0.01086347207514177,
+      "pass_10pct": false,
+      "pass_ci_excludes_0": true,
+      "pass_no_world_over_10pct_worse": false,
+      "no_better_than_best": false
+    }
+  },
+  "validity_check": {
+    "B200_cs5_W2_P3": {
+      "rate": 0.0,
+      "cp95_upper": 0.005973551516349557,
+      "violation": false
+    },
+    "B200_cs5_W2_P3b": {
+      "rate": 0.0,
+      "cp95_upper": 0.005973551516349557,
+      "violation": false
+    },
+    "B200_cs5_W4_P3": {
+      "rate": 0.0,
+      "cp95_upper": 0.005973551516349557,
+      "violation": false
+    },
+    "B200_cs5_W4_P3b": {
+      "rate": 0.0,
+      "cp95_upper": 0.005973551516349557,
+      "violation": false
+    },
+    "B200_cs20_W2_P3": {
+      "rate": 0.0,
+      "cp95_upper": 0.005973551516349557,
+      "violation": false
+    },
+    "B200_cs20_W2_P3b": {
+      "rate": 0.0,
+      "cp95_upper": 0.005973551516349557,
+      "violation": false
+    },
+    "B200_cs20_W4_P3": {
+      "rate": 0.0,
+      "cp95_upper": 0.005973551516349557,
+      "violation": false
+    },
+    "B200_cs20_W4_P3b": {
+      "rate": 0.0,
+      "cp95_upper": 0.005973551516349557,
+      "violation": false
+    },
+    "B400_cs5_W2_P3": {
+      "rate": 0.0,
+      "cp95_upper": 0.005973551516349557,
+      "violation": false
+    },
+    "B400_cs5_W2_P3b": {
+      "rate": 0.0,
+      "cp95_upper": 0.005973551516349557,
+      "violation": false
+    },
+    "B400_cs5_W4_P3": {
+      "rate": 0.0,
+      "cp95_upper": 0.005973551516349557,
+      "violation": false
+    },
+    "B400_cs5_W4_P3b": {
+      "rate": 0.0,
+      "cp95_upper": 0.005973551516349557,
+      "violation": false
+    },
+    "B400_cs20_W2_P3": {
+      "rate": 0.0,
+      "cp95_upper": 0.005973551516349557,
+      "violation": false
+    },
+    "B400_cs20_W2_P3b": {
+      "rate": 0.0,
+      "cp95_upper": 0.005973551516349557,
+      "violation": false
+    },
+    "B400_cs20_W4_P3": {
+      "rate": 0.0,
+      "cp95_upper": 0.005973551516349557,
+      "violation": false
+    },
+    "B400_cs20_W4_P3b": {
+      "rate": 0.0,
+      "cp95_upper": 0.005973551516349557,
+      "violation": false
+    }
+  },
+  "decisions": {
+    "Q1": "MIXED",
+    "validity_ok": true,
+    "efficacy_interpretation_halted": false
+  },
+  "meta": {
+    "protocol": "docs/promising_directions/protocols/B2-propensity-cap.md",
+    "protocol_sha256": "533a529ddda537ce8b925fdaf6b0b503cce46797ade2c7ca0d5a9b95202b6844",
+    "repo_head": "af14d5aa1d5da3c910ad7c178acd131cfd275b1c",
+    "seeds": 500,
+    "seed_base": 20261101,
+    "params": {
+      "T": 2000,
+      "delay": 5,
+      "cq": 0.05,
+      "alpha": 0.05,
+      "pmin": 0.05,
+      "tau": 600,
+      "hazard_mean": 150.0,
+      "eps": 0.05,
+      "base_err": 0.1,
+      "gamma": 0.99,
+      "n0": 10.0,
+      "s2_prior": 1.0,
+      "kelly_cap": 3.0,
+      "prior_rate": 0.25,
+      "prior_w": 20.0,
+      "lb_step": 0.01,
+      "lb_M": 31,
+      "lb_offset": 150,
+      "lb_K": 10
+    },
+    "bootstrap_resamples": 2000,
+    "created_utc": "2026-10-30T21:12:00.354972+00:00",
+    "runtime_seconds": 5.926837205886841,
+    "task_seconds": {
+      "W1_B200": 0.7116804122924805,
+      "W1_B400": 0.6927227973937988,
+      "W2_B200": 0.6986598968505859,
+      "W2_B400": 0.746699333190918,
+      "W3_B200": 0.711216926574707,
+      "W3_B400": 0.7449774742126465,
+      "W4_B200": 0.7768228054046631,
+      "W4_B400": 0.7008395195007324
+    },
+    "note": "B2 development round 2; P3b = P3 with per-event cap q_t/2; P4 dropped"
+  }
+}

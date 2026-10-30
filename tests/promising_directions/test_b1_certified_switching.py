@@ -127,3 +127,24 @@ def test_w3_reversal_timing_hidden_from_policies():
     assert not np.array_equal(o1["loss"], o2["loss"])
     assert a["P3"]["queries"].max() <= 200
     assert (o1["switches"] == 2).mean() > 0.9  # switch at change and at reversal
+
+
+def test_p3b_cap_respected_per_event():
+    p = SMALL
+    s = stream("W1", p)
+    tr = b1.run_policies(s["l0"], s["l1"], s["u"], 60, (5,), p, trace=True, b2=True)["_p3b_obj"].tr
+    assert tr["lam"].min() >= 0
+    assert (tr["lam"] <= tr["q"] / 2 + 1e-12).all()
+    assert (tr["q"][tr["ask"] > 0] >= p.pmin - 1e-12).all()
+    # the cap is actually used above B1's p_min/2 somewhere, so the check is not vacuous
+    assert (tr["lam"] > p.pmin / 2 + 1e-12).any()
+
+
+def test_p3b_boundary_null_false_promotion_rate():
+    n = 2500  # regime 4: E[D] = 0 exactly on the disagreement event
+    p = replace(SMALL, T=300)
+    s = b1.make_stream("NULL", p, n, 21, 0)
+    assert abs((s["l0"] - s["l1"]).mean()) < 0.01
+    res = b1.run_policies(s["l0"], s["l1"], s["u"], 90, (5,), p, b2=True)
+    rate = float(np.mean(~np.isnan(res["P3b"]["t_prom"])))
+    assert rate <= p.alpha + 3 * math.sqrt(p.alpha * (1 - p.alpha) / n), rate

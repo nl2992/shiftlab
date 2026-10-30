@@ -24,12 +24,15 @@ from scipy.stats import beta as beta_dist
 ROOT = Path(__file__).resolve().parents[2]
 PROTOCOL = ROOT / "docs/promising_directions/protocols/B1-certified-switching.md"
 PROTOCOL_SHA256 = "98f85250a95ae6e31857760ca33f2ebe1dc0c042762469b7d8f84cd557a82757"
+PROTOCOL_B2 = ROOT / "docs/promising_directions/protocols/B2-propensity-cap.md"
+PROTOCOL_B2_SHA256 = "533a529ddda537ce8b925fdaf6b0b503cce46797ade2c7ca0d5a9b95202b6844"
 DEFAULT_OUT = ROOT / "docs/promising_directions/results/b1"
 
 WORLDS = ("W1", "W2", "W3", "W4")
 BUDGETS = (200, 400)
 SWITCH_COSTS = (5, 20)
 POLICIES = ("P0", "P1", "P2", "P3", "P4", "P4w", "P5")  # P4w is exploratory, not registered
+B2_POLICIES = ("P0", "P1", "P2", "P3", "P3b", "P5")  # --b2: P3b added, P4/P4w dropped
 SIMPLE = ("P0", "P1", "P2")
 BOOT = 2000
 
@@ -147,7 +150,7 @@ class Cert:
         self.rollbacks = np.zeros(n, dtype=np.int64)
         self.t_prom = np.full(n, np.nan)
         self.loss = np.zeros(n)
-        self.k = 0 if kind == "P3" else (1 if kind == "P4" else p.lb_K)
+        self.k = 0 if kind in ("P3", "P3b") else (1 if kind == "P4" else p.lb_K)
         if self.k:
             self.mgrid = np.arange(p.lb_M) * p.lb_step
             self.offs = np.arange(self.k) * p.lb_offset
@@ -178,7 +181,9 @@ class Cert:
         x = np.where(ask, (l0t - l1t) / np.where(q > 0, q, 1.0), 0.0)
         self.rem = self.rem - ask
         self.queries += ask
-        lam = np.clip(bet_from_stats(self.s1, self.s2, self.cnt, p, kelly=False), 0, p.pmin / 2)
+        # P3b (B2): per-event cap q_t/2 with q_t the propensity issued for this event
+        cap = q / 2 if self.kind == "P3b" else p.pmin / 2
+        lam = np.clip(bet_from_stats(self.s1, self.s2, self.cnt, p, kelly=False), 0, cap)
         # release: label of event s = t - delay becomes usable now
         s = t - p.delay
         sgn = np.where(self.dep == 0, 1.0, -1.0)
@@ -259,23 +264,27 @@ class Alarm:
         self.dep = np.where(fire, 1, self.dep).astype(np.int8)
 
 
-def run_policies(l0, l1, u, budget, cs_list, p: Params, trace=False) -> dict:
+def run_policies(l0, l1, u, budget, cs_list, p: Params, trace=False, b2=False) -> dict:
     """Policies see only (l0, l1) through query decisions, the free agreement indicator and u."""
     t_len, n = l0.shape
     dis_all = l0 != l1
     p2 = Alarm(n, budget, p)
     p3 = Cert(n, budget, 0, "P3", p, trace=trace)
-    p4 = {cs: Cert(n, budget, cs, "P4", p) for cs in cs_list}
-    p4w = {cs: Cert(n, budget, cs, "P4w", p) for cs in cs_list}
+    p3b = Cert(n, budget, 0, "P3b", p, trace=trace) if b2 else None
+    p4 = {} if b2 else {cs: Cert(n, budget, cs, "P4", p) for cs in cs_list}
+    p4w = {} if b2 else {cs: Cert(n, budget, cs, "P4w", p) for cs in cs_list}
     ndis = np.zeros(n)
     for t in range(t_len):
         p2.step(t, l0[t], l1[t], u[t])
-        for pol in (p3, *p4.values(), *p4w.values()):
+        for pol in (p3, *([p3b] if b2 else []), *p4.values(), *p4w.values()):
             pol.step(t, l0[t], l1[t], dis_all[t], u[t], ndis)
         ndis = ndis + dis_all[t]
     out = {"P3": cert_out(p3), "P2": alarm_out(p2), "_p3_obj": p3}
     out["P4"] = {cs: cert_out(v) for cs, v in p4.items()}
     out["P4w"] = {cs: cert_out(v) for cs, v in p4w.items()}
+    if b2:
+        out["P3b"] = cert_out(p3b)
+        out["_p3b_obj"] = p3b
     return out
 
 
@@ -327,23 +336,20 @@ def simple_out(l0, l1) -> tuple[dict, dict]:
 
 def run_world_budget(args: tuple) -> dict:
     """One (world, B) task: all policies, for every switch cost."""
-    world, budget, n, seed_base, p = args
+    world, budget, n, seed_base, p, b2 = args
     t0 = time.time()
     s = make_stream(world, p, n, seed_base, WORLDS.index(world))
-    res = run_policies(s["l0"], s["l1"], s["u"], budget, SWITCH_COSTS, p)
+    res = run_policies(s["l0"], s["l1"], s["u"], budget, SWITCH_COSTS, p, b2=b2)
     p0, p1 = simple_out(s["l0"], s["l1"])
     p5 = oracle_out(s["regime"], s["l0"], s["l1"])
     out = {}
     for cs in SWITCH_COSTS:
-        pols = {
-            "P0": p0,
-            "P1": p1,
-            "P2": res["P2"],
-            "P3": res["P3"],
-            "P4": res["P4"][cs],
-            "P4w": res["P4w"][cs],
-            "P5": p5,
-        }
+        pols = {"P0": p0, "P1": p1, "P2": res["P2"], "P3": res["P3"]}
+        if b2:
+            pols["P3b"] = res["P3b"]
+        else:
+            pols["P4"], pols["P4w"] = res["P4"][cs], res["P4w"][cs]
+        pols["P5"] = p5
         out[(world, budget, cs)] = {}
         for name, d in pols.items():
             cost = d["loss"] + p.cq * d["queries"] + cs * d["switches"]
@@ -491,6 +497,70 @@ def analyse(results: dict, n: int, seed_base: int, p: Params) -> dict:
     }
 
 
+def analyse_b2(results: dict, n: int, seed_base: int, p: Params) -> dict:
+    """B2 Q1 rule applied mechanically to P3b; BEST over P0, P1, P2 (P2 cap not below rate/2)."""
+    rng = np.random.default_rng(seed_base + 7)
+    idx = rng.integers(0, n, size=(BOOT, n))
+    cells, q1_settings, validity = {}, {}, {}
+    for b in BUDGETS:
+        for cs in SWITCH_COSTS:
+            key = f"B{b}_cs{cs}"
+            cost = {
+                w: {pol: results[(w, b, cs)][pol]["cost"] for pol in B2_POLICIES} for w in WORLDS
+            }
+            avg = {pol: np.mean([cost[w][pol] for w in WORLDS], axis=0) for pol in B2_POLICIES}
+            best = min(SIMPLE, key=lambda pol: avg[pol].mean())
+            cells[key] = {
+                w: {pol: policy_stats(results[(w, b, cs)][pol], w, n) for pol in B2_POLICIES}
+                for w in WORLDS
+            }
+            for w in WORLDS:
+                cw = cost[w]
+                cells[key][w]["paired"] = {
+                    "P3b_minus_BEST": boot_ci(cw["P3b"] - cw[best], idx),
+                    "P3b_minus_P3": boot_ci(cw["P3b"] - cw["P3"], idx),
+                    "P3_minus_BEST": boot_ci(cw["P3"] - cw[best], idx),
+                }
+            ci = boot_ci(avg["P3b"] - avg[best], idx)
+            rel = (avg[best].mean() - avg["P3b"].mean()) / avg[best].mean()
+            worse = {w: float(cost[w]["P3b"].mean() / cost[w][best].mean() - 1) for w in WORLDS}
+            q1_settings[key] = {
+                "best": best,
+                "world_avg_cost": {pol: float(avg[pol].mean()) for pol in B2_POLICIES},
+                "p3b_minus_best": ci,
+                "p3b_relative_reduction": float(rel),
+                "p3b_worse_than_best_by_world": worse,
+                "p3_relative_reduction": float(
+                    (avg[best].mean() - avg["P3"].mean()) / avg[best].mean()
+                ),
+                "pass_10pct": bool(rel >= 0.10),
+                "pass_ci_excludes_0": bool(ci["hi"] < 0),
+                "pass_no_world_over_10pct_worse": bool(max(worse.values()) <= 0.10),
+                "no_better_than_best": bool(avg["P3b"].mean() >= avg[best].mean()),
+            }
+            for w in ("W2", "W4"):
+                for pol in ("P3", "P3b"):
+                    st = cells[key][w][pol]
+                    validity[f"{key}_{w}_{pol}"] = {
+                        "rate": st["false_promotion_rate"],
+                        "cp95_upper": st["false_promotion_cp95_upper"],
+                        "violation": bool(st["false_promotion_cp95_lower"] > p.alpha),
+                    }
+    pos = all(
+        s["pass_10pct"] and s["pass_ci_excludes_0"] and s["pass_no_world_over_10pct_worse"]
+        for s in q1_settings.values()
+    )
+    neg = sum(s["no_better_than_best"] for s in q1_settings.values()) * 2 >= len(q1_settings)
+    q1 = "POSITIVE" if pos else ("NEGATIVE" if neg else "MIXED")
+    valid = not any(v["violation"] for k, v in validity.items() if k.endswith("P3b"))
+    return {
+        "cells": cells,
+        "q1_settings": q1_settings,
+        "validity_check": validity,
+        "decisions": {"Q1": q1, "validity_ok": valid, "efficacy_interpretation_halted": not valid},
+    }
+
+
 def sha256_file(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
@@ -508,13 +578,15 @@ def main() -> None:
     ap.add_argument("--workers", type=int, default=2)
     ap.add_argument("--out-dir", type=Path, default=DEFAULT_OUT)
     ap.add_argument("--seed-base", type=int, default=20261031)
+    ap.add_argument("--b2", action="store_true", help="B2 run: add P3b, drop P4/P4w")
     a = ap.parse_args()
-    if sha256_file(PROTOCOL) != PROTOCOL_SHA256:
+    proto, proto_sha = (PROTOCOL_B2, PROTOCOL_B2_SHA256) if a.b2 else (PROTOCOL, PROTOCOL_SHA256)
+    if sha256_file(proto) != proto_sha:
         raise SystemExit("protocol file does not match the registered sha256")
     p = Params()
     a.out_dir.mkdir(parents=True, exist_ok=True)
     t0 = time.time()
-    tasks = [(w, b, a.seeds, a.seed_base, p) for w in WORLDS for b in BUDGETS]
+    tasks = [(w, b, a.seeds, a.seed_base, p, a.b2) for w in WORLDS for b in BUDGETS]
     results, seconds = {}, {}
     with mp.get_context("spawn").Pool(a.workers) as pool:
         for r in pool.imap_unordered(run_world_budget, tasks):
@@ -522,10 +594,10 @@ def main() -> None:
             for k, v in r.items():
                 results[k] = v
                 seconds[f"{k[0]}_B{k[1]}"] = sec
-    summary = analyse(results, a.seeds, a.seed_base, p)
+    summary = (analyse_b2 if a.b2 else analyse)(results, a.seeds, a.seed_base, p)
     summary["meta"] = {
-        "protocol": str(PROTOCOL.relative_to(ROOT)).replace("\\", "/"),
-        "protocol_sha256": PROTOCOL_SHA256,
+        "protocol": str(proto.relative_to(ROOT)).replace("\\", "/"),
+        "protocol_sha256": proto_sha,
         "repo_head": git_head(),
         "seeds": a.seeds,
         "seed_base": a.seed_base,
@@ -534,7 +606,11 @@ def main() -> None:
         "created_utc": datetime.now(UTC).isoformat(),
         "runtime_seconds": time.time() - t0,
         "task_seconds": seconds,
-        "note": "development study; P4w is an exploratory unregistered variant",
+        "note": (
+            "B2 development round 2; P3b = P3 with per-event cap q_t/2; P4 dropped"
+            if a.b2
+            else "development study; P4w is an exploratory unregistered variant"
+        ),
     }
     (a.out_dir / "summary.json").write_text(
         json.dumps(jsonable(summary), indent=2), encoding="utf-8"

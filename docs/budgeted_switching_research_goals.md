@@ -3054,3 +3054,23 @@ the finite benchmark. Source limitation: RAO* full text/proof not inspected in t
   of the data-eligibility section in `g1_intersection_task_contract_screen_v1.md`. The annotation's
   caution remains controlling: historical evidence accumulated before a reversal cannot certify
   current-regime benefit after that reversal.
+
+### G1 candidate screen: deadline-aligned acquisition 2026-10-30
+
+- Screened the idea of timing each costly label request according to its latest useful release time
+  before a switch or reversal decision. The relevant observable state is posterior belief, incumbent,
+  pending-label queue with release times, remaining hard budget, and remaining horizon. Bellman
+  control on this augmented state already values each query by its post-release continuation value;
+  deadline alignment is therefore standard value-of-information/optimal-stopping control, not a
+  new acquisition mechanism. In a known finite model it cannot outperform the exact constrained
+  planner in expected net utility.
+- Primary-source audit checked Monahan (1980), Chick et al. (2017), Cheng et al. (ICML 2023), and
+  Drift2Act (2026 workshop); links and the scope comparison are in
+  `g1_deadline_aligned_acquisition_kill_v1.md`. The full delayed recurrent-HMM setting is not
+  identical to each source, but combining their standard components is insufficient novelty.
+- Kill this heuristic candidate before coding or efficacy tests. The next G1 question is whether
+  anytime false-promotion control plus post-reversal current-value safety creates a nontrivial
+  minimax budget/regret lower bound under arbitrary recurrent regimes, beyond existing change-point
+  tracking and delayed risk-certification bounds. This remains a question, not a live method; derive
+  and source-audit the lower bound before proposing an algorithm. G2–G5 and the 2026 holdout remain
+  held. Historical promotion evidence still cannot certify post-reversal benefit.

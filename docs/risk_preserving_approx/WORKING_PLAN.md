@@ -465,3 +465,12 @@ pilot. Proceed next with a source-faithful audit of the adapter against the
 published strategy-extraction theorem, then decide whether a useful benchmark
 conversion and multiplier-bracketing procedure can be implemented without
 solving the exact reference problem.
+
+The source audit and stronger end-to-end toy verifier are now recorded in
+`CANDIDATE_D_EXTRACTION_THEOREM_AUDIT_V1.md`. A finite-horizon induction proves
+the full-support reference-belief extension under componentwise gadget
+feasibility, full legal-action support and complete recursive branch coverage;
+this is a finite form of established max-justification, not a novelty claim.
+The run checks every solved LP constraint and the full discounted two-stage
+security value. The ShiftLab finite-horizon conversion, transformed numerical
+error, multiplier recovery, and end-to-end baseline advantage remain open.

@@ -73,7 +73,43 @@ function gadget_stage(osposg, hsvi, partition, belief, rho)
         target = osposg.partitions[partition.target[a1, o]]
         child_gadgets[(a1, o)] = [value(child_value[(a1, o, spi)]) / probability for spi in eachindex(target.states)]
     end
-    residual = maximum(max(rho[si] - value(state_value[s]), 0.0) for (si, s) in enumerate(partition.states))
+    residual = abs(sum(value(policy1[a1]) for a1 in partition.player1_actions) - 1.0)
+    for a1 in partition.player1_actions
+        action_probability = value(policy1[a1])
+        residual = max(residual, max(-action_probability, action_probability - 1.0, 0.0))
+    end
+    for a1 in partition.player1_actions, o in partition.observations[a1]
+        target = osposg.partitions[partition.target[a1, o]]
+        residual = max(
+            residual,
+            abs(sum(value(lambda[(a1, o, i)]) for i in eachindex(target.gamma)) - value(policy1[a1])),
+        )
+        for spi in eachindex(target.states)
+            for i in eachindex(target.gamma)
+                residual = max(residual, max(-value(lambda[(a1, o, i)]), 0.0))
+            end
+            expected = sum(
+                value(lambda[(a1, o, i)]) * target.gamma[i][spi] for i in eachindex(target.gamma)
+            )
+            residual = max(residual, abs(value(child_value[(a1, o, spi)]) - expected))
+        end
+    end
+    for (si, s) in enumerate(partition.states)
+        current_value = value(state_value[s])
+        residual = max(residual, max(rho[si] - current_value, 0.0))
+        for a2 in osposg.states[s].player2_actions
+            continuation = sum(
+                get(osposg.transition_map, (s, a1, a2, o, sp), 0.0) * value(child_value[(a1, o, spi)])
+                for a1 in partition.player1_actions for o in partition.observations[a1]
+                for (spi, sp) in enumerate(osposg.partitions[partition.target[a1, o]].states)
+            )
+            immediate = sum(
+                value(policy1[a1]) * get(osposg.reward_map, (s, a1, a2), 0.0)
+                for a1 in partition.player1_actions
+            )
+            residual = max(residual, max(current_value - immediate - osposg.discount * continuation, 0.0))
+        end
+    end
     return probabilities, child_gadgets, residual
 end
 

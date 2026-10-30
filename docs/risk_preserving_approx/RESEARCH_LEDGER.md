@@ -810,3 +810,22 @@
   This checkpoint preserves the sequential fixture and script as unfinished work;
   it establishes no sequential extraction guarantee. Investigate the fixture and
   upstream presolve contract before treating it as validation evidence.
+
+## 2026-10-29 — Sequential extraction evaluator correction
+
+- The upstream parser and presolve failures from the prior checkpoint were traced to fixture
+  dimensions, action indices and transition targets. After correcting those serialized inputs, the
+  pinned solver completed; these parser failures were fixture errors, not algorithm failures.
+- The independent evaluator now checks complete discounted two-stage security under state-dependent
+  first-stage and history-dependent second-stage opponent choices. The gadget residual now covers
+  action normalization/bounds, nonnegative mixture weights, mixture normalization, alpha-composition
+  equalities, gadget lower bounds and every state/opponent-action upper-composition inequality.
+- Final HSVI gap `1.7689e-7`, complete-game value `-3.9801e-8` versus exact zero, maximum state/
+  history payoff magnitude `3.9801e-8`, maximum LP residual `7.9602e-8`. Metrics and hashes are in
+  `CANDIDATE_D_SEQUENTIAL_ADVERSARIAL_GADGET_RESULTS_V1.md`.
+- The theorem audit maps the LP to Horák et al. Algorithm 5's statewise composition constraints,
+  and gives a finite-horizon induction for the full-support child-belief extension under
+  componentwise feasibility, full legal-action support and complete branch coverage. This is a
+  finite form of the established max-justification argument, not a novelty claim. Full ShiftLab
+  conversion and two-law recovery remain untested. No ShiftLab efficacy or baseline win is
+  established.

@@ -21,6 +21,42 @@ function evaluate_stage(osposg, node, states, row0, row1, column0, column1)
     return worst_payoff, largest_abs_payoff
 end
 
+function evaluate_full_security(osposg, controller, root_states, row0_t1, row1_t1, row0_t2, row1_t2, column0, column1)
+    minimum_payoff = Inf
+    largest_abs_payoff = 0.0
+    for state in root_states
+        for stage1_column in (column0, column1)
+            observation = only(unique(
+                o for a1 in (row0_t1, row1_t1)
+                for (o, _, _) in get(osposg.partitions[controller.partition].transitions, (state, a1, stage1_column), Tuple{Int,Int,Float64}[])
+            ))
+            stage1_value = 0.0
+            for (a1, p1) in controller.action_probabilities
+                p1 <= 1e-12 && continue
+                stage1_value += p1 * osposg.reward_map[state, a1, stage1_column]
+            end
+            for (a1, p1) in controller.action_probabilities
+                p1 <= 1e-12 && continue
+                child = controller.children[(a1, observation)]
+                next_state = only(item[2] for item in get(
+                    osposg.partitions[controller.partition].transitions,
+                    (state, a1, stage1_column),
+                    Tuple{Int,Int,Float64}[],
+                ))
+                stage2_min = minimum(
+                    sum(child.action_probabilities[row] * osposg.reward_map[next_state, row, col]
+                        for row in (row0_t2, row1_t2))
+                    for col in (column0, column1)
+                )
+                stage1_value += p1 * osposg.discount * stage2_min
+            end
+            minimum_payoff = min(minimum_payoff, stage1_value)
+            largest_abs_payoff = max(largest_abs_payoff, abs(stage1_value))
+        end
+    end
+    return minimum_payoff, largest_abs_payoff
+end
+
 function run_sequential_toy()
     mkpath(SEQUENTIAL_OUT)
     osposg = OSPOSG(SEQUENTIAL_GAME)
@@ -54,12 +90,17 @@ function run_sequential_toy()
     part2 = osposg.partitions[child0.partition]
     child0_security, child0_max_abs = evaluate_stage(osposg, child0, part2.states, row0_t2, row1_t2, column0, column1)
     child1_security, child1_max_abs = evaluate_stage(osposg, child1, part2.states, row0_t2, row1_t2, column0, column1)
+    full_security, full_max_abs = evaluate_full_security(
+        osposg, controller, root.states, row0_t1, row1_t1, row0_t2, row1_t2, column0, column1,
+    )
 
     result = (
         solver_lower = lower,
         solver_upper = upper,
         solver_gap = upper - lower,
         exact_security_value = 0.0,
+        full_game_security_value = full_security,
+        full_game_largest_abs_state_history_payoff = full_max_abs,
         root_security_value = initial_security,
         root_largest_abs_state_column_payoff = initial_max_abs,
         root_row0_probability = p_row0_t1,
@@ -82,6 +123,10 @@ function run_sequential_toy()
     abs(result.root_security_value) <= 1e-3 || error("root security value disagrees with exact value")
     abs(result.see0_security_value) <= 1e-3 || error("see0 security value disagrees with exact value")
     abs(result.see1_security_value) <= 1e-3 || error("see1 security value disagrees with exact value")
+    abs(result.full_game_security_value - result.exact_security_value) <= 1e-3 ||
+        error("full-game security value disagrees with exact value")
+    result.full_game_largest_abs_state_history_payoff <= 1e-3 ||
+        error("full-game state/history check failed")
     result.root_largest_abs_state_column_payoff <= 1e-3 || error("root fails statewise opponent-action check")
     result.see0_largest_abs_state_column_payoff <= 1e-3 || error("see0 fails statewise opponent-action check")
     result.see1_largest_abs_state_column_payoff <= 1e-3 || error("see1 fails statewise opponent-action check")

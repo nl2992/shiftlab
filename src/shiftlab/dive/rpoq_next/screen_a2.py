@@ -29,6 +29,7 @@ from shiftlab.dive.rpoq_next.screen_a import (
 N0, BURN, REALLOC = 400, 100, 400
 SETTINGS = {**SETTINGS, "const": (np.full(K, 0.05), np.full(K, 0.5))}
 ARMS = ("uniform", "neyman", "rasi", "growth_fixed", "growth_online")
+RANDOM_CONC_SEED = 1234
 
 
 def _rasi(r_hat, total):
@@ -56,8 +57,9 @@ def _realloc(kind, mu_hat, r_hat, h, brem, nrem):
     return allocate(mu_hat, h, r_hat, total, BOUND, Q_MIN)
 
 
-def run_arm(y, ctx, u, h_ctx, kind):
+def run_arm(y, ctx, u, h_ctx, kind, bet="ctx"):
     S = y.shape[0]
+    chosen = np.random.default_rng(RANDOM_CONC_SEED).integers(0, K, S)
     s_idx = np.arange(S)
     h = h_ctx[ctx]
     q_ctx = np.full((S, K), BURN / N0)
@@ -89,12 +91,22 @@ def run_arm(y, ctx, u, h_ctx, kind):
             mu_hat = np.clip(m1 / n, 0, 1)
             r_hat = np.maximum(rs / n, 1e-3)
             for i in range(S):
-                q_ctx[i] = _realloc(kind, mu_hat[i], r_hat[i], h_ctx, BUDGET - spent[i], N - t)
+                if (
+                    kind == "random_conc"
+                ):  # placebo: concentrate on a context chosen independently of the data
+                    total = K * max(BUDGET - spent[i], 1) / (N - t)
+                    q_ctx[i] = Q_MIN
+                    q_ctx[i, chosen[i]] = min(1.0, total - (K - 1) * Q_MIN)
+                else:
+                    q_ctx[i] = _realloc(kind, mu_hat[i], r_hat[i], h_ctx, BUDGET - spent[i], N - t)
         k = ctx[:, t]
         q = q_ctx[s_idx, k]
         q_ev[:, t] = q
-        n_k = cnt[s_idx, k]
-        mean, second = m1[s_idx, k] / (n_k + 1), m2[s_idx, k] / (n_k + 1)
+        if bet == "ctx":
+            a1, a2, n_k = m1[s_idx, k], m2[s_idx, k], cnt[s_idx, k]
+        else:
+            a1, a2, n_k = m1.sum(1), m2.sum(1), cnt.sum(1)
+        mean, second = a1 / (n_k + 1), a2 / (n_k + 1)
         cap = 0.5 / (BOUND * (2.0 / q - 1.0))
         lam[:, t] = np.minimum(
             np.where(second > 0, np.maximum(mean, 0) / np.maximum(second, 1e-12), 0.0), cap
@@ -110,17 +122,54 @@ def run_arm(y, ctx, u, h_ctx, kind):
     return crossed, log_w, spent
 
 
-def simulate(setting, rho, n_seeds, seed=11, arms=ARMS):
+def simulate(setting, rho, n_seeds, seed=11, arms=ARMS, bet="ctx"):
     mu_true, sigma = SETTINGS[setting]
     _, h, _ = exact_moments(mu_true if setting != "null" else SETTINGS["het"][0], sigma, rho)
     rng = np.random.default_rng(seed)
     ctx = rng.integers(0, K, (n_seeds, N))
     y = np.clip(mu_true[ctx] + sigma[ctx] * rng.standard_normal((n_seeds, N)), -1, 1)
     u = rng.random((n_seeds, N))
-    return {a: run_arm(y, ctx, u, h, a) for a in arms}
+    return {a: run_arm(y, ctx, u, h, a, bet) for a in arms}
+
+
+def diagnostic(n_seeds=1000):
+    """A2b: placebo (random_conc) and both bet types, see SYNTHETIC_PROTOCOL_A2B.md."""
+    arms = ("uniform", "neyman", "growth_fixed", "random_conc")
+    res, t0 = {}, time.time()
+    for setting in ("null", "const", "het"):
+        for rho in (0.0, 0.6):
+            key = f"{setting}|rho={rho}"
+            res[key] = {}
+            for bet in ("ctx", "common"):
+                for a, (c, w, sp) in simulate(setting, rho, n_seeds, arms=arms, bet=bet).items():
+                    res[key][f"{a}+{bet}"] = {
+                        "power": float(c.mean()),
+                        "mean_log_wealth": float(w.mean()),
+                        "mean_spent": float(sp.mean()),
+                        "crossed": c.astype(int).tolist(),
+                    }
+            print(
+                key,
+                {a: round(v["power"], 3) for a, v in res[key].items()},
+                f"{time.time() - t0:.0f}s",
+                flush=True,
+            )
+    out = Path("outputs/rpoq_next/screen_a2b")
+    out.mkdir(parents=True, exist_ok=True)
+    (out / "results.json").write_text(
+        json.dumps(
+            {
+                "n_seeds": n_seeds,
+                "protocol": "docs/rpoq_next/SYNTHETIC_PROTOCOL_A2B.md",
+                "results": res,
+            }
+        )
+    )
 
 
 def main():
+    if len(sys.argv) > 1 and sys.argv[1] == "diagnostic":
+        return diagnostic(int(sys.argv[2]) if len(sys.argv) > 2 else 1000)
     n_seeds = int(sys.argv[1]) if len(sys.argv) > 1 else 1000
     res, t0 = {}, time.time()
     for setting in ("null", "const", "hom", "het", "anti"):

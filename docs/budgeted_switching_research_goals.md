@@ -2533,3 +2533,26 @@ the finite benchmark. Source limitation: RAO* full text/proof not inspected in t
   outcome-adaptive, delay-aware, risk-matched comparator and has a nontrivial theorem beyond
   standard sequential testing and robust switching control. G2–G5 remain held. Historical test
   wealth still does not certify current value after regime reversal.
+
+### G1 algorithmic candidate 2026-10-29: first-promotion fixed-budget solver
+
+- Formalized an exact complexity candidate in `switching_first_promotion_xp_complexity_v1.md`.
+  For binary labels, an action-independent finite-state alternative HMM, horizon `T`, and hard
+  query cap `B`, learner query tapes number
+  `N_L=sum_{j<=min(B,T)} binom(T,j)2^j`; the conservative null response/outcome path count is
+  `N_N=sum_{j<=min(B,T)} binom(T,j)3^j`. First-promotion absorption leaves a robust prefix
+  sequence-form LP with `O(T*N_N)` nodes; the post-promotion economic continuation is an exact
+  delayed-HMM belief DP over at most `O(T*N_L*(B+1)*|A|)` reachable keys. This is polynomial
+  in `T` for fixed `B,K`, but only XP in `B`; it does not claim FPT scaling or a regret bound
+  under model misspecification.
+- Existing fixed-`B=3` scaling evidence has matching recovered rational costs, metrics, and null
+  risks at `T=6,7`; the `T=6` full optimum has an independent bracket certificate. At `T=8`,
+  the full builder exceeds its 200,000-node cap while the decomposed solver completes with 5,700
+  nodes and exact risk `1/10`; this is not a certified comparison to the failed full optimum.
+  The focused test module passed (`3 passed`), comparing both formulations on its smaller cells.
+- Prior-art boundary: resource-augmented POMDP belief planning, constrained-POMDP reachability,
+  robust stopping, and one-sided-POSG sequence composition are established. It is unresolved
+  whether their exact combination directly yields the same XP bound with the learner/null
+  information asymmetry and separate alternative objective. Keep this as a G1 candidate, not a
+  novelty result. Next: direct source-level equivalence audit and independent proof review; only
+  if those survive should a larger solver-complexity comparison be registered. G2–G5 remain held.

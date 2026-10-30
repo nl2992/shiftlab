@@ -113,10 +113,12 @@ class StreamingAdapter:
             source.predictive_losses if config.endpoint == "predictive" else source.decision_losses
         )
         self.source_upper = min(
-            1 - config.margin,
+            1.0,
             float(source_loss[:, 0].mean() + np.sqrt(np.log(40) / (2 * len(source.events)))),
         )
         self.threshold = self.source_upper + config.margin
+        if config.track == "Q1" and self.threshold > 1:
+            raise ValueError("source risk upper bound plus margin exceeds bounded risk support")
         self.pairs = 1 if config.track == "Q1" else source_loss.shape[1] - 1
         self.bound = 1.0 if config.track == "Q1" else 1 + config.margin
         self.stake = config.stake_scale * config.budget_fraction / (2 - config.budget_fraction)

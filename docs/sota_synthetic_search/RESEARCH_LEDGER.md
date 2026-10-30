@@ -89,3 +89,21 @@ source-reference dependence obligations. Those must be resolved or explicitly
 excluded from claims before substantive registered evaluation. Next work is the
 evaluator metric/trajectory runner and staged search preregistration, with matched
 information, source-label costs and independently calibrated operating points.
+
+## Streaming evaluator checkpoint
+
+Added evaluator-owned execution for Q1/Q2/Q3, retaining per-event deployment,
+requested/effective propensities, query purchases, pending counts, evidence and
+all label/switch costs. Metrics separately report conditional deterioration,
+paired benefit at certification, available-model regret and net cost. Source
+calibration labels and expenditures are reported separately from deployment.
+Instantaneous benefit diagnostics are not labeled as a sequential-null error rate.
+All reported metrics remain developmental until independent operating-point
+calibration and a substantive protocol are completed.
+
+Five evaluator tests and nineteen adapter tests passed together (24 total).
+They reconcile cost totals against raw trajectories, enforce the hard cap and
+reject a shifted source calibration world. Corrected source-bound handling:
+do not truncate an upper confidence bound to 1 minus the materiality margin;
+reject an unsupported threshold instead. No registered experiment was launched.
+Next: frozen source/operating-point calibration and substantive search manifests.

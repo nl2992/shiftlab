@@ -83,6 +83,31 @@ holdouts to answer this causal question. If a suitable source is supplied, freez
 estimand, propensity design, feedback clock, budget accounting, cost source, and exact comparator
 before writing the algorithm. Kill the joint real-data claim if no source meets that contract.
 
+### Closest identified finance source: AHL randomized execution experiment
+
+Bojinov and Shephard analyze AHL Partners' 2016 experiments assigning eligible futures orders at
+random to human or algorithmic execution. The paper reports ten markets, randomized Bernoulli
+assignment (with assignment probability changed in three markets), and per-order signed VWAP
+slippage as the outcome. Execution duration varies by treatment and market; reported market-level
+median durations range from 0.6 to 44.7 minutes. This is an unusually close *task family* for
+randomized finance intervention with action-dependent realized costs and temporal carryover.
+
+It does not currently pass our data gate. The article states AHL supplied the data and does not
+publish the order-level records; exact assignment/outcome timestamps, label-release timestamps,
+and any deployment switching costs are not available in the paper tables. The described treatment
+randomization is i.i.d. and ignores past data, and the published causal analysis already derives
+time-series estimands and exact randomization tests. Thus it cannot be treated as data in this repo,
+and the method contribution cannot be “randomized time-series inference for trading.” Reopen it
+only if order-level data and release/cost metadata are licensed and accessible. A realized-market
+regime model would need an explicitly justified observable state proxy or an explicitly
+model-conditional latent-regime assumption; the paper does not establish a recurrent HMM.
+
+The source paper is [Bojinov and Shephard, *Time Series Experiments and Causal Estimands: Exact
+Randomization Tests and Trading*](https://arxiv.org/abs/1706.07840). Its reported application is
+stronger than a synthetic causal simulation, but weaker than a point-in-time, delayed, budgeted
+switching evaluation. It provides a concrete access lead for F1, not a current eligible real-data
+result.
+
 ## Sources checked
 
 - Hadad et al., *Confidence intervals for policy evaluation in adaptive experiments*,

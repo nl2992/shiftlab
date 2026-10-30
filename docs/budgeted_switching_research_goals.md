@@ -3020,7 +3020,10 @@ the finite benchmark. Source limitation: RAO* full text/proof not inspected in t
   price-taker predictive-loss replay, and OPSD is a paired-loss replay; neither identifies
   randomized action-dependent utility. No repo dataset supplies all required propensities,
   action-dependent outcomes, point-in-time/release clocks, recurrent regimes, and defensible costs.
-  The locked real-data segments remain unopened and G2–G5 remain held.
+  AHL's published 2016 randomized futures-execution study is a closer access lead (random assignment
+  to human vs algorithmic execution, per-order slippage), but order-level data are not published and
+  the article's time-series randomization inference is already prior art. The locked real-data
+  segments remain unopened and G2–G5 remain held.
 - Exact task contract, estimand, risk event, source boundary, comparators, and data gate are in
   `g1_intersection_task_contract_screen_v1.md`. Next: reopen F1 only with an authorized
   randomized execution/intervention log meeting that contract, or explicitly scope a

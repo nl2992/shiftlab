@@ -59,3 +59,69 @@ These are ranked by plausibility of a non-composition theorem plus real data to 
 The phase C exit rule fired: every candidate failed C0/C1 on the current information structure.
 The Lane B algorithm loop is stopped (cron deleted). Resuming means choosing one of the pivots
 above, which changes the task contract (a new task spec and freeze) and is a goal-level decision.
+
+## Update 2026-10-29: phase D (split-clock) also exits
+
+`D2_split_clock_mechanism.md`:
+- **Search.** The targeted search (including a proper read of Ao et al. 2601.21471) found no published
+  method covering the full target.
+- **Composition.** The adaptive split-clock rule still decomposes into a per-phase index, a
+  change-detection CUSUM on the surrogate, a gold backstop, scout/confirm, and a betting e-process.
+- **Impossibility (proved).** With a bias shift `b ≥ 2βΔ`, no rule rolls back before `d_g` without
+  spending its false-rollback budget.
+- **Monte Carlo.** The plain two-phase composition wins 8 of 9 cells. The fast channel helps rollback
+  only at sign agreement 0.8 with no bias shift, and never at Binance's 0.563.
+- **Real data.** Neither real task has an informative fast channel: OPSD 0.069 and Binance 0.563
+  against the 0.6 floor.
+
+## Cumulative assessment (Lanes A and B, 2026-10-28/29)
+
+Across three Lane B candidate families (burst allocation, recurrence locking, split clock) and
+Lane A's G1 record, every mechanism on this two-policy, common-label, delayed, hard-budget,
+causal-null contract decomposes into standard sequential design, change detection, planning or
+futility pieces. Separations, where they exist, are between compositions, or against oracles that
+cannot separate learners.
+
+Remaining information structures, which are untested and goal-level choices:
+1. **Many candidates sharing one queried label**, where certification multiplicity grows while
+   label cost does not.
+2. **Selective (bandit) labels**, observed only for the deployed policy, which is genuine
+   exploration–deployment coupling.
+3. **Retrospective gold audits of past rounds selected on fast labels** (Ao-style auditing with
+   delay and reversibility). This has high composition risk because of Ao et al. and delayed PPI.
+
+## Update 2026-10-29: phase E (many candidates sharing one queried label) also exits
+
+`E0_prior_art.md` and `E0b_chaining_search.md`:
+- **Covered by prior work:**
+  - Model Picker already queries only on disagreement.
+  - Alpha spending and e-BH cover multiplicity.
+  - With shared labels, Bonferroni costs only an additive ln K.
+- **R1 (cost scaling with a covering number in the disagreement metric) is covered as a composition:**
+  - IWAL (Beygelzimer–Dasgupta–Langford 2009) gives the disagreement-gated importance-weighted query
+    rule, uniform over time and over pairs, with label complexity priced by the disagreement
+    coefficient in the same metric.
+  - Replacing ln|H| by a covering number is an elementary chaining/stitching step, and the gain is
+    capped at a log K factor.
+- **R2 (reversible re-baselining) is covered** by IWAL's maximum over all live pairs.
+- **What remains** is a matching lower bound, which is expected to be standard (Fano).
+
+## Cumulative assessment after four Lane B phases
+
+Every candidate on four information structures has decomposed into established components:
+- burst allocation;
+- recurrence locking;
+- split clock;
+- shared-label multi-candidate selection.
+
+These components are: sequential design, change detection, planning, futility stopping, PPI or
+controlled sensing, and IWAL with chaining. Lane A's G1 record reaches the same conclusion for the
+two-policy contract. The remaining untested structure is selective (bandit) labels, where outcomes
+are observed only for the deployed policy. That is where exploration and deployment genuinely
+couple, but existing anytime-valid bandit-feedback monitoring (Waudby-Smith et al., Lindon–Kallus)
+largely covers it.
+
+The evidence suggests that a novel algorithm on these structures is unlikely without a genuinely
+new information or utility structure from an application. Candidates are: performative or
+action-dependent outcomes; costly *interventions* rather than costly labels; or adversarial
+reference drift.

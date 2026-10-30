@@ -1,0 +1,131 @@
+{
+  "ridge_penalty": 1.0,
+  "windows": {
+    "train2016_in_sample": {
+      "n_rounds": 365,
+      "n_disagreement_rounds": 97,
+      "share_disagreement_rounds_with_a_differing_hour_in_fast_window": 0.030927835051546393,
+      "mean_differing_hours_in_fast_window": 0.030927835051546393,
+      "mean_differing_hours_all": 3.9072164948453607,
+      "delay": {
+        "gold_delay_values": [
+          -1,
+          2
+        ],
+        "fast_delay_values": [
+          -1,
+          1
+        ],
+        "gap_values": [
+          -1,
+          1
+        ],
+        "fast_hour_clock_gap_to_next_decision_hours": 1.0
+      },
+      "quality": {
+        "n_disagreement_rounds_both_labels": 97,
+        "share_zf_exactly_zero": 0.9690721649484536,
+        "share_gold_nonzero": 0.9690721649484536,
+        "corr_pearson": 0.11282263528286747,
+        "corr_spearman": 0.035962613680493395,
+        "sign_agreement_all": 0.02127659574468085,
+        "n_gold_nonzero": 94,
+        "sign_agreement_both_nonzero": 0.6666666666666666,
+        "n_both_nonzero": 3,
+        "slope_gold_on_fast": 2.534573392640515,
+        "intercept_gold_on_fast": 0.1098940558026689,
+        "mean_gold": 0.11010309278350516,
+        "mean_fast": 8.247422680412371e-05,
+        "bias_fast_minus_gold": -0.11002061855670106,
+        "sd_gold": 0.13097976024753488,
+        "sd_fast": 0.005830362522842497,
+        "rmse_fast_as_gold": 0.17013663399398768,
+        "uninformative": true
+      }
+    },
+    "validation": {
+      "n_rounds": 364,
+      "n_disagreement_rounds": 87,
+      "share_disagreement_rounds_with_a_differing_hour_in_fast_window": 0.16091954022988506,
+      "mean_differing_hours_in_fast_window": 0.16091954022988506,
+      "mean_differing_hours_all": 2.5977011494252875,
+      "delay": {
+        "gold_delay_values": [
+          -1,
+          2
+        ],
+        "fast_delay_values": [
+          -1,
+          1
+        ],
+        "gap_values": [
+          -1,
+          1
+        ],
+        "fast_hour_clock_gap_to_next_decision_hours": 1.0
+      },
+      "quality": {
+        "n_disagreement_rounds_both_labels": 87,
+        "share_zf_exactly_zero": 0.8390804597701149,
+        "share_gold_nonzero": 0.9885057471264368,
+        "corr_pearson": 0.13681847983583836,
+        "corr_spearman": 0.18705030129381142,
+        "sign_agreement_all": 0.1511627906976744,
+        "n_gold_nonzero": 86,
+        "sign_agreement_both_nonzero": 0.9285714285714286,
+        "n_both_nonzero": 14,
+        "slope_gold_on_fast": 0.9060743912229058,
+        "intercept_gold_on_fast": -0.02592596556952993,
+        "mean_gold": -0.029425287356321845,
+        "mean_fast": -0.003862068965517241,
+        "bias_fast_minus_gold": 0.0255632183908046,
+        "sd_gold": 0.09171437362735638,
+        "sd_fast": 0.013848996616994102,
+        "rmse_fast_as_gold": 0.09388474225126363,
+        "uninformative": true
+      }
+    },
+    "development": {
+      "n_rounds": 729,
+      "n_disagreement_rounds": 161,
+      "share_disagreement_rounds_with_a_differing_hour_in_fast_window": 0.10559006211180125,
+      "mean_differing_hours_in_fast_window": 0.10559006211180125,
+      "mean_differing_hours_all": 3.4658385093167703,
+      "delay": {
+        "gold_delay_values": [
+          -1,
+          2
+        ],
+        "fast_delay_values": [
+          -1,
+          1
+        ],
+        "gap_values": [
+          -1,
+          1
+        ],
+        "fast_hour_clock_gap_to_next_decision_hours": 1.0
+      },
+      "quality": {
+        "n_disagreement_rounds_both_labels": 161,
+        "share_zf_exactly_zero": 0.8944099378881988,
+        "share_gold_nonzero": 0.9937888198757764,
+        "corr_pearson": 0.21312315584875102,
+        "corr_spearman": 0.1106968778790601,
+        "sign_agreement_all": 0.06875,
+        "n_gold_nonzero": 160,
+        "sign_agreement_both_nonzero": 0.6470588235294118,
+        "n_both_nonzero": 17,
+        "slope_gold_on_fast": 3.1271580345285517,
+        "intercept_gold_on_fast": 0.011811420982735714,
+        "mean_gold": 0.006062111801242236,
+        "mean_fast": -0.0018385093167701866,
+        "bias_fast_minus_gold": -0.007900621118012425,
+        "sd_gold": 0.1390446731018935,
+        "sd_fast": 0.009476220647704188,
+        "rmse_fast_as_gold": 0.13713809515542041,
+        "uninformative": true
+      }
+    }
+  }
+}

@@ -136,7 +136,13 @@ def main() -> None:
         if c is None:
             meta.append({"cohort": ci, "skipped": True})
             continue
-        meta.append({"cohort": ci, "choice": {str(k): v for k, v in c["choice"].items()}, "val_objective": {str(k): v for k, v in c["val_objective"].items()}})
+        meta.append(
+            {
+                "cohort": ci,
+                "choice": {str(k): v for k, v in c["choice"].items()},
+                "val_objective": {str(k): v for k, v in c["val_objective"].items()},
+            }
+        )
         for direction, sign in (("benefit", -1.0), ("harm", 1.0)):
             for frac in BUDGET_FRACTIONS:
                 root, val_mean = c["root_by_budget"][frac]
@@ -144,7 +150,16 @@ def main() -> None:
                 for s in range(args.seeds):
                     u = np.random.default_rng(SEED + 1000 * ci + s).random(c["n_events"])
                     res = run_monitor(cc, "neyman", sign, frac, u)
-                    runs.append({"cohort": ci, "direction": direction, "budget_fraction": frac, "rule": "asi_vs", "seed": s, **res})
+                    runs.append(
+                        {
+                            "cohort": ci,
+                            "direction": direction,
+                            "budget_fraction": frac,
+                            "rule": "asi_vs",
+                            "seed": s,
+                            **res,
+                        }
+                    )
         print(f"cohort {ci} done ({time.time() - t0:.0f}s)", flush=True)
 
     s6: dict[tuple, dict[int, list[float]]] = {}
@@ -152,7 +167,9 @@ def main() -> None:
         for r in csv.DictReader(fh):
             if r["rule"] in ("uniform", "neyman", "oracle") and r["budget_fraction"]:
                 key = (r["direction"], float(r["budget_fraction"]), r["rule"])
-                s6.setdefault(key, {}).setdefault(int(r["cohort"]), []).append(float(r["log_wealth"]))
+                s6.setdefault(key, {}).setdefault(int(r["cohort"]), []).append(
+                    float(r["log_wealth"])
+                )
     brng = np.random.default_rng(SEED + 11)
     summary = []
     for direction in ("benefit", "harm"):
@@ -163,7 +180,11 @@ def main() -> None:
                     mine.setdefault(r["cohort"], []).append(r["log_wealth"])
             cohort_ids = sorted(mine)
             arr = np.array([np.mean(mine[k]) for k in cohort_ids])
-            row = {"direction": direction, "budget_fraction": frac, "asi_vs_mean_log_wealth": _bootstrap(arr, brng)}
+            row = {
+                "direction": direction,
+                "budget_fraction": frac,
+                "asi_vs_mean_log_wealth": _bootstrap(arr, brng),
+            }
             for other in ("uniform", "neyman", "oracle"):
                 o = s6[(direction, frac, other)]
                 diff = np.array([np.mean(mine[k]) - np.mean(o[k]) for k in cohort_ids if k in o])
@@ -176,12 +197,29 @@ def main() -> None:
             picks[f][v] += 1
     out = Path(args.output_dir)
     out.mkdir(parents=True, exist_ok=True)
-    (out / "results.json").write_text(json.dumps({"protocol": "docs/rpoq_s6b_validation_selected_variance_protocol_v1.md", "summary": summary, "model_selection_counts": picks, "cohort_meta": meta, "seconds": time.time() - t0}, indent=2))
+    (out / "results.json").write_text(
+        json.dumps(
+            {
+                "protocol": "docs/rpoq_s6b_validation_selected_variance_protocol_v1.md",
+                "summary": summary,
+                "model_selection_counts": picks,
+                "cohort_meta": meta,
+                "seconds": time.time() - t0,
+            },
+            indent=2,
+        )
+    )
     with (out / "runs.csv").open("w", newline="") as fh:
         w = csv.DictWriter(fh, fieldnames=list(runs[0]))
         w.writeheader()
         w.writerows(runs)
-    (out / "checksums.sha256").write_text("".join(f"{hashlib.sha256(p.read_bytes()).hexdigest()}  {p.name}\n" for p in sorted(out.glob("*")) if p.name != "checksums.sha256"))
+    (out / "checksums.sha256").write_text(
+        "".join(
+            f"{hashlib.sha256(p.read_bytes()).hexdigest()}  {p.name}\n"
+            for p in sorted(out.glob("*"))
+            if p.name != "checksums.sha256"
+        )
+    )
     for row in summary:
         print(row)
     print("selection counts", picks)

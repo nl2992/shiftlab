@@ -120,9 +120,11 @@ class Evaluator:
 
     def q_value(self, t: int, ctx: int, w: float, buf: tuple, b: int, q: float) -> float:
         inst = self.inst
-        v_no = self._continue(
-            t, w, (*buf, ("d", inst.unqueried_factor(ctx, q))), b
-        ) if q < 1.0 else 0.0
+        v_no = (
+            self._continue(t, w, (*buf, ("d", inst.unqueried_factor(ctx, q))), b)
+            if q < 1.0
+            else 0.0
+        )
         v_yes = self._continue(t, w, (*buf, ("p", t + inst.delay, ctx, q)), b - 1)
         return (1.0 - q) * v_no + q * v_yes
 
@@ -146,7 +148,9 @@ class Evaluator:
                     continue
                 values = [self.q_value(t, ctx, w, buf, b, q) for q in inst.grid]
                 best = max(values)
-                argmax = tuple(q for q, v in zip(inst.grid, values, strict=True) if v >= best - 1e-9)
+                argmax = tuple(
+                    q for q, v in zip(inst.grid, values, strict=True) if v >= best - 1e-9
+                )
                 self.groups.setdefault((t, ctx, b, buf), []).append((w, argmax))
                 val += pc * best
         self._post[key] = val
@@ -229,7 +233,9 @@ def structure_report(ev: Evaluator) -> dict:
         if monotone_in_wealth(list(by_w.items())):
             passed += 1
         elif len(failing) < 10:
-            failing.append({"t": key[0], "context": key[1], "budget": key[2], "n_wealth": len(by_w)})
+            failing.append(
+                {"t": key[0], "context": key[1], "budget": key[2], "n_wealth": len(by_w)}
+            )
     return {
         "groups_tested": tested,
         "groups_monotone": passed,
@@ -311,7 +317,16 @@ def main(argv: list[str] | None = None) -> None:
         )
     out = Path("outputs/rpoq_s3b_levels_v1" if levels_mode else "outputs/rpoq_s3_structure_v1")
     out.mkdir(parents=True, exist_ok=True)
-    (out / "results.json").write_text(json.dumps({"instance": (levels_instance(0) if levels_mode else Instance()).__dict__, "results": results}, indent=2, default=str))
+    (out / "results.json").write_text(
+        json.dumps(
+            {
+                "instance": (levels_instance(0) if levels_mode else Instance()).__dict__,
+                "results": results,
+            },
+            indent=2,
+            default=str,
+        )
+    )
 
 
 if __name__ == "__main__":

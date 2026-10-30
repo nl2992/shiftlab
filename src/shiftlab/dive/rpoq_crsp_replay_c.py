@@ -65,7 +65,13 @@ def main() -> None:
             for e in EPSILONS:
                 cc = _with_q(c, f, e)
                 vals = [
-                    run_monitor(cc, "custom", -1.0, f, np.random.default_rng(SEED + 1000 * ci + 100 + s).random(c["n_events"]))["log_wealth"]
+                    run_monitor(
+                        cc,
+                        "custom",
+                        -1.0,
+                        f,
+                        np.random.default_rng(SEED + 1000 * ci + 100 + s).random(c["n_events"]),
+                    )["log_wealth"]
                     for s in range(DEV_SEEDS)
                 ]
                 dev[(f, e)].append(float(np.mean(vals)))
@@ -88,14 +94,29 @@ def main() -> None:
             for s in range(QUERY_SEEDS):
                 u = np.random.default_rng(SEED + 1000 * ci + s).random(c["n_events"])
                 res = run_monitor(cc, "custom", -1.0, f, u)
-                runs.append({"cohort": ci, "direction": "benefit", "budget_fraction": f, "rule": "asi_mix", "seed": s, **res})
+                runs.append(
+                    {
+                        "cohort": ci,
+                        "direction": "benefit",
+                        "budget_fraction": f,
+                        "rule": "asi_mix",
+                        "seed": s,
+                        **res,
+                    }
+                )
         print(f"test cohort {ci} ({time.time() - t0:.0f}s)", flush=True)
 
     s6: dict[tuple, dict[int, list[float]]] = {}
     with open(args.s6_runs) as fh:
         for r in csv.DictReader(fh):
-            if r["rule"] in ("uniform", "oracle") and r["budget_fraction"] and r["direction"] == "benefit":
-                s6.setdefault((float(r["budget_fraction"]), r["rule"]), {}).setdefault(int(r["cohort"]), []).append(float(r["log_wealth"]))
+            if (
+                r["rule"] in ("uniform", "oracle")
+                and r["budget_fraction"]
+                and r["direction"] == "benefit"
+            ):
+                s6.setdefault((float(r["budget_fraction"]), r["rule"]), {}).setdefault(
+                    int(r["cohort"]), []
+                ).append(float(r["log_wealth"]))
     brng = np.random.default_rng(SEED + 13)
     summary = []
     for f in BUDGET_FRACTIONS:
@@ -104,19 +125,41 @@ def main() -> None:
             if r["budget_fraction"] == f:
                 mine.setdefault(r["cohort"], []).append(r["log_wealth"])
         ids = sorted(mine)
-        row = {"budget_fraction": f, "epsilon": chosen_eps[f]["epsilon"], "asi_mix_mean_log_wealth": _bootstrap(np.array([np.mean(mine[k]) for k in ids]), brng)}
+        row = {
+            "budget_fraction": f,
+            "epsilon": chosen_eps[f]["epsilon"],
+            "asi_mix_mean_log_wealth": _bootstrap(np.array([np.mean(mine[k]) for k in ids]), brng),
+        }
         for other in ("uniform", "oracle"):
             o = s6[(f, other)]
-            row[f"diff_vs_{other}"] = _bootstrap(np.array([np.mean(mine[k]) - np.mean(o[k]) for k in ids if k in o]), brng)
+            row[f"diff_vs_{other}"] = _bootstrap(
+                np.array([np.mean(mine[k]) - np.mean(o[k]) for k in ids if k in o]), brng
+            )
         summary.append(row)
     out = Path(args.output_dir)
     out.mkdir(parents=True, exist_ok=True)
-    (out / "results.json").write_text(json.dumps({"protocol": "docs/rpoq_s6c_calibration_tuned_mixture_protocol_v1.md", "chosen": {str(k): v for k, v in chosen_eps.items()}, "summary": summary, "seconds": time.time() - t0}, indent=2))
+    (out / "results.json").write_text(
+        json.dumps(
+            {
+                "protocol": "docs/rpoq_s6c_calibration_tuned_mixture_protocol_v1.md",
+                "chosen": {str(k): v for k, v in chosen_eps.items()},
+                "summary": summary,
+                "seconds": time.time() - t0,
+            },
+            indent=2,
+        )
+    )
     with (out / "runs.csv").open("w", newline="") as fh:
         w = csv.DictWriter(fh, fieldnames=list(runs[0]))
         w.writeheader()
         w.writerows(runs)
-    (out / "checksums.sha256").write_text("".join(f"{hashlib.sha256(p.read_bytes()).hexdigest()}  {p.name}\n" for p in sorted(out.glob("*")) if p.name != "checksums.sha256"))
+    (out / "checksums.sha256").write_text(
+        "".join(
+            f"{hashlib.sha256(p.read_bytes()).hexdigest()}  {p.name}\n"
+            for p in sorted(out.glob("*"))
+            if p.name != "checksums.sha256"
+        )
+    )
     for row in summary:
         print(row)
 

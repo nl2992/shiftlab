@@ -15,7 +15,7 @@ from shiftlab.dive.rpoq_exact import (
     neyman_table,
 )
 
-SMALL = dict(horizon=5, delay=2, budget=2, grid=(0.5, 1.0))
+SMALL = {"horizon": 5, "delay": 2, "budget": 2, "grid": (0.5, 1.0)}
 
 
 def _simulate(inst: Instance, p_z, act, n: int, seed: int) -> float:
@@ -57,7 +57,12 @@ def _simulate(inst: Instance, p_z, act, n: int, seed: int) -> float:
             if rng.random() < q:
                 budget -= 1
                 events.append(
-                    {"ctx": ctx, "q": q, "arrival": t + inst.delay, "factor": inst.factor(ctx, q, z)}
+                    {
+                        "ctx": ctx,
+                        "q": q,
+                        "arrival": t + inst.delay,
+                        "factor": inst.factor(ctx, q, z),
+                    }
                 )
             else:
                 events.append(
@@ -80,7 +85,9 @@ def test_null_alarm_probability_is_at_most_alpha():
     alt = Evaluator(inst, inst.p_alt, inst.budget)
     alt.value()
     policies = [alt.act, constant_table(neyman_table(inst))]
-    policies += [constant_table({0: qa, 1: qb}) for qa, qb in itertools.product(inst.grid, repeat=2)]
+    policies += [
+        constant_table({0: qa, 1: qb}) for qa, qb in itertools.product(inst.grid, repeat=2)
+    ]
     for pol in policies:
         v_null = Evaluator(inst, inst.p_null, inst.budget, policy=pol).value()
         assert v_null <= inst.alpha + 1e-9
@@ -108,7 +115,8 @@ def test_exact_null_value_matches_simulation_for_constant_policy():
 
 def test_more_budget_never_hurts():
     values = [
-        Evaluator(Instance(**{**SMALL, "budget": b}), Instance().p_alt, b).value() for b in (0, 1, 2)
+        Evaluator(Instance(**{**SMALL, "budget": b}), Instance().p_alt, b).value()
+        for b in (0, 1, 2)
     ]
     assert values[0] == 0.0
     assert values[0] <= values[1] + 1e-12 <= values[2] + 2e-12

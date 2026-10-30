@@ -143,7 +143,7 @@ def run_monitor(c: dict, rule: str, sign: float, frac: float, u: np.ndarray) -> 
     h = sign * c["h"]
     q = _propensity(rule, c, y, h, frac)
     n = c["n_events"]
-    budget = np.inf if rule == "full" else int(round(frac * n))
+    budget = np.inf if rule == "full" else round(frac * n)
     bounds = BOUND * (2.0 / q - 1.0)
     q_raw = u < q
     di = c["date_index"]
@@ -173,10 +173,17 @@ def run_monitor(c: dict, rule: str, sign: float, frac: float, u: np.ndarray) -> 
         count += int(active.sum())
         if first_cross is None and log_w >= log_thr:
             first_cross = k
-    return {"log_wealth": log_w, "crossed": first_cross is not None, "first_cross": first_cross, "spent": spent}
+    return {
+        "log_wealth": log_w,
+        "crossed": first_cross is not None,
+        "first_cross": first_cross,
+        "spent": spent,
+    }
 
 
-def _bootstrap(per_cohort: np.ndarray, rng: np.random.Generator, reps: int = 2000) -> tuple[float, float, float]:
+def _bootstrap(
+    per_cohort: np.ndarray, rng: np.random.Generator, reps: int = 2000
+) -> tuple[float, float, float]:
     mean = float(per_cohort.mean())
     idx = rng.integers(0, len(per_cohort), size=(reps, len(per_cohort)))
     boot = per_cohort[idx].mean(axis=1)
@@ -200,7 +207,10 @@ def main() -> None:
     chosen = rng.permutation(universe)[: args.cohorts * COHORT_SIZE]
     cohorts = [chosen[i * COHORT_SIZE : (i + 1) * COHORT_SIZE] for i in range(args.cohorts)]
     table = _load_rows(panel, chosen, COLUMNS)
-    print(f"loaded {table.num_rows} rows for {len(chosen)} permnos in {time.time() - t0:.0f}s", flush=True)
+    print(
+        f"loaded {table.num_rows} rows for {len(chosen)} permnos in {time.time() - t0:.0f}s",
+        flush=True,
+    )
 
     runs = []
     meta = []
@@ -209,7 +219,21 @@ def main() -> None:
         if c is None:
             meta.append({"cohort": ci, "skipped": True})
             continue
-        meta.append({"cohort": ci, **{k: c[k] for k in ("n_events", "n_dates", "candidate_long_rate", "reference_long_rate", "mean_excess_cost")}})
+        meta.append(
+            {
+                "cohort": ci,
+                **{
+                    k: c[k]
+                    for k in (
+                        "n_events",
+                        "n_dates",
+                        "candidate_long_rate",
+                        "reference_long_rate",
+                        "mean_excess_cost",
+                    )
+                },
+            }
+        )
         for direction, sign in (("benefit", -1.0), ("harm", 1.0)):
             for frac in BUDGET_FRACTIONS:
                 for rule in RULES:
@@ -218,22 +242,44 @@ def main() -> None:
                     for s in range(args.seeds):
                         u = np.random.default_rng(SEED + 1000 * ci + s).random(c["n_events"])
                         res = run_monitor(c, rule, sign, frac, u)
-                        runs.append({"cohort": ci, "direction": direction, "budget_fraction": None if rule == "full" else frac, "rule": rule, "seed": s, **res})
+                        runs.append(
+                            {
+                                "cohort": ci,
+                                "direction": direction,
+                                "budget_fraction": None if rule == "full" else frac,
+                                "rule": rule,
+                                "seed": s,
+                                **res,
+                            }
+                        )
         print(f"cohort {ci} done ({time.time() - t0:.0f}s)", flush=True)
 
     summary = []
     brng = np.random.default_rng(SEED + 7)
     keys = sorted({(r["direction"], r["budget_fraction"], r["rule"]) for r in runs}, key=str)
+
     def per_cohort(direction, frac, rule, field="log_wealth"):
         vals = {}
         for r in runs:
             if (r["direction"], r["budget_fraction"], r["rule"]) == (direction, frac, rule):
                 vals.setdefault(r["cohort"], []).append(float(r[field]))
         return {k: float(np.mean(v)) for k, v in vals.items()}
+
     for direction, frac, rule in keys:
         pcw = per_cohort(direction, frac, rule)
         arr = np.array([pcw[k] for k in sorted(pcw)])
-        row = {"direction": direction, "budget_fraction": frac, "rule": rule, "mean_log_wealth": _bootstrap(arr, brng), "crossing_rate": float(np.mean(per_cohort(direction, frac, rule, "crossed") and list(per_cohort(direction, frac, rule, "crossed").values())))}
+        row = {
+            "direction": direction,
+            "budget_fraction": frac,
+            "rule": rule,
+            "mean_log_wealth": _bootstrap(arr, brng),
+            "crossing_rate": float(
+                np.mean(
+                    per_cohort(direction, frac, rule, "crossed")
+                    and list(per_cohort(direction, frac, rule, "crossed").values())
+                )
+            ),
+        }
         if rule != "uniform" and rule != "full":
             base_c = per_cohort(direction, frac, "uniform")
             diff = np.array([pcw[k] - base_c[k] for k in sorted(pcw) if k in base_c])
@@ -258,7 +304,11 @@ def main() -> None:
         w = csv.DictWriter(fh, fieldnames=list(runs[0]))
         w.writeheader()
         w.writerows(runs)
-    digest = {p.name: hashlib.sha256(p.read_bytes()).hexdigest() for p in sorted(out.glob("*")) if p.name != "checksums.sha256"}
+    digest = {
+        p.name: hashlib.sha256(p.read_bytes()).hexdigest()
+        for p in sorted(out.glob("*"))
+        if p.name != "checksums.sha256"
+    }
     (out / "checksums.sha256").write_text("".join(f"{v}  {k}\n" for k, v in digest.items()))
     for row in summary:
         print(row)

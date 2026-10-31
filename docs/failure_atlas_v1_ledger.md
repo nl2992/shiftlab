@@ -980,3 +980,274 @@ Limits:
 - (f) **Add the missing hard-budget pacing comparator.**
 
 None of this is confirmatory. The confirmation seeds remain untouched.
+
+## Cycle 4
+
+Protocol: `docs/failure_atlas_v1_protocol.md` including Amendments 5 and 5b. All numbers below are copied from
+`outputs/failure_atlas_v1_cycle4_map/summary.md`, `outputs/failure_atlas_v1_cycle4_rvalid2/summary.md`,
+`docs/failure_atlas_straddle_theory_v1.md`, the two `run.log` files, the protocol amendments, or the reviewer's
+evaluation of `outputs/failure_atlas_v1_cycle4_map/checkpoint.jsonl` (marked as such). Nothing here is confirmatory:
+development seeds only.
+
+### 1. Run record
+
+- Straddle map and H-TK2 (Amendment 5 items 1-2): script `scripts/run_atlas_cycle4_map_v1.py`, output
+  `outputs/failure_atlas_v1_cycle4_map/`. The exact command line is not recorded in the summary or `run.log`; the
+  script defaults are T = 1000, `--n-seeds 40`, `--n-f1 400`, `--n-f2 200`, `--workers 6` (the log header records
+  `jobs=791 workers=6 T=1000 n_seeds=40`). Seeds [100000, 100040) (n = 40); cells drawn with rng seed 4040. Git head
+  `1dcf1a9fe4`, dirty = False. Sources: `failure_atlas.py` `2d53ec40d6`, `atlas_components.py` `79f9665b76`,
+  `switching_explore.py` `f7a330f595`, `run_atlas_cycle4_map_v1.py` `ac9d934c23`. Wall time 4179 s.
+- R_valid2 substitution and R_best reclassification (Amendment 5 items 3-4): script
+  `scripts/run_atlas_rvalid2_reclassify_v1.py` (`--workers` default 6; `--best` appends the R_best section). The
+  command line is likewise not recorded. Discovery seeds 0..19 per cell, as in cycle 3; null-twin validity on 100
+  dedicated seeds (offset 5000); stored cycle-3 per-seed costs were reused, and `ref_valid2` and `hard_budget_pacing`
+  were rerun on the same cells and seeds. Output `outputs/failure_atlas_v1_cycle4_rvalid2/`. Wall time 3706 s
+  (`run.log`; `summary.md` and `timing.json` give 3710 s and 3709.5 s for the same run).
+- Git history of this cycle: `7fe9f5a` (register Amendment 5), `7258e08` (register Amendment 5b latency predictions
+  before map results), `27429af` (checkpoint atlas straddle analysis and HG-H2c protocol), `1dcf1a9` (add
+  best-valid-reference reclassification to the R_valid2 script).
+- Reproducibility check of the rerun: max abs diff of rerun vs stored `ref_valid` per-seed cost on 4 cells = 1.11e-16
+  (both families). In family 1 the stored shared-failure labels were reproduced as MISMATCH for
+  `on0.1_L0.6_strong_harmful_d50_b0.25_s0.1` and `on0.1_L0.6_strong_harmful_d10_b0.1_s0.05` (7 stored); the R_best
+  table below reproduces all 7 from the discovery archive.
+
+### 2. R_valid2 and hard_budget_pacing
+
+Validity rates:
+
+- R_valid2 boundary null (any-promotion rate): 0.0233 for family 1 and 0.005 for family 2; harmful-off null: 0.0000.
+  These three figures were supplied with the task; they do not appear in the cycle-4 summaries and were not re-derived
+  here.
+- Pooled null twins, family 1, 20 discovery seeds (cell-weighted): R_valid 0/7200 = 0.0000, R_valid2 0/7200 = 0.0000.
+  Distinct twins, 100 dedicated seeds: R_valid 2/8000 = 0.0003, R_valid2 1/8000 = 0.0001.
+- Pooled null twins, family 2, 20 discovery seeds: R_valid 0/4000 = 0.0000, R_valid2 0/4000 = 0.0000. Distinct twins,
+  100 dedicated seeds: R_valid 0/7600 = 0.0000, R_valid2 0/7600 = 0.0000.
+
+Null-twin tables (alpha = 0.1):
+
+| family | scope | R_valid | R_valid2 |
+|---|---|---|---|
+| 1 | cell-weighted, 20 seeds | 0.0000 (0/7200, Wilson [0.0000, 0.0005]) | 0.0000 (0/7200, Wilson [0.0000, 0.0005]) |
+| 1 | distinct twins, 100 seeds | 0.0003 (2/8000, Wilson [0.0001, 0.0009]) | 0.0001 (1/8000, Wilson [0.0000, 0.0007]) |
+| 2 | cell-weighted, 20 seeds | 0.0000 (0/4000, Wilson [0.0000, 0.0010]) | 0.0000 (0/4000, Wilson [0.0000, 0.0010]) |
+| 2 | distinct twins, 100 seeds | 0.0000 (0/7600, Wilson [0.0000, 0.0005]) | 0.0000 (0/7600, Wilson [0.0000, 0.0005]) |
+
+**R_valid2 substitution: an artifact, not a finding.** Replacing R_valid by R_valid2 gives these class counts.
+
+| class | F1 R_valid (cycle 3) | F1 R_valid2 | F2 R_valid (cycle 3) | F2 R_valid2 |
+|---|---|---|---|---|
+| shared_failure | 7 | 0 | 0 | 0 |
+| cost_of_validity | 117 | 124 | 45 | 45 |
+| prior_gap | 1 | 0 | 0 | 0 |
+| no_headroom | 214 | 215 | 154 | 154 |
+| info_limited | 0 | 0 | 1 | 1 |
+| reference_unsafe | 21 | 21 | 0 | 0 |
+
+All 7 family-1 shared failures moved to `cost_of_validity` and the one `prior_gap` cell moved to `no_headroom`. The
+cause is that R_valid2 is costlier than R_valid (mean per-round cost over cells: family 1 0.4293 for R_valid against
+0.4328 for R_valid2; family 2 0.5111 against 0.5135). A costlier valid reference raises the bar that "cost of
+validity" is measured against, so substituting it mechanically creates `cost_of_validity` and removes
+`shared_failure`. The substitution is not used for classification.
+
+**R_best (the classification used).** R_best is, per cell, whichever of `ref_valid` and `ref_valid2` has the lower mean
+cost on that cell's discovery seeds (a 2-way selection on the same seeds). Caveat: taking the minimum on the same seeds
+biases the reference downward (winner's curse), which is the anti-conservative direction for failure claims.
+
+- Classes under R_best are identical to cycle 3 in both families (F1: shared_failure 7, cost_of_validity 117,
+  prior_gap 1, no_headroom 214, reference_unsafe 21; F2: cost_of_validity 45, no_headroom 154, info_limited 1). No
+  cell becomes shared_failure or prior_gap.
+- R_valid2 was chosen in 52/360 family-1 cells (0.144; R_valid in 308) and in 21/200 family-2 cells (0.105; R_valid in
+  179).
+
+The 7 cycle-3 family-1 shared failures (H = gap to the reference, mean [95% CI]):
+
+| cell | H vs R_valid | H vs R_valid2 | H vs R_best | chosen | class under R_best |
+|---|---|---|---|---|---|
+| on0.3_L0.6_strong_harmful_d10_b0.05_s0.1 | 0.0484 [0.0245, 0.0723] | 0.0167 [0.0033, 0.0300] | 0.0484 [0.0245, 0.0723] | ref_valid | shared_failure |
+| on0.1_L0.6_strong_harmful_d50_b0.25_s0.1 | 0.0189 [0.0113, 0.0265] | 0.0015 [-0.0238, 0.0268] | 0.0189 [0.0113, 0.0265] | ref_valid | shared_failure |
+| on0.6_L0.6_strong_harmful_d1_b0.05_s0.1 | 0.0193 [0.0105, 0.0281] | 0.0043 [-0.0034, 0.0119] | 0.0193 [0.0105, 0.0281] | ref_valid | shared_failure |
+| on0.1_L0.6_strong_harmful_d1_b0.05_s0.1 | 0.0394 [0.0198, 0.0590] | 0.0153 [-0.0009, 0.0315] | 0.0394 [0.0198, 0.0590] | ref_valid | shared_failure |
+| on0.1_L0.6_strong_harmful_d10_b0.1_s0.05 | 0.0205 [0.0105, 0.0306] | 0.0062 [-0.0003, 0.0128] | 0.0205 [0.0105, 0.0306] | ref_valid | shared_failure |
+| on0.6_L1_strong_harmful_d50_b0.05_s0.1 | 0.0316 [0.0145, 0.0487] | 0.0096 [-0.0045, 0.0236] | 0.0316 [0.0145, 0.0487] | ref_valid | shared_failure |
+| on0.1_L0.6_strong_harmful_d10_b0.05_s0.5 | 0.0278 [0.0150, 0.0406] | 0.0041 [-0.0037, 0.0119] | 0.0278 [0.0150, 0.0406] | ref_valid | shared_failure |
+
+**hard_budget_pacing (ungated comparator; completes R6).** It beats the best gated baseline by more than 0.01 (lower
+CI) in 249/360 family-1 cells (mean best_safe minus pacing cost 0.0570) and in 108/200 family-2 cells (mean 0.0522).
+Pacing is ungated and carries no validity guarantee, so this is not a failure test: it shows the gated baselines pay a
+cost that a budget-feasible ungated controller does not, and nothing more. In shared_failure cells under R_valid2 the
+comparison is 0/0 (there are none).
+
+### 3. Straddle mechanism map
+
+Straddle `b1a17927d9ad` against its uniform-acquisition ablation `99ccbdfde7ab` (slot `acquisition`), 40 seeds per
+cell, 400 family-1 and 200 family-2 cells. Gain = ablation cost minus candidate cost per round (positive means the
+candidate is better). Level means and CIs are across cells.
+
+Locked predictions:
+
+- **P1: PASS.** Family 1, gain(d=1) minus gain(d=50), Welch across cells: +0.0275 [+0.0182, +0.0369]. Secondary, exact
+  matched pairs (n = 32): +0.0282 [+0.0059, +0.0505].
+- **P2: PASS.** Pooled null-twin false-promotion rate (alpha = 0.1): straddle 0.0000, ablation 0.0000 (family 1, family
+  2 and all).
+- **P3 (descriptive).** Harm cells (gain CI upper bound < -0.01): family 1 24/400, family 2 12/200.
+
+P1 table, family 1, mean gain by d:
+
+| d | n cells | mean gain [95% CI] |
+|---|---|---|
+| 1 | 126 | +0.0153 [+0.0090, +0.0215] |
+| 10 | 133 | +0.0058 [+0.0013, +0.0104] |
+| 50 | 141 | -0.0123 [-0.0193, -0.0053] |
+
+P3 harm region, family 1 (24/400 cells), harm cells / cells by level:
+
+| axis | level: harm/n |
+|---|---|
+| onset | 0.1: 8/98; 0.3: 6/115; 0.6: 5/95; 0.8: 5/92 |
+| duration | 0.15: 4/87; 0.3: 5/109; 0.6: 8/106; 1.0: 7/98 |
+| effect | medium: 2/157; strong: 22/109; weak: 0/134 |
+| d | 1: 3/126; 10: 6/133; 50: 15/141 |
+| budget_frac | 0.05: 4/141; 0.1: 5/139; 0.25: 15/120 |
+| s | 0.05: 10/146; 0.1: 6/132; 0.5: 8/122 |
+
+P3 harm region, family 2 (12/200 cells):
+
+| axis | level: harm/n |
+|---|---|
+| rate | 0.002: 3/68; 0.005: 7/61; 0.02: 2/71 |
+| effect | medium: 0/62; strong: 12/69; weak: 0/69 |
+| d | 1: 0/69; 10: 2/67; 50: 10/64 |
+| budget_frac | 0.05: 2/64; 0.1: 3/64; 0.25: 7/72 |
+| s | 0.05: 5/65; 0.1: 5/72; 0.5: 2/63 |
+
+Mean-gain highlights, family 1 (overall +0.0024 [-0.0012, +0.0061]):
+
+- By d: +0.0153 [+0.0090, +0.0215] at d = 1, +0.0058 [+0.0013, +0.0104] at d = 10, -0.0123 [-0.0193, -0.0053] at d = 50.
+- By budget_frac: +0.0057 [+0.0012, +0.0101] at 0.05, +0.0021 [-0.0047, +0.0088] at 0.1, -0.0010 [-0.0089, +0.0068] at 0.25
+  (15 harm cells at 0.25).
+- By effect: medium +0.0033 [+0.0014, +0.0052]; strong +0.0032 [-0.0101, +0.0164] with 22 harm cells; weak +0.0007
+  [+0.0006, +0.0009].
+- By onset: 0.1 -0.0026 [-0.0124, +0.0072]; 0.3 +0.0061 [-0.0020, +0.0142]; 0.6 +0.0046 [-0.0017, +0.0108]; 0.8 +0.0009
+  [-0.0011, +0.0028].
+- Duration and s levels all have CIs that include 0.
+
+Family 2 (overall +0.0047 [-0.0000, +0.0095]) mean gain by d:
+
+| d | n cells | mean gain [95% CI] | harm cells |
+|---|---|---|---|
+| 1 | 69 | +0.0223 [+0.0124, +0.0321] | 0 |
+| 10 | 67 | +0.0046 [+0.0004, +0.0089] | 2 |
+| 50 | 64 | -0.0141 [-0.0214, -0.0068] | 10 |
+
+### 4. Latency predictions (Amendment 5b), evaluated by the reviewer from `checkpoint.jsonl`
+
+Amendment 5b was registered before the map summary existed. Under the latency explanation, straddle's request rate is
+about P/d (pending cap P = 2) and uniform pacing's is B/T, so the gain should change sign near d* ≈ P·T/(B + P),
+which gives d* ≈ 38 at B/T = 0.05, ≈ 20 at 0.1 and ≈ 8 at 0.25. The map summary does not report the d × B/T
+cross-tabulation, so the reviewer computed it from `checkpoint.jsonl`: family-1 straddle cells, gain = ablation −
+candidate per round, mean over cells with a t-CI.
+
+| d | B/T | mean gain [95% CI] | n cells |
+|---|---|---|---|
+| 1 | 0.05 | +0.0089 [+0.0014, +0.0164] | 43 |
+| 1 | 0.10 | +0.0207 [+0.0090, +0.0324] | 42 |
+| 1 | 0.25 | +0.0164 [+0.0030, +0.0297] | 41 |
+| 10 | 0.05 | +0.0181 [+0.0080, +0.0281] | 41 |
+| 10 | 0.10 | +0.0042 [+0.0003, +0.0081] | 49 |
+| 10 | 0.25 | −0.0040 [−0.0125, +0.0044] | 43 |
+| 50 | 0.05 | −0.0057 [−0.0107, −0.0007] | 57 |
+| 50 | 0.10 | −0.0164 [−0.0315, −0.0013] | 48 |
+| 50 | 0.25 | −0.0172 [−0.0351, +0.0007] | 36 |
+
+Verdicts:
+
+- **L1: PASS.** gain(d10, b.05) − gain(d10, b.25) = +0.0221 [+0.0093, +0.0349] (Welch, normal approximation).
+- **L2: PASS, by a thin margin.** At d = 10 and B/T = 0.25 the CI upper bound is +0.0044, below 0.005.
+- **L3: PASS.** Every d = 1 budget level has a positive mean gain with a CI that excludes 0.
+
+### 5. triggered_kelly H-TK2
+
+`triggered_kelly` `8ac25a41d4a8` against its ablation `00125145cc58` (slot `evidence`). Neutral-off arm, strong effect,
+s = 0.1, L {0.6, 1} × d {1, 10} × B {0.05, 0.1}, 8 cells per onset, 40 seeds.
+
+| onset | gain [95% CI, per-seed mean of 8 cells] | first promo cand | first promo abl | frac runs promoted cand | abl | promotions/run cand | abl |
+|---|---|---|---|---|---|---|---|
+| 0.1 | +0.0411 [+0.0337, +0.0485] | 368.7 | 425.3 | 0.978 | 0.978 | 1.266 | 1.144 |
+| 0.3 | +0.0062 [+0.0000, +0.0124] | 586.0 | 603.0 | 0.947 | 0.991 | 1.119 | 1.106 |
+| 0.6 | -0.0161 [-0.0202, -0.0121] | 858.3 | 867.2 | 0.584 | 0.769 | 0.600 | 0.769 |
+| 0.8 | -0.0043 [-0.0059, -0.0026] | 924.3 | nan | 0.138 | 0.259 | 0.138 | 0.259 |
+
+- **H-TK2: PASS.** Onset 0.1 minus onset 0.8 = +0.0454 [+0.0383, +0.0524] (per-seed pooled over 8 cells); matched 8 cell
+  pairs +0.0454 [+0.0379, +0.0528].
+- The gain is negative at onset 0.6 and 0.8, where the candidate promotes less often (fraction of runs promoted 0.584
+  against 0.769 at onset 0.6, and 0.138 against 0.259 at onset 0.8). The candidate wins when onset is early and loses
+  when it is late.
+- First-promotion time excludes runs with no promotion. The ablation's value at onset 0.8 is nan.
+- The cycle-3 "re-entry after rollback" conjecture is withdrawn (Amendment 5): family 1 has a single window, so
+  re-entry cannot occur.
+
+### 6. Straddle theory and prior art (`docs/failure_atlas_straddle_theory_v1.md`)
+
+- R2 verdict: no single source theorem states the straddle package, but every ingredient is covered. Undecided-only
+  querying is Chernoff, Naghshvar-Javidi and active-learning practice; validity under predictable selection follows from
+  Waudby-Smith and Ramdas (Prop. 1), Xu et al. (Prop. 2) and the repository's pending-label lemma. Verdict: a known
+  technique in a new (delayed, hard-cap, conditional-null) contract, not a contribution. No novelty claim.
+- Audit gaps: Chernoff 1959, Chugg et al. and Lindon-Kallus were not read as primary texts, and sequential-testing
+  sources on pathwise budgets with pending requests were not searched beyond the repository notes.
+- Validity: a written argument, not a machine-checked proof. Under a conditional null (A1), exogenous outcomes (A2),
+  predictable query selection (A3) and predictable stakes (A4), the e-process is a test supermartingale with delayed
+  release, and the union bound over rollback episodes keeps P(any false promotion) <= alpha. It does not cover the
+  rollback monitor, the economic check, informative or out-of-order release, or a stream that reacts to the deployed
+  action. Numeric corroboration (1500 reps per cell, development-grade): predictable q gives 0.015, 0.018 and 0.009 at
+  d = 1, 10, 50; the two violation rules break the guarantee.
+- Label-saving bound: Propositions 1-2 are exact for the stated schedule. In-flight wasted labels W <= min(P, d−1), and
+  labels saved against uniform = B − tau − W(d) − k_alive(d). In the exact schedule (tau = 10) the saving is 29, 29, 29,
+  30, 31 labels at d = 1, 10, 25, 38, 50.
+- Correction: saved labels are almost independent of d (a spread of 2 labels out of 50), so they cannot explain a gain
+  that goes from +0.115 at d = 1 to −0.017 at d = 50. Acquisition latency does. Proposition 3 (proved for the stylised
+  deterministic schedule) gives d* ≈ P·T/(B + P), about 38.5 for (T, B, P) = (1000, 50, 2). The link to the atlas gain is
+  heuristic. The Amendment 4 wording ("saves labels only when feedback arrives before the decision becomes clear")
+  is incomplete.
+
+### 7. Limitations (cycle 4)
+
+- Both valid references leave alpha essentially unused (null false-promotion about 0 against alpha 0.1), so
+  `cost_of_validity` is relative to conservative references.
+- The R6 wrappers depart from their sources as documented in the registry; a shared failure is a failure against the
+  implemented baselines only.
+- Results are development-grade and use 2-state Bernoulli data only.
+- The map compares the candidate with its own ablation, not with `best_safe`.
+- R_best selects the minimum of two references on the same seeds it is evaluated on (winner's curse).
+- The run command lines are not recorded in the output files, so the commands above are the script defaults.
+- The confirmation seeds are untouched.
+
+### Cycle 4 reviewer assessment (2026-10-31)
+
+**Engine: CONTINUE.** Every locked cycle-4 prediction passed: P1, P2, H-TK2, L1, L2 and L3. In addition, the loop caught one reference-design artifact, R_valid2 substitution, before it entered the record.
+
+**Straddle: mechanism explained; STOP as a contribution.**
+- Averaged over the grid, the gain is small: family 1 +0.0024 [−0.0012, +0.0061]; family 2 +0.0047 [−0.0000, +0.0095].
+- The sign is predictable from acquisition latency:
+  - straddle's request rate is about P/d, against uniform pacing's B/T, so it helps when d < d* ≈ P·T/(B+P) and hurts beyond that;
+  - the latency predictions were registered before the map summary existed, and they hold.
+- Undecided-only querying is a known technique (R2: active sequential testing, predictable-selection e-processes). What remains is a design rule for this contract: use undecided-only acquisition only when release delay is short relative to T/B. That rule is not a method contribution.
+
+**triggered_kelly: mechanism explained; STOP as a contribution.**
+- A single process started at label 0 beats the start mixture when onset is early (onset 0.1 gain +0.0411).
+- It loses when onset is late, because it promotes less often.
+- This is the known start-multiplicity trade-off.
+
+**Main open question: how large the true cost of validity is.**
+- Most family-1 headroom against the Bayes reference is labelled cost_of_validity.
+- That label is relative to two valid references that use essentially none of alpha. It shows that our valid designs cannot close the gap. It does not show that no valid design can.
+
+**PIVOT for cycle 5:**
+- (a) **Measure the validity-constrained optimum on small instances.** Use the repository's exact constrained solver (causal_switching_game.py, sequence-form LP with the causal-null risk constraint, R1: oracle as reference). Compare R_valid and best_safe against the exact constrained optimum at T ≤ 8, plus the largest solvable cells. This separates true cost of validity from reference conservatism.
+- (b) **Open failure families where baselines may fail for reasons other than validity:**
+  - within-regime outcome dependence;
+  - informative or selective label release;
+  - multiple frozen candidates (certification with multiplicity);
+  - admissible real-data replays under R4 (elec2, EIA), with declared imposed costs.
+- (c) **Keep straddle and triggered_kelly** as library components, with the delay rule recorded.
+
+None of this is confirmatory. The confirmation seeds remain untouched.

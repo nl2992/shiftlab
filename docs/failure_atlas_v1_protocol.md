@@ -423,3 +423,91 @@ Locked predictions on the family-1 map data (mean gain over cells, paired CIs):
 - **(L3)** At d = 1, the mean gain is positive at every budget level.
 
 If L1 or L2 fails, the latency explanation is rejected as stated.
+
+## Amendment 6 (2026-10-31, cycle 5, registered before any cycle-5 code or run)
+
+Cycle 4 left one question open: is `cost_of_validity` an unavoidable cost of the guarantee, or does
+it come from conservative valid references? Cycle 5 measures that cost exactly on small instances.
+It also opens the dependence-aware row of the failure table: failure families where gated baselines
+may break their *validity*, not only cost more.
+
+1. **Exact cost of validity (R1, oracle as reference only).** Use
+   `src/shiftlab/dive/causal_switching_game.py` on every cell it can solve. Cells are tiny HMM
+   analogues of family 1:
+   - the regime starts off;
+   - switch-on probability `a` in {0.1, 0.25};
+   - effect: strong (0.02/0.98) and medium (0.2/0.8);
+   - harmful and neutral off states;
+   - T in {6, 7, 8}, B in {2, 3, 4}, d in {1, 2}.
+
+   For each cell, record:
+   - **V_free:** the optimal expected cost without the null-risk constraint. Use alpha = 1, or a
+     variant of `solve` with the risk row removed.
+   - **V_valid:** the optimal cost under the causal-null risk constraint at alpha = 0.1.
+   - Monte Carlo cost (at least 5000 seeds, same HMM and contract, evaluator-side) and null-risk
+     estimates for:
+     - R_valid, adapted to the HMM cell with a uniform onset prior over rounds;
+     - `best_safe` among the gated baselines and `no_switch`;
+     - straddle, `b1a17927d9ad`.
+
+   Derived quantities:
+   - true cost of validity: `CoV = V_valid - V_free`;
+   - reference conservatism: `RC = cost(R_valid) - V_valid`;
+   - baseline gap: `cost(best_safe) - V_valid`.
+
+   Locked reading:
+   - If `RC > CoV` in a majority of solved cells, the cycle-3/4 `cost_of_validity` labels are
+     attributed mainly to reference conservatism, and the family-1 headroom question is reopened.
+   - Otherwise the labels stand at small T.
+   - Extrapolation to T = 1000 is not claimed.
+2. **Family 3: within-regime dependence.** The candidate-benefit indicator follows a 2-state
+   Markov chain inside each regime. Its stationary mean equals the family-1 effect value, and its
+   lag-1 autocorrelation is `rho` in {0, 0.5, 0.8}. All other axes follow family 1, restricted to:
+   - onset {0.3, 0.6};
+   - L {0.6, 1};
+   - effect {strong, medium};
+   - off {neutral, harmful};
+   - d {1, 10};
+   - B {0.05, 0.1};
+   - s = 0.1.
+
+   That gives 3 × 2 × 2 × 2 × 2 × 2 × 2 = 192 cells. Each has a null twin whose regime is never on
+   and whose stationary benefit sits exactly at the hurdle boundary (`E[-D] = h`), with the same
+   `rho`.
+
+   Under `rho > 0` the conditional null `E[X_t | F_{t-1}] <= 0` can fail even though the
+   stationary mean satisfies the null. This is a declared model-misspecification stress test. It
+   is not a bug in the methods.
+
+   Locked predictions:
+   - **(D1)** The pooled null-twin any-promotion rate of at least one safety-gated baseline exceeds
+     alpha + 0.05 at `rho = 0.8`.
+   - **(D2)** For each gated baseline, the null false-promotion rate is non-decreasing in `rho`
+     (descriptive; report it).
+
+   The regular atlas classes are also reported, with R_family and R_valid built as for family 1.
+   R_family ignores the dependence, which is a declared misspecification.
+3. **Family 4: informative label release.** Release delay depends on the outcome:
+   - favourable labels (`D = -1`) are released after `d_f`;
+   - unfavourable labels are released after `d_u`;
+   - `(d_f, d_u)` in {(d, d), (d, 3d), (3d, d)} with base d in {2, 10}.
+
+   Other axes are as in family 3 with `rho = 0`, giving 3 × 2 × 2 × 2 × 2 × 2 × 2 = 192 cells,
+   with null twins at the boundary.
+
+   Event order is otherwise unchanged. A query's label is released at `t + d(outcome)`, and the
+   budget is still charged at request time. The harness change must be a subclass or hook; the
+   existing harness behaviour must not change.
+
+   Locked predictions:
+   - **(I1)** With `d_u = 3d > d_f`, so that favourable labels arrive first, at least one gated
+     baseline's null false-promotion rate exceeds alpha + 0.05 for base d = 10.
+   - **(I2)** With `d_f > d_u`, null false promotion stays at or below alpha.
+4. **Shared settings.**
+   - Families 3 and 4 run stages 1–4 only: discovery uses all cells with 20 seeds; reproduction
+     uses the top 12 with 100 fresh seeds. Mechanism search waits until the validity failures are
+     understood.
+   - Null-twin false-promotion rates use 100 dedicated seeds per twin.
+   - All R6 baselines and `hard_budget_pacing` are included.
+   - Outputs go to `outputs/failure_atlas_v1_cycle5/`.
+   - Nothing is confirmatory.

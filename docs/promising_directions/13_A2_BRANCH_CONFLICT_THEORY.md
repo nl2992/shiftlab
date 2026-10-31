@@ -162,3 +162,85 @@ This explanation is a hypothesis consistent with the data. It is not proved. It 
 proposition worth proving: below a model-dependent threshold `a_0`, some label-independent
 calendar is optimal. Proving it would make "calendars are exactly optimal under tight risk" a
 theorem rather than an observation.
+
+## Calendar optimality: two proved sufficient conditions (added 2026-10-31)
+
+Notation follows the setting above. A policy is a behaviour strategy over released-information
+histories. For a policy `pi`, its **query support** is
+
+    Q(pi) = { t : some history reachable under pi queries at t with positive probability }.
+
+### Proposition 6 (support certificate)
+
+If some optimal joint policy `pi*` at level `a` has `|Q(pi*)| <= B`, then
+`J(a) = C_{Q(pi*)}(a) = C*(a)`.
+
+*Proof.*
+
+- The calendar class `Pi_S` contains every policy that queries only at times in `S`. Inside
+  `Pi_S`, the use or skip of each slot and every action may depend on the history and may be
+  randomised, subject to the pathwise budget.
+- `pi*` queries only in `Q(pi*)`, and it satisfies the budget on every path, so
+  `pi* ∈ Pi_{Q(pi*)}`.
+- `|Q(pi*)| <= B` makes `Q(pi*)` an admissible calendar.
+- Hence `C*(a) <= C_{Q(pi*)}(a) <= cost(pi*) = J(a) <= C*(a)`. QED.
+
+This is an exact certificate for each instance. It is one-directional. If the recovered optimum
+has a larger support, the result is inconclusive, because optima need not be unique.
+
+### Theorem 7 (chain reduction)
+
+Fix `a`. Let `pi*` be optimal for `J(a)`, and suppose it satisfies:
+
+- **(P)** `pi*` promotes with positive probability only on histories in which `B` labels have
+  been released and all of them are positive. That is, promotion requires the whole budget to
+  have been spent on unanimous evidence.
+
+Then there is an optimal policy that is a public-coin mixture of calendar policies, so
+`J(a) = C_mix(a)`. If in addition the query times of `pi*` along the all-positive history are
+deterministic, then `J(a) = C*(a)`.
+
+*Proof.*
+
+1. **Pruning.** Call a history *dead* if some released label is 0. By (P), no continuation of a
+   dead history promotes.
+   - Rollback presupposes promotion, so it does not occur after a dead history either.
+   - So on the subtree below a dead history every action is "continue". The losses incurred do
+     not depend on later queries.
+   - Define `pi'` equal to `pi*`, except that it issues no new queries after a dead history.
+   - Promotion behaviour is unchanged, so the worst-case null risk is unchanged.
+   - Expected cost changes by `-c_q × E[#queries after death] <= 0`.
+   - Therefore `pi'` is also optimal.
+2. **Chain.** Under `pi'`, a query is issued only when every *released* label is positive.
+   - The released-information history is then determined by time, by the public randomisation
+     used so far, and by which queries are still outstanding under delay. All released labels
+     equal 1, so the label content of the history is the fixed all-positive sequence.
+   - Condition on the public coins used for query decisions. Each history then queries at a
+     deterministic set of times `S(u)`. It contains at most `B` elements by the pathwise budget.
+   - After the coins are fixed, `pi'` is in `Pi_{S(u)}`. Unconditionally it is a mixture over
+     `u` of calendar policies.
+   - Its risk is the same mixture of the components' risks, because risk is linear in the
+     mixing distribution. Hence `C_mix(a) <= cost(pi') = J(a)`. Lemma 2 gives `C_mix >= J`,
+     so equality holds.
+3. **Deterministic timing.** If the chain's query times do not depend on the coins, `S(u) = S`
+   is constant and `pi' ∈ Pi_S`. Then `C*(a) = J(a)`. QED.
+
+**Remarks.**
+
+- (P) is a condition on the optimum, not directly on the model. A model-level sufficient
+  condition would need two things:
+  - risk accounting showing that promoting on any history with fewer than `B` positive labels
+    uses more of the risk budget per unit of benefit than the unanimous history does;
+  - a reason why the LP never splits promotion mass onto such histories.
+
+  Neither is derived here. That model-level statement is still conjecture (**Conjecture 8**:
+  for each model there is `a_0 > 0` such that (P) holds for all `a <= a_0`).
+- Delay is handled in step 2, because only *released* labels define deadness. A query issued
+  before an earlier label is released can still be wasted on a branch that turns out dead. It
+  is then part of the support anyway, and the budget bound still applies.
+- Theorem 7 explains the A2 burst shape. Unanimous confirmation uses every query, so the
+  optimum is a single chain, and the chain is calendar-implementable.
+- Theorem 7 also explains the intermediate regime. Once `a` is large enough that promotion on
+  non-unanimous evidence pays (that is, (P) fails), dead-history pruning no longer applies. A
+  re-check after a negative label can then be valuable, which is the branch conflict of
+  Corollary 4.

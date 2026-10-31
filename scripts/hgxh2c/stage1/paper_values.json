@@ -1,0 +1,14 @@
+{
+  "_note": "Values read from the papers' text/tables (figures-only results are given as qualitative claims). Sources: arXiv 2605.28533 (Tenzer), 2506.16416 (Timans), 2402.03683 (Ryu-Wornell), 2406.10490 (Xu), 2602.02229 (Zhang/PPRM).",
+  "pprm": {
+    "cifar10c_binary": {"pprm_alarm_t": 760, "srm_alarm_t": 800, "true_crossing_t": 600, "source": "Sec 6.1 / Fig 2a"},
+    "llm_qa": {"pprm_alarm_t": 500, "srm_alarm_t": 530, "true_crossing_t": 280, "source": "Sec 6.2 / Fig 3"},
+    "table1_llm_time_to_alarm": {"Q2.5-VL-3B": [527.80, 508.83], "Q2-VL-7B": [519.08, 498.31], "GPT-4.1-n": [491.80, 476.98], "Q2.5-VL-32B": [486.22, 471.85], "GPT-4.1": [460.69, 449.88], "columns": ["fixed", "adaptive"]},
+    "pfa_bound": 0.25
+  },
+  "xu": {"beta_star": 0.5578, "violation_rate_bound": 0.05, "setup": "theta=0.1, alpha=0.05, B=0.3, 100 trials, 2500 labels",
+          "claim": "pretrain and learned reach lower beta-hat than all and oblivious at equal labels"},
+  "timans": {"claim": "wealth process has lowest detection delay among trackers with false-alarm guarantees; running risk shows false positives for small windows; psi-CS shrinks as degradation worsens"},
+  "tenzer": {"claim": "combined e-process including the imputed statistic has higher power than without, at all correlation levels; one-sided PPI beats two-sided PPI; settings: n_training=15, n_test in {30,135}, M=128, 500 steps, 500 reps"},
+  "ryu_wornell": {"claim": "KT(K) tighter than per-coordinate baselines early, baselines win in the long run (Fig 1: K in {3,4,5}, T=100, 100 runs); UP(K) much tighter than KT(K) when concentrated (Fig 3)"}
+}

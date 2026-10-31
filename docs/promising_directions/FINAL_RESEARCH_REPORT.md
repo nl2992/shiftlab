@@ -283,3 +283,35 @@ Notes: the A1 solver path defaults to `a1.DEFAULT_SOLVER_ROOT` (the `2bd2e8e` wo
 9. **Blockers:** no `claude` CLI on PATH; Bike and Beijing raw data absent; CRSP is exposed; exact solver node cap exceeded at T=12; published baselines (CAMS, Active RCPS full, PPRM faithful, PR monitoring, e-detector mappings, and others listed in `07` section 3) not faithfully reproduced.
 10. **Report location:** `docs/promising_directions/FINAL_RESEARCH_REPORT.md` (uncommitted).
 11. **Loop status:** terminated normally at a decision point (`stop_reason` `queue_empty`, `next_task` null in `RESEARCH_STATE.json`). Further work needs a new registered question.
+
+## 10. Addendum after the report (A1c, A1d)
+
+Lane A follow-up probes are recorded in `12_NOVELTY_DECISION.md` (A1c / A1d addendum) and
+`RESEARCH_LEDGER.md`.
+
+**A1c, alpha scan.** Under a binding false-promotion constraint, the joint planner beats the
+best pure calendar by up to 6.1%. Without the constraint the gap is only 0.9–1.6%.
+
+**A1d, public-coin calendar mixtures.** The gap survives convexification:
+
+- g_mix is up to 5.8% at alpha between 1/4 and 1/2.
+- That is an excess of up to 4.7 percentage points over the unconstrained gap.
+- The registered decision is H-risk SURVIVES.
+
+**What this changes.** Lane A moves from "closed" to "open theory lead". The lead is a
+risk-specific timing-adaptivity separation, plausibly risk-ledger-dependent acquisition. Its
+limits:
+
+- One family.
+- T ≤ 12.
+- alpha ≥ 3/20, which is above the programme's 0.05/0.10 levels.
+- All gaps are below the 10% practical threshold.
+- No theorem.
+
+**What it does not change.** The executive classification stays BENCHMARK / NEGATIVE-RESULT
+PIVOT, and no method claim is made.
+
+**Recommended next step (A2).** Two parts:
+
+- Seek a growing-family lower bound on g_mix that vanishes when the constraint is slack.
+- Check whether the effect persists at alpha in {0.05, 0.10} in families where those levels bind.

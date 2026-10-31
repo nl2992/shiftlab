@@ -383,3 +383,21 @@ A3.6 Stage 4 runs the equivalence tests E1–E11 from NOVELTY_AUDIT.md on every 
 
 A3.7 The proof gate has status SELF_REVIEW_ONLY. The external reviewer was unavailable. No claim
 may describe validity as independently reviewed until an external review passes.
+
+## Amendment A4 (2026-10-31, after stage 2, before any stage-3 result): frontier eligibility repair
+
+Inspecting the first frozen frontier (sha bc062c9a…) turned up two implementation bugs in
+`stats.frontier`:
+1. Methods entered other tracks' frontiers (for example `tenzer_imputed_C` and `xu_C` on track B).
+2. DIFFERENT_NULL references (Tenzer, null FAR up to 1.0) were admitted.
+
+Fix:
+- Track-T eligibility is now the registry's track-T methods. Track J uses J-capable methods.
+- DIFFERENT_NULL and INVALID entries are reported only as references.
+
+The frontier is recomputed from the unchanged stage-2 summary and refrozen. The old file is kept as
+`frontier_v1_invalid.json`. No search or confirmation data has been seen.
+
+Stage-2 descriptive observation, not a result claim: for the anytime-valid baselines at 256 seeds,
+the maximum null FAR across null cells is 0.047–0.07. That range fits Monte-Carlo noise around
+≤ 0.05 at 54 cells. Stage 4 checks it with 20,000 streams per null family.

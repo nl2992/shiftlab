@@ -217,3 +217,106 @@ Every evaluated configuration, including duplicates, rejects and failures, is ap
 - PaperBanana is required for figures (AGENTS.md). If it is unavailable when the pipeline runs, the
   report records the missing dependency and emits only tables. It never substitutes another
   figure generator.
+
+## Amendment A1 (2026-10-31, before any stage-2/3/4 result): faithful-coverage audit against the brief
+
+A line-by-line check against the programme brief found the gaps below. Each item is now binding.
+
+A1.1 Stage-1 records. Every method's registry entry (`03_BASELINE_REGISTRY.md` and `registry.py`)
+records:
+- the exact paper equation(s);
+- the original code URL and commit, or "none accessible";
+- assumptions;
+- the null hypothesis;
+- the calibration rule;
+- the output metric;
+- the comparator role: DIRECT, ADAPTED or DIFFERENT_NULL;
+- the fidelity class (SOURCE_REPRODUCED / SOURCE_FORMULA_VERIFIED / TASK_ADAPTED / SOURCE_INSPIRED /
+  INVALID_OR_UNSUPPORTED).
+
+For TASK_ADAPTED, the entry says whether the original guarantee survives. Only the first three
+classes count as strong published-method comparisons.
+
+Required native checks:
+- Tenzer: label-shift, concept-shift, and the Appendix-E PPI comparator.
+- Timans: authors' scripts, approx_grapa and grid grapa.
+- Ryu–Wornell: notebooks/exps.ipynb, including universal portfolio.
+- Xu: simulation.py.
+- Csillag: independent reproduction of Algorithm 1, with tests for:
+  - the full-label limit;
+  - unqueried-label behaviour;
+  - the exact conditional expectation under randomised querying (exact enumeration);
+  - factor nonnegativity at the propensity floor 1 − a_t/b_t;
+  - agreement with Algorithm 1 written step by step.
+- PPRM: independent reproduction of the paper's predictive-risk experiments (batch risk estimator,
+  source-risk upper bound, running-risk lower CS, threshold crossing; SRM; fixed vs adaptive
+  reliance on synthetic labels).
+
+Csillag and PPRM are labelled "independent reproduction" until formula-level fidelity is verified.
+
+A1.2 Common adapter. `src/shiftlab/hgxh2c/contract.py` defines `StreamEvent`,
+`ReleasedObservation` and the `SequentialMonitor` protocol (`propose_query`, `observe_release`,
+`evidence`, `alarm`) exactly as in the brief.
+
+A per-event reference runner drives any `SequentialMonitor` from a tape and releases only matured
+labels. Every batched GPU monitor must match its per-event reference counterpart on a fixed set of
+tapes (log-wealth to 1e-6, alarms identical). The batched engine is an accelerator, not a separate
+definition.
+
+A1.3 Endpoints added to §7 (stage-2 report and confirmation):
+- loss accumulated before alarm;
+- cumulative decision cost;
+- intervention cost c_I = 5 per alarm-triggered intervention;
+- switching cost c_S = 2 per policy switch (alarm → fallback, plus one switch back at the next
+  restart if any);
+- information-acquisition cost (c_q × labels);
+- cost per incremental improvement (ΔJ per extra label versus the comparator);
+- E log-wealth where meaningful;
+- performance across magnitudes;
+- runtime and peak GPU/CPU memory.
+
+J_cost in §7 adds `c_I·#interventions + c_S·#switches`. Primary Delta_J is otherwise unchanged.
+
+A1.4 Track membership, as in the brief:
+- B: HG, Brier Kelly/ONS, a task-compatible PP e-process, and PPRM (null mismatch reported).
+- C: H2c, cost Kelly/ONS, Timans, Csillag-style PP betting, and adapted Xu.
+- J: independent HG/H2c, fixed mixtures, multiplicity-controlled separate tests
+  (Bonferroni/Holm-in-time), Ryu–Wornell multivariate betting, and full-history contextual
+  Kelly/ONS.
+
+A1.5 Search. Rung-0 selection also scores runtime and *behavioural novelty*: the distance of the
+candidate's alarm-time/stake trajectory from its nearest baseline and from already-kept candidates,
+used as a diversity term in the Pareto selection. Search cells are oversampled from Failure Atlas
+hard regimes, meaning cells where the frontier's best J is worst relative to the oracle-informed
+reference. Rung-4 budget is 25–50, as in the brief.
+
+A1.6 Confirmation sample size. N per cell is not fixed in advance. It is computed before stage 4,
+from the rung-3 variance of paired J differences, as the smallest N giving 80% power to detect the
+rung-3 effect shrunk by 50% (one-sided 0.05/Holm k). Floors: 1000 per cell; null families 20,000
+streams. The calculation is written to `finalists.json` and frozen with it.
+
+A1.7 Validity is not established by simulation alone. Stage 4 writes `docs/hgxh2c/THEORY_AUDIT.md`
+with a proof, under each finalist's stated assumptions (filtration, delay/feedback regime,
+predictability of stake/query/restart, martingale-difference outcomes, q_min), that each per-track
+wealth is a test supermartingale and that the J combiner is valid for the intersection null. Any
+assumption the proof cannot cover is listed as such. A novelty/equivalence audit
+(`NOVELTY_AUDIT.md`) tests reducibility to contextual ONS, to multivariate betting and to
+prediction-powered e-values (Csillag's framework may contain the candidate as a special case). The
+HKUSTDial `proof-checker`, `novelty-check`, `experiment-audit` and `result-to-claim` skills are run
+on these outputs.
+
+A1.8 Practical magnitude. Report absolute and relative gains with CIs, labels used, and all cost
+components. No percentage pass threshold is applied. Report robustness failures and
+negative-transfer regimes explicitly.
+
+A1.9 Deliverables add:
+- original-paper reproduction tables, plus plots via PaperBanana if available, otherwise recorded
+  as a missing dependency;
+- the frozen stage-2 results database;
+- the failure-mechanism atlas over cells;
+- a final decision that separates methodological novelty, empirical improvement and finance
+  relevance.
+
+Finance relevance is only *assessed*. A walk-forward finance dataset (point-in-time observations,
+delayed outcomes, implementation costs) is future work. It must never be used to select the
+synthetic winner and must never be presented as independent validation of that selection.

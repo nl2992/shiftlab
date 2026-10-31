@@ -472,3 +472,29 @@ def test_seed_guard_in_script():
     with pytest.raises(SystemExit):
         rs.check_seeds([7_000_000], True, None)
     rs.check_seeds([7_000_000], True, "abc")
+
+
+def test_s2_asymmetric_chain():
+    import numpy as np
+
+    from shiftlab.decision_value.contracts import FeedbackContract
+    from shiftlab.decision_value.synthetic import Family
+
+    fb = FeedbackContract(0.2, 0)
+    # explicit symmetric rho_g = rho_b = rho reproduces the default path bit-identically
+    a, ta = Family("s2", {"rho": 0.99}).generate(7, 50, fb)
+    b, tb = Family("s2", {"rho": 0.99, "rho_g": 0.99, "rho_b": 0.99}).generate(7, 50, fb)
+    assert (
+        np.array_equal(a.l0, b.l0)
+        and np.array_equal(a.l1, b.l1)
+        and np.array_equal(ta.regime, tb.regime)
+    )
+    # asymmetric: stationary bad fraction ~ pi_b and mean bad-run length ~ 1/(1-rho_b)
+    rb, pi = 0.99, 0.1
+    rg = 1 - pi * (1 - rb) / (1 - pi)
+    _, t = Family("s2", {"rho_g": rg, "rho_b": rb}).generate(3, 4000, fb)
+    assert abs(t.regime.mean() - pi) < 0.01
+    assert abs(t.regime[:, 0].mean() - pi) < 0.02  # stationary initial state
+    reg = t.regime
+    starts = ((reg[:, 1:] == 1) & (reg[:, :-1] == 0)).sum() + reg[:, 0].sum()
+    assert abs(reg.sum() / starts - 1 / (1 - rb)) < 15

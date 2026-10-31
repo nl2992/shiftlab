@@ -99,10 +99,35 @@ class Family:
                 else:
                     raise ValueError(f"unknown challenger type {c}")
         else:  # s2: stationary symmetric two-state Markov chain, stay prob rho
-            s0 = (r_struct.random(n) < 0.5).astype(np.int64)
-            flips = r_struct.random((n, T)) > p["rho"]
-            flips[:, 0] = False
-            if not null:
+            rg, rb = p.get("rho_g"), p.get("rho_b")
+            asym = (
+                rg is not None or rb is not None
+            )  # optional asymmetric chain (default: symmetric, unchanged)
+            if asym:
+                rg = p["rho"] if rg is None else rg
+                rb = p["rho"] if rb is None else rb
+                pi_b = (1 - rg) / (2 - rg - rb)  # stationary bad-state probability
+                s0 = (r_struct.random(n) < pi_b).astype(np.int64)  # stationary initial state
+            else:
+                s0 = (r_struct.random(n) < 0.5).astype(np.int64)
+            u = r_struct.random((n, T))
+            if asym:
+                if not null:  # state-dependent stay probability; same uniforms/flip rule as the symmetric path
+                    reg = np.empty((n, T), dtype=np.int8)
+                    st = s0.astype(np.int8)
+                    for tt in range(T):
+                        if tt > 0:
+                            st = np.where(u[:, tt] > np.where(st == 1, rb, rg), 1 - st, st).astype(
+                                np.int8
+                            )
+                        reg[:, tt] = st
+                    regime = reg
+                    tau = np.where(regime.any(axis=1), regime.argmax(axis=1), np.nan)
+                flips = None
+            else:
+                flips = u > p["rho"]
+                flips[:, 0] = False
+            if not null and not asym:
                 regime = ((s0[:, None] + np.cumsum(flips, axis=1)) % 2).astype(np.int8)
                 tau = np.where(regime.any(axis=1), regime.argmax(axis=1), np.nan)
             bad = regime == 1

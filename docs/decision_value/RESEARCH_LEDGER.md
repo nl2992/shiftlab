@@ -110,3 +110,52 @@ edited after the fact; corrections are new entries.
   crossing prediction (TH-1) and the P5 predictive formula/ceiling (TH-3).
 - Decision: before any H6 claim, run Experiment Type II (equal-budget tuning of controller and
   threshold per monitor and for simple references, evaluated on fresh dev seeds).
+
+## 2026-10-31 — Type II (tuned controllers) — `11_TYPE2_TUNED_CONTROLLERS.md`, run `type2_20261031T020507Z`
+- Design section of doc 11 was committed in `ac8b844` before results were written (provenance).
+- 11 cells, 160 monitor configs vs 32 simple configs per cell; tune n=500 (seeds 100000+),
+  evaluate n=2000 fresh (200000+), Holm over cells. Best monitor system won 0/10 non-control
+  cells; best simple won 3 (−13.7, −18.2, −12.8, all beyond MME); 7 ties within MME. Negative
+  control passed. Selection optimism small (−1 to +2.4).
+- Tuning collapses toward simple policies: 8/10 cells select Permanent/Reverse at α=0.5, the
+  grid boundary (near-immediate one-way switching).
+- H1 under tuning: 0 protocol reversals in every cell. **Gate G6: the 16/1620 untuned reversals
+  in TH-4 are controller-confounded; H1 is not promoted.**
+- Orchestrator critique (not yet tested): all S2 cells use a symmetric chain (π_b = 0.5), where
+  "always fallback" is near-optimal whenever the fallback is useful. This favours static policies.
+  The regime where monitoring should matter — rare, persistent bad states (as in F4) — has not been
+  tested. α grid boundary also unexplored. Decision: run asymmetric-regime Type II before any H6
+  claim.
+
+## 2026-10-31 — Agent G (adversarial self-review, same model) — `07_ADVERSARIAL_REVIEW.md`
+- Classifications: P1/P4 SUPPORTED_BUT_ESTABLISHED; TH-1 crossing SUPPORTED_ONLY_IN_NARROW_SETTING
+  (near-tautological: controllers are c_s-blind); P3/TH-2 SUPPORTED_BUT_ESTABLISHED; P5/TH-3
+  SUPPORTED_ONLY_IN_NARROW_SETTING (r=0.9999 uses evaluator θ — an identity check, not a deployable
+  prediction); C2 SUPPORTED_ONLY_IN_NARROW_SETTING; C3 INCONCLUSIVE.
+- Executed falsifications (`outputs/decision_value/development/redteam/`):
+  (a) random-τ: CDF-only crossing prediction inside CI in 3/10 pairs (vs 10/10 fixed τ), ~1.5–2×
+  too low → TH-1 claim restricted to environments where Δ path is independent of alarms.
+  (b) undelayed proxy breaks the P5 ceiling (label-only θ_max=0.197, gain −4.0; proxy θ 0.88–0.997,
+  V +25..+28) → P5 scope is label-only, fixed-Hold, Markov.
+  (c) Beta losses + outliers + drift: monitor +4.5 [4.0,5.1] in a ramp cell (< MME 8.4) → C2's
+  "0 wins" is a tie pattern, not dominance.
+  (d) "Simple" calendar/static policies are fixed-sample monitors with effective α 0.5–1 → C2 is
+  about controller form/threshold, not monitoring vs no monitoring.
+  (e) boundary-null false-alarm rates at interior-calibrated thresholds: CUSUM 0.389, SR 0.340,
+  Kelly 0.224, batch 0.217, PH 0.037 → "matched α" is point-null only.
+- Recommended decision: D. Orchestrator accepts objections 1–5 as valid; C2 is re-scoped to
+  "cost-aware, high-α fixed-sample rules match tuned sequential monitors", and the theory is framed
+  as accounting, not as novel theorems.
+
+## 2026-10-31 — Type II asymmetric follow-up — `11` §8, runs `type2_asym_20261031T021545Z`, `type2_orig_ext_20261031T022617Z`
+- S2 gained optional rho_g/rho_b (defaults unchanged; old-cell data SHA-256 identical; 31 tests pass).
+- Rare, persistent bad states (fresh seeds 300000+/400000+): tuned monitor beat best tuned simple
+  policy by ≥MME in 6/12 useful cells, 0 simple wins (diffs 6.5–9.4 vs MME 6.4–7.1); wins at d=0
+  and/or B≥400; ties at d=50; B=100, π_b=0.1 neither system captures headroom. Control passed.
+- Extended α grid on original cells: monitor diff improved in 8/11 cells (th2 strong −12.8 → +0.3);
+  now 1 monitor win, 1 simple win, 8 ties.
+- **H6 as an unconditional statement is CONTRADICTED** in development; it holds only where static
+  policies are near-optimal. Simple family hit its own margin boundary → Step 0 of the confirmation
+  protocol re-tunes it before freezing.
+- Decision: freeze `12_CONFIRMATION_PROTOCOL.md` (conditional-value hypotheses CF-S1..S3 + Part R
+  one-shot OPSD/Monash/Binance).

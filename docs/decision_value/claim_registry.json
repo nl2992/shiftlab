@@ -1,0 +1,861 @@
+[
+ {
+  "claim_id": "F1.a",
+  "claim": "H2c improves harm-detection power over the per-cell better of cost-only discounted (C1) and ONS (C2) at 10% labels on frozen G5 synthetic confirmation",
+  "source_branch": "research/h2c-strong-baselines-and-generalization-2026-10-30",
+  "source_commit": "44119c612a0068e21348893fd94a44c20c297b01",
+  "source_files": [
+   "docs/h2c_next/FROZEN_CONFIRMATION_PROTOCOL.md",
+   "docs/h2c_next/FROZEN_CONFIRMATION_RESULTS.md",
+   "docs/h2c_next/H2C_MECHANISM_ABLATIONS.md",
+   "docs/h2c_next/FINAL_SPRINT_DECISION.md",
+   "scripts/sota_search/g5_confirmation.py",
+   "scripts/sota_search/g5_confirmation_analysis.py",
+   "outputs/h2c_next/g5_confirmation_per_seed.parquet"
+  ],
+  "cells": "32 (14 harm, 10 benign, 8 null); the estimate uses the 14 harm cells",
+  "seeds": "600 per cell (block 90000+)",
+  "metric": "mean over harm cells of paired detection difference vs per-cell better of C1/C2 (chosen from realised cell means); two-level bootstrap cells then seeds, 4000 resamples",
+  "reported_estimate": 0.086,
+  "reported_ci": [
+   0.059,
+   0.113
+  ],
+  "recomputed_estimate": 0.0858,
+  "recomputed_ci": [
+   0.0586,
+   0.1133
+  ],
+  "recompute_method": "analysis recomputation from stored per-seed parquet (audit_recompute.py section F1; same formulas and rng seed 17); simulation NOT rerun",
+  "status": "VERIFIED",
+  "evaluation_status": "frozen synthetic confirmation (single run), own generator family only",
+  "caveats": [
+   "14 harm cells from 8 conditions of one linear-boundary generator; cells not independent",
+   "comparator chosen post hoc per cell from realised means",
+   "nominal risk effectively known; fixed delay 5",
+   "H2c power .3819 (C1 .2646, C2 .2961); wins 13/14 cells",
+   "C7a cost SR beats H2c by .19 with 2-3x false alarms",
+   "H2c ~ discounted Kelly with substituted moment (DOC_ONLY)",
+   "reverses on exposed Gas replay"
+  ]
+ },
+ {
+  "claim_id": "F1.b",
+  "claim": "Same as F1.a at 20% labels",
+  "source_branch": "research/h2c-strong-baselines-and-generalization-2026-10-30",
+  "source_commit": "44119c612a0068e21348893fd94a44c20c297b01",
+  "source_files": [
+   "docs/h2c_next/FROZEN_CONFIRMATION_RESULTS.md",
+   "outputs/h2c_next/g5_confirmation_per_seed.parquet"
+  ],
+  "cells": "32 (14 harm)",
+  "seeds": "600 per cell",
+  "metric": "as F1.a",
+  "reported_estimate": 0.094,
+  "reported_ci": [
+   0.063,
+   0.125
+  ],
+  "recomputed_estimate": 0.0938,
+  "recomputed_ci": [
+   0.0634,
+   0.1251
+  ],
+  "recompute_method": "as F1.a",
+  "status": "VERIFIED",
+  "evaluation_status": "frozen synthetic confirmation (single run)",
+  "caveats": [
+   "H2c power .6405; wins 14/14 cells",
+   "pooled benign FA .067 vs .07 limit; one benign-role cell with true harm .076 has H2c FA .307 (C2 .177)",
+   "as F1.a"
+  ]
+ },
+ {
+  "claim_id": "F1.c",
+  "claim": "H2c power 0.382 (10%) and 0.640 (20%) on harm cells",
+  "source_branch": "research/h2c-strong-baselines-and-generalization-2026-10-30",
+  "source_commit": "44119c612a0068e21348893fd94a44c20c297b01",
+  "source_files": [
+   "docs/h2c_next/FROZEN_CONFIRMATION_RESULTS.md"
+  ],
+  "cells": "14 harm cells",
+  "seeds": "600",
+  "metric": "mean detection",
+  "reported_estimate": [
+   0.382,
+   0.64
+  ],
+  "reported_ci": null,
+  "recomputed_estimate": [
+   0.3819,
+   0.6405
+  ],
+  "recomputed_ci": null,
+  "recompute_method": "as F1.a",
+  "status": "VERIFIED",
+  "evaluation_status": null,
+  "caveats": [
+   "see F1.a"
+  ]
+ },
+ {
+  "claim_id": "F1.d",
+  "claim": "Gas replay (exposed holdout) reverses the H2c gain: H2c alarms 242-824 events later than cost-only Kelly/ONS",
+  "source_branch": "origin/claude/sweet-lovelace-pznpjq",
+  "source_commit": "34c7c8f0cdddedfe53f8e62c09651a91bcb53486",
+  "source_files": [
+   "research/novelty_validation_2026-10-30/scripts/d2_gas_sensor_replay.py",
+   "research/novelty_validation_2026-10-30/scripts/d2_followup_paired_and_diagnostic.py",
+   "research/novelty_validation_2026-10-30/outputs/d2_gas_sensor_replay.json",
+   "research/novelty_validation_2026-10-30/outputs/d2_followup_paired_and_diagnostic.json"
+  ],
+  "cells": "Gas D2 replay streams, labels 5/10/20%",
+  "seeds": "300 per stream",
+  "metric": "mean alarm-index difference H2c minus reference",
+  "reported_estimate": [
+   241.7,
+   824.1
+  ],
+  "reported_ci": null,
+  "recomputed_estimate": [
+   241.69,
+   824.1
+  ],
+  "recomputed_ci": null,
+  "recompute_method": "stored JSON read (git show); not recomputed from per-seed npz; script not rerun",
+  "status": "PARTIALLY_VERIFIED",
+  "evaluation_status": "exploratory, exposed holdout",
+  "caveats": [
+   "2-4x excess cost before alarm not rechecked",
+   "task/costs differ from F5",
+   "branch is not a worktree"
+  ]
+ },
+ {
+  "claim_id": "F1.e",
+  "claim": "H2c reduces exactly to discounted Kelly with substituted moment ratio",
+  "source_branch": "origin/claude/sweet-lovelace-pznpjq",
+  "source_commit": "e9e68574a474ce347e78e4a7d856674bfbdcf3d2",
+  "source_files": [
+   "research/novelty_validation_2026-10-30/outputs/x1_guidance_mechanism_q0.1.json",
+   "research/novelty_validation_2026-10-30/scripts/x1_guidance_mechanism.py"
+  ],
+  "cells": null,
+  "seeds": null,
+  "metric": "max abs dlogW",
+  "reported_estimate": 8.9e-16,
+  "reported_ci": null,
+  "recomputed_estimate": null,
+  "recomputed_ci": null,
+  "recompute_method": "not recomputed",
+  "status": "DOC_ONLY",
+  "evaluation_status": null,
+  "caveats": [
+   "guidance helps +.03 to +.14 only when Brier co-shifts; loses up to .59 otherwise"
+  ]
+ },
+ {
+  "claim_id": "F2.a",
+  "claim": "HG beats the local PPRM-inspired parent",
+  "source_branch": "research/shiftlab-mandate-gap-closure-2026-10-30",
+  "source_commit": "85529116eb9fd16e533ddce9f545f79d695e87d7",
+  "source_files": [
+   "docs/sota_gap_closure/FINAL_STATISTICAL_COMPARISONS.md",
+   "scripts/gap/e15_confirm.py",
+   "scripts/gap/analyze_confirmation.py",
+   "outputs/gap_closure/e15_confirm/perseed.parquet"
+  ],
+  "cells": "15 harm worlds + 6 null worlds",
+  "seeds": "400 per harm world, 1000 per null world (900000+)",
+  "metric": "power difference, harm worlds equally weighted; cluster bootstrap worlds then seeds",
+  "reported_estimate": [
+   0.029,
+   0.052
+  ],
+  "reported_ci": [
+   [
+    0.012,
+    0.046
+   ],
+   [
+    0.02,
+    0.09
+   ]
+  ],
+  "recomputed_estimate": [
+   0.0288,
+   0.0518
+  ],
+  "recomputed_ci": [
+   [
+    0.0117,
+    0.046
+   ],
+   [
+    0.0188,
+    0.09
+   ]
+  ],
+  "recompute_method": "analysis recomputation from perseed.parquet (2000 resamples, own implementation)",
+  "status": "VERIFIED",
+  "evaluation_status": "frozen synthetic confirmation (single run)",
+  "caveats": [
+   "pprm arm is local SOURCE_INSPIRED, not the published CS",
+   "first run mixed classical-arm names across fractions; rerun with identical seeds"
+  ]
+ },
+ {
+  "claim_id": "F2.b",
+  "claim": "HG does not beat Page-Hinkley / CUSUM (n.s. after Holm; point estimates favour PH)",
+  "source_branch": "research/shiftlab-mandate-gap-closure-2026-10-30",
+  "source_commit": "85529116eb9fd16e533ddce9f545f79d695e87d7",
+  "source_files": [
+   "docs/sota_gap_closure/FINAL_STATISTICAL_COMPARISONS.md",
+   "docs/sota_gap_closure/REPORT_D_RESEARCH_DECISION.md",
+   "outputs/gap_closure/e15_confirm/perseed.parquet"
+  ],
+  "cells": "15 harm worlds",
+  "seeds": "400 per world",
+  "metric": "power difference HG - PH",
+  "reported_estimate": [
+   -0.066,
+   -0.11
+  ],
+  "reported_ci": [
+   [
+    -0.24,
+    0.079
+   ],
+   [
+    -0.247,
+    0.005
+   ]
+  ],
+  "recomputed_estimate": [
+   -0.0657,
+   -0.1102
+  ],
+  "recomputed_ci": [
+   [
+    -0.2395,
+    0.0828
+   ],
+   [
+    -0.2575,
+    0.004
+   ]
+  ],
+  "recompute_method": "as F2.a; HG-CUSUM +0.018 [-0.155,0.166], -0.039 [-0.186,0.088]",
+  "status": "VERIFIED",
+  "evaluation_status": "frozen synthetic confirmation",
+  "caveats": [
+   "PH/CUSUM thresholds empirically calibrated; HG at 1/alpha",
+   "HG alarms earlier when it alarms (harm-before -23.4 at 20%)"
+  ]
+ },
+ {
+  "claim_id": "F2.c",
+  "claim": "HG-triggered switching has HIGHER net regret than PH-triggered switching under persistent harm (perm_beneficial; harmful_incumbent_delay50)",
+  "source_branch": "research/shiftlab-mandate-gap-closure-2026-10-30",
+  "source_commit": "08cee3df1e57725f39bde7a525305ae71359379f",
+  "source_files": [
+   "docs/sota_gap_closure/Q3_HG_TRANSFER_RESULTS.md",
+   "docs/sota_gap_closure/Q3_ENVIRONMENT.md",
+   "src/shiftlab/gap/q3.py",
+   "scripts/gap/e8_q3.py",
+   "outputs/gap_closure/e8_q3/perseed.parquet"
+  ],
+  "cells": "6 scenarios, base cost row (12 cost settings stored)",
+  "seeds": "120 paired seeds per scenario (seed bases 8000+)",
+  "metric": "paired net regret difference (negative = first policy better)",
+  "reported_estimate": {
+   "perm_beneficial": 19.2,
+   "harmful_incumbent_delay50": 26.5
+  },
+  "reported_ci": {
+   "perm_beneficial": [
+    6.2,
+    32.2
+   ],
+   "harmful_incumbent_delay50": [
+    14.5,
+    39.1
+   ]
+  },
+  "recomputed_estimate": {
+   "perm_beneficial": 19.18,
+   "harmful_incumbent_delay50": 26.52
+  },
+  "recomputed_ci": {
+   "perm_beneficial": [
+    6.1658,
+    32.1585
+   ],
+   "harmful_incumbent_delay50": [
+    14.6163,
+    39.1585
+   ]
+  },
+  "recompute_method": "analysis recomputation from perseed.parquet, base cost, 4000-resample seed bootstrap",
+  "status": "VERIFIED",
+  "evaluation_status": "exploratory/development, single draw",
+  "caveats": [
+   "doc statement 'switches in 20% of seeds vs 30% for PH' CONTRADICTED: per-seed n_sw>0 rates are 56.7% vs 67.5% (perm) and 47.5% vs 63.3% (delay50)",
+   "PH threshold = empirical 95% null-max quantile (300 null paths); HG ln(1/alpha) with restart, gamma .99, gate 100: not size matched",
+   "costs scaled KQ=10, KC=100 by design",
+   "'n.s.' labels on cert_switch-ph_switch contradict listed CIs"
+  ]
+ },
+ {
+  "claim_id": "F2.d",
+  "claim": "Monitor ranking reverses under transient, reversal and near-tied harm (HG-triggered switching cheaper than PH-triggered)",
+  "source_branch": "research/shiftlab-mandate-gap-closure-2026-10-30",
+  "source_commit": "08cee3df1e57725f39bde7a525305ae71359379f",
+  "source_files": [
+   "docs/sota_gap_closure/Q3_HG_TRANSFER_RESULTS.md",
+   "outputs/gap_closure/e8_q3/perseed.parquet"
+  ],
+  "cells": "3 scenarios (+ no_worthwhile n.s.)",
+  "seeds": "120 paired",
+  "metric": "paired net regret difference HG - PH",
+  "reported_estimate": {
+   "temp_beneficial": -9.4,
+   "reversal": -12.7,
+   "near_tied_flip": -6.2,
+   "no_worthwhile": -1.7
+  },
+  "reported_ci": {
+   "temp_beneficial": [
+    -16.9,
+    -2.9
+   ],
+   "reversal": [
+    -23.2,
+    -2.5
+   ],
+   "near_tied_flip": [
+    -10.0,
+    -2.8
+   ],
+   "no_worthwhile": [
+    -3.9,
+    0.0
+   ]
+  },
+  "recomputed_estimate": {
+   "temp_beneficial": -9.4,
+   "reversal": -12.69,
+   "near_tied_flip": -6.2,
+   "no_worthwhile": -1.68
+  },
+  "recomputed_ci": {
+   "temp_beneficial": [
+    -17.076,
+    -2.675
+   ],
+   "reversal": [
+    -23.8004,
+    -2.5494
+   ],
+   "near_tied_flip": [
+    -10.125,
+    -2.7498
+   ],
+   "no_worthwhile": [
+    -4.0167,
+    0.0
+   ]
+  },
+  "recompute_method": "as F2.c",
+  "status": "VERIFIED",
+  "evaluation_status": "exploratory/development",
+  "caveats": [
+   "in these four scenarios BOTH HG and PH are worse than never switching (HG - frozen = +11.7, +23.8, +11.1, +10.1), so the reversal occurs where the best action is not to act",
+   "ranking may reflect conservativeness (switch propensity), not monitor quality"
+  ]
+ },
+ {
+  "claim_id": "F2.e",
+  "claim": "Nominal validity of HG fails under temporal dependence / mismatched null",
+  "source_branch": "research/hg-validation-and-novelty-2026-10-30",
+  "source_commit": "3d16a88bdc022fef9f89c143108cbbe2f4a1c5cf",
+  "source_files": [
+   "docs/hg_validation/06_DEPENDENCE_STRESS.md",
+   "outputs/hg_validation/06_DEPENDENCE_NULL.json",
+   "docs/sota_gap_closure/FINAL_CONFIRMATION_ROUND2_RESULTS.md"
+  ],
+  "cells": "AR(1) rho in {0,.9,.98}, G1/G2, labels 10/20%",
+  "seeds": "400",
+  "metric": "null false-alarm rate",
+  "reported_estimate": "up to .23 (gap/matrix); .273-.295 (hg_validation, rho .98, 20%)",
+  "reported_ci": null,
+  "recomputed_estimate": {
+   "HG_ctxcap_rho.98_20pct": 0.2725,
+   "HG_unifcap_rho.98_20pct": 0.295,
+   "parent": 0.17,
+   "ONS": 0.36
+  },
+  "recomputed_ci": null,
+  "recompute_method": "stored JSON read; simulation not rerun",
+  "status": "PARTIALLY_VERIFIED",
+  "evaluation_status": "development stress test",
+  "caveats": [
+   "reported maxima differ by source ('.23' vs '.295'); quote as .14-.30 empirical",
+   "discounting+gating worse than parent; uniform cap does not fix dependence",
+   "gap-branch dependent-null maxima: HG@0.2 .141, HGu@0.3 .222"
+  ]
+ },
+ {
+  "claim_id": "F2.f",
+  "claim": "Context-dependent betting cap invalidates the supermartingale argument; uniform (a-priori support-bound) cap repairs it",
+  "source_branch": "research/hg-validation-and-novelty-2026-10-30",
+  "source_commit": "79e14272f0f20ade251cdcbbbb8c2b3f2eb15091",
+  "source_files": [
+   "docs/hg_validation/02_VALIDITY_COUNTEREXAMPLES.md",
+   "outputs/hg_validation/02_EXACT_NULL_TESTS.json",
+   "tests/gap/test_engine.py (gap branch, 07826329dfd631f66cf540e2edf062f0b9336707)"
+  ],
+  "cells": "toy 2-context example",
+  "seeds": "MC 4000 paths x 400 steps (stored)",
+  "metric": "exact drift per step of E[lambda(Z) X]; MC crossing probability",
+  "reported_estimate": {
+   "ctx_cap_drift": 0.0447,
+   "mc_crossing_ctx": 0.0675,
+   "mc_crossing_uniform": 0.035
+  },
+  "reported_ci": null,
+  "recomputed_estimate": {
+   "ctx_cap_drift_analytic": 0.044739,
+   "uniform_cap_drift": 0.0
+  },
+  "recomputed_ci": null,
+  "recompute_method": "analytic recomputation 0.5*(l1*0.2 - l2*0.2) with stored lambdas; MC not rerun",
+  "status": "VERIFIED",
+  "evaluation_status": "exact finite-support check",
+  "caveats": [
+   "idealised bet ceiling lambda0=1; practical inflation small; calibrated proxy is conservative",
+   "repaired variant not re-run on held-out data for context-dependent q"
+  ]
+ },
+ {
+  "claim_id": "F2.g",
+  "claim": "HG_unifcap beats its parent on G3 but not ONS or discounting-only",
+  "source_branch": "research/hg-validation-and-novelty-2026-10-30",
+  "source_commit": "edf4a95226528baea3f7f173715f18d33cd57b50",
+  "source_files": [
+   "docs/hg_validation/05_G3_RESULTS.md",
+   "outputs/hg_validation/05_G3_PER_SEED.parquet"
+  ],
+  "cells": "1 generator (G3), 960 harm seeds",
+  "seeds": "1000 (960 reach harm)",
+  "metric": "power difference",
+  "reported_estimate": {
+   "vs_parent": [
+    0.05,
+    0.131
+   ]
+  },
+  "reported_ci": {
+   "vs_parent": [
+    [
+     0.028,
+     0.073
+    ],
+    [
+     0.106,
+     0.158
+    ]
+   ]
+  },
+  "recomputed_estimate": {
+   "vs_parent": [
+    0.05,
+    0.1313
+   ],
+   "vs_ONS": [
+    -0.0979,
+    -0.0115
+   ],
+   "vs_disc_only": [
+    -0.0573,
+    -0.0344
+   ]
+  },
+  "recomputed_ci": {
+   "vs_parent": [
+    [
+     0.0281,
+     0.0729
+    ],
+    [
+     0.1062,
+     0.1573
+    ]
+   ]
+  },
+  "recompute_method": "analysis recomputation, seed bootstrap 4000",
+  "status": "VERIFIED",
+  "evaluation_status": "frozen single run",
+  "caveats": [
+   "10% gain exactly at the +0.05 threshold",
+   "HG_unifcap is a post-hoc repair arm",
+   "single generator family"
+  ]
+ },
+ {
+  "claim_id": "F3.a",
+  "claim": "P3b certified switching has 7.67%-10.20% lower world-averaged net cost than the best simple comparator (never/always/incumbent-alarm); only B200_cs5 meets the 10% bar",
+  "source_branch": "research/shiftlab-promising-directions-2026-10-30",
+  "source_commit": "041bc26fafeed1132f17ed762ddbfdcff02e34f2",
+  "source_files": [
+   "docs/promising_directions/FINAL_RESEARCH_REPORT.md (3d5d9a1f53665eb2fbda8e16aad0f86f96a203b8)",
+   "docs/promising_directions/protocols/B2-propensity-cap.md",
+   "scripts/promising_directions/b1_certified_switching.py",
+   "docs/promising_directions/results/b2/per_seed.npz"
+  ],
+  "cells": "4 worlds x 4 (B, c_s) settings",
+  "seeds": "500 per cell (base 20261101)",
+  "metric": "1 - cost(P3b)/cost(BEST); BEST selected in-sample on world-averaged cost",
+  "reported_estimate": [
+   10.2,
+   9.65,
+   7.88,
+   7.67
+  ],
+  "reported_ci": "P3b-BEST: -35.04[-36.81,-33.40], -33.52[-34.25,-32.76], -26.91[-28.62,-25.30], -26.66[-27.36,-25.96]",
+  "recomputed_estimate": [
+   10.202,
+   9.645,
+   7.877,
+   7.673
+  ],
+  "recomputed_ci": [
+   [
+    -36.7526,
+    -33.3054
+   ],
+   [
+    -34.2454,
+    -32.7742
+   ],
+   [
+    -28.5428,
+    -25.3299
+   ],
+   [
+    -27.3189,
+    -25.9894
+   ]
+  ],
+  "recompute_method": "analysis recomputation from per_seed.npz; PLUS fresh-seed rerun (seed base 900001): P3b reduction [10.02, 9.59, 7.6, 7.54] (development, non-confirmatory)",
+  "status": "VERIFIED",
+  "evaluation_status": "development round 2 (not confirmatory; change motivated by B1 diagnostic)",
+  "caveats": [
+   "gain concentrated in W1 (-28% to -37%); W3/W4 +14.3%/+10.0% worse than BEST at B400_cs20",
+   "conditional null only; persistent-regime marginal null 20.8% false promotion (DOC_ONLY)",
+   "generator-specific: 3.0-5.4% under weaker paired signal (DOC_ONLY)",
+   "missed the 10% superiority bar in 3 of 4 settings"
+  ]
+ },
+ {
+  "claim_id": "F3.b",
+  "claim": "An untuned fixed-sample paired batch test (nv=25, thr=0.3) captures most of P3b's gain (7.3%-9.3%)",
+  "source_branch": "research/shiftlab-promising-directions-2026-10-30",
+  "source_commit": "1a717bcd04a0fdc9b9908e430d8e27b3f39962d5",
+  "source_files": [
+   "docs/promising_directions/results/adversarial_review/bl.py.txt",
+   "docs/promising_directions/results/adversarial_review/cmp.py.txt",
+   "docs/promising_directions/results/adversarial_review/out*.jsonl",
+   "docs/promising_directions/FINAL_RESEARCH_REPORT.md"
+  ],
+  "cells": "4 worlds x 4 settings",
+  "seeds": "500 per cell",
+  "metric": "reduction vs BEST",
+  "reported_estimate": [
+   9.3,
+   8.8,
+   7.9,
+   7.3
+  ],
+  "reported_ci": null,
+  "recomputed_estimate": [
+   8.99,
+   8.51,
+   7.68,
+   7.21
+  ],
+  "recomputed_ci": null,
+  "recompute_method": "FRESH-SEED RERUN (seed base 900001) of archived critic code on the original generator; NOT an analysis recomputation; P3b on the same seeds: [10.02, 9.59, 7.6, 7.54]",
+  "status": "VERIFIED",
+  "evaluation_status": "development, non-confirmatory",
+  "caveats": [
+   "report text says no saved artifact; critic code archived at 1a717bc",
+   "P6 untuned (in-sample tuned ties or beats P3b by up to 2.8 cost units at B=400)"
+  ]
+ },
+ {
+  "claim_id": "F4.a",
+  "claim": "Stylised dependent-regime study (600 paths, T=2000), variant A cluster 333: incumbent ~601.5, conditional-alarm switching hold100 ~298.0, clairvoyant ~213.4",
+  "source_branch": "research/shiftlab-dependence-gates-2026-10-31",
+  "source_commit": "026500db9dac67da8b9dc239870356a85c571811",
+  "source_files": [
+   "docs/dependence_sprint/11_SAFE_SWITCHING_INTEGRATION.md",
+   "scripts/dep_sprint/estimand_switching.py",
+   "src/shiftlab/dep/sethi.py",
+   "outputs/dep_sprint/estimand_switching.json"
+  ],
+  "cells": "2 variants x 3 cluster lengths x 7 policies",
+  "seeds": "600 paths (global rng seed 31)",
+  "metric": "mean net cost (loss + switching)",
+  "reported_estimate": {
+   "incumbent": 601.5,
+   "cond_hold100": 298.0,
+   "oracle": 213.4
+  },
+  "reported_ci": null,
+  "recomputed_estimate": {
+   "seed31_bit_identical": {
+    "incumbent": 601.5,
+    "cond_hold100": 298.0,
+    "oracle": 213.4
+   },
+   "fresh_seed_mean_of_3": {
+    "incumbent": 587.9,
+    "cond_hold100": 291.4,
+    "oracle": 208.6
+   }
+  },
+  "recomputed_ci": null,
+  "recompute_method": "bit-identical rerun with original seed 31 (max abs diff 0.0 across all stored values); FRESH-SEED RERUN seeds 900031-900033 (3 x 600 paths)",
+  "status": "VERIFIED",
+  "evaluation_status": "exploratory stylised",
+  "caveats": [
+   "single-draw absolute levels vary +-10-20 between runs; ratios stable (-50.5% vs -50.4%)",
+   "oracle knows regime; fallback hand-built; r0 known; q=1; no label cost; marginal (Sethi) alarm never fires"
+  ]
+ },
+ {
+  "claim_id": "F4.b",
+  "claim": "Useless-fallback variant B cluster 333: incumbent ~600.1, conditional switching hold100 ~639.9 (+6% to +10% worse across B rows)",
+  "source_branch": "research/shiftlab-dependence-gates-2026-10-31",
+  "source_commit": "026500db9dac67da8b9dc239870356a85c571811",
+  "source_files": [
+   "docs/dependence_sprint/11_SAFE_SWITCHING_INTEGRATION.md",
+   "scripts/dep_sprint/estimand_switching.py"
+  ],
+  "cells": "variant B x 3 cluster lengths",
+  "seeds": "600 paths",
+  "metric": "mean net cost",
+  "reported_estimate": {
+   "incumbent": 600.1,
+   "cond_hold100": 639.9
+  },
+  "reported_ci": null,
+  "recomputed_estimate": {
+   "seed31_bit_identical": {
+    "incumbent": 600.1,
+    "cond_hold100": 639.9
+   },
+   "fresh_seed_mean_of_3": {
+    "incumbent": 610.3,
+    "cond_hold100": 650.9
+   }
+  },
+  "recomputed_ci": null,
+  "recompute_method": "as F4.a",
+  "status": "VERIFIED",
+  "evaluation_status": "exploratory stylised",
+  "caveats": [
+   "relative penalty +6.6% (seed 31) vs +6.7% (fresh); across B rows +6.3% to +10.6%"
+  ]
+ },
+ {
+  "claim_id": "F5.a",
+  "claim": "UCI Gas replay: incumbent 3,403 vs challenger 2,983 errors over 7,977 (12.34% reduction)",
+  "source_branch": "research/exhaustive-candidate-evaluation-2026-10-30",
+  "source_commit": "ad6cedf41c182ee8b0fcbda71fe09a73659959af",
+  "source_files": [
+   "docs/exhaustive_evaluation/PROMISING_OPTIONS_EXPLORATION.md",
+   "docs/exhaustive_evaluation/gas_headroom_registration.json",
+   "docs/exhaustive_evaluation/gas_headroom_results.json",
+   "scripts/exhaustive_evaluation/explore_gas_headroom.py",
+   "data/raw/gas_sensor/uci-224.zip (sha256 91e8f466f202e7a093d657673ce47311c3e90416f7df3057966058961c351fe4)"
+  ],
+  "cells": "batches 7-10, selection on batch 6",
+  "seeds": "deterministic (no random seed)",
+  "metric": "decision errors (symmetric 0/1)",
+  "reported_estimate": {
+   "incumbent": 3403,
+   "challenger": 2983,
+   "reduction_pct": 12.342
+  },
+  "reported_ci": null,
+  "recomputed_estimate": {
+   "stored_artifact": {
+    "incumbent": 3403.0,
+    "challenger": 2983.0,
+    "reduction_pct": 12.342
+   },
+   "code_rerun_current_env": {
+    "incumbent": 3416,
+    "challenger": 2974,
+    "reduction_pct": 12.939
+   }
+  },
+  "recomputed_ci": null,
+  "recompute_method": "analysis recomputation from stored batch-level costs; deterministic code rerun in py3.13.1/sklearn 1.6.1 with patched ROOT (differs by 9-13 errors)",
+  "status": "PARTIALLY_VERIFIED",
+  "evaluation_status": "exploratory; ALL batches previously exposed (exposed holdout)",
+  "caveats": [
+   "not bit-reproducible across library versions",
+   "new model family, not the earlier PyTorch-softmax protocol",
+   "gross predictive gain, before label/compute/switch costs"
+  ]
+ },
+ {
+  "claim_id": "F5.b",
+  "claim": "Hindsight (clairvoyant) batch-switching headroom over always-challenger is ~0.97%",
+  "source_branch": "research/exhaustive-candidate-evaluation-2026-10-30",
+  "source_commit": "ad6cedf41c182ee8b0fcbda71fe09a73659959af",
+  "source_files": [
+   "docs/exhaustive_evaluation/PROMISING_OPTIONS_EXPLORATION.md",
+   "docs/exhaustive_evaluation/gas_headroom_results.json"
+  ],
+  "cells": "4 batches, two-state DP",
+  "seeds": "n/a",
+  "metric": "DP cost with switch cost 1 vs always-challenger incl. initial switch",
+  "reported_estimate": {
+   "clairvoyant": 2955,
+   "always": 2984,
+   "headroom_pct": 0.972
+  },
+  "reported_ci": null,
+  "recomputed_estimate": {
+   "stored_artifact": {
+    "clairvoyant": 2955.0,
+    "always": 2984.0,
+    "headroom_pct": 0.9718,
+    "sequence": "challenger/incumbent/challenger/challenger"
+   },
+   "code_rerun_current_env": {
+    "clairvoyant": 2943,
+    "always": 2975,
+    "headroom_pct": 1.076
+   }
+  },
+  "recomputed_ci": null,
+  "recompute_method": "enumeration of 2^4 batch sequences from stored batch costs; code rerun as F5.a",
+  "status": "PARTIALLY_VERIFIED",
+  "evaluation_status": "exploratory post-hoc descriptive, exposed",
+  "caveats": [
+   "hindsight, not an online regret bound; zero label cost, so true headroom is lower",
+   "only batch 8 favours the incumbent",
+   "batch-level only; within-batch timestamps unverified"
+  ]
+ },
+ {
+  "claim_id": "F6.a",
+  "claim": "Persistence obstruction: any level-alpha test under the lazy-resample chain has power <= alpha + eps(1+(T-1)delta) against the eps-shifted chain",
+  "source_branch": "research/shiftlab-dependence-gates-2026-10-31",
+  "source_commit": "001e878de519afa3acf012deca0982527486cd34",
+  "source_files": [
+   "docs/dependence_sprint/03_IMPOSSIBILITY_AND_FEASIBILITY.md",
+   "scripts/dep_sprint/gate_ab.py",
+   "outputs/dep_sprint/gate_ab.json"
+  ],
+  "cells": "n=16 exact; delta in {5e-4,.01,.1,1}",
+  "seeds": "exact enumeration",
+  "metric": "exact Neyman-Pearson power; TV",
+  "reported_estimate": {
+   "np_power": [
+    0.067,
+    0.068,
+    0.08,
+    0.213
+   ],
+   "tv_delta5e-4": 0.1002
+  },
+  "reported_ci": null,
+  "recomputed_estimate": {
+   "np_power": [
+    0.0667,
+    0.0678,
+    0.0804,
+    0.2131
+   ],
+   "tv": [
+    0.1002,
+    0.1042,
+    0.125,
+    0.3309
+   ],
+   "bound": [
+    0.1507,
+    0.165,
+    0.3,
+    1.65
+   ]
+  },
+  "recomputed_ci": null,
+  "recompute_method": "proof re-derived (maximal coupling + union bound over 1+Bin(T-1,delta) shared redraws + data processing); independent exact enumeration of 2^16 paths with randomized NP test (r0=0.3, eps=0.1, alpha=.05)",
+  "status": "VERIFIED",
+  "evaluation_status": "theorem + exact computation",
+  "caveats": [
+   "bounds one specific alternative (same chain, marginal r0+eps) for tests valid under the specific null chain",
+   "upper bound only; loose (e.g. ceiling .65 vs oracle .0985 at T*delta=5, eps .10)",
+   "doc does not state r0; 0.3 reproduces"
+  ]
+ },
+ {
+  "claim_id": "F6.b",
+  "claim": "Oracle likelihood-ratio power ceiling at T=2000 is 0.07-0.48 for regimes of 20-400 steps (eps .05-.10)",
+  "source_branch": "research/shiftlab-dependence-gates-2026-10-31",
+  "source_commit": "001e878de519afa3acf012deca0982527486cd34",
+  "source_files": [
+   "scripts/dep_sprint/gate_b_oracle.py",
+   "outputs/dep_sprint/gate_b_oracle.json"
+  ],
+  "cells": "6 T*delta values x 2 eps",
+  "seeds": "6000 paths per cell (rng 11)",
+  "metric": "Monte Carlo NP power at alpha=.05",
+  "reported_estimate": {
+   "eps0.10_Tdelta5": 0.099,
+   "eps0.10_Tdelta100": 0.476
+  },
+  "reported_ci": null,
+  "recomputed_estimate": {
+   "eps0.10_Tdelta5": 0.0985
+  },
+  "recomputed_ci": null,
+  "recompute_method": "stored JSON read; Monte Carlo not rerun",
+  "status": "DOC_ONLY",
+  "evaluation_status": "exploratory",
+  "caveats": [
+   "stored JSON matches doc; oracle knows delta, pi0, pi1"
+  ]
+ },
+ {
+  "claim_id": "F6.c",
+  "claim": "'False alarms' of conditional-null monitors under a stationary-marginal null are valid detections of the conditional-risk estimand; economically useful only when an action with regime-local benefit exists",
+  "source_branch": "research/shiftlab-dependence-gates-2026-10-31",
+  "source_commit": "026500db9dac67da8b9dc239870356a85c571811",
+  "source_files": [
+   "docs/dependence_sprint/03_IMPOSSIBILITY_AND_FEASIBILITY.md",
+   "docs/dependence_sprint/11_SAFE_SWITCHING_INTEGRATION.md"
+  ],
+  "cells": null,
+  "seeds": null,
+  "metric": "logical + F4 net cost",
+  "reported_estimate": null,
+  "reported_ci": null,
+  "recomputed_estimate": null,
+  "recomputed_ci": null,
+  "recompute_method": "logical check (H0-cond false on bad stretches) + F4 rerun (variant A -50% net cost, variant B +6 to +10%)",
+  "status": "PARTIALLY_VERIFIED",
+  "evaluation_status": "exploratory",
+  "caveats": [
+   "validity of the conditional e-process under dependence with delayed/selective feedback not independently proven",
+   "usefulness depends on the action set (F4)"
+  ]
+ }
+]

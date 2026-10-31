@@ -139,6 +139,16 @@ def process_family(fam: int, pool, workers: int) -> dict:
         res["methods"].update(done[f"cell|{c.cell_id}"]["payload"])
         res["null"]["methods"]["ref_valid2"] = done[f"twin|{twin}"]["payload"]["ref_valid2"]
         new = fa.classify_cell(res, valid_key="ref_valid2")
+        # R_best: per cell, the cheaper of ref_valid / ref_valid2 on these same seeds (2-way selection)
+        pick = (
+            "ref_valid2"
+            if np.mean(res["methods"]["ref_valid2"]["cost"])
+            < np.mean(res["methods"]["ref_valid"]["cost"])
+            else "ref_valid"
+        )
+        res["methods"]["ref_valid_best"] = copy.deepcopy(res["methods"][pick])
+        res["null"]["methods"]["ref_valid_best"] = copy.deepcopy(res["null"]["methods"][pick])
+        bst = fa.classify_cell(res, valid_key="ref_valid_best")
         pac = np.asarray(res["methods"]["hard_budget_pacing"]["cost"])
         best = np.asarray(res["methods"][new["best_safe"]]["cost"])
         pg = paired_ci(best - pac)  # >0: pacing cheaper than the best gated baseline
@@ -147,6 +157,8 @@ def process_family(fam: int, pool, workers: int) -> dict:
                 "cell_id": c.cell_id,
                 "old": old,
                 "new": new,
+                "best": bst,
+                "best_pick": pick,
                 "pacing_vs_best_safe": {"mean": pg[0], "lo": pg[1], "hi": pg[2]},
                 "pacing_cost": float(pac.mean()),
                 "valid_cost": float(np.mean(res["methods"]["ref_valid"]["cost"])),
@@ -294,10 +306,79 @@ def summarize(results: list[dict], wall: float) -> str:
     return "\n".join(L) + "\n"
 
 
+NL = chr(10)
+
+
+def best_section(results: list[dict]) -> str:
+    L = [
+        "",
+        "# R_best reclassification (coordinator correction; this is the classification used)",
+        "",
+        (
+            "R_best = per cell, whichever of ref_valid and ref_valid2 has the lower mean cost on that cell's "
+            "discovery seeds (2-way selection on the same seeds; the chosen reference's per-seed cost and "
+            "null-twin fp are injected as `ref_valid_best`). Caveat: taking the minimum on the same seeds "
+            "biases the reference downward (winner's curse). That makes failures slightly easier to find, "
+            "the anti-conservative direction for failure claims. The R_valid2-only tables above are a "
+            "substitution (not used for classification)."
+        ),
+        "",
+    ]
+    for r in results:
+        rows = r["rows"]
+        co = Counter(x["old"]["label"] for x in rows)
+        cb = Counter(x["best"]["label"] for x in rows)
+        n2 = sum(1 for x in rows if x["best_pick"] == "ref_valid2")
+        L += [
+            f"## Family {r['family']}",
+            "",
+            f"R_valid2 chosen in {n2}/{len(rows)} cells ({n2 / len(rows):.3f}); R_valid in {len(rows) - n2}.",
+            "",
+            "| class | R_valid (cycle 3) | R_best |",
+            "|---|---|---|",
+        ]
+        for c in CLASSES:
+            L.append(f"| {c} | {co.get(c, 0)} | {cb.get(c, 0)} |")
+        tr = Counter((x["old"]["label"], x["best"]["label"]) for x in rows)
+        cols = [c for c in CLASSES if cb.get(c, 0)]
+        L += ["", "Transitions (rows: cycle-3 class, columns: R_best class)", ""]
+        L.append("| old / new | " + " | ".join(cols) + " |")
+        L.append("|" + "---|" * (len(cols) + 1))
+        for a in [c for c in CLASSES if co.get(c, 0)]:
+            L.append(f"| {a} | " + " | ".join(str(tr.get((a, b), 0)) for b in cols) + " |")
+        chg = [
+            x
+            for x in rows
+            if x["best"]["label"] in ("shared_failure", "prior_gap")
+            and x["best"]["label"] != x["old"]["label"]
+        ]
+        L += ["", "Cells that become shared_failure or prior_gap under R_best:", ""]
+        L += [
+            f"- {x['cell_id']}: {x['old']['label']} -> {x['best']['label']}, H_best {fmt(x['best']['H_valid'], x['best']['H_valid_ci'])}"
+            for x in chg
+        ] or ["None."]
+        L += ["", "Cycle-3 shared failures (reproduced from the discovery archive):", ""]
+        sf = [x for x in rows if x["old"]["label"] == "shared_failure"]
+        if sf:
+            L.append(
+                "| cell | H vs R_valid | H vs R_valid2 | H vs R_best | chosen | class under R_best |"
+            )
+            L.append("|---|---|---|---|---|---|")
+            for x in sf:
+                L.append(
+                    f"| {x['cell_id']} | {fmt(x['old']['H_valid'], x['old']['H_valid_ci'])} | "
+                    f"{fmt(x['new']['H_valid'], x['new']['H_valid_ci'])} | "
+                    f"{fmt(x['best']['H_valid'], x['best']['H_valid_ci'])} | {x['best_pick']} | {x['best']['label']} |"
+                )
+        L.append("")
+    return NL.join(L) + NL
+
+
 def main() -> None:
     sys.stdout.reconfigure(encoding="utf-8", errors="replace")
     ap = argparse.ArgumentParser()
     ap.add_argument("--workers", type=int, default=6)
+    ap.add_argument("--best", action="store_true", help="append the R_best section")
     a = ap.parse_args()
     a.workers = max(1, min(a.workers, 6))
     OUT.mkdir(parents=True, exist_ok=True)
@@ -310,7 +391,9 @@ def main() -> None:
             results.append(process_family(fam, pool, a.workers))
     wall = prev_wall + time.time() - t0
     meta.write_text(json.dumps({"wall_s": wall}))
-    (OUT / "summary.md").write_text(summarize(results, wall), encoding="utf-8")
+    (OUT / "summary.md").write_text(
+        summarize(results, wall) + (best_section(results) if a.best else ""), encoding="utf-8"
+    )
     (OUT / "classes.json").write_text(
         json.dumps({r["family"]: r["rows"] for r in results}, default=float), encoding="utf-8"
     )

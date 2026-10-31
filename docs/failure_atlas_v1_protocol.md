@@ -214,3 +214,89 @@ Changes, registered before cycle 2 runs:
    removing axis.
 4. **Stage 6 runs on all 11 survivors.** It uses the same locked repair criteria. Fresh validation
    seeds come from offset 50000, so cycle-1 validation uses do not collide.
+
+## Amendment 2 (2026-10-30, after cycle 2, before cycle 3)
+
+This amendment implements ledger section 7. It is registered before any cycle-3 code exists.
+
+1. **Validity-matched reference R_valid.** R_valid is a valid gated method that receives the
+   declared family prior only as fixed mixture weights, set before data:
+   - start weights equal the family onset prior, mapped to label indices through the acquisition
+     calendar;
+   - stake weights are a mixture over the Kelly stakes for each family effect level, against the
+     boundary null;
+   - alpha spending, the economic check and rollback are the same as for `episode_front`.
+
+   R_valid never sees truth. It is listed as a reference because it uses family knowledge.
+
+   New classes:
+   - **`shared_failure`** now also requires that `best_safe - R_valid` has a lower CI bound
+     above 0.01.
+   - **`cost_of_validity`** covers cells with headroom against R_family but not against R_valid.
+     These are recorded and not pursued.
+   - **`prior_gap`** covers cells where R_valid beats every prior-free gated baseline. It is
+     recorded separately, because the advantage there comes from declared prior knowledge.
+     A repair counts only if it is prior-free, or if it states its prior.
+2. **R6 baselines.** These are added in `src/shiftlab/dive/atlas_r6_baselines.py`, following the
+   repository source audits:
+   - `gong_zhang_paid_obs`, a paid-observation switching-cost controller with a free-observation
+     allowance, under a delayed wrapper;
+   - `qiu_delayed_movement`, dynamic regret with movement cost and delayed feedback;
+   - `ryabchenko_capacity`, a fixed-delay batch-representative method with `b=ceil(T/B)`;
+   - `online_fwer_spending`, online alpha spending with fallback (Tian–Ramdas) over sequential
+     promotion tests.
+
+   Methods without a false-promotion guarantee go in the ungated group. `online_fwer_spending` is
+   gated. Each wrapper documents where it departs from its source.
+3. **Lower-bound audit.** `docs/failure_atlas_onset_multiplicity_bound_v1.md` contains:
+   - a stated, checked lower bound, or a counterexample, on the expected post-onset label count
+     any gate needs. The setting is a finite-horizon any-false-promotion constraint `alpha`, with
+     an onset unknown among `m` label positions;
+   - a source audit (e-detectors, conformal-martingale change detection, finite-horizon QCD with a
+     PFA constraint), applying the R2 kill rule.
+
+   A bound counts only after review.
+4. **Failure family 2: recurrent regimes and reversals.** The regime path is a 2-state Markov chain
+   in which the candidate is favourable in the "on" state. Axes:
+
+   | Axis | Levels |
+   | --- | --- |
+   | switch rate `a=b` | 0.002, 0.005, 0.02 |
+   | effect | strong, medium, weak |
+   | off type | neutral, harmful |
+   | `d` | 1, 10, 50 |
+   | `B/T` | 0.05, 0.1, 0.25 |
+   | `s` | 0.05, 0.1, 0.5 |
+
+   The initial state is off, and `T=1000`. That gives 486 cells, each with a null twin that is
+   never on. R_family is an exact HMM filter over the family grid, using the promote-then-revert
+   plan value and a calibrated kappa. R_valid is a per-episode started gate with family-Kelly
+   stakes plus a Page-CUSUM rollback.
+
+   Family 2 uses cell-indexed seeds that are disjoint from family 1. It runs through stages 1–6
+   unchanged, with 200 sampled cells plus 100 refinement cells.
+5. **Family 1 rerun.** The same 360 cells and seeds are rerun with the new classes and with the R6
+   baselines. The output directory is `outputs/failure_atlas_v1_cycle3/`.
+
+## Amendment 3 (2026-10-30, before the cycle-3 full run)
+
+This amendment adds the reviewed lower-bound audit finding
+(`docs/failure_atlas_onset_multiplicity_bound_v1.md`). In harmful-off cells the onset share is not
+provably unavoidable, and a valid history-triggered bettor showed headroom in a toy setting.
+
+1. **New evidence component `triggered_kelly`, for development only.** It is a single wealth
+   process started at label 0, with no start mixture. Its stake is
+   `lambda_t = lambda_k * 1{the last r released labels are all favourable}`. The process is a
+   fixed-weight mixture over `r` in {1, 2, 3, 4} and `lambda_k` in {0.3, 0.6, 0.9}. All weights,
+   and the trigger rule itself, are fixed before data, so every stake is predictable. Alpha
+   spending across episodes is the same as for the other gated components. The component must pass
+   the boundary-null test and a harmful-off null test, both at 300 seeds with a limit of alpha
+   plus 2 SD.
+2. **Proposal rule.** Stage 5 proposes `triggered_kelly` for every survivor in both families, with
+   `started_mixture_eprocess` as the ablation partner.
+3. **Status of the mechanism.** It is a mechanism hypothesis, not a reference: adapting the stake
+   quickly from recent released labels avoids paying the start-multiplicity penalty when pre-onset
+   data are informative (harmful off state). The hypothesis predicts gains in harmful-off cells and
+   none in neutral-off cells. Both predictions are checked.
+4. **Prior art.** Predictable plug-in or adaptive-stake betting is established (Waudby-Smith and
+   Ramdas). No novelty is claimed for the component itself.

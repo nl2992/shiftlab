@@ -320,3 +320,33 @@ A1.9 Deliverables add:
 Finance relevance is only *assessed*. A walk-forward finance dataset (point-in-time observations,
 delayed outcomes, implementation costs) is future work. It must never be used to select the
 synthetic winner and must never be presented as independent validation of that selection.
+
+## Amendment A2 (2026-10-31, before any stage-3 result): search budget aligned to the brief
+
+Facts that prompted this amendment:
+- The canonical grammar space is 5.08e10 candidates (raw 4.6e12), which is far beyond "millions".
+- The §8 rung-1 fidelity (64 seeds × all 648 cells × T=2000) costs about 1.3 GPU-s per candidate,
+  so 1e5 candidates would be infeasible on one RTX 4060.
+
+§8 is replaced by the brief's own stage table. The ceilings below are maxima, not targets.
+
+| Brief stage | Rung | Candidates | Fidelity | Partition | Selection |
+|---|---|---|---|---|---|
+| Generate and canonicalise | gen | 1e6 drawn by structure-stratified random sampling (seed 0) from the canonical space; every structure gets equal quota | — | — | well-typed, canonical, deduplicated |
+| Broad exploratory screening | 0 | up to 1e6 (at least 2e5) | 16 seeds × 32 cells stratified over families × T=1000 | dev | Delta_J vs frontier, null-FAR screen, runtime, behavioural novelty (A1.5) |
+| Mechanism-focused development | 1 | 10,000 | 64 seeds × all 648 dev cells × T=2000 | dev | improvement vs the baseline frontier (Delta_J), Pareto with power and labels |
+| Cross-regime stress | 2 | 500 | 128 seeds × stress grid (d ∈ {0,5,20,50}, AR, sparse labels) | stress | stability; negative-transfer regimes logged |
+| Source-equivalence and theory audit | 3 | 25–50 | 256 seeds | audit | numerical equivalence to contextual ONS / multivariate / PP e-values; per-channel ablation; cyclic-shift control |
+| Frozen confirmation | 4 (stage 4) | 3–5 finalists + selector | A1.6 power-based N | confirm | §9 |
+
+The sampling seed and per-structure quotas are logged in the registry. Everything outside the
+sample is recorded as NOT_SAMPLED and is not considered rejected.
+
+Rung 0 stops at the first multiple of 2e5 sampled candidates after which the top-10,000 set
+changes by less than 5% (Jaccard) between consecutive increments, or at 1e6.
+
+A1.7 split. `THEORY_AUDIT.md` proves validity for the whole typed grammar ahead of time, so any
+finalist is covered by its typing. Stage 4 adds per-finalist automated equivalence checks.
+`NOVELTY_AUDIT.md` contains the literature-reducibility analysis and is written before results. A
+post-results addendum, together with the `result-to-claim` and `experiment-audit` skill runs,
+happens in the next attended session.

@@ -338,3 +338,67 @@ development evidence. The checks below run on mechanism-validation seeds that no
 
 All of these are mechanism-validation results. They are not confirmatory, and no confirmation
 seeds are used.
+
+## Amendment 5 (2026-10-31, cycle 4, registered before any cycle-4 code or run)
+
+All runs in this amendment use development seeds `[100000, 200000)` unless a stage says
+otherwise. Results are descriptive or development-grade. Nothing here is confirmatory.
+
+1. **Straddle mechanism map.** Compare `b1a17927d9ad` (straddle) with its uniform-acquisition
+   ablation on 40 development seeds per cell, with a null twin per cell.
+   - Cells: 400 family-1 cells drawn uniformly from the 2592-cell grid with a fixed rng (seed
+     4040), plus 200 family-2 cells drawn the same way. Family-2 cells use the family-2 adapter
+     of the same spec.
+   - Per cell, report the gain (ablation cost minus candidate cost) with its paired CI.
+   - Report mean gains by level of every axis.
+
+   Locked predictions:
+   - (P1) In family 1, the mean gain at d=1 exceeds the mean gain at d=50. The paired-by-cell CI
+     of that difference must exclude 0.
+   - (P2) Straddle's pooled null-twin false-promotion rate is at most alpha.
+   - (P3, descriptive) List the region where straddle hurts, meaning the gain's CI upper bound is
+     below -0.01, by axis levels.
+2. **Second explanation for `triggered_kelly`'s gain in neutral-off cells.** The registered
+   hypothesis is H-TK2: a single wealth process started at label 0 avoids the start-mixture
+   multiplicity cost when the onset is early, so the neutral-off gain should shrink as onset
+   moves later. Test on all 4 onset levels × L {0.6, 1} × d {1, 10} × B {0.05, 0.1}, with strong
+   effect, neutral off-state and s = 0.1. That gives 32 cells, each run with 40 development seeds.
+   - The prediction holds if the mean gain at onset 0.1 exceeds the mean gain at onset 0.8, with
+     a paired CI that excludes 0.
+   - Also record first-promotion time and the number of promotions per run.
+   - Re-entry after rollback cannot occur in family 1, because there is a single window, so the
+     cycle-3 "re-entry" conjecture is withdrawn.
+3. **Stronger validity-matched reference, R_valid2.** It keeps the same prior weights as R_valid
+   and replaces fixed stakes with predictable Kelly-adaptive stakes:
+   - a mixture of a discounted plug-in Kelly stake and the family-Kelly stakes;
+   - stakes clipped to [0, 0.95);
+   - the same alpha spending, economic check and rollback as R_valid.
+
+   It must satisfy two checks:
+   - boundary null at 300 seeds: false-promotion rate at most alpha + 2 SD;
+   - pooled null-twin false-promotion rate reported. The aim is to use more of alpha than
+     R_valid's 0.
+
+   Re-run classification of the cycle-3 family-1 cells (same seeds) and family-2 cells (same
+   seeds), substituting R_valid2 into the shared_failure, cost_of_validity and prior_gap
+   conditions. Report the class transitions against cycle 3.
+4. **Hard-budget pacing comparator.** Add `hard_budget_pacing` (ungated), following
+   `docs/switching_budget_pacing_prior_audit_v1.md`. It is a budget-feasible pacing controller
+   that spends B along a target trajectory, with dual-variable adjustment and the same
+   window-mean decision as `pacing_bernoulli`. It is included in the R_valid2 reclassification
+   run. This completes R6.
+5. **Theory and prior art for straddle** (`docs/failure_atlas_straddle_theory_v1.md`):
+   - (a) An R2 audit of uncertainty-driven or undecided-only acquisition for sequential tests and
+     anytime-valid procedures, under delay and a hard budget. The audit covers active sequential
+     hypothesis testing, testing by betting with adaptive sampling, and the repository's prior
+     audits.
+   - (b) A written validity argument. The query indicator is predictable with respect to released
+     labels, so the e-process remains a test supermartingale under the conditional null with
+     delayed release.
+   - (c) A stated label-saving bound as a function of `d`. It is either proved, or marked
+     heuristic with a numeric check against the P1 map data.
+
+   Novelty is claimed only if (a) finds no source theorem that covers the result.
+
+Stopping rule for cycle 4: stop when items 1–5 are reported, or when ceilings of 4 hours of wall
+time per run are hit.

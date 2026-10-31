@@ -300,3 +300,41 @@ provably unavoidable, and a valid history-triggered bettor showed headroom in a 
    none in neutral-off cells. Both predictions are checked.
 4. **Prior art.** Predictable plug-in or adaptive-stake betting is established (Waudby-Smith and
    Ramdas). No novelty is claimed for the component itself.
+
+## Amendment 4 (2026-10-30, after cycle-3 family 1, before running these checks)
+
+Cycle-3 family 1 produced one stage-6 repair: `b1a17927d9ad` on
+`on0.6_L0.6_strong_harmful_d1_b0.05_s0.1`. The candidate is straddle acquisition (it queries only
+while the decision is undecided) with started-mixture evidence and a rollback monitor. Its ablation
+partner uses uniform acquisition. The same (cell, spec) pair was already examined on cycle-2
+validation seeds. In addition, cycle-3 validation seeds overlap the cycle-1 range, and the
+per-directory log cannot see reuse across cycles. The repair is therefore reclassified as
+development evidence. The checks below run on mechanism-validation seeds that no cycle has used:
+`[280000, 280200)`, 200 seeds. The criteria are locked now.
+
+1. **Straddle repair check.** In the repair cell and its null twin, compare:
+   - `b1a17927d9ad`;
+   - its uniform-acquisition ablation;
+   - `best_safe`, re-selected on these seeds;
+   - R_family and R_valid.
+
+   It passes only if all of the following hold:
+   - the gap closure to R_family is at least 0.5;
+   - null false promotion is at most alpha + 0.05;
+   - ablation removes at least half the gain;
+   - the candidate is no worse than `best_safe` in both registered neighbours (CI upper bound
+     below +0.01).
+2. **Straddle mechanism prediction.** Straddle saves labels only when feedback arrives before the
+   decision becomes clear. The candidate-minus-ablation gain is predicted to shrink as delay grows:
+   - Grid: onset 0.6, L 0.6, strong, harmful, b 0.05, s 0.1, with d in {1, 10, 50}.
+   - Report the gain at each d.
+   - The prediction holds if gain(d=1) > gain(d=50), with a paired CI on the difference.
+3. **Neutral-off arm of the `triggered_kelly` prediction.** Take the five harmful-off survivor
+   cells and their neutral-off counterparts (identical axes, `off_type` neutral). In each, compare
+   `8ac25a41d4a8` with its started-mixture ablation. The prediction holds if:
+   - the mean gain is above 0 with CI excluding 0 in harmful cells;
+   - the neutral mean gain has CI upper bound below 0.01, or is significantly smaller than the
+     harmful gain.
+
+All of these are mechanism-validation results. They are not confirmatory, and no confirmation
+seeds are used.

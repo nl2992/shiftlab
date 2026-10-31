@@ -1,0 +1,24 @@
+{
+ "created_utc": "2026-10-31T02:51:48.798849+00:00",
+ "files": {
+  "docs/decision_value/12_CONFIRMATION_PROTOCOL.md": "4271e70e4509182124cb1378a046651d4ed071b6f7cba9aa9d72bd3dec6ba07f",
+  "docs/decision_value/10_REAL_DATA_DEV_RESULTS.md": "8785c17780d4920b9b190783aea660c7505e66f5484e5d795cf4d017bb759b7f",
+  "docs/decision_value/manifests/confirmation_selected_configs.json": "d421cd92166e3b5ec7ea04c54e65887bdcc2330093abb571df43198f71264b28",
+  "scripts/decision_value/run_confirmation.py": "5752691040ed62410522f86b20308c1fe7fdd2f0af15311953098813a63420b7",
+  "scripts/decision_value/run_real_data.py": "a9d13c1a15dd6c235f998b75cbc223a55f6e51e88bbc9ccf6fee1ba9347da3b2",
+  "scripts/decision_value/run_type2_tuning.py": "15570dbe18c2df4c0fb731549b6ec75aa9c6e1ab45537ffc43d8156c237d88d9",
+  "scripts/decision_value/audit_real_data.py": "37d56512c90b9fa71c15a6ea10b49ea0fed52d71000647d7ee1458ca2f4db120",
+  "src/shiftlab/decision_value/__init__.py": "a5f8d502f79ef483e4d2bf61bdeea2042d54b45a2c907cead207fef97da58594",
+  "src/shiftlab/decision_value/calibration.py": "3f41d5ea58749ec15170dc977085e4f77aaa8e93a872b7a96d91abd07419de0c",
+  "src/shiftlab/decision_value/contracts.py": "c8c03ea140b52c3312467588bcd582a89d53e20391bcd6c6de04761103fc8bba",
+  "src/shiftlab/decision_value/controllers.py": "2ccdb3313ead68b11071bedeb38d92be91f5977c99235715e46925e9d3ef0d81",
+  "src/shiftlab/decision_value/data_adapters.py": "da8ab62b9f5c434cb47370bfa4466743253268468f0a3361e642f88a8f6b5b46",
+  "src/shiftlab/decision_value/evaluation.py": "df3ead0b13eeee32f3869340dab740466b603c97b52269d58fbb9419c2d0d3d0",
+  "src/shiftlab/decision_value/feedback.py": "a86d90c5cf54bda4cf7f961edf7e72340536a943cec499931286d6b1a470b1b1",
+  "src/shiftlab/decision_value/monitors.py": "3dcf1d3c47908b8aec2f5f373f7eb32663580017f97666456ea286ad399eea02",
+  "src/shiftlab/decision_value/oracles.py": "31af9e5a998e85b34bfe5a09589009bf77e036b044b960dd5e8c154fc6fa0d60",
+  "src/shiftlab/decision_value/registry.py": "51e5e6e859b7b77afe211f98b28aa3f8c22c324d29bc098600f072fdcbc84444",
+  "src/shiftlab/decision_value/statistics.py": "a7ea28e0b52fb39c737ffcf6d741393cbd349882f1d83ea2ca48c12772ba2150",
+  "src/shiftlab/decision_value/synthetic.py": "c191e78f3bc5541a64c27c2f98dafab49571a2633399718d655f1b9484ed35a2"
+ }
+}

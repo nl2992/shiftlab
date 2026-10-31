@@ -29,7 +29,7 @@ from shiftlab.dive.switching_explore import (
     run,
 )
 
-AXES = ("d", "budget_frac", "s", "effect", "duration", "onset", "unknown_axis")
+AXES = ("d", "budget_frac", "s", "effect", "duration", "onset", "rate", "unknown_axis")
 T, B, D = 200, 40, 5
 
 
@@ -311,3 +311,105 @@ def test_new_evidence_boundary_null_validity():
     for kind in NEW_EVIDENCE:
         assert rates[kind] <= alpha + 2 * sd, (kind, rates)
         assert direct[kind] <= alpha + 2 * sd, (kind, direct)
+
+
+# ------------------------------------------------------------------ Amendment 3: triggered_kelly
+
+
+def test_triggered_kelly_proposed_for_every_axis_gated_and_ablatable():
+    for ax in (*AXES, "rate"):
+        props = propose_candidates(ax)
+        tk = [
+            p
+            for p in props
+            if p.evidence == "triggered_kelly" and not p.hypothesis.startswith("Ablation")
+        ]
+        assert tk, ax
+        ids = {p.spec_id for p in props}
+        for p in tk:
+            assert validate_spec(p)[0] and p.is_safety_gated and p.focus == "evidence"
+            partner = ablation_of(p, "evidence")
+            assert partner.evidence == "started_mixture_eprocess" and partner.spec_id in ids
+    rate = propose_candidates("rate")
+    assert {"restart_on_rollback"} <= {p.memory for p in rate}
+    assert {"rollback_monitor"} <= {p.decision for p in rate}
+
+
+def test_triggered_kelly_stake_is_predictable_and_averaged():
+    from shiftlab.dive.atlas_components import TriggeredKellyEProcess
+
+    e = TriggeredKellyEProcess(bound=1.1, alpha=0.1)
+    assert e.log_e_value == pytest.approx(0.0)
+    e.update(-1.1)  # no trigger yet: nobody bets, wealth stays 1
+    assert e.log_e_value == pytest.approx(0.0)
+    e.update(0.9)  # favourable; trigger r=1 bets only from the next label
+    assert e.log_e_value == pytest.approx(0.0)
+    e.update(0.9)  # r=1 components (3 stakes) now bet and win
+    w = np.ones(12)
+    for i, lam in enumerate(np.tile([0.3, 0.6, 0.9], 4)):
+        if i < 3:
+            w[i] = 1 + lam * 0.9 / 1.1
+    assert e.log_e_value == pytest.approx(np.log(w.mean()))  # average, not product
+    with pytest.raises(ValueError):
+        e.update(5.0)
+
+
+def test_triggered_kelly_runs_and_does_not_peek():
+    t0 = T // 2
+    sps = [p for p in propose_candidates("onset") if p.evidence == "triggered_kelly"]
+    assert sps
+    for sp in sps:
+        s1 = _stream(4)
+        l0, l1 = s1.loss0.copy(), s1.loss1.copy()
+        l0[t0:], l1[t0:] = s1.loss1[t0:].copy(), s1.loss0[t0:].copy()
+        s2 = Stream(l0, l1, s1.truth)
+        r1 = run(s1, build_candidate(sp), _cfg())
+        r2 = run(s2, build_candidate(sp), _cfg())
+        assert r1.queries <= B
+        k = t0 + D
+        assert np.array_equal(r1.actions[:k], r2.actions[:k]), sp.spec_id
+        assert np.array_equal(r1.query_mask[:k], r2.query_mask[:k]), sp.spec_id
+
+
+@pytest.mark.parametrize("p_y,tag", [(0.55, 41), (0.1, 42)])  # boundary null; harmful-off null
+def test_triggered_kelly_null_validity(p_y, tag):
+    h, alpha, n_seeds, T_b = 0.1, 0.1, 300, 300
+    sd = float(np.sqrt(alpha * (1 - alpha) / n_seeds))
+    sp = CandidateSpec(
+        "uniform", "triggered_kelly", "none", "certificate_econ", {}, "null validity"
+    )
+    k_run = k_alarm = 0
+    for seed in range(n_seeds):
+        cfg = Config(T=T_b, B=75, d=5, c=0.01, s=0.1, h=h, alpha=alpha, seed=seed)
+        rng = np.random.default_rng([seed, tag])
+        y = (rng.random(T_b) < p_y).astype(float)
+        k_run += run(Stream(y, 1.0 - y), build_candidate(sp), cfg).promotions > 0
+        ev = _Evidence("triggered_kelly", cfg, alpha, 3, 0.0)
+        ever = False
+        for x in 1.0 - 2.0 * y[rng.permutation(T_b)[: cfg.B]]:
+            ev.update(float(x))
+            ever = ever or ev.alarm
+        k_alarm += ever
+    print(
+        f"triggered_kelly null P(Y=1)={p_y}: any-promotion {k_run / n_seeds:.4f}, "
+        f"evidence-alarm {k_alarm / n_seeds:.4f} (limit {alpha + 2 * sd:.4f})"
+    )
+    assert k_run / n_seeds <= alpha + 2 * sd and k_alarm / n_seeds <= alpha + 2 * sd
+
+
+def test_triggered_kelly_promotes_earlier_than_started_mixture_on_late_harmful_onset():
+    T_l = 300
+    path = np.zeros(T_l, dtype=int)
+    path[int(0.6 * T_l) :] = 1
+    first = {"triggered_kelly": [], "started_mixture_eprocess": []}
+    for seed in range(30):
+        st = make_bernoulli_stream(np.random.default_rng([seed, 7]), T_l, (0.1, 0.9), path=path)
+        cfg = Config(T=T_l, B=75, d=5, c=0.01, s=0.1, h=0.1, alpha=0.1, seed=seed)
+        for kind in list(first):
+            sp = CandidateSpec("uniform", kind, "none", "certificate_econ", {}, "late onset")
+            acts = run(st, build_candidate(sp), cfg).actions
+            idx = np.flatnonzero(acts)
+            first[kind].append(int(idx[0]) + 1 if len(idx) else T_l + 1)
+    m = {k: float(np.mean(v)) for k, v in first.items()}
+    print("mean first promotion round (not promoted = T+1):", m)
+    assert m["triggered_kelly"] < m["started_mixture_eprocess"]

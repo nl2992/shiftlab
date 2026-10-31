@@ -48,6 +48,14 @@ queried rounds and only after the delay ``d``. Labels enter the evidence in even
    are in [0, 1) and all mixture weights are fixed before data, so each is a valid e-process under
    the same null; the family-informed weights are a declared prior and validity does not depend
    on them. The schedule approximation for ``straddle`` (data dependent) is the uniform pace.
+7. ``triggered_kelly`` (Amendment 3, development only) is a fixed-weight (equal) average of 12
+   wealth processes on ``X = -D - h`` (bound ``1 + h``), one per trigger length ``r`` in {1,2,3,4}
+   and stake ``lambda`` in {0.3, 0.6, 0.9}. Component ``(r, lambda)`` bets ``lambda`` when the last
+   ``r`` released labels of the episode were all favourable (``X > 0``) and nothing otherwise. The
+   stake depends on the past only, lies in [0, 1), and the weights are fixed before data, so each
+   wealth is a nonnegative supermartingale under ``E[X_t | F_{t-1}] <= 0`` and their (equal-weight)
+   average is an e-process; there is no start mixture. Same heuristic caveats as item 4. Predictable
+   plug-in betting is established; no novelty is claimed.
 6. ``discount`` memory is only admitted on non-evidence statistics (economic benefit
    estimate, hysteresis window). Discounting the evidence itself breaks the supermartingale
    argument and is rejected when the evidence is an e-process/e-detector. ``window_mean``
@@ -63,6 +71,7 @@ from dataclasses import dataclass, field, replace
 from typing import Any
 
 import numpy as np
+from scipy.special import logsumexp
 
 from shiftlab.dive.eprocess import (
     MultiTimescaleStartedKellyEProcess,
@@ -144,6 +153,11 @@ REGISTRY: dict[str, dict[str, ComponentInfo]] = {
                 "wide_stakes",
                 "Started mixture whose stake grid extends to 0.9 and 0.95 (gated).",
             ),
+            _c(
+                "triggered_kelly",
+                "Equal-weight average of history-triggered bettors, r in {1..4} x lambda in "
+                "{0.3,0.6,0.9}, no start mixture (gated; Amendment 3).",
+            ),
         )
     },
     "memory": {
@@ -200,8 +214,11 @@ E_EVIDENCE = frozenset(
         "started_kelly",
         "weighted_starts",
         "wide_stakes",
+        "triggered_kelly",
     }
 )
+TRIGGER_LENGTHS = (1, 2, 3, 4)
+TRIGGER_STAKES = (0.3, 0.6, 0.9)
 ONSET_LEVELS = (0.1, 0.3, 0.6, 0.8)  # declared family onset levels (fractions of T)
 ONSET_JITTER = 0.05
 START_FLOOR = 0.25  # uniform floor of the start weights (>= 0.2 required)
@@ -464,6 +481,42 @@ def weighted_start_design(
     return starts, tuple(float(x) for x in w)
 
 
+class TriggeredKellyEProcess:
+    """Equal-weight average of history-triggered bettors on ``X in [-bound, bound]``.
+
+    Component ``(r, lam)`` stakes ``lam`` iff the last ``r`` observed ``X`` of this process were all
+    positive (stake is a function of the past only) and ``0`` otherwise; wealth is multiplied by
+    ``1 + stake * X / bound``. The reported e-value is the equal-weight *average* of the wealths.
+    """
+
+    def __init__(self, *, bound: float, alpha: float):
+        if not np.isfinite(bound) or bound <= 0 or not 0 < alpha < 1:
+            raise ValueError("bound must be positive and alpha in (0, 1)")
+        self.bound, self.alpha = float(bound), float(alpha)
+        self.r = np.repeat(np.asarray(TRIGGER_LENGTHS), len(TRIGGER_STAKES))
+        self.lam = np.tile(np.asarray(TRIGGER_STAKES, dtype=float), len(TRIGGER_LENGTHS))
+        self.log_w = np.zeros(len(self.r))
+        self.streak = 0  # number of consecutive favourable (X > 0) observations so far
+        self.time = 0
+
+    @property
+    def log_e_value(self) -> float:
+        return float(logsumexp(self.log_w) - math.log(len(self.log_w)))
+
+    @property
+    def alarm(self) -> bool:
+        return self.log_e_value >= -math.log(self.alpha)
+
+    def update(self, value: float) -> float:
+        if not np.isfinite(value) or abs(value) > self.bound + 1e-12:
+            raise ValueError("observed value is outside the declared bounded range")
+        stake = np.where(self.streak >= self.r, self.lam, 0.0)  # decided before seeing ``value``
+        self.log_w = self.log_w + np.log1p(stake * (value / self.bound))
+        self.streak = self.streak + 1 if value > 0 else 0
+        self.time += 1
+        return self.log_e_value
+
+
 class _Evidence:
     """Uniform wrapper: ``update(x)`` consumes D, tests E[-D] > h; ``alarm`` flag."""
 
@@ -496,6 +549,8 @@ class _Evidence:
                 )
         elif kind == "wide_stakes":
             self.proc = wide_stakes_gate(bound, alpha_j, cfg.B)
+        elif kind == "triggered_kelly":
+            self.proc = TriggeredKellyEProcess(bound=bound, alpha=alpha_j)
         elif kind == "horizon_cusum":
             self.proc = HorizonCalibratedEDetector(
                 bound=bound, horizon=max(1, cfg.B), alpha=alpha_j, kind="cusum"
@@ -783,8 +838,64 @@ def _evidence_specs() -> list[CandidateSpec]:
     ]
 
 
+def _triggered_specs() -> list[CandidateSpec]:
+    """Amendment 3: proposed for every axis; the ablation partner swaps in the started mixture."""
+    E = "evidence"
+    return [
+        _mk(
+            E,
+            "Adapting the stake quickly from the last r released labels avoids paying the "
+            "start-multiplicity penalty when pre-onset data are informative (harmful off state); "
+            "predicts gains in harmful-off cells and none in neutral-off cells.",
+            evi="triggered_kelly",
+        ),
+        _mk(
+            E,
+            "History-triggered bettor with k=2 hysteresis (as above, harder to fool by one run).",
+            evi="triggered_kelly",
+            dec="hysteresis",
+            decision__k=2,
+        ),
+    ]
+
+
 def _axis_specs(axis: str) -> list[CandidateSpec]:
     A, E, M, D = "acquisition", "evidence", "memory", "decision"
+    if axis == "rate":
+        return [
+            _mk(
+                M,
+                "Recurrent regimes: a re-evaluation burst after each rollback restores information "
+                "at the moment the old evidence is discarded.",
+                mem="restart_on_rollback",
+            ),
+            _mk(
+                D,
+                "A tighter Page-CUSUM rollback (kappa=1.5) leaves an off phase sooner under fast "
+                "switching.",
+                dec="rollback_monitor",
+                decision__kappa=1.5,
+            ),
+            _mk(
+                D,
+                "A looser rollback (kappa=3) avoids reverting on noise during slow regimes.",
+                dec="rollback_monitor",
+                decision__kappa=3.0,
+            ),
+            _mk(
+                M,
+                "Restart burst with a decaying reserve keeps budget for the next on phase.",
+                acq="reserve_pacing",
+                mem="restart_on_rollback",
+                acquisition__reserve_frac=0.2,
+            ),
+            _mk(
+                E,
+                "A history-triggered bettor with rollback restarts quickly in each episode.",
+                evi="triggered_kelly",
+                mem="restart_on_rollback",
+            ),
+        ]
     if axis == "d":
         return [
             _mk(
@@ -1039,7 +1150,7 @@ def _duration_onset_specs() -> list[CandidateSpec]:
 def propose_candidates(mechanism_axis: str, max_n: int = 40) -> list[CandidateSpec]:
     """Failure-conditioned proposals for an isolated axis, each followed by its ablation partner.
 
-    Axes: 'd', 'budget_frac', 's', 'effect', 'duration', 'onset'; anything else gets a
+    Axes: 'd', 'budget_frac', 's', 'effect', 'duration', 'onset', 'rate'; anything else gets a
     small default set. Specs are deduplicated by ``spec_id``; invalid ones are kept so the
     archive records the rejection (callers filter with ``validate_spec``).
     """
@@ -1051,7 +1162,7 @@ def propose_candidates(mechanism_axis: str, max_n: int = 40) -> list[CandidateSp
             seen.add(sp.spec_id)
             out.append(sp)
 
-    for sp in _axis_specs(mechanism_axis):
+    for sp in [*_triggered_specs(), *_axis_specs(mechanism_axis)]:
         if len(out) >= max_n:
             break
         add(sp)
@@ -1067,6 +1178,7 @@ __all__ = [
     "WIDE_STAKES",
     "CandidateSpec",
     "ComposedMethod",
+    "TriggeredKellyEProcess",
     "ablation_of",
     "build_candidate",
     "default_spec",

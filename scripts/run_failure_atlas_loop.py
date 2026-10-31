@@ -1,9 +1,10 @@
 """Failure Atlas v1 loop (R4 exploratory discovery; no novelty, theorem or efficacy claim).
 
-Protocol: docs/failure_atlas_v1_protocol.md. Resumable; run from the repository root:
+Protocol: docs/failure_atlas_v1_protocol.md (Amendments 1-2). Resumable; run from the repository root:
 
     .venv/Scripts/python scripts/run_failure_atlas_loop.py --smoke --out outputs/failure_atlas_v1_smoke
     .venv/Scripts/python scripts/run_failure_atlas_loop.py            # full run (not launched by default tooling)
+    ... --family 2        # failure family 2 (recurrent regimes); --family both writes <out>/family1, <out>/family2
 
 State: ``<out>/state.json``. Append-only archive: ``<out>/archive.jsonl`` (one row per evaluation,
 with git head, dirty flag and source sha256). Stages 5-6 import ``shiftlab.dive.atlas_components``
@@ -45,6 +46,7 @@ COMPONENTS_MODULE = os.environ.get("ATLAS_COMPONENTS_MODULE", "shiftlab.dive.atl
 SOURCES = (
     "src/shiftlab/dive/failure_atlas.py",
     "src/shiftlab/dive/atlas_components.py",
+    "src/shiftlab/dive/atlas_r6_baselines.py",
     "src/shiftlab/dive/switching_explore.py",
     "src/shiftlab/dive/eprocess.py",
     "scripts/run_failure_atlas_loop.py",
@@ -60,7 +62,7 @@ class StopLoop(Exception):
 
 def isolate_worker(task: tuple) -> dict:
     cl = fa._isolate_task(task)
-    cl["_runs"] = len(task[1]) * (len(fa.ALL_METHODS) + 3) * 2  # cell + null twin
+    cl["_runs"] = len(task[1]) * (len(fa.all_method_names()) + 3) * 2  # cell + null twin
     return cl
 
 
@@ -127,7 +129,9 @@ def git_info() -> dict:
         "head": g("rev-parse", "HEAD"),
         "dirty": bool(g("status", "--porcelain")),
         "src_sha256": {
-            Path(f).name: hashlib.sha256((ROOT / f).read_bytes()).hexdigest() for f in SOURCES
+            Path(f).name: hashlib.sha256((ROOT / f).read_bytes()).hexdigest()
+            for f in SOURCES
+            if (ROOT / f).exists()
         },
     }
 
@@ -156,16 +160,21 @@ def fmt_ci(mean: float, ci) -> str:
 
 
 class Runner:
-    def __init__(self, args, pool):
+    def __init__(self, args, pool, family: int = 1, out: str | None = None):
         self.args = args
         self.pool = pool
-        self.out = Path(args.out)
+        self.family = family
+        self.axes = fa.AXES2 if family == 2 else fa.AXES
+        self.easiest = fa.EASIEST2 if family == 2 else fa.EASIEST
+        self.out = Path(out or args.out)
         self.out.mkdir(parents=True, exist_ok=True)
         self.state_path = self.out / "state.json"
         self.archive_path = self.out / "archive.jsonl"
         self.git = git_info()
         self.T = 200 if args.smoke else 1000
-        self.cells = {c.cell_id: c for c in fa.all_cells(self.T)}
+        self.cells = {
+            c.cell_id: c for c in (fa.all_cells2(self.T) if family == 2 else fa.all_cells(self.T))
+        }
         self.state = {
             "stage": 0,
             "kappa": fa.KAPPA_DEFAULT,
@@ -181,6 +190,7 @@ class Runner:
             "stopped": None,
             "mechanism": {},
             "smoke": bool(args.smoke),
+            "family": family,
         }
         if self.state_path.exists():
             self.state.update(json.loads(self.state_path.read_text(encoding="utf-8")))
@@ -297,7 +307,7 @@ class Runner:
     def evaluate(
         self, cells: list[fa.CellSpec], seed_list, stage: str, methods=None
     ) -> list[tuple]:
-        methods = tuple(fa.ALL_METHODS if methods is None else methods)
+        methods = tuple(fa.all_method_names() if methods is None else methods)
         kappa, tag = self.state["kappa"], self._tag(seed_list)
         twins = {c.null_twin().cell_id: c.null_twin() for c in cells}
         nulls = [
@@ -326,7 +336,13 @@ class Runner:
 
     # -- stages --------------------------------------------------------------------
     def stage0_registry(self) -> None:
-        self.state["registry"] = fa.BASELINE_REGISTRY
+        self.state["registry"] = fa.baseline_registry()
+        self.state["r6_status"] = fa.r6_status()
+        self.state["methods"] = {
+            "gated": list(fa.gated_methods()),
+            "ungated": list(fa.ungated_methods()),
+        }
+        print(f"[stage0] {self.state['r6_status']}", flush=True)
         self.state["stage"] = max(self.state["stage"], 1)
         self.save()
 
@@ -417,7 +433,12 @@ class Runner:
                 "best_safe": cl["best_safe"],
                 "gaps": cl["gaps"],
                 "info_gap": cl["info_gap"],
+                "H_valid": cl["H_valid"],
+                "H_valid_ci": cl["H_valid_ci"],
+                "valid_gaps": cl["valid_gaps"],
+                "prior_gap": cl["prior_gap"],
                 "fp": cl["ref_family_null_fp"],
+                "fp_valid": cl["ref_valid_null_fp"],
                 "smoke_forced": forced,
             }
             for c, _, cl in rep
@@ -430,6 +451,11 @@ class Runner:
     def stage2b_diagnose(self) -> None:
         """Descriptive decomposition on every reproduced survivor (evaluator-side, Amendment 1)."""
         a = self.args
+        if self.family == 2:  # the onset-oracle decomposition is defined for family 1 only
+            self.state["diagnostics_status"] = "not defined for family 2 (no scripted onset)"
+            self.state["stage"] = max(self.state["stage"], 3)
+            self.save()
+            return
         surv = [self.cells[i] for i in self.state["survivors"]]
         sd = fa.seeds("discovery", a.n_diag, offset=3000)
         kappa, tag = self.state["kappa"], self._tag(sd)
@@ -448,8 +474,8 @@ class Runner:
         kappa, tag = self.state["kappa"], self._tag(seeds_)
         items = []
         for c in surv:
-            for ax in fa.AXES:
-                if getattr(c, ax) != fa.EASIEST[ax]:
+            for ax in self.axes:
+                if getattr(c, ax) != self.easiest[ax]:
                     mc = c.easiest(ax)
                     items.append(
                         (
@@ -462,7 +488,7 @@ class Runner:
         mech = {}
         for c in surv:
             iso = {}
-            for ax in fa.AXES:
+            for ax in self.axes:
                 row = self.rows.get(f"iso|{c.cell_id}|{ax}|{tag}|k{kappa}")
                 if row is not None:
                     cl = row["payload"]
@@ -555,6 +581,7 @@ class Runner:
                 "n_invalid": len(rejected),
                 "run": cand_rows,
             }
+            info["amend3"] = self._amend3(comp, cell, specs, cand_rows, val, kappa)
             ok = [
                 r
                 for r in cand_rows
@@ -568,6 +595,31 @@ class Runner:
             info["stage6"] = self._validate(comp, cell, spec, axis, val, kappa)
         self.state["stage"] = max(self.state["stage"], 7)
         self.save()
+
+    def _amend3(self, comp, cell, specs, cand_rows, val, kappa) -> dict | None:
+        """Amendment 3 check: triggered_kelly vs its started-mixture ablation (dev and validation seeds)."""
+        by_id = {r["id"]: r for r in cand_rows if "error" not in r}
+        tk = [sp for sp in specs if sp.evidence == "triggered_kelly" and sp.spec_id in by_id]
+        if not tk:
+            return None
+        best = min(tk, key=lambda sp: by_id[sp.spec_id]["cost"])
+        out = {"spec": best.spec_id, "off_type": cell.off_type, "decision": best.decision}
+        try:
+            abl = comp.ablation_of(best, "evidence")
+            if abl.spec_id in by_id:
+                out["dev_cost"] = by_id[best.spec_id]["cost"]
+                out["dev_ablated_cost"] = by_id[abl.spec_id]["cost"]
+                out["dev_gain"] = out["dev_ablated_cost"] - out["dev_cost"]
+        except ValueError as exc:
+            out["dev_error"] = str(exc)
+        res = self._cand_eval(comp, cell, best, val, kappa, True)
+        c, a = res["candidate"], res.get("ablated")
+        if "cost" in c and a is not None and "cost" in a:
+            out["val_cost"] = float(np.mean(c["cost"]))
+            out["val_ablated_cost"] = float(np.mean(a["cost"]))
+            out["val_gain"] = out["val_ablated_cost"] - out["val_cost"]
+            out["val_null_fp"] = float(np.mean(c["fp_null"]))
+        return out
 
     def _log_val_use(self, cell, spec) -> None:
         """Log one validation-seed use per (cell, spec_id) after a fresh, completed computation."""
@@ -639,6 +691,11 @@ class Runner:
         cost, fp = costs["candidate"]
         closure = (safe - cost) / (safe - fam) if safe > fam else float("nan")
         out.update({"cost": cost, "gap_closure": closure, "null_fp": fp})
+        # Amendment 2: a repair counts only if prior-free or if it states its prior
+        declared = spec.evidence == "weighted_starts"
+        out["prior_statement"] = (
+            "declared family onset prior (weighted_starts)" if declared else "prior-free"
+        )
         c_ok = bool(closure >= 0.5)
         fp_ok = bool(fp <= cell.alpha + fa.FP_SLACK)
         if costs.get("ablated") is not None:
@@ -670,14 +727,26 @@ class Runner:
         st = self.state
         md = [
             "# Failure Atlas v1 summary (EXPLORATORY discovery; no claim; do not cite without the protocol)\n",
-            f"git head `{self.git['head'][:10]}` dirty={self.git['dirty']}; sources "
+            f"family {self.family}; git head `{self.git['head'][:10]}` dirty={self.git['dirty']}; sources "
             + ", ".join(f"{k} `{v[:10]}`" for k, v in self.git["src_sha256"].items())
             + f"; T={self.T}; smoke={st['smoke']}; method-runs={st['runs']}; elapsed={st['elapsed_s']:.0f}s"
             + (f"; STOPPED: {st['stopped']}" if st["stopped"] else ""),
             "## Limitations",
             (
-                "- 2-state Bernoulli D only; no covariates or drift. Several R6 baselines are missing"
-                " (registry below), so a shared failure is a failure against the implemented baselines only."
+                "- 2-state Bernoulli D only; no covariates or drift. "
+                + (
+                    "The R6 baselines are implemented as documented wrappers (registry below); "
+                    "the hard-budget pacing comparator is still missing."
+                    if fa.r6_methods()
+                    else "R6 baselines are missing (registry below)."
+                )
+                + " A shared failure is a failure against the implemented baselines only."
+            ),
+            f"- {st.get('r6_status', fa.r6_status())}",
+            (
+                "- R_valid is a reference that uses the declared family prior as fixed mixture weights; "
+                "`prior_gap` cells owe their advantage to that declared prior. `cost_of_validity` cells are "
+                "recorded and not pursued."
             ),
             "- `best_safe` (including `no_switch`) is chosen on the evaluation seeds, which favours the baselines.",
             "- R_family is calibrated empirically on one declared family, not an anytime-valid test.",
@@ -693,7 +762,7 @@ class Runner:
                 ["baseline", "status", "role", "guarantee", "notes"],
                 [
                     [r["name"], r["status"], r["role"], r["guarantee"], r["notes"]]
-                    for r in fa.BASELINE_REGISTRY
+                    for r in st.get("registry", fa.baseline_registry())
                 ],
             )
         )
@@ -718,6 +787,19 @@ class Runner:
                     [[k, v] for k, v in sorted(cnt.items())] + [["total", len(disc)]],
                 )
             )
+            twins_seen: dict[str, tuple[int, int]] = {}
+            for c, res, _ in disc:
+                nv = (res.get("null") or {}).get("methods", {}).get("ref_valid")
+                tid = c.null_twin().cell_id
+                if nv and tid not in twins_seen:
+                    twins_seen[tid] = (int(sum(nv["fp"])), len(nv["fp"]))
+            if twins_seen:
+                k = sum(v[0] for v in twins_seen.values())
+                n = sum(v[1] for v in twins_seen.values())
+                md.append(
+                    f"R_valid null-twin any-promotion rate (pooled, {len(twins_seen)} distinct twins, "
+                    f"{n} runs): {k}/{n} = {k / n:.3f} (alpha = 0.1)"
+                )
             il = [(c, cl) for c, _, cl in disc if cl["info_limited"]]
             md.append("## Information-limited cells")
             md.append(
@@ -753,7 +835,7 @@ class Runner:
                 )
         if st["failures"]:
             md.append("## Reproduced failures (stage 2, fresh discovery seeds)")
-            names = [*fa.SAFETY_GATED, fa.FLOOR]
+            names = [*fa.gated_methods(), fa.FLOOR]
             rows = []
             for f in st["failures"]:
                 rows.append(
@@ -802,7 +884,7 @@ class Runner:
             rows = []
             for cid, info in st["mechanism"].items():
                 row = [cid]
-                for ax in fa.AXES:
+                for ax in self.axes:
                     cl = info["isolation"].get(ax)
                     row.append(
                         "at easiest"
@@ -810,7 +892,7 @@ class Runner:
                         else f"{'REMOVES' if cl['removes_failure'] else 'keeps'} (H lo {cl['H_ci'][0]:+.3f}, {cl['label']})"
                     )
                 rows.append(row)
-            md.append(md_table(["failure cell", *fa.AXES], rows))
+            md.append(md_table(["failure cell", *self.axes], rows))
             md.append("## Mechanism stages 5-6")
             md.append(st.get("stage56_status", "see per-failure rows below"))
             for cid, info in st["mechanism"].items():
@@ -1052,6 +1134,56 @@ class Runner:
                     rows,
                 )
             )
+        a3 = {cid: i["amend3"] for cid, i in mech.items() if i.get("amend3")}
+        if a3:
+            md.append(
+                "## Amendment 3 check: triggered_kelly gain over its started-mixture ablation"
+            )
+            md.append(
+                "Gain = ablated cost - triggered_kelly cost (per round; positive = triggered_kelly better). "
+                "Dev = development seeds (stage 5), val = mechanism-validation seeds. "
+                "Hypothesis: gains in harmful-off cells, none in neutral-off cells."
+            )
+            fmt = lambda v: "-" if v is None else f"{v:+.4f}"
+            md.append(
+                md_table(
+                    [
+                        "failure cell",
+                        "off_type",
+                        "spec",
+                        "decision",
+                        "dev gain",
+                        "val gain",
+                        "val null FP",
+                    ],
+                    [
+                        [
+                            cid,
+                            v["off_type"],
+                            v["spec"],
+                            v["decision"],
+                            fmt(v.get("dev_gain")),
+                            fmt(v.get("val_gain")),
+                            fmt(v.get("val_null_fp")),
+                        ]
+                        for cid, v in a3.items()
+                    ],
+                )
+            )
+            rows = []
+            for ot in ("harmful", "neutral"):
+                vs = [v for v in a3.values() if v["off_type"] == ot]
+                dg = [v["dev_gain"] for v in vs if "dev_gain" in v]
+                vg = [v["val_gain"] for v in vs if "val_gain" in v]
+                rows.append(
+                    [
+                        ot,
+                        len(vs),
+                        fmt(float(np.mean(dg))) if dg else "-",
+                        fmt(float(np.mean(vg))) if vg else "-",
+                    ]
+                )
+            md.append(md_table(["off_type", "n survivors", "mean dev gain", "mean val gain"], rows))
         vl = st.get("val_log") or {}
         if vl:
             md.append(
@@ -1077,8 +1209,13 @@ def build_args() -> argparse.Namespace:
     ap.add_argument("--max-hours", type=float, default=4.0)
     ap.add_argument("--max-runs", type=int, default=2_000_000)
     ap.add_argument("--sample-seed", type=int, default=12345)
-    ap.add_argument("--n-sample", type=int, default=240)
-    ap.add_argument("--n-refine", type=int, default=120)
+    ap.add_argument("--family", choices=("1", "2", "both"), default="1")
+    ap.add_argument(
+        "--n-sample", type=int, default=None, help="default 240 (family 1), 200 (family 2)"
+    )
+    ap.add_argument(
+        "--n-refine", type=int, default=None, help="default 120 (family 1), 100 (family 2)"
+    )
     ap.add_argument("--n-seeds", type=int, default=20)
     ap.add_argument("--n-reproduce", type=int, default=100)
     ap.add_argument("--n-null-seeds", type=int, default=100)
@@ -1094,6 +1231,7 @@ def build_args() -> argparse.Namespace:
         "--compare-to", default=None, help="previous cycle output dir (class transitions)"
     )
     args = ap.parse_args()
+    args.n_sample_given, args.n_refine_given = args.n_sample, args.n_refine
     if args.smoke:
         args.n_sample, args.n_refine, args.n_seeds = 12, 4, 4
         args.n_reproduce, args.top_k, args.n_null_seeds = 8, 4, 12
@@ -1111,33 +1249,51 @@ def build_args() -> argparse.Namespace:
     return args
 
 
+def run_family(args, pool, family: int, out: str) -> None:
+    fargs = argparse.Namespace(**vars(args))
+    if not args.smoke:  # family defaults (protocol: 240+120 for family 1, 200+100 for family 2)
+        fargs.n_sample = args.n_sample_given or (200 if family == 2 else 240)
+        fargs.n_refine = args.n_refine_given or (100 if family == 2 else 120)
+    if family == 2:  # cycle-2 cells and classes exist for family 1 only
+        fargs.reuse_cells_from = fargs.compare_to = None
+    runner = Runner(fargs, pool, family, out)
+    print(f"[atlas] family {family} -> {out}", flush=True)
+    try:
+        if fargs.compare_to:
+            runner.prior = runner.prior_classes(fargs.compare_to)
+        runner.stage0_registry()
+        runner.stage1_discover()
+        runner.mark("stage1_discover")
+        runner.stage2_reproduce()
+        runner.mark("stage2_reproduce")
+        runner.stage2b_diagnose()
+        runner.mark("stage2b_diagnose")
+        runner.stage4_isolate()
+        runner.mark("stage4_isolate")
+        runner.stage5_6_mechanism()
+        runner.mark("stage5_6_mechanism")
+        runner.state["stopped"] = "completed all stages"
+    except StopLoop as stop:
+        runner.state["stopped"] = str(stop)
+        print(f"[atlas] stopping: {stop}", flush=True)
+    runner.save()
+    runner.summary()
+    print(f"[atlas] done -> {out}/summary.md", flush=True)
+
+
 def main() -> None:
     sys.stdout.reconfigure(encoding="utf-8", errors="replace")
     args = build_args()
-    print(f"[atlas] out={args.out} smoke={args.smoke} workers={args.workers}", flush=True)
+    print(
+        f"[atlas] out={args.out} smoke={args.smoke} family={args.family} workers={args.workers}",
+        flush=True,
+    )
     with ProcessPoolExecutor(max_workers=args.workers) as pool:
-        run = Runner(args, pool)
-        try:
-            if args.compare_to:
-                run.prior = run.prior_classes(args.compare_to)
-            run.stage0_registry()
-            run.stage1_discover()
-            run.mark("stage1_discover")
-            run.stage2_reproduce()
-            run.mark("stage2_reproduce")
-            run.stage2b_diagnose()
-            run.mark("stage2b_diagnose")
-            run.stage4_isolate()
-            run.mark("stage4_isolate")
-            run.stage5_6_mechanism()
-            run.mark("stage5_6_mechanism")
-            run.state["stopped"] = "completed all stages"
-        except StopLoop as stop:
-            run.state["stopped"] = str(stop)
-            print(f"[atlas] stopping: {stop}", flush=True)
-        run.save()
-        run.summary()
-    print(f"[atlas] done -> {args.out}/summary.md", flush=True)
+        if args.family == "both":
+            for fam in (1, 2):
+                run_family(args, pool, fam, str(Path(args.out) / f"family{fam}"))
+        else:
+            run_family(args, pool, int(args.family), args.out)
 
 
 if __name__ == "__main__":

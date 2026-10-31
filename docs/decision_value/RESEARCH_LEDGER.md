@@ -167,3 +167,9 @@ edited after the fact; corrections are new entries.
   controls V <= MME; pass rule FAILED (negative or uninformative real-data evidence).
 - Decision: no re-run, no re-selection; the claim that monitors beat tuned simple policies is dropped; any
   effect is at most about 1% of cost, conditional on d = 0 and rare persistent bad states.
+
+## 2026-10-31 — orchestrator — final decision
+- Verified freeze `ca84d30` precedes results `ecc0f46`; confirmation outputs and registry entries present.
+- CF-S1 FAILED at MME (+6.58, LB 6.07 vs MME 6.79); CF-S2 PASSED (+1.87, LB 1.35); CF-S3 PASSED;
+  Part R FAILED (no alarms on OPSD 2020 primary pair; controls pass).
+- Decision D (workshop/preliminary). See `09_FINAL_RESEARCH_DECISION.md`, `CLAIM_EVIDENCE_MATRIX.md`.

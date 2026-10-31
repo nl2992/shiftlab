@@ -1,0 +1,19 @@
+{
+  "solver_commit": "2bd2e8e41639073c8d22ffb17ef0bcc68111e321",
+  "solver_file_sha256": {
+    "src/shiftlab/dive/causal_switching_game.py": "54b1347c3e213407b3feb09a801dc9ea40b3663fe6a4a227b7878b9b0a2d770a",
+    "scripts/decompose_switching_calendar_gap.py": "16dc05e76e94b8b02684609de767596a7ea0b5111e6dbf376ec741226777ece4"
+  },
+  "protocol_sha256": "5d3fdd0bccb5bf83c906d191de2bf3b6cdcce24d61a6e299991f4d1127f98a12",
+  "protocol_commit": "e511a48",
+  "script_sha256": "d662050243d7f464b96858ff076a914fbf44fdc91a2d0e4b05410c36bfa14edc",
+  "python": "3.13.1",
+  "scipy": "1.17.1",
+  "start_epoch": 1793429460.064207,
+  "start_utc": "2026-10-31T06:51:00.064213+00:00",
+  "cap_seconds": 10800,
+  "max_nodes": 200000,
+  "workers": 2,
+  "eps_sensitivity": 1e-06,
+  "gap_tolerance": "1/1000000000"
+}

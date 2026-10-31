@@ -402,3 +402,24 @@ otherwise. Results are descriptive or development-grade. Nothing here is confirm
 
 Stopping rule for cycle 4: stop when items 1–5 are reported, or when ceilings of 4 hours of wall
 time per run are hit.
+
+## Amendment 5b (2026-10-31, registered while the cycle-4 map is running, before its summary exists)
+
+This amendment adds a test of the latency explanation in `docs/failure_atlas_straddle_theory_v1.md`
+section (c). Under that explanation, straddle's request rate is about `P/d`, where the pending cap
+is `P = 2`, and uniform pacing's rate is `B/T`. Straddle's advantage over uniform acquisition
+should therefore change sign near
+
+`d* ≈ P·T/(B + P)`,
+
+which gives `d* ≈ 38` at B/T = 0.05, `≈ 20` at 0.1 and `≈ 8` at 0.25.
+
+Locked predictions on the family-1 map data (mean gain over cells, paired CIs):
+
+- **(L1)** At d = 10, the mean gain at B/T = 0.25 is below the mean gain at B/T = 0.05, with the
+  CI of the difference excluding 0.
+- **(L2)** At d = 10 and B/T = 0.25, the mean gain has CI upper bound < 0.005 (no material
+  benefit).
+- **(L3)** At d = 1, the mean gain is positive at every budget level.
+
+If L1 or L2 fails, the latency explanation is rejected as stated.

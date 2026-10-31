@@ -350,3 +350,36 @@ finalist is covered by its typing. Stage 4 adds per-finalist automated equivalen
 `NOVELTY_AUDIT.md` contains the literature-reducibility analysis and is written before results. A
 post-results addendum, together with the `result-to-claim` and `experiment-audit` skill runs,
 happens in the next attended session.
+
+## Amendment A3 (2026-10-31, before any stage-3 result): fixes from THEORY_AUDIT.md
+
+A3.1 Product J combiner is removed. The same-step product (1+aX^B)(1+bX^C) is not valid for the
+intersection null, because the cross-term ab·E[X^B X^C] is positive when the two tracks are
+dependent. Evidence:
+- Rademacher counterexample: P(sup W ≥ 20) = 0.185.
+- Engine null_stationary, full labels: FAR 0.091 against 0.037 (Bonferroni) and 0.040 (mixture).
+
+The product is replaced by the *linear vector factor* 1 + a_t X^B_t + b_t X^C_t, with a_t, b_t ≥ 0
+predictable and clipped so the factor is ≥ 0 surely. Its conditional mean is ≤ 1 under H_0^B ∩
+H_0^C. This is a Ryu–Wornell-type portfolio and is labelled as such in the novelty audit.
+
+Product candidates are logged as INVALID:product_cross_term. They are not counted as search
+failures.
+
+A3.2 Each channel declares a read set. Stake (S) and restart (R) operators may read only released
+labels and past state. Only Q operators may read the current free proxy at issue time. Candidates
+that violate this are UNTYPED.
+
+A3.3 GRAPA stakes are clamped after the hooks have been applied.
+
+A3.4 Wording fix for §6 R channel. The implemented restarts reset the *stake-estimator moments*,
+never wealth, and that is the reason they are valid. A wealth-level restart is admissible only as a
+capital-ledger start-time mixture with predictable weights.
+
+A3.5 Joint-history null. Transfer requires the per-track null to hold conditional on the joint
+released history: E[X^C_t | F^{B,C}_{t-1}] ≤ 0. Every claim states this stronger null.
+
+A3.6 Stage 4 runs the equivalence tests E1–E11 from NOVELTY_AUDIT.md on every finalist.
+
+A3.7 The proof gate has status SELF_REVIEW_ONLY. The external reviewer was unavailable. No claim
+may describe validity as independently reviewed until an external review passes.

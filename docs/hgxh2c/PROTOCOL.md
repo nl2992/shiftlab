@@ -401,3 +401,24 @@ The frontier is recomputed from the unchanged stage-2 summary and refrozen. The 
 Stage-2 descriptive observation, not a result claim: for the anytime-valid baselines at 256 seeds,
 the maximum null FAR across null cells is 0.047–0.07. That range fits Monte-Carlo noise around
 ≤ 0.05 at 54 cells. Stage 4 checks it with 20,000 streams per null family.
+
+## Amendment A5 (2026-10-31, before any stage-3 result): comparator families for the primary claim
+
+The refrozen frontier (sha 35434f5c…) contains empirical-alarm methods: CUSUM and Page–Hinkley with
+thresholds calibrated on null data. The brief defines them as "empirical-alarm comparators rather
+than automatically anytime-valid procedures".
+
+Comparator families are pre-specified as follows:
+- **Primary family (intersection–union test, Holm across finalists).** Every anytime-valid frontier
+  member of the claim's track. This includes the strong controls: independent HG+H2c, joint
+  contextual ONS, fixed mixtures, Bonferroni/Holm separate tests, and Ryu–Wornell.
+- **Secondary family.** Empirical-alarm methods (CUSUM/PH). These are reported with paired CIs and
+  their own Holm adjustment, labelled "versus calibrated non-anytime-valid detectors".
+
+A claim of the form "beats all applicable baselines" in the §10 table refers to the primary family.
+The decision table also records whether the secondary comparison is won, lost or tied.
+
+The search objective (Delta_J at rungs 0–3) uses the minimum gain over the primary family, which is
+the cumulative equal-cell mixture against the best primary member in each cell. Gains over the
+secondary family are logged but not optimised. This prevents search from overfitting to beat
+thresholds that carry no guarantee.

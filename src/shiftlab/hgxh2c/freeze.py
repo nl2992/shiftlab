@@ -27,7 +27,13 @@ def freeze(key, path, fp=None):
     assert key in KEYS, key
     fp = Path(fp or FREEZE)
     d = read_freeze(fp)
-    d[key] = {"path": str(path), "sha256": sha256_file(path), "utc": datetime.now(UTC).isoformat()}
+    rp = Path(path).resolve()
+    rp = rp.relative_to(ROOT) if rp.is_relative_to(ROOT) else rp
+    d[key] = {
+        "path": rp.as_posix(),
+        "sha256": sha256_file(path),
+        "utc": datetime.now(UTC).isoformat(),
+    }
     fp.parent.mkdir(parents=True, exist_ok=True)
     fp.write_text(json.dumps(d, indent=2), "utf-8")
     return d[key]

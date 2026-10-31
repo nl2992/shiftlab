@@ -101,11 +101,30 @@ def _tbl():
     return pd.DataFrame(rows, columns=COLUMNS)
 
 
+REG = {
+    m: {"track": "C", "fidelity": "TASK_ADAPTED", "notes": ""}
+    for m in ("good", "dom", "cheap", "invalid", "cusum_x")
+}
+
+
+def test_frontier_track_filter_and_references():
+    s = _tbl()
+    t = s[s.method_id.isin(["good", "cheap"])].copy()
+    t["method_id"] = t.method_id.map({"good": "wrongtrack", "cheap": "tenzer_x"})
+    s = summarise(pd.concat([s, t]), T=1000)
+    reg = {**REG, "wrongtrack": {"track": "B", "fidelity": "TASK_ADAPTED", "notes": ""},
+           "tenzer_x": {"track": "C", "fidelity": "SOURCE_INSPIRED", "notes": "DIFFERENT_NULL: lr"}}  # fmt: skip
+    f = frontier(s, registry=reg)
+    c = f["frontier"]["C|h"]
+    assert "wrongtrack" not in c and "tenzer_x" not in c and f["references"] == ["tenzer_x"]
+    assert "wrongtrack" in f["frontier"]["B|h"] and "good" not in f["frontier"]["B|h"]
+
+
 def test_summarise_frontier():
     s = summarise(_tbl(), T=1000)
     assert s.query("method_id=='good' and cell_id=='h'").power_C.iloc[0] == 1.0
     assert s.query("method_id=='dom' and cell_id=='n'").far_C.iloc[0] == 0.0
-    f = frontier(s)
+    f = frontier(s, registry=REG)
     assert "invalid" in f["excluded"]["C"] and "cusum_x" in f["flagged"]
     ids = f["frontier"]["C|h"]
     assert "dom" not in ids and {"good", "cheap"} <= set(ids) and "invalid" not in ids

@@ -120,33 +120,50 @@ def _flag(m, empirical):
     return any(m.startswith(e) or f"_{e}" in m for e in empirical)
 
 
+def _registry():
+    from shiftlab.hgxh2c.baselines import REGISTRY
+
+    return {k: {"track": v[1], "fidelity": v[2], "notes": v[3]} for k, v in REGISTRY.items()}
+
+
 def frontier(
     summary,
     metrics=("J_cost", "power", "delay"),
     alpha=0.05,
     empirical=EMPIRICAL_ALARM,
     tracks="BCJ",
+    registry=None,
 ):
     """Non-dominated methods per (track, cell) on harm cells (J_cost lower, power higher, delay lower).
 
-    A method is excluded for a track if its FAR Clopper-Pearson lower bound exceeds alpha in any
-    guaranteed null family (NULL_GUARANTEED). Empirical-alarm methods are kept but flagged.
-    Returns {"frontier": {"T|cell": [ids]}, "excluded": {"T": [ids]}, "flagged": [ids]}.
+    registry: {method_id: {track, fidelity, notes}} (default: hgxh2c.baselines.REGISTRY). Track T admits only
+    methods registered for T, scored on track-T power/delay/FAR. DIFFERENT_NULL and INVALID_OR_UNSUPPORTED
+    methods never enter; they are listed under "references". A method is excluded for a track if its FAR
+    Clopper-Pearson lower bound exceeds alpha in a guaranteed null family (NULL_GUARANTEED).
+    Empirical-alarm methods stay eligible but flagged.
+    Returns {"frontier": {"T|cell": [ids]}, "excluded": {"T": [ids]}, "flagged": [ids], "references": [ids]}.
     """
+    reg = registry or _registry()
+    refs = sorted(
+        m
+        for m, r in reg.items()
+        if "DIFFERENT_NULL" in r["notes"] or r["fidelity"] == "INVALID_OR_UNSUPPORTED"
+    )
     out = {
         "frontier": {},
         "excluded": {},
         "flagged": sorted({m for m in summary.method_id.unique() if _flag(m, empirical)}),
+        "references": refs,
     }
-    nulls = summary[summary.family.isin(NULL_GUARANTEED)]
+    sign = {"J_cost": 1.0, "power": -1.0, "delay": 1.0}
     for t in tracks:
+        elig = {m for m, r in reg.items() if r["track"] == t} - set(refs)
+        sm = summary[summary.method_id.isin(elig)]
+        nulls = sm[sm.family.isin(NULL_GUARANTEED)]
         bad = set(nulls.loc[nulls[f"far_lo_{t}"] > alpha, "method_id"])
         out["excluded"][t] = sorted(bad)
-        sign = {"J_cost": 1.0, "power": -1.0, "delay": 1.0}
-        harm = summary[
-            ~summary.family.isin(NULL_GUARANTEED)
-            & ~summary.method_id.isin(bad)
-            & summary[f"power_{t}"].notna()
+        harm = sm[
+            ~sm.family.isin(NULL_GUARANTEED) & ~sm.method_id.isin(bad) & sm[f"power_{t}"].notna()
         ]
         for cell, h in harm.groupby("cell_id"):
             M = np.column_stack(

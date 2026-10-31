@@ -58,3 +58,70 @@ Lane A verdict: no joint-acquisition method claim at the programme's risk levels
 remains open is a theory question, not a method lead: does the adaptivity gap in this family
 scale with T at loose alpha, and why does tightening alpha remove it? Pursuing it needs either
 a larger node cap (a registered settings change) or an analytical bound.
+
+## A1c / A1d addendum (mechanism probe after A1b)
+
+**A1c** (`protocols/A1c-alpha-mechanism.md`, results `results/a1c/`, verified from exact rationals)
+
+- At T = 9, the gap g(alpha) is 0 for alpha ≤ 1/8.
+- It turns positive at alpha = 3/20 for every prior1 tested (1/10, 1/5, 3/10).
+- It reaches 4.7–6.1% at alpha ∈ [1/4, 1/2].
+- Without a risk constraint (alpha = 1) the gap is only 0.9–1.6%.
+- The constraint binds in every cell: raw risk = alpha, activation 1.
+- g(12) = 5.02% at alpha = 1/5, with increments falling below the A1b CONTINUE thresholds.
+- Mechanism (P5, T = 8, alpha = 1/5): both policies query at t = 1. After a *negative* first
+  label, the joint planner re-checks at t = 4 with probability 0.6; the calendar never
+  re-checks. The joint planner promotes with probability 0.255 and never rolls back. The
+  calendar promotes with probability 0.205 and rolls back with probability 0.009.
+
+**A1d** (`protocols/A1d-mixture-comparator.md`, results `results/a1d/`)
+
+A1c compared J against pure calendars, a non-convex class. A1d replaces this with public-coin
+mixtures of calendars, each solved at its own risk level: 3,906 exact calendar solves with no
+failures. The orchestrator recomputed the lower convex envelope independently and found
+J ≤ C_mix ≤ C* everywhere.
+
+Mixing removes part of the gap:
+
+| prior1, alpha | g (A1c) | g_mix (A1d) |
+|---|---|---|
+| 1/5, 1/5 | 2.89% | 1.46% |
+| 3/10, alpha ≤ 1/4 | up to 1.81% | 0 |
+
+At intermediate risk levels the gap remains:
+
+| prior1 | alpha | g_mix | g_mix(1) |
+|---|---|---|---|
+| 1/10 | 1/4 | 5.07% | 1.62% |
+| 1/10 | 3/10 | 5.19% | 1.62% |
+| 1/10 | 1/2 | 5.80% | 1.62% |
+| 1/5 | 1/4 | 2.57% | 1.20% |
+| 1/5 | 3/10 | 4.04% | 1.20% |
+| 1/5 | 1/2 | 4.73% | 1.20% |
+| 3/10 | 3/10 | 1.98% | 0.92% |
+| 3/10 | 1/2 | 5.60% | 0.92% |
+
+Mechanical decision: **H-risk SURVIVES**. The largest excess over the unconstrained gap is
+4.7 percentage points.
+
+**Status.**
+
+- A *risk-specific* information-matched separation exists in exact small instances. A binding
+  false-promotion constraint makes history-dependent acquisition timing valuable beyond the
+  unconstrained adaptivity gap and beyond any public-coin mixture of calendars.
+- The plausible structure is *risk-ledger-dependent acquisition*: the planner spends queries
+  conditionally on whether the risk budget is likely to be consumed by a promotion.
+- This is the first lead in this programme that is not a known unconstrained effect.
+
+**Limits.**
+
+- One model family.
+- T ≤ 12.
+- Every gap is below the 10% practical threshold (maximum 6.1% pure, 5.8% mixture).
+- It appears only at alpha ≥ 3/20, which is above the programme's declared 0.05/0.10 levels.
+- No theorem exists yet.
+
+**Next gate (A2).** Gate A2 asks whether a growing family has a provable lower bound on
+g_mix that is specific to the risk constraint. Until that question is answered, this is a
+theory lead, not a method claim. The overall programme classification stays BENCHMARK /
+NEGATIVE-RESULT PIVOT, with Lane A upgraded from "closed" to "open theory lead at loose alpha".

@@ -29,6 +29,11 @@ STAGES = {
     "stage2": ("scripts/hgxh2c/stage2_benchmark.py", 24 * H),
     "stage3": ("scripts/hgxh2c/stage3_search.py", None),
     "stage4": ("scripts/hgxh2c/stage4_confirm.py", 24 * H),
+    "stage1_full": (
+        "scripts/hgxh2c/stage1/run_native_repro.py",
+        None,
+        "--full",
+    ),  # paper-budget reruns; never blocks report
     "report": ("scripts/hgxh2c/make_report.py", 1 * H),
 }
 UPSTREAM = {"stage3": "stage2", "stage4": "stage3"}
@@ -71,7 +76,7 @@ def status():
 
 
 def run_stage(stage):
-    script, timeout = STAGES[stage]
+    script, timeout, *extra = STAGES[stage]
     if not (ROOT / script).exists():
         log(f"{stage} MISSING_SCRIPT {script}")
         return "MISSING_SCRIPT"
@@ -90,7 +95,7 @@ def run_stage(stage):
         with open(LOG, "a", encoding="utf-8") as f:
             try:
                 rc = subprocess.run(
-                    [py(), str(ROOT / script)],
+                    [py(), str(ROOT / script), *extra],
                     cwd=ROOT,
                     check=False,
                     env=env,

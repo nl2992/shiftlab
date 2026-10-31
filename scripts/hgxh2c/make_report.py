@@ -53,7 +53,14 @@ def beats(v, key):
 
 
 def decide(v):
-    """PROTOCOL section 10 decision table for one finalist."""
+    """PROTOCOL section 10 decision table for one finalist. The verdict refers to the PRIMARY family (anytime-valid frontier
+    members, A5); the secondary comparison (CUSUM / Page-Hinkley) is appended."""
+    out = _decide(v)
+    sec = v.get("secondary_status")
+    return f"{out} [family: primary anytime-valid{'; vs CUSUM/PH: ' + sec if sec else ''}]"
+
+
+def _decide(v):
     wins = v.get("regime_wins", {})
     if v.get("iut_pass") and v.get("holm_p", 1) < 0.05:
         if wins and all(wins.values()):
@@ -77,7 +84,98 @@ def section_stage1():
     if not p.exists():
         return NR
     rows = [ln for ln in p.read_text("utf-8").splitlines() if ln.startswith("|")]
-    return "\n".join(rows) if rows else f"{p.name} exists but has no status table."
+    base = "\n".join(rows) if rows else f"{p.name} exists but has no status table."
+    try:
+        return base + "\n\n" + repro_compare()
+    except Exception as e:  # noqa: BLE001  the reduced/full/paper comparison is optional
+        return base + f"\n\n(reduced/full/paper comparison unavailable: {e!r})"
+
+
+def repro_compare():
+    """Reduced vs paper-budget (stage1_full) vs paper values; 'Full' is n/a until `run_native_repro.py --full` has produced results."""
+    import functools
+    import statistics as st
+
+    s1 = ROOT / "outputs/hgxh2c/stage1"
+    red = jload(s1 / "reduced_summary.json") or {}
+    ful = jload(ROOT / "outputs/hgxh2c/stage1_full/full_summary.json") or {}
+    pv = jload(ROOT / "scripts/hgxh2c/stage1/paper_values.json") or {}
+    f = lambda x, d=2: (
+        "n/a" if x is None else (f"{x:.{d}f}" if isinstance(x, (int, float)) else str(x))
+    )
+    g = lambda d, *k: functools.reduce(lambda a, b: a.get(b) if isinstance(a, dict) else None, k, d)
+    L = [
+        (
+            "Reproduction vs paper (`outputs/hgxh2c/stage1/reduced_summary.json`, `outputs/hgxh2c/stage1_full/full_summary.json`, "
+            f"`scripts/hgxh2c/stage1/paper_values.json`). Paper-budget results present: {bool(ful.get('found'))}."
+        ),
+        "",
+        "| Experiment | Metric | Reduced | Full (paper budget) | Paper |",
+        "|---|---|---|---|---|",
+    ]
+    for fam, key in (
+        ("label shift", "tenzer_label_shift"),
+        ("concept shift", "tenzer_concept_shift"),
+    ):
+        for k, r in (red.get(key) or {}).items():
+            fr = (ful.get(key) or {}).get(k) or {}
+            for stat in (
+                "baselines",
+                "imputed_with_baselines",
+                "PPI",
+                "PPI_positive_lambda",
+                "lrt_y",
+            ):
+                L.append(
+                    f"| Tenzer {fam} {k.split('/')[-1][:-4]} | power {stat} | {f(g(r, 'power', stat))} (n={r['reps']}) | "
+                    f"{f(g(fr, 'power', stat))} (n={fr.get('reps', 'n/a')}) | imputed > without; 1-sided PPI > 2-sided (figures) |"
+                )
+    for var, tr in (
+        ("approx_w0", "eprocess"),
+        ("approx_w200", "eprocess"),
+        ("grapa_w200", "eprocess"),
+        ("approx_w200", "running_risk"),
+    ):
+        r, fr = g(red, "timans", var, tr), g(ful, "timans", var, tr)
+        L.append(
+            f"| Timans exp_uci {var} | {tr} mean delay / false-alarm rate | {f(g(r, 'mean_delay'), 1)} / {f(g(r, 'false_alarm_rate'), 3)} "
+            f"(trials {g(r, 'trials')}) | {f(g(fr, 'mean_delay'), 1)} / {f(g(fr, 'false_alarm_rate'), 3)} (trials {g(fr, 'trials')}) | "
+            "wealth process lowest delay among guaranteed trackers (qualitative) |"
+        )
+    for m in ("label all", "oblivious", "learned"):
+        r, fr = g(red, "xu", "beta_hat", m), g(ful, "xu", "beta_hat", m)
+        L.append(
+            f"| Xu simulation | beta-hat {m} | {f(g(r, 'mean'), 3)} (n={g(r, 'n')}) | {f(g(fr, 'mean'), 3)} (n={g(fr, 'n')}) | "
+            f"beta*={g(pv, 'xu', 'beta_star')}; learned lower than all/oblivious |"
+        )
+    for k in ("srm", "pp_fixed", "pp_adapt"):
+        r, fr = g(red, "pprm", "drift", k), g(ful, "pprm", "drift", k)
+        L.append(
+            f"| PPRM independent (synthetic) | mean alarm t {k} | {f(g(r, 'mean_alarm_t'), 1)} | {f(g(fr, 'mean_alarm_t'), 1)} | "
+            "CIFAR10-C 760 (PPRM) / 800 (SRM); LLM ~500 / ~530 |"
+        )
+    r, fr = (
+        g(red, "pprm", "nominal", "pp_adapt", "alarm_rate"),
+        g(ful, "pprm", "nominal", "pp_adapt", "alarm_rate"),
+    )
+    L.append(
+        f"| PPRM independent (synthetic) | false-alarm rate (nominal) | {f(r, 3)} | {f(fr, 3)} | <= {g(pv, 'pprm', 'pfa_bound')} |"
+    )
+    for q, v in (ful.get("pprm_reliance_sweep") or {}).items():
+        L.append(
+            f"| PPRM reliance sweep q_pred={q} | paired adaptive - fixed (steps) | n/a | "
+            f"{f(g(v, 'paired_pp_adapt_minus_pp_fixed', 'mean'), 1)} | Table 1: -11 to -21 |"
+        )
+    r = g(red, "ryu_scalar", "problems") or {}
+    fr = g(ful, "ryu_scalar", "problems") or {}
+    for prob in ("beta1,3", "beta10,10"):
+        for m in ("UP", "PRECiSE_CO96"):
+            a, b = g(r, prob, m, "width_T"), g(fr, prob, m, "width_T")
+            L.append(
+                f"| Ryu scalar {prob} | final CI width {m} | {f(st.mean(a), 4) if a else 'n/a'} | "
+                f"{f(st.mean(b), 4) if b else 'n/a'} | UP tightest (figure only) |"
+            )
+    return "\n".join(L)
 
 
 def section_stage2():
@@ -116,7 +214,9 @@ def section_stage4():
     t = ""
     for fid, v in c.get("finalists", {}).items():
         t += f"\n### {fid}\n\nOutcome (PROTOCOL section 10): **{decide(v)}**\n\n"
-        t += f"Holm p = {v.get('holm_p')}, IUT pass = {v.get('iut_pass')}\n\n"
+        t += f"Primary family (anytime-valid): Holm p = {v.get('holm_p')}, IUT pass = {v.get('iut_pass')}\n\n"
+        if "holm_p_secondary" in v:
+            t += f"Secondary family (CUSUM/PH, non-anytime-valid): Holm p = {v.get('holm_p_secondary')}, IUT pass = {v.get('iut_pass_secondary')}, status = {v.get('secondary_status')}\n\n"
         t += "| baseline | Delta_J | 95% CI | p (1-sided) |\n|---|---|---|---|\n"
         for b, r in v.get("vs_baseline", {}).items():
             t += f"| {b} | {r['mean']:.4g} | [{r['lo']:.4g}, {r['hi']:.4g}] | {r['p']:.4g} |\n"

@@ -152,6 +152,9 @@ Registry with equations/assumptions/null/calibration/role/fidelity per method: `
 Plots for these tables: **PaperBanana unavailable**. `tmp/papervizagent` exists but needs `GOOGLE_API_KEY`/`ANTHROPIC_API_KEY`/`OPENAI_API_KEY` (none set) and packages
 `google-genai`, `streamlit` (not installed). No other plot generator was substituted; tables above are the deliverable, native repo plots are pointers only.
 
+## Paper-budget reruns (not yet run)
+`python scripts/hgxh2c/stage1/run_native_repro.py --full [--list]` (pipeline stage `stage1_full`, after stage4, before the report; its failure does not block the report) defines chunked paper-budget jobs in `scripts/hgxh2c/stage1/full_jobs.py` (Tenzer 500 reps as 10x50 with distinct seeds, Timans 50 trials as 5x10, Xu 100 trials x 2500 labels as 20x5, Ryu-Wornell at notebook / Fig.1,3 sizes, PPRM 200 streams plus the adaptive-vs-fixed reliance sweep over synthetic-label quality; at most 4 worker processes; markers `markers/full_*`; outputs `outputs/hgxh2c/stage1_full/`). `full_merge.py reduced|full` writes `reduced_summary.json` / `full_summary.json`, which `scripts/hgxh2c/make_report.py` tabulates next to the paper values in `scripts/hgxh2c/stage1/paper_values.json`. Not launched here.
+
 ## Housekeeping
 - `outputs/hgxh2c/stage1/` holds logs, pkl/pt/csv results and `markers/`; `tmp/` is git-ignored but `outputs/` is not (large `.pt` risk-monitor files; do not commit).
 - Re-run everything: `python scripts/hgxh2c/stage1/run_native_repro.py --force`. Venv recipes are in the driver docstring.

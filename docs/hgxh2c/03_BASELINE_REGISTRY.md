@@ -53,3 +53,20 @@ reproductions exist for rows 1-12; none is a full-budget reproduction.
 Plots for the reproduction tables: **PaperBanana unavailable** in this environment (`tmp/papervizagent` is present but needs
 GOOGLE/ANTHROPIC/OPENAI API keys (none set) and packages `google-genai`, `streamlit` (not installed)). No other plotting tool was
 substituted; native repo plots (risk-monitor `plots/*.png`) are only pointers, not deliverable figures.
+
+## Known limits (A1.1 gaps that cannot be closed here)
+
+- **Ryu-Wornell LBUP / Hybrid-UP (rows 9):** the lower-bound universal portfolio needs the Cython extension `methods/lbup_integrand.pyx`
+  (`scipy.LowLevelCallable.from_cython`). There is no C compiler (cl/gcc) on this machine, so LBUP1-3 and HybridUP1-3 cannot run, and the
+  universal-portfolio "LBUP" variants of the TIT experiments are untested. The pure-Python universal portfolio (`StockInvestmentCI`,
+  `MultiStockInvestmentCI`) does run.
+- **Missing `notebooks/exps.ipynb`:** the repo ships only `notebooks/tit_exps.ipynb` (scalar TIT-2022 experiments). No notebook or driver
+  reproduces the ICML-2024 multivariate figures; Fig.1/Fig.3 setups are re-created from the paper text with the repo's own classes
+  (parameters not in the text are our choices), and Fig.2 (sampling without replacement, `MultiWoRCI`) is not run.
+- **Timans:** grid GRAPA with full-history bets (tracker window 0) is quadratic in time (~6 h per trial); only window-200 runs exist for it.
+  `exp_ood` and `exp_cp` need external checkpoints/data (SKIPPED_EXTERNAL_DATA).
+- **Csillag PPE, PPRM:** no official code; PPRM is an independent reproduction on synthetic streams (not the paper's CIFAR10-C / LLM / telecom data).
+- **Paper-budget reruns:** `python scripts/hgxh2c/stage1/run_native_repro.py --full` (pipeline stage `stage1_full`; dry run: `--full --list`)
+  re-runs Tenzer at 500 reps, Timans exp_uci at 50 trials, Xu at 100 trials x 2500 labels, Ryu-Wornell scalar/multivariate at notebook/paper
+  sizes and PPRM at 200 streams plus the adaptive-vs-fixed reliance sweep, in chunks (markers `markers/full_*`, outputs `outputs/hgxh2c/stage1_full/`,
+  merged JSON `full_summary.json`). Until those results exist, the fidelity column above rests on the reduced runs only.

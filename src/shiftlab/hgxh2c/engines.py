@@ -235,7 +235,14 @@ class Monitor:
     # ------------------------------------------------------------------ vectorised path
     def _fast_ok(self):
         h = self.hooks
-        if not self.fast or h.query or h.restart or h.after_step or h.gamma:
+        if (
+            not self.fast
+            or h.query
+            or h.restart
+            or h.after_step
+            or h.gamma
+            or self.comb == "linear"
+        ):
             return False
         if any(not getattr(f, "static", False) for f in h.stake.values()):
             return False
@@ -424,6 +431,8 @@ class Monitor:
                 lam = self.hooks.stake[nme](ctx, lam)
             if tr.base not in ("grapa", "grapa_grid"):
                 lam = torch.minimum(lam.clamp(min=0.0), d["hi"])
+            else:  # A3.3: clamp after the hooks, independent of parameter ranges
+                lam = torch.minimum(lam.clamp(min=0.0), 0.95 / ctx.bd[nme])
             lam = lam * d["actx"]
             if "lams" in out:
                 out["lams"][nme][:, sl] = lam
@@ -584,7 +593,11 @@ class Monitor:
             "spent": zs(),
             "firstJ": torch.full((K, S), T, dtype=torch.long, device=dev),
             "nqJ": zs(),
+            "logWJ": zs(),
+            "relJ": torch.zeros(K, S, dtype=torch.long, device=dev),
         }
+        if self.comb == "linear":
+            ring.make("w_J", (K, S), dev)
         cumq = torch.zeros(K, S, T, dtype=torch.int32, device=dev) if keep_paths else None
         paths = (
             {n: torch.zeros(K, S, T, dtype=f64, device=dev) for n in names} if keep_paths else {}
@@ -716,6 +729,8 @@ class Monitor:
                     lam = hk.stake[n](ctx, lam)
                 if tr.base not in ("grapa", "grapa_grid"):
                     lam = torch.minimum(lam.clamp(min=0.0), s["hi"])
+                else:  # A3.3
+                    lam = torch.minimum(lam.clamp(min=0.0), 0.95 / s["bd"])
                 act = active | tr.proxy_only
                 lam = lam * act
                 Rt, ht, r0 = col(tape[tr.ch])[None, :], col(tape[tr.ch + "hat"])[None, :], s["r0"]
@@ -796,6 +811,16 @@ class Monitor:
                 ctx.x[n], ctx.lam[n] = x, lam
                 if keep_paths:
                     lams[n].index_copy_(2, tt1, lam[..., None])
+            if (
+                self.comb == "linear" and both
+            ):  # A3.1 linear vector factor 1 + w lam_B x_B + (1-w) lam_C x_C
+                b_, c_ = role["B"], role["C"]
+                logfJ = torch.log1p(
+                    wj * ctx.lam[b_] * ctx.x[b_] + (1 - wj) * ctx.lam[c_] * ctx.x[c_]
+                )
+                relJ = arr if self.release == "legacy" else torch.maximum(gs["relJ"], arr)
+                setv(gs, "relJ", relJ)
+                ring.add("w_J", relJ, logfJ)
             ctx.Q = Q
             if hk.after_step is not None:
                 hk.after_step(ctx, Q, arr)
@@ -817,7 +842,10 @@ class Monitor:
                     lJ = torch.maximum(lB, lC) - math.log(2.0)
                 elif self.comb == "mix":
                     lJ = torch.logaddexp(torch.log(wj) + lB, torch.log1p(-wj) + lC)
-                else:  # prod
+                elif self.comb == "linear":
+                    setv(gs, "logWJ", gs["logWJ"] + ring.pop("w_J", tt))
+                    lJ = gs["logWJ"]
+                else:  # prod (INVALID under dependence, THEORY_AUDIT F1; kept only to reproduce the inflation)
                     lJ = lB + lC
                 new = (lJ >= self.thr) & (gs["firstJ"] == T)
                 setv(gs, "firstJ", torch.where(new, tt.expand_as(gs["firstJ"]), gs["firstJ"]))

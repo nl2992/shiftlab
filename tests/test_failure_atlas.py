@@ -684,3 +684,96 @@ def test_family2_evaluate_classify_calibrate_isolate_smoke():
     )
     assert set(iso) == {"rate", "d", "budget_frac", "s"}
     assert fa.isolate(small2(rate=0.002), [0, 1], axes=("rate",), methods=("no_switch",)) == {}
+
+
+# ------------------------------------------------------------------ Amendment 5: R_valid2
+
+
+def test_rvalid2_gate_stakes_clipped_and_predictable():
+    cfg = small(d=5).config(1)
+    gate = fa.valid2_gate(cfg, *fa.family1_start_design(cfg))
+    assert gate.adaptive.max_stake < 1.0 and gate.time == 0
+    for x in (0.3, -0.2, 0.9, -0.4):
+        before = gate.adaptive.predictable_stakes.copy()  # depends on past only
+        assert np.all(before >= 0) and np.all(before <= fa.KELLY_ADAPTIVE_MAX_STAKE)
+        gate.update(x)
+    assert np.isfinite(gate.log_e_value)
+
+
+def test_rvalid2_family1_validity_on_boundary_null():
+    cell = fa.CellSpec(0.6, 1.0, "strong", "harmful", 1, 0.25, 0.1, T=300)
+    n = 300
+    k = 0
+    for sd in range(n):
+        rng = np.random.default_rng([sd, 99])
+        p_b = (1.0 + cell.h) / 2.0
+        st = fa.make_bernoulli_stream(rng, cell.T, (p_b, p_b), path=np.zeros(cell.T, dtype=int))
+        k += int(run(st, fa.build_ref_valid2(cell), cell.config(sd)).promotions > 0)
+    rate = k / n
+    sd_ = (cell.alpha * (1 - cell.alpha) / n) ** 0.5
+    print(
+        f"R_valid2 family-1 boundary-null any-promotion rate: {rate:.4f} (limit {cell.alpha + 2 * sd_:.4f})"
+    )
+    assert rate <= cell.alpha + 2 * sd_
+
+
+def test_rvalid2_family2_validity_on_boundary_null():
+    cell = fa.Family2CellSpec(0.005, "strong", "harmful", 1, 0.25, 0.1, T=300)
+    n = 200
+    rate = _boundary_null_rate_v2(cell, n, 98)
+    sd_ = (cell.alpha * (1 - cell.alpha) / n) ** 0.5
+    print(f"R_valid2 family-2 boundary-null any-promotion rate: {rate:.4f}")
+    assert rate <= cell.alpha + 2 * sd_
+
+
+def _boundary_null_rate_v2(cell, n_seeds, tag):
+    k = 0
+    for sd in range(n_seeds):
+        rng = np.random.default_rng([sd, tag])
+        p_b = (1.0 + cell.h) / 2.0
+        st = fa.make_bernoulli_stream(rng, cell.T, (p_b, p_b), path=np.zeros(cell.T, dtype=int))
+        k += int(run(st, fa.build_ref_valid2(cell), cell.config(sd)).promotions > 0)
+    return k / n_seeds
+
+
+def test_rvalid2_harmful_off_null_rate_reported():
+    # candidate worse than incumbent throughout (P(Y=1)=0.3 => E[-D] < 0): promotions are false
+    cell = fa.CellSpec(0.6, 1.0, "strong", "harmful", 1, 0.25, 0.1, T=300)
+    n, k = 200, 0
+    for sd in range(n):
+        st = fa.make_bernoulli_stream(
+            np.random.default_rng([sd, 7]), cell.T, (0.3, 0.3), path=np.zeros(cell.T, dtype=int)
+        )
+        k += int(run(st, fa.build_ref_valid2(cell), cell.config(sd)).promotions > 0)
+    print(f"R_valid2 harmful-off null any-promotion rate: {k / n:.4f}")
+    assert k / n <= cell.alpha
+
+
+def test_rvalid2_power_late_onset_strong_and_budget_and_no_peeking():
+    cell = fa.CellSpec(0.6, 1.0, "strong", "harmful", 10, 0.25, 0.1, T=300)
+    v2, ns = [], []
+    for sd in range(8):
+        st = fa.make_family1_stream(cell, sd)
+        r = run(st, fa.build_ref_valid2(cell), cell.config(sd))
+        assert r.queries <= cell.B and r.query_mask[cell.T - cell.d :].sum() == 0
+        v2.append(r.cost / cell.T)
+        ns.append(run(st, build_method("no_switch"), cell.config(sd)).cost / cell.T)
+    assert np.mean(v2) < np.mean(ns) - 0.03
+    st = fa.make_family1_stream(cell, 2)
+    st2 = fa.Stream(st.loss0.copy(), st.loss1.copy(), st.truth)
+    st2.loss0[150:], st2.loss1[150:] = 1.0 - st.loss0[150:], 1.0 - st.loss1[150:]
+    a = run(st, fa.build_ref_valid2(cell), cell.config(2)).actions
+    b = run(st2, fa.build_ref_valid2(cell), cell.config(2)).actions
+    assert np.array_equal(a[:160], b[:160])
+
+
+def test_evaluate_cell_supports_ref_valid2_and_classify_valid_key():
+    cell = small()
+    res = fa.evaluate_cell(
+        cell, [0, 1], ["no_switch", "episode_front"], ["ref_valid2"], with_null=False
+    )
+    assert len(res["methods"]["ref_valid2"]["cost"]) == 2
+    old = fa.classify_cell(synth(valid=0.10))
+    r = synth(valid=0.10)
+    r["methods"]["ref_valid2"] = r["methods"].pop("ref_valid")
+    assert fa.classify_cell(r, valid_key="ref_valid2")["label"] == old["label"]

@@ -215,6 +215,51 @@ class OnlineFWERSpending(Method):
         return self.act, t in self.cal
 
 
+class HardBudgetPacing(Method):
+    """Budget-feasible pacing controller with dual-variable adjustment (ungated).
+
+    Cumulative query spend follows a linear target ``B * t / (T - d)`` over the queryable rounds.
+    A dual variable ``lam`` integrates (spend - target) / B; the query probability is
+    ``q_t = min(1, B / (T - d) * exp(-gain * lam_t))``, so overspending lowers and underspending
+    raises it. If the remaining queryable rounds do not exceed the remaining budget, ``q = 1``.
+    The hard cap is the harness cap (``used < B``, ``t + d <= T``); it is never exceeded.
+    Decision as in ``pacing_bernoulli``: window mean of the last ``max(3, B // 8)`` released
+    labels, switch when the estimated benefit exceeds ``h`` and ``econ_ok``, revert otherwise.
+    """
+
+    name = "hard_budget_pacing"
+    GAIN = 5.0
+    LAM_CLIP = 4.0
+
+    def _init(self) -> None:
+        c = self.cfg
+        self.rng = np.random.default_rng([c.seed, 6006, 7])
+        self.m = max(3, c.B // 8)
+        self.span_total = max(c.T - c.d, 0)  # queryable rounds
+        self.lam = 0.0
+        self.act = 0
+
+    def decide(self, t: int, released: Released) -> tuple[int, bool]:
+        c = self.cfg
+        if len(self.labels) >= 3:
+            ben = -float(np.mean([x for _, x in self.labels[-self.m :]]))
+            if self.act == 0 and ben > c.h and self.econ_ok(t, ben):
+                self.act = 1
+            elif self.act == 1 and ben <= c.h:
+                self.act = 0
+        rem = c.B - self.used
+        left = self.span_total - t + 1  # queryable rounds left including t
+        if rem <= 0 or left <= 0 or c.B <= 0:
+            return self.act, False
+        target = c.B * (t - 1) / self.span_total  # target spend before this round
+        self.lam = float(
+            np.clip(self.lam + (self.used - target) / c.B, -self.LAM_CLIP, self.LAM_CLIP)
+        )
+        base = c.B / self.span_total
+        q = 1.0 if left <= rem else min(1.0, base * math.exp(-self.GAIN * self.lam))
+        return self.act, bool(self.rng.random() < q)
+
+
 R6_METHODS: dict[str, tuple] = {
     "gong_zhang_paid_obs": (
         lambda cfg: GongZhangPaidObs(),
@@ -262,6 +307,17 @@ R6_METHODS: dict[str, tuple] = {
             "are ours, not the source's."
         ),
     ),
+    "hard_budget_pacing": (
+        lambda cfg: HardBudgetPacing(),
+        False,
+        (
+            "Braverman et al. 2026 hard-budget pacing (audit: docs/switching_budget_pacing_prior_audit_v1.md). "
+            "Departures: heuristic linear-trajectory pacing with an integral dual variable on "
+            "spend minus target (query probability B/(T-d)*exp(-5*lam)); no pacing-expert class, "
+            "no regret guarantee, no false-promotion control; labels are delayed and the query "
+            "precedes the reward vector. Decision rule is pacing_bernoulli's window mean."
+        ),
+    ),
 }
 
 
@@ -275,6 +331,7 @@ def build_r6(name: str, cfg: Config | None = None) -> Method:
 __all__ = [
     "R6_METHODS",
     "GongZhangPaidObs",
+    "HardBudgetPacing",
     "OnlineFWERSpending",
     "QiuDelayedMovement",
     "RyabchenkoCapacity",

@@ -19,7 +19,10 @@ from functools import cache
 
 import numpy as np
 
-from shiftlab.dive.eprocess import VectorizedStartedMixtureEProcess
+from shiftlab.dive.eprocess import (
+    MultiTimescaleStartedKellyEProcess,
+    VectorizedStartedMixtureEProcess,
+)
 from shiftlab.dive.switching_explore import (
     AllOnsetEDetector,
     Config,
@@ -758,6 +761,87 @@ def build_ref_valid(cell) -> Method:
     return RValidFamily2() if cell.family == 2 else RValidFamily1()
 
 
+# ----------------------------------------------------------------------------- R_valid2
+# Amendment 5, item 3. Same start weights and decision rules as R_valid; the fixed stake mixture is
+# replaced by a fixed-weight mixture of (a) discounted plug-in Kelly stakes computed predictably from
+# the episode's past released labels and (b) the family-Kelly stakes. Both parts are e-processes under
+# the boundary null with the same start weights, so their fixed convex mixture is one too.
+
+KELLY_ADAPTIVE_WEIGHT = 0.5  # weight of the adaptive-Kelly part in the fixed mixture
+KELLY_ADAPTIVE_MAX_STAKE = 0.95  # stakes clipped to [0, 0.95]
+
+
+class ValidKellyMixtureEProcess:
+    """Fixed convex mixture of the family-Kelly started gate and an adaptive discounted-Kelly one."""
+
+    def __init__(self, cfg: Config, starts, weights, alpha: float | None = None):
+        self.alpha = float(cfg.alpha if alpha is None else alpha)
+        self.fixed = valid_gate(cfg, starts, weights, alpha=self.alpha)
+        self.adaptive = MultiTimescaleStartedKellyEProcess(
+            bound=1.0 + cfg.h,
+            alpha=self.alpha,
+            starts=tuple(int(x) for x in starts),
+            start_weights=tuple(float(x) for x in weights),
+            max_stake=KELLY_ADAPTIVE_MAX_STAKE,
+        )
+        w = KELLY_ADAPTIVE_WEIGHT
+        self._lw = (math.log(1.0 - w), math.log(w))
+
+    @property
+    def time(self) -> int:
+        return self.fixed.time
+
+    @property
+    def log_e_value(self) -> float:
+        return float(
+            np.logaddexp(
+                self._lw[0] + self.fixed.log_e_value, self._lw[1] + self.adaptive.log_e_value
+            )
+        )
+
+    @property
+    def alarm(self) -> bool:
+        return self.log_e_value >= -math.log(self.alpha)
+
+    def update(self, value: float) -> float:
+        self.fixed.update(value)
+        self.adaptive.update(value)
+        return self.log_e_value
+
+
+def valid2_gate(cfg: Config, starts, weights, alpha: float | None = None):
+    return ValidKellyMixtureEProcess(cfg, starts, weights, alpha)
+
+
+class RValid2Family1(RValidFamily1):
+    """R_valid with the Kelly-adaptive stake mixture (family 1)."""
+
+    def __init__(self):
+        super().__init__()
+        self.name = "ref_valid2"
+
+    def _new_episode(self, j: int, start: int) -> None:
+        EpisodeComposition._new_episode(self, j, start)
+        if j == 0:
+            self.ep = valid2_gate(self.cfg, *family1_start_design(self.cfg))
+
+
+class RValid2Family2(RValidFamily2):
+    """R_valid with the Kelly-adaptive stake mixture (family 2)."""
+
+    name = "ref_valid2"
+
+    def _new_episode(self, j: int, start: int) -> None:
+        c = self.cfg
+        self.j, self.ep_start, self.ep_labels = j, start, []
+        base = started_gate(1.0 + c.h, c.alpha * 2.0 ** -(j + 1), c.B)
+        self.ep = valid2_gate(c, base.starts, base.weights, alpha=base.alpha)
+
+
+def build_ref_valid2(cell) -> Method:
+    return RValid2Family2() if cell.family == 2 else RValid2Family1()
+
+
 # ----------------------------------------------------------------------------- R6 baselines (lazy)
 
 _R6_CACHE: tuple[dict, str | None] | None = None
@@ -877,6 +961,8 @@ def evaluate_cell(
         ref_obj["ref_family"] = build_ref_family_for(cell, kappa)
     if "ref_valid" in refs:
         ref_obj["ref_valid"] = build_ref_valid(cell)
+    if "ref_valid2" in refs:
+        ref_obj["ref_valid2"] = build_ref_valid2(cell)
     out: dict[str, dict[str, list]] = {}
     for sd in seed_list:
         stream = make_stream(cell, sd)
@@ -990,6 +1076,7 @@ def classify_cell(
     fp_slack: float = FP_SLACK,
     safety_gated: Sequence[str] | None = None,
     floor: str = FLOOR,
+    valid_key: str = "ref_valid",
 ) -> dict:
     """Apply the locked failure definition (per-round cost, paired by seed), Amendment 2 version.
 
@@ -1026,9 +1113,9 @@ def classify_cell(
     il_mean, il_lo, il_hi = paired_ci(cost(floor) - law)
     info_limited = bool(il_hi < material)
 
-    has_valid = "ref_valid" in m
+    has_valid = valid_key in m
     if has_valid:
-        valid = cost("ref_valid")
+        valid = cost(valid_key)
         hv_mean, hv_lo, hv_hi = paired_ci(cost(best_safe) - valid)
         valid_gaps = {k: paired_ci(cost(k) - valid) for k in gated}
         headroom_valid = bool(hv_lo > material)
@@ -1048,8 +1135,8 @@ def classify_cell(
         fp_rate = fp_lo = fp_hi = float("nan")
         fp_ok = False
     v_rate = v_lo = v_hi = float("nan")
-    if null is not None and "ref_valid" in null["methods"]:
-        vfp = np.asarray(null["methods"]["ref_valid"]["fp"])
+    if null is not None and valid_key in null["methods"]:
+        vfp = np.asarray(null["methods"][valid_key]["fp"])
         v_rate, v_lo, v_hi = wilson(int(vfp.sum()), len(vfp))
     headroom = bool(h_lo > material)
     material_headroom = headroom and fp_ok
@@ -1481,6 +1568,7 @@ __all__ = [
     "all_method_names",
     "baseline_registry",
     "build_ref_valid",
+    "build_ref_valid2",
     "calibrate_family_kappa",
     "classify_cell",
     "diagnose_cell",

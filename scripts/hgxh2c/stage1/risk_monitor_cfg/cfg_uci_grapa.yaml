@@ -1,0 +1,24 @@
+# Stage-1 override of risk-monitor cfg_uci.yaml (only paths, NR_TRIALS, BET_TYPE changed)
+PROJECT:
+  CONFIG_DIR: "C:/Users/nigel/OneDrive/桌面/ICML/shift-research-starter/scripts/hgxh2c/stage1/risk_monitor_cfg"
+  OUTPUT_DIR: "C:/Users/nigel/OneDrive/桌面/ICML/shift-research-starter/outputs/hgxh2c/stage1/risk_monitor_out"
+DATASET:
+  DIR: "C:/Users/nigel/OneDrive/桌面/ICML/shift-research-starter/tmp/repro_sources/risk-monitor/data"
+MODEL:
+  TYPE: rf
+  DIR: none
+EXP:
+  EPS: 0.1
+  DELTA: 0.1
+  NR_TRIALS: 3
+  NR_TIMESTEPS: 15000
+  PSI_START: 0.0
+  PSI_END: 0.05
+  PSI_INIT: 0.0
+  PSI_STEP: 0.0005
+  RISK: miscover
+  BET_TYPE: grapa
+  NR_POINT_RISK_SAMP: 100
+  NR_BURNIN: 100
+  SPLIT_TIME: 12500
+  SET_SCORE: abs_res

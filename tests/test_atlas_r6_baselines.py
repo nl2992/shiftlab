@@ -70,3 +70,18 @@ def test_fwer_boundary_null():
     sd = (alpha * (1 - alpha) / n) ** 0.5
     print("fwer boundary-null any-promotion rate", rate, "limit", alpha + 2 * sd)
     assert rate <= alpha + 2 * sd
+
+
+def test_hard_budget_pacing_is_ungated_and_tracks_linear_target():
+    assert R6_METHODS["hard_budget_pacing"][1] is False
+    T, B, d = 400, 40, 5
+    spent = []
+    for seed in range(5):
+        c = Config(T=T, B=B, d=d, seed=seed)
+        st = make_bernoulli_stream(np.random.default_rng(seed), T, (0.1, 0.9))
+        r = run(st, build_r6("hard_budget_pacing", c), c)
+        assert r.queries <= B and r.query_mask[T - d :].sum() == 0
+        spent.append(r.queries)
+        half = r.query_mask[: (T - d) // 2].sum()
+        assert abs(half - B / 2) <= 0.25 * B  # spend stays near the linear target
+    assert np.mean(spent) > 0.8 * B  # and it actually spends the budget

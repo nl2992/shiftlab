@@ -159,3 +159,11 @@ edited after the fact; corrections are new entries.
   protocol re-tunes it before freezing.
 - Decision: freeze `12_CONFIRMATION_PROTOCOL.md` (conditional-value hypotheses CF-S1..S3 + Part R
   one-shot OPSD/Monash/Binance).
+
+## 2026-10-31 - Confirmation executed - 13_CONFIRMATION_RESULTS.md, pre-execution commit ca84d30
+- Part S (confirmation seeds 7,000,000+, n = 2000): CF-S1 FAILED (6.58 vs mean MME 6.79; one-sided LB 6.07 > 0),
+  CF-S2 passed (1.87, LB 1.35), CF-S3 passed (-0.05 [-0.07, -0.03] vs MME 6.44). Development wins not confirmed.
+- Part R (OPSD 2020, Monash 2014, Binance 2026-01..09): primary pair had no alarm at all (E = 0.0 vs MME 7.3);
+  controls V <= MME; pass rule FAILED (negative or uninformative real-data evidence).
+- Decision: no re-run, no re-selection; the claim that monitors beat tuned simple policies is dropped; any
+  effect is at most about 1% of cost, conditional on d = 0 and rare persistent bad states.

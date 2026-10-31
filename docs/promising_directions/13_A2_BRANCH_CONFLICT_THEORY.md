@@ -150,3 +150,15 @@ A proof would need:
 3. a check that the constant can exceed the 10% practical threshold.
 
 The data on hand does not settle point 3. The largest measured `g_mix` is 5.8% (A1d).
+
+## Empirical corroboration from A2 (added after the screen)
+
+**Tight alpha, `a <= 1/10`.** The A2 screen gives exact zero gaps in all 108 tight-alpha cells.
+The optima are contiguous label-independent bursts. This is the regime where Corollary 4's
+condition (ii) fails. Under a tight budget, a delayed re-check after a negative label cannot buy
+a promotion within the remaining risk share, so `eta_0 = 0`, and nothing conflicts.
+
+This explanation is a hypothesis consistent with the data. It is not proved. It suggests a
+proposition worth proving: below a model-dependent threshold `a_0`, some label-independent
+calendar is optimal. Proving it would make "calendars are exactly optimal under tight risk" a
+theorem rather than an observation.

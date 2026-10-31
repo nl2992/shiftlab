@@ -315,3 +315,23 @@ PIVOT, and no method claim is made.
 
 - Seek a growing-family lower bound on g_mix that vanishes when the constraint is slack.
 - Check whether the effect persists at alpha in {0.05, 0.10} in families where those levels bind.
+
+## 11. Addendum (A2)
+
+**A2 screen.** 162 exact cells at T = 8, B = 3. At the programme's risk levels the gap between
+the joint planner and the best fixed calendar is exactly 0 in all 54 families, at both
+alpha = 0.05 and 0.10. This is non-vacuous: the optimum is a three-query confirmation burst that
+does not depend on the labels. Without the constraint, the gap is positive in 31 of 54 families,
+up to 4.37%. Decision: CONFINED TO LOOSE ALPHA.
+
+**Theory.** `13_A2_BRANCH_CONFLICT_THEORY.md` proves the convexity of the value functions, a
+lemma that bounds how much public-coin calendar mixtures can close the gap, and a branch
+decomposition of each calendar's loss. These explain a three-regime picture:
+
+- tight alpha: calendar-optimal;
+- intermediate alpha: branch-conflict gap of at most about 5.8%;
+- unconstrained: ordinary adaptivity gap.
+
+**Lane A final status.** No method claim. There is a possible structural result: a conjectured
+proposition that calendars are exactly optimal below a risk threshold. It needs a proof and a
+literature audit. The executive classification is unchanged: BENCHMARK / NEGATIVE-RESULT PIVOT.

@@ -125,3 +125,54 @@ Mechanical decision: **H-risk SURVIVES**. The largest excess over the unconstrai
 g_mix that is specific to the risk constraint. Until that question is answered, this is a
 theory lead, not a method claim. The overall programme classification stays BENCHMARK /
 NEGATIVE-RESULT PIVOT, with Lane A upgraded from "closed" to "open theory lead at loose alpha".
+
+## A2 addendum (binding-alpha screen)
+
+Protocol: `protocols/A2-binding-alpha-screen.md` (`ba93246`). Results: `results/a2/`
+(`screen.jsonl` sha256 `404cd582…f3e4`).
+
+The orchestrator recomputed every gap from exact rationals. All 162 cells completed, with no
+failures.
+
+**Gap by alpha (54 families each).** The families cross accuracy {0.9, 0.95, 0.98}, transition
+{1/20, 1/10, 1/5}, prior1 {1/20, 1/10, 1/5} and cs {1/20, 1/5}, at T = 8, B = 3, d = 1.
+
+| alpha | gap > 0 | largest gap |
+|---|---|---|
+| 1/20 | 0 of 54 | exactly 0 |
+| 1/10 | 0 of 54 | exactly 0 |
+| 1 (unconstrained) | 31 of 54 | 4.37% |
+
+**The zero gap is not vacuous.** At both tight levels, every family's optimum uses all three
+queries as a contiguous confirmation burst: [2,3,4] in 30 families, [3,4,5] in 18, [1,2,3] in
+6. No shorter calendar ties it. J(1/10)/J(1) lies between 1.12 and 1.84, so the risk
+constraint is costly. Because the burst does not depend on the labels, a fixed calendar is
+exactly optimal. Unconstrained optima spread their queries out instead ([2,4,6], [1,3,5]).
+
+**Decision: CONFINED TO LOOSE ALPHA.** No family survived the screen, so the A2b mixture check
+had nothing to run on.
+
+**Three-regime picture.** This is consistent with `13_A2_BRANCH_CONFLICT_THEORY.md`, which is
+descriptive here and not proved in general:
+
+1. *Tight alpha* (≤ 1/10 in every family tested). The risk budget forces a label-independent
+   confirmation burst, and calendars are exactly optimal.
+2. *Intermediate alpha* (≈ 3/20 to 1/2 in the A1c family). The promotion branch needs
+   confirmation slots, the non-promotion branch needs a delayed re-check, and the budget
+   cannot cover both. This branch conflict produces the risk-specific gap: g_mix up to 5.8%.
+3. *Unconstrained*. Only the ordinary timing-adaptivity gap remains, up to 4.4%.
+
+**Lane A verdict (final for this programme).**
+
+- At the programme's declared risk levels (0.05, 0.10), joint acquisition and switching gives
+  **no** value over a fixed calendar in any of the 54 + 288 exact families tested (A2, A1).
+- The risk-specific separation is real, but it is confined to looser false-promotion
+  tolerances (alpha ≥ 3/20) and stays below the 10% practical threshold.
+- It is a publishable *structural/benchmark* observation about tight risk constraints, if it
+  survives the literature audit. It does not support a method claim.
+
+Limits:
+
+- T ≤ 8 for the screen.
+- B = 3 only. A larger B might fit both a burst and a re-check, which is untested.
+- One HMM family class.

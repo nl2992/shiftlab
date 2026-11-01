@@ -1,0 +1,50 @@
+{
+ "name": "spam",
+ "n": 9324,
+ "n_features": 39916,
+ "bounds": {
+  "train": [
+   0,
+   2797
+  ],
+  "dev": [
+   2797,
+   5594
+  ],
+  "locked": [
+   5594,
+   9324
+  ]
+ },
+ "time_index": "email arrival order",
+ "binary_rule": "native binary",
+ "dev_pos_rate": 0.18519842688594923,
+ "pairs": {
+  "LR15|LR15-30": {
+   "inc_err": 0.26671433678941725,
+   "chal_err": 0.04647836968180193,
+   "disagree": 0.24168752234537003,
+   "mean_adv": 0.2202359671076153,
+   "adv_profile": [
+    0.0821,
+    0.1857,
+    0.0464,
+    0.1464,
+    0.2964,
+    0.1429,
+    0.1964,
+    0.2939,
+    0.5018,
+    0.3118
+   ],
+   "headroom_cs5": 0.21844833750446907,
+   "switches_cs5": 1,
+   "breakeven_label_frac_cs5": 1.0,
+   "headroom_cs20": 0.21308544869503038,
+   "switches_cs20": 1,
+   "breakeven_label_frac_cs20": 1.0
+  }
+ },
+ "selected_pair": "LR15|LR15-30",
+ "locked_note": "labels/losses in [n60,n) never read"
+}

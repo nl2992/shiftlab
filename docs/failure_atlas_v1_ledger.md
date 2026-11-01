@@ -1251,3 +1251,243 @@ s = 0.1, L {0.6, 1} × d {1, 10} × B {0.05, 0.1}, 8 cells per onset, 40 seeds.
 - (c) **Keep straddle and triggered_kelly** as library components, with the delay rule recorded.
 
 None of this is confirmatory. The confirmation seeds remain untouched.
+
+## Cycle 5
+
+Protocol: `docs/failure_atlas_v1_protocol.md` Amendment 6 (registered in commit `7a80e14` before any cycle-5 code or run;
+code in commit `6b08c39`). All numbers below are copied from `outputs/failure_atlas_v1_cycle5/exact_cov/summary.md`,
+`outputs/failure_atlas_v1_cycle5/exact_cov/results.json`, `outputs/failure_atlas_v1_cycle5/family3/summary.md` and
+`outputs/failure_atlas_v1_cycle5/family4/summary.md`, or computed from `results.json` (marked as such). Nothing here is
+confirmatory: development and discovery seeds only.
+
+### 1. Run record
+
+- Exact cost of validity (Amendment 6 item 1): script `scripts/run_atlas_exact_cov_v1.py`, output
+  `outputs/failure_atlas_v1_cycle5/exact_cov/`. The exact command line is not recorded in the summary. `results.json` meta:
+  5000 seeds per cell, seed range [210000, 214999], 6 workers, alpha = 0.1, straddle spec `b1a17927d9ad`, solver
+  `max_nodes` 3000000, 144 cells solved, 0 skipped. Git head `9a6c63ecd0b98975296573a002f0c4d4afa3c079` (from meta;
+  the summary has no header). Wall time 8005 s (6 workers).
+- Family 3 (within-regime dependence): script `scripts/run_failure_atlas_loop.py --family 3`, output
+  `outputs/failure_atlas_v1_cycle5/family3/`. T = 1000, smoke = False, method-runs = 148940. Discovery: 192 cells, 20 seeds
+  (seeds [0, 19], as recorded for the kappa calibration); null-twin false-promotion rates on 100 dedicated seeds per twin
+  (seeds 5000+100, 12 distinct twins). The reproduction-stage seed range is not recorded in the summary. Git head
+  `9a6c63ecd0`, dirty = True. Sources: `failure_atlas.py` `d4a9af8c97`, `atlas_components.py` `79f9665b76`,
+  `atlas_r6_baselines.py` `1ccb231962`, `atlas_release_hook.py` `73523d75a7`, `switching_explore.py` `f7a330f595`,
+  `eprocess.py` `a9355d3883`, `run_failure_atlas_loop.py` `693014359d`. Wall time 7557 s (stage1_discover 5382,
+  stage_null_baselines 863, stage2_reproduce 840, stage2b_diagnose 0, stage4_isolate 473). STOPPED: completed all stages.
+- Family 4 (informative release): script `scripts/run_failure_atlas_loop.py --family 4`, output
+  `outputs/failure_atlas_v1_cycle5/family4/`. T = 1000, smoke = False, method-runs = 150840. Same seed scheme as family 3
+  (discovery seeds [0, 19], null twins seeds 5000+100, 12 distinct twins). Git head `9a6c63ecd0`, dirty = True; same source
+  hashes as family 3. Wall time 7652 s (stage1_discover 5457, stage_null_baselines 830, stage2_reproduce 831,
+  stage2b_diagnose 0, stage4_isolate 534). STOPPED: completed all stages.
+- Stages 5-6 (mechanism search and validation) were not run for families 3 and 4 (Amendment 6, item 4).
+- Git history of this cycle: `7a80e14` (register Amendment 6: exact cost of validity, dependence and informative-release
+  families), `6b08c39` (add exact cost-of-validity study and dependence/informative-release families).
+- The git head recorded in all three outputs (`9a6c63ecd0`) predates commit `6b08c39` and the working tree was dirty, so
+  the recorded head does not by itself identify the code that ran.
+
+### 2. Exact cost of validity
+
+Costs are expected TOTAL cost over T rounds (decision loss + 0.01 per query + 0.1 per switch), the solver's contract, not
+per-round cost. MC entries are mean +/- 95% half-width (paired-t across seeds, Rao-Blackwellised over unqueried labels).
+V_free is the optimal cost without the null-risk constraint, V_valid the optimum under the alpha = 0.1 null-risk constraint,
+CoV = V_valid - V_free. RC is reference conservatism (R_valid cost minus V_valid) and `best_safe - V_valid` is the gap of
+the best safe baseline to the constrained optimum. Grid: a in {0.1, 0.25}; effect strong/medium; off state harmful/neutral;
+T in {6, 7, 8}; B in {2, 3, 4}; d in {1, 2} (144 cells; the cell name encodes a, effect, off state, T, B, d).
+
+Representative rows (10 of 144, chosen to span a, effect, off, T, B and d; the full 144-row table is in
+`outputs/failure_atlas_v1_cycle5/exact_cov/summary.md`):
+
+| cell | V_free | V_valid | CoV | R_valid cost | RC | best_safe - V_valid |
+|---|---|---|---|---|---|---|
+| a0.1_medium_harmful_T6_B2_d2 | 2.1502 | 2.2273 | +0.0771 | 2.2888 ± 0.0367 | +0.0616 | +0.0416 |
+| a0.1_strong_harmful_T6_B2_d1 | 0.9208 | 1.6320 | +0.7112 | 1.8501 ± 0.0588 | +0.2181 | +0.1981 |
+| a0.25_strong_harmful_T6_B4_d1 | 1.1381 | 2.9076 | +1.7695 | 3.5636 ± 0.0584 | +0.6560 | +0.6160 |
+| a0.1_medium_neutral_T7_B3_d1 | 2.9086 | 3.9968 | +1.0882 | 4.2208 ± 0.0216 | +0.2241 | +0.1941 |
+| a0.25_medium_harmful_T7_B4_d2 | 2.6797 | 3.8416 | +1.1619 | 4.0793 ± 0.0398 | +0.2376 | +0.1976 |
+| a0.25_strong_neutral_T7_B2_d1 | 1.4878 | 4.8127 | +3.3249 | 5.6314 ± 0.0318 | +0.8188 | +0.7988 |
+| a0.1_strong_neutral_T8_B3_d2 | 2.7204 | 4.8323 | +2.1119 | 5.4055 ± 0.0398 | +0.5732 | +0.5432 |
+| a0.1_medium_harmful_T8_B4_d1 | 2.7049 | 3.1263 | +0.4214 | 3.3594 ± 0.0498 | +0.2331 | +0.1931 |
+| a0.25_strong_neutral_T8_B2_d2 | 1.5558 | 5.7250 | +4.1692 | 6.5538 ± 0.0345 | +0.8288 | +0.8088 |
+| a0.25_strong_neutral_T8_B4_d1 | 1.5558 | 4.8260 | +3.2701 | 6.5738 ± 0.0345 | +1.7479 | +1.7079 |
+
+Locked reading, verbatim:
+
+RC > CoV in 0 of 144 solved cells (0%).
+
+**Verdict:** RC > CoV in at most half of solved cells: the `cost_of_validity` labels stand at small T. Extrapolation to T = 1000 is not claimed.
+
+Ranges across all 144 cells (computed from `results.json`):
+
+- CoV: min +0.0771, max +4.1692 (n = 144)
+- RC: min +0.0616, max +1.7479 (n = 144)
+- best_safe - V_valid: min +0.0416, max +1.7079 (n = 144)
+
+### 3. Family 3 (within-regime dependence)
+
+Discovery class counts (stage 1, 192 cells):
+
+| class | cells |
+|---|---|
+| cost_of_validity | 41 |
+| no_headroom | 123 |
+| reference_unsafe | 16 |
+| shared_failure | 12 |
+| total | 192 |
+
+R_valid null-twin any-promotion rate (pooled, 12 distinct twins, 240 runs): 14/240 = 0.058 (alpha = 0.1)
+
+Reproduced failures (stage 2, fresh discovery seeds):
+
+| cell | label | severity | H [95% CI] | best_safe | R_family null FP [Wilson] |
+|---|---|---|---|---|---|
+| f3_rho0.5_on0.6_L0.6_strong_harmful_d1_b0.05_s0.1 | shared_failure | 0.1877 | +0.1877 [+0.1784, +0.1971] | allonset_edetector | 0.000 [0.000,0.037] |
+| f3_rho0_on0.3_L0.6_strong_harmful_d1_b0.05_s0.1 | shared_failure | 0.2176 | +0.2176 [+0.1984, +0.2369] | episode_front | 0.010 [0.002,0.054] |
+| f3_rho0.5_on0.3_L0.6_strong_harmful_d1_b0.05_s0.1 | shared_failure | 0.2153 | +0.2153 [+0.1952, +0.2354] | episode_front | 0.000 [0.000,0.037] |
+| f3_rho0.5_on0.6_L1_strong_harmful_d1_b0.05_s0.1 | shared_failure | 0.2000 | +0.2000 [+0.1895, +0.2106] | allonset_edetector | 0.000 [0.000,0.037] |
+| f3_rho0_on0.6_L0.6_strong_harmful_d1_b0.05_s0.1 | shared_failure | 0.1846 | +0.1846 [+0.1723, +0.1970] | allonset_edetector | 0.010 [0.002,0.054] |
+| f3_rho0.5_on0.6_L0.6_strong_harmful_d10_b0.05_s0.1 | shared_failure | 0.1919 | +0.1919 [+0.1816, +0.2023] | allonset_edetector | 0.010 [0.002,0.054] |
+| f3_rho0_on0.6_L1_strong_harmful_d1_b0.05_s0.1 | shared_failure | 0.1946 | +0.1946 [+0.1852, +0.2041] | allonset_edetector | 0.010 [0.002,0.054] |
+| f3_rho0.5_on0.3_L0.6_strong_harmful_d10_b0.05_s0.1 | shared_failure | 0.2153 | +0.2153 [+0.1966, +0.2341] | episode_front | 0.010 [0.002,0.054] |
+| f3_rho0_on0.3_L0.6_strong_harmful_d1_b0.1_s0.1 | shared_failure | 0.1749 | +0.1749 [+0.1598, +0.1900] | episode_front | 0.010 [0.002,0.054] |
+| f3_rho0.8_on0.6_L0.6_strong_harmful_d1_b0.05_s0.1 | shared_failure | 0.1792 | +0.1792 [+0.1670, +0.1915] | allonset_edetector | 0.020 [0.006,0.070] |
+| f3_rho0.8_on0.6_L1_strong_harmful_d10_b0.05_s0.1 | shared_failure | 0.1905 | +0.1905 [+0.1799, +0.2011] | allonset_edetector | 0.010 [0.002,0.054] |
+| f3_rho0_on0.6_L1_strong_harmful_d10_b0.1_s0.1 | cost_of_validity | 0.0000 | +0.1240 [+0.1177, +0.1302] | allonset_edetector | 0.010 [0.002,0.054] |
+
+Isolation (stage 4): does moving one axis to its easiest level remove the failure?
+
+| failure cell | rho | onset | duration | effect | d | budget_frac |
+|---|---|---|---|---|---|---|
+| f3_rho0.5_on0.6_L0.6_strong_harmful_d1_b0.05_s0.1 | keeps (H lo +0.154, shared_failure) | keeps (H lo +0.148, shared_failure) | keeps (H lo +0.154, shared_failure) | at easiest | at easiest | keeps (H lo +0.127, cost_of_validity) |
+| f3_rho0_on0.3_L0.6_strong_harmful_d1_b0.05_s0.1 | at easiest | at easiest | keeps (H lo +0.156, cost_of_validity) | at easiest | at easiest | keeps (H lo +0.178, cost_of_validity) |
+| f3_rho0.5_on0.3_L0.6_strong_harmful_d1_b0.05_s0.1 | keeps (H lo +0.163, shared_failure) | at easiest | keeps (H lo +0.134, cost_of_validity) | at easiest | at easiest | keeps (H lo +0.133, cost_of_validity) |
+| f3_rho0.5_on0.6_L1_strong_harmful_d1_b0.05_s0.1 | keeps (H lo +0.152, shared_failure) | keeps (H lo +0.134, cost_of_validity) | at easiest | at easiest | at easiest | keeps (H lo +0.118, cost_of_validity) |
+| f3_rho0_on0.6_L0.6_strong_harmful_d1_b0.05_s0.1 | at easiest | keeps (H lo +0.163, shared_failure) | keeps (H lo +0.152, shared_failure) | at easiest | at easiest | keeps (H lo +0.117, cost_of_validity) |
+| f3_rho0.5_on0.6_L0.6_strong_harmful_d10_b0.05_s0.1 | keeps (H lo +0.141, cost_of_validity) | keeps (H lo +0.168, shared_failure) | keeps (H lo +0.155, shared_failure) | at easiest | keeps (H lo +0.169, shared_failure) | keeps (H lo +0.102, cost_of_validity) |
+| f3_rho0_on0.6_L1_strong_harmful_d1_b0.05_s0.1 | at easiest | keeps (H lo +0.156, cost_of_validity) | at easiest | at easiest | at easiest | keeps (H lo +0.108, cost_of_validity) |
+| f3_rho0.5_on0.3_L0.6_strong_harmful_d10_b0.05_s0.1 | keeps (H lo +0.184, cost_of_validity) | at easiest | keeps (H lo +0.117, cost_of_validity) | at easiest | keeps (H lo +0.148, shared_failure) | keeps (H lo +0.173, cost_of_validity) |
+| f3_rho0_on0.3_L0.6_strong_harmful_d1_b0.1_s0.1 | at easiest | at easiest | keeps (H lo +0.085, cost_of_validity) | at easiest | at easiest | at easiest |
+| f3_rho0.8_on0.6_L0.6_strong_harmful_d1_b0.05_s0.1 | keeps (H lo +0.154, shared_failure) | keeps (H lo +0.193, shared_failure) | keeps (H lo +0.185, cost_of_validity) | at easiest | at easiest | keeps (H lo +0.116, cost_of_validity) |
+| f3_rho0.8_on0.6_L1_strong_harmful_d10_b0.05_s0.1 | keeps (H lo +0.178, cost_of_validity) | keeps (H lo +0.136, cost_of_validity) | at easiest | at easiest | keeps (H lo +0.185, cost_of_validity) | keeps (H lo +0.121, cost_of_validity) |
+
+Null-twin false promotion per baseline (Amendment 6; 100 dedicated seeds per twin, pooled; kappa (R_family) = 0.05; alpha = 0.1;
+each cell shows null runs with a promotion / runs = rate [Wilson 95%]; `any_gated` = at least one safety-gated baseline promoted in the same run):
+
+| method | rho=0 | rho=0.5 | rho=0.8 | pooled |
+|---|---|---|---|---|
+| episode_geo | 2/400 = 0.005 [0.001,0.018] | 3/400 = 0.007 [0.003,0.022] | 10/400 = 0.025 [0.014,0.045] | 15/1200 = 0.013 [0.008,0.021] |
+| episode_equal | 0/400 = 0.000 [0.000,0.010] | 0/400 = 0.000 [0.000,0.010] | 0/400 = 0.000 [0.000,0.010] | 0/1200 = 0.000 [0.000,0.003] |
+| episode_front | 9/400 = 0.022 [0.012,0.042] | 19/400 = 0.048 [0.031,0.073] | 21/400 = 0.052 [0.035,0.079] | 49/1200 = 0.041 [0.031,0.054] |
+| allonset_edetector | 18/400 = 0.045 [0.029,0.070] | 34/400 = 0.085 [0.061,0.116] | 33/400 = 0.083 [0.059,0.114] | 85/1200 = 0.071 [0.058,0.087] |
+| c2_rho0.75 | 2/400 = 0.005 [0.001,0.018] | 4/400 = 0.010 [0.004,0.025] | 2/400 = 0.005 [0.001,0.018] | 8/1200 = 0.007 [0.003,0.013] |
+| c1_hmm_cs | 3/400 = 0.007 [0.003,0.022] | 13/400 = 0.033 [0.019,0.055] | 69/400 = 0.172 [0.139,0.213] | 85/1200 = 0.071 [0.058,0.087] |
+| online_fwer_spending | 2/400 = 0.005 [0.001,0.018] | 3/400 = 0.007 [0.003,0.022] | 10/400 = 0.025 [0.014,0.045] | 15/1200 = 0.013 [0.008,0.021] |
+| ref_family | 4/400 = 0.010 [0.004,0.025] | 8/400 = 0.020 [0.010,0.039] | 25/400 = 0.062 [0.043,0.091] | 37/1200 = 0.031 [0.022,0.042] |
+| ref_valid | 11/400 = 0.028 [0.015,0.049] | 22/400 = 0.055 [0.037,0.082] | 24/400 = 0.060 [0.041,0.088] | 57/1200 = 0.048 [0.037,0.061] |
+| any_gated | 22/400 = 0.055 [0.037,0.082] | 50/400 = 0.125 [0.096,0.161] | 93/400 = 0.233 [0.194,0.276] | 165/1200 = 0.138 [0.119,0.158] |
+
+Locked predictions D1 and D2, verbatim:
+
+- **D1 PASS**: at rho = 0.8 the highest pooled null any-promotion rate among safety-gated baselines is `c1_hmm_cs` 69/400 = 0.172 [0.139,0.213] (criterion: > alpha + 0.05 = 0.15, point estimate; Wilson lower bound not above the criterion). Baselines above the criterion: c1_hmm_cs.
+- **D2 (descriptive) FAIL**: null false-promotion rate non-decreasing in rho (point estimates) for 5 of 7 gated baselines. `episode_geo` 0.005/0.007/0.025 ok; `episode_equal` 0.000/0.000/0.000 ok; `episode_front` 0.022/0.048/0.052 ok; `allonset_edetector` 0.045/0.085/0.083 NOT monotone; `c2_rho0.75` 0.005/0.010/0.005 NOT monotone; `c1_hmm_cs` 0.007/0.033/0.172 ok; `online_fwer_spending` 0.005/0.007/0.025 ok (rho = 0, 0.5, 0.8).
+
+### 4. Family 4 (informative release)
+
+Discovery class counts (stage 1, 192 cells):
+
+| class | cells |
+|---|---|
+| cost_of_validity | 47 |
+| no_headroom | 84 |
+| reference_unsafe | 48 |
+| shared_failure | 13 |
+| total | 192 |
+
+R_valid null-twin any-promotion rate (pooled, 12 distinct twins, 240 runs): 10/240 = 0.042 (alpha = 0.1)
+
+Reproduced failures (stage 2, fresh discovery seeds):
+
+| cell | label | severity | H [95% CI] | best_safe | R_family null FP [Wilson] |
+|---|---|---|---|---|---|
+| f4_u3_on0.6_L1_strong_harmful_d2_b0.05_s0.1 | shared_failure | 0.2183 | +0.2183 [+0.2109, +0.2258] | allonset_edetector | 0.070 [0.034,0.137] |
+| f4_u3_on0.3_L0.6_strong_harmful_d2_b0.05_s0.1 | shared_failure | 0.2338 | +0.2338 [+0.2161, +0.2515] | episode_front | 0.070 [0.034,0.137] |
+| f4_u3_on0.6_L1_strong_harmful_d10_b0.05_s0.1 | shared_failure | 0.2346 | +0.2346 [+0.2269, +0.2422] | allonset_edetector | 0.030 [0.010,0.085] |
+| f4_same_on0.6_L0.6_strong_harmful_d2_b0.05_s0.1 | shared_failure | 0.2165 | +0.2165 [+0.2090, +0.2240] | allonset_edetector | 0.070 [0.034,0.137] |
+| f4_u3_on0.6_L0.6_strong_harmful_d2_b0.05_s0.1 | shared_failure | 0.2135 | +0.2135 [+0.2042, +0.2228] | allonset_edetector | 0.070 [0.034,0.137] |
+| f4_same_on0.6_L1_strong_harmful_d10_b0.05_s0.1 | shared_failure | 0.2129 | +0.2129 [+0.2047, +0.2210] | allonset_edetector | 0.050 [0.022,0.112] |
+| f4_same_on0.6_L0.6_strong_harmful_d10_b0.05_s0.1 | shared_failure | 0.2099 | +0.2099 [+0.2019, +0.2179] | allonset_edetector | 0.050 [0.022,0.112] |
+| f4_same_on0.6_L1_strong_harmful_d2_b0.05_s0.1 | shared_failure | 0.2105 | +0.2105 [+0.2004, +0.2206] | allonset_edetector | 0.070 [0.034,0.137] |
+| f4_u3_on0.3_L0.6_strong_harmful_d10_b0.05_s0.1 | shared_failure | 0.2407 | +0.2407 [+0.2221, +0.2594] | episode_front | 0.030 [0.010,0.085] |
+| f4_f3_on0.6_L1_strong_harmful_d2_b0.05_s0.1 | shared_failure | 0.2038 | +0.2038 [+0.1951, +0.2125] | allonset_edetector | 0.020 [0.006,0.070] |
+| f4_same_on0.3_L0.6_strong_harmful_d10_b0.05_s0.1 | shared_failure | 0.2246 | +0.2246 [+0.2081, +0.2411] | episode_front | 0.050 [0.022,0.112] |
+| f4_f3_on0.6_L1_strong_harmful_d10_b0.05_s0.1 | shared_failure | 0.1951 | +0.1951 [+0.1849, +0.2053] | allonset_edetector | 0.020 [0.006,0.070] |
+
+Isolation (stage 4):
+
+| failure cell | delay | d | onset | duration | effect | budget_frac |
+|---|---|---|---|---|---|---|
+| f4_u3_on0.6_L1_strong_harmful_d2_b0.05_s0.1 | keeps (H lo +0.192, cost_of_validity) | at easiest | keeps (H lo +0.150, cost_of_validity) | at easiest | at easiest | keeps (H lo +0.126, reference_unsafe) |
+| f4_u3_on0.3_L0.6_strong_harmful_d2_b0.05_s0.1 | keeps (H lo +0.172, cost_of_validity) | at easiest | at easiest | keeps (H lo +0.150, cost_of_validity) | at easiest | keeps (H lo +0.154, reference_unsafe) |
+| f4_u3_on0.6_L1_strong_harmful_d10_b0.05_s0.1 | keeps (H lo +0.189, cost_of_validity) | keeps (H lo +0.180, shared_failure) | keeps (H lo +0.186, cost_of_validity) | at easiest | at easiest | keeps (H lo +0.145, reference_unsafe) |
+| f4_same_on0.6_L0.6_strong_harmful_d2_b0.05_s0.1 | at easiest | at easiest | keeps (H lo +0.172, cost_of_validity) | keeps (H lo +0.192, cost_of_validity) | at easiest | keeps (H lo +0.118, cost_of_validity) |
+| f4_u3_on0.6_L0.6_strong_harmful_d2_b0.05_s0.1 | keeps (H lo +0.182, shared_failure) | at easiest | keeps (H lo +0.203, cost_of_validity) | keeps (H lo +0.180, shared_failure) | at easiest | keeps (H lo +0.127, reference_unsafe) |
+| f4_same_on0.6_L1_strong_harmful_d10_b0.05_s0.1 | at easiest | keeps (H lo +0.192, cost_of_validity) | keeps (H lo +0.167, cost_of_validity) | at easiest | at easiest | keeps (H lo +0.128, reference_unsafe) |
+| f4_same_on0.6_L0.6_strong_harmful_d10_b0.05_s0.1 | at easiest | keeps (H lo +0.182, shared_failure) | keeps (H lo +0.221, shared_failure) | keeps (H lo +0.189, cost_of_validity) | at easiest | keeps (H lo +0.121, reference_unsafe) |
+| f4_same_on0.6_L1_strong_harmful_d2_b0.05_s0.1 | at easiest | at easiest | keeps (H lo +0.142, cost_of_validity) | at easiest | at easiest | keeps (H lo +0.114, cost_of_validity) |
+| f4_u3_on0.3_L0.6_strong_harmful_d10_b0.05_s0.1 | keeps (H lo +0.221, shared_failure) | keeps (H lo +0.203, cost_of_validity) | at easiest | keeps (H lo +0.186, cost_of_validity) | at easiest | keeps (H lo +0.156, reference_unsafe) |
+| f4_f3_on0.6_L1_strong_harmful_d2_b0.05_s0.1 | keeps (H lo +0.192, cost_of_validity) | at easiest | keeps (H lo +0.142, cost_of_validity) | at easiest | at easiest | keeps (H lo +0.111, reference_unsafe) |
+| f4_same_on0.3_L0.6_strong_harmful_d10_b0.05_s0.1 | at easiest | keeps (H lo +0.172, cost_of_validity) | at easiest | keeps (H lo +0.167, cost_of_validity) | at easiest | keeps (H lo +0.138, reference_unsafe) |
+| f4_f3_on0.6_L1_strong_harmful_d10_b0.05_s0.1 | keeps (H lo +0.189, cost_of_validity) | keeps (H lo +0.196, cost_of_validity) | keeps (H lo +0.102, cost_of_validity) | at easiest | at easiest | keeps (H lo +0.101, cost_of_validity) |
+
+Null-twin false promotion per baseline (Amendment 6; 100 dedicated seeds per twin, pooled; kappa (R_family) = 0.1; alpha = 0.1;
+columns are (d_f, d_u, d); same cell format as family 3):
+
+| method | d_f=10,d_u=10,d=10 | d_f=10,d_u=30,d=10 | d_f=2,d_u=2,d=2 | d_f=2,d_u=6,d=2 | d_f=30,d_u=10,d=10 | d_f=6,d_u=2,d=2 | pooled |
+|---|---|---|---|---|---|---|---|
+| episode_geo | 3/200 = 0.015 [0.005,0.043] | 1/200 = 0.005 [0.001,0.028] | 2/200 = 0.010 [0.003,0.036] | 0/200 = 0.000 [0.000,0.019] | 3/200 = 0.015 [0.005,0.043] | 3/200 = 0.015 [0.005,0.043] | 12/1200 = 0.010 [0.006,0.017] |
+| episode_equal | 0/200 = 0.000 [0.000,0.019] | 0/200 = 0.000 [0.000,0.019] | 0/200 = 0.000 [0.000,0.019] | 0/200 = 0.000 [0.000,0.019] | 0/200 = 0.000 [0.000,0.019] | 0/200 = 0.000 [0.000,0.019] | 0/1200 = 0.000 [0.000,0.003] |
+| episode_front | 4/200 = 0.020 [0.008,0.050] | 1/200 = 0.005 [0.001,0.028] | 7/200 = 0.035 [0.017,0.070] | 4/200 = 0.020 [0.008,0.050] | 4/200 = 0.020 [0.008,0.050] | 4/200 = 0.020 [0.008,0.050] | 24/1200 = 0.020 [0.013,0.030] |
+| allonset_edetector | 15/200 = 0.075 [0.046,0.120] | 9/200 = 0.045 [0.024,0.083] | 16/200 = 0.080 [0.050,0.126] | 12/200 = 0.060 [0.035,0.102] | 6/200 = 0.030 [0.014,0.064] | 10/200 = 0.050 [0.027,0.090] | 68/1200 = 0.057 [0.045,0.071] |
+| c2_rho0.75 | 1/200 = 0.005 [0.001,0.028] | 2/200 = 0.010 [0.003,0.036] | 6/200 = 0.030 [0.014,0.064] | 0/200 = 0.000 [0.000,0.019] | 4/200 = 0.020 [0.008,0.050] | 2/200 = 0.010 [0.003,0.036] | 15/1200 = 0.013 [0.008,0.021] |
+| c1_hmm_cs | 0/200 = 0.000 [0.000,0.019] | 1/200 = 0.005 [0.001,0.028] | 7/200 = 0.035 [0.017,0.070] | 4/200 = 0.020 [0.008,0.050] | 0/200 = 0.000 [0.000,0.019] | 2/200 = 0.010 [0.003,0.036] | 14/1200 = 0.012 [0.007,0.019] |
+| online_fwer_spending | 3/200 = 0.015 [0.005,0.043] | 1/200 = 0.005 [0.001,0.028] | 2/200 = 0.010 [0.003,0.036] | 0/200 = 0.000 [0.000,0.019] | 3/200 = 0.015 [0.005,0.043] | 3/200 = 0.015 [0.005,0.043] | 12/1200 = 0.010 [0.006,0.017] |
+| ref_family | 21/200 = 0.105 [0.070,0.155] | 21/200 = 0.105 [0.070,0.155] | 22/200 = 0.110 [0.074,0.161] | 16/200 = 0.080 [0.050,0.126] | 6/200 = 0.030 [0.014,0.064] | 19/200 = 0.095 [0.062,0.144] | 105/1200 = 0.087 [0.073,0.105] |
+| ref_valid | 4/200 = 0.020 [0.008,0.050] | 3/200 = 0.015 [0.005,0.043] | 9/200 = 0.045 [0.024,0.083] | 6/200 = 0.030 [0.014,0.064] | 5/200 = 0.025 [0.011,0.057] | 8/200 = 0.040 [0.020,0.077] | 35/1200 = 0.029 [0.021,0.040] |
+| any_gated | 16/200 = 0.080 [0.050,0.126] | 12/200 = 0.060 [0.035,0.102] | 27/200 = 0.135 [0.094,0.189] | 16/200 = 0.080 [0.050,0.126] | 9/200 = 0.045 [0.024,0.083] | 14/200 = 0.070 [0.042,0.114] | 94/1200 = 0.078 [0.064,0.095] |
+
+Locked predictions I1 and I2, verbatim:
+
+- **I1 FAIL**: d_u = 3d > d_f, base d = 10: highest gated null false-promotion rate is `allonset_edetector` 9/200 = 0.045 [0.024,0.083] (criterion: > 0.15, point estimate; Wilson lower bound not above). Baselines above: none.
+- **I2 PASS**: d_f > d_u (both base d, pooled): highest gated rate is `allonset_edetector` 16/400 = 0.040 [0.025,0.064] (criterion: every gated baseline <= alpha = 0.1, point estimate; Wilson upper bound of the highest <= alpha). Baselines above alpha: none.
+
+### 5. Declared misspecifications
+
+Verbatim from the family 3 and family 4 summaries (identical text in both):
+
+Declared misspecifications: family 3 breaks the conditional null `E[X_t | F_{t-1}] <= 0` (only the stationary mean sits at the boundary) and R_family ignores the dependence; in family 4 the methods keep `cfg.d` = base d (calendars, `can_query` t + d <= T), queries released after T are charged and wasted, and `c1_hmm_cs` runs behind a head-of-line reorder buffer because its HMM bank needs event-ordered labels.
+
+### Cycle 5 reviewer assessment (2026-11-01)
+
+**Exact cost of validity: the labels stand at small T, but the evidence is weak.**
+- Reference conservatism exceeded the true cost of validity in 0 of 144 solved cells.
+- At T ≤ 8 and B ≤ 4, every e-process method is degenerate. With at most 4 labels, a bounded-stake e-process cannot reach 1/alpha, so R_valid, best_safe and straddle all sit at `no_switch`.
+- The constrained optimum reaches its value through an exact, randomized, fixed-horizon test. That class has no cheap anytime-valid analogue, which explains the gap between `no_switch` and V_valid.
+- Tiny-T cells therefore cannot tell us whether the T = 1000 `cost_of_validity` labels reflect an unavoidable cost or conservative references. This question stays OPEN at realistic horizons. Settling it needs either a scalable constrained solver or a lower bound. Neither is available in the repository.
+
+**Families 3 and 4: published e-process baselines kept their validity under both stresses; a ShiftLab candidate did not.**
+- D1 passes only through `c1_hmm_cs`, whose likelihood assumes iid emissions within a regime. Its false-promotion rate is 0.172 at rho = 0.8.
+- Every e-process baseline stays at or below 0.085, even though the conditional null fails under rho > 0.
+- I1 fails: favourable-first release did not inflate false promotion. I2 passes.
+- Both results have one probable explanation: sparse sampling. With uniform calendars at B/T ≤ 0.1, the queried labels are about 10–20 rounds apart. At rho = 0.8 the lag-20 autocorrelation is about 0.8^20 ≈ 0.01, so the queried labels are nearly independent. A delay asymmetry of 2–20 rounds holds back only one or two labels.
+- The shared failures found in families 3 and 4 are the family-1 late-onset pattern again. They appear at rho = 0 and with equal delays, and isolation shows that the dependence and delay axes are not the cause.
+
+**PIVOT for cycle 6: test the sampling-density explanation, where the real validity risk sits.**
+- The explanation predicts that validity breaks when queries are dense relative to the correlation time or the delay asymmetry. That covers large budgets (B/T in {0.25, 0.5}), bursty acquisition (straddle, `dal_restart` bursts, the C2 monitor) and long informative delays (d_u at least 10× the query spacing).
+- This matters for the mechanism library. Straddle, the one mechanism that survived fresh seeds, queries in bursts by design, so it may be valid in the iid family yet unsafe under dependence.
+- Planned predictions, to be locked in Amendment 7 before any run:
+  - **(V1)** At rho = 0.8 and B/T = 0.5, at least one e-process baseline's null false-promotion rate exceeds alpha + 0.05.
+  - **(V2)** At rho = 0.8, straddle's null false-promotion rate exceeds that of its uniform ablation, with the CI of the difference excluding 0.
+  - **(V3)** With d_u = 10× the query spacing and favourable-first release, the false-promotion rate exceeds alpha + 0.05 for some gated baseline.
+- If they hold, the candidate contribution is a dependence-aware or release-aware acquisition and evidence rule, for example spacing queries by an estimated mixing time, or blocked betting. It would first need an R2 audit: e-processes under mixing or beta-mixing, and anytime-valid tests for Markov data.
+
+None of this is confirmatory. The confirmation seeds remain untouched.

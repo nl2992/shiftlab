@@ -1491,3 +1491,185 @@ Declared misspecifications: family 3 breaks the conditional null `E[X_t | F_{t-1
 - If they hold, the candidate contribution is a dependence-aware or release-aware acquisition and evidence rule, for example spacing queries by an estimated mixing time, or blocked betting. It would first need an R2 audit: e-processes under mixing or beta-mixing, and anytime-valid tests for Markov data.
 
 None of this is confirmatory. The confirmation seeds remain untouched.
+
+## Cycle 6
+
+Protocol: `docs/failure_atlas_v1_protocol.md` Amendment 7 (registered in commit `0d332bf` before the cycle-6 run; code in
+commit `c598a96`; prior-art audit in commit `c19d3ba`, `docs/failure_atlas_dependence_prior_art_v1.md`). All numbers below
+are copied from `outputs/failure_atlas_v1_cycle6/summary.md`. Nothing here is confirmatory: boundary null twins, development
+seeds only.
+
+### 1. Run record
+
+- Script `scripts/run_atlas_cycle6_validity_v1.py`, launched detached via `scripts/launch_atlas_cycle6.ps1`. Output
+  `outputs/failure_atlas_v1_cycle6/`.
+- Seeds [150000, 150199] (200 per configuration), 36 configurations (dependence 32/32, release 4/4), T = 1000, alpha = 0.1,
+  threshold alpha + 0.05 = 0.15. Wall time about 2650 s on 10 workers.
+- Git head recorded in summary.md: `73ee3d95c9d6d2301c3665a27026632ed50a5a54`, dirty working tree = True (the cycle-6 script
+  was uncommitted when it ran). The code was committed afterwards as `c598a96` with lint-only changes. Recorded script
+  sha256 `bf32e256add1387e3aaf10d964bef08763a15bf6046a9f746c71e37946bfd83a`.
+- Git history of this cycle: `0d332bf` (register Amendment 7), `c19d3ba` (R2 audit), `c598a96` (add cycle-6 sampling-density
+  validity map).
+
+### 2. Dependence grid
+
+False promotion = any promotion on the null twin (`fp_regime > 0`); Wilson 95% CIs. Null false-promotion rate, copied
+verbatim from summary.md:
+
+| rho | B/T | d | episode_geo | episode_equal | episode_front | allonset_edetector | c2_rho0.75 | c1_hmm_cs | online_fwer_spending | R_valid | straddle | straddle_abl |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| 0 | 0.05 | 1 | 0.020 [0.008,0.050] | 0.000 [0.000,0.019] | 0.030 [0.014,0.064] | 0.060 [0.035,0.102] | 0.010 [0.003,0.036] | 0.010 [0.003,0.036] | 0.020 [0.008,0.050] | 0.030 [0.014,0.064] | 0.010 [0.003,0.036] | 0.020 [0.008,0.050] |
+| 0 | 0.05 | 10 | 0.000 [0.000,0.019] | 0.000 [0.000,0.019] | 0.015 [0.005,0.043] | 0.020 [0.008,0.050] | 0.005 [0.001,0.028] | 0.000 [0.000,0.019] | 0.000 [0.000,0.019] | 0.020 [0.008,0.050] | 0.010 [0.003,0.036] | 0.000 [0.000,0.019] |
+| 0 | 0.1 | 1 | 0.005 [0.001,0.028] | 0.000 [0.000,0.019] | 0.015 [0.005,0.043] | 0.070 [0.042,0.114] | 0.015 [0.005,0.043] | 0.015 [0.005,0.043] | 0.005 [0.001,0.028] | 0.040 [0.020,0.077] | 0.000 [0.000,0.019] | 0.005 [0.001,0.028] |
+| 0 | 0.1 | 10 | 0.010 [0.003,0.036] | 0.000 [0.000,0.019] | 0.020 [0.008,0.050] | 0.040 [0.020,0.077] | 0.000 [0.000,0.019] | 0.000 [0.000,0.019] | 0.010 [0.003,0.036] | 0.030 [0.014,0.064] | 0.020 [0.008,0.050] | 0.010 [0.003,0.036] |
+| 0 | 0.25 | 1 | 0.010 [0.003,0.036] | 0.000 [0.000,0.019] | 0.015 [0.005,0.043] | 0.045 [0.024,0.083] | 0.015 [0.005,0.043] | 0.035 [0.017,0.070] | 0.010 [0.003,0.036] | 0.055 [0.031,0.096] | 0.005 [0.001,0.028] | 0.010 [0.003,0.036] |
+| 0 | 0.25 | 10 | 0.020 [0.008,0.050] | 0.000 [0.000,0.019] | 0.035 [0.017,0.070] | 0.075 [0.046,0.120] | 0.015 [0.005,0.043] | 0.035 [0.017,0.070] | 0.020 [0.008,0.050] | 0.055 [0.031,0.096] | 0.005 [0.001,0.028] | 0.020 [0.008,0.050] |
+| 0 | 0.5 | 1 | 0.010 [0.003,0.036] | 0.000 [0.000,0.019] | 0.040 [0.020,0.077] | 0.075 [0.046,0.120] | 0.000 [0.000,0.019] | 0.075 [0.046,0.120] | 0.010 [0.003,0.036] | 0.070 [0.042,0.114] | 0.005 [0.001,0.028] | 0.010 [0.003,0.036] |
+| 0 | 0.5 | 10 | 0.015 [0.005,0.043] | 0.000 [0.000,0.019] | 0.055 [0.031,0.096] | 0.075 [0.046,0.120] | 0.010 [0.003,0.036] | 0.030 [0.014,0.064] | 0.015 [0.005,0.043] | 0.100 [0.066,0.149] | 0.005 [0.001,0.028] | 0.015 [0.005,0.043] |
+| 0.5 | 0.05 | 1 | 0.005 [0.001,0.028] | 0.000 [0.000,0.019] | 0.020 [0.008,0.050] | 0.040 [0.020,0.077] | 0.000 [0.000,0.019] | 0.040 [0.020,0.077] | 0.005 [0.001,0.028] | 0.035 [0.017,0.070] | 0.130 [0.090,0.184] | 0.005 [0.001,0.028] |
+| 0.5 | 0.05 | 10 | 0.005 [0.001,0.028] | 0.000 [0.000,0.019] | 0.015 [0.005,0.043] | 0.045 [0.024,0.083] | 0.010 [0.003,0.036] | 0.000 [0.000,0.019] | 0.005 [0.001,0.028] | 0.040 [0.020,0.077] | 0.030 [0.014,0.064] | 0.005 [0.001,0.028] |
+| 0.5 | 0.1 | 1 | 0.020 [0.008,0.050] | 0.000 [0.000,0.019] | 0.045 [0.024,0.083] | 0.065 [0.038,0.108] | 0.000 [0.000,0.019] | 0.100 [0.066,0.149] | 0.020 [0.008,0.050] | 0.065 [0.038,0.108] | 0.265 [0.209,0.330] | 0.020 [0.008,0.050] |
+| 0.5 | 0.1 | 10 | 0.005 [0.001,0.028] | 0.000 [0.000,0.019] | 0.025 [0.011,0.057] | 0.070 [0.042,0.114] | 0.005 [0.001,0.028] | 0.005 [0.001,0.028] | 0.005 [0.001,0.028] | 0.035 [0.017,0.070] | 0.050 [0.027,0.090] | 0.005 [0.001,0.028] |
+| 0.5 | 0.25 | 1 | 0.020 [0.008,0.050] | 0.000 [0.000,0.019] | 0.065 [0.038,0.108] | 0.115 [0.078,0.167] | 0.015 [0.005,0.043] | 0.960 [0.923,0.980] | 0.020 [0.008,0.050] | 0.095 [0.062,0.144] | 0.440 [0.373,0.509] | 0.020 [0.008,0.050] |
+| 0.5 | 0.25 | 10 | 0.025 [0.011,0.057] | 0.000 [0.000,0.019] | 0.075 [0.046,0.120] | 0.090 [0.058,0.138] | 0.010 [0.003,0.036] | 0.010 [0.003,0.036] | 0.025 [0.011,0.057] | 0.060 [0.035,0.102] | 0.050 [0.027,0.090] | 0.025 [0.011,0.057] |
+| 0.5 | 0.5 | 1 | 0.160 [0.116,0.217] | 0.005 [0.001,0.028] | 0.250 [0.195,0.314] | 0.340 [0.278,0.408] | 0.080 [0.050,0.126] | 1.000 [0.981,1.000] | 0.160 [0.116,0.217] | 0.290 [0.232,0.356] | 0.570 [0.501,0.637] | 0.160 [0.116,0.217] |
+| 0.5 | 0.5 | 10 | 0.145 [0.103,0.200] | 0.005 [0.001,0.028] | 0.250 [0.195,0.314] | 0.355 [0.292,0.423] | 0.090 [0.058,0.138] | 0.040 [0.020,0.077] | 0.145 [0.103,0.200] | 0.320 [0.259,0.388] | 0.050 [0.027,0.090] | 0.145 [0.103,0.200] |
+| 0.8 | 0.05 | 1 | 0.000 [0.000,0.019] | 0.000 [0.000,0.019] | 0.005 [0.001,0.028] | 0.045 [0.024,0.083] | 0.000 [0.000,0.019] | 0.065 [0.038,0.108] | 0.000 [0.000,0.019] | 0.035 [0.017,0.070] | 0.475 [0.407,0.544] | 0.000 [0.000,0.019] |
+| 0.8 | 0.05 | 10 | 0.005 [0.001,0.028] | 0.000 [0.000,0.019] | 0.010 [0.003,0.036] | 0.040 [0.020,0.077] | 0.005 [0.001,0.028] | 0.035 [0.017,0.070] | 0.005 [0.001,0.028] | 0.020 [0.008,0.050] | 0.080 [0.050,0.126] | 0.005 [0.001,0.028] |
+| 0.8 | 0.1 | 1 | 0.025 [0.011,0.057] | 0.000 [0.000,0.019] | 0.065 [0.038,0.108] | 0.130 [0.090,0.184] | 0.015 [0.005,0.043] | 0.455 [0.387,0.524] | 0.025 [0.011,0.057] | 0.090 [0.058,0.138] | 0.655 [0.587,0.717] | 0.025 [0.011,0.057] |
+| 0.8 | 0.1 | 10 | 0.010 [0.003,0.036] | 0.000 [0.000,0.019] | 0.035 [0.017,0.070] | 0.090 [0.058,0.138] | 0.015 [0.005,0.043] | 0.070 [0.042,0.114] | 0.010 [0.003,0.036] | 0.080 [0.050,0.126] | 0.135 [0.094,0.189] | 0.010 [0.003,0.036] |
+| 0.8 | 0.25 | 1 | 0.345 [0.283,0.413] | 0.065 [0.038,0.108] | 0.440 [0.373,0.509] | 0.510 [0.441,0.578] | 0.160 [0.116,0.217] | 0.990 [0.964,0.997] | 0.345 [0.283,0.413] | 0.495 [0.426,0.564] | 0.880 [0.828,0.918] | 0.345 [0.283,0.413] |
+| 0.8 | 0.25 | 10 | 0.395 [0.330,0.464] | 0.090 [0.058,0.138] | 0.495 [0.426,0.564] | 0.585 [0.516,0.651] | 0.210 [0.159,0.272] | 0.385 [0.320,0.454] | 0.395 [0.330,0.464] | 0.520 [0.451,0.588] | 0.185 [0.137,0.245] | 0.395 [0.330,0.464] |
+| 0.8 | 0.5 | 1 | 0.910 [0.862,0.942] | 0.365 [0.301,0.434] | 0.955 [0.917,0.976] | 0.950 [0.910,0.973] | 0.680 [0.612,0.741] | 1.000 [0.981,1.000] | 0.910 [0.862,0.942] | 0.940 [0.898,0.965] | 0.960 [0.923,0.980] | 0.910 [0.862,0.942] |
+| 0.8 | 0.5 | 10 | 0.930 [0.886,0.958] | 0.445 [0.378,0.514] | 0.955 [0.917,0.976] | 0.990 [0.964,0.997] | 0.740 [0.675,0.796] | 0.330 [0.269,0.398] | 0.930 [0.886,0.958] | 0.945 [0.904,0.969] | 0.140 [0.099,0.195] | 0.930 [0.886,0.958] |
+| 0.95 | 0.05 | 1 | 0.055 [0.031,0.096] | 0.005 [0.001,0.028] | 0.110 [0.074,0.161] | 0.210 [0.159,0.272] | 0.020 [0.008,0.050] | 0.075 [0.046,0.120] | 0.055 [0.031,0.096] | 0.155 [0.111,0.212] | 0.910 [0.862,0.942] | 0.055 [0.031,0.096] |
+| 0.95 | 0.05 | 10 | 0.090 [0.058,0.138] | 0.010 [0.003,0.036] | 0.130 [0.090,0.184] | 0.215 [0.164,0.277] | 0.040 [0.020,0.077] | 0.085 [0.054,0.132] | 0.090 [0.058,0.138] | 0.205 [0.155,0.266] | 0.455 [0.387,0.524] | 0.090 [0.058,0.138] |
+| 0.95 | 0.1 | 1 | 0.450 [0.383,0.519] | 0.165 [0.120,0.223] | 0.580 [0.511,0.646] | 0.605 [0.536,0.670] | 0.330 [0.269,0.398] | 0.580 [0.511,0.646] | 0.450 [0.383,0.519] | 0.605 [0.536,0.670] | 0.935 [0.892,0.962] | 0.450 [0.383,0.519] |
+| 0.95 | 0.1 | 10 | 0.500 [0.431,0.569] | 0.160 [0.116,0.217] | 0.590 [0.521,0.656] | 0.605 [0.536,0.670] | 0.280 [0.222,0.346] | 0.250 [0.195,0.314] | 0.500 [0.431,0.569] | 0.600 [0.531,0.665] | 0.615 [0.546,0.680] | 0.500 [0.431,0.569] |
+| 0.95 | 0.25 | 1 | 0.970 [0.936,0.986] | 0.745 [0.680,0.800] | 0.990 [0.964,0.997] | 0.975 [0.943,0.989] | 0.900 [0.851,0.934] | 0.905 [0.856,0.938] | 0.970 [0.936,0.986] | 0.970 [0.936,0.986] | 0.960 [0.923,0.980] | 0.970 [0.936,0.986] |
+| 0.95 | 0.25 | 10 | 0.960 [0.923,0.980] | 0.745 [0.680,0.800] | 0.965 [0.930,0.983] | 0.975 [0.943,0.989] | 0.855 [0.800,0.897] | 0.745 [0.680,0.800] | 0.960 [0.923,0.980] | 0.965 [0.930,0.983] | 0.610 [0.541,0.675] | 0.960 [0.923,0.980] |
+| 0.95 | 0.5 | 1 | 1.000 [0.981,1.000] | 1.000 [0.981,1.000] | 1.000 [0.981,1.000] | 1.000 [0.981,1.000] | 1.000 [0.981,1.000] | 0.910 [0.862,0.942] | 1.000 [0.981,1.000] | 1.000 [0.981,1.000] | 0.980 [0.950,0.992] | 1.000 [0.981,1.000] |
+| 0.95 | 0.5 | 10 | 1.000 [0.981,1.000] | 0.995 [0.972,0.999] | 1.000 [0.981,1.000] | 1.000 [0.981,1.000] | 1.000 [0.981,1.000] | 0.765 [0.702,0.818] | 1.000 [0.981,1.000] | 1.000 [0.981,1.000] | 0.705 [0.638,0.764] | 1.000 [0.981,1.000] |
+
+### 3. Release grid
+
+Release grid (rho = 0): null false-promotion rate, copied verbatim from summary.md:
+
+| B/T | arm | (d_f, d_u) | episode_geo | episode_equal | episode_front | allonset_edetector | c2_rho0.75 | c1_hmm_cs | online_fwer_spending | R_valid | straddle | straddle_abl |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| 0.1 | control | (100, 10) | 0.000 [0.000,0.019] | 0.000 [0.000,0.019] | 0.000 [0.000,0.019] | 0.010 [0.003,0.036] | 0.005 [0.001,0.028] | 0.005 [0.001,0.028] | 0.000 [0.000,0.019] | 0.005 [0.001,0.028] | 0.000 [0.000,0.019] | 0.000 [0.000,0.019] |
+| 0.1 | favourable-first | (10, 100) | 0.010 [0.003,0.036] | 0.000 [0.000,0.019] | 0.015 [0.005,0.043] | 0.040 [0.020,0.077] | 0.005 [0.001,0.028] | 0.000 [0.000,0.019] | 0.010 [0.003,0.036] | 0.015 [0.005,0.043] | 0.000 [0.000,0.019] | 0.010 [0.003,0.036] |
+| 0.25 | control | (40, 4) | 0.000 [0.000,0.019] | 0.000 [0.000,0.019] | 0.010 [0.003,0.036] | 0.015 [0.005,0.043] | 0.010 [0.003,0.036] | 0.000 [0.000,0.019] | 0.000 [0.000,0.019] | 0.010 [0.003,0.036] | 0.000 [0.000,0.019] | 0.000 [0.000,0.019] |
+| 0.25 | favourable-first | (4, 40) | 0.000 [0.000,0.019] | 0.000 [0.000,0.019] | 0.010 [0.003,0.036] | 0.025 [0.011,0.057] | 0.010 [0.003,0.036] | 0.010 [0.003,0.036] | 0.000 [0.000,0.019] | 0.010 [0.003,0.036] | 0.010 [0.003,0.036] | 0.000 [0.000,0.019] |
+
+### 4. Verdicts
+
+**V1: PASS** (rho=0.8, B/T=0.5, pooled over d; any of episode_geo, episode_equal, episode_front, allonset_edetector, online_fwer_spending, c2_rho0.75 with rate > 0.15)
+
+| method | k/n | rate [Wilson] | exceeds |
+|---|---|---|---|
+| episode_geo | 368/400 | 0.920 [0.889,0.943] | yes |
+| episode_equal | 162/400 | 0.405 [0.358,0.454] | yes |
+| episode_front | 382/400 | 0.955 [0.930,0.971] | yes |
+| allonset_edetector | 388/400 | 0.970 [0.948,0.983] | yes |
+| online_fwer_spending | 368/400 | 0.920 [0.889,0.943] | yes |
+| c2_rho0.75 | 284/400 | 0.710 [0.664,0.752] | yes |
+
+**V2: PASS** (rho=0.8 pooled over B/T and d, n=1600 paired seeds): straddle 0.439 - ablation 0.328 = +0.1113, 95% paired CI [+0.0813, +0.1412]
+
+**V3: FAIL** (favourable-first, d_u = 10g, pooled over the two spacings; gated baselines above 0.15: none; control (10g, g) at or below alpha for those baselines: PASS; for all gated baselines: PASS)
+
+| method | favourable-first | control |
+|---|---|---|
+| episode_geo | 0.005 [0.001,0.018] | 0.000 [0.000,0.010] |
+| episode_equal | 0.000 [0.000,0.010] | 0.000 [0.000,0.010] |
+| episode_front | 0.013 [0.005,0.029] | 0.005 [0.001,0.018] |
+| allonset_edetector | 0.033 [0.019,0.055] | 0.013 [0.005,0.029] |
+| c2_rho0.75 | 0.007 [0.003,0.022] | 0.007 [0.003,0.022] |
+| c1_hmm_cs | 0.005 [0.001,0.018] | 0.003 [0.000,0.014] |
+| online_fwer_spending | 0.005 [0.001,0.018] | 0.000 [0.000,0.010] |
+
+**V4 (descriptive)**: Spearman correlation across the dependence grid between null false-promotion rate and rho^(T/B).
+
+| method | Spearman | e-process baseline |
+|---|---|---|
+| episode_geo | 0.863 | yes |
+| episode_equal | 0.913 | yes |
+| episode_front | 0.877 | yes |
+| allonset_edetector | 0.900 | yes |
+| online_fwer_spending | 0.863 | yes |
+| c2_rho0.75 | 0.854 | yes |
+| c1_hmm_cs | 0.782 | no |
+| R_valid | 0.878 | no |
+| straddle | 0.878 | no |
+| straddle_abl | 0.863 | no |
+
+Positive for 6/6 e-process baselines (most: True).
+
+Interpretation-rule verdict:
+
+RETAINED: V1 holds and the V4 Spearman correlation is positive for most e-process baselines; the sampling-density explanation is retained.
+
+### 5. Prior-art audit summary (R2, `docs/failure_atlas_dependence_prior_art_v1.md`, 2026-11-01)
+
+- Candidate (i), false-promotion inflation scales with rho^(query spacing): NOT NOVEL as a mechanism. R2 KILLED as a headline
+  contribution; retained as a diagnostic result with contract-violation framing. The upper-bound direction follows from known
+  blocking and TV bounds (Oliveira et al. Prop 10); no lower-bound or exact-scaling statement for gates was found.
+- Candidate (ii), spacing-by-mixing-time acquisition or blocked betting restores level alpha: NOT NOVEL as an idea (blocking
+  with a beta-mixing penalty, Yu 1994, Oliveira et al.). R2 WEAK-SURVIVE; not a paper by itself. The anytime-valid,
+  label-budgeted version is a small corollary with a loose correction, and the audit's own arithmetic suggests it is
+  vacuous in several grid cells at T = 1000 (own derivation, unchecked).
+- Contract point: every e-process / betting baseline states its null as a conditional null on a filtration,
+  E[X_t | F_(t-1)] = mu, while the cycle-6 null fixes only the stationary mean with a Markov benefit indicator. The
+  cycle-6 null is therefore outside the gates' conditional-null contract whenever rho > 0, and a V1-positive result shows
+  the gates were run outside their contract rather than refuting a published guarantee.
+- Strongest baselines named: (1) hedged capital betting CS (Waudby-Smith and Ramdas Thm 3) on queries thinned by a
+  conservative fixed gap, with the Oliveira et al. Prop 10 blocking correction; (2) a correctly specified Markov-likelihood
+  e-process on the skeleton chain (Ramdas-Ruf-Larsson-Koolen Thm 6; Saha-Ramdas Prop A.1; Nguyen Prop 3), where `c1_hmm_cs`
+  differs because its emissions are assumed iid within regime; (3) the existing uniform calendar with the best-safe gate.
+- Most promising non-killed angle: joint design of validity-driven spacing under a finite label budget with unknown
+  correlation time. It overlaps the Lane-A joint acquisition + switching result and should be tested against the calendar
+  baseline first.
+- Evidence caveat: several sources are ABSTRACT or secondary only; absence findings mean not found in this search.
+
+### Cycle 6 reviewer assessment (2026-11-01)
+
+**Sampling-density explanation: RETAINED.** The registered predictions came out as follows:
+
+- V1 PASS: at rho = 0.8 and B/T = 0.5, all six e-process baselines exceed 0.15, with rates of 0.405 to 0.970.
+- V2 PASS: straddle minus its ablation is +0.111 [+0.081, +0.141].
+- V4: the Spearman correlation with rho^(T/B) is positive for 6 of 6 baselines (0.854 to 0.913).
+- V3 FAIL: favourable-first release at 10g did not inflate false promotion at rho = 0.
+- The rho = 0 control holds at every budget. Every method stays at or below alpha, with a maximum of 0.100, so the inflation comes from dependence combined with sampling density, not from dense budgets alone.
+- The identical columns for `straddle_abl`, `episode_geo` and `online_fwer_spending` are expected. On a null stream, every false promotion happens in episode 0, and all three spend alpha/2 there with the same calendar and the same e-process.
+
+**Status of the finding: a diagnostic, not a discovery (R2).** The published gates were run outside their contract. Their guarantee is for a conditional null, E[X_t | F_{t-1}] ≤ 0, while this null fixes only the stationary mean. Blocking arguments already explain why sparse, thinned sampling restores approximate validity.
+
+The practical lesson for this contract is concrete:
+
+- Gate validity depends on how closely the actually queried labels are spaced, relative to the correlation time.
+- That spacing is set jointly by the budget, the acquisition rule and the release delay.
+
+**Consequence for the mechanism library: straddle is UNSAFE in the regime where it helps.**
+
+- At d = 1, straddle queries consecutive rounds. Its null false-promotion rate is 0.130 at rho = 0.5 and B/T = 0.05, and 0.475 at rho = 0.8 and B/T = 0.05, against 0.005 and 0.000 for its uniform ablation.
+- Its validated cost gain was also largest at d = 1.
+- Straddle therefore stays in the library only with a hard restriction: it is valid only when outcomes are conditionally independent given the regime, and it must not be used where within-regime dependence is plausible.
+- `c1_hmm_cs` fails the same way: 0.960 at rho = 0.5 and B/T = 0.25 with d = 1.
+
+**Programme-level assessment after six cycles: CONSOLIDATE.**
+
+Under the delayed, budgeted switching contract, the engine has produced:
+
+- (1) one reproducible family of cost failures. Against the implemented valid references it is mostly labelled cost of validity. Whether it is truly unavoidable at T = 1000 remains open; neither a scalable constrained solver nor a lower bound is available;
+- (2) two mechanisms that were explained and stopped as contributions, straddle and triggered_kelly;
+- (3) a validity map showing that density-induced inflation makes the only surviving cost mechanism unsafe under plausible dependence.
+
+No candidate method has survived as a contribution. This agrees with the Lane-A conclusion recorded elsewhere in the repository, a benchmark/negative-result pivot.
+
+Recommended next step, chosen by the user:
+
+- **(a) Consolidate.** Write the Failure Atlas up as a benchmark and diagnostic artefact: a failure-class map, cost-of-validity accounting, the mechanism ledger and the validity-density map. That is the defensible output.
+- **(b) One final method test.** Build the strongest dependence-robust baseline named by the audit, a correctly specified Markov-likelihood e-process gate on the skeleton chain, together with a spacing-thinned hedged-betting gate. Test validity across the cycle-6 grid and power on family 3. That would show whether dependence-robust validity is cheap or costly in this contract.
+
+Nothing here is confirmatory. The confirmation seeds remain untouched.

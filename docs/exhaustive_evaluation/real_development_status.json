@@ -1,0 +1,10 @@
+{
+  "status": "completed",
+  "registration_sha256": "bebc65597649409fc5508545b59ec351ea24478f17910327a4af9ee851a55c88",
+  "completed": [
+    "bike",
+    "beijing"
+  ],
+  "finished_utc": "2026-10-30T08:52:07.416164+00:00",
+  "summary_sha256": "f5d03dc6bd392ca981c16d81152fcd649a09c5388c39170352885e3eb9deead4"
+}

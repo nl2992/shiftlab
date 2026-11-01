@@ -1,0 +1,42 @@
+{
+  "registered_utc": "2026-10-30T14:45:09.554251+00:00",
+  "stage": "independent synthetic operational comparison",
+  "slacks": [
+    0,
+    0.01,
+    0.05,
+    0.1
+  ],
+  "nulls": [
+    "harmful",
+    "tie",
+    "harmful_after_shift"
+  ],
+  "alternatives": [
+    "useful_initial",
+    "useful",
+    "late",
+    "small",
+    "reversal"
+  ],
+  "calibration_paths_per_null": 1000,
+  "test_paths_per_null": 2000,
+  "test_paths_per_alternative": 500,
+  "horizon": 2000,
+  "batch": 250,
+  "world_seed_base": 202640000,
+  "query_seed_base": 202641000,
+  "calibration_quantile": 0.975,
+  "calibration": "per-slack threshold=max across null cases of order statistic ceil(quantile*(n+1)); strict crossing; no alternative tuning",
+  "contract": "uniform Bernoulli .2 hard cap400; delay5; margin.01; query.001; switch1; no rollback",
+  "primary": "per-method equal-case persistent alternative total cost; all four slacks reported, no post-test winner claim",
+  "safety": "empirical finite-horizon null rates with simultaneous one-sided bounds over six methods times three nulls; no arbitrary-null guarantee for CUSUM",
+  "screen": "all three null simultaneous upper bounds <=.06; practical gain >=10 percent against tuned comparator; report every slack separately",
+  "sources": {
+    "src/shiftlab/sota_search/paired_cusum.py": "0c829641bacf4652618b84f57c32d764c3ed4664f5f80490de86ef93e72373a2",
+    "src/shiftlab/sota_search/paired_control.py": "f629e0b6db64ec094ef47cf238ed2d894f48cdadd237629ecfb1d508afd9fd61",
+    "src/shiftlab/sota_search/paired_references.py": "0dc89e24398e2761f4f56dd143b03ff587d9fbf2cedd4355f44fa0db626004b8",
+    "src/shiftlab/sota_search/combination_screen.py": "ff995be8d0c74dda2d8f8729b3bb07a1758c9c2cec03f05c4001a37cc023dcac",
+    "scripts/exhaustive_evaluation/compare_calibrated_cusum.py": "b77c5b3a3a5ddd045a6cc0e9016dbb5ca01b392575b9ec7c81a56a4fe27646b3"
+  }
+}

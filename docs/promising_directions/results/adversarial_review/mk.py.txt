@@ -1,0 +1,12 @@
+import json
+from a1_probe import base
+cells=[]
+# asymmetric: incumbent likely good, change to challenger arrives; prior low
+for prior in ['1/20','1/2']:
+  for (t01,t10) in [('1/5','1/20'),('1/10','1/10'),('2/5','2/5')]:
+    for cq in ['1/100','1/10']:
+      for B in [2,3]:
+        for cs in ['1/10','1/2']:
+          cells.append(base(T=7,B=B,d=1,prior1=prior,t01=t01,t10=t10,cq=cq,cs=cs,e0='1/5',e1='4/5',alpha='1/10'))
+json.dump(cells,open('cells1.json','w'))
+print(len(cells))

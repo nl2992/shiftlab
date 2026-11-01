@@ -1,0 +1,724 @@
+{
+  "rows": [
+    {
+      "case": "harmful",
+      "method": "source_source",
+      "paths": 256,
+      "promotion_rate": 0.0,
+      "labels": 101.03515625,
+      "total_cost": 169.89791015624922,
+      "delta_vs_incumbent": 0.10103515625000148
+    },
+    {
+      "case": "harmful",
+      "method": "source_paper",
+      "paths": 256,
+      "promotion_rate": 0.0,
+      "labels": 400.0,
+      "total_cost": 170.19687499999924,
+      "delta_vs_incumbent": 0.4000000000000056
+    },
+    {
+      "case": "harmful",
+      "method": "residual_source",
+      "paths": 256,
+      "promotion_rate": 0.0,
+      "labels": 100.94921875,
+      "total_cost": 169.89782421874924,
+      "delta_vs_incumbent": 0.10094921875000162
+    },
+    {
+      "case": "harmful",
+      "method": "residual_paper",
+      "paths": 256,
+      "promotion_rate": 0.0,
+      "labels": 400.0,
+      "total_cost": 170.19687499999924,
+      "delta_vs_incumbent": 0.4000000000000056
+    },
+    {
+      "case": "harmful",
+      "method": "uniform_floor0.05",
+      "paths": 256,
+      "promotion_rate": 0.0,
+      "labels": 393.4453125,
+      "total_cost": 170.19032031249924,
+      "delta_vs_incumbent": 0.3934453125000019
+    },
+    {
+      "case": "harmful",
+      "method": "uniform_floor0.2",
+      "paths": 256,
+      "promotion_rate": 0.0,
+      "labels": 393.4453125,
+      "total_cost": 170.19032031249924,
+      "delta_vs_incumbent": 0.3934453125000019
+    },
+    {
+      "case": "harmful",
+      "method": "paired_Kelly",
+      "paths": 256,
+      "promotion_rate": 0.0,
+      "labels": 393.4453125,
+      "total_cost": 170.19032031249924,
+      "delta_vs_incumbent": 0.3934453125000019
+    },
+    {
+      "case": "harmful",
+      "method": "tuned_FTL",
+      "paths": 256,
+      "promotion_rate": 0.0,
+      "labels": 393.4453125,
+      "total_cost": 170.19032031249924,
+      "delta_vs_incumbent": 0.3934453125000019
+    },
+    {
+      "case": "harmful",
+      "method": "CUSUM_slack.05",
+      "paths": 256,
+      "promotion_rate": 0.0,
+      "labels": 393.4453125,
+      "total_cost": 170.19032031249924,
+      "delta_vs_incumbent": 0.3934453125000019
+    },
+    {
+      "case": "harmful",
+      "method": "CUSUM_slack.1",
+      "paths": 256,
+      "promotion_rate": 0.0,
+      "labels": 393.4453125,
+      "total_cost": 170.19032031249924,
+      "delta_vs_incumbent": 0.3934453125000019
+    },
+    {
+      "case": "tie",
+      "method": "source_source",
+      "paths": 256,
+      "promotion_rate": 0.0,
+      "labels": 101.12890625,
+      "total_cost": 333.24566015624225,
+      "delta_vs_incumbent": 0.10112890625000026
+    },
+    {
+      "case": "tie",
+      "method": "source_paper",
+      "paths": 256,
+      "promotion_rate": 0.0,
+      "labels": 400.0,
+      "total_cost": 333.54453124999225,
+      "delta_vs_incumbent": 0.39999999999997726
+    },
+    {
+      "case": "tie",
+      "method": "residual_source",
+      "paths": 256,
+      "promotion_rate": 0.0,
+      "labels": 101.0625,
+      "total_cost": 333.2455937499922,
+      "delta_vs_incumbent": 0.10106249999999983
+    },
+    {
+      "case": "tie",
+      "method": "residual_paper",
+      "paths": 256,
+      "promotion_rate": 0.0,
+      "labels": 400.0,
+      "total_cost": 333.54453124999225,
+      "delta_vs_incumbent": 0.39999999999997726
+    },
+    {
+      "case": "tie",
+      "method": "uniform_floor0.05",
+      "paths": 256,
+      "promotion_rate": 0.0,
+      "labels": 392.51171875,
+      "total_cost": 333.5370429687422,
+      "delta_vs_incumbent": 0.39251171874998847
+    },
+    {
+      "case": "tie",
+      "method": "uniform_floor0.2",
+      "paths": 256,
+      "promotion_rate": 0.0234375,
+      "labels": 388.28515625,
+      "total_cost": 333.5343789062423,
+      "delta_vs_incumbent": 0.38984765625003814
+    },
+    {
+      "case": "tie",
+      "method": "paired_Kelly",
+      "paths": 256,
+      "promotion_rate": 0.0234375,
+      "labels": 385.015625,
+      "total_cost": 333.7201718749923,
+      "delta_vs_incumbent": 0.5756406250000499
+    },
+    {
+      "case": "tie",
+      "method": "tuned_FTL",
+      "paths": 256,
+      "promotion_rate": 0.0078125,
+      "labels": 390.953125,
+      "total_cost": 333.4737656249922,
+      "delta_vs_incumbent": 0.32923437500000863
+    },
+    {
+      "case": "tie",
+      "method": "CUSUM_slack.05",
+      "paths": 256,
+      "promotion_rate": 0.02734375,
+      "labels": 386.8359375,
+      "total_cost": 333.6454296874923,
+      "delta_vs_incumbent": 0.5008984375000582
+    },
+    {
+      "case": "tie",
+      "method": "CUSUM_slack.1",
+      "paths": 256,
+      "promotion_rate": 0.01953125,
+      "labels": 388.69140625,
+      "total_cost": 333.5566601562423,
+      "delta_vs_incumbent": 0.41212890625002463
+    },
+    {
+      "case": "harmful_after_shift",
+      "method": "source_source",
+      "paths": 256,
+      "promotion_rate": 0.0,
+      "labels": 101.34765625,
+      "total_cost": 250.7443164062468,
+      "delta_vs_incumbent": 0.10134765625000042
+    },
+    {
+      "case": "harmful_after_shift",
+      "method": "source_paper",
+      "paths": 256,
+      "promotion_rate": 0.0,
+      "labels": 400.0,
+      "total_cost": 251.04296874999682,
+      "delta_vs_incumbent": 0.3999999999999967
+    },
+    {
+      "case": "harmful_after_shift",
+      "method": "residual_source",
+      "paths": 256,
+      "promotion_rate": 0.0,
+      "labels": 101.28515625,
+      "total_cost": 250.7442539062468,
+      "delta_vs_incumbent": 0.1012851562500009
+    },
+    {
+      "case": "harmful_after_shift",
+      "method": "residual_paper",
+      "paths": 256,
+      "promotion_rate": 0.0,
+      "labels": 400.0,
+      "total_cost": 251.04296874999682,
+      "delta_vs_incumbent": 0.3999999999999967
+    },
+    {
+      "case": "harmful_after_shift",
+      "method": "uniform_floor0.05",
+      "paths": 256,
+      "promotion_rate": 0.0,
+      "labels": 392.34375,
+      "total_cost": 251.0353124999968,
+      "delta_vs_incumbent": 0.392343749999998
+    },
+    {
+      "case": "harmful_after_shift",
+      "method": "uniform_floor0.2",
+      "paths": 256,
+      "promotion_rate": 0.0,
+      "labels": 392.34375,
+      "total_cost": 251.0353124999968,
+      "delta_vs_incumbent": 0.392343749999998
+    },
+    {
+      "case": "harmful_after_shift",
+      "method": "paired_Kelly",
+      "paths": 256,
+      "promotion_rate": 0.0,
+      "labels": 392.34375,
+      "total_cost": 251.0353124999968,
+      "delta_vs_incumbent": 0.392343749999998
+    },
+    {
+      "case": "harmful_after_shift",
+      "method": "tuned_FTL",
+      "paths": 256,
+      "promotion_rate": 0.0,
+      "labels": 392.34375,
+      "total_cost": 251.0353124999968,
+      "delta_vs_incumbent": 0.392343749999998
+    },
+    {
+      "case": "harmful_after_shift",
+      "method": "CUSUM_slack.05",
+      "paths": 256,
+      "promotion_rate": 0.0,
+      "labels": 392.34375,
+      "total_cost": 251.0353124999968,
+      "delta_vs_incumbent": 0.392343749999998
+    },
+    {
+      "case": "harmful_after_shift",
+      "method": "CUSUM_slack.1",
+      "paths": 256,
+      "promotion_rate": 0.0078125,
+      "labels": 390.8984375,
+      "total_cost": 252.7627734374969,
+      "delta_vs_incumbent": 2.119804687500077
+    },
+    {
+      "case": "useful_initial",
+      "method": "source_source",
+      "paths": 256,
+      "promotion_rate": 0.98046875,
+      "labels": 57.9609375,
+      "total_cost": 398.7446796874958,
+      "delta_vs_incumbent": -222.3123515625059
+    },
+    {
+      "case": "useful_initial",
+      "method": "source_paper",
+      "paths": 256,
+      "promotion_rate": 0.00390625,
+      "labels": 399.32421875,
+      "total_cost": 619.8438554687518,
+      "delta_vs_incumbent": -1.2131757812500232
+    },
+    {
+      "case": "useful_initial",
+      "method": "residual_source",
+      "paths": 256,
+      "promotion_rate": 0.98046875,
+      "labels": 57.94921875,
+      "total_cost": 398.90013671874584,
+      "delta_vs_incumbent": -222.15689453125592
+    },
+    {
+      "case": "useful_initial",
+      "method": "residual_paper",
+      "paths": 256,
+      "promotion_rate": 0.01171875,
+      "labels": 398.95703125,
+      "total_cost": 617.7013007812518,
+      "delta_vs_incumbent": -3.3557304687500222
+    },
+    {
+      "case": "useful_initial",
+      "method": "uniform_floor0.05",
+      "paths": 256,
+      "promotion_rate": 1.0,
+      "labels": 196.02734375,
+      "total_cost": 357.0155585937469,
+      "delta_vs_incumbent": -264.0414726562548
+    },
+    {
+      "case": "useful_initial",
+      "method": "uniform_floor0.2",
+      "paths": 256,
+      "promotion_rate": 1.0,
+      "labels": 55.2734375,
+      "total_cost": 173.04199218750117,
+      "delta_vs_incumbent": -448.0150390625006
+    },
+    {
+      "case": "useful_initial",
+      "method": "paired_Kelly",
+      "paths": 256,
+      "promotion_rate": 1.0,
+      "labels": 24.03515625,
+      "total_cost": 132.05684765625088,
+      "delta_vs_incumbent": -489.0001835937509
+    },
+    {
+      "case": "useful_initial",
+      "method": "tuned_FTL",
+      "paths": 256,
+      "promotion_rate": 1.0,
+      "labels": 32.08203125,
+      "total_cost": 142.41020703125093,
+      "delta_vs_incumbent": -478.6468242187508
+    },
+    {
+      "case": "useful_initial",
+      "method": "CUSUM_slack.05",
+      "paths": 256,
+      "promotion_rate": 1.0,
+      "labels": 34.97265625,
+      "total_cost": 146.23262890625097,
+      "delta_vs_incumbent": -474.82440234375076
+    },
+    {
+      "case": "useful_initial",
+      "method": "CUSUM_slack.1",
+      "paths": 256,
+      "promotion_rate": 1.0,
+      "labels": 30.484375,
+      "total_cost": 140.63126562500094,
+      "delta_vs_incumbent": -480.42576562500085
+    },
+    {
+      "case": "useful",
+      "method": "source_source",
+      "paths": 256,
+      "promotion_rate": 0.05078125,
+      "labels": 99.6796875,
+      "total_cost": 466.20827343749227,
+      "delta_vs_incumbent": -4.647976562499908
+    },
+    {
+      "case": "useful",
+      "method": "source_paper",
+      "paths": 256,
+      "promotion_rate": 0.0,
+      "labels": 400.0,
+      "total_cost": 471.2562499999922,
+      "delta_vs_incumbent": 0.39999999999997726
+    },
+    {
+      "case": "useful",
+      "method": "residual_source",
+      "paths": 256,
+      "promotion_rate": 0.05078125,
+      "labels": 99.625,
+      "total_cost": 466.2089999999923,
+      "delta_vs_incumbent": -4.647249999999909
+    },
+    {
+      "case": "useful",
+      "method": "residual_paper",
+      "paths": 256,
+      "promotion_rate": 0.0,
+      "labels": 400.0,
+      "total_cost": 471.2562499999922,
+      "delta_vs_incumbent": 0.39999999999997726
+    },
+    {
+      "case": "useful",
+      "method": "uniform_floor0.05",
+      "paths": 256,
+      "promotion_rate": 0.03515625,
+      "labels": 391.921875,
+      "total_cost": 469.6020781249922,
+      "delta_vs_incumbent": -1.2541718749999817
+    },
+    {
+      "case": "useful",
+      "method": "uniform_floor0.2",
+      "paths": 256,
+      "promotion_rate": 0.8203125,
+      "labels": 338.76953125,
+      "total_cost": 393.8536132812436,
+      "delta_vs_incumbent": -77.00263671874858
+    },
+    {
+      "case": "useful",
+      "method": "paired_Kelly",
+      "paths": 256,
+      "promotion_rate": 1.0,
+      "labels": 170.37890625,
+      "total_cost": 171.7711601562472,
+      "delta_vs_incumbent": -299.085089843745
+    },
+    {
+      "case": "useful",
+      "method": "tuned_FTL",
+      "paths": 256,
+      "promotion_rate": 1.0,
+      "labels": 173.5546875,
+      "total_cost": 175.94699218749724,
+      "delta_vs_incumbent": -294.9092578124949
+    },
+    {
+      "case": "useful",
+      "method": "CUSUM_slack.05",
+      "paths": 256,
+      "promotion_rate": 1.0,
+      "labels": 167.63671875,
+      "total_cost": 168.34029296874715,
+      "delta_vs_incumbent": -302.515957031245
+    },
+    {
+      "case": "useful",
+      "method": "CUSUM_slack.1",
+      "paths": 256,
+      "promotion_rate": 1.0,
+      "labels": 163.17578125,
+      "total_cost": 162.81239453124704,
+      "delta_vs_incumbent": -308.04385546874516
+    },
+    {
+      "case": "late",
+      "method": "source_source",
+      "paths": 256,
+      "promotion_rate": 0.0,
+      "labels": 100.9375,
+      "total_cost": 281.89390624999703,
+      "delta_vs_incumbent": 0.10093750000000101
+    },
+    {
+      "case": "late",
+      "method": "source_paper",
+      "paths": 256,
+      "promotion_rate": 0.0,
+      "labels": 400.0,
+      "total_cost": 282.192968749997,
+      "delta_vs_incumbent": 0.39999999999997804
+    },
+    {
+      "case": "late",
+      "method": "residual_source",
+      "paths": 256,
+      "promotion_rate": 0.0,
+      "labels": 100.8671875,
+      "total_cost": 281.89383593749704,
+      "delta_vs_incumbent": 0.1008671875000009
+    },
+    {
+      "case": "late",
+      "method": "residual_paper",
+      "paths": 256,
+      "promotion_rate": 0.0,
+      "labels": 400.0,
+      "total_cost": 282.192968749997,
+      "delta_vs_incumbent": 0.39999999999997804
+    },
+    {
+      "case": "late",
+      "method": "uniform_floor0.05",
+      "paths": 256,
+      "promotion_rate": 0.0,
+      "labels": 393.20703125,
+      "total_cost": 282.1861757812471,
+      "delta_vs_incumbent": 0.3932070312499889
+    },
+    {
+      "case": "late",
+      "method": "uniform_floor0.2",
+      "paths": 256,
+      "promotion_rate": 0.0,
+      "labels": 393.20703125,
+      "total_cost": 282.1861757812471,
+      "delta_vs_incumbent": 0.3932070312499889
+    },
+    {
+      "case": "late",
+      "method": "paired_Kelly",
+      "paths": 256,
+      "promotion_rate": 0.99609375,
+      "labels": 338.7578125,
+      "total_cost": 204.1739140624985,
+      "delta_vs_incumbent": -77.61905468749855
+    },
+    {
+      "case": "late",
+      "method": "tuned_FTL",
+      "paths": 256,
+      "promotion_rate": 1.0,
+      "labels": 335.0234375,
+      "total_cost": 199.19439843749862,
+      "delta_vs_incumbent": -82.59857031249845
+    },
+    {
+      "case": "late",
+      "method": "CUSUM_slack.05",
+      "paths": 256,
+      "promotion_rate": 1.0,
+      "labels": 334.56640625,
+      "total_cost": 198.63456640624864,
+      "delta_vs_incumbent": -83.15840234374843
+    },
+    {
+      "case": "late",
+      "method": "CUSUM_slack.1",
+      "paths": 256,
+      "promotion_rate": 0.9921875,
+      "labels": 330.53125,
+      "total_cost": 193.14693749999873,
+      "delta_vs_incumbent": -88.64603124999834
+    },
+    {
+      "case": "small",
+      "method": "source_source",
+      "paths": 256,
+      "promotion_rate": 0.0,
+      "labels": 100.6328125,
+      "total_cost": 304.46860156249545,
+      "delta_vs_incumbent": 0.10063281250000222
+    },
+    {
+      "case": "small",
+      "method": "source_paper",
+      "paths": 256,
+      "promotion_rate": 0.0,
+      "labels": 400.0,
+      "total_cost": 304.76796874999536,
+      "delta_vs_incumbent": 0.39999999999997726
+    },
+    {
+      "case": "small",
+      "method": "residual_source",
+      "paths": 256,
+      "promotion_rate": 0.0,
+      "labels": 100.5390625,
+      "total_cost": 304.46850781249543,
+      "delta_vs_incumbent": 0.10053906250000155
+    },
+    {
+      "case": "small",
+      "method": "residual_paper",
+      "paths": 256,
+      "promotion_rate": 0.0,
+      "labels": 400.0,
+      "total_cost": 304.76796874999536,
+      "delta_vs_incumbent": 0.39999999999997726
+    },
+    {
+      "case": "small",
+      "method": "uniform_floor0.05",
+      "paths": 256,
+      "promotion_rate": 0.0,
+      "labels": 393.171875,
+      "total_cost": 304.7611406249954,
+      "delta_vs_incumbent": 0.39317187499998796
+    },
+    {
+      "case": "small",
+      "method": "uniform_floor0.2",
+      "paths": 256,
+      "promotion_rate": 0.0,
+      "labels": 393.171875,
+      "total_cost": 304.7611406249954,
+      "delta_vs_incumbent": 0.39317187499998796
+    },
+    {
+      "case": "small",
+      "method": "paired_Kelly",
+      "paths": 256,
+      "promotion_rate": 0.08203125,
+      "labels": 381.03125,
+      "total_cost": 302.8060312499956,
+      "delta_vs_incumbent": -1.5619374999998645
+    },
+    {
+      "case": "small",
+      "method": "tuned_FTL",
+      "paths": 256,
+      "promotion_rate": 0.07421875,
+      "labels": 385.0,
+      "total_cost": 303.52171874999556,
+      "delta_vs_incumbent": -0.846249999999898
+    },
+    {
+      "case": "small",
+      "method": "CUSUM_slack.05",
+      "paths": 256,
+      "promotion_rate": 0.33984375,
+      "labels": 352.95703125,
+      "total_cost": 297.44358203124597,
+      "delta_vs_incumbent": -6.92438671874946
+    },
+    {
+      "case": "small",
+      "method": "CUSUM_slack.1",
+      "paths": 256,
+      "promotion_rate": 0.296875,
+      "labels": 353.12109375,
+      "total_cost": 297.62499609374595,
+      "delta_vs_incumbent": -6.742972656249499
+    },
+    {
+      "case": "reversal",
+      "method": "source_source",
+      "paths": 256,
+      "promotion_rate": 0.00390625,
+      "labels": 100.46875,
+      "total_cost": 320.309843749995,
+      "delta_vs_incumbent": 0.4325000000000103
+    },
+    {
+      "case": "reversal",
+      "method": "source_paper",
+      "paths": 256,
+      "promotion_rate": 0.0,
+      "labels": 400.0,
+      "total_cost": 320.277343749995,
+      "delta_vs_incumbent": 0.39999999999998126
+    },
+    {
+      "case": "reversal",
+      "method": "residual_source",
+      "paths": 256,
+      "promotion_rate": 0.00390625,
+      "labels": 100.40625,
+      "total_cost": 320.309781249995,
+      "delta_vs_incumbent": 0.4324375000000098
+    },
+    {
+      "case": "reversal",
+      "method": "residual_paper",
+      "paths": 256,
+      "promotion_rate": 0.0,
+      "labels": 400.0,
+      "total_cost": 320.277343749995,
+      "delta_vs_incumbent": 0.39999999999998126
+    },
+    {
+      "case": "reversal",
+      "method": "uniform_floor0.05",
+      "paths": 256,
+      "promotion_rate": 0.0,
+      "labels": 392.00390625,
+      "total_cost": 320.26934765624503,
+      "delta_vs_incumbent": 0.39200390624999293
+    },
+    {
+      "case": "reversal",
+      "method": "uniform_floor0.2",
+      "paths": 256,
+      "promotion_rate": 0.0234375,
+      "labels": 388.92578125,
+      "total_cost": 323.07876953124503,
+      "delta_vs_incumbent": 3.2014257812500078
+    },
+    {
+      "case": "reversal",
+      "method": "paired_Kelly",
+      "paths": 256,
+      "promotion_rate": 1.0,
+      "labels": 170.96875,
+      "total_cost": 324.33112499999726,
+      "delta_vs_incumbent": 4.45378125000221
+    },
+    {
+      "case": "reversal",
+      "method": "tuned_FTL",
+      "paths": 256,
+      "promotion_rate": 1.0,
+      "labels": 173.7734375,
+      "total_cost": 327.8300234374973,
+      "delta_vs_incumbent": 7.952679687502259
+    },
+    {
+      "case": "reversal",
+      "method": "CUSUM_slack.05",
+      "paths": 256,
+      "promotion_rate": 1.0,
+      "labels": 168.859375,
+      "total_cost": 321.43370312499724,
+      "delta_vs_incumbent": 1.5563593750021767
+    },
+    {
+      "case": "reversal",
+      "method": "CUSUM_slack.1",
+      "paths": 256,
+      "promotion_rate": 1.0,
+      "labels": 165.21875,
+      "total_cost": 316.9534999999971,
+      "delta_vs_incumbent": -2.9238437499979204
+    }
+  ]
+}

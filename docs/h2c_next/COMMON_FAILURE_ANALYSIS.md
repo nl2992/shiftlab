@@ -1,0 +1,12 @@
+# Cross-method failure analysis (checkpoint E; pooled over `outputs/sota_search/*`, `outputs/hg_validation/*`, `outputs/hg_v2/*`, `outputs/h2c_next/*`)
+| shared weakness | methods affected | evidence | targeted correction tried | outcome |
+|---|---|---|---|---|
+| Slow adaptation of plug-in bets after a change | pooled Kelly (Brier and cost) | pooled → discounted: +.12 to +.16 power (dev, doc 10; cost: .153 → .280) | exponential discounting of Kelly moments | verified improvement for both Brier and cost parents; costs benign FA on the Brier parent unless gated |
+| Cost-only evidence ignores predictive information | cost parent, cost-only discounted Kelly, cost-only ONS | Brier-guided bets add +.13 to +.17 power over every cost-only parent on dev, and +.09 on fresh G5 cells | Brier-history-guided bet size (H2c, C3) | verified on three cost-evidence parents (pooled, discounted, ONS); confirmed on G5 for discounted Kelly |
+| Brier-null methods alarm on predictive change without decision harm | HG, ONS (Brier), PPRM-style | benign-world FA .12–.33 vs .02–.07 for cost-null methods (G5 dev and confirmation) | decision-cost gate (HG, partial), testing the cost null directly (H2c) | gate reduces but does not remove benign alarms; cost-null testing removes them at a power cost |
+| Loss of validity under a mismatched null | HG with context cap, all e-processes under strong autocorrelation | exact counterexample; AR(1) ρ = .98 null FA .17–.36 | uniform cap restores H0-A validity; baseline-ONS (H3a) | cap repair verified; dependence robustness NOT achieved (H3a halves power, still .16 FA at 20% labels) |
+| Dependence of the empirical-threshold detectors | cost SR, Page–Hinkley, CUSUM | null FA .045–.065, no guarantee | none | open |
+| Hard-budget exhaustion | all label-based methods | power ≤ .20 once the budget is spent | stop rule | accounting is valid; the budget size dominates |
+| Transient / recurrent harm | all families | best ≤ .64 at 20% labels | multi-horizon mixing | no gain over a single horizon |
+**Components that transfer across parents:** discounting (Brier and cost), Brier guidance (cost parents). **Components that do not transfer:** the decision-cost gate onto ONS (no gain over HG on G4), boundary-weighted querying (unconfirmed), multi-horizon mixing, baseline residualisation (H3a trades power for FA).
+**Not done:** H3b (block-based) and H3c (regime-aware) dependence-robust variants; regression/clustering meta-analysis across all runs (the table above is a manual synthesis).

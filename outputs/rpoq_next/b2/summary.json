@@ -1,0 +1,36 @@
+{
+  "0.05": {
+    "uniform_lw": 1.4134466496969635,
+    "evidence_directed_lw": 1.3738716474636965,
+    "diff": [
+      -0.03957500223326692,
+      -0.15865470270211474,
+      0.07733790325214937
+    ],
+    "mean_spent": {
+      "uniform": 5454.635,
+      "evidence_directed": 5476.365
+    },
+    "crossing": {
+      "uniform": 0.31,
+      "evidence_directed": 0.3
+    }
+  },
+  "0.2": {
+    "uniform_lw": 6.544060375791519,
+    "evidence_directed_lw": 4.528815093978724,
+    "diff": [
+      -2.0152452818127937,
+      -2.4553117418632264,
+      -1.5956069995301339
+    ],
+    "mean_spent": {
+      "uniform": 21877.535,
+      "evidence_directed": 21932.785
+    },
+    "crossing": {
+      "uniform": 0.845,
+      "evidence_directed": 0.83
+    }
+  }
+}

@@ -1,0 +1,56 @@
+[
+  {
+    "dataset": "bike",
+    "url": "https://archive.ics.uci.edu/static/public/275/bike+sharing+dataset.zip",
+    "sha256": "b70182d0d0508e9abbb79306ce5c0cec34869000f8220175ac83d11dbe845401",
+    "license": "CC BY 4.0",
+    "retrieved_utc": "2026-10-30T08:39:20.075829+00:00",
+    "rows": 17379,
+    "development_rows": 8645,
+    "future_metadata_only_rows": 8734,
+    "missing_development_targets": 0,
+    "duplicate_timestamps": 0,
+    "split": {
+      "train_end": "2011-07-01",
+      "calibration_end": "2011-09-01",
+      "development_end": "2012-01-01",
+      "final_end": "2013-01-01"
+    },
+    "no_final_outcome_analysis": true,
+    "excluded_features": [
+      "casual",
+      "registered",
+      "cnt",
+      "same-hour observed weather"
+    ],
+    "clock_status": "event timestamps only; publication clocks unverified; imposed replay delay",
+    "exposure_status": "prior repo exposure audit still required before confirmation"
+  },
+  {
+    "dataset": "beijing",
+    "url": "https://archive.ics.uci.edu/static/public/381/beijing+pm2+5+data.zip",
+    "sha256": "40cdd29c24918e855133dce280ff59779bb0b5852898e05bafcf422a4cc0a175",
+    "license": "CC BY 4.0",
+    "retrieved_utc": "2026-10-30T08:39:21.047969+00:00",
+    "rows": 43824,
+    "development_rows": 17520,
+    "future_metadata_only_rows": 26304,
+    "missing_development_targets": 1397,
+    "duplicate_timestamps": 0,
+    "split": {
+      "train_end": "2010-10-01",
+      "calibration_end": "2011-01-01",
+      "development_end": "2012-01-01",
+      "reserved_calibration_end": "2013-01-01",
+      "final_end": "2015-01-01"
+    },
+    "no_final_outcome_analysis": true,
+    "excluded_features": [
+      "same-hour target",
+      "same-hour observed weather",
+      "future-filled targets"
+    ],
+    "clock_status": "event timestamps only; publication clocks unverified; imposed replay delay",
+    "exposure_status": "prior repo exposure audit still required before confirmation"
+  }
+]

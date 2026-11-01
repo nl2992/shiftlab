@@ -1,0 +1,61 @@
+{
+  "status": "pass",
+  "registration": {
+    "kind": "historical reproduction, not fresh confirmation",
+    "condition": "accurate",
+    "shift": "concept2",
+    "N": 600,
+    "world_seed": 90002,
+    "query_seed": 95003,
+    "source_sha256": "ed5923e9486c6bc9c8a0d1497f68c74563a4221f5644721f508dfd7fbbf66ba7",
+    "arms": [
+      "F1_H2c",
+      "C1_cost_disc",
+      "C2_cost_ONS"
+    ]
+  },
+  "results": [
+    {
+      "arm": "F1_H2c",
+      "frac": 0.1,
+      "power": 0.6133333333333333,
+      "false_alarm": 0.005,
+      "per_path_equal": true
+    },
+    {
+      "arm": "C1_cost_disc",
+      "frac": 0.1,
+      "power": 0.39,
+      "false_alarm": 0.008333333333333333,
+      "per_path_equal": true
+    },
+    {
+      "arm": "C2_cost_ONS",
+      "frac": 0.1,
+      "power": 0.45666666666666667,
+      "false_alarm": 0.023333333333333334,
+      "per_path_equal": true
+    },
+    {
+      "arm": "F1_H2c",
+      "frac": 0.2,
+      "power": 0.9066666666666666,
+      "false_alarm": 0.005,
+      "per_path_equal": true
+    },
+    {
+      "arm": "C1_cost_disc",
+      "frac": 0.2,
+      "power": 0.78,
+      "false_alarm": 0.008333333333333333,
+      "per_path_equal": true
+    },
+    {
+      "arm": "C2_cost_ONS",
+      "frac": 0.2,
+      "power": 0.7683333333333333,
+      "false_alarm": 0.018333333333333333,
+      "per_path_equal": true
+    }
+  ]
+}

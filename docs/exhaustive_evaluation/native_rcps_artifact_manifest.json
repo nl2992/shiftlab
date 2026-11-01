@@ -1,0 +1,23 @@
+{
+  "python": "3.13.1",
+  "torch": "2.6.0+cu124",
+  "numpy": "2.4.2",
+  "frozen_pilot_sources_match": true,
+  "sha256": {
+    "scripts/exhaustive_evaluation/smoke_author_rcps.py": "243f4933f3a0fcf1c7db49ca10aa7861904d57fe14ca2698f82fb1efc39cb967",
+    "scripts/exhaustive_evaluation/pilot_author_rcps.py": "8f205abddb5c2b12399a3057866a7dde0f7bf26ac0ee0df0f687dd5cecc4fd0e",
+    "scripts/exhaustive_evaluation/check_cocob_parity.py": "10f7e6eec98c5f9bb55fe3fb3a33ab3c35aa4bfd14c20c2a7f4c6cfe1ce35e0d",
+    "scripts/exhaustive_evaluation/audit_rcps_normalizer.py": "a71bea7c310c7511d48cc2386026eaad534b43abf7619760984a81878ca4ae5d",
+    "src/shiftlab/sota_search/active_rcps_learning.py": "b4e386615baf76ffc328aaa70acfb378c051d240201243e1f1b9924d46afa463",
+    "docs/exhaustive_evaluation/author_rcps_normalizer_audit.json": "b1018604639d5095f28a03c90a8de8a70e60bb5daadcd52e7ac62a78d11301f4",
+    "docs/exhaustive_evaluation/author_rcps_pilot_registration.json": "8cbbdc335734b8d628033346f4da58965cf504b0edd820c9bd216aae8497d356",
+    "docs/exhaustive_evaluation/author_rcps_pilot_results.json": "fd617f43f73b8fbf98e403ecd4912e29426666bf98fe343b9e63fc9ca63d2948",
+    "docs/exhaustive_evaluation/author_rcps_pilot_status.json": "15c219d7ba9830130a9fbbaed7c797e06ac31f1910200ce3bb300bfd89a48c95",
+    "docs/exhaustive_evaluation/author_rcps_six_arm_smoke.json": "3e72149972cfdbc4951c42229ac5243cc97936179e482b59ce1a0dd265c64f5d",
+    "docs/exhaustive_evaluation/author_rcps_unmodified_failure.json": "6b1bbc0bdcc0f59edcddb8674b6fd22dffc3e65db513037663a0fbef19ed3297",
+    "docs/exhaustive_evaluation/cocob_component_parity.json": "d04400a583bd738aa1115af5fb0e025c9387a304dbbe4a648f39d3820971229a",
+    "docs/exhaustive_evaluation/ACTIVE_RCPS_NATIVE_PILOT_REPORT.md": "38f0861e8f6221c3c048ef6c19659f61b7e151febcca009d827f6659ebcff45a",
+    "docs/exhaustive_evaluation/ACTIVE_RCPS_CONTRACT_AUDIT.md": "d00fac970ef83d87143caf6b89dbeef8ade40c5a963beac9a815b18183c3752a",
+    "docs/exhaustive_evaluation/BASELINE_COVERAGE.md": "5283de3c25df9a2903bc8b6239fd91bf2b2d35956642e801eef997b35ab7d90d"
+  }
+}

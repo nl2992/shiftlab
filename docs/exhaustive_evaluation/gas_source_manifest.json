@@ -1,0 +1,56 @@
+{
+  "url": "https://archive.ics.uci.edu/static/public/224/gas+sensor+array+drift+dataset.zip",
+  "doi": "10.24432/C5RP6W",
+  "retrieved_utc": "2026-10-30T14:30:01.022669+00:00",
+  "bytes": 9989262,
+  "sha256": "91e8f466f202e7a093d657673ce47311c3e90416f7df3057966058961c351fe4",
+  "archive_members": [
+    {
+      "name": "Dataset/batch1.dat",
+      "bytes": 752726
+    },
+    {
+      "name": "Dataset/batch10.dat",
+      "bytes": 6045679
+    },
+    {
+      "name": "Dataset/batch2.dat",
+      "bytes": 2119601
+    },
+    {
+      "name": "Dataset/batch3.dat",
+      "bytes": 2706554
+    },
+    {
+      "name": "Dataset/batch4.dat",
+      "bytes": 276473
+    },
+    {
+      "name": "Dataset/batch5.dat",
+      "bytes": 339035
+    },
+    {
+      "name": "Dataset/batch6.dat",
+      "bytes": 3902170
+    },
+    {
+      "name": "Dataset/batch7.dat",
+      "bytes": 6117334
+    },
+    {
+      "name": "Dataset/batch8.dat",
+      "bytes": 491904
+    },
+    {
+      "name": "Dataset/batch9.dat",
+      "bytes": 785870
+    }
+  ],
+  "integrity": "ZIP CRC checks pass",
+  "source_roles": "source-ordered batches; within-batch time and label release unverified",
+  "license": "UCI current page CC BY 4.0; original text research-only; retain research-only use pending clarification",
+  "prior_exposure": "documented in papers/shiftguard_unified/gas_sensor_candidate_protocol.md and real_data_development_results.md",
+  "fresh_confirmation_eligible": false,
+  "outcomes_analyzed": false,
+  "next_use": "existing adapter and frozen historical protocol reproduction or explicitly exploratory source-ordered stress test"
+}

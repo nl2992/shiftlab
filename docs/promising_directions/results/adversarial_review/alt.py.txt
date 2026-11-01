@@ -1,0 +1,25 @@
+import numpy as np, sys
+from bl import B, run
+_jp=B.joint_probs
+def patch(delta,regs):
+    B.joint_probs=lambda e0,e1,delta_=delta: _jp(e0,e1,delta_)
+    B.REGIMES.clear(); B.REGIMES.update(regs)
+def go(label,delta,regs,delay=5,prior_rate=0.25,n=500,sb=20261101):
+    patch(delta,regs)
+    p=B.Params(delay=delay,prior_rate=prior_rate)
+    batches=[(25,0.3),(15,0.3)]
+    res={(w,b):run(w,b,n,sb,p,batches) for w in B.WORLDS for b in B.BUDGETS}
+    print('=====',label)
+    for b in B.BUDGETS:
+      for cs in B.SWITCH_COSTS:
+        avg={}
+        for k in res[('W1',b)]:
+            avg[k]=np.mean([ (res[(w,b)][k]['loss']+p.cq*res[(w,b)][k]['queries']+cs*res[(w,b)][k]['switches']) for w in B.WORLDS],axis=0).mean()
+        best=min(('P0','P1','P2'),key=lambda k:avg[k])
+        print(f'B={b} cs={cs} BEST={best} {avg[best]:.1f} |',' '.join(f'{k}:{avg[k]:.1f}({100*(avg[best]-avg[k])/avg[best]:+.1f}%)' for k in ('P3','P3b','Bt25_0.3','Bt15_0.3','P2g')))
+orig=dict(B.REGIMES)
+alt1={0:(0.10,0.15),1:(0.25,0.15),2:(0.25,0.30),3:(0.10,0.20),4:(0.15,0.15)}
+go('alt1: delta=.12, weaker signal',0.12,alt1)
+go('alt1 delay20',0.12,alt1,delay=20)
+alt2={0:(0.10,0.20),1:(0.30,0.12),2:(0.30,0.35),3:(0.10,0.30),4:(0.15,0.15)}
+go('orig regimes delta=.5, delay 5',0.5,alt2,prior_rate=0.5)

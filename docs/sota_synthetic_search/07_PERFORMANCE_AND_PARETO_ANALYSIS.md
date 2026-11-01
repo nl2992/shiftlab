@@ -1,0 +1,2 @@
+# 07. Performance and Pareto analysis
+Power vs benign false alarm vs harm-before-alarm for the eligible dev-pool configurations is in `outputs/sota_search/q1_config_table.csv` and docs 05–06. Pareto-optimal eligible configs: `page_hinkley`(δ=.05), `twowin`, `pprm_tight`, `sr_cost_tight`; the fixes move `pprm_tight` toward higher power at equal benign FA (doc 10). Unlabeled MMD/C2ST/BBSD are dominated everywhere. No runtime/memory profile was collected (all detectors are O(T) per seed; the 19-world 200-seed grid ran in minutes); not a measured claim.

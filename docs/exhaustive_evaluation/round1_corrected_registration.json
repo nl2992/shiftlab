@@ -1,0 +1,4374 @@
+{
+  "registered_utc": "2026-10-30T08:37:19.612752+00:00",
+  "stage": "exploratory_development_not_confirmation",
+  "config_count": 540,
+  "configs": [
+    {
+      "id": "R1_0000",
+      "guidance": 0.0,
+      "gamma": 0.8,
+      "cap": 0.25,
+      "allocation": "uniform",
+      "restart": false
+    },
+    {
+      "id": "R1_0001",
+      "guidance": 0.0,
+      "gamma": 0.8,
+      "cap": 0.25,
+      "allocation": "uniform",
+      "restart": true
+    },
+    {
+      "id": "R1_0002",
+      "guidance": 0.0,
+      "gamma": 0.8,
+      "cap": 0.25,
+      "allocation": "uncertainty",
+      "restart": false
+    },
+    {
+      "id": "R1_0003",
+      "guidance": 0.0,
+      "gamma": 0.8,
+      "cap": 0.25,
+      "allocation": "uncertainty",
+      "restart": true
+    },
+    {
+      "id": "R1_0004",
+      "guidance": 0.0,
+      "gamma": 0.8,
+      "cap": 0.25,
+      "allocation": "boundary",
+      "restart": false
+    },
+    {
+      "id": "R1_0005",
+      "guidance": 0.0,
+      "gamma": 0.8,
+      "cap": 0.25,
+      "allocation": "boundary",
+      "restart": true
+    },
+    {
+      "id": "R1_0006",
+      "guidance": 0.0,
+      "gamma": 0.8,
+      "cap": 0.5,
+      "allocation": "uniform",
+      "restart": false
+    },
+    {
+      "id": "R1_0007",
+      "guidance": 0.0,
+      "gamma": 0.8,
+      "cap": 0.5,
+      "allocation": "uniform",
+      "restart": true
+    },
+    {
+      "id": "R1_0008",
+      "guidance": 0.0,
+      "gamma": 0.8,
+      "cap": 0.5,
+      "allocation": "uncertainty",
+      "restart": false
+    },
+    {
+      "id": "R1_0009",
+      "guidance": 0.0,
+      "gamma": 0.8,
+      "cap": 0.5,
+      "allocation": "uncertainty",
+      "restart": true
+    },
+    {
+      "id": "R1_0010",
+      "guidance": 0.0,
+      "gamma": 0.8,
+      "cap": 0.5,
+      "allocation": "boundary",
+      "restart": false
+    },
+    {
+      "id": "R1_0011",
+      "guidance": 0.0,
+      "gamma": 0.8,
+      "cap": 0.5,
+      "allocation": "boundary",
+      "restart": true
+    },
+    {
+      "id": "R1_0012",
+      "guidance": 0.0,
+      "gamma": 0.8,
+      "cap": 0.75,
+      "allocation": "uniform",
+      "restart": false
+    },
+    {
+      "id": "R1_0013",
+      "guidance": 0.0,
+      "gamma": 0.8,
+      "cap": 0.75,
+      "allocation": "uniform",
+      "restart": true
+    },
+    {
+      "id": "R1_0014",
+      "guidance": 0.0,
+      "gamma": 0.8,
+      "cap": 0.75,
+      "allocation": "uncertainty",
+      "restart": false
+    },
+    {
+      "id": "R1_0015",
+      "guidance": 0.0,
+      "gamma": 0.8,
+      "cap": 0.75,
+      "allocation": "uncertainty",
+      "restart": true
+    },
+    {
+      "id": "R1_0016",
+      "guidance": 0.0,
+      "gamma": 0.8,
+      "cap": 0.75,
+      "allocation": "boundary",
+      "restart": false
+    },
+    {
+      "id": "R1_0017",
+      "guidance": 0.0,
+      "gamma": 0.8,
+      "cap": 0.75,
+      "allocation": "boundary",
+      "restart": true
+    },
+    {
+      "id": "R1_0018",
+      "guidance": 0.0,
+      "gamma": 0.9,
+      "cap": 0.25,
+      "allocation": "uniform",
+      "restart": false
+    },
+    {
+      "id": "R1_0019",
+      "guidance": 0.0,
+      "gamma": 0.9,
+      "cap": 0.25,
+      "allocation": "uniform",
+      "restart": true
+    },
+    {
+      "id": "R1_0020",
+      "guidance": 0.0,
+      "gamma": 0.9,
+      "cap": 0.25,
+      "allocation": "uncertainty",
+      "restart": false
+    },
+    {
+      "id": "R1_0021",
+      "guidance": 0.0,
+      "gamma": 0.9,
+      "cap": 0.25,
+      "allocation": "uncertainty",
+      "restart": true
+    },
+    {
+      "id": "R1_0022",
+      "guidance": 0.0,
+      "gamma": 0.9,
+      "cap": 0.25,
+      "allocation": "boundary",
+      "restart": false
+    },
+    {
+      "id": "R1_0023",
+      "guidance": 0.0,
+      "gamma": 0.9,
+      "cap": 0.25,
+      "allocation": "boundary",
+      "restart": true
+    },
+    {
+      "id": "R1_0024",
+      "guidance": 0.0,
+      "gamma": 0.9,
+      "cap": 0.5,
+      "allocation": "uniform",
+      "restart": false
+    },
+    {
+      "id": "R1_0025",
+      "guidance": 0.0,
+      "gamma": 0.9,
+      "cap": 0.5,
+      "allocation": "uniform",
+      "restart": true
+    },
+    {
+      "id": "R1_0026",
+      "guidance": 0.0,
+      "gamma": 0.9,
+      "cap": 0.5,
+      "allocation": "uncertainty",
+      "restart": false
+    },
+    {
+      "id": "R1_0027",
+      "guidance": 0.0,
+      "gamma": 0.9,
+      "cap": 0.5,
+      "allocation": "uncertainty",
+      "restart": true
+    },
+    {
+      "id": "R1_0028",
+      "guidance": 0.0,
+      "gamma": 0.9,
+      "cap": 0.5,
+      "allocation": "boundary",
+      "restart": false
+    },
+    {
+      "id": "R1_0029",
+      "guidance": 0.0,
+      "gamma": 0.9,
+      "cap": 0.5,
+      "allocation": "boundary",
+      "restart": true
+    },
+    {
+      "id": "R1_0030",
+      "guidance": 0.0,
+      "gamma": 0.9,
+      "cap": 0.75,
+      "allocation": "uniform",
+      "restart": false
+    },
+    {
+      "id": "R1_0031",
+      "guidance": 0.0,
+      "gamma": 0.9,
+      "cap": 0.75,
+      "allocation": "uniform",
+      "restart": true
+    },
+    {
+      "id": "R1_0032",
+      "guidance": 0.0,
+      "gamma": 0.9,
+      "cap": 0.75,
+      "allocation": "uncertainty",
+      "restart": false
+    },
+    {
+      "id": "R1_0033",
+      "guidance": 0.0,
+      "gamma": 0.9,
+      "cap": 0.75,
+      "allocation": "uncertainty",
+      "restart": true
+    },
+    {
+      "id": "R1_0034",
+      "guidance": 0.0,
+      "gamma": 0.9,
+      "cap": 0.75,
+      "allocation": "boundary",
+      "restart": false
+    },
+    {
+      "id": "R1_0035",
+      "guidance": 0.0,
+      "gamma": 0.9,
+      "cap": 0.75,
+      "allocation": "boundary",
+      "restart": true
+    },
+    {
+      "id": "R1_0036",
+      "guidance": 0.0,
+      "gamma": 0.95,
+      "cap": 0.25,
+      "allocation": "uniform",
+      "restart": false
+    },
+    {
+      "id": "R1_0037",
+      "guidance": 0.0,
+      "gamma": 0.95,
+      "cap": 0.25,
+      "allocation": "uniform",
+      "restart": true
+    },
+    {
+      "id": "R1_0038",
+      "guidance": 0.0,
+      "gamma": 0.95,
+      "cap": 0.25,
+      "allocation": "uncertainty",
+      "restart": false
+    },
+    {
+      "id": "R1_0039",
+      "guidance": 0.0,
+      "gamma": 0.95,
+      "cap": 0.25,
+      "allocation": "uncertainty",
+      "restart": true
+    },
+    {
+      "id": "R1_0040",
+      "guidance": 0.0,
+      "gamma": 0.95,
+      "cap": 0.25,
+      "allocation": "boundary",
+      "restart": false
+    },
+    {
+      "id": "R1_0041",
+      "guidance": 0.0,
+      "gamma": 0.95,
+      "cap": 0.25,
+      "allocation": "boundary",
+      "restart": true
+    },
+    {
+      "id": "R1_0042",
+      "guidance": 0.0,
+      "gamma": 0.95,
+      "cap": 0.5,
+      "allocation": "uniform",
+      "restart": false
+    },
+    {
+      "id": "R1_0043",
+      "guidance": 0.0,
+      "gamma": 0.95,
+      "cap": 0.5,
+      "allocation": "uniform",
+      "restart": true
+    },
+    {
+      "id": "R1_0044",
+      "guidance": 0.0,
+      "gamma": 0.95,
+      "cap": 0.5,
+      "allocation": "uncertainty",
+      "restart": false
+    },
+    {
+      "id": "R1_0045",
+      "guidance": 0.0,
+      "gamma": 0.95,
+      "cap": 0.5,
+      "allocation": "uncertainty",
+      "restart": true
+    },
+    {
+      "id": "R1_0046",
+      "guidance": 0.0,
+      "gamma": 0.95,
+      "cap": 0.5,
+      "allocation": "boundary",
+      "restart": false
+    },
+    {
+      "id": "R1_0047",
+      "guidance": 0.0,
+      "gamma": 0.95,
+      "cap": 0.5,
+      "allocation": "boundary",
+      "restart": true
+    },
+    {
+      "id": "R1_0048",
+      "guidance": 0.0,
+      "gamma": 0.95,
+      "cap": 0.75,
+      "allocation": "uniform",
+      "restart": false
+    },
+    {
+      "id": "R1_0049",
+      "guidance": 0.0,
+      "gamma": 0.95,
+      "cap": 0.75,
+      "allocation": "uniform",
+      "restart": true
+    },
+    {
+      "id": "R1_0050",
+      "guidance": 0.0,
+      "gamma": 0.95,
+      "cap": 0.75,
+      "allocation": "uncertainty",
+      "restart": false
+    },
+    {
+      "id": "R1_0051",
+      "guidance": 0.0,
+      "gamma": 0.95,
+      "cap": 0.75,
+      "allocation": "uncertainty",
+      "restart": true
+    },
+    {
+      "id": "R1_0052",
+      "guidance": 0.0,
+      "gamma": 0.95,
+      "cap": 0.75,
+      "allocation": "boundary",
+      "restart": false
+    },
+    {
+      "id": "R1_0053",
+      "guidance": 0.0,
+      "gamma": 0.95,
+      "cap": 0.75,
+      "allocation": "boundary",
+      "restart": true
+    },
+    {
+      "id": "R1_0054",
+      "guidance": 0.0,
+      "gamma": 0.98,
+      "cap": 0.25,
+      "allocation": "uniform",
+      "restart": false
+    },
+    {
+      "id": "R1_0055",
+      "guidance": 0.0,
+      "gamma": 0.98,
+      "cap": 0.25,
+      "allocation": "uniform",
+      "restart": true
+    },
+    {
+      "id": "R1_0056",
+      "guidance": 0.0,
+      "gamma": 0.98,
+      "cap": 0.25,
+      "allocation": "uncertainty",
+      "restart": false
+    },
+    {
+      "id": "R1_0057",
+      "guidance": 0.0,
+      "gamma": 0.98,
+      "cap": 0.25,
+      "allocation": "uncertainty",
+      "restart": true
+    },
+    {
+      "id": "R1_0058",
+      "guidance": 0.0,
+      "gamma": 0.98,
+      "cap": 0.25,
+      "allocation": "boundary",
+      "restart": false
+    },
+    {
+      "id": "R1_0059",
+      "guidance": 0.0,
+      "gamma": 0.98,
+      "cap": 0.25,
+      "allocation": "boundary",
+      "restart": true
+    },
+    {
+      "id": "R1_0060",
+      "guidance": 0.0,
+      "gamma": 0.98,
+      "cap": 0.5,
+      "allocation": "uniform",
+      "restart": false
+    },
+    {
+      "id": "R1_0061",
+      "guidance": 0.0,
+      "gamma": 0.98,
+      "cap": 0.5,
+      "allocation": "uniform",
+      "restart": true
+    },
+    {
+      "id": "R1_0062",
+      "guidance": 0.0,
+      "gamma": 0.98,
+      "cap": 0.5,
+      "allocation": "uncertainty",
+      "restart": false
+    },
+    {
+      "id": "R1_0063",
+      "guidance": 0.0,
+      "gamma": 0.98,
+      "cap": 0.5,
+      "allocation": "uncertainty",
+      "restart": true
+    },
+    {
+      "id": "R1_0064",
+      "guidance": 0.0,
+      "gamma": 0.98,
+      "cap": 0.5,
+      "allocation": "boundary",
+      "restart": false
+    },
+    {
+      "id": "R1_0065",
+      "guidance": 0.0,
+      "gamma": 0.98,
+      "cap": 0.5,
+      "allocation": "boundary",
+      "restart": true
+    },
+    {
+      "id": "R1_0066",
+      "guidance": 0.0,
+      "gamma": 0.98,
+      "cap": 0.75,
+      "allocation": "uniform",
+      "restart": false
+    },
+    {
+      "id": "R1_0067",
+      "guidance": 0.0,
+      "gamma": 0.98,
+      "cap": 0.75,
+      "allocation": "uniform",
+      "restart": true
+    },
+    {
+      "id": "R1_0068",
+      "guidance": 0.0,
+      "gamma": 0.98,
+      "cap": 0.75,
+      "allocation": "uncertainty",
+      "restart": false
+    },
+    {
+      "id": "R1_0069",
+      "guidance": 0.0,
+      "gamma": 0.98,
+      "cap": 0.75,
+      "allocation": "uncertainty",
+      "restart": true
+    },
+    {
+      "id": "R1_0070",
+      "guidance": 0.0,
+      "gamma": 0.98,
+      "cap": 0.75,
+      "allocation": "boundary",
+      "restart": false
+    },
+    {
+      "id": "R1_0071",
+      "guidance": 0.0,
+      "gamma": 0.98,
+      "cap": 0.75,
+      "allocation": "boundary",
+      "restart": true
+    },
+    {
+      "id": "R1_0072",
+      "guidance": 0.0,
+      "gamma": 0.995,
+      "cap": 0.25,
+      "allocation": "uniform",
+      "restart": false
+    },
+    {
+      "id": "R1_0073",
+      "guidance": 0.0,
+      "gamma": 0.995,
+      "cap": 0.25,
+      "allocation": "uniform",
+      "restart": true
+    },
+    {
+      "id": "R1_0074",
+      "guidance": 0.0,
+      "gamma": 0.995,
+      "cap": 0.25,
+      "allocation": "uncertainty",
+      "restart": false
+    },
+    {
+      "id": "R1_0075",
+      "guidance": 0.0,
+      "gamma": 0.995,
+      "cap": 0.25,
+      "allocation": "uncertainty",
+      "restart": true
+    },
+    {
+      "id": "R1_0076",
+      "guidance": 0.0,
+      "gamma": 0.995,
+      "cap": 0.25,
+      "allocation": "boundary",
+      "restart": false
+    },
+    {
+      "id": "R1_0077",
+      "guidance": 0.0,
+      "gamma": 0.995,
+      "cap": 0.25,
+      "allocation": "boundary",
+      "restart": true
+    },
+    {
+      "id": "R1_0078",
+      "guidance": 0.0,
+      "gamma": 0.995,
+      "cap": 0.5,
+      "allocation": "uniform",
+      "restart": false
+    },
+    {
+      "id": "R1_0079",
+      "guidance": 0.0,
+      "gamma": 0.995,
+      "cap": 0.5,
+      "allocation": "uniform",
+      "restart": true
+    },
+    {
+      "id": "R1_0080",
+      "guidance": 0.0,
+      "gamma": 0.995,
+      "cap": 0.5,
+      "allocation": "uncertainty",
+      "restart": false
+    },
+    {
+      "id": "R1_0081",
+      "guidance": 0.0,
+      "gamma": 0.995,
+      "cap": 0.5,
+      "allocation": "uncertainty",
+      "restart": true
+    },
+    {
+      "id": "R1_0082",
+      "guidance": 0.0,
+      "gamma": 0.995,
+      "cap": 0.5,
+      "allocation": "boundary",
+      "restart": false
+    },
+    {
+      "id": "R1_0083",
+      "guidance": 0.0,
+      "gamma": 0.995,
+      "cap": 0.5,
+      "allocation": "boundary",
+      "restart": true
+    },
+    {
+      "id": "R1_0084",
+      "guidance": 0.0,
+      "gamma": 0.995,
+      "cap": 0.75,
+      "allocation": "uniform",
+      "restart": false
+    },
+    {
+      "id": "R1_0085",
+      "guidance": 0.0,
+      "gamma": 0.995,
+      "cap": 0.75,
+      "allocation": "uniform",
+      "restart": true
+    },
+    {
+      "id": "R1_0086",
+      "guidance": 0.0,
+      "gamma": 0.995,
+      "cap": 0.75,
+      "allocation": "uncertainty",
+      "restart": false
+    },
+    {
+      "id": "R1_0087",
+      "guidance": 0.0,
+      "gamma": 0.995,
+      "cap": 0.75,
+      "allocation": "uncertainty",
+      "restart": true
+    },
+    {
+      "id": "R1_0088",
+      "guidance": 0.0,
+      "gamma": 0.995,
+      "cap": 0.75,
+      "allocation": "boundary",
+      "restart": false
+    },
+    {
+      "id": "R1_0089",
+      "guidance": 0.0,
+      "gamma": 0.995,
+      "cap": 0.75,
+      "allocation": "boundary",
+      "restart": true
+    },
+    {
+      "id": "R1_0090",
+      "guidance": 0.0,
+      "gamma": 1.0,
+      "cap": 0.25,
+      "allocation": "uniform",
+      "restart": false
+    },
+    {
+      "id": "R1_0091",
+      "guidance": 0.0,
+      "gamma": 1.0,
+      "cap": 0.25,
+      "allocation": "uniform",
+      "restart": true
+    },
+    {
+      "id": "R1_0092",
+      "guidance": 0.0,
+      "gamma": 1.0,
+      "cap": 0.25,
+      "allocation": "uncertainty",
+      "restart": false
+    },
+    {
+      "id": "R1_0093",
+      "guidance": 0.0,
+      "gamma": 1.0,
+      "cap": 0.25,
+      "allocation": "uncertainty",
+      "restart": true
+    },
+    {
+      "id": "R1_0094",
+      "guidance": 0.0,
+      "gamma": 1.0,
+      "cap": 0.25,
+      "allocation": "boundary",
+      "restart": false
+    },
+    {
+      "id": "R1_0095",
+      "guidance": 0.0,
+      "gamma": 1.0,
+      "cap": 0.25,
+      "allocation": "boundary",
+      "restart": true
+    },
+    {
+      "id": "R1_0096",
+      "guidance": 0.0,
+      "gamma": 1.0,
+      "cap": 0.5,
+      "allocation": "uniform",
+      "restart": false
+    },
+    {
+      "id": "R1_0097",
+      "guidance": 0.0,
+      "gamma": 1.0,
+      "cap": 0.5,
+      "allocation": "uniform",
+      "restart": true
+    },
+    {
+      "id": "R1_0098",
+      "guidance": 0.0,
+      "gamma": 1.0,
+      "cap": 0.5,
+      "allocation": "uncertainty",
+      "restart": false
+    },
+    {
+      "id": "R1_0099",
+      "guidance": 0.0,
+      "gamma": 1.0,
+      "cap": 0.5,
+      "allocation": "uncertainty",
+      "restart": true
+    },
+    {
+      "id": "R1_0100",
+      "guidance": 0.0,
+      "gamma": 1.0,
+      "cap": 0.5,
+      "allocation": "boundary",
+      "restart": false
+    },
+    {
+      "id": "R1_0101",
+      "guidance": 0.0,
+      "gamma": 1.0,
+      "cap": 0.5,
+      "allocation": "boundary",
+      "restart": true
+    },
+    {
+      "id": "R1_0102",
+      "guidance": 0.0,
+      "gamma": 1.0,
+      "cap": 0.75,
+      "allocation": "uniform",
+      "restart": false
+    },
+    {
+      "id": "R1_0103",
+      "guidance": 0.0,
+      "gamma": 1.0,
+      "cap": 0.75,
+      "allocation": "uniform",
+      "restart": true
+    },
+    {
+      "id": "R1_0104",
+      "guidance": 0.0,
+      "gamma": 1.0,
+      "cap": 0.75,
+      "allocation": "uncertainty",
+      "restart": false
+    },
+    {
+      "id": "R1_0105",
+      "guidance": 0.0,
+      "gamma": 1.0,
+      "cap": 0.75,
+      "allocation": "uncertainty",
+      "restart": true
+    },
+    {
+      "id": "R1_0106",
+      "guidance": 0.0,
+      "gamma": 1.0,
+      "cap": 0.75,
+      "allocation": "boundary",
+      "restart": false
+    },
+    {
+      "id": "R1_0107",
+      "guidance": 0.0,
+      "gamma": 1.0,
+      "cap": 0.75,
+      "allocation": "boundary",
+      "restart": true
+    },
+    {
+      "id": "R1_0108",
+      "guidance": 0.25,
+      "gamma": 0.8,
+      "cap": 0.25,
+      "allocation": "uniform",
+      "restart": false
+    },
+    {
+      "id": "R1_0109",
+      "guidance": 0.25,
+      "gamma": 0.8,
+      "cap": 0.25,
+      "allocation": "uniform",
+      "restart": true
+    },
+    {
+      "id": "R1_0110",
+      "guidance": 0.25,
+      "gamma": 0.8,
+      "cap": 0.25,
+      "allocation": "uncertainty",
+      "restart": false
+    },
+    {
+      "id": "R1_0111",
+      "guidance": 0.25,
+      "gamma": 0.8,
+      "cap": 0.25,
+      "allocation": "uncertainty",
+      "restart": true
+    },
+    {
+      "id": "R1_0112",
+      "guidance": 0.25,
+      "gamma": 0.8,
+      "cap": 0.25,
+      "allocation": "boundary",
+      "restart": false
+    },
+    {
+      "id": "R1_0113",
+      "guidance": 0.25,
+      "gamma": 0.8,
+      "cap": 0.25,
+      "allocation": "boundary",
+      "restart": true
+    },
+    {
+      "id": "R1_0114",
+      "guidance": 0.25,
+      "gamma": 0.8,
+      "cap": 0.5,
+      "allocation": "uniform",
+      "restart": false
+    },
+    {
+      "id": "R1_0115",
+      "guidance": 0.25,
+      "gamma": 0.8,
+      "cap": 0.5,
+      "allocation": "uniform",
+      "restart": true
+    },
+    {
+      "id": "R1_0116",
+      "guidance": 0.25,
+      "gamma": 0.8,
+      "cap": 0.5,
+      "allocation": "uncertainty",
+      "restart": false
+    },
+    {
+      "id": "R1_0117",
+      "guidance": 0.25,
+      "gamma": 0.8,
+      "cap": 0.5,
+      "allocation": "uncertainty",
+      "restart": true
+    },
+    {
+      "id": "R1_0118",
+      "guidance": 0.25,
+      "gamma": 0.8,
+      "cap": 0.5,
+      "allocation": "boundary",
+      "restart": false
+    },
+    {
+      "id": "R1_0119",
+      "guidance": 0.25,
+      "gamma": 0.8,
+      "cap": 0.5,
+      "allocation": "boundary",
+      "restart": true
+    },
+    {
+      "id": "R1_0120",
+      "guidance": 0.25,
+      "gamma": 0.8,
+      "cap": 0.75,
+      "allocation": "uniform",
+      "restart": false
+    },
+    {
+      "id": "R1_0121",
+      "guidance": 0.25,
+      "gamma": 0.8,
+      "cap": 0.75,
+      "allocation": "uniform",
+      "restart": true
+    },
+    {
+      "id": "R1_0122",
+      "guidance": 0.25,
+      "gamma": 0.8,
+      "cap": 0.75,
+      "allocation": "uncertainty",
+      "restart": false
+    },
+    {
+      "id": "R1_0123",
+      "guidance": 0.25,
+      "gamma": 0.8,
+      "cap": 0.75,
+      "allocation": "uncertainty",
+      "restart": true
+    },
+    {
+      "id": "R1_0124",
+      "guidance": 0.25,
+      "gamma": 0.8,
+      "cap": 0.75,
+      "allocation": "boundary",
+      "restart": false
+    },
+    {
+      "id": "R1_0125",
+      "guidance": 0.25,
+      "gamma": 0.8,
+      "cap": 0.75,
+      "allocation": "boundary",
+      "restart": true
+    },
+    {
+      "id": "R1_0126",
+      "guidance": 0.25,
+      "gamma": 0.9,
+      "cap": 0.25,
+      "allocation": "uniform",
+      "restart": false
+    },
+    {
+      "id": "R1_0127",
+      "guidance": 0.25,
+      "gamma": 0.9,
+      "cap": 0.25,
+      "allocation": "uniform",
+      "restart": true
+    },
+    {
+      "id": "R1_0128",
+      "guidance": 0.25,
+      "gamma": 0.9,
+      "cap": 0.25,
+      "allocation": "uncertainty",
+      "restart": false
+    },
+    {
+      "id": "R1_0129",
+      "guidance": 0.25,
+      "gamma": 0.9,
+      "cap": 0.25,
+      "allocation": "uncertainty",
+      "restart": true
+    },
+    {
+      "id": "R1_0130",
+      "guidance": 0.25,
+      "gamma": 0.9,
+      "cap": 0.25,
+      "allocation": "boundary",
+      "restart": false
+    },
+    {
+      "id": "R1_0131",
+      "guidance": 0.25,
+      "gamma": 0.9,
+      "cap": 0.25,
+      "allocation": "boundary",
+      "restart": true
+    },
+    {
+      "id": "R1_0132",
+      "guidance": 0.25,
+      "gamma": 0.9,
+      "cap": 0.5,
+      "allocation": "uniform",
+      "restart": false
+    },
+    {
+      "id": "R1_0133",
+      "guidance": 0.25,
+      "gamma": 0.9,
+      "cap": 0.5,
+      "allocation": "uniform",
+      "restart": true
+    },
+    {
+      "id": "R1_0134",
+      "guidance": 0.25,
+      "gamma": 0.9,
+      "cap": 0.5,
+      "allocation": "uncertainty",
+      "restart": false
+    },
+    {
+      "id": "R1_0135",
+      "guidance": 0.25,
+      "gamma": 0.9,
+      "cap": 0.5,
+      "allocation": "uncertainty",
+      "restart": true
+    },
+    {
+      "id": "R1_0136",
+      "guidance": 0.25,
+      "gamma": 0.9,
+      "cap": 0.5,
+      "allocation": "boundary",
+      "restart": false
+    },
+    {
+      "id": "R1_0137",
+      "guidance": 0.25,
+      "gamma": 0.9,
+      "cap": 0.5,
+      "allocation": "boundary",
+      "restart": true
+    },
+    {
+      "id": "R1_0138",
+      "guidance": 0.25,
+      "gamma": 0.9,
+      "cap": 0.75,
+      "allocation": "uniform",
+      "restart": false
+    },
+    {
+      "id": "R1_0139",
+      "guidance": 0.25,
+      "gamma": 0.9,
+      "cap": 0.75,
+      "allocation": "uniform",
+      "restart": true
+    },
+    {
+      "id": "R1_0140",
+      "guidance": 0.25,
+      "gamma": 0.9,
+      "cap": 0.75,
+      "allocation": "uncertainty",
+      "restart": false
+    },
+    {
+      "id": "R1_0141",
+      "guidance": 0.25,
+      "gamma": 0.9,
+      "cap": 0.75,
+      "allocation": "uncertainty",
+      "restart": true
+    },
+    {
+      "id": "R1_0142",
+      "guidance": 0.25,
+      "gamma": 0.9,
+      "cap": 0.75,
+      "allocation": "boundary",
+      "restart": false
+    },
+    {
+      "id": "R1_0143",
+      "guidance": 0.25,
+      "gamma": 0.9,
+      "cap": 0.75,
+      "allocation": "boundary",
+      "restart": true
+    },
+    {
+      "id": "R1_0144",
+      "guidance": 0.25,
+      "gamma": 0.95,
+      "cap": 0.25,
+      "allocation": "uniform",
+      "restart": false
+    },
+    {
+      "id": "R1_0145",
+      "guidance": 0.25,
+      "gamma": 0.95,
+      "cap": 0.25,
+      "allocation": "uniform",
+      "restart": true
+    },
+    {
+      "id": "R1_0146",
+      "guidance": 0.25,
+      "gamma": 0.95,
+      "cap": 0.25,
+      "allocation": "uncertainty",
+      "restart": false
+    },
+    {
+      "id": "R1_0147",
+      "guidance": 0.25,
+      "gamma": 0.95,
+      "cap": 0.25,
+      "allocation": "uncertainty",
+      "restart": true
+    },
+    {
+      "id": "R1_0148",
+      "guidance": 0.25,
+      "gamma": 0.95,
+      "cap": 0.25,
+      "allocation": "boundary",
+      "restart": false
+    },
+    {
+      "id": "R1_0149",
+      "guidance": 0.25,
+      "gamma": 0.95,
+      "cap": 0.25,
+      "allocation": "boundary",
+      "restart": true
+    },
+    {
+      "id": "R1_0150",
+      "guidance": 0.25,
+      "gamma": 0.95,
+      "cap": 0.5,
+      "allocation": "uniform",
+      "restart": false
+    },
+    {
+      "id": "R1_0151",
+      "guidance": 0.25,
+      "gamma": 0.95,
+      "cap": 0.5,
+      "allocation": "uniform",
+      "restart": true
+    },
+    {
+      "id": "R1_0152",
+      "guidance": 0.25,
+      "gamma": 0.95,
+      "cap": 0.5,
+      "allocation": "uncertainty",
+      "restart": false
+    },
+    {
+      "id": "R1_0153",
+      "guidance": 0.25,
+      "gamma": 0.95,
+      "cap": 0.5,
+      "allocation": "uncertainty",
+      "restart": true
+    },
+    {
+      "id": "R1_0154",
+      "guidance": 0.25,
+      "gamma": 0.95,
+      "cap": 0.5,
+      "allocation": "boundary",
+      "restart": false
+    },
+    {
+      "id": "R1_0155",
+      "guidance": 0.25,
+      "gamma": 0.95,
+      "cap": 0.5,
+      "allocation": "boundary",
+      "restart": true
+    },
+    {
+      "id": "R1_0156",
+      "guidance": 0.25,
+      "gamma": 0.95,
+      "cap": 0.75,
+      "allocation": "uniform",
+      "restart": false
+    },
+    {
+      "id": "R1_0157",
+      "guidance": 0.25,
+      "gamma": 0.95,
+      "cap": 0.75,
+      "allocation": "uniform",
+      "restart": true
+    },
+    {
+      "id": "R1_0158",
+      "guidance": 0.25,
+      "gamma": 0.95,
+      "cap": 0.75,
+      "allocation": "uncertainty",
+      "restart": false
+    },
+    {
+      "id": "R1_0159",
+      "guidance": 0.25,
+      "gamma": 0.95,
+      "cap": 0.75,
+      "allocation": "uncertainty",
+      "restart": true
+    },
+    {
+      "id": "R1_0160",
+      "guidance": 0.25,
+      "gamma": 0.95,
+      "cap": 0.75,
+      "allocation": "boundary",
+      "restart": false
+    },
+    {
+      "id": "R1_0161",
+      "guidance": 0.25,
+      "gamma": 0.95,
+      "cap": 0.75,
+      "allocation": "boundary",
+      "restart": true
+    },
+    {
+      "id": "R1_0162",
+      "guidance": 0.25,
+      "gamma": 0.98,
+      "cap": 0.25,
+      "allocation": "uniform",
+      "restart": false
+    },
+    {
+      "id": "R1_0163",
+      "guidance": 0.25,
+      "gamma": 0.98,
+      "cap": 0.25,
+      "allocation": "uniform",
+      "restart": true
+    },
+    {
+      "id": "R1_0164",
+      "guidance": 0.25,
+      "gamma": 0.98,
+      "cap": 0.25,
+      "allocation": "uncertainty",
+      "restart": false
+    },
+    {
+      "id": "R1_0165",
+      "guidance": 0.25,
+      "gamma": 0.98,
+      "cap": 0.25,
+      "allocation": "uncertainty",
+      "restart": true
+    },
+    {
+      "id": "R1_0166",
+      "guidance": 0.25,
+      "gamma": 0.98,
+      "cap": 0.25,
+      "allocation": "boundary",
+      "restart": false
+    },
+    {
+      "id": "R1_0167",
+      "guidance": 0.25,
+      "gamma": 0.98,
+      "cap": 0.25,
+      "allocation": "boundary",
+      "restart": true
+    },
+    {
+      "id": "R1_0168",
+      "guidance": 0.25,
+      "gamma": 0.98,
+      "cap": 0.5,
+      "allocation": "uniform",
+      "restart": false
+    },
+    {
+      "id": "R1_0169",
+      "guidance": 0.25,
+      "gamma": 0.98,
+      "cap": 0.5,
+      "allocation": "uniform",
+      "restart": true
+    },
+    {
+      "id": "R1_0170",
+      "guidance": 0.25,
+      "gamma": 0.98,
+      "cap": 0.5,
+      "allocation": "uncertainty",
+      "restart": false
+    },
+    {
+      "id": "R1_0171",
+      "guidance": 0.25,
+      "gamma": 0.98,
+      "cap": 0.5,
+      "allocation": "uncertainty",
+      "restart": true
+    },
+    {
+      "id": "R1_0172",
+      "guidance": 0.25,
+      "gamma": 0.98,
+      "cap": 0.5,
+      "allocation": "boundary",
+      "restart": false
+    },
+    {
+      "id": "R1_0173",
+      "guidance": 0.25,
+      "gamma": 0.98,
+      "cap": 0.5,
+      "allocation": "boundary",
+      "restart": true
+    },
+    {
+      "id": "R1_0174",
+      "guidance": 0.25,
+      "gamma": 0.98,
+      "cap": 0.75,
+      "allocation": "uniform",
+      "restart": false
+    },
+    {
+      "id": "R1_0175",
+      "guidance": 0.25,
+      "gamma": 0.98,
+      "cap": 0.75,
+      "allocation": "uniform",
+      "restart": true
+    },
+    {
+      "id": "R1_0176",
+      "guidance": 0.25,
+      "gamma": 0.98,
+      "cap": 0.75,
+      "allocation": "uncertainty",
+      "restart": false
+    },
+    {
+      "id": "R1_0177",
+      "guidance": 0.25,
+      "gamma": 0.98,
+      "cap": 0.75,
+      "allocation": "uncertainty",
+      "restart": true
+    },
+    {
+      "id": "R1_0178",
+      "guidance": 0.25,
+      "gamma": 0.98,
+      "cap": 0.75,
+      "allocation": "boundary",
+      "restart": false
+    },
+    {
+      "id": "R1_0179",
+      "guidance": 0.25,
+      "gamma": 0.98,
+      "cap": 0.75,
+      "allocation": "boundary",
+      "restart": true
+    },
+    {
+      "id": "R1_0180",
+      "guidance": 0.25,
+      "gamma": 0.995,
+      "cap": 0.25,
+      "allocation": "uniform",
+      "restart": false
+    },
+    {
+      "id": "R1_0181",
+      "guidance": 0.25,
+      "gamma": 0.995,
+      "cap": 0.25,
+      "allocation": "uniform",
+      "restart": true
+    },
+    {
+      "id": "R1_0182",
+      "guidance": 0.25,
+      "gamma": 0.995,
+      "cap": 0.25,
+      "allocation": "uncertainty",
+      "restart": false
+    },
+    {
+      "id": "R1_0183",
+      "guidance": 0.25,
+      "gamma": 0.995,
+      "cap": 0.25,
+      "allocation": "uncertainty",
+      "restart": true
+    },
+    {
+      "id": "R1_0184",
+      "guidance": 0.25,
+      "gamma": 0.995,
+      "cap": 0.25,
+      "allocation": "boundary",
+      "restart": false
+    },
+    {
+      "id": "R1_0185",
+      "guidance": 0.25,
+      "gamma": 0.995,
+      "cap": 0.25,
+      "allocation": "boundary",
+      "restart": true
+    },
+    {
+      "id": "R1_0186",
+      "guidance": 0.25,
+      "gamma": 0.995,
+      "cap": 0.5,
+      "allocation": "uniform",
+      "restart": false
+    },
+    {
+      "id": "R1_0187",
+      "guidance": 0.25,
+      "gamma": 0.995,
+      "cap": 0.5,
+      "allocation": "uniform",
+      "restart": true
+    },
+    {
+      "id": "R1_0188",
+      "guidance": 0.25,
+      "gamma": 0.995,
+      "cap": 0.5,
+      "allocation": "uncertainty",
+      "restart": false
+    },
+    {
+      "id": "R1_0189",
+      "guidance": 0.25,
+      "gamma": 0.995,
+      "cap": 0.5,
+      "allocation": "uncertainty",
+      "restart": true
+    },
+    {
+      "id": "R1_0190",
+      "guidance": 0.25,
+      "gamma": 0.995,
+      "cap": 0.5,
+      "allocation": "boundary",
+      "restart": false
+    },
+    {
+      "id": "R1_0191",
+      "guidance": 0.25,
+      "gamma": 0.995,
+      "cap": 0.5,
+      "allocation": "boundary",
+      "restart": true
+    },
+    {
+      "id": "R1_0192",
+      "guidance": 0.25,
+      "gamma": 0.995,
+      "cap": 0.75,
+      "allocation": "uniform",
+      "restart": false
+    },
+    {
+      "id": "R1_0193",
+      "guidance": 0.25,
+      "gamma": 0.995,
+      "cap": 0.75,
+      "allocation": "uniform",
+      "restart": true
+    },
+    {
+      "id": "R1_0194",
+      "guidance": 0.25,
+      "gamma": 0.995,
+      "cap": 0.75,
+      "allocation": "uncertainty",
+      "restart": false
+    },
+    {
+      "id": "R1_0195",
+      "guidance": 0.25,
+      "gamma": 0.995,
+      "cap": 0.75,
+      "allocation": "uncertainty",
+      "restart": true
+    },
+    {
+      "id": "R1_0196",
+      "guidance": 0.25,
+      "gamma": 0.995,
+      "cap": 0.75,
+      "allocation": "boundary",
+      "restart": false
+    },
+    {
+      "id": "R1_0197",
+      "guidance": 0.25,
+      "gamma": 0.995,
+      "cap": 0.75,
+      "allocation": "boundary",
+      "restart": true
+    },
+    {
+      "id": "R1_0198",
+      "guidance": 0.25,
+      "gamma": 1.0,
+      "cap": 0.25,
+      "allocation": "uniform",
+      "restart": false
+    },
+    {
+      "id": "R1_0199",
+      "guidance": 0.25,
+      "gamma": 1.0,
+      "cap": 0.25,
+      "allocation": "uniform",
+      "restart": true
+    },
+    {
+      "id": "R1_0200",
+      "guidance": 0.25,
+      "gamma": 1.0,
+      "cap": 0.25,
+      "allocation": "uncertainty",
+      "restart": false
+    },
+    {
+      "id": "R1_0201",
+      "guidance": 0.25,
+      "gamma": 1.0,
+      "cap": 0.25,
+      "allocation": "uncertainty",
+      "restart": true
+    },
+    {
+      "id": "R1_0202",
+      "guidance": 0.25,
+      "gamma": 1.0,
+      "cap": 0.25,
+      "allocation": "boundary",
+      "restart": false
+    },
+    {
+      "id": "R1_0203",
+      "guidance": 0.25,
+      "gamma": 1.0,
+      "cap": 0.25,
+      "allocation": "boundary",
+      "restart": true
+    },
+    {
+      "id": "R1_0204",
+      "guidance": 0.25,
+      "gamma": 1.0,
+      "cap": 0.5,
+      "allocation": "uniform",
+      "restart": false
+    },
+    {
+      "id": "R1_0205",
+      "guidance": 0.25,
+      "gamma": 1.0,
+      "cap": 0.5,
+      "allocation": "uniform",
+      "restart": true
+    },
+    {
+      "id": "R1_0206",
+      "guidance": 0.25,
+      "gamma": 1.0,
+      "cap": 0.5,
+      "allocation": "uncertainty",
+      "restart": false
+    },
+    {
+      "id": "R1_0207",
+      "guidance": 0.25,
+      "gamma": 1.0,
+      "cap": 0.5,
+      "allocation": "uncertainty",
+      "restart": true
+    },
+    {
+      "id": "R1_0208",
+      "guidance": 0.25,
+      "gamma": 1.0,
+      "cap": 0.5,
+      "allocation": "boundary",
+      "restart": false
+    },
+    {
+      "id": "R1_0209",
+      "guidance": 0.25,
+      "gamma": 1.0,
+      "cap": 0.5,
+      "allocation": "boundary",
+      "restart": true
+    },
+    {
+      "id": "R1_0210",
+      "guidance": 0.25,
+      "gamma": 1.0,
+      "cap": 0.75,
+      "allocation": "uniform",
+      "restart": false
+    },
+    {
+      "id": "R1_0211",
+      "guidance": 0.25,
+      "gamma": 1.0,
+      "cap": 0.75,
+      "allocation": "uniform",
+      "restart": true
+    },
+    {
+      "id": "R1_0212",
+      "guidance": 0.25,
+      "gamma": 1.0,
+      "cap": 0.75,
+      "allocation": "uncertainty",
+      "restart": false
+    },
+    {
+      "id": "R1_0213",
+      "guidance": 0.25,
+      "gamma": 1.0,
+      "cap": 0.75,
+      "allocation": "uncertainty",
+      "restart": true
+    },
+    {
+      "id": "R1_0214",
+      "guidance": 0.25,
+      "gamma": 1.0,
+      "cap": 0.75,
+      "allocation": "boundary",
+      "restart": false
+    },
+    {
+      "id": "R1_0215",
+      "guidance": 0.25,
+      "gamma": 1.0,
+      "cap": 0.75,
+      "allocation": "boundary",
+      "restart": true
+    },
+    {
+      "id": "R1_0216",
+      "guidance": 0.5,
+      "gamma": 0.8,
+      "cap": 0.25,
+      "allocation": "uniform",
+      "restart": false
+    },
+    {
+      "id": "R1_0217",
+      "guidance": 0.5,
+      "gamma": 0.8,
+      "cap": 0.25,
+      "allocation": "uniform",
+      "restart": true
+    },
+    {
+      "id": "R1_0218",
+      "guidance": 0.5,
+      "gamma": 0.8,
+      "cap": 0.25,
+      "allocation": "uncertainty",
+      "restart": false
+    },
+    {
+      "id": "R1_0219",
+      "guidance": 0.5,
+      "gamma": 0.8,
+      "cap": 0.25,
+      "allocation": "uncertainty",
+      "restart": true
+    },
+    {
+      "id": "R1_0220",
+      "guidance": 0.5,
+      "gamma": 0.8,
+      "cap": 0.25,
+      "allocation": "boundary",
+      "restart": false
+    },
+    {
+      "id": "R1_0221",
+      "guidance": 0.5,
+      "gamma": 0.8,
+      "cap": 0.25,
+      "allocation": "boundary",
+      "restart": true
+    },
+    {
+      "id": "R1_0222",
+      "guidance": 0.5,
+      "gamma": 0.8,
+      "cap": 0.5,
+      "allocation": "uniform",
+      "restart": false
+    },
+    {
+      "id": "R1_0223",
+      "guidance": 0.5,
+      "gamma": 0.8,
+      "cap": 0.5,
+      "allocation": "uniform",
+      "restart": true
+    },
+    {
+      "id": "R1_0224",
+      "guidance": 0.5,
+      "gamma": 0.8,
+      "cap": 0.5,
+      "allocation": "uncertainty",
+      "restart": false
+    },
+    {
+      "id": "R1_0225",
+      "guidance": 0.5,
+      "gamma": 0.8,
+      "cap": 0.5,
+      "allocation": "uncertainty",
+      "restart": true
+    },
+    {
+      "id": "R1_0226",
+      "guidance": 0.5,
+      "gamma": 0.8,
+      "cap": 0.5,
+      "allocation": "boundary",
+      "restart": false
+    },
+    {
+      "id": "R1_0227",
+      "guidance": 0.5,
+      "gamma": 0.8,
+      "cap": 0.5,
+      "allocation": "boundary",
+      "restart": true
+    },
+    {
+      "id": "R1_0228",
+      "guidance": 0.5,
+      "gamma": 0.8,
+      "cap": 0.75,
+      "allocation": "uniform",
+      "restart": false
+    },
+    {
+      "id": "R1_0229",
+      "guidance": 0.5,
+      "gamma": 0.8,
+      "cap": 0.75,
+      "allocation": "uniform",
+      "restart": true
+    },
+    {
+      "id": "R1_0230",
+      "guidance": 0.5,
+      "gamma": 0.8,
+      "cap": 0.75,
+      "allocation": "uncertainty",
+      "restart": false
+    },
+    {
+      "id": "R1_0231",
+      "guidance": 0.5,
+      "gamma": 0.8,
+      "cap": 0.75,
+      "allocation": "uncertainty",
+      "restart": true
+    },
+    {
+      "id": "R1_0232",
+      "guidance": 0.5,
+      "gamma": 0.8,
+      "cap": 0.75,
+      "allocation": "boundary",
+      "restart": false
+    },
+    {
+      "id": "R1_0233",
+      "guidance": 0.5,
+      "gamma": 0.8,
+      "cap": 0.75,
+      "allocation": "boundary",
+      "restart": true
+    },
+    {
+      "id": "R1_0234",
+      "guidance": 0.5,
+      "gamma": 0.9,
+      "cap": 0.25,
+      "allocation": "uniform",
+      "restart": false
+    },
+    {
+      "id": "R1_0235",
+      "guidance": 0.5,
+      "gamma": 0.9,
+      "cap": 0.25,
+      "allocation": "uniform",
+      "restart": true
+    },
+    {
+      "id": "R1_0236",
+      "guidance": 0.5,
+      "gamma": 0.9,
+      "cap": 0.25,
+      "allocation": "uncertainty",
+      "restart": false
+    },
+    {
+      "id": "R1_0237",
+      "guidance": 0.5,
+      "gamma": 0.9,
+      "cap": 0.25,
+      "allocation": "uncertainty",
+      "restart": true
+    },
+    {
+      "id": "R1_0238",
+      "guidance": 0.5,
+      "gamma": 0.9,
+      "cap": 0.25,
+      "allocation": "boundary",
+      "restart": false
+    },
+    {
+      "id": "R1_0239",
+      "guidance": 0.5,
+      "gamma": 0.9,
+      "cap": 0.25,
+      "allocation": "boundary",
+      "restart": true
+    },
+    {
+      "id": "R1_0240",
+      "guidance": 0.5,
+      "gamma": 0.9,
+      "cap": 0.5,
+      "allocation": "uniform",
+      "restart": false
+    },
+    {
+      "id": "R1_0241",
+      "guidance": 0.5,
+      "gamma": 0.9,
+      "cap": 0.5,
+      "allocation": "uniform",
+      "restart": true
+    },
+    {
+      "id": "R1_0242",
+      "guidance": 0.5,
+      "gamma": 0.9,
+      "cap": 0.5,
+      "allocation": "uncertainty",
+      "restart": false
+    },
+    {
+      "id": "R1_0243",
+      "guidance": 0.5,
+      "gamma": 0.9,
+      "cap": 0.5,
+      "allocation": "uncertainty",
+      "restart": true
+    },
+    {
+      "id": "R1_0244",
+      "guidance": 0.5,
+      "gamma": 0.9,
+      "cap": 0.5,
+      "allocation": "boundary",
+      "restart": false
+    },
+    {
+      "id": "R1_0245",
+      "guidance": 0.5,
+      "gamma": 0.9,
+      "cap": 0.5,
+      "allocation": "boundary",
+      "restart": true
+    },
+    {
+      "id": "R1_0246",
+      "guidance": 0.5,
+      "gamma": 0.9,
+      "cap": 0.75,
+      "allocation": "uniform",
+      "restart": false
+    },
+    {
+      "id": "R1_0247",
+      "guidance": 0.5,
+      "gamma": 0.9,
+      "cap": 0.75,
+      "allocation": "uniform",
+      "restart": true
+    },
+    {
+      "id": "R1_0248",
+      "guidance": 0.5,
+      "gamma": 0.9,
+      "cap": 0.75,
+      "allocation": "uncertainty",
+      "restart": false
+    },
+    {
+      "id": "R1_0249",
+      "guidance": 0.5,
+      "gamma": 0.9,
+      "cap": 0.75,
+      "allocation": "uncertainty",
+      "restart": true
+    },
+    {
+      "id": "R1_0250",
+      "guidance": 0.5,
+      "gamma": 0.9,
+      "cap": 0.75,
+      "allocation": "boundary",
+      "restart": false
+    },
+    {
+      "id": "R1_0251",
+      "guidance": 0.5,
+      "gamma": 0.9,
+      "cap": 0.75,
+      "allocation": "boundary",
+      "restart": true
+    },
+    {
+      "id": "R1_0252",
+      "guidance": 0.5,
+      "gamma": 0.95,
+      "cap": 0.25,
+      "allocation": "uniform",
+      "restart": false
+    },
+    {
+      "id": "R1_0253",
+      "guidance": 0.5,
+      "gamma": 0.95,
+      "cap": 0.25,
+      "allocation": "uniform",
+      "restart": true
+    },
+    {
+      "id": "R1_0254",
+      "guidance": 0.5,
+      "gamma": 0.95,
+      "cap": 0.25,
+      "allocation": "uncertainty",
+      "restart": false
+    },
+    {
+      "id": "R1_0255",
+      "guidance": 0.5,
+      "gamma": 0.95,
+      "cap": 0.25,
+      "allocation": "uncertainty",
+      "restart": true
+    },
+    {
+      "id": "R1_0256",
+      "guidance": 0.5,
+      "gamma": 0.95,
+      "cap": 0.25,
+      "allocation": "boundary",
+      "restart": false
+    },
+    {
+      "id": "R1_0257",
+      "guidance": 0.5,
+      "gamma": 0.95,
+      "cap": 0.25,
+      "allocation": "boundary",
+      "restart": true
+    },
+    {
+      "id": "R1_0258",
+      "guidance": 0.5,
+      "gamma": 0.95,
+      "cap": 0.5,
+      "allocation": "uniform",
+      "restart": false
+    },
+    {
+      "id": "R1_0259",
+      "guidance": 0.5,
+      "gamma": 0.95,
+      "cap": 0.5,
+      "allocation": "uniform",
+      "restart": true
+    },
+    {
+      "id": "R1_0260",
+      "guidance": 0.5,
+      "gamma": 0.95,
+      "cap": 0.5,
+      "allocation": "uncertainty",
+      "restart": false
+    },
+    {
+      "id": "R1_0261",
+      "guidance": 0.5,
+      "gamma": 0.95,
+      "cap": 0.5,
+      "allocation": "uncertainty",
+      "restart": true
+    },
+    {
+      "id": "R1_0262",
+      "guidance": 0.5,
+      "gamma": 0.95,
+      "cap": 0.5,
+      "allocation": "boundary",
+      "restart": false
+    },
+    {
+      "id": "R1_0263",
+      "guidance": 0.5,
+      "gamma": 0.95,
+      "cap": 0.5,
+      "allocation": "boundary",
+      "restart": true
+    },
+    {
+      "id": "R1_0264",
+      "guidance": 0.5,
+      "gamma": 0.95,
+      "cap": 0.75,
+      "allocation": "uniform",
+      "restart": false
+    },
+    {
+      "id": "R1_0265",
+      "guidance": 0.5,
+      "gamma": 0.95,
+      "cap": 0.75,
+      "allocation": "uniform",
+      "restart": true
+    },
+    {
+      "id": "R1_0266",
+      "guidance": 0.5,
+      "gamma": 0.95,
+      "cap": 0.75,
+      "allocation": "uncertainty",
+      "restart": false
+    },
+    {
+      "id": "R1_0267",
+      "guidance": 0.5,
+      "gamma": 0.95,
+      "cap": 0.75,
+      "allocation": "uncertainty",
+      "restart": true
+    },
+    {
+      "id": "R1_0268",
+      "guidance": 0.5,
+      "gamma": 0.95,
+      "cap": 0.75,
+      "allocation": "boundary",
+      "restart": false
+    },
+    {
+      "id": "R1_0269",
+      "guidance": 0.5,
+      "gamma": 0.95,
+      "cap": 0.75,
+      "allocation": "boundary",
+      "restart": true
+    },
+    {
+      "id": "R1_0270",
+      "guidance": 0.5,
+      "gamma": 0.98,
+      "cap": 0.25,
+      "allocation": "uniform",
+      "restart": false
+    },
+    {
+      "id": "R1_0271",
+      "guidance": 0.5,
+      "gamma": 0.98,
+      "cap": 0.25,
+      "allocation": "uniform",
+      "restart": true
+    },
+    {
+      "id": "R1_0272",
+      "guidance": 0.5,
+      "gamma": 0.98,
+      "cap": 0.25,
+      "allocation": "uncertainty",
+      "restart": false
+    },
+    {
+      "id": "R1_0273",
+      "guidance": 0.5,
+      "gamma": 0.98,
+      "cap": 0.25,
+      "allocation": "uncertainty",
+      "restart": true
+    },
+    {
+      "id": "R1_0274",
+      "guidance": 0.5,
+      "gamma": 0.98,
+      "cap": 0.25,
+      "allocation": "boundary",
+      "restart": false
+    },
+    {
+      "id": "R1_0275",
+      "guidance": 0.5,
+      "gamma": 0.98,
+      "cap": 0.25,
+      "allocation": "boundary",
+      "restart": true
+    },
+    {
+      "id": "R1_0276",
+      "guidance": 0.5,
+      "gamma": 0.98,
+      "cap": 0.5,
+      "allocation": "uniform",
+      "restart": false
+    },
+    {
+      "id": "R1_0277",
+      "guidance": 0.5,
+      "gamma": 0.98,
+      "cap": 0.5,
+      "allocation": "uniform",
+      "restart": true
+    },
+    {
+      "id": "R1_0278",
+      "guidance": 0.5,
+      "gamma": 0.98,
+      "cap": 0.5,
+      "allocation": "uncertainty",
+      "restart": false
+    },
+    {
+      "id": "R1_0279",
+      "guidance": 0.5,
+      "gamma": 0.98,
+      "cap": 0.5,
+      "allocation": "uncertainty",
+      "restart": true
+    },
+    {
+      "id": "R1_0280",
+      "guidance": 0.5,
+      "gamma": 0.98,
+      "cap": 0.5,
+      "allocation": "boundary",
+      "restart": false
+    },
+    {
+      "id": "R1_0281",
+      "guidance": 0.5,
+      "gamma": 0.98,
+      "cap": 0.5,
+      "allocation": "boundary",
+      "restart": true
+    },
+    {
+      "id": "R1_0282",
+      "guidance": 0.5,
+      "gamma": 0.98,
+      "cap": 0.75,
+      "allocation": "uniform",
+      "restart": false
+    },
+    {
+      "id": "R1_0283",
+      "guidance": 0.5,
+      "gamma": 0.98,
+      "cap": 0.75,
+      "allocation": "uniform",
+      "restart": true
+    },
+    {
+      "id": "R1_0284",
+      "guidance": 0.5,
+      "gamma": 0.98,
+      "cap": 0.75,
+      "allocation": "uncertainty",
+      "restart": false
+    },
+    {
+      "id": "R1_0285",
+      "guidance": 0.5,
+      "gamma": 0.98,
+      "cap": 0.75,
+      "allocation": "uncertainty",
+      "restart": true
+    },
+    {
+      "id": "R1_0286",
+      "guidance": 0.5,
+      "gamma": 0.98,
+      "cap": 0.75,
+      "allocation": "boundary",
+      "restart": false
+    },
+    {
+      "id": "R1_0287",
+      "guidance": 0.5,
+      "gamma": 0.98,
+      "cap": 0.75,
+      "allocation": "boundary",
+      "restart": true
+    },
+    {
+      "id": "R1_0288",
+      "guidance": 0.5,
+      "gamma": 0.995,
+      "cap": 0.25,
+      "allocation": "uniform",
+      "restart": false
+    },
+    {
+      "id": "R1_0289",
+      "guidance": 0.5,
+      "gamma": 0.995,
+      "cap": 0.25,
+      "allocation": "uniform",
+      "restart": true
+    },
+    {
+      "id": "R1_0290",
+      "guidance": 0.5,
+      "gamma": 0.995,
+      "cap": 0.25,
+      "allocation": "uncertainty",
+      "restart": false
+    },
+    {
+      "id": "R1_0291",
+      "guidance": 0.5,
+      "gamma": 0.995,
+      "cap": 0.25,
+      "allocation": "uncertainty",
+      "restart": true
+    },
+    {
+      "id": "R1_0292",
+      "guidance": 0.5,
+      "gamma": 0.995,
+      "cap": 0.25,
+      "allocation": "boundary",
+      "restart": false
+    },
+    {
+      "id": "R1_0293",
+      "guidance": 0.5,
+      "gamma": 0.995,
+      "cap": 0.25,
+      "allocation": "boundary",
+      "restart": true
+    },
+    {
+      "id": "R1_0294",
+      "guidance": 0.5,
+      "gamma": 0.995,
+      "cap": 0.5,
+      "allocation": "uniform",
+      "restart": false
+    },
+    {
+      "id": "R1_0295",
+      "guidance": 0.5,
+      "gamma": 0.995,
+      "cap": 0.5,
+      "allocation": "uniform",
+      "restart": true
+    },
+    {
+      "id": "R1_0296",
+      "guidance": 0.5,
+      "gamma": 0.995,
+      "cap": 0.5,
+      "allocation": "uncertainty",
+      "restart": false
+    },
+    {
+      "id": "R1_0297",
+      "guidance": 0.5,
+      "gamma": 0.995,
+      "cap": 0.5,
+      "allocation": "uncertainty",
+      "restart": true
+    },
+    {
+      "id": "R1_0298",
+      "guidance": 0.5,
+      "gamma": 0.995,
+      "cap": 0.5,
+      "allocation": "boundary",
+      "restart": false
+    },
+    {
+      "id": "R1_0299",
+      "guidance": 0.5,
+      "gamma": 0.995,
+      "cap": 0.5,
+      "allocation": "boundary",
+      "restart": true
+    },
+    {
+      "id": "R1_0300",
+      "guidance": 0.5,
+      "gamma": 0.995,
+      "cap": 0.75,
+      "allocation": "uniform",
+      "restart": false
+    },
+    {
+      "id": "R1_0301",
+      "guidance": 0.5,
+      "gamma": 0.995,
+      "cap": 0.75,
+      "allocation": "uniform",
+      "restart": true
+    },
+    {
+      "id": "R1_0302",
+      "guidance": 0.5,
+      "gamma": 0.995,
+      "cap": 0.75,
+      "allocation": "uncertainty",
+      "restart": false
+    },
+    {
+      "id": "R1_0303",
+      "guidance": 0.5,
+      "gamma": 0.995,
+      "cap": 0.75,
+      "allocation": "uncertainty",
+      "restart": true
+    },
+    {
+      "id": "R1_0304",
+      "guidance": 0.5,
+      "gamma": 0.995,
+      "cap": 0.75,
+      "allocation": "boundary",
+      "restart": false
+    },
+    {
+      "id": "R1_0305",
+      "guidance": 0.5,
+      "gamma": 0.995,
+      "cap": 0.75,
+      "allocation": "boundary",
+      "restart": true
+    },
+    {
+      "id": "R1_0306",
+      "guidance": 0.5,
+      "gamma": 1.0,
+      "cap": 0.25,
+      "allocation": "uniform",
+      "restart": false
+    },
+    {
+      "id": "R1_0307",
+      "guidance": 0.5,
+      "gamma": 1.0,
+      "cap": 0.25,
+      "allocation": "uniform",
+      "restart": true
+    },
+    {
+      "id": "R1_0308",
+      "guidance": 0.5,
+      "gamma": 1.0,
+      "cap": 0.25,
+      "allocation": "uncertainty",
+      "restart": false
+    },
+    {
+      "id": "R1_0309",
+      "guidance": 0.5,
+      "gamma": 1.0,
+      "cap": 0.25,
+      "allocation": "uncertainty",
+      "restart": true
+    },
+    {
+      "id": "R1_0310",
+      "guidance": 0.5,
+      "gamma": 1.0,
+      "cap": 0.25,
+      "allocation": "boundary",
+      "restart": false
+    },
+    {
+      "id": "R1_0311",
+      "guidance": 0.5,
+      "gamma": 1.0,
+      "cap": 0.25,
+      "allocation": "boundary",
+      "restart": true
+    },
+    {
+      "id": "R1_0312",
+      "guidance": 0.5,
+      "gamma": 1.0,
+      "cap": 0.5,
+      "allocation": "uniform",
+      "restart": false
+    },
+    {
+      "id": "R1_0313",
+      "guidance": 0.5,
+      "gamma": 1.0,
+      "cap": 0.5,
+      "allocation": "uniform",
+      "restart": true
+    },
+    {
+      "id": "R1_0314",
+      "guidance": 0.5,
+      "gamma": 1.0,
+      "cap": 0.5,
+      "allocation": "uncertainty",
+      "restart": false
+    },
+    {
+      "id": "R1_0315",
+      "guidance": 0.5,
+      "gamma": 1.0,
+      "cap": 0.5,
+      "allocation": "uncertainty",
+      "restart": true
+    },
+    {
+      "id": "R1_0316",
+      "guidance": 0.5,
+      "gamma": 1.0,
+      "cap": 0.5,
+      "allocation": "boundary",
+      "restart": false
+    },
+    {
+      "id": "R1_0317",
+      "guidance": 0.5,
+      "gamma": 1.0,
+      "cap": 0.5,
+      "allocation": "boundary",
+      "restart": true
+    },
+    {
+      "id": "R1_0318",
+      "guidance": 0.5,
+      "gamma": 1.0,
+      "cap": 0.75,
+      "allocation": "uniform",
+      "restart": false
+    },
+    {
+      "id": "R1_0319",
+      "guidance": 0.5,
+      "gamma": 1.0,
+      "cap": 0.75,
+      "allocation": "uniform",
+      "restart": true
+    },
+    {
+      "id": "R1_0320",
+      "guidance": 0.5,
+      "gamma": 1.0,
+      "cap": 0.75,
+      "allocation": "uncertainty",
+      "restart": false
+    },
+    {
+      "id": "R1_0321",
+      "guidance": 0.5,
+      "gamma": 1.0,
+      "cap": 0.75,
+      "allocation": "uncertainty",
+      "restart": true
+    },
+    {
+      "id": "R1_0322",
+      "guidance": 0.5,
+      "gamma": 1.0,
+      "cap": 0.75,
+      "allocation": "boundary",
+      "restart": false
+    },
+    {
+      "id": "R1_0323",
+      "guidance": 0.5,
+      "gamma": 1.0,
+      "cap": 0.75,
+      "allocation": "boundary",
+      "restart": true
+    },
+    {
+      "id": "R1_0324",
+      "guidance": 0.75,
+      "gamma": 0.8,
+      "cap": 0.25,
+      "allocation": "uniform",
+      "restart": false
+    },
+    {
+      "id": "R1_0325",
+      "guidance": 0.75,
+      "gamma": 0.8,
+      "cap": 0.25,
+      "allocation": "uniform",
+      "restart": true
+    },
+    {
+      "id": "R1_0326",
+      "guidance": 0.75,
+      "gamma": 0.8,
+      "cap": 0.25,
+      "allocation": "uncertainty",
+      "restart": false
+    },
+    {
+      "id": "R1_0327",
+      "guidance": 0.75,
+      "gamma": 0.8,
+      "cap": 0.25,
+      "allocation": "uncertainty",
+      "restart": true
+    },
+    {
+      "id": "R1_0328",
+      "guidance": 0.75,
+      "gamma": 0.8,
+      "cap": 0.25,
+      "allocation": "boundary",
+      "restart": false
+    },
+    {
+      "id": "R1_0329",
+      "guidance": 0.75,
+      "gamma": 0.8,
+      "cap": 0.25,
+      "allocation": "boundary",
+      "restart": true
+    },
+    {
+      "id": "R1_0330",
+      "guidance": 0.75,
+      "gamma": 0.8,
+      "cap": 0.5,
+      "allocation": "uniform",
+      "restart": false
+    },
+    {
+      "id": "R1_0331",
+      "guidance": 0.75,
+      "gamma": 0.8,
+      "cap": 0.5,
+      "allocation": "uniform",
+      "restart": true
+    },
+    {
+      "id": "R1_0332",
+      "guidance": 0.75,
+      "gamma": 0.8,
+      "cap": 0.5,
+      "allocation": "uncertainty",
+      "restart": false
+    },
+    {
+      "id": "R1_0333",
+      "guidance": 0.75,
+      "gamma": 0.8,
+      "cap": 0.5,
+      "allocation": "uncertainty",
+      "restart": true
+    },
+    {
+      "id": "R1_0334",
+      "guidance": 0.75,
+      "gamma": 0.8,
+      "cap": 0.5,
+      "allocation": "boundary",
+      "restart": false
+    },
+    {
+      "id": "R1_0335",
+      "guidance": 0.75,
+      "gamma": 0.8,
+      "cap": 0.5,
+      "allocation": "boundary",
+      "restart": true
+    },
+    {
+      "id": "R1_0336",
+      "guidance": 0.75,
+      "gamma": 0.8,
+      "cap": 0.75,
+      "allocation": "uniform",
+      "restart": false
+    },
+    {
+      "id": "R1_0337",
+      "guidance": 0.75,
+      "gamma": 0.8,
+      "cap": 0.75,
+      "allocation": "uniform",
+      "restart": true
+    },
+    {
+      "id": "R1_0338",
+      "guidance": 0.75,
+      "gamma": 0.8,
+      "cap": 0.75,
+      "allocation": "uncertainty",
+      "restart": false
+    },
+    {
+      "id": "R1_0339",
+      "guidance": 0.75,
+      "gamma": 0.8,
+      "cap": 0.75,
+      "allocation": "uncertainty",
+      "restart": true
+    },
+    {
+      "id": "R1_0340",
+      "guidance": 0.75,
+      "gamma": 0.8,
+      "cap": 0.75,
+      "allocation": "boundary",
+      "restart": false
+    },
+    {
+      "id": "R1_0341",
+      "guidance": 0.75,
+      "gamma": 0.8,
+      "cap": 0.75,
+      "allocation": "boundary",
+      "restart": true
+    },
+    {
+      "id": "R1_0342",
+      "guidance": 0.75,
+      "gamma": 0.9,
+      "cap": 0.25,
+      "allocation": "uniform",
+      "restart": false
+    },
+    {
+      "id": "R1_0343",
+      "guidance": 0.75,
+      "gamma": 0.9,
+      "cap": 0.25,
+      "allocation": "uniform",
+      "restart": true
+    },
+    {
+      "id": "R1_0344",
+      "guidance": 0.75,
+      "gamma": 0.9,
+      "cap": 0.25,
+      "allocation": "uncertainty",
+      "restart": false
+    },
+    {
+      "id": "R1_0345",
+      "guidance": 0.75,
+      "gamma": 0.9,
+      "cap": 0.25,
+      "allocation": "uncertainty",
+      "restart": true
+    },
+    {
+      "id": "R1_0346",
+      "guidance": 0.75,
+      "gamma": 0.9,
+      "cap": 0.25,
+      "allocation": "boundary",
+      "restart": false
+    },
+    {
+      "id": "R1_0347",
+      "guidance": 0.75,
+      "gamma": 0.9,
+      "cap": 0.25,
+      "allocation": "boundary",
+      "restart": true
+    },
+    {
+      "id": "R1_0348",
+      "guidance": 0.75,
+      "gamma": 0.9,
+      "cap": 0.5,
+      "allocation": "uniform",
+      "restart": false
+    },
+    {
+      "id": "R1_0349",
+      "guidance": 0.75,
+      "gamma": 0.9,
+      "cap": 0.5,
+      "allocation": "uniform",
+      "restart": true
+    },
+    {
+      "id": "R1_0350",
+      "guidance": 0.75,
+      "gamma": 0.9,
+      "cap": 0.5,
+      "allocation": "uncertainty",
+      "restart": false
+    },
+    {
+      "id": "R1_0351",
+      "guidance": 0.75,
+      "gamma": 0.9,
+      "cap": 0.5,
+      "allocation": "uncertainty",
+      "restart": true
+    },
+    {
+      "id": "R1_0352",
+      "guidance": 0.75,
+      "gamma": 0.9,
+      "cap": 0.5,
+      "allocation": "boundary",
+      "restart": false
+    },
+    {
+      "id": "R1_0353",
+      "guidance": 0.75,
+      "gamma": 0.9,
+      "cap": 0.5,
+      "allocation": "boundary",
+      "restart": true
+    },
+    {
+      "id": "R1_0354",
+      "guidance": 0.75,
+      "gamma": 0.9,
+      "cap": 0.75,
+      "allocation": "uniform",
+      "restart": false
+    },
+    {
+      "id": "R1_0355",
+      "guidance": 0.75,
+      "gamma": 0.9,
+      "cap": 0.75,
+      "allocation": "uniform",
+      "restart": true
+    },
+    {
+      "id": "R1_0356",
+      "guidance": 0.75,
+      "gamma": 0.9,
+      "cap": 0.75,
+      "allocation": "uncertainty",
+      "restart": false
+    },
+    {
+      "id": "R1_0357",
+      "guidance": 0.75,
+      "gamma": 0.9,
+      "cap": 0.75,
+      "allocation": "uncertainty",
+      "restart": true
+    },
+    {
+      "id": "R1_0358",
+      "guidance": 0.75,
+      "gamma": 0.9,
+      "cap": 0.75,
+      "allocation": "boundary",
+      "restart": false
+    },
+    {
+      "id": "R1_0359",
+      "guidance": 0.75,
+      "gamma": 0.9,
+      "cap": 0.75,
+      "allocation": "boundary",
+      "restart": true
+    },
+    {
+      "id": "R1_0360",
+      "guidance": 0.75,
+      "gamma": 0.95,
+      "cap": 0.25,
+      "allocation": "uniform",
+      "restart": false
+    },
+    {
+      "id": "R1_0361",
+      "guidance": 0.75,
+      "gamma": 0.95,
+      "cap": 0.25,
+      "allocation": "uniform",
+      "restart": true
+    },
+    {
+      "id": "R1_0362",
+      "guidance": 0.75,
+      "gamma": 0.95,
+      "cap": 0.25,
+      "allocation": "uncertainty",
+      "restart": false
+    },
+    {
+      "id": "R1_0363",
+      "guidance": 0.75,
+      "gamma": 0.95,
+      "cap": 0.25,
+      "allocation": "uncertainty",
+      "restart": true
+    },
+    {
+      "id": "R1_0364",
+      "guidance": 0.75,
+      "gamma": 0.95,
+      "cap": 0.25,
+      "allocation": "boundary",
+      "restart": false
+    },
+    {
+      "id": "R1_0365",
+      "guidance": 0.75,
+      "gamma": 0.95,
+      "cap": 0.25,
+      "allocation": "boundary",
+      "restart": true
+    },
+    {
+      "id": "R1_0366",
+      "guidance": 0.75,
+      "gamma": 0.95,
+      "cap": 0.5,
+      "allocation": "uniform",
+      "restart": false
+    },
+    {
+      "id": "R1_0367",
+      "guidance": 0.75,
+      "gamma": 0.95,
+      "cap": 0.5,
+      "allocation": "uniform",
+      "restart": true
+    },
+    {
+      "id": "R1_0368",
+      "guidance": 0.75,
+      "gamma": 0.95,
+      "cap": 0.5,
+      "allocation": "uncertainty",
+      "restart": false
+    },
+    {
+      "id": "R1_0369",
+      "guidance": 0.75,
+      "gamma": 0.95,
+      "cap": 0.5,
+      "allocation": "uncertainty",
+      "restart": true
+    },
+    {
+      "id": "R1_0370",
+      "guidance": 0.75,
+      "gamma": 0.95,
+      "cap": 0.5,
+      "allocation": "boundary",
+      "restart": false
+    },
+    {
+      "id": "R1_0371",
+      "guidance": 0.75,
+      "gamma": 0.95,
+      "cap": 0.5,
+      "allocation": "boundary",
+      "restart": true
+    },
+    {
+      "id": "R1_0372",
+      "guidance": 0.75,
+      "gamma": 0.95,
+      "cap": 0.75,
+      "allocation": "uniform",
+      "restart": false
+    },
+    {
+      "id": "R1_0373",
+      "guidance": 0.75,
+      "gamma": 0.95,
+      "cap": 0.75,
+      "allocation": "uniform",
+      "restart": true
+    },
+    {
+      "id": "R1_0374",
+      "guidance": 0.75,
+      "gamma": 0.95,
+      "cap": 0.75,
+      "allocation": "uncertainty",
+      "restart": false
+    },
+    {
+      "id": "R1_0375",
+      "guidance": 0.75,
+      "gamma": 0.95,
+      "cap": 0.75,
+      "allocation": "uncertainty",
+      "restart": true
+    },
+    {
+      "id": "R1_0376",
+      "guidance": 0.75,
+      "gamma": 0.95,
+      "cap": 0.75,
+      "allocation": "boundary",
+      "restart": false
+    },
+    {
+      "id": "R1_0377",
+      "guidance": 0.75,
+      "gamma": 0.95,
+      "cap": 0.75,
+      "allocation": "boundary",
+      "restart": true
+    },
+    {
+      "id": "R1_0378",
+      "guidance": 0.75,
+      "gamma": 0.98,
+      "cap": 0.25,
+      "allocation": "uniform",
+      "restart": false
+    },
+    {
+      "id": "R1_0379",
+      "guidance": 0.75,
+      "gamma": 0.98,
+      "cap": 0.25,
+      "allocation": "uniform",
+      "restart": true
+    },
+    {
+      "id": "R1_0380",
+      "guidance": 0.75,
+      "gamma": 0.98,
+      "cap": 0.25,
+      "allocation": "uncertainty",
+      "restart": false
+    },
+    {
+      "id": "R1_0381",
+      "guidance": 0.75,
+      "gamma": 0.98,
+      "cap": 0.25,
+      "allocation": "uncertainty",
+      "restart": true
+    },
+    {
+      "id": "R1_0382",
+      "guidance": 0.75,
+      "gamma": 0.98,
+      "cap": 0.25,
+      "allocation": "boundary",
+      "restart": false
+    },
+    {
+      "id": "R1_0383",
+      "guidance": 0.75,
+      "gamma": 0.98,
+      "cap": 0.25,
+      "allocation": "boundary",
+      "restart": true
+    },
+    {
+      "id": "R1_0384",
+      "guidance": 0.75,
+      "gamma": 0.98,
+      "cap": 0.5,
+      "allocation": "uniform",
+      "restart": false
+    },
+    {
+      "id": "R1_0385",
+      "guidance": 0.75,
+      "gamma": 0.98,
+      "cap": 0.5,
+      "allocation": "uniform",
+      "restart": true
+    },
+    {
+      "id": "R1_0386",
+      "guidance": 0.75,
+      "gamma": 0.98,
+      "cap": 0.5,
+      "allocation": "uncertainty",
+      "restart": false
+    },
+    {
+      "id": "R1_0387",
+      "guidance": 0.75,
+      "gamma": 0.98,
+      "cap": 0.5,
+      "allocation": "uncertainty",
+      "restart": true
+    },
+    {
+      "id": "R1_0388",
+      "guidance": 0.75,
+      "gamma": 0.98,
+      "cap": 0.5,
+      "allocation": "boundary",
+      "restart": false
+    },
+    {
+      "id": "R1_0389",
+      "guidance": 0.75,
+      "gamma": 0.98,
+      "cap": 0.5,
+      "allocation": "boundary",
+      "restart": true
+    },
+    {
+      "id": "R1_0390",
+      "guidance": 0.75,
+      "gamma": 0.98,
+      "cap": 0.75,
+      "allocation": "uniform",
+      "restart": false
+    },
+    {
+      "id": "R1_0391",
+      "guidance": 0.75,
+      "gamma": 0.98,
+      "cap": 0.75,
+      "allocation": "uniform",
+      "restart": true
+    },
+    {
+      "id": "R1_0392",
+      "guidance": 0.75,
+      "gamma": 0.98,
+      "cap": 0.75,
+      "allocation": "uncertainty",
+      "restart": false
+    },
+    {
+      "id": "R1_0393",
+      "guidance": 0.75,
+      "gamma": 0.98,
+      "cap": 0.75,
+      "allocation": "uncertainty",
+      "restart": true
+    },
+    {
+      "id": "R1_0394",
+      "guidance": 0.75,
+      "gamma": 0.98,
+      "cap": 0.75,
+      "allocation": "boundary",
+      "restart": false
+    },
+    {
+      "id": "R1_0395",
+      "guidance": 0.75,
+      "gamma": 0.98,
+      "cap": 0.75,
+      "allocation": "boundary",
+      "restart": true
+    },
+    {
+      "id": "R1_0396",
+      "guidance": 0.75,
+      "gamma": 0.995,
+      "cap": 0.25,
+      "allocation": "uniform",
+      "restart": false
+    },
+    {
+      "id": "R1_0397",
+      "guidance": 0.75,
+      "gamma": 0.995,
+      "cap": 0.25,
+      "allocation": "uniform",
+      "restart": true
+    },
+    {
+      "id": "R1_0398",
+      "guidance": 0.75,
+      "gamma": 0.995,
+      "cap": 0.25,
+      "allocation": "uncertainty",
+      "restart": false
+    },
+    {
+      "id": "R1_0399",
+      "guidance": 0.75,
+      "gamma": 0.995,
+      "cap": 0.25,
+      "allocation": "uncertainty",
+      "restart": true
+    },
+    {
+      "id": "R1_0400",
+      "guidance": 0.75,
+      "gamma": 0.995,
+      "cap": 0.25,
+      "allocation": "boundary",
+      "restart": false
+    },
+    {
+      "id": "R1_0401",
+      "guidance": 0.75,
+      "gamma": 0.995,
+      "cap": 0.25,
+      "allocation": "boundary",
+      "restart": true
+    },
+    {
+      "id": "R1_0402",
+      "guidance": 0.75,
+      "gamma": 0.995,
+      "cap": 0.5,
+      "allocation": "uniform",
+      "restart": false
+    },
+    {
+      "id": "R1_0403",
+      "guidance": 0.75,
+      "gamma": 0.995,
+      "cap": 0.5,
+      "allocation": "uniform",
+      "restart": true
+    },
+    {
+      "id": "R1_0404",
+      "guidance": 0.75,
+      "gamma": 0.995,
+      "cap": 0.5,
+      "allocation": "uncertainty",
+      "restart": false
+    },
+    {
+      "id": "R1_0405",
+      "guidance": 0.75,
+      "gamma": 0.995,
+      "cap": 0.5,
+      "allocation": "uncertainty",
+      "restart": true
+    },
+    {
+      "id": "R1_0406",
+      "guidance": 0.75,
+      "gamma": 0.995,
+      "cap": 0.5,
+      "allocation": "boundary",
+      "restart": false
+    },
+    {
+      "id": "R1_0407",
+      "guidance": 0.75,
+      "gamma": 0.995,
+      "cap": 0.5,
+      "allocation": "boundary",
+      "restart": true
+    },
+    {
+      "id": "R1_0408",
+      "guidance": 0.75,
+      "gamma": 0.995,
+      "cap": 0.75,
+      "allocation": "uniform",
+      "restart": false
+    },
+    {
+      "id": "R1_0409",
+      "guidance": 0.75,
+      "gamma": 0.995,
+      "cap": 0.75,
+      "allocation": "uniform",
+      "restart": true
+    },
+    {
+      "id": "R1_0410",
+      "guidance": 0.75,
+      "gamma": 0.995,
+      "cap": 0.75,
+      "allocation": "uncertainty",
+      "restart": false
+    },
+    {
+      "id": "R1_0411",
+      "guidance": 0.75,
+      "gamma": 0.995,
+      "cap": 0.75,
+      "allocation": "uncertainty",
+      "restart": true
+    },
+    {
+      "id": "R1_0412",
+      "guidance": 0.75,
+      "gamma": 0.995,
+      "cap": 0.75,
+      "allocation": "boundary",
+      "restart": false
+    },
+    {
+      "id": "R1_0413",
+      "guidance": 0.75,
+      "gamma": 0.995,
+      "cap": 0.75,
+      "allocation": "boundary",
+      "restart": true
+    },
+    {
+      "id": "R1_0414",
+      "guidance": 0.75,
+      "gamma": 1.0,
+      "cap": 0.25,
+      "allocation": "uniform",
+      "restart": false
+    },
+    {
+      "id": "R1_0415",
+      "guidance": 0.75,
+      "gamma": 1.0,
+      "cap": 0.25,
+      "allocation": "uniform",
+      "restart": true
+    },
+    {
+      "id": "R1_0416",
+      "guidance": 0.75,
+      "gamma": 1.0,
+      "cap": 0.25,
+      "allocation": "uncertainty",
+      "restart": false
+    },
+    {
+      "id": "R1_0417",
+      "guidance": 0.75,
+      "gamma": 1.0,
+      "cap": 0.25,
+      "allocation": "uncertainty",
+      "restart": true
+    },
+    {
+      "id": "R1_0418",
+      "guidance": 0.75,
+      "gamma": 1.0,
+      "cap": 0.25,
+      "allocation": "boundary",
+      "restart": false
+    },
+    {
+      "id": "R1_0419",
+      "guidance": 0.75,
+      "gamma": 1.0,
+      "cap": 0.25,
+      "allocation": "boundary",
+      "restart": true
+    },
+    {
+      "id": "R1_0420",
+      "guidance": 0.75,
+      "gamma": 1.0,
+      "cap": 0.5,
+      "allocation": "uniform",
+      "restart": false
+    },
+    {
+      "id": "R1_0421",
+      "guidance": 0.75,
+      "gamma": 1.0,
+      "cap": 0.5,
+      "allocation": "uniform",
+      "restart": true
+    },
+    {
+      "id": "R1_0422",
+      "guidance": 0.75,
+      "gamma": 1.0,
+      "cap": 0.5,
+      "allocation": "uncertainty",
+      "restart": false
+    },
+    {
+      "id": "R1_0423",
+      "guidance": 0.75,
+      "gamma": 1.0,
+      "cap": 0.5,
+      "allocation": "uncertainty",
+      "restart": true
+    },
+    {
+      "id": "R1_0424",
+      "guidance": 0.75,
+      "gamma": 1.0,
+      "cap": 0.5,
+      "allocation": "boundary",
+      "restart": false
+    },
+    {
+      "id": "R1_0425",
+      "guidance": 0.75,
+      "gamma": 1.0,
+      "cap": 0.5,
+      "allocation": "boundary",
+      "restart": true
+    },
+    {
+      "id": "R1_0426",
+      "guidance": 0.75,
+      "gamma": 1.0,
+      "cap": 0.75,
+      "allocation": "uniform",
+      "restart": false
+    },
+    {
+      "id": "R1_0427",
+      "guidance": 0.75,
+      "gamma": 1.0,
+      "cap": 0.75,
+      "allocation": "uniform",
+      "restart": true
+    },
+    {
+      "id": "R1_0428",
+      "guidance": 0.75,
+      "gamma": 1.0,
+      "cap": 0.75,
+      "allocation": "uncertainty",
+      "restart": false
+    },
+    {
+      "id": "R1_0429",
+      "guidance": 0.75,
+      "gamma": 1.0,
+      "cap": 0.75,
+      "allocation": "uncertainty",
+      "restart": true
+    },
+    {
+      "id": "R1_0430",
+      "guidance": 0.75,
+      "gamma": 1.0,
+      "cap": 0.75,
+      "allocation": "boundary",
+      "restart": false
+    },
+    {
+      "id": "R1_0431",
+      "guidance": 0.75,
+      "gamma": 1.0,
+      "cap": 0.75,
+      "allocation": "boundary",
+      "restart": true
+    },
+    {
+      "id": "R1_0432",
+      "guidance": 1.0,
+      "gamma": 0.8,
+      "cap": 0.25,
+      "allocation": "uniform",
+      "restart": false
+    },
+    {
+      "id": "R1_0433",
+      "guidance": 1.0,
+      "gamma": 0.8,
+      "cap": 0.25,
+      "allocation": "uniform",
+      "restart": true
+    },
+    {
+      "id": "R1_0434",
+      "guidance": 1.0,
+      "gamma": 0.8,
+      "cap": 0.25,
+      "allocation": "uncertainty",
+      "restart": false
+    },
+    {
+      "id": "R1_0435",
+      "guidance": 1.0,
+      "gamma": 0.8,
+      "cap": 0.25,
+      "allocation": "uncertainty",
+      "restart": true
+    },
+    {
+      "id": "R1_0436",
+      "guidance": 1.0,
+      "gamma": 0.8,
+      "cap": 0.25,
+      "allocation": "boundary",
+      "restart": false
+    },
+    {
+      "id": "R1_0437",
+      "guidance": 1.0,
+      "gamma": 0.8,
+      "cap": 0.25,
+      "allocation": "boundary",
+      "restart": true
+    },
+    {
+      "id": "R1_0438",
+      "guidance": 1.0,
+      "gamma": 0.8,
+      "cap": 0.5,
+      "allocation": "uniform",
+      "restart": false
+    },
+    {
+      "id": "R1_0439",
+      "guidance": 1.0,
+      "gamma": 0.8,
+      "cap": 0.5,
+      "allocation": "uniform",
+      "restart": true
+    },
+    {
+      "id": "R1_0440",
+      "guidance": 1.0,
+      "gamma": 0.8,
+      "cap": 0.5,
+      "allocation": "uncertainty",
+      "restart": false
+    },
+    {
+      "id": "R1_0441",
+      "guidance": 1.0,
+      "gamma": 0.8,
+      "cap": 0.5,
+      "allocation": "uncertainty",
+      "restart": true
+    },
+    {
+      "id": "R1_0442",
+      "guidance": 1.0,
+      "gamma": 0.8,
+      "cap": 0.5,
+      "allocation": "boundary",
+      "restart": false
+    },
+    {
+      "id": "R1_0443",
+      "guidance": 1.0,
+      "gamma": 0.8,
+      "cap": 0.5,
+      "allocation": "boundary",
+      "restart": true
+    },
+    {
+      "id": "R1_0444",
+      "guidance": 1.0,
+      "gamma": 0.8,
+      "cap": 0.75,
+      "allocation": "uniform",
+      "restart": false
+    },
+    {
+      "id": "R1_0445",
+      "guidance": 1.0,
+      "gamma": 0.8,
+      "cap": 0.75,
+      "allocation": "uniform",
+      "restart": true
+    },
+    {
+      "id": "R1_0446",
+      "guidance": 1.0,
+      "gamma": 0.8,
+      "cap": 0.75,
+      "allocation": "uncertainty",
+      "restart": false
+    },
+    {
+      "id": "R1_0447",
+      "guidance": 1.0,
+      "gamma": 0.8,
+      "cap": 0.75,
+      "allocation": "uncertainty",
+      "restart": true
+    },
+    {
+      "id": "R1_0448",
+      "guidance": 1.0,
+      "gamma": 0.8,
+      "cap": 0.75,
+      "allocation": "boundary",
+      "restart": false
+    },
+    {
+      "id": "R1_0449",
+      "guidance": 1.0,
+      "gamma": 0.8,
+      "cap": 0.75,
+      "allocation": "boundary",
+      "restart": true
+    },
+    {
+      "id": "R1_0450",
+      "guidance": 1.0,
+      "gamma": 0.9,
+      "cap": 0.25,
+      "allocation": "uniform",
+      "restart": false
+    },
+    {
+      "id": "R1_0451",
+      "guidance": 1.0,
+      "gamma": 0.9,
+      "cap": 0.25,
+      "allocation": "uniform",
+      "restart": true
+    },
+    {
+      "id": "R1_0452",
+      "guidance": 1.0,
+      "gamma": 0.9,
+      "cap": 0.25,
+      "allocation": "uncertainty",
+      "restart": false
+    },
+    {
+      "id": "R1_0453",
+      "guidance": 1.0,
+      "gamma": 0.9,
+      "cap": 0.25,
+      "allocation": "uncertainty",
+      "restart": true
+    },
+    {
+      "id": "R1_0454",
+      "guidance": 1.0,
+      "gamma": 0.9,
+      "cap": 0.25,
+      "allocation": "boundary",
+      "restart": false
+    },
+    {
+      "id": "R1_0455",
+      "guidance": 1.0,
+      "gamma": 0.9,
+      "cap": 0.25,
+      "allocation": "boundary",
+      "restart": true
+    },
+    {
+      "id": "R1_0456",
+      "guidance": 1.0,
+      "gamma": 0.9,
+      "cap": 0.5,
+      "allocation": "uniform",
+      "restart": false
+    },
+    {
+      "id": "R1_0457",
+      "guidance": 1.0,
+      "gamma": 0.9,
+      "cap": 0.5,
+      "allocation": "uniform",
+      "restart": true
+    },
+    {
+      "id": "R1_0458",
+      "guidance": 1.0,
+      "gamma": 0.9,
+      "cap": 0.5,
+      "allocation": "uncertainty",
+      "restart": false
+    },
+    {
+      "id": "R1_0459",
+      "guidance": 1.0,
+      "gamma": 0.9,
+      "cap": 0.5,
+      "allocation": "uncertainty",
+      "restart": true
+    },
+    {
+      "id": "R1_0460",
+      "guidance": 1.0,
+      "gamma": 0.9,
+      "cap": 0.5,
+      "allocation": "boundary",
+      "restart": false
+    },
+    {
+      "id": "R1_0461",
+      "guidance": 1.0,
+      "gamma": 0.9,
+      "cap": 0.5,
+      "allocation": "boundary",
+      "restart": true
+    },
+    {
+      "id": "R1_0462",
+      "guidance": 1.0,
+      "gamma": 0.9,
+      "cap": 0.75,
+      "allocation": "uniform",
+      "restart": false
+    },
+    {
+      "id": "R1_0463",
+      "guidance": 1.0,
+      "gamma": 0.9,
+      "cap": 0.75,
+      "allocation": "uniform",
+      "restart": true
+    },
+    {
+      "id": "R1_0464",
+      "guidance": 1.0,
+      "gamma": 0.9,
+      "cap": 0.75,
+      "allocation": "uncertainty",
+      "restart": false
+    },
+    {
+      "id": "R1_0465",
+      "guidance": 1.0,
+      "gamma": 0.9,
+      "cap": 0.75,
+      "allocation": "uncertainty",
+      "restart": true
+    },
+    {
+      "id": "R1_0466",
+      "guidance": 1.0,
+      "gamma": 0.9,
+      "cap": 0.75,
+      "allocation": "boundary",
+      "restart": false
+    },
+    {
+      "id": "R1_0467",
+      "guidance": 1.0,
+      "gamma": 0.9,
+      "cap": 0.75,
+      "allocation": "boundary",
+      "restart": true
+    },
+    {
+      "id": "R1_0468",
+      "guidance": 1.0,
+      "gamma": 0.95,
+      "cap": 0.25,
+      "allocation": "uniform",
+      "restart": false
+    },
+    {
+      "id": "R1_0469",
+      "guidance": 1.0,
+      "gamma": 0.95,
+      "cap": 0.25,
+      "allocation": "uniform",
+      "restart": true
+    },
+    {
+      "id": "R1_0470",
+      "guidance": 1.0,
+      "gamma": 0.95,
+      "cap": 0.25,
+      "allocation": "uncertainty",
+      "restart": false
+    },
+    {
+      "id": "R1_0471",
+      "guidance": 1.0,
+      "gamma": 0.95,
+      "cap": 0.25,
+      "allocation": "uncertainty",
+      "restart": true
+    },
+    {
+      "id": "R1_0472",
+      "guidance": 1.0,
+      "gamma": 0.95,
+      "cap": 0.25,
+      "allocation": "boundary",
+      "restart": false
+    },
+    {
+      "id": "R1_0473",
+      "guidance": 1.0,
+      "gamma": 0.95,
+      "cap": 0.25,
+      "allocation": "boundary",
+      "restart": true
+    },
+    {
+      "id": "R1_0474",
+      "guidance": 1.0,
+      "gamma": 0.95,
+      "cap": 0.5,
+      "allocation": "uniform",
+      "restart": false
+    },
+    {
+      "id": "R1_0475",
+      "guidance": 1.0,
+      "gamma": 0.95,
+      "cap": 0.5,
+      "allocation": "uniform",
+      "restart": true
+    },
+    {
+      "id": "R1_0476",
+      "guidance": 1.0,
+      "gamma": 0.95,
+      "cap": 0.5,
+      "allocation": "uncertainty",
+      "restart": false
+    },
+    {
+      "id": "R1_0477",
+      "guidance": 1.0,
+      "gamma": 0.95,
+      "cap": 0.5,
+      "allocation": "uncertainty",
+      "restart": true
+    },
+    {
+      "id": "R1_0478",
+      "guidance": 1.0,
+      "gamma": 0.95,
+      "cap": 0.5,
+      "allocation": "boundary",
+      "restart": false
+    },
+    {
+      "id": "R1_0479",
+      "guidance": 1.0,
+      "gamma": 0.95,
+      "cap": 0.5,
+      "allocation": "boundary",
+      "restart": true
+    },
+    {
+      "id": "R1_0480",
+      "guidance": 1.0,
+      "gamma": 0.95,
+      "cap": 0.75,
+      "allocation": "uniform",
+      "restart": false
+    },
+    {
+      "id": "R1_0481",
+      "guidance": 1.0,
+      "gamma": 0.95,
+      "cap": 0.75,
+      "allocation": "uniform",
+      "restart": true
+    },
+    {
+      "id": "R1_0482",
+      "guidance": 1.0,
+      "gamma": 0.95,
+      "cap": 0.75,
+      "allocation": "uncertainty",
+      "restart": false
+    },
+    {
+      "id": "R1_0483",
+      "guidance": 1.0,
+      "gamma": 0.95,
+      "cap": 0.75,
+      "allocation": "uncertainty",
+      "restart": true
+    },
+    {
+      "id": "R1_0484",
+      "guidance": 1.0,
+      "gamma": 0.95,
+      "cap": 0.75,
+      "allocation": "boundary",
+      "restart": false
+    },
+    {
+      "id": "R1_0485",
+      "guidance": 1.0,
+      "gamma": 0.95,
+      "cap": 0.75,
+      "allocation": "boundary",
+      "restart": true
+    },
+    {
+      "id": "R1_0486",
+      "guidance": 1.0,
+      "gamma": 0.98,
+      "cap": 0.25,
+      "allocation": "uniform",
+      "restart": false
+    },
+    {
+      "id": "R1_0487",
+      "guidance": 1.0,
+      "gamma": 0.98,
+      "cap": 0.25,
+      "allocation": "uniform",
+      "restart": true
+    },
+    {
+      "id": "R1_0488",
+      "guidance": 1.0,
+      "gamma": 0.98,
+      "cap": 0.25,
+      "allocation": "uncertainty",
+      "restart": false
+    },
+    {
+      "id": "R1_0489",
+      "guidance": 1.0,
+      "gamma": 0.98,
+      "cap": 0.25,
+      "allocation": "uncertainty",
+      "restart": true
+    },
+    {
+      "id": "R1_0490",
+      "guidance": 1.0,
+      "gamma": 0.98,
+      "cap": 0.25,
+      "allocation": "boundary",
+      "restart": false
+    },
+    {
+      "id": "R1_0491",
+      "guidance": 1.0,
+      "gamma": 0.98,
+      "cap": 0.25,
+      "allocation": "boundary",
+      "restart": true
+    },
+    {
+      "id": "R1_0492",
+      "guidance": 1.0,
+      "gamma": 0.98,
+      "cap": 0.5,
+      "allocation": "uniform",
+      "restart": false
+    },
+    {
+      "id": "R1_0493",
+      "guidance": 1.0,
+      "gamma": 0.98,
+      "cap": 0.5,
+      "allocation": "uniform",
+      "restart": true
+    },
+    {
+      "id": "R1_0494",
+      "guidance": 1.0,
+      "gamma": 0.98,
+      "cap": 0.5,
+      "allocation": "uncertainty",
+      "restart": false
+    },
+    {
+      "id": "R1_0495",
+      "guidance": 1.0,
+      "gamma": 0.98,
+      "cap": 0.5,
+      "allocation": "uncertainty",
+      "restart": true
+    },
+    {
+      "id": "R1_0496",
+      "guidance": 1.0,
+      "gamma": 0.98,
+      "cap": 0.5,
+      "allocation": "boundary",
+      "restart": false
+    },
+    {
+      "id": "R1_0497",
+      "guidance": 1.0,
+      "gamma": 0.98,
+      "cap": 0.5,
+      "allocation": "boundary",
+      "restart": true
+    },
+    {
+      "id": "R1_0498",
+      "guidance": 1.0,
+      "gamma": 0.98,
+      "cap": 0.75,
+      "allocation": "uniform",
+      "restart": false
+    },
+    {
+      "id": "R1_0499",
+      "guidance": 1.0,
+      "gamma": 0.98,
+      "cap": 0.75,
+      "allocation": "uniform",
+      "restart": true
+    },
+    {
+      "id": "R1_0500",
+      "guidance": 1.0,
+      "gamma": 0.98,
+      "cap": 0.75,
+      "allocation": "uncertainty",
+      "restart": false
+    },
+    {
+      "id": "R1_0501",
+      "guidance": 1.0,
+      "gamma": 0.98,
+      "cap": 0.75,
+      "allocation": "uncertainty",
+      "restart": true
+    },
+    {
+      "id": "R1_0502",
+      "guidance": 1.0,
+      "gamma": 0.98,
+      "cap": 0.75,
+      "allocation": "boundary",
+      "restart": false
+    },
+    {
+      "id": "R1_0503",
+      "guidance": 1.0,
+      "gamma": 0.98,
+      "cap": 0.75,
+      "allocation": "boundary",
+      "restart": true
+    },
+    {
+      "id": "R1_0504",
+      "guidance": 1.0,
+      "gamma": 0.995,
+      "cap": 0.25,
+      "allocation": "uniform",
+      "restart": false
+    },
+    {
+      "id": "R1_0505",
+      "guidance": 1.0,
+      "gamma": 0.995,
+      "cap": 0.25,
+      "allocation": "uniform",
+      "restart": true
+    },
+    {
+      "id": "R1_0506",
+      "guidance": 1.0,
+      "gamma": 0.995,
+      "cap": 0.25,
+      "allocation": "uncertainty",
+      "restart": false
+    },
+    {
+      "id": "R1_0507",
+      "guidance": 1.0,
+      "gamma": 0.995,
+      "cap": 0.25,
+      "allocation": "uncertainty",
+      "restart": true
+    },
+    {
+      "id": "R1_0508",
+      "guidance": 1.0,
+      "gamma": 0.995,
+      "cap": 0.25,
+      "allocation": "boundary",
+      "restart": false
+    },
+    {
+      "id": "R1_0509",
+      "guidance": 1.0,
+      "gamma": 0.995,
+      "cap": 0.25,
+      "allocation": "boundary",
+      "restart": true
+    },
+    {
+      "id": "R1_0510",
+      "guidance": 1.0,
+      "gamma": 0.995,
+      "cap": 0.5,
+      "allocation": "uniform",
+      "restart": false
+    },
+    {
+      "id": "R1_0511",
+      "guidance": 1.0,
+      "gamma": 0.995,
+      "cap": 0.5,
+      "allocation": "uniform",
+      "restart": true
+    },
+    {
+      "id": "R1_0512",
+      "guidance": 1.0,
+      "gamma": 0.995,
+      "cap": 0.5,
+      "allocation": "uncertainty",
+      "restart": false
+    },
+    {
+      "id": "R1_0513",
+      "guidance": 1.0,
+      "gamma": 0.995,
+      "cap": 0.5,
+      "allocation": "uncertainty",
+      "restart": true
+    },
+    {
+      "id": "R1_0514",
+      "guidance": 1.0,
+      "gamma": 0.995,
+      "cap": 0.5,
+      "allocation": "boundary",
+      "restart": false
+    },
+    {
+      "id": "R1_0515",
+      "guidance": 1.0,
+      "gamma": 0.995,
+      "cap": 0.5,
+      "allocation": "boundary",
+      "restart": true
+    },
+    {
+      "id": "R1_0516",
+      "guidance": 1.0,
+      "gamma": 0.995,
+      "cap": 0.75,
+      "allocation": "uniform",
+      "restart": false
+    },
+    {
+      "id": "R1_0517",
+      "guidance": 1.0,
+      "gamma": 0.995,
+      "cap": 0.75,
+      "allocation": "uniform",
+      "restart": true
+    },
+    {
+      "id": "R1_0518",
+      "guidance": 1.0,
+      "gamma": 0.995,
+      "cap": 0.75,
+      "allocation": "uncertainty",
+      "restart": false
+    },
+    {
+      "id": "R1_0519",
+      "guidance": 1.0,
+      "gamma": 0.995,
+      "cap": 0.75,
+      "allocation": "uncertainty",
+      "restart": true
+    },
+    {
+      "id": "R1_0520",
+      "guidance": 1.0,
+      "gamma": 0.995,
+      "cap": 0.75,
+      "allocation": "boundary",
+      "restart": false
+    },
+    {
+      "id": "R1_0521",
+      "guidance": 1.0,
+      "gamma": 0.995,
+      "cap": 0.75,
+      "allocation": "boundary",
+      "restart": true
+    },
+    {
+      "id": "R1_0522",
+      "guidance": 1.0,
+      "gamma": 1.0,
+      "cap": 0.25,
+      "allocation": "uniform",
+      "restart": false
+    },
+    {
+      "id": "R1_0523",
+      "guidance": 1.0,
+      "gamma": 1.0,
+      "cap": 0.25,
+      "allocation": "uniform",
+      "restart": true
+    },
+    {
+      "id": "R1_0524",
+      "guidance": 1.0,
+      "gamma": 1.0,
+      "cap": 0.25,
+      "allocation": "uncertainty",
+      "restart": false
+    },
+    {
+      "id": "R1_0525",
+      "guidance": 1.0,
+      "gamma": 1.0,
+      "cap": 0.25,
+      "allocation": "uncertainty",
+      "restart": true
+    },
+    {
+      "id": "R1_0526",
+      "guidance": 1.0,
+      "gamma": 1.0,
+      "cap": 0.25,
+      "allocation": "boundary",
+      "restart": false
+    },
+    {
+      "id": "R1_0527",
+      "guidance": 1.0,
+      "gamma": 1.0,
+      "cap": 0.25,
+      "allocation": "boundary",
+      "restart": true
+    },
+    {
+      "id": "R1_0528",
+      "guidance": 1.0,
+      "gamma": 1.0,
+      "cap": 0.5,
+      "allocation": "uniform",
+      "restart": false
+    },
+    {
+      "id": "R1_0529",
+      "guidance": 1.0,
+      "gamma": 1.0,
+      "cap": 0.5,
+      "allocation": "uniform",
+      "restart": true
+    },
+    {
+      "id": "R1_0530",
+      "guidance": 1.0,
+      "gamma": 1.0,
+      "cap": 0.5,
+      "allocation": "uncertainty",
+      "restart": false
+    },
+    {
+      "id": "R1_0531",
+      "guidance": 1.0,
+      "gamma": 1.0,
+      "cap": 0.5,
+      "allocation": "uncertainty",
+      "restart": true
+    },
+    {
+      "id": "R1_0532",
+      "guidance": 1.0,
+      "gamma": 1.0,
+      "cap": 0.5,
+      "allocation": "boundary",
+      "restart": false
+    },
+    {
+      "id": "R1_0533",
+      "guidance": 1.0,
+      "gamma": 1.0,
+      "cap": 0.5,
+      "allocation": "boundary",
+      "restart": true
+    },
+    {
+      "id": "R1_0534",
+      "guidance": 1.0,
+      "gamma": 1.0,
+      "cap": 0.75,
+      "allocation": "uniform",
+      "restart": false
+    },
+    {
+      "id": "R1_0535",
+      "guidance": 1.0,
+      "gamma": 1.0,
+      "cap": 0.75,
+      "allocation": "uniform",
+      "restart": true
+    },
+    {
+      "id": "R1_0536",
+      "guidance": 1.0,
+      "gamma": 1.0,
+      "cap": 0.75,
+      "allocation": "uncertainty",
+      "restart": false
+    },
+    {
+      "id": "R1_0537",
+      "guidance": 1.0,
+      "gamma": 1.0,
+      "cap": 0.75,
+      "allocation": "uncertainty",
+      "restart": true
+    },
+    {
+      "id": "R1_0538",
+      "guidance": 1.0,
+      "gamma": 1.0,
+      "cap": 0.75,
+      "allocation": "boundary",
+      "restart": false
+    },
+    {
+      "id": "R1_0539",
+      "guidance": 1.0,
+      "gamma": 1.0,
+      "cap": 0.75,
+      "allocation": "boundary",
+      "restart": true
+    }
+  ],
+  "cases": [
+    [
+      "null",
+      5
+    ],
+    [
+      "nuisance",
+      5
+    ],
+    [
+      "abrupt",
+      5
+    ],
+    [
+      "small",
+      5
+    ],
+    [
+      "late",
+      5
+    ],
+    [
+      "recurring",
+      5
+    ],
+    [
+      "guidance_failure",
+      5
+    ],
+    [
+      "abrupt",
+      24
+    ]
+  ],
+  "paths": 64,
+  "horizon": 1200,
+  "frac": 0.2,
+  "budget": 240,
+  "world_seed_base": 202610300,
+  "query_seed_base": 202610400,
+  "known_nominal": true,
+  "tolerance": 0.0,
+  "alpha": 0.05,
+  "primary_diagnostic": "whole-sequence null alarm rate then post-onset detection and harm-to-alarm",
+  "exclusions": "not net switching utility; not real data; not faithful published baseline reproduction",
+  "engine_sha256": "d2d6c87bc2d322651b629cd3c0a227e13c89d70a6f206a14f9992076ca6f4576",
+  "runner_sha256": "f1419fc8029ec1500a5a6e6d6ccf61459bdce8ec226dcd7f17ba3555f61bdc30"
+}

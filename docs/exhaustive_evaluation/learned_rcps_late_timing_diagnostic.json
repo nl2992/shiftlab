@@ -1,0 +1,35 @@
+{
+  "stage": "post-hoc causal timing diagnostic on existing development batch, not fresh confirmation",
+  "rows": [
+    {
+      "method": "source_source",
+      "paths": 128,
+      "same_first_batch_reproduced": true,
+      "mean_labels": 101.671875,
+      "mean_labels_issued_at_or_after_onset1500": 26.1015625,
+      "fraction_budget_exhausted_before_onset": 0.0,
+      "promotion_rate": 0.0,
+      "max_logwealth": 2.7416281799627074
+    },
+    {
+      "method": "residual_paper",
+      "paths": 128,
+      "same_first_batch_reproduced": true,
+      "mean_labels": 400.0,
+      "mean_labels_issued_at_or_after_onset1500": 0.0,
+      "fraction_budget_exhausted_before_onset": 1.0,
+      "promotion_rate": 0.0,
+      "max_logwealth": 2.080521738261698
+    },
+    {
+      "method": "uniform_floor0.2",
+      "paths": 128,
+      "same_first_batch_reproduced": true,
+      "mean_labels": 394.1015625,
+      "mean_labels_issued_at_or_after_onset1500": 94.0703125,
+      "fraction_budget_exhausted_before_onset": 0.0,
+      "promotion_rate": 0.0,
+      "max_logwealth": 1.1953615835200353
+    }
+  ]
+}

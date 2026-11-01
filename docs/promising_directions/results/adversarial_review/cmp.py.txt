@@ -1,0 +1,25 @@
+import numpy as np, sys, json, itertools
+from bl import B, run
+p=B.Params(); n=500; sb=20261101
+batches=[(nv,thr) for nv in (15,25,40) for thr in (0.2,0.3,0.4)]
+res={}
+for w in B.WORLDS:
+    for b in B.BUDGETS:
+        res[(w,b)]=run(w,b,n,sb,p,batches)
+rng=np.random.default_rng(sb+7); idx=rng.integers(0,n,size=(2000,n))
+names=list(res[('W1',200)].keys())
+out={}
+for b in B.BUDGETS:
+  for cs in B.SWITCH_COSTS:
+    avg={}; perw={}
+    for k in names:
+        cw={}
+        for w in B.WORLDS:
+            d=res[(w,b)][k]
+            cw[w]=d['loss']+p.cq*d['queries']+cs*d['switches']
+        avg[k]=np.mean([cw[w] for w in B.WORLDS],axis=0); perw[k]={w:cw[w].mean() for w in B.WORLDS}
+    print(f'--- B={b} cs={cs}')
+    base=avg['P3b']
+    for k in sorted(names,key=lambda k:avg[k].mean()):
+        diff=avg[k]-base; ci=np.percentile(diff[idx].mean(1),[2.5,97.5])
+        print(f'{k:10s} world-avg {avg[k].mean():7.1f}  vs P3b {diff.mean():+6.1f} [{ci[0]:+.1f},{ci[1]:+.1f}]  perworld',{w:round(v,1) for w,v in perw[k].items()})

@@ -1,0 +1,53 @@
+{
+  "status": "completed",
+  "started_utc": "2026-10-30T08:36:01.701194+00:00",
+  "registration_sha256": "dec25af8af5a47cbcdff8b0c4e9e93367717b820cdb28b4e5fd6bb15f4c92f82",
+  "python": "3.13.1",
+  "numpy": "2.4.2",
+  "completed_cases": [
+    {
+      "case": "00_null_d5",
+      "seconds": 1.9307957999408245,
+      "configs_completed": 540
+    },
+    {
+      "case": "01_nuisance_d5",
+      "seconds": 1.953191100154072,
+      "configs_completed": 540
+    },
+    {
+      "case": "02_abrupt_d5",
+      "seconds": 1.8973471999634057,
+      "configs_completed": 540
+    },
+    {
+      "case": "03_small_d5",
+      "seconds": 1.91133729997091,
+      "configs_completed": 540
+    },
+    {
+      "case": "04_late_d5",
+      "seconds": 2.1026645998936146,
+      "configs_completed": 540
+    },
+    {
+      "case": "05_recurring_d5",
+      "seconds": 1.8907494000159204,
+      "configs_completed": 540
+    },
+    {
+      "case": "06_guidance_failure_d5",
+      "seconds": 1.8962463000789285,
+      "configs_completed": 540
+    },
+    {
+      "case": "07_abrupt_d24",
+      "seconds": 1.9566359999589622,
+      "configs_completed": 540
+    }
+  ],
+  "finished_utc": "2026-10-30T08:36:17.245378+00:00",
+  "distinct_configurations_tested": 540,
+  "config_case_evaluations": 4320,
+  "metrics_sha256": "fd042a4c4753789187e720a906ca5cd89256547168f10eadc77e919ad2bd032a"
+}

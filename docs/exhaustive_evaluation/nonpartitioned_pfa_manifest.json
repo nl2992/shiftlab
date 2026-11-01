@@ -1,0 +1,10 @@
+{
+  "source_hashes_verified": true,
+  "sha256": {
+    "scripts/exhaustive_evaluation/check_nonpartitioned_pfa.py": "987ee6cea9ab31fdf158a8fc8f87f5223a67e3822b5a5716f18cbb4829a2fd3b",
+    "docs/exhaustive_evaluation/nonpartitioned_pfa_registration.json": "cee25c1cfec32164da6ba35232e33c25d85937f105910d8ca8155c450004fc9f",
+    "docs/exhaustive_evaluation/nonpartitioned_pfa_results.json": "1fa9727909c4c87ed82fe72f6fe47c86639a1a18c59097205d04a6aef104724b",
+    "docs/exhaustive_evaluation/NONPARTITIONED_PFA_AUDIT.md": "e5efc7e5297cd870546a9ef87eb61300b4bbd79d8783fab6956b05fb92d4e19e",
+    "docs/exhaustive_evaluation/BASELINE_COVERAGE.md": "7ffee164c31e606118df01b7d4564a0bf7e64bd451e32cd40c69aeec55fb67d4"
+  }
+}

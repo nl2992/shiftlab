@@ -1,0 +1,1372 @@
+{
+  "rows": [
+    {
+      "case": "harmful",
+      "method": "source_source_global",
+      "paths": 128,
+      "promotion_rate": 0.0,
+      "labels": 100.328125,
+      "total_cost": 170.60032812499918,
+      "delta_vs_incumbent": 0.10032812499999832
+    },
+    {
+      "case": "harmful",
+      "method": "source_source_query",
+      "paths": 128,
+      "promotion_rate": 0.0,
+      "labels": 100.328125,
+      "total_cost": 170.60032812499918,
+      "delta_vs_incumbent": 0.10032812499999832
+    },
+    {
+      "case": "harmful",
+      "method": "source_source_predictor",
+      "paths": 128,
+      "promotion_rate": 0.0,
+      "labels": 100.328125,
+      "total_cost": 170.60032812499918,
+      "delta_vs_incumbent": 0.10032812499999832
+    },
+    {
+      "case": "harmful",
+      "method": "source_paper_global",
+      "paths": 128,
+      "promotion_rate": 0.0,
+      "labels": 400.0,
+      "total_cost": 170.8999999999992,
+      "delta_vs_incumbent": 0.40000000000000235
+    },
+    {
+      "case": "harmful",
+      "method": "source_paper_query",
+      "paths": 128,
+      "promotion_rate": 0.0,
+      "labels": 400.0,
+      "total_cost": 170.8999999999992,
+      "delta_vs_incumbent": 0.40000000000000235
+    },
+    {
+      "case": "harmful",
+      "method": "source_paper_predictor",
+      "paths": 128,
+      "promotion_rate": 0.0,
+      "labels": 400.0,
+      "total_cost": 170.8999999999992,
+      "delta_vs_incumbent": 0.40000000000000235
+    },
+    {
+      "case": "harmful",
+      "method": "residual_source_global",
+      "paths": 128,
+      "promotion_rate": 0.0,
+      "labels": 100.265625,
+      "total_cost": 170.60026562499917,
+      "delta_vs_incumbent": 0.10026562499999847
+    },
+    {
+      "case": "harmful",
+      "method": "residual_source_query",
+      "paths": 128,
+      "promotion_rate": 0.0,
+      "labels": 100.265625,
+      "total_cost": 170.60026562499917,
+      "delta_vs_incumbent": 0.10026562499999847
+    },
+    {
+      "case": "harmful",
+      "method": "residual_source_predictor",
+      "paths": 128,
+      "promotion_rate": 0.0,
+      "labels": 100.265625,
+      "total_cost": 170.60026562499917,
+      "delta_vs_incumbent": 0.10026562499999847
+    },
+    {
+      "case": "harmful",
+      "method": "residual_paper_global",
+      "paths": 128,
+      "promotion_rate": 0.0,
+      "labels": 400.0,
+      "total_cost": 170.8999999999992,
+      "delta_vs_incumbent": 0.40000000000000235
+    },
+    {
+      "case": "harmful",
+      "method": "residual_paper_query",
+      "paths": 128,
+      "promotion_rate": 0.0,
+      "labels": 400.0,
+      "total_cost": 170.8999999999992,
+      "delta_vs_incumbent": 0.40000000000000235
+    },
+    {
+      "case": "harmful",
+      "method": "residual_paper_predictor",
+      "paths": 128,
+      "promotion_rate": 0.0,
+      "labels": 400.0,
+      "total_cost": 170.8999999999992,
+      "delta_vs_incumbent": 0.40000000000000235
+    },
+    {
+      "case": "harmful",
+      "method": "uniform_floor0.05",
+      "paths": 128,
+      "promotion_rate": 0.0,
+      "labels": 392.5546875,
+      "total_cost": 170.8925546874992,
+      "delta_vs_incumbent": 0.39255468749999833
+    },
+    {
+      "case": "harmful",
+      "method": "uniform_floor0.2",
+      "paths": 128,
+      "promotion_rate": 0.0,
+      "labels": 392.5546875,
+      "total_cost": 170.8925546874992,
+      "delta_vs_incumbent": 0.39255468749999833
+    },
+    {
+      "case": "harmful",
+      "method": "uniform_predictor",
+      "paths": 128,
+      "promotion_rate": 0.0,
+      "labels": 392.5546875,
+      "total_cost": 170.8925546874992,
+      "delta_vs_incumbent": 0.39255468749999833
+    },
+    {
+      "case": "harmful",
+      "method": "paired_Kelly",
+      "paths": 128,
+      "promotion_rate": 0.0,
+      "labels": 392.5546875,
+      "total_cost": 170.8925546874992,
+      "delta_vs_incumbent": 0.39255468749999833
+    },
+    {
+      "case": "harmful",
+      "method": "tuned_FTL",
+      "paths": 128,
+      "promotion_rate": 0.0,
+      "labels": 392.5546875,
+      "total_cost": 170.8925546874992,
+      "delta_vs_incumbent": 0.39255468749999833
+    },
+    {
+      "case": "harmful",
+      "method": "CUSUM_slack.05",
+      "paths": 128,
+      "promotion_rate": 0.0,
+      "labels": 392.5546875,
+      "total_cost": 170.8925546874992,
+      "delta_vs_incumbent": 0.39255468749999833
+    },
+    {
+      "case": "harmful",
+      "method": "CUSUM_slack.1",
+      "paths": 128,
+      "promotion_rate": 0.0,
+      "labels": 392.5546875,
+      "total_cost": 170.8925546874992,
+      "delta_vs_incumbent": 0.39255468749999833
+    },
+    {
+      "case": "tie",
+      "method": "source_source_global",
+      "paths": 128,
+      "promotion_rate": 0.0,
+      "labels": 101.421875,
+      "total_cost": 333.32954687499216,
+      "delta_vs_incumbent": 0.10142187500000999
+    },
+    {
+      "case": "tie",
+      "method": "source_source_query",
+      "paths": 128,
+      "promotion_rate": 0.0,
+      "labels": 101.421875,
+      "total_cost": 333.32954687499216,
+      "delta_vs_incumbent": 0.10142187500000999
+    },
+    {
+      "case": "tie",
+      "method": "source_source_predictor",
+      "paths": 128,
+      "promotion_rate": 0.0,
+      "labels": 101.421875,
+      "total_cost": 333.32954687499216,
+      "delta_vs_incumbent": 0.10142187500000999
+    },
+    {
+      "case": "tie",
+      "method": "source_paper_global",
+      "paths": 128,
+      "promotion_rate": 0.0,
+      "labels": 400.0,
+      "total_cost": 333.6281249999922,
+      "delta_vs_incumbent": 0.3999999999999857
+    },
+    {
+      "case": "tie",
+      "method": "source_paper_query",
+      "paths": 128,
+      "promotion_rate": 0.0,
+      "labels": 400.0,
+      "total_cost": 333.6281249999922,
+      "delta_vs_incumbent": 0.3999999999999857
+    },
+    {
+      "case": "tie",
+      "method": "source_paper_predictor",
+      "paths": 128,
+      "promotion_rate": 0.0,
+      "labels": 400.0,
+      "total_cost": 333.6281249999922,
+      "delta_vs_incumbent": 0.3999999999999857
+    },
+    {
+      "case": "tie",
+      "method": "residual_source_global",
+      "paths": 128,
+      "promotion_rate": 0.0,
+      "labels": 101.390625,
+      "total_cost": 333.3295156249922,
+      "delta_vs_incumbent": 0.10139062500001028
+    },
+    {
+      "case": "tie",
+      "method": "residual_source_query",
+      "paths": 128,
+      "promotion_rate": 0.0,
+      "labels": 101.390625,
+      "total_cost": 333.3295156249922,
+      "delta_vs_incumbent": 0.10139062500001028
+    },
+    {
+      "case": "tie",
+      "method": "residual_source_predictor",
+      "paths": 128,
+      "promotion_rate": 0.0,
+      "labels": 101.390625,
+      "total_cost": 333.3295156249922,
+      "delta_vs_incumbent": 0.10139062500001028
+    },
+    {
+      "case": "tie",
+      "method": "residual_paper_global",
+      "paths": 128,
+      "promotion_rate": 0.0,
+      "labels": 400.0,
+      "total_cost": 333.6281249999922,
+      "delta_vs_incumbent": 0.3999999999999857
+    },
+    {
+      "case": "tie",
+      "method": "residual_paper_query",
+      "paths": 128,
+      "promotion_rate": 0.0,
+      "labels": 400.0,
+      "total_cost": 333.6281249999922,
+      "delta_vs_incumbent": 0.3999999999999857
+    },
+    {
+      "case": "tie",
+      "method": "residual_paper_predictor",
+      "paths": 128,
+      "promotion_rate": 0.0,
+      "labels": 400.0,
+      "total_cost": 333.6281249999922,
+      "delta_vs_incumbent": 0.3999999999999857
+    },
+    {
+      "case": "tie",
+      "method": "uniform_floor0.05",
+      "paths": 128,
+      "promotion_rate": 0.0,
+      "labels": 395.25,
+      "total_cost": 333.6233749999922,
+      "delta_vs_incumbent": 0.39524999999999544
+    },
+    {
+      "case": "tie",
+      "method": "uniform_floor0.2",
+      "paths": 128,
+      "promotion_rate": 0.0078125,
+      "labels": 393.859375,
+      "total_cost": 333.7860468749923,
+      "delta_vs_incumbent": 0.557921875000007
+    },
+    {
+      "case": "tie",
+      "method": "uniform_predictor",
+      "paths": 128,
+      "promotion_rate": 0.0078125,
+      "labels": 393.6015625,
+      "total_cost": 333.71860156249227,
+      "delta_vs_incumbent": 0.49047656250001204
+    },
+    {
+      "case": "tie",
+      "method": "paired_Kelly",
+      "paths": 128,
+      "promotion_rate": 0.015625,
+      "labels": 389.984375,
+      "total_cost": 333.4993593749923,
+      "delta_vs_incumbent": 0.2712343750000423
+    },
+    {
+      "case": "tie",
+      "method": "tuned_FTL",
+      "paths": 128,
+      "promotion_rate": 0.0078125,
+      "labels": 393.5859375,
+      "total_cost": 333.70921093749223,
+      "delta_vs_incumbent": 0.4810859375000125
+    },
+    {
+      "case": "tie",
+      "method": "CUSUM_slack.05",
+      "paths": 128,
+      "promotion_rate": 0.03125,
+      "labels": 388.8515625,
+      "total_cost": 333.8263515624923,
+      "delta_vs_incumbent": 0.5982265625000673
+    },
+    {
+      "case": "tie",
+      "method": "CUSUM_slack.1",
+      "paths": 128,
+      "promotion_rate": 0.0234375,
+      "labels": 391.921875,
+      "total_cost": 333.9669218749923,
+      "delta_vs_incumbent": 0.7387968750000367
+    },
+    {
+      "case": "harmful_after_shift",
+      "method": "source_source_global",
+      "paths": 128,
+      "promotion_rate": 0.0,
+      "labels": 100.078125,
+      "total_cost": 251.5828906249968,
+      "delta_vs_incumbent": 0.1000781250000029
+    },
+    {
+      "case": "harmful_after_shift",
+      "method": "source_source_query",
+      "paths": 128,
+      "promotion_rate": 0.0,
+      "labels": 100.078125,
+      "total_cost": 251.5828906249968,
+      "delta_vs_incumbent": 0.1000781250000029
+    },
+    {
+      "case": "harmful_after_shift",
+      "method": "source_source_predictor",
+      "paths": 128,
+      "promotion_rate": 0.0,
+      "labels": 100.078125,
+      "total_cost": 251.5828906249968,
+      "delta_vs_incumbent": 0.1000781250000029
+    },
+    {
+      "case": "harmful_after_shift",
+      "method": "source_paper_global",
+      "paths": 128,
+      "promotion_rate": 0.0,
+      "labels": 400.0,
+      "total_cost": 251.8828124999968,
+      "delta_vs_incumbent": 0.3999999999999957
+    },
+    {
+      "case": "harmful_after_shift",
+      "method": "source_paper_query",
+      "paths": 128,
+      "promotion_rate": 0.0,
+      "labels": 400.0,
+      "total_cost": 251.8828124999968,
+      "delta_vs_incumbent": 0.3999999999999957
+    },
+    {
+      "case": "harmful_after_shift",
+      "method": "source_paper_predictor",
+      "paths": 128,
+      "promotion_rate": 0.0,
+      "labels": 400.0,
+      "total_cost": 251.8828124999968,
+      "delta_vs_incumbent": 0.3999999999999957
+    },
+    {
+      "case": "harmful_after_shift",
+      "method": "residual_source_global",
+      "paths": 128,
+      "promotion_rate": 0.0,
+      "labels": 100.0,
+      "total_cost": 251.58281249999678,
+      "delta_vs_incumbent": 0.10000000000000231
+    },
+    {
+      "case": "harmful_after_shift",
+      "method": "residual_source_query",
+      "paths": 128,
+      "promotion_rate": 0.0,
+      "labels": 100.0,
+      "total_cost": 251.58281249999678,
+      "delta_vs_incumbent": 0.10000000000000231
+    },
+    {
+      "case": "harmful_after_shift",
+      "method": "residual_source_predictor",
+      "paths": 128,
+      "promotion_rate": 0.0,
+      "labels": 100.0,
+      "total_cost": 251.58281249999678,
+      "delta_vs_incumbent": 0.10000000000000231
+    },
+    {
+      "case": "harmful_after_shift",
+      "method": "residual_paper_global",
+      "paths": 128,
+      "promotion_rate": 0.0,
+      "labels": 400.0,
+      "total_cost": 251.8828124999968,
+      "delta_vs_incumbent": 0.3999999999999957
+    },
+    {
+      "case": "harmful_after_shift",
+      "method": "residual_paper_query",
+      "paths": 128,
+      "promotion_rate": 0.0,
+      "labels": 400.0,
+      "total_cost": 251.8828124999968,
+      "delta_vs_incumbent": 0.3999999999999957
+    },
+    {
+      "case": "harmful_after_shift",
+      "method": "residual_paper_predictor",
+      "paths": 128,
+      "promotion_rate": 0.0,
+      "labels": 400.0,
+      "total_cost": 251.8828124999968,
+      "delta_vs_incumbent": 0.3999999999999957
+    },
+    {
+      "case": "harmful_after_shift",
+      "method": "uniform_floor0.05",
+      "paths": 128,
+      "promotion_rate": 0.0,
+      "labels": 392.7265625,
+      "total_cost": 251.87553906249678,
+      "delta_vs_incumbent": 0.3927265624999967
+    },
+    {
+      "case": "harmful_after_shift",
+      "method": "uniform_floor0.2",
+      "paths": 128,
+      "promotion_rate": 0.0,
+      "labels": 392.7265625,
+      "total_cost": 251.87553906249678,
+      "delta_vs_incumbent": 0.3927265624999967
+    },
+    {
+      "case": "harmful_after_shift",
+      "method": "uniform_predictor",
+      "paths": 128,
+      "promotion_rate": 0.0,
+      "labels": 392.7265625,
+      "total_cost": 251.87553906249678,
+      "delta_vs_incumbent": 0.3927265624999967
+    },
+    {
+      "case": "harmful_after_shift",
+      "method": "paired_Kelly",
+      "paths": 128,
+      "promotion_rate": 0.0,
+      "labels": 392.7265625,
+      "total_cost": 251.87553906249678,
+      "delta_vs_incumbent": 0.3927265624999967
+    },
+    {
+      "case": "harmful_after_shift",
+      "method": "tuned_FTL",
+      "paths": 128,
+      "promotion_rate": 0.0,
+      "labels": 392.7265625,
+      "total_cost": 251.87553906249678,
+      "delta_vs_incumbent": 0.3927265624999967
+    },
+    {
+      "case": "harmful_after_shift",
+      "method": "CUSUM_slack.05",
+      "paths": 128,
+      "promotion_rate": 0.0,
+      "labels": 392.7265625,
+      "total_cost": 251.87553906249678,
+      "delta_vs_incumbent": 0.3927265624999967
+    },
+    {
+      "case": "harmful_after_shift",
+      "method": "CUSUM_slack.1",
+      "paths": 128,
+      "promotion_rate": 0.015625,
+      "labels": 391.2890625,
+      "total_cost": 253.55066406249688,
+      "delta_vs_incumbent": 2.067851562500093
+    },
+    {
+      "case": "useful_initial",
+      "method": "source_source_global",
+      "paths": 128,
+      "promotion_rate": 0.9921875,
+      "labels": 56.75,
+      "total_cost": 395.6739374999958,
+      "delta_vs_incumbent": -225.98856250000605
+    },
+    {
+      "case": "useful_initial",
+      "method": "source_source_query",
+      "paths": 128,
+      "promotion_rate": 0.9921875,
+      "labels": 56.75,
+      "total_cost": 395.6739374999958,
+      "delta_vs_incumbent": -225.98856250000605
+    },
+    {
+      "case": "useful_initial",
+      "method": "source_source_predictor",
+      "paths": 128,
+      "promotion_rate": 1.0,
+      "labels": 50.78125,
+      "total_cost": 364.7851562499967,
+      "delta_vs_incumbent": -256.8773437500052
+    },
+    {
+      "case": "useful_initial",
+      "method": "source_paper_global",
+      "paths": 128,
+      "promotion_rate": 0.0,
+      "labels": 400.0,
+      "total_cost": 622.0625000000018,
+      "delta_vs_incumbent": 0.3999999999999755
+    },
+    {
+      "case": "useful_initial",
+      "method": "source_paper_query",
+      "paths": 128,
+      "promotion_rate": 0.96875,
+      "labels": 200.9375,
+      "total_cost": 174.4790625000011,
+      "delta_vs_incumbent": -447.18343750000076
+    },
+    {
+      "case": "useful_initial",
+      "method": "source_paper_predictor",
+      "paths": 128,
+      "promotion_rate": 0.96875,
+      "labels": 200.9375,
+      "total_cost": 174.4790625000011,
+      "delta_vs_incumbent": -447.18343750000076
+    },
+    {
+      "case": "useful_initial",
+      "method": "residual_source_global",
+      "paths": 128,
+      "promotion_rate": 0.9921875,
+      "labels": 56.609375,
+      "total_cost": 395.38160937499583,
+      "delta_vs_incumbent": -226.28089062500604
+    },
+    {
+      "case": "useful_initial",
+      "method": "residual_source_query",
+      "paths": 128,
+      "promotion_rate": 0.9921875,
+      "labels": 56.609375,
+      "total_cost": 395.38160937499583,
+      "delta_vs_incumbent": -226.28089062500604
+    },
+    {
+      "case": "useful_initial",
+      "method": "residual_source_predictor",
+      "paths": 128,
+      "promotion_rate": 1.0,
+      "labels": 50.75,
+      "total_cost": 364.6023124999967,
+      "delta_vs_incumbent": -257.06018750000516
+    },
+    {
+      "case": "useful_initial",
+      "method": "residual_paper_global",
+      "paths": 128,
+      "promotion_rate": 0.0,
+      "labels": 400.0,
+      "total_cost": 622.0625000000018,
+      "delta_vs_incumbent": 0.3999999999999755
+    },
+    {
+      "case": "useful_initial",
+      "method": "residual_paper_query",
+      "paths": 128,
+      "promotion_rate": 0.1015625,
+      "labels": 380.265625,
+      "total_cost": 576.6083906250018,
+      "delta_vs_incumbent": -45.054109375000095
+    },
+    {
+      "case": "useful_initial",
+      "method": "residual_paper_predictor",
+      "paths": 128,
+      "promotion_rate": 0.1328125,
+      "labels": 376.8828125,
+      "total_cost": 563.2065703125018,
+      "delta_vs_incumbent": -58.45592968750011
+    },
+    {
+      "case": "useful_initial",
+      "method": "uniform_floor0.05",
+      "paths": 128,
+      "promotion_rate": 1.0,
+      "labels": 197.671875,
+      "total_cost": 357.0867343749969,
+      "delta_vs_incumbent": -264.5757656250049
+    },
+    {
+      "case": "useful_initial",
+      "method": "uniform_floor0.2",
+      "paths": 128,
+      "promotion_rate": 1.0,
+      "labels": 56.4921875,
+      "total_cost": 174.32367968750123,
+      "delta_vs_incumbent": -447.33882031250073
+    },
+    {
+      "case": "useful_initial",
+      "method": "uniform_predictor",
+      "paths": 128,
+      "promotion_rate": 1.0,
+      "labels": 51.6171875,
+      "total_cost": 168.04224218750113,
+      "delta_vs_incumbent": -453.62025781250077
+    },
+    {
+      "case": "useful_initial",
+      "method": "paired_Kelly",
+      "paths": 128,
+      "promotion_rate": 1.0,
+      "labels": 25.4765625,
+      "total_cost": 133.7332890625009,
+      "delta_vs_incumbent": -487.929210937501
+    },
+    {
+      "case": "useful_initial",
+      "method": "tuned_FTL",
+      "paths": 128,
+      "promotion_rate": 1.0,
+      "labels": 33.0,
+      "total_cost": 144.02362500000095,
+      "delta_vs_incumbent": -477.6388750000009
+    },
+    {
+      "case": "useful_initial",
+      "method": "CUSUM_slack.05",
+      "paths": 128,
+      "promotion_rate": 1.0,
+      "labels": 36.6953125,
+      "total_cost": 148.964820312501,
+      "delta_vs_incumbent": -472.6976796875009
+    },
+    {
+      "case": "useful_initial",
+      "method": "CUSUM_slack.1",
+      "paths": 128,
+      "promotion_rate": 1.0,
+      "labels": 31.96875,
+      "total_cost": 142.92103125000096,
+      "delta_vs_incumbent": -478.7414687500009
+    },
+    {
+      "case": "useful",
+      "method": "source_source_global",
+      "paths": 128,
+      "promotion_rate": 0.0546875,
+      "labels": 99.046875,
+      "total_cost": 464.53967187499234,
+      "delta_vs_incumbent": -6.121265624999877
+    },
+    {
+      "case": "useful",
+      "method": "source_source_query",
+      "paths": 128,
+      "promotion_rate": 0.0546875,
+      "labels": 99.046875,
+      "total_cost": 464.53967187499234,
+      "delta_vs_incumbent": -6.121265624999877
+    },
+    {
+      "case": "useful",
+      "method": "source_source_predictor",
+      "paths": 128,
+      "promotion_rate": 0.0703125,
+      "labels": 98.6640625,
+      "total_cost": 462.41428906249234,
+      "delta_vs_incumbent": -8.246648437499841
+    },
+    {
+      "case": "useful",
+      "method": "source_paper_global",
+      "paths": 128,
+      "promotion_rate": 0.0,
+      "labels": 400.0,
+      "total_cost": 471.0609374999922,
+      "delta_vs_incumbent": 0.39999999999997904
+    },
+    {
+      "case": "useful",
+      "method": "source_paper_query",
+      "paths": 128,
+      "promotion_rate": 0.0,
+      "labels": 400.0,
+      "total_cost": 471.0609374999922,
+      "delta_vs_incumbent": 0.39999999999997904
+    },
+    {
+      "case": "useful",
+      "method": "source_paper_predictor",
+      "paths": 128,
+      "promotion_rate": 0.0,
+      "labels": 400.0,
+      "total_cost": 471.0609374999922,
+      "delta_vs_incumbent": 0.39999999999997904
+    },
+    {
+      "case": "useful",
+      "method": "residual_source_global",
+      "paths": 128,
+      "promotion_rate": 0.0546875,
+      "labels": 98.96875,
+      "total_cost": 464.5411562499923,
+      "delta_vs_incumbent": -6.119781249999875
+    },
+    {
+      "case": "useful",
+      "method": "residual_source_query",
+      "paths": 128,
+      "promotion_rate": 0.0546875,
+      "labels": 98.96875,
+      "total_cost": 464.5411562499923,
+      "delta_vs_incumbent": -6.119781249999875
+    },
+    {
+      "case": "useful",
+      "method": "residual_source_predictor",
+      "paths": 128,
+      "promotion_rate": 0.0703125,
+      "labels": 98.59375,
+      "total_cost": 462.4298437499923,
+      "delta_vs_incumbent": -8.23109374999984
+    },
+    {
+      "case": "useful",
+      "method": "residual_paper_global",
+      "paths": 128,
+      "promotion_rate": 0.0,
+      "labels": 400.0,
+      "total_cost": 471.0609374999922,
+      "delta_vs_incumbent": 0.39999999999997904
+    },
+    {
+      "case": "useful",
+      "method": "residual_paper_query",
+      "paths": 128,
+      "promotion_rate": 0.0,
+      "labels": 400.0,
+      "total_cost": 471.0609374999922,
+      "delta_vs_incumbent": 0.39999999999997904
+    },
+    {
+      "case": "useful",
+      "method": "residual_paper_predictor",
+      "paths": 128,
+      "promotion_rate": 0.0,
+      "labels": 400.0,
+      "total_cost": 471.0609374999922,
+      "delta_vs_incumbent": 0.39999999999997904
+    },
+    {
+      "case": "useful",
+      "method": "uniform_floor0.05",
+      "paths": 128,
+      "promotion_rate": 0.0390625,
+      "labels": 391.3359375,
+      "total_cost": 469.51789843749225,
+      "delta_vs_incumbent": -1.1430390624999802
+    },
+    {
+      "case": "useful",
+      "method": "uniform_floor0.2",
+      "paths": 128,
+      "promotion_rate": 0.8515625,
+      "labels": 339.4375,
+      "total_cost": 393.5472499999936,
+      "delta_vs_incumbent": -77.11368749999855
+    },
+    {
+      "case": "useful",
+      "method": "uniform_predictor",
+      "paths": 128,
+      "promotion_rate": 0.8515625,
+      "labels": 339.5078125,
+      "total_cost": 393.65669531249364,
+      "delta_vs_incumbent": -77.00424218749856
+    },
+    {
+      "case": "useful",
+      "method": "paired_Kelly",
+      "paths": 128,
+      "promotion_rate": 1.0,
+      "labels": 171.7421875,
+      "total_cost": 173.85924218749722,
+      "delta_vs_incumbent": -296.801695312495
+    },
+    {
+      "case": "useful",
+      "method": "tuned_FTL",
+      "paths": 128,
+      "promotion_rate": 1.0,
+      "labels": 174.484375,
+      "total_cost": 177.5729218749973,
+      "delta_vs_incumbent": -293.0880156249949
+    },
+    {
+      "case": "useful",
+      "method": "CUSUM_slack.05",
+      "paths": 128,
+      "promotion_rate": 1.0,
+      "labels": 167.90625,
+      "total_cost": 168.52103124999718,
+      "delta_vs_incumbent": -302.13990624999497
+    },
+    {
+      "case": "useful",
+      "method": "CUSUM_slack.1",
+      "paths": 128,
+      "promotion_rate": 1.0,
+      "labels": 162.8046875,
+      "total_cost": 161.62374218749704,
+      "delta_vs_incumbent": -309.0371953124951
+    },
+    {
+      "case": "late",
+      "method": "source_source_global",
+      "paths": 128,
+      "promotion_rate": 0.0,
+      "labels": 100.5078125,
+      "total_cost": 283.1442578124971,
+      "delta_vs_incumbent": 0.10050781250000673
+    },
+    {
+      "case": "late",
+      "method": "source_source_query",
+      "paths": 128,
+      "promotion_rate": 0.0,
+      "labels": 100.5078125,
+      "total_cost": 283.1442578124971,
+      "delta_vs_incumbent": 0.10050781250000673
+    },
+    {
+      "case": "late",
+      "method": "source_source_predictor",
+      "paths": 128,
+      "promotion_rate": 0.0,
+      "labels": 100.5078125,
+      "total_cost": 283.1442578124971,
+      "delta_vs_incumbent": 0.10050781250000673
+    },
+    {
+      "case": "late",
+      "method": "source_paper_global",
+      "paths": 128,
+      "promotion_rate": 0.0,
+      "labels": 400.0,
+      "total_cost": 283.443749999997,
+      "delta_vs_incumbent": 0.3999999999999799
+    },
+    {
+      "case": "late",
+      "method": "source_paper_query",
+      "paths": 128,
+      "promotion_rate": 0.0,
+      "labels": 400.0,
+      "total_cost": 283.443749999997,
+      "delta_vs_incumbent": 0.3999999999999799
+    },
+    {
+      "case": "late",
+      "method": "source_paper_predictor",
+      "paths": 128,
+      "promotion_rate": 0.0,
+      "labels": 400.0,
+      "total_cost": 283.443749999997,
+      "delta_vs_incumbent": 0.3999999999999799
+    },
+    {
+      "case": "late",
+      "method": "residual_source_global",
+      "paths": 128,
+      "promotion_rate": 0.0,
+      "labels": 100.421875,
+      "total_cost": 283.14417187499714,
+      "delta_vs_incumbent": 0.10042187500000566
+    },
+    {
+      "case": "late",
+      "method": "residual_source_query",
+      "paths": 128,
+      "promotion_rate": 0.0,
+      "labels": 100.421875,
+      "total_cost": 283.14417187499714,
+      "delta_vs_incumbent": 0.10042187500000566
+    },
+    {
+      "case": "late",
+      "method": "residual_source_predictor",
+      "paths": 128,
+      "promotion_rate": 0.0,
+      "labels": 100.421875,
+      "total_cost": 283.14417187499714,
+      "delta_vs_incumbent": 0.10042187500000566
+    },
+    {
+      "case": "late",
+      "method": "residual_paper_global",
+      "paths": 128,
+      "promotion_rate": 0.0,
+      "labels": 400.0,
+      "total_cost": 283.443749999997,
+      "delta_vs_incumbent": 0.3999999999999799
+    },
+    {
+      "case": "late",
+      "method": "residual_paper_query",
+      "paths": 128,
+      "promotion_rate": 0.0,
+      "labels": 400.0,
+      "total_cost": 283.443749999997,
+      "delta_vs_incumbent": 0.3999999999999799
+    },
+    {
+      "case": "late",
+      "method": "residual_paper_predictor",
+      "paths": 128,
+      "promotion_rate": 0.0,
+      "labels": 400.0,
+      "total_cost": 283.443749999997,
+      "delta_vs_incumbent": 0.3999999999999799
+    },
+    {
+      "case": "late",
+      "method": "uniform_floor0.05",
+      "paths": 128,
+      "promotion_rate": 0.0,
+      "labels": 391.390625,
+      "total_cost": 283.435140624997,
+      "delta_vs_incumbent": 0.3913906249999912
+    },
+    {
+      "case": "late",
+      "method": "uniform_floor0.2",
+      "paths": 128,
+      "promotion_rate": 0.0078125,
+      "labels": 388.28125,
+      "total_cost": 284.505468749997,
+      "delta_vs_incumbent": 1.461718749999981
+    },
+    {
+      "case": "late",
+      "method": "uniform_predictor",
+      "paths": 128,
+      "promotion_rate": 0.0078125,
+      "labels": 388.28125,
+      "total_cost": 284.505468749997,
+      "delta_vs_incumbent": 1.461718749999981
+    },
+    {
+      "case": "late",
+      "method": "paired_Kelly",
+      "paths": 128,
+      "promotion_rate": 0.984375,
+      "labels": 341.2265625,
+      "total_cost": 209.6709140624984,
+      "delta_vs_incumbent": -73.37283593749864
+    },
+    {
+      "case": "late",
+      "method": "tuned_FTL",
+      "paths": 128,
+      "promotion_rate": 0.9921875,
+      "labels": 336.828125,
+      "total_cost": 203.5993281249985,
+      "delta_vs_incumbent": -79.44442187499854
+    },
+    {
+      "case": "late",
+      "method": "CUSUM_slack.05",
+      "paths": 128,
+      "promotion_rate": 0.984375,
+      "labels": 338.2265625,
+      "total_cost": 205.3585390624985,
+      "delta_vs_incumbent": -77.68521093749857
+    },
+    {
+      "case": "late",
+      "method": "CUSUM_slack.1",
+      "paths": 128,
+      "promotion_rate": 0.9765625,
+      "labels": 334.015625,
+      "total_cost": 199.89964062499857,
+      "delta_vs_incumbent": -83.14410937499846
+    },
+    {
+      "case": "small",
+      "method": "source_source_global",
+      "paths": 128,
+      "promotion_rate": 0.0,
+      "labels": 100.765625,
+      "total_cost": 303.14920312499544,
+      "delta_vs_incumbent": 0.10076562499999442
+    },
+    {
+      "case": "small",
+      "method": "source_source_query",
+      "paths": 128,
+      "promotion_rate": 0.0,
+      "labels": 100.765625,
+      "total_cost": 303.14920312499544,
+      "delta_vs_incumbent": 0.10076562499999442
+    },
+    {
+      "case": "small",
+      "method": "source_source_predictor",
+      "paths": 128,
+      "promotion_rate": 0.0,
+      "labels": 100.765625,
+      "total_cost": 303.14920312499544,
+      "delta_vs_incumbent": 0.10076562499999442
+    },
+    {
+      "case": "small",
+      "method": "source_paper_global",
+      "paths": 128,
+      "promotion_rate": 0.0,
+      "labels": 400.0,
+      "total_cost": 303.44843749999546,
+      "delta_vs_incumbent": 0.3999999999999724
+    },
+    {
+      "case": "small",
+      "method": "source_paper_query",
+      "paths": 128,
+      "promotion_rate": 0.0,
+      "labels": 400.0,
+      "total_cost": 303.44843749999546,
+      "delta_vs_incumbent": 0.3999999999999724
+    },
+    {
+      "case": "small",
+      "method": "source_paper_predictor",
+      "paths": 128,
+      "promotion_rate": 0.0,
+      "labels": 400.0,
+      "total_cost": 303.44843749999546,
+      "delta_vs_incumbent": 0.3999999999999724
+    },
+    {
+      "case": "small",
+      "method": "residual_source_global",
+      "paths": 128,
+      "promotion_rate": 0.0,
+      "labels": 100.71875,
+      "total_cost": 303.1491562499955,
+      "delta_vs_incumbent": 0.1007187499999942
+    },
+    {
+      "case": "small",
+      "method": "residual_source_query",
+      "paths": 128,
+      "promotion_rate": 0.0,
+      "labels": 100.71875,
+      "total_cost": 303.1491562499955,
+      "delta_vs_incumbent": 0.1007187499999942
+    },
+    {
+      "case": "small",
+      "method": "residual_source_predictor",
+      "paths": 128,
+      "promotion_rate": 0.0,
+      "labels": 100.71875,
+      "total_cost": 303.1491562499955,
+      "delta_vs_incumbent": 0.1007187499999942
+    },
+    {
+      "case": "small",
+      "method": "residual_paper_global",
+      "paths": 128,
+      "promotion_rate": 0.0,
+      "labels": 400.0,
+      "total_cost": 303.44843749999546,
+      "delta_vs_incumbent": 0.3999999999999724
+    },
+    {
+      "case": "small",
+      "method": "residual_paper_query",
+      "paths": 128,
+      "promotion_rate": 0.0,
+      "labels": 400.0,
+      "total_cost": 303.44843749999546,
+      "delta_vs_incumbent": 0.3999999999999724
+    },
+    {
+      "case": "small",
+      "method": "residual_paper_predictor",
+      "paths": 128,
+      "promotion_rate": 0.0,
+      "labels": 400.0,
+      "total_cost": 303.44843749999546,
+      "delta_vs_incumbent": 0.3999999999999724
+    },
+    {
+      "case": "small",
+      "method": "uniform_floor0.05",
+      "paths": 128,
+      "promotion_rate": 0.0,
+      "labels": 394.515625,
+      "total_cost": 303.4429531249955,
+      "delta_vs_incumbent": 0.39451562499998305
+    },
+    {
+      "case": "small",
+      "method": "uniform_floor0.2",
+      "paths": 128,
+      "promotion_rate": 0.0,
+      "labels": 394.515625,
+      "total_cost": 303.4429531249955,
+      "delta_vs_incumbent": 0.39451562499998305
+    },
+    {
+      "case": "small",
+      "method": "uniform_predictor",
+      "paths": 128,
+      "promotion_rate": 0.0,
+      "labels": 394.515625,
+      "total_cost": 303.4429531249955,
+      "delta_vs_incumbent": 0.39451562499998305
+    },
+    {
+      "case": "small",
+      "method": "paired_Kelly",
+      "paths": 128,
+      "promotion_rate": 0.0859375,
+      "labels": 381.625,
+      "total_cost": 301.52849999999563,
+      "delta_vs_incumbent": -1.5199374999998514
+    },
+    {
+      "case": "small",
+      "method": "tuned_FTL",
+      "paths": 128,
+      "promotion_rate": 0.0546875,
+      "labels": 387.53125,
+      "total_cost": 302.29065624999555,
+      "delta_vs_incumbent": -0.7577812499999186
+    },
+    {
+      "case": "small",
+      "method": "CUSUM_slack.05",
+      "paths": 128,
+      "promotion_rate": 0.2890625,
+      "labels": 356.3203125,
+      "total_cost": 297.623507812496,
+      "delta_vs_incumbent": -5.424929687499493
+    },
+    {
+      "case": "small",
+      "method": "CUSUM_slack.1",
+      "paths": 128,
+      "promotion_rate": 0.2265625,
+      "labels": 363.015625,
+      "total_cost": 298.40676562499584,
+      "delta_vs_incumbent": -4.641671874999596
+    },
+    {
+      "case": "reversal",
+      "method": "source_source_global",
+      "paths": 128,
+      "promotion_rate": 0.0,
+      "labels": 100.1875,
+      "total_cost": 321.075187499995,
+      "delta_vs_incumbent": 0.1001875000000072
+    },
+    {
+      "case": "reversal",
+      "method": "source_source_query",
+      "paths": 128,
+      "promotion_rate": 0.0,
+      "labels": 100.1875,
+      "total_cost": 321.075187499995,
+      "delta_vs_incumbent": 0.1001875000000072
+    },
+    {
+      "case": "reversal",
+      "method": "source_source_predictor",
+      "paths": 128,
+      "promotion_rate": 0.0,
+      "labels": 100.1875,
+      "total_cost": 321.075187499995,
+      "delta_vs_incumbent": 0.1001875000000072
+    },
+    {
+      "case": "reversal",
+      "method": "source_paper_global",
+      "paths": 128,
+      "promotion_rate": 0.0,
+      "labels": 400.0,
+      "total_cost": 321.374999999995,
+      "delta_vs_incumbent": 0.3999999999999826
+    },
+    {
+      "case": "reversal",
+      "method": "source_paper_query",
+      "paths": 128,
+      "promotion_rate": 0.0,
+      "labels": 400.0,
+      "total_cost": 321.374999999995,
+      "delta_vs_incumbent": 0.3999999999999826
+    },
+    {
+      "case": "reversal",
+      "method": "source_paper_predictor",
+      "paths": 128,
+      "promotion_rate": 0.0,
+      "labels": 400.0,
+      "total_cost": 321.374999999995,
+      "delta_vs_incumbent": 0.3999999999999826
+    },
+    {
+      "case": "reversal",
+      "method": "residual_source_global",
+      "paths": 128,
+      "promotion_rate": 0.0,
+      "labels": 100.1328125,
+      "total_cost": 321.075132812495,
+      "delta_vs_incumbent": 0.10013281250000716
+    },
+    {
+      "case": "reversal",
+      "method": "residual_source_query",
+      "paths": 128,
+      "promotion_rate": 0.0,
+      "labels": 100.1328125,
+      "total_cost": 321.075132812495,
+      "delta_vs_incumbent": 0.10013281250000716
+    },
+    {
+      "case": "reversal",
+      "method": "residual_source_predictor",
+      "paths": 128,
+      "promotion_rate": 0.0,
+      "labels": 100.1328125,
+      "total_cost": 321.075132812495,
+      "delta_vs_incumbent": 0.10013281250000716
+    },
+    {
+      "case": "reversal",
+      "method": "residual_paper_global",
+      "paths": 128,
+      "promotion_rate": 0.0,
+      "labels": 400.0,
+      "total_cost": 321.374999999995,
+      "delta_vs_incumbent": 0.3999999999999826
+    },
+    {
+      "case": "reversal",
+      "method": "residual_paper_query",
+      "paths": 128,
+      "promotion_rate": 0.0,
+      "labels": 400.0,
+      "total_cost": 321.374999999995,
+      "delta_vs_incumbent": 0.3999999999999826
+    },
+    {
+      "case": "reversal",
+      "method": "residual_paper_predictor",
+      "paths": 128,
+      "promotion_rate": 0.0,
+      "labels": 400.0,
+      "total_cost": 321.374999999995,
+      "delta_vs_incumbent": 0.3999999999999826
+    },
+    {
+      "case": "reversal",
+      "method": "uniform_floor0.05",
+      "paths": 128,
+      "promotion_rate": 0.0,
+      "labels": 392.296875,
+      "total_cost": 321.36729687499496,
+      "delta_vs_incumbent": 0.3922968749999929
+    },
+    {
+      "case": "reversal",
+      "method": "uniform_floor0.2",
+      "paths": 128,
+      "promotion_rate": 0.046875,
+      "labels": 386.0625,
+      "total_cost": 326.5157499999951,
+      "delta_vs_incumbent": 5.540750000000026
+    },
+    {
+      "case": "reversal",
+      "method": "uniform_predictor",
+      "paths": 128,
+      "promotion_rate": 0.046875,
+      "labels": 386.0625,
+      "total_cost": 326.531374999995,
+      "delta_vs_incumbent": 5.556375000000026
+    },
+    {
+      "case": "reversal",
+      "method": "paired_Kelly",
+      "paths": 128,
+      "promotion_rate": 1.0,
+      "labels": 172.5625,
+      "total_cost": 323.34131249999723,
+      "delta_vs_incumbent": 2.366312500002216
+    },
+    {
+      "case": "reversal",
+      "method": "tuned_FTL",
+      "paths": 128,
+      "promotion_rate": 1.0,
+      "labels": 176.2578125,
+      "total_cost": 327.6340703124973,
+      "delta_vs_incumbent": 6.659070312502273
+    },
+    {
+      "case": "reversal",
+      "method": "CUSUM_slack.05",
+      "paths": 128,
+      "promotion_rate": 1.0,
+      "labels": 169.578125,
+      "total_cost": 319.33207812499717,
+      "delta_vs_incumbent": -1.6429218749978372
+    },
+    {
+      "case": "reversal",
+      "method": "CUSUM_slack.1",
+      "paths": 128,
+      "promotion_rate": 1.0,
+      "labels": 165.0546875,
+      "total_cost": 313.5009921874971,
+      "delta_vs_incumbent": -7.474007812497927
+    }
+  ]
+}

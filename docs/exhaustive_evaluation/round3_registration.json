@@ -1,0 +1,6555 @@
+{
+  "registered_utc": "2026-10-30T09:11:28.900810+00:00",
+  "stage": "exploratory development, no novelty claim",
+  "motivation": "negative alarm-to-challenger real pilots; test independent benefit certification",
+  "configurations": [
+    {
+      "id": "R3_0000",
+      "mode": "direct",
+      "allocation": "uniform",
+      "gamma": 0.9,
+      "cap": 0.5,
+      "restart": false,
+      "pace": "none",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0001",
+      "mode": "direct",
+      "allocation": "uniform",
+      "gamma": 0.9,
+      "cap": 0.5,
+      "restart": false,
+      "pace": "none",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0002",
+      "mode": "direct",
+      "allocation": "uniform",
+      "gamma": 0.9,
+      "cap": 0.5,
+      "restart": false,
+      "pace": "remaining",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0003",
+      "mode": "direct",
+      "allocation": "uniform",
+      "gamma": 0.9,
+      "cap": 0.5,
+      "restart": false,
+      "pace": "remaining",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0004",
+      "mode": "direct",
+      "allocation": "uniform",
+      "gamma": 0.9,
+      "cap": 0.5,
+      "restart": false,
+      "pace": "reserve",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0005",
+      "mode": "direct",
+      "allocation": "uniform",
+      "gamma": 0.9,
+      "cap": 0.5,
+      "restart": false,
+      "pace": "reserve",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0006",
+      "mode": "direct",
+      "allocation": "uniform",
+      "gamma": 0.9,
+      "cap": 0.5,
+      "restart": true,
+      "pace": "none",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0007",
+      "mode": "direct",
+      "allocation": "uniform",
+      "gamma": 0.9,
+      "cap": 0.5,
+      "restart": true,
+      "pace": "none",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0008",
+      "mode": "direct",
+      "allocation": "uniform",
+      "gamma": 0.9,
+      "cap": 0.5,
+      "restart": true,
+      "pace": "remaining",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0009",
+      "mode": "direct",
+      "allocation": "uniform",
+      "gamma": 0.9,
+      "cap": 0.5,
+      "restart": true,
+      "pace": "remaining",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0010",
+      "mode": "direct",
+      "allocation": "uniform",
+      "gamma": 0.9,
+      "cap": 0.5,
+      "restart": true,
+      "pace": "reserve",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0011",
+      "mode": "direct",
+      "allocation": "uniform",
+      "gamma": 0.9,
+      "cap": 0.5,
+      "restart": true,
+      "pace": "reserve",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0012",
+      "mode": "direct",
+      "allocation": "uniform",
+      "gamma": 0.9,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "none",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0013",
+      "mode": "direct",
+      "allocation": "uniform",
+      "gamma": 0.9,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "none",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0014",
+      "mode": "direct",
+      "allocation": "uniform",
+      "gamma": 0.9,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "remaining",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0015",
+      "mode": "direct",
+      "allocation": "uniform",
+      "gamma": 0.9,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "remaining",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0016",
+      "mode": "direct",
+      "allocation": "uniform",
+      "gamma": 0.9,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "reserve",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0017",
+      "mode": "direct",
+      "allocation": "uniform",
+      "gamma": 0.9,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "reserve",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0018",
+      "mode": "direct",
+      "allocation": "uniform",
+      "gamma": 0.9,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "none",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0019",
+      "mode": "direct",
+      "allocation": "uniform",
+      "gamma": 0.9,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "none",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0020",
+      "mode": "direct",
+      "allocation": "uniform",
+      "gamma": 0.9,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "remaining",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0021",
+      "mode": "direct",
+      "allocation": "uniform",
+      "gamma": 0.9,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "remaining",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0022",
+      "mode": "direct",
+      "allocation": "uniform",
+      "gamma": 0.9,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "reserve",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0023",
+      "mode": "direct",
+      "allocation": "uniform",
+      "gamma": 0.9,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "reserve",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0024",
+      "mode": "direct",
+      "allocation": "uniform",
+      "gamma": 0.98,
+      "cap": 0.5,
+      "restart": false,
+      "pace": "none",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0025",
+      "mode": "direct",
+      "allocation": "uniform",
+      "gamma": 0.98,
+      "cap": 0.5,
+      "restart": false,
+      "pace": "none",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0026",
+      "mode": "direct",
+      "allocation": "uniform",
+      "gamma": 0.98,
+      "cap": 0.5,
+      "restart": false,
+      "pace": "remaining",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0027",
+      "mode": "direct",
+      "allocation": "uniform",
+      "gamma": 0.98,
+      "cap": 0.5,
+      "restart": false,
+      "pace": "remaining",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0028",
+      "mode": "direct",
+      "allocation": "uniform",
+      "gamma": 0.98,
+      "cap": 0.5,
+      "restart": false,
+      "pace": "reserve",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0029",
+      "mode": "direct",
+      "allocation": "uniform",
+      "gamma": 0.98,
+      "cap": 0.5,
+      "restart": false,
+      "pace": "reserve",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0030",
+      "mode": "direct",
+      "allocation": "uniform",
+      "gamma": 0.98,
+      "cap": 0.5,
+      "restart": true,
+      "pace": "none",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0031",
+      "mode": "direct",
+      "allocation": "uniform",
+      "gamma": 0.98,
+      "cap": 0.5,
+      "restart": true,
+      "pace": "none",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0032",
+      "mode": "direct",
+      "allocation": "uniform",
+      "gamma": 0.98,
+      "cap": 0.5,
+      "restart": true,
+      "pace": "remaining",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0033",
+      "mode": "direct",
+      "allocation": "uniform",
+      "gamma": 0.98,
+      "cap": 0.5,
+      "restart": true,
+      "pace": "remaining",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0034",
+      "mode": "direct",
+      "allocation": "uniform",
+      "gamma": 0.98,
+      "cap": 0.5,
+      "restart": true,
+      "pace": "reserve",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0035",
+      "mode": "direct",
+      "allocation": "uniform",
+      "gamma": 0.98,
+      "cap": 0.5,
+      "restart": true,
+      "pace": "reserve",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0036",
+      "mode": "direct",
+      "allocation": "uniform",
+      "gamma": 0.98,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "none",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0037",
+      "mode": "direct",
+      "allocation": "uniform",
+      "gamma": 0.98,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "none",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0038",
+      "mode": "direct",
+      "allocation": "uniform",
+      "gamma": 0.98,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "remaining",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0039",
+      "mode": "direct",
+      "allocation": "uniform",
+      "gamma": 0.98,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "remaining",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0040",
+      "mode": "direct",
+      "allocation": "uniform",
+      "gamma": 0.98,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "reserve",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0041",
+      "mode": "direct",
+      "allocation": "uniform",
+      "gamma": 0.98,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "reserve",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0042",
+      "mode": "direct",
+      "allocation": "uniform",
+      "gamma": 0.98,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "none",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0043",
+      "mode": "direct",
+      "allocation": "uniform",
+      "gamma": 0.98,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "none",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0044",
+      "mode": "direct",
+      "allocation": "uniform",
+      "gamma": 0.98,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "remaining",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0045",
+      "mode": "direct",
+      "allocation": "uniform",
+      "gamma": 0.98,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "remaining",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0046",
+      "mode": "direct",
+      "allocation": "uniform",
+      "gamma": 0.98,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "reserve",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0047",
+      "mode": "direct",
+      "allocation": "uniform",
+      "gamma": 0.98,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "reserve",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0048",
+      "mode": "direct",
+      "allocation": "uniform",
+      "gamma": 1.0,
+      "cap": 0.5,
+      "restart": false,
+      "pace": "none",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0049",
+      "mode": "direct",
+      "allocation": "uniform",
+      "gamma": 1.0,
+      "cap": 0.5,
+      "restart": false,
+      "pace": "none",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0050",
+      "mode": "direct",
+      "allocation": "uniform",
+      "gamma": 1.0,
+      "cap": 0.5,
+      "restart": false,
+      "pace": "remaining",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0051",
+      "mode": "direct",
+      "allocation": "uniform",
+      "gamma": 1.0,
+      "cap": 0.5,
+      "restart": false,
+      "pace": "remaining",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0052",
+      "mode": "direct",
+      "allocation": "uniform",
+      "gamma": 1.0,
+      "cap": 0.5,
+      "restart": false,
+      "pace": "reserve",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0053",
+      "mode": "direct",
+      "allocation": "uniform",
+      "gamma": 1.0,
+      "cap": 0.5,
+      "restart": false,
+      "pace": "reserve",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0054",
+      "mode": "direct",
+      "allocation": "uniform",
+      "gamma": 1.0,
+      "cap": 0.5,
+      "restart": true,
+      "pace": "none",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0055",
+      "mode": "direct",
+      "allocation": "uniform",
+      "gamma": 1.0,
+      "cap": 0.5,
+      "restart": true,
+      "pace": "none",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0056",
+      "mode": "direct",
+      "allocation": "uniform",
+      "gamma": 1.0,
+      "cap": 0.5,
+      "restart": true,
+      "pace": "remaining",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0057",
+      "mode": "direct",
+      "allocation": "uniform",
+      "gamma": 1.0,
+      "cap": 0.5,
+      "restart": true,
+      "pace": "remaining",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0058",
+      "mode": "direct",
+      "allocation": "uniform",
+      "gamma": 1.0,
+      "cap": 0.5,
+      "restart": true,
+      "pace": "reserve",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0059",
+      "mode": "direct",
+      "allocation": "uniform",
+      "gamma": 1.0,
+      "cap": 0.5,
+      "restart": true,
+      "pace": "reserve",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0060",
+      "mode": "direct",
+      "allocation": "uniform",
+      "gamma": 1.0,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "none",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0061",
+      "mode": "direct",
+      "allocation": "uniform",
+      "gamma": 1.0,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "none",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0062",
+      "mode": "direct",
+      "allocation": "uniform",
+      "gamma": 1.0,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "remaining",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0063",
+      "mode": "direct",
+      "allocation": "uniform",
+      "gamma": 1.0,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "remaining",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0064",
+      "mode": "direct",
+      "allocation": "uniform",
+      "gamma": 1.0,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "reserve",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0065",
+      "mode": "direct",
+      "allocation": "uniform",
+      "gamma": 1.0,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "reserve",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0066",
+      "mode": "direct",
+      "allocation": "uniform",
+      "gamma": 1.0,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "none",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0067",
+      "mode": "direct",
+      "allocation": "uniform",
+      "gamma": 1.0,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "none",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0068",
+      "mode": "direct",
+      "allocation": "uniform",
+      "gamma": 1.0,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "remaining",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0069",
+      "mode": "direct",
+      "allocation": "uniform",
+      "gamma": 1.0,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "remaining",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0070",
+      "mode": "direct",
+      "allocation": "uniform",
+      "gamma": 1.0,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "reserve",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0071",
+      "mode": "direct",
+      "allocation": "uniform",
+      "gamma": 1.0,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "reserve",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0072",
+      "mode": "direct",
+      "allocation": "uncertainty",
+      "gamma": 0.9,
+      "cap": 0.5,
+      "restart": false,
+      "pace": "none",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0073",
+      "mode": "direct",
+      "allocation": "uncertainty",
+      "gamma": 0.9,
+      "cap": 0.5,
+      "restart": false,
+      "pace": "none",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0074",
+      "mode": "direct",
+      "allocation": "uncertainty",
+      "gamma": 0.9,
+      "cap": 0.5,
+      "restart": false,
+      "pace": "remaining",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0075",
+      "mode": "direct",
+      "allocation": "uncertainty",
+      "gamma": 0.9,
+      "cap": 0.5,
+      "restart": false,
+      "pace": "remaining",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0076",
+      "mode": "direct",
+      "allocation": "uncertainty",
+      "gamma": 0.9,
+      "cap": 0.5,
+      "restart": false,
+      "pace": "reserve",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0077",
+      "mode": "direct",
+      "allocation": "uncertainty",
+      "gamma": 0.9,
+      "cap": 0.5,
+      "restart": false,
+      "pace": "reserve",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0078",
+      "mode": "direct",
+      "allocation": "uncertainty",
+      "gamma": 0.9,
+      "cap": 0.5,
+      "restart": true,
+      "pace": "none",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0079",
+      "mode": "direct",
+      "allocation": "uncertainty",
+      "gamma": 0.9,
+      "cap": 0.5,
+      "restart": true,
+      "pace": "none",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0080",
+      "mode": "direct",
+      "allocation": "uncertainty",
+      "gamma": 0.9,
+      "cap": 0.5,
+      "restart": true,
+      "pace": "remaining",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0081",
+      "mode": "direct",
+      "allocation": "uncertainty",
+      "gamma": 0.9,
+      "cap": 0.5,
+      "restart": true,
+      "pace": "remaining",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0082",
+      "mode": "direct",
+      "allocation": "uncertainty",
+      "gamma": 0.9,
+      "cap": 0.5,
+      "restart": true,
+      "pace": "reserve",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0083",
+      "mode": "direct",
+      "allocation": "uncertainty",
+      "gamma": 0.9,
+      "cap": 0.5,
+      "restart": true,
+      "pace": "reserve",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0084",
+      "mode": "direct",
+      "allocation": "uncertainty",
+      "gamma": 0.9,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "none",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0085",
+      "mode": "direct",
+      "allocation": "uncertainty",
+      "gamma": 0.9,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "none",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0086",
+      "mode": "direct",
+      "allocation": "uncertainty",
+      "gamma": 0.9,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "remaining",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0087",
+      "mode": "direct",
+      "allocation": "uncertainty",
+      "gamma": 0.9,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "remaining",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0088",
+      "mode": "direct",
+      "allocation": "uncertainty",
+      "gamma": 0.9,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "reserve",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0089",
+      "mode": "direct",
+      "allocation": "uncertainty",
+      "gamma": 0.9,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "reserve",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0090",
+      "mode": "direct",
+      "allocation": "uncertainty",
+      "gamma": 0.9,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "none",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0091",
+      "mode": "direct",
+      "allocation": "uncertainty",
+      "gamma": 0.9,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "none",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0092",
+      "mode": "direct",
+      "allocation": "uncertainty",
+      "gamma": 0.9,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "remaining",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0093",
+      "mode": "direct",
+      "allocation": "uncertainty",
+      "gamma": 0.9,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "remaining",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0094",
+      "mode": "direct",
+      "allocation": "uncertainty",
+      "gamma": 0.9,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "reserve",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0095",
+      "mode": "direct",
+      "allocation": "uncertainty",
+      "gamma": 0.9,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "reserve",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0096",
+      "mode": "direct",
+      "allocation": "uncertainty",
+      "gamma": 0.98,
+      "cap": 0.5,
+      "restart": false,
+      "pace": "none",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0097",
+      "mode": "direct",
+      "allocation": "uncertainty",
+      "gamma": 0.98,
+      "cap": 0.5,
+      "restart": false,
+      "pace": "none",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0098",
+      "mode": "direct",
+      "allocation": "uncertainty",
+      "gamma": 0.98,
+      "cap": 0.5,
+      "restart": false,
+      "pace": "remaining",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0099",
+      "mode": "direct",
+      "allocation": "uncertainty",
+      "gamma": 0.98,
+      "cap": 0.5,
+      "restart": false,
+      "pace": "remaining",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0100",
+      "mode": "direct",
+      "allocation": "uncertainty",
+      "gamma": 0.98,
+      "cap": 0.5,
+      "restart": false,
+      "pace": "reserve",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0101",
+      "mode": "direct",
+      "allocation": "uncertainty",
+      "gamma": 0.98,
+      "cap": 0.5,
+      "restart": false,
+      "pace": "reserve",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0102",
+      "mode": "direct",
+      "allocation": "uncertainty",
+      "gamma": 0.98,
+      "cap": 0.5,
+      "restart": true,
+      "pace": "none",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0103",
+      "mode": "direct",
+      "allocation": "uncertainty",
+      "gamma": 0.98,
+      "cap": 0.5,
+      "restart": true,
+      "pace": "none",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0104",
+      "mode": "direct",
+      "allocation": "uncertainty",
+      "gamma": 0.98,
+      "cap": 0.5,
+      "restart": true,
+      "pace": "remaining",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0105",
+      "mode": "direct",
+      "allocation": "uncertainty",
+      "gamma": 0.98,
+      "cap": 0.5,
+      "restart": true,
+      "pace": "remaining",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0106",
+      "mode": "direct",
+      "allocation": "uncertainty",
+      "gamma": 0.98,
+      "cap": 0.5,
+      "restart": true,
+      "pace": "reserve",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0107",
+      "mode": "direct",
+      "allocation": "uncertainty",
+      "gamma": 0.98,
+      "cap": 0.5,
+      "restart": true,
+      "pace": "reserve",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0108",
+      "mode": "direct",
+      "allocation": "uncertainty",
+      "gamma": 0.98,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "none",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0109",
+      "mode": "direct",
+      "allocation": "uncertainty",
+      "gamma": 0.98,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "none",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0110",
+      "mode": "direct",
+      "allocation": "uncertainty",
+      "gamma": 0.98,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "remaining",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0111",
+      "mode": "direct",
+      "allocation": "uncertainty",
+      "gamma": 0.98,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "remaining",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0112",
+      "mode": "direct",
+      "allocation": "uncertainty",
+      "gamma": 0.98,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "reserve",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0113",
+      "mode": "direct",
+      "allocation": "uncertainty",
+      "gamma": 0.98,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "reserve",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0114",
+      "mode": "direct",
+      "allocation": "uncertainty",
+      "gamma": 0.98,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "none",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0115",
+      "mode": "direct",
+      "allocation": "uncertainty",
+      "gamma": 0.98,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "none",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0116",
+      "mode": "direct",
+      "allocation": "uncertainty",
+      "gamma": 0.98,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "remaining",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0117",
+      "mode": "direct",
+      "allocation": "uncertainty",
+      "gamma": 0.98,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "remaining",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0118",
+      "mode": "direct",
+      "allocation": "uncertainty",
+      "gamma": 0.98,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "reserve",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0119",
+      "mode": "direct",
+      "allocation": "uncertainty",
+      "gamma": 0.98,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "reserve",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0120",
+      "mode": "direct",
+      "allocation": "uncertainty",
+      "gamma": 1.0,
+      "cap": 0.5,
+      "restart": false,
+      "pace": "none",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0121",
+      "mode": "direct",
+      "allocation": "uncertainty",
+      "gamma": 1.0,
+      "cap": 0.5,
+      "restart": false,
+      "pace": "none",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0122",
+      "mode": "direct",
+      "allocation": "uncertainty",
+      "gamma": 1.0,
+      "cap": 0.5,
+      "restart": false,
+      "pace": "remaining",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0123",
+      "mode": "direct",
+      "allocation": "uncertainty",
+      "gamma": 1.0,
+      "cap": 0.5,
+      "restart": false,
+      "pace": "remaining",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0124",
+      "mode": "direct",
+      "allocation": "uncertainty",
+      "gamma": 1.0,
+      "cap": 0.5,
+      "restart": false,
+      "pace": "reserve",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0125",
+      "mode": "direct",
+      "allocation": "uncertainty",
+      "gamma": 1.0,
+      "cap": 0.5,
+      "restart": false,
+      "pace": "reserve",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0126",
+      "mode": "direct",
+      "allocation": "uncertainty",
+      "gamma": 1.0,
+      "cap": 0.5,
+      "restart": true,
+      "pace": "none",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0127",
+      "mode": "direct",
+      "allocation": "uncertainty",
+      "gamma": 1.0,
+      "cap": 0.5,
+      "restart": true,
+      "pace": "none",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0128",
+      "mode": "direct",
+      "allocation": "uncertainty",
+      "gamma": 1.0,
+      "cap": 0.5,
+      "restart": true,
+      "pace": "remaining",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0129",
+      "mode": "direct",
+      "allocation": "uncertainty",
+      "gamma": 1.0,
+      "cap": 0.5,
+      "restart": true,
+      "pace": "remaining",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0130",
+      "mode": "direct",
+      "allocation": "uncertainty",
+      "gamma": 1.0,
+      "cap": 0.5,
+      "restart": true,
+      "pace": "reserve",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0131",
+      "mode": "direct",
+      "allocation": "uncertainty",
+      "gamma": 1.0,
+      "cap": 0.5,
+      "restart": true,
+      "pace": "reserve",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0132",
+      "mode": "direct",
+      "allocation": "uncertainty",
+      "gamma": 1.0,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "none",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0133",
+      "mode": "direct",
+      "allocation": "uncertainty",
+      "gamma": 1.0,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "none",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0134",
+      "mode": "direct",
+      "allocation": "uncertainty",
+      "gamma": 1.0,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "remaining",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0135",
+      "mode": "direct",
+      "allocation": "uncertainty",
+      "gamma": 1.0,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "remaining",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0136",
+      "mode": "direct",
+      "allocation": "uncertainty",
+      "gamma": 1.0,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "reserve",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0137",
+      "mode": "direct",
+      "allocation": "uncertainty",
+      "gamma": 1.0,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "reserve",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0138",
+      "mode": "direct",
+      "allocation": "uncertainty",
+      "gamma": 1.0,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "none",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0139",
+      "mode": "direct",
+      "allocation": "uncertainty",
+      "gamma": 1.0,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "none",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0140",
+      "mode": "direct",
+      "allocation": "uncertainty",
+      "gamma": 1.0,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "remaining",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0141",
+      "mode": "direct",
+      "allocation": "uncertainty",
+      "gamma": 1.0,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "remaining",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0142",
+      "mode": "direct",
+      "allocation": "uncertainty",
+      "gamma": 1.0,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "reserve",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0143",
+      "mode": "direct",
+      "allocation": "uncertainty",
+      "gamma": 1.0,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "reserve",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0144",
+      "mode": "direct",
+      "allocation": "disagreement",
+      "gamma": 0.9,
+      "cap": 0.5,
+      "restart": false,
+      "pace": "none",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0145",
+      "mode": "direct",
+      "allocation": "disagreement",
+      "gamma": 0.9,
+      "cap": 0.5,
+      "restart": false,
+      "pace": "none",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0146",
+      "mode": "direct",
+      "allocation": "disagreement",
+      "gamma": 0.9,
+      "cap": 0.5,
+      "restart": false,
+      "pace": "remaining",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0147",
+      "mode": "direct",
+      "allocation": "disagreement",
+      "gamma": 0.9,
+      "cap": 0.5,
+      "restart": false,
+      "pace": "remaining",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0148",
+      "mode": "direct",
+      "allocation": "disagreement",
+      "gamma": 0.9,
+      "cap": 0.5,
+      "restart": false,
+      "pace": "reserve",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0149",
+      "mode": "direct",
+      "allocation": "disagreement",
+      "gamma": 0.9,
+      "cap": 0.5,
+      "restart": false,
+      "pace": "reserve",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0150",
+      "mode": "direct",
+      "allocation": "disagreement",
+      "gamma": 0.9,
+      "cap": 0.5,
+      "restart": true,
+      "pace": "none",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0151",
+      "mode": "direct",
+      "allocation": "disagreement",
+      "gamma": 0.9,
+      "cap": 0.5,
+      "restart": true,
+      "pace": "none",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0152",
+      "mode": "direct",
+      "allocation": "disagreement",
+      "gamma": 0.9,
+      "cap": 0.5,
+      "restart": true,
+      "pace": "remaining",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0153",
+      "mode": "direct",
+      "allocation": "disagreement",
+      "gamma": 0.9,
+      "cap": 0.5,
+      "restart": true,
+      "pace": "remaining",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0154",
+      "mode": "direct",
+      "allocation": "disagreement",
+      "gamma": 0.9,
+      "cap": 0.5,
+      "restart": true,
+      "pace": "reserve",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0155",
+      "mode": "direct",
+      "allocation": "disagreement",
+      "gamma": 0.9,
+      "cap": 0.5,
+      "restart": true,
+      "pace": "reserve",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0156",
+      "mode": "direct",
+      "allocation": "disagreement",
+      "gamma": 0.9,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "none",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0157",
+      "mode": "direct",
+      "allocation": "disagreement",
+      "gamma": 0.9,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "none",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0158",
+      "mode": "direct",
+      "allocation": "disagreement",
+      "gamma": 0.9,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "remaining",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0159",
+      "mode": "direct",
+      "allocation": "disagreement",
+      "gamma": 0.9,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "remaining",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0160",
+      "mode": "direct",
+      "allocation": "disagreement",
+      "gamma": 0.9,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "reserve",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0161",
+      "mode": "direct",
+      "allocation": "disagreement",
+      "gamma": 0.9,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "reserve",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0162",
+      "mode": "direct",
+      "allocation": "disagreement",
+      "gamma": 0.9,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "none",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0163",
+      "mode": "direct",
+      "allocation": "disagreement",
+      "gamma": 0.9,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "none",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0164",
+      "mode": "direct",
+      "allocation": "disagreement",
+      "gamma": 0.9,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "remaining",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0165",
+      "mode": "direct",
+      "allocation": "disagreement",
+      "gamma": 0.9,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "remaining",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0166",
+      "mode": "direct",
+      "allocation": "disagreement",
+      "gamma": 0.9,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "reserve",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0167",
+      "mode": "direct",
+      "allocation": "disagreement",
+      "gamma": 0.9,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "reserve",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0168",
+      "mode": "direct",
+      "allocation": "disagreement",
+      "gamma": 0.98,
+      "cap": 0.5,
+      "restart": false,
+      "pace": "none",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0169",
+      "mode": "direct",
+      "allocation": "disagreement",
+      "gamma": 0.98,
+      "cap": 0.5,
+      "restart": false,
+      "pace": "none",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0170",
+      "mode": "direct",
+      "allocation": "disagreement",
+      "gamma": 0.98,
+      "cap": 0.5,
+      "restart": false,
+      "pace": "remaining",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0171",
+      "mode": "direct",
+      "allocation": "disagreement",
+      "gamma": 0.98,
+      "cap": 0.5,
+      "restart": false,
+      "pace": "remaining",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0172",
+      "mode": "direct",
+      "allocation": "disagreement",
+      "gamma": 0.98,
+      "cap": 0.5,
+      "restart": false,
+      "pace": "reserve",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0173",
+      "mode": "direct",
+      "allocation": "disagreement",
+      "gamma": 0.98,
+      "cap": 0.5,
+      "restart": false,
+      "pace": "reserve",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0174",
+      "mode": "direct",
+      "allocation": "disagreement",
+      "gamma": 0.98,
+      "cap": 0.5,
+      "restart": true,
+      "pace": "none",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0175",
+      "mode": "direct",
+      "allocation": "disagreement",
+      "gamma": 0.98,
+      "cap": 0.5,
+      "restart": true,
+      "pace": "none",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0176",
+      "mode": "direct",
+      "allocation": "disagreement",
+      "gamma": 0.98,
+      "cap": 0.5,
+      "restart": true,
+      "pace": "remaining",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0177",
+      "mode": "direct",
+      "allocation": "disagreement",
+      "gamma": 0.98,
+      "cap": 0.5,
+      "restart": true,
+      "pace": "remaining",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0178",
+      "mode": "direct",
+      "allocation": "disagreement",
+      "gamma": 0.98,
+      "cap": 0.5,
+      "restart": true,
+      "pace": "reserve",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0179",
+      "mode": "direct",
+      "allocation": "disagreement",
+      "gamma": 0.98,
+      "cap": 0.5,
+      "restart": true,
+      "pace": "reserve",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0180",
+      "mode": "direct",
+      "allocation": "disagreement",
+      "gamma": 0.98,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "none",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0181",
+      "mode": "direct",
+      "allocation": "disagreement",
+      "gamma": 0.98,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "none",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0182",
+      "mode": "direct",
+      "allocation": "disagreement",
+      "gamma": 0.98,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "remaining",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0183",
+      "mode": "direct",
+      "allocation": "disagreement",
+      "gamma": 0.98,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "remaining",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0184",
+      "mode": "direct",
+      "allocation": "disagreement",
+      "gamma": 0.98,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "reserve",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0185",
+      "mode": "direct",
+      "allocation": "disagreement",
+      "gamma": 0.98,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "reserve",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0186",
+      "mode": "direct",
+      "allocation": "disagreement",
+      "gamma": 0.98,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "none",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0187",
+      "mode": "direct",
+      "allocation": "disagreement",
+      "gamma": 0.98,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "none",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0188",
+      "mode": "direct",
+      "allocation": "disagreement",
+      "gamma": 0.98,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "remaining",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0189",
+      "mode": "direct",
+      "allocation": "disagreement",
+      "gamma": 0.98,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "remaining",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0190",
+      "mode": "direct",
+      "allocation": "disagreement",
+      "gamma": 0.98,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "reserve",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0191",
+      "mode": "direct",
+      "allocation": "disagreement",
+      "gamma": 0.98,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "reserve",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0192",
+      "mode": "direct",
+      "allocation": "disagreement",
+      "gamma": 1.0,
+      "cap": 0.5,
+      "restart": false,
+      "pace": "none",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0193",
+      "mode": "direct",
+      "allocation": "disagreement",
+      "gamma": 1.0,
+      "cap": 0.5,
+      "restart": false,
+      "pace": "none",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0194",
+      "mode": "direct",
+      "allocation": "disagreement",
+      "gamma": 1.0,
+      "cap": 0.5,
+      "restart": false,
+      "pace": "remaining",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0195",
+      "mode": "direct",
+      "allocation": "disagreement",
+      "gamma": 1.0,
+      "cap": 0.5,
+      "restart": false,
+      "pace": "remaining",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0196",
+      "mode": "direct",
+      "allocation": "disagreement",
+      "gamma": 1.0,
+      "cap": 0.5,
+      "restart": false,
+      "pace": "reserve",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0197",
+      "mode": "direct",
+      "allocation": "disagreement",
+      "gamma": 1.0,
+      "cap": 0.5,
+      "restart": false,
+      "pace": "reserve",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0198",
+      "mode": "direct",
+      "allocation": "disagreement",
+      "gamma": 1.0,
+      "cap": 0.5,
+      "restart": true,
+      "pace": "none",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0199",
+      "mode": "direct",
+      "allocation": "disagreement",
+      "gamma": 1.0,
+      "cap": 0.5,
+      "restart": true,
+      "pace": "none",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0200",
+      "mode": "direct",
+      "allocation": "disagreement",
+      "gamma": 1.0,
+      "cap": 0.5,
+      "restart": true,
+      "pace": "remaining",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0201",
+      "mode": "direct",
+      "allocation": "disagreement",
+      "gamma": 1.0,
+      "cap": 0.5,
+      "restart": true,
+      "pace": "remaining",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0202",
+      "mode": "direct",
+      "allocation": "disagreement",
+      "gamma": 1.0,
+      "cap": 0.5,
+      "restart": true,
+      "pace": "reserve",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0203",
+      "mode": "direct",
+      "allocation": "disagreement",
+      "gamma": 1.0,
+      "cap": 0.5,
+      "restart": true,
+      "pace": "reserve",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0204",
+      "mode": "direct",
+      "allocation": "disagreement",
+      "gamma": 1.0,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "none",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0205",
+      "mode": "direct",
+      "allocation": "disagreement",
+      "gamma": 1.0,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "none",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0206",
+      "mode": "direct",
+      "allocation": "disagreement",
+      "gamma": 1.0,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "remaining",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0207",
+      "mode": "direct",
+      "allocation": "disagreement",
+      "gamma": 1.0,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "remaining",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0208",
+      "mode": "direct",
+      "allocation": "disagreement",
+      "gamma": 1.0,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "reserve",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0209",
+      "mode": "direct",
+      "allocation": "disagreement",
+      "gamma": 1.0,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "reserve",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0210",
+      "mode": "direct",
+      "allocation": "disagreement",
+      "gamma": 1.0,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "none",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0211",
+      "mode": "direct",
+      "allocation": "disagreement",
+      "gamma": 1.0,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "none",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0212",
+      "mode": "direct",
+      "allocation": "disagreement",
+      "gamma": 1.0,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "remaining",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0213",
+      "mode": "direct",
+      "allocation": "disagreement",
+      "gamma": 1.0,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "remaining",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0214",
+      "mode": "direct",
+      "allocation": "disagreement",
+      "gamma": 1.0,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "reserve",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0215",
+      "mode": "direct",
+      "allocation": "disagreement",
+      "gamma": 1.0,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "reserve",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0216",
+      "mode": "and_alarm",
+      "allocation": "uniform",
+      "gamma": 0.9,
+      "cap": 0.5,
+      "restart": false,
+      "pace": "none",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0217",
+      "mode": "and_alarm",
+      "allocation": "uniform",
+      "gamma": 0.9,
+      "cap": 0.5,
+      "restart": false,
+      "pace": "none",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0218",
+      "mode": "and_alarm",
+      "allocation": "uniform",
+      "gamma": 0.9,
+      "cap": 0.5,
+      "restart": false,
+      "pace": "remaining",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0219",
+      "mode": "and_alarm",
+      "allocation": "uniform",
+      "gamma": 0.9,
+      "cap": 0.5,
+      "restart": false,
+      "pace": "remaining",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0220",
+      "mode": "and_alarm",
+      "allocation": "uniform",
+      "gamma": 0.9,
+      "cap": 0.5,
+      "restart": false,
+      "pace": "reserve",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0221",
+      "mode": "and_alarm",
+      "allocation": "uniform",
+      "gamma": 0.9,
+      "cap": 0.5,
+      "restart": false,
+      "pace": "reserve",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0222",
+      "mode": "and_alarm",
+      "allocation": "uniform",
+      "gamma": 0.9,
+      "cap": 0.5,
+      "restart": true,
+      "pace": "none",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0223",
+      "mode": "and_alarm",
+      "allocation": "uniform",
+      "gamma": 0.9,
+      "cap": 0.5,
+      "restart": true,
+      "pace": "none",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0224",
+      "mode": "and_alarm",
+      "allocation": "uniform",
+      "gamma": 0.9,
+      "cap": 0.5,
+      "restart": true,
+      "pace": "remaining",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0225",
+      "mode": "and_alarm",
+      "allocation": "uniform",
+      "gamma": 0.9,
+      "cap": 0.5,
+      "restart": true,
+      "pace": "remaining",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0226",
+      "mode": "and_alarm",
+      "allocation": "uniform",
+      "gamma": 0.9,
+      "cap": 0.5,
+      "restart": true,
+      "pace": "reserve",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0227",
+      "mode": "and_alarm",
+      "allocation": "uniform",
+      "gamma": 0.9,
+      "cap": 0.5,
+      "restart": true,
+      "pace": "reserve",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0228",
+      "mode": "and_alarm",
+      "allocation": "uniform",
+      "gamma": 0.9,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "none",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0229",
+      "mode": "and_alarm",
+      "allocation": "uniform",
+      "gamma": 0.9,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "none",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0230",
+      "mode": "and_alarm",
+      "allocation": "uniform",
+      "gamma": 0.9,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "remaining",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0231",
+      "mode": "and_alarm",
+      "allocation": "uniform",
+      "gamma": 0.9,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "remaining",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0232",
+      "mode": "and_alarm",
+      "allocation": "uniform",
+      "gamma": 0.9,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "reserve",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0233",
+      "mode": "and_alarm",
+      "allocation": "uniform",
+      "gamma": 0.9,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "reserve",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0234",
+      "mode": "and_alarm",
+      "allocation": "uniform",
+      "gamma": 0.9,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "none",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0235",
+      "mode": "and_alarm",
+      "allocation": "uniform",
+      "gamma": 0.9,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "none",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0236",
+      "mode": "and_alarm",
+      "allocation": "uniform",
+      "gamma": 0.9,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "remaining",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0237",
+      "mode": "and_alarm",
+      "allocation": "uniform",
+      "gamma": 0.9,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "remaining",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0238",
+      "mode": "and_alarm",
+      "allocation": "uniform",
+      "gamma": 0.9,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "reserve",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0239",
+      "mode": "and_alarm",
+      "allocation": "uniform",
+      "gamma": 0.9,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "reserve",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0240",
+      "mode": "and_alarm",
+      "allocation": "uniform",
+      "gamma": 0.98,
+      "cap": 0.5,
+      "restart": false,
+      "pace": "none",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0241",
+      "mode": "and_alarm",
+      "allocation": "uniform",
+      "gamma": 0.98,
+      "cap": 0.5,
+      "restart": false,
+      "pace": "none",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0242",
+      "mode": "and_alarm",
+      "allocation": "uniform",
+      "gamma": 0.98,
+      "cap": 0.5,
+      "restart": false,
+      "pace": "remaining",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0243",
+      "mode": "and_alarm",
+      "allocation": "uniform",
+      "gamma": 0.98,
+      "cap": 0.5,
+      "restart": false,
+      "pace": "remaining",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0244",
+      "mode": "and_alarm",
+      "allocation": "uniform",
+      "gamma": 0.98,
+      "cap": 0.5,
+      "restart": false,
+      "pace": "reserve",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0245",
+      "mode": "and_alarm",
+      "allocation": "uniform",
+      "gamma": 0.98,
+      "cap": 0.5,
+      "restart": false,
+      "pace": "reserve",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0246",
+      "mode": "and_alarm",
+      "allocation": "uniform",
+      "gamma": 0.98,
+      "cap": 0.5,
+      "restart": true,
+      "pace": "none",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0247",
+      "mode": "and_alarm",
+      "allocation": "uniform",
+      "gamma": 0.98,
+      "cap": 0.5,
+      "restart": true,
+      "pace": "none",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0248",
+      "mode": "and_alarm",
+      "allocation": "uniform",
+      "gamma": 0.98,
+      "cap": 0.5,
+      "restart": true,
+      "pace": "remaining",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0249",
+      "mode": "and_alarm",
+      "allocation": "uniform",
+      "gamma": 0.98,
+      "cap": 0.5,
+      "restart": true,
+      "pace": "remaining",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0250",
+      "mode": "and_alarm",
+      "allocation": "uniform",
+      "gamma": 0.98,
+      "cap": 0.5,
+      "restart": true,
+      "pace": "reserve",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0251",
+      "mode": "and_alarm",
+      "allocation": "uniform",
+      "gamma": 0.98,
+      "cap": 0.5,
+      "restart": true,
+      "pace": "reserve",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0252",
+      "mode": "and_alarm",
+      "allocation": "uniform",
+      "gamma": 0.98,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "none",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0253",
+      "mode": "and_alarm",
+      "allocation": "uniform",
+      "gamma": 0.98,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "none",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0254",
+      "mode": "and_alarm",
+      "allocation": "uniform",
+      "gamma": 0.98,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "remaining",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0255",
+      "mode": "and_alarm",
+      "allocation": "uniform",
+      "gamma": 0.98,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "remaining",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0256",
+      "mode": "and_alarm",
+      "allocation": "uniform",
+      "gamma": 0.98,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "reserve",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0257",
+      "mode": "and_alarm",
+      "allocation": "uniform",
+      "gamma": 0.98,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "reserve",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0258",
+      "mode": "and_alarm",
+      "allocation": "uniform",
+      "gamma": 0.98,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "none",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0259",
+      "mode": "and_alarm",
+      "allocation": "uniform",
+      "gamma": 0.98,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "none",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0260",
+      "mode": "and_alarm",
+      "allocation": "uniform",
+      "gamma": 0.98,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "remaining",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0261",
+      "mode": "and_alarm",
+      "allocation": "uniform",
+      "gamma": 0.98,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "remaining",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0262",
+      "mode": "and_alarm",
+      "allocation": "uniform",
+      "gamma": 0.98,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "reserve",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0263",
+      "mode": "and_alarm",
+      "allocation": "uniform",
+      "gamma": 0.98,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "reserve",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0264",
+      "mode": "and_alarm",
+      "allocation": "uniform",
+      "gamma": 1.0,
+      "cap": 0.5,
+      "restart": false,
+      "pace": "none",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0265",
+      "mode": "and_alarm",
+      "allocation": "uniform",
+      "gamma": 1.0,
+      "cap": 0.5,
+      "restart": false,
+      "pace": "none",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0266",
+      "mode": "and_alarm",
+      "allocation": "uniform",
+      "gamma": 1.0,
+      "cap": 0.5,
+      "restart": false,
+      "pace": "remaining",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0267",
+      "mode": "and_alarm",
+      "allocation": "uniform",
+      "gamma": 1.0,
+      "cap": 0.5,
+      "restart": false,
+      "pace": "remaining",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0268",
+      "mode": "and_alarm",
+      "allocation": "uniform",
+      "gamma": 1.0,
+      "cap": 0.5,
+      "restart": false,
+      "pace": "reserve",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0269",
+      "mode": "and_alarm",
+      "allocation": "uniform",
+      "gamma": 1.0,
+      "cap": 0.5,
+      "restart": false,
+      "pace": "reserve",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0270",
+      "mode": "and_alarm",
+      "allocation": "uniform",
+      "gamma": 1.0,
+      "cap": 0.5,
+      "restart": true,
+      "pace": "none",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0271",
+      "mode": "and_alarm",
+      "allocation": "uniform",
+      "gamma": 1.0,
+      "cap": 0.5,
+      "restart": true,
+      "pace": "none",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0272",
+      "mode": "and_alarm",
+      "allocation": "uniform",
+      "gamma": 1.0,
+      "cap": 0.5,
+      "restart": true,
+      "pace": "remaining",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0273",
+      "mode": "and_alarm",
+      "allocation": "uniform",
+      "gamma": 1.0,
+      "cap": 0.5,
+      "restart": true,
+      "pace": "remaining",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0274",
+      "mode": "and_alarm",
+      "allocation": "uniform",
+      "gamma": 1.0,
+      "cap": 0.5,
+      "restart": true,
+      "pace": "reserve",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0275",
+      "mode": "and_alarm",
+      "allocation": "uniform",
+      "gamma": 1.0,
+      "cap": 0.5,
+      "restart": true,
+      "pace": "reserve",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0276",
+      "mode": "and_alarm",
+      "allocation": "uniform",
+      "gamma": 1.0,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "none",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0277",
+      "mode": "and_alarm",
+      "allocation": "uniform",
+      "gamma": 1.0,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "none",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0278",
+      "mode": "and_alarm",
+      "allocation": "uniform",
+      "gamma": 1.0,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "remaining",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0279",
+      "mode": "and_alarm",
+      "allocation": "uniform",
+      "gamma": 1.0,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "remaining",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0280",
+      "mode": "and_alarm",
+      "allocation": "uniform",
+      "gamma": 1.0,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "reserve",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0281",
+      "mode": "and_alarm",
+      "allocation": "uniform",
+      "gamma": 1.0,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "reserve",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0282",
+      "mode": "and_alarm",
+      "allocation": "uniform",
+      "gamma": 1.0,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "none",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0283",
+      "mode": "and_alarm",
+      "allocation": "uniform",
+      "gamma": 1.0,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "none",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0284",
+      "mode": "and_alarm",
+      "allocation": "uniform",
+      "gamma": 1.0,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "remaining",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0285",
+      "mode": "and_alarm",
+      "allocation": "uniform",
+      "gamma": 1.0,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "remaining",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0286",
+      "mode": "and_alarm",
+      "allocation": "uniform",
+      "gamma": 1.0,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "reserve",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0287",
+      "mode": "and_alarm",
+      "allocation": "uniform",
+      "gamma": 1.0,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "reserve",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0288",
+      "mode": "and_alarm",
+      "allocation": "uncertainty",
+      "gamma": 0.9,
+      "cap": 0.5,
+      "restart": false,
+      "pace": "none",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0289",
+      "mode": "and_alarm",
+      "allocation": "uncertainty",
+      "gamma": 0.9,
+      "cap": 0.5,
+      "restart": false,
+      "pace": "none",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0290",
+      "mode": "and_alarm",
+      "allocation": "uncertainty",
+      "gamma": 0.9,
+      "cap": 0.5,
+      "restart": false,
+      "pace": "remaining",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0291",
+      "mode": "and_alarm",
+      "allocation": "uncertainty",
+      "gamma": 0.9,
+      "cap": 0.5,
+      "restart": false,
+      "pace": "remaining",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0292",
+      "mode": "and_alarm",
+      "allocation": "uncertainty",
+      "gamma": 0.9,
+      "cap": 0.5,
+      "restart": false,
+      "pace": "reserve",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0293",
+      "mode": "and_alarm",
+      "allocation": "uncertainty",
+      "gamma": 0.9,
+      "cap": 0.5,
+      "restart": false,
+      "pace": "reserve",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0294",
+      "mode": "and_alarm",
+      "allocation": "uncertainty",
+      "gamma": 0.9,
+      "cap": 0.5,
+      "restart": true,
+      "pace": "none",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0295",
+      "mode": "and_alarm",
+      "allocation": "uncertainty",
+      "gamma": 0.9,
+      "cap": 0.5,
+      "restart": true,
+      "pace": "none",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0296",
+      "mode": "and_alarm",
+      "allocation": "uncertainty",
+      "gamma": 0.9,
+      "cap": 0.5,
+      "restart": true,
+      "pace": "remaining",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0297",
+      "mode": "and_alarm",
+      "allocation": "uncertainty",
+      "gamma": 0.9,
+      "cap": 0.5,
+      "restart": true,
+      "pace": "remaining",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0298",
+      "mode": "and_alarm",
+      "allocation": "uncertainty",
+      "gamma": 0.9,
+      "cap": 0.5,
+      "restart": true,
+      "pace": "reserve",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0299",
+      "mode": "and_alarm",
+      "allocation": "uncertainty",
+      "gamma": 0.9,
+      "cap": 0.5,
+      "restart": true,
+      "pace": "reserve",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0300",
+      "mode": "and_alarm",
+      "allocation": "uncertainty",
+      "gamma": 0.9,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "none",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0301",
+      "mode": "and_alarm",
+      "allocation": "uncertainty",
+      "gamma": 0.9,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "none",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0302",
+      "mode": "and_alarm",
+      "allocation": "uncertainty",
+      "gamma": 0.9,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "remaining",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0303",
+      "mode": "and_alarm",
+      "allocation": "uncertainty",
+      "gamma": 0.9,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "remaining",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0304",
+      "mode": "and_alarm",
+      "allocation": "uncertainty",
+      "gamma": 0.9,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "reserve",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0305",
+      "mode": "and_alarm",
+      "allocation": "uncertainty",
+      "gamma": 0.9,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "reserve",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0306",
+      "mode": "and_alarm",
+      "allocation": "uncertainty",
+      "gamma": 0.9,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "none",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0307",
+      "mode": "and_alarm",
+      "allocation": "uncertainty",
+      "gamma": 0.9,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "none",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0308",
+      "mode": "and_alarm",
+      "allocation": "uncertainty",
+      "gamma": 0.9,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "remaining",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0309",
+      "mode": "and_alarm",
+      "allocation": "uncertainty",
+      "gamma": 0.9,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "remaining",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0310",
+      "mode": "and_alarm",
+      "allocation": "uncertainty",
+      "gamma": 0.9,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "reserve",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0311",
+      "mode": "and_alarm",
+      "allocation": "uncertainty",
+      "gamma": 0.9,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "reserve",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0312",
+      "mode": "and_alarm",
+      "allocation": "uncertainty",
+      "gamma": 0.98,
+      "cap": 0.5,
+      "restart": false,
+      "pace": "none",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0313",
+      "mode": "and_alarm",
+      "allocation": "uncertainty",
+      "gamma": 0.98,
+      "cap": 0.5,
+      "restart": false,
+      "pace": "none",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0314",
+      "mode": "and_alarm",
+      "allocation": "uncertainty",
+      "gamma": 0.98,
+      "cap": 0.5,
+      "restart": false,
+      "pace": "remaining",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0315",
+      "mode": "and_alarm",
+      "allocation": "uncertainty",
+      "gamma": 0.98,
+      "cap": 0.5,
+      "restart": false,
+      "pace": "remaining",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0316",
+      "mode": "and_alarm",
+      "allocation": "uncertainty",
+      "gamma": 0.98,
+      "cap": 0.5,
+      "restart": false,
+      "pace": "reserve",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0317",
+      "mode": "and_alarm",
+      "allocation": "uncertainty",
+      "gamma": 0.98,
+      "cap": 0.5,
+      "restart": false,
+      "pace": "reserve",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0318",
+      "mode": "and_alarm",
+      "allocation": "uncertainty",
+      "gamma": 0.98,
+      "cap": 0.5,
+      "restart": true,
+      "pace": "none",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0319",
+      "mode": "and_alarm",
+      "allocation": "uncertainty",
+      "gamma": 0.98,
+      "cap": 0.5,
+      "restart": true,
+      "pace": "none",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0320",
+      "mode": "and_alarm",
+      "allocation": "uncertainty",
+      "gamma": 0.98,
+      "cap": 0.5,
+      "restart": true,
+      "pace": "remaining",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0321",
+      "mode": "and_alarm",
+      "allocation": "uncertainty",
+      "gamma": 0.98,
+      "cap": 0.5,
+      "restart": true,
+      "pace": "remaining",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0322",
+      "mode": "and_alarm",
+      "allocation": "uncertainty",
+      "gamma": 0.98,
+      "cap": 0.5,
+      "restart": true,
+      "pace": "reserve",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0323",
+      "mode": "and_alarm",
+      "allocation": "uncertainty",
+      "gamma": 0.98,
+      "cap": 0.5,
+      "restart": true,
+      "pace": "reserve",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0324",
+      "mode": "and_alarm",
+      "allocation": "uncertainty",
+      "gamma": 0.98,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "none",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0325",
+      "mode": "and_alarm",
+      "allocation": "uncertainty",
+      "gamma": 0.98,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "none",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0326",
+      "mode": "and_alarm",
+      "allocation": "uncertainty",
+      "gamma": 0.98,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "remaining",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0327",
+      "mode": "and_alarm",
+      "allocation": "uncertainty",
+      "gamma": 0.98,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "remaining",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0328",
+      "mode": "and_alarm",
+      "allocation": "uncertainty",
+      "gamma": 0.98,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "reserve",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0329",
+      "mode": "and_alarm",
+      "allocation": "uncertainty",
+      "gamma": 0.98,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "reserve",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0330",
+      "mode": "and_alarm",
+      "allocation": "uncertainty",
+      "gamma": 0.98,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "none",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0331",
+      "mode": "and_alarm",
+      "allocation": "uncertainty",
+      "gamma": 0.98,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "none",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0332",
+      "mode": "and_alarm",
+      "allocation": "uncertainty",
+      "gamma": 0.98,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "remaining",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0333",
+      "mode": "and_alarm",
+      "allocation": "uncertainty",
+      "gamma": 0.98,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "remaining",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0334",
+      "mode": "and_alarm",
+      "allocation": "uncertainty",
+      "gamma": 0.98,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "reserve",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0335",
+      "mode": "and_alarm",
+      "allocation": "uncertainty",
+      "gamma": 0.98,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "reserve",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0336",
+      "mode": "and_alarm",
+      "allocation": "uncertainty",
+      "gamma": 1.0,
+      "cap": 0.5,
+      "restart": false,
+      "pace": "none",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0337",
+      "mode": "and_alarm",
+      "allocation": "uncertainty",
+      "gamma": 1.0,
+      "cap": 0.5,
+      "restart": false,
+      "pace": "none",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0338",
+      "mode": "and_alarm",
+      "allocation": "uncertainty",
+      "gamma": 1.0,
+      "cap": 0.5,
+      "restart": false,
+      "pace": "remaining",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0339",
+      "mode": "and_alarm",
+      "allocation": "uncertainty",
+      "gamma": 1.0,
+      "cap": 0.5,
+      "restart": false,
+      "pace": "remaining",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0340",
+      "mode": "and_alarm",
+      "allocation": "uncertainty",
+      "gamma": 1.0,
+      "cap": 0.5,
+      "restart": false,
+      "pace": "reserve",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0341",
+      "mode": "and_alarm",
+      "allocation": "uncertainty",
+      "gamma": 1.0,
+      "cap": 0.5,
+      "restart": false,
+      "pace": "reserve",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0342",
+      "mode": "and_alarm",
+      "allocation": "uncertainty",
+      "gamma": 1.0,
+      "cap": 0.5,
+      "restart": true,
+      "pace": "none",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0343",
+      "mode": "and_alarm",
+      "allocation": "uncertainty",
+      "gamma": 1.0,
+      "cap": 0.5,
+      "restart": true,
+      "pace": "none",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0344",
+      "mode": "and_alarm",
+      "allocation": "uncertainty",
+      "gamma": 1.0,
+      "cap": 0.5,
+      "restart": true,
+      "pace": "remaining",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0345",
+      "mode": "and_alarm",
+      "allocation": "uncertainty",
+      "gamma": 1.0,
+      "cap": 0.5,
+      "restart": true,
+      "pace": "remaining",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0346",
+      "mode": "and_alarm",
+      "allocation": "uncertainty",
+      "gamma": 1.0,
+      "cap": 0.5,
+      "restart": true,
+      "pace": "reserve",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0347",
+      "mode": "and_alarm",
+      "allocation": "uncertainty",
+      "gamma": 1.0,
+      "cap": 0.5,
+      "restart": true,
+      "pace": "reserve",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0348",
+      "mode": "and_alarm",
+      "allocation": "uncertainty",
+      "gamma": 1.0,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "none",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0349",
+      "mode": "and_alarm",
+      "allocation": "uncertainty",
+      "gamma": 1.0,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "none",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0350",
+      "mode": "and_alarm",
+      "allocation": "uncertainty",
+      "gamma": 1.0,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "remaining",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0351",
+      "mode": "and_alarm",
+      "allocation": "uncertainty",
+      "gamma": 1.0,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "remaining",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0352",
+      "mode": "and_alarm",
+      "allocation": "uncertainty",
+      "gamma": 1.0,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "reserve",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0353",
+      "mode": "and_alarm",
+      "allocation": "uncertainty",
+      "gamma": 1.0,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "reserve",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0354",
+      "mode": "and_alarm",
+      "allocation": "uncertainty",
+      "gamma": 1.0,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "none",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0355",
+      "mode": "and_alarm",
+      "allocation": "uncertainty",
+      "gamma": 1.0,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "none",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0356",
+      "mode": "and_alarm",
+      "allocation": "uncertainty",
+      "gamma": 1.0,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "remaining",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0357",
+      "mode": "and_alarm",
+      "allocation": "uncertainty",
+      "gamma": 1.0,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "remaining",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0358",
+      "mode": "and_alarm",
+      "allocation": "uncertainty",
+      "gamma": 1.0,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "reserve",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0359",
+      "mode": "and_alarm",
+      "allocation": "uncertainty",
+      "gamma": 1.0,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "reserve",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0360",
+      "mode": "and_alarm",
+      "allocation": "disagreement",
+      "gamma": 0.9,
+      "cap": 0.5,
+      "restart": false,
+      "pace": "none",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0361",
+      "mode": "and_alarm",
+      "allocation": "disagreement",
+      "gamma": 0.9,
+      "cap": 0.5,
+      "restart": false,
+      "pace": "none",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0362",
+      "mode": "and_alarm",
+      "allocation": "disagreement",
+      "gamma": 0.9,
+      "cap": 0.5,
+      "restart": false,
+      "pace": "remaining",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0363",
+      "mode": "and_alarm",
+      "allocation": "disagreement",
+      "gamma": 0.9,
+      "cap": 0.5,
+      "restart": false,
+      "pace": "remaining",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0364",
+      "mode": "and_alarm",
+      "allocation": "disagreement",
+      "gamma": 0.9,
+      "cap": 0.5,
+      "restart": false,
+      "pace": "reserve",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0365",
+      "mode": "and_alarm",
+      "allocation": "disagreement",
+      "gamma": 0.9,
+      "cap": 0.5,
+      "restart": false,
+      "pace": "reserve",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0366",
+      "mode": "and_alarm",
+      "allocation": "disagreement",
+      "gamma": 0.9,
+      "cap": 0.5,
+      "restart": true,
+      "pace": "none",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0367",
+      "mode": "and_alarm",
+      "allocation": "disagreement",
+      "gamma": 0.9,
+      "cap": 0.5,
+      "restart": true,
+      "pace": "none",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0368",
+      "mode": "and_alarm",
+      "allocation": "disagreement",
+      "gamma": 0.9,
+      "cap": 0.5,
+      "restart": true,
+      "pace": "remaining",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0369",
+      "mode": "and_alarm",
+      "allocation": "disagreement",
+      "gamma": 0.9,
+      "cap": 0.5,
+      "restart": true,
+      "pace": "remaining",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0370",
+      "mode": "and_alarm",
+      "allocation": "disagreement",
+      "gamma": 0.9,
+      "cap": 0.5,
+      "restart": true,
+      "pace": "reserve",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0371",
+      "mode": "and_alarm",
+      "allocation": "disagreement",
+      "gamma": 0.9,
+      "cap": 0.5,
+      "restart": true,
+      "pace": "reserve",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0372",
+      "mode": "and_alarm",
+      "allocation": "disagreement",
+      "gamma": 0.9,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "none",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0373",
+      "mode": "and_alarm",
+      "allocation": "disagreement",
+      "gamma": 0.9,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "none",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0374",
+      "mode": "and_alarm",
+      "allocation": "disagreement",
+      "gamma": 0.9,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "remaining",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0375",
+      "mode": "and_alarm",
+      "allocation": "disagreement",
+      "gamma": 0.9,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "remaining",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0376",
+      "mode": "and_alarm",
+      "allocation": "disagreement",
+      "gamma": 0.9,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "reserve",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0377",
+      "mode": "and_alarm",
+      "allocation": "disagreement",
+      "gamma": 0.9,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "reserve",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0378",
+      "mode": "and_alarm",
+      "allocation": "disagreement",
+      "gamma": 0.9,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "none",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0379",
+      "mode": "and_alarm",
+      "allocation": "disagreement",
+      "gamma": 0.9,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "none",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0380",
+      "mode": "and_alarm",
+      "allocation": "disagreement",
+      "gamma": 0.9,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "remaining",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0381",
+      "mode": "and_alarm",
+      "allocation": "disagreement",
+      "gamma": 0.9,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "remaining",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0382",
+      "mode": "and_alarm",
+      "allocation": "disagreement",
+      "gamma": 0.9,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "reserve",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0383",
+      "mode": "and_alarm",
+      "allocation": "disagreement",
+      "gamma": 0.9,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "reserve",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0384",
+      "mode": "and_alarm",
+      "allocation": "disagreement",
+      "gamma": 0.98,
+      "cap": 0.5,
+      "restart": false,
+      "pace": "none",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0385",
+      "mode": "and_alarm",
+      "allocation": "disagreement",
+      "gamma": 0.98,
+      "cap": 0.5,
+      "restart": false,
+      "pace": "none",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0386",
+      "mode": "and_alarm",
+      "allocation": "disagreement",
+      "gamma": 0.98,
+      "cap": 0.5,
+      "restart": false,
+      "pace": "remaining",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0387",
+      "mode": "and_alarm",
+      "allocation": "disagreement",
+      "gamma": 0.98,
+      "cap": 0.5,
+      "restart": false,
+      "pace": "remaining",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0388",
+      "mode": "and_alarm",
+      "allocation": "disagreement",
+      "gamma": 0.98,
+      "cap": 0.5,
+      "restart": false,
+      "pace": "reserve",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0389",
+      "mode": "and_alarm",
+      "allocation": "disagreement",
+      "gamma": 0.98,
+      "cap": 0.5,
+      "restart": false,
+      "pace": "reserve",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0390",
+      "mode": "and_alarm",
+      "allocation": "disagreement",
+      "gamma": 0.98,
+      "cap": 0.5,
+      "restart": true,
+      "pace": "none",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0391",
+      "mode": "and_alarm",
+      "allocation": "disagreement",
+      "gamma": 0.98,
+      "cap": 0.5,
+      "restart": true,
+      "pace": "none",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0392",
+      "mode": "and_alarm",
+      "allocation": "disagreement",
+      "gamma": 0.98,
+      "cap": 0.5,
+      "restart": true,
+      "pace": "remaining",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0393",
+      "mode": "and_alarm",
+      "allocation": "disagreement",
+      "gamma": 0.98,
+      "cap": 0.5,
+      "restart": true,
+      "pace": "remaining",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0394",
+      "mode": "and_alarm",
+      "allocation": "disagreement",
+      "gamma": 0.98,
+      "cap": 0.5,
+      "restart": true,
+      "pace": "reserve",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0395",
+      "mode": "and_alarm",
+      "allocation": "disagreement",
+      "gamma": 0.98,
+      "cap": 0.5,
+      "restart": true,
+      "pace": "reserve",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0396",
+      "mode": "and_alarm",
+      "allocation": "disagreement",
+      "gamma": 0.98,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "none",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0397",
+      "mode": "and_alarm",
+      "allocation": "disagreement",
+      "gamma": 0.98,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "none",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0398",
+      "mode": "and_alarm",
+      "allocation": "disagreement",
+      "gamma": 0.98,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "remaining",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0399",
+      "mode": "and_alarm",
+      "allocation": "disagreement",
+      "gamma": 0.98,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "remaining",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0400",
+      "mode": "and_alarm",
+      "allocation": "disagreement",
+      "gamma": 0.98,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "reserve",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0401",
+      "mode": "and_alarm",
+      "allocation": "disagreement",
+      "gamma": 0.98,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "reserve",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0402",
+      "mode": "and_alarm",
+      "allocation": "disagreement",
+      "gamma": 0.98,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "none",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0403",
+      "mode": "and_alarm",
+      "allocation": "disagreement",
+      "gamma": 0.98,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "none",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0404",
+      "mode": "and_alarm",
+      "allocation": "disagreement",
+      "gamma": 0.98,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "remaining",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0405",
+      "mode": "and_alarm",
+      "allocation": "disagreement",
+      "gamma": 0.98,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "remaining",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0406",
+      "mode": "and_alarm",
+      "allocation": "disagreement",
+      "gamma": 0.98,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "reserve",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0407",
+      "mode": "and_alarm",
+      "allocation": "disagreement",
+      "gamma": 0.98,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "reserve",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0408",
+      "mode": "and_alarm",
+      "allocation": "disagreement",
+      "gamma": 1.0,
+      "cap": 0.5,
+      "restart": false,
+      "pace": "none",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0409",
+      "mode": "and_alarm",
+      "allocation": "disagreement",
+      "gamma": 1.0,
+      "cap": 0.5,
+      "restart": false,
+      "pace": "none",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0410",
+      "mode": "and_alarm",
+      "allocation": "disagreement",
+      "gamma": 1.0,
+      "cap": 0.5,
+      "restart": false,
+      "pace": "remaining",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0411",
+      "mode": "and_alarm",
+      "allocation": "disagreement",
+      "gamma": 1.0,
+      "cap": 0.5,
+      "restart": false,
+      "pace": "remaining",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0412",
+      "mode": "and_alarm",
+      "allocation": "disagreement",
+      "gamma": 1.0,
+      "cap": 0.5,
+      "restart": false,
+      "pace": "reserve",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0413",
+      "mode": "and_alarm",
+      "allocation": "disagreement",
+      "gamma": 1.0,
+      "cap": 0.5,
+      "restart": false,
+      "pace": "reserve",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0414",
+      "mode": "and_alarm",
+      "allocation": "disagreement",
+      "gamma": 1.0,
+      "cap": 0.5,
+      "restart": true,
+      "pace": "none",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0415",
+      "mode": "and_alarm",
+      "allocation": "disagreement",
+      "gamma": 1.0,
+      "cap": 0.5,
+      "restart": true,
+      "pace": "none",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0416",
+      "mode": "and_alarm",
+      "allocation": "disagreement",
+      "gamma": 1.0,
+      "cap": 0.5,
+      "restart": true,
+      "pace": "remaining",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0417",
+      "mode": "and_alarm",
+      "allocation": "disagreement",
+      "gamma": 1.0,
+      "cap": 0.5,
+      "restart": true,
+      "pace": "remaining",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0418",
+      "mode": "and_alarm",
+      "allocation": "disagreement",
+      "gamma": 1.0,
+      "cap": 0.5,
+      "restart": true,
+      "pace": "reserve",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0419",
+      "mode": "and_alarm",
+      "allocation": "disagreement",
+      "gamma": 1.0,
+      "cap": 0.5,
+      "restart": true,
+      "pace": "reserve",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0420",
+      "mode": "and_alarm",
+      "allocation": "disagreement",
+      "gamma": 1.0,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "none",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0421",
+      "mode": "and_alarm",
+      "allocation": "disagreement",
+      "gamma": 1.0,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "none",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0422",
+      "mode": "and_alarm",
+      "allocation": "disagreement",
+      "gamma": 1.0,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "remaining",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0423",
+      "mode": "and_alarm",
+      "allocation": "disagreement",
+      "gamma": 1.0,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "remaining",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0424",
+      "mode": "and_alarm",
+      "allocation": "disagreement",
+      "gamma": 1.0,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "reserve",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0425",
+      "mode": "and_alarm",
+      "allocation": "disagreement",
+      "gamma": 1.0,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "reserve",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0426",
+      "mode": "and_alarm",
+      "allocation": "disagreement",
+      "gamma": 1.0,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "none",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0427",
+      "mode": "and_alarm",
+      "allocation": "disagreement",
+      "gamma": 1.0,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "none",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0428",
+      "mode": "and_alarm",
+      "allocation": "disagreement",
+      "gamma": 1.0,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "remaining",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0429",
+      "mode": "and_alarm",
+      "allocation": "disagreement",
+      "gamma": 1.0,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "remaining",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0430",
+      "mode": "and_alarm",
+      "allocation": "disagreement",
+      "gamma": 1.0,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "reserve",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0431",
+      "mode": "and_alarm",
+      "allocation": "disagreement",
+      "gamma": 1.0,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "reserve",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0432",
+      "mode": "after_alarm",
+      "allocation": "uniform",
+      "gamma": 0.9,
+      "cap": 0.5,
+      "restart": false,
+      "pace": "none",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0433",
+      "mode": "after_alarm",
+      "allocation": "uniform",
+      "gamma": 0.9,
+      "cap": 0.5,
+      "restart": false,
+      "pace": "none",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0434",
+      "mode": "after_alarm",
+      "allocation": "uniform",
+      "gamma": 0.9,
+      "cap": 0.5,
+      "restart": false,
+      "pace": "remaining",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0435",
+      "mode": "after_alarm",
+      "allocation": "uniform",
+      "gamma": 0.9,
+      "cap": 0.5,
+      "restart": false,
+      "pace": "remaining",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0436",
+      "mode": "after_alarm",
+      "allocation": "uniform",
+      "gamma": 0.9,
+      "cap": 0.5,
+      "restart": false,
+      "pace": "reserve",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0437",
+      "mode": "after_alarm",
+      "allocation": "uniform",
+      "gamma": 0.9,
+      "cap": 0.5,
+      "restart": false,
+      "pace": "reserve",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0438",
+      "mode": "after_alarm",
+      "allocation": "uniform",
+      "gamma": 0.9,
+      "cap": 0.5,
+      "restart": true,
+      "pace": "none",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0439",
+      "mode": "after_alarm",
+      "allocation": "uniform",
+      "gamma": 0.9,
+      "cap": 0.5,
+      "restart": true,
+      "pace": "none",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0440",
+      "mode": "after_alarm",
+      "allocation": "uniform",
+      "gamma": 0.9,
+      "cap": 0.5,
+      "restart": true,
+      "pace": "remaining",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0441",
+      "mode": "after_alarm",
+      "allocation": "uniform",
+      "gamma": 0.9,
+      "cap": 0.5,
+      "restart": true,
+      "pace": "remaining",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0442",
+      "mode": "after_alarm",
+      "allocation": "uniform",
+      "gamma": 0.9,
+      "cap": 0.5,
+      "restart": true,
+      "pace": "reserve",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0443",
+      "mode": "after_alarm",
+      "allocation": "uniform",
+      "gamma": 0.9,
+      "cap": 0.5,
+      "restart": true,
+      "pace": "reserve",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0444",
+      "mode": "after_alarm",
+      "allocation": "uniform",
+      "gamma": 0.9,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "none",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0445",
+      "mode": "after_alarm",
+      "allocation": "uniform",
+      "gamma": 0.9,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "none",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0446",
+      "mode": "after_alarm",
+      "allocation": "uniform",
+      "gamma": 0.9,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "remaining",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0447",
+      "mode": "after_alarm",
+      "allocation": "uniform",
+      "gamma": 0.9,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "remaining",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0448",
+      "mode": "after_alarm",
+      "allocation": "uniform",
+      "gamma": 0.9,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "reserve",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0449",
+      "mode": "after_alarm",
+      "allocation": "uniform",
+      "gamma": 0.9,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "reserve",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0450",
+      "mode": "after_alarm",
+      "allocation": "uniform",
+      "gamma": 0.9,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "none",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0451",
+      "mode": "after_alarm",
+      "allocation": "uniform",
+      "gamma": 0.9,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "none",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0452",
+      "mode": "after_alarm",
+      "allocation": "uniform",
+      "gamma": 0.9,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "remaining",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0453",
+      "mode": "after_alarm",
+      "allocation": "uniform",
+      "gamma": 0.9,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "remaining",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0454",
+      "mode": "after_alarm",
+      "allocation": "uniform",
+      "gamma": 0.9,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "reserve",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0455",
+      "mode": "after_alarm",
+      "allocation": "uniform",
+      "gamma": 0.9,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "reserve",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0456",
+      "mode": "after_alarm",
+      "allocation": "uniform",
+      "gamma": 0.98,
+      "cap": 0.5,
+      "restart": false,
+      "pace": "none",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0457",
+      "mode": "after_alarm",
+      "allocation": "uniform",
+      "gamma": 0.98,
+      "cap": 0.5,
+      "restart": false,
+      "pace": "none",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0458",
+      "mode": "after_alarm",
+      "allocation": "uniform",
+      "gamma": 0.98,
+      "cap": 0.5,
+      "restart": false,
+      "pace": "remaining",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0459",
+      "mode": "after_alarm",
+      "allocation": "uniform",
+      "gamma": 0.98,
+      "cap": 0.5,
+      "restart": false,
+      "pace": "remaining",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0460",
+      "mode": "after_alarm",
+      "allocation": "uniform",
+      "gamma": 0.98,
+      "cap": 0.5,
+      "restart": false,
+      "pace": "reserve",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0461",
+      "mode": "after_alarm",
+      "allocation": "uniform",
+      "gamma": 0.98,
+      "cap": 0.5,
+      "restart": false,
+      "pace": "reserve",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0462",
+      "mode": "after_alarm",
+      "allocation": "uniform",
+      "gamma": 0.98,
+      "cap": 0.5,
+      "restart": true,
+      "pace": "none",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0463",
+      "mode": "after_alarm",
+      "allocation": "uniform",
+      "gamma": 0.98,
+      "cap": 0.5,
+      "restart": true,
+      "pace": "none",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0464",
+      "mode": "after_alarm",
+      "allocation": "uniform",
+      "gamma": 0.98,
+      "cap": 0.5,
+      "restart": true,
+      "pace": "remaining",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0465",
+      "mode": "after_alarm",
+      "allocation": "uniform",
+      "gamma": 0.98,
+      "cap": 0.5,
+      "restart": true,
+      "pace": "remaining",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0466",
+      "mode": "after_alarm",
+      "allocation": "uniform",
+      "gamma": 0.98,
+      "cap": 0.5,
+      "restart": true,
+      "pace": "reserve",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0467",
+      "mode": "after_alarm",
+      "allocation": "uniform",
+      "gamma": 0.98,
+      "cap": 0.5,
+      "restart": true,
+      "pace": "reserve",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0468",
+      "mode": "after_alarm",
+      "allocation": "uniform",
+      "gamma": 0.98,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "none",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0469",
+      "mode": "after_alarm",
+      "allocation": "uniform",
+      "gamma": 0.98,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "none",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0470",
+      "mode": "after_alarm",
+      "allocation": "uniform",
+      "gamma": 0.98,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "remaining",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0471",
+      "mode": "after_alarm",
+      "allocation": "uniform",
+      "gamma": 0.98,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "remaining",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0472",
+      "mode": "after_alarm",
+      "allocation": "uniform",
+      "gamma": 0.98,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "reserve",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0473",
+      "mode": "after_alarm",
+      "allocation": "uniform",
+      "gamma": 0.98,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "reserve",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0474",
+      "mode": "after_alarm",
+      "allocation": "uniform",
+      "gamma": 0.98,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "none",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0475",
+      "mode": "after_alarm",
+      "allocation": "uniform",
+      "gamma": 0.98,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "none",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0476",
+      "mode": "after_alarm",
+      "allocation": "uniform",
+      "gamma": 0.98,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "remaining",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0477",
+      "mode": "after_alarm",
+      "allocation": "uniform",
+      "gamma": 0.98,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "remaining",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0478",
+      "mode": "after_alarm",
+      "allocation": "uniform",
+      "gamma": 0.98,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "reserve",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0479",
+      "mode": "after_alarm",
+      "allocation": "uniform",
+      "gamma": 0.98,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "reserve",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0480",
+      "mode": "after_alarm",
+      "allocation": "uniform",
+      "gamma": 1.0,
+      "cap": 0.5,
+      "restart": false,
+      "pace": "none",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0481",
+      "mode": "after_alarm",
+      "allocation": "uniform",
+      "gamma": 1.0,
+      "cap": 0.5,
+      "restart": false,
+      "pace": "none",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0482",
+      "mode": "after_alarm",
+      "allocation": "uniform",
+      "gamma": 1.0,
+      "cap": 0.5,
+      "restart": false,
+      "pace": "remaining",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0483",
+      "mode": "after_alarm",
+      "allocation": "uniform",
+      "gamma": 1.0,
+      "cap": 0.5,
+      "restart": false,
+      "pace": "remaining",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0484",
+      "mode": "after_alarm",
+      "allocation": "uniform",
+      "gamma": 1.0,
+      "cap": 0.5,
+      "restart": false,
+      "pace": "reserve",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0485",
+      "mode": "after_alarm",
+      "allocation": "uniform",
+      "gamma": 1.0,
+      "cap": 0.5,
+      "restart": false,
+      "pace": "reserve",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0486",
+      "mode": "after_alarm",
+      "allocation": "uniform",
+      "gamma": 1.0,
+      "cap": 0.5,
+      "restart": true,
+      "pace": "none",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0487",
+      "mode": "after_alarm",
+      "allocation": "uniform",
+      "gamma": 1.0,
+      "cap": 0.5,
+      "restart": true,
+      "pace": "none",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0488",
+      "mode": "after_alarm",
+      "allocation": "uniform",
+      "gamma": 1.0,
+      "cap": 0.5,
+      "restart": true,
+      "pace": "remaining",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0489",
+      "mode": "after_alarm",
+      "allocation": "uniform",
+      "gamma": 1.0,
+      "cap": 0.5,
+      "restart": true,
+      "pace": "remaining",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0490",
+      "mode": "after_alarm",
+      "allocation": "uniform",
+      "gamma": 1.0,
+      "cap": 0.5,
+      "restart": true,
+      "pace": "reserve",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0491",
+      "mode": "after_alarm",
+      "allocation": "uniform",
+      "gamma": 1.0,
+      "cap": 0.5,
+      "restart": true,
+      "pace": "reserve",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0492",
+      "mode": "after_alarm",
+      "allocation": "uniform",
+      "gamma": 1.0,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "none",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0493",
+      "mode": "after_alarm",
+      "allocation": "uniform",
+      "gamma": 1.0,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "none",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0494",
+      "mode": "after_alarm",
+      "allocation": "uniform",
+      "gamma": 1.0,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "remaining",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0495",
+      "mode": "after_alarm",
+      "allocation": "uniform",
+      "gamma": 1.0,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "remaining",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0496",
+      "mode": "after_alarm",
+      "allocation": "uniform",
+      "gamma": 1.0,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "reserve",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0497",
+      "mode": "after_alarm",
+      "allocation": "uniform",
+      "gamma": 1.0,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "reserve",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0498",
+      "mode": "after_alarm",
+      "allocation": "uniform",
+      "gamma": 1.0,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "none",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0499",
+      "mode": "after_alarm",
+      "allocation": "uniform",
+      "gamma": 1.0,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "none",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0500",
+      "mode": "after_alarm",
+      "allocation": "uniform",
+      "gamma": 1.0,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "remaining",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0501",
+      "mode": "after_alarm",
+      "allocation": "uniform",
+      "gamma": 1.0,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "remaining",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0502",
+      "mode": "after_alarm",
+      "allocation": "uniform",
+      "gamma": 1.0,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "reserve",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0503",
+      "mode": "after_alarm",
+      "allocation": "uniform",
+      "gamma": 1.0,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "reserve",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0504",
+      "mode": "after_alarm",
+      "allocation": "uncertainty",
+      "gamma": 0.9,
+      "cap": 0.5,
+      "restart": false,
+      "pace": "none",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0505",
+      "mode": "after_alarm",
+      "allocation": "uncertainty",
+      "gamma": 0.9,
+      "cap": 0.5,
+      "restart": false,
+      "pace": "none",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0506",
+      "mode": "after_alarm",
+      "allocation": "uncertainty",
+      "gamma": 0.9,
+      "cap": 0.5,
+      "restart": false,
+      "pace": "remaining",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0507",
+      "mode": "after_alarm",
+      "allocation": "uncertainty",
+      "gamma": 0.9,
+      "cap": 0.5,
+      "restart": false,
+      "pace": "remaining",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0508",
+      "mode": "after_alarm",
+      "allocation": "uncertainty",
+      "gamma": 0.9,
+      "cap": 0.5,
+      "restart": false,
+      "pace": "reserve",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0509",
+      "mode": "after_alarm",
+      "allocation": "uncertainty",
+      "gamma": 0.9,
+      "cap": 0.5,
+      "restart": false,
+      "pace": "reserve",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0510",
+      "mode": "after_alarm",
+      "allocation": "uncertainty",
+      "gamma": 0.9,
+      "cap": 0.5,
+      "restart": true,
+      "pace": "none",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0511",
+      "mode": "after_alarm",
+      "allocation": "uncertainty",
+      "gamma": 0.9,
+      "cap": 0.5,
+      "restart": true,
+      "pace": "none",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0512",
+      "mode": "after_alarm",
+      "allocation": "uncertainty",
+      "gamma": 0.9,
+      "cap": 0.5,
+      "restart": true,
+      "pace": "remaining",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0513",
+      "mode": "after_alarm",
+      "allocation": "uncertainty",
+      "gamma": 0.9,
+      "cap": 0.5,
+      "restart": true,
+      "pace": "remaining",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0514",
+      "mode": "after_alarm",
+      "allocation": "uncertainty",
+      "gamma": 0.9,
+      "cap": 0.5,
+      "restart": true,
+      "pace": "reserve",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0515",
+      "mode": "after_alarm",
+      "allocation": "uncertainty",
+      "gamma": 0.9,
+      "cap": 0.5,
+      "restart": true,
+      "pace": "reserve",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0516",
+      "mode": "after_alarm",
+      "allocation": "uncertainty",
+      "gamma": 0.9,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "none",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0517",
+      "mode": "after_alarm",
+      "allocation": "uncertainty",
+      "gamma": 0.9,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "none",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0518",
+      "mode": "after_alarm",
+      "allocation": "uncertainty",
+      "gamma": 0.9,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "remaining",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0519",
+      "mode": "after_alarm",
+      "allocation": "uncertainty",
+      "gamma": 0.9,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "remaining",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0520",
+      "mode": "after_alarm",
+      "allocation": "uncertainty",
+      "gamma": 0.9,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "reserve",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0521",
+      "mode": "after_alarm",
+      "allocation": "uncertainty",
+      "gamma": 0.9,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "reserve",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0522",
+      "mode": "after_alarm",
+      "allocation": "uncertainty",
+      "gamma": 0.9,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "none",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0523",
+      "mode": "after_alarm",
+      "allocation": "uncertainty",
+      "gamma": 0.9,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "none",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0524",
+      "mode": "after_alarm",
+      "allocation": "uncertainty",
+      "gamma": 0.9,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "remaining",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0525",
+      "mode": "after_alarm",
+      "allocation": "uncertainty",
+      "gamma": 0.9,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "remaining",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0526",
+      "mode": "after_alarm",
+      "allocation": "uncertainty",
+      "gamma": 0.9,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "reserve",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0527",
+      "mode": "after_alarm",
+      "allocation": "uncertainty",
+      "gamma": 0.9,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "reserve",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0528",
+      "mode": "after_alarm",
+      "allocation": "uncertainty",
+      "gamma": 0.98,
+      "cap": 0.5,
+      "restart": false,
+      "pace": "none",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0529",
+      "mode": "after_alarm",
+      "allocation": "uncertainty",
+      "gamma": 0.98,
+      "cap": 0.5,
+      "restart": false,
+      "pace": "none",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0530",
+      "mode": "after_alarm",
+      "allocation": "uncertainty",
+      "gamma": 0.98,
+      "cap": 0.5,
+      "restart": false,
+      "pace": "remaining",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0531",
+      "mode": "after_alarm",
+      "allocation": "uncertainty",
+      "gamma": 0.98,
+      "cap": 0.5,
+      "restart": false,
+      "pace": "remaining",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0532",
+      "mode": "after_alarm",
+      "allocation": "uncertainty",
+      "gamma": 0.98,
+      "cap": 0.5,
+      "restart": false,
+      "pace": "reserve",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0533",
+      "mode": "after_alarm",
+      "allocation": "uncertainty",
+      "gamma": 0.98,
+      "cap": 0.5,
+      "restart": false,
+      "pace": "reserve",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0534",
+      "mode": "after_alarm",
+      "allocation": "uncertainty",
+      "gamma": 0.98,
+      "cap": 0.5,
+      "restart": true,
+      "pace": "none",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0535",
+      "mode": "after_alarm",
+      "allocation": "uncertainty",
+      "gamma": 0.98,
+      "cap": 0.5,
+      "restart": true,
+      "pace": "none",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0536",
+      "mode": "after_alarm",
+      "allocation": "uncertainty",
+      "gamma": 0.98,
+      "cap": 0.5,
+      "restart": true,
+      "pace": "remaining",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0537",
+      "mode": "after_alarm",
+      "allocation": "uncertainty",
+      "gamma": 0.98,
+      "cap": 0.5,
+      "restart": true,
+      "pace": "remaining",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0538",
+      "mode": "after_alarm",
+      "allocation": "uncertainty",
+      "gamma": 0.98,
+      "cap": 0.5,
+      "restart": true,
+      "pace": "reserve",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0539",
+      "mode": "after_alarm",
+      "allocation": "uncertainty",
+      "gamma": 0.98,
+      "cap": 0.5,
+      "restart": true,
+      "pace": "reserve",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0540",
+      "mode": "after_alarm",
+      "allocation": "uncertainty",
+      "gamma": 0.98,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "none",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0541",
+      "mode": "after_alarm",
+      "allocation": "uncertainty",
+      "gamma": 0.98,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "none",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0542",
+      "mode": "after_alarm",
+      "allocation": "uncertainty",
+      "gamma": 0.98,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "remaining",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0543",
+      "mode": "after_alarm",
+      "allocation": "uncertainty",
+      "gamma": 0.98,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "remaining",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0544",
+      "mode": "after_alarm",
+      "allocation": "uncertainty",
+      "gamma": 0.98,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "reserve",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0545",
+      "mode": "after_alarm",
+      "allocation": "uncertainty",
+      "gamma": 0.98,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "reserve",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0546",
+      "mode": "after_alarm",
+      "allocation": "uncertainty",
+      "gamma": 0.98,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "none",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0547",
+      "mode": "after_alarm",
+      "allocation": "uncertainty",
+      "gamma": 0.98,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "none",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0548",
+      "mode": "after_alarm",
+      "allocation": "uncertainty",
+      "gamma": 0.98,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "remaining",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0549",
+      "mode": "after_alarm",
+      "allocation": "uncertainty",
+      "gamma": 0.98,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "remaining",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0550",
+      "mode": "after_alarm",
+      "allocation": "uncertainty",
+      "gamma": 0.98,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "reserve",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0551",
+      "mode": "after_alarm",
+      "allocation": "uncertainty",
+      "gamma": 0.98,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "reserve",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0552",
+      "mode": "after_alarm",
+      "allocation": "uncertainty",
+      "gamma": 1.0,
+      "cap": 0.5,
+      "restart": false,
+      "pace": "none",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0553",
+      "mode": "after_alarm",
+      "allocation": "uncertainty",
+      "gamma": 1.0,
+      "cap": 0.5,
+      "restart": false,
+      "pace": "none",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0554",
+      "mode": "after_alarm",
+      "allocation": "uncertainty",
+      "gamma": 1.0,
+      "cap": 0.5,
+      "restart": false,
+      "pace": "remaining",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0555",
+      "mode": "after_alarm",
+      "allocation": "uncertainty",
+      "gamma": 1.0,
+      "cap": 0.5,
+      "restart": false,
+      "pace": "remaining",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0556",
+      "mode": "after_alarm",
+      "allocation": "uncertainty",
+      "gamma": 1.0,
+      "cap": 0.5,
+      "restart": false,
+      "pace": "reserve",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0557",
+      "mode": "after_alarm",
+      "allocation": "uncertainty",
+      "gamma": 1.0,
+      "cap": 0.5,
+      "restart": false,
+      "pace": "reserve",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0558",
+      "mode": "after_alarm",
+      "allocation": "uncertainty",
+      "gamma": 1.0,
+      "cap": 0.5,
+      "restart": true,
+      "pace": "none",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0559",
+      "mode": "after_alarm",
+      "allocation": "uncertainty",
+      "gamma": 1.0,
+      "cap": 0.5,
+      "restart": true,
+      "pace": "none",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0560",
+      "mode": "after_alarm",
+      "allocation": "uncertainty",
+      "gamma": 1.0,
+      "cap": 0.5,
+      "restart": true,
+      "pace": "remaining",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0561",
+      "mode": "after_alarm",
+      "allocation": "uncertainty",
+      "gamma": 1.0,
+      "cap": 0.5,
+      "restart": true,
+      "pace": "remaining",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0562",
+      "mode": "after_alarm",
+      "allocation": "uncertainty",
+      "gamma": 1.0,
+      "cap": 0.5,
+      "restart": true,
+      "pace": "reserve",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0563",
+      "mode": "after_alarm",
+      "allocation": "uncertainty",
+      "gamma": 1.0,
+      "cap": 0.5,
+      "restart": true,
+      "pace": "reserve",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0564",
+      "mode": "after_alarm",
+      "allocation": "uncertainty",
+      "gamma": 1.0,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "none",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0565",
+      "mode": "after_alarm",
+      "allocation": "uncertainty",
+      "gamma": 1.0,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "none",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0566",
+      "mode": "after_alarm",
+      "allocation": "uncertainty",
+      "gamma": 1.0,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "remaining",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0567",
+      "mode": "after_alarm",
+      "allocation": "uncertainty",
+      "gamma": 1.0,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "remaining",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0568",
+      "mode": "after_alarm",
+      "allocation": "uncertainty",
+      "gamma": 1.0,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "reserve",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0569",
+      "mode": "after_alarm",
+      "allocation": "uncertainty",
+      "gamma": 1.0,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "reserve",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0570",
+      "mode": "after_alarm",
+      "allocation": "uncertainty",
+      "gamma": 1.0,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "none",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0571",
+      "mode": "after_alarm",
+      "allocation": "uncertainty",
+      "gamma": 1.0,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "none",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0572",
+      "mode": "after_alarm",
+      "allocation": "uncertainty",
+      "gamma": 1.0,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "remaining",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0573",
+      "mode": "after_alarm",
+      "allocation": "uncertainty",
+      "gamma": 1.0,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "remaining",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0574",
+      "mode": "after_alarm",
+      "allocation": "uncertainty",
+      "gamma": 1.0,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "reserve",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0575",
+      "mode": "after_alarm",
+      "allocation": "uncertainty",
+      "gamma": 1.0,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "reserve",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0576",
+      "mode": "after_alarm",
+      "allocation": "disagreement",
+      "gamma": 0.9,
+      "cap": 0.5,
+      "restart": false,
+      "pace": "none",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0577",
+      "mode": "after_alarm",
+      "allocation": "disagreement",
+      "gamma": 0.9,
+      "cap": 0.5,
+      "restart": false,
+      "pace": "none",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0578",
+      "mode": "after_alarm",
+      "allocation": "disagreement",
+      "gamma": 0.9,
+      "cap": 0.5,
+      "restart": false,
+      "pace": "remaining",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0579",
+      "mode": "after_alarm",
+      "allocation": "disagreement",
+      "gamma": 0.9,
+      "cap": 0.5,
+      "restart": false,
+      "pace": "remaining",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0580",
+      "mode": "after_alarm",
+      "allocation": "disagreement",
+      "gamma": 0.9,
+      "cap": 0.5,
+      "restart": false,
+      "pace": "reserve",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0581",
+      "mode": "after_alarm",
+      "allocation": "disagreement",
+      "gamma": 0.9,
+      "cap": 0.5,
+      "restart": false,
+      "pace": "reserve",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0582",
+      "mode": "after_alarm",
+      "allocation": "disagreement",
+      "gamma": 0.9,
+      "cap": 0.5,
+      "restart": true,
+      "pace": "none",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0583",
+      "mode": "after_alarm",
+      "allocation": "disagreement",
+      "gamma": 0.9,
+      "cap": 0.5,
+      "restart": true,
+      "pace": "none",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0584",
+      "mode": "after_alarm",
+      "allocation": "disagreement",
+      "gamma": 0.9,
+      "cap": 0.5,
+      "restart": true,
+      "pace": "remaining",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0585",
+      "mode": "after_alarm",
+      "allocation": "disagreement",
+      "gamma": 0.9,
+      "cap": 0.5,
+      "restart": true,
+      "pace": "remaining",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0586",
+      "mode": "after_alarm",
+      "allocation": "disagreement",
+      "gamma": 0.9,
+      "cap": 0.5,
+      "restart": true,
+      "pace": "reserve",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0587",
+      "mode": "after_alarm",
+      "allocation": "disagreement",
+      "gamma": 0.9,
+      "cap": 0.5,
+      "restart": true,
+      "pace": "reserve",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0588",
+      "mode": "after_alarm",
+      "allocation": "disagreement",
+      "gamma": 0.9,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "none",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0589",
+      "mode": "after_alarm",
+      "allocation": "disagreement",
+      "gamma": 0.9,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "none",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0590",
+      "mode": "after_alarm",
+      "allocation": "disagreement",
+      "gamma": 0.9,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "remaining",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0591",
+      "mode": "after_alarm",
+      "allocation": "disagreement",
+      "gamma": 0.9,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "remaining",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0592",
+      "mode": "after_alarm",
+      "allocation": "disagreement",
+      "gamma": 0.9,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "reserve",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0593",
+      "mode": "after_alarm",
+      "allocation": "disagreement",
+      "gamma": 0.9,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "reserve",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0594",
+      "mode": "after_alarm",
+      "allocation": "disagreement",
+      "gamma": 0.9,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "none",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0595",
+      "mode": "after_alarm",
+      "allocation": "disagreement",
+      "gamma": 0.9,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "none",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0596",
+      "mode": "after_alarm",
+      "allocation": "disagreement",
+      "gamma": 0.9,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "remaining",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0597",
+      "mode": "after_alarm",
+      "allocation": "disagreement",
+      "gamma": 0.9,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "remaining",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0598",
+      "mode": "after_alarm",
+      "allocation": "disagreement",
+      "gamma": 0.9,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "reserve",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0599",
+      "mode": "after_alarm",
+      "allocation": "disagreement",
+      "gamma": 0.9,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "reserve",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0600",
+      "mode": "after_alarm",
+      "allocation": "disagreement",
+      "gamma": 0.98,
+      "cap": 0.5,
+      "restart": false,
+      "pace": "none",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0601",
+      "mode": "after_alarm",
+      "allocation": "disagreement",
+      "gamma": 0.98,
+      "cap": 0.5,
+      "restart": false,
+      "pace": "none",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0602",
+      "mode": "after_alarm",
+      "allocation": "disagreement",
+      "gamma": 0.98,
+      "cap": 0.5,
+      "restart": false,
+      "pace": "remaining",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0603",
+      "mode": "after_alarm",
+      "allocation": "disagreement",
+      "gamma": 0.98,
+      "cap": 0.5,
+      "restart": false,
+      "pace": "remaining",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0604",
+      "mode": "after_alarm",
+      "allocation": "disagreement",
+      "gamma": 0.98,
+      "cap": 0.5,
+      "restart": false,
+      "pace": "reserve",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0605",
+      "mode": "after_alarm",
+      "allocation": "disagreement",
+      "gamma": 0.98,
+      "cap": 0.5,
+      "restart": false,
+      "pace": "reserve",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0606",
+      "mode": "after_alarm",
+      "allocation": "disagreement",
+      "gamma": 0.98,
+      "cap": 0.5,
+      "restart": true,
+      "pace": "none",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0607",
+      "mode": "after_alarm",
+      "allocation": "disagreement",
+      "gamma": 0.98,
+      "cap": 0.5,
+      "restart": true,
+      "pace": "none",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0608",
+      "mode": "after_alarm",
+      "allocation": "disagreement",
+      "gamma": 0.98,
+      "cap": 0.5,
+      "restart": true,
+      "pace": "remaining",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0609",
+      "mode": "after_alarm",
+      "allocation": "disagreement",
+      "gamma": 0.98,
+      "cap": 0.5,
+      "restart": true,
+      "pace": "remaining",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0610",
+      "mode": "after_alarm",
+      "allocation": "disagreement",
+      "gamma": 0.98,
+      "cap": 0.5,
+      "restart": true,
+      "pace": "reserve",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0611",
+      "mode": "after_alarm",
+      "allocation": "disagreement",
+      "gamma": 0.98,
+      "cap": 0.5,
+      "restart": true,
+      "pace": "reserve",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0612",
+      "mode": "after_alarm",
+      "allocation": "disagreement",
+      "gamma": 0.98,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "none",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0613",
+      "mode": "after_alarm",
+      "allocation": "disagreement",
+      "gamma": 0.98,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "none",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0614",
+      "mode": "after_alarm",
+      "allocation": "disagreement",
+      "gamma": 0.98,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "remaining",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0615",
+      "mode": "after_alarm",
+      "allocation": "disagreement",
+      "gamma": 0.98,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "remaining",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0616",
+      "mode": "after_alarm",
+      "allocation": "disagreement",
+      "gamma": 0.98,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "reserve",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0617",
+      "mode": "after_alarm",
+      "allocation": "disagreement",
+      "gamma": 0.98,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "reserve",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0618",
+      "mode": "after_alarm",
+      "allocation": "disagreement",
+      "gamma": 0.98,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "none",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0619",
+      "mode": "after_alarm",
+      "allocation": "disagreement",
+      "gamma": 0.98,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "none",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0620",
+      "mode": "after_alarm",
+      "allocation": "disagreement",
+      "gamma": 0.98,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "remaining",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0621",
+      "mode": "after_alarm",
+      "allocation": "disagreement",
+      "gamma": 0.98,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "remaining",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0622",
+      "mode": "after_alarm",
+      "allocation": "disagreement",
+      "gamma": 0.98,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "reserve",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0623",
+      "mode": "after_alarm",
+      "allocation": "disagreement",
+      "gamma": 0.98,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "reserve",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0624",
+      "mode": "after_alarm",
+      "allocation": "disagreement",
+      "gamma": 1.0,
+      "cap": 0.5,
+      "restart": false,
+      "pace": "none",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0625",
+      "mode": "after_alarm",
+      "allocation": "disagreement",
+      "gamma": 1.0,
+      "cap": 0.5,
+      "restart": false,
+      "pace": "none",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0626",
+      "mode": "after_alarm",
+      "allocation": "disagreement",
+      "gamma": 1.0,
+      "cap": 0.5,
+      "restart": false,
+      "pace": "remaining",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0627",
+      "mode": "after_alarm",
+      "allocation": "disagreement",
+      "gamma": 1.0,
+      "cap": 0.5,
+      "restart": false,
+      "pace": "remaining",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0628",
+      "mode": "after_alarm",
+      "allocation": "disagreement",
+      "gamma": 1.0,
+      "cap": 0.5,
+      "restart": false,
+      "pace": "reserve",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0629",
+      "mode": "after_alarm",
+      "allocation": "disagreement",
+      "gamma": 1.0,
+      "cap": 0.5,
+      "restart": false,
+      "pace": "reserve",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0630",
+      "mode": "after_alarm",
+      "allocation": "disagreement",
+      "gamma": 1.0,
+      "cap": 0.5,
+      "restart": true,
+      "pace": "none",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0631",
+      "mode": "after_alarm",
+      "allocation": "disagreement",
+      "gamma": 1.0,
+      "cap": 0.5,
+      "restart": true,
+      "pace": "none",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0632",
+      "mode": "after_alarm",
+      "allocation": "disagreement",
+      "gamma": 1.0,
+      "cap": 0.5,
+      "restart": true,
+      "pace": "remaining",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0633",
+      "mode": "after_alarm",
+      "allocation": "disagreement",
+      "gamma": 1.0,
+      "cap": 0.5,
+      "restart": true,
+      "pace": "remaining",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0634",
+      "mode": "after_alarm",
+      "allocation": "disagreement",
+      "gamma": 1.0,
+      "cap": 0.5,
+      "restart": true,
+      "pace": "reserve",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0635",
+      "mode": "after_alarm",
+      "allocation": "disagreement",
+      "gamma": 1.0,
+      "cap": 0.5,
+      "restart": true,
+      "pace": "reserve",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0636",
+      "mode": "after_alarm",
+      "allocation": "disagreement",
+      "gamma": 1.0,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "none",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0637",
+      "mode": "after_alarm",
+      "allocation": "disagreement",
+      "gamma": 1.0,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "none",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0638",
+      "mode": "after_alarm",
+      "allocation": "disagreement",
+      "gamma": 1.0,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "remaining",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0639",
+      "mode": "after_alarm",
+      "allocation": "disagreement",
+      "gamma": 1.0,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "remaining",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0640",
+      "mode": "after_alarm",
+      "allocation": "disagreement",
+      "gamma": 1.0,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "reserve",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0641",
+      "mode": "after_alarm",
+      "allocation": "disagreement",
+      "gamma": 1.0,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "reserve",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0642",
+      "mode": "after_alarm",
+      "allocation": "disagreement",
+      "gamma": 1.0,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "none",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0643",
+      "mode": "after_alarm",
+      "allocation": "disagreement",
+      "gamma": 1.0,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "none",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0644",
+      "mode": "after_alarm",
+      "allocation": "disagreement",
+      "gamma": 1.0,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "remaining",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0645",
+      "mode": "after_alarm",
+      "allocation": "disagreement",
+      "gamma": 1.0,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "remaining",
+      "bet": "ftl"
+    },
+    {
+      "id": "R3_0646",
+      "mode": "after_alarm",
+      "allocation": "disagreement",
+      "gamma": 1.0,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "reserve",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0647",
+      "mode": "after_alarm",
+      "allocation": "disagreement",
+      "gamma": 1.0,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "reserve",
+      "bet": "ftl"
+    }
+  ],
+  "activity_audit": "modes change eligible evidence; all query/pace/bet/memory/capital dimensions can change behavior; no guidance-floor aliases",
+  "cases": [
+    [
+      "harmful",
+      5
+    ],
+    [
+      "tie",
+      5
+    ],
+    [
+      "identical",
+      5
+    ],
+    [
+      "useful_initial",
+      5
+    ],
+    [
+      "useful",
+      5
+    ],
+    [
+      "small",
+      5
+    ],
+    [
+      "late",
+      5
+    ],
+    [
+      "reversal",
+      5
+    ],
+    [
+      "useful",
+      24
+    ]
+  ],
+  "paths": 128,
+  "horizon": 2000,
+  "frac": 0.2,
+  "budget": 400,
+  "delay_contract": "fixed event delay",
+  "alpha": 0.05,
+  "benefit_margin": 0.01,
+  "query_cost": 0.001,
+  "switch_cost": 1.0,
+  "world_seed_base": 202614000,
+  "query_seed_base": 202615000,
+  "primary": "realized total cost delta versus no switch; null promotion probability separately",
+  "source_risk": "absolute gate uses known synthetic nominal; paired target needs no source-risk calibration",
+  "guarantee_scope": "conditional paired mean null for a frozen candidate; no future-gain guarantee under reversals",
+  "baselines": [
+    "no_action",
+    "always_candidate",
+    "existing_fixed_mixture_IPW",
+    "paired_PR_PM_EB",
+    "paired_RCPS_FTL",
+    "unsafe_alarm_only"
+  ],
+  "sources_sha256": {
+    "src/shiftlab/sota_search/paired_control.py": "e073f59f1d35d59a8d11e5f5bf402b67f8a7ac9859a3b403c2723bd6eb77c662",
+    "src/shiftlab/sota_search/paired_references.py": "0dc89e24398e2761f4f56dd143b03ff587d9fbf2cedd4355f44fa0db626004b8",
+    "src/shiftlab/sota_search/combination_screen.py": "ff995be8d0c74dda2d8f8729b3bb07a1758c9c2cec03f05c4001a37cc023dcac",
+    "src/shiftlab/sota_search/published_baselines.py": "0dc85ed21a94fb210c4ddca57975e4b260652f8f14c1fd0e0d8e80a27af3dfb4",
+    "scripts/exhaustive_evaluation/run_paired_round.py": "3a87f675db6f83c4a6fd1a933b0b53ceb19170f74420d351763d4ec357062c5d"
+  }
+}

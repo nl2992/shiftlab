@@ -1,0 +1,71 @@
+{
+  "status": "completed",
+  "registration_sha256": "a3d53e2aa27083f66b47b4cb052887cfc2bb5cedf8d8250a22a8366b5df8dac5",
+  "started_utc": "2026-10-30T08:49:59.728318+00:00",
+  "completed_cases": [
+    {
+      "case": "00_null_d5_cal0",
+      "configs_completed": 756,
+      "seconds": 11.085789199918509
+    },
+    {
+      "case": "01_nuisance_d5_cal0",
+      "configs_completed": 756,
+      "seconds": 11.415395099902526
+    },
+    {
+      "case": "02_abrupt_d5_cal0",
+      "configs_completed": 756,
+      "seconds": 10.8104962001089
+    },
+    {
+      "case": "03_small_d5_cal0",
+      "configs_completed": 756,
+      "seconds": 10.294764299876988
+    },
+    {
+      "case": "04_late_d5_cal0",
+      "configs_completed": 756,
+      "seconds": 10.751513900002465
+    },
+    {
+      "case": "05_recurring_d5_cal0",
+      "configs_completed": 756,
+      "seconds": 10.632705700118095
+    },
+    {
+      "case": "06_guidance_failure_d5_cal0",
+      "configs_completed": 756,
+      "seconds": 10.39175029983744
+    },
+    {
+      "case": "07_abrupt_d24_cal0",
+      "configs_completed": 756,
+      "seconds": 10.749341699993238
+    },
+    {
+      "case": "08_null_d5_cal300",
+      "configs_completed": 756,
+      "seconds": 10.40180530003272
+    },
+    {
+      "case": "09_abrupt_d5_cal300",
+      "configs_completed": 756,
+      "seconds": 10.240149999968708
+    },
+    {
+      "case": "10_late_d5_cal1000",
+      "configs_completed": 756,
+      "seconds": 9.523743099998683
+    },
+    {
+      "case": "11_late_d5_cal5000",
+      "configs_completed": 756,
+      "seconds": 10.613030399894342
+    }
+  ],
+  "finished_utc": "2026-10-30T08:52:06.646572+00:00",
+  "distinct_round2_configs": 756,
+  "new_config_case_evaluations": 9072,
+  "metric_sha256": "72fbfdbcd5abc58cacb8a63b39abff23f84c600771d9b070e3fa45e118d73fe8"
+}

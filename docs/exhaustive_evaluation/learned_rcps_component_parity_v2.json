@@ -1,0 +1,18 @@
+{
+  "status": "passed",
+  "updates": 160,
+  "maximum_errors": {
+    "q": 5.551115123125783e-17,
+    "cv": 1.1102230246251565e-16,
+    "mean_weights": 1.1102230246251565e-16,
+    "variance_weights": 1.1102230246251565e-16,
+    "normalizer": 2.220446049250313e-16
+  },
+  "scope": "source-as-written fixed beta=.5 with three knots; query/CV and learning/normalization parity, not grid inversion or delayed theorem",
+  "source_sha256": {
+    "src/shiftlab/sota_search/active_rcps_learning.py": "b2625a94a8c45ff42843c3636b7f4386ef9953eeca37ad66f9f05686067d0ddc",
+    "scripts/exhaustive_evaluation/check_learned_rcps_parity.py": "0476e3af948f341e627c22be46a2b5b12557f6b957f2b97680735ba2cffdbd3d",
+    "outputs/exhaustive_evaluation/active-rcps-compat/Predictor.py": "1f2844ce28b5becd1d6563c83cb68cc169fb02acd665b0c8604e14244a6b8ea3",
+    "outputs/exhaustive_evaluation/active-rcps/Player.py": "4fa11f645f1af22906b75ac303b905494a3839afeefbc477c9aa60fead8bdf97"
+  }
+}

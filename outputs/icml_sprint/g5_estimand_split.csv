@@ -1,0 +1,5 @@
+frac,harm_class,cells,alarm_rate
+0.1,0<harm<0.10 (null false),5,0.066
+0.1,harm<=0 (null true),13,0.009
+0.2,0<harm<0.10 (null false),5,0.131
+0.2,harm<=0 (null true),13,0.012

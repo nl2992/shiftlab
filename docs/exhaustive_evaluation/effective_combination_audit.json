@@ -1,0 +1,443 @@
+{
+  "registered_parameter_tuples": 756,
+  "effective_distinct_round2": 648,
+  "alias_count": 108,
+  "aliases": [
+    {
+      "alias": "R2_0110",
+      "canonical": "R2_0108"
+    },
+    {
+      "alias": "R2_0113",
+      "canonical": "R2_0111"
+    },
+    {
+      "alias": "R2_0116",
+      "canonical": "R2_0114"
+    },
+    {
+      "alias": "R2_0119",
+      "canonical": "R2_0117"
+    },
+    {
+      "alias": "R2_0122",
+      "canonical": "R2_0120"
+    },
+    {
+      "alias": "R2_0125",
+      "canonical": "R2_0123"
+    },
+    {
+      "alias": "R2_0128",
+      "canonical": "R2_0126"
+    },
+    {
+      "alias": "R2_0131",
+      "canonical": "R2_0129"
+    },
+    {
+      "alias": "R2_0134",
+      "canonical": "R2_0132"
+    },
+    {
+      "alias": "R2_0137",
+      "canonical": "R2_0135"
+    },
+    {
+      "alias": "R2_0140",
+      "canonical": "R2_0138"
+    },
+    {
+      "alias": "R2_0143",
+      "canonical": "R2_0141"
+    },
+    {
+      "alias": "R2_0146",
+      "canonical": "R2_0144"
+    },
+    {
+      "alias": "R2_0149",
+      "canonical": "R2_0147"
+    },
+    {
+      "alias": "R2_0152",
+      "canonical": "R2_0150"
+    },
+    {
+      "alias": "R2_0155",
+      "canonical": "R2_0153"
+    },
+    {
+      "alias": "R2_0158",
+      "canonical": "R2_0156"
+    },
+    {
+      "alias": "R2_0161",
+      "canonical": "R2_0159"
+    },
+    {
+      "alias": "R2_0164",
+      "canonical": "R2_0162"
+    },
+    {
+      "alias": "R2_0167",
+      "canonical": "R2_0165"
+    },
+    {
+      "alias": "R2_0170",
+      "canonical": "R2_0168"
+    },
+    {
+      "alias": "R2_0173",
+      "canonical": "R2_0171"
+    },
+    {
+      "alias": "R2_0176",
+      "canonical": "R2_0174"
+    },
+    {
+      "alias": "R2_0179",
+      "canonical": "R2_0177"
+    },
+    {
+      "alias": "R2_0182",
+      "canonical": "R2_0180"
+    },
+    {
+      "alias": "R2_0185",
+      "canonical": "R2_0183"
+    },
+    {
+      "alias": "R2_0188",
+      "canonical": "R2_0186"
+    },
+    {
+      "alias": "R2_0191",
+      "canonical": "R2_0189"
+    },
+    {
+      "alias": "R2_0194",
+      "canonical": "R2_0192"
+    },
+    {
+      "alias": "R2_0197",
+      "canonical": "R2_0195"
+    },
+    {
+      "alias": "R2_0200",
+      "canonical": "R2_0198"
+    },
+    {
+      "alias": "R2_0203",
+      "canonical": "R2_0201"
+    },
+    {
+      "alias": "R2_0206",
+      "canonical": "R2_0204"
+    },
+    {
+      "alias": "R2_0209",
+      "canonical": "R2_0207"
+    },
+    {
+      "alias": "R2_0212",
+      "canonical": "R2_0210"
+    },
+    {
+      "alias": "R2_0215",
+      "canonical": "R2_0213"
+    },
+    {
+      "alias": "R2_0218",
+      "canonical": "R2_0216"
+    },
+    {
+      "alias": "R2_0221",
+      "canonical": "R2_0219"
+    },
+    {
+      "alias": "R2_0224",
+      "canonical": "R2_0222"
+    },
+    {
+      "alias": "R2_0227",
+      "canonical": "R2_0225"
+    },
+    {
+      "alias": "R2_0230",
+      "canonical": "R2_0228"
+    },
+    {
+      "alias": "R2_0233",
+      "canonical": "R2_0231"
+    },
+    {
+      "alias": "R2_0236",
+      "canonical": "R2_0234"
+    },
+    {
+      "alias": "R2_0239",
+      "canonical": "R2_0237"
+    },
+    {
+      "alias": "R2_0242",
+      "canonical": "R2_0240"
+    },
+    {
+      "alias": "R2_0245",
+      "canonical": "R2_0243"
+    },
+    {
+      "alias": "R2_0248",
+      "canonical": "R2_0246"
+    },
+    {
+      "alias": "R2_0251",
+      "canonical": "R2_0249"
+    },
+    {
+      "alias": "R2_0254",
+      "canonical": "R2_0252"
+    },
+    {
+      "alias": "R2_0257",
+      "canonical": "R2_0255"
+    },
+    {
+      "alias": "R2_0260",
+      "canonical": "R2_0258"
+    },
+    {
+      "alias": "R2_0263",
+      "canonical": "R2_0261"
+    },
+    {
+      "alias": "R2_0266",
+      "canonical": "R2_0264"
+    },
+    {
+      "alias": "R2_0269",
+      "canonical": "R2_0267"
+    },
+    {
+      "alias": "R2_0272",
+      "canonical": "R2_0270"
+    },
+    {
+      "alias": "R2_0275",
+      "canonical": "R2_0273"
+    },
+    {
+      "alias": "R2_0278",
+      "canonical": "R2_0276"
+    },
+    {
+      "alias": "R2_0281",
+      "canonical": "R2_0279"
+    },
+    {
+      "alias": "R2_0284",
+      "canonical": "R2_0282"
+    },
+    {
+      "alias": "R2_0287",
+      "canonical": "R2_0285"
+    },
+    {
+      "alias": "R2_0290",
+      "canonical": "R2_0288"
+    },
+    {
+      "alias": "R2_0293",
+      "canonical": "R2_0291"
+    },
+    {
+      "alias": "R2_0296",
+      "canonical": "R2_0294"
+    },
+    {
+      "alias": "R2_0299",
+      "canonical": "R2_0297"
+    },
+    {
+      "alias": "R2_0302",
+      "canonical": "R2_0300"
+    },
+    {
+      "alias": "R2_0305",
+      "canonical": "R2_0303"
+    },
+    {
+      "alias": "R2_0308",
+      "canonical": "R2_0306"
+    },
+    {
+      "alias": "R2_0311",
+      "canonical": "R2_0309"
+    },
+    {
+      "alias": "R2_0314",
+      "canonical": "R2_0312"
+    },
+    {
+      "alias": "R2_0317",
+      "canonical": "R2_0315"
+    },
+    {
+      "alias": "R2_0320",
+      "canonical": "R2_0318"
+    },
+    {
+      "alias": "R2_0323",
+      "canonical": "R2_0321"
+    },
+    {
+      "alias": "R2_0326",
+      "canonical": "R2_0324"
+    },
+    {
+      "alias": "R2_0329",
+      "canonical": "R2_0327"
+    },
+    {
+      "alias": "R2_0332",
+      "canonical": "R2_0330"
+    },
+    {
+      "alias": "R2_0335",
+      "canonical": "R2_0333"
+    },
+    {
+      "alias": "R2_0338",
+      "canonical": "R2_0336"
+    },
+    {
+      "alias": "R2_0341",
+      "canonical": "R2_0339"
+    },
+    {
+      "alias": "R2_0344",
+      "canonical": "R2_0342"
+    },
+    {
+      "alias": "R2_0347",
+      "canonical": "R2_0345"
+    },
+    {
+      "alias": "R2_0350",
+      "canonical": "R2_0348"
+    },
+    {
+      "alias": "R2_0353",
+      "canonical": "R2_0351"
+    },
+    {
+      "alias": "R2_0356",
+      "canonical": "R2_0354"
+    },
+    {
+      "alias": "R2_0359",
+      "canonical": "R2_0357"
+    },
+    {
+      "alias": "R2_0362",
+      "canonical": "R2_0360"
+    },
+    {
+      "alias": "R2_0365",
+      "canonical": "R2_0363"
+    },
+    {
+      "alias": "R2_0368",
+      "canonical": "R2_0366"
+    },
+    {
+      "alias": "R2_0371",
+      "canonical": "R2_0369"
+    },
+    {
+      "alias": "R2_0374",
+      "canonical": "R2_0372"
+    },
+    {
+      "alias": "R2_0377",
+      "canonical": "R2_0375"
+    },
+    {
+      "alias": "R2_0380",
+      "canonical": "R2_0378"
+    },
+    {
+      "alias": "R2_0383",
+      "canonical": "R2_0381"
+    },
+    {
+      "alias": "R2_0386",
+      "canonical": "R2_0384"
+    },
+    {
+      "alias": "R2_0389",
+      "canonical": "R2_0387"
+    },
+    {
+      "alias": "R2_0392",
+      "canonical": "R2_0390"
+    },
+    {
+      "alias": "R2_0395",
+      "canonical": "R2_0393"
+    },
+    {
+      "alias": "R2_0398",
+      "canonical": "R2_0396"
+    },
+    {
+      "alias": "R2_0401",
+      "canonical": "R2_0399"
+    },
+    {
+      "alias": "R2_0404",
+      "canonical": "R2_0402"
+    },
+    {
+      "alias": "R2_0407",
+      "canonical": "R2_0405"
+    },
+    {
+      "alias": "R2_0410",
+      "canonical": "R2_0408"
+    },
+    {
+      "alias": "R2_0413",
+      "canonical": "R2_0411"
+    },
+    {
+      "alias": "R2_0416",
+      "canonical": "R2_0414"
+    },
+    {
+      "alias": "R2_0419",
+      "canonical": "R2_0417"
+    },
+    {
+      "alias": "R2_0422",
+      "canonical": "R2_0420"
+    },
+    {
+      "alias": "R2_0425",
+      "canonical": "R2_0423"
+    },
+    {
+      "alias": "R2_0428",
+      "canonical": "R2_0426"
+    },
+    {
+      "alias": "R2_0431",
+      "canonical": "R2_0429"
+    }
+  ],
+  "round1_distinct": 540,
+  "total_effective_distinct": 1188,
+  "reason": "cost-floor guard is inactive when convex blend retains at least half of cost-only bet",
+  "alias_arrays_equal_on_all_registered_cases": true
+}

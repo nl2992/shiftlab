@@ -449,3 +449,47 @@ under scoring version "a5_percell_min" and are not deleted.
 
 Stage 4 is unchanged: an IUT against every P member, a paired cluster bootstrap per member, and Holm
 across finalists.
+
+## Amendment A7 (2026-11-01, during stage 4, before any stage-4 result was seen): corrected mechanism evidence
+
+A read-only investigation (no edits, CPU-only) found the following.
+
+Defects:
+1. E7–E9 (head-to-head vs each baseline, the cyclic-shift negative control, per-channel ablation)
+   run on `audit_cells(500, small=True)`: 10 cells, 8 seeds, T=500. Change times are drawn from
+   [200, 1200] regardless of T, so at T=500 most alternatives change after the horizon. This
+   explains the E7 numbers that contradict dJ_audit; dJ_audit itself runs at T=2000 with 256
+   seeds and 80 cells.
+2. The cyclic-shift negative control (`search.py` `shuffled()`) moves the change earlier but scores
+   with the original tau. An alarm before tau then costs only c_I + c_S, so this control cannot
+   show a gain vanishing. The defect applies both to the stage-3 audit and to the stage-4
+   `|nc`/E8 entries.
+3. No comparator matches the finalists' larger total stake without transfer. The S-operator
+   "shift" adds a·hi·base[src]/hi[src] to the target stake, which raises total stake whenever the
+   source is betting.
+
+Unchanged: the frozen finalists, the frontier and the stage-4 primary analysis (paired cluster
+bootstrap of per-seed J vs each primary member, intersection–union test, Holm). The defects do not
+touch the per-seed J these use.
+
+Added (supplementary mechanism analysis, `scripts/hgxh2c/stage4_mechanism.py`, run after stage 4 on
+confirm seeds with the A1.6 N capped at 1000 per cell):
+- M1. Head-to-head ΔJ vs every primary and secondary member, ablations, and joint-contextual-ONS
+  replacement. These use exactly the stage-4 cells, T=2000 and seeds.
+- M2. Corrected negative control. The source track's released data (outcomes, proxies, release
+  times) are replaced by the same cell's source track from an independent seed stream. The
+  target track, its tau and its scoring are unchanged. The transfer gain must vanish (ΔJ vs the
+  no-transfer mix_w0.5 within CI of 0) for a transfer-mechanism claim.
+- M3. Stake-matched controls, with no cross-track information:
+  - (a) mix_w0.5 with a constant per-track stake add-on equal to each finalist's mean shift add-on;
+  - (b) mix_w0.5 with a stake multiplier m ∈ {1.0, 1.1, 1.2, 1.3, 1.5, 2.0}, selected on *dev*
+    seeds (the same 648 cells) and frozen before confirm seeds are touched.
+
+  A transfer claim requires beating M3(a) and M3(b) with paired CIs (Holm over finalists).
+  Otherwise the gain is reported as a stake-size effect.
+
+The old E7–E9 and `|nc` values stay in the outputs, labelled DEFECTIVE_A7.
+
+Interpretation rule, fixed now: if a finalist passes the primary test but fails M2 or M3, the
+§10 outcome is "useful combination, weak novelty" at most. The report states that the gain is
+explained by stake size, not by information transfer.

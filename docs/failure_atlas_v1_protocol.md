@@ -560,3 +560,98 @@ closed for published baselines.
 
 **Execution.** The run executes as a detached, resumable OS process with a per-configuration
 checkpoint. Output goes to `outputs/failure_atlas_v1_cycle6/`. Nothing here is confirmatory.
+
+## Amendment 8 (2026-11-01, user-directed acceptance revision; cycle 7; registered before any cycle-7 code)
+
+### Acceptance revision
+
+The user reviewed six cycles and judged that the acceptance bar had been set too high. The aim of
+the Failure Atlas is to find a failure shared by all SOTA methods, diagnose it, and propose a
+workable solution that is mildly novel and beats the SOTA competitors. Theorem-level novelty and a
+50% closure of the gap to the Bayes reference R_family are **no longer acceptance criteria**. R2
+audits are kept, but they serve only to state honestly how the solution relates to prior work.
+Matching prior art no longer kills a candidate. A candidate is **accepted as a workable solution**
+when all five conditions below hold on fresh seeds:
+
+- **(A1) Beats SOTA on the shared failure.**
+  - Comparison set: the best SOTA gated baseline, selected per cell on the same seeds. The SOTA
+    set is every published or R6 gated baseline plus the dependence-robust baselines below. The
+    ShiftLab anchors C1 and C2 are excluded.
+  - Cells: the reproduced shared-failure cells of family 1 (cycle 3) and family 3 (cycle 5).
+  - Per-cell test: `cost(candidate) - cost(best SOTA)` has CI upper bound < -0.01.
+  - Pass rule: the per-cell test holds in at least half of the cells, and the mean difference over
+    cells has CI upper bound < 0.
+- **(A2) No harm nearby.** Across each failure cell's registered neighbours, the mean of
+  `cost(candidate) - cost(best SOTA)` has CI upper bound < +0.01.
+- **(A3) Validity.**
+  - Null false promotion must be at most alpha + 0.05 (point estimate) on boundary nulls with
+    rho = 0, every B/T in {0.05, 0.1, 0.25}, and d in {1, 10}.
+  - Null false promotion must be at most alpha + 0.05 on dependent nulls with rho = 0.5 and
+    B/T ≤ 0.1.
+  - At rho = 0.8, the candidate's false promotion must not exceed that of the best SOTA gated
+    baseline by more than 0.05.
+- **(A4) Mechanism.** Ablating the new component removes at least half of the A1 gain.
+- **(A5) Mild novelty.** An R2 check finds no single source that states this specific rule for
+  this contract: delayed selective paired labels, a hard budget, reversible switching, and
+  false-promotion control. Known ingredients are allowed.
+
+### Candidate (motivated by cycles 3–6)
+
+**DSS: delay-aware, dependence-safe straddle.** Straddle beat the best gated baseline on fresh
+seeds (cycle 3, Amendment 4). Two diagnosed weaknesses limit it:
+
+- (i) **Delay.** Its gain changes sign at about `d* = P·T/(B+P)` (cycle 4).
+- (ii) **Dependence.** It queries consecutive rounds, so under within-regime dependence its
+  validity breaks (cycle 6).
+
+DSS keeps straddle's undecided-only querying and adds two fixed rules:
+
+- **Delay switch.** If `d >= d*`, use uniform calendar acquisition instead.
+- **Minimum inter-query gap `g` rounds.** No query is issued within `g` rounds of the previous
+  query.
+
+Evidence is `started_mixture_eprocess` and the decision rule is `rollback_monitor`, both unchanged
+from `b1a17927d9ad`. `g` is chosen on development seeds `[160000, 170000)` from {1, 4, 8, 16} by a
+locked rule:
+
+1. Keep only the values of `g` whose development null false promotion is at most alpha at rho =
+   0.5 for B/T in {0.05, 0.1, 0.25} and d = 1.
+2. Among those, take the value with the lowest mean development cost over the failure cells.
+
+`g` is then frozen.
+
+**Ablations, run on validation seeds:**
+
+- DSS without the delay switch;
+- DSS with `g = 1`;
+- uniform acquisition, which is the original ablation.
+
+### Added SOTA baselines (dependence-robust)
+
+- **`markov_lr_gate`.** A Markov-likelihood e-process on the queried-label skeleton chain. It is
+  a mixture over a declared grid of 2-state transition matrices, tested against the boundary null
+  in which the stationary favourable probability is `(1+h)/2`. Its promotion, alpha spending,
+  economic check and rollback are the same as `episode_front`. The audit names it as the strongest
+  dependence-robust baseline.
+- **`thinned_hedged_gate`.** The repository started-mixture gate fed only queried labels at least
+  `g_t` rounds apart. `g_t` is fixed before data from a declared mixing assumption: `g_t = 10`.
+
+Both are added to the SOTA set for A1.
+
+### Evaluation
+
+- Validation seeds: `[290000, 290200)`, 200 per cell. They are fresh; no stage has used them.
+- Cost cells: the family-1 and family-3 reproduced shared failures and their neighbours.
+- A3 null grid: rho in {0, 0.5, 0.8} × B/T in {0.05, 0.1, 0.25} × d in {1, 10}.
+- The run is a detached, resumable process. Outputs go to `outputs/failure_atlas_v1_cycle7/`.
+- Nothing is confirmatory. If DSS passes A1–A5, a separate confirmation protocol is written before
+  the confirmation seeds are touched.
+
+### Dependence test (as requested)
+
+The two added baselines are also reported across the full cycle-6 dependence grid:
+
+- the null false-promotion table;
+- power on family-3 failure cells against the published gates.
+
+This answers whether robustness to dependence is cheap or costly in this contract.

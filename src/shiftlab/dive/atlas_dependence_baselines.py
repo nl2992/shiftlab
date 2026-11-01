@@ -142,6 +142,8 @@ class MarkovLREProcess:
         self.cnt = np.zeros((len(self.starts), 4))
         self.n = 0
         self.prev = -1
+        self._alarm_cache_key: tuple[int, float] | None = None
+        self._alarm_cache = False
 
     @property
     def log_e_value(self) -> float:
@@ -156,7 +158,11 @@ class MarkovLREProcess:
 
     @property
     def alarm(self) -> bool:
-        return self.log_e_value >= -np.log(self.alpha)
+        key = (self.n, self.alpha)
+        if self._alarm_cache_key != key:
+            self._alarm_cache = self.log_e_value >= -np.log(self.alpha)
+            self._alarm_cache_key = key
+        return self._alarm_cache
 
     def update_z(self, z: int) -> None:
         z = int(z)

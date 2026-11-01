@@ -335,3 +335,28 @@ decomposition of each calendar's loss. These explain a three-regime picture:
 **Lane A final status.** No method claim. There is a possible structural result: a conjectured
 proposition that calendars are exactly optimal below a risk threshold. It needs a proof and a
 literature audit. The executive classification is unchanged: BENCHMARK / NEGATIVE-RESULT PIVOT.
+
+## 12. Addendum (A3, A3b, A3c — calendar optimality)
+
+Full detail is in `12_NOVELTY_DECISION.md` (A3 addendum) and `13_A2_BRANCH_CONFLICT_THEORY.md`
+(Proposition 6, Theorem 7, the corrected Remark 1).
+
+### Results
+
+- **B = 3, alpha ∈ {0.05, 0.10}.** All 108 cells are proved calendar-optimal by the support
+  certificate.
+- **B = 4, alpha = 0.05.** All 54 cells are proved calendar-optimal.
+- **B = 4, alpha = 0.10.** The optimum is genuinely label-adaptive. Exact two-sided bounds put
+  its advantage over every calendar mixture at **0.71–1.21%**, smaller than the unconstrained
+  gap.
+- **Correction.** The original mixture lemma (Lemma 2) was vacuous. The A1d risk-specific
+  result has been re-established with exact lower bounds of at least 5.07% at alpha = 1/4.
+
+### Status
+
+Lane A ends with structural findings and no method:
+
+- calendars are exactly optimal when promotion needs unanimous evidence;
+- at intermediate risk there is a small, risk-specific branch-conflict gap.
+
+The classification is unchanged: **BENCHMARK / NEGATIVE-RESULT PIVOT**.

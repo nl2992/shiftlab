@@ -111,7 +111,7 @@ def summarize(fams: list[dict], path: Path) -> None:
         j = F(tight["J"])
         cstar = min(dict(v)[F(1, 10)] for v in per.values())
         lo, up = mixture_bounds(per, F(1, 10))
-        j1 = F(ref["J"])
+        j1 = F(ref["computed"]["J"])
         c1 = F(ref["computed"]["C_star"])
         res.update(
             convex_monotone=convex,

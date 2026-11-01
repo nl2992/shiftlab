@@ -176,3 +176,71 @@ Limits:
 - T ≤ 8 for the screen.
 - B = 3 only. A larger B might fit both a burst and a re-check, which is untested.
 - One HMM family class.
+
+## A3 / A3b / A3c addendum (calendar optimality, 2026-11-01)
+
+### A3 (`e511a48`; rows checkpointed in `f92e586`)
+
+**B = 3, tight alpha.** All 108 cells (alpha = 0.05 and 0.10, 54 families) are certified by
+Proposition 6. The optimal joint policy queries at no more than B distinct times, and that
+calendar re-solves to exactly J. Most optima randomise *whether* to start the burst, but the
+support never exceeds B.
+
+**B = 4.**
+
+| alpha | Cells | Result |
+|---|---|---|
+| 0.05 | 54 | All Proposition 6-certified (calendar-optimal) |
+| 0.10 | 54 | All uncertified. Pure-calendar gap positive everywhere, maximum 1.41%. (P) fails because the optimum promotes on 3 positive labels out of 4. |
+| 1 (reference) | 52 of 54 completed | All gaps positive, maximum 5.56% |
+
+At alpha = 1, two cells failed: one on an LP status and one on bad_alloc.
+
+### A3b (`0de267b`): pre-label coin certificate
+
+Proposition 6' certifies 4 of 54 cells.
+
+In the other 50, the recovered optimum's branches query at 5 distinct times, so they are
+genuinely label-adaptive. In every cell the cost and risk decompositions hold exactly.
+
+### A3c (`b429bf6`): exact two-sided mixture bounds
+
+These are the six B = 4, alpha = 0.10 families with the largest pure gaps, computed from 8,316
+calendar solves with none failing. All 594 calendar curves are convex and nonincreasing, and
+the grid C* matches A3 exactly.
+
+| family (acc, trans, prior1, cs) | pure gap | mixture gap [lower, upper] | unconstrained g(1) |
+|---|---|---|---|
+| 0.98, 1/20, 1/20, 1/20 | 1.41% | [1.17%, 1.21%] | 3.79% |
+| 0.98, 1/20, 1/20, 1/5 | 1.23% | [1.03%, 1.07%] | 2.99% |
+| 0.98, 1/20, 1/10, 1/20 | 1.23% | [0.81%, 0.91%] | 3.43% |
+| 0.98, 1/20, 1/10, 1/5 | 1.20% | [0.71%, 0.80%] | 2.71% |
+| 0.95, 1/20, 1/20, 1/20 | 1.09% | [0.87%, 0.90%] | 5.56% |
+| 0.95, 1/20, 1/20, 1/5 | 0.92% | [0.78%, 0.80%] | 3.10% |
+
+**Decision: GENUINE GAP AT alpha = 0.10.** It is not risk-specific: the constrained mixture gap
+is always smaller than the unconstrained one.
+
+### Lane A synthesis (supersedes the A2 "final" sentence)
+
+**Tight risk.** At alpha = 0.05 a fixed calendar is exactly optimal in every family tested at
+B = 3 and B = 4. At alpha = 0.10 the same holds for B = 3. Both are proved per instance by
+Proposition 6. The mechanism is Theorem 7: promotion requires unanimous evidence, so the
+optimum is a single chain of queries.
+
+**alpha = 0.10, B = 4.** Promotion on 3 positive labels out of 4 breaks unanimity. Adaptive
+timing then has a proven value over every calendar mixture of about 0.7–1.2%. That value is
+smaller than the unconstrained adaptivity gap.
+
+**Intermediate alpha (≥ 3/20, B = 3).** Here the gap is risk-specific. Exact lower bounds:
+
+- at least 5.07% against 1.62% unconstrained, at prior1 = 1/10, alpha = 1/4;
+- at least 4.68% against 1.20% unconstrained, at prior1 = 1/5, alpha = 1/2.
+
+**Practical conclusion.** Every proven gap is at most about 5.1% and stays below the 10%
+threshold. At the programme's risk levels it is at most about 1.2%. There is no method claim.
+The structural results are suitable for the benchmark/negative-results paper, subject to a
+literature audit:
+
+- calendar optimality under unanimity (Theorem 7 and the per-instance certificates);
+- the risk-specific branch conflict at intermediate alpha.

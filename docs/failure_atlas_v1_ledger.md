@@ -1,5 +1,15 @@
 # Failure Atlas v1 ledger (EXPLORATORY; no confirmatory claim)
 
+**Cycle 7 COMPLETE (2026-11-01):** [decision and limitations](failure_atlas_cycle7_decision_v1.md),
+[full validation tables](failure_atlas_cycle7_validation_results_v1.md). A1 PASS (13/16 cells,
+aggregate -.03772 [-.04068,-.03476]); A2 FAIL (14/16 parent neighbourhoods pass);
+A3 FAIL (all six rho=.8 relative checks fail); whole-acquisition A4 PASS, individual new-rule
+cost ablations do not explain the gain. A5 remains conditional. 281,600 method runs,
+200 fresh seeds per cell; deterministic audit PASS, 147 tests PASS. No final confirmation.
+Retain the useful acquisition-cost result, investigate a scoped safety/behaviour repair,
+and preserve this failed full-claim verdict. Natural stage commits package the execution
+contract/code and then results/review; the original source-hashed run predates those commits.
+
 **Current direction (2026-11-01):** [evidence review and decision trail](failure_atlas_review_2026_11_01.md).
 Continue the method search under protocol Amendments 8–9. The cycle-6 consolidation recommendation
 below is retained as history; it does not override the user's renewed practical-method objective.

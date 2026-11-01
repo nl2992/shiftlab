@@ -2,6 +2,12 @@
 
 Date: 2026-11-01. Status: development evidence and prospective decision record.
 
+**Cycle-7 completion:** the 200-seed full-registry validation and artifact audit are now
+complete. A1 and whole-acquisition A4 pass; neighbourhood A2 and dependence A3 fail.
+See [the cycle-7 decision](failure_atlas_cycle7_decision_v1.md) and
+[complete validation tables](failure_atlas_cycle7_validation_results_v1.md).
+Earlier next-step language below records the pre-validation review, not outstanding cycle-7 work.
+
 ## Location and provenance
 
 The live Atlas is in `shift-research-starter`, branch `main`, starting HEAD

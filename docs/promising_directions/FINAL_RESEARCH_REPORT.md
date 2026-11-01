@@ -368,3 +368,27 @@ Lane A ends with structural findings and no method:
 - at intermediate risk there is a small, risk-specific branch-conflict gap.
 
 The classification is unchanged: **BENCHMARK / NEGATIVE-RESULT PIVOT**.
+
+## 13. Addendum (B3: real-data validation)
+
+`16_REAL_DATA_RESULTS.md` reports the frozen certified-switching policy on 7 chronological
+streams. The protocol was registered before any locked window was read, and the policy code
+was unchanged.
+
+**Registered outcome: SUCCESS.**
+
+| Group | Streams | Result |
+|---|---|---|
+| WIN | spam, rialto, weather | 70%, 49% and 6% cheaper than never switching |
+| Challenger worse | bank, airlines | +2.1% and +0.6%, against +187% and +10.6% for blind deployment |
+| No useful certification | elec2, criteo | Small advantage (+2–5% cost) |
+
+- On the WIN streams the policy captured 91%, 70% and 38% of the hindsight headroom.
+- SAFE held on all streams.
+- The policy beat incumbent-alarm switching on all 7 streams.
+
+**Limits.**
+
+- Low episode counts on weather (3) and spam (1).
+- Delays and costs are imposed, not taken from real release contracts.
+- Two streams are partly exposed.

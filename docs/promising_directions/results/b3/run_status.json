@@ -1,0 +1,30 @@
+{
+  "airlines": {
+    "stream": "airlines",
+    "seconds": 54.00945162773132
+  },
+  "weather": {
+    "stream": "weather",
+    "seconds": 2.8306028842926025
+  },
+  "spam": {
+    "stream": "spam",
+    "seconds": 36.41473078727722
+  },
+  "bank": {
+    "stream": "bank",
+    "seconds": 7.394651174545288
+  },
+  "rialto": {
+    "stream": "rialto",
+    "seconds": 14.171123504638672
+  },
+  "elec2": {
+    "stream": "elec2",
+    "seconds": 3.9434854984283447
+  },
+  "criteo": {
+    "stream": "criteo",
+    "seconds": 85.2011239528656
+  }
+}

@@ -247,3 +247,24 @@ paper (F4, F5, F8-F10) and treat F1 as a design lesson.
   while the open gaps are being closed.
 
 Venue fit depends on closing the ranked gaps. No statement here is a forecast.
+
+## Update 2026-11-01: real-data validation (gap 1)
+
+B3 (`16_REAL_DATA_RESULTS.md`) evaluated the frozen P3b on 7 chronological streams. Five of them
+are unexposed. The registered outcome is **SUCCESS**:
+
+- WIN on weather, spam and rialto, with 6–70% lower net cost than never switching;
+- SAFE on all 7 streams;
+- better than incumbent-alarm switching on all 7 (point estimates).
+
+On streams where the challenger is worse, certified switching costs only +0.6–2.1%. Blind
+deployment of the challenger costs +10.6–187% on the same streams.
+
+This closes the real-data gap at the level of real data with imposed delays and costs. Two
+caveats remain:
+
+- Two of the three WIN streams have fewer than 5 episodes.
+- Release timing is not drawn from real contracts.
+
+The remaining gaps are 2–5 from section 5, plus a larger-episode replication of weather and
+spam if longer streams become available.

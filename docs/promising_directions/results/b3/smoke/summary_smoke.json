@@ -1,0 +1,1695 @@
+{
+  "protocol": "docs/promising_directions/protocols/B3-real-data-certified-switching.md",
+  "protocol_sha256": "b17b5a318e65be5ed7729357fb1f0692c0764b6444a4f686797756fb420cba3a",
+  "phase": "smoke",
+  "registered": false,
+  "decision_rule": "WIN: CI(P3b-P0) hi<0 and mean P3b<=mean P2; SAFE: P3b<=P0+spend+2%P0",
+  "failed_streams_count_as": "not WIN and not SAFE",
+  "streams": {
+    "airlines": {
+      "status": "unexposed",
+      "delay": 100,
+      "episodes": 2,
+      "low_power": true,
+      "primary": {
+        "episodes": 2,
+        "mean_cost": {
+          "P0": 653.0,
+          "P1": 607.5,
+          "P2": 662.915,
+          "P3b": 640.63,
+          "P6": 628.37
+        },
+        "paired": {
+          "P3b_minus_P0": {
+            "mean": -12.370000000000005,
+            "lo": -19.359999999999992,
+            "hi": -4.675000000000045,
+            "bootstrap_level": "seed",
+            "low_power": true
+          },
+          "P3b_minus_P2": {
+            "mean": -22.285000000000025,
+            "lo": -29.219999999999935,
+            "hi": -14.59500000000005,
+            "bootstrap_level": "seed",
+            "low_power": true
+          },
+          "P3b_minus_P1": {
+            "mean": 33.129999999999995,
+            "lo": 26.34000000000001,
+            "hi": 40.82499999999995,
+            "bootstrap_level": "seed",
+            "low_power": true
+          },
+          "P3b_minus_P6": {
+            "mean": 12.259999999999991,
+            "lo": 4.469999999999937,
+            "hi": 20.594999999999935,
+            "bootstrap_level": "seed",
+            "low_power": true
+          }
+        },
+        "headroom_capture": 0.27186813186813197,
+        "p3b_query_spend": 9.930000000000001,
+        "safe_bound": 675.9899999999999,
+        "WIN": true,
+        "SAFE": true,
+        "diagnostics": {
+          "P0": {
+            "mean_labels": 0.0,
+            "mean_switches": 0.0,
+            "mean_rollbacks": 0.0,
+            "promotion_rate": 0.0
+          },
+          "P1": {
+            "mean_labels": 0.0,
+            "mean_switches": 1.0,
+            "mean_rollbacks": 0.0,
+            "promotion_rate": 0.0
+          },
+          "P2": {
+            "mean_labels": 198.3,
+            "mean_switches": 0.0,
+            "mean_rollbacks": 0.0,
+            "promotion_rate": 0.0
+          },
+          "P3b": {
+            "mean_labels": 198.60000000000002,
+            "mean_switches": 0.5,
+            "mean_rollbacks": 0.0,
+            "promotion_rate": 0.5
+          },
+          "P6": {
+            "mean_labels": 59.400000000000006,
+            "mean_switches": 0.6,
+            "mean_rollbacks": 0.0,
+            "promotion_rate": 0.6
+          }
+        }
+      },
+      "sensitivity": {
+        "B200_cs20": {
+          "episodes": 2,
+          "mean_cost": {
+            "P0": 653.0,
+            "P1": 622.5,
+            "P2": 662.915,
+            "P3b": 648.13,
+            "P6": 637.37
+          },
+          "paired": {
+            "P3b_minus_P0": {
+              "mean": -4.8700000000000045,
+              "lo": -11.659999999999991,
+              "hi": 2.8249999999999544,
+              "bootstrap_level": "seed",
+              "low_power": true
+            },
+            "P3b_minus_P2": {
+              "mean": -14.785000000000025,
+              "lo": -21.539999999999942,
+              "hi": -7.275000000000046,
+              "bootstrap_level": "seed",
+              "low_power": true
+            },
+            "P3b_minus_P1": {
+              "mean": 25.629999999999995,
+              "lo": 18.84000000000001,
+              "hi": 33.32499999999995,
+              "bootstrap_level": "seed",
+              "low_power": true
+            },
+            "P3b_minus_P6": {
+              "mean": 10.759999999999991,
+              "lo": 0.06499999999996361,
+              "hi": 20.692624999999815,
+              "bootstrap_level": "seed",
+              "low_power": true
+            }
+          },
+          "headroom_capture": 0.15967213114754114,
+          "p3b_query_spend": 9.930000000000001,
+          "safe_bound": 675.9899999999999,
+          "WIN": false,
+          "SAFE": true,
+          "diagnostics": {
+            "P0": {
+              "mean_labels": 0.0,
+              "mean_switches": 0.0,
+              "mean_rollbacks": 0.0,
+              "promotion_rate": 0.0
+            },
+            "P1": {
+              "mean_labels": 0.0,
+              "mean_switches": 1.0,
+              "mean_rollbacks": 0.0,
+              "promotion_rate": 0.0
+            },
+            "P2": {
+              "mean_labels": 198.3,
+              "mean_switches": 0.0,
+              "mean_rollbacks": 0.0,
+              "promotion_rate": 0.0
+            },
+            "P3b": {
+              "mean_labels": 198.60000000000002,
+              "mean_switches": 0.5,
+              "mean_rollbacks": 0.0,
+              "promotion_rate": 0.5
+            },
+            "P6": {
+              "mean_labels": 59.400000000000006,
+              "mean_switches": 0.6,
+              "mean_rollbacks": 0.0,
+              "promotion_rate": 0.6
+            }
+          }
+        },
+        "B400_cs5": {
+          "episodes": 2,
+          "mean_cost": {
+            "P0": 653.0,
+            "P1": 607.5,
+            "P2": 672.75,
+            "P3b": 647.865,
+            "P6": 622.6
+          },
+          "paired": {
+            "P3b_minus_P0": {
+              "mean": -5.135000000000048,
+              "lo": -8.164999999999964,
+              "hi": 0.8850000000000818,
+              "bootstrap_level": "seed",
+              "low_power": true
+            },
+            "P3b_minus_P2": {
+              "mean": -24.885000000000048,
+              "lo": -28.044999999999938,
+              "hi": -18.969624999999937,
+              "bootstrap_level": "seed",
+              "low_power": true
+            },
+            "P3b_minus_P1": {
+              "mean": 40.36499999999995,
+              "lo": 37.335000000000036,
+              "hi": 46.38500000000008,
+              "bootstrap_level": "seed",
+              "low_power": true
+            },
+            "P3b_minus_P6": {
+              "mean": 25.26499999999993,
+              "lo": 22.22000000000005,
+              "hi": 31.235625000000123,
+              "bootstrap_level": "seed",
+              "low_power": true
+            }
+          },
+          "headroom_capture": 0.11285714285714266,
+          "p3b_query_spend": 16.365000000000002,
+          "safe_bound": 682.425,
+          "WIN": false,
+          "SAFE": true,
+          "diagnostics": {
+            "P0": {
+              "mean_labels": 0.0,
+              "mean_switches": 0.0,
+              "mean_rollbacks": 0.0,
+              "promotion_rate": 0.0
+            },
+            "P1": {
+              "mean_labels": 0.0,
+              "mean_switches": 1.0,
+              "mean_rollbacks": 0.0,
+              "promotion_rate": 0.0
+            },
+            "P2": {
+              "mean_labels": 395.0,
+              "mean_switches": 0.0,
+              "mean_rollbacks": 0.0,
+              "promotion_rate": 0.0
+            },
+            "P3b": {
+              "mean_labels": 327.3,
+              "mean_switches": 0.6,
+              "mean_rollbacks": 0.0,
+              "promotion_rate": 0.6
+            },
+            "P6": {
+              "mean_labels": 72.0,
+              "mean_switches": 0.5,
+              "mean_rollbacks": 0.0,
+              "promotion_rate": 0.5
+            }
+          }
+        }
+      }
+    },
+    "weather": {
+      "status": "unexposed",
+      "delay": 1,
+      "episodes": 2,
+      "low_power": true,
+      "primary": {
+        "episodes": 2,
+        "mean_cost": {
+          "P0": 460.0,
+          "P1": 421.0,
+          "P2": 469.91499999999996,
+          "P3b": 460.07,
+          "P6": 447.40500000000003
+        },
+        "paired": {
+          "P3b_minus_P0": {
+            "mean": 0.06999999999999318,
+            "lo": -0.1400000000000091,
+            "hi": 0.17500000000001137,
+            "bootstrap_level": "seed",
+            "low_power": true
+          },
+          "P3b_minus_P2": {
+            "mean": -9.844999999999999,
+            "lo": -10.025000000000023,
+            "hi": -9.719999999999994,
+            "bootstrap_level": "seed",
+            "low_power": true
+          },
+          "P3b_minus_P1": {
+            "mean": 39.06999999999999,
+            "lo": 38.85999999999999,
+            "hi": 39.17500000000001,
+            "bootstrap_level": "seed",
+            "low_power": true
+          },
+          "P3b_minus_P6": {
+            "mean": 12.664999999999964,
+            "lo": 12.654999999999996,
+            "hi": 12.675000000000011,
+            "bootstrap_level": "seed",
+            "low_power": true
+          }
+        },
+        "headroom_capture": -0.0017948717948716199,
+        "p3b_query_spend": 8.67,
+        "safe_bound": 477.87,
+        "WIN": false,
+        "SAFE": true,
+        "diagnostics": {
+          "P0": {
+            "mean_labels": 0.0,
+            "mean_switches": 0.0,
+            "mean_rollbacks": 0.0,
+            "promotion_rate": 0.0
+          },
+          "P1": {
+            "mean_labels": 0.0,
+            "mean_switches": 1.0,
+            "mean_rollbacks": 0.0,
+            "promotion_rate": 0.0
+          },
+          "P2": {
+            "mean_labels": 198.3,
+            "mean_switches": 0.0,
+            "mean_rollbacks": 0.0,
+            "promotion_rate": 0.0
+          },
+          "P3b": {
+            "mean_labels": 173.4,
+            "mean_switches": 0.5,
+            "mean_rollbacks": 0.0,
+            "promotion_rate": 0.5
+          },
+          "P6": {
+            "mean_labels": 50.1,
+            "mean_switches": 0.5,
+            "mean_rollbacks": 0.0,
+            "promotion_rate": 0.5
+          }
+        }
+      },
+      "sensitivity": {
+        "B200_cs20": {
+          "episodes": 2,
+          "mean_cost": {
+            "P0": 460.0,
+            "P1": 436.0,
+            "P2": 469.91499999999996,
+            "P3b": 467.57,
+            "P6": 454.90500000000003
+          },
+          "paired": {
+            "P3b_minus_P0": {
+              "mean": 7.569999999999993,
+              "lo": 7.3599999999999905,
+              "hi": 7.675000000000011,
+              "bootstrap_level": "seed",
+              "low_power": true
+            },
+            "P3b_minus_P2": {
+              "mean": -2.344999999999999,
+              "lo": -2.5250000000000226,
+              "hi": -2.219999999999993,
+              "bootstrap_level": "seed",
+              "low_power": true
+            },
+            "P3b_minus_P1": {
+              "mean": 31.569999999999993,
+              "lo": 31.359999999999992,
+              "hi": 31.67500000000001,
+              "bootstrap_level": "seed",
+              "low_power": true
+            },
+            "P3b_minus_P6": {
+              "mean": 12.664999999999964,
+              "lo": 12.654999999999996,
+              "hi": 12.675000000000011,
+              "bootstrap_level": "seed",
+              "low_power": true
+            }
+          },
+          "headroom_capture": -0.3154166666666664,
+          "p3b_query_spend": 8.67,
+          "safe_bound": 477.87,
+          "WIN": false,
+          "SAFE": true,
+          "diagnostics": {
+            "P0": {
+              "mean_labels": 0.0,
+              "mean_switches": 0.0,
+              "mean_rollbacks": 0.0,
+              "promotion_rate": 0.0
+            },
+            "P1": {
+              "mean_labels": 0.0,
+              "mean_switches": 1.0,
+              "mean_rollbacks": 0.0,
+              "promotion_rate": 0.0
+            },
+            "P2": {
+              "mean_labels": 198.3,
+              "mean_switches": 0.0,
+              "mean_rollbacks": 0.0,
+              "promotion_rate": 0.0
+            },
+            "P3b": {
+              "mean_labels": 173.4,
+              "mean_switches": 0.5,
+              "mean_rollbacks": 0.0,
+              "promotion_rate": 0.5
+            },
+            "P6": {
+              "mean_labels": 50.1,
+              "mean_switches": 0.5,
+              "mean_rollbacks": 0.0,
+              "promotion_rate": 0.5
+            }
+          }
+        },
+        "B400_cs5": {
+          "episodes": 2,
+          "mean_cost": {
+            "P0": 460.0,
+            "P1": 421.0,
+            "P2": 479.75,
+            "P3b": 462.29999999999995,
+            "P6": 447.0
+          },
+          "paired": {
+            "P3b_minus_P0": {
+              "mean": 2.299999999999983,
+              "lo": 2.2999999999999545,
+              "hi": 2.2999999999999545,
+              "bootstrap_level": "seed",
+              "low_power": true
+            },
+            "P3b_minus_P2": {
+              "mean": -17.450000000000017,
+              "lo": -17.700000000000045,
+              "hi": -17.13000000000004,
+              "bootstrap_level": "seed",
+              "low_power": true
+            },
+            "P3b_minus_P1": {
+              "mean": 41.29999999999998,
+              "lo": 41.299999999999955,
+              "hi": 41.299999999999955,
+              "bootstrap_level": "seed",
+              "low_power": true
+            },
+            "P3b_minus_P6": {
+              "mean": 15.299999999999983,
+              "lo": 15.299999999999955,
+              "hi": 15.299999999999955,
+              "bootstrap_level": "seed",
+              "low_power": true
+            }
+          },
+          "headroom_capture": -0.05897435897435781,
+          "p3b_query_spend": 9.8,
+          "safe_bound": 479.0,
+          "WIN": false,
+          "SAFE": true,
+          "diagnostics": {
+            "P0": {
+              "mean_labels": 0.0,
+              "mean_switches": 0.0,
+              "mean_rollbacks": 0.0,
+              "promotion_rate": 0.0
+            },
+            "P1": {
+              "mean_labels": 0.0,
+              "mean_switches": 1.0,
+              "mean_rollbacks": 0.0,
+              "promotion_rate": 0.0
+            },
+            "P2": {
+              "mean_labels": 395.0,
+              "mean_switches": 0.0,
+              "mean_rollbacks": 0.0,
+              "promotion_rate": 0.0
+            },
+            "P3b": {
+              "mean_labels": 196.0,
+              "mean_switches": 0.5,
+              "mean_rollbacks": 0.0,
+              "promotion_rate": 0.5
+            },
+            "P6": {
+              "mean_labels": 50.0,
+              "mean_switches": 0.5,
+              "mean_rollbacks": 0.0,
+              "promotion_rate": 0.5
+            }
+          }
+        }
+      }
+    },
+    "spam": {
+      "status": "unexposed",
+      "delay": 50,
+      "episodes": 1,
+      "low_power": true,
+      "primary": {
+        "episodes": 1,
+        "mean_cost": {
+          "P0": 402.0,
+          "P1": 97.0,
+          "P2": 411.93,
+          "P3b": 131.0,
+          "P6": 161.33
+        },
+        "paired": {
+          "P3b_minus_P0": {
+            "mean": -271.0,
+            "lo": -271.0,
+            "hi": -271.0,
+            "bootstrap_level": "seed",
+            "low_power": true
+          },
+          "P3b_minus_P2": {
+            "mean": -280.93,
+            "lo": -281.0,
+            "hi": -280.83000000000004,
+            "bootstrap_level": "seed",
+            "low_power": true
+          },
+          "P3b_minus_P1": {
+            "mean": 34.0,
+            "lo": 34.0,
+            "hi": 34.0,
+            "bootstrap_level": "seed",
+            "low_power": true
+          },
+          "P3b_minus_P6": {
+            "mean": -30.330000000000013,
+            "lo": -31.479999999999997,
+            "hi": -29.70999999999999,
+            "bootstrap_level": "seed",
+            "low_power": true
+          }
+        },
+        "headroom_capture": 0.8885245901639345,
+        "p3b_query_spend": 10.0,
+        "safe_bound": 420.04,
+        "WIN": true,
+        "SAFE": true,
+        "diagnostics": {
+          "P0": {
+            "mean_labels": 0.0,
+            "mean_switches": 0.0,
+            "mean_rollbacks": 0.0,
+            "promotion_rate": 0.0
+          },
+          "P1": {
+            "mean_labels": 0.0,
+            "mean_switches": 1.0,
+            "mean_rollbacks": 0.0,
+            "promotion_rate": 0.0
+          },
+          "P2": {
+            "mean_labels": 198.6,
+            "mean_switches": 0.0,
+            "mean_rollbacks": 0.0,
+            "promotion_rate": 0.0
+          },
+          "P3b": {
+            "mean_labels": 200.0,
+            "mean_switches": 1.0,
+            "mean_rollbacks": 0.0,
+            "promotion_rate": 1.0
+          },
+          "P6": {
+            "mean_labels": 54.6,
+            "mean_switches": 1.0,
+            "mean_rollbacks": 0.0,
+            "promotion_rate": 1.0
+          }
+        }
+      },
+      "sensitivity": {
+        "B200_cs20": {
+          "episodes": 1,
+          "mean_cost": {
+            "P0": 402.0,
+            "P1": 112.0,
+            "P2": 411.93,
+            "P3b": 146.0,
+            "P6": 176.33
+          },
+          "paired": {
+            "P3b_minus_P0": {
+              "mean": -256.0,
+              "lo": -256.0,
+              "hi": -256.0,
+              "bootstrap_level": "seed",
+              "low_power": true
+            },
+            "P3b_minus_P2": {
+              "mean": -265.93,
+              "lo": -266.0,
+              "hi": -265.83000000000004,
+              "bootstrap_level": "seed",
+              "low_power": true
+            },
+            "P3b_minus_P1": {
+              "mean": 34.0,
+              "lo": 34.0,
+              "hi": 34.0,
+              "bootstrap_level": "seed",
+              "low_power": true
+            },
+            "P3b_minus_P6": {
+              "mean": -30.330000000000013,
+              "lo": -31.479999999999997,
+              "hi": -29.70999999999999,
+              "bootstrap_level": "seed",
+              "low_power": true
+            }
+          },
+          "headroom_capture": 0.8827586206896552,
+          "p3b_query_spend": 10.0,
+          "safe_bound": 420.04,
+          "WIN": true,
+          "SAFE": true,
+          "diagnostics": {
+            "P0": {
+              "mean_labels": 0.0,
+              "mean_switches": 0.0,
+              "mean_rollbacks": 0.0,
+              "promotion_rate": 0.0
+            },
+            "P1": {
+              "mean_labels": 0.0,
+              "mean_switches": 1.0,
+              "mean_rollbacks": 0.0,
+              "promotion_rate": 0.0
+            },
+            "P2": {
+              "mean_labels": 198.6,
+              "mean_switches": 0.0,
+              "mean_rollbacks": 0.0,
+              "promotion_rate": 0.0
+            },
+            "P3b": {
+              "mean_labels": 200.0,
+              "mean_switches": 1.0,
+              "mean_rollbacks": 0.0,
+              "promotion_rate": 1.0
+            },
+            "P6": {
+              "mean_labels": 54.6,
+              "mean_switches": 1.0,
+              "mean_rollbacks": 0.0,
+              "promotion_rate": 1.0
+            }
+          }
+        },
+        "B400_cs5": {
+          "episodes": 1,
+          "mean_cost": {
+            "P0": 402.0,
+            "P1": 97.0,
+            "P2": 421.6,
+            "P3b": 137.9,
+            "P6": 161.05
+          },
+          "paired": {
+            "P3b_minus_P0": {
+              "mean": -264.1,
+              "lo": -264.1,
+              "hi": -264.1,
+              "bootstrap_level": "seed",
+              "low_power": true
+            },
+            "P3b_minus_P2": {
+              "mean": -283.70000000000005,
+              "lo": -284.1,
+              "hi": -283.26000000000005,
+              "bootstrap_level": "seed",
+              "low_power": true
+            },
+            "P3b_minus_P1": {
+              "mean": 40.900000000000006,
+              "lo": 40.900000000000006,
+              "hi": 40.900000000000006,
+              "bootstrap_level": "seed",
+              "low_power": true
+            },
+            "P3b_minus_P6": {
+              "mean": -23.150000000000006,
+              "lo": -23.150000000000006,
+              "hi": -23.150000000000006,
+              "bootstrap_level": "seed",
+              "low_power": true
+            }
+          },
+          "headroom_capture": 0.8659016393442623,
+          "p3b_query_spend": 16.900000000000002,
+          "safe_bound": 426.94,
+          "WIN": true,
+          "SAFE": true,
+          "diagnostics": {
+            "P0": {
+              "mean_labels": 0.0,
+              "mean_switches": 0.0,
+              "mean_rollbacks": 0.0,
+              "promotion_rate": 0.0
+            },
+            "P1": {
+              "mean_labels": 0.0,
+              "mean_switches": 1.0,
+              "mean_rollbacks": 0.0,
+              "promotion_rate": 0.0
+            },
+            "P2": {
+              "mean_labels": 392.0,
+              "mean_switches": 0.0,
+              "mean_rollbacks": 0.0,
+              "promotion_rate": 0.0
+            },
+            "P3b": {
+              "mean_labels": 338.0,
+              "mean_switches": 1.0,
+              "mean_rollbacks": 0.0,
+              "promotion_rate": 1.0
+            },
+            "P6": {
+              "mean_labels": 61.0,
+              "mean_switches": 1.0,
+              "mean_rollbacks": 0.0,
+              "promotion_rate": 1.0
+            }
+          }
+        }
+      }
+    },
+    "bank": {
+      "status": "unexposed",
+      "delay": 100,
+      "episodes": 2,
+      "low_power": true,
+      "primary": {
+        "episodes": 2,
+        "mean_cost": {
+          "P0": 992.0,
+          "P1": 127.0,
+          "P2": 535.0150000000001,
+          "P3b": 339.825,
+          "P6": 443.595
+        },
+        "paired": {
+          "P3b_minus_P0": {
+            "mean": -652.175,
+            "lo": -668.525,
+            "hi": -635.825,
+            "bootstrap_level": "seed",
+            "low_power": true
+          },
+          "P3b_minus_P2": {
+            "mean": -195.19000000000005,
+            "lo": -268.397875,
+            "hi": -140.56,
+            "bootstrap_level": "seed",
+            "low_power": true
+          },
+          "P3b_minus_P1": {
+            "mean": 212.825,
+            "lo": 196.475,
+            "hi": 228.685,
+            "bootstrap_level": "seed",
+            "low_power": true
+          },
+          "P3b_minus_P6": {
+            "mean": -103.77000000000001,
+            "lo": -132.05499999999998,
+            "hi": -82.29499999999999,
+            "bootstrap_level": "seed",
+            "low_power": true
+          }
+        },
+        "headroom_capture": 0.7539595375722543,
+        "p3b_query_spend": 6.325,
+        "safe_bound": 1018.1650000000001,
+        "WIN": true,
+        "SAFE": true,
+        "diagnostics": {
+          "P0": {
+            "mean_labels": 0.0,
+            "mean_switches": 0.0,
+            "mean_rollbacks": 0.0,
+            "promotion_rate": 0.0
+          },
+          "P1": {
+            "mean_labels": 0.0,
+            "mean_switches": 1.0,
+            "mean_rollbacks": 0.0,
+            "promotion_rate": 0.0
+          },
+          "P2": {
+            "mean_labels": 108.30000000000001,
+            "mean_switches": 0.7,
+            "mean_rollbacks": 0.0,
+            "promotion_rate": 0.7
+          },
+          "P3b": {
+            "mean_labels": 126.5,
+            "mean_switches": 1.0,
+            "mean_rollbacks": 0.0,
+            "promotion_rate": 1.0
+          },
+          "P6": {
+            "mean_labels": 57.900000000000006,
+            "mean_switches": 0.9,
+            "mean_rollbacks": 0.0,
+            "promotion_rate": 0.9
+          }
+        }
+      },
+      "sensitivity": {
+        "B200_cs20": {
+          "episodes": 2,
+          "mean_cost": {
+            "P0": 992.0,
+            "P1": 142.0,
+            "P2": 545.5150000000001,
+            "P3b": 354.825,
+            "P6": 457.095
+          },
+          "paired": {
+            "P3b_minus_P0": {
+              "mean": -637.175,
+              "lo": -653.525,
+              "hi": -621.3149999999999,
+              "bootstrap_level": "seed",
+              "low_power": true
+            },
+            "P3b_minus_P2": {
+              "mean": -190.69000000000005,
+              "lo": -264.985,
+              "hi": -139.78312500000015,
+              "bootstrap_level": "seed",
+              "low_power": true
+            },
+            "P3b_minus_P1": {
+              "mean": 212.825,
+              "lo": 196.475,
+              "hi": 229.175,
+              "bootstrap_level": "seed",
+              "low_power": true
+            },
+            "P3b_minus_P6": {
+              "mean": -102.27000000000001,
+              "lo": -127.55500000000002,
+              "hi": -82.99,
+              "bootstrap_level": "seed",
+              "low_power": true
+            }
+          },
+          "headroom_capture": 0.7496176470588235,
+          "p3b_query_spend": 6.325,
+          "safe_bound": 1018.1650000000001,
+          "WIN": true,
+          "SAFE": true,
+          "diagnostics": {
+            "P0": {
+              "mean_labels": 0.0,
+              "mean_switches": 0.0,
+              "mean_rollbacks": 0.0,
+              "promotion_rate": 0.0
+            },
+            "P1": {
+              "mean_labels": 0.0,
+              "mean_switches": 1.0,
+              "mean_rollbacks": 0.0,
+              "promotion_rate": 0.0
+            },
+            "P2": {
+              "mean_labels": 108.30000000000001,
+              "mean_switches": 0.7,
+              "mean_rollbacks": 0.0,
+              "promotion_rate": 0.7
+            },
+            "P3b": {
+              "mean_labels": 126.5,
+              "mean_switches": 1.0,
+              "mean_rollbacks": 0.0,
+              "promotion_rate": 1.0
+            },
+            "P6": {
+              "mean_labels": 57.900000000000006,
+              "mean_switches": 0.9,
+              "mean_rollbacks": 0.0,
+              "promotion_rate": 0.9
+            }
+          }
+        },
+        "B400_cs5": {
+          "episodes": 2,
+          "mean_cost": {
+            "P0": 992.0,
+            "P1": 127.0,
+            "P2": 426.16999999999996,
+            "P3b": 313.49,
+            "P6": 342.775
+          },
+          "paired": {
+            "P3b_minus_P0": {
+              "mean": -678.51,
+              "lo": -681.165,
+              "hi": -675.93,
+              "bootstrap_level": "seed",
+              "low_power": true
+            },
+            "P3b_minus_P2": {
+              "mean": -112.67999999999998,
+              "lo": -164.56,
+              "hi": -60.80000000000001,
+              "bootstrap_level": "seed",
+              "low_power": true
+            },
+            "P3b_minus_P1": {
+              "mean": 186.49,
+              "lo": 183.53312499999998,
+              "hi": 189.14499999999998,
+              "bootstrap_level": "seed",
+              "low_power": true
+            },
+            "P3b_minus_P6": {
+              "mean": -29.284999999999997,
+              "lo": -38.660000000000004,
+              "hi": -22.475000000000023,
+              "bootstrap_level": "seed",
+              "low_power": true
+            }
+          },
+          "headroom_capture": 0.7844046242774566,
+          "p3b_query_spend": 12.190000000000001,
+          "safe_bound": 1024.03,
+          "WIN": true,
+          "SAFE": true,
+          "diagnostics": {
+            "P0": {
+              "mean_labels": 0.0,
+              "mean_switches": 0.0,
+              "mean_rollbacks": 0.0,
+              "promotion_rate": 0.0
+            },
+            "P1": {
+              "mean_labels": 0.0,
+              "mean_switches": 1.0,
+              "mean_rollbacks": 0.0,
+              "promotion_rate": 0.0
+            },
+            "P2": {
+              "mean_labels": 125.39999999999999,
+              "mean_switches": 0.9,
+              "mean_rollbacks": 0.0,
+              "promotion_rate": 0.9
+            },
+            "P3b": {
+              "mean_labels": 243.8,
+              "mean_switches": 1.0,
+              "mean_rollbacks": 0.0,
+              "promotion_rate": 1.0
+            },
+            "P6": {
+              "mean_labels": 69.5,
+              "mean_switches": 1.0,
+              "mean_rollbacks": 0.0,
+              "promotion_rate": 1.0
+            }
+          }
+        }
+      }
+    },
+    "rialto": {
+      "status": "unexposed",
+      "delay": 100,
+      "episodes": 2,
+      "low_power": true,
+      "primary": {
+        "episodes": 2,
+        "mean_cost": {
+          "P0": 154.0,
+          "P1": 20.0,
+          "P2": 163.915,
+          "P3b": 59.129999999999995,
+          "P6": 90.125
+        },
+        "paired": {
+          "P3b_minus_P0": {
+            "mean": -94.87,
+            "lo": -96.76,
+            "hi": -92.97999999999999,
+            "bootstrap_level": "seed",
+            "low_power": true
+          },
+          "P3b_minus_P2": {
+            "mean": -104.785,
+            "lo": -106.67,
+            "hi": -102.9,
+            "bootstrap_level": "seed",
+            "low_power": true
+          },
+          "P3b_minus_P1": {
+            "mean": 39.129999999999995,
+            "lo": 37.239999999999995,
+            "hi": 41.019999999999996,
+            "bootstrap_level": "seed",
+            "low_power": true
+          },
+          "P3b_minus_P6": {
+            "mean": -30.995000000000005,
+            "lo": -32.68012499999999,
+            "hi": -29.299999999999994,
+            "bootstrap_level": "seed",
+            "low_power": true
+          }
+        },
+        "headroom_capture": 0.7079850746268657,
+        "p3b_query_spend": 7.43,
+        "safe_bound": 164.51000000000002,
+        "WIN": true,
+        "SAFE": true,
+        "diagnostics": {
+          "P0": {
+            "mean_labels": 0.0,
+            "mean_switches": 0.0,
+            "mean_rollbacks": 0.0,
+            "promotion_rate": 0.0
+          },
+          "P1": {
+            "mean_labels": 0.0,
+            "mean_switches": 1.0,
+            "mean_rollbacks": 0.0,
+            "promotion_rate": 0.0
+          },
+          "P2": {
+            "mean_labels": 198.3,
+            "mean_switches": 0.0,
+            "mean_rollbacks": 0.0,
+            "promotion_rate": 0.0
+          },
+          "P3b": {
+            "mean_labels": 148.6,
+            "mean_switches": 1.0,
+            "mean_rollbacks": 0.0,
+            "promotion_rate": 1.0
+          },
+          "P6": {
+            "mean_labels": 64.5,
+            "mean_switches": 1.0,
+            "mean_rollbacks": 0.0,
+            "promotion_rate": 1.0
+          }
+        }
+      },
+      "sensitivity": {
+        "B200_cs20": {
+          "episodes": 2,
+          "mean_cost": {
+            "P0": 154.0,
+            "P1": 35.0,
+            "P2": 163.915,
+            "P3b": 74.13,
+            "P6": 105.125
+          },
+          "paired": {
+            "P3b_minus_P0": {
+              "mean": -79.87,
+              "lo": -81.76,
+              "hi": -77.97999999999999,
+              "bootstrap_level": "seed",
+              "low_power": true
+            },
+            "P3b_minus_P2": {
+              "mean": -89.785,
+              "lo": -91.66999999999999,
+              "hi": -87.9,
+              "bootstrap_level": "seed",
+              "low_power": true
+            },
+            "P3b_minus_P1": {
+              "mean": 39.129999999999995,
+              "lo": 37.239999999999995,
+              "hi": 41.02,
+              "bootstrap_level": "seed",
+              "low_power": true
+            },
+            "P3b_minus_P6": {
+              "mean": -30.995,
+              "lo": -32.68499999999999,
+              "hi": -29.2,
+              "bootstrap_level": "seed",
+              "low_power": true
+            }
+          },
+          "headroom_capture": 0.6711764705882354,
+          "p3b_query_spend": 7.43,
+          "safe_bound": 164.51000000000002,
+          "WIN": true,
+          "SAFE": true,
+          "diagnostics": {
+            "P0": {
+              "mean_labels": 0.0,
+              "mean_switches": 0.0,
+              "mean_rollbacks": 0.0,
+              "promotion_rate": 0.0
+            },
+            "P1": {
+              "mean_labels": 0.0,
+              "mean_switches": 1.0,
+              "mean_rollbacks": 0.0,
+              "promotion_rate": 0.0
+            },
+            "P2": {
+              "mean_labels": 198.3,
+              "mean_switches": 0.0,
+              "mean_rollbacks": 0.0,
+              "promotion_rate": 0.0
+            },
+            "P3b": {
+              "mean_labels": 148.6,
+              "mean_switches": 1.0,
+              "mean_rollbacks": 0.0,
+              "promotion_rate": 1.0
+            },
+            "P6": {
+              "mean_labels": 64.5,
+              "mean_switches": 1.0,
+              "mean_rollbacks": 0.0,
+              "promotion_rate": 1.0
+            }
+          }
+        },
+        "B400_cs5": {
+          "episodes": 2,
+          "mean_cost": {
+            "P0": 154.0,
+            "P1": 20.0,
+            "P2": 173.75,
+            "P3b": 57.05,
+            "P6": 86.15
+          },
+          "paired": {
+            "P3b_minus_P0": {
+              "mean": -96.95,
+              "lo": -96.95,
+              "hi": -96.95,
+              "bootstrap_level": "seed",
+              "low_power": true
+            },
+            "P3b_minus_P2": {
+              "mean": -116.70000000000002,
+              "lo": -116.95,
+              "hi": -116.38,
+              "bootstrap_level": "seed",
+              "low_power": true
+            },
+            "P3b_minus_P1": {
+              "mean": 37.05,
+              "lo": 37.05,
+              "hi": 37.05,
+              "bootstrap_level": "seed",
+              "low_power": true
+            },
+            "P3b_minus_P6": {
+              "mean": -29.1,
+              "lo": -29.100000000000012,
+              "hi": -29.100000000000012,
+              "bootstrap_level": "seed",
+              "low_power": true
+            }
+          },
+          "headroom_capture": 0.7235074626865672,
+          "p3b_query_spend": 7.550000000000001,
+          "safe_bound": 164.63000000000002,
+          "WIN": true,
+          "SAFE": true,
+          "diagnostics": {
+            "P0": {
+              "mean_labels": 0.0,
+              "mean_switches": 0.0,
+              "mean_rollbacks": 0.0,
+              "promotion_rate": 0.0
+            },
+            "P1": {
+              "mean_labels": 0.0,
+              "mean_switches": 1.0,
+              "mean_rollbacks": 0.0,
+              "promotion_rate": 0.0
+            },
+            "P2": {
+              "mean_labels": 395.0,
+              "mean_switches": 0.0,
+              "mean_rollbacks": 0.0,
+              "promotion_rate": 0.0
+            },
+            "P3b": {
+              "mean_labels": 151.0,
+              "mean_switches": 1.0,
+              "mean_rollbacks": 0.0,
+              "promotion_rate": 1.0
+            },
+            "P6": {
+              "mean_labels": 63.0,
+              "mean_switches": 1.0,
+              "mean_rollbacks": 0.0,
+              "promotion_rate": 1.0
+            }
+          }
+        }
+      }
+    },
+    "elec2": {
+      "status": "partly exposed",
+      "delay": 48,
+      "episodes": 2,
+      "low_power": true,
+      "primary": {
+        "episodes": 2,
+        "mean_cost": {
+          "P0": 527.0,
+          "P1": 447.0,
+          "P2": 536.915,
+          "P3b": 495.44,
+          "P6": 529.555
+        },
+        "paired": {
+          "P3b_minus_P0": {
+            "mean": -31.560000000000002,
+            "lo": -34.63499999999999,
+            "hi": -28.995000000000005,
+            "bootstrap_level": "seed",
+            "low_power": true
+          },
+          "P3b_minus_P2": {
+            "mean": -41.474999999999994,
+            "lo": -44.52499999999998,
+            "hi": -39.040000000000006,
+            "bootstrap_level": "seed",
+            "low_power": true
+          },
+          "P3b_minus_P1": {
+            "mean": 48.44,
+            "lo": 45.36500000000001,
+            "hi": 50.92999999999999,
+            "bootstrap_level": "seed",
+            "low_power": true
+          },
+          "P3b_minus_P6": {
+            "mean": -34.11499999999995,
+            "lo": -37.19500000000001,
+            "hi": -31.524999999999977,
+            "bootstrap_level": "seed",
+            "low_power": true
+          }
+        },
+        "headroom_capture": 0.3945,
+        "p3b_query_spend": 5.94,
+        "safe_bound": 543.48,
+        "WIN": true,
+        "SAFE": true,
+        "diagnostics": {
+          "P0": {
+            "mean_labels": 0.0,
+            "mean_switches": 0.0,
+            "mean_rollbacks": 0.0,
+            "promotion_rate": 0.0
+          },
+          "P1": {
+            "mean_labels": 0.0,
+            "mean_switches": 1.0,
+            "mean_rollbacks": 0.0,
+            "promotion_rate": 0.0
+          },
+          "P2": {
+            "mean_labels": 198.3,
+            "mean_switches": 0.0,
+            "mean_rollbacks": 0.0,
+            "promotion_rate": 0.0
+          },
+          "P3b": {
+            "mean_labels": 118.8,
+            "mean_switches": 1.0,
+            "mean_rollbacks": 0.0,
+            "promotion_rate": 1.0
+          },
+          "P6": {
+            "mean_labels": 51.1,
+            "mean_switches": 0.0,
+            "mean_rollbacks": 0.0,
+            "promotion_rate": 0.0
+          }
+        }
+      },
+      "sensitivity": {
+        "B200_cs20": {
+          "episodes": 2,
+          "mean_cost": {
+            "P0": 527.0,
+            "P1": 462.0,
+            "P2": 536.915,
+            "P3b": 510.44,
+            "P6": 529.555
+          },
+          "paired": {
+            "P3b_minus_P0": {
+              "mean": -16.560000000000002,
+              "lo": -19.63499999999999,
+              "hi": -13.995000000000005,
+              "bootstrap_level": "seed",
+              "low_power": true
+            },
+            "P3b_minus_P2": {
+              "mean": -26.474999999999994,
+              "lo": -29.524999999999977,
+              "hi": -24.03800000000002,
+              "bootstrap_level": "seed",
+              "low_power": true
+            },
+            "P3b_minus_P1": {
+              "mean": 48.44,
+              "lo": 45.39000000000001,
+              "hi": 50.92999999999999,
+              "bootstrap_level": "seed",
+              "low_power": true
+            },
+            "P3b_minus_P6": {
+              "mean": -19.114999999999952,
+              "lo": -22.195000000000004,
+              "hi": -16.525,
+              "bootstrap_level": "seed",
+              "low_power": true
+            }
+          },
+          "headroom_capture": 0.2547692307692308,
+          "p3b_query_spend": 5.94,
+          "safe_bound": 543.48,
+          "WIN": true,
+          "SAFE": true,
+          "diagnostics": {
+            "P0": {
+              "mean_labels": 0.0,
+              "mean_switches": 0.0,
+              "mean_rollbacks": 0.0,
+              "promotion_rate": 0.0
+            },
+            "P1": {
+              "mean_labels": 0.0,
+              "mean_switches": 1.0,
+              "mean_rollbacks": 0.0,
+              "promotion_rate": 0.0
+            },
+            "P2": {
+              "mean_labels": 198.3,
+              "mean_switches": 0.0,
+              "mean_rollbacks": 0.0,
+              "promotion_rate": 0.0
+            },
+            "P3b": {
+              "mean_labels": 118.8,
+              "mean_switches": 1.0,
+              "mean_rollbacks": 0.0,
+              "promotion_rate": 1.0
+            },
+            "P6": {
+              "mean_labels": 51.1,
+              "mean_switches": 0.0,
+              "mean_rollbacks": 0.0,
+              "promotion_rate": 0.0
+            }
+          }
+        },
+        "B400_cs5": {
+          "episodes": 2,
+          "mean_cost": {
+            "P0": 527.0,
+            "P1": 447.0,
+            "P2": 546.75,
+            "P3b": 491.75,
+            "P6": 470.35
+          },
+          "paired": {
+            "P3b_minus_P0": {
+              "mean": -35.25,
+              "lo": -35.25,
+              "hi": -35.25,
+              "bootstrap_level": "seed",
+              "low_power": true
+            },
+            "P3b_minus_P2": {
+              "mean": -55.0,
+              "lo": -55.25,
+              "hi": -54.68000000000002,
+              "bootstrap_level": "seed",
+              "low_power": true
+            },
+            "P3b_minus_P1": {
+              "mean": 44.75,
+              "lo": 44.75,
+              "hi": 44.75,
+              "bootstrap_level": "seed",
+              "low_power": true
+            },
+            "P3b_minus_P6": {
+              "mean": 21.400000000000006,
+              "lo": 21.399999999999977,
+              "hi": 21.399999999999977,
+              "bootstrap_level": "seed",
+              "low_power": true
+            }
+          },
+          "headroom_capture": 0.440625,
+          "p3b_query_spend": 7.75,
+          "safe_bound": 545.29,
+          "WIN": true,
+          "SAFE": true,
+          "diagnostics": {
+            "P0": {
+              "mean_labels": 0.0,
+              "mean_switches": 0.0,
+              "mean_rollbacks": 0.0,
+              "promotion_rate": 0.0
+            },
+            "P1": {
+              "mean_labels": 0.0,
+              "mean_switches": 1.0,
+              "mean_rollbacks": 0.0,
+              "promotion_rate": 0.0
+            },
+            "P2": {
+              "mean_labels": 395.0,
+              "mean_switches": 0.0,
+              "mean_rollbacks": 0.0,
+              "promotion_rate": 0.0
+            },
+            "P3b": {
+              "mean_labels": 155.0,
+              "mean_switches": 1.0,
+              "mean_rollbacks": 0.0,
+              "promotion_rate": 1.0
+            },
+            "P6": {
+              "mean_labels": 57.0,
+              "mean_switches": 0.5,
+              "mean_rollbacks": 0.0,
+              "promotion_rate": 0.5
+            }
+          }
+        }
+      }
+    },
+    "criteo": {
+      "status": "partly exposed (label-maturity counts)",
+      "delay": 100,
+      "episodes": 2,
+      "low_power": true,
+      "primary": {
+        "episodes": 2,
+        "mean_cost": {
+          "P0": 656.0,
+          "P1": 645.5,
+          "P2": 665.915,
+          "P3b": 661.81,
+          "P6": 658.765
+        },
+        "paired": {
+          "P3b_minus_P0": {
+            "mean": 5.810000000000002,
+            "lo": 5.789999999999987,
+            "hi": 5.8250000000000455,
+            "bootstrap_level": "seed",
+            "low_power": true
+          },
+          "P3b_minus_P2": {
+            "mean": -4.105000000000018,
+            "lo": -4.149999999999977,
+            "hi": -4.059999999999922,
+            "bootstrap_level": "seed",
+            "low_power": true
+          },
+          "P3b_minus_P1": {
+            "mean": 16.310000000000002,
+            "lo": 16.289999999999985,
+            "hi": 16.325000000000045,
+            "bootstrap_level": "seed",
+            "low_power": true
+          },
+          "P3b_minus_P6": {
+            "mean": 3.045000000000016,
+            "lo": 3.034999999999991,
+            "hi": 3.050000000000068,
+            "bootstrap_level": "seed",
+            "low_power": true
+          }
+        },
+        "headroom_capture": -0.5533333333333281,
+        "p3b_query_spend": 5.81,
+        "safe_bound": 674.93,
+        "WIN": false,
+        "SAFE": true,
+        "diagnostics": {
+          "P0": {
+            "mean_labels": 0.0,
+            "mean_switches": 0.0,
+            "mean_rollbacks": 0.0,
+            "promotion_rate": 0.0
+          },
+          "P1": {
+            "mean_labels": 0.0,
+            "mean_switches": 1.0,
+            "mean_rollbacks": 0.0,
+            "promotion_rate": 0.0
+          },
+          "P2": {
+            "mean_labels": 198.3,
+            "mean_switches": 0.0,
+            "mean_rollbacks": 0.0,
+            "promotion_rate": 0.0
+          },
+          "P3b": {
+            "mean_labels": 116.19999999999999,
+            "mean_switches": 0.0,
+            "mean_rollbacks": 0.0,
+            "promotion_rate": 0.0
+          },
+          "P6": {
+            "mean_labels": 55.3,
+            "mean_switches": 0.0,
+            "mean_rollbacks": 0.0,
+            "promotion_rate": 0.0
+          }
+        }
+      },
+      "sensitivity": {
+        "B200_cs20": {
+          "episodes": 2,
+          "mean_cost": {
+            "P0": 656.0,
+            "P1": 660.5,
+            "P2": 665.915,
+            "P3b": 661.81,
+            "P6": 658.765
+          },
+          "paired": {
+            "P3b_minus_P0": {
+              "mean": 5.810000000000002,
+              "lo": 5.789999999999987,
+              "hi": 5.8250000000000455,
+              "bootstrap_level": "seed",
+              "low_power": true
+            },
+            "P3b_minus_P2": {
+              "mean": -4.105000000000018,
+              "lo": -4.149999999999977,
+              "hi": -4.059999999999922,
+              "bootstrap_level": "seed",
+              "low_power": true
+            },
+            "P3b_minus_P1": {
+              "mean": 1.3100000000000023,
+              "lo": 1.294999999999981,
+              "hi": 1.3250000000000455,
+              "bootstrap_level": "seed",
+              "low_power": true
+            },
+            "P3b_minus_P6": {
+              "mean": 3.045000000000016,
+              "lo": 3.034999999999991,
+              "hi": 3.050000000000068,
+              "bootstrap_level": "seed",
+              "low_power": true
+            }
+          },
+          "headroom_capture": null,
+          "p3b_query_spend": 5.81,
+          "safe_bound": 674.93,
+          "WIN": false,
+          "SAFE": true,
+          "diagnostics": {
+            "P0": {
+              "mean_labels": 0.0,
+              "mean_switches": 0.0,
+              "mean_rollbacks": 0.0,
+              "promotion_rate": 0.0
+            },
+            "P1": {
+              "mean_labels": 0.0,
+              "mean_switches": 1.0,
+              "mean_rollbacks": 0.0,
+              "promotion_rate": 0.0
+            },
+            "P2": {
+              "mean_labels": 198.3,
+              "mean_switches": 0.0,
+              "mean_rollbacks": 0.0,
+              "promotion_rate": 0.0
+            },
+            "P3b": {
+              "mean_labels": 116.19999999999999,
+              "mean_switches": 0.0,
+              "mean_rollbacks": 0.0,
+              "promotion_rate": 0.0
+            },
+            "P6": {
+              "mean_labels": 55.3,
+              "mean_switches": 0.0,
+              "mean_rollbacks": 0.0,
+              "promotion_rate": 0.0
+            }
+          }
+        },
+        "B400_cs5": {
+          "episodes": 2,
+          "mean_cost": {
+            "P0": 656.0,
+            "P1": 645.5,
+            "P2": 675.75,
+            "P3b": 661.825,
+            "P6": 658.775
+          },
+          "paired": {
+            "P3b_minus_P0": {
+              "mean": 5.824999999999989,
+              "lo": 5.8250000000000455,
+              "hi": 5.8250000000000455,
+              "bootstrap_level": "seed",
+              "low_power": true
+            },
+            "P3b_minus_P2": {
+              "mean": -13.925000000000011,
+              "lo": -14.174999999999955,
+              "hi": -13.604999999999972,
+              "bootstrap_level": "seed",
+              "low_power": true
+            },
+            "P3b_minus_P1": {
+              "mean": 16.32499999999999,
+              "lo": 16.325000000000045,
+              "hi": 16.325000000000045,
+              "bootstrap_level": "seed",
+              "low_power": true
+            },
+            "P3b_minus_P6": {
+              "mean": 3.0500000000000114,
+              "lo": 3.050000000000068,
+              "hi": 3.050000000000068,
+              "bootstrap_level": "seed",
+              "low_power": true
+            }
+          },
+          "headroom_capture": -0.5547619047619091,
+          "p3b_query_spend": 5.825,
+          "safe_bound": 674.945,
+          "WIN": false,
+          "SAFE": true,
+          "diagnostics": {
+            "P0": {
+              "mean_labels": 0.0,
+              "mean_switches": 0.0,
+              "mean_rollbacks": 0.0,
+              "promotion_rate": 0.0
+            },
+            "P1": {
+              "mean_labels": 0.0,
+              "mean_switches": 1.0,
+              "mean_rollbacks": 0.0,
+              "promotion_rate": 0.0
+            },
+            "P2": {
+              "mean_labels": 395.0,
+              "mean_switches": 0.0,
+              "mean_rollbacks": 0.0,
+              "promotion_rate": 0.0
+            },
+            "P3b": {
+              "mean_labels": 116.5,
+              "mean_switches": 0.0,
+              "mean_rollbacks": 0.0,
+              "promotion_rate": 0.0
+            },
+            "P6": {
+              "mean_labels": 55.5,
+              "mean_switches": 0.0,
+              "mean_rollbacks": 0.0,
+              "promotion_rate": 0.0
+            }
+          }
+        }
+      }
+    }
+  },
+  "programme": {
+    "outcome": "SUCCESS",
+    "win_streams": [
+      "airlines",
+      "spam",
+      "bank",
+      "rialto",
+      "elec2"
+    ],
+    "safe_failures": []
+  },
+  "created_utc": "2026-11-01T06:39:13.840704+00:00"
+}

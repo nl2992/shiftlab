@@ -91,6 +91,11 @@ This is a bounded next research question, not an implemented or validated cycle-
 Cycle 7 and all its required comparisons, ablations, audit and decision documentation are
 complete. Starting an open-ended new search is not necessary to call cycle 7 finished.
 
+**Bounded follow-up closed:** [fallback diagnostic results](failure_atlas_cycle7_followup_results_v1.md)
+record 640 further development runs. Enforcing gap 4 during fallback fixes one moderate-
+dependence diagnostic but leaves the stronger-dependence failure and both cost regressions.
+Do not promote that patch as a completed repair. No cycle-7 computation remains pending.
+
 ## Artifacts and trail
 
 - Full tables: `docs/failure_atlas_cycle7_validation_results_v1.md`.

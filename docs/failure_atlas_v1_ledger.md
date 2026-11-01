@@ -1,5 +1,12 @@
 # Failure Atlas v1 ledger (EXPLORATORY; no confirmatory claim)
 
+**Post-cycle-7 diagnostic COMPLETE:** [results](failure_atlas_cycle7_followup_results_v1.md).
+640 development method runs on seeds [181000,181040). Fallback gap 4 reduces false promotion
+from 9/40 to 0/40 at rho=.5,B/T=.5,d=10, but 11/40 becomes 12/40 at rho=.8,B/T=.25,d=10;
+both adverse primary cost settings remain unchanged. This local patch is not a solution.
+All requested cycle-7 execution and its bounded follow-up are finished; new method work
+requires a separate prospective protocol, not retrospective acceptance of DSS.
+
 **Cycle 7 COMPLETE (2026-11-01):** [decision and limitations](failure_atlas_cycle7_decision_v1.md),
 [full validation tables](failure_atlas_cycle7_validation_results_v1.md). A1 PASS (13/16 cells,
 aggregate -.03772 [-.04068,-.03476]); A2 FAIL (14/16 parent neighbourhoods pass);

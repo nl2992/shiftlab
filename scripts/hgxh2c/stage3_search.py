@@ -120,11 +120,24 @@ def run_rung(r, src, n_total, cells, n, partition, plan, ck, reg, device, fr, up
     bf = ck / "baseline.npz"
     if bf.exists():
         z = np.load(bf)
-        jref, jsec, bfeat = z["jref"], z["jsec"], z["feats"]
+        if (
+            str(z["scoring"]) != SR.SCORING
+        ):  # never resume from chunks scored under another definition
+            raise RuntimeError(
+                f"{bf} was written under scoring {z['scoring']}, expected {SR.SCORING}"
+            )
+        JP, JS, bfeat = z["JP"], (z["JS"] if z["JS"].size else None), z["feats"]
     else:
         b = SR.baseline_table(fr, cells, n, partition, device)
-        jref, jsec, bfeat = b["jref"], b["jsec"], b["feats"]
-        np.savez(bf, jref=jref, jsec=jsec, feats=bfeat)
+        JP, JS, bfeat = b["JP"], b["JS"], b["feats"]
+        np.savez(
+            bf,
+            JP=JP,
+            JS=JS if JS is not None else np.zeros(0),
+            feats=bfeat,
+            members=np.array(b["members"]),
+            scoring=SR.SCORING,
+        )
     dfs, feats = [], []
     nch = (n_total + plan.chunk - 1) // plan.chunk
     for ci in range(upto if upto is not None else nch):
@@ -133,12 +146,15 @@ def run_rung(r, src, n_total, cells, n, partition, plan, ck, reg, device, fr, up
         if not f.exists():
             t0 = time.perf_counter()
             tabs = SR.eval_cands(cands, cells, n, partition, device)
-            d = SR.summarise(tabs, jref, cells, jsec)
+            d = SR.summarise(tabs, JP, cells, JS)
             d.insert(0, "hash", [c.hash for c in cands])
             d["cand"] = [json.dumps(c.to_dict()) for c in cands]
             d["structure"] = [c.structure for c in cands]
             d["n_ops"] = [c.n_ops for c in cands]
             np.save(ck / f"chunk{ci:05d}.npy", tabs["af"].astype(np.float16))
+            np.save(
+                ck / f"chunk{ci:05d}.J.npy", tabs["J"].astype(np.float32)
+            )  # per-cell candidate J: rescoring needs no recompute
             d.to_parquet(f.with_suffix(".tmp"), index=False)
             f.with_suffix(".tmp").replace(f)
             sec = time.perf_counter() - t0
@@ -231,7 +247,7 @@ def main():
         make_smoke_frontier(out, ffile, dev)
     d = freeze.require_frozen(["frontier"], ffile)
     fr = SR.Frontier(rp(d["frontier"]["path"]))
-    reg = SR.Registry(out / "registry.parquet")
+    reg = SR.Registry(out / "registry.parquet", prefix="a6-")
     ckr = lambda r: out / "ckpt" / f"rung{r}"
     n0 = min(plan.n0, G.space_size()["canonical"])
 
@@ -378,7 +394,7 @@ def audit(a, plan, cands, fr, reg, dev, out, ffile, stress):
     n = plan.seeds3
     base = SR.baseline_table(fr, cells, n, "audit", dev)
     tabs = SR.eval_cands(cands, cells, n, "audit", dev)
-    sc = SR.summarise(tabs, base["jref"], cells, base["jsec"])
+    sc = SR.summarise(tabs, base["JP"], cells, base["JS"])
     suite = SR.equivalence_suite(
         cands, fr, dev, n=8, T=min(500, plan.T12)
     )  # E1-E10 (E11 is the stage-4 size audit)
@@ -509,7 +525,15 @@ def audit(a, plan, cands, fr, reg, dev, out, ffile, stress):
             "dev",
             dev,
         )
-        diffs = st["ref"][None] - st["J"]
+        mem = list(
+            st["ref"]
+        )  # A6: paired differences against each finalist's binding (hardest) primary member
+        diffs = np.stack(
+            [
+                st["ref"][min(mem, key=lambda m: (st["ref"][m] - st["J"][k]).mean())] - st["J"][k]
+                for k in range(len(fcs))
+            ]
+        )
         pc = {c.hash: SR.power_n(diffs[k], len(fcs)) for k, c in enumerate(fcs)}
         out_fin["power_calc"] = pc
         out_fin["N_per_cell_alt"] = max(v["N"] for v in pc.values())

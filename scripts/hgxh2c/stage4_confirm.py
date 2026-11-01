@@ -268,7 +268,6 @@ def analyse(sh, fin, sel, bases, secondary, fcs, fr, a, out):
                 s = W[W.family == fam]
                 tbl[fam] = {
                     "gain_vs_best": float((s[best] - s[h]).mean()),
-                    "gain_vs_all_min": float((s[nb].min(axis=1) - s[h]).mean()),
                     "wins_all": bool(all((s[b] - s[h]).mean() > 0 for b in nb)),
                 }
             v["regime_table"] = tbl

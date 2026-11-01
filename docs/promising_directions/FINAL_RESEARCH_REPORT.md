@@ -6,6 +6,14 @@ sources named beside it. Nothing here is confirmatory. The adversarial review (`
 written by a Claude Sonnet instance from the same session as the artifacts; it is a critic role, not an
 independent or human review.
 
+> **Superseding interpretation (2026-11-01).** The PI judged that this report applied the 10% bar as a
+> pass/fail gate, which was far too harsh. `14_FAIR_REEVALUATION.md` re-grades every finding on a graded scale
+> and revises the classification to **CONDITIONAL GO for a scoped paper**, not a new-algorithm headline.
+> Registered protocol outcomes below are unchanged. Key point: certified switching captures about 77% of the
+> oracle headroom when a useful challenger exists (37-40% below never-switch). It never promotes a useless
+> one (0/500), and it weakly dominates incumbent-alarm switching. Calendar optimality under tight risk is a
+> proved structural result.
+
 ## 1. Executive decision
 
 **Classification: BENCHMARK / NEGATIVE-RESULT PIVOT.** This is the orchestrator's decision.

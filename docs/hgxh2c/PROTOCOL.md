@@ -422,3 +422,30 @@ The search objective (Delta_J at rungs 0–3) uses the minimum gain over the pri
 the cumulative equal-cell mixture against the best primary member in each cell. Gains over the
 secondary family are logged but not optimised. This prevents search from overfitting to beat
 thresholds that carry no guarantee.
+
+## Amendment A6 (2026-11-01, after rung-0 scores were seen, before rung-1 selection and before any confirmation data): search score = beat every single compatible baseline cumulatively
+
+Disclosure. Rung 0 (1e6 candidates) finished under the A5 wording "best primary member in each
+cell". Every rung-0 dJ was negative (max −0.106).
+
+Defect. That score compares a candidate with a *per-cell oracle composite*. The composite picks, in
+each cell, whichever baseline happened to score best on those same 16 seeds. It is not a
+deployable method, and selecting on the same noisy seeds biases it in the baselines' favour. It
+contradicts §9 (an intersection–union test against *each* frontier member, using the cumulative
+equal-cell mixture) and the brief ("improves on the strongest statistically compatible existing
+method"). It is also exactly the kind of arbitrarily hard bar the user ruled out. The change
+corrects the comparator definition to match the registered §9 test. It is not a re-tuning toward a
+desired outcome.
+
+Correction. Let P be the fixed set of anytime-valid J-track frontier members (the union over cells
+of the primary family). The search score is
+
+  dJ(c) = min_{b in P} mean_cells( J_b(cell) − J_c(cell) ),
+
+and dJ_sec is the same score over the empirical-alarm family. This is the in-sample analogue of
+the stage-4 intersection–union test. Rungs 1–3 use the same definition. Rung 0 is re-run because
+the old checkpoints do not store per-cell J. The A5-scored rung-0 records stay in the registry
+under scoring version "a5_percell_min" and are not deleted.
+
+Stage 4 is unchanged: an IUT against every P member, a paired cluster bootstrap per member, and Holm
+across finalists.

@@ -16,6 +16,8 @@ from shiftlab.dive.atlas_components import (
     build_candidate,
     default_spec,
     differing_slots,
+    dss_ablations,
+    dss_spec,
     propose_candidates,
     validate_spec,
     weighted_start_design,
@@ -413,3 +415,78 @@ def test_triggered_kelly_promotes_earlier_than_started_mixture_on_late_harmful_o
     m = {k: float(np.mean(v)) for k, v in first.items()}
     print("mean first promotion round (not promoted = T+1):", m)
     assert m["triggered_kelly"] < m["started_mixture_eprocess"]
+
+
+# ----------------------------------------------------------------------------- DSS (Amendment 8)
+
+
+def _dss_flip_run(sp, cfg):
+    t0 = cfg.T // 2
+    s1 = _stream(3)
+    l0, l1 = s1.loss0.copy(), s1.loss1.copy()
+    l0[t0:], l1[t0:] = s1.loss1[t0:].copy(), s1.loss0[t0:].copy()
+    s2 = Stream(l0, l1, s1.truth)
+    return run(s1, build_candidate(sp), cfg), run(s2, build_candidate(sp), cfg), t0
+
+
+def test_dss_spec_id_stable_and_existing_ids_unchanged():
+    assert any(
+        sp.spec_id == "b1a17927d9ad" for ax in AXES for sp in propose_candidates(ax, max_n=60)
+    )
+    a, b = dss_spec(8), dss_spec(8, True)
+    assert a.spec_id == b.spec_id and validate_spec(a)[0]
+    assert dss_spec(8).spec_id != dss_spec(4).spec_id != dss_spec(8, False).spec_id
+    code = "from shiftlab.dive.atlas_components import dss_spec;print(dss_spec(8).spec_id)"
+    out = subprocess.run([sys.executable, "-c", code], capture_output=True, text=True, check=True)
+    assert out.stdout.strip() == a.spec_id
+    ab = dss_ablations(a)
+    assert {k: v.spec_id for k, v in ab.items()}.keys() == {"no_switch", "gap1", "uniform"}
+    assert len({a.spec_id, *(v.spec_id for v in ab.values())}) == 4
+    assert all(validate_spec(v)[0] for v in ab.values())
+    assert dict(ab["gap1"].params)["acquisition.gap"] == 1
+    assert dict(ab["no_switch"].params)["acquisition.delay_switch"] is False
+    assert ab["uniform"].acquisition == "uniform"
+    assert not validate_spec(dss_spec(0))[0]
+
+
+@pytest.mark.parametrize("gap", [1, 4, 8, 16])
+@pytest.mark.parametrize("d", [1, 5])  # d* = 2*200/42 = 9.5, so both stay on the straddle branch
+def test_dss_runs_budget_gap_and_no_peeking(gap, d):
+    cfg = Config(T=T, B=B, d=d, c=0.01, s=0.1, h=0.1, alpha=0.1, seed=0)
+    sp = dss_spec(gap)
+    r1, r2, t0 = _dss_flip_run(sp, cfg)
+    assert r1.queries <= B
+    k = t0 + d
+    assert np.array_equal(r1.actions[:k], r2.actions[:k])
+    assert np.array_equal(r1.query_mask[:k], r2.query_mask[:k])
+    q = np.flatnonzero(r1.query_mask)
+    assert len(q) > 1 and np.all(np.diff(q) >= gap)
+
+
+def test_dss_gap_actually_binds_and_gap1_equals_straddle():
+    cfg = Config(T=T, B=B, d=1, c=0.01, s=0.1, h=0.1, alpha=0.1, seed=0)
+    st = next(sp for sp in propose_candidates("d", 60) if sp.spec_id == "b1a17927d9ad")
+    s1 = _stream(3)
+    r_st = run(s1, build_candidate(st), cfg)
+    r_g1 = run(s1, build_candidate(dss_spec(1, False)), cfg)
+    assert np.array_equal(r_st.query_mask, r_g1.query_mask)
+    assert np.array_equal(r_st.actions, r_g1.actions)
+    assert np.diff(np.flatnonzero(r_st.query_mask)).min() == 1  # straddle queries consecutively
+    r_g8 = run(s1, build_candidate(dss_spec(8, False)), cfg)
+    assert not np.array_equal(r_st.query_mask, r_g8.query_mask)
+
+
+@pytest.mark.parametrize("d", [10, 12, 30])  # all >= d* = 9.5
+def test_dss_delay_switch_reproduces_uniform_acquisition_exactly(d):
+    cfg = Config(T=T, B=B, d=d, c=0.01, s=0.1, h=0.1, alpha=0.1, seed=0)
+    sp = dss_spec(8)
+    uni = dss_ablations(sp)["uniform"]
+    for seed in (3, 4):
+        st = _stream(seed)
+        a = run(st, build_candidate(sp), cfg)
+        b = run(st, build_candidate(uni), cfg)
+        assert np.array_equal(a.query_mask, b.query_mask)
+        assert np.array_equal(a.actions, b.actions)
+    # the switch is data independent and off when disabled
+    ns = run(_stream(3), build_candidate(dss_spec(8, False)), cfg)
+    assert ns.query_mask.sum() <= B

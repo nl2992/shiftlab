@@ -60,11 +60,34 @@ Then for every `alpha`,
 So the mixture cost is at least `J(alpha) + sum_i lambda_i delta(a_i)`, which is at least
 `J(alpha) + breve-delta(alpha)`. Taking the infimum gives the claim. QED.
 
-**Remark 1.** In every A1d family the pure gap at zero risk is `delta(0) = 0`: all calendars and
-J coincide at a = 0. Therefore `breve-delta(alpha) <= (alpha / a) delta(a)` for every `a >= alpha`.
-Lemma 2 is valid but loose. The exact `C_mix` of A1d / A2b remains the operative quantity.
+**Remark 1 (correction, 2026-11-01): Lemma 2 is vacuous here.**
 
-**Remark 2.** Lemma 2 is also why the A1c pure-calendar excess shrank under A1d. The dips in
+- In every family computed, all calendars and J coincide at a = 0, so `delta(0) = 0`.
+- The law `mu` = point mass at 0 has mean 0 <= alpha. Hence `breve-delta(alpha) = 0` for every
+  alpha, and the lemma's lower bound is trivially 0.
+- The earlier wording ("valid but loose") understated the problem: the bound carries no
+  information at all. The cause is that the proof discards the Jensen slack
+  `sum_i lambda_i J(a_i) - J(alpha)`.
+
+The correct and informative statement is definitional: `C_mix = conv(C*)`, the lower convex
+envelope of `C*` on [0, 1]. The mixture gap is therefore `conv(C*)(alpha) - J(alpha)`.
+
+Lower-bounding this gap needs information about each `C_c` between grid points. Each `C_c` is a
+convex LP value function, which supplies that information:
+
+- On a grid interval `[a_k, a_{k+1}]`, `C_c` lies above the extensions of the secants on the
+  neighbouring intervals `[a_{k-1}, a_k]` and `[a_{k+1}, a_{k+2}]`. Call this pointwise maximum
+  `L_c`.
+- Let `L = min_c L_c`. Then `conv(L) <= conv(C*)`.
+- Hence `conv(L)(alpha) - J(alpha)` is a valid lower bound on the mixture gap.
+- The grid-point envelope gives an upper bound.
+
+A1d and A2b reported only the upper bound. That is enough to *refute* a gap whenever the upper
+bound is <= 0. It is not enough to *establish* one. The A1d "H-risk SURVIVES" values are
+therefore upper bounds on the mixture gap, and they are not yet proven lower bounds. A3c
+computes both bounds.
+
+**Remark 2.** Convexification (`C_mix = conv(C*)`), not Lemma 2, is why the A1c pure-calendar excess shrank under A1d. The dips in
 `delta(alpha)` are non-convexities, and mixtures fill them in.
 
 ## Proposition 3 (branch decomposition of a calendar's gap)

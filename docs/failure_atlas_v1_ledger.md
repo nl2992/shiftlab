@@ -1,5 +1,9 @@
 # Failure Atlas v1 ledger (EXPLORATORY; no confirmatory claim)
 
+**Current direction (2026-11-01):** [evidence review and decision trail](failure_atlas_review_2026_11_01.md).
+Continue the method search under protocol Amendments 8–9. The cycle-6 consolidation recommendation
+below is retained as history; it does not override the user's renewed practical-method objective.
+
 Protocol: `docs/failure_atlas_v1_protocol.md` including Amendment 1. All numbers below are copied from
 `outputs/failure_atlas_v1/summary.md` (cycle 1), `outputs/failure_atlas_v1_cycle2/summary.md` (cycle 2) or
 computed from the `state.json`/`archive.jsonl` next to them. Nothing here is confirmatory: discovery,
@@ -1673,3 +1677,75 @@ Recommended next step, chosen by the user:
 - **(b) One final method test.** Build the strongest dependence-robust baseline named by the audit, a correctly specified Markov-likelihood e-process gate on the skeleton chain, together with a spacing-thinned hedged-betting gate. Test validity across the cycle-6 grid and power on family 3. That would show whether dependence-robust validity is cheap or costly in this contract.
 
 Nothing here is confirmatory. The confirmation seeds remain untouched.
+
+## 2026-11-01 continuation: practical acceptance and dependence pilot (Amendment 9)
+
+This dated entry supersedes the earlier consolidation recommendation as a future-work
+direction. It leaves all six-cycle verdicts intact. Governing review:
+`docs/failure_atlas_review_2026_11_01.md`; native claim review:
+`docs/failure_atlas_native_claim_review_2026_11_01.md`.
+
+**Acceptance correction:** pursue a useful, modestly novel repair against strong matched
+competitors on a declared shared-failure region. New-theorem novelty, universal dominance
+and 50% closure to a Bayes reference are not required. Retain honest absolute safety limits,
+ablation evidence and a precise difference from prior rules. Amendment 8's registered
+cycle-7 criteria are retained for that evaluation, not silently revised after results.
+
+**Run:** `.venv/Scripts/python scripts/run_atlas_dependence_pilot_v1.py`.
+Starting HEAD `e61a3b0`, dirty tree with pilot and documentation changes. T=1000,
+development seeds [170000,170020), 32 boundary-null configurations plus 11 reproduced
+family-3 alternative cells; five methods, 4300 unique method runs. Raw records and
+post-run analysis manifest: `outputs/failure_atlas_v1_cycle7/dependence_pilot/`.
+Full tracked tables: `docs/failure_atlas_dependence_pilot_2026_11_01.md`.
+Alternative streams were replayed on identical seeds to add explicit promotion metrics;
+original records remain in the append-only file. Replays add no independent evidence.
+
+**Observed cost result:** frozen DSS gap 4 has lower mean per-round cost than the best
+of episode_front, Markov LR and gap-10 betting in 9/11 alternative cells. The unweighted
+mean of the 11 paired cell differences is -0.03908 per round. Seven cells have an
+unadjusted paired 95% CI upper bound below -0.01. Two cells have worse mean cost.
+This is a promising scoped repair, not A1 acceptance: the full comparator registry,
+family-1 cells and neighbours were not evaluated, and these are only 20 development seeds.
+The comparison chooses the best pilot baseline per cell on those same seeds.
+
+**Dependence result:** maximum observed null false-promotion frequency over each rho's
+eight budget/delay configurations (each frequency based on 20 streams):
+
+| rho | episode_front | Markov LR | gap-10 betting | DSS gap 4 | uniform ablation |
+|---|---|---|---|---|---|
+| 0 | .15 | .00 | .10 | .00 | .10 |
+| .5 | .35 | .10 | .05 | .25 | .25 |
+| .8 | 1.00 | .05 | .15 | 1.00 | 1.00 |
+| .95 | 1.00 | .05 | .70 | 1.00 | 1.00 |
+
+These maxima are descriptive, not pooled error probabilities or simultaneous confidence
+bounds. Full tables carry exact per-cell binomial intervals; even 0/20 has upper bound
+about .168. Markov LR is empirically the strongest null comparator here, subject to its
+homogeneous-skeleton approximation. Fixed gap 10 is also inadequate at high persistence.
+DSS is not dependence-safe across this grid; its cost gain does not erase that failure.
+
+**Promotion/power diagnostic:** Markov LR made no promotion in 10/11 alternative cells
+(0/20 streams in each), and promoted correctly in 14/20 streams in the remaining cell.
+Its favourable null performance therefore comes with substantial conservatism on this
+particular late/transient-change family. DSS correctly promoted in 17–20 of 20 streams
+per alternative cell. None of the five methods made a false promotion on these alternative
+streams, which does not negate the separate boundary-null failures. This answers the
+practical cost-of-robustness question within the pilot, without establishing a theorem or
+a general power ordering. The separate T=300 late-onset test and this T=1000 family use
+different streams, budgets and change structures and must not be conflated.
+
+**Decision: CONTINUE, NARROW.** The practical acquisition repair has measurable promise;
+the evidence does not justify abandoning it merely for lacking a new theorem. Retain
+its operating limits and test against the full applicable registry before any SOTA-win
+claim. For stronger dependence, investigate gap-aware Markov evidence as a separate,
+prospectively registered repair. Do not retune gap 4 on this pilot and call the same seeds
+fresh. Validation [290000,290200) and confirmation seeds remain untouched.
+
+**Checks:** 53 tests passed in 392.16 s:
+`.venv/Scripts/python -m pytest tests/test_atlas_dependence_baselines.py tests/test_atlas_components.py -q`.
+Baseline tests additionally observed 1/100 false promotions for each dependence baseline
+at rho=.8, B/T=.25, d=1, T=300; in a separate late-onset T=300 test, Markov LR promoted
+11/20 times with mean total-cost gain 18.10 against no_switch; gap-10 betting promoted
+17/20 with gain 29.67. These are test settings, not the T=1000 pilot or SOTA comparisons.
+Ruff and script compilation checks pass. External cross-family integrity audit unavailable;
+the saved native review is provisional and did not review the completed pilot outputs.

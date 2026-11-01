@@ -8,6 +8,12 @@ development or mechanism-validation stages. Code: `src/shiftlab/dive/failure_atl
 
 ## Purpose
 
+**Current direction (2026-11-01):** see Amendment 9 and
+[the evidence and decision review](failure_atlas_review_2026_11_01.md). Earlier locked
+definitions remain the rules for their historical runs. The current objective is a useful,
+modestly novel repair on a declared shared-failure region, compared against strong matched
+competitors; a new theorem or universal dominance is not required.
+
 Reverse the order of earlier ShiftLab work. Earlier work built a candidate, then looked for cells
 where it won. Here we first look for reproducible failures shared by the strongest available
 methods under one matched contract, and only then search for mechanisms. Three outputs:
@@ -655,3 +661,48 @@ The two added baselines are also reported across the full cycle-6 dependence gri
 - power on family-3 failure cells against the published gates.
 
 This answers whether robustness to dependence is cheap or costly in this contract.
+
+## Amendment 9 (2026-11-01): clarify acceptance and register dependence pilot
+
+This amendment follows the user's renewed instruction to diagnose a common failure and seek
+a workable, mildly novel repair. It preserves Amendment 8 and all earlier results verbatim.
+It does not retrospectively turn any failed experiment into a pass.
+
+- A shared failure means every **implemented, contract-applicable comparator in the frozen
+  registry** fails on the declared region. It does not mean every SOTA algorithm in existence.
+- A new theorem, global dominance, and 50% closure to a Bayes reference are not prerequisites
+  for continuing a candidate. Credit known ingredients; novelty must identify an actual rule
+  difference with ablation evidence. A combination alone is not proof of novelty.
+- Amendment 8 A1-A4 remain the registered cycle-7 evaluation, including its numerical margins.
+  They are not a universal definition of publishability. If DSS fails them, retain the result;
+  any narrower evaluation must be registered prospectively with new seeds.
+- Safety cannot be relaxed by comparing with an unsafe best competitor. A3's rho=0.8 relative
+  comparison is descriptive only: it cannot support a dependence-safe claim. Any accepted safety
+  claim needs a declared null/dependence class and an absolute criterion with uncertainty.
+- Fixed gap 4 and gap 10 are empirical mitigations, not exact independence. The Markov gate
+  has a homogeneous-skeleton assumption; unequal query gaps and regime changes need explicit
+  qualification. None is an unrestricted dependence-robust solution.
+
+**Pilot registered before execution:** `scripts/run_atlas_dependence_pilot_v1.py`; development
+seeds [170000,170020), T=1000, 32 cycle-6 dependence null configurations plus the 11 reproduced
+family-3 alternative cells. Compare episode_front, Markov LR, gap-10 betting, frozen DSS gap 4,
+and uniform DSS ablation on identical streams. Report per-cell false-promotion frequencies and
+cost per round, retaining paired seed records. This n=20 pilot checks execution and identifies
+tradeoffs; it cannot pass A1-A4 or establish nominal error control. It does not consume the
+reserved [290000,290200) validation seeds or confirmation seeds. No new tuning is allowed from
+these outputs without recording reuse. Output: `outputs/failure_atlas_v1_cycle7/dependence_pilot/`.
+
+**Metric-completeness addendum, same date:** replay the 11 alternative cells on the identical
+20 seeds to save any promotion, at least one correctly timed promotion (by evaluator regime),
+and any false promotion separately. This repairs the pilot's initially incomplete power
+bookkeeping; it adds no independent evidence and changes no decisions, candidate or thresholds.
+Append replay records rather than deleting the original records. No acceptance verdict follows.
+
+## Amendment 10 (2026-11-01): complete the registered cycle-7 evaluation
+
+The user requested continuation and completion of cycle 7. Execution details, exact
+neighbour definition, comparator registry, aggregation and A4 interpretation are frozen
+in `docs/failure_atlas_cycle7_execution_v1.md` before validation seed use. This completes
+Amendment 8 on [290000,290200); no candidate or numerical acceptance margin is changed.
+The prior 20-seed development pilot is not pooled into validation. The full cycle-6 null
+grid is included as the registered supplementary dependence study.

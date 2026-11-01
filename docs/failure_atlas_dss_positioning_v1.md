@@ -85,6 +85,12 @@ shrinks to the contract-specific combination of known pieces.
 
 ## 5. Positioning paragraph (paper-ready)
 
+**Evidence correction, 2026-11-01:** the paragraph below is retained as a historical draft.
+Its statement that the composition "beats the strongest gated baselines" is an intended claim,
+not an observed DSS result. Only gap tuning is currently saved; A1–A4 validation is outstanding.
+Do not copy it into a paper as a result. The earlier A5 PASS is a scoped prior-art search verdict,
+not an acceptance or dependence-validity verdict. See the current evidence review.
+
 Uncertainty-driven label acquisition inside an anytime-valid test is established (Xu et al.; Li et al.; Zrnic and
 Candes), as are predictable-query validity with pending labels, blocking or thinning for dependent data (Oliveira et
 al.), and hard-budget and delay-capacity scheduling (Braverman et al.; Ryabchenko et al.). We combine three of these

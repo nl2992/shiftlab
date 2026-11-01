@@ -511,3 +511,52 @@ may break their *validity*, not only cost more.
    - All R6 baselines and `hard_budget_pacing` are included.
    - Outputs go to `outputs/failure_atlas_v1_cycle5/`.
    - Nothing is confirmatory.
+
+## Amendment 7 (2026-11-01, cycle 6, registered before any cycle-6 code or run)
+
+**Purpose.** Test the sampling-density explanation from the cycle-5 assessment. The explanation:
+published e-process gates kept validity under within-regime dependence and informative release
+because sparse queries decorrelate the labels that are actually observed.
+
+This cycle is a validity study, run on boundary null streams only. Cost atlas stages are not run.
+
+**Streams.**
+- Family-3 null twins: never on, stationary `E[-D] = h`, Markov benefit indicator with lag-1
+  autocorrelation `rho`.
+- Family-4 null twins: favourable-first release.
+- T = 1000, alpha = 0.1.
+
+**Seeds.** 200 dedicated null seeds per configuration, drawn from development seeds `[150000, 160000)`.
+None of these seeds has been used before.
+
+**Methods.** Every safety-gated baseline (episode_geo / episode_equal / episode_front,
+allonset_edetector, c2_rho0.75, c1_hmm_cs, online_fwer_spending), plus R_valid, plus straddle
+`b1a17927d9ad` and its uniform ablation.
+
+**Grids.**
+- Dependence grid: `rho` in {0, 0.5, 0.8, 0.95} × `B/T` in {0.05, 0.1, 0.25, 0.5} × d in {1, 10}.
+- Release grid: query spacing `g = T/B` for `B/T` in {0.1, 0.25}. For each spacing,
+  `(d_f, d_u) = (g, 10g)` (favourable labels first) and the control `(10g, g)`. `rho = 0`.
+
+**Locked predictions.** "Exceeds" means the point estimate is above the threshold. Wilson
+intervals are reported alongside.
+
+- **(V1)** At `rho = 0.8` and `B/T = 0.5`, pooled over d, at least one e-process baseline among
+  episode_*, allonset_edetector, online_fwer_spending and c2_rho0.75 has a null false-promotion
+  rate above alpha + 0.05.
+- **(V2)** At `rho = 0.8`, pooled over B/T and d and paired by seed, straddle's null
+  false-promotion indicator minus its ablation's has a 95% CI that excludes 0 on the positive side.
+- **(V3)** Under favourable-first release with `d_u = 10g`, pooled over the two spacings, at least
+  one gated baseline has a null false-promotion rate above alpha + 0.05. The control `(10g, g)`
+  stays at or below alpha.
+- **(V4, descriptive)** Across the dependence grid, each e-process baseline's null
+  false-promotion rate is non-decreasing in the effective sampled-label correlation
+  `rho^(T/B)`. Report Spearman correlations.
+
+**Interpretation rule.** The sampling-density explanation is retained only if V1 holds and the
+V4 Spearman correlation is positive for most e-process baselines. If V1 fails, the e-process gates
+are robust to Markov dependence at this boundary, and the dependence row of the failure table is
+closed for published baselines.
+
+**Execution.** The run executes as a detached, resumable OS process with a per-configuration
+checkpoint. Output goes to `outputs/failure_atlas_v1_cycle6/`. Nothing here is confirmatory.

@@ -1,118 +1,75 @@
-# 16 Real-data results: certified switching on 7 chronological streams (B3)
+# 16 Real-data results: successful datasets (B3)
 
-Protocol: `protocols/B3-real-data-certified-switching.md`. Registered at `19f1090`,
-sha256 `b17b5a31…ba3a`, before any locked window was read.
+Certified switching reduced mean net cost by **70% on spam, 49% on rialto, and 6% on
+weather**, capturing **91%, 70%, and 38%** of the available hindsight gain, respectively.
+The run evaluated **7 preregistered streams: WIN on 3, SAFE on all 7**, meeting the
+registered SUCCESS rule. This section focuses on those three wins; the
+[full seven-stream report and non-wins](16_REAL_DATA_RESULTS_APPENDIX.md) remain available.
+SAFE is the registered empirical criterion: cost no greater than never-switch cost plus
+query spend and a 2% margin; it does not mean zero excess cost or a general safety guarantee.
 
-The policy code is `b1_certified_switching.py` at `041bc26`, unchanged. The model pairs reproduce
-the audit's dev-window statistics exactly (maximum difference 0.0; `results/b3/pairs_check.json`).
-The run executed once as a detached process.
+## Successful datasets
 
-The orchestrator recomputed every number below from the per-episode JSONL. Episode CIs use 2,000
-bootstrap resamples. The recomputation agrees with `results/b3/summary.json`.
+Primary setting: 200 labels per 2,000-event episode, label cost 0.05, switching cost 5.
+Costs include deployment errors, labels, and switches, averaged over 100 query seeds.
+Cost reduction is relative to never switching (P0). Headroom captured compares the gain
+with always deploying the challenger (P1), a hindsight reference.
 
-## Decision: **SUCCESS** (registered rule)
+| Stream | Episodes | Never switch | Certified switching | Cost reduction | Headroom captured | Paired cost difference [95% CI] |
+|---|---|---|---|---|---|---|
+| spam | 1 | 849.0 | 254.1 | 70% | 91% | -594.9 [-597.9, -591.8] |
+| rialto | 16 | 202.1 | 103.7 | 49% | 70% | -98.3 [-116.6, -79.2] |
+| weather | 3 | 504.0 | 475.8 | 6% | 38% | -28.2 [-29.3, -27.2] |
 
-- WIN on 3 streams: weather, spam, rialto.
-- SAFE on 7 of 7 streams.
+**Spam.** Certified switching lowers mean net cost from 849.0 to 254.1, recovering 91%
+of the hindsight gain. The fixed-sample paired batch test costs 315.9. This is the
+largest reduction, but comes from one episode: its interval reflects query-seed
+randomness, not variation across independent data episodes.
 
-## Primary setting (B = 200 labels per 2,000-event episode, c_q = 0.05, c_s = 5)
+**Rialto.** Across 16 episodes, certified switching lowers cost from 202.1 to 103.7,
+recovering 70% of the hindsight gain. It also improves on the batch test's 122.9.
+Among these three wins, rialto provides the broadest episode-level evidence.
 
-Mean net cost per episode, averaged over 100 query seeds.
+**Weather.** Across three episodes, certified switching lowers cost from 504.0 to
+475.8, recovering 38% of the hindsight gain. The batch test is cheaper at 465.6;
+this is a win against never switching and incumbent-alarm switching, not against
+every comparator. Its interval, like spam's, is a low-power seed-level bootstrap.
 
-| Stream | K | Never (P0) | Always challenger (P1, hindsight) | Incumbent alarm (P2) | **Certified (P3b)** | Batch test (P6) | P3b − P0 [95% CI] | WIN | SAFE | Headroom captured |
-|---|---|---|---|---|---|---|---|---|---|---|
-| weather | 3† | 504.0 | 430.3 | 511.3 | **475.8** | 465.6 | −28.2 [−29.3, −27.2] | yes | yes | 38% |
-| spam | 1† | 849.0 | 195.0 | 792.2 | **254.1** | 315.9 | −594.9 [−597.8, −591.6] | yes | yes | 91% |
-| rialto | 16 | 202.1 | 61.2 | 211.8 | **103.7** | 122.9 | −98.3 [−117.0, −78.5] | yes | yes | 70% |
-| airlines | 50 | 776.8 | 859.3 | 786.7 | 781.4 | 775.4 | +4.6 [−0.0, +8.3] | no | yes | — (challenger worse) |
-| bank | 8 | 419.4 | 1202.4 | 429.1 | 428.2 | 422.1 | +8.8 [+6.2, +10.2] | no | yes | — (challenger much worse) |
-| elec2 ‡ | 4† | 389.5 | 386.5 | 399.3 | 397.6 | 388.0 | +8.1 [+7.8, +8.4] | no | yes | not captured |
-| criteo click ‡ | 50 | 693.9 | 671.8 | 703.6 | 699.2 | 692.1 | +5.3 [+3.9, +6.2] | no | yes | not captured |
+All three satisfy the preregistered WIN criterion: the paired 95% interval versus
+never switching is below zero, and mean cost is no higher than incumbent-alarm
+switching. Promotion rates were 100% on these streams, with no rollback. Intervals
+use 2,000 bootstrap resamples; rialto resamples episodes.
 
-† K < 5 episodes, so the CI is a seed-level bootstrap and the result is LOW-POWER. The CI
-reflects query randomness only, not variation across data.
-‡ Partly exposed stream (see `15_*.md`).
+## Safety context and scope
 
-## Sensitivity (reported, not used for the decision)
+Bank and airlines illustrate the value of declining a worse challenger: blind
+challenger deployment costs about 187% and 11% more than never switching, while
+certified switching costs about 2.1% and 0.6% more, with promotion rates of 1% and
+12%. Both pass SAFE but are not wins. Elec2 and criteo also pass SAFE without
+winning; their small challenger advantages did not repay certification costs.
+Full costs, uncertainty, sensitivity settings, and negative results are retained
+in the [appendix](16_REAL_DATA_RESULTS_APPENDIX.md).
 
-P3b relative to never-switch:
+These are results under imposed costs and delays and dev-selected frozen model
+pairs. Spam uses file order, rialto image-capture order, and weather has only three
+episodes. The source repository for these three streams declares no licence;
+use remains research-only. The results do not establish validity under arbitrary
+temporal dependence or superiority to all competing methods.
 
-| Setting | weather | spam | rialto | airlines | bank | elec2 | criteo |
-|---|---|---|---|---|---|---|---|
-| c_s = 20 | −2.6% | −68.3% | −41.2% | +0.8% | +2.1% | +4.0% | +1.1% |
-| B = 400 | −6.5% | −70.3% | −49.1% | +1.1% | +4.2% | +2.3% | +0.8% |
+## Provenance and reproduction
 
-These are the same qualitative conclusions as the primary setting. P3b's promotion rates were
-1.00 on weather, spam and rialto, 0.12 on airlines, 0.01 on bank, 0.50 on elec2 and 0.18 on
-criteo. It never rolled back.
+- Frozen protocol: [B3 registration](protocols/B3-real-data-certified-switching.md),
+  registered at `19f1090`; SHA256
+  `b17b5a318e65be5ed7729357fb1f0692c0764b6444a4f686797756fb420cba3a`.
+- Policy implementation: `b1_certified_switching.py` at `041bc26`; completed run
+  and original report committed at `475bf47`. This write-up does not rerun or tune it.
+- Source numbers: [summary.json](results/b3/summary.json); episode records,
+  provenance, pair checks, and checksums remain in `results/b3/`.
+- Runner: `scripts/promising_directions/b3_real_data.py`; inspect its CLI with
+  `python scripts/promising_directions/b3_real_data.py --help` before reproducing
+  the registered run with the required local data.
+- Relevant verification: `python -m pytest tests/promising_directions/test_b3_real_data.py -q`.
 
-## Fair reading
-
-**When the new model really is better (spam, rialto, weather),** certified switching recovers
-most of the available gain:
-
-- Cost reductions are 70%, 49% and 6% relative to never switching.
-- That captures 91%, 70% and 38% of what a hindsight "always challenger" choice would have
-  gained.
-- It does this without knowing in advance which model is better.
-
-**When the new model is worse (bank, airlines),** certified switching does what insurance should
-do:
-
-- Blindly deploying the challenger would cost +187% on bank and +10.6% on airlines.
-- Certified switching costs +2.1% and +0.6%. That is essentially the label spend.
-- On bank it almost never promoted the bad challenger (1% of runs).
-
-**It beats incumbent-alarm switching on all 7 streams** (point estimates). The programme's
-central failure pattern holds on real data: an alarm on the incumbent is not evidence that the
-challenger is better.
-
-**Where it did not help (elec2, criteo).** The challenger's advantage was small:
-
-| Stream | Challenger advantage (hindsight) | Disagreement rate |
-|---|---|---|
-| elec2 | about 0.8% | about 5% |
-| criteo | 3.2% | 6.6% |
-
-With roughly 100–130 disagreements per 2,000-event episode, certification is too slow to pay
-for its labels. The cost is small (+2–5%), but these are honest non-wins.
-
-**Against the fixed-sample batch test (P6):**
-
-- P3b is clearly better on spam (254 versus 316) and rialto (104 versus 123).
-- P6 is slightly cheaper on the other five streams, because it stops buying labels after 50.
-- P6's error control assumes exchangeable outcomes. P3b's e-process guarantee does not need
-  that assumption.
-
-## Limits
-
-- **Episode counts.** Three of the WIN streams have few episodes: weather 3, spam 1. Their CIs
-  capture query randomness only, and spam's result is a single 2,000-event episode. The
-  strongest evidence comes from rialto (16 episodes) and from the two large insurance cases
-  (airlines 50, bank 8).
-- **Time order.**
-  - spam and bank use the file order as time.
-  - airlines' order is inferred.
-  - rialto uses image-capture order.
-- **Imposed parameters.** Delays and costs are imposed, not taken from real release contracts.
-- **Pair selection.** Pairs were selected on dev windows by a fixed rule. Other pairs could
-  behave differently.
-- **Licence.** The vlosing-repo streams (weather, spam, rialto) have no declared licence, so
-  their use is research-only.
-
-## Artifacts
-
-`results/b3/` contains:
-
-- `<stream>.jsonl`, one row per episode and setting, with per-seed costs;
-- `summary.json`;
-- `provenance.json`;
-- `pairs_check.json`;
-- `losses/*.npz`, the episode loss arrays;
-- `SHA256SUMS.txt`.
-
-The runner is `scripts/promising_directions/b3_real_data.py`. Tests are in
-`tests/promising_directions/test_b3_real_data.py`.
-
-The `run_stderr.log` traceback is harmless: joblib's CPU-count probe calls `wmic`, which
-Windows 11 no longer ships. The run completed normally.
+**Assessment: continue** with these scoped positive findings and the preserved
+seven-stream evidence; broader efficacy and stronger dependence claims need
+further preregistered evaluation.

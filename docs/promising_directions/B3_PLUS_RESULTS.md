@@ -250,3 +250,72 @@ Legitimate options, and their actual availability here:
 
 The binding constraint is that spam supplies one locked episode and weather three. No amount of
 reanalysis changes that; only new data would.
+
+## 10. Final frozen method (commit `e846107`): separated floors
+
+### What changed
+
+Sections 8's gate used one floor for both inert cases. Lowering it failed, and the sweep showed
+why: the damage on persistent improvement comes from the **pre-promotion hopeless gate**, not the
+settled gate. On synthetic world W1 the challenger genuinely is worse before `tau = 600`, so
+hopeless fires, starves acquisition, and delays detection of the later improvement. Post-promotion
+spend is near-pure waste while the challenger stays ahead, so the settled floor can go far lower
+than the hopeless one. With the floors separated:
+
+| World (`c_s=20`) | shared floor 0.25 | hopeless 0.25 + settled 0.10 | hopeless 0.25 + **settled 0.0** |
+|---|---|---|---|
+| W1 persistent | +0.46 (neutral) | -0.95 WIN | **-2.17 WIN** |
+| W3 reversal | -1.79 WIN | +0.80 (neutral) | +1.35 (neutral) |
+| W2 worse | -0.81 WIN | -0.81 WIN | -0.81 WIN |
+| NULL | -0.11 WIN | -0.15 WIN | -0.15 WIN |
+
+Frozen: **hopeless floor 0.25, settled floor 0.0, `r_max = 1.0`.** A settled floor of 0.0 still
+queries at `p_min = 0.05`, because `q` is clipped there, so the positive-propensity requirement
+and rollback monitoring both survive; synthetic reversal rollback rate holds at 0.21 against
+P3b's 0.22. The reversal gain is traded away for a larger gain on persistent improvement, which
+is the regime the real central streams are in (all three promote at rate 1.00).
+
+### Real-data result under the frozen method
+
+Paired with P3b on identical episodes and query seeds. Episode bootstrap for rialto (K=16);
+seed bootstrap flagged LOW-POWER for spam (K=1) and weather (K=3).
+
+| Stream | config | P0 | P3b | **P7s** | vs P3b (95% CI) | labels | vs P0 |
+|---|---|---:|---:|---:|---:|---:|---:|
+| spam | S0 | 849.00 | 254.09 | **247.43** | **-6.66** [-6.77, -6.55] | 200 -> **67** | 70.9% |
+| rialto | S0 | 202.06 | 103.73 | **98.42** | **-5.31** [-6.01, -4.61] | 159 -> **53** | 51.3% |
+| weather | S0 | 504.00 | 475.77 | **472.57** | **-3.20** [-3.33, -3.08] | 178 -> **114** | 6.2% |
+| spam | S2 (`c_s=20`) | — | 269.09 | 262.43 | -6.66 [-6.77, -6.55] | 67 | — |
+| rialto | S2 | — | 118.73 | 113.42 | -5.31 [-6.01, -4.61] | 53 | — |
+| weather | S2 | — | 490.72 | 487.52 | -3.20 [-3.33, -3.08] | 114 | — |
+| spam | S4 (`c_q=0.10`) | — | 264.09 | 250.77 | **-13.32** [-13.54, -13.10] | 67 | — |
+| rialto | S4 | — | 111.69 | 101.07 | **-10.62** [-12.03, -9.22] | 53 | — |
+| weather | S4 | — | 484.68 | 478.28 | **-6.40** [-6.66, -6.15] | 114 | — |
+
+Reductions against P3b are 2.6% (spam), 5.1% (rialto) and 0.7% (weather) at S0, with labels cut
+by 67%, 67% and 36%. The difference is **exactly invariant** to `c_s` and **exactly doubles**
+when `c_q` doubles, which is the arithmetic signature of a pure label-saving mechanism: the
+policy's deployment decisions are unchanged (promotion rate and switch count identical to P3b at
+1.00) and the entire gain is the `c_q N_q` term. That the effect reproduces this scaling exactly
+is the strongest internal evidence that it is mechanical rather than fitted.
+
+P7s now beats P3b on **all seven** streams at S0 (airlines -0.56, bank -0.57, elec2 -0.06,
+criteo -0.04, all CIs below 0), and beats P6 outright on spam (247.43 vs 315.95) and rialto
+(98.42 vs 122.91) while using comparable or fewer labels than P6 does.
+
+### Caveat, unchanged
+
+P6 still beats P7s on weather (465.56 vs 472.57) and on airlines, bank, elec2 and criteo. The
+honest ranking on five of the seven streams is P6 first. P7s is an improvement **on P3b**, and it
+overtakes P6 only where the challenger advantage is large and persistent (spam, rialto). The main
+table must carry the P6 column, and P6's assumed exchangeability of disagreement outcomes must be
+stated beside it.
+
+### Record-hygiene note
+
+The S0/S2/S4 JSONL files briefly held two `P7s` entries per episode, from the pre-freeze
+(`settled_floor = 0.25`) and post-freeze (`0.0`) runs under one variant name, because the runner's
+resume key hashes variant *names* and not their parameters. Superseded entries were removed on a
+latest-wins basis, which matches the runner's resume semantics; the table above is unchanged by
+the clean-up, and the pre-clean files remain in Git history. The runner's resume key should
+include the plus-parameters, which is recorded as an outstanding fix.

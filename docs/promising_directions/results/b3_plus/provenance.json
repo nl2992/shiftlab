@@ -1,0 +1,143 @@
+{
+  "runs": [
+    {
+      "git_head": "0c09daedc719ddc1b0e92b5d5dec6ebb9b483f42",
+      "git_dirty": true,
+      "losses_files_sha256": {
+        "/Users/nigelli/Desktop/ICML/Shift-lab/.claude/worktrees/shiftlab-b3-plus-icml-fcc9c6/docs/promising_directions/results/b3/losses/airlines.npz": "fcf3a0058a3cc481a0b5a89a89229446edf5dec9ba143ee05e3a4c602f8c7e76",
+        "/Users/nigelli/Desktop/ICML/Shift-lab/.claude/worktrees/shiftlab-b3-plus-icml-fcc9c6/docs/promising_directions/results/b3/losses/bank.npz": "3a546964638e031c30c619b33f2b2d724295da80edead210ac1f29639572a164",
+        "/Users/nigelli/Desktop/ICML/Shift-lab/.claude/worktrees/shiftlab-b3-plus-icml-fcc9c6/docs/promising_directions/results/b3/losses/criteo.npz": "bced87ae731827501c131592b6d1fb1da5e9408c92193d450c0fef1b4542417b",
+        "/Users/nigelli/Desktop/ICML/Shift-lab/.claude/worktrees/shiftlab-b3-plus-icml-fcc9c6/docs/promising_directions/results/b3/losses/elec2.npz": "02c59a22e63dd226297cc39d429fbac5c04cad648d7791834dc8db0fdeabe4a5",
+        "/Users/nigelli/Desktop/ICML/Shift-lab/.claude/worktrees/shiftlab-b3-plus-icml-fcc9c6/docs/promising_directions/results/b3/losses/rialto.npz": "92f4cc16aa2168aea1e34952bc9f5ed208bd7dabc32728dcb28f2eb1ca69ba11",
+        "/Users/nigelli/Desktop/ICML/Shift-lab/.claude/worktrees/shiftlab-b3-plus-icml-fcc9c6/docs/promising_directions/results/b3/losses/spam.npz": "aebede86f8e5135c45b3694874e01796710b7b714cebaf47ffc79e08bda7ea46",
+        "/Users/nigelli/Desktop/ICML/Shift-lab/.claude/worktrees/shiftlab-b3-plus-icml-fcc9c6/docs/promising_directions/results/b3/losses/weather.npz": "d06e40a08902209ff48a3850c0d81b3b80ed85caba75670e90ff365d27e388d4",
+        "/Users/nigelli/Desktop/ICML/Shift-lab/.claude/worktrees/shiftlab-b3-plus-icml-fcc9c6/docs/promising_directions/results/b3/pairs_check.json": "60ab1f5980d69160711d09751876753c40eaec71656f2b9535229a1a1a8726e5"
+      },
+      "b3_plus_policy_sha256": "ebcc60f69c6b28acf635b9ad9d5292aff57feb144ded0d407c82bd90863ff53b",
+      "b3_plus_baselines_sha256": "794051b75770aa35d1ead89e506c652c1e97e70d53e2a959bc892769eb16aec5",
+      "b3_plus_experiments_sha256": "4249058a0cb85c5b79063683da7ece21ddde1471450f8371dcb30926d54f7e37",
+      "b1_pinned_commit": "041bc26",
+      "b1_record": {
+        "commit": "041bc26",
+        "source": "worktree file (git diff --quiet 041bc26 is clean)",
+        "path": "/Users/nigelli/Desktop/ICML/Shift-lab/.claude/worktrees/shiftlab-b3-plus-icml-fcc9c6/scripts/promising_directions/b1_certified_switching.py",
+        "sha256": "7565a647f3bb3f940d4fbd2a948597b9ffe42ef0485550a771d137e7930baebd"
+      },
+      "python": "3.12.2 | packaged by conda-forge | (main, Feb 16 2024, 20:54:21) [Clang 16.0.6 ]",
+      "platform": "macOS-15.5-arm64-arm-64bit",
+      "packages": {
+        "numpy": "2.5.4",
+        "scipy": "1.18.1",
+        "pandas": "3.0.6",
+        "scikit-learn": "1.9.1"
+      },
+      "argv": [
+        "scripts/promising_directions/b3_plus_experiments.py",
+        "--streams",
+        "spam,rialto,weather,airlines,bank,elec2,criteo",
+        "--variants",
+        "P0,P1,P2,P3b,P6,PCT,P4ref,P7a,P7b,P7,P7c",
+        "--config",
+        "S0",
+        "--horizon",
+        "2000",
+        "--n-seeds",
+        "100"
+      ],
+      "seed_base": 20261101,
+      "n_seeds": 100,
+      "p1_note": "P1 is a hindsight reference, not a deployable policy",
+      "utc": "2026-11-02T22:45:24.956388+00:00"
+    },
+    {
+      "git_head": "0c09daedc719ddc1b0e92b5d5dec6ebb9b483f42",
+      "git_dirty": true,
+      "losses_files_sha256": {
+        "/Users/nigelli/Desktop/ICML/Shift-lab/.claude/worktrees/shiftlab-b3-plus-icml-fcc9c6/docs/promising_directions/results/b3/losses/rialto.npz": "92f4cc16aa2168aea1e34952bc9f5ed208bd7dabc32728dcb28f2eb1ca69ba11",
+        "/Users/nigelli/Desktop/ICML/Shift-lab/.claude/worktrees/shiftlab-b3-plus-icml-fcc9c6/docs/promising_directions/results/b3/losses/spam.npz": "aebede86f8e5135c45b3694874e01796710b7b714cebaf47ffc79e08bda7ea46",
+        "/Users/nigelli/Desktop/ICML/Shift-lab/.claude/worktrees/shiftlab-b3-plus-icml-fcc9c6/docs/promising_directions/results/b3/losses/weather.npz": "d06e40a08902209ff48a3850c0d81b3b80ed85caba75670e90ff365d27e388d4",
+        "/Users/nigelli/Desktop/ICML/Shift-lab/.claude/worktrees/shiftlab-b3-plus-icml-fcc9c6/docs/promising_directions/results/b3/pairs_check.json": "60ab1f5980d69160711d09751876753c40eaec71656f2b9535229a1a1a8726e5"
+      },
+      "b3_plus_policy_sha256": "ebcc60f69c6b28acf635b9ad9d5292aff57feb144ded0d407c82bd90863ff53b",
+      "b3_plus_baselines_sha256": "794051b75770aa35d1ead89e506c652c1e97e70d53e2a959bc892769eb16aec5",
+      "b3_plus_experiments_sha256": "4249058a0cb85c5b79063683da7ece21ddde1471450f8371dcb30926d54f7e37",
+      "b1_pinned_commit": "041bc26",
+      "b1_record": {
+        "commit": "041bc26",
+        "source": "worktree file (git diff --quiet 041bc26 is clean)",
+        "path": "/Users/nigelli/Desktop/ICML/Shift-lab/.claude/worktrees/shiftlab-b3-plus-icml-fcc9c6/scripts/promising_directions/b1_certified_switching.py",
+        "sha256": "7565a647f3bb3f940d4fbd2a948597b9ffe42ef0485550a771d137e7930baebd"
+      },
+      "python": "3.12.2 | packaged by conda-forge | (main, Feb 16 2024, 20:54:21) [Clang 16.0.6 ]",
+      "platform": "macOS-15.5-arm64-arm-64bit",
+      "packages": {
+        "numpy": "2.5.4",
+        "scipy": "1.18.1",
+        "pandas": "3.0.6",
+        "scikit-learn": "1.9.1"
+      },
+      "argv": [
+        "scripts/promising_directions/b3_plus_experiments.py",
+        "--streams",
+        "spam,rialto,weather",
+        "--variants",
+        "P0,P1,P2,P3b,P6,PCT,P4ref,P7a,P7b,P7,P7c",
+        "--config",
+        "S2",
+        "--horizon",
+        "2000",
+        "--n-seeds",
+        "100"
+      ],
+      "seed_base": 20261101,
+      "n_seeds": 100,
+      "p1_note": "P1 is a hindsight reference, not a deployable policy",
+      "utc": "2026-11-02T22:48:13.607765+00:00"
+    },
+    {
+      "git_head": "0c09daedc719ddc1b0e92b5d5dec6ebb9b483f42",
+      "git_dirty": true,
+      "losses_files_sha256": {
+        "/Users/nigelli/Desktop/ICML/Shift-lab/.claude/worktrees/shiftlab-b3-plus-icml-fcc9c6/docs/promising_directions/results/b3/losses/rialto.npz": "92f4cc16aa2168aea1e34952bc9f5ed208bd7dabc32728dcb28f2eb1ca69ba11",
+        "/Users/nigelli/Desktop/ICML/Shift-lab/.claude/worktrees/shiftlab-b3-plus-icml-fcc9c6/docs/promising_directions/results/b3/losses/spam.npz": "aebede86f8e5135c45b3694874e01796710b7b714cebaf47ffc79e08bda7ea46",
+        "/Users/nigelli/Desktop/ICML/Shift-lab/.claude/worktrees/shiftlab-b3-plus-icml-fcc9c6/docs/promising_directions/results/b3/losses/weather.npz": "d06e40a08902209ff48a3850c0d81b3b80ed85caba75670e90ff365d27e388d4",
+        "/Users/nigelli/Desktop/ICML/Shift-lab/.claude/worktrees/shiftlab-b3-plus-icml-fcc9c6/docs/promising_directions/results/b3/pairs_check.json": "60ab1f5980d69160711d09751876753c40eaec71656f2b9535229a1a1a8726e5"
+      },
+      "b3_plus_policy_sha256": "ebcc60f69c6b28acf635b9ad9d5292aff57feb144ded0d407c82bd90863ff53b",
+      "b3_plus_baselines_sha256": "794051b75770aa35d1ead89e506c652c1e97e70d53e2a959bc892769eb16aec5",
+      "b3_plus_experiments_sha256": "4249058a0cb85c5b79063683da7ece21ddde1471450f8371dcb30926d54f7e37",
+      "b1_pinned_commit": "041bc26",
+      "b1_record": {
+        "commit": "041bc26",
+        "source": "worktree file (git diff --quiet 041bc26 is clean)",
+        "path": "/Users/nigelli/Desktop/ICML/Shift-lab/.claude/worktrees/shiftlab-b3-plus-icml-fcc9c6/scripts/promising_directions/b1_certified_switching.py",
+        "sha256": "7565a647f3bb3f940d4fbd2a948597b9ffe42ef0485550a771d137e7930baebd"
+      },
+      "python": "3.12.2 | packaged by conda-forge | (main, Feb 16 2024, 20:54:21) [Clang 16.0.6 ]",
+      "platform": "macOS-15.5-arm64-arm-64bit",
+      "packages": {
+        "numpy": "2.5.4",
+        "scipy": "1.18.1",
+        "pandas": "3.0.6",
+        "scikit-learn": "1.9.1"
+      },
+      "argv": [
+        "scripts/promising_directions/b3_plus_experiments.py",
+        "--streams",
+        "spam,rialto,weather",
+        "--variants",
+        "P0,P1,P2,P3b,P6,PCT,P4ref,P7a,P7b,P7,P7c",
+        "--config",
+        "S4",
+        "--horizon",
+        "2000",
+        "--n-seeds",
+        "100"
+      ],
+      "seed_base": 20261101,
+      "n_seeds": 100,
+      "p1_note": "P1 is a hindsight reference, not a deployable policy",
+      "utc": "2026-11-02T22:49:37.012351+00:00"
+    }
+  ]
+}

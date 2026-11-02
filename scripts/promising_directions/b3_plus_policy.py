@@ -61,7 +61,7 @@ b1, B1_RECORD = load_b1()
 class PlusParams:
     variant: str = "P7"  # one of VARIANTS
     r_floor: float = 0.25
-    r_max: float = 2.0
+    r_max: float = 1.0  # Phase 1 selected: no boost; the gate only ever withholds spend
     kappa: float = 1.0
     lb_step: float = (
         0.01  # margin grid (mirrors b1.Params defaults; these fields are authoritative)
@@ -71,6 +71,8 @@ class PlusParams:
     lb_K: int = 10
     persist_gamma: float = 0.97  # P7c only
     persist_min: float = 0.0  # P7c only
+    acq_shape: str = "gate_recent"  # Phase 1 selected. "gate_recent" | "gate" | "decay"
+    promo_gate: bool = True  # False keeps P3b's crossing rule (used by P7b)
 
 
 class CertPlus:
@@ -96,7 +98,7 @@ class CertPlus:
             raise ValueError(plus.variant)
         self.n, self.budget, self.cs, self.cq, self.p, self.plus = n, budget, cs, cq, p, plus
         v = plus.variant
-        self.econ = v in ("P7", "P7a", "P7c")
+        self.econ = v in ("P7", "P7a", "P7c") and plus.promo_gate
         self.acq_dv = v in ("P7", "P7b", "P7c")
         self.persist = v == "P7c"
         self.is_p4 = v == "P4ref"
@@ -168,10 +170,31 @@ class CertPlus:
         if self.acq_dv:
             lcb_i, ucb_i = self.lcb(), self.ucb()
             gap = cs + cq_future - lcb_i * h_eff
-            decay = np.exp(-np.abs(gap) / (pl.kappa * max(cs, 1e-9)))
-            r = np.where(
-                ucb_i * h_eff < cs, pl.r_floor, np.clip(pl.r_max * decay, pl.r_floor, pl.r_max)
-            )
+            hopeless = ucb_i * h_eff < cs
+            if pl.acq_shape == "gate_recent":
+                # Phase 1 finding (synthetic, 2026-11-02): the cumulative margin grid keeps
+                # certifying "challenger worse" for a long time after the challenger has in fact
+                # improved, because its offsets and discounting make it slow to flip. Gating
+                # acquisition on it alone therefore starves queries exactly after a change point
+                # (world W1, where the challenger is worse before tau and better after). Requiring
+                # the recent discounted advantage to agree releases the gate promptly. Acquisition
+                # steers spending, not validity, so a recency heuristic is admissible here; the
+                # evidence process and its bet cap are untouched.
+                hopeless = hopeless & (self.pst < 0)
+                r = np.where(hopeless, pl.r_floor, pl.r_max)
+            elif pl.acq_shape == "gate":
+                # Phase 1 finding (synthetic, 2026-11-02): the "decay" shape below damps
+                # acquisition precisely when the decision is most uncertain. Early in a segment
+                # LCB = 0, so gap = cs + cq_future and exp(-gap/(kappa*cs)) ~ 0.37, cutting the
+                # query rate below P3b's while no evidence has yet accrued. Distance from the
+                # break-even boundary is therefore the wrong relevance signal: a large positive
+                # gap means "undecided", not "irrelevant". The gate shape keeps the one
+                # unambiguous case -- no label can change the decision -- and leaves pacing
+                # otherwise untouched. It is also the simpler rule.
+                r = np.where(hopeless, pl.r_floor, pl.r_max)
+            else:
+                decay = np.exp(-np.abs(gap) / (pl.kappa * max(cs, 1e-9)))
+                r = np.where(hopeless, pl.r_floor, np.clip(pl.r_max * decay, pl.r_floor, pl.r_max))
             # SPEC DEVIATION: the grids are frozen while deployed on the challenger, so LCB/UCB
             # are undefined there; use the neutral pacer (r = 1) to keep rollback monitoring.
             r = np.where(self.dep == 1, 1.0, r)

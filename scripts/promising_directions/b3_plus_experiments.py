@@ -47,8 +47,18 @@ DEFAULT_OUT = ROOT / "docs/promising_directions/results/b3_plus"
 SEED_BASE = 20261101
 T_FULL = 2000
 BASE_VARIANTS = ("P0", "P1", "P2", "P3b", "P6", "PCT")
-PLUS_VARIANTS = ("P4ref", "P7a", "P7b", "P7", "P7c")
-ALL_VARIANTS = ("P0", "P1", "P2", "P3b", "P6", "PCT", "P4ref", "P7a", "P7b", "P7", "P7c")
+
+
+def _plus_params(v):
+    """P7s/P7sp use the settled-decision acquisition shape (Phase 1c)."""
+    if v in ("P7s", "P7sp"):
+        return PlusParams(variant=v, acq_shape="settled", r_max=1.0, r_floor=0.25)
+    return PlusParams(variant=v)
+PLUS_VARIANTS = ("P4ref", "P7a", "P7b", "P7", "P7c", "P7s", "P7sp")
+ALL_VARIANTS = (
+    "P0", "P1", "P2", "P3b", "P6", "PCT",
+    "P4ref", "P7a", "P7b", "P7", "P7c", "P7s", "P7sp",
+)
 STREAMS_ALL = ("spam", "rialto", "weather", "airlines", "bank", "elec2", "criteo")
 # Phase 3.1 table: budget at T=2000, cs, cq, delay multiplier (None = protocol delay), alt pair.
 CONFIGS = {
@@ -166,7 +176,7 @@ def run_variants(l0, l1, u, budget, cs, cq, p, variants) -> dict:
         a0 = np.repeat(np.asarray(l0, dtype=np.int8)[:, None], u.shape[1], axis=1)
         a1 = np.repeat(np.asarray(l1, dtype=np.int8)[:, None], u.shape[1], axis=1)
         res = run_plus_policies(
-            a0, a1, u, budget, cs, cq, p, [PlusParams(variant=v) for v in plus_names]
+            a0, a1, u, budget, cs, cq, p, [_plus_params(v) for v in plus_names]
         )
         missing = [v for v in plus_names if v not in res]
         if missing:

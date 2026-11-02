@@ -22,7 +22,7 @@ import numpy as np
 ROOT = Path(__file__).resolve().parents[2]
 B1_PATH = ROOT / "scripts/promising_directions/b1_certified_switching.py"
 B1_COMMIT = "041bc26"
-VARIANTS = ("P7", "P7a", "P7b", "P7c", "P4ref")
+VARIANTS = ("P7", "P7a", "P7b", "P7c", "P7s", "P7sp", "P4ref")
 UCB_TRIVIAL = 1.0  # |D| <= 1, so this is the bound when no margin null is rejected
 
 
@@ -98,8 +98,8 @@ class CertPlus:
             raise ValueError(plus.variant)
         self.n, self.budget, self.cs, self.cq, self.p, self.plus = n, budget, cs, cq, p, plus
         v = plus.variant
-        self.econ = v in ("P7", "P7a", "P7c") and plus.promo_gate
-        self.acq_dv = v in ("P7", "P7b", "P7c")
+        self.econ = v in ("P7", "P7a", "P7c", "P7sp") and plus.promo_gate
+        self.acq_dv = v in ("P7", "P7b", "P7c", "P7s", "P7sp")
         self.persist = v == "P7c"
         self.is_p4 = v == "P4ref"
         self.dep = np.zeros(n, dtype=np.int8)
@@ -171,7 +171,27 @@ class CertPlus:
             lcb_i, ucb_i = self.lcb(), self.ucb()
             gap = cs + cq_future - lcb_i * h_eff
             hopeless = ucb_i * h_eff < cs
-            if pl.acq_shape == "gate_recent":
+            if pl.acq_shape == "settled":
+                # Phase 1c (2026-11-02). "No label can change the decision" has TWO cases, and
+                # only one was implemented before:
+                #   hopeless  -- not yet promoted, challenger certified worse: promotion is off
+                #                the table, so stop paying for evidence about it;
+                #   settled   -- already promoted and the challenger is still ahead, so the
+                #                deployed action is not in question and further labels buy only
+                #                rollback insurance.
+                # The earlier "gate_recent" shape could only ever fire in the hopeless case, which
+                # is unreachable on streams where the challenger is genuinely better -- i.e. on
+                # exactly the streams where certified switching pays. The diagnostics show P3b
+                # promoting at t ~ 244 on spam and then buying labels for 1756 more events. The
+                # settled case is that spend.
+                # Sign convention: the released increment is y = sgn * x with sgn = -1 once
+                # deployed on the challenger, so post-promotion pst < 0 means the challenger is
+                # STILL ahead (decision settled) and pst >= 0 is evidence of reversal, where the
+                # pacer is restored to full rate so rollback stays detectable.
+                settled = (self.dep == 1) & (self.pst < 0)
+                inert = np.where(self.dep == 1, settled, hopeless & (self.pst < 0))
+                r = np.where(inert, pl.r_floor, pl.r_max)
+            elif pl.acq_shape == "gate_recent":
                 # Phase 1 finding (synthetic, 2026-11-02): the cumulative margin grid keeps
                 # certifying "challenger worse" for a long time after the challenger has in fact
                 # improved, because its offsets and discounting make it slow to flip. Gating
@@ -195,9 +215,12 @@ class CertPlus:
             else:
                 decay = np.exp(-np.abs(gap) / (pl.kappa * max(cs, 1e-9)))
                 r = np.where(hopeless, pl.r_floor, np.clip(pl.r_max * decay, pl.r_floor, pl.r_max))
-            # SPEC DEVIATION: the grids are frozen while deployed on the challenger, so LCB/UCB
-            # are undefined there; use the neutral pacer (r = 1) to keep rollback monitoring.
-            r = np.where(self.dep == 1, 1.0, r)
+            # The grids are frozen while deployed on the challenger, so LCB/UCB are undefined
+            # there. The earlier shapes fall back to the neutral pacer (r = 1) in that state to
+            # keep rollback monitoring; "settled" instead uses the recent discounted advantage,
+            # which IS defined there, and so is the only shape that can act post-promotion.
+            if pl.acq_shape != "settled":
+                r = np.where(self.dep == 1, 1.0, r)
             pace = r * pace
         q = np.clip(pace, p.pmin, 1.0)
         q = np.where(self.rem > 0, q, 0.0)

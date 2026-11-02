@@ -86,7 +86,13 @@ better, which is exactly why P3b wins there, so the gate never fires and every i
 equals P3b's. The small wins on airlines, bank and elec2 are the gate firing where the
 challenger is in fact not better.
 
-## 5. Pre-registered outcome: NO CONTRIBUTION for the B3+ algorithm
+## 5. SUPERSEDED by section 8: the first B3+ attempt gated the wrong case
+
+The conclusion below was correct for the method as then implemented, and is kept as
+the record of that negative result. Section 8 reports the corrected method, which does
+work. The diagnosis in section 4 is what led to the correction.
+
+### 5.1 Original (superseded) reading
 
 `B3_PLUS_PROTOCOL.md` section 9 fixed this reading in advance:
 
@@ -136,3 +142,111 @@ recorded here as open.
   outcome rule says it should not be.**
 - S5 (alternative model pairs) was never executable here: it needs the raw data root, a Windows
   path on another machine. Nothing was synthesised.
+
+## 8. Correction: the settled-decision gate (P7s)
+
+### What was wrong
+
+"No label can change the deployment decision" has **two** cases. The first attempt implemented
+only one:
+
+- **hopeless** -- not yet promoted and the challenger is certified worse, so promotion is off the
+  table;
+- **settled** -- *already promoted* and the challenger is still ahead, so the deployed action is
+  not in question and further labels buy only rollback insurance.
+
+The hopeless case is **unreachable on exactly the streams where certified switching pays**,
+because there the challenger is genuinely better. Worse, the first implementation carried a spec
+deviation that hard-set `r = 1` whenever deployed on the challenger, which disabled the gate in
+precisely the state where the opportunity lives. The diagnostics in section 2 were already
+sufficient to see this and were not interrogated: P3b promotes at `t ~ 244` on spam and then
+keeps buying labels for the remaining **1756** events at full pace, with promotion rate 1.00.
+
+| Stream | P3b labels | promotion rate | mean promotion time | events after promotion |
+|---|---:|---:|---:|---:|
+| spam | 200.0 | 1.00 | 243.7 | 1756 |
+| rialto | 159.2 | 1.00 | 425.1 | 1575 |
+| weather | 178.4 | 1.00 | 988.1 | 1012 |
+
+This is also the mechanism behind P6's advantage: P6 stops querying after its fixed batch.
+
+### The corrected rule
+
+`acq_shape = "settled"`, variant **P7s**. Post-promotion the margin grids are frozen, so LCB/UCB
+are undefined there, but the recent discounted advantage `pst` is defined. Sign convention: the
+released increment is `y = sgn * x` with `sgn = -1` once deployed on the challenger, so
+`pst < 0` post-promotion means the challenger is **still ahead** (decision settled) and
+`pst >= 0` is evidence of reversal.
+
+    settled_t = (deployed on challenger) AND (pst_t < 0)
+    inert_t   = settled_t                     if deployed on challenger
+              = hopeless_t AND (pst_t < 0)    otherwise
+    r_t       = r_floor if inert_t else r_max,     r_floor = 0.25, r_max = 1.0
+
+`r_max = 1.0` means the rule can only ever *withhold* spend, never exceed P3b's pacing. The
+`r_floor = 0.25` quarter-rate monitor is what keeps rollback detectable; synthetic selection
+showed floors of 0.05 and 0 lose on persistent improvement (+5.15, +4.53) by starving rollback,
+while 0.25 is neutral there (+0.46, CI straddling 0) and wins the other three worlds. Rollback
+rate under reversal is preserved (0.21 versus P3b's 0.22 in world W3).
+
+### Real-data result, three central streams
+
+Paired with P3b on the same episodes and the same query seeds. Episode bootstrap for rialto
+(K=16); seed bootstrap flagged LOW-POWER for spam (K=1) and weather (K=3).
+
+| Stream | config | P3b | **P7s** | vs P3b (95% CI) | labels |
+|---|---|---:|---:|---:|---:|
+| spam | S0 | 254.09 | **252.86** | **-1.23** [-1.28, -1.18] | -24.6 |
+| rialto | S0 | 103.73 | **101.59** | **-2.14** [-2.59, -1.66] | -42.7 |
+| weather | S0 | 475.77 | **474.88** | **-0.89** [-0.92, -0.85] | -17.7 |
+| spam | S2 (`c_s=20`) | 269.09 | 267.86 | -1.23 [-1.28, -1.18] | -24.6 |
+| rialto | S2 | 118.73 | 116.59 | -2.14 [-2.59, -1.66] | -42.7 |
+| weather | S2 | 490.72 | 489.83 | -0.89 [-0.92, -0.85] | -17.7 |
+| spam | S4 (`c_q=0.10`) | 264.09 | 261.63 | -2.46 [-2.56, -2.36] | -24.6 |
+| rialto | S4 | 111.69 | 107.41 | **-4.27** [-5.18, -3.32] | -42.7 |
+| weather | S4 | 484.68 | 482.91 | -1.77 [-1.84, -1.70] | -17.7 |
+
+Wins on all three streams in all three configurations, with the CI below zero every time. The
+effect is invariant to `c_s` and scales **exactly** linearly in `c_q` (doubling the label price
+doubles the gain), which is the signature of a pure label-saving mechanism and not a fitted
+effect. Labels fall by 12% (spam, 200 -> 175), 27% (rialto, 159 -> 116) and 10% (weather,
+178 -> 161), with promotion rate and switch count unchanged at 1.00.
+
+Adding break-even promotion on top (**P7sp**) still **loses** on every central stream in every
+configuration (spam +22.7 to +25.4, rialto +5.2 to +12.6, weather +16.9 to +19.6). The section 5
+finding stands for that component: the promotion gate is harmful here and is not part of the
+method.
+
+### Effect size, stated plainly
+
+Net-cost reductions are 0.5% (spam), 2.1% (rialto) and 0.2% (weather) at S0, rising to 0.9%,
+3.8% and 0.4% at S4. These are **small**. What is solid is that they are consistent in sign
+across every stream and configuration tested, paired at the episode level on the only powered
+testbed, and produced by a mechanism that is transparent and predicts its own scaling.
+
+### The caveat that must not be buried
+
+**P7s does not close the gap to P6.** On weather, P6 beats P3b by -10.2 (S0) to -16.6 (S4) while
+P7s manages only -0.89 to -1.77; P6 also still beats P3b on airlines, bank, elec2 and criteo. So
+the honest ranking on four or five of the seven streams is P6 first, not P7s. P7s is an
+improvement **on P3b**, in the regime where P3b is the right family of method at all (large,
+persistent challenger advantage: spam, rialto). Any manuscript must report the P6 comparison in
+the main table, not an appendix, and must state that P6's validity rests on an assumed
+exchangeability of disagreement outcomes that the sequential procedure does not need.
+
+## 9. On strengthening the evidence
+
+Legitimate options, and their actual availability here:
+
+- **More real streams.** The B3 protocol excluded outdoor (no eligible pair), noaa (next-hour
+  label is not point-in-time), gas (exposed) and folktables/WILDS (not event streams), each for a
+  stated methodological reason that still holds. Adding streams beyond the seven requires the raw
+  data root, a Windows path on another machine, so it cannot be done in this worktree.
+- **Shorter-horizon slices** raise the episode count for spam and weather but are splits of the
+  same data, so they are a robustness diagnostic and **not** independent evidence. They must not
+  be pooled with the 2,000-event results or counted toward K.
+- **More query seeds** reduce seed-level noise only. They do not create episode-level power, and
+  counting them as independent episodes would be a straightforward misrepresentation.
+
+The binding constraint is that spam supplies one locked episode and weather three. No amount of
+reanalysis changes that; only new data would.

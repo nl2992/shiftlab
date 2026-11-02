@@ -377,3 +377,49 @@ That absence is a genuine gap in the evaluation, not a detail: the mechanism's o
 is untested on real data. Any reviewer will ask, and the answer must be given before they do.
 A real stream with post-promotion reversal would be the single most valuable addition to this
 evaluation, and is worth more than a fourth or fifth agreeable case study.
+
+## 12. Correction of scope: the Pareto claim does not hold universally
+
+Section 11 verified that `P7s` reproduces P3b's deployment behaviour bitwise on spam, rialto and
+weather, and called the method a strict Pareto improvement. **Screening found a real stream where
+that is false, and it is the more informative case.**
+
+Per-episode comparison of `P7s` against `P3b` on the two new SUCCESS datasets:
+
+| Dataset | K | worse | tied | better | worst episode | deployment loss identical | switches identical | P7s rollbacks |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|
+| uci_occupancy | 4 | **0** | 3 | 1 | +0.0000 | 4/4 | 4/4 | 0.000 |
+| openml_ldpa | 32 | **2** | 0 | 30 | **+3.1280** | 25/32 | 27/32 | **0.017** |
+
+On **openml_ldpa** the settled gate's reduced post-promotion monitoring **does** change deployment
+behaviour: deployment loss differs in 7 of 32 episodes (max `|dloss| = 25.6`), the switch count
+differs in 5, `P7s` records rollbacks where P3b records none, and in 2 episodes `P7s` costs more
+than P3b. It still wins on average, `-4.43` [-7.13, -2.61] on a 32-episode bootstrap, and it also
+beats P6 by `-27.69` [-51.3, -7.4].
+
+### Why this is the most valuable case in the set
+
+Section 11 named the gap: the mechanism's one failure mode -- slower reversal detection after
+promotion -- was untested on real data, and said a real reversal stream would be worth more than
+another agreeable case study. **ldpa is that stream.** It shows the failure mode occurring on real
+data, bounds its cost (+3.13 in the worst of 32 episodes), and shows the mechanism still nets a
+win across the episode distribution. That is a far stronger evidential position than four streams
+on which the risk never materialises.
+
+### Corrected claims
+
+- The **Pareto** claim is restricted to the streams where it was verified: spam, rialto, weather
+  and uci_occupancy, where deployment loss is identical per episode and labels strictly fall. It
+  is **not** a property of the method.
+- The general claim is: `P7s` removes post-promotion certificate-maintenance spend; where the
+  challenger advantage persists this is free, and where it does not the reduced monitoring can
+  delay rollback and cost more in individual episodes, as it does in 2 of 32 ldpa episodes.
+- Reporting requirement: every table carrying a mean improvement must also carry the count of
+  episodes in which the method was **worse**, so the distribution is not hidden behind a mean.
+
+### Power caveat on uci_occupancy
+
+`uci_occupancy` has K=4, so its interval is a seed bootstrap and LOW-POWER, and its whole effect
+comes from **one of four episodes** (tied in the other three). It satisfies the pre-registered
+SUCCESS rule and is reported, but it is the weakest of the five cases and must be labelled as
+such wherever it appears. Only rialto (K=16) and ldpa (K=32) are properly powered.

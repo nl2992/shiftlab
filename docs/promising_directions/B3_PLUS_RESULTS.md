@@ -389,22 +389,39 @@ Per-episode comparison of `P7s` against `P3b` on the two new SUCCESS datasets:
 | Dataset | K | worse | tied | better | worst episode | deployment loss identical | switches identical | P7s rollbacks |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|
 | uci_occupancy | 4 | **0** | 3 | 1 | +0.0000 | 4/4 | 4/4 | 0.000 |
-| openml_ldpa | 32 | **2** | 0 | 30 | **+3.1280** | 25/32 | 27/32 | **0.017** |
+| openml_ldpa | 32 | **2** | 0 | 30 | **+3.1280** | 25/32 | 27/32 | 0.017 (P3b: 0.047) |
 
 On **openml_ldpa** the settled gate's reduced post-promotion monitoring **does** change deployment
 behaviour: deployment loss differs in 7 of 32 episodes (max `|dloss| = 25.6`), the switch count
-differs in 5, `P7s` records rollbacks where P3b records none, and in 2 episodes `P7s` costs more
-than P3b. It still wins on average, `-4.43` [-7.13, -2.61] on a 32-episode bootstrap, and it also
+differs in 5, and in 2 episodes `P7s` costs more than P3b. It still wins on average, `-4.43` [-7.13, -2.61] on a 32-episode bootstrap, and it also
 beats P6 by `-27.69` [-51.3, -7.4].
 
-### Why this is the most valuable case in the set
+### CORRECTION 2026-11-02: what ldpa does and does not show
 
-Section 11 named the gap: the mechanism's one failure mode -- slower reversal detection after
-promotion -- was untested on real data, and said a real reversal stream would be worth more than
-another agreeable case study. **ldpa is that stream.** It shows the failure mode occurring on real
-data, bounds its cost (+3.13 in the worst of 32 episodes), and shows the mechanism still nets a
-win across the episode distribution. That is a far stronger evidential position than four streams
-on which the risk never materialises.
+An earlier version of this section claimed ldpa shows the failure mode of section 11, and stated
+that `P7s` records rollbacks where P3b records none. **Both were wrong, and the direction was
+reversed.** Measured per episode:
+
+| | P3b | P7s |
+|---|---:|---:|
+| rollbacks | 0.0472 | **0.0172** |
+| switches | 1.0375 | 0.9772 |
+| deployment loss | 468.997 | **468.173** |
+| labels | 181.3 | **115.2** |
+
+`P7s` rolls back **less** than P3b, not more, and its deployment loss is **better** on average
+(-0.82 per episode: worse in 2 episodes, better in 5, identical in 25). So ldpa is **not** a
+demonstration of the reversal failure mode. What it does establish:
+
+- Deployment behaviour **is** changed by the gate on a real stream, so the Pareto claim of
+  section 11 is not general. That conclusion stands.
+- In 2 of 32 episodes the change is **harmful** (up to +3.13), which bounds the downside.
+- On average the change is mildly **beneficial** to deployment loss as well as to labels, which
+  is not something the mechanism was designed to do and is not claimed as a contribution.
+
+**The gap named in section 11 therefore remains open.** No real stream in this programme exhibits
+post-promotion reversal that the reduced monitoring then handles worse on average; the risk is
+still characterised only by synthetic world W3. Do not cite ldpa as evidence on that question.
 
 ### Corrected claims
 
@@ -423,3 +440,69 @@ on which the risk never materialises.
 comes from **one of four episodes** (tied in the other three). It satisfies the pre-registered
 SUCCESS rule and is reported, but it is the weakest of the five cases and must be labelled as
 such wherever it appears. Only rialto (K=16) and ldpa (K=32) are properly powered.
+
+## 13. Screening disclosure (protocol section 5)
+
+### Denominator
+
+| | count |
+|---|---:|
+| Candidates registered | **27** |
+| Reached stream validation | 14 |
+| Reached locked-window evaluation | **4** |
+| SUCCESS | **2** (openml_ldpa, uci_occupancy) |
+
+Plus the 7 original B3 streams, of which 3 are SUCCESS under the frozen method
+(spam, rialto, weather) and 4 are `USELESS_NO_HEADROOM` on protocol condition 2.
+**Total: 34 datasets considered, 5 selected.** This denominator must appear in the
+case-study table caption and in the manuscript.
+
+Outcome breakdown for the 27 new candidates: 2 SUCCESS, 4 `USELESS_NO_HEADROOM`
+(insects_abrupt_balanced, trec07, keystroke, creditcard), 1 `USELESS_NO_IMPROVEMENT`
+(openml_eeg_eye_state), 8 `USELESS_INELIGIBLE` (http, smtp, openml_run_or_walk,
+openml_covertype, openml_shuttle, sms_spam, river_phishing, and one further), 8
+`USELESS_DUPLICATE` (6 further Insects variants, gas, elec2), 4 `NOT_RUN` (beth: source
+URL now 302s to a landing page; malicious_url: 3.23M features, not CPU-tractable;
+openml_powersupply / openml_sensor / openml_usenet: no active OpenML dataset under any
+exact-name search tried, list recorded in the registry). `NOT_RUN` is **not** a verdict
+on the method and must not be reported as a failure of it.
+
+### Search-path dependence, which must also be disclosed
+
+The 7 datasets named in the pre-registered queue produced **0 successes**. Both successes
+come from 11 candidates added *after* that queue was exhausted. The selection is therefore
+dependent not only on locked-window outcomes (already disclosed under protocol section 5)
+but on **which further datasets were looked for after the first attempt failed**. Registry
+timestamps record when each candidate was registered, so the order is auditable.
+
+Stating this is not optional. A reader told only "5 of 34" would still underestimate the
+selection, because the second tranche was chosen in the knowledge that the first had failed.
+
+### openml_ldpa: chronology is inferred, and the "drift" is largely a person change
+
+This is the only properly powered new case, and its two main caveats are load-bearing.
+
+1. **Event order is an inference, not documentation.** OpenML does not document columns V3
+   and V4. They appear to be global ranks of the original timestamp and date string, and
+   the stream was sorted by V3. Corroboration: `Spearman(V3, V4) = 0.99999999999998`, and
+   after sorting, person id changes only 4 times with the four sensor tags interleaving on
+   99.8% of consecutive rows, so recording sequences are contiguous. Both time proxies are
+   excluded from the features. This is strong evidence of a *shared underlying order*; it
+   is **not** documentation that the order is calendar time. AGENTS.md forbids inferring
+   causal shift times from convenience, and this sits close to that line.
+2. **The non-stationarity is mostly subject change.** With only 4 person changes across the
+   sorted stream, the distribution shift the policies face is largely a change of
+   *recorded person* between blocks, not temporal concept drift within a deployment. This
+   is a legitimate covariate shift, but it is not the deployment-staleness story the paper
+   tells about spam, rialto and weather, and it must be described as what it is.
+
+Both caveats belong in the case-study text, not an appendix. If a reviewer discovers either
+one unaided, the case is worth less than if we state it.
+
+### uci_occupancy: weakest of the five
+
+K=4, seed-level bootstrap, LOW-POWER. Only 1 of 4 episodes promotes at all, and `P7s` beats
+P3b by a measurable margin in just 1 of 4 (tied in the other 3, worse in none). The entire
+gain is label cost (-1.0) with zero deployment-loss and zero switch-cost difference. The
+narrow CI [-1.028, -0.988] reflects query-seed variance only and must never be presented as
+episode-level evidence.

@@ -51,11 +51,17 @@ STREAM_DELAYS = {k: v["delay"] for k, v in _b3.STREAMS.items()}
 BASELINES = ("P0", "P1", "P2", "P3b", "P6", "PCT")
 VARIANT_META = {
     "P0": {"role": "frozen incumbent, never switches", "deployable": True},
-    "P1": {"role": "HINDSIGHT reference: challenger from t=0; not a deployable policy", "deployable": False},
+    "P1": {
+        "role": "HINDSIGHT reference: challenger from t=0; not a deployable policy",
+        "deployable": False,
+    },
     "P2": {"role": "uniform-query cost-null alarm", "deployable": True},
     "P3b": {"role": "certified switching reference (b1 Cert kind P3b)", "deployable": True},
     "P6": {"role": "fixed-sample paired batch test (b3_real_data.run_p6)", "deployable": True},
-    "PCT": {"role": "P3b + point-estimate break-even gate (non-certified comparator)", "deployable": True},
+    "PCT": {
+        "role": "P3b + point-estimate break-even gate (non-certified comparator)",
+        "deployable": True,
+    },
 }
 
 

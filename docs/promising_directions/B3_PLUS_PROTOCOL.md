@@ -110,3 +110,32 @@ No minimum effect size is imposed. The reading fixed in advance:
   implementation will **not** be rebranded as a new algorithm.
 
 Failures and negative results are recorded in `B3_PLUS_RESULTS.md` regardless of outcome.
+
+## Amendment 2026-11-02 (a): expected locus of the acquisition benefit
+
+Recorded **before** any locked-window B3+ run, from inspection of the implemented rule.
+
+The hopeless gate fires when `UCB_t * (T - t) < c_s`. The margin grid has resolution
+`lb_step = 0.01`, and the implemented UCB is informative only once the discounted advantage
+estimate turns negative. At S0 (`c_s = 5`, `T - t` up to 2000) the gate therefore requires
+`UCB_t < 0.0025`, which on this grid means `UCB_t = 0`: the challenger must be *certified worse*.
+At S2 (`c_s = 20`) it still requires `UCB_t = 0`.
+
+Consequence, stated as a prediction rather than a result: the **label savings from decision-value
+acquisition should appear mainly on streams where the challenger is not better** — airlines,
+bank, criteo, elec2, the four streams where B3's honest result is that certified switching costs
+slightly more than never switching. On spam, rialto and weather, where the challenger *is*
+better, the gate should rarely fire, and any B3+ gain there must come from the near-boundary
+acquisition boost (`r_max`) and from break-even promotion.
+
+This makes the four non-central streams **evidence for the acquisition contribution**, not merely
+safety checks, and it is the reason the full seven-stream table will be reported. If the
+prediction fails in either direction, that is recorded as a negative result.
+
+## Amendment 2026-11-02 (b): commit-hygiene note
+
+Commit `ea44bae`, which registers this protocol, inadvertently also contains in-progress
+versions of `b3_plus_policy.py` and `b3_plus_baselines.py`, because the commit was made with
+`git add -A` while implementation agents were writing concurrently. The protocol content of
+`ea44bae` is as registered and is unchanged; the implementation files are superseded by the
+following commit. History was not rewritten so that the registration record keeps its hash.

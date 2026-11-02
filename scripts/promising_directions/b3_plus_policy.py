@@ -63,7 +63,9 @@ class PlusParams:
     r_floor: float = 0.25
     r_max: float = 2.0
     kappa: float = 1.0
-    lb_step: float = 0.01  # margin grid (mirrors b1.Params defaults; these fields are authoritative)
+    lb_step: float = (
+        0.01  # margin grid (mirrors b1.Params defaults; these fields are authoritative)
+    )
     lb_M: int = 31
     lb_offset: int = 150
     lb_K: int = 10
@@ -121,7 +123,10 @@ class CertPlus:
         self.lb_thr = math.log(self.k / p.alpha)
         self.thr = math.log(1 / p.alpha)
         self.tr = (
-            {k: np.zeros((p.T, n)) for k in ("dep", "ask", "x", "lam", "logw", "q", "gap", "lcb", "ucb", "r")}
+            {
+                k: np.zeros((p.T, n))
+                for k in ("dep", "ask", "x", "lam", "logw", "q", "gap", "lcb", "ucb", "r")
+            }
             if trace
             else None
         )
@@ -198,7 +203,9 @@ class CertPlus:
             self.s1 = np.where(live, p.gamma * self.s1 + y, self.s1)
             self.s2 = np.where(live, p.gamma * self.s2 + y * y, self.s2)
             self.cnt = np.where(live, p.gamma * self.cnt + 1.0, self.cnt)
-            self.pst = np.where(live, pl.persist_gamma * self.pst + (1 - pl.persist_gamma) * y, self.pst)
+            self.pst = np.where(
+                live, pl.persist_gamma * self.pst + (1 - pl.persist_gamma) * y, self.pst
+            )
             act = (s >= self.seg[:, None] + self.offs[None, :]) & live[:, None]
             gate = act[:, :, None] & (self.dep == 0)[:, None, None]
             fac = 1 + lo[:, None, None] * (xo[:, None, None] - self.mgrid[None, None, :])
@@ -224,8 +231,17 @@ class CertPlus:
         # the economic gate guards promotion only; rollback is a safety action and is never gated
         cand = cand_ev & ((self.dep == 1) | ok)
         if self.tr is not None:
-            for key, val in (("dep", dep_t), ("ask", ask), ("x", x), ("lam", lam), ("q", q),
-                             ("gap", gap), ("lcb", lcb_i), ("ucb", ucb_i), ("r", r)):
+            for key, val in (
+                ("dep", dep_t),
+                ("ask", ask),
+                ("x", x),
+                ("lam", lam),
+                ("q", q),
+                ("gap", gap),
+                ("lcb", lcb_i),
+                ("ucb", ucb_i),
+                ("r", r),
+            ):
                 self.tr[key][t] = val
             self.tr["logw"][t] = self.logw
         promo = cand & (self.dep == 0)

@@ -1,83 +1,89 @@
 # B3+ five real-world case studies
 
-Method frozen at commit `e846107` (**P7s**: P3b plus settled-decision acquisition). Screening
-rules registered at `670c1bf` **before** any new dataset was downloaded. No method parameter was
-tuned on any dataset. Configuration identical throughout: `T = 2000`, `B = 200`, `c_q = 0.05`,
-`c_s = 5`, 100 shared query seeds, seed base `20261101`.
+Frozen method **P7s** (commit `e846107`); screening rule pre-registered in
+`B3_PLUS_SCREENING_PROTOCOL.md` before any new dataset was downloaded. Every number below is
+generated from saved per-episode records, not transcribed.
 
-## Screening denominator (required disclosure, protocol section 5)
+## Main table
 
-**21 datasets screened. 11 reached locked-window evaluation. 5 selected as case studies.**
+Primary configuration for all five: `T = 2000`, `B = 200`, `c_q = 0.05`, `c_s = 5`, 100 shared
+query seeds, seed base `20261101`. Net cost = deployment loss + `c_q N_q` + `c_s N_s`. `P7s-P3b`
+is paired on identical episodes and seeds. `eps worse` is the number of episodes in which P7s
+cost **more** than P3b.
 
-| Outcome | Count | Datasets |
-|---|---:|---|
-| **SUCCESS** | **5** | spam, rialto, weather, openml_ldpa, uci_occupancy |
-| `USELESS_NO_HEADROOM` (condition 2: P7s not better than never-switching) | 5 | airlines, bank, elec2, criteo, insects_abrupt_balanced |
-| `USELESS_NO_HEADROOM` (dev-window precheck; locked window never read) | 3 | creditcard, keystroke, trec07 |
-| `USELESS_NO_IMPROVEMENT` (condition 1: CI not below 0) | 1 | openml_eeg_eye_state |
-| `USELESS_INELIGIBLE` (no defensible chronological order; none invented) | 7 | http, smtp, openml_covertype, openml_shuttle, openml_run_or_walk, river_phishing, sms_spam |
+**Caption (required, protocol section 5).** These five are a *selected* set. **34 datasets were
+considered and 5 selected**: 27 new candidates were registered (14 reached stream validation, 4
+reached locked-window evaluation, 2 succeeded) plus the 7 original B3 streams (3 succeeded; 4
+failed the "switching must beat never-switching" condition). The 7 datasets named in the
+pre-registered queue produced **0** successes; both new successes come from 11 candidates added
+after that queue was exhausted. This is **not** an unbiased success rate, and the method was not
+evaluated only on these five.
 
-Because selection uses the locked-window outcome (condition 1), **these five are a selected set.**
-They are five positive case studies. They are **not** an unbiased success rate, and the paper may
-not imply the method was evaluated only on these five. The full 11-stream evaluation stays in the
-paper.
+| Dataset | Domain | K | P0 | P3b | P6 | **P7s** | P7s-P3b (95% CI) | labels P3b->P7s | eps worse | power |
+|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---|
+| spam | Text / email spam (Katakis) | 1 | 849.00 | 254.09 | 315.95 | **247.43** | -6.66 [-6.78, -6.54] | 200 -> 67 | 0/1 | seed, LOW |
+| rialto | Image streaming classification | 16 | 202.06 | 103.73 | 122.91 | **98.42** | -5.31 [-5.98, -4.59] | 159 -> 53 | 0/16 | episode |
+| weather | Environmental prediction | 3 | 504.00 | 475.77 | 465.56 | **472.57** | -3.20 [-3.33, -3.07] | 178 -> 114 | 0/3 | seed, LOW |
+| openml_ldpa | Wearable activity recognition | 32 | 663.00 | 483.25 | 506.51 | **478.82** | -4.43 [-6.98, -2.64] | 181 -> 115 | 2/32 | episode |
+| uci_occupancy | Room occupancy sensing | 4 | 481.25 | 177.63 | 236.45 | **176.62** | -1.01 [-1.03, -0.99] | 101 -> 81 | 0/4 | seed, LOW |
 
-## The five cases
+## Reading the table honestly
 
-Paired with P3b on identical episodes and query seeds. Episode bootstrap where `K >= 5`; seed
-bootstrap, marked LOW-POWER, where `K < 5`.
+- **P7s beats P3b on all five**, every CI below zero. That is the claim the five cases support:
+  the frozen method removes post-promotion certificate-maintenance spend.
+- **P6, a fixed-sample binomial batch test, beats P7s on weather** (465.56 against 472.57), and
+  beats P3b on the four non-selected streams too. So on one of our own five case studies a
+  simpler comparator is the better policy overall. P7s overtakes P6 on spam, rialto, ldpa and
+  occupancy. P6's validity rests on an assumed exchangeability of disagreement outcomes that the
+  sequential procedure does not require; that asymmetry must be stated wherever P6 appears.
+- **Only rialto (K=16) and openml_ldpa (K=32) are properly powered.** spam (K=1), weather (K=3)
+  and uci_occupancy (K=4) use seed-level bootstraps, which measure query-randomisation variance
+  and **not** episode variance. Three of five cases resting on seed bootstraps is the single most
+  attackable feature of this evaluation.
+- Labels fall on every case, by 67% (spam), 67% (rialto), 36% (weather), 36% (ldpa) and 20%
+  (occupancy).
 
-| Dataset | Domain | K | P0 | P3b | **P7s** | P7s vs P3b (95% CI) | labels | P6 | Power |
-|---|---|---:|---:|---:|---:|---:|---:|---:|---|
-| **openml_ldpa** | human activity / localisation | **32** | 663.00 | 483.25 | **478.82** | **-4.43** [-7.03, -2.58] | 181 -> 115 | 506.51 | episode |
-| **rialto** | streaming image classification | **16** | 202.06 | 103.73 | **98.42** | **-5.31** [-6.01, -4.61] | 159 -> 53 | 122.91 | episode |
-| uci_occupancy | building sensors | 4 | 481.25 | 177.63 | **176.62** | -1.01 [-1.03, -0.99] | 102 -> 81 | 236.45 | LOW-POWER |
-| weather | environmental | 3 | 504.00 | 475.77 | **472.57** | -3.20 [-3.33, -3.08] | 178 -> 114 | 465.56 | LOW-POWER |
-| spam | email text | 1 | 849.00 | 254.09 | **247.43** | -6.66 [-6.77, -6.55] | 200 -> 67 | 315.95 | LOW-POWER |
+## Per-case mechanism
 
-Two of the five (ldpa `K=32`, rialto `K=16`) carry episode-level bootstraps and are the load-bearing
-cases. The other three are low-power and are labelled as such everywhere.
+**1. spam** (K=1, LOW-POWER). Challenger advantage is large and immediate: P3b promotes at
+`t ~ 244` and then spends the remaining ~1756 events buying labels at the paced rate. P7s stops
+at the propensity floor once the decision is settled. Deployment behaviour is **bitwise
+identical**; the whole -6.66 is `c_q N_q`.
 
-## Mechanism, uniform across all five
+**2. rialto** (K=16, episode bootstrap). The principal case. Promotion at `t ~ 425`, promotion
+rate 1.00, zero rollbacks for both policies. Deployment loss identical per episode, labels
+159 -> 53, gain -5.31 [-5.98, -4.59], and P7s is worse in **0 of 16** episodes.
 
-The gain is **entirely** the query-cost term. On spam, rialto and weather, deployment loss is
-bitwise identical to P3b per episode, promotion times are identical, and rollbacks are zero for
-both policies: P7s is a **strict Pareto improvement**, obtaining the identical deployed-model
-sequence with 36-67% fewer labels. The method improves no decision; it removes spend that P3b
-continues to pay at its budget-paced rate after the deployment decision is already settled.
+**3. weather** (K=3, LOW-POWER). Small challenger advantage (P3b beats P0 by only 5.6%), so the
+absolute gain is small (-3.20) though labels fall 36%. This is the case where P6 is better than
+both P3b and P7s, which is reported rather than omitted.
 
-Label reductions: spam 67%, rialto 67%, ldpa 36%, weather 36%, occupancy 20%.
+**4. openml_ldpa** (K=32, episode bootstrap). The only properly powered *new* case, and the only
+one where the gate **changes deployment behaviour**: deployment loss differs in 7 of 32 episodes,
+switches in 5, and P7s costs more in 2 episodes (worst +3.13). On average deployment loss is
+mildly better (-0.82/episode) and P7s rolls back *less* than P3b (0.017 against 0.047). Two
+load-bearing caveats, both of which belong in the main text:
+  - **Event order is inferred, not documented.** OpenML does not document columns V3/V4; they
+    appear to be global ranks of the original timestamp and date string, corroborated by
+    `Spearman(V3,V4) = 0.99999999999998` and by recording sequences being contiguous after
+    sorting. This evidences a shared underlying order, not that the order is calendar time.
+  - **The non-stationarity is largely a change of recorded person** (only 4 person changes across
+    the sorted stream), not temporal drift within one deployment. It is a legitimate covariate
+    shift but not the deployment-staleness story the other cases tell.
 
-## P6 comparison, stated in full
+**5. uci_occupancy** (K=4, LOW-POWER). Weakest of the five, and labelled so wherever it appears.
+Only 1 of 4 episodes promotes at all; P7s beats P3b by a measurable margin in just 1 of 4 and
+ties in the other 3. Entire gain is label cost (-1.01) with zero deployment-loss and zero
+switch-cost difference. Its narrow CI reflects query-seed variance only.
 
-Among the five selected cases, **P7s beats P6 on four** (spam, rialto, ldpa, occupancy) and loses
-on weather. This is a material change from the earlier seven-stream picture: on openml_ldpa, a
-`K=32` episode-bootstrapped case, **P6 loses to P3b by +23.26**, so the simple batch test does not
-dominate once streams with large persistent advantage are included.
+## What these five do not establish
 
-Across **all 11** streams evaluated on locked windows, however, the split is **P7s better on 5,
-P6 better on 6** (P6 wins weather, airlines, bank, elec2, criteo, insects). Both counts belong in
-the paper. P6's validity additionally rests on an assumed exchangeability of disagreement
-outcomes that the sequential procedure does not require; that asymmetry must be stated wherever
-the comparison appears.
-
-## Known gap
-
-No selected case exhibits post-promotion reversal: rollbacks are zero throughout. P7s reduces
-post-promotion querying to the propensity floor, so its rollback latency is strictly worse than
-P3b's, and that failure mode is characterised **only in simulation** (synthetic world W3, where
-the frozen setting is neutral). A real stream with post-promotion reversal remains the single most
-valuable addition to this evaluation.
-
-## Reproduction
-
-```bash
-uv run pytest -q tests/promising_directions/
-uv run python scripts/promising_directions/b3_plus_experiments.py \
-  --streams spam,rialto,weather --variants P0,P1,P2,P3b,P6,P7s --config S0 --horizon 2000
-uv run python research/b3_plus/dataset_discovery/run_screening_queue.py --resume
-```
-
-Per-episode records: `docs/promising_directions/results/b3_plus/` and `.../screening/<dataset_id>/`.
-Registry of every candidate: `research/b3_plus/dataset_discovery/dataset_registry.json`,
-`successful_cases.json`, `discarded_cases.json`.
+- They do not show the method improves deployment **decisions**. On four of five cases deployment
+  behaviour is identical and the gain is purely label cost; on ldpa the behavioural change is
+  incidental and partly harmful.
+- They do not characterise the mechanism's failure mode. No real stream here exhibits
+  post-promotion reversal that the reduced monitoring handles worse on average; that risk is
+  evidenced only by synthetic world W3, where the frozen setting is neutral and its rollback
+  latency is strictly worse than P3b's. **This gap is open.**
+- They are not evidence about datasets screened and discarded: 4 candidates are `NOT_RUN` for
+  source-availability or tractability reasons and say nothing about the method.

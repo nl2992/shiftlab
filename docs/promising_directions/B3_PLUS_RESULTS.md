@@ -319,3 +319,61 @@ resume key hashes variant *names* and not their parameters. Superseded entries w
 latest-wins basis, which matches the runner's resume semantics; the table above is unchanged by
 the clean-up, and the pre-clean files remain in Git history. The runner's resume key should
 include the plus-parameters, which is recorded as an outstanding fix.
+
+## 11. Phase 5 mechanism: a strict Pareto improvement, and the risk that buys it
+
+### Decomposition of the gain
+
+Splitting the paired `P7s - P3b` net-cost difference into its three cost terms, per episode:
+
+| Stream | config | total | deployment loss | query cost | switch cost |
+|---|---|---:|---:|---:|---:|
+| spam | S0 | -6.662 | **+0.000** | -6.662 (-133.2 labels) | **+0.000** |
+| rialto | S0 | -5.310 | **+0.000** | -5.310 (-106.2 labels) | **+0.000** |
+| weather | S0 | -3.200 | **+0.000** | -3.200 (-64.0 labels) | **+0.000** |
+| spam | S4 | -13.323 | +0.000 | -13.323 | +0.000 |
+| rialto | S4 | -10.619 | +0.000 | -10.619 | +0.000 |
+| weather | S4 | -6.399 | +0.000 | -6.399 | +0.000 |
+
+**The entire gain is the query term.** Verified further, per episode and not merely on averages:
+deployment loss is **bitwise identical** (`max |dloss| = 0.00e+00` on all three streams),
+promotion times are identical, and both policies record **zero rollbacks**.
+
+### What this means for the claim
+
+P7s is a **strict Pareto improvement** on P3b on these streams: the deployed-model sequence is
+identical event for event, and it is obtained with 67% (spam), 67% (rialto) and 36% (weather)
+fewer labels. There is no accuracy-versus-cost trade-off to argue about, which makes this a
+stronger and much more defensible claim than "better deployment decisions".
+
+It also means, stated plainly, that **the method does not improve any decision.** It removes
+waste. The contribution is: *P3b's certificate maintenance keeps paying the budget-paced query
+rate after the deployment decision is settled, and that spend is removable with provably
+identical behaviour.* This supersedes the earlier framing of a cost-aware deployment *decision*
+rule, which the data in sections 5 and 8 rejected.
+
+**Consequence for the manuscript.** The working title *"When Is a Better Model Worth Deploying?
+Cost-Aware Certification under Budgeted and Delayed Feedback"* promises improved deployment
+decisions and is no longer accurate. The claim to make is about the **label cost of maintaining a
+sequential certificate**, not about when to switch.
+
+### The risk that buys the saving, stated prominently
+
+The saving is free here **because no post-promotion reversal occurred**: rollbacks are zero for
+both policies on all three streams, so the reduced monitoring was never exercised. P7s drops
+post-promotion querying to the propensity floor (`p_min = 0.05`), so if a reversal had occurred
+it would have been detected later than under P3b.
+
+The only evidence about that risk is synthetic world W3, where the frozen setting is **neutral**
+(+1.35, CI straddling 0) having given up the -1.79 that a shared 0.25 floor achieved. So the
+honest statement is:
+
+> On streams whose challenger advantage persists, settled-decision acquisition is free. On
+> streams where the advantage reverses after promotion, it is neutral in our synthetic
+> evaluation and its rollback latency is strictly worse than P3b's. We have no real-data stream
+> exhibiting post-promotion reversal, so this risk is characterised only in simulation.
+
+That absence is a genuine gap in the evaluation, not a detail: the mechanism's one failure mode
+is untested on real data. Any reviewer will ask, and the answer must be given before they do.
+A real stream with post-promotion reversal would be the single most valuable addition to this
+evaluation, and is worth more than a fourth or fifth agreeable case study.

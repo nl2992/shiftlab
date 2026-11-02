@@ -52,7 +52,9 @@ BASE_VARIANTS = ("P0", "P1", "P2", "P3b", "P6", "PCT")
 def _plus_params(v):
     """P7s/P7sp use the settled-decision acquisition shape (Phase 1c)."""
     if v in ("P7s", "P7sp"):
-        return PlusParams(variant=v, acq_shape="settled", r_max=1.0, r_floor=0.25)
+        return PlusParams(
+            variant=v, acq_shape="settled", r_max=1.0, r_floor=0.25, settled_floor=0.0
+        )
     return PlusParams(variant=v)
 PLUS_VARIANTS = ("P4ref", "P7a", "P7b", "P7", "P7c", "P7s", "P7sp")
 ALL_VARIANTS = (

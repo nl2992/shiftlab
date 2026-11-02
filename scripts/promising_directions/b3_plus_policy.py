@@ -71,6 +71,11 @@ class PlusParams:
     lb_K: int = 10
     persist_gamma: float = 0.97  # P7c only
     persist_min: float = 0.0  # P7c only
+    # Phase 1d selected: 0.0 for the settled case. q is still clipped at p_min = 0.05, so the
+    # positive-propensity requirement and rollback monitoring both survive; this only removes
+    # the budget-paced excess once the deployment decision is settled.
+    settled_floor: float = 0.0
+    use_hopeless: bool = True  # pre-promotion hopeless gate; see Phase 1d note
     acq_shape: str = "gate_recent"  # Phase 1 selected. "gate_recent" | "gate" | "decay"
     promo_gate: bool = True  # False keeps P3b's crossing rule (used by P7b)
 
@@ -188,9 +193,20 @@ class CertPlus:
                 # deployed on the challenger, so post-promotion pst < 0 means the challenger is
                 # STILL ahead (decision settled) and pst >= 0 is evidence of reversal, where the
                 # pacer is restored to full rate so rollback stays detectable.
+                # Phase 1d (2026-11-02): the two cases need SEPARATE floors. Lowering a shared
+                # floor made things worse on world W1, and the cause is the pre-promotion
+                # hopeless gate, not the settled gate: on W1 the challenger genuinely IS worse
+                # before tau = 600, so hopeless fires, starves acquisition, and delays detection
+                # of the improvement after the change point. Post-promotion spend, by contrast,
+                # is near-pure waste while the challenger stays ahead, so the settled floor can
+                # be pushed much lower than the hopeless one.
                 settled = (self.dep == 1) & (self.pst < 0)
-                inert = np.where(self.dep == 1, settled, hopeless & (self.pst < 0))
-                r = np.where(inert, pl.r_floor, pl.r_max)
+                hopeless = hopeless & (self.pst < 0) & pl.use_hopeless
+                r = np.where(
+                    self.dep == 1,
+                    np.where(settled, pl.settled_floor, pl.r_max),
+                    np.where(hopeless, pl.r_floor, pl.r_max),
+                )
             elif pl.acq_shape == "gate_recent":
                 # Phase 1 finding (synthetic, 2026-11-02): the cumulative margin grid keeps
                 # certifying "challenger worse" for a long time after the challenger has in fact

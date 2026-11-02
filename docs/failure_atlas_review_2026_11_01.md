@@ -108,3 +108,7 @@ links in the governing documents, and a qualification to the premature DSS posit
 Earlier protocols and ledger entries are retained. Outputs stay under the ignored outputs
 directory; a compact evidence summary is retained in the ledger. No commit, merge or publication
 is performed by this review.
+
+## Current continuation: method proposal, 2026-11-01
+
+The earlier pilot recommendation above has been superseded by the completed [cycle-7 decision](failure_atlas_cycle7_decision_v1.md) and [fallback diagnostic](failure_atlas_cycle7_followup_results_v1.md). The validation seeds were used as recorded there; confirmation seeds remain untouched. The [next-method proposal](failure_atlas_next_method_proposal_v1.md) preserves the negative outcomes and recommends gap-aware evidence followed by deadline-aware acquisition. It includes assumptions, novelty limits, the conditional-value scoring question, and cheap decisive tests before any further full sweep. No new method performance is claimed. Later staged commits, including this proposal, supersede the original review's statement that no commit was performed.

@@ -1766,3 +1766,7 @@ at rho=.8, B/T=.25, d=1, T=300; in a separate late-onset T=300 test, Markov LR p
 17/20 with gain 29.67. These are test settings, not the T=1000 pilot or SOTA comparisons.
 Ruff and script compilation checks pass. External cross-family integrity audit unavailable;
 the saved native review is provisional and did not review the completed pilot outputs.
+
+## 2026-11-01: future method proposal after cycle 7
+
+Cycle 7 and its bounded fallback diagnostic are complete; neither is retrospectively accepted. See [the next-method proposal](failure_atlas_next_method_proposal_v1.md) for the synthesis across cycles, primary literature comparison, restricted gap-aware evidence construction, deadline-aware acquisition design, target audit, and staged stopping rules. This is prospective method development, not new experimental evidence. First test correct gap-aware evidence on uniform acquisition, then test the incremental value of scheduling. No confirmation seeds were consumed. The local HKUSTDial/ARIS idea evaluation is a self-critique, not an independent novelty review.

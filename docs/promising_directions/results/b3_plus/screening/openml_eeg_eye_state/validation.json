@@ -1,0 +1,113 @@
+{
+  "dataset_id": "openml_eeg_eye_state",
+  "n_rows": 14980,
+  "order": {
+    "declared_basis": "documented_order",
+    "n": 14980,
+    "justification": "OpenML/UCI description: all data from one continuous 117 s EEG measurement and 'all values are in chronological order with the first measured value at the top'. No timestamp column, so order is documented but not independently verifiable.",
+    "sorted_by": null,
+    "verdict": "documented_order_uncorroborated"
+  },
+  "windows": {
+    "train_incumbent": [
+      0,
+      2247
+    ],
+    "train_challenger": [
+      0,
+      4494
+    ],
+    "dev": [
+      4494,
+      8988
+    ],
+    "locked": [
+      8988,
+      14980
+    ]
+  },
+  "checks": [
+    {
+      "check": "chronological_order_defensible",
+      "pass": true,
+      "detail": "verdict=documented_order_uncorroborated; declared_basis=documented_order",
+      "hard": true
+    },
+    {
+      "check": "row_count_matches_source",
+      "pass": true,
+      "detail": "declared=14980 loaded=14980",
+      "hard": false
+    },
+    {
+      "check": "X_y_aligned",
+      "pass": true,
+      "detail": "feature rows equal label rows",
+      "hard": true
+    },
+    {
+      "check": "locked_window_has_one_episode",
+      "pass": true,
+      "detail": "locked rows=5992, T=2000",
+      "hard": true
+    },
+    {
+      "check": "train_dev_windows_nonempty",
+      "pass": true,
+      "detail": "window sizes 2247,2247,4494",
+      "hard": true
+    },
+    {
+      "check": "not_class_sorted",
+      "pass": true,
+      "detail": "runs=14 classes=2",
+      "hard": true
+    },
+    {
+      "check": "two_classes_in_training_window",
+      "pass": true,
+      "detail": "2 classes in first 30%",
+      "hard": true
+    },
+    {
+      "check": "columns_not_mostly_missing",
+      "pass": true,
+      "detail": "0 columns >50% missing",
+      "hard": true
+    },
+    {
+      "check": "has_informative_columns",
+      "pass": true,
+      "detail": "0 const cols",
+      "hard": true
+    },
+    {
+      "check": "no_target_equals_feature",
+      "pass": true,
+      "detail": "max |corr(feature, target)|=0.23739186666430262 (V4)",
+      "hard": true
+    }
+  ],
+  "status": null,
+  "ok": true,
+  "class_sorted_check": {
+    "runs": 14,
+    "n_classes": 2,
+    "expected_runs_if_shuffled": 4270.222330065167,
+    "class_sorted": false
+  },
+  "missing": {
+    "max_col_missing_frac": 0.0,
+    "cols_over_half_missing": 0
+  },
+  "constant_columns_in_train": 0,
+  "exchangeability_diagnostic": {
+    "class_mix_by_block_chi2_p": 0.0,
+    "median_abs_std_feature_shift_first_vs_second_half_of_train_dev": 0.05072039689838239
+  },
+  "leakage_screen": {
+    "max_abs_corr": 0.23739186666430262,
+    "column": "V4"
+  },
+  "order_array_length": 14980
+}

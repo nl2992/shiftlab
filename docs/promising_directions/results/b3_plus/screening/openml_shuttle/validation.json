@@ -1,0 +1,64 @@
+{
+  "dataset_id": "openml_shuttle",
+  "n_rows": 58000,
+  "order": {
+    "declared_basis": "none",
+    "n": 58000,
+    "justification": "Statlog shuttle is not a documented time-ordered stream; no timestamp.",
+    "verdict": "no_defensible_order",
+    "sorted_by": null
+  },
+  "windows": {
+    "train_incumbent": [
+      0,
+      8700
+    ],
+    "train_challenger": [
+      0,
+      17400
+    ],
+    "dev": [
+      17400,
+      34800
+    ],
+    "locked": [
+      34800,
+      58000
+    ]
+  },
+  "checks": [
+    {
+      "check": "chronological_order_defensible",
+      "pass": false,
+      "detail": "verdict=no_defensible_order; declared_basis=none",
+      "hard": true
+    },
+    {
+      "check": "row_count_matches_source",
+      "pass": true,
+      "detail": "declared=58000 loaded=58000",
+      "hard": false
+    },
+    {
+      "check": "X_y_aligned",
+      "pass": true,
+      "detail": "feature rows equal label rows",
+      "hard": true
+    },
+    {
+      "check": "locked_window_has_one_episode",
+      "pass": true,
+      "detail": "locked rows=23200, T=2000",
+      "hard": true
+    },
+    {
+      "check": "train_dev_windows_nonempty",
+      "pass": true,
+      "detail": "window sizes 8700,8700,17400",
+      "hard": true
+    }
+  ],
+  "status": "USELESS_INELIGIBLE",
+  "ok": false,
+  "reason": "no defensible chronological order (no_defensible_order); no order invented"
+}

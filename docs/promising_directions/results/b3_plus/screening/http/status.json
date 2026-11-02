@@ -1,0 +1,15 @@
+{
+  "dataset_id": "http",
+  "status": "USELESS_INELIGIBLE",
+  "reason": "no defensible chronological order (no_defensible_order); no order invented",
+  "timestamps": {
+    "registered_at_utc": "2026-11-02T23:26:12.742093+00:00",
+    "downloaded_at_utc": "2026-11-02T23:29:08.983454+00:00",
+    "loaded_at_utc": "2026-11-02T23:33:19.562116+00:00",
+    "validated_at_utc": "2026-11-02T23:33:19.562856+00:00"
+  },
+  "screening": {
+    "stage": "validation",
+    "validation_verdict": "no_defensible_order"
+  }
+}

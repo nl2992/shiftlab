@@ -1,0 +1,64 @@
+{
+  "dataset_id": "http",
+  "n_rows": 567498,
+  "order": {
+    "declared_basis": "none",
+    "n": 567498,
+    "justification": "The csv has no connection timestamp and no documentation of event order (it is a derived subset of KDDCup99, whose subsets are not order-preserving by contract). Order cannot be verified chronological; none is invented.",
+    "verdict": "no_defensible_order",
+    "sorted_by": null
+  },
+  "windows": {
+    "train_incumbent": [
+      0,
+      85124
+    ],
+    "train_challenger": [
+      0,
+      170249
+    ],
+    "dev": [
+      170249,
+      340498
+    ],
+    "locked": [
+      340498,
+      567498
+    ]
+  },
+  "checks": [
+    {
+      "check": "chronological_order_defensible",
+      "pass": false,
+      "detail": "verdict=no_defensible_order; declared_basis=none",
+      "hard": true
+    },
+    {
+      "check": "row_count_matches_source",
+      "pass": true,
+      "detail": "declared=567498 loaded=567498",
+      "hard": false
+    },
+    {
+      "check": "X_y_aligned",
+      "pass": true,
+      "detail": "feature rows equal label rows",
+      "hard": true
+    },
+    {
+      "check": "locked_window_has_one_episode",
+      "pass": true,
+      "detail": "locked rows=227000, T=2000",
+      "hard": true
+    },
+    {
+      "check": "train_dev_windows_nonempty",
+      "pass": true,
+      "detail": "window sizes 85124,85125,170249",
+      "hard": true
+    }
+  ],
+  "status": "USELESS_INELIGIBLE",
+  "ok": false,
+  "reason": "no defensible chronological order (no_defensible_order); no order invented"
+}

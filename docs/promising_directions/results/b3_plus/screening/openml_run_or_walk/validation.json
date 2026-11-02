@@ -1,0 +1,64 @@
+{
+  "dataset_id": "openml_run_or_walk",
+  "n_rows": 88588,
+  "order": {
+    "declared_basis": "none",
+    "n": 88588,
+    "justification": "The OpenML copy has only the six sensor axes and the label: the Kaggle date/time/username columns were dropped, and the description does not state row order. No defensible event order.",
+    "verdict": "no_defensible_order",
+    "sorted_by": null
+  },
+  "windows": {
+    "train_incumbent": [
+      0,
+      13288
+    ],
+    "train_challenger": [
+      0,
+      26576
+    ],
+    "dev": [
+      26576,
+      53152
+    ],
+    "locked": [
+      53152,
+      88588
+    ]
+  },
+  "checks": [
+    {
+      "check": "chronological_order_defensible",
+      "pass": false,
+      "detail": "verdict=no_defensible_order; declared_basis=none",
+      "hard": true
+    },
+    {
+      "check": "row_count_matches_source",
+      "pass": true,
+      "detail": "declared=88588 loaded=88588",
+      "hard": false
+    },
+    {
+      "check": "X_y_aligned",
+      "pass": true,
+      "detail": "feature rows equal label rows",
+      "hard": true
+    },
+    {
+      "check": "locked_window_has_one_episode",
+      "pass": true,
+      "detail": "locked rows=35436, T=2000",
+      "hard": true
+    },
+    {
+      "check": "train_dev_windows_nonempty",
+      "pass": true,
+      "detail": "window sizes 13288,13288,26576",
+      "hard": true
+    }
+  ],
+  "status": "USELESS_INELIGIBLE",
+  "ok": false,
+  "reason": "no defensible chronological order (no_defensible_order); no order invented"
+}

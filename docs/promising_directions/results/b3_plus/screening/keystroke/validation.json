@@ -1,0 +1,118 @@
+{
+  "dataset_id": "keystroke",
+  "n_rows": 20400,
+  "order": {
+    "declared_basis": "ordinal_columns",
+    "n": 20400,
+    "justification": "File is subject-major (not chronological). sessionIndex (1..8) and rep (1..50) are genuine ordinal time within subject; sessions were collected on different days. Across subjects no absolute date is published, so the stream sorts by (sessionIndex, rep): a session-ordinal chronology, not a calendar one. Declared as a caveat.",
+    "within_group_file_order_monotone_frac": 1.0,
+    "file_is_group_major": true,
+    "verdict": "sorted_by_ordinal_columns",
+    "sorted_by": [
+      "sessionIndex",
+      "rep"
+    ]
+  },
+  "windows": {
+    "train_incumbent": [
+      0,
+      3060
+    ],
+    "train_challenger": [
+      0,
+      6120
+    ],
+    "dev": [
+      6120,
+      12240
+    ],
+    "locked": [
+      12240,
+      20400
+    ]
+  },
+  "checks": [
+    {
+      "check": "chronological_order_defensible",
+      "pass": true,
+      "detail": "verdict=sorted_by_ordinal_columns; declared_basis=ordinal_columns",
+      "hard": true
+    },
+    {
+      "check": "row_count_matches_source",
+      "pass": true,
+      "detail": "declared=20400 loaded=20400",
+      "hard": false
+    },
+    {
+      "check": "X_y_aligned",
+      "pass": true,
+      "detail": "feature rows equal label rows",
+      "hard": true
+    },
+    {
+      "check": "locked_window_has_one_episode",
+      "pass": true,
+      "detail": "locked rows=8160, T=2000",
+      "hard": true
+    },
+    {
+      "check": "train_dev_windows_nonempty",
+      "pass": true,
+      "detail": "window sizes 3060,3060,6120",
+      "hard": true
+    },
+    {
+      "check": "not_class_sorted",
+      "pass": true,
+      "detail": "runs=12240 classes=51",
+      "hard": true
+    },
+    {
+      "check": "two_classes_in_training_window",
+      "pass": true,
+      "detail": "51 classes in first 30%",
+      "hard": true
+    },
+    {
+      "check": "columns_not_mostly_missing",
+      "pass": true,
+      "detail": "0 columns >50% missing",
+      "hard": true
+    },
+    {
+      "check": "has_informative_columns",
+      "pass": true,
+      "detail": "0 const cols",
+      "hard": true
+    },
+    {
+      "check": "no_target_equals_feature",
+      "pass": true,
+      "detail": "max |corr(feature, target)|=0.106269861786062 (UD.e.five)",
+      "hard": true
+    }
+  ],
+  "status": null,
+  "ok": true,
+  "class_sorted_check": {
+    "runs": 12240,
+    "n_classes": 51,
+    "expected_runs_if_shuffled": 12000.019607843136,
+    "class_sorted": false
+  },
+  "missing": {
+    "max_col_missing_frac": 0.0,
+    "cols_over_half_missing": 0
+  },
+  "constant_columns_in_train": 0,
+  "exchangeability_diagnostic": {
+    "class_mix_by_block_chi2_p": 1.0,
+    "median_abs_std_feature_shift_first_vs_second_half_of_train_dev": 0.11427172987686363
+  },
+  "leakage_screen": {
+    "max_abs_corr": 0.106269861786062,
+    "column": "UD.e.five"
+  },
+  "order_array_length": 20400
+}

@@ -1,0 +1,66 @@
+{
+  "dataset_id": "creditcard",
+  "status": "USELESS_NO_HEADROOM",
+  "reason": "dev-window headroom precheck failed, locked window never read: option A (HGB 0-30%): disagree=0.0017, inc=0.0014, chal=0.0012, adv*T=0.44 (needs > 5.0); option B (LR 15-30%): disagree=0.0017, inc=0.0014, chal=0.0011, adv*T=0.68 (needs > 5.0)",
+  "timestamps": {
+    "registered_at_utc": "2026-11-02T23:26:12.742093+00:00",
+    "downloaded_at_utc": "2026-11-02T23:29:04.509219+00:00",
+    "loaded_at_utc": "2026-11-02T23:31:11.403379+00:00",
+    "validated_at_utc": "2026-11-02T23:31:11.556884+00:00",
+    "pair_selected_at_utc": "2026-11-02T23:31:12.440359+00:00"
+  },
+  "screening": {
+    "stage": "headroom_precheck",
+    "options": [
+      [
+        "A",
+        {
+          "dev_rows": 85442,
+          "disagree": 0.0016502422696097938,
+          "inc_err_dev": 0.0014161653519346458,
+          "chal_err_dev": 0.001193792280143255,
+          "adv_per_event": 0.00022237307179139064,
+          "adv_times_T": 0.4447461435827813,
+          "cs": 5.0,
+          "T": 2000,
+          "cond_disagree_ge_0.02": false,
+          "cond_challenger_better": true,
+          "cond_adv_T_gt_cs": false,
+          "passes": false
+        }
+      ],
+      [
+        "B",
+        {
+          "dev_rows": 85442,
+          "disagree": 0.0016502422696097938,
+          "inc_err_dev": 0.0014161653519346458,
+          "chal_err_dev": 0.001076753821305681,
+          "adv_per_event": 0.0003394115306289648,
+          "adv_times_T": 0.6788230612579296,
+          "cs": 5.0,
+          "T": 2000,
+          "cond_disagree_ge_0.02": false,
+          "cond_challenger_better": true,
+          "cond_adv_T_gt_cs": false,
+          "passes": false
+        }
+      ]
+    ],
+    "last_option_dev": {
+      "dev_rows": 85442,
+      "disagree": 0.0016502422696097938,
+      "inc_err_dev": 0.0014161653519346458,
+      "chal_err_dev": 0.001076753821305681,
+      "adv_per_event": 0.0003394115306289648,
+      "adv_times_T": 0.6788230612579296,
+      "cs": 5.0,
+      "T": 2000,
+      "cond_disagree_ge_0.02": false,
+      "cond_challenger_better": true,
+      "cond_adv_T_gt_cs": false,
+      "passes": false
+    },
+    "binarisation_rule": "majority_vs_rest"
+  }
+}

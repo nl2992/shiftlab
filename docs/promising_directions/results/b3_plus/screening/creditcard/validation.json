@@ -1,0 +1,115 @@
+{
+  "dataset_id": "creditcard",
+  "n_rows": 284807,
+  "order": {
+    "declared_basis": "timestamp_column",
+    "n": 284807,
+    "justification": "Time = seconds since the first transaction over two days; file is sorted by it.",
+    "time_finite_frac": 1.0,
+    "time_inversions": 0,
+    "verdict": "timestamp_monotone_in_file_order",
+    "sorted_by": null
+  },
+  "windows": {
+    "train_incumbent": [
+      0,
+      42721
+    ],
+    "train_challenger": [
+      0,
+      85442
+    ],
+    "dev": [
+      85442,
+      170884
+    ],
+    "locked": [
+      170884,
+      284807
+    ]
+  },
+  "checks": [
+    {
+      "check": "chronological_order_defensible",
+      "pass": true,
+      "detail": "verdict=timestamp_monotone_in_file_order; declared_basis=timestamp_column",
+      "hard": true
+    },
+    {
+      "check": "row_count_matches_source",
+      "pass": true,
+      "detail": "declared=284807 loaded=284807",
+      "hard": false
+    },
+    {
+      "check": "X_y_aligned",
+      "pass": true,
+      "detail": "feature rows equal label rows",
+      "hard": true
+    },
+    {
+      "check": "locked_window_has_one_episode",
+      "pass": true,
+      "detail": "locked rows=113923, T=2000",
+      "hard": true
+    },
+    {
+      "check": "train_dev_windows_nonempty",
+      "pass": true,
+      "detail": "window sizes 42721,42721,85442",
+      "hard": true
+    },
+    {
+      "check": "not_class_sorted",
+      "pass": true,
+      "detail": "runs=665 classes=2",
+      "hard": true
+    },
+    {
+      "check": "two_classes_in_training_window",
+      "pass": true,
+      "detail": "2 classes in first 30%",
+      "hard": true
+    },
+    {
+      "check": "columns_not_mostly_missing",
+      "pass": true,
+      "detail": "0 columns >50% missing",
+      "hard": true
+    },
+    {
+      "check": "has_informative_columns",
+      "pass": true,
+      "detail": "0 const cols",
+      "hard": true
+    },
+    {
+      "check": "no_target_equals_feature",
+      "pass": true,
+      "detail": "max |corr(feature, target)|=0.43402702065564225 (V17)",
+      "hard": true
+    }
+  ],
+  "status": null,
+  "ok": true,
+  "class_sorted_check": {
+    "runs": 665,
+    "n_classes": 2,
+    "expected_runs_if_shuffled": 719.4789770652482,
+    "class_sorted": false
+  },
+  "missing": {
+    "max_col_missing_frac": 0.0,
+    "cols_over_half_missing": 0
+  },
+  "constant_columns_in_train": 0,
+  "exchangeability_diagnostic": {
+    "class_mix_by_block_chi2_p": 2.1688144683602546e-19,
+    "median_abs_std_feature_shift_first_vs_second_half_of_train_dev": 0.05582958026165852
+  },
+  "leakage_screen": {
+    "max_abs_corr": 0.43402702065564225,
+    "column": "V17"
+  },
+  "order_array_length": 284807
+}

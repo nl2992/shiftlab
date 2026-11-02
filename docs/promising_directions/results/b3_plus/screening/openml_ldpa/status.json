@@ -1,0 +1,69 @@
+{
+  "dataset_id": "openml_ldpa",
+  "status": "SUCCESS",
+  "reason": "conditions 1-5 hold: P7s - P3b CI entirely below 0 and mean P7s < mean P0",
+  "timestamps": {
+    "registered_at_utc": "2026-11-02T23:38:00.074082+00:00",
+    "downloaded_at_utc": "2026-11-02T23:38:24.096639+00:00",
+    "loaded_at_utc": "2026-11-02T23:38:24.267995+00:00",
+    "validated_at_utc": "2026-11-02T23:38:24.367116+00:00",
+    "pair_selected_at_utc": "2026-11-02T23:38:24.908622+00:00",
+    "locked_window_read_at_utc": "2026-11-02T23:38:24.909759+00:00",
+    "evaluated_at_utc": "2026-11-02T23:39:02.809725+00:00"
+  },
+  "screening": {
+    "stage": "evaluated",
+    "mean_cost": {
+      "P0": 663.0,
+      "P1": 398.4375,
+      "P2": 621.62409375,
+      "P3b": 483.24765625,
+      "P6": 506.508265625,
+      "P7s": 478.820109375
+    },
+    "paired": {
+      "P7s_minus_P3b": {
+        "mean": -4.427546875000003,
+        "lo": -7.134814453124976,
+        "hi": -2.6057093749999862,
+        "bootstrap_level": "episode",
+        "low_power": false,
+        "frac_episodes_a_below_b": 0.9375
+      },
+      "P7s_minus_P0": {
+        "mean": -184.17989062499998,
+        "lo": -230.8098140625,
+        "hi": -139.10501562500002,
+        "bootstrap_level": "episode",
+        "low_power": false,
+        "frac_episodes_a_below_b": 0.9375
+      },
+      "P7s_minus_P6": {
+        "mean": -27.688156249999977,
+        "lo": -51.316835937499945,
+        "hi": -7.401822656249979,
+        "bootstrap_level": "episode",
+        "low_power": false,
+        "frac_episodes_a_below_b": 0.5625
+      },
+      "P7s_minus_P2": {
+        "mean": -142.803984375,
+        "lo": -174.99895664062498,
+        "hi": -111.31686601562504,
+        "bootstrap_level": "episode",
+        "low_power": false,
+        "frac_episodes_a_below_b": 0.9375
+      },
+      "P3b_minus_P0": {
+        "mean": -179.75234375000002,
+        "lo": -225.97101015625003,
+        "hi": -134.0505390625,
+        "bootstrap_level": "episode",
+        "low_power": false,
+        "frac_episodes_a_below_b": 0.9375
+      }
+    },
+    "episodes": 32,
+    "low_power": false
+  }
+}

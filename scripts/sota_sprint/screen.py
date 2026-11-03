@@ -34,6 +34,13 @@ from suite import build_suite, stream_from_losses  # noqa: E402  (also adds the 
 from simulator import run_episode  # noqa: E402
 
 LOSS_DIR = ROOT / "data/atlas_v2_losses"
+FRESH_DIR = ROOT / "data/sprint_fresh_losses"  # fresh external-validation streams (aeb2d4f)
+FRESH_DELAYS = {"metro": 24, "beijing_pm25": 24, "bike_hour": 24, "appliances": 144,
+                "household_power": 144}  # = fresh_real.DELAYS, registered before any policy run
+
+
+def _loss_file(name: str) -> Path:
+    return (FRESH_DIR if name in FRESH_DELAYS else LOSS_DIR) / f"{name}.npz"
 REAL_DELAYS = {"rialto": 100, "spam": 50, "weather": 1, "openml_ldpa": 100, "uci_occupancy": 100,
                "airlines": 100, "bank": 100, "elec2": 48, "criteo": 100}
 
@@ -94,10 +101,10 @@ def _job(args):
             [seed_base, _h(R.name), seed])))
         gain, delay = R.truth_gain(), R.delay
     else:
-        z = np.load(LOSS_DIR / f"{name}.npz")
+        z = np.load(_loss_file(name))
         losses = np.stack([z["l0"][ep], z["l1"][ep]], axis=1).astype(np.int8)
         gain = np.full(losses.shape[0], float((losses[:, 0].astype(int) - losses[:, 1]).mean()))
-        delay, budget = REAL_DELAYS[name], CONTRACT["budget"]
+        delay, budget = {**REAL_DELAYS, **FRESH_DELAYS}[name], CONTRACT["budget"]
     rows = []
     run_ep = ep * 100_000 + seed
     for pol in build_suite(losses.shape[0], budget, CONTRACT["cs"], CONTRACT["cq"],
@@ -145,7 +152,7 @@ def main(argv=None):
         if a.kind == "synthetic":
             jobs += [("synthetic", r, 0, s, a.seed_base, names) for s in range(a.seeds)]
         else:
-            K = np.load(LOSS_DIR / f"{r}.npz")["l0"].shape[0]
+            K = np.load(_loss_file(r))["l0"].shape[0]
             jobs += [("real", r, e, s, a.seed_base, names) for e in range(K) for s in range(a.seeds)]
     out = Path(a.out)
     out.mkdir(parents=True, exist_ok=True)

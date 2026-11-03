@@ -128,3 +128,63 @@ most for the three cases whose intervals are seed-level (spam, weather, occupanc
 **not** improve episode-level power: a second seed batch on a K=1 stream still has one episode.
 The power caveat in the main table stands unchanged, and a fresh seed batch must never be
 presented as additional episodes.
+
+## Sensitivity across configurations (goal section 8), and a falsifiable test of the mechanism
+
+`P7s - P3b` paired net-cost difference. S0 is primary (`B=200`, `c_q=0.05`, `c_s=5`);
+S1 `B=400`; S2 `c_s=20`; S3 double delay; S4 `c_q=0.10`. Method frozen throughout.
+
+| Case | S0 | S1 (`B=400`) | S2 (`c_s=20`) | S3 (2x delay) | S4 (`c_q=0.10`) |
+|---|---:|---:|---:|---:|---:|
+| spam | -6.661 | **-15.624** | -6.661 | -6.183 | -13.323 |
+| rialto | -5.310 | -5.432 | -5.310 | -4.137 | -10.619 |
+| weather | -3.200 | -5.881 | -3.200 | -3.171 | -6.399 |
+| openml_ldpa | -4.428 | **-11.476** | -5.292 | not run | -7.729 |
+| uci_occupancy | -1.008 | -2.795 | -1.008 | not run | -2.015 |
+
+Every entry is negative: the method improves on P3b in **every case at every configuration
+tested**, 23 of 23.
+
+### The mechanism makes two exact predictions. Both were tested.
+
+If the entire gain is the query-cost term `c_q N_q`, then the difference must be **invariant to
+`c_s`** and **exactly proportional to `c_q`**.
+
+| Case | S0 -> S2 (`c_s` x4) | S0 -> S4 (`c_q` x2) | verdict |
+|---|---|---|---|
+| spam | -6.661 -> -6.661 | -6.661 -> -13.323 (x2.000) | **holds exactly** |
+| rialto | -5.310 -> -5.310 | -5.310 -> -10.619 (x2.000) | **holds exactly** |
+| weather | -3.200 -> -3.200 | -3.200 -> -6.399 (x2.000) | **holds exactly** |
+| uci_occupancy | -1.008 -> -1.008 | -1.008 -> -2.015 (x2.000) | **holds exactly** |
+| openml_ldpa | -4.428 -> **-5.292** | -4.428 -> -7.729 (**x1.745**) | **fails** |
+
+The prediction holds to the displayed precision on the four cases where deployment behaviour is
+identical to P3b, and **fails on openml_ldpa** -- the one case where the gate changes deployment
+behaviour (section 12 of `B3_PLUS_RESULTS.md`). The failure is therefore *predicted* by the
+earlier finding rather than anomalous: on ldpa part of the difference is deployment loss and
+switch cost, which do not scale with `c_q` and do respond to `c_s`.
+
+This is the strongest internal evidence in the programme. A fitted effect would not reproduce an
+exact scaling law on four datasets and then break on precisely the one dataset independently
+shown to violate its premise.
+
+### S1 is the configuration where the method matters most
+
+Raising the budget to 400 roughly doubles to triples the gain on spam (-15.62), ldpa (-11.48) and
+occupancy (-2.80), because a larger budget is simply more spend for P3b to squander after the
+decision is settled: on spam P3b uses all 400 labels while P7s uses 87.5.
+
+**rialto is the instructive exception** (-5.310 -> -5.432, essentially unchanged). Its
+disagreement rate caps queries at about 165 even when 400 are available, so the budget never
+binds and there is no extra waste to remove. The benefit therefore scales with *unspent budget
+that P3b would otherwise consume*, not with the budget nominally granted. That is a sharper
+statement of the mechanism than "saves labels", and it predicts where the method will and will
+not help.
+
+### S3 (double delay)
+
+Gains persist and shrink slightly (spam -6.18, rialto -4.14, weather -3.17), with labels rising
+(rialto 53.0 -> 76.4). A longer delay postpones the released evidence that lets the gate conclude
+the decision is settled, so the policy spends longer at the paced rate. The method is not
+excessively delay-sensitive. S3 was not run for the two new cases, and that is recorded rather
+than interpolated.

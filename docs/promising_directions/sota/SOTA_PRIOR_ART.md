@@ -144,3 +144,45 @@ Either way the next step is the same: **implement the three missing comparators 
 Nothing should be drafted until we know whether our rule beats a certificate-triggered stop.
 
 The gate file stays at `IN PROGRESS — SOTA GATE NOT MET`.
+
+---
+
+## 7. Scope correction, made precise (added after the Sawade port)
+
+Our original claim was "these methods collapse to disagreement-gated sampling". Sawade's hedge
+(a calibrated `p(y|x)` keeps `q*` instance-dependent) forced a correction, and implementing his
+Derivation 4 made it exact.
+
+**A bound not stated in the paper**, derived while porting and checked by test: on the
+disagreement region the normalised sampling weight satisfies
+
+    1 - |Delta_theta|  <=  q~(x)  <=  1 + |Delta_theta|
+
+where `Delta_theta` is the introspective risk difference between the two models. So a calibrated
+posterior can reweight two disagreement points **by at most `(1+|Delta|)/(1-|Delta|)`**. The
+collapse is exact only at `Delta_theta = 0` or under an uninformative posterior.
+
+**Measured on synthetic streams** (T=1500, B=150, delay 3; no real data was touched):
+
+| Regime | `Delta_theta` | spread on disagreement | analytic bound | Jaccard vs `active!=` | Jaccard between two `active!=` runs | calibrated queries on agreement |
+|---|---:|---:|---:|---:|---:|---:|
+| close models (.78/.72) | -0.057 | 1.117 | 1.122 | 0.322 | 0.357 | 9.3% |
+| far models (.90/.55) | -0.341 | 1.945 | 2.035 | 0.146 | 0.284 | 32.0% |
+
+The close-models row is the one that matters. The calibrated sampler's overlap with `active!=`
+(0.32) is **no lower than the overlap between two `active!=` runs differing only in their coin
+flips** (0.36). When the models are close — the regime where a deployment decision is actually
+difficult — calibration buys nothing distinguishable from resampling noise.
+
+In the far-models regime calibration does change the sample, but a third of its queries land on
+**agreement** events whose paired loss difference is identically zero, and that is also the regime
+where the decision is easy.
+
+**Required wording from now on.** Not "collapses to disagreement-gated sampling", but:
+
+> collapses to disagreement-gated sampling **to within a factor `(1+|Delta_theta|)/(1-|Delta_theta|)`**,
+> exactly so when `Delta_theta = 0` or the posterior is uninformative.
+
+This is narrower than what we claimed and better than what we could have defended. The
+agreement-region querying is a separate effect and must be reported separately rather than folded
+into the collapse.

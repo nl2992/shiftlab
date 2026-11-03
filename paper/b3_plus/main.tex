@@ -102,7 +102,7 @@ time. \textbf{Decide}: promote when $\log W_t\ge\log(1/\alpha)$, roll back by th
 effective from $t+1$. Figure~\ref{fig:method} shows the loop and Algorithm~\ref{alg:main} states
 it; the objective throughout is the realised net cost of Eq.~\eqref{eq:netcost}.
 
-\begin{figure*}[t]
+\begin{figure*}[!t]
 \centering
 \includegraphics[width=\textwidth]{figures/fig1_method.png}
 \caption{Acquisition is withheld only where no label can change the deployed action. Each event
@@ -174,7 +174,7 @@ new cases come from candidates added after that queue was exhausted. These figur
 unbiased success rate, and the method was not evaluated only on these five.
 
 \section{Main Results}\label{sec:results}
-\begin{table*}[t]\centering\small
+\begin{table*}[!t]\centering\small
 \input{tables/table1_main}
 \caption{Net cost per episode at the primary configuration. $\dagger$ marks cases whose interval
 is a seed-level bootstrap ($K<5$), which measures query-randomisation variance and not episode
@@ -182,7 +182,7 @@ variance. Only \texttt{rialto} and \texttt{openml\_ldpa} are properly powered.}
 \label{tab:main}
 \end{table*}
 
-\begin{figure*}[t]
+\begin{figure*}[!t]
 \centering
 \includegraphics[width=0.92\textwidth]{figures/fig2_netcost.png}
 \caption{The proposed policy is cheapest on four of the five cases, and \textsf{P6} is cheapest on
@@ -200,7 +200,7 @@ therefore claim an improvement \emph{on the certified procedure}, in the regime 
 is appropriate, and not that our policy is the best available.
 
 \section{Mechanism and Ablations}\label{sec:ablation}
-\begin{table*}[t]\centering\small
+\begin{table*}[!t]\centering\small
 \input{tables/table3_ablation}
 \caption{Ablation at the primary configuration; $\Delta$ is the paired difference against
 \textsf{P3b}. The \textsc{hopeless} gate alone changes nothing on these streams, because it fires
@@ -227,12 +227,12 @@ on \texttt{spam}, \texttt{rialto}, \texttt{weather} and \texttt{uci\_occupancy},
 reproduce an exact scaling law on four datasets and break on precisely the dataset independently
 shown to violate its premise.
 
-\begin{table*}[t]\centering\small
+\begin{table}[t]\centering\footnotesize
 \input{tables/table2_sensitivity}
 \caption{Paired difference by configuration. Dashes mark configurations not run rather than
 interpolated values.}
 \label{tab:sens}
-\end{table*}
+\end{table}
 
 Table~\ref{tab:sens} shows the benefit scales with \emph{unspent budget the incumbent would
 otherwise consume}, not with the budget granted: raising $B$ to $400$ doubles to triples the gain

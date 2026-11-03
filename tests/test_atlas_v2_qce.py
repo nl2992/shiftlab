@@ -74,3 +74,28 @@ def test_smcs_and_xu_qce_run_and_keep_wealth_positive():
                           label_price=0.05, switch_cost=5, trace=False)
         assert res.requested_labels <= 150
     assert pol.min_factor > 0
+
+
+def test_strong_hosts_and_qsg_null_and_power():
+    from qsg import QSG, QSGEnvelope
+    from strong_hosts import DiscernDesignFloor, GatedAdaptiveRange
+
+    makers = [lambda s: GatedAdaptiveRange(800, 120, 0.05, rng=np.random.default_rng(s)),
+              lambda s: DiscernDesignFloor(800, 120, 0.05, rng=np.random.default_rng(s)),
+              lambda s: QSG(800, 120, 0.05, rng=np.random.default_rng(s)),
+              lambda s: QSGEnvelope(800, 120, 0.05, rng=np.random.default_rng(s))]
+    for mk in makers:
+        fp = 0
+        for s in range(30):
+            preds, labels = _stream(0.5, T=800, seed=500 + s)
+            pol = mk(s)
+            res = run_episode(pol, model_predictions=preds, labels=labels, delay=3, budget=120,
+                              label_price=0.05, switch_cost=5, trace=False)
+            assert res.requested_labels <= 120
+            fp += int(res.deployment_switches > 0)
+        assert fp <= 4  # nominal .05 over 30 reps; loose
+    preds, labels = _stream(0.85, T=800, seed=7)
+    pol = QSG(800, 200, 0.05, rng=np.random.default_rng(0))
+    run_episode(pol, model_predictions=preds, labels=labels, delay=3, budget=200,
+                label_price=0.05, switch_cost=5, trace=False)
+    assert pol.deployed == 1

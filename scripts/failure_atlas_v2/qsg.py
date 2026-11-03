@@ -9,9 +9,10 @@ Promotion null ``H+ : p_t <= 1/2 for every t`` (challenger never better on a dis
 under H+, because the query decision is predictable and does not read the label.
 
 Started mixture. ``E_k = sum_{p' in grid} pi(p') sum_{j <= k} w_j prod_{i=j..k} LR_{p'}(z_i)``
-with ``w_j = 1/(j(j+1))`` (sum <= 1) and a fixed discrete grid ``pi``. Each started product is a
-nonnegative supermartingale under H+, so ``E_k`` is one too and Ville gives
-``P(sup_k E_k >= 1/a) <= a``. Starting points let evidence that accrues after an early
+with ``w_j = 1/(j(j+1))`` and a fixed discrete grid ``pi``. ``E_k`` itself is not a
+supermartingale (a new start adds ``w_k``), but ``E_k + 1/(k+1)`` is a nonnegative test
+supermartingale starting at 1 under H+, since each started product is one and
+``sum_{j > k} w_j = 1/(k+1)``; Ville then gives ``P(sup_k E_k >= 1/a) <= a``. Starting points let evidence that accrues after an early
 unfavourable period count without an alpha reset (late improvement).
 
 Rollback. After promotion, the mirrored started mixture tests ``H- : p_t >= 1/2`` on outcomes
@@ -167,3 +168,78 @@ EXTRA = {
     "QSG-no_monitor": lambda T, B, cs, cq, a, d, r: QSG(T, B, a, rng=r("QSG"), monitor=False,
                                                         name="QSG-no_monitor"),
 }
+
+
+class EnvelopeMixture(StartedMixture):
+    """Started mixture against a declared Markov-persistence envelope (Atlas v1 proposal).
+
+    Null class: the disagreement-outcome sign is a Markov chain in event time with stationary
+    P(z=1) <= 1/2 (side +1) and persistence <= rho_bar. Given the previous queried outcome and the
+    event gap g, ``P(z=1 | past) <= u = 1/2 + rho_bar^g / 2`` after a favourable outcome and
+    ``<= 1/2`` otherwise. Each grid component bets only where ``p' > u``, with
+    ``LR = (p'/u)^z ((1-p')/(1-u))^(1-z)``, whose conditional mean is <= 1 for any v <= u.
+    """
+
+    def __init__(self, side=1, rho_bar=0.8, grid=GRID):
+        super().__init__(side, grid)
+        self.grid = np.asarray(grid)
+        self.rho_bar = rho_bar
+        self.prev = None  # (hit, event time)
+
+    def update_at(self, z, t):
+        self.k += 1
+        w = 1.0 / (self.k * (self.k + 1))
+        hit = z if self.side > 0 else 1 - z
+        u = 0.5
+        if self.prev is not None and self.prev[0] == 1:
+            u = 0.5 + 0.5 * self.rho_bar ** max(t - self.prev[1], 1)
+        active = self.grid > u
+        lr = np.ones_like(self.grid)
+        g = self.grid[active]
+        lr[active] = (g / u) if hit else ((1.0 - g) / (1.0 - u))
+        self.S = (self.S + w) * lr
+        self.prev = (hit, t)
+        return self.value
+
+
+class QSGEnvelope(QSG):
+    def __init__(self, *a, rho_bar=0.8, **kw):
+        self.rho_bar = rho_bar
+        super().__init__(*a, **kw)
+
+    def _new_tests(self):
+        mk = lambda s: EnvelopeMixture(s, self.rho_bar)  # noqa: E731
+        if self.deployed == 0:
+            self.e_up, self.e_dn = mk(+1), mk(-1)
+        else:
+            self.e_up, self.e_dn = None, mk(-1)
+
+    def observe(self, feedback):
+        # same as QSG.observe, but passes the issuing event time to the envelope
+        for fb in sorted(feedback, key=lambda f: f.event_id):
+            if fb.event_id < self.seg:
+                continue
+            d = int(fb.model_losses[0]) - int(fb.model_losses[1])
+            if d == 0:
+                continue
+            z, t, e = int(d > 0), fb.t_released, fb.event_id
+            if self.deployed == 0:
+                up = self.e_up.update_at(z, e)
+                dn = self.e_dn.update_at(z, e)
+                if up >= 2.0 ** self.cycle / self.alpha:
+                    self.deployed, self.decided, self.seg = 1, True, t
+                    self._new_tests()
+                elif dn >= 1.0 / self.alpha:
+                    self.decided = True
+            elif self.rollback and self.e_dn.update_at(z, e) >= 1.0 / self.alpha_r:
+                self.deployed, self.decided, self.seg = 0, False, t
+                self.cycle += 1
+                self._new_tests()
+
+
+EXTRA.update({
+    "QSG-env8": lambda T, B, cs, cq, a, d, r: QSGEnvelope(T, B, a, rng=r("QSG"), rho_bar=0.8,
+                                                          name="QSG-env8"),
+    "QSG-env95": lambda T, B, cs, cq, a, d, r: QSGEnvelope(T, B, a, rng=r("QSG"), rho_bar=0.95,
+                                                           name="QSG-env95"),
+})

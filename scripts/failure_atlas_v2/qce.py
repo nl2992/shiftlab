@@ -40,7 +40,6 @@ host is undecided. It is valid for the same reason (q predictable) and is report
 
 from __future__ import annotations
 
-import math
 import sys
 from pathlib import Path
 
@@ -216,7 +215,7 @@ def _smcs_front(pol):
     base = pol.acq.probability
 
     def prob(t, horizon, remaining, _b=base, _p=pol):
-        if remaining > 0 and _p.inference.members[_p.incumbent]:
+        if remaining > 0 and _p.inference.members.all():  # undecided: both still in the set
             return 1.0
         return _b(t, horizon, remaining)
 

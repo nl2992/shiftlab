@@ -118,3 +118,29 @@ below 0 in at least 4 of 6 for at least 3 of 4 hosts. Secondary: best certified 
 QSG vs the strongest published certified method (lowest mean cost among gated, DISCERN, SMCS, Xu)
 in each regime; null promotion on V_null, V_worse, V_null_dep_r5 must be <= .05 + 2 SE;
 V_null_dep_r8, V_late_600, V_reversal_1000 and V_recurrent are reported as stress regimes.
+
+## Amendment 2 (2026-11-03, after the independent discovery/algorithm review, before reading any validation row)
+
+Response to `docs/failure_atlas_v2/review_discovery_algorithm.md`:
+
+1. **Stronger comparators.** `GatedAdaptiveRange` (MOPE bet set at the predictable per-step
+   `wmax_t = 1/q_t`) and `DiscernDesignFloor` (declared `pi_min = .25`, `c = 4`) are added to the
+   validation run on the same streams (seed base 2026110399) and to the real run, with their
+   front-loaded variants. "Strongest published certified comparator" now means the lowest-cost
+   among {gated, gated_adaptive_range, DISCERN, DISCERN design floor, SMCS, Xu}. SMCS front-loading
+   now applies only while both models are in the set (was: incumbent in set).
+2. **One certification criterion, fixed now.** A policy counts as certified in validation iff its
+   promotion rate is <= .05 + 2*sqrt(.05*.95/100) = .0936 on EVERY validation null: V_null,
+   V_worse, V_null_dep_r5 and V_null_dep_r8. Amendment 1's demotion of V_null_dep_r8 to a stress
+   regime is withdrawn. Failures are reported, not re-scoped.
+3. **Primary outcome restated, not loosened.** The Amendment-1 host comparison stands; in addition
+   every change regime (V_late_600, V_reversal_1000, V_recurrent) is reported in the headline
+   table next to the stationary ones.
+4. **Real data.** Rerun at the registered seed base 2026110398 with QSG v1 and the strong re-ports.
+   Inference is episode-level only. Powered set (>= 8 episodes): openml_ldpa (32), airlines (50),
+   criteo (50), rialto (16), bank (8). spam (1), uci_occupancy (4), weather (3), elec2 (4) are
+   descriptive. The earlier `real_repair` run (discovery seed base, QSG v0) is retained as
+   development evidence only.
+5. **Framing.** M1 is attributed to the hard-budget acquisition layer that every published
+   certified method needs but none specifies (budget-feasible uniform pacing), plus a fixed
+   worst-case HT range in two ports; not to the published inference algorithms themselves.

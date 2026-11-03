@@ -91,7 +91,7 @@ def test_prpl_eb_first_step_by_hand():
     cs.update(1.0)
     assert cs.last_lam == pytest.approx(0.5)
     psi_e = -math.log(0.5) - 0.5
-    assert cs.sum_vpsi == pytest.approx(4 * (1.0 - 0.5) ** 2 * psi_e)
+    assert cs.sum_vpsi == pytest.approx(4 * (1.0 - 0.5) ** 2 * psi_e / 4.0)
     assert cs.sum_lam_w == pytest.approx(0.5)
     # lower end = (sum l W - sum v psi - ln(2/delta)) / sum l is negative, so the range clip holds
     assert cs.lo == 0.0

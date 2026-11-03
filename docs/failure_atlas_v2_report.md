@@ -7,6 +7,15 @@ result changed). Commits: `ade273f` protocol and harness, `1ee1060` development 
 [atlas](failure_atlas_v2_atlas.md), [development](failure_atlas_v2_development.md),
 [validation](failure_atlas_v2_validation.md).
 
+**Correction (2026-11-03, on integration with the parallel FLQ line in
+[failure_atlas_v2_flq/](failure_atlas_v2_flq/README.md)).** Every DISCERN-style number in this
+report, the atlas, development and validation was computed before a fidelity fix to the
+DISCERN PrPl-EB confidence sequence (the `/4` in `psi_E` was missing, inflating its variance
+penalty fourfold). DISCERN baselines here are therefore weaker than the method, and the
+DISCERN+RMM - DISCERN gains (-27.1 primary family; large real-data gains) are overstated. The
+DISCERN+RMM rows themselves use the same buggy base CS. Gated, SMCS, LRMD and every other row are
+unaffected. These runs have not been repeated with the fix.
+
 **Bottom line.** A shared failure was found and an attachable repair confirmed on the
 registered synthetic family. That result is a narrow, competitive-but-incremental improvement,
 not yet a publishable SOTA algorithm: the margin over the strongest error-controlled

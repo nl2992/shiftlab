@@ -292,3 +292,26 @@ because none of these methods is doing instance selection here.
 
 **Status: 6 of 6 mandatory competitors implemented, 5 numerically verified against author code.
 212 passed, 10 skipped, ruff clean. No comparison has been run. No performance claim exists.**
+
+---
+
+# Round 4 (Failure Atlas v2, 2026-11-03): gated deployment and DISCERN-style
+
+Neither has author code available; both are ports from the printed constructions
+(`competitors/certificate_stops.py` docstring cites the sections). Their earlier absence from this
+record was flagged by the Atlas v2 independent review.
+
+- **DISCERN-style PrPl-EB fidelity bug, fixed.** Waudby-Smith and Ramdas (arXiv:2010.09686, eq. 14)
+  define `psi_E(l) = (-log(1-l) - l)/4` together with `v_i = 4 (X_i - mu_hat)^2`. The port kept the
+  factor 4 in `v_i` but dropped the `/4`, inflating the variance penalty fourfold. Verified against
+  the extracted paper text; hand-computed test updated. After the fix: ever-miss 0.013 over 1000
+  Bernoulli(.5) streams of length 1000 at delta .05.
+- **Worst-case range is an adapter choice, not the papers'.** Both ports fixed the HT range at
+  `1/p_min = 20` (gated `wmax`, DISCERN `c`). The issue-time propensity is predictable, so tighter
+  ranges are legitimate. Two stronger readings were added (`scripts/failure_atlas_v2/strong_hosts.py`):
+  `GatedAdaptiveRange` (MOPE bet set at `wmax_t = 1/q_t`, bet recomputed before each ingestion) and
+  `DiscernDesignFloor` (declared `pi_min = .25`). In Atlas v2 validation both keep null promotion
+  at <= .01 on all four nulls and are materially cheaper than the original ports on stationary
+  alternatives. Any Atlas v2 SOTA comparison uses the stronger readings.
+- **Not verified:** no numerical comparison against author code exists for either method; gated's
+  appendix C-E constraint set and scalar betting variant were not ported (unchanged from before).

@@ -83,3 +83,57 @@ the same validation seed bases and regimes (streams are keyed by seed base, regi
 with the main run by seed). It is evaluated under H3 (vs host on change regimes) and the H1-part-1 safety
 check. The two other changes are bookkeeping: the gate re-screen of all 24 at the committed revision
 (Phase 5 traceability) and the fresh real-data protocol (`fresh_real_protocol.md`, external validation).
+
+## Amendment 2 (2026-11-03, before any validation row was read)
+This amendment responds to the milestone 1-2 review (`review_milestone12.md`). The lead confirms that no
+validation record, log line or summary had been opened when it was committed. It supersedes H1 and H2
+where they conflict. Every original metric is still reported.
+
+* **O1 (stop rule carried over; claim wording).**
+  * **H0 restores the Atlas v2 registered stop rule verbatim** (Atlas v2 report section 9):
+    * Test a persistence-robust certified variant (A5b; A1b as its density-off control) against
+      xu_acquisition_only and tuned non-uniform pacing (gated_adaptive_range+pace_tuned).
+    * Success requires promotion <= .094 at rho=.8 and rho=.95, and paired CI < 0 against the stronger
+      of the two baselines on >= 4 of the 6 stationary alternatives {V_better_a, V_better_b, V_better_c,
+      V_dep_better_r5, V_near, V_bursty}. **If H0 fails, no cost-SOTA claim is made for A5b.**
+  * The H1 claim no longer says "only".
+  * H1 part 2 is replaced by a Pareto statement. Every certified published comparator must either
+    (a) fail a NULL_REGIMES null, meaning point rate > .0936 and Wilson 95% lower bound > .05, or
+    (b) be cost-dominated by A5b, meaning the 95% upper bound of J(A5b) - J(comparator) is < 0 on
+    >= 3 of the 6 stationary alternatives above.
+  * Every comparator is listed with its status.
+* **O2 (class dependence).**
+  * Any safety claim names the class: a stationary first-order homogeneous Markov sign in event time,
+    with p <= 1/2 and any rho, independent of disagreement arrivals, under constant delay.
+  * Two out-of-class nulls (`ooc_regimes.py`) run descriptively at 1000 seeds, base 2026110605, for
+    every candidate and certified comparator. They are reported next to the in-class nulls; they are
+    not part of H1.
+* **O3 (bursty).**
+  * Part 3 is also reported as k/6 including V_bursty.
+  * If A5b is not non-inferior on V_bursty, the claim is restricted to Bernoulli (non-bursty)
+    disagreement arrivals.
+  * The claim states that A5b has near-zero power against persistent alternatives.
+* **O4 (harm).** Every null reports harm: mean J minus never-switch J. Promotion rate alone is not
+  treated as harm.
+* **O5 (comparators).**
+  * choe_ramdas_eb is documented as the query-conditional PrPl-EB port (= DiscernQCE); it is not
+    author code.
+  * The betting-CS query-conditional ports gated_deployment+QCE and gated_deployment+QCE+front join the
+    certified comparator class as a supplemental run on the same seeds.
+  * The IPW betting form is discern_style/gated_adaptive_range (already in the class).
+  * Waudby-Smith et al. 2022 is NOT implemented, a recorded gap.
+  * RESULTS.md's statement about rho=.95 is corrected.
+* **O6 (X_A5C).** X_A5C may be claimed only if it beats A5b (paired CI < 0) on its targeted regimes
+  V_late_600 and W_late_1000.
+* **O8.** H1 part 1 uses the Wilson 95% upper bound <= .0936, not the point estimate.
+* **O9.**
+  * H1 parts 1/3 and H2 are evaluated for X_A5C and B5 as well.
+  * H2 success for a candidate = Holm-adjusted p < .05 on >= 4 of 5 iid alternatives AND H1 part 1
+    safety.
+* **O10, O12, O13, O14 (recorded caveats).**
+  * O10: the Family C held-out seeds share the null-check base and were used to pick C6.
+  * O12: four of the five part-3 regimes were exposed in Atlas v2, although with other seeds.
+  * O13: B2 and Family C constants come from generator design knowledge.
+  * O14: D's host-AND is inert.
+* **O11.** B5 is advanced only to satisfy Phase 6's two-per-family requirement; Family B recommended
+  stopping it.

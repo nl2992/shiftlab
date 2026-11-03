@@ -42,7 +42,10 @@ and not searched. The 300-seed nulls ran after this and nothing was tuned on the
 | discern_design_floor | 413.7 | 417.2 | 416.2 | 413.4 | 390.2 | 390.8 | 0 | .25 | 0 |
 | CONTROL_never_switch | 426.8 | 422.9 | 414.0 | 430.8 | 424.1 | 419.7 | 0 | 0 | 0 |
 
-On 20 seeds, no certified published comparator stays at 0 on the rho=.95 null (best: .25). Each
+On 20 seeds, no certified published comparator *run in this screen* stays at 0 on the rho=.95 null (best: .25).
+**Correction (lead, after the milestone 1-2 review, O5):** discern_style (corrected DISCERN) was not in
+this screen. In other dev screens it holds 0/20 on both Markov nulls because it almost never promotes,
+so the earlier unqualified wording was false. Each
 point estimate is a screening diagnostic only.
 
 Paired contrasts against the best certified published comparator, chosen per regime (95% t-CI):

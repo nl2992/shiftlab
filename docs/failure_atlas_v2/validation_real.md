@@ -1,6 +1,6 @@
 # Failure Atlas v2: real-data validation
 
-Seed base 2026110398, 10 policy seeds per episode, QSG v1, strong re-ports included. Episode-level paired bootstrap (seeds averaged within episode). Powered: >= 8 episodes. The nine cached streams were exposed to earlier ShiftLab work (B3/B3+) but not to the development of this repair.
+Seed base 2026110398, 10 policy seeds per episode, QSG v1, strong re-ports included. Episode-level paired bootstrap (seeds averaged within episode). Powered: >= 8 episodes. The nine cached streams were exposed to earlier ShiftLab work (B3/B3+) AND to a development run of this repair (`outputs/failure_atlas_v2/real_repair`, FLQ and QSG v0); they are not independent evaluation data. 10 policy seeds (contract: 20). openml_ldpa's QSG result is driven by one episode (see review_audit_claim.md).
 
 ## Repaired minus host (episode-level)
 

@@ -3,7 +3,7 @@
 2026-11-03. Branch `claude/dazzling-wilbur-a3e951` (merges `research/b3-generalisation-icml` and
 `research/atlas-local-checkpoint-2026-11-01`; all v1 and SOTA-programme results and stopped
 verdicts are preserved untouched). Protocol: [../failure_atlas_v2_protocol.md](../failure_atlas_v2_protocol.md)
-with Amendments 1-2. Status: **scoped empirical result; not a universal or strict-criterion SOTA.**
+with Amendments 1-2. Status: **no SOTA result under the registered criteria.** A useful benchmark and a mechanism finding; the repair's gains are bought by failing the registered dependence-safety criterion (final audit: [review_audit_claim.md](review_audit_claim.md)).
 
 ## 1. What was run
 
@@ -67,7 +67,7 @@ Controlled evidence: with the stream fixed, gated promotes on 7% of F0_better st
 
 Full tables: [validation_synthetic.md](validation_synthetic.md), [validation_real.md](validation_real.md).
 
-**Primary registered outcome (Amendment 1): MET.** Repaired minus host, paired CI below 0 on the
+**Amendment-1 host-vs-repair outcome: met** (registered after development showed where front-loading wins; the original protocol primary claim, which also required three powered real wins and no null above the bound, FAILS). Repaired minus host, paired CI below 0 on the
 six stationary validation alternatives: gated 6/6 (-6.6 to -123.9), DISCERN 6/6 (-7.3 to -127.7),
 SMCS 5/6 (-5.0 to -45.5), Xu 5/6 (-9.9 to -32.3); on the strong gated re-port 6/6 (-6.2 to -93.3);
 on the strong DISCERN re-port 0/6 (front-loading hurts it, +0.4 to +15.9).
@@ -91,28 +91,36 @@ seeds, SMCS included although it fails the strict criterion):
 | V_recurrent | -1.5 [-6.1,+3.0] (tie) |
 | nulls | +0.2 to +0.7 (label spend); V_null_dep_r8 +5.1 and promotion .32 |
 
-**Real data** (episode-level): QSG beats the strongest published certified method on openml_ldpa
-(-15.7 [-37.5,-0.6], K=32) and rialto (-3.1 [-3.9,-2.1], K=16); ties on airlines, criteo, bank
-(budget non-binding or switching worthless); point improvements on low-power spam (-25.5, K=1),
-uci_occupancy (-17.9, K=4), weather (-3.0, K=3). Two powered real wins, not five.
+**Real data** (episode-level; streams previously exposed, including a development run of the
+repair): QSG vs the strongest published certified method is robust only on rialto (-3.1
+[-3.9,-2.1], 15/16 episodes, p=7e-6). openml_ldpa (-15.7 [-37.5,-0.6]) is driven by one episode
+(-290.6); without it -6.9 [-15.5,+1.6] (t-test p=.12). Ties on airlines, criteo, bank; point
+improvements on low-power spam, uci_occupancy, weather. Real validation used 10 policy seeds, not 20.
+
+**Strictly certified variants are not better.** The QCE-only variants that pass the registered
+criterion (gated+QCE .04, DISCERN+QCE .03, Xu+QCE .05) tie Xu acquisition-only on 4/6 stationary
+regimes, win V_bursty (-3.8) and lose V_dep_better_r5 (+2.2) and V_near (+1.3).
 
 **Against uncertified methods** no certified variant matches their cost on clear advantages (e.g.
 V_better_a best uncertified 370.6 vs QSG 408.2), while they lose by 9-23 on null cells.
 
-## 6. Exact SOTA positioning
+## 6. Exact positioning (revised after the final audit)
 
-What the evidence supports: *Among methods with an anytime false-promotion guarantee under the
-pointwise conditional null, front-loaded query-conditional certification (FLQ, and QSG as its
-standalone form) lowers net deployment cost relative to the strongest published certified
-comparator by 7-48 per 2000-event episode on stationary or weakly dependent (rho <= .5)
-alternatives under a binding label budget (B < D T), with null promotion <= .04 on independent and
-rho=.5 nulls; confirmed on fresh synthetic seeds and on two powered real streams.*
+> On fresh synthetic seeds under a binding budget, front-loaded acquisition with query-conditional
+> evidence lowered net cost relative to the original host for every certified host except the strong
+> DISCERN re-port, and QSG beat every published certified-method port by 7-48 per 2000 events on 5 of
+> 6 stationary alternatives (Holm-adjusted), at the price of failing the registered false-promotion
+> criterion under rho=.8 persistence (.32 vs .094), regressing on late-onset (+8) and reversal (+33)
+> regimes, and losing to uncertified methods and the economic-replacement control (+10 to +41).
+> Variants that meet the registered criterion are not better than Xu acquisition-only. On real data,
+> one previously exposed stream (rialto) shows a small robust gain (-3.1).
 
-What it does not support: universal SOTA; safety under strong persistence (rho >= .8); late-onset or
-reversal regimes (QSG is worse, +8 and +33); beating uncertified methods on cost; non-binding
-budgets (no effect); novelty of the ingredients (front-loading is DISCERN with pi=1, QCE is a
-sequential sign test on discordant pairs, started mixtures are e-detector style). The contribution
-is an empirically isolated, attachable acquisition/evidence repair and its operating region.
+This is **not a SOTA claim**: the cost gain is obtained by trading away the strong-dependence safety
+that certification exists to provide. Comparators are ports (the strong gated/DISCERN readings are our
+re-ports), not author code. Novelty is low (front-loading = DISCERN with pi=1; QCE = sequential sign
+test on discordant pairs; started mixture ~ e-detectors). What stands: the atlas and harness, the
+two-family failure map (latency vs churn), the mechanism (uniform pacing under a binding budget), the
+DISCERN port fidelity fix, and the recorded negative results.
 
 ## 7. Reviews
 
@@ -136,8 +144,14 @@ re-ports added in the following commit).
 
 ## 9. Continue / pivot / stop
 
-**Continue, narrowed.** The repair is real and transfers across four certified hosts, but it is
-bounded by the dependence-safety failure and the late/reversal regressions. Next bounded step: a
+**Pivot: stop the SOTA framing.** Keep the atlas/harness as a benchmark and negative-result contribution. The repair is real and transfers across four certified hosts, but it is
+bounded by the dependence-safety failure and the late/reversal regressions. If continued, run one locked fresh-seed test (per the final audit): a
+persistence-robust certified variant vs Xu acquisition-only and tuned non-uniform pacing baselines, success = promotion <= .094 at rho=.8 and .95 and CI<0 on >= 4/6 stationary alternatives; stop if it fails. Candidate: a
 dependence-aware density control (sampling gap tied to a declared or estimated persistence) that
 keeps most of FLQ's speed; the declared-envelope attempt showed the naive version loses the gain.
+An exploratory dev-seed probe after validation (`outputs/failure_atlas_v2/dev_gap_probe`, not a
+claim) found the same trade for simple thinning: a minimum gap of 6 events between front-loaded
+queries cuts QSG's rho=.8 null promotion from .24 to .04 but raises F0_better cost from 356.5 to
+378.4 (SMCS 380.6) and bursty cost from 361.0 to 405.9. Safety under persistence and front-loaded
+speed currently trade almost one-for-one.
 Fresh independent real datasets (not previously exposed) are needed for a confirmatory real claim.

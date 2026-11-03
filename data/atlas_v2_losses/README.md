@@ -22,5 +22,5 @@ SHA256 at copy time:
     dd7472f433e1081257c65833244a8ae2509b4e001a499fb4c2cb7b3f1c1aa88f  uci_occupancy.npz
     d06e40a08902209ff48a3850c0d81b3b80ed85caba75670e90ff365d27e388d4  weather.npz
 
-All nine were already exposed to the B3/B3+ programmes. They were not used to develop the Atlas v2
-repair (developed on synthetic dev seeds only), but they are not independent of earlier ShiftLab work.
+All nine were already exposed to the B3/B3+ programmes, and to the Atlas v2 development run
+`real_repair` (FLQ, QSG v0). They are not independent evaluation data for the Atlas v2 repair.

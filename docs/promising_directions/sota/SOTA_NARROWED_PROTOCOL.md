@@ -80,3 +80,33 @@ idea, or to the acquisition collapse. All are prior art and will be cited as suc
   retains instance information, and we will say so.
 - `SOTA_COMPLETION_GATE.json` keeps its original meaning. This protocol does not redefine the
   gate; it defines the condition under which we stop trying to meet it.
+
+---
+
+## Amendment 2026-11-03: `best_certificate_stop` is **GatedDeploymentStop**
+
+Made **before any comparison involving our method was run**, on the basis of
+comparator-versus-comparator behaviour only. It makes the test harder for us, not easier.
+
+Both certificate comparators are implemented and tested (coverage holds at every time; 200 runs
+of 500 events gave **0 misses for both**, so both are conservative). But they are not equally
+strong, and the weaker one is weak for a reason internal to its own design:
+
+- **GatedDeploymentStop** (Karampatziakis, Mineiro & Ramdas) stopped after a median of **36**
+  labels at `rho=0.3, p=0.9`, and **87** at `p=0.75`.
+- **DiscernStyleStop** used **480** on the same stream, because DISCERN's own
+  `c = B/pi_min` range for the Horvitz-Thompson increment is far wider than the weights actually
+  realised, so the empirical-Bernstein sequence wastes range. Median labels fall from 480 at
+  `p_min = 0.05` to 209 at `p_min = 0.2` — the range, not the evidence, is the binding constraint.
+
+Gated never lost to DISCERN-style in any configuration run.
+
+**Therefore `best_certificate_stop` in section 3 means `GatedDeploymentStop`.** Beating only the
+DISCERN-style comparator does **not** satisfy the rule and will not be reported as if it did.
+Both are still reported.
+
+Two further constraints recorded now rather than discovered later:
+- A single `p_min` must be fixed on development data and used for **both** acquisition and the
+  increment range, so the comparison cannot be flattered by widening DISCERN's range.
+- `eps > 0` lets DISCERN-style promote a challenger certified only as "not worse by more than
+  eps". That is its semantics, not a defect, and any comparison must state the `eps` used.

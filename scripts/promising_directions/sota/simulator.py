@@ -148,6 +148,16 @@ def run_episode(
     n_models = int(model_predictions.shape[1])
     if labels.shape[0] != horizon:
         raise ValueError("labels and model_predictions disagree on horizon")
+    if delay < 1:
+        # Releases are drained at the START of an event, before that event's act, so a request
+        # filed at t with delay 0 would land in a slot already passed and never be delivered:
+        # the policy would silently never learn. Within one event everything is already decided
+        # by the time the label exists, so delay 0 has no meaning in this loop. Immediate
+        # feedback -- the label of event t usable for event t+1 -- is delay = 1.
+        raise ValueError(
+            f"delay must be >= 1 (got {delay}); immediate feedback is delay=1, since a label "
+            "cannot inform the event it belongs to"
+        )
 
     deployed = int(initial_model)
     remaining = int(budget)

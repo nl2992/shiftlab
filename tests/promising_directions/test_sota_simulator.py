@@ -190,3 +190,25 @@ def test_policy_rngs_are_independent_and_reproducible():
     b = policy_rng(11, 3, "model_picker").random(5)
     assert np.array_equal(a1, a2)
     assert not np.array_equal(a1, b)
+
+
+def test_delay_zero_is_refused_rather_than_silently_losing_labels():
+    """Regression: delay=0 queued a release into a slot already drained, so no label ever
+    reached the policy and a learner silently never learned. Two independent ports hit this."""
+    preds, labels = toy(T=20)
+    with pytest.raises(ValueError, match="delay must be >= 1"):
+        run_episode(
+            AlwaysAsk(), model_predictions=preds, labels=labels, delay=0, budget=20,
+            label_price=0.05, switch_cost=5.0,
+        )
+
+
+def test_delay_one_is_immediate_feedback_and_does_deliver():
+    preds, labels = toy(T=20)
+    p = AlwaysAsk()
+    run_episode(
+        p, model_predictions=preds, labels=labels, delay=1, budget=20,
+        label_price=0.05, switch_cost=5.0,
+    )
+    assert len(p.seen) > 0
+    assert all(f.t_released == f.t_requested + 1 for f in p.seen)

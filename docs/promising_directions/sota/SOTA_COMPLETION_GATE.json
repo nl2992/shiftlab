@@ -1,0 +1,15 @@
+{
+  "gate_status": "IN PROGRESS - SOTA GATE NOT MET",
+  "updated_utc": "2026-11-03",
+  "objective": "five real-data cases beating every mandatory applicable competitor on net_cost",
+  "net_cost": "prediction_loss + label_price * requested_labels + switch_cost * deployment_switches",
+  "confirmed_winning_cases": 0,
+  "cases_required": 5,
+  "sources_verified": 9,
+  "sources_fabricated": 0,
+  "competitors_implemented": 0,
+  "competitors_required": 6,
+  "applicability_reports_done": 0,
+  "applicability_reports_required": 3,
+  "notes": "Prior B3_PLUS results compare against P3b and P6 only and do not count toward this gate."
+}

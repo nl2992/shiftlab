@@ -1,0 +1,49 @@
+{
+  "dataset_id": "trec07",
+  "status": "USELESS_NO_HEADROOM",
+  "reason": "dev-window headroom precheck failed, locked window never read: option B (LR 15-30%): disagree=0.0099, inc=0.0281, chal=0.0228, adv*T=10.70 (needs > 5.0)",
+  "timestamps": {
+    "registered_at_utc": "2026-11-02T23:26:12.742093+00:00",
+    "downloaded_at_utc": "2026-11-02T23:28:56.072456+00:00",
+    "loaded_at_utc": "2026-11-02T23:33:05.534654+00:00",
+    "validated_at_utc": "2026-11-02T23:33:05.572536+00:00",
+    "pair_selected_at_utc": "2026-11-02T23:33:18.480797+00:00"
+  },
+  "screening": {
+    "stage": "headroom_precheck",
+    "options": [
+      [
+        "B",
+        {
+          "dev_rows": 22626,
+          "disagree": 0.00994431185361973,
+          "inc_err_dev": 0.0281092548395651,
+          "chal_err_dev": 0.02276142490939627,
+          "adv_per_event": 0.005347829930168833,
+          "adv_times_T": 10.695659860337665,
+          "cs": 5.0,
+          "T": 2000,
+          "cond_disagree_ge_0.02": false,
+          "cond_challenger_better": true,
+          "cond_adv_T_gt_cs": true,
+          "passes": false
+        }
+      ]
+    ],
+    "last_option_dev": {
+      "dev_rows": 22626,
+      "disagree": 0.00994431185361973,
+      "inc_err_dev": 0.0281092548395651,
+      "chal_err_dev": 0.02276142490939627,
+      "adv_per_event": 0.005347829930168833,
+      "adv_times_T": 10.695659860337665,
+      "cs": 5.0,
+      "T": 2000,
+      "cond_disagree_ge_0.02": false,
+      "cond_challenger_better": true,
+      "cond_adv_T_gt_cs": true,
+      "passes": false
+    },
+    "binarisation_rule": "class0_vs_rest"
+  }
+}

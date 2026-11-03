@@ -127,6 +127,18 @@ REGISTRY: dict[str, dict[str, ComponentInfo]] = {
                 pending_cap=ParamSpec(2, 1, 2, "int"),
                 keepalive_mult=ParamSpec(4.0, 1.0, 16.0),
             ),
+            _c(
+                "dss",
+                "Delay-aware, dependence-safe straddle (Amendment 8): straddle plus a minimum "
+                "inter-query gap; if delay_switch and d >= P*T/(B+P) (P = pending cap), the "
+                "uniform calendar is used instead.",
+                margin=ParamSpec(0.15, 0.01, 0.5),
+                burst_frac=ParamSpec(0.1, 0.0, 0.5),
+                pending_cap=ParamSpec(2, 1, 2, "int"),
+                keepalive_mult=ParamSpec(4.0, 1.0, 16.0),
+                gap=ParamSpec(1, 1, 1000, "int"),
+                delay_switch=ParamSpec(True, None, None, "bool"),
+            ),
         )
     },
     "evidence": {
@@ -232,6 +244,8 @@ def _norm_value(spec: ParamSpec, v: Any) -> Any:
         return int(v)
     if spec.kind == "str":
         return str(v)
+    if spec.kind == "bool":
+        return bool(v)
     return float(v)
 
 
@@ -330,7 +344,10 @@ def validate_spec(spec: CandidateSpec) -> tuple[bool, list[str]]:
         if ps is None:
             why.append(f"param {key!r} not accepted by {slot} component {comp!r}")
             continue
-        if ps.kind == "str":
+        if ps.kind == "bool":
+            if not isinstance(v, bool):
+                why.append(f"{key}={v!r} is not a bool")
+        elif ps.kind == "str":
             if v not in ps.choices:
                 why.append(f"{key}={v!r} not in {ps.choices}")
         elif not isinstance(v, (int, float)) or not math.isfinite(v):
@@ -615,7 +632,17 @@ class ComposedMethod(Method):
         self.rb_streak = 0
         self.burst_left = 0
         self.credit = 0.0
-        self.cal = uniform_calendar(c.T, c.B, c.d) if s.acquisition == "uniform" else frozenset()
+        self.dss_uniform = False
+        if s.acquisition == "dss":  # delay switch: fixed by (T, B, d, P), never by data
+            P = self._p("acquisition", "pending_cap")
+            self.dss_uniform = bool(
+                self._p("acquisition", "delay_switch") and c.d >= P * c.T / (c.B + P)
+            )
+        self.cal = (
+            uniform_calendar(c.T, c.B, c.d)
+            if s.acquisition == "uniform" or self.dss_uniform
+            else frozenset()
+        )
         self.rng = np.random.default_rng([c.seed, 778])
         self.design = None
         if s.evidence == "weighted_starts":  # fixed from the config and the schedule, not data
@@ -623,7 +650,7 @@ class ComposedMethod(Method):
                 self._p("acquisition", "reserve_frac") if s.acquisition == "reserve_pacing" else 0.2
             )
             self.design = weighted_start_design(s.acquisition, c, rf)
-        if s.acquisition == "straddle":
+        if s.acquisition in ("straddle", "dss"):
             self.keepalive = max(
                 c.d + 1, math.ceil(self._p("acquisition", "keepalive_mult") * c.T / max(c.B, 1))
             )
@@ -687,7 +714,7 @@ class ComposedMethod(Method):
         if self.burst_left > 0 and len(self.pending_events) < 2 and self.can_query(t):
             self.burst_left -= 1
             return True
-        if s.acquisition == "uniform":
+        if s.acquisition == "uniform" or self.dss_uniform:
             return t in self.cal
         if s.acquisition == "bernoulli_pacing":
             return bool(self.rng.random() < c.B / c.T)
@@ -702,7 +729,13 @@ class ComposedMethod(Method):
                 self.credit -= 1.0
                 return True
             return False
-        # straddle
+        # straddle (and DSS, which adds the minimum gap)
+        if (
+            s.acquisition == "dss"
+            and self.used > 0
+            and t - self.last_query < self._p("acquisition", "gap")
+        ):
+            return False
         margin = self._p("acquisition", "margin")
         if self.act == 0:
             ben = self._ben(self.ep_labels, self.m)
@@ -1147,6 +1180,54 @@ def _duration_onset_specs() -> list[CandidateSpec]:
     ]
 
 
+DSS_SOURCE_ID = "b1a17927d9ad"  # the straddle candidate DSS extends
+
+
+def dss_spec(
+    gap: int, delay_switch: bool = True, base: CandidateSpec | None = None
+) -> CandidateSpec:
+    """DSS: ``base`` (default ``b1a17927d9ad``) with its straddle acquisition replaced by ``dss``.
+
+    All other params (evidence, memory, decision, ``g.focus``) are those of ``base``. Add, don't modify:
+    ``base`` and its spec id are untouched.
+    """
+    if base is None:
+        base = next(
+            sp
+            for ax in ("onset", "duration", "s", "d", "budget_frac", "effect", "rate", "unknown")
+            for sp in propose_candidates(ax, max_n=60)
+            if sp.spec_id == DSS_SOURCE_ID
+        )
+    keep = {k: v for k, v in base.params if not k.startswith("acquisition.")}
+    st = {k: v for k, v in base.params if k.startswith("acquisition.")}
+    keep.update(st)
+    keep["acquisition.gap"] = int(gap)
+    keep["acquisition.delay_switch"] = bool(delay_switch)
+    return replace(
+        base,
+        acquisition="dss",
+        params=keep,
+        hypothesis=f"DSS (gap={gap}, delay_switch={delay_switch}): " + base.hypothesis,
+    )
+
+
+def dss_ablations(spec: CandidateSpec) -> dict[str, CandidateSpec]:
+    """Ablation variants of a DSS spec: no delay switch, gap = 1, and uniform acquisition."""
+    if spec.acquisition != "dss":
+        raise ValueError("not a DSS spec")
+    p = dict(spec.params)
+
+    def variant(tag: str, **ch) -> CandidateSpec:
+        q = {**p, **{f"acquisition.{k}": v for k, v in ch.items()}}
+        return replace(spec, params=q, hypothesis=f"Ablation ({tag}): " + spec.hypothesis)
+
+    return {
+        "no_switch": variant("no delay switch", delay_switch=False),
+        "gap1": variant("gap = 1", gap=1),
+        "uniform": ablation_of(spec, "acquisition"),
+    }
+
+
 def propose_candidates(mechanism_axis: str, max_n: int = 40) -> list[CandidateSpec]:
     """Failure-conditioned proposals for an isolated axis, each followed by its ablation partner.
 
@@ -1183,6 +1264,8 @@ __all__ = [
     "build_candidate",
     "default_spec",
     "differing_slots",
+    "dss_ablations",
+    "dss_spec",
     "propose_candidates",
     "validate_spec",
     "weighted_start_design",

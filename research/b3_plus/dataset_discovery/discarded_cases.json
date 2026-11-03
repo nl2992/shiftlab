@@ -1,0 +1,1125 @@
+[
+  {
+    "dataset_id": "insects_abrupt_balanced",
+    "family": "insects",
+    "source": "river.datasets.Insects(variant='abrupt_balanced') / USP DS repository",
+    "url": "https://drive.google.com/uc?export=download&id=1WQoIuuVgiuXfzv4kvao6XuLQG37V923O&confirm=t",
+    "domain": "insect species from optical wingbeat sensor, drift induced by temperature",
+    "n_rows": 52848,
+    "declared_delay": {
+      "value": 100,
+      "basis": "imposed_cap",
+      "justification": "No feedback latency is documented for this dataset in its source metadata; the audit rule (delay in events, capped at 100 so that it fits a 2,000-event episode) is applied at the cap.",
+      "declared_at_utc": "2026-11-02T23:26:12.742093+00:00"
+    },
+    "chronology": {
+      "declared_basis": "documented_order",
+      "justification": "Souza et al. 2020 release the stream in recording order; concept drift is introduced by the temperature schedule over the course of the stream. No timestamp column exists, so order is documented, not independently verifiable.",
+      "time_column": null,
+      "time_reliable": null
+    },
+    "status": "USELESS_NO_HEADROOM",
+    "status_reason": "condition 2 failed: mean P7s 302.10 >= mean P0 297.30; switching is not worth doing on this stream",
+    "overlap_note": "Controlled-environment sensor stream; distinct from rialto (video) and weather.",
+    "timestamps": {
+      "registered_at_utc": "2026-11-02T23:26:12.742093+00:00",
+      "downloaded_at_utc": "2026-11-02T23:28:51.694841+00:00",
+      "loaded_at_utc": "2026-11-02T23:29:25.875562+00:00",
+      "validated_at_utc": "2026-11-02T23:29:25.933484+00:00",
+      "pair_selected_at_utc": "2026-11-02T23:29:26.404983+00:00",
+      "locked_window_read_at_utc": "2026-11-02T23:29:26.405508+00:00",
+      "evaluated_at_utc": "2026-11-02T23:29:38.748447+00:00"
+    },
+    "screening": {
+      "stage": "evaluated",
+      "mean_cost": {
+        "P0": 297.3,
+        "P1": 278.3,
+        "P2": 307.00654999999995,
+        "P3b": 302.62155,
+        "P6": 294.88840000000005,
+        "P7s": 302.1011
+      },
+      "paired": {
+        "P7s_minus_P3b": {
+          "mean": -0.5204499999999769,
+          "lo": -1.2338662499999749,
+          "hi": -0.038241249999965046,
+          "bootstrap_level": "episode",
+          "low_power": false,
+          "frac_episodes_a_below_b": 0.6
+        },
+        "P7s_minus_P0": {
+          "mean": 4.801099999999987,
+          "lo": 0.6418062500000009,
+          "hi": 7.903877499999959,
+          "bootstrap_level": "episode",
+          "low_power": false,
+          "frac_episodes_a_below_b": 0.1
+        },
+        "P7s_minus_P6": {
+          "mean": 7.212699999999986,
+          "lo": 3.1791312500000064,
+          "hi": 11.786494999999972,
+          "bootstrap_level": "episode",
+          "low_power": false,
+          "frac_episodes_a_below_b": 0.1
+        },
+        "P7s_minus_P2": {
+          "mean": -4.905450000000011,
+          "lo": -9.00051624999999,
+          "hi": -1.8466637499999845,
+          "bootstrap_level": "episode",
+          "low_power": false,
+          "frac_episodes_a_below_b": 0.8
+        },
+        "P3b_minus_P0": {
+          "mean": 5.321549999999964,
+          "lo": 1.8214262499999665,
+          "hi": 8.051536249999943,
+          "bootstrap_level": "episode",
+          "low_power": false,
+          "frac_episodes_a_below_b": 0.1
+        }
+      },
+      "episodes": 10,
+      "low_power": false
+    },
+    "results_dir": "docs/promising_directions/results/b3_plus/screening/insects_abrupt_balanced"
+  },
+  {
+    "dataset_id": "trec07",
+    "family": "trec07",
+    "source": "river.datasets.TREC07 (TREC 2007 Public Spam Corpus)",
+    "url": "https://maxhalford.github.io/files/datasets/trec07p.zip",
+    "domain": "email spam filtering",
+    "n_rows": 75419,
+    "declared_delay": {
+      "value": 100,
+      "basis": "imposed_cap",
+      "justification": "No feedback latency is documented for this dataset in its source metadata; the audit rule (delay in events, capped at 100 so that it fits a 2,000-event episode) is applied at the cap.",
+      "declared_at_utc": "2026-11-02T23:26:12.742093+00:00"
+    },
+    "chronology": {
+      "declared_basis": "documented_order",
+      "justification": "The corpus is one inbox delivered 2007-04-08..2007-07-06 and distributed in arrival order (message index). The Date header is sender-controlled and forged for spam, so it is NOT used to sort; it is used only to corroborate that file order tracks time (Spearman >= 0.9 on headers inside the collection span).",
+      "time_column": "date",
+      "time_reliable": false,
+      "plausible_time_range": [
+        "2007-03-25T00:00:00Z",
+        "2007-08-10T00:00:00Z"
+      ]
+    },
+    "status": "USELESS_NO_HEADROOM",
+    "status_reason": "dev-window headroom precheck failed, locked window never read: option B (LR 15-30%): disagree=0.0099, inc=0.0281, chal=0.0228, adv*T=10.70 (needs > 5.0)",
+    "overlap_note": "Domain overlap with the existing Katakis spam stream (email spam), but a different corpus, collection period and feature space (raw text vs preprocessed bag-of-words). Counted as a distinct dataset only because it is a different source; the domain overlap must be disclosed in any table that includes both.",
+    "timestamps": {
+      "registered_at_utc": "2026-11-02T23:26:12.742093+00:00",
+      "downloaded_at_utc": "2026-11-02T23:28:56.072456+00:00",
+      "loaded_at_utc": "2026-11-02T23:33:05.534654+00:00",
+      "validated_at_utc": "2026-11-02T23:33:05.572536+00:00",
+      "pair_selected_at_utc": "2026-11-02T23:33:18.480797+00:00"
+    },
+    "screening": {
+      "stage": "headroom_precheck",
+      "options": [
+        [
+          "B",
+          {
+            "dev_rows": 22626,
+            "disagree": 0.00994431185361973,
+            "inc_err_dev": 0.0281092548395651,
+            "chal_err_dev": 0.02276142490939627,
+            "adv_per_event": 0.005347829930168833,
+            "adv_times_T": 10.695659860337665,
+            "cs": 5.0,
+            "T": 2000,
+            "cond_disagree_ge_0.02": false,
+            "cond_challenger_better": true,
+            "cond_adv_T_gt_cs": true,
+            "passes": false
+          }
+        ]
+      ],
+      "last_option_dev": {
+        "dev_rows": 22626,
+        "disagree": 0.00994431185361973,
+        "inc_err_dev": 0.0281092548395651,
+        "chal_err_dev": 0.02276142490939627,
+        "adv_per_event": 0.005347829930168833,
+        "adv_times_T": 10.695659860337665,
+        "cs": 5.0,
+        "T": 2000,
+        "cond_disagree_ge_0.02": false,
+        "cond_challenger_better": true,
+        "cond_adv_T_gt_cs": true,
+        "passes": false
+      },
+      "binarisation_rule": "class0_vs_rest"
+    },
+    "results_dir": "docs/promising_directions/results/b3_plus/screening/trec07"
+  },
+  {
+    "dataset_id": "keystroke",
+    "family": "keystroke",
+    "source": "river.datasets.Keystroke (CMU DSL-StrongPasswordData)",
+    "url": "http://www.cs.cmu.edu/~keystroke/DSL-StrongPasswordData.csv",
+    "domain": "keystroke dynamics / user authentication",
+    "n_rows": 20400,
+    "declared_delay": {
+      "value": 100,
+      "basis": "imposed_cap",
+      "justification": "No feedback latency is documented for this dataset in its source metadata; the audit rule (delay in events, capped at 100 so that it fits a 2,000-event episode) is applied at the cap.",
+      "declared_at_utc": "2026-11-02T23:26:12.742093+00:00"
+    },
+    "chronology": {
+      "declared_basis": "ordinal_columns",
+      "justification": "File is subject-major (not chronological). sessionIndex (1..8) and rep (1..50) are genuine ordinal time within subject; sessions were collected on different days. Across subjects no absolute date is published, so the stream sorts by (sessionIndex, rep): a session-ordinal chronology, not a calendar one. Declared as a caveat.",
+      "time_column": null,
+      "time_reliable": null,
+      "ordinal_columns": [
+        "sessionIndex",
+        "rep"
+      ]
+    },
+    "status": "USELESS_NO_HEADROOM",
+    "status_reason": "dev-window headroom precheck failed, locked window never read: option A (HGB 0-30%): disagree=0.0100, inc=0.0263, chal=0.0180, adv*T=16.67 (needs > 5.0); option B (LR 15-30%): disagree=0.0077, inc=0.0263, chal=0.0225, adv*T=7.52 (needs > 5.0)",
+    "overlap_note": "Distinct behavioural-biometrics domain.",
+    "timestamps": {
+      "registered_at_utc": "2026-11-02T23:26:12.742093+00:00",
+      "downloaded_at_utc": "2026-11-02T23:29:00.203063+00:00",
+      "loaded_at_utc": "2026-11-02T23:31:09.652556+00:00",
+      "validated_at_utc": "2026-11-02T23:31:09.708669+00:00",
+      "pair_selected_at_utc": "2026-11-02T23:31:10.109177+00:00"
+    },
+    "screening": {
+      "stage": "headroom_precheck",
+      "options": [
+        [
+          "A",
+          {
+            "dev_rows": 6120,
+            "disagree": 0.009967320261437908,
+            "inc_err_dev": 0.02630718954248366,
+            "chal_err_dev": 0.017973856209150325,
+            "adv_per_event": 0.008333333333333335,
+            "adv_times_T": 16.66666666666667,
+            "cs": 5.0,
+            "T": 2000,
+            "cond_disagree_ge_0.02": false,
+            "cond_challenger_better": true,
+            "cond_adv_T_gt_cs": true,
+            "passes": false
+          }
+        ],
+        [
+          "B",
+          {
+            "dev_rows": 6120,
+            "disagree": 0.007679738562091503,
+            "inc_err_dev": 0.02630718954248366,
+            "chal_err_dev": 0.022549019607843137,
+            "adv_per_event": 0.0037581699346405234,
+            "adv_times_T": 7.516339869281047,
+            "cs": 5.0,
+            "T": 2000,
+            "cond_disagree_ge_0.02": false,
+            "cond_challenger_better": true,
+            "cond_adv_T_gt_cs": true,
+            "passes": false
+          }
+        ]
+      ],
+      "last_option_dev": {
+        "dev_rows": 6120,
+        "disagree": 0.007679738562091503,
+        "inc_err_dev": 0.02630718954248366,
+        "chal_err_dev": 0.022549019607843137,
+        "adv_per_event": 0.0037581699346405234,
+        "adv_times_T": 7.516339869281047,
+        "cs": 5.0,
+        "T": 2000,
+        "cond_disagree_ge_0.02": false,
+        "cond_challenger_better": true,
+        "cond_adv_T_gt_cs": true,
+        "passes": false
+      },
+      "binarisation_rule": "majority_vs_rest"
+    },
+    "results_dir": "docs/promising_directions/results/b3_plus/screening/keystroke"
+  },
+  {
+    "dataset_id": "creditcard",
+    "family": "creditcard",
+    "source": "river.datasets.CreditCard (Kaggle / ULB-Worldline credit-card fraud)",
+    "url": "https://maxhalford.github.io/files/datasets/creditcardfraud.zip",
+    "domain": "card fraud",
+    "n_rows": 284807,
+    "declared_delay": {
+      "value": 100,
+      "basis": "documented_latency_capped",
+      "justification": "Fraud confirmation comes from cardholder dispute / investigation, i.e. days, versus about 1.65 transactions per second here (100 events is about 1 minute). The real latency far exceeds the cap, so the delay is the cap (100).",
+      "declared_at_utc": "2026-11-02T23:26:12.742093+00:00"
+    },
+    "chronology": {
+      "declared_basis": "timestamp_column",
+      "justification": "Time = seconds since the first transaction over two days; file is sorted by it.",
+      "time_column": "Time",
+      "time_reliable": true
+    },
+    "status": "USELESS_NO_HEADROOM",
+    "status_reason": "dev-window headroom precheck failed, locked window never read: option A (HGB 0-30%): disagree=0.0017, inc=0.0014, chal=0.0012, adv*T=0.44 (needs > 5.0); option B (LR 15-30%): disagree=0.0017, inc=0.0014, chal=0.0011, adv*T=0.68 (needs > 5.0)",
+    "overlap_note": "Distinct finance/fraud domain.",
+    "timestamps": {
+      "registered_at_utc": "2026-11-02T23:26:12.742093+00:00",
+      "downloaded_at_utc": "2026-11-02T23:29:04.509219+00:00",
+      "loaded_at_utc": "2026-11-02T23:31:11.403379+00:00",
+      "validated_at_utc": "2026-11-02T23:31:11.556884+00:00",
+      "pair_selected_at_utc": "2026-11-02T23:31:12.440359+00:00"
+    },
+    "screening": {
+      "stage": "headroom_precheck",
+      "options": [
+        [
+          "A",
+          {
+            "dev_rows": 85442,
+            "disagree": 0.0016502422696097938,
+            "inc_err_dev": 0.0014161653519346458,
+            "chal_err_dev": 0.001193792280143255,
+            "adv_per_event": 0.00022237307179139064,
+            "adv_times_T": 0.4447461435827813,
+            "cs": 5.0,
+            "T": 2000,
+            "cond_disagree_ge_0.02": false,
+            "cond_challenger_better": true,
+            "cond_adv_T_gt_cs": false,
+            "passes": false
+          }
+        ],
+        [
+          "B",
+          {
+            "dev_rows": 85442,
+            "disagree": 0.0016502422696097938,
+            "inc_err_dev": 0.0014161653519346458,
+            "chal_err_dev": 0.001076753821305681,
+            "adv_per_event": 0.0003394115306289648,
+            "adv_times_T": 0.6788230612579296,
+            "cs": 5.0,
+            "T": 2000,
+            "cond_disagree_ge_0.02": false,
+            "cond_challenger_better": true,
+            "cond_adv_T_gt_cs": false,
+            "passes": false
+          }
+        ]
+      ],
+      "last_option_dev": {
+        "dev_rows": 85442,
+        "disagree": 0.0016502422696097938,
+        "inc_err_dev": 0.0014161653519346458,
+        "chal_err_dev": 0.001076753821305681,
+        "adv_per_event": 0.0003394115306289648,
+        "adv_times_T": 0.6788230612579296,
+        "cs": 5.0,
+        "T": 2000,
+        "cond_disagree_ge_0.02": false,
+        "cond_challenger_better": true,
+        "cond_adv_T_gt_cs": false,
+        "passes": false
+      },
+      "binarisation_rule": "majority_vs_rest"
+    },
+    "results_dir": "docs/promising_directions/results/b3_plus/screening/creditcard"
+  },
+  {
+    "dataset_id": "beth",
+    "family": "beth",
+    "source": "river.datasets.BETH (Imperial College data archive)",
+    "url": "https://data.hpc.imperial.ac.uk/resolve/?doi=9422&file=4&access=",
+    "domain": "cybersecurity process/kernel logs (honeypot)",
+    "n_rows": 2666118,
+    "declared_delay": {
+      "value": 100,
+      "basis": "imposed_cap",
+      "justification": "No feedback latency is documented for this dataset in its source metadata; the audit rule (delay in events, capped at 100 so that it fits a 2,000-event episode) is applied at the cap.",
+      "declared_at_utc": "2026-11-02T23:26:12.742093+00:00"
+    },
+    "chronology": {
+      "declared_basis": "none",
+      "justification": "Declared conservatively: the per-host log files are concatenated host by host and the timestamp is not documented as a shared clock. The validator re-checks this from the data; if a shared monotone clock is found the entry may be upgraded before the locked window is read. (Never reached validation: download unavailable.)",
+      "time_column": "timestamp",
+      "time_reliable": null
+    },
+    "status": "NOT_RUN",
+    "status_reason": "NOT_RUN: the river source URL (data.hpc.imperial.ac.uk/resolve/?doi=9422&file=4) now answers with an HTTP 302 to the Imperial 'HPC Repository' landing page, so river's downloader saved an HTML page instead of the 928 MB zip (BadZipFile). The alternative mirror (Kaggle) needs account credentials, which this pipeline must not use. The archive could not be obtained, so eligibility (a shared clock; the per-host files are boot-relative) could not be assessed from data. Not a verdict on the method.",
+    "overlap_note": "Distinct security domain.",
+    "timestamps": {
+      "registered_at_utc": "2026-11-02T23:26:12.742093+00:00"
+    },
+    "screening": {},
+    "results_dir": "docs/promising_directions/results/b3_plus/screening/beth"
+  },
+  {
+    "dataset_id": "http",
+    "family": "kdd99",
+    "source": "river.datasets.HTTP (KDDCup99 http subset)",
+    "url": "https://maxhalford.github.io/files/datasets/kdd99_http.zip",
+    "domain": "network intrusion",
+    "n_rows": 567498,
+    "declared_delay": {
+      "value": 100,
+      "basis": "imposed_cap",
+      "justification": "No feedback latency is documented for this dataset in its source metadata; the audit rule (delay in events, capped at 100 so that it fits a 2,000-event episode) is applied at the cap.",
+      "declared_at_utc": "2026-11-02T23:26:12.742093+00:00"
+    },
+    "chronology": {
+      "declared_basis": "none",
+      "justification": "The csv has no connection timestamp and no documentation of event order (it is a derived subset of KDDCup99, whose subsets are not order-preserving by contract). Order cannot be verified chronological; none is invented.",
+      "time_column": null,
+      "time_reliable": null
+    },
+    "status": "USELESS_INELIGIBLE",
+    "status_reason": "no defensible chronological order (no_defensible_order); no order invented",
+    "overlap_note": "Same source family as smtp (KDDCup99); at most one of the two could count.",
+    "timestamps": {
+      "registered_at_utc": "2026-11-02T23:26:12.742093+00:00",
+      "downloaded_at_utc": "2026-11-02T23:29:08.983454+00:00",
+      "loaded_at_utc": "2026-11-02T23:33:19.562116+00:00",
+      "validated_at_utc": "2026-11-02T23:33:19.562856+00:00"
+    },
+    "screening": {
+      "stage": "validation",
+      "validation_verdict": "no_defensible_order"
+    },
+    "results_dir": "docs/promising_directions/results/b3_plus/screening/http"
+  },
+  {
+    "dataset_id": "smtp",
+    "family": "kdd99",
+    "source": "river.datasets.SMTP (KDDCup99 smtp subset)",
+    "url": "https://maxhalford.github.io/files/datasets/smtp.zip",
+    "domain": "network intrusion",
+    "n_rows": 95156,
+    "declared_delay": {
+      "value": 100,
+      "basis": "imposed_cap",
+      "justification": "No feedback latency is documented for this dataset in its source metadata; the audit rule (delay in events, capped at 100 so that it fits a 2,000-event episode) is applied at the cap.",
+      "declared_at_utc": "2026-11-02T23:26:12.742093+00:00"
+    },
+    "chronology": {
+      "declared_basis": "none",
+      "justification": "Same as http: no timestamp, no documented order.",
+      "time_column": null,
+      "time_reliable": null
+    },
+    "status": "USELESS_INELIGIBLE",
+    "status_reason": "no defensible chronological order (no_defensible_order); no order invented",
+    "overlap_note": "Same source family as http (KDDCup99).",
+    "timestamps": {
+      "registered_at_utc": "2026-11-02T23:26:12.742093+00:00",
+      "downloaded_at_utc": "2026-11-02T23:29:13.161723+00:00",
+      "loaded_at_utc": "2026-11-02T23:33:19.620515+00:00",
+      "validated_at_utc": "2026-11-02T23:33:19.620593+00:00"
+    },
+    "screening": {
+      "stage": "validation",
+      "validation_verdict": "no_defensible_order"
+    },
+    "results_dir": "docs/promising_directions/results/b3_plus/screening/smtp"
+  },
+  {
+    "dataset_id": "malicious_url",
+    "family": "malicious_url",
+    "source": "river.datasets.MaliciousURL (UCSD, Ma et al. 2009)",
+    "url": "http://www.sysnet.ucsd.edu/projects/url/url_svmlight.tar.gz",
+    "domain": "malicious URL detection",
+    "n_rows": 2396130,
+    "declared_delay": {
+      "value": 100,
+      "basis": "imposed_cap",
+      "justification": "No feedback latency is documented for this dataset in its source metadata; the audit rule (delay in events, capped at 100 so that it fits a 2,000-event episode) is applied at the cap.",
+      "declared_at_utc": "2026-11-02T23:26:12.742093+00:00"
+    },
+    "chronology": {
+      "declared_basis": "documented_order",
+      "justification": "Day-ordered svmlight files (Day0..Day120) in the original release.",
+      "time_column": null,
+      "time_reliable": null
+    },
+    "status": "NOT_RUN",
+    "status_reason": "Skipped: 3,231,961 features and a 2.2 GB archive. Train-only featurisation plus LR/HGB on a 3.2M-dimensional sparse matrix is not CPU-tractable here, and the frozen protocol forbids per-dataset feature selection or model changes to make it so. Not downloaded. Counted in the denominator as NOT_RUN, never as a failure of the method.",
+    "overlap_note": null,
+    "timestamps": {
+      "registered_at_utc": "2026-11-02T23:26:12.742093+00:00"
+    },
+    "screening": {},
+    "results_dir": "docs/promising_directions/results/b3_plus/screening/malicious_url"
+  },
+  {
+    "dataset_id": "insects_abrupt_imbalanced",
+    "family": "insects",
+    "source": "river.datasets.Insects(variant='abrupt_imbalanced') / USP DS repository",
+    "url": "https://drive.google.com/uc?export=download&id=1Z9W2_mwawobXeTihZDTDnFOCtfdgmgDa&confirm=t",
+    "domain": "insect species from optical wingbeat sensor, drift induced by temperature",
+    "n_rows": 355275,
+    "declared_delay": {
+      "value": 100,
+      "basis": "imposed_cap",
+      "justification": "No feedback latency is documented for this dataset in its source metadata; the audit rule (delay in events, capped at 100 so that it fits a 2,000-event episode) is applied at the cap.",
+      "declared_at_utc": "2026-11-02T23:26:12.742093+00:00"
+    },
+    "chronology": {
+      "declared_basis": "documented_order",
+      "justification": "Souza et al. 2020 release the stream in recording order; concept drift is introduced by the temperature schedule over the course of the stream. No timestamp column exists, so order is documented, not independently verifiable.",
+      "time_column": null,
+      "time_reliable": null
+    },
+    "status": "USELESS_DUPLICATE",
+    "status_reason": "Variant of the Insects family. The goal forbids counting variants of one dataset as independent cases; the family is represented by insects_abrupt_balanced, and variants are not screened separately (a second screen of the same generator would be a retry).",
+    "overlap_note": "Controlled-environment sensor stream; distinct from rialto (video) and weather.",
+    "timestamps": {
+      "registered_at_utc": "2026-11-02T23:26:12.742093+00:00"
+    },
+    "screening": {},
+    "results_dir": "docs/promising_directions/results/b3_plus/screening/insects_abrupt_imbalanced"
+  },
+  {
+    "dataset_id": "insects_gradual_balanced",
+    "family": "insects",
+    "source": "river.datasets.Insects(variant='gradual_balanced') / USP DS repository",
+    "url": "https://drive.google.com/uc?export=download&id=1fepYkDxwMbuoRUaG_fsymSzkuapS4vJp&confirm=t",
+    "domain": "insect species from optical wingbeat sensor, drift induced by temperature",
+    "n_rows": 24150,
+    "declared_delay": {
+      "value": 100,
+      "basis": "imposed_cap",
+      "justification": "No feedback latency is documented for this dataset in its source metadata; the audit rule (delay in events, capped at 100 so that it fits a 2,000-event episode) is applied at the cap.",
+      "declared_at_utc": "2026-11-02T23:26:12.742093+00:00"
+    },
+    "chronology": {
+      "declared_basis": "documented_order",
+      "justification": "Souza et al. 2020 release the stream in recording order; concept drift is introduced by the temperature schedule over the course of the stream. No timestamp column exists, so order is documented, not independently verifiable.",
+      "time_column": null,
+      "time_reliable": null
+    },
+    "status": "USELESS_DUPLICATE",
+    "status_reason": "Variant of the Insects family. The goal forbids counting variants of one dataset as independent cases; the family is represented by insects_abrupt_balanced, and variants are not screened separately (a second screen of the same generator would be a retry).",
+    "overlap_note": "Controlled-environment sensor stream; distinct from rialto (video) and weather.",
+    "timestamps": {
+      "registered_at_utc": "2026-11-02T23:26:12.742093+00:00"
+    },
+    "screening": {},
+    "results_dir": "docs/promising_directions/results/b3_plus/screening/insects_gradual_balanced"
+  },
+  {
+    "dataset_id": "insects_gradual_imbalanced",
+    "family": "insects",
+    "source": "river.datasets.Insects(variant='gradual_imbalanced') / USP DS repository",
+    "url": "https://drive.google.com/uc?export=download&id=1_WJ7lxK2sx1i6kq9Nqv4KrjT0ZXB0QbC&confirm=t",
+    "domain": "insect species from optical wingbeat sensor, drift induced by temperature",
+    "n_rows": 143323,
+    "declared_delay": {
+      "value": 100,
+      "basis": "imposed_cap",
+      "justification": "No feedback latency is documented for this dataset in its source metadata; the audit rule (delay in events, capped at 100 so that it fits a 2,000-event episode) is applied at the cap.",
+      "declared_at_utc": "2026-11-02T23:26:12.742093+00:00"
+    },
+    "chronology": {
+      "declared_basis": "documented_order",
+      "justification": "Souza et al. 2020 release the stream in recording order; concept drift is introduced by the temperature schedule over the course of the stream. No timestamp column exists, so order is documented, not independently verifiable.",
+      "time_column": null,
+      "time_reliable": null
+    },
+    "status": "USELESS_DUPLICATE",
+    "status_reason": "Variant of the Insects family. The goal forbids counting variants of one dataset as independent cases; the family is represented by insects_abrupt_balanced, and variants are not screened separately (a second screen of the same generator would be a retry).",
+    "overlap_note": "Controlled-environment sensor stream; distinct from rialto (video) and weather.",
+    "timestamps": {
+      "registered_at_utc": "2026-11-02T23:26:12.742093+00:00"
+    },
+    "screening": {},
+    "results_dir": "docs/promising_directions/results/b3_plus/screening/insects_gradual_imbalanced"
+  },
+  {
+    "dataset_id": "insects_incremental_balanced",
+    "family": "insects",
+    "source": "river.datasets.Insects(variant='incremental_balanced') / USP DS repository",
+    "url": "https://drive.google.com/uc?export=download&id=1tKQ2KL4m-ACHCVKUDLFPrM4cyhioiOpu&confirm=t",
+    "domain": "insect species from optical wingbeat sensor, drift induced by temperature",
+    "n_rows": 57018,
+    "declared_delay": {
+      "value": 100,
+      "basis": "imposed_cap",
+      "justification": "No feedback latency is documented for this dataset in its source metadata; the audit rule (delay in events, capped at 100 so that it fits a 2,000-event episode) is applied at the cap.",
+      "declared_at_utc": "2026-11-02T23:26:12.742093+00:00"
+    },
+    "chronology": {
+      "declared_basis": "documented_order",
+      "justification": "Souza et al. 2020 release the stream in recording order; concept drift is introduced by the temperature schedule over the course of the stream. No timestamp column exists, so order is documented, not independently verifiable.",
+      "time_column": null,
+      "time_reliable": null
+    },
+    "status": "USELESS_DUPLICATE",
+    "status_reason": "Variant of the Insects family. The goal forbids counting variants of one dataset as independent cases; the family is represented by insects_abrupt_balanced, and variants are not screened separately (a second screen of the same generator would be a retry).",
+    "overlap_note": "Controlled-environment sensor stream; distinct from rialto (video) and weather.",
+    "timestamps": {
+      "registered_at_utc": "2026-11-02T23:26:12.742093+00:00"
+    },
+    "screening": {},
+    "results_dir": "docs/promising_directions/results/b3_plus/screening/insects_incremental_balanced"
+  },
+  {
+    "dataset_id": "insects_incremental_abrupt_balanced",
+    "family": "insects",
+    "source": "river.datasets.Insects(variant='incremental_abrupt_balanced') / USP DS repository",
+    "url": "https://drive.google.com/uc?export=download&id=1-J5WIBN8_F_tomdcrOaiLCxk9nzxtFsf&confirm=t",
+    "domain": "insect species from optical wingbeat sensor, drift induced by temperature",
+    "n_rows": 79986,
+    "declared_delay": {
+      "value": 100,
+      "basis": "imposed_cap",
+      "justification": "No feedback latency is documented for this dataset in its source metadata; the audit rule (delay in events, capped at 100 so that it fits a 2,000-event episode) is applied at the cap.",
+      "declared_at_utc": "2026-11-02T23:26:12.742093+00:00"
+    },
+    "chronology": {
+      "declared_basis": "documented_order",
+      "justification": "Souza et al. 2020 release the stream in recording order; concept drift is introduced by the temperature schedule over the course of the stream. No timestamp column exists, so order is documented, not independently verifiable.",
+      "time_column": null,
+      "time_reliable": null
+    },
+    "status": "USELESS_DUPLICATE",
+    "status_reason": "Variant of the Insects family. The goal forbids counting variants of one dataset as independent cases; the family is represented by insects_abrupt_balanced, and variants are not screened separately (a second screen of the same generator would be a retry).",
+    "overlap_note": "Controlled-environment sensor stream; distinct from rialto (video) and weather.",
+    "timestamps": {
+      "registered_at_utc": "2026-11-02T23:26:12.742093+00:00"
+    },
+    "screening": {},
+    "results_dir": "docs/promising_directions/results/b3_plus/screening/insects_incremental_abrupt_balanced"
+  },
+  {
+    "dataset_id": "insects_incremental_reoccurring_balanced",
+    "family": "insects",
+    "source": "river.datasets.Insects(variant='incremental_reoccurring_balanced') / USP DS repository",
+    "url": "https://drive.google.com/uc?export=download&id=1mSKTSsxzYMjdV005AJqrcMGajuu7dUfW&confirm=t",
+    "domain": "insect species from optical wingbeat sensor, drift induced by temperature",
+    "n_rows": 79986,
+    "declared_delay": {
+      "value": 100,
+      "basis": "imposed_cap",
+      "justification": "No feedback latency is documented for this dataset in its source metadata; the audit rule (delay in events, capped at 100 so that it fits a 2,000-event episode) is applied at the cap.",
+      "declared_at_utc": "2026-11-02T23:26:12.742093+00:00"
+    },
+    "chronology": {
+      "declared_basis": "documented_order",
+      "justification": "Souza et al. 2020 release the stream in recording order; concept drift is introduced by the temperature schedule over the course of the stream. No timestamp column exists, so order is documented, not independently verifiable.",
+      "time_column": null,
+      "time_reliable": null
+    },
+    "status": "USELESS_NO_HEADROOM",
+    "status_reason": "dev-window headroom precheck failed, locked window never read: option A (HGB 0-30%): disagree=0.0672, inc=0.2215, chal=0.2263, adv*T=-9.58 (needs > 5.0); option B (LR 15-30%): disagree=0.0465, inc=0.2215, chal=0.2295, adv*T=-16.09 (needs > 5.0)",
+    "overlap_note": "Controlled-environment sensor stream; distinct from rialto (video) and weather.",
+    "timestamps": {
+      "registered_at_utc": "2026-11-02T23:26:12.742093+00:00",
+      "downloaded_at_utc": "2026-11-03T00:54:16.737999+00:00",
+      "loaded_at_utc": "2026-11-03T00:54:16.964113+00:00",
+      "validated_at_utc": "2026-11-03T00:54:17.033982+00:00",
+      "pair_selected_at_utc": "2026-11-03T00:54:17.916413+00:00"
+    },
+    "screening": {
+      "stage": "headroom_precheck",
+      "options": [
+        [
+          "A",
+          {
+            "dev_rows": 23996,
+            "disagree": 0.06721953658943157,
+            "inc_err_dev": 0.22149524920820138,
+            "chal_err_dev": 0.2262877146191032,
+            "adv_per_event": -0.004792465410901808,
+            "adv_times_T": -9.584930822,
+            "cs": 5.0,
+            "T": 2000,
+            "cond_disagree_ge_0.02": true,
+            "cond_challenger_better": false,
+            "cond_adv_T_gt_cs": false,
+            "passes": false
+          }
+        ],
+        [
+          "B",
+          {
+            "dev_rows": 23996,
+            "disagree": 0.04646607767961327,
+            "inc_err_dev": 0.22149524920820138,
+            "chal_err_dev": 0.22953825637606268,
+            "adv_per_event": -0.008043007167861299,
+            "adv_times_T": -16.086014336,
+            "cs": 5.0,
+            "T": 2000,
+            "cond_disagree_ge_0.02": true,
+            "cond_challenger_better": false,
+            "cond_adv_T_gt_cs": false,
+            "passes": false
+          }
+        ]
+      ],
+      "last_option_dev": {
+        "dev_rows": 23996,
+        "disagree": 0.04646607767961327,
+        "inc_err_dev": 0.22149524920820138,
+        "chal_err_dev": 0.22953825637606268,
+        "adv_per_event": -0.008043007167861299,
+        "adv_times_T": -16.086014336,
+        "cs": 5.0,
+        "T": 2000,
+        "cond_disagree_ge_0.02": true,
+        "cond_challenger_better": false,
+        "cond_adv_T_gt_cs": false,
+        "passes": false
+      },
+      "binarisation_rule": "class0_vs_rest"
+    },
+    "results_dir": "docs/promising_directions/results/b3_plus/screening/insects_incremental_reoccurring_balanced"
+  },
+  {
+    "dataset_id": "gas_programme",
+    "family": "gas",
+    "source": "programme stream",
+    "url": null,
+    "domain": "gas",
+    "n_rows": null,
+    "declared_delay": {
+      "value": 0,
+      "basis": "n/a",
+      "justification": "not screened",
+      "declared_at_utc": null
+    },
+    "chronology": {
+      "declared_basis": "n/a",
+      "justification": "not screened"
+    },
+    "status": "USELESS_DUPLICATE",
+    "status_reason": "Exposed in the programme (6-class gas identity); not a fresh case.",
+    "overlap_note": null,
+    "timestamps": {
+      "registered_at_utc": "2026-11-02T23:26:12.742093+00:00"
+    },
+    "screening": {},
+    "results_dir": "docs/promising_directions/results/b3_plus/screening/gas_programme"
+  },
+  {
+    "dataset_id": "elec2_programme",
+    "family": "elec2",
+    "source": "programme stream",
+    "url": null,
+    "domain": "elec2",
+    "n_rows": null,
+    "declared_delay": {
+      "value": 0,
+      "basis": "n/a",
+      "justification": "not screened",
+      "declared_at_utc": null
+    },
+    "chronology": {
+      "declared_basis": "n/a",
+      "justification": "not screened"
+    },
+    "status": "USELESS_DUPLICATE",
+    "status_reason": "Already in B3 (USELESS_NO_HEADROOM, protocol section 6); not a fresh case.",
+    "overlap_note": null,
+    "timestamps": {
+      "registered_at_utc": "2026-11-02T23:26:12.742093+00:00"
+    },
+    "screening": {},
+    "results_dir": "docs/promising_directions/results/b3_plus/screening/elec2_programme"
+  },
+  {
+    "dataset_id": "openml_powersupply",
+    "family": "powersupply",
+    "source": "OpenML (name search)",
+    "url": null,
+    "domain": "power supply stream",
+    "n_rows": null,
+    "declared_delay": {
+      "value": 100,
+      "basis": "imposed_cap",
+      "justification": "No feedback latency is documented for this dataset in its source metadata; the audit rule (delay in events, capped at 100 so that it fits a 2,000-event episode) is applied at the cap.",
+      "declared_at_utc": "2026-11-02T23:38:00.074082+00:00"
+    },
+    "chronology": {
+      "declared_basis": "none",
+      "justification": "dataset not located"
+    },
+    "status": "NOT_RUN",
+    "status_reason": "Searched OpenML by exact name (powersupply, PowerSupply, power-supply, sensor, Sensor, SensorStream, sensor_stream, sensor-stream, usenet, Usenet, USENET, usenet1, usenet2) via the /data/list/data_name API on 2026-11-02: no active dataset. Not locatable, therefore not run; no substitute was invented.",
+    "overlap_note": null,
+    "timestamps": {
+      "registered_at_utc": "2026-11-02T23:38:00.074082+00:00"
+    },
+    "screening": {},
+    "results_dir": "docs/promising_directions/results/b3_plus/screening/openml_powersupply"
+  },
+  {
+    "dataset_id": "openml_sensor",
+    "family": "sensor",
+    "source": "OpenML (name search)",
+    "url": null,
+    "domain": "sensor stream",
+    "n_rows": null,
+    "declared_delay": {
+      "value": 100,
+      "basis": "imposed_cap",
+      "justification": "No feedback latency is documented for this dataset in its source metadata; the audit rule (delay in events, capped at 100 so that it fits a 2,000-event episode) is applied at the cap.",
+      "declared_at_utc": "2026-11-02T23:38:00.074082+00:00"
+    },
+    "chronology": {
+      "declared_basis": "none",
+      "justification": "dataset not located"
+    },
+    "status": "NOT_RUN",
+    "status_reason": "Searched OpenML by exact name (powersupply, PowerSupply, power-supply, sensor, Sensor, SensorStream, sensor_stream, sensor-stream, usenet, Usenet, USENET, usenet1, usenet2) via the /data/list/data_name API on 2026-11-02: no active dataset. Not locatable, therefore not run; no substitute was invented.",
+    "overlap_note": null,
+    "timestamps": {
+      "registered_at_utc": "2026-11-02T23:38:00.074082+00:00"
+    },
+    "screening": {},
+    "results_dir": "docs/promising_directions/results/b3_plus/screening/openml_sensor"
+  },
+  {
+    "dataset_id": "openml_usenet",
+    "family": "usenet",
+    "source": "OpenML (name search)",
+    "url": null,
+    "domain": "usenet text stream",
+    "n_rows": null,
+    "declared_delay": {
+      "value": 100,
+      "basis": "imposed_cap",
+      "justification": "No feedback latency is documented for this dataset in its source metadata; the audit rule (delay in events, capped at 100 so that it fits a 2,000-event episode) is applied at the cap.",
+      "declared_at_utc": "2026-11-02T23:38:00.074082+00:00"
+    },
+    "chronology": {
+      "declared_basis": "none",
+      "justification": "dataset not located"
+    },
+    "status": "NOT_RUN",
+    "status_reason": "Searched OpenML by exact name (powersupply, PowerSupply, power-supply, sensor, Sensor, SensorStream, sensor_stream, sensor-stream, usenet, Usenet, USENET, usenet1, usenet2) via the /data/list/data_name API on 2026-11-02: no active dataset. Not locatable, therefore not run; no substitute was invented.",
+    "overlap_note": null,
+    "timestamps": {
+      "registered_at_utc": "2026-11-02T23:38:00.074082+00:00"
+    },
+    "screening": {},
+    "results_dir": "docs/promising_directions/results/b3_plus/screening/openml_usenet"
+  },
+  {
+    "dataset_id": "openml_eeg_eye_state",
+    "family": "openml_eeg_eye_state",
+    "source": "OpenML data_id=1471 ('eeg-eye-state') via sklearn.datasets.fetch_openml",
+    "url": "https://www.openml.org/d/1471",
+    "domain": "EEG eye-state detection (one continuous recording)",
+    "n_rows": 14980,
+    "declared_delay": {
+      "value": 100,
+      "basis": "imposed_cap",
+      "justification": "No feedback latency is documented for this dataset in its source metadata; the audit rule (delay in events, capped at 100 so that it fits a 2,000-event episode) is applied at the cap.",
+      "declared_at_utc": "2026-11-02T23:38:00.074082+00:00"
+    },
+    "chronology": {
+      "declared_basis": "documented_order",
+      "justification": "OpenML/UCI description: all data from one continuous 117 s EEG measurement and 'all values are in chronological order with the first measured value at the top'. No timestamp column, so order is documented but not independently verifiable.",
+      "time_column": null,
+      "time_reliable": null
+    },
+    "status": "USELESS_NO_IMPROVEMENT",
+    "status_reason": "condition 1 failed: P7s - P3b = +3.115, 95% CI [-0.380, +6.876] does not lie entirely below 0",
+    "overlap_note": "Distinct biosignal domain. K = 2 locked episodes, so any verdict is LOW-POWER.",
+    "timestamps": {
+      "registered_at_utc": "2026-11-02T23:38:00.074082+00:00",
+      "downloaded_at_utc": "2026-11-02T23:38:21.048846+00:00",
+      "loaded_at_utc": "2026-11-02T23:38:21.096565+00:00",
+      "validated_at_utc": "2026-11-02T23:38:21.127150+00:00",
+      "pair_selected_at_utc": "2026-11-02T23:38:21.390638+00:00",
+      "locked_window_read_at_utc": "2026-11-02T23:38:21.391198+00:00",
+      "evaluated_at_utc": "2026-11-02T23:38:23.912174+00:00"
+    },
+    "screening": {
+      "stage": "evaluated",
+      "mean_cost": {
+        "P0": 468.5,
+        "P1": 1208.0,
+        "P2": 478.28599999999994,
+        "P3b": 536.5004999999999,
+        "P6": 758.1395,
+        "P7s": 539.6152500000001
+      },
+      "paired": {
+        "P7s_minus_P3b": {
+          "mean": 3.1147500000001003,
+          "lo": -0.37950625000000554,
+          "hi": 6.875543749999997,
+          "bootstrap_level": "seed",
+          "low_power": true,
+          "frac_episodes_a_below_b": 0.5
+        },
+        "P7s_minus_P0": {
+          "mean": 71.11525000000003,
+          "lo": 57.45973125000002,
+          "hi": 84.74304375,
+          "bootstrap_level": "seed",
+          "low_power": true,
+          "frac_episodes_a_below_b": 0.0
+        },
+        "P7s_minus_P6": {
+          "mean": -218.5242499999999,
+          "lo": -233.16343125,
+          "hi": -203.52381250000002,
+          "bootstrap_level": "seed",
+          "low_power": true,
+          "frac_episodes_a_below_b": 0.5
+        },
+        "P7s_minus_P2": {
+          "mean": 61.32925000000009,
+          "lo": 47.59801875000001,
+          "hi": 74.73739375,
+          "bootstrap_level": "seed",
+          "low_power": true,
+          "frac_episodes_a_below_b": 0.5
+        },
+        "P3b_minus_P0": {
+          "mean": 68.00049999999993,
+          "lo": 54.77871875,
+          "hi": 80.96940624999996,
+          "bootstrap_level": "seed",
+          "low_power": true,
+          "frac_episodes_a_below_b": 0.0
+        }
+      },
+      "episodes": 2,
+      "low_power": true
+    },
+    "results_dir": "docs/promising_directions/results/b3_plus/screening/openml_eeg_eye_state"
+  },
+  {
+    "dataset_id": "openml_run_or_walk",
+    "family": "openml_run_or_walk",
+    "source": "OpenML data_id=40922 ('Run_or_walk_information') via sklearn.datasets.fetch_openml",
+    "url": "https://www.openml.org/d/40922",
+    "domain": "smartphone accelerometer/gyroscope activity",
+    "n_rows": 88588,
+    "declared_delay": {
+      "value": 100,
+      "basis": "imposed_cap",
+      "justification": "No feedback latency is documented for this dataset in its source metadata; the audit rule (delay in events, capped at 100 so that it fits a 2,000-event episode) is applied at the cap.",
+      "declared_at_utc": "2026-11-02T23:38:00.074082+00:00"
+    },
+    "chronology": {
+      "declared_basis": "none",
+      "justification": "The OpenML copy has only the six sensor axes and the label: the Kaggle date/time/username columns were dropped, and the description does not state row order. No defensible event order.",
+      "time_column": null,
+      "time_reliable": null
+    },
+    "status": "USELESS_INELIGIBLE",
+    "status_reason": "no defensible chronological order (no_defensible_order); no order invented",
+    "overlap_note": "Distinct sensor-HAR domain.",
+    "timestamps": {
+      "registered_at_utc": "2026-11-02T23:38:00.074082+00:00",
+      "downloaded_at_utc": "2026-11-02T23:39:07.951930+00:00",
+      "loaded_at_utc": "2026-11-02T23:39:08.061655+00:00",
+      "validated_at_utc": "2026-11-02T23:39:08.061779+00:00"
+    },
+    "screening": {
+      "stage": "validation",
+      "validation_verdict": "no_defensible_order"
+    },
+    "results_dir": "docs/promising_directions/results/b3_plus/screening/openml_run_or_walk"
+  },
+  {
+    "dataset_id": "openml_covertype",
+    "family": "openml_covertype",
+    "source": "OpenML data_id=150 ('covertype') via sklearn.datasets.fetch_openml",
+    "url": "https://www.openml.org/d/150",
+    "domain": "forest cover type (cartographic)",
+    "n_rows": 581012,
+    "declared_delay": {
+      "value": 100,
+      "basis": "imposed_cap",
+      "justification": "No feedback latency is documented for this dataset in its source metadata; the audit rule (delay in events, capped at 100 so that it fits a 2,000-event episode) is applied at the cap.",
+      "declared_at_utc": "2026-11-02T23:38:00.074082+00:00"
+    },
+    "chronology": {
+      "declared_basis": "none",
+      "justification": "Spatial cartographic cells; row order is geographic, not a time stream.",
+      "time_column": null,
+      "time_reliable": null
+    },
+    "status": "USELESS_INELIGIBLE",
+    "status_reason": "no defensible chronological order (no_defensible_order); no order invented",
+    "overlap_note": "Named in the task brief as expected-ineligible.",
+    "timestamps": {
+      "registered_at_utc": "2026-11-02T23:38:00.074082+00:00",
+      "downloaded_at_utc": "2026-11-02T23:39:22.268339+00:00",
+      "loaded_at_utc": "2026-11-02T23:39:24.262657+00:00",
+      "validated_at_utc": "2026-11-02T23:39:24.263328+00:00"
+    },
+    "screening": {
+      "stage": "validation",
+      "validation_verdict": "no_defensible_order"
+    },
+    "results_dir": "docs/promising_directions/results/b3_plus/screening/openml_covertype"
+  },
+  {
+    "dataset_id": "openml_shuttle",
+    "family": "openml_shuttle",
+    "source": "OpenML data_id=40685 ('shuttle') via sklearn.datasets.fetch_openml",
+    "url": "https://www.openml.org/d/40685",
+    "domain": "Space Shuttle sensor data (Statlog)",
+    "n_rows": 58000,
+    "declared_delay": {
+      "value": 100,
+      "basis": "imposed_cap",
+      "justification": "No feedback latency is documented for this dataset in its source metadata; the audit rule (delay in events, capped at 100 so that it fits a 2,000-event episode) is applied at the cap.",
+      "declared_at_utc": "2026-11-02T23:38:00.074082+00:00"
+    },
+    "chronology": {
+      "declared_basis": "none",
+      "justification": "Statlog shuttle is not a documented time-ordered stream; no timestamp.",
+      "time_column": null,
+      "time_reliable": null
+    },
+    "status": "USELESS_INELIGIBLE",
+    "status_reason": "no defensible chronological order (no_defensible_order); no order invented",
+    "overlap_note": "Named in the task brief as expected-ineligible.",
+    "timestamps": {
+      "registered_at_utc": "2026-11-02T23:38:00.074082+00:00",
+      "downloaded_at_utc": "2026-11-02T23:39:29.703251+00:00",
+      "loaded_at_utc": "2026-11-02T23:39:29.756998+00:00",
+      "validated_at_utc": "2026-11-02T23:39:29.757104+00:00"
+    },
+    "screening": {
+      "stage": "validation",
+      "validation_verdict": "no_defensible_order"
+    },
+    "results_dir": "docs/promising_directions/results/b3_plus/screening/openml_shuttle"
+  },
+  {
+    "dataset_id": "sms_spam",
+    "family": "sms_spam",
+    "source": "river.datasets.SMSSpam (UCI SMS Spam Collection)",
+    "url": "https://archive.ics.uci.edu/ml/machine-learning-databases/00228/smsspamcollection.zip",
+    "domain": "SMS spam",
+    "n_rows": 5574,
+    "declared_delay": {
+      "value": 100,
+      "basis": "imposed_cap",
+      "justification": "No feedback latency is documented for this dataset in its source metadata; the audit rule (delay in events, capped at 100 so that it fits a 2,000-event episode) is applied at the cap.",
+      "declared_at_utc": "2026-11-02T23:38:00.074082+00:00"
+    },
+    "chronology": {
+      "declared_basis": "none",
+      "justification": "Collection of messages pooled from several sources; no timestamp or documented order.",
+      "time_column": null,
+      "time_reliable": null
+    },
+    "status": "USELESS_INELIGIBLE",
+    "status_reason": "no defensible chronological order (no_defensible_order); no order invented",
+    "overlap_note": "Spam domain overlap; also 5,574 rows leaves a 2,230-row locked window.",
+    "timestamps": {
+      "registered_at_utc": "2026-11-02T23:38:00.074082+00:00",
+      "downloaded_at_utc": "2026-11-02T23:39:31.187748+00:00",
+      "loaded_at_utc": "2026-11-02T23:39:31.203319+00:00",
+      "validated_at_utc": "2026-11-02T23:39:31.203376+00:00"
+    },
+    "screening": {
+      "stage": "validation",
+      "validation_verdict": "no_defensible_order"
+    },
+    "results_dir": "docs/promising_directions/results/b3_plus/screening/sms_spam"
+  },
+  {
+    "dataset_id": "river_phishing",
+    "family": "phishing",
+    "source": "river.datasets.Phishing (UCI phishing websites, 1250 rows)",
+    "url": null,
+    "domain": "phishing websites",
+    "n_rows": 1250,
+    "declared_delay": {
+      "value": 100,
+      "basis": "imposed_cap",
+      "justification": "No feedback latency is documented for this dataset in its source metadata; the audit rule (delay in events, capped at 100 so that it fits a 2,000-event episode) is applied at the cap.",
+      "declared_at_utc": "2026-11-02T23:38:00.074082+00:00"
+    },
+    "chronology": {
+      "declared_basis": "none",
+      "justification": "As shipped: no timestamp or documented order; 1,250 rows < one 2,000-event episode.",
+      "time_column": null,
+      "time_reliable": null
+    },
+    "status": "USELESS_INELIGIBLE",
+    "status_reason": "no defensible chronological order (no_defensible_order); no order invented",
+    "overlap_note": "Named in the task brief as expected-ineligible.",
+    "timestamps": {
+      "registered_at_utc": "2026-11-02T23:38:00.074082+00:00",
+      "downloaded_at_utc": "2026-11-02T23:39:31.210032+00:00",
+      "loaded_at_utc": "2026-11-02T23:39:31.216348+00:00",
+      "validated_at_utc": "2026-11-02T23:39:31.216374+00:00"
+    },
+    "screening": {
+      "stage": "validation",
+      "validation_verdict": "no_defensible_order"
+    },
+    "results_dir": "docs/promising_directions/results/b3_plus/screening/river_phishing"
+  },
+  {
+    "dataset_id": "openml_imdb_drama",
+    "family": "openml_imdb_drama",
+    "source": "OpenML did=273 (concept_drift tag)",
+    "url": "https://www.openml.org/d/273",
+    "domain": "film plot text, drama vs rest",
+    "n_rows": 120919,
+    "declared_delay": {
+      "value": 100,
+      "basis": "audit_rule_capped",
+      "justification": "No feedback latency is documented in the source metadata; the audit rule (delay in events, capped at 100 so it fits a 2,000-event episode) is applied at the cap.",
+      "declared_at_utc": "2026-11-03T00:55:45.484712+00:00"
+    },
+    "chronology": {
+      "declared_basis": "none",
+      "justification": "Declared honestly as unverified: the OpenML version ships no timestamp or release-date column, and the concept_drift tag does not by itself establish that row order is real time. Screened so the validator can rule on it; no order will be invented."
+    },
+    "status": "NOT_RUN",
+    "status_reason": "download unavailable/refused: ValueError(\"Sparse ARFF datasets cannot be loaded with as_frame=True. Use as_frame=False or as_frame='auto' instead.\")",
+    "overlap_note": null,
+    "timestamps": {
+      "registered_at_utc": "2026-11-03T00:55:45.484525+00:00"
+    },
+    "screening": {},
+    "results_dir": "docs/promising_directions/results/b3_plus/screening/openml_imdb_drama"
+  },
+  {
+    "dataset_id": "openml_vehicle_sensit",
+    "family": "openml_vehicle_sensit",
+    "source": "OpenML did=357 (concept_drift tag)",
+    "url": "https://www.openml.org/d/357",
+    "domain": "acoustic/seismic wireless sensor network, vehicle type",
+    "n_rows": 98528,
+    "declared_delay": {
+      "value": 100,
+      "basis": "audit_rule_capped",
+      "justification": "No feedback latency is documented in the source metadata; the audit rule (delay in events, capped at 100 so it fits a 2,000-event episode) is applied at the cap.",
+      "declared_at_utc": "2026-11-03T00:55:45.484729+00:00"
+    },
+    "chronology": {
+      "declared_basis": "none",
+      "justification": "Declared honestly as unverified: SensIT records come from a sensor deployment and file order may follow acquisition, but no timestamp or documented order is shipped with the OpenML version. Screened so the validator can rule on it."
+    },
+    "status": "NOT_RUN",
+    "status_reason": "download unavailable/refused: ValueError(\"Sparse ARFF datasets cannot be loaded with as_frame=True. Use as_frame=False or as_frame='auto' instead.\")",
+    "overlap_note": null,
+    "timestamps": {
+      "registered_at_utc": "2026-11-03T00:55:45.484727+00:00"
+    },
+    "screening": {},
+    "results_dir": "docs/promising_directions/results/b3_plus/screening/openml_vehicle_sensit"
+  }
+]

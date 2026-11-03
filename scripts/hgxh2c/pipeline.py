@@ -29,6 +29,10 @@ STAGES = {
     "stage2": ("scripts/hgxh2c/stage2_benchmark.py", 24 * H),
     "stage3": ("scripts/hgxh2c/stage3_search.py", None),
     "stage4": ("scripts/hgxh2c/stage4_confirm.py", 24 * H),
+    "mechanism": (
+        "scripts/hgxh2c/stage4_mechanism.py",
+        24 * H,
+    ),  # A7; a failure never blocks report
     "stage1_full": (
         "scripts/hgxh2c/stage1/run_native_repro.py",
         None,
@@ -36,7 +40,7 @@ STAGES = {
     ),  # paper-budget reruns; never blocks report
     "report": ("scripts/hgxh2c/make_report.py", 1 * H),
 }
-UPSTREAM = {"stage3": "stage2", "stage4": "stage3"}
+UPSTREAM = {"stage3": "stage2", "stage4": "stage3", "mechanism": "stage4"}
 RETRIES, BACKOFF = 3, (60, 300, 900)
 
 

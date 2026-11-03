@@ -1,0 +1,64 @@
+{
+  "dataset_id": "openml_covertype",
+  "n_rows": 581012,
+  "order": {
+    "declared_basis": "none",
+    "n": 581012,
+    "justification": "Spatial cartographic cells; row order is geographic, not a time stream.",
+    "verdict": "no_defensible_order",
+    "sorted_by": null
+  },
+  "windows": {
+    "train_incumbent": [
+      0,
+      87151
+    ],
+    "train_challenger": [
+      0,
+      174303
+    ],
+    "dev": [
+      174303,
+      348607
+    ],
+    "locked": [
+      348607,
+      581012
+    ]
+  },
+  "checks": [
+    {
+      "check": "chronological_order_defensible",
+      "pass": false,
+      "detail": "verdict=no_defensible_order; declared_basis=none",
+      "hard": true
+    },
+    {
+      "check": "row_count_matches_source",
+      "pass": true,
+      "detail": "declared=581012 loaded=581012",
+      "hard": false
+    },
+    {
+      "check": "X_y_aligned",
+      "pass": true,
+      "detail": "feature rows equal label rows",
+      "hard": true
+    },
+    {
+      "check": "locked_window_has_one_episode",
+      "pass": true,
+      "detail": "locked rows=232405, T=2000",
+      "hard": true
+    },
+    {
+      "check": "train_dev_windows_nonempty",
+      "pass": true,
+      "detail": "window sizes 87151,87152,174304",
+      "hard": true
+    }
+  ],
+  "status": "USELESS_INELIGIBLE",
+  "ok": false,
+  "reason": "no defensible chronological order (no_defensible_order); no order invented"
+}

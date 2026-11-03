@@ -1,0 +1,3152 @@
+{
+  "regimes": {
+    "V_late_600_p65": {
+      "best_controlled": "xu_acquisition_only",
+      "best_any": "model_selector_causal",
+      "means": {
+        "gated_deployment": 398.10599999999994,
+        "discern_style": 398.1045,
+        "SMCS+retain-incumbent": 397.94749999999993,
+        "model_picker_adapter": 382.86199999999997,
+        "model_selector_causal": 370.48999999999995,
+        "online_llm_picker": 377.047,
+        "xu_acquisition_only": 392.3365000000001,
+        "cams_adapter": 385.11799999999994,
+        "variance_min_ipw": 392.8689999999999,
+        "P7s_settled": 380.917,
+        "CONTROL_never_switch": 388.12,
+        "economic_replacement": 358.014,
+        "gong_zhang_paid_obs": 406.41,
+        "qiu_movement_oco": 398.1039999999999,
+        "delayed_ftrl_capacity": 376.48849999999993,
+        "gated_frontload_ipw": 397.165,
+        "discern_frontload_ipw": 398.12,
+        "gated_deployment+RMM": 380.96,
+        "discern_style+RMM": 382.14,
+        "SMCS+retain-incumbent+RMM": 377.15,
+        "LRMD_w50": 384.46,
+        "LRMD_single": 397.61,
+        "LRMD_w50_k1": 382.31749999999994,
+        "gated_deployment+RMM_single": 396.98,
+        "gated_deployment+RMM_noacq": 382.9864999999999
+      },
+      "promote": {
+        "gated_deployment": 0.0,
+        "discern_style": 0.0,
+        "SMCS+retain-incumbent": 0.01,
+        "model_picker_adapter": 0.97,
+        "model_selector_causal": 0.99,
+        "online_llm_picker": 0.95,
+        "xu_acquisition_only": 0.38,
+        "cams_adapter": 0.99,
+        "variance_min_ipw": 1.0,
+        "P7s_settled": 0.56,
+        "CONTROL_never_switch": 0.0,
+        "economic_replacement": 0.8,
+        "gong_zhang_paid_obs": 0.75,
+        "qiu_movement_oco": 0.0,
+        "delayed_ftrl_capacity": 0.85,
+        "gated_frontload_ipw": 0.0,
+        "discern_frontload_ipw": 0.0,
+        "gated_deployment+RMM": 0.58,
+        "discern_style+RMM": 0.58,
+        "SMCS+retain-incumbent+RMM": 0.62,
+        "LRMD_w50": 0.41,
+        "LRMD_single": 0.02,
+        "LRMD_w50_k1": 0.69,
+        "gated_deployment+RMM_single": 0.04,
+        "gated_deployment+RMM_noacq": 0.67
+      },
+      "LRMD_w50-best_controlled": [
+        -7.876499999999997,
+        -12.048599999999997,
+        -3.7462374999999977
+      ],
+      "LRMD_w50-best_any": [
+        13.970000000000002,
+        8.621962500000004,
+        19.292387500000004
+      ],
+      "gated_deployment+RMM-best_controlled": [
+        -11.3765,
+        -15.298175,
+        -7.472937499999995
+      ],
+      "gated_deployment+RMM-best_any": [
+        10.470000000000002,
+        5.4522125000000035,
+        15.397862500000002
+      ],
+      "discern_style+RMM-best_controlled": [
+        -10.196499999999997,
+        -13.968437499999997,
+        -6.5521999999999965
+      ],
+      "discern_style+RMM-best_any": [
+        11.650000000000002,
+        7.139500000000002,
+        16.039737500000005
+      ],
+      "SMCS+retain-incumbent+RMM-best_controlled": [
+        -15.1865,
+        -19.312599999999996,
+        -11.185912499999995
+      ],
+      "SMCS+retain-incumbent+RMM-best_any": [
+        6.660000000000002,
+        2.1049125000000037,
+        11.130987500000003
+      ],
+      "gated_deployment+RMM-gated_deployment": [
+        -17.145999999999997,
+        -21.235099999999996,
+        -13.416962499999999
+      ],
+      "discern_style+RMM-discern_style": [
+        -15.964499999999997,
+        -19.9390375,
+        -12.037412499999997
+      ],
+      "SMCS+retain-incumbent+RMM-SMCS+retain-incumbent": [
+        -20.797499999999996,
+        -25.146662499999998,
+        -16.442425
+      ],
+      "LRMD_w50-LRMD_single": [
+        -13.15,
+        -17.57025,
+        -9.38
+      ],
+      "LRMD_w50-LRMD_w50_k1": [
+        2.142500000000002,
+        -0.9773499999999975,
+        5.2925625000000025
+      ],
+      "gated_deployment+RMM-gated_deployment+RMM_single": [
+        -16.02,
+        -19.72,
+        -12.339749999999999
+      ],
+      "gated_deployment+RMM-gated_deployment+RMM_noacq": [
+        -2.0264999999999973,
+        -6.294762499999996,
+        2.3520000000000048
+      ]
+    },
+    "V_late_1000_p72": {
+      "best_controlled": "xu_acquisition_only",
+      "best_any": "online_llm_picker",
+      "means": {
+        "gated_deployment": 391.2295,
+        "discern_style": 391.23850000000004,
+        "SMCS+retain-incumbent": 391.23699999999997,
+        "model_picker_adapter": 383.616,
+        "model_selector_causal": 377.31699999999995,
+        "online_llm_picker": 374.6125,
+        "xu_acquisition_only": 389.5675,
+        "cams_adapter": 391.029,
+        "variance_min_ipw": 391.124,
+        "P7s_settled": 371.048,
+        "CONTROL_never_switch": 381.26,
+        "economic_replacement": 367.582,
+        "gong_zhang_paid_obs": 404.02,
+        "qiu_movement_oco": 391.2385,
+        "delayed_ftrl_capacity": 379.5075,
+        "gated_frontload_ipw": 390.01349999999996,
+        "discern_frontload_ipw": 391.26,
+        "gated_deployment+RMM": 373.13,
+        "discern_style+RMM": 373.13,
+        "SMCS+retain-incumbent+RMM": 375.04,
+        "LRMD_w50": 383.51,
+        "LRMD_single": 390.67,
+        "LRMD_w50_k1": 370.985,
+        "gated_deployment+RMM_single": 391.26,
+        "gated_deployment+RMM_noacq": 368.73199999999997
+      },
+      "promote": {
+        "gated_deployment": 0.0,
+        "discern_style": 0.0,
+        "SMCS+retain-incumbent": 0.0,
+        "model_picker_adapter": 0.93,
+        "model_selector_causal": 0.96,
+        "online_llm_picker": 0.96,
+        "xu_acquisition_only": 0.3,
+        "cams_adapter": 0.98,
+        "variance_min_ipw": 0.97,
+        "P7s_settled": 0.86,
+        "CONTROL_never_switch": 0.0,
+        "economic_replacement": 0.46,
+        "gong_zhang_paid_obs": 0.69,
+        "qiu_movement_oco": 0.0,
+        "delayed_ftrl_capacity": 0.82,
+        "gated_frontload_ipw": 0.0,
+        "discern_frontload_ipw": 0.0,
+        "gated_deployment+RMM": 0.58,
+        "discern_style+RMM": 0.65,
+        "SMCS+retain-incumbent+RMM": 0.54,
+        "LRMD_w50": 0.24,
+        "LRMD_single": 0.01,
+        "LRMD_w50_k1": 0.81,
+        "gated_deployment+RMM_single": 0.0,
+        "gated_deployment+RMM_noacq": 0.86
+      },
+      "LRMD_w50-best_controlled": [
+        -6.057500000000002,
+        -9.094562499999997,
+        -3.224387500000001
+      ],
+      "LRMD_w50-best_any": [
+        8.897500000000003,
+        2.650962500000002,
+        15.3096125
+      ],
+      "gated_deployment+RMM-best_controlled": [
+        -16.437500000000004,
+        -20.681175000000003,
+        -12.5048375
+      ],
+      "gated_deployment+RMM-best_any": [
+        -1.4824999999999988,
+        -8.444312499999997,
+        5.368362500000001
+      ],
+      "discern_style+RMM-best_controlled": [
+        -16.437500000000004,
+        -20.382174999999997,
+        -12.711974999999999
+      ],
+      "discern_style+RMM-best_any": [
+        -1.4824999999999988,
+        -8.254762500000002,
+        5.223812500000003
+      ],
+      "SMCS+retain-incumbent+RMM-best_controlled": [
+        -14.527500000000002,
+        -18.3066125,
+        -10.704312500000002
+      ],
+      "SMCS+retain-incumbent+RMM-best_any": [
+        0.42750000000000116,
+        -6.286012499999998,
+        6.7452000000000005
+      ],
+      "gated_deployment+RMM-gated_deployment": [
+        -18.0995,
+        -22.33075,
+        -14.1064125
+      ],
+      "discern_style+RMM-discern_style": [
+        -18.108499999999996,
+        -21.996137499999996,
+        -14.201537499999997
+      ],
+      "SMCS+retain-incumbent+RMM-SMCS+retain-incumbent": [
+        -16.197,
+        -20.120375,
+        -12.396962499999997
+      ],
+      "LRMD_w50-LRMD_single": [
+        -7.16,
+        -10.620249999999999,
+        -3.879749999999999
+      ],
+      "LRMD_w50-LRMD_w50_k1": [
+        12.525000000000002,
+        9.841925000000002,
+        15.1975125
+      ],
+      "gated_deployment+RMM-gated_deployment+RMM_single": [
+        -18.13,
+        -22.2705,
+        -14.09
+      ],
+      "gated_deployment+RMM-gated_deployment+RMM_noacq": [
+        4.398000000000003,
+        0.10297500000000491,
+        8.764612500000004
+      ]
+    },
+    "V_late_1400_p72": {
+      "best_controlled": "gated_frontload_ipw",
+      "best_any": "gated_frontload_ipw",
+      "means": {
+        "gated_deployment": 363.03799999999995,
+        "discern_style": 363.07349999999997,
+        "SMCS+retain-incumbent": 363.07499999999993,
+        "model_picker_adapter": 379.329,
+        "model_selector_causal": 374.1104999999999,
+        "online_llm_picker": 377.18050000000005,
+        "xu_acquisition_only": 362.87449999999995,
+        "cams_adapter": 384.815,
+        "variance_min_ipw": 383.12,
+        "P7s_settled": 362.7304999999999,
+        "CONTROL_never_switch": 353.09,
+        "economic_replacement": 365.2325,
+        "gong_zhang_paid_obs": 375.16,
+        "qiu_movement_oco": 363.0760000000001,
+        "delayed_ftrl_capacity": 373.93450000000007,
+        "gated_frontload_ipw": 361.2059999999999,
+        "discern_frontload_ipw": 363.09,
+        "gated_deployment+RMM": 362.96,
+        "discern_style+RMM": 362.86,
+        "SMCS+retain-incumbent+RMM": 362.89,
+        "LRMD_w50": 363.09,
+        "LRMD_single": 363.09,
+        "LRMD_w50_k1": 362.06499999999994,
+        "gated_deployment+RMM_single": 363.09,
+        "gated_deployment+RMM_noacq": 361.36199999999997
+      },
+      "promote": {
+        "gated_deployment": 0.0,
+        "discern_style": 0.0,
+        "SMCS+retain-incumbent": 0.0,
+        "model_picker_adapter": 0.75,
+        "model_selector_causal": 0.65,
+        "online_llm_picker": 0.81,
+        "xu_acquisition_only": 0.0,
+        "cams_adapter": 0.71,
+        "variance_min_ipw": 0.75,
+        "P7s_settled": 0.23,
+        "CONTROL_never_switch": 0.0,
+        "economic_replacement": 0.26,
+        "gong_zhang_paid_obs": 0.61,
+        "qiu_movement_oco": 0.0,
+        "delayed_ftrl_capacity": 0.75,
+        "gated_frontload_ipw": 0.0,
+        "discern_frontload_ipw": 0.0,
+        "gated_deployment+RMM": 0.04,
+        "discern_style+RMM": 0.07,
+        "SMCS+retain-incumbent+RMM": 0.03,
+        "LRMD_w50": 0.0,
+        "LRMD_single": 0.0,
+        "LRMD_w50_k1": 0.32,
+        "gated_deployment+RMM_single": 0.0,
+        "gated_deployment+RMM_noacq": 0.39
+      },
+      "LRMD_w50-best_controlled": [
+        1.8840000000000026,
+        1.426975000000001,
+        2.3660125000000036
+      ],
+      "LRMD_w50-best_any": [
+        1.8840000000000026,
+        1.401500000000003,
+        2.3595250000000014
+      ],
+      "gated_deployment+RMM-best_controlled": [
+        1.7540000000000027,
+        1.120887500000002,
+        2.323537500000002
+      ],
+      "gated_deployment+RMM-best_any": [
+        1.7540000000000027,
+        1.0999750000000041,
+        2.3440250000000025
+      ],
+      "discern_style+RMM-best_controlled": [
+        1.6540000000000026,
+        1.1354875000000024,
+        2.191525000000002
+      ],
+      "discern_style+RMM-best_any": [
+        1.6540000000000026,
+        1.1299875000000017,
+        2.1730000000000023
+      ],
+      "SMCS+retain-incumbent+RMM-best_controlled": [
+        1.6840000000000026,
+        1.0104250000000006,
+        2.2965000000000027
+      ],
+      "SMCS+retain-incumbent+RMM-best_any": [
+        1.6840000000000026,
+        1.0189750000000004,
+        2.294512500000003
+      ],
+      "gated_deployment+RMM-gated_deployment": [
+        -0.07799999999999783,
+        -0.5220124999999977,
+        0.22601250000000309
+      ],
+      "discern_style+RMM-discern_style": [
+        -0.21349999999999794,
+        -0.5569999999999976,
+        0.04751250000000343
+      ],
+      "SMCS+retain-incumbent+RMM-SMCS+retain-incumbent": [
+        -0.185,
+        -0.6690125000000003,
+        0.10349999999999798
+      ],
+      "LRMD_w50-LRMD_single": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "LRMD_w50-LRMD_w50_k1": [
+        1.0250000000000017,
+        0.13298750000000178,
+        2.0770125000000017
+      ],
+      "gated_deployment+RMM-gated_deployment+RMM_single": [
+        -0.13,
+        -0.58,
+        0.17
+      ],
+      "gated_deployment+RMM-gated_deployment+RMM_noacq": [
+        1.598000000000003,
+        0.5299625000000023,
+        2.7655125000000025
+      ]
+    },
+    "V_transient_500_1200": {
+      "best_controlled": "discern_style",
+      "best_any": "discern_style",
+      "means": {
+        "gated_deployment": 373.824,
+        "discern_style": 373.81699999999995,
+        "SMCS+retain-incumbent": 374.95599999999996,
+        "model_picker_adapter": 394.66600000000005,
+        "model_selector_causal": 394.15399999999994,
+        "online_llm_picker": 399.4219999999999,
+        "xu_acquisition_only": 379.4059999999999,
+        "cams_adapter": 409.884,
+        "variance_min_ipw": 405.64050000000003,
+        "P7s_settled": 389.5295,
+        "CONTROL_never_switch": 363.84,
+        "economic_replacement": 375.2129999999999,
+        "gong_zhang_paid_obs": 387.88,
+        "qiu_movement_oco": 373.8275,
+        "delayed_ftrl_capacity": 380.08149999999995,
+        "gated_frontload_ipw": 374.082,
+        "discern_frontload_ipw": 373.84,
+        "gated_deployment+RMM": 389.88,
+        "discern_style+RMM": 389.82,
+        "SMCS+retain-incumbent+RMM": 388.25949999999995,
+        "LRMD_w50": 389.78,
+        "LRMD_single": 376.37,
+        "LRMD_w50_k1": 389.582,
+        "gated_deployment+RMM_single": 376.45,
+        "gated_deployment+RMM_noacq": 386.9545
+      },
+      "promote": {
+        "gated_deployment": 0.0,
+        "discern_style": 0.0,
+        "SMCS+retain-incumbent": 0.03,
+        "model_picker_adapter": 0.99,
+        "model_selector_causal": 1.0,
+        "online_llm_picker": 0.94,
+        "xu_acquisition_only": 0.2,
+        "cams_adapter": 1.0,
+        "variance_min_ipw": 0.99,
+        "P7s_settled": 0.63,
+        "CONTROL_never_switch": 0.0,
+        "economic_replacement": 0.9,
+        "gong_zhang_paid_obs": 0.67,
+        "qiu_movement_oco": 0.0,
+        "delayed_ftrl_capacity": 0.88,
+        "gated_frontload_ipw": 0.02,
+        "discern_frontload_ipw": 0.0,
+        "gated_deployment+RMM": 0.72,
+        "discern_style+RMM": 0.7,
+        "SMCS+retain-incumbent+RMM": 0.7,
+        "LRMD_w50": 0.74,
+        "LRMD_single": 0.07,
+        "LRMD_w50_k1": 0.67,
+        "gated_deployment+RMM_single": 0.09,
+        "gated_deployment+RMM_noacq": 0.51
+      },
+      "LRMD_w50-best_controlled": [
+        15.963000000000001,
+        12.484475,
+        19.519287500000004
+      ],
+      "LRMD_w50-best_any": [
+        15.963000000000001,
+        12.323950000000002,
+        19.520075
+      ],
+      "gated_deployment+RMM-best_controlled": [
+        16.063000000000002,
+        12.797925,
+        19.3560125
+      ],
+      "gated_deployment+RMM-best_any": [
+        16.063000000000002,
+        12.8938875,
+        19.290012500000003
+      ],
+      "discern_style+RMM-best_controlled": [
+        16.003,
+        12.8147625,
+        19.125575
+      ],
+      "discern_style+RMM-best_any": [
+        16.003,
+        12.733987500000001,
+        19.129662500000002
+      ],
+      "SMCS+retain-incumbent+RMM-best_controlled": [
+        14.4425,
+        11.193450000000002,
+        17.6790875
+      ],
+      "SMCS+retain-incumbent+RMM-best_any": [
+        14.4425,
+        11.1614875,
+        17.641550000000002
+      ],
+      "gated_deployment+RMM-gated_deployment": [
+        16.056000000000004,
+        12.938887500000003,
+        19.232825000000002
+      ],
+      "discern_style+RMM-discern_style": [
+        16.003,
+        12.703449999999998,
+        19.24815
+      ],
+      "SMCS+retain-incumbent+RMM-SMCS+retain-incumbent": [
+        13.303500000000003,
+        10.099562500000005,
+        16.4671125
+      ],
+      "LRMD_w50-LRMD_single": [
+        13.41,
+        9.65,
+        17.03
+      ],
+      "LRMD_w50-LRMD_w50_k1": [
+        0.1980000000000024,
+        -2.477112499999998,
+        3.1013250000000037
+      ],
+      "gated_deployment+RMM-gated_deployment+RMM_single": [
+        13.43,
+        9.84,
+        16.98
+      ],
+      "gated_deployment+RMM-gated_deployment+RMM_noacq": [
+        2.9255000000000018,
+        -0.3771874999999987,
+        6.210112500000003
+      ]
+    },
+    "V_reversal_1000": {
+      "best_controlled": "discern_style",
+      "best_any": "discern_style",
+      "means": {
+        "gated_deployment": 372.332,
+        "discern_style": 369.62199999999996,
+        "SMCS+retain-incumbent": 403.1535,
+        "model_picker_adapter": 382.9105,
+        "model_selector_causal": 383.75949999999995,
+        "online_llm_picker": 379.9340000000001,
+        "xu_acquisition_only": 403.258,
+        "cams_adapter": 389.56199999999995,
+        "variance_min_ipw": 390.4650000000001,
+        "P7s_settled": 400.945,
+        "CONTROL_never_switch": 359.64,
+        "economic_replacement": 394.5305,
+        "gong_zhang_paid_obs": 388.57,
+        "qiu_movement_oco": 369.62199999999996,
+        "delayed_ftrl_capacity": 385.1579999999999,
+        "gated_frontload_ipw": 404.1005,
+        "discern_frontload_ipw": 369.64,
+        "gated_deployment+RMM": 399.79,
+        "discern_style+RMM": 405.34,
+        "SMCS+retain-incumbent+RMM": 399.83,
+        "LRMD_w50": 400.55,
+        "LRMD_single": 402.94,
+        "LRMD_w50_k1": 401.0255,
+        "gated_deployment+RMM_single": 406.25,
+        "gated_deployment+RMM_noacq": 396.16949999999997
+      },
+      "promote": {
+        "gated_deployment": 0.05,
+        "discern_style": 0.0,
+        "SMCS+retain-incumbent": 0.81,
+        "model_picker_adapter": 1.0,
+        "model_selector_causal": 1.0,
+        "online_llm_picker": 1.0,
+        "xu_acquisition_only": 0.74,
+        "cams_adapter": 1.0,
+        "variance_min_ipw": 1.0,
+        "P7s_settled": 0.7,
+        "CONTROL_never_switch": 0.0,
+        "economic_replacement": 1.0,
+        "gong_zhang_paid_obs": 1.0,
+        "qiu_movement_oco": 0.0,
+        "delayed_ftrl_capacity": 1.0,
+        "gated_frontload_ipw": 0.9,
+        "discern_frontload_ipw": 0.0,
+        "gated_deployment+RMM": 0.79,
+        "discern_style+RMM": 0.87,
+        "SMCS+retain-incumbent+RMM": 0.83,
+        "LRMD_w50": 0.96,
+        "LRMD_single": 0.97,
+        "LRMD_w50_k1": 0.86,
+        "gated_deployment+RMM_single": 0.94,
+        "gated_deployment+RMM_noacq": 0.61
+      },
+      "LRMD_w50-best_controlled": [
+        30.928,
+        26.564437500000004,
+        35.5664875
+      ],
+      "LRMD_w50-best_any": [
+        30.928,
+        26.488650000000003,
+        35.362675
+      ],
+      "gated_deployment+RMM-best_controlled": [
+        30.168000000000003,
+        25.4710375,
+        34.797112500000004
+      ],
+      "gated_deployment+RMM-best_any": [
+        30.168000000000003,
+        25.566025000000003,
+        34.8576375
+      ],
+      "discern_style+RMM-best_controlled": [
+        35.718,
+        31.0600625,
+        40.456300000000006
+      ],
+      "discern_style+RMM-best_any": [
+        35.718,
+        31.210450000000005,
+        40.346675000000005
+      ],
+      "SMCS+retain-incumbent+RMM-best_controlled": [
+        30.208000000000002,
+        25.601225000000007,
+        34.995000000000005
+      ],
+      "SMCS+retain-incumbent+RMM-best_any": [
+        30.208000000000002,
+        25.543462500000004,
+        35.223600000000005
+      ],
+      "gated_deployment+RMM-gated_deployment": [
+        27.458000000000002,
+        22.1099625,
+        32.77686250000001
+      ],
+      "discern_style+RMM-discern_style": [
+        35.718,
+        31.19921250000001,
+        40.295175
+      ],
+      "SMCS+retain-incumbent+RMM-SMCS+retain-incumbent": [
+        -3.323499999999998,
+        -9.762524999999998,
+        3.1321875000000023
+      ],
+      "LRMD_w50-LRMD_single": [
+        -2.39,
+        -5.08025,
+        -0.049749999999999094
+      ],
+      "LRMD_w50-LRMD_w50_k1": [
+        -0.4754999999999978,
+        -5.353787499999999,
+        4.4639625000000045
+      ],
+      "gated_deployment+RMM-gated_deployment+RMM_single": [
+        -6.46,
+        -11.800500000000001,
+        -1.3894999999999982
+      ],
+      "gated_deployment+RMM-gated_deployment+RMM_noacq": [
+        3.620500000000001,
+        -2.419387499999999,
+        10.018750000000002
+      ]
+    },
+    "V_recurrent_400": {
+      "best_controlled": "gated_frontload_ipw",
+      "best_any": "gated_frontload_ipw",
+      "means": {
+        "gated_deployment": 365.217,
+        "discern_style": 365.22049999999996,
+        "SMCS+retain-incumbent": 365.22,
+        "model_picker_adapter": 400.3884999999999,
+        "model_selector_causal": 401.30099999999993,
+        "online_llm_picker": 390.7025000000001,
+        "xu_acquisition_only": 365.014,
+        "cams_adapter": 418.7955,
+        "variance_min_ipw": 417.5874999999999,
+        "P7s_settled": 368.62799999999993,
+        "CONTROL_never_switch": 355.24,
+        "economic_replacement": 371.88,
+        "gong_zhang_paid_obs": 374.65,
+        "qiu_movement_oco": 365.2185,
+        "delayed_ftrl_capacity": 375.17549999999994,
+        "gated_frontload_ipw": 363.51499999999993,
+        "discern_frontload_ipw": 365.24,
+        "gated_deployment+RMM": 373.86,
+        "discern_style+RMM": 373.63,
+        "SMCS+retain-incumbent+RMM": 373.77,
+        "LRMD_w50": 373.0,
+        "LRMD_single": 365.3,
+        "LRMD_w50_k1": 373.18449999999996,
+        "gated_deployment+RMM_single": 365.48,
+        "gated_deployment+RMM_noacq": 371.836
+      },
+      "promote": {
+        "gated_deployment": 0.0,
+        "discern_style": 0.0,
+        "SMCS+retain-incumbent": 0.0,
+        "model_picker_adapter": 0.92,
+        "model_selector_causal": 0.89,
+        "online_llm_picker": 0.9,
+        "xu_acquisition_only": 0.0,
+        "cams_adapter": 0.96,
+        "variance_min_ipw": 0.92,
+        "P7s_settled": 0.15,
+        "CONTROL_never_switch": 0.0,
+        "economic_replacement": 0.74,
+        "gong_zhang_paid_obs": 0.52,
+        "qiu_movement_oco": 0.0,
+        "delayed_ftrl_capacity": 0.69,
+        "gated_frontload_ipw": 0.01,
+        "discern_frontload_ipw": 0.0,
+        "gated_deployment+RMM": 0.36,
+        "discern_style+RMM": 0.37,
+        "SMCS+retain-incumbent+RMM": 0.39,
+        "LRMD_w50": 0.36,
+        "LRMD_single": 0.01,
+        "LRMD_w50_k1": 0.29,
+        "gated_deployment+RMM_single": 0.01,
+        "gated_deployment+RMM_noacq": 0.29
+      },
+      "LRMD_w50-best_controlled": [
+        9.485,
+        6.747987499999999,
+        12.5106125
+      ],
+      "LRMD_w50-best_any": [
+        9.485,
+        6.651912499999999,
+        12.4163125
+      ],
+      "gated_deployment+RMM-best_controlled": [
+        10.345,
+        7.507862499999999,
+        13.416775000000001
+      ],
+      "gated_deployment+RMM-best_any": [
+        10.345,
+        7.577912499999998,
+        13.5240875
+      ],
+      "discern_style+RMM-best_controlled": [
+        10.114999999999998,
+        7.429974999999999,
+        12.931600000000001
+      ],
+      "discern_style+RMM-best_any": [
+        10.114999999999998,
+        7.467437500000001,
+        12.891649999999998
+      ],
+      "SMCS+retain-incumbent+RMM-best_controlled": [
+        10.255,
+        7.489849999999999,
+        13.012624999999998
+      ],
+      "SMCS+retain-incumbent+RMM-best_any": [
+        10.255,
+        7.587237499999999,
+        13.140075
+      ],
+      "gated_deployment+RMM-gated_deployment": [
+        8.643000000000002,
+        6.045462500000003,
+        11.527187500000005
+      ],
+      "discern_style+RMM-discern_style": [
+        8.409500000000001,
+        5.863437500000001,
+        11.102137500000001
+      ],
+      "SMCS+retain-incumbent+RMM-SMCS+retain-incumbent": [
+        8.550000000000002,
+        5.795500000000001,
+        11.480862500000002
+      ],
+      "LRMD_w50-LRMD_single": [
+        7.7,
+        5.03975,
+        10.630250000000002
+      ],
+      "LRMD_w50-LRMD_w50_k1": [
+        -0.18449999999999706,
+        -3.776124999999997,
+        3.2881750000000047
+      ],
+      "gated_deployment+RMM-gated_deployment+RMM_single": [
+        8.38,
+        5.74,
+        11.310250000000002
+      ],
+      "gated_deployment+RMM-gated_deployment+RMM_noacq": [
+        2.0240000000000027,
+        -1.2391374999999967,
+        5.191200000000003
+      ]
+    },
+    "V_better_p62": {
+      "best_controlled": "gated_frontload_ipw",
+      "best_any": "model_selector_causal",
+      "means": {
+        "gated_deployment": 417.61749999999995,
+        "discern_style": 417.61499999999995,
+        "SMCS+retain-incumbent": 391.14899999999994,
+        "model_picker_adapter": 348.62300000000005,
+        "model_selector_causal": 342.2005,
+        "online_llm_picker": 351.903,
+        "xu_acquisition_only": 391.28350000000006,
+        "cams_adapter": 349.98150000000004,
+        "variance_min_ipw": 352.6875,
+        "P7s_settled": 391.89599999999996,
+        "CONTROL_never_switch": 407.64,
+        "economic_replacement": 340.272,
+        "gong_zhang_paid_obs": 349.9,
+        "qiu_movement_oco": 417.61299999999994,
+        "delayed_ftrl_capacity": 344.318,
+        "gated_frontload_ipw": 384.69399999999996,
+        "discern_frontload_ipw": 417.64,
+        "gated_deployment+RMM": 386.9595,
+        "discern_style+RMM": 388.31,
+        "SMCS+retain-incumbent+RMM": 385.25,
+        "LRMD_w50": 369.41,
+        "LRMD_single": 367.71,
+        "LRMD_w50_k1": 381.80949999999996,
+        "gated_deployment+RMM_single": 376.35949999999997,
+        "gated_deployment+RMM_noacq": 398.5474999999999
+      },
+      "promote": {
+        "gated_deployment": 0.0,
+        "discern_style": 0.0,
+        "SMCS+retain-incumbent": 0.49,
+        "model_picker_adapter": 1.0,
+        "model_selector_causal": 1.0,
+        "online_llm_picker": 1.0,
+        "xu_acquisition_only": 0.68,
+        "cams_adapter": 1.0,
+        "variance_min_ipw": 1.0,
+        "P7s_settled": 0.62,
+        "CONTROL_never_switch": 0.0,
+        "economic_replacement": 1.0,
+        "gong_zhang_paid_obs": 1.0,
+        "qiu_movement_oco": 0.0,
+        "delayed_ftrl_capacity": 1.0,
+        "gated_frontload_ipw": 0.5,
+        "discern_frontload_ipw": 0.0,
+        "gated_deployment+RMM": 0.73,
+        "discern_style+RMM": 0.68,
+        "SMCS+retain-incumbent+RMM": 0.72,
+        "LRMD_w50": 0.86,
+        "LRMD_single": 0.86,
+        "LRMD_w50_k1": 0.82,
+        "gated_deployment+RMM_single": 0.82,
+        "gated_deployment+RMM_noacq": 0.61
+      },
+      "LRMD_w50-best_controlled": [
+        -15.284,
+        -19.53155,
+        -11.46595
+      ],
+      "LRMD_w50-best_any": [
+        27.209500000000006,
+        23.339949999999998,
+        31.041187500000003
+      ],
+      "gated_deployment+RMM-best_controlled": [
+        2.265499999999999,
+        -2.7496500000000017,
+        7.226649999999999
+      ],
+      "gated_deployment+RMM-best_any": [
+        44.75900000000001,
+        40.040375000000004,
+        49.591975
+      ],
+      "discern_style+RMM-best_controlled": [
+        3.615999999999999,
+        -1.8459625000000004,
+        9.039825000000002
+      ],
+      "discern_style+RMM-best_any": [
+        46.109500000000004,
+        41.5083375,
+        50.618500000000004
+      ],
+      "SMCS+retain-incumbent+RMM-best_controlled": [
+        0.555999999999999,
+        -4.660137500000001,
+        5.859149999999999
+      ],
+      "SMCS+retain-incumbent+RMM-best_any": [
+        43.04950000000001,
+        38.259775,
+        47.709675000000004
+      ],
+      "gated_deployment+RMM-gated_deployment": [
+        -30.657999999999994,
+        -36.62499999999999,
+        -25.171987499999993
+      ],
+      "discern_style+RMM-discern_style": [
+        -29.304999999999996,
+        -34.8416,
+        -23.914474999999996
+      ],
+      "SMCS+retain-incumbent+RMM-SMCS+retain-incumbent": [
+        -5.898999999999998,
+        -11.6225375,
+        -0.4614874999999975
+      ],
+      "LRMD_w50-LRMD_single": [
+        1.7,
+        0.08,
+        3.3802500000000006
+      ],
+      "LRMD_w50-LRMD_w50_k1": [
+        -12.399499999999998,
+        -17.087262499999998,
+        -7.9943875
+      ],
+      "gated_deployment+RMM-gated_deployment+RMM_single": [
+        10.6,
+        6.89,
+        14.58
+      ],
+      "gated_deployment+RMM-gated_deployment+RMM_noacq": [
+        -11.588,
+        -16.572,
+        -6.637462499999999
+      ]
+    },
+    "V_better_p70": {
+      "best_controlled": "gated_frontload_ipw",
+      "best_any": "online_llm_picker",
+      "means": {
+        "gated_deployment": 442.0335,
+        "discern_style": 449.83149999999995,
+        "SMCS+retain-incumbent": 341.2045,
+        "model_picker_adapter": 307.5815,
+        "model_selector_causal": 309.1935,
+        "online_llm_picker": 307.31299999999993,
+        "xu_acquisition_only": 354.3915,
+        "cams_adapter": 311.30649999999997,
+        "variance_min_ipw": 311.8105,
+        "P7s_settled": 353.12799999999993,
+        "CONTROL_never_switch": 439.85,
+        "economic_replacement": 316.8395,
+        "gong_zhang_paid_obs": 307.98,
+        "qiu_movement_oco": 449.8324999999999,
+        "delayed_ftrl_capacity": 311.85,
+        "gated_frontload_ipw": 328.084,
+        "discern_frontload_ipw": 449.85,
+        "gated_deployment+RMM": 349.35,
+        "discern_style+RMM": 346.91,
+        "SMCS+retain-incumbent+RMM": 344.44,
+        "LRMD_w50": 325.35,
+        "LRMD_single": 322.24,
+        "LRMD_w50_k1": 339.92449999999997,
+        "gated_deployment+RMM_single": 333.2795,
+        "gated_deployment+RMM_noacq": 363.60100000000006
+      },
+      "promote": {
+        "gated_deployment": 0.24,
+        "discern_style": 0.0,
+        "SMCS+retain-incumbent": 0.97,
+        "model_picker_adapter": 1.0,
+        "model_selector_causal": 1.0,
+        "online_llm_picker": 1.0,
+        "xu_acquisition_only": 1.0,
+        "cams_adapter": 1.0,
+        "variance_min_ipw": 1.0,
+        "P7s_settled": 0.97,
+        "CONTROL_never_switch": 0.0,
+        "economic_replacement": 1.0,
+        "gong_zhang_paid_obs": 1.0,
+        "qiu_movement_oco": 0.0,
+        "delayed_ftrl_capacity": 1.0,
+        "gated_frontload_ipw": 0.99,
+        "discern_frontload_ipw": 0.0,
+        "gated_deployment+RMM": 1.0,
+        "discern_style+RMM": 1.0,
+        "SMCS+retain-incumbent+RMM": 1.0,
+        "LRMD_w50": 1.0,
+        "LRMD_single": 1.0,
+        "LRMD_w50_k1": 1.0,
+        "gated_deployment+RMM_single": 1.0,
+        "gated_deployment+RMM_noacq": 0.97
+      },
+      "LRMD_w50-best_controlled": [
+        -2.733999999999998,
+        -5.402999999999997,
+        -0.25156249999999203
+      ],
+      "LRMD_w50-best_any": [
+        18.037,
+        14.345899999999995,
+        21.449375
+      ],
+      "gated_deployment+RMM-best_controlled": [
+        21.26600000000001,
+        17.752899999999997,
+        25.009125
+      ],
+      "gated_deployment+RMM-best_any": [
+        42.03699999999999,
+        37.358999999999995,
+        46.36605000000001
+      ],
+      "discern_style+RMM-best_controlled": [
+        18.826,
+        15.408762500000002,
+        22.179437499999995
+      ],
+      "discern_style+RMM-best_any": [
+        39.597,
+        35.1965375,
+        43.6173375
+      ],
+      "SMCS+retain-incumbent+RMM-best_controlled": [
+        16.355999999999998,
+        12.628387499999997,
+        20.061612500000003
+      ],
+      "SMCS+retain-incumbent+RMM-best_any": [
+        37.126999999999995,
+        32.38946249999999,
+        41.621249999999996
+      ],
+      "gated_deployment+RMM-gated_deployment": [
+        -92.68349999999998,
+        -97.85630000000002,
+        -87.4611875
+      ],
+      "discern_style+RMM-discern_style": [
+        -102.92150000000001,
+        -107.69255,
+        -97.67981250000003
+      ],
+      "SMCS+retain-incumbent+RMM-SMCS+retain-incumbent": [
+        3.2355000000000023,
+        -2.7255499999999975,
+        9.053087500000004
+      ],
+      "LRMD_w50-LRMD_single": [
+        3.11,
+        1.9,
+        4.37
+      ],
+      "LRMD_w50-LRMD_w50_k1": [
+        -14.5745,
+        -18.03755,
+        -11.360812499999998
+      ],
+      "gated_deployment+RMM-gated_deployment+RMM_single": [
+        16.0705,
+        12.890987499999998,
+        19.3905
+      ],
+      "gated_deployment+RMM-gated_deployment+RMM_noacq": [
+        -14.251,
+        -19.214025000000003,
+        -9.693312499999994
+      ]
+    },
+    "V_null": {
+      "best_controlled": "xu_acquisition_only",
+      "best_any": "xu_acquisition_only",
+      "means": {
+        "gated_deployment": 371.332,
+        "discern_style": 371.33299999999997,
+        "SMCS+retain-incumbent": 371.865,
+        "model_picker_adapter": 404.026,
+        "model_selector_causal": 397.12800000000004,
+        "online_llm_picker": 408.8715,
+        "xu_acquisition_only": 371.13,
+        "cams_adapter": 419.6475,
+        "variance_min_ipw": 424.06699999999995,
+        "P7s_settled": 371.4189999999999,
+        "CONTROL_never_switch": 361.36,
+        "economic_replacement": 373.9545,
+        "gong_zhang_paid_obs": 390.17,
+        "qiu_movement_oco": 371.33349999999996,
+        "delayed_ftrl_capacity": 380.32849999999996,
+        "gated_frontload_ipw": 371.44550000000004,
+        "discern_frontload_ipw": 371.36,
+        "gated_deployment+RMM": 371.56,
+        "discern_style+RMM": 371.54,
+        "SMCS+retain-incumbent+RMM": 371.61,
+        "LRMD_w50": 372.2,
+        "LRMD_single": 372.23,
+        "LRMD_w50_k1": 371.8345,
+        "gated_deployment+RMM_single": 371.8,
+        "gated_deployment+RMM_noacq": 371.332
+      },
+      "promote": {
+        "gated_deployment": 0.0,
+        "discern_style": 0.0,
+        "SMCS+retain-incumbent": 0.02,
+        "model_picker_adapter": 0.94,
+        "model_selector_causal": 0.94,
+        "online_llm_picker": 1.0,
+        "xu_acquisition_only": 0.0,
+        "cams_adapter": 0.99,
+        "variance_min_ipw": 0.97,
+        "P7s_settled": 0.03,
+        "CONTROL_never_switch": 0.0,
+        "economic_replacement": 0.78,
+        "gong_zhang_paid_obs": 0.89,
+        "qiu_movement_oco": 0.0,
+        "delayed_ftrl_capacity": 0.88,
+        "gated_frontload_ipw": 0.01,
+        "discern_frontload_ipw": 0.0,
+        "gated_deployment+RMM": 0.01,
+        "discern_style+RMM": 0.01,
+        "SMCS+retain-incumbent+RMM": 0.01,
+        "LRMD_w50": 0.06,
+        "LRMD_single": 0.06,
+        "LRMD_w50_k1": 0.02,
+        "gated_deployment+RMM_single": 0.02,
+        "gated_deployment+RMM_noacq": 0.0
+      },
+      "LRMD_w50-best_controlled": [
+        1.0699999999999976,
+        0.20346249999999744,
+        2.2755374999999973
+      ],
+      "LRMD_w50-best_any": [
+        1.0699999999999976,
+        0.19899999999999693,
+        2.3184999999999985
+      ],
+      "gated_deployment+RMM-best_controlled": [
+        0.4299999999999977,
+        0.18349999999999791,
+        0.8670249999999983
+      ],
+      "gated_deployment+RMM-best_any": [
+        0.4299999999999977,
+        0.1809874999999958,
+        0.8610249999999968
+      ],
+      "discern_style+RMM-best_controlled": [
+        0.4099999999999977,
+        0.18348749999999858,
+        0.8115124999999964
+      ],
+      "discern_style+RMM-best_any": [
+        0.4099999999999977,
+        0.1849999999999994,
+        0.8135124999999996
+      ],
+      "SMCS+retain-incumbent+RMM-best_controlled": [
+        0.4799999999999977,
+        0.18249999999999716,
+        1.015499999999996
+      ],
+      "SMCS+retain-incumbent+RMM-best_any": [
+        0.4799999999999977,
+        0.18449999999999875,
+        1.0144999999999982
+      ],
+      "gated_deployment+RMM-gated_deployment": [
+        0.2280000000000018,
+        0.020000000000001704,
+        0.6350000000000022
+      ],
+      "discern_style+RMM-discern_style": [
+        0.2070000000000016,
+        0.02000000000000114,
+        0.5715000000000015
+      ],
+      "SMCS+retain-incumbent+RMM-SMCS+retain-incumbent": [
+        -0.25499999999999656,
+        -1.4355249999999966,
+        0.6525375000000024
+      ],
+      "LRMD_w50-LRMD_single": [
+        -0.03,
+        -0.16,
+        0.08
+      ],
+      "LRMD_w50-LRMD_w50_k1": [
+        0.3655000000000024,
+        -0.9460499999999974,
+        1.837575000000003
+      ],
+      "gated_deployment+RMM-gated_deployment+RMM_single": [
+        -0.24,
+        -0.71,
+        0.0
+      ],
+      "gated_deployment+RMM-gated_deployment+RMM_noacq": [
+        0.2280000000000018,
+        0.020000000000002273,
+        0.6335125000000019
+      ]
+    },
+    "V_worse_p40": {
+      "best_controlled": "gated_frontload_ipw",
+      "best_any": "gated_frontload_ipw",
+      "means": {
+        "gated_deployment": 330.084,
+        "discern_style": 330.0845,
+        "SMCS+retain-incumbent": 330.087,
+        "model_picker_adapter": 349.4425,
+        "model_selector_causal": 347.80049999999994,
+        "online_llm_picker": 362.68600000000004,
+        "xu_acquisition_only": 329.88050000000004,
+        "cams_adapter": 353.7825,
+        "variance_min_ipw": 355.3255000000001,
+        "P7s_settled": 329.87300000000005,
+        "CONTROL_never_switch": 320.1,
+        "economic_replacement": 354.068,
+        "gong_zhang_paid_obs": 355.8,
+        "qiu_movement_oco": 330.085,
+        "delayed_ftrl_capacity": 359.964,
+        "gated_frontload_ipw": 329.203,
+        "discern_frontload_ipw": 330.1,
+        "gated_deployment+RMM": 330.1,
+        "discern_style+RMM": 330.1,
+        "SMCS+retain-incumbent+RMM": 330.1,
+        "LRMD_w50": 330.1,
+        "LRMD_single": 330.1,
+        "LRMD_w50_k1": 330.0855,
+        "gated_deployment+RMM_single": 330.1,
+        "gated_deployment+RMM_noacq": 330.084
+      },
+      "promote": {
+        "gated_deployment": 0.0,
+        "discern_style": 0.0,
+        "SMCS+retain-incumbent": 0.0,
+        "model_picker_adapter": 0.75,
+        "model_selector_causal": 0.67,
+        "online_llm_picker": 0.86,
+        "xu_acquisition_only": 0.0,
+        "cams_adapter": 0.73,
+        "variance_min_ipw": 0.7,
+        "P7s_settled": 0.0,
+        "CONTROL_never_switch": 0.0,
+        "economic_replacement": 0.35,
+        "gong_zhang_paid_obs": 0.71,
+        "qiu_movement_oco": 0.0,
+        "delayed_ftrl_capacity": 0.77,
+        "gated_frontload_ipw": 0.0,
+        "discern_frontload_ipw": 0.0,
+        "gated_deployment+RMM": 0.0,
+        "discern_style+RMM": 0.0,
+        "SMCS+retain-incumbent+RMM": 0.0,
+        "LRMD_w50": 0.0,
+        "LRMD_single": 0.0,
+        "LRMD_w50_k1": 0.0,
+        "gated_deployment+RMM_single": 0.0,
+        "gated_deployment+RMM_noacq": 0.0
+      },
+      "LRMD_w50-best_controlled": [
+        0.8970000000000005,
+        0.5479875000000002,
+        1.282999999999999
+      ],
+      "LRMD_w50-best_any": [
+        0.8970000000000005,
+        0.5504624999999991,
+        1.2910250000000025
+      ],
+      "gated_deployment+RMM-best_controlled": [
+        0.8970000000000005,
+        0.5204875000000007,
+        1.292512500000001
+      ],
+      "gated_deployment+RMM-best_any": [
+        0.8970000000000005,
+        0.532949999999999,
+        1.2940000000000003
+      ],
+      "discern_style+RMM-best_controlled": [
+        0.8970000000000005,
+        0.5379749999999996,
+        1.2840125000000002
+      ],
+      "discern_style+RMM-best_any": [
+        0.8970000000000005,
+        0.5314875000000009,
+        1.2770125000000003
+      ],
+      "SMCS+retain-incumbent+RMM-best_controlled": [
+        0.8970000000000005,
+        0.5375000000000011,
+        1.3030625000000005
+      ],
+      "SMCS+retain-incumbent+RMM-best_any": [
+        0.8970000000000005,
+        0.5509999999999997,
+        1.2810125
+      ],
+      "gated_deployment+RMM-gated_deployment": [
+        0.016000000000001933,
+        0.009000000000001477,
+        0.0235000000000025
+      ],
+      "discern_style+RMM-discern_style": [
+        0.015500000000002956,
+        0.010000000000001705,
+        0.022000000000003298
+      ],
+      "SMCS+retain-incumbent+RMM-SMCS+retain-incumbent": [
+        0.013000000000001819,
+        0.007000000000001592,
+        0.019000000000003184
+      ],
+      "LRMD_w50-LRMD_single": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "LRMD_w50-LRMD_w50_k1": [
+        0.014500000000002728,
+        0.008500000000001933,
+        0.02150000000000206
+      ],
+      "gated_deployment+RMM-gated_deployment+RMM_single": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "gated_deployment+RMM-gated_deployment+RMM_noacq": [
+        0.016000000000001933,
+        0.009000000000002046,
+        0.024000000000002047
+      ]
+    },
+    "V_dep_null_r8": {
+      "best_controlled": "discern_style",
+      "best_any": "discern_style",
+      "means": {
+        "gated_deployment": 373.01149999999996,
+        "discern_style": 373.00699999999995,
+        "SMCS+retain-incumbent": 373.6505,
+        "model_picker_adapter": 392.56549999999993,
+        "model_selector_causal": 401.02399999999994,
+        "online_llm_picker": 403.38349999999997,
+        "xu_acquisition_only": 373.88849999999996,
+        "cams_adapter": 406.5845,
+        "variance_min_ipw": 405.004,
+        "P7s_settled": 372.8575,
+        "CONTROL_never_switch": 363.04,
+        "economic_replacement": 376.56449999999995,
+        "gong_zhang_paid_obs": 387.06,
+        "qiu_movement_oco": 373.01099999999997,
+        "delayed_ftrl_capacity": 382.5585,
+        "gated_frontload_ipw": 373.16299999999995,
+        "discern_frontload_ipw": 373.04,
+        "gated_deployment+RMM": 374.0995,
+        "discern_style+RMM": 375.4795,
+        "SMCS+retain-incumbent+RMM": 374.93,
+        "LRMD_w50": 374.66,
+        "LRMD_single": 373.35,
+        "LRMD_w50_k1": 373.35900000000004,
+        "gated_deployment+RMM_single": 374.68949999999995,
+        "gated_deployment+RMM_noacq": 374.23099999999994
+      },
+      "promote": {
+        "gated_deployment": 0.0,
+        "discern_style": 0.0,
+        "SMCS+retain-incumbent": 0.1,
+        "model_picker_adapter": 0.95,
+        "model_selector_causal": 0.99,
+        "online_llm_picker": 1.0,
+        "xu_acquisition_only": 0.08,
+        "cams_adapter": 0.99,
+        "variance_min_ipw": 0.95,
+        "P7s_settled": 0.15,
+        "CONTROL_never_switch": 0.0,
+        "economic_replacement": 0.82,
+        "gong_zhang_paid_obs": 0.94,
+        "qiu_movement_oco": 0.0,
+        "delayed_ftrl_capacity": 0.87,
+        "gated_frontload_ipw": 0.16,
+        "discern_frontload_ipw": 0.0,
+        "gated_deployment+RMM": 0.24,
+        "discern_style+RMM": 0.23,
+        "SMCS+retain-incumbent+RMM": 0.23,
+        "LRMD_w50": 0.33,
+        "LRMD_single": 0.3,
+        "LRMD_w50_k1": 0.2,
+        "gated_deployment+RMM_single": 0.21,
+        "gated_deployment+RMM_noacq": 0.1
+      },
+      "LRMD_w50-best_controlled": [
+        1.653000000000004,
+        -1.337649999999997,
+        4.734550000000005
+      ],
+      "LRMD_w50-best_any": [
+        1.653000000000004,
+        -1.3916624999999962,
+        4.723087500000003
+      ],
+      "gated_deployment+RMM-best_controlled": [
+        1.092500000000004,
+        -1.1401999999999948,
+        3.485175000000004
+      ],
+      "gated_deployment+RMM-best_any": [
+        1.092500000000004,
+        -1.165112499999996,
+        3.4625125000000034
+      ],
+      "discern_style+RMM-best_controlled": [
+        2.472500000000004,
+        -0.39164999999999467,
+        5.637712500000005
+      ],
+      "discern_style+RMM-best_any": [
+        2.472500000000004,
+        -0.4831374999999955,
+        5.675075000000003
+      ],
+      "SMCS+retain-incumbent+RMM-best_controlled": [
+        1.923000000000004,
+        -0.8075249999999954,
+        4.949400000000005
+      ],
+      "SMCS+retain-incumbent+RMM-best_any": [
+        1.923000000000004,
+        -0.9121499999999952,
+        4.904575000000005
+      ],
+      "gated_deployment+RMM-gated_deployment": [
+        1.088000000000003,
+        -1.1755749999999967,
+        3.4385625000000033
+      ],
+      "discern_style+RMM-discern_style": [
+        2.472500000000004,
+        -0.4545874999999959,
+        5.618050000000003
+      ],
+      "SMCS+retain-incumbent+RMM-SMCS+retain-incumbent": [
+        1.2795000000000039,
+        -1.6181374999999967,
+        4.189100000000004
+      ],
+      "LRMD_w50-LRMD_single": [
+        1.31,
+        -1.33025,
+        4.060250000000001
+      ],
+      "LRMD_w50-LRMD_w50_k1": [
+        1.3010000000000026,
+        -1.2118624999999985,
+        3.982437500000005
+      ],
+      "gated_deployment+RMM-gated_deployment+RMM_single": [
+        -0.59,
+        -3.21,
+        1.9
+      ],
+      "gated_deployment+RMM-gated_deployment+RMM_noacq": [
+        -0.1314999999999975,
+        -2.272062499999998,
+        2.0625125000000066
+      ]
+    },
+    "V_late_1000_d50": {
+      "best_controlled": "xu_acquisition_only",
+      "best_any": "model_selector_causal",
+      "means": {
+        "gated_deployment": 392.717,
+        "discern_style": 392.717,
+        "SMCS+retain-incumbent": 392.18049999999994,
+        "model_picker_adapter": 380.843,
+        "model_selector_causal": 377.913,
+        "online_llm_picker": 383.58200000000005,
+        "xu_acquisition_only": 389.9594999999999,
+        "cams_adapter": 390.53799999999995,
+        "variance_min_ipw": 391.1335000000001,
+        "P7s_settled": 371.5944999999999,
+        "CONTROL_never_switch": 382.73,
+        "economic_replacement": 367.2885,
+        "gong_zhang_paid_obs": 400.25,
+        "qiu_movement_oco": 392.718,
+        "delayed_ftrl_capacity": 387.33200000000005,
+        "gated_frontload_ipw": 391.70450000000005,
+        "discern_frontload_ipw": 392.73,
+        "gated_deployment+RMM": 377.48,
+        "discern_style+RMM": 375.87,
+        "SMCS+retain-incumbent+RMM": 379.94,
+        "LRMD_w50": 384.5,
+        "LRMD_single": 392.73,
+        "LRMD_w50_k1": 373.69300000000004,
+        "gated_deployment+RMM_single": 392.73,
+        "gated_deployment+RMM_noacq": 374.4775
+      },
+      "promote": {
+        "gated_deployment": 0.0,
+        "discern_style": 0.0,
+        "SMCS+retain-incumbent": 0.01,
+        "model_picker_adapter": 0.87,
+        "model_selector_causal": 0.95,
+        "online_llm_picker": 0.93,
+        "xu_acquisition_only": 0.28,
+        "cams_adapter": 0.98,
+        "variance_min_ipw": 0.95,
+        "P7s_settled": 0.72,
+        "CONTROL_never_switch": 0.0,
+        "economic_replacement": 0.54,
+        "gong_zhang_paid_obs": 0.65,
+        "qiu_movement_oco": 0.0,
+        "delayed_ftrl_capacity": 0.81,
+        "gated_frontload_ipw": 0.0,
+        "discern_frontload_ipw": 0.0,
+        "gated_deployment+RMM": 0.49,
+        "discern_style+RMM": 0.52,
+        "SMCS+retain-incumbent+RMM": 0.51,
+        "LRMD_w50": 0.29,
+        "LRMD_single": 0.0,
+        "LRMD_w50_k1": 0.77,
+        "gated_deployment+RMM_single": 0.0,
+        "gated_deployment+RMM_noacq": 0.82
+      },
+      "LRMD_w50-best_controlled": [
+        -5.4595,
+        -8.746012499999999,
+        -2.4504125000000014
+      ],
+      "LRMD_w50-best_any": [
+        6.5870000000000015,
+        2.308987500000002,
+        11.015087500000002
+      ],
+      "gated_deployment+RMM-best_controlled": [
+        -12.479499999999998,
+        -16.4868375,
+        -8.647224999999995
+      ],
+      "gated_deployment+RMM-best_any": [
+        -0.4329999999999984,
+        -5.273249999999999,
+        4.397425000000004
+      ],
+      "discern_style+RMM-best_controlled": [
+        -14.089499999999997,
+        -17.7420375,
+        -10.427824999999997
+      ],
+      "discern_style+RMM-best_any": [
+        -2.0429999999999984,
+        -6.453987499999999,
+        2.523762500000002
+      ],
+      "SMCS+retain-incumbent+RMM-best_controlled": [
+        -10.019499999999999,
+        -13.454025000000001,
+        -6.753937499999999
+      ],
+      "SMCS+retain-incumbent+RMM-best_any": [
+        2.0270000000000015,
+        -2.481012499999998,
+        6.545037500000002
+      ],
+      "gated_deployment+RMM-gated_deployment": [
+        -15.236999999999998,
+        -19.236075,
+        -11.476475
+      ],
+      "discern_style+RMM-discern_style": [
+        -16.846999999999998,
+        -20.565512499999997,
+        -13.0884875
+      ],
+      "SMCS+retain-incumbent+RMM-SMCS+retain-incumbent": [
+        -12.240499999999997,
+        -15.709575,
+        -8.917074999999995
+      ],
+      "LRMD_w50-LRMD_single": [
+        -8.23,
+        -11.15,
+        -5.429499999999998
+      ],
+      "LRMD_w50-LRMD_w50_k1": [
+        10.807000000000002,
+        8.047462500000004,
+        13.617050000000003
+      ],
+      "gated_deployment+RMM-gated_deployment+RMM_single": [
+        -15.25,
+        -19.07,
+        -11.489749999999999
+      ],
+      "gated_deployment+RMM-gated_deployment+RMM_noacq": [
+        3.002500000000002,
+        -0.8395999999999975,
+        6.7575125000000025
+      ]
+    },
+    "V_late_1000_d250": {
+      "best_controlled": "gated_frontload_ipw",
+      "best_any": "delayed_ftrl_capacity",
+      "means": {
+        "gated_deployment": 389.59850000000006,
+        "discern_style": 389.6,
+        "SMCS+retain-incumbent": 389.575,
+        "model_picker_adapter": 394.282,
+        "model_selector_causal": 391.9385,
+        "online_llm_picker": 385.9225,
+        "xu_acquisition_only": 389.48700000000014,
+        "cams_adapter": 401.7565,
+        "variance_min_ipw": 400.4845,
+        "P7s_settled": 388.028,
+        "CONTROL_never_switch": 379.62,
+        "economic_replacement": 370.4425,
+        "gong_zhang_paid_obs": 397.13,
+        "qiu_movement_oco": 389.605,
+        "delayed_ftrl_capacity": 374.49000000000024,
+        "gated_frontload_ipw": 389.035,
+        "discern_frontload_ipw": 389.62,
+        "gated_deployment+RMM": 384.19949999999994,
+        "discern_style+RMM": 383.52,
+        "SMCS+retain-incumbent+RMM": 384.19949999999994,
+        "LRMD_w50": 386.76,
+        "LRMD_single": 389.62,
+        "LRMD_w50_k1": 382.85299999999995,
+        "gated_deployment+RMM_single": 389.61949999999996,
+        "gated_deployment+RMM_noacq": 383.07800000000003
+      },
+      "promote": {
+        "gated_deployment": 0.0,
+        "discern_style": 0.0,
+        "SMCS+retain-incumbent": 0.01,
+        "model_picker_adapter": 0.9,
+        "model_selector_causal": 0.9,
+        "online_llm_picker": 0.88,
+        "xu_acquisition_only": 0.03,
+        "cams_adapter": 0.89,
+        "variance_min_ipw": 0.93,
+        "P7s_settled": 0.35,
+        "CONTROL_never_switch": 0.0,
+        "economic_replacement": 0.4,
+        "gong_zhang_paid_obs": 0.69,
+        "qiu_movement_oco": 0.0,
+        "delayed_ftrl_capacity": 0.59,
+        "gated_frontload_ipw": 0.0,
+        "discern_frontload_ipw": 0.0,
+        "gated_deployment+RMM": 0.43,
+        "discern_style+RMM": 0.43,
+        "SMCS+retain-incumbent+RMM": 0.43,
+        "LRMD_w50": 0.16,
+        "LRMD_single": 0.0,
+        "LRMD_w50_k1": 0.58,
+        "gated_deployment+RMM_single": 0.0,
+        "gated_deployment+RMM_noacq": 0.6
+      },
+      "LRMD_w50-best_controlled": [
+        -2.275,
+        -3.958587500000002,
+        -0.8798625
+      ],
+      "LRMD_w50-best_any": [
+        12.26999999999999,
+        6.6194999999999915,
+        17.82024999999999
+      ],
+      "gated_deployment+RMM-best_controlled": [
+        -4.8355,
+        -7.04525,
+        -2.8886875
+      ],
+      "gated_deployment+RMM-best_any": [
+        9.709499999999991,
+        3.7297374999999886,
+        15.700237499999991
+      ],
+      "discern_style+RMM-best_controlled": [
+        -5.515,
+        -7.958199999999999,
+        -3.3468375
+      ],
+      "discern_style+RMM-best_any": [
+        9.02999999999999,
+        3.399749999999989,
+        14.969999999999992
+      ],
+      "SMCS+retain-incumbent+RMM-best_controlled": [
+        -4.8355,
+        -6.8326625,
+        -2.947975
+      ],
+      "SMCS+retain-incumbent+RMM-best_any": [
+        9.709499999999991,
+        4.039487499999988,
+        15.339724999999993
+      ],
+      "gated_deployment+RMM-gated_deployment": [
+        -5.398999999999998,
+        -7.702512499999998,
+        -3.310012499999996
+      ],
+      "discern_style+RMM-discern_style": [
+        -6.079999999999997,
+        -8.6066,
+        -3.821787499999998
+      ],
+      "SMCS+retain-incumbent+RMM-SMCS+retain-incumbent": [
+        -5.375499999999999,
+        -7.478237499999997,
+        -3.350324999999999
+      ],
+      "LRMD_w50-LRMD_single": [
+        -2.86,
+        -4.56,
+        -1.43
+      ],
+      "LRMD_w50-LRMD_w50_k1": [
+        3.9070000000000022,
+        2.2998000000000016,
+        5.588725000000002
+      ],
+      "gated_deployment+RMM-gated_deployment+RMM_single": [
+        -5.42,
+        -7.68025,
+        -3.439749999999999
+      ],
+      "gated_deployment+RMM-gated_deployment+RMM_noacq": [
+        1.121500000000002,
+        -1.4272374999999975,
+        3.595337500000003
+      ]
+    }
+  },
+  "families": {
+    "primary": {
+      "LRMD_w50-best_controlled": [
+        -5.4003571428571435,
+        -6.527517857142859,
+        -4.349889285714285
+      ],
+      "LRMD_w50-best_any": [
+        12.69357142857144,
+        10.972941071428586,
+        14.413398214285731
+      ],
+      "LRMD_w50-model_picker_adapter": [
+        2.8490714285714303,
+        0.6535017857142812,
+        5.021085714285711
+      ],
+      "LRMD_w50-model_selector_causal": [
+        7.702428571428579,
+        6.230707142857148,
+        9.202123214285725
+      ],
+      "LRMD_w50-gated_frontload_ipw": [
+        -6.403142857142856,
+        -7.481028571428573,
+        -5.331057142857143
+      ],
+      "gated_deployment+RMM-gated_deployment": [
+        -25.614428571428572,
+        -27.158885714285713,
+        -24.089069642857147
+      ],
+      "gated_deployment+RMM-best_controlled": [
+        -2.8347857142857165,
+        -4.19250178571429,
+        -1.461851785714286
+      ],
+      "discern_style+RMM-discern_style": [
+        -27.062857142857133,
+        -28.534491071428562,
+        -25.58878035714285
+      ],
+      "discern_style+RMM-best_controlled": [
+        -3.163214285714287,
+        -4.599571428571429,
+        -1.7962053571428571
+      ],
+      "SMCS+retain-incumbent+RMM-SMCS+retain-incumbent": [
+        -8.208428571428563,
+        -9.792555357142843,
+        -6.5860482142857055
+      ],
+      "SMCS+retain-incumbent+RMM-best_controlled": [
+        -3.7104285714285714,
+        -5.016092857142858,
+        -2.442023214285712
+      ],
+      "LRMD_w50-LRMD_single": [
+        -3.7985714285714294,
+        -4.6428571428571415,
+        -3.00425
+      ],
+      "LRMD_w50-LRMD_w50_k1": [
+        0.4903571428571513,
+        -0.6665285714285599,
+        1.7126428571428634
+      ]
+    },
+    "adverse": {
+      "LRMD_w50-best_controlled": [
+        18.791999999999994,
+        16.800812499999996,
+        20.807325
+      ],
+      "LRMD_w50-best_any": [
+        18.791999999999994,
+        16.866962499999996,
+        20.73001249999999
+      ],
+      "LRMD_w50-model_picker_adapter": [
+        -4.878333333333333,
+        -8.21034583333333,
+        -1.5921624999999922
+      ],
+      "LRMD_w50-model_selector_causal": [
+        -5.294833333333338,
+        -8.130887500000002,
+        -2.3361333333333416
+      ],
+      "LRMD_w50-gated_frontload_ipw": [
+        7.2108333333333325,
+        5.357037499999998,
+        9.177933333333332
+      ],
+      "gated_deployment+RMM-gated_deployment": [
+        17.385666666666665,
+        14.978604166666658,
+        19.818291666666667
+      ],
+      "gated_deployment+RMM-best_controlled": [
+        18.858666666666668,
+        16.574816666666663,
+        21.0995375
+      ],
+      "discern_style+RMM-discern_style": [
+        20.043499999999995,
+        18.071324999999995,
+        22.024470833333332
+      ],
+      "discern_style+RMM-best_controlled": [
+        20.612,
+        18.611995833333328,
+        22.661341666666665
+      ],
+      "SMCS+retain-incumbent+RMM-SMCS+retain-incumbent": [
+        6.176666666666664,
+        3.6479416666666644,
+        8.773741666666664
+      ],
+      "SMCS+retain-incumbent+RMM-best_controlled": [
+        18.30183333333333,
+        16.131258333333335,
+        20.594795833333336
+      ],
+      "LRMD_w50-LRMD_single": [
+        6.239999999999996,
+        4.626666666666664,
+        7.889999999999998
+      ],
+      "LRMD_w50-LRMD_w50_k1": [
+        -0.1540000000000026,
+        -2.1789166666666717,
+        1.9916708333333295
+      ]
+    },
+    "null": {
+      "LRMD_w50-best_controlled": [
+        1.2066666666666641,
+        0.13216666666666854,
+        2.2558416666666647
+      ],
+      "LRMD_w50-best_any": [
+        1.2066666666666641,
+        0.09742083333333397,
+        2.291191666666659
+      ],
+      "LRMD_w50-model_picker_adapter": [
+        -23.02466666666667,
+        -26.787345833333337,
+        -19.314045833333328
+      ],
+      "LRMD_w50-model_selector_causal": [
+        -22.99750000000001,
+        -26.291254166666675,
+        -19.766150000000007
+      ],
+      "LRMD_w50-gated_frontload_ipw": [
+        1.0494999999999954,
+        0.12414999999999399,
+        1.9963499999999965
+      ],
+      "gated_deployment+RMM-gated_deployment": [
+        0.44399999999999407,
+        -0.31452083333333725,
+        1.2695041666666593
+      ],
+      "gated_deployment+RMM-best_controlled": [
+        0.8064999999999969,
+        0.035958333333328485,
+        1.6161916666666656
+      ],
+      "discern_style+RMM-discern_style": [
+        0.8983333333333285,
+        -0.09055000000000074,
+        1.9405499999999933
+      ],
+      "discern_style+RMM-best_controlled": [
+        1.2598333333333311,
+        0.24907916666666685,
+        2.3114041666666703
+      ],
+      "SMCS+retain-incumbent+RMM-SMCS+retain-incumbent": [
+        0.3458333333333258,
+        -0.688379166666674,
+        1.3716833333333245
+      ],
+      "SMCS+retain-incumbent+RMM-best_controlled": [
+        1.0999999999999965,
+        0.13711666666666522,
+        2.132204166666663
+      ],
+      "LRMD_w50-LRMD_single": [
+        0.42666666666666797,
+        -0.44333333333333086,
+        1.336666666666667
+      ],
+      "LRMD_w50-LRMD_w50_k1": [
+        0.5603333333333245,
+        -0.3910083333333382,
+        1.5440541666666558
+      ]
+    }
+  },
+  "safety": {
+    "V_null": {
+      "gated_deployment": {
+        "k": 0,
+        "n": 100,
+        "rate": 0.0,
+        "wilson_ub": 0.03699480747600191
+      },
+      "discern_style": {
+        "k": 0,
+        "n": 100,
+        "rate": 0.0,
+        "wilson_ub": 0.03699480747600191
+      },
+      "SMCS+retain-incumbent": {
+        "k": 2,
+        "n": 100,
+        "rate": 0.02,
+        "wilson_ub": 0.07001316294199364
+      },
+      "model_picker_adapter": {
+        "k": 94,
+        "n": 100,
+        "rate": 0.94,
+        "wilson_ub": 0.9722142547333434
+      },
+      "model_selector_causal": {
+        "k": 94,
+        "n": 100,
+        "rate": 0.94,
+        "wilson_ub": 0.9722142547333434
+      },
+      "online_llm_picker": {
+        "k": 100,
+        "n": 100,
+        "rate": 1.0,
+        "wilson_ub": 0.9999999999999998
+      },
+      "xu_acquisition_only": {
+        "k": 0,
+        "n": 100,
+        "rate": 0.0,
+        "wilson_ub": 0.03699480747600191
+      },
+      "cams_adapter": {
+        "k": 99,
+        "n": 100,
+        "rate": 0.99,
+        "wilson_ub": 0.9982326134344527
+      },
+      "variance_min_ipw": {
+        "k": 97,
+        "n": 100,
+        "rate": 0.97,
+        "wilson_ub": 0.9897456617765852
+      },
+      "P7s_settled": {
+        "k": 3,
+        "n": 100,
+        "rate": 0.03,
+        "wilson_ub": 0.08452078080402699
+      },
+      "CONTROL_never_switch": {
+        "k": 0,
+        "n": 100,
+        "rate": 0.0,
+        "wilson_ub": 0.03699480747600191
+      },
+      "economic_replacement": {
+        "k": 78,
+        "n": 100,
+        "rate": 0.78,
+        "wilson_ub": 0.849988254963442
+      },
+      "gong_zhang_paid_obs": {
+        "k": 89,
+        "n": 100,
+        "rate": 0.89,
+        "wilson_ub": 0.9374586804477488
+      },
+      "qiu_movement_oco": {
+        "k": 0,
+        "n": 100,
+        "rate": 0.0,
+        "wilson_ub": 0.03699480747600191
+      },
+      "delayed_ftrl_capacity": {
+        "k": 88,
+        "n": 100,
+        "rate": 0.88,
+        "wilson_ub": 0.9300066263473222
+      },
+      "gated_frontload_ipw": {
+        "k": 1,
+        "n": 100,
+        "rate": 0.01,
+        "wilson_ub": 0.05448752476093461
+      },
+      "discern_frontload_ipw": {
+        "k": 0,
+        "n": 100,
+        "rate": 0.0,
+        "wilson_ub": 0.03699480747600191
+      },
+      "gated_deployment+RMM": {
+        "k": 1,
+        "n": 100,
+        "rate": 0.01,
+        "wilson_ub": 0.05448752476093461
+      },
+      "discern_style+RMM": {
+        "k": 1,
+        "n": 100,
+        "rate": 0.01,
+        "wilson_ub": 0.05448752476093461
+      },
+      "SMCS+retain-incumbent+RMM": {
+        "k": 1,
+        "n": 100,
+        "rate": 0.01,
+        "wilson_ub": 0.05448752476093461
+      },
+      "LRMD_w50": {
+        "k": 6,
+        "n": 100,
+        "rate": 0.06,
+        "wilson_ub": 0.12476968531222504
+      },
+      "LRMD_single": {
+        "k": 6,
+        "n": 100,
+        "rate": 0.06,
+        "wilson_ub": 0.12476968531222504
+      },
+      "LRMD_w50_k1": {
+        "k": 2,
+        "n": 100,
+        "rate": 0.02,
+        "wilson_ub": 0.07001316294199364
+      },
+      "gated_deployment+RMM_single": {
+        "k": 2,
+        "n": 100,
+        "rate": 0.02,
+        "wilson_ub": 0.07001316294199364
+      },
+      "gated_deployment+RMM_noacq": {
+        "k": 0,
+        "n": 100,
+        "rate": 0.0,
+        "wilson_ub": 0.03699480747600191
+      }
+    },
+    "V_worse_p40": {
+      "gated_deployment": {
+        "k": 0,
+        "n": 100,
+        "rate": 0.0,
+        "wilson_ub": 0.03699480747600191
+      },
+      "discern_style": {
+        "k": 0,
+        "n": 100,
+        "rate": 0.0,
+        "wilson_ub": 0.03699480747600191
+      },
+      "SMCS+retain-incumbent": {
+        "k": 0,
+        "n": 100,
+        "rate": 0.0,
+        "wilson_ub": 0.03699480747600191
+      },
+      "model_picker_adapter": {
+        "k": 75,
+        "n": 100,
+        "rate": 0.75,
+        "wilson_ub": 0.8245490599627574
+      },
+      "model_selector_causal": {
+        "k": 67,
+        "n": 100,
+        "rate": 0.67,
+        "wilson_ub": 0.7543701620610456
+      },
+      "online_llm_picker": {
+        "k": 86,
+        "n": 100,
+        "rate": 0.86,
+        "wilson_ub": 0.9147373424553509
+      },
+      "xu_acquisition_only": {
+        "k": 0,
+        "n": 100,
+        "rate": 0.0,
+        "wilson_ub": 0.03699480747600191
+      },
+      "cams_adapter": {
+        "k": 73,
+        "n": 100,
+        "rate": 0.73,
+        "wilson_ub": 0.8073053908233518
+      },
+      "variance_min_ipw": {
+        "k": 70,
+        "n": 100,
+        "rate": 0.7,
+        "wilson_ub": 0.7810524613377188
+      },
+      "P7s_settled": {
+        "k": 0,
+        "n": 100,
+        "rate": 0.0,
+        "wilson_ub": 0.03699480747600191
+      },
+      "CONTROL_never_switch": {
+        "k": 0,
+        "n": 100,
+        "rate": 0.0,
+        "wilson_ub": 0.03699480747600191
+      },
+      "economic_replacement": {
+        "k": 35,
+        "n": 100,
+        "rate": 0.35,
+        "wilson_ub": 0.4474573957080203
+      },
+      "gong_zhang_paid_obs": {
+        "k": 71,
+        "n": 100,
+        "rate": 0.71,
+        "wilson_ub": 0.7898529302601586
+      },
+      "qiu_movement_oco": {
+        "k": 0,
+        "n": 100,
+        "rate": 0.0,
+        "wilson_ub": 0.03699480747600191
+      },
+      "delayed_ftrl_capacity": {
+        "k": 77,
+        "n": 100,
+        "rate": 0.77,
+        "wilson_ub": 0.8415684525312359
+      },
+      "gated_frontload_ipw": {
+        "k": 0,
+        "n": 100,
+        "rate": 0.0,
+        "wilson_ub": 0.03699480747600191
+      },
+      "discern_frontload_ipw": {
+        "k": 0,
+        "n": 100,
+        "rate": 0.0,
+        "wilson_ub": 0.03699480747600191
+      },
+      "gated_deployment+RMM": {
+        "k": 0,
+        "n": 100,
+        "rate": 0.0,
+        "wilson_ub": 0.03699480747600191
+      },
+      "discern_style+RMM": {
+        "k": 0,
+        "n": 100,
+        "rate": 0.0,
+        "wilson_ub": 0.03699480747600191
+      },
+      "SMCS+retain-incumbent+RMM": {
+        "k": 0,
+        "n": 100,
+        "rate": 0.0,
+        "wilson_ub": 0.03699480747600191
+      },
+      "LRMD_w50": {
+        "k": 0,
+        "n": 100,
+        "rate": 0.0,
+        "wilson_ub": 0.03699480747600191
+      },
+      "LRMD_single": {
+        "k": 0,
+        "n": 100,
+        "rate": 0.0,
+        "wilson_ub": 0.03699480747600191
+      },
+      "LRMD_w50_k1": {
+        "k": 0,
+        "n": 100,
+        "rate": 0.0,
+        "wilson_ub": 0.03699480747600191
+      },
+      "gated_deployment+RMM_single": {
+        "k": 0,
+        "n": 100,
+        "rate": 0.0,
+        "wilson_ub": 0.03699480747600191
+      },
+      "gated_deployment+RMM_noacq": {
+        "k": 0,
+        "n": 100,
+        "rate": 0.0,
+        "wilson_ub": 0.03699480747600191
+      }
+    },
+    "V_dep_null_r8": {
+      "gated_deployment": {
+        "k": 0,
+        "n": 100,
+        "rate": 0.0,
+        "wilson_ub": 0.03699480747600191
+      },
+      "discern_style": {
+        "k": 0,
+        "n": 100,
+        "rate": 0.0,
+        "wilson_ub": 0.03699480747600191
+      },
+      "SMCS+retain-incumbent": {
+        "k": 10,
+        "n": 100,
+        "rate": 0.1,
+        "wilson_ub": 0.1743673043676654
+      },
+      "model_picker_adapter": {
+        "k": 95,
+        "n": 100,
+        "rate": 0.95,
+        "wilson_ub": 0.9784566385436865
+      },
+      "model_selector_causal": {
+        "k": 99,
+        "n": 100,
+        "rate": 0.99,
+        "wilson_ub": 0.9982326134344527
+      },
+      "online_llm_picker": {
+        "k": 100,
+        "n": 100,
+        "rate": 1.0,
+        "wilson_ub": 0.9999999999999998
+      },
+      "xu_acquisition_only": {
+        "k": 8,
+        "n": 100,
+        "rate": 0.08,
+        "wilson_ub": 0.1499826687940307
+      },
+      "cams_adapter": {
+        "k": 99,
+        "n": 100,
+        "rate": 0.99,
+        "wilson_ub": 0.9982326134344527
+      },
+      "variance_min_ipw": {
+        "k": 95,
+        "n": 100,
+        "rate": 0.95,
+        "wilson_ub": 0.9784566385436865
+      },
+      "P7s_settled": {
+        "k": 15,
+        "n": 100,
+        "rate": 0.15,
+        "wilson_ub": 0.23283733332157835
+      },
+      "CONTROL_never_switch": {
+        "k": 0,
+        "n": 100,
+        "rate": 0.0,
+        "wilson_ub": 0.03699480747600191
+      },
+      "economic_replacement": {
+        "k": 82,
+        "n": 100,
+        "rate": 0.82,
+        "wilson_ub": 0.8829986834574897
+      },
+      "gong_zhang_paid_obs": {
+        "k": 94,
+        "n": 100,
+        "rate": 0.94,
+        "wilson_ub": 0.9722142547333434
+      },
+      "qiu_movement_oco": {
+        "k": 0,
+        "n": 100,
+        "rate": 0.0,
+        "wilson_ub": 0.03699480747600191
+      },
+      "delayed_ftrl_capacity": {
+        "k": 87,
+        "n": 100,
+        "rate": 0.87,
+        "wilson_ub": 0.9224290614158573
+      },
+      "gated_frontload_ipw": {
+        "k": 16,
+        "n": 100,
+        "rate": 0.16,
+        "wilson_ub": 0.24420444558894416
+      },
+      "discern_frontload_ipw": {
+        "k": 0,
+        "n": 100,
+        "rate": 0.0,
+        "wilson_ub": 0.03699480747600191
+      },
+      "gated_deployment+RMM": {
+        "k": 24,
+        "n": 100,
+        "rate": 0.24,
+        "wilson_ub": 0.3323251872329213
+      },
+      "discern_style+RMM": {
+        "k": 23,
+        "n": 100,
+        "rate": 0.23,
+        "wilson_ub": 0.321545648568277
+      },
+      "SMCS+retain-incumbent+RMM": {
+        "k": 23,
+        "n": 100,
+        "rate": 0.23,
+        "wilson_ub": 0.321545648568277
+      },
+      "LRMD_w50": {
+        "k": 33,
+        "n": 100,
+        "rate": 0.33,
+        "wilson_ub": 0.4269483966028862
+      },
+      "LRMD_single": {
+        "k": 30,
+        "n": 100,
+        "rate": 0.3,
+        "wilson_ub": 0.3958503843281196
+      },
+      "LRMD_w50_k1": {
+        "k": 20,
+        "n": 100,
+        "rate": 0.2,
+        "wilson_ub": 0.28883096192650237
+      },
+      "gated_deployment+RMM_single": {
+        "k": 21,
+        "n": 100,
+        "rate": 0.21,
+        "wilson_ub": 0.2998014930196232
+      },
+      "gated_deployment+RMM_noacq": {
+        "k": 10,
+        "n": 100,
+        "rate": 0.1,
+        "wilson_ub": 0.1743673043676654
+      }
+    }
+  },
+  "real": {
+    "rialto": {
+      "K": 16,
+      "means": {
+        "gated_deployment": 94.15015625,
+        "discern_style": 210.02171875,
+        "SMCS+retain-incumbent": 90.0428125,
+        "model_picker_adapter": 74.27328125,
+        "model_selector_causal": 77.921875,
+        "online_llm_picker": 73.16093749999999,
+        "xu_acquisition_only": 99.50359375,
+        "cams_adapter": 74.81671874999999,
+        "variance_min_ipw": 79.25171875000001,
+        "P7s_settled": 98.61625000000001,
+        "CONTROL_never_switch": 202.0625,
+        "economic_replacement": 94.5340625,
+        "gong_zhang_paid_obs": 80.1625,
+        "qiu_movement_oco": 210.02499999999998,
+        "delayed_ftrl_capacity": 72.6925,
+        "gated_frontload_ipw": 90.946875,
+        "discern_frontload_ipw": 210.284375,
+        "gated_deployment+RMM": 98.03140625,
+        "discern_style+RMM": 98.05484374999999,
+        "SMCS+retain-incumbent+RMM": 91.18203125,
+        "LRMD_w50": 90.28031250000001,
+        "LRMD_single": 87.8490625,
+        "LRMD_w50_k1": 92.418125,
+        "gated_deployment+RMM_single": 90.88015625,
+        "gated_deployment+RMM_noacq": 99.01421875
+      },
+      "best_controlled": "SMCS+retain-incumbent",
+      "best_any": "delayed_ftrl_capacity",
+      "LRMD_w50-best_controlled": [
+        0.23750000000000693,
+        -0.7408593749999915,
+        1.3905273437499994
+      ],
+      "LRMD_w50-best_any": [
+        17.587812500000002,
+        16.527074218750002,
+        18.793886718750002
+      ],
+      "gated_deployment+RMM-gated_deployment": [
+        3.8812500000000045,
+        2.912179687500007,
+        4.800648437500004
+      ],
+      "discern_style+RMM-discern_style": [
+        -111.966875,
+        -129.96791015625,
+        -93.1516171875
+      ],
+      "SMCS+retain-incumbent+RMM-SMCS+retain-incumbent": [
+        1.1392187500000017,
+        0.8604335937499996,
+        1.4093828125000019
+      ],
+      "promote": {
+        "gated_deployment": 1.0,
+        "discern_style": 0.0,
+        "SMCS+retain-incumbent": 1.0,
+        "model_picker_adapter": 1.0,
+        "model_selector_causal": 1.0,
+        "online_llm_picker": 1.0,
+        "xu_acquisition_only": 1.0,
+        "cams_adapter": 1.0,
+        "variance_min_ipw": 1.0,
+        "P7s_settled": 1.0,
+        "CONTROL_never_switch": 0.0,
+        "economic_replacement": 1.0,
+        "gong_zhang_paid_obs": 1.0,
+        "qiu_movement_oco": 0.0,
+        "delayed_ftrl_capacity": 1.0,
+        "gated_frontload_ipw": 1.0,
+        "discern_frontload_ipw": 0.0,
+        "gated_deployment+RMM": 1.0,
+        "discern_style+RMM": 1.0,
+        "SMCS+retain-incumbent+RMM": 1.0,
+        "LRMD_w50": 1.0,
+        "LRMD_single": 1.0,
+        "LRMD_w50_k1": 1.0,
+        "gated_deployment+RMM_single": 1.0,
+        "gated_deployment+RMM_noacq": 1.0
+      }
+    },
+    "openml_ldpa": {
+      "K": 32,
+      "means": {
+        "gated_deployment": 537.0625781250001,
+        "discern_style": 656.9188281249999,
+        "SMCS+retain-incumbent": 464.845234375,
+        "model_picker_adapter": 431.211640625,
+        "model_selector_causal": 434.959375,
+        "online_llm_picker": 432.884765625,
+        "xu_acquisition_only": 489.55757812499996,
+        "cams_adapter": 433.579375,
+        "variance_min_ipw": 434.32890625000005,
+        "P7s_settled": 478.357890625,
+        "CONTROL_never_switch": 663.0,
+        "economic_replacement": 448.355859375,
+        "gong_zhang_paid_obs": 476.44375,
+        "qiu_movement_oco": 672.10015625,
+        "delayed_ftrl_capacity": 433.133984375,
+        "gated_frontload_ipw": 461.06875,
+        "discern_frontload_ipw": 672.88125,
+        "gated_deployment+RMM": 464.77546874999996,
+        "discern_style+RMM": 465.579609375,
+        "SMCS+retain-incumbent+RMM": 458.3,
+        "LRMD_w50": 459.80328125,
+        "LRMD_single": 459.18296875,
+        "LRMD_w50_k1": 460.51812499999994,
+        "gated_deployment+RMM_single": 464.155546875,
+        "gated_deployment+RMM_noacq": 486.356640625
+      },
+      "best_controlled": "gated_frontload_ipw",
+      "best_any": "model_picker_adapter",
+      "LRMD_w50-best_controlled": [
+        -1.2654687499999957,
+        -26.29060546874998,
+        18.15564843750001
+      ],
+      "LRMD_w50-best_any": [
+        28.591640625000004,
+        16.021644531250004,
+        41.354753906250004
+      ],
+      "gated_deployment+RMM-gated_deployment": [
+        -72.28710937499997,
+        -98.41533398437498,
+        -47.42243554687497
+      ],
+      "discern_style+RMM-discern_style": [
+        -191.33921875,
+        -228.82218749999998,
+        -153.12915820312497
+      ],
+      "SMCS+retain-incumbent+RMM-SMCS+retain-incumbent": [
+        -6.545234375000013,
+        -29.957570312500025,
+        9.801103515625
+      ],
+      "promote": {
+        "gated_deployment": 0.7671875,
+        "discern_style": 0.1984375,
+        "SMCS+retain-incumbent": 0.85625,
+        "model_picker_adapter": 0.971875,
+        "model_selector_causal": 0.96875,
+        "online_llm_picker": 0.978125,
+        "xu_acquisition_only": 0.890625,
+        "cams_adapter": 0.96875,
+        "variance_min_ipw": 0.9671875,
+        "P7s_settled": 0.9359375,
+        "CONTROL_never_switch": 0.0,
+        "economic_replacement": 0.9671875,
+        "gong_zhang_paid_obs": 0.80625,
+        "qiu_movement_oco": 0.0046875,
+        "delayed_ftrl_capacity": 0.9671875,
+        "gated_frontload_ipw": 0.875,
+        "discern_frontload_ipw": 0.0,
+        "gated_deployment+RMM": 1.0,
+        "discern_style+RMM": 1.0,
+        "SMCS+retain-incumbent+RMM": 1.0,
+        "LRMD_w50": 1.0,
+        "LRMD_single": 0.9375,
+        "LRMD_w50_k1": 1.0,
+        "gated_deployment+RMM_single": 0.928125,
+        "gated_deployment+RMM_noacq": 0.928125
+      }
+    },
+    "spam": {
+      "K": 1,
+      "means": {
+        "gated_deployment": 382.865,
+        "discern_style": 558.885,
+        "SMCS+retain-incumbent": 250.4,
+        "model_picker_adapter": 205.525,
+        "model_selector_causal": 210.0,
+        "online_llm_picker": 204.5,
+        "xu_acquisition_only": 257.1375,
+        "cams_adapter": 211.0,
+        "variance_min_ipw": 218.9,
+        "P7s_settled": 258.5125,
+        "CONTROL_never_switch": 849.0,
+        "economic_replacement": 244.45,
+        "gong_zhang_paid_obs": 210.0,
+        "qiu_movement_oco": 788.6,
+        "delayed_ftrl_capacity": 207.15249999999997,
+        "gated_frontload_ipw": 233.60000000000005,
+        "discern_frontload_ipw": 859.0,
+        "gated_deployment+RMM": 248.4,
+        "discern_style+RMM": 248.7,
+        "SMCS+retain-incumbent+RMM": 250.8,
+        "LRMD_w50": 240.7,
+        "LRMD_single": 238.4,
+        "LRMD_w50_k1": 255.1,
+        "gated_deployment+RMM_single": 240.9,
+        "gated_deployment+RMM_noacq": 281.6
+      },
+      "best_controlled": "gated_frontload_ipw",
+      "best_any": "online_llm_picker",
+      "LRMD_w50-best_controlled": [
+        7.0999999999999375,
+        null,
+        null
+      ],
+      "LRMD_w50-best_any": [
+        36.19999999999999,
+        null,
+        null
+      ],
+      "gated_deployment+RMM-gated_deployment": [
+        -134.465,
+        null,
+        null
+      ],
+      "discern_style+RMM-discern_style": [
+        -310.185,
+        null,
+        null
+      ],
+      "SMCS+retain-incumbent+RMM-SMCS+retain-incumbent": [
+        0.4000000000000057,
+        null,
+        null
+      ],
+      "promote": {
+        "gated_deployment": 1.0,
+        "discern_style": 1.0,
+        "SMCS+retain-incumbent": 1.0,
+        "model_picker_adapter": 1.0,
+        "model_selector_causal": 1.0,
+        "online_llm_picker": 1.0,
+        "xu_acquisition_only": 1.0,
+        "cams_adapter": 1.0,
+        "variance_min_ipw": 1.0,
+        "P7s_settled": 1.0,
+        "CONTROL_never_switch": 0.0,
+        "economic_replacement": 1.0,
+        "gong_zhang_paid_obs": 1.0,
+        "qiu_movement_oco": 1.0,
+        "delayed_ftrl_capacity": 1.0,
+        "gated_frontload_ipw": 1.0,
+        "discern_frontload_ipw": 0.0,
+        "gated_deployment+RMM": 1.0,
+        "discern_style+RMM": 1.0,
+        "SMCS+retain-incumbent+RMM": 1.0,
+        "LRMD_w50": 1.0,
+        "LRMD_single": 1.0,
+        "LRMD_w50_k1": 1.0,
+        "gated_deployment+RMM_single": 1.0,
+        "gated_deployment+RMM_noacq": 1.0
+      }
+    },
+    "weather": {
+      "K": 3,
+      "means": {
+        "gated_deployment": 490.6333333333334,
+        "discern_style": 512.9350000000001,
+        "SMCS+retain-incumbent": 467.69416666666666,
+        "model_picker_adapter": 455.3258333333333,
+        "model_selector_causal": 440.3,
+        "online_llm_picker": 450.92249999999996,
+        "xu_acquisition_only": 467.7966666666667,
+        "cams_adapter": 448.0174999999999,
+        "variance_min_ipw": 442.73583333333335,
+        "P7s_settled": 473.28416666666664,
+        "CONTROL_never_switch": 504.0,
+        "economic_replacement": 449.125,
+        "gong_zhang_paid_obs": 443.6666666666667,
+        "qiu_movement_oco": 512.9308333333335,
+        "delayed_ftrl_capacity": 441.6966666666667,
+        "gated_frontload_ipw": 468.76666666666665,
+        "discern_frontload_ipw": 513.25,
+        "gated_deployment+RMM": 476.8866666666667,
+        "discern_style+RMM": 477.0625,
+        "SMCS+retain-incumbent+RMM": 470.38166666666666,
+        "LRMD_w50": 460.84666666666675,
+        "LRMD_single": 458.1633333333334,
+        "LRMD_w50_k1": 464.5116666666666,
+        "gated_deployment+RMM_single": 462.74500000000006,
+        "gated_deployment+RMM_noacq": 479.05750000000006
+      },
+      "best_controlled": "SMCS+retain-incumbent",
+      "best_any": "model_selector_causal",
+      "LRMD_w50-best_controlled": [
+        -6.847499999999968,
+        -11.75,
+        -0.8224999999999341
+      ],
+      "LRMD_w50-best_any": [
+        20.54666666666668,
+        15.0,
+        31.0
+      ],
+      "gated_deployment+RMM-gated_deployment": [
+        -13.74666666666665,
+        -26.592499999999973,
+        0.014999999999986358
+      ],
+      "discern_style+RMM-discern_style": [
+        -35.8725,
+        -55.25,
+        0.017499999999984084
+      ],
+      "SMCS+retain-incumbent+RMM-SMCS+retain-incumbent": [
+        2.6875,
+        0.02250000000003638,
+        4.5
+      ],
+      "promote": {
+        "gated_deployment": 0.6,
+        "discern_style": 0.0,
+        "SMCS+retain-incumbent": 0.6666666666666666,
+        "model_picker_adapter": 1.0,
+        "model_selector_causal": 1.0,
+        "online_llm_picker": 1.0,
+        "xu_acquisition_only": 1.0,
+        "cams_adapter": 1.0,
+        "variance_min_ipw": 1.0,
+        "P7s_settled": 0.9833333333333333,
+        "CONTROL_never_switch": 0.0,
+        "economic_replacement": 1.0,
+        "gong_zhang_paid_obs": 1.0,
+        "qiu_movement_oco": 0.0,
+        "delayed_ftrl_capacity": 1.0,
+        "gated_frontload_ipw": 0.6666666666666666,
+        "discern_frontload_ipw": 0.0,
+        "gated_deployment+RMM": 1.0,
+        "discern_style+RMM": 1.0,
+        "SMCS+retain-incumbent+RMM": 1.0,
+        "LRMD_w50": 1.0,
+        "LRMD_single": 1.0,
+        "LRMD_w50_k1": 1.0,
+        "gated_deployment+RMM_single": 1.0,
+        "gated_deployment+RMM_noacq": 1.0
+      }
+    },
+    "uci_occupancy": {
+      "K": 4,
+      "means": {
+        "gated_deployment": 196.474375,
+        "discern_style": 235.92875,
+        "SMCS+retain-incumbent": 152.431875,
+        "model_picker_adapter": 131.876875,
+        "model_selector_causal": 135.75,
+        "online_llm_picker": 134.365625,
+        "xu_acquisition_only": 180.04312500000003,
+        "cams_adapter": 133.98874999999998,
+        "variance_min_ipw": 140.60999999999999,
+        "P7s_settled": 177.2975,
+        "CONTROL_never_switch": 481.25,
+        "economic_replacement": 159.58812500000002,
+        "gong_zhang_paid_obs": 139.75,
+        "qiu_movement_oco": 278.51124999999996,
+        "delayed_ftrl_capacity": 132.075,
+        "gated_frontload_ipw": 137.1375,
+        "discern_frontload_ipw": 486.7125,
+        "gated_deployment+RMM": 146.54375,
+        "discern_style+RMM": 147.654375,
+        "SMCS+retain-incumbent+RMM": 148.0375,
+        "LRMD_w50": 139.1,
+        "LRMD_single": 141.6375,
+        "LRMD_w50_k1": 150.80187500000002,
+        "gated_deployment+RMM_single": 144.20624999999998,
+        "gated_deployment+RMM_noacq": 167.0675
+      },
+      "best_controlled": "gated_frontload_ipw",
+      "best_any": "model_picker_adapter",
+      "LRMD_w50-best_controlled": [
+        1.9625000000000057,
+        -7.11250000000004,
+        10.155000000000058
+      ],
+      "LRMD_w50-best_any": [
+        7.223124999999991,
+        -3.2187500000000107,
+        24.779999999999987
+      ],
+      "gated_deployment+RMM-gated_deployment": [
+        -49.930624999999985,
+        -145.69499999999994,
+        3.0087500000000027
+      ],
+      "discern_style+RMM-discern_style": [
+        -88.274375,
+        -255.51750000000004,
+        3.134999999999998
+      ],
+      "SMCS+retain-incumbent+RMM-SMCS+retain-incumbent": [
+        -4.394375000000007,
+        -13.813750000000006,
+        0.4787499999999838
+      ],
+      "promote": {
+        "gated_deployment": 0.2625,
+        "discern_style": 0.25,
+        "SMCS+retain-incumbent": 0.4875,
+        "model_picker_adapter": 0.8125,
+        "model_selector_causal": 1.0,
+        "online_llm_picker": 0.8375,
+        "xu_acquisition_only": 0.25,
+        "cams_adapter": 0.925,
+        "variance_min_ipw": 1.0,
+        "P7s_settled": 0.25,
+        "CONTROL_never_switch": 0.0,
+        "economic_replacement": 0.5,
+        "gong_zhang_paid_obs": 0.25,
+        "qiu_movement_oco": 0.25,
+        "delayed_ftrl_capacity": 0.5,
+        "gated_frontload_ipw": 0.25,
+        "discern_frontload_ipw": 0.0,
+        "gated_deployment+RMM": 0.75,
+        "discern_style+RMM": 0.75,
+        "SMCS+retain-incumbent+RMM": 0.75,
+        "LRMD_w50": 0.75,
+        "LRMD_single": 0.5,
+        "LRMD_w50_k1": 0.75,
+        "gated_deployment+RMM_single": 0.5,
+        "gated_deployment+RMM_noacq": 0.5
+      }
+    },
+    "airlines": {
+      "K": 50,
+      "means": {
+        "gated_deployment": 782.2821999999999,
+        "discern_style": 786.04905,
+        "SMCS+retain-incumbent": 781.4784500000002,
+        "model_picker_adapter": 790.4018,
+        "model_selector_causal": 791.0820000000001,
+        "online_llm_picker": 794.8207000000001,
+        "xu_acquisition_only": 781.1702499999999,
+        "cams_adapter": 795.4174499999999,
+        "variance_min_ipw": 800.85765,
+        "P7s_settled": 780.63375,
+        "CONTROL_never_switch": 776.8,
+        "economic_replacement": 789.6522499999999,
+        "gong_zhang_paid_obs": 790.4830000000001,
+        "qiu_movement_oco": 786.0965000000001,
+        "delayed_ftrl_capacity": 791.82375,
+        "gated_frontload_ipw": 781.1260000000001,
+        "discern_frontload_ipw": 786.4810000000001,
+        "gated_deployment+RMM": 781.68285,
+        "discern_style+RMM": 781.6782499999999,
+        "SMCS+retain-incumbent+RMM": 781.3323000000001,
+        "LRMD_w50": 780.7334500000001,
+        "LRMD_single": 780.64345,
+        "LRMD_w50_k1": 780.9507000000002,
+        "gated_deployment+RMM_single": 781.3151000000001,
+        "gated_deployment+RMM_noacq": 781.3271999999998
+      },
+      "best_controlled": "gated_frontload_ipw",
+      "best_any": "gated_frontload_ipw",
+      "LRMD_w50-best_controlled": [
+        -0.3925499999999829,
+        -3.0212449999999915,
+        1.62145
+      ],
+      "LRMD_w50-best_any": [
+        -0.3925499999999829,
+        -2.9996499999999795,
+        1.6305775000000133
+      ],
+      "gated_deployment+RMM-gated_deployment": [
+        -0.5993499999999949,
+        -3.1030387499999983,
+        1.2623112500000244
+      ],
+      "discern_style+RMM-discern_style": [
+        -4.370799999999983,
+        -9.327651249999976,
+        -0.3802137499999836
+      ],
+      "SMCS+retain-incumbent+RMM-SMCS+retain-incumbent": [
+        -0.1461500000000092,
+        -1.0269950000000116,
+        0.4962012500000059
+      ],
+      "promote": {
+        "gated_deployment": 0.068,
+        "discern_style": 0.0,
+        "SMCS+retain-incumbent": 0.11,
+        "model_picker_adapter": 0.743,
+        "model_selector_causal": 0.78,
+        "online_llm_picker": 0.777,
+        "xu_acquisition_only": 0.113,
+        "cams_adapter": 0.756,
+        "variance_min_ipw": 0.799,
+        "P7s_settled": 0.115,
+        "CONTROL_never_switch": 0.0,
+        "economic_replacement": 0.529,
+        "gong_zhang_paid_obs": 0.668,
+        "qiu_movement_oco": 0.0,
+        "delayed_ftrl_capacity": 0.736,
+        "gated_frontload_ipw": 0.1,
+        "discern_frontload_ipw": 0.0,
+        "gated_deployment+RMM": 0.107,
+        "discern_style+RMM": 0.104,
+        "SMCS+retain-incumbent+RMM": 0.113,
+        "LRMD_w50": 0.146,
+        "LRMD_single": 0.157,
+        "LRMD_w50_k1": 0.133,
+        "gated_deployment+RMM_single": 0.115,
+        "gated_deployment+RMM_noacq": 0.103
+      }
+    },
+    "bank": {
+      "K": 8,
+      "means": {
+        "gated_deployment": 424.5028125,
+        "discern_style": 425.0234375,
+        "SMCS+retain-incumbent": 427.69375,
+        "model_picker_adapter": 432.75,
+        "model_selector_causal": 425.375,
+        "online_llm_picker": 438.3259375,
+        "xu_acquisition_only": 427.6265625,
+        "cams_adapter": 438.29375,
+        "variance_min_ipw": 435.55562499999996,
+        "P7s_settled": 427.63625,
+        "CONTROL_never_switch": 419.375,
+        "economic_replacement": 431.675,
+        "gong_zhang_paid_obs": 426.5,
+        "qiu_movement_oco": 428.125,
+        "delayed_ftrl_capacity": 467.6753125,
+        "gated_frontload_ipw": 420.43125000000003,
+        "discern_frontload_ipw": 428.125,
+        "gated_deployment+RMM": 428.6375,
+        "discern_style+RMM": 428.125,
+        "SMCS+retain-incumbent+RMM": 427.88125,
+        "LRMD_w50": 427.4625,
+        "LRMD_single": 427.53125,
+        "LRMD_w50_k1": 428.1246875,
+        "gated_deployment+RMM_single": 427.51875,
+        "gated_deployment+RMM_noacq": 424.6725
+      },
+      "best_controlled": "gated_frontload_ipw",
+      "best_any": "gated_frontload_ipw",
+      "LRMD_w50-best_controlled": [
+        7.031250000000009,
+        1.6935937499999876,
+        15.869062500000073
+      ],
+      "LRMD_w50-best_any": [
+        7.031250000000009,
+        1.7750000000000732,
+        15.762499999999992
+      ],
+      "gated_deployment+RMM-gated_deployment": [
+        4.134687499999973,
+        1.8028124999999804,
+        6.394062499999993
+      ],
+      "discern_style+RMM-discern_style": [
+        3.1015625000000036,
+        0.7824999999999989,
+        5.392296875000006
+      ],
+      "SMCS+retain-incumbent+RMM-SMCS+retain-incumbent": [
+        0.1875,
+        0.0,
+        0.5625
+      ],
+      "promote": {
+        "gated_deployment": 0.0,
+        "discern_style": 0.0,
+        "SMCS+retain-incumbent": 0.01875,
+        "model_picker_adapter": 0.40625,
+        "model_selector_causal": 0.25,
+        "online_llm_picker": 0.25625,
+        "xu_acquisition_only": 0.0,
+        "cams_adapter": 0.45625,
+        "variance_min_ipw": 0.3625,
+        "P7s_settled": 0.00625,
+        "CONTROL_never_switch": 0.0,
+        "economic_replacement": 0.15,
+        "gong_zhang_paid_obs": 0.125,
+        "qiu_movement_oco": 0.0,
+        "delayed_ftrl_capacity": 0.44375,
+        "gated_frontload_ipw": 0.125,
+        "discern_frontload_ipw": 0.0,
+        "gated_deployment+RMM": 0.01875,
+        "discern_style+RMM": 0.0,
+        "SMCS+retain-incumbent+RMM": 0.0125,
+        "LRMD_w50": 0.03125,
+        "LRMD_single": 0.025,
+        "LRMD_w50_k1": 0.0,
+        "gated_deployment+RMM_single": 0.03125,
+        "gated_deployment+RMM_noacq": 0.0
+      }
+    },
+    "elec2": {
+      "K": 4,
+      "means": {
+        "gated_deployment": 395.39187499999997,
+        "discern_style": 395.205,
+        "SMCS+retain-incumbent": 392.855,
+        "model_picker_adapter": 398.70625,
+        "model_selector_causal": 410.475,
+        "online_llm_picker": 401.501875,
+        "xu_acquisition_only": 394.63374999999996,
+        "cams_adapter": 401.12250000000006,
+        "variance_min_ipw": 409.80375000000004,
+        "P7s_settled": 397.18375000000003,
+        "CONTROL_never_switch": 389.5,
+        "economic_replacement": 390.796875,
+        "gong_zhang_paid_obs": 397.7875,
+        "qiu_movement_oco": 395.18125,
+        "delayed_ftrl_capacity": 399.91375000000005,
+        "gated_frontload_ipw": 396.65,
+        "discern_frontload_ipw": 395.475,
+        "gated_deployment+RMM": 395.11375,
+        "discern_style+RMM": 395.113125,
+        "SMCS+retain-incumbent+RMM": 391.988125,
+        "LRMD_w50": 387.954375,
+        "LRMD_single": 388.566875,
+        "LRMD_w50_k1": 391.504375,
+        "gated_deployment+RMM_single": 391.916875,
+        "gated_deployment+RMM_noacq": 394.895625
+      },
+      "best_controlled": "SMCS+retain-incumbent",
+      "best_any": "SMCS+retain-incumbent",
+      "LRMD_w50-best_controlled": [
+        -4.900625000000005,
+        -11.041875000000061,
+        0.24124999999997954
+      ],
+      "LRMD_w50-best_any": [
+        -4.900625000000005,
+        -11.041875000000061,
+        0.24124999999997954
+      ],
+      "gated_deployment+RMM-gated_deployment": [
+        -0.27812499999998863,
+        -4.008124999999993,
+        3.0062500000000085
+      ],
+      "discern_style+RMM-discern_style": [
+        -0.09187499999995907,
+        -1.4106249999999818,
+        0.9462500000000205
+      ],
+      "SMCS+retain-incumbent+RMM-SMCS+retain-incumbent": [
+        -0.8668749999999932,
+        -3.939999999999955,
+        1.1681249999999608
+      ],
+      "promote": {
+        "gated_deployment": 0.3875,
+        "discern_style": 0.0,
+        "SMCS+retain-incumbent": 0.6125,
+        "model_picker_adapter": 1.0,
+        "model_selector_causal": 1.0,
+        "online_llm_picker": 1.0,
+        "xu_acquisition_only": 0.5,
+        "cams_adapter": 1.0,
+        "variance_min_ipw": 1.0,
+        "P7s_settled": 0.5,
+        "CONTROL_never_switch": 0.0,
+        "economic_replacement": 0.875,
+        "gong_zhang_paid_obs": 1.0,
+        "qiu_movement_oco": 0.0,
+        "delayed_ftrl_capacity": 1.0,
+        "gated_frontload_ipw": 0.5,
+        "discern_frontload_ipw": 0.0,
+        "gated_deployment+RMM": 0.5,
+        "discern_style+RMM": 0.5,
+        "SMCS+retain-incumbent+RMM": 0.5,
+        "LRMD_w50": 0.5,
+        "LRMD_single": 0.6375,
+        "LRMD_w50_k1": 0.5,
+        "gated_deployment+RMM_single": 0.5,
+        "gated_deployment+RMM_noacq": 0.5
+      }
+    },
+    "criteo": {
+      "K": 50,
+      "means": {
+        "gated_deployment": 699.0246499999998,
+        "discern_style": 700.38965,
+        "SMCS+retain-incumbent": 697.3323999999998,
+        "model_picker_adapter": 692.3883999999999,
+        "model_selector_causal": 688.105,
+        "online_llm_picker": 696.1019499999999,
+        "xu_acquisition_only": 698.4989999999999,
+        "cams_adapter": 695.0190500000001,
+        "variance_min_ipw": 693.549,
+        "P7s_settled": 698.92225,
+        "CONTROL_never_switch": 693.92,
+        "economic_replacement": 683.5949,
+        "gong_zhang_paid_obs": 694.446,
+        "qiu_movement_oco": 700.3867500000001,
+        "delayed_ftrl_capacity": 689.5308500000001,
+        "gated_frontload_ipw": 699.1110000000001,
+        "discern_frontload_ipw": 700.4860000000001,
+        "gated_deployment+RMM": 699.2124500000001,
+        "discern_style+RMM": 699.2763500000001,
+        "SMCS+retain-incumbent+RMM": 698.0433500000003,
+        "LRMD_w50": 696.9086499999999,
+        "LRMD_single": 695.3086500000001,
+        "LRMD_w50_k1": 697.2023999999999,
+        "gated_deployment+RMM_single": 697.49745,
+        "gated_deployment+RMM_noacq": 699.1881499999998
+      },
+      "best_controlled": "SMCS+retain-incumbent",
+      "best_any": "model_selector_causal",
+      "LRMD_w50-best_controlled": [
+        -0.4237499999999659,
+        -1.1449087499999442,
+        0.2238462500000558
+      ],
+      "LRMD_w50-best_any": [
+        8.803650000000003,
+        3.7385224999999873,
+        13.106535000000019
+      ],
+      "gated_deployment+RMM-gated_deployment": [
+        0.18780000000002928,
+        -0.3242512499999674,
+        0.7110112500000639
+      ],
+      "discern_style+RMM-discern_style": [
+        -1.1132999999999698,
+        -2.3663024999999784,
+        -0.046069999999951566
+      ],
+      "SMCS+retain-incumbent+RMM-SMCS+retain-incumbent": [
+        0.7109500000000275,
+        0.13388500000004372,
+        1.3410812500000386
+      ],
+      "promote": {
+        "gated_deployment": 0.174,
+        "discern_style": 0.0,
+        "SMCS+retain-incumbent": 0.307,
+        "model_picker_adapter": 0.984,
+        "model_selector_causal": 1.0,
+        "online_llm_picker": 0.996,
+        "xu_acquisition_only": 0.336,
+        "cams_adapter": 0.995,
+        "variance_min_ipw": 1.0,
+        "P7s_settled": 0.177,
+        "CONTROL_never_switch": 0.0,
+        "economic_replacement": 0.984,
+        "gong_zhang_paid_obs": 0.894,
+        "qiu_movement_oco": 0.0,
+        "delayed_ftrl_capacity": 0.951,
+        "gated_frontload_ipw": 0.22,
+        "discern_frontload_ipw": 0.0,
+        "gated_deployment+RMM": 0.257,
+        "discern_style+RMM": 0.249,
+        "SMCS+retain-incumbent+RMM": 0.302,
+        "LRMD_w50": 0.44,
+        "LRMD_single": 0.46,
+        "LRMD_w50_k1": 0.415,
+        "gated_deployment+RMM_single": 0.398,
+        "gated_deployment+RMM_noacq": 0.258
+      }
+    }
+  }
+}

@@ -739,6 +739,8 @@ class VectorizedStartedMixtureEProcess:
         self.log_stake_weights = np.log(self.stake_weights)
         self.log_wealth = np.zeros((len(self.starts), len(self.stakes)), dtype=float)
         self.time = 0
+        self._alarm_cache_key: tuple[int, float] | None = None
+        self._alarm_cache = False
 
     @property
     def log_e_value(self) -> float:
@@ -748,7 +750,12 @@ class VectorizedStartedMixtureEProcess:
 
     @property
     def alarm(self) -> bool:
-        return self.log_e_value >= -np.log(self.alpha)
+        # Calendar rounds without a released label cannot change this statistic.
+        key = (self.time, self.alpha)
+        if self._alarm_cache_key != key:
+            self._alarm_cache = self.log_e_value >= -np.log(self.alpha)
+            self._alarm_cache_key = key
+        return self._alarm_cache
 
     def update(self, value: float) -> float:
         if not np.isfinite(value) or abs(value) > self.bound + 1e-12:

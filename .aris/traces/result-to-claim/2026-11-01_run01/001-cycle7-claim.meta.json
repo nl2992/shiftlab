@@ -1,0 +1,16 @@
+{
+  "backend": "codex-native",
+  "tool": "collaboration.spawn_agent",
+  "task_name": "/root/cycle7_claim_review",
+  "requested_reviewer_model": "gpt-6-astra",
+  "reported_reviewer_model": null,
+  "reviewer_model_source": "requested-only",
+  "review_independence": "unverified",
+  "acceptance_status": "provisional",
+  "review_completed": true,
+  "review_scope_complete": true,
+  "review_positive": false,
+  "verdict": "claim_supported: no; narrower empirical claim supported",
+  "response_format": "faithful compact transcription of returned review; citation labels retained; original response in parent chat",
+  "helper_resolution": "canonical route/evidence/trace helpers absent; direct trace writing; mechanical substitute audit explicit"
+}

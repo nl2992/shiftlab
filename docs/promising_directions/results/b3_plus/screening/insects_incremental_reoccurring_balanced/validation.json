@@ -1,0 +1,113 @@
+{
+  "dataset_id": "insects_incremental_reoccurring_balanced",
+  "n_rows": 79986,
+  "order": {
+    "declared_basis": "documented_order",
+    "n": 79986,
+    "justification": "Souza et al. 2020 release the stream in recording order; concept drift is introduced by the temperature schedule over the course of the stream. No timestamp column exists, so order is documented, not independently verifiable.",
+    "sorted_by": null,
+    "verdict": "documented_order_uncorroborated"
+  },
+  "windows": {
+    "train_incumbent": [
+      0,
+      11997
+    ],
+    "train_challenger": [
+      0,
+      23995
+    ],
+    "dev": [
+      23995,
+      47991
+    ],
+    "locked": [
+      47991,
+      79986
+    ]
+  },
+  "checks": [
+    {
+      "check": "chronological_order_defensible",
+      "pass": true,
+      "detail": "verdict=documented_order_uncorroborated; declared_basis=documented_order",
+      "hard": true
+    },
+    {
+      "check": "row_count_matches_source",
+      "pass": true,
+      "detail": "declared=79986 loaded=79986",
+      "hard": false
+    },
+    {
+      "check": "X_y_aligned",
+      "pass": true,
+      "detail": "feature rows equal label rows",
+      "hard": true
+    },
+    {
+      "check": "locked_window_has_one_episode",
+      "pass": true,
+      "detail": "locked rows=31995, T=2000",
+      "hard": true
+    },
+    {
+      "check": "train_dev_windows_nonempty",
+      "pass": true,
+      "detail": "window sizes 11997,11998,23996",
+      "hard": true
+    },
+    {
+      "check": "not_class_sorted",
+      "pass": true,
+      "detail": "runs=30725 classes=6",
+      "hard": true
+    },
+    {
+      "check": "two_classes_in_training_window",
+      "pass": true,
+      "detail": "6 classes in first 30%",
+      "hard": true
+    },
+    {
+      "check": "columns_not_mostly_missing",
+      "pass": true,
+      "detail": "0 columns >50% missing",
+      "hard": true
+    },
+    {
+      "check": "has_informative_columns",
+      "pass": true,
+      "detail": "0 const cols",
+      "hard": true
+    },
+    {
+      "check": "no_target_equals_feature",
+      "pass": true,
+      "detail": "max |corr(feature, target)|=0.29550797439475157 (f18)",
+      "hard": true
+    }
+  ],
+  "status": null,
+  "ok": true,
+  "class_sorted_check": {
+    "runs": 30725,
+    "n_classes": 6,
+    "expected_runs_if_shuffled": 39794.367752350365,
+    "class_sorted": false
+  },
+  "missing": {
+    "max_col_missing_frac": 0.0,
+    "cols_over_half_missing": 0
+  },
+  "constant_columns_in_train": 0,
+  "exchangeability_diagnostic": {
+    "class_mix_by_block_chi2_p": 0.0,
+    "median_abs_std_feature_shift_first_vs_second_half_of_train_dev": 0.12524611533331953
+  },
+  "leakage_screen": {
+    "max_abs_corr": 0.29550797439475157,
+    "column": "f18"
+  },
+  "order_array_length": 79986
+}

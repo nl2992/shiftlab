@@ -1,0 +1,175 @@
+{
+  "episodes": 4,
+  "delay": 100,
+  "config": {
+    "T": 2000,
+    "budget": 200,
+    "cq": 0.05,
+    "cs": 5.0,
+    "n_seeds": 100,
+    "seed_base": 20261101
+  },
+  "mean_cost": {
+    "P0": 481.25,
+    "P1": 75.25,
+    "P2": 183.62212499999998,
+    "P3b": 177.63187499999995,
+    "P6": 236.44837499999997,
+    "P7s": 176.62412499999996
+  },
+  "paired": {
+    "P7s_minus_P3b": {
+      "mean": -1.0077499999999873,
+      "lo": -1.0282499999999988,
+      "hi": -0.9881218750000011,
+      "bootstrap_level": "seed",
+      "low_power": true,
+      "frac_episodes_a_below_b": 0.25
+    },
+    "P7s_minus_P0": {
+      "mean": -304.62587500000006,
+      "lo": -305.68013125,
+      "hi": -303.587365625,
+      "bootstrap_level": "seed",
+      "low_power": true,
+      "frac_episodes_a_below_b": 0.25
+    },
+    "P7s_minus_P6": {
+      "mean": -59.82424999999999,
+      "lo": -61.97003437499999,
+      "hi": -57.772037499999996,
+      "bootstrap_level": "seed",
+      "low_power": true,
+      "frac_episodes_a_below_b": 0.25
+    },
+    "P7s_minus_P2": {
+      "mean": -6.998000000000021,
+      "lo": -8.436640624999997,
+      "hi": -5.78031249999999,
+      "bootstrap_level": "seed",
+      "low_power": true,
+      "frac_episodes_a_below_b": 1.0
+    },
+    "P3b_minus_P0": {
+      "mean": -303.6181250000001,
+      "lo": -304.60848437500005,
+      "hi": -302.66558125000006,
+      "bootstrap_level": "seed",
+      "low_power": true,
+      "frac_episodes_a_below_b": 0.25
+    }
+  },
+  "diagnostics": {
+    "P0": {
+      "mean_labels": 0.0,
+      "mean_switches": 0.0,
+      "mean_rollbacks": 0.0,
+      "promotion_rate": 0.0,
+      "mean_promotion_time": null,
+      "max_queries_any_episode_seed": 0
+    },
+    "P1": {
+      "mean_labels": 0.0,
+      "mean_switches": 1.0,
+      "mean_rollbacks": 0.0,
+      "promotion_rate": 0.0,
+      "mean_promotion_time": null,
+      "max_queries_any_episode_seed": 0
+    },
+    "P2": {
+      "mean_labels": 153.6925,
+      "mean_switches": 0.25,
+      "mean_rollbacks": 0.0,
+      "promotion_rate": 0.25,
+      "mean_promotion_time": 284.75,
+      "max_queries_any_episode_seed": 200
+    },
+    "P3b": {
+      "mean_labels": 101.4875,
+      "mean_switches": 0.25,
+      "mean_rollbacks": 0.0,
+      "promotion_rate": 0.25,
+      "mean_promotion_time": 271.23,
+      "max_queries_any_episode_seed": 196
+    },
+    "P6": {
+      "mean_labels": 62.817499999999995,
+      "mean_switches": 0.25,
+      "mean_rollbacks": 0.0,
+      "promotion_rate": 0.25,
+      "mean_promotion_time": 539.73,
+      "max_queries_any_episode_seed": 150
+    },
+    "P7s": {
+      "mean_labels": 81.33250000000001,
+      "mean_switches": 0.25,
+      "mean_rollbacks": 0.0,
+      "promotion_rate": 0.25,
+      "mean_promotion_time": 271.23,
+      "max_queries_any_episode_seed": 178
+    }
+  },
+  "mechanism": {
+    "P7s": {
+      "promotion_rate": 0.25,
+      "mean_promotion_time": 271.23,
+      "mean_labels_before_promotion": 63.44500000000001,
+      "mean_labels_after_promotion": 17.8875,
+      "mean_switches": 0.25,
+      "mean_rollbacks": 0.0
+    },
+    "P3b": {
+      "promotion_rate": 0.25,
+      "mean_promotion_time": 271.23,
+      "mean_labels": 101.4875,
+      "mean_switches": 0.25,
+      "mean_rollbacks": 0.0
+    }
+  },
+  "p7s_minus_p3b_decomposition_per_episode": {
+    "d_loss": 0.0,
+    "d_label_cost": -1.00775,
+    "d_switch_cost": 0.0
+  },
+  "conditions": {
+    "1_P7s_beats_P3b_CI_below_0": true,
+    "2_P7s_below_P0": true,
+    "3_no_leakage_budget_holds_pathwise": true,
+    "4_mechanism_records_complete_and_explicable": true
+  },
+  "low_power": true,
+  "bootstrap_level": "seed",
+  "finite_costs": true,
+  "p1_note": "P1 is a hindsight reference, not a deployable baseline",
+  "dataset_id": "uci_occupancy",
+  "pair": {
+    "name": "A",
+    "challenger": "HGB",
+    "train": "0-30%"
+  },
+  "binarisation_rule": "class0_vs_rest",
+  "dev_headroom": {
+    "dev_rows": 6168,
+    "disagree": 0.189526588845655,
+    "inc_err_dev": 0.17704280155642024,
+    "chal_err_dev": 0.0325875486381323,
+    "adv_per_event": 0.14445525291828795,
+    "adv_times_T": 288.9105058365759,
+    "cs": 5.0,
+    "T": 2000,
+    "cond_disagree_ge_0.02": true,
+    "cond_challenger_better": true,
+    "cond_adv_T_gt_cs": true,
+    "passes": true
+  },
+  "locked_episode_starts": [
+    12336,
+    14392,
+    16448,
+    18504
+  ],
+  "n_seeds": 100,
+  "episodes_complete": true,
+  "status": "SUCCESS",
+  "status_reason": "conditions 1-5 hold: P7s - P3b CI entirely below 0 and mean P7s < mean P0 (LOW-POWER: seed bootstrap, K<5)"
+}

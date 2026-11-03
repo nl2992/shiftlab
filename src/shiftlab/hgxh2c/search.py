@@ -41,26 +41,33 @@ REG_COLS = [
     "runtime_s",
     "novelty",
     "extra",
+    "scoring",
 ]
+SCORING = "a6_min_member_cumulative"  # dJ(c) = min over fixed primary set P of mean_cells(J_b - J_c)  (PROTOCOL A6)
+OLD_SCORING = "a5_percell_min"  # rows written before A6 (per-cell oracle composite); listed in _scoring_manifest.json
 
 
 # ------------------------------------------------------------------ registry (append-only parts)
 class Registry:
-    def __init__(self, path):
+    def __init__(self, path, prefix=""):
+        """prefix: part-name prefix (stage 3 uses 'a6-' so A6 parts never collide with the archived A5 parts)."""
         self.dir = Path(path)
+        self.prefix = prefix
         self.dir.mkdir(parents=True, exist_ok=True)
 
     def append(self, name, df):
         """New part file; an existing part is never rewritten (deterministic names make resume idempotent)."""
-        f = self.dir / f"part-{name}.parquet"
+        f = self.dir / f"part-{self.prefix}{name}.parquet"
         if f.exists() or df is None or not len(df):
             return False
+        df = df.copy()
+        df["scoring"] = SCORING
         for c in REG_COLS:
             if c not in df:
                 df[c] = None
         df = df[REG_COLS].copy()
         df["rung"] = df["rung"].astype("int64")
-        for c in ("hash", "status", "reason", "cand", "extra"):
+        for c in ("hash", "status", "reason", "cand", "extra", "scoring"):
             df[c] = df[c].astype("string")
         for c in (
             "structure",
@@ -81,11 +88,18 @@ class Registry:
 
     def read(self):
         fs = sorted(self.dir.glob("part-*.parquet"))
-        return (
-            pd.concat([pd.read_parquet(f) for f in fs], ignore_index=True)
-            if fs
-            else pd.DataFrame(columns=REG_COLS)
-        )
+        old = set()
+        m = (
+            self.dir / "_scoring_manifest.json"
+        )  # sidecar: parts written under the A5 scoring (never rewritten)
+        if m.exists():
+            old = set(json.loads(m.read_text("utf-8")).get("a5_percell_min", []))
+        parts = []
+        for f in fs:
+            d = pd.read_parquet(f)
+            d["scoring"] = OLD_SCORING if f.name in old else d.get("scoring", SCORING)
+            parts.append(d)
+        return pd.concat(parts, ignore_index=True) if parts else pd.DataFrame(columns=REG_COLS)
 
 
 # ------------------------------------------------------------------ frontier
@@ -320,11 +334,12 @@ def cp_lower(k, n, conf=0.95):
 
 
 def baseline_table(fr: Frontier, cells, n, partition, device):
-    """Frontier J-members on the same tape: Jref[nc] (best member per cell), feature rows, per-seed df."""
-    ids = list(fr.union) + list(fr.secondary)
+    """Frontier members on the same tape. A6: JP [|P|, nc] = cell-mean J of EVERY primary member (fixed set P = fr.union)
+    and JS [|S|, nc] for the empirical-alarm family; scoring takes the min over members of the cumulative mean gain."""
+    P, S = list(fr.union), list(fr.secondary)
     parts = []
     for i in range(0, len(cells), 64):
-        parts.append(eval_run(ids, cells[i : i + 64], partition, n, device))
+        parts.append(eval_run(P + S, cells[i : i + 64], partition, n, device))
     df = pd.concat(parts, ignore_index=True)
     T = cells[0].T
     jm = df.groupby(["method_id", "cell_id"]).J_cost.mean().unstack("cell_id")
@@ -335,23 +350,30 @@ def baseline_table(fr: Frontier, cells, n, partition, device):
         .unstack("cell_id")
     )
     order = [c.cell_id for c in cells]
-    jref = np.array(
-        [min(jm.loc[m, c.cell_id] for m in fr.ref_ids(c) if m in jm.index) for c in cells]
-    )
-    sec = [m for m in fr.secondary if m in jm.index]
-    jsec = np.array([min(jm.loc[m, c.cell_id] for m in sec) for c in cells]) if sec else jref
+    P = [m for m in P if m in jm.index]
+    S = [m for m in S if m in jm.index]
     return {
-        "jref": jref,
-        "jsec": jsec,
-        "feats": af.loc[[m for m in fr.union if m in af.index]][order].to_numpy(float),
+        "JP": jm.loc[P, order].to_numpy(float),
+        "JS": jm.loc[S, order].to_numpy(float) if S else None,
+        "members": P,
+        "secondary": S,
+        "feats": af.loc[P][order].to_numpy(float),
         "jm": jm[order],
         "df": df,
     }
 
 
-def summarise(tabs, jref, cells, jsec=None):
-    """Candidate-level scores from per-cell tables. dJ is against the PRIMARY family (A5); dJ_sec is logged only."""
-    dJ = (jref[None] - tabs["J"]).mean(1)
+def min_member_gain(JP, Jc):
+    """A6 score: min over members b of mean_cells(J_b - J_c). JP [|P|, nc], Jc [N, nc] -> (dJ [N], binding member [N])."""
+    g = np.stack([(JP[b][None] - Jc).mean(1) for b in range(len(JP))])  # [|P|, N]
+    return g.min(0), g.argmin(0)
+
+
+def summarise(tabs, JP, cells, JS=None):
+    """Candidate-level scores from per-cell tables (A6). dJ is the min over the primary members of the cumulative gain;
+    dJ_sec is the same over the empirical-alarm family (logged, never optimised); frac_worse = share of cells where the
+    candidate is worse than its binding member."""
+    dJ, bind = min_member_gain(JP, tabs["J"])
     harm, hit = tabs["harm"].sum(1), tabs["hit"].sum(1)
     k, nn = tabs["fa"].sum(1), tabs["null"].sum(1)
     return pd.DataFrame(
@@ -363,8 +385,8 @@ def summarise(tabs, jref, cells, jsec=None):
             "far_n": nn,
             "far_lo": cp_lower(k, nn),
             "runtime_s": tabs["runtime"],
-            "dJ_sec": (jsec[None] - tabs["J"]).mean(1) if jsec is not None else np.nan,
-            "frac_worse": (tabs["J"] > jref[None]).mean(1),
+            "dJ_sec": min_member_gain(JS, tabs["J"])[0] if JS is not None else np.nan,
+            "frac_worse": (tabs["J"] > JP[bind]).mean(1),
         }
     )
 
@@ -427,9 +449,9 @@ def calib_score(tape, src=200):
 
 
 def finalist_tables(cands, fr, cells, n, partition, device):
-    """Per-seed J of the finalists [F,nc,n], best-baseline J per seed [nc,n] (baseline = best cell-mean J member),
-    calibration [nc,n], plus delay and label regime per cell."""
-    F, J, ref, cal = len(cands), [], [], []
+    """Per-seed J of the finalists [F,nc,n], per-seed J of every primary member {member: [nc,n]} (A6: paired differences
+    are taken against the binding member of each finalist), calibration [nc,n], plus delay and label regime per cell."""
+    F, J, ref, cal = len(cands), [], {}, []
     for tape in tapes_for(cells, partition, n, device):
         nc = len(tape["cells"])
         out = torch.zeros(F, nc * n, dtype=torch.float64)
@@ -440,16 +462,15 @@ def finalist_tables(cands, fr, cells, n, partition, device):
         run_cands(cands, tape, fn)
         J.append(out.view(F, nc, n).numpy())
         cal.append(calib_score(tape).reshape(nc, n))
-        ids = sorted({m for c in tape["cells"] for m in fr.ref_ids(c)})
-        df = eval_run(ids, tape["cells"], partition, n, device)
+        df = eval_run(list(fr.union), tape["cells"], partition, n, device)
         pv = df.pivot_table(index=["cell_id", "seed"], columns="method_id", values="J_cost")
-        for c in tape["cells"]:
-            m = [x for x in fr.ref_ids(c) if x in pv.columns]
-            sub = pv.loc[c.cell_id][m]
-            ref.append(sub[sub.mean().idxmin()].to_numpy()[None])
+        for m in pv.columns:
+            ref.setdefault(m, []).append(
+                np.stack([pv.loc[c.cell_id][m].to_numpy() for c in tape["cells"]])
+            )
     return {
         "J": np.concatenate(J, 1),
-        "ref": np.concatenate(ref, 0),
+        "ref": {m: np.concatenate(v, 0) for m, v in ref.items()},
         "cal": np.concatenate(cal, 0),
         "delay": np.array([c.delay for c in cells]),
         "regime": np.array([c.label_regime for c in cells]),

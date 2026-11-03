@@ -1,5 +1,11 @@
 # Budget-aware, anytime-valid switching: research goals
 
+> **Atlas-specific precedence update (2026-11-01):** the current user-directed objective is
+> a workable, modestly novel repair of a reproduced shared failure that beats strong matched
+> competitors. Earlier theorem and Bayes-gap hurdles are not prerequisites for this search.
+> [The evidence review](failure_atlas_review_2026_11_01.md) and Atlas Amendments 8–9 govern
+> this continuation; earlier dated decisions remain the historical trail.
+
 **Decision date:** 2026-10-28. **Status:** active research objective; no new algorithm,
 novelty, theorem, or advantage has been validated. ICML is the methodological standard sought,
 not a publication prediction. Starting revision: `7ea6923fbc784aab81e4821a03268fa683b04238`.

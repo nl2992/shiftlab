@@ -1,0 +1,25 @@
+Setting. A chronological event stream of length T. A frozen incumbent f0 and a frozen challenger
+f1 produce 0/1 losses. The deployed action a_t is chosen before the label Y_t is seen. A label is
+obtainable only by paying c_q for it, at most B labels per episode, and a requested label is
+released d events later. Each switch of the deployed model costs c_s. The objective is the
+realised net cost: deployment loss + c_q N_q + c_s N_s.
+
+Per-event cycle, in three stages. (1) ISSUE: the policy decides a query probability q_t and
+freezes a betting fraction lambda_t, using only information released strictly before event t-d.
+Only events where f0 and f1 disagree are ever queried, and q_t is floored at p_min so every
+eligible disagreement keeps positive propensity. (2) RELEASE: the label of event s = t-d becomes
+usable; its importance-weighted paired increment x_s = (l0[s] - l1[s]) / q_s enters a paired
+e-process with the lambda_s frozen at its own issue time, giving a time-uniform certificate.
+(3) DECIDE: the challenger is promoted when the e-process crosses log(1/alpha); rollback uses the
+mirrored test. Decisions take effect from t+1.
+
+The contribution: settled-decision acquisition. The incumbent procedure keeps paying its
+budget-paced query rate for the whole episode. But once the challenger has been promoted and the
+recent discounted paired advantage still favours it, the deployed action is no longer in question,
+and further labels buy only rollback insurance. The policy therefore distinguishes two inert
+states in which no label can change the deployment decision: HOPELESS, not yet promoted and the
+challenger certified worse, where acquisition falls to a quarter rate; and SETTLED, already
+promoted with the challenger still ahead, where acquisition falls to the propensity floor p_min.
+Outside those two states pacing is exactly the incumbent's, so the rule can only ever withhold
+spend, never exceed it. The evidence process, its propensity-matched bet cap, the promotion
+threshold and the rollback test are all unchanged.

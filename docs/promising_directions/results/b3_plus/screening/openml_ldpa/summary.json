@@ -1,0 +1,203 @@
+{
+  "episodes": 32,
+  "delay": 100,
+  "config": {
+    "T": 2000,
+    "budget": 200,
+    "cq": 0.05,
+    "cs": 5.0,
+    "n_seeds": 100,
+    "seed_base": 20261101
+  },
+  "mean_cost": {
+    "P0": 663.0,
+    "P1": 398.4375,
+    "P2": 621.62409375,
+    "P3b": 483.24765625,
+    "P6": 506.508265625,
+    "P7s": 478.820109375
+  },
+  "paired": {
+    "P7s_minus_P3b": {
+      "mean": -4.427546875000003,
+      "lo": -7.134814453124976,
+      "hi": -2.6057093749999862,
+      "bootstrap_level": "episode",
+      "low_power": false,
+      "frac_episodes_a_below_b": 0.9375
+    },
+    "P7s_minus_P0": {
+      "mean": -184.17989062499998,
+      "lo": -230.8098140625,
+      "hi": -139.10501562500002,
+      "bootstrap_level": "episode",
+      "low_power": false,
+      "frac_episodes_a_below_b": 0.9375
+    },
+    "P7s_minus_P6": {
+      "mean": -27.688156249999977,
+      "lo": -51.316835937499945,
+      "hi": -7.401822656249979,
+      "bootstrap_level": "episode",
+      "low_power": false,
+      "frac_episodes_a_below_b": 0.5625
+    },
+    "P7s_minus_P2": {
+      "mean": -142.803984375,
+      "lo": -174.99895664062498,
+      "hi": -111.31686601562504,
+      "bootstrap_level": "episode",
+      "low_power": false,
+      "frac_episodes_a_below_b": 0.9375
+    },
+    "P3b_minus_P0": {
+      "mean": -179.75234375000002,
+      "lo": -225.97101015625003,
+      "hi": -134.0505390625,
+      "bootstrap_level": "episode",
+      "low_power": false,
+      "frac_episodes_a_below_b": 0.9375
+    }
+  },
+  "diagnostics": {
+    "P0": {
+      "mean_labels": 0.0,
+      "mean_switches": 0.0,
+      "mean_rollbacks": 0.0,
+      "promotion_rate": 0.0,
+      "mean_promotion_time": null,
+      "max_queries_any_episode_seed": 0
+    },
+    "P1": {
+      "mean_labels": 0.0,
+      "mean_switches": 1.0,
+      "mean_rollbacks": 0.0,
+      "promotion_rate": 0.0,
+      "mean_promotion_time": null,
+      "max_queries_any_episode_seed": 0
+    },
+    "P2": {
+      "mean_labels": 163.438125,
+      "mean_switches": 0.3440625,
+      "mean_rollbacks": 0.0,
+      "promotion_rate": 0.3440625,
+      "mean_promotion_time": 1001.2722134034047,
+      "max_queries_any_episode_seed": 200
+    },
+    "P3b": {
+      "mean_labels": 181.27187500000002,
+      "mean_switches": 1.0375,
+      "mean_rollbacks": 0.04718750000000001,
+      "promotion_rate": 0.9434374999999999,
+      "mean_promotion_time": 678.0944642857144,
+      "max_queries_any_episode_seed": 200
+    },
+    "P6": {
+      "mean_labels": 66.87781249999999,
+      "mean_switches": 0.776875,
+      "mean_rollbacks": 0.0,
+      "promotion_rate": 0.776875,
+      "mean_promotion_time": 676.0286756063236,
+      "max_queries_any_episode_seed": 98
+    },
+    "P7s": {
+      "mean_labels": 115.2334375,
+      "mean_switches": 0.9771875,
+      "mean_rollbacks": 0.0171875,
+      "promotion_rate": 0.943125,
+      "mean_promotion_time": 680.9285267857142,
+      "max_queries_any_episode_seed": 200
+    }
+  },
+  "mechanism": {
+    "P7s": {
+      "promotion_rate": 0.943125,
+      "mean_promotion_time": 680.9285267857142,
+      "mean_labels_before_promotion": 71.59,
+      "mean_labels_after_promotion": 43.6434375,
+      "mean_switches": 0.9771875,
+      "mean_rollbacks": 0.0171875
+    },
+    "P3b": {
+      "promotion_rate": 0.9434374999999999,
+      "mean_promotion_time": 678.0944642857144,
+      "mean_labels": 181.27187500000002,
+      "mean_switches": 1.0375,
+      "mean_rollbacks": 0.04718750000000001
+    }
+  },
+  "p7s_minus_p3b_decomposition_per_episode": {
+    "d_loss": -0.8240625000000001,
+    "d_label_cost": -3.301921875,
+    "d_switch_cost": -0.30156250000000007
+  },
+  "conditions": {
+    "1_P7s_beats_P3b_CI_below_0": true,
+    "2_P7s_below_P0": true,
+    "3_no_leakage_budget_holds_pathwise": true,
+    "4_mechanism_records_complete_and_explicable": true
+  },
+  "low_power": false,
+  "bootstrap_level": "episode",
+  "finite_costs": true,
+  "p1_note": "P1 is a hindsight reference, not a deployable baseline",
+  "dataset_id": "openml_ldpa",
+  "pair": {
+    "name": "A",
+    "challenger": "HGB",
+    "train": "0-30%"
+  },
+  "binarisation_rule": "majority_vs_rest",
+  "dev_headroom": {
+    "dev_rows": 49458,
+    "disagree": 0.2522948764608355,
+    "inc_err_dev": 0.33586073031663227,
+    "chal_err_dev": 0.21454567511828218,
+    "adv_per_event": 0.12131505519835009,
+    "adv_times_T": 242.6301103967002,
+    "cs": 5.0,
+    "T": 2000,
+    "cond_disagree_ge_0.02": true,
+    "cond_challenger_better": true,
+    "cond_adv_T_gt_cs": true,
+    "passes": true
+  },
+  "locked_episode_starts": [
+    98916,
+    100976,
+    103036,
+    105096,
+    107156,
+    109216,
+    111276,
+    113336,
+    115396,
+    117456,
+    119516,
+    121576,
+    123636,
+    125696,
+    127756,
+    129816,
+    131876,
+    133936,
+    135996,
+    138056,
+    140116,
+    142176,
+    144236,
+    146296,
+    148356,
+    150416,
+    152476,
+    154536,
+    156596,
+    158656,
+    160716,
+    162776
+  ],
+  "n_seeds": 100,
+  "episodes_complete": true,
+  "status": "SUCCESS",
+  "status_reason": "conditions 1-5 hold: P7s - P3b CI entirely below 0 and mean P7s < mean P0"
+}

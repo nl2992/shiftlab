@@ -1,0 +1,100 @@
+{
+  "config": {
+    "budget": 200,
+    "cq": 0.05,
+    "cs": 5.0,
+    "alpha": 0.05,
+    "eps": 0.0,
+    "p_min": 0.05,
+    "n_seeds": 100,
+    "seed_base": 20261101
+  },
+  "datasets": {
+    "rialto": {
+      "episodes": 16,
+      "delay": 100,
+      "powered": true,
+      "mean_cost": {
+        "economic_stop": 96.54649999999998,
+        "gated_deployment": 94.69459375,
+        "discern_style": 210.0200625
+      },
+      "mean_labels": {
+        "economic_stop": 32.7175,
+        "gated_deployment": 30.841875,
+        "discern_style": 159.15125
+      },
+      "mean_switches": {
+        "economic_stop": 1.0,
+        "gated_deployment": 1.0,
+        "discern_style": 0.0
+      },
+      "mean_loss": {
+        "economic_stop": 89.910625,
+        "gated_deployment": 88.1525,
+        "discern_style": 202.0625
+      },
+      "paired_vs_economic": {
+        "gated_deployment": {
+          "mean": 1.851906249999994,
+          "lo": 0.9886703124999953,
+          "hi": 3.393810937499984,
+          "episodes_ours_cheaper": 0,
+          "episodes_ours_worse": 16,
+          "verdict": "ours worse"
+        },
+        "discern_style": {
+          "mean": -113.47356249999999,
+          "lo": -132.02487031249996,
+          "hi": -92.64857421874997,
+          "episodes_ours_cheaper": 16,
+          "episodes_ours_worse": 0,
+          "verdict": "ours better"
+        }
+      }
+    },
+    "openml_ldpa": {
+      "episodes": 32,
+      "delay": 100,
+      "powered": true,
+      "mean_cost": {
+        "economic_stop": 544.0156875,
+        "gated_deployment": 534.4304843750001,
+        "discern_style": 656.9799375
+      },
+      "mean_labels": {
+        "economic_stop": 102.3575,
+        "gated_deployment": 98.0596875,
+        "discern_style": 176.005
+      },
+      "mean_switches": {
+        "economic_stop": 0.69375,
+        "gated_deployment": 0.7653125,
+        "discern_style": 0.1921875
+      },
+      "mean_loss": {
+        "economic_stop": 535.4290625,
+        "gated_deployment": 525.7009375,
+        "discern_style": 647.21875
+      },
+      "paired_vs_economic": {
+        "gated_deployment": {
+          "mean": 9.585203124999996,
+          "lo": 5.320349609374974,
+          "hi": 14.67814296875,
+          "episodes_ours_cheaper": 6,
+          "episodes_ours_worse": 24,
+          "verdict": "ours worse"
+        },
+        "discern_style": {
+          "mean": -112.96424999999998,
+          "lo": -147.768335546875,
+          "hi": -79.89787421874999,
+          "episodes_ours_cheaper": 31,
+          "episodes_ours_worse": 0,
+          "verdict": "ours better"
+        }
+      }
+    }
+  }
+}

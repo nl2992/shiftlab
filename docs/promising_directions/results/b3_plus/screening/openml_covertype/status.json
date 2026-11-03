@@ -1,0 +1,15 @@
+{
+  "dataset_id": "openml_covertype",
+  "status": "USELESS_INELIGIBLE",
+  "reason": "no defensible chronological order (no_defensible_order); no order invented",
+  "timestamps": {
+    "registered_at_utc": "2026-11-02T23:38:00.074082+00:00",
+    "downloaded_at_utc": "2026-11-02T23:39:22.268339+00:00",
+    "loaded_at_utc": "2026-11-02T23:39:24.262657+00:00",
+    "validated_at_utc": "2026-11-02T23:39:24.263328+00:00"
+  },
+  "screening": {
+    "stage": "validation",
+    "validation_verdict": "no_defensible_order"
+  }
+}

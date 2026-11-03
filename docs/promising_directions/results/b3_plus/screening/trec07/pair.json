@@ -1,0 +1,45 @@
+{
+  "windows": {
+    "n15": 11312,
+    "n30": 22625,
+    "n60": 45251,
+    "n": 75419
+  },
+  "binarisation": {
+    "rule": "class0_vs_rest",
+    "target_class": 0,
+    "classes": [
+      0,
+      1
+    ],
+    "class0_rate_train": 0.2485745856353591,
+    "target_rate_train": 0.2485745856353591,
+    "n_classes_train": 2
+  },
+  "positive_rate_dev_window": 0.36811632635021657,
+  "featurizer": "text",
+  "options_tried_in_order": [
+    {
+      "name": "B",
+      "challenger": "LR",
+      "train": "15-30%",
+      "dev": {
+        "dev_rows": 22626,
+        "disagree": 0.00994431185361973,
+        "inc_err_dev": 0.0281092548395651,
+        "chal_err_dev": 0.02276142490939627,
+        "adv_per_event": 0.005347829930168833,
+        "adv_times_T": 10.695659860337665,
+        "cs": 5.0,
+        "T": 2000,
+        "cond_disagree_ge_0.02": false,
+        "cond_challenger_better": true,
+        "cond_adv_T_gt_cs": true,
+        "passes": false
+      }
+    }
+  ],
+  "chosen": null,
+  "inc_err_dev": 0.0281092548395651,
+  "selection_inputs": "rows [0, 60%) only"
+}

@@ -1,0 +1,15 @@
+{
+  "dataset_id": "sms_spam",
+  "status": "USELESS_INELIGIBLE",
+  "reason": "no defensible chronological order (no_defensible_order); no order invented",
+  "timestamps": {
+    "registered_at_utc": "2026-11-02T23:38:00.074082+00:00",
+    "downloaded_at_utc": "2026-11-02T23:39:31.187748+00:00",
+    "loaded_at_utc": "2026-11-02T23:39:31.203319+00:00",
+    "validated_at_utc": "2026-11-02T23:39:31.203376+00:00"
+  },
+  "screening": {
+    "stage": "validation",
+    "validation_verdict": "no_defensible_order"
+  }
+}

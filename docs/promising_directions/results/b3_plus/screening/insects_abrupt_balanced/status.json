@@ -1,0 +1,69 @@
+{
+  "dataset_id": "insects_abrupt_balanced",
+  "status": "USELESS_NO_HEADROOM",
+  "reason": "condition 2 failed: mean P7s 302.10 >= mean P0 297.30; switching is not worth doing on this stream",
+  "timestamps": {
+    "registered_at_utc": "2026-11-02T23:26:12.742093+00:00",
+    "downloaded_at_utc": "2026-11-02T23:28:51.694841+00:00",
+    "loaded_at_utc": "2026-11-02T23:29:25.875562+00:00",
+    "validated_at_utc": "2026-11-02T23:29:25.933484+00:00",
+    "pair_selected_at_utc": "2026-11-02T23:29:26.404983+00:00",
+    "locked_window_read_at_utc": "2026-11-02T23:29:26.405508+00:00",
+    "evaluated_at_utc": "2026-11-02T23:29:38.748447+00:00"
+  },
+  "screening": {
+    "stage": "evaluated",
+    "mean_cost": {
+      "P0": 297.3,
+      "P1": 278.3,
+      "P2": 307.00654999999995,
+      "P3b": 302.62155,
+      "P6": 294.88840000000005,
+      "P7s": 302.1011
+    },
+    "paired": {
+      "P7s_minus_P3b": {
+        "mean": -0.5204499999999769,
+        "lo": -1.2338662499999749,
+        "hi": -0.038241249999965046,
+        "bootstrap_level": "episode",
+        "low_power": false,
+        "frac_episodes_a_below_b": 0.6
+      },
+      "P7s_minus_P0": {
+        "mean": 4.801099999999987,
+        "lo": 0.6418062500000009,
+        "hi": 7.903877499999959,
+        "bootstrap_level": "episode",
+        "low_power": false,
+        "frac_episodes_a_below_b": 0.1
+      },
+      "P7s_minus_P6": {
+        "mean": 7.212699999999986,
+        "lo": 3.1791312500000064,
+        "hi": 11.786494999999972,
+        "bootstrap_level": "episode",
+        "low_power": false,
+        "frac_episodes_a_below_b": 0.1
+      },
+      "P7s_minus_P2": {
+        "mean": -4.905450000000011,
+        "lo": -9.00051624999999,
+        "hi": -1.8466637499999845,
+        "bootstrap_level": "episode",
+        "low_power": false,
+        "frac_episodes_a_below_b": 0.8
+      },
+      "P3b_minus_P0": {
+        "mean": 5.321549999999964,
+        "lo": 1.8214262499999665,
+        "hi": 8.051536249999943,
+        "bootstrap_level": "episode",
+        "low_power": false,
+        "frac_episodes_a_below_b": 0.1
+      }
+    },
+    "episodes": 10,
+    "low_power": false
+  }
+}

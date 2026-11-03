@@ -29,6 +29,7 @@ from shiftlab.dive.switching_explore import (
     EpisodeComposition,
     Method,
     Stream,
+    Truth,
     bernoulli_grid_spec,
     build_method,
     clairvoyant_actions,
@@ -186,6 +187,26 @@ def neighbours(cell):
             "budget_frac": BUDGET_FRACS,
             "s": SWITCH_COSTS,
         }
+    elif cell.family == 3:
+        levels = {
+            "rho": RHOS3,
+            "onset": ONSETS3,
+            "duration": DURATIONS3,
+            "effect": EFFECTS34,
+            "off_type": OFF_TYPES,
+            "d": DELAYS3,
+            "budget_frac": BUDGET_FRACS3,
+        }
+    elif cell.family == 4:
+        levels = {
+            "delay": DELAY_CONFIGS4,
+            "onset": ONSETS3,
+            "duration": DURATIONS3,
+            "effect": EFFECTS34,
+            "off_type": OFF_TYPES,
+            "d": DELAYS4,
+            "budget_frac": BUDGET_FRACS3,
+        }
     else:
         levels = {
             "onset": ONSETS,
@@ -334,8 +355,273 @@ def make_family2_stream(cell: Family2CellSpec, seed: int) -> Stream:
     return make_bernoulli_stream(rng, cell.T, cell.p_pair, path=path)
 
 
+# ----------------------------------------------------------------------------- families 3 and 4
+# Amendment 6, items 2-3. Family 3: the benefit indicator Y_t = 1[D_t = -1] follows a 2-state Markov
+# chain inside each regime (stationary mean = the regime's P(favourable), lag-1 autocorrelation rho);
+# at a regime change the chain continues with the new regime's parameters. Family 4: family-1-style
+# streams (rho = 0) whose label release delay depends on the outcome (``atlas_release_hook``).
+# Null twins are never on, with stationary benefit exactly at the hurdle: P(D = -1) = (1 + h) / 2.
+
+ONSETS3 = (0.3, 0.6)
+DURATIONS3 = (0.6, 1.0)
+EFFECTS34 = ("strong", "medium")
+DELAYS3 = (1, 10)
+BUDGET_FRACS3 = (0.05, 0.1)
+S34 = 0.1
+RHOS3 = (0.0, 0.5, 0.8)
+DELAYS4 = (2, 10)  # base d
+DELAY_CONFIGS4 = ("same", "u3", "f3")  # (d,d); (d,3d): d_f=d, d_u=3d; (3d,d): d_f=3d, d_u=d
+FAMILY3_TAG = 30003
+FAMILY4_TAG = 40004
+EASIEST3: dict[str, object] = {
+    "rho": 0.0,
+    "onset": 0.3,
+    "duration": 1.0,
+    "effect": "strong",
+    "d": 1,
+    "budget_frac": 0.1,
+}
+AXES3 = tuple(EASIEST3)
+EASIEST4: dict[str, object] = {
+    "delay": "same",
+    "d": 2,
+    "onset": 0.3,
+    "duration": 1.0,
+    "effect": "strong",
+    "budget_frac": 0.1,
+}
+AXES4 = tuple(EASIEST4)
+
+
+def markov_transitions(p: float, rho: float) -> tuple[float, float]:
+    """``(P(1|0), P(1|1))`` of the 2-state chain with stationary mean ``p`` and autocorrelation ``rho``."""
+    return p * (1.0 - rho), p + rho * (1.0 - p)
+
+
+class _RegimeCell:
+    """Shared properties of families 3 and 4 (the dataclasses below declare the fields)."""
+
+    @property
+    def B(self) -> int:
+        return round(self.budget_frac * self.T)
+
+    @property
+    def p_pair(self) -> tuple[float, float]:
+        off, on = EFFECTS[self.effect]
+        return (0.5 if self.off_type == "neutral" else off, on)
+
+    @property
+    def stable_index(self) -> int:
+        return zlib.crc32(self.cell_id.encode("utf-8"))
+
+    def config(self, seed: int = 0) -> Config:
+        return Config(
+            T=self.T,
+            B=self.B,
+            d=self.d,
+            c=self.c,
+            s=self.s,
+            h=self.h,
+            alpha=self.alpha,
+            seed=int(seed),
+        )
+
+    def _twin_base(self):
+        return replace(
+            self,
+            onset=ONSETS3[0],
+            duration=DURATIONS3[0],
+            off_type="harmful",
+            effect=EFFECTS34[0],
+            null=True,
+        )
+
+    def easiest(self, axis: str):
+        if axis not in self.easiest_levels:
+            raise ValueError(f"unknown axis {axis!r}; choose from {self.axes}")
+        return replace(self, **{axis: self.easiest_levels[axis]})
+
+
+@dataclass(frozen=True)
+class Family3CellSpec(_RegimeCell):
+    rho: float
+    onset: float
+    duration: float
+    effect: str
+    off_type: str
+    d: int
+    budget_frac: float
+    s: float = S34
+    T: int = T_DEFAULT
+    c: float = 0.01
+    h: float = 0.1
+    alpha: float = 0.1
+    null: bool = False
+
+    family = 3
+    axes = AXES3
+    easiest_levels = EASIEST3
+
+    @property
+    def cell_id(self) -> str:
+        base = (
+            f"f3_rho{self.rho:g}_on{self.onset:g}_L{self.duration:g}_{self.effect}_{self.off_type}"
+            f"_d{self.d}_b{self.budget_frac:g}_s{self.s:g}"
+        )
+        if self.T != T_DEFAULT:
+            base += f"_T{self.T}"
+        return base + ("_NULL" if self.null else "")
+
+    @property
+    def rho_eff(self) -> float:
+        return self.rho
+
+    def null_twin(self) -> Family3CellSpec:
+        """Never on, stationary benefit at the hurdle boundary, same rho, d, B, s."""
+        return self._twin_base()
+
+
+@dataclass(frozen=True)
+class Family4CellSpec(_RegimeCell):
+    delay: str  # "same" | "u3" | "f3"
+    onset: float
+    duration: float
+    effect: str
+    off_type: str
+    d: int  # base d (also ``cfg.d`` seen by the methods)
+    budget_frac: float
+    s: float = S34
+    T: int = T_DEFAULT
+    c: float = 0.01
+    h: float = 0.1
+    alpha: float = 0.1
+    null: bool = False
+
+    family = 4
+    axes = AXES4
+    easiest_levels = EASIEST4
+    rho = 0.0
+    rho_eff = 0.0
+
+    def __post_init__(self) -> None:
+        if self.delay not in DELAY_CONFIGS4:
+            raise ValueError(f"delay must be one of {DELAY_CONFIGS4}")
+
+    @property
+    def delays(self) -> tuple[int, int]:
+        """``(d_f, d_u)``: favourable / unfavourable release delays."""
+        return {
+            "same": (self.d, self.d),
+            "u3": (self.d, 3 * self.d),
+            "f3": (3 * self.d, self.d),
+        }[self.delay]
+
+    @property
+    def delay_fn(self):
+        from shiftlab.dive.atlas_release_hook import outcome_delay
+
+        return outcome_delay(*self.delays)
+
+    @property
+    def cell_id(self) -> str:
+        base = (
+            f"f4_{self.delay}_on{self.onset:g}_L{self.duration:g}_{self.effect}_{self.off_type}"
+            f"_d{self.d}_b{self.budget_frac:g}_s{self.s:g}"
+        )
+        if self.T != T_DEFAULT:
+            base += f"_T{self.T}"
+        return base + ("_NULL" if self.null else "")
+
+    def null_twin(self) -> Family4CellSpec:
+        return self._twin_base()
+
+
+def all_cells3(T: int = T_DEFAULT) -> list[Family3CellSpec]:
+    return [
+        Family3CellSpec(rho, on, du, ef, off, d, bf, T=T)
+        for rho, on, du, ef, off, d, bf in itertools.product(
+            RHOS3, ONSETS3, DURATIONS3, EFFECTS34, OFF_TYPES, DELAYS3, BUDGET_FRACS3
+        )
+    ]
+
+
+def all_cells4(T: int = T_DEFAULT) -> list[Family4CellSpec]:
+    return [
+        Family4CellSpec(dl, on, du, ef, off, d, bf, T=T)
+        for dl, on, du, ef, off, d, bf in itertools.product(
+            DELAY_CONFIGS4, ONSETS3, DURATIONS3, EFFECTS34, OFF_TYPES, DELAYS4, BUDGET_FRACS3
+        )
+    ]
+
+
+def make_markov_stream(cell, seed: int, tag: int) -> Stream:
+    """Scripted regime path (family-1 onset jitter) with a within-regime Markov benefit chain.
+
+    ``Y_t = 1`` (favourable, ``D_t = -1``) is drawn with ``P(1|Y_{t-1})`` of the regime at ``t``; the
+    first round uses the stationary probability. The null twin uses the boundary probability
+    ``(1 + h) / 2`` in every round (its ``regime_mean`` is set to exactly ``-h`` so float rounding
+    cannot make the boundary count as favourable).
+    """
+    rng = np.random.default_rng([int(seed), tag, cell.stable_index])
+    jitter = float(rng.uniform(-JITTER, JITTER))  # always drawn so twins stay aligned
+    u = rng.random(cell.T)
+    path = np.zeros(cell.T, dtype=int)
+    if cell.null:
+        pb = (1.0 + cell.h) / 2.0
+        pv = np.array([pb, pb])
+    else:
+        tau = _onset_round(cell, jitter)
+        path[tau : _end_round(cell, tau)] = 1
+        pv = np.asarray(cell.p_pair, dtype=float)
+    p_t = pv[path]
+    y = np.empty(cell.T)
+    prev = 0
+    for t in range(cell.T):
+        p = float(p_t[t])
+        q = p if t == 0 else markov_transitions(p, cell.rho_eff)[prev]
+        prev = int(u[t] < q)
+        y[t] = prev
+    regime_mean = np.full(cell.T, -cell.h) if cell.null else 1.0 - 2.0 * pv[path]
+    return Stream(y, 1.0 - y, Truth(regime_mean, path, None))
+
+
+def make_family3_stream(cell: Family3CellSpec, seed: int) -> Stream:
+    return make_markov_stream(cell, seed, FAMILY3_TAG)
+
+
+def make_family4_stream(cell: Family4CellSpec, seed: int) -> Stream:
+    return make_markov_stream(cell, seed, FAMILY4_TAG)
+
+
 def make_stream(cell, seed: int) -> Stream:
+    if cell.family == 3:
+        return make_family3_stream(cell, seed)
+    if cell.family == 4:
+        return make_family4_stream(cell, seed)
     return make_family2_stream(cell, seed) if cell.family == 2 else make_family1_stream(cell, seed)
+
+
+def run_for(cell, stream: Stream, method: Method, cfg: Config):
+    """Standard harness, except family 4 (outcome-dependent release; methods keep ``cfg.d``)."""
+    if cell.family == 4:
+        from shiftlab.dive.atlas_release_hook import (
+            ORDERED_LABEL_METHODS,
+            ReorderBuffer,
+            run_informative,
+        )
+
+        if getattr(method, "name", None) in ORDERED_LABEL_METHODS:
+            method = ReorderBuffer(method)  # HMMBank needs event-ordered labels (documented)
+        return run_informative(stream, method, cfg, cell.delay_fn)
+    return run(stream, method, cfg)
+
+
+FAMILY_INFO = {  # family -> (axes, easiest levels, cell generator)
+    1: (AXES, EASIEST, all_cells),
+    2: (AXES2, EASIEST2, all_cells2),
+    3: (AXES3, EASIEST3, all_cells3),
+    4: (AXES4, EASIEST4, all_cells4),
+}
 
 
 # ----------------------------------------------------------------------------- seeds
@@ -967,11 +1253,11 @@ def evaluate_cell(
     for sd in seed_list:
         stream = make_stream(cell, sd)
         cfg = cell.config(sd)
-        runs = {m: run(stream, make_method(m, spec, cfg), cfg) for m in methods}
+        runs = {m: run_for(cell, stream, make_method(m, spec, cfg), cfg) for m in methods}
         for name, fac in (extra_methods or {}).items():
-            runs[name] = run(stream, fac(), cfg)
+            runs[name] = run_for(cell, stream, fac(), cfg)
         for name, ref in ref_obj.items():
-            runs[name] = run(stream, ref, cfg)
+            runs[name] = run_for(cell, stream, ref, cfg)
         if "ref_regime_clairvoyant" in refs:
             runs["ref_regime_clairvoyant"] = score_actions(
                 stream, cfg, clairvoyant_actions(stream), np.zeros(cell.T)
@@ -1032,7 +1318,7 @@ def null_fp_by_kappa(task: tuple) -> dict[float, int]:
         ref = build_ref_family_for(twin, kappa)
         k = 0
         for sd, stream in spec_streams:
-            k += int((run(stream, ref, twin.config(sd)).fp_regime or 0) > 0)
+            k += int((run_for(twin, stream, ref, twin.config(sd)).fp_regime or 0) > 0)
         counts[kappa] = k
     return counts
 

@@ -1,0 +1,64 @@
+{
+  "dataset_id": "smtp",
+  "n_rows": 95156,
+  "order": {
+    "declared_basis": "none",
+    "n": 95156,
+    "justification": "Same as http: no timestamp, no documented order.",
+    "verdict": "no_defensible_order",
+    "sorted_by": null
+  },
+  "windows": {
+    "train_incumbent": [
+      0,
+      14273
+    ],
+    "train_challenger": [
+      0,
+      28546
+    ],
+    "dev": [
+      28546,
+      57093
+    ],
+    "locked": [
+      57093,
+      95156
+    ]
+  },
+  "checks": [
+    {
+      "check": "chronological_order_defensible",
+      "pass": false,
+      "detail": "verdict=no_defensible_order; declared_basis=none",
+      "hard": true
+    },
+    {
+      "check": "row_count_matches_source",
+      "pass": true,
+      "detail": "declared=95156 loaded=95156",
+      "hard": false
+    },
+    {
+      "check": "X_y_aligned",
+      "pass": true,
+      "detail": "feature rows equal label rows",
+      "hard": true
+    },
+    {
+      "check": "locked_window_has_one_episode",
+      "pass": true,
+      "detail": "locked rows=38063, T=2000",
+      "hard": true
+    },
+    {
+      "check": "train_dev_windows_nonempty",
+      "pass": true,
+      "detail": "window sizes 14273,14273,28547",
+      "hard": true
+    }
+  ],
+  "status": "USELESS_INELIGIBLE",
+  "ok": false,
+  "reason": "no defensible chronological order (no_defensible_order); no order invented"
+}

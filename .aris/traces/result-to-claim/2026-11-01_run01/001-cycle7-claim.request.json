@@ -1,0 +1,12 @@
+{
+  "skill": "result-to-claim",
+  "purpose": "cycle7-claim",
+  "backend": "codex",
+  "tool": "collaboration.spawn_agent",
+  "requested_reviewer_model": "gpt-6-astra",
+  "requested_effort": "ultra",
+  "reviewer_model_source": "requested",
+  "review_independence": "unknown",
+  "acceptance_status": "provisional",
+  "prompt": "RESULT-TO-CLAIM EVALUATION using the local HKUSTDial/ARIS workflow.\nRead primary artifacts directly in C:/Users/nigel/OneDrive/桌面/ICML/shift-research-starter:\n- AGENTS.md\n- docs/failure_atlas_v1_protocol.md (Amendments 8-10)\n- docs/failure_atlas_cycle7_execution_v1.md\n- docs/failure_atlas_cycle7_validation_results_v1.md\n- docs/failure_atlas_dss_positioning_v1.md\n- scripts/run_atlas_cycle7_validation_v1.py\n- scripts/audit_atlas_cycle7_validation_v1.py\n- src/shiftlab/dive/atlas_dependence_baselines.py\n- outputs/failure_atlas_v1_cycle7/validation/manifest.json\n- outputs/failure_atlas_v1_cycle7/validation/results.json\n- outputs/failure_atlas_v1_cycle7/validation/deterministic_audit.json\n- outputs/failure_atlas_v1_cycle7/validation/environment.json\nRaw per-seed records are in outputs/failure_atlas_v1_cycle7/validation/records.jsonl; use them to spot-check claims as needed. Evaluate the registered full claim and any narrower supported empirical claim. The user's objective is a useful, modestly novel repair compared with strong applicable competitors; a new theorem is not required.\nReturn reviewer identity (do not guess actual model identity), claim_supported yes/partial/no for the full claim, what is supported, what is unsupported, missing evidence, a precise claim revision and the next bounded action. Evaluate every A1-A5 criterion, comparator fidelity, safety scope, acquisition and individual-rule ablations, aggregation, and whether confirmation is warranted. Cite concrete files/lines. Do not edit files.\nThe source evidence pre-check is the deterministic_audit.json artifact. Canonical ARIS resolver/evidence helper scripts are not installed in any resolved location; the local deterministic audit is a documented substitute for mechanical verification, not an independent experiment integrity verdict. This is a fresh native review, provisional rather than a cross-family independent audit. No executor result summary has been provided."
+}

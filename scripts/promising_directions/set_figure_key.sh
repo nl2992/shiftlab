@@ -45,6 +45,19 @@ text = cfg.read_text()
 pat = re.compile(rf'^(\s*{field}:\s*)"[^"]*"', re.M)
 if not pat.search(text):
     sys.exit(f"could not find {field} in {cfg}")
+# Blank every OTHER provider key first. PaperBanana prefers OpenRouter when several are
+# set, so a stale or wrong-format value left in another field silently wins over the key
+# just supplied -- which is exactly how the first attempt here failed.
+cleared = []
+def blank(m):
+    name = m.group(1).strip().rstrip(":")
+    if name != field and m.group(2):
+        cleared.append(name)
+        return m.group(1) + '""'
+    return m.group(0)
+text = re.sub(r'^(\s*\w*api_key:\s*)"([^"]*)"', blank, text, flags=re.M)
+if cleared:
+    print("cleared stale values in: " + ", ".join(cleared))
 cfg.write_text(pat.sub(lambda m: m.group(1) + '"' + key + '"', text, count=1))
 cfg.chmod(0o600)
 print(f"{field} set in {cfg} ({len(key)} chars, not shown); file mode 600")

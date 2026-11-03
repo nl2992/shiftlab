@@ -57,18 +57,22 @@ def _blob_hashes(name: str) -> set[str]:
     return out
 
 
-def main():
+def main(roots=None):
+    """``roots``: {family letter: [run dirs]}; default = every run under outputs/sota_sprint/<F>/.
+    Records are keyed by FAMILY as well as policy name, so a candidate is credited only with runs
+    from its own family's directories (ARIS milestone-1 audit: names are reused across families)."""
     regs = defaultdict(set)
     seeds = defaultdict(lambda: defaultdict(set))
     runs = defaultdict(set)
     metric_ok = defaultdict(bool)
-    for fam in "ABCDX":
-        for rec in (OUTS / fam).rglob("records.jsonl"):
+    roots = roots or {f: [OUTS / f] for f in "ABCD"}
+    for fam, dirs in roots.items():
+        for rec in (x for d in dirs for x in Path(d).rglob("records.jsonl")):
             run = rec.parent
             with open(rec) as f:
                 for line in f:
                     r = json.loads(line)
-                    p = r["policy"]
+                    p = (fam, r["policy"])
                     regs[p].add(r["regime"])
                     seeds[(run, r["regime"])][p].add((r["ep"], r["seed"]))
                     runs[p].add(run)
@@ -78,14 +82,10 @@ def main():
     report = {}
     for cid in IDS:
         fam = cid[0]
-        names = [p for p in regs if p == cid or p.startswith(cid + "_") and cid == "B1"]
-        if cid == "B1":
-            names = [p for p in regs if p in ("B1_r10", "B1_r15", "B1_r25")]
-        if cid == "D6":
-            names = [p for p in regs if p in ("D6:mp", "D6:cams", "D6:ms")]
-        if cid in ("C6",):
-            names = [p for p in regs if p in ("C6", "C6@discern")]
-        main_name = cid if cid in regs else (names[0] if names else None)
+        mine = {p[1] for p in regs if p[0] == fam}
+        alias = {"B1": ["B1_r15", "B1_r10", "B1_r25"], "D6": ["D6:mp", "D6:cams", "D6:ms"]}
+        names = [n for n in [cid] + alias.get(cid, []) if n in mine]
+        main_name = (fam, names[0]) if names else None
         ok = {}
         if main_name is None:
             report[cid] = {"executed": False}
@@ -96,13 +96,13 @@ def main():
         ok["envs_ge4"] = len(rs) >= 4
         ok["null_env"] = bool(rs & NULLS)
         ok["outside_env"] = bool(rs & OUTSIDE[fam])
-        abl = [p for p in regs if p != main_name and (p.startswith(cid + "-") or p.startswith(cid + "_")
-                                                      or p in ABLATION_ALIAS.get(cid, []))]
+        abl = [n for n in mine if n != main_name[1] and (n.startswith(cid + "-") or n.startswith(cid + "_")
+                                                        or n in ABLATION_ALIAS.get(cid, []))]
         ok["ablation_rows"] = sorted(abl)[:6]
         ok["ablation"] = bool(abl)
         paired = False
         for (run, reg), d in seeds.items():
-            if main_name in d and any(c in d and d[c] == d[main_name] for c in PUBLISHED):
+            if main_name in d and any((fam, c) in d and d[(fam, c)] == d[main_name] for c in PUBLISHED):
                 paired = True
                 break
         ok["paired_with_published"] = paired
@@ -130,4 +130,9 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    import argparse
+
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--root", default="", help="dir with A/ B/ C/ D/ subdirs (e.g. the gate re-screen)")
+    a = ap.parse_args()
+    main({f: [Path(a.root) / f] for f in "ABCD"} if a.root else None)

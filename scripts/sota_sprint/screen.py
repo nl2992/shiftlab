@@ -104,6 +104,9 @@ def _job(args):
     else:
         z = np.load(_loss_file(name))
         losses = np.stack([z["l0"][ep], z["l1"][ep]], axis=1).astype(np.int8)
+        # PROXY (ARIS milestone-1 audit, check A): real data has no causal truth, so the evaluator-side
+        # gain is the episode's realised mean advantage. Only the diagnostics regret_expected_oracle,
+        # frac_on_wrong, detect_delay and excess_vs_expected_G use it; the primary metric `net` does not.
         gain = np.full(losses.shape[0], float((losses[:, 0].astype(int) - losses[:, 1]).mean()))
         delay, budget = {**REAL_DELAYS, **FRESH_DELAYS}[name], CONTRACT["budget"]
     rows = []
@@ -114,7 +117,8 @@ def _job(args):
         stream_rng = np.random.default_rng([seed_base, _h(name), ep, seed, 7])
         m = metrics(pol, losses, gain, delay=delay, budget=budget, cq=CONTRACT["cq"],
                     cs=CONTRACT["cs"], stream_rng=stream_rng)
-        rows.append({"kind": kind, "regime": name, "ep": ep, "seed": seed, "policy": pol.name,
+        rows.append({"kind": kind, "gain_is_proxy": kind == "real", "regime": name, "ep": ep,
+                     "seed": seed, "policy": pol.name,
                      "delay": delay, "budget": budget, **m})
     return rows
 

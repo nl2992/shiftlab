@@ -135,7 +135,11 @@ class PrPlEBCS:
         lam = min(
             math.sqrt(2.0 * self.log_thr / (sigma2_prev * t * math.log(1.0 + t))), self.lam_max
         )
-        psi_e = -math.log1p(-lam) - lam
+        # FIDELITY FIX 2026-11-03 (Failure Atlas v2): WSR eq. (14) defines
+        # psi_E(l) = (-log(1-l) - l)/4 together with v_i = 4(W_i - mu)^2. The earlier port kept the
+        # factor 4 in v_i but dropped the /4 in psi_E, inflating the variance penalty fourfold and
+        # weakening this comparator. Verified against the arXiv:2010.09686 text.
+        psi_e = (-math.log1p(-lam) - lam) / 4.0
         self.sum_lam += lam
         self.sum_lam_w += lam * w
         self.sum_vpsi += 4.0 * (w - mu_prev) ** 2 * psi_e

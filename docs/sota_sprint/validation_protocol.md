@@ -74,3 +74,12 @@ plus a successful independent result-to-claim review of that exact claim. Real-d
 exposed streams is descriptive. The task's success gate requires independent real-data validation
 for a real-data claim, so any SOTA verdict is scoped "synthetic, under the declared Markov
 dependence class".
+
+## Amendment 1 (2026-11-03, before any validation row was read)
+A strict re-read of the brief (Phase 6: "at least the strongest two candidates per family should advance
+where functioning candidates exist") found Family B had only one advanced candidate. B5 (largest
+reversal gain vs host in development) is added as B's second candidate. It runs in a supplemental job on
+the same validation seed bases and regimes (streams are keyed by seed base, regime and seed, so rows pair
+with the main run by seed). It is evaluated under H3 (vs host on change regimes) and the H1-part-1 safety
+check. The two other changes are bookkeeping: the gate re-screen of all 24 at the committed revision
+(Phase 5 traceability) and the fresh real-data protocol (`fresh_real_protocol.md`, external validation).

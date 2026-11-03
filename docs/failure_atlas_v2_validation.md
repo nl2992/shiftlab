@@ -4,7 +4,7 @@
 [failure_atlas_v2_development.md](failure_atlas_v2_development.md) (commit `1ee1060`) before
 this run. Validation: 13 regimes never run before (`regimes.VALIDATION_REGIMES`, registered in
 commit `ade273f`), seeds 5000-5099 at seed base 20261104; 9 real streams, 168 episodes x 20
-replay seeds; 25 policies; 107,450 episode runs; 49 minutes. Raw:
+replay seeds; 25 policies; 116,500 episode runs (32,500 synthetic + 84,000 real); 49 minutes. Raw:
 `outputs/failure_atlas_v2/validation/records.jsonl` (manifest with code/data SHA-256). Analysis:
 `scripts/failure_atlas_v2/analyse_validation.py` -> [validation_analysis.json](failure_atlas_v2_results/validation_analysis.json).
 
@@ -23,6 +23,15 @@ Xu, Qiu*, front-loaded Gated and front-loaded DISCERN, chosen on the same valida
 guarantee. Intervals: 95% percentile bootstrap over seeds (synthetic) or episodes (real).
 
 ## Registered criteria
+
+**Timing caveat (audit finding 1).** The protocol at `ade273f` fixed the criteria but did not
+name the primary family; it was fixed in `1ee1060` after development had shown harm on
+reversal/transient/recurrent regimes. The adverse-family result below must always be read
+together with the primary-family result. **Criterion (3) caveat (audit finding 2):** at n=100
+the Wilson bound <= .10 requires <= 4 promotions, so a method at exactly the nominal .05 fails
+it with probability ~.56; on 600 out-of-protocol scratch seeds the auditor measured V_null
+promotion .032 for LRMD and .012 for Gated+RMM. LRMD's registered FAIL stands, but it is weak
+evidence about LRMD's true null rate.
 
 Primary family = V_late_600_p65, V_late_1000_p72, V_late_1400_p72, V_late_1000_d50,
 V_late_1000_d250, V_better_p62, V_better_p70 (per-seed family mean; net-cost differences).

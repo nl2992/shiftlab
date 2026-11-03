@@ -12,7 +12,7 @@ F3_reversal_800 from part 1 were discarded and the regime rerun whole in part 2)
   policy with a label-clock weighted Shiryaev-Roberts e-detector over a grid of restart points
   (every 10 labels, uniform prior mass, total one; bets lambda in {.15,.3,.5}), keeps acquiring
   after the base's verdict, and on an alarm switches and restarts the base on the remaining
-  horizon/budget. Base runs at alpha/2, detector at alpha/2 (halved per re-promotion).
+  horizon/budget. Base runs at alpha/2, detector at alpha/2. The bound P(ever promote under the null) <= alpha holds for the first promotion; after a rollback the base is re-created with a fresh alpha/2 and only the detector's re-promotion alpha is halved, so total alpha after the first promotion is not controlled by this accounting (audit finding 8).
 * **LRMD (standalone, Path B)** — the same detector with all alpha, no base, the start prior
   w_first=.5 on the first start (rest uniform), and horizon-weighted acquisition
   q_t = min(1, 2 * remaining / (rate (T - t))) on disagreements.
@@ -27,6 +27,8 @@ stationary-but-dependent nulls.
 |---|---:|---:|---:|---:|---:|---:|---:|
 | Model Selector (no error control) | 371.20 | 354.04 | 374.76 | 384.50 | 381.72 | .96 | .93 |
 | Model Picker (no error control) | 372.21 | 356.68 | 375.05 | 383.48 | 382.66 | .92 | .96 |
+| CAMS + RMM (no error control) | 377.86 | 360.48 | 383.00 | 387.07 | 390.71 | .97 | .92 |
+| Gong-Zhang + RMM (no error control) | 379.73 | 361.27 | 413.28 | 388.13 | 372.00 | .92 | .81 |
 | **LRMD_w50 (frozen as LRMD)** | **380.01** | 383.95 | 380.00 | 394.00 | 363.30 | .05 | .25 |
 | LRMD (uniform starts, k=2) | 381.35 | 390.37 | 375.42 | 395.17 | 362.42 | .03 | .24 |
 | SMCS + RMM | 383.29 | 394.60 | 378.08 | 395.53 | 361.82 | .01 | .18 |

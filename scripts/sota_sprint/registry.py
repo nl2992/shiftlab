@@ -1,0 +1,59 @@
+"""Policy registry for the SOTA sprint: published ports, earlier ShiftLab candidates, family modules.
+
+Every factory has the Atlas v2 signature ``f(T, B, cs, cq, alpha, delay, r) -> Policy`` where
+``r(name)`` returns a private generator. Family modules ``fam_a`` .. ``fam_d`` (one per agent)
+each expose ``EXTRA``; a family module that fails to import is reported, not silently dropped.
+"""
+
+from __future__ import annotations
+
+import importlib
+import importlib.util
+import sys
+from pathlib import Path
+
+HERE = Path(__file__).resolve().parent
+ROOT = HERE.parents[1]
+for _p in (ROOT / "scripts/failure_atlas_v2_flq", HERE):
+    if str(_p) not in sys.path:
+        sys.path.insert(0, str(_p))
+
+import bench  # noqa: E402,F401  (pins the FLQ regimes module before the RMM path is added)
+from v2_extra import EXTRA as _FLQ  # noqa: E402
+
+IMPORT_ERRORS: dict[str, str] = {}
+
+
+def _rmm() -> dict:
+    """Load the RMM/LRMD line under a private module name (its directory reuses FLQ file names)."""
+    path = ROOT / "scripts/failure_atlas_v2/restart_monitor.py"
+    spec = importlib.util.spec_from_file_location("atlas_v2_restart_monitor", path)
+    mod = importlib.util.module_from_spec(spec)
+    sys.modules[spec.name] = mod
+    saved = list(sys.path)
+    try:
+        spec.loader.exec_module(mod)
+    finally:  # RMM prepends its own directory, whose regimes.py/suite.py would shadow FLQ's
+        sys.path[:] = saved  # (spawned workers inherit the parent's sys.path)
+    keep = ("gated_deployment+RMM", "discern_style+RMM", "SMCS+retain-incumbent+RMM",
+            "model_picker_adapter+RMM", "LRMD")
+    return {f"rmm:{k}": v for k, v in mod.FACTORIES.items() if k in keep}
+
+
+def build_extra() -> dict:
+    extra = dict(_FLQ)
+    try:
+        extra.update(_rmm())
+    except Exception as e:  # pragma: no cover - reported in manifests
+        IMPORT_ERRORS["rmm"] = repr(e)
+    for fam in ("fam_a", "fam_b", "fam_c", "fam_d", "fam_x"):
+        if not (HERE / f"{fam}.py").exists():
+            continue
+        try:
+            extra.update(importlib.import_module(fam).EXTRA)
+        except Exception as e:
+            IMPORT_ERRORS[fam] = repr(e)
+    return extra
+
+
+EXTRA = build_extra()

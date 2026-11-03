@@ -1,0 +1,13 @@
+\begin{tabular}{lrrrrrr}
+\toprule
+& \multicolumn{2}{c}{spam ($K{=}1$)} & \multicolumn{2}{c}{rialto ($K{=}16$)} & \multicolumn{2}{c}{weather ($K{=}3$)} \\
+\cmidrule(lr){2-3}\cmidrule(lr){4-5}\cmidrule(lr){6-7}
+Variant & cost & $\Delta$ & cost & $\Delta$ & cost & $\Delta$ \\
+\midrule
+P3b (incumbent certified switching) & 254.09 & -- & 103.73 & -- & 475.77 & -- \\
+existing cost-aware promotion rule & 381.96 & $+127.87$ & 210.02 & $+106.29$ & 512.92 & $+37.15$ \\
+ours: break-even promotion gate only & 277.88 & $+23.79$ & 112.70 & $+8.97$ & 493.34 & $+17.57$ \\
+ours: acquisition gate, \textsc{hopeless} state only & 254.09 & $+0.00$ & 103.73 & $+0.00$ & 475.77 & $+0.00$ \\
+\textbf{ours: acquisition gate, both states} & 247.43 & $-6.66$ & 98.42 & $-5.31$ & 472.57 & $-3.20$ \\
+\bottomrule
+\end{tabular}

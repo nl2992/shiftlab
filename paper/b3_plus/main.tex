@@ -1,17 +1,29 @@
-% B3+ / ICML submission draft.
-% Every number in this manuscript is produced from saved per-episode records by
-% scripts/promising_directions/b3_plus_analysis.py and the table generators in
-% paper/b3_plus/tables/. No value is hand-entered. Check the official ICML style
-% requirements for the target year before formatting the final submission.
+% ICML 2026 submission. Style files (icml2026.sty/.bst, algorithm, algorithmic, fancyhdr) are
+% the official ones from media.icml.cc. Every number is produced from saved per-episode records
+% by the generators in paper/b3_plus/tables/; no value is hand-entered.
 \documentclass{article}
-\usepackage{booktabs,amsmath,amssymb,graphicx,hyperref,microtype}
-\title{What Does It Cost to Keep a Certificate?\\
+\usepackage{microtype,graphicx,booktabs,hyperref,amsmath,amssymb,amsfonts}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\usepackage{icml2026}  % anonymous submission; add [accepted] only for camera-ready
+
+\icmltitlerunning{Label-Efficient Sequential Certification for Model Switching}
+
+\begin{document}
+\twocolumn[
+\icmltitle{What Does It Cost to Keep a Certificate?\\
 Label-Efficient Sequential Certification for Model Switching\\
 under Budgeted and Delayed Feedback}
-\author{}
-\date{}
-\begin{document}
-\maketitle
+\icmlsetsymbol{equal}{*}
+\begin{icmlauthorlist}
+\icmlauthor{Anonymous Authors}{anon}
+\end{icmlauthorlist}
+\icmlaffiliation{anon}{Anonymous Institution}
+\icmlcorrespondingauthor{Anonymous Authors}{anon@example.com}
+\icmlkeywords{sequential testing, e-processes, model selection, active learning}
+\vskip 0.3in
+]
+\printAffiliationsAndNotice{}
 
 \begin{abstract}
 Deciding whether to replace a deployed model with a challenger requires paying for labels,
@@ -20,15 +32,16 @@ sequential certificate, but they pay for that certificate in labels, and under a
 that price is itself a first-order cost. We show that a standard disagreement-gated paired
 e-process keeps buying labels at its budget-paced rate long after the deployment decision is
 settled: on one stream it promotes the challenger at event~244 and then purchases labels for the
-remaining 1756 events. We introduce \emph{settled-decision acquisition}, which withholds queries
-in the two states where no label can change the deployed action, and leaves pacing otherwise
-untouched so it can only ever spend less. On four of five real-world case studies the resulting
-policy reproduces the incumbent procedure's deployment decisions \emph{event for event} while
-using 20--67\% fewer labels; on the fifth it alters behaviour and still improves on average. The
-effect is invariant to the switching cost and exactly proportional to the label price, as a pure
-label-saving mechanism must be, and it fails that scaling law on precisely the one dataset where
-deployment behaviour changes. We do not claim better switching decisions: on one of our five cases
-a fixed-sample binomial test remains the cheaper policy overall, and we report it alongside.
+remaining 1756 events. Removing that spend is not trivial, because rollback must stay detectable.
+We introduce \emph{settled-decision acquisition}, which withholds queries in the two states where
+no label can change the deployed action while leaving pacing otherwise untouched, so it can only
+ever spend less. On four of five real-world case studies, selected from 36 screened datasets, the
+resulting policy reproduces the incumbent procedure's deployment decisions \emph{event for event}
+while using 20--67\% fewer labels; on the fifth it alters behaviour and still improves on average.
+The effect is invariant to the switching cost and exactly proportional to the label price, as a
+pure label-saving mechanism must be, and it fails that scaling law on precisely the one dataset
+where deployment behaviour changes. We do not claim better switching decisions: on one of our five
+cases a fixed-sample binomial test remains the cheaper policy overall, and we report it alongside.
 \end{abstract}
 
 \section{Introduction}
@@ -38,75 +51,104 @@ model costs something. The natural tool is a sequential test that is valid at ev
 so that promotion can happen as soon as the evidence warrants it.
 
 Our starting point is an observation about what such a procedure spends. Optional stopping is
-bought with labels, and the procedure keeps buying them for the whole episode. Yet once the
-challenger has been promoted and continues to look better, the deployed action is not in question;
+bought with labels, and the procedure keeps buying them for the whole episode. Once the challenger
+has been promoted and continues to look better, however, the deployed action is not in question;
 further labels buy only rollback insurance. Measured on real streams, this is where most of the
 budget goes.
 
 \paragraph{Contributions.}
 \begin{itemize}
   \item We identify and quantify post-decision certificate spend in a disagreement-gated paired
-  e-process, using saved per-episode records (Section~\ref{sec:method}).
-  \item We propose settled-decision acquisition, which gates querying on whether a label could
-  still change the deployed action. The evidence process, its propensity-matched bet cap, the
-  promotion threshold and the rollback test are unchanged, and the rule can only withhold spend.
-  \item We evaluate on five real-world case studies, report a falsifiable scaling law that the
-  mechanism must satisfy, and show it holds on four cases and breaks on exactly the fifth, where
-  its premise is independently violated (Sections~\ref{sec:results}--\ref{sec:ablation}).
+  e-process, from saved per-episode records (Section~\ref{sec:method}).
+  \item We propose settled-decision acquisition (Section~\ref{sec:method}), which gates querying
+  on whether a label could still change the deployed action. The evidence process, its
+  propensity-matched bet cap, the promotion threshold and the rollback test are unchanged.
+  \item We evaluate on five real-world case studies and attribute the effect by ablation
+  (Sections~\ref{sec:results}--\ref{sec:ablation}).
+  \item We state a falsifiable scaling law the mechanism must satisfy, and show it holds on four
+  cases and breaks on exactly the fifth, where its premise is independently violated
+  (Section~\ref{sec:ablation}).
 \end{itemize}
 
 \section{Related Work}
-Contextual active model selection (CAMS) queries on a disagreement score and optimises regret with
-the label budget as a hard constraint; it models no switching cost, does not use the remaining
-horizon, does not address delay, and never commits to a deployed model, so it has no notion of
-promotion or its price. Active, anytime-valid risk-controlling prediction sets give the closest
-treatment of budgeted e-process-driven labelling: the policy maximises a lower bound on e-process
-log-growth, driven by conditional risk variability rather than proximity to a decision boundary,
-assumes labels are available immediately, and does not consider switching between candidate
-models. Our acquisition rule is in one respect the opposite of that objective: it deliberately
-declines to buy evidence once the evidence cannot change the action. We also compare against a
-cost-aware promotion rule already present in our own codebase, which gates promotion on a lower
-confidence bound times a declared persistence horizon; treating it as prior work rather than as a
-baseline would overstate our novelty.
+Contextual active model selection~\cite{liu2024cams} queries on a disagreement score and optimises
+regret with the label budget as a hard constraint. It models no switching cost, does not use the
+remaining horizon, does not address delay, and never commits to a deployed model, so it has no
+notion of promotion or its price. Active, anytime-valid risk-controlling prediction
+sets~\cite{xu2024active} give the closest treatment of budgeted, e-process-driven labelling: the
+policy maximises a lower bound on e-process log-growth, driven by conditional risk variability
+rather than proximity to a decision boundary, assumes labels are available immediately, and does
+not consider switching between candidate models. Our acquisition rule is in one respect the
+opposite of that objective: it declines to buy evidence once the evidence cannot change the
+action. We additionally compare against a cost-aware promotion rule that gates promotion on a
+lower confidence bound times a declared persistence horizon, reported here as \textsf{P4ref};
+treating such a rule as unrelated prior work rather than as a baseline would overstate our
+novelty, so it appears in the ablation of Table~\ref{tab:ablation}.
 
 \section{Problem Formulation}
 A chronological stream of $T$ events. A frozen incumbent $f_0$ and challenger $f_1$ produce $0/1$
 losses $\ell_0[t],\ell_1[t]$. The deployed action $a_t\in\{0,1\}$ is chosen before $Y_t$ is
 observed. A label costs $c_q$, at most $B$ may be requested per episode, and a requested label is
 released $d$ events later. Each switch costs $c_s$. The realised net cost is
-\[
+\begin{equation}\label{eq:netcost}
   C_\pi=\sum_{t=1}^{T}\ell_{a_t}[t]+c_qN_q+c_sN_s .
-\]
+\end{equation}
 Each event proceeds in three stages. \textbf{Issue}: choose a query probability $q_t$ and freeze a
 betting fraction $\lambda_t$, both measurable with respect to information released strictly before
 event $t-d$; only disagreement events are queried, and $q_t\ge p_{\min}$ while budget remains.
 \textbf{Release}: the label of $s=t-d$ becomes usable and its importance-weighted paired increment
 $x_s=(\ell_0[s]-\ell_1[s])/q_s$ enters the e-process with the $\lambda_s$ frozen at its own issue
 time. \textbf{Decide}: promote when $\log W_t\ge\log(1/\alpha)$, roll back by the mirrored test,
-effective from $t+1$.
+effective from $t+1$. Figure~\ref{fig:method} shows the loop and Algorithm~\ref{alg:main} states
+it; the objective throughout is the realised net cost of Eq.~\eqref{eq:netcost}.
+
+\begin{figure*}[t]
+\centering
+\includegraphics[width=\textwidth]{figures/fig1_method.png}
+\caption{Acquisition is withheld only where no label can change the deployed action. Each event
+passes through issue, release and decide; the issue stage sees only information released before
+$t-d$, and the decision takes effect at $t+1$. In the \textsc{hopeless} and \textsc{settled}
+states the query rate falls to a quarter rate and to the propensity floor respectively, while the
+evidence process and promotion rule are unchanged.}
+\label{fig:method}
+\end{figure*}
 
 \section{Method}\label{sec:method}
-\paragraph{Where the budget goes.} With the incumbent procedure, promotion occurs at event $244$
+\paragraph{Where the budget goes.} Under the incumbent procedure, promotion occurs at event $244$
 on \texttt{spam}, $425$ on \texttt{rialto} and $988$ on \texttt{weather}, each at promotion rate
-$1.00$, after which querying continues at the paced rate for the remainder of the episode.
+$1.00$, after which querying continues at the paced rate for the remainder of the episode: $1756$,
+$1575$ and $1012$ further events respectively.
 
 \paragraph{Settled-decision acquisition.} Two states admit no label that could change the deployed
 action: \textsc{hopeless}, not yet promoted with the challenger certified worse; and
 \textsc{settled}, already promoted with the recent discounted paired advantage still favouring the
 challenger. Writing $r_t$ for a multiplier on the paced rate,
-\[
+\begin{equation}\label{eq:rule}
   q_t=\mathrm{clip}\!\left(r_t\cdot\frac{\mathrm{rem}_t}{\widehat{\text{rate}}_t\,(T-t)},\;
-  p_{\min},\;1\right),\qquad
+  p_{\min},\;1\right),\;
   r_t=\begin{cases}
     0.25 & \textsc{hopeless}\\
     0 & \textsc{settled}\\
-    1 & \text{otherwise.}
+    1 & \text{else.}
   \end{cases}
-\]
+\end{equation}
 Since $r_t\le 1$ the rule can only withhold spend. A settled multiplier of $0$ still queries at
 $p_{\min}$ because $q_t$ is clipped there, so positive propensity and rollback monitoring both
 survive. Post-promotion the margin grids are frozen, so the settled test uses the recent
 discounted advantage, which remains defined.
+
+\begin{algorithm}[t]
+\caption{Settled-decision acquisition (one event)}
+\label{alg:main}
+\begin{algorithmic}[1]
+\STATE {\bfseries Issue:} compute $r_t$ by Eq.~\eqref{eq:rule} from information released before
+$t-d$; set $q_t$; freeze $\lambda_t$ with the propensity-matched cap.
+\STATE Query iff $f_0,f_1$ disagree and $u_t<q_t$ and $\mathrm{rem}_t>0$.
+\STATE {\bfseries Release:} if $s=t-d\ge0$, update $\log W$ with $\lambda_s$ and $x_s$.
+\STATE {\bfseries Decide:} promote if $\log W_t\ge\log(1/\alpha)$; roll back by the mirrored test;
+effective from $t+1$.
+\end{algorithmic}
+\end{algorithm}
 
 \paragraph{What is and is not guaranteed.} The margin-null e-processes have non-negative wealth
 factors under the propensity-matched cap, issued propensities are measurable with respect to
@@ -120,10 +162,10 @@ Five real-world streams: \texttt{spam}, \texttt{rialto}, \texttt{weather}, \text
 and \texttt{uci\_occupancy}. Primary configuration $T=2000$, $B=200$, $c_q=0.05$, $c_s=5$, with
 dataset-specific imposed delays declared before any locked window was read, and $100$
 query-randomisation seeds shared across policies so every comparison is paired on episodes and
-seeds. Comparators: $P_0$ never switch; P3b the incumbent certified procedure; P6 a fixed-sample
-exact binomial test on released disagreement labels; P2 incumbent-alarm switching. $P_1$, always
-deploying the challenger, is a hindsight reference and never a deployable baseline. Model pairs
-are selected on train/dev windows only.
+seeds. Comparators: $P_0$ never switch; \textsf{P3b} the incumbent certified procedure;
+\textsf{P6} a fixed-sample exact binomial test on released disagreement labels; \textsf{P2}
+incumbent-alarm switching. $P_1$, always deploying the challenger, is a hindsight reference and
+never a deployable baseline. Model pairs are selected on train and development windows only.
 
 \paragraph{Selection disclosure.} The five cases are a \emph{selected} set. Thirty-six datasets
 were considered, twenty-nine reached a screening verdict, eleven reached locked-window evaluation,
@@ -132,21 +174,47 @@ new cases come from candidates added after that queue was exhausted. These figur
 unbiased success rate, and the method was not evaluated only on these five.
 
 \section{Main Results}\label{sec:results}
-\begin{table}[t]\centering\small
+\begin{table*}[t]\centering\small
 \input{tables/table1_main}
 \caption{Net cost per episode at the primary configuration. $\dagger$ marks cases whose interval
 is a seed-level bootstrap ($K<5$), which measures query-randomisation variance and not episode
 variance. Only \texttt{rialto} and \texttt{openml\_ldpa} are properly powered.}
-\end{table}
+\label{tab:main}
+\end{table*}
 
-The method improves on the incumbent on all five cases with every confidence interval below zero,
-and reduces labels by 20--67\%. The improvement is not uniform across comparators: on
-\texttt{weather} the fixed-sample test P6 remains cheaper than both the incumbent and our method,
-and P6 also beats the incumbent on the four streams that failed our selection condition. We
+\begin{figure}[t]
+\centering
+\includegraphics[width=\columnwidth]{figures/fig2_netcost.png}
+\caption{The proposed policy is cheapest on four of the five cases, and \textsf{P6} is cheapest on
+\texttt{weather}. Net cost per episode at the primary configuration; lower is better. Starred
+datasets are low-power ($K<5$).}
+\label{fig:netcost}
+\end{figure}
+
+Table~\ref{tab:main} and Figure~\ref{fig:netcost} report the primary configuration. The method
+improves on the incumbent on all five cases with every confidence interval below zero, and reduces
+labels by 20--67\%. The improvement is not uniform across comparators: on \texttt{weather} the
+fixed-sample test \textsf{P6} remains cheaper than both the incumbent and our method, and
+\textsf{P6} also beats the incumbent on the four streams that failed our selection condition. We
 therefore claim an improvement \emph{on the certified procedure}, in the regime where that family
 is appropriate, and not that our policy is the best available.
 
 \section{Mechanism and Ablations}\label{sec:ablation}
+\begin{table*}[t]\centering\small
+\input{tables/table3_ablation}
+\caption{Ablation at the primary configuration; $\Delta$ is the paired difference against
+\textsf{P3b}. The \textsc{hopeless} gate alone changes nothing on these streams, because it fires
+only when the challenger is certified worse and here it is better. The break-even promotion gate
+and the existing cost-aware rule both \emph{lose}. The entire gain comes from the \textsc{settled}
+state.}
+\label{tab:ablation}
+\end{table*}
+
+Table~\ref{tab:ablation} attributes the effect. Three negative results carry the attribution: the
+\textsc{hopeless} gate alone is exactly neutral, a break-even promotion gate costs $+23.79$,
+$+8.97$ and $+17.57$, and the existing cost-aware promotion rule costs far more. Only the
+\textsc{settled} state produces the improvement.
+
 Decomposing the paired difference into deployment loss, query cost and switch cost leaves the
 entire effect in the query term on four of five cases, where deployment loss is bitwise identical
 per episode, promotion times coincide and rollbacks are zero for both policies. The method
@@ -159,16 +227,17 @@ on \texttt{spam}, \texttt{rialto}, \texttt{weather} and \texttt{uci\_occupancy},
 reproduce an exact scaling law on four datasets and break on precisely the dataset independently
 shown to violate its premise.
 
-\begin{table}[t]\centering\small
+\begin{table*}[t]\centering\small
 \input{tables/table2_sensitivity}
-\caption{Paired difference by configuration. Em-dashes mark configurations not run rather than
+\caption{Paired difference by configuration. Dashes mark configurations not run rather than
 interpolated values.}
-\end{table}
+\label{tab:sens}
+\end{table*}
 
-The benefit scales with \emph{unspent budget the incumbent would otherwise consume}, not with the
-budget granted: raising $B$ to $400$ doubles to triples the gain on three cases, but leaves
-\texttt{rialto} essentially unchanged, because its disagreement rate caps queries near $165$ so
-the larger budget never binds.
+Table~\ref{tab:sens} shows the benefit scales with \emph{unspent budget the incumbent would
+otherwise consume}, not with the budget granted: raising $B$ to $400$ doubles to triples the gain
+on three cases but leaves \texttt{rialto} essentially unchanged, because its disagreement rate
+caps queries near $165$ so the larger budget never binds.
 
 \section{Discussion and Limitations}
 Three limitations are load-bearing. First, power: three of five cases contribute fewer than five
@@ -177,9 +246,9 @@ every effect to within 1--3\% but does not create episode-level power. Second, t
 reduced post-promotion monitoring detects reversal later, and while \texttt{openml\_ldpa} exercises
 reversal on real data and our method rolls back \emph{less} often there with better mean deployment
 loss, it costs more in 2 of 32 episodes, and we have no real stream where reduced monitoring is
-worse on average. Third, \texttt{openml\_ldpa}'s event order is inferred from undocumented
-columns rather than documented, and its non-stationarity is largely a change of recorded subject
-between blocks rather than drift within one deployment.
+worse on average. Third, \texttt{openml\_ldpa}'s event order is inferred from undocumented columns
+rather than documented, and its non-stationarity is largely a change of recorded subject between
+blocks rather than drift within one deployment.
 
 \section{Conclusion}
 Keeping a sequential certificate valid costs labels, and much of that cost is incurred after the
@@ -188,4 +257,6 @@ change the deployed action recovers that spend, on four of five real case studie
 behaviour identical event for event. The result is an efficiency claim, not a better decision
 rule, and we have reported where a simpler procedure still wins.
 
+\bibliography{references}
+\bibliographystyle{icml2026}
 \end{document}

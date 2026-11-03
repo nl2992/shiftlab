@@ -7,7 +7,7 @@
   "cases_required": 5,
   "sources_verified": 9,
   "sources_fabricated": 0,
-  "competitors_implemented": 6,
+  "competitors_implemented": 7,
   "competitors_required": 6,
   "applicability_reports_done": 3,
   "applicability_reports_required": 3,
@@ -18,12 +18,13 @@
     "Variance minimisation",
     "Xu et al. acquisition",
     "SMCS",
-    "Online LLM Picker"
+    "Online LLM Picker",
+    "Model Selector"
   ],
-  "numerically_verified_against_author_code": 4,
+  "numerically_verified_against_author_code": 5,
   "numerically_unverified": [
     "Xu et al. (author code has a syntax error as shipped; torch absent)",
     "Online LLM Picker (no author code located)"
   ],
-  "structural_finding": "Four competitor acquisition rules provably collapse to disagreement-gated sampling in the two-model binary task; the comparison is therefore about query-rate schedules and deployment economics, not instance selection."
+  "structural_finding": "FIVE competitor acquisition rules provably collapse to disagreement-gated sampling in the two-model binary task (Model Picker, Online LLM Picker, variance minimisation, Xu acquisition-only, Model Selector). Instance-level acquisition has nothing to work with here, so any comparison is about query-rate scheduling and deployment economics."
 }

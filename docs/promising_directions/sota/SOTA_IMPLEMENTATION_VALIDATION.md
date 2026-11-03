@@ -199,3 +199,96 @@ A different `eps` would change this, so every result for this comparator carries
 
 212 passed, 10 skipped; ruff clean across all SOTA files. Model Selector is still outstanding.
 **No comparison between any competitor and our method has been run. No performance claim exists.**
+
+---
+
+# Round 3: Model Selector — and a fifth independent collapse
+
+**Clone `6aa57e5750153bccb04c9e96946b726d14f5d3f1`.**
+
+**A naming trap worth recording**: the authors register Model Selector internally as
+`type: "model_picker"` (`src/model_selection/methods/model_picker.py`). It is **not** Karimi's
+Model Picker, and every shipped config uses that name. Anyone comparing the two repositories
+casually would conflate them.
+
+**Reproduction: yes, exactly.** The author's `ModelSelector.run` was run unmodified (one numpy-2
+shim) across 6 synthetic settings — including 2 models/2 classes, epsilon 0.50 where all scores
+tie, and a budget exceeding the disagreement set so the back-fill path is exercised — plus two
+seeds on the shipped `emotion_detection` data. Labelled indices and per-step rankings are
+identical, with the author's global `np.random` stream reproduced draw for draw. The epsilon grid
+search also matches: `success_avg` to 1e-12, identical `fastest` list, same chosen epsilon.
+
+**Published rules preserved**, including the one most easily got wrong: the final selection rule
+is **highest labeled-set accuracy**, not argmax posterior. A test sets epsilon 0.6, where the
+posterior argmax is the *worst* model, and confirms the accuracy rule still returns the best one.
+
+## The fifth collapse, and the most general one
+
+With two models, every disagreement example presents the **same pair of hypothetical posteriors**
+— one label rewards model 0, one rewards model 1, any other rewards neither — so expected
+posterior entropy is a single constant across all disagreement examples. This holds **for any
+number of classes, any posterior, and any epsilon**, which makes it stronger than the other four
+collapses, all of which were specific to binary labels.
+
+Verified by test: exact equality at K=2, equality to 1e-12 at K=3 and K=5. Consequences measured:
+epsilon does not change *which* examples are queried, only the posterior; at K=2 the tie-break
+draws reproduce uniform random sampling without replacement over the disagreement set, matched
+index for index; and at K>2 the scores tie mathematically but differ by ~1 ulp (5.6e-17), so the
+reference's `==` comparison selects from an arbitrary float-noise subset — information-free, but
+not even uniform. With three or more models the collapse ends once the posterior moves.
+
+**So in our setting Model Selector reduces to: random sampling of disagreements, posterior
+arithmetic, and a labeled-accuracy final rule.** Its instance-level acquisition contributes
+nothing.
+
+## The causal adapter is not faithful, and we did not change the task to make it so
+
+Algorithm 1 takes an argmin over a pool, which requires labelling an **earlier** event
+retrospectively. Our simulator grants a label only for the event being processed. Making the
+adapter faithful would mean adding a `target_event_id` to `QueryRequest` — which would change the
+information structure **for every competitor**, not just this one.
+
+Per the brief's explicit instruction ("if retrospective querying is forbidden, use a separate
+compatible pool experiment rather than silently changing the task"), we did **not** make that
+change. Instead:
+- `ModelSelectorNative` — the faithful pool algorithm. **May carry the published name.**
+- `run_block_pool_experiment` — the faithful algorithm on blocks of already-arrived events, with
+  labels guarded so any read outside the block raises, and cost accounting matching `run_episode`.
+- `ModelSelectorCausalAdapter` — a *record gate*, not Algorithm 1. Must be reported as
+  **"Model Selector, causal record-gate adapter"**. In our binary two-model setting it is not
+  usefully different from paced disagreement sampling. A known wart is recorded: old events that
+  can never be queried linger in the window as reference points and can block later events until
+  they expire.
+
+**BLOCKED**: the rule mapping grid-search output to the paper's per-dataset epsilons (Table 4) is
+not in the repository; shipped configs use metric "all" while the code default `success_diff`
+would crash on them. We expose `success_avg` (default) and `fastest`.
+
+**Paper/code mismatch, code followed**: footnote 3 says the class distribution is "uniform over
+the model predictions"; the code uses uniform over all classes. With two models both readings
+give the same collapse.
+
+---
+
+# Round 3 summary: the acquisition literature does not transfer to this task
+
+| # | Method | How established | Reduces to |
+|---|---|---|---|
+| 1 | Model Picker | measured | `tuning · q(1-q)`, instance-blind |
+| 2 | Online LLM Picker | derived from Eq. 10 | `max{p(1-p)H(p)/log 2, eta_t}` |
+| 3 | Variance minimisation | measured vs author code | `1[disagree]` exactly; surrogate cancels |
+| 4 | Xu et al. (acquisition-only) | derived | gated uniform sampling |
+| 5 | Model Selector | proved for all K, all posteriors, all epsilon | constant across disagreements |
+
+Five methods. Five independent derivations. One conclusion: **in a two-frozen-model binary
+deployment task, instance-level acquisition has nothing to work with**, because the single bit of
+pre-label information is consumed by the disagreement gate every one of them already applies.
+
+This is a finding about the task, and it is arguably worth more than the comparison it was
+gathered to support. It also bounds what any win of ours could mean: against this family we can
+only be competing on **query-rate scheduling and deployment economics**. That is exactly what our
+method changes, so a win would be real — but it would not be a win over instance selection,
+because none of these methods is doing instance selection here.
+
+**Status: 6 of 6 mandatory competitors implemented, 5 numerically verified against author code.
+212 passed, 10 skipped, ruff clean. No comparison has been run. No performance claim exists.**

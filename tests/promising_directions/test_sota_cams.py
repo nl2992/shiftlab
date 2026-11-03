@@ -12,8 +12,8 @@ ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "scripts/promising_directions/sota"))
 sys.path.insert(0, str(ROOT / "scripts/promising_directions/sota/competitors"))
 
-import cams  # noqa: E402
-from cams import (  # noqa: E402
+import cams
+from cams import (
     CAMSDeploymentAdapter,
     CAMSNative,
     constant_policy_advice,
@@ -24,7 +24,7 @@ from cams import (  # noqa: E402
     stack_advice,
     weighted_entropy_query,
 )
-from simulator import (  # noqa: E402
+from simulator import (
     Event,
     check_budget_feasible,
     check_no_future_access,
@@ -81,7 +81,7 @@ def test_policy_weight_update_matches_hand_computation():
     np.testing.assert_allclose(q2, expected_q)
 
     # ... and through the Native policy object: observe() then the next predict
-    adv = lambda ev: raw  # noqa: E731
+    adv = lambda ev: raw
     pol = CAMSNative(n_models=2, n_classes=2, advice_fn=adv, rng=np.random.default_rng(0))
     ev0 = Event(0, 0, 10, preds, None)
     pol.predict(ev0)
@@ -209,8 +209,8 @@ def test_determinism_and_state_roundtrip():
             n_models=M, n_classes=3, advice_fn=toy_advice(M), rng=policy_rng(7, 1, "cams")
         )
 
-    kw = dict(model_predictions=preds, labels=y, contexts=ctx, delay=3, budget=20,
-              label_price=0.05, switch_cost=0.5)
+    kw = {"model_predictions": preds, "labels": y, "contexts": ctx, "delay": 3, "budget": 20,
+              "label_price": 0.05, "switch_cost": 0.5}
     a = run_episode(make(), **kw)
     b = run_episode(make(), **kw)
     assert a.records == b.records and a.net_cost == b.net_cost
@@ -240,8 +240,8 @@ def test_constant_policies_are_present_and_one_hot():
 def test_adapter_with_sampling_matches_native_at_delay_one_with_ample_budget():
     preds, y, ctx = synth(T=100, seed=5)
     M = preds.shape[1]
-    kw = dict(model_predictions=preds, labels=y, contexts=ctx, delay=1, budget=10_000,
-              label_price=0.0, switch_cost=0.0)
+    kw = {"model_predictions": preds, "labels": y, "contexts": ctx, "delay": 1, "budget": 10_000,
+              "label_price": 0.0, "switch_cost": 0.0}
     nat = CAMSNative(n_models=M, n_classes=3, advice_fn=toy_advice(M), rng=np.random.default_rng(9))
     ada = CAMSDeploymentAdapter(
         n_models=M, n_classes=3, advice_fn=toy_advice(M), rng=np.random.default_rng(9),

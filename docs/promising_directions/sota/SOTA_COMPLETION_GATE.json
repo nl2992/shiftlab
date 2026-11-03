@@ -7,14 +7,23 @@
   "cases_required": 5,
   "sources_verified": 9,
   "sources_fabricated": 0,
-  "competitors_implemented": 2,
+  "competitors_implemented": 6,
   "competitors_required": 6,
-  "applicability_reports_done": 0,
+  "applicability_reports_done": 3,
   "applicability_reports_required": 3,
   "notes": "Prior B3_PLUS results compare against P3b and P6 only and do not count toward this gate. CAMS runs use our policy set, not the author's, which is not reproducible. Model Picker's query rule is disagreement-gated and instance-blind in the binary two-model setting; see SOTA_IMPLEMENTATION_VALIDATION.md.",
   "competitors_implemented_names": [
     "CAMS (CAMS, CAMS-MAX)",
-    "Model Picker"
+    "Model Picker",
+    "Variance minimisation",
+    "Xu et al. acquisition",
+    "SMCS",
+    "Online LLM Picker"
   ],
-  "numerically_verified_against_author_code": 2
+  "numerically_verified_against_author_code": 4,
+  "numerically_unverified": [
+    "Xu et al. (author code has a syntax error as shipped; torch absent)",
+    "Online LLM Picker (no author code located)"
+  ],
+  "structural_finding": "Four competitor acquisition rules provably collapse to disagreement-gated sampling in the two-model binary task; the comparison is therefore about query-rate schedules and deployment economics, not instance selection."
 }

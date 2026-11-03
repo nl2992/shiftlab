@@ -13,7 +13,7 @@ import pytest
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "scripts/promising_directions/sota"))
 
-from simulator import (  # noqa: E402
+from simulator import (
     Event,
     QueryRequest,
     check_budget_feasible,
@@ -158,7 +158,7 @@ def test_frozen_propensity_travels_with_the_request():
         label_price=0.05, switch_cost=5.0,
     )
     # event 0 was issued at q = 0.9; by release time the policy's q has moved on
-    first = [f for f in p.seen if f.event_id == 0][0]
+    first = next(f for f in p.seen if f.event_id == 0)
     assert first.query_probability == pytest.approx(0.9)
 
 

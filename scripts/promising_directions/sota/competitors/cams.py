@@ -49,7 +49,6 @@ from collections.abc import Callable
 from typing import Any
 
 import numpy as np
-
 from simulator import Event, QueryRequest, ReleasedFeedback
 
 AdviceFn = Callable[[Event], np.ndarray]
@@ -150,7 +149,9 @@ def query_probability(
     if v_t > 1:  # :88-93
         v_t = 1.0
     elif np.logical_and(v_t >= 0, v_t <= 1):
-        v_t = v_t
+        # Faithful port of the author's no-op clamp branch (see :88-93); kept so the control
+        # flow matches the reference line for line rather than being "tidied" into divergence.
+        v_t = v_t  # noqa: PLW0127
     else:
         v_t = 0.0
     dist_t = len(np.unique(predictions))  # :96

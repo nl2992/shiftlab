@@ -21,16 +21,15 @@ Two classes are exposed and they are deliberately not interchangeable:
 
 from __future__ import annotations
 
+import sys
+from pathlib import Path
 from typing import Any
 
 import numpy as np
 
-import sys
-from pathlib import Path
-
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-from simulator import Event, QueryRequest, ReleasedFeedback  # noqa: E402
+from simulator import Event, QueryRequest, ReleasedFeedback
 
 
 # --------------------------------------------------------------------------------------------

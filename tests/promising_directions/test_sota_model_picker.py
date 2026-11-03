@@ -1,7 +1,7 @@
 """Tests for the Model Picker port (native and deployment adapter)."""
 
-import types
 import sys
+import types
 from pathlib import Path
 from types import SimpleNamespace
 
@@ -11,7 +11,7 @@ import pytest
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "scripts/promising_directions/sota"))
 
-from competitors.model_picker import (  # noqa: E402
+from competitors.model_picker import (
     ModelPickerDeploymentAdapter,
     ModelPickerNative,
     compute_u_t,
@@ -19,7 +19,7 @@ from competitors.model_picker import (  # noqa: E402
     posterior,
     query_probability,
 )
-from simulator import (  # noqa: E402
+from simulator import (
     Event,
     ReleasedFeedback,
     check_budget_feasible,
@@ -153,7 +153,7 @@ def _author_fn():
     patched = src.replace("np.random.binomial(size=1, n=1, p=u_t)", "np.random.binomial(1, u_t)")
     assert patched != src
     mod = types.ModuleType("author_model_picker")
-    exec(compile(patched, str(AUTHOR_FILE), "exec"), mod.__dict__)
+    exec(compile(patched, str(AUTHOR_FILE), "exec"), mod.__dict__)  # noqa: S102
     return mod.model_picker
 
 

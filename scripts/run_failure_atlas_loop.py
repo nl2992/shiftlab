@@ -735,8 +735,12 @@ class Runner:
             (
                 "- 2-state Bernoulli D only; no covariates or drift. "
                 + (
-                    "The R6 baselines are implemented as documented wrappers (registry below); "
-                    "the hard-budget pacing comparator is still missing."
+                    "The R6 baselines are implemented as documented wrappers (registry below)."
+                    + (
+                        " The hard-budget pacing comparator is still missing."
+                        if "hard_budget_pacing" not in st.get("methods", fa.r6_methods())
+                        else ""
+                    )
                     if fa.r6_methods()
                     else "R6 baselines are missing (registry below)."
                 )

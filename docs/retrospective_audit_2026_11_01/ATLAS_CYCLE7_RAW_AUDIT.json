@@ -1,0 +1,281 @@
+{
+  "scope": "Archived aggregate seed outcomes only; no trajectory, source-level filtration, or simulator replay",
+  "source_commit": "d099821479f28eec2659e250296db877541cdd89",
+  "archived_source_hashes": {
+    "manifest.json": "1e5d96c539d9a308f8409272de2c3e3ba9b2ea8c8de8d4722115241171f71978",
+    "records.jsonl": "74f2258d78f816e62ae8a9ca5a016e8e6b7fa4223e09952425102be586388c36",
+    "results.json": "d62ba5b0438989c60c2e2b67d94f36f882ffe25a743b09915bac12e0e67adc1a"
+  },
+  "method_runs": 281600,
+  "primary_cells": 16,
+  "primary_dss_minus_best_mean": -0.03771854375000003,
+  "primary_dss_minus_best_ci": [
+    -0.03771854375000003,
+    -0.04067952075622327,
+    -0.03475756674377679
+  ],
+  "primary_cells_passing_registered_margin": 13,
+  "primary_positive_dss_cost_cells": [
+    "on0.6_L1_strong_harmful_d50_b0.05_s0.1",
+    "f3_rho0_on0.3_L0.6_strong_harmful_d1_b0.1_s0.1"
+  ],
+  "uniform_minus_dss_mean": 0.05865610625000003,
+  "a2_parent_intervals_recomputed": 16,
+  "a2_failing_parents": {
+    "on0.6_L1_strong_harmful_d50_b0.05_s0.1": [
+      0.015389622222222222,
+      0.013905639730597684,
+      0.01687360471384676
+    ],
+    "f3_rho0_on0.3_L0.6_strong_harmful_d1_b0.1_s0.1": [
+      0.03866845714285712,
+      0.03444099095223221,
+      0.04289592333348203
+    ]
+  },
+  "a3_relative_failures": {
+    "dep_rho0.8_bt0.05_d1": {
+      "dss": 13,
+      "best": "episode_equal",
+      "best_count": 0
+    },
+    "dep_rho0.8_bt0.05_d10": {
+      "dss": 13,
+      "best": "episode_equal",
+      "best_count": 0
+    },
+    "dep_rho0.8_bt0.1_d1": {
+      "dss": 40,
+      "best": "episode_equal",
+      "best_count": 0
+    },
+    "dep_rho0.8_bt0.1_d10": {
+      "dss": 22,
+      "best": "episode_equal",
+      "best_count": 0
+    },
+    "dep_rho0.8_bt0.25_d1": {
+      "dss": 61,
+      "best": "markov_lr_gate",
+      "best_count": 3
+    },
+    "dep_rho0.8_bt0.25_d10": {
+      "dss": 78,
+      "best": "markov_lr_gate",
+      "best_count": 2
+    }
+  },
+  "a3_absolute_failures": {},
+  "a4_ablation_intervals": {
+    "no_delay_switch": {
+      "removed_gain": [
+        0.00097423125,
+        0.0007473649024458248,
+        0.0012010975975541751
+      ],
+      "half_gain_contrast": [
+        -0.017885040625000015,
+        -0.019374045610941425,
+        -0.016396035639058604
+      ]
+    },
+    "gap1": {
+      "removed_gain": [
+        -0.021055809375,
+        -0.0236973836228267,
+        -0.018414235127173304
+      ],
+      "half_gain_contrast": [
+        -0.03991508125000001,
+        -0.04244484543608863,
+        -0.03738531706391139
+      ]
+    },
+    "uniform": {
+      "removed_gain": [
+        0.05865610625000003,
+        0.05546529925384023,
+        0.061846913246159825
+      ],
+      "half_gain_contrast": [
+        0.039796834375000006,
+        0.03791153720420789,
+        0.041682131545792124
+      ]
+    }
+  },
+  "rho08_null_rate_range": [
+    0.065,
+    0.92
+  ],
+  "all_null_rates": {
+    "dep_rho0_bt0.05_d1": {
+      "false_promotions": 1,
+      "denominator": 200,
+      "rate": 0.005
+    },
+    "dep_rho0_bt0.05_d10": {
+      "false_promotions": 0,
+      "denominator": 200,
+      "rate": 0.0
+    },
+    "dep_rho0_bt0.1_d1": {
+      "false_promotions": 6,
+      "denominator": 200,
+      "rate": 0.03
+    },
+    "dep_rho0_bt0.1_d10": {
+      "false_promotions": 2,
+      "denominator": 200,
+      "rate": 0.01
+    },
+    "dep_rho0_bt0.25_d1": {
+      "false_promotions": 2,
+      "denominator": 200,
+      "rate": 0.01
+    },
+    "dep_rho0_bt0.25_d10": {
+      "false_promotions": 1,
+      "denominator": 200,
+      "rate": 0.005
+    },
+    "dep_rho0_bt0.5_d1": {
+      "false_promotions": 1,
+      "denominator": 200,
+      "rate": 0.005
+    },
+    "dep_rho0_bt0.5_d10": {
+      "false_promotions": 1,
+      "denominator": 200,
+      "rate": 0.005
+    },
+    "dep_rho0.5_bt0.05_d1": {
+      "false_promotions": 3,
+      "denominator": 200,
+      "rate": 0.015
+    },
+    "dep_rho0.5_bt0.05_d10": {
+      "false_promotions": 3,
+      "denominator": 200,
+      "rate": 0.015
+    },
+    "dep_rho0.5_bt0.1_d1": {
+      "false_promotions": 2,
+      "denominator": 200,
+      "rate": 0.01
+    },
+    "dep_rho0.5_bt0.1_d10": {
+      "false_promotions": 3,
+      "denominator": 200,
+      "rate": 0.015
+    },
+    "dep_rho0.5_bt0.25_d1": {
+      "false_promotions": 5,
+      "denominator": 200,
+      "rate": 0.025
+    },
+    "dep_rho0.5_bt0.25_d10": {
+      "false_promotions": 5,
+      "denominator": 200,
+      "rate": 0.025
+    },
+    "dep_rho0.5_bt0.5_d1": {
+      "false_promotions": 1,
+      "denominator": 200,
+      "rate": 0.005
+    },
+    "dep_rho0.5_bt0.5_d10": {
+      "false_promotions": 36,
+      "denominator": 200,
+      "rate": 0.18
+    },
+    "dep_rho0.8_bt0.05_d1": {
+      "false_promotions": 13,
+      "denominator": 200,
+      "rate": 0.065
+    },
+    "dep_rho0.8_bt0.05_d10": {
+      "false_promotions": 13,
+      "denominator": 200,
+      "rate": 0.065
+    },
+    "dep_rho0.8_bt0.1_d1": {
+      "false_promotions": 40,
+      "denominator": 200,
+      "rate": 0.2
+    },
+    "dep_rho0.8_bt0.1_d10": {
+      "false_promotions": 22,
+      "denominator": 200,
+      "rate": 0.11
+    },
+    "dep_rho0.8_bt0.25_d1": {
+      "false_promotions": 61,
+      "denominator": 200,
+      "rate": 0.305
+    },
+    "dep_rho0.8_bt0.25_d10": {
+      "false_promotions": 78,
+      "denominator": 200,
+      "rate": 0.39
+    },
+    "dep_rho0.8_bt0.5_d1": {
+      "false_promotions": 49,
+      "denominator": 200,
+      "rate": 0.245
+    },
+    "dep_rho0.8_bt0.5_d10": {
+      "false_promotions": 184,
+      "denominator": 200,
+      "rate": 0.92
+    },
+    "dep_rho0.95_bt0.05_d1": {
+      "false_promotions": 111,
+      "denominator": 200,
+      "rate": 0.555
+    },
+    "dep_rho0.95_bt0.05_d10": {
+      "false_promotions": 88,
+      "denominator": 200,
+      "rate": 0.44
+    },
+    "dep_rho0.95_bt0.1_d1": {
+      "false_promotions": 148,
+      "denominator": 200,
+      "rate": 0.74
+    },
+    "dep_rho0.95_bt0.1_d10": {
+      "false_promotions": 116,
+      "denominator": 200,
+      "rate": 0.58
+    },
+    "dep_rho0.95_bt0.25_d1": {
+      "false_promotions": 159,
+      "denominator": 200,
+      "rate": 0.795
+    },
+    "dep_rho0.95_bt0.25_d10": {
+      "false_promotions": 195,
+      "denominator": 200,
+      "rate": 0.975
+    },
+    "dep_rho0.95_bt0.5_d1": {
+      "false_promotions": 160,
+      "denominator": 200,
+      "rate": 0.8
+    },
+    "dep_rho0.95_bt0.5_d10": {
+      "false_promotions": 200,
+      "denominator": 200,
+      "rate": 1.0
+    }
+  },
+  "registered_verdicts": {
+    "A1": true,
+    "A2": false,
+    "A3": false,
+    "A4": true,
+    "A5": "scoped prior-art audit carried forward; conditional"
+  },
+  "registered_accepted": false
+}

@@ -1,0 +1,86 @@
+{
+  "status": "ARCHIVED_EXPOSED_RETROSPECTIVE_ONLY",
+  "full_panel_sha256": "282ddffba298953db2fe33c7165c7e1760507daada77223fecc0cb3404093f3c",
+  "paired_csv_sha256": "d0678f4df216f8a13707fe241cf62351b569a7d23f2d11fe73272acd4f31c460",
+  "paired_rows_checked": 1696,
+  "paired_numeric_or_gate_mismatches": 0,
+  "cells": [
+    {
+      "onset_fraction": 0.5,
+      "budget_rate": 0.02,
+      "comparators": 208,
+      "candidate_passes": 171,
+      "candidate_fails": 37
+    },
+    {
+      "onset_fraction": 0.5,
+      "budget_rate": 0.05,
+      "comparators": 208,
+      "candidate_passes": 111,
+      "candidate_fails": 97
+    },
+    {
+      "onset_fraction": 0.5,
+      "budget_rate": 0.1,
+      "comparators": 208,
+      "candidate_passes": 95,
+      "candidate_fails": 113
+    },
+    {
+      "onset_fraction": 0.5,
+      "budget_rate": 0.2,
+      "comparators": 224,
+      "candidate_passes": 111,
+      "candidate_fails": 113
+    },
+    {
+      "onset_fraction": 0.75,
+      "budget_rate": 0.02,
+      "comparators": 208,
+      "candidate_passes": 200,
+      "candidate_fails": 8
+    },
+    {
+      "onset_fraction": 0.75,
+      "budget_rate": 0.05,
+      "comparators": 208,
+      "candidate_passes": 160,
+      "candidate_fails": 48
+    },
+    {
+      "onset_fraction": 0.75,
+      "budget_rate": 0.1,
+      "comparators": 208,
+      "candidate_passes": 149,
+      "candidate_fails": 59
+    },
+    {
+      "onset_fraction": 0.75,
+      "budget_rate": 0.2,
+      "comparators": 224,
+      "candidate_passes": 165,
+      "candidate_fails": 59
+    }
+  ],
+  "primary_best_detection_count": 20,
+  "primary_tied_best_detection_comparators": 5,
+  "primary_fastest_among_best_detection": {
+    "arm": "optional_temporal",
+    "engine": "fixed1",
+    "detector": "started",
+    "detections": 20,
+    "mean_delay_censored": 172.2,
+    "mean_labels": 110.4,
+    "mean_dollars": 165.59491834068479,
+    "candidate_passes_comparison": false
+  },
+  "primary_selected_pair_differences": {
+    "minus_one": 9,
+    "zero": 11
+  },
+  "primary_selected_pair_exact_empirical_bootstrap_percentiles": [
+    -0.65,
+    -0.25
+  ],
+  "limitations": "Exact bootstrap percentiles condition on an observed selected pair and are not selection-adjusted. No source event replay or comparator-registration review. Best observed comparator is exploratory within an exposed 20-seed panel."
+}

@@ -1,0 +1,17 @@
+{
+  "scope": "Archived-source analyzer replay on stored e15 seeds; no fresh simulator or independent statistical method",
+  "verified_source_hashes": {
+    "scripts/gap/analyze_confirmation.py": "5d28895d65bce011f2113ed5b36a8d042434c74a4d12221b587831a3d16d83b4",
+    "configs/gap_closure/frozen_confirmation_v1.json": "53c44ac1480179a78ec63f6dcab2c89e2025b4137561a6d5f36f281d61b9f9fa",
+    "outputs/gap_closure/e15_confirm/perseed.parquet": "9741a566f427cadd4c7a44826460e78c6df803e731f7fa44b252265d6f9f0eaa"
+  },
+  "comparison_rows": 30,
+  "max_absolute_error_by_column": {
+    "diff (A-B)": 0.0,
+    "ci_lo": 0.0,
+    "ci_hi": 0.0,
+    "p_raw": 0.0,
+    "p_holm(power family)": 0.0,
+    "effect>=threshold": 0.0
+  }
+}

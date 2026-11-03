@@ -1,0 +1,36 @@
+{
+  "run_head": "7536f1109468b9779deb4f03ced2c549dcfc18cf",
+  "run_started_at_utc": "2026-10-27T14:36:31.720487+00:00",
+  "run_recorded_at_utc": "2026-10-27T15:05:00.758369+00:00",
+  "source_count": 181,
+  "git_blob_exact_count": 165,
+  "crlf_only_count": 16,
+  "current_file_exact_count": 179,
+  "current_file_mismatches": [
+    "src/shiftlab/dive/eprocess.py",
+    "src/shiftlab/dive/gated_monitor_comparison.py"
+  ],
+  "crlf_only_paths": [
+    "src/shiftlab/benchmark.py",
+    "src/shiftlab/data/catalogue.py",
+    "src/shiftlab/data/cli.py",
+    "src/shiftlab/data/real/adapters.py",
+    "src/shiftlab/data/real/api.py",
+    "src/shiftlab/data/real/fred.py",
+    "src/shiftlab/data/real/monash.py",
+    "src/shiftlab/data/real/wilds.py",
+    "src/shiftlab/data/report.py",
+    "src/shiftlab/data/schemas.py",
+    "src/shiftlab/data/synthetic/fitted_decisions.py",
+    "src/shiftlab/data/synthetic/generators.py",
+    "src/shiftlab/data/validation.py",
+    "src/shiftlab/dive/adg_growth_prescreen.py",
+    "src/shiftlab/learner.py",
+    "src/shiftlab/methods.py"
+  ],
+  "run_output_hash_count": 42,
+  "run_output_hash_mismatches": [],
+  "analysis_script_untracked_at_launch": true,
+  "analysis_hash_matches_first_tracked_blob": true,
+  "scope": "Archived physical-source bytes versus run Git tree; no event-level replay"
+}

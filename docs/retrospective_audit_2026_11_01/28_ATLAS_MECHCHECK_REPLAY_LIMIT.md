@@ -1,0 +1,9 @@
+# Amendment 4 replay boundary
+
+The ignored historical directory `outputs/failure_atlas_v1_mechcheck/` contains only `results.json` and `summary.md`. The archived runner writes those two outputs, with no per-seed outcome file. Its `results.json` reports source HEAD `089edbb0b9c6c34e20f65654a1a12d528b50869e` with `dirty: true` and seven executed-source SHA-256 values.
+
+`scripts/retrospective_audit/audit_atlas_mech_provenance.py` checked reachable versions of those paths in Git history, all 20 visible worktrees, and 328 locally unreachable Git blobs. Five of the seven exact recorded source byte hashes were recovered. The executed mechanism runner itself is in unreachable blob `37f0be46f5c4e4ff4524224ec745cbd2409cbbf9`. The recorded versions of `src/shiftlab/dive/atlas_components.py` and `scripts/run_failure_atlas_loop.py` were not found by this search. `ATLAS_MECHCHECK_PROVENANCE.json` records every target digest and search result.
+
+The 50.2725% closure value in `27_GATE_CHRONOLOGY_WP2_WP3_ATLAS.md` is independently checked **aggregate arithmetic from the archived result**, not a replay of 200 seeds. Exact historical code and per-seed outcomes are missing locally, so the paired intervals, selection of `best_safe`, null-twin counts, and event-level validity have not been independently reproduced. Running the present code on the same 280000–280199 seeds would be a new implementation comparison on exposed data, not a reproduction of the exact dirty historical run. A later independent confirmation would need a frozen current code/protocol and unexposed seeds, after the comparator and validity audits.
+
+This is a scoped provenance finding, not proof that the two missing source versions never existed. The search excludes inaccessible machines and unfetched remote objects. No original output or protocol was changed.

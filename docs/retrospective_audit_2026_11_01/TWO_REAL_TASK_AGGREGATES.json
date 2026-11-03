@@ -1,0 +1,31 @@
+{
+  "scope": "Archived output hash and aggregate arithmetic only; raw data/model replay not performed",
+  "eia": {
+    "output_hashes_checked": 4,
+    "summary_rows": 24,
+    "domain_delay_groups": 6,
+    "all_adaptive_rmse_and_mae_below_frozen": true,
+    "paired_interval_rows": 54,
+    "rmse_intervals_below_zero": 18,
+    "group_test_counts": {
+      "CISO/0": 6943,
+      "CISO/24": 6943,
+      "CISO/168": 6943,
+      "ERCO/0": 6797,
+      "ERCO/24": 6797,
+      "ERCO/168": 6797
+    }
+  },
+  "upworthy": {
+    "output_hashes_checked": 3,
+    "eligible_tests": 3808,
+    "eligible_arms": 18278,
+    "equal_test_delta_ctr": 0.0010019661227581836,
+    "equal_test_selected_ctr": 0.014455001135516902,
+    "equal_test_uniform_ctr": 0.01345303501275872,
+    "week_cluster_interval_from_archived_summary": [
+      0.0008501072400074344,
+      0.0011696499241074935
+    ]
+  }
+}

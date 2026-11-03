@@ -17,6 +17,8 @@ def test_mechanism_check_smoke(tmp_path):
             "4",
             "--workers",
             "4",
+            "--kappa",
+            "0.05",
             "--out",
             str(tmp_path),
         ],
@@ -28,6 +30,7 @@ def test_mechanism_check_smoke(tmp_path):
     )
     assert r.returncode == 0, r.stderr[-2000:]
     res = json.loads((tmp_path / "results.json").read_text("utf-8"))
+    assert res["kappa"] == 0.05
     assert res["seeds"] == [280000, 280004]
     for k in (
         "check1_straddle_repair",

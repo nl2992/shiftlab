@@ -1,0 +1,56 @@
+{
+  "status": "ARCHIVED_EXPOSED_RATIONAL_ARITHMETIC_ONLY",
+  "source_sha256": "0d8fe33dfe741c6bc48055375dc3a024b09fe9f8369e5b61014f733c41aaeb89",
+  "solved_rows": 9,
+  "failed_rows": [
+    {
+      "alpha": "1/5",
+      "T": 12,
+      "error": "RuntimeError('registered tree node limit exceeded') - runner crashed; recorded post hoc from a1b_run.log, not retried"
+    }
+  ],
+  "primary_gaps": [
+    {
+      "T": 6,
+      "fraction": "69018561/13805761204",
+      "percent": 0.4999257917050091
+    },
+    {
+      "T": 7,
+      "fraction": "1311352659/164096846426",
+      "percent": 0.7991333700561751
+    },
+    {
+      "T": 8,
+      "fraction": "10596553175/899323728582",
+      "percent": 1.1782801718918297
+    },
+    {
+      "T": 9,
+      "fraction": "891883875975/30913389099464",
+      "percent": 2.885105457396983
+    },
+    {
+      "T": 10,
+      "fraction": "68189580983019/1753274355337976",
+      "percent": 3.889270425670157
+    },
+    {
+      "T": 11,
+      "fraction": "304978349486557/6571711553426428",
+      "percent": 4.640775040218315
+    }
+  ],
+  "last_three_increments": [
+    0.01706825285505154,
+    0.010041649682731737,
+    0.007515046145481585
+  ],
+  "largest_solved_primary_gap_percent": 4.640775040218315,
+  "shortfall_to_5_percent_percentage_points": 0.3592249597816845,
+  "secondary_all_zero": true,
+  "registered_continue": false,
+  "registered_kill": false,
+  "registered_verdict": "INCONCLUSIVE",
+  "limitations": "Checks stored exact rational outputs and gate logic, not independent J/C* solver certificates or unsolved T=12."
+}

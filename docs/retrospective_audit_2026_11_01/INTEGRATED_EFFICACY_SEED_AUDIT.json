@@ -1,0 +1,153 @@
+{
+  "scope": "Stored seed metrics, summary and primary contrast arithmetic; no simulator/event-log replay or inference resampling",
+  "archived_hashes_checked": 9,
+  "seed_metric_rows": 7200,
+  "profile_method_cells": 72,
+  "primary_contrasts_checked": 22,
+  "all_hard_caps_respected": true,
+  "max_labels": 640,
+  "full_pipeline_profile_expected_gain": {
+    "benign_nuisance": 0.0,
+    "boundary_local_harm": 118.00595700049622,
+    "harmful_adaptation_at_monitor": 161.16096021942266,
+    "harmful_adaptation_native": 0.0,
+    "post_promotion_reversal": -143.758,
+    "recurring_regimes": 0.0,
+    "residual_variance": 0.0,
+    "stationary": 0.0
+  },
+  "contrasts": [
+    {
+      "profile": "boundary_local_harm",
+      "treatment": "full_pipeline",
+      "reference": "continue",
+      "mean_difference": 118.00595700049622
+    },
+    {
+      "profile": "post_promotion_reversal",
+      "treatment": "full_pipeline",
+      "reference": "continue",
+      "mean_difference": -143.75799999999998
+    },
+    {
+      "profile": "recurring_regimes",
+      "treatment": "full_pipeline",
+      "reference": "continue",
+      "mean_difference": 0.0
+    },
+    {
+      "profile": "residual_variance",
+      "treatment": "full_pipeline",
+      "reference": "continue",
+      "mean_difference": 0.0
+    },
+    {
+      "profile": "harmful_adaptation_at_monitor",
+      "treatment": "full_pipeline",
+      "reference": "continue",
+      "mean_difference": 161.1609602194227
+    },
+    {
+      "profile": "harmful_adaptation_native",
+      "treatment": "full_pipeline",
+      "reference": "continue",
+      "mean_difference": 0.0
+    },
+    {
+      "profile": "stationary",
+      "treatment": "full_pipeline",
+      "reference": "two_gate",
+      "mean_difference": 0.0
+    },
+    {
+      "profile": "benign_nuisance",
+      "treatment": "full_pipeline",
+      "reference": "two_gate",
+      "mean_difference": 0.0
+    },
+    {
+      "profile": "boundary_local_harm",
+      "treatment": "full_pipeline",
+      "reference": "two_gate",
+      "mean_difference": -68.53008304443405
+    },
+    {
+      "profile": "post_promotion_reversal",
+      "treatment": "full_pipeline",
+      "reference": "two_gate",
+      "mean_difference": 37.264
+    },
+    {
+      "profile": "recurring_regimes",
+      "treatment": "full_pipeline",
+      "reference": "two_gate",
+      "mean_difference": 0.0
+    },
+    {
+      "profile": "residual_variance",
+      "treatment": "full_pipeline",
+      "reference": "two_gate",
+      "mean_difference": -8.916007375259488
+    },
+    {
+      "profile": "harmful_adaptation_at_monitor",
+      "treatment": "full_pipeline",
+      "reference": "two_gate",
+      "mean_difference": -40.09504778670036
+    },
+    {
+      "profile": "harmful_adaptation_native",
+      "treatment": "full_pipeline",
+      "reference": "two_gate",
+      "mean_difference": -201.256008006123
+    },
+    {
+      "profile": "stationary",
+      "treatment": "full_pipeline",
+      "reference": "full_pipeline_fixed_certification",
+      "mean_difference": 0.0
+    },
+    {
+      "profile": "benign_nuisance",
+      "treatment": "full_pipeline",
+      "reference": "full_pipeline_fixed_certification",
+      "mean_difference": 0.0
+    },
+    {
+      "profile": "boundary_local_harm",
+      "treatment": "full_pipeline",
+      "reference": "full_pipeline_fixed_certification",
+      "mean_difference": -129.50749543278653
+    },
+    {
+      "profile": "post_promotion_reversal",
+      "treatment": "full_pipeline",
+      "reference": "full_pipeline_fixed_certification",
+      "mean_difference": 73.22800000000001
+    },
+    {
+      "profile": "recurring_regimes",
+      "treatment": "full_pipeline",
+      "reference": "full_pipeline_fixed_certification",
+      "mean_difference": 0.0
+    },
+    {
+      "profile": "residual_variance",
+      "treatment": "full_pipeline",
+      "reference": "full_pipeline_fixed_certification",
+      "mean_difference": 0.0
+    },
+    {
+      "profile": "harmful_adaptation_at_monitor",
+      "treatment": "full_pipeline",
+      "reference": "full_pipeline_fixed_certification",
+      "mean_difference": -82.31663148778179
+    },
+    {
+      "profile": "harmful_adaptation_native",
+      "treatment": "full_pipeline",
+      "reference": "full_pipeline_fixed_certification",
+      "mean_difference": 0.0
+    }
+  ]
+}

@@ -1,0 +1,73 @@
+{
+  "scope": "Archived stream and eligibility arithmetic; historical Q3 replay receipt checked but not rerun",
+  "stream_rows": 4355,
+  "cells": [
+    {
+      "cell": "q1_stationary",
+      "errors": 0,
+      "eligible_streams": 1000,
+      "attempted_streams": 1000,
+      "nominal_alpha": 0.02,
+      "familywise_confidence": 0.9875,
+      "exact_one_sided_upper": 0.00437243956467126,
+      "pass": true,
+      "max_labels": 320
+    },
+    {
+      "cell": "q1_benign_nuisance",
+      "errors": 0,
+      "eligible_streams": 1000,
+      "attempted_streams": 1000,
+      "nominal_alpha": 0.02,
+      "familywise_confidence": 0.9875,
+      "exact_one_sided_upper": 0.00437243956467126,
+      "pass": true,
+      "max_labels": 320
+    },
+    {
+      "cell": "q2_promotion",
+      "errors": 0,
+      "eligible_streams": 1000,
+      "attempted_streams": 1089,
+      "nominal_alpha": 0.015,
+      "familywise_confidence": 0.9875,
+      "exact_one_sided_upper": 0.00437243956467126,
+      "pass": true,
+      "max_labels": 480
+    },
+    {
+      "cell": "q3_rollback",
+      "errors": 0,
+      "eligible_streams": 1000,
+      "attempted_streams": 1266,
+      "nominal_alpha": 0.015,
+      "familywise_confidence": 0.9875,
+      "exact_one_sided_upper": 0.00437243956467126,
+      "pass": true,
+      "max_labels": 640
+    }
+  ],
+  "q2_triggered_attempts": 1062,
+  "q2_selected_attempts": 1000,
+  "q3_promoted_attempts": 1000,
+  "q3_min_oracle_lower": 0.2578003338451666,
+  "q3_oracle_radius": 0.09597051824376163,
+  "max_numeric_error": 5.984795992119984e-17,
+  "historical_q3_replay_receipt": 1266,
+  "source_hash_matching_audit_tree": {
+    "src\\shiftlab\\dive\\integrated_pipeline.py": false,
+    "src\\shiftlab\\dive\\budgeted_promotion.py": true,
+    "src\\shiftlab\\dive\\eprocess.py": true,
+    "src\\shiftlab\\dive\\promotion_grid.py": true,
+    "src\\shiftlab\\decision_harm_experiment.py": true,
+    "src\\shiftlab\\data\\synthetic\\generators.py": false,
+    "scripts\\calibrate_integrated_pipeline.py": true
+  },
+  "v1_v2_same_bytes": {
+    "stream_metrics.parquet": true,
+    "cell_summary.csv": true,
+    "verification.json": true
+  },
+  "v1_runner_sha256": "da164dae978e96d75d6e2cd19eebcd115681259d4e31dcd80aa3d5dabcedcd80",
+  "v2_runner_sha256": "e47ae6f70876b46eb32ecd9e076241d40aa492d2cc166af11986f595c900b733"
+}

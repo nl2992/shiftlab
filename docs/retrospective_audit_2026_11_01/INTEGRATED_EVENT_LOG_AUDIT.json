@@ -1,0 +1,10 @@
+{
+  "scope": "Archived row groups and event-level arithmetic; not a simulator replay or proof of causal filtration",
+  "seed_method_streams": 7200,
+  "learner_events": 23040000,
+  "evaluator_events": 23040000,
+  "queried_labels": 2007414,
+  "candidate_id_before_available": 0,
+  "max_expected_utility_error": 2.2737367544323206e-13,
+  "max_realized_utility_error": 0.0
+}

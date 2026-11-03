@@ -1,0 +1,202 @@
+[
+  {
+    "ref": "refs/heads/audit/shiftlab-retrospective-rectification-2026-11-01",
+    "commit": "e74fdc33108d8e367094e57a46241a2b2e651caa",
+    "files": 3979
+  },
+  {
+    "ref": "refs/heads/claude/bold-cray-xcy73f",
+    "commit": "2e5c913ebad032d9859ffe9d9d2b85c731f90a90",
+    "files": 3144
+  },
+  {
+    "ref": "refs/heads/integration/local-progress-2026-10-29",
+    "commit": "c0522f01decd737756f5f5c7278532ee099898e4",
+    "files": 2888
+  },
+  {
+    "ref": "refs/heads/main",
+    "commit": "e61a3b0adfff54e2e1793759ce669ff5b1d241dd",
+    "files": 3046
+  },
+  {
+    "ref": "refs/heads/research/claude-lane-burst-allocation",
+    "commit": "f60785f8de0a4ff202d4957c1914eccb7165ff18",
+    "files": 2902
+  },
+  {
+    "ref": "refs/heads/research/codex-autoresearch",
+    "commit": "a17c4667103df91964b93a2e81b25c0980519fe5",
+    "files": 2897
+  },
+  {
+    "ref": "refs/heads/research/exhaustive-candidate-evaluation-2026-10-30",
+    "commit": "93a3ecf39e806562771d18e8870e54fc8b8309d6",
+    "files": 3638
+  },
+  {
+    "ref": "refs/heads/research/h2c-restart-risk-certified-2026-10-30",
+    "commit": "d4673d929db5597dc320bd601fc8427ea010fa30",
+    "files": 3130
+  },
+  {
+    "ref": "refs/heads/research/h2c-strong-baselines-and-generalization-2026-10-30",
+    "commit": "60930a417952b3059b6309fa519a1abb4af893fb",
+    "files": 3111
+  },
+  {
+    "ref": "refs/heads/research/hg-decision-aware-betting-v2",
+    "commit": "0c7f0a264e68a831e4de2498dfc582c9a98c39ef",
+    "files": 3082
+  },
+  {
+    "ref": "refs/heads/research/hg-validation-and-novelty-2026-10-30",
+    "commit": "1299c1c285ca5cb1387f4805c60767c214fe1106",
+    "files": 3061
+  },
+  {
+    "ref": "refs/heads/research/monitoring-to-decision-value-2026-10-30",
+    "commit": "a155ed6c9576e290d7d690f57b8ffef92028f941",
+    "files": 3023
+  },
+  {
+    "ref": "refs/heads/research/risk-preserving-switching-approx-2026-10-29",
+    "commit": "2bd2e8e41639073c8d22ffb17ef0bcc68111e321",
+    "files": 3117
+  },
+  {
+    "ref": "refs/heads/research/rpoq-s1-fatal-flaw-audit",
+    "commit": "0b1ce996431763d50b8c22e21dd3eece7c2dcf04",
+    "files": 2962
+  },
+  {
+    "ref": "refs/heads/research/shiftlab-dependence-gates-2026-10-31",
+    "commit": "026500db9dac67da8b9dc239870356a85c571811",
+    "files": 3234
+  },
+  {
+    "ref": "refs/heads/research/shiftlab-icml-method-sprint-2026-10-30",
+    "commit": "71ad2b31167878a0fc975dfcc33abe1726235184",
+    "files": 3142
+  },
+  {
+    "ref": "refs/heads/research/shiftlab-mandate-gap-closure-2026-10-30",
+    "commit": "85529116eb9fd16e533ddce9f545f79d695e87d7",
+    "files": 3208
+  },
+  {
+    "ref": "refs/heads/research/shiftlab-promising-directions-2026-10-30",
+    "commit": "1b4be4182af255baba20adca41a4737578afc0ce",
+    "files": 3832
+  },
+  {
+    "ref": "refs/heads/research/shiftlab-sota-synthetic-search-2026-10-29",
+    "commit": "5bcf95e32ffcaf798190d1c39f1eaad281fac6a9",
+    "files": 3207
+  },
+  {
+    "ref": "refs/remotes/origin/HEAD",
+    "commit": "e74fdc33108d8e367094e57a46241a2b2e651caa",
+    "files": 3979
+  },
+  {
+    "ref": "refs/remotes/origin/claude/bold-cray-xcy73f",
+    "commit": "2e5c913ebad032d9859ffe9d9d2b85c731f90a90",
+    "files": 3144
+  },
+  {
+    "ref": "refs/remotes/origin/claude/sweet-lovelace-pznpjq",
+    "commit": "e9e68574a474ce347e78e4a7d856674bfbdcf3d2",
+    "files": 3612
+  },
+  {
+    "ref": "refs/remotes/origin/integration/local-progress-2026-10-29",
+    "commit": "c0522f01decd737756f5f5c7278532ee099898e4",
+    "files": 2888
+  },
+  {
+    "ref": "refs/remotes/origin/main",
+    "commit": "e74fdc33108d8e367094e57a46241a2b2e651caa",
+    "files": 3979
+  },
+  {
+    "ref": "refs/remotes/origin/research/claude-lane-burst-allocation",
+    "commit": "f60785f8de0a4ff202d4957c1914eccb7165ff18",
+    "files": 2902
+  },
+  {
+    "ref": "refs/remotes/origin/research/codex-autoresearch",
+    "commit": "a17c4667103df91964b93a2e81b25c0980519fe5",
+    "files": 2897
+  },
+  {
+    "ref": "refs/remotes/origin/research/exhaustive-candidate-evaluation-2026-10-30",
+    "commit": "93a3ecf39e806562771d18e8870e54fc8b8309d6",
+    "files": 3638
+  },
+  {
+    "ref": "refs/remotes/origin/research/h2c-restart-risk-certified-2026-10-30",
+    "commit": "d4673d929db5597dc320bd601fc8427ea010fa30",
+    "files": 3130
+  },
+  {
+    "ref": "refs/remotes/origin/research/h2c-strong-baselines-and-generalization-2026-10-30",
+    "commit": "60930a417952b3059b6309fa519a1abb4af893fb",
+    "files": 3111
+  },
+  {
+    "ref": "refs/remotes/origin/research/hg-decision-aware-betting-v2",
+    "commit": "0c7f0a264e68a831e4de2498dfc582c9a98c39ef",
+    "files": 3082
+  },
+  {
+    "ref": "refs/remotes/origin/research/hg-validation-and-novelty-2026-10-30",
+    "commit": "1299c1c285ca5cb1387f4805c60767c214fe1106",
+    "files": 3061
+  },
+  {
+    "ref": "refs/remotes/origin/research/monitoring-to-decision-value-2026-10-30",
+    "commit": "a155ed6c9576e290d7d690f57b8ffef92028f941",
+    "files": 3023
+  },
+  {
+    "ref": "refs/remotes/origin/research/risk-preserving-switching-approx-2026-10-29",
+    "commit": "2bd2e8e41639073c8d22ffb17ef0bcc68111e321",
+    "files": 3117
+  },
+  {
+    "ref": "refs/remotes/origin/research/rpoq-s1-fatal-flaw-audit",
+    "commit": "0b1ce996431763d50b8c22e21dd3eece7c2dcf04",
+    "files": 2962
+  },
+  {
+    "ref": "refs/remotes/origin/research/shiftlab-dependence-gates-2026-10-31",
+    "commit": "026500db9dac67da8b9dc239870356a85c571811",
+    "files": 3234
+  },
+  {
+    "ref": "refs/remotes/origin/research/shiftlab-icml-method-sprint-2026-10-30",
+    "commit": "71ad2b31167878a0fc975dfcc33abe1726235184",
+    "files": 3142
+  },
+  {
+    "ref": "refs/remotes/origin/research/shiftlab-mandate-gap-closure-2026-10-30",
+    "commit": "85529116eb9fd16e533ddce9f545f79d695e87d7",
+    "files": 3208
+  },
+  {
+    "ref": "refs/remotes/origin/research/shiftlab-promising-directions-2026-10-30",
+    "commit": "1b4be4182af255baba20adca41a4737578afc0ce",
+    "files": 3832
+  },
+  {
+    "ref": "refs/remotes/origin/research/shiftlab-sota-local-checkpoint-2026-10-30",
+    "commit": "5bcf95e32ffcaf798190d1c39f1eaad281fac6a9",
+    "files": 3207
+  },
+  {
+    "ref": "refs/remotes/origin/research/shiftlab-sota-synthetic-search-2026-10-29",
+    "commit": "bb740578c2b0cdd64db70fe7587a8de2d3791d70",
+    "files": 3009
+  }
+]

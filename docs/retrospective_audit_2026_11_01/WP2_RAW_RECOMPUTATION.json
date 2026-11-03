@@ -1,0 +1,17 @@
+{
+  "status": "ARCHIVED_EXPOSED_ANALYTIC_SCREEN_ONLY",
+  "source_manifest_sha256": "546ac27d816b8f6a2902db58b320d7702b46136af76d8da639e4b14cb145ca25",
+  "source_commit_claimed_by_manifest": "d0a350a08099deb04a51897216b956b3c417a695",
+  "raw_rows": 19440,
+  "stream_rows_checked": 19440,
+  "summary_groups_checked": 972,
+  "candidate_chugg_pairs_checked": 2160,
+  "maximum_candidate_chugg_growth_difference": 1.0408340855860843e-17,
+  "maximum_archived_identity_error": 4.440892098500626e-16,
+  "decision_trials_checked": 36,
+  "decision_passes": false,
+  "minimum_eligible_growth_ratio": 0.40302404650477003,
+  "maximum_eligible_growth_ratio": 1.0000000000000002,
+  "aggregate_mismatches": 0,
+  "limitations": "Recomputes archived scalar rows, aggregates, and gate arithmetic; does not regenerate learner slices or independently derive outcome/query expectations from the generator."
+}

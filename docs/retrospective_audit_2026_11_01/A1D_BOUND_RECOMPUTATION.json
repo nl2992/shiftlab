@@ -1,0 +1,246 @@
+{
+  "scope": "Stored rational grid arithmetic; existing bound algorithm reproduced; original LP solves and continuous convexity theorem not independently rerun/proved",
+  "curves_checked": 279,
+  "rows": [
+    {
+      "prior": "1/10",
+      "alpha": "1/10",
+      "J": "1205368380619/610351562500",
+      "mixture_lower": "1205368380619/610351562500",
+      "mixture_upper": "1205368380619/610351562500",
+      "relative_gap_lower": 0.0,
+      "relative_gap_upper": 0.0,
+      "stored_upper_matches": true
+    },
+    {
+      "prior": "1/10",
+      "alpha": "3/20",
+      "J": "17787253460623/9765625000000",
+      "mixture_lower": "8973549069501/4882812500000",
+      "mixture_upper": "8973549069501/4882812500000",
+      "relative_gap_lower": 0.008986473304204066,
+      "relative_gap_upper": 0.008986473304204066,
+      "stored_upper_matches": true
+    },
+    {
+      "prior": "1/10",
+      "alpha": "1/5",
+      "J": "2097800269873/1220703125000",
+      "mixture_lower": "17261936194121/9765625000000",
+      "mixture_upper": "17261936194121/9765625000000",
+      "relative_gap_lower": 0.028573623167544852,
+      "relative_gap_upper": 0.028573623167544852,
+      "stored_upper_matches": true
+    },
+    {
+      "prior": "1/10",
+      "alpha": "1/4",
+      "J": "3155510171469/1953125000000",
+      "mixture_lower": "414419356231/244140625000",
+      "mixture_upper": "414419356231/244140625000",
+      "relative_gap_lower": 0.050655732256628005,
+      "relative_gap_upper": 0.050655732256628005,
+      "stored_upper_matches": true
+    },
+    {
+      "prior": "1/10",
+      "alpha": "3/10",
+      "J": "30448325969047/19531250000000",
+      "mixture_lower": "73427859283534085529912/44848853437530517578125",
+      "mixture_upper": "1281159133059/781250000000",
+      "relative_gap_lower": 0.05020997961333874,
+      "relative_gap_upper": 0.05191261940097631,
+      "stored_upper_matches": true
+    },
+    {
+      "prior": "1/10",
+      "alpha": "1/2",
+      "J": "1040848919459/781250000000",
+      "mixture_lower": "125244910897978125302249/89697706875061035156250",
+      "mixture_upper": "5506139527691/3906250000000",
+      "relative_gap_lower": 0.04804777993411604,
+      "relative_gap_upper": 0.05800936615333479,
+      "stored_upper_matches": true
+    },
+    {
+      "prior": "1/10",
+      "alpha": "1",
+      "J": "4501065279579/3906250000000",
+      "mixture_lower": "3659097/3125000",
+      "mixture_upper": "3659097/3125000",
+      "relative_gap_lower": 0.01617527538454403,
+      "relative_gap_upper": 0.01617527538454403,
+      "stored_upper_matches": true
+    },
+    {
+      "prior": "1/5",
+      "alpha": "1/10",
+      "J": "11217208086641/4882812500000",
+      "mixture_lower": "11217208086641/4882812500000",
+      "mixture_upper": "11217208086641/4882812500000",
+      "relative_gap_lower": 0.0,
+      "relative_gap_upper": 0.0,
+      "stored_upper_matches": true
+    },
+    {
+      "prior": "1/5",
+      "alpha": "1/8",
+      "J": "33493074895439/15625000000000",
+      "mixture_lower": "33493074895439/15625000000000",
+      "mixture_upper": "33493074895439/15625000000000",
+      "relative_gap_lower": 0.0,
+      "relative_gap_upper": 0.0,
+      "stored_upper_matches": true
+    },
+    {
+      "prior": "1/5",
+      "alpha": "3/20",
+      "J": "16316589815057/7812500000000",
+      "mixture_lower": "163915641586029/78125000000000",
+      "mixture_upper": "163915641586029/78125000000000",
+      "relative_gap_lower": 0.004594976302996441,
+      "relative_gap_upper": 0.004594976302996441,
+      "stored_upper_matches": true
+    },
+    {
+      "prior": "1/5",
+      "alpha": "1/6",
+      "J": "24044937089923/11718750000000",
+      "mixture_lower": "96929491795151/46875000000000",
+      "mixture_upper": "96929491795151/46875000000000",
+      "relative_gap_lower": 0.0077952318263000385,
+      "relative_gap_upper": 0.0077952318263000385,
+      "stored_upper_matches": true
+    },
+    {
+      "prior": "1/5",
+      "alpha": "9/50",
+      "J": "7900326327931/3906250000000",
+      "mixture_lower": "798279810583149/390625000000000",
+      "mixture_upper": "798279810583149/390625000000000",
+      "relative_gap_lower": 0.010439034348355629,
+      "relative_gap_upper": 0.010439034348355629,
+      "stored_upper_matches": true
+    },
+    {
+      "prior": "1/5",
+      "alpha": "1/5",
+      "J": "3864173637433/1953125000000",
+      "mixture_lower": "156816175803697/78125000000000",
+      "mixture_upper": "156816175803697/78125000000000",
+      "relative_gap_lower": 0.01455181959596917,
+      "relative_gap_upper": 0.01455181959596917,
+      "stored_upper_matches": true
+    },
+    {
+      "prior": "1/5",
+      "alpha": "1/4",
+      "J": "14596799284407/7812500000000",
+      "mixture_lower": "29943342004273/15625000000000",
+      "mixture_upper": "29943342004273/15625000000000",
+      "relative_gap_lower": 0.02568177519094586,
+      "relative_gap_upper": 0.02568177519094586,
+      "stored_upper_matches": true
+    },
+    {
+      "prior": "1/5",
+      "alpha": "3/10",
+      "J": "69434263530869/39062500000000",
+      "mixture_lower": "17529067959674854878758739/9479067665515625000000000",
+      "mixture_upper": "28896436729473/15625000000000",
+      "relative_gap_lower": 0.040349834904975346,
+      "relative_gap_upper": 0.04042425382053118,
+      "stored_upper_matches": true
+    },
+    {
+      "prior": "1/5",
+      "alpha": "1/2",
+      "J": "23593887053773/15625000000000",
+      "mixture_lower": "14983588760888188799298139/9479067665515625000000000",
+      "mixture_upper": "24708815630273/15625000000000",
+      "relative_gap_lower": 0.04681696274945033,
+      "relative_gap_upper": 0.0472549764249934,
+      "stored_upper_matches": true
+    },
+    {
+      "prior": "1/5",
+      "alpha": "1",
+      "J": "3895916980017/3125000000000",
+      "mixture_lower": "3942597/3125000",
+      "mixture_upper": "3942597/3125000",
+      "relative_gap_lower": 0.011981779956408698,
+      "relative_gap_upper": 0.011981779956408698,
+      "stored_upper_matches": true
+    },
+    {
+      "prior": "3/10",
+      "alpha": "1/10",
+      "J": "6308333861599/2441406250000",
+      "mixture_lower": "6308333861599/2441406250000",
+      "mixture_upper": "6308333861599/2441406250000",
+      "relative_gap_lower": 0.0,
+      "relative_gap_upper": 0.0,
+      "stored_upper_matches": true
+    },
+    {
+      "prior": "3/10",
+      "alpha": "3/20",
+      "J": "3603569449047/1562500000000",
+      "mixture_lower": "3603569449047/1562500000000",
+      "mixture_upper": "3603569449047/1562500000000",
+      "relative_gap_lower": 0.0,
+      "relative_gap_upper": 0.0,
+      "stored_upper_matches": true
+    },
+    {
+      "prior": "3/10",
+      "alpha": "1/5",
+      "J": "17030084143663/7812500000000",
+      "mixture_lower": "17030084143663/7812500000000",
+      "mixture_upper": "17030084143663/7812500000000",
+      "relative_gap_lower": 0.0,
+      "relative_gap_upper": 0.0,
+      "stored_upper_matches": true
+    },
+    {
+      "prior": "3/10",
+      "alpha": "1/4",
+      "J": "16042321042091/7812500000000",
+      "mixture_lower": "16042321042091/7812500000000",
+      "mixture_upper": "16042321042091/7812500000000",
+      "relative_gap_lower": 0.0,
+      "relative_gap_upper": 0.0,
+      "stored_upper_matches": true
+    },
+    {
+      "prior": "3/10",
+      "alpha": "3/10",
+      "J": "76331263384289/39062500000000",
+      "mixture_lower": "2714165630222045993288431/1377834697050781250000000",
+      "mixture_upper": "19460418073153/9765625000000",
+      "relative_gap_lower": 0.008084213252504234,
+      "relative_gap_upper": 0.01978755284998836,
+      "stored_upper_matches": true
+    },
+    {
+      "prior": "3/10",
+      "alpha": "1/2",
+      "J": "1035774537653/625000000000",
+      "mixture_lower": "450750175192713375371433/275566939410156250000000",
+      "mixture_upper": "1709048515531/976562500000",
+      "relative_gap_lower": -0.012985396925226508,
+      "relative_gap_upper": 0.056012684399736036,
+      "stored_upper_matches": true
+    },
+    {
+      "prior": "3/10",
+      "alpha": "1",
+      "J": "10469365343967/7812500000000",
+      "mixture_lower": "4226097/3125000",
+      "mixture_upper": "4226097/3125000",
+      "relative_gap_lower": 0.00915787661266874,
+      "relative_gap_upper": 0.00915787661266874,
+      "stored_upper_matches": true
+    }
+  ]
+}

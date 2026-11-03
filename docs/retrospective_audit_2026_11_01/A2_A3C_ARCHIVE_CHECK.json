@@ -1,0 +1,47 @@
+{
+  "scope": "Stored rational arithmetic and archived hashes; no independent LP or theorem proof",
+  "a2_cells": 162,
+  "a2_families": 54,
+  "a2_tight_zero_gap_cells": 108,
+  "a2_unconstrained_positive_gap_cells": 31,
+  "a2_historical_decision": "CONFINED TO LOOSE ALPHA",
+  "a3c_families": [
+    {
+      "family": "e1=49/50|trans=1/20|prior1=1/20|cs=1/20",
+      "lower": 0.01173410948464759,
+      "upper": 0.012126849434580853,
+      "unconstrained_gap": 0.037922926211999296
+    },
+    {
+      "family": "e1=49/50|trans=1/20|prior1=1/20|cs=1/5",
+      "lower": 0.010321235747450034,
+      "upper": 0.010658445088859264,
+      "unconstrained_gap": 0.029945746411166558
+    },
+    {
+      "family": "e1=49/50|trans=1/20|prior1=1/10|cs=1/20",
+      "lower": 0.008063420798014342,
+      "upper": 0.0090701570826774,
+      "unconstrained_gap": 0.03432662423438631
+    },
+    {
+      "family": "e1=49/50|trans=1/20|prior1=1/10|cs=1/5",
+      "lower": 0.007120068843140193,
+      "upper": 0.007959641989726271,
+      "unconstrained_gap": 0.027099868171512644
+    },
+    {
+      "family": "e1=19/20|trans=1/20|prior1=1/20|cs=1/20",
+      "lower": 0.00867393951609007,
+      "upper": 0.009042193059625427,
+      "unconstrained_gap": 0.05556654363481705
+    },
+    {
+      "family": "e1=19/20|trans=1/20|prior1=1/20|cs=1/5",
+      "lower": 0.007779899401863641,
+      "upper": 0.008011830033956334,
+      "unconstrained_gap": 0.030973706435778757
+    }
+  ],
+  "a3c_historical_decision": "GENUINE GAP AT alpha = 0.10"
+}

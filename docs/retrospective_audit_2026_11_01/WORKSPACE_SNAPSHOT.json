@@ -1,0 +1,851 @@
+{
+  "time_utc": "2026-11-01T08:11:56.408820+00:00",
+  "python": "3.13.1",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "cpu_count": 24,
+  "worktrees": [
+    {
+      "path": "C:/Users/nigel/OneDrive/\u684c\u9762/ICML/shift-research-starter",
+      "worktree_record": [
+        "worktree C:/Users/nigel/OneDrive/\u684c\u9762/ICML/shift-research-starter",
+        "HEAD 8f8b10e4493bfb16a4a63128a43c8c9bce484eb7",
+        "branch refs/heads/main"
+      ],
+      "status": {
+        "command": [
+          "git",
+          "status",
+          "--porcelain=v1",
+          "--untracked-files=all"
+        ],
+        "exit_code": 0,
+        "stdout": " M docs/failure_atlas_review_2026_11_01.md\n M docs/failure_atlas_v1_ledger.md\n M src/shiftlab/dive/atlas_dependence_baselines.py\n?? .aris/traces/result-to-claim/2026-11-01_run01/001-cycle7-claim.request.json\n?? docs/failure_atlas_cycle7_decision_v1.md\n?? docs/failure_atlas_cycle7_provenance_v1.json\n?? docs/failure_atlas_cycle7_validation_results_v1.md\n?? docs/hgxh2c/FINAL_REPORT.md\n",
+        "stderr": ""
+      },
+      "ignored_metadata": {
+        "command": [
+          "git",
+          "status",
+          "--porcelain=v1",
+          "--ignored",
+          "--untracked-files=no"
+        ],
+        "exit_code": 0,
+        "stdout": " M docs/failure_atlas_review_2026_11_01.md\n M docs/failure_atlas_v1_ledger.md\n M src/shiftlab/dive/atlas_dependence_baselines.py\n",
+        "stderr": ""
+      },
+      "head": {
+        "command": [
+          "git",
+          "rev-parse",
+          "HEAD"
+        ],
+        "exit_code": 0,
+        "stdout": "8f8b10e4493bfb16a4a63128a43c8c9bce484eb7\n",
+        "stderr": ""
+      }
+    },
+    {
+      "path": "C:/Users/nigel/OneDrive/\u684c\u9762/ICML/branch-claude-bold-cray-xcy73f",
+      "worktree_record": [
+        "worktree C:/Users/nigel/OneDrive/\u684c\u9762/ICML/branch-claude-bold-cray-xcy73f",
+        "HEAD 2e5c913ebad032d9859ffe9d9d2b85c731f90a90",
+        "branch refs/heads/claude/bold-cray-xcy73f"
+      ],
+      "status": {
+        "command": [
+          "git",
+          "status",
+          "--porcelain=v1",
+          "--untracked-files=all"
+        ],
+        "exit_code": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "ignored_metadata": {
+        "command": [
+          "git",
+          "status",
+          "--porcelain=v1",
+          "--ignored",
+          "--untracked-files=no"
+        ],
+        "exit_code": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "head": {
+        "command": [
+          "git",
+          "rev-parse",
+          "HEAD"
+        ],
+        "exit_code": 0,
+        "stdout": "2e5c913ebad032d9859ffe9d9d2b85c731f90a90\n",
+        "stderr": ""
+      }
+    },
+    {
+      "path": "C:/Users/nigel/OneDrive/\u684c\u9762/ICML/branch-integration-local-progress-2026-10-29",
+      "worktree_record": [
+        "worktree C:/Users/nigel/OneDrive/\u684c\u9762/ICML/branch-integration-local-progress-2026-10-29",
+        "HEAD c0522f01decd737756f5f5c7278532ee099898e4",
+        "branch refs/heads/integration/local-progress-2026-10-29"
+      ],
+      "status": {
+        "command": [
+          "git",
+          "status",
+          "--porcelain=v1",
+          "--untracked-files=all"
+        ],
+        "exit_code": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "ignored_metadata": {
+        "command": [
+          "git",
+          "status",
+          "--porcelain=v1",
+          "--ignored",
+          "--untracked-files=no"
+        ],
+        "exit_code": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "head": {
+        "command": [
+          "git",
+          "rev-parse",
+          "HEAD"
+        ],
+        "exit_code": 0,
+        "stdout": "c0522f01decd737756f5f5c7278532ee099898e4\n",
+        "stderr": ""
+      }
+    },
+    {
+      "path": "C:/Users/nigel/OneDrive/\u684c\u9762/ICML/branch-remote-shiftlab-sota-synthetic-search-2026-10-29",
+      "worktree_record": [
+        "worktree C:/Users/nigel/OneDrive/\u684c\u9762/ICML/branch-remote-shiftlab-sota-synthetic-search-2026-10-29",
+        "HEAD bb740578c2b0cdd64db70fe7587a8de2d3791d70",
+        "detached"
+      ],
+      "status": {
+        "command": [
+          "git",
+          "status",
+          "--porcelain=v1",
+          "--untracked-files=all"
+        ],
+        "exit_code": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "ignored_metadata": {
+        "command": [
+          "git",
+          "status",
+          "--porcelain=v1",
+          "--ignored",
+          "--untracked-files=no"
+        ],
+        "exit_code": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "head": {
+        "command": [
+          "git",
+          "rev-parse",
+          "HEAD"
+        ],
+        "exit_code": 0,
+        "stdout": "bb740578c2b0cdd64db70fe7587a8de2d3791d70\n",
+        "stderr": ""
+      }
+    },
+    {
+      "path": "C:/Users/nigel/OneDrive/\u684c\u9762/ICML/branch-research-h2c-restart-risk-certified-2026-10-30",
+      "worktree_record": [
+        "worktree C:/Users/nigel/OneDrive/\u684c\u9762/ICML/branch-research-h2c-restart-risk-certified-2026-10-30",
+        "HEAD d4673d929db5597dc320bd601fc8427ea010fa30",
+        "branch refs/heads/research/h2c-restart-risk-certified-2026-10-30"
+      ],
+      "status": {
+        "command": [
+          "git",
+          "status",
+          "--porcelain=v1",
+          "--untracked-files=all"
+        ],
+        "exit_code": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "ignored_metadata": {
+        "command": [
+          "git",
+          "status",
+          "--porcelain=v1",
+          "--ignored",
+          "--untracked-files=no"
+        ],
+        "exit_code": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "head": {
+        "command": [
+          "git",
+          "rev-parse",
+          "HEAD"
+        ],
+        "exit_code": 0,
+        "stdout": "d4673d929db5597dc320bd601fc8427ea010fa30\n",
+        "stderr": ""
+      }
+    },
+    {
+      "path": "C:/Users/nigel/OneDrive/\u684c\u9762/ICML/branch-research-h2c-strong-baselines-and-generalization-2026-10-30",
+      "worktree_record": [
+        "worktree C:/Users/nigel/OneDrive/\u684c\u9762/ICML/branch-research-h2c-strong-baselines-and-generalization-2026-10-30",
+        "HEAD 60930a417952b3059b6309fa519a1abb4af893fb",
+        "branch refs/heads/research/h2c-strong-baselines-and-generalization-2026-10-30"
+      ],
+      "status": {
+        "command": [
+          "git",
+          "status",
+          "--porcelain=v1",
+          "--untracked-files=all"
+        ],
+        "exit_code": 0,
+        "stdout": " M src/shiftlab/sota_search/__pycache__/detectors.cpython-313.pyc\n M src/shiftlab/sota_search/__pycache__/generators.cpython-313.pyc\n",
+        "stderr": ""
+      },
+      "ignored_metadata": {
+        "command": [
+          "git",
+          "status",
+          "--porcelain=v1",
+          "--ignored",
+          "--untracked-files=no"
+        ],
+        "exit_code": 0,
+        "stdout": " M src/shiftlab/sota_search/__pycache__/detectors.cpython-313.pyc\n M src/shiftlab/sota_search/__pycache__/generators.cpython-313.pyc\n",
+        "stderr": ""
+      },
+      "head": {
+        "command": [
+          "git",
+          "rev-parse",
+          "HEAD"
+        ],
+        "exit_code": 0,
+        "stdout": "60930a417952b3059b6309fa519a1abb4af893fb\n",
+        "stderr": ""
+      }
+    },
+    {
+      "path": "C:/Users/nigel/OneDrive/\u684c\u9762/ICML/branch-research-hg-decision-aware-betting-v2",
+      "worktree_record": [
+        "worktree C:/Users/nigel/OneDrive/\u684c\u9762/ICML/branch-research-hg-decision-aware-betting-v2",
+        "HEAD 0c7f0a264e68a831e4de2498dfc582c9a98c39ef",
+        "branch refs/heads/research/hg-decision-aware-betting-v2"
+      ],
+      "status": {
+        "command": [
+          "git",
+          "status",
+          "--porcelain=v1",
+          "--untracked-files=all"
+        ],
+        "exit_code": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "ignored_metadata": {
+        "command": [
+          "git",
+          "status",
+          "--porcelain=v1",
+          "--ignored",
+          "--untracked-files=no"
+        ],
+        "exit_code": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "head": {
+        "command": [
+          "git",
+          "rev-parse",
+          "HEAD"
+        ],
+        "exit_code": 0,
+        "stdout": "0c7f0a264e68a831e4de2498dfc582c9a98c39ef\n",
+        "stderr": ""
+      }
+    },
+    {
+      "path": "C:/Users/nigel/OneDrive/\u684c\u9762/ICML/branch-research-hg-validation-and-novelty-2026-10-30",
+      "worktree_record": [
+        "worktree C:/Users/nigel/OneDrive/\u684c\u9762/ICML/branch-research-hg-validation-and-novelty-2026-10-30",
+        "HEAD 1299c1c285ca5cb1387f4805c60767c214fe1106",
+        "branch refs/heads/research/hg-validation-and-novelty-2026-10-30"
+      ],
+      "status": {
+        "command": [
+          "git",
+          "status",
+          "--porcelain=v1",
+          "--untracked-files=all"
+        ],
+        "exit_code": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "ignored_metadata": {
+        "command": [
+          "git",
+          "status",
+          "--porcelain=v1",
+          "--ignored",
+          "--untracked-files=no"
+        ],
+        "exit_code": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "head": {
+        "command": [
+          "git",
+          "rev-parse",
+          "HEAD"
+        ],
+        "exit_code": 0,
+        "stdout": "1299c1c285ca5cb1387f4805c60767c214fe1106\n",
+        "stderr": ""
+      }
+    },
+    {
+      "path": "C:/Users/nigel/OneDrive/\u684c\u9762/ICML/branch-research-monitoring-to-decision-value-2026-10-30",
+      "worktree_record": [
+        "worktree C:/Users/nigel/OneDrive/\u684c\u9762/ICML/branch-research-monitoring-to-decision-value-2026-10-30",
+        "HEAD a155ed6c9576e290d7d690f57b8ffef92028f941",
+        "branch refs/heads/research/monitoring-to-decision-value-2026-10-30"
+      ],
+      "status": {
+        "command": [
+          "git",
+          "status",
+          "--porcelain=v1",
+          "--untracked-files=all"
+        ],
+        "exit_code": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "ignored_metadata": {
+        "command": [
+          "git",
+          "status",
+          "--porcelain=v1",
+          "--ignored",
+          "--untracked-files=no"
+        ],
+        "exit_code": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "head": {
+        "command": [
+          "git",
+          "rev-parse",
+          "HEAD"
+        ],
+        "exit_code": 0,
+        "stdout": "a155ed6c9576e290d7d690f57b8ffef92028f941\n",
+        "stderr": ""
+      }
+    },
+    {
+      "path": "C:/Users/nigel/OneDrive/\u684c\u9762/ICML/branch-research-rpoq-s1-fatal-flaw-audit",
+      "worktree_record": [
+        "worktree C:/Users/nigel/OneDrive/\u684c\u9762/ICML/branch-research-rpoq-s1-fatal-flaw-audit",
+        "HEAD 0b1ce996431763d50b8c22e21dd3eece7c2dcf04",
+        "branch refs/heads/research/rpoq-s1-fatal-flaw-audit"
+      ],
+      "status": {
+        "command": [
+          "git",
+          "status",
+          "--porcelain=v1",
+          "--untracked-files=all"
+        ],
+        "exit_code": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "ignored_metadata": {
+        "command": [
+          "git",
+          "status",
+          "--porcelain=v1",
+          "--ignored",
+          "--untracked-files=no"
+        ],
+        "exit_code": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "head": {
+        "command": [
+          "git",
+          "rev-parse",
+          "HEAD"
+        ],
+        "exit_code": 0,
+        "stdout": "0b1ce996431763d50b8c22e21dd3eece7c2dcf04\n",
+        "stderr": ""
+      }
+    },
+    {
+      "path": "C:/Users/nigel/OneDrive/\u684c\u9762/ICML/branch-research-shiftlab-dependence-gates-2026-10-31",
+      "worktree_record": [
+        "worktree C:/Users/nigel/OneDrive/\u684c\u9762/ICML/branch-research-shiftlab-dependence-gates-2026-10-31",
+        "HEAD 026500db9dac67da8b9dc239870356a85c571811",
+        "branch refs/heads/research/shiftlab-dependence-gates-2026-10-31"
+      ],
+      "status": {
+        "command": [
+          "git",
+          "status",
+          "--porcelain=v1",
+          "--untracked-files=all"
+        ],
+        "exit_code": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "ignored_metadata": {
+        "command": [
+          "git",
+          "status",
+          "--porcelain=v1",
+          "--ignored",
+          "--untracked-files=no"
+        ],
+        "exit_code": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "head": {
+        "command": [
+          "git",
+          "rev-parse",
+          "HEAD"
+        ],
+        "exit_code": 0,
+        "stdout": "026500db9dac67da8b9dc239870356a85c571811\n",
+        "stderr": ""
+      }
+    },
+    {
+      "path": "C:/Users/nigel/OneDrive/\u684c\u9762/ICML/branch-research-shiftlab-icml-method-sprint-2026-10-30",
+      "worktree_record": [
+        "worktree C:/Users/nigel/OneDrive/\u684c\u9762/ICML/branch-research-shiftlab-icml-method-sprint-2026-10-30",
+        "HEAD 71ad2b31167878a0fc975dfcc33abe1726235184",
+        "branch refs/heads/research/shiftlab-icml-method-sprint-2026-10-30"
+      ],
+      "status": {
+        "command": [
+          "git",
+          "status",
+          "--porcelain=v1",
+          "--untracked-files=all"
+        ],
+        "exit_code": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "ignored_metadata": {
+        "command": [
+          "git",
+          "status",
+          "--porcelain=v1",
+          "--ignored",
+          "--untracked-files=no"
+        ],
+        "exit_code": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "head": {
+        "command": [
+          "git",
+          "rev-parse",
+          "HEAD"
+        ],
+        "exit_code": 0,
+        "stdout": "71ad2b31167878a0fc975dfcc33abe1726235184\n",
+        "stderr": ""
+      }
+    },
+    {
+      "path": "C:/Users/nigel/OneDrive/\u684c\u9762/ICML/branch-research-shiftlab-mandate-gap-closure-2026-10-30",
+      "worktree_record": [
+        "worktree C:/Users/nigel/OneDrive/\u684c\u9762/ICML/branch-research-shiftlab-mandate-gap-closure-2026-10-30",
+        "HEAD 85529116eb9fd16e533ddce9f545f79d695e87d7",
+        "branch refs/heads/research/shiftlab-mandate-gap-closure-2026-10-30"
+      ],
+      "status": {
+        "command": [
+          "git",
+          "status",
+          "--porcelain=v1",
+          "--untracked-files=all"
+        ],
+        "exit_code": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "ignored_metadata": {
+        "command": [
+          "git",
+          "status",
+          "--porcelain=v1",
+          "--ignored",
+          "--untracked-files=no"
+        ],
+        "exit_code": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "head": {
+        "command": [
+          "git",
+          "rev-parse",
+          "HEAD"
+        ],
+        "exit_code": 0,
+        "stdout": "85529116eb9fd16e533ddce9f545f79d695e87d7\n",
+        "stderr": ""
+      }
+    },
+    {
+      "path": "C:/Users/nigel/OneDrive/\u684c\u9762/ICML/shift-claude-lane",
+      "worktree_record": [
+        "worktree C:/Users/nigel/OneDrive/\u684c\u9762/ICML/shift-claude-lane",
+        "HEAD f60785f8de0a4ff202d4957c1914eccb7165ff18",
+        "branch refs/heads/research/claude-lane-burst-allocation"
+      ],
+      "status": {
+        "command": [
+          "git",
+          "status",
+          "--porcelain=v1",
+          "--untracked-files=all"
+        ],
+        "exit_code": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "ignored_metadata": {
+        "command": [
+          "git",
+          "status",
+          "--porcelain=v1",
+          "--ignored",
+          "--untracked-files=no"
+        ],
+        "exit_code": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "head": {
+        "command": [
+          "git",
+          "rev-parse",
+          "HEAD"
+        ],
+        "exit_code": 0,
+        "stdout": "f60785f8de0a4ff202d4957c1914eccb7165ff18\n",
+        "stderr": ""
+      }
+    },
+    {
+      "path": "C:/Users/nigel/OneDrive/\u684c\u9762/ICML/shift-codex-autoresearch",
+      "worktree_record": [
+        "worktree C:/Users/nigel/OneDrive/\u684c\u9762/ICML/shift-codex-autoresearch",
+        "HEAD a17c4667103df91964b93a2e81b25c0980519fe5",
+        "branch refs/heads/research/codex-autoresearch"
+      ],
+      "status": {
+        "command": [
+          "git",
+          "status",
+          "--porcelain=v1",
+          "--untracked-files=all"
+        ],
+        "exit_code": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "ignored_metadata": {
+        "command": [
+          "git",
+          "status",
+          "--porcelain=v1",
+          "--ignored",
+          "--untracked-files=no"
+        ],
+        "exit_code": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "head": {
+        "command": [
+          "git",
+          "rev-parse",
+          "HEAD"
+        ],
+        "exit_code": 0,
+        "stdout": "a17c4667103df91964b93a2e81b25c0980519fe5\n",
+        "stderr": ""
+      }
+    },
+    {
+      "path": "C:/Users/nigel/OneDrive/\u684c\u9762/ICML/shiftlab-exhaustive-evaluation-2026-10-30",
+      "worktree_record": [
+        "worktree C:/Users/nigel/OneDrive/\u684c\u9762/ICML/shiftlab-exhaustive-evaluation-2026-10-30",
+        "HEAD 93a3ecf39e806562771d18e8870e54fc8b8309d6",
+        "branch refs/heads/research/exhaustive-candidate-evaluation-2026-10-30"
+      ],
+      "status": {
+        "command": [
+          "git",
+          "status",
+          "--porcelain=v1",
+          "--untracked-files=all"
+        ],
+        "exit_code": 0,
+        "stdout": " M src/shiftlab/__pycache__/__init__.cpython-313.pyc\n M src/shiftlab/sota_search/__pycache__/__init__.cpython-313.pyc\n",
+        "stderr": ""
+      },
+      "ignored_metadata": {
+        "command": [
+          "git",
+          "status",
+          "--porcelain=v1",
+          "--ignored",
+          "--untracked-files=no"
+        ],
+        "exit_code": 0,
+        "stdout": " M src/shiftlab/__pycache__/__init__.cpython-313.pyc\n M src/shiftlab/sota_search/__pycache__/__init__.cpython-313.pyc\n",
+        "stderr": ""
+      },
+      "head": {
+        "command": [
+          "git",
+          "rev-parse",
+          "HEAD"
+        ],
+        "exit_code": 0,
+        "stdout": "93a3ecf39e806562771d18e8870e54fc8b8309d6\n",
+        "stderr": ""
+      }
+    },
+    {
+      "path": "C:/Users/nigel/OneDrive/\u684c\u9762/ICML/shiftlab-promising-directions-2026-10-30",
+      "worktree_record": [
+        "worktree C:/Users/nigel/OneDrive/\u684c\u9762/ICML/shiftlab-promising-directions-2026-10-30",
+        "HEAD 1b4be4182af255baba20adca41a4737578afc0ce",
+        "branch refs/heads/research/shiftlab-promising-directions-2026-10-30"
+      ],
+      "status": {
+        "command": [
+          "git",
+          "status",
+          "--porcelain=v1",
+          "--untracked-files=all"
+        ],
+        "exit_code": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "ignored_metadata": {
+        "command": [
+          "git",
+          "status",
+          "--porcelain=v1",
+          "--ignored",
+          "--untracked-files=no"
+        ],
+        "exit_code": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "head": {
+        "command": [
+          "git",
+          "rev-parse",
+          "HEAD"
+        ],
+        "exit_code": 0,
+        "stdout": "1b4be4182af255baba20adca41a4737578afc0ce\n",
+        "stderr": ""
+      }
+    },
+    {
+      "path": "C:/Users/nigel/OneDrive/\u684c\u9762/ICML/shiftlab-retrospective-audit-2026-11-01",
+      "worktree_record": [
+        "worktree C:/Users/nigel/OneDrive/\u684c\u9762/ICML/shiftlab-retrospective-audit-2026-11-01",
+        "HEAD e74fdc33108d8e367094e57a46241a2b2e651caa",
+        "branch refs/heads/audit/shiftlab-retrospective-rectification-2026-11-01"
+      ],
+      "status": {
+        "command": [
+          "git",
+          "status",
+          "--porcelain=v1",
+          "--untracked-files=all"
+        ],
+        "exit_code": 0,
+        "stdout": "?? docs/retrospective_audit_2026_11_01/01_SOURCE_CATALOG.csv\n?? docs/retrospective_audit_2026_11_01/16_RUNBOOK.md\n?? docs/retrospective_audit_2026_11_01/17_B3_RECOMPUTATION.md\n?? docs/retrospective_audit_2026_11_01/B3_EPISODE_RECOMPUTATION.json\n?? docs/retrospective_audit_2026_11_01/B3_SUMMARY_ARITHMETIC.json\n?? docs/retrospective_audit_2026_11_01/BRANCH_COVERAGE.json\n?? docs/retrospective_audit_2026_11_01/DECISION_CANDIDATES.csv\n?? docs/retrospective_audit_2026_11_01/EXECUTION_LOG.jsonl\n?? docs/retrospective_audit_2026_11_01/INITIAL_SNAPSHOT.json\n?? docs/retrospective_audit_2026_11_01/SEED_REGISTRY_CHECK.json\n?? docs/retrospective_audit_2026_11_01/SHIFT_LAB_EXECUTION_TODO.md\n?? docs/retrospective_audit_2026_11_01/SHIFT_LAB_FULL_RESEARCH_AUDIT_GOAL.md\n?? docs/retrospective_audit_2026_11_01/STATE.json\n?? docs/retrospective_audit_2026_11_01/TASKS.md\n?? docs/retrospective_audit_2026_11_01/TASK_REGISTRY.json\n?? scripts/retrospective_audit/recompute_b3.py\n?? scripts/retrospective_audit/source_census.py\n?? scripts/retrospective_audit/workspace_snapshot.py\n?? tests/retrospective_audit/test_recompute_b3.py\n",
+        "stderr": ""
+      },
+      "ignored_metadata": {
+        "command": [
+          "git",
+          "status",
+          "--porcelain=v1",
+          "--ignored",
+          "--untracked-files=no"
+        ],
+        "exit_code": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "head": {
+        "command": [
+          "git",
+          "rev-parse",
+          "HEAD"
+        ],
+        "exit_code": 0,
+        "stdout": "e74fdc33108d8e367094e57a46241a2b2e651caa\n",
+        "stderr": ""
+      }
+    },
+    {
+      "path": "C:/Users/nigel/OneDrive/\u684c\u9762/ICML/shiftlab-risk-approx-2026-10-29",
+      "worktree_record": [
+        "worktree C:/Users/nigel/OneDrive/\u684c\u9762/ICML/shiftlab-risk-approx-2026-10-29",
+        "HEAD 2bd2e8e41639073c8d22ffb17ef0bcc68111e321",
+        "branch refs/heads/research/risk-preserving-switching-approx-2026-10-29"
+      ],
+      "status": {
+        "command": [
+          "git",
+          "status",
+          "--porcelain=v1",
+          "--untracked-files=all"
+        ],
+        "exit_code": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "ignored_metadata": {
+        "command": [
+          "git",
+          "status",
+          "--porcelain=v1",
+          "--ignored",
+          "--untracked-files=no"
+        ],
+        "exit_code": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "head": {
+        "command": [
+          "git",
+          "rev-parse",
+          "HEAD"
+        ],
+        "exit_code": 0,
+        "stdout": "2bd2e8e41639073c8d22ffb17ef0bcc68111e321\n",
+        "stderr": ""
+      }
+    },
+    {
+      "path": "C:/Users/nigel/OneDrive/\u684c\u9762/ICML/shiftlab-sota-synthetic-search-2026-10-29",
+      "worktree_record": [
+        "worktree C:/Users/nigel/OneDrive/\u684c\u9762/ICML/shiftlab-sota-synthetic-search-2026-10-29",
+        "HEAD 5bcf95e32ffcaf798190d1c39f1eaad281fac6a9",
+        "branch refs/heads/research/shiftlab-sota-synthetic-search-2026-10-29"
+      ],
+      "status": {
+        "command": [
+          "git",
+          "status",
+          "--porcelain=v1",
+          "--untracked-files=all"
+        ],
+        "exit_code": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "ignored_metadata": {
+        "command": [
+          "git",
+          "status",
+          "--porcelain=v1",
+          "--ignored",
+          "--untracked-files=no"
+        ],
+        "exit_code": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "head": {
+        "command": [
+          "git",
+          "rev-parse",
+          "HEAD"
+        ],
+        "exit_code": 0,
+        "stdout": "5bcf95e32ffcaf798190d1c39f1eaad281fac6a9\n",
+        "stderr": ""
+      }
+    }
+  ],
+  "gpu": {
+    "command": [
+      "powershell",
+      "-NoProfile",
+      "-Command",
+      "Get-CimInstance Win32_VideoController | Select-Object Name,AdapterRAM | ConvertTo-Json"
+    ],
+    "exit_code": 0,
+    "stdout": "[\n    {\n        \"Name\":  \"Intel(R) UHD Graphics\",\n        \"AdapterRAM\":  2147479552\n    },\n    {\n        \"Name\":  \"NVIDIA GeForce RTX 4060 Laptop GPU\",\n        \"AdapterRAM\":  4293918720\n    }\n]\n",
+    "stderr": ""
+  },
+  "memory": {
+    "command": [
+      "powershell",
+      "-NoProfile",
+      "-Command",
+      "Get-CimInstance Win32_ComputerSystem | Select-Object TotalPhysicalMemory | ConvertTo-Json"
+    ],
+    "exit_code": 0,
+    "stdout": "{\n    \"TotalPhysicalMemory\":  16858472448\n}\n",
+    "stderr": ""
+  },
+  "scope": "Git status metadata only; ignored directories listed, contents not exhaustively catalogued; no raw data read"
+}

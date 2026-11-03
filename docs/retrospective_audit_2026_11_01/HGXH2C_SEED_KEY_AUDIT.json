@@ -1,0 +1,9 @@
+{
+  "scope": "Generator-key integer intervals only, using current formula. Smoke superset checks all 27 delay/regime/proxy combinations, exceeding actual ten smoke cells. Does not prove stream independence or absence of hypothesis/design exposure. Code version parity with actual runs unresolved.",
+  "keys_checked": 952,
+  "unintended_interval_overlaps": [],
+  "intentional_reuse": "For fixed family/magnitude/T, world losses, onset and query uniforms are shared across delay, label regime and proxy quality; calibration shared across all cells. These cells are not independent source replicates.",
+  "smoke_T": 400,
+  "full_T": 2000,
+  "smoke_full_seed_key_overlap_found": false
+}

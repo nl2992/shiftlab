@@ -1,0 +1,33 @@
+{
+  "scope": "Archived e15 paired point estimates and label parity; bootstrap intervals and simulator not rerun",
+  "hashes_verified": 3,
+  "rows": 168000,
+  "harm_worlds": 15,
+  "null_worlds": 6,
+  "comparison_point_rows_checked": 30,
+  "max_point_error": 9.194034422677078e-17,
+  "same_fraction_pathwise_label_parity": {
+    "0.1": true,
+    "0.2": true
+  },
+  "effects": {
+    "0.1": {
+      "hg_power": 0.701,
+      "pprm_power": 0.6721666666666667,
+      "ph_power": 0.7666666666666667,
+      "hg_minus_pprm_power": 0.028833333333333266,
+      "hg_minus_ph_power": -0.06566666666666676,
+      "hg_relative_harm_before_vs_pprm": -0.15199350101327536,
+      "hg_null_fa_max": 0.05
+    },
+    "0.2": {
+      "hg_power": 0.8076666666666666,
+      "pprm_power": 0.7558333333333334,
+      "ph_power": 0.9178333333333333,
+      "hg_minus_pprm_power": 0.05183333333333329,
+      "hg_minus_ph_power": -0.11016666666666663,
+      "hg_relative_harm_before_vs_pprm": -0.2513852898658152,
+      "hg_null_fa_max": 0.137
+    }
+  }
+}

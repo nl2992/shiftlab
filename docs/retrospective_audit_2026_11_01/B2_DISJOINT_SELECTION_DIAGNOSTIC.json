@@ -1,0 +1,169 @@
+{
+  "status": "POST_HOC_EXPOSED_DATA_DIAGNOSTIC_NOT_CONFIRMATION",
+  "summary_sha256": "4af87b4fad2d9ca2ac5cfe32616728ba1fea0f0a3d98db06d38cbede2441b488",
+  "raw_npz_sha256": "a7263c0bbfea46d7fe1219e0835b108c7024763baf92a6a3cdd7c4da09c1eed3",
+  "selection_rule": "For each setting, choose minimum average among P0/P1/P2 on 250 seed indices, then evaluate P3b versus it on the disjoint other 250; reverse halves.",
+  "records": [
+    {
+      "setting": "B200_cs5",
+      "historical_same_seed_best": "P2",
+      "historical_same_seed_reduction_percent": 10.201744757760808,
+      "folds": [
+        {
+          "selection_index_range": [
+            0,
+            250
+          ],
+          "evaluation_index_range": [
+            250,
+            500
+          ],
+          "selected_policy": "P2",
+          "selection_margin_to_runner_up_cost_units": 3.743350000000021,
+          "evaluation_mean_difference": -34.75525,
+          "evaluation_relative_reduction_percent": 10.130017718295148,
+          "evaluation_wins_count": 242,
+          "evaluation_ties_count": 0
+        },
+        {
+          "selection_index_range": [
+            250,
+            500
+          ],
+          "evaluation_index_range": [
+            0,
+            250
+          ],
+          "selected_policy": "P2",
+          "selection_margin_to_runner_up_cost_units": 4.275300000000016,
+          "evaluation_mean_difference": -35.329649999999994,
+          "evaluation_relative_reduction_percent": 10.273303699516411,
+          "evaluation_wins_count": 243,
+          "evaluation_ties_count": 0
+        }
+      ],
+      "crossfit_mean_difference": -35.042449999999995
+    },
+    {
+      "setting": "B200_cs20",
+      "historical_same_seed_best": "P0",
+      "historical_same_seed_reduction_percent": 9.645004086283913,
+      "folds": [
+        {
+          "selection_index_range": [
+            0,
+            250
+          ],
+          "evaluation_index_range": [
+            250,
+            500
+          ],
+          "selected_policy": "P0",
+          "selection_margin_to_runner_up_cost_units": 2.061649999999986,
+          "evaluation_mean_difference": -33.60054999999999,
+          "evaluation_relative_reduction_percent": 9.672925177118163,
+          "evaluation_wins_count": 250,
+          "evaluation_ties_count": 0
+        },
+        {
+          "selection_index_range": [
+            250,
+            500
+          ],
+          "evaluation_index_range": [
+            0,
+            250
+          ],
+          "selected_policy": "P0",
+          "selection_margin_to_runner_up_cost_units": 1.664699999999982,
+          "evaluation_mean_difference": -33.43299999999999,
+          "evaluation_relative_reduction_percent": 9.617105001999182,
+          "evaluation_wins_count": 250,
+          "evaluation_ties_count": 0
+        }
+      ],
+      "crossfit_mean_difference": -33.516774999999996
+    },
+    {
+      "setting": "B400_cs5",
+      "historical_same_seed_best": "P2",
+      "historical_same_seed_reduction_percent": 7.876903246148213,
+      "folds": [
+        {
+          "selection_index_range": [
+            0,
+            250
+          ],
+          "evaluation_index_range": [
+            250,
+            500
+          ],
+          "selected_policy": "P2",
+          "selection_margin_to_runner_up_cost_units": 6.134550000000047,
+          "evaluation_mean_difference": -26.740099999999995,
+          "evaluation_relative_reduction_percent": 7.826555514774103,
+          "evaluation_wins_count": 249,
+          "evaluation_ties_count": 0
+        },
+        {
+          "selection_index_range": [
+            250,
+            500
+          ],
+          "evaluation_index_range": [
+            0,
+            250
+          ],
+          "selected_policy": "P2",
+          "selection_margin_to_runner_up_cost_units": 5.70840000000004,
+          "evaluation_mean_difference": -27.07214999999999,
+          "evaluation_relative_reduction_percent": 7.927273408745272,
+          "evaluation_wins_count": 249,
+          "evaluation_ties_count": 0
+        }
+      ],
+      "crossfit_mean_difference": -26.906124999999992
+    },
+    {
+      "setting": "B400_cs20",
+      "historical_same_seed_best": "P0",
+      "historical_same_seed_reduction_percent": 7.67260232975737,
+      "folds": [
+        {
+          "selection_index_range": [
+            0,
+            250
+          ],
+          "evaluation_index_range": [
+            250,
+            500
+          ],
+          "selected_policy": "P0",
+          "selection_margin_to_runner_up_cost_units": 1.740449999999953,
+          "evaluation_mean_difference": -26.088499999999996,
+          "evaluation_relative_reduction_percent": 7.510356481761371,
+          "evaluation_wins_count": 250,
+          "evaluation_ties_count": 0
+        },
+        {
+          "selection_index_range": [
+            250,
+            500
+          ],
+          "evaluation_index_range": [
+            0,
+            250
+          ],
+          "selected_policy": "P0",
+          "selection_margin_to_runner_up_cost_units": 2.1065999999999576,
+          "evaluation_mean_difference": -27.236699999999995,
+          "evaluation_relative_reduction_percent": 7.834720300539932,
+          "evaluation_wins_count": 250,
+          "evaluation_ties_count": 0
+        }
+      ],
+      "crossfit_mean_difference": -26.662599999999998
+    }
+  ],
+  "limitations": "Both halves are historically exposed; the design and this split were chosen post hoc. The generator and P3b were informed by earlier research. This is a stability diagnostic, not a new validity, efficacy, or selection-adjusted population confidence claim."
+}

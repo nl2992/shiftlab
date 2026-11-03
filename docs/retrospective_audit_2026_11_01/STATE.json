@@ -1,0 +1,427 @@
+{
+  "status": "INCOMPLETE",
+  "source_commit": "e74fdc33108d8e367094e57a46241a2b2e651caa",
+  "last_completed_stage": null,
+  "unfinished_ids": [
+    "W00.01",
+    "W00.02",
+    "W00.03",
+    "W00.04",
+    "G00",
+    "W01.01",
+    "W01.02",
+    "W01.03",
+    "W01.04",
+    "W01.05",
+    "G01",
+    "W02.01",
+    "W02.02",
+    "W02.03",
+    "W02.04",
+    "W02.05",
+    "G02",
+    "W03.01",
+    "W03.02",
+    "W03.03",
+    "W03.04",
+    "W03.05",
+    "W03.06",
+    "G03",
+    "W04.01",
+    "W04.02",
+    "W04.03",
+    "W04.04",
+    "W04.05",
+    "W04.06",
+    "W04.07",
+    "G04",
+    "W05.01",
+    "W05.02",
+    "W05.03",
+    "W05.04",
+    "W05.05",
+    "W05.06",
+    "G05",
+    "W06.01",
+    "W06.02",
+    "W06.03",
+    "W06.04",
+    "W06.05",
+    "G06",
+    "W07.01",
+    "W07.02",
+    "W07.03",
+    "W07.04",
+    "W07.05",
+    "W07.06",
+    "W07.07",
+    "G07",
+    "W08.01",
+    "W08.02",
+    "W08.03",
+    "W08.04",
+    "W08.05",
+    "W08.06",
+    "W08.07",
+    "W08.08",
+    "G08",
+    "W09.01",
+    "W09.02",
+    "W09.03",
+    "W09.04",
+    "W09.05",
+    "W09.06",
+    "W09.07",
+    "W09.08",
+    "W09.09",
+    "G09",
+    "W10.01",
+    "W10.02",
+    "W10.03",
+    "W10.04",
+    "W10.05",
+    "G10",
+    "W11.01",
+    "W11.02",
+    "W11.03",
+    "W11.04",
+    "W11.05",
+    "W11.06",
+    "W11.07",
+    "G11",
+    "W12.01",
+    "W12.02",
+    "W12.03",
+    "W12.04",
+    "W12.05",
+    "W12.06",
+    "G12",
+    "W13.01",
+    "W13.02",
+    "W13.03",
+    "W13.04",
+    "W13.05",
+    "G13",
+    "W14.01",
+    "W14.02",
+    "W14.03",
+    "W14.04",
+    "G14",
+    "W15.01",
+    "W15.02",
+    "W15.03",
+    "W15.04",
+    "W15.05",
+    "G15",
+    "W16.01",
+    "W16.02",
+    "W16.03",
+    "W16.04",
+    "G16",
+    "W17.01",
+    "W17.02",
+    "W17.03",
+    "W17.04",
+    "W17.05",
+    "G17"
+  ],
+  "next_task": "Audit Atlas cycle-7 A3 relative baseline rule and A4 intervals; audit local-main HGxH2c A7 mechanism; continue W01 census and independent review",
+  "reviews": "NOT_PERFORMED_USAGE_LIMIT",
+  "last_test_commands": [
+    {
+      "command": "python -m pytest tests/test_seed_registry.py -q",
+      "exit_code": 0,
+      "result": "7 passed in 1.12s"
+    },
+    {
+      "command": "python -B scripts/retrospective_audit/recompute_b3.py",
+      "exit_code": 0,
+      "result": "7 streams, all settings, zero numeric mismatches"
+    },
+    {
+      "command": "python -B -m pytest tests/retrospective_audit/test_recompute_b3.py -q",
+      "exit_code": 0,
+      "result": "3 passed"
+    },
+    {
+      "command": "python -B -m pytest tests/retrospective_audit -q",
+      "exit_code": 0,
+      "result": "6 passed in .27s"
+    },
+    {
+      "command": "global Python HGxH2c tests",
+      "exit_code": 1,
+      "result": "native PyArrow access violations; terminal status observed session 60192"
+    },
+    {
+      "command": "python -B scripts/retrospective_audit/recompute_a1d.py",
+      "exit_code": 0,
+      "result": "279 grid curves checked; 24 upper bounds exactly reproduced"
+    },
+    {
+      "command": "python -B scripts/retrospective_audit/recompute_b2.py",
+      "exit_code": 0,
+      "result": "4 settings; zero mismatches"
+    },
+    {
+      "command": "repository venv pytest tests/test_hgxh2c_stats.py tests/test_hgxh2c_search.py -q",
+      "exit_code": 0,
+      "result": "29 passed in 361.14s"
+    },
+    {
+      "command": "python -B scripts/retrospective_audit/audit_hg_seed_keys.py",
+      "exit_code": 0,
+      "result": "952 keys; zero unintended interval collisions"
+    },
+    {
+      "command": "python -B scripts/retrospective_audit/audit_atlas_cycle5.py",
+      "exit_code": 0,
+      "result": "144 cells; zero mismatches; RC>CoV 0/144"
+    },
+    {
+      "command": "five Atlas suites before repair",
+      "exit_code": 1,
+      "result": "109 passed, 1 failed in 332.98s: missing ignored input"
+    },
+    {
+      "command": "test_atlas_mechanism_check.py after explicit kappa",
+      "exit_code": 0,
+      "result": "1 passed in 12.25s"
+    },
+    {
+      "command": "audit_atlas_family34.py",
+      "exit_code": 0,
+      "result": "archived counts agree, D1 PASS/D2 FAIL/I1 FAIL/I2 PASS"
+    },
+    {
+      "command": "repository venv pytest tests/retrospective_audit tests/test_atlas_mechanism_check.py -q",
+      "exit_code": 0,
+      "result": "13 passed in 11.58s"
+    },
+    {
+      "command": "repository venv pytest tests/test_failure_atlas.py tests/test_atlas_components.py tests/test_atlas_r6_baselines.py tests/test_atlas_cycle4_map.py tests/test_atlas_mechanism_check.py -q",
+      "exit_code": 0,
+      "result": "110 passed in 327.62s after smoke portability fix"
+    },
+    {
+      "command": "python -B scripts/retrospective_audit/recompute_wp3.py",
+      "exit_code": 0,
+      "result": "40 archived files hashed; 39200 rows; 1960 arm/cells; zero summary mismatches"
+    },
+    {
+      "command": "python -B scripts/retrospective_audit/audit_wp3_paired.py",
+      "exit_code": 0,
+      "result": "1696 eligible paired comparisons; zero numeric/gate mismatches; selected-pair exact empirical bootstrap [-0.65,-0.25]"
+    },
+    {
+      "command": "repository venv pytest tests/retrospective_audit/test_wp3_paired.py -q",
+      "exit_code": 0,
+      "result": "2 passed in 0.09s"
+    },
+    {
+      "command": "python csv/json consistency and Atlas Amendment 4 ratio-of-means recomputation",
+      "exit_code": 0,
+      "result": "6 unique gate IDs; Amendment 4 0.5027252319388427 matches archived result; four stored criteria true"
+    },
+    {
+      "command": "python -B scripts/retrospective_audit/recompute_wp2.py",
+      "exit_code": 0,
+      "result": "5 archived outputs hashed; 19440 raw rows; 972 groups; 2160 candidate/Chugg pairs; 36 G1 trials; zero aggregate mismatches"
+    },
+    {
+      "command": "python -B scripts/retrospective_audit/audit_atlas_mech_provenance.py",
+      "exit_code": 0,
+      "result": "7 recorded hashes searched; 20 worktrees and 328 unreachable blobs; 5 recovered, 2 unavailable locally"
+    },
+    {
+      "command": "python -B scripts/retrospective_audit/recompute_a1b_gate.py",
+      "exit_code": 0,
+      "result": "9 stored rational rows exact arithmetic; T12 recorded node-cap failure; original INCONCLUSIVE rule reproduced"
+    },
+    {
+      "command": "python -B scripts/retrospective_audit/audit_b1b2_gates.py",
+      "exit_code": 0,
+      "result": "Eight setting means/world deviations/gate flags reconciled; B1 and B2 Q1 MIXED"
+    },
+    {
+      "command": "repository venv python -B scripts/retrospective_audit/b2_crossfit_selection.py",
+      "exit_code": 0,
+      "result": "4 settings; both disjoint halves select historical BEST; held-out reductions recorded; post hoc exposed diagnostic"
+    },
+    {
+      "command": "python -B scripts/retrospective_audit/audit_batch_boundary.py",
+      "exit_code": 0,
+      "result": "exact P6 one-batch boundary-null false promotion 1807781/33554432 >0.05"
+    },
+    {
+      "command": "repository venv pytest tests/retrospective_audit/test_batch_boundary.py -q",
+      "exit_code": 0,
+      "result": "1 passed"
+    },
+    {
+      "command": "python -B scripts/retrospective_audit/audit_batch_boundary.py; repository venv pytest tests/retrospective_audit/test_batch_boundary.py -q",
+      "exit_code": 0,
+      "result": "iid fair-coin 1/8/16 batch calibration computed; 2 tests passed"
+    },
+    {
+      "command": "python -B scripts/retrospective_audit/audit_wp3_source_manifest.py",
+      "exit_code": 0,
+      "result": "181 source hashes reconciled; 42 output hashes matched; analysis script hash matches first tracked blob"
+    },
+    {
+      "command": "repository venv python scripts/sota_search/g5_confirmation_analysis.py; repository venv python -B scripts/retrospective_audit/h2c_disjoint_comparator_selection.py",
+      "exit_code": 0,
+      "result": "G5 D1 +0.086/+0.094 reproduced; 28 disjoint-half cell/fraction diagnostics computed"
+    },
+    {
+      "command": "repository venv python -B scripts/retrospective_audit/audit_g5_query_budget.py; direct label_mask first-cell parity",
+      "exit_code": 0,
+      "result": "32 cells, 600 paths/rate; exact seeded query count reconstruction and first-cell source parity"
+    },
+    {
+      "command": "python -B scripts/retrospective_audit/audit_two_real_tasks.py",
+      "exit_code": 0,
+      "result": "EIA 6 authority/delay groups with all adaptive RMSE/MAE below frozen; Upworthy per-test mean exactly matches summary"
+    },
+    {
+      "command": "repository venv python -B scripts/retrospective_audit/audit_upworthy_week_bootstrap.py; python -B scripts/retrospective_audit/audit_two_real_tasks.py",
+      "exit_code": 0,
+      "result": "Upworthy archived week-bootstrap matched; EIA 54 point differences and 18 RMSE interval signs checked"
+    },
+    {
+      "command": "repository venv python -B scripts/retrospective_audit/rerun_upworthy_verifier.py",
+      "exit_code": 0,
+      "result": "raw training/holdout, model selection, 3808 per-test values and bootstrap exactly reconstructed; receipt matches historical JSON"
+    },
+    {
+      "command": "repository venv python -B scripts/retrospective_audit/rerun_eia_2026_verifier.py",
+      "exit_code": 0,
+      "result": "successful receipt; exact metric/monthly/interval/report replay, fit-time maximum difference 0.225351 seconds"
+    },
+    {
+      "command": "repository venv python -B scripts/retrospective_audit/audit_integrated_efficacy.py",
+      "exit_code": 0,
+      "result": "9 archived hashes; 72 cell means; 22 paired contrast means; hard cap <=640"
+    },
+    {
+      "command": "repository venv python -B scripts/retrospective_audit/audit_integrated_inference.py",
+      "exit_code": 0,
+      "result": "22 paired tests, bootstrap intervals, Holm and Bonferroni lower bounds match within 1.43e-14; 4 Holm rejections"
+    },
+    {
+      "command": "repository venv python -B scripts/retrospective_audit/audit_integrated_event_logs.py",
+      "exit_code": 0,
+      "result": "7200 paired row groups; 46.08M event rows; 2,007,414 queried labels; max utility error 2.28e-13; zero premature selected IDs"
+    },
+    {
+      "command": "repository venv CUDA python -B scripts/retrospective_audit/probe_integrated_unqueried_labels.py",
+      "exit_code": 0,
+      "result": "archived seed 2026104000 baseline matched; 1456 unqueried labels flipped with full trace invariant; 800 future labels incl 152 queried flipped with predeployment trace invariant"
+    },
+    {
+      "command": "python -B scripts/retrospective_audit/validate_claim_ledger.py; repository venv pytest tests/retrospective_audit/test_validate_claim_ledger.py -q",
+      "exit_code": 0,
+      "result": "31 aligned 32-column claim rows; 2 validator tests passed"
+    },
+    {
+      "command": "repository venv python -B scripts/retrospective_audit/audit_b1_p4.py",
+      "exit_code": 0,
+      "result": "2 source hashes; 4 Q2 settings; 500 paired seeds and 2000 bootstrap draws; exact archived arithmetic; NOT SUPPORTED"
+    },
+    {
+      "command": "repository venv python -B -m pytest tests/retrospective_audit -q",
+      "exit_code": 0,
+      "result": "18 passed in 5.04s"
+    },
+    {
+      "command": "repository venv python -B scripts/retrospective_audit/audit_integrated_null_calibration.py",
+      "exit_code": 0,
+      "result": "4355 streams; four 0/1000 cells; CP upper 0.00437244; Q2/Q3 eligibility and Q3 MC radius exact; v1/v2 outputs byte-identical"
+    },
+    {
+      "command": "repository venv python -B -m pytest tests/retrospective_audit -q; python -B scripts/retrospective_audit/validate_claim_ledger.py",
+      "exit_code": 0,
+      "result": "18 passed in 18.76s; 32 structurally valid claim rows"
+    },
+    {
+      "command": "python -B scripts/retrospective_audit/audit_a2_a3c_archive.py",
+      "exit_code": 0,
+      "result": "162 A2 cells; 108 exact tight-risk zeros; 6 A3c rational bound pairs and source hashes checked"
+    },
+    {
+      "command": "repository venv python -B scripts/retrospective_audit/audit_hg_e15.py; branch pytest tests/gap/test_engine.py::test_exact_finite_support_cap -q",
+      "exit_code": 0,
+      "result": "168000 rows and 30 paired point means exact; pathwise labels match; finite-support cap test passed"
+    }
+  ],
+  "blocking_questions": [],
+  "observations": [
+    "Current registered seed intervals: 103 overlapping pairs, 0 currently undisclosed; data-reuse severity not determined",
+    "B3 raw episodes and historical bootstrap arithmetic reproduced with zero mismatches; population coverage not independently certified",
+    "WP3 raw path panel reproduces all 1960 arm/cell summary aggregates; monitoring decisions, comparator registration, and bootstrap not independently replayed",
+    "WP3 primary candidate passes 160/208 eligible comparisons and fails 48; five incumbents detect 20/20; fastest selected comparator is exploratory and interval unadjusted for selection",
+    "Atlas stage-6 0.48 closure fail and later Amendment 4 mechanism-validation 0.502725 pass are distinct historical decisions; later aggregate arithmetic checked, raw per-seed replay pending",
+    "WP2 growth ratio archived 0.403-1.000 and equal-information subgroup tie; original 19440 rows not independently recomputed",
+    "WP2 archived raw scalar growth and G1 decision arithmetic reproduced; max candidate/Chugg growth difference 1.04e-17; generator-level expectations not independently derived",
+    "Atlas Amendment 4 exact historical replay cannot currently be established: no archived per-seed output; 2/7 dirty executed-source hashes unrecovered from visible Git/local sources",
+    "A1b T11 gap 4.640775%, short of 5% by 0.359225 percentage points; last three increments pass; T12 unsolved; independent solver proof pending",
+    "B2 10.202/9.645/7.877/7.673% four-world reductions; only B200_cs5 full gate pass; B400_cs20 W3 14.286% worse; historical MIXED retained",
+    "B2 comparator identity stable in one post hoc disjoint-half diagnostic; this does not supply selection-adjusted CI or independent confirmation",
+    "P6 archived nv25/thr0.3 repeated batch rule has exact one-batch boundary-null false promotion 5.3876%; historical cost parity remains document-only, P6 not same-guarantee comparator",
+    "Illustrative P6 iid fair-coin threshold >0.52 handles <=16 complete 25-label batches at <5% FWER; not a validated conditional-null/selective-query replacement",
+    "WP3 protocol family and gate predate archived run start; analysis script was untracked at launch and first committed during run, though archived analysis hash matches tracked blob",
+    "WP3 run manifest: 181 source hashes match recorded Git tree (165 exact, 16 CRLF-only) and all 42 output hashes match; current local source differs from run archive in two files",
+    "WP3 archived CSVs contain aggregate arm/engine outcomes, not event scores or wealth; event-level replay requires regeneration",
+    "H2c G5 stored-file analysis rerun; post hoc disjoint-half C1/C2 selection gives +0.0900/+0.0951 vs full-selected +0.0858/+0.0938; 5/28 choices differ across halves",
+    "H2c G5 detector/harness blobs identical at protocol and results commits; F1/C1/C2 use same query mask and cost-null increment but runner/analysis scripts first tracked with results; C7a uses empirical null threshold",
+    "Claim ledger FAIR-F8 and LANE-C now reconcile stored G5 D1 evidence and scoped comparator/validity caveats; WP3 row links protocol/source provenance",
+    "Claim ledger FAIR-F1/FAIR-F2/LANE-B now reconcile B1 summary and B2 raw-seed arithmetic while retaining historical MIXED and P6 caveat",
+    "G5 exact Bernoulli masks exceed nominal 200/400 query counts on 9246/19200 and 9447/19200 paths; frozen nominal is 100x4000 same-generator sample mean without upper confidence allowance",
+    "Master ledger expanded from 24 to 28 rows with exact commit-anchored Paper 1/2/3 and ShiftGuard scope statements; 2962 candidate lines remain unreviewed",
+    "EIA 2026 archived 4 output hashes and 24 policy summary rows reconciled; Upworthy 3 hashes, 3808 tests, 18278 arms and 0.001001966 equal-test CTR difference recomputed",
+    "Upworthy 90-week 10000-draw cluster bootstrap independently recomputed from per-test rows, matching archived CI/lower bound to floating-point precision; EIA 54 stored contrast point differences reconcile and 18 RMSE interval upper limits below zero",
+    "Fresh Upworthy raw-source/model/full verifier replay matches historical receipt exactly; acquisition manifest records protocol/code hashes before evaluation but first visible Git commit of those files postdates it",
+    "Fresh hash-pinned EIA 2026 CUDA full verifier replay passed: exact 24 metric, 240 monthly and 54 interval rows/report; receipt equals historical except fit-time drift",
+    "Integrated synthetic efficacy: nine archived hashes, 7200 seed metrics, 72 cell means and 22 registered contrast means reconciled; full positives confined to two aligned profiles and reversal negative",
+    "Integrated 22 one-sided paired tests and inferential intervals independently recomputed from stored 100-seed vectors; 4 Holm rejections, 11 exact-zero raw t-tests undefined; event-level replay pending",
+    "Integrated archived learner/evaluator logs reconcile event order, label/action/cost parity and seed utilities; retrospective log construction means this is not proof of causal filtration",
+    "Integrated frozen execution-source bytes match current code and archived hashes; static stage decision paths use queried outcomes, but precomputed outcome arrays require perturbation tests",
+    "Integrated protocol and runner first appear in Git commit 32c5cfd 16h24m after manifest recorded creation; prospective Git freeze unproven",
+    "One CUDA integrated boundary-local full-pipeline seed passes unqueried-label and future-label noninterference probes; not a full filtration proof",
+    "Integrated ledger row had two shifted CSV columns from unquoted commas; repaired and added structural validation plus malformed-row regression test",
+    "B1 P4 Q2 four archived paired settings reproduce exactly: W3 +0.24 to +0.82% benefit, W1 +9.50 to +23.93% cost; historical NOT SUPPORTED retained",
+    "Integrated Q1-Q3 stored diagnostic 4355 rows and four cell bounds reconcile; v1/v2 outputs and receipt byte-identical despite different runner hashes; exact v2 runner unavailable in visible Git/worktrees",
+    "A2 108/108 tight B3 cells have stored exact J=C*; A3c six B4 alpha .10 bounds positive 0.712-1.213% and smaller than unconstrained; independent LP/theorem proof pending",
+    "HG e15 stored 30 paired point differences match to 1e-16; HG/PPRM/PH/CUSUM pathwise label parity; HG-PH power negative and GARCH dependent-null FAR .137 at .20",
+    "HG e14 development 108000 archived seed rows reproduce parent worst GARCH 93/400=.2325; F2 LRV worst .0475 but iid-harm power change -.0500893 misses registered -.05 limit; simulator and bootstrap not rerun",
+    "HG e15 archived analyzer replay on stored seeds reproduces all 30 comparison rows, 4000-resample CIs, raw p and Holm values exactly; no fresh simulator or independent statistical-method validation",
+    "Local main d099821 is 20 commits ahead of fetched origin/main e74fdc3; 8 commits and 42 changed path versions since earlier e61a3b0 census catalogued separately; user worktree untouched",
+    "Atlas cycle-7 ignored raw records hash-verified: 281600 method runs; A1 equal-cell DSS-best point -.03771854375, uniform ablation +.05865610625, 32 DSS null counts exact; full registered claim remains NOT ACCEPTED (A2/A3 fail)",
+    "Atlas cycle-7 all 102 cost cells, 16 primary and 16 A2 parent paired intervals independently recomputed from 281600 archived runs; 13 A1 margin passes, two adverse A2 parents, overall historical NOT ACCEPTED"
+  ],
+  "source_census_session": null,
+  "source_census_result": {
+    "refs": 40,
+    "unique_path_blob_versions": 4836,
+    "scope": "tracked refs only; regex candidates not claim grades"
+  },
+  "active_test_sessions": [],
+  "checkpoint_commits": [
+    "4422573",
+    "a897538",
+    "ddd7707",
+    "9443968",
+    "7d68e3f",
+    "959ff08",
+    "575ab1a",
+    "501b12a",
+    "3eaadb2",
+    "ca35d8c",
+    "5ded759",
+    "06efddf",
+    "3f081fc",
+    "1bd9547",
+    "e5e7bd8",
+    "aad6b1d"
+  ]
+}

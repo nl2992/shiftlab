@@ -1,0 +1,729 @@
+{
+  "scope": "Current main registered inclusive intervals ONLY; not exhaustive manifest/data tape audit",
+  "blocks": 256,
+  "overlap_pairs": 103,
+  "currently_undisclosed": 0,
+  "pairs": [
+    {
+      "a": "cost_aware_smoke",
+      "b": "cost_tolerance_01_exploratory_10",
+      "lo": 20261022,
+      "hi": 20261023,
+      "severity": "NOT_YET_AUDITED"
+    },
+    {
+      "a": "cost_aware_smoke",
+      "b": "reports_20261022",
+      "lo": 20261022,
+      "hi": 20261023,
+      "severity": "NOT_YET_AUDITED"
+    },
+    {
+      "a": "cost_tolerance_01_exploratory_10",
+      "b": "reports_20261022",
+      "lo": 20261022,
+      "hi": 20261031,
+      "severity": "NOT_YET_AUDITED"
+    },
+    {
+      "a": "cost_tolerance_01_exploratory_10",
+      "b": "delayed_feedback_development",
+      "lo": 20261024,
+      "hi": 20261031,
+      "severity": "NOT_YET_AUDITED"
+    },
+    {
+      "a": "cost_tolerance_01_exploratory_10",
+      "b": "context_budgeted_promotion_grid_30",
+      "lo": 20261025,
+      "hi": 20261031,
+      "severity": "NOT_YET_AUDITED"
+    },
+    {
+      "a": "cost_tolerance_01_exploratory_10",
+      "b": "validation_selected_context_policy_30",
+      "lo": 20261026,
+      "hi": 20261031,
+      "severity": "NOT_YET_AUDITED"
+    },
+    {
+      "a": "reports_20261022",
+      "b": "delayed_feedback_development",
+      "lo": 20261024,
+      "hi": 20261051,
+      "severity": "NOT_YET_AUDITED"
+    },
+    {
+      "a": "reports_20261022",
+      "b": "context_budgeted_promotion_grid_30",
+      "lo": 20261025,
+      "hi": 20261051,
+      "severity": "NOT_YET_AUDITED"
+    },
+    {
+      "a": "reports_20261022",
+      "b": "validation_selected_context_policy_30",
+      "lo": 20261026,
+      "hi": 20261051,
+      "severity": "NOT_YET_AUDITED"
+    },
+    {
+      "a": "delayed_feedback_development",
+      "b": "context_budgeted_promotion_grid_30",
+      "lo": 20261025,
+      "hi": 20261053,
+      "severity": "NOT_YET_AUDITED"
+    },
+    {
+      "a": "delayed_feedback_development",
+      "b": "validation_selected_context_policy_30",
+      "lo": 20261026,
+      "hi": 20261053,
+      "severity": "NOT_YET_AUDITED"
+    },
+    {
+      "a": "context_budgeted_promotion_grid_30",
+      "b": "validation_selected_context_policy_30",
+      "lo": 20261026,
+      "hi": 20261054,
+      "severity": "NOT_YET_AUDITED"
+    },
+    {
+      "a": "smoke_validation_selected_context_policy",
+      "b": "validation_selected_context_policy_replication_30",
+      "lo": 20261100,
+      "hi": 20261101,
+      "severity": "NOT_YET_AUDITED"
+    },
+    {
+      "a": "smoke_scout_context_policy",
+      "b": "scout_selected_context_policy_30",
+      "lo": 20261130,
+      "hi": 20261131,
+      "severity": "NOT_YET_AUDITED"
+    },
+    {
+      "a": "scout_context_policy_null_calibration_1000",
+      "b": "delayed_grid_cli_smoke",
+      "lo": 20262000,
+      "hi": 20262000,
+      "severity": "NOT_YET_AUDITED"
+    },
+    {
+      "a": "scout_context_policy_null_calibration_1000",
+      "b": "start_prior_development",
+      "lo": 20262000,
+      "hi": 20262029,
+      "severity": "NOT_YET_AUDITED"
+    },
+    {
+      "a": "delayed_grid_cli_smoke",
+      "b": "start_prior_development",
+      "lo": 20262000,
+      "hi": 20262000,
+      "severity": "NOT_YET_AUDITED"
+    },
+    {
+      "a": "scout_context_policy_confirmation_600",
+      "b": "delayed_null_calibration_2000",
+      "lo": 20264000,
+      "hi": 20264599,
+      "severity": "NOT_YET_AUDITED"
+    },
+    {
+      "a": "delayed_null_calibration_2000",
+      "b": "shiftguard_unified_sota_reproductions_target_scout_fixed_split_dev_v1",
+      "lo": 20265000,
+      "hi": 20265059,
+      "severity": "NOT_YET_AUDITED"
+    },
+    {
+      "a": "delayed_null_calibration_2000",
+      "b": "scout_context_policy_markov_null_1000",
+      "lo": 20265000,
+      "hi": 20265999,
+      "severity": "NOT_YET_AUDITED"
+    },
+    {
+      "a": "shiftguard_unified_sota_reproductions_target_scout_fixed_split_dev_v1",
+      "b": "scout_context_policy_markov_null_1000",
+      "lo": 20265000,
+      "hi": 20265059,
+      "severity": "NOT_YET_AUDITED"
+    },
+    {
+      "a": "scout_context_markov_smoke_2",
+      "b": "delayed_feedback_confirmation_2000",
+      "lo": 20266000,
+      "hi": 20266001,
+      "severity": "NOT_YET_AUDITED"
+    },
+    {
+      "a": "delayed_feedback_confirmation_2000",
+      "b": "scout_context_policy_drift_null_1000",
+      "lo": 20267000,
+      "hi": 20267999,
+      "severity": "NOT_YET_AUDITED"
+    },
+    {
+      "a": "scout_context_policy_positive_drift_development_60",
+      "b": "delayed_feedback_replication_2000",
+      "lo": 20268000,
+      "hi": 20268059,
+      "severity": "NOT_YET_AUDITED"
+    },
+    {
+      "a": "delayed_feedback_replication_2000",
+      "b": "scout_context_policy_eventwise_bound_development_60",
+      "lo": 20268100,
+      "hi": 20268159,
+      "severity": "NOT_YET_AUDITED"
+    },
+    {
+      "a": "delayed_feedback_replication_2000",
+      "b": "scout_context_policy_eventwise_drift_null_smoke_2",
+      "lo": 20269000,
+      "hi": 20269001,
+      "severity": "NOT_YET_AUDITED"
+    },
+    {
+      "a": "delayed_feedback_replication_2000",
+      "b": "scout_context_policy_eventwise_drift_null_1000",
+      "lo": 20269000,
+      "hi": 20269999,
+      "severity": "NOT_YET_AUDITED"
+    },
+    {
+      "a": "delayed_feedback_replication_2000",
+      "b": "shiftguard_unified_sota_reproductions_target_scout_fixed_split_cuda_smoke_v1",
+      "lo": 20269999,
+      "hi": 20269999,
+      "severity": "NOT_YET_AUDITED"
+    },
+    {
+      "a": "scout_context_policy_eventwise_drift_null_smoke_2",
+      "b": "scout_context_policy_eventwise_drift_null_1000",
+      "lo": 20269000,
+      "hi": 20269001,
+      "severity": "NOT_YET_AUDITED"
+    },
+    {
+      "a": "scout_context_policy_eventwise_drift_null_1000",
+      "b": "shiftguard_unified_sota_reproductions_target_scout_fixed_split_cuda_smoke_v1",
+      "lo": 20269999,
+      "hi": 20269999,
+      "severity": "NOT_YET_AUDITED"
+    },
+    {
+      "a": "shiftguard_unified_sota_reproductions_target_scout_fixed_split_cuda_smoke_v1",
+      "b": "scout_context_policy_eventwise_bound_confirmation_cuda_smoke_2",
+      "lo": 20270000,
+      "hi": 20270000,
+      "severity": "NOT_YET_AUDITED"
+    },
+    {
+      "a": "shiftguard_unified_sota_reproductions_target_scout_fixed_split_cuda_smoke_v1",
+      "b": "delayed_feedback_grid_confirmation_2000",
+      "lo": 20270000,
+      "hi": 20270000,
+      "severity": "NOT_YET_AUDITED"
+    },
+    {
+      "a": "scout_context_policy_eventwise_bound_confirmation_cuda_smoke_2",
+      "b": "delayed_feedback_grid_confirmation_2000",
+      "lo": 20270000,
+      "hi": 20270001,
+      "severity": "NOT_YET_AUDITED"
+    },
+    {
+      "a": "delayed_feedback_grid_confirmation_2000",
+      "b": "delayed_adaptive_query_development_60",
+      "lo": 20271000,
+      "hi": 20271059,
+      "severity": "NOT_YET_AUDITED"
+    },
+    {
+      "a": "delayed_feedback_grid_confirmation_2000",
+      "b": "scout_context_policy_eventwise_bound_confirmation_600",
+      "lo": 20271000,
+      "hi": 20271599,
+      "severity": "NOT_YET_AUDITED"
+    },
+    {
+      "a": "delayed_feedback_grid_confirmation_2000",
+      "b": "evidence_growth_smoke",
+      "lo": 20271023,
+      "hi": 20271024,
+      "severity": "NOT_YET_AUDITED"
+    },
+    {
+      "a": "delayed_feedback_grid_confirmation_2000",
+      "b": "evidence_growth_smoke_v2",
+      "lo": 20271024,
+      "hi": 20271025,
+      "severity": "NOT_YET_AUDITED"
+    },
+    {
+      "a": "delayed_feedback_grid_confirmation_2000",
+      "b": "evidence_growth_replication_30",
+      "lo": 20271024,
+      "hi": 20271053,
+      "severity": "NOT_YET_AUDITED"
+    },
+    {
+      "a": "delayed_feedback_grid_confirmation_2000",
+      "b": "delayed_evidence_directed_ppi_smoke_2",
+      "lo": 20271990,
+      "hi": 20271991,
+      "severity": "NOT_YET_AUDITED"
+    },
+    {
+      "a": "delayed_adaptive_query_development_60",
+      "b": "scout_context_policy_eventwise_bound_confirmation_600",
+      "lo": 20271000,
+      "hi": 20271059,
+      "severity": "NOT_YET_AUDITED"
+    },
+    {
+      "a": "delayed_adaptive_query_development_60",
+      "b": "evidence_growth_smoke",
+      "lo": 20271023,
+      "hi": 20271024,
+      "severity": "NOT_YET_AUDITED"
+    },
+    {
+      "a": "delayed_adaptive_query_development_60",
+      "b": "evidence_growth_smoke_v2",
+      "lo": 20271024,
+      "hi": 20271025,
+      "severity": "NOT_YET_AUDITED"
+    },
+    {
+      "a": "delayed_adaptive_query_development_60",
+      "b": "evidence_growth_replication_30",
+      "lo": 20271024,
+      "hi": 20271053,
+      "severity": "NOT_YET_AUDITED"
+    },
+    {
+      "a": "scout_context_policy_eventwise_bound_confirmation_600",
+      "b": "evidence_growth_smoke",
+      "lo": 20271023,
+      "hi": 20271024,
+      "severity": "NOT_YET_AUDITED"
+    },
+    {
+      "a": "scout_context_policy_eventwise_bound_confirmation_600",
+      "b": "evidence_growth_smoke_v2",
+      "lo": 20271024,
+      "hi": 20271025,
+      "severity": "NOT_YET_AUDITED"
+    },
+    {
+      "a": "scout_context_policy_eventwise_bound_confirmation_600",
+      "b": "evidence_growth_replication_30",
+      "lo": 20271024,
+      "hi": 20271053,
+      "severity": "NOT_YET_AUDITED"
+    },
+    {
+      "a": "evidence_growth_smoke",
+      "b": "evidence_growth_smoke_v2",
+      "lo": 20271024,
+      "hi": 20271024,
+      "severity": "NOT_YET_AUDITED"
+    },
+    {
+      "a": "evidence_growth_smoke",
+      "b": "evidence_growth_replication_30",
+      "lo": 20271024,
+      "hi": 20271024,
+      "severity": "NOT_YET_AUDITED"
+    },
+    {
+      "a": "evidence_growth_smoke_v2",
+      "b": "evidence_growth_replication_30",
+      "lo": 20271024,
+      "hi": 20271025,
+      "severity": "NOT_YET_AUDITED"
+    },
+    {
+      "a": "scout_context_policy_eventwise_markov_development_cuda_smoke_2",
+      "b": "delayed_evidence_directed_ppi_grid_30",
+      "lo": 20272000,
+      "hi": 20272001,
+      "severity": "NOT_YET_AUDITED"
+    },
+    {
+      "a": "delayed_evidence_directed_ppi_grid_30",
+      "b": "evidence_growth_stabilized_smoke",
+      "lo": 20272024,
+      "hi": 20272025,
+      "severity": "NOT_YET_AUDITED"
+    },
+    {
+      "a": "delayed_evidence_directed_ppi_grid_30",
+      "b": "evidence_growth_stabilized_replication_30",
+      "lo": 20272024,
+      "hi": 20272029,
+      "severity": "NOT_YET_AUDITED"
+    },
+    {
+      "a": "evidence_growth_stabilized_smoke",
+      "b": "evidence_growth_stabilized_replication_30",
+      "lo": 20272024,
+      "hi": 20272025,
+      "severity": "NOT_YET_AUDITED"
+    },
+    {
+      "a": "scout_context_policy_eventwise_temporal_development_60",
+      "b": "start_prior_validation_20274000",
+      "lo": 20274000,
+      "hi": 20274059,
+      "severity": "NOT_YET_AUDITED"
+    },
+    {
+      "a": "start_prior_validation_20274000",
+      "b": "scout_context_policy_eventwise_temporal_null_1000",
+      "lo": 20275000,
+      "hi": 20275999,
+      "severity": "NOT_YET_AUDITED"
+    },
+    {
+      "a": "start_prior_robustness_20280000",
+      "b": "delayed_evidence_directed_ppi_calibration_1000",
+      "lo": 20280000,
+      "hi": 20280499,
+      "severity": "NOT_YET_AUDITED"
+    },
+    {
+      "a": "horizon_hedge_development_20282000",
+      "b": "delayed_evidence_directed_ppi_confirmation_1000",
+      "lo": 20282000,
+      "hi": 20282199,
+      "severity": "NOT_YET_AUDITED"
+    },
+    {
+      "a": "late_prior_confirmation_20288000",
+      "b": "delayed_evidence_ppi_markov_smoke_2",
+      "lo": 20289990,
+      "hi": 20289991,
+      "severity": "NOT_YET_AUDITED"
+    },
+    {
+      "a": "start_prior_robust_mix_development_20290000",
+      "b": "delayed_evidence_ppi_markov_calibration_1000",
+      "lo": 20290000,
+      "hi": 20290499,
+      "severity": "NOT_YET_AUDITED"
+    },
+    {
+      "a": "shiftguard_unified_sota_reproductions_anyrank_shiftguard_pilot_v1",
+      "b": "delayed_evidence_ppi_start_mixture_grid_60",
+      "lo": 20310000,
+      "hi": 20310005,
+      "severity": "NOT_YET_AUDITED"
+    },
+    {
+      "a": "hard_budget_smoke",
+      "b": "pprm_paired_smoke3",
+      "lo": 20361022,
+      "hi": 20361022,
+      "severity": "NOT_YET_AUDITED"
+    },
+    {
+      "a": "hard_budget_smoke",
+      "b": "reports_20361022",
+      "lo": 20361022,
+      "hi": 20361022,
+      "severity": "NOT_YET_AUDITED"
+    },
+    {
+      "a": "pprm_paired_smoke3",
+      "b": "reports_20361022",
+      "lo": 20361022,
+      "hi": 20361023,
+      "severity": "NOT_YET_AUDITED"
+    },
+    {
+      "a": "pprm_cm_eb_adaptive_cuda_smoke_2",
+      "b": "evidence_directed_allocation_30",
+      "lo": 20371024,
+      "hi": 20371024,
+      "severity": "NOT_YET_AUDITED"
+    },
+    {
+      "a": "pprm_variance_diagnostic_v1",
+      "b": "evidence_urgency_curve_grid_30",
+      "lo": 20372024,
+      "hi": 20372052,
+      "severity": "NOT_YET_AUDITED"
+    },
+    {
+      "a": "pprm_horizon_corrected_v1_analysis",
+      "b": "pprm_horizon_corrected_v1_n_1600",
+      "lo": 20372123,
+      "hi": 20372123,
+      "severity": "NOT_YET_AUDITED"
+    },
+    {
+      "a": "pprm_block_mixture_independent_v1_block_20",
+      "b": "propensity_floor_diagnostic_qmin020_30",
+      "lo": 20373024,
+      "hi": 20373053,
+      "severity": "NOT_YET_AUDITED"
+    },
+    {
+      "a": "pprm_block_mixture_independent_v1_block_20",
+      "b": "evidence_budget20_comparison_60",
+      "lo": 20373024,
+      "hi": 20373083,
+      "severity": "NOT_YET_AUDITED"
+    },
+    {
+      "a": "pprm_block_mixture_independent_v1_block_20",
+      "b": "gated_wp1_s1_fidelity_replay",
+      "lo": 20373024,
+      "hi": 20373083,
+      "severity": "NOT_YET_AUDITED"
+    },
+    {
+      "a": "pprm_block_mixture_independent_v1_block_20",
+      "b": "pprm_block_mixture_calibration_v1",
+      "lo": 20373123,
+      "hi": 20373123,
+      "severity": "NOT_YET_AUDITED"
+    },
+    {
+      "a": "propensity_floor_diagnostic_qmin020_30",
+      "b": "evidence_budget20_comparison_60",
+      "lo": 20373024,
+      "hi": 20373053,
+      "severity": "NOT_YET_AUDITED"
+    },
+    {
+      "a": "propensity_floor_diagnostic_qmin020_30",
+      "b": "gated_wp1_s1_fidelity_replay",
+      "lo": 20373024,
+      "hi": 20373053,
+      "severity": "NOT_YET_AUDITED"
+    },
+    {
+      "a": "evidence_budget20_comparison_60",
+      "b": "gated_wp1_s1_fidelity_replay",
+      "lo": 20373024,
+      "hi": 20373083,
+      "severity": "NOT_YET_AUDITED"
+    },
+    {
+      "a": "pprm_registered_null_calibration_smoke",
+      "b": "pprm_registered_null_calibration_batched_smoke",
+      "lo": 20374000,
+      "hi": 20374001,
+      "severity": "NOT_YET_AUDITED"
+    },
+    {
+      "a": "pprm_registered_null_calibration_smoke",
+      "b": "pprm_registered_null_calibration_2000_v1",
+      "lo": 20374000,
+      "hi": 20374001,
+      "severity": "NOT_YET_AUDITED"
+    },
+    {
+      "a": "pprm_registered_null_calibration_batched_smoke",
+      "b": "pprm_registered_null_calibration_2000_v1",
+      "lo": 20374000,
+      "hi": 20374003,
+      "severity": "NOT_YET_AUDITED"
+    },
+    {
+      "a": "delayed_ppi_assumption_stress_2000",
+      "b": "persistence_promotion_smoke",
+      "lo": 20401023,
+      "hi": 20401032,
+      "severity": "NOT_YET_AUDITED"
+    },
+    {
+      "a": "delayed_ppi_assumption_stress_2000",
+      "b": "promotion_timing",
+      "lo": 20401023,
+      "hi": 20401999,
+      "severity": "NOT_YET_AUDITED"
+    },
+    {
+      "a": "delayed_ppi_assumption_stress_2000",
+      "b": "prequential_proxy_hedge_development",
+      "lo": 20401024,
+      "hi": 20401123,
+      "severity": "NOT_YET_AUDITED"
+    },
+    {
+      "a": "persistence_promotion_smoke",
+      "b": "promotion_timing",
+      "lo": 20401023,
+      "hi": 20401032,
+      "severity": "NOT_YET_AUDITED"
+    },
+    {
+      "a": "persistence_promotion_smoke",
+      "b": "prequential_proxy_hedge_development",
+      "lo": 20401024,
+      "hi": 20401032,
+      "severity": "NOT_YET_AUDITED"
+    },
+    {
+      "a": "promotion_timing",
+      "b": "prequential_proxy_hedge_development",
+      "lo": 20401024,
+      "hi": 20401123,
+      "severity": "NOT_YET_AUDITED"
+    },
+    {
+      "a": "risk_proxy_monitor_smoke",
+      "b": "risk_proxy_monitor_grid",
+      "lo": 20403024,
+      "hi": 20403025,
+      "severity": "NOT_YET_AUDITED"
+    },
+    {
+      "a": "hedged_betting_comparison_v2_23102026",
+      "b": "promotion_robustness_grid",
+      "lo": 23102026,
+      "hi": 23102026,
+      "severity": "NOT_YET_AUDITED"
+    },
+    {
+      "a": "hedged_betting_comparison_v3_24102026",
+      "b": "budgeted_promotion_grid",
+      "lo": 24102026,
+      "hi": 24102026,
+      "severity": "NOT_YET_AUDITED"
+    },
+    {
+      "a": "history_predictable_bound_smoke",
+      "b": "history_predictable_bound_calibration_2000",
+      "lo": 27102027,
+      "hi": 27102090,
+      "severity": "NOT_YET_AUDITED"
+    },
+    {
+      "a": "predictable_stake_calibration",
+      "b": "exact_mixture_growth_smoke",
+      "lo": 28102026,
+      "hi": 28102026,
+      "severity": "NOT_YET_AUDITED"
+    },
+    {
+      "a": "cost_neutral_growth_grid_smoke",
+      "b": "cost_neutral_growth_grid_development",
+      "lo": 28402026,
+      "hi": 28402026,
+      "severity": "NOT_YET_AUDITED"
+    },
+    {
+      "a": "robust_growth_grid_smoke",
+      "b": "robust_growth_grid_development",
+      "lo": 28602026,
+      "hi": 28602026,
+      "severity": "NOT_YET_AUDITED"
+    },
+    {
+      "a": "budget_frontier_smoke",
+      "b": "budget_frontier_60",
+      "lo": 28802026,
+      "hi": 28802026,
+      "severity": "NOT_YET_AUDITED"
+    },
+    {
+      "a": "shiftguard_unified_sota_reproductions_comparecast_paired_cost_smoke",
+      "b": "shiftguard_unified_sota_reproductions_comparecast_paired_cost_dev_v1",
+      "lo": 30325000,
+      "hi": 30325001,
+      "severity": "NOT_YET_AUDITED"
+    },
+    {
+      "a": "residual_variance_start_prior_smoke",
+      "b": "residual_variance_start_prior",
+      "lo": 31202026,
+      "hi": 31202028,
+      "severity": "NOT_YET_AUDITED"
+    },
+    {
+      "a": "residual_variance_context_isolated_smoke_2",
+      "b": "residual_variance_context_grid_60",
+      "lo": 31305000,
+      "hi": 31305001,
+      "severity": "NOT_YET_AUDITED"
+    },
+    {
+      "a": "closed_loop_intervention_smoke",
+      "b": "closed_loop_intervention",
+      "lo": 31404026,
+      "hi": 31404030,
+      "severity": "NOT_YET_AUDITED"
+    },
+    {
+      "a": "harm_power_grid_30",
+      "b": "policy_bound_null_calibration_500",
+      "lo": 54000000,
+      "hi": 54000029,
+      "severity": "NOT_YET_AUDITED"
+    },
+    {
+      "a": "fixed_dollar_horizon_grid_smoke_horizon_1000_stationary",
+      "b": "propensity_floor_bound_development_60",
+      "lo": 56000000,
+      "hi": 56000000,
+      "severity": "NOT_YET_AUDITED"
+    },
+    {
+      "a": "nested_candidate_context_development_200",
+      "b": "nested_candidate_context_development_200_v2",
+      "lo": 1124202026,
+      "hi": 1124202225,
+      "severity": "NOT_YET_AUDITED"
+    },
+    {
+      "a": "shiftguard_unified_sota_reproductions_ppe_paired_cost_smoke_v1",
+      "b": "shiftguard_unified_sota_reproductions_mope_gated_null_smoke_30",
+      "lo": 2026102600,
+      "hi": 2026102601,
+      "severity": "NOT_YET_AUDITED"
+    },
+    {
+      "a": "integrated_null_q2_candidate_null",
+      "b": "integrated_null_q3_rollback_null",
+      "lo": 2026115000,
+      "hi": 2026115088,
+      "severity": "NOT_YET_AUDITED"
+    },
+    {
+      "a": "integrated_null_q3_rollback_null",
+      "b": "shiftguard_unified_integrated_development_fixed_candidate_null_pilot_v1",
+      "lo": 2026116000,
+      "hi": 2026116000,
+      "severity": "NOT_YET_AUDITED"
+    },
+    {
+      "a": "integrated_null_q3_rollback_null",
+      "b": "shiftguard_unified_integrated_development_fixed_candidate_null_calibration_v1",
+      "lo": 2026116000,
+      "hi": 2026116265,
+      "severity": "NOT_YET_AUDITED"
+    },
+    {
+      "a": "shiftguard_unified_integrated_development_fixed_candidate_null_pilot_v1",
+      "b": "shiftguard_unified_integrated_development_fixed_candidate_null_calibration_v1",
+      "lo": 2026116000,
+      "hi": 2026116000,
+      "severity": "NOT_YET_AUDITED"
+    },
+    {
+      "a": "shiftguard_unified_sota_reproductions_mope_gated_calibration_smoke_20261026",
+      "b": "shiftguard_unified_sota_reproductions_mope_gated_calibration_v1",
+      "lo": 2040000000,
+      "hi": 2040000001,
+      "severity": "NOT_YET_AUDITED"
+    }
+  ]
+}

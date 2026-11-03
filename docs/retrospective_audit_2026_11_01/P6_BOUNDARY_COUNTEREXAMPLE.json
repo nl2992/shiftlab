@@ -1,0 +1,38 @@
+{
+  "status": "EXACT_MATHEMATICAL_COUNTEREXAMPLE_NOT_ARCHIVED_SIMULATION_RATE",
+  "source_sha256": "9ce0e1c5d7e28a18081543042612f37ed75faf78562e054a087019d2662a58f4",
+  "batch_size": 25,
+  "strict_mean_threshold": "3/10",
+  "conditional_null": "At each queried disagreement, D is independently +1 or -1 with equal probability; E[D_t | past]=0; first 25 labels are eventually released and eligible for one batch.",
+  "one_batch_false_promotion_probability_fraction": "1807781/33554432",
+  "one_batch_false_promotion_probability": 0.05387607216835022,
+  "exceeds_alpha_0_05": true,
+  "two_independent_batch_opportunities_probability": 0.10484951318441116,
+  "illustrative_fair_coin_calibration": [
+    {
+      "max_independent_batches": 1,
+      "minimum_positive_count_for_fire": 18,
+      "strict_threshold_fraction": "9/25",
+      "one_batch_probability_fraction": "363103/16777216",
+      "familywise_probability": 0.021642625331878662,
+      "hoeffding_union_threshold": 0.4895493661361633
+    },
+    {
+      "max_independent_batches": 8,
+      "minimum_positive_count_for_fire": 20,
+      "strict_threshold_fraction": "13/25",
+      "one_batch_probability_fraction": "34203/16777216",
+      "familywise_probability": 0.016193363096034245,
+      "hoeffding_union_threshold": 0.6371922042984409
+    },
+    {
+      "max_independent_batches": 16,
+      "minimum_positive_count_for_fire": 20,
+      "strict_threshold_fraction": "13/25",
+      "one_batch_probability_fraction": "34203/16777216",
+      "familywise_probability": 0.032124501183708486,
+      "hoeffding_union_threshold": 0.6793126523652432
+    }
+  ],
+  "limitations": "Exact thresholds assume iid symmetric +/-1 eligible labels and a fixed maximum number of independent batch opportunities. They are not valid calibration for every conditional-null/selective-query/delay law. Hoeffding union thresholds require bounded conditionally mean-zero batch increments and predictable sampling; neither condition is established for archived P6. This is not the empirical false-promotion rate or a cost replay."
+}

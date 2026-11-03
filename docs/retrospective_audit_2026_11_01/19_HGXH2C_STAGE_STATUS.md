@@ -1,0 +1,10 @@
+# HGxH2c stage-status audit — partial, 2026-11-01
+
+The all-worktree exact-path locator found `outputs/hgxh2c/stage4_smoke/confirmation.json` in the dirty main worktree. Its SHA-256 is a76457533717bf85b83e65977e3e122c574ba44c0e6d6c6ed86dce9ed77beab8. This is an actual stage-4 smoke artifact, not a registered full confirmation. A local untracked `docs/hgxh2c/FINAL_REPORT.md` also exists; its existence alone does not establish completion. The report records dirty code and reduced native reproductions. Full confirmation status remains unresolved pending manifest/config/seed/freeze reconciliation and broader alternate-path search. Do not conclude stage 4 never ran merely from main Git contents.
+
+`HG_ATLAS_LOCAL_OUTPUT_LOCATORS.json` records 124 metadata locators across 20 worktrees. This search used exact `outputs/hgxh2c`, `outputs/failure_atlas_v1`, and report paths; Atlas suffixed cycle directories and remote artifacts remain unsearched. An output-print encoding failure occurred after the file was successfully written; the saved locator file was subsequently read successfully. No output contents were changed.
+
+At base e74fdc3, grammar.py COMBS excludes prod, compile rejects it as INVALID:product_cross_term, and engines.py contains the linear-vector implementation. stats.frontier filters track eligibility and DIFFERENT_NULL/INVALID entries. These are source observations, not independent theorem certification. Existing PROTOCOL Amendments A3–A5 preserve the original errors and repair chronology. Tests are being checked in the repository virtual environment; no phase gate is signed.
+
+
+Subsequent deeper exact-path check found 3,159 full-run parquet shards under stage4/shards and no stage4/confirmation.json. All three current FREEZE hashes match their files; all differ from the smoke confirmation hashes. See HGXH2C_FREEZE_RECONCILIATION.json for exact hashes and current sample-size plan. This establishes partial full-run artifacts, not completion or a terminal job outcome. The run may belong to another active task; the audit neither launches a duplicate run nor changes its state.

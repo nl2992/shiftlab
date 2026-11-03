@@ -1,0 +1,150 @@
+{
+  "status": "ARCHIVED_EXPOSED_GATE_ARITHMETIC_ONLY",
+  "rounds": {
+    "b1": {
+      "source_sha256": "0062aec5eeba38caf93cdc69d307c9b957928ba0450b9911447566fc010a562e",
+      "candidate": "P3",
+      "settings": [
+        {
+          "setting": "B200_cs5",
+          "selected_best": "P2",
+          "relative_reduction_percent": 3.3470466855910326,
+          "percentage_points_from_10_percent": -6.652953314408968,
+          "paired_mean_cost_difference": -11.48705000000001,
+          "stored_paired_interval": [
+            -13.153932499999994,
+            -9.858823749999996
+          ],
+          "maximum_world_worsening_percent": 0.1303409151807816,
+          "passes_10pct": false,
+          "passes_stored_ci": true,
+          "passes_world_rule": true,
+          "all_three": false
+        },
+        {
+          "setting": "B200_cs20",
+          "selected_best": "P0",
+          "relative_reduction_percent": 3.50196519455642,
+          "percentage_points_from_10_percent": -6.498034805443581,
+          "paired_mean_cost_difference": -12.175475000000006,
+          "stored_paired_interval": [
+            -12.783428749999993,
+            -11.565193749999995
+          ],
+          "maximum_world_worsening_percent": 5.012595722472574,
+          "passes_10pct": false,
+          "passes_stored_ci": true,
+          "passes_world_rule": true,
+          "all_three": false
+        },
+        {
+          "setting": "B400_cs5",
+          "selected_best": "P2",
+          "relative_reduction_percent": 0.14318126037088497,
+          "percentage_points_from_10_percent": -9.856818739629116,
+          "paired_mean_cost_difference": -0.487700000000018,
+          "stored_paired_interval": [
+            -2.164483124999992,
+            1.0836837500000083
+          ],
+          "maximum_world_worsening_percent": 13.804364781247322,
+          "passes_10pct": false,
+          "passes_stored_ci": false,
+          "passes_world_rule": false,
+          "all_three": false
+        },
+        {
+          "setting": "B400_cs20",
+          "selected_best": "P0",
+          "relative_reduction_percent": 1.065936483876493,
+          "percentage_points_from_10_percent": -8.934063516123507,
+          "paired_mean_cost_difference": -3.7060000000000173,
+          "stored_paired_interval": [
+            -4.249776874999994,
+            -3.099838124999994
+          ],
+          "maximum_world_worsening_percent": 10.004767305318294,
+          "passes_10pct": false,
+          "passes_stored_ci": true,
+          "passes_world_rule": false,
+          "all_three": false
+        }
+      ],
+      "registered_verdict": "MIXED",
+      "gate_arithmetic_mismatches": 0
+    },
+    "b2": {
+      "source_sha256": "4af87b4fad2d9ca2ac5cfe32616728ba1fea0f0a3d98db06d38cbede2441b488",
+      "candidate": "P3b",
+      "settings": [
+        {
+          "setting": "B200_cs5",
+          "selected_best": "P2",
+          "relative_reduction_percent": 10.201744757760794,
+          "percentage_points_from_10_percent": 0.20174475776079392,
+          "paired_mean_cost_difference": -35.042449999999974,
+          "stored_paired_interval": [
+            -36.80917375,
+            -33.39690437499999
+          ],
+          "maximum_world_worsening_percent": 0.12849295300952693,
+          "passes_10pct": true,
+          "passes_stored_ci": true,
+          "passes_world_rule": true,
+          "all_three": true
+        },
+        {
+          "setting": "B200_cs20",
+          "selected_best": "P0",
+          "relative_reduction_percent": 9.645004086283913,
+          "percentage_points_from_10_percent": -0.35499591371608713,
+          "paired_mean_cost_difference": -33.51677500000005,
+          "stored_paired_interval": [
+            -34.250325625,
+            -32.76217187499999
+          ],
+          "maximum_world_worsening_percent": 9.649305014626716,
+          "passes_10pct": false,
+          "passes_stored_ci": true,
+          "passes_world_rule": true,
+          "all_three": false
+        },
+        {
+          "setting": "B400_cs5",
+          "selected_best": "P2",
+          "relative_reduction_percent": 7.876903246148212,
+          "percentage_points_from_10_percent": -2.1230967538517884,
+          "paired_mean_cost_difference": -26.90612500000003,
+          "stored_paired_interval": [
+            -28.621204999999996,
+            -25.299786875
+          ],
+          "maximum_world_worsening_percent": 0.15222851476107183,
+          "passes_10pct": false,
+          "passes_stored_ci": true,
+          "passes_world_rule": true,
+          "all_three": false
+        },
+        {
+          "setting": "B400_cs20",
+          "selected_best": "P0",
+          "relative_reduction_percent": 7.67260232975737,
+          "percentage_points_from_10_percent": -2.32739767024263,
+          "paired_mean_cost_difference": -26.662600000000054,
+          "stored_paired_interval": [
+            -27.357773749999996,
+            -25.964155624999997
+          ],
+          "maximum_world_worsening_percent": 14.28614702878606,
+          "passes_10pct": false,
+          "passes_stored_ci": true,
+          "passes_world_rule": false,
+          "all_three": false
+        }
+      ],
+      "registered_verdict": "MIXED",
+      "gate_arithmetic_mismatches": 0
+    }
+  },
+  "limitations": "B1 uses archived summary arithmetic only; B2 raw seed/bootstrap arithmetic is separately checked in B2_RECOMPUTATION.json. Stored intervals here are not independently recomputed, and BEST is selected on evaluation seeds. P5 is oracle headroom, not an eligible deployable BEST."
+}

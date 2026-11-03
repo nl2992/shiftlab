@@ -1,0 +1,517 @@
+{
+  "scope": "Worktree byte hashes; excludes self hash",
+  "artifacts": {
+    "docs/retrospective_audit_2026_11_01/01_SOURCE_CATALOG.csv": {
+      "sha256": "d6b0f6031135c696a51178e4bb9b00f69246dfa808ef74bbb0278787db936ea8",
+      "bytes": 14718133
+    },
+    "docs/retrospective_audit_2026_11_01/01a_LOCAL_MAIN_DELTA_CATALOG.csv": {
+      "sha256": "b11a3668b9121d89c574092c3190d10400019fc8d228b5d95002a0fb5e40c9ba",
+      "bytes": 7191
+    },
+    "docs/retrospective_audit_2026_11_01/03_CLAIM_MASTER_LEDGER.csv": {
+      "sha256": "ae535d5f0dfce8307f9afc136780a2bac63506fa2e51649353c541ea62406dc0",
+      "bytes": 66302
+    },
+    "docs/retrospective_audit_2026_11_01/04_GATE_AND_THRESHOLD_AUDIT.csv": {
+      "sha256": "8e98ee92ce5d104206dda62054f3b8a3cdf9369c52ed0fcb5803b339de425443",
+      "bytes": 12691
+    },
+    "docs/retrospective_audit_2026_11_01/05_BENCHMARK_INFORMATION_AUDIT.csv": {
+      "sha256": "8aae1ff574cd7c7bd5c68803f02c551716a352ff5dcd25e41fe9dc1c331cfdf8",
+      "bytes": 3805
+    },
+    "docs/retrospective_audit_2026_11_01/07_VALIDITY_AND_ESTIMAND_AUDIT.md": {
+      "sha256": "9b4ec7140345b25d495b7e2e3c760faf9f0a45af2001f02ea9ab9b49f37acf09",
+      "bytes": 3065
+    },
+    "docs/retrospective_audit_2026_11_01/08_REPRODUCIBILITY_AND_CODE_DEFECTS.md": {
+      "sha256": "f9fec9c957bde8e3f066e18a1c9b571663129ba952a399a3e67c1c782be0f00a",
+      "bytes": 2394
+    },
+    "docs/retrospective_audit_2026_11_01/16_RUNBOOK.md": {
+      "sha256": "3f0d59489a55c8a12b7252ccc34b65ef97b8efdd33a0e84374acc55f591899f8",
+      "bytes": 1172
+    },
+    "docs/retrospective_audit_2026_11_01/17_B3_RECOMPUTATION.md": {
+      "sha256": "6987afc762c85c78e5eff9a1bca287441c33efb08821611d47b4f3d52af1420a",
+      "bytes": 3187
+    },
+    "docs/retrospective_audit_2026_11_01/19_HGXH2C_STAGE_STATUS.md": {
+      "sha256": "8c6b38313bb0365574c525a3f2c061599d1b800a0d1dbcd2e152df87cd72aeeb",
+      "bytes": 2123
+    },
+    "docs/retrospective_audit_2026_11_01/20_DEFECT_REGISTER.csv": {
+      "sha256": "9701e34f1fa9b72c0bd25dde4da6588cca1ed7dcde6432f6cce15f7160f8f4d0",
+      "bytes": 819
+    },
+    "docs/retrospective_audit_2026_11_01/21_A1D_ARITHMETIC_AUDIT.md": {
+      "sha256": "392293a4da5d805ed37d6d8f6d01b9da4acfc4ed8501639fb91ce89bee259795",
+      "bytes": 1148
+    },
+    "docs/retrospective_audit_2026_11_01/22_B2_RECOMPUTATION.md": {
+      "sha256": "89b134d239795aece13d944aa6f758f2a5784acd436194954dee52183be292e3",
+      "bytes": 1517
+    },
+    "docs/retrospective_audit_2026_11_01/23_ATLAS_CYCLE5_STATUS.md": {
+      "sha256": "dd6f0c54ea1f06725a21f30aa8bdd8044c4ef3e0184a3a2ce90938bdb83a0145",
+      "bytes": 1533
+    },
+    "docs/retrospective_audit_2026_11_01/24_HGXH2C_SEED_SCOPE.md": {
+      "sha256": "0e73a397049971afa2b7f0ea73ada91d6bf769b088d193d009d1891f7ab3946c",
+      "bytes": 1092
+    },
+    "docs/retrospective_audit_2026_11_01/25_ATLAS_FAMILY34_RECONCILIATION.md": {
+      "sha256": "3a5ffb8ed67c79155924df8074470445845e2ca9996c51652eb6a6d6e4c38cd6",
+      "bytes": 1319
+    },
+    "docs/retrospective_audit_2026_11_01/26_WP3_COMPARATOR_SCOPE.md": {
+      "sha256": "d66087723f1758e98630be11d877733285b9f71b1e9d1d40152956242e84a84e",
+      "bytes": 3831
+    },
+    "docs/retrospective_audit_2026_11_01/27_GATE_CHRONOLOGY_WP2_WP3_ATLAS.md": {
+      "sha256": "a402f187c78746e5f673403974b3c9a2491880e9f45f420704dc861a87ede90c",
+      "bytes": 4201
+    },
+    "docs/retrospective_audit_2026_11_01/28_ATLAS_MECHCHECK_REPLAY_LIMIT.md": {
+      "sha256": "5a3e7c2c90b8437f0da4cfb4c4c571357b01d5d25739fc5e6806dc26eee8ebd8",
+      "bytes": 1839
+    },
+    "docs/retrospective_audit_2026_11_01/29_B1B2_GATE_INTERPRETATION.md": {
+      "sha256": "82e96e29228e7e10d8f018533e7921ec67846b83a790c2641c0797ec9e26380e",
+      "bytes": 1922
+    },
+    "docs/retrospective_audit_2026_11_01/30_B2_DISJOINT_SELECTION.md": {
+      "sha256": "4506fbf566479c87428e084125856f7acc30a4185ede6ab6cf6382f8f62a9d57",
+      "bytes": 1631
+    },
+    "docs/retrospective_audit_2026_11_01/31_P6_BATCH_VALIDITY_SCOPE.md": {
+      "sha256": "dffd4eb4b8a180273c3725238161997c8e56fe37bb6737bff9fe126a745e2605",
+      "bytes": 3221
+    },
+    "docs/retrospective_audit_2026_11_01/32_WP3_REGISTRATION_CHRONOLOGY.md": {
+      "sha256": "fe7d2deb85f158560631fcc4d29e164ef44a835c8dbe1adcd5353434a5b87a00",
+      "bytes": 4081
+    },
+    "docs/retrospective_audit_2026_11_01/33_H2C_COMPARATOR_SELECTION.md": {
+      "sha256": "d2a422719811cb11507eba6ac4f085c003190e910e5a0a26ee9294c767a53894",
+      "bytes": 1902
+    },
+    "docs/retrospective_audit_2026_11_01/34_H2C_G5_SOURCE_CONTRACT.md": {
+      "sha256": "ee2ba966519cfb8f8e7e118c7d561c0e4dad3cbd54a555a44c819b43439ec813",
+      "bytes": 3380
+    },
+    "docs/retrospective_audit_2026_11_01/35_H2C_G5_NOMINAL_AND_BUDGET.md": {
+      "sha256": "8ff5dadfb323a903b58455f384c166a982b4c5fd2314f518afffa31f713fc4dc",
+      "bytes": 2749
+    },
+    "docs/retrospective_audit_2026_11_01/36_TWO_REAL_TASK_AGGREGATES.md": {
+      "sha256": "c8f6df4f7013abae99a0a7b0432c39b4e7f41994fc9c494925826cee8d318510",
+      "bytes": 3695
+    },
+    "docs/retrospective_audit_2026_11_01/37_UPWORTHY_FREEZE_CHRONOLOGY.md": {
+      "sha256": "4280a202e17a34e9215cdcb21ece842bbf77d165a3593f99b48ee565ada61a40",
+      "bytes": 1916
+    },
+    "docs/retrospective_audit_2026_11_01/38_INTEGRATED_EFFICACY_SCOPE.md": {
+      "sha256": "f501a918af35ca52a6559236ae058b4dbf0be697cb1335b25add037185f67a8f",
+      "bytes": 3835
+    },
+    "docs/retrospective_audit_2026_11_01/39_INTEGRATED_CAUSAL_ORDER_AND_FREEZE.md": {
+      "sha256": "3af40c3a4aeab5607f63a2db3c6ceba3fc3bd8d2caded6e6d5177cbbf520f8e6",
+      "bytes": 3864
+    },
+    "docs/retrospective_audit_2026_11_01/40_B1_P4_PERSISTENCE_GATE.md": {
+      "sha256": "78978353502f9068ad19391792e43ece28140886b780f55563c8c28424043a93",
+      "bytes": 2020
+    },
+    "docs/retrospective_audit_2026_11_01/41_INTEGRATED_NULL_CALIBRATION_SCOPE.md": {
+      "sha256": "b3e9a9548ce19c18b9cbd07f3d8e6ce13f86bef3817d1c3b31a7f3207373f543",
+      "bytes": 3327
+    },
+    "docs/retrospective_audit_2026_11_01/42_A2_A3C_CALENDAR_SCOPE.md": {
+      "sha256": "831317106cfbe9ec279d32eac753c96ae2dbbcb9439be235d14557be6d31a375",
+      "bytes": 2423
+    },
+    "docs/retrospective_audit_2026_11_01/43_HG_E15_COMPARATOR_AND_VALIDITY.md": {
+      "sha256": "77886f9a5b59f1f85ed6340c0cee97c55e61f8982b845488deaefb17476e11bd",
+      "bytes": 3306
+    },
+    "docs/retrospective_audit_2026_11_01/44_ATLAS_CYCLE7_LOCAL_MAIN_UPDATE.md": {
+      "sha256": "fcc1e6c24b58dafb014438e58857cd4cc4f97ba09f9b22c8a46418fc1a9ba8a7",
+      "bytes": 3352
+    },
+    "docs/retrospective_audit_2026_11_01/A1B_GATE_RECOMPUTATION.json": {
+      "sha256": "6190dfd4d04fecb1a1a8b725a7848ddac9e7bd333b33ada2e002e4149a4dfd9a",
+      "bytes": 1618
+    },
+    "docs/retrospective_audit_2026_11_01/A1D_BOUND_RECOMPUTATION.json": {
+      "sha256": "a5322efe26af482ef0016a86794160fdadad06ccbeb45ba9c2b009fbb23a16be",
+      "bytes": 8547
+    },
+    "docs/retrospective_audit_2026_11_01/A2_A3C_ARCHIVE_CHECK.json": {
+      "sha256": "0a7775f081af329d50ddd1d1b595f347b6a04b9c88362a535a6aa52e30420268",
+      "bytes": 1560
+    },
+    "docs/retrospective_audit_2026_11_01/ATLAS_CYCLE5_ARITHMETIC.json": {
+      "sha256": "af8ce48736cd2dd5ec604807cefb45eef5b523cf8c2445caeb756978d9329bf9",
+      "bytes": 1212
+    },
+    "docs/retrospective_audit_2026_11_01/ATLAS_CYCLE7_RAW_AUDIT.json": {
+      "sha256": "7e7a25053591ab8798773b55f47d141889e4d7c134560f62a983c88e8f411239",
+      "bytes": 5354
+    },
+    "docs/retrospective_audit_2026_11_01/ATLAS_FAMILY34_COUNTS.json": {
+      "sha256": "b43c778c0b05440785293e6bc89ba9089bd04b831939c7b4ca817e2eadb13d53",
+      "bytes": 4981
+    },
+    "docs/retrospective_audit_2026_11_01/ATLAS_MECHCHECK_PROVENANCE.json": {
+      "sha256": "faec8b01224a431400d38880104ac38966bf6d1235d4f8deb864744d0cae53f0",
+      "bytes": 5769
+    },
+    "docs/retrospective_audit_2026_11_01/B1B2_GATE_RECONCILIATION.json": {
+      "sha256": "8193ba2c22e7f9bae37c30083fb7cdc965ca5b9d4ff49a643f9570a36fadb61a",
+      "bytes": 5706
+    },
+    "docs/retrospective_audit_2026_11_01/B1_P4_PAIRED_AUDIT.json": {
+      "sha256": "de38de6ac07a5681970925e9ea7f6612134fe14f9278fcb9e71dd7aec4fceef3",
+      "bytes": 1738
+    },
+    "docs/retrospective_audit_2026_11_01/B2_DISJOINT_SELECTION_DIAGNOSTIC.json": {
+      "sha256": "0061159da14bea27e8be416f5d591d1ab345184e4c6717ce732b4440c7dfb347",
+      "bytes": 5802
+    },
+    "docs/retrospective_audit_2026_11_01/B2_RECOMPUTATION.json": {
+      "sha256": "1035449d65ad18350c37dc091e7d0f8a68c2d6a8756277bd30276762a770ff44",
+      "bytes": 4583
+    },
+    "docs/retrospective_audit_2026_11_01/B3_EPISODE_RECOMPUTATION.json": {
+      "sha256": "4819a104e306c898bc2353aa63ac05ec2c51816278a6d5e8692dd46216d3a0ae",
+      "bytes": 23035
+    },
+    "docs/retrospective_audit_2026_11_01/B3_SUMMARY_ARITHMETIC.json": {
+      "sha256": "633f1f6076b794fa0042acbdd842814a01099c7b69a6ab5fdf78fb3080fabf5d",
+      "bytes": 3541
+    },
+    "docs/retrospective_audit_2026_11_01/BRANCH_COVERAGE.json": {
+      "sha256": "aa913575d01be982a34ed57b812cb6562bc341ac910473cf18c57748458ff412",
+      "bytes": 6443
+    },
+    "docs/retrospective_audit_2026_11_01/CLAIM_LEDGER_COVERAGE.md": {
+      "sha256": "ebcb2e66cd761c527eec7b1177649edccce589b37b2482877036ccdf64865c25",
+      "bytes": 1546
+    },
+    "docs/retrospective_audit_2026_11_01/DECISION_CANDIDATES.csv": {
+      "sha256": "20fe596294e2024d768521e789da7d0dc14af13d10b42d31e7dd35ef8096cef3",
+      "bytes": 945776
+    },
+    "docs/retrospective_audit_2026_11_01/EIA_2026_FULL_REPLAY.json": {
+      "sha256": "0fea49d9d500a4ff82ec3c62a2b29ccd58f04b82f07c308fd46c7801e8cb4478",
+      "bytes": 1959
+    },
+    "docs/retrospective_audit_2026_11_01/EXECUTION_LOG.jsonl": {
+      "sha256": "a5c8b9154322cd990375901831736d17145b28dd5308d98fc38011d74658cf4a",
+      "bytes": 26101
+    },
+    "docs/retrospective_audit_2026_11_01/H2C_DISJOINT_SELECTION.json": {
+      "sha256": "f82977567401276606c84514308c08d8e0e887dd9187ea15af4b1858552a10cf",
+      "bytes": 9246
+    },
+    "docs/retrospective_audit_2026_11_01/H2C_G5_QUERY_COUNTS.json": {
+      "sha256": "59be7ea46550a622bde4f1e52fc238c9714fc3a72f82f1af8da35b52f426e2a1",
+      "bytes": 18646
+    },
+    "docs/retrospective_audit_2026_11_01/HGXH2C_FREEZE_RECONCILIATION.json": {
+      "sha256": "5fac28b6edf2d90e7593de1539a26377a44e36c7d124e23bccd8067a351687d6",
+      "bytes": 4193
+    },
+    "docs/retrospective_audit_2026_11_01/HGXH2C_SEED_KEY_AUDIT.json": {
+      "sha256": "d6bc661c15cf3d272d05643af0dc6ffb023eac2f16563de4e020f7fd3e70bebe",
+      "bytes": 690
+    },
+    "docs/retrospective_audit_2026_11_01/HG_ATLAS_LOCAL_OUTPUT_LOCATORS.json": {
+      "sha256": "bdaf55ef694f2956b11f45a48b0ae9e38fb89600b0c503571e04d27f8e28e47d",
+      "bytes": 34997
+    },
+    "docs/retrospective_audit_2026_11_01/HG_E14_DEPENDENCE_AUDIT.json": {
+      "sha256": "de12a4fa99f9570ec8032b8304f329a128052428ff0850f158e5a58eb75fbe47",
+      "bytes": 520
+    },
+    "docs/retrospective_audit_2026_11_01/HG_E15_ARCHIVE_AUDIT.json": {
+      "sha256": "7d574d8c3df299e74462f641e49bbbadad3a19e774a5eb642430f3f62a6e8819",
+      "bytes": 1056
+    },
+    "docs/retrospective_audit_2026_11_01/HG_E15_BOOTSTRAP_REPLAY.json": {
+      "sha256": "3827b336fdf2791cf06633a1d9de6cef3bd2562b92d96b84d7742b3bcc5dc89d",
+      "bytes": 736
+    },
+    "docs/retrospective_audit_2026_11_01/INITIAL_SNAPSHOT.json": {
+      "sha256": "d141d22f63c8b8773ea0ecefa7361737b63292c5256401b3e14a000be54eb6ba",
+      "bytes": 8795
+    },
+    "docs/retrospective_audit_2026_11_01/INTEGRATED_EFFICACY_SEED_AUDIT.json": {
+      "sha256": "e42d9af045dc59e788e8dc4de514a5965ed2c9c169db393f0f3b0da1573af3c0",
+      "bytes": 4481
+    },
+    "docs/retrospective_audit_2026_11_01/INTEGRATED_EVENT_LOG_AUDIT.json": {
+      "sha256": "286ac88e084b50e2d05e0ba129d2ab3371f09a50fdc75c2582a79af9650b7eeb",
+      "bytes": 381
+    },
+    "docs/retrospective_audit_2026_11_01/INTEGRATED_INFERENCE_RECOMPUTATION.json": {
+      "sha256": "0fcd0a7c7ff017368acdda0292eaf7cfa533cad14e93ea389a596f5dfdefa8c0",
+      "bytes": 306
+    },
+    "docs/retrospective_audit_2026_11_01/INTEGRATED_NULL_CALIBRATION_AUDIT.json": {
+      "sha256": "6bbef128e023c2838dd040f0d64df9476a2e1cc0461cc9062f16ca2d802d4dc2",
+      "bytes": 2399
+    },
+    "docs/retrospective_audit_2026_11_01/INTEGRATED_UNQUERIED_PROBE.json": {
+      "sha256": "384974590fa97031d5c92b6083ceb6acefa1238998b3f68e52a11662241fff57",
+      "bytes": 582
+    },
+    "docs/retrospective_audit_2026_11_01/P6_BOUNDARY_COUNTEREXAMPLE.json": {
+      "sha256": "00b29eba2d2f758bb750f9fe448bb511019b9eff7cc2f5ed3fd56bc71ffb6e39",
+      "bytes": 2104
+    },
+    "docs/retrospective_audit_2026_11_01/PR_CENSUS.json": {
+      "sha256": "bab114f53cf09ce272f85b433633a66645d583d04f07d37879e441034d56b072",
+      "bytes": 11114
+    },
+    "docs/retrospective_audit_2026_11_01/SEED_REGISTRY_CHECK.json": {
+      "sha256": "d8d1d0fa51398907d2b187c13a115d629e3428213fc3dbaa11f35a9a70d997d6",
+      "bytes": 21144
+    },
+    "docs/retrospective_audit_2026_11_01/SHIFT_LAB_EXECUTION_TODO.md": {
+      "sha256": "37315219ae36d097c8e60a0a51ffbaeccce39d01050a17085150229270614448",
+      "bytes": 49703
+    },
+    "docs/retrospective_audit_2026_11_01/SHIFT_LAB_FULL_RESEARCH_AUDIT_GOAL.md": {
+      "sha256": "aedc7ceea15f109b4452e77106c6d948bd79304ce9559664e05c2403c1c02c0a",
+      "bytes": 58900
+    },
+    "docs/retrospective_audit_2026_11_01/STATE.json": {
+      "sha256": "9388d42b5fbfeac47ad98d1401559f263c04b151c535c7c7be343c0896f8e4a6",
+      "bytes": 20705
+    },
+    "docs/retrospective_audit_2026_11_01/TASKS.md": {
+      "sha256": "115844c6f0d58cdd83f42f252c862369de4096f0d28cea65c55e94ee1edac9e9",
+      "bytes": 63624
+    },
+    "docs/retrospective_audit_2026_11_01/TASK_REGISTRY.json": {
+      "sha256": "7cbeb40bb37fe0d7fcc58724a2e4023a6d2137780861c63428284f8f7ba11c52",
+      "bytes": 93943
+    },
+    "docs/retrospective_audit_2026_11_01/TWO_REAL_TASK_AGGREGATES.json": {
+      "sha256": "05eef224a2abd233376640fdd43f2cfb109de3cafe7b114bbbdba4b2da3b8b78",
+      "bytes": 909
+    },
+    "docs/retrospective_audit_2026_11_01/UPWORTHY_FULL_REPLAY.json": {
+      "sha256": "cca87815f4bdcad0c5c3c33cf0338a4a9717cfa17674a21f6ed919dae4784418",
+      "bytes": 1644
+    },
+    "docs/retrospective_audit_2026_11_01/UPWORTHY_WEEK_BOOTSTRAP.json": {
+      "sha256": "4e6d4f64541224d588f1d97b47a57814a2eef8f3b940823ed301a7b5fe355154",
+      "bytes": 588
+    },
+    "docs/retrospective_audit_2026_11_01/WORKSPACE_SNAPSHOT.json": {
+      "sha256": "3be4cf08a385e1e33efb6bb253cacfff2b44540eff2cfb89cd83d8531c8a14dd",
+      "bytes": 25798
+    },
+    "docs/retrospective_audit_2026_11_01/WP2_RAW_RECOMPUTATION.json": {
+      "sha256": "df66bf6d380a2b5c6cbd93535d1580375c310c9a6a07e8b98b15b9a908c11138",
+      "bytes": 903
+    },
+    "docs/retrospective_audit_2026_11_01/WP3_PAIRED_COMPARATOR_AUDIT.json": {
+      "sha256": "94bc0a0aef2047062c0ddbe62bcef3fda9b45b78922b62c898cd5213028fa2fa",
+      "bytes": 2449
+    },
+    "docs/retrospective_audit_2026_11_01/WP3_PATH_RECOMPUTATION.json": {
+      "sha256": "d4f7fce49a0bdec29c7f0a706ae9e0fba8703a64a4a32c97a72eec9ed0417ebf",
+      "bytes": 6400
+    },
+    "docs/retrospective_audit_2026_11_01/WP3_SOURCE_PROVENANCE.json": {
+      "sha256": "4cbd36c8a23d9e1fe1aedba201479f60f8cea6d8a3c70fa205a7f0228adc4932",
+      "bytes": 1362
+    },
+    "scripts/retrospective_audit/audit_a2_a3c_archive.py": {
+      "sha256": "574dd82266795714616311929e0d00d833ec3a7407c9a3f9e29d1ffe7015d18d",
+      "bytes": 4230
+    },
+    "scripts/retrospective_audit/audit_atlas_cycle5.py": {
+      "sha256": "4600fda5c54866f1b50347b679540884bd3c08ce12aa33fcfa1e1c3e5eace45a",
+      "bytes": 2152
+    },
+    "scripts/retrospective_audit/audit_atlas_cycle7_raw.py": {
+      "sha256": "24484213a306f6796141bc8db40b5faf8421da7a51999ccd169ff1f3d5961ac7",
+      "bytes": 7176
+    },
+    "scripts/retrospective_audit/audit_atlas_family34.py": {
+      "sha256": "21ec97f038f85c0481e1cd714c5e37fbc57494ccda50c66f4ba300011accc43f",
+      "bytes": 3977
+    },
+    "scripts/retrospective_audit/audit_atlas_mech_provenance.py": {
+      "sha256": "0b23890b08af5adc02f75475e8e7b9c49bfd1118db9a0e9e757cb427bd457f62",
+      "bytes": 3965
+    },
+    "scripts/retrospective_audit/audit_b1_p4.py": {
+      "sha256": "1d9e79a8fd9ffc5db436ee31a6e97fee6a51c1a319c7925aec9a35284820bb21",
+      "bytes": 4416
+    },
+    "scripts/retrospective_audit/audit_b1b2_gates.py": {
+      "sha256": "d062f0df9ebc200c9ffa9ac75967981ec78ac26f929d338c5cb5519567800258",
+      "bytes": 4817
+    },
+    "scripts/retrospective_audit/audit_batch_boundary.py": {
+      "sha256": "dccc5a97fcb9d92aa705acb1346c320e26842c15cbff9b111a366ab74e610bb5",
+      "bytes": 3567
+    },
+    "scripts/retrospective_audit/audit_g5_query_budget.py": {
+      "sha256": "4576d4bb94ed8bd0c0b8a29974a078501fad0d7c94538fb8815eb98f56853548",
+      "bytes": 2220
+    },
+    "scripts/retrospective_audit/audit_hg_dependence_e14.py": {
+      "sha256": "26ecb0c815536e6df3c8e607e5a0954bb3fc2f59f12545aaea0cb6dce90d661e",
+      "bytes": 4358
+    },
+    "scripts/retrospective_audit/audit_hg_e15.py": {
+      "sha256": "7f7122ff360ff105cf0752861a0ce9b785f4f376d999c2014bf7423a58615bb1",
+      "bytes": 5781
+    },
+    "scripts/retrospective_audit/audit_hg_seed_keys.py": {
+      "sha256": "d028c3aef8dd784fdefb70d9d2f0c194904feb728e4894c93a5903f063dcb6ad",
+      "bytes": 3226
+    },
+    "scripts/retrospective_audit/audit_integrated_efficacy.py": {
+      "sha256": "33d11e3f17e03a64d2c4f785270b5fdf1aa9b34b070db3427b2481800167970a",
+      "bytes": 4061
+    },
+    "scripts/retrospective_audit/audit_integrated_event_logs.py": {
+      "sha256": "ee355ae40ee26777eec9884c2e6540c680d324eb7867a475a5234b966f76dbff",
+      "bytes": 6596
+    },
+    "scripts/retrospective_audit/audit_integrated_inference.py": {
+      "sha256": "41a88e024674c7d3553d94b8c888120fc0990b87a5c339a74ad5e8e9f5d84d6c",
+      "bytes": 3826
+    },
+    "scripts/retrospective_audit/audit_integrated_null_calibration.py": {
+      "sha256": "98d3c5dc9c1b2784e8ce60f2f6fa0581615d93af9a38b73af1d8b436c9f43f20",
+      "bytes": 7081
+    },
+    "scripts/retrospective_audit/audit_two_real_tasks.py": {
+      "sha256": "1764e0841932627a5be5516f1a9f32289e3ae08d37c4fbefb3cd3e202f4aac34",
+      "bytes": 5218
+    },
+    "scripts/retrospective_audit/audit_upworthy_week_bootstrap.py": {
+      "sha256": "d4f01d6051b71efe9075f9012d905a0f6913096e08fdf6a110d9689cda56c73f",
+      "bytes": 2701
+    },
+    "scripts/retrospective_audit/audit_wp3_paired.py": {
+      "sha256": "92ad53b7a81841e0a7b8a9c42550ffc938864e2fe0aceb2e1ef6c328c91ee0c5",
+      "bytes": 9015
+    },
+    "scripts/retrospective_audit/audit_wp3_source_manifest.py": {
+      "sha256": "01c2f6430d26b0eee67129062ffd29147ecbaf4446e79acf1462b1e62a6461b3",
+      "bytes": 3858
+    },
+    "scripts/retrospective_audit/b2_crossfit_selection.py": {
+      "sha256": "996e7e845d083332c53f12100b183b6897e01a1c96f4febb7848b1d534974b89",
+      "bytes": 4389
+    },
+    "scripts/retrospective_audit/build_initial_ledgers.py": {
+      "sha256": "280a8cd4d5bd9376b0a049d3acd0437559563e81337da281506817bc0ac46bf8",
+      "bytes": 6096
+    },
+    "scripts/retrospective_audit/catalog_local_main_delta.py": {
+      "sha256": "98cdb79adb510a0307f03856df6ba8d63482650d42cc64463dea63a5251ee37a",
+      "bytes": 2155
+    },
+    "scripts/retrospective_audit/h2c_disjoint_comparator_selection.py": {
+      "sha256": "a8ed0f14fd321e112ba322ee2bbd795bf21edd098d3aa8e625e5ff97ce7ad654",
+      "bytes": 2842
+    },
+    "scripts/retrospective_audit/probe_integrated_unqueried_labels.py": {
+      "sha256": "15159a460cb97542754c3a884df676d8c542e706d5a6dbaf013e47f95449d70a",
+      "bytes": 5374
+    },
+    "scripts/retrospective_audit/recompute_a1b_gate.py": {
+      "sha256": "f325d3d04241788e68f9bac97024c0ffd6c04107208925581dd780f82bb85ad5",
+      "bytes": 3601
+    },
+    "scripts/retrospective_audit/recompute_a1d.py": {
+      "sha256": "472b24dd00bfac7e40bb1075ed024e47181e1d695e5b770ca285b21b8e0095c9",
+      "bytes": 3262
+    },
+    "scripts/retrospective_audit/recompute_b2.py": {
+      "sha256": "b8411b5bd02d6c65e1bc3fa5c49e2c01c822bd72edbdb9046d139d6d6a7af619",
+      "bytes": 3049
+    },
+    "scripts/retrospective_audit/recompute_b3.py": {
+      "sha256": "a1671c93d634cca95a7a29a76e746ba74ccc1a7aa9ac70984373d3052901dabb",
+      "bytes": 3948
+    },
+    "scripts/retrospective_audit/recompute_wp2.py": {
+      "sha256": "a484cf5b2b365930bc57f6491ddf8d00ab87b5dccedf4026d32c1fdb24b3192b",
+      "bytes": 9756
+    },
+    "scripts/retrospective_audit/recompute_wp3.py": {
+      "sha256": "d907e2b6cc1d90020d3a9973e2c17498b974e21b4ff7f3c74c21303576d990b8",
+      "bytes": 7752
+    },
+    "scripts/retrospective_audit/replay_hg_e15_bootstrap.py": {
+      "sha256": "9ad8f5f9478334048a59b1cf2bbcc7888aade344ac590c2417e794d78de99231",
+      "bytes": 3618
+    },
+    "scripts/retrospective_audit/rerun_eia_2026_verifier.py": {
+      "sha256": "044a3f54249cd5c3a2d3545cea6719034dcdb37271ec2241225ea47266540b17",
+      "bytes": 1728
+    },
+    "scripts/retrospective_audit/rerun_upworthy_verifier.py": {
+      "sha256": "bc69157b91496ada2cb24e1f15b2d58276aed1a4badd57ed9ddeb9b4edbcb3cb",
+      "bytes": 1789
+    },
+    "scripts/retrospective_audit/source_census.py": {
+      "sha256": "3e17da00dad62bc35bfb7af1bb91fa713716ddf0bdf4786faf93d5e2b00b654d",
+      "bytes": 3329
+    },
+    "scripts/retrospective_audit/validate_claim_ledger.py": {
+      "sha256": "09e465efe4c25e574c28a698d8a11ac70f11a7d9994aa4aaf648e8871f4d9494",
+      "bytes": 1843
+    },
+    "scripts/retrospective_audit/workspace_snapshot.py": {
+      "sha256": "b560a748bc98c761257ce65592a5510ba7266b1db8b3b0a91d8666423faae6bf",
+      "bytes": 2563
+    },
+    "scripts/run_failure_atlas_loop.py": {
+      "sha256": "83f2e818775b7987ceb9b3fc214f7fbbb0bd3ec3d63bfeb56e36e4abba85d852",
+      "bytes": 56679
+    },
+    "tests/retrospective_audit/test_atlas_report_scope.py": {
+      "sha256": "e49ebf5ed416e963554354281e0b68a5a6da1c279982730b85d261ec154907cd",
+      "bytes": 1431
+    },
+    "tests/retrospective_audit/test_batch_boundary.py": {
+      "sha256": "08ca4a6c4febf309ac25604484f4d4f3c70ec149084ee1a64a1802cb3adac26d",
+      "bytes": 947
+    },
+    "tests/retrospective_audit/test_recompute_b3.py": {
+      "sha256": "10275a7e76d37128b8cc18745c934b35449920ee0ac9954662ab728d7eace049",
+      "bytes": 1336
+    },
+    "tests/retrospective_audit/test_validate_claim_ledger.py": {
+      "sha256": "bbacd476eb0aad5c10ce8d4dd2beb8710a2bfd8900830ceafb0d42d2dd932936",
+      "bytes": 856
+    },
+    "tests/retrospective_audit/test_validity_counterexamples.py": {
+      "sha256": "1ce7f5584b6fdc7b75d66dc06c06326e62229dae628ccce3f20aa7218c000b78",
+      "bytes": 923
+    },
+    "tests/retrospective_audit/test_wp3_paired.py": {
+      "sha256": "0660ae024a192681b2d7bdf927101029c99d3c308b90db222477f2bef3a0d3a3",
+      "bytes": 790
+    },
+    "tests/test_atlas_mechanism_check.py": {
+      "sha256": "cd779527317e9aef990ee9b561f486530cd5538556b3c5141962050029b61592",
+      "bytes": 1107
+    }
+  }
+}

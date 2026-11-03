@@ -1,0 +1,8 @@
+{
+  "scope": "Stored 100-seed paired vectors and registered one-sided t/Holm/Bonferroni/bootstrap formulas; no simulator replay",
+  "contrasts": 22,
+  "max_absolute_numeric_difference": 1.4210854715202004e-14,
+  "holm_rejections": 4,
+  "positive_point_contrasts": 4,
+  "zero_point_contrasts": 11
+}

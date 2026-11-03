@@ -1,0 +1,121 @@
+[
+  {
+    "stream": "airlines",
+    "episodes": 50,
+    "WIN_recalculated": false,
+    "SAFE_recalculated": true,
+    "P6_cheaper": true,
+    "mean_cost": {
+      "P0": 776.8,
+      "P1": 859.34,
+      "P2": 786.6538799999997,
+      "P3b": 781.4011899999999,
+      "P6": 775.4259699999999
+    },
+    "safe_bound_recalculated": 801.6289899999999,
+    "matches_stored": true,
+    "scope": "Summary arithmetic only; per-episode data not yet recomputed; reported CI reused, not independently verified"
+  },
+  {
+    "stream": "weather",
+    "episodes": 3,
+    "WIN_recalculated": true,
+    "SAFE_recalculated": true,
+    "P6_cheaper": true,
+    "mean_cost": {
+      "P0": 504.0,
+      "P1": 430.3333333333333,
+      "P2": 511.3163333333334,
+      "P3b": 475.76533333333344,
+      "P6": 465.55633333333344
+    },
+    "safe_bound_recalculated": 522.9986666666667,
+    "matches_stored": true,
+    "scope": "Summary arithmetic only; per-episode data not yet recomputed; reported CI reused, not independently verified"
+  },
+  {
+    "stream": "spam",
+    "episodes": 1,
+    "WIN_recalculated": true,
+    "SAFE_recalculated": true,
+    "P6_cheaper": false,
+    "mean_cost": {
+      "P0": 849.0,
+      "P1": 195.0,
+      "P2": 792.1500000000001,
+      "P3b": 254.09,
+      "P6": 315.9455
+    },
+    "safe_bound_recalculated": 875.98,
+    "matches_stored": true,
+    "scope": "Summary arithmetic only; per-episode data not yet recomputed; reported CI reused, not independently verified"
+  },
+  {
+    "stream": "bank",
+    "episodes": 8,
+    "WIN_recalculated": false,
+    "SAFE_recalculated": true,
+    "P6_cheaper": true,
+    "mean_cost": {
+      "P0": 419.375,
+      "P1": 1202.375,
+      "P2": 429.129375,
+      "P3b": 428.1885625,
+      "P6": 422.0676875
+    },
+    "safe_bound_recalculated": 436.5123125,
+    "matches_stored": true,
+    "scope": "Summary arithmetic only; per-episode data not yet recomputed; reported CI reused, not independently verified"
+  },
+  {
+    "stream": "rialto",
+    "episodes": 16,
+    "WIN_recalculated": true,
+    "SAFE_recalculated": true,
+    "P6_cheaper": false,
+    "mean_cost": {
+      "P0": 202.0625,
+      "P1": 61.25,
+      "P2": 211.77771875,
+      "P3b": 103.72803124999999,
+      "P6": 122.907375
+    },
+    "safe_bound_recalculated": 214.06303125,
+    "matches_stored": true,
+    "scope": "Summary arithmetic only; per-episode data not yet recomputed; reported CI reused, not independently verified"
+  },
+  {
+    "stream": "elec2",
+    "episodes": 4,
+    "WIN_recalculated": false,
+    "SAFE_recalculated": true,
+    "P6_cheaper": true,
+    "mean_cost": {
+      "P0": 389.5,
+      "P1": 386.5,
+      "P2": 399.26262499999996,
+      "P3b": 397.57899999999995,
+      "P6": 387.9920000000001
+    },
+    "safe_bound_recalculated": 402.98400000000004,
+    "matches_stored": true,
+    "scope": "Summary arithmetic only; per-episode data not yet recomputed; reported CI reused, not independently verified"
+  },
+  {
+    "stream": "criteo",
+    "episodes": 50,
+    "WIN_recalculated": false,
+    "SAFE_recalculated": true,
+    "P6_cheaper": true,
+    "mean_cost": {
+      "P0": 693.92,
+      "P1": 671.76,
+      "P2": 703.60856,
+      "P3b": 699.1928099999999,
+      "P6": 692.07419
+    },
+    "safe_bound_recalculated": 714.2658099999999,
+    "matches_stored": true,
+    "scope": "Summary arithmetic only; per-episode data not yet recomputed; reported CI reused, not independently verified"
+  }
+]

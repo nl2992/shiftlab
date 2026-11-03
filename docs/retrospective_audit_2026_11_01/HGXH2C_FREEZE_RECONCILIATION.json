@@ -1,0 +1,136 @@
+{
+  "source_worktree": "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\shift-research-starter",
+  "freeze_checks": [
+    {
+      "key": "frontier",
+      "path": "outputs/hgxh2c/stage2/frontier.json",
+      "registered_hash": "35434f5c3027888cc722e18f41e80d192837c412e57eb12ed7c48a66210626e4",
+      "actual_hash": "35434f5c3027888cc722e18f41e80d192837c412e57eb12ed7c48a66210626e4",
+      "matches": true,
+      "same_as_smoke": false
+    },
+    {
+      "key": "finalists",
+      "path": "outputs/hgxh2c/stage3/finalists.json",
+      "registered_hash": "3c1e471162485b003f2f3aa05343c300690bb6ef91d90d0e04d45b05c8b597f7",
+      "actual_hash": "3c1e471162485b003f2f3aa05343c300690bb6ef91d90d0e04d45b05c8b597f7",
+      "matches": true,
+      "same_as_smoke": false
+    },
+    {
+      "key": "selector",
+      "path": "outputs/hgxh2c/stage3/selector.json",
+      "registered_hash": "7cd960ec773cbd064400a176e417fad41bec90f37438bf5566bafa36f15f6653",
+      "actual_hash": "7cd960ec773cbd064400a176e417fad41bec90f37438bf5566bafa36f15f6653",
+      "matches": true,
+      "same_as_smoke": false
+    }
+  ],
+  "smoke_config": {
+    "N_alt": 1000,
+    "N_null": 1000,
+    "boot": 100,
+    "smoke": true,
+    "partition": "confirm",
+    "frozen": {
+      "frontier": "1326b381640cb797543071f0395188a8f250be24cf9cee818b04df25201d507b",
+      "finalists": "8b6966e982920a21a71fa45863160bf5be967365c6f3dafd2097185c0779dc98",
+      "selector": "cb32a71bef4d999ff0d1048095015481449d92f205113ad04d5894db99ebb58e"
+    }
+  },
+  "current_finalist_plan": {
+    "N_per_cell_alt": 10000,
+    "N_per_cell_null": 1000,
+    "power_calc": {
+      "2d0e3003ecd3a8ac": {
+        "N": 10000,
+        "capped": true,
+        "delta": 0.2232461594548626,
+        "sd_within": 3.0630440026155017,
+        "sd_between": 0.5558367248883147
+      },
+      "bd90511a78bf7934": {
+        "N": 1000,
+        "capped": false,
+        "raw_N": 104.10091295067039,
+        "delta": 0.13968100921705873,
+        "sd_within": 1.9608411825498853,
+        "sd_between": 0.2823298068058922
+      },
+      "8e2a9bbae603f542": {
+        "N": 10000,
+        "capped": true,
+        "delta": 0.10943756033168163,
+        "sd_within": 2.744949315919776,
+        "sd_between": 0.4007074419520419
+      },
+      "1cf60bfeb0c66bd0": {
+        "N": 10000,
+        "capped": true,
+        "delta": 0.1064862729926739,
+        "sd_within": 2.219700782317104,
+        "sd_between": 0.2808960335094591
+      },
+      "8ff2430a18be3e60": {
+        "N": 10000,
+        "capped": true,
+        "delta": 0.0640908569595743,
+        "sd_within": 2.917995160662718,
+        "sd_between": 0.3235883286532301
+      }
+    },
+    "selector": "selector.json",
+    "space": {
+      "structures": 64,
+      "canonical": 50818321080,
+      "canonical_by_structure": null,
+      "raw": 5533056540000,
+      "blocks": 45
+    },
+    "plan": {
+      "n0": 1000000,
+      "inc0": 200000,
+      "keep0": 10000,
+      "jaccard": 0.95,
+      "seeds0": 16,
+      "cells0": 32,
+      "T0": 1000,
+      "seeds1": 64,
+      "keep1": 500,
+      "T12": 2000,
+      "max_cells": 0,
+      "seeds2": 128,
+      "keep2": 50,
+      "seeds3": 256,
+      "final_max": 5,
+      "chunk": 32768,
+      "small": false,
+      "dev_sel_seeds": 32
+    },
+    "frontier_sha256": "35434f5c3027888cc722e18f41e80d192837c412e57eb12ed7c48a66210626e4",
+    "negative_result": false,
+    "comparator_families": {
+      "primary": [
+        "bonf_sep",
+        "holm_sep",
+        "indep_HG_H2c",
+        "joint_ctx_ons",
+        "joint_ctx_ons_full",
+        "mix_w0.25",
+        "mix_w0.5",
+        "mix_w0.75",
+        "ryu_wornell"
+      ],
+      "secondary": [
+        "cusum_B",
+        "cusum_C",
+        "ph_B",
+        "ph_C"
+      ]
+    }
+  },
+  "full_confirmation_json_exists": false,
+  "full_stage4_shard_files": 3159,
+  "shard_bytes": 241349285,
+  "conclusion": "Full stage4 partial shards present, no aggregate confirmation at snapshot. Smoke used a different frozen frontier/finalists/selector. No equivalence or successful full confirmation asserted."
+}

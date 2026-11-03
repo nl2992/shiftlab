@@ -1,0 +1,15 @@
+{
+  "scope": "One archived CUDA stream and two fixed label perturbations; diagnostic only, not a filtration proof",
+  "scenario": "boundary_local_harm",
+  "seed": 2026104000,
+  "method": "full_pipeline",
+  "altered_unqueried_postfit_labels": 1456,
+  "learner_trace_events_compared": 3200,
+  "decision_trace_field_mismatches": 0,
+  "future_labels_flipped": 800,
+  "future_queried_labels_flipped": 152,
+  "predeployment_events_compared_after_future_flip": 2400,
+  "predeployment_trace_field_mismatches": 0,
+  "baseline_promoted": true,
+  "baseline_total_labels": 632
+}

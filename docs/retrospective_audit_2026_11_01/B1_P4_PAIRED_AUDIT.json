@@ -1,0 +1,57 @@
+{
+  "scope": "B1 archived 500 paired seeds per world/setting; source simulator not replayed",
+  "source_hashes_verified": 2,
+  "bootstrap_draws": 2000,
+  "max_numeric_error": 0.0,
+  "settings": [
+    {
+      "setting": "B200_cs5",
+      "w3_p4_minus_p3_mean_cost": -0.58,
+      "w3_paired_bootstrap_95": [
+        -1.40635,
+        0.05
+      ],
+      "w3_relative_cost_gain": 0.002415267824051955,
+      "w1_relative_cost_worsening": 0.1045211309278602,
+      "pass_w3_10pct_and_ci": false,
+      "pass_w1_no_more_than_2pct_worse": false
+    },
+    {
+      "setting": "B200_cs20",
+      "w3_p4_minus_p3_mean_cost": -0.938,
+      "w3_paired_bootstrap_95": [
+        -2.01225,
+        -0.134
+      ],
+      "w3_relative_cost_gain": 0.0039036327089462617,
+      "w1_relative_cost_worsening": 0.2233036004207798,
+      "pass_w3_10pct_and_ci": false,
+      "pass_w1_no_more_than_2pct_worse": false
+    },
+    {
+      "setting": "B400_cs5",
+      "w3_p4_minus_p3_mean_cost": -1.552,
+      "w3_paired_bootstrap_95": [
+        -2.8881,
+        -0.48
+      ],
+      "w3_relative_cost_gain": 0.006182897436408153,
+      "w1_relative_cost_worsening": 0.09498980103008048,
+      "pass_w3_10pct_and_ci": false,
+      "pass_w1_no_more_than_2pct_worse": false
+    },
+    {
+      "setting": "B400_cs20",
+      "w3_p4_minus_p3_mean_cost": -2.066,
+      "w3_paired_bootstrap_95": [
+        -3.6603000000000003,
+        -0.7499500000000002
+      ],
+      "w3_relative_cost_gain": 0.008218796618597722,
+      "w1_relative_cost_worsening": 0.23933375393821876,
+      "pass_w3_10pct_and_ci": false,
+      "pass_w1_no_more_than_2pct_worse": false
+    }
+  ],
+  "historical_q2_verdict": "NOT SUPPORTED"
+}

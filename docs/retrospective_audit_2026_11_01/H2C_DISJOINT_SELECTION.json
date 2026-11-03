@@ -1,0 +1,286 @@
+{
+  "source_sha256": "ed5923e9486c6bc9c8a0d1497f68c74563a4221f5644721f508dfd7fbbf66ba7",
+  "scope": "Post hoc disjoint-half diagnostic on exposed G5 seeds; not independent confirmation",
+  "cells": [
+    {
+      "frac": 0.1,
+      "cond": "accurate",
+      "shift": "concept1.5",
+      "full_selected": "C2_cost_ONS",
+      "first_half_selected": "C2_cost_ONS",
+      "second_half_selected": "C2_cost_ONS",
+      "full_selected_effect": 0.11,
+      "disjoint_selection_effect": 0.11
+    },
+    {
+      "frac": 0.1,
+      "cond": "accurate",
+      "shift": "concept2",
+      "full_selected": "C2_cost_ONS",
+      "first_half_selected": "C2_cost_ONS",
+      "second_half_selected": "C2_cost_ONS",
+      "full_selected_effect": 0.15666666666666668,
+      "disjoint_selection_effect": 0.15666666666666668
+    },
+    {
+      "frac": 0.1,
+      "cond": "biased",
+      "shift": "concept2",
+      "full_selected": "C2_cost_ONS",
+      "first_half_selected": "C2_cost_ONS",
+      "second_half_selected": "C2_cost_ONS",
+      "full_selected_effect": 0.028333333333333332,
+      "disjoint_selection_effect": 0.028333333333333332
+    },
+    {
+      "frac": 0.1,
+      "cond": "biased_neg",
+      "shift": "concept1.5",
+      "full_selected": "C2_cost_ONS",
+      "first_half_selected": "C2_cost_ONS",
+      "second_half_selected": "C2_cost_ONS",
+      "full_selected_effect": 0.08,
+      "disjoint_selection_effect": 0.08
+    },
+    {
+      "frac": 0.1,
+      "cond": "biased_neg",
+      "shift": "concept2",
+      "full_selected": "C2_cost_ONS",
+      "first_half_selected": "C2_cost_ONS",
+      "second_half_selected": "C2_cost_ONS",
+      "full_selected_effect": 0.07833333333333334,
+      "disjoint_selection_effect": 0.07833333333333334
+    },
+    {
+      "frac": 0.1,
+      "cond": "biased_neg",
+      "shift": "prior1",
+      "full_selected": "C2_cost_ONS",
+      "first_half_selected": "C2_cost_ONS",
+      "second_half_selected": "C1_cost_disc",
+      "full_selected_effect": 0.08666666666666667,
+      "disjoint_selection_effect": 0.09833333333333333
+    },
+    {
+      "frac": 0.1,
+      "cond": "over_subgroup",
+      "shift": "concept1.5",
+      "full_selected": "C2_cost_ONS",
+      "first_half_selected": "C2_cost_ONS",
+      "second_half_selected": "C2_cost_ONS",
+      "full_selected_effect": 0.08666666666666667,
+      "disjoint_selection_effect": 0.08666666666666667
+    },
+    {
+      "frac": 0.1,
+      "cond": "over_subgroup",
+      "shift": "concept2",
+      "full_selected": "C1_cost_disc",
+      "first_half_selected": "C1_cost_disc",
+      "second_half_selected": "C2_cost_ONS",
+      "full_selected_effect": 0.17,
+      "disjoint_selection_effect": 0.17833333333333334
+    },
+    {
+      "frac": 0.1,
+      "cond": "over_subgroup",
+      "shift": "prior1",
+      "full_selected": "C2_cost_ONS",
+      "first_half_selected": "C2_cost_ONS",
+      "second_half_selected": "C2_cost_ONS",
+      "full_selected_effect": 0.03166666666666667,
+      "disjoint_selection_effect": 0.03166666666666667
+    },
+    {
+      "frac": 0.1,
+      "cond": "overconfident",
+      "shift": "concept1.5",
+      "full_selected": "C2_cost_ONS",
+      "first_half_selected": "C2_cost_ONS",
+      "second_half_selected": "C2_cost_ONS",
+      "full_selected_effect": 0.1,
+      "disjoint_selection_effect": 0.1
+    },
+    {
+      "frac": 0.1,
+      "cond": "overconfident",
+      "shift": "concept2",
+      "full_selected": "C2_cost_ONS",
+      "first_half_selected": "C2_cost_ONS",
+      "second_half_selected": "C2_cost_ONS",
+      "full_selected_effect": 0.085,
+      "disjoint_selection_effect": 0.085
+    },
+    {
+      "frac": 0.1,
+      "cond": "overconfident",
+      "shift": "prior1",
+      "full_selected": "C2_cost_ONS",
+      "first_half_selected": "C2_cost_ONS",
+      "second_half_selected": "C2_cost_ONS",
+      "full_selected_effect": -0.011666666666666667,
+      "disjoint_selection_effect": -0.011666666666666667
+    },
+    {
+      "frac": 0.1,
+      "cond": "subgroup_failure",
+      "shift": "concept1.5",
+      "full_selected": "C2_cost_ONS",
+      "first_half_selected": "C2_cost_ONS",
+      "second_half_selected": "C1_cost_disc",
+      "full_selected_effect": 0.07666666666666666,
+      "disjoint_selection_effect": 0.095
+    },
+    {
+      "frac": 0.1,
+      "cond": "subgroup_failure",
+      "shift": "concept2",
+      "full_selected": "C2_cost_ONS",
+      "first_half_selected": "C2_cost_ONS",
+      "second_half_selected": "C1_cost_disc",
+      "full_selected_effect": 0.12333333333333334,
+      "disjoint_selection_effect": 0.14333333333333334
+    },
+    {
+      "frac": 0.2,
+      "cond": "accurate",
+      "shift": "concept1.5",
+      "full_selected": "C1_cost_disc",
+      "first_half_selected": "C2_cost_ONS",
+      "second_half_selected": "C1_cost_disc",
+      "full_selected_effect": 0.16,
+      "disjoint_selection_effect": 0.17833333333333334
+    },
+    {
+      "frac": 0.2,
+      "cond": "accurate",
+      "shift": "concept2",
+      "full_selected": "C1_cost_disc",
+      "first_half_selected": "C1_cost_disc",
+      "second_half_selected": "C1_cost_disc",
+      "full_selected_effect": 0.12666666666666668,
+      "disjoint_selection_effect": 0.12666666666666668
+    },
+    {
+      "frac": 0.2,
+      "cond": "biased",
+      "shift": "concept2",
+      "full_selected": "C2_cost_ONS",
+      "first_half_selected": "C2_cost_ONS",
+      "second_half_selected": "C2_cost_ONS",
+      "full_selected_effect": 0.19,
+      "disjoint_selection_effect": 0.19
+    },
+    {
+      "frac": 0.2,
+      "cond": "biased_neg",
+      "shift": "concept1.5",
+      "full_selected": "C1_cost_disc",
+      "first_half_selected": "C1_cost_disc",
+      "second_half_selected": "C1_cost_disc",
+      "full_selected_effect": 0.05333333333333334,
+      "disjoint_selection_effect": 0.05333333333333334
+    },
+    {
+      "frac": 0.2,
+      "cond": "biased_neg",
+      "shift": "concept2",
+      "full_selected": "C1_cost_disc",
+      "first_half_selected": "C1_cost_disc",
+      "second_half_selected": "C1_cost_disc",
+      "full_selected_effect": 0.03,
+      "disjoint_selection_effect": 0.03
+    },
+    {
+      "frac": 0.2,
+      "cond": "biased_neg",
+      "shift": "prior1",
+      "full_selected": "C1_cost_disc",
+      "first_half_selected": "C1_cost_disc",
+      "second_half_selected": "C1_cost_disc",
+      "full_selected_effect": 0.11333333333333333,
+      "disjoint_selection_effect": 0.11333333333333333
+    },
+    {
+      "frac": 0.2,
+      "cond": "over_subgroup",
+      "shift": "concept1.5",
+      "full_selected": "C1_cost_disc",
+      "first_half_selected": "C1_cost_disc",
+      "second_half_selected": "C1_cost_disc",
+      "full_selected_effect": 0.11166666666666666,
+      "disjoint_selection_effect": 0.11166666666666666
+    },
+    {
+      "frac": 0.2,
+      "cond": "over_subgroup",
+      "shift": "concept2",
+      "full_selected": "C1_cost_disc",
+      "first_half_selected": "C1_cost_disc",
+      "second_half_selected": "C1_cost_disc",
+      "full_selected_effect": 0.056666666666666664,
+      "disjoint_selection_effect": 0.056666666666666664
+    },
+    {
+      "frac": 0.2,
+      "cond": "over_subgroup",
+      "shift": "prior1",
+      "full_selected": "C1_cost_disc",
+      "first_half_selected": "C1_cost_disc",
+      "second_half_selected": "C1_cost_disc",
+      "full_selected_effect": 0.03,
+      "disjoint_selection_effect": 0.03
+    },
+    {
+      "frac": 0.2,
+      "cond": "overconfident",
+      "shift": "concept1.5",
+      "full_selected": "C1_cost_disc",
+      "first_half_selected": "C1_cost_disc",
+      "second_half_selected": "C1_cost_disc",
+      "full_selected_effect": 0.115,
+      "disjoint_selection_effect": 0.115
+    },
+    {
+      "frac": 0.2,
+      "cond": "overconfident",
+      "shift": "concept2",
+      "full_selected": "C1_cost_disc",
+      "first_half_selected": "C1_cost_disc",
+      "second_half_selected": "C1_cost_disc",
+      "full_selected_effect": 0.03166666666666667,
+      "disjoint_selection_effect": 0.03166666666666667
+    },
+    {
+      "frac": 0.2,
+      "cond": "overconfident",
+      "shift": "prior1",
+      "full_selected": "C1_cost_disc",
+      "first_half_selected": "C1_cost_disc",
+      "second_half_selected": "C1_cost_disc",
+      "full_selected_effect": 0.008333333333333333,
+      "disjoint_selection_effect": 0.008333333333333333
+    },
+    {
+      "frac": 0.2,
+      "cond": "subgroup_failure",
+      "shift": "concept1.5",
+      "full_selected": "C1_cost_disc",
+      "first_half_selected": "C1_cost_disc",
+      "second_half_selected": "C1_cost_disc",
+      "full_selected_effect": 0.145,
+      "disjoint_selection_effect": 0.145
+    },
+    {
+      "frac": 0.2,
+      "cond": "subgroup_failure",
+      "shift": "concept2",
+      "full_selected": "C1_cost_disc",
+      "first_half_selected": "C1_cost_disc",
+      "second_half_selected": "C1_cost_disc",
+      "full_selected_effect": 0.14166666666666666,
+      "disjoint_selection_effect": 0.14166666666666666
+    }
+  ]
+}

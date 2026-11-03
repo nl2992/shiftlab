@@ -1,0 +1,223 @@
+{
+  "family3": {
+    "twins": 12,
+    "state_sha256": "38e53615847cb5eefcffe8f1cc5f1d73103d1aefcea6f27668ff574b38cd5e1c",
+    "archive_sha256": "a84eadc654f69f67e39a745d930814831e3635d674b779fe1af5ba122f0f5448",
+    "archive_state_agree": true,
+    "reported_seeds": "5000+100",
+    "rates": {
+      "0.0": {
+        "episode_geo": {
+          "k": 2,
+          "n": 400,
+          "rate": 0.005
+        },
+        "episode_equal": {
+          "k": 0,
+          "n": 400,
+          "rate": 0.0
+        },
+        "episode_front": {
+          "k": 9,
+          "n": 400,
+          "rate": 0.0225
+        },
+        "allonset_edetector": {
+          "k": 18,
+          "n": 400,
+          "rate": 0.045
+        },
+        "c2_rho0.75": {
+          "k": 2,
+          "n": 400,
+          "rate": 0.005
+        },
+        "c1_hmm_cs": {
+          "k": 3,
+          "n": 400,
+          "rate": 0.0075
+        },
+        "online_fwer_spending": {
+          "k": 2,
+          "n": 400,
+          "rate": 0.005
+        }
+      },
+      "0.5": {
+        "episode_geo": {
+          "k": 3,
+          "n": 400,
+          "rate": 0.0075
+        },
+        "episode_equal": {
+          "k": 0,
+          "n": 400,
+          "rate": 0.0
+        },
+        "episode_front": {
+          "k": 19,
+          "n": 400,
+          "rate": 0.0475
+        },
+        "allonset_edetector": {
+          "k": 34,
+          "n": 400,
+          "rate": 0.085
+        },
+        "c2_rho0.75": {
+          "k": 4,
+          "n": 400,
+          "rate": 0.01
+        },
+        "c1_hmm_cs": {
+          "k": 13,
+          "n": 400,
+          "rate": 0.0325
+        },
+        "online_fwer_spending": {
+          "k": 3,
+          "n": 400,
+          "rate": 0.0075
+        }
+      },
+      "0.8": {
+        "episode_geo": {
+          "k": 10,
+          "n": 400,
+          "rate": 0.025
+        },
+        "episode_equal": {
+          "k": 0,
+          "n": 400,
+          "rate": 0.0
+        },
+        "episode_front": {
+          "k": 21,
+          "n": 400,
+          "rate": 0.0525
+        },
+        "allonset_edetector": {
+          "k": 33,
+          "n": 400,
+          "rate": 0.0825
+        },
+        "c2_rho0.75": {
+          "k": 2,
+          "n": 400,
+          "rate": 0.005
+        },
+        "c1_hmm_cs": {
+          "k": 69,
+          "n": 400,
+          "rate": 0.1725
+        },
+        "online_fwer_spending": {
+          "k": 10,
+          "n": 400,
+          "rate": 0.025
+        }
+      }
+    },
+    "D1": true,
+    "D1_highest": {
+      "method": "c1_hmm_cs",
+      "k": 69,
+      "n": 400,
+      "rate": 0.1725
+    },
+    "D2": false,
+    "monotone_methods": {
+      "episode_geo": true,
+      "episode_equal": true,
+      "episode_front": true,
+      "allonset_edetector": false,
+      "c2_rho0.75": false,
+      "c1_hmm_cs": true,
+      "online_fwer_spending": true
+    }
+  },
+  "family4": {
+    "twins": 12,
+    "state_sha256": "ae3c24cd5a4f78bb347237e586c9341cda4c1b9223c23186bd5c79a63db7f070",
+    "archive_sha256": "acf931dcfeac91472f16d56e8f2d5a3c8f0a1de7459968750f43b1ed8d0a6b2b",
+    "archive_state_agree": true,
+    "reported_seeds": "5000+100",
+    "I1": false,
+    "I1_rates": {
+      "episode_geo": {
+        "k": 1,
+        "n": 200,
+        "rate": 0.005
+      },
+      "episode_equal": {
+        "k": 0,
+        "n": 200,
+        "rate": 0.0
+      },
+      "episode_front": {
+        "k": 1,
+        "n": 200,
+        "rate": 0.005
+      },
+      "allonset_edetector": {
+        "k": 9,
+        "n": 200,
+        "rate": 0.045
+      },
+      "c2_rho0.75": {
+        "k": 2,
+        "n": 200,
+        "rate": 0.01
+      },
+      "c1_hmm_cs": {
+        "k": 1,
+        "n": 200,
+        "rate": 0.005
+      },
+      "online_fwer_spending": {
+        "k": 1,
+        "n": 200,
+        "rate": 0.005
+      }
+    },
+    "I2": true,
+    "I2_rates": {
+      "episode_geo": {
+        "k": 6,
+        "n": 400,
+        "rate": 0.015
+      },
+      "episode_equal": {
+        "k": 0,
+        "n": 400,
+        "rate": 0.0
+      },
+      "episode_front": {
+        "k": 8,
+        "n": 400,
+        "rate": 0.02
+      },
+      "allonset_edetector": {
+        "k": 16,
+        "n": 400,
+        "rate": 0.04
+      },
+      "c2_rho0.75": {
+        "k": 6,
+        "n": 400,
+        "rate": 0.015
+      },
+      "c1_hmm_cs": {
+        "k": 2,
+        "n": 400,
+        "rate": 0.005
+      },
+      "online_fwer_spending": {
+        "k": 6,
+        "n": 400,
+        "rate": 0.015
+      }
+    }
+  },
+  "scope": "Historical aggregate count reproduction, matching archive/state. Point thresholds only; no raw null streams replayed, no dependence-robust coverage proved. Family3 is declared marginal-null misspecification, not conditional-null theorem refutation."
+}

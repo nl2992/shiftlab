@@ -1,0 +1,823 @@
+[
+  {
+    "worktree": "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\shift-research-starter",
+    "path": "outputs/hgxh2c/a6_tests.log",
+    "bytes": 113,
+    "sha256": "3cc7d59a09d482d27440943bce323207ea9929a50c3e661835bc850bc5fb5101",
+    "status": "FOUND_LOCAL",
+    "scope": "metadata/hash only; contents not validated"
+  },
+  {
+    "worktree": "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\shift-research-starter",
+    "path": "outputs/hgxh2c/bench.log",
+    "bytes": 297,
+    "sha256": "b63ce9d95ed7e78bea4af4aea0c9fe7173bd991ce88e0e24003ba55adf24eeec",
+    "status": "FOUND_LOCAL",
+    "scope": "metadata/hash only; contents not validated"
+  },
+  {
+    "worktree": "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\shift-research-starter",
+    "path": "outputs/hgxh2c/engine_tests.log",
+    "bytes": 113,
+    "sha256": "4280946da914f83bfc1921e5a7f99dde58ce3835a17222705bf4f601010faa8b",
+    "status": "FOUND_LOCAL",
+    "scope": "metadata/hash only; contents not validated"
+  },
+  {
+    "worktree": "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\shift-research-starter",
+    "path": "outputs/hgxh2c/FREEZE.json",
+    "bytes": 620,
+    "sha256": "042048e7eeb3267e350b7cc2b42e08cc7dc66ddb23ed7d2e1970fda059bd2ad3",
+    "status": "FOUND_LOCAL",
+    "scope": "metadata/hash only; contents not validated"
+  },
+  {
+    "worktree": "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\shift-research-starter",
+    "path": "outputs/hgxh2c/search_tests.log",
+    "bytes": 127,
+    "sha256": "37c84ad7ab8069b9b7c628662e6aee10f51e7ba8ad95980feb409a9680db947b",
+    "status": "FOUND_LOCAL",
+    "scope": "metadata/hash only; contents not validated"
+  },
+  {
+    "worktree": "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\shift-research-starter",
+    "path": "outputs/hgxh2c/smoke_test.log",
+    "bytes": 127,
+    "sha256": "6bc1b4871f4aa30d53a15c713337612b373a8b93ed38571eb5527b7254d6b43e",
+    "status": "FOUND_LOCAL",
+    "scope": "metadata/hash only; contents not validated"
+  },
+  {
+    "worktree": "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\shift-research-starter",
+    "path": "outputs/hgxh2c/stage4_smoke.log",
+    "bytes": 13526,
+    "sha256": "230a843c6b7341ee6555cf1a6c9344da9e46e128ea649cccca38ac0a478f0ca2",
+    "status": "FOUND_LOCAL",
+    "scope": "metadata/hash only; contents not validated"
+  },
+  {
+    "worktree": "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\shift-research-starter",
+    "path": "outputs/hgxh2c/logs/pipeline.log",
+    "bytes": 6972,
+    "sha256": "04964cbe99ecc575dc7c4314042ff3884025d31e304a70a39302879dcf270a45",
+    "status": "FOUND_LOCAL",
+    "scope": "metadata/hash only; contents not validated"
+  },
+  {
+    "worktree": "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\shift-research-starter",
+    "path": "outputs/hgxh2c/stage1/arcps_sim.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "status": "FOUND_LOCAL",
+    "scope": "metadata/hash only; contents not validated"
+  },
+  {
+    "worktree": "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\shift-research-starter",
+    "path": "outputs/hgxh2c/stage1/bop_concept_shift.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "status": "FOUND_LOCAL",
+    "scope": "metadata/hash only; contents not validated"
+  },
+  {
+    "worktree": "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\shift-research-starter",
+    "path": "outputs/hgxh2c/stage1/bop_label_shift.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "status": "FOUND_LOCAL",
+    "scope": "metadata/hash only; contents not validated"
+  },
+  {
+    "worktree": "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\shift-research-starter",
+    "path": "outputs/hgxh2c/stage1/driver_last_status.json",
+    "bytes": 356,
+    "sha256": "d064c422371beb45901dc160216a3f70dee13a64a9613ed142232ad23f7f41e8",
+    "status": "FOUND_LOCAL",
+    "scope": "metadata/hash only; contents not validated"
+  },
+  {
+    "worktree": "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\shift-research-starter",
+    "path": "outputs/hgxh2c/stage1/gambling_cs.log",
+    "bytes": 7517,
+    "sha256": "65350d8c44efb35ef43d8aeefe92cf6e7564570c9beb0f0fe04e96884d3ce9da",
+    "status": "FOUND_LOCAL",
+    "scope": "metadata/hash only; contents not validated"
+  },
+  {
+    "worktree": "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\shift-research-starter",
+    "path": "outputs/hgxh2c/stage1/pprm_indep.log",
+    "bytes": 1810,
+    "sha256": "f0b5fd0728f54376e56c7a2dcecb7f22fc9b5d41ba6fcc9520da9f11b8114ff4",
+    "status": "FOUND_LOCAL",
+    "scope": "metadata/hash only; contents not validated"
+  },
+  {
+    "worktree": "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\shift-research-starter",
+    "path": "outputs/hgxh2c/stage1/reduced_summary.json",
+    "bytes": 14121,
+    "sha256": "cf321114c413d32f60f700b0ae07f70138760af2b31f668f566c83b58584542b",
+    "status": "FOUND_LOCAL",
+    "scope": "metadata/hash only; contents not validated"
+  },
+  {
+    "worktree": "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\shift-research-starter",
+    "path": "outputs/hgxh2c/stage1/rm_uci_approx.log",
+    "bytes": 1567,
+    "sha256": "577e54043604dc02c4702489e1eaf4eaa77d996678ce48007c03f6ece109e403",
+    "status": "FOUND_LOCAL",
+    "scope": "metadata/hash only; contents not validated"
+  },
+  {
+    "worktree": "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\shift-research-starter",
+    "path": "outputs/hgxh2c/stage1/rm_uci_approx_w200.log",
+    "bytes": 1738,
+    "sha256": "0e83b12aed46f9033b17b26ec35951f5fa324ed11b4988f56d2494f7060f2ff7",
+    "status": "FOUND_LOCAL",
+    "scope": "metadata/hash only; contents not validated"
+  },
+  {
+    "worktree": "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\shift-research-starter",
+    "path": "outputs/hgxh2c/stage1/rm_uci_grapa.log",
+    "bytes": 571,
+    "sha256": "c608639a204484015801668e80632ac91e1aa615c4b719a6a4a578f4910bc2b7",
+    "status": "FOUND_LOCAL",
+    "scope": "metadata/hash only; contents not validated"
+  },
+  {
+    "worktree": "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\shift-research-starter",
+    "path": "outputs/hgxh2c/stage1/rm_uci_grapa_w200.log",
+    "bytes": 1732,
+    "sha256": "8ff44b48adced94d677079e29c80d805e206f0e6b44e377388c928dd1b0d9b89",
+    "status": "FOUND_LOCAL",
+    "scope": "metadata/hash only; contents not validated"
+  },
+  {
+    "worktree": "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\shift-research-starter",
+    "path": "outputs/hgxh2c/stage2/frontier.json",
+    "bytes": 120733,
+    "sha256": "35434f5c3027888cc722e18f41e80d192837c412e57eb12ed7c48a66210626e4",
+    "status": "FOUND_LOCAL",
+    "scope": "metadata/hash only; contents not validated"
+  },
+  {
+    "worktree": "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\shift-research-starter",
+    "path": "outputs/hgxh2c/stage2/frontier_v1_invalid.json",
+    "bytes": 167342,
+    "sha256": "bc062c9aa041833b76449957471e060ccede50f3373060d2d156befeb39ac5c7",
+    "status": "FOUND_LOCAL",
+    "scope": "metadata/hash only; contents not validated"
+  },
+  {
+    "worktree": "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\shift-research-starter",
+    "path": "outputs/hgxh2c/stage2/timings.json",
+    "bytes": 582,
+    "sha256": "1cc22f502c474c92b5816de67aaf3dcdb75e503c60c279dba24f282438b61e12",
+    "status": "FOUND_LOCAL",
+    "scope": "metadata/hash only; contents not validated"
+  },
+  {
+    "worktree": "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\shift-research-starter",
+    "path": "outputs/hgxh2c/stage2_smoke/frontier.json",
+    "bytes": 6497,
+    "sha256": "d34b0b67aaffaa8eff98801f2808712068077adc928f5ab8d288e3f13f129c68",
+    "status": "FOUND_LOCAL",
+    "scope": "metadata/hash only; contents not validated"
+  },
+  {
+    "worktree": "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\shift-research-starter",
+    "path": "outputs/hgxh2c/stage2_smoke/timings.json",
+    "bytes": 98,
+    "sha256": "95793d2ffe03801592a2e0a0c4c37be5b59082633869dbf83c34168180371af5",
+    "status": "FOUND_LOCAL",
+    "scope": "metadata/hash only; contents not validated"
+  },
+  {
+    "worktree": "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\shift-research-starter",
+    "path": "outputs/hgxh2c/stage3/finalists.json",
+    "bytes": 15328,
+    "sha256": "3c1e471162485b003f2f3aa05343c300690bb6ef91d90d0e04d45b05c8b597f7",
+    "status": "FOUND_LOCAL",
+    "scope": "metadata/hash only; contents not validated"
+  },
+  {
+    "worktree": "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\shift-research-starter",
+    "path": "outputs/hgxh2c/stage3/selector.json",
+    "bytes": 1014,
+    "sha256": "7cd960ec773cbd064400a176e417fad41bec90f37438bf5566bafa36f15f6653",
+    "status": "FOUND_LOCAL",
+    "scope": "metadata/hash only; contents not validated"
+  },
+  {
+    "worktree": "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\shift-research-starter",
+    "path": "outputs/hgxh2c/stage3_bench/bench.json",
+    "bytes": 295,
+    "sha256": "13e4d2d3f0af28dc1dd5b7f6216e43ab01406fc59fa283de3b20d8f82d717559",
+    "status": "FOUND_LOCAL",
+    "scope": "metadata/hash only; contents not validated"
+  },
+  {
+    "worktree": "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\shift-research-starter",
+    "path": "outputs/hgxh2c/stage3_smoke/finalists.json",
+    "bytes": 5042,
+    "sha256": "8b6966e982920a21a71fa45863160bf5be967365c6f3dafd2097185c0779dc98",
+    "status": "FOUND_LOCAL",
+    "scope": "metadata/hash only; contents not validated"
+  },
+  {
+    "worktree": "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\shift-research-starter",
+    "path": "outputs/hgxh2c/stage3_smoke/FREEZE.json",
+    "bytes": 863,
+    "sha256": "a9034b6047fdc9529c960f554d8fd4840598674bb37a9696ca226ea13182ce46",
+    "status": "FOUND_LOCAL",
+    "scope": "metadata/hash only; contents not validated"
+  },
+  {
+    "worktree": "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\shift-research-starter",
+    "path": "outputs/hgxh2c/stage3_smoke/frontier.json",
+    "bytes": 2152,
+    "sha256": "1326b381640cb797543071f0395188a8f250be24cf9cee818b04df25201d507b",
+    "status": "FOUND_LOCAL",
+    "scope": "metadata/hash only; contents not validated"
+  },
+  {
+    "worktree": "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\shift-research-starter",
+    "path": "outputs/hgxh2c/stage3_smoke/selector.json",
+    "bytes": 254,
+    "sha256": "cb32a71bef4d999ff0d1048095015481449d92f205113ad04d5894db99ebb58e",
+    "status": "FOUND_LOCAL",
+    "scope": "metadata/hash only; contents not validated"
+  },
+  {
+    "worktree": "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\shift-research-starter",
+    "path": "outputs/hgxh2c/stage4_smoke/confirmation.json",
+    "bytes": 23055,
+    "sha256": "a76457533717bf85b83e65977e3e122c574ba44c0e6d6c6ed86dce9ed77beab8",
+    "status": "FOUND_LOCAL",
+    "scope": "metadata/hash only; contents not validated"
+  },
+  {
+    "worktree": "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\shift-research-starter",
+    "path": "outputs/hgxh2c/stage3_smoke/ckpt/rung0/selected.json",
+    "bytes": 4403,
+    "sha256": "1cb219d4712eb27cde52032882a7e9cb34c7ec6feeee37b126b438b8450192b8",
+    "status": "FOUND_LOCAL",
+    "scope": "metadata/hash only; contents not validated"
+  },
+  {
+    "worktree": "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\shift-research-starter",
+    "path": "outputs/hgxh2c/stage3_smoke/ckpt/rung0/timings.jsonl",
+    "bytes": 237,
+    "sha256": "901b287b06511185f97446959387b4d6979097687597979568886758200c24c6",
+    "status": "FOUND_LOCAL",
+    "scope": "metadata/hash only; contents not validated"
+  },
+  {
+    "worktree": "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\shift-research-starter",
+    "path": "outputs/hgxh2c/stage3_smoke/ckpt/rung1/selected.json",
+    "bytes": 4403,
+    "sha256": "0942f8166eb152f5af1e59850751fea00ab40482e53b6b3647f21f026651b203",
+    "status": "FOUND_LOCAL",
+    "scope": "metadata/hash only; contents not validated"
+  },
+  {
+    "worktree": "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\shift-research-starter",
+    "path": "outputs/hgxh2c/stage3_smoke/ckpt/rung1/timings.jsonl",
+    "bytes": 120,
+    "sha256": "bd0245184bfb5996785b31a5ac8e42bb2258da6106a2cbd573d0d2293926d5fb",
+    "status": "FOUND_LOCAL",
+    "scope": "metadata/hash only; contents not validated"
+  },
+  {
+    "worktree": "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\shift-research-starter",
+    "path": "outputs/hgxh2c/stage3_smoke/ckpt/rung2/selected.json",
+    "bytes": 2717,
+    "sha256": "dfc8db2a950d7bb278467c75b603fa904db6109360794f137aa1eefb484267ae",
+    "status": "FOUND_LOCAL",
+    "scope": "metadata/hash only; contents not validated"
+  },
+  {
+    "worktree": "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\shift-research-starter",
+    "path": "outputs/hgxh2c/stage3_smoke/ckpt/rung2/timings.jsonl",
+    "bytes": 120,
+    "sha256": "8c6b9c1485fb8adb1fb0040d3266bf63bfddfeffbf30da8bcd306f71782b6a30",
+    "status": "FOUND_LOCAL",
+    "scope": "metadata/hash only; contents not validated"
+  },
+  {
+    "worktree": "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\shift-research-starter",
+    "path": "outputs/hgxh2c/stage3_smoke/ckpt/rung3/selected.json",
+    "bytes": 1436,
+    "sha256": "be7571f1e9b3e6dc6beb1589e6d72091eeedf0075cd4cd106db7e2b6b875f337",
+    "status": "FOUND_LOCAL",
+    "scope": "metadata/hash only; contents not validated"
+  },
+  {
+    "worktree": "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\shift-research-starter",
+    "path": "outputs/hgxh2c/stage3_smoke/ckpt/rung3/timings.jsonl",
+    "bytes": 121,
+    "sha256": "0fca7d16ff04541a5fbdd67895c02f66c3f57a7c90296327c642b2e5e90b539e",
+    "status": "FOUND_LOCAL",
+    "scope": "metadata/hash only; contents not validated"
+  },
+  {
+    "worktree": "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\shift-research-starter",
+    "path": "outputs/hgxh2c/stage3/registry.parquet/_scoring_manifest.json",
+    "bytes": 1185,
+    "sha256": "919334851e1fa551f062230e78d4da72e8d84b39b298eaa333ffceef3ae601c4",
+    "status": "FOUND_LOCAL",
+    "scope": "metadata/hash only; contents not validated"
+  },
+  {
+    "worktree": "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\shift-research-starter",
+    "path": "outputs/hgxh2c/stage3/ckpt_a5_percell_min/rung0/jaccard.jsonl",
+    "bytes": 261,
+    "sha256": "f867ca580b05806b73442a7659342d4f6eea276fa79f3136e400f9a150fd4966",
+    "status": "FOUND_LOCAL",
+    "scope": "metadata/hash only; contents not validated"
+  },
+  {
+    "worktree": "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\shift-research-starter",
+    "path": "outputs/hgxh2c/stage3/ckpt_a5_percell_min/rung0/selected.json",
+    "bytes": 1644431,
+    "sha256": "35d06cf7dfdc1ec7dc10b393b98da2dc383a5fe5e4975aa53694730516447cdc",
+    "status": "FOUND_LOCAL",
+    "scope": "metadata/hash only; contents not validated"
+  },
+  {
+    "worktree": "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\shift-research-starter",
+    "path": "outputs/hgxh2c/stage3/ckpt_a5_percell_min/rung0/timings.jsonl",
+    "bytes": 3799,
+    "sha256": "76839e708cec05d968d900ca9d830ff912c68e049b372d1424d9a82918f58365",
+    "status": "FOUND_LOCAL",
+    "scope": "metadata/hash only; contents not validated"
+  },
+  {
+    "worktree": "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\shift-research-starter",
+    "path": "outputs/hgxh2c/stage3/ckpt/rung0/jaccard.jsonl",
+    "bytes": 261,
+    "sha256": "f867ca580b05806b73442a7659342d4f6eea276fa79f3136e400f9a150fd4966",
+    "status": "FOUND_LOCAL",
+    "scope": "metadata/hash only; contents not validated"
+  },
+  {
+    "worktree": "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\shift-research-starter",
+    "path": "outputs/hgxh2c/stage3/ckpt/rung0/selected.json",
+    "bytes": 1644431,
+    "sha256": "35d06cf7dfdc1ec7dc10b393b98da2dc383a5fe5e4975aa53694730516447cdc",
+    "status": "FOUND_LOCAL",
+    "scope": "metadata/hash only; contents not validated"
+  },
+  {
+    "worktree": "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\shift-research-starter",
+    "path": "outputs/hgxh2c/stage3/ckpt/rung0/timings.jsonl",
+    "bytes": 3799,
+    "sha256": "048c6953a7f007efef73ecdbd4ad2c1441346b7c1bb506b7b532f84a9a3d61fd",
+    "status": "FOUND_LOCAL",
+    "scope": "metadata/hash only; contents not validated"
+  },
+  {
+    "worktree": "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\shift-research-starter",
+    "path": "outputs/hgxh2c/stage3/ckpt/rung1/selected.json",
+    "bytes": 79070,
+    "sha256": "4e3af43e6ec0171b77094771884a9c4acec72e4ea9f8d612d563c9e86d0870ff",
+    "status": "FOUND_LOCAL",
+    "scope": "metadata/hash only; contents not validated"
+  },
+  {
+    "worktree": "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\shift-research-starter",
+    "path": "outputs/hgxh2c/stage3/ckpt/rung1/timings.jsonl",
+    "bytes": 124,
+    "sha256": "31081d2699ce50947046d810fdcf6770a4458f791e41fe4c7b6987a64996199a",
+    "status": "FOUND_LOCAL",
+    "scope": "metadata/hash only; contents not validated"
+  },
+  {
+    "worktree": "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\shift-research-starter",
+    "path": "outputs/hgxh2c/stage3/ckpt/rung2/selected.json",
+    "bytes": 6992,
+    "sha256": "13ddf9a574ca8332ba740b578afa7cee0798463c0b0a5719a3c27308a342eb30",
+    "status": "FOUND_LOCAL",
+    "scope": "metadata/hash only; contents not validated"
+  },
+  {
+    "worktree": "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\shift-research-starter",
+    "path": "outputs/hgxh2c/stage3/ckpt/rung2/timings.jsonl",
+    "bytes": 123,
+    "sha256": "1c2e2f9c25bf4b85d04cd38b40a0d26c8bdedf0c3fcb296f5b305ca0ea4ff54c",
+    "status": "FOUND_LOCAL",
+    "scope": "metadata/hash only; contents not validated"
+  },
+  {
+    "worktree": "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\shift-research-starter",
+    "path": "outputs/hgxh2c/stage1/active_rcps_sim/last_beta_dist.csv",
+    "bytes": 801,
+    "sha256": "4d6241b539bd46d8889137200e0ea1d30cbe1aa2c8bebf5ca30937d133893593",
+    "status": "FOUND_LOCAL",
+    "scope": "metadata/hash only; contents not validated"
+  },
+  {
+    "worktree": "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\shift-research-starter",
+    "path": "outputs/hgxh2c/stage1/gambling_cs/multivariate_result.json",
+    "bytes": 749,
+    "sha256": "2d096eb0fd5421028fdc5cb7c8b2fb2c5ce83f30e6621a93645b440448a4cfcf",
+    "status": "FOUND_LOCAL",
+    "scope": "metadata/hash only; contents not validated"
+  },
+  {
+    "worktree": "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\shift-research-starter",
+    "path": "outputs/hgxh2c/stage1/gambling_cs/result.json",
+    "bytes": 4884,
+    "sha256": "905fd4242f2f2dd17d88b5e619efcd33bc7c261d1b8b3d3037fbad89449e65b5",
+    "status": "FOUND_LOCAL",
+    "scope": "metadata/hash only; contents not validated"
+  },
+  {
+    "worktree": "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\shift-research-starter",
+    "path": "outputs/hgxh2c/stage1/pprm_indep/result.json",
+    "bytes": 1086,
+    "sha256": "5ad8f08d4bc1ea8df806ac8e158c18967d8bf88694ec37f6af88359cee6e77f9",
+    "status": "FOUND_LOCAL",
+    "scope": "metadata/hash only; contents not validated"
+  },
+  {
+    "worktree": "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\shift-research-starter",
+    "path": "outputs/hgxh2c/stage1/active_rcps_sim/trial_results/simulation_lc=800_seed=1.csv",
+    "bytes": 18642666,
+    "sha256": null,
+    "status": "FOUND_LOCAL",
+    "scope": "metadata/hash only; contents not validated"
+  },
+  {
+    "worktree": "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\shift-research-starter",
+    "path": "outputs/hgxh2c/stage1/active_rcps_sim/trial_results/simulation_lc=800_seed=2.csv",
+    "bytes": 25644450,
+    "sha256": null,
+    "status": "FOUND_LOCAL",
+    "scope": "metadata/hash only; contents not validated"
+  },
+  {
+    "worktree": "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\shift-research-starter",
+    "path": "outputs/hgxh2c/stage1/active_rcps_sim/trial_results/simulation_lc=800_seed=3.csv",
+    "bytes": 21752301,
+    "sha256": null,
+    "status": "FOUND_LOCAL",
+    "scope": "metadata/hash only; contents not validated"
+  },
+  {
+    "worktree": "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\shift-research-starter",
+    "path": "outputs/hgxh2c/stage1/active_rcps_sim/trial_results/simulation_lc=800_seed=4.csv",
+    "bytes": 15419052,
+    "sha256": null,
+    "status": "FOUND_LOCAL",
+    "scope": "metadata/hash only; contents not validated"
+  },
+  {
+    "worktree": "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\shift-research-starter",
+    "path": "outputs/failure_atlas_v1/archive.jsonl",
+    "bytes": 4341528,
+    "sha256": null,
+    "status": "FOUND_LOCAL",
+    "scope": "metadata/hash only; contents not validated"
+  },
+  {
+    "worktree": "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\shift-research-starter",
+    "path": "outputs/failure_atlas_v1/run.log",
+    "bytes": 2467,
+    "sha256": "c8a9631e2e38d339027dc6ef1645c070cebde78d63aaaf7d748c4749bf2cc067",
+    "status": "FOUND_LOCAL",
+    "scope": "metadata/hash only; contents not validated"
+  },
+  {
+    "worktree": "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\shift-research-starter",
+    "path": "outputs/failure_atlas_v1/run2.log",
+    "bytes": 752,
+    "sha256": "36ff194eb85da8aa002d02380a012cf42921b46a75299f353f313c58cb190a0b",
+    "status": "FOUND_LOCAL",
+    "scope": "metadata/hash only; contents not validated"
+  },
+  {
+    "worktree": "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\shift-research-starter",
+    "path": "outputs/failure_atlas_v1/run3.log",
+    "bytes": 304,
+    "sha256": "03608187a94af269d7a5595b5f6a1100721612f3818d97f842949024d8069ea7",
+    "status": "FOUND_LOCAL",
+    "scope": "metadata/hash only; contents not validated"
+  },
+  {
+    "worktree": "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\shift-research-starter",
+    "path": "outputs/failure_atlas_v1/state.json",
+    "bytes": 221595,
+    "sha256": "8c7b7f991ca3054d7ba530a5d88d327e22b0a8cd632d54797e01434730bb7b4e",
+    "status": "FOUND_LOCAL",
+    "scope": "metadata/hash only; contents not validated"
+  },
+  {
+    "worktree": "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\shift-research-starter",
+    "path": "outputs/failure_atlas_v1/summary.md",
+    "bytes": 19195,
+    "sha256": "48057427400a3640a7eedf60d512984b72f08738dbb1f2f4b6f263d99601ec3a",
+    "status": "FOUND_LOCAL",
+    "scope": "metadata/hash only; contents not validated"
+  },
+  {
+    "worktree": "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\shift-research-starter",
+    "path": "outputs/failure_atlas_v1/summary_pre_survivor_fix.md",
+    "bytes": 19565,
+    "sha256": "56b1c6d2b08c9a8b457e0770624d3d4a994a05872eadd65d95e5193f8915a2da",
+    "status": "FOUND_LOCAL",
+    "scope": "metadata/hash only; contents not validated"
+  },
+  {
+    "worktree": "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\shift-research-starter",
+    "path": "docs/hgxh2c/FINAL_REPORT.md",
+    "bytes": 12048,
+    "sha256": "767c58ae67d48ec984c7bc3efa773773acab7f7d7ad2a13fdf1493c82a16cdfd",
+    "status": "FOUND_LOCAL",
+    "scope": "metadata/hash only; contents not validated"
+  },
+  {
+    "worktree": "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\branch-claude-bold-cray-xcy73f",
+    "path": "outputs/hgxh2c",
+    "status": "MISSING_AT_EXACT_PATH"
+  },
+  {
+    "worktree": "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\branch-claude-bold-cray-xcy73f",
+    "path": "outputs/failure_atlas_v1",
+    "status": "MISSING_AT_EXACT_PATH"
+  },
+  {
+    "worktree": "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\branch-claude-bold-cray-xcy73f",
+    "path": "docs/hgxh2c/FINAL_REPORT.md",
+    "status": "MISSING_AT_EXACT_PATH"
+  },
+  {
+    "worktree": "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\branch-integration-local-progress-2026-10-29",
+    "path": "outputs/hgxh2c",
+    "status": "MISSING_AT_EXACT_PATH"
+  },
+  {
+    "worktree": "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\branch-integration-local-progress-2026-10-29",
+    "path": "outputs/failure_atlas_v1",
+    "status": "MISSING_AT_EXACT_PATH"
+  },
+  {
+    "worktree": "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\branch-integration-local-progress-2026-10-29",
+    "path": "docs/hgxh2c/FINAL_REPORT.md",
+    "status": "MISSING_AT_EXACT_PATH"
+  },
+  {
+    "worktree": "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\branch-remote-shiftlab-sota-synthetic-search-2026-10-29",
+    "path": "outputs/hgxh2c",
+    "status": "MISSING_AT_EXACT_PATH"
+  },
+  {
+    "worktree": "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\branch-remote-shiftlab-sota-synthetic-search-2026-10-29",
+    "path": "outputs/failure_atlas_v1",
+    "status": "MISSING_AT_EXACT_PATH"
+  },
+  {
+    "worktree": "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\branch-remote-shiftlab-sota-synthetic-search-2026-10-29",
+    "path": "docs/hgxh2c/FINAL_REPORT.md",
+    "status": "MISSING_AT_EXACT_PATH"
+  },
+  {
+    "worktree": "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\branch-research-h2c-restart-risk-certified-2026-10-30",
+    "path": "outputs/hgxh2c",
+    "status": "MISSING_AT_EXACT_PATH"
+  },
+  {
+    "worktree": "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\branch-research-h2c-restart-risk-certified-2026-10-30",
+    "path": "outputs/failure_atlas_v1",
+    "status": "MISSING_AT_EXACT_PATH"
+  },
+  {
+    "worktree": "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\branch-research-h2c-restart-risk-certified-2026-10-30",
+    "path": "docs/hgxh2c/FINAL_REPORT.md",
+    "status": "MISSING_AT_EXACT_PATH"
+  },
+  {
+    "worktree": "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\branch-research-h2c-strong-baselines-and-generalization-2026-10-30",
+    "path": "outputs/hgxh2c",
+    "status": "MISSING_AT_EXACT_PATH"
+  },
+  {
+    "worktree": "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\branch-research-h2c-strong-baselines-and-generalization-2026-10-30",
+    "path": "outputs/failure_atlas_v1",
+    "status": "MISSING_AT_EXACT_PATH"
+  },
+  {
+    "worktree": "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\branch-research-h2c-strong-baselines-and-generalization-2026-10-30",
+    "path": "docs/hgxh2c/FINAL_REPORT.md",
+    "status": "MISSING_AT_EXACT_PATH"
+  },
+  {
+    "worktree": "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\branch-research-hg-decision-aware-betting-v2",
+    "path": "outputs/hgxh2c",
+    "status": "MISSING_AT_EXACT_PATH"
+  },
+  {
+    "worktree": "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\branch-research-hg-decision-aware-betting-v2",
+    "path": "outputs/failure_atlas_v1",
+    "status": "MISSING_AT_EXACT_PATH"
+  },
+  {
+    "worktree": "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\branch-research-hg-decision-aware-betting-v2",
+    "path": "docs/hgxh2c/FINAL_REPORT.md",
+    "status": "MISSING_AT_EXACT_PATH"
+  },
+  {
+    "worktree": "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\branch-research-hg-validation-and-novelty-2026-10-30",
+    "path": "outputs/hgxh2c",
+    "status": "MISSING_AT_EXACT_PATH"
+  },
+  {
+    "worktree": "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\branch-research-hg-validation-and-novelty-2026-10-30",
+    "path": "outputs/failure_atlas_v1",
+    "status": "MISSING_AT_EXACT_PATH"
+  },
+  {
+    "worktree": "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\branch-research-hg-validation-and-novelty-2026-10-30",
+    "path": "docs/hgxh2c/FINAL_REPORT.md",
+    "status": "MISSING_AT_EXACT_PATH"
+  },
+  {
+    "worktree": "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\branch-research-monitoring-to-decision-value-2026-10-30",
+    "path": "outputs/hgxh2c",
+    "status": "MISSING_AT_EXACT_PATH"
+  },
+  {
+    "worktree": "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\branch-research-monitoring-to-decision-value-2026-10-30",
+    "path": "outputs/failure_atlas_v1",
+    "status": "MISSING_AT_EXACT_PATH"
+  },
+  {
+    "worktree": "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\branch-research-monitoring-to-decision-value-2026-10-30",
+    "path": "docs/hgxh2c/FINAL_REPORT.md",
+    "status": "MISSING_AT_EXACT_PATH"
+  },
+  {
+    "worktree": "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\branch-research-rpoq-s1-fatal-flaw-audit",
+    "path": "outputs/hgxh2c",
+    "status": "MISSING_AT_EXACT_PATH"
+  },
+  {
+    "worktree": "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\branch-research-rpoq-s1-fatal-flaw-audit",
+    "path": "outputs/failure_atlas_v1",
+    "status": "MISSING_AT_EXACT_PATH"
+  },
+  {
+    "worktree": "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\branch-research-rpoq-s1-fatal-flaw-audit",
+    "path": "docs/hgxh2c/FINAL_REPORT.md",
+    "status": "MISSING_AT_EXACT_PATH"
+  },
+  {
+    "worktree": "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\branch-research-shiftlab-dependence-gates-2026-10-31",
+    "path": "outputs/hgxh2c",
+    "status": "MISSING_AT_EXACT_PATH"
+  },
+  {
+    "worktree": "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\branch-research-shiftlab-dependence-gates-2026-10-31",
+    "path": "outputs/failure_atlas_v1",
+    "status": "MISSING_AT_EXACT_PATH"
+  },
+  {
+    "worktree": "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\branch-research-shiftlab-dependence-gates-2026-10-31",
+    "path": "docs/hgxh2c/FINAL_REPORT.md",
+    "status": "MISSING_AT_EXACT_PATH"
+  },
+  {
+    "worktree": "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\branch-research-shiftlab-icml-method-sprint-2026-10-30",
+    "path": "outputs/hgxh2c",
+    "status": "MISSING_AT_EXACT_PATH"
+  },
+  {
+    "worktree": "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\branch-research-shiftlab-icml-method-sprint-2026-10-30",
+    "path": "outputs/failure_atlas_v1",
+    "status": "MISSING_AT_EXACT_PATH"
+  },
+  {
+    "worktree": "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\branch-research-shiftlab-icml-method-sprint-2026-10-30",
+    "path": "docs/hgxh2c/FINAL_REPORT.md",
+    "status": "MISSING_AT_EXACT_PATH"
+  },
+  {
+    "worktree": "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\branch-research-shiftlab-mandate-gap-closure-2026-10-30",
+    "path": "outputs/hgxh2c",
+    "status": "MISSING_AT_EXACT_PATH"
+  },
+  {
+    "worktree": "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\branch-research-shiftlab-mandate-gap-closure-2026-10-30",
+    "path": "outputs/failure_atlas_v1",
+    "status": "MISSING_AT_EXACT_PATH"
+  },
+  {
+    "worktree": "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\branch-research-shiftlab-mandate-gap-closure-2026-10-30",
+    "path": "docs/hgxh2c/FINAL_REPORT.md",
+    "status": "MISSING_AT_EXACT_PATH"
+  },
+  {
+    "worktree": "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\shift-claude-lane",
+    "path": "outputs/hgxh2c",
+    "status": "MISSING_AT_EXACT_PATH"
+  },
+  {
+    "worktree": "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\shift-claude-lane",
+    "path": "outputs/failure_atlas_v1",
+    "status": "MISSING_AT_EXACT_PATH"
+  },
+  {
+    "worktree": "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\shift-claude-lane",
+    "path": "docs/hgxh2c/FINAL_REPORT.md",
+    "status": "MISSING_AT_EXACT_PATH"
+  },
+  {
+    "worktree": "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\shift-codex-autoresearch",
+    "path": "outputs/hgxh2c",
+    "status": "MISSING_AT_EXACT_PATH"
+  },
+  {
+    "worktree": "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\shift-codex-autoresearch",
+    "path": "outputs/failure_atlas_v1",
+    "status": "MISSING_AT_EXACT_PATH"
+  },
+  {
+    "worktree": "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\shift-codex-autoresearch",
+    "path": "docs/hgxh2c/FINAL_REPORT.md",
+    "status": "MISSING_AT_EXACT_PATH"
+  },
+  {
+    "worktree": "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\shiftlab-exhaustive-evaluation-2026-10-30",
+    "path": "outputs/hgxh2c",
+    "status": "MISSING_AT_EXACT_PATH"
+  },
+  {
+    "worktree": "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\shiftlab-exhaustive-evaluation-2026-10-30",
+    "path": "outputs/failure_atlas_v1",
+    "status": "MISSING_AT_EXACT_PATH"
+  },
+  {
+    "worktree": "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\shiftlab-exhaustive-evaluation-2026-10-30",
+    "path": "docs/hgxh2c/FINAL_REPORT.md",
+    "status": "MISSING_AT_EXACT_PATH"
+  },
+  {
+    "worktree": "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\shiftlab-promising-directions-2026-10-30",
+    "path": "outputs/hgxh2c",
+    "status": "MISSING_AT_EXACT_PATH"
+  },
+  {
+    "worktree": "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\shiftlab-promising-directions-2026-10-30",
+    "path": "outputs/failure_atlas_v1",
+    "status": "MISSING_AT_EXACT_PATH"
+  },
+  {
+    "worktree": "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\shiftlab-promising-directions-2026-10-30",
+    "path": "docs/hgxh2c/FINAL_REPORT.md",
+    "status": "MISSING_AT_EXACT_PATH"
+  },
+  {
+    "worktree": "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\shiftlab-retrospective-audit-2026-11-01",
+    "path": "outputs/hgxh2c",
+    "status": "MISSING_AT_EXACT_PATH"
+  },
+  {
+    "worktree": "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\shiftlab-retrospective-audit-2026-11-01",
+    "path": "outputs/failure_atlas_v1",
+    "status": "MISSING_AT_EXACT_PATH"
+  },
+  {
+    "worktree": "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\shiftlab-retrospective-audit-2026-11-01",
+    "path": "docs/hgxh2c/FINAL_REPORT.md",
+    "status": "MISSING_AT_EXACT_PATH"
+  },
+  {
+    "worktree": "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\shiftlab-risk-approx-2026-10-29",
+    "path": "outputs/hgxh2c",
+    "status": "MISSING_AT_EXACT_PATH"
+  },
+  {
+    "worktree": "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\shiftlab-risk-approx-2026-10-29",
+    "path": "outputs/failure_atlas_v1",
+    "status": "MISSING_AT_EXACT_PATH"
+  },
+  {
+    "worktree": "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\shiftlab-risk-approx-2026-10-29",
+    "path": "docs/hgxh2c/FINAL_REPORT.md",
+    "status": "MISSING_AT_EXACT_PATH"
+  },
+  {
+    "worktree": "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\shiftlab-sota-synthetic-search-2026-10-29",
+    "path": "outputs/hgxh2c",
+    "status": "MISSING_AT_EXACT_PATH"
+  },
+  {
+    "worktree": "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\shiftlab-sota-synthetic-search-2026-10-29",
+    "path": "outputs/failure_atlas_v1",
+    "status": "MISSING_AT_EXACT_PATH"
+  },
+  {
+    "worktree": "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\shiftlab-sota-synthetic-search-2026-10-29",
+    "path": "docs/hgxh2c/FINAL_REPORT.md",
+    "status": "MISSING_AT_EXACT_PATH"
+  }
+]

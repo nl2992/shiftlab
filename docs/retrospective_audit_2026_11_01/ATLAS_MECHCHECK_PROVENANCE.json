@@ -1,0 +1,111 @@
+{
+  "archived_result_sha256": "ceaccd31717c1a6dc313652ee586582698084dd841fdcec8ff8ab195f30717b2",
+  "archive_git_head": "089edbb0b9c6c34e20f65654a1a12d528b50869e",
+  "archive_dirty": true,
+  "visible_worktrees_checked": 20,
+  "unreachable_blobs_checked": 328,
+  "files": [
+    {
+      "path": "src/shiftlab/dive/failure_atlas.py",
+      "recorded_sha256": "80bd6bd88f946a8539aae27cff76117ed9c20ac121f2d8d09aeeda87e31836bd",
+      "distinct_visible_committed_versions_checked": 4,
+      "matching_visible_commits": [
+        "4a8a576bd9a61ef4c60f19d2e3d085d0a1cb7fd7"
+      ],
+      "matching_worktrees": [],
+      "matching_unreachable_blobs": [],
+      "recovered": true
+    },
+    {
+      "path": "src/shiftlab/dive/atlas_components.py",
+      "recorded_sha256": "79f9665b76cb4dd8e0e9dbb99c8279c8604fec22b2f668828e9148d9d346fc86",
+      "distinct_visible_committed_versions_checked": 3,
+      "matching_visible_commits": [],
+      "matching_worktrees": [],
+      "matching_unreachable_blobs": [],
+      "recovered": false
+    },
+    {
+      "path": "src/shiftlab/dive/atlas_r6_baselines.py",
+      "recorded_sha256": "3ebc8dfe67134a96a0ac0a87621bce4b23254589d75d19f727d9634765cccef7",
+      "distinct_visible_committed_versions_checked": 2,
+      "matching_visible_commits": [
+        "ba131d6233ddd1961e818cdae839335afe929ccd"
+      ],
+      "matching_worktrees": [],
+      "matching_unreachable_blobs": [],
+      "recovered": true
+    },
+    {
+      "path": "src/shiftlab/dive/switching_explore.py",
+      "recorded_sha256": "f7a330f595d2b2390c7a2b3bd4e08da7c3f71a2a8caf8463700f3ee71823dbee",
+      "distinct_visible_committed_versions_checked": 1,
+      "matching_visible_commits": [
+        "6b8a6936e2f41b71818312259774b243cdea0980"
+      ],
+      "matching_worktrees": [
+        "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\shift-research-starter",
+        "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\branch-research-monitoring-to-decision-value-2026-10-30",
+        "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\shiftlab-retrospective-audit-2026-11-01"
+      ],
+      "matching_unreachable_blobs": [],
+      "recovered": true
+    },
+    {
+      "path": "src/shiftlab/dive/eprocess.py",
+      "recorded_sha256": "a9355d3883118ed32039feafe0db0b01fd8824dfbaed2e3d70e6710964565d41",
+      "distinct_visible_committed_versions_checked": 18,
+      "matching_visible_commits": [
+        "86db1c5ec91f795e4a4840e0c8c12548dfa858c3"
+      ],
+      "matching_worktrees": [
+        "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\branch-claude-bold-cray-xcy73f",
+        "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\branch-integration-local-progress-2026-10-29",
+        "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\branch-remote-shiftlab-sota-synthetic-search-2026-10-29",
+        "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\branch-research-h2c-restart-risk-certified-2026-10-30",
+        "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\branch-research-h2c-strong-baselines-and-generalization-2026-10-30",
+        "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\branch-research-hg-decision-aware-betting-v2",
+        "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\branch-research-hg-validation-and-novelty-2026-10-30",
+        "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\branch-research-monitoring-to-decision-value-2026-10-30",
+        "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\branch-research-rpoq-s1-fatal-flaw-audit",
+        "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\branch-research-shiftlab-dependence-gates-2026-10-31",
+        "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\branch-research-shiftlab-icml-method-sprint-2026-10-30",
+        "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\branch-research-shiftlab-mandate-gap-closure-2026-10-30",
+        "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\shift-claude-lane",
+        "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\shift-codex-autoresearch",
+        "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\shiftlab-exhaustive-evaluation-2026-10-30",
+        "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\shiftlab-promising-directions-2026-10-30",
+        "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\shiftlab-retrospective-audit-2026-11-01",
+        "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\shiftlab-risk-approx-2026-10-29",
+        "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\shiftlab-sota-synthetic-search-2026-10-29"
+      ],
+      "matching_unreachable_blobs": [],
+      "recovered": true
+    },
+    {
+      "path": "scripts/run_failure_atlas_loop.py",
+      "recorded_sha256": "8202d9288ca9f89605000118941972b3299e48eff36ce0386238ccd66b19246c",
+      "distinct_visible_committed_versions_checked": 4,
+      "matching_visible_commits": [],
+      "matching_worktrees": [],
+      "matching_unreachable_blobs": [],
+      "recovered": false
+    },
+    {
+      "path": "scripts/run_atlas_mechanism_check_v1.py",
+      "recorded_sha256": "29a5b590de331cdb357a09c574f01d17e58869fd6971ce2e1e5469532a936690",
+      "distinct_visible_committed_versions_checked": 1,
+      "matching_visible_commits": [],
+      "matching_worktrees": [],
+      "matching_unreachable_blobs": [
+        "37f0be46f5c4e4ff4524224ec745cbd2409cbbf9"
+      ],
+      "recovered": true
+    }
+  ],
+  "unrecovered_paths": [
+    "src/shiftlab/dive/atlas_components.py",
+    "scripts/run_failure_atlas_loop.py"
+  ],
+  "scope": "Reachable commits from current --all refs, present worktree files, and locally unreachable blobs from git fsck. Does not search unfetched PR commits or inaccessible machines. Hash recovery alone does not replay per-seed outcomes."
+}

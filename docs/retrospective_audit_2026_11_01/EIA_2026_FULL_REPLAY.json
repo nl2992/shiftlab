@@ -1,0 +1,42 @@
+{
+  "status": "passed_frozen_eia_2026_cuda_reproducibility_audit",
+  "verification_scope": "same frozen implementation re-executed in a separate process; exact aggregate metrics, monthly table, paired block intervals, and report reproduced; no tuning",
+  "input_sha256": {
+    "source_archive_sha256": "3a6143c4bd853c3d6a9d9d3bb3ca7f1603a641835e9c7a050e5c8a927101936f",
+    "readiness_report_sha256": "4ad8eaaa6e3493cb30bd75d1a8a3e009263eec7a5d78be45e019c1ade8833ff2",
+    "protocol_sha256": "0bd6ea81ca2f78aebb513d71029c003d7412de79b6262446c06c4d15a940c9b9",
+    "runner_sha256": "07ea57e7432477f1f819e05f0d64b233cabb2e77643715632a6498a736638f91",
+    "readiness_audit_script_sha256": "bb5456aa261b0fd7fe3770cb728346eb3244a77c51f87fbc7e527bd3a07aa84f"
+  },
+  "frozen_output_sha256": {
+    "summary.csv": "c44114e0598a96a37402dfd833576ad22c8b966fc45780529513f5fc8ce1d2d4",
+    "monthly_metrics.csv": "7ddc3f6f61c9355f91965b560d2291034ec6cc6f2415bf63d4c7d2b5d00a8fdc",
+    "paired_block_intervals.csv": "e7b58ad844f8b88a766ec08616486b90ce568dea8dd9313fac151ec49ec1f040",
+    "results.md": "95aa357a079436b281e8de7a1dd30e6f90b9ca6dacf49a0e5607d073f3517176"
+  },
+  "reproduced_dimensions": {
+    "summary_rows": 24,
+    "paired_interval_rows": 54,
+    "monthly_metric_rows": 240,
+    "authorities": [
+      "CISO",
+      "ERCO"
+    ],
+    "delay_hours": [
+      0,
+      24,
+      168
+    ],
+    "policies": [
+      "error_trigger",
+      "frozen",
+      "monthly",
+      "weekly"
+    ],
+    "populated_168_hour_blocks": 42
+  },
+  "exact_metric_reproduction": true,
+  "exact_monthly_interval_and_report_reproduction": true,
+  "max_absolute_fit_runtime_difference_seconds": 0.22535079985391349,
+  "interpretation": "This establishes deterministic reproducibility of the frozen event-time forecasting/resource comparison, not prospective availability, electricity-system utility, or independent deployment replication."
+}

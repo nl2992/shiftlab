@@ -1,0 +1,22 @@
+{
+  "scope": "Independent week-resampling arithmetic on archived per-test rows; no raw-data/model replay",
+  "archived_summary_reconciled": true,
+  "result": {
+    "week_clusters": 90,
+    "bootstrap_replicates": 10000,
+    "seed": 20261026,
+    "delta_ci_95": [
+      0.0008501072400074344,
+      0.0011696499241074933
+    ],
+    "delta_one_sided_lower_95": 0.0008722718374134761,
+    "selected_ctr_ci_95": [
+      0.013523821660482896,
+      0.015481039296027137
+    ],
+    "uniform_ctr_ci_95": [
+      0.012616128301724434,
+      0.014373480026455703
+    ]
+  }
+}

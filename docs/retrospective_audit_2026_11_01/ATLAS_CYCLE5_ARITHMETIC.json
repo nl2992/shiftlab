@@ -1,0 +1,38 @@
+{
+  "source": "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\shift-research-starter\\outputs\\failure_atlas_v1_cycle5\\exact_cov\\results.json",
+  "source_sha256": "dd0fcbfb6e9d800418877e5b06591f20257ce48ee28cd5d1682d4865084326a1",
+  "source_meta": {
+    "n_seeds": 5000,
+    "seed_range": [
+      210000,
+      214999
+    ],
+    "workers": 6,
+    "seconds": 8004.964264154434,
+    "git_head": "9a6c63ecd0b98975296573a002f0c4d4afa3c079",
+    "max_nodes": 3000000,
+    "alpha": 0.1,
+    "straddle_spec": "b1a17927d9ad",
+    "methods": [
+      "no_switch",
+      "episode_geo",
+      "episode_equal",
+      "episode_front",
+      "allonset_edetector",
+      "c2_rho0.75",
+      "c1_hmm_cs",
+      "online_fwer_spending",
+      "ref_valid",
+      "straddle"
+    ],
+    "n_solved": 144,
+    "n_skipped": 0,
+    "n_RC_gt_CoV": 0
+  },
+  "cells": 144,
+  "skipped": 0,
+  "RC_gt_CoV_count": 0,
+  "arithmetic_mismatches": [],
+  "majority_rule_reopens": false,
+  "scope": "Aggregate arithmetic only; source records 5000-seed MC and LP values. Neither raw MC nor LP solves rerun; no primal/dual certificates present in inspected aggregate. Cannot extrapolate tiny horizons to T1000."
+}

@@ -1,0 +1,14 @@
+{
+  "scope": "Archived 400-seed development nulls; no simulator replay or dependence-validity proof",
+  "hashes_verified": 3,
+  "rows": 108000,
+  "null_worlds": 7,
+  "hg_parent_max_null_world": "D2|null|fin_garch_a.10b.88",
+  "hg_parent_max_false_alarms": 93,
+  "hg_parent_max_denominator": 400,
+  "hg_parent_max_rate": 0.2325,
+  "hg_f2_lrv100_max_rate": 0.0475,
+  "hg_f2_iid_harm_power_change": -0.05008928571428571,
+  "hg_f2_registered_power_loss_limit": -0.05,
+  "hg_f2_meets_power_loss_limit": false
+}

@@ -21,8 +21,7 @@ import math
 from dataclasses import dataclass
 
 import numpy as np
-
-from simulator import Event, QueryRequest, ReleasedFeedback  # noqa: F401
+from simulator import Event, QueryRequest, ReleasedFeedback
 
 
 # --------------------------------------------------------------------------- acquisition

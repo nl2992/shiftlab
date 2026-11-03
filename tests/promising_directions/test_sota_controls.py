@@ -16,7 +16,7 @@ SOTA = Path(__file__).resolve().parents[2] / "scripts/promising_directions/sota"
 sys.path.insert(0, str(SOTA))
 sys.path.insert(0, str(SOTA / "competitors"))
 
-from controls import (  # noqa: E402
+from controls import (
     BernoulliPairedModel,
     EconomicReplacement,
     FixedModel,
@@ -25,7 +25,7 @@ from controls import (  # noqa: E402
     RetrospectiveOracle,
     ShiryaevRoberts,
 )
-from simulator import ReleasedFeedback, check_budget_feasible, run_episode  # noqa: E402
+from simulator import ReleasedFeedback, check_budget_feasible, run_episode
 
 
 def _fb(d: int, q: float = 0.5, t: int = 0) -> ReleasedFeedback:

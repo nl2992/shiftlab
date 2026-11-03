@@ -8,6 +8,12 @@ development or mechanism-validation stages. Code: `src/shiftlab/dive/failure_atl
 
 ## Purpose
 
+**Current direction (2026-11-01):** see Amendment 9 and
+[the evidence and decision review](failure_atlas_review_2026_11_01.md). Earlier locked
+definitions remain the rules for their historical runs. The current objective is a useful,
+modestly novel repair on a declared shared-failure region, compared against strong matched
+competitors; a new theorem or universal dominance is not required.
+
 Reverse the order of earlier ShiftLab work. Earlier work built a candidate, then looked for cells
 where it won. Here we first look for reproducible failures shared by the strongest available
 methods under one matched contract, and only then search for mechanisms. Three outputs:
@@ -511,3 +517,192 @@ may break their *validity*, not only cost more.
    - All R6 baselines and `hard_budget_pacing` are included.
    - Outputs go to `outputs/failure_atlas_v1_cycle5/`.
    - Nothing is confirmatory.
+
+## Amendment 7 (2026-11-01, cycle 6, registered before any cycle-6 code or run)
+
+**Purpose.** Test the sampling-density explanation from the cycle-5 assessment. The explanation:
+published e-process gates kept validity under within-regime dependence and informative release
+because sparse queries decorrelate the labels that are actually observed.
+
+This cycle is a validity study, run on boundary null streams only. Cost atlas stages are not run.
+
+**Streams.**
+- Family-3 null twins: never on, stationary `E[-D] = h`, Markov benefit indicator with lag-1
+  autocorrelation `rho`.
+- Family-4 null twins: favourable-first release.
+- T = 1000, alpha = 0.1.
+
+**Seeds.** 200 dedicated null seeds per configuration, drawn from development seeds `[150000, 160000)`.
+None of these seeds has been used before.
+
+**Methods.** Every safety-gated baseline (episode_geo / episode_equal / episode_front,
+allonset_edetector, c2_rho0.75, c1_hmm_cs, online_fwer_spending), plus R_valid, plus straddle
+`b1a17927d9ad` and its uniform ablation.
+
+**Grids.**
+- Dependence grid: `rho` in {0, 0.5, 0.8, 0.95} × `B/T` in {0.05, 0.1, 0.25, 0.5} × d in {1, 10}.
+- Release grid: query spacing `g = T/B` for `B/T` in {0.1, 0.25}. For each spacing,
+  `(d_f, d_u) = (g, 10g)` (favourable labels first) and the control `(10g, g)`. `rho = 0`.
+
+**Locked predictions.** "Exceeds" means the point estimate is above the threshold. Wilson
+intervals are reported alongside.
+
+- **(V1)** At `rho = 0.8` and `B/T = 0.5`, pooled over d, at least one e-process baseline among
+  episode_*, allonset_edetector, online_fwer_spending and c2_rho0.75 has a null false-promotion
+  rate above alpha + 0.05.
+- **(V2)** At `rho = 0.8`, pooled over B/T and d and paired by seed, straddle's null
+  false-promotion indicator minus its ablation's has a 95% CI that excludes 0 on the positive side.
+- **(V3)** Under favourable-first release with `d_u = 10g`, pooled over the two spacings, at least
+  one gated baseline has a null false-promotion rate above alpha + 0.05. The control `(10g, g)`
+  stays at or below alpha.
+- **(V4, descriptive)** Across the dependence grid, each e-process baseline's null
+  false-promotion rate is non-decreasing in the effective sampled-label correlation
+  `rho^(T/B)`. Report Spearman correlations.
+
+**Interpretation rule.** The sampling-density explanation is retained only if V1 holds and the
+V4 Spearman correlation is positive for most e-process baselines. If V1 fails, the e-process gates
+are robust to Markov dependence at this boundary, and the dependence row of the failure table is
+closed for published baselines.
+
+**Execution.** The run executes as a detached, resumable OS process with a per-configuration
+checkpoint. Output goes to `outputs/failure_atlas_v1_cycle6/`. Nothing here is confirmatory.
+
+## Amendment 8 (2026-11-01, user-directed acceptance revision; cycle 7; registered before any cycle-7 code)
+
+### Acceptance revision
+
+The user reviewed six cycles and judged that the acceptance bar had been set too high. The aim of
+the Failure Atlas is to find a failure shared by all SOTA methods, diagnose it, and propose a
+workable solution that is mildly novel and beats the SOTA competitors. Theorem-level novelty and a
+50% closure of the gap to the Bayes reference R_family are **no longer acceptance criteria**. R2
+audits are kept, but they serve only to state honestly how the solution relates to prior work.
+Matching prior art no longer kills a candidate. A candidate is **accepted as a workable solution**
+when all five conditions below hold on fresh seeds:
+
+- **(A1) Beats SOTA on the shared failure.**
+  - Comparison set: the best SOTA gated baseline, selected per cell on the same seeds. The SOTA
+    set is every published or R6 gated baseline plus the dependence-robust baselines below. The
+    ShiftLab anchors C1 and C2 are excluded.
+  - Cells: the reproduced shared-failure cells of family 1 (cycle 3) and family 3 (cycle 5).
+  - Per-cell test: `cost(candidate) - cost(best SOTA)` has CI upper bound < -0.01.
+  - Pass rule: the per-cell test holds in at least half of the cells, and the mean difference over
+    cells has CI upper bound < 0.
+- **(A2) No harm nearby.** Across each failure cell's registered neighbours, the mean of
+  `cost(candidate) - cost(best SOTA)` has CI upper bound < +0.01.
+- **(A3) Validity.**
+  - Null false promotion must be at most alpha + 0.05 (point estimate) on boundary nulls with
+    rho = 0, every B/T in {0.05, 0.1, 0.25}, and d in {1, 10}.
+  - Null false promotion must be at most alpha + 0.05 on dependent nulls with rho = 0.5 and
+    B/T ≤ 0.1.
+  - At rho = 0.8, the candidate's false promotion must not exceed that of the best SOTA gated
+    baseline by more than 0.05.
+- **(A4) Mechanism.** Ablating the new component removes at least half of the A1 gain.
+- **(A5) Mild novelty.** An R2 check finds no single source that states this specific rule for
+  this contract: delayed selective paired labels, a hard budget, reversible switching, and
+  false-promotion control. Known ingredients are allowed.
+
+### Candidate (motivated by cycles 3–6)
+
+**DSS: delay-aware, dependence-safe straddle.** Straddle beat the best gated baseline on fresh
+seeds (cycle 3, Amendment 4). Two diagnosed weaknesses limit it:
+
+- (i) **Delay.** Its gain changes sign at about `d* = P·T/(B+P)` (cycle 4).
+- (ii) **Dependence.** It queries consecutive rounds, so under within-regime dependence its
+  validity breaks (cycle 6).
+
+DSS keeps straddle's undecided-only querying and adds two fixed rules:
+
+- **Delay switch.** If `d >= d*`, use uniform calendar acquisition instead.
+- **Minimum inter-query gap `g` rounds.** No query is issued within `g` rounds of the previous
+  query.
+
+Evidence is `started_mixture_eprocess` and the decision rule is `rollback_monitor`, both unchanged
+from `b1a17927d9ad`. `g` is chosen on development seeds `[160000, 170000)` from {1, 4, 8, 16} by a
+locked rule:
+
+1. Keep only the values of `g` whose development null false promotion is at most alpha at rho =
+   0.5 for B/T in {0.05, 0.1, 0.25} and d = 1.
+2. Among those, take the value with the lowest mean development cost over the failure cells.
+
+`g` is then frozen.
+
+**Ablations, run on validation seeds:**
+
+- DSS without the delay switch;
+- DSS with `g = 1`;
+- uniform acquisition, which is the original ablation.
+
+### Added SOTA baselines (dependence-robust)
+
+- **`markov_lr_gate`.** A Markov-likelihood e-process on the queried-label skeleton chain. It is
+  a mixture over a declared grid of 2-state transition matrices, tested against the boundary null
+  in which the stationary favourable probability is `(1+h)/2`. Its promotion, alpha spending,
+  economic check and rollback are the same as `episode_front`. The audit names it as the strongest
+  dependence-robust baseline.
+- **`thinned_hedged_gate`.** The repository started-mixture gate fed only queried labels at least
+  `g_t` rounds apart. `g_t` is fixed before data from a declared mixing assumption: `g_t = 10`.
+
+Both are added to the SOTA set for A1.
+
+### Evaluation
+
+- Validation seeds: `[290000, 290200)`, 200 per cell. They are fresh; no stage has used them.
+- Cost cells: the family-1 and family-3 reproduced shared failures and their neighbours.
+- A3 null grid: rho in {0, 0.5, 0.8} × B/T in {0.05, 0.1, 0.25} × d in {1, 10}.
+- The run is a detached, resumable process. Outputs go to `outputs/failure_atlas_v1_cycle7/`.
+- Nothing is confirmatory. If DSS passes A1–A5, a separate confirmation protocol is written before
+  the confirmation seeds are touched.
+
+### Dependence test (as requested)
+
+The two added baselines are also reported across the full cycle-6 dependence grid:
+
+- the null false-promotion table;
+- power on family-3 failure cells against the published gates.
+
+This answers whether robustness to dependence is cheap or costly in this contract.
+
+## Amendment 9 (2026-11-01): clarify acceptance and register dependence pilot
+
+This amendment follows the user's renewed instruction to diagnose a common failure and seek
+a workable, mildly novel repair. It preserves Amendment 8 and all earlier results verbatim.
+It does not retrospectively turn any failed experiment into a pass.
+
+- A shared failure means every **implemented, contract-applicable comparator in the frozen
+  registry** fails on the declared region. It does not mean every SOTA algorithm in existence.
+- A new theorem, global dominance, and 50% closure to a Bayes reference are not prerequisites
+  for continuing a candidate. Credit known ingredients; novelty must identify an actual rule
+  difference with ablation evidence. A combination alone is not proof of novelty.
+- Amendment 8 A1-A4 remain the registered cycle-7 evaluation, including its numerical margins.
+  They are not a universal definition of publishability. If DSS fails them, retain the result;
+  any narrower evaluation must be registered prospectively with new seeds.
+- Safety cannot be relaxed by comparing with an unsafe best competitor. A3's rho=0.8 relative
+  comparison is descriptive only: it cannot support a dependence-safe claim. Any accepted safety
+  claim needs a declared null/dependence class and an absolute criterion with uncertainty.
+- Fixed gap 4 and gap 10 are empirical mitigations, not exact independence. The Markov gate
+  has a homogeneous-skeleton assumption; unequal query gaps and regime changes need explicit
+  qualification. None is an unrestricted dependence-robust solution.
+
+**Pilot registered before execution:** `scripts/run_atlas_dependence_pilot_v1.py`; development
+seeds [170000,170020), T=1000, 32 cycle-6 dependence null configurations plus the 11 reproduced
+family-3 alternative cells. Compare episode_front, Markov LR, gap-10 betting, frozen DSS gap 4,
+and uniform DSS ablation on identical streams. Report per-cell false-promotion frequencies and
+cost per round, retaining paired seed records. This n=20 pilot checks execution and identifies
+tradeoffs; it cannot pass A1-A4 or establish nominal error control. It does not consume the
+reserved [290000,290200) validation seeds or confirmation seeds. No new tuning is allowed from
+these outputs without recording reuse. Output: `outputs/failure_atlas_v1_cycle7/dependence_pilot/`.
+
+**Metric-completeness addendum, same date:** replay the 11 alternative cells on the identical
+20 seeds to save any promotion, at least one correctly timed promotion (by evaluator regime),
+and any false promotion separately. This repairs the pilot's initially incomplete power
+bookkeeping; it adds no independent evidence and changes no decisions, candidate or thresholds.
+Append replay records rather than deleting the original records. No acceptance verdict follows.
+
+## Amendment 10 (2026-11-01): complete the registered cycle-7 evaluation
+
+The user requested continuation and completion of cycle 7. Execution details, exact
+neighbour definition, comparator registry, aggregation and A4 interpretation are frozen
+in `docs/failure_atlas_cycle7_execution_v1.md` before validation seed use. This completes
+Amendment 8 on [290000,290200); no candidate or numerical acceptance margin is changed.
+The prior 20-seed development pilot is not pooled into validation. The full cycle-6 null
+grid is included as the registered supplementary dependence study.

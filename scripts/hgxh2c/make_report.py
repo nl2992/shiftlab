@@ -207,13 +207,51 @@ def section_stage3():
     return t + "\nfinalists:\n\n" + fin_txt + "\n"
 
 
+def a7_outcome(outcome, v, mv):
+    """A7 interpretation rule: primary pass but verdict != TRANSFER_SUPPORTED caps the outcome at 'useful combination, weak novelty'."""
+    if mv is None:
+        return outcome + " [A7 mechanism evidence pending: stake-size explanation not yet excluded]"
+    verdict = mv["verdict"]
+    if v.get("iut_pass") and v.get("holm_p", 1) < 0.05 and verdict != "TRANSFER_SUPPORTED":
+        why = (
+            "gain explained by stake size, not information transfer"
+            if verdict == "STAKE_SIZE_EFFECT"
+            else "information transfer not demonstrated (M2/M3 inconclusive)"
+        )
+        return f"useful combination, weak novelty [A7 cap: {why}; uncapped: {outcome}]"
+    return f"{outcome} [A7 verdict: {verdict}]"
+
+
+def section_mechanism():
+    m = jload(OUT / "stage4_mechanism/mechanism.json")
+    if not m:
+        return NR
+    t = f"A7 supplementary mechanism analysis (confirm seeds, N capped at {m['config']['N_cap']}). Old E7-E9 and `|nc` entries: **DEFECTIVE_A7** (see PROTOCOL A7).\n\n"
+    t += f"Frozen M3 parameters: multiplier m = {m['m3_params'].get('mult')}, sha256 `{m['config'].get('m3_params_sha256')}`.\n"
+    f = lambda r: f"{r['mean']:.4g} [{r['lo']:.4g}, {r['hi']:.4g}] (p={r['p']:.3g})" if r else "n/a"
+    for fid, v in m.get("finalists", {}).items():
+        t += f"\n### {fid}: **{v['verdict']}**\n\n| comparison | Delta_J = J_comparator - J_finalist (95% CI) |\n|---|---|\n"
+        t += f"| M3(a) stake add-on {v['m3']['shift_addon']} | {f(v['m3']['a'])}; Holm p={v['m3']['m3a_holm_p']:.3g} |\n"
+        t += f"| M3(b) stake multiplier {v['m3']['multiplier']} | {f(v['m3']['b'])}; Holm p={v['m3']['m3b_holm_p']:.3g} |\n"
+        t += f"| vs mix_w0.5 (original) | {f(v['gain_vs_mix'])} |\n"
+        for k, r in v["m2"].items():
+            if isinstance(r, dict):
+                t += f"| M2 {k} | {f(r)} |\n"
+        for lab in ("vs_primary", "vs_secondary", "ablations"):
+            for b, r in v["m1"][lab].items():
+                t += f"| M1 {lab} {b} | {f(r)} |\n"
+        t += f"| M1 ctx_replace | {f(v['m1']['ctx_replace'])} |\n"
+    return t
+
+
 def section_stage4():
     c = jload(OUT / "stage4/confirmation.json")
     if not c:
         return NR
+    mech = (jload(OUT / "stage4_mechanism/mechanism.json") or {}).get("finalists", {})
     t = ""
     for fid, v in c.get("finalists", {}).items():
-        t += f"\n### {fid}\n\nOutcome (PROTOCOL section 10): **{decide(v)}**\n\n"
+        t += f"\n### {fid}\n\nOutcome (PROTOCOL section 10, A7-adjusted): **{a7_outcome(decide(v), v, mech.get(fid))}**\n\n"
         t += f"Primary family (anytime-valid): Holm p = {v.get('holm_p')}, IUT pass = {v.get('iut_pass')}\n\n"
         if "holm_p_secondary" in v:
             t += f"Secondary family (CUSUM/PH, non-anytime-valid): Holm p = {v.get('holm_p_secondary')}, IUT pass = {v.get('iut_pass_secondary')}, status = {v.get('secondary_status')}\n\n"
@@ -221,7 +259,10 @@ def section_stage4():
         for b, r in v.get("vs_baseline", {}).items():
             t += f"| {b} | {r['mean']:.4g} | [{r['lo']:.4g}, {r['hi']:.4g}] | {r['p']:.4g} |\n"
         for k in ("ablations", "negative_control", "power_diff", "regime_wins"):
-            t += f"\n{k} (secondary, unadjusted CIs): `{json.dumps(v.get(k))}`\n"
+            tag = " [DEFECTIVE_A7: superseded by M2]" if k == "negative_control" else ""
+            t += f"\n{k}{tag} (secondary, unadjusted CIs): `{json.dumps(v.get(k))}`\n"
+        if v.get("equivalence"):
+            t += "\nequivalence E7-E9 [DEFECTIVE_A7: T=500, n=8, tau mostly post-horizon]; other E-checks unaffected.\n"
     return t
 
 
@@ -245,6 +286,7 @@ def main():
         ("Stage 2: common benchmark and frontier", section_stage2),
         ("Stage 3: combinatorial search", section_stage3),
         ("Stage 4: confirmation", section_stage4),
+        ("Stage 4b: A7 mechanism evidence", section_mechanism),
     ]
     md = [
         "# HG x H2c final report",

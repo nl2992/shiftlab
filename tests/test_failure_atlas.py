@@ -777,3 +777,276 @@ def test_evaluate_cell_supports_ref_valid2_and_classify_valid_key():
     r = synth(valid=0.10)
     r["methods"]["ref_valid2"] = r["methods"].pop("ref_valid")
     assert fa.classify_cell(r, valid_key="ref_valid2")["label"] == old["label"]
+
+
+# ------------------------------------------------------------------ Amendment 6: families 3 and 4
+
+
+def small3(**kw) -> fa.Family3CellSpec:
+    base = {
+        "rho": 0.5,
+        "onset": 0.3,
+        "duration": 1.0,
+        "effect": "strong",
+        "off_type": "harmful",
+        "d": 10,
+        "budget_frac": 0.1,
+    }
+    base.update(kw)
+    return fa.Family3CellSpec(T=T, **base)
+
+
+def small4(**kw) -> fa.Family4CellSpec:
+    base = {
+        "delay": "u3",
+        "onset": 0.3,
+        "duration": 1.0,
+        "effect": "strong",
+        "off_type": "harmful",
+        "d": 10,
+        "budget_frac": 0.1,
+    }
+    base.update(kw)
+    return fa.Family4CellSpec(T=T, **base)
+
+
+def test_family34_grid_sizes_and_unique_ids():
+    c3, c4 = fa.all_cells3(), fa.all_cells4()
+    assert len(c3) == 192 and len({c.cell_id for c in c3}) == 192
+    assert len(c4) == 192 and len({c.cell_id for c in c4}) == 192
+    assert len({c.null_twin().cell_id for c in c3}) == 12
+    assert len({c.null_twin().cell_id for c in c4}) == 12
+    assert all(c.s == 0.1 and c.T == 1000 for c in (*c3, *c4))
+    assert {c.delays for c in c4 if c.d == 10} == {(10, 10), (10, 30), (30, 10)}
+    ids3, ids4 = {c.cell_id for c in c3}, {c.cell_id for c in c4}
+    for cell in (*c3[:5], *c4[:5]):  # neighbours stay inside the family grid
+        for n in fa.neighbours(cell):
+            assert n.cell_id in (ids3 if cell.family == 3 else ids4)
+
+
+def test_family34_easiest_moves_one_axis():
+    cell = small3(rho=0.8, onset=0.6, duration=0.6, effect="medium", d=10, budget_frac=0.05)
+    cell4 = small4(delay="f3", onset=0.6, duration=0.6, effect="medium", d=10, budget_frac=0.05)
+    for c, easiest in ((cell, fa.EASIEST3), (cell4, fa.EASIEST4)):
+        for ax in c.axes:
+            moved = c.easiest(ax)
+            assert getattr(moved, ax) == easiest[ax]
+            assert sum(getattr(moved, a) != getattr(c, a) for a in c.axes) <= 1
+
+
+def test_markov_transition_formulas():
+    for p in (0.1, 0.5, 0.7, 0.9):
+        for rho in (0.0, 0.5, 0.8):
+            p01, p11 = fa.markov_transitions(p, rho)
+            assert p11 == pytest.approx(p + rho * (1 - p))
+            assert p01 == pytest.approx(p * (1 - rho))
+            assert p01 / (1 - p11 + p01) == pytest.approx(p)  # stationary mean
+            assert p11 - p01 == pytest.approx(rho)  # lag-1 autocorrelation of a 2-state chain
+
+
+@pytest.mark.parametrize("rho", fa.RHOS3)
+@pytest.mark.parametrize("effect", ["strong", "medium"])
+def test_family3_stationary_mean_and_autocorrelation(rho, effect):
+    n = 100_000
+    cell = fa.Family3CellSpec(rho, 0.3, 1.0, effect, "harmful", 1, 0.1, T=n)
+    st = fa.make_family3_stream(cell, 5)
+    y = st.loss0  # Y = 1 is favourable
+    off_p, on_p = cell.p_pair
+    on = st.truth.regime == 1
+    for mask, p in ((~on, off_p), (on, on_p)):
+        seg = y[mask][1:]
+        assert abs(seg.mean() - p) < 0.01
+        z = seg - seg.mean()
+        ac = float(np.dot(z[1:], z[:-1]) / np.dot(z, z))
+        assert abs(ac - rho) < 0.02
+    assert st.truth.regime_mean[on][0] == pytest.approx(1 - 2 * on_p)
+
+
+def test_family3_null_twin_boundary_and_never_on():
+    for rho in fa.RHOS3:
+        cell = fa.Family3CellSpec(
+            rho, 0.6, 1.0, "medium", "neutral", 10, 0.05, T=50_000
+        ).null_twin()
+        assert cell.null and cell.rho == rho and cell.d == 10
+        st = fa.make_family3_stream(cell, 1)
+        assert st.truth.regime.sum() == 0
+        assert np.all(st.truth.regime_mean >= -cell.h)  # every promotion is false (exact boundary)
+        assert abs(float((st.D == -1).mean()) - (1 + cell.h) / 2) < 0.015  # P(D=-1) = (1+h)/2
+        assert abs(-st.D.mean() - cell.h) < 0.03  # E[-D] = h
+
+
+def test_family4_stream_is_rho0_and_null_boundary():
+    cell = fa.Family4CellSpec("u3", 0.3, 1.0, "strong", "harmful", 10, 0.1, T=50_000)
+    assert cell.rho == 0.0 and cell.delays == (10, 30)
+    st = fa.make_family4_stream(cell, 2)
+    y = st.loss0[st.truth.regime == 1]
+    assert abs(y.mean() - 0.9) < 0.01
+    z = y - y.mean()
+    assert abs(float(np.dot(z[1:], z[:-1]) / np.dot(z, z))) < 0.02
+    tw = cell.null_twin()
+    st = fa.make_family4_stream(tw, 2)
+    assert st.truth.regime.sum() == 0 and abs(float((st.D == -1).mean()) - 0.55) < 0.01
+    assert np.all(st.truth.regime_mean >= -tw.h)
+
+
+def test_family34_streams_deterministic_and_disjoint():
+    c3, c4 = small3(), small4()
+    for c, mk in ((c3, fa.make_family3_stream), (c4, fa.make_family4_stream)):
+        a, b = mk(c, 4), mk(c, 4)
+        assert np.array_equal(a.loss0, b.loss0)
+        assert not np.array_equal(a.loss0, mk(c, 5).loss0)
+    assert not np.array_equal(
+        fa.make_family3_stream(c3, 4).loss0, fa.make_family4_stream(c4, 4).loss0
+    )
+
+
+def test_informative_harness_equals_run_when_delays_equal():
+    from shiftlab.dive.atlas_release_hook import outcome_delay, run_informative
+
+    spec = fa.bernoulli_grid_spec()
+    cell = small4(delay="same", d=10, budget_frac=0.25)
+    names = ("periodic_mean", "episode_front", "c1_hmm_cs", "pacing_bernoulli", "dal_restart")
+    for sd in (0, 1, 2):
+        st = fa.make_stream(cell, sd)
+        cfg = cell.config(sd)
+        facs = [lambda n=n, cfg=cfg: fa.make_method(n, spec, cfg) for n in names]
+        facs += [lambda: fa.build_ref_valid(cell), lambda: fa.build_ref_family_for(cell, 0.1)]
+        for fac in facs:
+            a = run(st, fac(), cfg)
+            b = run_informative(st, fac(), cfg, outcome_delay(cfg.d, cfg.d))
+            assert np.array_equal(a.actions, b.actions)
+            assert np.array_equal(a.query_mask, b.query_mask)
+            assert a.cost == b.cost and a.promotions == b.promotions and a.fp_regime == b.fp_regime
+        # run_for (with the reorder buffer for c1_hmm_cs) is also identical under equal delays
+        for n in names:
+            a = run(st, fa.make_method(n, spec, cfg), cfg)
+            b = fa.run_for(cell, st, fa.make_method(n, spec, cfg), cfg)
+            assert np.array_equal(a.actions, b.actions) and a.cost == b.cost
+
+
+def test_informative_release_order_ties_and_wasted_queries():
+    from shiftlab.dive.atlas_release_hook import outcome_delay, run_informative
+
+    seen: list = []
+
+    class Probe(Method):
+        name = "probe"
+        qrounds = (1, 2, 3, 22)
+
+        def decide(self, t, released):
+            seen.append((t, released))
+            return 0, t in self.qrounds
+
+    # D = -1 (favourable) at t = 1, 3; D = +1 at t = 2 and t = 22 (loss0 = Y)
+    loss0 = np.zeros(25)
+    loss0[[0, 2]] = 1.0
+    st = fa.Stream(loss0, 1.0 - loss0)
+    cfg = fa.Config(T=25, B=10, d=2)
+    res = run_informative(st, Probe(), cfg, outcome_delay(2, 6))  # t1 -> 3, t3 -> 5, t2 -> 8
+    rel = dict(seen)
+    assert rel[3] == ((1, -1.0),)
+    assert rel[5] == ((3, -1.0),)  # released before the earlier query t = 2
+    assert rel[8] == ((2, 1.0),)  # out-of-order release
+    assert res.queries == 4 and res.wasted_queries == 1  # t = 22 would be released at 28 > T
+    assert sum(len(r) for _, r in seen) == 3  # the wasted label is never delivered
+    # tie: an unfavourable query at t = 1 (-> 7) and a favourable one at t = 5 (-> 7)
+    seen.clear()
+
+    class Tie(Probe):
+        qrounds = (1, 5)
+
+    l0 = np.zeros(25)
+    l0[4] = 1.0
+    run_informative(fa.Stream(l0, 1.0 - l0), Tie(), cfg, outcome_delay(2, 6))
+    assert dict(seen)[7] == ((1, 1.0), (5, -1.0))
+
+
+def test_informative_budget_enforced_and_wasted_counted():
+    from shiftlab.dive.atlas_release_hook import outcome_delay, run_informative
+    from shiftlab.dive.switching_explore import BudgetExceeded
+
+    class Greedy:
+        name = "greedy"
+
+        def start(self, cfg):
+            pass
+
+        def step(self, t, released):
+            return 0, True
+
+    st = fa.make_stream(small4(), 0)
+    cfg = fa.Config(T=T, B=5, d=2)
+    with pytest.raises(BudgetExceeded):
+        run_informative(st, Greedy(), cfg, outcome_delay(2, 6))
+    with pytest.raises(BudgetExceeded):
+        run(st, Greedy(), cfg)
+    spec = fa.bernoulli_grid_spec()
+    for name in fa.gated_methods():  # real methods are capped by Method.step
+        cell = small4(budget_frac=0.1)
+        cfg = cell.config(0)
+        r = fa.run_for(cell, fa.make_stream(cell, 0), fa.make_method(name, spec, cfg), cfg)
+        assert r.queries <= cell.B and r.wasted_queries <= r.queries
+
+
+def test_run_for_dispatch_and_wasted_queries_family4():
+    spec = fa.bernoulli_grid_spec()
+    c4 = small4(delay="u3", d=10, budget_frac=0.25)
+    waste = 0
+    for sd in range(3):
+        cfg = c4.config(sd)
+        r = fa.run_for(c4, fa.make_stream(c4, sd), fa.make_method("periodic_mean", spec, cfg), cfg)
+        waste += r.wasted_queries
+    assert waste > 0  # d_u = 3d: unfavourable late queries are released after T
+    c3 = small3()
+    st3, cfg3 = fa.make_stream(c3, 1), c3.config(1)
+    a = fa.run_for(c3, st3, fa.make_method("periodic_mean", spec, cfg3), cfg3)
+    b = run(st3, fa.make_method("periodic_mean", spec, cfg3), cfg3)
+    assert np.array_equal(a.actions, b.actions) and a.cost == b.cost
+
+
+@pytest.mark.parametrize("which", [3, 4])
+def test_family34_references_budget_and_no_peeking(which):
+    cell = small3(rho=0.8) if which == 3 else small4(delay="u3")
+    dmin = min(cell.delays) if which == 4 else cell.d
+    r0 = 120
+    builders = (
+        lambda: fa.build_ref_family_for(cell, 0.3),
+        lambda: fa.build_ref_law(cell),
+        lambda: fa.build_ref_valid(cell),
+        lambda: fa.make_method("episode_front", fa.bernoulli_grid_spec(), cell.config(3)),
+        lambda: fa.make_method("c1_hmm_cs", fa.bernoulli_grid_spec(), cell.config(3)),
+    )
+    for build in builders:
+        for sd in range(3):
+            st = fa.make_stream(cell, sd)
+            r = fa.run_for(cell, st, build(), cell.config(sd))  # BudgetExceeded would raise
+            assert r.queries <= cell.B
+        st = fa.make_stream(cell, 3)
+        st2 = fa.Stream(st.loss0.copy(), st.loss1.copy(), st.truth)
+        st2.loss0[r0:], st2.loss1[r0:] = 1.0 - st.loss0[r0:], 1.0 - st.loss1[r0:]
+        a = fa.run_for(cell, st, build(), cell.config(3)).actions
+        b = fa.run_for(cell, st2, build(), cell.config(3)).actions
+        # outcomes of round r0 + 1 on are released no earlier than r0 + 1 + dmin
+        assert np.array_equal(a[: r0 + dmin], b[: r0 + dmin])
+
+
+def test_family34_evaluate_classify_smoke():
+    for cell in (small3(rho=0.8), small4(delay="f3")):
+        res = fa.evaluate_cell(
+            cell,
+            (0, 1),
+            methods=("no_switch", "episode_front", "periodic_mean"),
+            refs=("ref_law", "ref_family", "ref_valid"),
+            kappa=0.3,
+        )
+        assert res["null"] is not None and "ref_family" in res["null"]["methods"]
+        cl = fa.classify_cell(res, safety_gated=("episode_front",))
+        assert cl["label"] in {
+            "info_limited",
+            "reference_unsafe",
+            "shared_failure",
+            "cost_of_validity",
+            "prior_gap",
+            "headroom_not_shared",
+            "no_headroom",
+        }

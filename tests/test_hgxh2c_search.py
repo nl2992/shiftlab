@@ -481,3 +481,53 @@ def test_stage4_bootstrap_vectorised_at_scale():
         and abs(ref["lo"] - new["lo"]) < 0.15
         and abs(ref["hi"] - new["hi"]) < 0.15
     )
+
+
+def test_a6_score_is_min_over_members_of_cumulative_gain():
+    """Three baselines, each best in a different cell: the A6 score is min_b mean(J_b - J_c) and beats the old per-cell-min score."""
+    JP = np.array([[1.0, 5.0, 5.0], [5.0, 1.0, 5.0], [5.0, 5.0, 1.0]])  # member b is best in cell b
+    Jc = np.array(
+        [[2.0, 2.0, 2.0], [0.5, 0.5, 9.0]]
+    )  # candidate 0 is worse than each member in its own cell
+    dJ, bind = SR.min_member_gain(JP, Jc)
+    want = np.array([min((JP[b] - Jc[i]).mean() for b in range(3)) for i in range(2)])
+    assert np.allclose(dJ, want)
+    old = (JP.min(0)[None] - Jc).mean(1)  # A5: gain against the per-cell oracle composite
+    assert (dJ > old + 1e-12).all()  # strictly larger: the composite is not a deployable comparator
+    assert (
+        bind[0] == 0
+    )  # member 0 is the binding one for candidate 0 (all members tie on mean J, argmin is the first)
+    tabs = {
+        "J": Jc,
+        "harm": np.ones((2, 3)),
+        "hit": np.ones((2, 3)),
+        "fa": np.zeros((2, 3)),
+        "null": np.zeros((2, 3)),
+        "lab": np.ones((2, 3)),
+        "runtime": np.zeros(2),
+    }
+    d = SR.summarise(tabs, JP, None, JP[:2])
+    assert np.allclose(d.dJ, dJ) and np.allclose(d.dJ_sec, SR.min_member_gain(JP[:2], Jc)[0])
+
+
+def test_registry_scoring_version_and_sidecar(tmp_path):
+    import pandas as pd
+
+    d = tmp_path / "registry.parquet"
+    old = SR.Registry(d)
+    old.append(
+        "r0-c0", pd.DataFrame({"rung": [0], "hash": ["a"], "status": "evaluated", "dJ": [-1.0]})
+    )
+    (d / "_scoring_manifest.json").write_text(
+        json.dumps({"a5_percell_min": ["part-r0-c0.parquet"]})
+    )
+    new = SR.Registry(d, prefix="a6-")
+    new.append(
+        "r0-c0", pd.DataFrame({"rung": [0], "hash": ["b"], "status": "evaluated", "dJ": [1.0]})
+    )  # same logical name, no collision
+    r = new.read().set_index("hash")
+    assert (
+        r.loc["a", "scoring"] == "a5_percell_min"
+        and r.loc["b", "scoring"] == "a6_min_member_cumulative"
+    )
+    assert len(pd.read_parquet(d)) == 2  # the sidecar does not break dataset reads

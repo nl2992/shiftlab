@@ -1,5 +1,10 @@
 # ShiftLab research charter
 
+> **Failure Atlas direction, 2026-11-01:** pursue a diagnosed shared failure and a useful,
+> modestly novel repair against strong matched competitors. A new theorem is not required
+> for continuing this method search. See [evidence review](failure_atlas_review_2026_11_01.md)
+> and Failure Atlas protocol Amendments 8–9; historical results and scientific safeguards stand.
+
 > **Active-direction update — 2026-10-28:** The user has selected one methodological contribution
 > in budget-aware model switching under delayed feedback. The governing execution goals and
 > precedence over earlier benchmark-paper plans are in

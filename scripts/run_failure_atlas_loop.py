@@ -39,6 +39,8 @@ import numpy as np
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
+import itertools
+
 from shiftlab.dive import failure_atlas as fa
 from shiftlab.dive.switching_explore import paired_ci
 
@@ -47,6 +49,7 @@ SOURCES = (
     "src/shiftlab/dive/failure_atlas.py",
     "src/shiftlab/dive/atlas_components.py",
     "src/shiftlab/dive/atlas_r6_baselines.py",
+    "src/shiftlab/dive/atlas_release_hook.py",
     "src/shiftlab/dive/switching_explore.py",
     "src/shiftlab/dive/eprocess.py",
     "scripts/run_failure_atlas_loop.py",
@@ -71,6 +74,37 @@ def null_fp_worker(task: tuple) -> dict:
     twin, seed_list, kappa = task
     k = fa.null_fp_by_kappa((twin, seed_list, (kappa,)))[kappa]
     return {"twin": twin.cell_id, "k": int(k), "n": len(seed_list), "_runs": len(seed_list)}
+
+
+def null_baseline_worker(task: tuple) -> dict:
+    """Per-baseline null false-promotion counts on one null twin (gated baselines + R_family/R_valid)."""
+    twin, seed_list, kappa = task
+    names = tuple(fa.gated_methods())
+    spec = fa.bernoulli_grid_spec()
+    k = dict.fromkeys((*names, "ref_family", "ref_valid"), 0)
+    any_gated = 0
+    for sd in seed_list:
+        stream = fa.make_stream(twin, sd)
+        cfg = twin.config(sd)
+        hit = 0
+        for m in names:
+            r = fa.run_for(twin, stream, fa.make_method(m, spec, cfg), cfg)
+            f = int((r.fp_regime or 0) > 0)
+            k[m] += f
+            hit |= f
+        any_gated += hit
+        for rn, ref in (
+            ("ref_family", fa.build_ref_family_for(twin, kappa)),
+            ("ref_valid", fa.build_ref_valid(twin)),
+        ):
+            k[rn] += int((fa.run_for(twin, stream, ref, cfg).fp_regime or 0) > 0)
+    return {
+        "twin": twin.cell_id,
+        "k": k,
+        "any_gated": any_gated,
+        "n": len(seed_list),
+        "_runs": len(seed_list) * (len(names) + 2),
+    }
 
 
 def spec_info(spec) -> dict:
@@ -164,17 +198,14 @@ class Runner:
         self.args = args
         self.pool = pool
         self.family = family
-        self.axes = fa.AXES2 if family == 2 else fa.AXES
-        self.easiest = fa.EASIEST2 if family == 2 else fa.EASIEST
+        self.axes, self.easiest, self._gen = fa.FAMILY_INFO[family]
         self.out = Path(out or args.out)
         self.out.mkdir(parents=True, exist_ok=True)
         self.state_path = self.out / "state.json"
         self.archive_path = self.out / "archive.jsonl"
         self.git = git_info()
         self.T = 200 if args.smoke else 1000
-        self.cells = {
-            c.cell_id: c for c in (fa.all_cells2(self.T) if family == 2 else fa.all_cells(self.T))
-        }
+        self.cells = {c.cell_id: c for c in self._gen(self.T)}
         self.state = {
             "stage": 0,
             "kappa": fa.KAPPA_DEFAULT,
@@ -407,6 +438,32 @@ class Runner:
             self.state["smoke_forced"] = True
         return top
 
+    def stage_null_baselines(self) -> None:
+        """Amendment 6: per-gated-baseline null false promotion, 100 dedicated seeds per twin."""
+        kappa = self.state["kappa"]
+        sd = fa.seeds("discovery", self.args.n_null_seeds, offset=5000)
+        twins = {c.null_twin().cell_id: c.null_twin() for c in self.cells.values()}
+        tag = self._tag(sd)
+        items = [
+            (f"nullbase|{tid}|{tag}|k{kappa}", "nullbase", (tw, tuple(sd), kappa))
+            for tid, tw in twins.items()
+        ]
+        self.run_items(null_baseline_worker, items, "null_baselines")
+        self.state["nullbase"] = {
+            "seeds": tag,
+            "kappa": kappa,
+            "twins": {
+                tid: {
+                    **self.rows[it[0]]["payload"],
+                    "rho": tw.rho,
+                    "delays": list(tw.delays) if tw.family == 4 else None,
+                    "d": tw.d,
+                }
+                for (tid, tw), it in zip(twins.items(), items, strict=True)
+            },
+        }
+        self.save()
+
     def stage2_reproduce(self) -> None:
         a = self.args
         self.state["candidates"] = self.rank_candidates()
@@ -451,8 +508,8 @@ class Runner:
     def stage2b_diagnose(self) -> None:
         """Descriptive decomposition on every reproduced survivor (evaluator-side, Amendment 1)."""
         a = self.args
-        if self.family == 2:  # the onset-oracle decomposition is defined for family 1 only
-            self.state["diagnostics_status"] = "not defined for family 2 (no scripted onset)"
+        if self.family != 1:  # the onset-oracle decomposition is defined for family 1 only
+            self.state["diagnostics_status"] = "not defined for this family (stages 1-4 only)"
             self.state["stage"] = max(self.state["stage"], 3)
             self.save()
             return
@@ -919,7 +976,128 @@ class Runner:
                     line += f"; validation: {s6}"
                 md.append(line)
         md += self.summary_cycle2()
+        md += self.summary_f34()
         (self.out / "summary.md").write_text("\n\n".join(md) + "\n", encoding="utf-8")
+
+    def summary_f34(self) -> list[str]:
+        """Amendment 6: per-baseline null FP tables and the locked D1/D2/I1/I2 verdicts."""
+        nb = self.state.get("nullbase")
+        if self.family not in (3, 4) or not nb:
+            return []
+        alpha = 0.1
+        gated = list(fa.gated_methods())
+        rows_all = [*gated, "ref_family", "ref_valid"]
+        twins = nb["twins"]
+
+        def key(t):
+            if self.family == 3:
+                return f"rho={t['rho']:g}"
+            df, du = t["delays"]
+            return f"d_f={df},d_u={du},d={t['d']}"
+
+        groups: dict[str, list[dict]] = {}
+        for t in twins.values():
+            groups.setdefault(key(t), []).append(t)
+        order = sorted(groups)
+
+        def pooled(ts, m):
+            k = sum((t["any_gated"] if m == "any_gated" else t["k"][m]) for t in ts)
+            n = sum(t["n"] for t in ts)
+            return k, n, fa.wilson(k, n)
+
+        def cell_txt(ts, m):
+            k, n, (r, lo, hi) = pooled(ts, m)
+            return f"{k}/{n} = {r:.3f} [{lo:.3f},{hi:.3f}]"
+
+        out = [
+            "## Null-twin false promotion per baseline (Amendment 6; 100 dedicated seeds per twin, pooled)",
+            (
+                f"Seeds {nb['seeds']}; kappa (R_family) = {nb['kappa']}; alpha = {alpha}; {len(twins)} distinct "
+                "twins; each cell shows null runs with a promotion / runs = rate [Wilson 95%]. Any promotion "
+                "on a null twin is a false promotion (stationary benefit exactly at the hurdle boundary)."
+            ),
+        ]
+        allts = list(twins.values())
+        out.append(
+            md_table(
+                ["method", *order, "pooled"],
+                [
+                    [m, *[cell_txt(groups[g], m) for g in order], cell_txt(allts, m)]
+                    for m in [*rows_all, "any_gated"]
+                ],
+            )
+        )
+        out.append("(`any_gated` = at least one safety-gated baseline promoted in the same run.)")
+        thr = alpha + fa.FP_SLACK
+
+        def ok(b):
+            return "PASS" if b else "FAIL"
+
+        out.append("## Locked predictions (Amendment 6; exploratory, nothing confirmatory)")
+        if self.family == 3:
+            ts = groups.get("rho=0.8", [])
+            rates = {m: pooled(ts, m) for m in gated}
+            best = max(gated, key=lambda m: rates[m][2][0])
+            k, n, (r, lo, hi) = rates[best]
+            out.append(
+                f"- **D1 {ok(r > thr)}**: at rho = 0.8 the highest pooled null any-promotion rate among "
+                f"safety-gated baselines is `{best}` {k}/{n} = {r:.3f} [{lo:.3f},{hi:.3f}] "
+                f"(criterion: > alpha + 0.05 = {thr:.2f}, point estimate; Wilson lower bound "
+                f"{'above' if lo > thr else 'not above'} the criterion). Baselines above the criterion: "
+                + (", ".join(m for m in gated if rates[m][2][0] > thr) or "none")
+                + "."
+            )
+            rhos = sorted({t["rho"] for t in allts})
+            mono = {}
+            for m in gated:
+                seq = [pooled(groups[f"rho={x:g}"], m)[2][0] for x in rhos]
+                mono[m] = (all(a <= b for a, b in itertools.pairwise(seq)), seq)
+            nm = sum(v[0] for v in mono.values())
+            out.append(
+                f"- **D2 (descriptive) {ok(nm == len(mono))}**: null false-promotion rate "
+                f"non-decreasing in rho (point estimates) for {nm} of {len(mono)} gated baselines. "
+                + "; ".join(
+                    f"`{m}` "
+                    + "/".join(f"{x:.3f}" for x in v[1])
+                    + (" ok" if v[0] else " NOT monotone")
+                    for m, v in mono.items()
+                )
+                + f" (rho = {', '.join(f'{x:g}' for x in rhos)})."
+            )
+            out.append("- I1, I2: not applicable to family 3.")
+        else:
+            u10 = [t for t in allts if t["delays"][1] == 3 * t["delays"][0] and t["d"] == 10]
+            rates = {m: pooled(u10, m) for m in gated}
+            best = max(gated, key=lambda m: rates[m][2][0])
+            k, n, (r, lo, hi) = rates[best]
+            out.append(
+                f"- **I1 {ok(r > thr)}**: d_u = 3d > d_f, base d = 10: highest gated null false-promotion "
+                f"rate is `{best}` {k}/{n} = {r:.3f} [{lo:.3f},{hi:.3f}] (criterion: > {thr:.2f}, point "
+                f"estimate; Wilson lower bound {'above' if lo > thr else 'not above'}). Baselines above: "
+                + (", ".join(m for m in gated if rates[m][2][0] > thr) or "none")
+                + "."
+            )
+            f3 = [t for t in allts if t["delays"][0] == 3 * t["delays"][1]]
+            rates2 = {m: pooled(f3, m) for m in gated}
+            worst = max(gated, key=lambda m: rates2[m][2][0])
+            k2, n2, (r2, lo2, hi2) = rates2[worst]
+            out.append(
+                f"- **I2 {ok(all(rates2[m][2][0] <= alpha for m in gated))}**: d_f > d_u (both base d, "
+                f"pooled): highest gated rate is `{worst}` {k2}/{n2} = {r2:.3f} [{lo2:.3f},{hi2:.3f}] "
+                f"(criterion: every gated baseline <= alpha = {alpha}, point estimate; Wilson upper "
+                f"bound of the highest {'<=' if hi2 <= alpha else '>'} alpha). Baselines above alpha: "
+                + (", ".join(m for m in gated if rates2[m][2][0] > alpha) or "none")
+                + "."
+            )
+            out.append("- D1, D2: not applicable to family 4.")
+        out.append(
+            "Declared misspecifications: family 3 breaks the conditional null `E[X_t | F_{t-1}] <= 0` "
+            "(only the stationary mean sits at the boundary) and R_family ignores the dependence; in "
+            "family 4 the methods keep `cfg.d` = base d (calendars, `can_query` t + d <= T), queries "
+            "released after T are charged and wasted, and `c1_hmm_cs` runs behind a head-of-line "
+            "reorder buffer because its HMM bank needs event-ordered labels."
+        )
+        return ["\n\n".join(out)]
 
     def summary_cycle2(self) -> list[str]:
         st, md = self.state, []
@@ -1209,7 +1387,7 @@ def build_args() -> argparse.Namespace:
     ap.add_argument("--max-hours", type=float, default=4.0)
     ap.add_argument("--max-runs", type=int, default=2_000_000)
     ap.add_argument("--sample-seed", type=int, default=12345)
-    ap.add_argument("--family", choices=("1", "2", "both"), default="1")
+    ap.add_argument("--family", choices=("1", "2", "3", "4", "both"), default="1")
     ap.add_argument(
         "--n-sample", type=int, default=None, help="default 240 (family 1), 200 (family 2)"
     )
@@ -1252,9 +1430,9 @@ def build_args() -> argparse.Namespace:
 def run_family(args, pool, family: int, out: str) -> None:
     fargs = argparse.Namespace(**vars(args))
     if not args.smoke:  # family defaults (protocol: 240+120 for family 1, 200+100 for family 2)
-        fargs.n_sample = args.n_sample_given or (200 if family == 2 else 240)
-        fargs.n_refine = args.n_refine_given or (100 if family == 2 else 120)
-    if family == 2:  # cycle-2 cells and classes exist for family 1 only
+        fargs.n_sample = args.n_sample_given or {1: 240, 2: 200, 3: 192, 4: 192}[family]
+        fargs.n_refine = args.n_refine_given or {1: 120, 2: 100, 3: 0, 4: 0}[family]
+    if family != 1:  # cycle-2 cells and classes exist for family 1 only
         fargs.reuse_cells_from = fargs.compare_to = None
     runner = Runner(fargs, pool, family, out)
     print(f"[atlas] family {family} -> {out}", flush=True)
@@ -1264,14 +1442,20 @@ def run_family(args, pool, family: int, out: str) -> None:
         runner.stage0_registry()
         runner.stage1_discover()
         runner.mark("stage1_discover")
+        if family in (3, 4):
+            runner.stage_null_baselines()
+            runner.mark("stage_null_baselines")
         runner.stage2_reproduce()
         runner.mark("stage2_reproduce")
         runner.stage2b_diagnose()
         runner.mark("stage2b_diagnose")
         runner.stage4_isolate()
         runner.mark("stage4_isolate")
-        runner.stage5_6_mechanism()
-        runner.mark("stage5_6_mechanism")
+        if family in (3, 4):  # Amendment 6: stages 1-4 only until validity failures are understood
+            runner.state["stage56_status"] = "stages 5-6 not run (Amendment 6, item 4)"
+        else:
+            runner.stage5_6_mechanism()
+            runner.mark("stage5_6_mechanism")
         runner.state["stopped"] = "completed all stages"
     except StopLoop as stop:
         runner.state["stopped"] = str(stop)

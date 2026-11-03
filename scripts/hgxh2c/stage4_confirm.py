@@ -93,7 +93,9 @@ def run_chunk(tape, todo, spec):
         groups.setdefault(spec[m][1].group, []).append(m)
     for ms in groups.values():
         t0 = time.perf_counter()
-        res = G.compile_batch([spec[m][1] for m in ms]).run(tape)
+        # Candidate updates are tensor-only and graph-compatible. Capturing the
+        # time loop once avoids thousands of small CUDA launches per cell.
+        res = G.compile_batch([spec[m][1] for m in ms], graph=True).run(tape)
         for k, m in enumerate(ms):
             add(m, res, k, (time.perf_counter() - t0) / len(ms))
     for m in todo:
@@ -101,13 +103,13 @@ def run_chunk(tape, todo, spec):
         if m in spec and spec[m][0] == "ctx":
             add(
                 m,
-                G.compile_batch([spec[m][1]], ctx_replace=True).run(tape),
+                G.compile_batch([spec[m][1]], ctx_replace=True, graph=True).run(tape),
                 0,
                 time.perf_counter() - t0,
             )
         elif m in spec and spec[m][0] == "nc":
             tp = SR.shuffled(tape, spec[m][2], seed=7) if spec[m][2] else tape
-            add(m, G.compile_batch([spec[m][1]]).run(tp), 0, time.perf_counter() - t0)
+            add(m, G.compile_batch([spec[m][1]], graph=True).run(tp), 0, time.perf_counter() - t0)
         elif m not in spec:
             add(m, REGISTRY[m][0]().run(tape), 0, time.perf_counter() - t0)
     return out
@@ -178,12 +180,6 @@ def far_cp(d, fams):
 def analyse(sh, fin, sel, bases, secondary, fcs, fr, a, out):
     mr = load_make_report()
     ids = sorted(p.name for p in sh.iterdir() if p.is_dir() and p.name != "_calib")
-    dfs = {
-        i: pd.concat(
-            [pd.read_parquet(f) for f in sorted((sh / i).glob("*.parquet"))], ignore_index=True
-        )
-        for i in ids
-    }
     orig = {
         safe(m): m
         for m in list(bases)
@@ -191,8 +187,39 @@ def analyse(sh, fin, sel, bases, secondary, fcs, fr, a, out):
         + [f["hash"] + s for f in fin["finalists"] for s in ("", "|ctx", "|nc")]
         + [f"{f['hash']}|abl:{'_'.join(G.SLOTS[s])}" for f in fin["finalists"] for s in range(6)]
     }
+    final_ids = {f["hash"] for f in fin["finalists"]}
+    ref_id = orig.get(ids[0], ids[0])
+    meta_cols = ["family", "tau", "null_B", "null_C"]
+    cost_cols = [
+        "n_queries",
+        "excess_cost_before_alarm",
+        "info_cost",
+        "intervention_cost",
+        "switching_cost",
+        "loss_before_alarm",
+        "cumulative_decision_cost",
+        "runtime_s",
+    ]
+    # The full KEEP table is several GB at confirmation scale. Read only fields
+    # consumed below; retain float64 for paired inference calculations.
+    dfs = {}
+    for i in ids:
+        method = orig.get(i, i)
+        cols = ["cell_id", "seed", "J_cost"]
+        if method in bases or method in final_ids:
+            cols.append("alarm_J")
+        if method == ref_id or method in final_ids:
+            cols.extend(meta_cols)
+        if method in final_ids:
+            cols.extend(cost_cols)
+        files = sorted((sh / i).glob("*.parquet"))
+        d = pd.concat([pd.read_parquet(f, columns=cols) for f in files], ignore_index=True)
+        # Store repeated cell IDs as category codes instead of millions of
+        # Python string objects in every method table.
+        d["cell_id"] = d["cell_id"].astype("category")
+        dfs[i] = d
     D = {orig.get(i, i): d.set_index(["cell_id", "seed"]) for i, d in dfs.items()}
-    ref = next(iter(D.values()))
+    ref = D[ref_id]
     idx = ref.index
     meta = ref[["family", "tau", "null_B", "null_C"]]
     W = pd.DataFrame({m: d.J_cost.reindex(idx) for m, d in D.items()})
@@ -268,7 +295,6 @@ def analyse(sh, fin, sel, bases, secondary, fcs, fr, a, out):
                 s = W[W.family == fam]
                 tbl[fam] = {
                     "gain_vs_best": float((s[best] - s[h]).mean()),
-                    "gain_vs_all_min": float((s[nb].min(axis=1) - s[h]).mean()),
                     "wins_all": bool(all((s[b] - s[h]).mean() > 0 for b in nb)),
                 }
             v["regime_table"] = tbl

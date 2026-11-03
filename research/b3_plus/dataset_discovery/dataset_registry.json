@@ -719,13 +719,77 @@
         "time_reliable": null
       },
       "overlap_note": "Controlled-environment sensor stream; distinct from rialto (video) and weather.",
-      "status": "NOT_RUN",
-      "status_reason": "REOPENED 2026-11-02 before screening. The earlier USELESS_DUPLICATE was misapplied: it said the Insects family is 'represented by insects_abrupt_balanced', but that variant was discarded (USELESS_NO_HEADROOM), so the family holds no SUCCESS and the duplicate rule in screen() (which triggers only on an existing SUCCESS in the family) does not apply. This is a different stream, not a retry of a failed dataset with different settings, which the protocol forbids. PRE-STATED SCIENTIFIC REASON, fixed before any locked window is read: the reoccurring-concept variant is the only accessible candidate that plausibly exhibits POST-PROMOTION REVERSAL, which is the one failure mode of P7s characterised so far only in simulation (B3_PLUS_RESULTS.md section 11). It is screened for that reason whatever the cost outcome, and a negative result is as informative as a positive one here. MULTIPLICITY CONTROL: exactly ONE further Insects variant is screened, chosen for this reason and not by trying variants until one passes; the remaining five stay USELESS_DUPLICATE. If it succeeds, at most one Insects case may ever be counted.",
+      "status": "USELESS_NO_HEADROOM",
+      "status_reason": "dev-window headroom precheck failed, locked window never read: option A (HGB 0-30%): disagree=0.0672, inc=0.2215, chal=0.2263, adv*T=-9.58 (needs > 5.0); option B (LR 15-30%): disagree=0.0465, inc=0.2215, chal=0.2295, adv*T=-16.09 (needs > 5.0)",
       "timestamps": {
-        "registered_at_utc": "2026-11-02T23:26:12.742093+00:00"
+        "registered_at_utc": "2026-11-02T23:26:12.742093+00:00",
+        "downloaded_at_utc": "2026-11-03T00:54:16.737999+00:00",
+        "loaded_at_utc": "2026-11-03T00:54:16.964113+00:00",
+        "validated_at_utc": "2026-11-03T00:54:17.033982+00:00",
+        "pair_selected_at_utc": "2026-11-03T00:54:17.916413+00:00"
       },
-      "files": {},
-      "reopened_at_utc": "2026-11-03T00:53:42.543585+00:00"
+      "files": {
+        "Insects/incremental_reoccurring_balanced.csv": {
+          "bytes": 21433047,
+          "sha256": "f267c0fb1f4e1d68967e2a694305146425181c19a7d3c282b67b252b98407c7a"
+        }
+      },
+      "reopened_at_utc": "2026-11-03T00:53:42.543585+00:00",
+      "declared_download_bytes": 21433047,
+      "screening": {
+        "stage": "headroom_precheck",
+        "options": [
+          [
+            "A",
+            {
+              "dev_rows": 23996,
+              "disagree": 0.06721953658943157,
+              "inc_err_dev": 0.22149524920820138,
+              "chal_err_dev": 0.2262877146191032,
+              "adv_per_event": -0.004792465410901808,
+              "adv_times_T": -9.584930822,
+              "cs": 5.0,
+              "T": 2000,
+              "cond_disagree_ge_0.02": true,
+              "cond_challenger_better": false,
+              "cond_adv_T_gt_cs": false,
+              "passes": false
+            }
+          ],
+          [
+            "B",
+            {
+              "dev_rows": 23996,
+              "disagree": 0.04646607767961327,
+              "inc_err_dev": 0.22149524920820138,
+              "chal_err_dev": 0.22953825637606268,
+              "adv_per_event": -0.008043007167861299,
+              "adv_times_T": -16.086014336,
+              "cs": 5.0,
+              "T": 2000,
+              "cond_disagree_ge_0.02": true,
+              "cond_challenger_better": false,
+              "cond_adv_T_gt_cs": false,
+              "passes": false
+            }
+          ]
+        ],
+        "last_option_dev": {
+          "dev_rows": 23996,
+          "disagree": 0.04646607767961327,
+          "inc_err_dev": 0.22149524920820138,
+          "chal_err_dev": 0.22953825637606268,
+          "adv_per_event": -0.008043007167861299,
+          "adv_times_T": -16.086014336,
+          "cs": 5.0,
+          "T": 2000,
+          "cond_disagree_ge_0.02": true,
+          "cond_challenger_better": false,
+          "cond_adv_T_gt_cs": false,
+          "passes": false
+        },
+        "binarisation_rule": "class0_vs_rest"
+      }
     },
     {
       "queue_rank": 0,
@@ -1464,6 +1528,66 @@
         "episodes": 4,
         "low_power": true
       }
+    },
+    {
+      "queue_rank": 90,
+      "dataset_id": "openml_imdb_drama",
+      "family": "openml_imdb_drama",
+      "source": "OpenML did=273 (concept_drift tag)",
+      "url": "https://www.openml.org/d/273",
+      "loader": "dataset_sources.load",
+      "domain": "film plot text, drama vs rest",
+      "n_rows": 120919,
+      "n_features": 1001,
+      "task": "binary classification",
+      "declared_delay": {
+        "value": 100,
+        "basis": "audit_rule_capped",
+        "justification": "No feedback latency is documented in the source metadata; the audit rule (delay in events, capped at 100 so it fits a 2,000-event episode) is applied at the cap.",
+        "declared_at_utc": "2026-11-03T00:55:45.484712+00:00"
+      },
+      "chronology": {
+        "declared_basis": "none",
+        "justification": "Declared honestly as unverified: the OpenML version ships no timestamp or release-date column, and the concept_drift tag does not by itself establish that row order is real time. Screened so the validator can rule on it; no order will be invented."
+      },
+      "overlap_note": null,
+      "status": "NOT_RUN",
+      "status_reason": "NOT_RUN: sparse ARFF; the OpenML reader in dataset_sources requires as_frame=True, so it was not loaded. Independently, its chronology was declared basis 'none' (no timestamp or release-date column ships with did=273), so it would have been ruled USELESS_INELIGIBLE on the chronology requirement had it loaded. Counted in the denominator as NOT_RUN, never as a failure of the method.",
+      "timestamps": {
+        "registered_at_utc": "2026-11-03T00:55:45.484525+00:00"
+      },
+      "files": {},
+      "openml_did": 273
+    },
+    {
+      "queue_rank": 91,
+      "dataset_id": "openml_vehicle_sensit",
+      "family": "openml_vehicle_sensit",
+      "source": "OpenML did=357 (concept_drift tag)",
+      "url": "https://www.openml.org/d/357",
+      "loader": "dataset_sources.load",
+      "domain": "acoustic/seismic wireless sensor network, vehicle type",
+      "n_rows": 98528,
+      "n_features": 101,
+      "task": "binary classification",
+      "declared_delay": {
+        "value": 100,
+        "basis": "audit_rule_capped",
+        "justification": "No feedback latency is documented in the source metadata; the audit rule (delay in events, capped at 100 so it fits a 2,000-event episode) is applied at the cap.",
+        "declared_at_utc": "2026-11-03T00:55:45.484729+00:00"
+      },
+      "chronology": {
+        "declared_basis": "none",
+        "justification": "Declared honestly as unverified: SensIT records come from a sensor deployment and file order may follow acquisition, but no timestamp or documented order is shipped with the OpenML version. Screened so the validator can rule on it."
+      },
+      "overlap_note": null,
+      "status": "NOT_RUN",
+      "status_reason": "NOT_RUN: sparse ARFF; same reader limitation. Independently, chronology was declared basis 'none' (the SensIT distribution ships no timestamp or documented acquisition order), so it would have been ruled USELESS_INELIGIBLE had it loaded. Counted in the denominator as NOT_RUN, never as a failure of the method.",
+      "timestamps": {
+        "registered_at_utc": "2026-11-03T00:55:45.484727+00:00"
+      },
+      "files": {},
+      "openml_did": 357
     }
   ]
 }

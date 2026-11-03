@@ -50,22 +50,49 @@ from controls import PacedDisagreementAcquisition  # noqa: E402
 from simulator import Event, QueryRequest, ReleasedFeedback  # noqa: E402
 
 
+class HorizonWeightedPacer(PacedDisagreementAcquisition):
+    """Spend density proportional to (T - t)^(k - 1): q_t = k * remaining / (rate * (T - t)).
+
+    k = 1 is the shared uniform pacer; k = 2 spends in proportion to the remaining horizon, i.e.
+    to the number of future events a decision made now will govern.
+    """
+
+    def __init__(self, horizon, budget, p_min=0.05, k: float = 2.0):
+        super().__init__(horizon, budget, p_min=p_min)
+        self.k = float(k)
+
+    def propensity(self, t, remaining, disagree):
+        if not disagree or remaining <= 0:
+            return 0.0
+        rate = (self.n_disagree + self.prior_rate * self.prior_w) / (t + self.prior_w)
+        expected_left = max(rate * (self.T - t), 1e-9)
+        return float(min(max(self.k * remaining / expected_left, self.p_min), 1.0))
+
+
 class MixtureSRDetector:
     """Weighted Shiryaev-Roberts e-detector over a finite start grid; total prior mass one."""
 
     def __init__(self, alpha: float, max_labels: int, gap: int = 10,
-                 lambdas: tuple[float, ...] = (0.15, 0.3, 0.5), single_start: bool = False):
+                 lambdas: tuple[float, ...] = (0.15, 0.3, 0.5), single_start: bool = False,
+                 w_first: float | None = None):
         self.alpha = float(alpha)
         self.gap = int(gap)
         self.n_starts = 1 if single_start else max(1, int(math.ceil(max_labels / self.gap)))
-        self.pi = 1.0 / self.n_starts
+        # prior mass of each start; total one. w_first puts extra mass on the first start.
+        if self.n_starts == 1:
+            self.pis = [1.0]
+        elif w_first is None:
+            self.pis = [1.0 / self.n_starts] * self.n_starts
+        else:
+            rest = (1.0 - w_first) / (self.n_starts - 1)
+            self.pis = [float(w_first)] + [rest] * (self.n_starts - 1)
         self.lams = np.asarray(lambdas, float)
         self.sr = np.zeros(len(self.lams))
         self.n = 0
 
     def update(self, x: int) -> bool:
         if self.n % self.gap == 0 and self.n // self.gap < self.n_starts:
-            self.sr += self.pi  # a new start enters before its first observation
+            self.sr += self.pis[self.n // self.gap]  # a start enters before its first label
         self.sr *= 1.0 + self.lams * x
         self.n += 1
         return self.stat >= 1.0 / self.alpha
@@ -103,8 +130,10 @@ class RestartMixtureMonitor:
     def __init__(self, make_base, horizon: int, budget: int, alpha: float, *, rng,
                  name: str, alpha_split: float = 0.5, alpha_rb: float | None = None,
                  gap: int = 10, keep_acquiring: bool = True, restart_base: bool = True,
-                 p_min: float = 0.05, single_start: bool = False):
+                 p_min: float = 0.05, single_start: bool = False, pace_k: float = 1.0,
+                 w_first: float | None = None):
         self.single_start = bool(single_start)
+        self.w_first = w_first
         self.name = name
         self.make_base, self.T, self.B = make_base, int(horizon), int(budget)
         self.rng = rng
@@ -112,7 +141,7 @@ class RestartMixtureMonitor:
         self.alpha_det = alpha * alpha_split
         self.alpha_rb = alpha if alpha_rb is None else alpha_rb
         self.gap, self.keep, self.restart_base = int(gap), bool(keep_acquiring), bool(restart_base)
-        self.acq = PacedDisagreementAcquisition(horizon, budget, p_min=p_min)
+        self.acq = HorizonWeightedPacer(horizon, budget, p_min=p_min, k=pace_k)
         self.n_promotions = 0
         self.deployed = 0
         self.view = _View(0, self.T, False)
@@ -132,7 +161,8 @@ class RestartMixtureMonitor:
             a = self.alpha_det / (2.0 ** self.n_promotions)
         else:
             a = self.alpha_rb
-        return MixtureSRDetector(a, self.B, self.gap, single_start=self.single_start)
+        return MixtureSRDetector(a, self.B, self.gap, single_start=self.single_start,
+                                 w_first=self.w_first)
 
     # -- Policy protocol
     def predict(self, event: Event) -> int:
@@ -249,6 +279,20 @@ def _factories():
         out[f"{nm}+RMM_noacq"] = (lambda mk=mk, sn=seed_name: (
             lambda T, B, cs, cq, a, d, r: RestartMixtureMonitor(
                 mk, T, B, a, rng=r(sn), name="", keep_acquiring=False)))()
+    from controls import FixedModel as _Fixed
+
+    def lrmd(**kw):
+        return lambda T, B, cs, cq, a, d, r: RestartMixtureMonitor(
+            lambda T_, B_, a_, r_: _Fixed(0, name="fixed"), T, B, a, rng=r("lrmd"), name="",
+            alpha_split=1.0, **kw)
+
+    out["LRMD"] = lrmd(pace_k=2.0)
+    out["LRMD_k1"] = lrmd(pace_k=1.0)
+    out["LRMD_k3"] = lrmd(pace_k=3.0)
+    out["LRMD_single"] = lrmd(pace_k=2.0, single_start=True)
+    out["LRMD_gap25"] = lrmd(pace_k=2.0, gap=25)
+    out["LRMD_w50"] = lrmd(pace_k=2.0, w_first=0.5)
+    out["LRMD_w50_k1"] = lrmd(pace_k=1.0, w_first=0.5)
     return out
 
 

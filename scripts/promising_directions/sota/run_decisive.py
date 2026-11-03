@@ -26,9 +26,9 @@ SOTA = Path(__file__).resolve().parent
 sys.path.insert(0, str(SOTA))
 sys.path.insert(0, str(SOTA / "competitors"))
 
-from certificate_stops import DiscernStyleStop, GatedDeploymentStop  # noqa: E402
-from economic_stop import EconomicStop  # noqa: E402
-from simulator import check_budget_feasible, run_episode  # noqa: E402
+from certificate_stops import DiscernStyleStop, GatedDeploymentStop
+from economic_stop import EconomicStop
+from simulator import check_budget_feasible, run_episode
 
 T_EP = 2000
 SEED_BASE = 20261101
@@ -127,7 +127,7 @@ def main(argv=None):
         per_ep = {k: v.mean(axis=1) for k, v in costs.items()}  # average seeds within an episode
         ours = per_ep["economic_stop"]
         entry = {
-            "episodes": int(len(ours)), "delay": delay, "powered": name in POWERED,
+            "episodes": len(ours), "delay": delay, "powered": name in POWERED,
             "mean_cost": {k: float(v.mean()) for k, v in per_ep.items()},
             "mean_labels": {k: float(d["labels"].mean()) for k, d in diag.items()},
             "mean_switches": {k: float(d["switches"].mean()) for k, d in diag.items()},

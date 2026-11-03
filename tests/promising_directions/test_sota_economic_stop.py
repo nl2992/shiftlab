@@ -6,6 +6,7 @@ threshold is zero.
 """
 
 import sys
+from itertools import pairwise
 from pathlib import Path
 
 import numpy as np
@@ -15,9 +16,9 @@ SOTA = Path(__file__).resolve().parents[2] / "scripts/promising_directions/sota"
 sys.path.insert(0, str(SOTA))
 sys.path.insert(0, str(SOTA / "competitors"))
 
-from certificate_stops import GatedDeploymentStop  # noqa: E402
-from economic_stop import EconomicStop  # noqa: E402
-from simulator import check_budget_feasible, run_episode  # noqa: E402
+from certificate_stops import GatedDeploymentStop
+from economic_stop import EconomicStop
+from simulator import check_budget_feasible, run_episode
 
 
 def _stream(T=2000, seed=0, acc=(0.70, 0.85)):
@@ -44,7 +45,7 @@ def test_threshold_rises_monotonically_as_the_horizon_runs_out():
     for t in range(0, 1000, 50):
         p._t = t
         vals.append(p.threshold)
-    assert all(b >= a for a, b in zip(vals, vals[1:], strict=False))
+    assert all(b >= a for a, b in pairwise(vals))
 
 
 def test_threshold_never_divides_by_zero_at_the_last_event():

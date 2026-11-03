@@ -31,7 +31,6 @@ can be compared like-for-like against the published certificate rules.
 from __future__ import annotations
 
 import numpy as np
-
 from certificate_stops import GatedDeploymentStop
 from simulator import Event
 

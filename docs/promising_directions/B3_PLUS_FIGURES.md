@@ -71,3 +71,38 @@ before it enters the manuscript:
 5. Record the check, and the model and version used, in this file.
 
 A generated figure that has not been checked against its CSV must not be used.
+
+## Correction 2026-11-02: Google's `AQ.` authorization-key format
+
+I asserted that a 53-character credential with an `AQ.` prefix was "not an API key of the form
+PaperBanana needs" and that no field placement would authenticate it. **That was wrong, and it
+was asserted from prefix convention rather than from documentation.**
+
+Google AI Studio's own documentation (`https://aistudio.google.com/docs/api-key`) describes a
+second credential type alongside the long-standing `AIza...` keys: **authorization keys**, "bound
+directly to a Google Cloud service account" and "restricted to the Generative Language API
+(Gemini API) by default", offering faster enforcement against leaked keys. AI Studio now issues
+these by default, and they carry the `AQ.` prefix. They are a valid Gemini credential and belong
+in `google_api_key`.
+
+`set_figure_key.sh` now recognises `AQ.` and routes it to `google_api_key`, and it also accepts a
+file containing just the key, so no clipboard round-trip is needed:
+
+```bash
+./scripts/promising_directions/set_figure_key.sh path/to/keyfile
+```
+
+Verified against a throwaway config: an `AQ.`-prefixed value sets `google_api_key` and leaves
+every other provider field empty.
+
+### Caveat worth knowing if it still fails
+
+Reported on Google's own developer forum (community reports, **not** official documentation, and
+not verified here): `AQ.` keys have returned `401 UNAUTHENTICATED` with
+`ACCESS_TOKEN_TYPE_UNSUPPORTED` against `generativelanguage.googleapis.com`, and "Multiple
+authentication credentials received" on OpenAI-compatible endpoints; some third-party tools reject
+them through hardcoded key-format checks. If generation fails after the key is correctly placed in
+`google_api_key`, that is the likely cause -- a client/endpoint limitation rather than a bad
+credential -- and the workarounds reported are an `AIza` key created through the Google Cloud
+console or an OpenRouter key. The earlier silent hang is consistent with this, but it was also
+running with the key in the *wrong* field, so it is not evidence either way.

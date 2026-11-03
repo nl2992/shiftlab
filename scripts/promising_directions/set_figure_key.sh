@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
 # Put the API key that is currently on the clipboard into PaperBanana's config.
 #
-# Usage: copy the key, then run this script with no arguments.
+# Usage: copy the key and run with no arguments, or pass a file containing just the key:
+#   set_figure_key.sh                 # from the clipboard
+#   set_figure_key.sh path/to/keyfile # from a file (never echoed)
 #
 # The key goes clipboard -> config file and is never printed, logged or passed as an
 # argument (so it does not reach shell history or process listings). The provider field
@@ -22,23 +24,37 @@ if [ ! -f "$CFG" ]; then
   echo "created $CFG from template"
 fi
 
-PAPERBANANA_CFG="$CFG" python3 - <<'PY'
+PAPERBANANA_CFG="$CFG" KEYFILE="${1:-}" python3 - <<'PY'
 import os, pathlib, re, subprocess, sys
 
-key = subprocess.run(["pbpaste"], capture_output=True, text=True).stdout.strip()
-if not key:
-    sys.exit("clipboard is empty: copy the API key first")
+src = os.environ.get("KEYFILE") or ""
+if src:
+    kp = pathlib.Path(src)
+    if not kp.is_file():
+        sys.exit(f"no such key file: {src}")
+    key = kp.read_text().strip()
+    if not key:
+        sys.exit(f"{src} is empty")
+else:
+    key = subprocess.run(["pbpaste"], capture_output=True, text=True).stdout.strip()
+    if not key:
+        sys.exit("clipboard is empty: copy the API key first, or pass a file containing it")
 if any(c.isspace() for c in key):
     sys.exit("clipboard does not look like a single key (it contains whitespace)")
 
-field = ("google_api_key" if key.startswith("AIza")
+# "AQ." is Google's newer authorization-key format: AI Studio issues these by default and
+# they are bound to a Cloud service account, restricted to the Gemini API. They are a valid
+# Gemini credential and belong in google_api_key, NOT in an OpenRouter field. Some clients
+# and the OpenAI-compatible endpoints are reported not to accept them yet, so a 401 with
+# ACCESS_TOKEN_TYPE_UNSUPPORTED after this is a tool/endpoint limitation, not a bad key.
+field = ("google_api_key" if key.startswith(("AIza", "AQ."))
          else "openrouter_api_key" if key.startswith("sk-or-")
          else "anthropic_api_key" if key.startswith("sk-ant-")
          else "openai_api_key" if key.startswith("sk-")
          else None)
 if field is None:
-    sys.exit(f"unrecognised key prefix {key[:4]!r}... — expected AIza (Google), sk-or- "
-             "(OpenRouter), sk-ant- (Anthropic) or sk- (OpenAI). Edit the config by hand.")
+    sys.exit(f"unrecognised key prefix {key[:4]!r}... — expected AIza or AQ. (Google), "
+             "sk-or- (OpenRouter), sk-ant- (Anthropic) or sk- (OpenAI). Edit by hand if needed.")
 
 cfg = pathlib.Path(os.environ["PAPERBANANA_CFG"])
 text = cfg.read_text()

@@ -1,5 +1,5 @@
 {
-  "gate_status": "IN PROGRESS - SOTA GATE NOT MET",
+  "gate_status": "NOT MET - PROGRAMME STOPPED",
   "updated_utc": "2026-11-03",
   "objective": "five real-data cases beating every mandatory applicable competitor on net_cost",
   "net_cost": "prediction_loss + label_price * requested_labels + switch_cost * deployment_switches",
@@ -26,5 +26,30 @@
     "Xu et al. (author code has a syntax error as shipped; torch absent)",
     "Online LLM Picker (no author code located)"
   ],
-  "structural_finding": "FIVE competitor acquisition rules provably collapse to disagreement-gated sampling in the two-model binary task (Model Picker, Online LLM Picker, variance minimisation, Xu acquisition-only, Model Selector). Instance-level acquisition has nothing to work with here, so any comparison is about query-rate scheduling and deployment economics."
+  "structural_finding": "FIVE competitor acquisition rules provably collapse to disagreement-gated sampling in the two-model binary task (Model Picker, Online LLM Picker, variance minimisation, Xu acquisition-only, Model Selector). Instance-level acquisition has nothing to work with here, so any comparison is about query-rate scheduling and deployment economics.",
+  "stopped_utc": "2026-11-03",
+  "stop_reason": "Pre-registered rule fired: lost to GatedDeploymentStop on both powered cases (rialto +1.852 [+0.989,+3.394]; openml_ldpa +9.585 [+5.320,+14.678]).",
+  "decisive_result": {
+    "rialto": {
+      "ours": 96.546,
+      "gated": 94.695,
+      "diff": 1.852,
+      "ci": [
+        0.989,
+        3.394
+      ],
+      "ours_better_in": "0/16"
+    },
+    "openml_ldpa": {
+      "ours": 544.016,
+      "gated": 534.43,
+      "diff": 9.585,
+      "ci": [
+        5.32,
+        14.678
+      ],
+      "ours_better_in": "6/32"
+    }
+  },
+  "key_finding": "P3b is not the state of the art for this task. Gated deployment (ICML 2021) is cheaper on both powered datasets and far more label-efficient (30.8 vs 159.2 labels on rialto), so the B3+ result is a win over a weak baseline."
 }

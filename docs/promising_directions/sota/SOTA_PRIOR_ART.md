@@ -42,10 +42,42 @@ standard two-model-under-a-label-budget comparator, deriving the sampling distri
 maximises test power. It predates everything we ported by over a decade and Model Selector's
 authors already use it as a baseline.
 
-## 3. The collapse is unstated, but it is an elementary corollary
+## 3. The collapse IS stated — in Sawade 2012, and in Model Picker's own appendix
 
-No perspective found any work stating that these methods' acquisition scores are constant on the
-disagreement region for two models with binary labels. But two adjacent facts are textbook:
+**This section was written before the fourth perspective reported. It was wrong, and the
+correction is the most important finding in this document.**
+
+**Sawade, Landwehr & Scheffer (NeurIPS 2012) state the degeneracy explicitly and name it.**
+Confirmed in the extracted text of the paper:
+
+> "Instead of using Approximation 13, an uninformative approximation p(y = 1|x) ~ 0.5 may be used.
+> In this case q* degenerates to uniform sampling from the subset of the pool where f1(x) != f2(x).
+> We denote this baseline as active!=. This baseline coincides with the A^2 as well as the IWAL
+> active learning algorithms, applied to the model space {f1, f2}."
+
+And in their introduction:
+
+> "For the special case of classification with zero-one loss and two models under study, a
+> simplified version of the sampling distribution we derive coincides with the sampling
+> distribution used in the A^2 and IWAL active learning algorithms."
+
+So the phenomenon was derived, named (`active!=`), and identified with A^2/IWAL fourteen years
+ago, for exactly our case: zero-one loss, two models.
+
+**Model Picker's own Appendix B contains our formula.** From Karimi et al. (arXiv:2010.09818v3):
+
+> "Consider a binary classification scenario with two models... the probability of querying the
+> label is always w_{t,1} w_{t,2} v eta_t for all t."
+
+That is precisely the `q(1-q)` result we "measured", present in the paper whose code we ported,
+used there to bound a query count rather than flagged as a degeneracy.
+
+**The one hedge that still matters.** Sawade's collapse is conditional on an *uninformative*
+`p(y|x) ~ 0.5` approximation; with a calibrated `p(y|x)` his `q*` remains instance-dependent.
+That is a scope correction we had wrong: our claim holds for **hard predictions**, and methods
+operating on calibrated soft scores retain instance information. We must state that boundary.
+
+Two further adjacent facts are textbook:
 
 - **Query-by-committee with two members** queries exactly when the two disagree. That *is* the
   degeneracy, stated as an algorithm's design rather than as a collapse of richer scores.
@@ -53,10 +85,9 @@ disagreement region for two models with binary labels. But two adjacent facts ar
   are monotone in `p_max`). Lu, Li & Lin (arXiv:2306.08954) state it for binary active learning;
   Settles' 2009 survey is the standard reference for the measures themselves.
 
-Our result is a near-immediate corollary of these. It must be framed as **"elementary but, as far
-as we can find, never stated or measured for active model selection"**, never as a discovery. The
-evidence that makes it worth publishing is the verified-against-author-code demonstration across
-five methods, not the algebra.
+Our result is therefore not merely a corollary of textbook facts — it is **a restatement of a
+published result**, extended to four methods that postdate it. What remains is the extension and
+the demonstration, which is incremental, not foundational.
 
 One supporting detail: Model Selector's own paper reports that on the Drift collection it
 "adjusts epsilon to 0.5, effectively mimicking random sampling in these settings" — a
@@ -72,7 +103,9 @@ Honestly narrowed:
   deployed action given the switching cost and remaining horizon — rather than on a statistical
   certificate firing. This differs from DISCERN in trigger, though not in spirit, and the
   difference is thin enough that it must be *demonstrated* to matter, not asserted.
-- **The collapse demonstration**, framed as above.
+- **The collapse demonstration**, now reduced to: Sawade's `active!=` degeneracy also applies to
+  Model Picker, Model Selector, variance minimisation, Xu's acquisition-only variant and Online
+  LLM Picker, under hard predictions. An extension of a known result to newer methods.
 
 ## 5. Comparators we now have to add
 
@@ -88,10 +121,14 @@ Items 1 and 2 are the ones that could show our rule adds nothing.
 
 ## 6. Assessment
 
-The honest position is that this programme is **substantially more exposed than it looked before
-the check**. The idea we were going to build the constructive half on is published, with theory,
-by work we had not seen. That is exactly what a prior-art check is for, and finding it now is far
-cheaper than finding it in review.
+**Both halves of the proposed paper are substantially pre-empted.**
+
+The constructive half — stop buying labels once the decision is settled — is DISCERN, with
+theory we do not have. The structural half — the acquisition collapse — is Sawade 2012, named
+`active!=`, with Model Picker's own appendix carrying the formula.
+
+That is as clear a negative result as a prior-art check can produce, and finding it now costs us
+a day instead of a review cycle.
 
 Two defensible routes remain, and the choice is a research decision, not a technical one:
 

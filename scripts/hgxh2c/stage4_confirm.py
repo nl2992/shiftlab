@@ -122,7 +122,11 @@ BOOT_DEV = "cuda" if torch.cuda.is_available() else "cpu"
 def mat(df, col, key):
     """[cells, seeds] matrix of df[col] (NaN padded), cached per (key, col)."""
     if (key, col) not in _M:
-        cid, pos = pd.factorize(df.cell_id)[0], df.groupby("cell_id").cumcount().to_numpy()
+        cluster = "cell_code" if "cell_code" in df.columns else "cell_id"
+        cid, pos = (
+            pd.factorize(df[cluster])[0],
+            df.groupby(cluster, sort=False).cumcount().to_numpy(),
+        )
         X = np.full((cid.max() + 1, pos.max() + 1), np.nan)
         X[cid, pos] = df[col].to_numpy(float)
         _M[(key, col)] = X
@@ -177,7 +181,7 @@ def far_cp(d, fams):
     return r
 
 
-def analyse(sh, fin, sel, bases, secondary, fcs, fr, a, out):
+def analyse(sh, fin, sel, bases, secondary, fcs, fr, a, out, cells):
     mr = load_make_report()
     ids = sorted(p.name for p in sh.iterdir() if p.is_dir() and p.name != "_calib")
     orig = {
@@ -188,7 +192,10 @@ def analyse(sh, fin, sel, bases, secondary, fcs, fr, a, out):
         + [f"{f['hash']}|abl:{'_'.join(G.SLOTS[s])}" for f in fin["finalists"] for s in range(6)]
     }
     final_ids = {f["hash"] for f in fin["finalists"]}
+    if "selector" in ids:
+        final_ids.add("selector")
     ref_id = orig.get(ids[0], ids[0])
+    cell_code = {c.cell_id: i for i, c in enumerate(cells)}
     meta_cols = ["family", "tau", "null_B", "null_C"]
     cost_cols = [
         "n_queries",
@@ -202,10 +209,10 @@ def analyse(sh, fin, sel, bases, secondary, fcs, fr, a, out):
     ]
     # The full KEEP table is several GB at confirmation scale. Read only fields
     # consumed below; retain float64 for paired inference calculations.
-    dfs = {}
+    D = {}
     for i in ids:
         method = orig.get(i, i)
-        cols = ["cell_id", "seed", "J_cost"]
+        cols = ["seed", "J_cost"]
         if method in bases or method in final_ids:
             cols.append("alarm_J")
         if method == ref_id or method in final_ids:
@@ -213,12 +220,20 @@ def analyse(sh, fin, sel, bases, secondary, fcs, fr, a, out):
         if method in final_ids:
             cols.extend(cost_cols)
         files = sorted((sh / i).glob("*.parquet"))
-        d = pd.concat([pd.read_parquet(f, columns=cols) for f in files], ignore_index=True)
-        # Store repeated cell IDs as category codes instead of millions of
-        # Python string objects in every method table.
-        d["cell_id"] = d["cell_id"].astype("category")
-        dfs[i] = d
-    D = {orig.get(i, i): d.set_index(["cell_id", "seed"]) for i, d in dfs.items()}
+        chunks = []
+        for start in range(0, len(files), 64):
+            parts = []
+            for f in files[start : start + 64]:
+                d = pd.read_parquet(f, columns=["cell_id", *cols])
+                code = cell_code[d.cell_id.iloc[0]]
+                d.drop(columns="cell_id", inplace=True)
+                d.insert(0, "cell_code", np.full(len(d), code, dtype=np.uint16))
+                parts.append(d)
+            chunks.append(pd.concat(parts, ignore_index=True))
+        d = pd.concat(chunks, ignore_index=True)
+        del chunks
+        D[method] = d.set_index(["cell_code", "seed"])
+        del d
     ref = D[ref_id]
     idx = ref.index
     meta = ref[["family", "tau", "null_B", "null_C"]]
@@ -492,7 +507,7 @@ def main():
             p[KEEP].to_parquet(
                 sh / "selector" / (safe(p.cell_id.iloc[0]) + ".parquet"), index=False
             )
-    analyse(sh, fin, sel, bases, secondary, fcs, fr, a, out)
+    analyse(sh, fin, sel, bases, secondary, fcs, fr, a, out, cells)
     print("wrote", out / "confirmation.json")
 
 

@@ -1,6 +1,7 @@
 """Tests for the B3+ dataset-screening pipeline (research/b3_plus/dataset_discovery).
 
-All tests run on small synthetic streams (CPU, seconds); none touches the network or raw data. The
+All tests run on small synthetic streams (CPU, seconds)
+none touches the network or raw data. The
 saved-results check only reads files already written by a screening run and skips if absent.
 """
 
@@ -106,30 +107,40 @@ def _losses(dis, inc, chal, n=1000):
 def test_headroom_precheck_each_condition():
     n = 1000
     # passes: dis 0.10, adv 0.05 -> adv*T = 100 > 5
-    l0 = np.zeros(n, dtype=np.int8); l0[:100] = 1
-    l1 = np.zeros(n, dtype=np.int8); l1[:50] = 1
+    l0 = np.zeros(n, dtype=np.int8)
+    l0[:100] = 1
+    l1 = np.zeros(n, dtype=np.int8)
+    l1[:50] = 1
     r = cmp.headroom_precheck(l0, l1, 2000, 5.0)
     assert r["passes"] and r["cond_disagree_ge_0.02"] and r["adv_times_T"] == pytest.approx(100.0)
     # fails on disagreement (<0.02) although the challenger is better and adv*T > cs
-    l0 = np.zeros(n, dtype=np.int8); l0[:15] = 1
+    l0 = np.zeros(n, dtype=np.int8)
+    l0[:15] = 1
     l1 = np.zeros(n, dtype=np.int8)
     r = cmp.headroom_precheck(l0, l1, 2000, 5.0)
     assert r["disagree"] == pytest.approx(0.015) and not r["cond_disagree_ge_0.02"] and not r["passes"]
     assert r["cond_adv_T_gt_cs"] and r["cond_challenger_better"]
     # fails because challenger is not better, even with large disagreement
-    l0 = np.zeros(n, dtype=np.int8); l0[:100] = 1
-    l1 = np.zeros(n, dtype=np.int8); l1[100:300] = 1
+    l0 = np.zeros(n, dtype=np.int8)
+    l0[:100] = 1
+    l1 = np.zeros(n, dtype=np.int8)
+    l1[100:300] = 1
     r = cmp.headroom_precheck(l0, l1, 2000, 5.0)
     assert not r["cond_challenger_better"] and not r["passes"]
     # fails because the gain cannot repay c_s within an episode: adv*T = 4 <= 5 (strict)
-    l0 = np.zeros(2000, dtype=np.int8); l0[:24] = 1
-    l1 = np.zeros(2000, dtype=np.int8); l1[:22] = 1
+    l0 = np.zeros(2000, dtype=np.int8)
+    l0[:24] = 1
+    l1 = np.zeros(2000, dtype=np.int8)
+    l1[:22] = 1
     r = cmp.headroom_precheck(l0, l1, 2000, 5.0)
     assert r["adv_times_T"] == pytest.approx(2.0) and not r["cond_adv_T_gt_cs"]
     # exactly break-even is NOT enough
-    l0 = np.zeros(2000, dtype=np.int8); l0[:50] = 1
-    l1 = np.zeros(2000, dtype=np.int8); l1[:47] = 1  # adv = 0.0015 -> *2000 = 3 ; make it 5 exactly
-    l1 = np.zeros(2000, dtype=np.int8); l1[:45] = 1  # adv = 0.0025 -> adv*T = 5.0 == cs
+    l0 = np.zeros(2000, dtype=np.int8)
+    l0[:50] = 1
+    l1 = np.zeros(2000, dtype=np.int8)
+    l1[:47] = 1  # adv = 0.0015 -> *2000 = 3 ; make it 5 exactly
+    l1 = np.zeros(2000, dtype=np.int8)
+    l1[:45] = 1  # adv = 0.0025 -> adv*T = 5.0 == cs
     r = cmp.headroom_precheck(l0, l1, 2000, 5.0)
     assert r["adv_times_T"] == pytest.approx(5.0) and not r["cond_adv_T_gt_cs"]
 
@@ -168,7 +179,6 @@ def test_pair_and_headroom_identical_when_only_locked_labels_change(tmp_path):
     outs = []
     for flip in (False, True):
         raw = synthetic_raw(flip_locked=flip)
-        r = reg
         rg = registry_with(entry())
         res = sc.screen("synthetic", registry=rg, reg_path=None, out_root=tmp_path / str(flip),
                         raw=raw, n_seeds=3, max_episodes=1)

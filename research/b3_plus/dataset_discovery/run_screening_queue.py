@@ -84,7 +84,6 @@ def write_reports(registry: dict) -> None:
     n_dup = cnt(lambda e: e["status"] == "USELESS_DUPLICATE")
     n_not_run = cnt(lambda e: e["status"] == "NOT_RUN")
     n_eval = cnt(lambda e: (e.get("screening") or {}).get("stage") == "evaluated")
-    n_head = cnt(lambda e: (e.get("screening") or {}).get("stage") in ("evaluated",))
     lines = [
         "# B3+ dataset screening summary",
         "",

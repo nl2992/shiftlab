@@ -1,0 +1,242 @@
+[
+ {
+  "id": "C1",
+  "implementation": "scripts/sota_sprint/fam_c.py:GatedC+Controller(base=front,credit=True,kappa=2)",
+  "run_config": [
+   "uv run python scripts/sota_sprint/screen.py --regimes F0_better,F9_highdis_better,F0_better@B100,F7_near_better,F6_delay400_better,S_delay800_better,F0_null,F5_dep_null_r8,F1_late_800,F3_reversal_800 --policies CONTROL_never_switch,gated_adaptive_range,gated_adaptive_range+front,discern_style,discern_design_floor,discern_design_floor+front,gated_deployment+QCE+front,xu_acquisition_only,SMCS+retain-incumbent,QSG,model_picker_adapter,economic_replacement --seeds 20 --workers 3 --out outputs/sota_sprint/C/comparators",
+   "uv run python scripts/sota_sprint/screen.py --regimes F0_better,F9_highdis_better,F0_better@B100,F7_near_better,F6_delay400_better,S_delay800_better,F0_null,F5_dep_null_r8,F1_late_800,F3_reversal_800 --policies C1,C2,C3,C4,C5,C6,C6@discern,gated_adaptive_range+pace_tuned,discern_design_floor+pace_tuned,C1-uniformbase,C2-noadapt,C2-floorskip,C6-no_deadline,C6-no_shadow,C6-no_two_stage,C6@discern-unrecorded,C4-style,QSG-r25 --seeds 20 --workers 3 --out outputs/sota_sprint/C/screen1"
+  ],
+  "seed_manifest": {
+   "dev": "seed base 2026110501 (DEV_SEED_BASE), seeds 0-19, 10 regimes; also the tuning set",
+   "null_check": "seed base 2026110513, seeds 0-299, F0_null and F5_dep_null_r8",
+   "heldout_descriptive": "seed base 2026110513, seeds 0-19, 10 regimes (not used for tuning)"
+  },
+  "results_artifact": {
+   "screen": "outputs/sota_sprint/C/screen1/records.jsonl",
+   "comparators": "outputs/sota_sprint/C/comparators/records.jsonl",
+   "contrasts": "docs/sota_sprint/family_c/contrasts_screen1.json",
+   "analyze": "docs/sota_sprint/family_c/screen1.json"
+  },
+  "status": "SCREENED_NEGATIVE",
+  "key_numbers": {
+   "dev_mean_net": 417.9,
+   "vs_host_gated+front": "-0.05 [-0.09,-0.02]",
+   "vs_tuned_pacing": "+0.1 [-2.5,2.7]",
+   "vs_QSG": "+6.1 [3.0,9.2]",
+   "null_promotion_dev": {
+    "F0_null": "0/20",
+    "F5_dep_null_r8": "2/20"
+   },
+   "gain_source": "none; credit never fires at tuned kappa"
+  },
+  "ablation": {
+   "C1-k1": "C1 - C1k1 = -2.4 [-4.7,-0.2] (kappa=1 harmful)",
+   "C1-uniformbase": "-12.5 vs uniform-base variant (gain is the front base, not credit)"
+  },
+  "disposition": "Pending-label credit does not change gated certification: the betting CS narrows slower than the 1/sqrt(n) extrapolation, so pending labels rarely settle the verdict.",
+  "next_action": "stop"
+ },
+ {
+  "id": "C2",
+  "implementation": "scripts/sota_sprint/fam_c.py:GatedC+Controller(base=front,shadow=True,gamma=3,zeta=.25)",
+  "run_config": [
+   "uv run python scripts/sota_sprint/screen.py --regimes F0_better,F9_highdis_better,F0_better@B100,F7_near_better,F6_delay400_better,S_delay800_better,F0_null,F5_dep_null_r8,F1_late_800,F3_reversal_800 --policies CONTROL_never_switch,gated_adaptive_range,gated_adaptive_range+front,discern_style,discern_design_floor,discern_design_floor+front,gated_deployment+QCE+front,xu_acquisition_only,SMCS+retain-incumbent,QSG,model_picker_adapter,economic_replacement --seeds 20 --workers 3 --out outputs/sota_sprint/C/comparators",
+   "uv run python scripts/sota_sprint/screen.py --regimes F0_better,F9_highdis_better,F0_better@B100,F7_near_better,F6_delay400_better,S_delay800_better,F0_null,F5_dep_null_r8,F1_late_800,F3_reversal_800 --policies C1,C2,C3,C4,C5,C6,C6@discern,gated_adaptive_range+pace_tuned,discern_design_floor+pace_tuned,C1-uniformbase,C2-noadapt,C2-floorskip,C6-no_deadline,C6-no_shadow,C6-no_two_stage,C6@discern-unrecorded,C4-style,QSG-r25 --seeds 20 --workers 3 --out outputs/sota_sprint/C/screen1",
+   "uv run python scripts/sota_sprint/screen.py --regimes F0_null,F5_dep_null_r8 --policies C2,C5,C6,gated_adaptive_range+front --seeds 300 --seed-base 2026110513 --workers 3 --out outputs/sota_sprint/C/null300",
+   "uv run python scripts/sota_sprint/screen.py --regimes F0_better,F9_highdis_better,F0_better@B100,F7_near_better,F6_delay400_better,S_delay800_better,F0_null,F5_dep_null_r8,F1_late_800,F3_reversal_800 --policies C2,C6,gated_adaptive_range+front,gated_adaptive_range+pace_tuned,QSG,xu_acquisition_only,SMCS+retain-incumbent,discern_design_floor,CONTROL_never_switch --seeds 20 --seed-base 2026110513 --workers 3 --out outputs/sota_sprint/C/heldout_check"
+  ],
+  "seed_manifest": {
+   "dev": "seed base 2026110501 (DEV_SEED_BASE), seeds 0-19, 10 regimes; also the tuning set",
+   "null_check": "seed base 2026110513, seeds 0-299, F0_null and F5_dep_null_r8",
+   "heldout_descriptive": "seed base 2026110513, seeds 0-19, 10 regimes (not used for tuning)"
+  },
+  "results_artifact": {
+   "screen": "outputs/sota_sprint/C/screen1/records.jsonl",
+   "comparators": "outputs/sota_sprint/C/comparators/records.jsonl",
+   "contrasts": "docs/sota_sprint/family_c/contrasts_screen1.json",
+   "analyze": "docs/sota_sprint/family_c/screen1.json"
+  },
+  "status": "SCREENED_PROMISING",
+  "key_numbers": {
+   "dev_mean_net": 414.6,
+   "vs_host_gated_adaptive_range": "-15.8 [-21.5,-10.2]",
+   "vs_gated+front": "-3.4 [-5.2,-1.6]",
+   "vs_tuned_pacing": "-3.2 [-6.4,-0.05]",
+   "vs_QSG": "+2.8 [-0.9,6.4]",
+   "vs_best_certified_published_per_regime": "mean +4.4; 4 sig wins, 1 sig loss (F3_reversal)",
+   "heldout_vs_front": "+0.5 [-2.2,3.1]; F0_better@B100 +24.4 [6.3,42.6]",
+   "null_promotion_300": {
+    "F0_null": "2/300=.007 (Wilson up .024)",
+    "F5_dep_null_r8": "18/300=.060 (up .093)"
+   },
+   "gain_source": "labels -2.60, decision -0.79 (dev vs +front); null/hopeless label savings 6-7/episode; F9 reserve allocation -7.8"
+  },
+  "ablation": {
+   "C2-noadapt(gamma=0)": "C2 - = -1.6 [-3.5,0.4]",
+   "C2-floorskip": "-5.8 [-8.7,-3.0] (unrecorded skip matters)"
+  },
+  "disposition": "Weak promising: label saver on null/hopeless streams, valid; dev gain did not replicate on fresh seeds; fails at tight budget.",
+  "next_action": "Make the shadow price budget-tightness-safe (cap gamma or anchor on B/(DT)); re-screen B100/B400 on fresh seeds; attach to QSG/QCE."
+ },
+ {
+  "id": "C3",
+  "implementation": "scripts/sota_sprint/fam_c.py:QSGTwoStage(f=1,tau=.5)",
+  "run_config": [
+   "uv run python scripts/sota_sprint/screen.py --regimes F0_better,F9_highdis_better,F0_better@B100,F7_near_better,F6_delay400_better,S_delay800_better,F0_null,F5_dep_null_r8,F1_late_800,F3_reversal_800 --policies CONTROL_never_switch,gated_adaptive_range,gated_adaptive_range+front,discern_style,discern_design_floor,discern_design_floor+front,gated_deployment+QCE+front,xu_acquisition_only,SMCS+retain-incumbent,QSG,model_picker_adapter,economic_replacement --seeds 20 --workers 3 --out outputs/sota_sprint/C/comparators",
+   "uv run python scripts/sota_sprint/screen.py --regimes F0_better,F9_highdis_better,F0_better@B100,F7_near_better,F6_delay400_better,S_delay800_better,F0_null,F5_dep_null_r8,F1_late_800,F3_reversal_800 --policies C1,C2,C3,C4,C5,C6,C6@discern,gated_adaptive_range+pace_tuned,discern_design_floor+pace_tuned,C1-uniformbase,C2-noadapt,C2-floorskip,C6-no_deadline,C6-no_shadow,C6-no_two_stage,C6@discern-unrecorded,C4-style,QSG-r25 --seeds 20 --workers 3 --out outputs/sota_sprint/C/screen1"
+  ],
+  "seed_manifest": {
+   "dev": "seed base 2026110501 (DEV_SEED_BASE), seeds 0-19, 10 regimes; also the tuning set",
+   "null_check": "seed base 2026110513, seeds 0-299, F0_null and F5_dep_null_r8",
+   "heldout_descriptive": "seed base 2026110513, seeds 0-19, 10 regimes (not used for tuning)"
+  },
+  "results_artifact": {
+   "screen": "outputs/sota_sprint/C/screen1/records.jsonl",
+   "comparators": "outputs/sota_sprint/C/comparators/records.jsonl",
+   "contrasts": "docs/sota_sprint/family_c/contrasts_screen1.json",
+   "analyze": "docs/sota_sprint/family_c/screen1.json"
+  },
+  "status": "SCREENED_NEGATIVE",
+  "key_numbers": {
+   "dev_mean_net": 411.8,
+   "vs_host_QSG": "0.0 (identical at tuned f=1)",
+   "vs_QSG-r25": "-3.4 [-5.9,-1.0]",
+   "vs_gated+front": "-6.2",
+   "null_promotion_dev": {
+    "F0_null": "0/20",
+    "F5_dep_null_r8": "4/20 (same as QSG)"
+   },
+   "gain_source": "none"
+  },
+  "ablation": {
+   "C3-f0.4t0.3": "-5.9 (split worse)",
+   "C3-f0.6t0.5": "-3.9",
+   "C3-f1t0.3": "-2.3"
+  },
+  "disposition": "Calibration selected no split; every protected monitoring split costs 2-6 net on dev.",
+  "next_action": "stop"
+ },
+ {
+  "id": "C4",
+  "implementation": "scripts/sota_sprint/fam_c.py:DiscernC(p_min=.25)+Controller(base=verdict,k=2,beta=.5)",
+  "run_config": [
+   "uv run python scripts/sota_sprint/screen.py --regimes F0_better,F9_highdis_better,F0_better@B100,F7_near_better,F6_delay400_better,S_delay800_better,F0_null,F5_dep_null_r8,F1_late_800,F3_reversal_800 --policies CONTROL_never_switch,gated_adaptive_range,gated_adaptive_range+front,discern_style,discern_design_floor,discern_design_floor+front,gated_deployment+QCE+front,xu_acquisition_only,SMCS+retain-incumbent,QSG,model_picker_adapter,economic_replacement --seeds 20 --workers 3 --out outputs/sota_sprint/C/comparators",
+   "uv run python scripts/sota_sprint/screen.py --regimes F0_better,F9_highdis_better,F0_better@B100,F7_near_better,F6_delay400_better,S_delay800_better,F0_null,F5_dep_null_r8,F1_late_800,F3_reversal_800 --policies C1,C2,C3,C4,C5,C6,C6@discern,gated_adaptive_range+pace_tuned,discern_design_floor+pace_tuned,C1-uniformbase,C2-noadapt,C2-floorskip,C6-no_deadline,C6-no_shadow,C6-no_two_stage,C6@discern-unrecorded,C4-style,QSG-r25 --seeds 20 --workers 3 --out outputs/sota_sprint/C/screen1"
+  ],
+  "seed_manifest": {
+   "dev": "seed base 2026110501 (DEV_SEED_BASE), seeds 0-19, 10 regimes; also the tuning set",
+   "null_check": "seed base 2026110513, seeds 0-299, F0_null and F5_dep_null_r8",
+   "heldout_descriptive": "seed base 2026110513, seeds 0-19, 10 regimes (not used for tuning)"
+  },
+  "results_artifact": {
+   "screen": "outputs/sota_sprint/C/screen1/records.jsonl",
+   "comparators": "outputs/sota_sprint/C/comparators/records.jsonl",
+   "contrasts": "docs/sota_sprint/family_c/contrasts_screen1.json",
+   "analyze": "docs/sota_sprint/family_c/screen1.json"
+  },
+  "status": "SCREENED_NEGATIVE",
+  "key_numbers": {
+   "dev_mean_net": 427.0,
+   "vs_host_discern_design_floor": "-0.1 [-1.1,1.0]",
+   "vs_discern_design_floor+front": "-6.2 [-9.4,-3.0]",
+   "vs_tuned_pacing(k=1.5)": "+0.2 [-2.3,2.6]",
+   "vs_discern_style": "-4.8 [-7.5,-2.1]",
+   "vs_best_certified_published_per_regime": "mean +16.8, 7 sig losses",
+   "null_promotion_dev": {
+    "F0_null": "0/20",
+    "F5_dep_null_r8": "0/20"
+   },
+   "gain_source": "none"
+  },
+  "ablation": {
+   "C4-k0.5/1/2 (beta=1)": "within ~1 of C4",
+   "C4-style(p_min=.05)": "never certifies"
+  },
+  "disposition": "Corrected DISCERN is event-clock limited (lam_max cap); adaptive scheduling cannot beat tuned uniform-ish pacing.",
+  "next_action": "stop"
+ },
+ {
+  "id": "C5",
+  "implementation": "scripts/sota_sprint/fam_c.py:GatedC+Controller(front,credit kappa=2,shadow gamma=3 zeta=.25)",
+  "run_config": [
+   "uv run python scripts/sota_sprint/screen.py --regimes F0_better,F9_highdis_better,F0_better@B100,F7_near_better,F6_delay400_better,S_delay800_better,F0_null,F5_dep_null_r8,F1_late_800,F3_reversal_800 --policies CONTROL_never_switch,gated_adaptive_range,gated_adaptive_range+front,discern_style,discern_design_floor,discern_design_floor+front,gated_deployment+QCE+front,xu_acquisition_only,SMCS+retain-incumbent,QSG,model_picker_adapter,economic_replacement --seeds 20 --workers 3 --out outputs/sota_sprint/C/comparators",
+   "uv run python scripts/sota_sprint/screen.py --regimes F0_better,F9_highdis_better,F0_better@B100,F7_near_better,F6_delay400_better,S_delay800_better,F0_null,F5_dep_null_r8,F1_late_800,F3_reversal_800 --policies C1,C2,C3,C4,C5,C6,C6@discern,gated_adaptive_range+pace_tuned,discern_design_floor+pace_tuned,C1-uniformbase,C2-noadapt,C2-floorskip,C6-no_deadline,C6-no_shadow,C6-no_two_stage,C6@discern-unrecorded,C4-style,QSG-r25 --seeds 20 --workers 3 --out outputs/sota_sprint/C/screen1",
+   "uv run python scripts/sota_sprint/screen.py --regimes F0_null,F5_dep_null_r8 --policies C2,C5,C6,gated_adaptive_range+front --seeds 300 --seed-base 2026110513 --workers 3 --out outputs/sota_sprint/C/null300"
+  ],
+  "seed_manifest": {
+   "dev": "seed base 2026110501 (DEV_SEED_BASE), seeds 0-19, 10 regimes; also the tuning set",
+   "null_check": "seed base 2026110513, seeds 0-299, F0_null and F5_dep_null_r8",
+   "heldout_descriptive": "seed base 2026110513, seeds 0-19, 10 regimes (not used for tuning)"
+  },
+  "results_artifact": {
+   "screen": "outputs/sota_sprint/C/screen1/records.jsonl",
+   "comparators": "outputs/sota_sprint/C/comparators/records.jsonl",
+   "contrasts": "docs/sota_sprint/family_c/contrasts_screen1.json",
+   "analyze": "docs/sota_sprint/family_c/screen1.json"
+  },
+  "status": "SCREENED_NEGATIVE",
+  "key_numbers": {
+   "dev_mean_net": 415.0,
+   "vs_host": "-15.4",
+   "vs_gated+front": "-2.9 [-4.6,-1.2]",
+   "vs_C2": "+0.5 [-1.1,2.0]",
+   "vs_QSG": "+3.3 [-0.2,6.7]",
+   "null_promotion_300": {
+    "F0_null": ".007 (up .024)",
+    "F5_dep_null_r8": ".063 (up .097)"
+   },
+   "gain_source": "same as C2 (labels)"
+  },
+  "ablation": {
+   "vs_C1": "-2.85",
+   "vs_C2": "+0.49"
+  },
+  "disposition": "Credit adds nothing to C2.",
+  "next_action": "stop"
+ },
+ {
+  "id": "C6",
+  "implementation": "scripts/sota_sprint/fam_c.py:GatedC+Controller(front,shadow gamma=3 zeta=.25,deadline,two_stage=.75); transfer DiscernC (same controller)",
+  "run_config": [
+   "uv run python scripts/sota_sprint/screen.py --regimes F0_better,F9_highdis_better,F0_better@B100,F7_near_better,F6_delay400_better,S_delay800_better,F0_null,F5_dep_null_r8,F1_late_800,F3_reversal_800 --policies CONTROL_never_switch,gated_adaptive_range,gated_adaptive_range+front,discern_style,discern_design_floor,discern_design_floor+front,gated_deployment+QCE+front,xu_acquisition_only,SMCS+retain-incumbent,QSG,model_picker_adapter,economic_replacement --seeds 20 --workers 3 --out outputs/sota_sprint/C/comparators",
+   "uv run python scripts/sota_sprint/screen.py --regimes F0_better,F9_highdis_better,F0_better@B100,F7_near_better,F6_delay400_better,S_delay800_better,F0_null,F5_dep_null_r8,F1_late_800,F3_reversal_800 --policies C1,C2,C3,C4,C5,C6,C6@discern,gated_adaptive_range+pace_tuned,discern_design_floor+pace_tuned,C1-uniformbase,C2-noadapt,C2-floorskip,C6-no_deadline,C6-no_shadow,C6-no_two_stage,C6@discern-unrecorded,C4-style,QSG-r25 --seeds 20 --workers 3 --out outputs/sota_sprint/C/screen1",
+   "uv run python scripts/sota_sprint/screen.py --regimes F0_null,F5_dep_null_r8 --policies C2,C5,C6,gated_adaptive_range+front --seeds 300 --seed-base 2026110513 --workers 3 --out outputs/sota_sprint/C/null300",
+   "uv run python scripts/sota_sprint/screen.py --regimes F0_better,F9_highdis_better,F0_better@B100,F7_near_better,F6_delay400_better,S_delay800_better,F0_null,F5_dep_null_r8,F1_late_800,F3_reversal_800 --policies C2,C6,gated_adaptive_range+front,gated_adaptive_range+pace_tuned,QSG,xu_acquisition_only,SMCS+retain-incumbent,discern_design_floor,CONTROL_never_switch --seeds 20 --seed-base 2026110513 --workers 3 --out outputs/sota_sprint/C/heldout_check"
+  ],
+  "seed_manifest": {
+   "dev": "seed base 2026110501 (DEV_SEED_BASE), seeds 0-19, 10 regimes; also the tuning set",
+   "null_check": "seed base 2026110513, seeds 0-299, F0_null and F5_dep_null_r8",
+   "heldout_descriptive": "seed base 2026110513, seeds 0-19, 10 regimes (not used for tuning)"
+  },
+  "results_artifact": {
+   "screen": "outputs/sota_sprint/C/screen1/records.jsonl",
+   "comparators": "outputs/sota_sprint/C/comparators/records.jsonl",
+   "contrasts": "docs/sota_sprint/family_c/contrasts_screen1.json",
+   "analyze": "docs/sota_sprint/family_c/screen1.json"
+  },
+  "status": "SCREENED_PROMISING",
+  "key_numbers": {
+   "dev_mean_net": 416.2,
+   "vs_host": "-14.2 [-19.6,-8.9]",
+   "vs_gated+front": "-1.8 [-3.7,0.2]",
+   "vs_tuned_pacing": "-1.6 [-4.7,1.5]",
+   "vs_C2": "+1.6",
+   "vs_QSG": "+4.4 [0.9,8.0]",
+   "heldout": "vs +front -1.7 [-4.3,0.9]; vs tuned pacing -3.5 [-6.1,-0.9]; vs QSG +2.6 [-0.6,5.7]; B100 +15.6",
+   "null_promotion_300": {
+    "F0_null": ".007 (up .024)",
+    "F5_dep_null_r8": ".057 (up .089)"
+   },
+   "gain_source": "labels -3.58, decision +1.83 vs +front (dev): fewest labels of all (deadline+two-stage) but costs decisions on F0_better/F6",
+   "transfer_C6@discern": "429.0 vs discern_design_floor 427.1: +1.9 [-1.2,5.1]; vs tuned discern pacing +2.2; vs discern+front -4.2 -> transfer NEGATIVE"
+  },
+  "ablation": {
+   "C6-no_deadline": "C6 - = +0.8 [-0.9,2.5]",
+   "C6-no_shadow": "+0.1",
+   "C6-no_two_stage": "+0.3",
+   "C6@discern-unrecorded": "+0.3"
+  },
+  "disposition": "Weak promising on gated only (best gated variant on held-out seeds, not significant vs +front); components individually non-positive on dev; does not transfer to DISCERN.",
+  "next_action": "Same as C2: budget-safe price; keep deadline term only for delay >= T/4 regimes; test as an attachable label-saver on QSG."
+ }
+]

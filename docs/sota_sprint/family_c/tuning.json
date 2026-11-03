@@ -1,0 +1,121 @@
+{
+ "tuned": {
+  "gated_pace": {
+   "base": "k",
+   "k": 6.0
+  },
+  "discern_pace": {
+   "base": "k",
+   "k": 1.5
+  },
+  "C1_kappa": 2.0,
+  "C2_gamma": 3.0,
+  "C2_zeta": 0.25,
+  "C3_f": 1.0,
+  "C3_tau": 0.5,
+  "C4_k": 2.0,
+  "C4_beta": 0.5,
+  "C6_f2": 0.75
+ },
+ "grid_scores_mean_net_over_regimes": {
+  "gated_pace": {
+   "gated_adaptive_range": 430.39,
+   "gated_adaptive_range+front": 417.94,
+   "gated_adaptive_range+frontfrac0.25": 426.99,
+   "gated_adaptive_range+frontfrac0.5": 421.92,
+   "gated_adaptive_range+frontfrac0.75": 419.56,
+   "gated_adaptive_range+pace_k1.5": 428.57,
+   "gated_adaptive_range+pace_k2": 424.6,
+   "gated_adaptive_range+pace_k3": 420.58,
+   "gated_adaptive_range+pace_k4": 419.26,
+   "gated_adaptive_range+pace_k6": 417.77,
+   "_selected": "gated_adaptive_range+pace_k6"
+  },
+  "discern_pace": {
+   "discern_design_floor": 427.08,
+   "discern_design_floor+front": 433.19,
+   "discern_design_floor+frontfrac0.25": 427.5,
+   "discern_design_floor+frontfrac0.5": 427.74,
+   "discern_design_floor+frontfrac0.75": 430.66,
+   "discern_design_floor+pace_k1.5": 426.83,
+   "discern_design_floor+pace_k2": 427.54,
+   "discern_design_floor+pace_k3": 428.18,
+   "discern_design_floor+pace_k4": 428.11,
+   "discern_design_floor+pace_k6": 429.42,
+   "_selected": "discern_design_floor+pace_k1.5"
+  },
+  "C1": {
+   "C1-k1": 420.33,
+   "C1-k1.5": 418.25,
+   "C1-k2": 417.88,
+   "C1-k3": 417.92,
+   "C1-k4": 417.93,
+   "_selected": "C1-k2"
+  },
+  "C2": {
+   "C2-g0z0.1": 415.65,
+   "C2-g0z0.25": 416.14,
+   "C2-g0z0.5": 416.98,
+   "C2-g0z1": 417.5,
+   "C2-g1z0.1": 415.12,
+   "C2-g1z0.25": 416.16,
+   "C2-g1z0.5": 416.65,
+   "C2-g1z1": 417.34,
+   "C2-g2z0.1": 414.64,
+   "C2-g2z0.25": 415.48,
+   "C2-g2z0.5": 416.72,
+   "C2-g2z1": 417.2,
+   "C2-g3z0.1": 415.59,
+   "C2-g3z0.25": 414.55,
+   "C2-g3z0.5": 415.25,
+   "C2-g3z1": 417.48,
+   "_selected": "C2-g3z0.25"
+  },
+  "C3": {
+   "C3-f0.4t0.3": 417.62,
+   "C3-f0.4t0.5": 417.62,
+   "C3-f0.4t1": 417.62,
+   "C3-f0.6t0.3": 416.14,
+   "C3-f0.6t0.5": 415.7,
+   "C3-f0.6t1": 415.7,
+   "C3-f0.75t0.3": 416.32,
+   "C3-f0.75t0.5": 415.2,
+   "C3-f0.75t1": 415.2,
+   "C3-f1t0.3": 414.04,
+   "C3-f1t0.5": 411.77,
+   "C3-f1t1": 411.77,
+   "_selected": "C3-f1t0.5"
+  },
+  "C4": {
+   "C4-b0.5k0.5": 427.13,
+   "C4-b0.5k1": 427.81,
+   "C4-b0.5k2": 427.0,
+   "C4-k0.5": 427.95,
+   "C4-k1": 428.27,
+   "C4-k2": 428.03,
+   "_selected": "C4-b0.5k2"
+  },
+  "C6": {
+   "C6-f0.5": 416.29,
+   "C6-f0.75": 416.19,
+   "C6-f0.9": 416.24,
+   "_selected": "C6-f0.75"
+  }
+ },
+ "regimes": [
+  "F0_better",
+  "F0_better@B100",
+  "F0_null",
+  "F1_late_800",
+  "F3_reversal_800",
+  "F5_dep_null_r8",
+  "F6_delay400_better",
+  "F7_near_better",
+  "F9_highdis_better",
+  "S_delay800_better"
+ ],
+ "seeds": 20,
+ "seed_base": "DEV_SEED_BASE=2026110501",
+ "source": "outputs/sota_sprint/C/tune,outputs/sota_sprint/C/tune2,outputs/sota_sprint/C/comparators",
+ "note": "Stage 1 (tune, tune2, comparators): pacing, C1, C2, C3, C4. Stage 2 (tune3): C6 two-stage split re-tuned after C2 (gamma, zeta) were fixed, because C6 inherits them. Objective: mean over the 10 screening regimes of mean net cost, 20 dev seeds at DEV_SEED_BASE. Ties (<0.1) resolved by min()."
+}

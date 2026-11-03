@@ -25,7 +25,7 @@ FIELDS = ["id", "parent", "added_components", "intended_failure_mechanism", "imp
 def _entries(path: Path) -> list[dict]:
     d = json.loads(path.read_text())
     if isinstance(d, dict):
-        d = d.get("candidates", d)
+        d = d.get("candidates", d.get("entries", d))
         d = list(d.values()) if isinstance(d, dict) else d
     return [e for e in d if isinstance(e, dict) and "id" in e]
 

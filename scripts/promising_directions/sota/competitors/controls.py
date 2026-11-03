@@ -178,8 +178,10 @@ class ShiryaevRoberts(_SequentialControl):
         return -np.inf  # log R_0 = log 0
 
     def _update(self, stat: float, llr: float) -> float:
-        prev = 0.0 if stat == -np.inf else stat
-        return float(np.logaddexp(0.0, prev) + llr)
+        # log R_t = log(1 + R_{t-1}) + llr_t. With R_0 = 0 this is log 1 = 0, and logaddexp
+        # handles stat = -inf correctly (exp(-inf) = 0). An earlier version special-cased -inf
+        # to 0.0, which wrongly produced log 2 on the first update.
+        return float(np.logaddexp(0.0, stat) + llr)
 
 
 class EconomicReplacement:

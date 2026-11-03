@@ -616,13 +616,70 @@
       "time_column": null,
       "time_reliable": null
     },
-    "status": "USELESS_DUPLICATE",
-    "status_reason": "Variant of the Insects family. The goal forbids counting variants of one dataset as independent cases; the family is represented by insects_abrupt_balanced, and variants are not screened separately (a second screen of the same generator would be a retry).",
+    "status": "USELESS_NO_HEADROOM",
+    "status_reason": "dev-window headroom precheck failed, locked window never read: option A (HGB 0-30%): disagree=0.0672, inc=0.2215, chal=0.2263, adv*T=-9.58 (needs > 5.0); option B (LR 15-30%): disagree=0.0465, inc=0.2215, chal=0.2295, adv*T=-16.09 (needs > 5.0)",
     "overlap_note": "Controlled-environment sensor stream; distinct from rialto (video) and weather.",
     "timestamps": {
-      "registered_at_utc": "2026-11-02T23:26:12.742093+00:00"
+      "registered_at_utc": "2026-11-02T23:26:12.742093+00:00",
+      "downloaded_at_utc": "2026-11-03T00:54:16.737999+00:00",
+      "loaded_at_utc": "2026-11-03T00:54:16.964113+00:00",
+      "validated_at_utc": "2026-11-03T00:54:17.033982+00:00",
+      "pair_selected_at_utc": "2026-11-03T00:54:17.916413+00:00"
     },
-    "screening": {},
+    "screening": {
+      "stage": "headroom_precheck",
+      "options": [
+        [
+          "A",
+          {
+            "dev_rows": 23996,
+            "disagree": 0.06721953658943157,
+            "inc_err_dev": 0.22149524920820138,
+            "chal_err_dev": 0.2262877146191032,
+            "adv_per_event": -0.004792465410901808,
+            "adv_times_T": -9.584930822,
+            "cs": 5.0,
+            "T": 2000,
+            "cond_disagree_ge_0.02": true,
+            "cond_challenger_better": false,
+            "cond_adv_T_gt_cs": false,
+            "passes": false
+          }
+        ],
+        [
+          "B",
+          {
+            "dev_rows": 23996,
+            "disagree": 0.04646607767961327,
+            "inc_err_dev": 0.22149524920820138,
+            "chal_err_dev": 0.22953825637606268,
+            "adv_per_event": -0.008043007167861299,
+            "adv_times_T": -16.086014336,
+            "cs": 5.0,
+            "T": 2000,
+            "cond_disagree_ge_0.02": true,
+            "cond_challenger_better": false,
+            "cond_adv_T_gt_cs": false,
+            "passes": false
+          }
+        ]
+      ],
+      "last_option_dev": {
+        "dev_rows": 23996,
+        "disagree": 0.04646607767961327,
+        "inc_err_dev": 0.22149524920820138,
+        "chal_err_dev": 0.22953825637606268,
+        "adv_per_event": -0.008043007167861299,
+        "adv_times_T": -16.086014336,
+        "cs": 5.0,
+        "T": 2000,
+        "cond_disagree_ge_0.02": true,
+        "cond_challenger_better": false,
+        "cond_adv_T_gt_cs": false,
+        "passes": false
+      },
+      "binarisation_rule": "class0_vs_rest"
+    },
     "results_dir": "docs/promising_directions/results/b3_plus/screening/insects_incremental_reoccurring_balanced"
   },
   {
@@ -1012,5 +1069,57 @@
       "validation_verdict": "no_defensible_order"
     },
     "results_dir": "docs/promising_directions/results/b3_plus/screening/river_phishing"
+  },
+  {
+    "dataset_id": "openml_imdb_drama",
+    "family": "openml_imdb_drama",
+    "source": "OpenML did=273 (concept_drift tag)",
+    "url": "https://www.openml.org/d/273",
+    "domain": "film plot text, drama vs rest",
+    "n_rows": 120919,
+    "declared_delay": {
+      "value": 100,
+      "basis": "audit_rule_capped",
+      "justification": "No feedback latency is documented in the source metadata; the audit rule (delay in events, capped at 100 so it fits a 2,000-event episode) is applied at the cap.",
+      "declared_at_utc": "2026-11-03T00:55:45.484712+00:00"
+    },
+    "chronology": {
+      "declared_basis": "none",
+      "justification": "Declared honestly as unverified: the OpenML version ships no timestamp or release-date column, and the concept_drift tag does not by itself establish that row order is real time. Screened so the validator can rule on it; no order will be invented."
+    },
+    "status": "NOT_RUN",
+    "status_reason": "download unavailable/refused: ValueError(\"Sparse ARFF datasets cannot be loaded with as_frame=True. Use as_frame=False or as_frame='auto' instead.\")",
+    "overlap_note": null,
+    "timestamps": {
+      "registered_at_utc": "2026-11-03T00:55:45.484525+00:00"
+    },
+    "screening": {},
+    "results_dir": "docs/promising_directions/results/b3_plus/screening/openml_imdb_drama"
+  },
+  {
+    "dataset_id": "openml_vehicle_sensit",
+    "family": "openml_vehicle_sensit",
+    "source": "OpenML did=357 (concept_drift tag)",
+    "url": "https://www.openml.org/d/357",
+    "domain": "acoustic/seismic wireless sensor network, vehicle type",
+    "n_rows": 98528,
+    "declared_delay": {
+      "value": 100,
+      "basis": "audit_rule_capped",
+      "justification": "No feedback latency is documented in the source metadata; the audit rule (delay in events, capped at 100 so it fits a 2,000-event episode) is applied at the cap.",
+      "declared_at_utc": "2026-11-03T00:55:45.484729+00:00"
+    },
+    "chronology": {
+      "declared_basis": "none",
+      "justification": "Declared honestly as unverified: SensIT records come from a sensor deployment and file order may follow acquisition, but no timestamp or documented order is shipped with the OpenML version. Screened so the validator can rule on it."
+    },
+    "status": "NOT_RUN",
+    "status_reason": "download unavailable/refused: ValueError(\"Sparse ARFF datasets cannot be loaded with as_frame=True. Use as_frame=False or as_frame='auto' instead.\")",
+    "overlap_note": null,
+    "timestamps": {
+      "registered_at_utc": "2026-11-03T00:55:45.484727+00:00"
+    },
+    "screening": {},
+    "results_dir": "docs/promising_directions/results/b3_plus/screening/openml_vehicle_sensit"
   }
 ]

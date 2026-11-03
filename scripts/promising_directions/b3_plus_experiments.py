@@ -15,6 +15,7 @@ P1 is a HINDSIGHT reference (non-deployable). S5 needs cached alternative-pair l
 from __future__ import annotations
 
 import argparse
+import dataclasses
 import hashlib
 import json
 import platform
@@ -88,7 +89,21 @@ def git(*args: str) -> str:
 
 
 def variant_set_hash(variants) -> str:
-    return hashlib.sha256(",".join(sorted(variants)).encode()).hexdigest()[:12]
+    """Resume key over the variant set AND the plus-parameters each name resolves to.
+
+    Hashing names alone is not enough: re-running a variant after a parameter change (e.g. P7s
+    with a different settled_floor) then collides on the names but not the behaviour, leaving two
+    entries per episode under one name and making assembled tables depend on merge order. This
+    bit the S0/S2/S4 files once and the S1/S3 files a second time, so the parameters are folded
+    into the key. Variants with no plus-parameters contribute their name only.
+    """
+    parts = []
+    for v in sorted(variants):
+        parts.append(v)
+        if PlusParams is not None and v in PLUS_VARIANTS and v != "P4ref":
+            p = _plus_params(v)
+            parts.append(repr(dataclasses.astuple(p)) if dataclasses.is_dataclass(p) else repr(p))
+    return hashlib.sha256("|".join(parts).encode()).hexdigest()[:12]
 
 
 def episode_u(ep_index: int, n_seeds: int, t_len: int, seed_base: int = SEED_BASE) -> np.ndarray:

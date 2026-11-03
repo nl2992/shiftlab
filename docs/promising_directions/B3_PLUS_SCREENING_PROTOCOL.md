@@ -80,4 +80,9 @@ number is real.
 | elec2 | -0.06, CI below 0 | 397.52 > 389.50 | `USELESS_NO_HEADROOM` (cond. 2) |
 | criteo | -0.04, CI below 0 | 699.16 > 693.92 | `USELESS_NO_HEADROOM` (cond. 2) |
 
-**3 of 5 cases in hand. 2 more independent datasets required.** Screened so far: 7.
+**Standing at registration time: 3 of 5 cases, 7 streams screened.**
+
+**Superseded 2026-11-02 (final).** 5 of 5 cases: spam, rialto, weather, openml_ldpa (K=32),
+uci_occupancy (K=4, low power). Final denominator, from `dataset_registry.json`: **36 datasets
+considered, 29 with a verdict, 11 locked-window evaluated, 5 selected.** The accessible candidate
+pool is exhausted and the queue is empty. See `B3_PLUS_FIVE_CASE_STUDIES.md`.

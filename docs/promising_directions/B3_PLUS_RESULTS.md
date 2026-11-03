@@ -419,9 +419,22 @@ demonstration of the reversal failure mode. What it does establish:
 - On average the change is mildly **beneficial** to deployment loss as well as to labels, which
   is not something the mechanism was designed to do and is not claimed as a contribution.
 
-**The gap named in section 11 therefore remains open.** No real stream in this programme exhibits
-post-promotion reversal that the reduced monitoring then handles worse on average; the risk is
-still characterised only by synthetic world W3. Do not cite ldpa as evidence on that question.
+**Second correction, 2026-11-02 (final).** An earlier version of this block said the section-11
+gap "remains open" and that no real stream exercises post-promotion reversal. **That was also too
+strong.** Reversal *is* exercised on ldpa: both policies roll back (P3b mean 0.047, P7s mean
+0.017, with P7s rolling back in 5 of 32 episodes), so the reduced post-promotion monitoring is
+genuinely tested there. The precise position is:
+
+- **Exercised on real data: yes.** ldpa has post-promotion reversal and `P7s` operates through it.
+- **Handled worse on average: no.** `P7s` rolls back *less often* than P3b and its mean
+  deployment loss is *better* (-0.82/episode).
+- **Harmful in individual episodes: yes, and bounded.** 2 of 32 episodes cost more, worst +3.13.
+
+So the remaining gap is narrow and should be stated as what it is: we have no real stream on which
+reduced monitoring makes reversal handling worse *on average*, and the synthetic W3 result
+(neutral, +1.35, CI straddling 0) is the only evidence that such a regime could exist. Claiming
+the risk is "untested on real data" is wrong, and I asserted it twice before checking the
+rollback counts in both directions.
 
 ### Corrected claims
 
@@ -447,24 +460,25 @@ such wherever it appears. Only rialto (K=16) and ldpa (K=32) are properly powere
 
 | | count |
 |---|---:|
-| Candidates registered | **27** |
-| Reached stream validation | 14 |
-| Reached locked-window evaluation | **4** |
-| SUCCESS | **2** (openml_ldpa, uci_occupancy) |
+| New candidates registered | **29** |
+| Of those, reached a verdict (not `NOT_RUN`) | 22 |
+| Of those, reached locked-window evaluation | **4** |
+| Of those, SUCCESS | **2** (openml_ldpa, uci_occupancy) |
 
 Plus the 7 original B3 streams, of which 3 are SUCCESS under the frozen method
 (spam, rialto, weather) and 4 are `USELESS_NO_HEADROOM` on protocol condition 2.
-**Total: 34 datasets considered, 5 selected.** This denominator must appear in the
+**Total: 36 datasets considered, 29 with a verdict, 11 locked-window evaluated, 5 selected.**
+This denominator must appear in the
 case-study table caption and in the manuscript.
 
-Outcome breakdown for the 27 new candidates: 2 SUCCESS, 4 `USELESS_NO_HEADROOM`
+Outcome breakdown for the 29 new candidates: 2 SUCCESS, 5 `USELESS_NO_HEADROOM`
 (insects_abrupt_balanced, trec07, keystroke, creditcard), 1 `USELESS_NO_IMPROVEMENT`
-(openml_eeg_eye_state), 8 `USELESS_INELIGIBLE` (http, smtp, openml_run_or_walk,
-openml_covertype, openml_shuttle, sms_spam, river_phishing, and one further), 8
-`USELESS_DUPLICATE` (6 further Insects variants, gas, elec2), 4 `NOT_RUN` (beth: source
+(openml_eeg_eye_state), 7 `USELESS_INELIGIBLE` (http, smtp, openml_run_or_walk,
+openml_covertype, openml_shuttle, sms_spam, river_phishing), 7
+`USELESS_DUPLICATE` (further Insects variants, gas, elec2), 7 `NOT_RUN` (beth: source
 URL now 302s to a landing page; malicious_url: 3.23M features, not CPU-tractable;
 openml_powersupply / openml_sensor / openml_usenet: no active OpenML dataset under any
-exact-name search tried, list recorded in the registry). `NOT_RUN` is **not** a verdict
+exact-name search tried; openml_imdb_drama and openml_vehicle_sensit: sparse ARFF, not loaded). `NOT_RUN` is **not** a verdict
 on the method and must not be reported as a failure of it.
 
 ### Search-path dependence, which must also be disclosed

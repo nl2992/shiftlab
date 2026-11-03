@@ -11,13 +11,16 @@ query seeds, seed base `20261101`. Net cost = deployment loss + `c_q N_q` + `c_s
 is paired on identical episodes and seeds. `eps worse` is the number of episodes in which P7s
 cost **more** than P3b.
 
-**Caption (required, protocol section 5).** These five are a *selected* set. **34 datasets were
-considered and 5 selected**: 27 new candidates were registered (14 reached stream validation, 4
-reached locked-window evaluation, 2 succeeded) plus the 7 original B3 streams (3 succeeded; 4
-failed the "switching must beat never-switching" condition). The 7 datasets named in the
-pre-registered queue produced **0** successes; both new successes come from 11 candidates added
-after that queue was exhausted. This is **not** an unbiased success rate, and the method was not
-evaluated only on these five.
+**Caption (required, protocol section 5).** These five are a *selected* set.
+**36 datasets were considered and 5 selected.** Breakdown, recomputed from
+`research/b3_plus/dataset_discovery/dataset_registry.json`, which is the single source of truth:
+29 new candidates were registered plus the 7 original B3 programme streams; **29 reached a
+screening verdict** (7 of the new candidates are `NOT_RUN`, so they have none); **11 reached
+locked-window evaluation** (4 new + all 7 original); **5 selected** (2 new + 3 original). The
+4 original streams that are not selected failed the "switching must beat never-switching"
+condition. The 7 datasets named in the pre-registered queue produced **0** successes; both new
+successes come from candidates added after that queue was exhausted. This is **not** an unbiased
+success rate, and the method was not evaluated only on these five.
 
 | Dataset | Domain | K | P0 | P3b | P6 | **P7s** | P7s-P3b (95% CI) | labels P3b->P7s | eps worse | power |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|---|

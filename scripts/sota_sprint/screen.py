@@ -28,6 +28,7 @@ for _p in (ROOT / "scripts/failure_atlas_v2_flq", HERE):
         sys.path.insert(0, str(_p))
 
 from bench import CONTRACT, DEV_SEED_BASE, parse_regime  # noqa: E402
+import validation_spec  # noqa: E402,F401  (registers the W_* validation regimes)
 from regimes import expected_oracle_path, hindsight_oracle_cost  # noqa: E402
 from suite import build_suite, stream_from_losses  # noqa: E402  (also adds the simulator path)
 from simulator import run_episode  # noqa: E402

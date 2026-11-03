@@ -77,4 +77,23 @@ testing, it is a **new question needing its own registration**, not a rescue of 
   unaffected. What this experiment shows is that it does **not** beat the published
   certificate-triggered alternative, which is the comparison that matters.
 
-Gate: `IN PROGRESS` becomes **`NOT MET — PROGRAMME STOPPED`**.
+## CORRECTION 2026-11-03: scope of this result
+
+An earlier version of this file ended by closing the whole programme. That was wrong, and the
+error is worth recording because it is the kind that quietly destroys good work.
+
+**What this experiment tested**: `EconomicStop` — Gated's own confidence sequence with an
+economic threshold — against two certificate stops, on two datasets, at one configuration.
+
+**What it did not test**: `P7s`, the settled-decision acquisition policy that beats P3b on five
+datasets. **P7s has never been run against any of the nine published competitors implemented in
+this programme.** The suite comparison the gate asks for has not been attempted.
+
+So the correct reading is: **the narrowed economic-vs-certificate question is closed, negatively.
+The gate's actual question — does our method beat the published suite — remains untested.**
+
+One suggestive number, which is not evidence: on rialto, gated costs 94.695 in the simulator
+where P7s costs 98.418 in the B3+ runner. Different runners, different seeding, not paired. It is
+a reason to run the comparison properly, not a result.
+
+Gate: `IN PROGRESS` becomes **`NOT MET — NARROWED QUESTION CLOSED, SUITE COMPARISON NEVER RUN`**.

@@ -51,3 +51,11 @@ has almost nothing to recover, and its side effect dominates.
   not be published as though P3b were the state of the art.
 
 That last sentence is the most important thing this programme produced.
+
+## CORRECTION 2026-11-03
+
+This diagnosis analyses `EconomicStop`, not `P7s`. The claim that "the B3+ result is a win over a
+weak baseline" rests on gated deployment beating **P3b**, which the decisive run does show
+(94.695 vs 103.728 on rialto). It does **not** rest on any measured comparison between gated
+deployment and **P7s**, because none exists. P7s versus the published suite is untested, and the
+conclusions above must not be extended to it.

@@ -1,5 +1,5 @@
 {
-  "gate_status": "NOT MET - PROGRAMME STOPPED",
+  "gate_status": "NOT MET - NARROWED QUESTION CLOSED, SUITE COMPARISON NEVER RUN",
   "updated_utc": "2026-11-03",
   "objective": "five real-data cases beating every mandatory applicable competitor on net_cost",
   "net_cost": "prediction_loss + label_price * requested_labels + switch_cost * deployment_switches",
@@ -51,5 +51,33 @@
       "ours_better_in": "6/32"
     }
   },
-  "key_finding": "P3b is not the state of the art for this task. Gated deployment (ICML 2021) is cheaper on both powered datasets and far more label-efficient (30.8 vs 159.2 labels on rialto), so the B3+ result is a win over a weak baseline."
+  "key_finding": "P3b is not the state of the art for this task. Gated deployment (ICML 2021) is cheaper on both powered datasets and far more label-efficient (30.8 vs 159.2 labels on rialto), so the B3+ result is a win over a weak baseline.",
+  "correction_utc": "2026-11-03",
+  "correction": "An earlier update recorded 'PROGRAMME STOPPED'. That was an overreach. The pre-registered rule that fired governed one question: economic trigger vs certificate trigger, tested with EconomicStop. P7s, the policy that beats P3b on five datasets, has NEVER been run against any of the nine published competitors implemented here. The suite comparison the gate actually asks for has not been attempted.",
+  "what_was_tested": {
+    "policy": "EconomicStop (Gated's confidence sequence with an economic threshold)",
+    "beaten_by": [
+      "gated_deployment (Karampatziakis et al., ICML 2021)"
+    ],
+    "beat": [
+      "discern_style (by ~113 on both powered datasets)"
+    ],
+    "datasets": [
+      "rialto (K=16)",
+      "openml_ldpa (K=32)"
+    ],
+    "configuration": "single: B=200, c_q=0.05, c_s=5, alpha=0.05, eps=0, p_min=0.05"
+  },
+  "never_run_against_ours": [
+    "CAMS",
+    "CAMS-MAX",
+    "Model Picker",
+    "Model Selector",
+    "variance minimisation",
+    "Xu acquisition",
+    "SMCS",
+    "Sawade 2012",
+    "gated_deployment (vs P7s specifically)"
+  ],
+  "suggestive_not_established": "rialto: gated 94.695 (simulator) vs P7s 98.418 (B3+ runner). Different runners, different seeding, not paired. Must not be reported as a head-to-head."
 }

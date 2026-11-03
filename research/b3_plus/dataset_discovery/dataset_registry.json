@@ -719,12 +719,13 @@
         "time_reliable": null
       },
       "overlap_note": "Controlled-environment sensor stream; distinct from rialto (video) and weather.",
-      "status": "USELESS_DUPLICATE",
-      "status_reason": "Variant of the Insects family. The goal forbids counting variants of one dataset as independent cases; the family is represented by insects_abrupt_balanced, and variants are not screened separately (a second screen of the same generator would be a retry).",
+      "status": "NOT_RUN",
+      "status_reason": "REOPENED 2026-11-02 before screening. The earlier USELESS_DUPLICATE was misapplied: it said the Insects family is 'represented by insects_abrupt_balanced', but that variant was discarded (USELESS_NO_HEADROOM), so the family holds no SUCCESS and the duplicate rule in screen() (which triggers only on an existing SUCCESS in the family) does not apply. This is a different stream, not a retry of a failed dataset with different settings, which the protocol forbids. PRE-STATED SCIENTIFIC REASON, fixed before any locked window is read: the reoccurring-concept variant is the only accessible candidate that plausibly exhibits POST-PROMOTION REVERSAL, which is the one failure mode of P7s characterised so far only in simulation (B3_PLUS_RESULTS.md section 11). It is screened for that reason whatever the cost outcome, and a negative result is as informative as a positive one here. MULTIPLICITY CONTROL: exactly ONE further Insects variant is screened, chosen for this reason and not by trying variants until one passes; the remaining five stay USELESS_DUPLICATE. If it succeeds, at most one Insects case may ever be counted.",
       "timestamps": {
         "registered_at_utc": "2026-11-02T23:26:12.742093+00:00"
       },
-      "files": {}
+      "files": {},
+      "reopened_at_utc": "2026-11-03T00:53:42.543585+00:00"
     },
     {
       "queue_rank": 0,

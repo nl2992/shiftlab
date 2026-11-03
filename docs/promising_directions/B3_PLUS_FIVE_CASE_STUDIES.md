@@ -87,3 +87,44 @@ switch-cost difference. Its narrow CI reflects query-seed variance only.
   latency is strictly worse than P3b's. **This gap is open.**
 - They are not evidence about datasets screened and discarded: 4 candidates are `NOT_RUN` for
   source-availability or tractability reasons and say nothing about the method.
+
+## Validation of the five cases (goal section 8)
+
+### Exact reproduction from saved seeds
+
+Every case was re-run from scratch into a fresh output directory and compared against the
+committed records. For spam, rialto and weather this re-ran the policies from the cached loss
+streams; for openml_ldpa and uci_occupancy it re-downloaded the raw data, re-derived the event
+order, re-binarised, re-selected the pair on train/dev windows and re-trained both models.
+
+**Result: bit-exact on all five.** Every policy mean and **every per-seed cost** matched with
+`max|diff| = 0.000e+00` (P0, P3b, P6, P7s). Reproduction is therefore established for the
+pipeline end to end, not only for the policy given fixed losses.
+
+One process note: a first reproduction attempt pointed at a scratch directory that already held
+an earlier smoke-test run, so the runner refused to overwrite and the comparison silently used
+stale files (which happened to match on P0/P3b/P6 and lacked P7s entirely). The check was redone
+in a guaranteed-empty directory. A comparison that reads pre-existing files is not a
+reproduction, and the runner's refusal to overwrite is what caught it.
+
+### Independent query-randomisation batch
+
+Re-run with seed base `20261103` in place of `20261101`, i.e. 100 entirely different query draws,
+everything else identical.
+
+| Case | `20261101` | `20261103` | worse episodes |
+|---|---|---|---|
+| spam | -6.661 [-6.77, -6.55] | **-6.581** [-6.72, -6.43] | 0/1 -> 0/1 |
+| rialto | -5.310 [-6.00, -4.61] | **-5.309** [-5.96, -4.61] | 0/16 -> 0/16 |
+| weather | -3.200 [-3.33, -3.07] | **-3.257** [-3.38, -3.14] | 0/3 -> 0/3 |
+| openml_ldpa | -4.428 [-6.96, -2.60] | **-4.584** [-7.45, -2.68] | 2/32 -> 2/32 |
+| uci_occupancy | -1.008 [-1.03, -0.99] | **-1.019** [-1.04, -1.00] | 0/4 -> 0/4 |
+
+All five keep their sign, keep the CI entirely below zero, keep the same worse-episode count, and
+agree in magnitude to within 1-3%. The effect is **not** an artefact of the particular query draw.
+
+**What this does and does not fix.** It removes seed-dependence as an explanation, which matters
+most for the three cases whose intervals are seed-level (spam, weather, occupancy). It does
+**not** improve episode-level power: a second seed batch on a K=1 stream still has one episode.
+The power caveat in the main table stands unchanged, and a fresh seed batch must never be
+presented as additional episodes.

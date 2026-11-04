@@ -221,3 +221,40 @@ seeds and with a fourth certificate family: the strong gated re-port `gated_adap
   * Cost against the host on reversal (V_reversal_1000, W_reversal_700) and recurrence (V_recurrent).
   * Promotion on the persistent nulls V_null_dep_r8 and W_null_dep_r95.
   * The claim must state the result on these whatever it is.
+
+## Amendment 6 (2026-11-03): P1 x P2 merge, restart monitoring on dependence-robust evidence
+
+**Code.** `scripts/sota_sprint/fam_m.py`, tested in `tests/sota_sprint/test_fam_m.py`.
+
+**Development screen.** Seed base 2026110501, 20 seeds. The results are in `docs/sota_sprint/merge/dev_screen.md`.
+* M_LRMD_SUI reached F1_late_800 −7.7 [−13.6, −1.8] vs Xu, with 0/20 promotions on the rho .8 and .95 nulls.
+* M_RMMSUI_A5b behaved like A5b and showed no late-change gain.
+
+**Candidates.**
+* **Primary: M_LRMD_SUI.** The SUI restart detector on a fixed incumbent, with all alpha given to the detector.
+* **Secondary: M_RMMSUI_A5b.**
+* **Ablation: M_RMMSUI_gar.**
+
+The primary was chosen on development seeds only.
+
+**Confirmatory seeds.**
+* Synthetic: 100 seeds, base 2026110630.
+* Nulls: 1000 seeds, base 2026110631.
+* Exchangeable-twin real nulls: 3 policy seeds, base 2026110632, on the registered twin streams.
+* Fresh real power: 20 seeds, base 2026110633.
+
+**HM1 (validity).** HM1 requires all three conditions below. Rate checks on V_null_dep_r5 are also run but are not part of HM1.
+* The Wilson upper bound is <= .0936 on V_null, V_worse, V_null_dep_r8, W_null_dep_r9 and W_null_dep_r95.
+* The split-clustered bootstrap upper bound is <= .0936 on every twin-null dataset.
+
+**HM2 (late-change benefit under robust validity).** HM2 requires both conditions below.
+* On V_late_600 and W_late_1000, the paired 95% CI of J(M) − J(A5b) lies below 0.
+* J(M) − J(best certified published) is significant on both of those regimes, Holm-corrected over 2 tests.
+
+**HM3 (descriptive).**
+* Stationary alternatives {V_better_a, V_better_b, V_better_c, V_near}, compared against A5b and the best certified published method.
+* The reversal regimes.
+* The fresh real cost, compared against A5b and the best certified method.
+* The fraction of the iid RMM late-change gain that is retained, (J(Xu) − J(M)) / (J(Xu) − J(rmm:gated_deployment+RMM)), on the two late regimes.
+
+**Merge verdict.** The merge succeeds only if the primary passes both HM1 and HM2. Otherwise the result is reported as one more measured point on the validity-power trade-off.

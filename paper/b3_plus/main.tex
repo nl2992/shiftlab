@@ -63,8 +63,8 @@ budget goes.
   \item We propose settled-decision acquisition (Section~\ref{sec:method}), which gates querying
   on whether a label could still change the deployed action. The evidence process, its
   propensity-matched bet cap, the promotion threshold and the rollback test are unchanged.
-  \item We evaluate on five real-world case studies and attribute the effect by ablation
-  (Sections~\ref{sec:results}--\ref{sec:ablation}).
+  \item We evaluate on five selected real-world streams and isolate the settled-state query effect
+  by ablation on three of them (Sections~\ref{sec:results}--\ref{sec:ablation}).
   \item We state a falsifiable scaling law the mechanism must satisfy, and show it holds on four
   cases and breaks on exactly the fifth, where its premise is independently violated
   (Section~\ref{sec:ablation}).
@@ -84,6 +84,23 @@ action. We additionally compare against a cost-aware promotion rule that gates p
 lower confidence bound times a declared persistence horizon, reported here as \textsf{P4ref};
 treating such a rule as unrelated prior work rather than as a baseline would overstate our
 novelty, so it appears in the ablation of Table~\ref{tab:ablation}.
+
+Classification-risk-optimal label acquisition~\cite{setoudehtazangi2026classificationrisk}
+allocates labels to improve estimation of a classifier by aligning label information with
+directions that affect the Bayes decision boundary. It makes clear that decision-relevant label
+acquisition is not new in general. Our narrower setting holds the incumbent and challenger fixed:
+queries supply paired feedback for sequential promotion and rollback, rather than training a
+classifier. The empirical question here is whether monitoring can be reduced after promotion while
+retaining the existing anytime-valid rollback process and a positive propensity floor.
+
+Budgeted risk monitoring with free covariates has also been studied for one-sided harmful-risk
+detection~\cite{cao2026freecovariates}. That work combines covariate-triggered requests with a
+label-history fallback and controls false alarms for one deployed model's binary risk. Its budget
+is an expected request rate on a safe source prefix. Our setting instead compares paired losses of
+two frozen classifiers, permits both promotion and rollback, and imposes a hard per-episode cap
+with delayed labels. These differences delimit the setting; they do not establish superiority over
+the acquisition policies in that work. A matched comparison under our paired decision contract
+remains necessary.
 
 \section{Problem Formulation}
 A chronological stream of $T$ events. A frozen incumbent $f_0$ and challenger $f_1$ produce $0/1$
@@ -203,22 +220,25 @@ is appropriate, and not that our policy is the best available.
 \begin{table*}[!t]\centering\small
 \input{tables/table3_ablation}
 \caption{Ablation at the primary configuration; $\Delta$ is the paired difference against
-\textsf{P3b}. The \textsc{hopeless} gate alone changes nothing on these streams, because it fires
-only when the challenger is certified worse and here it is better. The break-even promotion gate
-and the existing cost-aware rule both \emph{lose}. The entire gain comes from the \textsc{settled}
-state.}
+\textsf{P3b}. These three streams have the original matched ablation records. P7b is the
+\textsc{hopeless}-state-only gate; P7s is the corrected method with the additional
+\textsc{settled}-state gate.}
 \label{tab:ablation}
 \end{table*}
 
-Table~\ref{tab:ablation} attributes the effect. Three negative results carry the attribution: the
-\textsc{hopeless} gate alone is exactly neutral, a break-even promotion gate costs $+23.79$,
-$+8.97$ and $+17.57$, and the existing cost-aware promotion rule costs far more. Only the
-\textsc{settled} state produces the improvement.
+Table~\ref{tab:ablation} reports the corrected P7s ablation. P7b, which gates only in the
+\textsc{hopeless} state, is identical to P3b. The promotion-only P7a gate increases cost by
+$23.79$, $8.97$ and $17.57$ on spam, rialto and weather, respectively; P4ref also increases
+cost on these streams. P7s reduces cost by $6.66$, $5.31$ and $3.20$, saving an average of 133.2,
+106.2 and 64.0 labels per episode. Deployment loss and switch counts are unchanged for P7s on
+these three streams, so its measured savings come from query cost. The spam and weather intervals
+are seed-level diagnostics with only one and three episodes; rialto has 16 episodes. This ablation
+does not isolate the mechanism on openml\_ldpa.
 
-Decomposing the paired difference into deployment loss, query cost and switch cost leaves the
-entire effect in the query term on four of five cases, where deployment loss is bitwise identical
-per episode, promotion times coincide and rollbacks are zero for both policies. The method
-therefore does not improve decisions; it removes waste.
+Across four of the five cases, the saved records show bitwise-identical deployment decisions and
+the cost reduction is in the query term; openml\_ldpa is the exception. The ablation above verifies
+this mechanism directly only on spam, rialto and weather. The method reduces monitoring expense;
+it does not improve the underlying classifier or establish a better decision rule.
 
 \paragraph{A falsifiable scaling law.} If the whole gain is $c_qN_q$, the paired difference must be
 invariant to $c_s$ and exactly proportional to $c_q$. Both predictions hold to displayed precision

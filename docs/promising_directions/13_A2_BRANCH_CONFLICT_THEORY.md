@@ -82,10 +82,29 @@ convex LP value function, which supplies that information:
 - Hence `conv(L)(alpha) - J(alpha)` is a valid lower bound on the mixture gap.
 - The grid-point envelope gives an upper bound.
 
-A1d and A2b reported only the upper bound. That is enough to *refute* a gap whenever the upper
-bound is <= 0. It is not enough to *establish* one. The A1d "H-risk SURVIVES" values are
-therefore upper bounds on the mixture gap, and they are not yet proven lower bounds. A3c
-computes both bounds.
+A1d and A2b initially reported only the upper bound. That was enough to *refute* a gap whenever
+the upper bound was <= 0, but not enough to *establish* one. The follow-up `mixture_bounds.py`
+construction supplies lower bounds from the same finite grid, using monotonicity and convexity
+of each calendar value curve. The T=9 results and their limits are recorded in
+[`results/a1d/LOWER_BOUNDS.md`](results/a1d/LOWER_BOUNDS.md). A3c separately computes two-sided
+bounds for B=4, alpha=0.10. The earlier A1d "H-risk SURVIVES" labels based only on upper bounds
+are superseded by these lower-bound records; do not treat the old status line as an independent
+proof.
+
+**Why the interval lower supports are valid.** On a grid interval `[a_k,a_{k+1}]`, convexity
+makes the secant on `[a_{k-1},a_k]` a lower support to the right of `a_k`, and the secant on
+`[a_{k+1},a_{k+2}]` a lower support to the left of `a_{k+1}`. Monotonicity gives the floor
+`C_c(a_{k+1})`. Their pointwise maximum is therefore below `C_c` on this interval. Each
+generated point `(a,L_c(a))` is a lower point for its corresponding calendar at the *same*
+`a`; taking the lower convex hull of these points gives a lower bound on the public-coin
+calendar-mixture value. The secant lines are used only on their defining interval. Extending
+them elsewhere is not part of the argument.
+
+The finite-grid audit checks monotonicity and convexity at the 14 supplied levels; it is not an
+independent proof of those properties. The analytical justification is that each calendar value
+is the optimum of a linear program with a single scalar risk budget, hence is nonincreasing and
+convex in that budget. The saved exact rational grid costs and solver provenance remain the
+computational evidence for the reported lower bounds.
 
 **Remark 2.** Convexification (`C_mix = conv(C*)`), not Lemma 2, is why the A1c pure-calendar excess shrank under A1d. The dips in
 `delta(alpha)` are non-convexities, and mixtures fill them in.

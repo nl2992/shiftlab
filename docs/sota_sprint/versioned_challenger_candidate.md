@@ -17,6 +17,15 @@ hard evaluation budget and replacement cost**. This is a hypothesis to test, not
 
 Relevant prior art:
 
+* Wang, [*Adapt Only When It Pays: Budgeted Decision-Loss Priority for Delayed Online
+  Time-Series Adaptation*](https://arxiv.org/abs/2606.25068) (2026): an update gate for delayed
+  time-series feedback with exact hard-budget accounting, matched-compute comparisons, and a
+  projected-OGD regret result for its convex accepted-update subproblem. This is direct prior art
+  for budgeted adaptation under delayed labels. Its stated task selects when to apply residual
+  adapter updates using observed decision loss; the candidate here tests promotion of separately
+  trained, immutable model versions using fresh paired post-activation labels and an anytime
+  false-promotion bound. That contract difference is not itself a novelty result, and a future
+  comparison must include the ADOWIP scheduler where its model-update and cost assumptions map.
 * [Digalakis et al., *The Challenger* (2026)](https://arxiv.org/abs/2512.18390): repeated challenger
   training, switching economics and chronological credit scoring. Its abstract gives a near-oracle
   regret analysis for its own sequential evaluation procedure.

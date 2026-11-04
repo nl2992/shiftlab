@@ -3,6 +3,14 @@
 Reviewed 2026-11-02. Each external claim below was read from the cited source, not recalled.
 The in-repository comparisons were read from the pinned implementation at `041bc26`.
 
+## Updated boundary — 2026-11-08
+
+Cao, [*The First-Order Value of Free Covariates in Budgeted Risk Monitoring* (2026)](https://arxiv.org/html/2611.00576), is the closest newly identified prior art. It studies free-covariate and label-history acquisition for anytime-valid, one-sided harmful-risk detection with paid labels. Its theory uses an expected source-prefix request budget and a single deployed model's binary loss relative to a risk threshold. This rules out broad novelty claims for budget-aware acquisition in sequential risk monitoring.
+
+The remaining difference is a hypothesis to test, not an established novelty claim: P7s monitors paired utility between two frozen classifiers, supports promotion and rollback, and enforces a hard per-episode query cap with delayed feedback. Cao's paper does not establish this two-action replacement contract. A fair next comparison must adapt its label-history and covariate-triggered hybrid acquisition rules to the same paired stream, delayed release schedule, and hard cap, while leaving P3b's evidence process fixed. Compare P3b, P7s, and both adapted controls on stationary-positive, abrupt-reversal, and benign-covariate-shift episodes. Report net cost, false rollback, reversal-to-rollback delay, and cap violations; require zero cap violations and predeclare the error/delay constraints before evaluating P7s. Do not advance the novelty claim unless P7s saves cost at matched false-rollback and rollback-delay performance against both adapted controls.
+
+Development update: the first 200-seed-per-scenario matched simulation is recorded in `B3_PLUS_CAO_DEVELOPMENT_FINDINGS_2026-11-08.md`. P7s saves cost in stable and benign-shift scenarios but loses on cost and rollback timing after abrupt reversal; the sentinel prototype and a small settled-rate sensitivity do not resolve the gap. No confirmatory run or novelty claim is warranted for the current method.
+
 ## Closest work, as actually read
 
 ### 1. P3b — this repository, `b1_certified_switching.py` (`kind="P3b"`)
@@ -114,3 +122,16 @@ not a certificate about future returns. No minimax or universal-dependence claim
 
 - Liu, Xia, Stevens, Chen. Contextual Active Model Selection. https://arxiv.org/abs/2207.06030
 - Xu, Karampatziakis, Mineiro. Active, anytime-valid risk controlling prediction sets. https://arxiv.org/abs/2406.10490
+- Setoudehtanzangi and McLachlan. Large Classification-Risk-Optional Label Acquisition (2026). https://arxiv.org/abs/2609.06873
+
+## Prior-art and attribution correction — 2026-11-08
+
+The broad statement above that neither CAMS nor Xu values labels by whether they can affect a decision is not a sufficient novelty argument. Setoudehtanzangi and McLachlan (2026) derive a cost-sensitive acquisition design for reducing leading classification risk using information aligned with active Bayes-boundary directions. The defensible distinction for P7s is narrower: it keeps incumbent/challenger classifiers fixed and reduces post-promotion sequential monitoring queries while retaining the paired evidence process and rollback floor. Decision-relevant label acquisition in general is prior art.
+
+The old manuscript table did not name P7s, and its interpretation of the ablation was broader than the analyzed cases. P7b is the hopeless-state-only ablation; corrected P7s adds the settled-state gate. The checked-in S0 ablation records support this mechanism only on spam (K=1), rialto (K=16), and weather (K=3). The reproducible hash-checked analysis is `scripts/promising_directions/b3_plus_attribution_audit.py`, with results in `outputs/b3_plus_attribution_audit/report.md` and the scoped interpretation in `B3_PLUS_ATTRIBUTION_AUDIT_2026-11-08.md`. No novelty or SOTA conclusion follows from this reanalysis.
+
+## Additional direct prior art: economic model replacement — 2026-11-08
+
+Digalakis Jr. et al., [*The Challenger: When Do New Data Sources Justify Switching Machine Learning Models?* (arXiv:2512.18390v2, July 2026)](https://arxiv.org/html/2512.18390), is direct prior art for the broad model-replacement objective. It formalizes switch/discard/continue decisions with learning-curve, data-acquisition, retraining, and deployment costs; derives an oracle timing rule and an `O(T^(2/3) sqrt(log T))` regret result for reliable switching procedures; and evaluates greedy, one-shot, and look-ahead sequential evaluation on chronological credit-scoring data.
+
+Its main setting grows a challenger as full-feature training data arrive and retrains/evaluates at decision epochs. It does not describe the B3+ contract of two frozen classifiers, selective label queries under a hard pathwise cap, delayed label releases, and a reusable anytime paired promotion/rollback monitor. These are potential scope distinctions, not novelty by themselves. The paper rules out claiming that economically priced sequential model switching or oracle-regret analysis is new. Any B3+ comparison should state its fixed-model monitoring target and provide a source-faithful comparison only where the incumbent assumptions can be mapped without replacing the paper's learning-curve problem with a different one.

@@ -488,25 +488,26 @@ def main():
     if (
         sel["finalists"] and fcs
     ):  # selector rule: per-stream choice from design-time observables only
-        cal = pd.concat([pd.read_parquet(f) for f in sorted((sh / "_calib").glob("*.parquet"))])
-        parts = []
         cmap = {c.cell_id: c for c in cells}
-        for cid, g in cal.groupby("cell_id"):
+        selector_cols = list(KEEP)
+        for cf in sorted((sh / "_calib").glob("*.parquet")):
+            g = pd.read_parquet(cf)
+            cid = g.cell_id.iloc[0]
             c = cmap[cid]
             pick = np.array([SR.select_index(sel, c.delay, c.label_regime, x) for x in g.cal])
             rows = [
-                pd.read_parquet(sh / safe(f["hash"]) / (safe(cid) + ".parquet"))
+                pd.read_parquet(
+                    sh / safe(f["hash"]) / (safe(cid) + ".parquet"),
+                    columns=selector_cols,
+                )
                 .set_index("seed")
                 .loc[g.seed.to_numpy()]
                 for f in fin["finalists"]
             ]
             sub = pd.concat([rows[k].iloc[[i]] for i, k in enumerate(pick)])
-            parts.append(sub.reset_index().assign(method_id="selector"))
-        (sh / "selector").mkdir(exist_ok=True)
-        for p in parts:
-            p[KEEP].to_parquet(
-                sh / "selector" / (safe(p.cell_id.iloc[0]) + ".parquet"), index=False
-            )
+            p = sub.reset_index().assign(method_id="selector")
+            (sh / "selector").mkdir(exist_ok=True)
+            p[selector_cols].to_parquet(sh / "selector" / (safe(cid) + ".parquet"), index=False)
     analyse(sh, fin, sel, bases, secondary, fcs, fr, a, out, cells)
     print("wrote", out / "confirmation.json")
 

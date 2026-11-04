@@ -491,23 +491,23 @@ def main():
         cmap = {c.cell_id: c for c in cells}
         selector_cols = list(KEEP)
         for cf in sorted((sh / "_calib").glob("*.parquet")):
-            g = pd.read_parquet(cf)
-            cid = g.cell_id.iloc[0]
-            c = cmap[cid]
-            pick = np.array([SR.select_index(sel, c.delay, c.label_regime, x) for x in g.cal])
-            rows = [
-                pd.read_parquet(
-                    sh / safe(f["hash"]) / (safe(cid) + ".parquet"),
-                    columns=selector_cols,
-                )
-                .set_index("seed")
-                .loc[g.seed.to_numpy()]
-                for f in fin["finalists"]
-            ]
-            sub = pd.concat([rows[k].iloc[[i]] for i, k in enumerate(pick)])
-            p = sub.reset_index().assign(method_id="selector")
-            (sh / "selector").mkdir(exist_ok=True)
-            p[selector_cols].to_parquet(sh / "selector" / (safe(cid) + ".parquet"), index=False)
+            cal = pd.read_parquet(cf)
+            for cid, g in cal.groupby("cell_id", sort=False):
+                c = cmap[cid]
+                pick = np.array([SR.select_index(sel, c.delay, c.label_regime, x) for x in g.cal])
+                rows = [
+                    pd.read_parquet(
+                        sh / safe(f["hash"]) / (safe(cid) + ".parquet"),
+                        columns=selector_cols,
+                    )
+                    .set_index("seed")
+                    .loc[g.seed.to_numpy()]
+                    for f in fin["finalists"]
+                ]
+                sub = pd.concat([rows[k].iloc[[i]] for i, k in enumerate(pick)])
+                p = sub.reset_index().assign(method_id="selector")
+                (sh / "selector").mkdir(exist_ok=True)
+                p[selector_cols].to_parquet(sh / "selector" / (safe(cid) + ".parquet"), index=False)
     analyse(sh, fin, sel, bases, secondary, fcs, fr, a, out, cells)
     print("wrote", out / "confirmation.json")
 

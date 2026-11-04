@@ -39,6 +39,12 @@ All numbers come from the sprint validation files in [validation/](validation/).
   * Strong stationary improvement costs +9 to +34 vs front-loaded EB.
   * The ρ=.8 Markov null gives .15 and ρ=.95 gives .66 to .70.
   * On fresh real data RMM is much better than its host (gated: −48 to −156) but mixed vs the best certified method (2 wins, 3 losses). The fresh streams contain no late-improvement episode.
+* **Registered replication (Amendment 5, fresh seeds, 4 certificate hosts including the strong gated re-port): HC PASS.**
+  * Family vs host: −14.5 to −47.2.
+  * Late regimes vs Xu: −14.6 to −30.3, all Holm-significant over 8 tests.
+  * iid-null safety holds.
+  * Reversal is +3 to +35 for 3 of 4 hosts, and ρ=.8/.95 null promotion is .12–.18 / ≈.71, as declared in advance.
+  * This turns the earlier post-hoc certificate-host scope into a registered result.
 * **Deviation to disclose.** Restricting the transfer claim to certificate hosts was decided after the registered 5-host HR failed. It is therefore a post-hoc scope, even though RMM's design rationale (adding monitoring to a certificate) predates it.
 * **Necessary additional evidence.**
   1. A registered fresh test restricted to certificate hosts, adding a fourth certificate family (e.g. choe_ramdas_eb or gated_adaptive_range).
@@ -48,7 +54,7 @@ All numbers come from the sprint validation files in [validation/](validation/).
 * **Positioning.** A transferable extension (addendum type 1) and failure-guided design (type 4), with a scoped SOTA in the late-improvement regime (type 3).
 * **(A) Main-track potential:** moderate. Novelty is incremental (composition of e-detectors). The transfer across three independent certificate families plus the latency diagnosis gives it a coherent story.
 * **(B) SOTA:** scoped, synthetic only. Late improvement beats the strongest certified published method by 15 to 27; nothing broader.
-* **Assessment: PROMISING (needs evidence items 1 and 2).**
+* **Assessment: PROMISING.** Item 1 is done (Amendment 5 PASS). Item 2, real late-improvement streams, is the remaining blocker for real-world relevance.
 
 ## P2. Certified deployment under serial dependence: failure map and an impossibility-flavoured trade-off (Failure Atlas plus persistence study)
 

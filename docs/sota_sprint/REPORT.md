@@ -3,8 +3,11 @@
 **Date:** 2026-11-03.
 **Branch:** `research/sota-sprint-24`, from `origin/main` 2171689.
 **Protocol:** [benchmark_spec.md](benchmark_spec.md) and [validation_protocol.md](validation_protocol.md).
-The protocol was locked before validation and amended four times. Amendments 1–3 were committed before
-any validation row was read. Amendment 4 was registered afterwards and is labelled post-hoc.
+The protocol was locked before validation and amended five times.
+* Amendments 1–3 were committed before any validation row was read.
+* Amendment 4 was registered afterwards and is labelled post-hoc.
+* Amendment 5 registers the certificate-host RMM claim before its fresh run. It follows from the ARIS
+  result-to-claim review.
 **Contract:** T=2000, hard B=200, c_q=.05, c_s=5, α=.05, common simulator, paired streams.
 
 ## 1. Mandatory execution gate (brief §14A): MET
@@ -25,6 +28,8 @@ any validation row was read. Amendment 4 was registered afterwards and is labell
 * **Ledger and leaderboard.** [candidates.json](candidates.json) and [leaderboard.json](leaderboard.json)
   hold the per-candidate dispositions. [leaderboard_views.md](leaderboard_views.md) has the seven ranked
   views (§12), with development and validated results kept apart.
+* **Bounded follow-up loop (§14C).** It ran: Amendment 5 targets the evidence gap that result-to-claim
+  named first.
 * **Phase 7 combinations.**
   * Built and screened: X_A5B5, X_A6B5, X_A5C, X_D4A1, X_D6A1:mp and X_D6A1:cams
     ([combos/README.md](combos/README.md)).
@@ -59,10 +64,11 @@ The full tables are in [validation/validation_results.md](validation/validation_
 | H4, combinations | only X_A5C advanced; its late-regime gain vs A5b is −0.5 / −0.9 |
 | HR (Amendment 3), RMM transfer to ≥ 4/5 hosts | **FAIL** (3/5; all 3 certificate hosts pass) |
 | HD (Amendment 4, post-hoc), deploy-gate transfer to 3/3 hosts | **FAIL** (Holm-significant 0/2/2 of 5; all safe on iid nulls) |
+| **HC (Amendment 5), RMM on 4 certificate hosts: family < host, late vs best certified (Holm over 8), iid safety, all 4/4** | **PASS** (family −14.5 to −47.2; late −14.6 to −30.3 vs Xu, all Holm p < 1e-6; reversal +3 to +35 for 3 of 4 hosts; ρ=.8 null .12–.18, ρ=.95 null ≈ .71, as declared) |
 
 ## 3. Best mechanisms and the evidence for them
 
-1. **RMM on certificate hosts (gated, corrected DISCERN, SMCS).**
+1. **RMM on certificate hosts (gated, corrected DISCERN, SMCS; the registered Amendment 5 adds the strong gated re-port).** On fresh seeds (Amendment 5, [amend5_results.md](validation/amend5_results.md)) the results replicate, with family −41.4, −47.2, −14.5 and −32.1.
    * Family cost vs host: −44.2, −47.3 and −13.3.
    * Late improvement vs the best certified published method (Xu): −15 to −27 for every host.
    * Independent-null safety holds.
@@ -80,11 +86,16 @@ The full tables are in [validation/validation_results.md](validation/validation_
 
 ## 4. Research verdicts
 
-* **SOTA: `SOTA_NOT_MET`.**
-  * No candidate satisfies every success-gate item (brief §14B) for a registered claim.
-  * The strongest result is RMM's late-improvement advantage on certificate hosts, which is real.
-    However, it rests on a post-hoc scope (certificate hosts only) after a registered 5-host test failed,
-    and it has no real-data late-change confirmation.
+* **SOTA: `SOTA_NOT_MET`** under the brief's full success gate (§14B).
+  * The registered, fresh-seed **scoped synthetic SOTA** is now established: RMM attached to four
+    certificate hosts beats the strongest certified published comparator (Xu) on late-improvement
+    regimes by 15–30 per 2000 events (HC PASS).
+  * Gate items 1–4 hold for that scope: advantage, iid-null safety, fresh reproducibility, ablations.
+  * Item 5 (credible real-world relevance) is **not met**. The fresh real streams contain no
+    late-improvement episode. On them, gated+RMM beats its own host by 48–156 but is mixed against
+    the best certified method (2 wins, 3 losses).
+  * Item 6 (result-to-claim) is partial; see §5.
+  * The method also loses on reversals and fails persistent nulls, as declared in advance.
 * **Main-track candidates:** see the [publication register](publication_register.md) and §5.
 
 ## 5. Independent reviews
@@ -124,3 +135,5 @@ its `manifest.json`. Raw records stay local.
 * The fresh real streams contain almost no harmful-switch episodes (6/62), so they mostly measure
   promotion cost.
 * PaperBanana was not used; no figures were produced.
+* `validation_spec.VAL_SEEDS` and `NULL_SEEDS` duplicate literals in the run scripts. This drift risk
+  was flagged by the ARIS audit; the values agree (100 and 1000).

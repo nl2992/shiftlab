@@ -23,7 +23,7 @@ The highest-value next step is an evidence-completion package for the P2 validit
 
 1. Reconcile the current sprint, B3 real-data evidence, and retrospective audit into one claim-to-evidence ledger. Recompute metrics only from archived row-level artifacts; label every result by source branch/commit, seed exposure, data exposure, validity status, and exact estimand.
 2. Have an independent reviewer verify the B3 source-to-row path and the conditional-null argument for P3b. Keep the empirical synthetic/real-stream cost result separate from the certification null. Do not call a retrospective conditional-null monitor “marginal-null safe.”
-3. If the paper claims the value of anytime certification over batch selection, verify a fixed-sample paired comparator under the same null and identical budget/delay/economic contract. Distinguish P6 versions: the exact 5.3876% boundary-null counterexample concerns an archived repeated `n=25` mean-threshold rule, while B3's current P6 code runs one exact-binomial test after up to 50 labels. The current code is sign-blind, but budget exhaustion can make its terminal count depend on later query availability. The written P3b fixed-delay null does not yet prove validity conditional on that complete selection path; see [`b3_p6_validity_scope_2026-11-04.md`](b3_p6_validity_scope_2026-11-04.md). Deterministic real streams do not instantiate a stochastic null.
+3. If the paper claims the value of anytime certification over batch selection, verify a fixed-sample paired comparator under the same null and identical budget/delay/economic contract. Distinguish P6 versions: the exact 5.3876% boundary-null counterexample concerns an archived repeated `n=25` mean-threshold rule, while current B3 P6 fires once at fixed `n=min(B,50)`. The one-shot binomial gate is valid under P3b's eventwise fixed-delay conditional null when requests are predictable and conditionally independent of unreleased labels; the protocol's weaker exchangeability wording alone is insufficient. The archived real-stream P6 values remain descriptive, and the original runner-to-row attribution remains unresolved. See the corrected [`P6 scope audit`](b3_p6_validity_scope_2026-11-04.md).
 4. Run the new method only if a specific theorem-level gap survives this audit. Any new empirical claim requires a new registered protocol, a disjoint seed/data block, and no parameter selection on that block.
 
 **No method lead currently survives.** In particular, the hard-budget, delay-aware acquisition idea is closed as a current lead: the registered A5b+C6 composition lost its frozen cost gate by about `+4.620` per event over the four delayed/late targets, while prior scheduler screens also failed to establish an advantage. Active inference, active testing, and delayed-feedback scheduling are established adjacent areas; another pacing heuristic would not close the gap. The twin-role-swap idea is also closed.
@@ -56,6 +56,85 @@ Close this theory route for current method development. Retain the `rho=1` resul
 boundary observation only. Reopen theory work only if a new structural argument yields a useful,
 certified bound under the registered finite-refresh objective; do not restart algorithm
 development without a source-level gap.
+
+## Updated frontier audit — 2026-11-04
+
+The broader worktree contains a separate Lane A result that should not be conflated with the
+finite-refresh switching bound above. Exact small-game analysis in
+[`12_NOVELTY_DECISION.md`](../promising_directions/12_NOVELTY_DECISION.md) and
+[`13_A2_BRANCH_CONFLICT_THEORY.md`](../promising_directions/13_A2_BRANCH_CONFLICT_THEORY.md)
+establishes a nonzero joint-acquisition advantage over every public-coin mixture of fixed query
+calendars in selected finite HMM instances. The strongest certified B=4, alpha=.10 gap is
+0.71–1.21%; at B=3 and alpha=.05/.10, and B=4 and alpha=.05, the tested instances are exactly
+calendar-optimal. The larger 4.7–5.1% branch-conflict lower bounds occur only at alpha >= .15.
+These are exact finite-instance solver results, not SOTA method improvements or a growing-T
+guarantee. The original branch-conflict proof used an invalid alternative-weighted risk split.
+A corrected root recursion is `r0 <= alpha`, `r0+r1 <= 2 alpha`, and it yields a restricted
+d=1 continuation-bound template. However, a representative A3c gap cell has joint query probability
+3/5 at t=1 while its best pure calendar starts at t=2, so that template does not explain the
+measured gap. The growing-family conjecture remains withdrawn pending a bound covering adaptive
+first-query time and public calendar mixtures. Prior-art review for that structural question is
+incomplete.
+
+The multiple-independent-episode extension of the perfect-persistence lower bound is not promoted:
+without a new structural rate or decision-value separation it reduces to classical finite-
+hypothesis testing. The 2026-11-04 frontier audit also closes or downgrades the multi-proxy active-
+PPI screen, contextual scout versus OPE, and one-step certification-exponent implementation as
+method leads. The multi-proxy note is exploratory only; its event-time validity lemma does not
+establish novelty. See the verified MOPE/Kelly comparison under
+`outputs/shiftguard_unified/sota_reproductions/certification_exponent_one_step_v1_parallel/`
+and the contextual OPE results in `context_scout_ope_comparator_audit_2026-11-04.md`.
+
+**Next theory action:** derive the risk recursion induced by the exact causal-null opponent strategy
+and determine whether any continuation-value lower bound survives the resulting max-over-branches
+constraint and calendar convexification. Only then audit the special-case result against
+chance-constrained POMDP/sensor-scheduling prior art. Continue only if a valid bound can plausibly
+exceed 10% under alpha <= .10, B >= 4, and an explicit pathwise label cap. Otherwise retain only
+the exact finite-instance solver comparison and redirect to a stream with observed issue/release
+times and real decision costs.
+
+### Initial prior-art scan result
+
+The scan confirms that the broad optimization setting is established: Santana, Thiébaux, and
+Williams' RAO* formulates finite-horizon chance-constrained POMDPs with policy-dependent execution
+risk and solves for risk-feasible contingent policies ([AAAI 2016 paper](https://users.cecs.anu.edu.au/~thiebaux/papers/aaai16.pdf);
+[MIT publication record](https://dspace.mit.edu/entities/publication/839ffa98-84e4-4d87-8b3d-1499a1f5cdcb)).
+Further constrained-POMDP work includes constant-horizon approximation and exact/ILP approaches
+([IJCAI 2019 paper](https://www.ijcai.org/Proceedings/2019/0775.pdf)). General claims that a risk-constrained
+belief-state policy can outperform a fixed schedule are therefore already covered. The remaining
+possible delta is only a special structural theorem for the binary promotion/recheck objective and
+its explicit pathwise query cap. This is a narrow candidate, and it may still be a direct reduction
+to established chance-constrained POMDP dynamic programming; the scan has not yet found a basis to
+call it novel. Do not start another simulation or claim an SOTA gain on this basis.
+
+#### Exact model-class mapping
+
+For the finite Lane A instance, augment the hidden state with (i) the two-state environment regime,
+(ii) the currently deployed model, (iii) the remaining query budget, (iv) any outstanding delayed
+query results and their ages, and (v) a promotion-ever flag. The belief state is the posterior over
+this finite augmented state given released labels and public actions. Actions are `query/skip` when
+eligible and `keep/promote/rollback` at decision epochs; the query action consumes one unit of the
+integer budget immediately, including when its label is pending. The one-step cost is query cost
+plus the model's expected prediction loss plus any switching charge. Make promotion into an
+absorbing risk-hit flag. The false-promotion constraint is then a finite-horizon chance constraint
+on reaching that flag under each causal-null model; with a finite null family this is a vector of
+chance constraints, or equivalently a robust maximum constraint. This gives a direct finite
+chance-constrained POMDP representation of the exact Lane A optimization problem. The query-calendar
+baseline is the same model with the query-time action restricted to a fixed subset of event times.
+
+Therefore the joint optimizer, belief update, risk ledger, and comparison to a calendar are not
+novel ingredients. A possible contribution has to be a theorem that exploits this particular
+binary likelihood and promotion/rollback payoff to provide a useful structural result (for example,
+a growing-horizon lower bound against the *convexified* calendar class). Existing generic CC-POMDP
+formulations do not establish such a special-case theorem, but the present search has not proved
+that no prior work does. The model mapping also exposes a technical caveat: for a composite null,
+the single absorbing risk constraint is not an ordinary single-model chance constraint; the robust
+vector of null-specific reach probabilities must remain explicit in any claimed reduction or proof.
+
+- Lane A audit source: `docs/promising_directions/12_NOVELTY_DECISION.md`,
+  `13_A2_BRANCH_CONFLICT_THEORY.md`, and `14_FAIR_REEVALUATION.md`.
+- Multi-proxy candidate status: `docs/rpoq_next/multiproxy_anytime_growth_candidate_2026-11-04.md`.
+- Latest data-fit status: `docs/sota_sprint/criteo_delayed_outcome_feasibility_2026-11-08.md`.
 
 ## Reproduction pointers
 
@@ -282,6 +361,11 @@ The latest P7s/Cao development comparison suggests that P7s's main reversal defi
 The disjoint 200-seed-per-scenario P7s-RM development pilot reduced P7s's reversal cost by `9.096` but still lost to Cao-L and Cao-Hybrid by `+2.578` and `+2.736` mean paired cost, with 33–36 event longer rollback RMST. It also raised stable-state cost over P7s. The registered gate failed; do not tune or confirm this candidate. The results and limited model-specific false-wake interpretation are in [the findings](../promising_directions/B3_PLUS_RESTART_MIXTURE_DEVELOPMENT_FINDINGS_2026-11-04.md), with the frozen protocol [here](../promising_directions/B3_PLUS_RESTART_MIXTURE_DEVELOPMENT_PROTOCOL_2026-11-04.md). No current method lead survives this comparator.
 
 ## Continuation frontier — current worktree review
+
+The 2026-11-04 independent frontier review confirms that no method/theorem candidate clears both novelty
+and evidence gates. It adds ADOWIP as adjacent delayed-budgeted adaptation prior art and routes the next
+work to a theorem-only search for a decision-relevant lower bound or non-compositional rate result; see
+[`independent_frontier_review_2026-11-04.md`](independent_frontier_review_2026-11-04.md).
 
 The newer B3+ comparator and attribution records do not reopen the single-pair method claim:
 P7s and its sentinel still lose the reversal-cost gate to the Cao adapters, while the real-stream

@@ -1,7 +1,8 @@
-# Research direction correction and live theory frontier
+# Research direction correction and finite-cell theory frontier
 
-**Status:** correction to the previous continuation scan; the multi-challenger direction is closed.
-No new algorithm or novelty claim is established by this note.
+**Status:** correction to the previous continuation scan; the multi-challenger direction and the
+finite-cell C1-E query-timing mechanism are closed. No new algorithm or novelty claim is established
+by this note.
 
 ## Correction: do not reopen multi-challenger shared-label acquisition
 
@@ -19,7 +20,7 @@ another challenger is genuinely better. The candidate-specific thresholds noted 
 scan would address that multiplicity issue, but they do not restore novelty. Do not implement or
 run the multi-challenger proposal from the superseded scan.
 
-## Live candidate from the current research ledger
+## Candidate considered at the time of this scan (subsequently closed)
 
 The remaining theory route recorded after the C1/C2 empirical stop is C1-E: a persistence-aware
 query policy for a finite-state HMM that may concentrate a fixed query budget in states where the
@@ -124,8 +125,19 @@ prediction or explicitly extended-follow-up stress tests. This is consistent wit
 work on label correction, elapsed-time sampling, and model-training freshness, which does not itself
 establish paired fixed-model promotion under an anytime risk contract ([Yang et al., AAAI 2021](https://ojs.aaai.org/index.php/AAAI/article/view/16587)). See the
 [structural feasibility report](criteo_delayed_outcome_feasibility_2026-11-08.md),
-[maturity audit protocol](../papers/shiftlab_unified/criteo_maturity_audit_protocol.md), and
+[maturity audit protocol](../../papers/shiftguard_unified/criteo_maturity_audit_protocol.md), and
 [publisher dataset card](https://huggingface.co/datasets/criteo/criteo-attribution-dataset).
+
+## Finite-cell power update — 2026-11-04
+
+The four-query C1-E timing mechanism was checked against actual anytime first-promotion power in
+[`switching_c1e_anytime_power_results_v1.md`](switching_c1e_anytime_power_results_v1.md). Across
+the fixed alpha panel `{0.05, 0.10, 0.20}`, both the exact adaptive policy and the strongest fixed
+calendar/burst had zero power. More strongly, the maximum LR over every four-query calendar and
+outcome string is exactly `386611/245941`, below the smallest registered crossing threshold 5;
+this proves zero power for every adaptive policy in that finite cell. It also shows the earlier
+3.92% KL gain does not improve the promotion decision. Close this cell and do not enlarge it after
+seeing the result.
 
 **Decision after the real-data screen:** Criteo Attribution and CriteoPrivateAds do not meet the
 observed-release and outcome-utility contract, and CRSP is already exposed with retrospective

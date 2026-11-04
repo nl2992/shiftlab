@@ -96,4 +96,15 @@ One suggestive number, which is not evidence: on rialto, gated costs 94.695 in t
 where P7s costs 98.418 in the B3+ runner. Different runners, different seeding, not paired. It is
 a reason to run the comparison properly, not a result.
 
-Gate: `IN PROGRESS` becomes **`NOT MET — NARROWED QUESTION CLOSED, SUITE COMPARISON NEVER RUN`**.
+Gate at the time of this report: **`NOT MET — NARROWED QUESTION CLOSED, SUITE COMPARISON NEVER RUN`**.
+
+## Correction 2026-11-04: P7s suite screen completed
+
+The default P7s suite comparison has now been run on five chronological UCI datasets with actual
+labels and frozen-model predictions. This later exploratory result supersedes the “never run”
+status above, but it does not pass the SOTA gate: P7s is cheaper than Gated Deployment on all five
+streams, yet the best suite method is cheaper on all five (Model Picker on four and Model Selector
+on household_power). The outcomes were already used by other SOTA sprint methods, and delays and
+prices were imposed. One initial replay used the wrong 100-event delay and is invalidated; only the
+corrected 24/144-event screen may be cited. See
+[`P7S_FRESH_REAL_SUITE_RESULTS_2026-11-04.md`](P7S_FRESH_REAL_SUITE_RESULTS_2026-11-04.md).

@@ -221,6 +221,27 @@ the grid C* matches A3 exactly.
 **Decision: GENUINE GAP AT alpha = 0.10.** It is not risk-specific: the constrained mixture gap
 is always smaller than the unconstrained one.
 
+**Audit correction (2026-11-04):** the exact A1/A1d cost gaps and public-root-coin calendar-mixture
+comparator remain valid. The earlier branch-conflict proof used an invalid alternative-weighted
+risk split. The corrected note derives the exact root constraint `r0 <= alpha`, `r0+r1 <= 2alpha`
+and a restricted d=1 continuation bound when the minimizing calendar queries at t=1 almost surely.
+That restriction fails in the representative A3c gap cell: the joint policy queries at t=1 with
+probability 3/5, while the best pure calendar starts at t=2. Preserve the finite solver results;
+treat the confirmation-versus-recheck account as descriptive until a bound handles adaptive
+first-query time and calendar mixtures.
+
+**Follow-up dual audit (2026-11-04).** For the representative top A3c cell, a robust sequence-form
+LP evaluated at a supporting risk price over all 99 calendars gives an independent numerical
+lower bound of 1.1145% against continuous-risk public mixtures of fixed calendars. This is
+consistent with, but slightly weaker than, the saved two-sided grid-hull bound of 1.1734%.
+The recovered mixture components have zero branch-continuation saving under the first-query
+decomposition; the positive dual bound certifies a finite-cell gap without establishing the
+proposed branch-conflict mechanism. See `13_A2_BRANCH_CONFLICT_THEORY.md` and the two A3c JSON
+audits. LP tolerances apply. This remains a finite-instance result, not a SOTA method claim or a
+growing-horizon theorem. Evaluating the joint LP dual price over all calendars yields zero:
+the joint and best-calendar penalized values coincide at that price. The supporting price of the
+calendar-mixture frontier is needed for the positive certificate.
+
 ### Lane A synthesis (supersedes the A2 "final" sentence)
 
 **Tight risk.** At alpha = 0.05 a fixed calendar is exactly optimal in every family tested at
@@ -239,8 +260,10 @@ smaller than the unconstrained adaptivity gap.
 
 **Practical conclusion.** Every proven gap is at most about 5.1% and stays below the 10%
 threshold. At the programme's risk levels it is at most about 1.2%. There is no method claim.
-The structural results are suitable for the benchmark/negative-results paper, subject to a
-literature audit:
+The exact finite-instance comparisons remain suitable for a benchmark/negative-results paper,
+subject to a literature audit; the proposed branch-conflict explanation is not proved under the
+implemented causal null:
 
 - calendar optimality under unanimity (Theorem 7 and the per-instance certificates);
-- the risk-specific branch conflict at intermediate alpha.
+- the exact finite-instance joint-versus-calendar timing gaps; the proposed risk-specific branch
+  explanation at intermediate alpha remains unproved under the implemented causal null.

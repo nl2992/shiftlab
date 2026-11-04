@@ -1,0 +1,178 @@
+{
+  "status": "exploratory_exact_branch_decomposition_completed",
+  "solver_provenance": {
+    "solver_commit": "2bd2e8e41639073c8d22ffb17ef0bcc68111e321",
+    "solver_file_sha256": {
+      "src/shiftlab/dive/causal_switching_game.py": "54b1347c3e213407b3feb09a801dc9ea40b3663fe6a4a227b7878b9b0a2d770a",
+      "scripts/decompose_switching_calendar_gap.py": "16dc05e76e94b8b02684609de767596a7ea0b5111e6dbf376ec741226777ece4"
+    }
+  },
+  "family": "e1=49/50|trans=1/20|prior1=1/20|cs=1/20",
+  "alpha": "1/10",
+  "mixture_cost_on_saved_grid_hull": "2328336611246643/1562500000000000",
+  "joint_cost": "575109881865933/390625000000000",
+  "grid_mixture_minus_joint": "27897083782911/1562500000000000",
+  "mixture_weighted_branch_saving_lower_bound": "0",
+  "joint_query_support_by_root_choice": {
+    "action=0,query=0": {
+      "root_probability": "2/5",
+      "query_time_union": [
+        2,
+        3,
+        4,
+        5
+      ],
+      "query_time_union_size": 4,
+      "path_supports": [
+        [
+          2
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          2,
+          3,
+          4
+        ],
+        [
+          2,
+          3,
+          4,
+          5
+        ]
+      ]
+    },
+    "action=0,query=1": {
+      "root_probability": "3/5",
+      "query_time_union": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "query_time_union_size": 5,
+      "path_supports": [
+        [
+          1,
+          2
+        ],
+        [
+          1,
+          2,
+          3
+        ],
+        [
+          1,
+          2,
+          3,
+          4
+        ],
+        [
+          1,
+          3
+        ],
+        [
+          1,
+          3,
+          4
+        ],
+        [
+          1,
+          3,
+          4,
+          5
+        ]
+      ]
+    }
+  },
+  "components": [
+    {
+      "mixture_weight": "1/2",
+      "risk_level": "3/40",
+      "calendar": [
+        2,
+        3,
+        4,
+        5
+      ],
+      "component_cost": "1197436139320423/781250000000000",
+      "component_null_risk": "3/40",
+      "first_query_distribution": {
+        "2": "1"
+      },
+      "conditional_branch_decomposition": [
+        {
+          "first_query_time": 2,
+          "first_query_probability": "1",
+          "branches": [
+            {
+              "label": 0,
+              "alternative_probability": "2656/3125",
+              "conditional_null_risk": "0",
+              "calendar_continuation_cost": "10504303923/10624000000",
+              "free_calendar_continuation_cost": "10504303923/10624000000",
+              "gap_lower_bound": "0",
+              "weighted_contribution": "0"
+            },
+            {
+              "label": 1,
+              "alternative_probability": "469/3125",
+              "conditional_null_risk": "3/20",
+              "calendar_continuation_cost": "46997092018989/16750000000000",
+              "free_calendar_continuation_cost": "46997092018989/16750000000000",
+              "gap_lower_bound": "0",
+              "weighted_contribution": "0"
+            }
+          ]
+        }
+      ],
+      "mixture_weighted_branch_saving_bound": "0"
+    },
+    {
+      "mixture_weight": "1/2",
+      "risk_level": "1/8",
+      "calendar": [
+        2,
+        3,
+        4,
+        6
+      ],
+      "component_cost": "56545023596311/39062500000000",
+      "component_null_risk": "1/8",
+      "first_query_distribution": {
+        "2": "1"
+      },
+      "conditional_branch_decomposition": [
+        {
+          "first_query_time": 2,
+          "first_query_probability": "1",
+          "branches": [
+            {
+              "label": 0,
+              "alternative_probability": "2656/3125",
+              "conditional_null_risk": "0",
+              "calendar_continuation_cost": "10504303923/10624000000",
+              "free_calendar_continuation_cost": "10504303923/10624000000",
+              "gap_lower_bound": "0",
+              "weighted_contribution": "0"
+            },
+            {
+              "label": 1,
+              "alternative_probability": "469/3125",
+              "conditional_null_risk": "1/4",
+              "calendar_continuation_cost": "234324979231/104687500000",
+              "free_calendar_continuation_cost": "234324979231/104687500000",
+              "gap_lower_bound": "0",
+              "weighted_contribution": "0"
+            }
+          ]
+        }
+      ],
+      "mixture_weighted_branch_saving_bound": "0"
+    }
+  ],
+  "scope": "The saved grid hull is an upper bound on the continuous-risk optimum; this branch-saving calculation explains only this explicit feasible mixture and is not a lower bound on the exact continuous calendar-mixture gap."
+}

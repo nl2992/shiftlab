@@ -1,14 +1,27 @@
 # 13 A2c: branch-conflict structure of the risk-specific timing gap
 
-**Status.**
+**Status (audit correction, 2026-11-04).**
 
-- Lemma 1, Lemma 2 and Proposition 3 are proved below. The arguments are elementary.
-- Corollary 4 is proved under its stated hypothesis. That hypothesis has been checked
-  *qualitatively* against the A1c P5 policies; it has not been checked as a quantitative bound.
-- Conjecture 5, a growing family, is open.
-- None of this has been reviewed independently. It has not been audited against the literature on
-  adaptivity gaps under chance constraints or on constrained POMDP sensor scheduling. That audit
-  is required before any novelty claim.
+- Lemmas 1–2 and Theorem 7 below concern the stated policy classes and remain valid.
+- The original Proposition 3/Corollary 4 used an invalid branch-additive risk budget. Proposition 3
+  is replaced below by an exact robust branch-risk bound for d=1 when the minimizing calendar
+  policy queries at t=1 almost surely. The numerical branch-conflict constants and Corollary 4
+  remain unestablished under that bound.
+- The exact A1/A1d finite-instance gaps remain valid as solver outputs. Their qualitative
+  confirmation-versus-recheck interpretation remains a hypothesis, not a theorem derived from
+  Proposition 3/Corollary 4.
+- The robust branch bound below does not explain the selected A3c calendar-mixture gap: in a
+  representative A3c cell, the joint policy queries at t=1 with probability 3/5, while the best
+  pure calendar is `{2,3,4,5}` and cannot query at t=1. Proposition 3b below gives a general
+  first-query-time decomposition for calendar mixtures. On the selected grid-hull mixture, its
+  conditional continuation gaps are all zero, so that decomposition does not explain the gap.
+- A separate Lagrangian lower bound, evaluated over all 99 calendars, certifies at least a 1.11%
+  gap in that selected cell. The joint policy's root-query branch has support at five different
+  times despite the pathwise budget of four; this is evidence for a finite label-adaptive timing
+  effect, not a SOTA method improvement.
+- Conjecture 5 is not currently supported for the implemented risk contract. The fixed-policy
+  robust recursion is now explicit, but no useful growing-family lower bound follows from it yet.
+- No novelty claim: broad chance-constrained POMDP planning and adaptive sensing are established.
 
 ## Setting
 
@@ -109,36 +122,229 @@ computational evidence for the reported lower bounds.
 **Remark 2.** Convexification (`C_mix = conv(C*)`), not Lemma 2, is why the A1c pure-calendar excess shrank under A1d. The dips in
 `delta(alpha)` are non-convexities, and mixtures fill them in.
 
-## Proposition 3 (branch decomposition of a calendar's gap)
+## Proposition 3 (robust branch-risk lower bound; d=1)
 
 **Setup.**
 
-- Suppose both J and every calendar compared against it query at t = 1. In A1c P5 this is true
-  for both policies.
-- Let the first released label be `Y in {0, 1}`, with probabilities `p_0` and `p_1`.
-- For branch y, a branch risk share `a_y`, and a continuation slot set `R` with `|R| <= B - 1`,
-  let `V_y(R, a_y)` be the optimal continuation cost.
+- Suppose the calendar policy realizing `C_S` chooses `(continue, query)` at t = 1 with
+  probability one. The joint planner need not be assumed to do so: the comparison policy used to
+  upper-bound J copies this prefix and then chooses its continuation slots separately by branch.
+- Let the first query be at t = 1 and its label be released before the t = 2 decision (delay
+  `d=1`). Write `w_y` for the label branch probability under the alternative law that weights
+  expected cost. The causal-null opponent chooses its conditional probability of label 1 from
+  `{0, 1/2}` at each queried history.
+- For branch y and continuation slot set `R` with `|R| <= B - 1`, let
+  `V_y(R, a_y)` be the minimum conditional alternative continuation cost when the continuation
+  policy's worst-case causal-null promotion probability, starting from branch y, is at most
+  `a_y`.
 - Let `V_y^free(a_y) = min_{|R| <= B-1} V_y(R, a_y)`. This is the continuation in which each
   branch picks its own slots.
 - Let `Delta_y(R, a_y) = V_y(R, a_y) - V_y^free(a_y)`, which is at least 0.
 
-**Claim.** Assume the worst-case null risk decomposes additively over the two branches with
-weights `p_y`. This holds when the null family is fixed before t = 1 and branch risks are
-measured under the same null. Then, for a calendar `S = {1} ∪ R`,
+Define the robustly feasible continuation-risk shares
 
-    C_S(a) - J(a) >= min_{p_0 a_0 + p_1 a_1 <= a} sum_y p_y Delta_y(R, a_y).
+```text
+F_alpha = {(a_0,a_1) in [0,1]^2 : a_0 <= alpha, a_0 + a_1 <= 2 alpha}.
+```
+
+For a calendar `S = {1} ∪ R` whose minimizing policy queries at t=1 almost surely,
+
+    C_S(alpha) - J(alpha)
+      >= min_{(a_0,a_1) in F_alpha} sum_y w_y Delta_y(R, a_y).
 
 *Proof.*
 
-- `C_S(a) = c_1 + min_{split} sum_y p_y V_y(R, a_y)`, where `c_1` is the cost through t = 1.
-- `J(a) <= c_1 + sum_y p_y V_y^free(a_y)` for every feasible split. In particular this holds for
-  the split that is optimal for `C_S`.
-- Subtracting the two at that split gives the bound. QED.
+- If the continuation worst-case risks after first label 0 and 1 are `r_0,r_1`, the root null
+  opponent can choose label-1 probability 0 or 1/2. It can also choose future responses
+  independently after observing the branch. Hence root risk is exactly
+  `max(r_0, (r_0+r_1)/2)`. The global risk cap implies
+  `(r_0,r_1) in F_alpha`.
+- The calendar's conditional alternative cost is at least
+  `c_1 + sum_y w_y V_y(R,a_y)` at its achieved branch risk shares. The joint planner can use
+  the same feasible shares and choose the continuation slot set separately in each branch, so
+  `J(alpha) <= c_1 + sum_y w_y V_y^free(a_y)` for those shares.
+- Subtract at those shares, then lower-bound by the minimum over `F_alpha`. QED.
 
-If the null risk does not decompose additively across branches, the claim needs a different
-risk accounting. That is open.
+The theorem is deliberately scoped to a query at t=1 released at t=2. For `d>1`, the learner
+can make decisions while the first label is pending, so those prefix actions cannot be treated as
+branch-specific continuations without an additional decomposition.
 
-## Corollary 4 (why the gap is risk-specific)
+**Scope check against A3c.** For the selected cell `T=8, B=4, d=1`, transition `1/20`,
+emissions `(1/50,49/50)`, prior `1/20`, `alpha=1/10`, and switch cost `1/20`, the source-verified
+solver recovers joint root query probability `3/5`. The A3 result row records the best pure
+calendar as `{2,3,4,5}`, which has no t=1 query opportunity. Therefore the common-root-query
+assumption of this proposition fails on that cell. The proposition is an exact restricted-case
+bound, not a proof of the reported A3c gap. A relevant generalization must also account for
+adaptive first-query time and public mixtures across different calendar supports.
+
+The original fixed-null version of Proposition 3 does not hold for the implemented causal-null
+game. In `src/shiftlab/dive/causal_switching_game.py::_null`, after a query the null opponent
+selects the conditional probability of label 1 from `{0, 1/2}` separately at each history. If
+`r_0,r_1` are the worst continuation promotion risks after the first queried label, then the root
+worst-case risk is
+
+```text
+max_{q in {0,1/2}} [(1-q) r_0 + q r_1]
+= max(r_0, (r_0+r_1)/2),
+```
+
+not the alternative-model weighted sum `w_0 r_0 + w_1 r_1`. For example, `r_0=1/10,
+r_1=4/5` gives robust risk `9/20`, whereas alternative weights `w_1=301/1250` and
+`w_0=949/1250` give `0.26856`. The replacement Proposition 3 uses the exact one-query root
+constraint, which is equivalent to
+
+```text
+r_0 <= alpha,    r_0 + r_1 <= 2 alpha.
+```
+
+This is a concrete robust branch-risk allocation rule, but it is not the original single
+alternative-weighted budget. Proposition 3 now uses this constraint at its first-query split;
+the branch values themselves must still carry the recursive robust ledger below.
+
+## Proposition 3b (first-query-time decomposition for public calendar mixtures; d=1)
+
+This extends the comparison to a calendar component whose first query time is random or later than
+t=1. Consider an optimal feasible public-coin mixture for `C_mix(alpha)`, with components indexed
+by k, weights `lambda_k`, calendar slot sets `S_k`, and component policies `pi_k`. Component k is
+solved at risk level `a_k`, with `sum_k lambda_k a_k <= alpha`. Assume fixed delay `d=1`, no
+outcome-bearing signal is observed before a query, and the action/query policy uses only public
+history and its own randomization. Partition each component's paths that have not promoted before
+their first query into pre-query action-history nodes `u` at time `tau`. Conditioning on the node
+is necessary if multiple histories or public-coin outcomes share the same first-query time. For
+each k and node u:
+
+- `p_{k,u}` is the alternative probability of reaching that node before any promotion. It is also
+  the causal-null probability because no labels have yet been generated.
+- `w_{k,u,y}` is the alternative probability of label y at that first query, conditional on u.
+- `r_{k,u,y}` is the worst conditional null promotion probability in the continuation after
+  label y is generated and released at `tau+1`.
+- `R_{k,u}=S_k intersect {tau+1,...,T}` is the component's remaining calendar. Its size is at
+  most `B-1` because tau is the first query on that path.
+- `V_{k,u,y}(R,r)` is the minimum conditional alternative continuation cost using only slots
+  in R and with worst conditional null promotion risk at most r. Let `V^free` minimize over all
+  slot sets of size at most `B-1`, and define
+  `Delta_{k,u,y}=V_{k,u,y}(R_{k,u},r_{k,u,y})-
+  V^free_{k,u,y}(r_{k,u,y}) >= 0`.
+
+Then
+
+```text
+C_mix(alpha) - J(alpha)
+  >= sum_k lambda_k sum_u p_{k,u} sum_y w_{k,u,y} Delta_{k,u,y}.
+```
+
+The sum excludes paths that promote before their first query or never query; the constructed joint
+policy leaves those paths unchanged.
+
+*Proof.* At each node u, the null opponent's first-label choice is 0 or 1/2. Since d=1, that
+label is released before the next learner decision. The opponent's later information sets retain
+the generated label and the history, so it can choose continuation strategies independently
+after y=0 and y=1. The exact nodewise robust risk operator is therefore
+`rho(r_0,r_1)=max(r_0,(r_0+r_1)/2)`, which is coordinatewise nondecreasing. Replace each
+post-label continuation by the unrestricted-slot continuation at the same conditional risk cap.
+Its child risks are no larger, so `rho` cannot increase. Do this separately at every pre-query
+history node u and in every public-coin component. Prefix choices, first-query probabilities,
+and promotion-before-query paths stay unchanged; the pathwise cap still holds because each
+replacement has at most B-1 additional queries. Thus robust null risk does not increase and
+alternative cost falls by at least the displayed mixture-weighted continuation savings. The
+resulting policy is feasible for J(alpha), proving the inequality. QED.
+
+This bound is exact as a comparison template but not a positive numerical certificate. The
+selected A3c grid-hull mixture (a feasible upper-bound witness) has zero recovered continuation
+savings for each inspected child, so this bound evaluates to zero on that witness. The witness is
+not by itself proof that every continuous-risk optimal mixture has zero savings. The saved
+calendar curves alone do not identify nodewise continuation values for other mixtures. A positive
+uniform gap would need a quantitative obstruction for at least one child of every feasible
+optimal public mixture, uniformly over its risk allocations and first-query histories. The
+independent all-calendar Lagrangian certificate remains the quantitative certificate for the
+selected finite-cell gap; this continuation decomposition has not yet explained it.
+The bound preserves each calendar mixture's pre-query prefix and first-query-node distribution.
+It therefore measures only post-label continuation-slot savings; it does not bound value from
+changing the first-query-time distribution itself. That is a remaining proof obligation for the
+observed adaptive-timing gap.
+For d>1, this replacement is not valid as stated: while the first label is pending, only the null
+opponent sees its value, so the learner must use one common pending-period continuation policy.
+An extension needs an augmented pending-label state. The decomposition itself does not establish
+novelty.
+
+### A3c first-query and dual audit (exploratory)
+
+For the selected cell `T=8, B=4, d=1`, transition `1/20`, emissions `(1/50,49/50)`, prior `1/20`,
+switch cost `1/20`, and `alpha=1/10`, the saved grid-hull mixture uses equal weight on calendar
+`{2,3,4,5}` at risk `3/40` and calendar `{2,3,4,6}` at risk `1/8`. Exact policy recovery shows
+both components first query at t=2. For each component and each first label, the continuation
+cost under its calendar equals the best fixed-calendar continuation cost at the same conditional
+null risk cap. Proposition 3b's computed branch-saving term is therefore zero for this explicit
+feasible upper-bound mixture. This does not rule out positive savings in another optimal
+continuous-risk mixture, so it does not establish an explanation for the observed gap.
+
+The joint optimum has root behavior `query at t=1` with probability `3/5`, otherwise skip. On the
+skip branch, its positive-probability query-time union is `{2,3,4,5}`. On the query branch, the
+union is `{1,2,3,4,5}`, although every individual path uses at most four queries. Thus the
+label-adaptive branch cannot be represented by one four-slot calendar after conditioning on the
+root query choice. This support conflict identifies a plausible source of the gap but does not by
+itself lower-bound its cost.
+
+An independent LP-dual certificate supplies a quantitative lower bound. For any risk price
+`lambda >= 0`, define
+
+```text
+G_cal(lambda) = min over calendars c and their policies pi
+                [alternative_cost(pi) + lambda * robust_null_risk(pi)].
+```
+
+Every feasible public mixture with average component risk at most `alpha` obeys
+`C_mix(alpha) >= G_cal(lambda) - lambda*alpha`. The risk price selected from the saved grid-hull
+secant is `lambda = 66535667394203/39062500000000` (about 1.70331). Solving the robust sequence-form
+LP at this price for all 99 calendars gives `G_cal=1.6590211805`; hence
+`C_mix(0.1) >= 1.4886898720`. The joint value is `1.4722812976`, yielding a numerical LP lower
+bound of `0.0164085744` absolute, or `1.1145%` relative. The saved two-sided curve bound is slightly
+stronger (`1.1734%`); the dual calculation is an independent check using the same frozen solver,
+not an exact-rational proof because the LP is solved in floating point. Full inputs, price,
+per-calendar optimum, solver hash, and residuals are in
+`results/a3c/dual_calendar_gap.json`; the recovered branch policies are in
+`results/a3c/first_query_decomposition.json`.
+
+A control evaluation at the joint LP's risk price (`2.140875...`) gives zero: the joint and
+best-calendar penalized values are both `1.6863688045`. Thus the positive certificate requires a
+price away from the joint optimum, here the calendar-mixture frontier's supporting price.
+
+The exact recursion for any fixed learner policy `pi` makes the timing/randomization issue explicit.
+Let `h` be the full public action history, `o` the full generated label history (including pending
+labels), `I(h,o)` the learner's released-information set, and `pi_I(a,q)` its behavior probability.
+With `t = |h|+1`, set `R_pi(h,o)=0` after the horizon. Before the horizon,
+
+```text
+R_pi(h,o) = sum_(a,q) pi_I(a,q) * G_pi(h,o,a,q)
+G_pi(..., a=1, ...) = 1
+G_pi(..., a=0, q=0) = R_pi(h',o)
+G_pi(..., a=0, q=1) = max(R_pi(h',o0), [R_pi(h',o0)+R_pi(h',o1)]/2),
+```
+
+where `h'` appends `(a,q)` and `o_y` appends the newly generated label `y` at time `t`. The
+maximization is inside the learner's action average because the opponent observes the realized
+`(a,q)` history and may choose its response separately at each queried history. It is also applied
+before the learner next acts on a query label, since the opponent state contains the full generated
+outcome history even when the label is still pending. Backward induction proves this is the exact
+worst-case null promotion probability for fixed `pi`; it is the recursion implemented by
+`null_risk`.
+
+For example, if the root mixes `(continue,skip)` with probability `1-p` and
+`(continue,query)` with probability `p`, with branch risks `R_skip`, `R_0`, and `R_1`, then
+
+```text
+R_pi(root) = (1-p) R_skip + p max(R_0, (R_0+R_1)/2).
+```
+
+The skip continuation and queried-label continuations must remain distinct. A scalar split over
+`Y` alone misses this adaptive first-query-time branch. Although this recursion exactly evaluates
+a fixed policy, optimizing over policies while retaining it does not yet yield a smaller
+representation than the sequence-form robust LP: the learner's information sets must still share
+behavior across all `(h,o)` pairs with the same released view, while the opponent can distinguish
+their full outcome histories. A useful theorem must exploit additional structure beyond this
+recursion.
+
+## Corollary 4 (unverified branch conflict under robust risk)
 
 Let `R_y*(a_y)` be the continuation slot sets that are optimal for branch y at share `a_y`.
 Suppose there is a range `[a_lo, a_hi]` such that:
@@ -150,9 +356,10 @@ Suppose there is a range `[a_lo, a_hi]` such that:
   `{4}`). Omitting it costs `Delta_0 >= eta_0 > 0`, uniformly over `a_0` in the range.
 - **(iii) Budget.** `|{2, 3} ∪ {4}| = 3 > B - 1 = 2`.
 
-Then every calendar loses at least `min(p_1 eta_1, p_0 eta_0)` on any split inside the range.
-Moving all risk into one branch is not free, because it changes that branch's own `V^free`.
-So `delta(a)` is bounded away from 0 on that range.
+If the stated branch-conflict conditions and constants `eta_0,eta_1` hold uniformly over the
+entire robust feasible region `F_alpha`, Proposition 3 gives every calendar a loss of at least
+`min(w_1 eta_1, w_0 eta_0)`. Those uniform continuation-cost inequalities have not been computed,
+so this corollary does not currently establish a positive gap for the repository's game.
 
 **Why this needs a binding constraint.**
 
@@ -169,11 +376,11 @@ So `delta(a)` is bounded away from 0 on that range.
   - The best calendar `{1, 2, 3}` serves only the positive branch.
   - The calendar never re-checks after `Y = 0` and never promotes in that branch.
 
-**What is not shown.** The constants `eta_0` and `eta_1` have not been computed. Doing so needs
-branch-restricted solves that the solver does not expose directly. Corollary 4 is therefore a
-mechanism statement verified qualitatively, not a computed bound.
+**What is not shown.** The constants `eta_0` and `eta_1` have not been computed over the robust
+feasible region `F_alpha`. The conflict pattern alone therefore does not establish a positive
+lower bound for A1.
 
-## Conjecture 5 (growing family) — open
+## Conjecture 5 (growing family) — withdrawn for the implemented risk contract
 
 Consider families in which the following quantities stay bounded away from 0 as T grows:
 
@@ -184,14 +391,17 @@ Take `B = k(a) + 1` and let regime-switch rates scale as `1/T`. Then the conject
 `(C_mix - J)/J` is bounded below by a positive constant that does not depend on T, and that
 this constant vanishes as `a -> 1`.
 
-A proof would need:
+A proof under a fixed-null branch-additive variant would need:
 
 1. an explicit lower bound on `eta_0` and `eta_1` in a parametric model;
-2. the additive branch risk accounting in Proposition 3, for the repository's causal-null
-   family;
+2. an exact robust branch-risk recursion for the repository's adaptive causal-null family, replacing
+   Proposition 3's fixed-null additive accounting;
 3. a check that the constant can exceed the 10% practical threshold.
 
-The data on hand does not settle point 3. The largest measured `g_mix` is 5.8% (A1d).
+The data on hand does not settle point 3. The largest measured `g_mix` is 5.8% (A1d). For the
+implemented causal-null game, the branch-additivity premise is additionally absent, so these
+constants cannot be carried over. Reopen only after deriving a robust branch-risk decomposition
+from the opponent strategy in the exact null LP.
 
 ## Empirical corroboration from A2 (added after the screen)
 
@@ -261,9 +471,12 @@ deterministic, then `J(a) = C*(a)`.
      deterministic set of times `S(u)`. It contains at most `B` elements by the pathwise budget.
    - After the coins are fixed, `pi'` is in `Pi_{S(u)}`. Unconditionally it is a mixture over
      `u` of calendar policies.
-   - Its risk is the same mixture of the components' risks, because risk is linear in the
-     mixing distribution. Hence `C_mix(a) <= cost(pi') = J(a)`. Lemma 2 gives `C_mix >= J`,
-     so equality holds.
+   - For any fixed null-opponent strategy, risk is linear in the learner's mixing
+     distribution. Taking the opponent's supremum gives a risk no larger than the mixture
+     of the components' worst-case risks. Thus a mixture of components with risk shares
+     `a(u)` has robust risk at most `E[a(u)]`; it is feasible under the stated averaged
+     budget. Hence `C_mix(a) <= cost(pi') = J(a)`. Lemma 2 gives `C_mix >= J`, so equality
+     holds. Equality of robust risk with the average component risks is not required.
 3. **Deterministic timing.** If the chain's query times do not depend on the coins, `S(u) = S`
    is constant and `pi' ∈ Pi_S`. Then `C*(a) = J(a)`. QED.
 

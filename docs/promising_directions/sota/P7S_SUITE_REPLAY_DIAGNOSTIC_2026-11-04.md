@@ -35,6 +35,16 @@ new protocol on authentic prediction/label streams; it would not pass the comple
 to Gated on both powered streams closes this P7s parameterization as an SOTA lead unless a distinct
 structural mechanism is proposed and compared on new data.
 
+## Execution record
+
+The prescribed 100-seed XOR replay was started, then stopped after more than 45 minutes of active
+CPU time because it had produced no dataset summary and the synthetic-label replay could not
+answer the real-data SOTA question. No output file was produced; there is no performance result to
+report. Do not cite the started run as evidence. Before any rerun, reduce the runner's cost through
+episode-level parallelism and checkpointing, and prefer preserving the real labels and predictions
+from the already available fresh UCI build. That would permit a properly scoped comparator screen
+on the five untouched chronological streams under the existing fresh-data protocol.
+
 ## Reproducibility
 
 Run from the repository root:

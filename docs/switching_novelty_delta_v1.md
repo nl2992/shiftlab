@@ -263,3 +263,15 @@ pending outcomes unavailable to the learner. Alternative-belief distance alone s
 on that null risk; enforcing exact robust reachability returns to established robust-FSC synthesis.
 The screen rejects this generic approximation route, not the full methodological objective. G1
 remains open for a structure with separate economic and robust-risk approximation guarantees.
+
+### Candidate boundary: drift-adjusted future-value gate (2026-11-04)
+
+[`switching_drift_adjusted_future_value_gate_v1.md`](switching_drift_adjusted_future_value_gate_v1.md)
+derives an anytime lower confidence bound for current paired utility from adaptively queried,
+delayed outcomes under a pathwise Lipschitz bound on the full-filtration conditional mean. It
+converts this into a finite-horizon economic promotion gate and familywise false-value control.
+This does not resolve the original HMM contract: the pathwise drift assumption may fail at latent
+state transitions, the confidence argument is standard martingale concentration, and no advantage
+over the episode-wise sequential-design comparator is established. Keep only as a tightly scoped
+G1 candidate while its random-window/martingale indexing and prior-art boundary are independently
+audited. Do not implement a broad simulator or claim novelty.

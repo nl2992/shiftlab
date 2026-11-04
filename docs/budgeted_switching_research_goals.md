@@ -3274,3 +3274,83 @@ and register exploratory prototypes for any survivors.
   hypothesis, not a result.
 - The revised bar reopened candidates, but empirical evidence closed C1 and C2. The earlier
   blockage was partly the bar and partly genuinely weak candidates.
+
+### G1 continuation update — exact anytime power screen closes C1-E cell (2026-11-04)
+
+- Frozen the two-HMM, one-step-delay, `T=20`, `B=4` C1-E information cell and evaluated actual
+  first-promotion power with a likelihood-ratio threshold at `alpha` in `{0.05, 0.10, 0.20}`.
+- The exact adaptive sensing DP and the best fixed calendar/burst have zero power throughout. The
+  global maximum likelihood ratio over every admissible four-query calendar and observed outcome
+  string is `386611/245941 < 5`, which proves zero crossing for every adaptive policy in this cell
+  at every preregistered alpha. The earlier 3.92% KL gain therefore produced no promotion gain.
+- Close this finite-cell timing mechanism; do not enlarge its horizon, cap, or alpha grid after
+  observing results. This is a local impossibility diagnostic, not a general lower bound or a
+  novelty result. Protocol, runner, and result: `sota_sprint/switching_c1e_anytime_power_protocol_v1.md`,
+  `scripts/screen_switching_c1e_anytime_power_v1.py`, and
+  `sota_sprint/switching_c1e_anytime_power_results_v1.md`.
+- No algorithmic lead currently follows from this screen. Keep the full research objective active;
+  the next candidate must either arise from a genuinely new source-audited structure or have a
+  distinct frozen contract with a power-relevant separation before tuning or confirmation.
+
+### Independent continuation audit: no current method lead — 2026-11-04
+
+- A separate lower-level review rechecked the version-indexed challenger as the closest
+  remaining implementation lead. Its validity argument freezes each challenger at activation,
+  tests only fresh post-activation paired outcomes, and allocates summable error across versions.
+  Conditional Ville plus alpha spending is standard composition; it supplies no new theorem
+  delta. The corrected five-stream screen also loses to version-aware Model Picker on every
+  exposed stream, and training cost is not charged. Keep the candidate closed.
+- Primary-source verification further narrows any generic replacement/selection claim:
+  SERPANT already combines pairwise e-processes, anytime familywise error control and
+  outcome-adaptive tournament comparisons for online LLM ranking ([ICML 2026 source](https://proceedings.mlr.press/v306/gu26l.html));
+  Lindon and Kallus construct design-based anytime-valid confidence sequences for randomized
+  experiments with delayed outcomes using arm-specific event-time filtrations
+  ([ICML 2026 source](https://proceedings.mlr.press/v306/lindon26a.html)); and *The Challenger*
+  studies costed sequential model replacement with a growing challenger and oracle-regret result
+  ([arXiv v2](https://arxiv.org/abs/2512.18390)). These are adjacent rather than identical
+  contracts; their differences alone do not support novelty.
+- The unresolved B3 P6 terminal-count argument is a guarantee-scope issue, not a surviving
+  improvement lead. A validity repair or stronger conditional-on-selection assumption would
+  improve the comparator record but would not establish SOTA advantage.
+- **Decision:** no current algorithm or theorem route is advanced by this audit. Keep the full
+  research objective active. Reopen method work only after a source-audited structural delta and a
+  matching estimand are stated; then require a useful theorem/separation and a disjoint
+  confirmation against the strongest scalable baseline.
+
+### G1 continuation: drift-adjusted future-value gate candidate — 2026-11-04
+
+The current no-lead checkpoint remains authoritative. One new proof candidate is recorded in
+[`switching_drift_adjusted_future_value_gate_v1.md`](switching_drift_adjusted_future_value_gate_v1.md):
+under a pathwise Lipschitz bound on the full-filtration conditional mean, it uses a sliding window
+of adaptively queried labels, debits `vW` for staleness and `v h(h-1)/2` for future drift, and
+controls any false positive-value switch over a finite horizon. The result is not yet independently
+audited, and its strong drift assumption may fail for the hidden HMM state process. AIS reviewed
+the filtration and query-index argument; the note now makes the no-conditioning-on-random-count
+step explicit. A direct Hoeffding power-margin calculation is severe: the optimized sufficient
+margin is 2.31 at `(T,B,d,v,alpha,beta)=(200,40,2,.001,.05,.1)` and 1.61 at
+`(1000,100,5,.0005,.05,.1)`. This weakens the gate as a practical lead at moderate budgets.
+Under an additional known conditional-variance envelope `sigma2=.1`, a standard Freedman radius
+reduces those diagnostic sufficient margins to 0.674 and 0.455, respectively. The variance
+envelope is not established for the target stream, and empirical variance substitution is not
+proved. More decisively, the repository's default HMM-style emission stream violates the pathwise
+drift assumption: with emissions `.25/.75`, `Z=2Y-1` has full-state conditional means `-.5/+.5`,
+which jump by 1 on a transition (probability .1). The assumption then requires `v>=1`, making the
+drift debit exceed the bounded utility range for every eligible window. Thus close this candidate
+for the current HMM model; retain the theorem only as a result under an explicitly different
+smooth-drift contract. No empirical study is authorized by this result. The next Lane A work is
+the robust continuation-bound generalization identified in the independent frontier review,
+still gated on a useful theorem against public calendar mixtures and the exact causal-null risk.
+
+AIS has now tightened Proposition 3b in `13_A2_BRANCH_CONFLICT_THEORY.md`: condition on each
+pre-query action-history node (not just the first-query time), preserve its prefix, and replace
+each label-conditioned continuation by the unrestricted-slot optimum at the same child risk.
+Under `d=1`, the exact robust risk operator `max(r0,(r0+r1)/2)` is coordinatewise monotone, so
+the replacement remains feasible in every public-mixture component and gives a valid lower bound
+by mixture-weighted continuation savings. It has not yet explained the selected 1.1145% gap: the
+inspected feasible grid-hull upper-bound mixture has zero such savings on its recovered children;
+this does not rule out positive savings in another continuous-risk optimal mixture. The bound
+also preserves the mixture's first-query distribution, so it does not capture value from changing
+that distribution. For `d>1`, it fails because the learner cannot condition on a pending label.
+The next decisive step is a uniform positive obstruction across all optimal public mixtures that
+also accounts for first-query timing, or a clear negative result that this continuation route
+cannot explain the dual-certified gap.

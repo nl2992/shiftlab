@@ -52,6 +52,16 @@ has almost nothing to recover, and its side effect dominates.
 
 That last sentence is the most important thing this programme produced.
 
+## UPDATE 2026-11-04: P7s was compared with the suite
+
+The correction above described the state before the P7s suite run. The corrected exploratory
+comparison is now recorded in [`P7S_FRESH_REAL_SUITE_RESULTS_2026-11-04.md`](P7S_FRESH_REAL_SUITE_RESULTS_2026-11-04.md):
+P7s costs less than Gated Deployment on all five UCI streams, but costs more than the best
+implemented suite method on every stream. The most actionable result is that P7s used more labels
+than Model Picker on every stream and also incurred greater prediction loss. This closes the
+current exposed P7s-vs-suite lead; it does not establish that all possible sequential safety wrappers
+or future candidate methods are dominated.
+
 ## CORRECTION 2026-11-03
 
 This diagnosis analyses `EconomicStop`, not `P7s`. The claim that "the B3+ result is a win over a

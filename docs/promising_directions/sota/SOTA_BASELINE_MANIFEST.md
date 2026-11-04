@@ -1,7 +1,7 @@
 # SOTA baseline manifest
 
-Gate: **IN PROGRESS — SOTA GATE NOT MET.** The objective is five real-data cases that beat every
-mandatory applicable competitor on
+Gate: **EXPLORATORY SUITE RUN COMPLETE — SOTA GATE NOT MET.** The objective is five real-data cases
+that beat every mandatory applicable competitor on
 
     net_cost = prediction_loss + label_price * requested_labels + switch_cost * deployment_switches
 
@@ -66,7 +66,16 @@ collapses to disagreement-gated sampling in our binary two-model setting is an e
 that must be checked and reported, because if it does, part of the comparison is weaker than it
 looks.
 
-## 4. What is not yet done
+## 4. Current comparison status (updated 2026-11-04)
 
-Everything after this point. No competitor is implemented, no comparison has been run, and no
-claim about relative performance exists yet.
+The implemented default suite has now been run against P7s on five chronological UCI streams using
+the actual frozen-model predictions and labels. P7s is cheaper than Gated Deployment on all five,
+but loses to the best suite method on all five (Model Picker on four; Model Selector on
+household_power). This is an exposed exploratory comparison with imposed label delays and costs,
+not a confirmatory SOTA result. The corrected report and exact run artifact are
+[`P7S_FRESH_REAL_SUITE_RESULTS_2026-11-04.md`](P7S_FRESH_REAL_SUITE_RESULTS_2026-11-04.md) and
+`outputs/p7s_fresh_real_suite_screen_corrected/`.
+
+Still outstanding: an untouched stream for the final comparison, an application-grounded query and
+switching utility, and feature-dependent comparators that need unavailable covariates or nuisance
+fits. Do not treat the exploratory screen as meeting the completion gate.

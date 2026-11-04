@@ -12,10 +12,12 @@ the best *pure* calendar, is a pointwise minimum of per-calendar values and need
 convex. The observed g(alpha) is non-monotone. At prior1 = 3/10, for example, g is 0.018 at
 alpha = 1/5, 0 at 1/4 and 0.021 at 3/10, and the best calendar changes at each step.
 
-A separable policy may flip a public coin at the root to choose between two calendar
-policies, each solved at its own risk level. This needs no label information, so it keeps the
-information matched. Risk is linear in the mixture, so the mixture has risk at most
-lambda·a1 + (1 − lambda)·a2.
+A separable policy may flip a root coin to choose between two calendar policies, each solved
+at its own risk level. This needs no label information, so it keeps the information matched.
+For every fixed null-opponent strategy, risk is linear in the policy mixture; taking the
+opponent's supremum gives a robust risk no greater than
+lambda·a1 + (1 − lambda)·a2. This bound holds whether or not the opponent observes the
+coin, so the interpolated policy is feasible under the stated average risk budget.
 
 The question is whether this convexification removes the A1c "H-risk" excess.
 

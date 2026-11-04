@@ -137,13 +137,20 @@ Proven lower bounds on the mixture gap at T = 9 (`results/a1d/LOWER_BOUNDS.md`):
 | 1/5 | 1/2 | 4.68% | 1.20% |
 
 Upper values reach about 5.8% (prior1 1/10, alpha 1/2: [4.80%, 5.80%]). The gap grows with T to about 5.0% at
-T = 12 (alpha 1/5), per the A1c summary in `12_NOVELTY_DECISION.md`. Mechanism: the promotion branch needs
-confirmation slots, the non-promotion branch needs a delayed re-check, and the risk budget cannot cover both
-(`13_A2_BRANCH_CONFLICT_THEORY.md`).
+T = 12 (alpha 1/5), per the A1c summary in `12_NOVELTY_DECISION.md`. The recovered policies suggest a
+confirmation-versus-recheck timing mechanism (`13_A2_BRANCH_CONFLICT_THEORY.md`), but the original branch-risk
+argument does not match the implemented adaptive causal null.
 
-- Effect: Meaningful, and well above the unconstrained gap, so a real phenomenon.
-- Validity: proved lower bounds for the listed instances. The general-family statement is descriptive, not proved.
-- Novelty: plausibly new; audit pending.
+**Audit correction (2026-11-04):** the reported finite-grid cost gaps are exact solver evidence, but the
+branch-risk argument in Proposition 3/Corollary 4 is not applicable to the implemented causal-null game.
+Nature chooses conditional label probabilities after each history, so branch risk follows the robust
+max recursion, not the alternative-weighted split. The mechanism sentence above is descriptive only;
+the positive gap does not yet have the claimed analytical explanation.
+
+- Effect: The finite-instance cost separation is established against the registered public-coin calendar
+  mixture comparator; its proposed branch-conflict explanation remains unproved for the exact causal null.
+- Validity: exact lower bounds for the listed instances. The general-family statement is descriptive, not proved.
+- Novelty: unresolved; generic risk-constrained POMDP adaptation is established prior art.
 - Limits: small models only (T <= 12), loose alpha (>= 3/20, above the programme's declared 0.05/0.10 levels).
   At prior1 = 3/10 the lower bound is weak and inconclusive at alpha 1/2. This is a theory finding, not a
   deployable method.

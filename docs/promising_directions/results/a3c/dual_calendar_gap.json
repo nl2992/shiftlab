@@ -1,0 +1,97 @@
+{
+  "status": "exploratory_lagrangian_calendar_gap_completed",
+  "solver_provenance": {
+    "solver_commit": "2bd2e8e41639073c8d22ffb17ef0bcc68111e321",
+    "solver_file_sha256": {
+      "src/shiftlab/dive/causal_switching_game.py": "54b1347c3e213407b3feb09a801dc9ea40b3663fe6a4a227b7878b9b0a2d770a",
+      "scripts/decompose_switching_calendar_gap.py": "16dc05e76e94b8b02684609de767596a7ea0b5111e6dbf376ec741226777ece4"
+    }
+  },
+  "params": {
+    "T": 8,
+    "B": 4,
+    "d": 1,
+    "trans": "1/20",
+    "e0": "1/50",
+    "e1": "49/50",
+    "cq": "1/100",
+    "cs": "1/20",
+    "prior1": "1/20",
+    "alpha": "1/10"
+  },
+  "risk_price_for_bound": 1.7033130852915968,
+  "risk_price_as_exact_fraction": "66535667394203/39062500000000",
+  "grid_hull_price_source": {
+    "left_vertex": {
+      "risk": "3/40",
+      "cost": "1197436139320423/781250000000000"
+    },
+    "right_vertex": {
+      "risk": "1/8",
+      "cost": "56545023596311/39062500000000"
+    },
+    "risk_price": "66535667394203/39062500000000"
+  },
+  "joint_alpha_dual_price": 2.1408750696467465,
+  "joint_cost": "575109881865933/390625000000000",
+  "price_comparisons": {
+    "calendar_hull_price": {
+      "risk_price": 1.7033130852915968,
+      "joint_lagrangian_value": 1.6316735564970697,
+      "joint_support_value_at_alpha": 1.46134224796791,
+      "joint_support_residual": -0.010939049608878593,
+      "best_calendar": [
+        2,
+        3,
+        4,
+        5
+      ],
+      "best_calendar_lagrangian_value": 1.6590211805192663,
+      "calendar_mixture_value_lower_bound": 1.4886898719901067,
+      "joint_vs_calendar_mixture_gap_lower_bound": 0.016408574413318222,
+      "relative_gap_lower_bound": 0.011144999559747796,
+      "joint_lp_diagnostics": {
+        "status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+        "equality_residual": 0.0,
+        "inequality_violation": 0.0
+      },
+      "best_calendar_lp_diagnostics": {
+        "status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+        "equality_residual": 0.0,
+        "inequality_violation": 0.0
+      }
+    },
+    "joint_alpha_dual_price": {
+      "risk_price": 2.1408750696467465,
+      "joint_lagrangian_value": 1.686368804541463,
+      "joint_support_value_at_alpha": 1.4722812975767885,
+      "joint_support_residual": 0.0,
+      "best_calendar": [
+        2,
+        3,
+        4,
+        5
+      ],
+      "best_calendar_lagrangian_value": 1.686368804541463,
+      "calendar_mixture_value_lower_bound": 1.4722812975767885,
+      "joint_vs_calendar_mixture_gap_lower_bound": 0.0,
+      "relative_gap_lower_bound": 0.0,
+      "joint_lp_diagnostics": {
+        "status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+        "equality_residual": 0.0,
+        "inequality_violation": 0.0
+      },
+      "best_calendar_lp_diagnostics": {
+        "status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+        "equality_residual": 0.0,
+        "inequality_violation": 0.0
+      }
+    }
+  },
+  "joint_alpha_dual_price_gap_lower_bound": 0.0,
+  "calendar_hull_price_gap_lower_bound": 0.016408574413318222,
+  "joint_alpha_dual_price_relative_gap_lower_bound": 0.0,
+  "calendar_hull_price_relative_gap_lower_bound": 0.011144999559747796,
+  "calendars_screened": 99,
+  "scope": "A finite-cell LP-dual lower bound for the exact causal-null model and public mixtures of fixed calendars. The script evaluates a saved grid-hull price and the joint LP alpha-dual price over all 99 calendars and continuous policy mixtures. Numerical LP tolerances apply; this is not a growing-horizon theorem, SOTA method improvement, or external-data evidence."
+}

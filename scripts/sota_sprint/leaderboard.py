@@ -19,7 +19,8 @@ IDS = [f"{f}{i}" for f in "ABCD" for i in range(1, 7)]
 FIELDS = ["id", "parent", "added_components", "intended_failure_mechanism", "implementation",
           "status", "dev_environments", "n_runs", "dev_cost_vs_best_certified",
           "dev_efficacy", "null_safety", "strongest_comparator_beaten", "novelty",
-          "ablation", "real_data", "validation", "next_action", "results_artifact"]
+          "ablation", "real_data", "validation", "main_track_potential", "sota_performance",
+          "next_action", "results_artifact"]
 
 
 def _entries(path: Path) -> list[dict]:
@@ -40,7 +41,11 @@ def main():
     val = DOCS / "validation/leaderboard_inputs.json"
     if val.exists():
         for cid, v in json.loads(val.read_text()).items():
-            reg.setdefault(cid, {"id": cid}).update({"validation": v})
+            e = reg.setdefault(cid, {"id": cid})
+            e["validation"] = v
+            for k in ("status", "main_track_potential", "sota_performance", "next_action"):
+                if k in v:
+                    e[k] = v[k]
     (DOCS / "candidates.json").write_text(json.dumps(reg, indent=1, default=str) + "\n")
     executed = [i for i in IDS if reg[i].get("results_artifact") and reg[i]["status"] not in (
         "NOT_IMPLEMENTED", "IMPLEMENTED", "BLOCKED")]

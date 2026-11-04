@@ -126,7 +126,8 @@ def _job(args):
 def _git_rev() -> str:
     try:
         rev = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=ROOT, text=True).strip()
-        dirty = subprocess.call(["git", "diff", "--quiet", "--", "scripts"], cwd=ROOT) != 0
+        dirty = subprocess.call(["git", "diff", "--quiet", "HEAD", "--", "scripts", "data", "src"],
+                                cwd=ROOT) != 0
         return rev + ("+dirty" if dirty else "")
     except Exception:
         return "unknown"
@@ -166,8 +167,15 @@ def main(argv=None):
         for rows in pool.imap_unordered(_job, jobs, chunksize=2):
             for row in rows:
                 f.write(json.dumps(row) + "\n")
-    srcs = {p.name: hashlib.sha256(p.read_bytes()).hexdigest()[:16]
-            for p in sorted(HERE.glob("*.py"))}
+    # provenance (ARIS m3 re-audit): hash the sprint code AND every imported dependency directory,
+    # plus the loss caches a real run replays
+    deps = [HERE, ROOT / "scripts/failure_atlas_v2_flq", ROOT / "scripts/failure_atlas_v2",
+            ROOT / "scripts/promising_directions/sota", ROOT / "scripts/promising_directions/sota/competitors"]
+    srcs = {str(p.relative_to(ROOT)): hashlib.sha256(p.read_bytes()).hexdigest()[:16]
+            for d in deps for p in sorted(d.glob("*.py"))}
+    if a.kind == "real":
+        srcs.update({str(_loss_file(r).relative_to(ROOT)): hashlib.sha256(_loss_file(r).read_bytes()).hexdigest()[:16]
+                     for r in regimes})
     manifest = {"argv": vars(a), "contract": CONTRACT, "git": _git_rev(), "sources": srcs,
                 "import_errors": IMPORT_ERRORS, "n_jobs": len(jobs),
                 "seconds": round(time.time() - t0, 1)}

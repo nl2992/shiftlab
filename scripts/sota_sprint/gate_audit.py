@@ -111,7 +111,8 @@ def main(roots=None):
         for run in runs[main_name]:
             m = run / "manifest.json"
             if m.exists():
-                src = json.loads(m.read_text()).get("sources", {}).get(f"fam_{fam.lower()}.py")
+                srcd = json.loads(m.read_text()).get("sources", {})
+                src = srcd.get(f"fam_{fam.lower()}.py") or srcd.get(f"scripts/sota_sprint/fam_{fam.lower()}.py")
                 mf_ok.append(src in hashes[f"fam_{fam.lower()}.py"] if src else None)
         ok["manifest_hash_committed"] = any(mf_ok)
         ok["runs"] = sorted(str(r.relative_to(ROOT)) for r in runs[main_name])

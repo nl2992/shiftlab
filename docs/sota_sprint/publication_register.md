@@ -54,7 +54,8 @@ All numbers come from the sprint validation files in [validation/](validation/).
 * **Positioning.** A transferable extension (addendum type 1) and failure-guided design (type 4), with a scoped SOTA in the late-improvement regime (type 3).
 * **(A) Main-track potential:** moderate. Novelty is incremental (composition of e-detectors). The transfer across three independent certificate families plus the latency diagnosis gives it a coherent story.
 * **(B) SOTA:** scoped, synthetic only. Late improvement beats the strongest certified published method by 15 to 27; nothing broader.
-* **Assessment: PROMISING.** Item 1 is done (Amendment 5 PASS). Item 2, real late-improvement streams, is the remaining blocker for real-world relevance.
+* **ARIS result-to-claim re-run (after Amendment 5): yes, narrowly scoped to the registered synthetic experiment, high confidence.**
+* **Assessment: PROMISING; MAIN-TRACK CANDIDATE (warrants paper development).** Item 1 is done (Amendment 5 PASS). Item 2, real late-improvement streams, is the remaining blocker for real-world relevance.
 
 ## P2. Certified deployment under serial dependence: failure map and an impossibility-flavoured trade-off (Failure Atlas plus persistence study)
 
@@ -86,7 +87,8 @@ All numbers come from the sprint validation files in [validation/](validation/).
 * **Positioning.** A new evaluation methodology plus a substantive empirical finding (addendum types 5 and 6), possibly a datasets-and-benchmarks track.
 * **(A) Main-track potential:** moderate to good as an empirical paper, if the lower-bound argument holds.
 * **(B) SOTA:** A5b is the lowest-cost method among those that hold the bound at ρ ≤ .95 on synthetic data. It is not SOTA on real data.
-* **Assessment: PROMISING (needs evidence item 1).**
+* **ARIS result-to-claim: partial (high confidence); the revised wording is adopted.**
+* **Assessment: PROMISING; MAIN-TRACK CANDIDATE (warrants paper development; ranked first).** Item 1, the formal argument, is the main gap.
 
 ## P3. A shared deploy-or-abstain gate for fast online model selectors (Family D)
 

@@ -35,7 +35,10 @@ SAFETY_CANDS = ["A5b", "A1b", "X_A5C", "C2", "C6", "D1", "D2", "B2", "B5", "rmm:
 
 
 def _load(names):
-    fs = [OUT / n / "records.jsonl" for n in names if (OUT / n / "records.jsonl").exists()]
+    fs = [OUT / n / "records.jsonl" for n in names]
+    missing = [str(f) for f in fs if not f.exists()]
+    if missing:  # fail closed (ARIS m3 re-audit): every registered run must be present
+        raise FileNotFoundError(f"missing registered validation runs: {missing}")
     return pd.concat([pd.read_json(f, lines=True) for f in fs], ignore_index=True)
 
 

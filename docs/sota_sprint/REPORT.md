@@ -94,9 +94,21 @@ The full tables are in [validation/validation_results.md](validation/validation_
   * Item 5 (credible real-world relevance) is **not met**. The fresh real streams contain no
     late-improvement episode. On them, gated+RMM beats its own host by 48–156 but is mixed against
     the best certified method (2 wins, 3 losses).
-  * Item 6 (result-to-claim) is partial; see §5.
+  * Item 6 (result-to-claim) is **yes** for the narrowly scoped synthetic claim (re-run after
+    Amendment 5). The reviewer still names real-data relevance as missing.
   * The method also loses on reversals and fails persistent nulls, as declared in advance.
-* **Main-track candidates:** see the [publication register](publication_register.md) and §5.
+* **Main-track candidates** (addendum criteria; the full table is in the [register](publication_register.md)).
+  * **P2, MAIN-TRACK CANDIDATE**, recommended first. It is a benchmark and empirical paper on certified
+    deployment under serial dependence, framed as an empirical validity-power trade-off on the tested
+    Markov family. Result-to-claim rated it *partial* with the revised wording. Missing: a formal
+    trade-off argument and known-null real streams.
+  * **P1, MAIN-TRACK CANDIDATE**, second. RMM is a transferable extension for certificate hosts, with a
+    registered scoped synthetic SOTA on late improvement. Result-to-claim rated it *yes* (narrow).
+    Missing: real late-improvement streams, independent generators, and a fix for the reversal cost.
+  * **P3–P6:** not supported as standalone contributions, pending evidence. They are kept as findings
+    and negative results within P2.
+  * "Main-track candidate" means the contribution warrants paper development. It is not a claim of
+    acceptance.
 
 ## 5. Independent reviews
 
@@ -105,8 +117,18 @@ The full tables are in [validation/validation_results.md](validation/validation_
 * **ARIS `experiment-audit`, milestone 1.** [aris/m1_EXPERIMENT_AUDIT.md](aris/m1_EXPERIMENT_AUDIT.md).
   Run by Codex `gpt-reserve`, a different model family. Verdict FAIL on gate-audit name pooling, now
   fixed.
-* **ARIS `experiment-audit` and `result-to-claim`, milestone 3.** In [aris/](aris/); see the addendum
-  below.
+* **ARIS `experiment-audit`, milestone 3** ([aris/m3_EXPERIMENT_AUDIT.md](aris/m3_EXPERIMENT_AUDIT.md)).
+  * Run 1 was **FAIL**. It audited a mid-run state while Amendment 5 was still executing.
+  * Run 2, on the complete state, was **WARN**. It found no fabrication or mismatch and flagged four
+    fail-open or provenance weaknesses. All four are fixed.
+* **ARIS `result-to-claim`, milestone 3** ([aris/m3_RESULT_TO_CLAIM.md](aris/m3_RESULT_TO_CLAIM.md)).
+  * The first pass rated C1 (RMM), C2 (persistence trade-off) and C3 (verdicts) all **partial**, with
+    high confidence. The reviewer's revised wordings were adopted as the claims of record.
+  * The ARIS `partial` routing then ran the supplementary registered experiment (Amendment 5) and
+    re-ran C1. The re-run verdict is **yes**, narrowly scoped to the registered synthetic experiment,
+    with high confidence ([raw](aris/m3_result_to_claim_C1_rerun_codex.md)).
+* **Independence.** Every ARIS review used Codex (`gpt-reserve`), a different model family from the
+  executor. The milestone 1-2 review was a same-family Claude subagent.
 * **Novelty.** [novelty_audit.md](novelty_audit.md).
 
 ## 6. Reproduction

@@ -44,8 +44,11 @@ def analyse(run: str) -> dict:
     out = {}
     for ds, g in df.groupby("regime"):
         E = g.groupby(["ep", "policy"]).net.mean().unstack()
-        best_c = E[[c for c in CERT if c in E]].mean().idxmin()
-        best_u = E[[c for c in UNC if c in E]].mean().idxmin()
+        absent = [c for c in CERT + UNC if c not in E]
+        if absent:  # fail closed (ARIS m3 re-audit): the comparator class must be complete
+            raise KeyError(f"{run}/{ds}: comparators missing from records: {absent}")
+        best_c = E[CERT].mean().idxmin()
+        best_u = E[UNC].mean().idxmin()
         prom = g.groupby("policy").ever_promote.mean()
         cell = {"K": int(E.shape[0]), "best_certified": best_c, "best_uncertified": best_u,
                 "mean": E.mean().round(2).to_dict(), "promote": prom.round(3).to_dict(),

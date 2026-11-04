@@ -1,0 +1,65 @@
+{
+ "A5": {
+  "status": "VALIDATION_FAILED",
+  "result": "validation (fresh seeds 2026110601/02; real 2026110604): A5b H0 FAIL 1/6, H1 parts 1-2 PASS / part 3 FAIL 1/5, H2 FAIL; safe on all 7 in-class + 2 OOC nulls; real fresh +61..+257 vs best certified",
+  "main_track_potential": "moderate as part of P2 (validity-power trade-off), not as a standalone method",
+  "sota_performance": "lowest cost among methods holding the bound at rho<=.95 (synthetic); not SOTA on real data",
+  "next_action": "formal trade-off argument; known-null real streams (P2)"
+ },
+ "A1": {
+  "status": "VALIDATION_FAILED",
+  "result": "validation (fresh seeds 2026110601/02; real 2026110604): A1b = density-off control of A5b; same verdicts (H0/H1/H2 FAIL)",
+  "main_track_potential": "component of P2",
+  "sota_performance": "none",
+  "next_action": "none"
+ },
+ "B2": {
+  "status": "VALIDATION_FAILED",
+  "result": "validation (fresh seeds 2026110601/02; real 2026110604): H2 FAIL (unsafe at rho>=.8); H3 reversal vs host -8.9/-8.4",
+  "main_track_potential": "P4 NEEDS EVIDENCE; candidate fix for P1's reversal cost",
+  "sota_performance": "none",
+  "next_action": "attach to certificate-host RMM and test reversal vs best certified"
+ },
+ "B5": {
+  "status": "VALIDATION_FAILED",
+  "result": "validation (fresh seeds 2026110601/02; real 2026110604): H2 FAIL; reversal vs host -12.0/-17.8; rho .8 null .099",
+  "main_track_potential": "P4 NEEDS EVIDENCE",
+  "sota_performance": "none",
+  "next_action": "none"
+ },
+ "C2": {
+  "status": "VALIDATION_FAILED",
+  "result": "validation (fresh seeds 2026110601/02; real 2026110604): H2 FAIL; vs +front within noise; rho .9/.95 nulls fail",
+  "main_track_potential": "not supported (P5)",
+  "sota_performance": "none",
+  "next_action": "stop"
+ },
+ "C6": {
+  "status": "VALIDATION_FAILED",
+  "result": "validation (fresh seeds 2026110601/02; real 2026110604): H2 FAIL; rho .9/.95 nulls fail",
+  "main_track_potential": "not supported (P5)",
+  "sota_performance": "none",
+  "next_action": "stop"
+ },
+ "D1": {
+  "status": "VALIDATION_FAILED",
+  "result": "validation (fresh seeds 2026110601/02; real 2026110604): H2 FAIL (unsafe at rho>=.8); HD (post-hoc) FAIL 0/5 Holm; iid-null .016 vs native 64-100%",
+  "main_track_potential": "P3 NEEDS EVIDENCE",
+  "sota_performance": "none",
+  "next_action": "fold into P2 as M2 finding"
+ },
+ "D2": {
+  "status": "VALIDATION_FAILED",
+  "result": "validation (fresh seeds 2026110601/02; real 2026110604): H2: 4/5 Holm vs best certified but unsafe at rho>=.8; HD replication 2/5; fresh real beats best certified on 4/5 datasets",
+  "main_track_potential": "P3 NEEDS EVIDENCE",
+  "sota_performance": "real-data cost advantage vs certified ports on 4/5 fresh datasets (scoped to iid conditional null); not replicated synthetically",
+  "next_action": "registered real-data replication; dependence-valid evidence without power loss"
+ },
+ "RMM(cert hosts)": {
+  "status": "VALIDATION_PASSED",
+  "result": "Amendment 5 HC PASS on 4 certificate hosts (fresh seeds 2026110611/12): family -14.5..-47.2 vs host; late -14.6..-30.3 vs Xu (Holm over 8); iid-null safe; reversal + for 3/4 hosts; rho .8/.95 null fail (declared). ARIS result-to-claim: yes (narrow, synthetic).",
+  "main_track_potential": "P1 PROMISING: transferable extension, scoped late-improvement SOTA (synthetic)",
+  "sota_performance": "scoped synthetic SOTA: late improvement vs strongest certified published comparator, 4/4 certificate hosts",
+  "next_action": "real streams with genuine late improvement; certified rollback for reversal; independent generators"
+ }
+}

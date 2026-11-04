@@ -49,7 +49,6 @@ def _load(dirs):
 
 def views(df, nulls, safe_fn, label):
     alts = [r for r in df.regime.unique() if r not in nulls]
-    g = df.groupby("policy")
     out = {}
     cost = df[df.regime.isin(alts)].groupby("policy").net.mean()
     safe = {p: safe_fn(gg) for p, gg in df[df.regime.isin(nulls)].groupby("policy")}

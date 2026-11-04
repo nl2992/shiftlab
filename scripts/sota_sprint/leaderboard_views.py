@@ -57,7 +57,9 @@ def views(df, nulls, safe_fn, label):
     out["2_best_safe_efficacy"] = cost[[p for p in cost.index if safe.get(p)]].sort_values().round(2).head(15).to_dict()
     fb = df[df.regime.isin(["F0_better", "V_better_a"])]
     first = fb[fb.first_deploy >= 0].groupby("policy").first_deploy.median()
-    out["3_fastest_correct_detection_safe"] = first[[p for p in first.index if safe.get(p)]].sort_values().head(15).to_dict()
+    prate = fb.groupby("policy").ever_promote.mean()  # median over promoting runs only means
+    out["3_fastest_correct_detection_safe"] = first[[p for p in first.index if safe.get(p)
+                                                     and prate[p] >= 0.5]].sort_values().head(15).to_dict()
     ch = df[df.regime.isin(CHANGE)]
     out["4_lowest_dynamic_regret"] = ch.groupby("policy").regret_expected_oracle.mean().sort_values().round(2).head(15).to_dict()
     # 5: labels used per unit of correct-decision value, among safe policies promoting on >= 80% of
@@ -66,9 +68,9 @@ def views(df, nulls, safe_fn, label):
     lab = fb.groupby("policy").labels.mean()
     q = [p for p in pr.index if pr[p] >= 0.8 and safe.get(p)]
     out["5_best_label_efficiency_matched_quality"] = lab[q].sort_values().round(1).head(15).to_dict()
-    # 6: transferable improvement: mean (candidate - native host) over hosts, alternatives only
+    # 6: transferable improvement: mean (candidate - native host) over hosts, all regimes (nulls too)
     tr = {}
-    piv = df[df.regime.isin(alts)].pivot_table(index=["regime", "ep", "seed"], columns="policy", values="net")
+    piv = df.pivot_table(index=["regime", "ep", "seed"], columns="policy", values="net")
     for k, pairs in HOSTS.items():
         ds = [float((piv[a] - piv[b]).mean()) for a, b in zip(pairs[::2], pairs[1::2])
               if a in piv and b in piv]

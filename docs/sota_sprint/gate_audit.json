@@ -1,0 +1,475 @@
+{
+ "A1": {
+  "executed": true,
+  "n_envs": 11,
+  "envs_ge4": true,
+  "null_env": true,
+  "outside_env": true,
+  "ablation_rows": [
+   "A1-nogap",
+   "A1-nostart",
+   "A1-rho8"
+  ],
+  "ablation": true,
+  "paired_with_published": true,
+  "metrics": true,
+  "manifest_hash_committed": true,
+  "runs": [
+   "outputs/sota_sprint/gate/A"
+  ],
+  "PASS": true
+ },
+ "A2": {
+  "executed": true,
+  "n_envs": 11,
+  "envs_ge4": true,
+  "null_env": true,
+  "outside_env": true,
+  "ablation_rows": [
+   "A2-fixedgap6"
+  ],
+  "ablation": true,
+  "paired_with_published": true,
+  "metrics": true,
+  "manifest_hash_committed": true,
+  "runs": [
+   "outputs/sota_sprint/gate/A"
+  ],
+  "PASS": true
+ },
+ "A3": {
+  "executed": true,
+  "n_envs": 11,
+  "envs_ge4": true,
+  "null_env": true,
+  "outside_env": true,
+  "ablation_rows": [
+   "A3-noinflight"
+  ],
+  "ablation": true,
+  "paired_with_published": true,
+  "metrics": true,
+  "manifest_hash_committed": true,
+  "runs": [
+   "outputs/sota_sprint/gate/A"
+  ],
+  "PASS": true
+ },
+ "A4": {
+  "executed": true,
+  "n_envs": 11,
+  "envs_ge4": true,
+  "null_env": true,
+  "outside_env": true,
+  "ablation_rows": [
+   "A1",
+   "QSG"
+  ],
+  "ablation": true,
+  "paired_with_published": true,
+  "metrics": true,
+  "manifest_hash_committed": true,
+  "runs": [
+   "outputs/sota_sprint/gate/A"
+  ],
+  "PASS": true
+ },
+ "A5": {
+  "executed": true,
+  "n_envs": 11,
+  "envs_ge4": true,
+  "null_env": true,
+  "outside_env": true,
+  "ablation_rows": [
+   "A1",
+   "A5-fixedgap6"
+  ],
+  "ablation": true,
+  "paired_with_published": true,
+  "metrics": true,
+  "manifest_hash_committed": true,
+  "runs": [
+   "outputs/sota_sprint/gate/A"
+  ],
+  "PASS": true
+ },
+ "A6": {
+  "executed": true,
+  "n_envs": 11,
+  "envs_ge4": true,
+  "null_env": true,
+  "outside_env": true,
+  "ablation_rows": [
+   "A5",
+   "A6-noinflight"
+  ],
+  "ablation": true,
+  "paired_with_published": true,
+  "metrics": true,
+  "manifest_hash_committed": true,
+  "runs": [
+   "outputs/sota_sprint/gate/A"
+  ],
+  "PASS": true
+ },
+ "B1": {
+  "executed": true,
+  "n_envs": 12,
+  "envs_ge4": true,
+  "null_env": true,
+  "outside_env": true,
+  "ablation_rows": [
+   "B1_r10",
+   "B1_r25"
+  ],
+  "ablation": true,
+  "paired_with_published": true,
+  "metrics": true,
+  "manifest_hash_committed": true,
+  "runs": [
+   "outputs/sota_sprint/gate/B"
+  ],
+  "PASS": true
+ },
+ "B2": {
+  "executed": true,
+  "n_envs": 12,
+  "envs_ge4": true,
+  "null_env": true,
+  "outside_env": true,
+  "ablation_rows": [
+   "B0_host"
+  ],
+  "ablation": true,
+  "paired_with_published": true,
+  "metrics": true,
+  "manifest_hash_committed": true,
+  "runs": [
+   "outputs/sota_sprint/gate/B"
+  ],
+  "PASS": true
+ },
+ "B3": {
+  "executed": true,
+  "n_envs": 12,
+  "envs_ge4": true,
+  "null_env": true,
+  "outside_env": true,
+  "ablation_rows": [
+   "B0_host"
+  ],
+  "ablation": true,
+  "paired_with_published": true,
+  "metrics": true,
+  "manifest_hash_committed": true,
+  "runs": [
+   "outputs/sota_sprint/gate/B"
+  ],
+  "PASS": true
+ },
+ "B4": {
+  "executed": true,
+  "n_envs": 12,
+  "envs_ge4": true,
+  "null_env": true,
+  "outside_env": true,
+  "ablation_rows": [
+   "B0_host"
+  ],
+  "ablation": true,
+  "paired_with_published": true,
+  "metrics": true,
+  "manifest_hash_committed": true,
+  "runs": [
+   "outputs/sota_sprint/gate/B"
+  ],
+  "PASS": true
+ },
+ "B5": {
+  "executed": true,
+  "n_envs": 12,
+  "envs_ge4": true,
+  "null_env": true,
+  "outside_env": true,
+  "ablation_rows": [
+   "B5-deadline",
+   "B5-reserve",
+   "B5-rollback"
+  ],
+  "ablation": true,
+  "paired_with_published": true,
+  "metrics": true,
+  "manifest_hash_committed": true,
+  "runs": [
+   "outputs/sota_sprint/gate/B"
+  ],
+  "PASS": true
+ },
+ "B6": {
+  "executed": true,
+  "n_envs": 12,
+  "envs_ge4": true,
+  "null_env": true,
+  "outside_env": true,
+  "ablation_rows": [
+   "B5"
+  ],
+  "ablation": true,
+  "paired_with_published": true,
+  "metrics": true,
+  "manifest_hash_committed": true,
+  "runs": [
+   "outputs/sota_sprint/gate/B"
+  ],
+  "PASS": true
+ },
+ "C1": {
+  "executed": true,
+  "n_envs": 10,
+  "envs_ge4": true,
+  "null_env": true,
+  "outside_env": true,
+  "ablation_rows": [
+   "C1-k1",
+   "C1-k1.5",
+   "C1-k2",
+   "C1-k3",
+   "C1-k4",
+   "C1-uniformbase"
+  ],
+  "ablation": true,
+  "paired_with_published": true,
+  "metrics": true,
+  "manifest_hash_committed": true,
+  "runs": [
+   "outputs/sota_sprint/gate/C"
+  ],
+  "PASS": true
+ },
+ "C2": {
+  "executed": true,
+  "n_envs": 10,
+  "envs_ge4": true,
+  "null_env": true,
+  "outside_env": true,
+  "ablation_rows": [
+   "C2-floorskip",
+   "C2-g0z0.1",
+   "C2-g0z0.25",
+   "C2-g0z0.5",
+   "C2-g0z1",
+   "C2-g1z0.1"
+  ],
+  "ablation": true,
+  "paired_with_published": true,
+  "metrics": true,
+  "manifest_hash_committed": true,
+  "runs": [
+   "outputs/sota_sprint/gate/C"
+  ],
+  "PASS": true
+ },
+ "C3": {
+  "executed": true,
+  "n_envs": 10,
+  "envs_ge4": true,
+  "null_env": true,
+  "outside_env": true,
+  "ablation_rows": [
+   "C3-f0.4t0.3",
+   "C3-f0.4t0.5",
+   "C3-f0.4t1",
+   "C3-f0.6t0.3",
+   "C3-f0.6t0.5",
+   "C3-f0.6t1"
+  ],
+  "ablation": true,
+  "paired_with_published": true,
+  "metrics": true,
+  "manifest_hash_committed": true,
+  "runs": [
+   "outputs/sota_sprint/gate/C"
+  ],
+  "PASS": true
+ },
+ "C4": {
+  "executed": true,
+  "n_envs": 10,
+  "envs_ge4": true,
+  "null_env": true,
+  "outside_env": true,
+  "ablation_rows": [
+   "C4-b0.5k0.5",
+   "C4-b0.5k1",
+   "C4-b0.5k2",
+   "C4-k0.5",
+   "C4-k1",
+   "C4-k2"
+  ],
+  "ablation": true,
+  "paired_with_published": true,
+  "metrics": true,
+  "manifest_hash_committed": true,
+  "runs": [
+   "outputs/sota_sprint/gate/C"
+  ],
+  "PASS": true
+ },
+ "C5": {
+  "executed": true,
+  "n_envs": 10,
+  "envs_ge4": true,
+  "null_env": true,
+  "outside_env": true,
+  "ablation_rows": [
+   "C1",
+   "C2"
+  ],
+  "ablation": true,
+  "paired_with_published": true,
+  "metrics": true,
+  "manifest_hash_committed": true,
+  "runs": [
+   "outputs/sota_sprint/gate/C"
+  ],
+  "PASS": true
+ },
+ "C6": {
+  "executed": true,
+  "n_envs": 10,
+  "envs_ge4": true,
+  "null_env": true,
+  "outside_env": true,
+  "ablation_rows": [
+   "C6-f0.5",
+   "C6-f0.75",
+   "C6-f0.9",
+   "C6-no_deadline",
+   "C6-no_shadow",
+   "C6-no_two_stage"
+  ],
+  "ablation": true,
+  "paired_with_published": true,
+  "metrics": true,
+  "manifest_hash_committed": true,
+  "runs": [
+   "outputs/sota_sprint/gate/C"
+  ],
+  "PASS": true
+ },
+ "D1": {
+  "executed": true,
+  "n_envs": 9,
+  "envs_ge4": true,
+  "null_env": true,
+  "outside_env": true,
+  "ablation_rows": [
+   "D1-always",
+   "D1-host_only",
+   "D1-no_and",
+   "D1-no_share"
+  ],
+  "ablation": true,
+  "paired_with_published": true,
+  "metrics": true,
+  "manifest_hash_committed": true,
+  "runs": [
+   "outputs/sota_sprint/gate/D"
+  ],
+  "PASS": true
+ },
+ "D2": {
+  "executed": true,
+  "n_envs": 9,
+  "envs_ge4": true,
+  "null_env": true,
+  "outside_env": true,
+  "ablation_rows": [
+   "D2-host_only"
+  ],
+  "ablation": true,
+  "paired_with_published": true,
+  "metrics": true,
+  "manifest_hash_committed": true,
+  "runs": [
+   "outputs/sota_sprint/gate/D"
+  ],
+  "PASS": true
+ },
+ "D3": {
+  "executed": true,
+  "n_envs": 9,
+  "envs_ge4": true,
+  "null_env": true,
+  "outside_env": true,
+  "ablation_rows": [
+   "D3-gated"
+  ],
+  "ablation": true,
+  "paired_with_published": true,
+  "metrics": true,
+  "manifest_hash_committed": true,
+  "runs": [
+   "outputs/sota_sprint/gate/D"
+  ],
+  "PASS": true
+ },
+ "D4": {
+  "executed": true,
+  "n_envs": 9,
+  "envs_ge4": true,
+  "null_env": true,
+  "outside_env": true,
+  "ablation_rows": [
+   "D1",
+   "D4-no_reserve",
+   "D4-r10"
+  ],
+  "ablation": true,
+  "paired_with_published": true,
+  "metrics": true,
+  "manifest_hash_committed": true,
+  "runs": [
+   "outputs/sota_sprint/gate/D"
+  ],
+  "PASS": true
+ },
+ "D5": {
+  "executed": true,
+  "n_envs": 9,
+  "envs_ge4": true,
+  "null_env": true,
+  "outside_env": true,
+  "ablation_rows": [
+   "D2",
+   "D5-standin_env8"
+  ],
+  "ablation": true,
+  "paired_with_published": true,
+  "metrics": true,
+  "manifest_hash_committed": true,
+  "runs": [
+   "outputs/sota_sprint/gate/D"
+  ],
+  "PASS": true
+ },
+ "D6": {
+  "executed": true,
+  "n_envs": 9,
+  "envs_ge4": true,
+  "null_env": true,
+  "outside_env": true,
+  "ablation_rows": [
+   "D1",
+   "D6-D1params:ms"
+  ],
+  "ablation": true,
+  "paired_with_published": true,
+  "metrics": true,
+  "manifest_hash_committed": true,
+  "runs": [
+   "outputs/sota_sprint/gate/D"
+  ],
+  "PASS": true
+ }
+}

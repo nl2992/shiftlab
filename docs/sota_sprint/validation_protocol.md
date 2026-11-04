@@ -178,3 +178,24 @@ comparator on {V_late_600, W_late_1000}. Holm correction is applied over the two
 The publishability addendum (2026-11-03) keeps two separate assessments, main-track contribution
 potential and SOTA performance. They are recorded in `publication_register.md` and in the leaderboard.
 They do not change any registered hypothesis above.
+
+## Amendment 4 (2026-11-03): transfer of the D deploy-gate (registered after reading the validation results)
+
+This test is registered **after** the sprint validation and real-data results were read: on the fresh real
+streams, D2 (CAMS plus the gate) was the only candidate that beat the best certified published comparator
+on most datasets. It is therefore a confirmation test of that observation. It runs on new synthetic seeds
+and on the fresh real streams.
+
+**HD (transfer of one gate across three ranking hosts).**
+* The gate uses D1's parameter set. It is attached to three hosts: Model Picker (`D1`), CAMS (`D2`) and
+  Model Selector (`D6-D1params:ms`).
+* For each host, these quantities are computed:
+  * (i) J(gated) - J(native host), paired, over all VAL regimes, the nulls included.
+  * (ii) J(gated) - J(best certified published), on the 5 iid alternatives, Holm-corrected.
+  * (iii) false promotion on the iid nulls V_null and V_worse, plus V_null_dep_r5, from 1000 fresh seeds.
+* Seeds: synthetic 100 at base 2026110608; nulls 1000 at base 2026110609; fresh real data at 20 seeds,
+  base 2026110610.
+* HD passes when **all three hosts** meet both of these:
+  * (iii): the Wilson upper bound is at most .0936 on V_null, V_worse and V_null_dep_r5.
+  * (ii): at least 3 of 5 Holm-significant improvements.
+* Scope: the iid / weakly dependent conditional null. The rho >= .8 failure is a known out-of-scope limitation.

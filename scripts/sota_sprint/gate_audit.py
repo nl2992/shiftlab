@@ -135,4 +135,4 @@ if __name__ == "__main__":
     ap = argparse.ArgumentParser()
     ap.add_argument("--root", default="", help="dir with A/ B/ C/ D/ subdirs (e.g. the gate re-screen)")
     a = ap.parse_args()
-    main({f: [Path(a.root) / f] for f in "ABCD"} if a.root else None)
+    main({f: [(ROOT / a.root / f).resolve()] for f in "ABCD"} if a.root else None)

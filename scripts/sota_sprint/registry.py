@@ -41,7 +41,14 @@ def _rmm() -> dict:
             "gated_deployment+RMM_single", "discern_style+RMM_single",
             "SMCS+retain-incumbent+RMM_single", "gated_deployment+RMM_noacq",
             "discern_style+RMM_noacq")
-    return {f"rmm:{k}": v for k, v in mod.FACTORIES.items() if k in keep}
+    out = {f"rmm:{k}": v for k, v in mod.FACTORIES.items() if k in keep}
+    # Amendment 5: a fourth certificate family as RMM host (the strong gated re-port, wmax_t = 1/q_t)
+    from strong_hosts import GatedAdaptiveRange
+
+    out["rmm:gated_adaptive_range+RMM"] = lambda T, B, cs, cq, a, d, r: mod.RestartMixtureMonitor(
+        lambda T_, B_, a_, r_: GatedAdaptiveRange(T_, B_, a_, rng=r_), T, B, a,
+        rng=r("gated_adaptive_range"), name="")
+    return out
 
 
 def build_extra() -> dict:

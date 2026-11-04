@@ -199,3 +199,25 @@ and on the fresh real streams.
   * (iii): the Wilson upper bound is at most .0936 on V_null, V_worse and V_null_dep_r5.
   * (ii): at least 3 of 5 Holm-significant improvements.
 * Scope: the iid / weakly dependent conditional null. The rho >= .8 failure is a known out-of-scope limitation.
+
+## Amendment 5 (2026-11-03): registered certificate-host RMM test (ARIS result-to-claim follow-up)
+The ARIS result-to-claim review (Codex) rated claim C1 "partial", because its scope to certificate hosts
+was post-hoc after HR failed. This amendment registers that narrower claim **before** running it, on fresh
+seeds and with a fourth certificate family: the strong gated re-port `gated_adaptive_range`
+(wmax_t = 1/q_t). The parameters are unchanged from the RMM line and nothing is tuned.
+
+* **Hosts.** gated_deployment, discern_style (corrected), SMCS+retain-incumbent and gated_adaptive_range,
+  each paired with its +RMM version.
+* **Seeds.** Synthetic: 100 at base 2026110611. Nulls: 1000 at base 2026110612, on V_null, V_worse,
+  V_null_dep_r8 and W_null_dep_r95.
+* **HC success.** HC succeeds only if all three conditions below hold for **all 4** hosts:
+  * (a) The paired 95% CI of J(h+RMM) - J(h), as a per-seed family mean over
+    {V_late_600, W_late_1000, V_better_a, V_better_b, V_better_c, V_near}, lies below 0.
+  * (b) On each of V_late_600 and W_late_1000, the one-sided paired test of h+RMM against the best
+    certified published comparator on the same seeds is significant. The Holm correction runs over
+    2 regimes x 4 hosts = 8 tests.
+  * (c) The iid-null first-promotion Wilson upper bound is <= .0936 on both V_null and V_worse.
+* **Co-primary reported endpoints, with the failure stated in advance.**
+  * Cost against the host on reversal (V_reversal_1000, W_reversal_700) and recurrence (V_recurrent).
+  * Promotion on the persistent nulls V_null_dep_r8 and W_null_dep_r95.
+  * The claim must state the result on these whatever it is.

@@ -1,11 +1,22 @@
 # Appendix: full B3 real-data results: certified switching on 7 chronological streams (B3)
 
+> **Provenance qualification (2026-11-04):** The per-episode arithmetic is reproducible from the
+> archived arrays, but runner-to-row identity for the full pipeline is unresolved. The B1 policy
+> source is separately hash-verified at `041bc26`. The recorded B3 runner hash is
+> `d2b7e83e28e656bf9c11f6a37a5b720ef96778b51b42dcb259982560d059f271`; the only available
+> tracked runner hashes to `2550728b4738d6afad4739d8880ca91838f54c8fe57930009fb4fabb83af7a69`.
+> The exact run source was not found in the available tracked revisions or unreachable Git blobs.
+> Treat the results below as descriptive archived outcomes and withhold full-pipeline attribution
+> unless the recorded runner is recovered.
+
 Protocol: `protocols/B3-real-data-certified-switching.md`. Registered at `19f1090`,
 sha256 `b17b5a31…ba3a`, before any locked window was read.
 
 The policy code is `b1_certified_switching.py` at `041bc26`, unchanged. The model pairs reproduce
 the audit's dev-window statistics exactly (maximum difference 0.0; `results/b3/pairs_check.json`).
-The run executed once as a detached process.
+The run executed once as a detached process. The recorded run-source hash mismatch documented
+above prevents attributing these rows to the available full pipeline; the registered SUCCESS
+label is retained as the historical protocol outcome, not as a source-verified method result.
 
 The orchestrator recomputed every number below from the per-episode JSONL. Episode CIs use 2,000
 bootstrap resamples. The recomputation agrees with `results/b3/summary.json`.

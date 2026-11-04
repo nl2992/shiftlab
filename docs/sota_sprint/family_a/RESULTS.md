@@ -91,6 +91,19 @@ oracle alternative likelihood minus the iid p=.5 likelihood as the benchmark:
   not a tuning defect. Methods that "win" there (QSG, gated+front, xu) are the same methods that
   falsely promote on the rho=.95 null.
 
+## Certified profile-bound development pilot (2026-11-04)
+
+Tested whether adaptive interval branch-and-bound could tighten the null denominator by optimizing
+the joint sequence likelihood over p in [0,.5], rho in [0,1], while retaining a certified upper
+bound. The implementation is an isolated diagnostic (`scripts/sota_sprint/profile_bound_dev.py`);
+it is not used by A5b. Nine synthetic sequences (120 observations each; p=.65; rho in {0,.5,.8};
+three seeds per rho; base 2026110701) were screened. The search stopped at its 20,000-box cap on
+every sequence with tolerance .02 nats. For example, at rho=0 / seed 0, the current grid bound was
+-80.58 nats, while the branch-and-bound upper bound remained -34.66 and its attained lower bound
+was -83.18. Thus this implementation is far too loose at the capped budget; no policy comparison
+or SOTA claim follows. **Do not integrate this version.** A faster certified likelihood optimizer
+would be required to revisit denominator tightening.
+
 ## Validity argument (A1/A5/A6)
 
 Filtration F_k: queried outcomes z_1..z_k in issue order with their issue events, the disagreement

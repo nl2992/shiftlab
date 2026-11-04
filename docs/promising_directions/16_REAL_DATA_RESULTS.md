@@ -1,5 +1,17 @@
 # 16 Real-data results: successful datasets (B3)
 
+> **Provenance qualification (2026-11-04):** The archived outcome arrays and their arithmetic
+> summaries reproduce, but runner-to-row identity for the full B3 pipeline is unresolved. The
+> B1 policy source is separately hash-verified at `041bc26`. `provenance.json` and
+> `SHA256SUMS.txt` record source hash
+> `d2b7e83e28e656bf9c11f6a37a5b720ef96778b51b42dcb259982560d059f271`; the only available tracked
+> source in the audit, continuation, and current worktrees hashes to
+> `2550728b4738d6afad4739d8880ca91838f54c8fe57930009fb4fabb83af7a69`. Searches of available
+> tracked revisions and unreachable Git blobs found no match for the recorded hash. Read the
+> results below as **descriptive outcomes in the archived arrays**, not as a runner-to-row
+> verified performance claim for the full B3 pipeline. See the current
+> [claim-to-evidence ledger](../sota_sprint/claim_to_evidence_ledger_2026-11-04.md).
+
 Certified switching reduced mean net cost by **70% on spam, 49% on rialto, and 6% on
 weather**, capturing **91%, 70%, and 38%** of the available hindsight gain, respectively.
 The run evaluated **7 preregistered streams: WIN on 3, SAFE on all 7**, meeting the
@@ -70,6 +82,7 @@ temporal dependence or superiority to all competing methods.
   the registered run with the required local data.
 - Relevant verification: `python -m pytest tests/promising_directions/test_b3_real_data.py -q`.
 
-**Assessment: continue** with these scoped positive findings and the preserved
-seven-stream evidence; broader efficacy and stronger dependence claims need
-further preregistered evaluation.
+**Assessment: retain as an arithmetic-reproducible retrospective result only.** Do not continue
+the full B3 pipeline claim from this evidence until the recorded runner is recovered or the
+experiment is rerun from a frozen, hash-verified pipeline. The seven-stream arrays and their
+registered descriptive outcomes remain preserved; their runner-to-row identity is not verified.

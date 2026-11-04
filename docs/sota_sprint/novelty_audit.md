@@ -10,6 +10,22 @@ publisher or PMLR pages, or a web search that returned the publisher record. Ent
 result. "No prior art found" means our searches returned nothing. It does not show that nothing
 exists.
 
+**Update 2026-11-04:** targeted search for Markovian sequential testing and robust model monitors
+found two direct 2026 works not included in the original search. The audit below supersedes any
+unqualified "no prior use" wording for Markov e-processes. See the paper record for
+[Sethi et al. (ICML 2026)](https://arxiv.org/abs/2602.17587) and
+[Kurečka et al. (arXiv:2610.26193, Oct. 2026)](https://arxiv.org/abs/2610.26193).
+
+**Continuation update 2026-11-04:** the post-sprint search checked [Sargent et al., *Prediction-Powered
+Adaptive Inference with Pretrained AI Models for Contextual Bandits* (ICML 2026)](https://proceedings.mlr.press/v306/sargent26a.html).
+It integrates pretrained predictions and adaptively collected labels and proves asymptotic
+inference for broad Z-functionals. This strengthens the adjacent-work bar for prediction-aware
+acquisition, while its stated result does not itself supply the project's finite-sample,
+time-uniform replacement-safety guarantee. The active inference, active testing and delayed-feedback
+sources were also rechecked against publisher pages. The A5b+C6 deadline-value screen has since
+failed its registered cost gate; the budget/deadline scheduler subsection below is therefore closed
+as a method lead, not an open development recommendation.
+
 ## Cross-cutting finding (read first)
 
 There is already a strong, assumption-light answer to "is the challenger better, valid under
@@ -45,6 +61,18 @@ comparators, ported to IPW-observed paired losses.
   arXiv:2607.28322, Jul 2026. Takes an infimum over null distributions of point-null e-processes,
   with changes in Markov transition matrices as an explicit example. The repo's prior read notes a
   Markov(p,q) likelihood e-process valid on the full chain without thinning (Prop A.1; partial read).
+- Sethi, Sagar, Agrawal, Basu & Karthik, *Asymptotically Optimal Sequential Testing with Markovian
+  Data*, ICML 2026, arXiv:2602.17587. Gives an anytime alpha-correct test for a compact composite
+  set of finite-state Markov transition matrices, with an asymptotically optimal stopping-time
+  result. Its algorithm uses transition counts and a least-favorable KL projection onto the null
+  set. It observes a homogeneous Markov trajectory; the paper does not study hard label budgets,
+  delayed paired-loss feedback, or predictable outcome-dependent sampling. A fixed, label-independent
+  query-gap schedule may make its binary-chain test directly portable and must be checked.
+- Kurečka, Andriushchenko, Češka, Paoletti & Novotný, *Anytime-Valid Monitoring of Robust Stochastic
+  Models*, arXiv:2610.26193, Oct. 2026. Formalizes betting monitors for rectangular robust models
+  and proposes mixtures of linear monitors. It studies runtime model-conformance alarms, not paired
+  challenger promotion under paid labels; nevertheless, its anytime-valid monitor construction is
+  close prior art for robust Markov-state monitors.
 - Kalbfleisch & Lawless, *The analysis of panel data under a Markov assumption*, JASA
   80(392):863-871, 1985. DOI 10.1080/01621459.1985.10478195. This is the classical gap-indexed
   likelihood: a chain observed only at irregular panel times, with the transition probability over
@@ -55,14 +83,17 @@ have been instantiated for Markov alternatives (Ramdas et al.) and Markov change
 Ramdas). Likelihoods for Markov chains observed at irregular times (`P^gap`, or `exp(Q*gap)`) are
 40 years old.
 
-**What would be new.** We found no paper combining (i) a composite **null** of first-order binary
+**What would be new.** After the 2026 update, the narrow open question is whether there is a
+substantive contribution beyond the existing composite Markov tests and robust monitors. The
+potential difference is combining (i) a composite **null** of first-order binary
 Markov loss chains with unknown persistence, (ii) **observation times chosen by the tester's own
 predictable query policy**, scored with gap-indexed transition likelihoods, and (iii) a paired
-incumbent/challenger promotion decision. The searches covered arXiv, PMLR, Annals/JRSSB records
-and an extended web search. The defensible new element is narrow. It is a lemma that the
+incumbent/challenger promotion decision under a hard query budget and delay. The defensible new
+element remains narrow. It is a lemma that the
 gap-indexed running-MLE ratio stays an e-process when gaps are predictable, so the missingness is
 ignorable for the likelihood because query decisions depend only on observed history. It also
-needs a statement of what this buys over thinning.
+needs a measured or derived advantage over the Sethi et al. composite-Markov test under an acquisition
+schedule where that baseline's assumptions hold, and a statement of what this buys over thinning.
 
 **Substantive or renaming?** It is borderline. The validity argument is close to a plug-in of
 universal inference into an ignorable-missingness observed-data likelihood. It is substantive only
@@ -139,16 +170,26 @@ e-processes, measuring the validity/latency frontier.
   2024; arXiv:2406.10490. Budgeted optimal labelling policy `q* ∝ sqrt(E[(R-rhat)^2|x])`.
 - Zrnic & Candès, *Active statistical inference*, ICML 2024, PMLR 235:62993-63010;
   arXiv:2403.03208.
+- Efroni, Merlis, Saha & Mannor, [*Confidence-Budget Matching for Sequential Budgeted Learning*](https://proceedings.mlr.press/v139/efroni21a.html),
+  ICML 2021, PMLR 139:2937-2947. Explicit hard query-budget constraints are established in
+  sequential bandit and reinforcement-learning settings.
+- Verma, Dai & Low, [*Bayesian Optimization under Stochastic Delayed Feedback*](https://proceedings.mlr.press/v162/verma22a.html), ICML 2022,
+  PMLR 162:22145-22167. Delayed-feedback acquisition and pending queries are established in
+  Bayesian optimization.
 - Kossen, Farquhar, Gal, Rainforth, *Active testing: sample-efficient model evaluation*, ICML 2021,
   PMLR 139:5753-5763; arXiv:2103.05331.
 - Li, Kadambi, Saidi, Ramamurthy, Dasarathy, Berisha, *Active sequential two-sample testing*, TMLR
   2024; arXiv:2301.12616.
 
-**What is known.** Variance-optimal label allocation (i.i.d.), on/off sampling for change
-detection, and adaptive sampling intervals in SPC are all established.
+**What is known.** Variance-optimal label allocation (i.i.d.), active inference with a label
+budget, hard query budgets in sequential learning, delayed-feedback acquisition, on/off sampling
+for change detection, and adaptive sampling intervals in SPC are all established. The checked
+primary sources do not by themselves settle the joint contract here: serially dependent paired
+loss signs, hard label cap, delayed outcomes, and a time-uniform replacement-safety decision.
 
-**What would be new.** We found no paper choosing the label **spacing** for an anytime-valid test
-to maximise information per label when consecutive outcomes are positively autocorrelated. Under
+**What would be new.** In this scoped primary-source search, we found no paper choosing the label
+**spacing** for an anytime-valid test to maximise information per label when consecutive outcomes
+are positively autocorrelated. Under
 persistence rho, a label taken right after another carries roughly `(1-rho^2)`-discounted
 information. The defensible element is a value-of-information rule per label that is a function of
 the estimated persistence and the time since the last query, and that stays predictable.
@@ -163,6 +204,18 @@ spacing-oracle row to bound the attainable gain.
 
 **Hardest competitor.** Xu et al. q* (combined with a conditional-mean e-process). On change
 detection, DE-CuSum.
+
+**Current disposition (2026-11-04).** This remains a literature-level gap, not a surviving method
+lead. Family A's adaptive-spacing A5b and the separate A5b+C6 deadline-value coupling have both
+been evaluated; the latter fails its registered cost gate, while A5b does not beat the strongest
+same-contract panel. Do not revive a scheduler screen without a distinct policy and a source-level
+reason to expect a gain beyond those tested controllers.
+
+The broader adaptive-inference landscape includes Sargent et al. (ICML 2026), which uses pretrained
+predictions to improve asymptotic inference under adaptive data collection. It is adjacent rather
+than a same-contract comparator: its stated result is not a finite-sample, time-uniform promotion
+guarantee with hard label and deployment costs. This remaining contract difference is a research
+question, not by itself a novelty claim.
 
 ## (d) Restarts, e-detectors, monitoring reserve, certified rollback, multi-timescale (B1-B3, B5, B6, D3, D4)
 
@@ -252,6 +305,12 @@ null false promotion. The REPORT's convergence at B=1000 is a built-in negative 
 - Okanovic, Kirsch, Kasper, Hoefler, Krause, Gürel, *All models are wrong, some are useful: model
   selection with limited labels* (Model Selector), AISTATS 2025, PMLR 258:2035-2043;
   arXiv:2410.13609.
+- Turrin, Okanovic, Hoefler, Gürel, [*Which LLM to pick? Online Active Model Selection for Large
+  Language Models*](https://arxiv.org/abs/2610.01592), arXiv preprint submitted 1 Oct 2026. It
+  combines stream-wise active model selection with a finite annotation budget and adaptive query
+  probabilities based on model-posterior uncertainty. It is a new mandatory acquisition baseline;
+  its model-identification/regret objective is not automatically a time-uniform replacement-safety
+  certificate.
 - Karampatziakis, Mineiro, Ramdas, *Off-policy confidence sequences*, ICML 2021, PMLR
   139:5301-5310; arXiv:2102.09540. Includes a **gated deployment** application.
 - Johari, Koomen, Pekelis, Walsh, *Always valid inference: continuous monitoring of A/B tests*,
@@ -262,8 +321,9 @@ null false promotion. The REPORT's convergence at B=1000 is a built-in negative 
   switching machine learning models?*, arXiv:2512.18390.
 
 **What is known.** Active selectors give regret or PAC identification, not anytime false-promotion
-control. Anytime-valid gating of a candidate policy (Karampatziakis et al.) and always-valid A/B or
-canary testing are standard.
+control. Model Selector (2025) and Online LLM Picker (Oct 2026) also strengthen the label-budgeted
+selection baseline. Anytime-valid gating of a candidate policy (Karampatziakis et al.) and
+always-valid A/B or canary testing are standard.
 
 **What would be new.** "The selector proposes, an anytime certificate disposes": the gate reuses
 the selector's own (predictable) query probabilities as IPW weights, so certification costs no
@@ -283,7 +343,41 @@ switches, and latency. If gate-alone matches host-plus-gate, the selector contri
 **Hardest competitor.** Karampatziakis et al. gated deployment with the stronger `wmax_t = 1/q_t`
 re-port (already in the REPORT).
 
-## (g) Closest certified competitors overall
+## (g) Anytime-valid deployment across retrained challenger versions (new research lead)
+
+**Nearest prior art (verified 2026-11-04)**
+- Digalakis et al., [*The Challenger: When Do New Data Sources Justify Switching Machine Learning
+  Models?*](https://arxiv.org/abs/2512.18390), v2 dated July 2026. Repeated challenger training,
+  switching economics, a sequential evaluation algorithm and chronological credit-scoring results.
+- Karimi et al., [*Online Active Model Selection for Pre-trained Classifiers*](https://proceedings.mlr.press/v130/reza-karimi21a.html),
+  AISTATS 2021. Active label requests and high-probability identification among a fixed model set.
+- Turrin et al., [*Which LLM to pick? Online Active Model Selection for Large Language Models*](https://arxiv.org/abs/2610.01592),
+  arXiv 2026. Online streaming selection with a finite annotation budget and uncertainty-driven
+  query probabilities; include it or a faithful classifier-domain adaptation as a strong active
+  baseline.
+- Lindon & Kallus, [*Design-Based Anytime-Valid Inference for Randomized Experiments with Delayed
+  Outcomes and Staggered Entry*](https://proceedings.mlr.press/v306/lindon26a.html), ICML 2026. Delayed
+  outcome anytime-valid confidence sequences under treatment assignment and arm-specific
+  event-time filtrations.
+- Sethi et al. and Kurečka et al. as listed in (a); relevant to dependence-robust testing and
+  monitoring, respectively.
+
+**Potential gap.** Sequentially retrained versions may be selected using past history, then
+certified on fresh future paired losses under a shared selective-label budget and delayed feedback.
+One possible construction assigns a summable alpha share to each predictably activated version,
+tags queried outcomes to the version at issue time, and runs a version-specific started e-process.
+The theorem would require conditional validity after the model-selection history and strict
+separation between training outcomes and that version's certification outcomes. A union bound over
+versions alone does not solve evaluation-data reuse or serial dependence.
+
+**Substantive or renaming?** Unknown. The ingredients are individually established, and composition
+alone is insufficient. Retain only if a proof for adaptive versions under delayed selective feedback
+and a measured gain over *The Challenger*, RMM and fixed-model active selection are both delivered.
+The candidate specification is in
+[`versioned_challenger_candidate.md`](versioned_challenger_candidate.md). No implementation or
+performance result supports this claim yet.
+
+## (h) Closest certified competitors overall
 
 Verified:
 - Karampatziakis et al. 2021 (above).
@@ -317,7 +411,7 @@ list.
 
 | mechanism | nearest prior art | smallest defensible novel element | substantive? | hardest competitor | required ablation |
 |---|---|---|---|---|---|
-| (a) gap-indexed Markov running-MLE e-process | Wasserman+ 2020; Ramdas+ 2102.00630; Saha-Ramdas 2607.28322; Kalbfleisch-Lawless 1985 | validity lemma for running-MLE e-process under a Markov composite null with **predictable, policy-chosen gaps** in a paired promotion test | borderline; it adds a model assumption, and is substantive only with a gain over the conditional-mean null | Choe-Ramdas conditional-mean e-process (model-free) | gap-aware vs gap-ignorant vs i.i.d. vs Choe-Ramdas, same schedule, rho grid plus misspecified dependence |
+| (a) gap-indexed Markov running-MLE e-process | Wasserman+ 2020; Ramdas+ 2102.00630; Saha-Ramdas 2607.28322; Sethi+ ICML 2026; Kurečka+ 2026; Kalbfleisch-Lawless 1985 | validity lemma for running-MLE e-process under a Markov composite null with **predictable, policy-chosen gaps** in a paired promotion test | borderline; it adds a model assumption, and is substantive only with a gain over conditional-mean and composite-Markov baselines | Choe-Ramdas conditional-mean e-process; Sethi et al. composite-Markov test | gap-aware vs gap-ignorant vs i.i.d. vs Choe-Ramdas vs Sethi et al., matched acquisition, rho grid plus misspecified dependence |
 | (b) block/thinned/mixing CS | Henzi-Ziegel 2022 (+erratum); Choe-Ramdas 2024; Waudby-Smith+ 2024 | none beyond a stride lemma | no (tuning) | Choe-Ramdas | stride/block grid vs conditional-mean e-process |
 | (c) autocorrelation-aware query density | Chernoff 1959; Naghshvar-Javidi 2013; VSI charts 1988; DE-CuSum; Xu+ 2024 | info-per-label spacing rule as a function of persistence and time since last query, predictable | yes if gain is shown or derived; otherwise VSI heuristic | Xu+ q* | uniform / Xu q* / front-load / spacing / oracle at B=200 across rho |
 | (d) reserve, rollback, multi-timescale restarts | Shin-Ramdas-Rinaldo; Saha-Ramdas; Shekhar-Ramdas 2023; Banerjee-Veeravalli | joint error statement for promote-then-rollback under a hard shared budget | mostly composition; the error statement is the only substantive part | gated host + e-detector with fixed split | reserve 0/10/15/25%, rollback on/off, single vs multi-scale, plus null cost |

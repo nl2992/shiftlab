@@ -21,7 +21,12 @@ All numbers come from the sprint validation files in [validation/](validation/).
   * When it alarms, it switches deployment and restarts the host. The alpha is split between host and detector.
 * **Closest prior art.**
   * E-detectors (Shin, Ramdas and Rinaldo); Saha and Ramdas.
+  * [Kurečka et al. (2026)](https://arxiv.org/abs/2610.26193) formalize anytime-valid betting monitors for robust stochastic models and introduce mixtures of linear monitors. Their target is runtime model-conformance alarms, while RMM attaches a monitor to paired model deployment and makes a budgeted replacement decision.
   * Data-efficient quickest change detection (Banerjee and Veeravalli).
+  * [Digalakis et al. (2026), *The Challenger*](https://arxiv.org/abs/2512.18390), which studies
+    repeated challenger training, switching economics and chronological credit scoring. Its stated
+    contribution makes this a direct prior for real retraining streams; the current P1 claim must
+    stay narrower around anytime-valid deployment evidence and hard-budget paired-label acquisition.
   * The certified hosts: Karampatziakis et al. 2021, DISCERN, SMCS.
 * **Exact difference.** The module attaches to an arbitrary certified deployment host, on the label clock, under a shared hard label budget. It continues acquiring after the verdict and restarts the host. No paper evaluates restart detectors as a deployment add-on across certificate families.
 * **Evidence.** All results are on fresh seeds, after the DISCERN `/4` fix ([transfer_results.md](validation/transfer_results.md), [rmm_certified_hosts.txt](validation/rmm_certified_hosts.txt)).
@@ -56,6 +61,14 @@ All numbers come from the sprint validation files in [validation/](validation/).
 * **(B) SOTA:** scoped, synthetic only. Late improvement beats the strongest certified published method by 15 to 27; nothing broader.
 * **ARIS result-to-claim re-run (after Amendment 5): yes, narrowly scoped to the registered synthetic experiment, high confidence.**
 * **Assessment: PROMISING; MAIN-TRACK CANDIDATE (warrants paper development).** Item 1 is done (Amendment 5 PASS). Item 2, real late-improvement streams, is the remaining blocker for real-world relevance.
+
+* **Next research lead (unvalidated):** move from a frozen challenger to predictably activated
+  retrained versions, with fresh post-activation paired evidence, issue-time version tagging,
+  alpha allocation across versions, and a shared hard label budget. This addresses the missing
+  real within-stream update scenario, but it is not yet a result or a replacement for P1. The
+  nearest prior art and proof/evaluation requirements are recorded in
+  [versioned_challenger_candidate.md](versioned_challenger_candidate.md). A small front-loaded
+  rollback composition screen (B7) was negative and is recorded separately.
 
 ## P2. Certified deployment under serial dependence: failure map and an impossibility-flavoured trade-off (Failure Atlas plus persistence study)
 
@@ -92,19 +105,20 @@ All numbers come from the sprint validation files in [validation/](validation/).
 * **Closest prior art.**
   * Choe and Ramdas 2024; Henzi and Ziegel 2022. These control the time-averaged *conditional* mean, so a promotion in a persistent run is correct for their null.
   * Universal inference (Wasserman, Ramdas and Balakrishnan 2020).
-  * Markov e-detectors.
+  * Markov e-detectors and [Sethi et al. (ICML 2026)](https://arxiv.org/abs/2602.17587), which give anytime-valid testing for composite sets of finite-state Markov transition matrices, with an asymptotically optimal stopping-time result. Their method observes a homogeneous chain; it does not treat a hard label budget, delayed paired-loss feedback, or outcome-dependent query gaps.
+  * [Kurečka et al. (2026)](https://arxiv.org/abs/2610.26193), who develop anytime-valid betting monitors for rectangular robust stochastic models. Their monitoring target is model conformance rather than challenger promotion under paid labels.
 * **Exact difference.**
   * The atlas measures marginal false promotion of deployment gates under controlled persistence, on one common budgeted, delayed simulator, against 13 published methods. It also shows the conditional-vs-marginal null distinction has decision consequences.
-  * A gap-indexed Markov UI certificate for actively queried outcomes; the novelty audit found no prior use of it.
+  * A gap-indexed universal-inference certificate applied to predictably sampled binary loss comparisons. This is a narrow extension/application; direct composite-Markov sequential testing now requires a paired-schedule comparison before any method novelty claim.
 * **Necessary additional evidence.**
-  1. A short formal argument that, under unknown persistence, any test valid for all ρ ≤ 1 needs evidence that grows with run changes rather than with labels. This would turn the trade-off into a lower bound.
+  1. A formal argument matching the registered estimand and stream count. The finite-horizon refresh-or-hold bound now has a KL/Pinsker form for fixed scheduled alternatives, including V_late_600 and W_late_1000, plus a data-processing corollary for adaptive queries and delayed feedback. The common-kernel condition is verified for the synthetic runner by its independent disagreement/sign draws and fair-label encoding ([derivation](unknown_persistence_information_bound.md)). This remains a simple null/alternative, single-stream limitation; it does not quantify decision cost or yield a method contribution.
   2. ~~Real streams with a known null~~ **done**: exchangeable twins, K1 PASS, K2 narrow FAIL, small harm. Next: a decision-relevant real null with tangible harm, e.g. a twin pair where one model degrades after promotion.
-  3. Author-code comparators where available.
+  3. Add a matched acquisition comparison with the Sethi et al. composite-Markov test (or an audited implementation of its published statistic) on a fixed, label-independent query-gap schedule. Also check the robust monitor of Kurečka et al. for a relevant port. These 2026 methods were found after the original novelty audit and were not in the registered benchmark panel.
 * **Positioning.** A new evaluation methodology plus a substantive empirical finding (addendum types 5 and 6), possibly a datasets-and-benchmarks track.
 * **(A) Main-track potential:** moderate to good as an empirical paper, if the lower-bound argument holds.
 * **(B) SOTA:** A5b is the lowest-cost method among those that hold the bound at ρ ≤ .95 on synthetic data. It is not SOTA on real data.
 * **ARIS result-to-claim: partial (high confidence); re-run after the known-null real experiment: partial (medium). The re-run wording in [aris/m3_RESULT_TO_CLAIM.md](aris/m3_RESULT_TO_CLAIM.md) is the claim of record.**
-* **Assessment: PROMISING; MAIN-TRACK CANDIDATE (warrants paper development; ranked first).** Item 1, the formal argument, is the main gap.
+* **Assessment: PROMISING; MAIN-TRACK CANDIDATE (warrants paper development; ranked first).** Item 1 remains the main gap: turn the per-episode information bound into a decision-relevant validity-power/cost frontier at the registered parameters, and test any extension against the real persistent streams.
 
 ## P3. A shared deploy-or-abstain gate for fast online model selectors (Family D)
 

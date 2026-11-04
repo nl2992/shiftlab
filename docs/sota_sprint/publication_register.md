@@ -146,6 +146,25 @@ All numbers come from the sprint validation files in [validation/](validation/).
 * **Evidence.** Earlier registered null-safety failure. In the transfer run it is cheaper than gated+RMM on the family (+5.0 for gated+RMM vs LRMD), but its nulls were not re-tested here.
 * **Assessment: NEEDS EVIDENCE.** Unsupported as a standalone contribution pending a fresh 1000-seed null run.
 
+## P7. P1 x P2 merge: restart monitoring on dependence-robust evidence (Amendment 6)
+
+* **Mechanism** (`fam_m.py`). An RMM-style restart detector on A5b's gap-indexed Markov SUI evidence,
+  carrying the Markov context across restarts. Three variants: primary M_LRMD_SUI (detector only),
+  M_RMMSUI_A5b (A5b host) and M_RMMSUI_gar (iid host, ablation).
+* **Registered confirmatory result: NOT MET** ([merge/merge_results.md](merge/merge_results.md)).
+  * **Synthetic validity holds:** ≤ .016 on six nulls up to ρ=.95.
+  * **HM1 fails on real twin nulls:** bike_hour .100 with upper bound .153; appliances .097.
+  * **HM2 fails.** V_late_600 −5.8 vs Xu (Holm p=.018), but W_late_1000 −2.0 (p=.105).
+  * **Small share of the gain kept:** 13–22% of the iid RMM late-change gain.
+  * **Losses elsewhere:** stationary +6 to +34; fresh real +68 to +207 vs the best certified method.
+  * **The A5b-host variant equals A5b.** Its host spends the budget before the detector has evidence.
+* **What it shows.** A persistence-robust null can explain a long losing run followed by a long winning
+  run as persistence. Restart monitoring then gets evidence only from sign changes. This is a further
+  measured point on the P2 trade-off.
+* **Assessment: NOT SUPPORTED** as a method. It is kept as evidence for P2: robust validity removes most
+  of the late-change gain, and the twin-null failure shows restart mixtures add real-data risk even on
+  robust evidence.
+
 ---
 
 ## Ranked recommendation for paper development

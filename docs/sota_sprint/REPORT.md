@@ -125,6 +125,18 @@ It uses 5 fresh datasets × 20 splits, about 1240 episodes × 3 seeds
   realised better within the episode. The finding is therefore a violation of the marginal
   guarantee with small decision harm. It is not a large economic loss.
 
+## 4c. P1 x P2 merge (Amendment 6): NOT MET
+
+Restart monitoring on A5b's dependence-robust evidence ([merge/merge_results.md](merge/merge_results.md)).
+
+* **Synthetic validity holds.** False promotion is ≤ .016 up to ρ=.95.
+* **Real twin-null validity fails.** bike_hour reaches .100 with upper bound .153.
+* **Late-change benefit is partial.** V_late_600 is −5.8 vs Xu (significant) and W_late_1000 is −2.0
+  (not significant). That is 13–22% of the iid RMM gain retained.
+* **Real-data power is poor:** +68 to +207 vs the best certified method.
+* **Conclusion.** This is recorded as a further point on the P2 validity-power trade-off. A
+  result-to-claim review was not run because no positive claim is made.
+
 ## 5. Independent reviews
 
 * **Milestones 1–2.** [review_milestone12.md](review_milestone12.md), by a native Claude reviewer. Its

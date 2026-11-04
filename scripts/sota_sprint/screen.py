@@ -101,7 +101,8 @@ def metrics(pol, losses, gain, *, delay, budget, cq, cs, stream_rng) -> dict:
 
 
 def _job(args):
-    kind, name, ep, seed, seed_base, names = args
+    kind, name, ep, seed, seed_base, names, *rest = args
+    alpha = rest[0] if rest else CONTRACT["alpha"]  # sprint 2: per-run alpha (Track R risk curves)
     from registry import EXTRA
 
     if kind == "synthetic":
@@ -121,13 +122,13 @@ def _job(args):
     rows = []
     run_ep = ep * 100_000 + seed
     for pol in build_suite(losses.shape[0], budget, CONTRACT["cs"], CONTRACT["cq"],
-                           CONTRACT["alpha"], delay, run_ep, seed_base + _h(name) % 1000,
+                           alpha, delay, run_ep, seed_base + _h(name) % 1000,
                            names=names, extra=EXTRA):
         stream_rng = np.random.default_rng([seed_base, _h(name), ep, seed, 7])
         m = metrics(pol, losses, gain, delay=delay, budget=budget, cq=CONTRACT["cq"],
                     cs=CONTRACT["cs"], stream_rng=stream_rng)
         rows.append({"kind": kind, "gain_is_proxy": kind == "real", "regime": name, "ep": ep,
-                     "seed": seed, "policy": pol.name,
+                     "seed": seed, "policy": pol.name, "alpha": alpha,
                      "delay": delay, "budget": budget, **m})
     return rows
 
@@ -150,6 +151,8 @@ def main(argv=None):
     ap.add_argument("--seeds", type=int, default=20)
     ap.add_argument("--seed-base", type=int, default=DEV_SEED_BASE)
     ap.add_argument("--workers", type=int, default=max(1, mp.cpu_count() - 2))
+    ap.add_argument("--alpha", type=float, default=CONTRACT["alpha"],
+                    help="nominal level passed to every policy (Track R operating points)")
     ap.add_argument("--out", required=True)
     a = ap.parse_args(argv)
     from registry import EXTRA, IMPORT_ERRORS
@@ -165,10 +168,11 @@ def main(argv=None):
     jobs = []
     for r in regimes:
         if a.kind == "synthetic":
-            jobs += [("synthetic", r, 0, s, a.seed_base, names) for s in range(a.seeds)]
+            jobs += [("synthetic", r, 0, s, a.seed_base, names, a.alpha) for s in range(a.seeds)]
         else:
             K = np.load(_loss_file(r))["l0"].shape[0]
-            jobs += [("real", r, e, s, a.seed_base, names) for e in range(K) for s in range(a.seeds)]
+            jobs += [("real", r, e, s, a.seed_base, names, a.alpha) for e in range(K)
+                     for s in range(a.seeds)]
     out = Path(a.out)
     out.mkdir(parents=True, exist_ok=True)
     t0 = time.time()
@@ -185,7 +189,7 @@ def main(argv=None):
     if a.kind == "real":
         srcs.update({str(_loss_file(r).relative_to(ROOT)): hashlib.sha256(_loss_file(r).read_bytes()).hexdigest()[:16]
                      for r in regimes})
-    manifest = {"argv": vars(a), "contract": CONTRACT, "git": _git_rev(), "sources": srcs,
+    manifest = {"argv": vars(a), "contract": {**CONTRACT, "alpha": a.alpha}, "git": _git_rev(), "sources": srcs,
                 "import_errors": IMPORT_ERRORS, "n_jobs": len(jobs),
                 "seconds": round(time.time() - t0, 1)}
     (out / "manifest.json").write_text(json.dumps(manifest, indent=2) + "\n")

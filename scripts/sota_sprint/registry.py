@@ -57,7 +57,8 @@ def build_extra() -> dict:
         extra.update(_rmm())
     except Exception as e:  # pragma: no cover - reported in manifests
         IMPORT_ERRORS["rmm"] = repr(e)
-    for fam in ("fam_a", "fam_b", "fam_c", "fam_d", "fam_x", "fam_m"):
+    for fam in ("fam_a", "fam_b", "fam_c", "fam_d", "fam_x", "fam_m",
+                "fam_h", "fam_r", "fam_t", "fam_p", "fam_e", "fam_f"):  # sprint 2
         if not (HERE / f"{fam}.py").exists():
             continue
         try:

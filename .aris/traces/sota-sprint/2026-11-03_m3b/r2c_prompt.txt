@@ -1,0 +1,41 @@
+RESULT-TO-CLAIM EVALUATION (re-run for claim C1 after a supplementary registered experiment)
+
+I need you to judge whether experimental results support the intended claim. Repository root is the
+current directory; you may read files and run read-only python on outputs/sota_sprint/**/records.jsonl.
+Begin with "Reviewer-Model: <exact-model-id>".
+
+Intended claim (C1, revised per your previous review, now registered as Amendment 5 in
+docs/sota_sprint/validation_protocol.md BEFORE the fresh run):
+"On fresh synthetic seeds, attaching the restart-mixture label-clock monitor (RMM) to each of four tested
+certified deployment hosts (gated deployment, corrected DISCERN, SMCS, and the strong gated re-port
+gated_adaptive_range) lowers net cost against that host on the registered late+stationary-improvement
+family and beats the strongest certified published comparator on both late-improvement regimes
+(Holm over 8 tests), while preserving iid-null first-promotion control. It loses on reversal for three of
+four hosts and does not control false promotion under persistent Markov nulls (rho .8: .12-.18; rho .95:
+~.71). Real-data late-improvement behaviour is unestablished."
+
+Experiments run: Amendment 5 (seeds 2026110611 x100, nulls 2026110612 x1000); earlier Amendment 3 on other
+fresh seeds (2026110606/07). Results: docs/sota_sprint/validation/amend5_results.md (+ .json),
+docs/sota_sprint/validation/transfer_results.md, rmm_certified_hosts.txt; raw outputs/sota_sprint/amend5/.
+Fresh real data (no late-improvement episodes): docs/sota_sprint/validation/real_results.md.
+
+Evidence pre-check: Amendment 5 numbers are generated directly by scripts/sota_sprint/analyze_transfer.py
+amend5 from the raw records (you may recompute).
+
+Baselines: certified published ports incl. Xu acquisition-only, gated/DISCERN strong re-ports, Choe-Ramdas-
+style EB, QCE betting (front-loaded and paced), SMCS; strongest chosen per regime on the same seeds.
+
+Known caveats: comparators are ports not author code; the registered 5-host HR (Amendment 3) failed 3/5
+because Model Picker and CAMS have no certificate; synthetic Bernoulli/Markov generator.
+
+Please evaluate:
+1. claim_supported: yes | partial | no
+2. what_results_support
+3. what_results_dont_support
+4. missing_evidence
+5. suggested_claim_revision
+6. next_experiments_needed
+7. confidence: high | medium | low
+
+Be honest. Do not inflate claims beyond what the data supports.
+A single positive result on one dataset does not support a general claim.

@@ -1,0 +1,41 @@
+rmm:gated_deployment+RMM family vs: {'gated_adaptive_range+front': '-5.0 [-7.4,-2.5]', 'gated_deployment+QCE+front': '-4.9 [-7.4,-2.5]', 'xu_acquisition_only': '-11.0 [-13.8,-8.1]', 'P7s_settled': '-4.8 [-7.7,-1.8]', 'A5b': '-4.7 [-7.1,-2.3]', 'rmm:LRMD': '+5.0 [+2.7,+7.4]'}
+   V_late_600: -24.9 [-30.4,-19.5] vs xu_acquisition_only
+   W_late_1000: -18.0 [-22.6,-13.3] vs xu_acquisition_only
+   V_better_a: +0.7 [-7.8,+9.2] vs choe_ramdas_eb+front
+   V_better_b: +15.0 [+12.6,+17.4] vs choe_ramdas_eb+front
+   V_better_c: +31.2 [+22.2,+40.1] vs choe_ramdas_eb+front
+   V_near: -0.6 [-5.2,+4.0] vs xu_acquisition_only
+   V_reversal_1000: +36.4 [+31.8,+40.9] vs discern_style
+   W_reversal_700: +31.9 [+25.8,+38.0] vs discern_style
+   V_recurrent: +22.8 [+17.6,+28.0] vs choe_ramdas_eb+front
+   V_bursty: +13.3 [+6.9,+19.7] vs choe_ramdas_eb+front
+   V_dep_better_r5: +13.2 [+6.7,+19.7] vs gated_adaptive_range+front
+rmm:discern_style+RMM family vs: {'gated_adaptive_range+front': '-2.7 [-4.9,-0.5]', 'gated_deployment+QCE+front': '-2.7 [-4.9,-0.4]', 'xu_acquisition_only': '-8.7 [-11.3,-6.1]', 'P7s_settled': '-2.5 [-5.2,+0.3]', 'A5b': '-2.4 [-4.7,-0.2]', 'rmm:LRMD': '+7.3 [+5.1,+9.5]'}
+   V_late_600: -23.4 [-29.1,-17.7] vs xu_acquisition_only
+   W_late_1000: -15.2 [-19.8,-10.6] vs xu_acquisition_only
+   V_better_a: +5.0 [-3.1,+13.0] vs choe_ramdas_eb+front
+   V_better_b: +15.4 [+13.2,+17.7] vs choe_ramdas_eb+front
+   V_better_c: +34.1 [+25.7,+42.6] vs choe_ramdas_eb+front
+   V_near: +1.1 [-3.0,+5.2] vs xu_acquisition_only
+   V_reversal_1000: +34.0 [+29.5,+38.5] vs discern_style
+   W_reversal_700: +33.1 [+26.8,+39.3] vs discern_style
+   V_recurrent: +25.9 [+20.6,+31.1] vs choe_ramdas_eb+front
+   V_bursty: +5.2 [-2.4,+12.8] vs choe_ramdas_eb+front
+   V_dep_better_r5: +11.1 [+5.4,+16.7] vs gated_adaptive_range+front
+rmm:SMCS+retain-incumbent+RMM family vs: {'gated_adaptive_range+front': '-7.3 [-9.7,-4.9]', 'gated_deployment+QCE+front': '-7.3 [-9.7,-4.9]', 'xu_acquisition_only': '-13.3 [-15.8,-10.8]', 'P7s_settled': '-7.1 [-9.7,-4.5]', 'A5b': '-7.1 [-9.3,-4.9]', 'rmm:LRMD': '+2.7 [+0.4,+5.0]'}
+   V_late_600: -26.9 [-32.3,-21.6] vs xu_acquisition_only
+   W_late_1000: -16.6 [-20.6,-12.5] vs xu_acquisition_only
+   V_better_a: +1.9 [-6.3,+10.2] vs choe_ramdas_eb+front
+   V_better_b: +9.4 [+7.1,+11.8] vs choe_ramdas_eb+front
+   V_better_c: +20.8 [+11.9,+29.7] vs choe_ramdas_eb+front
+   V_near: +0.5 [-3.7,+4.8] vs xu_acquisition_only
+   V_reversal_1000: +29.0 [+24.4,+33.7] vs discern_style
+   W_reversal_700: +37.2 [+31.3,+43.1] vs discern_style
+   V_recurrent: +20.4 [+15.3,+25.4] vs choe_ramdas_eb+front
+   V_bursty: +4.2 [-3.1,+11.4] vs choe_ramdas_eb+front
+   V_dep_better_r5: +4.0 [-2.4,+10.4] vs gated_adaptive_range+front
+REAL appliances gated+RMM vs gated -139.83 (6/6) vs best cert 61.58 choe_ramdas_eb+front (0/6)
+REAL beijing_pm25 gated+RMM vs gated -69.95 (11/14) vs best cert -16.35 choe_ramdas_eb+front (5/14)
+REAL bike_hour gated+RMM vs gated -117.08 (6/6) vs best cert 24.6 choe_ramdas_eb+front (0/6)
+REAL household_power gated+RMM vs gated -48.31 (14/20) vs best cert -1.45 choe_ramdas_eb+front (7/20)
+REAL metro gated+RMM vs gated -156.48 (16/16) vs best cert 29.96 choe_ramdas_eb+front (0/16)

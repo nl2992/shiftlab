@@ -1,0 +1,5312 @@
+{
+ "F0_better": {
+  "tags": [
+   "alt"
+  ],
+  "policies": {
+   "A1": {
+    "net": 381.245,
+    "promote": 0.75,
+    "rollbacks": 0.0,
+    "labels": 199.9,
+    "switches": 0.75,
+    "first": 690.0,
+    "delay": 690.0,
+    "regret": 71.845,
+    "pending": 29.9,
+    "runtime": 0.416
+   },
+   "A1-nogap": {
+    "net": 389.498,
+    "promote": 0.6,
+    "rollbacks": 0.0,
+    "labels": 199.95,
+    "switches": 0.6,
+    "first": 644.5,
+    "delay": 644.5,
+    "regret": 80.098,
+    "pending": 29.9,
+    "runtime": 0.486
+   },
+   "A1-nostart": {
+    "net": 383.145,
+    "promote": 0.7,
+    "rollbacks": 0.0,
+    "labels": 199.9,
+    "switches": 0.7,
+    "first": 652.5,
+    "delay": 652.5,
+    "regret": 73.745,
+    "pending": 29.9,
+    "runtime": 0.258
+   },
+   "A1-rho8": {
+    "net": 381.245,
+    "promote": 0.75,
+    "rollbacks": 0.0,
+    "labels": 199.9,
+    "switches": 0.75,
+    "first": 690.0,
+    "delay": 690.0,
+    "regret": 71.845,
+    "pending": 29.9,
+    "runtime": 0.214
+   },
+   "A2": {
+    "net": 364.248,
+    "promote": 0.9,
+    "rollbacks": 0.0,
+    "labels": 199.95,
+    "switches": 0.9,
+    "first": 599.5,
+    "delay": 599.5,
+    "regret": 54.848,
+    "pending": 28.6,
+    "runtime": 0.053
+   },
+   "A2-fixedgap6": {
+    "net": 383.922,
+    "promote": 0.9,
+    "rollbacks": 0.0,
+    "labels": 199.45,
+    "switches": 0.9,
+    "first": 916.0,
+    "delay": 916.0,
+    "regret": 74.523,
+    "pending": 16.5,
+    "runtime": 0.027
+   },
+   "A3": {
+    "net": 366.645,
+    "promote": 0.85,
+    "rollbacks": 0.0,
+    "labels": 199.9,
+    "switches": 0.85,
+    "first": 572.0,
+    "delay": 572.0,
+    "regret": 57.245,
+    "pending": 28.9,
+    "runtime": 0.025
+   },
+   "A3-noinflight": {
+    "net": 366.645,
+    "promote": 0.85,
+    "rollbacks": 0.0,
+    "labels": 199.9,
+    "switches": 0.85,
+    "first": 572.0,
+    "delay": 572.0,
+    "regret": 57.245,
+    "pending": 29.2,
+    "runtime": 0.03
+   },
+   "A4": {
+    "net": 416.198,
+    "promote": 0.3,
+    "rollbacks": 0.0,
+    "labels": 199.95,
+    "switches": 0.3,
+    "first": 715.0,
+    "delay": 715.0,
+    "regret": 106.797,
+    "pending": 29.7,
+    "runtime": 0.02
+   },
+   "A5": {
+    "net": 376.597,
+    "promote": 0.85,
+    "rollbacks": 0.0,
+    "labels": 199.95,
+    "switches": 0.85,
+    "first": 776.0,
+    "delay": 776.0,
+    "regret": 67.198,
+    "pending": 29.25,
+    "runtime": 0.488
+   },
+   "A5-fixedgap6": {
+    "net": 402.512,
+    "promote": 0.8,
+    "rollbacks": 0.0,
+    "labels": 199.25,
+    "switches": 0.8,
+    "first": 1418.0,
+    "delay": 1418.0,
+    "regret": 93.112,
+    "pending": 15.25,
+    "runtime": 0.412
+   },
+   "A6": {
+    "net": 376.448,
+    "promote": 0.85,
+    "rollbacks": 0.0,
+    "labels": 199.95,
+    "switches": 0.85,
+    "first": 790.0,
+    "delay": 790.0,
+    "regret": 67.048,
+    "pending": 29.2,
+    "runtime": 0.456
+   },
+   "A6-noinflight": {
+    "net": 376.597,
+    "promote": 0.85,
+    "rollbacks": 0.0,
+    "labels": 199.95,
+    "switches": 0.85,
+    "first": 776.0,
+    "delay": 776.0,
+    "regret": 67.198,
+    "pending": 29.25,
+    "runtime": 0.482
+   },
+   "CONTROL_never_switch": {
+    "net": 426.75,
+    "promote": 0.0,
+    "rollbacks": 0.0,
+    "labels": 0.0,
+    "switches": 0.0,
+    "first": -1.0,
+    "delay": -1.0,
+    "regret": 117.35,
+    "pending": 0.0,
+    "runtime": 0.015
+   },
+   "QSG": {
+    "net": 366.645,
+    "promote": 0.85,
+    "rollbacks": 0.0,
+    "labels": 199.9,
+    "switches": 0.85,
+    "first": 572.0,
+    "delay": 572.0,
+    "regret": 57.245,
+    "pending": 29.2,
+    "runtime": 0.027
+   },
+   "QSG-env8": {
+    "net": 417.648,
+    "promote": 0.25,
+    "rollbacks": 0.0,
+    "labels": 199.95,
+    "switches": 0.25,
+    "first": 511.0,
+    "delay": 511.0,
+    "regret": 108.247,
+    "pending": 30.05,
+    "runtime": 0.031
+   },
+   "SMCS+retain-incumbent": {
+    "net": 383.88,
+    "promote": 0.7,
+    "rollbacks": 0.0,
+    "labels": 199.6,
+    "switches": 0.7,
+    "first": 566.0,
+    "delay": 566.0,
+    "regret": 74.48,
+    "pending": 18.3,
+    "runtime": 0.078
+   },
+   "discern_design_floor": {
+    "net": 413.662,
+    "promote": 0.7,
+    "rollbacks": 0.0,
+    "labels": 158.25,
+    "switches": 0.7,
+    "first": 1522.5,
+    "delay": 1522.5,
+    "regret": 104.262,
+    "pending": 17.75,
+    "runtime": 0.023
+   },
+   "gated_adaptive_range": {
+    "net": 424.458,
+    "promote": 0.25,
+    "rollbacks": 0.0,
+    "labels": 179.15,
+    "switches": 0.25,
+    "first": 1124.0,
+    "delay": 1124.0,
+    "regret": 115.058,
+    "pending": 18.35,
+    "runtime": 0.884
+   },
+   "gated_adaptive_range+front": {
+    "net": 380.945,
+    "promote": 0.7,
+    "rollbacks": 0.0,
+    "labels": 148.9,
+    "switches": 0.7,
+    "first": 632.0,
+    "delay": 632.0,
+    "regret": 71.545,
+    "pending": 29.9,
+    "runtime": 0.332
+   },
+   "model_picker_adapter": {
+    "net": 339.765,
+    "promote": 1.0,
+    "rollbacks": 1.15,
+    "labels": 77.3,
+    "switches": 3.3,
+    "first": 132.0,
+    "delay": 132.0,
+    "regret": 30.365,
+    "pending": 9.95,
+    "runtime": 0.144
+   },
+   "xu_acquisition_only": {
+    "net": 379.488,
+    "promote": 0.95,
+    "rollbacks": 0.0,
+    "labels": 193.75,
+    "switches": 0.95,
+    "first": 865.0,
+    "delay": 865.0,
+    "regret": 70.088,
+    "pending": 18.2,
+    "runtime": 0.348
+   }
+  },
+  "best_certified": "xu_acquisition_only",
+  "best_uncertified": "model_picker_adapter",
+  "contrasts": {
+   "A1": {
+    "host": {
+     "vs": "QSG",
+     "mean": 14.6,
+     "lo": 4.42,
+     "hi": 24.78,
+     "n": 20,
+     "frac_better": 0.05
+    },
+    "best_certified": {
+     "vs": "xu_acquisition_only",
+     "mean": 1.76,
+     "lo": -15.02,
+     "hi": 18.54,
+     "n": 20,
+     "frac_better": 0.55
+    },
+    "best_uncertified": {
+     "vs": "model_picker_adapter",
+     "mean": 41.48,
+     "lo": 24.52,
+     "hi": 58.44,
+     "n": 20,
+     "frac_better": 0.2
+    },
+    "best_any": {
+     "vs": "model_picker_adapter",
+     "mean": 41.48,
+     "lo": 24.52,
+     "hi": 58.44,
+     "n": 20,
+     "frac_better": 0.2
+    }
+   },
+   "A2": {
+    "host": {
+     "vs": "QSG",
+     "mean": -2.4,
+     "lo": -7.19,
+     "hi": 2.4,
+     "n": 20,
+     "frac_better": 0.2
+    },
+    "best_certified": {
+     "vs": "xu_acquisition_only",
+     "mean": -15.24,
+     "lo": -27.81,
+     "hi": -2.67,
+     "n": 20,
+     "frac_better": 0.7
+    },
+    "best_uncertified": {
+     "vs": "model_picker_adapter",
+     "mean": 24.48,
+     "lo": 9.93,
+     "hi": 39.03,
+     "n": 20,
+     "frac_better": 0.2
+    },
+    "best_any": {
+     "vs": "model_picker_adapter",
+     "mean": 24.48,
+     "lo": 9.93,
+     "hi": 39.03,
+     "n": 20,
+     "frac_better": 0.2
+    }
+   },
+   "A3": {
+    "host": {
+     "vs": "QSG",
+     "mean": 0.0,
+     "lo": 0.0,
+     "hi": 0.0,
+     "n": 20,
+     "frac_better": 0.0
+    },
+    "best_certified": {
+     "vs": "xu_acquisition_only",
+     "mean": -12.84,
+     "lo": -26.15,
+     "hi": 0.47,
+     "n": 20,
+     "frac_better": 0.6
+    },
+    "best_uncertified": {
+     "vs": "model_picker_adapter",
+     "mean": 26.88,
+     "lo": 12.05,
+     "hi": 41.71,
+     "n": 20,
+     "frac_better": 0.2
+    },
+    "best_any": {
+     "vs": "model_picker_adapter",
+     "mean": 26.88,
+     "lo": 12.05,
+     "hi": 41.71,
+     "n": 20,
+     "frac_better": 0.2
+    }
+   },
+   "A4": {
+    "host": {
+     "vs": "QSG",
+     "mean": 49.55,
+     "lo": 33.81,
+     "hi": 65.3,
+     "n": 20,
+     "frac_better": 0.0
+    },
+    "best_certified": {
+     "vs": "xu_acquisition_only",
+     "mean": 36.71,
+     "lo": 18.7,
+     "hi": 54.72,
+     "n": 20,
+     "frac_better": 0.15
+    },
+    "best_uncertified": {
+     "vs": "model_picker_adapter",
+     "mean": 76.43,
+     "lo": 60.42,
+     "hi": 92.45,
+     "n": 20,
+     "frac_better": 0.0
+    },
+    "best_any": {
+     "vs": "model_picker_adapter",
+     "mean": 76.43,
+     "lo": 60.42,
+     "hi": 92.45,
+     "n": 20,
+     "frac_better": 0.0
+    }
+   },
+   "A5": {
+    "host": {
+     "vs": "QSG",
+     "mean": 9.95,
+     "lo": -0.12,
+     "hi": 20.03,
+     "n": 20,
+     "frac_better": 0.1
+    },
+    "best_certified": {
+     "vs": "xu_acquisition_only",
+     "mean": -2.89,
+     "lo": -17.41,
+     "hi": 11.63,
+     "n": 20,
+     "frac_better": 0.55
+    },
+    "best_uncertified": {
+     "vs": "model_picker_adapter",
+     "mean": 36.83,
+     "lo": 22.37,
+     "hi": 51.3,
+     "n": 20,
+     "frac_better": 0.15
+    },
+    "best_any": {
+     "vs": "model_picker_adapter",
+     "mean": 36.83,
+     "lo": 22.37,
+     "hi": 51.3,
+     "n": 20,
+     "frac_better": 0.15
+    }
+   },
+   "A6": {
+    "host": {
+     "vs": "QSG",
+     "mean": 9.8,
+     "lo": -0.22,
+     "hi": 19.82,
+     "n": 20,
+     "frac_better": 0.1
+    },
+    "best_certified": {
+     "vs": "xu_acquisition_only",
+     "mean": -3.04,
+     "lo": -17.51,
+     "hi": 11.43,
+     "n": 20,
+     "frac_better": 0.55
+    },
+    "best_uncertified": {
+     "vs": "model_picker_adapter",
+     "mean": 36.68,
+     "lo": 22.16,
+     "hi": 51.21,
+     "n": 20,
+     "frac_better": 0.15
+    },
+    "best_any": {
+     "vs": "model_picker_adapter",
+     "mean": 36.68,
+     "lo": 22.16,
+     "hi": 51.21,
+     "n": 20,
+     "frac_better": 0.15
+    }
+   }
+  }
+ },
+ "F0_null": {
+  "tags": [
+   "null"
+  ],
+  "policies": {
+   "A1": {
+    "net": 370.5,
+    "promote": 0.0,
+    "rollbacks": 0.0,
+    "labels": 200.0,
+    "switches": 0.0,
+    "first": -1.0,
+    "delay": -1,
+    "regret": 10.0,
+    "pending": 29.6,
+    "runtime": 0.54
+   },
+   "A1-nogap": {
+    "net": 370.5,
+    "promote": 0.0,
+    "rollbacks": 0.0,
+    "labels": 200.0,
+    "switches": 0.0,
+    "first": -1.0,
+    "delay": -1,
+    "regret": 10.0,
+    "pending": 29.6,
+    "runtime": 0.544
+   },
+   "A1-nostart": {
+    "net": 370.5,
+    "promote": 0.0,
+    "rollbacks": 0.0,
+    "labels": 200.0,
+    "switches": 0.0,
+    "first": -1.0,
+    "delay": -1,
+    "regret": 10.0,
+    "pending": 29.6,
+    "runtime": 0.269
+   },
+   "A1-rho8": {
+    "net": 370.5,
+    "promote": 0.0,
+    "rollbacks": 0.0,
+    "labels": 200.0,
+    "switches": 0.0,
+    "first": -1.0,
+    "delay": -1,
+    "regret": 10.0,
+    "pending": 29.6,
+    "runtime": 0.242
+   },
+   "A2": {
+    "net": 370.5,
+    "promote": 0.0,
+    "rollbacks": 0.0,
+    "labels": 200.0,
+    "switches": 0.0,
+    "first": -1.0,
+    "delay": -1,
+    "regret": 10.0,
+    "pending": 28.85,
+    "runtime": 0.051
+   },
+   "A2-fixedgap6": {
+    "net": 369.93,
+    "promote": 0.05,
+    "rollbacks": 0.0,
+    "labels": 198.6,
+    "switches": 0.05,
+    "first": 378.0,
+    "delay": -1,
+    "regret": 9.43,
+    "pending": 13.65,
+    "runtime": 0.032
+   },
+   "A3": {
+    "net": 370.5,
+    "promote": 0.0,
+    "rollbacks": 0.0,
+    "labels": 200.0,
+    "switches": 0.0,
+    "first": -1.0,
+    "delay": -1,
+    "regret": 10.0,
+    "pending": 29.6,
+    "runtime": 0.035
+   },
+   "A3-noinflight": {
+    "net": 370.5,
+    "promote": 0.0,
+    "rollbacks": 0.0,
+    "labels": 200.0,
+    "switches": 0.0,
+    "first": -1.0,
+    "delay": -1,
+    "regret": 10.0,
+    "pending": 29.6,
+    "runtime": 0.022
+   },
+   "A4": {
+    "net": 369.6,
+    "promote": 0.05,
+    "rollbacks": 0.0,
+    "labels": 200.0,
+    "switches": 0.05,
+    "first": 273.0,
+    "delay": -1,
+    "regret": 9.1,
+    "pending": 29.45,
+    "runtime": 0.023
+   },
+   "A5": {
+    "net": 370.5,
+    "promote": 0.0,
+    "rollbacks": 0.0,
+    "labels": 200.0,
+    "switches": 0.0,
+    "first": -1.0,
+    "delay": -1,
+    "regret": 10.0,
+    "pending": 28.85,
+    "runtime": 0.548
+   },
+   "A5-fixedgap6": {
+    "net": 370.43,
+    "promote": 0.0,
+    "rollbacks": 0.0,
+    "labels": 198.6,
+    "switches": 0.0,
+    "first": -1.0,
+    "delay": -1,
+    "regret": 9.93,
+    "pending": 13.5,
+    "runtime": 0.504
+   },
+   "A6": {
+    "net": 370.5,
+    "promote": 0.0,
+    "rollbacks": 0.0,
+    "labels": 200.0,
+    "switches": 0.0,
+    "first": -1.0,
+    "delay": -1,
+    "regret": 10.0,
+    "pending": 28.85,
+    "runtime": 0.567
+   },
+   "A6-noinflight": {
+    "net": 370.5,
+    "promote": 0.0,
+    "rollbacks": 0.0,
+    "labels": 200.0,
+    "switches": 0.0,
+    "first": -1.0,
+    "delay": -1,
+    "regret": 10.0,
+    "pending": 28.85,
+    "runtime": 0.56
+   },
+   "CONTROL_never_switch": {
+    "net": 360.5,
+    "promote": 0.0,
+    "rollbacks": 0.0,
+    "labels": 0.0,
+    "switches": 0.0,
+    "first": -1.0,
+    "delay": -1,
+    "regret": 0.0,
+    "pending": 0.0,
+    "runtime": 0.014
+   },
+   "QSG": {
+    "net": 370.5,
+    "promote": 0.0,
+    "rollbacks": 0.0,
+    "labels": 200.0,
+    "switches": 0.0,
+    "first": -1.0,
+    "delay": -1,
+    "regret": 10.0,
+    "pending": 29.6,
+    "runtime": 0.021
+   },
+   "QSG-env8": {
+    "net": 370.5,
+    "promote": 0.0,
+    "rollbacks": 0.0,
+    "labels": 200.0,
+    "switches": 0.0,
+    "first": -1.0,
+    "delay": -1,
+    "regret": 10.0,
+    "pending": 29.6,
+    "runtime": 0.026
+   },
+   "SMCS+retain-incumbent": {
+    "net": 370.67,
+    "promote": 0.1,
+    "rollbacks": 0.0,
+    "labels": 199.4,
+    "switches": 0.1,
+    "first": 560.5,
+    "delay": -1,
+    "regret": 10.17,
+    "pending": 18.3,
+    "runtime": 0.076
+   },
+   "discern_design_floor": {
+    "net": 370.48,
+    "promote": 0.0,
+    "rollbacks": 0.0,
+    "labels": 199.6,
+    "switches": 0.0,
+    "first": -1.0,
+    "delay": -1,
+    "regret": 9.98,
+    "pending": 18.05,
+    "runtime": 0.033
+   },
+   "gated_adaptive_range": {
+    "net": 370.488,
+    "promote": 0.0,
+    "rollbacks": 0.0,
+    "labels": 199.75,
+    "switches": 0.0,
+    "first": -1.0,
+    "delay": -1,
+    "regret": 9.987,
+    "pending": 17.6,
+    "runtime": 0.964
+   },
+   "gated_adaptive_range+front": {
+    "net": 370.5,
+    "promote": 0.0,
+    "rollbacks": 0.0,
+    "labels": 200.0,
+    "switches": 0.0,
+    "first": -1.0,
+    "delay": -1,
+    "regret": 10.0,
+    "pending": 29.6,
+    "runtime": 0.448
+   },
+   "model_picker_adapter": {
+    "net": 412.715,
+    "promote": 0.95,
+    "rollbacks": 4.25,
+    "labels": 97.3,
+    "switches": 8.95,
+    "first": 127.0,
+    "delay": -1,
+    "regret": 52.215,
+    "pending": 10.8,
+    "runtime": 0.148
+   },
+   "xu_acquisition_only": {
+    "net": 370.168,
+    "promote": 0.0,
+    "rollbacks": 0.0,
+    "labels": 193.35,
+    "switches": 0.0,
+    "first": -1.0,
+    "delay": -1,
+    "regret": 9.667,
+    "pending": 17.6,
+    "runtime": 0.306
+   }
+  },
+  "best_certified": "xu_acquisition_only",
+  "best_uncertified": "model_picker_adapter",
+  "contrasts": {
+   "A1": {
+    "host": {
+     "vs": "QSG",
+     "mean": 0.0,
+     "lo": 0.0,
+     "hi": 0.0,
+     "n": 20,
+     "frac_better": 0.0
+    },
+    "best_certified": {
+     "vs": "xu_acquisition_only",
+     "mean": 0.33,
+     "lo": 0.16,
+     "hi": 0.51,
+     "n": 20,
+     "frac_better": 0.0
+    },
+    "best_uncertified": {
+     "vs": "model_picker_adapter",
+     "mean": -42.21,
+     "lo": -59.0,
+     "hi": -25.43,
+     "n": 20,
+     "frac_better": 0.85
+    },
+    "best_any": {
+     "vs": "CONTROL_never_switch",
+     "mean": 10.0,
+     "lo": 10.0,
+     "hi": 10.0,
+     "n": 20,
+     "frac_better": 0.0
+    },
+    "null_promotion": 0.0,
+    "null_bound_ok": true
+   },
+   "A2": {
+    "host": {
+     "vs": "QSG",
+     "mean": 0.0,
+     "lo": 0.0,
+     "hi": 0.0,
+     "n": 20,
+     "frac_better": 0.0
+    },
+    "best_certified": {
+     "vs": "xu_acquisition_only",
+     "mean": 0.33,
+     "lo": 0.16,
+     "hi": 0.51,
+     "n": 20,
+     "frac_better": 0.0
+    },
+    "best_uncertified": {
+     "vs": "model_picker_adapter",
+     "mean": -42.21,
+     "lo": -59.0,
+     "hi": -25.43,
+     "n": 20,
+     "frac_better": 0.85
+    },
+    "best_any": {
+     "vs": "CONTROL_never_switch",
+     "mean": 10.0,
+     "lo": 10.0,
+     "hi": 10.0,
+     "n": 20,
+     "frac_better": 0.0
+    },
+    "null_promotion": 0.0,
+    "null_bound_ok": true
+   },
+   "A3": {
+    "host": {
+     "vs": "QSG",
+     "mean": 0.0,
+     "lo": 0.0,
+     "hi": 0.0,
+     "n": 20,
+     "frac_better": 0.0
+    },
+    "best_certified": {
+     "vs": "xu_acquisition_only",
+     "mean": 0.33,
+     "lo": 0.16,
+     "hi": 0.51,
+     "n": 20,
+     "frac_better": 0.0
+    },
+    "best_uncertified": {
+     "vs": "model_picker_adapter",
+     "mean": -42.21,
+     "lo": -59.0,
+     "hi": -25.43,
+     "n": 20,
+     "frac_better": 0.85
+    },
+    "best_any": {
+     "vs": "CONTROL_never_switch",
+     "mean": 10.0,
+     "lo": 10.0,
+     "hi": 10.0,
+     "n": 20,
+     "frac_better": 0.0
+    },
+    "null_promotion": 0.0,
+    "null_bound_ok": true
+   },
+   "A4": {
+    "host": {
+     "vs": "QSG",
+     "mean": -0.9,
+     "lo": -2.66,
+     "hi": 0.86,
+     "n": 20,
+     "frac_better": 0.05
+    },
+    "best_certified": {
+     "vs": "xu_acquisition_only",
+     "mean": -0.57,
+     "lo": -2.29,
+     "hi": 1.16,
+     "n": 20,
+     "frac_better": 0.05
+    },
+    "best_uncertified": {
+     "vs": "model_picker_adapter",
+     "mean": -43.11,
+     "lo": -59.19,
+     "hi": -27.04,
+     "n": 20,
+     "frac_better": 0.85
+    },
+    "best_any": {
+     "vs": "CONTROL_never_switch",
+     "mean": 9.1,
+     "lo": 7.34,
+     "hi": 10.86,
+     "n": 20,
+     "frac_better": 0.05
+    },
+    "null_promotion": 0.05,
+    "null_bound_ok": true
+   },
+   "A5": {
+    "host": {
+     "vs": "QSG",
+     "mean": 0.0,
+     "lo": 0.0,
+     "hi": 0.0,
+     "n": 20,
+     "frac_better": 0.0
+    },
+    "best_certified": {
+     "vs": "xu_acquisition_only",
+     "mean": 0.33,
+     "lo": 0.16,
+     "hi": 0.51,
+     "n": 20,
+     "frac_better": 0.0
+    },
+    "best_uncertified": {
+     "vs": "model_picker_adapter",
+     "mean": -42.21,
+     "lo": -59.0,
+     "hi": -25.43,
+     "n": 20,
+     "frac_better": 0.85
+    },
+    "best_any": {
+     "vs": "CONTROL_never_switch",
+     "mean": 10.0,
+     "lo": 10.0,
+     "hi": 10.0,
+     "n": 20,
+     "frac_better": 0.0
+    },
+    "null_promotion": 0.0,
+    "null_bound_ok": true
+   },
+   "A6": {
+    "host": {
+     "vs": "QSG",
+     "mean": 0.0,
+     "lo": 0.0,
+     "hi": 0.0,
+     "n": 20,
+     "frac_better": 0.0
+    },
+    "best_certified": {
+     "vs": "xu_acquisition_only",
+     "mean": 0.33,
+     "lo": 0.16,
+     "hi": 0.51,
+     "n": 20,
+     "frac_better": 0.0
+    },
+    "best_uncertified": {
+     "vs": "model_picker_adapter",
+     "mean": -42.21,
+     "lo": -59.0,
+     "hi": -25.43,
+     "n": 20,
+     "frac_better": 0.85
+    },
+    "best_any": {
+     "vs": "CONTROL_never_switch",
+     "mean": 10.0,
+     "lo": 10.0,
+     "hi": 10.0,
+     "n": 20,
+     "frac_better": 0.0
+    },
+    "null_promotion": 0.0,
+    "null_bound_ok": true
+   }
+  }
+ },
+ "F1_late_800": {
+  "tags": [
+   "alt",
+   "change"
+  ],
+  "policies": {
+   "A1": {
+    "net": 397.347,
+    "promote": 0.05,
+    "rollbacks": 0.0,
+    "labels": 199.95,
+    "switches": 0.05,
+    "first": 1961.0,
+    "delay": 1161.0,
+    "regret": 99.248,
+    "pending": 28.15,
+    "runtime": 0.562
+   },
+   "A1-nogap": {
+    "net": 397.448,
+    "promote": 0.0,
+    "rollbacks": 0.0,
+    "labels": 199.95,
+    "switches": 0.0,
+    "first": -1.0,
+    "delay": -1.0,
+    "regret": 99.348,
+    "pending": 28.15,
+    "runtime": 0.568
+   },
+   "A1-nostart": {
+    "net": 397.448,
+    "promote": 0.0,
+    "rollbacks": 0.0,
+    "labels": 199.95,
+    "switches": 0.0,
+    "first": -1.0,
+    "delay": -1.0,
+    "regret": 99.348,
+    "pending": 28.15,
+    "runtime": 0.291
+   },
+   "A1-rho8": {
+    "net": 397.347,
+    "promote": 0.05,
+    "rollbacks": 0.0,
+    "labels": 199.95,
+    "switches": 0.05,
+    "first": 1961.0,
+    "delay": 1161.0,
+    "regret": 99.248,
+    "pending": 28.15,
+    "runtime": 0.265
+   },
+   "A2": {
+    "net": 393.143,
+    "promote": 0.25,
+    "rollbacks": 0.0,
+    "labels": 199.85,
+    "switches": 0.25,
+    "first": 1864.0,
+    "delay": 1064.0,
+    "regret": 95.042,
+    "pending": 26.9,
+    "runtime": 0.05
+   },
+   "A2-fixedgap6": {
+    "net": 392.035,
+    "promote": 0.4,
+    "rollbacks": 0.0,
+    "labels": 197.7,
+    "switches": 0.4,
+    "first": 1844.5,
+    "delay": 1044.5,
+    "regret": 93.935,
+    "pending": 15.1,
+    "runtime": 0.025
+   },
+   "A3": {
+    "net": 392.843,
+    "promote": 0.3,
+    "rollbacks": 0.0,
+    "labels": 199.85,
+    "switches": 0.3,
+    "first": 1866.0,
+    "delay": 1066.0,
+    "regret": 94.742,
+    "pending": 27.4,
+    "runtime": 0.023
+   },
+   "A3-noinflight": {
+    "net": 393.042,
+    "promote": 0.3,
+    "rollbacks": 0.0,
+    "labels": 199.85,
+    "switches": 0.3,
+    "first": 1866.0,
+    "delay": 1066.0,
+    "regret": 94.942,
+    "pending": 27.5,
+    "runtime": 0.026
+   },
+   "A4": {
+    "net": 397.45,
+    "promote": 0.0,
+    "rollbacks": 0.0,
+    "labels": 200.0,
+    "switches": 0.0,
+    "first": -1.0,
+    "delay": -1.0,
+    "regret": 99.35,
+    "pending": 28.4,
+    "runtime": 0.025
+   },
+   "A5": {
+    "net": 397.448,
+    "promote": 0.0,
+    "rollbacks": 0.0,
+    "labels": 199.95,
+    "switches": 0.0,
+    "first": -1.0,
+    "delay": -1.0,
+    "regret": 99.348,
+    "pending": 27.55,
+    "runtime": 0.562
+   },
+   "A5-fixedgap6": {
+    "net": 393.25,
+    "promote": 0.25,
+    "rollbacks": 0.0,
+    "labels": 197.0,
+    "switches": 0.25,
+    "first": 1849.0,
+    "delay": 1049.0,
+    "regret": 95.15,
+    "pending": 14.0,
+    "runtime": 0.507
+   },
+   "A6": {
+    "net": 397.448,
+    "promote": 0.0,
+    "rollbacks": 0.0,
+    "labels": 199.95,
+    "switches": 0.0,
+    "first": -1.0,
+    "delay": -1.0,
+    "regret": 99.348,
+    "pending": 27.55,
+    "runtime": 0.599
+   },
+   "A6-noinflight": {
+    "net": 397.448,
+    "promote": 0.0,
+    "rollbacks": 0.0,
+    "labels": 199.95,
+    "switches": 0.0,
+    "first": -1.0,
+    "delay": -1.0,
+    "regret": 99.348,
+    "pending": 27.55,
+    "runtime": 0.564
+   },
+   "CONTROL_never_switch": {
+    "net": 387.45,
+    "promote": 0.0,
+    "rollbacks": 0.0,
+    "labels": 0.0,
+    "switches": 0.0,
+    "first": -1.0,
+    "delay": -1.0,
+    "regret": 89.35,
+    "pending": 0.0,
+    "runtime": 0.012
+   },
+   "QSG": {
+    "net": 393.042,
+    "promote": 0.3,
+    "rollbacks": 0.0,
+    "labels": 199.85,
+    "switches": 0.3,
+    "first": 1866.0,
+    "delay": 1066.0,
+    "regret": 94.942,
+    "pending": 27.5,
+    "runtime": 0.024
+   },
+   "QSG-env8": {
+    "net": 397.448,
+    "promote": 0.0,
+    "rollbacks": 0.0,
+    "labels": 199.95,
+    "switches": 0.0,
+    "first": -1.0,
+    "delay": -1.0,
+    "regret": 99.348,
+    "pending": 28.0,
+    "runtime": 0.024
+   },
+   "SMCS+retain-incumbent": {
+    "net": 397.635,
+    "promote": 0.05,
+    "rollbacks": 0.0,
+    "labels": 199.7,
+    "switches": 0.05,
+    "first": 1969.0,
+    "delay": 1169.0,
+    "regret": 99.535,
+    "pending": 18.05,
+    "runtime": 0.076
+   },
+   "discern_design_floor": {
+    "net": 397.432,
+    "promote": 0.0,
+    "rollbacks": 0.0,
+    "labels": 199.65,
+    "switches": 0.0,
+    "first": -1.0,
+    "delay": -1.0,
+    "regret": 99.332,
+    "pending": 17.55,
+    "runtime": 0.03
+   },
+   "gated_adaptive_range": {
+    "net": 397.438,
+    "promote": 0.0,
+    "rollbacks": 0.0,
+    "labels": 199.75,
+    "switches": 0.0,
+    "first": -1.0,
+    "delay": -1.0,
+    "regret": 99.338,
+    "pending": 17.9,
+    "runtime": 1.058
+   },
+   "gated_adaptive_range+front": {
+    "net": 396.345,
+    "promote": 0.0,
+    "rollbacks": 0.0,
+    "labels": 177.9,
+    "switches": 0.0,
+    "first": -1.0,
+    "delay": -1.0,
+    "regret": 98.245,
+    "pending": 28.15,
+    "runtime": 0.431
+   },
+   "model_picker_adapter": {
+    "net": 368.692,
+    "promote": 0.95,
+    "rollbacks": 1.75,
+    "labels": 90.85,
+    "switches": 4.45,
+    "first": 223.0,
+    "delay": 579.0,
+    "regret": 70.592,
+    "pending": 10.35,
+    "runtime": 0.146
+   },
+   "xu_acquisition_only": {
+    "net": 396.482,
+    "promote": 0.35,
+    "rollbacks": 0.0,
+    "labels": 197.65,
+    "switches": 0.35,
+    "first": 1928.0,
+    "delay": 1128.0,
+    "regret": 98.382,
+    "pending": 18.05,
+    "runtime": 0.339
+   }
+  },
+  "best_certified": "gated_adaptive_range+front",
+  "best_uncertified": "model_picker_adapter",
+  "contrasts": {
+   "A1": {
+    "host": {
+     "vs": "QSG",
+     "mean": 4.31,
+     "lo": -2.22,
+     "hi": 10.83,
+     "n": 20,
+     "frac_better": 0.05
+    },
+    "best_certified": {
+     "vs": "gated_adaptive_range+front",
+     "mean": 1.0,
+     "lo": 0.08,
+     "hi": 1.93,
+     "n": 20,
+     "frac_better": 0.0
+    },
+    "best_uncertified": {
+     "vs": "model_picker_adapter",
+     "mean": 28.65,
+     "lo": 13.72,
+     "hi": 43.59,
+     "n": 20,
+     "frac_better": 0.15
+    },
+    "best_any": {
+     "vs": "model_picker_adapter",
+     "mean": 28.65,
+     "lo": 13.72,
+     "hi": 43.59,
+     "n": 20,
+     "frac_better": 0.15
+    }
+   },
+   "A2": {
+    "host": {
+     "vs": "QSG",
+     "mean": 0.1,
+     "lo": -0.1,
+     "hi": 0.3,
+     "n": 20,
+     "frac_better": 0.0
+    },
+    "best_certified": {
+     "vs": "gated_adaptive_range+front",
+     "mean": -3.2,
+     "lo": -9.87,
+     "hi": 3.47,
+     "n": 20,
+     "frac_better": 0.25
+    },
+    "best_uncertified": {
+     "vs": "model_picker_adapter",
+     "mean": 24.45,
+     "lo": 7.96,
+     "hi": 40.94,
+     "n": 20,
+     "frac_better": 0.25
+    },
+    "best_any": {
+     "vs": "model_picker_adapter",
+     "mean": 24.45,
+     "lo": 7.96,
+     "hi": 40.94,
+     "n": 20,
+     "frac_better": 0.25
+    }
+   },
+   "A3": {
+    "host": {
+     "vs": "QSG",
+     "mean": -0.2,
+     "lo": -0.59,
+     "hi": 0.19,
+     "n": 20,
+     "frac_better": 0.05
+    },
+    "best_certified": {
+     "vs": "gated_adaptive_range+front",
+     "mean": -3.5,
+     "lo": -10.21,
+     "hi": 3.2,
+     "n": 20,
+     "frac_better": 0.25
+    },
+    "best_uncertified": {
+     "vs": "model_picker_adapter",
+     "mean": 24.15,
+     "lo": 7.53,
+     "hi": 40.77,
+     "n": 20,
+     "frac_better": 0.25
+    },
+    "best_any": {
+     "vs": "model_picker_adapter",
+     "mean": 24.15,
+     "lo": 7.53,
+     "hi": 40.77,
+     "n": 20,
+     "frac_better": 0.25
+    }
+   },
+   "A4": {
+    "host": {
+     "vs": "QSG",
+     "mean": 4.41,
+     "lo": -2.1,
+     "hi": 10.92,
+     "n": 20,
+     "frac_better": 0.05
+    },
+    "best_certified": {
+     "vs": "gated_adaptive_range+front",
+     "mean": 1.11,
+     "lo": 0.14,
+     "hi": 2.07,
+     "n": 20,
+     "frac_better": 0.0
+    },
+    "best_uncertified": {
+     "vs": "model_picker_adapter",
+     "mean": 28.76,
+     "lo": 13.85,
+     "hi": 43.67,
+     "n": 20,
+     "frac_better": 0.15
+    },
+    "best_any": {
+     "vs": "model_picker_adapter",
+     "mean": 28.76,
+     "lo": 13.85,
+     "hi": 43.67,
+     "n": 20,
+     "frac_better": 0.15
+    }
+   },
+   "A5": {
+    "host": {
+     "vs": "QSG",
+     "mean": 4.41,
+     "lo": -2.11,
+     "hi": 10.92,
+     "n": 20,
+     "frac_better": 0.05
+    },
+    "best_certified": {
+     "vs": "gated_adaptive_range+front",
+     "mean": 1.1,
+     "lo": 0.14,
+     "hi": 2.07,
+     "n": 20,
+     "frac_better": 0.0
+    },
+    "best_uncertified": {
+     "vs": "model_picker_adapter",
+     "mean": 28.75,
+     "lo": 13.85,
+     "hi": 43.66,
+     "n": 20,
+     "frac_better": 0.15
+    },
+    "best_any": {
+     "vs": "model_picker_adapter",
+     "mean": 28.75,
+     "lo": 13.85,
+     "hi": 43.66,
+     "n": 20,
+     "frac_better": 0.15
+    }
+   },
+   "A6": {
+    "host": {
+     "vs": "QSG",
+     "mean": 4.41,
+     "lo": -2.11,
+     "hi": 10.92,
+     "n": 20,
+     "frac_better": 0.05
+    },
+    "best_certified": {
+     "vs": "gated_adaptive_range+front",
+     "mean": 1.1,
+     "lo": 0.14,
+     "hi": 2.07,
+     "n": 20,
+     "frac_better": 0.0
+    },
+    "best_uncertified": {
+     "vs": "model_picker_adapter",
+     "mean": 28.75,
+     "lo": 13.85,
+     "hi": 43.66,
+     "n": 20,
+     "frac_better": 0.15
+    },
+    "best_any": {
+     "vs": "model_picker_adapter",
+     "mean": 28.75,
+     "lo": 13.85,
+     "hi": 43.66,
+     "n": 20,
+     "frac_better": 0.15
+    }
+   }
+  }
+ },
+ "F3_reversal_800": {
+  "tags": [
+   "change"
+  ],
+  "policies": {
+   "A1": {
+    "net": 417.395,
+    "promote": 0.95,
+    "rollbacks": 0.2,
+    "labels": 199.9,
+    "switches": 1.15,
+    "first": 396.0,
+    "delay": 396.0,
+    "regret": 125.345,
+    "pending": 27.55,
+    "runtime": 0.279
+   },
+   "A1-nogap": {
+    "net": 419.698,
+    "promote": 0.9,
+    "rollbacks": 0.2,
+    "labels": 199.95,
+    "switches": 1.1,
+    "first": 450.5,
+    "delay": 450.5,
+    "regret": 127.648,
+    "pending": 27.7,
+    "runtime": 0.28
+   },
+   "A1-nostart": {
+    "net": 422.745,
+    "promote": 0.95,
+    "rollbacks": 0.05,
+    "labels": 199.9,
+    "switches": 1.0,
+    "first": 407.0,
+    "delay": 407.0,
+    "regret": 130.695,
+    "pending": 27.6,
+    "runtime": 0.183
+   },
+   "A1-rho8": {
+    "net": 415.598,
+    "promote": 0.95,
+    "rollbacks": 0.25,
+    "labels": 199.95,
+    "switches": 1.2,
+    "first": 396.0,
+    "delay": 396.0,
+    "regret": 123.547,
+    "pending": 27.55,
+    "runtime": 0.132
+   },
+   "A2": {
+    "net": 403.792,
+    "promote": 1.0,
+    "rollbacks": 0.45,
+    "labels": 199.85,
+    "switches": 1.45,
+    "first": 315.0,
+    "delay": 315.0,
+    "regret": 111.742,
+    "pending": 26.25,
+    "runtime": 0.048
+   },
+   "A2-fixedgap6": {
+    "net": 399.065,
+    "promote": 0.8,
+    "rollbacks": 0.4,
+    "labels": 199.3,
+    "switches": 1.2,
+    "first": 416.5,
+    "delay": 416.5,
+    "regret": 107.015,
+    "pending": 16.95,
+    "runtime": 0.023
+   },
+   "A3": {
+    "net": 412.042,
+    "promote": 1.0,
+    "rollbacks": 0.2,
+    "labels": 199.85,
+    "switches": 1.2,
+    "first": 311.0,
+    "delay": 311.0,
+    "regret": 119.992,
+    "pending": 26.25,
+    "runtime": 0.023
+   },
+   "A3-noinflight": {
+    "net": 412.093,
+    "promote": 1.0,
+    "rollbacks": 0.2,
+    "labels": 199.85,
+    "switches": 1.2,
+    "first": 311.0,
+    "delay": 311.0,
+    "regret": 120.042,
+    "pending": 26.3,
+    "runtime": 0.021
+   },
+   "A4": {
+    "net": 405.597,
+    "promote": 0.6,
+    "rollbacks": 0.0,
+    "labels": 199.95,
+    "switches": 0.6,
+    "first": 522.0,
+    "delay": 522.0,
+    "regret": 113.547,
+    "pending": 28.55,
+    "runtime": 0.021
+   },
+   "A5": {
+    "net": 418.042,
+    "promote": 0.95,
+    "rollbacks": 0.35,
+    "labels": 199.85,
+    "switches": 1.3,
+    "first": 463.0,
+    "delay": 463.0,
+    "regret": 125.992,
+    "pending": 26.95,
+    "runtime": 0.305
+   },
+   "A5-fixedgap6": {
+    "net": 397.19,
+    "promote": 0.7,
+    "rollbacks": 0.55,
+    "labels": 198.8,
+    "switches": 1.25,
+    "first": 584.5,
+    "delay": 584.5,
+    "regret": 105.14,
+    "pending": 16.15,
+    "runtime": 0.321
+   },
+   "A6": {
+    "net": 418.94,
+    "promote": 0.95,
+    "rollbacks": 0.35,
+    "labels": 199.8,
+    "switches": 1.3,
+    "first": 463.0,
+    "delay": 463.0,
+    "regret": 126.89,
+    "pending": 26.8,
+    "runtime": 0.329
+   },
+   "A6-noinflight": {
+    "net": 418.442,
+    "promote": 0.95,
+    "rollbacks": 0.35,
+    "labels": 199.85,
+    "switches": 1.3,
+    "first": 463.0,
+    "delay": 463.0,
+    "regret": 126.392,
+    "pending": 26.9,
+    "runtime": 0.355
+   },
+   "CONTROL_never_switch": {
+    "net": 349.0,
+    "promote": 0.0,
+    "rollbacks": 0.0,
+    "labels": 0.0,
+    "switches": 0.0,
+    "first": -1.0,
+    "delay": -1.0,
+    "regret": 56.95,
+    "pending": 0.0,
+    "runtime": 0.014
+   },
+   "QSG": {
+    "net": 412.042,
+    "promote": 1.0,
+    "rollbacks": 0.2,
+    "labels": 199.85,
+    "switches": 1.2,
+    "first": 311.0,
+    "delay": 311.0,
+    "regret": 119.992,
+    "pending": 26.35,
+    "runtime": 0.025
+   },
+   "QSG-env8": {
+    "net": 411.295,
+    "promote": 0.75,
+    "rollbacks": 0.1,
+    "labels": 199.9,
+    "switches": 0.85,
+    "first": 531.0,
+    "delay": 531.0,
+    "regret": 119.245,
+    "pending": 28.0,
+    "runtime": 0.03
+   },
+   "SMCS+retain-incumbent": {
+    "net": 408.245,
+    "promote": 0.8,
+    "rollbacks": 0.0,
+    "labels": 199.9,
+    "switches": 0.8,
+    "first": 401.5,
+    "delay": 401.5,
+    "regret": 116.195,
+    "pending": 18.05,
+    "runtime": 0.067
+   },
+   "discern_design_floor": {
+    "net": 369.785,
+    "promote": 0.15,
+    "rollbacks": 0.0,
+    "labels": 181.7,
+    "switches": 0.15,
+    "first": 742.0,
+    "delay": 742.0,
+    "regret": 77.735,
+    "pending": 17.7,
+    "runtime": 0.028
+   },
+   "gated_adaptive_range": {
+    "net": 397.705,
+    "promote": 0.5,
+    "rollbacks": 0.0,
+    "labels": 133.1,
+    "switches": 0.5,
+    "first": 718.0,
+    "delay": 718.0,
+    "regret": 105.655,
+    "pending": 17.65,
+    "runtime": 0.639
+   },
+   "gated_adaptive_range+front": {
+    "net": 416.17,
+    "promote": 0.95,
+    "rollbacks": 0.0,
+    "labels": 91.4,
+    "switches": 0.95,
+    "first": 397.0,
+    "delay": 397.0,
+    "regret": 124.12,
+    "pending": 27.25,
+    "runtime": 0.187
+   },
+   "model_picker_adapter": {
+    "net": 386.11,
+    "promote": 1.0,
+    "rollbacks": 1.85,
+    "labels": 84.2,
+    "switches": 4.0,
+    "first": 113.0,
+    "delay": 113.0,
+    "regret": 94.06,
+    "pending": 9.9,
+    "runtime": 0.141
+   },
+   "xu_acquisition_only": {
+    "net": 401.002,
+    "promote": 0.75,
+    "rollbacks": 0.55,
+    "labels": 194.05,
+    "switches": 1.3,
+    "first": 554.0,
+    "delay": 554.0,
+    "regret": 108.953,
+    "pending": 17.35,
+    "runtime": 0.324
+   }
+  },
+  "best_certified": "discern_design_floor",
+  "best_uncertified": "model_picker_adapter",
+  "contrasts": {
+   "A1": {
+    "host": {
+     "vs": "QSG",
+     "mean": 5.35,
+     "lo": -6.86,
+     "hi": 17.57,
+     "n": 20,
+     "frac_better": 0.15
+    },
+    "best_certified": {
+     "vs": "discern_design_floor",
+     "mean": 47.61,
+     "lo": 27.12,
+     "hi": 68.1,
+     "n": 20,
+     "frac_better": 0.15
+    },
+    "best_uncertified": {
+     "vs": "model_picker_adapter",
+     "mean": 31.28,
+     "lo": 12.23,
+     "hi": 50.34,
+     "n": 20,
+     "frac_better": 0.15
+    },
+    "best_any": {
+     "vs": "CONTROL_never_switch",
+     "mean": 68.4,
+     "lo": 54.44,
+     "hi": 82.35,
+     "n": 20,
+     "frac_better": 0.0
+    }
+   },
+   "A2": {
+    "host": {
+     "vs": "QSG",
+     "mean": -8.25,
+     "lo": -14.82,
+     "hi": -1.68,
+     "n": 20,
+     "frac_better": 0.35
+    },
+    "best_certified": {
+     "vs": "discern_design_floor",
+     "mean": 34.01,
+     "lo": 15.14,
+     "hi": 52.87,
+     "n": 20,
+     "frac_better": 0.15
+    },
+    "best_uncertified": {
+     "vs": "model_picker_adapter",
+     "mean": 17.68,
+     "lo": 5.6,
+     "hi": 29.76,
+     "n": 20,
+     "frac_better": 0.25
+    },
+    "best_any": {
+     "vs": "CONTROL_never_switch",
+     "mean": 54.79,
+     "lo": 43.99,
+     "hi": 65.59,
+     "n": 20,
+     "frac_better": 0.0
+    }
+   },
+   "A3": {
+    "host": {
+     "vs": "QSG",
+     "mean": 0.0,
+     "lo": -0.2,
+     "hi": 0.2,
+     "n": 20,
+     "frac_better": 0.1
+    },
+    "best_certified": {
+     "vs": "discern_design_floor",
+     "mean": 42.26,
+     "lo": 23.25,
+     "hi": 61.27,
+     "n": 20,
+     "frac_better": 0.15
+    },
+    "best_uncertified": {
+     "vs": "model_picker_adapter",
+     "mean": 25.93,
+     "lo": 13.5,
+     "hi": 38.36,
+     "n": 20,
+     "frac_better": 0.15
+    },
+    "best_any": {
+     "vs": "CONTROL_never_switch",
+     "mean": 63.04,
+     "lo": 51.47,
+     "hi": 74.61,
+     "n": 20,
+     "frac_better": 0.0
+    }
+   },
+   "A4": {
+    "host": {
+     "vs": "QSG",
+     "mean": -6.44,
+     "lo": -30.81,
+     "hi": 17.92,
+     "n": 20,
+     "frac_better": 0.5
+    },
+    "best_certified": {
+     "vs": "discern_design_floor",
+     "mean": 35.81,
+     "lo": 13.81,
+     "hi": 57.81,
+     "n": 20,
+     "frac_better": 0.1
+    },
+    "best_uncertified": {
+     "vs": "model_picker_adapter",
+     "mean": 19.49,
+     "lo": -2.32,
+     "hi": 41.29,
+     "n": 20,
+     "frac_better": 0.4
+    },
+    "best_any": {
+     "vs": "CONTROL_never_switch",
+     "mean": 56.6,
+     "lo": 36.65,
+     "hi": 76.55,
+     "n": 20,
+     "frac_better": 0.0
+    }
+   },
+   "A5": {
+    "host": {
+     "vs": "QSG",
+     "mean": 6.0,
+     "lo": -6.56,
+     "hi": 18.56,
+     "n": 20,
+     "frac_better": 0.25
+    },
+    "best_certified": {
+     "vs": "discern_design_floor",
+     "mean": 48.26,
+     "lo": 28.6,
+     "hi": 67.91,
+     "n": 20,
+     "frac_better": 0.15
+    },
+    "best_uncertified": {
+     "vs": "model_picker_adapter",
+     "mean": 31.93,
+     "lo": 13.53,
+     "hi": 50.33,
+     "n": 20,
+     "frac_better": 0.1
+    },
+    "best_any": {
+     "vs": "CONTROL_never_switch",
+     "mean": 69.04,
+     "lo": 56.75,
+     "hi": 81.34,
+     "n": 20,
+     "frac_better": 0.0
+    }
+   },
+   "A6": {
+    "host": {
+     "vs": "QSG",
+     "mean": 6.9,
+     "lo": -5.4,
+     "hi": 19.2,
+     "n": 20,
+     "frac_better": 0.25
+    },
+    "best_certified": {
+     "vs": "discern_design_floor",
+     "mean": 49.16,
+     "lo": 30.11,
+     "hi": 68.2,
+     "n": 20,
+     "frac_better": 0.15
+    },
+    "best_uncertified": {
+     "vs": "model_picker_adapter",
+     "mean": 32.83,
+     "lo": 14.83,
+     "hi": 50.83,
+     "n": 20,
+     "frac_better": 0.1
+    },
+    "best_any": {
+     "vs": "CONTROL_never_switch",
+     "mean": 69.94,
+     "lo": 58.0,
+     "hi": 81.88,
+     "n": 20,
+     "frac_better": 0.0
+    }
+   }
+  }
+ },
+ "F5_dep_better_r8": {
+  "tags": [
+   "alt",
+   "dep"
+  ],
+  "policies": {
+   "A1": {
+    "net": 434.1,
+    "promote": 0.0,
+    "rollbacks": 0.0,
+    "labels": 200.0,
+    "switches": 0.0,
+    "first": -1.0,
+    "delay": -1.0,
+    "regret": 131.9,
+    "pending": 28.4,
+    "runtime": 0.526
+   },
+   "A1-nogap": {
+    "net": 363.798,
+    "promote": 0.9,
+    "rollbacks": 0.0,
+    "labels": 199.95,
+    "switches": 0.9,
+    "first": 721.0,
+    "delay": 721.0,
+    "regret": 61.598,
+    "pending": 27.2,
+    "runtime": 0.31
+   },
+   "A1-nostart": {
+    "net": 434.1,
+    "promote": 0.0,
+    "rollbacks": 0.0,
+    "labels": 200.0,
+    "switches": 0.0,
+    "first": -1.0,
+    "delay": -1.0,
+    "regret": 131.9,
+    "pending": 28.4,
+    "runtime": 0.269
+   },
+   "A1-rho8": {
+    "net": 417.748,
+    "promote": 0.2,
+    "rollbacks": 0.0,
+    "labels": 199.95,
+    "switches": 0.2,
+    "first": 350.0,
+    "delay": 350.0,
+    "regret": 115.547,
+    "pending": 27.6,
+    "runtime": 0.216
+   },
+   "A2": {
+    "net": 350.15,
+    "promote": 0.85,
+    "rollbacks": 0.0,
+    "labels": 200.0,
+    "switches": 0.85,
+    "first": 226.0,
+    "delay": 226.0,
+    "regret": 47.95,
+    "pending": 23.8,
+    "runtime": 0.05
+   },
+   "A2-fixedgap6": {
+    "net": 368.082,
+    "promote": 0.9,
+    "rollbacks": 0.0,
+    "labels": 199.65,
+    "switches": 0.9,
+    "first": 664.0,
+    "delay": 664.0,
+    "regret": 65.883,
+    "pending": 16.5,
+    "runtime": 0.022
+   },
+   "A3": {
+    "net": 342.097,
+    "promote": 0.95,
+    "rollbacks": 0.0,
+    "labels": 199.95,
+    "switches": 0.95,
+    "first": 228.0,
+    "delay": 228.0,
+    "regret": 39.898,
+    "pending": 25.05,
+    "runtime": 0.021
+   },
+   "A3-noinflight": {
+    "net": 341.748,
+    "promote": 0.95,
+    "rollbacks": 0.0,
+    "labels": 199.95,
+    "switches": 0.95,
+    "first": 228.0,
+    "delay": 228.0,
+    "regret": 39.548,
+    "pending": 25.1,
+    "runtime": 0.022
+   },
+   "A4": {
+    "net": 434.1,
+    "promote": 0.0,
+    "rollbacks": 0.0,
+    "labels": 200.0,
+    "switches": 0.0,
+    "first": -1.0,
+    "delay": -1.0,
+    "regret": 131.9,
+    "pending": 28.4,
+    "runtime": 0.02
+   },
+   "A5": {
+    "net": 427.68,
+    "promote": 0.2,
+    "rollbacks": 0.0,
+    "labels": 191.6,
+    "switches": 0.2,
+    "first": 1490.5,
+    "delay": 1490.5,
+    "regret": 125.48,
+    "pending": 23.85,
+    "runtime": 0.468
+   },
+   "A5-fixedgap6": {
+    "net": 416.62,
+    "promote": 0.35,
+    "rollbacks": 0.0,
+    "labels": 199.4,
+    "switches": 0.35,
+    "first": 1094.0,
+    "delay": 1094.0,
+    "regret": 114.42,
+    "pending": 14.45,
+    "runtime": 0.41
+   },
+   "A6": {
+    "net": 427.68,
+    "promote": 0.2,
+    "rollbacks": 0.0,
+    "labels": 191.6,
+    "switches": 0.2,
+    "first": 1490.5,
+    "delay": 1490.5,
+    "regret": 125.48,
+    "pending": 23.85,
+    "runtime": 0.495
+   },
+   "A6-noinflight": {
+    "net": 427.68,
+    "promote": 0.2,
+    "rollbacks": 0.0,
+    "labels": 191.6,
+    "switches": 0.2,
+    "first": 1490.5,
+    "delay": 1490.5,
+    "regret": 125.48,
+    "pending": 23.85,
+    "runtime": 0.493
+   },
+   "CONTROL_never_switch": {
+    "net": 424.1,
+    "promote": 0.0,
+    "rollbacks": 0.0,
+    "labels": 0.0,
+    "switches": 0.0,
+    "first": -1.0,
+    "delay": -1.0,
+    "regret": 121.9,
+    "pending": 0.0,
+    "runtime": 0.013
+   },
+   "QSG": {
+    "net": 341.748,
+    "promote": 0.95,
+    "rollbacks": 0.0,
+    "labels": 199.95,
+    "switches": 0.95,
+    "first": 228.0,
+    "delay": 228.0,
+    "regret": 39.548,
+    "pending": 25.1,
+    "runtime": 0.021
+   },
+   "QSG-env8": {
+    "net": 427.55,
+    "promote": 0.05,
+    "rollbacks": 0.0,
+    "labels": 200.0,
+    "switches": 0.05,
+    "first": 226.0,
+    "delay": 226.0,
+    "regret": 125.35,
+    "pending": 28.2,
+    "runtime": 0.027
+   },
+   "SMCS+retain-incumbent": {
+    "net": 358.235,
+    "promote": 0.8,
+    "rollbacks": 0.0,
+    "labels": 199.7,
+    "switches": 0.8,
+    "first": 314.0,
+    "delay": 314.0,
+    "regret": 56.035,
+    "pending": 17.75,
+    "runtime": 0.073
+   },
+   "discern_design_floor": {
+    "net": 390.208,
+    "promote": 0.8,
+    "rollbacks": 0.0,
+    "labels": 135.15,
+    "switches": 0.8,
+    "first": 1237.5,
+    "delay": 1237.5,
+    "regret": 88.008,
+    "pending": 16.55,
+    "runtime": 0.023
+   },
+   "gated_adaptive_range": {
+    "net": 413.055,
+    "promote": 0.4,
+    "rollbacks": 0.0,
+    "labels": 168.1,
+    "switches": 0.4,
+    "first": 1335.5,
+    "delay": 1335.5,
+    "regret": 110.855,
+    "pending": 17.8,
+    "runtime": 0.791
+   },
+   "gated_adaptive_range+front": {
+    "net": 346.315,
+    "promote": 0.9,
+    "rollbacks": 0.0,
+    "labels": 107.3,
+    "switches": 0.9,
+    "first": 437.5,
+    "delay": 437.5,
+    "regret": 44.115,
+    "pending": 26.2,
+    "runtime": 0.211
+   },
+   "model_picker_adapter": {
+    "net": 325.38,
+    "promote": 1.0,
+    "rollbacks": 0.55,
+    "labels": 79.6,
+    "switches": 2.1,
+    "first": 117.0,
+    "delay": 117.0,
+    "regret": 23.18,
+    "pending": 9.7,
+    "runtime": 0.134
+   },
+   "xu_acquisition_only": {
+    "net": 380.07,
+    "promote": 0.8,
+    "rollbacks": 0.0,
+    "labels": 195.4,
+    "switches": 0.8,
+    "first": 720.0,
+    "delay": 720.0,
+    "regret": 77.87,
+    "pending": 17.65,
+    "runtime": 0.312
+   }
+  },
+  "best_certified": "gated_adaptive_range+front",
+  "best_uncertified": "model_picker_adapter",
+  "contrasts": {
+   "A1": {
+    "host": {
+     "vs": "QSG",
+     "mean": 92.35,
+     "lo": 77.05,
+     "hi": 107.66,
+     "n": 20,
+     "frac_better": 0.0
+    },
+    "best_certified": {
+     "vs": "gated_adaptive_range+front",
+     "mean": 87.78,
+     "lo": 69.62,
+     "hi": 105.95,
+     "n": 20,
+     "frac_better": 0.0
+    },
+    "best_uncertified": {
+     "vs": "model_picker_adapter",
+     "mean": 108.72,
+     "lo": 92.32,
+     "hi": 125.12,
+     "n": 20,
+     "frac_better": 0.0
+    },
+    "best_any": {
+     "vs": "model_picker_adapter",
+     "mean": 108.72,
+     "lo": 92.32,
+     "hi": 125.12,
+     "n": 20,
+     "frac_better": 0.0
+    }
+   },
+   "A2": {
+    "host": {
+     "vs": "QSG",
+     "mean": 8.4,
+     "lo": 1.1,
+     "hi": 15.7,
+     "n": 20,
+     "frac_better": 0.0
+    },
+    "best_certified": {
+     "vs": "gated_adaptive_range+front",
+     "mean": 3.83,
+     "lo": -4.16,
+     "hi": 11.83,
+     "n": 20,
+     "frac_better": 0.3
+    },
+    "best_uncertified": {
+     "vs": "model_picker_adapter",
+     "mean": 24.77,
+     "lo": 12.52,
+     "hi": 37.02,
+     "n": 20,
+     "frac_better": 0.1
+    },
+    "best_any": {
+     "vs": "model_picker_adapter",
+     "mean": 24.77,
+     "lo": 12.52,
+     "hi": 37.02,
+     "n": 20,
+     "frac_better": 0.1
+    }
+   },
+   "A3": {
+    "host": {
+     "vs": "QSG",
+     "mean": 0.35,
+     "lo": -0.34,
+     "hi": 1.04,
+     "n": 20,
+     "frac_better": 0.0
+    },
+    "best_certified": {
+     "vs": "gated_adaptive_range+front",
+     "mean": -4.22,
+     "lo": -12.02,
+     "hi": 3.58,
+     "n": 20,
+     "frac_better": 0.3
+    },
+    "best_uncertified": {
+     "vs": "model_picker_adapter",
+     "mean": 16.72,
+     "lo": 4.72,
+     "hi": 28.72,
+     "n": 20,
+     "frac_better": 0.15
+    },
+    "best_any": {
+     "vs": "model_picker_adapter",
+     "mean": 16.72,
+     "lo": 4.72,
+     "hi": 28.72,
+     "n": 20,
+     "frac_better": 0.15
+    }
+   },
+   "A4": {
+    "host": {
+     "vs": "QSG",
+     "mean": 92.35,
+     "lo": 77.05,
+     "hi": 107.66,
+     "n": 20,
+     "frac_better": 0.0
+    },
+    "best_certified": {
+     "vs": "gated_adaptive_range+front",
+     "mean": 87.78,
+     "lo": 69.62,
+     "hi": 105.95,
+     "n": 20,
+     "frac_better": 0.0
+    },
+    "best_uncertified": {
+     "vs": "model_picker_adapter",
+     "mean": 108.72,
+     "lo": 92.32,
+     "hi": 125.12,
+     "n": 20,
+     "frac_better": 0.0
+    },
+    "best_any": {
+     "vs": "model_picker_adapter",
+     "mean": 108.72,
+     "lo": 92.32,
+     "hi": 125.12,
+     "n": 20,
+     "frac_better": 0.0
+    }
+   },
+   "A5": {
+    "host": {
+     "vs": "QSG",
+     "mean": 85.93,
+     "lo": 73.29,
+     "hi": 98.57,
+     "n": 20,
+     "frac_better": 0.0
+    },
+    "best_certified": {
+     "vs": "gated_adaptive_range+front",
+     "mean": 81.36,
+     "lo": 66.33,
+     "hi": 96.4,
+     "n": 20,
+     "frac_better": 0.0
+    },
+    "best_uncertified": {
+     "vs": "model_picker_adapter",
+     "mean": 102.3,
+     "lo": 88.08,
+     "hi": 116.52,
+     "n": 20,
+     "frac_better": 0.0
+    },
+    "best_any": {
+     "vs": "model_picker_adapter",
+     "mean": 102.3,
+     "lo": 88.08,
+     "hi": 116.52,
+     "n": 20,
+     "frac_better": 0.0
+    }
+   },
+   "A6": {
+    "host": {
+     "vs": "QSG",
+     "mean": 85.93,
+     "lo": 73.29,
+     "hi": 98.57,
+     "n": 20,
+     "frac_better": 0.0
+    },
+    "best_certified": {
+     "vs": "gated_adaptive_range+front",
+     "mean": 81.36,
+     "lo": 66.33,
+     "hi": 96.4,
+     "n": 20,
+     "frac_better": 0.0
+    },
+    "best_uncertified": {
+     "vs": "model_picker_adapter",
+     "mean": 102.3,
+     "lo": 88.08,
+     "hi": 116.52,
+     "n": 20,
+     "frac_better": 0.0
+    },
+    "best_any": {
+     "vs": "model_picker_adapter",
+     "mean": 102.3,
+     "lo": 88.08,
+     "hi": 116.52,
+     "n": 20,
+     "frac_better": 0.0
+    }
+   }
+  }
+ },
+ "F5_dep_null_r8": {
+  "tags": [
+   "null",
+   "dep"
+  ],
+  "policies": {
+   "A1": {
+    "net": 371.2,
+    "promote": 0.0,
+    "rollbacks": 0.0,
+    "labels": 200.0,
+    "switches": 0.0,
+    "first": -1.0,
+    "delay": -1,
+    "regret": 10.0,
+    "pending": 29.65,
+    "runtime": 0.54
+   },
+   "A1-nogap": {
+    "net": 365.847,
+    "promote": 0.4,
+    "rollbacks": 0.05,
+    "labels": 199.95,
+    "switches": 0.45,
+    "first": 910.0,
+    "delay": -1,
+    "regret": 4.647,
+    "pending": 29.5,
+    "runtime": 0.455
+   },
+   "A1-nostart": {
+    "net": 371.2,
+    "promote": 0.0,
+    "rollbacks": 0.0,
+    "labels": 200.0,
+    "switches": 0.0,
+    "first": -1.0,
+    "delay": -1,
+    "regret": 10.0,
+    "pending": 29.65,
+    "runtime": 0.295
+   },
+   "A1-rho8": {
+    "net": 371.2,
+    "promote": 0.0,
+    "rollbacks": 0.0,
+    "labels": 200.0,
+    "switches": 0.0,
+    "first": -1.0,
+    "delay": -1,
+    "regret": 10.0,
+    "pending": 29.65,
+    "runtime": 0.27
+   },
+   "A2": {
+    "net": 367.97,
+    "promote": 0.2,
+    "rollbacks": 0.05,
+    "labels": 196.4,
+    "switches": 0.25,
+    "first": 276.5,
+    "delay": -1,
+    "regret": 6.77,
+    "pending": 23.0,
+    "runtime": 0.05
+   },
+   "A2-fixedgap6": {
+    "net": 367.472,
+    "promote": 0.1,
+    "rollbacks": 0.0,
+    "labels": 198.45,
+    "switches": 0.1,
+    "first": 353.0,
+    "delay": -1,
+    "regret": 6.272,
+    "pending": 13.8,
+    "runtime": 0.027
+   },
+   "A3": {
+    "net": 366.442,
+    "promote": 0.2,
+    "rollbacks": 0.05,
+    "labels": 199.85,
+    "switches": 0.25,
+    "first": 220.5,
+    "delay": -1,
+    "regret": 5.243,
+    "pending": 28.15,
+    "runtime": 0.026
+   },
+   "A3-noinflight": {
+    "net": 366.442,
+    "promote": 0.2,
+    "rollbacks": 0.05,
+    "labels": 199.85,
+    "switches": 0.25,
+    "first": 220.5,
+    "delay": -1,
+    "regret": 5.243,
+    "pending": 28.15,
+    "runtime": 0.027
+   },
+   "A4": {
+    "net": 371.2,
+    "promote": 0.0,
+    "rollbacks": 0.0,
+    "labels": 200.0,
+    "switches": 0.0,
+    "first": -1.0,
+    "delay": -1,
+    "regret": 10.0,
+    "pending": 29.65,
+    "runtime": 0.024
+   },
+   "A5": {
+    "net": 370.97,
+    "promote": 0.0,
+    "rollbacks": 0.0,
+    "labels": 195.4,
+    "switches": 0.0,
+    "first": -1.0,
+    "delay": -1,
+    "regret": 9.77,
+    "pending": 23.0,
+    "runtime": 0.587
+   },
+   "A5-fixedgap6": {
+    "net": 371.112,
+    "promote": 0.0,
+    "rollbacks": 0.0,
+    "labels": 198.25,
+    "switches": 0.0,
+    "first": -1.0,
+    "delay": -1,
+    "regret": 9.912,
+    "pending": 13.5,
+    "runtime": 0.501
+   },
+   "A6": {
+    "net": 370.97,
+    "promote": 0.0,
+    "rollbacks": 0.0,
+    "labels": 195.4,
+    "switches": 0.0,
+    "first": -1.0,
+    "delay": -1,
+    "regret": 9.77,
+    "pending": 23.0,
+    "runtime": 0.533
+   },
+   "A6-noinflight": {
+    "net": 370.97,
+    "promote": 0.0,
+    "rollbacks": 0.0,
+    "labels": 195.4,
+    "switches": 0.0,
+    "first": -1.0,
+    "delay": -1,
+    "regret": 9.77,
+    "pending": 23.0,
+    "runtime": 0.541
+   },
+   "CONTROL_never_switch": {
+    "net": 361.2,
+    "promote": 0.0,
+    "rollbacks": 0.0,
+    "labels": 0.0,
+    "switches": 0.0,
+    "first": -1.0,
+    "delay": -1,
+    "regret": 0.0,
+    "pending": 0.0,
+    "runtime": 0.013
+   },
+   "QSG": {
+    "net": 367.942,
+    "promote": 0.2,
+    "rollbacks": 0.05,
+    "labels": 199.85,
+    "switches": 0.25,
+    "first": 220.5,
+    "delay": -1,
+    "regret": 6.743,
+    "pending": 28.2,
+    "runtime": 0.022
+   },
+   "QSG-env8": {
+    "net": 371.2,
+    "promote": 0.0,
+    "rollbacks": 0.0,
+    "labels": 200.0,
+    "switches": 0.0,
+    "first": -1.0,
+    "delay": -1,
+    "regret": 10.0,
+    "pending": 29.65,
+    "runtime": 0.023
+   },
+   "SMCS+retain-incumbent": {
+    "net": 369.722,
+    "promote": 0.05,
+    "rollbacks": 0.0,
+    "labels": 199.45,
+    "switches": 0.05,
+    "first": 177.0,
+    "delay": -1,
+    "regret": 8.522,
+    "pending": 17.95,
+    "runtime": 0.076
+   },
+   "discern_design_floor": {
+    "net": 371.172,
+    "promote": 0.0,
+    "rollbacks": 0.0,
+    "labels": 199.45,
+    "switches": 0.0,
+    "first": -1.0,
+    "delay": -1,
+    "regret": 9.972,
+    "pending": 17.85,
+    "runtime": 0.029
+   },
+   "gated_adaptive_range": {
+    "net": 371.165,
+    "promote": 0.0,
+    "rollbacks": 0.0,
+    "labels": 199.3,
+    "switches": 0.0,
+    "first": -1.0,
+    "delay": -1,
+    "regret": 9.965,
+    "pending": 18.35,
+    "runtime": 1.045
+   },
+   "gated_adaptive_range+front": {
+    "net": 366.88,
+    "promote": 0.1,
+    "rollbacks": 0.0,
+    "labels": 183.6,
+    "switches": 0.1,
+    "first": 460.0,
+    "delay": -1,
+    "regret": 5.68,
+    "pending": 29.55,
+    "runtime": 0.444
+   },
+   "model_picker_adapter": {
+    "net": 392.788,
+    "promote": 0.95,
+    "rollbacks": 2.65,
+    "labels": 94.75,
+    "switches": 5.75,
+    "first": 123.0,
+    "delay": -1,
+    "regret": 31.588,
+    "pending": 10.55,
+    "runtime": 0.147
+   },
+   "xu_acquisition_only": {
+    "net": 369.74,
+    "promote": 0.1,
+    "rollbacks": 0.0,
+    "labels": 195.8,
+    "switches": 0.1,
+    "first": 802.5,
+    "delay": -1,
+    "regret": 8.54,
+    "pending": 18.1,
+    "runtime": 0.352
+   }
+  },
+  "best_certified": "gated_adaptive_range+front",
+  "best_uncertified": "model_picker_adapter",
+  "contrasts": {
+   "A1": {
+    "host": {
+     "vs": "QSG",
+     "mean": 3.26,
+     "lo": -4.75,
+     "hi": 11.27,
+     "n": 20,
+     "frac_better": 0.05
+    },
+    "best_certified": {
+     "vs": "gated_adaptive_range+front",
+     "mean": 4.32,
+     "lo": -1.47,
+     "hi": 10.11,
+     "n": 20,
+     "frac_better": 0.0
+    },
+    "best_uncertified": {
+     "vs": "model_picker_adapter",
+     "mean": -21.59,
+     "lo": -36.1,
+     "hi": -7.08,
+     "n": 20,
+     "frac_better": 0.7
+    },
+    "best_any": {
+     "vs": "CONTROL_never_switch",
+     "mean": 10.0,
+     "lo": 10.0,
+     "hi": 10.0,
+     "n": 20,
+     "frac_better": 0.0
+    },
+    "null_promotion": 0.0,
+    "null_bound_ok": true
+   },
+   "A2": {
+    "host": {
+     "vs": "QSG",
+     "mean": 0.03,
+     "lo": -1.44,
+     "hi": 1.49,
+     "n": 20,
+     "frac_better": 0.15
+    },
+    "best_certified": {
+     "vs": "gated_adaptive_range+front",
+     "mean": 1.09,
+     "lo": -3.08,
+     "hi": 5.26,
+     "n": 20,
+     "frac_better": 0.25
+    },
+    "best_uncertified": {
+     "vs": "model_picker_adapter",
+     "mean": -24.82,
+     "lo": -37.15,
+     "hi": -12.49,
+     "n": 20,
+     "frac_better": 0.85
+    },
+    "best_any": {
+     "vs": "CONTROL_never_switch",
+     "mean": 6.77,
+     "lo": 0.05,
+     "hi": 13.49,
+     "n": 20,
+     "frac_better": 0.15
+    },
+    "null_promotion": 0.2,
+    "null_bound_ok": false
+   },
+   "A3": {
+    "host": {
+     "vs": "QSG",
+     "mean": -1.5,
+     "lo": -4.44,
+     "hi": 1.44,
+     "n": 20,
+     "frac_better": 0.05
+    },
+    "best_certified": {
+     "vs": "gated_adaptive_range+front",
+     "mean": -0.44,
+     "lo": -3.02,
+     "hi": 2.14,
+     "n": 20,
+     "frac_better": 0.2
+    },
+    "best_uncertified": {
+     "vs": "model_picker_adapter",
+     "mean": -26.34,
+     "lo": -38.61,
+     "hi": -14.08,
+     "n": 20,
+     "frac_better": 0.8
+    },
+    "best_any": {
+     "vs": "CONTROL_never_switch",
+     "mean": 5.24,
+     "lo": -1.44,
+     "hi": 11.93,
+     "n": 20,
+     "frac_better": 0.15
+    },
+    "null_promotion": 0.2,
+    "null_bound_ok": false
+   },
+   "A4": {
+    "host": {
+     "vs": "QSG",
+     "mean": 3.26,
+     "lo": -4.75,
+     "hi": 11.27,
+     "n": 20,
+     "frac_better": 0.05
+    },
+    "best_certified": {
+     "vs": "gated_adaptive_range+front",
+     "mean": 4.32,
+     "lo": -1.47,
+     "hi": 10.11,
+     "n": 20,
+     "frac_better": 0.0
+    },
+    "best_uncertified": {
+     "vs": "model_picker_adapter",
+     "mean": -21.59,
+     "lo": -36.1,
+     "hi": -7.08,
+     "n": 20,
+     "frac_better": 0.7
+    },
+    "best_any": {
+     "vs": "CONTROL_never_switch",
+     "mean": 10.0,
+     "lo": 10.0,
+     "hi": 10.0,
+     "n": 20,
+     "frac_better": 0.0
+    },
+    "null_promotion": 0.0,
+    "null_bound_ok": true
+   },
+   "A5": {
+    "host": {
+     "vs": "QSG",
+     "mean": 3.03,
+     "lo": -5.0,
+     "hi": 11.06,
+     "n": 20,
+     "frac_better": 0.2
+    },
+    "best_certified": {
+     "vs": "gated_adaptive_range+front",
+     "mean": 4.09,
+     "lo": -1.74,
+     "hi": 9.92,
+     "n": 20,
+     "frac_better": 0.15
+    },
+    "best_uncertified": {
+     "vs": "model_picker_adapter",
+     "mean": -21.82,
+     "lo": -36.39,
+     "hi": -7.25,
+     "n": 20,
+     "frac_better": 0.75
+    },
+    "best_any": {
+     "vs": "CONTROL_never_switch",
+     "mean": 9.77,
+     "lo": 9.52,
+     "hi": 10.02,
+     "n": 20,
+     "frac_better": 0.0
+    },
+    "null_promotion": 0.0,
+    "null_bound_ok": true
+   },
+   "A6": {
+    "host": {
+     "vs": "QSG",
+     "mean": 3.03,
+     "lo": -5.0,
+     "hi": 11.06,
+     "n": 20,
+     "frac_better": 0.2
+    },
+    "best_certified": {
+     "vs": "gated_adaptive_range+front",
+     "mean": 4.09,
+     "lo": -1.74,
+     "hi": 9.92,
+     "n": 20,
+     "frac_better": 0.15
+    },
+    "best_uncertified": {
+     "vs": "model_picker_adapter",
+     "mean": -21.82,
+     "lo": -36.39,
+     "hi": -7.25,
+     "n": 20,
+     "frac_better": 0.75
+    },
+    "best_any": {
+     "vs": "CONTROL_never_switch",
+     "mean": 9.77,
+     "lo": 9.52,
+     "hi": 10.02,
+     "n": 20,
+     "frac_better": 0.0
+    },
+    "null_promotion": 0.0,
+    "null_bound_ok": true
+   }
+  }
+ },
+ "F5_dep_null_r95": {
+  "tags": [
+   "null",
+   "dep"
+  ],
+  "policies": {
+   "A1": {
+    "net": 371.2,
+    "promote": 0.0,
+    "rollbacks": 0.0,
+    "labels": 200.0,
+    "switches": 0.0,
+    "first": -1.0,
+    "delay": -1,
+    "regret": 10.0,
+    "pending": 29.25,
+    "runtime": 0.536
+   },
+   "A1-nogap": {
+    "net": 382.1,
+    "promote": 0.6,
+    "rollbacks": 0.0,
+    "labels": 200.0,
+    "switches": 0.6,
+    "first": 1005.5,
+    "delay": -1,
+    "regret": 20.9,
+    "pending": 28.45,
+    "runtime": 0.468
+   },
+   "A1-nostart": {
+    "net": 371.2,
+    "promote": 0.0,
+    "rollbacks": 0.0,
+    "labels": 200.0,
+    "switches": 0.0,
+    "first": -1.0,
+    "delay": -1,
+    "regret": 10.0,
+    "pending": 29.25,
+    "runtime": 0.278
+   },
+   "A1-rho8": {
+    "net": 381.495,
+    "promote": 1.0,
+    "rollbacks": 0.8,
+    "labels": 199.9,
+    "switches": 2.05,
+    "first": 361.0,
+    "delay": -1,
+    "regret": 20.295,
+    "pending": 26.45,
+    "runtime": 0.146
+   },
+   "A2": {
+    "net": 364.685,
+    "promote": 0.6,
+    "rollbacks": 0.3,
+    "labels": 156.7,
+    "switches": 0.9,
+    "first": 150.0,
+    "delay": -1,
+    "regret": 3.485,
+    "pending": 22.65,
+    "runtime": 0.044
+   },
+   "A2-fixedgap6": {
+    "net": 373.93,
+    "promote": 0.6,
+    "rollbacks": 0.4,
+    "labels": 199.6,
+    "switches": 1.15,
+    "first": 278.0,
+    "delay": -1,
+    "regret": 12.73,
+    "pending": 16.4,
+    "runtime": 0.023
+   },
+   "A3": {
+    "net": 374.532,
+    "promote": 0.75,
+    "rollbacks": 0.5,
+    "labels": 199.65,
+    "switches": 1.45,
+    "first": 161.0,
+    "delay": -1,
+    "regret": 13.332,
+    "pending": 23.85,
+    "runtime": 0.024
+   },
+   "A3-noinflight": {
+    "net": 374.182,
+    "promote": 0.75,
+    "rollbacks": 0.55,
+    "labels": 199.65,
+    "switches": 1.5,
+    "first": 161.0,
+    "delay": -1,
+    "regret": 12.982,
+    "pending": 23.85,
+    "runtime": 0.025
+   },
+   "A4": {
+    "net": 371.2,
+    "promote": 0.0,
+    "rollbacks": 0.0,
+    "labels": 200.0,
+    "switches": 0.0,
+    "first": -1.0,
+    "delay": -1,
+    "regret": 10.0,
+    "pending": 29.25,
+    "runtime": 0.022
+   },
+   "A5": {
+    "net": 365.77,
+    "promote": 0.0,
+    "rollbacks": 0.0,
+    "labels": 91.4,
+    "switches": 0.0,
+    "first": -1.0,
+    "delay": -1,
+    "regret": 4.57,
+    "pending": 23.0,
+    "runtime": 0.217
+   },
+   "A5-fixedgap6": {
+    "net": 371.112,
+    "promote": 0.0,
+    "rollbacks": 0.0,
+    "labels": 198.25,
+    "switches": 0.0,
+    "first": -1.0,
+    "delay": -1,
+    "regret": 9.912,
+    "pending": 13.55,
+    "runtime": 0.535
+   },
+   "A6": {
+    "net": 365.72,
+    "promote": 0.0,
+    "rollbacks": 0.0,
+    "labels": 90.4,
+    "switches": 0.0,
+    "first": -1.0,
+    "delay": -1,
+    "regret": 4.52,
+    "pending": 22.85,
+    "runtime": 0.201
+   },
+   "A6-noinflight": {
+    "net": 365.77,
+    "promote": 0.0,
+    "rollbacks": 0.0,
+    "labels": 91.4,
+    "switches": 0.0,
+    "first": -1.0,
+    "delay": -1,
+    "regret": 4.57,
+    "pending": 23.0,
+    "runtime": 0.206
+   },
+   "CONTROL_never_switch": {
+    "net": 361.2,
+    "promote": 0.0,
+    "rollbacks": 0.0,
+    "labels": 0.0,
+    "switches": 0.0,
+    "first": -1.0,
+    "delay": -1,
+    "regret": 0.0,
+    "pending": 0.0,
+    "runtime": 0.011
+   },
+   "QSG": {
+    "net": 373.835,
+    "promote": 0.75,
+    "rollbacks": 0.5,
+    "labels": 199.7,
+    "switches": 1.45,
+    "first": 161.0,
+    "delay": -1,
+    "regret": 12.635,
+    "pending": 24.05,
+    "runtime": 0.028
+   },
+   "QSG-env8": {
+    "net": 370.638,
+    "promote": 0.3,
+    "rollbacks": 0.0,
+    "labels": 199.75,
+    "switches": 0.3,
+    "first": 224.5,
+    "delay": -1,
+    "regret": 9.438,
+    "pending": 28.1,
+    "runtime": 0.027
+   },
+   "SMCS+retain-incumbent": {
+    "net": 368.575,
+    "promote": 0.45,
+    "rollbacks": 0.0,
+    "labels": 199.5,
+    "switches": 0.45,
+    "first": 247.0,
+    "delay": -1,
+    "regret": 7.375,
+    "pending": 17.95,
+    "runtime": 0.078
+   },
+   "discern_design_floor": {
+    "net": 372.502,
+    "promote": 0.25,
+    "rollbacks": 0.0,
+    "labels": 169.05,
+    "switches": 0.25,
+    "first": 1089.0,
+    "delay": -1,
+    "regret": 11.302,
+    "pending": 17.65,
+    "runtime": 0.027
+   },
+   "gated_adaptive_range": {
+    "net": 368.42,
+    "promote": 0.25,
+    "rollbacks": 0.0,
+    "labels": 164.4,
+    "switches": 0.25,
+    "first": 820.0,
+    "delay": -1,
+    "regret": 7.22,
+    "pending": 17.8,
+    "runtime": 0.859
+   },
+   "gated_adaptive_range+front": {
+    "net": 369.452,
+    "promote": 0.55,
+    "rollbacks": 0.0,
+    "labels": 126.05,
+    "switches": 0.55,
+    "first": 246.0,
+    "delay": -1,
+    "regret": 8.253,
+    "pending": 26.65,
+    "runtime": 0.272
+   },
+   "model_picker_adapter": {
+    "net": 383.76,
+    "promote": 0.95,
+    "rollbacks": 1.4,
+    "labels": 85.2,
+    "switches": 3.3,
+    "first": 112.0,
+    "delay": -1,
+    "regret": 22.56,
+    "pending": 10.1,
+    "runtime": 0.14
+   },
+   "xu_acquisition_only": {
+    "net": 370.105,
+    "promote": 0.5,
+    "rollbacks": 0.15,
+    "labels": 195.1,
+    "switches": 0.65,
+    "first": 401.5,
+    "delay": -1,
+    "regret": 8.905,
+    "pending": 18.0,
+    "runtime": 0.354
+   }
+  },
+  "best_certified": "gated_adaptive_range",
+  "best_uncertified": "model_picker_adapter",
+  "contrasts": {
+   "A1": {
+    "host": {
+     "vs": "QSG",
+     "mean": -2.63,
+     "lo": -20.96,
+     "hi": 15.69,
+     "n": 20,
+     "frac_better": 0.45
+    },
+    "best_certified": {
+     "vs": "gated_adaptive_range",
+     "mean": 2.78,
+     "lo": -10.93,
+     "hi": 16.49,
+     "n": 20,
+     "frac_better": 0.05
+    },
+    "best_uncertified": {
+     "vs": "model_picker_adapter",
+     "mean": -12.56,
+     "lo": -34.19,
+     "hi": 9.07,
+     "n": 20,
+     "frac_better": 0.65
+    },
+    "best_any": {
+     "vs": "CONTROL_never_switch",
+     "mean": 10.0,
+     "lo": 10.0,
+     "hi": 10.0,
+     "n": 20,
+     "frac_better": 0.0
+    },
+    "null_promotion": 0.0,
+    "null_bound_ok": true
+   },
+   "A2": {
+    "host": {
+     "vs": "QSG",
+     "mean": -9.15,
+     "lo": -18.58,
+     "hi": 0.28,
+     "n": 20,
+     "frac_better": 0.5
+    },
+    "best_certified": {
+     "vs": "gated_adaptive_range",
+     "mean": -3.74,
+     "lo": -17.41,
+     "hi": 9.94,
+     "n": 20,
+     "frac_better": 0.45
+    },
+    "best_uncertified": {
+     "vs": "model_picker_adapter",
+     "mean": -19.08,
+     "lo": -32.04,
+     "hi": -6.11,
+     "n": 20,
+     "frac_better": 0.75
+    },
+    "best_any": {
+     "vs": "CONTROL_never_switch",
+     "mean": 3.48,
+     "lo": -12.63,
+     "hi": 19.6,
+     "n": 20,
+     "frac_better": 0.25
+    },
+    "null_promotion": 0.6,
+    "null_bound_ok": false
+   },
+   "A3": {
+    "host": {
+     "vs": "QSG",
+     "mean": 0.7,
+     "lo": -4.22,
+     "hi": 5.61,
+     "n": 20,
+     "frac_better": 0.2
+    },
+    "best_certified": {
+     "vs": "gated_adaptive_range",
+     "mean": 6.11,
+     "lo": -10.11,
+     "hi": 22.33,
+     "n": 20,
+     "frac_better": 0.35
+    },
+    "best_uncertified": {
+     "vs": "model_picker_adapter",
+     "mean": -9.23,
+     "lo": -21.12,
+     "hi": 2.67,
+     "n": 20,
+     "frac_better": 0.6
+    },
+    "best_any": {
+     "vs": "CONTROL_never_switch",
+     "mean": 13.33,
+     "lo": -5.58,
+     "hi": 32.25,
+     "n": 20,
+     "frac_better": 0.3
+    },
+    "null_promotion": 0.75,
+    "null_bound_ok": false
+   },
+   "A4": {
+    "host": {
+     "vs": "QSG",
+     "mean": -2.63,
+     "lo": -20.96,
+     "hi": 15.69,
+     "n": 20,
+     "frac_better": 0.45
+    },
+    "best_certified": {
+     "vs": "gated_adaptive_range",
+     "mean": 2.78,
+     "lo": -10.93,
+     "hi": 16.49,
+     "n": 20,
+     "frac_better": 0.05
+    },
+    "best_uncertified": {
+     "vs": "model_picker_adapter",
+     "mean": -12.56,
+     "lo": -34.19,
+     "hi": 9.07,
+     "n": 20,
+     "frac_better": 0.65
+    },
+    "best_any": {
+     "vs": "CONTROL_never_switch",
+     "mean": 10.0,
+     "lo": 10.0,
+     "hi": 10.0,
+     "n": 20,
+     "frac_better": 0.0
+    },
+    "null_promotion": 0.0,
+    "null_bound_ok": true
+   },
+   "A5": {
+    "host": {
+     "vs": "QSG",
+     "mean": -8.07,
+     "lo": -26.37,
+     "hi": 10.24,
+     "n": 20,
+     "frac_better": 0.7
+    },
+    "best_certified": {
+     "vs": "gated_adaptive_range",
+     "mean": -2.65,
+     "lo": -16.3,
+     "hi": 11.0,
+     "n": 20,
+     "frac_better": 0.8
+    },
+    "best_uncertified": {
+     "vs": "model_picker_adapter",
+     "mean": -17.99,
+     "lo": -39.54,
+     "hi": 3.56,
+     "n": 20,
+     "frac_better": 0.7
+    },
+    "best_any": {
+     "vs": "CONTROL_never_switch",
+     "mean": 4.57,
+     "lo": 4.13,
+     "hi": 5.01,
+     "n": 20,
+     "frac_better": 0.0
+    },
+    "null_promotion": 0.0,
+    "null_bound_ok": true
+   },
+   "A6": {
+    "host": {
+     "vs": "QSG",
+     "mean": -8.12,
+     "lo": -26.41,
+     "hi": 10.18,
+     "n": 20,
+     "frac_better": 0.7
+    },
+    "best_certified": {
+     "vs": "gated_adaptive_range",
+     "mean": -2.7,
+     "lo": -16.35,
+     "hi": 10.95,
+     "n": 20,
+     "frac_better": 0.8
+    },
+    "best_uncertified": {
+     "vs": "model_picker_adapter",
+     "mean": -18.04,
+     "lo": -39.6,
+     "hi": 3.52,
+     "n": 20,
+     "frac_better": 0.7
+    },
+    "best_any": {
+     "vs": "CONTROL_never_switch",
+     "mean": 4.52,
+     "lo": 4.1,
+     "hi": 4.94,
+     "n": 20,
+     "frac_better": 0.0
+    },
+    "null_promotion": 0.0,
+    "null_bound_ok": true
+   }
+  }
+ },
+ "F6_delay400_better": {
+  "tags": [
+   "alt"
+  ],
+  "policies": {
+   "A1": {
+    "net": 386.7,
+    "promote": 0.85,
+    "rollbacks": 0.0,
+    "labels": 200.0,
+    "switches": 0.85,
+    "first": 968.0,
+    "delay": 968.0,
+    "regret": 78.95,
+    "pending": 92.0,
+    "runtime": 0.281
+   },
+   "A1-nogap": {
+    "net": 386.2,
+    "promote": 0.9,
+    "rollbacks": 0.0,
+    "labels": 200.0,
+    "switches": 0.9,
+    "first": 1013.0,
+    "delay": 1013.0,
+    "regret": 78.45,
+    "pending": 92.0,
+    "runtime": 0.28
+   },
+   "A1-nostart": {
+    "net": 385.45,
+    "promote": 0.85,
+    "rollbacks": 0.0,
+    "labels": 200.0,
+    "switches": 0.85,
+    "first": 803.0,
+    "delay": 803.0,
+    "regret": 77.7,
+    "pending": 90.7,
+    "runtime": 0.178
+   },
+   "A1-rho8": {
+    "net": 386.7,
+    "promote": 0.85,
+    "rollbacks": 0.0,
+    "labels": 200.0,
+    "switches": 0.85,
+    "first": 968.0,
+    "delay": 968.0,
+    "regret": 78.95,
+    "pending": 92.0,
+    "runtime": 0.141
+   },
+   "A2": {
+    "net": 373.7,
+    "promote": 0.9,
+    "rollbacks": 0.0,
+    "labels": 200.0,
+    "switches": 0.9,
+    "first": 706.0,
+    "delay": 706.0,
+    "regret": 65.95,
+    "pending": 87.6,
+    "runtime": 0.049
+   },
+   "A2-fixedgap6": {
+    "net": 399.538,
+    "promote": 0.9,
+    "rollbacks": 0.0,
+    "labels": 199.75,
+    "switches": 0.9,
+    "first": 1156.5,
+    "delay": 1156.5,
+    "regret": 91.788,
+    "pending": 47.9,
+    "runtime": 0.023
+   },
+   "A3": {
+    "net": 373.695,
+    "promote": 0.9,
+    "rollbacks": 0.0,
+    "labels": 199.9,
+    "switches": 0.9,
+    "first": 706.0,
+    "delay": 706.0,
+    "regret": 65.945,
+    "pending": 87.25,
+    "runtime": 0.024
+   },
+   "A3-noinflight": {
+    "net": 371.8,
+    "promote": 0.95,
+    "rollbacks": 0.0,
+    "labels": 200.0,
+    "switches": 0.95,
+    "first": 710.0,
+    "delay": 710.0,
+    "regret": 64.05,
+    "pending": 89.2,
+    "runtime": 0.022
+   },
+   "A4": {
+    "net": 402.65,
+    "promote": 0.6,
+    "rollbacks": 0.0,
+    "labels": 200.0,
+    "switches": 0.6,
+    "first": 945.0,
+    "delay": 945.0,
+    "regret": 94.9,
+    "pending": 91.75,
+    "runtime": 0.022
+   },
+   "A5": {
+    "net": 385.9,
+    "promote": 0.9,
+    "rollbacks": 0.0,
+    "labels": 200.0,
+    "switches": 0.9,
+    "first": 1020.0,
+    "delay": 1020.0,
+    "regret": 78.15,
+    "pending": 90.0,
+    "runtime": 0.323
+   },
+   "A5-fixedgap6": {
+    "net": 416.215,
+    "promote": 0.75,
+    "rollbacks": 0.0,
+    "labels": 199.3,
+    "switches": 0.75,
+    "first": 1502.0,
+    "delay": 1502.0,
+    "regret": 108.465,
+    "pending": 46.75,
+    "runtime": 0.287
+   },
+   "A6": {
+    "net": 388.4,
+    "promote": 0.85,
+    "rollbacks": 0.0,
+    "labels": 200.0,
+    "switches": 0.85,
+    "first": 989.0,
+    "delay": 989.0,
+    "regret": 80.65,
+    "pending": 87.1,
+    "runtime": 0.399
+   },
+   "A6-noinflight": {
+    "net": 385.9,
+    "promote": 0.9,
+    "rollbacks": 0.0,
+    "labels": 200.0,
+    "switches": 0.9,
+    "first": 1020.0,
+    "delay": 1020.0,
+    "regret": 78.15,
+    "pending": 90.0,
+    "runtime": 0.37
+   },
+   "CONTROL_never_switch": {
+    "net": 422.9,
+    "promote": 0.0,
+    "rollbacks": 0.0,
+    "labels": 0.0,
+    "switches": 0.0,
+    "first": -1.0,
+    "delay": -1.0,
+    "regret": 115.15,
+    "pending": 0.0,
+    "runtime": 0.013
+   },
+   "QSG": {
+    "net": 371.8,
+    "promote": 0.95,
+    "rollbacks": 0.0,
+    "labels": 200.0,
+    "switches": 0.95,
+    "first": 710.0,
+    "delay": 710.0,
+    "regret": 64.05,
+    "pending": 89.2,
+    "runtime": 0.019
+   },
+   "QSG-env8": {
+    "net": 413.55,
+    "promote": 0.45,
+    "rollbacks": 0.0,
+    "labels": 200.0,
+    "switches": 0.45,
+    "first": 1014.0,
+    "delay": 1014.0,
+    "regret": 105.8,
+    "pending": 92.0,
+    "runtime": 0.026
+   },
+   "SMCS+retain-incumbent": {
+    "net": 388.732,
+    "promote": 0.75,
+    "rollbacks": 0.0,
+    "labels": 199.65,
+    "switches": 0.75,
+    "first": 714.0,
+    "delay": 714.0,
+    "regret": 80.982,
+    "pending": 51.2,
+    "runtime": 0.067
+   },
+   "discern_design_floor": {
+    "net": 417.16,
+    "promote": 0.75,
+    "rollbacks": 0.0,
+    "labels": 166.2,
+    "switches": 0.75,
+    "first": 1622.0,
+    "delay": 1622.0,
+    "regret": 109.41,
+    "pending": 50.3,
+    "runtime": 0.024
+   },
+   "gated_adaptive_range": {
+    "net": 415.682,
+    "promote": 0.45,
+    "rollbacks": 0.0,
+    "labels": 169.65,
+    "switches": 0.45,
+    "first": 1361.0,
+    "delay": 1361.0,
+    "regret": 107.932,
+    "pending": 49.45,
+    "runtime": 0.64
+   },
+   "gated_adaptive_range+front": {
+    "net": 377.885,
+    "promote": 0.9,
+    "rollbacks": 0.0,
+    "labels": 169.7,
+    "switches": 0.9,
+    "first": 773.0,
+    "delay": 773.0,
+    "regret": 70.135,
+    "pending": 90.8,
+    "runtime": 0.219
+   },
+   "model_picker_adapter": {
+    "net": 347.032,
+    "promote": 1.0,
+    "rollbacks": 0.5,
+    "labels": 86.65,
+    "switches": 2.0,
+    "first": 421.0,
+    "delay": 421.0,
+    "regret": 39.282,
+    "pending": 26.25,
+    "runtime": 0.161
+   },
+   "xu_acquisition_only": {
+    "net": 403.862,
+    "promote": 0.8,
+    "rollbacks": 0.0,
+    "labels": 197.25,
+    "switches": 0.8,
+    "first": 1298.5,
+    "delay": 1298.5,
+    "regret": 96.112,
+    "pending": 51.7,
+    "runtime": 0.312
+   }
+  },
+  "best_certified": "gated_adaptive_range+front",
+  "best_uncertified": "model_picker_adapter",
+  "contrasts": {
+   "A1": {
+    "host": {
+     "vs": "QSG",
+     "mean": 14.9,
+     "lo": 5.92,
+     "hi": 23.88,
+     "n": 20,
+     "frac_better": 0.15
+    },
+    "best_certified": {
+     "vs": "gated_adaptive_range+front",
+     "mean": 8.82,
+     "lo": 1.15,
+     "hi": 16.48,
+     "n": 20,
+     "frac_better": 0.05
+    },
+    "best_uncertified": {
+     "vs": "model_picker_adapter",
+     "mean": 39.67,
+     "lo": 26.94,
+     "hi": 52.4,
+     "n": 20,
+     "frac_better": 0.1
+    },
+    "best_any": {
+     "vs": "model_picker_adapter",
+     "mean": 39.67,
+     "lo": 26.94,
+     "hi": 52.4,
+     "n": 20,
+     "frac_better": 0.1
+    }
+   },
+   "A2": {
+    "host": {
+     "vs": "QSG",
+     "mean": 1.9,
+     "lo": -1.62,
+     "hi": 5.42,
+     "n": 20,
+     "frac_better": 0.0
+    },
+    "best_certified": {
+     "vs": "gated_adaptive_range+front",
+     "mean": -4.18,
+     "lo": -7.32,
+     "hi": -1.05,
+     "n": 20,
+     "frac_better": 0.55
+    },
+    "best_uncertified": {
+     "vs": "model_picker_adapter",
+     "mean": 26.67,
+     "lo": 15.14,
+     "hi": 38.19,
+     "n": 20,
+     "frac_better": 0.1
+    },
+    "best_any": {
+     "vs": "model_picker_adapter",
+     "mean": 26.67,
+     "lo": 15.14,
+     "hi": 38.19,
+     "n": 20,
+     "frac_better": 0.1
+    }
+   },
+   "A3": {
+    "host": {
+     "vs": "QSG",
+     "mean": 1.89,
+     "lo": -1.64,
+     "hi": 5.43,
+     "n": 20,
+     "frac_better": 0.1
+    },
+    "best_certified": {
+     "vs": "gated_adaptive_range+front",
+     "mean": -4.19,
+     "lo": -7.46,
+     "hi": -0.92,
+     "n": 20,
+     "frac_better": 0.5
+    },
+    "best_uncertified": {
+     "vs": "model_picker_adapter",
+     "mean": 26.66,
+     "lo": 15.13,
+     "hi": 38.2,
+     "n": 20,
+     "frac_better": 0.1
+    },
+    "best_any": {
+     "vs": "model_picker_adapter",
+     "mean": 26.66,
+     "lo": 15.13,
+     "hi": 38.2,
+     "n": 20,
+     "frac_better": 0.1
+    }
+   },
+   "A4": {
+    "host": {
+     "vs": "QSG",
+     "mean": 30.85,
+     "lo": 15.95,
+     "hi": 45.75,
+     "n": 20,
+     "frac_better": 0.2
+    },
+    "best_certified": {
+     "vs": "gated_adaptive_range+front",
+     "mean": 24.77,
+     "lo": 10.2,
+     "hi": 39.33,
+     "n": 20,
+     "frac_better": 0.2
+    },
+    "best_uncertified": {
+     "vs": "model_picker_adapter",
+     "mean": 55.62,
+     "lo": 38.99,
+     "hi": 72.24,
+     "n": 20,
+     "frac_better": 0.05
+    },
+    "best_any": {
+     "vs": "model_picker_adapter",
+     "mean": 55.62,
+     "lo": 38.99,
+     "hi": 72.24,
+     "n": 20,
+     "frac_better": 0.05
+    }
+   },
+   "A5": {
+    "host": {
+     "vs": "QSG",
+     "mean": 14.1,
+     "lo": 7.04,
+     "hi": 21.16,
+     "n": 20,
+     "frac_better": 0.1
+    },
+    "best_certified": {
+     "vs": "gated_adaptive_range+front",
+     "mean": 8.02,
+     "lo": 2.31,
+     "hi": 13.72,
+     "n": 20,
+     "frac_better": 0.05
+    },
+    "best_uncertified": {
+     "vs": "model_picker_adapter",
+     "mean": 38.87,
+     "lo": 26.96,
+     "hi": 50.78,
+     "n": 20,
+     "frac_better": 0.1
+    },
+    "best_any": {
+     "vs": "model_picker_adapter",
+     "mean": 38.87,
+     "lo": 26.96,
+     "hi": 50.78,
+     "n": 20,
+     "frac_better": 0.1
+    }
+   },
+   "A6": {
+    "host": {
+     "vs": "QSG",
+     "mean": 16.6,
+     "lo": 7.32,
+     "hi": 25.88,
+     "n": 20,
+     "frac_better": 0.1
+    },
+    "best_certified": {
+     "vs": "gated_adaptive_range+front",
+     "mean": 10.52,
+     "lo": 2.6,
+     "hi": 18.43,
+     "n": 20,
+     "frac_better": 0.05
+    },
+    "best_uncertified": {
+     "vs": "model_picker_adapter",
+     "mean": 41.37,
+     "lo": 28.27,
+     "hi": 54.46,
+     "n": 20,
+     "frac_better": 0.1
+    },
+    "best_any": {
+     "vs": "model_picker_adapter",
+     "mean": 41.37,
+     "lo": 28.27,
+     "hi": 54.46,
+     "n": 20,
+     "frac_better": 0.1
+    }
+   }
+  }
+ },
+ "F9_bursty_better": {
+  "tags": [
+   "alt"
+  ],
+  "policies": {
+   "A1": {
+    "net": 380.632,
+    "promote": 0.8,
+    "rollbacks": 0.0,
+    "labels": 197.65,
+    "switches": 0.8,
+    "first": 845.0,
+    "delay": 845.0,
+    "regret": 74.532,
+    "pending": 72.35,
+    "runtime": 0.279
+   },
+   "A1-nogap": {
+    "net": 380.882,
+    "promote": 0.8,
+    "rollbacks": 0.0,
+    "labels": 197.65,
+    "switches": 0.8,
+    "first": 844.5,
+    "delay": 844.5,
+    "regret": 74.782,
+    "pending": 72.35,
+    "runtime": 0.282
+   },
+   "A1-nostart": {
+    "net": 381.135,
+    "promote": 0.8,
+    "rollbacks": 0.0,
+    "labels": 197.7,
+    "switches": 0.8,
+    "first": 844.0,
+    "delay": 844.0,
+    "regret": 75.035,
+    "pending": 72.35,
+    "runtime": 0.167
+   },
+   "A1-rho8": {
+    "net": 380.632,
+    "promote": 0.8,
+    "rollbacks": 0.0,
+    "labels": 197.65,
+    "switches": 0.8,
+    "first": 845.0,
+    "delay": 845.0,
+    "regret": 74.532,
+    "pending": 72.35,
+    "runtime": 0.137
+   },
+   "A2": {
+    "net": 363.818,
+    "promote": 0.95,
+    "rollbacks": 0.0,
+    "labels": 195.35,
+    "switches": 0.95,
+    "first": 586.0,
+    "delay": 586.0,
+    "regret": 57.717,
+    "pending": 65.2,
+    "runtime": 0.035
+   },
+   "A2-fixedgap6": {
+    "net": 414.63,
+    "promote": 0.5,
+    "rollbacks": 0.0,
+    "labels": 109.6,
+    "switches": 0.5,
+    "first": 1314.5,
+    "delay": 1314.5,
+    "regret": 108.53,
+    "pending": 31.1,
+    "runtime": 0.015
+   },
+   "A3": {
+    "net": 360.712,
+    "promote": 0.95,
+    "rollbacks": 0.0,
+    "labels": 195.25,
+    "switches": 0.95,
+    "first": 586.0,
+    "delay": 586.0,
+    "regret": 54.612,
+    "pending": 67.6,
+    "runtime": 0.017
+   },
+   "A3-noinflight": {
+    "net": 360.722,
+    "promote": 0.95,
+    "rollbacks": 0.0,
+    "labels": 195.45,
+    "switches": 0.95,
+    "first": 586.0,
+    "delay": 586.0,
+    "regret": 54.622,
+    "pending": 68.85,
+    "runtime": 0.017
+   },
+   "A4": {
+    "net": 405.688,
+    "promote": 0.4,
+    "rollbacks": 0.0,
+    "labels": 199.75,
+    "switches": 0.4,
+    "first": 630.5,
+    "delay": 630.5,
+    "regret": 99.588,
+    "pending": 74.85,
+    "runtime": 0.017
+   },
+   "A5": {
+    "net": 388.938,
+    "promote": 0.8,
+    "rollbacks": 0.0,
+    "labels": 197.75,
+    "switches": 0.8,
+    "first": 864.0,
+    "delay": 864.0,
+    "regret": 82.838,
+    "pending": 68.45,
+    "runtime": 0.296
+   },
+   "A5-fixedgap6": {
+    "net": 427.77,
+    "promote": 0.25,
+    "rollbacks": 0.0,
+    "labels": 93.4,
+    "switches": 0.25,
+    "first": 1453.0,
+    "delay": 1453.0,
+    "regret": 121.67,
+    "pending": 22.5,
+    "runtime": 0.106
+   },
+   "A6": {
+    "net": 389.518,
+    "promote": 0.75,
+    "rollbacks": 0.0,
+    "labels": 199.35,
+    "switches": 0.75,
+    "first": 876.0,
+    "delay": 876.0,
+    "regret": 83.417,
+    "pending": 67.1,
+    "runtime": 0.328
+   },
+   "A6-noinflight": {
+    "net": 388.938,
+    "promote": 0.8,
+    "rollbacks": 0.0,
+    "labels": 197.75,
+    "switches": 0.8,
+    "first": 864.0,
+    "delay": 864.0,
+    "regret": 82.838,
+    "pending": 68.45,
+    "runtime": 0.327
+   },
+   "CONTROL_never_switch": {
+    "net": 430.85,
+    "promote": 0.0,
+    "rollbacks": 0.0,
+    "labels": 0.0,
+    "switches": 0.0,
+    "first": -1.0,
+    "delay": -1.0,
+    "regret": 124.75,
+    "pending": 0.0,
+    "runtime": 0.01
+   },
+   "QSG": {
+    "net": 360.722,
+    "promote": 0.95,
+    "rollbacks": 0.0,
+    "labels": 195.45,
+    "switches": 0.95,
+    "first": 586.0,
+    "delay": 586.0,
+    "regret": 54.622,
+    "pending": 68.85,
+    "runtime": 0.017
+   },
+   "QSG-env8": {
+    "net": 409.292,
+    "promote": 0.4,
+    "rollbacks": 0.0,
+    "labels": 199.85,
+    "switches": 0.4,
+    "first": 765.5,
+    "delay": 765.5,
+    "regret": 103.192,
+    "pending": 74.85,
+    "runtime": 0.019
+   },
+   "SMCS+retain-incumbent": {
+    "net": 367.407,
+    "promote": 1.0,
+    "rollbacks": 0.0,
+    "labels": 190.15,
+    "switches": 1.0,
+    "first": 587.0,
+    "delay": 587.0,
+    "regret": 61.308,
+    "pending": 47.9,
+    "runtime": 0.055
+   },
+   "discern_design_floor": {
+    "net": 413.357,
+    "promote": 0.5,
+    "rollbacks": 0.0,
+    "labels": 169.15,
+    "switches": 0.5,
+    "first": 1344.5,
+    "delay": 1344.5,
+    "regret": 107.258,
+    "pending": 48.05,
+    "runtime": 0.019
+   },
+   "gated_adaptive_range": {
+    "net": 408.032,
+    "promote": 0.55,
+    "rollbacks": 0.0,
+    "labels": 149.65,
+    "switches": 0.55,
+    "first": 1102.0,
+    "delay": 1102.0,
+    "regret": 101.932,
+    "pending": 47.2,
+    "runtime": 0.556
+   },
+   "gated_adaptive_range+front": {
+    "net": 362.405,
+    "promote": 0.95,
+    "rollbacks": 0.0,
+    "labels": 138.1,
+    "switches": 0.95,
+    "first": 682.0,
+    "delay": 682.0,
+    "regret": 56.305,
+    "pending": 69.75,
+    "runtime": 0.208
+   },
+   "model_picker_adapter": {
+    "net": 330.28,
+    "promote": 1.0,
+    "rollbacks": 0.35,
+    "labels": 78.6,
+    "switches": 1.7,
+    "first": 184.0,
+    "delay": 184.0,
+    "regret": 24.18,
+    "pending": 19.2,
+    "runtime": 0.111
+   },
+   "xu_acquisition_only": {
+    "net": 387.982,
+    "promote": 0.8,
+    "rollbacks": 0.0,
+    "labels": 188.65,
+    "switches": 0.8,
+    "first": 976.5,
+    "delay": 976.5,
+    "regret": 81.883,
+    "pending": 43.4,
+    "runtime": 0.222
+   }
+  },
+  "best_certified": "gated_adaptive_range+front",
+  "best_uncertified": "model_picker_adapter",
+  "contrasts": {
+   "A1": {
+    "host": {
+     "vs": "QSG",
+     "mean": 19.91,
+     "lo": 8.18,
+     "hi": 31.64,
+     "n": 20,
+     "frac_better": 0.05
+    },
+    "best_certified": {
+     "vs": "gated_adaptive_range+front",
+     "mean": 18.23,
+     "lo": 6.27,
+     "hi": 30.19,
+     "n": 20,
+     "frac_better": 0.0
+    },
+    "best_uncertified": {
+     "vs": "model_picker_adapter",
+     "mean": 50.35,
+     "lo": 36.85,
+     "hi": 63.86,
+     "n": 20,
+     "frac_better": 0.05
+    },
+    "best_any": {
+     "vs": "model_picker_adapter",
+     "mean": 50.35,
+     "lo": 36.85,
+     "hi": 63.86,
+     "n": 20,
+     "frac_better": 0.05
+    }
+   },
+   "A2": {
+    "host": {
+     "vs": "QSG",
+     "mean": 3.1,
+     "lo": -1.96,
+     "hi": 8.15,
+     "n": 20,
+     "frac_better": 0.05
+    },
+    "best_certified": {
+     "vs": "gated_adaptive_range+front",
+     "mean": 1.41,
+     "lo": -4.91,
+     "hi": 7.74,
+     "n": 20,
+     "frac_better": 0.35
+    },
+    "best_uncertified": {
+     "vs": "model_picker_adapter",
+     "mean": 33.54,
+     "lo": 20.85,
+     "hi": 46.23,
+     "n": 20,
+     "frac_better": 0.05
+    },
+    "best_any": {
+     "vs": "model_picker_adapter",
+     "mean": 33.54,
+     "lo": 20.85,
+     "hi": 46.23,
+     "n": 20,
+     "frac_better": 0.05
+    }
+   },
+   "A3": {
+    "host": {
+     "vs": "QSG",
+     "mean": -0.01,
+     "lo": -0.03,
+     "hi": 0.01,
+     "n": 20,
+     "frac_better": 0.05
+    },
+    "best_certified": {
+     "vs": "gated_adaptive_range+front",
+     "mean": -1.69,
+     "lo": -5.31,
+     "hi": 1.92,
+     "n": 20,
+     "frac_better": 0.4
+    },
+    "best_uncertified": {
+     "vs": "model_picker_adapter",
+     "mean": 30.43,
+     "lo": 20.14,
+     "hi": 40.72,
+     "n": 20,
+     "frac_better": 0.05
+    },
+    "best_any": {
+     "vs": "model_picker_adapter",
+     "mean": 30.43,
+     "lo": 20.14,
+     "hi": 40.72,
+     "n": 20,
+     "frac_better": 0.05
+    }
+   },
+   "A4": {
+    "host": {
+     "vs": "QSG",
+     "mean": 44.96,
+     "lo": 20.85,
+     "hi": 69.08,
+     "n": 20,
+     "frac_better": 0.05
+    },
+    "best_certified": {
+     "vs": "gated_adaptive_range+front",
+     "mean": 43.28,
+     "lo": 18.99,
+     "hi": 67.58,
+     "n": 20,
+     "frac_better": 0.1
+    },
+    "best_uncertified": {
+     "vs": "model_picker_adapter",
+     "mean": 75.41,
+     "lo": 54.23,
+     "hi": 96.58,
+     "n": 20,
+     "frac_better": 0.1
+    },
+    "best_any": {
+     "vs": "model_picker_adapter",
+     "mean": 75.41,
+     "lo": 54.23,
+     "hi": 96.58,
+     "n": 20,
+     "frac_better": 0.1
+    }
+   },
+   "A5": {
+    "host": {
+     "vs": "QSG",
+     "mean": 28.22,
+     "lo": 14.16,
+     "hi": 42.27,
+     "n": 20,
+     "frac_better": 0.05
+    },
+    "best_certified": {
+     "vs": "gated_adaptive_range+front",
+     "mean": 26.53,
+     "lo": 12.63,
+     "hi": 40.43,
+     "n": 20,
+     "frac_better": 0.0
+    },
+    "best_uncertified": {
+     "vs": "model_picker_adapter",
+     "mean": 58.66,
+     "lo": 41.87,
+     "hi": 75.44,
+     "n": 20,
+     "frac_better": 0.05
+    },
+    "best_any": {
+     "vs": "model_picker_adapter",
+     "mean": 58.66,
+     "lo": 41.87,
+     "hi": 75.44,
+     "n": 20,
+     "frac_better": 0.05
+    }
+   },
+   "A6": {
+    "host": {
+     "vs": "QSG",
+     "mean": 28.79,
+     "lo": 14.73,
+     "hi": 42.86,
+     "n": 20,
+     "frac_better": 0.05
+    },
+    "best_certified": {
+     "vs": "gated_adaptive_range+front",
+     "mean": 27.11,
+     "lo": 13.18,
+     "hi": 41.04,
+     "n": 20,
+     "frac_better": 0.0
+    },
+    "best_uncertified": {
+     "vs": "model_picker_adapter",
+     "mean": 59.24,
+     "lo": 42.45,
+     "hi": 76.02,
+     "n": 20,
+     "frac_better": 0.05
+    },
+    "best_any": {
+     "vs": "model_picker_adapter",
+     "mean": 59.24,
+     "lo": 42.45,
+     "hi": 76.02,
+     "n": 20,
+     "frac_better": 0.05
+    }
+   }
+  }
+ },
+ "S_delay800_better": {
+  "tags": [
+   "alt"
+  ],
+  "policies": {
+   "A1": {
+    "net": 398.45,
+    "promote": 0.7,
+    "rollbacks": 0.0,
+    "labels": 200.0,
+    "switches": 0.7,
+    "first": 1274.5,
+    "delay": 1274.5,
+    "regret": 93.3,
+    "pending": 163.75,
+    "runtime": 0.316
+   },
+   "A1-nogap": {
+    "net": 404.7,
+    "promote": 0.65,
+    "rollbacks": 0.0,
+    "labels": 200.0,
+    "switches": 0.65,
+    "first": 1423.0,
+    "delay": 1423.0,
+    "regret": 99.55,
+    "pending": 164.05,
+    "runtime": 0.354
+   },
+   "A1-nostart": {
+    "net": 398.2,
+    "promote": 0.7,
+    "rollbacks": 0.0,
+    "labels": 200.0,
+    "switches": 0.7,
+    "first": 1270.0,
+    "delay": 1270.0,
+    "regret": 93.05,
+    "pending": 163.75,
+    "runtime": 0.179
+   },
+   "A1-rho8": {
+    "net": 398.45,
+    "promote": 0.7,
+    "rollbacks": 0.0,
+    "labels": 200.0,
+    "switches": 0.7,
+    "first": 1274.5,
+    "delay": 1274.5,
+    "regret": 93.3,
+    "pending": 163.75,
+    "runtime": 0.143
+   },
+   "A2": {
+    "net": 393.95,
+    "promote": 0.7,
+    "rollbacks": 0.0,
+    "labels": 200.0,
+    "switches": 0.7,
+    "first": 1182.0,
+    "delay": 1182.0,
+    "regret": 88.8,
+    "pending": 162.6,
+    "runtime": 0.046
+   },
+   "A2-fixedgap6": {
+    "net": 402.472,
+    "promote": 0.7,
+    "rollbacks": 0.0,
+    "labels": 197.45,
+    "switches": 0.7,
+    "first": 1536.0,
+    "delay": 1536.0,
+    "regret": 97.322,
+    "pending": 86.8,
+    "runtime": 0.024
+   },
+   "A3": {
+    "net": 393.9,
+    "promote": 0.75,
+    "rollbacks": 0.0,
+    "labels": 200.0,
+    "switches": 0.75,
+    "first": 1207.0,
+    "delay": 1207.0,
+    "regret": 88.75,
+    "pending": 161.2,
+    "runtime": 0.024
+   },
+   "A3-noinflight": {
+    "net": 393.95,
+    "promote": 0.7,
+    "rollbacks": 0.0,
+    "labels": 200.0,
+    "switches": 0.7,
+    "first": 1182.0,
+    "delay": 1182.0,
+    "regret": 88.8,
+    "pending": 163.6,
+    "runtime": 0.021
+   },
+   "A4": {
+    "net": 407.35,
+    "promote": 0.55,
+    "rollbacks": 0.0,
+    "labels": 200.0,
+    "switches": 0.55,
+    "first": 1406.0,
+    "delay": 1406.0,
+    "regret": 102.2,
+    "pending": 164.0,
+    "runtime": 0.021
+   },
+   "A5": {
+    "net": 398.45,
+    "promote": 0.7,
+    "rollbacks": 0.0,
+    "labels": 200.0,
+    "switches": 0.7,
+    "first": 1274.5,
+    "delay": 1274.5,
+    "regret": 93.3,
+    "pending": 162.75,
+    "runtime": 0.359
+   },
+   "A5-fixedgap6": {
+    "net": 413.085,
+    "promote": 0.6,
+    "rollbacks": 0.0,
+    "labels": 197.7,
+    "switches": 0.6,
+    "first": 1616.5,
+    "delay": 1616.5,
+    "regret": 107.935,
+    "pending": 86.25,
+    "runtime": 0.211
+   },
+   "A6": {
+    "net": 398.45,
+    "promote": 0.7,
+    "rollbacks": 0.0,
+    "labels": 200.0,
+    "switches": 0.7,
+    "first": 1274.5,
+    "delay": 1274.5,
+    "regret": 93.3,
+    "pending": 160.75,
+    "runtime": 0.415
+   },
+   "A6-noinflight": {
+    "net": 398.45,
+    "promote": 0.7,
+    "rollbacks": 0.0,
+    "labels": 200.0,
+    "switches": 0.7,
+    "first": 1274.5,
+    "delay": 1274.5,
+    "regret": 93.3,
+    "pending": 162.75,
+    "runtime": 0.414
+   },
+   "CONTROL_never_switch": {
+    "net": 414.0,
+    "promote": 0.0,
+    "rollbacks": 0.0,
+    "labels": 0.0,
+    "switches": 0.0,
+    "first": -1.0,
+    "delay": -1.0,
+    "regret": 108.85,
+    "pending": 0.0,
+    "runtime": 0.012
+   },
+   "QSG": {
+    "net": 393.95,
+    "promote": 0.7,
+    "rollbacks": 0.0,
+    "labels": 200.0,
+    "switches": 0.7,
+    "first": 1182.0,
+    "delay": 1182.0,
+    "regret": 88.8,
+    "pending": 163.6,
+    "runtime": 0.022
+   },
+   "QSG-env8": {
+    "net": 408.1,
+    "promote": 0.55,
+    "rollbacks": 0.0,
+    "labels": 200.0,
+    "switches": 0.55,
+    "first": 1515.0,
+    "delay": 1515.0,
+    "regret": 102.95,
+    "pending": 163.7,
+    "runtime": 0.025
+   },
+   "SMCS+retain-incumbent": {
+    "net": 404.23,
+    "promote": 0.55,
+    "rollbacks": 0.0,
+    "labels": 199.6,
+    "switches": 0.55,
+    "first": 1159.0,
+    "delay": 1159.0,
+    "regret": 99.08,
+    "pending": 90.3,
+    "runtime": 0.063
+   },
+   "discern_design_floor": {
+    "net": 416.222,
+    "promote": 0.5,
+    "rollbacks": 0.0,
+    "labels": 183.45,
+    "switches": 0.5,
+    "first": 1701.0,
+    "delay": 1701.0,
+    "regret": 111.072,
+    "pending": 91.45,
+    "runtime": 0.024
+   },
+   "gated_adaptive_range": {
+    "net": 420.157,
+    "promote": 0.1,
+    "rollbacks": 0.0,
+    "labels": 194.15,
+    "switches": 0.1,
+    "first": 1388.5,
+    "delay": 1388.5,
+    "regret": 115.008,
+    "pending": 90.15,
+    "runtime": 0.564
+   },
+   "gated_adaptive_range+front": {
+    "net": 397.198,
+    "promote": 0.65,
+    "rollbacks": 0.0,
+    "labels": 198.95,
+    "switches": 0.65,
+    "first": 1181.0,
+    "delay": 1181.0,
+    "regret": 92.048,
+    "pending": 163.95,
+    "runtime": 0.272
+   },
+   "model_picker_adapter": {
+    "net": 374.66,
+    "promote": 1.0,
+    "rollbacks": 0.8,
+    "labels": 95.2,
+    "switches": 2.6,
+    "first": 827.5,
+    "delay": 827.5,
+    "regret": 69.51,
+    "pending": 46.5,
+    "runtime": 0.138
+   },
+   "xu_acquisition_only": {
+    "net": 423.907,
+    "promote": 0.05,
+    "rollbacks": 0.0,
+    "labels": 194.15,
+    "switches": 0.05,
+    "first": 1953.0,
+    "delay": 1953.0,
+    "regret": 118.758,
+    "pending": 87.8,
+    "runtime": 0.314
+   }
+  },
+  "best_certified": "gated_adaptive_range+front",
+  "best_uncertified": "model_picker_adapter",
+  "contrasts": {
+   "A1": {
+    "host": {
+     "vs": "QSG",
+     "mean": 4.5,
+     "lo": 0.64,
+     "hi": 8.36,
+     "n": 20,
+     "frac_better": 0.1
+    },
+    "best_certified": {
+     "vs": "gated_adaptive_range+front",
+     "mean": 1.25,
+     "lo": -2.89,
+     "hi": 5.4,
+     "n": 20,
+     "frac_better": 0.35
+    },
+    "best_uncertified": {
+     "vs": "model_picker_adapter",
+     "mean": 23.79,
+     "lo": 11.63,
+     "hi": 35.95,
+     "n": 20,
+     "frac_better": 0.1
+    },
+    "best_any": {
+     "vs": "model_picker_adapter",
+     "mean": 23.79,
+     "lo": 11.63,
+     "hi": 35.95,
+     "n": 20,
+     "frac_better": 0.1
+    }
+   },
+   "A2": {
+    "host": {
+     "vs": "QSG",
+     "mean": 0.0,
+     "lo": 0.0,
+     "hi": 0.0,
+     "n": 20,
+     "frac_better": 0.0
+    },
+    "best_certified": {
+     "vs": "gated_adaptive_range+front",
+     "mean": -3.25,
+     "lo": -5.15,
+     "hi": -1.35,
+     "n": 20,
+     "frac_better": 0.55
+    },
+    "best_uncertified": {
+     "vs": "model_picker_adapter",
+     "mean": 19.29,
+     "lo": 8.23,
+     "hi": 30.35,
+     "n": 20,
+     "frac_better": 0.1
+    },
+    "best_any": {
+     "vs": "model_picker_adapter",
+     "mean": 19.29,
+     "lo": 8.23,
+     "hi": 30.35,
+     "n": 20,
+     "frac_better": 0.1
+    }
+   },
+   "A3": {
+    "host": {
+     "vs": "QSG",
+     "mean": -0.05,
+     "lo": -0.15,
+     "hi": 0.05,
+     "n": 20,
+     "frac_better": 0.05
+    },
+    "best_certified": {
+     "vs": "gated_adaptive_range+front",
+     "mean": -3.3,
+     "lo": -5.18,
+     "hi": -1.41,
+     "n": 20,
+     "frac_better": 0.6
+    },
+    "best_uncertified": {
+     "vs": "model_picker_adapter",
+     "mean": 19.24,
+     "lo": 8.21,
+     "hi": 30.27,
+     "n": 20,
+     "frac_better": 0.1
+    },
+    "best_any": {
+     "vs": "model_picker_adapter",
+     "mean": 19.24,
+     "lo": 8.21,
+     "hi": 30.27,
+     "n": 20,
+     "frac_better": 0.1
+    }
+   },
+   "A4": {
+    "host": {
+     "vs": "QSG",
+     "mean": 13.4,
+     "lo": -0.32,
+     "hi": 27.12,
+     "n": 20,
+     "frac_better": 0.2
+    },
+    "best_certified": {
+     "vs": "gated_adaptive_range+front",
+     "mean": 10.15,
+     "lo": -3.38,
+     "hi": 23.68,
+     "n": 20,
+     "frac_better": 0.3
+    },
+    "best_uncertified": {
+     "vs": "model_picker_adapter",
+     "mean": 32.69,
+     "lo": 16.87,
+     "hi": 48.51,
+     "n": 20,
+     "frac_better": 0.15
+    },
+    "best_any": {
+     "vs": "model_picker_adapter",
+     "mean": 32.69,
+     "lo": 16.87,
+     "hi": 48.51,
+     "n": 20,
+     "frac_better": 0.15
+    }
+   },
+   "A5": {
+    "host": {
+     "vs": "QSG",
+     "mean": 4.5,
+     "lo": 0.64,
+     "hi": 8.36,
+     "n": 20,
+     "frac_better": 0.1
+    },
+    "best_certified": {
+     "vs": "gated_adaptive_range+front",
+     "mean": 1.25,
+     "lo": -2.89,
+     "hi": 5.4,
+     "n": 20,
+     "frac_better": 0.35
+    },
+    "best_uncertified": {
+     "vs": "model_picker_adapter",
+     "mean": 23.79,
+     "lo": 11.63,
+     "hi": 35.95,
+     "n": 20,
+     "frac_better": 0.1
+    },
+    "best_any": {
+     "vs": "model_picker_adapter",
+     "mean": 23.79,
+     "lo": 11.63,
+     "hi": 35.95,
+     "n": 20,
+     "frac_better": 0.1
+    }
+   },
+   "A6": {
+    "host": {
+     "vs": "QSG",
+     "mean": 4.5,
+     "lo": 0.64,
+     "hi": 8.36,
+     "n": 20,
+     "frac_better": 0.1
+    },
+    "best_certified": {
+     "vs": "gated_adaptive_range+front",
+     "mean": 1.25,
+     "lo": -2.89,
+     "hi": 5.4,
+     "n": 20,
+     "frac_better": 0.35
+    },
+    "best_uncertified": {
+     "vs": "model_picker_adapter",
+     "mean": 23.79,
+     "lo": 11.63,
+     "hi": 35.95,
+     "n": 20,
+     "frac_better": 0.1
+    },
+    "best_any": {
+     "vs": "model_picker_adapter",
+     "mean": 23.79,
+     "lo": 11.63,
+     "hi": 35.95,
+     "n": 20,
+     "frac_better": 0.1
+    }
+   }
+  }
+ },
+ "S_dep_better_r95": {
+  "tags": [
+   "alt",
+   "dep"
+  ],
+  "policies": {
+   "A1": {
+    "net": 427.7,
+    "promote": 0.05,
+    "rollbacks": 0.0,
+    "labels": 200.0,
+    "switches": 0.05,
+    "first": 947.0,
+    "delay": 947.0,
+    "regret": 126.15,
+    "pending": 28.1,
+    "runtime": 0.416
+   },
+   "A1-nogap": {
+    "net": 407.048,
+    "promote": 0.4,
+    "rollbacks": 0.0,
+    "labels": 199.95,
+    "switches": 0.4,
+    "first": 821.0,
+    "delay": 821.0,
+    "regret": 105.497,
+    "pending": 27.9,
+    "runtime": 0.389
+   },
+   "A1-nostart": {
+    "net": 429.7,
+    "promote": 0.0,
+    "rollbacks": 0.0,
+    "labels": 200.0,
+    "switches": 0.0,
+    "first": -1.0,
+    "delay": -1.0,
+    "regret": 128.15,
+    "pending": 28.05,
+    "runtime": 0.234
+   },
+   "A1-rho8": {
+    "net": 340.995,
+    "promote": 1.0,
+    "rollbacks": 0.4,
+    "labels": 199.9,
+    "switches": 1.6,
+    "first": 346.0,
+    "delay": 346.0,
+    "regret": 39.445,
+    "pending": 25.9,
+    "runtime": 0.099
+   },
+   "A2": {
+    "net": 360.068,
+    "promote": 0.85,
+    "rollbacks": 0.2,
+    "labels": 176.35,
+    "switches": 1.05,
+    "first": 268.0,
+    "delay": 268.0,
+    "regret": 58.518,
+    "pending": 21.6,
+    "runtime": 0.036
+   },
+   "A2-fixedgap6": {
+    "net": 353.653,
+    "promote": 0.9,
+    "rollbacks": 0.35,
+    "labels": 199.05,
+    "switches": 1.5,
+    "first": 393.0,
+    "delay": 393.0,
+    "regret": 52.102,
+    "pending": 16.85,
+    "runtime": 0.019
+   },
+   "A3": {
+    "net": 342.242,
+    "promote": 0.95,
+    "rollbacks": 0.35,
+    "labels": 199.85,
+    "switches": 1.65,
+    "first": 277.0,
+    "delay": 277.0,
+    "regret": 40.692,
+    "pending": 24.05,
+    "runtime": 0.019
+   },
+   "A3-noinflight": {
+    "net": 342.242,
+    "promote": 0.95,
+    "rollbacks": 0.35,
+    "labels": 199.85,
+    "switches": 1.65,
+    "first": 277.0,
+    "delay": 277.0,
+    "regret": 40.692,
+    "pending": 24.05,
+    "runtime": 0.019
+   },
+   "A4": {
+    "net": 429.7,
+    "promote": 0.0,
+    "rollbacks": 0.0,
+    "labels": 200.0,
+    "switches": 0.0,
+    "first": -1.0,
+    "delay": -1.0,
+    "regret": 128.15,
+    "pending": 28.1,
+    "runtime": 0.017
+   },
+   "A5": {
+    "net": 423.95,
+    "promote": 0.0,
+    "rollbacks": 0.0,
+    "labels": 85.0,
+    "switches": 0.0,
+    "first": -1.0,
+    "delay": -1.0,
+    "regret": 122.4,
+    "pending": 21.45,
+    "runtime": 0.172
+   },
+   "A5-fixedgap6": {
+    "net": 425.918,
+    "promote": 0.05,
+    "rollbacks": 0.0,
+    "labels": 196.35,
+    "switches": 0.05,
+    "first": 505.0,
+    "delay": 505.0,
+    "regret": 124.367,
+    "pending": 13.8,
+    "runtime": 0.397
+   },
+   "A6": {
+    "net": 423.945,
+    "promote": 0.0,
+    "rollbacks": 0.0,
+    "labels": 84.9,
+    "switches": 0.0,
+    "first": -1.0,
+    "delay": -1.0,
+    "regret": 122.395,
+    "pending": 21.45,
+    "runtime": 0.152
+   },
+   "A6-noinflight": {
+    "net": 423.95,
+    "promote": 0.0,
+    "rollbacks": 0.0,
+    "labels": 85.0,
+    "switches": 0.0,
+    "first": -1.0,
+    "delay": -1.0,
+    "regret": 122.4,
+    "pending": 21.45,
+    "runtime": 0.148
+   },
+   "CONTROL_never_switch": {
+    "net": 419.7,
+    "promote": 0.0,
+    "rollbacks": 0.0,
+    "labels": 0.0,
+    "switches": 0.0,
+    "first": -1.0,
+    "delay": -1.0,
+    "regret": 118.15,
+    "pending": 0.0,
+    "runtime": 0.011
+   },
+   "QSG": {
+    "net": 340.942,
+    "promote": 0.95,
+    "rollbacks": 0.25,
+    "labels": 199.85,
+    "switches": 1.4,
+    "first": 277.0,
+    "delay": 277.0,
+    "regret": 39.392,
+    "pending": 24.15,
+    "runtime": 0.018
+   },
+   "QSG-env8": {
+    "net": 391.398,
+    "promote": 0.45,
+    "rollbacks": 0.05,
+    "labels": 199.95,
+    "switches": 0.5,
+    "first": 504.0,
+    "delay": 504.0,
+    "regret": 89.848,
+    "pending": 26.8,
+    "runtime": 0.023
+   },
+   "SMCS+retain-incumbent": {
+    "net": 366.888,
+    "promote": 0.7,
+    "rollbacks": 0.0,
+    "labels": 199.75,
+    "switches": 0.7,
+    "first": 476.0,
+    "delay": 476.0,
+    "regret": 65.338,
+    "pending": 17.7,
+    "runtime": 0.056
+   },
+   "discern_design_floor": {
+    "net": 390.815,
+    "promote": 0.65,
+    "rollbacks": 0.0,
+    "labels": 139.3,
+    "switches": 0.65,
+    "first": 967.0,
+    "delay": 967.0,
+    "regret": 89.265,
+    "pending": 17.65,
+    "runtime": 0.019
+   },
+   "gated_adaptive_range": {
+    "net": 383.148,
+    "promote": 0.6,
+    "rollbacks": 0.0,
+    "labels": 135.95,
+    "switches": 0.6,
+    "first": 816.5,
+    "delay": 816.5,
+    "regret": 81.598,
+    "pending": 16.95,
+    "runtime": 0.544
+   },
+   "gated_adaptive_range+front": {
+    "net": 344.595,
+    "promote": 0.75,
+    "rollbacks": 0.0,
+    "labels": 96.9,
+    "switches": 0.75,
+    "first": 389.0,
+    "delay": 389.0,
+    "regret": 43.045,
+    "pending": 26.0,
+    "runtime": 0.154
+   },
+   "model_picker_adapter": {
+    "net": 337.732,
+    "promote": 1.0,
+    "rollbacks": 1.25,
+    "labels": 77.65,
+    "switches": 3.45,
+    "first": 125.5,
+    "delay": 125.5,
+    "regret": 36.182,
+    "pending": 9.95,
+    "runtime": 0.113
+   },
+   "xu_acquisition_only": {
+    "net": 374.855,
+    "promote": 0.75,
+    "rollbacks": 0.05,
+    "labels": 196.1,
+    "switches": 0.8,
+    "first": 747.0,
+    "delay": 747.0,
+    "regret": 73.305,
+    "pending": 18.4,
+    "runtime": 0.26
+   }
+  },
+  "best_certified": "gated_adaptive_range+front",
+  "best_uncertified": "model_picker_adapter",
+  "contrasts": {
+   "A1": {
+    "host": {
+     "vs": "QSG",
+     "mean": 86.76,
+     "lo": 57.92,
+     "hi": 115.59,
+     "n": 20,
+     "frac_better": 0.1
+    },
+    "best_certified": {
+     "vs": "gated_adaptive_range+front",
+     "mean": 83.1,
+     "lo": 55.1,
+     "hi": 111.11,
+     "n": 20,
+     "frac_better": 0.0
+    },
+    "best_uncertified": {
+     "vs": "model_picker_adapter",
+     "mean": 89.97,
+     "lo": 60.88,
+     "hi": 119.06,
+     "n": 20,
+     "frac_better": 0.1
+    },
+    "best_any": {
+     "vs": "model_picker_adapter",
+     "mean": 89.97,
+     "lo": 60.88,
+     "hi": 119.06,
+     "n": 20,
+     "frac_better": 0.1
+    }
+   },
+   "A2": {
+    "host": {
+     "vs": "QSG",
+     "mean": 19.12,
+     "lo": 4.38,
+     "hi": 33.87,
+     "n": 20,
+     "frac_better": 0.15
+    },
+    "best_certified": {
+     "vs": "gated_adaptive_range+front",
+     "mean": 15.47,
+     "lo": -5.9,
+     "hi": 36.84,
+     "n": 20,
+     "frac_better": 0.3
+    },
+    "best_uncertified": {
+     "vs": "model_picker_adapter",
+     "mean": 22.34,
+     "lo": 2.48,
+     "hi": 42.19,
+     "n": 20,
+     "frac_better": 0.25
+    },
+    "best_any": {
+     "vs": "model_picker_adapter",
+     "mean": 22.34,
+     "lo": 2.48,
+     "hi": 42.19,
+     "n": 20,
+     "frac_better": 0.25
+    }
+   },
+   "A3": {
+    "host": {
+     "vs": "QSG",
+     "mean": 1.3,
+     "lo": -7.79,
+     "hi": 10.39,
+     "n": 20,
+     "frac_better": 0.2
+    },
+    "best_certified": {
+     "vs": "gated_adaptive_range+front",
+     "mean": -2.35,
+     "lo": -15.58,
+     "hi": 10.88,
+     "n": 20,
+     "frac_better": 0.35
+    },
+    "best_uncertified": {
+     "vs": "model_picker_adapter",
+     "mean": 4.51,
+     "lo": -8.12,
+     "hi": 17.14,
+     "n": 20,
+     "frac_better": 0.35
+    },
+    "best_any": {
+     "vs": "model_picker_adapter",
+     "mean": 4.51,
+     "lo": -8.12,
+     "hi": 17.14,
+     "n": 20,
+     "frac_better": 0.35
+    }
+   },
+   "A4": {
+    "host": {
+     "vs": "QSG",
+     "mean": 88.76,
+     "lo": 59.65,
+     "hi": 117.86,
+     "n": 20,
+     "frac_better": 0.1
+    },
+    "best_certified": {
+     "vs": "gated_adaptive_range+front",
+     "mean": 85.1,
+     "lo": 57.0,
+     "hi": 113.21,
+     "n": 20,
+     "frac_better": 0.0
+    },
+    "best_uncertified": {
+     "vs": "model_picker_adapter",
+     "mean": 91.97,
+     "lo": 62.52,
+     "hi": 121.42,
+     "n": 20,
+     "frac_better": 0.1
+    },
+    "best_any": {
+     "vs": "model_picker_adapter",
+     "mean": 91.97,
+     "lo": 62.52,
+     "hi": 121.42,
+     "n": 20,
+     "frac_better": 0.1
+    }
+   },
+   "A5": {
+    "host": {
+     "vs": "QSG",
+     "mean": 83.01,
+     "lo": 53.82,
+     "hi": 112.2,
+     "n": 20,
+     "frac_better": 0.15
+    },
+    "best_certified": {
+     "vs": "gated_adaptive_range+front",
+     "mean": 79.36,
+     "lo": 51.11,
+     "hi": 107.6,
+     "n": 20,
+     "frac_better": 0.15
+    },
+    "best_uncertified": {
+     "vs": "model_picker_adapter",
+     "mean": 86.22,
+     "lo": 56.68,
+     "hi": 115.76,
+     "n": 20,
+     "frac_better": 0.1
+    },
+    "best_any": {
+     "vs": "model_picker_adapter",
+     "mean": 86.22,
+     "lo": 56.68,
+     "hi": 115.76,
+     "n": 20,
+     "frac_better": 0.1
+    }
+   },
+   "A6": {
+    "host": {
+     "vs": "QSG",
+     "mean": 83.0,
+     "lo": 53.81,
+     "hi": 112.19,
+     "n": 20,
+     "frac_better": 0.15
+    },
+    "best_certified": {
+     "vs": "gated_adaptive_range+front",
+     "mean": 79.35,
+     "lo": 51.1,
+     "hi": 107.6,
+     "n": 20,
+     "frac_better": 0.15
+    },
+    "best_uncertified": {
+     "vs": "model_picker_adapter",
+     "mean": 86.21,
+     "lo": 56.67,
+     "hi": 115.76,
+     "n": 20,
+     "frac_better": 0.1
+    },
+    "best_any": {
+     "vs": "model_picker_adapter",
+     "mean": 86.21,
+     "lo": 56.67,
+     "hi": 115.76,
+     "n": 20,
+     "frac_better": 0.1
+    }
+   }
+  }
+ }
+}

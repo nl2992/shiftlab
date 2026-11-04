@@ -1,0 +1,1 @@
+A1,A1-nogap,A1-nostart,A1-rho8,A1b,A2,A2-fixedgap6,A2b,A3,A3-noinflight,A4,A5,A5-fixedgap6,A5b,A6,A6-noinflight,A6b,CONTROL_never_switch,QSG,QSG-env8,SMCS+retain-incumbent,discern_design_floor,gated_adaptive_range,gated_adaptive_range+front,model_picker_adapter,xu_acquisition_only

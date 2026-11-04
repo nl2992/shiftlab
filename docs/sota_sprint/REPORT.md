@@ -112,7 +112,7 @@ The full tables are in [validation/validation_results.md](validation/validation_
     uv run python scripts/sota_sprint/fresh_real.py   # rebuilds the fresh loss caches from UCI
 
 The run scripts are committed in `docs/sota_sprint/run_scripts/` (run from the repo root; `run_gate.sh` reads its policy/regime lists from `outputs/sota_sprint/`, copies of which are alongside); each run also records its argv in
-`manifest.json` and are reproduced in `docs/sota_sprint/run_scripts/`. Raw records stay local.
+its `manifest.json`. Raw records stay local.
 
 ## 7. Limitations
 

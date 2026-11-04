@@ -1,0 +1,51 @@
+RESULT-TO-CLAIM EVALUATION
+
+I need you to judge whether experimental results support the intended claim. Repository root is the
+current directory; you may read any file and run read-only python to recompute numbers from raw
+records (outputs/sota_sprint/**/records.jsonl). Begin with "Reviewer-Model: <exact-model-id>".
+Evaluate EACH of the three claims below separately.
+
+Intended claims:
+C1 (method; publication register P1): "Attaching the restart-mixture label-clock monitor (RMM) to certified
+deployment hosts (gated deployment / off-policy CS, corrected DISCERN, SMCS) transfers: on fresh synthetic
+seeds it lowers net cost on the registered late+stationary-improvement family by 44.2, 47.3 and 13.3 per
+2000 events, beats the strongest certified published comparator (Xu) on the late-improvement regimes by
+15-27 per episode for every certificate host, keeps first-promotion false-promotion control under the iid
+conditional null, and the gain is attributable to the restart mixture and continued acquisition."
+C2 (empirical/benchmark; P2): "Under persistent Markov marginal nulls (rho .8-.95) every powered certified
+published port exceeds the registered .0936 false-promotion bound; a gap-indexed sequential-universal-
+inference certificate (A5b) holds the bound for all rho <= .95 (and on two out-of-class nulls) at stationary
+cost within +7.4 of the cheapest unsafe certified port, but loses nearly all power on real persistent
+time-series streams (+61 to +257 vs the best certified method; measured rho-hat .4-.98). Hence validity
+under unknown persistence and power trade off sharply in practice."
+C3 (verdicts): "The sprint's verdicts are SOTA_NOT_MET; P1 and P2 are MAIN-TRACK CANDIDATES warranting paper
+development (P2 first), with the evidence gaps listed in the register; P3-P6 are not supported as standalone
+contributions."
+
+Experiments run: see docs/sota_sprint/REPORT.md sections 1-3 and docs/sota_sprint/validation_protocol.md.
+Results: docs/sota_sprint/validation/{validation_results.md,real_results.md,transfer_results.md,
+rmm_certified_hosts.txt,real_persistence.json}; docs/sota_sprint/publication_register.md.
+
+Evidence pre-check (deterministic): all 12 cited numbers verified present in their result files
+(.aris/traces/sota-sprint/2026-11-03_m3/precheck.json).
+
+Baselines: 13 published-method common-contract ports (not author code) plus strengthened re-ports
+(gated adaptive range, DISCERN design floor, front-loaded variants, Choe-Ramdas-style EB, QCE betting),
+tuned non-uniform pacing, P7s, QSG, never-switch; strongest per regime chosen on the same seeds.
+
+Known caveats: registered HR (RMM transfer to >= 4/5 hosts) FAILED 3/5; restricting C1 to certificate
+hosts is post-hoc. RMM loses on reversal/recurrent (+20 to +37) and fails the rho=.8 null (.15). Fresh
+real data contains no late-improvement episodes. H0/H1/H2 registered tests failed. Amendment 4 is
+post-hoc. All comparators are ports. Real-data episode CIs are optimistic (consecutive windows).
+
+Please evaluate:
+1. claim_supported: yes | partial | no
+2. what_results_support: what the data actually shows
+3. what_results_dont_support: where the data falls short of the claim
+4. missing_evidence: specific evidence gaps
+5. suggested_claim_revision: if the claim should be strengthened, weakened, or reframed
+6. next_experiments_needed: specific experiments to fill gaps (if any)
+7. confidence: high | medium | low
+
+Be honest. Do not inflate claims beyond what the data supports.
+A single positive result on one dataset does not support a general claim.

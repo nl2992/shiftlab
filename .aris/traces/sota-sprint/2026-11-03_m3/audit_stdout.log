@@ -1,0 +1,95 @@
+OpenAI Codex v0.163.0-alpha.10.2
+--------
+workdir: /Users/nigelli/Desktop/ICML/Shift-lab/.claude/worktrees/dazzling-wilbur-a3e951
+model: gpt-reserve
+provider: openai
+approval: never
+sandbox: read-only
+reasoning effort: medium
+reasoning summaries: none
+session id: 01a1a44c-c1ed-7d63-8f63-962fc828cebb
+--------
+user
+You are an experiment integrity auditor. Start from the assumption that the
+    evaluation is compromised somewhere — your job is to find where. Be
+    adversarial. Trust nothing the author tells you — verify everything
+    yourself. Read ALL files listed below and check for the following fraud
+    patterns.
+
+    Context (scope of THIS audit = milestone 3, final validation of the ShiftLab SOTA sprint:
+    fresh-seed synthetic validation, 1000-seed null checks, out-of-class nulls, fresh real-data
+    external validation, RMM and deploy-gate transfer tests, and the final report/claims).
+    Repository root is the current directory. You may run read-only python (uv run python ...) to
+    recompute numbers from the raw records under outputs/sota_sprint/.
+
+    Files to read:
+    - Evaluation scripts: scripts/sota_sprint/screen.py scripts/sota_sprint/analyze_validation.py scripts/sota_sprint/analyze_real.py scripts/sota_sprint/analyze_transfer.py scripts/sota_sprint/gate_audit.py scripts/sota_sprint/leaderboard_views.py scripts/sota_sprint/fresh_real.py scripts/sota_sprint/validation_spec.py scripts/sota_sprint/ooc_regimes.py scripts/sota_sprint/fam_a.py scripts/failure_atlas_v2/restart_monitor.py scripts/sota_sprint/fam_d.py scripts/promising_directions/sota/simulator.py
+    - Result files: docs/sota_sprint/validation/*.json docs/sota_sprint/validation/*.md docs/sota_sprint/gate_audit.json docs/sota_sprint/leaderboard_views.json; raw records: outputs/sota_sprint/validation/*/records.jsonl outputs/sota_sprint/rmm_transfer/*/records.jsonl outputs/sota_sprint/gate_transfer/*/records.jsonl outputs/sota_sprint/gate/*/records.jsonl; data: data/sprint_fresh_losses/ (README.md, stats.json, *.npz)
+    - Experiment tracker: docs/sota_sprint/candidates.json docs/sota_sprint/leaderboard.json docs/sota_sprint/run_scripts/
+    - Paper claims: docs/sota_sprint/REPORT.md docs/sota_sprint/publication_register.md
+    - Config files: docs/sota_sprint/validation_protocol.md (locked + Amendments 1-4; check whether analyses follow it and whether any post-hoc choice is disclosed) docs/sota_sprint/fresh_real_protocol.md docs/sota_sprint/benchmark_spec.md
+
+    ## Audit Checklist
+
+    ### A. Ground Truth Provenance
+    For each evaluation script:
+    1. Where does "ground truth" / "reference" / "target" come from?
+    2. Is it loaded from the DATASET, or generated/derived from MODEL OUTPUTS?
+    3. If derived: is it explicitly labeled as proxy evaluation?
+    4. Are official eval scripts used when available for this benchmark?
+    FAIL if: GT is derived from model outputs without explicit proxy labeling.
+
+    ### B. Score Normalization
+    For each metric computation:
+    1. Is any metric divided by max/min/mean of the model's OWN output?
+    2. Are raw scores reported alongside any normalized scores?
+    3. Are any scores suspiciously close to 1.0 or 100%?
+    FAIL if: Normalization denominator comes from prediction statistics.
+
+    ### C. Result File Existence
+    For each claim in the paper/narrative:
+    1. Does the referenced result file actually exist?
+    2. Does the claimed metric key exist in that file?
+    3. Does the claimed NUMBER match what's in the file?
+    4. Is the experiment tracker status DONE (not TODO/IN_PROGRESS)?
+    FAIL if: Claimed results reference nonexistent files or mismatched numbers.
+
+    ### D. Dead Code Detection
+    For each metric function defined in eval scripts:
+    1. Is it actually CALLED in any evaluation pipeline?
+    2. Does its output appear in any result file?
+    WARN if: Metric functions exist but are never called.
+
+    ### E. Scope Assessment
+    1. How many scenes/datasets/configurations were actually tested?
+    2. How many seeds/runs per configuration?
+    3. Does the paper use words like "comprehensive", "extensive", "robust"?
+    4. Is the actual scope sufficient for those claims?
+    WARN if: Scope language exceeds actual evidence.
+
+    ### F. Evaluation Type Classification
+    Classify each evaluation as:
+    - real_gt: uses dataset-provided ground truth
+    - synthetic_proxy: uses model-generated reference
+    - self_supervised_proxy: no GT by design
+    - simulation_only: simulated environment
+    - human_eval: human judges
+
+    ## Output Format
+
+    For each check (A-F), report:
+    - Status: PASS | WARN | FAIL
+    - Evidence: exact file:line references
+    - Details: what specifically was found
+
+    Overall verdict: PASS | WARN | FAIL
+    
+    Be thorough. Read every eval script line by line.
+    Begin your response with "Reviewer-Model: <exact-model-id>".
+
+warning: Codex is ignoring 1 unrecognized configuration setting. Check for typos or deprecated settings.
+  user (/Users/nigelli/.codex/config.toml): `pet` is ignored.
+warning: Codex is ignoring 1 unrecognized configuration setting. Check for typos or deprecated settings.
+  user (/Users/nigelli/.codex/config.toml): `pet` is ignored.
+codex
+I’m using the codex-with-chatgpt workflow required by this checkout’s instructions; I’ll first verify the workspace connection, then audit the specified scripts, records, protocols, and claims read-only.

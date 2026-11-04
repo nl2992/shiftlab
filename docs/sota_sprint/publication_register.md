@@ -103,7 +103,7 @@ All numbers come from the sprint validation files in [validation/](validation/).
 * **Positioning.** A new evaluation methodology plus a substantive empirical finding (addendum types 5 and 6), possibly a datasets-and-benchmarks track.
 * **(A) Main-track potential:** moderate to good as an empirical paper, if the lower-bound argument holds.
 * **(B) SOTA:** A5b is the lowest-cost method among those that hold the bound at ρ ≤ .95 on synthetic data. It is not SOTA on real data.
-* **ARIS result-to-claim: partial (high confidence); the revised wording is adopted.**
+* **ARIS result-to-claim: partial (high confidence); re-run after the known-null real experiment: partial (medium). The re-run wording in [aris/m3_RESULT_TO_CLAIM.md](aris/m3_RESULT_TO_CLAIM.md) is the claim of record.**
 * **Assessment: PROMISING; MAIN-TRACK CANDIDATE (warrants paper development; ranked first).** Item 1, the formal argument, is the main gap.
 
 ## P3. A shared deploy-or-abstain gate for fast online model selectors (Family D)

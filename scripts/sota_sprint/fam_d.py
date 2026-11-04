@@ -40,8 +40,6 @@ from __future__ import annotations
 import sys
 from pathlib import Path
 
-import numpy as np
-
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[1]
 SOTA = ROOT / "scripts/promising_directions/sota"

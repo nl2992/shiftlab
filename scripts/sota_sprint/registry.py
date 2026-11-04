@@ -36,7 +36,11 @@ def _rmm() -> dict:
     finally:  # RMM prepends its own directory, whose regimes.py/suite.py would shadow FLQ's
         sys.path[:] = saved  # (spawned workers inherit the parent's sys.path)
     keep = ("gated_deployment+RMM", "discern_style+RMM", "SMCS+retain-incumbent+RMM",
-            "model_picker_adapter+RMM", "LRMD")
+            "model_picker_adapter+RMM", "cams_adapter+RMM", "LRMD",
+            # Amendment 3 attribution: single-start (no restart mixture) and no continued acquisition
+            "gated_deployment+RMM_single", "discern_style+RMM_single",
+            "SMCS+retain-incumbent+RMM_single", "gated_deployment+RMM_noacq",
+            "discern_style+RMM_noacq")
     return {f"rmm:{k}": v for k, v in mod.FACTORIES.items() if k in keep}
 
 

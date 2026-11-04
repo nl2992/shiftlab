@@ -137,3 +137,44 @@ where they conflict. Every original metric is still reported.
   * O14: D's host-AND is inert.
 * **O11.** B5 is advanced only to satisfy Phase 6's two-per-family requirement; Family B recommended
   stopping it.
+
+## Amendment 3 (2026-11-03): RMM transferable-extension test (publishability addendum)
+
+Registered before any sprint validation row was read. The test uses fresh seeds, so it is independent
+of the sprint validation rows. Every earlier RMM result predates the DISCERN PrPl-EB `/4` fix. The
+`rmm:discern_style+RMM` factory now wraps the corrected `DiscernStyleStop`.
+
+**HR (transfer).**
+* Hosts: gated_deployment, discern_style (corrected), SMCS+retain-incumbent, model_picker_adapter and
+  cams_adapter, each also run with RMM attached.
+* Primary family, the change-and-stationary-improvement regimes the RMM claim was made on:
+  {V_late_600, W_late_1000, V_better_a, V_better_b, V_better_c, V_near}.
+* Statistic: the per-seed family mean of J(h+RMM) - J(h).
+* Seeds: 100 fresh synthetic seeds, base 2026110606.
+* HR passes if the 95% CI is below 0 for at least 4 of the 5 hosts, and first-promotion safety holds
+  under the iid conditional null. Safety means the Wilson upper bound is at most .0936 on V_null and
+  V_worse over 1000 seeds (base 2026110607).
+* The ρ=.8/.95 Markov nulls are reported as known out-of-scope failures. RMM's validity is stated
+  under the iid conditional null only.
+
+**HR2 (versus strong baselines, descriptive plus one test).** The same family mean is reported for the
+best host+RMM against:
+* gated_adaptive_range+front
+* gated_deployment+QCE+front
+* xu_acquisition_only
+* discern_design_floor
+* P7s_settled
+* A5b
+* the best certified published comparator, chosen per regime
+
+The one test asks whether the best host+RMM is significantly cheaper than the best certified published
+comparator on {V_late_600, W_late_1000}. Holm correction is applied over the two regimes.
+
+**Attribution.**
+* +RMM_single, which drops the restart mixture.
+* +RMM_noacq, which drops continued acquisition.
+
+## Publication track
+The publishability addendum (2026-11-03) keeps two separate assessments, main-track contribution
+potential and SOTA performance. They are recorded in `publication_register.md` and in the leaderboard.
+They do not change any registered hypothesis above.

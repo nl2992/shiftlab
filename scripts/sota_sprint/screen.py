@@ -40,8 +40,17 @@ FRESH_DELAYS = {"metro": 24, "beijing_pm25": 24, "bike_hour": 24, "appliances": 
                 "household_power": 144}  # = fresh_real.DELAYS, registered before any policy run
 
 
+TWIN_DIR = ROOT / "data/sprint_twin_losses"  # exchangeable-twin known-null streams (P2 protocol)
+
+
 def _loss_file(name: str) -> Path:
+    if name.startswith("twin_"):
+        return TWIN_DIR / f"{name}.npz"
     return (FRESH_DIR if name in FRESH_DELAYS else LOSS_DIR) / f"{name}.npz"
+
+
+def _delay(name: str) -> int:
+    return {**REAL_DELAYS, **FRESH_DELAYS}[name.removeprefix("twin_")]
 REAL_DELAYS = {"rialto": 100, "spam": 50, "weather": 1, "openml_ldpa": 100, "uci_occupancy": 100,
                "airlines": 100, "bank": 100, "elec2": 48, "criteo": 100}
 
@@ -108,7 +117,7 @@ def _job(args):
         # gain is the episode's realised mean advantage. Only the diagnostics regret_expected_oracle,
         # frac_on_wrong, detect_delay and excess_vs_expected_G use it; the primary metric `net` does not.
         gain = np.full(losses.shape[0], float((losses[:, 0].astype(int) - losses[:, 1]).mean()))
-        delay, budget = {**REAL_DELAYS, **FRESH_DELAYS}[name], CONTRACT["budget"]
+        delay, budget = _delay(name), CONTRACT["budget"]
     rows = []
     run_ep = ep * 100_000 + seed
     for pol in build_suite(losses.shape[0], budget, CONTRACT["cs"], CONTRACT["cq"],

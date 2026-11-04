@@ -1,5 +1,11 @@
 # Publication Opportunity Register (SOTA sprint, 2026-11-03)
 
+> **Claim wording after the ARIS result-to-claim review.** All three claims were rated *partial*, with
+> high confidence. The reviewer's revised wordings ([aris/m3_RESULT_TO_CLAIM.md](aris/m3_RESULT_TO_CLAIM.md))
+> are the claims of record. P2 is a validity-power trade-off shown empirically on the tested Markov
+> family; it is not a theorem. P1 is a scoped, synthetic-only method result. Calling either one a
+> "main-track candidate" is a publication judgement, not an experimental result.
+
 This register follows the publishability addendum. Main-track contribution potential (A) and SOTA performance (B) are assessed separately.
 
 All numbers come from the sprint validation files in [validation/](validation/). Status uses three values: PROMISING, NEEDS EVIDENCE and NOT SUPPORTED. The result-to-claim review in [aris/](aris/) may revise these.
@@ -96,7 +102,7 @@ All numbers come from the sprint validation files in [validation/](validation/).
 * **Closest prior art.** Composition of published gates (Karampatziakis et al. 2021) with published selectors. The novelty audit judged it composition.
 * **(A) Main-track potential:** low as a method. It is useful as the M2 benchmark finding inside P2.
 * **(B) SOTA:** not established.
-* **Assessment: NEEDS EVIDENCE, leaning NOT SUPPORTED as a standalone paper.**
+* **Assessment: NEEDS EVIDENCE.** Unsupported as a standalone contribution pending additional evidence (ARIS result-to-claim wording).
 
 ## P4. Certified rollback (B2/B5)
 
@@ -104,7 +110,7 @@ All numbers come from the sprint validation files in [validation/](validation/).
 * **Adverse results.**
   * One host only, in the RMM line, which fails ρ=.8.
   * Reversal is still +20 or more vs the best certified method (discern_style), because that method never promotes.
-* **Assessment: NEEDS EVIDENCE.** Best used as P1's fix for reversal cost.
+* **Assessment: NEEDS EVIDENCE.** Unsupported as a standalone contribution pending additional evidence; best used as P1's fix for reversal cost.
 
 ## P5. FLQ/QCE/QSG front-loading, adaptive density, shadow pricing (A2, A3, C1 to C6)
 
@@ -114,7 +120,7 @@ All numbers come from the sprint validation files in [validation/](validation/).
 ## P6. LRMD (standalone restart monitor)
 
 * **Evidence.** Earlier registered null-safety failure. In the transfer run it is cheaper than gated+RMM on the family (+5.0 for gated+RMM vs LRMD), but its nulls were not re-tested here.
-* **Assessment: NEEDS EVIDENCE.** One fresh 1000-seed null run would decide it.
+* **Assessment: NEEDS EVIDENCE.** Unsupported as a standalone contribution pending a fresh 1000-seed null run.
 
 ---
 

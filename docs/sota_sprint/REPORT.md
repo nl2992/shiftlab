@@ -110,6 +110,21 @@ The full tables are in [validation/validation_results.md](validation/validation_
   * "Main-track candidate" means the contribution warrants paper development. It is not a claim of
     acceptance.
 
+## 4b. P2 follow-up: known-null real streams (exchangeable twins)
+
+The protocol ([p2_known_null_protocol.md](p2_known_null_protocol.md)) was registered before any build.
+It uses 5 fresh datasets × 20 splits, about 1240 episodes × 3 seeds
+([validation/twin_null_results.md](validation/twin_null_results.md)).
+
+* **K1: PASS (9/9).** Every powered certified published port breaks the .0936 bound on real persistent
+  known-null streams, at up to .43.
+* **K2: FAIL, narrowly.** A5b reaches .000–.058 everywhere, with a bootstrap upper bound of .100 on
+  the smallest dataset.
+* **RMM (four certificate hosts): .14–.62.** Its iid-null guarantee does not survive real persistence.
+* **Qualifier.** Harmful promotions are rare (≤ .07): excess promotions follow the twin that is
+  realised better within the episode. The finding is therefore a violation of the marginal
+  guarantee with small decision harm. It is not a large economic loss.
+
 ## 5. Independent reviews
 
 * **Milestones 1–2.** [review_milestone12.md](review_milestone12.md), by a native Claude reviewer. Its

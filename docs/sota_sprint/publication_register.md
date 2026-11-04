@@ -73,6 +73,22 @@ All numbers come from the sprint validation files in [validation/](validation/).
   * But it loses all power on real time-series streams. Fresh real data: +61 to +257 vs the best certified method. On metro it costs +99 with 0/16 episodes better, even though the challenger error is .047 vs .36.
   * The mechanism is measured persistence: ρ̂ of .4 to .8 on the fresh streams, and up to .98 on exposed streams.
   * This sits alongside the shared certification-latency diagnosis (M1, uniform pacing under a binding budget) and the churn of uncertified selectors (M2, 64 to 100% null promotion).
+* **Known-null real evidence (exchangeable twins; protocol registered 36d9796; [twin_null_results.md](validation/twin_null_results.md)).**
+  * **Setup.** Two identically specified models are trained on random disjoint halves of the same
+    window, and a coin assigns the incumbent. The null is therefore exact over the construction's
+    randomisation. Real persistence is ρ̂ .5–.9.
+  * **K1: PASS, 9/9.** Every powered certified published port exceeds .0936 with bootstrap lower
+    bound > .05 on at least one persistent dataset. Rates reach .43 (SMCS), .375 (Xu) and .244
+    (original gated).
+  * **RMM on its four certificate hosts: .14–.62.**
+  * **K2: FAIL, narrowly.** A5b's point estimates are .000–.058 everywhere, but the bike_hour upper
+    bound is .100.
+  * **Harm is small (important qualifier).**
+    * Almost all excess promotions fall in episodes where the promoted twin realised lower loss.
+    * Harmful-promotion rates are ≤ .018 for Xu and ≤ .072 for SMCS.
+    * Mean harm vs never-switch is mostly label spend; a false promotion costs about one switch.
+    * The violation concerns the *marginal* guarantee: the certificates track the persistent,
+      episode-level conditional advantage, which is the Choe–Ramdas-type null.
 * **Closest prior art.**
   * Choe and Ramdas 2024; Henzi and Ziegel 2022. These control the time-averaged *conditional* mean, so a promotion in a persistent run is correct for their null.
   * Universal inference (Wasserman, Ramdas and Balakrishnan 2020).
@@ -82,7 +98,7 @@ All numbers come from the sprint validation files in [validation/](validation/).
   * A gap-indexed Markov UI certificate for actively queried outcomes; the novelty audit found no prior use of it.
 * **Necessary additional evidence.**
   1. A short formal argument that, under unknown persistence, any test valid for all ρ ≤ 1 needs evidence that grows with run changes rather than with labels. This would turn the trade-off into a lower bound.
-  2. Real streams with a known null, e.g. two equally accurate retrained models, to measure real false-promotion rates.
+  2. ~~Real streams with a known null~~ **done**: exchangeable twins, K1 PASS, K2 narrow FAIL, small harm. Next: a decision-relevant real null with tangible harm, e.g. a twin pair where one model degrades after promotion.
   3. Author-code comparators where available.
 * **Positioning.** A new evaluation methodology plus a substantive empirical finding (addendum types 5 and 6), possibly a datasets-and-benchmarks track.
 * **(A) Main-track potential:** moderate to good as an empirical paper, if the lower-bound argument holds.

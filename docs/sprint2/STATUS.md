@@ -175,7 +175,7 @@ Updated 2026-11-05 from worktree `/Users/nigelli/Desktop/ICML/Shift-lab/.claude/
    `CLAIM_RECONCILIATION.md`. Registry-to-ledger shared fields now match under the registry audit.
   A targeted final prose pass has now covered H/R family reports, P-family/WP1/WP2 narratives, and
   the SOTA/exit summaries; it corrected the economic interpretation of conditional predictive loss,
-  retrospective WP1 class labels, and a stale Family-H completion sentence. The T-family pass also corrected the Track-R alpha-grid description and T3 status to show no held-out evaluation and mixed within-host cost evidence. Independent theorem-assumption review remains open;
+  retrospective WP1 class labels, and a stale Family-H completion sentence. The T-family and 24-entry registry consistency passes also corrected the Track-R alpha-grid description, T3 held-out-evaluation status, and stale T2/T3/T6 comparator wording in the canonical ledger. No material numeric contradiction was found in the registry spot checks; they did not rerun every analysis. Independent theorem-assumption review remains open;
    the internal source mapping is in `THEOREM_SCOPE_AUDIT.md`.
    The SUI log-floor caveat is now bounded for saved Sprint 2 runs: all 214 manifests with a
    recorded horizon specify T=2000, and the smallest implemented factors give cumulative log lower

@@ -136,3 +136,15 @@ value and an overly categorical delay/persistence statement in `family_p/P2P3_ob
 rerun was still pending in `SOTA_BENCHMARK_AUDIT.md`. The SOTA audit now points to the completed
 six-port result and marks the current Sprint 2 headline wording update complete. No other material
 issues were found within those reviewed scopes. A subsequent T-family narrative review found and corrected the Track-R alpha-grid description and T3 status: T3 has development calibration but no held-out Track-R evaluation, and its cost evidence is mixed across contrasts. Spot-checks for T1/T2/T4/T5/T6 matched saved summaries. These internal reviews are not exhaustive, do not verify theorem proofs and do not constitute independent external review.
+
+## Final candidate-registry audit (2026-11-05)
+
+A separate read-only review checked the substantive Track E/R/V claims for all 24 registry entries
+against the family ledgers, reports, and locally saved artifacts. It found no material numeric
+contradiction in its spot checks. It identified stale comparator wording in the Family T ledger for
+T2, T3, and T6; the canonical finding strings now use the registry's qualified comparator language.
+The structural registry audit still passes all 24 IDs with no field or path mismatches.
+
+This audit did not rerun every simulation or independently regenerate every interval. It is an
+internal consistency review, not external validation, theorem review, or a substitute for resolving
+the documented retrospective provenance gaps for H1-H4 and custom P-family analyses.

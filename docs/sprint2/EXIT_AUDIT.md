@@ -59,7 +59,7 @@ hypothesis passed, a guarantee is valid, or independent confirmation was achieve
 3. Obtain independent review of theorem assumptions and finish the sentence-level editorial pass on
    the candidate registry. Internal read-only reviews on 2026-11-05 covered H/R, P/WP, and SOTA/exit
    narratives; they corrected the conditional-predictive-loss economic interpretation, clarified
-   retrospective WP1 class labels, and corrected a stale Family-H completion sentence. The T-family narrative pass is complete and corrected the alpha-grid description and T3 held-out-evaluation/status wording. These internal reviews are not exhaustive and are not external proof review. The internal source-level mapping is recorded in
+   retrospective WP1 class labels, and corrected a stale Family-H completion sentence. The T-family narrative and all 24 registry Track E/R/V summaries have now received an internal consistency pass. It corrected the alpha-grid description, T3 held-out-evaluation/status wording, and stale T2/T3/T6 comparator wording in the canonical ledger. These reviews did not rerun every analysis, are not exhaustive across all report prose, and are not external proof review. The internal source-level mapping is recorded in
    `THEOREM_SCOPE_AUDIT.md`; the T=2000 SUI clamp arithmetic is now verified in
    `sui_clamp_bound.json`, but this does not verify the proofs. Numeric reconciliation covers the
    reported H/R/T/P claims, but not every prose sentence or proof. Current Sprint 2 reports have no

@@ -78,7 +78,7 @@
     "outputs/sprint2/T/real_fresh_summary.json",
     "outputs/sprint2/T/real_twin_summary.json"
    ],
-   "finding": "T2:gated/a5b has zero promotions on the four declared dev null screens and alternative mean J 395.7; that is +23.6 versus choe_ramdas_eb+front as then labeled, and -4.7 versus gated_adaptive_range (CI [-11.3,1.9]). The env8 variant has 0.30 promotion on rho=.95 null, outside its declared rho<=.8 class. Front-loading improves the synthetic alternative cost for some contrasts; separate gated_adaptive_range+front and gated_deployment+QCE+front comparators reach 0.35 promotion on the harder rho=.95 Markov-null screen, while T2:gated/a5b+front has 0/20 there. Fresh real results vary substantially by stream. The 'best cert' arithmetic in old summaries is an exploratory comparator selection; it is not a published-SOTA claim.",
+   "finding": "T2:gated/a5b has zero promotions on the four declared dev null screens and alternative mean J 395.7; the historical +23.6 contrast versus `choe_ramdas_eb+front` is exploratory against a non-author-native port and is not published-SOTA evidence; the within-class contrast versus gated_adaptive_range is -4.7 (CI [-11.3,1.9]). The env8 variant has 0.30 promotion on rho=.95 null, outside its declared rho<=.8 class. Front-loading improves the synthetic alternative cost for some contrasts; the separate gated_adaptive_range+front and gated_deployment+QCE+front comparators reach 0.35 promotion on the harder rho=.95 Markov-null screen, while T2:gated/a5b+front has 0/20 there. Fresh real results vary substantially by stream. The 'best cert' arithmetic in old summaries is an exploratory comparator selection; it is not a published-SOTA claim.",
    "disposition": "No general advance; retain as host/evidence compatibility and misspecification study.",
    "run_config": {
     "commands": [
@@ -133,7 +133,7 @@
     "outputs/sprint2/T/trackR.md",
     "outputs/sprint2/T/real_fresh_summary.json"
    ],
-   "finding": "T3:discern/a5b mean alternative J 399.0, versus discern_design_floor 401.1 (difference -2.1, CI [-6.8,2.6]); front version 391.8, versus design_floor+front 405.2 (difference -13.5, CI [-20.1,-6.8]). Both are substantially above the old selected comparator choe_ramdas_eb+front (by +26.9 and +19.7 respectively), but this comparator's benchmark status and same-seed selection need correction before inferential claims. env8 variants promote on rho=.95 null at rates .25-.30; AND variants are expensive. Fresh real contrasts are mixed.",
+   "finding": "T3:discern/a5b mean alternative J 399.0, versus discern_design_floor 401.1 (difference -2.1, CI [-6.8,2.6]); front version 391.8, versus design_floor+front 405.2 (difference -13.5, CI [-20.1,-6.8]). Historical selected-port differences versus `choe_ramdas_eb+front` are +26.9 and +19.7; this non-author-native port is exploratory only and cannot support published-SOTA inference. Same-seed selection is also unadjusted. env8 variants promote on rho=.95 null at rates .25-.30; AND variants are expensive. Fresh real contrasts are mixed.",
    "disposition": "Do not advance as a broad algorithmic gain; at most a bounded corrected-DISCERN adapter finding.",
    "run_config": {
     "commands": [
@@ -310,7 +310,7 @@
     "outputs/sprint2/T/real_fresh_summary.json",
     "outputs/sprint2/T/real_twin_summary.json"
    ],
-   "finding": "For A5b x C2 the estimated interaction is +0.8 [-1.5,+3.0] in dev; acquisition effect at best evidence is -0.6 [-1.9,+0.7]. A5b x C6 interaction is also recorded in contrasts.json. T6:a5bxC2 has 0/20 promotions on the four dev null screens and alternative mean J 391.1; it is not cheaper than the prior selected choe_ramdas_eb+front comparator in that analysis. Track-R points are reported, e.g. at R20 risk .087 [.043,.170], cost 374.2 [368.7,379.8] at alpha .5. Fresh-real comparison to A5b is mixed; twin promotion ranges 0-.083 for T6, one policy seed per split.",
+   "finding": "For A5b x C2 the estimated interaction is +0.8 [-1.5,+3.0] in dev; acquisition effect at best evidence is -0.6 [-1.9,+0.7]. A5b x C6 interaction is also recorded in contrasts.json. T6:a5bxC2 has 0/20 promotions on the four dev null screens and alternative mean J 391.1; the comparison to the prior selected `choe_ramdas_eb+front` port is historical and exploratory; that non-author-native port cannot support published-SOTA inference. Track-R points are reported, e.g. at R20 risk .087 [.043,.170], cost 374.2 [368.7,379.8] at alpha .5. Fresh-real comparison to A5b is mixed; twin promotion ranges 0-.083 for T6, one policy seed per split.",
    "disposition": "No evidence of an interaction gain; retain the null interaction estimate and scoped cost-risk curves.",
    "run_config": {
     "commands": [

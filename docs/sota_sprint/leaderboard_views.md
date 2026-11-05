@@ -1,5 +1,12 @@
 # Leaderboard: ranked views (brief section 12)
 
+> **Historical Sprint 1 view.** These ranks are not the current Sprint 2 leaderboard and retain the
+> original comparator labeling, including Xu's acquisition adapter in the former certified pool.
+> For amended comparator classes and current scoped conclusions, use
+> [`docs/sprint2/LEADERBOARD.md`](../sprint2/LEADERBOARD.md) and
+> [`docs/sprint2/SOTA_BENCHMARK_AUDIT.md`](../sprint2/SOTA_BENCHMARK_AUDIT.md). Do not cite these
+> historical ranks as published-SOTA comparisons.
+
 ## development (gate re-screen, 20 dev seeds, shared environments F0_better,F0_null,F1_late_800,F3_reversal_800,F5_dep_null_r8)
 
 **1_lowest_total_cost**: D3 364.1, model_picker_adapter 364.86, model_selector_causal 365.79, economic_replacement 367.05, online_llm_picker 370.79, cams_adapter 372.24, variance_min_ipw 375.88, B6 378.77, B5-reserve 380.5, B5 380.63, rmm:LRMD 381.1, B2 382.23, B5-deadline 382.33, B4 383.19, B5-rollback 383.22

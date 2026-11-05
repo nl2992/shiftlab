@@ -50,26 +50,32 @@ def parse_regime(name: str) -> tuple[Regime, int | None]:
     return SPRINT_REGIMES[base], (int(b) if b else None)
 
 
-# Comparator classes. "Certified published" = anytime false-promotion control claimed by the
-# method, run in its strongest available common-contract port. "Uncertified published" = fast
-# online selectors. Internal = earlier ShiftLab candidates (never counted as published SOTA).
-CERTIFIED_PUBLISHED = [
+# Comparator classes. These names describe comparator provenance and target, not exact author-code
+# fidelity; see docs/promising_directions/sota/SOTA_IMPLEMENTATION_VALIDATION.md. A published
+# certificate must itself address the paired deployment null. Xu's paper controls prediction-set
+# risk; our Xu adapter combines its acquisition component with ShiftLab's own certificate, so Xu
+# belongs in ACQUISITION_ADAPTERS rather than this class.
+REGISTERED_CERTIFIED_PUBLISHED = [
     "gated_deployment", "gated_adaptive_range", "gated_adaptive_range+front",
     "discern_style", "discern_design_floor", "SMCS+retain-incumbent", "xu_acquisition_only",
 ]
+CERTIFIED_PUBLISHED = [p for p in REGISTERED_CERTIFIED_PUBLISHED if p != "xu_acquisition_only"]
+ACQUISITION_ADAPTERS = ["xu_acquisition_only"]
+# Fast online selectors, whose native objective does not itself certify the paired deployment null.
 UNCERTIFIED_PUBLISHED = [
     "model_picker_adapter", "model_selector_causal", "online_llm_picker", "cams_adapter",
+    "cams_max_adapter",
     "variance_min_ipw", "gong_zhang_paid_obs", "qiu_delayed_movement", "ryabchenko_capacity",
 ]
 INTERNAL = ["P7s_settled", "QSG", "QSG-env8", "gated_deployment+QCE+front", "rmm:gated_deployment+RMM",
             "rmm:LRMD"]
 CONTROLS = ["CONTROL_never_switch", "economic_replacement"]
-ALL_COMPARATORS = CERTIFIED_PUBLISHED + UNCERTIFIED_PUBLISHED + INTERNAL + CONTROLS
+ALL_COMPARATORS = CERTIFIED_PUBLISHED + ACQUISITION_ADAPTERS + UNCERTIFIED_PUBLISHED + INTERNAL + CONTROLS
 
 # A cheap comparator panel for 20-seed screening (strongest of each class on Atlas v2 evidence).
 SCREEN_PANEL = ["CONTROL_never_switch", "gated_adaptive_range", "gated_adaptive_range+front",
                 "discern_style", "discern_design_floor", "SMCS+retain-incumbent",
-                "xu_acquisition_only", "model_picker_adapter", "cams_adapter",
+                "xu_acquisition_only", "model_picker_adapter", "cams_adapter", "cams_max_adapter",
                 "model_selector_causal", "economic_replacement", "QSG", "QSG-env8",
                 "rmm:gated_deployment+RMM", "rmm:LRMD", "P7s_settled"]
 

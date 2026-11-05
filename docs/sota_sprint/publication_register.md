@@ -10,6 +10,41 @@ This register follows the publishability addendum. Main-track contribution poten
 
 All numbers come from the sprint validation files in [validation/](validation/). Status uses three values: PROMISING, NEEDS EVIDENCE and NOT SUPPORTED. The result-to-claim review in [aris/](aris/) may revise these.
 
+## Sprint 2 evidence update (2026-11-04)
+
+This dated addendum preserves the registered entries below as historical claims and records the
+new evidence/current wording. The full three-axis candidate and publication leaderboard is in
+[`docs/sprint2/LEADERBOARD.md`](../sprint2/LEADERBOARD.md); the paper-to-code comparator audit is
+in [`docs/sprint2/SOTA_BENCHMARK_AUDIT.md`](../sprint2/SOTA_BENCHMARK_AUDIT.md).
+
+* **Comparator correction:** `xu_acquisition_only` uses Xu's acquisition component with ShiftLab's
+  own paired-loss certificate. It is an acquisition adapter, not Xu et al.'s published risk-control
+  certificate. It is excluded from the corrected published-certificate pools. Historical registered
+  results are retained. Separate amended outputs exist for SOTA validation, WP1 and WP2; because
+  comparator selection uses the same evaluation observations in several analyses, the amended
+  contrasts remain descriptive and are not selection-adjusted confirmation.
+* **P1/RMM:** real late-improvement episodes were found (10 episodes across 5 source clusters), but
+  the registered late-improvement decision rule is **NOT_SUPPORTED** against the best applicable
+  certificate. The evidence supports a scoped synthetic result, not a demonstrated real-world late
+  improvement win. `E_rb` reduces reversal costs on the observed real reversal set, with only 2/4 host
+  intervals excluding zero. A separate, dated post-development 100-seed synthetic reversal
+  sensitivity finds -6.65 mean net cost versus matched RMM (95% t CI [-7.31,-6.00]) across three
+  regimes and four hosts. This is simulator-only follow-up, not real-world transfer or untouched
+  confirmatory evidence; see `docs/sprint2/wp1/RESULTS.md`.
+* **P2/dependence:** the new twin, delay/horizon and synthetic misspecification analyses strengthen
+  the benchmark evidence, while preserving the distinction between conditional and marginal nulls.
+  A5b remains limited to its declared first-order stationary Markov null; semi-Markov/HMM results are
+  misspecification sensitivity, not evidence of a theorem violation under that null.
+* **P6 corrected comparator sensitivity:** a separate 100-seed post-development run finds P6
+  cheaper than the same-sample selected certificate-policy port on three late regimes, but more
+  costly on both reversal regimes. This supports only a scoped synthetic trade-off; comparator
+  selection is unadjusted and methods are common-contract ports. See
+  `docs/sprint2/family_p/P6_corrected_comparators_100.md`.
+* **Research position:** P2 remains the strongest current paper opportunity as a bounded empirical
+  evaluation contribution. No contribution has been independently cleared as a main-track paper or
+  as a general SOTA improvement. See the outstanding reviewer and replication work in
+  [`docs/sprint2/STATUS.md`](../sprint2/STATUS.md).
+
 ---
 
 ## P1. A restart-mixture label-clock monitor that transfers across certified deployment methods (RMM)

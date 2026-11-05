@@ -1,0 +1,379 @@
+{
+ "family": "T",
+ "implementation": "scripts/sota_sprint/fam_t.py; tests/sprint2/test_fam_t.py",
+ "runs": {
+  "development": "outputs/sprint2/T/devA,devB,devC; 20 seeds per regime, seed base 2026110701; alpha .05. devA covers host transfers and direct comparisons; devB covers gated/DISCERN/T6 evidence-acquisition combinations; devC is an earlier host/mechanism variant screen.",
+  "track_r": "outputs/sprint2/T/R_dev_a*/R_eval_a*/; seven alpha values .005,.01,.02,.1,.2,.3,.5; 20 dev and 20 eval seeds at separate seed bases. trackR.md/json are the available summarized operating points.",
+  "real_fresh": "outputs/sprint2/T/real_fresh; 3 seeds across five streams; summary real_fresh_summary.json.",
+  "real_twin": "outputs/sprint2/T/real_twin; one policy seed per split stream; summary real_twin_summary.json. These are reused twin constructions, not unseen independent real-world validation.",
+  "contracts": "T README records the predeclared selection rule and common-contract adaptations."
+ },
+ "candidates": [
+  {
+   "id": "T1",
+   "status": "SCREENED; REQUIRED COMPARISONS PRESENT; NEGATIVE ECONOMIC RESULT",
+   "implementation": "Model Picker host with A5b/evidence variants: T:mp/a5b, T:mp/a5b+ad, T:mp/a5b+ad+rb; earlier devC T:mp/a5b1, T:mp/qsg1, T:mp/H2, T:mp/H4.",
+   "evidence": [
+    "outputs/sprint2/T/devA/records.jsonl",
+    "outputs/sprint2/T/devC/records.jsonl",
+    "outputs/sprint2/T/contrasts.json",
+    "outputs/sprint2/T/dev_summary.md",
+    "outputs/sprint2/T/real_fresh_summary.json"
+   ],
+   "coverage_reconciliation": "The requirement 'Model Picker + improved mechanism (vs MP, D1, D6)' is covered in the final devA comparison: T:mp/a5b is contrasted with model_picker_adapter (MP host), D1, and D6:mp; contrasts.json explicitly contains T:mp/a5b - D1 and T:mp/a5b - D6:mp. Dev summary gives mean alternative J 397.7 for T:mp/a5b, versus 354.4 for model_picker_adapter, 369.5 for D1, and 377.2 for D6:mp, so it is worse by about +43.4, +28.2, and +20.5 respectively. The additional A5b acquisition adaptation was essentially neutral versus T:mp/a5b (+0.1 [-1.7,+1.9] for +ad). devC adds comparison to same host under QSG/H2/H4 alternatives but is an earlier version and should not be pooled as the final T1 setting. Thus comparison coverage is satisfied; benefit criterion is not.",
+   "disposition": "Stop current T1 configuration; preserve direct negative result. No claim of published-method superiority.",
+   "run_config": {
+    "commands": [
+     "sh outputs/sprint2/T/cmd_dev.sh",
+     "sh outputs/sprint2/T/cmd_stage2.sh",
+     "sh outputs/sprint2/T/cmd_stageC.sh"
+    ],
+    "candidate_policy_ids": [
+     "T:mp/a5b",
+     "T:mp/a5b+ad",
+     "T:mp/a5b+ad+rb",
+     "T:mp/a5b1",
+     "T:mp/qsg1",
+     "T:mp/H2",
+     "T:mp/H4"
+    ],
+    "contract": "T=2000, B=200, c_q=0.05, c_s=5; alpha=0.05 for development and registered alpha grid for Track R",
+    "note": "The linked manifests preserve the exact argv, seed base, policy list, code hash and source hashes for each executed run."
+   },
+   "seed_manifest": {
+    "manifests": [
+     "outputs/sprint2/T/devA/manifest.json",
+     "outputs/sprint2/T/devC/manifest.json",
+     "outputs/sprint2/T/real_fresh/manifest.json",
+     "outputs/sprint2/T/real_freshC/manifest.json",
+     "outputs/sprint2/T/real_twinC/manifest.json"
+    ],
+    "seed_bases": [
+     "2026110701"
+    ],
+    "note": "See each manifest argv for the run-specific seed count and seed base.",
+    "provenance_status": "complete"
+   },
+   "results_artifact": [
+    "outputs/sprint2/T/devA/records.jsonl",
+    "outputs/sprint2/T/devC/records.jsonl",
+    "outputs/sprint2/T/contrasts.json",
+    "outputs/sprint2/T/dev_summary.md",
+    "outputs/sprint2/T/real_fresh_summary.json"
+   ],
+   "track_E": "Final devA: mean alternative J 397.7 vs Model Picker adapter 354.4, D1 369.5, D6:mp 377.2; worse by about +43.4, +28.2, +20.5. A5b acquisition addition neutral (+0.1 [-1.7,+1.9]). See family_t/ledger.json.",
+   "track_R": "Track-R alpha calibration and evaluation are in outputs/sprint2/T/trackR.json. R20: T:mp/a5b: calibrated alpha 0.05; no displayed R20 Pareto point; T:mp/a5b+ad: calibrated alpha 0.05; no displayed R20 Pareto point; T:mp/a5b+ad+rb: calibrated alpha 0.05; no displayed R20 Pareto point. Curves are selected-grid empirical estimates, not guarantees.",
+   "track_V": "T:mp/a5b with A5b: 0/20 promotions on F0, F0_worse, rho=.8 and rho=.95 development null screens; A5b targets stationary first-order Markov V2. Reused twin rates are in real_twin_summary.json (one policy seed per split). See family_t/results.md.",
+   "ablation": "On the Model Picker host, compare A5b transfer, adaptive acquisition, rollback, and the earlier QSG/H2/H4 evidence settings.",
+   "next_action": null
+  },
+  {
+   "id": "T2",
+   "status": "SCREENED; DEPENDENCE-MODEL SENSITIVITY",
+   "implementation": "Gated Deployment host with A5b, env8 and QSG evidence; front-loaded acquisition and AND-combination ablations.",
+   "evidence": [
+    "outputs/sprint2/T/devB/records.jsonl",
+    "outputs/sprint2/T/contrasts.json",
+    "outputs/sprint2/T/trackR.md",
+    "outputs/sprint2/T/real_fresh_summary.json",
+    "outputs/sprint2/T/real_twin_summary.json"
+   ],
+   "finding": "T2:gated/a5b has zero promotions on the four declared dev null screens and alternative mean J 395.7; that is +23.6 versus choe_ramdas_eb+front as then labeled, and -4.7 versus gated_adaptive_range (CI [-11.3,1.9]). The env8 variant has 0.30 promotion on rho=.95 null, outside its declared rho<=.8 class. Front-loading improves the synthetic alternative cost for some contrasts; separate gated_adaptive_range+front and gated_deployment+QCE+front comparators reach 0.35 promotion on the harder rho=.95 Markov-null screen, while T2:gated/a5b+front has 0/20 there. Fresh real results vary substantially by stream. The 'best cert' arithmetic in old summaries is an exploratory comparator selection; it is not a published-SOTA claim.",
+   "disposition": "No general advance; retain as host/evidence compatibility and misspecification study.",
+   "run_config": {
+    "commands": [
+     "sh outputs/sprint2/T/cmd_dev.sh",
+     "sh outputs/sprint2/T/cmd_stage2.sh",
+     "sh outputs/sprint2/T/cmd_stageC.sh"
+    ],
+    "candidate_policy_ids": [
+     "T2:gated/a5b",
+     "T2:gated/a5b+front",
+     "T2:gatedAND/a5b+front",
+     "T2:gated/env8",
+     "T2:gated/env8+front",
+     "T2:gatedAND/env8+front",
+     "T2:gated/qsg+front"
+    ],
+    "contract": "T=2000, B=200, c_q=0.05, c_s=5; alpha=0.05 for development and registered alpha grid for Track R",
+    "note": "The linked manifests preserve the exact argv, seed base, policy list, code hash and source hashes for each executed run."
+   },
+   "seed_manifest": {
+    "manifests": [
+     "outputs/sprint2/T/devB/manifest.json",
+     "outputs/sprint2/T/real_fresh/manifest.json",
+     "outputs/sprint2/T/real_twin/manifest.json"
+    ],
+    "seed_bases": [
+     "2026110701"
+    ],
+    "note": "See each manifest argv for the run-specific seed count and seed base.",
+    "provenance_status": "complete"
+   },
+   "results_artifact": [
+    "outputs/sprint2/T/devB/records.jsonl",
+    "outputs/sprint2/T/contrasts.json",
+    "outputs/sprint2/T/trackR.md",
+    "outputs/sprint2/T/real_fresh_summary.json",
+    "outputs/sprint2/T/real_twin_summary.json"
+   ],
+   "track_E": "T2:gated/a5b has zero promotions on the four declared dev null screens and alternative mean J 395.7; the historical +23.6 contrast versus `choe_ramdas_eb+front` is exploratory against a non-author-native port and is not published-SOTA evidence; the within-class contrast versus gated_adaptive_range is -4.7 (CI [-11.3,1.9]). The env8 variant has 0.30 promotion on rho=.95 null, outside its declared rho<=.8 class. Front-loading improves the synthetic alternative cost for some contrasts; the separate gated_adaptive_range+front and gated_deployment+QCE+front comparators reach 0.35 promotion on the harder rho=.95 Markov-null screen, while T2:gated/a5b+front has 0/20 there. Fresh real results vary substantially by stream. The 'best cert' arithmetic in old summaries is an exploratory comparator selection; it is not a published-SOTA claim.",
+   "track_R": "Track-R alpha calibration and evaluation are in outputs/sprint2/T/trackR.json. R20: T2:gated/a5b: calibrated alpha 0.05; no displayed R20 Pareto point; T2:gated/a5b+front: calibrated alpha 0.05; no displayed R20 Pareto point; T2:gated/env8: calibrated alpha 0.05; no displayed R20 Pareto point. Curves are selected-grid empirical estimates, not guarantees.",
+   "track_V": "T2:gated/a5b: 0/20 promotions on each of four development null screens; the env8 variant has 6/20 on rho=.95, outside its declared rho<=.8 class. A5b V2 rates and reused twin summaries are in family_t/results.md and real_twin_summary.json.",
+   "ablation": "Gated host comparison across A5b vs env8 vs QSG evidence, paced vs front-loaded acquisition, and AND evidence combination.",
+   "next_action": null
+  },
+  {
+   "id": "T3",
+   "status": "SCREENED; NEGATIVE COST RESULT",
+   "implementation": "Corrected DISCERN-style host with A5b/env8, front acquisition, and AND ablations.",
+   "evidence": [
+    "outputs/sprint2/T/devB/records.jsonl",
+    "outputs/sprint2/T/contrasts.json",
+    "outputs/sprint2/T/trackR.md",
+    "outputs/sprint2/T/real_fresh_summary.json"
+   ],
+   "finding": "T3:discern/a5b mean alternative J 399.0, versus discern_design_floor 401.1 (difference -2.1, CI [-6.8,2.6]); front version 391.8, versus design_floor+front 405.2 (difference -13.5, CI [-20.1,-6.8]). Both are substantially above the old selected comparator choe_ramdas_eb+front (by +26.9 and +19.7 respectively), but this comparator's benchmark status and same-seed selection need correction before inferential claims. env8 variants promote on rho=.95 null at rates .25-.30; AND variants are expensive. Fresh real contrasts are mixed.",
+   "disposition": "Do not advance as a broad algorithmic gain; at most a bounded corrected-DISCERN adapter finding.",
+   "run_config": {
+    "commands": [
+     "sh outputs/sprint2/T/cmd_dev.sh",
+     "sh outputs/sprint2/T/cmd_stage2.sh",
+     "sh outputs/sprint2/T/cmd_stageC.sh"
+    ],
+    "candidate_policy_ids": [
+     "T3:discern/a5b",
+     "T3:discern/a5b+front",
+     "T3:discernAND/a5b+front",
+     "T3:discern/env8",
+     "T3:discern/env8+front",
+     "T3:discernAND/env8+front"
+    ],
+    "contract": "T=2000, B=200, c_q=0.05, c_s=5; alpha=0.05 for development and registered alpha grid for Track R",
+    "note": "The linked manifests preserve the exact argv, seed base, policy list, code hash and source hashes for each executed run."
+   },
+   "seed_manifest": {
+    "manifests": [
+     "outputs/sprint2/T/devB/manifest.json",
+     "outputs/sprint2/T/real_fresh/manifest.json"
+    ],
+    "seed_bases": [
+     "2026110701"
+    ],
+    "note": "See each manifest argv for the run-specific seed count and seed base.",
+    "provenance_status": "complete"
+   },
+   "results_artifact": [
+    "outputs/sprint2/T/devB/records.jsonl",
+    "outputs/sprint2/T/contrasts.json",
+    "outputs/sprint2/T/trackR.md",
+    "outputs/sprint2/T/real_fresh_summary.json"
+   ],
+   "track_E": "T3:discern/a5b mean alternative J 399.0, versus discern_design_floor 401.1 (difference -2.1, CI [-6.8,2.6]); front version 391.8, versus design_floor+front 405.2 (difference -13.5, CI [-20.1,-6.8]). Historical selected-port differences versus `choe_ramdas_eb+front` are +26.9 and +19.7; this non-author-native port is exploratory only and cannot support published-SOTA inference. Same-seed selection is also unadjusted. env8 variants promote on rho=.95 null at rates .25-.30; AND variants are expensive. Fresh real contrasts are mixed.",
+   "track_R": "Track-R alpha calibration and evaluation are in outputs/sprint2/T/trackR.json. R20: T3:discern/a5b: calibrated alpha 0.05; no displayed R20 Pareto point; T3:discern/a5b+front: calibrated alpha 0.05; no displayed R20 Pareto point; T3:discern/env8: calibrated alpha 0.05; no displayed R20 Pareto point. Curves are selected-grid empirical estimates, not guarantees.",
+   "track_V": "T3:discern/a5b has conservative development null screen; env8 variants have 5–6/20 promotions on rho=.95, beyond rho<=.8. AND variants are more conservative/costly. Empirical only; see family_t/results.md.",
+   "ablation": "Corrected DISCERN-style host comparison across A5b/env8 evidence, paced/front-loaded acquisition, and AND evidence combination.",
+   "next_action": null
+  },
+  {
+   "id": "T4",
+   "status": "SCREENED; MODULE COMPETITION RECORDED",
+   "implementation": "CAMS host with A5b, conditional-mean and Markov evidence modules (including host-only/adaptive-query variants).",
+   "evidence": [
+    "outputs/sprint2/T/devA/records.jsonl",
+    "outputs/sprint2/T/dev_summary.md",
+    "outputs/sprint2/T/real_fresh_summary.json",
+    "outputs/sprint2/T/real_twin_summary.json"
+   ],
+   "finding": "At dev alpha .05, CAMS adapter mean alternative J 350.5, but it has high false promotions (1.00 F0_null, .50 F0_worse, .95 rho=.8, .95 rho=.95). Conditional-mean variants are more conservative (T:cams/cmean J 385.5; cmean_s 383.7); env8 has 0.15 rho=.95 promotion but a declared rho<=.8 assumption. Twin promotion rates vary widely: T:cams/a5b .075-.092 on four twins and 0 on twin_metro; cmean .009-.442. These one-seed-per-twin rates are descriptive only.",
+   "disposition": "Evidence mechanism materially changes risk/cost; CAMS raw performance is not a safe result due to null promotions.",
+   "run_config": {
+    "commands": [
+     "sh outputs/sprint2/T/cmd_dev.sh",
+     "sh outputs/sprint2/T/cmd_stage2.sh",
+     "sh outputs/sprint2/T/cmd_stageC.sh"
+    ],
+    "candidate_policy_ids": [
+     "T:cams/a5b",
+     "T:cams/env8",
+     "T:cams/cmean",
+     "T:cams/cmean_s",
+     "T:cams/a5b+ad",
+     "T:cams/env95",
+     "T:cams/a5b-host_only"
+    ],
+    "contract": "T=2000, B=200, c_q=0.05, c_s=5; alpha=0.05 for development and registered alpha grid for Track R",
+    "note": "The linked manifests preserve the exact argv, seed base, policy list, code hash and source hashes for each executed run."
+   },
+   "seed_manifest": {
+    "manifests": [
+     "outputs/sprint2/T/R_dev_a0.005/manifest.json",
+     "outputs/sprint2/T/R_dev_a0.01/manifest.json",
+     "outputs/sprint2/T/R_dev_a0.02/manifest.json",
+     "outputs/sprint2/T/R_dev_a0.1/manifest.json",
+     "outputs/sprint2/T/R_dev_a0.2/manifest.json",
+     "outputs/sprint2/T/R_dev_a0.3/manifest.json",
+     "outputs/sprint2/T/R_dev_a0.5/manifest.json",
+     "outputs/sprint2/T/R_eval_a0.005/manifest.json",
+     "outputs/sprint2/T/R_eval_a0.01/manifest.json",
+     "outputs/sprint2/T/R_eval_a0.02/manifest.json",
+     "outputs/sprint2/T/R_eval_a0.05/manifest.json",
+     "outputs/sprint2/T/R_eval_a0.1/manifest.json",
+     "outputs/sprint2/T/R_eval_a0.2/manifest.json",
+     "outputs/sprint2/T/R_eval_a0.3/manifest.json",
+     "outputs/sprint2/T/R_eval_a0.5/manifest.json",
+     "outputs/sprint2/T/devA/manifest.json",
+     "outputs/sprint2/T/real_fresh/manifest.json",
+     "outputs/sprint2/T/real_twin/manifest.json"
+    ],
+    "seed_bases": [
+     "2026110701",
+     "2026110711"
+    ],
+    "note": "See each manifest argv for the run-specific seed count and seed base.",
+    "provenance_status": "complete"
+   },
+   "results_artifact": [
+    "outputs/sprint2/T/devA/records.jsonl",
+    "outputs/sprint2/T/dev_summary.md",
+    "outputs/sprint2/T/real_fresh_summary.json",
+    "outputs/sprint2/T/real_twin_summary.json"
+   ],
+   "track_E": "At dev alpha .05, CAMS adapter mean alternative J 350.5, but it has high false promotions (1.00 F0_null, .50 F0_worse, .95 rho=.8, .95 rho=.95). Conditional-mean variants are more conservative (T:cams/cmean J 385.5; cmean_s 383.7); env8 has 0.15 rho=.95 promotion but a declared rho<=.8 assumption. Twin promotion rates vary widely: T:cams/a5b .075-.092 on four twins and 0 on twin_metro; cmean .009-.442. These one-seed-per-twin rates are descriptive only.",
+   "track_R": "Track-R alpha calibration and evaluation are in outputs/sprint2/T/trackR.json. R20: T:cams/a5b: alpha 0.5, eval risk 0.037 [0.013,0.105], cost 381.6 [375.8,387.4], Pareto; T:cams/a5b+ad: calibrated alpha 0.05; no displayed R20 Pareto point; T:cams/cmean: calibrated alpha 0.05; no displayed R20 Pareto point; T:cams/env8: calibrated alpha 0.05; no displayed R20 Pareto point. Curves are selected-grid empirical estimates, not guarantees.",
+   "track_V": "CAMS adapter: 20/20 F0 null, 10/20 F0 worse, 19/20 on each rho=.8 and rho=.95 screen. Conditional-mean variants are more conservative; these rates are diagnostics, not a guarantee. See family_t/results.md.",
+   "ablation": "CAMS host evidence-module competition: A5b, env8/env95, conditional mean, smoothed conditional mean, adaptive acquisition, and host-only variants.",
+   "next_action": null
+  },
+  {
+   "id": "T5",
+   "status": "SCREENED; FIXED-SETTING TRANSFER EVIDENCE",
+   "implementation": "T4-selected evidence/module wrappers evaluated on Model Picker and Model Selector hosts; shared gate wrappers.",
+   "evidence": [
+    "outputs/sprint2/T/devA/records.jsonl",
+    "outputs/sprint2/T/dev_summary.md",
+    "outputs/sprint2/T/contrasts.json",
+    "outputs/sprint2/T/real_fresh_summary.json"
+   ],
+   "finding": "The frozen A5b setting transfers with zero promotions on F0/F0_worse/rho=.8/rho=.95 dev null screens, but is more costly than host adapters: T:mp/a5b 397.7 vs model_picker_adapter 354.4; T:ms/a5b 395.8 vs model_selector_causal 347.0. Conditional-mean variants reduce but do not eliminate rho=.95 promotions (MP .50/20, MS .45/20). Markov env8 transfers with observed rho=.95 promotions (MP .20, MS .20), consistent with its declared rho<=.8 restriction. These are simulator transfer results; real summaries are heterogeneous.",
+   "disposition": "The fixed setting transfers procedurally, not as an economic improvement or broad validity guarantee.",
+   "run_config": {
+    "commands": [
+     "sh outputs/sprint2/T/cmd_dev.sh",
+     "sh outputs/sprint2/T/cmd_stage2.sh",
+     "sh outputs/sprint2/T/cmd_stageC.sh"
+    ],
+    "candidate_policy_ids": [
+     "T:mp/a5b",
+     "T:mp/env8",
+     "T:mp/cmean",
+     "T:mp/a5b+ad",
+     "T:ms/a5b",
+     "T:ms/env8",
+     "T:ms/cmean",
+     "T:ms/a5b+ad"
+    ],
+    "contract": "T=2000, B=200, c_q=0.05, c_s=5; alpha=0.05 for development and registered alpha grid for Track R",
+    "note": "The linked manifests preserve the exact argv, seed base, policy list, code hash and source hashes for each executed run."
+   },
+   "seed_manifest": {
+    "manifests": [
+     "outputs/sprint2/T/devA/manifest.json",
+     "outputs/sprint2/T/real_fresh/manifest.json"
+    ],
+    "seed_bases": [
+     "2026110701"
+    ],
+    "note": "See each manifest argv for the run-specific seed count and seed base.",
+    "provenance_status": "complete"
+   },
+   "results_artifact": [
+    "outputs/sprint2/T/devA/records.jsonl",
+    "outputs/sprint2/T/dev_summary.md",
+    "outputs/sprint2/T/contrasts.json",
+    "outputs/sprint2/T/real_fresh_summary.json"
+   ],
+   "track_E": "The frozen A5b setting transfers with zero promotions on F0/F0_worse/rho=.8/rho=.95 dev null screens, but is more costly than host adapters: T:mp/a5b 397.7 vs model_picker_adapter 354.4; T:ms/a5b 395.8 vs model_selector_causal 347.0. Conditional-mean variants reduce but do not eliminate rho=.95 promotions (MP .50/20, MS .45/20). Markov env8 transfers with observed rho=.95 promotions (MP .20, MS .20), consistent with its declared rho<=.8 restriction. These are simulator transfer results; real summaries are heterogeneous.",
+   "track_R": "Track-R alpha calibration and evaluation are in outputs/sprint2/T/trackR.json. R20: T:mp/a5b: calibrated alpha 0.05; no displayed R20 Pareto point; T:ms/a5b: calibrated alpha 0.05; no displayed R20 Pareto point. Curves are selected-grid empirical estimates, not guarantees.",
+   "track_V": "Fixed A5b setting: 0/20 on F0, F0_worse, rho=.8 and rho=.95 on both MP and MS hosts; env8 has 4/20 rho=.95 promotions per host, outside declared rho<=.8 region. Twin checks are one seed per split. See family_t/results.md.",
+   "ablation": "Fixed evidence settings selected on CAMS are transferred to Model Picker and Model Selector hosts, with host-only/adaptive acquisition variants.",
+   "next_action": null
+  },
+  {
+   "id": "T6",
+   "status": "SCREENED; INTERACTION EFFECT SMALL/UNCERTAIN",
+   "implementation": "Evidence x acquisition 2x2: A5b or env8 with C2/C6 and front/base acquisition on gated host.",
+   "evidence": [
+    "outputs/sprint2/T/devB/records.jsonl",
+    "outputs/sprint2/T/contrasts.json",
+    "outputs/sprint2/T/trackR.md",
+    "outputs/sprint2/T/real_fresh_summary.json",
+    "outputs/sprint2/T/real_twin_summary.json"
+   ],
+   "finding": "For A5b x C2 the estimated interaction is +0.8 [-1.5,+3.0] in dev; acquisition effect at best evidence is -0.6 [-1.9,+0.7]. A5b x C6 interaction is also recorded in contrasts.json. T6:a5bxC2 has 0/20 promotions on the four dev null screens and alternative mean J 391.1; it is not cheaper than the prior selected choe_ramdas_eb+front comparator in that analysis. Track-R points are reported, e.g. at R20 risk .087 [.043,.170], cost 374.2 [368.7,379.8] at alpha .5. Fresh-real comparison to A5b is mixed; twin promotion ranges 0-.083 for T6, one policy seed per split.",
+   "disposition": "No evidence of an interaction gain; retain the null interaction estimate and scoped cost-risk curves.",
+   "run_config": {
+    "commands": [
+     "sh outputs/sprint2/T/cmd_dev.sh",
+     "sh outputs/sprint2/T/cmd_stage2.sh",
+     "sh outputs/sprint2/T/cmd_stageC.sh"
+    ],
+    "candidate_policy_ids": [
+     "T6:a5bxC2",
+     "T6:a5bxC6",
+     "T6:env8xC2",
+     "T6:env8xC6"
+    ],
+    "contract": "T=2000, B=200, c_q=0.05, c_s=5; alpha=0.05 for development and registered alpha grid for Track R",
+    "note": "The linked manifests preserve the exact argv, seed base, policy list, code hash and source hashes for each executed run."
+   },
+   "seed_manifest": {
+    "manifests": [
+     "outputs/sprint2/T/R_dev_a0.005/manifest.json",
+     "outputs/sprint2/T/R_dev_a0.01/manifest.json",
+     "outputs/sprint2/T/R_dev_a0.02/manifest.json",
+     "outputs/sprint2/T/R_dev_a0.1/manifest.json",
+     "outputs/sprint2/T/R_dev_a0.2/manifest.json",
+     "outputs/sprint2/T/R_dev_a0.3/manifest.json",
+     "outputs/sprint2/T/R_dev_a0.5/manifest.json",
+     "outputs/sprint2/T/R_eval_a0.005/manifest.json",
+     "outputs/sprint2/T/R_eval_a0.01/manifest.json",
+     "outputs/sprint2/T/R_eval_a0.02/manifest.json",
+     "outputs/sprint2/T/R_eval_a0.05/manifest.json",
+     "outputs/sprint2/T/R_eval_a0.1/manifest.json",
+     "outputs/sprint2/T/R_eval_a0.2/manifest.json",
+     "outputs/sprint2/T/R_eval_a0.3/manifest.json",
+     "outputs/sprint2/T/R_eval_a0.5/manifest.json",
+     "outputs/sprint2/T/devB/manifest.json",
+     "outputs/sprint2/T/real_fresh/manifest.json",
+     "outputs/sprint2/T/real_twin/manifest.json"
+    ],
+    "seed_bases": [
+     "2026110701",
+     "2026110711"
+    ],
+    "note": "See each manifest argv for the run-specific seed count and seed base.",
+    "provenance_status": "complete"
+   },
+   "results_artifact": [
+    "outputs/sprint2/T/devB/records.jsonl",
+    "outputs/sprint2/T/contrasts.json",
+    "outputs/sprint2/T/trackR.md",
+    "outputs/sprint2/T/real_fresh_summary.json",
+    "outputs/sprint2/T/real_twin_summary.json"
+   ],
+   "track_E": "For A5b x C2 the estimated interaction is +0.8 [-1.5,+3.0] in dev; acquisition effect at best evidence is -0.6 [-1.9,+0.7]. A5b x C6 interaction is also recorded in contrasts.json. T6:a5bxC2 has 0/20 promotions on the four dev null screens and alternative mean J 391.1; the comparison to the prior selected `choe_ramdas_eb+front` port is historical and exploratory; that non-author-native port cannot support published-SOTA inference. Track-R points are reported, e.g. at R20 risk .087 [.043,.170], cost 374.2 [368.7,379.8] at alpha .5. Fresh-real comparison to A5b is mixed; twin promotion ranges 0-.083 for T6, one policy seed per split.",
+   "track_R": "Track-R alpha calibration and evaluation are in outputs/sprint2/T/trackR.json. R20: T6:a5bxC2: alpha 0.5, eval risk 0.087 [0.043,0.170], cost 374.2 [368.7,379.8], Pareto; T6:a5bxC6: calibrated alpha 0.05; no displayed R20 Pareto point; T6:env8xC2: calibrated alpha 0.05; no displayed R20 Pareto point; T6:env8xC6: calibrated alpha 0.05; no displayed R20 Pareto point. Curves are selected-grid empirical estimates, not guarantees.",
+   "track_V": "T6:a5bxC2: 0/20 promotions on the four development null screens; interaction estimate is small/uncertain. Twin rates 0–.083 from one policy seed per split. See family_t/results.md.",
+   "ablation": "2×2 evidence-by-acquisition comparison: A5b vs env8 evidence crossed with C2 vs C6 budget control.",
+   "next_action": null
+  }
+ ],
+ "interpretation_limits": [
+  "The exact T1 requirement is met in devA: Model Picker candidate is compared against its host adapter, D1 and D6:mp. DevC is an earlier variant/sensitivity screen, not interchangeable with devA.",
+  "Xu acquisition-only appears in shared comparator sets. It is not Xu et al.'s published certification method and must not support published-SOTA superiority claims.",
+  "Some older 'best certified' contrasts select and evaluate on overlapping development seeds. Recompute after comparator reclassification and account for selection before confirmatory statements.",
+  "Real fresh/twin runs have limited seeds and reused twins; these do not establish external validity or causal change response.",
+  "The Track-R report is only a summarized selected operating-point subset. Its starred Pareto marks are conditional on the tested candidates/grid and are exploratory."
+ ]
+}

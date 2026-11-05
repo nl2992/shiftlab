@@ -7,6 +7,7 @@ from __future__ import annotations
 
 import json
 import math
+import argparse
 from pathlib import Path
 
 import numpy as np
@@ -20,6 +21,7 @@ BOUND = 0.0936
 CERT = ["gated_deployment", "gated_adaptive_range", "gated_adaptive_range+front", "discern_style",
         "discern_design_floor", "SMCS+retain-incumbent", "xu_acquisition_only", "choe_ramdas_eb",
         "choe_ramdas_eb+front", "gated_deployment+QCE", "gated_deployment+QCE+front"]  # QCE: Amendment 2
+from bench import CERTIFIED_PUBLISHED
 UNC = ["model_picker_adapter", "model_selector_causal", "online_llm_picker", "cams_adapter",
        "variance_min_ipw", "gong_zhang_paid_obs", "qiu_delayed_movement", "ryabchenko_capacity"]
 IID_ALT = ["V_better_a", "V_better_b", "V_better_c", "V_near", "W_delay600_better"]
@@ -69,7 +71,26 @@ def holm(ps):
     return adj
 
 
-def main():
+def main(argv=None):
+    ap = argparse.ArgumentParser(description=__doc__)
+    ap.add_argument("--amendment-dir", type=Path,
+                    help="Write a separate corrected comparator-class sensitivity analysis here; never overwrite registered outputs.")
+    ap.add_argument("--strict-published-dir", type=Path,
+                    help="Write a separate analysis ranking only bench.CERTIFIED_PUBLISHED ports; never overwrite registered outputs.")
+    args = ap.parse_args(argv)
+    global DOC
+    if args.amendment_dir and args.strict_published_dir:
+        ap.error("choose only one of --amendment-dir or --strict-published-dir")
+    if args.amendment_dir or args.strict_published_dir:
+        # The registered analysis is preserved byte-for-byte. Xu remains in the operational panel,
+        # but is removed from the published-certificate ranking per the paper-to-code audit.
+        global CERT
+        if args.strict_published_dir:
+            CERT = list(CERTIFIED_PUBLISHED)
+            DOC = args.strict_published_dir
+        else:
+            CERT = [p for p in CERT if p != "xu_acquisition_only"]
+            DOC = args.amendment_dir
     syn = _load(["synth", "synth_b5", "synth_qce"])
     nul = _load(["null1000", "null1000_b5", "null1000_qce", "ooc1000"])
     harm = {}
@@ -78,7 +99,11 @@ def main():
         harm[r] = (P.sub(P["CONTROL_never_switch"], axis=0)).mean().round(3).to_dict()
     piv = {r: g.pivot_table(index="seed", columns="policy", values="net")
            for r, g in syn.groupby("regime")}
-    res = {"null_safety": {}, "regimes": {}, "H1": {}, "H2": {}, "H3": {}}
+    res = {"null_safety": {}, "regimes": {}, "H1": {}, "H2": {}, "H3": {},
+           "analysis_status": ("strict published-certificate pool; only bench.CERTIFIED_PUBLISHED ports ranked; all are common-contract adapters rather than author-native full deployments; same-seed selection remains unadjusted"
+                               if args.strict_published_dir else
+                               "amended legacy sensitivity; Xu acquisition adapter excluded but Choe-Ramdas and QCE ports remain; not a strict published-certificate ranking; same-seed selection remains unadjusted"
+                               if args.amendment_dir else "registered historical analysis")}
 
     # null safety, 1000 seeds
     for (r, p), g in nul.groupby(["regime", "policy"]):
@@ -105,14 +130,17 @@ def main():
                              for c in SAFETY_CANDS + ["A1b"] if c in means}
         res["regimes"][r] = cell
 
-    # H0 (Amendment 2): the Atlas v2 registered stop rule, verbatim criteria
+    # H0 (Amendment 2): registered alternative set; corrected sensitivity excludes Xu's
+    # acquisition adapter from the certified-comparator choice.
     s = res["null_safety"]
     for c in ("A5b", "A1b"):
         safe = all(s[c][r]["rate"] <= BOUND for r in ("V_null_dep_r8", "W_null_dep_r95"))
         rows = {}
         for r in STAT6:
             P = piv[r]
-            base = min(("xu_acquisition_only", "gated_adaptive_range+pace_tuned"), key=lambda b: P[b].mean())
+            h0_pool = ("gated_adaptive_range+pace_tuned",) if args.amendment_dir else (
+                "xu_acquisition_only", "gated_adaptive_range+pace_tuned")
+            base = min(h0_pool, key=lambda b: P[b].mean())
             rows[r] = diff(P, c, base)
         k = sum(v["hi"] < 0 for v in rows.values())
         res.setdefault("H0", {})[c] = {"safety_r8_r95": safe, "rows": rows, "n_ci_below_0": k,
@@ -178,6 +206,13 @@ def write_md(res):
     s = res["null_safety"]
     regs = NULLS + OOC
     L = ["# SOTA sprint validation results (locked protocol + Amendments 1-2)", "",
+        (("**STRICT PUBLISHED-CERTIFICATE POOL:** only the six ports in `bench.CERTIFIED_PUBLISHED` are ranked. "
+          "They remain common-contract adapters, not author-native full deployments. "
+          "Raw runs and registered results are unchanged. Comparator selection still uses the same evaluation seeds; "
+          "these contrasts are descriptive and do not provide selection-adjusted confirmatory inference." if res["analysis_status"].startswith("strict published") else
+         "**LEGACY ADAPTER-POOL SENSITIVITY:** Xu is excluded, but Choe–Ramdas and QCE ports remain; this is not a strict published-certificate ranking. "
+          "Raw runs and registered results are unchanged. Comparator selection still uses the same evaluation seeds; "
+          "these contrasts are descriptive and do not provide selection-adjusted confirmatory inference." if "amended" in res["analysis_status"] else "Historical registered analysis; comparator pool as originally specified.")), "",
          "Raw: `outputs/sota_sprint/validation/`. Synthetic 100 seeds (base 2026110601); in-class nulls "
          "1000 seeds (base 2026110602); out-of-class nulls 1000 seeds (base 2026110605, descriptive).", "",
          "## Null promotion rate (1000 seeds; bold = point > .0936) and harm vs never-switch", "",
@@ -192,7 +227,10 @@ def write_md(res):
             rate = f"**{v['rate']:.3f}**" if v["rate"] > BOUND else f"{v['rate']:.3f}"
             cells.append(f"{rate} (ub {v['wilson_hi']:.3f}; harm {v['harm_vs_never']:+.2f})")
         L.append(f"| {p} | " + " | ".join(cells) + " |")
-    L += ["", "## H0: Atlas v2 registered stop rule (vs stronger of Xu / tuned pacing)", ""]
+    h0_label = ("tuned pacing only (Xu excluded from certificate-comparator selection)"
+                if ("amended" in res["analysis_status"] or "strict published" in res["analysis_status"])
+                else "stronger of Xu / tuned pacing")
+    L += ["", f"## H0: Atlas v2 registered stop rule (vs {h0_label})", ""]
     for c, h in res["H0"].items():
         L.append(f"* **{c}: {'PASS' if h['pass'] else 'FAIL'}**; safety rho .8/.95 {h['safety_r8_r95']}; "
                  f"CI<0 on {h['n_ci_below_0']}/6: " + "; ".join(f"{r} {_ci(d)} vs {d['vs']}" for r, d in h["rows"].items()))
@@ -206,7 +244,7 @@ def write_md(res):
         L.append(f"* part 3 NI (+5): {h['part3_n_ni_of5']}/5 iid ({h['part3_n_ni_of6_incl_bursty']}/6 incl. bursty): "
                  + "; ".join(f"{r} {_ci(d)} vs {d['vs']}" for r, d in h["part3"].items()))
         L.append("* declared losses: " + "; ".join(f"{r} {_ci(d)}" for r, d in h["declared_losses"].items()))
-    L += ["", "## H2 (cost superiority vs best certified; Holm over 5 iid; requires Wilson-ub safety)", "",
+    L += ["", "## H2 (cost superiority vs best certificate-policy comparator; Holm over 5 iid; requires Wilson-ub safety)", "",
           "| candidate | safe | " + " | ".join(IID_ALT) + " | n sig | pass |", "|---|---|" + "---|" * len(IID_ALT) + "---|---|"]
     for c, v in res["H2"].items():
         L.append(f"| {c} | {v['safe_all_nulls']} | " + " | ".join(

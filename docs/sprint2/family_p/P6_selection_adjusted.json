@@ -1,0 +1,191 @@
+{
+  "status": "POST_DEVELOPMENT_EXPLORATORY_SELECTION_ADJUSTED_SENSITIVITY",
+  "source": "outputs/sprint2/round5/P6_corrected_comparators_100/records.jsonl",
+  "candidate": "P6_LRMD_U",
+  "comparator_set": [
+    "gated_deployment",
+    "gated_adaptive_range+front",
+    "discern_style",
+    "SMCS+retain-incumbent",
+    "choe_ramdas_eb+front"
+  ],
+  "seed_unit": "paired synthetic run seed within regime",
+  "interpretation": "The max-statistic bound addresses selection among this frozen comparator set within each regime. It does not adjust across regimes, candidate development, or other analyses, and does not make the post-development run confirmatory.",
+  "regimes": {
+    "F0_better": {
+      "n_paired_seeds": 100,
+      "candidate": "P6_LRMD_U",
+      "comparator_set": [
+        "gated_deployment",
+        "gated_adaptive_range+front",
+        "discern_style",
+        "SMCS+retain-incumbent",
+        "choe_ramdas_eb+front"
+      ],
+      "mean_candidate_minus_comparator": {
+        "gated_deployment": -32.2925,
+        "gated_adaptive_range+front": 31.4655,
+        "discern_style": -34.06849999999999,
+        "SMCS+retain-incumbent": 22.0885,
+        "choe_ramdas_eb+front": 31.982499999999987
+      },
+      "evaluation_best_comparator": "discern_style",
+      "best_comparator_point_contrast": -34.06849999999999,
+      "max_comparator_point_contrast": 31.982499999999987,
+      "simultaneous_one_sided_95_upper_bound_for_max_contrast": 39.90549999999999,
+      "candidate_beats_all_comparators_by_simultaneous_bound": false,
+      "method": "paired-seed centered max-statistic percentile bootstrap",
+      "bootstrap_replicates": 20000
+    },
+    "F1_late_1200": {
+      "n_paired_seeds": 100,
+      "candidate": "P6_LRMD_U",
+      "comparator_set": [
+        "gated_deployment",
+        "gated_adaptive_range+front",
+        "discern_style",
+        "SMCS+retain-incumbent",
+        "choe_ramdas_eb+front"
+      ],
+      "mean_candidate_minus_comparator": {
+        "gated_deployment": -12.862999999999994,
+        "gated_adaptive_range+front": -12.201999999999996,
+        "discern_style": -12.860000000000003,
+        "SMCS+retain-incumbent": -12.861500000000001,
+        "choe_ramdas_eb+front": -12.026499999999999
+      },
+      "evaluation_best_comparator": "gated_deployment",
+      "best_comparator_point_contrast": -12.862999999999994,
+      "max_comparator_point_contrast": -12.026499999999999,
+      "simultaneous_one_sided_95_upper_bound_for_max_contrast": -9.572500000000003,
+      "candidate_beats_all_comparators_by_simultaneous_bound": true,
+      "method": "paired-seed centered max-statistic percentile bootstrap",
+      "bootstrap_replicates": 20000
+    },
+    "F1_late_800": {
+      "n_paired_seeds": 100,
+      "candidate": "P6_LRMD_U",
+      "comparator_set": [
+        "gated_deployment",
+        "gated_adaptive_range+front",
+        "discern_style",
+        "SMCS+retain-incumbent",
+        "choe_ramdas_eb+front"
+      ],
+      "mean_candidate_minus_comparator": {
+        "gated_deployment": -25.148999999999997,
+        "gated_adaptive_range+front": -24.125,
+        "discern_style": -25.155499999999993,
+        "SMCS+retain-incumbent": -24.8825,
+        "choe_ramdas_eb+front": -24.081500000000002
+      },
+      "evaluation_best_comparator": "discern_style",
+      "best_comparator_point_contrast": -25.155499999999993,
+      "max_comparator_point_contrast": -24.081500000000002,
+      "simultaneous_one_sided_95_upper_bound_for_max_contrast": -20.373000000000005,
+      "candidate_beats_all_comparators_by_simultaneous_bound": true,
+      "method": "paired-seed centered max-statistic percentile bootstrap",
+      "bootstrap_replicates": 20000
+    },
+    "F3_reversal_800": {
+      "n_paired_seeds": 100,
+      "candidate": "P6_LRMD_U",
+      "comparator_set": [
+        "gated_deployment",
+        "gated_adaptive_range+front",
+        "discern_style",
+        "SMCS+retain-incumbent",
+        "choe_ramdas_eb+front"
+      ],
+      "mean_candidate_minus_comparator": {
+        "gated_deployment": 23.881999999999998,
+        "gated_adaptive_range+front": -41.863500000000016,
+        "discern_style": 25.923,
+        "SMCS+retain-incumbent": -36.059499999999986,
+        "choe_ramdas_eb+front": -40.40200000000002
+      },
+      "evaluation_best_comparator": "gated_adaptive_range+front",
+      "best_comparator_point_contrast": -41.863500000000016,
+      "max_comparator_point_contrast": 25.923,
+      "simultaneous_one_sided_95_upper_bound_for_max_contrast": 34.889499999999984,
+      "candidate_beats_all_comparators_by_simultaneous_bound": false,
+      "method": "paired-seed centered max-statistic percentile bootstrap",
+      "bootstrap_replicates": 20000
+    },
+    "F5_dep_null_r8": {
+      "n_paired_seeds": 100,
+      "candidate": "P6_LRMD_U",
+      "comparator_set": [
+        "gated_deployment",
+        "gated_adaptive_range+front",
+        "discern_style",
+        "SMCS+retain-incumbent",
+        "choe_ramdas_eb+front"
+      ],
+      "mean_candidate_minus_comparator": {
+        "gated_deployment": -0.1164999999999992,
+        "gated_adaptive_range+front": 1.3409999999999973,
+        "discern_style": -0.205,
+        "SMCS+retain-incumbent": 0.6280000000000001,
+        "choe_ramdas_eb+front": 1.3044999999999976
+      },
+      "evaluation_best_comparator": "discern_style",
+      "best_comparator_point_contrast": -0.205,
+      "max_comparator_point_contrast": 1.3409999999999973,
+      "simultaneous_one_sided_95_upper_bound_for_max_contrast": 3.2789999999999973,
+      "candidate_beats_all_comparators_by_simultaneous_bound": false,
+      "method": "paired-seed centered max-statistic percentile bootstrap",
+      "bootstrap_replicates": 20000
+    },
+    "S_reversal_400": {
+      "n_paired_seeds": 100,
+      "candidate": "P6_LRMD_U",
+      "comparator_set": [
+        "gated_deployment",
+        "gated_adaptive_range+front",
+        "discern_style",
+        "SMCS+retain-incumbent",
+        "choe_ramdas_eb+front"
+      ],
+      "mean_candidate_minus_comparator": {
+        "gated_deployment": 4.9215,
+        "gated_adaptive_range+front": -83.91050000000003,
+        "discern_style": 4.9255,
+        "SMCS+retain-incumbent": -67.015,
+        "choe_ramdas_eb+front": -82.42649999999999
+      },
+      "evaluation_best_comparator": "gated_adaptive_range+front",
+      "best_comparator_point_contrast": -83.91050000000003,
+      "max_comparator_point_contrast": 4.9255,
+      "simultaneous_one_sided_95_upper_bound_for_max_contrast": 17.05749999999999,
+      "candidate_beats_all_comparators_by_simultaneous_bound": false,
+      "method": "paired-seed centered max-statistic percentile bootstrap",
+      "bootstrap_replicates": 20000
+    },
+    "W_late_1000": {
+      "n_paired_seeds": 100,
+      "candidate": "P6_LRMD_U",
+      "comparator_set": [
+        "gated_deployment",
+        "gated_adaptive_range+front",
+        "discern_style",
+        "SMCS+retain-incumbent",
+        "choe_ramdas_eb+front"
+      ],
+      "mean_candidate_minus_comparator": {
+        "gated_deployment": -23.700000000000003,
+        "gated_adaptive_range+front": -23.057499999999994,
+        "discern_style": -23.701999999999998,
+        "SMCS+retain-incumbent": -23.732000000000003,
+        "choe_ramdas_eb+front": -22.87
+      },
+      "evaluation_best_comparator": "SMCS+retain-incumbent",
+      "best_comparator_point_contrast": -23.732000000000003,
+      "max_comparator_point_contrast": -22.87,
+      "simultaneous_one_sided_95_upper_bound_for_max_contrast": -19.260500000000008,
+      "candidate_beats_all_comparators_by_simultaneous_bound": true,
+      "method": "paired-seed centered max-statistic percentile bootstrap",
+      "bootstrap_replicates": 20000
+    }
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "audit": "PASS",
+  "rows_checked": 197,
+  "source_files": {
+    "Family R": "outputs/sprint2/R/analysis/risk_curves.json",
+    "Family T": "outputs/sprint2/T/trackR.json",
+    "Family H": "docs/sprint2/family_h/track_R_all.json",
+    "Family P": "docs/sprint2/family_p/trackR.json",
+    "Family P5": "outputs/sprint2/P/trackR_K/risk_curves.json"
+  },
+  "differences": [],
+  "difference_count": 0,
+  "scope_limitations": [
+    "Checks displayed rows only; it does not prove the selected grid, Pareto construction, or target calibration is scientifically appropriate.",
+    "Empirical risk intervals are descriptive and are not formal risk guarantees."
+  ]
+}

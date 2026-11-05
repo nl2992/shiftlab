@@ -1,0 +1,128 @@
+{
+  "audit": "PASS",
+  "checks": [
+    {
+      "name": "P1 development summary",
+      "status": "PASS",
+      "cell_count": 5980,
+      "difference_count": 0,
+      "differences": []
+    },
+    {
+      "name": "P1 selected power-repair contrast table",
+      "status": "PASS",
+      "cell_count": 27,
+      "difference_count": 0,
+      "differences": []
+    },
+    {
+      "name": "P1 null-promotion narrative and scope",
+      "status": "PASS",
+      "cell_count": 44,
+      "difference_count": 0,
+      "differences": []
+    },
+    {
+      "name": "P1 displayed diagnostic tables",
+      "status": "PASS",
+      "cell_count": 40,
+      "difference_count": 0,
+      "differences": []
+    },
+    {
+      "name": "P2 episode-level V1/V2 table",
+      "status": "PASS",
+      "cell_count": 12,
+      "difference_count": 0,
+      "differences": []
+    },
+    {
+      "name": "P2 twin A500 outcomes",
+      "status": "PASS",
+      "cell_count": 8,
+      "difference_count": 0,
+      "differences": []
+    },
+    {
+      "name": "P2 narrative correlations and conditional harm",
+      "status": "PASS",
+      "cell_count": 14,
+      "difference_count": 0,
+      "differences": []
+    },
+    {
+      "name": "P3 selected promotion-harm cells",
+      "status": "PASS",
+      "cell_count": 24,
+      "difference_count": 0,
+      "differences": []
+    },
+    {
+      "name": "P4 null rates and alternative costs",
+      "status": "PASS",
+      "cell_count": 106,
+      "difference_count": 0,
+      "differences": []
+    },
+    {
+      "name": "P5 synthetic paired-cost table",
+      "status": "PASS",
+      "cell_count": 24,
+      "difference_count": 0,
+      "differences": []
+    },
+    {
+      "name": "P5 real-data paired-cost means and intervals",
+      "status": "PASS",
+      "cell_count": 20,
+      "difference_count": 0,
+      "differences": []
+    },
+    {
+      "name": "P5 K=4 first-two-column cache identity",
+      "status": "PASS",
+      "cell_count": 10,
+      "difference_count": 0,
+      "differences": []
+    },
+    {
+      "name": "P5 cost, confidence-interval and null-switch prose",
+      "status": "PASS",
+      "cell_count": 4,
+      "difference_count": 0,
+      "differences": []
+    },
+    {
+      "name": "P6 synthetic development paired contrasts",
+      "status": "PASS",
+      "cell_count": 21,
+      "difference_count": 0,
+      "differences": []
+    },
+    {
+      "name": "P6 fresh-real mean-cost table",
+      "status": "PASS",
+      "cell_count": 25,
+      "difference_count": 0,
+      "differences": []
+    },
+    {
+      "name": "P3 full switch-cost reweighting",
+      "status": "PASS",
+      "cell_count": 768,
+      "difference_count": 0,
+      "differences": []
+    },
+    {
+      "name": "P3 narrative and registry scope",
+      "status": "PASS",
+      "cell_count": 12,
+      "difference_count": 0,
+      "differences": []
+    }
+  ],
+  "limitations": [
+    "Does not reproduce every P3/P6 narrative claim or every family-level narrative in the P-family documents.",
+    "Numerical agreement does not establish theorem validity, causal interpretation, or independent confirmation."
+  ]
+}

@@ -37,12 +37,17 @@ RISK_ALTS = ["F0_better", "F7_near_better", "F9_bursty_better", "F1_late_800", "
 NULL_TESTED = {
     "gated_deployment": "V1", "gated_adaptive_range": "V1", "gated_adaptive_range+front": "V1",
     "discern_style": "V1", "discern_design_floor": "V1", "SMCS+retain-incumbent": "V1",
-    "xu_acquisition_only": "V1", "choe_ramdas_eb": "V1", "choe_ramdas_eb+front": "V1",
+    # Xu supplies acquisition only here; the paired V1 test is ShiftLab's B3+ certificate, not
+    # Xu's prediction-set risk guarantee. Keep V1 for the composite policy while excluding it from
+    # the published-certificate comparator class.
+    "xu_acquisition_only": "V1 (ShiftLab certificate; Xu acquisition adapter)",
+    "choe_ramdas_eb": "V1", "choe_ramdas_eb+front": "V1",
     "gated_deployment+QCE": "V1", "gated_deployment+QCE+front": "V1", "QSG": "V1",
     "D1": "V1", "D2": "V1", "rmm:gated_deployment+RMM": "V1", "rmm:LRMD": "V1",
     "A5b": "V2", "A1b": "V2", "D5": "V2", "M_LRMD_SUI": "V2", "M_RMMSUI_A5b": "V2",
     "economic_replacement": "V3", "P7s_settled": "V1",
-    "model_picker_adapter": "none", "cams_adapter": "none", "model_selector_causal": "none",
+    "model_picker_adapter": "none", "cams_adapter": "none", "cams_max_adapter": "none",
+    "model_selector_causal": "none",
     "online_llm_picker": "none", "variance_min_ipw": "none", "gong_zhang_paid_obs": "none",
     "qiu_delayed_movement": "none", "ryabchenko_capacity": "none", "CONTROL_never_switch": "none",
 }

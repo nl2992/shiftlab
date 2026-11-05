@@ -399,6 +399,12 @@ EXTRA = {
     "D1-no_share": _gate("mp", "D1-no_share", share=False),
     # D2: CAMS (constant policies, the only information the loss-only stream supports) + gate
     "D2": _gate("cams", "D2"),
+    # NeurIPS 2024 Appendix G.7 ablation: native stochastic CAMS-MAX recommendation core
+    # under the same context-free constant-policy advice as cams_adapter. Prediction deployment,
+    # hard cap, delayed feedback and switching costs remain benchmark adapters.
+    "cams_max_adapter": lambda T, B, cs, cq, a, d, r: CAMSDeploymentAdapter(
+        n_models=2, n_classes=2, advice_fn=stack_advice(2, []), rng=r("cams"),
+        variant="CAMS-MAX", name="cams_max_adapter"),
     "D2-host_only": _gate("cams", "D2-host_only", acq="host_only"),
     # D3: Model Selector + post-decision monitoring
     "D3": lambda T, B, cs, cq, a, d, r: SelectThenMonitor(T, B, a, r=r, rng=r("D_gate"),

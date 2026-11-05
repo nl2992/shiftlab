@@ -1,0 +1,1580 @@
+{
+  "title": "P6 all-14-source real-stream cost replay (post-development descriptive)",
+  "manifest": "outputs/sprint2/round5/p6_all14_real20/manifest.json",
+  "seed_base": 2026110902,
+  "policy_seeds_per_episode": 20,
+  "total_episodes": 230,
+  "sources": [
+    "rialto",
+    "spam",
+    "weather",
+    "openml_ldpa",
+    "uci_occupancy",
+    "airlines",
+    "bank",
+    "elec2",
+    "criteo",
+    "metro",
+    "beijing_pm25",
+    "bike_hour",
+    "appliances",
+    "household_power"
+  ],
+  "policies": [
+    "P6_LRMD_U",
+    "M_LRMD_SUI",
+    "A5b",
+    "D2",
+    "rmm:gated_deployment+RMM",
+    "gated_adaptive_range+front",
+    "CONTROL_never_switch"
+  ],
+  "unit": "Mean over 20 policy-randomness seeds within episode; t intervals across chronological episodes within each source.",
+  "equal_source_mean_net_cost": {
+    "P6_LRMD_U": 525.2357588116496,
+    "M_LRMD_SUI": 500.8310143388605,
+    "A5b": 495.6932008503401,
+    "D2": 404.92123262117354,
+    "rmm:gated_deployment+RMM": 423.47007746598644,
+    "gated_adaptive_range+front": 414.137468537415,
+    "CONTROL_never_switch": 597.8907568027211
+  },
+  "equal_source_mean_paired_cost_contrast": {
+    "M_LRMD_SUI": {
+      "mean_of_source_means": 24.404744472789123,
+      "source_means": [
+        9.003125,
+        185.89999999999998,
+        10.883333333333345,
+        22.828125000000014,
+        0.0,
+        0.23599999999999682,
+        0.11875000000000568,
+        -1.2999999999999972,
+        1.206999999999998,
+        58.00937499999999,
+        -2.98928571428572,
+        24.308333333333334,
+        22.041666666666668,
+        11.419999999999993
+      ]
+    },
+    "A5b": {
+      "mean_of_source_means": 29.54255796130951,
+      "source_means": [
+        2.4789062499999988,
+        256.79999999999995,
+        19.706666666666706,
+        30.336796875000005,
+        0.15812499999997343,
+        -1.1977500000000032,
+        -0.031562499999999716,
+        3.4006249999999767,
+        0.206149999999991,
+        101.45531249999999,
+        -8.48125000000003,
+        22.774999999999988,
+        -29.768333333333356,
+        15.757124999999984
+      ]
+    },
+    "D2": {
+      "mean_of_source_means": 120.31452619047619,
+      "source_means": [
+        104.08484375,
+        333.2099999999999,
+        26.347500000000025,
+        126.01984375000004,
+        350.34375,
+        2.299700000000007,
+        3.6100000000000065,
+        10.071874999999977,
+        2.655250000000001,
+        203.3003125,
+        99.53374999999998,
+        111.83958333333332,
+        226.09458333333336,
+        84.99237499999997
+      ]
+    },
+    "rmm:gated_deployment+RMM": {
+      "mean_of_source_means": 101.76568134566328,
+      "source_means": [
+        90.44359374999999,
+        306.99999999999994,
+        7.481666666666702,
+        105.336640625,
+        338.186875,
+        1.1826500000000033,
+        -0.050312500000011084,
+        0.8249999999999886,
+        0.35739999999999555,
+        170.65953125,
+        82.95053571428569,
+        79.085,
+        164.12333333333333,
+        77.13762499999997
+      ]
+    },
+    "gated_adaptive_range+front": {
+      "mean_of_source_means": 111.0982902742347,
+      "source_means": [
+        97.50890625,
+        322.19999999999993,
+        17.005000000000035,
+        110.077578125,
+        349.18312499999996,
+        1.6825500000000055,
+        7.662187500000005,
+        -0.7118750000000063,
+        0.488149999999996,
+        196.71265625,
+        48.875535714285704,
+        101.92666666666666,
+        226.79833333333332,
+        75.96724999999999
+      ]
+    },
+    "CONTROL_never_switch": {
+      "mean_of_source_means": -72.65499799107144,
+      "source_means": [
+        -13.60671875,
+        -293.20000000000005,
+        -18.228333333333296,
+        -91.85367187499999,
+        5.070624999999971,
+        6.008550000000005,
+        8.7184375,
+        6.438124999999985,
+        5.67915,
+        -396.99046875,
+        -16.838750000000015,
+        -185.28166666666667,
+        -20.235000000000014,
+        -12.850250000000017
+      ]
+    }
+  },
+  "by_source": {
+    "rialto": {
+      "episodes": 16,
+      "mean_net_cost": {
+        "P6_LRMD_U": 188.45578125,
+        "M_LRMD_SUI": 179.45265625000002,
+        "A5b": 185.976875,
+        "D2": 84.3709375,
+        "rmm:gated_deployment+RMM": 98.0121875,
+        "gated_adaptive_range+front": 90.946875,
+        "CONTROL_never_switch": 202.0625
+      },
+      "mean_labels": {
+        "P6_LRMD_U": 159.178125,
+        "M_LRMD_SUI": 159.178125,
+        "A5b": 143.2875,
+        "D2": 18.043750000000003,
+        "rmm:gated_deployment+RMM": 162.36875,
+        "gated_adaptive_range+front": 30.1875,
+        "CONTROL_never_switch": 0.0
+      },
+      "mean_switches": {
+        "P6_LRMD_U": 0.5,
+        "M_LRMD_SUI": 0.625,
+        "A5b": 0.4375,
+        "D2": 1.0,
+        "rmm:gated_deployment+RMM": 1.0,
+        "gated_adaptive_range+front": 1.0,
+        "CONTROL_never_switch": 0.0
+      },
+      "promotion_rate": {
+        "P6_LRMD_U": 0.5,
+        "M_LRMD_SUI": 0.625,
+        "A5b": 0.4375,
+        "D2": 1.0,
+        "rmm:gated_deployment+RMM": 1.0,
+        "gated_adaptive_range+front": 1.0,
+        "CONTROL_never_switch": 0.0
+      },
+      "paired_episode_contrasts_P6_minus_comparator": {
+        "M_LRMD_SUI": {
+          "mean_t_ci_95": [
+            9.003125,
+            -5.000178376726602,
+            23.006428376726603
+          ],
+          "episodes_favoring_P6": 1,
+          "episodes_tied": 10,
+          "episode_fraction_favoring_P6": 0.0625
+        },
+        "A5b": {
+          "mean_t_ci_95": [
+            2.4789062499999988,
+            -13.481239218758201,
+            18.439051718758197
+          ],
+          "episodes_favoring_P6": 7,
+          "episodes_tied": 1,
+          "episode_fraction_favoring_P6": 0.4375
+        },
+        "D2": {
+          "mean_t_ci_95": [
+            104.08484375,
+            72.75377126541719,
+            135.41591623458282
+          ],
+          "episodes_favoring_P6": 0,
+          "episodes_tied": 0,
+          "episode_fraction_favoring_P6": 0.0
+        },
+        "rmm:gated_deployment+RMM": {
+          "mean_t_ci_95": [
+            90.44359374999999,
+            59.37131334547801,
+            121.51587415452198
+          ],
+          "episodes_favoring_P6": 1,
+          "episodes_tied": 0,
+          "episode_fraction_favoring_P6": 0.0625
+        },
+        "gated_adaptive_range+front": {
+          "mean_t_ci_95": [
+            97.50890625,
+            65.88720847269691,
+            129.1306040273031
+          ],
+          "episodes_favoring_P6": 0,
+          "episodes_tied": 0,
+          "episode_fraction_favoring_P6": 0.0
+        },
+        "CONTROL_never_switch": {
+          "mean_t_ci_95": [
+            -13.60671875,
+            -30.2768794091633,
+            3.0634419091633003
+          ],
+          "episodes_favoring_P6": 6,
+          "episodes_tied": 0,
+          "episode_fraction_favoring_P6": 0.375
+        }
+      }
+    },
+    "spam": {
+      "episodes": 1,
+      "mean_net_cost": {
+        "P6_LRMD_U": 555.8,
+        "M_LRMD_SUI": 369.9,
+        "A5b": 299.0,
+        "D2": 222.59,
+        "rmm:gated_deployment+RMM": 248.8,
+        "gated_adaptive_range+front": 233.6,
+        "CONTROL_never_switch": 849.0
+      },
+      "mean_labels": {
+        "P6_LRMD_U": 200.0,
+        "M_LRMD_SUI": 200.0,
+        "A5b": 200.0,
+        "D2": 29.8,
+        "rmm:gated_deployment+RMM": 200.0,
+        "gated_adaptive_range+front": 52.0,
+        "CONTROL_never_switch": 0.0
+      },
+      "mean_switches": {
+        "P6_LRMD_U": 0.85,
+        "M_LRMD_SUI": 1.0,
+        "A5b": 1.0,
+        "D2": 1.0,
+        "rmm:gated_deployment+RMM": 1.0,
+        "gated_adaptive_range+front": 1.0,
+        "CONTROL_never_switch": 0.0
+      },
+      "promotion_rate": {
+        "P6_LRMD_U": 0.85,
+        "M_LRMD_SUI": 1.0,
+        "A5b": 1.0,
+        "D2": 1.0,
+        "rmm:gated_deployment+RMM": 1.0,
+        "gated_adaptive_range+front": 1.0,
+        "CONTROL_never_switch": 0.0
+      },
+      "paired_episode_contrasts_P6_minus_comparator": {
+        "M_LRMD_SUI": {
+          "mean_t_ci_95": [
+            185.89999999999998,
+            null,
+            null
+          ],
+          "episodes_favoring_P6": 0,
+          "episodes_tied": 0,
+          "episode_fraction_favoring_P6": 0.0
+        },
+        "A5b": {
+          "mean_t_ci_95": [
+            256.79999999999995,
+            null,
+            null
+          ],
+          "episodes_favoring_P6": 0,
+          "episodes_tied": 0,
+          "episode_fraction_favoring_P6": 0.0
+        },
+        "D2": {
+          "mean_t_ci_95": [
+            333.2099999999999,
+            null,
+            null
+          ],
+          "episodes_favoring_P6": 0,
+          "episodes_tied": 0,
+          "episode_fraction_favoring_P6": 0.0
+        },
+        "rmm:gated_deployment+RMM": {
+          "mean_t_ci_95": [
+            306.99999999999994,
+            null,
+            null
+          ],
+          "episodes_favoring_P6": 0,
+          "episodes_tied": 0,
+          "episode_fraction_favoring_P6": 0.0
+        },
+        "gated_adaptive_range+front": {
+          "mean_t_ci_95": [
+            322.19999999999993,
+            null,
+            null
+          ],
+          "episodes_favoring_P6": 0,
+          "episodes_tied": 0,
+          "episode_fraction_favoring_P6": 0.0
+        },
+        "CONTROL_never_switch": {
+          "mean_t_ci_95": [
+            -293.20000000000005,
+            null,
+            null
+          ],
+          "episodes_favoring_P6": 1,
+          "episodes_tied": 0,
+          "episode_fraction_favoring_P6": 1.0
+        }
+      }
+    },
+    "weather": {
+      "episodes": 3,
+      "mean_net_cost": {
+        "P6_LRMD_U": 485.7716666666667,
+        "M_LRMD_SUI": 474.8883333333334,
+        "A5b": 466.065,
+        "D2": 459.4241666666667,
+        "rmm:gated_deployment+RMM": 478.28999999999996,
+        "gated_adaptive_range+front": 468.7666666666667,
+        "CONTROL_never_switch": 504.0
+      },
+      "mean_labels": {
+        "P6_LRMD_U": 178.4333333333333,
+        "M_LRMD_SUI": 178.4333333333333,
+        "A5b": 181.29999999999998,
+        "D2": 70.14999999999999,
+        "rmm:gated_deployment+RMM": 181.79999999999998,
+        "gated_adaptive_range+front": 108.66666666666667,
+        "CONTROL_never_switch": 0.0
+      },
+      "mean_switches": {
+        "P6_LRMD_U": 0.6666666666666666,
+        "M_LRMD_SUI": 1.0,
+        "A5b": 0.6666666666666666,
+        "D2": 1.0,
+        "rmm:gated_deployment+RMM": 1.0,
+        "gated_adaptive_range+front": 0.6666666666666666,
+        "CONTROL_never_switch": 0.0
+      },
+      "promotion_rate": {
+        "P6_LRMD_U": 0.6666666666666666,
+        "M_LRMD_SUI": 1.0,
+        "A5b": 0.6666666666666666,
+        "D2": 1.0,
+        "rmm:gated_deployment+RMM": 1.0,
+        "gated_adaptive_range+front": 0.6666666666666666,
+        "CONTROL_never_switch": 0.0
+      },
+      "paired_episode_contrasts_P6_minus_comparator": {
+        "M_LRMD_SUI": {
+          "mean_t_ci_95": [
+            10.883333333333345,
+            -22.366628001605534,
+            44.13329466827223
+          ],
+          "episodes_favoring_P6": 1,
+          "episodes_tied": 0,
+          "episode_fraction_favoring_P6": 0.3333333333333333
+        },
+        "A5b": {
+          "mean_t_ci_95": [
+            19.706666666666706,
+            -24.021087719627744,
+            63.434421052961156
+          ],
+          "episodes_favoring_P6": 1,
+          "episodes_tied": 0,
+          "episode_fraction_favoring_P6": 0.3333333333333333
+        },
+        "D2": {
+          "mean_t_ci_95": [
+            26.347500000000025,
+            -25.106481887021175,
+            77.80148188702123
+          ],
+          "episodes_favoring_P6": 0,
+          "episodes_tied": 0,
+          "episode_fraction_favoring_P6": 0.0
+        },
+        "rmm:gated_deployment+RMM": {
+          "mean_t_ci_95": [
+            7.481666666666702,
+            -15.350809417590554,
+            30.314142750923956
+          ],
+          "episodes_favoring_P6": 0,
+          "episodes_tied": 0,
+          "episode_fraction_favoring_P6": 0.0
+        },
+        "gated_adaptive_range+front": {
+          "mean_t_ci_95": [
+            17.005000000000035,
+            -22.811066098389002,
+            56.82106609838907
+          ],
+          "episodes_favoring_P6": 1,
+          "episodes_tied": 0,
+          "episode_fraction_favoring_P6": 0.3333333333333333
+        },
+        "CONTROL_never_switch": {
+          "mean_t_ci_95": [
+            -18.228333333333296,
+            -78.58862189359735,
+            42.13195522693076
+          ],
+          "episodes_favoring_P6": 2,
+          "episodes_tied": 0,
+          "episode_fraction_favoring_P6": 0.6666666666666666
+        }
+      }
+    },
+    "openml_ldpa": {
+      "episodes": 32,
+      "mean_net_cost": {
+        "P6_LRMD_U": 571.1463281250001,
+        "M_LRMD_SUI": 548.318203125,
+        "A5b": 540.80953125,
+        "D2": 445.126484375,
+        "rmm:gated_deployment+RMM": 465.8096875,
+        "gated_adaptive_range+front": 461.06875,
+        "CONTROL_never_switch": 663.0
+      },
+      "mean_labels": {
+        "P6_LRMD_U": 181.14531250000002,
+        "M_LRMD_SUI": 181.14531250000002,
+        "A5b": 166.909375,
+        "D2": 57.342187499999994,
+        "rmm:gated_deployment+RMM": 191.88125000000002,
+        "gated_adaptive_range+front": 68.25,
+        "CONTROL_never_switch": 0.0
+      },
+      "mean_switches": {
+        "P6_LRMD_U": 0.8296875,
+        "M_LRMD_SUI": 0.859375,
+        "A5b": 0.74375,
+        "D2": 0.96875,
+        "rmm:gated_deployment+RMM": 1.271875,
+        "gated_adaptive_range+front": 0.875,
+        "CONTROL_never_switch": 0.0
+      },
+      "promotion_rate": {
+        "P6_LRMD_U": 0.8296875,
+        "M_LRMD_SUI": 0.853125,
+        "A5b": 0.7421875,
+        "D2": 0.96875,
+        "rmm:gated_deployment+RMM": 1.0,
+        "gated_adaptive_range+front": 0.875,
+        "CONTROL_never_switch": 0.0
+      },
+      "paired_episode_contrasts_P6_minus_comparator": {
+        "M_LRMD_SUI": {
+          "mean_t_ci_95": [
+            22.828125000000014,
+            10.575883343685714,
+            35.08036665631431
+          ],
+          "episodes_favoring_P6": 7,
+          "episodes_tied": 2,
+          "episode_fraction_favoring_P6": 0.21875
+        },
+        "A5b": {
+          "mean_t_ci_95": [
+            30.336796875000005,
+            -2.0137542045251493,
+            62.68734795452516
+          ],
+          "episodes_favoring_P6": 12,
+          "episodes_tied": 0,
+          "episode_fraction_favoring_P6": 0.375
+        },
+        "D2": {
+          "mean_t_ci_95": [
+            126.01984375000004,
+            88.52119125232403,
+            163.51849624767604
+          ],
+          "episodes_favoring_P6": 0,
+          "episodes_tied": 0,
+          "episode_fraction_favoring_P6": 0.0
+        },
+        "rmm:gated_deployment+RMM": {
+          "mean_t_ci_95": [
+            105.336640625,
+            68.50727653875637,
+            142.16600471124363
+          ],
+          "episodes_favoring_P6": 4,
+          "episodes_tied": 0,
+          "episode_fraction_favoring_P6": 0.125
+        },
+        "gated_adaptive_range+front": {
+          "mean_t_ci_95": [
+            110.077578125,
+            71.19687176546455,
+            148.95828448453545
+          ],
+          "episodes_favoring_P6": 3,
+          "episodes_tied": 0,
+          "episode_fraction_favoring_P6": 0.09375
+        },
+        "CONTROL_never_switch": {
+          "mean_t_ci_95": [
+            -91.85367187499999,
+            -127.44950016084543,
+            -56.25784358915455
+          ],
+          "episodes_favoring_P6": 28,
+          "episodes_tied": 0,
+          "episode_fraction_favoring_P6": 0.875
+        }
+      }
+    },
+    "uci_occupancy": {
+      "episodes": 4,
+      "mean_net_cost": {
+        "P6_LRMD_U": 486.32062499999995,
+        "M_LRMD_SUI": 486.32062499999995,
+        "A5b": 486.16249999999997,
+        "D2": 135.976875,
+        "rmm:gated_deployment+RMM": 148.13375,
+        "gated_adaptive_range+front": 137.13750000000002,
+        "CONTROL_never_switch": 481.25
+      },
+      "mean_labels": {
+        "P6_LRMD_U": 101.4125,
+        "M_LRMD_SUI": 101.4125,
+        "A5b": 98.25,
+        "D2": 45.03750000000001,
+        "rmm:gated_deployment+RMM": 106.42500000000001,
+        "gated_adaptive_range+front": 52.75,
+        "CONTROL_never_switch": 0.0
+      },
+      "mean_switches": {
+        "P6_LRMD_U": 0.0,
+        "M_LRMD_SUI": 0.0,
+        "A5b": 0.0,
+        "D2": 0.725,
+        "rmm:gated_deployment+RMM": 0.75,
+        "gated_adaptive_range+front": 0.25,
+        "CONTROL_never_switch": 0.0
+      },
+      "promotion_rate": {
+        "P6_LRMD_U": 0.0,
+        "M_LRMD_SUI": 0.0,
+        "A5b": 0.0,
+        "D2": 0.725,
+        "rmm:gated_deployment+RMM": 0.75,
+        "gated_adaptive_range+front": 0.25,
+        "CONTROL_never_switch": 0.0
+      },
+      "paired_episode_contrasts_P6_minus_comparator": {
+        "M_LRMD_SUI": {
+          "mean_t_ci_95": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "episodes_favoring_P6": 0,
+          "episodes_tied": 4,
+          "episode_fraction_favoring_P6": 0.0
+        },
+        "A5b": {
+          "mean_t_ci_95": [
+            0.15812499999997343,
+            -2.019006572885295,
+            2.3352565728852417
+          ],
+          "episodes_favoring_P6": 2,
+          "episodes_tied": 1,
+          "episode_fraction_favoring_P6": 0.5
+        },
+        "D2": {
+          "mean_t_ci_95": [
+            350.34375,
+            -759.6314076043557,
+            1460.3189076043557
+          ],
+          "episodes_favoring_P6": 1,
+          "episodes_tied": 0,
+          "episode_fraction_favoring_P6": 0.25
+        },
+        "rmm:gated_deployment+RMM": {
+          "mean_t_ci_95": [
+            338.186875,
+            -724.694600069569,
+            1401.068350069569
+          ],
+          "episodes_favoring_P6": 1,
+          "episodes_tied": 1,
+          "episode_fraction_favoring_P6": 0.25
+        },
+        "gated_adaptive_range+front": {
+          "mean_t_ci_95": [
+            349.18312499999996,
+            -755.2697428292095,
+            1453.6359928292095
+          ],
+          "episodes_favoring_P6": 1,
+          "episodes_tied": 1,
+          "episode_fraction_favoring_P6": 0.25
+        },
+        "CONTROL_never_switch": {
+          "mean_t_ci_95": [
+            5.070624999999971,
+            -2.354514522724889,
+            12.495764522724832
+          ],
+          "episodes_favoring_P6": 0,
+          "episodes_tied": 0,
+          "episode_fraction_favoring_P6": 0.0
+        }
+      }
+    },
+    "airlines": {
+      "episodes": 50,
+      "mean_net_cost": {
+        "P6_LRMD_U": 782.8085500000001,
+        "M_LRMD_SUI": 782.5725499999999,
+        "A5b": 784.0063,
+        "D2": 780.5088499999999,
+        "rmm:gated_deployment+RMM": 781.6259,
+        "gated_adaptive_range+front": 781.1260000000001,
+        "CONTROL_never_switch": 776.8
+      },
+      "mean_labels": {
+        "P6_LRMD_U": 185.75099999999998,
+        "M_LRMD_SUI": 185.75099999999998,
+        "A5b": 190.12599999999998,
+        "D2": 158.077,
+        "rmm:gated_deployment+RMM": 190.15800000000002,
+        "gated_adaptive_range+front": 150.12,
+        "CONTROL_never_switch": 0.0
+      },
+      "mean_switches": {
+        "P6_LRMD_U": 0.096,
+        "M_LRMD_SUI": 0.106,
+        "A5b": 0.06,
+        "D2": 0.12299999999999998,
+        "rmm:gated_deployment+RMM": 0.109,
+        "gated_adaptive_range+front": 0.1,
+        "CONTROL_never_switch": 0.0
+      },
+      "promotion_rate": {
+        "P6_LRMD_U": 0.096,
+        "M_LRMD_SUI": 0.10200000000000001,
+        "A5b": 0.06,
+        "D2": 0.12299999999999998,
+        "rmm:gated_deployment+RMM": 0.105,
+        "gated_adaptive_range+front": 0.1,
+        "CONTROL_never_switch": 0.0
+      },
+      "paired_episode_contrasts_P6_minus_comparator": {
+        "M_LRMD_SUI": {
+          "mean_t_ci_95": [
+            0.23599999999999682,
+            -0.3030348401071982,
+            0.7750348401071918
+          ],
+          "episodes_favoring_P6": 3,
+          "episodes_tied": 41,
+          "episode_fraction_favoring_P6": 0.06
+        },
+        "A5b": {
+          "mean_t_ci_95": [
+            -1.1977500000000032,
+            -2.8408019902944526,
+            0.4453019902944464
+          ],
+          "episodes_favoring_P6": 31,
+          "episodes_tied": 14,
+          "episode_fraction_favoring_P6": 0.62
+        },
+        "D2": {
+          "mean_t_ci_95": [
+            2.299700000000007,
+            -1.2637063583395278,
+            5.863106358339542
+          ],
+          "episodes_favoring_P6": 12,
+          "episodes_tied": 5,
+          "episode_fraction_favoring_P6": 0.24
+        },
+        "rmm:gated_deployment+RMM": {
+          "mean_t_ci_95": [
+            1.1826500000000033,
+            -0.7604762818594226,
+            3.1257762818594292
+          ],
+          "episodes_favoring_P6": 31,
+          "episodes_tied": 16,
+          "episode_fraction_favoring_P6": 0.62
+        },
+        "gated_adaptive_range+front": {
+          "mean_t_ci_95": [
+            1.6825500000000055,
+            -1.8632923218370128,
+            5.228392321837024
+          ],
+          "episodes_favoring_P6": 25,
+          "episodes_tied": 8,
+          "episode_fraction_favoring_P6": 0.5
+        },
+        "CONTROL_never_switch": {
+          "mean_t_ci_95": [
+            6.008550000000005,
+            2.64842797166101,
+            9.368672028338999
+          ],
+          "episodes_favoring_P6": 4,
+          "episodes_tied": 0,
+          "episode_fraction_favoring_P6": 0.08
+        }
+      }
+    },
+    "bank": {
+      "episodes": 8,
+      "mean_net_cost": {
+        "P6_LRMD_U": 428.0934375,
+        "M_LRMD_SUI": 427.9746875,
+        "A5b": 428.125,
+        "D2": 424.4834375,
+        "rmm:gated_deployment+RMM": 428.14375,
+        "gated_adaptive_range+front": 420.43125000000003,
+        "CONTROL_never_switch": 419.375
+      },
+      "mean_labels": {
+        "P6_LRMD_U": 174.99375,
+        "M_LRMD_SUI": 174.99375,
+        "A5b": 175.0,
+        "D2": 170.41875,
+        "rmm:gated_deployment+RMM": 175.0,
+        "gated_adaptive_range+front": 126.125,
+        "CONTROL_never_switch": 0.0
+      },
+      "mean_switches": {
+        "P6_LRMD_U": 0.00625,
+        "M_LRMD_SUI": 0.00625,
+        "A5b": 0.0,
+        "D2": 0.08125,
+        "rmm:gated_deployment+RMM": 0.01875,
+        "gated_adaptive_range+front": 0.125,
+        "CONTROL_never_switch": 0.0
+      },
+      "promotion_rate": {
+        "P6_LRMD_U": 0.00625,
+        "M_LRMD_SUI": 0.00625,
+        "A5b": 0.0,
+        "D2": 0.08125,
+        "rmm:gated_deployment+RMM": 0.01875,
+        "gated_adaptive_range+front": 0.125,
+        "CONTROL_never_switch": 0.0
+      },
+      "paired_episode_contrasts_P6_minus_comparator": {
+        "M_LRMD_SUI": {
+          "mean_t_ci_95": [
+            0.11875000000000568,
+            -0.16204912987665082,
+            0.3995491298766622
+          ],
+          "episodes_favoring_P6": 0,
+          "episodes_tied": 7,
+          "episode_fraction_favoring_P6": 0.0
+        },
+        "A5b": {
+          "mean_t_ci_95": [
+            -0.031562499999999716,
+            -0.10535506869129305,
+            0.042230068691293615
+          ],
+          "episodes_favoring_P6": 2,
+          "episodes_tied": 6,
+          "episode_fraction_favoring_P6": 0.25
+        },
+        "D2": {
+          "mean_t_ci_95": [
+            3.6100000000000065,
+            -4.927138088238845,
+            12.147138088238858
+          ],
+          "episodes_favoring_P6": 1,
+          "episodes_tied": 6,
+          "episode_fraction_favoring_P6": 0.125
+        },
+        "rmm:gated_deployment+RMM": {
+          "mean_t_ci_95": [
+            -0.050312500000011084,
+            -0.16844041307360708,
+            0.0678154130735849
+          ],
+          "episodes_favoring_P6": 2,
+          "episodes_tied": 6,
+          "episode_fraction_favoring_P6": 0.25
+        },
+        "gated_adaptive_range+front": {
+          "mean_t_ci_95": [
+            7.662187500000005,
+            -3.965390357046253,
+            19.289765357046264
+          ],
+          "episodes_favoring_P6": 0,
+          "episodes_tied": 2,
+          "episode_fraction_favoring_P6": 0.0
+        },
+        "CONTROL_never_switch": {
+          "mean_t_ci_95": [
+            8.7184375,
+            5.7724140762478395,
+            11.664460923752161
+          ],
+          "episodes_favoring_P6": 0,
+          "episodes_tied": 1,
+          "episode_fraction_favoring_P6": 0.0
+        }
+      }
+    },
+    "elec2": {
+      "episodes": 4,
+      "mean_net_cost": {
+        "P6_LRMD_U": 395.938125,
+        "M_LRMD_SUI": 397.23812499999997,
+        "A5b": 392.5375,
+        "D2": 385.86625000000004,
+        "rmm:gated_deployment+RMM": 395.11312499999997,
+        "gated_adaptive_range+front": 396.65,
+        "CONTROL_never_switch": 389.5
+      },
+      "mean_labels": {
+        "P6_LRMD_U": 113.76249999999999,
+        "M_LRMD_SUI": 113.76249999999999,
+        "A5b": 60.75,
+        "D2": 54.075,
+        "rmm:gated_deployment+RMM": 117.2625,
+        "gated_adaptive_range+front": 103.0,
+        "CONTROL_never_switch": 0.0
+      },
+      "mean_switches": {
+        "P6_LRMD_U": 0.25,
+        "M_LRMD_SUI": 0.3375,
+        "A5b": 0.0,
+        "D2": 0.525,
+        "rmm:gated_deployment+RMM": 0.5,
+        "gated_adaptive_range+front": 0.5,
+        "CONTROL_never_switch": 0.0
+      },
+      "promotion_rate": {
+        "P6_LRMD_U": 0.25,
+        "M_LRMD_SUI": 0.3375,
+        "A5b": 0.0,
+        "D2": 0.525,
+        "rmm:gated_deployment+RMM": 0.5,
+        "gated_adaptive_range+front": 0.5,
+        "CONTROL_never_switch": 0.0
+      },
+      "paired_episode_contrasts_P6_minus_comparator": {
+        "M_LRMD_SUI": {
+          "mean_t_ci_95": [
+            -1.2999999999999972,
+            -4.466494093023657,
+            1.8664940930236624
+          ],
+          "episodes_favoring_P6": 2,
+          "episodes_tied": 2,
+          "episode_fraction_favoring_P6": 0.5
+        },
+        "A5b": {
+          "mean_t_ci_95": [
+            3.4006249999999767,
+            -0.4164099837275548,
+            7.217659983727508
+          ],
+          "episodes_favoring_P6": 0,
+          "episodes_tied": 0,
+          "episode_fraction_favoring_P6": 0.0
+        },
+        "D2": {
+          "mean_t_ci_95": [
+            10.071874999999977,
+            -9.566481676696117,
+            29.710231676696072
+          ],
+          "episodes_favoring_P6": 1,
+          "episodes_tied": 0,
+          "episode_fraction_favoring_P6": 0.25
+        },
+        "rmm:gated_deployment+RMM": {
+          "mean_t_ci_95": [
+            0.8249999999999886,
+            -3.6919640032267713,
+            5.341964003226749
+          ],
+          "episodes_favoring_P6": 3,
+          "episodes_tied": 0,
+          "episode_fraction_favoring_P6": 0.75
+        },
+        "gated_adaptive_range+front": {
+          "mean_t_ci_95": [
+            -0.7118750000000063,
+            -13.939301049211773,
+            12.51555104921176
+          ],
+          "episodes_favoring_P6": 3,
+          "episodes_tied": 0,
+          "episode_fraction_favoring_P6": 0.75
+        },
+        "CONTROL_never_switch": {
+          "mean_t_ci_95": [
+            6.438124999999985,
+            3.5502643449950826,
+            9.325985655004889
+          ],
+          "episodes_favoring_P6": 0,
+          "episodes_tied": 0,
+          "episode_fraction_favoring_P6": 0.0
+        }
+      }
+    },
+    "criteo": {
+      "episodes": 50,
+      "mean_net_cost": {
+        "P6_LRMD_U": 699.5991499999999,
+        "M_LRMD_SUI": 698.39215,
+        "A5b": 699.3929999999999,
+        "D2": 696.9439,
+        "rmm:gated_deployment+RMM": 699.24175,
+        "gated_adaptive_range+front": 699.1110000000001,
+        "CONTROL_never_switch": 693.92
+      },
+      "mean_labels": {
+        "P6_LRMD_U": 129.343,
+        "M_LRMD_SUI": 129.343,
+        "A5b": 130.66,
+        "D2": 105.138,
+        "rmm:gated_deployment+RMM": 130.635,
+        "gated_adaptive_range+front": 123.02,
+        "CONTROL_never_switch": 0.0
+      },
+      "mean_switches": {
+        "P6_LRMD_U": 0.203,
+        "M_LRMD_SUI": 0.33899999999999997,
+        "A5b": 0.22,
+        "D2": 0.315,
+        "rmm:gated_deployment+RMM": 0.257,
+        "gated_adaptive_range+front": 0.22,
+        "CONTROL_never_switch": 0.0
+      },
+      "promotion_rate": {
+        "P6_LRMD_U": 0.203,
+        "M_LRMD_SUI": 0.33899999999999997,
+        "A5b": 0.22,
+        "D2": 0.315,
+        "rmm:gated_deployment+RMM": 0.257,
+        "gated_adaptive_range+front": 0.22,
+        "CONTROL_never_switch": 0.0
+      },
+      "paired_episode_contrasts_P6_minus_comparator": {
+        "M_LRMD_SUI": {
+          "mean_t_ci_95": [
+            1.206999999999998,
+            0.18162617363873412,
+            2.232373826361262
+          ],
+          "episodes_favoring_P6": 5,
+          "episodes_tied": 30,
+          "episode_fraction_favoring_P6": 0.1
+        },
+        "A5b": {
+          "mean_t_ci_95": [
+            0.206149999999991,
+            -0.15945527266178572,
+            0.5717552726617677
+          ],
+          "episodes_favoring_P6": 35,
+          "episodes_tied": 4,
+          "episode_fraction_favoring_P6": 0.7
+        },
+        "D2": {
+          "mean_t_ci_95": [
+            2.655250000000001,
+            1.2181675183961134,
+            4.092332481603888
+          ],
+          "episodes_favoring_P6": 5,
+          "episodes_tied": 0,
+          "episode_fraction_favoring_P6": 0.1
+        },
+        "rmm:gated_deployment+RMM": {
+          "mean_t_ci_95": [
+            0.35739999999999555,
+            -0.1201296390331345,
+            0.8349296390331256
+          ],
+          "episodes_favoring_P6": 36,
+          "episodes_tied": 4,
+          "episode_fraction_favoring_P6": 0.72
+        },
+        "gated_adaptive_range+front": {
+          "mean_t_ci_95": [
+            0.488149999999996,
+            -0.33556395695652963,
+            1.3118639569565216
+          ],
+          "episodes_favoring_P6": 36,
+          "episodes_tied": 4,
+          "episode_fraction_favoring_P6": 0.72
+        },
+        "CONTROL_never_switch": {
+          "mean_t_ci_95": [
+            5.67915,
+            4.652200648082361,
+            6.706099351917639
+          ],
+          "episodes_favoring_P6": 4,
+          "episodes_tied": 0,
+          "episode_fraction_favoring_P6": 0.08
+        }
+      }
+    },
+    "metro": {
+      "episodes": 16,
+      "mean_net_cost": {
+        "P6_LRMD_U": 322.88453125,
+        "M_LRMD_SUI": 264.87515625000003,
+        "A5b": 221.42921875,
+        "D2": 119.58421875,
+        "rmm:gated_deployment+RMM": 152.225,
+        "gated_adaptive_range+front": 126.17187500000001,
+        "CONTROL_never_switch": 719.875
+      },
+      "mean_labels": {
+        "P6_LRMD_U": 199.81562499999998,
+        "M_LRMD_SUI": 199.81562499999998,
+        "A5b": 199.834375,
+        "D2": 18.059375,
+        "rmm:gated_deployment+RMM": 200.0,
+        "gated_adaptive_range+front": 29.6875,
+        "CONTROL_never_switch": 0.0
+      },
+      "mean_switches": {
+        "P6_LRMD_U": 0.99375,
+        "M_LRMD_SUI": 0.99375,
+        "A5b": 0.9375,
+        "D2": 1.0,
+        "rmm:gated_deployment+RMM": 1.0,
+        "gated_adaptive_range+front": 1.0,
+        "CONTROL_never_switch": 0.0
+      },
+      "promotion_rate": {
+        "P6_LRMD_U": 0.99375,
+        "M_LRMD_SUI": 0.99375,
+        "A5b": 0.9375,
+        "D2": 1.0,
+        "rmm:gated_deployment+RMM": 1.0,
+        "gated_adaptive_range+front": 1.0,
+        "CONTROL_never_switch": 0.0
+      },
+      "paired_episode_contrasts_P6_minus_comparator": {
+        "M_LRMD_SUI": {
+          "mean_t_ci_95": [
+            58.00937499999999,
+            46.38512638668449,
+            69.63362361331549
+          ],
+          "episodes_favoring_P6": 0,
+          "episodes_tied": 0,
+          "episode_fraction_favoring_P6": 0.0
+        },
+        "A5b": {
+          "mean_t_ci_95": [
+            101.45531249999999,
+            44.78680166005751,
+            158.12382333994248
+          ],
+          "episodes_favoring_P6": 1,
+          "episodes_tied": 0,
+          "episode_fraction_favoring_P6": 0.0625
+        },
+        "D2": {
+          "mean_t_ci_95": [
+            203.3003125,
+            162.59494452963057,
+            244.0056804703694
+          ],
+          "episodes_favoring_P6": 0,
+          "episodes_tied": 0,
+          "episode_fraction_favoring_P6": 0.0
+        },
+        "rmm:gated_deployment+RMM": {
+          "mean_t_ci_95": [
+            170.65953125,
+            130.45778563550024,
+            210.86127686449973
+          ],
+          "episodes_favoring_P6": 0,
+          "episodes_tied": 0,
+          "episode_fraction_favoring_P6": 0.0
+        },
+        "gated_adaptive_range+front": {
+          "mean_t_ci_95": [
+            196.71265625,
+            155.60123299829397,
+            237.82407950170605
+          ],
+          "episodes_favoring_P6": 0,
+          "episodes_tied": 0,
+          "episode_fraction_favoring_P6": 0.0
+        },
+        "CONTROL_never_switch": {
+          "mean_t_ci_95": [
+            -396.99046875,
+            -442.5451561499879,
+            -351.43578135001206
+          ],
+          "episodes_favoring_P6": 16,
+          "episodes_tied": 0,
+          "episode_fraction_favoring_P6": 1.0
+        }
+      }
+    },
+    "beijing_pm25": {
+      "episodes": 14,
+      "mean_net_cost": {
+        "P6_LRMD_U": 647.7326785714286,
+        "M_LRMD_SUI": 650.7219642857143,
+        "A5b": 656.2139285714286,
+        "D2": 548.1989285714286,
+        "rmm:gated_deployment+RMM": 564.7821428571428,
+        "gated_adaptive_range+front": 598.8571428571429,
+        "CONTROL_never_switch": 664.5714285714286
+      },
+      "mean_labels": {
+        "P6_LRMD_U": 194.0107142857143,
+        "M_LRMD_SUI": 194.0107142857143,
+        "A5b": 126.13571428571429,
+        "D2": 52.47857142857142,
+        "rmm:gated_deployment+RMM": 198.42857142857142,
+        "gated_adaptive_range+front": 102.85714285714286,
+        "CONTROL_never_switch": 0.0
+      },
+      "mean_switches": {
+        "P6_LRMD_U": 0.32142857142857134,
+        "M_LRMD_SUI": 0.3928571428571428,
+        "A5b": 0.2392857142857143,
+        "D2": 0.9392857142857142,
+        "rmm:gated_deployment+RMM": 1.0607142857142857,
+        "gated_adaptive_range+front": 0.5714285714285714,
+        "CONTROL_never_switch": 0.0
+      },
+      "promotion_rate": {
+        "P6_LRMD_U": 0.32142857142857134,
+        "M_LRMD_SUI": 0.37142857142857144,
+        "A5b": 0.21428571428571427,
+        "D2": 0.9392857142857142,
+        "rmm:gated_deployment+RMM": 0.8678571428571429,
+        "gated_adaptive_range+front": 0.5714285714285714,
+        "CONTROL_never_switch": 0.0
+      },
+      "paired_episode_contrasts_P6_minus_comparator": {
+        "M_LRMD_SUI": {
+          "mean_t_ci_95": [
+            -2.98928571428572,
+            -11.8818690724504,
+            5.90329764387896
+          ],
+          "episodes_favoring_P6": 6,
+          "episodes_tied": 4,
+          "episode_fraction_favoring_P6": 0.42857142857142855
+        },
+        "A5b": {
+          "mean_t_ci_95": [
+            -8.48125000000003,
+            -18.2347076106449,
+            1.2722076106448412
+          ],
+          "episodes_favoring_P6": 7,
+          "episodes_tied": 0,
+          "episode_fraction_favoring_P6": 0.5
+        },
+        "D2": {
+          "mean_t_ci_95": [
+            99.53374999999998,
+            26.414532883570743,
+            172.65296711642924
+          ],
+          "episodes_favoring_P6": 1,
+          "episodes_tied": 0,
+          "episode_fraction_favoring_P6": 0.07142857142857142
+        },
+        "rmm:gated_deployment+RMM": {
+          "mean_t_ci_95": [
+            82.95053571428569,
+            22.115768906575134,
+            143.78530252199624
+          ],
+          "episodes_favoring_P6": 4,
+          "episodes_tied": 0,
+          "episode_fraction_favoring_P6": 0.2857142857142857
+        },
+        "gated_adaptive_range+front": {
+          "mean_t_ci_95": [
+            48.875535714285704,
+            -10.032852163099449,
+            107.78392359167086
+          ],
+          "episodes_favoring_P6": 4,
+          "episodes_tied": 2,
+          "episode_fraction_favoring_P6": 0.2857142857142857
+        },
+        "CONTROL_never_switch": {
+          "mean_t_ci_95": [
+            -16.838750000000015,
+            -52.600114013107984,
+            18.922614013107957
+          ],
+          "episodes_favoring_P6": 5,
+          "episodes_tied": 0,
+          "episode_fraction_favoring_P6": 0.35714285714285715
+        }
+      }
+    },
+    "bike_hour": {
+      "episodes": 6,
+      "mean_net_cost": {
+        "P6_LRMD_U": 367.5516666666667,
+        "M_LRMD_SUI": 343.24333333333334,
+        "A5b": 344.77666666666664,
+        "D2": 255.71208333333334,
+        "rmm:gated_deployment+RMM": 288.4666666666667,
+        "gated_adaptive_range+front": 265.625,
+        "CONTROL_never_switch": 552.8333333333334
+      },
+      "mean_labels": {
+        "P6_LRMD_U": 197.86666666666667,
+        "M_LRMD_SUI": 197.86666666666667,
+        "A5b": 198.86666666666667,
+        "D2": 29.741666666666664,
+        "rmm:gated_deployment+RMM": 200.0,
+        "gated_adaptive_range+front": 52.5,
+        "CONTROL_never_switch": 0.0
+      },
+      "mean_switches": {
+        "P6_LRMD_U": 0.9083333333333333,
+        "M_LRMD_SUI": 0.9583333333333334,
+        "A5b": 1.0,
+        "D2": 1.0,
+        "rmm:gated_deployment+RMM": 1.0,
+        "gated_adaptive_range+front": 1.0,
+        "CONTROL_never_switch": 0.0
+      },
+      "promotion_rate": {
+        "P6_LRMD_U": 0.9083333333333333,
+        "M_LRMD_SUI": 0.9583333333333334,
+        "A5b": 1.0,
+        "D2": 1.0,
+        "rmm:gated_deployment+RMM": 1.0,
+        "gated_adaptive_range+front": 1.0,
+        "CONTROL_never_switch": 0.0
+      },
+      "paired_episode_contrasts_P6_minus_comparator": {
+        "M_LRMD_SUI": {
+          "mean_t_ci_95": [
+            24.308333333333334,
+            14.714091234023563,
+            33.902575432643104
+          ],
+          "episodes_favoring_P6": 0,
+          "episodes_tied": 0,
+          "episode_fraction_favoring_P6": 0.0
+        },
+        "A5b": {
+          "mean_t_ci_95": [
+            22.774999999999988,
+            -11.759034502100736,
+            57.309034502100715
+          ],
+          "episodes_favoring_P6": 1,
+          "episodes_tied": 0,
+          "episode_fraction_favoring_P6": 0.16666666666666666
+        },
+        "D2": {
+          "mean_t_ci_95": [
+            111.83958333333332,
+            52.051949088510334,
+            171.62721757815632
+          ],
+          "episodes_favoring_P6": 0,
+          "episodes_tied": 0,
+          "episode_fraction_favoring_P6": 0.0
+        },
+        "rmm:gated_deployment+RMM": {
+          "mean_t_ci_95": [
+            79.085,
+            22.224856058540283,
+            135.94514394145972
+          ],
+          "episodes_favoring_P6": 0,
+          "episodes_tied": 0,
+          "episode_fraction_favoring_P6": 0.0
+        },
+        "gated_adaptive_range+front": {
+          "mean_t_ci_95": [
+            101.92666666666666,
+            44.32452413165784,
+            159.52880920167547
+          ],
+          "episodes_favoring_P6": 0,
+          "episodes_tied": 0,
+          "episode_fraction_favoring_P6": 0.0
+        },
+        "CONTROL_never_switch": {
+          "mean_t_ci_95": [
+            -185.28166666666667,
+            -315.68104816306914,
+            -54.8822851702642
+          ],
+          "episodes_favoring_P6": 6,
+          "episodes_tied": 0,
+          "episode_fraction_favoring_P6": 1.0
+        }
+      }
+    },
+    "appliances": {
+      "episodes": 6,
+      "mean_net_cost": {
+        "P6_LRMD_U": 801.5983333333332,
+        "M_LRMD_SUI": 779.5566666666665,
+        "A5b": 831.3666666666667,
+        "D2": 575.50375,
+        "rmm:gated_deployment+RMM": 637.475,
+        "gated_adaptive_range+front": 574.8,
+        "CONTROL_never_switch": 821.8333333333334
+      },
+      "mean_labels": {
+        "P6_LRMD_U": 198.96666666666667,
+        "M_LRMD_SUI": 198.96666666666667,
+        "A5b": 190.66666666666666,
+        "D2": 55.40833333333334,
+        "rmm:gated_deployment+RMM": 200.0,
+        "gated_adaptive_range+front": 86.0,
+        "CONTROL_never_switch": 0.0
+      },
+      "mean_switches": {
+        "P6_LRMD_U": 0.3416666666666666,
+        "M_LRMD_SUI": 0.36666666666666664,
+        "A5b": 0.0,
+        "D2": 1.0,
+        "rmm:gated_deployment+RMM": 1.1916666666666667,
+        "gated_adaptive_range+front": 1.0,
+        "CONTROL_never_switch": 0.0
+      },
+      "promotion_rate": {
+        "P6_LRMD_U": 0.3416666666666666,
+        "M_LRMD_SUI": 0.36666666666666664,
+        "A5b": 0.0,
+        "D2": 1.0,
+        "rmm:gated_deployment+RMM": 0.975,
+        "gated_adaptive_range+front": 1.0,
+        "CONTROL_never_switch": 0.0
+      },
+      "paired_episode_contrasts_P6_minus_comparator": {
+        "M_LRMD_SUI": {
+          "mean_t_ci_95": [
+            22.041666666666668,
+            -37.20299914478649,
+            81.28633247811982
+          ],
+          "episodes_favoring_P6": 2,
+          "episodes_tied": 0,
+          "episode_fraction_favoring_P6": 0.3333333333333333
+        },
+        "A5b": {
+          "mean_t_ci_95": [
+            -29.768333333333356,
+            -73.68016933944266,
+            14.143502672775949
+          ],
+          "episodes_favoring_P6": 3,
+          "episodes_tied": 1,
+          "episode_fraction_favoring_P6": 0.5
+        },
+        "D2": {
+          "mean_t_ci_95": [
+            226.09458333333336,
+            111.4678209111037,
+            340.721345755563
+          ],
+          "episodes_favoring_P6": 0,
+          "episodes_tied": 0,
+          "episode_fraction_favoring_P6": 0.0
+        },
+        "rmm:gated_deployment+RMM": {
+          "mean_t_ci_95": [
+            164.12333333333333,
+            34.957821636938235,
+            293.28884502972846
+          ],
+          "episodes_favoring_P6": 0,
+          "episodes_tied": 0,
+          "episode_fraction_favoring_P6": 0.0
+        },
+        "gated_adaptive_range+front": {
+          "mean_t_ci_95": [
+            226.79833333333332,
+            114.42304399234602,
+            339.1736226743206
+          ],
+          "episodes_favoring_P6": 0,
+          "episodes_tied": 0,
+          "episode_fraction_favoring_P6": 0.0
+        },
+        "CONTROL_never_switch": {
+          "mean_t_ci_95": [
+            -20.235000000000014,
+            -63.64316383500559,
+            23.17316383500556
+          ],
+          "episodes_favoring_P6": 3,
+          "episodes_tied": 0,
+          "episode_fraction_favoring_P6": 0.5
+        }
+      }
+    },
+    "household_power": {
+      "episodes": 20,
+      "mean_net_cost": {
+        "P6_LRMD_U": 619.5997499999999,
+        "M_LRMD_SUI": 608.17975,
+        "A5b": 603.842625,
+        "D2": 534.6073749999999,
+        "rmm:gated_deployment+RMM": 542.462125,
+        "gated_adaptive_range+front": 543.6324999999999,
+        "CONTROL_never_switch": 632.45
+      },
+      "mean_labels": {
+        "P6_LRMD_U": 198.34500000000003,
+        "M_LRMD_SUI": 198.34500000000003,
+        "A5b": 151.8525,
+        "D2": 91.4475,
+        "rmm:gated_deployment+RMM": 199.89249999999998,
+        "gated_adaptive_range+front": 120.65,
+        "CONTROL_never_switch": 0.0
+      },
+      "mean_switches": {
+        "P6_LRMD_U": 0.20750000000000002,
+        "M_LRMD_SUI": 0.265,
+        "A5b": 0.25,
+        "D2": 0.8,
+        "rmm:gated_deployment+RMM": 0.99,
+        "gated_adaptive_range+front": 0.7,
+        "CONTROL_never_switch": 0.0
+      },
+      "promotion_rate": {
+        "P6_LRMD_U": 0.20750000000000002,
+        "M_LRMD_SUI": 0.265,
+        "A5b": 0.25,
+        "D2": 0.8,
+        "rmm:gated_deployment+RMM": 0.8575000000000002,
+        "gated_adaptive_range+front": 0.7,
+        "CONTROL_never_switch": 0.0
+      },
+      "paired_episode_contrasts_P6_minus_comparator": {
+        "M_LRMD_SUI": {
+          "mean_t_ci_95": [
+            11.419999999999993,
+            1.0912240157060697,
+            21.748775984293914
+          ],
+          "episodes_favoring_P6": 2,
+          "episodes_tied": 9,
+          "episode_fraction_favoring_P6": 0.1
+        },
+        "A5b": {
+          "mean_t_ci_95": [
+            15.757124999999984,
+            -2.7107929010752514,
+            34.22504290107522
+          ],
+          "episodes_favoring_P6": 4,
+          "episodes_tied": 0,
+          "episode_fraction_favoring_P6": 0.2
+        },
+        "D2": {
+          "mean_t_ci_95": [
+            84.99237499999997,
+            28.088778461103374,
+            141.89597153889656
+          ],
+          "episodes_favoring_P6": 5,
+          "episodes_tied": 0,
+          "episode_fraction_favoring_P6": 0.25
+        },
+        "rmm:gated_deployment+RMM": {
+          "mean_t_ci_95": [
+            77.13762499999997,
+            27.538458660216286,
+            126.73679133978365
+          ],
+          "episodes_favoring_P6": 7,
+          "episodes_tied": 0,
+          "episode_fraction_favoring_P6": 0.35
+        },
+        "gated_adaptive_range+front": {
+          "mean_t_ci_95": [
+            75.96724999999999,
+            20.559732430140926,
+            131.37476756985905
+          ],
+          "episodes_favoring_P6": 6,
+          "episodes_tied": 1,
+          "episode_fraction_favoring_P6": 0.3
+        },
+        "CONTROL_never_switch": {
+          "mean_t_ci_95": [
+            -12.850250000000017,
+            -35.301374329766745,
+            9.600874329766715
+          ],
+          "episodes_favoring_P6": 5,
+          "episodes_tied": 0,
+          "episode_fraction_favoring_P6": 0.25
+        }
+      }
+    }
+  },
+  "limitations": [
+    "All sources were previously used or exposed in this sprint; new policy seeds do not create independent dataset evidence.",
+    "Episodes within each source are consecutive and may be dependent; t intervals may be optimistic.",
+    "Cached Atlas streams lack verified change times and feature-publication timestamps. No late-improvement or causal harm class is inferred.",
+    "The evaluator-side real gain field is a proxy, not ground truth; interpretation is based on recorded net cost and resource use."
+  ]
+}

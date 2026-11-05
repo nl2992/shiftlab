@@ -213,6 +213,9 @@ data/interim/
 data/processed/
 data/synthetic/
 data/manifests/
+# Sprint-generated licensed/derived loss caches; keep the reproducible code and manifests only.
+data/sprint_late_losses/
+data/sprint_twin_losses_v2/
 data/reports/decision_harm_phase2/*/
 data/gpu_auto_verification/
 tmp/

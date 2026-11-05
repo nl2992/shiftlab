@@ -1,0 +1,315 @@
+[
+ {
+  "id": "H1",
+  "status": "SCREENED_NEGATIVE",
+  "implementation": "scripts/sota_sprint/fam_h.py:HGate (evidence=sui _B, single_cycle=True)",
+  "run_config": [
+   "uv run python scripts/sota_sprint/screen.py --seed-base 2026110701 --workers 2 --regimes F0_better,F7_near_better,F9_bursty_better,F1_late_800,F3_reversal_800,F5_dep_better_r8,S_dep_better_r95,F0_null,F0_worse,F5_dep_null_r8,F5_dep_null_r95,F6_delay400_better,S_delay800_better,W_delay600_better --policies <H*>,D2,D5,cams_adapter,A5b,xu_acquisition_only,gated_adaptive_range+front,choe_ramdas_eb+front,SMCS+retain-incumbent,CONTROL_never_switch --seeds 20 --out outputs/sprint2/H/screen1{,c,b} (exact split in outputs/sprint2/H/run_chain1.sh; screen1 killed after F0_better/F7 complete, its H5/H6 rows superseded by screen1b)",
+   "uv run python scripts/sota_sprint/screen.py --seed-base 2026110701 --workers 2 --kind real --regimes metro,beijing_pm25,bike_hour,appliances,household_power --seeds 3 --out outputs/sprint2/H/real_fresh",
+   "uv run python scripts/sota_sprint/screen.py --seed-base 2026110701 --workers 2 --kind real --regimes twin_metro,twin_beijing_pm25,twin_bike_hour,twin_appliances,twin_household_power --policies H1,H2,H4,D2,A5b,CONTROL_never_switch --seeds 1 --out outputs/sprint2/H/real_twin",
+   "uv run python scripts/sota_sprint/fam_h.py summarize --dirs outputs/sprint2/H/screen1,outputs/sprint2/H/screen1c,outputs/sprint2/H/screen1b --out outputs/sprint2/H/sum_screen1_all.json --legacy-comparator-pool",
+   "scripts/sota_sprint/run_trackR_h_completion.sh (alpha grid 0.005,0.01,0.02,0.05,0.1,0.2,0.3,0.5; 20 seeds; dev base 2026110701 and eval base 2026110711; regimes as bench2.RISK_NULLS + RISK_ALTS)",
+   "uv run python scripts/sota_sprint/screen.py --kind real --regimes metro,beijing_pm25,bike_hour,appliances,household_power --policies H1,H2,H3,H4,H5,H6-r10,D2,A5b,gated_deployment,gated_adaptive_range,gated_adaptive_range+front,discern_style,discern_design_floor,SMCS+retain-incumbent,xu_acquisition_only,choe_ramdas_eb+front,CONTROL_never_switch --seeds 20 --seed-base 2026110701 --workers 4 --alpha 0.05 --out outputs/sprint2/round5/H_corrected_real_20"
+  ],
+  "seed_manifest": {
+   "manifests": [
+    "outputs/sprint2/H/screen1b/manifest.json",
+    "outputs/sprint2/H/screen1c/manifest.json",
+    "outputs/sprint2/H/real_fresh/manifest.json",
+    "outputs/sprint2/H/real_twin/manifest.json",
+    "outputs/sprint2/H/trackR_remaining/dev_a0.005/manifest.json",
+    "outputs/sprint2/H/trackR_remaining/dev_a0.01/manifest.json",
+    "outputs/sprint2/H/trackR_remaining/dev_a0.02/manifest.json",
+    "outputs/sprint2/H/trackR_remaining/dev_a0.05/manifest.json",
+    "outputs/sprint2/H/trackR_remaining/dev_a0.1/manifest.json",
+    "outputs/sprint2/H/trackR_remaining/dev_a0.2/manifest.json",
+    "outputs/sprint2/H/trackR_remaining/dev_a0.3/manifest.json",
+    "outputs/sprint2/H/trackR_remaining/dev_a0.5/manifest.json",
+    "outputs/sprint2/H/trackR_remaining/eval_a0.005/manifest.json",
+    "outputs/sprint2/H/trackR_remaining/eval_a0.01/manifest.json",
+    "outputs/sprint2/H/trackR_remaining/eval_a0.02/manifest.json",
+    "outputs/sprint2/H/trackR_remaining/eval_a0.05/manifest.json",
+    "outputs/sprint2/H/trackR_remaining/eval_a0.1/manifest.json",
+    "outputs/sprint2/H/trackR_remaining/eval_a0.2/manifest.json",
+    "outputs/sprint2/H/trackR_remaining/eval_a0.3/manifest.json",
+    "outputs/sprint2/H/trackR_remaining/eval_a0.5/manifest.json",
+    "outputs/sprint2/round5/H_corrected_real_20/manifest.json"
+   ],
+   "seed_bases": [
+    "2026110701",
+    "2026110711"
+   ],
+   "provenance_record": "docs/sprint2/legacy_seed_provenance.json",
+   "note": "The source record is in the listed manifests. Historical partial outputs under H/screen1 lack an original manifest; the sidecar documents their recovered rows, inferred seed base, and unrecoverable run-time source/CLI details. The analysis summary supplies later complete runs after the partial directory to resolve overlapping rows.",
+   "provenance_status": "partial"
+  },
+  "results_artifact": "outputs/sprint2/H/sum_screen1_all.json; outputs/sprint2/H/sum_real_fresh.json; outputs/sprint2/H/real_twin/records.jsonl; outputs/sprint2/H/trackR_remaining/{dev,eval}_a*/records.jsonl; docs/sprint2/family_h/track_R_remaining.json; docs/sprint2/family_h/track_R_all.json; docs/sprint2/family_h/corrected_real_20.md",
+  "track_E": "Synthetic (paired dJ vs D5): F9 -22.1, F6 -13.2, S_delay800 -6.0, W_delay600 -8.2, F1_late -3.8, F3 +8.4, nulls 0. vs D2: iid alts +2..+10, F1_late -4.8, dependent alts +67/+83 (D2's iid-evidence power), F5_r95 null +9.4. Real fresh (3 seeds x episodes): vs D2 +76..+190 on all 5 streams (CIs >0); vs A5b -9.1 metro, -3.9 beijing, +17.3 bike, -68.5 appliances, +6.8 household. Historical +68..+189 selected-comparator contrast withdrawn: its pool included Xu acquisition and Choe-Ramdas adapters and omitted registered certificate ports; see family_h/README.md for the corrected 20-seed replay. Corrected matched 20-seed fresh-real replay (five exposed streams, equal-dataset means; episode-bootstrap 95% CI): +113.3 [85.6,142.2] vs D2; +46.7 [24.7,70.1] vs gated_adaptive_range; +98.2 [72.2,125.5] vs gated_adaptive_range+front. These are fixed-comparator descriptive contrasts; see corrected_real_20.md for all six certificate ports, supplemental adapters, full dataset results, and limits.",
+  "track_R": "Post hoc completion screen; development calibration on 20 seeds/regime (2026110701), separate evaluation on 20 seeds/regime (2026110711). R5: alpha 0.3, risk 0.050 [0.020,0.122], cost 376.8 [371.7,382.0]; R10: alpha 0.5, risk 0.062 [0.027,0.138], cost 371.7 [366.2,377.3]; R15: alpha 0.5, risk 0.062 [0.027,0.138], cost 371.7 [366.2,377.3]; R20: alpha 0.5, risk 0.062 [0.027,0.138], cost 371.7 [366.2,377.3]; R25: alpha 0.5, risk 0.062 [0.027,0.138], cost 371.7 [366.2,377.3]; R30: alpha 0.5, risk 0.062 [0.027,0.138], cost 371.7 [366.2,377.3]. Not Pareto after H1-H4 and D2/A5b are compared together. Empirical intervals are not guarantees.",
+  "track_V": "V2 (stationary first-order Markov null, any rho). Promotion on F0_null/F5_r8/F5_r95 nulls 0/20 each; twin nulls (marginal hypothesis, not V2) pooled .043, appliances .100, bike .108.",
+  "ablation": "H1-twocycle (=D5 with _B, threshold 2/alpha): F9 +12.2 vs H1, F6 +7.6; H1-iid1 (D2 + 1/alpha, V1): beats D2 by -2..-10 on every alt but F5_r8 null .25, F5_r95 null .75.",
+  "disposition": "Recovers D5's synthetic iid-alt power loss (C1+C2 of diagnosis) but does not recover D2's real-data advantage.",
+  "next_action": "Superseded by H2 (identical on iid, cheaper on dependence). Keep single-cycle threshold as a free fix for any absorbing-promotion gate."
+ },
+ {
+  "id": "H2",
+  "status": "SCREENED_PROMISING",
+  "implementation": "scripts/sota_sprint/fam_h.py:HGate (evidence=sui, single_cycle, spacing=True)",
+  "run_config": [
+   "uv run python scripts/sota_sprint/screen.py --seed-base 2026110701 --workers 2 --regimes F0_better,F7_near_better,F9_bursty_better,F1_late_800,F3_reversal_800,F5_dep_better_r8,S_dep_better_r95,F0_null,F0_worse,F5_dep_null_r8,F5_dep_null_r95,F6_delay400_better,S_delay800_better,W_delay600_better --policies <H*>,D2,D5,cams_adapter,A5b,xu_acquisition_only,gated_adaptive_range+front,choe_ramdas_eb+front,SMCS+retain-incumbent,CONTROL_never_switch --seeds 20 --out outputs/sprint2/H/screen1{,c,b} (exact split in outputs/sprint2/H/run_chain1.sh; screen1 killed after F0_better/F7 complete, its H5/H6 rows superseded by screen1b)",
+   "uv run python scripts/sota_sprint/screen.py --seed-base 2026110701 --workers 2 --kind real --regimes metro,beijing_pm25,bike_hour,appliances,household_power --seeds 3 --out outputs/sprint2/H/real_fresh",
+   "uv run python scripts/sota_sprint/screen.py --seed-base 2026110701 --workers 2 --kind real --regimes twin_metro,twin_beijing_pm25,twin_bike_hour,twin_appliances,twin_household_power --policies H1,H2,H4,D2,A5b,CONTROL_never_switch --seeds 1 --out outputs/sprint2/H/real_twin",
+   "uv run python scripts/sota_sprint/fam_h.py summarize --dirs outputs/sprint2/H/screen1,outputs/sprint2/H/screen1c,outputs/sprint2/H/screen1b --out outputs/sprint2/H/sum_screen1_all.json",
+   "uv run python scripts/sota_sprint/screen.py --kind real --regimes metro,beijing_pm25,bike_hour,appliances,household_power --policies H1,H2,H3,H4,H5,H6-r10,D2,A5b,gated_deployment,gated_adaptive_range,gated_adaptive_range+front,discern_style,discern_design_floor,SMCS+retain-incumbent,xu_acquisition_only,choe_ramdas_eb+front,CONTROL_never_switch --seeds 20 --seed-base 2026110701 --workers 4 --alpha 0.05 --out outputs/sprint2/round5/H_corrected_real_20"
+  ],
+  "seed_manifest": {
+   "manifests": [
+    "outputs/sprint2/H/screen1b/manifest.json",
+    "outputs/sprint2/H/screen1c/manifest.json",
+    "outputs/sprint2/H/real_fresh/manifest.json",
+    "outputs/sprint2/H/real_twin/manifest.json",
+    "outputs/sprint2/H/trackR/b2026110701_a0.005/manifest.json",
+    "outputs/sprint2/H/trackR/b2026110701_a0.01/manifest.json",
+    "outputs/sprint2/H/trackR/b2026110701_a0.02/manifest.json",
+    "outputs/sprint2/H/trackR/b2026110701_a0.05/manifest.json",
+    "outputs/sprint2/H/trackR/b2026110701_a0.1/manifest.json",
+    "outputs/sprint2/H/trackR/b2026110701_a0.2/manifest.json",
+    "outputs/sprint2/H/trackR/b2026110701_a0.3/manifest.json",
+    "outputs/sprint2/H/trackR/b2026110701_a0.5/manifest.json",
+    "outputs/sprint2/H/trackR/b2026110711_a0.005/manifest.json",
+    "outputs/sprint2/H/trackR/b2026110711_a0.01/manifest.json",
+    "outputs/sprint2/H/trackR/b2026110711_a0.02/manifest.json",
+    "outputs/sprint2/H/trackR/b2026110711_a0.05/manifest.json",
+    "outputs/sprint2/H/trackR/b2026110711_a0.1/manifest.json",
+    "outputs/sprint2/H/trackR/b2026110711_a0.2/manifest.json",
+    "outputs/sprint2/H/trackR/b2026110711_a0.3/manifest.json",
+    "outputs/sprint2/H/trackR/b2026110711_a0.5/manifest.json",
+    "outputs/sprint2/round5/H_corrected_real_20/manifest.json",
+    "outputs/sprint2/round5/H2_followup100/manifest.json",
+    "outputs/sprint2/round5/H2_markov_null1000/manifest.json",
+    "outputs/sprint2/round5/H2_real14_3seed/manifest.json"
+   ],
+   "seed_bases": [
+    "2026110701",
+    "2026110711"
+   ],
+   "provenance_record": "docs/sprint2/legacy_seed_provenance.json",
+   "note": "The source record is in the listed manifests. Historical partial outputs under H/screen1 lack an original manifest; the sidecar documents their recovered rows, inferred seed base, and unrecoverable run-time source/CLI details. The analysis summary supplies later complete runs after the partial directory to resolve overlapping rows.",
+   "provenance_status": "partial"
+  },
+  "results_artifact": "outputs/sprint2/H/sum_screen1_all.json; outputs/sprint2/H/sum_real_fresh.json; outputs/sprint2/H/real_twin/records.jsonl; outputs/sprint2/round5/H2_followup100/records.jsonl; outputs/sprint2/round5/H2_markov_null1000/records.jsonl; outputs/sprint2/round5/H2_real14_3seed/records.jsonl; docs/sprint2/family_h/round5_h2.json; docs/sprint2/family_h/corrected_real_20.md",
+  "track_E": "Development screen: same promotion rates as H1 on tested iid alternatives; improves cost vs D2 on F1_late_800 (-3.7 [-6.0,-1.4]) but loses to D2 on F0_better (+7.6 [4.0,11.1]), F9 (+11.9 [7.3,16.4]) and dependent alternatives (+67.3 [+58.7,76.0] F5_r8; +83.9 [+72.8,95.1] S_r95). At 1000-seed Markov-null replay, H2 and A5b use fewer labels than iid D2 on dependent nulls. On all 14 fixed real sources (3 seeds), equal-source J contrast H2-D2 +81.2 [38.1,136.1], H2-gated_adaptive_range+front +71.7 [30.1,126.4], H2-A5b -9.9 [-21.5,-0.0], H2-never -112.0 [-223.0,-23.9]. Descriptive, source-cluster bootstrap, exposed data. Corrected matched 20-seed fresh-real replay (five exposed streams, equal-dataset means; episode-bootstrap 95% CI): +103.2 [79.5,127.0] vs D2; +36.5 [18.1,54.9] vs gated_adaptive_range; +88.0 [66.2,110.2] vs gated_adaptive_range+front. These are fixed-comparator descriptive contrasts; see corrected_real_20.md for all six certificate ports, supplemental adapters, full dataset results, and limits.",
+  "track_R": "docs/sprint2/family_h/track_R.json: calibrated alpha* = .3 at R5 (realised .050 [.020,.122], alt cost 374.7 vs A5b 383.4 at .050; D2 has no operating point below R20); R10-R30 alpha*=.5, realised .062, cost ~369.7. D2 at R25/R30 (alpha .1): risk .212, cost 361.4 (cheaper).",
+  "track_V": "V2 scope: stationary first-order Markov with p<=.5 and any rho, subject to stated independence/predictability assumptions; empirical rates are not a proof of those assumptions. 1000-seed follow-up promotions: F0_null 6/1000 [.003,.013], F5 r8 7/1000 [.003,.014], F5 r95 8/1000 [.004,.016], r98 1/1000 [0,.006] (Wilson 95% CIs). Twin nulls test a distinct marginal null: original H2 rates pooled .041; appliances .100, bike .092 exceed .05.",
+  "ablation": "Inference vs acquisition: H1 (SUI, D2 acquisition) vs H2-iid_space (iid evidence, adaptive spacing): spacing alone keeps D2's power (F5_r8 alt .80, S_r95 .75) but null promotion .15 (F5 r8) and .50 (F5 r95): spacing does not repair iid evidence. H2-gateonly (spacing on gate draws only): loses the label saving on dependent nulls (199 vs 164 labels).",
+  "disposition": "H2 remains a scoped dependence-robust D2 variant under its declared V2 Markov null; 1000-seed rates are below alpha on the four tested null cells. It pays a large economic cost on persistent synthetic alternatives and loses to D2 and the adaptive-range port on equal-source real costs. Real outcomes are descriptive and no broad economic claim is supported. The twin-null marginal concern is distinct and not resolved by the V2 experiment.",
+  "next_action": null
+ },
+ {
+  "id": "H3",
+  "status": "SCREENED_NEGATIVE",
+  "implementation": "scripts/sota_sprint/fam_h.py:HGate (H2 + shadow=True, gamma=3, zeta=.25)",
+  "run_config": [
+   "uv run python scripts/sota_sprint/screen.py --seed-base 2026110701 --workers 2 --regimes F0_better,F7_near_better,F9_bursty_better,F1_late_800,F3_reversal_800,F5_dep_better_r8,S_dep_better_r95,F0_null,F0_worse,F5_dep_null_r8,F5_dep_null_r95,F6_delay400_better,S_delay800_better,W_delay600_better --policies <H*>,D2,D5,cams_adapter,A5b,xu_acquisition_only,gated_adaptive_range+front,choe_ramdas_eb+front,SMCS+retain-incumbent,CONTROL_never_switch --seeds 20 --out outputs/sprint2/H/screen1{,c,b} (exact split in outputs/sprint2/H/run_chain1.sh; screen1 killed after F0_better/F7 complete, its H5/H6 rows superseded by screen1b)",
+   "uv run python scripts/sota_sprint/screen.py --seed-base 2026110701 --workers 2 --kind real --regimes metro,beijing_pm25,bike_hour,appliances,household_power --seeds 3 --out outputs/sprint2/H/real_fresh",
+   "uv run python scripts/sota_sprint/screen.py --seed-base 2026110701 --workers 2 --kind real --regimes twin_metro,twin_beijing_pm25,twin_bike_hour,twin_appliances,twin_household_power --policies H1,H2,H4,D2,A5b,CONTROL_never_switch --seeds 1 --out outputs/sprint2/H/real_twin",
+   "uv run python scripts/sota_sprint/fam_h.py summarize --dirs outputs/sprint2/H/screen1,outputs/sprint2/H/screen1c,outputs/sprint2/H/screen1b --out outputs/sprint2/H/sum_screen1_all.json --legacy-comparator-pool",
+   "scripts/sota_sprint/run_trackR_h_completion.sh (alpha grid 0.005,0.01,0.02,0.05,0.1,0.2,0.3,0.5; 20 seeds; dev base 2026110701 and eval base 2026110711; regimes as bench2.RISK_NULLS + RISK_ALTS)",
+   "uv run python scripts/sota_sprint/screen.py --kind real --regimes metro,beijing_pm25,bike_hour,appliances,household_power --policies H1,H2,H3,H4,H5,H6-r10,D2,A5b,gated_deployment,gated_adaptive_range,gated_adaptive_range+front,discern_style,discern_design_floor,SMCS+retain-incumbent,xu_acquisition_only,choe_ramdas_eb+front,CONTROL_never_switch --seeds 20 --seed-base 2026110701 --workers 4 --alpha 0.05 --out outputs/sprint2/round5/H_corrected_real_20"
+  ],
+  "seed_manifest": {
+   "manifests": [
+    "outputs/sprint2/H/screen1b/manifest.json",
+    "outputs/sprint2/H/screen1c/manifest.json",
+    "outputs/sprint2/H/real_fresh/manifest.json",
+    "outputs/sprint2/H/real_twin/manifest.json",
+    "outputs/sprint2/H/trackR_remaining/dev_a0.005/manifest.json",
+    "outputs/sprint2/H/trackR_remaining/dev_a0.01/manifest.json",
+    "outputs/sprint2/H/trackR_remaining/dev_a0.02/manifest.json",
+    "outputs/sprint2/H/trackR_remaining/dev_a0.05/manifest.json",
+    "outputs/sprint2/H/trackR_remaining/dev_a0.1/manifest.json",
+    "outputs/sprint2/H/trackR_remaining/dev_a0.2/manifest.json",
+    "outputs/sprint2/H/trackR_remaining/dev_a0.3/manifest.json",
+    "outputs/sprint2/H/trackR_remaining/dev_a0.5/manifest.json",
+    "outputs/sprint2/H/trackR_remaining/eval_a0.005/manifest.json",
+    "outputs/sprint2/H/trackR_remaining/eval_a0.01/manifest.json",
+    "outputs/sprint2/H/trackR_remaining/eval_a0.02/manifest.json",
+    "outputs/sprint2/H/trackR_remaining/eval_a0.05/manifest.json",
+    "outputs/sprint2/H/trackR_remaining/eval_a0.1/manifest.json",
+    "outputs/sprint2/H/trackR_remaining/eval_a0.2/manifest.json",
+    "outputs/sprint2/H/trackR_remaining/eval_a0.3/manifest.json",
+    "outputs/sprint2/H/trackR_remaining/eval_a0.5/manifest.json",
+    "outputs/sprint2/round5/H_corrected_real_20/manifest.json"
+   ],
+   "seed_bases": [
+    "2026110701",
+    "2026110711"
+   ],
+   "provenance_record": "docs/sprint2/legacy_seed_provenance.json",
+   "note": "The source record is in the listed manifests. Historical partial outputs under H/screen1 lack an original manifest; the sidecar documents their recovered rows, inferred seed base, and unrecoverable run-time source/CLI details. The analysis summary supplies later complete runs after the partial directory to resolve overlapping rows.",
+   "provenance_status": "partial"
+  },
+  "results_artifact": "outputs/sprint2/H/sum_screen1_all.json; outputs/sprint2/H/sum_real_fresh.json; outputs/sprint2/H/real_twin/records.jsonl; outputs/sprint2/H/trackR_remaining/{dev,eval}_a*/records.jsonl; docs/sprint2/family_h/track_R_remaining.json; docs/sprint2/family_h/track_R_all.json; docs/sprint2/family_h/corrected_real_20.md",
+  "track_E": "vs H2: nulls -7.2 F0_null, -8.5 F0_worse, -6.4 F5_r8 (labels 25-56 instead of 195-200); but F1_late_800 +12.3 (promotion .65 -> .00), F9 +5.2, F7 promotion .50->.35. Real fresh vs H2: +0.4 metro, -11.8 appliances, -2.1 household (near zero). Corrected matched 20-seed fresh-real replay (five exposed streams, equal-dataset means; episode-bootstrap 95% CI): +102.1 [78.6,126.0] vs D2; +35.4 [17.1,54.3] vs gated_adaptive_range; +86.9 [64.6,109.1] vs gated_adaptive_range+front. These are fixed-comparator descriptive contrasts; see corrected_real_20.md for all six certificate ports, supplemental adapters, full dataset results, and limits.",
+  "track_R": "Post hoc completion screen; development calibration on 20 seeds/regime (2026110701), separate evaluation on 20 seeds/regime (2026110711). R5: alpha 0.3, risk 0.050 [0.020,0.122], cost 378.1 [372.4,383.8]; R10: alpha 0.5, risk 0.062 [0.027,0.138], cost 374.0 [368.0,380.1]; R15: alpha 0.5, risk 0.062 [0.027,0.138], cost 374.0 [368.0,380.1]; R20: alpha 0.5, risk 0.062 [0.027,0.138], cost 374.0 [368.0,380.1]; R25: alpha 0.5, risk 0.062 [0.027,0.138], cost 374.0 [368.0,380.1]; R30: alpha 0.5, risk 0.062 [0.027,0.138], cost 374.0 [368.0,380.1]. Not Pareto after H1-H4 and D2/A5b are compared together. Empirical intervals are not guarantees.",
+  "track_V": "V2 (shadow gate only removes queries).",
+  "ablation": "H3-gateonly (shadow on gate draws only, host draws kept): F1_late .70, no null saving (labels 198).",
+  "disposition": "Shadow price trades late-improvement power for null label savings; does not recover evidence power.",
+  "next_action": "Stop."
+ },
+ {
+  "id": "H4",
+  "status": "SCREENED_PROMISING",
+  "implementation": "scripts/sota_sprint/fam_h.py:HGate (H2 + dualclock=True)",
+  "run_config": [
+   "uv run python scripts/sota_sprint/screen.py --seed-base 2026110701 --workers 2 --regimes F0_better,F7_near_better,F9_bursty_better,F1_late_800,F3_reversal_800,F5_dep_better_r8,S_dep_better_r95,F0_null,F0_worse,F5_dep_null_r8,F5_dep_null_r95,F6_delay400_better,S_delay800_better,W_delay600_better --policies <H*>,D2,D5,cams_adapter,A5b,xu_acquisition_only,gated_adaptive_range+front,choe_ramdas_eb+front,SMCS+retain-incumbent,CONTROL_never_switch --seeds 20 --out outputs/sprint2/H/screen1{,c,b} (exact split in outputs/sprint2/H/run_chain1.sh; screen1 killed after F0_better/F7 complete, its H5/H6 rows superseded by screen1b)",
+   "uv run python scripts/sota_sprint/screen.py --seed-base 2026110701 --workers 2 --kind real --regimes metro,beijing_pm25,bike_hour,appliances,household_power --seeds 3 --out outputs/sprint2/H/real_fresh",
+   "uv run python scripts/sota_sprint/screen.py --seed-base 2026110701 --workers 2 --kind real --regimes twin_metro,twin_beijing_pm25,twin_bike_hour,twin_appliances,twin_household_power --policies H1,H2,H4,D2,A5b,CONTROL_never_switch --seeds 1 --out outputs/sprint2/H/real_twin",
+   "uv run python scripts/sota_sprint/fam_h.py summarize --dirs outputs/sprint2/H/screen1,outputs/sprint2/H/screen1c,outputs/sprint2/H/screen1b --out outputs/sprint2/H/sum_screen1_all.json",
+   "uv run python scripts/sota_sprint/screen.py --kind real --regimes metro,beijing_pm25,bike_hour,appliances,household_power --policies H1,H2,H3,H4,H5,H6-r10,D2,A5b,gated_deployment,gated_adaptive_range,gated_adaptive_range+front,discern_style,discern_design_floor,SMCS+retain-incumbent,xu_acquisition_only,choe_ramdas_eb+front,CONTROL_never_switch --seeds 20 --seed-base 2026110701 --workers 4 --alpha 0.05 --out outputs/sprint2/round5/H_corrected_real_20"
+  ],
+  "seed_manifest": {
+   "manifests": [
+    "outputs/sprint2/H/screen1b/manifest.json",
+    "outputs/sprint2/H/screen1c/manifest.json",
+    "outputs/sprint2/H/real_fresh/manifest.json",
+    "outputs/sprint2/H/real_twin/manifest.json",
+    "outputs/sprint2/H/trackR/b2026110701_a0.005/manifest.json",
+    "outputs/sprint2/H/trackR/b2026110701_a0.01/manifest.json",
+    "outputs/sprint2/H/trackR/b2026110701_a0.02/manifest.json",
+    "outputs/sprint2/H/trackR/b2026110701_a0.05/manifest.json",
+    "outputs/sprint2/H/trackR/b2026110701_a0.1/manifest.json",
+    "outputs/sprint2/H/trackR/b2026110701_a0.2/manifest.json",
+    "outputs/sprint2/H/trackR/b2026110701_a0.3/manifest.json",
+    "outputs/sprint2/H/trackR/b2026110701_a0.5/manifest.json",
+    "outputs/sprint2/H/trackR/b2026110711_a0.005/manifest.json",
+    "outputs/sprint2/H/trackR/b2026110711_a0.01/manifest.json",
+    "outputs/sprint2/H/trackR/b2026110711_a0.02/manifest.json",
+    "outputs/sprint2/H/trackR/b2026110711_a0.05/manifest.json",
+    "outputs/sprint2/H/trackR/b2026110711_a0.1/manifest.json",
+    "outputs/sprint2/H/trackR/b2026110711_a0.2/manifest.json",
+    "outputs/sprint2/H/trackR/b2026110711_a0.3/manifest.json",
+    "outputs/sprint2/H/trackR/b2026110711_a0.5/manifest.json",
+    "outputs/sprint2/round5/H_corrected_real_20/manifest.json"
+   ],
+   "seed_bases": [
+    "2026110701",
+    "2026110711"
+   ],
+   "provenance_record": "docs/sprint2/legacy_seed_provenance.json",
+   "note": "The source record is in the listed manifests. Historical partial outputs under H/screen1 lack an original manifest; the sidecar documents their recovered rows, inferred seed base, and unrecoverable run-time source/CLI details. The analysis summary supplies later complete runs after the partial directory to resolve overlapping rows.",
+   "provenance_status": "partial"
+  },
+  "results_artifact": "outputs/sprint2/H/sum_screen1_all.json; outputs/sprint2/H/sum_real_fresh.json; outputs/sprint2/H/real_twin/records.jsonl; docs/sprint2/family_h/corrected_real_20.md",
+  "track_E": "vs H2: S_delay800 -2.4 (labels 137 vs 184), W_delay600 -1.0, F6 +0.2, F0_null -0.3, F0_worse -0.6, F5_r8 null -0.6; real (delay 144/24): bike -8.2, appliances -23.1 (n.s.), others ~0. vs D2 on delay alts: F6 +1.5, S_delay800 -3.9, W_delay600 +5.3. Corrected matched 20-seed fresh-real replay (five exposed streams, equal-dataset means; episode-bootstrap 95% CI): +100.9 [77.3,124.7] vs D2; +34.2 [16.7,52.4] vs gated_adaptive_range; +85.7 [64.2,108.0] vs gated_adaptive_range+front. These are fixed-comparator descriptive contrasts; see corrected_real_20.md for all six certificate ports, supplemental adapters, full dataset results, and limits.",
+  "track_R": "docs/sprint2/family_h/track_R.json: calibrated alpha* = .3 at R5 (realised .050 [.020,.122], alt cost 375.1 vs A5b 383.4 at .050; D2 has no operating point below R20); R10-R30 alpha*=.5, realised .062, cost 369.6 (Pareto at R10-R30 by 0.2 vs H2). D2 at R25/R30 (alpha .1): risk .212, cost 361.4 (cheaper).",
+  "track_V": "V2 (deadline/in-flight only remove queries; event-order segments are fresh e-processes). Twin pooled .040.",
+  "ablation": "Mechanism isolated by H4 vs H2 (single flag). Deadline removes labels released at/after T.",
+  "disposition": "Small, consistent label saving under long delay; no power gain.",
+  "next_action": "Fold into H2 as a default (cost-only effect)."
+ },
+ {
+  "id": "H5",
+  "status": "SCREENED_NEGATIVE",
+  "implementation": "scripts/sota_sprint/fam_h.py:HGate (sui, spacing, rollback=True, UniformStartSUI reversal test, alpha_r=.05)",
+  "run_config": [
+   "uv run python scripts/sota_sprint/screen.py --seed-base 2026110701 --workers 2 --regimes F0_better,F7_near_better,F9_bursty_better,F1_late_800,F3_reversal_800,F5_dep_better_r8,S_dep_better_r95,F0_null,F0_worse,F5_dep_null_r8,F5_dep_null_r95,F6_delay400_better,S_delay800_better,W_delay600_better --policies <H*>,D2,D5,cams_adapter,A5b,xu_acquisition_only,gated_adaptive_range+front,choe_ramdas_eb+front,SMCS+retain-incumbent,CONTROL_never_switch --seeds 20 --out outputs/sprint2/H/screen1{,c,b} (exact split in outputs/sprint2/H/run_chain1.sh; screen1 killed after F0_better/F7 complete, its H5/H6 rows superseded by screen1b)",
+   "uv run python scripts/sota_sprint/screen.py --seed-base 2026110701 --workers 2 --kind real --regimes metro,beijing_pm25,bike_hour,appliances,household_power --seeds 3 --out outputs/sprint2/H/real_fresh",
+   "uv run python scripts/sota_sprint/screen.py --seed-base 2026110701 --workers 2 --kind real --regimes twin_metro,twin_beijing_pm25,twin_bike_hour,twin_appliances,twin_household_power --policies H1,H2,H4,D2,A5b,CONTROL_never_switch --seeds 1 --out outputs/sprint2/H/real_twin",
+   "uv run python scripts/sota_sprint/fam_h.py summarize --dirs outputs/sprint2/H/screen1,outputs/sprint2/H/screen1c,outputs/sprint2/H/screen1b --out outputs/sprint2/H/sum_screen1_all.json",
+   "scripts/sota_sprint/run_trackR_h_rollback_completion.sh (alpha grid 0.005,0.01,0.02,0.05,0.1,0.2,0.3,0.5; 20 seeds; dev 2026110701/eval 2026110711; bench2 risk nulls and alternatives; H5,H6-r10/r15/r25,H2,H4,D2,A5b)",
+   "uv run python scripts/sota_sprint/screen.py --kind real --regimes metro,beijing_pm25,bike_hour,appliances,household_power --policies H1,H2,H3,H4,H5,H6-r10,D2,A5b,gated_deployment,gated_adaptive_range,gated_adaptive_range+front,discern_style,discern_design_floor,SMCS+retain-incumbent,xu_acquisition_only,choe_ramdas_eb+front,CONTROL_never_switch --seeds 20 --seed-base 2026110701 --workers 4 --alpha 0.05 --out outputs/sprint2/round5/H_corrected_real_20"
+  ],
+  "seed_manifest": {
+   "manifests": [
+    "outputs/sprint2/H/screen1b/manifest.json",
+    "outputs/sprint2/H/screen1c/manifest.json",
+    "outputs/sprint2/H/real_fresh/manifest.json",
+    "outputs/sprint2/H/real_twin/manifest.json",
+    "outputs/sprint2/H/trackR_rollback/dev_a0.005/manifest.json",
+    "outputs/sprint2/H/trackR_rollback/dev_a0.01/manifest.json",
+    "outputs/sprint2/H/trackR_rollback/dev_a0.02/manifest.json",
+    "outputs/sprint2/H/trackR_rollback/dev_a0.05/manifest.json",
+    "outputs/sprint2/H/trackR_rollback/dev_a0.1/manifest.json",
+    "outputs/sprint2/H/trackR_rollback/dev_a0.2/manifest.json",
+    "outputs/sprint2/H/trackR_rollback/dev_a0.3/manifest.json",
+    "outputs/sprint2/H/trackR_rollback/dev_a0.5/manifest.json",
+    "outputs/sprint2/H/trackR_rollback/eval_a0.005/manifest.json",
+    "outputs/sprint2/H/trackR_rollback/eval_a0.01/manifest.json",
+    "outputs/sprint2/H/trackR_rollback/eval_a0.02/manifest.json",
+    "outputs/sprint2/H/trackR_rollback/eval_a0.05/manifest.json",
+    "outputs/sprint2/H/trackR_rollback/eval_a0.1/manifest.json",
+    "outputs/sprint2/H/trackR_rollback/eval_a0.2/manifest.json",
+    "outputs/sprint2/H/trackR_rollback/eval_a0.3/manifest.json",
+    "outputs/sprint2/H/trackR_rollback/eval_a0.5/manifest.json",
+    "outputs/sprint2/round5/H_corrected_real_20/manifest.json"
+   ],
+   "seed_bases": [
+    "2026110701",
+    "2026110711"
+   ],
+   "provenance_record": "docs/sprint2/legacy_seed_provenance.json",
+   "note": "Candidate results are covered by the listed complete screen1b/Track-R/fresh-real manifests. Partial H/screen1 rows also exist, but the summary supplies screen1b afterward and drops overlapping H5/H6 rows; H5/H6 reported values do not rely on unmanifested partial-only records.",
+   "provenance_status": "complete"
+  },
+  "results_artifact": "outputs/sprint2/H/sum_screen1_all.json; outputs/sprint2/H/sum_real_fresh.json; outputs/sprint2/H/real_twin/records.jsonl; outputs/sprint2/H/trackR_rollback/{dev,eval}_a*/records.jsonl; docs/sprint2/family_h/track_R_rollback.json; docs/sprint2/family_h/track_R_all.json; docs/sprint2/family_h/corrected_real_20.md",
+  "track_E": "F3_reversal_800: rollback .20, -12.8 vs D2 [-30,+4], -8.2 vs H5-decay; but +14..+25 vs D2 on iid alts and +12 on delay alts (two-cycle threshold 2/alpha + paced monitoring spends the whole budget). Real fresh: vs A5b +4/-4/+5/-19/+5. Corrected matched 20-seed fresh-real replay (five exposed streams, equal-dataset means; episode-bootstrap 95% CI): +120.8 [94.6,147.8] vs D2; +54.1 [31.0,78.5] vs gated_adaptive_range; +105.6 [80.8,131.2] vs gated_adaptive_range+front. These are fixed-comparator descriptive contrasts; see corrected_real_20.md for all six certificate ports, supplemental adapters, full dataset results, and limits.",
+  "track_R": "Post hoc completion screen: development calibration on 20 seeds/regime (2026110701), separate evaluation on 20 seeds/regime (2026110711). H5 alpha*=.5 at R5-R30; realised risk .0375 [.013,.105], alt cost 382.3 [376.5,388.1]. H5 is Pareto on the expanded tested Family-H grid at every target due to lower observed risk than H2/H4; empirical intervals are not guarantees.",
+  "track_V": "V2 for promotion: P(any false promotion | Markov null throughout) <= sum_j alpha/2^j <= alpha. Rollback: P(false rollback in a cycle | challenger at least as good after promotion) <= alpha_r = .05 PER CYCLE, not family-wise. Nothing controlled under reversal (neither null holds throughout).",
+  "ablation": "H5-decay (fam_a 1/(m(m+1)) start weights): rollback 0/20 on F3; H5-dc (dual clock): F3 -1.6 vs H5.",
+  "disposition": "Rollback reversal handling works mechanically but has higher alternative cost than H2/H4 on Track R. Dedicated runtime recheck below approximate target, small sample only; worst-case runtime is not established.",
+  "next_action": "Stop; do not advance on current economic evidence."
+ },
+ {
+  "id": "H6",
+  "status": "SCREENED_NEGATIVE",
+  "implementation": "scripts/sota_sprint/fam_h.py:HGate (H5 + reserve in {0,.10,.15,.25}; H6-r0 = H5)",
+  "run_config": [
+   "uv run python scripts/sota_sprint/screen.py --seed-base 2026110701 --workers 2 --regimes F0_better,F7_near_better,F9_bursty_better,F1_late_800,F3_reversal_800,F5_dep_better_r8,S_dep_better_r95,F0_null,F0_worse,F5_dep_null_r8,F5_dep_null_r95,F6_delay400_better,S_delay800_better,W_delay600_better --policies <H*>,D2,D5,cams_adapter,A5b,xu_acquisition_only,gated_adaptive_range+front,choe_ramdas_eb+front,SMCS+retain-incumbent,CONTROL_never_switch --seeds 20 --out outputs/sprint2/H/screen1{,c,b} (exact split in outputs/sprint2/H/run_chain1.sh; screen1 killed after F0_better/F7 complete, its H5/H6 rows superseded by screen1b)",
+   "uv run python scripts/sota_sprint/screen.py --seed-base 2026110701 --workers 2 --kind real --regimes metro,beijing_pm25,bike_hour,appliances,household_power --seeds 3 --out outputs/sprint2/H/real_fresh",
+   "uv run python scripts/sota_sprint/screen.py --seed-base 2026110701 --workers 2 --kind real --regimes twin_metro,twin_beijing_pm25,twin_bike_hour,twin_appliances,twin_household_power --policies H1,H2,H4,D2,A5b,CONTROL_never_switch --seeds 1 --out outputs/sprint2/H/real_twin",
+   "uv run python scripts/sota_sprint/fam_h.py summarize --dirs outputs/sprint2/H/screen1,outputs/sprint2/H/screen1c,outputs/sprint2/H/screen1b --out outputs/sprint2/H/sum_screen1_all.json",
+   "scripts/sota_sprint/run_trackR_h_rollback_completion.sh (alpha grid 0.005,0.01,0.02,0.05,0.1,0.2,0.3,0.5; 20 seeds; dev 2026110701/eval 2026110711; bench2 risk nulls and alternatives; H5,H6-r10/r15/r25,H2,H4,D2,A5b)",
+   "uv run python scripts/sota_sprint/screen.py --kind real --regimes metro,beijing_pm25,bike_hour,appliances,household_power --policies H1,H2,H3,H4,H5,H6-r10,D2,A5b,gated_deployment,gated_adaptive_range,gated_adaptive_range+front,discern_style,discern_design_floor,SMCS+retain-incumbent,xu_acquisition_only,choe_ramdas_eb+front,CONTROL_never_switch --seeds 20 --seed-base 2026110701 --workers 4 --alpha 0.05 --out outputs/sprint2/round5/H_corrected_real_20"
+  ],
+  "seed_manifest": {
+   "manifests": [
+    "outputs/sprint2/H/screen1b/manifest.json",
+    "outputs/sprint2/H/screen1c/manifest.json",
+    "outputs/sprint2/H/real_fresh/manifest.json",
+    "outputs/sprint2/H/real_twin/manifest.json",
+    "outputs/sprint2/H/trackR_rollback/dev_a0.005/manifest.json",
+    "outputs/sprint2/H/trackR_rollback/dev_a0.01/manifest.json",
+    "outputs/sprint2/H/trackR_rollback/dev_a0.02/manifest.json",
+    "outputs/sprint2/H/trackR_rollback/dev_a0.05/manifest.json",
+    "outputs/sprint2/H/trackR_rollback/dev_a0.1/manifest.json",
+    "outputs/sprint2/H/trackR_rollback/dev_a0.2/manifest.json",
+    "outputs/sprint2/H/trackR_rollback/dev_a0.3/manifest.json",
+    "outputs/sprint2/H/trackR_rollback/dev_a0.5/manifest.json",
+    "outputs/sprint2/H/trackR_rollback/eval_a0.005/manifest.json",
+    "outputs/sprint2/H/trackR_rollback/eval_a0.01/manifest.json",
+    "outputs/sprint2/H/trackR_rollback/eval_a0.02/manifest.json",
+    "outputs/sprint2/H/trackR_rollback/eval_a0.05/manifest.json",
+    "outputs/sprint2/H/trackR_rollback/eval_a0.1/manifest.json",
+    "outputs/sprint2/H/trackR_rollback/eval_a0.2/manifest.json",
+    "outputs/sprint2/H/trackR_rollback/eval_a0.3/manifest.json",
+    "outputs/sprint2/H/trackR_rollback/eval_a0.5/manifest.json",
+    "outputs/sprint2/round5/H_corrected_real_20/manifest.json"
+   ],
+   "seed_bases": [
+    "2026110701",
+    "2026110711"
+   ],
+   "provenance_record": "docs/sprint2/legacy_seed_provenance.json",
+   "note": "Candidate results are covered by the listed complete screen1b/Track-R/fresh-real manifests. Partial H/screen1 rows also exist, but the summary supplies screen1b afterward and drops overlapping H5/H6 rows; H5/H6 reported values do not rely on unmanifested partial-only records.",
+   "provenance_status": "complete"
+  },
+  "results_artifact": "outputs/sprint2/H/sum_screen1_all.json; outputs/sprint2/H/sum_real_fresh.json; outputs/sprint2/H/real_twin/records.jsonl; outputs/sprint2/H/trackR_rollback/{dev,eval}_a*/records.jsonl; docs/sprint2/family_h/track_R_rollback.json; docs/sprint2/family_h/track_R_all.json; docs/sprint2/family_h/corrected_real_20.md",
+  "track_E": "Monotone: reserve .10/.15/.25 vs D2 on F1_late +5.8/+8.6/+11.5 (promotion .35/.25/.10 vs H5 .55), F9 +25/+28/+34; nulls -1.0/-1.5/-2.5; F3 -13.1/-13.2/-18.5 (rollbacks .20 at all levels). Real H6-r10 = H5 within 1. Corrected matched 20-seed fresh-real replay (five exposed streams, equal-dataset means; episode-bootstrap 95% CI): +123.0 [95.4,150.8] vs D2; +56.4 [31.6,83.4] vs gated_adaptive_range; +107.8 [82.0,134.5] vs gated_adaptive_range+front. These are fixed-comparator descriptive contrasts; see corrected_real_20.md for all six certificate ports, supplemental adapters, full dataset results, and limits.",
+  "track_R": "Post hoc completion screen: development calibration on 20 seeds/regime (2026110701), separate evaluation on 20 seeds/regime (2026110711). H6-r10/.15/.25 alpha*=.5 at R5-R30; each realised risk .0375 [.013,.105], with costs 382.9 [377.1,388.8], 384.3 [377.9,390.6], and 385.3 [379.1,391.6]. None is Pareto after H5 is included at the same risk and lower cost. Empirical intervals are not guarantees.",
+  "track_V": "Same as H5 (V2 promotion; per-cycle alpha_r rollback). Runtime FAIL: H6-r25 maximum 16.3 s.",
+  "ablation": "Reserve grid 0/10/15/25 is the ablation.",
+  "disposition": "Reserve starves pre-promotion evidence and does not improve the risk-cost frontier. Dedicated runtime recheck below approximate target, small sample only; worst-case runtime is not established.",
+  "next_action": "Stop; do not advance on current economic evidence."
+ }
+]

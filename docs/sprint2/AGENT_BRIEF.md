@@ -54,7 +54,8 @@ uv run python scripts/sota_sprint/screen.py --regimes R1,R2 --policies P1,P2 --s
 - **Choe-Ramdas port.** `choe_ramdas_eb` is DiscernQCE, i.e. PrPl-EB on query-conditional ±1 outcomes. On ±1 outcomes, the betting e-process prod(1 + lambda·x) equals the Bernoulli likelihood-ratio mixture used by QSG's StartedMixture. A faithful Choe-Ramdas / Henzi-Ziegel method tests the time-averaged conditional mean of paired loss differences over ALL events. Under a label budget that needs IPW, cf. gated_deployment.
 - **Twin-null finding.** Promotions there are mostly toward the twin that realised lower loss in that episode, so harm is small. The violation is of the marginal guarantee, not a large economic loss.
 - **Comparators:**
-  - certified: gated_deployment, gated_adaptive_range, gated_adaptive_range+front, discern_style (corrected), discern_design_floor, SMCS+retain-incumbent, xu_acquisition_only, choe_ramdas_eb(+front), gated_deployment+QCE(+front)
+  - certificate methods/ports: gated_deployment, gated_adaptive_range, gated_adaptive_range+front, discern_style (corrected), discern_design_floor, SMCS+retain-incumbent, choe_ramdas_eb(+front), gated_deployment+QCE(+front)
+  - acquisition adapter: xu_acquisition_only (Xu acquisition plus ShiftLab paired V1 certificate; not Xu's published certificate)
   - uncertified: model_picker_adapter, cams_adapter, model_selector_causal, online_llm_picker, variance_min_ipw, gong_zhang_paid_obs, qiu_delayed_movement, ryabchenko_capacity
   - controls: economic_replacement, CONTROL_never_switch
   - internal: QSG, A5b, D1, D2, D5, rmm:*, M_* (fam_m)

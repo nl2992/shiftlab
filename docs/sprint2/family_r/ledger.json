@@ -1,0 +1,405 @@
+{
+ "family": "R",
+ "evidence_root": "outputs/sprint2/R/ (gitignored; manifests contain code hashes and run configs)",
+ "development": "dev_screen_a05: 20 seeds, seed base 2026110701, alpha .05; 11 synthetic regimes. Track E/V summary: analysis/trackE_V_a05.json.",
+ "track_r": "analysis/risk_curves.json and risk_curves.md; calibrated on development runs and evaluated on a separate seed base. Targets R5-R30.",
+ "real": "analysis/real_a05.json; fresh streams and twin streams. Real results are descriptive transfer checks, not causal shift validation.",
+ "candidates": [
+  {
+   "id": "R1",
+   "status": "SCREENED; TRACK R COMPLETE",
+   "implementation": "D2 operating points calibrated at alpha .005-.5; risk frontier R5-R30",
+   "evidence": [
+    "analysis/risk_curves.json",
+    "analysis/risk_curves.md"
+   ],
+   "finding": "Risk-cost curves and Pareto points are recorded. D2 has no selected operating point at R5/R10/R15; R20-R30 points exist. Calibration/evaluation use the same candidate grid, so treat as an exploratory selected frontier, not a confirmatory guarantee.",
+   "disposition": "Retain as descriptive risk-cost baseline; report selection procedure and uncertainty.",
+   "run_config": {
+    "commands": [
+     "sh outputs/sprint2/R/run_dev_screen.sh",
+     "sh outputs/sprint2/R/run_real.sh",
+     "sh outputs/sprint2/R/run_trackR.sh"
+    ],
+    "candidate_policy_ids": [
+     "D2"
+    ],
+    "contract": "T=2000, B=200, c_q=0.05, c_s=5; alpha=0.05 for development and registered alpha grid for Track R",
+    "note": "The linked manifests preserve the exact argv, seed base, policy list, code hash and source hashes for each executed run."
+   },
+   "seed_manifest": {
+    "manifests": [
+     "outputs/sprint2/R/dev_screen_a05/manifest.json",
+     "outputs/sprint2/R/real/fresh/manifest.json",
+     "outputs/sprint2/R/real/twin_a0.05/manifest.json",
+     "outputs/sprint2/R/trackR/dev_a0.005/manifest.json",
+     "outputs/sprint2/R/trackR/dev_a0.01/manifest.json",
+     "outputs/sprint2/R/trackR/dev_a0.02/manifest.json",
+     "outputs/sprint2/R/trackR/dev_a0.1/manifest.json",
+     "outputs/sprint2/R/trackR/dev_a0.2/manifest.json",
+     "outputs/sprint2/R/trackR/dev_a0.3/manifest.json",
+     "outputs/sprint2/R/trackR/dev_a0.5/manifest.json",
+     "outputs/sprint2/R/trackR/eval_a0.005/manifest.json",
+     "outputs/sprint2/R/trackR/eval_a0.01/manifest.json",
+     "outputs/sprint2/R/trackR/eval_a0.02/manifest.json",
+     "outputs/sprint2/R/trackR/eval_a0.05/manifest.json",
+     "outputs/sprint2/R/trackR/eval_a0.1/manifest.json",
+     "outputs/sprint2/R/trackR/eval_a0.2/manifest.json",
+     "outputs/sprint2/R/trackR/eval_a0.3/manifest.json",
+     "outputs/sprint2/R/trackR/eval_a0.5/manifest.json"
+    ],
+    "seed_bases": [
+     "2026110701",
+     "2026110711"
+    ],
+    "note": "See each manifest argv for the run-specific seed count and seed base.",
+    "provenance_status": "complete"
+   },
+   "results_artifact": [
+    "outputs/sprint2/R/analysis/risk_curves.json",
+    "outputs/sprint2/R/analysis/risk_curves.md"
+   ],
+   "track_E": "Risk-cost curves and Pareto points are recorded. D2 has no selected operating point at R5/R10/R15; R20-R30 points exist. Calibration/evaluation use the same candidate grid, so treat as an exploratory selected frontier, not a confirmatory guarantee.",
+   "track_R": "Track-R alpha calibration and evaluation are in outputs/sprint2/R/analysis/risk_curves.json. R20: D2: alpha 0.02, eval risk 0.138 [0.079,0.230], cost 372.2 [363.1,381.2], not Pareto. Curves are selected-grid empirical estimates, not guarantees.",
+   "track_V": "D2/operating-point policies target the stated conditional certificate null; empirical null/error summaries are in analysis/trackE_V_a05.json. See docs/sprint2/family_r/results.md; empirical rates are not guarantees.",
+   "ablation": "Risk-target operating-point sweep over the registered alpha grid; this is a calibration/frontier evaluation, not a separate mechanism ablation.",
+   "next_action": null
+  },
+  {
+   "id": "R2",
+   "status": "SCREENED; CONDITIONAL-NULL CAVEAT DOCUMENTED",
+   "implementation": "fam_r.CondMeanEP; fixed-lambda conditional-mean e-process; R2-qc and R2-floor25 ablations",
+   "evidence": [
+    "conditional_mean_verification.md",
+    "analysis/trackE_V_a05.json",
+    "dev_screen_a05/manifest.json"
+   ],
+   "finding": "Implementation note gives the target, IPW construction, stopping/freeze rule, and finite-path validity checks. On dev runs R2 promotion was 0/20 on F0 null, 1/20 on Markov rho=.8, 5/20 on rho=.95. Those Markov cases are outside R2's conditional-mean validity class; this is risk characterization, not a validity failure for its stated null. On fresh real streams R2 net costs vary and are not consistently better than D2.",
+   "disposition": "Retain only with V1 conditional-mean claim and explicit null/filtration limitations; no general robust-validity claim.",
+   "run_config": {
+    "commands": [
+     "sh outputs/sprint2/R/run_dev_screen.sh",
+     "sh outputs/sprint2/R/run_real.sh",
+     "sh outputs/sprint2/R/run_trackR.sh"
+    ],
+    "candidate_policy_ids": [
+     "R2",
+     "R2-qc",
+     "R2-floor25"
+    ],
+    "contract": "T=2000, B=200, c_q=0.05, c_s=5; alpha=0.05 for development and registered alpha grid for Track R",
+    "note": "The linked manifests preserve the exact argv, seed base, policy list, code hash and source hashes for each executed run."
+   },
+   "seed_manifest": {
+    "manifests": [
+     "outputs/sprint2/R/dev_screen_a05/manifest.json",
+     "outputs/sprint2/R/real/fresh/manifest.json",
+     "outputs/sprint2/R/real/twin_a0.05/manifest.json",
+     "outputs/sprint2/R/trackR/dev_a0.005/manifest.json",
+     "outputs/sprint2/R/trackR/dev_a0.01/manifest.json",
+     "outputs/sprint2/R/trackR/dev_a0.02/manifest.json",
+     "outputs/sprint2/R/trackR/dev_a0.1/manifest.json",
+     "outputs/sprint2/R/trackR/dev_a0.2/manifest.json",
+     "outputs/sprint2/R/trackR/dev_a0.3/manifest.json",
+     "outputs/sprint2/R/trackR/dev_a0.5/manifest.json",
+     "outputs/sprint2/R/trackR/eval_a0.005/manifest.json",
+     "outputs/sprint2/R/trackR/eval_a0.01/manifest.json",
+     "outputs/sprint2/R/trackR/eval_a0.02/manifest.json",
+     "outputs/sprint2/R/trackR/eval_a0.05/manifest.json",
+     "outputs/sprint2/R/trackR/eval_a0.1/manifest.json",
+     "outputs/sprint2/R/trackR/eval_a0.2/manifest.json",
+     "outputs/sprint2/R/trackR/eval_a0.3/manifest.json",
+     "outputs/sprint2/R/trackR/eval_a0.5/manifest.json"
+    ],
+    "seed_bases": [
+     "2026110701",
+     "2026110711"
+    ],
+    "note": "See each manifest argv for the run-specific seed count and seed base.",
+    "provenance_status": "complete"
+   },
+   "results_artifact": [
+    "docs/sprint2/family_r/conditional_mean_verification.md",
+    "outputs/sprint2/R/analysis/trackE_V_a05.json",
+    "outputs/sprint2/R/dev_screen_a05/manifest.json"
+   ],
+   "track_E": "Implementation note gives the target, IPW construction, stopping/freeze rule, and finite-path validity checks. On dev runs R2 promotion was 0/20 on F0 null, 1/20 on Markov rho=.8, 5/20 on rho=.95. Those Markov cases are outside R2's conditional-mean validity class; this is risk characterization, not a validity failure for its stated null. On fresh real streams R2 net costs vary and are not consistently better than D2.",
+   "track_R": "Track-R alpha calibration and evaluation are in outputs/sprint2/R/analysis/risk_curves.json. R20: R2: alpha 0.3, eval risk 0.175 [0.107,0.273], cost 366.8 [360.6,373.0], not Pareto; R2-qc: alpha 0.2, eval risk 0.163 [0.097,0.258], cost 361.1 [353.8,368.4], not Pareto; R2-floor25: calibrated alpha 0.05; no displayed R20 Pareto point. Curves are selected-grid empirical estimates, not guarantees.",
+   "track_V": "V1 conditional-mean null under its stated IPW/filtration assumptions; Markov nulls are out-of-class diagnostics. See docs/sprint2/family_r/results.md; empirical rates are not guarantees.",
+   "ablation": "R2 vs R2-qc and R2-floor25 compare the baseline conditional-mean e-process with query-conditional and floor-clipped variants; see the candidate implementation and Track E/V analysis.",
+   "next_action": null
+  },
+  {
+   "id": "R3",
+   "status": "SCREENED; NO STRONG ECONOMIC ADVANCE",
+   "implementation": "fam_r Markov evidence variants R3-base/plugin/near/alloc/plugnear",
+   "evidence": [
+    "analysis/trackE_V_a05.json",
+    "analysis/risk_curves.json",
+    "dev_screen_a05/manifest.json"
+   ],
+   "finding": "R3-base has 0/20 promotion on the two Markov null screens and mean alternative cost 393.6 in dev (D2 362.8); alternatives generally add cost. The Markov-specific validity is generator/model-class scoped. No evidence establishes uniform validity beyond declared Markov assumptions.",
+   "disposition": "Do not advance on current cost evidence; preserve as scoped Markov-evidence comparison.",
+   "run_config": {
+    "commands": [
+     "sh outputs/sprint2/R/run_dev_screen.sh",
+     "sh outputs/sprint2/R/run_real.sh",
+     "sh outputs/sprint2/R/run_trackR.sh"
+    ],
+    "candidate_policy_ids": [
+     "R3-base",
+     "R3-plugin",
+     "R3-near",
+     "R3-alloc",
+     "R3-plugnear"
+    ],
+    "contract": "T=2000, B=200, c_q=0.05, c_s=5; alpha=0.05 for development and registered alpha grid for Track R",
+    "note": "The linked manifests preserve the exact argv, seed base, policy list, code hash and source hashes for each executed run."
+   },
+   "seed_manifest": {
+    "manifests": [
+     "outputs/sprint2/R/dev_screen_a05/manifest.json",
+     "outputs/sprint2/R/real/fresh/manifest.json",
+     "outputs/sprint2/R/trackR/dev_a0.005/manifest.json",
+     "outputs/sprint2/R/trackR/dev_a0.01/manifest.json",
+     "outputs/sprint2/R/trackR/dev_a0.02/manifest.json",
+     "outputs/sprint2/R/trackR/dev_a0.1/manifest.json",
+     "outputs/sprint2/R/trackR/dev_a0.2/manifest.json",
+     "outputs/sprint2/R/trackR/dev_a0.3/manifest.json",
+     "outputs/sprint2/R/trackR/dev_a0.5/manifest.json",
+     "outputs/sprint2/R/trackR/eval_a0.005/manifest.json",
+     "outputs/sprint2/R/trackR/eval_a0.01/manifest.json",
+     "outputs/sprint2/R/trackR/eval_a0.02/manifest.json",
+     "outputs/sprint2/R/trackR/eval_a0.05/manifest.json",
+     "outputs/sprint2/R/trackR/eval_a0.1/manifest.json",
+     "outputs/sprint2/R/trackR/eval_a0.2/manifest.json",
+     "outputs/sprint2/R/trackR/eval_a0.3/manifest.json",
+     "outputs/sprint2/R/trackR/eval_a0.5/manifest.json"
+    ],
+    "seed_bases": [
+     "2026110701",
+     "2026110711"
+    ],
+    "note": "See each manifest argv for the run-specific seed count and seed base.",
+    "provenance_status": "complete"
+   },
+   "results_artifact": [
+    "outputs/sprint2/R/analysis/trackE_V_a05.json",
+    "outputs/sprint2/R/analysis/risk_curves.json",
+    "outputs/sprint2/R/dev_screen_a05/manifest.json"
+   ],
+   "track_E": "R3-base has 0/20 promotion on the two Markov null screens and mean alternative cost 393.6 in dev (D2 362.8); alternatives generally add cost. The Markov-specific validity is generator/model-class scoped. No evidence establishes uniform validity beyond declared Markov assumptions.",
+   "track_R": "Track-R alpha calibration and evaluation are in outputs/sprint2/R/analysis/risk_curves.json. R20: R3-base: alpha 0.5, eval risk 0.037 [0.013,0.105], cost 381.6 [375.8,387.4], Pareto; R3-near: calibrated alpha 0.05; no displayed R20 Pareto point; R3-plugin: calibrated alpha 0.05; no displayed R20 Pareto point; R3-alloc: calibrated alpha 0.05; no displayed R20 Pareto point. Curves are selected-grid empirical estimates, not guarantees.",
+   "track_V": "V2 Markov-model evidence; validity is limited to the tested Markov model/generator class. See docs/sprint2/family_r/results.md; empirical rates are not guarantees.",
+   "ablation": "Five evidence variants compare base Markov mixture, predictable plug-in numerator, near alternative, evidence allocation, and plug-in/near combination.",
+   "next_action": null
+  },
+  {
+   "id": "R4",
+   "status": "SCREENED; NEGATIVE/OVERLY CONSERVATIVE",
+   "implementation": "dual-evidence R4-both and R4-comb",
+   "evidence": [
+    "analysis/trackE_V_a05.json",
+    "analysis/real_a05.json",
+    "dev_screen_a05/manifest.json"
+   ],
+   "finding": "R4-both had 0/20 promotion on F0 and both Markov null screens; mean alternative cost was 399.4 (+36.6 paired vs D2's 362.8). R4-comb had 0/20 on F0 and rho=.8, 5/20 on rho=.95; mean alternative cost was 375.6 (+12.8 paired vs D2). R4-comb was cheaper than R4-both on this aggregate but retained .25 promotion on rho=.95. Fresh-real R4 variants are mixed and do not establish a uniform gain.",
+   "disposition": "Stop as currently configured; retain as a conservatism ablation.",
+   "run_config": {
+    "commands": [
+     "sh outputs/sprint2/R/run_dev_screen.sh",
+     "sh outputs/sprint2/R/run_real.sh",
+     "sh outputs/sprint2/R/run_trackR.sh"
+    ],
+    "candidate_policy_ids": [
+     "R4-both",
+     "R4-comb"
+    ],
+    "contract": "T=2000, B=200, c_q=0.05, c_s=5; alpha=0.05 for development and registered alpha grid for Track R",
+    "note": "The linked manifests preserve the exact argv, seed base, policy list, code hash and source hashes for each executed run."
+   },
+   "seed_manifest": {
+    "manifests": [
+     "outputs/sprint2/R/dev_screen_a05/manifest.json",
+     "outputs/sprint2/R/real/fresh/manifest.json",
+     "outputs/sprint2/R/real/twin_a0.05/manifest.json",
+     "outputs/sprint2/R/trackR/dev_a0.005/manifest.json",
+     "outputs/sprint2/R/trackR/dev_a0.01/manifest.json",
+     "outputs/sprint2/R/trackR/dev_a0.02/manifest.json",
+     "outputs/sprint2/R/trackR/dev_a0.1/manifest.json",
+     "outputs/sprint2/R/trackR/dev_a0.2/manifest.json",
+     "outputs/sprint2/R/trackR/dev_a0.3/manifest.json",
+     "outputs/sprint2/R/trackR/dev_a0.5/manifest.json",
+     "outputs/sprint2/R/trackR/eval_a0.005/manifest.json",
+     "outputs/sprint2/R/trackR/eval_a0.01/manifest.json",
+     "outputs/sprint2/R/trackR/eval_a0.02/manifest.json",
+     "outputs/sprint2/R/trackR/eval_a0.05/manifest.json",
+     "outputs/sprint2/R/trackR/eval_a0.1/manifest.json",
+     "outputs/sprint2/R/trackR/eval_a0.2/manifest.json",
+     "outputs/sprint2/R/trackR/eval_a0.3/manifest.json",
+     "outputs/sprint2/R/trackR/eval_a0.5/manifest.json"
+    ],
+    "seed_bases": [
+     "2026110701",
+     "2026110711"
+    ],
+    "note": "See each manifest argv for the run-specific seed count and seed base.",
+    "provenance_status": "complete"
+   },
+   "results_artifact": [
+    "outputs/sprint2/R/analysis/trackE_V_a05.json",
+    "outputs/sprint2/R/analysis/real_a05.json",
+    "outputs/sprint2/R/dev_screen_a05/manifest.json"
+   ],
+   "track_E": "R4-both had 0/20 promotion on F0 and both Markov null screens; mean alternative cost was 399.4 (+36.6 paired vs D2's 362.8). R4-comb had 0/20 on F0 and rho=.8, 5/20 on rho=.95; mean alternative cost was 375.6 (+12.8 paired vs D2). R4-comb was cheaper than R4-both on this aggregate but retained .25 promotion on rho=.95. Fresh-real R4 variants are mixed and do not establish a uniform gain.",
+   "track_R": "Track-R alpha calibration and evaluation are in outputs/sprint2/R/analysis/risk_curves.json. R20: R4-both: alpha 0.5, eval risk 0.025 [0.007,0.087], cost 387.1 [381.3,392.8], Pareto; R4-comb: calibrated alpha 0.05; no displayed R20 Pareto point. Curves are selected-grid empirical estimates, not guarantees.",
+   "track_V": "Combined V1/V2 evidence; the combined procedure is conservative and empirical rates are reported in analysis/trackE_V_a05.json. See docs/sprint2/family_r/results.md; empirical rates are not guarantees.",
+   "ablation": "R4-both requires both evidence components; R4-comb uses the combined evidence rule. They expose the validity/power conservatism trade-off.",
+   "next_action": null
+  },
+  {
+   "id": "R5",
+   "status": "SCREENED; MIXED; SYNTHETIC AND ALL-14-SOURCE REAL FOLLOW-UPS COMPLETE",
+   "implementation": "risk-aware economic deployment; R5, R5-nopen, R5-iidvar; risk/economic selector",
+   "evidence": [
+    "analysis/trackE_V_a05.json",
+    "analysis/risk_curves.json",
+    "analysis/real_a05.json",
+    "family_r/R5_round5_results.json",
+    "docs/sprint2/family_r/R5_round5_results.json",
+    "docs/sprint2/family_r/R5_all14_real_results.json",
+    "docs/sprint2/family_r/R5_all14_real_protocol.md"
+   ],
+   "finding": "Track-R evaluation records selected R5 operating points. At R10: selected alpha .005, risk .087 [0.043,0.170], alt cost 365.8 [359.3,372.2]; R15/R20/R25: alpha .02, risk .138 [0.079,.230], cost 357.5 [351.3,363.7]; R30: alpha .05, risk .212 [.137,.314], cost 353.9 [348.1,359.8]. R5 is a Pareto point at these targets. Fresh-real results vary by dataset; do not infer universal real-data benefit. Some old tables compare against Xu's acquisition-only adapter; those rows are not evidence of superiority to Xu's published method. Post-development frozen-alpha follow-up (100 seeds/regime, alpha .02; seed base 2026110901) found promotions 15/100 on F0_null, 0/100 F0_worse, 26/100 on F5_dep_null_r8 and 24/100 on F5_dep_null_r95. Across six registered alternatives, paired mean net-cost difference R5−D2 was −10.23 [−12.41,−8.05]; however, R5 was more costly than D2 on F1_late_800 (+7.49) and S_dep_better_r95 (+18.69), and did not yield a uniform alternative advantage. This is a new-seed simulator sensitivity at a fixed operating point, not a guarantee or real-data confirmation. All-14-source post-development real-stream replay (20 policy seeds per episode; seed base 2026110903; 14 previously exposed sources, 230 episodes) gives equal-source mean J 404.22 for R5 vs 404.91 D2 (mean source-level contrast -0.68), 412.39 economic_replacement (-8.17), 406.55 CAMS (-2.32), and 414.14 gated adaptive-range (-9.91). The per-source contrast is mixed; no pooled uncertainty is claimed because seeds are policy randomness within fixed episodes and sources/episodes are dependent. This is retrospective cost evidence, not real-world late-transfer, causal utility, or independent confirmation.",
+   "disposition": "Mixed: lower average cost than the fixed comparators over the six registered alternatives, but high promotion rates in the tested null regimes and losses on late/strong-persistence alternatives. Do not present the previous selected Track-R frontier as independently validated; the post-development follow-up is one fixed-alpha sensitivity.",
+   "run_config": {
+    "commands": [
+     "sh outputs/sprint2/R/run_dev_screen.sh",
+     "sh outputs/sprint2/R/run_real.sh",
+     "sh outputs/sprint2/R/run_trackR.sh",
+     "uv run python scripts/sota_sprint/screen.py --regimes F0_null,F0_worse,F5_dep_null_r8,F5_dep_null_r95,F0_better,F7_near_better,F9_bursty_better,F1_late_800,F5_dep_better_r8,S_dep_better_r95 --policies R5,D2,A5b,gated_adaptive_range+front,R:economic_stop --seeds 100 --seed-base 2026110901 --workers 4 --alpha 0.02 --out outputs/sprint2/round5/R5_eval100_a002",
+     "uv run python scripts/sota_sprint/screen.py --kind real --regimes rialto,spam,weather,openml_ldpa,uci_occupancy,airlines,bank,elec2,criteo,metro,beijing_pm25,bike_hour,appliances,household_power --policies R5,D2,A5b,economic_replacement,R:economic_stop,cams_adapter,gated_adaptive_range+front --seeds 20 --seed-base 2026110903 --workers 6 --alpha 0.05 --out outputs/sprint2/round5/R5_all14_real20"
+    ],
+    "candidate_policy_ids": [
+     "R5",
+     "R5-nopen",
+     "R5-iidvar"
+    ],
+    "contract": "T=2000, B=200, c_q=0.05, c_s=5; alpha=0.05 for development and registered alpha grid for Track R",
+    "note": "The linked manifests preserve the exact argv, seed base, policy list, code hash and source hashes for each executed run."
+   },
+   "seed_manifest": {
+    "manifests": [
+     "outputs/sprint2/R/dev_screen_a05/manifest.json",
+     "outputs/sprint2/R/real/fresh/manifest.json",
+     "outputs/sprint2/R/real/twin_a0.05/manifest.json",
+     "outputs/sprint2/R/trackR/dev_a0.005/manifest.json",
+     "outputs/sprint2/R/trackR/dev_a0.01/manifest.json",
+     "outputs/sprint2/R/trackR/dev_a0.02/manifest.json",
+     "outputs/sprint2/R/trackR/dev_a0.1/manifest.json",
+     "outputs/sprint2/R/trackR/dev_a0.2/manifest.json",
+     "outputs/sprint2/R/trackR/dev_a0.3/manifest.json",
+     "outputs/sprint2/R/trackR/dev_a0.5/manifest.json",
+     "outputs/sprint2/R/trackR/eval_a0.005/manifest.json",
+     "outputs/sprint2/R/trackR/eval_a0.01/manifest.json",
+     "outputs/sprint2/R/trackR/eval_a0.02/manifest.json",
+     "outputs/sprint2/R/trackR/eval_a0.05/manifest.json",
+     "outputs/sprint2/R/trackR/eval_a0.1/manifest.json",
+     "outputs/sprint2/R/trackR/eval_a0.2/manifest.json",
+     "outputs/sprint2/R/trackR/eval_a0.3/manifest.json",
+     "outputs/sprint2/R/trackR/eval_a0.5/manifest.json",
+     "outputs/sprint2/round5/R5_eval100_a002/manifest.json",
+     "outputs/sprint2/round5/R5_all14_real20/manifest.json"
+    ],
+    "seed_bases": [
+     "2026110701",
+     "2026110711",
+     "2026110901",
+     "2026110903"
+    ],
+    "note": "See each manifest argv for the run-specific seed count and seed base.",
+    "provenance_status": "complete"
+   },
+   "results_artifact": [
+    "outputs/sprint2/R/analysis/trackE_V_a05.json",
+    "outputs/sprint2/R/analysis/risk_curves.json",
+    "outputs/sprint2/R/analysis/real_a05.json",
+    "docs/sprint2/family_r/R5_round5_results.json",
+    "docs/sprint2/family_r/R5_all14_real_results.json"
+   ],
+   "track_E": "Track-R evaluation records selected R5 operating points. At R10: selected alpha .005, risk .087 [0.043,0.170], alt cost 365.8 [359.3,372.2]; R15/R20/R25: alpha .02, risk .138 [0.079,.230], cost 357.5 [351.3,363.7]; R30: alpha .05, risk .212 [.137,.314], cost 353.9 [348.1,359.8]. R5 is a Pareto point at these targets. Fresh-real results vary by dataset; do not infer universal real-data benefit. Some old tables compare against Xu's acquisition-only adapter; those rows are not evidence of superiority to Xu's published method. New-seed follow-up at fixed alpha .02: paired six-alternative mean Δnet R5−D2 −10.23 [−12.41,−8.05], but R5 loses on F1_late_800 (+7.49) and S_dep_better_r95 (+18.69). The all-14-source post-development replay has equal-source mean J 404.22 for R5 versus 404.91 D2; source-level contrasts vary and are descriptive only.",
+   "track_R": "Track-R alpha calibration and evaluation are in outputs/sprint2/R/analysis/risk_curves.json. R20: R5: alpha 0.02, eval risk 0.138 [0.079,0.230], cost 357.5 [351.3,363.7], Pareto. Curves are selected-grid empirical estimates, not guarantees. The 100-seed fixed-alpha follow-up found 15/100 F0_null [Wilson 95% CI .093–.233], 26/100 rho=.8 [.184–.354] and 24/100 rho=.95 [.167–.332] promotions; it does not validate risk-target calibration.",
+   "track_V": "V2/risk-aware operating-point screen; empirical null rates are in analysis/trackE_V_a05.json. See docs/sprint2/family_r/results.md; empirical rates are not guarantees.",
+   "ablation": "R5, R5-nopen and R5-iidvar isolate the base risk-aware stopping rule, no-open variant, and iid-variance alternative.",
+   "next_action": "No claim of risk control from the selected frontier. Any further R5 advancement requires a preregistered independent evaluation that treats the elevated null promotion rates as a primary concern and tests application-relevant utility on untouched sources. No further claim is warranted from this exposed-data replay; any real-transfer claim requires untouched sources and a frozen protocol."
+  },
+  {
+   "id": "R6",
+   "status": "SCREENED; NO FEASIBLE JOINT CONFIG AT R5-R15; R20-R30 EVALUATED",
+   "implementation": "joint risk/label-budget variants R6:D2-always and R6:D2-floor25",
+   "evidence": [
+    "analysis/r6_joint.json",
+    "analysis/risk_curves.json",
+    "analysis/trackE_V_a05.json"
+   ],
+   "finding": "The joint selector has no chosen point at R5/R10/R15. At R20 it selects baseline D2 (alpha .02; eval risk .1375 [.0785,.2297], cost 372.15); at R25 it selects D2 (alpha .1; risk .2125 [.1371,.3142], cost 361.37); at R30 it selects R6:D2-always (alpha .1; risk .2875 [.1999,.3946], cost 358.17). Thus joint optimization offers no demonstrated advantage over D2 at R20/R25 and is riskier at R30. No direct evidence that reserved budget improves the joint frontier.",
+   "disposition": "Do not claim improved joint optimization; report as a negative/limited operating-point result.",
+   "track_R": "Joint alpha/acquisition grid evaluated with development-only selection and separate-seed evaluation. No config met R5/R10/R15 on development; R20/R25 selected baseline D2, R30 selected R6:D2-always. Thus no demonstrated advantage from joint optimization; evaluated choices are descriptive and not risk guarantees.",
+   "next_action": "No advance. If revisited, redesign acquisition jointly with evidence and preregister a feasible operating-point criterion; current grid does not meet R5-R15.",
+   "run_config": {
+    "commands": [
+     "sh outputs/sprint2/R/run_dev_screen.sh",
+     "sh outputs/sprint2/R/run_real.sh",
+     "sh outputs/sprint2/R/run_trackR.sh"
+    ],
+    "candidate_policy_ids": [
+     "R6:D2-floor25",
+     "R6:D2-always"
+    ],
+    "contract": "T=2000, B=200, c_q=0.05, c_s=5; alpha=0.05 for development and registered alpha grid for Track R",
+    "note": "The linked manifests preserve the exact argv, seed base, policy list, code hash and source hashes for each executed run."
+   },
+   "seed_manifest": {
+    "manifests": [
+     "outputs/sprint2/R/dev_screen_a05/manifest.json",
+     "outputs/sprint2/R/real/fresh/manifest.json",
+     "outputs/sprint2/R/trackR/dev_a0.005/manifest.json",
+     "outputs/sprint2/R/trackR/dev_a0.01/manifest.json",
+     "outputs/sprint2/R/trackR/dev_a0.02/manifest.json",
+     "outputs/sprint2/R/trackR/dev_a0.1/manifest.json",
+     "outputs/sprint2/R/trackR/dev_a0.2/manifest.json",
+     "outputs/sprint2/R/trackR/dev_a0.3/manifest.json",
+     "outputs/sprint2/R/trackR/dev_a0.5/manifest.json",
+     "outputs/sprint2/R/trackR/eval_a0.005/manifest.json",
+     "outputs/sprint2/R/trackR/eval_a0.01/manifest.json",
+     "outputs/sprint2/R/trackR/eval_a0.02/manifest.json",
+     "outputs/sprint2/R/trackR/eval_a0.05/manifest.json",
+     "outputs/sprint2/R/trackR/eval_a0.1/manifest.json",
+     "outputs/sprint2/R/trackR/eval_a0.2/manifest.json",
+     "outputs/sprint2/R/trackR/eval_a0.3/manifest.json",
+     "outputs/sprint2/R/trackR/eval_a0.5/manifest.json"
+    ],
+    "seed_bases": [
+     "2026110701",
+     "2026110711"
+    ],
+    "note": "See each manifest argv for the run-specific seed count and seed base.",
+    "provenance_status": "complete"
+   },
+   "results_artifact": [
+    "outputs/sprint2/R/analysis/r6_joint.json",
+    "outputs/sprint2/R/analysis/risk_curves.json",
+    "outputs/sprint2/R/analysis/trackE_V_a05.json"
+   ],
+   "track_E": "The joint selector has no chosen point at R5/R10/R15. At R20 it selects baseline D2 (alpha .02; eval risk .1375 [.0785,.2297], cost 372.15); at R25 it selects D2 (alpha .1; risk .2125 [.1371,.3142], cost 361.37); at R30 it selects R6:D2-always (alpha .1; risk .2875 [.1999,.3946], cost 358.17). Thus joint optimization offers no demonstrated advantage over D2 at R20/R25 and is riskier at R30. No direct evidence that reserved budget improves the joint frontier.",
+   "track_V": "Joint risk/budget selection, evaluated empirically in the declared null screens; no general validity guarantee. See docs/sprint2/family_r/results.md; empirical rates are not guarantees.",
+   "ablation": "Joint selector compares D2 with floor-25 reserved acquisition and always-on acquisition variants at the registered risk targets."
+  }
+ ],
+ "interpretation_limits": [
+  "All R family summaries are development or simulator-selected evidence, not independent confirmation.",
+  "The historical candidate-grid selector and its confidence intervals do not correct for choosing the best configuration on the same development runs.",
+  "Xu acquisition-only rows are common-contract adapter comparisons, not the published Xu risk-control method; exclude them from published-certified rankings.",
+  "Real stream shifts and utilities are not causal labels; the fresh/twin checks do not establish general validity."
+ ]
+}

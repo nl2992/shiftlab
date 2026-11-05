@@ -42,7 +42,7 @@ must not be cited as external validation.
 A separate read-only audit checked the full frozen brief against the family ledgers, registry and
 linked artifacts. It confirmed structural coverage of all 24 candidate IDs and no missing registry
 artifact paths, but did not recalculate all metrics. Subsequent numeric audits now reproduce the
-principal derived reports and the consolidated 191-row cost-risk table; they do not cover every
+principal derived reports and the consolidated 197-row cost-risk table; they do not cover every
 narrative claim. The 1000-seed P6 twin-bike replay does not establish transfer.
 The audit also noted the prior WP2 flag audit had omitted Run 2. That gap is now addressed by
 `audit_wp2_run2.py`, which found zero mismatches across 141,360 stored Run-2 rows and 129,580 paired
@@ -118,7 +118,7 @@ and 20 separate evaluation seeds per regime. H5/H6 dedicated timing recheck medi
 and maxima 0.28–0.36s over 15 episodes per candidate in three targeted regimes; historical shared
 screen outliers remain documented and are not explained by this small recheck. At alpha .5, H5/H6
 held-out risk was .0375 [.013,.105] at every target, with costs 382.3, 382.9, 384.3 and 385.3 for
-H5/H6-r10/r15/r25. The merged curve includes H1-H6 and D2/A5b. The 191-row cost-risk table audit
+H5/H6-r10/r15/r25. The merged curve includes H1-H6 and D2/A5b. The 197-row cost-risk table audit
 passes. The full raw-to-report audit passes 48/48 checks after the WP1 supplemental-path change.
 
 The remaining prose audit corrected the finite-diagnostic overclaim in H diagnosis C4, WP1
@@ -148,3 +148,18 @@ The structural registry audit still passes all 24 IDs with no field or path mism
 This audit did not rerun every simulation or independently regenerate every interval. It is an
 internal consistency review, not external validation, theorem review, or a substitute for resolving
 the documented retrospective provenance gaps for H1-H4 and custom P-family analyses.
+
+## Integrated-checkout follow-up (2026-11-05)
+
+Three read-only internal passes rechecked H/R, T/P, and WP1/WP2/SOTA/exit evidence against the
+integrated checkout. The H/R reviewer found no material mismatch in the registered numeric claims
+it sampled. The T/P reviewer corrected the T1 artifact citation: the Model Picker-host contrast is
+in the dev summary and devA records, while `contrasts.json` has only the D1 and D6:mp contrasts. It
+also confirmed that the T-family held-out Track-R panel is partial, the P-family historical
+manifest gaps remain documented, and P6's all-14-source replay is negative versus its parent. The
+WP1/WP2/SOTA reviewer confirmed the bounded result interpretations and identified stale statements
+that the sprint had not been pushed and WP1's code was dirty; those status lines are now corrected.
+
+The refreshed raw-to-report audit passes 50/50 checks. The cost-risk lineage audit passes for all
+197 displayed points. These are internal consistency and regeneration checks; they do not replace
+the requested ARIS/HKUSTDial or human review, theorem-proof review, or untouched-data confirmation.

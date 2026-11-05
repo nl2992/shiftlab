@@ -86,7 +86,7 @@ uv run python scripts/sota_sprint/wp1_false_rollback.py --workers 4
 
 The first command recomputes amended reports, selected Track E/V cells, P1/P2 summaries, and
 family Track-R tables from saved records. The second checks the specified P-family development
-tables. The third checks every displayed cost-risk point (191 rows) against its family Track-R
+tables. The third checks every displayed cost-risk point (197 rows) against its family Track-R
 JSON. All three are numerical lineage checks; none establishes the appropriateness of the
 estimands, thresholds, selection procedure, causal interpretation, or theorem assumptions. Manual
 claim corrections and remaining coverage limits are recorded in `CLAIM_RECONCILIATION.md`.

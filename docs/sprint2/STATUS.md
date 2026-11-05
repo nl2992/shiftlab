@@ -1,6 +1,6 @@
 # Sprint 2 status and remaining work
 
-Updated 2026-11-05 from worktree `/Users/nigelli/Desktop/ICML/Shift-lab/.claude/worktrees/dazzling-wilbur-a3e951`, branch `research/sprint2-a5b-d2-rmm`, base `1e46378132c8c090f67b39e9bd10b91a75cb4919`. The sprint was committed as `3fa468f` and fast-forwarded into the root local `main`; no remote push was made. Registered raw runs and historical analyses are preserved.
+Updated 2026-11-05 from the integrated checkout at `/Users/nigelli/Desktop/ICML/Shift-lab`, branch `main`. The sprint was committed as `3fa468f`, fast-forwarded to `main`, and pushed to `origin/main`; verify the current remote tip with `git ls-remote origin refs/heads/main`. Registered raw runs and historical analyses are preserved.
 
 ## Completed and evidenced
 
@@ -141,7 +141,7 @@ Updated 2026-11-05 from worktree `/Users/nigelli/Desktop/ICML/Shift-lab/.claude/
   or figure artifacts; legacy plots outside those reports are not cited. A targeted sentence-level
   pass of the six P-family narrative reports is recorded in `CLAIM_RECONCILIATION.md`; it does not
   independently prove theorem claims or review every candidate-registry sentence.
-- The consolidated cost-risk report now has its own audit: all 191 displayed Family R/T/H/P points
+- The consolidated cost-risk report now has its own audit: all 197 displayed Family R/T/H/P points
   match the corresponding Track-R JSON (`cost_risk_audit.json`). This verifies report lineage, not
   calibration or the scientific validity of empirical risk targets.
 - The omitted H1/H3 Track-R grids have now been completed as a post hoc follow-up: eight alpha values,
@@ -151,7 +151,7 @@ Updated 2026-11-05 from worktree `/Users/nigelli/Desktop/ICML/Shift-lab/.claude/
   at R10-R30 they cost 371.7/374.0 versus H4's 369.6, at the same point risk .062. H5/H6 now have
   Track-R curves: risk .0375 [.013,.105] at alpha .5; H5 costs 382.3, while H6 reserves cost
   382.9/384.3/385.3. A dedicated 15-episode timing recheck per candidate over three regimes was
-  below .36s, but does not establish a worst-case bound. The expanded 191-row report audit passes.
+  below .36s, but does not establish a worst-case bound. The expanded 197-row report audit passes.
   See `family_h/track_R_all.json` and `COST_RISK_PARETO.md`.
 - External/human independent review remains open; internal reviews do not substitute for it.
   A reviewer handoff is now prepared in `EXTERNAL_REVIEW_PACKET.md`, with scoped questions, exact evidence paths, reproduction entry points and a findings template. It does not count as a review; the reviewer record remains blank pending an independent reviewer.
@@ -204,7 +204,7 @@ Updated 2026-11-05 from worktree `/Users/nigelli/Desktop/ICML/Shift-lab/.claude/
    evaluation samples. Freeze choices on independent development data and evaluate on untouched data
    before making confirmatory claims; the current P6 adjustment does not cover across-regime or
    across-candidate selection.
-7. **Git integration is complete.** Commit `3fa468f` is on local `main` after a fast-forward from the sprint branch. No remote push was made. Git-ignore checks confirm the newly added twin-v2 and late-loss data paths remain excluded; some older cached data files are already tracked in the base repository.
+7. **Git integration is complete.** Commit `3fa468f` and subsequent audit/status corrections are on `main` and pushed to `origin/main`. Git-ignore checks confirm the newly added twin-v2 and late-loss data paths remain excluded; some older cached data files are already tracked in the base repository.
 
 ## Supported verdict
 

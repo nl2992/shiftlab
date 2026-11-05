@@ -69,7 +69,7 @@ hypothesis passed, a guarantee is valid, or independent confirmation was achieve
    remain open. WP1 headline and structural registry audits pass.
 ## Integration record
 
-The sprint worktree was committed as `3fa468f` and fast-forwarded into the root local `main` after the 381-test suite, 50-check raw-to-report audit, and 24-candidate registry audit passed. The local branch is ahead of its recorded `origin/main`; no remote push was made. Raw/large run outputs remain ignored and outside Git.
+The sprint worktree was committed as `3fa468f` and fast-forwarded into the root `main` after the 381-test suite, 50-check raw-to-report audit, and 24-candidate registry audit passed. The subsequent status and wording corrections are committed through `39ae3d9`; current `main` matches `origin/main`, and the worktree is clean. Raw/large run outputs remain ignored and outside Git.
 
 These open items do not invalidate completed screens or negative results. They prevent claiming the
 entire brief's research and independent-review exit conditions are fully satisfied.

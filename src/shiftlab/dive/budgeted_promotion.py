@@ -21,6 +21,13 @@ import matplotlib.pyplot as plt
 
 from ..data.gpu.environment import environment, resolve_device
 from ..decision_harm_experiment import SCENARIOS, ExperimentConfig, _generate
+from .anytime_policy_identification import (
+    bounded_dr_pseudo_outcomes,
+    empirical_bernstein_value_bounds,
+    lil_value_bounds,
+    optimal_policy_set,
+    optimal_policy_stopping_time,
+)
 from .eprocess import bounded_betting_factors
 from .experiment import _binary_cost, finalize_manifest
 from .promotion_grid import (
@@ -76,6 +83,9 @@ class BudgetedPromotionConfig:
     context_schedule_low: float = 0.10
     context_schedule_high: float = 0.90
     scout_bound_mode: str = "minimum_propensity"
+    exact_uniform_propensity_floor: bool = False
+    scout_ope_reward_predictor: str = "validation_group_mean"
+    include_scout_opi: bool = False
     include_validation_context_policy: bool = False
     include_scout_context_policy: bool = False
     scenario_subset: tuple[str, ...] = ()
@@ -176,6 +186,20 @@ class BudgetedPromotionConfig:
             )
         if self.scout_bound_mode not in SCOUT_BOUND_MODES:
             raise ValueError(f"scout_bound_mode must be one of {SCOUT_BOUND_MODES}")
+        if self.exact_uniform_propensity_floor and self.query_policies != ("uniform",):
+            raise ValueError("exact_uniform_propensity_floor requires query_policies=('uniform',)")
+        if self.scout_ope_reward_predictor not in ("constant_half", "validation_group_mean"):
+            raise ValueError(
+                "scout_ope_reward_predictor must be 'constant_half' or 'validation_group_mean'"
+            )
+        if self.include_scout_opi and not self.include_scout_context_policy:
+            raise ValueError("include_scout_opi requires include_scout_context_policy")
+        if self.include_scout_opi and (
+            self.query_policies != ("uniform",) or not self.exact_uniform_propensity_floor
+        ):
+            raise ValueError(
+                "include_scout_opi requires uniform querying and the exact propensity floor"
+            )
         known_scenarios = {scenario.name for scenario in SCENARIOS} | {
             "candidate_family_null",
             "candidate_context_zero_mean",
@@ -225,6 +249,16 @@ def _candidate_outcome_contrasts(
 def _entropy(probability: np.ndarray) -> np.ndarray:
     p = np.clip(np.asarray(probability, dtype=float), 1e-12, 1 - 1e-12)
     return -(p * np.log(p) + (1 - p) * np.log1p(-p))
+
+
+def _uniform_random(*shape: int, seed: int, device: str) -> np.ndarray:
+    """Draw deterministic uniforms without requiring PyTorch on the CPU path."""
+    if device == "cuda":
+        import torch
+
+        generator = torch.Generator(device=device).manual_seed(seed)
+        return torch.rand(shape, generator=generator, device=device).cpu().numpy()
+    return np.random.default_rng(seed).random(shape)
 
 
 def _decision_local_bounds(
@@ -334,7 +368,7 @@ def _fit_candidate_family(
     q_policy_paths: dict[tuple[str, float], np.ndarray] = {}
     min_propensities: dict[float, float] = {}
     for budget_rate in config.budget_rates:
-        q_min = budget_rate / 2
+        q_min = budget_rate if config.exact_uniform_propensity_floor else budget_rate / 2
         min_propensities[budget_rate] = q_min
         for query_name in config.query_policies:
             policy = AdaptiveQueryPolicy(
@@ -1008,6 +1042,233 @@ def _budget_limited_prefix_length(query_flags: np.ndarray, available_budget: int
     return int(exhausted[0] + 1) if exhausted.size else len(flags)
 
 
+def _evaluate_scout_opi(
+    *,
+    family: dict[str, Any],
+    y: np.ndarray,
+    scenario,
+    config: BudgetedPromotionConfig,
+    certification_start: int,
+    cert_indices: np.ndarray,
+    cert_contexts: np.ndarray,
+    cert_query_flags: np.ndarray,
+    cert_propensities: np.ndarray,
+    opi_action_uniforms: np.ndarray,
+    scout_mapping: dict[int, int | None],
+    scout_labels: int,
+) -> dict[str, Any]:
+    """Apply finite-class OPI to a logged classifier-action contextual bandit."""
+    processed = len(cert_indices)
+    if processed == 0:
+        return {
+            "opi_lil_promoted": False,
+            "opi_lil_selected_mapping": None,
+            "opi_lil_stop_certification_events": None,
+            "opi_lil_promotion_event": None,
+            "opi_lil_labels_used": scout_labels,
+            "opi_lil_candidate_count": 0,
+            "opi_lil_action_count": 0,
+            "opi_lil_final_set_size": None,
+            "opi_lil_width_at_stop": None,
+            "opi_lil_expected_postpromotion_net_gain": 0.0,
+            "opi_lil_realized_postpromotion_net_gain": 0.0,
+        }
+
+    validation_indices = np.arange(family["train_end"], family["validation_end"])
+    validation_contexts = np.asarray(family["contexts"][validation_indices], dtype=int)
+    validation_mapping: dict[int, int | None] = {}
+    switch_rate = config.switching_cost / family["deployment_length"]
+    for group in (0, 1):
+        group_indices = validation_indices[validation_contexts == group]
+        if not len(group_indices):
+            validation_mapping[group] = None
+            continue
+        observed = np.where(
+            y[group_indices][None, :] == 1,
+            family["z1"][:, group_indices],
+            family["z0"][:, group_indices],
+        )
+        validation_net = observed.mean(axis=1) - switch_rate
+        best = int(np.argmax(validation_net))
+        validation_mapping[group] = best if validation_net[best] > 0 else None
+
+    rank_mapping = {
+        0: 0 if family["actions"].shape[0] else None,
+        1: 0 if family["actions"].shape[0] else None,
+    }
+    named_mappings = [
+        ("incumbent", {0: None, 1: None}),
+        ("pooled_rank", rank_mapping),
+        ("validation_context", validation_mapping),
+        ("scout_context", dict(scout_mapping)),
+    ]
+    unique_mappings: list[tuple[str, dict[int, int | None]]] = []
+    seen: dict[tuple[int | None, int | None], int] = {}
+    for name, mapping in named_mappings:
+        key = (mapping.get(0), mapping.get(1))
+        if key in seen:
+            continue
+        seen[key] = len(unique_mappings)
+        unique_mappings.append((name, mapping))
+
+    # The behavior policy randomly logs one classifier action, independently of
+    # the query coin. Its observed reward is the queried, nonnegative net gain;
+    # skipped events have known reward zero. The target policies are fixed maps.
+    action_codes: list[int | None] = [None]
+    action_codes.extend(
+        sorted(
+            {
+                selected
+                for _, mapping in unique_mappings
+                for selected in mapping.values()
+                if selected is not None
+            }
+        )
+    )
+    action_lookup = {code: index for index, code in enumerate(action_codes)}
+    action_count = len(action_codes)
+    policy_count = len(unique_mappings)
+    alpha_one_sided = config.alpha / (2.0 * policy_count)
+    reward_scale = float(max(scenario.fn_cost, scenario.fp_cost)) + switch_rate
+    query_rate = float(np.mean(cert_query_flags))
+    actions = np.minimum(
+        (np.asarray(opi_action_uniforms[:processed]) * action_count).astype(np.int64),
+        action_count - 1,
+    )
+    logging = np.full((processed, action_count), 1.0 / action_count)
+    target = np.zeros((processed, policy_count, action_count), dtype=float)
+    for policy_index, (_, mapping) in enumerate(unique_mappings):
+        for time_index, group in enumerate(cert_contexts):
+            target[time_index, policy_index, action_lookup[mapping[int(group)]]] = 1.0
+
+    reward_by_action = np.zeros((processed, action_count), dtype=float)
+    validation_reward_by_group = np.zeros((2, action_count), dtype=float)
+    for group in (0, 1):
+        group_indices = validation_indices[validation_contexts == group]
+        for action_index, selected in enumerate(action_codes):
+            if selected is None or not len(group_indices):
+                continue
+            validation_gain = np.where(
+                y[group_indices] == 1,
+                family["z1"][selected, group_indices],
+                family["z0"][selected, group_indices],
+            )
+            validation_reward_by_group[group, action_index] = np.clip(
+                query_rate * (float(np.mean(validation_gain)) - switch_rate) / reward_scale,
+                0.0,
+                1.0,
+            )
+    for time_index, group in enumerate(cert_contexts):
+        reward_by_action[time_index] = (
+            cert_propensities[time_index] * validation_reward_by_group[int(group)]
+        )
+    for row_index, action_index in enumerate(actions):
+        if not cert_query_flags[row_index]:
+            continue
+        group = int(cert_contexts[row_index])
+        selected = action_codes[action_index]
+        if selected is None:
+            continue
+        event_index = int(cert_indices[row_index])
+        gain = (
+            family["z1"][selected, event_index]
+            if y[event_index] == 1
+            else family["z0"][selected, event_index]
+        )
+        reward_by_action[row_index, action_index] = np.clip(
+            (gain - switch_rate) / reward_scale, 0.0, 1.0
+        )
+    observed_rewards = np.where(
+        cert_query_flags, reward_by_action[np.arange(processed), actions], 0.0
+    )
+    predictions = np.empty((processed, action_count), dtype=float)
+    for time_index, group in enumerate(cert_contexts):
+        predictions[time_index] = validation_reward_by_group[int(group)]
+    lower_phi, upper_phi = bounded_dr_pseudo_outcomes(
+        actions=actions,
+        rewards=observed_rewards,
+        logging_probabilities=logging,
+        target_policies=target,
+        reward_predictions=predictions,
+        truncation=1.0,
+    )
+    lower = np.stack(
+        [lil_value_bounds(lower_phi[:, i], alpha_one_sided, 1.0) for i in range(policy_count)]
+    )
+    upper = np.stack(
+        [1.0 - lil_value_bounds(upper_phi[:, i], alpha_one_sided, 1.0) for i in range(policy_count)]
+    )
+    candidate_sets = optimal_policy_set(lower, upper)
+    stopping_time = optimal_policy_stopping_time(lower, upper)
+    identified_index = stopping_time - 1 if stopping_time <= processed else None
+    identified_name: str | None = None
+    identified_mapping: dict[int, int | None] | None = None
+    if identified_index is not None:
+        survivors = np.flatnonzero(candidate_sets[:, identified_index])
+        if len(survivors) == 1:
+            identified_index = int(survivors[0])
+            identified_name, identified_mapping = unique_mappings[identified_index]
+    promoted = bool(
+        identified_mapping is not None
+        and any(value is not None for value in identified_mapping.values())
+        and identified_name != "incumbent"
+    )
+    selected_event_index = (
+        certification_start + int(stopping_time) if identified_mapping is not None else config.n
+    )
+    labels_at_stop = scout_labels + int(
+        np.sum(cert_query_flags[:stopping_time])
+        if stopping_time <= processed
+        else np.sum(cert_query_flags)
+    )
+    width_at_stop = None
+    if identified_index is not None:
+        time_index = stopping_time - 1
+        width_at_stop = float(np.max(upper[:, time_index] - lower[:, time_index]))
+
+    expected_gain = 0.0
+    realized_gain = 0.0
+    if promoted and identified_mapping is not None:
+        future_indices = np.arange(selected_event_index, config.n)
+        future_contexts = np.asarray(family["contexts"][future_indices], dtype=int)
+        for group, selected in identified_mapping.items():
+            if selected is None:
+                continue
+            use = future_contexts == group
+            indices = future_indices[use]
+            expected_gain += float(np.sum(family["h_truth"][selected, indices] - switch_rate))
+            outcome_gain = np.where(
+                y[indices] == 1,
+                family["z1"][selected, indices],
+                family["z0"][selected, indices],
+            )
+            realized_gain += float(np.sum(outcome_gain - switch_rate))
+
+    mapping_ids = None
+    if identified_mapping is not None:
+        mapping_ids = {
+            str(group): None if selected is None else family["candidate_ids"][selected]
+            for group, selected in identified_mapping.items()
+        }
+    return {
+        "opi_lil_promoted": promoted,
+        "opi_lil_selected_policy_name": identified_name,
+        "opi_lil_selected_mapping": json.dumps(mapping_ids, sort_keys=True)
+        if mapping_ids is not None
+        else None,
+        "opi_lil_stop_certification_events": stopping_time if stopping_time <= processed else None,
+        "opi_lil_promotion_event": selected_event_index if promoted else None,
+        "opi_lil_labels_used": labels_at_stop,
+        "opi_lil_candidate_count": len(unique_mappings),
+        "opi_lil_action_count": action_count,
+        "opi_lil_reward_construction": "query_indicator_times_normalized_net_gain",
+        "opi_lil_final_set_size": int(candidate_sets[:, -1].sum()),
+        "opi_lil_width_at_stop": width_at_stop,
+        "opi_lil_expected_postpromotion_net_gain": expected_gain,
+        "opi_lil_realized_postpromotion_net_gain": realized_gain,
+    }
+
+
 def _monitor_scout_context_policy(
     *,
     family: dict[str, Any],
@@ -1017,6 +1278,7 @@ def _monitor_scout_context_policy(
     query_name: str,
     budget_rate: float,
     query_uniforms: np.ndarray,
+    opi_action_uniforms: np.ndarray,
 ) -> dict[str, Any]:
     """Use an early target slice to select one policy, then certify it on fresh events."""
     if not config.include_scout_context_policy:
@@ -1112,6 +1374,15 @@ def _monitor_scout_context_policy(
     processed = 0
     bound_total = 0.0
     max_event_bound = 0.0
+    ope_lil_certified = False
+    ope_lil_event: int | None = None
+    ope_lil_lower_final: float | None = None
+    ope_lil_width_final: float | None = None
+    ope_eb_certified = False
+    ope_eb_event: int | None = None
+    ope_eb_lower_final: float | None = None
+    ope_eb_width_final: float | None = None
+    ope_eb_rho: float | None = None
     if config.scout_bound_mode == "eventwise_propensity":
         remaining_budget = budget - labels_used
         cert_relative = np.arange(scout_length, length)
@@ -1169,7 +1440,103 @@ def _monitor_scout_context_policy(
             mean_reciprocal_propensity = (
                 float(np.mean(1.0 / cert_propensities)) if processed else None
             )
+            if processed:
+                # Source-matched contextual-bandit encoding: action 1 queries and
+                # reveals a bounded net-gain reward; action 0 skips. The target
+                # policy always queries. Importance weighting is internal to the
+                # paper's clipped DR pseudo-outcome, not passed as a raw reward.
+                reward_scale = outcome_bound + switch_rate
+                ope_actions = cert_query_flags.astype(np.int64)
+                ope_rewards = np.zeros(processed, dtype=float)
+                for group, selected in selected_by_context.items():
+                    if selected is None:
+                        continue
+                    mask = (cert_contexts == group) & cert_query_flags
+                    queried_indices = cert_indices[mask]
+                    observed_gain = np.where(
+                        y[queried_indices] == 1,
+                        family["z1"][selected, queried_indices],
+                        family["z0"][selected, queried_indices],
+                    )
+                    ope_rewards[mask] = 0.5 + (observed_gain - switch_rate) / (2.0 * reward_scale)
+                ope_rewards[cert_query_flags & ~has_selected] = 0.5
+                ope_h = np.column_stack((1.0 - cert_propensities, cert_propensities))
+                ope_target = np.asarray([[0.0, 1.0]], dtype=float)
+                query_reward_prediction = np.full(processed, 0.5, dtype=float)
+                if config.scout_ope_reward_predictor == "validation_group_mean":
+                    validation_indices = np.arange(family["train_end"], family["validation_end"])
+                    validation_contexts = np.asarray(
+                        family["contexts"][validation_indices], dtype=int
+                    )
+                    for group, selected in selected_by_context.items():
+                        if selected is None:
+                            continue
+                        validation_group_indices = validation_indices[validation_contexts == group]
+                        if not len(validation_group_indices):
+                            continue
+                        validation_gain = np.where(
+                            y[validation_group_indices] == 1,
+                            family["z1"][selected, validation_group_indices],
+                            family["z0"][selected, validation_group_indices],
+                        )
+                        predicted_net_gain = float(np.mean(validation_gain)) - switch_rate
+                        query_reward_prediction[cert_contexts == group] = np.clip(
+                            0.5 + predicted_net_gain / (2.0 * reward_scale), 0.0, 1.0
+                        )
+                ope_rhat = np.column_stack((np.zeros(processed), query_reward_prediction))
+                ope_lower_phi, ope_upper_phi = bounded_dr_pseudo_outcomes(
+                    actions=ope_actions,
+                    rewards=ope_rewards,
+                    logging_probabilities=ope_h,
+                    target_policies=ope_target,
+                    reward_predictions=ope_rhat,
+                    truncation=1.0,
+                )
+                ope_lower_path = lil_value_bounds(ope_lower_phi[:, 0], config.alpha, 1.0)
+                ope_upper_path = 1.0 - lil_value_bounds(ope_upper_phi[:, 0], config.alpha, 1.0)
+                # The source EB-CS rho is frozen by the registered intrinsic-time
+                # design target V*=250, independently of this certification path.
+                ope_eb_rho = 0.17817019505784423
+                ope_eb_lower_path = empirical_bernstein_value_bounds(
+                    ope_lower_phi[:, 0], config.alpha, 1.0, ope_eb_rho
+                )
+                ope_eb_upper_path = 1.0 - empirical_bernstein_value_bounds(
+                    ope_upper_phi[:, 0], config.alpha, 1.0, ope_eb_rho
+                )
+                ope_crossings = np.flatnonzero(ope_lower_path >= 0.5)
+                ope_lil_certified = bool(len(ope_crossings))
+                if ope_lil_certified:
+                    ope_lil_event = int(certification_start + ope_crossings[0])
+                ope_lil_lower_final = float(ope_lower_path[-1])
+                ope_lil_width_final = float(max(0.0, ope_upper_path[-1] - ope_lower_path[-1]))
+                ope_eb_crossings = np.flatnonzero(ope_eb_lower_path >= 0.5)
+                ope_eb_certified = bool(len(ope_eb_crossings))
+                ope_eb_event = (
+                    int(certification_start + ope_eb_crossings[0]) if ope_eb_certified else None
+                )
+                ope_eb_lower_final = float(ope_eb_lower_path[-1])
+                ope_eb_width_final = float(max(0.0, ope_eb_upper_path[-1] - ope_eb_lower_path[-1]))
+                if config.include_scout_opi:
+                    opi_result = _evaluate_scout_opi(
+                        family=family,
+                        y=y,
+                        scenario=scenario,
+                        config=config,
+                        certification_start=certification_start,
+                        cert_indices=cert_indices,
+                        cert_contexts=cert_contexts,
+                        cert_query_flags=cert_query_flags,
+                        cert_propensities=cert_propensities,
+                        opi_action_uniforms=opi_action_uniforms[
+                            scout_length : scout_length + processed
+                        ],
+                        scout_mapping=selected_by_context,
+                        scout_labels=scout_labels,
+                    )
+                else:
+                    opi_result = {}
     else:
+        opi_result = {}
         cert_propensities_for_summary: list[float] = []
         for relative in range(scout_length, length):
             if budget - labels_used < 1:
@@ -1261,6 +1628,16 @@ def _monitor_scout_context_policy(
         )
         realized_net += float(np.sum(observed_future - switch_rate))
     promoted = bool(certified and any(value is not None for value in selected_by_context.values()))
+    ope_lil_promoted = bool(
+        ope_lil_certified and any(value is not None for value in selected_by_context.values())
+    )
+    ope_lil_expected_net = expected_net if ope_lil_promoted else 0.0
+    ope_lil_realized_net = realized_net if ope_lil_promoted else 0.0
+    ope_eb_promoted = bool(
+        ope_eb_certified and any(value is not None for value in selected_by_context.values())
+    )
+    ope_eb_expected_net = expected_net if ope_eb_promoted else 0.0
+    ope_eb_realized_net = realized_net if ope_eb_promoted else 0.0
     if not promoted:
         expected_net = realized_net = 0.0
         selected_count = 0
@@ -1299,6 +1676,24 @@ def _monitor_scout_context_policy(
         "promoted": promoted,
         "promotion_event": certification_event if promoted else None,
         "certification_log_e_path": certification_log_e_path,
+        "ope_lil_promoted": ope_lil_promoted,
+        "ope_lil_promotion_event": ope_lil_event,
+        "ope_lil_lower_final": ope_lil_lower_final,
+        "ope_lil_width_final": ope_lil_width_final,
+        "ope_lil_expected_postpromotion_net_gain": ope_lil_expected_net,
+        "ope_lil_realized_postpromotion_net_gain": ope_lil_realized_net,
+        "ope_lil_truncation": 1.0,
+        "ope_lil_reward_predictor": config.scout_ope_reward_predictor,
+        "ope_lil_reward_scale": outcome_bound + switch_rate,
+        "ope_eb_promoted": ope_eb_promoted,
+        "ope_eb_promotion_event": ope_eb_event,
+        "ope_eb_lower_final": ope_eb_lower_final,
+        "ope_eb_width_final": ope_eb_width_final,
+        "ope_eb_expected_postpromotion_net_gain": ope_eb_expected_net,
+        "ope_eb_realized_postpromotion_net_gain": ope_eb_realized_net,
+        "ope_eb_truncation": 1.0,
+        "ope_eb_rho": ope_eb_rho if config.scout_bound_mode == "eventwise_propensity" else None,
+        **opi_result,
         "pointwise_null_candidate_certified": bool(certified and monitor_null),
         "pointwise_null_candidate_certificate_count": int(certified and monitor_null),
         "selected_candidate_monitor_expected_net_gain": (
@@ -1386,16 +1781,10 @@ def _run_seed(
     y = (frame.target.to_numpy(dtype=float) > 0).astype(int)
     probability_true = oracle.probability_positive.to_numpy(dtype=float)
     if scenario.name == "candidate_context_zero_mean":
-        import torch
-
-        torch_generator = torch.Generator(device=device).manual_seed(seed + 8_271_019)
         event_probability = scenario.fp_cost / (scenario.fn_cost + scenario.fp_cost)
         y = (
-            (torch.rand(config.n, generator=torch_generator, device=device) < event_probability)
-            .cpu()
-            .numpy()
-            .astype(int)
-        )
+            _uniform_random(config.n, seed=seed + 8_271_019, device=device) < event_probability
+        ).astype(int)
         probability_true = np.full(config.n, event_probability, dtype=float)
     elif scenario.name == "candidate_context_heterogeneity":
         x, y, probability_true = _inject_context_heterogeneity(
@@ -1454,6 +1843,11 @@ def _run_seed(
         scout_configs = (config,)
     for query_index, query_name in enumerate(config.query_policies):
         for budget_rate in config.budget_rates:
+            opi_action_uniforms = _uniform_random(
+                family["monitor_length"],
+                seed=seed + 31_009_417 + query_index,
+                device=device,
+            )
             if not scout_only:
                 for estimator in config.estimators:
                     for monitoring_rule in config.monitoring_rules:
@@ -1498,6 +1892,7 @@ def _run_seed(
                         query_name=query_name,
                         budget_rate=budget_rate,
                         query_uniforms=uniforms[query_index],
+                        opi_action_uniforms=opi_action_uniforms,
                     )
                     row["seed"] = seed
                     row["query_rng_stream"] = query_index
@@ -1522,13 +1917,10 @@ def _query_uniform_matrix(
     *, seed: int, query_policy_count: int, horizon: int, device: str, shared: bool
 ) -> np.ndarray:
     """Draw policy-matched Bernoulli uniforms for a seed-specific monitor path."""
-    import torch
-
     if query_policy_count < 1 or horizon < 1:
         raise ValueError("query policy count and horizon must be positive")
-    generator = torch.Generator(device=device).manual_seed(seed)
     rows = 1 if shared else query_policy_count
-    uniforms = torch.rand((rows, horizon), generator=generator, device=device).cpu().numpy()
+    uniforms = _uniform_random(rows, horizon, seed=seed, device=device)
     return np.repeat(uniforms, query_policy_count, axis=0) if shared else uniforms
 
 
@@ -1585,8 +1977,6 @@ def _inject_context_heterogeneity(
     outcomes. The learner receives its independently corrupted binary proxy as a
     feature, before any monitor outcome is revealed.
     """
-    import torch
-
     if config.context_feature_index < 2:
         raise ValueError("context heterogeneity needs a proxy feature outside signal x[0:2]")
     if fn_cost != 5.0 or fp_cost != 1.0:
@@ -1597,7 +1987,6 @@ def _inject_context_heterogeneity(
     latent_threshold = norm.ppf(1 - config.context_target_prevalence)
     latent_context = x[:, 0] >= latent_threshold
 
-    context_generator = torch.Generator(device=device).manual_seed(seed + 9_733_101)
     if config.context_prevalence_schedule != "stationary":
         _, validation_end, _ = _time_splits(len(y))
         target_length = len(y) - validation_end
@@ -1629,7 +2018,11 @@ def _inject_context_heterogeneity(
         threshold = norm.ppf(1 - config.context_certification_prevalence)
         latent_context[certification_start:] = x[certification_start:, 0] >= threshold
     proxy_flips = (
-        torch.rand(len(x), generator=context_generator, device=device).cpu().numpy()
+        _uniform_random(
+            len(x),
+            seed=seed + (9_733_101 if device == "cuda" else 9_733_103),
+            device=device,
+        )
         < config.context_proxy_error
     )
     observed_context = np.logical_xor(latent_context, proxy_flips)
@@ -1645,15 +2038,10 @@ def _inject_context_heterogeneity(
         decision_threshold + config.context_signal_strength,
         decision_threshold - config.context_signal_strength,
     )
-    outcome_generator = torch.Generator(device=device).manual_seed(seed + 9_733_102)
-    outcome_uniforms = (
-        torch.rand(
-            len(y) - validation_end,
-            generator=outcome_generator,
-            device=device,
-        )
-        .cpu()
-        .numpy()
+    outcome_uniforms = _uniform_random(
+        len(y) - validation_end,
+        seed=seed + 9_733_102,
+        device=device,
     )
     y[validation_end:] = (outcome_uniforms < target_probability[validation_end:]).astype(int)
     probability_true[validation_end:] = target_probability[validation_end:]

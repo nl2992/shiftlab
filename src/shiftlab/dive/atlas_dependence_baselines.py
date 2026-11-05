@@ -175,6 +175,171 @@ class MarkovLREProcess:
         self.n += 1
 
 
+class GapEnvelopeEProcess:
+    """Started betting process for a bounded-persistence one-sided transition envelope.
+
+    Under the declared null, the favourable-indicator probability is at most ``q0`` initially.
+    After a previous favourable observation and an event gap ``g``, it is at most
+    ``q0 + (1-q0)*rho_bar**g``; after an unfavourable observation it is at most ``q0``.
+    Each fixed alternative ``r`` bets only when ``r`` exceeds this predictable upper bound.
+    """
+
+    ALT_GRID = np.arange(0.60, 0.951, 0.05)
+
+    def __init__(self, q0: float, alpha: float, rho_bar: float):
+        if not 0 < q0 < 1 or not 0 < alpha < 1 or not 0 <= rho_bar < 1:
+            raise ValueError("q0/alpha must be in (0,1) and rho_bar in [0,1)")
+        if np.any(self.ALT_GRID <= q0) or np.any(self.ALT_GRID >= 1):
+            raise ValueError("alternative grid must lie strictly between q0 and 1")
+        self.q0, self.alpha, self.rho_bar = float(q0), float(alpha), float(rho_bar)
+        self.grid = self.ALT_GRID.copy()
+        self.log_wealth = np.full(len(self.grid), -np.inf)
+        self.n = 0
+        self.prev: int | None = None
+        self.prev_event: int | None = None
+
+    @property
+    def log_e_value(self) -> float:
+        if self.n == 0:
+            return -np.inf
+        return float(logsumexp(self.log_wealth) - np.log(len(self.grid)))
+
+    @property
+    def alarm(self) -> bool:
+        return self.log_e_value >= -np.log(self.alpha)
+
+    def update_z(self, z: int, event: int) -> None:
+        z, event = int(z), int(event)
+        if z not in (0, 1):
+            raise ValueError("z must be binary")
+        if self.prev_event is not None and event <= self.prev_event:
+            raise ValueError("query events must arrive in strictly increasing order")
+        gap = None if self.prev_event is None else event - self.prev_event
+        if self.prev == 1 and gap is not None:
+            u = self.q0 + (1.0 - self.q0) * self.rho_bar**gap
+        else:
+            u = self.q0
+
+        active = self.grid > u
+        log_factor = np.zeros_like(self.grid)
+        if np.any(active):
+            if z:
+                log_factor[active] = np.log(self.grid[active]) - np.log(u)
+            else:
+                log_factor[active] = np.log1p(-self.grid[active]) - np.log1p(-u)
+
+        self.n += 1
+        log_start_weight = -np.log(self.n * (self.n + 1.0))
+        self.log_wealth = np.logaddexp(self.log_wealth, log_start_weight) + log_factor
+        self.prev, self.prev_event = z, event
+
+
+class GapMarkovSUIProcess:
+    """Exact-gap sequential universal inference for a stationary refresh-or-hold null.
+
+    Each candidate start conditions on its first observed label. Subsequent conditional
+    likelihoods use the actual event gap. The null likelihood denominator is bounded above
+    by maximizing each transition factor at the corners of a rectangular (p, rho) cell,
+    then taking the largest cell product. This is conservative for every shared null
+    parameter pair; it is not a grid-point plug-in. No log-likelihood flooring is used.
+
+    The fixed finite start prior spans prespecified sparse positions in the known calendar. A
+    dormant start contributes its unit initial capital until its first label is observed.
+    """
+
+    ALT_RHO = np.asarray([0.0, 0.5, 0.8, 0.95, 0.98])
+
+    def __init__(
+        self,
+        q0: float,
+        alpha: float,
+        n_labels: int,
+        n_p: int = 100,
+        n_rho: int = 200,
+        max_starts: int = 8,
+    ):
+        if not 0 < q0 < 1 or not 0 < alpha < 1 or n_labels < 1:
+            raise ValueError("invalid q0, alpha, or start count")
+        self.q0, self.alpha = float(q0), float(alpha)
+        self.n_labels = int(n_labels)
+        self.starts = np.unique(
+            np.linspace(0, self.n_labels - 1, min(self.n_labels, max_starts), dtype=int)
+        )
+        self.p_edges = np.linspace(0.0, self.q0, n_p + 1)
+        # Include both endpoints. A geometric mesh resolves persistence close to one.
+        rr = np.geomspace(1e-5, 1.0, n_rho - 1)
+        self.r_edges = np.unique(np.r_[0.0, rr, 1.0])
+        self.n_null_cells = (len(self.r_edges) - 1, len(self.p_edges) - 1)
+        base_p = np.unique(np.r_[np.linspace(self.q0 + (1.0 - self.q0) / 100, 0.95, 9), 0.99])
+        base_p = base_p[(base_p > self.q0) & (base_p < 1.0)]
+        if not len(base_p):
+            raise ValueError("no alternative stationary means above q0")
+        self.alt_p = np.tile(base_p, len(self.ALT_RHO))
+        self.alt_r = np.repeat(self.ALT_RHO, len(base_p))
+        self.log_num = np.zeros((len(self.starts), len(self.alt_p)))
+        self.log_den_cells = np.zeros((len(self.starts), *self.n_null_cells))
+        self.z: list[int] = []
+        self.events: list[int] = []
+        self._log_e = 0.0
+
+    @staticmethod
+    def _log_prob(prob: np.ndarray) -> np.ndarray:
+        with np.errstate(divide="ignore"):
+            return np.log(prob)
+
+    def _transition(self, prev: int, hit: int, gap: int) -> tuple[np.ndarray, np.ndarray]:
+        # Cellwise supremum occurs at a corner: each refresh-or-hold transition factor is
+        # monotone separately in p and rho on the cell.
+        corners = []
+        for p in (self.p_edges[:-1][None, :], self.p_edges[1:][None, :]):
+            for rho in (self.r_edges[:-1, None], self.r_edges[1:, None]):
+                a = rho**gap
+                prob1 = a * prev + (1.0 - a) * p
+                corners.append(prob1 if hit else 1.0 - prob1)
+        null_upper_log = self._log_prob(np.maximum.reduce(corners))
+        alt_a = self.alt_r**gap
+        alt_prob1 = alt_a * prev + (1.0 - alt_a) * self.alt_p
+        alt_log = self._log_prob(alt_prob1 if hit else 1.0 - alt_prob1)
+        return null_upper_log, alt_log
+
+    @property
+    def log_e_value(self) -> float:
+        return self._log_e
+
+    @property
+    def alarm(self) -> bool:
+        return self.log_e_value >= -np.log(self.alpha)
+
+    def update_z(self, z: int, event: int) -> None:
+        z, event = int(z), int(event)
+        if z not in (0, 1):
+            raise ValueError("z must be binary")
+        if self.events and event <= self.events[-1]:
+            raise ValueError("query events must be strictly increasing")
+        i = len(self.z)
+        if i >= self.n_labels:
+            raise ValueError("more labels than the frozen start prior supports")
+        if i:
+            gap = event - self.events[-1]
+            nu, an = self._transition(self.z[-1], z, gap)
+            # Only prespecified starts before this transition are active; each conditions
+            # on its own first label and uses only later transitions.
+            active_idx = np.flatnonzero(self.starts < i)
+            self.log_den_cells[active_idx] += nu
+            self.log_num[active_idx] += an
+        self.z.append(z)
+        self.events.append(event)
+        active_idx = np.flatnonzero(self.starts < i)
+        terms = np.full(len(self.starts), -np.inf)
+        if len(active_idx):
+            log_ratios = logsumexp(self.log_num[active_idx], axis=1) - np.max(
+                self.log_den_cells[active_idx], axis=(1, 2)
+            )
+            terms[active_idx] = log_ratios - np.log(len(self.starts))
+        terms[self.starts >= i] = -np.log(len(self.starts))
+        self._log_e = float(logsumexp(terms))
+
+
 class _FrontGated(Method):
     """episode_front machinery (calendar, alpha spending, econ_ok, rollback), pluggable evidence."""
 
@@ -232,6 +397,20 @@ class MarkovLRGate(_FrontGated):
         return True
 
 
+class GapMarkovSUIGate(_FrontGated):
+    """Fixed-calendar Atlas gate using exact observed gaps under a stationary Markov null."""
+
+    name = "gap_markov_sui"
+
+    def _make_ep(self, alpha: float):
+        q0 = (1.0 + self.cfg.h) / 2.0
+        return GapMarkovSUIProcess(q0, alpha, max(1, len(self.cal)), n_p=24, n_rho=48)
+
+    def _feed(self, ev: int, x: float) -> bool:
+        self.ep.update_z(1 if x < 0 else 0, ev)
+        return True
+
+
 class ThinnedHedgedGate(_FrontGated):
     name = "thinned_hedged_gate"
 
@@ -250,7 +429,35 @@ class ThinnedHedgedGate(_FrontGated):
         return True
 
 
+class GapEnvelopeGate(_FrontGated):
+    """Fixed-calendar gate using the actual query gap and a declared persistence bound."""
+
+    def __init__(self, rho_bar: float):
+        self.rho_bar = float(rho_bar)
+        self.name = f"gap_envelope_rho{self.rho_bar:g}"
+
+    def _make_ep(self, alpha: float):
+        q0 = (1.0 + self.cfg.h) / 2.0
+        return GapEnvelopeEProcess(q0, alpha, self.rho_bar)
+
+    def _feed(self, ev: int, x: float) -> bool:
+        self.ep.update_z(1 if x < 0 else 0, ev)
+        return True
+
+
 DEP_METHODS: dict[str, tuple] = {
+    "gap_markov_sui": (
+        lambda cfg: GapMarkovSUIGate(),
+        True,
+        (
+            "Exact-gap sequential universal inference for a stationary refresh-or-hold Markov "
+            "null with stationary favourable probability p <= (1+h)/2. Conditions each finite "
+            "start on its first observed label; fixed alternative mixture over p>(1+h)/2 and "
+            "rho values; conservative rectangular-cell upper bound for the composite null "
+            "likelihood. Fixed calendar and constant release delay. This is a transfer of known "
+            "universal-inference machinery, not a novelty claim; no guarantee for changing p_t."
+        ),
+    ),
     "markov_lr_gate": (
         lambda cfg: MarkovLRGate(),
         True,
@@ -276,6 +483,24 @@ DEP_METHODS: dict[str, tuple] = {
             "0.8^10~0.11 lag correlation). g_t fixed before data."
         ),
     ),
+    "gap_envelope_rho08": (
+        lambda cfg: GapEnvelopeGate(0.8),
+        True,
+        (
+            "Started mixture of one-sided Bernoulli e-factors with the observed query gap in a "
+            "conditional Markov envelope; valid for binary D under the declared transition "
+            "contract p_t <= (1+h)/2 and rho <= .8. Fixed uniform calendar, fixed delays."
+        ),
+    ),
+    "gap_envelope_rho95": (
+        lambda cfg: GapEnvelopeGate(0.95),
+        True,
+        (
+            "Started mixture of one-sided Bernoulli e-factors with the observed query gap in a "
+            "conditional Markov envelope; valid for binary D under the declared transition "
+            "contract p_t <= (1+h)/2 and rho <= .95. Fixed uniform calendar, fixed delays."
+        ),
+    ),
 }
 
 
@@ -289,6 +514,10 @@ def build_dep(name: str, cfg: Config | None = None) -> Method:
 __all__ = [
     "DEP_METHODS",
     "G_THIN",
+    "GapEnvelopeEProcess",
+    "GapEnvelopeGate",
+    "GapMarkovSUIGate",
+    "GapMarkovSUIProcess",
     "MarkovLREProcess",
     "MarkovLRGate",
     "ThinnedHedgedGate",

@@ -22,7 +22,22 @@ import numpy as np
 ROOT = Path(__file__).resolve().parents[2]
 B1_PATH = ROOT / "scripts/promising_directions/b1_certified_switching.py"
 B1_COMMIT = "041bc26"
-VARIANTS = ("P7", "P7a", "P7b", "P7c", "P7s", "P7sp", "P4ref")
+VARIANTS = (
+    "P3b",
+    "Cao-L",
+    "Cao-Hybrid",
+    "P7",
+    "P7a",
+    "P7b",
+    "P7c",
+    "P7s",
+    "P7s-sentinel",
+    "P7s-evidence",
+    "P7s-ecusum",
+    "P7s-RM",
+    "P7sp",
+    "P4ref",
+)
 UCB_TRIVIAL = 1.0  # |D| <= 1, so this is the bound when no margin null is rejected
 
 
@@ -78,6 +93,15 @@ class PlusParams:
     use_hopeless: bool = True  # pre-promotion hopeless gate; see Phase 1d note
     acq_shape: str = "gate_recent"  # Phase 1 selected. "gate_recent" | "gate" | "decay"
     promo_gate: bool = True  # False keeps P3b's crossing rule (used by P7b)
+    acquisition: str = "pacer"  # pacer | label_history | hybrid (Cao-style acquisition adapters)
+    lh_sleep: int = 19  # source-rate split: 5% active / 95% sleep, before cap throttle
+    cov_block: int = 25
+    cov_z: float = 1.96  # two-sided 5% nominal Gaussian block trigger
+    sentinel_log_threshold: float = 0.6931471805599453  # log(2), P7s-evidence development rule
+    restart_p0: float = 0.30
+    restart_p1: float = 0.70
+    restart_eta: float = 0.05
+    audit_propensity: float = 0.20
 
 
 class CertPlus:
@@ -101,16 +125,49 @@ class CertPlus:
     def __init__(self, n, budget, cs, cq, p, plus: PlusParams, trace=False):
         if plus.variant not in VARIANTS:
             raise ValueError(plus.variant)
+        if plus.acquisition not in (
+            "pacer",
+            "label_history",
+            "hybrid",
+            "settled_sentinel",
+            "evidence_sentinel",
+            "ecusum",
+            "restart_mixture",
+        ):
+            raise ValueError(plus.acquisition)
         self.n, self.budget, self.cs, self.cq, self.p, self.plus = n, budget, cs, cq, p, plus
+        self.acquisition = plus.acquisition
+        if not 0 < plus.restart_p0 < plus.restart_p1 < 1:
+            raise ValueError("restart mixture requires 0 < p0 < p1 < 1")
+        if not 0 < plus.restart_eta < 1 or not p.pmin <= plus.audit_propensity <= 1:
+            raise ValueError("invalid restart-mixture eta or audit propensity")
+        self.restart_components = np.ones((budget, n))
+        self.restart_n = np.zeros(n, dtype=np.int64)
+        self.restart_mix = np.ones(n)
+        self.aux_score = np.zeros(n)
+        self.aux_sleep = np.zeros(n, dtype=np.int64)
+        self.aux_activebuf = np.zeros((p.delay, n), dtype=bool)
+        self.covariates = None
         v = plus.variant
         self.econ = v in ("P7", "P7a", "P7c", "P7sp") and plus.promo_gate
-        self.acq_dv = v in ("P7", "P7b", "P7c", "P7s", "P7sp")
+        self.acq_dv = v in (
+            "P7",
+            "P7b",
+            "P7c",
+            "P7s",
+            "P7s-sentinel",
+            "P7s-evidence",
+            "P7s-ecusum",
+            "P7s-RM",
+            "P7sp",
+        )
         self.persist = v == "P7c"
         self.is_p4 = v == "P4ref"
         self.dep = np.zeros(n, dtype=np.int8)
         self.rem = np.full(n, budget)
         self.seg = np.zeros(n, dtype=np.int64)
         self.logw = np.zeros(n)
+        self.min_logw = np.zeros(n)
         self.s1, self.s2, self.cnt = np.zeros(n), np.zeros(n), np.zeros(n)
         self.pst = np.zeros(n)
         self.xbuf, self.lbuf, self.lubuf = (np.zeros((p.delay, n)) for _ in range(3))
@@ -118,6 +175,7 @@ class CertPlus:
         self.switches = np.zeros(n, dtype=np.int64)
         self.rollbacks = np.zeros(n, dtype=np.int64)
         self.t_prom = np.full(n, np.nan)
+        self.t_rollback = np.full(n, np.nan)
         self.loss = np.zeros(n)
         self.q_sum = np.zeros(n)
         self.min_factor = np.full(n, np.inf)  # min of 1 + lam*y over released events
@@ -132,7 +190,19 @@ class CertPlus:
         self.tr = (
             {
                 k: np.zeros((p.T, n))
-                for k in ("dep", "ask", "x", "lam", "logw", "q", "gap", "lcb", "ucb", "r")
+                for k in (
+                    "dep",
+                    "ask",
+                    "x",
+                    "lam",
+                    "logw",
+                    "q",
+                    "gap",
+                    "lcb",
+                    "ucb",
+                    "r",
+                    "restart_mix",
+                )
             }
             if trace
             else None
@@ -161,7 +231,7 @@ class CertPlus:
         return np.where(self.queries > 0, self.q_sum / np.maximum(self.queries, 1), np.nan)
 
     # --------------------------------------------------------------------- step
-    def step(self, t, l0t, l1t, dis, u, ndis):
+    def step(self, t, l0t, l1t, dis, u, ndis, covariates=None):
         p, pl, cs, cq = self.p, self.plus, self.cs, self.cq
         self.loss += np.where(self.dep == 0, l0t, l1t)
         dep_t = self.dep.copy()
@@ -170,6 +240,7 @@ class CertPlus:
         rate = (ndis + p.prior_rate * p.prior_w) / (t + p.prior_w)
         h_eff = p.T - t
         pace = self.rem / np.maximum(rate * h_eff, 1e-9)
+        pace_p3b = pace.copy()
         cq_future = cq * np.minimum(self.rem, rate * h_eff * p.pmin)
         lcb_i = ucb_i = gap = r = np.zeros(self.n)
         if self.acq_dv:
@@ -239,6 +310,43 @@ class CertPlus:
                 r = np.where(self.dep == 1, 1.0, r)
             pace = r * pace
         q = np.clip(pace, p.pmin, 1.0)
+        sleeping = self.aux_sleep > 0
+        controller_active = ~sleeping
+        if self.acquisition in ("label_history", "hybrid"):
+            enabled = ~sleeping
+            if self.acquisition == "hybrid" and covariates is not None:
+                block = pl.cov_block
+                block_id = t // block
+                if block_id > 0:
+                    lo = (block_id - 1) * block
+                    hi = block_id * block
+                    # Triggering in block j uses only the completed covariate block j-1.
+                    xb = np.asarray(covariates[lo:hi], dtype=float)
+                    if xb.ndim == 1:
+                        xb = np.repeat(xb[:, None], self.n, axis=1)
+                    shifted = np.abs(xb.mean(axis=0)) >= pl.cov_z / np.sqrt(block)
+                    enabled = enabled | shifted
+            q = np.where(enabled, q, 0.0)
+        elif self.acquisition == "settled_sentinel":
+            settled = (self.dep == 1) & (self.pst < 0)
+            q_active = np.clip(pace_p3b, p.pmin, 1.0)
+            q = np.where(settled, np.where(sleeping, p.pmin, q_active), q)
+        elif self.acquisition == "evidence_sentinel":
+            settled = (self.dep == 1) & (self.pst < 0)
+            warning = self.logw >= pl.sentinel_log_threshold
+            q_active = np.clip(pace_p3b, p.pmin, 1.0)
+            q = np.where(settled, np.where(warning, q_active, p.pmin), q)
+        elif self.acquisition == "ecusum":
+            settled = (self.dep == 1) & (self.pst < 0)
+            warning = self.logw - self.min_logw >= pl.sentinel_log_threshold
+            q_active = np.clip(pace_p3b, p.pmin, 1.0)
+            q = np.where(settled, np.where(warning, q_active, p.pmin), q)
+        elif self.acquisition == "restart_mixture":
+            settled = (self.dep == 1) & (self.pst < 0)
+            warning = self.restart_mix >= 1.0 / pl.restart_eta
+            q_audit = pl.audit_propensity
+            q_active = np.maximum(np.clip(pace_p3b, p.pmin, 1.0), q_audit)
+            q = np.where(settled, np.where(warning, q_active, q_audit), q)
         q = np.where(self.rem > 0, q, 0.0)
         ask = dis & (u < q)
         x = np.where(ask, (l0t - l1t) / np.where(q > 0, q, 1.0), 0.0)
@@ -246,6 +354,8 @@ class CertPlus:
         self.queries += ask
         self.q_sum += np.where(ask, q, 0.0)
         assert (self.rem >= 0).all() and (self.queries <= self.budget).all()
+        if self.acquisition != "pacer":
+            self.aux_sleep = np.maximum(self.aux_sleep - sleeping.astype(np.int64), 0)
         cap = p.pmin / 2 if self.is_p4 else q / 2  # cap against THIS event's issued propensity
         lam = np.clip(b1.bet_from_stats(self.s1, self.s2, self.cnt, p, kelly=False), 0, cap)
         lu = np.zeros(self.n)
@@ -261,6 +371,9 @@ class CertPlus:
             live = s >= self.seg
             y = sgn * xo
             self.logw += np.where(live, np.log1p(lo * y), 0.0)
+            self.min_logw = np.where(
+                self.dep == 1, np.minimum(self.min_logw, self.logw), self.min_logw
+            )
             self.min_factor = np.minimum(self.min_factor, np.where(live, 1 + lo * y, np.inf))
             self.s1 = np.where(live, p.gamma * self.s1 + y, self.s1)
             self.s2 = np.where(live, p.gamma * self.s2 + y * y, self.s2)
@@ -268,6 +381,25 @@ class CertPlus:
             self.pst = np.where(
                 live, pl.persist_gamma * self.pst + (1 - pl.persist_gamma) * y, self.pst
             )
+            if self.acquisition != "pacer":
+                observed = live & (xo != 0) & self.aux_activebuf[slot]
+                raw_y = np.sign(xo) * sgn
+                self.aux_score = np.where(observed, self.aux_score + raw_y, self.aux_score)
+                exhausted = observed & (self.aux_score < 0)
+                self.aux_score = np.where(exhausted, 0.0, self.aux_score)
+                self.aux_sleep = np.where(exhausted, pl.lh_sleep, self.aux_sleep)
+            if self.acquisition == "restart_mixture":
+                observed_rm = live & (xo != 0) & (self.dep == 1)
+                raw_y_rm = np.sign(xo) * sgn
+                for j in np.flatnonzero(observed_rm):
+                    idx = int(self.restart_n[j])
+                    if idx >= self.budget:
+                        continue
+                    p0, p1 = pl.restart_p0, pl.restart_p1
+                    factor = p1 / p0 if raw_y_rm[j] > 0 else (1 - p1) / (1 - p0)
+                    self.restart_components[: idx + 1, j] *= factor
+                    self.restart_n[j] += 1
+                    self.restart_mix[j] = self.restart_components[:, j].mean()
             act = (s >= self.seg[:, None] + self.offs[None, :]) & live[:, None]
             gate = act[:, :, None] & (self.dep == 0)[:, None, None]
             fac = 1 + lo[:, None, None] * (xo[:, None, None] - self.mgrid[None, None, :])
@@ -279,6 +411,7 @@ class CertPlus:
                 gmin = np.minimum(gmin, np.where(gate, facu, np.inf).min((1, 2)))
             self.min_grid_factor = np.minimum(self.min_grid_factor, gmin)
         self.xbuf[slot], self.lbuf[slot], self.lubuf[slot] = x, lam, lu
+        self.aux_activebuf[slot] = controller_active
         # ---- decide (effective from t + 1)
         cand_ev = self.logw >= self.thr
         lcb_d = self.lcb() if (self.econ or self.is_p4) else lcb_i
@@ -306,13 +439,22 @@ class CertPlus:
             ):
                 self.tr[key][t] = val
             self.tr["logw"][t] = self.logw
+            self.tr["restart_mix"][t] = self.restart_mix
         promo = cand & (self.dep == 0)
+        rollback = cand & (self.dep == 1)
         self.t_prom = np.where(promo & np.isnan(self.t_prom), t + 1, self.t_prom)
-        self.rollbacks += cand & (self.dep == 1)
+        self.t_rollback = np.where(rollback & np.isnan(self.t_rollback), t + 1, self.t_rollback)
+        self.rollbacks += rollback
         self.switches += cand
         self.dep = np.where(cand, 1 - self.dep, self.dep).astype(np.int8)
         self.seg = np.where(cand, t + 1, self.seg)
+        self.restart_components[:, cand] = 1.0
+        self.restart_n = np.where(cand, 0, self.restart_n)
+        self.restart_mix = np.where(cand, 1.0, self.restart_mix)
+        self.aux_score = np.where(cand, 0.0, self.aux_score)
+        self.aux_sleep = np.where(cand, 0, self.aux_sleep)
         self.logw = np.where(cand, 0.0, self.logw)
+        self.min_logw = np.where(cand, 0.0, self.min_logw)
         for name in ("s1", "s2", "cnt", "pst"):
             setattr(self, name, np.where(cand, 0.0, getattr(self, name)))
         self.lbw[cand] = 0.0
@@ -326,11 +468,14 @@ class CertPlus:
             "switches": self.switches,
             "rollbacks": self.rollbacks,
             "t_prom": self.t_prom,
+            "t_rollback": self.t_rollback,
             "q_issued_mean": self.q_issued_mean,
         }
 
 
-def run_plus_policies(l0, l1, u, budget, cs, cq, p, plus_list, trace=False, return_objs=False):
+def run_plus_policies(
+    l0, l1, u, budget, cs, cq, p, plus_list, trace=False, return_objs=False, covariates=None
+):
     """Run every PlusParams variant on identical streams. Keys mirror b1.run_policies' P3b output."""
     t_len, n = l0.shape
     dis_all = l0 != l1
@@ -342,7 +487,7 @@ def run_plus_policies(l0, l1, u, budget, cs, cq, p, plus_list, trace=False, retu
     ndis = np.zeros(n)
     for t in range(t_len):
         for o in objs:
-            o.step(t, l0[t], l1[t], dis_all[t], u[t], ndis)
+            o.step(t, l0[t], l1[t], dis_all[t], u[t], ndis, covariates=covariates)
         ndis = ndis + dis_all[t]
     out = {nm: o.out() for nm, o in zip(names, objs, strict=True)}
     return (out, dict(zip(names, objs, strict=True))) if return_objs else out

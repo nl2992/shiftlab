@@ -262,6 +262,7 @@ def _paired_contrasts(
 def _verify_null_calibration(
     manifest_path: Path = NULL_CALIBRATION_MANIFEST,
     query_policies: tuple[str, ...] = ("uniform",),
+    exact_uniform_propensity_floor: bool = False,
 ) -> tuple[dict[str, object], str]:
     if not manifest_path.is_file():
         raise FileNotFoundError(f"required passed null calibration is missing: {manifest_path}")
@@ -290,6 +291,8 @@ def _verify_null_calibration(
         or tuple(configuration.get("prevalences", ())) != PREVALENCES
         or tuple(configuration.get("proxy_errors", ())) != PROXY_ERRORS
         or tuple(configuration.get("budget_rates", ())) != BUDGET_RATES
+        or bool(configuration.get("exact_uniform_propensity_floor", False))
+        != exact_uniform_propensity_floor
         or not set(query_policies).issubset(calibrated_query_policies)
     ):
         raise ValueError(
@@ -313,6 +316,7 @@ def run_confirmation(
     query_policies: tuple[str, ...] = ("uniform",),
     persistence_values: tuple[float, ...] = PERSISTENCES,
     null_calibration_manifest: Path = NULL_CALIBRATION_MANIFEST,
+    exact_uniform_propensity_floor: bool = False,
 ) -> Path:
     if seeds < 2 or seed_offset < 0 or n < 1000 or d < 3:
         raise ValueError("confirmation requires >=2 nonnegative seeds, n>=1000, and d>=3")
@@ -332,7 +336,9 @@ def run_confirmation(
     if not protocol.is_file():
         raise FileNotFoundError(f"frozen confirmation protocol not found: {protocol}")
     calibration_manifest, calibration_manifest_hash = _verify_null_calibration(
-        null_calibration_manifest, query_policies
+        null_calibration_manifest,
+        query_policies,
+        exact_uniform_propensity_floor=exact_uniform_propensity_floor,
     )
     profile_count = (
         len(PREVALENCES) * len(persistence_values) * len(SIGNAL_STRENGTHS) * len(PROXY_ERRORS)
@@ -381,6 +387,7 @@ def run_confirmation(
                                 switching_cost=SWITCHING_COST,
                                 budget_rates=BUDGET_RATES,
                                 query_policies=query_policies,
+                                exact_uniform_propensity_floor=exact_uniform_propensity_floor,
                                 shared_query_randomness=len(query_policies) > 1,
                                 alpha_allocations=("rank", "rank_context_volume"),
                                 estimators=("direct_ipw",),
@@ -485,6 +492,31 @@ def run_confirmation(
 
     protocol_hash = hashlib.sha256(protocol.read_bytes()).hexdigest()
     report_path = reports_dir / "eventwise_markov_confirmation.md"
+    if exact_uniform_propensity_floor:
+        comparison_note = (
+            "All arms use the known uniform propensity as their support floor (q_min=q_t=budget_rate). "
+            "The eventwise and minimum-bound scout contrasts are an implementation-equivalence check; "
+            "the two primary comparisons are the contextual scout versus pooled rank and nested "
+            "context-volume. Their one-sided 97.5% seed-cluster bootstrap lower limits use Bonferroni "
+            "allocation for approximate simultaneous 95% familywise assessment. Bootstrap coverage "
+            "is approximate, not an exact finite-sample guarantee."
+        )
+    elif set(query_policies) == {"uniform", "variance"}:
+        comparison_note = (
+            "The primary comparisons are eventwise variance-query scouting versus pooled rank and "
+            "nested context-volume under variance querying. Their one-sided 97.5% seed-cluster "
+            "bootstrap lower limits use Bonferroni allocation for approximate simultaneous 95% "
+            "familywise assessment. The uniform eventwise contrast isolates query allocation; the "
+            "minimum-bound contrast is secondary. Bootstrap coverage is approximate, not an exact "
+            "finite-sample guarantee."
+        )
+    else:
+        comparison_note = (
+            "The primary comparisons are eventwise scout versus pooled rank and nested context-volume. "
+            "Their one-sided 97.5% seed-cluster bootstrap lower limits use Bonferroni allocation for "
+            "approximate simultaneous 95% familywise assessment. The minimum-bound contrast is "
+            "secondary. Bootstrap coverage is approximate, not an exact finite-sample guarantee."
+        )
     report = [
         "# Eventwise-scout confirmation under persistent contexts",
         "",
@@ -494,7 +526,7 @@ def run_confirmation(
         "",
         contrasts.to_markdown(index=False, floatfmt=".4f"),
         "",
-        "For the variance-query candidate, the primary comparisons are eventwise versus pooled rank and nested context-volume under the same variance query policy. Their one-sided 97.5% seed-cluster bootstrap lower limits use Bonferroni allocation for approximate simultaneous 95% familywise assessment. The uniform eventwise contrast isolates query allocation; the minimum-bound contrast is secondary. The original uniform-only design retains its registered comparison interpretation. Bootstrap coverage is approximate, not an exact finite-sample guarantee.",
+        comparison_note,
         "",
         f"Integrity: all expected unique rows present; positive propensities verified; {cap_violations} cap violations; {int(detail.harmful_postpromotion_promotion.sum())} harmful promotions by evaluator-known future utility. These results apply only to the frozen synthetic grid and feedback design.",
         "",
@@ -529,6 +561,7 @@ def run_confirmation(
             "budget_rates": BUDGET_RATES,
             "methods": METHODS,
             "query_policies": query_policies,
+            "exact_uniform_propensity_floor": exact_uniform_propensity_floor,
             "estimator": "direct_ipw",
             "monitoring_rule": "fixed_mixture",
             "alpha": 0.05,
@@ -612,13 +645,15 @@ def reanalyze_existing_confirmation(
     )
     raw_stream_hash = hashlib.sha256(detail_path.read_bytes()).hexdigest()
     manifest["status"] = status
+    exact_uniform_propensity_floor = bool(
+        configuration.get("exact_uniform_propensity_floor", False)
+    )
     manifest["analysis_correction"] = {
         "raw_stream_metrics_sha256": raw_stream_hash,
         "description": (
-            "A post-run audit corrected the paired-contrast method mapping: the variance-query "
-            "eventwise-minus-rank contrast had selected the eventwise method on both sides. "
-            "The frozen candidate, comparator, endpoint, seed block, simulator, and raw stream "
-            "metrics are unchanged; all registered contrasts were recomputed from the saved rows."
+            "The saved raw rows were reanalyzed without changing the frozen candidate, comparator, "
+            "endpoint, seed block, simulator, or stream metrics. The report language now reflects "
+            "the registered query policy and propensity-floor contract."
         ),
         "bootstrap_draws": bootstrap_draws,
         "bootstrap_seed": bootstrap_seed,
@@ -629,6 +664,46 @@ def reanalyze_existing_confirmation(
     manifest["inference"]["total_rows"] = len(detail)
     report_path = reports_dir / "eventwise_markov_confirmation.md"
     protocol = manifest["protocol"]
+    if exact_uniform_propensity_floor:
+        comparison_note = (
+            "All arms use the known uniform propensity as their support floor (q_min=q_t=budget_rate). "
+            "The eventwise and minimum-bound scout contrasts are an implementation-equivalence check; "
+            "the two primary comparisons are the contextual scout versus pooled rank and nested "
+            "context-volume. Their one-sided 97.5% seed-cluster bootstrap lower limits use Bonferroni "
+            "allocation for approximate simultaneous 95% familywise assessment. Bootstrap coverage "
+            "is approximate, not an exact finite-sample guarantee."
+        )
+        analysis_note = (
+            "Artifact review recomputed the registered contrasts from the saved raw stream rows; "
+            "the seed block and simulation metrics were unchanged. The eventwise and minimum-bound "
+            "scout arms matched on candidate selection, queried labels, promotions, and expected "
+            "utility under the exact uniform propensity floor."
+        )
+    elif set(query_policies) == {"uniform", "variance"}:
+        comparison_note = (
+            "The primary comparisons are eventwise variance-query scouting versus pooled rank and "
+            "nested context-volume under variance querying. Their one-sided 97.5% seed-cluster "
+            "bootstrap lower limits use Bonferroni allocation for approximate simultaneous 95% "
+            "familywise assessment. The uniform eventwise contrast isolates query allocation; the "
+            "minimum-bound contrast is secondary. Bootstrap coverage is approximate, not an exact "
+            "finite-sample guarantee."
+        )
+        analysis_note = (
+            "A post-run audit corrected the paired-contrast method mapping: the variance-query "
+            "eventwise-minus-rank contrast had selected the eventwise method on both sides. The "
+            "saved streams were unchanged; all registered contrasts were recomputed from the rows."
+        )
+    else:
+        comparison_note = (
+            "The primary comparisons are eventwise scout versus pooled rank and nested context-volume. "
+            "Their one-sided 97.5% seed-cluster bootstrap lower limits use Bonferroni allocation for "
+            "approximate simultaneous 95% familywise assessment. The minimum-bound contrast is "
+            "secondary. Bootstrap coverage is approximate, not an exact finite-sample guarantee."
+        )
+        analysis_note = (
+            "Artifact review recomputed the registered contrasts from the saved raw stream rows; "
+            "the seed block and simulation metrics were unchanged."
+        )
     report = [
         "# Eventwise-scout confirmation under persistent contexts",
         "",
@@ -638,11 +713,11 @@ def reanalyze_existing_confirmation(
         "",
         contrasts.to_markdown(index=False, floatfmt=".4f"),
         "",
-        "The primary comparisons are eventwise variance-query scouting versus pooled rank and nested context-volume under variance querying. Their one-sided 97.5% seed-cluster bootstrap lower limits use Bonferroni allocation for approximate simultaneous 95% familywise assessment. The gate passes only when both limits exceed zero. The minimum-bound and uniform-query contrasts are secondary. Bootstrap coverage is approximate, not an exact finite-sample guarantee.",
+        comparison_note,
         "",
         f"Integrity: {len(detail):,}/{expected_rows:,} expected unique rows; positive propensities verified; {int(detail.cap_violation.sum())} cap violations; {int(detail.harmful_postpromotion_promotion.sum())} harmful promotions by evaluator-known future utility.",
         "",
-        "Analysis correction: a post-run audit found that the initial primary variance-eventwise-minus-rank contrast selected eventwise on both sides. The saved streams were not changed; the frozen contrast mapping was corrected and all contrasts recomputed from the row-level metrics. This correction does not tune or select a method using confirmation outcomes.",
+        analysis_note,
         "",
         f"Frozen protocol: {protocol['path']} (SHA-256 {protocol['sha256']}). No figure was generated.",
     ]
@@ -677,6 +752,11 @@ def main(argv: list[str] | None = None) -> None:
         "--persistences", nargs="+", type=float, choices=PERSISTENCES, default=list(PERSISTENCES)
     )
     parser.add_argument("--null-calibration-manifest", type=Path, default=NULL_CALIBRATION_MANIFEST)
+    parser.add_argument(
+        "--exact-uniform-propensity-floor",
+        action="store_true",
+        help="require and use a Markov null calibration with the exact uniform propensity floor",
+    )
     parser.add_argument("--reanalyze-existing-output", type=Path)
     args = parser.parse_args(argv)
     if args.reanalyze_existing_output is not None:
@@ -704,6 +784,7 @@ def main(argv: list[str] | None = None) -> None:
             query_policies=tuple(args.query_policies),
             persistence_values=tuple(args.persistences),
             null_calibration_manifest=args.null_calibration_manifest,
+            exact_uniform_propensity_floor=args.exact_uniform_propensity_floor,
         ),
         flush=True,
     )

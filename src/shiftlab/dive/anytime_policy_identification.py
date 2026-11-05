@@ -10,6 +10,7 @@ from __future__ import annotations
 
 import numpy as np
 from numpy.typing import NDArray
+from scipy.special import gammainc, gammaln, hyp1f1
 
 FloatArray = NDArray[np.float64]
 BoolArray = NDArray[np.bool_]
@@ -145,6 +146,91 @@ def lil_value_bounds(
     ell = 2.0 * np.log(np.log(variance) + 1.0) + np.log(1.65 / alpha)
     correction = np.sqrt(2.13 * ell * variance + 1.76 * ell**2) / t + 1.33 * ell / t
     return np.maximum(scale * (np.cumsum(xi) / t - correction), 0.0)
+
+
+def empirical_bernstein_value_bounds(
+    pseudo_outcomes: FloatArray,
+    alpha: float,
+    truncation: float,
+    rho: float,
+    *,
+    initial_mean: float | None = None,
+) -> FloatArray:
+    """Waudby-Smith et al. (2024), Theorem 2 lower DR value CS.
+
+    Inverts the source's truncated-gamma mixture test martingale over all
+    prefixes. ``rho`` must be selected independently of this outcome stream.
+    The vectorized bisection solves the exact hypergeometric expression; for
+    positive arguments it uses the algebraically equivalent regularized
+    incomplete-gamma identity to avoid overflow.
+    """
+    phi = np.asarray(pseudo_outcomes, dtype=np.float64)
+    if phi.ndim != 1 or len(phi) == 0 or np.any(~np.isfinite(phi)):
+        raise ValueError("pseudo_outcomes must be a nonempty finite vector")
+    if not 0 < alpha < 1:
+        raise ValueError("alpha must lie in (0, 1)")
+    if not np.isfinite(truncation) or truncation < 0:
+        raise ValueError("truncation must be finite and nonnegative")
+    if not np.isfinite(rho) or rho <= 0:
+        raise ValueError("rho must be finite and positive")
+    if np.any(phi < -truncation - 1e-12):
+        raise ValueError("pseudo_outcomes violate the required lower bound -truncation")
+
+    scale = 1.0 + truncation
+    cap = 1.0 / scale
+    xi = phi / scale
+    t = np.arange(1, len(phi) + 1, dtype=np.float64)
+    running_mean = np.minimum(np.cumsum(xi) / t, cap)
+    lagged_mean = np.empty_like(xi)
+    lagged_mean[0] = cap / 2.0 if initial_mean is None else initial_mean
+    if not 0 <= lagged_mean[0] <= cap:
+        raise ValueError("initial_mean must lie in [0, 1/(1+truncation)]")
+    lagged_mean[1:] = running_mean[:-1]
+    variance = np.cumsum((xi - lagged_mean) ** 2)
+
+    log_normalizer = rho * np.log(rho) - rho - gammaln(rho) - np.log(gammainc(rho, rho))
+    a = variance + rho
+    base_z = np.cumsum(xi) + variance + rho
+    log_threshold = -np.log(alpha)
+
+    def log_mixture(value: FloatArray) -> FloatArray:
+        z = base_z - t * value / scale
+        result = np.empty_like(z)
+        positive = z > 0
+        if np.any(positive):
+            regularized = gammainc(a[positive], z[positive])
+            log_lower_gamma = gammaln(a[positive]) + np.log(
+                np.maximum(regularized, np.finfo(float).tiny)
+            )
+            result[positive] = (
+                log_normalizer + z[positive] + log_lower_gamma - a[positive] * np.log(z[positive])
+            )
+        if np.any(~positive):
+            hypergeom = hyp1f1(1.0, a[~positive] + 1.0, z[~positive])
+            result[~positive] = (
+                log_normalizer
+                + np.log(np.maximum(hypergeom, np.finfo(float).tiny))
+                - np.log(a[~positive])
+            )
+        return result
+
+    lower = np.zeros_like(t)
+    upper = np.ones_like(t)
+    at_zero = log_mixture(lower)
+    at_one = log_mixture(upper)
+    already_below = at_zero < log_threshold
+    never_below = at_one >= log_threshold
+    lower[already_below] = 0.0
+    upper[already_below] = 0.0
+    lower[never_below] = 1.0
+    upper[never_below] = 1.0
+    active = ~(already_below | never_below)
+    for _ in range(48):
+        midpoint = (lower + upper) / 2.0
+        crossing = log_mixture(midpoint) >= log_threshold
+        lower = np.where(active & crossing, midpoint, lower)
+        upper = np.where(active & ~crossing, midpoint, upper)
+    return lower
 
 
 def optimal_policy_set(lower: FloatArray, upper: FloatArray) -> BoolArray:

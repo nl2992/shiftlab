@@ -139,6 +139,7 @@ def run_calibration(
     device: str = "cuda",
     workers: int = 6,
     query_policies: tuple[str, ...] = ("uniform",),
+    exact_uniform_propensity_floor: bool = False,
 ) -> Path:
     if seeds < 2 or seed_offset < 0 or n < 1000 or d < 3:
         raise ValueError("calibration requires >=2 nonnegative seeds, n>=1000, and d>=3")
@@ -152,6 +153,8 @@ def run_calibration(
         or any(policy not in QUERY_POLICIES for policy in query_policies)
     ):
         raise ValueError(f"query_policies must be unique members of {QUERY_POLICIES}")
+    if exact_uniform_propensity_floor and query_policies != ("uniform",):
+        raise ValueError("exact uniform propensity calibration requires uniform querying only")
     family_cells = BASE_FAMILY_CELLS * len(query_policies)
     if not protocol.is_file():
         raise FileNotFoundError(f"frozen calibration protocol not found: {protocol}")
@@ -208,6 +211,7 @@ def run_calibration(
                             context_proxy_error=proxy_error,
                             context_persistence=persistence,
                             include_scout_context_policy=True,
+                            exact_uniform_propensity_floor=exact_uniform_propensity_floor,
                             scenario_subset=("candidate_context_heterogeneity",),
                             create_plot=False,
                             device=resolved_device,
@@ -320,6 +324,7 @@ def run_calibration(
             "budget_rates": BUDGET_RATES,
             "method": EVENTWISE_METHOD,
             "query_policies": query_policies,
+            "exact_uniform_propensity_floor": exact_uniform_propensity_floor,
             "alpha": FAMILY_ALPHA,
         },
         "inference": {
@@ -361,6 +366,11 @@ def main(argv: list[str] | None = None) -> None:
     parser.add_argument("--device", choices=("cpu", "cuda", "auto"), default="cuda")
     parser.add_argument("--workers", type=int, default=6)
     parser.add_argument(
+        "--exact-uniform-propensity-floor",
+        action="store_true",
+        help="calibrate with q_min equal to the known uniform query probability",
+    )
+    parser.add_argument(
         "--query-policies",
         nargs="+",
         choices=QUERY_POLICIES,
@@ -383,6 +393,7 @@ def main(argv: list[str] | None = None) -> None:
             device=args.device,
             workers=args.workers,
             query_policies=tuple(args.query_policies),
+            exact_uniform_propensity_floor=args.exact_uniform_propensity_floor,
         ),
         flush=True,
     )

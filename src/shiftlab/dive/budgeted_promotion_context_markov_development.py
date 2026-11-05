@@ -223,6 +223,8 @@ def run_development(
     device: str = "cuda",
     workers: int = 1,
     bootstrap_draws: int = BOOTSTRAP_DRAWS,
+    exact_uniform_propensity_floor: bool = False,
+    scout_ope_reward_predictor: str = "validation_group_mean",
 ) -> Path:
     if seeds < 2 or seed_offset < 0 or n < 1000 or d < 3:
         raise ValueError("development requires >=2 nonnegative seeds, n>=1000, and d>=3")
@@ -286,6 +288,8 @@ def run_development(
                                 context_proxy_error=proxy_error,
                                 context_persistence=persistence,
                                 include_scout_context_policy=True,
+                                exact_uniform_propensity_floor=exact_uniform_propensity_floor,
+                                scout_ope_reward_predictor=scout_ope_reward_predictor,
                                 scenario_subset=("candidate_context_heterogeneity",),
                                 create_plot=False,
                                 device=resolved_device,
@@ -417,6 +421,8 @@ def run_development(
             "null_control_cells": NULL_CELLS,
             "positive_signal_cells": POSITIVE_CELLS,
             "query_policy": "uniform",
+            "exact_uniform_propensity_floor": exact_uniform_propensity_floor,
+            "scout_ope_reward_predictor": scout_ope_reward_predictor,
             "alpha": 0.05,
             "bootstrap_draws": bootstrap_draws,
             "bootstrap_seed": BOOTSTRAP_SEED,
@@ -464,6 +470,17 @@ def main(argv: list[str] | None = None) -> None:
     parser.add_argument("--device", choices=("cpu", "cuda", "auto"), default="cuda")
     parser.add_argument("--workers", type=int, default=6)
     parser.add_argument("--bootstrap-draws", type=int, default=BOOTSTRAP_DRAWS)
+    parser.add_argument(
+        "--exact-uniform-propensity-floor",
+        action="store_true",
+        help="use the known uniform query probability as the support floor for all methods",
+    )
+    parser.add_argument(
+        "--scout-ope-reward-predictor",
+        choices=("constant_half", "validation_group_mean"),
+        default="validation_group_mean",
+        help="predictable OPE reward model fixed before certification",
+    )
     args = parser.parse_args(argv)
     print(
         run_development(
@@ -476,6 +493,8 @@ def main(argv: list[str] | None = None) -> None:
             device=args.device,
             workers=args.workers,
             bootstrap_draws=args.bootstrap_draws,
+            exact_uniform_propensity_floor=args.exact_uniform_propensity_floor,
+            scout_ope_reward_predictor=args.scout_ope_reward_predictor,
         ),
         flush=True,
     )

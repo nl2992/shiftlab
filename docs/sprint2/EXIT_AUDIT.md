@@ -65,7 +65,9 @@ hypothesis passed, a guarantee is valid, or independent confirmation was achieve
    plots elsewhere are not cited by these reports. The required PaperBanana visual dependency is not
    available in this environment (no matching tool is installed), so validated research figures
    remain open. WP1 headline and structural registry audits pass.
-4. Integrate the accumulated worktree changes into `main` as requested, after final audits and tests. Preserve large/raw data outside Git and retain a clear merge record.
+## Integration record
+
+The sprint worktree was committed as `3fa468f` and fast-forwarded into the root local `main` after the 381-test suite, 50-check raw-to-report audit, and 24-candidate registry audit passed. The local branch is ahead of its recorded `origin/main`; no remote push was made. Raw/large run outputs remain ignored and outside Git.
 
 These open items do not invalidate completed screens or negative results. They prevent claiming the
 entire brief's research and independent-review exit conditions are fully satisfied.

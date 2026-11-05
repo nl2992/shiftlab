@@ -1,7 +1,6 @@
 # Sprint 2 status and remaining work
 
-Updated 2026-11-05 in worktree `/Users/nigelli/Desktop/ICML/Shift-lab/.claude/worktrees/dazzling-wilbur-a3e951`,
-branch `research/sprint2-a5b-d2-rmm`, base `1e46378132c8c090f67b39e9bd10b91a75cb4919`. This is an isolated worktree distinct from the root checkout. Registered raw runs and historical analyses are preserved.
+Updated 2026-11-05 from worktree `/Users/nigelli/Desktop/ICML/Shift-lab/.claude/worktrees/dazzling-wilbur-a3e951`, branch `research/sprint2-a5b-d2-rmm`, base `1e46378132c8c090f67b39e9bd10b91a75cb4919`. The sprint was committed as `3fa468f` and fast-forwarded into the root local `main`; no remote push was made. Registered raw runs and historical analyses are preserved.
 
 ## Completed and evidenced
 
@@ -203,10 +202,7 @@ branch `research/sprint2-a5b-d2-rmm`, base `1e46378132c8c090f67b39e9bd10b91a75cb
    evaluation samples. Freeze choices on independent development data and evaluate on untouched data
    before making confirmatory claims; the current P6 adjustment does not cover across-regime or
    across-candidate selection.
-7. **Git handoff and provenance.** The worktree contains uncommitted changes and untracked files pending the requested integration into `main`.
-   Git-ignore checks confirm the newly added twin-v2 and late-loss data paths remain excluded; some
-   older cached data files are already tracked in the base repository. Prepare a human-reviewable handoff.
-   The sprint brief originally prohibited Git state changes; the user has since explicitly requested that this work be merged in. Integration is being prepared after the final source reconciliation and checks.
+7. **Git integration is complete.** Commit `3fa468f` is on local `main` after a fast-forward from the sprint branch. No remote push was made. Git-ignore checks confirm the newly added twin-v2 and late-loss data paths remain excluded; some older cached data files are already tracked in the base repository.
 
 ## Supported verdict
 

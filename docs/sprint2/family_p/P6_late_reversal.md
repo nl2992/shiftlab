@@ -108,7 +108,8 @@ so it is not cleared.
     three late regimes and -26 on the early reversal.
   * It is cheaper than `xu_acquisition_only` on the three late regimes by -12 to -17.5. This is an
     acquisition-adapter comparison, not a result against Xu et al.'s published certificate. A
-    corrected published-certificate ranking has not yet been produced for this P6 panel.
+    later post-development comparison against the corrected certificate-policy class is reported
+    below; it is descriptive, same-sample selected, and not selection-adjusted.
   * Synthetic Markov-null validity is unchanged, at 0/20.
 * **The integration with the A5b host still fails (P6_RRD).**
   * A 25% reserve is 50 labels paced over 2000 events; in this configuration it did not recover late

@@ -120,6 +120,46 @@ Source: `outputs/sprint2/T/trackR.json`.
 | R30 | `T6:a5bxC2` | 0.5 | 0.087 [0.043,0.170] | 374.2 [368.7,379.8] |
 | R30 | `T:cams/a5b` | 0.5 | 0.037 [0.013,0.105] | 381.6 [375.8,387.4] |
 
+## Family T3 follow-up
+
+Source: `docs/sprint2/family_t/T3_trackR_followup.json`. Frozen post-development matched-host panel; calibration uses 20 development seeds per regime, evaluation uses 20 separate seeds, and the panel includes the two T3 A5b variants, matched hosts, A5b and D2. This panel is not pooled with the historical Family-T curve. Empirical intervals are descriptive and not guarantees.
+
+| Target | Candidate | alpha | eval risk (95% CI) | net cost (95% CI) |
+|---|---|---:|---:|---:|
+| R5 | `discern_design_floor+front` | 0.05 | 0.000 [0.000,0.046] | 408.8 [401.2,416.4] |
+| R5 | `discern_design_floor` | 0.05 | 0.013 [0.002,0.067] | 401.1 [394.7,407.6] |
+| R5 | `T3:discern/a5b` | 0.3 | 0.037 [0.013,0.105] | 380.4 [374.5,386.4] |
+| R5 | `A5b` | 0.5 | 0.050 [0.020,0.122] | 383.4 [379.1,387.8] |
+| R5 | `T3:discern/a5b+front` | 0.5 | 0.075 [0.035,0.154] | 373.3 [368.0,378.6] |
+| R10 | `discern_design_floor+front` | 0.3 | 0.050 [0.020,0.122] | 374.7 [369.0,380.3] |
+| R10 | `A5b` | 0.5 | 0.050 [0.020,0.122] | 383.4 [379.1,387.8] |
+| R10 | `T3:discern/a5b` | 0.5 | 0.062 [0.027,0.138] | 374.3 [367.0,381.6] |
+| R10 | `discern_design_floor` | 0.3 | 0.062 [0.027,0.138] | 379.0 [372.8,385.3] |
+| R10 | `T3:discern/a5b+front` | 0.5 | 0.075 [0.035,0.154] | 373.3 [368.0,378.6] |
+| R15 | `A5b` | 0.5 | 0.050 [0.020,0.122] | 383.4 [379.1,387.8] |
+| R15 | `T3:discern/a5b` | 0.5 | 0.062 [0.027,0.138] | 374.3 [367.0,381.6] |
+| R15 | `T3:discern/a5b+front` | 0.5 | 0.075 [0.035,0.154] | 373.3 [368.0,378.6] |
+| R15 | `discern_design_floor+front` | 0.5 | 0.100 [0.052,0.185] | 365.8 [361.4,370.2] |
+| R15 | `discern_design_floor` | 0.5 | 0.100 [0.052,0.185] | 368.8 [363.3,374.2] |
+| R20 | `A5b` | 0.5 | 0.050 [0.020,0.122] | 383.4 [379.1,387.8] |
+| R20 | `T3:discern/a5b` | 0.5 | 0.062 [0.027,0.138] | 374.3 [367.0,381.6] |
+| R20 | `T3:discern/a5b+front` | 0.5 | 0.075 [0.035,0.154] | 373.3 [368.0,378.6] |
+| R20 | `discern_design_floor+front` | 0.5 | 0.100 [0.052,0.185] | 365.8 [361.4,370.2] |
+| R20 | `discern_design_floor` | 0.5 | 0.100 [0.052,0.185] | 368.8 [363.3,374.2] |
+| R20 | `D2` | 0.02 | 0.138 [0.079,0.230] | 372.2 [363.1,381.2] |
+| R25 | `A5b` | 0.5 | 0.050 [0.020,0.122] | 383.4 [379.1,387.8] |
+| R25 | `T3:discern/a5b` | 0.5 | 0.062 [0.027,0.138] | 374.3 [367.0,381.6] |
+| R25 | `T3:discern/a5b+front` | 0.5 | 0.075 [0.035,0.154] | 373.3 [368.0,378.6] |
+| R25 | `discern_design_floor+front` | 0.5 | 0.100 [0.052,0.185] | 365.8 [361.4,370.2] |
+| R25 | `discern_design_floor` | 0.5 | 0.100 [0.052,0.185] | 368.8 [363.3,374.2] |
+| R25 | `D2` | 0.1 | 0.212 [0.137,0.314] | 361.4 [354.2,368.6] |
+| R30 | `A5b` | 0.5 | 0.050 [0.020,0.122] | 383.4 [379.1,387.8] |
+| R30 | `T3:discern/a5b` | 0.5 | 0.062 [0.027,0.138] | 374.3 [367.0,381.6] |
+| R30 | `T3:discern/a5b+front` | 0.5 | 0.075 [0.035,0.154] | 373.3 [368.0,378.6] |
+| R30 | `discern_design_floor+front` | 0.5 | 0.100 [0.052,0.185] | 365.8 [361.4,370.2] |
+| R30 | `discern_design_floor` | 0.5 | 0.100 [0.052,0.185] | 368.8 [363.3,374.2] |
+| R30 | `D2` | 0.1 | 0.212 [0.137,0.314] | 361.4 [354.2,368.6] |
+
 ## Family H
 
 Source: `docs/sprint2/family_h/track_R_all.json`. Track R uses eight alpha values, 20 development seeds per regime (base 2026110701) for calibration and 20 separate evaluation seeds per regime (base 2026110711). H1–H6 are calibrated on development nulls and evaluated on held out seeds; H5/H6 use an additional completion run after the earlier shared screen exceeded the approximate runtime target. Dedicated runtime recheck medians were 0.22–0.23s (15 episodes per candidate over three regimes); historical high maxima remain recorded. All points are empirical, with no formal risk guarantee.

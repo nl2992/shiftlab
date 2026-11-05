@@ -7,6 +7,7 @@ Updated 2026-11-05 from the integrated checkout at `/Users/nigelli/Desktop/ICML/
 - R5 completed its registered all-14-source real-stream replay: 4,600 jobs, 32,200 rows, 230 episodes and 20 policy seeds per episode (seed base 2026110903). Equal-source mean J was 404.22 for R5, 404.91 for D2, 412.39 for economic replacement, 406.55 for CAMS, and 414.14 for gated adaptive-range. The R5−D2 mean of source means was −0.68; source-level effects were mixed. This is post-development cost evidence on exposed streams, not independent confirmation or causal utility. See `family_r/R5_all14_real_protocol.md` and `family_r/R5_all14_real_results.md` and the manifest under `outputs/sprint2/round5/R5_all14_real20/`.
 
 - P6 received a post-development 20-seed-per-episode cost replay across all 14 registered real-stream sources. Equal-source mean cost was 24.41 higher than M_LRMD_SUI and 111.10 higher than gated adaptive-range; outcomes are retrospective, with no causal late-change labels. See `family_p/P6_all14_real_protocol.md` and `family_p/P6_all14_real_results.md`.
+- T3's previously missing held-out Track-R panel is complete on the registered eight-alpha grid for two A5b mechanisms, matched DISCERN hosts, A5b and D2, with separate development/evaluation seed blocks. Its risk/cost values are in `family_t/T3_trackR_followup.md`; per-run manifests and raw-record checksums are in `family_t/T3_trackR_manifests.json`. It is post-development, descriptive evidence.
 - R5 received a frozen-alpha, 100-seed-per-regime post-development simulator follow-up against D2, A5b, the adaptive-range certificate, and the economic stop. Results are mixed: mean alternative net cost is lower than D2 over six regimes, but promotion rates were 15/100 on F0 null and 24–26/100 on dependent nulls, and R5 loses to D2 on late and strong-persistence alternatives. See `family_r/R5_round5_protocol.md` and `family_r/R5_round5_results.md`.
 - The prior SOTA validation queue and committed-code gate re-screen completed; see
   `outputs/sota_sprint/validation.log` and `gate.log`.
@@ -18,7 +19,7 @@ Updated 2026-11-05 from the integrated checkout at `/Users/nigelli/Desktop/ICML/
 - WP2 decision flags were audited against the saved records and frozen definitions: zero mismatches
   in Run 1/3/4 records, and the separate Run-2 audit found zero mismatches in 141,360 records and
   129,580 paired harm checks; boundary test added. Current suite: `uv run pytest -q tests/sota_sprint
-  tests/sprint2` -> **381 passed in 154.27 seconds** (2026-11-05 latest full-suite run). The raw-to-report audit also passes 50/50 checks.
+  tests/sprint2` -> **381 passed in 142.84 seconds** (2026-11-05 latest full-suite run). The raw-to-report audit now passes 52/52 checks, including T3 follow-up regeneration.
 - Paper-to-code SOTA review checked primary papers and source implementations. The comparison is a
   common-contract port/adapter study, not author-native reproduction. Xu uses its acquisition
   component plus ShiftLab's certificate; it is not Xu's published certificate.
@@ -100,7 +101,7 @@ Updated 2026-11-05 from the integrated checkout at `/Users/nigelli/Desktop/ICML/
 - Registry/ledger coverage has the required per-candidate fields. The strengthened audit now checks all 24 entries, required schema, shared-field parity, artifact paths, and all referenced run-manifest paths. Its structural audit passes with no missing fields, paths or mismatches (`registry_audit.json`). The separate provenance result is explicitly **PARTIAL**: H1–H4 include F0/F7 evidence derived from the H/screen1 partial run, which has no original manifest, and custom P1/P2/P3/P5 analysis steps did not emit original manifests. `legacy_seed_provenance.json` captures output hashes where available, recovered seed rules, command sources and these limits; it is a retrospective reconstruction, not a replacement run-time manifest. T2/T3/T6 label the Choe–Ramdas port as historical exploratory evidence rather than an author-native SOTA comparator.
 - A WP1 prose-to-results audit matches class counts, cluster distributions, classifier sensitivity counts, 106 primary-contrast cells, 63 sensitivity-table cells, late-class cost/verdict claims, reversal operating metrics, false-rollback narrative ratios, twin-null promotion rates, and Track-R target wording to the corresponding saved analyses: 9 groups, 293 checks, no discrepancies (`wp1/report_claim_audit.json`). The sensitivity table intentionally uses the historical comparator pool that retains Xu's acquisition adapter; the amended primary analysis excludes it. Other WP1 diagnostic prose remains only partially reconciled.
 - A broader prose pass caught a leaderboard attribution error: six null-rate counts in the P6 1,000-seed follow-up were labeled A5b but came from P6_LRMD_U. The leaderboard now reports both policies' rates from the raw records, clearly labels A5b as the comparator arm, and distinguishes the separate P4 HMM follow-up. WP1's uncovered diagnostic prose was independently spot-checked against its saved sources with no further factual mismatches found; process-timing assertions remain unverified from result artifacts.
-- WP2 H5's registered paired comparisons (A5b−QSG and D5−D2) were present in the result JSON but missing from the human-readable reports. The table generator now includes paired cost, delay, label and promotion-rate differences for the fresh-real positive-advantage subset and all six synthetic alternatives, with pairing and selection caveats. Registered and both amended table variants have been regenerated; exact reproduction passes in the 50-check raw-to-report audit.
+- WP2 H5's registered paired comparisons (A5b−QSG and D5−D2) were present in the result JSON but missing from the human-readable reports. The table generator now includes paired cost, delay, label and promotion-rate differences for the fresh-real positive-advantage subset and all six synthetic alternatives, with pairing and selection caveats. Registered and both amended table variants have been regenerated; exact reproduction passes in the raw-to-report audit.
 - WP2 benchmark prose now describes its elements as benchmark features and explicitly avoids presenting them as settled novelty; the prior-art scope remains open for review.
 - WP2 has a retrospective decomposition of all-in excess economic cost over its saved primary records and all eight Run-2 variants: 200,760 records in 1,205 policy/regime/run cells, with 2,000 cluster-bootstrap replicates per cell. It separates prediction-loss change, label expenditure, and switch expenditure, and reports positive-cost rates. These accounting and predictive quantities are not application-level decision harm because causal application utility is unavailable; they are also not a prospective promotion guarantee. Run-2 horizon/delay variants re-window the same event streams. See `wp2/REALIZED_HARM.md` and `wp2/realized_harm.json` (legacy filenames/schema naming).
 - WP1's missing post-switch diagnostic is now computed by replaying 1,044 primary real episode-seed combinations for four E_rb hosts with event traces (4,176 rows). Evaluator-side false rollback classifications are reported by class and source cluster in `wp1/false_rollback_audit.json`; observed rates are 100% for the small late-improvement class, 8–15% for reversals, and 68–78% for stationary-better episodes. These are retrospective segment-mean diagnostics, not conditional-validity estimates.
@@ -141,7 +142,7 @@ Updated 2026-11-05 from the integrated checkout at `/Users/nigelli/Desktop/ICML/
   or figure artifacts; legacy plots outside those reports are not cited. A targeted sentence-level
   pass of the six P-family narrative reports is recorded in `CLAIM_RECONCILIATION.md`; it does not
   independently prove theorem claims or review every candidate-registry sentence.
-- The consolidated cost-risk report now has its own audit: all 197 displayed Family R/T/H/P points
+- The consolidated cost-risk report now has its own audit: all 230 displayed Family R/T/H/P points
   match the corresponding Track-R JSON (`cost_risk_audit.json`). This verifies report lineage, not
   calibration or the scientific validity of empirical risk targets.
 - The omitted H1/H3 Track-R grids have now been completed as a post hoc follow-up: eight alpha values,
@@ -151,13 +152,13 @@ Updated 2026-11-05 from the integrated checkout at `/Users/nigelli/Desktop/ICML/
   at R10-R30 they cost 371.7/374.0 versus H4's 369.6, at the same point risk .062. H5/H6 now have
   Track-R curves: risk .0375 [.013,.105] at alpha .5; H5 costs 382.3, while H6 reserves cost
   382.9/384.3/385.3. A dedicated 15-episode timing recheck per candidate over three regimes was
-  below .36s, but does not establish a worst-case bound. The expanded 197-row report audit passes.
+  below .36s, but does not establish a worst-case bound. The expanded 230-row report audit passes.
   See `family_h/track_R_all.json` and `COST_RISK_PARETO.md`.
 - External/human independent review remains open; internal reviews do not substitute for it.
   A reviewer handoff is now prepared in `EXTERNAL_REVIEW_PACKET.md`, with scoped questions, exact evidence paths, reproduction entry points and a findings template. It does not count as a review; the reviewer record remains blank pending an independent reviewer.
 - The latest Sprint test command passes: `uv run pytest -q tests/sota_sprint tests/sprint2` —
-  381 passed in 154.27 s on 2026-11-05. The raw-to-report audit passes
-  50/50 checks after the WP1 supplemental-path change; tests verify implementation checks, not research or
+  381 passed in 142.84 s on 2026-11-05. The raw-to-report audit passes
+  52/52 checks after adding T3 follow-up regeneration; tests verify implementation checks, not research or
   theorem claims.
 
 
@@ -171,7 +172,7 @@ Updated 2026-11-05 from the integrated checkout at `/Users/nigelli/Desktop/ICML/
    reused dataset. No fresh independent real dataset has been added.
 2. **Final source-to-claim reconciliation.** The reproducible audits cover the principal amended
    reports, WP1 false-rollback traces, WP2 no-Xu pooled sensitivity, H/T development summaries,
-   315 R Track-E/V cells, seventeen P-family checks, and H/R/T/P Track-R outputs, including the H1-H6 Track-R completion. P5 now has a separate K3/K4 Track-R panel; its outputs are included in the 197-row Pareto-table audit. The 50-check raw-to-report audit passes. The H/R/T/P candidate source review corrected numeric and interpretation errors documented in
+  315 R Track-E/V cells, seventeen P-family checks, and H/R/T/P Track-R outputs, including the H1-H6 Track-R completion. P5 now has a separate K3/K4 Track-R panel and T3 has a separate matched-host follow-up; their outputs are included in the 230-row Pareto-table audit. The 52-check raw-to-report audit passes. The H/R/T/P candidate source review corrected numeric and interpretation errors documented in
    `CLAIM_RECONCILIATION.md`. Registry-to-ledger shared fields now match under the registry audit.
   A targeted final prose pass has now covered H/R family reports, P-family/WP1/WP2 narratives, and
   the SOTA/exit summaries; it corrected the economic interpretation of conditional predictive loss,

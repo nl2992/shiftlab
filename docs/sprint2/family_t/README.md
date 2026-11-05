@@ -30,6 +30,8 @@ tests: [tests/sprint2/test_fam_t.py](../../../tests/sprint2/test_fam_t.py); raw 
   split).
 * **Track R.** The two best transferred mechanisms and their hosts at every alpha of
   `bench2.ALPHA_GRID`, dev base 2026110701 and eval base 2026110711 on RISK_NULLS + RISK_ALTS.
+  T3's missing held-out panel is registered separately in
+  [T3_trackR_followup_protocol.md](T3_trackR_followup_protocol.md).
 
 Common-contract ADAPTATIONS: (1) the certificate hosts are one-shot, so a module replacing their
 verdict runs a single promotion test at alpha (no rollback cycle); (2) in `TGate` gate-acquired labels

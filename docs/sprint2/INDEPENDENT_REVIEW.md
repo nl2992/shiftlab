@@ -135,7 +135,7 @@ value and an overly categorical delay/persistence statement in `family_p/P2P3_ob
 `late_improvement`, not causal change labels; and (3) a stale Family-H sentence saying its corrected
 rerun was still pending in `SOTA_BENCHMARK_AUDIT.md`. The SOTA audit now points to the completed
 six-port result and marks the current Sprint 2 headline wording update complete. No other material
-issues were found within those reviewed scopes. A subsequent T-family narrative review found and corrected the Track-R alpha-grid description and T3 status: T3 has development calibration but no held-out Track-R evaluation, and its cost evidence is mixed across contrasts. Spot-checks for T1/T2/T4/T5/T6 matched saved summaries. These internal reviews are not exhaustive, do not verify theorem proofs and do not constitute independent external review.
+issues were found within those reviewed scopes. A subsequent T-family narrative review found and corrected the Track-R alpha-grid description and T3 status as of that review: T3 had development calibration but no held-out Track-R evaluation, and its cost evidence was mixed across contrasts. The later T3 follow-up below fills that specific Track-R gap. Spot-checks for T1/T2/T4/T5/T6 matched saved summaries. These internal reviews are not exhaustive, do not verify theorem proofs and do not constitute independent external review.
 
 ## Final candidate-registry audit (2026-11-05)
 
@@ -155,11 +155,12 @@ Three read-only internal passes rechecked H/R, T/P, and WP1/WP2/SOTA/exit eviden
 integrated checkout. The H/R reviewer found no material mismatch in the registered numeric claims
 it sampled. The T/P reviewer corrected the T1 artifact citation: the Model Picker-host contrast is
 in the dev summary and devA records, while `contrasts.json` has only the D1 and D6:mp contrasts. It
-also confirmed that the T-family held-out Track-R panel is partial, the P-family historical
+also confirmed that the T-family held-out Track-R panel was partial at review time, the P-family historical
 manifest gaps remain documented, and P6's all-14-source replay is negative versus its parent. The
 WP1/WP2/SOTA reviewer confirmed the bounded result interpretations and identified stale statements
 that the sprint had not been pushed and WP1's code was dirty; those status lines are now corrected.
 
-The refreshed raw-to-report audit passes 50/50 checks. The cost-risk lineage audit passes for all
-197 displayed points. These are internal consistency and regeneration checks; they do not replace
+The refreshed raw-to-report audit passes 52/52 checks after adding the T3 follow-up regeneration.
+The cost-risk lineage audit passes for all 230 displayed points. These are internal consistency
+and regeneration checks; they do not replace
 the requested ARIS/HKUSTDial or human review, theorem-proof review, or untouched-data confirmation.

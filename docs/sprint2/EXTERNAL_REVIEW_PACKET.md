@@ -39,7 +39,7 @@ Review the frozen protocols and raw-to-report audit. Check independent units and
 
 Key evidence and caveats:
 
-- `raw_report_audit.json`: raw-to-derived reproduction audit; latest run passed all 50 checks.
+- `raw_report_audit.json`: raw-to-derived reproduction audit; latest run passed all 52 checks, including T3 follow-up regeneration.
 - `wp1/report_claim_audit.json`: 293 checks across the WP1 headline report.
 - `family_p/development_audit.json`: 7,139 checked cells in 17 audit groups.
 - `cost_risk_audit.json`: reported cost-risk table lineage; it does not verify calibration or guarantee validity.

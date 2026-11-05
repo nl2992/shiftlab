@@ -4,248 +4,248 @@
     {
       "name": "amended validation JSON",
       "status": "PASS",
-      "generated": "/var/folders/tl/hb3sh0p16wb8f6cdsnkjq_wm0000gn/T/shiftlab_raw_audit_1zist4u6/validation/validation_results.json",
-      "committed": "/Users/nigelli/Desktop/ICML/Shift-lab/docs/sprint2/validation_amendment_20261104/validation_results.json",
+      "generated": "<temporary>/validation/validation_results.json",
+      "committed": "docs/sprint2/validation_amendment_20261104/validation_results.json",
       "differences": [],
       "difference_count": 0
     },
     {
       "name": "amended validation Markdown",
       "status": "PASS",
-      "generated": "/var/folders/tl/hb3sh0p16wb8f6cdsnkjq_wm0000gn/T/shiftlab_raw_audit_1zist4u6/validation/validation_results.md",
-      "committed": "/Users/nigelli/Desktop/ICML/Shift-lab/docs/sprint2/validation_amendment_20261104/validation_results.md",
+      "generated": "<temporary>/validation/validation_results.md",
+      "committed": "docs/sprint2/validation_amendment_20261104/validation_results.md",
       "differences": [],
       "difference_count": 0
     },
     {
       "name": "strict published-pool validation JSON",
       "status": "PASS",
-      "generated": "/var/folders/tl/hb3sh0p16wb8f6cdsnkjq_wm0000gn/T/shiftlab_raw_audit_1zist4u6/validation_strict_published/validation_results.json",
-      "committed": "/Users/nigelli/Desktop/ICML/Shift-lab/docs/sprint2/validation_strict_published_20261104/validation_results.json",
+      "generated": "<temporary>/validation_strict_published/validation_results.json",
+      "committed": "docs/sprint2/validation_strict_published_20261104/validation_results.json",
       "differences": [],
       "difference_count": 0
     },
     {
       "name": "strict published-pool validation Markdown",
       "status": "PASS",
-      "generated": "/var/folders/tl/hb3sh0p16wb8f6cdsnkjq_wm0000gn/T/shiftlab_raw_audit_1zist4u6/validation_strict_published/validation_results.md",
-      "committed": "/Users/nigelli/Desktop/ICML/Shift-lab/docs/sprint2/validation_strict_published_20261104/validation_results.md",
+      "generated": "<temporary>/validation_strict_published/validation_results.md",
+      "committed": "docs/sprint2/validation_strict_published_20261104/validation_results.md",
       "differences": [],
       "difference_count": 0
     },
     {
       "name": "H corrected 20-seed real JSON",
       "status": "PASS",
-      "generated": "/var/folders/tl/hb3sh0p16wb8f6cdsnkjq_wm0000gn/T/shiftlab_raw_audit_1zist4u6/H_corrected_real_20.json",
-      "committed": "/Users/nigelli/Desktop/ICML/Shift-lab/docs/sprint2/family_h/corrected_real_20.json",
+      "generated": "<temporary>/H_corrected_real_20.json",
+      "committed": "docs/sprint2/family_h/corrected_real_20.json",
       "differences": [],
       "difference_count": 0
     },
     {
       "name": "H corrected 20-seed real Markdown",
       "status": "PASS",
-      "generated": "/var/folders/tl/hb3sh0p16wb8f6cdsnkjq_wm0000gn/T/shiftlab_raw_audit_1zist4u6/H_corrected_real_20.md",
-      "committed": "/Users/nigelli/Desktop/ICML/Shift-lab/docs/sprint2/family_h/corrected_real_20.md",
+      "generated": "<temporary>/H_corrected_real_20.md",
+      "committed": "docs/sprint2/family_h/corrected_real_20.md",
       "differences": [],
       "difference_count": 0
     },
     {
       "name": "WP1 complete strict published-pool JSON",
       "status": "PASS",
-      "generated": "/var/folders/tl/hb3sh0p16wb8f6cdsnkjq_wm0000gn/T/shiftlab_raw_audit_1zist4u6/wp1_strict_published_subset.json",
-      "committed": "/Users/nigelli/Desktop/ICML/Shift-lab/docs/sprint2/wp1/strict_published_subset_20261104.json",
+      "generated": "<temporary>/wp1_strict_published_subset.json",
+      "committed": "docs/sprint2/wp1/strict_published_subset_20261104.json",
       "differences": [],
       "difference_count": 0
     },
     {
       "name": "amended WP1 JSON",
       "status": "PASS",
-      "generated": "/var/folders/tl/hb3sh0p16wb8f6cdsnkjq_wm0000gn/T/shiftlab_raw_audit_1zist4u6/wp1.json",
-      "committed": "/Users/nigelli/Desktop/ICML/Shift-lab/docs/sprint2/wp1/results_amended_no_xu.json",
+      "generated": "<temporary>/wp1.json",
+      "committed": "docs/sprint2/wp1/results_amended_no_xu.json",
       "differences": [],
       "difference_count": 0
     },
     {
       "name": "amended WP2 JSON",
       "status": "PASS",
-      "generated": "/var/folders/tl/hb3sh0p16wb8f6cdsnkjq_wm0000gn/T/shiftlab_raw_audit_1zist4u6/wp2/results.json",
-      "committed": "/Users/nigelli/Desktop/ICML/Shift-lab/docs/sprint2/wp2/amended_no_xu/results.json",
+      "generated": "<temporary>/wp2/results.json",
+      "committed": "docs/sprint2/wp2/amended_no_xu/results.json",
       "differences": [],
       "difference_count": 0
     },
     {
       "name": "amended WP2 tables",
       "status": "PASS",
-      "generated": "/var/folders/tl/hb3sh0p16wb8f6cdsnkjq_wm0000gn/T/shiftlab_raw_audit_1zist4u6/wp2/tables.md",
-      "committed": "/Users/nigelli/Desktop/ICML/Shift-lab/docs/sprint2/wp2/amended_no_xu/tables.md",
+      "generated": "<temporary>/wp2/tables.md",
+      "committed": "docs/sprint2/wp2/amended_no_xu/tables.md",
       "differences": [],
       "difference_count": 0
     },
     {
       "name": "WP2 no-Xu pooled sensitivity JSON",
       "status": "PASS",
-      "generated": "/var/folders/tl/hb3sh0p16wb8f6cdsnkjq_wm0000gn/T/shiftlab_raw_audit_1zist4u6/wp2_no_xu_pool/results.json",
-      "committed": "/Users/nigelli/Desktop/ICML/Shift-lab/docs/sprint2/wp2/amended_no_xu_pool/results.json",
+      "generated": "<temporary>/wp2_no_xu_pool/results.json",
+      "committed": "docs/sprint2/wp2/amended_no_xu_pool/results.json",
       "differences": [],
       "difference_count": 0
     },
     {
       "name": "WP2 no-Xu pooled sensitivity tables",
       "status": "PASS",
-      "generated": "/var/folders/tl/hb3sh0p16wb8f6cdsnkjq_wm0000gn/T/shiftlab_raw_audit_1zist4u6/wp2_no_xu_pool/tables.md",
-      "committed": "/Users/nigelli/Desktop/ICML/Shift-lab/docs/sprint2/wp2/amended_no_xu_pool/tables.md",
+      "generated": "<temporary>/wp2_no_xu_pool/tables.md",
+      "committed": "docs/sprint2/wp2/amended_no_xu_pool/tables.md",
       "differences": [],
       "difference_count": 0
     },
     {
       "name": "WP2 strict published-pool JSON",
       "status": "PASS",
-      "generated": "/var/folders/tl/hb3sh0p16wb8f6cdsnkjq_wm0000gn/T/shiftlab_raw_audit_1zist4u6/wp2_strict_published/results.json",
-      "committed": "/Users/nigelli/Desktop/ICML/Shift-lab/docs/sprint2/wp2/strict_published_20261104/results.json",
+      "generated": "<temporary>/wp2_strict_published/results.json",
+      "committed": "docs/sprint2/wp2/strict_published_20261104/results.json",
       "differences": [],
       "difference_count": 0
     },
     {
       "name": "WP2 strict published-pool tables",
       "status": "PASS",
-      "generated": "/var/folders/tl/hb3sh0p16wb8f6cdsnkjq_wm0000gn/T/shiftlab_raw_audit_1zist4u6/wp2_strict_published/tables.md",
-      "committed": "/Users/nigelli/Desktop/ICML/Shift-lab/docs/sprint2/wp2/strict_published_20261104/tables.md",
+      "generated": "<temporary>/wp2_strict_published/tables.md",
+      "committed": "docs/sprint2/wp2/strict_published_20261104/tables.md",
       "differences": [],
       "difference_count": 0
     },
     {
       "name": "WP1 false-rollback trace audit",
       "status": "PASS",
-      "generated": "/var/folders/tl/hb3sh0p16wb8f6cdsnkjq_wm0000gn/T/shiftlab_raw_audit_1zist4u6/wp1_false_rollback.json",
-      "committed": "/Users/nigelli/Desktop/ICML/Shift-lab/docs/sprint2/wp1/false_rollback_audit.json",
+      "generated": "<temporary>/wp1_false_rollback.json",
+      "committed": "docs/sprint2/wp1/false_rollback_audit.json",
       "differences": [],
       "difference_count": 0
     },
     {
       "name": "WP1 Giacomini-Rossi JSON",
       "status": "PASS",
-      "generated": "/var/folders/tl/hb3sh0p16wb8f6cdsnkjq_wm0000gn/T/shiftlab_raw_audit_1zist4u6/wp1_gr.json",
-      "committed": "/Users/nigelli/Desktop/ICML/Shift-lab/docs/sprint2/wp1/gr_one_time_reversal.json",
+      "generated": "<temporary>/wp1_gr.json",
+      "committed": "docs/sprint2/wp1/gr_one_time_reversal.json",
       "differences": [],
       "difference_count": 0
     },
     {
       "name": "WP1 Giacomini-Rossi Markdown",
       "status": "PASS",
-      "generated": "/var/folders/tl/hb3sh0p16wb8f6cdsnkjq_wm0000gn/T/shiftlab_raw_audit_1zist4u6/wp1_gr.md",
-      "committed": "/Users/nigelli/Desktop/ICML/Shift-lab/docs/sprint2/wp1/gr_one_time_reversal.md",
+      "generated": "<temporary>/wp1_gr.md",
+      "committed": "docs/sprint2/wp1/gr_one_time_reversal.md",
       "differences": [],
       "difference_count": 0
     },
     {
       "name": "WP1 label/timestamp-clock ablation JSON",
       "status": "PASS",
-      "generated": "/var/folders/tl/hb3sh0p16wb8f6cdsnkjq_wm0000gn/T/shiftlab_raw_audit_1zist4u6/wp1_clock.json",
-      "committed": "/Users/nigelli/Desktop/ICML/Shift-lab/docs/sprint2/wp1/clock_ablation_posthoc3.json",
+      "generated": "<temporary>/wp1_clock.json",
+      "committed": "docs/sprint2/wp1/clock_ablation_posthoc3.json",
       "differences": [],
       "difference_count": 0
     },
     {
       "name": "WP1 label/timestamp-clock ablation Markdown",
       "status": "PASS",
-      "generated": "/var/folders/tl/hb3sh0p16wb8f6cdsnkjq_wm0000gn/T/shiftlab_raw_audit_1zist4u6/wp1_clock.md",
-      "committed": "/Users/nigelli/Desktop/ICML/Shift-lab/docs/sprint2/wp1/clock_ablation_posthoc3.md",
+      "generated": "<temporary>/wp1_clock.md",
+      "committed": "docs/sprint2/wp1/clock_ablation_posthoc3.md",
       "differences": [],
       "difference_count": 0
     },
     {
       "name": "H2 Round-5 follow-up JSON",
       "status": "PASS",
-      "generated": "/var/folders/tl/hb3sh0p16wb8f6cdsnkjq_wm0000gn/T/shiftlab_raw_audit_1zist4u6/H2_round5.json",
-      "committed": "/Users/nigelli/Desktop/ICML/Shift-lab/docs/sprint2/family_h/round5_h2.json",
+      "generated": "<temporary>/H2_round5.json",
+      "committed": "docs/sprint2/family_h/round5_h2.json",
       "differences": [],
       "difference_count": 0
     },
     {
       "name": "H2 Round-5 follow-up Markdown",
       "status": "PASS",
-      "generated": "/var/folders/tl/hb3sh0p16wb8f6cdsnkjq_wm0000gn/T/shiftlab_raw_audit_1zist4u6/H2_round5.md",
-      "committed": "/Users/nigelli/Desktop/ICML/Shift-lab/docs/sprint2/family_h/round5_h2.md",
+      "generated": "<temporary>/H2_round5.md",
+      "committed": "docs/sprint2/family_h/round5_h2.md",
       "differences": [],
       "difference_count": 0
     },
     {
       "name": "P4 HMM Round-5 JSON",
       "status": "PASS",
-      "generated": "/var/folders/tl/hb3sh0p16wb8f6cdsnkjq_wm0000gn/T/shiftlab_raw_audit_1zist4u6/P4_hmm.json",
-      "committed": "/Users/nigelli/Desktop/ICML/Shift-lab/docs/sprint2/family_p/P4_hmm_round5.json",
+      "generated": "<temporary>/P4_hmm.json",
+      "committed": "docs/sprint2/family_p/P4_hmm_round5.json",
       "differences": [],
       "difference_count": 0
     },
     {
       "name": "P4 HMM Round-5 Markdown",
       "status": "PASS",
-      "generated": "/var/folders/tl/hb3sh0p16wb8f6cdsnkjq_wm0000gn/T/shiftlab_raw_audit_1zist4u6/P4_hmm.md",
-      "committed": "/Users/nigelli/Desktop/ICML/Shift-lab/docs/sprint2/family_p/P4_hmm_round5.md",
+      "generated": "<temporary>/P4_hmm.md",
+      "committed": "docs/sprint2/family_p/P4_hmm_round5.md",
       "differences": [],
       "difference_count": 0
     },
     {
       "name": "WP1 E_rb follow-up JSON",
       "status": "PASS",
-      "generated": "/var/folders/tl/hb3sh0p16wb8f6cdsnkjq_wm0000gn/T/shiftlab_raw_audit_1zist4u6/wp1_erb.json",
-      "committed": "/Users/nigelli/Desktop/ICML/Shift-lab/docs/sprint2/wp1/erb_reversal_postdev100.json",
+      "generated": "<temporary>/wp1_erb.json",
+      "committed": "docs/sprint2/wp1/erb_reversal_postdev100.json",
       "differences": [],
       "difference_count": 0
     },
     {
       "name": "P6 twin-bike JSON",
       "status": "PASS",
-      "generated": "/var/folders/tl/hb3sh0p16wb8f6cdsnkjq_wm0000gn/T/shiftlab_raw_audit_1zist4u6/p6_twin.json",
-      "committed": "/Users/nigelli/Desktop/ICML/Shift-lab/docs/sprint2/family_p/p6_twin_bike_1000.json",
+      "generated": "<temporary>/p6_twin.json",
+      "committed": "docs/sprint2/family_p/p6_twin_bike_1000.json",
       "differences": [],
       "difference_count": 0
     },
     {
       "name": "P6 selection-adjusted sensitivity JSON",
       "status": "PASS",
-      "generated": "/var/folders/tl/hb3sh0p16wb8f6cdsnkjq_wm0000gn/T/shiftlab_raw_audit_1zist4u6/p6_selection.json",
-      "committed": "/Users/nigelli/Desktop/ICML/Shift-lab/docs/sprint2/family_p/P6_selection_adjusted.json",
+      "generated": "<temporary>/p6_selection.json",
+      "committed": "docs/sprint2/family_p/P6_selection_adjusted.json",
       "differences": [],
       "difference_count": 0
     },
     {
       "name": "R5 all-14-source real replay JSON",
       "status": "PASS",
-      "generated": "/var/folders/tl/hb3sh0p16wb8f6cdsnkjq_wm0000gn/T/shiftlab_raw_audit_1zist4u6/R5_all14_real.json",
-      "committed": "/Users/nigelli/Desktop/ICML/Shift-lab/docs/sprint2/family_r/R5_all14_real_results.json",
+      "generated": "<temporary>/R5_all14_real.json",
+      "committed": "docs/sprint2/family_r/R5_all14_real_results.json",
       "differences": [],
       "difference_count": 0
     },
     {
       "name": "R5 all-14-source real replay Markdown",
       "status": "PASS",
-      "generated": "/var/folders/tl/hb3sh0p16wb8f6cdsnkjq_wm0000gn/T/shiftlab_raw_audit_1zist4u6/R5_all14_real.md",
-      "committed": "/Users/nigelli/Desktop/ICML/Shift-lab/docs/sprint2/family_r/R5_all14_real_results.md",
+      "generated": "<temporary>/R5_all14_real.md",
+      "committed": "docs/sprint2/family_r/R5_all14_real_results.md",
       "differences": [],
       "difference_count": 0
     },
     {
       "name": "H development screen JSON",
       "status": "PASS",
-      "generated": "/var/folders/tl/hb3sh0p16wb8f6cdsnkjq_wm0000gn/T/shiftlab_raw_audit_1zist4u6/H_dev.json",
-      "committed": "/Users/nigelli/Desktop/ICML/Shift-lab/outputs/sprint2/H/sum_screen1_all.json",
+      "generated": "<temporary>/H_dev.json",
+      "committed": "outputs/sprint2/H/sum_screen1_all.json",
       "differences": [],
       "difference_count": 0
     },
     {
       "name": "T development screen JSON",
       "status": "PASS",
-      "generated": "/var/folders/tl/hb3sh0p16wb8f6cdsnkjq_wm0000gn/T/shiftlab_raw_audit_1zist4u6/T_dev.json",
-      "committed": "/Users/nigelli/Desktop/ICML/Shift-lab/outputs/sprint2/T/dev_summary.json",
+      "generated": "<temporary>/T_dev.json",
+      "committed": "outputs/sprint2/T/dev_summary.json",
       "differences": [],
       "difference_count": 0
     },
     {
       "name": "T development screen Markdown",
       "status": "PASS",
-      "generated": "/var/folders/tl/hb3sh0p16wb8f6cdsnkjq_wm0000gn/T/shiftlab_raw_audit_1zist4u6/T_dev.md",
-      "committed": "/Users/nigelli/Desktop/ICML/Shift-lab/outputs/sprint2/T/dev_summary.md",
+      "generated": "<temporary>/T_dev.md",
+      "committed": "outputs/sprint2/T/dev_summary.md",
       "differences": [],
       "difference_count": 0
     },
@@ -261,8 +261,8 @@
     {
       "name": "P1 power diagnostic JSON",
       "status": "PASS",
-      "generated": "/var/folders/tl/hb3sh0p16wb8f6cdsnkjq_wm0000gn/T/shiftlab_raw_audit_1zist4u6/P1_diag.json",
-      "committed": "/Users/nigelli/Desktop/ICML/Shift-lab/outputs/sprint2/P/p1diag/p1diag.json",
+      "generated": "<temporary>/P1_diag.json",
+      "committed": "outputs/sprint2/P/p1diag/p1diag.json",
       "differences": [],
       "difference_count": 0
     },
@@ -279,134 +279,150 @@
     {
       "name": "H Track R JSON",
       "status": "PASS",
-      "generated": "/var/folders/tl/hb3sh0p16wb8f6cdsnkjq_wm0000gn/T/shiftlab_raw_audit_1zist4u6/H_risk.json",
-      "committed": "/Users/nigelli/Desktop/ICML/Shift-lab/docs/sprint2/family_h/track_R.json",
+      "generated": "<temporary>/H_risk.json",
+      "committed": "docs/sprint2/family_h/track_R.json",
       "differences": [],
       "difference_count": 0
     },
     {
       "name": "H Track R Markdown",
       "status": "PASS",
-      "generated": "/var/folders/tl/hb3sh0p16wb8f6cdsnkjq_wm0000gn/T/shiftlab_raw_audit_1zist4u6/H_risk.md",
-      "committed": "/Users/nigelli/Desktop/ICML/Shift-lab/docs/sprint2/family_h/track_R.md",
+      "generated": "<temporary>/H_risk.md",
+      "committed": "docs/sprint2/family_h/track_R.md",
       "differences": [],
       "difference_count": 0
     },
     {
       "name": "R Track R JSON",
       "status": "PASS",
-      "generated": "/var/folders/tl/hb3sh0p16wb8f6cdsnkjq_wm0000gn/T/shiftlab_raw_audit_1zist4u6/R_risk.json",
-      "committed": "/Users/nigelli/Desktop/ICML/Shift-lab/outputs/sprint2/R/analysis/risk_curves.json",
+      "generated": "<temporary>/R_risk.json",
+      "committed": "outputs/sprint2/R/analysis/risk_curves.json",
       "differences": [],
       "difference_count": 0
     },
     {
       "name": "R Track R Markdown",
       "status": "PASS",
-      "generated": "/var/folders/tl/hb3sh0p16wb8f6cdsnkjq_wm0000gn/T/shiftlab_raw_audit_1zist4u6/R_risk.md",
-      "committed": "/Users/nigelli/Desktop/ICML/Shift-lab/outputs/sprint2/R/analysis/risk_curves.md",
+      "generated": "<temporary>/R_risk.md",
+      "committed": "outputs/sprint2/R/analysis/risk_curves.md",
       "differences": [],
       "difference_count": 0
     },
     {
       "name": "T Track R JSON",
       "status": "PASS",
-      "generated": "/var/folders/tl/hb3sh0p16wb8f6cdsnkjq_wm0000gn/T/shiftlab_raw_audit_1zist4u6/T_risk.json",
-      "committed": "/Users/nigelli/Desktop/ICML/Shift-lab/outputs/sprint2/T/trackR.json",
+      "generated": "<temporary>/T_risk.json",
+      "committed": "outputs/sprint2/T/trackR.json",
       "differences": [],
       "difference_count": 0
     },
     {
       "name": "T Track R Markdown",
       "status": "PASS",
-      "generated": "/var/folders/tl/hb3sh0p16wb8f6cdsnkjq_wm0000gn/T/shiftlab_raw_audit_1zist4u6/T_risk.md",
-      "committed": "/Users/nigelli/Desktop/ICML/Shift-lab/outputs/sprint2/T/trackR.md",
+      "generated": "<temporary>/T_risk.md",
+      "committed": "outputs/sprint2/T/trackR.md",
       "differences": [],
       "difference_count": 0
     },
     {
       "name": "P Track R JSON",
       "status": "PASS",
-      "generated": "/var/folders/tl/hb3sh0p16wb8f6cdsnkjq_wm0000gn/T/shiftlab_raw_audit_1zist4u6/P_risk.json",
-      "committed": "/Users/nigelli/Desktop/ICML/Shift-lab/docs/sprint2/family_p/trackR.json",
+      "generated": "<temporary>/P_risk.json",
+      "committed": "docs/sprint2/family_p/trackR.json",
       "differences": [],
       "difference_count": 0
     },
     {
       "name": "P Track R Markdown",
       "status": "PASS",
-      "generated": "/var/folders/tl/hb3sh0p16wb8f6cdsnkjq_wm0000gn/T/shiftlab_raw_audit_1zist4u6/P_risk.md",
-      "committed": "/Users/nigelli/Desktop/ICML/Shift-lab/docs/sprint2/family_p/trackR.md",
+      "generated": "<temporary>/P_risk.md",
+      "committed": "docs/sprint2/family_p/trackR.md",
+      "differences": [],
+      "difference_count": 0
+    },
+    {
+      "name": "T3 matched-host Track-R follow-up JSON",
+      "status": "PASS",
+      "generated": "<temporary>/T3_trackR_followup.json",
+      "committed": "docs/sprint2/family_t/T3_trackR_followup.json",
+      "differences": [],
+      "difference_count": 0
+    },
+    {
+      "name": "T3 matched-host Track-R follow-up Markdown",
+      "status": "PASS",
+      "generated": "<temporary>/T3_trackR_followup.md",
+      "committed": "docs/sprint2/family_t/T3_trackR_followup.md",
       "differences": [],
       "difference_count": 0
     },
     {
       "name": "H1/H3 Track-R completion JSON",
       "status": "PASS",
-      "generated": "/var/folders/tl/hb3sh0p16wb8f6cdsnkjq_wm0000gn/T/shiftlab_raw_audit_1zist4u6/H_remaining_risk.json",
-      "committed": "/Users/nigelli/Desktop/ICML/Shift-lab/docs/sprint2/family_h/track_R_remaining.json",
+      "generated": "<temporary>/H_remaining_risk.json",
+      "committed": "docs/sprint2/family_h/track_R_remaining.json",
       "differences": [],
       "difference_count": 0
     },
     {
       "name": "H1/H3 Track-R completion Markdown",
       "status": "PASS",
-      "generated": "/var/folders/tl/hb3sh0p16wb8f6cdsnkjq_wm0000gn/T/shiftlab_raw_audit_1zist4u6/H_remaining_risk.md",
-      "committed": "/Users/nigelli/Desktop/ICML/Shift-lab/docs/sprint2/family_h/track_R_remaining.md",
+      "generated": "<temporary>/H_remaining_risk.md",
+      "committed": "docs/sprint2/family_h/track_R_remaining.md",
       "differences": [],
       "difference_count": 0
     },
     {
       "name": "H5/H6 Track-R completion JSON",
       "status": "PASS",
-      "generated": "/var/folders/tl/hb3sh0p16wb8f6cdsnkjq_wm0000gn/T/shiftlab_raw_audit_1zist4u6/H_rollback_risk.json",
-      "committed": "/Users/nigelli/Desktop/ICML/Shift-lab/docs/sprint2/family_h/track_R_rollback.json",
+      "generated": "<temporary>/H_rollback_risk.json",
+      "committed": "docs/sprint2/family_h/track_R_rollback.json",
       "differences": [],
       "difference_count": 0
     },
     {
       "name": "H5/H6 Track-R completion Markdown",
       "status": "PASS",
-      "generated": "/var/folders/tl/hb3sh0p16wb8f6cdsnkjq_wm0000gn/T/shiftlab_raw_audit_1zist4u6/H_rollback_risk.md",
-      "committed": "/Users/nigelli/Desktop/ICML/Shift-lab/docs/sprint2/family_h/track_R_rollback.md",
+      "generated": "<temporary>/H_rollback_risk.md",
+      "committed": "docs/sprint2/family_h/track_R_rollback.md",
       "differences": [],
       "difference_count": 0
     },
     {
       "name": "Merged Family-H Track-R JSON",
       "status": "PASS",
-      "generated": "/var/folders/tl/hb3sh0p16wb8f6cdsnkjq_wm0000gn/T/shiftlab_raw_audit_1zist4u6/H_all_risk.json",
-      "committed": "/Users/nigelli/Desktop/ICML/Shift-lab/docs/sprint2/family_h/track_R_all.json",
+      "generated": "<temporary>/H_all_risk.json",
+      "committed": "docs/sprint2/family_h/track_R_all.json",
       "differences": [],
       "difference_count": 0
     },
     {
       "name": "Merged Family-H Track-R Markdown",
       "status": "PASS",
-      "generated": "/var/folders/tl/hb3sh0p16wb8f6cdsnkjq_wm0000gn/T/shiftlab_raw_audit_1zist4u6/H_all_risk.md",
-      "committed": "/Users/nigelli/Desktop/ICML/Shift-lab/docs/sprint2/family_h/track_R_all.md",
+      "generated": "<temporary>/H_all_risk.md",
+      "committed": "docs/sprint2/family_h/track_R_all.md",
       "differences": [],
       "difference_count": 0
     },
     {
       "name": "WP1 E_swcert Track R JSON",
       "status": "PASS",
-      "generated": "/var/folders/tl/hb3sh0p16wb8f6cdsnkjq_wm0000gn/T/shiftlab_raw_audit_1zist4u6/WP1_E_swcert_risk.json",
-      "committed": "/Users/nigelli/Desktop/ICML/Shift-lab/docs/sprint2/wp1/trackR_E_swcert.json",
+      "generated": "<temporary>/WP1_E_swcert_risk.json",
+      "committed": "docs/sprint2/wp1/trackR_E_swcert.json",
       "differences": [],
       "difference_count": 0
     },
     {
       "name": "WP1 E_swcert Track R Markdown",
       "status": "PASS",
-      "generated": "/var/folders/tl/hb3sh0p16wb8f6cdsnkjq_wm0000gn/T/shiftlab_raw_audit_1zist4u6/WP1_E_swcert_risk.md",
-      "committed": "/Users/nigelli/Desktop/ICML/Shift-lab/docs/sprint2/wp1/trackR_E_swcert.md",
+      "generated": "<temporary>/WP1_E_swcert_risk.md",
+      "committed": "docs/sprint2/wp1/trackR_E_swcert.md",
       "differences": [],
       "difference_count": 0
     }
   ],
   "scope_limitations": [
-    "This re-executes derived corrected analyses, strict comparator-pool sensitivities for validation/WP1/WP2, the corrected Family-H replay report, H/T development summaries, P6 and R5 real-stream summaries, selected R Track-E/V cells, P1/P2 checks, and Track-R reports from saved raw records.",
+    "This re-executes derived corrected analyses, strict comparator-pool sensitivities for validation/WP1/WP2, the corrected Family-H replay report, H/T development summaries, P6 and R5 real-stream summaries, selected R Track-E/V cells, P1/P2 checks, H/R/T/P Track-R reports, and the T3 matched-host Track-R follow-up from saved raw records.",
     "It does not reconcile every numeric claim in the P-family development summaries or every narrative claim in the 24-candidate registry.",
     "It does not test theorem assumptions, data provenance beyond recorded manifests, or independent validity."
   ]

@@ -20,7 +20,8 @@ and byte-identical Markdown. It covers amended validation, WP1 and WP2; WP1 roll
 P6 twin and selection-adjusted summaries; H and T development summaries; both WP2 Xu-excluded
 sensitivities; all four H/R/T/P Track-R reports; and the post hoc WP1 E_swcert Track-R curve and Giacomini–Rossi diagnostic. It also recomputes the reported Family R Track
 E/V cells (315 metric cells) from its dev and evaluation runs. It does not reconcile every P-family
-development claim or every narrative claim in the 24-candidate registry.
+development claim or every narrative claim in the 24-candidate registry. The T3 matched-host
+follow-up is regenerated separately from its eight development and eight evaluation runs.
 
 The post hoc E_swcert Track-R runs use eight alphas and are stored separately at
 `outputs/sprint2/WP1/trackR_E_swcert_{dev,eval}_a*`. The exact per-alpha screen command is:
@@ -32,6 +33,10 @@ uv run python scripts/sota_sprint/risk_curves.py --dev outputs/sprint2/WP1/track
 
 Repeat the screen command for alpha `0.01 0.02 0.05 0.1 0.2 0.3 0.5`, and for evaluation seed
 base `2026110711` with `eval` in the output directory name.
+
+The post-development T3 matched-host Track-R follow-up is registered separately in
+`family_t/T3_trackR_followup_protocol.md`; its raw development and evaluation screens use the
+registered Track-R seed bases and alpha grid under `outputs/sprint2/T/T3_trackR/`.
 
 Reproduce the post hoc Giacomini–Rossi WP1 diagnostic with:
 
@@ -86,7 +91,7 @@ uv run python scripts/sota_sprint/wp1_false_rollback.py --workers 4
 
 The first command recomputes amended reports, selected Track E/V cells, P1/P2 summaries, and
 family Track-R tables from saved records. The second checks the specified P-family development
-tables. The third checks every displayed cost-risk point (197 rows) against its family Track-R
+tables. The third checks every displayed cost-risk point (230 rows) against its family Track-R
 JSON. All three are numerical lineage checks; none establishes the appropriateness of the
 estimands, thresholds, selection procedure, causal interpretation, or theorem assumptions. Manual
 claim corrections and remaining coverage limits are recorded in `CLAIM_RECONCILIATION.md`.

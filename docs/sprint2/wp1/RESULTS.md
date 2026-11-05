@@ -7,7 +7,7 @@ as preceding review of their relevant results; this chronology is not independen
 the saved result artifacts. Machine-readable outputs are
 [results.json](results.json) (all contrasts, diagnostics, twin rates and sensitivity),
 [trackR.md](trackR.md) and [screen_dev.md](screen_dev.md). Raw records are in `outputs/sprint2/WP1/`
-(gitignored). The analysis code is committed on `main` at `39ae3d9`; the current worktree is clean.
+(gitignored). The analysis code is committed on `main`; see the current repository history for its commit.
 
 **Bottom line.**
 * **Strict comparator-class analysis (post hoc):** the strict-pool analysis covers all 6 of 6

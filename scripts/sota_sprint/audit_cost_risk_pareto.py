@@ -11,6 +11,7 @@ ROOT = Path(__file__).resolve().parents[2]
 SOURCES = {
     "Family R": "outputs/sprint2/R/analysis/risk_curves.json",
     "Family T": "outputs/sprint2/T/trackR.json",
+    "Family T3 follow-up": "docs/sprint2/family_t/T3_trackR_followup.json",
     "Family H": "docs/sprint2/family_h/track_R_all.json",
     "Family P": "docs/sprint2/family_p/trackR.json",
     "Family P5": "outputs/sprint2/P/trackR_K/risk_curves.json",

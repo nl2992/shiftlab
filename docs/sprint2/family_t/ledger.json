@@ -3,7 +3,7 @@
  "implementation": "scripts/sota_sprint/fam_t.py; tests/sprint2/test_fam_t.py",
  "runs": {
   "development": "outputs/sprint2/T/devA,devB,devC; 20 seeds per regime, seed base 2026110701; alpha .05. devA covers host transfers and direct comparisons; devB covers gated/DISCERN/T6 evidence-acquisition combinations; devC is an earlier host/mechanism variant screen.",
-  "track_r": "Seven dedicated R_dev_a* runs cover alpha .005,.01,.02,.1,.2,.3,.5; alpha .05 is supplied by the 20-seed devB development run. The eight R_eval_a* runs cover bench2.ALPHA_GRID on a separate seed base, but include only T:cams/a5b,D2,T6:a5bxC2,C2. T3 has a devB calibration at alpha .05 but no held-out Track-R evaluation; no T3 Track-R curve is reported. Other displayed operating points are in trackR.md/json.",
+  "track_r": "The historical eight R_eval_a* runs include only T:cams/a5b,D2,T6:a5bxC2,C2. A separate frozen T3 follow-up now evaluates T3:discern/a5b and +front with matched corrected-DISCERN hosts plus A5b/D2 references across all eight alpha values, 20 seeds per regime, and separate registered development/evaluation blocks. See T3_trackR_followup_protocol.md, T3_trackR_followup.json, and T3_trackR_manifests.json. Post-development and descriptive; it does not replace the historical family curve or establish guarantees.",
   "real_fresh": "outputs/sprint2/T/real_fresh; 3 seeds across five streams; summary real_fresh_summary.json.",
   "real_twin": "outputs/sprint2/T/real_twin; one policy seed per split stream; summary real_twin_summary.json. These are reused twin constructions, not unseen independent real-world validation.",
   "contracts": "T README records the predeclared selection rule and common-contract adaptations."
@@ -131,7 +131,11 @@
     "outputs/sprint2/T/devB/records.jsonl",
     "outputs/sprint2/T/contrasts.json",
     "outputs/sprint2/T/trackR.md",
-    "outputs/sprint2/T/real_fresh_summary.json"
+    "outputs/sprint2/T/real_fresh_summary.json",
+    "docs/sprint2/family_t/T3_trackR_followup_protocol.md",
+    "docs/sprint2/family_t/T3_trackR_followup.json",
+    "docs/sprint2/family_t/T3_trackR_followup.md",
+    "docs/sprint2/family_t/T3_trackR_manifests.json"
    ],
    "finding": "T3:discern/a5b mean alternative J 399.0, versus discern_design_floor 401.1 (difference -2.1, CI [-6.8,2.6]); front version 391.8, versus design_floor+front 405.2 (difference -13.5, CI [-20.1,-6.8]). Historical selected-port differences versus `choe_ramdas_eb+front` are +26.9 and +19.7; this non-author-native port is exploratory only and cannot support published-SOTA inference. Same-seed selection is also unadjusted. env8 variants promote on rho=.95 null at rates .25-.30; AND variants are expensive. Fresh real contrasts are mixed.",
    "disposition": "Do not advance as a broad algorithmic gain; at most a bounded corrected-DISCERN adapter finding.",
@@ -139,7 +143,8 @@
     "commands": [
      "sh outputs/sprint2/T/cmd_dev.sh",
      "sh outputs/sprint2/T/cmd_stage2.sh",
-     "sh outputs/sprint2/T/cmd_stageC.sh"
+     "sh outputs/sprint2/T/cmd_stageC.sh",
+     "uv run python scripts/sota_sprint/screen.py --regimes bench2.RISK_NULLS+bench2.RISK_ALTS --policies T3:discern/a5b,T3:discern/a5b+front,discern_design_floor,discern_design_floor+front,A5b,D2 --seeds 20 --seed-base 2026110701 or 2026110711 --workers 2 --alpha bench2.ALPHA_GRID; see T3_trackR_manifests.json for each exact invocation."
     ],
     "candidate_policy_ids": [
      "T3:discern/a5b",
@@ -149,28 +154,34 @@
      "T3:discern/env8+front",
      "T3:discernAND/env8+front"
     ],
-    "contract": "T=2000, B=200, c_q=0.05, c_s=5; alpha=0.05 for development and registered alpha grid for Track R",
+    "contract": "T=2000, B=200, c_q=0.05, c_s=5; alpha=0.05 for development and registered alpha grid for Track R; frozen follow-up risk protocol uses bench2 alpha grid and separate development/evaluation seed bases",
     "note": "The linked manifests preserve the exact argv, seed base, policy list, code hash and source hashes for each executed run."
    },
    "seed_manifest": {
     "manifests": [
      "outputs/sprint2/T/devB/manifest.json",
-     "outputs/sprint2/T/real_fresh/manifest.json"
+     "outputs/sprint2/T/real_fresh/manifest.json",
+     "docs/sprint2/family_t/T3_trackR_manifests.json"
     ],
     "seed_bases": [
-     "2026110701"
+     "2026110701",
+     "2026110711"
     ],
-    "note": "See each manifest argv for the run-specific seed count and seed base.",
+    "note": "See each manifest argv for the run-specific seed count and seed base. The T3 follow-up index records all 16 per-alpha manifests and raw-record checksums.",
     "provenance_status": "complete"
    },
    "results_artifact": [
     "outputs/sprint2/T/devB/records.jsonl",
     "outputs/sprint2/T/contrasts.json",
     "outputs/sprint2/T/trackR.md",
-    "outputs/sprint2/T/real_fresh_summary.json"
+    "outputs/sprint2/T/real_fresh_summary.json",
+    "docs/sprint2/family_t/T3_trackR_followup.json",
+    "docs/sprint2/family_t/T3_trackR_followup.md",
+    "docs/sprint2/family_t/T3_trackR_followup_protocol.md",
+    "docs/sprint2/family_t/T3_trackR_manifests.json"
    ],
    "track_E": "T3:discern/a5b mean alternative J 399.0, versus discern_design_floor 401.1 (difference -2.1, CI [-6.8,2.6]); front version 391.8, versus design_floor+front 405.2 (difference -13.5, CI [-20.1,-6.8]). Historical selected-port differences versus `choe_ramdas_eb+front` are +26.9 and +19.7; this non-author-native port is exploratory only and cannot support published-SOTA inference. Same-seed selection is also unadjusted. env8 variants promote on rho=.95 null at rates .25-.30; AND variants are expensive. Fresh real contrasts are mixed.",
-   "track_R": "T3 development calibration: alpha .05, but no R_eval_a* run includes T3 policies, so there is no held-out Track-R risk/cost estimate or Pareto status for T3. Other displayed Track-R curves use the separate-seed evaluated subset; empirical risk estimates are not guarantees.",
+   "track_R": "A separate post-development Track-R panel evaluates T3:discern/a5b, T3:discern/a5b+front, their matched corrected-DISCERN hosts, A5b and D2 on 20 evaluation seeds per regime. At R5, no-front selects alpha .3 (risk .037 [95% Wilson CI .013,.105], cost 380.4 [374.5,386.4]); front selects alpha .5 (risk .075 [.035,.154], cost 373.3 [368.0,378.6]). At R10-R30, no-front uses alpha .5, risk .062 [.027,.138], cost 374.3 [367.0,381.6]; front retains alpha .5, risk .075 [.035,.154], cost 373.3 [368.0,378.6]. These are post-development descriptive operating points, not guarantees. See the frozen protocol, result, and manifest index.",
    "track_V": "T3:discern/a5b has conservative development null screen; env8 variants have 5–6/20 promotions on rho=.95, beyond rho<=.8. AND variants are more conservative/costly. Empirical only; see family_t/results.md.",
    "ablation": "Corrected DISCERN-style host comparison across A5b/env8 evidence, paced/front-loaded acquisition, and AND evidence combination.",
    "next_action": null

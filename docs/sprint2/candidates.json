@@ -233,10 +233,14 @@
       "outputs/sprint2/T/devB/records.jsonl",
       "outputs/sprint2/T/contrasts.json",
       "outputs/sprint2/T/trackR.md",
-      "outputs/sprint2/T/real_fresh_summary.json"
+      "outputs/sprint2/T/real_fresh_summary.json",
+      "docs/sprint2/family_t/T3_trackR_followup.json",
+      "docs/sprint2/family_t/T3_trackR_followup.md",
+      "docs/sprint2/family_t/T3_trackR_followup_protocol.md",
+      "docs/sprint2/family_t/T3_trackR_manifests.json"
     ],
     "track_E": "T3:discern/a5b mean alternative J 399.0, versus discern_design_floor 401.1 (difference -2.1, CI [-6.8,2.6]); front version 391.8, versus design_floor+front 405.2 (difference -13.5, CI [-20.1,-6.8]). Historical selected-port differences versus `choe_ramdas_eb+front` are +26.9 and +19.7; this non-author-native port is exploratory only and cannot support published-SOTA inference. Same-seed selection is also unadjusted. env8 variants promote on rho=.95 null at rates .25-.30; AND variants are expensive. Fresh real contrasts are mixed.",
-    "track_R": "T3 development calibration: alpha .05, but no R_eval_a* run includes T3 policies, so there is no held-out Track-R risk/cost estimate or Pareto status for T3. Other displayed Track-R curves use the separate-seed evaluated subset; empirical risk estimates are not guarantees.",
+    "track_R": "A separate post-development Track-R panel evaluates T3:discern/a5b, T3:discern/a5b+front, their matched corrected-DISCERN hosts, A5b and D2 on 20 evaluation seeds per regime. At R5, no-front selects alpha .3 (risk .037 [95% Wilson CI .013,.105], cost 380.4 [374.5,386.4]); front selects alpha .5 (risk .075 [.035,.154], cost 373.3 [368.0,378.6]). At R10-R30, no-front uses alpha .5, risk .062 [.027,.138], cost 374.3 [367.0,381.6]; front retains alpha .5, risk .075 [.035,.154], cost 373.3 [368.0,378.6]. These are post-development descriptive operating points, not guarantees. See the frozen protocol, result, and manifest index.",
     "track_V": "T3:discern/a5b has conservative development null screen; env8 variants have 5–6/20 promotions on rho=.95, beyond rho<=.8. AND variants are more conservative/costly. Empirical only; see family_t/results.md.",
     "disposition": "Do not advance as a broad algorithmic gain; at most a bounded corrected-DISCERN adapter finding.",
     "next_action": null,

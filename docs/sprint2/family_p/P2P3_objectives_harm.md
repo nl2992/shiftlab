@@ -59,13 +59,15 @@ with any promotion. Multiple promotions within an episode count at most once in 
   post-promotion A_500 is positive on average: A5b +19.2 (67% of promotions positive), GAR+front
   +13.1 (83%), RMM +6.1 (82%), D2 +9.2 (76%). This agrees with the sprint-1 twin finding.
 * **Decision.**
-  * At a single promotion, the economically relevant objective is the conditional,
-    horizon-limited advantage.
-  * That objective only departs from the marginal one when label delay is short relative to the
-    persistence time, 1/(1-rho).
+  * In this analysis, `Cpol_H` is a horizon-limited, policy-filtration predictive-loss estimand; it
+    is not itself economic value. The conditional-versus-marginal difference depends on the last
+    queried sign, its age at promotion, and persistence, as shown by the expression above. It can
+    become small when the last label is stale, but is not characterized by a delay/persistence
+    threshold alone.
   * Under the tested synthetic contract (delay 100, rho <= .95), the M and Cpol correlations with
-    realized A_500 are close in these samples. This does not make the V1 and V2 nulls equivalent.
-    Their relevance still depends on the deployment estimand and available information.
+    realized `A_500` are close in these samples. This does not make the V1 and V2 nulls equivalent.
+    Whether either predictive-loss estimand is economically relevant depends on deployment utility
+    and label/switching costs; application-level causal utility is not identified here.
   * On the reused real twin streams, selected promotions had positive mean realized A_500 for the
     four displayed certified methods (A5b +19.2, GAR+front +13.1, RMM +6.1, D2 +9.2). These
     conditional-on-promotion averages do not estimate persistence duration or establish transfer.

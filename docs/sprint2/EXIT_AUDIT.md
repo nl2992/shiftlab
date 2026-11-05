@@ -56,8 +56,10 @@ hypothesis passed, a guarantee is valid, or independent confirmation was achieve
 1. Obtain human/external review of comparator fidelity, statistical claims, novelty and result-to-claim
    alignment. The local tool catalog has no ARIS/HKUSTDial workflow.
 2. If making independent-generalization or confirmatory claims, register and run on untouched data. A current worktree inventory found the nine previously-used Atlas loss caches and the five UCI sources designated fresh for this sprint (now used in the sprint), plus late-window/twin variants derived from those sources; no additional untouched paired-loss cache was present in the registered Sprint 2 data paths. A new source would need a frozen preprocessing, paired-policy, feedback-delay and evaluation protocol before use. Current evidence remains development-exposed, and the P6 adjustment is limited to five ports within each regime.
-3. Obtain independent review of theorem assumptions and complete a final editorial pass on the
-   candidate registry. The internal source-level mapping is recorded in
+3. Obtain independent review of theorem assumptions and finish the sentence-level editorial pass on
+   the candidate registry. Internal read-only reviews on 2026-11-05 covered H/R, P/WP, and SOTA/exit
+   narratives; they corrected the conditional-predictive-loss economic interpretation, clarified
+   retrospective WP1 class labels, and corrected a stale Family-H completion sentence. The T-family narrative pass is complete and corrected the alpha-grid description and T3 held-out-evaluation/status wording. These internal reviews are not exhaustive and are not external proof review. The internal source-level mapping is recorded in
    `THEOREM_SCOPE_AUDIT.md`; the T=2000 SUI clamp arithmetic is now verified in
    `sui_clamp_bound.json`, but this does not verify the proofs. Numeric reconciliation covers the
    reported H/R/T/P claims, but not every prose sentence or proof. Current Sprint 2 reports have no

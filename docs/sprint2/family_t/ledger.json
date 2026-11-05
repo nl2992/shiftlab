@@ -3,7 +3,7 @@
  "implementation": "scripts/sota_sprint/fam_t.py; tests/sprint2/test_fam_t.py",
  "runs": {
   "development": "outputs/sprint2/T/devA,devB,devC; 20 seeds per regime, seed base 2026110701; alpha .05. devA covers host transfers and direct comparisons; devB covers gated/DISCERN/T6 evidence-acquisition combinations; devC is an earlier host/mechanism variant screen.",
-  "track_r": "outputs/sprint2/T/R_dev_a*/R_eval_a*/; seven alpha values .005,.01,.02,.1,.2,.3,.5; 20 dev and 20 eval seeds at separate seed bases. trackR.md/json are the available summarized operating points.",
+  "track_r": "Seven dedicated R_dev_a* runs cover alpha .005,.01,.02,.1,.2,.3,.5; alpha .05 is supplied by the 20-seed devB development run. The eight R_eval_a* runs cover bench2.ALPHA_GRID on a separate seed base, but include only T:cams/a5b,D2,T6:a5bxC2,C2. T3 has a devB calibration at alpha .05 but no held-out Track-R evaluation; no T3 Track-R curve is reported. Other displayed operating points are in trackR.md/json.",
   "real_fresh": "outputs/sprint2/T/real_fresh; 3 seeds across five streams; summary real_fresh_summary.json.",
   "real_twin": "outputs/sprint2/T/real_twin; one policy seed per split stream; summary real_twin_summary.json. These are reused twin constructions, not unseen independent real-world validation.",
   "contracts": "T README records the predeclared selection rule and common-contract adaptations."
@@ -125,7 +125,7 @@
   },
   {
    "id": "T3",
-   "status": "SCREENED; NEGATIVE COST RESULT",
+   "status": "SCREENED; MIXED WITHIN-HOST COST EVIDENCE; NO GENERAL ADVANCE",
    "implementation": "Corrected DISCERN-style host with A5b/env8, front acquisition, and AND ablations.",
    "evidence": [
     "outputs/sprint2/T/devB/records.jsonl",
@@ -170,7 +170,7 @@
     "outputs/sprint2/T/real_fresh_summary.json"
    ],
    "track_E": "T3:discern/a5b mean alternative J 399.0, versus discern_design_floor 401.1 (difference -2.1, CI [-6.8,2.6]); front version 391.8, versus design_floor+front 405.2 (difference -13.5, CI [-20.1,-6.8]). Historical selected-port differences versus `choe_ramdas_eb+front` are +26.9 and +19.7; this non-author-native port is exploratory only and cannot support published-SOTA inference. Same-seed selection is also unadjusted. env8 variants promote on rho=.95 null at rates .25-.30; AND variants are expensive. Fresh real contrasts are mixed.",
-   "track_R": "Track-R alpha calibration and evaluation are in outputs/sprint2/T/trackR.json. R20: T3:discern/a5b: calibrated alpha 0.05; no displayed R20 Pareto point; T3:discern/a5b+front: calibrated alpha 0.05; no displayed R20 Pareto point; T3:discern/env8: calibrated alpha 0.05; no displayed R20 Pareto point. Curves are selected-grid empirical estimates, not guarantees.",
+   "track_R": "T3 development calibration: alpha .05, but no R_eval_a* run includes T3 policies, so there is no held-out Track-R risk/cost estimate or Pareto status for T3. Other displayed Track-R curves use the separate-seed evaluated subset; empirical risk estimates are not guarantees.",
    "track_V": "T3:discern/a5b has conservative development null screen; env8 variants have 5–6/20 promotions on rho=.95, beyond rho<=.8. AND variants are more conservative/costly. Empirical only; see family_t/results.md.",
    "ablation": "Corrected DISCERN-style host comparison across A5b/env8 evidence, paced/front-loaded acquisition, and AND evidence combination.",
    "next_action": null

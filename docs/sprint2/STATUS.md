@@ -88,7 +88,7 @@ Updated 2026-11-05 from worktree `/Users/nigelli/Desktop/ICML/Shift-lab/.claude/
 
 - The numeric audit now reproduces the principal amended analyses and H/R/T/P Track-R outputs exactly.
   The rerunnable audit (`scripts/sota_sprint/audit_raw_to_reports.py`) now runs inside the pinned `uv`
-  environment and passes all 48 generated-vs-saved checks, including strict published-pool validation,
+  environment and passes all 50 generated-vs-saved checks, including strict published-pool validation,
   WP1 and WP2, and the corrected Family H replay. The rerun also fixed two WP2 table-note generator
   mismatches and NaN comparison handling. In addition to the amended validation,
   WP1/WP2, P6 follow-ups, and family Track-R outputs, it exactly regenerates the Family H and T
@@ -173,7 +173,9 @@ Updated 2026-11-05 from worktree `/Users/nigelli/Desktop/ICML/Shift-lab/.claude/
    reports, WP1 false-rollback traces, WP2 no-Xu pooled sensitivity, H/T development summaries,
    315 R Track-E/V cells, seventeen P-family checks, and H/R/T/P Track-R outputs, including the H1-H6 Track-R completion. P5 now has a separate K3/K4 Track-R panel; its outputs are included in the 197-row Pareto-table audit. The 50-check raw-to-report audit passes. The H/R/T/P candidate source review corrected numeric and interpretation errors documented in
    `CLAIM_RECONCILIATION.md`. Registry-to-ledger shared fields now match under the registry audit.
-   Remaining: sentence-level review of residual prose and independent theorem-assumption review;
+  A targeted final prose pass has now covered H/R family reports, P-family/WP1/WP2 narratives, and
+  the SOTA/exit summaries; it corrected the economic interpretation of conditional predictive loss,
+  retrospective WP1 class labels, and a stale Family-H completion sentence. The T-family pass also corrected the Track-R alpha-grid description and T3 status to show no held-out evaluation and mixed within-host cost evidence. Independent theorem-assumption review remains open;
    the internal source mapping is in `THEOREM_SCOPE_AUDIT.md`.
    The SUI log-floor caveat is now bounded for saved Sprint 2 runs: all 214 manifests with a
    recorded horizon specify T=2000, and the smallest implemented factors give cumulative log lower

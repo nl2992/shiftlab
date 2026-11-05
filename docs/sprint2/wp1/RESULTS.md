@@ -26,8 +26,8 @@ the saved result artifacts. Machine-readable outputs are
   comparator as `gated_adaptive_range+front` and the registered verdict **NOT_SUPPORTED**. That
   amendment is same-sample/descriptive, not selection-adjusted confirmation. All comparator names
   below refer to common-contract methods/ports, not author-native deployments.
-* Real data contain a few late improvements: 10 of 348 non-twin episodes, from 5 of 14 dataset
-  clusters, 4 of them from openml_ldpa.
+* The retrospective classifier labels 10 of 348 non-twin episodes as `late_improvement`, from 5 of
+  14 dataset clusters, 4 of them from openml_ldpa. These labels are not verified causal shift times.
 * On those 10 episodes RMM's point estimate is 32-39 per 2000 events below the selected certificate-policy comparator
   on all 4 hosts. No CI excludes 0, so **H_late is NOT_SUPPORTED** under the registered rule.
 * RMM is significantly better than its own host and than Xu on late improvement, but not

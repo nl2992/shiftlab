@@ -125,3 +125,14 @@ The remaining prose audit corrected the finite-diagnostic overclaim in H diagnos
 per-dataset episode-count labels, and WP2 preregistration chronology wording. The WP1 headline audit
 passes 9 groups / 293 checks after its parser was updated for the corrected headings. These checks
 remain internal; they do not provide external review, theorem validity or untouched-data confirmation.
+
+## Final internal prose pass (2026-11-05)
+
+Three read-only internal reviews covered H/R, P-family/WP1/WP2 and SOTA/exit narratives. They found
+and corrected: (1) language treating conditional predictive-loss advantage as application economic
+value and an overly categorical delay/persistence statement in `family_p/P2P3_objectives_harm.md`;
+(2) WP1's shorthand “late improvements,” clarified as episodes classified retrospectively as
+`late_improvement`, not causal change labels; and (3) a stale Family-H sentence saying its corrected
+rerun was still pending in `SOTA_BENCHMARK_AUDIT.md`. The SOTA audit now points to the completed
+six-port result and marks the current Sprint 2 headline wording update complete. No other material
+issues were found within those reviewed scopes. A subsequent T-family narrative review found and corrected the Track-R alpha-grid description and T3 status: T3 has development calibration but no held-out Track-R evaluation, and its cost evidence is mixed across contrasts. Spot-checks for T1/T2/T4/T5/T6 matched saved summaries. These internal reviews are not exhaustive, do not verify theorem proofs and do not constitute independent external review.

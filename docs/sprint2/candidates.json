@@ -227,7 +227,7 @@
   "T3": {
     "id": "T3",
     "description": "T3",
-    "status": "SCREENED; NEGATIVE COST RESULT",
+    "status": "SCREENED; MIXED WITHIN-HOST COST EVIDENCE; NO GENERAL ADVANCE",
     "implementation": "Corrected DISCERN-style host with A5b/env8, front acquisition, and AND ablations.",
     "results_artifact": [
       "outputs/sprint2/T/devB/records.jsonl",
@@ -236,7 +236,7 @@
       "outputs/sprint2/T/real_fresh_summary.json"
     ],
     "track_E": "T3:discern/a5b mean alternative J 399.0, versus discern_design_floor 401.1 (difference -2.1, CI [-6.8,2.6]); front version 391.8, versus design_floor+front 405.2 (difference -13.5, CI [-20.1,-6.8]). Historical selected-port differences versus `choe_ramdas_eb+front` are +26.9 and +19.7; this non-author-native port is exploratory only and cannot support published-SOTA inference. Same-seed selection is also unadjusted. env8 variants promote on rho=.95 null at rates .25-.30; AND variants are expensive. Fresh real contrasts are mixed.",
-    "track_R": "Track-R alpha calibration and evaluation are in outputs/sprint2/T/trackR.json. R20: T3:discern/a5b: calibrated alpha 0.05; no displayed R20 Pareto point; T3:discern/a5b+front: calibrated alpha 0.05; no displayed R20 Pareto point; T3:discern/env8: calibrated alpha 0.05; no displayed R20 Pareto point. Curves are selected-grid empirical estimates, not guarantees.",
+    "track_R": "T3 development calibration: alpha .05, but no R_eval_a* run includes T3 policies, so there is no held-out Track-R risk/cost estimate or Pareto status for T3. Other displayed Track-R curves use the separate-seed evaluated subset; empirical risk estimates are not guarantees.",
     "track_V": "T3:discern/a5b has conservative development null screen; env8 variants have 5–6/20 promotions on rho=.95, beyond rho<=.8. AND variants are more conservative/costly. Empirical only; see family_t/results.md.",
     "disposition": "Do not advance as a broad algorithmic gain; at most a bounded corrected-DISCERN adapter finding.",
     "next_action": null,

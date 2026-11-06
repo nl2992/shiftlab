@@ -373,6 +373,30 @@
       "difference_count": 0
     },
     {
+      "name": "R held-out coverage follow-up JSON",
+      "status": "PASS",
+      "generated": "<temporary>/R_trackR_coverage_followup.json",
+      "committed": "docs/sprint2/family_r/R_trackR_coverage_followup.json",
+      "differences": [],
+      "difference_count": 0
+    },
+    {
+      "name": "R held-out coverage follow-up Markdown",
+      "status": "PASS",
+      "generated": "<temporary>/R_trackR_coverage_followup.md",
+      "committed": "docs/sprint2/family_r/R_trackR_coverage_followup.md",
+      "differences": [],
+      "difference_count": 0
+    },
+    {
+      "name": "R held-out coverage follow-up interpretation",
+      "status": "PASS",
+      "generated": "<temporary>/R_trackR_coverage_followup_report.md",
+      "committed": "docs/sprint2/family_r/R_trackR_coverage_followup_report.md",
+      "differences": [],
+      "difference_count": 0
+    },
+    {
       "name": "H1/H3 Track-R completion JSON",
       "status": "PASS",
       "generated": "<temporary>/H_remaining_risk.json",

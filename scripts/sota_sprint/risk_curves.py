@@ -5,7 +5,7 @@ Input: screen.py runs of the same policies at several nominal alphas (each row c
    whose pooled null promotion rate over bench2.RISK_NULLS is <= r (point estimate). If even the
    smallest alpha exceeds r, the policy has no operating point at r.
 2. ``evaluate``: on SEPARATE seeds, report for each (policy, target) the realised null promotion rate
-   (Wilson 95% CI) and the mean alternative cost (95% t-CI over seeds of the per-seed mean over
+   (Wilson 95% CI) and the mean alternative cost (95% Student-t CI over seed blocks of the mean over
    bench2.RISK_ALTS), plus the cost-risk Pareto frontier.
 An empirical risk level is not an anytime-valid guarantee.
 
@@ -21,6 +21,7 @@ from pathlib import Path
 
 import numpy as np
 import pandas as pd
+from scipy.stats import t as student_t
 
 from bench2 import RISK_ALTS, RISK_NULLS, RISK_TARGETS
 
@@ -62,11 +63,13 @@ def evaluate(ev: pd.DataFrame, amap: dict, nulls=RISK_NULLS, alts=RISK_ALTS) -> 
                 continue
             k, n = int(gn.ever_promote.sum()), len(gn)
             per_seed = ga.groupby(["seed", "ep"]).net.mean()
-            se = per_seed.std(ddof=1) / np.sqrt(len(per_seed))
+            n_seed_blocks = len(per_seed)
+            se = per_seed.std(ddof=1) / np.sqrt(n_seed_blocks)
+            critical = float(student_t.ppf(0.975, df=n_seed_blocks - 1))
             res.setdefault(t, {})[p] = {"alpha": a, "risk": k / n, "risk_ci": wilson(k, n),
                                         "cost": float(per_seed.mean()),
-                                        "cost_ci": (float(per_seed.mean() - 1.96 * se),
-                                                    float(per_seed.mean() + 1.96 * se))}
+                                        "cost_ci": (float(per_seed.mean() - critical * se),
+                                                    float(per_seed.mean() + critical * se))}
     for t, d in res.items():
         pts = sorted(d.items(), key=lambda kv: (kv[1]["risk"], kv[1]["cost"]))
         best, front = float("inf"), []

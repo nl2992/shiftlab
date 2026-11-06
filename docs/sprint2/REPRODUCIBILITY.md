@@ -361,8 +361,8 @@ scripts/sota_sprint/run_r_trackr_coverage_followup.sh
 uv run python scripts/sota_sprint/risk_curves.py \
   --dev outputs/sprint2/R/dev_screen_a05 \
        outputs/sprint2/R/trackR/dev_a0.005 outputs/sprint2/R/trackR/dev_a0.01 \
-       outputs/sprint2/R/trackR/dev_a0.02 outputs/sprint2/R/trackR/dev_a0.05 \
-       outputs/sprint2/R/trackR/dev_a0.1 outputs/sprint2/R/trackR/dev_a0.2 \
+       outputs/sprint2/R/trackR/dev_a0.02 outputs/sprint2/R/trackR/dev_a0.1 \
+       outputs/sprint2/R/trackR/dev_a0.2 \
        outputs/sprint2/R/trackR/dev_a0.3 outputs/sprint2/R/trackR/dev_a0.5 \
        outputs/sprint2/R/trackR_H/dev_a0.005 outputs/sprint2/R/trackR_H/dev_a0.01 \
        outputs/sprint2/R/trackR_H/dev_a0.02 outputs/sprint2/R/trackR_H/dev_a0.05 \
@@ -377,6 +377,7 @@ uv run python scripts/sota_sprint/risk_curves.py \
          outputs/sprint2/R/trackR_coverage_followup/eval_a0.3 \
          outputs/sprint2/R/trackR_coverage_followup/eval_a0.5 \
   --out docs/sprint2/family_r/R_trackR_coverage_followup.json
+uv run python scripts/sota_sprint/analyze_r_trackr_coverage_followup.py
 uv run python scripts/sota_sprint/finalize_r_trackr_coverage_followup.py
 uv run python scripts/sota_sprint/audit_raw_to_reports.py
 uv run python scripts/sota_sprint/audit_cost_risk_pareto.py

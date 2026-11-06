@@ -27,6 +27,32 @@ uv run python scripts/sota_sprint/screen.py --seed-base 2026110701 --workers 2 \
   --seeds 20 --alpha 0.05 --out outputs/sprint2/R/dev_screen_a05
 ```
 
+## Post-development Track-R coverage follow-up
+
+The earlier Family-R risk curves had no held-out points for nine policies that had at least one
+development-feasible alpha. The registered follow-up evaluates all 26 eligible policies on the same
+new seed block, at all eight alpha values, over the four null and six alternative regimes. It ran
+1,600 episode jobs and produced 41,600 policy records. The four policies without a feasible
+development alpha remain without an operating point. This is a new simulator replicate on reused
+generators, not independent real-data confirmation.
+
+The run-level coverage and checksums are in
+[R_trackR_coverage_followup_manifests.json](R_trackR_coverage_followup_manifests.json); the full
+empirical cost-risk table is in
+[R_trackR_coverage_followup.md](R_trackR_coverage_followup.md), and the interpretation and Pareto
+points are in [R_trackR_coverage_followup_report.md](R_trackR_coverage_followup_report.md). The
+development calibration map matches the previous Family-R map exactly. Evaluation point counts by
+target are 12 at R5, 22 at R10 and R15, and 26 at R20–R30. The R5 frontier contains R3-alloc at
+zero observed promotions and cost 391.5 [95% CI 386.9, 396.1], R3-base at 0.037 risk and cost
+370.1 [363.3, 377.0], and H2 at 0.050 [95% CI 0.020, 0.122] risk and cost
+366.9 [359.7, 374.1]. Alternative-cost intervals use Student-t critical values over the 20
+per-seed means. These are panel-local
+points with descriptive intervals; they do not establish a guarantee or general superiority.
+
+Across the 83 policy-target cells also present in the earlier held-out report, median absolute
+between-block differences were 0.013 in observed risk and 7.3 in alternative net cost. This is
+descriptive seed-block variation, not an inferential comparison.
+
 ## Findings by candidate
 
 | Candidate | Evidence-based disposition |

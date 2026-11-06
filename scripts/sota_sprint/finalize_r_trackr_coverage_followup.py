@@ -89,7 +89,8 @@ def main() -> int:
         raise SystemExit(f"unexpected total row count: {total_rows}")
     result_json = ROOT / "docs/sprint2/family_r/R_trackR_coverage_followup.json"
     result_md = result_json.with_suffix(".md")
-    for path in (result_json, result_md):
+    result_report = ROOT / "docs/sprint2/family_r/R_trackR_coverage_followup_report.md"
+    for path in (result_json, result_md, result_report):
         if not path.is_file():
             raise SystemExit(f"missing derived result: {path}")
     frozen_calibration_path = ROOT / "outputs/sprint2/R/analysis/risk_curves.json"
@@ -102,6 +103,8 @@ def main() -> int:
               "runner": "scripts/sota_sprint/run_r_trackr_coverage_followup.sh",
               "finalizer": "scripts/sota_sprint/finalize_r_trackr_coverage_followup.py",
               "finalizer_sha256": sha256(Path(__file__)),
+              "analyzer": "scripts/sota_sprint/analyze_r_trackr_coverage_followup.py",
+              "analyzer_sha256": sha256(ROOT / "scripts/sota_sprint/analyze_r_trackr_coverage_followup.py"),
               "code_revisions": sorted(str(rev) for rev in code_revisions),
               "bookkeeping_source_hashes_by_run": [
                   {path: sources.get(path) for path in sorted(bookkeeping_sources)}
@@ -112,7 +115,8 @@ def main() -> int:
               "run_count": len(run_index), "jobs": sum(r["jobs"] for r in run_index),
               "rows": total_rows, "rows_per_run": expected_rows, "source_hashes": all_sources,
               "runs": run_index, "result_json": file_record(result_json),
-              "result_markdown": file_record(result_md)}
+              "result_markdown": file_record(result_md),
+              "interpretive_report": file_record(result_report)}
     out.write_text(json.dumps(report, indent=2) + "\n")
     print(json.dumps({"status": "PASS", "run_count": len(run_index), "jobs": report["jobs"],
                       "rows": total_rows, "code_revisions": report["code_revisions"],

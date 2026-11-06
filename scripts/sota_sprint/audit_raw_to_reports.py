@@ -255,6 +255,13 @@ def main()->int:
                 ROOT/'docs/sprint2/family_r/R_trackR_coverage_followup.json')
             add('R held-out coverage follow-up Markdown',t/'R_trackR_coverage_followup.md',
                 ROOT/'docs/sprint2/family_r/R_trackR_coverage_followup.md','text')
+            run(['scripts/sota_sprint/analyze_r_trackr_coverage_followup.py',
+                 '--curves',str(t/'R_trackR_coverage_followup.json'),
+                 '--manifests','docs/sprint2/family_r/R_trackR_coverage_followup_manifests.json',
+                 '--out',str(t/'R_trackR_coverage_followup_report.md')])
+            add('R held-out coverage follow-up interpretation',
+                t/'R_trackR_coverage_followup_report.md',
+                ROOT/'docs/sprint2/family_r/R_trackR_coverage_followup_report.md','text')
         h_dev=dirs('outputs/sprint2/H/trackR_remaining/dev_a*')
         h_eval=dirs('outputs/sprint2/H/trackR_remaining/eval_a*')
         if len(h_dev)!=8 or len(h_eval)!=8:

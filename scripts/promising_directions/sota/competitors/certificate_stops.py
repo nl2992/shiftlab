@@ -230,7 +230,9 @@ class MopeLowerCS:
         if wmax <= 1.0:
             raise ValueError("wmax must exceed 1")
         self.alpha, self.wmax = float(alpha), float(wmax)
-        self.log_thr = math.log(2.0 / self.alpha)  # the 2 is the hedging factor in eq. (14)
+        # The half-initialized wealth is represented by the threshold 2/alpha on the
+        # accumulated log factors: (1/2) * product > 1/alpha iff product > 2/alpha.
+        self.log_thr = math.log(2.0 / self.alpha)
         self.keys = ("n", "s_aa", "s_as", "s_ss", "s_a", "s_s", "p11", "p12", "p22", "s1", "s2",
                      "v", "lam1", "lam2")  # fmt: skip
         for k in self.keys:
@@ -300,8 +302,20 @@ class MopeCS:
         self.plus, self.minus = MopeLowerCS(alpha, wmax), MopeLowerCS(alpha, wmax)
 
     def update(self, w: float, r: float) -> None:
+        old_lo, old_hi = self.v_lo, self.v_hi
         self.plus.update(w, r)
         self.minus.update(w, 1.0 - r)
+        # Algorithm 2 intersects the two one-sided bounds and enforces lo <= hi after
+        # every event (opebet.wealth_lb_2d). Without this coupling, a lower endpoint can
+        # exceed the reflected upper endpoint, unlike the published MOPE interval update.
+        new_lo = min(old_hi, max(old_lo, self.plus.v))
+        new_hi = max(new_lo, min(old_hi, 1.0 - self.minus.v))
+        self.plus.v = new_lo
+        self.minus.v = 1.0 - new_hi
+        # Bets for the next increment use the intersected endpoint, as in Algorithm 2;
+        # the one-sided updates above initially optimized at their uncoupled endpoints.
+        self.plus._bet()
+        self.minus._bet()
 
     @property
     def v_lo(self) -> float:

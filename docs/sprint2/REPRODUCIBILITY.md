@@ -364,6 +364,16 @@ thresholds exact log wealth on a finite grid; the local adapter instead implemen
 quadratic log-wealth lower bound. Numerical comparison therefore needs to check bet updates, bound
 direction, and coverage as well as endpoint values; native-source parity review remains open.
 
+Regenerate the Amendment 5 RMM sensitivity report after both `amend5/null1000_mopeinterval_20261106`
+and `amend5/synth_mopeinterval_20261106` have complete manifests:
+
+```sh
+uv run python scripts/sota_sprint/analyze_transfer.py amend5 --mopeinterval-corrected
+```
+
+This writes `docs/sota_sprint/validation/amend5_mopeinterval_20261106_results.{json,md}` and
+preserves the registered `amend5_results` artifacts.
+
 ## R5 focused Round-5 follow-up
 
 The new-seed R5 alpha=.02 simulator follow-up has its frozen question and execution details in

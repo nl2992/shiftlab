@@ -50,3 +50,19 @@ No new real-data confirmation was run: candidate originality was not established
 available chronological sources audited for this turn lack verified label-release times
 for the intended deployment-stream test. The raw matched records and their hashes are
 preserved in the run directory; this amendment supersedes no earlier atlas observations.
+
+## Late-label heavy-tail prior screen (2026-11-06)
+
+To target late-improvement blindness under delay, a fixed `q=1.2` start prior proportional
+to `1/[s log(e s)^q]` was compared with canonical `q=2` PFA-SR after normalizing both to
+the same total finite-budget mass. The frozen development protocol and implementation are
+`research/scoped_method/pilots/heavy_tail_pfa_screen_20261106/protocol.md` and
+`scripts/sota_sprint/pfa_srr_baseline.py`; full results and raw rows are in the sibling
+`run/` directory. In the late, 400-step-delay, B=100 cell, the candidate costs 4.40 more
+than canonical PFA-SR (95% CI [−1.27, +10.07]), 5.30 more than same-host RMM
+([−0.01, +10.61]), and 4.09 more than the Xu adapter ([−0.48, +8.66]). It promoted 1/30,
+versus 3/30 for canonical PFA-SR; this did not yield a cost advantage. It also costs
+57.97 more than never-switch on the reversal diagnostic ([+48.50, +67.44]). The fixed
+candidate fails its preregistered development gate and is stopped; no confirmatory run or
+novelty claim follows. This is a failed prior-shape candidate, not evidence against the
+separate strong-persistent PFA-SR application result.

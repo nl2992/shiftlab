@@ -1,0 +1,43 @@
+{
+  "primary_pass": false,
+  "adverse_null_pass": false,
+  "primary_contrasts": {
+    "PFA-SR:gated_adaptive_range": {
+      "mean": 4.4,
+      "ci95": [
+        -1.2736720567032105,
+        10.073672056703211
+      ],
+      "pass": false
+    },
+    "rmm:gated_adaptive_range+RMM": {
+      "mean": 5.3,
+      "ci95": [
+        -0.012667064695229158,
+        10.612667064695229
+      ],
+      "pass": false
+    },
+    "xu_acquisition_only": {
+      "mean": 4.089999999999998,
+      "ci95": [
+        -0.48024473665302736,
+        8.660244736653024
+      ],
+      "pass": false
+    }
+  },
+  "null_promotions": 0,
+  "reversal_candidate_minus_never": {
+    "mean": 57.96666666666667,
+    "ci95": [
+      48.49500346946925,
+      67.43832986386408
+    ]
+  },
+  "cost_identity_max_abs_residual": 0.0,
+  "sha256": {
+    "manifest": "3cf79254fdbaf4cd1ad17f78453f0c40285ad50100423cf9bce9214149fd4dc7",
+    "records": "4a3c37dbd5cbd5e7577c3003340fe4a1f8d3d04008220b6680514f15e7e97984"
+  }
+}

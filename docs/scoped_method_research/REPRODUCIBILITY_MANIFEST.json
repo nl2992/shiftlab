@@ -1,8 +1,8 @@
 {
   "created_utc_date": "2026-11-06",
   "worktree": "/Users/nigelli/Desktop/ICML/Shift-lab/.claude/worktrees/scoped-method-research-current",
-  "branch": "codex/scoped-method-research-current",
-  "code_revision": "c66185c0a1f3338e7422cfceeeedd0694867fb74",
+  "branch": "codex/scoped-method-research-results-2026-11-06",
+  "code_revision": "c699b4b46209abd53f3771a6f5dbc34e88f7ad85",
   "decision": "BENCHMARK_OR_CASE_STUDY_ONLY",
   "evidence_classification": "correction replay and development; no confirmation",
   "required_artifacts": {
@@ -19,9 +19,12 @@
     "10_REAL_DATA_REGISTRY.md": "f4e0f34bac4bea335c512f3c80afb10fba6f57691843fb2cbd1c435d2b45871c",
     "11_REAL_DATA_CONFIRMATION.md": "cb314bc5d04a9b5ad48d54e5903dce52b63ecdf024d829daf5d95917f4e3d4d4",
     "12_REPRODUCIBILITY_AND_AUDIT.md": "bf56eacf5bf93b37a1e4364df900c463ab03f155c6d7e557822987243f3e63b9",
-    "13_INDEPENDENT_REVIEW.md": "1d684ccefd7ab73c069e1c9efd31d27ce531169db7a25e970b44d523f754fae2",
+    "13_INDEPENDENT_REVIEW.md": "b8181aa47ec5fadf30353e109c3abd5f62463db781b247c0d26282b5e0c0d652",
     "14_PUBLICATION_CLAIMS.md": "e8783e743fdf6684cf978ba27352aa312bcda22aa9242c5a017840d0c0b9908a",
-    "15_FINAL_DECISION.md": "9d151a4793f0afd4b41179ded324e653d0ea90f4db61e0ce4f75ff853c95c11c"
+    "15_FINAL_DECISION.md": "0856f199b705f5557eadd17896dbc6c20225f4ca2d8c49a08aa39e616ca43745",
+    "../scoped_method_research_2026-11-06/DIRECT_FRONTLOAD_ERB_CRITICAL_REVIEW.md": "8a1618dc4d6b2edcdd6c5bec052b63d676e0a1412c57327c31f620b89ec8e479",
+    "../scoped_method_research_2026-11-06/FINAL_ASSESSMENT.md": "66a233b2979905f3b5f8fa3b65833a01ac8707ba3155e8a1fcebc26e456beb58",
+    "../scoped_method_research_2026-11-06/EXPERIMENT_LOG.md": "a5773cc8ff3c66be3a72d4443be998a3d172887ca87f3578c843c72ae14c90e9"
   },
   "pilot_artifacts": {
     "manifest.json": "6aa6a74af1ce194201800e1acd039e6b36b7bae698a3841bb65ab0545a871922",
@@ -33,6 +36,19 @@
     "Corrected replays are exposed same-seed reruns, not confirmation.",
     "Pilot regimes were previously used; 30 paired seeds per regime are exploratory.",
     "No authentic independent real-source confirmation; no holdout was opened.",
-    "Primary raw replay outputs are ignored local files and are not included in this worktree."
-  ]
+    "Primary raw replay outputs are ignored local files and are not included in this worktree.",
+    "The direct front-loading plus E_rb screen is exploratory (20 seeds per reused regime); its pre-run protocol timing is not independently verifiable, and the manifest records a dirty snapshot with truncated source hashes."
+  ],
+  "direct_composition_screen": {
+    "protocol": "research/scoped_method/pilots/direct_frontload_erb_20261106/protocol.md",
+    "records_sha256": "a1a83a1de7d101ce6e89d58461715529cb243aea0474618a31dc36a7225a09f1",
+    "summary_sha256": "08ffb4ec158640df1a7fb8d3c8a640fff3fa852d0233a204bec4e8b12a50d56d",
+    "manifest_sha256": "dc70ee343843432f7130c5019df065b04cbd7d093fee14cbcc15101251dea74b",
+    "protocol_sha256": "b92264f65337f980f778a45815994b237c8f0e44d70fc6980e0bba36586106cc",
+    "runner_sha256": "44b82db2a6db65f86fd17bca8866e4ed4039bf5277293a46358bc0c62bd34ce1",
+    "critical_review_sha256": "8a1618dc4d6b2edcdd6c5bec052b63d676e0a1412c57327c31f620b89ec8e479",
+    "run_git": "469ee3c0c7993dec93922a6e9b858bcb28d53b27+dirty",
+    "status": "development screen; pre-run protocol timing cannot be independently verified"
+  },
+  "previous_pushed_report_commit": "6299987ea1155e8e57d7f52a43bd2aeb3333ab3b"
 }

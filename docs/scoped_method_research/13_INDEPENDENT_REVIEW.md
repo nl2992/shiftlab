@@ -51,3 +51,8 @@ It is not an adequate confirmatory baseline-fidelity or novelty experiment. In p
 - `docs/scoped_method_research_2026-11-06/FINAL_ASSESSMENT.md`
 - `docs/scoped_method_research_2026-11-06/MECHANISM_ABLATION.md`
 - `docs/scoped_method_research_2026-11-06/METHOD_SPECIFICATION.md`
+
+
+## Follow-up audit of the missing direct composition screen
+
+The direct front-loaded acquisition plus E_rb composition was subsequently evaluated in a 20-seed-per-cell development screen. The independent follow-up reviewer recomputed all 400 raw rows and the net-cost identity; the summary matches. The candidate missed its described economic gate and was 60.65 cost units worse than never-switch under reversal (paired 95% interval [42.52, 78.78]). The screen's preregistration timing is not independently auditable because its protocol was not committed/checksummed pre-run; the run manifest records a dirty tree and truncated hashes. Full recalculations and limitations are preserved in [`DIRECT_FRONTLOAD_ERB_CRITICAL_REVIEW.md`](../scoped_method_research_2026-11-06/DIRECT_FRONTLOAD_ERB_CRITICAL_REVIEW.md). This result resolves the previously missing arm for this bounded composition question; it does not exhaust other candidate designs.

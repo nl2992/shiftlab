@@ -31,9 +31,10 @@ def main(argv=None):
     ap.add_argument("--out", type=Path)
     a = ap.parse_args(argv)
     d = collections.defaultdict(list)
-    for line in open(a.records):
-        r = json.loads(line)
-        d[(r["regime"], r["policy"], r["split"])].append(r["ever_promote"])
+    with open(a.records) as f:
+        for line in f:
+            r = json.loads(line)
+            d[(r["regime"], r["policy"], r["split"])].append(r["ever_promote"])
     datasets = sorted({k[0] for k in d})
     splits = sorted({k[2] for k in d})
     out = {"source": str(a.records), "splits": [splits[0], splits[-1]], "rates": {}, "power": {}}

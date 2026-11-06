@@ -18,6 +18,14 @@ NEW = {
             tags=("alt", "delay"),
         ),
         _r("PFA_confirm_null", "null", [(0, 0.5)], dis=((0, 0.25),), tags=("null",)),
+        _r(
+            "PFA_tail_late_scarce",
+            "late",
+            [(0, 0.5), (600, 0.67)],
+            dis=((0, 0.22),),
+            delay=400,
+            tags=("alt", "late", "delay"),
+        ),
     ]
 }
 SPRINT_REGIMES.update(NEW)

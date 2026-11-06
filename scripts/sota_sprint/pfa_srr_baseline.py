@@ -47,6 +47,24 @@ class PFASRDetector:
         return stat >= 1.0 / self.alpha
 
 
+class HeavyTailPFASRDetector(PFASRDetector):
+    """Finite-budget PFA mixture that allocates more prior mass to later label starts.
+
+    The q=1.2 power is fixed by the late-start hypothesis. We normalize the finite weight
+    vector to the canonical PFA-SR total mass at the same budget, so this changes only the
+    allocation over start labels. Since the total mass remains <= 1, the same e-process
+    argument applies. This is a candidate prior choice, not a new general guarantee.
+    """
+
+    def __init__(self, alpha: float, max_labels: int, q: float = 1.2):
+        super().__init__(alpha, max_labels)
+        shape = np.asarray(
+            [1.0 / (n * math.log(math.e * n) ** q) for n in range(1, self.max_labels + 1)],
+            dtype=float,
+        )
+        self.weights = shape * (self.weights.sum() / shape.sum())
+
+
 class PFASRMonitor(DetectorSwapMonitor):
     """Use the PFA-weighted SR detector in the existing host/restart wrapper."""
 
@@ -61,6 +79,17 @@ class PFASRMonitor(DetectorSwapMonitor):
         return PFASRDetector(alpha, self.B)
 
 
+class HeavyTailPFASRMonitor(PFASRMonitor):
+    """Matched-host wrapper using the preregistered heavier-tailed PFA start prior."""
+
+    def _new_detector(self):
+        if self.deployed == 0:
+            alpha = self.alpha_det / (2.0**self.n_promotions)
+        else:
+            alpha = self.alpha_rb
+        return HeavyTailPFASRDetector(alpha, self.B)
+
+
 def _make_pfa_srr(host: str):
     def factory(T, B, cs, cq, alpha, delay, r):
         make_base, _stream_name = HOSTS[host]
@@ -69,4 +98,13 @@ def _make_pfa_srr(host: str):
     return factory
 
 
+def _make_heavy_tail_pfa_srr(host: str):
+    def factory(T, B, cs, cq, alpha, delay, r):
+        make_base, _stream_name = HOSTS[host]
+        return HeavyTailPFASRMonitor(make_base, T, B, alpha, rng=r(f"pfa_tail_{host}"))
+
+    return factory
+
+
 EXTRA = {f"PFA-SR:{host}": _make_pfa_srr(host) for host in HOSTS}
+EXTRA.update({f"PFA-SR:q1.2:{host}": _make_heavy_tail_pfa_srr(host) for host in HOSTS})

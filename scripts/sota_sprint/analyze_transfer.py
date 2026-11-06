@@ -38,6 +38,18 @@ def null_table(df):
     return t
 
 
+def _overlay_replayed_policies(original: Path, replayed: Path) -> pd.DataFrame:
+    """Replace only replayed policy arms, retaining same-seed unaffected arms from source."""
+    old = pd.read_json(original, lines=True)
+    new = pd.read_json(replayed, lines=True)
+    replaced = set(new.policy.astype(str))
+    merged = pd.concat([old[~old.policy.astype(str).isin(replaced)], new], ignore_index=True)
+    keys = [c for c in ("kind", "regime", "ep", "seed", "policy") if c in merged.columns]
+    if keys and merged.duplicated(keys).any():
+        raise ValueError(f"replayed policy overlay has duplicate keys: {replayed}")
+    return merged
+
+
 def rmm():
     syn = pd.read_json(OUT / "rmm_transfer/synth/records.jsonl", lines=True)
     nul = null_table(pd.read_json(OUT / "rmm_transfer/null1000/records.jsonl", lines=True))
@@ -164,8 +176,14 @@ def amend5(*, mopeinterval_corrected: bool = False):
         null_dir = OUT / "amend5/null1000"
         report_stem = DOC / "amend5_results"
         report_title = "# Amendment 5, HC (registered certificate-host RMM claim)"
-    syn = pd.read_json(syn_dir / "records.jsonl", lines=True)
-    nul = null_table(pd.read_json(null_dir / "records.jsonl", lines=True))
+    if mopeinterval_corrected:
+        syn = _overlay_replayed_policies(OUT / "amend5/synth/records.jsonl", syn_dir / "records.jsonl")
+        null_records = _overlay_replayed_policies(OUT / "amend5/null1000/records.jsonl",
+                                                  null_dir / "records.jsonl")
+    else:
+        syn = pd.read_json(syn_dir / "records.jsonl", lines=True)
+        null_records = pd.read_json(null_dir / "records.jsonl", lines=True)
+    nul = null_table(null_records)
     hosts = ["gated_deployment", "discern_style", "SMCS+retain-incumbent", "gated_adaptive_range"]
     P = syn[syn.regime.isin(FAM)].pivot_table(index="seed", columns=["regime", "policy"], values="net")
     fam = {p: P.xs(p, axis=1, level=1).mean(axis=1) for p in syn.policy.unique()}
@@ -207,6 +225,14 @@ def amend5(*, mopeinterval_corrected: bool = False):
         co = " / ".join(f"{d['mean']:+.1f}" for d in v["coprimary_vs_host"].values())
         pn = " / ".join(f"{x:.3f}" for x in v["persistent_null"].values())
         L.append(f"| {h} | {a['mean']:+.1f} [{a['lo']:+.1f},{a['hi']:+.1f}] | {lt} | {v['c_iid_safe']} | {co} | {pn} |")
+    if mopeinterval_corrected:
+        L.insert(2, "MOPE-affected policy arms are replaced by their corrected same-seed replays; unaffected arms retain their registered records.")
+        res["data_provenance"] = {
+            "replay": "MOPE interval-correction same-seed sensitivity",
+            "replayed_synthetic_policies": sorted(set(pd.read_json(syn_dir / "records.jsonl", lines=True).policy.astype(str))),
+            "replayed_null_policies": sorted(set(pd.read_json(null_dir / "records.jsonl", lines=True).policy.astype(str))),
+            "unaffected_arms": "retained from registered same-seed outputs",
+        }
     report_stem.with_suffix(".json").write_text(json.dumps(res, indent=1, default=float) + "\n")
     report_stem.with_suffix(".md").write_text("\n".join(L) + "\n")
     print("\n".join(L))

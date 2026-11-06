@@ -40,4 +40,6 @@ Eligible policies are `A5b`, `C6`, `CONTROL_never_switch`, `D2`, `H1-iid1`, `H2`
   evaluation directories. Per-run manifests and record hashes will be indexed before reporting.
 
 The evaluated policy set and alpha grid are frozen. Policies without any development-feasible
-point are not assigned an evaluation operating point after seeing these results.
+point are not assigned an evaluation operating point after seeing these results. The finalizer
+checks that the regenerated development calibration map is byte-value-equivalent to the existing
+`outputs/sprint2/R/analysis/risk_curves.json` map before it indexes the evaluation outputs.

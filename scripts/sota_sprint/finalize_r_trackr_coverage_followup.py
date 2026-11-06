@@ -92,6 +92,11 @@ def main() -> int:
     for path in (result_json, result_md):
         if not path.is_file():
             raise SystemExit(f"missing derived result: {path}")
+    frozen_calibration_path = ROOT / "outputs/sprint2/R/analysis/risk_curves.json"
+    derived_calibration = json.loads(result_json.read_text()).get("calibration")
+    frozen_calibration = json.loads(frozen_calibration_path.read_text()).get("calibration")
+    if derived_calibration != frozen_calibration:
+        raise SystemExit("derived report calibration differs from the frozen existing development map")
     out = ROOT / "docs/sprint2/family_r/R_trackR_coverage_followup_manifests.json"
     report = {"protocol": "docs/sprint2/family_r/R_trackR_coverage_followup_protocol.md",
               "runner": "scripts/sota_sprint/run_r_trackr_coverage_followup.sh",
@@ -102,7 +107,8 @@ def main() -> int:
                   {path: sources.get(path) for path in sorted(bookkeeping_sources)}
                   for sources in all_sources],
               "contract": {"alpha_grid": ALPHAS, "regimes": REGIMES, "policies": POLICIES,
-                           "seed_base": SEED_BASE, "seeds_per_regime": 20},
+                           "seed_base": SEED_BASE, "seeds_per_regime": 20,
+                           "frozen_development_calibration": file_record(frozen_calibration_path)},
               "run_count": len(run_index), "jobs": sum(r["jobs"] for r in run_index),
               "rows": total_rows, "rows_per_run": expected_rows, "source_hashes": all_sources,
               "runs": run_index, "result_json": file_record(result_json),

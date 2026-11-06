@@ -57,3 +57,19 @@ single-opening test window to repair the artifact.
 ## Bounded direct-composition follow-up (2026-11-06)
 
 The omitted direct front-loading-plus-E_rb composition was screened on 20 paired seeds in each of four reused simulator regimes. It failed the stated economic gate: its F0_better saving over the front-loaded host was −3.86 (95% paired t interval [−12.35, 4.64]); its V_late_600 difference from paced E_rb was −9.65 [−19.89, 0.59]; and under F3_reversal_800 it cost +60.65 versus never-switch [42.52, 78.78]. It spent all 200 labels in every cell; null promotion was 1/20 (Wilson interval [0.009, 0.236]). The independent audit recomputed the 400 raw rows and net-cost identity. This closes the specific missing-composition question as a development falsification, but does not exhaust the design space or upgrade C3/C4. The protocol was not committed/checksummed before execution and source hashes were truncated in the dirty-run manifest. See [`DIRECT_FRONTLOAD_ERB_CRITICAL_REVIEW.md`](DIRECT_FRONTLOAD_ERB_CRITICAL_REVIEW.md) and [`ECONOMIC_HEADROOM_DECISION_20261106.md`](../../research/scoped_method/ECONOMIC_HEADROOM_DECISION_20261106.md). The decision remains **`BENCHMARK_OR_CASE_STUDY_ONLY`**.
+
+## E-SR empirical operating-point follow-up (2026-11-06)
+
+The existing conventional `E_srrSR:gated_deployment` detector was calibrated on 1,000 iid
+`F0_null` streams per predeclared alpha and independently evaluated at the selected alpha 0.0005.
+The independent null result was 20/1,000 promotions (one-sided 95% Wilson upper 0.0287), passing
+the frozen empirical ≤0.05 gate. It did not improve deployment economics in the registered
+reversal target: on `F3_reversal_1200`, candidate-minus-never cost was +22.75 [19.70,25.79] and
+candidate-minus-E_swcert was +3.84 [0.12,7.57] over 200 paired seeds. On `F3_reversal_800`, its
+harm versus never-switch was +45.76 [42.46,49.05]. This is an operating-point calibration of
+published prior art, not a new mechanism; the track is closed after failing its prespecified
+economic gate. Exact protocols, raw records, hashes, and analysis are in
+`research/scoped_method/pilots/srr_any_false_calibration_20261106/` and
+`research/scoped_method/analyze_srr_calibrated_evaluation.py`. The overall decision remains
+**`BENCHMARK_OR_CASE_STUDY_ONLY`**; this additional result does not satisfy the active positive
+repair objective.

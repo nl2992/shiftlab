@@ -1,0 +1,254 @@
+{
+  "evaluation_seed_base": 7110601102,
+  "null": {
+    "E_swcert_costs": {
+      "labels": 199.688,
+      "loss": 360.589,
+      "mean_first_promotion": 413.7647058823529,
+      "mean_rollbacks": 0.001,
+      "n": 1000,
+      "net": 370.6634,
+      "promotion_episodes": 17,
+      "switches": 0.018
+    },
+    "candidate_costs": {
+      "labels": 200,
+      "loss": 360.536,
+      "mean_first_promotion": 1325.8,
+      "mean_rollbacks": 0,
+      "n": 1000,
+      "net": 370.636,
+      "promotion_episodes": 20,
+      "switches": 0.02
+    },
+    "false_promotion_episodes": 20,
+    "n": 1000,
+    "never_switch_costs": {
+      "labels": 0,
+      "loss": 360.493,
+      "mean_first_promotion": null,
+      "mean_rollbacks": 0,
+      "n": 1000,
+      "net": 360.493,
+      "promotion_episodes": 0,
+      "switches": 0
+    },
+    "one_sided_95_wilson_upper": 0.028681833851015845,
+    "rate": 0.02
+  },
+  "reversals": {
+    "F3_reversal_1200": {
+      "candidate_costs": {
+        "labels": 200,
+        "loss": 381.78,
+        "mean_first_promotion": 579.9384615384615,
+        "mean_rollbacks": 0.395,
+        "n": 200,
+        "net": 398.63,
+        "promotion_episodes": 195,
+        "switches": 1.37
+      },
+      "candidate_minus_reference_labels": {
+        "CONTROL_never_switch": {
+          "ci95": [
+            200.0,
+            200.0
+          ],
+          "mean": 200,
+          "n": 200
+        },
+        "E_swcert": {
+          "ci95": [
+            0.2031623241594632,
+            0.37683767584053673
+          ],
+          "mean": 0.29,
+          "n": 200
+        }
+      },
+      "candidate_minus_reference_loss": {
+        "CONTROL_never_switch": {
+          "ci95": [
+            2.8210431175675983,
+            8.968956882432401
+          ],
+          "mean": 5.895,
+          "n": 200
+        },
+        "E_swcert": {
+          "ci95": [
+            -0.9055360887971666,
+            6.365536088797167
+          ],
+          "mean": 2.73,
+          "n": 200
+        }
+      },
+      "candidate_minus_reference_net": {
+        "CONTROL_never_switch": {
+          "ci95": [
+            19.695564041954597,
+            25.794435958045405
+          ],
+          "mean": 22.745,
+          "n": 200
+        },
+        "E_swcert": {
+          "ci95": [
+            0.12096257943021094,
+            7.568037420569795
+          ],
+          "mean": 3.844500000000003,
+          "n": 200
+        }
+      },
+      "candidate_minus_reference_switches": {
+        "CONTROL_never_switch": {
+          "ci95": [
+            1.2956226438462701,
+            1.44437735615373
+          ],
+          "mean": 1.37,
+          "n": 200
+        },
+        "E_swcert": {
+          "ci95": [
+            0.11904226620386818,
+            0.3209577337961318
+          ],
+          "mean": 0.22,
+          "n": 200
+        }
+      },
+      "reference_costs": {
+        "CONTROL_never_switch": {
+          "labels": 0,
+          "loss": 375.885,
+          "mean_first_promotion": null,
+          "mean_rollbacks": 0,
+          "n": 200,
+          "net": 375.885,
+          "promotion_episodes": 0,
+          "switches": 0
+        },
+        "E_swcert": {
+          "labels": 199.71,
+          "loss": 379.05,
+          "mean_first_promotion": 535.5548780487804,
+          "mean_rollbacks": 0.33,
+          "n": 200,
+          "net": 394.7855,
+          "promotion_episodes": 164,
+          "switches": 1.15
+        }
+      }
+    },
+    "F3_reversal_800": {
+      "candidate_costs": {
+        "labels": 200,
+        "loss": 371.925,
+        "mean_first_promotion": 534.7931034482758,
+        "mean_rollbacks": 0.75,
+        "n": 200,
+        "net": 390.025,
+        "promotion_episodes": 174,
+        "switches": 1.62
+      },
+      "candidate_minus_reference_labels": {
+        "CONTROL_never_switch": {
+          "ci95": [
+            200.0,
+            200.0
+          ],
+          "mean": 200,
+          "n": 200
+        },
+        "E_swcert": {
+          "ci95": [
+            0.2512828464435675,
+            0.47871715355643246
+          ],
+          "mean": 0.365,
+          "n": 200
+        }
+      },
+      "candidate_minus_reference_loss": {
+        "CONTROL_never_switch": {
+          "ci95": [
+            24.50903045566924,
+            30.800969544330762
+          ],
+          "mean": 27.655,
+          "n": 200
+        },
+        "E_swcert": {
+          "ci95": [
+            -9.261840677730222,
+            0.9418406777302213
+          ],
+          "mean": -4.16,
+          "n": 200
+        }
+      },
+      "candidate_minus_reference_net": {
+        "CONTROL_never_switch": {
+          "ci95": [
+            42.464136034859074,
+            49.04586396514093
+          ],
+          "mean": 45.755,
+          "n": 200
+        },
+        "E_swcert": {
+          "ci95": [
+            -7.092276666804024,
+            3.7087766668040274
+          ],
+          "mean": -1.691749999999998,
+          "n": 200
+        }
+      },
+      "candidate_minus_reference_switches": {
+        "CONTROL_never_switch": {
+          "ci95": [
+            1.5215906301516986,
+            1.7184093698483016
+          ],
+          "mean": 1.62,
+          "n": 200
+        },
+        "E_swcert": {
+          "ci95": [
+            0.347450206960015,
+            0.632549793039985
+          ],
+          "mean": 0.49,
+          "n": 200
+        }
+      },
+      "reference_costs": {
+        "CONTROL_never_switch": {
+          "labels": 0,
+          "loss": 344.27,
+          "mean_first_promotion": null,
+          "mean_rollbacks": 0,
+          "n": 200,
+          "net": 344.27,
+          "promotion_episodes": 0,
+          "switches": 0
+        },
+        "E_swcert": {
+          "labels": 199.635,
+          "loss": 376.085,
+          "mean_first_promotion": 445.13194444444446,
+          "mean_rollbacks": 0.41,
+          "n": 200,
+          "net": 391.71675,
+          "promotion_episodes": 144,
+          "switches": 1.13
+        }
+      }
+    }
+  },
+  "selected_alpha": 0.0005
+}

@@ -33,7 +33,7 @@ def file_record(path: Path) -> dict:
 
 
 def main() -> int:
-    all_sources = None
+    all_sources = []
     code_revisions = set()
     run_index = []
     expected_rows = len(REGIMES) * 20 * len(POLICIES)
@@ -51,10 +51,10 @@ def main() -> int:
             raise SystemExit(f"argv mismatch in {manifest_path}: {manifest.get('argv')}")
         if manifest.get("n_jobs") != len(REGIMES) * 20:
             raise SystemExit(f"job-count mismatch in {manifest_path}")
-        if all_sources is None:
-            all_sources = manifest.get("sources")
-        elif manifest.get("sources") != all_sources:
-            raise SystemExit(f"source hash mismatch in {manifest_path}")
+        sources = manifest.get("sources")
+        if not isinstance(sources, dict):
+            raise SystemExit(f"missing source hashes in {manifest_path}")
+        all_sources.append(sources)
         code_revisions.add(manifest.get("git"))
         seen = set()
         with records_path.open() as records:
@@ -75,8 +75,16 @@ def main() -> int:
         run_index.append({"alpha": alpha, "seed_base": SEED_BASE, "jobs": manifest["n_jobs"],
                           "rows": len(seen), "seconds": manifest["seconds"],
                           "manifest": file_record(manifest_path), "records": file_record(records_path)})
-    if len(code_revisions) != 1:
-        raise SystemExit(f"runs do not share one code revision: {sorted(map(str, code_revisions))}")
+    # Audit/finalizer files changed while this long sequential batch ran. They are not part of
+    # simulation execution. Require every other source fingerprint and source path to match.
+    bookkeeping_sources = {"scripts/sota_sprint/audit_cost_risk_pareto.py",
+                           "scripts/sota_sprint/audit_raw_to_reports.py",
+                           "scripts/sota_sprint/finalize_r_trackr_coverage_followup.py"}
+    source_paths = set().union(*(set(s) for s in all_sources))
+    for path in sorted(source_paths - bookkeeping_sources):
+        fingerprints = {s.get(path) for s in all_sources}
+        if len(fingerprints) != 1:
+            raise SystemExit(f"experimental source hash varies across runs for {path}: {fingerprints}")
     if total_rows != len(ALPHAS) * expected_rows:
         raise SystemExit(f"unexpected total row count: {total_rows}")
     result_json = ROOT / "docs/sprint2/family_r/R_trackR_coverage_followup.json"
@@ -88,7 +96,11 @@ def main() -> int:
     report = {"protocol": "docs/sprint2/family_r/R_trackR_coverage_followup_protocol.md",
               "runner": "scripts/sota_sprint/run_r_trackr_coverage_followup.sh",
               "finalizer": "scripts/sota_sprint/finalize_r_trackr_coverage_followup.py",
-              "finalizer_sha256": sha256(Path(__file__)), "code_revision": next(iter(code_revisions)),
+              "finalizer_sha256": sha256(Path(__file__)),
+              "code_revisions": sorted(str(rev) for rev in code_revisions),
+              "bookkeeping_source_hashes_by_run": [
+                  {path: sources.get(path) for path in sorted(bookkeeping_sources)}
+                  for sources in all_sources],
               "contract": {"alpha_grid": ALPHAS, "regimes": REGIMES, "policies": POLICIES,
                            "seed_base": SEED_BASE, "seeds_per_regime": 20},
               "run_count": len(run_index), "jobs": sum(r["jobs"] for r in run_index),
@@ -97,7 +109,7 @@ def main() -> int:
               "result_markdown": file_record(result_md)}
     out.write_text(json.dumps(report, indent=2) + "\n")
     print(json.dumps({"status": "PASS", "run_count": len(run_index), "jobs": report["jobs"],
-                      "rows": total_rows, "code_revision": report["code_revision"],
+                      "rows": total_rows, "code_revisions": report["code_revisions"],
                       "manifest_index": str(out.relative_to(ROOT))}, indent=2))
     return 0
 

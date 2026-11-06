@@ -73,3 +73,20 @@ economic gate. Exact protocols, raw records, hashes, and analysis are in
 `research/scoped_method/analyze_srr_calibrated_evaluation.py`. The overall decision remains
 **`BENCHMARK_OR_CASE_STUDY_ONLY`**; this additional result does not satisfy the active positive
 repair objective.
+
+## Calibrated E-SR late-improvement screen (2026-11-06)
+
+On 100 fresh paired `F1_late_800` streams, calibrated E-SR alpha 0.0005 cost 365.60, saving
+23.63 [19.40,27.86] versus PFA-SR:Gated adaptive range and 31.34 [26.98,35.69] versus Gated+front.
+It also cost 6.20 less than matched RMM [1.44,10.96]. It was 21.01 [16.64,25.39] costlier than
+Qiu-inspired and 14.39 [8.89,19.89] costlier than Gong-inspired ports; the latter two are not
+author-native published implementations and promoted on 100/100 and 99/100 null streams. On the
+fresh 100-stream null screen, E-SR promoted 2 times and its one-sided 95% Wilson upper bound was
+5.86%, just above the frozen 5% gate (the earlier independent 1,000-stream evaluation at the same
+alpha was 20/1,000, upper 2.87%). In the adverse reversal cell, it cost 45.07 [40.13,50.01] more
+than never-switch. These results show a scoped comparison advantage over certificate-style and
+PFA-SR policies, but fail the frozen all-comparator and null-precision development gates. Since
+E-SR is prior art, this does not establish a new method; no real data was opened. The exact protocol,
+outputs, hashes, and analysis are in `research/scoped_method/pilots/srr_late_improvement_20261106/`
+and `research/scoped_method/analyze_srr_late_improvement.py`. The overall research objective
+remains unresolved.

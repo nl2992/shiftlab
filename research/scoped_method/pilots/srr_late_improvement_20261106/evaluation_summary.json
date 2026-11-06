@@ -1,0 +1,1168 @@
+{
+  "alpha": 0.0005,
+  "candidate": "E_srrSR:gated_deployment",
+  "regimes": {
+    "F0_better": {
+      "candidate": {
+        "labels": 199.99,
+        "loss": 354.16,
+        "mean_first_promotion": 858.6701030927835,
+        "mean_rollbacks": 0,
+        "n": 100,
+        "net": 369.0095,
+        "promotion_episodes": 97,
+        "switches": 0.97
+      },
+      "candidate_minus_reference_net": {
+        "CONTROL_never_switch": {
+          "ci95": [
+            -55.50330494198184,
+            -45.15769505801816
+          ],
+          "mean": -50.3305,
+          "n": 100
+        },
+        "E_rb:gated_adaptive_range": {
+          "ci95": [
+            -11.135243226493575,
+            -2.305756773506425
+          ],
+          "mean": -6.7205,
+          "n": 100
+        },
+        "E_swcert": {
+          "ci95": [
+            -31.500728179191235,
+            -16.375271820808763
+          ],
+          "mean": -23.938,
+          "n": 100
+        },
+        "PFA-SR:gated_adaptive_range": {
+          "ci95": [
+            0.14541878414138765,
+            10.733581215858612
+          ],
+          "mean": 5.4395,
+          "n": 100
+        },
+        "PFA-SR:gated_deployment": {
+          "ci95": [
+            0.07913304141441824,
+            9.979866958585582
+          ],
+          "mean": 5.0295,
+          "n": 100
+        },
+        "SMCS+retain-incumbent": {
+          "ci95": [
+            -10.406244475063009,
+            3.608244475063011
+          ],
+          "mean": -3.3989999999999982,
+          "n": 100
+        },
+        "discern_style": {
+          "ci95": [
+            -65.49245043058141,
+            -55.14354956941859
+          ],
+          "mean": -60.318,
+          "n": 100
+        },
+        "gated_adaptive_range": {
+          "ci95": [
+            -49.599206588973026,
+            -37.67679341102697
+          ],
+          "mean": -43.638,
+          "n": 100
+        },
+        "gated_adaptive_range+front": {
+          "ci95": [
+            1.8520494668729963,
+            12.858950533127002
+          ],
+          "mean": 7.355499999999999,
+          "n": 100
+        },
+        "gong_zhang_paid_obs": {
+          "ci95": [
+            33.689538138463156,
+            41.93646186153685
+          ],
+          "mean": 37.813,
+          "n": 100
+        },
+        "qiu_delayed_movement": {
+          "ci95": [
+            31.00809531266255,
+            39.417904687337455
+          ],
+          "mean": 35.213,
+          "n": 100
+        },
+        "rmm:gated_adaptive_range+RMM": {
+          "ci95": [
+            -11.135243226493575,
+            -2.305756773506425
+          ],
+          "mean": -6.7205,
+          "n": 100
+        }
+      },
+      "references": {
+        "CONTROL_never_switch": {
+          "labels": 0,
+          "loss": 419.34,
+          "mean_first_promotion": null,
+          "mean_rollbacks": 0,
+          "n": 100,
+          "net": 419.34,
+          "promotion_episodes": 0,
+          "switches": 0
+        },
+        "E_rb:gated_adaptive_range": {
+          "labels": 200,
+          "loss": 361.18,
+          "mean_first_promotion": 924.4065934065934,
+          "mean_rollbacks": 0,
+          "n": 100,
+          "net": 375.73,
+          "promotion_episodes": 91,
+          "switches": 0.91
+        },
+        "E_swcert": {
+          "labels": 199.75,
+          "loss": 380.46,
+          "mean_first_promotion": 697.7,
+          "mean_rollbacks": 0,
+          "n": 100,
+          "net": 392.9475,
+          "promotion_episodes": 50,
+          "switches": 0.5
+        },
+        "PFA-SR:gated_adaptive_range": {
+          "labels": 200,
+          "loss": 349.02,
+          "mean_first_promotion": 654.3033707865169,
+          "mean_rollbacks": 0.01,
+          "n": 100,
+          "net": 363.57,
+          "promotion_episodes": 89,
+          "switches": 0.91
+        },
+        "PFA-SR:gated_deployment": {
+          "labels": 200,
+          "loss": 349.28,
+          "mean_first_promotion": 724.4893617021277,
+          "mean_rollbacks": 0,
+          "n": 100,
+          "net": 363.98,
+          "promotion_episodes": 94,
+          "switches": 0.94
+        },
+        "SMCS+retain-incumbent": {
+          "labels": 199.77,
+          "loss": 358.62,
+          "mean_first_promotion": 641.3552631578947,
+          "mean_rollbacks": 0,
+          "n": 100,
+          "net": 372.4085,
+          "promotion_episodes": 76,
+          "switches": 0.76
+        },
+        "discern_style": {
+          "labels": 199.75,
+          "loss": 419.34,
+          "mean_first_promotion": null,
+          "mean_rollbacks": 0,
+          "n": 100,
+          "net": 429.3275,
+          "promotion_episodes": 0,
+          "switches": 0
+        },
+        "gated_adaptive_range": {
+          "labels": 170.75,
+          "loss": 401.91,
+          "mean_first_promotion": 1322,
+          "mean_rollbacks": 0,
+          "n": 100,
+          "net": 412.6475,
+          "promotion_episodes": 44,
+          "switches": 0.44
+        },
+        "gated_adaptive_range+front": {
+          "labels": 132.88,
+          "loss": 350.86,
+          "mean_first_promotion": 602.7469879518072,
+          "mean_rollbacks": 0,
+          "n": 100,
+          "net": 361.654,
+          "promotion_episodes": 83,
+          "switches": 0.83
+        },
+        "gong_zhang_paid_obs": {
+          "labels": 199.73,
+          "loss": 311.51,
+          "mean_first_promotion": 143.7,
+          "mean_rollbacks": 0.47,
+          "n": 100,
+          "net": 331.1965,
+          "promotion_episodes": 100,
+          "switches": 1.94
+        },
+        "qiu_delayed_movement": {
+          "labels": 199.73,
+          "loss": 316.81,
+          "mean_first_promotion": 225.23,
+          "mean_rollbacks": 0.2,
+          "n": 100,
+          "net": 333.7965,
+          "promotion_episodes": 100,
+          "switches": 1.4
+        },
+        "rmm:gated_adaptive_range+RMM": {
+          "labels": 200,
+          "loss": 361.18,
+          "mean_first_promotion": 924.4065934065934,
+          "mean_rollbacks": 0,
+          "n": 100,
+          "net": 375.73,
+          "promotion_episodes": 91,
+          "switches": 0.91
+        }
+      }
+    },
+    "F0_null": {
+      "candidate": {
+        "labels": 200,
+        "loss": 357.59,
+        "mean_first_promotion": 894,
+        "mean_rollbacks": 0,
+        "n": 100,
+        "net": 367.69,
+        "promotion_episodes": 2,
+        "switches": 0.02
+      },
+      "candidate_minus_reference_net": {
+        "CONTROL_never_switch": {
+          "ci95": [
+            9.531705851520416,
+            10.168294148479584
+          ],
+          "mean": 9.85,
+          "n": 100
+        },
+        "E_rb:gated_adaptive_range": {
+          "ci95": [
+            -0.9068422226530315,
+            0.16884222265303195
+          ],
+          "mean": -0.3689999999999998,
+          "n": 100
+        },
+        "E_swcert": {
+          "ci95": [
+            -0.7636940076312978,
+            0.16069400763130393
+          ],
+          "mean": -0.30149999999999694,
+          "n": 100
+        },
+        "PFA-SR:gated_adaptive_range": {
+          "ci95": [
+            -0.4682941484795835,
+            0.1682941484795835
+          ],
+          "mean": -0.15,
+          "n": 100
+        },
+        "PFA-SR:gated_deployment": {
+          "ci95": [
+            -0.4382752076414748,
+            0.21927520764147507
+          ],
+          "mean": -0.10949999999999989,
+          "n": 100
+        },
+        "SMCS+retain-incumbent": {
+          "ci95": [
+            -0.8189620172323749,
+            0.16396201723238057
+          ],
+          "mean": -0.3274999999999972,
+          "n": 100
+        },
+        "discern_style": {
+          "ci95": [
+            -0.4507421313210727,
+            0.18674213132107748
+          ],
+          "mean": -0.13199999999999762,
+          "n": 100
+        },
+        "gated_adaptive_range": {
+          "ci95": [
+            -0.44981155722104016,
+            0.1878115572210465
+          ],
+          "mean": -0.1309999999999968,
+          "n": 100
+        },
+        "gated_adaptive_range+front": {
+          "ci95": [
+            -0.4682941484795835,
+            0.1682941484795835
+          ],
+          "mean": -0.15,
+          "n": 100
+        },
+        "gong_zhang_paid_obs": {
+          "ci95": [
+            -38.34258410757611,
+            -26.85941589242389
+          ],
+          "mean": -32.601,
+          "n": 100
+        },
+        "qiu_delayed_movement": {
+          "ci95": [
+            -23.800236699215066,
+            -15.502763300784931
+          ],
+          "mean": -19.6515,
+          "n": 100
+        },
+        "rmm:gated_adaptive_range+RMM": {
+          "ci95": [
+            -0.9068422226530315,
+            0.16884222265303195
+          ],
+          "mean": -0.3689999999999998,
+          "n": 100
+        }
+      },
+      "one_sided_95_wilson_upper": 0.05864836835683519,
+      "references": {
+        "CONTROL_never_switch": {
+          "labels": 0,
+          "loss": 357.84,
+          "mean_first_promotion": null,
+          "mean_rollbacks": 0,
+          "n": 100,
+          "net": 357.84,
+          "promotion_episodes": 0,
+          "switches": 0
+        },
+        "E_rb:gated_adaptive_range": {
+          "labels": 199.98,
+          "loss": 358.01,
+          "mean_first_promotion": 753,
+          "mean_rollbacks": 0,
+          "n": 100,
+          "net": 368.059,
+          "promotion_episodes": 1,
+          "switches": 0.01
+        },
+        "E_swcert": {
+          "labels": 199.63,
+          "loss": 357.96,
+          "mean_first_promotion": 248,
+          "mean_rollbacks": 0,
+          "n": 100,
+          "net": 367.9915,
+          "promotion_episodes": 1,
+          "switches": 0.01
+        },
+        "PFA-SR:gated_adaptive_range": {
+          "labels": 200,
+          "loss": 357.84,
+          "mean_first_promotion": null,
+          "mean_rollbacks": 0,
+          "n": 100,
+          "net": 367.84,
+          "promotion_episodes": 0,
+          "switches": 0
+        },
+        "PFA-SR:gated_deployment": {
+          "labels": 199.99,
+          "loss": 357.75,
+          "mean_first_promotion": 1067,
+          "mean_rollbacks": 0,
+          "n": 100,
+          "net": 367.7995,
+          "promotion_episodes": 1,
+          "switches": 0.01
+        },
+        "SMCS+retain-incumbent": {
+          "labels": 199.75,
+          "loss": 357.93,
+          "mean_first_promotion": 422.5,
+          "mean_rollbacks": 0,
+          "n": 100,
+          "net": 368.0175,
+          "promotion_episodes": 2,
+          "switches": 0.02
+        },
+        "discern_style": {
+          "labels": 199.64,
+          "loss": 357.84,
+          "mean_first_promotion": null,
+          "mean_rollbacks": 0,
+          "n": 100,
+          "net": 367.822,
+          "promotion_episodes": 0,
+          "switches": 0
+        },
+        "gated_adaptive_range": {
+          "labels": 199.62,
+          "loss": 357.84,
+          "mean_first_promotion": null,
+          "mean_rollbacks": 0,
+          "n": 100,
+          "net": 367.82099999999997,
+          "promotion_episodes": 0,
+          "switches": 0
+        },
+        "gated_adaptive_range+front": {
+          "labels": 200,
+          "loss": 357.84,
+          "mean_first_promotion": null,
+          "mean_rollbacks": 0,
+          "n": 100,
+          "net": 367.84,
+          "promotion_episodes": 0,
+          "switches": 0
+        },
+        "gong_zhang_paid_obs": {
+          "labels": 199.62,
+          "loss": 356.51,
+          "mean_first_promotion": 209.83838383838383,
+          "mean_rollbacks": 3.12,
+          "n": 100,
+          "net": 400.291,
+          "promotion_episodes": 99,
+          "switches": 6.76
+        },
+        "qiu_delayed_movement": {
+          "labels": 199.63,
+          "loss": 356.36,
+          "mean_first_promotion": 459.55,
+          "mean_rollbacks": 1.84,
+          "n": 100,
+          "net": 387.3415,
+          "promotion_episodes": 100,
+          "switches": 4.2
+        },
+        "rmm:gated_adaptive_range+RMM": {
+          "labels": 199.98,
+          "loss": 358.01,
+          "mean_first_promotion": 753,
+          "mean_rollbacks": 0,
+          "n": 100,
+          "net": 368.059,
+          "promotion_episodes": 1,
+          "switches": 0.01
+        }
+      }
+    },
+    "F1_late_1200": {
+      "candidate": {
+        "labels": 199.99,
+        "loss": 362.29,
+        "mean_first_promotion": 1731.0172413793102,
+        "mean_rollbacks": 0,
+        "n": 100,
+        "net": 375.1895,
+        "promotion_episodes": 58,
+        "switches": 0.58
+      },
+      "candidate_minus_reference_net": {
+        "CONTROL_never_switch": {
+          "ci95": [
+            -5.865684450000617,
+            0.644684450000617
+          ],
+          "mean": -2.6105,
+          "n": 100
+        },
+        "E_rb:gated_adaptive_range": {
+          "ci95": [
+            -8.312926883773631,
+            -0.8880731162263693
+          ],
+          "mean": -4.6005,
+          "n": 100
+        },
+        "E_swcert": {
+          "ci95": [
+            -8.309668586437287,
+            -1.3313314135627108
+          ],
+          "mean": -4.820499999999998,
+          "n": 100
+        },
+        "PFA-SR:gated_adaptive_range": {
+          "ci95": [
+            -15.452053260066489,
+            -8.80894673993351
+          ],
+          "mean": -12.1305,
+          "n": 100
+        },
+        "PFA-SR:gated_deployment": {
+          "ci95": [
+            -15.029422534456351,
+            -8.591577465543647
+          ],
+          "mean": -11.8105,
+          "n": 100
+        },
+        "SMCS+retain-incumbent": {
+          "ci95": [
+            -15.854949000176813,
+            -9.344050999823185
+          ],
+          "mean": -12.599499999999999,
+          "n": 100
+        },
+        "discern_style": {
+          "ci95": [
+            -15.852002066438875,
+            -9.34099793356112
+          ],
+          "mean": -12.596499999999997,
+          "n": 100
+        },
+        "gated_adaptive_range": {
+          "ci95": [
+            -15.791044801376948,
+            -9.28295519862305
+          ],
+          "mean": -12.536999999999999,
+          "n": 100
+        },
+        "gated_adaptive_range+front": {
+          "ci95": [
+            -15.22098718900021,
+            -8.699012810999792
+          ],
+          "mean": -11.96,
+          "n": 100
+        },
+        "gong_zhang_paid_obs": {
+          "ci95": [
+            5.1872965548074665,
+            16.716703445192536
+          ],
+          "mean": 10.952000000000002,
+          "n": 100
+        },
+        "qiu_delayed_movement": {
+          "ci95": [
+            17.331142821103445,
+            25.34685717889656
+          ],
+          "mean": 21.339000000000002,
+          "n": 100
+        },
+        "rmm:gated_adaptive_range+RMM": {
+          "ci95": [
+            -8.312926883773631,
+            -0.8880731162263693
+          ],
+          "mean": -4.6005,
+          "n": 100
+        }
+      },
+      "references": {
+        "CONTROL_never_switch": {
+          "labels": 0,
+          "loss": 377.8,
+          "mean_first_promotion": null,
+          "mean_rollbacks": 0,
+          "n": 100,
+          "net": 377.8,
+          "promotion_episodes": 0,
+          "switches": 0
+        },
+        "E_rb:gated_adaptive_range": {
+          "labels": 200,
+          "loss": 367.99,
+          "mean_first_promotion": 1732.2222222222222,
+          "mean_rollbacks": 0,
+          "n": 100,
+          "net": 379.79,
+          "promotion_episodes": 36,
+          "switches": 0.36
+        },
+        "E_swcert": {
+          "labels": 199.8,
+          "loss": 367.17,
+          "mean_first_promotion": 1805.2105263157894,
+          "mean_rollbacks": 0,
+          "n": 100,
+          "net": 380.01,
+          "promotion_episodes": 57,
+          "switches": 0.57
+        },
+        "PFA-SR:gated_adaptive_range": {
+          "labels": 200,
+          "loss": 377.17,
+          "mean_first_promotion": 1823,
+          "mean_rollbacks": 0,
+          "n": 100,
+          "net": 387.32,
+          "promotion_episodes": 3,
+          "switches": 0.03
+        },
+        "PFA-SR:gated_deployment": {
+          "labels": 200,
+          "loss": 376.65,
+          "mean_first_promotion": 1820.142857142857,
+          "mean_rollbacks": 0,
+          "n": 100,
+          "net": 387.0,
+          "promotion_episodes": 7,
+          "switches": 0.07
+        },
+        "SMCS+retain-incumbent": {
+          "labels": 199.78,
+          "loss": 377.8,
+          "mean_first_promotion": null,
+          "mean_rollbacks": 0,
+          "n": 100,
+          "net": 387.789,
+          "promotion_episodes": 0,
+          "switches": 0
+        },
+        "discern_style": {
+          "labels": 199.72,
+          "loss": 377.8,
+          "mean_first_promotion": null,
+          "mean_rollbacks": 0,
+          "n": 100,
+          "net": 387.786,
+          "promotion_episodes": 0,
+          "switches": 0
+        },
+        "gated_adaptive_range": {
+          "labels": 198.53,
+          "loss": 377.8,
+          "mean_first_promotion": null,
+          "mean_rollbacks": 0,
+          "n": 100,
+          "net": 387.7265,
+          "promotion_episodes": 0,
+          "switches": 0
+        },
+        "gated_adaptive_range+front": {
+          "labels": 186.99,
+          "loss": 377.8,
+          "mean_first_promotion": null,
+          "mean_rollbacks": 0,
+          "n": 100,
+          "net": 387.1495,
+          "promotion_episodes": 0,
+          "switches": 0
+        },
+        "gong_zhang_paid_obs": {
+          "labels": 199.75,
+          "loss": 330.3,
+          "mean_first_promotion": 549.7171717171717,
+          "mean_rollbacks": 1.91,
+          "n": 100,
+          "net": 364.2375,
+          "promotion_episodes": 99,
+          "switches": 4.79
+        },
+        "qiu_delayed_movement": {
+          "labels": 199.81,
+          "loss": 331.96,
+          "mean_first_promotion": 842.34,
+          "mean_rollbacks": 0.69,
+          "n": 100,
+          "net": 353.8505,
+          "promotion_episodes": 100,
+          "switches": 2.38
+        },
+        "rmm:gated_adaptive_range+RMM": {
+          "labels": 200,
+          "loss": 367.99,
+          "mean_first_promotion": 1732.2222222222222,
+          "mean_rollbacks": 0,
+          "n": 100,
+          "net": 379.79,
+          "promotion_episodes": 36,
+          "switches": 0.36
+        }
+      }
+    },
+    "F1_late_800": {
+      "candidate": {
+        "labels": 200,
+        "loss": 351.4,
+        "mean_first_promotion": 1430.2857142857142,
+        "mean_rollbacks": 0,
+        "n": 100,
+        "net": 365.6,
+        "promotion_episodes": 84,
+        "switches": 0.84
+      },
+      "candidate_minus_reference_net": {
+        "CONTROL_never_switch": {
+          "ci95": [
+            -26.966504856202228,
+            -18.353495143797772
+          ],
+          "mean": -22.66,
+          "n": 100
+        },
+        "E_rb:gated_adaptive_range": {
+          "ci95": [
+            -10.960032455593453,
+            -1.4399675444065485
+          ],
+          "mean": -6.2,
+          "n": 100
+        },
+        "E_swcert": {
+          "ci95": [
+            -21.809210337232983,
+            -12.300789662767018
+          ],
+          "mean": -17.055,
+          "n": 100
+        },
+        "PFA-SR:gated_adaptive_range": {
+          "ci95": [
+            -27.856614373298708,
+            -19.402385626701292
+          ],
+          "mean": -23.6295,
+          "n": 100
+        },
+        "PFA-SR:gated_deployment": {
+          "ci95": [
+            -28.477275139139334,
+            -19.882724860860666
+          ],
+          "mean": -24.18,
+          "n": 100
+        },
+        "SMCS+retain-incumbent": {
+          "ci95": [
+            -36.9540631203741,
+            -28.3409368796259
+          ],
+          "mean": -32.6475,
+          "n": 100
+        },
+        "discern_style": {
+          "ci95": [
+            -36.94929088264656,
+            -28.337709117353434
+          ],
+          "mean": -32.643499999999996,
+          "n": 100
+        },
+        "gated_adaptive_range": {
+          "ci95": [
+            -36.53909067576217,
+            -27.944909324237827
+          ],
+          "mean": -32.242,
+          "n": 100
+        },
+        "gated_adaptive_range+front": {
+          "ci95": [
+            -35.69309213440375,
+            -26.98090786559625
+          ],
+          "mean": -31.337,
+          "n": 100
+        },
+        "gong_zhang_paid_obs": {
+          "ci95": [
+            8.892061472243727,
+            19.893938527756276
+          ],
+          "mean": 14.393,
+          "n": 100
+        },
+        "qiu_delayed_movement": {
+          "ci95": [
+            16.63682638775642,
+            25.38917361224358
+          ],
+          "mean": 21.013,
+          "n": 100
+        },
+        "rmm:gated_adaptive_range+RMM": {
+          "ci95": [
+            -10.960032455593453,
+            -1.4399675444065485
+          ],
+          "mean": -6.2,
+          "n": 100
+        }
+      },
+      "references": {
+        "CONTROL_never_switch": {
+          "labels": 0,
+          "loss": 388.26,
+          "mean_first_promotion": null,
+          "mean_rollbacks": 0,
+          "n": 100,
+          "net": 388.26,
+          "promotion_episodes": 0,
+          "switches": 0
+        },
+        "E_rb:gated_adaptive_range": {
+          "labels": 200,
+          "loss": 358.2,
+          "mean_first_promotion": 1471.361111111111,
+          "mean_rollbacks": 0,
+          "n": 100,
+          "net": 371.8,
+          "promotion_episodes": 72,
+          "switches": 0.72
+        },
+        "E_swcert": {
+          "labels": 199.7,
+          "loss": 370.12,
+          "mean_first_promotion": 1538.7843137254902,
+          "mean_rollbacks": 0,
+          "n": 100,
+          "net": 382.655,
+          "promotion_episodes": 51,
+          "switches": 0.51
+        },
+        "PFA-SR:gated_adaptive_range": {
+          "labels": 199.99,
+          "loss": 377.53,
+          "mean_first_promotion": 1610.8235294117646,
+          "mean_rollbacks": 0,
+          "n": 100,
+          "net": 389.2295,
+          "promotion_episodes": 34,
+          "switches": 0.34
+        },
+        "PFA-SR:gated_deployment": {
+          "labels": 200,
+          "loss": 377.98,
+          "mean_first_promotion": 1632.2222222222222,
+          "mean_rollbacks": 0,
+          "n": 100,
+          "net": 389.78,
+          "promotion_episodes": 36,
+          "switches": 0.36
+        },
+        "SMCS+retain-incumbent": {
+          "labels": 199.75,
+          "loss": 388.26,
+          "mean_first_promotion": null,
+          "mean_rollbacks": 0,
+          "n": 100,
+          "net": 398.2475,
+          "promotion_episodes": 0,
+          "switches": 0
+        },
+        "discern_style": {
+          "labels": 199.67,
+          "loss": 388.26,
+          "mean_first_promotion": null,
+          "mean_rollbacks": 0,
+          "n": 100,
+          "net": 398.2435,
+          "promotion_episodes": 0,
+          "switches": 0
+        },
+        "gated_adaptive_range": {
+          "labels": 194.04,
+          "loss": 388.09,
+          "mean_first_promotion": 1764,
+          "mean_rollbacks": 0,
+          "n": 100,
+          "net": 397.842,
+          "promotion_episodes": 1,
+          "switches": 0.01
+        },
+        "gated_adaptive_range+front": {
+          "labels": 173.54,
+          "loss": 388.26,
+          "mean_first_promotion": null,
+          "mean_rollbacks": 0,
+          "n": 100,
+          "net": 396.937,
+          "promotion_episodes": 0,
+          "switches": 0
+        },
+        "gong_zhang_paid_obs": {
+          "labels": 199.74,
+          "loss": 320.22,
+          "mean_first_promotion": 497.17,
+          "mean_rollbacks": 1.6,
+          "n": 100,
+          "net": 351.207,
+          "promotion_episodes": 100,
+          "switches": 4.2
+        },
+        "qiu_delayed_movement": {
+          "labels": 199.74,
+          "loss": 323.8,
+          "mean_first_promotion": 744.37,
+          "mean_rollbacks": 0.58,
+          "n": 100,
+          "net": 344.587,
+          "promotion_episodes": 100,
+          "switches": 2.16
+        },
+        "rmm:gated_adaptive_range+RMM": {
+          "labels": 200,
+          "loss": 358.2,
+          "mean_first_promotion": 1471.361111111111,
+          "mean_rollbacks": 0,
+          "n": 100,
+          "net": 371.8,
+          "promotion_episodes": 72,
+          "switches": 0.72
+        }
+      }
+    },
+    "F3_reversal_800": {
+      "candidate": {
+        "labels": 200,
+        "loss": 368.94,
+        "mean_first_promotion": 550.2747252747253,
+        "mean_rollbacks": 0.86,
+        "n": 100,
+        "net": 387.79,
+        "promotion_episodes": 91,
+        "switches": 1.77
+      },
+      "candidate_minus_reference_net": {
+        "CONTROL_never_switch": {
+          "ci95": [
+            40.130768189244705,
+            50.009231810755296
+          ],
+          "mean": 45.07,
+          "n": 100
+        },
+        "E_rb:gated_adaptive_range": {
+          "ci95": [
+            -3.129243317629057,
+            9.649243317629058
+          ],
+          "mean": 3.26,
+          "n": 100
+        },
+        "E_swcert": {
+          "ci95": [
+            -8.147854197127158,
+            7.268854197127161
+          ],
+          "mean": -0.43949999999999817,
+          "n": 100
+        },
+        "PFA-SR:gated_adaptive_range": {
+          "ci95": [
+            -24.455780321096704,
+            -11.784219678903298
+          ],
+          "mean": -18.12,
+          "n": 100
+        },
+        "PFA-SR:gated_deployment": {
+          "ci95": [
+            -20.717582852084146,
+            -8.362417147915853
+          ],
+          "mean": -14.54,
+          "n": 100
+        },
+        "SMCS+retain-incumbent": {
+          "ci95": [
+            -32.460910000684535,
+            -15.851089999315459
+          ],
+          "mean": -24.156,
+          "n": 100
+        },
+        "discern_style": {
+          "ci95": [
+            30.141748652388586,
+            40.022251347611416
+          ],
+          "mean": 35.082,
+          "n": 100
+        },
+        "gated_adaptive_range": {
+          "ci95": [
+            -10.5398504077914,
+            10.369850407791398
+          ],
+          "mean": -0.085,
+          "n": 100
+        },
+        "gated_adaptive_range+front": {
+          "ci95": [
+            -37.00312382752864,
+            -24.231876172471353
+          ],
+          "mean": -30.617499999999996,
+          "n": 100
+        },
+        "gong_zhang_paid_obs": {
+          "ci95": [
+            36.8930839608974,
+            48.455916039102604
+          ],
+          "mean": 42.6745,
+          "n": 100
+        },
+        "qiu_delayed_movement": {
+          "ci95": [
+            33.60336864831716,
+            44.64363135168284
+          ],
+          "mean": 39.1235,
+          "n": 100
+        },
+        "rmm:gated_adaptive_range+RMM": {
+          "ci95": [
+            -12.26245042052788,
+            1.8634504205278812
+          ],
+          "mean": -5.1995,
+          "n": 100
+        }
+      },
+      "references": {
+        "CONTROL_never_switch": {
+          "labels": 0,
+          "loss": 342.72,
+          "mean_first_promotion": null,
+          "mean_rollbacks": 0,
+          "n": 100,
+          "net": 342.72,
+          "promotion_episodes": 0,
+          "switches": 0
+        },
+        "E_rb:gated_adaptive_range": {
+          "labels": 200,
+          "loss": 366.43,
+          "mean_first_promotion": 548.0823529411765,
+          "mean_rollbacks": 0.77,
+          "n": 100,
+          "net": 384.53,
+          "promotion_episodes": 85,
+          "switches": 1.62
+        },
+        "E_swcert": {
+          "labels": 199.79,
+          "loss": 372.49,
+          "mean_first_promotion": 412.8333333333333,
+          "mean_rollbacks": 0.43,
+          "n": 100,
+          "net": 388.2295,
+          "promotion_episodes": 72,
+          "switches": 1.15
+        },
+        "PFA-SR:gated_adaptive_range": {
+          "labels": 200,
+          "loss": 388.91,
+          "mean_first_promotion": 446.89473684210526,
+          "mean_rollbacks": 0.45,
+          "n": 100,
+          "net": 405.91,
+          "promotion_episodes": 95,
+          "switches": 1.4
+        },
+        "PFA-SR:gated_deployment": {
+          "labels": 200,
+          "loss": 385.33,
+          "mean_first_promotion": 455.75,
+          "mean_rollbacks": 0.48,
+          "n": 100,
+          "net": 402.33,
+          "promotion_episodes": 92,
+          "switches": 1.4
+        },
+        "SMCS+retain-incumbent": {
+          "labels": 199.72,
+          "loss": 397.81,
+          "mean_first_promotion": 441.71084337349396,
+          "mean_rollbacks": 0,
+          "n": 100,
+          "net": 411.946,
+          "promotion_episodes": 83,
+          "switches": 0.83
+        },
+        "discern_style": {
+          "labels": 199.76,
+          "loss": 342.72,
+          "mean_first_promotion": null,
+          "mean_rollbacks": 0,
+          "n": 100,
+          "net": 352.708,
+          "promotion_episodes": 0,
+          "switches": 0
+        },
+        "gated_adaptive_range": {
+          "labels": 145.7,
+          "loss": 378.54,
+          "mean_first_promotion": 693.2682926829268,
+          "mean_rollbacks": 0,
+          "n": 100,
+          "net": 387.875,
+          "promotion_episodes": 41,
+          "switches": 0.41
+        },
+        "gated_adaptive_range+front": {
+          "labels": 92.75,
+          "loss": 408.87,
+          "mean_first_promotion": 451.6326530612245,
+          "mean_rollbacks": 0,
+          "n": 100,
+          "net": 418.40749999999997,
+          "promotion_episodes": 98,
+          "switches": 0.98
+        },
+        "gong_zhang_paid_obs": {
+          "labels": 199.71,
+          "loss": 319.73,
+          "mean_first_promotion": 138.59,
+          "mean_rollbacks": 1.54,
+          "n": 100,
+          "net": 345.1155,
+          "promotion_episodes": 100,
+          "switches": 3.08
+        },
+        "qiu_delayed_movement": {
+          "labels": 199.73,
+          "loss": 327.98,
+          "mean_first_promotion": 199.98,
+          "mean_rollbacks": 1.07,
+          "n": 100,
+          "net": 348.6665,
+          "promotion_episodes": 100,
+          "switches": 2.14
+        },
+        "rmm:gated_adaptive_range+RMM": {
+          "labels": 199.99,
+          "loss": 375.34,
+          "mean_first_promotion": 548.0823529411765,
+          "mean_rollbacks": 0.68,
+          "n": 100,
+          "net": 392.9895,
+          "promotion_episodes": 85,
+          "switches": 1.53
+        }
+      }
+    }
+  },
+  "seed_base": 7110601103
+}

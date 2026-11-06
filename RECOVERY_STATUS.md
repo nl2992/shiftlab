@@ -4,7 +4,7 @@
 **Branch:** `codex/scoped-method-research-results-2026-11-06`  
 **Starting revision:** `e7f4dca60c3a39c5a97ceb21efb4b311d2d96e8b`  
 **Repair commits:** `82e1c48e` (`Fix Ruff lint and formatting checks`), `4dddf965` (disambiguate the FLQ regime import), and `f9b8db02` (support pinned baseline imports in shallow checkouts).  
-**Status:** Ruff, format, typing and focused tests pass. Full pytest is running in GitHub Actions run `42188683332` and locally; no merge to `main`.
+**Status:** The full suite on the previous source snapshot failed in GitHub Actions run `42192207364`: 94 failed, 3,238 passed, 46 skipped. The failure classes have been repaired locally and focused verification passes; a full rerun on the repair commit is required. No merge to `main`.
 
 ## Reproduction of Actions run 42179919497
 
@@ -62,10 +62,39 @@ The same collision blocked collection of `tests/sota_sprint/test_fam_c.py`, `tes
 
 The next CI attempt then exposed a second collection issue: shallow `actions/checkout` did not contain pinned commit `041bc26`, so the B3 loaders could neither compare against nor extract that historical object. The checked-in baseline file is byte-identical to the pinned file (SHA-256 `7565a647f3bb3f940d4fbd2a948597b9ffe42ef0485550a771d137e7930baebd`). Both loaders now accept the file by this pinned digest and otherwise require a successful `git show`. Targeted verification: `uv run pytest -q tests/promising_directions/test_b3_plus_policy.py tests/promising_directions/test_b3_real_data.py` — 25 passed.
 
+## Latest full-suite failure and repair status
+
+The Actions run [42192207364](https://github.com/nl2992/shiftlab/actions/runs/42192207364) completed on source snapshot `c699b4b4` with **94 failed, 3,238 passed, 46 skipped** in 1:25:49. The captured runner log is `/tmp/shiftlab-421922-ci.log`. Failure causes were:
+
+- 85 FAM B/C/M and late-real tests saw a test-module `registry` name collision; the B3 test loader now scopes that module and restores `sys.modules`.
+- FAM P/WP2 had the same polluted registry; the pytest path now includes the SOTA simulator directory.
+- FAM R's test imported `StartedMixture` from the wrong module; it now imports the implementation from `qsg`.
+- A front-loading stochastic test used a platform-sensitive maximum; it now asserts at least 90% of labels are purchased before half-horizon.
+- The mechanism-check smoke test depended on ignored output state; it now supplies `--kappa 0.05` explicitly.
+- A delayed-evidence test relied on a stale calibration source hash after the e-process implementation changed. It now checks that stale calibration is rejected; the old calibration is not rewritten or represented as current evidence.
+- H-GXH2C stage 4 omitted selector alarm/metadata fields; the selector input now includes them. Its scale test is reduced from 648×1,000 cells/seeds and 50×4,000 resamples to 324×500 and 10×2,000; local runtime is 77.24s.
+- The ShiftGuard reference manifest contained an obsolete e-process hash. It now records the current source hash and preserves the superseded hash and explanation; the implementation change was alarm-read memoization only, not an update to the betting/wealth equations.
+
+Local verification on the repair patch:
+
+| Command | Result |
+|---|---|
+| `uv run ruff check .` | PASS |
+| `uv run ruff format --check .` | PASS — 2,001 files already formatted |
+| `uv run mypy` | PASS — no issues in 2 source files |
+| `uv run pytest --collect-only -q` | PASS — 3,378 tests collected in 5.41s |
+| Order-sensitive FAM/B3/FAM-P/R/WP2 subset | PASS — 141 passed in 67.54s |
+| Front-loading, atlas smoke, stale-calibration rejection, reference manifest | PASS — 4 passed |
+| H-GXH2C stage 3/4 smoke | PASS — 1 passed in 48.04s |
+| H-GXH2C scale test | PASS — 1 passed in 77.24s |
+| `git diff --check` | PASS |
+
+The new code/test fixes have not yet passed a full suite. CI run `42192207364` is not evidence of a passing full suite, and rejecting the stale calibration leaves that prior PPI confirmation unauthorized until a current calibration is generated. Neither caveat changes the bounded economic-headroom decision recorded below.
+
 ## Change scope and next action
 
 The repair commit contains Ruff-reported fixes and formatter output only: 137 source/test files changed (including 20 executable-bit corrections for shebang scripts). `src/shiftlab.egg-info/SOURCES.txt` and local Graphify cache/hook files were not included. No dependency lock, research result, or prior registered experiment record was changed.
 
-The current branch is `6299987e`; its code is identical to the source snapshot at `c699b4b4` (the later commit changes documentation only). CI run [42192207364](https://github.com/nl2992/shiftlab/actions/runs/42192207364) on that exact source passed locked dependency setup, `ruff check`, `ruff format --check`, and `mypy`; full pytest is still in progress. A local collection-only check passed: `uv run pytest --collect-only -q` — 3,378 tests collected in 6.55s. Older duplicate run [42189641802](https://github.com/nl2992/shiftlab/actions/runs/42189641802) at prior revision `469ee3c0` was cancelled after the current-source run was active. The duplicate doc-only run [42193148296](https://github.com/nl2992/shiftlab/actions/runs/42193148296) was also cancelled; its lint/format/type checks had passed, but it repeated the same source tests. A later workflow on unrelated revision `0970dbc2` failed Ruff; it is not this branch head and does not invalidate the successful Ruff result on `c699b4b4`. The local full suite was stopped after remaining CPU-bound for over an hour without a result; focused suites passed, so CI remains authoritative. No test failure was observed in the stopped local run. The economic headroom checkpoint and bounded composition pilot are recorded separately in `research/scoped_method/ECONOMIC_HEADROOM_DECISION_20261106.md`.
+The branch before this repair was `6299987e`; its code was identical to source snapshot `c699b4b4` (a later commit changed documentation only). Older duplicate run [42189641802](https://github.com/nl2992/shiftlab/actions/runs/42189641802) at prior revision `469ee3c0` was cancelled. The duplicate doc-only run [42193148296](https://github.com/nl2992/shiftlab/actions/runs/42193148296) was also cancelled after its checks passed. A later workflow on unrelated revision `0970dbc2` is outside this branch. The economic headroom checkpoint and bounded composition pilot are recorded separately in `research/scoped_method/ECONOMIC_HEADROOM_DECISION_20261106.md`.
 
-Phase 0 remains open until the source-equivalent full pytest run finishes and `validate_environment.py` completes. The local `validate_environment.py` command passed. The latest branch commit since the active test changes documentation and manifests only. Local exact locked sync is not possible on macOS arm64 because the lock pins CUDA-only `torch==2.9.1+cu130`; CI is the authoritative environment for that exact workflow. Any code push after this checkpoint triggers a fresh workflow on the updated revision.
+Phase 0 remains open until full pytest and `validate_environment.py` complete on the repair commit. Local `validate_environment.py` passed on the prior source. Local exact locked sync is not possible on macOS arm64 because the lock pins CUDA-only `torch==2.9.1+cu130`; CI is authoritative for that workflow. Pushing the repair commit starts the required CI rerun.

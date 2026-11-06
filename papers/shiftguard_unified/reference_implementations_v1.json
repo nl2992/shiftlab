@@ -12,7 +12,7 @@
     "q1_dive_direct_paired_cost_monitor": {
       "status": "frozen_component_reference",
       "implementation": [
-        {"path": "src/shiftlab/dive/eprocess.py", "sha256": "a9355d3883118ed32039feafe0db0b01fd8824dfbaed2e3d70e6710964565d41", "symbol": "BoundedMeanEProcess"},
+        {"path": "src/shiftlab/dive/eprocess.py", "sha256": "676515df8b58fdcc723a71fd5c2e2f85d4dca35291c67d82c525d95520a2bde9", "symbol": "BoundedMeanEProcess", "superseded_sha256": "a9355d3883118ed32039feafe0db0b01fd8824dfbaed2e3d70e6710964565d41", "provenance_note": "The tracked file now memoizes alarm reads by (time, alpha); update and wealth equations are unchanged."},
         {"path": "src/shiftlab/dive/integrated_pipeline.py", "sha256": "657de5c973f8866db0e018fa6a0b131b83290d013b73275d391f395ede4bcfdc", "symbol": "run_seed / direct monitor path"}
       ],
       "tests": [

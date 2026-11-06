@@ -8,6 +8,7 @@ saved-results check only reads files already written by a screening run and skip
 from __future__ import annotations
 
 import copy
+import importlib.util
 import json
 import sys
 from pathlib import Path
@@ -21,11 +22,28 @@ DISC = ROOT / "research/b3_plus/dataset_discovery"
 sys.path.insert(0, str(DISC))
 sys.path.insert(0, str(ROOT / "scripts/promising_directions"))
 
-import construct_model_pairs as cmp
-import dataset_sources as dsrc
-import registry as reg
-import screen_candidate as sc
-import validate_stream as vs
+_REGISTRY_SPEC = importlib.util.spec_from_file_location(
+    "b3_dataset_discovery_registry", DISC / "registry.py"
+)
+assert _REGISTRY_SPEC is not None and _REGISTRY_SPEC.loader is not None
+reg = importlib.util.module_from_spec(_REGISTRY_SPEC)
+sys.modules[_REGISTRY_SPEC.name] = reg
+_REGISTRY_SPEC.loader.exec_module(reg)
+
+# These legacy scripts import a top-level `registry`; bind it only while importing their
+# modules, then restore any distinct registry owned by another test suite.
+_previous_registry = sys.modules.get("registry")
+sys.modules["registry"] = reg
+try:
+    import construct_model_pairs as cmp
+    import dataset_sources as dsrc
+    import screen_candidate as sc
+    import validate_stream as vs
+finally:
+    if _previous_registry is None:
+        sys.modules.pop("registry", None)
+    else:
+        sys.modules["registry"] = _previous_registry
 
 
 # ------------------------------------------------------------------------------ helpers

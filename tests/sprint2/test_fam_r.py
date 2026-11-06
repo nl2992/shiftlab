@@ -16,6 +16,7 @@ sys.path.insert(0, str(ROOT / "scripts/sota_sprint"))
 import fam_a
 import fam_r
 from fam_r import EXTRA, LAMS, CondMeanEP, MarkovSUIPlus
+from qsg import StartedMixture
 from regimes import REGIMES
 from simulator import check_budget_feasible, policy_rng, run_episode
 from suite import stream_from_losses
@@ -151,7 +152,7 @@ def test_cm_controls_weak_null_where_started_mixture_does_not():
     n = 300
     for _ in range(n):
         z = (rng.random(len(ps)) < ps).astype(int)
-        cm, sm = CondMeanEP(), fam_r.StartedMixture(+1)
+        cm, sm = CondMeanEP(), StartedMixture(+1)
         mcm = msm = 0.0
         for zi in z:
             mcm = max(mcm, cm.update(float(zi)))

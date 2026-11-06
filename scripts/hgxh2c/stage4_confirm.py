@@ -206,11 +206,11 @@ def analyse(sh, fin, sel, bases, secondary, fcs, fr, a, out):
     for i in ids:
         method = orig.get(i, i)
         cols = ["cell_id", "seed", "J_cost"]
-        if method in bases or method in final_ids:
+        if method in bases or method in final_ids or method == "selector":
             cols.append("alarm_J")
-        if method == ref_id or method in final_ids:
+        if method == ref_id or method in final_ids or method == "selector":
             cols.extend(meta_cols)
-        if method in final_ids:
+        if method in final_ids or method == "selector":
             cols.extend(cost_cols)
         files = sorted((sh / i).glob("*.parquet"))
         d = pd.concat([pd.read_parquet(f, columns=cols) for f in files], ignore_index=True)

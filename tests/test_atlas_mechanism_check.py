@@ -17,6 +17,8 @@ def test_mechanism_check_smoke(tmp_path):
             "4",
             "--workers",
             "4",
+            "--kappa",
+            "0.05",
             "--out",
             str(tmp_path),
         ],

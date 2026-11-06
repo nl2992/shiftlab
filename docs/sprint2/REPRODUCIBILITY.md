@@ -384,6 +384,15 @@ uv run python scripts/sota_sprint/analyze_transfer.py --mopeinterval-corrected
 This writes `docs/sota_sprint/validation/transfer_results_mopeinterval_20261106.{json,md}` and
 preserves the registered transfer report.
 
+If the gate-transfer replay has finished but the separate RMM-transfer runs are still queued, the
+Amendment 4 sensitivity can be reported independently with:
+
+```sh
+uv run python scripts/sota_sprint/analyze_transfer.py gate --mopeinterval-corrected
+```
+
+This writes `docs/sota_sprint/validation/gate_transfer_mopeinterval_20261106_results.{json,md}`.
+
 ## R5 focused Round-5 follow-up
 
 The new-seed R5 alpha=.02 simulator follow-up has its frozen question and execution details in

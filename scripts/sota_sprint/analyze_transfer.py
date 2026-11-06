@@ -175,6 +175,34 @@ def main(*, mopeinterval_corrected: bool = False):
     print("\n".join(L))
 
 
+def gate_mopeinterval_report():
+    """Write the corrected gate-transfer sensitivity without waiting for RMM-transfer runs."""
+    result = gate(mopeinterval_corrected=True)
+    result["data_provenance"] = {
+        "replay": "MOPE interval-correction same-seed sensitivity",
+        "replayed_synthetic_policies": sorted(set(pd.read_json(
+            OUT / "gate_transfer/synth_mopeinterval_20261106/records.jsonl", lines=True).policy.astype(str))),
+        "replayed_real_policies": sorted(set(pd.read_json(
+            OUT / "gate_transfer/real_fresh_mopeinterval_20261106/records.jsonl", lines=True).policy.astype(str))),
+        "null_rates": "registered D1/D2/D6 null arms; these policies do not use the MOPE interval",
+        "unaffected_arms": "retained from registered same-seed outputs",
+    }
+    stem = DOC / "gate_transfer_mopeinterval_20261106_results"
+    stem.with_suffix(".json").write_text(json.dumps(result, indent=1, default=float) + "\n")
+    lines = ["# Deploy-gate transfer (Amendment 4) — MOPE interval-correction sensitivity", "",
+             "MOPE-affected policy arms are replaced by corrected same-seed replays; unaffected arms retain their registered records. This is a code-correction sensitivity, not an independent confirmation.", "",
+             "| gated host | vs native host, all regimes | Holm-significant best-certified comparisons | iid-null safe | null rates | real fresh vs best certified (improved/K) |",
+             "|---|---:|---:|---|---|---|"]
+    for candidate, row in result["HD"].items():
+        d = row["vs_host_all_regimes"]
+        real = "; ".join(f"{ds} {v['best_certified']['mean']:+.1f} ({v['best_certified']['improved']}/{v['best_certified']['K']})"
+                          for ds, v in row["real_fresh"].items())
+        nulls = ", ".join(f"{reg} {rate:.3f}" for reg, rate in row["null_rates"].items())
+        lines.append(f"| {candidate} ({row['host']}) | {d['mean']:+.1f} [{d['lo']:+.1f},{d['hi']:+.1f}] | {row['n_sig']} | {row['iid_null_safe']} | {nulls} | {real} |")
+    stem.with_suffix(".md").write_text("\n".join(lines) + "\n")
+    print("\n".join(lines))
+
+
 
 
 
@@ -265,5 +293,7 @@ if __name__ == "__main__":
         amend5(mopeinterval_corrected=True)
     elif sys.argv[1:] == ["--mopeinterval-corrected"]:
         main(mopeinterval_corrected=True)
+    elif sys.argv[1:] == ["gate", "--mopeinterval-corrected"]:
+        gate_mopeinterval_report()
     else:
         main()

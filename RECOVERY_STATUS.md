@@ -3,8 +3,8 @@
 **Date:** 2026-11-06  
 **Branch:** `codex/scoped-method-research-results-2026-11-06`  
 **Starting revision:** `e7f4dca60c3a39c5a97ceb21efb4b311d2d96e8b`  
-**Repair commit:** `82e1c48e` (`Fix Ruff lint and formatting checks`)  
-**Status:** CI lint and formatting repaired; full test phase stopped at collection failure. No merge to `main`.
+**Repair commits:** `82e1c48e` (`Fix Ruff lint and formatting checks`), `4dddf965` (disambiguate the FLQ regime import), and `f9b8db02` (support pinned baseline imports in shallow checkouts).  
+**Status:** Ruff, format, typing and focused tests pass. Full pytest is running in GitHub Actions run `42188683332` and locally; no merge to `main`.
 
 ## Reproduction of Actions run 42179919497
 
@@ -49,7 +49,7 @@ Local verification on Ruff 0.17.1:
 | `uv run mypy` | PASS — no issues in 2 source files |
 | `uv run pytest -q` | STOPPED at collection: 93 collection errors in 42.04 seconds; no test cases ran |
 
-## Test collection diagnostic
+## Test collection diagnostics and repairs
 
 The first repeatable collection error is a top-level module-name collision. `tests/sota_sprint/test_fam_b.py:16` imports `bench`; `scripts/sota_sprint/bench.py:23` requests `ALL_REGIMES` from the top-level name `regimes`. Pytest had already resolved that name to the other module `scripts/failure_atlas_v2/regimes.py`, which does not export `ALL_REGIMES`:
 
@@ -58,10 +58,12 @@ ImportError: cannot import name 'ALL_REGIMES' from 'regimes'
 (/.../scripts/failure_atlas_v2/regimes.py)
 ```
 
-The same collision blocks collection of `tests/sota_sprint/test_fam_c.py`, `test_fam_m.py`, and other suites. The full pytest run was stopped here as required; focused tests were not attempted after the collection failure. This is a reproducible test-harness/import-path failure, not evidence about the behavior of the lint changes.
+The same collision blocked collection of `tests/sota_sprint/test_fam_c.py`, `test_fam_m.py`, and other suites. `scripts/sota_sprint/bench.py` now loads the FLQ regimes under a namespaced module and `screen.py` imports those exports through `bench.py`. Focused tests pass: `uv run pytest -q tests/sota_sprint/test_fam_b.py tests/sota_sprint/test_fam_c.py` — 57 passed.
+
+The next CI attempt then exposed a second collection issue: shallow `actions/checkout` did not contain pinned commit `041bc26`, so the B3 loaders could neither compare against nor extract that historical object. The checked-in baseline file is byte-identical to the pinned file (SHA-256 `7565a647f3bb3f940d4fbd2a948597b9ffe42ef0485550a771d137e7930baebd`). Both loaders now accept the file by this pinned digest and otherwise require a successful `git show`. Targeted verification: `uv run pytest -q tests/promising_directions/test_b3_plus_policy.py tests/promising_directions/test_b3_real_data.py` — 25 passed.
 
 ## Change scope and next action
 
 The repair commit contains Ruff-reported fixes and formatter output only: 137 source/test files changed (including 20 executable-bit corrections for shebang scripts). `src/shiftlab.egg-info/SOURCES.txt` and local Graphify cache/hook files were not included. No dependency lock, research result, or prior registered experiment record was changed.
 
-**Phase 0 is incomplete at the test gate.** The smallest next action is to make the test import paths unambiguous (prefer package-qualified imports or scoped `sys.path` handling instead of the shared top-level `regimes` name), then rerun pytest collection and the full suite in CI's Linux environment with the locked extras. Do not proceed to economic-headroom experiments until this checkpoint passes or a bounded, reproducible platform limitation is accepted.
+The current CI run has passed locked dependency setup, `ruff check`, `ruff format --check`, and `mypy`; its full pytest step remains in progress. The local full suite is also still CPU-bound. Phase 0 is not declared complete until one full run finishes, followed by the environment validation step. Local exact locked sync is not possible on macOS arm64 because the lock pins CUDA-only `torch==2.9.1+cu130`; CI is the authoritative environment for that exact workflow.

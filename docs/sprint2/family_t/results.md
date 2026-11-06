@@ -18,6 +18,16 @@ and raw outputs are gitignored under `outputs/sprint2/T/`.
   references. It uses 20 seeds per regime on separate registered development/evaluation blocks;
   see `T3_trackR_followup_protocol.md`, `T3_trackR_followup.json`, and its manifest index. This
   follow-up remains descriptive and does not amend the historical family selection.
+- The T1/T2/T5 held-out follow-up now fills the same gap for their primary transferable policies.
+  It covers 17 candidate/reference policies across all eight alpha values, with 20 development and
+  20 separate evaluation seeds in each of four null and six alternative regimes (54,400 records).
+  Across the six targets, 86 policy operating points are available. T1's Model Picker A5b variants
+  have R5 risk .050 and costs 383.7/383.2/386.8; none is Pareto within this follow-up panel. T2's
+  front-loaded A5b variant costs 379.4 at R5 risk .050 and lies on the panel frontier; results are
+  mixed at higher targets and for env8. T5's Model Selector A5b point costs 383.2 at risk .0375,
+  while the Model Picker point costs 383.7 at risk .050; these do not establish an economic gain
+  over the host adapters. See the protocol, result table and manifest index named above and the
+  T1/T2/T5 follow-up files. All estimates are post-development simulator evidence, not guarantees.
 - Real fresh: 3 policy seeds on five streams; summary in `real_fresh_summary.json`.
 - Twin streams: one policy seed for each supplied twin split; summary in `real_twin_summary.json`.
   These are reused known-null constructions, not unseen independent validation.

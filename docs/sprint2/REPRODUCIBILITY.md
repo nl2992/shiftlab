@@ -90,9 +90,9 @@ uv run python scripts/sota_sprint/wp1_false_rollback.py --workers 4
 ```
 
 The first command recomputes amended reports, selected Track E/V cells, P1/P2 summaries, and
-family Track-R tables from saved records. The second checks the specified P-family development
-tables. The third checks every displayed cost-risk point (230 rows) against its family Track-R
-JSON. All three are numerical lineage checks; none establishes the appropriateness of the
+family Track-R tables from saved records, including the separate T3 and T1/T2/T5 held-out panels.
+The second checks the specified P-family development tables. The third checks every displayed
+cost-risk point (316 rows) against its family Track-R JSON. All three are numerical lineage checks; none establishes the appropriateness of the
 estimands, thresholds, selection procedure, causal interpretation, or theorem assumptions. Manual
 claim corrections and remaining coverage limits are recorded in `CLAIM_RECONCILIATION.md`.
 
@@ -134,6 +134,26 @@ policies). Its raw-record SHA-256 is
 the run arguments, runtime, code hashes and five input-cache hashes. Analysis verifies complete
 episode × seed × policy coverage against each source cache. The report is post-development and
 descriptive; the streams have prior exposure.
+
+## T1/T2/T5 held-out Track-R follow-up
+
+The additional Model Picker, Gated Deployment and shared-wrapper curves use the registered
+protocol and runner:
+
+```sh
+scripts/sota_sprint/run_t125_trackr_followup.sh
+uv run python scripts/sota_sprint/risk_curves.py \
+  --dev outputs/sprint2/T/T125_trackR/dev_a0.005 outputs/sprint2/T/T125_trackR/dev_a0.01 outputs/sprint2/T/T125_trackR/dev_a0.02 outputs/sprint2/T/T125_trackR/dev_a0.05 outputs/sprint2/T/T125_trackR/dev_a0.1 outputs/sprint2/T/T125_trackR/dev_a0.2 outputs/sprint2/T/T125_trackR/dev_a0.3 outputs/sprint2/T/T125_trackR/dev_a0.5 \
+  --eval outputs/sprint2/T/T125_trackR/eval_a0.005 outputs/sprint2/T/T125_trackR/eval_a0.01 outputs/sprint2/T/T125_trackR/eval_a0.02 outputs/sprint2/T/T125_trackR/eval_a0.05 outputs/sprint2/T/T125_trackR/eval_a0.1 outputs/sprint2/T/T125_trackR/eval_a0.2 outputs/sprint2/T/T125_trackR/eval_a0.3 outputs/sprint2/T/T125_trackR/eval_a0.5 \
+  --out docs/sprint2/family_t/T1_T2_T5_trackR_followup.json
+uv run python scripts/sota_sprint/finalize_t125_trackr_followup.py
+```
+
+The protocol, run commands, per-run manifests and SHA-256 checksums are recorded in
+`family_t/T1_T2_T5_trackR_followup_protocol.md` and
+`family_t/T1_T2_T5_trackR_manifests.json`. The panel has 3,200 episode jobs and 54,400 records.
+The report-lineage audit checks its JSON and Markdown, and the cost-risk audit checks its displayed
+rows. These checks do not establish validity beyond the registered empirical nulls.
 
 ## P-family development-table audit
 

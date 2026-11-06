@@ -39,7 +39,8 @@ Review the frozen protocols and raw-to-report audit. Check independent units and
 
 Key evidence and caveats:
 
-- `raw_report_audit.json`: raw-to-derived reproduction audit; latest run passed all 52 checks, including T3 follow-up regeneration.
+- `raw_report_audit.json`: raw-to-derived reproduction audit; latest run passed all 54 checks, including the T3 and T1/T2/T5 follow-up regenerations.
+- `family_t/T1_T2_T5_trackR_followup_protocol.md`, `family_t/T1_T2_T5_trackR_followup.md`, and `family_t/T1_T2_T5_trackR_manifests.json`: the frozen T1/T2/T5 held-out Track-R gap-filling protocol, results, run argv and checksums. This is post-development simulator evidence; it does not independently validate claims.
 - `wp1/report_claim_audit.json`: 293 checks across the WP1 headline report.
 - `family_p/development_audit.json`: 7,139 checked cells in 17 audit groups.
 - `cost_risk_audit.json`: reported cost-risk table lineage; it does not verify calibration or guarantee validity.

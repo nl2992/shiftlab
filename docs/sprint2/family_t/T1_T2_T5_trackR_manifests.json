@@ -1,0 +1,464 @@
+{
+  "protocol": "docs/sprint2/family_t/T1_T2_T5_trackR_followup_protocol.md",
+  "runner": "scripts/sota_sprint/run_t125_trackr_followup.sh",
+  "finalizer": "scripts/sota_sprint/finalize_t125_trackr_followup.py",
+  "finalizer_sha256": "0c7023f248be858b02bf566d8966eff0bc5508ff7046073f64420156bc4d0213",
+  "code_revision": "a0766f9948655e3f85ec86437a76074d798fb767",
+  "contract": {
+    "T": 2000,
+    "budget": 200,
+    "cq": 0.05,
+    "cs": 5.0,
+    "alpha_grid": [
+      0.005,
+      0.01,
+      0.02,
+      0.05,
+      0.1,
+      0.2,
+      0.3,
+      0.5
+    ],
+    "regimes": [
+      "F0_null",
+      "F0_worse",
+      "F5_dep_null_r8",
+      "F5_dep_null_r95",
+      "F0_better",
+      "F7_near_better",
+      "F9_bursty_better",
+      "F1_late_800",
+      "F5_dep_better_r8",
+      "S_dep_better_r95"
+    ],
+    "policies": [
+      "T:mp/a5b",
+      "T:mp/a5b+ad",
+      "T:mp/a5b+ad+rb",
+      "model_picker_adapter",
+      "D1",
+      "D6:mp",
+      "D2",
+      "A5b",
+      "T2:gated/a5b",
+      "T2:gated/a5b+front",
+      "T2:gated/env8",
+      "T2:gated/env8+front",
+      "gated_deployment",
+      "gated_adaptive_range+front",
+      "T:ms/a5b",
+      "model_selector_causal",
+      "T:cams/a5b"
+    ],
+    "dev_seed_base": 2026111201,
+    "eval_seed_base": 2026111211
+  },
+  "run_count": 16,
+  "jobs": 3200,
+  "rows": 54400,
+  "rows_per_run": 3400,
+  "source_hashes": {
+    "scripts/sota_sprint/analyze.py": "547fc914e219c195",
+    "scripts/sota_sprint/analyze_cams_max_validation.py": "cbe3eaf024950614",
+    "scripts/sota_sprint/analyze_h2_round5.py": "b1d35da9c72cb53d",
+    "scripts/sota_sprint/analyze_h_corrected_real.py": "81fd3b8c14f3c7b9",
+    "scripts/sota_sprint/analyze_merge.py": "b1f050dd5fb4403f",
+    "scripts/sota_sprint/analyze_p3_cost_sweep.py": "5b0aa725485f48c2",
+    "scripts/sota_sprint/analyze_p4_hmm_followup.py": "97fbf260d8d11462",
+    "scripts/sota_sprint/analyze_p6_all14_real.py": "7094915354c5433b",
+    "scripts/sota_sprint/analyze_p6_selection_adjusted.py": "e1d6aebb0db81c88",
+    "scripts/sota_sprint/analyze_p6_twin_bike.py": "0a11e40549e96db0",
+    "scripts/sota_sprint/analyze_r5_all14_real.py": "e80cd05ed5f53fc4",
+    "scripts/sota_sprint/analyze_r5_round5.py": "043dfcadc394e84f",
+    "scripts/sota_sprint/analyze_real.py": "c35b5f615d6250c4",
+    "scripts/sota_sprint/analyze_transfer.py": "96c9aa14026bf8d9",
+    "scripts/sota_sprint/analyze_twin_null.py": "2219a318f5db8872",
+    "scripts/sota_sprint/analyze_validation.py": "33e6e468ba2b733e",
+    "scripts/sota_sprint/analyze_wp1_clock_ablation.py": "201dd28592299c8a",
+    "scripts/sota_sprint/analyze_wp1_erb_postdev.py": "2e8bdf39313d39fd",
+    "scripts/sota_sprint/analyze_wp2_cached_h5.py": "b992ebe8c2a9d088",
+    "scripts/sota_sprint/analyze_wp2_realized_harm.py": "a2fd9b21de097b05",
+    "scripts/sota_sprint/audit_cost_risk_pareto.py": "d7d9a964c5d31303",
+    "scripts/sota_sprint/audit_leaderboard_null_counts.py": "1240863c8bb0d379",
+    "scripts/sota_sprint/audit_p_family_development.py": "cdbc1bd3458181dd",
+    "scripts/sota_sprint/audit_raw_to_reports.py": "5b57efeb1c8f334c",
+    "scripts/sota_sprint/audit_sprint2_registry.py": "2423d0c73c349f49",
+    "scripts/sota_sprint/audit_sui_clamp_bound.py": "da8e98bdc42519fe",
+    "scripts/sota_sprint/audit_wp1_report_claims.py": "65d226603b214387",
+    "scripts/sota_sprint/audit_wp2_run2.py": "18915f982df996f9",
+    "scripts/sota_sprint/bench.py": "4989f95b65211e38",
+    "scripts/sota_sprint/bench2.py": "e517c0bfb5b3cc88",
+    "scripts/sota_sprint/fam_a.py": "e17dd2c07b15bf99",
+    "scripts/sota_sprint/fam_b.py": "0ca0e2de0c94b248",
+    "scripts/sota_sprint/fam_c.py": "c598771b471989b0",
+    "scripts/sota_sprint/fam_d.py": "c282f2fd56b8ab49",
+    "scripts/sota_sprint/fam_e.py": "e6a1efed1ec64d68",
+    "scripts/sota_sprint/fam_f.py": "5f30fe532c1224de",
+    "scripts/sota_sprint/fam_h.py": "3288b104b2f6e40d",
+    "scripts/sota_sprint/fam_m.py": "b7a1e34fd7194443",
+    "scripts/sota_sprint/fam_p.py": "1660bcb5015fb077",
+    "scripts/sota_sprint/fam_r.py": "cf388433ebac4427",
+    "scripts/sota_sprint/fam_t.py": "9b9e6c20fb2f7f23",
+    "scripts/sota_sprint/fam_x.py": "7b054eaf6297d996",
+    "scripts/sota_sprint/finalize_p6_twin_manifest.py": "1e2b96a64e58ad0b",
+    "scripts/sota_sprint/fresh_real.py": "78878cbb7b9dde1d",
+    "scripts/sota_sprint/gate_audit.py": "7b7ed3723fd6187a",
+    "scripts/sota_sprint/late_real.py": "7fd8a067c32529d0",
+    "scripts/sota_sprint/leaderboard.py": "b7298bbfb1685c09",
+    "scripts/sota_sprint/leaderboard_views.py": "a3dd5f0f05c944f2",
+    "scripts/sota_sprint/merge_h_trackr.py": "59cfa387ba6fe539",
+    "scripts/sota_sprint/ooc_regimes.py": "ce2878fc040762d5",
+    "scripts/sota_sprint/p5_trackr.py": "3c5fcbcc87dc88f8",
+    "scripts/sota_sprint/p6_twin_screen_cached.py": "f8f905372029012a",
+    "scripts/sota_sprint/real_persistence.py": "955728aad8bd9afc",
+    "scripts/sota_sprint/registry.py": "88dba1f0f777f5f0",
+    "scripts/sota_sprint/risk_curves.py": "3a94d09beba0172b",
+    "scripts/sota_sprint/screen.py": "910581821de01eed",
+    "scripts/sota_sprint/twin_null.py": "773bbc5c20b37278",
+    "scripts/sota_sprint/validation_spec.py": "9de8ff7b08ad0e10",
+    "scripts/sota_sprint/wp1_clock_ablation.py": "59b4f696afee8317",
+    "scripts/sota_sprint/wp1_false_rollback.py": "5c4c7530dc728c9b",
+    "scripts/sota_sprint/wp1_giacomini_rossi.py": "dc8452f2cdc6682e",
+    "scripts/sota_sprint/wp2_analyze.py": "d37891cca27ea01d",
+    "scripts/sota_sprint/wp2_run.py": "2bd0f429d654470e",
+    "scripts/sota_sprint/wp2_score.py": "00bd34519357baea",
+    "scripts/sota_sprint/wp2_twins.py": "35ec6b8cc94c25be",
+    "scripts/failure_atlas_v2_flq/analyze_atlas_v2.py": "121883ad71b5c9f0",
+    "scripts/failure_atlas_v2_flq/analyze_real.py": "692d871b331e5c44",
+    "scripts/failure_atlas_v2_flq/analyze_validation.py": "80858f193838fe0b",
+    "scripts/failure_atlas_v2_flq/qce.py": "f9e8059ba5a61139",
+    "scripts/failure_atlas_v2_flq/qsg.py": "b695febf55cc4e6b",
+    "scripts/failure_atlas_v2_flq/r6_policies.py": "eca4f60d55f809c2",
+    "scripts/failure_atlas_v2_flq/regimes.py": "daea2906c17a196e",
+    "scripts/failure_atlas_v2_flq/run_atlas_v2.py": "9fbcd2ef31e6af29",
+    "scripts/failure_atlas_v2_flq/strong_hosts.py": "510f47db39487cc4",
+    "scripts/failure_atlas_v2_flq/suite.py": "308be07ef3ae3d17",
+    "scripts/failure_atlas_v2_flq/v2_extra.py": "299e71e4926674c0",
+    "scripts/failure_atlas_v2/analyse_validation.py": "d7d79aed145e84cb",
+    "scripts/failure_atlas_v2/atlas_markdown.py": "b11e8f84f340fad3",
+    "scripts/failure_atlas_v2/label_clock.py": "7260423929d13130",
+    "scripts/failure_atlas_v2/matrix.py": "b10cda4ce8d81640",
+    "scripts/failure_atlas_v2/regimes.py": "e20c5aecf1c0617c",
+    "scripts/failure_atlas_v2/registry_additions.py": "0e15a1e85188a2d6",
+    "scripts/failure_atlas_v2/restart_monitor.py": "7ae3fdb3172c6811",
+    "scripts/failure_atlas_v2/run_atlas_v2.py": "01fd5c043cd194c2",
+    "scripts/failure_atlas_v2/suite.py": "308be07ef3ae3d17",
+    "scripts/failure_atlas_v2/summarise_atlas_v2.py": "1780fd3dbe679f01",
+    "scripts/failure_atlas_v2/v2_candidates.py": "07e93e8167a2817d",
+    "scripts/promising_directions/sota/run_decisive.py": "abc64f332c84a119",
+    "scripts/promising_directions/sota/run_vs_sota.py": "db163af0a7d1e928",
+    "scripts/promising_directions/sota/simulator.py": "6d66295e5367c70c",
+    "scripts/promising_directions/sota/competitors/b3_plus_policy_adapter.py": "57084802b15a72a2",
+    "scripts/promising_directions/sota/competitors/cams.py": "b6b9e0f927dfc642",
+    "scripts/promising_directions/sota/competitors/certificate_stops.py": "292f7717e2a2a6bd",
+    "scripts/promising_directions/sota/competitors/controls.py": "ce8e5554147337d9",
+    "scripts/promising_directions/sota/competitors/economic_stop.py": "174d0532894a2e0e",
+    "scripts/promising_directions/sota/competitors/model_picker.py": "0de90298379af3c3",
+    "scripts/promising_directions/sota/competitors/model_selector.py": "8bc8c6dbd1a38e54",
+    "scripts/promising_directions/sota/competitors/online_llm_picker.py": "621bd15b71159f2f",
+    "scripts/promising_directions/sota/competitors/sawade.py": "5c1ceed21b6c243a",
+    "scripts/promising_directions/sota/competitors/smcs.py": "4b34e709c7d99cc0",
+    "scripts/promising_directions/sota/competitors/variance_min.py": "81676fbcaffe2527",
+    "scripts/promising_directions/sota/competitors/xu_acquisition.py": "01d9c981375a06d4"
+  },
+  "runs": [
+    {
+      "split": "dev",
+      "alpha": 0.005,
+      "seed_base": 2026111201,
+      "jobs": 200,
+      "rows": 3400,
+      "seconds": 242.2,
+      "manifest": {
+        "path": "outputs/sprint2/T/T125_trackR/dev_a0.005/manifest.json",
+        "bytes": 7886,
+        "sha256": "152da8eb8428bb4b42df1ae3abd0e690e3edd89644f1b110c644e783820b560d"
+      },
+      "records": {
+        "path": "outputs/sprint2/T/T125_trackR/dev_a0.005/records.jsonl",
+        "bytes": 1895364,
+        "sha256": "eb8fba03adeefd26f08f76e48b9014a2bacf28ab1c966326c20b14ab356956c1"
+      }
+    },
+    {
+      "split": "dev",
+      "alpha": 0.01,
+      "seed_base": 2026111201,
+      "jobs": 200,
+      "rows": 3400,
+      "seconds": 255.9,
+      "manifest": {
+        "path": "outputs/sprint2/T/T125_trackR/dev_a0.01/manifest.json",
+        "bytes": 7883,
+        "sha256": "8516465e4ccbb345614a0e3fe22e65cd3a2d340ed27c9e0882e7e5110dfedf22"
+      },
+      "records": {
+        "path": "outputs/sprint2/T/T125_trackR/dev_a0.01/records.jsonl",
+        "bytes": 1893720,
+        "sha256": "9b892fb4f5d16022e7b8ba76f6087fbedc9af732ad44d4dca6bdc53420bc384a"
+      }
+    },
+    {
+      "split": "dev",
+      "alpha": 0.02,
+      "seed_base": 2026111201,
+      "jobs": 200,
+      "rows": 3400,
+      "seconds": 231.6,
+      "manifest": {
+        "path": "outputs/sprint2/T/T125_trackR/dev_a0.02/manifest.json",
+        "bytes": 7883,
+        "sha256": "3d1229c7547bc65786ee7731bdcc35fb21a2e4a182f1943234594f3d9270d21b"
+      },
+      "records": {
+        "path": "outputs/sprint2/T/T125_trackR/dev_a0.02/records.jsonl",
+        "bytes": 1896906,
+        "sha256": "66de700725b7f78deddde669ec020423ce30121306236ca08413f329429102b8"
+      }
+    },
+    {
+      "split": "dev",
+      "alpha": 0.05,
+      "seed_base": 2026111201,
+      "jobs": 200,
+      "rows": 3400,
+      "seconds": 240.7,
+      "manifest": {
+        "path": "outputs/sprint2/T/T125_trackR/dev_a0.05/manifest.json",
+        "bytes": 7883,
+        "sha256": "91e3cb4e57ad8cb581afce2f4b49d6195a5d56c8730db66b6d9897a396a729ab"
+      },
+      "records": {
+        "path": "outputs/sprint2/T/T125_trackR/dev_a0.05/records.jsonl",
+        "bytes": 1901320,
+        "sha256": "552a7635f4f53f69cd38ae311ac1afe9b75632287464a10920af75e7ed21a794"
+      }
+    },
+    {
+      "split": "dev",
+      "alpha": 0.1,
+      "seed_base": 2026111201,
+      "jobs": 200,
+      "rows": 3400,
+      "seconds": 241.1,
+      "manifest": {
+        "path": "outputs/sprint2/T/T125_trackR/dev_a0.1/manifest.json",
+        "bytes": 7880,
+        "sha256": "5c0e1c377d148f9633f26fa5d2270180385f0d34a8d55790021397d888eda4a7"
+      },
+      "records": {
+        "path": "outputs/sprint2/T/T125_trackR/dev_a0.1/records.jsonl",
+        "bytes": 1903833,
+        "sha256": "ad44a426db5a747ca4ce0dc3618ca661c0e2430c43af1c87562cc9a1fc9b4153"
+      }
+    },
+    {
+      "split": "dev",
+      "alpha": 0.2,
+      "seed_base": 2026111201,
+      "jobs": 200,
+      "rows": 3400,
+      "seconds": 166.5,
+      "manifest": {
+        "path": "outputs/sprint2/T/T125_trackR/dev_a0.2/manifest.json",
+        "bytes": 7880,
+        "sha256": "2dcc8a09f54d74f98e15d2760ff576aa256cd2f01ad9b4212690df1186651d20"
+      },
+      "records": {
+        "path": "outputs/sprint2/T/T125_trackR/dev_a0.2/records.jsonl",
+        "bytes": 1909384,
+        "sha256": "93288673b559a1184015ae6d7744635bec556d6878a989a0ce7f8a6845a2c9fa"
+      }
+    },
+    {
+      "split": "dev",
+      "alpha": 0.3,
+      "seed_base": 2026111201,
+      "jobs": 200,
+      "rows": 3400,
+      "seconds": 195.4,
+      "manifest": {
+        "path": "outputs/sprint2/T/T125_trackR/dev_a0.3/manifest.json",
+        "bytes": 7880,
+        "sha256": "9152869fde6a72374ce84a8223fefdfd8c2f51ea3dcb7d55ed9760f03b6bbedd"
+      },
+      "records": {
+        "path": "outputs/sprint2/T/T125_trackR/dev_a0.3/records.jsonl",
+        "bytes": 1913358,
+        "sha256": "5fa4fc9583845db476ee9791b60f95c6620e11c4dd52f226e9a58b384e6d2c77"
+      }
+    },
+    {
+      "split": "dev",
+      "alpha": 0.5,
+      "seed_base": 2026111201,
+      "jobs": 200,
+      "rows": 3400,
+      "seconds": 203.1,
+      "manifest": {
+        "path": "outputs/sprint2/T/T125_trackR/dev_a0.5/manifest.json",
+        "bytes": 7880,
+        "sha256": "5a47beea8643ad55317bc0438a25cc260b03dfb1e9f63074071d4939af10e527"
+      },
+      "records": {
+        "path": "outputs/sprint2/T/T125_trackR/dev_a0.5/records.jsonl",
+        "bytes": 1919255,
+        "sha256": "e7d0a67b208cfb4a7d36558bcc341853a9e06c3f419c7da2f17680ac43a2c0c3"
+      }
+    },
+    {
+      "split": "eval",
+      "alpha": 0.005,
+      "seed_base": 2026111211,
+      "jobs": 200,
+      "rows": 3400,
+      "seconds": 296.5,
+      "manifest": {
+        "path": "outputs/sprint2/T/T125_trackR/eval_a0.005/manifest.json",
+        "bytes": 7887,
+        "sha256": "9061cb53835f3da697249837f35afec8cda84215016754d308e0da6e5855b92a"
+      },
+      "records": {
+        "path": "outputs/sprint2/T/T125_trackR/eval_a0.005/records.jsonl",
+        "bytes": 1897034,
+        "sha256": "1e5317fb96010e7560e346004253e75aa90f96e056fb4029f402dfe90d02a2d1"
+      }
+    },
+    {
+      "split": "eval",
+      "alpha": 0.01,
+      "seed_base": 2026111211,
+      "jobs": 200,
+      "rows": 3400,
+      "seconds": 232.6,
+      "manifest": {
+        "path": "outputs/sprint2/T/T125_trackR/eval_a0.01/manifest.json",
+        "bytes": 7884,
+        "sha256": "027a9cfa129a74ad328f5b92f3cf4916d073960c38fa842c462c2f2ae3bc98bf"
+      },
+      "records": {
+        "path": "outputs/sprint2/T/T125_trackR/eval_a0.01/records.jsonl",
+        "bytes": 1896715,
+        "sha256": "c1691354df5b714a6289479d720d95cb6b1f3415a8be32663692cae79cc6edc7"
+      }
+    },
+    {
+      "split": "eval",
+      "alpha": 0.02,
+      "seed_base": 2026111211,
+      "jobs": 200,
+      "rows": 3400,
+      "seconds": 287.6,
+      "manifest": {
+        "path": "outputs/sprint2/T/T125_trackR/eval_a0.02/manifest.json",
+        "bytes": 7884,
+        "sha256": "476dfb3938257b3a059a9085d39bb5c10269f08d91e06dbb6b960955378c1a21"
+      },
+      "records": {
+        "path": "outputs/sprint2/T/T125_trackR/eval_a0.02/records.jsonl",
+        "bytes": 1899332,
+        "sha256": "a46498556ade5b9d35956d11d0c5a907bea2f14cb3b706043346144769f5aead"
+      }
+    },
+    {
+      "split": "eval",
+      "alpha": 0.05,
+      "seed_base": 2026111211,
+      "jobs": 200,
+      "rows": 3400,
+      "seconds": 237.7,
+      "manifest": {
+        "path": "outputs/sprint2/T/T125_trackR/eval_a0.05/manifest.json",
+        "bytes": 7884,
+        "sha256": "d6be81d814e2268b63b06a310b0c63e47f0769ce9e936e69c68baa92b1543a54"
+      },
+      "records": {
+        "path": "outputs/sprint2/T/T125_trackR/eval_a0.05/records.jsonl",
+        "bytes": 1905647,
+        "sha256": "e0a0047f71624916a8dfeb51e40b47c8b50d61196f09c49f5e64c7b3f21bceb0"
+      }
+    },
+    {
+      "split": "eval",
+      "alpha": 0.1,
+      "seed_base": 2026111211,
+      "jobs": 200,
+      "rows": 3400,
+      "seconds": 257.9,
+      "manifest": {
+        "path": "outputs/sprint2/T/T125_trackR/eval_a0.1/manifest.json",
+        "bytes": 7881,
+        "sha256": "3e1b03e04810826a709146807222de6c9fb93fb1ac663a81b75865e1db304fea"
+      },
+      "records": {
+        "path": "outputs/sprint2/T/T125_trackR/eval_a0.1/records.jsonl",
+        "bytes": 1906005,
+        "sha256": "169aaa1a0b4a8c066d81216c00eaf34ade78c2cef18eeff6a5f7e2d5cab05bf0"
+      }
+    },
+    {
+      "split": "eval",
+      "alpha": 0.2,
+      "seed_base": 2026111211,
+      "jobs": 200,
+      "rows": 3400,
+      "seconds": 226.2,
+      "manifest": {
+        "path": "outputs/sprint2/T/T125_trackR/eval_a0.2/manifest.json",
+        "bytes": 7881,
+        "sha256": "210f56d4447dcd9719605a9c15f6f8d815ebac741493daa1323c2f8780cf9a5b"
+      },
+      "records": {
+        "path": "outputs/sprint2/T/T125_trackR/eval_a0.2/records.jsonl",
+        "bytes": 1910813,
+        "sha256": "784bf31f95270c6157c98633b68a3fb4ed21c81a402b1676d16baf302c08982f"
+      }
+    },
+    {
+      "split": "eval",
+      "alpha": 0.3,
+      "seed_base": 2026111211,
+      "jobs": 200,
+      "rows": 3400,
+      "seconds": 223.4,
+      "manifest": {
+        "path": "outputs/sprint2/T/T125_trackR/eval_a0.3/manifest.json",
+        "bytes": 7881,
+        "sha256": "e9a203a262218244933fdc315617b69bb32ce3b52cbfe2816e4a0c772b17e8ed"
+      },
+      "records": {
+        "path": "outputs/sprint2/T/T125_trackR/eval_a0.3/records.jsonl",
+        "bytes": 1914803,
+        "sha256": "7ec1c02c2b583e5d48cb4084295299747913fa350bee32b9561c37a054c4f4cc"
+      }
+    },
+    {
+      "split": "eval",
+      "alpha": 0.5,
+      "seed_base": 2026111211,
+      "jobs": 200,
+      "rows": 3400,
+      "seconds": 216.3,
+      "manifest": {
+        "path": "outputs/sprint2/T/T125_trackR/eval_a0.5/manifest.json",
+        "bytes": 7881,
+        "sha256": "5406e1d24a237c0d6fd5410f17ea72b4bacb39220e3bbacf12ddb084a40ee165"
+      },
+      "records": {
+        "path": "outputs/sprint2/T/T125_trackR/eval_a0.5/records.jsonl",
+        "bytes": 1920405,
+        "sha256": "f3937b11070e0dcd709d37c62cbbd325ed24c48ab9bb2f1ffc1555823dd951ce"
+      }
+    }
+  ],
+  "result_json": {
+    "path": "docs/sprint2/family_t/T1_T2_T5_trackR_followup.json",
+    "bytes": 24338,
+    "sha256": "71bf19f1663a9e7f161d7518f559e62a5db59912d015c943795e11b389bb45fc"
+  },
+  "result_markdown": {
+    "path": "docs/sprint2/family_t/T1_T2_T5_trackR_followup.md",
+    "bytes": 6630,
+    "sha256": "2f30283475629b9324d8db2e9119ebad4b11b6ce520dd8efbac180cc38f2cff3"
+  }
+}

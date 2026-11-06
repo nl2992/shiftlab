@@ -1,6 +1,6 @@
 # Sprint 2 status and remaining work
 
-Updated 2026-11-05 from the integrated checkout at `/Users/nigelli/Desktop/ICML/Shift-lab`, branch `main`. The sprint was committed as `3fa468f`, fast-forwarded to `main`, and pushed to `origin/main`; verify the current remote tip with `git ls-remote origin refs/heads/main`. Registered raw runs and historical analyses are preserved.
+Updated 2026-11-05 from the integrated checkout at `/Users/nigelli/Desktop/ICML/Shift-lab`, branch `main`. The sprint and its follow-up audits are committed and pushed to `origin/main`; verify the current remote tip with `git ls-remote origin refs/heads/main`. Registered raw runs and historical analyses are preserved.
 
 ## Completed and evidenced
 
@@ -8,6 +8,7 @@ Updated 2026-11-05 from the integrated checkout at `/Users/nigelli/Desktop/ICML/
 
 - P6 received a post-development 20-seed-per-episode cost replay across all 14 registered real-stream sources. Equal-source mean cost was 24.41 higher than M_LRMD_SUI and 111.10 higher than gated adaptive-range; outcomes are retrospective, with no causal late-change labels. See `family_p/P6_all14_real_protocol.md` and `family_p/P6_all14_real_results.md`.
 - T3's previously missing held-out Track-R panel is complete on the registered eight-alpha grid for two A5b mechanisms, matched DISCERN hosts, A5b and D2, with separate development/evaluation seed blocks. Its risk/cost values are in `family_t/T3_trackR_followup.md`; per-run manifests and raw-record checksums are in `family_t/T3_trackR_manifests.json`. It is post-development, descriptive evidence.
+- The remaining primary T1/T2/T5 Track-R panels are now complete: 17 policies × eight alpha values on 20 development and 20 separate evaluation seeds per each of four null and six alternative regimes (3,200 jobs, 54,400 rows). The 86 operating points and per-run checksums are in `family_t/T1_T2_T5_trackR_followup.md/json` and `family_t/T1_T2_T5_trackR_manifests.json`; outcomes are post-development simulator evidence.
 - R5 received a frozen-alpha, 100-seed-per-regime post-development simulator follow-up against D2, A5b, the adaptive-range certificate, and the economic stop. Results are mixed: mean alternative net cost is lower than D2 over six regimes, but promotion rates were 15/100 on F0 null and 24–26/100 on dependent nulls, and R5 loses to D2 on late and strong-persistence alternatives. See `family_r/R5_round5_protocol.md` and `family_r/R5_round5_results.md`.
 - The prior SOTA validation queue and committed-code gate re-screen completed; see
   `outputs/sota_sprint/validation.log` and `gate.log`.
@@ -19,7 +20,7 @@ Updated 2026-11-05 from the integrated checkout at `/Users/nigelli/Desktop/ICML/
 - WP2 decision flags were audited against the saved records and frozen definitions: zero mismatches
   in Run 1/3/4 records, and the separate Run-2 audit found zero mismatches in 141,360 records and
   129,580 paired harm checks; boundary test added. Current suite: `uv run pytest -q tests/sota_sprint
-  tests/sprint2` -> **381 passed in 142.84 seconds** (2026-11-05 latest full-suite run). The raw-to-report audit now passes 52/52 checks, including T3 follow-up regeneration.
+  tests/sprint2` -> **381 passed in 142.84 seconds** (2026-11-05 latest full-suite run). The raw-to-report audit now passes 54/54 checks, including the T3 and T1/T2/T5 follow-up regenerations.
 - Paper-to-code SOTA review checked primary papers and source implementations. The comparison is a
   common-contract port/adapter study, not author-native reproduction. Xu uses its acquisition
   component plus ShiftLab's certificate; it is not Xu's published certificate.
@@ -89,7 +90,7 @@ Updated 2026-11-05 from the integrated checkout at `/Users/nigelli/Desktop/ICML/
 
 - The numeric audit now reproduces the principal amended analyses and H/R/T/P Track-R outputs exactly.
   The rerunnable audit (`scripts/sota_sprint/audit_raw_to_reports.py`) now runs inside the pinned `uv`
-  environment and passes all 50 generated-vs-saved checks, including strict published-pool validation,
+  environment and passes all 52 generated-vs-saved checks, including strict published-pool validation,
   WP1 and WP2, and the corrected Family H replay. The rerun also fixed two WP2 table-note generator
   mismatches and NaN comparison handling. In addition to the amended validation,
   WP1/WP2, P6 follow-ups, and family Track-R outputs, it exactly regenerates the Family H and T
@@ -142,7 +143,7 @@ Updated 2026-11-05 from the integrated checkout at `/Users/nigelli/Desktop/ICML/
   or figure artifacts; legacy plots outside those reports are not cited. A targeted sentence-level
   pass of the six P-family narrative reports is recorded in `CLAIM_RECONCILIATION.md`; it does not
   independently prove theorem claims or review every candidate-registry sentence.
-- The consolidated cost-risk report now has its own audit: all 230 displayed Family R/T/H/P points
+- The consolidated cost-risk report now has its own audit: all 316 displayed operating points
   match the corresponding Track-R JSON (`cost_risk_audit.json`). This verifies report lineage, not
   calibration or the scientific validity of empirical risk targets.
 - The omitted H1/H3 Track-R grids have now been completed as a post hoc follow-up: eight alpha values,
@@ -152,13 +153,13 @@ Updated 2026-11-05 from the integrated checkout at `/Users/nigelli/Desktop/ICML/
   at R10-R30 they cost 371.7/374.0 versus H4's 369.6, at the same point risk .062. H5/H6 now have
   Track-R curves: risk .0375 [.013,.105] at alpha .5; H5 costs 382.3, while H6 reserves cost
   382.9/384.3/385.3. A dedicated 15-episode timing recheck per candidate over three regimes was
-  below .36s, but does not establish a worst-case bound. The expanded 230-row report audit passes.
+  below .36s, but does not establish a worst-case bound. The expanded 316-row report audit passes.
   See `family_h/track_R_all.json` and `COST_RISK_PARETO.md`.
 - External/human independent review remains open; internal reviews do not substitute for it.
   A reviewer handoff is now prepared in `EXTERNAL_REVIEW_PACKET.md`, with scoped questions, exact evidence paths, reproduction entry points and a findings template. It does not count as a review; the reviewer record remains blank pending an independent reviewer.
 - The latest Sprint test command passes: `uv run pytest -q tests/sota_sprint tests/sprint2` —
   381 passed in 142.84 s on 2026-11-05. The raw-to-report audit passes
-  52/52 checks after adding T3 follow-up regeneration; tests verify implementation checks, not research or
+  54/54 checks after adding T3 and T1/T2/T5 follow-up regeneration; tests verify implementation checks, not research or
   theorem claims.
 
 
@@ -172,7 +173,7 @@ Updated 2026-11-05 from the integrated checkout at `/Users/nigelli/Desktop/ICML/
    reused dataset. No fresh independent real dataset has been added.
 2. **Final source-to-claim reconciliation.** The reproducible audits cover the principal amended
    reports, WP1 false-rollback traces, WP2 no-Xu pooled sensitivity, H/T development summaries,
-  315 R Track-E/V cells, seventeen P-family checks, and H/R/T/P Track-R outputs, including the H1-H6 Track-R completion. P5 now has a separate K3/K4 Track-R panel and T3 has a separate matched-host follow-up; their outputs are included in the 230-row Pareto-table audit. The 52-check raw-to-report audit passes. The H/R/T/P candidate source review corrected numeric and interpretation errors documented in
+  315 R Track-E/V cells, seventeen P-family checks, and H/R/T/P Track-R outputs, including the H1-H6 Track-R completion. P5 has a separate K3/K4 Track-R panel; T3 and T1/T2/T5 have held-out follow-ups, all included in the 316-row Pareto-table audit. The 54-check raw-to-report audit passes. The H/R/T/P candidate source review corrected numeric and interpretation errors documented in
    `CLAIM_RECONCILIATION.md`. Registry-to-ledger shared fields now match under the registry audit.
   A targeted final prose pass has now covered H/R family reports, P-family/WP1/WP2 narratives, and
   the SOTA/exit summaries; it corrected the economic interpretation of conditional predictive loss,
@@ -205,7 +206,7 @@ Updated 2026-11-05 from the integrated checkout at `/Users/nigelli/Desktop/ICML/
    evaluation samples. Freeze choices on independent development data and evaluate on untouched data
    before making confirmatory claims; the current P6 adjustment does not cover across-regime or
    across-candidate selection.
-7. **Git integration is complete.** Commit `3fa468f` and subsequent audit/status corrections are on `main` and pushed to `origin/main`. Git-ignore checks confirm the newly added twin-v2 and late-loss data paths remain excluded; some older cached data files are already tracked in the base repository.
+7. **Git integration is complete.** The sprint and its follow-up audit corrections are on `main` and pushed to `origin/main`. Git-ignore checks confirm the newly added twin-v2 and late-loss data paths remain excluded; some older cached data files are already tracked in the base repository.
 
 ## Supported verdict
 

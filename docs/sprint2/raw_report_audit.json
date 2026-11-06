@@ -357,6 +357,22 @@
       "difference_count": 0
     },
     {
+      "name": "T1/T2/T5 held-out Track-R follow-up JSON",
+      "status": "PASS",
+      "generated": "<temporary>/T125_trackR_followup.json",
+      "committed": "docs/sprint2/family_t/T1_T2_T5_trackR_followup.json",
+      "differences": [],
+      "difference_count": 0
+    },
+    {
+      "name": "T1/T2/T5 held-out Track-R follow-up Markdown",
+      "status": "PASS",
+      "generated": "<temporary>/T125_trackR_followup.md",
+      "committed": "docs/sprint2/family_t/T1_T2_T5_trackR_followup.md",
+      "differences": [],
+      "difference_count": 0
+    },
+    {
       "name": "H1/H3 Track-R completion JSON",
       "status": "PASS",
       "generated": "<temporary>/H_remaining_risk.json",
@@ -422,7 +438,7 @@
     }
   ],
   "scope_limitations": [
-    "This re-executes derived corrected analyses, strict comparator-pool sensitivities for validation/WP1/WP2, the corrected Family-H replay report, H/T development summaries, P6 and R5 real-stream summaries, selected R Track-E/V cells, P1/P2 checks, H/R/T/P Track-R reports, and the T3 matched-host Track-R follow-up from saved raw records.",
+    "This re-executes derived corrected analyses, strict comparator-pool sensitivities for validation/WP1/WP2, the corrected Family-H replay report, H/T development summaries, P6 and R5 real-stream summaries, selected R Track-E/V cells, P1/P2 checks, H/R/T/P Track-R reports, and the T3 and T1/T2/T5 held-out Track-R follow-ups from saved raw records.",
     "It does not reconcile every numeric claim in the P-family development summaries or every narrative claim in the 24-candidate registry.",
     "It does not test theorem assumptions, data provenance beyond recorded manifests, or independent validity."
   ]

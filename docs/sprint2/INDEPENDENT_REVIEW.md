@@ -160,7 +160,10 @@ manifest gaps remain documented, and P6's all-14-source replay is negative versu
 WP1/WP2/SOTA reviewer confirmed the bounded result interpretations and identified stale statements
 that the sprint had not been pushed and WP1's code was dirty; those status lines are now corrected.
 
-The refreshed raw-to-report audit passes 52/52 checks after adding the T3 follow-up regeneration.
-The cost-risk lineage audit passes for all 230 displayed points. These are internal consistency
+After those review passes, T1/T2/T5's missing held-out Track-R policies were documented and run under
+a pre-registered follow-up protocol. This adds 54,400 post-development simulator records and 86
+operating points; it does not constitute independent review or confirmation. The refreshed
+raw-to-report audit now passes 54/54 checks after adding both T follow-up regenerations. The
+cost-risk lineage audit covers 316 displayed points. These are internal consistency
 and regeneration checks; they do not replace
 the requested ARIS/HKUSTDial or human review, theorem-proof review, or untouched-data confirmation.

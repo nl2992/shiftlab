@@ -33,6 +33,18 @@ tests: [tests/sprint2/test_fam_t.py](../../../tests/sprint2/test_fam_t.py); raw 
   T3's missing held-out panel is registered separately in
   [T3_trackR_followup_protocol.md](T3_trackR_followup_protocol.md).
 
+## Held-out Track-R follow-ups
+
+The original Track-R output evaluated only four T-family policies, leaving the primary T1, T2 and
+T5 transfer policies without held-out operating points despite having development calibration
+entries. T3 was completed separately. The registered [T1/T2/T5 protocol](T1_T2_T5_trackR_followup_protocol.md)
+and [runner](../../../scripts/sota_sprint/run_t125_trackr_followup.sh) now evaluate 17 policies on
+the eight-alpha grid, 20 seeds per regime in each of distinct development and evaluation blocks.
+There are 54,400 raw policy records and 86 reported target/policy points. The result is
+[T1_T2_T5_trackR_followup.md](T1_T2_T5_trackR_followup.md); per-run source hashes and record
+checksums are in [T1_T2_T5_trackR_manifests.json](T1_T2_T5_trackR_manifests.json). This is
+post-development simulator evidence and does not establish a guarantee or real-data transfer.
+
 Common-contract ADAPTATIONS: (1) the certificate hosts are one-shot, so a module replacing their
 verdict runs a single promotion test at alpha (no rollback cycle); (2) in `TGate` gate-acquired labels
 are shared with the host with the combined frozen propensity (fam_d's rule); (3) fam_c's controllers

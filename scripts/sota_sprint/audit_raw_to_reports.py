@@ -229,6 +229,18 @@ def main()->int:
                 ROOT/'docs/sprint2/family_t/T3_trackR_followup.json')
             add('T3 matched-host Track-R follow-up Markdown',t/'T3_trackR_followup.md',
                 ROOT/'docs/sprint2/family_t/T3_trackR_followup.md','text')
+        t125_dev=dirs('outputs/sprint2/T/T125_trackR/dev_a*')
+        t125_eval=dirs('outputs/sprint2/T/T125_trackR/eval_a*')
+        if len(t125_dev)!=8 or len(t125_eval)!=8:
+            checks.append({'name':'T1/T2/T5 held-out Track-R follow-up','status':'FAIL',
+                           'reason':f'expected 8 dev and 8 eval alpha runs; found {len(t125_dev)} and {len(t125_eval)}'})
+        else:
+            run(['scripts/sota_sprint/risk_curves.py','--dev',*t125_dev,'--eval',*t125_eval,
+                 '--out',str(t/'T125_trackR_followup.json')])
+            add('T1/T2/T5 held-out Track-R follow-up JSON',t/'T125_trackR_followup.json',
+                ROOT/'docs/sprint2/family_t/T1_T2_T5_trackR_followup.json')
+            add('T1/T2/T5 held-out Track-R follow-up Markdown',t/'T125_trackR_followup.md',
+                ROOT/'docs/sprint2/family_t/T1_T2_T5_trackR_followup.md','text')
         h_dev=dirs('outputs/sprint2/H/trackR_remaining/dev_a*')
         h_eval=dirs('outputs/sprint2/H/trackR_remaining/eval_a*')
         if len(h_dev)!=8 or len(h_eval)!=8:
@@ -284,7 +296,7 @@ def main()->int:
                     check[key]=candidate.relative_to(ROOT).as_posix()
             except ValueError:
                 pass
-    result={'audit':'PASS' if all(x['status']=='PASS' for x in checks) else 'FAIL','checks':checks,'scope_limitations':['This re-executes derived corrected analyses, strict comparator-pool sensitivities for validation/WP1/WP2, the corrected Family-H replay report, H/T development summaries, P6 and R5 real-stream summaries, selected R Track-E/V cells, P1/P2 checks, H/R/T/P Track-R reports, and the T3 matched-host Track-R follow-up from saved raw records.', 'It does not reconcile every numeric claim in the P-family development summaries or every narrative claim in the 24-candidate registry.', 'It does not test theorem assumptions, data provenance beyond recorded manifests, or independent validity.']}
+    result={'audit':'PASS' if all(x['status']=='PASS' for x in checks) else 'FAIL','checks':checks,'scope_limitations':['This re-executes derived corrected analyses, strict comparator-pool sensitivities for validation/WP1/WP2, the corrected Family-H replay report, H/T development summaries, P6 and R5 real-stream summaries, selected R Track-E/V cells, P1/P2 checks, H/R/T/P Track-R reports, and the T3 and T1/T2/T5 held-out Track-R follow-ups from saved raw records.', 'It does not reconcile every numeric claim in the P-family development summaries or every narrative claim in the 24-candidate registry.', 'It does not test theorem assumptions, data provenance beyond recorded manifests, or independent validity.']}
     out=a.out if a.out.is_absolute() else ROOT/a.out;out.parent.mkdir(parents=True,exist_ok=True);out.write_text(json.dumps(result,indent=2)+'\n')
     print(json.dumps(result,indent=2))
     return 0 if result['audit']=='PASS' else 1

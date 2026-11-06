@@ -26,7 +26,10 @@
     "commands": [
      "sh outputs/sprint2/T/cmd_dev.sh",
      "sh outputs/sprint2/T/cmd_stage2.sh",
-     "sh outputs/sprint2/T/cmd_stageC.sh"
+     "sh outputs/sprint2/T/cmd_stageC.sh",
+     "scripts/sota_sprint/run_t125_trackr_followup.sh",
+     "uv run python scripts/sota_sprint/risk_curves.py (exact alpha/run directories in REPRODUCIBILITY.md)",
+     "uv run python scripts/sota_sprint/finalize_t125_trackr_followup.py"
     ],
     "candidate_policy_ids": [
      "T:mp/a5b",
@@ -46,10 +49,13 @@
      "outputs/sprint2/T/devC/manifest.json",
      "outputs/sprint2/T/real_fresh/manifest.json",
      "outputs/sprint2/T/real_freshC/manifest.json",
-     "outputs/sprint2/T/real_twinC/manifest.json"
+     "outputs/sprint2/T/real_twinC/manifest.json",
+     "docs/sprint2/family_t/T1_T2_T5_trackR_manifests.json"
     ],
     "seed_bases": [
-     "2026110701"
+     "2026110701",
+     "2026111201",
+     "2026111211"
     ],
     "note": "See each manifest argv for the run-specific seed count and seed base.",
     "provenance_status": "complete"
@@ -59,10 +65,14 @@
     "outputs/sprint2/T/devC/records.jsonl",
     "outputs/sprint2/T/contrasts.json",
     "outputs/sprint2/T/dev_summary.md",
-    "outputs/sprint2/T/real_fresh_summary.json"
+    "outputs/sprint2/T/real_fresh_summary.json",
+    "docs/sprint2/family_t/T1_T2_T5_trackR_followup_protocol.md",
+    "docs/sprint2/family_t/T1_T2_T5_trackR_followup.json",
+    "docs/sprint2/family_t/T1_T2_T5_trackR_followup.md",
+    "docs/sprint2/family_t/T1_T2_T5_trackR_manifests.json"
    ],
    "track_E": "Final devA: mean alternative J 397.7 vs Model Picker adapter 354.4, D1 369.5, D6:mp 377.2; worse by about +43.4, +28.2, +20.5. A5b acquisition addition neutral (+0.1 [-1.7,+1.9]). See family_t/ledger.json.",
-   "track_R": "Track-R alpha calibration and evaluation are in outputs/sprint2/T/trackR.json. R20: T:mp/a5b: calibrated alpha 0.05; no displayed R20 Pareto point; T:mp/a5b+ad: calibrated alpha 0.05; no displayed R20 Pareto point; T:mp/a5b+ad+rb: calibrated alpha 0.05; no displayed R20 Pareto point. Curves are selected-grid empirical estimates, not guarantees.",
+   "track_R": "See `docs/sprint2/family_t/T1_T2_T5_trackR_followup.json` and `docs/sprint2/family_t/T1_T2_T5_trackR_followup.md`. Post-development follow-up uses 20 development and 20 separate evaluation seeds per regime on the eight-alpha grid. For T:mp/a5b, selected R5 alpha=.5 gives risk .050 [.020,.122] and cost 383.7; R10-R30 retain that point. T:mp/a5b+ad is 383.2 and +ad+rb is 386.8 at the same risk, none Pareto in the follow-up policy set. See `family_t/T1_T2_T5_trackR_followup.md` and manifests; descriptive simulator evidence, not a guarantee.",
    "track_V": "T:mp/a5b with A5b: 0/20 promotions on F0, F0_worse, rho=.8 and rho=.95 development null screens; A5b targets stationary first-order Markov V2. Reused twin rates are in real_twin_summary.json (one policy seed per split). See family_t/results.md.",
    "ablation": "On the Model Picker host, compare A5b transfer, adaptive acquisition, rollback, and the earlier QSG/H2/H4 evidence settings.",
    "next_action": null
@@ -84,7 +94,10 @@
     "commands": [
      "sh outputs/sprint2/T/cmd_dev.sh",
      "sh outputs/sprint2/T/cmd_stage2.sh",
-     "sh outputs/sprint2/T/cmd_stageC.sh"
+     "sh outputs/sprint2/T/cmd_stageC.sh",
+     "scripts/sota_sprint/run_t125_trackr_followup.sh",
+     "uv run python scripts/sota_sprint/risk_curves.py (exact alpha/run directories in REPRODUCIBILITY.md)",
+     "uv run python scripts/sota_sprint/finalize_t125_trackr_followup.py"
     ],
     "candidate_policy_ids": [
      "T2:gated/a5b",
@@ -102,10 +115,13 @@
     "manifests": [
      "outputs/sprint2/T/devB/manifest.json",
      "outputs/sprint2/T/real_fresh/manifest.json",
-     "outputs/sprint2/T/real_twin/manifest.json"
+     "outputs/sprint2/T/real_twin/manifest.json",
+     "docs/sprint2/family_t/T1_T2_T5_trackR_manifests.json"
     ],
     "seed_bases": [
-     "2026110701"
+     "2026110701",
+     "2026111201",
+     "2026111211"
     ],
     "note": "See each manifest argv for the run-specific seed count and seed base.",
     "provenance_status": "complete"
@@ -115,10 +131,14 @@
     "outputs/sprint2/T/contrasts.json",
     "outputs/sprint2/T/trackR.md",
     "outputs/sprint2/T/real_fresh_summary.json",
-    "outputs/sprint2/T/real_twin_summary.json"
+    "outputs/sprint2/T/real_twin_summary.json",
+    "docs/sprint2/family_t/T1_T2_T5_trackR_followup_protocol.md",
+    "docs/sprint2/family_t/T1_T2_T5_trackR_followup.json",
+    "docs/sprint2/family_t/T1_T2_T5_trackR_followup.md",
+    "docs/sprint2/family_t/T1_T2_T5_trackR_manifests.json"
    ],
    "track_E": "T2:gated/a5b has zero promotions on the four declared dev null screens and alternative mean J 395.7; the historical +23.6 contrast versus `choe_ramdas_eb+front` is exploratory against a non-author-native port and is not published-SOTA evidence; the within-class contrast versus gated_adaptive_range is -4.7 (CI [-11.3,1.9]). The env8 variant has 0.30 promotion on rho=.95 null, outside its declared rho<=.8 class. Front-loading improves the synthetic alternative cost for some contrasts; the separate gated_adaptive_range+front and gated_deployment+QCE+front comparators reach 0.35 promotion on the harder rho=.95 Markov-null screen, while T2:gated/a5b+front has 0/20 there. Fresh real results vary substantially by stream. The 'best cert' arithmetic in old summaries is an exploratory comparator selection; it is not a published-SOTA claim.",
-   "track_R": "Track-R alpha calibration and evaluation are in outputs/sprint2/T/trackR.json. R20: T2:gated/a5b: calibrated alpha 0.05; no displayed R20 Pareto point; T2:gated/a5b+front: calibrated alpha 0.05; no displayed R20 Pareto point; T2:gated/env8: calibrated alpha 0.05; no displayed R20 Pareto point. Curves are selected-grid empirical estimates, not guarantees.",
+   "track_R": "See `docs/sprint2/family_t/T1_T2_T5_trackR_followup.json` and `docs/sprint2/family_t/T1_T2_T5_trackR_followup.md`. Post-development follow-up uses 20 development and 20 separate evaluation seeds per regime on the eight-alpha grid. T2:gated/a5b has R5 alpha=.2, risk .0375 [.013,.105], cost 390.2; its +front variant has alpha=.3, risk .050 [.020,.122], cost 379.4 and is on the follow-up frontier. R10-R30 points and env8 variants are in `family_t/T1_T2_T5_trackR_followup.md`; descriptive simulator evidence, not a guarantee.",
    "track_V": "T2:gated/a5b: 0/20 promotions on each of four development null screens; the env8 variant has 6/20 on rho=.95, outside its declared rho<=.8 class. A5b V2 rates and reused twin summaries are in family_t/results.md and real_twin_summary.json.",
    "ablation": "Gated host comparison across A5b vs env8 vs QSG evidence, paced vs front-loaded acquisition, and AND evidence combination.",
    "next_action": null
@@ -272,7 +292,10 @@
     "commands": [
      "sh outputs/sprint2/T/cmd_dev.sh",
      "sh outputs/sprint2/T/cmd_stage2.sh",
-     "sh outputs/sprint2/T/cmd_stageC.sh"
+     "sh outputs/sprint2/T/cmd_stageC.sh",
+     "scripts/sota_sprint/run_t125_trackr_followup.sh",
+     "uv run python scripts/sota_sprint/risk_curves.py (exact alpha/run directories in REPRODUCIBILITY.md)",
+     "uv run python scripts/sota_sprint/finalize_t125_trackr_followup.py"
     ],
     "candidate_policy_ids": [
      "T:mp/a5b",
@@ -290,10 +313,13 @@
    "seed_manifest": {
     "manifests": [
      "outputs/sprint2/T/devA/manifest.json",
-     "outputs/sprint2/T/real_fresh/manifest.json"
+     "outputs/sprint2/T/real_fresh/manifest.json",
+     "docs/sprint2/family_t/T1_T2_T5_trackR_manifests.json"
     ],
     "seed_bases": [
-     "2026110701"
+     "2026110701",
+     "2026111201",
+     "2026111211"
     ],
     "note": "See each manifest argv for the run-specific seed count and seed base.",
     "provenance_status": "complete"
@@ -302,10 +328,14 @@
     "outputs/sprint2/T/devA/records.jsonl",
     "outputs/sprint2/T/dev_summary.md",
     "outputs/sprint2/T/contrasts.json",
-    "outputs/sprint2/T/real_fresh_summary.json"
+    "outputs/sprint2/T/real_fresh_summary.json",
+    "docs/sprint2/family_t/T1_T2_T5_trackR_followup_protocol.md",
+    "docs/sprint2/family_t/T1_T2_T5_trackR_followup.json",
+    "docs/sprint2/family_t/T1_T2_T5_trackR_followup.md",
+    "docs/sprint2/family_t/T1_T2_T5_trackR_manifests.json"
    ],
    "track_E": "The frozen A5b setting transfers with zero promotions on F0/F0_worse/rho=.8/rho=.95 dev null screens, but is more costly than host adapters: T:mp/a5b 397.7 vs model_picker_adapter 354.4; T:ms/a5b 395.8 vs model_selector_causal 347.0. Conditional-mean variants reduce but do not eliminate rho=.95 promotions (MP .50/20, MS .45/20). Markov env8 transfers with observed rho=.95 promotions (MP .20, MS .20), consistent with its declared rho<=.8 restriction. These are simulator transfer results; real summaries are heterogeneous.",
-   "track_R": "Track-R alpha calibration and evaluation are in outputs/sprint2/T/trackR.json. R20: T:mp/a5b: calibrated alpha 0.05; no displayed R20 Pareto point; T:ms/a5b: calibrated alpha 0.05; no displayed R20 Pareto point. Curves are selected-grid empirical estimates, not guarantees.",
+   "track_R": "See `docs/sprint2/family_t/T1_T2_T5_trackR_followup.json` and `docs/sprint2/family_t/T1_T2_T5_trackR_followup.md`. Post-development follow-up evaluates the shared wrapper on CAMS, Model Picker and Model Selector with 20 development and 20 separate evaluation seeds per regime on the eight-alpha grid. T:mp/a5b is 383.7 at risk .050 [.020,.122]; T:ms/a5b is 383.2 at risk .0375 [.013,.105]; T:cams/a5b is 381.9 at risk .050 [.020,.122]. These are local follow-up operating points, not a cross-family frontier or transfer guarantee. See `family_t/T1_T2_T5_trackR_followup.md` and manifests.",
    "track_V": "Fixed A5b setting: 0/20 on F0, F0_worse, rho=.8 and rho=.95 on both MP and MS hosts; env8 has 4/20 rho=.95 promotions per host, outside declared rho<=.8 region. Twin checks are one seed per split. See family_t/results.md.",
    "ablation": "Fixed evidence settings selected on CAMS are transferred to Model Picker and Model Selector hosts, with host-only/adaptive acquisition variants.",
    "next_action": null

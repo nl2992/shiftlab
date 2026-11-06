@@ -144,3 +144,27 @@ Response to `docs/failure_atlas_v2_flq/results/review_discovery_algorithm.md`:
 5. **Framing.** M1 is attributed to the hard-budget acquisition layer that every published
    certified method needs but none specifies (budget-feasible uniform pacing), plus a fixed
    worst-case HT range in two ports; not to the published inference algorithms themselves.
+
+## Amendment 3 (2026-11-05, after reviewing the saved report, before inspecting corrected rows)
+
+A code audit found that `GatedAdaptiveRange` recorded `wmax_t` only after `super().request_labels`
+returned. That call can synchronously ingest an unqueried disagreement or an agreement before the
+range is saved. The missed-query branch could therefore select its bet range after observing the
+query draw, while queried observations used the issue-time range. This contradicts the registered
+predictable-bet construction. The implementation now records the propensity through a base-class
+hook immediately after q is computed and before any query draw or queue flush. A regression check
+covers queried and unqueried draws at the same q, agreement events, and an unqueried event waiting
+behind delayed feedback.
+
+Full code findings and source links are recorded in
+[`results/comparator_validity_audit_20261105.md`](results/comparator_validity_audit_20261105.md).
+
+The previously reported adaptive-range validation figures are superseded. Re-run the full frozen
+suite on the registered synthetic validation schedule (13 regimes, 100 streams, seed base
+2026110399) and all cached real episodes (10 policy seeds per episode, seed base 2026110398), with
+the same v2 contract and `v2_extra` policy registry. New outputs are isolated at
+`outputs/failure_atlas_v2/validation_synth_wmaxfix_20261105/` and
+`outputs/failure_atlas_v2/validation_real_wmaxfix_20261105/`; the corrected analysis scripts read
+these paths. This is a forensic correction on the previously inspected validation regimes and
+exposed real streams, not a new independent or confirmatory dataset. Preserve the old tables as
+historical superseded records and base current conclusions on the corrected report only.

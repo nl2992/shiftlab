@@ -99,3 +99,56 @@ def test_strong_hosts_and_qsg_null_and_power():
     run_episode(pol, model_predictions=preds, labels=labels, delay=3, budget=200,
                 label_price=0.05, switch_cost=5, trace=False)
     assert pol.deployed == 1
+
+
+def test_gated_adaptive_range_is_set_before_immediate_flush():
+    from strong_hosts import GatedAdaptiveRange
+    from simulator import Event, ReleasedFeedback
+
+    policy = GatedAdaptiveRange(10, 4, 0.05, rng=np.random.default_rng(0))
+    policy.acq.propensity = lambda t, remaining, disagree: 0.25
+
+    # Seed 0 draws above .25, so this disagreement is not queried and flushes immediately.
+    request = policy.request_labels(Event(0, 0, 10, np.asarray([0, 1])), remaining_budget=4)
+    assert not request.requested
+    assert policy.n_ingested == 1
+    assert policy.cs.plus.wmax == 4.0
+    assert policy.cs.minus.wmax == 4.0
+
+    # Agreements also flush within request_labels and use their own predictable range.
+    policy.request_labels(Event(1, 1, 10, np.asarray([0, 0])), remaining_budget=4)
+    assert policy.cs.plus.wmax == 2.0
+    assert policy.cs.minus.wmax == 2.0
+
+    # With identical prior state and q, a queried event must use the same range after delayed
+    # feedback that the unqueried branch used at its immediate flush.
+    class Draws:
+        def __init__(self, values):
+            self.values = iter(values)
+
+        def random(self):
+            return next(self.values)
+
+    delayed = GatedAdaptiveRange(10, 4, 0.05, rng=np.random.default_rng(1))
+    delayed.rng = Draws([0.1, 0.9])
+    delayed.acq.propensity = lambda t, remaining, disagree: 0.25
+    first = delayed.request_labels(Event(0, 0, 10, np.asarray([0, 1])), remaining_budget=4)
+    second = delayed.request_labels(Event(1, 1, 10, np.asarray([0, 1])), remaining_budget=3)
+    assert first.requested and not second.requested
+    assert delayed.n_ingested == 0  # second record is blocked by the first pending label
+    assert delayed._wmax == {0: 4.0, 1: 4.0}
+    delayed.observe([ReleasedFeedback(0, 0, 2, 0, np.asarray([1, 0]), 0.25)])
+    assert delayed.n_ingested == 2
+    assert delayed.cs.plus.wmax == 4.0
+    assert delayed.cs.minus.wmax == 4.0
+
+    # The issue-time range belongs to a pending request and must survive checkpoints.
+    pending = GatedAdaptiveRange(10, 4, 0.05, rng=np.random.default_rng(0))
+    pending.acq.propensity = lambda t, remaining, disagree: 0.9
+    assert pending.request_labels(Event(0, 0, 10, np.asarray([0, 1])), 4).requested
+    restored = GatedAdaptiveRange(10, 4, 0.05, rng=np.random.default_rng(9))
+    restored.load_state_dict(pending.state_dict())
+    restored.observe([ReleasedFeedback(0, 0, 2, 0, np.asarray([1, 0]), 0.9)])
+    assert restored.n_ingested == 1
+    assert restored.cs.plus.wmax == 2.0
+    assert restored._wmax == {}

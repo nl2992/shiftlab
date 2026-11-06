@@ -119,6 +119,16 @@ claim corrections and remaining coverage limits are recorded in `CLAIM_RECONCILI
   frozen raw runs in `outputs/sprint2/WP1/`.
 - WP2 runs: frozen commands/protocol in `docs/sprint2/wp2/BENCHMARK.md` and `protocol.md`; raw
   manifests under `outputs/sprint2/WP2/`.
+- Adaptive-range correction impact inventory across the SOTA sprint and Sprint 2: regenerate the manifest schedule with
+  `uv run python scripts/sota_sprint/audit_adaptive_gate_impact.py`; its source manifests are under
+  `outputs/`, its human-readable schedule is `docs/sprint2/adaptive_gate_impact.md`, and
+  machine-readable output is `outputs/sprint2/adaptive_gate_impact.json` (gitignored). Affected old
+  rows are historical; corrected same-seed replays and downstream report regeneration are pending.
+  Generate replay commands with `uv run python scripts/sota_sprint/replay_adaptive_gate_runs.py`;
+  execute the complete schedule with `uv run python scripts/sota_sprint/replay_adaptive_gate_runs.py --execute`.
+  To run one registered suite first, pass `--run-dir outputs/sota_sprint/validation/null1000
+  --workers 9 --execute`. Replays write to sibling directories tagged
+  `_wmaxfix_20261105` and refuse to overwrite existing outputs.
 
 ## Corrected sensitivity analyses
 

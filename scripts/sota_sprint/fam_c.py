@@ -218,8 +218,8 @@ class _Ctl:
             self._flush()
             return QueryRequest(requested=False)
         q = float(min(max(q, self.c_qfloor()), 1.0))
+        self._c_record_dis(t, q)  # freeze any host bet range before drawing the query indicator
         take = bool(self.rng.random() < q)
-        self._c_record_dis(t, q)
         rec = _Rec(t, not take, 0.0, 0)
         self._queue.append(rec)
         if take:

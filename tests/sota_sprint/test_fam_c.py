@@ -13,7 +13,7 @@ sys.path.insert(0, str(ROOT / "scripts/sota_sprint"))
 
 import screen  # noqa: E402  (sets up all paths)
 from bench import parse_regime  # noqa: E402
-from simulator import check_budget_feasible, check_no_future_access, run_episode  # noqa: E402
+from simulator import Event, check_budget_feasible, check_no_future_access, run_episode  # noqa: E402
 from suite import stream_from_losses  # noqa: E402
 
 import fam_c  # noqa: E402
@@ -73,6 +73,22 @@ def test_issue_time_propensity_used(name):
             assert wm == pytest.approx(max(1.0 / q, 2.0))
         if isinstance(pol, fam_c.DiscernC):
             assert q >= pol.p_min - 1e-12
+
+
+def test_gated_controller_sets_range_before_query_draw_and_flush():
+    pol = _make("C2", T=10, B=4, delay=1)
+    pol.ctl.decide = lambda *args: (1.0, 0.25)
+
+    class Draw:
+        def random(self):
+            return 0.9  # skip query; this record is ingested synchronously
+
+    pol.rng = Draw()
+    request = pol.request_labels(Event(0, 0, 10, np.asarray([0, 1])), remaining_budget=4)
+    assert not request.requested
+    assert pol.n_ingested == 1
+    assert pol.cs.plus.wmax == 4.0
+    assert pol.cs.minus.wmax == 4.0
 
 
 @pytest.mark.parametrize("mine,host", [("Cchk:gated_front", "gated_adaptive_range+front"),

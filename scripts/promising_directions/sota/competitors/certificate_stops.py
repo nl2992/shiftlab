@@ -6,7 +6,7 @@ SOTA_NARROWED_PROTOCOL.md``) must beat. They hold ACQUISITION fixed (the shared
 moment a statistical certificate fires at level ``alpha``. They are not economic: neither knows the
 switching cost or the remaining horizon, which is exactly what the protocol tests.
 
-Sources (fetched and read in full for the relevant sections; no author code was obtainable)
+Sources (papers read for the relevant sections; author-code status audited 2026-11-05)
 -------------------------------------------------------------------------------------------
 **DISCERN**: arXiv:2609.17560, "Pay Only for Disagreement: Certified No-Regression Verdicts for
 Model Updates with Matching Label-Complexity Bounds".
@@ -41,10 +41,10 @@ Sequences" (ICML 2021).
   current CS endpoint, Algorithm 1 (its exact solution over the triangle ``C``), the endpoint
   update by the largest root of the quadratic lower bound on log wealth (eq. 14, with the
   ``ln(2/alpha)`` from hedging), and Algorithm 2 (MOPE).
-* Section 5.3 "Gated Deployment": "If we can reject all negative values (i.e. the lower CS crosses
-  0) then pi should be deployed. Conversely, rejecting all positive values (i.e. the upper CS
-  crosses 0) means pi should be discarded." Also: "we don't have to choose a stopping time in
-  advance."
+* Section 5.3 "Gated Deployment": the lower CS crossing 0 triggers deployment, while the upper CS
+  crossing 0 triggers discard; stopping need not be fixed in advance.
+* Public author code: https://github.com/n17s/mope (pinned review checkout
+  `a4b8584b622f3a8296932568c520c1bb3e1957f0`). Native numerical parity has not been checked.
 
 Common event semantics (both classes)
 -------------------------------------
@@ -100,9 +100,12 @@ class PrPlEBCS:
     bet ``lambda_i`` does not depend on ``m``, ``log M_t(m)`` is LINEAR in ``m`` and the
     endpoints are available in closed form; the CS is the running intersection.
 
-    ADAPTER: ``v_i = 4 (W_i - mu_hat_{i-1})^2`` (the factor 4 is in Waudby-Smith and Ramdas
-    Thm. 2; DISCERN's Appendix A prints ``v_i = (W_i - mu_hat_{i-1})^2`` without it. We follow the
-    cited theorem because the un-scaled variant is not covered by it). ``mu_hat_t = (1/2 +
+    ``v_i = 4 (W_i - mu_hat_{i-1})^2`` and ``psi_E(lambda) =
+    (-log(1-lambda)-lambda)/4`` follow Waudby-Smith and Ramdas Thm. 2. Their product is exactly
+    ``(W_i - mu_hat_{i-1})^2 * (-log(1-lambda)-lambda)``, matching the variance-penalty term
+    printed in DISCERN Appendix A. The previous local port omitted the ``/4`` from ``psi_E`` while
+    retaining the factor 4 in ``v_i``; that was a local fidelity bug, not a discrepancy in DISCERN.
+    ``mu_hat_t = (1/2 +
     sum W) / (t+1)`` and ``sigma2_hat_t = (1/4 + sum (W_i - mu_hat_i)^2) / (t+1)`` are the
     Waudby-Smith and Ramdas plug-ins; DISCERN does not print them. ``lambda_max`` is not
     stated by DISCERN; 1/2 is the Waudby-Smith and Ramdas default.
@@ -371,6 +374,10 @@ class _CertificateStop:
     def _load_extra(self, s: dict) -> None:
         pass
 
+    def _on_acquisition_propensity(self, event: Event, q: float, disagree: bool) -> None:
+        """Observe q before its Bernoulli draw or any synchronous queue flush."""
+        pass
+
     # ---- Policy protocol
     def predict(self, event: Event) -> int:
         return self.deployed
@@ -381,6 +388,7 @@ class _CertificateStop:
         self._on_event_start(event)
         dis = bool(event.model_predictions[0] != event.model_predictions[1])
         q = self.acq.propensity(event.t, remaining_budget, dis)
+        self._on_acquisition_propensity(event, q, dis)
         self.acq.note_event(dis)
         if self.stopped:  # a zero-label verdict (Tier 0) may have fired on this event
             return QueryRequest(requested=False)
@@ -494,7 +502,8 @@ class DiscernStyleStop(_CertificateStop):
     ADAPTER: Tier 0 needs no labels, so it is updated on every event including after the
     budget is exhausted.
 
-    BLOCKED: no author code was available; this is built from the printed construction only.
+    BLOCKED: this is built from the printed construction only; author code is now known to be
+    available at https://github.com/n17s/mope, but native numerical parity has not been checked.
     DISCERN's learned judge routing is not used (acquisition is the shared paced rule).
     """
 

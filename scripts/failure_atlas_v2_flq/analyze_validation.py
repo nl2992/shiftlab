@@ -2,10 +2,9 @@
 
     uv run python scripts/failure_atlas_v2_flq/analyze_validation.py
 
-Inputs: outputs/failure_atlas_v2/validation_synth (frozen run) and validation_synth_strong (strong
-re-ports and the corrected SMCS front rule, same streams). Rows of SMCS front variants from the
-frozen run used the superseded front condition and are relabelled ``*_v0front``.
-Writes docs/failure_atlas_v2_flq/results/validation_synthetic.md and outputs/failure_atlas_v2/validation_summary.json.
+Input: outputs/failure_atlas_v2/validation_synth_wmaxfix_20261105 (full frozen seed schedule
+rerun after correcting the adaptive-range bet-ordering issue; all current policies share each stream).
+Writes docs/failure_atlas_v2_flq/results/validation_synthetic.md and the corrected run's summary.
 """
 
 from __future__ import annotations
@@ -21,7 +20,7 @@ HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
 from analyze_atlas_v2 import boot_ci  # noqa: E402
 
-OUT = HERE.parents[1] / "outputs/failure_atlas_v2"
+OUT = HERE.parents[1] / "outputs/failure_atlas_v2/validation_synth_wmaxfix_20261105"
 NULLS = ["V_null", "V_worse", "V_null_dep_r5", "V_null_dep_r8"]
 STAT_ALT = ["V_better_a", "V_better_b", "V_better_c", "V_dep_better_r5", "V_near", "V_bursty"]
 CHANGE = ["V_late_600", "V_reversal_1000", "V_recurrent"]
@@ -43,10 +42,7 @@ OURS = ["QSG", "QSG-r25", "gated_deployment+QCE+front", "discern_style+QCE+front
 
 
 def load():
-    a = pd.read_json(OUT / "validation_synth/records.jsonl", lines=True)
-    a.loc[a.policy.isin(["SMCS+QCE+front", "SMCS+front_only"]), "policy"] += "_v0front"
-    b = pd.read_json(OUT / "validation_synth_strong/records.jsonl", lines=True)
-    return pd.concat([a, b], ignore_index=True)
+    return pd.read_json(OUT / "records.jsonl", lines=True)
 
 
 def pdiff(d, reg, a, b):

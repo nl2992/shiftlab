@@ -33,14 +33,14 @@ class GatedAdaptiveRange(GatedDeploymentStop):
             self.acq.propensity = lambda t, rem, dis, _b=base: (
                 1.0 if (dis and rem > 0) else _b(t, rem, dis))
 
-    def request_labels(self, event, remaining_budget):
-        req = super().request_labels(event, remaining_budget)
-        dis = bool(event.model_predictions[0] != event.model_predictions[1])
-        if dis and req.probability > 0:
-            self._wmax[event.t] = max(1.0 / req.probability, 2.0)
-        else:
+    def _on_acquisition_propensity(self, event, q, disagree):
+        # This runs after q is fixed but before the query draw and before _flush can ingest
+        # an unqueried disagreement or agreement synchronously. The range cannot depend on
+        # the Bernoulli outcome.
+        if disagree and q > 0:
+            self._wmax[event.t] = max(1.0 / q, 2.0)
+        elif not disagree:
             self._wmax[event.t] = 2.0  # agreement: w = 1 exactly
-        return req
 
     def _ingest(self, w, d, event_ref):
         wm = self._wmax.pop(event_ref, 1.0 / self.p_min)
@@ -48,6 +48,15 @@ class GatedAdaptiveRange(GatedDeploymentStop):
             side.wmax = wm
             side._bet()  # bet over C(wmax_t) from past statistics only
         super()._ingest(w, d, event_ref)
+
+    def _extra_state(self):
+        state = super()._extra_state()
+        state["adaptive_wmax"] = {str(k): v for k, v in self._wmax.items()}
+        return state
+
+    def _load_extra(self, state):
+        super()._load_extra(state)
+        self._wmax = {int(k): float(v) for k, v in state.get("adaptive_wmax", {}).items()}
 
 
 class DiscernDesignFloor(DiscernStyleStop):

@@ -26,3 +26,27 @@ All values and limitations are summarized from `docs/sprint2/wp1/RESULTS.md`, `d
 The Sprint 2 same-seed adaptive-range correction replay is now complete for five suites. The primary checkout audit reports 99 matched regime-policy cells and 130 individual run changes; null counts are unchanged for the front-loaded methods except corrected ordinary-Gated cells in some regimes. Corrected outputs show front-loading gains across previously exposed real sources: equal-source front−Gated is −24.55 J [−42.81,−6.29] over 14 source clusters, while front−tuned pacing is −0.30 [−1.05,+0.45]. These are source-cluster intervals on development-exposed streams, not confirmation. C2/C6 reduce synthetic net cost by approximately 7.4–7.8 in two late regimes against Gated+front, largely by issuing fewer labels without a higher promotion rate; they also have elevated promotion in out-of-class marginal-null stress tests. Details and hashes are in `CORRECTED_REPLAY_AUDIT.md`.
 
 This amendment supersedes any statement in this report or the earlier exit audit that Sprint 2 affected comparisons remain unreplayed. It does not replace, delete or rewrite the historical records.
+
+## PFA-SR matched-host confirmation amendment (2026-11-06)
+
+The new `PFA-SR` screen tests a published PFA-weighted e-Shiryaev–Roberts detector on
+the same deployment hosts as corrected RMM. The matched-host confirmation results are in
+`research/scoped_method/pilots/pfa_srr_transfer_confirmation_20261106/run/RESULTS.md`;
+its protocol and detector definition are in the sibling `protocol.md` and
+`scripts/sota_sprint/pfa_srr_baseline.py`. In the frozen strong-persistent synthetic cell,
+PFA-SR saved 18.34 net-cost units against Xu's acquisition-only adapter
+([−25.57, −11.11]) and 14.24 against same-host RMM ([−20.71, −7.77]). Null promotions
+were 0/100 and 1/100 for the two hosts. The weaker persistent cell did not resolve a
+5-unit benefit; the delayed/scarce cell failed the same-host RMM criterion for the
+adaptive-range host. In the reversal diagnostic, both PFA-SR hosts cost materially more
+than never-switch.
+
+This does not revise the atlas into a new-method claim. The PFA start-time prior is
+published prior art (Shin et al., 2026); the run is a same-host application comparison.
+The evidence localizes an economic deployment opportunity to strong persistent gains
+with an iid conditional feedback model. It does not show robust correction of reversals,
+general benefit under scarce/delayed feedback, or validity on dependent real streams.
+No new real-data confirmation was run: candidate originality was not established, and
+available chronological sources audited for this turn lack verified label-release times
+for the intended deployment-stream test. The raw matched records and their hashes are
+preserved in the run directory; this amendment supersedes no earlier atlas observations.

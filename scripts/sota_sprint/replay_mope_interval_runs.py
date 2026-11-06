@@ -123,6 +123,32 @@ def main():
             if av is not None:
                 out, cmd = av
                 tasks.append((f, cmd, out, policies))
+    # The original Failure Atlas v2 outputs were deleted after the adaptive-range correction.
+    # Reconstruct those two validation suites from the saved corrected-run manifests. They cannot
+    # be paired to the unavailable original records, so the analyzer must mark them corrected-only.
+    atlas_root = ROOT / "outputs/failure_atlas_v2"
+    for f in sorted(atlas_root.glob("*_wmaxfix_20261105/manifest.json")):
+        try:
+            m = json.loads(f.read_text())
+            av = m.get("argv", {})
+            if av.get("extra") != "v2_extra":
+                continue
+            old_out = Path(av.get("out", f.parent))
+            new_out = old_out.with_name(old_out.name.replace("_wmaxfix_20261105", TAG))
+            cmd = ["uv", "run", "python", "scripts/failure_atlas_v2_flq/run_atlas_v2.py",
+                   "--kind", str(av["kind"]), "--regimes", str(av["regimes"]),
+                   "--seeds", str(av.get("seeds", 100)), "--seed-base", str(av.get("seed_base", 2026110301)),
+                   "--extra", str(av["extra"]), "--workers", str(a.workers),
+                   "--budget", str(av.get("budget", 200)), "--cs", str(av.get("cs", 5.0)),
+                   "--out", str(new_out)]
+            av_policies = av.get("policies", "")
+            if av_policies:
+                cmd += ["--policies", str(av_policies)]
+            if (new_out / "manifest.json").is_file():
+                continue
+            tasks.append((f, cmd, new_out, ["v2_extra:MOPE consumers (corrected-only)"]))
+        except (OSError, KeyError, ValueError, json.JSONDecodeError):
+            continue
     # A recovered Family-H source directory has no manifest; its command is recorded in the
     # replay audit and the adaptive-range correction schedule.
     orphan = ROOT / "outputs/sprint2/H/screen1"

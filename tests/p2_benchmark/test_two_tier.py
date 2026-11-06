@@ -21,10 +21,11 @@ def test_new_regimes_register_and_differ():
     import two_tier_regimes as R
 
     assert set(R.NEW) <= set(bench.SPRINT_REGIMES)
+    keys = ("p", "dis", "rho", "burst", "delay")
     old = {
-        (r.p, r.dis, r.rho, r.burst, r.delay)
+        tuple(getattr(r, a) for a in keys)
         for k, r in bench.SPRINT_REGIMES.items()
-        if k not in R.NEW and hasattr(r, "p")
+        if k not in R.NEW and all(hasattr(r, a) for a in keys)
     }
     for r in R.NEW.values():
         assert (r.p, r.dis, r.rho, r.burst, r.delay) not in old, r.name

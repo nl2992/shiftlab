@@ -1,0 +1,137 @@
+{
+  "claim_boundary": "single-source time-blocked retrospective case study with simulated label delay; no cross-source/generalization or causal claim",
+  "rows": 3877,
+  "budget": 200,
+  "per_policy": {
+    "PFA-SR:gated_adaptive_range": {
+      "net_cost": 3163.0,
+      "prediction_loss": 3153.0,
+      "labels": 200,
+      "label_expenditure": 10.0,
+      "switches": 0,
+      "switch_expenditure": 0.0,
+      "promotion_count": 0,
+      "rollback_count": 0,
+      "first_promotion_event": null,
+      "first_promotion_date": null,
+      "time_to_promotion_events": null,
+      "final_model": 0,
+      "predictive_error_rate": 0.8132576734588599,
+      "net_cost_per_1000_events": 815.8369873613618
+    },
+    "rmm:gated_adaptive_range+RMM": {
+      "net_cost": 2039.0,
+      "prediction_loss": 2024.0,
+      "labels": 200,
+      "label_expenditure": 10.0,
+      "switches": 1,
+      "switch_expenditure": 5.0,
+      "promotion_count": 1,
+      "rollback_count": 0,
+      "first_promotion_event": 1498,
+      "first_promotion_date": "2018-02-23",
+      "time_to_promotion_events": 1498,
+      "final_model": 1,
+      "predictive_error_rate": 0.5220531338663915,
+      "net_cost_per_1000_events": 525.9221047201445
+    },
+    "xu_acquisition_only": {
+      "net_cost": 1454.0,
+      "prediction_loss": 1439.0,
+      "labels": 200,
+      "label_expenditure": 10.0,
+      "switches": 1,
+      "switch_expenditure": 5.0,
+      "promotion_count": 1,
+      "rollback_count": 0,
+      "first_promotion_event": 254,
+      "first_promotion_date": "2018-01-11",
+      "time_to_promotion_events": 254,
+      "final_model": 1,
+      "predictive_error_rate": 0.37116327057002835,
+      "net_cost_per_1000_events": 375.0322414237813
+    },
+    "E_rb:gated_adaptive_range": {
+      "net_cost": 2039.0,
+      "prediction_loss": 2024.0,
+      "labels": 200,
+      "label_expenditure": 10.0,
+      "switches": 1,
+      "switch_expenditure": 5.0,
+      "promotion_count": 1,
+      "rollback_count": 0,
+      "first_promotion_event": 1498,
+      "first_promotion_date": "2018-02-23",
+      "time_to_promotion_events": 1498,
+      "final_model": 1,
+      "predictive_error_rate": 0.5220531338663915,
+      "net_cost_per_1000_events": 525.9221047201445
+    },
+    "E_swcert": {
+      "net_cost": 1627.95,
+      "prediction_loss": 1613.0,
+      "labels": 199,
+      "label_expenditure": 9.950000000000001,
+      "switches": 1,
+      "switch_expenditure": 5.0,
+      "promotion_count": 1,
+      "rollback_count": 0,
+      "first_promotion_event": 624,
+      "first_promotion_date": "2018-01-25",
+      "time_to_promotion_events": 624,
+      "final_model": 1,
+      "predictive_error_rate": 0.416043332473562,
+      "net_cost_per_1000_events": 419.8994067578024
+    },
+    "CONTROL_never_switch": {
+      "net_cost": 3153.0,
+      "prediction_loss": 3153.0,
+      "labels": 0,
+      "label_expenditure": 0.0,
+      "switches": 0,
+      "switch_expenditure": 0.0,
+      "promotion_count": 0,
+      "rollback_count": 0,
+      "first_promotion_event": null,
+      "first_promotion_date": null,
+      "time_to_promotion_events": null,
+      "final_model": 0,
+      "predictive_error_rate": 0.8132576734588599,
+      "net_cost_per_1000_events": 813.2576734588599
+    }
+  },
+  "primary_paired_net_cost_contrasts": {
+    "PFA-SR minus rmm:gated_adaptive_range+RMM": {
+      "mean_per_event": 0.28991488264121745,
+      "per_1000_events": 289.91488264121745,
+      "ci95_per_1000_events": [
+        193.6367911287627,
+        391.1756995437702
+      ],
+      "bootstrap_resamples": 2000,
+      "calendar_block_days": 7,
+      "frozen_transfer_gate_pass": false
+    },
+    "PFA-SR minus xu_acquisition_only": {
+      "mean_per_event": 0.4408047459375806,
+      "per_1000_events": 440.8047459375806,
+      "ci95_per_1000_events": [
+        394.1934704073274,
+        486.84265883312355
+      ],
+      "bootstrap_resamples": 2000,
+      "calendar_block_days": 7,
+      "frozen_transfer_gate_pass": false
+    }
+  },
+  "source_clusters": [
+    "HuffPost"
+  ],
+  "source_cluster_count": 1,
+  "adverse_limitations": [
+    "date-only timestamps",
+    "simulated 24-hour feedback",
+    "one independent source cluster",
+    "no real publisher-level multiplicity"
+  ]
+}

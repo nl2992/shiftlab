@@ -804,5 +804,76 @@
   "latest_decision": "BENCHMARK_OR_CASE_STUDY_ONLY",
   "current_branch": "codex/scoped-method-research-results-2026-11-06",
   "current_code_revision": "c699b4b46209abd53f3771a6f5dbc34e88f7ad85",
-  "previous_pushed_report_commit": "6299987ea1155e8e57d7f52a43bd2aeb3333ab3b"
+  "previous_pushed_report_commit": "6299987ea1155e8e57d7f52a43bd2aeb3333ab3b",
+  "chronological_news_transfer": {
+    "branch": "codex/scoped-method-research-results-2026-11-06",
+    "execution_head": "07a014797c8e04bb785a30175363e98b10e0e959",
+    "frozen_code_head": "9e8fffca",
+    "protocol": "research/scoped_method/pilots/chronological_news_transfer_20261106/protocol.md",
+    "protocol_amendment": "research/scoped_method/pilots/chronological_news_transfer_20261106/PROTOCOL_AMENDMENT_20261106.md",
+    "runner": "scripts/sota_sprint/run_huffpost_transfer.py",
+    "command": ".venv/bin/python scripts/sota_sprint/run_huffpost_transfer.py",
+    "data_source": "Wild-Time HuffPost / News Category Dataset v2, pinned HF revision 01020533529fc1cda0af7d99231eb96e7837f883",
+    "raw_sha256_local": "fc5d8d34bd4ba55206cd715aa5fdf6d52b6e5e8e32fcac8684d941a9c5cbef95",
+    "frozen_models_sha256_local": "93c74d020e9aeff70e1d1cada33096d48a044e7f58dad4cb67e3c2d0a6732c7a",
+    "eligibility_sha256": "a5201d7550ad67214552e19750f051962f6d37abac21c41879ed970ef84916f2",
+    "test_row_ids_sha256": "6a7bf3b916263b3031ecb810ad12df11fac8f4d7e6fe977269020ec701e45dec",
+    "prediction_stream_sha256": "a11fed35412e7a917f3331aea3cd697e23606d4d8ceeae95eeb4b80c0a0f2151",
+    "test_rows": 3877,
+    "label_budget": 200,
+    "simulated_label_release": "publication date + 24 hours at midnight UTC, with same-day request-before-release batching",
+    "statistic": "paired event-cost difference, 2000 moving-block bootstrap resamples, 7 calendar-day blocks, seed 2026110641",
+    "results_artifact": "research/scoped_method/pilots/chronological_news_transfer_20261106/run/wildtime_huffpost/transfer_results.json",
+    "opening_artifacts": [
+      "research/scoped_method/pilots/chronological_news_transfer_20261106/run/wildtime_huffpost/TEST_OPENING_STARTED.json",
+      "research/scoped_method/pilots/chronological_news_transfer_20261106/run/wildtime_huffpost/TEST_OPENED.json",
+      "research/scoped_method/pilots/chronological_news_transfer_20261106/run/wildtime_huffpost/code_freeze.json"
+    ],
+    "review": "Independent read-only review approved protocol controls before opening; reviewer did not inspect test outcomes.",
+    "claim_boundary": "One source cluster, simulated label clock, retrospective replay; no causal or cross-source generalization claim.",
+    "result": {
+      "PFA_SR": {
+        "net_cost": 3163.0,
+        "prediction_loss": 3153,
+        "labels": 200,
+        "label_cost": 10.0,
+        "switches": 0,
+        "promotions": 0
+      },
+      "matched_host_RMM": {
+        "net_cost": 2039.0,
+        "prediction_loss": 2024,
+        "labels": 200,
+        "label_cost": 10.0,
+        "switch_cost": 5.0,
+        "promotions": 1,
+        "first_promotion_event": 1498
+      },
+      "Xu_acquisition_only": {
+        "net_cost": 1454.0,
+        "prediction_loss": 1439,
+        "labels": 200,
+        "label_cost": 10.0,
+        "switch_cost": 5.0,
+        "promotions": 1,
+        "first_promotion_event": 254
+      },
+      "PFA_minus_RMM_per_1000": {
+        "estimate": 289.91488264121745,
+        "ci95": [
+          193.6367911287627,
+          391.1756995437702
+        ]
+      },
+      "PFA_minus_Xu_per_1000": {
+        "estimate": 440.8047459375806,
+        "ci95": [
+          394.1934704073274,
+          486.84265883312355
+        ]
+      },
+      "frozen_gate": "FAIL against both comparators"
+    },
+    "trace_recomputability": "Per-event traces were hashed but not persisted; the aggregate bootstrap endpoints cannot be independently recomputed from committed outputs. Do not reopen the one-time test."
+  }
 }

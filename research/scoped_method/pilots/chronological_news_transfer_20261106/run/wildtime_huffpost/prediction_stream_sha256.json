@@ -1,0 +1,12 @@
+{
+  "predictions_sha256": "a11fed35412e7a917f3331aea3cd697e23606d4d8ceeae95eeb4b80c0a0f2151",
+  "test_labels_sha256_local_only": "1d5b66c25e598cedd2de3b387e7f102aaeff5bea2718734b93a77d1c6ce425ee",
+  "trace_hashes": {
+    "PFA-SR:gated_adaptive_range": "2f6ff655a5a90a4bd0e874f821faf05afdd139ac5fc86e891ef139d14f83936c",
+    "rmm:gated_adaptive_range+RMM": "492f06067f0943c1560f6da424ef4206fe7cabb69492305e6339bf448e4c5252",
+    "xu_acquisition_only": "37e6bc5fa8cab3b86750e3645520c4d44aa8288734bf9823271a78325bf02b04",
+    "E_rb:gated_adaptive_range": "492f06067f0943c1560f6da424ef4206fe7cabb69492305e6339bf448e4c5252",
+    "E_swcert": "8569d587cb65a8675f65fbfdcc246e659c6dd530c77f2be54d4dc5c3fca042c1",
+    "CONTROL_never_switch": "d915cd103dd06287b6209915f6c3117a6bced65cbd8253b44a014dd0cf351a16"
+  }
+}

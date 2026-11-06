@@ -68,3 +68,17 @@ A separate frozen development screen tested a heavier-tailed finite-budget chang
 ## Final scientific decision
 
 **`BENCHMARK_OR_CASE_STUDY_ONLY`.** The strong-persistent synthetic effect is real under the frozen simulator contract, but the complete target-region gate and novelty gate do not pass. Do not write this up as a new detector or general rollback/acquisition method. Preserve the full results and adverse cells as a scoped comparison against the Failure Atlas.
+
+## Append-only real-transfer update (2026-11-06)
+
+After this decision was written, one newly sourced chronological source passed the frozen
+validation-only selection rule and was opened for a single-source PFA-SR application replay.
+Wild-Time HuffPost's date-only labels were assigned a **simulated** +24-hour release clock; this is
+not observed feedback. On 3,877 test rows, PFA-SR used all 200 labels, never promoted, and cost
+3,163. Same-host RMM cost 2,039; Xu acquisition-only cost 1,454. PFA-SR was +289.91/1,000 versus
+RMM (time-block 95% interval `[+193.64,+391.18]`) and +440.80/1,000 versus Xu
+(`[+394.19,+486.84]`). This negative case does not revise the synthetic findings or create a new
+method contribution. It strengthens the scoped late-improvement failure diagnosis and leaves the
+primary paper contribution C4 **FAIL**: one source cluster, simulated label clock, and no repair
+validation. Exact artifacts and a trace-persistence limitation are in
+`docs/scoped_method_research_2026-11-06/REAL_DATA_AUDIT.md` and the registered HuffPost pilot run.

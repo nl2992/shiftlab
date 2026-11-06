@@ -66,3 +66,19 @@ versus 3/30 for canonical PFA-SR; this did not yield a cost advantage. It also c
 candidate fails its preregistered development gate and is stopped; no confirmatory run or
 novelty claim follows. This is a failed prior-shape candidate, not evidence against the
 separate strong-persistent PFA-SR application result.
+
+## Independent chronological-news stress test (2026-11-06)
+
+The one eligible fresh source, Wild-Time HuffPost, adds a real chronological instance of the
+late-improvement failure. Validation selected a fixed model pair with a 40.46-point error
+advantage for the later model; on 3,877 test events with at most 200 delayed labels, PFA-SR
+acquired the full budget and did not promote. Its cost was 3,163 versus 2,039 for same-host RMM
+and 1,454 for Xu acquisition-only. Paired PFA-SR-minus-RMM cost was +289.91/1,000
+(`[+193.64,+391.18]`); versus Xu it was +440.80 (`[+394.19,+486.84]`). This failed the
+frozen practical/statistical transfer rule. The test uses one source cluster and a simulated
+24-hour label clock, so this is a scoped retrospective failure case, not independent source-level
+generalization or method confirmation. The 11-category row-ID corrected pretest result supersedes
+the separately preserved headline-tie pretest artifacts; neither version inspected test outcomes
+before the one-time opening. Full artifacts are registered in the chronological-news pilot
+directory. The finding strengthens the diagnosis of PFA-SR's slow promotion under scarce labels,
+but PFA-SR is prior art and the result supplies no repair.

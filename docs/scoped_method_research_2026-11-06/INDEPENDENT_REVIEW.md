@@ -31,3 +31,19 @@ The internal review does not itself establish that these steps will yield a publ
 ## Lead's append-only update after corrected replay
 
 The replay step is complete, so recommendation 1 above is superseded. The corrected evidence is summarized in `CORRECTED_REPLAY_AUDIT.md`: two existing C2/C6 variants show about 7.4–7.8 lower cost than Gated+front on two late synthetic cells without more promotion, but this is exposed and is accompanied by 12.6–21.6% promotion on two out-of-class marginal-null stresses. Front-loaded and tuned pacing are indistinguishable in the five-source exposed real replay; source-level intervals are wide, and C2/C6 add no clear real-data benefit. These findings do not change the benchmark-only decision. E_rb still lacks a matched start-grid/two-sided SR/CUSUM screen. An OPSD/Binance task freeze exists, but the required method freeze/opening runner does not; no holdout was accessed. Tests were rerun at c66185 (171 passed in isolated groups; exact commands and timing in `EXPERIMENT_LOG.md`). This lead update is not a second independent reviewer opinion; the original reviewer read the earlier package.
+
+## Independent HuffPost transfer audit (2026-11-06)
+
+A separate read-only critical reviewer inspected the opened aggregate result and audit documents. It
+confirmed the cost identities and paired bootstrap arithmetic: PFA-SR cost 1,124 more than RMM
+(+289.9/1,000; 95% time-block interval `[+193.6,+391.2]`) and 1,709 more than Xu (+440.8/1,000;
+`[+394.2,+486.8]`). PFA-SR used all labels with no promotion; RMM/E_rb and Xu promoted at events
+1,498 and 254. Both frozen gates fail. The review accepts the result as an adverse single-source,
+time-blocked case study under simulated 24-hour feedback, not a new-method or cross-source claim.
+
+The reviewer also identified a reproducibility limitation: per-event traces were only hashed and
+were not saved as restricted artifacts or reduced to date-level paired sums/counts. Therefore, the
+committed aggregate output does not let an independent analyst recalculate the bootstrap endpoints.
+Do not reopen this one-time test to repair that limitation. The review recommends C1/C2 PARTIAL,
+C3 FAIL, C4 FAIL for the method-paper contributions; the single-source PFA transfer case study is
+complete but negative. This is an internal model-assisted review, not external scientific review.

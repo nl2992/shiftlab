@@ -17,3 +17,13 @@ They are not 14 untouched independent domains. Source-level intervals are in
 [`CORRECTED_REPLAY_AUDIT.md`](../scoped_method_research_2026-11-06/CORRECTED_REPLAY_AUDIT.md).
 Dataset dates alone do not establish causal change time or availability of labels. No favorable
 episode may be retrospectively selected as an independent source.
+
+## 2026-11-06 append-only status update
+
+The Wild-Time HuffPost candidate was later source-audited and opened once for the registered
+published PFA-SR transfer case study; arXiv remains unopened. HuffPost passed the frozen validation
+gate, while UCI News Aggregator and MN-DS did not and stayed locked. The test result is adverse to
+PFA-SR: on one HuffPost source cluster with simulated 24-hour feedback, PFA-SR cost more than
+same-host RMM and Xu acquisition-only. This updates the table's historical “not run for
+confirmation” line without changing its warning that the replay is not authentic label-release
+confirmation or independent multi-source transfer. Details: `../scoped_method_research_2026-11-06/REAL_DATA_AUDIT.md`.

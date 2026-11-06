@@ -25,3 +25,16 @@ registry/chronology gate.
 synthetic/prior-art gate, freeze its source registry and chronology, verify checksums and license,
 build/test a one-opening runner, then run on at least two independent eligible source domains. If
 the method gate fails, do not spend effort opening holdouts for this claim.
+
+## 2026-11-06 append-only confirmation update
+
+One Wild-Time HuffPost source was opened once after a validation-only eligibility gate and a frozen
+source/code/model manifest. This does **not** change the primary method-contribution status: no new
+repair was validated, the label clock was simulated at publication date + 24 hours, and the study
+contains one source cluster. On the 3,877-row test stream, PFA-SR spent 200 labels, never promoted,
+and cost 3,163; same-host RMM cost 2,039 and Xu acquisition-only cost 1,454. The paired cost
+intervals are unfavorable to PFA-SR versus both comparators. UCI and MN-DS were validation-ineligible
+and were not opened. Accordingly, this is a negative single-source case study, not C4 confirmation.
+The original “no confirmation” assessment remains correct for a new method claim and is retained as
+historical provenance. The full result and limitations are in
+`../scoped_method_research_2026-11-06/REAL_DATA_AUDIT.md`.

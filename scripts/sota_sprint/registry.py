@@ -90,6 +90,10 @@ def build_extra() -> dict:
             extra.update(importlib.import_module(fam).EXTRA)
         except (ImportError, AttributeError) as e:
             IMPORT_ERRORS[fam] = repr(e)
+    try:
+        extra.update(importlib.import_module("pfa_srr_baseline").EXTRA)
+    except (ImportError, AttributeError) as e:
+        IMPORT_ERRORS["pfa_srr_baseline"] = repr(e)
     return extra
 
 

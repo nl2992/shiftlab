@@ -1,0 +1,38 @@
+{
+  "created_utc_date": "2026-11-06",
+  "worktree": "/Users/nigelli/Desktop/ICML/Shift-lab/.claude/worktrees/scoped-method-research-current",
+  "branch": "codex/scoped-method-research-current",
+  "code_revision": "c66185c0a1f3338e7422cfceeeedd0694867fb74",
+  "decision": "BENCHMARK_OR_CASE_STUDY_ONLY",
+  "evidence_classification": "correction replay and development; no confirmation",
+  "required_artifacts": {
+    "00_STATE_AUDIT.md": "837b4f4a026913a38e28b89f1fd049abab3759f77a3999832b6233c11e9d7ddb",
+    "01_GRAPHIFY_MAP.md": "7edaea51fbedecd10983728a7272584149d77cd95cbb25824da4bfca6da6c396",
+    "02_FAILURE_ATLAS_UPDATE.md": "b99a590561a40cede34d1d878c9e8f32d2d563a3dd32c36fceb194df50b42b7e",
+    "03_PRIOR_ART_AND_NOVELTY.md": "186390f49d23db827067e5b0da735d7510392f543e1ec809264f21b4b16aad73",
+    "04_BASELINE_FIDELITY.md": "c70b441faabcebd8140a5e9117c77304ff443c729cf31ffa5c3662a98ecca37a",
+    "05_MECHANISM_PROPOSALS.md": "fcd36a941c22b13ca1c7012494845656019a00f3323299235f5197d2ca4499ab",
+    "06_DEVELOPMENT_PROTOCOL.md": "fd6478813d42fe8e6bd9713837fd843666c7e200b87e6f4a9c3119511c991640",
+    "07_DEVELOPMENT_RESULTS.md": "cf636923a6c82290ede88c7bd5331913cdba5f1d64f19bc9b990606ace9e9109",
+    "08_FROZEN_CONFIRMATION_PROTOCOL.md": "5869ea0d36a771455052eee499bd5bee8092d64ad62f3c8182d06be883b49216",
+    "09_SYNTHETIC_CONFIRMATION.md": "b4dada20b4d5f749764cc0b83ea74ace9d2f22b1d22d3816cf8f442fbeb6fb85",
+    "10_REAL_DATA_REGISTRY.md": "f4e0f34bac4bea335c512f3c80afb10fba6f57691843fb2cbd1c435d2b45871c",
+    "11_REAL_DATA_CONFIRMATION.md": "cb314bc5d04a9b5ad48d54e5903dce52b63ecdf024d829daf5d95917f4e3d4d4",
+    "12_REPRODUCIBILITY_AND_AUDIT.md": "bf56eacf5bf93b37a1e4364df900c463ab03f155c6d7e557822987243f3e63b9",
+    "13_INDEPENDENT_REVIEW.md": "1d684ccefd7ab73c069e1c9efd31d27ce531169db7a25e970b44d523f754fae2",
+    "14_PUBLICATION_CLAIMS.md": "e8783e743fdf6684cf978ba27352aa312bcda22aa9242c5a017840d0c0b9908a",
+    "15_FINAL_DECISION.md": "9d151a4793f0afd4b41179ded324e653d0ea90f4db61e0ce4f75ff853c95c11c"
+  },
+  "pilot_artifacts": {
+    "manifest.json": "6aa6a74af1ce194201800e1acd039e6b36b7bae698a3841bb65ab0545a871922",
+    "records.jsonl": "23b7f27637887a6a429c8a23df0116a8c41151fa1415f9c4f1a0077c2c6b924d",
+    "summary.json": "21f75a9a096e0316370d31cbd867d52ce772b5c86c227129cab84107c1ca38a2"
+  },
+  "corrected_replay_audit_sha256": "eff3cf6fcff5cabf2678bb3ec46744c3751283ec1c65a8b8e2e967690d516db5",
+  "limitations": [
+    "Corrected replays are exposed same-seed reruns, not confirmation.",
+    "Pilot regimes were previously used; 30 paired seeds per regime are exploratory.",
+    "No authentic independent real-source confirmation; no holdout was opened.",
+    "Primary raw replay outputs are ignored local files and are not included in this worktree."
+  ]
+}

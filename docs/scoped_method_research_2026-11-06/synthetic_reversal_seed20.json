@@ -1,0 +1,123 @@
+{
+  "status": "POST_DEVELOPMENT_SENSITIVITY_NOT_CONFIRMATORY",
+  "run_dir": "outputs/scoped_method_research_20261106/erb_reversal_seed20",
+  "regimes": [
+    "F3_reversal_800",
+    "W_reversal_700",
+    "S_reversal_400"
+  ],
+  "hosts": [
+    "gated_deployment",
+    "discern_style",
+    "SMCS+retain-incumbent",
+    "gated_adaptive_range"
+  ],
+  "primary": {
+    "estimand": "per-seed equal-weight mean over 3 regimes x 4 matched hosts of E_rb net J minus RMM net J",
+    "mean_delta_J": -6.8583333333333325,
+    "ci95_t": [
+      -8.688531226702896,
+      -5.028135439963769
+    ],
+    "n_seed_blocks": 20,
+    "directionally_supportive": true
+  },
+  "exploratory_host_regime_contrasts": {
+    "F3_reversal_800|gated_deployment": {
+      "mean_delta_J": -8.85,
+      "ci95_t": [
+        -15.349691548356347,
+        -2.3503084516436523
+      ],
+      "n": 20
+    },
+    "F3_reversal_800|discern_style": {
+      "mean_delta_J": -10.85,
+      "ci95_t": [
+        -16.234093076845834,
+        -5.465906923154165
+      ],
+      "n": 20
+    },
+    "F3_reversal_800|SMCS+retain-incumbent": {
+      "mean_delta_J": -11.5,
+      "ci95_t": [
+        -17.694971586904927,
+        -5.305028413095075
+      ],
+      "n": 20
+    },
+    "F3_reversal_800|gated_adaptive_range": {
+      "mean_delta_J": -12.2,
+      "ci95_t": [
+        -18.740931500172735,
+        -5.659068499827262
+      ],
+      "n": 20
+    },
+    "W_reversal_700|gated_deployment": {
+      "mean_delta_J": -4.1,
+      "ci95_t": [
+        -7.74393782647714,
+        -0.45606217352285894
+      ],
+      "n": 20
+    },
+    "W_reversal_700|discern_style": {
+      "mean_delta_J": -3.35,
+      "ci95_t": [
+        -6.387922232380225,
+        -0.31207776761977524
+      ],
+      "n": 20
+    },
+    "W_reversal_700|SMCS+retain-incumbent": {
+      "mean_delta_J": -3.4,
+      "ci95_t": [
+        -7.340342519720462,
+        0.5403425197204625
+      ],
+      "n": 20
+    },
+    "W_reversal_700|gated_adaptive_range": {
+      "mean_delta_J": -5.6,
+      "ci95_t": [
+        -9.661363739003882,
+        -1.5386362609961166
+      ],
+      "n": 20
+    },
+    "S_reversal_400|gated_deployment": {
+      "mean_delta_J": -8.35,
+      "ci95_t": [
+        -14.213761365787814,
+        -2.486238634212186
+      ],
+      "n": 20
+    },
+    "S_reversal_400|discern_style": {
+      "mean_delta_J": -6.0,
+      "ci95_t": [
+        -12.245936986480174,
+        0.24593698648017437
+      ],
+      "n": 20
+    },
+    "S_reversal_400|SMCS+retain-incumbent": {
+      "mean_delta_J": -4.35,
+      "ci95_t": [
+        -8.621310481018947,
+        -0.07868951898105259
+      ],
+      "n": 20
+    },
+    "S_reversal_400|gated_adaptive_range": {
+      "mean_delta_J": -3.75,
+      "ci95_t": [
+        -6.312858261069403,
+        -1.1871417389305972
+      ],
+      "n": 20
+    }
+  }
+}

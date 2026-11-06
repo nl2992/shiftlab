@@ -1,0 +1,115 @@
+{
+  "run_manifest": "outputs/sota_sprint/validation/real_exposed_wmaxfix_20261105/manifest.json",
+  "manifest_sha256": "896982b87ee7c8e672b687f01eaed65792942de8f3a28dc49017dfbae60917d5",
+  "n_sources": 9,
+  "source_clusters": [
+    "airlines",
+    "bank",
+    "criteo",
+    "elec2",
+    "openml_ldpa",
+    "rialto",
+    "spam",
+    "uci_occupancy",
+    "weather"
+  ],
+  "n_records": 8400,
+  "contrasts": {
+    "gated_adaptive_range+front minus gated_adaptive_range": {
+      "equal_source_mean": -12.559748148148152,
+      "source_t_ci95": [
+        -24.15540767675973,
+        -0.964088619536577
+      ],
+      "source_bootstrap_percentile_ci95": [
+        -22.446076388888894,
+        -4.0279502314815305
+      ],
+      "n_sources": 9,
+      "per_source": {
+        "airlines": 0.3655999999999967,
+        "bank": -3.0418750000000037,
+        "criteo": -0.027499999999998862,
+        "elec2": 0.1687499999999929,
+        "openml_ldpa": -24.161562500000002,
+        "rialto": -4.4065625,
+        "spam": -42.88000000000001,
+        "uci_occupancy": -23.15625,
+        "weather": -15.898333333333333
+      },
+      "interpretation": "negative favors first policy; descriptive post-development, exposed sources"
+    },
+    "gated_adaptive_range+front minus gated_adaptive_range+pace_tuned": {
+      "equal_source_mean": -0.625629861111112,
+      "source_t_ci95": [
+        -1.800261962590883,
+        0.549002240368659
+      ],
+      "source_bootstrap_percentile_ci95": [
+        -1.6425520833333356,
+        0.10886666666666646
+      ],
+      "n_sources": 9,
+      "per_source": {
+        "airlines": 0.03479999999999927,
+        "bank": -4.322500000000006,
+        "criteo": 0.0,
+        "elec2": 0.0,
+        "openml_ldpa": -1.8154687500000002,
+        "rialto": 0.0,
+        "spam": 0.0,
+        "uci_occupancy": 0.4724999999999994,
+        "weather": 0.0
+      },
+      "interpretation": "negative favors first policy; descriptive post-development, exposed sources"
+    },
+    "C2 minus gated_adaptive_range+front": {
+      "equal_source_mean": -0.9259097222222203,
+      "source_t_ci95": [
+        -3.759013601973753,
+        1.907194157529312
+      ],
+      "source_bootstrap_percentile_ci95": [
+        -2.999499999999997,
+        1.4504513888888808
+      ],
+      "n_sources": 9,
+      "per_source": {
+        "airlines": -4.560999999999999,
+        "bank": -1.8562499999999957,
+        "criteo": -2.0550000000000046,
+        "elec2": -6.137499999999989,
+        "openml_ldpa": 7.064062500000003,
+        "rialto": 0.0,
+        "spam": 0.0,
+        "uci_occupancy": -0.5374999999999979,
+        "weather": -0.25
+      },
+      "interpretation": "negative favors first policy; descriptive post-development, exposed sources"
+    },
+    "C6 minus gated_adaptive_range+front": {
+      "equal_source_mean": -0.14109398148148047,
+      "source_t_ci95": [
+        -5.267198240040244,
+        4.985010277077283
+      ],
+      "source_bootstrap_percentile_ci95": [
+        -3.34779247685185,
+        4.4974026851851825
+      ],
+      "n_sources": 9,
+      "per_source": {
+        "airlines": -4.103699999999998,
+        "bank": -1.8562499999999957,
+        "criteo": -3.750000000000002,
+        "elec2": -6.074999999999989,
+        "openml_ldpa": 16.657812500000006,
+        "rialto": 0.8781250000000007,
+        "spam": 0.0,
+        "uci_occupancy": -0.5374999999999979,
+        "weather": -2.4833333333333485
+      },
+      "interpretation": "negative favors first policy; descriptive post-development, exposed sources"
+    }
+  }
+}

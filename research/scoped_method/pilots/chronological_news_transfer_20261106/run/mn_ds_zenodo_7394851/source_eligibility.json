@@ -1,0 +1,28 @@
+{
+  "source": "mn_ds_zenodo_7394851",
+  "eligible": false,
+  "checks": {
+    "at_least_100_disagreements": true,
+    "overall_advantage_at_least_0_03": false,
+    "conditional_disagreement_advantage_at_least_0_20": false,
+    "challenger_better_in_at_least_2_of_3_blocks": false
+  },
+  "validation_rows": 2091,
+  "validation_disagreements": 547,
+  "validation_overall_error_advantage": -0.015781922525107604,
+  "validation_conditional_disagreement_advantage": -0.0603290676416819,
+  "validation_block_advantages": [
+    -0.03156384505021521,
+    -0.027259684361549498,
+    0.011477761836441894
+  ],
+  "publisher_clusters_frozen": [
+    "eveningstandard",
+    "sputnik",
+    "tass"
+  ],
+  "n_frozen_classes": 17,
+  "excluded_test_ids": [
+    "1809"
+  ]
+}

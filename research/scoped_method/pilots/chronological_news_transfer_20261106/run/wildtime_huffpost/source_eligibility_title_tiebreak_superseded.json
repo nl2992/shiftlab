@@ -1,0 +1,23 @@
+{
+  "source": "wildtime_huffpost",
+  "eligible": true,
+  "checks": {
+    "at_least_100_disagreements": true,
+    "overall_advantage_at_least_0_03": true,
+    "conditional_disagreement_advantage_at_least_0_20": true,
+    "challenger_better_in_at_least_2_of_3_blocks": true
+  },
+  "validation_rows": 8786,
+  "validation_disagreements": 6935,
+  "validation_overall_error_advantage": 0.40541770999317095,
+  "validation_conditional_disagreement_advantage": 0.5136265320836337,
+  "validation_block_advantages": [
+    0.4195971321270058,
+    0.37692045066575625,
+    0.4197404371584699
+  ],
+  "publisher_clusters_frozen": [
+    "HuffPost"
+  ],
+  "n_frozen_classes": 11
+}

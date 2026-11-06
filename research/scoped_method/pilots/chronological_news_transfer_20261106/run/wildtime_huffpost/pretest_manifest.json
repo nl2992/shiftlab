@@ -1,0 +1,72 @@
+{
+  "stage": "pretest_validation_only",
+  "dataset": "Wild-Time HuffPost / News Category Dataset v2",
+  "upstream_revision": "khalidalt/HuffPost@01020533529fc1cda0af7d99231eb96e7837f883",
+  "archive_sha256": "fc5d8d34bd4ba55206cd715aa5fdf6d52b6e5e8e32fcac8684d941a9c5cbef95",
+  "models_sha256": "93c74d020e9aeff70e1d1cada33096d48a044e7f58dad4cb67e3c2d0a6732c7a",
+  "eligibility_sha256": "a5201d7550ad67214552e19750f051962f6d37abac21c41879ed970ef84916f2",
+  "windows": {
+    "incumbent": [
+      "2012-01-01",
+      "2014-01-01"
+    ],
+    "challenger": [
+      "2014-01-01",
+      "2017-01-01"
+    ],
+    "validation": [
+      "2017-01-01",
+      "2018-01-01"
+    ]
+  },
+  "categories": [
+    "BLACK VOICES",
+    "BUSINESS",
+    "COMEDY",
+    "CRIME",
+    "ENTERTAINMENT",
+    "IMPACT",
+    "QUEER VOICES",
+    "SCIENCE",
+    "SPORTS",
+    "TECH",
+    "TRAVEL"
+  ],
+  "vectorizer": {
+    "n_features": 262144,
+    "ngram_range": [
+      1,
+      2
+    ],
+    "alternate_sign": false
+  },
+  "classifier": {
+    "type": "SGDClassifier",
+    "loss": "log_loss",
+    "penalty": "l2",
+    "random_state": 2026110641
+  },
+  "validation": {
+    "source": "wildtime_huffpost",
+    "eligible": true,
+    "checks": {
+      "at_least_100_disagreements": true,
+      "overall_advantage_at_least_0_03": true,
+      "conditional_disagreement_advantage_at_least_0_20": true,
+      "challenger_better_in_at_least_2_of_3_blocks": true
+    },
+    "validation_rows": 8786,
+    "validation_disagreements": 6953,
+    "validation_overall_error_advantage": 0.4046209879353517,
+    "validation_conditional_disagreement_advantage": 0.5112900906083705,
+    "validation_block_advantages": [
+      0.4199385455786958,
+      0.3748719699556162,
+      0.41905737704918034
+    ],
+    "publisher_clusters_frozen": [
+      "HuffPost"
+    ],
+    "n_frozen_classes": 11
+  }
+}

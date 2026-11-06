@@ -1,0 +1,65 @@
+{
+  "stage": "pretest_validation_only",
+  "dataset": "MN-DS v1, Zenodo 7394851",
+  "source_url": "https://zenodo.org/records/7394851",
+  "archive_sha256": "ce71a92bc8d8d896e8eeacbbe1e73819f42e09b535a04a47d5b67d968c9ddd5f",
+  "models_sha256": "091e42ed4bfd76a2302cd177b96be72b7e7309bba1b136d44d9af7b9448ade34",
+  "eligibility_sha256": "f390a0f0d24969fc0093e70207f8e4a96c109905aeb1e22e79dc41d839d87a0c",
+  "windows": {
+    "incumbent": [
+      "2019-01-01",
+      "2019-04-01"
+    ],
+    "challenger": [
+      "2019-04-01",
+      "2019-07-01"
+    ],
+    "validation": [
+      "2019-07-01",
+      "2019-10-01"
+    ]
+  },
+  "excluded_test_data_id": "1809",
+  "vectorizer": {
+    "n_features": 262144,
+    "ngram_range": [
+      1,
+      2
+    ],
+    "alternate_sign": false
+  },
+  "classifier": {
+    "type": "SGDClassifier",
+    "loss": "log_loss",
+    "penalty": "l2",
+    "random_state": 2026110641
+  },
+  "validation": {
+    "source": "mn_ds_zenodo_7394851",
+    "eligible": false,
+    "checks": {
+      "at_least_100_disagreements": true,
+      "overall_advantage_at_least_0_03": false,
+      "conditional_disagreement_advantage_at_least_0_20": false,
+      "challenger_better_in_at_least_2_of_3_blocks": false
+    },
+    "validation_rows": 2091,
+    "validation_disagreements": 547,
+    "validation_overall_error_advantage": -0.015781922525107604,
+    "validation_conditional_disagreement_advantage": -0.0603290676416819,
+    "validation_block_advantages": [
+      -0.03156384505021521,
+      -0.027259684361549498,
+      0.011477761836441894
+    ],
+    "publisher_clusters_frozen": [
+      "eveningstandard",
+      "sputnik",
+      "tass"
+    ],
+    "n_frozen_classes": 17,
+    "excluded_test_ids": [
+      "1809"
+    ]
+  }
+}

@@ -35,7 +35,7 @@ utilities. No new theorem and no universal SOTA claim.
 | Construction pipeline | Yes, undocumented as a pipeline | Exchangeable-twin known nulls (`twin_null.py`; 5 datasets × 40 splits, hash-reproduced 5/5), synthetic dependence classes (`fam_f.py`, `ooc_regimes`), fresh-real alternatives, common simulator with frozen propensities and delayed release | A formal statement of why twin marginal advantage = 0; generator validation for each dependence class; a pipeline figure; a dataset statistics table; untouched sources |
 | Evaluation framework | Yes | Three-null matrix (V1 at H=100/500, V2, V3 EI proxy), path harm, all-in excess cost decomposed into loss, labels and switches; cluster bootstrap at source/split level (`sprint2/wp2/BENCHMARK.md`) | A primary-metric hierarchy for the paper; per-regime difficulty tiers; Pareto views of validity vs cost |
 | Empirical findings | Yes, development-stage | See section 4 | Confirmation on fresh seeds and untouched sources; corrected (wmaxfix) ports throughout |
-| Companion method | Optional | FLQ / budget-feasible front-loaded pacing is a simple repair suggested by the diagnosis | Re-registered run on fresh seeds under the two-tier criterion. Present it as a baseline the findings motivate, not a new algorithm |
+| Companion method | Not warranted | The registered FLQ re-test (2026-11-06) was NOT_SUPPORTED on efficacy: 2/6 new instances, blocked by SMCS and the Xu composite | Keep the paper evaluation-only. Use the re-test as evidence that the gate choice reorders the leaderboard |
 
 ## 3. Introduction logic chain
 
@@ -58,6 +58,7 @@ utilities. No new theorem and no universal SOTA claim.
 | F4 | Uncertified selectors fail badly on nulls | bike_hour twins: CAMS adapter promotes .908, ModelPicker .875, with excess cost 10.7 and 8.4 vs −0.9 to 5.6 for certified and internal rows. Atlas v2 V_null: uncertified rows .63–.99 | Development |
 | F5 | Robustness to dependence costs a lot | A5b − QSG on real realised-better episodes: ΔJ +118.5 [+89.3, +150.1], first promotion +972 events later (H5) | Development; conditions on realised advantage (descriptive) |
 | F6 | Pacing, not the certificate, explains most certified-method cost gaps | Front-loaded vs unmodified gated: −24.55 [−42.81, −6.29] over 14 source clusters; front vs tuned pace −0.30 [−1.05, +0.45]; front vs C2 +0.60, vs C6 +0.03 (corrected replay, **unmerged** branch `codex/scoped-method-research-results-2026-11-06`) | Exposed, constructed streams; imposed delays |
+| F8 | The validity gate reorders the leaderboard | Registered re-test: front-loading passes the two-tier rule, with dependent-null cost ≤ its host's despite 2–4× more promotions. Re-admitting SMCS under the same rule blocks front-loading's wins ([results](results/FLQ_TWO_TIER_RESULTS.md)) | Fresh seeds, new instances, synthetic |
 | F7 | Even a marginal-null method fails on one real dataset | A5b's upper bound on bike_hour .192 > .0936 (H1b fails) | Needs ≥ 60 splits to separate design noise from real failure |
 
 ## 5. Section skeleton
@@ -111,6 +112,5 @@ Not applicable: a human baseline (no human decision makers are in the loop).
    benchmark's protocol and the programme's acceptance rule?
 2. Accept imposed, swept delays on untouched chronological sources as the real-data standard, with
    OPSD as the only external-clock case study?
-3. Include FLQ as a companion baseline (requires one re-registered fresh-seed run), or keep the paper
-   as evaluation only?
+3. Settled: FLQ is not a companion method (registered re-test NOT_SUPPORTED). The paper is evaluation-only.
 4. Target venue and deadline, to be confirmed. Scope W1–W4 first either way; W5 is the long pole.

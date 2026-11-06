@@ -243,7 +243,7 @@ def main(argv=None):
     check(cells, {**TIER_A, **TIER_B, **REGION, **REPLICATION, **OUTSIDE})
     res = analyse(cells)
     a.out.parent.mkdir(parents=True, exist_ok=True)
-    a.out.with_suffix(".json").write_text(json.dumps(res, indent=2) + "\n")
+    a.out.with_suffix(".json").write_text(json.dumps(res, indent=2, default=lambda o: o.item()) + "\n")
     a.out.with_suffix(".md").write_text(markdown(res))
     print(f"primary verdict: {res['primary_verdict']}")
 

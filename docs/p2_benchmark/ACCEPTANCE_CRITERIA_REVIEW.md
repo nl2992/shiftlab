@@ -26,8 +26,8 @@ the criteria that ended method lines were stricter than the field's norm, or mea
    diagnosis-plus-simple-repair paper.
 
 Some lines failed on substance, and no criterion change rescues them: E_rb, P6 on real data, H2, the
-T family, and B3+/P7s. Only two lines are worth re-testing under revised, pre-frozen criteria: **FLQ
-(front-loaded acquisition) as a scoped repair**, and **P3b's insurance profile**.
+T family, and B3+/P7s. Two lines were worth re-testing under revised, pre-frozen criteria: **FLQ (front-loaded acquisition)**, re-tested
+2026-11-06 with result NOT_SUPPORTED on efficacy while passing both validity tiers, and **P3b's insurance profile** (not yet re-tested).
 
 ## Criterion-by-criterion
 
@@ -49,7 +49,7 @@ T family, and B3+/P7s. Only two lines are worth re-testing under revised, pre-fr
 
 | Line | Re-open? | Why |
 |---|---|---|
-| **FLQ / front-loaded acquisition** (Atlas v2) | **Yes, as a scoped repair or companion baseline** | Under C2 and C4 as revised, the existing development evidence is promising. Vs its host it gains on 6/6 stationary alternatives (gated: −6.6 to −123.9) with no cost penalty on the ρ=.8 null, and it costs more under reversal. It must be re-registered and rerun on fresh seeds. The corrected 14-cluster replay finds front-loading indistinguishable from tuned pacing (−0.30 [−1.05, +0.45]), so the honest claim is "budget-feasible pacing matters", not "FLQ is new" |
+| **FLQ / front-loaded acquisition** (Atlas v2) | **Re-tested 2026-11-06: NOT_SUPPORTED** | Registered two-tier re-test ([results](results/FLQ_TWO_TIER_RESULTS.md)). It passes both validity tiers: on every dependent null its cost is at or below its host's, despite 2–4× more promotions. It fails efficacy, beating all six certified comparators in only 2 of 6 new instances; SMCS+retain-incumbent and the Xu composite block the rest. Stop the repair claim; keep it as benchmark evidence |
 | **P3b insurance profile** (Lane B) | **Yes, cheaply** | Needs a calibrated batch-test comparator (C11); otherwise a benchmark row |
 | E_rb rollback | No | Costs more than never-switch in all three pilot regimes and matches B2 exactly (scoped research, 2026-11-06) |
 | P6 / LRMD | No | Loses to its parent on the 14-source real replay (+24.41) |

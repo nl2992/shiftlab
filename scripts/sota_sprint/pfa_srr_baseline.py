@@ -61,9 +61,12 @@ class PFASRMonitor(DetectorSwapMonitor):
         return PFASRDetector(alpha, self.B)
 
 
-def _make_pfa_srr(T, B, cs, cq, alpha, delay, r):
-    make_base, _stream_name = HOSTS["gated_deployment"]
-    return PFASRMonitor(make_base, T, B, alpha, rng=r("pfa_srr_gated_deployment"))
+def _make_pfa_srr(host: str):
+    def factory(T, B, cs, cq, alpha, delay, r):
+        make_base, _stream_name = HOSTS[host]
+        return PFASRMonitor(make_base, T, B, alpha, rng=r(f"pfa_srr_{host}"))
+
+    return factory
 
 
-EXTRA = {"PFA-SR:gated_deployment": _make_pfa_srr}
+EXTRA = {f"PFA-SR:{host}": _make_pfa_srr(host) for host in HOSTS}

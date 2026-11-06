@@ -28,6 +28,7 @@ for _p in (ROOT / "scripts/failure_atlas_v2_flq", HERE):
         sys.path.insert(0, str(_p))
 
 import ooc_regimes  # noqa: F401  (registers the out-of-class nulls, Amendment 2)
+import pfa_confirmation_spec  # noqa: F401  (registers prospectively frozen PFA-SR validation regimes)
 import validation_spec  # noqa: F401  (registers the W_* validation regimes)
 from bench import CONTRACT, DEV_SEED_BASE, expected_oracle_path, hindsight_oracle_cost, parse_regime
 from simulator import run_episode

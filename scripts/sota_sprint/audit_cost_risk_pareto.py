@@ -10,6 +10,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 SOURCES = {
     "Family R": "outputs/sprint2/R/analysis/risk_curves.json",
+    "Family R coverage follow-up": "docs/sprint2/family_r/R_trackR_coverage_followup.json",
     "Family T": "outputs/sprint2/T/trackR.json",
     "Family T3 follow-up": "docs/sprint2/family_t/T3_trackR_followup.json",
     "Family T1/T2/T5 follow-up": "docs/sprint2/family_t/T1_T2_T5_trackR_followup.json",

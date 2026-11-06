@@ -79,7 +79,7 @@ def main() -> int:
         raise SystemExit(f"runs do not share one code revision: {sorted(map(str, code_revisions))}")
     if total_rows != len(ALPHAS) * expected_rows:
         raise SystemExit(f"unexpected total row count: {total_rows}")
-    result_json = ROOT / "outputs/sprint2/R/analysis/trackR_coverage_followup_risk_curves.json"
+    result_json = ROOT / "docs/sprint2/family_r/R_trackR_coverage_followup.json"
     result_md = result_json.with_suffix(".md")
     for path in (result_json, result_md):
         if not path.is_file():

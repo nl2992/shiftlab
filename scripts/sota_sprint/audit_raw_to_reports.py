@@ -241,6 +241,20 @@ def main()->int:
                 ROOT/'docs/sprint2/family_t/T1_T2_T5_trackR_followup.json')
             add('T1/T2/T5 held-out Track-R follow-up Markdown',t/'T125_trackR_followup.md',
                 ROOT/'docs/sprint2/family_t/T1_T2_T5_trackR_followup.md','text')
+        r_cov_eval=dirs('outputs/sprint2/R/trackR_coverage_followup/eval_a*')
+        if len(r_cov_eval)!=8:
+            checks.append({'name':'R Track-R coverage follow-up','status':'FAIL',
+                           'reason':f'expected 8 evaluation alpha runs; found {len(r_cov_eval)}'})
+        else:
+            r_cov_dev=['outputs/sprint2/R/dev_screen_a05',
+                       *dirs('outputs/sprint2/R/trackR/dev_a*'),
+                       *dirs('outputs/sprint2/R/trackR_H/dev_a*')]
+            run(['scripts/sota_sprint/risk_curves.py','--dev',*r_cov_dev,'--eval',*r_cov_eval,
+                 '--out',str(t/'R_trackR_coverage_followup.json')])
+            add('R held-out coverage follow-up JSON',t/'R_trackR_coverage_followup.json',
+                ROOT/'docs/sprint2/family_r/R_trackR_coverage_followup.json')
+            add('R held-out coverage follow-up Markdown',t/'R_trackR_coverage_followup.md',
+                ROOT/'docs/sprint2/family_r/R_trackR_coverage_followup.md','text')
         h_dev=dirs('outputs/sprint2/H/trackR_remaining/dev_a*')
         h_eval=dirs('outputs/sprint2/H/trackR_remaining/eval_a*')
         if len(h_dev)!=8 or len(h_eval)!=8:

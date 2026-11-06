@@ -515,8 +515,8 @@ class DiscernStyleStop(_CertificateStop):
     ADAPTER: Tier 0 needs no labels, so it is updated on every event including after the
     budget is exhausted.
 
-    BLOCKED: this is built from the printed construction only; author code is now known to be
-    available at https://github.com/n17s/mope, but native numerical parity has not been checked.
+    BLOCKED: this is built from the printed construction only. No DISCERN author code was found
+    (search 2026-11-06); ``n17s/mope`` is the MOPE gated-deployment repository, not DISCERN's.
     DISCERN's learned judge routing is not used (acquisition is the shared paced rule).
     """
 

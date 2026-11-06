@@ -45,6 +45,7 @@ PROTOCOL = ROOT / "docs/promising_directions/protocols/B3-real-data-certified-sw
 PROTOCOL_SHA256 = "b17b5a318e65be5ed7729357fb1f0692c0764b6444a4f686797756fb420cba3a"
 B1_PATH = ROOT / "scripts/promising_directions/b1_certified_switching.py"
 B1_COMMIT = "041bc26"
+B1_SHA256 = "7565a647f3bb3f940d4fbd2a948597b9ffe42ef0485550a771d137e7930baebd"
 AUDIT = ROOT / "docs/promising_directions/results/realdata_audit"
 OUT = ROOT / "docs/promising_directions/results/b3"
 RAW = Path("C:/Users/nigel/OneDrive/桌面/ICML/shift-research-starter/data/raw")
@@ -87,10 +88,15 @@ def git(*args: str) -> subprocess.CompletedProcess:
 def load_b1():
     """Import b1_certified_switching as at commit 041bc26. Returns (module, record)."""
     rel = str(B1_PATH.relative_to(ROOT)).replace("\\", "/")
-    unchanged = git("diff", "--quiet", B1_COMMIT, "--", rel).returncode == 0
-    path, how = B1_PATH, "worktree file (git diff --quiet 041bc26 is clean)"
+    current_sha = hashlib.sha256(B1_PATH.read_bytes()).hexdigest()
+    unchanged = current_sha == B1_SHA256
+    path, how = B1_PATH, "worktree file (matches pinned SHA-256)"
     if not unchanged:
         src = git("show", f"{B1_COMMIT}:{rel}")
+        if src.returncode != 0:
+            raise RuntimeError(
+                f"{rel} does not match pinned SHA-256 and {B1_COMMIT} is unavailable"
+            )
         path = Path(tempfile.mkdtemp()) / "b1_certified_switching.py"
         path.write_text(src.stdout, encoding="utf-8")
         how = "extracted from 041bc26 via git show (worktree file differs)"

@@ -348,3 +348,40 @@ uv run python scripts/sota_sprint/analyze_r5_all14_real.py \
 
 The 20 seeds are policy-randomness repetitions within fixed episodes. They do not increase the
 number of independent datasets.
+
+## Family R Track-R coverage follow-up
+
+This run adds held-out points for the 26 policies with at least one development-feasible alpha,
+using the existing development calibration map and one common evaluation seed block. Its protocol is
+`family_r/R_trackR_coverage_followup_protocol.md`; it is a new simulator replicate on reused regimes,
+not independent real-data confirmation.
+
+```sh
+scripts/sota_sprint/run_r_trackr_coverage_followup.sh
+uv run python scripts/sota_sprint/risk_curves.py \
+  --dev outputs/sprint2/R/dev_screen_a05 \
+       outputs/sprint2/R/trackR/dev_a0.005 outputs/sprint2/R/trackR/dev_a0.01 \
+       outputs/sprint2/R/trackR/dev_a0.02 outputs/sprint2/R/trackR/dev_a0.05 \
+       outputs/sprint2/R/trackR/dev_a0.1 outputs/sprint2/R/trackR/dev_a0.2 \
+       outputs/sprint2/R/trackR/dev_a0.3 outputs/sprint2/R/trackR/dev_a0.5 \
+       outputs/sprint2/R/trackR_H/dev_a0.005 outputs/sprint2/R/trackR_H/dev_a0.01 \
+       outputs/sprint2/R/trackR_H/dev_a0.02 outputs/sprint2/R/trackR_H/dev_a0.05 \
+       outputs/sprint2/R/trackR_H/dev_a0.1 outputs/sprint2/R/trackR_H/dev_a0.2 \
+       outputs/sprint2/R/trackR_H/dev_a0.3 outputs/sprint2/R/trackR_H/dev_a0.5 \
+  --eval outputs/sprint2/R/trackR_coverage_followup/eval_a0.005 \
+         outputs/sprint2/R/trackR_coverage_followup/eval_a0.01 \
+         outputs/sprint2/R/trackR_coverage_followup/eval_a0.02 \
+         outputs/sprint2/R/trackR_coverage_followup/eval_a0.05 \
+         outputs/sprint2/R/trackR_coverage_followup/eval_a0.1 \
+         outputs/sprint2/R/trackR_coverage_followup/eval_a0.2 \
+         outputs/sprint2/R/trackR_coverage_followup/eval_a0.3 \
+         outputs/sprint2/R/trackR_coverage_followup/eval_a0.5 \
+  --out docs/sprint2/family_r/R_trackR_coverage_followup.json
+uv run python scripts/sota_sprint/finalize_r_trackr_coverage_followup.py
+uv run python scripts/sota_sprint/audit_raw_to_reports.py
+uv run python scripts/sota_sprint/audit_cost_risk_pareto.py
+```
+
+The finalizer checks all eight manifests, complete regime/seed/policy/alpha coverage, and stable
+simulation source hashes. Git revisions and bookkeeping-source hashes are retained per run because
+audit files may change without changing the experiment implementation.

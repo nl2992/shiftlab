@@ -21,3 +21,8 @@ records and results are in
 the benchmark/case-study track is to assemble manuscript tables from these validated records and
 retain an independent methods review; no new data acquisition or method search is justified by the
 current evidence. PaperBanana's unavailability is recorded in `14_PUBLICATION_CLAIMS.md`.
+
+
+## 2026-11-06 bounded follow-up addendum
+
+The previously missing direct front-loaded acquisition plus E_rb composition was subsequently run as a 20-seed-per-cell development screen. It failed its stated practical gate: compared with the front-loaded host, savings on `F0_better` were only 3.86 units and unresolved (95% paired interval [-12.35, 4.64]); versus paced E_rb on `V_late_600`, savings were 9.65 but unresolved ([-19.89, 0.59]); under `F3_reversal_800`, it cost 60.65 more than never-switch ([42.52, 78.78]). The independent reviewer recomputed contrasts and cost accounting from all 400 rows and found them consistent. The screen did not establish a new method or justify confirmation. Its protocol was not committed/checksummed before execution and its manifest used a dirty snapshot with truncated hashes, so it is reported as a development result, not an auditable preregistered experiment. Details and all comparator contrasts are in [the economic headroom checkpoint](../../research/scoped_method/ECONOMIC_HEADROOM_DECISION_20261106.md). The decision remains `BENCHMARK_OR_CASE_STUDY_ONLY`.

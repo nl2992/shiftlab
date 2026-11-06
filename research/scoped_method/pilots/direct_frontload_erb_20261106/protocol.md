@@ -1,6 +1,6 @@
 # Direct front-loading plus E_rb screen (development only)
 
-Registered before the run. This is the one previously missing composition check; it is not a new method or confirmation experiment.
+Protocol document for the one previously missing composition check; it is not a new method or confirmation experiment. The file was not committed or checksummed before execution, so pre-run registration timing cannot be independently verified. Treat this as a development protocol description, not an auditable preregistration.
 
 ## Question
 

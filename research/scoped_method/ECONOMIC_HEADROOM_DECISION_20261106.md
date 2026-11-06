@@ -39,22 +39,22 @@ The exact stationary economic-acquisition screen (`docs/switching_economic_acqui
 
 ## Direct front-loading-plus-E_rb falsification screen
 
-The previously omitted combination was added as a development arm using the existing `RecoveryMonitor` rollback code and the corrected `GatedAdaptiveRange(front=True)` host. No rollback rule or acquisition rule was changed. Before opening outcomes, `research/scoped_method/pilots/direct_frontload_erb_20261106/protocol.md` froze the 4-cell matrix, 20 paired seeds/cell, seed base `2026110618`, contract, comparator set, and a 5-unit practical threshold. The run completed 80 jobs in 108.6 seconds.
+The previously omitted combination was added as a development arm using the existing `RecoveryMonitor` rollback code and the corrected `GatedAdaptiveRange(front=True)` host. No rollback rule or acquisition rule was changed. The protocol file describes the 4-cell matrix, 20 paired seeds/cell, seed base `2026110618`, contract, comparator set, and a 5-unit practical threshold. However, it was not committed or checksummed before execution, so its pre-run timing cannot be independently verified from repository history. The run manifest records a dirty snapshot (`469ee3c0+dirty`) and only 16-character source-hash prefixes. Treat this as a local development screen, not an immutable preregistered run. It completed 80 jobs in 108.6 seconds.
 
 Primary paired differences (candidate minus comparator; negative is cheaper):
 
-| Regime | Versus paced E_rb | Versus front-loaded host | Versus never-switch |
-|---|---:|---:|---:|
-| F0_better | -21.45 [-31.70, -11.20] | -3.86 [-12.35, +4.64] | -61.35 [-75.67, -47.03] |
-| V_late_600 | -9.65 [-19.89, +0.59] | -61.20 [-77.30, -45.10] | -51.20 [-67.30, -35.10] |
-| F3_reversal_800 | +18.20 [-3.88, +40.28] | -22.85 [-40.73, -4.97] | +60.65 [+42.52, +78.78] |
-| F0_null | +1.20 [-1.31, +3.71] | +0.33 [-0.36, +1.01] | +11.20 [+8.69, +13.71] |
+| Regime | Versus paced E_rb | Versus front-loaded host | Versus RMM composition | Versus never-switch |
+|---|---:|---:|---:|---:|
+| F0_better | -21.45 [-31.70, -11.20] | -3.86 [-12.35, +4.64] | -21.45 [-31.70, -11.20] | -61.35 [-75.67, -47.03] |
+| V_late_600 | -9.65 [-19.89, +0.59] | -61.20 [-77.30, -45.10] | -9.65 [-19.89, +0.59] | -51.20 [-67.30, -35.10] |
+| F3_reversal_800 | +18.20 [-3.88, +40.28] | -22.85 [-40.73, -4.97] | +4.80 [-16.60, +26.20] | +60.65 [+42.52, +78.78] |
+| F0_null | +1.20 [-1.31, +3.71] | +0.33 [-0.36, +1.01] | +1.20 [-1.31, +3.71] | +11.20 [+8.69, +13.71] |
 
-All intervals are two-sided paired t intervals over the 20 common seeds. The candidate missed the frozen development bar: in F0_better its incremental saving over the front-loaded host was under 5 units and unresolved; in V_late_600 its difference from paced E_rb was unresolved. It also incurred 60.65 more mean cost than never-switch on F3_reversal_800, exceeding the permitted 5-unit adverse-regime tolerance. It did reduce mean V_late_600 promotion time from 1,095.85 events for paced E_rb to 783.25, but that timing improvement did not beat the frozen economic criteria against all comparators.
+All intervals are two-sided paired t intervals over the 20 common seeds. The candidate missed the protocol-described development bar (with pre-run timing not independently auditable): in F0_better its incremental saving over the front-loaded host was under 5 units and unresolved; in V_late_600 its difference from paced E_rb was unresolved. It also incurred 60.65 more mean cost than never-switch on F3_reversal_800, exceeding the permitted 5-unit adverse-regime tolerance. It did reduce mean V_late_600 promotion time from 1,095.85 events for paced E_rb to 783.25, but that timing improvement did not beat the frozen economic criteria against all comparators.
 
 Cost decomposition confirms that labels were not the source of the large null/reversal effects: the candidate requested all 200 labels (cost 10) in every cell. Mean candidate costs were F0_better: loss 344.55 + labels 10 + switches 4.75 = 359.30; V_late_600: 341.40 + 10 + 4 = 355.40; F3_reversal_800: 383.50 + 10 + 7 = 400.50; F0_null: 358 + 10 + 0.25 = 368.25. Never-switch costs were respectively 420.65, 406.60, 339.85 and 357.05. On F0_null, 1/20 episodes promoted (Wilson 95% interval [0.009, 0.236]); this pilot is far too small to validate a nominal 0.05 error rate.
 
-This is a useful negative composition result: front-loading helps versus never-switch when a real improvement is late, but the direct combination does not show a stable increment over paced E_rb and has an adverse reversal trade-off. The benefit is explained by existing acquisition and rollback components; the run provides no novelty basis.
+An independent critical review recomputed all paired contrasts and the cost identity from the 400 raw rows and found them consistent. It also flagged the preregistration and dirty-snapshot limitations above; its 20-seed t intervals are exploratory and were not adjusted for multiple comparisons or prior selection. This is a useful negative composition result: front-loading helps versus never-switch when a real improvement is late, but the direct combination does not show a stable increment over paced E_rb and has an adverse reversal trade-off. The benefit is explained by existing acquisition and rollback components; the run provides no novelty basis.
 
 ## Decision
 

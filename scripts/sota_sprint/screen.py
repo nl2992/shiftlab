@@ -29,8 +29,7 @@ for _p in (ROOT / "scripts/failure_atlas_v2_flq", HERE):
 
 import ooc_regimes  # noqa: F401  (registers the out-of-class nulls, Amendment 2)
 import validation_spec  # noqa: F401  (registers the W_* validation regimes)
-from bench import CONTRACT, DEV_SEED_BASE, parse_regime
-from regimes import expected_oracle_path, hindsight_oracle_cost
+from bench import CONTRACT, DEV_SEED_BASE, expected_oracle_path, hindsight_oracle_cost, parse_regime
 from simulator import run_episode
 from suite import build_suite, stream_from_losses
 

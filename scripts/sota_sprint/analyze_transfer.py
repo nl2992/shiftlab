@@ -148,10 +148,24 @@ def main():
 
 
 
-def amend5():
-    """Amendment 5, HC: registered certificate-host RMM claim (4 hosts)."""
-    syn = pd.read_json(OUT / "amend5/synth/records.jsonl", lines=True)
-    nul = null_table(pd.read_json(OUT / "amend5/null1000/records.jsonl", lines=True))
+def amend5(*, mopeinterval_corrected: bool = False):
+    """Amendment 5, HC: registered certificate-host RMM claim (4 hosts).
+
+    The corrected replay is reported separately so the original registered result remains
+    immutable. It reuses the registered seed bases and isolates the MOPE interval correction.
+    """
+    if mopeinterval_corrected:
+        syn_dir = OUT / "amend5/synth_mopeinterval_20261106"
+        null_dir = OUT / "amend5/null1000_mopeinterval_20261106"
+        report_stem = DOC / "amend5_mopeinterval_20261106_results"
+        report_title = "# Amendment 5, HC after MOPE interval correction (same-seed sensitivity)"
+    else:
+        syn_dir = OUT / "amend5/synth"
+        null_dir = OUT / "amend5/null1000"
+        report_stem = DOC / "amend5_results"
+        report_title = "# Amendment 5, HC (registered certificate-host RMM claim)"
+    syn = pd.read_json(syn_dir / "records.jsonl", lines=True)
+    nul = null_table(pd.read_json(null_dir / "records.jsonl", lines=True))
     hosts = ["gated_deployment", "discern_style", "SMCS+retain-incumbent", "gated_adaptive_range"]
     P = syn[syn.regime.isin(FAM)].pivot_table(index="seed", columns=["regime", "policy"], values="net")
     fam = {p: P.xs(p, axis=1, level=1).mean(axis=1) for p in syn.policy.unique()}
@@ -183,7 +197,7 @@ def amend5():
         v["b_ok"] = all(v["late"][r]["holm_p"] < 0.05 for r in v["late"])
         v["ok"] = bool(v["a_ok"] and v["b_ok"] and v["c_iid_safe"])
     res["HC_pass"] = all(res["hosts"][h]["ok"] for h in hosts)
-    L = [f"# Amendment 5, HC (registered certificate-host RMM claim): **{'PASS' if res['HC_pass'] else 'FAIL'}**", "",
+    L = [f"{report_title}: **{'PASS' if res['HC_pass'] else 'FAIL'}**", "",
          "Fresh seeds 2026110611 (100) / nulls 2026110612 (1000).", "",
          "| host | (a) family vs host | (b) late vs best certified (Holm p) | (c) iid safe | reversal_1000 / reversal_700 / recurrent vs host | rho .8 / .95 null |",
          "|---|---|---|---|---|---|"]
@@ -193,12 +207,17 @@ def amend5():
         co = " / ".join(f"{d['mean']:+.1f}" for d in v["coprimary_vs_host"].values())
         pn = " / ".join(f"{x:.3f}" for x in v["persistent_null"].values())
         L.append(f"| {h} | {a['mean']:+.1f} [{a['lo']:+.1f},{a['hi']:+.1f}] | {lt} | {v['c_iid_safe']} | {co} | {pn} |")
-    (DOC / "amend5_results.json").write_text(json.dumps(res, indent=1, default=float) + "\n")
-    (DOC / "amend5_results.md").write_text("\n".join(L) + "\n")
+    report_stem.with_suffix(".json").write_text(json.dumps(res, indent=1, default=float) + "\n")
+    report_stem.with_suffix(".md").write_text("\n".join(L) + "\n")
     print("\n".join(L))
 
 
 if __name__ == "__main__":
     import sys
 
-    amend5() if sys.argv[1:] == ["amend5"] else main()
+    if sys.argv[1:] == ["amend5"]:
+        amend5()
+    elif sys.argv[1:] == ["amend5", "--mopeinterval-corrected"]:
+        amend5(mopeinterval_corrected=True)
+    else:
+        main()

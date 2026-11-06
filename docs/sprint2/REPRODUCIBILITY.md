@@ -80,6 +80,18 @@ listed artifacts. It does not re-compute values or establish inference validity.
 
 ## Report claim audits
 
+Regenerate the metric-specific WP1 late-improvement leaderboard from the saved primary records:
+
+```sh
+uv run python scripts/sota_sprint/build_wp1_late_metric_leaderboard.py
+```
+
+This reports J, retrospective hindsight regret, promotion-conditional delay, label expenditure,
+switching expenditure, and paired net-cost differences against the strongest certified comparator
+selected on the same episodes. It uses the 10 retrospective late episodes in five source clusters;
+the comparator and episode class selection are development-exposed, so these are descriptive
+within-stratum ranks rather than confirmatory or cross-track rankings.
+
 ```sh
 uv run python scripts/sota_sprint/audit_raw_to_reports.py --out docs/sprint2/raw_report_audit.json
 uv run python scripts/sota_sprint/audit_p_family_development.py --out docs/sprint2/family_p/development_audit.json

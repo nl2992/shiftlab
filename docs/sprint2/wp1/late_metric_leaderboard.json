@@ -1,0 +1,2103 @@
+{
+  "title": "WP1 late-improvement metric-specific leaderboard",
+  "status": "RETROSPECTIVE_DESCRIPTIVE_SELECTED_STRATUM",
+  "stratum": "late_improvement",
+  "episodes": 10,
+  "clusters": 5,
+  "seeds_per_episode": 3,
+  "policy_count": 34,
+  "best_certified_selected_on_same_stratum": "gated_adaptive_range+front",
+  "bootstrap": {
+    "unit": "source cluster",
+    "reps": 10000,
+    "seed": 20261105,
+    "interval": "percentile 95%"
+  },
+  "cost_contract": {
+    "c_q": 0.05,
+    "c_s": 5.0,
+    "budget": 200
+  },
+  "source_hashes": {
+    "outputs/sprint2/WP1/primary/records.jsonl": "a2f29d71b4701246df9a11d3695a2cc1ddcb8b8946eacd09378bc60f45021398",
+    "outputs/sprint2/WP1/classes.json": "b030fcc86bcd6d5796bbbe3def4e9de23cbb7d6918eb026515989dbfded166e9",
+    "outputs/sprint2/WP1/primary/manifest.json": "669c176140eba0d3ca6c35f48977d4dd9aac057626d549e59c02fbee09d0b05c"
+  },
+  "generator_sha256": "14f24e05146fc42d9b8f2f0f9713445a81b47971c4e4b504ecb92595bd7e6ddf",
+  "metrics": {
+    "net_cost_J": {
+      "label": "Mean net cost J per episode",
+      "direction": "lower",
+      "ranking": [
+        {
+          "rank": 1,
+          "policy": "E_srr:gated_deployment",
+          "mean": 411.13166666666666,
+          "lo": 293.4833333333334,
+          "hi": 499.82619047619045,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 2,
+          "policy": "E_srr:discern_style",
+          "mean": 412.2316666666667,
+          "lo": 296.09761904761905,
+          "hi": 504.447619047619,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 3,
+          "policy": "E_srr:SMCS+retain-incumbent",
+          "mean": 413.63666666666666,
+          "lo": 297.052380952381,
+          "hi": 504.55238095238093,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 4,
+          "policy": "E_srr:gated_adaptive_range",
+          "mean": 414.09833333333336,
+          "lo": 294.9452380952381,
+          "hi": 503.73809523809524,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 5,
+          "policy": "E_srrSR:gated_deployment",
+          "mean": 416.4316666666667,
+          "lo": 297.2452380952381,
+          "hi": 522.8305555555556,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 6,
+          "policy": "rmm:discern_style+RMM",
+          "mean": 416.59833333333336,
+          "lo": 299.71666666666664,
+          "hi": 514.8305555555555,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 7,
+          "policy": "rmm:gated_deployment+RMM",
+          "mean": 417.46500000000003,
+          "lo": 299.0547619047619,
+          "hi": 508.10833333333335,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 8,
+          "policy": "rmm:LRMD",
+          "mean": 420.45,
+          "lo": 303.80476190476196,
+          "hi": 511.3055555555556,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 9,
+          "policy": "rmm:SMCS+retain-incumbent+RMM",
+          "mean": 420.7366666666667,
+          "lo": 303.8619047619048,
+          "hi": 511.1166666666666,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 10,
+          "policy": "rmm:discern_style+RMM_noacq",
+          "mean": 422.3583333333333,
+          "lo": 303.92380952380955,
+          "hi": 517.0472222222222,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 11,
+          "policy": "rmm:gated_adaptive_range+RMM",
+          "mean": 423.4316666666667,
+          "lo": 301.9928571428572,
+          "hi": 513.7194444444444,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 12,
+          "policy": "E_rb:discern_style",
+          "mean": 423.6650000000001,
+          "lo": 309.81190476190477,
+          "hi": 514.8305555555555,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 13,
+          "policy": "E_rb:gated_deployment",
+          "mean": 424.1650000000001,
+          "lo": 308.6261904761905,
+          "hi": 512.3976190476191,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 14,
+          "policy": "E_rb:gated_adaptive_range",
+          "mean": 425.89833333333326,
+          "lo": 305.5166666666667,
+          "hi": 513.7194444444444,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 15,
+          "policy": "E_glr:gated_deployment",
+          "mean": 427.03166666666664,
+          "lo": 323.5309523809524,
+          "hi": 515.6958333333333,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 16,
+          "policy": "qiu_delayed_movement",
+          "mean": 428.4466666666666,
+          "lo": 307.1952380952381,
+          "hi": 537.4111111111112,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 17,
+          "policy": "E_rb:SMCS+retain-incumbent",
+          "mean": 431.16999999999996,
+          "lo": 318.1952380952381,
+          "hi": 519.3925925925926,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 18,
+          "policy": "E_swcert",
+          "mean": 439.18166666666673,
+          "lo": 324.07380952380953,
+          "hi": 521.145238095238,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 19,
+          "policy": "E_glr:gated_adaptive_range",
+          "mean": 446.06499999999994,
+          "lo": 336.4574074074074,
+          "hi": 541.875,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 20,
+          "policy": "E_srr_noacq:gated_deployment",
+          "mean": 451.5950000000001,
+          "lo": 325.11851851851844,
+          "hi": 528.3236111111111,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 21,
+          "policy": "rmm:gated_deployment+RMM_noacq",
+          "mean": 451.98,
+          "lo": 310.0142857142857,
+          "hi": 541.7583333333333,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 22,
+          "policy": "gated_adaptive_range+front",
+          "mean": 455.3849999999999,
+          "lo": 301.5571428571429,
+          "hi": 555.6399999999999,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 23,
+          "policy": "choe_ramdas_eb+front",
+          "mean": 456.15999999999997,
+          "lo": 301.5857142857143,
+          "hi": 557.345,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 24,
+          "policy": "rmm:discern_style+RMM_single",
+          "mean": 457.36500000000007,
+          "lo": 335.6690476190476,
+          "hi": 541.86,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 25,
+          "policy": "E_srr_noacq:gated_adaptive_range",
+          "mean": 458.68,
+          "lo": 312.8240740740741,
+          "hi": 542.4069444444444,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 26,
+          "policy": "xu_acquisition_only",
+          "mean": 462.3366666666667,
+          "lo": 335.04791666666665,
+          "hi": 547.6049999999999,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 27,
+          "policy": "rmm:gated_deployment+RMM_single",
+          "mean": 462.92333333333335,
+          "lo": 340.5785714285715,
+          "hi": 543.9816666666667,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 28,
+          "policy": "rmm:SMCS+retain-incumbent+RMM_single",
+          "mean": 468.8366666666666,
+          "lo": 355.3333333333333,
+          "hi": 547.4095238095238,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 29,
+          "policy": "SMCS+retain-incumbent",
+          "mean": 475.80166666666673,
+          "lo": 346.60740740740744,
+          "hi": 560.1533333333333,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 30,
+          "policy": "gated_adaptive_range",
+          "mean": 487.86333333333334,
+          "lo": 351.61428571428576,
+          "hi": 561.8149999999999,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 31,
+          "policy": "A5b",
+          "mean": 500.4383333333332,
+          "lo": 374.56904761904764,
+          "hi": 562.0972222222208,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 32,
+          "policy": "gated_deployment",
+          "mean": 510.5800000000001,
+          "lo": 374.5833333333333,
+          "hi": 568.1916111111108,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 33,
+          "policy": "CONTROL_never_switch",
+          "mean": 525.3,
+          "lo": 372.875,
+          "hi": 584.0,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 34,
+          "policy": "discern_style",
+          "mean": 535.2633333333334,
+          "lo": 382.5,
+          "hi": 594.2125,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        }
+      ]
+    },
+    "hindsight_regret": {
+      "label": "Mean retrospective hindsight regret per episode",
+      "direction": "lower",
+      "ranking": [
+        {
+          "rank": 1,
+          "policy": "E_srr:gated_deployment",
+          "mean": 82.53166666666667,
+          "lo": 69.5469696969697,
+          "hi": 108.62222222222222,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 2,
+          "policy": "E_srr:discern_style",
+          "mean": 83.63166666666667,
+          "lo": 69.43030303030302,
+          "hi": 112.89444444444443,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 3,
+          "policy": "E_srr:SMCS+retain-incumbent",
+          "mean": 85.03666666666666,
+          "lo": 74.92916666666666,
+          "hi": 109.3888888888889,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 4,
+          "policy": "E_srr:gated_adaptive_range",
+          "mean": 85.49833333333333,
+          "lo": 71.22727272727272,
+          "hi": 112.27222222222223,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 5,
+          "policy": "E_srrSR:gated_deployment",
+          "mean": 87.83166666666666,
+          "lo": 70.71666666666667,
+          "hi": 119.97500000000001,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 6,
+          "policy": "rmm:discern_style+RMM",
+          "mean": 87.99833333333332,
+          "lo": 71.24242424242424,
+          "hi": 116.47222222222223,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 7,
+          "policy": "rmm:gated_deployment+RMM",
+          "mean": 88.86499999999998,
+          "lo": 77.24166666666666,
+          "hi": 110.37777777777778,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 8,
+          "policy": "rmm:LRMD",
+          "mean": 91.85,
+          "lo": 82.71111111111112,
+          "hi": 112.95555555555556,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 9,
+          "policy": "rmm:SMCS+retain-incumbent+RMM",
+          "mean": 92.13666666666667,
+          "lo": 83.11666666666666,
+          "hi": 112.80555555555554,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 10,
+          "policy": "rmm:discern_style+RMM_noacq",
+          "mean": 93.75833333333334,
+          "lo": 83.59880952380952,
+          "hi": 117.46388888888889,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 11,
+          "policy": "rmm:gated_adaptive_range+RMM",
+          "mean": 94.83166666666666,
+          "lo": 79.81296296296297,
+          "hi": 115.24444444444443,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 12,
+          "policy": "E_rb:discern_style",
+          "mean": 95.065,
+          "lo": 85.4,
+          "hi": 116.47222222222223,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 13,
+          "policy": "E_rb:gated_deployment",
+          "mean": 95.565,
+          "lo": 83.11060606060606,
+          "hi": 120.6222222222222,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 14,
+          "policy": "E_rb:gated_adaptive_range",
+          "mean": 97.29833333333332,
+          "lo": 87.57407407407408,
+          "hi": 115.24444444444443,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 15,
+          "policy": "E_glr:gated_deployment",
+          "mean": 98.43166666666667,
+          "lo": 68.33222222222224,
+          "hi": 144.08703703703705,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 16,
+          "policy": "qiu_delayed_movement",
+          "mean": 99.84666666666666,
+          "lo": 78.58518518518518,
+          "hi": 134.38055555555556,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 17,
+          "policy": "E_rb:SMCS+retain-incumbent",
+          "mean": 102.57000000000001,
+          "lo": 87.69743589743591,
+          "hi": 130.19047619047618,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 18,
+          "policy": "E_swcert",
+          "mean": 110.58166666666666,
+          "lo": 101.40625,
+          "hi": 129.54444444444445,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 19,
+          "policy": "E_glr:gated_adaptive_range",
+          "mean": 117.46499999999999,
+          "lo": 77.81111111111112,
+          "hi": 185.85000000000002,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 20,
+          "policy": "E_srr_noacq:gated_deployment",
+          "mean": 122.99499999999998,
+          "lo": 80.60740740740741,
+          "hi": 151.73181818181817,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 21,
+          "policy": "rmm:gated_deployment+RMM_noacq",
+          "mean": 123.38,
+          "lo": 83.91851851851851,
+          "hi": 151.95909090909092,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 22,
+          "policy": "gated_adaptive_range+front",
+          "mean": 126.785,
+          "lo": 76.62777777777777,
+          "hi": 154.98,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 23,
+          "policy": "choe_ramdas_eb+front",
+          "mean": 127.56000000000002,
+          "lo": 77.63888888888887,
+          "hi": 155.29000000000002,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 24,
+          "policy": "rmm:discern_style+RMM_single",
+          "mean": 128.76500000000001,
+          "lo": 123.35,
+          "hi": 135.53611111111113,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 25,
+          "policy": "E_srr_noacq:gated_adaptive_range",
+          "mean": 130.07999999999998,
+          "lo": 86.8962962962963,
+          "hi": 164.53787878787878,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 26,
+          "policy": "xu_acquisition_only",
+          "mean": 133.7366666666667,
+          "lo": 121.08958333333334,
+          "hi": 143.41235479797967,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 27,
+          "policy": "rmm:gated_deployment+RMM_single",
+          "mean": 134.32333333333335,
+          "lo": 129.1125,
+          "hi": 140.27962962962962,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 28,
+          "policy": "rmm:SMCS+retain-incumbent+RMM_single",
+          "mean": 140.23666666666665,
+          "lo": 127.97333333333333,
+          "hi": 162.15185185185183,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 29,
+          "policy": "SMCS+retain-incumbent",
+          "mean": 147.20166666666665,
+          "lo": 128.78958333333335,
+          "hi": 162.40714285714284,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 30,
+          "policy": "gated_adaptive_range",
+          "mean": 159.26333333333332,
+          "lo": 130.79999999999998,
+          "hi": 174.5897435897436,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 31,
+          "policy": "A5b",
+          "mean": 171.83833333333334,
+          "lo": 131.12857142857143,
+          "hi": 214.70555555555555,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 32,
+          "policy": "gated_deployment",
+          "mean": 181.98000000000002,
+          "lo": 131.57142857142858,
+          "hi": 224.4015151515152,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 33,
+          "policy": "CONTROL_never_switch",
+          "mean": 196.7,
+          "lo": 126.57142857142857,
+          "hi": 238.375,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 34,
+          "policy": "discern_style",
+          "mean": 206.66333333333336,
+          "lo": 136.1809523809524,
+          "hi": 248.67708333333334,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        }
+      ]
+    },
+    "label_expenditure": {
+      "label": "Mean label expenditure c_q \u00d7 labels per episode",
+      "direction": "lower",
+      "ranking": [
+        {
+          "rank": 1,
+          "policy": "CONTROL_never_switch",
+          "mean": 0.0,
+          "lo": 0.0,
+          "hi": 0.0,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 2,
+          "policy": "gated_adaptive_range+front",
+          "mean": 3.4850000000000003,
+          "lo": 2.3000000000000003,
+          "hi": 5.449761904761828,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 3,
+          "policy": "choe_ramdas_eb+front",
+          "mean": 3.56,
+          "lo": 2.2083333333333335,
+          "hi": 5.8999999999999995,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 4,
+          "policy": "gated_adaptive_range",
+          "mean": 5.2299999999999995,
+          "lo": 3.2621212121212126,
+          "hi": 7.635185185185185,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 5,
+          "policy": "E_srr_noacq:gated_adaptive_range",
+          "mean": 6.08,
+          "lo": 3.840909090909091,
+          "hi": 8.816666666666668,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 6,
+          "policy": "gated_deployment",
+          "mean": 6.546666666666667,
+          "lo": 4.525,
+          "hi": 8.987037037037037,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 7,
+          "policy": "rmm:gated_deployment+RMM_noacq",
+          "mean": 6.913333333333332,
+          "lo": 4.777083333333334,
+          "hi": 9.375925925925927,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 8,
+          "policy": "E_srr_noacq:gated_deployment",
+          "mean": 6.928333333333332,
+          "lo": 4.7875,
+          "hi": 9.39074074074074,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 9,
+          "policy": "A5b",
+          "mean": 7.071666666666667,
+          "lo": 4.557142857142858,
+          "hi": 8.552380952380952,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 10,
+          "policy": "xu_acquisition_only",
+          "mean": 9.003333333333334,
+          "lo": 7.566666666666667,
+          "hi": 9.797916666666667,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 11,
+          "policy": "rmm:discern_style+RMM_noacq",
+          "mean": 9.691666666666666,
+          "lo": 9.352380952380953,
+          "hi": 9.881666666666666,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 12,
+          "policy": "discern_style",
+          "mean": 9.696666666666667,
+          "lo": 9.376190476190477,
+          "hi": 9.885185185185186,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 13,
+          "policy": "SMCS+retain-incumbent",
+          "mean": 9.701666666666666,
+          "lo": 9.388095238095238,
+          "hi": 9.914583333333333,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 14,
+          "policy": "qiu_delayed_movement",
+          "mean": 9.713333333333335,
+          "lo": 9.385714285714288,
+          "hi": 9.897916666666667,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 15,
+          "policy": "E_swcert",
+          "mean": 9.715,
+          "lo": 9.405555555555557,
+          "hi": 9.910416666666668,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 16,
+          "policy": "rmm:gated_deployment+RMM_single",
+          "mean": 9.823333333333334,
+          "lo": 9.433333333333334,
+          "hi": 9.991666666666667,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 17,
+          "policy": "E_glr:gated_adaptive_range",
+          "mean": 9.831666666666667,
+          "lo": 9.408333333333335,
+          "hi": 10.0,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 18,
+          "policy": "rmm:gated_deployment+RMM",
+          "mean": 9.831666666666667,
+          "lo": 9.433333333333334,
+          "hi": 10.0,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 19,
+          "policy": "rmm:gated_adaptive_range+RMM",
+          "mean": 9.831666666666667,
+          "lo": 9.408333333333335,
+          "hi": 10.0,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 20,
+          "policy": "rmm:discern_style+RMM_single",
+          "mean": 9.831666666666667,
+          "lo": 9.425,
+          "hi": 10.0,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 21,
+          "policy": "rmm:discern_style+RMM",
+          "mean": 9.831666666666667,
+          "lo": 9.425,
+          "hi": 10.0,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 22,
+          "policy": "E_srr:gated_adaptive_range",
+          "mean": 9.831666666666667,
+          "lo": 9.408333333333335,
+          "hi": 10.0,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 23,
+          "policy": "E_rb:discern_style",
+          "mean": 9.831666666666667,
+          "lo": 9.425,
+          "hi": 10.0,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 24,
+          "policy": "E_rb:gated_adaptive_range",
+          "mean": 9.831666666666667,
+          "lo": 9.408333333333335,
+          "hi": 10.0,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 25,
+          "policy": "E_rb:gated_deployment",
+          "mean": 9.831666666666667,
+          "lo": 9.433333333333334,
+          "hi": 10.0,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 26,
+          "policy": "E_srrSR:gated_deployment",
+          "mean": 9.831666666666667,
+          "lo": 9.433333333333334,
+          "hi": 10.0,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 27,
+          "policy": "E_srr:gated_deployment",
+          "mean": 9.831666666666667,
+          "lo": 9.433333333333334,
+          "hi": 10.0,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 28,
+          "policy": "E_srr:discern_style",
+          "mean": 9.831666666666667,
+          "lo": 9.425,
+          "hi": 10.0,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 29,
+          "policy": "E_glr:gated_deployment",
+          "mean": 9.831666666666667,
+          "lo": 9.433333333333334,
+          "hi": 10.0,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 30,
+          "policy": "E_rb:SMCS+retain-incumbent",
+          "mean": 9.836666666666666,
+          "lo": 9.416666666666668,
+          "hi": 10.0,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 31,
+          "policy": "rmm:SMCS+retain-incumbent+RMM",
+          "mean": 9.836666666666666,
+          "lo": 9.416666666666668,
+          "hi": 10.0,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 32,
+          "policy": "rmm:SMCS+retain-incumbent+RMM_single",
+          "mean": 9.836666666666666,
+          "lo": 9.416666666666668,
+          "hi": 10.0,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 33,
+          "policy": "E_srr:SMCS+retain-incumbent",
+          "mean": 9.836666666666666,
+          "lo": 9.416666666666668,
+          "hi": 10.0,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 34,
+          "policy": "rmm:LRMD",
+          "mean": 9.85,
+          "lo": 9.450000000000001,
+          "hi": 10.0,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        }
+      ]
+    },
+    "switching_expenditure": {
+      "label": "Mean switching expenditure c_s \u00d7 switches per episode",
+      "direction": "lower",
+      "ranking": [
+        {
+          "rank": 1,
+          "policy": "CONTROL_never_switch",
+          "mean": 0.0,
+          "lo": 0.0,
+          "hi": 0.0,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 2,
+          "policy": "discern_style",
+          "mean": 0.16666666666666666,
+          "lo": 0.0,
+          "hi": 0.3333333333333333,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 3,
+          "policy": "gated_deployment",
+          "mean": 1.0,
+          "lo": 0.27777777777777773,
+          "hi": 1.3636363636363635,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 4,
+          "policy": "A5b",
+          "mean": 1.5,
+          "lo": 0.0,
+          "hi": 2.3333333333333335,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 5,
+          "policy": "choe_ramdas_eb+front",
+          "mean": 1.5,
+          "lo": 0.0,
+          "hi": 3.3333333333333335,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 6,
+          "policy": "gated_adaptive_range",
+          "mean": 1.6666666666666665,
+          "lo": 0.5555555555555555,
+          "hi": 3.1481481481481475,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 7,
+          "policy": "SMCS+retain-incumbent",
+          "mean": 1.8333333333333333,
+          "lo": 0.5555555555555555,
+          "hi": 3.7037037037037033,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 8,
+          "policy": "gated_adaptive_range+front",
+          "mean": 2.0,
+          "lo": 0.625,
+          "hi": 3.75,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 9,
+          "policy": "rmm:gated_deployment+RMM_noacq",
+          "mean": 2.6666666666666665,
+          "lo": 1.0416666666666665,
+          "hi": 4.259259259259259,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 10,
+          "policy": "xu_acquisition_only",
+          "mean": 2.833333333333333,
+          "lo": 0.8333333333333334,
+          "hi": 3.939393939393939,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 11,
+          "policy": "rmm:SMCS+retain-incumbent+RMM_single",
+          "mean": 4.5,
+          "lo": 0.8333333333333334,
+          "hi": 7.2727272727272725,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 12,
+          "policy": "E_srr_noacq:gated_adaptive_range",
+          "mean": 4.666666666666667,
+          "lo": 1.3888888888888886,
+          "hi": 8.703703703703702,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 13,
+          "policy": "rmm:discern_style+RMM_noacq",
+          "mean": 4.666666666666666,
+          "lo": 3.333333333333334,
+          "hi": 5.0,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 14,
+          "policy": "rmm:discern_style+RMM_single",
+          "mean": 4.833333333333334,
+          "lo": 0.8333333333333334,
+          "hi": 8.333333333333334,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 15,
+          "policy": "E_glr:gated_adaptive_range",
+          "mean": 4.999999999999999,
+          "lo": 2.619047619047619,
+          "hi": 6.309523809523809,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 16,
+          "policy": "rmm:discern_style+RMM",
+          "mean": 5.0,
+          "lo": 2.5,
+          "hi": 6.222222222222222,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 17,
+          "policy": "rmm:gated_deployment+RMM_single",
+          "mean": 5.166666666666667,
+          "lo": 0.8333333333333334,
+          "hi": 9.444444444444446,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 18,
+          "policy": "E_glr:gated_deployment",
+          "mean": 5.333333333333333,
+          "lo": 4.523809523809524,
+          "hi": 6.06060606060606,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 19,
+          "policy": "E_swcert",
+          "mean": 5.5,
+          "lo": 2.857142857142857,
+          "hi": 6.875,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 20,
+          "policy": "rmm:gated_deployment+RMM",
+          "mean": 5.833333333333334,
+          "lo": 3.055555555555556,
+          "hi": 7.083333333333334,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 21,
+          "policy": "rmm:gated_adaptive_range+RMM",
+          "mean": 5.833333333333334,
+          "lo": 3.055555555555556,
+          "hi": 7.083333333333334,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 22,
+          "policy": "rmm:SMCS+retain-incumbent+RMM",
+          "mean": 5.833333333333334,
+          "lo": 3.055555555555556,
+          "hi": 7.083333333333334,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 23,
+          "policy": "E_rb:discern_style",
+          "mean": 6.0,
+          "lo": 3.0555555555555554,
+          "hi": 8.125,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 24,
+          "policy": "E_srr_noacq:gated_deployment",
+          "mean": 6.166666666666667,
+          "lo": 2.2222222222222223,
+          "hi": 11.481481481481481,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 25,
+          "policy": "E_rb:gated_adaptive_range",
+          "mean": 6.166666666666667,
+          "lo": 3.3333333333333335,
+          "hi": 7.564102564102564,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 26,
+          "policy": "rmm:LRMD",
+          "mean": 6.5,
+          "lo": 3.3333333333333335,
+          "hi": 8.333333333333334,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 27,
+          "policy": "E_rb:gated_deployment",
+          "mean": 6.833333333333334,
+          "lo": 3.3333333333333335,
+          "hi": 9.375,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 28,
+          "policy": "E_rb:SMCS+retain-incumbent",
+          "mean": 7.000000000000002,
+          "lo": 3.3333333333333335,
+          "hi": 9.444444444444445,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 29,
+          "policy": "E_srr:discern_style",
+          "mean": 7.5,
+          "lo": 3.3333333333333335,
+          "hi": 11.363636363636363,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 30,
+          "policy": "E_srr:gated_adaptive_range",
+          "mean": 8.0,
+          "lo": 4.444444444444444,
+          "hi": 11.666666666666666,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 31,
+          "policy": "E_srr:gated_deployment",
+          "mean": 8.166666666666668,
+          "lo": 5.0,
+          "hi": 11.666666666666666,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 32,
+          "policy": "E_srr:SMCS+retain-incumbent",
+          "mean": 8.166666666666666,
+          "lo": 4.166666666666667,
+          "hi": 11.666666666666668,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 33,
+          "policy": "qiu_delayed_movement",
+          "mean": 12.833333333333334,
+          "lo": 8.541666666666666,
+          "hi": 15.0,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 34,
+          "policy": "E_srrSR:gated_deployment",
+          "mean": 13.666666666666668,
+          "lo": 9.545454545454545,
+          "hi": 19.285714285714285,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        }
+      ]
+    },
+    "delta_J_vs_best_certified": {
+      "label": "Paired \u0394J vs same-sample selected comparator `gated_adaptive_range+front`",
+      "direction": "lower",
+      "ranking": [
+        {
+          "rank": 1,
+          "policy": "E_srr:gated_deployment",
+          "mean": -44.25333333333329,
+          "lo": -77.63205128205122,
+          "hi": 17.735714285714312,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 2,
+          "policy": "E_srr:discern_style",
+          "mean": -43.153333333333286,
+          "lo": -79.16923076923072,
+          "hi": 23.733333333333356,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 3,
+          "policy": "E_srr:SMCS+retain-incumbent",
+          "mean": -41.748333333333285,
+          "lo": -76.87261904761895,
+          "hi": 18.30238095238096,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 4,
+          "policy": "E_srr:gated_adaptive_range",
+          "mean": -41.28666666666662,
+          "lo": -75.57692307692301,
+          "hi": 22.395238095238117,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 5,
+          "policy": "E_srrSR:gated_deployment",
+          "mean": -38.95333333333328,
+          "lo": -71.77222222222214,
+          "hi": 4.830952380952401,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 6,
+          "policy": "rmm:discern_style+RMM",
+          "mean": -38.78666666666662,
+          "lo": -69.10444444444437,
+          "hi": 3.352380952380981,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 7,
+          "policy": "rmm:gated_deployment+RMM",
+          "mean": -37.91999999999994,
+          "lo": -66.60833333333326,
+          "hi": 13.259523809523833,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 8,
+          "policy": "rmm:LRMD",
+          "mean": -34.934999999999945,
+          "lo": -67.65357142857137,
+          "hi": 17.55000000000002,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 9,
+          "policy": "rmm:SMCS+retain-incumbent+RMM",
+          "mean": -34.64833333333329,
+          "lo": -67.32499999999993,
+          "hi": 18.159523809523822,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 10,
+          "policy": "rmm:discern_style+RMM_noacq",
+          "mean": -33.02666666666662,
+          "lo": -64.94285714285708,
+          "hi": 16.116666666666703,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 11,
+          "policy": "rmm:gated_adaptive_range+RMM",
+          "mean": -31.953333333333283,
+          "lo": -58.9214285714285,
+          "hi": 10.109523809523823,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 12,
+          "policy": "E_rb:discern_style",
+          "mean": -31.719999999999953,
+          "lo": -69.10444444444437,
+          "hi": 23.542857142857162,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 13,
+          "policy": "E_rb:gated_deployment",
+          "mean": -31.219999999999942,
+          "lo": -66.60833333333326,
+          "hi": 32.40238095238097,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 14,
+          "policy": "E_rb:gated_adaptive_range",
+          "mean": -29.486666666666615,
+          "lo": -58.9214285714285,
+          "hi": 17.157142857142876,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 15,
+          "policy": "E_glr:gated_deployment",
+          "mean": -28.353333333333286,
+          "lo": -86.79444444444435,
+          "hi": 67.70370370370372,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 16,
+          "policy": "qiu_delayed_movement",
+          "mean": -26.938333333333293,
+          "lo": -55.86190476190473,
+          "hi": 25.185714285714305,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 17,
+          "policy": "E_rb:SMCS+retain-incumbent",
+          "mean": -24.214999999999947,
+          "lo": -66.46785714285707,
+          "hi": 46.826190476190504,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 18,
+          "policy": "E_swcert",
+          "mean": -16.203333333333298,
+          "lo": -49.784523809523776,
+          "hi": 41.328571428571436,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 19,
+          "policy": "E_glr:gated_adaptive_range",
+          "mean": -9.319999999999945,
+          "lo": -77.16888888888884,
+          "hi": 109.22222222222227,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 20,
+          "policy": "E_srr_noacq:gated_deployment",
+          "mean": -3.789999999999961,
+          "lo": -39.16904761904757,
+          "hi": 32.42619047619046,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 21,
+          "policy": "rmm:gated_deployment+RMM_noacq",
+          "mean": -3.4049999999999527,
+          "lo": -18.059090909090838,
+          "hi": 11.873809523809525,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 22,
+          "policy": "gated_adaptive_range+front",
+          "mean": 0.0,
+          "lo": 0.0,
+          "hi": 0.0,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 23,
+          "policy": "choe_ramdas_eb+front",
+          "mean": 0.7750000000000569,
+          "lo": -0.296666666666575,
+          "hi": 3.03333333333336,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 24,
+          "policy": "rmm:discern_style+RMM_single",
+          "mean": 1.980000000000055,
+          "lo": -25.68222222222215,
+          "hi": 48.07407407407411,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 25,
+          "policy": "E_srr_noacq:gated_adaptive_range",
+          "mean": 3.295000000000033,
+          "lo": -31.166666666666607,
+          "hi": 28.527272727272734,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 26,
+          "policy": "xu_acquisition_only",
+          "mean": 6.951666666666713,
+          "lo": -13.326666666666629,
+          "hi": 45.2481481481482,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 27,
+          "policy": "rmm:gated_deployment+RMM_single",
+          "mean": 7.538333333333378,
+          "lo": -21.432222222222165,
+          "hi": 59.5166666666667,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 28,
+          "policy": "rmm:SMCS+retain-incumbent+RMM_single",
+          "mean": 13.451666666666707,
+          "lo": -24.87888888888883,
+          "hi": 84.9703703703704,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 29,
+          "policy": "SMCS+retain-incumbent",
+          "mean": 20.416666666666714,
+          "lo": 3.5595238095238773,
+          "hi": 55.12592592592594,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 30,
+          "policy": "gated_adaptive_range",
+          "mean": 32.478333333333396,
+          "lo": 0.39722222222226833,
+          "hi": 89.57962962962968,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 31,
+          "policy": "A5b",
+          "mean": 45.05333333333336,
+          "lo": 1.233333333333358,
+          "hi": 138.0777777777778,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 32,
+          "policy": "gated_deployment",
+          "mean": 55.19500000000005,
+          "lo": 0.847222222222257,
+          "hi": 145.34074074074078,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 33,
+          "policy": "CONTROL_never_switch",
+          "mean": 69.91500000000005,
+          "lo": -3.5333333333332937,
+          "hi": 150.26111111111112,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        },
+        {
+          "rank": 34,
+          "policy": "discern_style",
+          "mean": 79.8783333333334,
+          "lo": 5.94722222222227,
+          "hi": 160.01666666666674,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": null
+        }
+      ]
+    },
+    "first_promotion_delay": {
+      "label": "Mean detect_delay among episodes with a promotion",
+      "direction": "lower",
+      "ranking": [
+        {
+          "rank": 1,
+          "policy": "E_srrSR:gated_deployment",
+          "mean": 135.96666666666667,
+          "lo": 70.22222222222223,
+          "hi": 241.16666666666666,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": 1.0
+        },
+        {
+          "rank": 2,
+          "policy": "E_srr:discern_style",
+          "mean": 150.5925925925926,
+          "lo": 107.76666666666665,
+          "hi": 206.7777777777778,
+          "episodes": 9,
+          "clusters": 4,
+          "promotion_fraction_seed_runs": 0.9
+        },
+        {
+          "rank": 3,
+          "policy": "E_srr:gated_deployment",
+          "mean": 182.5333333333333,
+          "lo": 127.14814814814814,
+          "hi": 276.3333333333333,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": 1.0
+        },
+        {
+          "rank": 4,
+          "policy": "E_srr:SMCS+retain-incumbent",
+          "mean": 184.06666666666666,
+          "lo": 124.76666666666665,
+          "hi": 289.5238095238096,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": 0.9333333333333333
+        },
+        {
+          "rank": 5,
+          "policy": "E_srr:gated_adaptive_range",
+          "mean": 197.23333333333332,
+          "lo": 128.92592592592592,
+          "hi": 294.38095238095235,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": 0.9666666666666667
+        },
+        {
+          "rank": 6,
+          "policy": "E_srr_noacq:gated_deployment",
+          "mean": 208.2222222222222,
+          "lo": 89.66666666666667,
+          "hi": 313.83333333333337,
+          "episodes": 6,
+          "clusters": 3,
+          "promotion_fraction_seed_runs": 0.5666666666666667
+        },
+        {
+          "rank": 7,
+          "policy": "rmm:LRMD",
+          "mean": 239.4074074074074,
+          "lo": 188.46666666666664,
+          "hi": 303.0833333333333,
+          "episodes": 9,
+          "clusters": 4,
+          "promotion_fraction_seed_runs": 0.9
+        },
+        {
+          "rank": 8,
+          "policy": "qiu_delayed_movement",
+          "mean": 239.74074074074076,
+          "lo": 186.76666666666668,
+          "hi": 366.73333333333335,
+          "episodes": 9,
+          "clusters": 4,
+          "promotion_fraction_seed_runs": 0.9
+        },
+        {
+          "rank": 9,
+          "policy": "choe_ramdas_eb+front",
+          "mean": 297.6666666666667,
+          "lo": null,
+          "hi": null,
+          "episodes": 3,
+          "clusters": 2,
+          "promotion_fraction_seed_runs": 0.3
+        },
+        {
+          "rank": 10,
+          "policy": "rmm:gated_deployment+RMM",
+          "mean": 299.2962962962963,
+          "lo": 218.26666666666665,
+          "hi": 430.41666666666663,
+          "episodes": 9,
+          "clusters": 4,
+          "promotion_fraction_seed_runs": 0.9
+        },
+        {
+          "rank": 11,
+          "policy": "E_rb:gated_deployment",
+          "mean": 299.2962962962963,
+          "lo": 218.26666666666665,
+          "hi": 430.41666666666663,
+          "episodes": 9,
+          "clusters": 4,
+          "promotion_fraction_seed_runs": 0.9
+        },
+        {
+          "rank": 12,
+          "policy": "rmm:SMCS+retain-incumbent+RMM",
+          "mean": 309.14814814814815,
+          "lo": 183.73333333333335,
+          "hi": 529.625,
+          "episodes": 9,
+          "clusters": 4,
+          "promotion_fraction_seed_runs": 0.9
+        },
+        {
+          "rank": 13,
+          "policy": "E_rb:SMCS+retain-incumbent",
+          "mean": 309.14814814814815,
+          "lo": 183.73333333333335,
+          "hi": 529.625,
+          "episodes": 9,
+          "clusters": 4,
+          "promotion_fraction_seed_runs": 0.9
+        },
+        {
+          "rank": 14,
+          "policy": "E_srr_noacq:gated_adaptive_range",
+          "mean": 310.59999999999997,
+          "lo": 114.5,
+          "hi": 453.33333333333326,
+          "episodes": 5,
+          "clusters": 3,
+          "promotion_fraction_seed_runs": 0.4666666666666667
+        },
+        {
+          "rank": 15,
+          "policy": "rmm:gated_adaptive_range+RMM",
+          "mean": 320.22222222222223,
+          "lo": 242.6,
+          "hi": 426.47619047619054,
+          "episodes": 9,
+          "clusters": 4,
+          "promotion_fraction_seed_runs": 0.9
+        },
+        {
+          "rank": 16,
+          "policy": "E_rb:gated_adaptive_range",
+          "mean": 320.22222222222223,
+          "lo": 242.6,
+          "hi": 426.47619047619054,
+          "episodes": 9,
+          "clusters": 4,
+          "promotion_fraction_seed_runs": 0.9
+        },
+        {
+          "rank": 17,
+          "policy": "E_rb:discern_style",
+          "mean": 320.8148148148148,
+          "lo": 256.6666666666667,
+          "hi": 369.06666666666666,
+          "episodes": 9,
+          "clusters": 4,
+          "promotion_fraction_seed_runs": 0.8666666666666667
+        },
+        {
+          "rank": 18,
+          "policy": "rmm:discern_style+RMM",
+          "mean": 320.8148148148148,
+          "lo": 256.6666666666667,
+          "hi": 369.06666666666666,
+          "episodes": 9,
+          "clusters": 4,
+          "promotion_fraction_seed_runs": 0.8666666666666667
+        },
+        {
+          "rank": 19,
+          "policy": "rmm:discern_style+RMM_single",
+          "mean": 323.73333333333335,
+          "lo": 248.83333333333337,
+          "hi": 409.6666666666667,
+          "episodes": 5,
+          "clusters": 3,
+          "promotion_fraction_seed_runs": 0.5
+        },
+        {
+          "rank": 20,
+          "policy": "rmm:gated_deployment+RMM_single",
+          "mean": 348.4,
+          "lo": 282.33333333333337,
+          "hi": 416.3333333333333,
+          "episodes": 5,
+          "clusters": 3,
+          "promotion_fraction_seed_runs": 0.5
+        },
+        {
+          "rank": 21,
+          "policy": "gated_adaptive_range+front",
+          "mean": 411.25,
+          "lo": 190.0,
+          "hi": 693.0,
+          "episodes": 4,
+          "clusters": 3,
+          "promotion_fraction_seed_runs": 0.4
+        },
+        {
+          "rank": 22,
+          "policy": "rmm:SMCS+retain-incumbent+RMM_single",
+          "mean": 451.2,
+          "lo": 254.5,
+          "hi": 665.6666666666667,
+          "episodes": 5,
+          "clusters": 3,
+          "promotion_fraction_seed_runs": 0.5
+        },
+        {
+          "rank": 23,
+          "policy": "E_glr:gated_adaptive_range",
+          "mean": 459.9,
+          "lo": 220.14285714285714,
+          "hi": 746.7777777777778,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": 0.8333333333333334
+        },
+        {
+          "rank": 24,
+          "policy": "E_glr:gated_deployment",
+          "mean": 475.95,
+          "lo": 235.42857142857147,
+          "hi": 795.8703703703703,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": 0.9666666666666667
+        },
+        {
+          "rank": 25,
+          "policy": "rmm:discern_style+RMM_noacq",
+          "mean": 505.0000000000001,
+          "lo": 325.4761904761905,
+          "hi": 622.0833333333333,
+          "episodes": 10,
+          "clusters": 5,
+          "promotion_fraction_seed_runs": 0.9333333333333333
+        },
+        {
+          "rank": 26,
+          "policy": "E_swcert",
+          "mean": 506.44444444444446,
+          "lo": 331.0,
+          "hi": 782.4583333333334,
+          "episodes": 9,
+          "clusters": 4,
+          "promotion_fraction_seed_runs": 0.9
+        },
+        {
+          "rank": 27,
+          "policy": "rmm:gated_deployment+RMM_noacq",
+          "mean": 630.888888888889,
+          "lo": 361.0,
+          "hi": 939.8333333333334,
+          "episodes": 6,
+          "clusters": 3,
+          "promotion_fraction_seed_runs": 0.5333333333333333
+        },
+        {
+          "rank": 28,
+          "policy": "SMCS+retain-incumbent",
+          "mean": 673.2083333333334,
+          "lo": 418.0,
+          "hi": 892.6666666666666,
+          "episodes": 4,
+          "clusters": 3,
+          "promotion_fraction_seed_runs": 0.36666666666666664
+        },
+        {
+          "rank": 29,
+          "policy": "A5b",
+          "mean": 683.0,
+          "lo": null,
+          "hi": null,
+          "episodes": 3,
+          "clusters": 2,
+          "promotion_fraction_seed_runs": 0.26666666666666666
+        },
+        {
+          "rank": 30,
+          "policy": "xu_acquisition_only",
+          "mean": 896.2777777777778,
+          "lo": 381.0,
+          "hi": 1020.6666666666666,
+          "episodes": 6,
+          "clusters": 3,
+          "promotion_fraction_seed_runs": 0.5666666666666667
+        },
+        {
+          "rank": 31,
+          "policy": "gated_deployment",
+          "mean": 1145.6666666666667,
+          "lo": 594.0,
+          "hi": 1561.0,
+          "episodes": 3,
+          "clusters": 3,
+          "promotion_fraction_seed_runs": 0.2
+        },
+        {
+          "rank": 32,
+          "policy": "discern_style",
+          "mean": 1147.0,
+          "lo": null,
+          "hi": null,
+          "episodes": 1,
+          "clusters": 1,
+          "promotion_fraction_seed_runs": 0.03333333333333333
+        },
+        {
+          "rank": 33,
+          "policy": "gated_adaptive_range",
+          "mean": 1161.5,
+          "lo": 593.0,
+          "hi": 1463.3333333333333,
+          "episodes": 4,
+          "clusters": 3,
+          "promotion_fraction_seed_runs": 0.3333333333333333
+        }
+      ]
+    }
+  },
+  "limitations": [
+    "The episode classes are retrospective outcome-derived labels, not causal change times.",
+    "Raw datasets and episodes were exposed during development; this is not independent confirmation.",
+    "The strongest certified comparator is selected on the same ten episodes; paired differences are exploratory and unadjusted for this selection.",
+    "Delay is conditional on promotion; non-promoting runs are not assigned a fictitious delay rank.",
+    "Hindsight regret is retrospective and is not the registered prospective objective.",
+    "These metric ranks describe the WP1 late-improvement slice, not a global cross-track ordering."
+  ]
+}

@@ -47,7 +47,7 @@ hypothesis passed, a guarantee is valid, or independent confirmation was achieve
 | 7. Statistical-validity analysis | **Complete as empirical, null-specific assessment; theorem claims remain assumption-bound** | Track V cells, WP2 definitions, P4 misspecification tests, null audits. No empirical rate is treated as a guarantee. |
 | 8. Real-data results | **Complete for available reused streams; no independent real confirmation** | Family reports and WP1/WP2 analyses; raw data and episodes are development-exposed. |
 | 9. Independent reviewer findings | **Partial** | Internal read-only reviews are documented in `INDEPENDENT_REVIEW.md`; requested external/human review remains open. |
-| 10. Ranked contribution opportunities | **Complete** | `LEADERBOARD.md`. |
+| 10. Ranked contribution opportunities | **Complete as an ordinal research-planning judgment; metric ranks remain scoped** | `LEADERBOARD.md` records contribution directions and metric-specific economic ranks for the WP1 late-improvement stratum. It does not provide a unified ranking across incomparable tracks, and statistical metric ranks remain null/regime specific. |
 | 11. Reproduction commands | **Complete for saved runs and audits** | `REPRODUCIBILITY.md`, protocols and manifests. |
 | 12. Supported research verdicts | **Complete as bounded verdicts** | `LEADERBOARD.md` and `STATUS.md`. |
 

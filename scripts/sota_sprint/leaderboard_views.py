@@ -14,6 +14,7 @@ from __future__ import annotations
 
 import json
 import math
+import argparse
 from pathlib import Path
 
 import numpy as np
@@ -42,9 +43,33 @@ def wilson_hi(k, n, z=1.96):
     return min(1.0, c + z * math.sqrt(p * (1 - p) / n + z * z / (4 * n * n)) / (1 + z * z / n))
 
 
-def _load(dirs):
-    fs = [d / "records.jsonl" for d in dirs if (d / "records.jsonl").exists()]
-    return pd.concat([pd.read_json(f, lines=True) for f in fs], ignore_index=True) if fs else None
+CORRECTION_TAG = "_wmaxfix_20261105"
+
+
+def _load(dirs, corrected=False):
+    frames = []
+    for d in dirs:
+        f = d / "records.jsonl"
+        if not f.exists():
+            continue
+        old = pd.read_json(f, lines=True)
+        new_path = d.with_name(d.name + CORRECTION_TAG) / "records.jsonl"
+        if corrected and new_path.is_file():
+            new = pd.read_json(new_path, lines=True)
+            keys = ["regime", "ep", "seed", "policy"]
+            if not set(keys).issubset(old) or not set(keys).issubset(new):
+                raise ValueError(f"missing exact leaderboard correction keys: {d}")
+            policies = set(new.policy)
+            previous = old[old.policy.isin(policies)]
+            if previous.duplicated(keys).any() or new.duplicated(keys).any():
+                raise ValueError(f"duplicate leaderboard correction keys: {d}")
+            joined = previous[keys].merge(new[keys], on=keys, how="outer", indicator=True,
+                                           validate="one_to_one")
+            if not (joined["_merge"] == "both").all():
+                raise ValueError(f"unmatched leaderboard correction rows: {d}")
+            old = pd.concat([old[~old.policy.isin(policies)], new], ignore_index=True)
+        frames.append(old)
+    return pd.concat(frames, ignore_index=True) if frames else None
 
 
 def views(df, nulls, safe_fn, label):
@@ -86,16 +111,28 @@ def views(df, nulls, safe_fn, label):
     return out
 
 
-def main():
+def main(argv=None):
+    ap = argparse.ArgumentParser(description=__doc__)
+    ap.add_argument("--adaptive-gate-corrected", action="store_true",
+                    help="Substitute affected policies using exact-key same-seed correction runs.")
+    ap.add_argument("--out-dir", type=Path,
+                    help="Separate output directory; defaults to docs/sota_sprint/validation.")
+    args = ap.parse_args(argv)
+    global DOC
+    if args.out_dir:
+        DOC = args.out_dir
+        DOC.mkdir(parents=True, exist_ok=True)
     res = {}
-    dev = _load([GATE / f for f in "ABCD"])
+    dev = _load([GATE / f for f in "ABCD"], corrected=args.adaptive_gate_corrected)
     if dev is not None:
         shared = dev[dev.regime.isin(SHARED)].drop_duplicates(["regime", "ep", "seed", "policy"])
         res["development"] = views(shared, DEV_NULLS,
                                    lambda g: g.groupby("regime").ever_promote.sum().max() <= 1,
                                    "gate re-screen, 20 dev seeds, shared environments " + ",".join(SHARED))
-    syn = _load([VAL / n for n in ("synth", "synth_b5", "synth_qce")])
-    nul = _load([VAL / n for n in ("null1000", "null1000_b5", "null1000_qce")])
+    syn = _load([VAL / n for n in ("synth", "synth_b5", "synth_qce")],
+                corrected=args.adaptive_gate_corrected)
+    nul = _load([VAL / n for n in ("null1000", "null1000_b5", "null1000_qce")],
+                corrected=args.adaptive_gate_corrected)
     if syn is not None and nul is not None:
         nn = set(nul.regime.unique())
         safe_val = {p: all(wilson_hi(int(g2.ever_promote.sum()), len(g2)) <= 0.0936
@@ -103,9 +140,15 @@ def main():
         syn = syn.drop_duplicates(["regime", "ep", "seed", "policy"])
         res["validated"] = views(syn, nn, lambda g: safe_val.get(g.policy.iloc[0], False),
                                  "validation: 100 fresh seeds; safety = Wilson ub on 1000-seed in-class nulls")
+    if args.adaptive_gate_corrected:
+        res["adaptive_gate_correction"] = ("exact-key same-seed replacement for affected policy rows; "
+                                           "sensitivity, not independent confirmation")
     (DOC / "leaderboard_views.json").write_text(json.dumps(res, indent=1, default=float) + "\n")
     L = ["# Leaderboard: ranked views (brief section 12)", ""]
-    for stage, v in res.items():
+    if args.adaptive_gate_corrected:
+        L += ["**CORRECTED-REPLAY SENSITIVITY:** affected rows were replaced by exact-key, same-seed correction records. "
+              "This is not independent confirmation.", ""]
+    for stage, v in ((k, v) for k, v in res.items() if isinstance(v, dict) and "_basis" in v):
         L += [f"## {stage} ({v['_basis']})", ""]
         for k, d in v.items():
             if k.startswith("_"):

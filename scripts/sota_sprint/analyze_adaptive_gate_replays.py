@@ -49,6 +49,8 @@ def main() -> None:
     args = parser.parse_args()
 
     results = []
+    coverage = []
+    missing_sources = []
     for manifest_path in sorted(args.root.rglob("manifest.json")):
         new_dir = manifest_path.parent
         if TAG not in new_dir.name:
@@ -58,7 +60,12 @@ def main() -> None:
             old_name = old_name.split("_retry", 1)[0]
         old_dir = new_dir.with_name(old_name)
         old_path, new_path = old_dir / "records.jsonl", new_dir / "records.jsonl"
-        if not old_path.is_file() or not new_path.is_file():
+        if not new_path.is_file():
+            continue
+        if not old_path.is_file():
+            missing_sources.append({"corrected_run": str(new_dir), "expected_source_run": str(old_dir),
+                                    "corrected_rows": sum(1 for _ in new_path.open()),
+                                    "reason": "original records.jsonl is unavailable"})
             continue
         old = pd.read_json(old_path, lines=True)
         new = pd.read_json(new_path, lines=True)
@@ -68,9 +75,20 @@ def main() -> None:
         if old.duplicated(KEYS).any() or new.duplicated(KEYS).any():
             raise ValueError(f"duplicate pairing keys in {old_dir} or {new_dir}")
         cmp = old.merge(new, on=KEYS, suffixes=("_old", "_new"), validate="one_to_one", how="outer", indicator=True)
-        if not (cmp["_merge"] == "both").all():
+        old_only = int((cmp["_merge"] == "left_only").sum())
+        new_only = int((cmp["_merge"] == "right_only").sum())
+        is_reconstructed_h_partial = str(old_dir).endswith("outputs/sprint2/H/screen1")
+        if (old_only or new_only) and not is_reconstructed_h_partial:
             missing = cmp.loc[cmp["_merge"] != "both", KEYS + ["_merge"]].head(10).to_dict("records")
             raise ValueError(f"old/new replay keys do not match for {new_dir}: {missing}")
+        coverage.append({"source_run": str(old_dir), "corrected_run": str(new_dir),
+                         "old_rows_for_replayed_policies": len(old), "corrected_rows": len(new),
+                         "matched_rows": int((cmp["_merge"] == "both").sum()),
+                         "old_only_rows": old_only, "corrected_only_rows": new_only,
+                         "partial_reconstruction": bool(is_reconstructed_h_partial)})
+        cmp = cmp.loc[cmp["_merge"] == "both"].drop(columns="_merge")
+        if cmp.empty:
+            continue
         for field in ("alpha", "budget", "delay", "cs", "cq"):
             if f"{field}_old" in cmp and f"{field}_new" in cmp:
                 if not np.allclose(cmp[f"{field}_old"], cmp[f"{field}_new"], equal_nan=True):
@@ -107,7 +125,8 @@ def main() -> None:
     frame = pd.DataFrame(results)
     frame.to_csv(args.csv, index=False)
     payload = {"purpose": "same-seed, same-stream code-correction sensitivity; not independent confirmation",
-               "cells": results, "cell_count": len(results),
+               "cells": results, "cell_count": len(results), "coverage": coverage,
+               "missing_sources": missing_sources,
                "corrected_runs": sorted({r["corrected_run"] for r in results})}
     args.json.write_text(json.dumps(payload, indent=2, allow_nan=False) + "\n")
     lines = [
@@ -115,6 +134,7 @@ def main() -> None:
         "Matched old versus corrected output rows use the same stream, episode, seed and policy. These are correction replays after a discovered implementation defect; they are not independent validation or new confirmatory data.", "",
         f"- Corrected run directories with matched output: **{len(payload['corrected_runs'])}**",
         f"- Matched regime-policy cells: **{len(results)}**",
+        "- Paired row coverage is listed below; the reconstructed H partial run is compared only on confirmed common keys.",
         f"- Machine-readable row-level table: `outputs/sprint2/adaptive_gate_replay_differences.csv`",
         f"- JSON with source manifest SHA256 values: `outputs/sprint2/adaptive_gate_replay_differences.json`", "",
         "| Source run | Regime | Policy | n | Promote old → corrected | Changed | Δ net [95% paired CI] | Δ labels | Δ switches |",
@@ -128,6 +148,19 @@ def main() -> None:
                      f"{r['promotions_old']}/{r['n']} → {r['promotions_corrected']}/{r['n']} | "
                      f"{r['promotion_changed_n']} | {fmt(r['delta_net_mean'])} [{fmt(r['delta_net_ci_lo'])},{fmt(r['delta_net_ci_hi'])}] | "
                      f"{r['delta_labels_mean']:+.2f} | {r['delta_switches_mean']:+.2f} |")
+    lines += ["", "## Paired-row coverage", "",
+              "| Source run | Old rows for replayed policies | Corrected rows | Matched | Old only | Corrected only | Partial reconstruction |",
+              "|---|---:|---:|---:|---:|---:|---|"]
+    for r in coverage:
+        lines.append(f"| `{r['source_run']}` | {r['old_rows_for_replayed_policies']} | {r['corrected_rows']} | "
+                     f"{r['matched_rows']} | {r['old_only_rows']} | {r['corrected_only_rows']} | "
+                     f"{'yes' if r['partial_reconstruction'] else 'no'} |")
+    if missing_sources:
+        lines += ["", "## Corrected outputs without original records", "",
+                  "These outputs exist, but the superseded source records are unavailable, so no paired correction difference is claimed.",
+                  "", "| Corrected run | Expected source run | Corrected rows | Reason |", "|---|---|---:|---|"]
+        for r in missing_sources:
+            lines.append(f"| `{r['corrected_run']}` | `{r['expected_source_run']}` | {r['corrected_rows']} | {r['reason']} |")
     args.markdown.write_text("\n".join(lines) + "\n")
     print(f"matched corrected run dirs={len(payload['corrected_runs'])} cells={len(results)}")
 

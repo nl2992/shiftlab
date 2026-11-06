@@ -37,19 +37,51 @@ CS = 5.0
 NBOOT = 2000
 
 
-def load(dirs) -> pd.DataFrame:
-    rows = []
+CORRECTION_TAG = "_wmaxfix_20261105"
+
+
+def load(dirs, corrected=False) -> pd.DataFrame:
+    source_rows = []
     for d in dirs:
-        with open(Path(d) / "records.jsonl") as fh:
+        d = Path(d)
+        with open(d / "records.jsonl") as fh:
             for line in fh:
                 r = json.loads(line)
-                p = r.pop("promos")
-                f = p[0] if p else {}
-                r.update({"tau": f.get("t", -1), "ei": f.get("ei", 0),
-                          "adv_100": f.get("adv_100", np.nan), "adv_500": f.get("adv_500", np.nan),
-                          "adv_rest": f.get("adv_rest", np.nan), "pre_adv": f.get("pre_adv", np.nan),
-                          "n_ei_all": sum(x["ei"] for x in p)})
-                rows.append(r)
+                r["_source_dir"] = str(d)
+                source_rows.append(r)
+    if corrected:
+        original = pd.DataFrame(source_rows)
+        source_rows = []
+        for source, group in original.groupby("_source_dir", sort=False):
+            old = group.drop(columns="_source_dir").copy()
+            corrected_path = Path(source).with_name(Path(source).name + CORRECTION_TAG) / "records.jsonl"
+            if corrected_path.is_file():
+                new = pd.read_json(corrected_path, lines=True)
+                keys = [k for k in ("kind", "regime", "ep", "seed", "policy")
+                        if k in old and k in new]
+                if not {"regime", "ep", "seed", "policy"}.issubset(keys):
+                    raise ValueError(f"missing exact WP2 correction keys for {source}")
+                policies = set(new.policy)
+                previous = old[old.policy.isin(policies)]
+                if previous.duplicated(keys).any() or new.duplicated(keys).any():
+                    raise ValueError(f"duplicate WP2 correction keys for {source}")
+                join = previous[keys].merge(new[keys], on=keys, how="outer", indicator=True,
+                                            validate="one_to_one")
+                if not (join["_merge"] == "both").all():
+                    raise ValueError(f"unmatched WP2 corrected rows for {source}")
+                old = old[~old.policy.isin(policies)]
+                old = pd.concat([old, new], ignore_index=True)
+            source_rows.extend(old.to_dict("records"))
+    rows = []
+    for r in source_rows:
+        r.pop("_source_dir", None)
+        p = r.pop("promos")
+        f = p[0] if p else {}
+        r.update({"tau": f.get("t", -1), "ei": f.get("ei", 0),
+                  "adv_100": f.get("adv_100", np.nan), "adv_500": f.get("adv_500", np.nan),
+                  "adv_rest": f.get("adv_rest", np.nan), "pre_adv": f.get("pre_adv", np.nan),
+                  "n_ei_all": sum(x["ei"] for x in p)})
+        rows.append(r)
     df = pd.DataFrame(rows)
     return derive(df)
 

@@ -35,6 +35,11 @@ ORDER = CERT + ["xu_acquisition_only", "QSG", "D2", *RMM, "A5b", "D5", "DM_HAC_m
                 "economic_replacement", "cams_adapter", "cams_max_adapter", "model_picker_adapter"]
 MEANREV = ["F5_dep_null_r8", "F5_dep_null_r95", "O_null_semimarkov", "O_null_order2", "WP2_o2_null",
            "WP2_sm_null", "WP2_hs_null"]
+CORRECTED = False
+
+
+def load_runs(dirs):
+    return S.load(dirs, corrected=CORRECTED)
 FE_SYN = ["WP2_iid_twin", "WP2_m8_twin", "WP2_o2_twin", "WP2_sm_twin", "WP2_hs_twin"]
 ALTS_SYN = ["F0_better", "F5_dep_better_r8", "S_dep_better_r95", "WP2_o2_better", "WP2_sm_better",
             "WP2_hs_better"]
@@ -127,12 +132,20 @@ def main(argv=None):
                     help="Also remove xu_acquisition_only from pooled V1 summaries (H2/H4/H6); requires --amendment-dir.")
     ap.add_argument("--strict-published-dir", type=Path,
                     help="Write a separate sensitivity using only the six shared CERTIFIED_PUBLISHED ports in V1 pools.")
+    ap.add_argument("--adaptive-gate-corrected-dir", type=Path,
+                    help="Write a separate WP2 report after exact-key same-seed adaptive-gate row substitution.")
     args = ap.parse_args(argv)
     if args.strict_published_dir and (args.amendment_dir or args.exclude_xu_pool):
         ap.error("--strict-published-dir is a separate sensitivity; do not combine it with other amendment flags")
     if args.exclude_xu_pool and not args.amendment_dir:
         ap.error("--exclude-xu-pool requires --amendment-dir so the registered analysis remains untouched")
-    global DOC, POWERED, CERT, V1SET, ORDER
+    if args.adaptive_gate_corrected_dir and (args.amendment_dir or args.strict_published_dir):
+        ap.error("corrected-row WP2 analysis uses its own output directory; do not combine pool options")
+    global DOC, POWERED, CERT, V1SET, ORDER, CORRECTED
+    if args.adaptive_gate_corrected_dir:
+        CORRECTED = True
+        DOC = args.adaptive_gate_corrected_dir
+        DOC.mkdir(parents=True, exist_ok=True)
     if args.strict_published_dir:
         CERT = list(CERTIFIED_PUBLISHED)
         POWERED = list(CERTIFIED_PUBLISHED)
@@ -184,7 +197,7 @@ def main(argv=None):
     res["H0_pass"] = all(v["match"] for v in res["H0"].values())
     # ---------------- Run 1: v2 twins
     st2 = json.loads((ROOT / "data/sprint_twin_losses_v2/stats.json").read_text())
-    r1 = S.load([OUT / "run1_twin2"])
+    r1 = load_runs([OUT / "run1_twin2"])
     sc1 = S.score(r1)
     sc1.to_csv(OUT / "scores_run1.csv", index=False)
     res["K0_v2"] = {}
@@ -212,7 +225,7 @@ def main(argv=None):
     res["H2_pass"] = v1tw["adv_rest_lo"] > 0
     res["matrix_twin2"] = matrix_rows(sc1, list(reg2))
     # ---------------- Run 3: synthetic
-    r3 = S.load([OUT / "run3_synth"])
+    r3 = load_runs([OUT / "run3_synth"])
     sc3 = S.score(r3)
     sc3.to_csv(OUT / "scores_run3.csv", index=False)
     res["matrix_synth_null"] = matrix_rows(sc3, NULLS_SYN)
@@ -252,7 +265,7 @@ def main(argv=None):
             "spearman_V2_V3": float(m.ever_promote.rank().corr(m.hp.rank())),
             "spearman_V1_500_V3": float(m.v1_err_500.rank().corr(m.hp.rank()))}
     # ---------------- H5: cost of dependence robustness
-    r4 = S.load([OUT / "run4_fresh"])
+    r4 = load_runs([OUT / "run4_fresh"])
     sc4 = S.score(r4)
     sc4.to_csv(OUT / "scores_run4.csv", index=False)
     better = r4[r4.ep_adv > 0]
@@ -278,7 +291,7 @@ def main(argv=None):
                               for _, r in sc3[sc3.regime.isin(ALTS_SYN)].iterrows()}
     # ---------------- H6: variants
     var_dirs = sorted(p for p in OUT.glob("run2_*") if (p / "records.jsonl").exists())
-    r2 = S.load(var_dirs + [OUT / "run1_twin2"])
+    r2 = load_runs(var_dirs + [OUT / "run1_twin2"])
     panel_r = set(r2[r2.delay_mult != 1.0].policy) | set(r2[r2["T"] != 2000].policy)
     r2 = r2[r2.policy.isin(panel_r)]
     r2 = r2.assign(regime_base=r2.regime.str.replace(r"_T\d+$", "", regex=True))
@@ -304,6 +317,9 @@ def main(argv=None):
     res["sprint1_reanalysis"] = reanalyse_sprint1()
     res["runtime_max_s"] = float(max(r1.runtime_s.max(), r3.runtime_s.max(), r4.runtime_s.max(),
                                      r2.runtime_s.max()))
+    if CORRECTED:
+        res["analysis_status"] = ("same-seed adaptive-gate correction sensitivity; exact stream/episode/seed/policy key joins; "
+                                   "not independent confirmation; registered historical outputs remain unchanged")
     (DOC / "results.json").write_text(json.dumps(res, indent=1, default=float) + "\n")
     tables(res, sc1, sc3)
     print(json.dumps({k: res[k] for k in res if k.endswith("_pass") or k in ("H1a_n", "H2", "H4", "H4_labels",
@@ -316,7 +332,11 @@ def _f(v, nd=3):
 
 
 def tables(res, sc1, sc3):
-    if "strict published" in res["analysis_status"]:
+    if "adaptive-gate correction" in res["analysis_status"]:
+        pool_note = ("> **ADAPTIVE-GATE CORRECTION SENSITIVITY:** affected policies were replaced from exact-key, "
+                     "same-seed corrected replays. This is not independent confirmation; registered historical "
+                     "outputs remain unchanged.")
+    elif "strict published" in res["analysis_status"]:
         pool_note = ("> **STRICT PUBLISHED-POOL SENSITIVITY:** pooled V1/H1a comparisons use only the six "
                      "`bench.CERTIFIED_PUBLISHED` ports; Xu, Choe–Ramdas and QCE adapters appear only as "
                      "separate descriptive rows. Same-sample pooling/selection is unadjusted.")

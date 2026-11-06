@@ -36,6 +36,30 @@ import numpy as np
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[1]
+CORRECTION_TAG = "_wmaxfix_20261105"
+CORRECTED_REPLAY = False
+
+
+def _records(directory):
+    import pandas as pd
+    path = Path(directory)
+    old = pd.read_json(path / "records.jsonl", lines=True)
+    sibling = path.with_name(path.name + CORRECTION_TAG) / "records.jsonl"
+    if not CORRECTED_REPLAY or not sibling.is_file():
+        return old
+    new = pd.read_json(sibling, lines=True)
+    keys = ["kind", "regime", "ep", "seed", "policy"]
+    if not set(keys).issubset(old) or not set(keys).issubset(new):
+        raise ValueError(f"missing exact WP1 correction keys for {path}")
+    policies = set(new.policy)
+    previous = old[old.policy.isin(policies)]
+    if previous.duplicated(keys).any() or new.duplicated(keys).any():
+        raise ValueError(f"duplicate WP1 correction keys for {path}")
+    joined = previous[keys].merge(new[keys], on=keys, how="outer", indicator=True,
+                                   validate="one_to_one")
+    if not (joined["_merge"] == "both").all():
+        raise ValueError(f"unmatched WP1 correction rows for {path}")
+    return pd.concat([old[~old.policy.isin(policies)], new], ignore_index=True)
 for _p in (ROOT / "scripts/failure_atlas_v2_flq", HERE):
     if str(_p) not in sys.path:
         sys.path.insert(0, str(_p))
@@ -321,7 +345,7 @@ def cluster_boot(df, col, n_boot=2000, seed=20261104):
 def episode_table(dirs, classes_path):
     import pandas as pd
 
-    df = pd.concat([pd.read_json(Path(d) / "records.jsonl", lines=True) for d in dirs],
+    df = pd.concat([_records(d) for d in dirs],
                    ignore_index=True)
     cl = pd.DataFrame(json.loads(Path(classes_path).read_text()))
     J = df.groupby(["regime", "ep", "policy"]).net.mean().unstack("policy")
@@ -426,9 +450,7 @@ def report(primary, twin, sens, classes_path, supplemental=()) -> dict:
 
 
 def pd_read(d):
-    import pandas as pd
-
-    return pd.read_json(Path(d) / "records.jsonl", lines=True)
+    return _records(d)
 
 
 def pd_classes(cl):
@@ -474,17 +496,23 @@ def main(argv=None):
                     help="Exclude Xu acquisition adapter from published-certificate ranking; preserve historical output separately.")
     rp.add_argument("--strict-published-subset", action="store_true",
                     help="Rank only evaluated members of bench.CERTIFIED_PUBLISHED; report omitted ports.")
+    rp.add_argument("--adaptive-gate-corrected", action="store_true",
+                    help="Substitute affected rows from exact-key same-seed correction replays.")
     rp.add_argument("--out", required=True)
     x = ap.parse_args(argv)
     if x.cmd == "report":
-        global CERTIFIED
+        global CERTIFIED, CORRECTED_REPLAY
         if x.amended_no_xu and x.strict_published_subset:
             ap.error("choose only one of --amended-no-xu or --strict-published-subset")
         if x.amended_no_xu:
             CERTIFIED = [p for p in CERTIFIED if p != "xu_acquisition_only"]
         if x.strict_published_subset:
             CERTIFIED = list(CERTIFIED_PUBLISHED)
+        CORRECTED_REPLAY = bool(x.adaptive_gate_corrected)
         res = report(x.primary, x.twin, x.sens, x.classes, x.supplemental)
+        if CORRECTED_REPLAY:
+            res["adaptive_gate_correction"] = ("affected policies replaced by exact stream/episode/seed/policy matches; "
+                                                "same-seed sensitivity, not independent confirmation")
         if x.strict_published_subset:
             policy_set = set()
             for policy_dir in [x.primary, *x.supplemental]:

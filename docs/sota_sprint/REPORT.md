@@ -181,17 +181,31 @@ its `manifest.json`. Raw records stay local.
 A source-level audit found a predictable-betting range-ordering defect in the shared adaptive-range
 host. The fix is in `strong_hosts.py` and its certificate-stop hook; corrected failure-atlas
 validation replays are complete for synthetic and cached-real suites. A same-seed replay of the
-1,000-seed, seven-regime null suite is now running at
-`outputs/sota_sprint/validation/null1000_wmaxfix_20261105/`. The semantic manifest audit identifies
-130 affected execution runs across this report and Sprint 2, plus six aggregate manifests; it
-includes aliases for M_RMMSUI_gar, T2/T6 transfers, and Family-C gated controllers. Record-only
-directories without manifests are listed separately for provenance recovery. Therefore the original null, B5, fresh
-and exposed real, QCE/betting, and out-of-class runs are completed historically, but any comparison
-depending on these adaptive-range entries remains provisional until the corrected replays and
-downstream analyses finish. See `docs/sprint2/adaptive_gate_impact.md` and the commands in
-`docs/sprint2/REPRODUCIBILITY.md`.
+1,000-seed, seven-regime in-class null suite is complete at
+`outputs/sota_sprint/validation/null1000_wmaxfix_20261105/`; the 1,000-seed out-of-class suite is
+also complete at `outputs/sota_sprint/validation/ooc1000_wmaxfix_20261105/`. The fresh and exposed
+real-data comparator replays are complete, as is the 100-seed synthetic validation replay. The
+full correction schedule produced 133 corrected output manifests. Paired analysis covers 131 runs
+and 4,040 regime-policy cells; two Failure Atlas corrected outputs have no preserved pre-correction
+`records.jsonl`, and the reconstructed partial H run has 40 matched rows plus one original-only row.
+These are same-seed correction comparisons, not independent confirmation. The semantic manifest
+audit identifies 130 affected execution runs across this report and Sprint 2, plus six aggregate
+manifests; it includes aliases for M_RMMSUI_gar, T2/T6 transfers, and Family-C gated controllers.
+Separate corrected-row sensitivities now regenerate strict validation, fresh/exposed real-data
+analyses, ranked leaderboard views, WP1, and WP2. They preserve registered historical outputs and
+do not constitute independent confirmation. The corrected WP1 analysis still does not support an
+RMM advantage on the retrospective late-improvement subset (0/4 hosts); the corrected WP2 analysis
+preserves the negative results on A5b's strong-dependence null criterion and the combined three-null
+precision criterion. See `docs/sota_sprint/validation/adaptive_gate_fixed_strict_20261106/`,
+`docs/sota_sprint/validation/real_adaptive_gate_fixed_20261106/`,
+`docs/sota_sprint/validation/adaptive_gate_fixed_20261106/`,
+`docs/sprint2/wp1/adaptive_gate_fixed_20261106.md`,
+`docs/sprint2/wp2/adaptive_gate_fixed_20261106/`, and
+`docs/sprint2/adaptive_gate_replay_differences.md`.
 
-* Every comparator is a common-contract port, not author code.
+* Comparators mix pinned author-code reproductions and common-contract ports/adapters; none of the
+  full deployment systems should be described as author-native. See the paper-to-implementation
+  audit for method-specific fidelity limits, including the still-open native MOPE parity check.
 * Development used 20 seeds.
 * Real episodes are consecutive windows, so their CIs are optimistic.
 * Four of the five part-3 regimes were exposed in Atlas v2, with other seeds.

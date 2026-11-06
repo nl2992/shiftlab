@@ -10,6 +10,7 @@ test. Episodes are consecutive windows of one stream, so intervals are optimisti
 from __future__ import annotations
 
 import json
+import argparse
 from pathlib import Path
 
 import numpy as np
@@ -27,6 +28,8 @@ UNC = ["model_picker_adapter", "model_selector_causal", "online_llm_picker", "ca
 CANDS = {"A5b": None, "X_A5C": None, "D1": "model_picker_adapter", "D2": "cams_adapter",
          "C2": "gated_adaptive_range+front", "C6": "gated_adaptive_range+front",
          "B2": "rmm:gated_deployment+RMM", "B5": "rmm:gated_deployment+RMM"}
+CORRECTION_TAG = "_wmaxfix_20261105"
+PAIR_KEYS = ["kind", "regime", "ep", "seed", "policy"]
 
 
 def contrast(E, a, b):
@@ -39,8 +42,34 @@ def contrast(E, a, b):
             "sign_p": float(stats.binomtest(k, nz, 0.5).pvalue) if nz else 1.0}
 
 
-def analyse(run: str) -> dict:
-    df = pd.read_json(VAL / run / "records.jsonl", lines=True)
+def load_run(run: str, corrected: bool = False) -> pd.DataFrame:
+    source = VAL / run / "records.jsonl"
+    old = pd.read_json(source, lines=True)
+    new_path = source.parent.with_name(source.parent.name + CORRECTION_TAG) / "records.jsonl"
+    if not corrected or not new_path.is_file():
+        return old
+    new = pd.read_json(new_path, lines=True)
+    if not set(PAIR_KEYS).issubset(old) or not set(PAIR_KEYS).issubset(new):
+        raise ValueError(f"missing exact pairing keys for {source.parent} or {new_path.parent}")
+    policies = set(new.policy)
+    old_rows = old[old.policy.isin(policies)].copy()
+    if old_rows.duplicated(PAIR_KEYS).any() or new.duplicated(PAIR_KEYS).any():
+        raise ValueError(f"duplicate keys in corrected real-data merge: {source.parent}")
+    paired = old_rows[PAIR_KEYS].merge(new[PAIR_KEYS], on=PAIR_KEYS, how="outer", indicator=True,
+                                        validate="one_to_one")
+    if not (paired["_merge"] == "both").all():
+        raise ValueError(f"old/corrected real-data keys differ for {source.parent}: "
+                         f"{paired[paired['_merge'] != 'both'].head().to_dict('records')}")
+    contract = old_rows.merge(new, on=PAIR_KEYS, suffixes=("_old", "_new"), validate="one_to_one")
+    for field in ("alpha", "budget", "delay", "cs", "cq"):
+        if f"{field}_old" in contract and f"{field}_new" in contract and not np.allclose(
+                contract[f"{field}_old"].to_numpy(), contract[f"{field}_new"].to_numpy(), equal_nan=True):
+            raise ValueError(f"contract mismatch in {field} for {source.parent}")
+    return pd.concat([old[~old.policy.isin(policies)], new], ignore_index=True)
+
+
+def analyse(run: str, corrected: bool = False) -> dict:
+    df = load_run(run, corrected=corrected)
     out = {}
     for ds, g in df.groupby("regime"):
         E = g.groupby(["ep", "policy"]).net.mean().unstack()
@@ -80,11 +109,22 @@ def md(res: dict, title: str) -> list[str]:
 
 
 def main():
-    fresh, exposed = analyse("real_fresh"), analyse("real_exposed")
+    ap = argparse.ArgumentParser(description=__doc__)
+    ap.add_argument("--adaptive-gate-corrected-dir", type=Path,
+                    help="Write separate real-data analyses after exact-key substitution of corrected replay rows.")
+    args = ap.parse_args()
+    global DOC
+    if args.adaptive_gate_corrected_dir:
+        DOC = args.adaptive_gate_corrected_dir
+    fresh = analyse("real_fresh", corrected=bool(args.adaptive_gate_corrected_dir))
+    exposed = analyse("real_exposed", corrected=bool(args.adaptive_gate_corrected_dir))
     DOC.mkdir(parents=True, exist_ok=True)
     (DOC / "real_results.json").write_text(json.dumps({"fresh": fresh, "exposed": exposed}, indent=1,
                                                       default=float) + "\n")
-    L = ["# Real-data validation", "", "Fresh streams registered in aeb2d4f before any policy run (20 policy seeds, "
+    correction_note = ("Same-seed adaptive-gate correction rows replace historical rows by exact stream, episode, seed, and policy keys; "
+                       "this is a code-correction sensitivity, not independent confirmation. "
+                       if args.adaptive_gate_corrected_dir else "")
+    L = ["# Real-data validation", "", correction_note + "Fresh streams registered in aeb2d4f before any policy run (20 policy seeds, "
          "base 2026110604). Exposed streams are descriptive (10 seeds, base 2026110603). Unit = episode; "
          "consecutive windows, so CIs are optimistic.", ""]
     L += md(fresh, "Fresh, never-used streams (external validation)")

@@ -18,6 +18,8 @@ ROOT = Path(__file__).resolve().parents[2]
 OUT = ROOT / "outputs/sota_sprint/validation"
 DOC = ROOT / "docs/sota_sprint/validation"
 BOUND = 0.0936
+CORRECTION_TAG = "_wmaxfix_20261105"
+PAIR_KEYS = ["kind", "regime", "ep", "seed", "policy"]
 CERT = ["gated_deployment", "gated_adaptive_range", "gated_adaptive_range+front", "discern_style",
         "discern_design_floor", "SMCS+retain-incumbent", "xu_acquisition_only", "choe_ramdas_eb",
         "choe_ramdas_eb+front", "gated_deployment+QCE", "gated_deployment+QCE+front"]  # QCE: Amendment 2
@@ -36,12 +38,39 @@ SAFETY_CANDS = ["A5b", "A1b", "X_A5C", "C2", "C6", "D1", "D2", "B2", "B5", "rmm:
                 "QSG"]
 
 
-def _load(names):
+def _load(names, corrected=False):
     fs = [OUT / n / "records.jsonl" for n in names]
     missing = [str(f) for f in fs if not f.exists()]
     if missing:  # fail closed (ARIS m3 re-audit): every registered run must be present
         raise FileNotFoundError(f"missing registered validation runs: {missing}")
-    return pd.concat([pd.read_json(f, lines=True) for f in fs], ignore_index=True)
+    frames = []
+    for f in fs:
+        old = pd.read_json(f, lines=True)
+        new_path = f.parent.with_name(f.parent.name + CORRECTION_TAG) / "records.jsonl"
+        if corrected and new_path.is_file():
+            new = pd.read_json(new_path, lines=True)
+            if not set(PAIR_KEYS).issubset(old) or not set(PAIR_KEYS).issubset(new):
+                raise ValueError(f"missing exact pairing keys for {f.parent} or {new_path.parent}")
+            policies = set(new.policy)
+            old_rows = old[old.policy.isin(policies)].copy()
+            if old_rows.duplicated(PAIR_KEYS).any() or new.duplicated(PAIR_KEYS).any():
+                raise ValueError(f"duplicate keys in corrected validation merge: {f.parent}")
+            paired = old_rows[PAIR_KEYS].merge(new[PAIR_KEYS], on=PAIR_KEYS, how="outer",
+                                                indicator=True, validate="one_to_one")
+            if not (paired["_merge"] == "both").all():
+                raise ValueError(f"old/corrected validation keys differ for {f.parent}: "
+                                 f"{paired[paired['_merge'] != 'both'].head().to_dict('records')}")
+            contract = old_rows.merge(new, on=PAIR_KEYS, suffixes=("_old", "_new"),
+                                      validate="one_to_one")
+            for field in ("alpha", "budget", "delay", "cs", "cq"):
+                if f"{field}_old" in contract and f"{field}_new" in contract and not np.allclose(
+                        contract[f"{field}_old"].to_numpy(), contract[f"{field}_new"].to_numpy(),
+                        equal_nan=True):
+                    raise ValueError(f"contract mismatch in {field} for {f.parent}")
+            old = old[~old.policy.isin(policies)]
+            old = pd.concat([old, new], ignore_index=True)
+        frames.append(old)
+    return pd.concat(frames, ignore_index=True)
 
 
 def wilson(k, n, z=1.96):
@@ -77,6 +106,8 @@ def main(argv=None):
                     help="Write a separate corrected comparator-class sensitivity analysis here; never overwrite registered outputs.")
     ap.add_argument("--strict-published-dir", type=Path,
                     help="Write a separate analysis ranking only bench.CERTIFIED_PUBLISHED ports; never overwrite registered outputs.")
+    ap.add_argument("--adaptive-gate-corrected", action="store_true",
+                    help="Replace affected validation policy rows with exact-key same-seed correction replays.")
     args = ap.parse_args(argv)
     global DOC
     if args.amendment_dir and args.strict_published_dir:
@@ -91,8 +122,9 @@ def main(argv=None):
         else:
             CERT = [p for p in CERT if p != "xu_acquisition_only"]
             DOC = args.amendment_dir
-    syn = _load(["synth", "synth_b5", "synth_qce"])
-    nul = _load(["null1000", "null1000_b5", "null1000_qce", "ooc1000"])
+    syn = _load(["synth", "synth_b5", "synth_qce"], corrected=args.adaptive_gate_corrected)
+    nul = _load(["null1000", "null1000_b5", "null1000_qce", "ooc1000"],
+                corrected=args.adaptive_gate_corrected)
     harm = {}
     for r, g in nul.groupby("regime"):
         P = g.pivot_table(index="seed", columns="policy", values="net")
@@ -100,10 +132,12 @@ def main(argv=None):
     piv = {r: g.pivot_table(index="seed", columns="policy", values="net")
            for r, g in syn.groupby("regime")}
     res = {"null_safety": {}, "regimes": {}, "H1": {}, "H2": {}, "H3": {},
-           "analysis_status": ("strict published-certificate pool; only bench.CERTIFIED_PUBLISHED ports ranked; all are common-contract adapters rather than author-native full deployments; same-seed selection remains unadjusted"
-                               if args.strict_published_dir else
-                               "amended legacy sensitivity; Xu acquisition adapter excluded but Choe-Ramdas and QCE ports remain; not a strict published-certificate ranking; same-seed selection remains unadjusted"
-                               if args.amendment_dir else "registered historical analysis")}
+           "analysis_status": (("strict published-certificate pool; only bench.CERTIFIED_PUBLISHED ports ranked; all are common-contract adapters rather than author-native full deployments; same-seed selection remains unadjusted"
+                                if args.strict_published_dir else
+                                "amended legacy sensitivity; Xu acquisition adapter excluded but Choe-Ramdas and QCE ports remain; not a strict published-certificate ranking; same-seed selection remains unadjusted"
+                                if args.amendment_dir else "registered historical analysis")
+                               + (" Same-seed corrected replay rows substituted by exact stream/episode/policy keys; not independent confirmation."
+                                  if args.adaptive_gate_corrected else ""))}
 
     # null safety, 1000 seeds
     for (r, p), g in nul.groupby(["regime", "policy"]):
@@ -206,10 +240,12 @@ def write_md(res):
     s = res["null_safety"]
     regs = NULLS + OOC
     L = ["# SOTA sprint validation results (locked protocol + Amendments 1-2)", "",
+        ("**CORRECTED-REPLAY SENSITIVITY:** affected rows were replaced from exact-key, same-seed adaptive-gate correction replays. "
+         "This is not independent confirmation; selection remains on reused seeds. " if "same-seed corrected" in res["analysis_status"] else "") +
         (("**STRICT PUBLISHED-CERTIFICATE POOL:** only the six ports in `bench.CERTIFIED_PUBLISHED` are ranked. "
           "They remain common-contract adapters, not author-native full deployments. "
           "Raw runs and registered results are unchanged. Comparator selection still uses the same evaluation seeds; "
-          "these contrasts are descriptive and do not provide selection-adjusted confirmatory inference." if res["analysis_status"].startswith("strict published") else
+          "these contrasts are descriptive and do not provide selection-adjusted confirmatory inference." if "strict published" in res["analysis_status"] else
          "**LEGACY ADAPTER-POOL SENSITIVITY:** Xu is excluded, but Choe–Ramdas and QCE ports remain; this is not a strict published-certificate ranking. "
           "Raw runs and registered results are unchanged. Comparator selection still uses the same evaluation seeds; "
           "these contrasts are descriptive and do not provide selection-adjusted confirmatory inference." if "amended" in res["analysis_status"] else "Historical registered analysis; comparator pool as originally specified.")), "",

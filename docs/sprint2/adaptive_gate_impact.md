@@ -10,9 +10,9 @@ The bug fixed in the shared `GatedAdaptiveRange` hook selected/updated the bet r
 - `+front` policy entries: **102**
 - Hidden host-alias policy entries: **222**
 - Total affected policy entries requiring replay (including aliases): **411**
-- Record directories without manifests that contain affected policies: **2**
+- Record directories without manifests that contain affected policies: **1**
 - Historical record-only directories needing provenance recovery: **1**
-- Corrected replay manifests already produced: **2**
+- Corrected replay manifests already produced: **133**
 - See `outputs/sprint2/adaptive_gate_impact.json` for paths, seeds, job counts, and policy names.
 
 | Run | Seeds | Seed base | Jobs | Affected policies |
@@ -160,7 +160,6 @@ These directories require provenance reconstruction before a corrected replay ca
 
 | Run | Records | State hint | Policies |
 |---|---:|---|---|
-| `outputs/sota_sprint/validation/null1000_wmaxfix_20261105` | 9795 | corrected-output-partial-or-complete | gated_adaptive_range, gated_adaptive_range+front, gated_adaptive_range+pace_tuned |
 | `outputs/sprint2/H/screen1` | 962 | historical-output-needs-run-provenance | gated_adaptive_range+front |
 
 ## Corrected replay manifests already produced
@@ -171,3 +170,134 @@ These are outputs of the corrected runner and are excluded from the historical r
 |---|---:|---|
 | `outputs/failure_atlas_v2/validation_real_wmaxfix_20261105` | 1680 |  |
 | `outputs/failure_atlas_v2/validation_synth_wmaxfix_20261105` | 1300 |  |
+| `outputs/sota_sprint/A/screen1_wmaxfix_20261105` | 220 | gated_adaptive_range+front,gated_adaptive_range |
+| `outputs/sota_sprint/B/baseline_wmaxfix_20261105` | 100 | gated_adaptive_range+front,gated_adaptive_range |
+| `outputs/sota_sprint/B/screen1_wmaxfix_20261105` | 240 | gated_adaptive_range+front,gated_adaptive_range |
+| `outputs/sota_sprint/C/comparators_wmaxfix_20261105` | 200 | gated_adaptive_range,gated_adaptive_range+front |
+| `outputs/sota_sprint/C/heldout_check_wmaxfix_20261105` | 200 | C2,C6,gated_adaptive_range+front,gated_adaptive_range+pace_tuned |
+| `outputs/sota_sprint/C/null300_wmaxfix_20261105` | 600 | C2,C5,C6,gated_adaptive_range+front |
+| `outputs/sota_sprint/C/screen1_wmaxfix_20261105` | 200 | C1,C2,C5,C6,gated_adaptive_range+pace_tuned,C1-uniformbase,C2-noadapt,C2-floorskip,C6-no_deadline,C6-no_shadow,C6-no_two_stage |
+| `outputs/sota_sprint/C/smoke_wmaxfix_20261105` | 12 | gated_adaptive_range,gated_adaptive_range+front,Cchk:gated_uniform,Cchk:gated_front,C1,C2,C5,C6 |
+| `outputs/sota_sprint/C/tune2_wmaxfix_20261105` | 200 | C2-g0z0.1,C2-g1z0.1,C2-g2z0.1,C2-g3z0.1,C2-g3z0.25,C2-g3z0.5,C2-g3z1 |
+| `outputs/sota_sprint/C/tune3_wmaxfix_20261105` | 200 | C6-f0.5,C6-f0.75,C6-f0.9 |
+| `outputs/sota_sprint/C/tune_wmaxfix_20261105` | 200 | gated_adaptive_range+pace_k1.5,gated_adaptive_range+pace_k2,gated_adaptive_range+pace_k3,gated_adaptive_range+pace_k4,gated_adaptive_range+pace_k6,gated_adaptive_range+frontfrac0.25,gated_adaptive_range+frontfrac0.5,gated_adaptive_range+frontfrac0.75,C1-k1,C1-k1.5,C1-k2,C1-k3,C1-k4,C2-g0z0.25,C2-g0z0.5,C2-g0z1,C2-g1z0.25,C2-g1z0.5,C2-g1z1,C2-g2z0.25,C2-g2z0.5,C2-g2z1,C6-f0.5,C6-f0.75,C6-f0.9 |
+| `outputs/sota_sprint/D/null300_cert_wmaxfix_20261105` | 300 | gated_adaptive_range+front |
+| `outputs/sota_sprint/D/screen1_wmaxfix_20261105` | 180 | gated_adaptive_range+front,gated_adaptive_range |
+| `outputs/sota_sprint/M/dev_screen_wmaxfix_20261105` | 180 | M_RMMSUI_gar,rmm:gated_adaptive_range+RMM,gated_adaptive_range |
+| `outputs/sota_sprint/X/combo_screen_wmaxfix_20261105` | 160 | gated_adaptive_range+front,gated_adaptive_range |
+| `outputs/sota_sprint/amend5/null1000_wmaxfix_20261105` | 4000 | rmm:gated_adaptive_range+RMM |
+| `outputs/sota_sprint/amend5/synth_wmaxfix_20261105` | 900 | gated_adaptive_range,rmm:gated_adaptive_range+RMM,gated_adaptive_range+front |
+| `outputs/sota_sprint/gate/A_wmaxfix_20261105` | 220 | gated_adaptive_range,gated_adaptive_range+front |
+| `outputs/sota_sprint/gate/B_wmaxfix_20261105` | 240 | gated_adaptive_range,gated_adaptive_range+front |
+| `outputs/sota_sprint/gate/C_wmaxfix_20261105` | 200 | C1,C1-k1,C1-k1.5,C1-k2,C1-k3,C1-k4,C1-uniformbase,C2,C2-floorskip,C2-g0z0.1,C2-g0z0.25,C2-g0z0.5,C2-g0z1,C2-g1z0.1,C2-g1z0.25,C2-g1z0.5,C2-g1z1,C2-g2z0.1,C2-g2z0.25,C2-g2z0.5,C2-g2z1,C2-g3z0.1,C2-g3z0.25,C2-g3z0.5,C2-g3z1,C2-noadapt,C5,C6,C6-f0.5,C6-f0.75,C6-f0.9,C6-no_deadline,C6-no_shadow,C6-no_two_stage,Cchk:gated_front,Cchk:gated_uniform,gated_adaptive_range,gated_adaptive_range+front,gated_adaptive_range+frontfrac0.25,gated_adaptive_range+frontfrac0.5,gated_adaptive_range+frontfrac0.75,gated_adaptive_range+pace_k1.5,gated_adaptive_range+pace_k2,gated_adaptive_range+pace_k3,gated_adaptive_range+pace_k4,gated_adaptive_range+pace_k6,gated_adaptive_range+pace_tuned |
+| `outputs/sota_sprint/gate/D_wmaxfix_20261105` | 180 | gated_adaptive_range,gated_adaptive_range+front |
+| `outputs/sota_sprint/gate_transfer/real_fresh_wmaxfix_20261105` | 1240 | gated_adaptive_range,gated_adaptive_range+front |
+| `outputs/sota_sprint/gate_transfer/synth_wmaxfix_20261105` | 2100 | gated_adaptive_range,gated_adaptive_range+front |
+| `outputs/sota_sprint/merge/null1000_wmaxfix_20261105` | 6000 | M_RMMSUI_gar |
+| `outputs/sota_sprint/merge/real_fresh_wmaxfix_20261105` | 1240 | M_RMMSUI_gar,gated_adaptive_range,gated_adaptive_range+front |
+| `outputs/sota_sprint/merge/synth_wmaxfix_20261105` | 900 | M_RMMSUI_gar,gated_adaptive_range,gated_adaptive_range+front |
+| `outputs/sota_sprint/merge/twin_null_wmaxfix_20261105` | 3720 | M_RMMSUI_gar |
+| `outputs/sota_sprint/rmm_transfer/synth_wmaxfix_20261105` | 1100 | gated_adaptive_range,gated_adaptive_range+front |
+| `outputs/sota_sprint/smoke_wmaxfix_20261105` | 18 | gated_adaptive_range |
+| `outputs/sota_sprint/twin_null_wmaxfix_20261105` | 3720 | gated_adaptive_range,gated_adaptive_range+front,rmm:gated_adaptive_range+RMM |
+| `outputs/sota_sprint/validation/null1000_wmaxfix_20261105` | 7000 | gated_adaptive_range+pace_tuned,gated_adaptive_range,gated_adaptive_range+front |
+| `outputs/sota_sprint/validation/ooc1000_wmaxfix_20261105` | 2000 | C2,C6,gated_adaptive_range,gated_adaptive_range+front |
+| `outputs/sota_sprint/validation/real_exposed_wmaxfix_20261105` | 1680 | C2,C6,gated_adaptive_range+pace_tuned,gated_adaptive_range,gated_adaptive_range+front |
+| `outputs/sota_sprint/validation/real_fresh_wmaxfix_20261105` | 1240 | C2,C6,gated_adaptive_range+pace_tuned,gated_adaptive_range,gated_adaptive_range+front |
+| `outputs/sota_sprint/validation/synth_wmaxfix_20261105` | 2100 | C2,C6,gated_adaptive_range+pace_tuned,gated_adaptive_range,gated_adaptive_range+front |
+| `outputs/sprint2/H/real_fresh_wmaxfix_20261105` | 186 | gated_adaptive_range+front |
+| `outputs/sprint2/H/screen1_wmaxfix_20261105` | 40 | gated_adaptive_range+front |
+| `outputs/sprint2/H/screen1c_wmaxfix_20261105` | 240 | gated_adaptive_range+front |
+| `outputs/sprint2/P/dev_real_wmaxfix_20261105` | 62 | gated_adaptive_range+front |
+| `outputs/sprint2/P/dev_syn_wmaxfix_20261105` | 460 | gated_adaptive_range+front |
+| `outputs/sprint2/P/smoke_wmaxfix_20261105` | 4 | gated_adaptive_range |
+| `outputs/sprint2/R/dev_screen_a05_wmaxfix_20261105` | 220 | gated_adaptive_range+front,C6 |
+| `outputs/sprint2/R/real/fresh_wmaxfix_20261105` | 330 | gated_adaptive_range+front |
+| `outputs/sprint2/R/trackR/dev_a0.005_wmaxfix_20261105` | 220 | gated_adaptive_range+front |
+| `outputs/sprint2/R/trackR/dev_a0.01_wmaxfix_20261105` | 220 | gated_adaptive_range+front |
+| `outputs/sprint2/R/trackR/dev_a0.02_wmaxfix_20261105` | 220 | gated_adaptive_range+front |
+| `outputs/sprint2/R/trackR/dev_a0.1_wmaxfix_20261105` | 220 | gated_adaptive_range+front |
+| `outputs/sprint2/R/trackR/dev_a0.2_wmaxfix_20261105` | 220 | gated_adaptive_range+front |
+| `outputs/sprint2/R/trackR/dev_a0.3_wmaxfix_20261105` | 220 | gated_adaptive_range+front |
+| `outputs/sprint2/R/trackR/dev_a0.5_wmaxfix_20261105` | 220 | gated_adaptive_range+front |
+| `outputs/sprint2/R/trackR/eval_a0.005_wmaxfix_20261105` | 220 | gated_adaptive_range+front |
+| `outputs/sprint2/R/trackR/eval_a0.01_wmaxfix_20261105` | 220 | gated_adaptive_range+front |
+| `outputs/sprint2/R/trackR/eval_a0.02_wmaxfix_20261105` | 220 | gated_adaptive_range+front |
+| `outputs/sprint2/R/trackR/eval_a0.05_wmaxfix_20261105` | 220 | gated_adaptive_range+front,C6 |
+| `outputs/sprint2/R/trackR/eval_a0.1_wmaxfix_20261105` | 220 | gated_adaptive_range+front |
+| `outputs/sprint2/R/trackR/eval_a0.2_wmaxfix_20261105` | 220 | gated_adaptive_range+front |
+| `outputs/sprint2/R/trackR/eval_a0.3_wmaxfix_20261105` | 220 | gated_adaptive_range+front |
+| `outputs/sprint2/R/trackR/eval_a0.5_wmaxfix_20261105` | 220 | gated_adaptive_range+front |
+| `outputs/sprint2/R/trackR_coverage_followup/eval_a0.005_wmaxfix_20261105` | 200 | C6,gated_adaptive_range+front |
+| `outputs/sprint2/R/trackR_coverage_followup/eval_a0.01_wmaxfix_20261105` | 200 | C6,gated_adaptive_range+front |
+| `outputs/sprint2/R/trackR_coverage_followup/eval_a0.02_wmaxfix_20261105` | 200 | C6,gated_adaptive_range+front |
+| `outputs/sprint2/R/trackR_coverage_followup/eval_a0.05_wmaxfix_20261105` | 200 | C6,gated_adaptive_range+front |
+| `outputs/sprint2/R/trackR_coverage_followup/eval_a0.1_wmaxfix_20261105` | 200 | C6,gated_adaptive_range+front |
+| `outputs/sprint2/R/trackR_coverage_followup/eval_a0.2_wmaxfix_20261105` | 200 | C6,gated_adaptive_range+front |
+| `outputs/sprint2/R/trackR_coverage_followup/eval_a0.3_wmaxfix_20261105` | 200 | C6,gated_adaptive_range+front |
+| `outputs/sprint2/R/trackR_coverage_followup/eval_a0.5_wmaxfix_20261105` | 200 | C6,gated_adaptive_range+front |
+| `outputs/sprint2/R/trackR_coverage_followup/smoke_a005_wmaxfix_20261105` | 10 | C6,gated_adaptive_range+front |
+| `outputs/sprint2/T/R_dev_a0.005_wmaxfix_20261105` | 200 | T6:a5bxC2,C2 |
+| `outputs/sprint2/T/R_dev_a0.01_wmaxfix_20261105` | 200 | T6:a5bxC2,C2 |
+| `outputs/sprint2/T/R_dev_a0.02_wmaxfix_20261105` | 200 | T6:a5bxC2,C2 |
+| `outputs/sprint2/T/R_dev_a0.1_wmaxfix_20261105` | 200 | T6:a5bxC2,C2 |
+| `outputs/sprint2/T/R_dev_a0.2_wmaxfix_20261105` | 200 | T6:a5bxC2,C2 |
+| `outputs/sprint2/T/R_dev_a0.3_wmaxfix_20261105` | 200 | T6:a5bxC2,C2 |
+| `outputs/sprint2/T/R_dev_a0.5_wmaxfix_20261105` | 200 | T6:a5bxC2,C2 |
+| `outputs/sprint2/T/R_eval_a0.005_wmaxfix_20261105` | 200 | T6:a5bxC2,C2 |
+| `outputs/sprint2/T/R_eval_a0.01_wmaxfix_20261105` | 200 | T6:a5bxC2,C2 |
+| `outputs/sprint2/T/R_eval_a0.02_wmaxfix_20261105` | 200 | T6:a5bxC2,C2 |
+| `outputs/sprint2/T/R_eval_a0.05_wmaxfix_20261105` | 200 | T6:a5bxC2,C2 |
+| `outputs/sprint2/T/R_eval_a0.1_wmaxfix_20261105` | 200 | T6:a5bxC2,C2 |
+| `outputs/sprint2/T/R_eval_a0.2_wmaxfix_20261105` | 200 | T6:a5bxC2,C2 |
+| `outputs/sprint2/T/R_eval_a0.3_wmaxfix_20261105` | 200 | T6:a5bxC2,C2 |
+| `outputs/sprint2/T/R_eval_a0.5_wmaxfix_20261105` | 200 | T6:a5bxC2,C2 |
+| `outputs/sprint2/T/T125_trackR/dev_a0.005_wmaxfix_20261105` | 200 | T2:gated/a5b,T2:gated/a5b+front,T2:gated/env8,T2:gated/env8+front,gated_adaptive_range+front |
+| `outputs/sprint2/T/T125_trackR/dev_a0.01_wmaxfix_20261105` | 200 | T2:gated/a5b,T2:gated/a5b+front,T2:gated/env8,T2:gated/env8+front,gated_adaptive_range+front |
+| `outputs/sprint2/T/T125_trackR/dev_a0.02_wmaxfix_20261105` | 200 | T2:gated/a5b,T2:gated/a5b+front,T2:gated/env8,T2:gated/env8+front,gated_adaptive_range+front |
+| `outputs/sprint2/T/T125_trackR/dev_a0.05_wmaxfix_20261105` | 200 | T2:gated/a5b,T2:gated/a5b+front,T2:gated/env8,T2:gated/env8+front,gated_adaptive_range+front |
+| `outputs/sprint2/T/T125_trackR/dev_a0.1_wmaxfix_20261105` | 200 | T2:gated/a5b,T2:gated/a5b+front,T2:gated/env8,T2:gated/env8+front,gated_adaptive_range+front |
+| `outputs/sprint2/T/T125_trackR/dev_a0.2_wmaxfix_20261105` | 200 | T2:gated/a5b,T2:gated/a5b+front,T2:gated/env8,T2:gated/env8+front,gated_adaptive_range+front |
+| `outputs/sprint2/T/T125_trackR/dev_a0.3_wmaxfix_20261105` | 200 | T2:gated/a5b,T2:gated/a5b+front,T2:gated/env8,T2:gated/env8+front,gated_adaptive_range+front |
+| `outputs/sprint2/T/T125_trackR/dev_a0.5_wmaxfix_20261105` | 200 | T2:gated/a5b,T2:gated/a5b+front,T2:gated/env8,T2:gated/env8+front,gated_adaptive_range+front |
+| `outputs/sprint2/T/T125_trackR/eval_a0.005_wmaxfix_20261105` | 200 | T2:gated/a5b,T2:gated/a5b+front,T2:gated/env8,T2:gated/env8+front,gated_adaptive_range+front |
+| `outputs/sprint2/T/T125_trackR/eval_a0.01_wmaxfix_20261105` | 200 | T2:gated/a5b,T2:gated/a5b+front,T2:gated/env8,T2:gated/env8+front,gated_adaptive_range+front |
+| `outputs/sprint2/T/T125_trackR/eval_a0.02_wmaxfix_20261105` | 200 | T2:gated/a5b,T2:gated/a5b+front,T2:gated/env8,T2:gated/env8+front,gated_adaptive_range+front |
+| `outputs/sprint2/T/T125_trackR/eval_a0.05_wmaxfix_20261105` | 200 | T2:gated/a5b,T2:gated/a5b+front,T2:gated/env8,T2:gated/env8+front,gated_adaptive_range+front |
+| `outputs/sprint2/T/T125_trackR/eval_a0.1_wmaxfix_20261105` | 200 | T2:gated/a5b,T2:gated/a5b+front,T2:gated/env8,T2:gated/env8+front,gated_adaptive_range+front |
+| `outputs/sprint2/T/T125_trackR/eval_a0.2_wmaxfix_20261105` | 200 | T2:gated/a5b,T2:gated/a5b+front,T2:gated/env8,T2:gated/env8+front,gated_adaptive_range+front |
+| `outputs/sprint2/T/T125_trackR/eval_a0.3_wmaxfix_20261105` | 200 | T2:gated/a5b,T2:gated/a5b+front,T2:gated/env8,T2:gated/env8+front,gated_adaptive_range+front |
+| `outputs/sprint2/T/T125_trackR/eval_a0.5_wmaxfix_20261105` | 200 | T2:gated/a5b,T2:gated/a5b+front,T2:gated/env8,T2:gated/env8+front,gated_adaptive_range+front |
+| `outputs/sprint2/T/devB_wmaxfix_20261105` | 240 | T2:gated/a5b,T2:gated/a5b+front,T2:gatedAND/a5b+front,T2:gated/env8,T2:gated/env8+front,T2:gatedAND/env8+front,T2:gated/qsg+front,T6:a5bxC2,T6:a5bxC6,T6:env8xC2,T6:env8xC6,gated_adaptive_range,gated_adaptive_range+front,C2,C6 |
+| `outputs/sprint2/T/real_fresh_wmaxfix_20261105` | 186 | T2:gated/a5b,T2:gated/a5b+front,T6:a5bxC2,gated_adaptive_range+front |
+| `outputs/sprint2/T/real_twin_wmaxfix_20261105` | 1240 | T2:gated/a5b,T6:a5bxC2 |
+| `outputs/sprint2/WP1/primary_wmaxfix_20261105` | 1044 | ['rmm:gated_adaptive_range+RMM', 'gated_adaptive_range', 'gated_adaptive_range+front', 'E_rb:gated_adaptive_range', 'E_srr:gated_adaptive_range', 'E_srr_noacq:gated_adaptive_range', 'E_glr:gated_adaptive_range'] |
+| `outputs/sprint2/WP1/screen_dev_wmaxfix_20261105` | 180 | E_rb:gated_adaptive_range,rmm:gated_adaptive_range+RMM,gated_adaptive_range,E_srr:gated_adaptive_range,E_glr:gated_adaptive_range,gated_adaptive_range+front,E_rb:gated_adaptive_range-nogate,E_srr_noacq:gated_adaptive_range |
+| `outputs/sprint2/WP1/sens_B100_wmaxfix_20261105` | 78 | ['rmm:gated_adaptive_range+RMM', 'gated_adaptive_range+front'] |
+| `outputs/sprint2/WP1/sens_B400_wmaxfix_20261105` | 78 | ['rmm:gated_adaptive_range+RMM', 'gated_adaptive_range+front'] |
+| `outputs/sprint2/WP1/sens_cs10_wmaxfix_20261105` | 78 | ['rmm:gated_adaptive_range+RMM', 'gated_adaptive_range+front'] |
+| `outputs/sprint2/WP1/sens_cs2_wmaxfix_20261105` | 78 | ['rmm:gated_adaptive_range+RMM', 'gated_adaptive_range+front'] |
+| `outputs/sprint2/WP1/sens_delay0.5_wmaxfix_20261105` | 78 | ['rmm:gated_adaptive_range+RMM', 'gated_adaptive_range+front'] |
+| `outputs/sprint2/WP1/sens_delay1_wmaxfix_20261105` | 78 | ['rmm:gated_adaptive_range+RMM', 'gated_adaptive_range+front'] |
+| `outputs/sprint2/WP1/sens_delay2_wmaxfix_20261105` | 78 | ['rmm:gated_adaptive_range+RMM', 'gated_adaptive_range+front'] |
+| `outputs/sprint2/WP1/sens_more_B100_wmaxfix_20261105` | 78 | ['gated_adaptive_range'] |
+| `outputs/sprint2/WP1/sens_more_B400_wmaxfix_20261105` | 78 | ['gated_adaptive_range'] |
+| `outputs/sprint2/WP1/sens_more_cs10_wmaxfix_20261105` | 78 | ['gated_adaptive_range'] |
+| `outputs/sprint2/WP1/sens_more_cs2_wmaxfix_20261105` | 78 | ['gated_adaptive_range'] |
+| `outputs/sprint2/WP1/sens_more_delay0.5_wmaxfix_20261105` | 78 | ['gated_adaptive_range'] |
+| `outputs/sprint2/WP1/sens_more_delay2_wmaxfix_20261105` | 78 | ['gated_adaptive_range'] |
+| `outputs/sprint2/WP1/syn_budget_wmaxfix_20261105` | 240 | rmm:gated_adaptive_range+RMM,gated_adaptive_range+front |
+| `outputs/sprint2/WP1/twin_wmaxfix_20261105` | 372 | ['rmm:gated_adaptive_range+RMM', 'E_rb:gated_adaptive_range', 'E_srr:gated_adaptive_range'] |
+| `outputs/sprint2/WP2/run1_twin2_wmaxfix_20261105` | 1240 | gated_adaptive_range,gated_adaptive_range+front,rmm:gated_adaptive_range+RMM |
+| `outputs/sprint2/WP2/run3_synth_wmaxfix_20261105` | 950 | gated_adaptive_range,gated_adaptive_range+front,rmm:gated_adaptive_range+RMM |
+| `outputs/sprint2/WP2/run4_fresh_wmaxfix_20261105` | 186 | gated_adaptive_range,gated_adaptive_range+front,rmm:gated_adaptive_range+RMM |
+| `outputs/sprint2/round5/H2_followup100_wmaxfix_20261105` | 900 | gated_adaptive_range+front |
+| `outputs/sprint2/round5/H2_real14_3seed_wmaxfix_20261105` | 690 | gated_adaptive_range+front |
+| `outputs/sprint2/round5/H_corrected_real_20_wmaxfix_20261105` | 1240 | gated_adaptive_range,gated_adaptive_range+front |
+| `outputs/sprint2/round5/P6_corrected_comparators_100_wmaxfix_20261105` | 700 | gated_adaptive_range+front |
+| `outputs/sprint2/round5/R5_all14_real20_smoke_wmaxfix_20261105` | 1 | gated_adaptive_range+front |
+| `outputs/sprint2/round5/R5_all14_real20_wmaxfix_20261105` | 4600 | gated_adaptive_range+front |
+| `outputs/sprint2/round5/R5_eval100_a002_wmaxfix_20261105` | 1000 | gated_adaptive_range+front |
+| `outputs/sprint2/round5/p6_all14_real20_smoke_wmaxfix_20261105` | 16 | gated_adaptive_range+front |
+| `outputs/sprint2/round5/p6_all14_real20_wmaxfix_20261105` | 4600 | gated_adaptive_range+front |
+| `outputs/sprint2/round5/wp1_erb_reversal_postdev100_wmaxfix_20261105` | 300 | E_rb:gated_adaptive_range,rmm:gated_adaptive_range+RMM |

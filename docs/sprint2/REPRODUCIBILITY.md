@@ -129,6 +129,9 @@ claim corrections and remaining coverage limits are recorded in `CLAIM_RECONCILI
   To run one registered suite first, pass `--run-dir outputs/sota_sprint/validation/null1000
   --workers 9 --execute`. Replays write to sibling directories tagged
   `_wmaxfix_20261105` and refuse to overwrite existing outputs.
+  After corrected suites finish, compare old and new rows with
+  `uv run python scripts/sota_sprint/analyze_adaptive_gate_replays.py`; it checks exact key and
+  contract matches and records manifest hashes alongside paired outcome deltas.
 
 ## Corrected sensitivity analyses
 
@@ -308,6 +311,38 @@ uv run python scripts/sota_sprint/audit_cost_risk_pareto.py --out docs/sprint2/c
 Risk is pooled over K3_null/K4_null; alternative cost is pooled over K3_best1, K4_mixed, K3_near
 and K4_late. Development null risk and development alternative cost select alpha; evaluation uses
 separate seed blocks. This custom panel is not pooled with the shared two-model Track-R curves.
+
+## Adaptive-gate correction sensitivity reports
+
+The corrected outputs substitute affected policy rows only after one-to-one exact-key matching on
+stream/regime, episode, seed, and policy. They are same-seed implementation-correction sensitivities;
+they are not independent confirmation. Registered reports remain unchanged.
+
+```sh
+uv run python scripts/sota_sprint/analyze_validation.py \
+  --strict-published-dir docs/sota_sprint/validation/adaptive_gate_fixed_strict_20261106 \
+  --adaptive-gate-corrected
+uv run python scripts/sota_sprint/analyze_real.py \
+  --adaptive-gate-corrected-dir docs/sota_sprint/validation/real_adaptive_gate_fixed_20261106
+uv run python scripts/sota_sprint/leaderboard_views.py --adaptive-gate-corrected \
+  --out-dir docs/sota_sprint/validation/adaptive_gate_fixed_20261106
+uv run python scripts/sota_sprint/late_real.py report \
+  --primary outputs/sprint2/WP1/primary --twin outputs/sprint2/WP1/twin \
+  --sens outputs/sprint2/WP1/sens_* --classes outputs/sprint2/WP1/classes.json \
+  --amended-no-xu --adaptive-gate-corrected \
+  --out docs/sprint2/wp1/adaptive_gate_fixed_20261106.json
+uv run python scripts/sota_sprint/render_wp1_correction_report.py \
+  --input docs/sprint2/wp1/adaptive_gate_fixed_20261106.json \
+  --output docs/sprint2/wp1/adaptive_gate_fixed_20261106.md
+uv run python scripts/sota_sprint/wp2_analyze.py \
+  --adaptive-gate-corrected-dir docs/sprint2/wp2/adaptive_gate_fixed_20261106
+```
+
+The corrected WP1 analysis remains **NOT_SUPPORTED** for the retrospective real late-improvement
+subset (0/4 RMM hosts); this does not establish absence of late-improvement value in other data.
+WP2's original limitations remain: A5b does not meet the registered criterion on every tested
+strong-dependence null, and the combined three-null precision criterion fails. WP1/WP2 corrected
+artifacts are sensitivity reports, not replacements for their registered evidence.
 
 ## R5 focused Round-5 follow-up
 

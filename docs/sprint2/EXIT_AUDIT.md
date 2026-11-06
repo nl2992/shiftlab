@@ -67,15 +67,19 @@ hypothesis passed, a guarantee is valid, or independent confirmation was achieve
    plots elsewhere are not cited by these reports. The required PaperBanana visual dependency is not
    available in this environment (no matching tool is installed), so validated research figures
    remain open. WP1 headline and structural registry audits pass.
-4. Recompute Sprint 2 results that include the shared adaptive-range host after the 2026-11-05
-   predictable-range ordering correction. The manifest audit identifies 111 affected policy
-   affected policy entries (including the semantic aliases in the inventory) across 130 execution
-   runs and six aggregate manifests. The inventory also flags record directories without manifests;
-   these require provenance reconstruction. All affected classes need
-   same-seed replay because agreement events used the fallback range. The corrected Failure Atlas
-   synthetic and real validation replays are complete. The corrected 1,000-seed, seven-regime SOTA
-   null suite is running; no full Sprint 2 replay from this schedule is complete yet, so affected
-   downstream comparisons remain provisional.
+4. Regenerate downstream reports from the shared adaptive-range correction replays. The manifest
+   audit identifies 411 affected policy entries (including semantic aliases) across 130 execution
+   runs and six aggregate manifests. All 133 corrected output manifests from the replay schedule
+   are complete; paired analysis covers 131 runs and 4,040 regime-policy cells. Two Failure Atlas
+   corrected outputs have no preserved pre-correction records, and the reconstructed H partial run
+   has 40 matched rows plus one original-only row. The paired report is a same-seed correction
+   sensitivity, not independent confirmation. The strict synthetic validation, real-data analysis,
+   ranked views, WP1 real-late report and WP2
+   dependence analysis have now been regenerated as separate correction sensitivities. They preserve
+   registered outputs and are not independent confirmation. WP1 still finds 0/4 RMM hosts supported
+   on the retrospective late-improvement subset; WP2 retains its registered negative findings.
+   Reproduction commands and output paths are in `REPRODUCIBILITY.md`. No untouched confirmatory
+   data or human/external approval is available, and PaperBanana remains unavailable.
 ## Integration record
 
 The initial sprint implementation and subsequent audits were committed to `main` and pushed to `origin`. Registered follow-ups now cover held-out Track-R for T3 and primary T1/T2/T5 policies; source reports and lineage audits include those panels. Raw and large run outputs remain ignored and outside Git.

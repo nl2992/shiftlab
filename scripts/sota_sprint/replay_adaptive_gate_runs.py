@@ -93,6 +93,8 @@ def _command(manifest_path: Path, workers: int) -> tuple[list[str], Path, list[s
             policies = [p for p in argv[policies_i].split(",") if _affected_policy(p)]
         except (ValueError, IndexError):
             return None
+        if not policies:
+            return None
         cmd = _replace_option(argv, "--policies", ",".join(policies))
         cmd = _replace_option(cmd, "--out", str(new_out))
         cmd = _replace_option(cmd, "--workers", str(workers))

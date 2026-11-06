@@ -313,9 +313,11 @@ no author implementation was located during this audit.
   ranges are legitimate. Two stronger readings were added (`scripts/failure_atlas_v2_flq/strong_hosts.py`):
   `GatedAdaptiveRange` (MOPE bet set at `wmax_t = 1/q_t`, bet recomputed before each ingestion). A
   2026-11-05 audit found the range was assigned after a synchronous flush, allowing the missed-query
-  branch to use the fallback range. The hook now records it before the query draw; corrected validation
-  and reused-real replays are in progress. The checked-in results below are superseded pending those
-  replays. The gated author source exists, but native parity remains open. Also:
+  branch to use the fallback range. The hook now records it before the query draw; all 133 scheduled
+  correction manifests are complete, and paired analysis covers 131 runs / 4,040 regime-policy cells.
+  Corrected strict validation, real-data, leaderboard, WP1 and WP2 sensitivity reports are recorded
+  separately; they are same-seed corrections, not independent confirmation. The gated author source
+  exists, but native numerical parity remains open. Also:
   `DiscernDesignFloor` (declared `pi_min = .25`). In Atlas v2 validation both keep null promotion
   at <= .01 on all four nulls and are materially cheaper than the original ports on stationary
   alternatives. Any Atlas v2 SOTA comparison uses the stronger readings.

@@ -344,6 +344,26 @@ WP2's original limitations remain: A5b does not meet the registered criterion on
 strong-dependence null, and the combined three-null precision criterion fails. WP1/WP2 corrected
 artifacts are sensitivity reports, not replacements for their registered evidence.
 
+## MOPE interval-intersection correction (2026-11-06)
+
+Source review found that the local two-sided MOPE interval did not intersect its lower and reflected
+upper confidence sequences after every update. This could leave a crossed interval and cause future
+bets to use endpoints outside the joint interval. `MopeCS.update` now enforces the intersection and
+recomputes both next bets at the intersected endpoints. Focused regression and policy tests cover
+the invariant. The broader replay includes direct and wrapped consumers of `MopeCS`:
+
+```sh
+uv run python scripts/sota_sprint/replay_mope_interval_runs.py --workers 8 --execute
+```
+
+The current scheduler inventory contains 163 manifest-backed source runs. After it finishes, rerun
+all MOPE-dependent validation, real-data, WP1/WP2 and leaderboard sensitivities with the sibling
+outputs tagged `_mopeinterval_20261106`. The earlier `adaptive_gate_fixed_*` reports predate this fix
+and are superseded for MOPE-dependent conclusions. The native author's `opebet.wealth_lb_2d`
+thresholds exact log wealth on a finite grid; the local adapter instead implements the paper's
+quadratic log-wealth lower bound. Numerical comparison therefore needs to check bet updates, bound
+direction, and coverage as well as endpoint values; native-source parity review remains open.
+
 ## R5 focused Round-5 follow-up
 
 The new-seed R5 alpha=.02 simulator follow-up has its frozen question and execution details in

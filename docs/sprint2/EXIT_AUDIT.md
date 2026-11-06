@@ -79,7 +79,13 @@ hypothesis passed, a guarantee is valid, or independent confirmation was achieve
    registered outputs and are not independent confirmation. WP1 still finds 0/4 RMM hosts supported
    on the retrospective late-improvement subset; WP2 retains its registered negative findings.
    Reproduction commands and output paths are in `REPRODUCIBILITY.md`. No untouched confirmatory
-   data or human/external approval is available, and PaperBanana remains unavailable.
+   data or human/external approval is available, and PaperBanana remains unavailable. Since those
+   sensitivities were generated, source comparison found and fixed a separate MOPE endpoint issue:
+   the lower and reflected upper CS endpoints were not intersected, so they could cross. The
+   corrected `MopeCS` now enforces a nonempty nested interval and updates the next bets at its
+   intersected endpoints. The new all-consumer replay is underway (163 manifest-backed runs);
+   rerun the downstream sensitivities again after it completes. Prior correction sensitivities are
+   superseded for any MOPE-dependent conclusion.
 ## Integration record
 
 The initial sprint implementation and subsequent audits were committed to `main` and pushed to `origin`. Registered follow-ups now cover held-out Track-R for T3 and primary T1/T2/T5 policies; source reports and lineage audits include those panels. Raw and large run outputs remain ignored and outside Git.

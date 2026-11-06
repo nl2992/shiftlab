@@ -374,6 +374,16 @@ uv run python scripts/sota_sprint/analyze_transfer.py amend5 --mopeinterval-corr
 This writes `docs/sota_sprint/validation/amend5_mopeinterval_20261106_results.{json,md}` and
 preserves the registered `amend5_results` artifacts.
 
+Once the `rmm_transfer` synthetic and null replays, plus the `gate_transfer` synthetic and real
+replays, have complete manifests, regenerate both transfer sensitivities with:
+
+```sh
+uv run python scripts/sota_sprint/analyze_transfer.py --mopeinterval-corrected
+```
+
+This writes `docs/sota_sprint/validation/transfer_results_mopeinterval_20261106.{json,md}` and
+preserves the registered transfer report.
+
 ## R5 focused Round-5 follow-up
 
 The new-seed R5 alpha=.02 simulator follow-up has its frozen question and execution details in

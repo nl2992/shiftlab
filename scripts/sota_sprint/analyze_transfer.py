@@ -50,9 +50,16 @@ def _overlay_replayed_policies(original: Path, replayed: Path) -> pd.DataFrame:
     return merged
 
 
-def rmm():
-    syn = pd.read_json(OUT / "rmm_transfer/synth/records.jsonl", lines=True)
-    nul = null_table(pd.read_json(OUT / "rmm_transfer/null1000/records.jsonl", lines=True))
+def rmm(*, mopeinterval_corrected: bool = False):
+    if mopeinterval_corrected:
+        syn = _overlay_replayed_policies(OUT / "rmm_transfer/synth/records.jsonl",
+                                         OUT / "rmm_transfer/synth_mopeinterval_20261106/records.jsonl")
+        null_records = _overlay_replayed_policies(OUT / "rmm_transfer/null1000/records.jsonl",
+                                                  OUT / "rmm_transfer/null1000_mopeinterval_20261106/records.jsonl")
+    else:
+        syn = pd.read_json(OUT / "rmm_transfer/synth/records.jsonl", lines=True)
+        null_records = pd.read_json(OUT / "rmm_transfer/null1000/records.jsonl", lines=True)
+    nul = null_table(null_records)
     P = syn[syn.regime.isin(FAM)].pivot_table(index="seed", columns=["regime", "policy"], values="net")
     fam = {p: P.xs(p, axis=1, level=1).mean(axis=1) for p in syn.policy.unique()}  # per-seed family mean
     res = {"HR": {}, "attribution": {}, "nulls": nul}
@@ -91,10 +98,16 @@ def rmm():
     return res
 
 
-def gate():
-    syn = pd.read_json(OUT / "gate_transfer/synth/records.jsonl", lines=True)
+def gate(*, mopeinterval_corrected: bool = False):
+    if mopeinterval_corrected:
+        syn = _overlay_replayed_policies(OUT / "gate_transfer/synth/records.jsonl",
+                                         OUT / "gate_transfer/synth_mopeinterval_20261106/records.jsonl")
+        real = _overlay_replayed_policies(OUT / "gate_transfer/real_fresh/records.jsonl",
+                                          OUT / "gate_transfer/real_fresh_mopeinterval_20261106/records.jsonl")
+    else:
+        syn = pd.read_json(OUT / "gate_transfer/synth/records.jsonl", lines=True)
+        real = pd.read_json(OUT / "gate_transfer/real_fresh/records.jsonl", lines=True)
     nul = null_table(pd.read_json(OUT / "gate_transfer/null1000/records.jsonl", lines=True))
-    real = pd.read_json(OUT / "gate_transfer/real_fresh/records.jsonl", lines=True)
     pairs = {"D1": "model_picker_adapter", "D2": "cams_adapter", "D6-D1params:ms": "model_selector_causal"}
     res = {"HD": {}, "nulls": nul}
     Pall = syn.pivot_table(index=["regime", "seed"], columns="policy", values="net")
@@ -125,12 +138,15 @@ def gate():
     return res
 
 
-def main():
-    out = {"amendment3_rmm": rmm(), "amendment4_gate": gate()}
+def main(*, mopeinterval_corrected: bool = False):
+    out = {"amendment3_rmm": rmm(mopeinterval_corrected=mopeinterval_corrected),
+           "amendment4_gate": gate(mopeinterval_corrected=mopeinterval_corrected)}
     DOC.mkdir(parents=True, exist_ok=True)
-    (DOC / "transfer_results.json").write_text(json.dumps(out, indent=1, default=float) + "\n")
+    stem = "transfer_results_mopeinterval_20261106" if mopeinterval_corrected else "transfer_results"
+    (DOC / f"{stem}.json").write_text(json.dumps(out, indent=1, default=float) + "\n")
     a3, a4 = out["amendment3_rmm"], out["amendment4_gate"]
-    L = ["# Transfer tests (Amendments 3 and 4)", "",
+    title = "# Transfer tests (Amendments 3 and 4) — MOPE interval-correction sensitivity" if mopeinterval_corrected else "# Transfer tests (Amendments 3 and 4)"
+    L = [title, "",
          f"## HR, RMM transfer across 5 hosts: **{'PASS' if a3['HR_pass'] else 'FAIL'}** ({a3['HR_n_hosts_ok']}/5 hosts with CI<0 and iid-null safety)", "",
          "| host | family Delta J (host+RMM - host) | iid nulls safe | rho .8 null | rho .95 null | reversal_1000 | reversal_700 |", "|---|---|---|---|---|---|---|"]
     for h, v in a3["HR"].items():
@@ -153,7 +169,9 @@ def main():
                        for ds, c in v["real_fresh"].items())
         L.append(f"| {g} ({v['host']}) | {d['mean']:+.1f} [{d['lo']:+.1f},{d['hi']:+.1f}] | {v['n_sig']} | {v['iid_null_safe']} | "
                  + ", ".join(f"{r} {x:.3f}" for r, x in v["null_rates"].items()) + f" | {rr} |")
-    (DOC / "transfer_results.md").write_text("\n".join(L) + "\n")
+    if mopeinterval_corrected:
+        L.insert(2, "MOPE-affected policy arms are replaced by corrected same-seed replays; unaffected arms retain their registered records. This is a code-correction sensitivity, not an independent confirmation.")
+    (DOC / f"{stem}.md").write_text("\n".join(L) + "\n")
     print("\n".join(L))
 
 
@@ -245,5 +263,7 @@ if __name__ == "__main__":
         amend5()
     elif sys.argv[1:] == ["amend5", "--mopeinterval-corrected"]:
         amend5(mopeinterval_corrected=True)
+    elif sys.argv[1:] == ["--mopeinterval-corrected"]:
+        main(mopeinterval_corrected=True)
     else:
         main()

@@ -26,6 +26,11 @@ The registered comparators are never-switch and `E_swcert` at alpha 0.05. The ca
 
 If calibration selects an alpha, commit that alpha and this evaluation freeze before running fresh seed base `7110601102`:
 
+**Selected alpha: `0.0005`.** It is the largest grid point satisfying the preregistered
+Bonferroni-adjusted 99% one-sided Wilson upper bound criterion (see `CALIBRATION_RESULTS.md`). The
+evaluation protocol is frozen in `srr_any_false_calibration_20261106_evaluation_freeze.md` at
+commit `PENDING_COMMIT` before any evaluation run.
+
 - `F0_null`: 1,000 fresh paired seeds; pass only if the ordinary one-sided 95% Wilson upper bound for any promotion is at most 0.05.
 - `F3_reversal_1200` and `F3_reversal_800`: 200 fresh paired seeds per cell. Compare candidate net cost against `E_swcert` (fixed alpha 0.05) and never-switch on identical streams. Primary economic success requires at least 5 net-cost units of mean saving with the two-sided paired 95% t interval entirely below zero against both references in `F3_reversal_1200`; mean harm to never-switch must be at most 5 in `F3_reversal_800`.
 - Report loss, label count and cost, switches and cost, first promotion, rollback timing/count, all-false-promotion count and interval, and paired cost decomposition. Do not pool the three cells.

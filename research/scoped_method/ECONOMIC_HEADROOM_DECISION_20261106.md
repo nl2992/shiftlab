@@ -62,6 +62,14 @@ The independent critical review at [`DIRECT_FRONTLOAD_ERB_CRITICAL_REVIEW.md`](.
 
 **Smallest next action:** incorporate this negative result and the corrected comparator provenance into the claim-bounded benchmark manuscript; do not implement another candidate or open real-data confirmation for this mechanism.
 
+## Frozen economic headroom matrix follow-up
+
+The bounded follow-up in [`economic_headroom_matrix_20261106/protocol.md`](pilots/economic_headroom_matrix_20261106/protocol.md) was frozen in commit `89e5d060` and run on 30 fresh paired streams in each of five cells (1,350 policy rows). Full tabulation, paired confidence intervals, null promotion intervals, cost decomposition, source hashes, and the decision are in [`RESULTS.md`](pilots/economic_headroom_matrix_20261106/run/RESULTS.md); raw rows and machine-readable summary sit beside it. The run uses one persistent gain, worthwhile and unfavorable reversals with matched ±0.08/event effect magnitude, a null, and a 400-event delayed-label/100-label-budget cell.
+
+No policy passed the frozen safety-qualified development gate. In the economically worthwhile `F3_reversal_1200` cell, `E_rb:gated_adaptive_range` cost 404.47 vs never-switch 378.83 (paired difference +25.63, 95% CI [+16.91, +34.36]); `E_swcert` cost 402.34 (difference +23.51 [+14.34, +32.68]). The conventional `E_srrSR:gated_deployment` cost 360.00 (difference -18.83 [-30.96, -6.71]) but promoted in all 30 `F0_null` streams; its ARL guarantee does not control any-false-promotion probability. `economic_replacement` was lower-cost on persistent/delayed cells but promoted in 28/30 null streams. On persistent `F0_better`, E_rb's paired savings vs `xu_acquisition_only` were unresolved and below the five-unit mean threshold (-1.42 [-13.88, +11.04]); on delayed/scarce `F6_delay400_better@B100`, E_rb was -9.61 [-20.68, +1.46], also unresolved. Net-cost identity residual was exactly zero.
+
+Decision remains `BENCHMARK_ONLY`: this screen identifies a potentially useful, economically worthwhile temporary-improvement regime, but no available policy closes it while meeting the frozen safety and adverse-cell requirements. The smallest next step is a prospective probability-of-any-false-promotion calibration of the conventional two-sided restart detector, followed by only the two reversal cells and null. This should precede any candidate invention or real-data confirmation.
+
 ## Reproduction pointers
 
 - Pilot manifest and raw paired records: `research/scoped_method/pilots/rollback_acquisition_30seed_20261106/manifest.json`, `records.jsonl`.

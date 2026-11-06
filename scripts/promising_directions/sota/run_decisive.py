@@ -78,15 +78,24 @@ def run_dataset(name, losses, *, budget, cq, cs, alpha, eps, p_min, n_seeds, del
 
             for pol in make_policies(preds.shape[0], budget, cs, alpha, eps, p_min, factory):
                 res = run_episode(
-                    pol, model_predictions=preds, labels=labels, delay=delay, budget=budget,
-                    label_price=cq, switch_cost=cs, trace=False,
+                    pol,
+                    model_predictions=preds,
+                    labels=labels,
+                    delay=delay,
+                    budget=budget,
+                    label_price=cq,
+                    switch_cost=cs,
+                    trace=False,
                 )
                 if check_budget_feasible(res, budget):
                     raise AssertionError(f"{pol.name} violated the budget on {name} ep {ep}")
                 out.setdefault(pol.name, np.zeros((K, n_seeds)))[ep, si] = res.net_cost
                 d = diag.setdefault(pol.name, {})
-                for key, val in (("loss", res.prediction_loss), ("labels", res.requested_labels),
-                                 ("switches", res.deployment_switches)):
+                for key, val in (
+                    ("loss", res.prediction_loss),
+                    ("labels", res.requested_labels),
+                    ("switches", res.deployment_switches),
+                ):
                     d.setdefault(key, np.zeros((K, n_seeds)))[ep, si] = val
     return out, diag
 
@@ -121,13 +130,23 @@ def main(argv=None):
         losses = load_losses(name, extra)
         delay = DELAYS.get(name, 100)
         costs, diag = run_dataset(
-            name, losses, budget=a.budget, cq=a.cq, cs=a.cs, alpha=a.alpha, eps=a.eps,
-            p_min=a.p_min, n_seeds=a.n_seeds, delay=delay,
+            name,
+            losses,
+            budget=a.budget,
+            cq=a.cq,
+            cs=a.cs,
+            alpha=a.alpha,
+            eps=a.eps,
+            p_min=a.p_min,
+            n_seeds=a.n_seeds,
+            delay=delay,
         )
         per_ep = {k: v.mean(axis=1) for k, v in costs.items()}  # average seeds within an episode
         ours = per_ep["economic_stop"]
         entry = {
-            "episodes": len(ours), "delay": delay, "powered": name in POWERED,
+            "episodes": len(ours),
+            "delay": delay,
+            "powered": name in POWERED,
             "mean_cost": {k: float(v.mean()) for k, v in per_ep.items()},
             "mean_labels": {k: float(d["labels"].mean()) for k, d in diag.items()},
             "mean_switches": {k: float(d["switches"].mean()) for k, d in diag.items()},
@@ -140,25 +159,41 @@ def main(argv=None):
             d = ours - v  # negative => ours cheaper
             lo, hi = paired_ci(d, rng)
             entry["paired_vs_economic"][k] = {
-                "mean": float(d.mean()), "lo": lo, "hi": hi,
+                "mean": float(d.mean()),
+                "lo": lo,
+                "hi": hi,
                 "episodes_ours_cheaper": int((d < 0).sum()),
                 "episodes_ours_worse": int((d > 0).sum()),
                 "verdict": "ours better" if hi < 0 else ("ours worse" if lo > 0 else "tie"),
             }
         report[name] = entry
-        print(f"\n==== {name} (K={entry['episodes']}, delay={delay}, "
-              f"{'POWERED' if entry['powered'] else 'low power'})")
+        print(
+            f"\n==== {name} (K={entry['episodes']}, delay={delay}, "
+            f"{'POWERED' if entry['powered'] else 'low power'})"
+        )
         for k in sorted(per_ep):
-            print(f"  {k:20s} cost={entry['mean_cost'][k]:8.3f} "
-                  f"labels={entry['mean_labels'][k]:6.1f} "
-                  f"switches={entry['mean_switches'][k]:.3f} loss={entry['mean_loss'][k]:8.2f}")
+            print(
+                f"  {k:20s} cost={entry['mean_cost'][k]:8.3f} "
+                f"labels={entry['mean_labels'][k]:6.1f} "
+                f"switches={entry['mean_switches'][k]:.3f} loss={entry['mean_loss'][k]:8.2f}"
+            )
         for k, c in entry["paired_vs_economic"].items():
-            print(f"  ours - {k:18s} {c['mean']:+8.3f} [{c['lo']:+7.3f},{c['hi']:+7.3f}] "
-                  f"{c['verdict']:11s} (better in {c['episodes_ours_cheaper']}/"
-                  f"{entry['episodes']})")
+            print(
+                f"  ours - {k:18s} {c['mean']:+8.3f} [{c['lo']:+7.3f},{c['hi']:+7.3f}] "
+                f"{c['verdict']:11s} (better in {c['episodes_ours_cheaper']}/"
+                f"{entry['episodes']})"
+            )
 
-    cfg = {"budget": a.budget, "cq": a.cq, "cs": a.cs, "alpha": a.alpha, "eps": a.eps,
-           "p_min": a.p_min, "n_seeds": a.n_seeds, "seed_base": SEED_BASE}
+    cfg = {
+        "budget": a.budget,
+        "cq": a.cq,
+        "cs": a.cs,
+        "alpha": a.alpha,
+        "eps": a.eps,
+        "p_min": a.p_min,
+        "n_seeds": a.n_seeds,
+        "seed_base": SEED_BASE,
+    }
     (outdir / "decisive_results.json").write_text(
         json.dumps({"config": cfg, "datasets": report}, indent=2) + "\n"
     )

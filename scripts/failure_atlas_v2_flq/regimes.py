@@ -87,39 +87,46 @@ def _r(name, family, p, **kw) -> Regime:
 
 # Locked regime registry. Families F0-F9 follow the v1 failure families; the p values give a
 # per-event stationary advantage of .2*(2p-1): p=.65 -> .06, p=.58 -> .032, p=.53 -> .012.
-REGIMES: dict[str, Regime] = {r.name: r for r in [
-    # F0: stationary references
-    _r("F0_better", "stationary", [(0, 0.65)], tags=("alt",)),
-    _r("F0_null", "stationary", [(0, 0.5)], tags=("null",)),
-    _r("F0_worse", "stationary", [(0, 0.35)], tags=("null",)),
-    # F1: late improvement (challenger worse, then better)
-    _r("F1_late_400", "late", [(0, 0.4), (400, 0.68)], tags=("alt", "change")),
-    _r("F1_late_800", "late", [(0, 0.4), (800, 0.7)], tags=("alt", "change")),
-    _r("F1_late_1200", "late", [(0, 0.4), (1200, 0.75)], tags=("alt", "change")),
-    # F2: transient improvement
-    _r("F2_transient", "transient", [(0, 0.4), (300, 0.72), (1100, 0.4)], tags=("change",)),
-    # F3: abrupt reversal after a genuine early advantage (rollback needed)
-    _r("F3_reversal_800", "reversal", [(0, 0.7), (800, 0.3)], tags=("change",)),
-    _r("F3_reversal_1200", "reversal", [(0, 0.7), (1200, 0.3)], tags=("change",)),
-    # F4: recurrent regimes
-    _r("F4_recurrent", "recurrent",
-       [(0, 0.7), (500, 0.32), (1000, 0.7), (1500, 0.32)], tags=("change",)),
-    # F5: serial dependence (Markov sign persistence)
-    _r("F5_dep_null_r8", "dependence", [(0, 0.5)], rho=0.8, tags=("null", "dep")),
-    _r("F5_dep_better_r8", "dependence", [(0, 0.65)], rho=0.8, tags=("alt", "dep")),
-    _r("F5_dep_null_r95", "dependence", [(0, 0.5)], rho=0.95, tags=("null", "dep")),
-    # F6: long label delay
-    _r("F6_delay400_better", "delay", [(0, 0.65)], delay=400, tags=("alt",)),
-    _r("F6_delay400_late", "delay", [(0, 0.4), (800, 0.7)], delay=400, tags=("alt", "change")),
-    # F7: near-indistinguishable models
-    _r("F7_near_better", "near", [(0, 0.58)], tags=("alt",)),
-    _r("F7_near_tiny", "near", [(0, 0.53)], tags=("alt",)),
-    # F8: rare informative subpopulation (rare disagreements, strong advantage)
-    _r("F8_rare_better", "rare", [(0, 0.9)], dis=((0, 0.03),), tags=("alt",)),
-    # F9: high-disagreement (budget pressure) and bursty disagreements
-    _r("F9_highdis_better", "budget", [(0, 0.58)], dis=((0, 0.5),), tags=("alt",)),
-    _r("F9_bursty_better", "budget", [(0, 0.65)], burst=0.95, tags=("alt",)),
-]}
+REGIMES: dict[str, Regime] = {
+    r.name: r
+    for r in [
+        # F0: stationary references
+        _r("F0_better", "stationary", [(0, 0.65)], tags=("alt",)),
+        _r("F0_null", "stationary", [(0, 0.5)], tags=("null",)),
+        _r("F0_worse", "stationary", [(0, 0.35)], tags=("null",)),
+        # F1: late improvement (challenger worse, then better)
+        _r("F1_late_400", "late", [(0, 0.4), (400, 0.68)], tags=("alt", "change")),
+        _r("F1_late_800", "late", [(0, 0.4), (800, 0.7)], tags=("alt", "change")),
+        _r("F1_late_1200", "late", [(0, 0.4), (1200, 0.75)], tags=("alt", "change")),
+        # F2: transient improvement
+        _r("F2_transient", "transient", [(0, 0.4), (300, 0.72), (1100, 0.4)], tags=("change",)),
+        # F3: abrupt reversal after a genuine early advantage (rollback needed)
+        _r("F3_reversal_800", "reversal", [(0, 0.7), (800, 0.3)], tags=("change",)),
+        _r("F3_reversal_1200", "reversal", [(0, 0.7), (1200, 0.3)], tags=("change",)),
+        # F4: recurrent regimes
+        _r(
+            "F4_recurrent",
+            "recurrent",
+            [(0, 0.7), (500, 0.32), (1000, 0.7), (1500, 0.32)],
+            tags=("change",),
+        ),
+        # F5: serial dependence (Markov sign persistence)
+        _r("F5_dep_null_r8", "dependence", [(0, 0.5)], rho=0.8, tags=("null", "dep")),
+        _r("F5_dep_better_r8", "dependence", [(0, 0.65)], rho=0.8, tags=("alt", "dep")),
+        _r("F5_dep_null_r95", "dependence", [(0, 0.5)], rho=0.95, tags=("null", "dep")),
+        # F6: long label delay
+        _r("F6_delay400_better", "delay", [(0, 0.65)], delay=400, tags=("alt",)),
+        _r("F6_delay400_late", "delay", [(0, 0.4), (800, 0.7)], delay=400, tags=("alt", "change")),
+        # F7: near-indistinguishable models
+        _r("F7_near_better", "near", [(0, 0.58)], tags=("alt",)),
+        _r("F7_near_tiny", "near", [(0, 0.53)], tags=("alt",)),
+        # F8: rare informative subpopulation (rare disagreements, strong advantage)
+        _r("F8_rare_better", "rare", [(0, 0.9)], dis=((0, 0.03),), tags=("alt",)),
+        # F9: high-disagreement (budget pressure) and bursty disagreements
+        _r("F9_highdis_better", "budget", [(0, 0.58)], dis=((0, 0.5),), tags=("alt",)),
+        _r("F9_bursty_better", "budget", [(0, 0.65)], burst=0.95, tags=("alt",)),
+    ]
+}
 
 
 def hindsight_oracle_cost(losses: np.ndarray, cs: float, start: int = 0) -> float:
@@ -159,19 +166,29 @@ def expected_oracle_path(gain: np.ndarray, cs: float) -> np.ndarray:
 
 # Fresh validation instances, registered 2026-11-03 after the development sweep and BEFORE any
 # validation run. Parameters differ from every discovery/dev regime; seeds use base 2026110399.
-VALIDATION: dict[str, Regime] = {r.name: r for r in [
-    _r("V_better_a", "stationary", [(0, 0.62)], dis=((0, 0.25),), tags=("alt",)),
-    _r("V_better_b", "stationary", [(0, 0.70)], dis=((0, 0.15),), delay=50, tags=("alt",)),
-    _r("V_better_c", "stationary", [(0, 0.66)], dis=((0, 0.30),), delay=200, tags=("alt",)),
-    _r("V_dep_better_r5", "dependence", [(0, 0.64)], rho=0.5, tags=("alt", "dep")),
-    _r("V_near", "near", [(0, 0.57)], dis=((0, 0.25),), tags=("alt",)),
-    _r("V_bursty", "budget", [(0, 0.63)], dis=((0, 0.22),), burst=0.9, tags=("alt",)),
-    _r("V_null", "stationary", [(0, 0.5)], dis=((0, 0.25),), tags=("null",)),
-    _r("V_worse", "stationary", [(0, 0.40)], tags=("null",)),
-    _r("V_null_dep_r5", "dependence", [(0, 0.5)], rho=0.5, tags=("null", "dep")),
-    _r("V_null_dep_r8", "dependence", [(0, 0.5)], dis=((0, 0.25),), rho=0.8, tags=("null", "dep")),
-    _r("V_late_600", "late", [(0, 0.42), (600, 0.70)], tags=("alt", "change")),
-    _r("V_reversal_1000", "reversal", [(0, 0.70), (1000, 0.30)], tags=("change",)),
-    _r("V_recurrent", "recurrent", [(0, 0.68), (666, 0.35), (1333, 0.68)], tags=("change",)),
-]}
+VALIDATION: dict[str, Regime] = {
+    r.name: r
+    for r in [
+        _r("V_better_a", "stationary", [(0, 0.62)], dis=((0, 0.25),), tags=("alt",)),
+        _r("V_better_b", "stationary", [(0, 0.70)], dis=((0, 0.15),), delay=50, tags=("alt",)),
+        _r("V_better_c", "stationary", [(0, 0.66)], dis=((0, 0.30),), delay=200, tags=("alt",)),
+        _r("V_dep_better_r5", "dependence", [(0, 0.64)], rho=0.5, tags=("alt", "dep")),
+        _r("V_near", "near", [(0, 0.57)], dis=((0, 0.25),), tags=("alt",)),
+        _r("V_bursty", "budget", [(0, 0.63)], dis=((0, 0.22),), burst=0.9, tags=("alt",)),
+        _r("V_null", "stationary", [(0, 0.5)], dis=((0, 0.25),), tags=("null",)),
+        _r("V_worse", "stationary", [(0, 0.40)], tags=("null",)),
+        _r("V_null_dep_r5", "dependence", [(0, 0.5)], rho=0.5, tags=("null", "dep")),
+        _r(
+            "V_null_dep_r8",
+            "dependence",
+            [(0, 0.5)],
+            dis=((0, 0.25),),
+            rho=0.8,
+            tags=("null", "dep"),
+        ),
+        _r("V_late_600", "late", [(0, 0.42), (600, 0.70)], tags=("alt", "change")),
+        _r("V_reversal_1000", "reversal", [(0, 0.70), (1000, 0.30)], tags=("change",)),
+        _r("V_recurrent", "recurrent", [(0, 0.68), (666, 0.35), (1333, 0.68)], tags=("change",)),
+    ]
+}
 ALL_REGIMES = {**REGIMES, **VALIDATION}

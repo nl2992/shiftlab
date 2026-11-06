@@ -10,9 +10,9 @@ import numpy as np
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "scripts/sota_sprint"))
 
-import registry  # noqa: E402,F401  (loads the RMM module fam_m builds on)
-import screen  # noqa: E402
-from fam_m import EXTRA, RMMSUI  # noqa: E402
+import registry  # noqa: F401  (loads the RMM module fam_m builds on)
+import screen
+from fam_m import EXTRA, RMMSUI
 
 
 def _run(name, regime, seed):

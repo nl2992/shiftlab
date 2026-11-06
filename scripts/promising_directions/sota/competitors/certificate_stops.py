@@ -376,7 +376,6 @@ class _CertificateStop:
 
     def _on_acquisition_propensity(self, event: Event, q: float, disagree: bool) -> None:
         """Observe q before its Bernoulli draw or any synchronous queue flush."""
-        pass
 
     # ---- Policy protocol
     def predict(self, event: Event) -> int:

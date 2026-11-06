@@ -40,14 +40,14 @@ for _p in (_SOTA, _SOTA / "competitors"):
     if str(_p) not in sys.path:
         sys.path.insert(0, str(_p))
 
-from certificate_stops import (  # noqa: E402
+from certificate_stops import (
     DiscernStyleStop,
     GatedDeploymentStop,
     MopeCS,
     PrPlEBCS,
     _Rec,
 )
-from simulator import Event, QueryRequest  # noqa: E402
+from simulator import Event, QueryRequest
 
 
 class _LabelClockMixin:
@@ -130,14 +130,18 @@ class DiscernFrontLoad(_FrontLoadMixin, DiscernStyleStop):
 FACTORIES = {
     "gated_LCE": lambda T, B, cs, cq, a, d, r: GatedLCE(T, B, a, rng=r("gated_deployment")),
     "gated_LCE_front": lambda T, B, cs, cq, a, d, r: GatedLCE(
-        T, B, a, rng=r("gated_deployment"), front_load=True),
+        T, B, a, rng=r("gated_deployment"), front_load=True
+    ),
     "gated_frontload_ipw": lambda T, B, cs, cq, a, d, r: GatedFrontLoad(
-        T, B, a, rng=r("gated_deployment")),
+        T, B, a, rng=r("gated_deployment")
+    ),
     "discern_LCE": lambda T, B, cs, cq, a, d, r: DiscernLCE(T, B, a, 0.0, rng=r("discern_style")),
     "discern_LCE_front": lambda T, B, cs, cq, a, d, r: DiscernLCE(
-        T, B, a, 0.0, rng=r("discern_style"), front_load=True),
+        T, B, a, 0.0, rng=r("discern_style"), front_load=True
+    ),
     "discern_frontload_ipw": lambda T, B, cs, cq, a, d, r: DiscernFrontLoad(
-        T, B, a, 0.0, rng=r("discern_style")),
+        T, B, a, 0.0, rng=r("discern_style")
+    ),
 }
 
-__all__ = ["FACTORIES", "GatedLCE", "DiscernLCE", "np"]
+__all__ = ["FACTORIES", "DiscernLCE", "GatedLCE", "np"]

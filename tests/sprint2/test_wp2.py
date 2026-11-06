@@ -11,14 +11,14 @@ import pandas as pd
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "scripts/sota_sprint"))
 
-import screen  # noqa: E402,F401
-import wp2_analyze  # noqa: E402
-import wp2_run  # noqa: E402
-import wp2_score  # noqa: E402
-import wp2_twins  # noqa: E402
-from fam_f import WP2_REGIMES, DMHACMonitor, DepTwin, newey_west_var  # noqa: E402
-from simulator import policy_rng, run_episode  # noqa: E402
-from suite import stream_from_losses  # noqa: E402
+import screen
+import wp2_analyze
+import wp2_run
+import wp2_score
+import wp2_twins
+from fam_f import WP2_REGIMES, DepTwin, DMHACMonitor, newey_west_var
+from simulator import policy_rng, run_episode
+from suite import stream_from_losses
 
 
 def test_xu_acquisition_adapter_is_not_labeled_as_a_published_certificate():
@@ -29,8 +29,16 @@ def test_xu_acquisition_adapter_is_not_labeled_as_a_published_certificate():
 
 def _run(pol, losses, delay=24, budget=200, seed=0):
     preds, labels = stream_from_losses(losses, np.random.default_rng(seed))
-    return run_episode(pol, model_predictions=preds, labels=labels, delay=delay, budget=budget,
-                       label_price=0.05, switch_cost=5.0, trace=True)
+    return run_episode(
+        pol,
+        model_predictions=preds,
+        labels=labels,
+        delay=delay,
+        budget=budget,
+        label_price=0.05,
+        switch_cost=5.0,
+        trace=True,
+    )
 
 
 # ---------------------------------------------------------------- generators
@@ -50,8 +58,15 @@ def test_generators_marginal_and_exchangeable():
 
 def test_twin_regime_has_episode_effect_and_dependence():
     tw, nl = WP2_REGIMES["WP2_iid_twin"], DepTwin("x", "iid")
-    sd = lambda R: np.std([np.mean(R.sample(np.random.default_rng(s))[:, 0].astype(int)  # noqa: E731
-                                   - R.sample(np.random.default_rng(s))[:, 1]) for s in range(200)])
+    sd = lambda R: np.std(
+        [
+            np.mean(
+                R.sample(np.random.default_rng(s))[:, 0].astype(int)
+                - R.sample(np.random.default_rng(s))[:, 1]
+            )
+            for s in range(200)
+        ]
+    )
     assert sd(tw) > 1.5 * sd(nl)  # episode-level fixed effect inflates across-episode spread
     s = WP2_REGIMES["WP2_o2_null"].signs(np.random.default_rng(0), 0.5, 20000)
     assert np.mean(s[1:] == s[:-1]) > 0.7  # strong second-order persistence
@@ -83,12 +98,24 @@ def test_dm_monitor_budget_and_short_null():
 
 def test_dm_monitor_promotes_on_clear_alternative_only():
     R = WP2_REGIMES["WP2_o2_better"].__class__("b", "iid", p_base=0.8)
-    prom = [_run(DMHACMonitor(2000, 200, 0.05, rng=policy_rng(2, s, "DM")),
-                 R.sample(np.random.default_rng(s))).deployment_switches > 0 for s in range(10)]
+    prom = [
+        _run(
+            DMHACMonitor(2000, 200, 0.05, rng=policy_rng(2, s, "DM")),
+            R.sample(np.random.default_rng(s)),
+        ).deployment_switches
+        > 0
+        for s in range(10)
+    ]
     assert sum(prom) >= 9
     N = DepTwin("n", "iid")
-    prom = [_run(DMHACMonitor(2000, 200, 0.05, rng=policy_rng(2, s, "DM")),
-                 N.sample(np.random.default_rng(s))).deployment_switches > 0 for s in range(40)]
+    prom = [
+        _run(
+            DMHACMonitor(2000, 200, 0.05, rng=policy_rng(2, s, "DM")),
+            N.sample(np.random.default_rng(s)),
+        ).deployment_switches
+        > 0
+        for s in range(40)
+    ]
     assert sum(prom) <= 6
 
 
@@ -136,12 +163,23 @@ def test_runner_matches_screen_job():
     assert [r["net"] for r in a] == [r["net"] for r in b]
     for r in b:
         assert r["labels"] <= r["budget"]
-        assert abs(r["harm"] - (r["net"] - [x for x in b if x["policy"] == "CONTROL_never_switch"][0]["net"])) < 1e-9
+        assert (
+            abs(
+                r["harm"]
+                - (r["net"] - next(x for x in b if x["policy"] == "CONTROL_never_switch")["net"])
+            )
+            < 1e-9
+        )
 
 
 def test_rewindow_preserves_events():
     l0 = np.arange(2 * 3 * 4).reshape(6, 4) % 2
-    z = {"l0": l0, "l1": 1 - l0, "split": np.array([0, 0, 0, 1, 1, 1]), "ep": np.array([0, 1, 2] * 2)}
+    z = {
+        "l0": l0,
+        "l1": 1 - l0,
+        "split": np.array([0, 0, 0, 1, 1, 1]),
+        "ep": np.array([0, 1, 2] * 2),
+    }
     v = wp2_twins.rewindow(z, 8)
     assert v["l0"].shape == (2, 8) and list(v["split"]) == [0, 1]
     assert np.array_equal(v["l0"][0], l0[:2].reshape(-1))
@@ -152,11 +190,29 @@ def test_score_bootstrap_ratio_and_rates():
     rows = []
     for c in range(10):
         for prom, ei in ((1, 1), (1, 0), (0, 0), (0, 0)):
-            rows.append({"kind": "synthetic", "regime": "R", "split": -1, "ep": 0, "seed": c,
-                         "policy": "p", "T": 2000, "delay_mult": 1.0, "ever_promote": prom, "ei": ei,
-                         "db": -1.0 if ei else 3.0, "adv_100": 0.0, "adv_500": 0.1, "adv_rest": 0.01,
-                         "first_deploy": 5 if prom else -1, "harm": 1.0, "labels": 10, "net": 3.0,
-                         "runtime_s": 0.1})
+            rows.append(
+                {
+                    "kind": "synthetic",
+                    "regime": "R",
+                    "split": -1,
+                    "ep": 0,
+                    "seed": c,
+                    "policy": "p",
+                    "T": 2000,
+                    "delay_mult": 1.0,
+                    "ever_promote": prom,
+                    "ei": ei,
+                    "db": -1.0 if ei else 3.0,
+                    "adv_100": 0.0,
+                    "adv_500": 0.1,
+                    "adv_rest": 0.01,
+                    "first_deploy": 5 if prom else -1,
+                    "harm": 1.0,
+                    "labels": 10,
+                    "net": 3.0,
+                    "runtime_s": 0.1,
+                }
+            )
     s = wp2_score.score(wp2_score.derive(pd.DataFrame(rows))).iloc[0]
     assert s.ever_promote == 0.5 and s.hp == 0.25 and s.pi_ei == 0.5 and s.v1_err_100 == 0.5
     assert s.v1_err_500 == 0.0 and s.clusters == 10

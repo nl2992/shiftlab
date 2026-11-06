@@ -34,12 +34,11 @@ from __future__ import annotations
 
 import math
 
-import numpy as np
-from scipy.stats import binom
-
 import fam_b  # loads the RMM module and the certificate hosts' import path
+import numpy as np
 from certificate_stops import DiscernStyleStop, GatedDeploymentStop
 from controls import PacedDisagreementAcquisition
+from scipy.stats import binom
 from simulator import QueryRequest
 from smcs import SMCSDeploymentPolicy
 from strong_hosts import GatedAdaptiveRange
@@ -48,11 +47,16 @@ RecoveryMonitor = fam_b.RecoveryMonitor
 
 # host name -> (base factory make(T, B, alpha, rng), private rng stream name used by registry RMM)
 HOSTS = {
-    "gated_deployment": (lambda T, B, a, r: GatedDeploymentStop(T, B, a, rng=r), "gated_deployment"),
+    "gated_deployment": (
+        lambda T, B, a, r: GatedDeploymentStop(T, B, a, rng=r),
+        "gated_deployment",
+    ),
     "discern_style": (lambda T, B, a, r: DiscernStyleStop(T, B, a, 0.0, rng=r), "discern_style"),
     "SMCS+retain-incumbent": (lambda T, B, a, r: SMCSDeploymentPolicy(2, r, alpha=a), "smcs"),
-    "gated_adaptive_range": (lambda T, B, a, r: GatedAdaptiveRange(T, B, a, rng=r),
-                             "gated_adaptive_range"),
+    "gated_adaptive_range": (
+        lambda T, B, a, r: GatedAdaptiveRange(T, B, a, rng=r),
+        "gated_adaptive_range",
+    ),
 }
 
 
@@ -111,7 +115,7 @@ class GLRDetector:
         mu, m1, m2 = c[-1] / n, c[s - 1] / s, (c[-1] - c[s - 1]) / (n - s)
         g = s * _kl(m1, mu) + (n - s) * _kl(m2, mu)
         i = int(np.argmax(g))
-        return bool(g[i] >= np.log(3 * n ** 1.5 / self.alpha) and m2[i] > 0.5)
+        return bool(g[i] >= np.log(3 * n**1.5 / self.alpha) and m2[i] > 0.5)
 
 
 class DetectorSwapMonitor(_RMM.RestartMixtureMonitor):
@@ -122,7 +126,7 @@ class DetectorSwapMonitor(_RMM.RestartMixtureMonitor):
         super().__init__(make_base, horizon, budget, alpha, rng=rng, name="", **kw)
 
     def _new_detector(self):
-        a = self.alpha_det / (2.0 ** self.n_promotions) if self.deployed == 0 else self.alpha_rb
+        a = self.alpha_det / (2.0**self.n_promotions) if self.deployed == 0 else self.alpha_rb
         if self.detector == "glr":
             return GLRDetector(a)
         return SRRDetector(a, kind=self.detector)
@@ -130,8 +134,9 @@ class DetectorSwapMonitor(_RMM.RestartMixtureMonitor):
 
 def _swap(host: str, detector: str, **kw):
     mk, sn = HOSTS[host]
-    return lambda T, B, cs, cq, alpha, delay, r: DetectorSwapMonitor(mk, T, B, alpha, rng=r(sn),
-                                                                     detector=detector, **kw)
+    return lambda T, B, cs, cq, alpha, delay, r: DetectorSwapMonitor(
+        mk, T, B, alpha, rng=r(sn), detector=detector, **kw
+    )
 
 
 def _rb(host: str, **kw):
@@ -139,14 +144,26 @@ def _rb(host: str, **kw):
 
     def f(T, B, cs, cq, alpha, delay, r):
         return RecoveryMonitor(mk, T, B, alpha, rng=r(sn), delay=delay, cs=cs, rollback=True, **kw)
+
     return f
 
 
 class SlidingWindowCert:
     """Sliding-window binomial certificate with union-bound alpha spending (see module doc)."""
 
-    def __init__(self, horizon, budget, alpha, *, rng, window=50, every=10, min_n=20, p_min=0.05,
-                 name="E_swcert"):
+    def __init__(
+        self,
+        horizon,
+        budget,
+        alpha,
+        *,
+        rng,
+        window=50,
+        every=10,
+        min_n=20,
+        p_min=0.05,
+        name="E_swcert",
+    ):
         self.name = name
         self.T, self.B, self.alpha = int(horizon), int(budget), float(alpha)
         self.rng = rng
@@ -164,7 +181,7 @@ class SlidingWindowCert:
         self.order: list[int] = []
         self.queue: dict[int, int] = {}
         if self.deployed == 0:
-            self.a = self.alpha / (2.0 ** self.n_promotions)
+            self.a = self.alpha / (2.0**self.n_promotions)
         else:
             self.a = self.alpha
 
@@ -182,8 +199,8 @@ class SlidingWindowCert:
 
     def _test(self) -> bool:
         self.k += 1
-        a_k = self.a * 6.0 / (math.pi ** 2 * self.k ** 2)
-        w = self.x if self.window is None else self.x[-self.window:]
+        a_k = self.a * 6.0 / (math.pi**2 * self.k**2)
+        w = self.x if self.window is None else self.x[-self.window :]
         s = sum(1 for v in w if v > 0)
         return float(binom.sf(s - 1, len(w), 0.5)) <= a_k  # P(S >= s) under p = 1/2
 
@@ -219,29 +236,36 @@ class SlidingWindowCert:
 
 
 def _sw(**kw):
-    return lambda T, B, cs, cq, alpha, delay, r: SlidingWindowCert(T, B, alpha, rng=r("E_swcert"),
-                                                                   **kw)
+    return lambda T, B, cs, cq, alpha, delay, r: SlidingWindowCert(
+        T, B, alpha, rng=r("E_swcert"), **kw
+    )
 
 
 EXTRA = {f"E_rb:{h}": _rb(h) for h in HOSTS}
 EXTRA.update({f"E_srr:{h}": _swap(h, "cusum") for h in HOSTS})
-EXTRA.update({
-    "E_srrSR:gated_deployment": _swap("gated_deployment", "sr"),
-    "E_srr_noacq:gated_deployment": _swap("gated_deployment", "cusum", keep_acquiring=False),
-    "E_srr_noacq:gated_adaptive_range": _swap("gated_adaptive_range", "cusum", keep_acquiring=False),
-    "E_glr:gated_deployment": _swap("gated_deployment", "glr"),
-    "E_glr:gated_adaptive_range": _swap("gated_adaptive_range", "glr"),
-})
-EXTRA.update({
-    # rollback mechanism ablations (gated and gated_adaptive_range hosts)
-    "E_rb:gated_deployment-nogate": _rb("gated_deployment", g_ref=1e9),
-    "E_rb:gated_deployment-a05": _rb("gated_deployment", alpha_rb_new=0.05),
-    "E_rb:gated_adaptive_range-nogate": _rb("gated_adaptive_range", g_ref=1e9),
-    "E_swcert": _sw(),
-    "E_swcert-W25": _sw(window=25),
-    "E_swcert-W100": _sw(window=100),
-    "E_swcert-cum": _sw(window=None),
-})
+EXTRA.update(
+    {
+        "E_srrSR:gated_deployment": _swap("gated_deployment", "sr"),
+        "E_srr_noacq:gated_deployment": _swap("gated_deployment", "cusum", keep_acquiring=False),
+        "E_srr_noacq:gated_adaptive_range": _swap(
+            "gated_adaptive_range", "cusum", keep_acquiring=False
+        ),
+        "E_glr:gated_deployment": _swap("gated_deployment", "glr"),
+        "E_glr:gated_adaptive_range": _swap("gated_adaptive_range", "glr"),
+    }
+)
+EXTRA.update(
+    {
+        # rollback mechanism ablations (gated and gated_adaptive_range hosts)
+        "E_rb:gated_deployment-nogate": _rb("gated_deployment", g_ref=1e9),
+        "E_rb:gated_deployment-a05": _rb("gated_deployment", alpha_rb_new=0.05),
+        "E_rb:gated_adaptive_range-nogate": _rb("gated_adaptive_range", g_ref=1e9),
+        "E_swcert": _sw(),
+        "E_swcert-W25": _sw(window=25),
+        "E_swcert-W100": _sw(window=100),
+        "E_swcert-cum": _sw(window=None),
+    }
+)
 
 # Track V: which null each candidate's promotion guarantee concerns (bench2.NULL_TESTED convention).
 NULL_TESTED = {k: ("none" if k.startswith(("E_srr", "E_glr")) else "V1") for k in EXTRA}

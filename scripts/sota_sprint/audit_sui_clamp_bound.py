@@ -6,6 +6,7 @@ not an instrumented scan of every historical policy trajectory. The Markov-null
 factors are cellwise upper bounds and the alternative factors are positive mixture
 components; bounding each per-event log factor bounds every cumulative array entry.
 """
+
 from __future__ import annotations
 
 import argparse
@@ -14,7 +15,6 @@ from pathlib import Path
 from typing import Any
 
 import numpy as np
-
 from fam_a import LOG0, MarkovSUI
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -23,7 +23,9 @@ ROOT = Path(__file__).resolve().parents[2]
 def _collect_horizons(value: Any, out: set[int]) -> None:
     if isinstance(value, dict):
         for key, child in value.items():
-            if key.lower() in {"t", "horizon", "horizon_events"} and isinstance(child, (int, float)):
+            if key.lower() in {"t", "horizon", "horizon_events"} and isinstance(
+                child, (int, float)
+            ):
                 out.add(int(child))
             _collect_horizons(child, out)
     elif isinstance(value, list):

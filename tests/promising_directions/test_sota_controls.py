@@ -32,8 +32,12 @@ def _fb(d: int, q: float = 0.5, t: int = 0) -> ReleasedFeedback:
     """Feedback where the paired difference l0 - l1 equals `d`."""
     losses = np.array([1, 0] if d > 0 else [0, 1], dtype=np.int8)
     return ReleasedFeedback(
-        event_id=t, t_requested=t, t_released=t + 1, label=0,
-        model_losses=losses, query_probability=q,
+        event_id=t,
+        t_requested=t,
+        t_released=t + 1,
+        label=0,
+        model_losses=losses,
+        query_probability=q,
     )
 
 
@@ -86,8 +90,12 @@ def test_cusum_ignores_agreement_events():
     m = BernoulliPairedModel()
     c = PairedCUSUM(100, 50, m, threshold=5.0, rng=np.random.default_rng(0))
     tie = ReleasedFeedback(
-        event_id=0, t_requested=0, t_released=1, label=0,
-        model_losses=np.array([1, 1], dtype=np.int8), query_probability=0.5,
+        event_id=0,
+        t_requested=0,
+        t_released=1,
+        label=0,
+        model_losses=np.array([1, 1], dtype=np.int8),
+        query_probability=0.5,
     )
     c.observe([tie])
     assert c.stat == 0.0
@@ -160,8 +168,13 @@ def test_fixed_and_oracle_never_query_and_switch_at_most_once():
     preds, y = _stream()
     for pol in (FixedModel(0), FixedModel(1), RetrospectiveOracle(preds, y)):
         res = run_episode(
-            pol, model_predictions=preds, labels=y, delay=5, budget=50,
-            label_price=0.05, switch_cost=5.0,
+            pol,
+            model_predictions=preds,
+            labels=y,
+            delay=5,
+            budget=50,
+            label_price=0.05,
+            switch_cost=5.0,
         )
         assert res.requested_labels == 0
         assert res.deployment_switches == (0 if pol.index == 0 else 1)
@@ -180,8 +193,13 @@ def test_sequential_controls_respect_the_hard_budget(cls):
     preds, y = _stream(T=600, seed=3)
     pol = cls(600, 25, BernoulliPairedModel(), threshold=5.0, rng=np.random.default_rng(1))
     res = run_episode(
-        pol, model_predictions=preds, labels=y, delay=5, budget=25,
-        label_price=0.05, switch_cost=5.0,
+        pol,
+        model_predictions=preds,
+        labels=y,
+        delay=5,
+        budget=25,
+        label_price=0.05,
+        switch_cost=5.0,
     )
     assert check_budget_feasible(res, 25) == []
 
@@ -192,10 +210,17 @@ def test_sequential_controls_are_deterministic(cls):
     out = []
     for _ in range(2):
         pol = cls(400, 30, BernoulliPairedModel(), threshold=4.0, rng=np.random.default_rng(11))
-        out.append(run_episode(
-            pol, model_predictions=preds, labels=y, delay=3, budget=30,
-            label_price=0.05, switch_cost=5.0,
-        ))
+        out.append(
+            run_episode(
+                pol,
+                model_predictions=preds,
+                labels=y,
+                delay=3,
+                budget=30,
+                label_price=0.05,
+                switch_cost=5.0,
+            )
+        )
     assert out[0].net_cost == out[1].net_cost
     assert out[0].requested_labels == out[1].requested_labels
 
@@ -204,8 +229,13 @@ def test_economic_rule_runs_end_to_end_within_budget():
     preds, y = _stream(T=500, seed=9)
     pol = EconomicReplacement(500, 40, switch_cost=5.0, rng=np.random.default_rng(2))
     res = run_episode(
-        pol, model_predictions=preds, labels=y, delay=4, budget=40,
-        label_price=0.05, switch_cost=5.0,
+        pol,
+        model_predictions=preds,
+        labels=y,
+        delay=4,
+        budget=40,
+        label_price=0.05,
+        switch_cost=5.0,
     )
     assert check_budget_feasible(res, 40) == []
     assert res.deployment_switches <= 1  # the rule only ever promotes once

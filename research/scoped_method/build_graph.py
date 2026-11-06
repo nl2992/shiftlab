@@ -22,7 +22,6 @@ from graphify.export import to_json
 from graphify.extract import extract
 from graphify.report import generate
 
-
 ROOT = Path(__file__).resolve().parents[2]
 OUT = ROOT / "graphify-out"
 CODE_ROOTS = [

@@ -12,21 +12,29 @@ import pytest
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "scripts/sota_sprint"))
 
-import registry  # noqa: E402  (loads RMM, all families, registers fam_p regimes)
-import fam_p  # noqa: E402
-from bench import SPRINT_REGIMES  # noqa: E402
-from simulator import policy_rng, run_episode  # noqa: E402
-from suite import stream_from_losses  # noqa: E402
+import fam_p
+import registry
+from bench import SPRINT_REGIMES
+from simulator import policy_rng, run_episode
+from suite import stream_from_losses
 
 NAMES = [k for k in fam_p.EXTRA]
 
 
 def _run(name, losses, budget=200, delay=100, seed=0):
-    r = lambda nm: policy_rng(7, seed, nm)  # noqa: E731
+    r = lambda nm: policy_rng(7, seed, nm)
     pol = fam_p.EXTRA[name](losses.shape[0], budget, 5.0, 0.05, 0.05, delay, r)
     preds, labels = stream_from_losses(losses, np.random.default_rng(seed))
-    return run_episode(pol, model_predictions=preds, labels=labels, delay=delay, budget=budget,
-                       label_price=0.05, switch_cost=5.0, trace=True)
+    return run_episode(
+        pol,
+        model_predictions=preds,
+        labels=labels,
+        delay=delay,
+        budget=budget,
+        label_price=0.05,
+        switch_cost=5.0,
+        trace=True,
+    )
 
 
 def test_registered_and_import_clean():
@@ -36,6 +44,7 @@ def test_registered_and_import_clean():
     for n in fam_p.P_REGIMES:
         assert n in SPRINT_REGIMES
     import importlib
+
     importlib.reload(fam_p)  # idempotent registration
     assert all(n in SPRINT_REGIMES for n in fam_p.P_REGIMES)
 
@@ -78,12 +87,12 @@ def test_renewal_factor_mean_le_one_under_null_any_r():
     for n in range(2, 30):
         ls = np.arange(1, n)
         for r in (0.3, 0.7, 1.0):
-            w = r ** ls / np.sum(r ** ls)  # P(L1 = l | n) under the null, r <= 1
+            w = r**ls / np.sum(r**ls)  # P(L1 = l | n) under the null, r <= 1
             m = np.array([ev.factor(int(li), n - int(li)) for li in ls])  # (n-1, grid)
             assert np.all(w @ m <= 1.0 + 1e-9)
         # under the alternative (r > 1) the factor has mean > 1 for n >= 3
         if n >= 3:
-            w = 2.0 ** ls / np.sum(2.0 ** ls)
+            w = 2.0**ls / np.sum(2.0**ls)
             m = np.array([ev.factor(int(li), n - int(li)) for li in ls])
             assert np.all(w @ m > 1.0)
 
@@ -143,22 +152,36 @@ def test_kgate_k3_budget_and_null():
     reg = fam_p.K_REGIMES["K3_null"]
     for s in range(3):
         losses = reg.sample(np.random.default_rng(s), 800)
-        r = lambda nm: policy_rng(5, s, nm)  # noqa: E731
+        r = lambda nm, s=s: policy_rng(5, s, nm)
         pol = fam_p.KGate(3, 800, 40, 0.05, rng=r("D_gate"), host_rng=r("cams"))
         preds, labels = stream_from_losses(losses, np.random.default_rng(s))
-        res = run_episode(pol, model_predictions=preds, labels=labels, delay=10, budget=40,
-                          label_price=0.05, switch_cost=5.0)
+        res = run_episode(
+            pol,
+            model_predictions=preds,
+            labels=labels,
+            delay=10,
+            budget=40,
+            label_price=0.05,
+            switch_cost=5.0,
+        )
         assert res.requested_labels <= 40
 
 
 def test_kgate_promotes_clear_winner():
     reg = fam_p.KRegime("Kclear", (((0, 0.5),), ((0, 0.95),)), dis=0.3)
     losses = reg.sample(np.random.default_rng(0), 2000)
-    r = lambda nm: policy_rng(5, 0, nm)  # noqa: E731
+    r = lambda nm: policy_rng(5, 0, nm)
     pol = fam_p.KGate(3, 2000, 200, 0.05, rng=r("D_gate"), host_rng=r("cams"))
     preds, labels = stream_from_losses(losses, np.random.default_rng(0))
-    res = run_episode(pol, model_predictions=preds, labels=labels, delay=10, budget=200,
-                      label_price=0.05, switch_cost=5.0)
+    res = run_episode(
+        pol,
+        model_predictions=preds,
+        labels=labels,
+        delay=10,
+        budget=200,
+        label_price=0.05,
+        switch_cost=5.0,
+    )
     dep = [rec["deployed_model"] for rec in res.records]
     assert dep[-1] == 2
 
@@ -173,17 +196,26 @@ def test_k_regime_truth():
 def test_p6_reserve_kept_for_detector():
     reg = SPRINT_REGIMES["F0_null"]
     losses = reg.sample(np.random.default_rng(2), 2000)
-    r = lambda nm: policy_rng(9, 0, nm)  # noqa: E731
+    r = lambda nm: policy_rng(9, 0, nm)
     pol = fam_p.EXTRA["P6_RRD"](2000, 200, 5.0, 0.05, 0.05, 100, r)
     preds, labels = stream_from_losses(losses, np.random.default_rng(2))
-    run_episode(pol, model_predictions=preds, labels=labels, delay=100, budget=200,
-                label_price=0.05, switch_cost=5.0)
+    run_episode(
+        pol,
+        model_predictions=preds,
+        labels=labels,
+        delay=100,
+        budget=200,
+        label_price=0.05,
+        switch_cost=5.0,
+    )
     assert pol.n_own >= 40  # at least most of the 50-label reserve went to the detector
 
 
 def test_fisher_efficiency_drops_with_persistence():
-    r = [fam_p.fisher_efficiency(0.6, a)[1] / fam_p.fisher_efficiency(0.6, a)[0]
-         for a in (0.1, 0.5, 0.9)]
+    r = [
+        fam_p.fisher_efficiency(0.6, a)[1] / fam_p.fisher_efficiency(0.6, a)[0]
+        for a in (0.1, 0.5, 0.9)
+    ]
     assert r[0] > r[1] > r[2]
     assert math.isfinite(r[2])
 
@@ -192,9 +224,16 @@ def test_p6_no_reserve_detector_still_acquires():
     # regression: with reserve=0 the detector must pace the whole remaining budget (as RMM)
     reg = SPRINT_REGIMES["F0_null"]
     losses = reg.sample(np.random.default_rng(4), 2000)
-    r = lambda nm: policy_rng(9, 1, nm)  # noqa: E731
+    r = lambda nm: policy_rng(9, 1, nm)
     pol = fam_p.EXTRA["P6_LRMD_U"](2000, 200, 5.0, 0.05, 0.05, 100, r)
     preds, labels = stream_from_losses(losses, np.random.default_rng(4))
-    res = run_episode(pol, model_predictions=preds, labels=labels, delay=100, budget=200,
-                      label_price=0.05, switch_cost=5.0)
+    res = run_episode(
+        pol,
+        model_predictions=preds,
+        labels=labels,
+        delay=100,
+        budget=200,
+        label_price=0.05,
+        switch_cost=5.0,
+    )
     assert res.requested_labels >= 150

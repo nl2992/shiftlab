@@ -20,7 +20,6 @@ import sys
 from collections import defaultdict
 from pathlib import Path
 
-
 POLICIES = (
     "gated_adaptive_range",
     "gated_adaptive_range+front",
@@ -48,9 +47,7 @@ def source_effects(paths: list[Path]) -> dict[str, dict[str, float]]:
         # Candidate minus comparator; negative favors the candidate.
         front = row["gated_adaptive_range+front"]
         values[source]["front_minus_gated"].append(front - row["gated_adaptive_range"])
-        values[source]["front_minus_pace"].append(
-            front - row["gated_adaptive_range+pace_tuned"]
-        )
+        values[source]["front_minus_pace"].append(front - row["gated_adaptive_range+pace_tuned"])
         values[source]["front_minus_C2"].append(front - row["C2"])
         values[source]["front_minus_C6"].append(front - row["C6"])
     return {

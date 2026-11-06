@@ -73,16 +73,19 @@ FLQ = HERE.parents[1] / "scripts/failure_atlas_v2_flq"
 if str(FLQ) not in sys.path:
     sys.path.insert(0, str(FLQ))
 
-from qsg import GRID, QSG, StartedMixture  # noqa: E402
-from simulator import QueryRequest  # noqa: E402
+from qsg import GRID, QSG, StartedMixture
+from simulator import QueryRequest
 
 LOG0 = -1e9
 
 
 def _p_edges(n_fine=100):
     # cell edges on p in [0, 1/2]; fine near 1/2 where the constrained MLE sits under alternatives
-    return np.unique(np.r_[np.linspace(0.0, 0.3, 7), np.linspace(0.3, 0.45, 16),
-                           np.linspace(0.45, 0.5, n_fine + 1)])
+    return np.unique(
+        np.r_[
+            np.linspace(0.0, 0.3, 7), np.linspace(0.3, 0.45, 16), np.linspace(0.45, 0.5, n_fine + 1)
+        ]
+    )
 
 
 def _rho_edges(n=300):
@@ -104,8 +107,17 @@ class MarkovSUI:
     (None if this is the first outcome of the whole stream), ``gap`` the event gap to it.
     """
 
-    def __init__(self, stride=10, started=True, rho_max=1.0, use_gap=True, n_rho=300, n_p=100,
-                 rho_prior=ALT_RHO_PRIOR, w_first=0.5):
+    def __init__(
+        self,
+        stride=10,
+        started=True,
+        rho_max=1.0,
+        use_gap=True,
+        n_rho=300,
+        n_p=100,
+        rho_prior=ALT_RHO_PRIOR,
+        w_first=0.5,
+    ):
         pe, re_ = _p_edges(n_p), _rho_edges(n_rho)
         re_ = re_[re_ <= rho_max + 1e-12]
         if re_[-1] < rho_max:
@@ -129,7 +141,7 @@ class MarkovSUI:
         if prev is None:
             return np.log(np.broadcast_to(self.phi if hit else 1.0 - self.plo, self.cum.shape))
         g = gap if self.use_gap else 1
-        ahi, alo = self.rhi ** g, self.rlo ** g
+        ahi, alo = self.rhi**g, self.rlo**g
         if prev == 1 and hit == 1:
             f = ahi + (1.0 - ahi) * self.phi
         elif prev == 1:
@@ -145,7 +157,7 @@ class MarkovSUI:
         if prev is None:
             f = self.ap if hit else 1.0 - self.ap
         else:
-            a = self.ar ** gap
+            a = self.ar**gap
             m = a * prev + (1.0 - a) * self.ap
             f = m if hit else 1.0 - m
         with np.errstate(divide="ignore"):
@@ -199,13 +211,14 @@ class IIDMixture(StartedMixture):
         return self.value
 
 
-def rho_mle(z: np.ndarray, t: np.ndarray, grid=np.r_[np.linspace(0, 0.9, 10), 0.95, 0.98],
-            sig=0.0):
+def rho_mle(z: np.ndarray, t: np.ndarray, grid=None, sig=0.0):
     """Gap-indexed Markov MLE of persistence from ordered outcomes (p profiled on the sample mean).
 
     ``sig > 0``: return 0 unless the MLE beats rho = 0 by more than ``sig`` nats (shrinkage)."""
     if len(z) < 2:
         return None
+    if grid is None:
+        grid = np.r_[np.linspace(0, 0.9, 10), 0.95, 0.98]
     p = float(np.clip(z.mean(), 0.02, 0.98))
     g = np.diff(t).astype(float)
     prev, cur = z[:-1], z[1:]
@@ -221,9 +234,25 @@ def rho_mle(z: np.ndarray, t: np.ndarray, grid=np.r_[np.linspace(0, 0.9, 10), 0.
 class FamA(QSG):
     """QSG skeleton with switchable evidence / density / clock mechanisms."""
 
-    def __init__(self, horizon, budget, alpha=0.05, *, rng, evidence="sui", density="front",
-                 dualclock=False, inflight=False, c_corr=0.25, min_pairs=8, fixed_gap=6,
-                 inflight_margin=2.0, sui_kw=None, rho_sig=0.0, name="A"):
+    def __init__(
+        self,
+        horizon,
+        budget,
+        alpha=0.05,
+        *,
+        rng,
+        evidence="sui",
+        density="front",
+        dualclock=False,
+        inflight=False,
+        c_corr=0.25,
+        min_pairs=8,
+        fixed_gap=6,
+        inflight_margin=2.0,
+        sui_kw=None,
+        rho_sig=0.0,
+        name="A",
+    ):
         self.evidence, self.density = evidence, density
         self.dualclock, self.inflight = dualclock, inflight
         self.c_corr, self.min_pairs, self.fixed_gap = c_corr, min_pairs, fixed_gap
@@ -234,7 +263,7 @@ class FamA(QSG):
         self.rel_z: list[int] = []
         self.rel_t: list[int] = []
         self.rho_hat = None
-        self.last_issue = -10**9
+        self.last_issue = -(10**9)
         self.n_issued = 0
         self.n_processed = 0
         self.seg_k = 0  # outcomes processed in current segment
@@ -264,7 +293,7 @@ class FamA(QSG):
             return 0
         if self.rho_hat >= 1:
             return 10**9
-        return int(math.ceil(math.log(self.c_corr) / math.log(self.rho_hat)))
+        return math.ceil(math.log(self.c_corr) / math.log(self.rho_hat))
 
     def _inflight_enough(self):
         if not self.inflight or self.seg_k < 20:
@@ -272,8 +301,10 @@ class FamA(QSG):
         pending = self.n_issued - self.n_processed
         ph = (self.seg_hits + 0.5) / (self.seg_k + 1.0)
         need = []
-        for e, side, thr in ((self.e_up, 1, 2.0 ** self.cycle / self.alpha),
-                             (self.e_dn, -1, 1.0 / self.alpha)):
+        for e, side, thr in (
+            (self.e_up, 1, 2.0**self.cycle / self.alpha),
+            (self.e_dn, -1, 1.0 / self.alpha),
+        ):
             if e is None:
                 continue
             q = ph if side > 0 else 1.0 - ph
@@ -326,7 +357,7 @@ class FamA(QSG):
                 if self.deployed == 0:
                     up = self._upd(self.e_up, +1, z, e)
                     dn = self._upd(self.e_dn, -1, z, e)
-                    if up >= 2.0 ** self.cycle / self.alpha:
+                    if up >= 2.0**self.cycle / self.alpha:
                         self.deployed, self.decided = 1, True
                         self.seg = e + 1 if self.dualclock else t
                         self.last = (z, e)
@@ -342,8 +373,9 @@ class FamA(QSG):
                     continue
             self.last = (z, e)
         if self.density == "adaptive" and len(self.rel_z) >= self.min_pairs + 1:
-            self.rho_hat = rho_mle(np.array(self.rel_z[-150:]), np.array(self.rel_t[-150:]),
-                                 sig=self.rho_sig)
+            self.rho_hat = rho_mle(
+                np.array(self.rel_z[-150:]), np.array(self.rel_t[-150:]), sig=self.rho_sig
+            )
 
     def decision_state(self):
         return f"dep={self.deployed};cycle={self.cycle};decided={self.decided}"
@@ -353,14 +385,14 @@ def _f(name, **kw):
     return lambda T, B, cs, cq, a, d, r: FamA(T, B, a, rng=r("QSG"), name=name, **kw)
 
 
-_B = dict(rho_prior=[0.7, 0.06, 0.06, 0.06, 0.06, 0.06], w_first=0.75)
+_B = {"rho_prior": [0.7, 0.06, 0.06, 0.06, 0.06, 0.06], "w_first": 0.75}
 
 EXTRA = {
     # A1: gap-aware Markov SUI evidence, no declared rho bound, QSG front-loaded acquisition
     "A1": _f("A1", evidence="sui"),
-    "A1-nogap": _f("A1-nogap", evidence="sui", sui_kw=dict(use_gap=False)),
-    "A1-rho8": _f("A1-rho8", evidence="sui", sui_kw=dict(rho_max=0.8)),
-    "A1-nostart": _f("A1-nostart", evidence="sui", sui_kw=dict(started=False)),
+    "A1-nogap": _f("A1-nogap", evidence="sui", sui_kw={"use_gap": False}),
+    "A1-rho8": _f("A1-rho8", evidence="sui", sui_kw={"rho_max": 0.8}),
+    "A1-nostart": _f("A1-nostart", evidence="sui", sui_kw={"started": False}),
     # A2: adaptive evidence density on QSG's iid evidence (not certified under dependence)
     "A2": _f("A2", evidence="iid", density="adaptive"),
     "A2-fixedgap6": _f("A2-fixedgap6", evidence="iid", density="fixedgap"),
@@ -376,8 +408,15 @@ EXTRA = {
     # round-2 dev variants (declared dev tuning on screen1; a priori values, not searched)
     "A1b": _f("A1b", evidence="sui", sui_kw=_B),
     "A5b": _f("A5b", evidence="sui", density="adaptive", rho_sig=2.0, sui_kw=_B),
-    "A6b": _f("A6b", evidence="sui", density="adaptive", rho_sig=2.0, dualclock=True,
-              inflight=True, sui_kw=_B),
+    "A6b": _f(
+        "A6b",
+        evidence="sui",
+        density="adaptive",
+        rho_sig=2.0,
+        dualclock=True,
+        inflight=True,
+        sui_kw=_B,
+    ),
     "A2b": _f("A2b", evidence="iid", density="adaptive", rho_sig=2.0),
     "A6-noinflight": _f("A6-noinflight", evidence="sui", density="adaptive", dualclock=True),
 }

@@ -45,20 +45,24 @@ Factories have the sprint signature ``f(T, B, cs, cq, alpha, delay, r) -> Policy
 from __future__ import annotations
 
 import sys
+import warnings
 from pathlib import Path
 
 import numpy as np
 
 ROOT = Path(__file__).resolve().parents[2]
-for _p in (ROOT / "scripts/failure_atlas_v2_flq", ROOT / "scripts/promising_directions/sota",
-           ROOT / "scripts/promising_directions/sota/competitors"):
+for _p in (
+    ROOT / "scripts/failure_atlas_v2_flq",
+    ROOT / "scripts/promising_directions/sota",
+    ROOT / "scripts/promising_directions/sota/competitors",
+):
     if str(_p) not in sys.path:
         sys.path.insert(0, str(_p))
 
-from certificate_stops import _Rec  # noqa: E402
-from qsg import QSG  # noqa: E402
-from simulator import QueryRequest  # noqa: E402
-from strong_hosts import DiscernStyleStop, GatedAdaptiveRange  # noqa: E402
+from certificate_stops import _Rec
+from qsg import QSG
+from simulator import QueryRequest
+from strong_hosts import DiscernStyleStop, GatedAdaptiveRange
 
 PRIOR_RATE, PRIOR_W = 0.25, 20.0  # same disagreement-rate prior as PacedDisagreementAcquisition
 
@@ -311,7 +315,7 @@ class QSGTwoStage(QSG):
         if not dis or remaining_budget <= 0:
             return QueryRequest(requested=False)
         spent = self.B - remaining_budget
-        if (not self.decided and spent < self.f * self.B and event.t < self.tau * self.T):
+        if not self.decided and spent < self.f * self.B and event.t < self.tau * self.T:
             q = 1.0
         take = bool(self.rng.random() < q)
         return QueryRequest(requested=take, probability=q if take else 0.0)
@@ -319,27 +323,30 @@ class QSGTwoStage(QSG):
 
 # =============================================================================== registry
 def _g(ctl_kw, name):
-    return lambda T, B, cs, cq, a, d, r: GatedC(T, B, a, cs, cq, d, Controller(**ctl_kw),
-                                                rng=r("gated_deployment"), name=name)
+    return lambda T, B, cs, cq, a, d, r: GatedC(
+        T, B, a, cs, cq, d, Controller(**ctl_kw), rng=r("gated_deployment"), name=name
+    )
 
 
 def _dz(ctl_kw, name, p_min=0.25):
-    return lambda T, B, cs, cq, a, d, r: DiscernC(T, B, a, cs, cq, d, Controller(**ctl_kw),
-                                                  rng=r("discern_style"), name=name, p_min=p_min)
+    return lambda T, B, cs, cq, a, d, r: DiscernC(
+        T, B, a, cs, cq, d, Controller(**ctl_kw), rng=r("discern_style"), name=name, p_min=p_min
+    )
 
 
 def _q(f, tau, name):
-    return lambda T, B, cs, cq, a, d, r: QSGTwoStage(T, B, a, rng=r("QSG"), f=f, tau=tau,
-                                                     name=name)
+    return lambda T, B, cs, cq, a, d, r: QSGTwoStage(T, B, a, rng=r("QSG"), f=f, tau=tau, name=name)
 
 
 # ---- tuned values (declared; chosen on DEV_SEED_BASE=2026110501, 20 seeds, see tuning.json)
 TUNED = {
-    "gated_pace": dict(base="frontfrac", f=1.0),  # placeholder, overwritten after tuning
-    "discern_pace": dict(base="k", k=1.0),
+    "gated_pace": {"base": "frontfrac", "f": 1.0},  # placeholder, overwritten after tuning
+    "discern_pace": {"base": "k", "k": 1.0},
     "C1_kappa": 1.0,
-    "C2_gamma": 1.0, "C2_zeta": 0.5,
-    "C3_f": 0.75, "C3_tau": 1.0,
+    "C2_gamma": 1.0,
+    "C2_zeta": 0.5,
+    "C3_f": 0.75,
+    "C3_tau": 1.0,
     "C4_k": 1.0,
     "C6_f2": 0.75,
 }
@@ -349,63 +356,85 @@ try:  # tuned values are written by the tuning step (docs/sota_sprint/family_c/t
     _tf = ROOT / "docs/sota_sprint/family_c/tuned.json"
     if _tf.exists():
         TUNED.update(_json.loads(_tf.read_text()))
-except Exception:  # pragma: no cover
-    pass
+except (OSError, _json.JSONDecodeError) as exc:  # pragma: no cover
+    warnings.warn(
+        f"Could not read optional Family C tuning file: {exc}", RuntimeWarning, stacklevel=2
+    )
 
 EXTRA: dict = {}
 
 # ---- non-uniform pacing grids (tuning) and the tuned baselines
 for _k in (1.5, 2.0, 3.0, 4.0, 6.0):
-    EXTRA[f"gated_adaptive_range+pace_k{_k:g}"] = _g(dict(base="k", k=_k),
-                                                    f"gated_adaptive_range+pace_k{_k:g}")
-    EXTRA[f"discern_design_floor+pace_k{_k:g}"] = _dz(dict(base="k", k=_k),
-                                                     f"discern_design_floor+pace_k{_k:g}")
+    EXTRA[f"gated_adaptive_range+pace_k{_k:g}"] = _g(
+        {"base": "k", "k": _k}, f"gated_adaptive_range+pace_k{_k:g}"
+    )
+    EXTRA[f"discern_design_floor+pace_k{_k:g}"] = _dz(
+        {"base": "k", "k": _k}, f"discern_design_floor+pace_k{_k:g}"
+    )
 for _f in (0.25, 0.5, 0.75):
-    EXTRA[f"gated_adaptive_range+frontfrac{_f:g}"] = _g(dict(base="frontfrac", f=_f),
-                                                       f"gated_adaptive_range+frontfrac{_f:g}")
-    EXTRA[f"discern_design_floor+frontfrac{_f:g}"] = _dz(dict(base="frontfrac", f=_f),
-                                                        f"discern_design_floor+frontfrac{_f:g}")
-EXTRA["gated_adaptive_range+pace_tuned"] = _g(TUNED["gated_pace"], "gated_adaptive_range+pace_tuned")
-EXTRA["discern_design_floor+pace_tuned"] = _dz(TUNED["discern_pace"],
-                                               "discern_design_floor+pace_tuned")
+    EXTRA[f"gated_adaptive_range+frontfrac{_f:g}"] = _g(
+        {"base": "frontfrac", "f": _f}, f"gated_adaptive_range+frontfrac{_f:g}"
+    )
+    EXTRA[f"discern_design_floor+frontfrac{_f:g}"] = _dz(
+        {"base": "frontfrac", "f": _f}, f"discern_design_floor+frontfrac{_f:g}"
+    )
+EXTRA["gated_adaptive_range+pace_tuned"] = _g(
+    TUNED["gated_pace"], "gated_adaptive_range+pace_tuned"
+)
+EXTRA["discern_design_floor+pace_tuned"] = _dz(
+    TUNED["discern_pace"], "discern_design_floor+pace_tuned"
+)
 # exact re-implementations of host acquisition (tests: must equal the host)
-EXTRA["Cchk:gated_uniform"] = _g(dict(base="uniform"), "Cchk:gated_uniform")
-EXTRA["Cchk:gated_front"] = _g(dict(base="front"), "Cchk:gated_front")
-EXTRA["Cchk:discern_uniform"] = _dz(dict(base="uniform"), "Cchk:discern_uniform")
+EXTRA["Cchk:gated_uniform"] = _g({"base": "uniform"}, "Cchk:gated_uniform")
+EXTRA["Cchk:gated_front"] = _g({"base": "front"}, "Cchk:gated_front")
+EXTRA["Cchk:discern_uniform"] = _dz({"base": "uniform"}, "Cchk:discern_uniform")
 
 _kap, _gam, _zet = TUNED["C1_kappa"], TUNED["C2_gamma"], TUNED["C2_zeta"]
 # ---- C1: front + pending-label credit
-EXTRA["C1"] = _g(dict(base="front", credit=True, kappa=_kap), "C1")
-EXTRA["C1-uniformbase"] = _g(dict(base="uniform", credit=True, kappa=_kap), "C1-uniformbase")
+EXTRA["C1"] = _g({"base": "front", "credit": True, "kappa": _kap}, "C1")
+EXTRA["C1-uniformbase"] = _g({"base": "uniform", "credit": True, "kappa": _kap}, "C1-uniformbase")
 for _kk in (1.0, 1.5, 2.0, 3.0, 4.0):
-    EXTRA[f"C1-k{_kk:g}"] = _g(dict(base="front", credit=True, kappa=_kk), f"C1-k{_kk:g}")
+    EXTRA[f"C1-k{_kk:g}"] = _g({"base": "front", "credit": True, "kappa": _kk}, f"C1-k{_kk:g}")
 # ---- C2: front + shadow price
-EXTRA["C2"] = _g(dict(base="front", shadow=True, gamma=_gam, zeta=_zet), "C2")
-EXTRA["C2-noadapt"] = _g(dict(base="front", shadow=True, gamma=0.0, zeta=_zet), "C2-noadapt")
-EXTRA["C2-floorskip"] = _g(dict(base="front", shadow=True, gamma=_gam, zeta=_zet,
-                                skip_action="floor"), "C2-floorskip")
+EXTRA["C2"] = _g({"base": "front", "shadow": True, "gamma": _gam, "zeta": _zet}, "C2")
+EXTRA["C2-noadapt"] = _g(
+    {"base": "front", "shadow": True, "gamma": 0.0, "zeta": _zet}, "C2-noadapt"
+)
+EXTRA["C2-floorskip"] = _g(
+    {"base": "front", "shadow": True, "gamma": _gam, "zeta": _zet, "skip_action": "floor"},
+    "C2-floorskip",
+)
 for _gg in (0.0, 1.0, 2.0, 3.0):
     for _zz in (0.1, 0.25, 0.5, 1.0):
-        EXTRA[f"C2-g{_gg:g}z{_zz:g}"] = _g(dict(base="front", shadow=True, gamma=_gg, zeta=_zz),
-                                           f"C2-g{_gg:g}z{_zz:g}")
+        EXTRA[f"C2-g{_gg:g}z{_zz:g}"] = _g(
+            {"base": "front", "shadow": True, "gamma": _gg, "zeta": _zz}, f"C2-g{_gg:g}z{_zz:g}"
+        )
 # ---- C3: QSG two-stage
 EXTRA["C3"] = _q(TUNED["C3_f"], TUNED["C3_tau"], "C3")
 for _f in (0.4, 0.6, 0.75, 1.0):
     for _tau in (0.3, 0.5, 1.0):
         EXTRA[f"C3-f{_f:g}t{_tau:g}"] = _q(_f, _tau, f"C3-f{_f:g}t{_tau:g}")
 # ---- C4: corrected DISCERN + verdict-horizon pacing
-EXTRA["C4"] = _dz(dict(base="verdict", k=TUNED["C4_k"], beta=TUNED.get("C4_beta")), "C4")
+EXTRA["C4"] = _dz({"base": "verdict", "k": TUNED["C4_k"], "beta": TUNED.get("C4_beta")}, "C4")
 for _kk in (0.5, 1.0, 2.0):
-    EXTRA[f"C4-k{_kk:g}"] = _dz(dict(base="verdict", k=_kk), f"C4-k{_kk:g}")
+    EXTRA[f"C4-k{_kk:g}"] = _dz({"base": "verdict", "k": _kk}, f"C4-k{_kk:g}")
 for _kk in (0.5, 1.0, 2.0):
-    EXTRA[f"C4-b0.5k{_kk:g}"] = _dz(dict(base="verdict", k=_kk, beta=0.5), f"C4-b0.5k{_kk:g}")
-EXTRA["C4-style"] = _dz(dict(base="verdict", k=TUNED["C4_k"]), "C4-style", p_min=0.05)
+    EXTRA[f"C4-b0.5k{_kk:g}"] = _dz({"base": "verdict", "k": _kk, "beta": 0.5}, f"C4-b0.5k{_kk:g}")
+EXTRA["C4-style"] = _dz({"base": "verdict", "k": TUNED["C4_k"]}, "C4-style", p_min=0.05)
 # ---- C5 = C1 + C2
-EXTRA["C5"] = _g(dict(base="front", credit=True, kappa=_kap, shadow=True, gamma=_gam,
-                      zeta=_zet), "C5")
+EXTRA["C5"] = _g(
+    {"base": "front", "credit": True, "kappa": _kap, "shadow": True, "gamma": _gam, "zeta": _zet},
+    "C5",
+)
 # ---- C6 = shadow price + two-stage + deadline-aware value (gated), and transfer to DISCERN
-_c6 = dict(base="front", shadow=True, gamma=_gam, zeta=_zet, deadline=True,
-           two_stage=TUNED["C6_f2"])
+_c6 = {
+    "base": "front",
+    "shadow": True,
+    "gamma": _gam,
+    "zeta": _zet,
+    "deadline": True,
+    "two_stage": TUNED["C6_f2"],
+}
 EXTRA["C6"] = _g(_c6, "C6")
 EXTRA["C6@discern"] = _dz(_c6, "C6@discern")
 EXTRA["C6@discern-unrecorded"] = _dz({**_c6, "skip_action": "unrecorded"}, "C6@discern-unrecorded")
@@ -420,16 +449,23 @@ for _f2 in (0.5, 0.75, 0.9):
 _GRIDS = {  # tuned key -> (policy-name prefix(es), parser of the grid point)
     "gated_pace": (("gated_adaptive_range+pace_k", "gated_adaptive_range+frontfrac"), None),
     "discern_pace": (("discern_design_floor+pace_k", "discern_design_floor+frontfrac"), None),
-    "C1": (("C1-k",), None), "C2": (("C2-g",), None), "C3": (("C3-f",), None),
-    "C4": (("C4-k", "C4-b"), None), "C6": (("C6-f",), None),
+    "C1": (("C1-k",), None),
+    "C2": (("C2-g",), None),
+    "C3": (("C3-f",), None),
+    "C4": (("C4-k", "C4-b"), None),
+    "C6": (("C6-f",), None),
 }
 
 
 _HOST_POINTS = {
-    "gated_pace": {"gated_adaptive_range": {"base": "uniform"},
-                   "gated_adaptive_range+front": {"base": "front"}},
-    "discern_pace": {"discern_design_floor": {"base": "uniform"},
-                     "discern_design_floor+front": {"base": "front"}},
+    "gated_pace": {
+        "gated_adaptive_range": {"base": "uniform"},
+        "gated_adaptive_range+front": {"base": "front"},
+    },
+    "discern_pace": {
+        "discern_design_floor": {"base": "uniform"},
+        "discern_design_floor+front": {"base": "front"},
+    },
 }
 
 
@@ -474,8 +510,10 @@ def tune(records_dir: str, out: str) -> dict:
 
     import pandas as pd
 
-    df = pd.concat([pd.read_json(Path(d) / "records.jsonl", lines=True)
-                    for d in records_dir.split(",")], ignore_index=True)
+    df = pd.concat(
+        [pd.read_json(Path(d) / "records.jsonl", lines=True) for d in records_dir.split(",")],
+        ignore_index=True,
+    )
     score = df.groupby(["policy", "regime"]).net.mean().groupby("policy").mean()
     tuned, table = {}, {}
     for key, (prefixes, _) in _GRIDS.items():
@@ -490,9 +528,14 @@ def tune(records_dir: str, out: str) -> dict:
         else:
             tuned.update(pt)
         table[key]["_selected"] = best
-    meta = {"tuned": tuned, "grid_scores_mean_net_over_regimes": table,
-            "regimes": sorted(df.regime.unique()), "seeds": int(df.seed.nunique()),
-            "seed_base": "DEV_SEED_BASE=2026110501", "source": records_dir}
+    meta = {
+        "tuned": tuned,
+        "grid_scores_mean_net_over_regimes": table,
+        "regimes": sorted(df.regime.unique()),
+        "seeds": int(df.seed.nunique()),
+        "seed_base": "DEV_SEED_BASE=2026110501",
+        "source": records_dir,
+    }
     Path(out).parent.mkdir(parents=True, exist_ok=True)
     Path(out).write_text(json.dumps(tuned, indent=1) + "\n")
     Path(out).with_name("tuning.json").write_text(json.dumps(meta, indent=1) + "\n")
@@ -500,19 +543,45 @@ def tune(records_dir: str, out: str) -> dict:
 
 
 CONTRASTS = {  # candidate -> named comparators for paired contrasts
-    "C1": {"host": "gated_adaptive_range+front", "uniform_host": "gated_adaptive_range",
-           "tuned_pacing": "gated_adaptive_range+pace_tuned", "QSG": "QSG"},
-    "C2": {"host": "gated_adaptive_range", "front": "gated_adaptive_range+front",
-           "tuned_pacing": "gated_adaptive_range+pace_tuned", "QSG": "QSG"},
+    "C1": {
+        "host": "gated_adaptive_range+front",
+        "uniform_host": "gated_adaptive_range",
+        "tuned_pacing": "gated_adaptive_range+pace_tuned",
+        "QSG": "QSG",
+    },
+    "C2": {
+        "host": "gated_adaptive_range",
+        "front": "gated_adaptive_range+front",
+        "tuned_pacing": "gated_adaptive_range+pace_tuned",
+        "QSG": "QSG",
+    },
     "C3": {"host": "QSG", "tuned_pacing": "QSG-r25", "front": "gated_adaptive_range+front"},
-    "C4": {"host": "discern_design_floor", "front": "discern_design_floor+front",
-           "tuned_pacing": "discern_design_floor+pace_tuned", "style": "discern_style"},
-    "C5": {"host": "gated_adaptive_range", "front": "gated_adaptive_range+front",
-           "tuned_pacing": "gated_adaptive_range+pace_tuned", "C2": "C2", "QSG": "QSG"},
-    "C6": {"host": "gated_adaptive_range", "front": "gated_adaptive_range+front",
-           "tuned_pacing": "gated_adaptive_range+pace_tuned", "C2": "C2", "QSG": "QSG"},
-    "C6@discern": {"host": "discern_design_floor", "front": "discern_design_floor+front",
-                   "tuned_pacing": "discern_design_floor+pace_tuned", "C4": "C4"},
+    "C4": {
+        "host": "discern_design_floor",
+        "front": "discern_design_floor+front",
+        "tuned_pacing": "discern_design_floor+pace_tuned",
+        "style": "discern_style",
+    },
+    "C5": {
+        "host": "gated_adaptive_range",
+        "front": "gated_adaptive_range+front",
+        "tuned_pacing": "gated_adaptive_range+pace_tuned",
+        "C2": "C2",
+        "QSG": "QSG",
+    },
+    "C6": {
+        "host": "gated_adaptive_range",
+        "front": "gated_adaptive_range+front",
+        "tuned_pacing": "gated_adaptive_range+pace_tuned",
+        "C2": "C2",
+        "QSG": "QSG",
+    },
+    "C6@discern": {
+        "host": "discern_design_floor",
+        "front": "discern_design_floor+front",
+        "tuned_pacing": "discern_design_floor+pace_tuned",
+        "C4": "C4",
+    },
 }
 ABLATIONS = {
     "C1": ["C1-k1", "C1-k1.5", "C1-k2", "C1-uniformbase"],
@@ -534,8 +603,10 @@ def report(dirs: str, out: str) -> dict:
     sys.path.insert(0, str(Path(__file__).resolve().parent))
     from bench import CERTIFIED_PUBLISHED
 
-    df = pd.concat([pd.read_json(Path(d) / "records.jsonl", lines=True)
-                    for d in dirs.split(",")], ignore_index=True)
+    df = pd.concat(
+        [pd.read_json(Path(d) / "records.jsonl", lines=True) for d in dirs.split(",")],
+        ignore_index=True,
+    )
     df = df.drop_duplicates(["regime", "ep", "seed", "policy"])
     piv = df.pivot_table(index=["regime", "ep", "seed"], columns="policy", values="net")
 
@@ -547,8 +618,12 @@ def report(dirs: str, out: str) -> dict:
         if len(d) < 2:
             return None
         se = d.std(ddof=1) / np.sqrt(len(d))
-        return [round(float(d.mean()), 2), round(float(d.mean() - 1.96 * se), 2),
-                round(float(d.mean() + 1.96 * se), 2), int(len(d))]
+        return [
+            round(float(d.mean()), 2),
+            round(float(d.mean() - 1.96 * se), 2),
+            round(float(d.mean() + 1.96 * se), 2),
+            len(d),
+        ]
 
     regs = sorted(df.regime.unique())
     means = df.groupby(["regime", "policy"]).net.mean()
@@ -567,14 +642,19 @@ def report(dirs: str, out: str) -> dict:
             r["by_regime"][reg] = cell
             g = df[(df.regime == reg) & (df.policy == c)]
             r["diagnostics"][reg] = {
-                "net": round(float(g.net.mean()), 2), "promote": round(float(g.ever_promote.mean()), 3),
+                "net": round(float(g.net.mean()), 2),
+                "promote": round(float(g.ever_promote.mean()), 3),
                 "labels": round(float(g.labels.mean()), 1),
                 "labels_by_500": round(float(g.labels_by_500.mean()), 1),
                 "labels_after_1000": round(float(g.labels_after_1000.mean()), 1),
                 "exhaust_t": round(float(g.exhaust_t.mean()), 0),
                 "max_pending": round(float(g.max_pending.mean()), 1),
-                "first_deploy_median": (float(g.first_deploy[g.first_deploy >= 0].median())
-                                        if (g.first_deploy >= 0).any() else -1)}
+                "first_deploy_median": (
+                    float(g.first_deploy[g.first_deploy >= 0].median())
+                    if (g.first_deploy >= 0).any()
+                    else -1
+                ),
+            }
         for a in ABLATIONS.get(c, []):
             r["ablations"][a] = pc(c, a)
         res[c] = r
@@ -591,5 +671,14 @@ if __name__ == "__main__":
             print(c, json.dumps(v["pooled"]), json.dumps(v["ablations"]))
 
     if len(sys.argv) >= 3 and sys.argv[1] == "tune":
-        print(json.dumps(tune(sys.argv[2], sys.argv[3] if len(sys.argv) > 3
-                              else str(ROOT / "docs/sota_sprint/family_c/tuned.json")), indent=1))
+        print(
+            json.dumps(
+                tune(
+                    sys.argv[2],
+                    sys.argv[3]
+                    if len(sys.argv) > 3
+                    else str(ROOT / "docs/sota_sprint/family_c/tuned.json"),
+                ),
+                indent=1,
+            )
+        )

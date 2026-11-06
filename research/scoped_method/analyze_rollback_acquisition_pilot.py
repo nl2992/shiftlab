@@ -1,4 +1,5 @@
 """Summarize paired development-only rollback/acquisition pilot screen records."""
+
 from __future__ import annotations
 
 import argparse
@@ -9,16 +10,32 @@ from pathlib import Path
 import numpy as np
 from scipy.stats import t as student_t
 
-
 METRICS = (
-    "net", "loss", "labels", "switches", "ever_promote", "first_deploy",
-    "n_promotions", "n_rollbacks", "frac_on_wrong", "detect_delay",
-    "labels_by_500", "labels_after_1000", "exhaust_t",
+    "net",
+    "loss",
+    "labels",
+    "switches",
+    "ever_promote",
+    "first_deploy",
+    "n_promotions",
+    "n_rollbacks",
+    "frac_on_wrong",
+    "detect_delay",
+    "labels_by_500",
+    "labels_after_1000",
+    "exhaust_t",
 )
 POLICIES = (
-    "E_rb:gated_deployment", "E_rb:gated_deployment-a05", "E_srr:gated_deployment",
-    "E_srrSR:gated_deployment", "E_srr_noacq:gated_deployment", "B0_host", "B2", "B5",
-    "gated_deployment", "CONTROL_never_switch",
+    "E_rb:gated_deployment",
+    "E_rb:gated_deployment-a05",
+    "E_srr:gated_deployment",
+    "E_srrSR:gated_deployment",
+    "E_srr_noacq:gated_deployment",
+    "B0_host",
+    "B2",
+    "B5",
+    "gated_deployment",
+    "CONTROL_never_switch",
 )
 CONTRASTS = (
     ("E_rb:gated_deployment", "E_rb:gated_deployment-a05"),
@@ -78,23 +95,38 @@ def main() -> None:
     for candidate, comparator in CONTRASTS:
         entry: dict[str, object] = {}
         for regime in regimes:
-            diffs = np.array([
-                keys[(regime, seed, candidate)]["net"]
-                - keys[(regime, seed, comparator)]["net"]
-                for seed in seeds
-            ])
+            diffs = np.array(
+                [
+                    keys[(regime, seed, candidate)]["net"] - keys[(regime, seed, comparator)]["net"]
+                    for seed in seeds
+                ]
+            )
             m, lo, hi = mean_ci(diffs)
-            entry[regime] = {"mean_delta_net": m, "ci95_low": lo, "ci95_high": hi,
-                             "paired_n": int(diffs.size)}
+            entry[regime] = {
+                "mean_delta_net": m,
+                "ci95_low": lo,
+                "ci95_high": hi,
+                "paired_n": int(diffs.size),
+            }
         summary["paired_net_contrasts_candidate_minus_comparator"][
             f"{candidate} - {comparator}"
         ] = entry
     args.out.parent.mkdir(parents=True, exist_ok=True)
     args.out.write_text(json.dumps(summary, indent=2, sort_keys=True) + "\n")
-    print(json.dumps({"out": str(args.out), "records_sha256": summary["records_sha256"],
-                      "record_count": len(rows), "regimes": regimes,
-                      "exactly_equal_B2_and_E_rb_on_common_seed_regime":
-                          summary["exactly_equal_B2_and_E_rb_on_common_seed_regime"]}, indent=2))
+    print(
+        json.dumps(
+            {
+                "out": str(args.out),
+                "records_sha256": summary["records_sha256"],
+                "record_count": len(rows),
+                "regimes": regimes,
+                "exactly_equal_B2_and_E_rb_on_common_seed_regime": summary[
+                    "exactly_equal_B2_and_E_rb_on_common_seed_regime"
+                ],
+            },
+            indent=2,
+        )
+    )
 
 
 if __name__ == "__main__":

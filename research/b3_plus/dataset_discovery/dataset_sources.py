@@ -123,7 +123,7 @@ def download_direct(dataset_id: str) -> Path:
     spec = DIRECT[dataset_id]
     dest = raw_dir(dataset_id) / spec["filename"]
     if not dest.exists():
-        with urllib.request.urlopen(spec["url"], timeout=120) as r:  # noqa: S310 - fixed https host
+        with urllib.request.urlopen(spec["url"], timeout=120) as r:
             data = r.read()
         if not zipfile.is_zipfile(io.BytesIO(data)):
             raise RuntimeError(f"{spec['url']} did not return a zip archive")
@@ -135,7 +135,7 @@ def download_direct(dataset_id: str) -> Path:
 def openml_find(name: str) -> list[dict]:
     """Search OpenML by dataset name (active datasets only); returns did, name, version, rows."""
     url = f"https://www.openml.org/api/v1/json/data/list/data_name/{name}/status/active"
-    with urllib.request.urlopen(url, timeout=60) as r:  # noqa: S310 - fixed https host
+    with urllib.request.urlopen(url, timeout=60) as r:
         d = json.load(r)
     out = []
     for e in d.get("data", {}).get("dataset", []):
@@ -232,7 +232,7 @@ def _read_kdd_subset(dataset_id: str) -> RawStream:
 
 def _read_openml(dataset_id: str, did: int, opts: dict | None = None) -> RawStream:
     opts = opts or {}
-    frame, targets, bunch = _openml_frame(dataset_id, did)
+    frame, targets, _bunch = _openml_frame(dataset_id, did)
     tgt = targets[0]
     y = frame[tgt].to_numpy()
     X = frame.drop(columns=targets).reset_index(drop=True)
@@ -257,15 +257,22 @@ def _read_occupancy(dataset_id: str) -> RawStream:
     tt = (t - pd.Timestamp("1970-01-01")).dt.total_seconds().to_numpy(dtype=float)
     y = df["Occupancy"].to_numpy()
     X = df.drop(columns=["date", "Occupancy", "source_file"])
-    return RawStream(dataset_id, X, y, time=tt, time_name="date",
-                     meta={"files_concatenated_in_this_order": ["datatraining", "datatest", "datatest2"]})
+    return RawStream(
+        dataset_id,
+        X,
+        y,
+        time=tt,
+        time_name="date",
+        meta={"files_concatenated_in_this_order": ["datatraining", "datatest", "datatest2"]},
+    )
 
 
 def _read_sms(dataset_id: str) -> RawStream:
     p = Path(river_dataset(dataset_id).path)
     df = pd.read_csv(p, sep="\t", header=None, names=["y", "text"], quoting=3)
-    return RawStream(dataset_id, df["text"].to_numpy(dtype=object), df["y"].to_numpy(),
-                     meta={"kind": "text"})
+    return RawStream(
+        dataset_id, df["text"].to_numpy(dtype=object), df["y"].to_numpy(), meta={"kind": "text"}
+    )
 
 
 def _read_phishing(dataset_id: str) -> RawStream:

@@ -39,8 +39,9 @@ def boot_ci(x, rng, n=4000):
 def table(rows, unit_key=("episode", "seed")):
     by = defaultdict(lambda: defaultdict(dict))
     for r in rows:
-        by[r["source"]][r["policy"]][(r["episode"], r["seed"]) if r["kind"] == "real"
-                                     else r["seed"]] = r
+        by[r["source"]][r["policy"]][
+            (r["episode"], r["seed"]) if r["kind"] == "real" else r["seed"]
+        ] = r
     return by
 
 
@@ -59,14 +60,30 @@ def main(argv=None):
         kind = next(iter(next(iter(pols.values())).values()))["kind"]
         ent = {"kind": kind, "n_units": len(keys), "policies": {}}
         for p, recs in pols.items():
-            M = {k: np.array([recs[u][k] for u in keys], float) for k in
-                 ("net", "loss", "labels", "switches", "first_deploy", "final", "ever_promote",
-                  "frac_on_wrong", "label_mean_t", "labels_by_500", "exhaust_t",
-                  "regret_hindsight", "regret_expected_oracle")}
+            M = {
+                k: np.array([recs[u][k] for u in keys], float)
+                for k in (
+                    "net",
+                    "loss",
+                    "labels",
+                    "switches",
+                    "first_deploy",
+                    "final",
+                    "ever_promote",
+                    "frac_on_wrong",
+                    "label_mean_t",
+                    "labels_by_500",
+                    "exhaust_t",
+                    "regret_hindsight",
+                    "regret_expected_oracle",
+                )
+            }
             fd = M["first_deploy"]
             ent["policies"][p] = {
-                "net": float(M["net"].mean()), "loss": float(M["loss"].mean()),
-                "labels": float(M["labels"].mean()), "switches": float(M["switches"].mean()),
+                "net": float(M["net"].mean()),
+                "loss": float(M["loss"].mean()),
+                "labels": float(M["labels"].mean()),
+                "switches": float(M["switches"].mean()),
                 "ever_promote": float(M["ever_promote"].mean()),
                 "final_challenger": float(M["final"].mean()),
                 "median_first_deploy": float(np.median(fd[fd >= 0])) if (fd >= 0).any() else None,
@@ -94,14 +111,18 @@ def main(argv=None):
     out.write_text(json.dumps(summary, indent=2))
     # compact print
     for src, ent in summary.items():
-        print(f"\n== {src} ({ent['kind']}, n={ent['n_units']}) best published: {ent['best_published']}")
+        print(
+            f"\n== {src} ({ent['kind']}, n={ent['n_units']}) best published: {ent['best_published']}"
+        )
         for p, s in sorted(ent["policies"].items(), key=lambda kv: kv[1]["net"]):
             g = s["gap_to_best_published"]
-            print(f"  {p:24s} net={s['net']:8.2f} gap={g['mean']:+7.2f} [{g['lo']:+6.2f},{g['hi']:+6.2f}]"
-                  f" lab={s['labels']:5.1f} sw={s['switches']:4.2f} prom={s['ever_promote']:.2f}"
-                  f" fin1={s['final_challenger']:.2f} t1={s['median_first_deploy']}"
-                  f" wrong={s['frac_on_wrong']:.2f} regE={s['regret_expected_oracle']:7.2f}"
-                  f" lab500={s['labels_by_500']:5.1f}")
+            print(
+                f"  {p:24s} net={s['net']:8.2f} gap={g['mean']:+7.2f} [{g['lo']:+6.2f},{g['hi']:+6.2f}]"
+                f" lab={s['labels']:5.1f} sw={s['switches']:4.2f} prom={s['ever_promote']:.2f}"
+                f" fin1={s['final_challenger']:.2f} t1={s['median_first_deploy']}"
+                f" wrong={s['frac_on_wrong']:.2f} regE={s['regret_expected_oracle']:7.2f}"
+                f" lab500={s['labels_by_500']:5.1f}"
+            )
 
 
 if __name__ == "__main__":

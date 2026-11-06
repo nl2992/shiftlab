@@ -11,15 +11,23 @@ import pytest
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "scripts/sota_sprint"))
 
-import screen  # noqa: E402  (sets up all paths)
-from bench import parse_regime  # noqa: E402
-from simulator import Event, check_budget_feasible, check_no_future_access, run_episode  # noqa: E402
-from suite import stream_from_losses  # noqa: E402
+import fam_c
+import screen
+from bench import parse_regime
+from simulator import Event, check_budget_feasible, check_no_future_access, run_episode
+from suite import stream_from_losses
 
-import fam_c  # noqa: E402
-
-CANDS = ["C1", "C2", "C3", "C4", "C5", "C6", "C6@discern", "gated_adaptive_range+pace_tuned",
-         "discern_design_floor+pace_tuned"]
+CANDS = [
+    "C1",
+    "C2",
+    "C3",
+    "C4",
+    "C5",
+    "C6",
+    "C6@discern",
+    "gated_adaptive_range+pace_tuned",
+    "discern_design_floor+pace_tuned",
+]
 
 
 def _make(name, T=2000, B=200, delay=100, seed=0):
@@ -40,15 +48,23 @@ def _stream(regime, seed):
 def test_budget_respected(name, budget):
     preds, labels, delay = _stream("F9_highdis_better", 3)
     pol = _make(name, B=budget, delay=delay)
-    res = run_episode(pol, model_predictions=preds, labels=labels, delay=delay, budget=budget,
-                      label_price=0.05, switch_cost=5.0)
+    res = run_episode(
+        pol,
+        model_predictions=preds,
+        labels=labels,
+        delay=delay,
+        budget=budget,
+        label_price=0.05,
+        switch_cost=5.0,
+    )
     assert res.requested_labels <= budget
     assert not check_budget_feasible(res, budget)
     assert not check_no_future_access(res, delay)
 
 
-@pytest.mark.parametrize("name", ["C1", "C2", "C5", "C6", "gated_adaptive_range+pace_tuned",
-                                  "C4", "C6@discern"])
+@pytest.mark.parametrize(
+    "name", ["C1", "C2", "C5", "C6", "gated_adaptive_range+pace_tuned", "C4", "C6@discern"]
+)
 def test_issue_time_propensity_used(name):
     """The CS ingests w = 1/q_issue for every queried event; gated also uses wmax = 1/q_issue."""
     preds, labels, delay = _stream("F0_better", 5)
@@ -62,8 +78,15 @@ def test_issue_time_propensity_used(name):
         orig(w, d, ref)
 
     pol._ingest = spy
-    run_episode(pol, model_predictions=preds, labels=labels, delay=delay, budget=200,
-                label_price=0.05, switch_cost=5.0)
+    run_episode(
+        pol,
+        model_predictions=preds,
+        labels=labels,
+        delay=delay,
+        budget=200,
+        label_price=0.05,
+        switch_cost=5.0,
+    )
     queried = [(ref, w, wm) for ref, w, wm in seen if ref in pol.c_issue_q]
     assert queried, "no queried increment was ingested"
     for ref, w, wm in queried:
@@ -91,21 +114,33 @@ def test_gated_controller_sets_range_before_query_draw_and_flush():
     assert pol.cs.minus.wmax == 4.0
 
 
-@pytest.mark.parametrize("mine,host", [("Cchk:gated_front", "gated_adaptive_range+front"),
-                                       ("Cchk:gated_uniform", "gated_adaptive_range"),
-                                       ("Cchk:discern_uniform", "discern_design_floor")])
+@pytest.mark.parametrize(
+    "mine,host",
+    [
+        ("Cchk:gated_front", "gated_adaptive_range+front"),
+        ("Cchk:gated_uniform", "gated_adaptive_range"),
+        ("Cchk:discern_uniform", "discern_design_floor"),
+    ],
+)
 def test_controller_reproduces_host(mine, host):
     from registry import EXTRA
 
     preds, labels, delay = _stream("F0_better", 11)
     out = []
     for nm in (mine, host):
-        pol = EXTRA[nm](2000, 200, 5.0, 0.05, 0.05, delay,
-                        lambda x: __import__("simulator").policy_rng(3, 0, x))
-        res = run_episode(pol, model_predictions=preds, labels=labels, delay=delay, budget=200,
-                          label_price=0.05, switch_cost=5.0)
-        out.append((res.net_cost, res.requested_labels,
-                    [r["deployed_model"] for r in res.records]))
+        pol = EXTRA[nm](
+            2000, 200, 5.0, 0.05, 0.05, delay, lambda x: __import__("simulator").policy_rng(3, 0, x)
+        )
+        res = run_episode(
+            pol,
+            model_predictions=preds,
+            labels=labels,
+            delay=delay,
+            budget=200,
+            label_price=0.05,
+            switch_cost=5.0,
+        )
+        out.append((res.net_cost, res.requested_labels, [r["deployed_model"] for r in res.records]))
     assert out[0] == out[1]
 
 

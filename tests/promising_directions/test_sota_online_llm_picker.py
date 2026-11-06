@@ -55,11 +55,20 @@ def test_eta_floor_saturates_before_any_annotation_so_early_rounds_query_everyth
         assert q == 1.0
     # once annotations arrive and Vhat > 0, the floor falls back below 1
     from simulator import ReleasedFeedback
+
     for i in range(40):
-        p.observe([ReleasedFeedback(
-            event_id=i, t_requested=i, t_released=i + 1, label=0,
-            model_losses=np.array([0, 1], dtype=np.int8), query_probability=0.5,
-        )])
+        p.observe(
+            [
+                ReleasedFeedback(
+                    event_id=i,
+                    t_requested=i,
+                    t_released=i + 1,
+                    label=0,
+                    model_losses=np.array([0, 1], dtype=np.int8),
+                    query_probability=0.5,
+                )
+            ]
+        )
     assert p.eta(1000) < 1.0
 
 
@@ -74,8 +83,13 @@ def test_budget_is_front_loaded_under_the_cap():
     preds, labels = _stream(T=600, seed=8)
     p = mk(seed=8)
     res = run_episode(
-        p, model_predictions=preds, labels=labels, delay=5, budget=25,
-        label_price=0.05, switch_cost=5.0,
+        p,
+        model_predictions=preds,
+        labels=labels,
+        delay=5,
+        budget=25,
+        label_price=0.05,
+        switch_cost=5.0,
     )
     bought = [r["event_id"] for r in res.records if r["requested"]]
     assert len(bought) == 25
@@ -117,8 +131,12 @@ def test_importance_weight_uses_issue_time_propensity():
 
     p = mk()
     fb = ReleasedFeedback(
-        event_id=0, t_requested=0, t_released=1, label=0,
-        model_losses=np.array([0, 1], dtype=np.int8), query_probability=0.25,
+        event_id=0,
+        t_requested=0,
+        t_released=1,
+        label=0,
+        model_losses=np.array([0, 1], dtype=np.int8),
+        query_probability=0.25,
     )
     p.observe([fb])
     assert p.Lhat == pytest.approx(np.array([0.0, 4.0]))  # 1 / 0.25
@@ -129,8 +147,12 @@ def test_observe_rejects_non_positive_propensity():
 
     p = mk()
     bad = ReleasedFeedback(
-        event_id=0, t_requested=0, t_released=1, label=0,
-        model_losses=np.array([0, 1], dtype=np.int8), query_probability=0.0,
+        event_id=0,
+        t_requested=0,
+        t_released=1,
+        label=0,
+        model_losses=np.array([0, 1], dtype=np.int8),
+        query_probability=0.0,
     )
     with pytest.raises(ValueError, match="non-positive issue-time propensity"):
         p.observe([bad])
@@ -148,8 +170,13 @@ def test_hard_budget_holds_pathwise_through_the_simulator():
     preds, labels = _stream()
     p = mk(seed=5)
     res = run_episode(
-        p, model_predictions=preds, labels=labels, delay=5, budget=30,
-        label_price=0.05, switch_cost=5.0,
+        p,
+        model_predictions=preds,
+        labels=labels,
+        delay=5,
+        budget=30,
+        label_price=0.05,
+        switch_cost=5.0,
     )
     assert check_budget_feasible(res, 30) == []
     assert res.requested_labels <= 30
@@ -159,12 +186,22 @@ def test_uncapped_variant_exceeds_the_cap_showing_the_cap_is_an_adapter():
     """The published budget is an expected proportion; our cap is an imposed adapter."""
     preds, labels = _stream(seed=2)
     capped = run_episode(
-        mk(seed=7), model_predictions=preds, labels=labels, delay=5, budget=20,
-        label_price=0.05, switch_cost=5.0,
+        mk(seed=7),
+        model_predictions=preds,
+        labels=labels,
+        delay=5,
+        budget=20,
+        label_price=0.05,
+        switch_cost=5.0,
     )
     uncapped = run_episode(
-        mk(seed=7, enforce_cap=False), model_predictions=preds, labels=labels, delay=5,
-        budget=10**6, label_price=0.05, switch_cost=5.0,
+        mk(seed=7, enforce_cap=False),
+        model_predictions=preds,
+        labels=labels,
+        delay=5,
+        budget=10**6,
+        label_price=0.05,
+        switch_cost=5.0,
     )
     assert capped.requested_labels <= 20
     assert uncapped.requested_labels > 20  # the cap genuinely binds
@@ -173,12 +210,22 @@ def test_uncapped_variant_exceeds_the_cap_showing_the_cap_is_an_adapter():
 def test_determinism_same_seed_same_trajectory():
     preds, labels = _stream(seed=4)
     a = run_episode(
-        mk(seed=9), model_predictions=preds, labels=labels, delay=3, budget=40,
-        label_price=0.05, switch_cost=5.0,
+        mk(seed=9),
+        model_predictions=preds,
+        labels=labels,
+        delay=3,
+        budget=40,
+        label_price=0.05,
+        switch_cost=5.0,
     )
     b = run_episode(
-        mk(seed=9), model_predictions=preds, labels=labels, delay=3, budget=40,
-        label_price=0.05, switch_cost=5.0,
+        mk(seed=9),
+        model_predictions=preds,
+        labels=labels,
+        delay=3,
+        budget=40,
+        label_price=0.05,
+        switch_cost=5.0,
     )
     assert a.net_cost == b.net_cost
     assert a.requested_labels == b.requested_labels

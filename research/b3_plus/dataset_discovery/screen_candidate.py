@@ -27,14 +27,13 @@ HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
 sys.path.insert(0, str(HERE.parents[2] / "scripts/promising_directions"))
 
-import b3_plus_analysis as ana  # noqa: E402
-import b3_plus_experiments as exp  # noqa: E402
-import construct_model_pairs as cmp  # noqa: E402
-import dataset_sources as ds  # noqa: E402
-import registry as reg  # noqa: E402
-import validate_stream as vs  # noqa: E402
-
-from b3_plus_policy import run_plus_policies  # noqa: E402
+import b3_plus_analysis as ana
+import b3_plus_experiments as exp
+import construct_model_pairs as cmp
+import dataset_sources as ds
+import registry as reg
+import validate_stream as vs
+from b3_plus_policy import run_plus_policies
 
 base = exp.base
 b1 = base.b1
@@ -149,7 +148,11 @@ def summarise(rows: list[dict], delay: int) -> dict:
     }
     mech = {
         key: {
-            f: float(np.mean([r["mechanism"][key][f] for r in rows if r["mechanism"][key][f] is not None]))
+            f: float(
+                np.mean(
+                    [r["mechanism"][key][f] for r in rows if r["mechanism"][key][f] is not None]
+                )
+            )
             if any(r["mechanism"][key][f] is not None for r in rows)
             else None
             for f in rows[0]["mechanism"][key]
@@ -158,9 +161,32 @@ def summarise(rows: list[dict], delay: int) -> dict:
     }
     # decomposition of P7s - P3b (per event, averaged over episodes)
     dec = {
-        "d_loss": float(np.mean([r["variants"]["P7s"]["mean_loss"] - r["variants"]["P3b"]["mean_loss"] for r in rows])),
-        "d_label_cost": float(CQ * np.mean([r["variants"]["P7s"]["mean_labels"] - r["variants"]["P3b"]["mean_labels"] for r in rows])),
-        "d_switch_cost": float(CS * np.mean([r["variants"]["P7s"]["mean_switches"] - r["variants"]["P3b"]["mean_switches"] for r in rows])),
+        "d_loss": float(
+            np.mean(
+                [
+                    r["variants"]["P7s"]["mean_loss"] - r["variants"]["P3b"]["mean_loss"]
+                    for r in rows
+                ]
+            )
+        ),
+        "d_label_cost": float(
+            CQ
+            * np.mean(
+                [
+                    r["variants"]["P7s"]["mean_labels"] - r["variants"]["P3b"]["mean_labels"]
+                    for r in rows
+                ]
+            )
+        ),
+        "d_switch_cost": float(
+            CS
+            * np.mean(
+                [
+                    r["variants"]["P7s"]["mean_switches"] - r["variants"]["P3b"]["mean_switches"]
+                    for r in rows
+                ]
+            )
+        ),
     }
     budget_ok = all(diag[v]["max_queries_any_episode_seed"] <= BUDGET for v in VARIANTS)
     finite = all(np.isfinite(per_ep[v]).all() for v in VARIANTS)
@@ -175,7 +201,14 @@ def summarise(rows: list[dict], delay: int) -> dict:
     return {
         "episodes": k,
         "delay": delay,
-        "config": {"T": T_EP, "budget": BUDGET, "cq": CQ, "cs": CS, "n_seeds": N_SEEDS, "seed_base": SEED_BASE},
+        "config": {
+            "T": T_EP,
+            "budget": BUDGET,
+            "cq": CQ,
+            "cs": CS,
+            "n_seeds": N_SEEDS,
+            "seed_base": SEED_BASE,
+        },
         "mean_cost": mean,
         "paired": paired,
         "diagnostics": diag,
@@ -265,13 +298,28 @@ def _finish(registry, entry, out_dir, status, reason, extra=None, reg_path=reg.R
         entry["screening"] = extra
     out_dir.mkdir(parents=True, exist_ok=True)
     (out_dir / "status.json").write_text(
-        json.dumps(jsonable({"dataset_id": entry["dataset_id"], "status": status, "reason": reason,
-                             "timestamps": entry["timestamps"], "screening": extra}), indent=2),
+        json.dumps(
+            jsonable(
+                {
+                    "dataset_id": entry["dataset_id"],
+                    "status": status,
+                    "reason": reason,
+                    "timestamps": entry["timestamps"],
+                    "screening": extra,
+                }
+            ),
+            indent=2,
+        ),
         encoding="utf-8",
     )
     if reg_path is not None:
         reg.save(registry, reg_path)
-    return {"dataset_id": entry["dataset_id"], "status": status, "reason": reason, "screening": extra}
+    return {
+        "dataset_id": entry["dataset_id"],
+        "status": status,
+        "reason": reason,
+        "screening": extra,
+    }
 
 
 def screen(
@@ -290,31 +338,56 @@ def screen(
     """Run the full screening for one dataset. ``raw`` may be injected (tests); else loaded."""
     registry = registry if registry is not None else reg.load(reg_path)
     entry = reg.get(registry, dataset_id)
-    save_path = None if max_episodes is not None else reg_path  # debug runs never touch the registry
+    save_path = (
+        None if max_episodes is not None else reg_path
+    )  # debug runs never touch the registry
     out_dir = out_root / dataset_id / ("_debug" if max_episodes is not None else "")
     out_dir.mkdir(parents=True, exist_ok=True)
     delay = reg.declared_delay(entry)  # raises unless declared with justification
     family = entry["family"]
     if family in reg.EXPOSED_FAMILIES:
-        return _finish(registry, entry, out_dir, "USELESS_DUPLICATE",
-                       f"family '{family}' already in the programme: {reg.EXPOSED_FAMILIES[family]}",
-                       reg_path=save_path)
-    if any(e["family"] == family and e["status"] == "SUCCESS" and e["dataset_id"] != dataset_id
-           for e in registry["candidates"]):
-        return _finish(registry, entry, out_dir, "USELESS_DUPLICATE",
-                       f"another variant of '{family}' is already a SUCCESS case", reg_path=save_path)
+        return _finish(
+            registry,
+            entry,
+            out_dir,
+            "USELESS_DUPLICATE",
+            f"family '{family}' already in the programme: {reg.EXPOSED_FAMILIES[family]}",
+            reg_path=save_path,
+        )
+    if any(
+        e["family"] == family and e["status"] == "SUCCESS" and e["dataset_id"] != dataset_id
+        for e in registry["candidates"]
+    ):
+        return _finish(
+            registry,
+            entry,
+            out_dir,
+            "USELESS_DUPLICATE",
+            f"another variant of '{family}' is already a SUCCESS case",
+            reg_path=save_path,
+        )
     # ---- load + validate -------------------------------------------------------------------
     if raw is None:
-        raw = ds.load(dataset_id, openml_did=entry.get("openml_did"), opts=entry.get("load_options"))
+        raw = ds.load(
+            dataset_id, openml_did=entry.get("openml_did"), opts=entry.get("load_options")
+        )
     reg.stamp(entry, "loaded_at_utc")
     report = vs.validate(raw, entry)
     reg.stamp(entry, "validated_at_utc")
     order = report.pop("_order", None)
-    (out_dir / "validation.json").write_text(json.dumps(jsonable(report), indent=2), encoding="utf-8")
+    (out_dir / "validation.json").write_text(
+        json.dumps(jsonable(report), indent=2), encoding="utf-8"
+    )
     if not report["ok"]:
-        return _finish(registry, entry, out_dir, report["status"], report["reason"],
-                       {"stage": "validation", "validation_verdict": report["order"]["verdict"]},
-                       reg_path=save_path)
+        return _finish(
+            registry,
+            entry,
+            out_dir,
+            report["status"],
+            report["reason"],
+            {"stage": "validation", "validation_verdict": report["order"]["verdict"]},
+            reg_path=save_path,
+        )
     # ---- order, binarise, select pair on rows [0, 60%) only ---------------------------------
     n = raw.n
     w = cmp.windows(n)
@@ -322,8 +395,15 @@ def screen(
     x_all = vs.take(raw.X, order)
     y01, bin_info = cmp.binarise(y_all, w["n30"])
     if bin_info["rule"] == "degenerate_single_class":
-        return _finish(registry, entry, out_dir, "USELESS_DATA_QUALITY",
-                       "single class in the training window", {"stage": "binarise"}, reg_path=save_path)
+        return _finish(
+            registry,
+            entry,
+            out_dir,
+            "USELESS_DATA_QUALITY",
+            "single class in the training window",
+            {"stage": "binarise"},
+            reg_path=save_path,
+        )
     x60 = x_all[: w["n60"]] if isinstance(x_all, np.ndarray) else x_all.iloc[: w["n60"]]
     sel = cmp.select_pair(x60, y01[: w["n60"]], w, T_EP, CS)
     reg.stamp(entry, "pair_selected_at_utc")
@@ -348,13 +428,22 @@ def screen(
             for t in sel["tried"]
         )
         head["last_option_dev"] = last
-        return _finish(registry, entry, out_dir, "USELESS_NO_HEADROOM",
-                       "dev-window headroom precheck failed, locked window never read: " + why,
-                       {**head, "binarisation_rule": bin_info["rule"]}, reg_path=save_path)
+        return _finish(
+            registry,
+            entry,
+            out_dir,
+            "USELESS_NO_HEADROOM",
+            "dev-window headroom precheck failed, locked window never read: " + why,
+            {**head, "binarisation_rule": bin_info["rule"]},
+            reg_path=save_path,
+        )
     # ---- locked window ------------------------------------------------------------------
     # The delay was declared (and stamped) at registration, strictly before this point.
     reg.stamp(entry, "locked_window_read_at_utc")
-    if entry["declared_delay"]["declared_at_utc"] > entry["timestamps"]["locked_window_read_at_utc"]:
+    if (
+        entry["declared_delay"]["declared_at_utc"]
+        > entry["timestamps"]["locked_window_read_at_utc"]
+    ):
         raise RuntimeError("delay declared after the locked window was read")
     starts = cmp.episode_starts(n)
     if max_episodes is not None:
@@ -408,16 +497,29 @@ def screen(
         json.dumps(jsonable(provenance(entry, argv)), indent=2), encoding="utf-8"
     )
     reg.stamp(entry, "evaluated_at_utc")
-    return _finish(registry, entry, out_dir, status, reason,
-                   {"stage": "evaluated", "mean_cost": summary["mean_cost"],
-                    "paired": summary["paired"], "episodes": summary["episodes"],
-                    "low_power": summary["low_power"]}, reg_path=save_path)
+    return _finish(
+        registry,
+        entry,
+        out_dir,
+        status,
+        reason,
+        {
+            "stage": "evaluated",
+            "mean_cost": summary["mean_cost"],
+            "paired": summary["paired"],
+            "episodes": summary["episodes"],
+            "low_power": summary["low_power"],
+        },
+        reg_path=save_path,
+    )
 
 
 def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("dataset_id")
-    ap.add_argument("--max-episodes", type=int, default=None, help="debug only; marks the run truncated")
+    ap.add_argument(
+        "--max-episodes", type=int, default=None, help="debug only; marks the run truncated"
+    )
     ap.add_argument("--no-resume", action="store_true")
     a = ap.parse_args(argv)
     r = screen(a.dataset_id, max_episodes=a.max_episodes, resume=not a.no_resume, argv=sys.argv)

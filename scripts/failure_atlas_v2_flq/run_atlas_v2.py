@@ -29,14 +29,23 @@ import numpy as np
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
 
-from regimes import ALL_REGIMES, REGIMES, T, expected_oracle_path, hindsight_oracle_cost  # noqa: E402
-from suite import build_suite, run_metrics  # noqa: E402
+from regimes import ALL_REGIMES, REGIMES, T, expected_oracle_path, hindsight_oracle_cost
+from suite import build_suite, run_metrics
 
 ROOT = HERE.parents[1]
 LOSS_DIR = ROOT / "data/atlas_v2_losses"
-REAL_DELAYS = {"rialto": 100, "spam": 50, "weather": 1, "openml_ldpa": 100, "uci_occupancy": 100,
-               "airlines": 100, "bank": 100, "elec2": 48, "criteo": 100}
-CFG = dict(budget=200, cq=0.05, cs=5.0, alpha=0.05)
+REAL_DELAYS = {
+    "rialto": 100,
+    "spam": 50,
+    "weather": 1,
+    "openml_ldpa": 100,
+    "uci_occupancy": 100,
+    "airlines": 100,
+    "bank": 100,
+    "elec2": 48,
+    "criteo": 100,
+}
+CFG = {"budget": 200, "cq": 0.05, "cs": 5.0, "alpha": 0.05}
 
 
 def _h(s: str) -> int:
@@ -67,13 +76,42 @@ def _job(args):
     ep_path = expected_oracle_path(gain, CFG["cs"])
     rows = []
     run_ep = ep * 100_000 + seed
-    for pol in build_suite(losses.shape[0], CFG["budget"], CFG["cs"], CFG["cq"], CFG["alpha"],
-                           delay, run_ep, seed_base + _h(name) % 1000, names=names, extra=extra):
+    for pol in build_suite(
+        losses.shape[0],
+        CFG["budget"],
+        CFG["cs"],
+        CFG["cq"],
+        CFG["alpha"],
+        delay,
+        run_ep,
+        seed_base + _h(name) % 1000,
+        names=names,
+        extra=extra,
+    ):
         stream_rng = np.random.default_rng([seed_base, _h(name), ep, seed, 7])
-        m = run_metrics(pol, losses, gain, delay=delay, budget=CFG["budget"], cq=CFG["cq"],
-                        cs=CFG["cs"], stream_rng=stream_rng, oracle_cost=oc, exp_path=ep_path)
-        rows.append({"kind": kind, "regime": name, "ep": ep, "seed": seed, "policy": pol.name,
-                     "delay": delay, **m})
+        m = run_metrics(
+            pol,
+            losses,
+            gain,
+            delay=delay,
+            budget=CFG["budget"],
+            cq=CFG["cq"],
+            cs=CFG["cs"],
+            stream_rng=stream_rng,
+            oracle_cost=oc,
+            exp_path=ep_path,
+        )
+        rows.append(
+            {
+                "kind": kind,
+                "regime": name,
+                "ep": ep,
+                "seed": seed,
+                "policy": pol.name,
+                "delay": delay,
+                **m,
+            }
+        )
     return rows
 
 
@@ -85,8 +123,11 @@ def jobs_for(kind, seeds, seed_base, regimes, names, extra_mod, cfg):
     else:
         for r in regimes or REAL_DELAYS:
             K = np.load(LOSS_DIR / f"{r}.npz")["l0"].shape[0]
-            out += [(kind, r, e, s, seed_base, names, extra_mod, cfg)
-                    for e in range(K) for s in range(seeds)]
+            out += [
+                (kind, r, e, s, seed_base, names, extra_mod, cfg)
+                for e in range(K)
+                for s in range(seeds)
+            ]
     return out
 
 
@@ -113,13 +154,17 @@ def main(argv=None):
     n = 0
     with open(out / "records.jsonl", "w") as f, mp.Pool(a.workers) as pool:
         for rows in pool.imap_unordered(_job, jobs, chunksize=4):
-            for r in rows:
-                f.write(json.dumps(r) + "\n")
+            f.writelines(json.dumps(r) + "\n" for r in rows)
             n += 1
             if n % 200 == 0:
                 print(f"{n}/{len(jobs)} jobs, {time.time() - t0:.0f}s", flush=True)
-    manifest = {"argv": vars(a), "config": CFG, "T": T, "n_jobs": len(jobs),
-                "seconds": round(time.time() - t0, 1)}
+    manifest = {
+        "argv": vars(a),
+        "config": CFG,
+        "T": T,
+        "n_jobs": len(jobs),
+        "seconds": round(time.time() - t0, 1),
+    }
     (out / "manifest.json").write_text(json.dumps(manifest, indent=2) + "\n")
     print(f"done {len(jobs)} jobs in {time.time() - t0:.0f}s -> {out}")
 

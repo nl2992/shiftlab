@@ -5,6 +5,7 @@ for a fixed pair of models in each episode. The episode-level outputs are explor
 mixing/FCLT and variance conditions are not established for these streams, and no multiplicity or
 source-cluster correction is applied across episodes.
 """
+
 from __future__ import annotations
 
 import argparse
@@ -39,19 +40,24 @@ def gr_one_time_reversal(d, alpha: float = 0.05) -> dict:
     n = len(x)
     if n < 20 or not np.isfinite(x).all():
         raise ValueError("d must contain at least 20 finite observations")
-    lag = min(n - 1, int(math.floor(4 * (n / 100.0) ** (2 / 9))))
+    lag = min(n - 1, math.floor(4 * (n / 100.0) ** (2 / 9)))
     # Proposition 3's HAC estimator uses raw loss-difference cross-products under H0:E[d_t]=0.
     lrv = float(x @ x) / n
     for k in range(1, lag + 1):
         gamma = float(x[k:] @ x[:-k]) / n
         lrv += 2.0 * (1.0 - k / (lag + 1)) * gamma
     if not math.isfinite(lrv) or lrv <= 0:
-        return {"n": n, "lag": lag, "lrv": lrv, "valid": False,
-                "reason": "nonpositive_or_nonfinite_HAC_variance"}
+        return {
+            "n": n,
+            "lag": lag,
+            "lrv": lrv,
+            "valid": False,
+            "reason": "nonpositive_or_nonfinite_HAC_variance",
+        }
 
     total = float(x.sum())
     lm1 = total * total / (n * lrv)
-    lo, hi = int(math.ceil(0.15 * n)), int(math.floor(0.85 * n))
+    lo, hi = math.ceil(0.15 * n), math.floor(0.85 * n)
     t = np.arange(lo, hi + 1)
     frac = t / n
     bridge = np.cumsum(x)[t - 1] - frac * total
@@ -73,12 +79,24 @@ def gr_one_time_reversal(d, alpha: float = 0.05) -> dict:
     else:
         interpretation = "joint_statistic_rejects_components_do_not_individually_reject"
     return {
-        "n": n, "lag": lag, "lrv": lrv, "valid": True, "alpha": alpha,
-        "Q": q_stat, "Q_critical": Q_CRIT[alpha], "reject": bool(reject),
-        "LM1": float(lm1), "LM1_critical": c1, "LM1_reject": bool(lm1_reject),
-        "LM2_max": lm2, "LM2_critical": c2, "LM2_reject": bool(lm2_reject),
-        "break_index_0based": int(t[idx]), "pre_break_mean": float(x[:t[idx]].mean()),
-        "post_break_mean": float(x[t[idx]:].mean()), "full_mean": float(x.mean()),
+        "n": n,
+        "lag": lag,
+        "lrv": lrv,
+        "valid": True,
+        "alpha": alpha,
+        "Q": q_stat,
+        "Q_critical": Q_CRIT[alpha],
+        "reject": bool(reject),
+        "LM1": float(lm1),
+        "LM1_critical": c1,
+        "LM1_reject": bool(lm1_reject),
+        "LM2_max": lm2,
+        "LM2_critical": c2,
+        "LM2_reject": bool(lm2_reject),
+        "break_index_0based": int(t[idx]),
+        "pre_break_mean": float(x[: t[idx]].mean()),
+        "post_break_mean": float(x[t[idx] :].mean()),
+        "full_mean": float(x.mean()),
         "interpretation": interpretation,
     }
 
@@ -96,30 +114,44 @@ def analyze(alpha: float = 0.05) -> dict:
             d = z["l0"][ep].astype(float) - z["l1"][ep].astype(float)
             stat = gr_one_time_reversal(d, alpha)
             cls = lookup.get((name, int(ep)), {})
-            rows.append({"stream": name, "episode": int(ep), "cluster": info["cluster"],
-                         "family": info["family"], "wp1_class": cls.get("class", "unclassified"),
-                         **stat})
+            rows.append(
+                {
+                    "stream": name,
+                    "episode": int(ep),
+                    "cluster": info["cluster"],
+                    "family": info["family"],
+                    "wp1_class": cls.get("class", "unclassified"),
+                    **stat,
+                }
+            )
     summary = {}
     for cls in sorted({r["wp1_class"] for r in rows}):
         group = [r for r in rows if r["wp1_class"] == cls and r["valid"]]
-        summary[cls] = {"episodes": len(group), "clusters": len({r["cluster"] for r in group}),
-                        "GR_rejections": sum(r["reject"] for r in group),
-                        "LM2_rejections": sum(r["LM2_reject"] for r in group)}
-    return {"method": "Giacomini-Rossi one-time reversal, Proposition 3",
-            "paper": "Giacomini and Rossi (2010), Journal of Applied Econometrics 25(4), 595-620",
-            "scope": "all cached, fresh, and constructed-late WP1 non-twin loss episodes; retrospective full-episode diagnostic",
-            "loss_difference": "l0-l1 (positive means challenger lower loss)", "alpha": alpha,
-            "critical_values": {"Q": Q_CRIT[alpha], "components": COMPONENT_CRIT[alpha]},
-            "hac": "Bartlett/Newey-West; lag floor(4*(n/100)^(2/9))",
-            "rows": rows, "summary_by_frozen_WP1_class": summary,
-            "limitations": [
-                "asymptotic validity requires paper assumptions including a functional CLT and consistent positive HAC long-run variance; these are not established here",
-                "one-time permanent reversal alternative is a diagnostic model, not a causal change label",
-                "uses all outcomes in each episode retrospectively and is not an online detector",
+        summary[cls] = {
+            "episodes": len(group),
+            "clusters": len({r["cluster"] for r in group}),
+            "GR_rejections": sum(r["reject"] for r in group),
+            "LM2_rejections": sum(r["LM2_reject"] for r in group),
+        }
+    return {
+        "method": "Giacomini-Rossi one-time reversal, Proposition 3",
+        "paper": "Giacomini and Rossi (2010), Journal of Applied Econometrics 25(4), 595-620",
+        "scope": "all cached, fresh, and constructed-late WP1 non-twin loss episodes; retrospective full-episode diagnostic",
+        "loss_difference": "l0-l1 (positive means challenger lower loss)",
+        "alpha": alpha,
+        "critical_values": {"Q": Q_CRIT[alpha], "components": COMPONENT_CRIT[alpha]},
+        "hac": "Bartlett/Newey-West; lag floor(4*(n/100)^(2/9))",
+        "rows": rows,
+        "summary_by_frozen_WP1_class": summary,
+        "limitations": [
+            "asymptotic validity requires paper assumptions including a functional CLT and consistent positive HAC long-run variance; these are not established here",
+            "one-time permanent reversal alternative is a diagnostic model, not a causal change label",
+            "uses all outcomes in each episode retrospectively and is not an online detector",
             "WP1 classes were derived from these same loss sequences, so class-stratified rejection frequencies are circular descriptive summaries, not independent validation",
-                "no multiplicity adjustment across episodes and no source-cluster inference",
-                "real cache rows are event-time ordered; exact real elapsed-time stamps and label-publication times are not used",
-            ]}
+            "no multiplicity adjustment across episodes and no source-cluster inference",
+            "real cache rows are event-time ordered; exact real elapsed-time stamps and label-publication times are not used",
+        ],
+    }
 
 
 def main(argv=None):
@@ -131,13 +163,23 @@ def main(argv=None):
     out = a.out if a.out.is_absolute() else ROOT / a.out
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(json.dumps(result, indent=2) + "\n")
-    lines = ["# Giacomini–Rossi one-time reversal diagnostic", "",
-             f"Retrospective diagnostic; alpha={a.alpha}; {len(result['rows'])} episodes.", "",
-             "| Frozen WP1 class | episodes | source clusters | Q rejections | LM2 instability component |",
-             "|---|---:|---:|---:|---:|"]
+    lines = [
+        "# Giacomini–Rossi one-time reversal diagnostic",
+        "",
+        f"Retrospective diagnostic; alpha={a.alpha}; {len(result['rows'])} episodes.",
+        "",
+        "| Frozen WP1 class | episodes | source clusters | Q rejections | LM2 instability component |",
+        "|---|---:|---:|---:|---:|",
+    ]
     for cls, vals in result["summary_by_frozen_WP1_class"].items():
-        lines.append(f"| {cls} | {vals['episodes']} | {vals['clusters']} | {vals['GR_rejections']} | {vals['LM2_rejections']} |")
-    lines += ["", "This is a retrospective, unadjusted, asymptotic diagnostic; see the JSON limitations.", ""]
+        lines.append(
+            f"| {cls} | {vals['episodes']} | {vals['clusters']} | {vals['GR_rejections']} | {vals['LM2_rejections']} |"
+        )
+    lines += [
+        "",
+        "This is a retrospective, unadjusted, asymptotic diagnostic; see the JSON limitations.",
+        "",
+    ]
     out.with_suffix(".md").write_text("\n".join(lines))
     print(f"wrote {out} and {out.with_suffix('.md')} ({len(result['rows'])} episodes)")
 

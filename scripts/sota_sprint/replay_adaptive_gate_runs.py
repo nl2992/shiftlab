@@ -11,15 +11,29 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 TAG = "_wmaxfix_20261105"
 NEEDLE = "gated_adaptive_range"
-GATED_C_EXACT = {"C1", "C1-uniformbase", "C2", "C2-noadapt", "C2-floorskip", "C5", "C6",
-                 "C6-no_deadline", "C6-no_shadow", "C6-no_two_stage", "Cchk:gated_uniform",
-                 "Cchk:gated_front"}
+GATED_C_EXACT = {
+    "C1",
+    "C1-uniformbase",
+    "C2",
+    "C2-noadapt",
+    "C2-floorskip",
+    "C5",
+    "C6",
+    "C6-no_deadline",
+    "C6-no_shadow",
+    "C6-no_two_stage",
+    "Cchk:gated_uniform",
+    "Cchk:gated_front",
+}
 
 
 def _affected_policy(policy: str) -> bool:
-    return (NEEDLE in policy or policy in GATED_C_EXACT
-            or policy.startswith(("C1-k", "C2-g", "C6-f", "M_RMMSUI_gar", "T2:gated"))
-            or (policy.startswith("T6:") and ("xC2" in policy or "xC6" in policy)))
+    return (
+        NEEDLE in policy
+        or policy in GATED_C_EXACT
+        or policy.startswith(("C1-k", "C2-g", "C6-f", "M_RMMSUI_gar", "T2:gated"))
+        or (policy.startswith("T6:") and ("xC2" in policy or "xC6" in policy))
+    )
 
 
 def _replace_option(args: list[str], option: str, value: str) -> list[str]:
@@ -50,7 +64,9 @@ def _command(manifest_path: Path, workers: int) -> tuple[list[str], Path, list[s
     argv = manifest.get("argv")
     if isinstance(argv, dict):
         policies_value = argv.get("policies", manifest.get("policies", []))
-        policies = policies_value if isinstance(policies_value, list) else str(policies_value).split(",")
+        policies = (
+            policies_value if isinstance(policies_value, list) else str(policies_value).split(",")
+        )
         policies = [str(p) for p in policies if _affected_policy(str(p))]
         if not policies:
             return None
@@ -58,21 +74,53 @@ def _command(manifest_path: Path, workers: int) -> tuple[list[str], Path, list[s
         new_out = old_out.with_name(old_out.name + TAG)
         if "kind" in argv and "regimes" in argv:
             runner = "scripts/sota_sprint/screen.py"
-            cmd = ["uv", "run", "python", runner,
-                   "--kind", str(argv["kind"]), "--regimes", str(argv["regimes"]),
-                   "--policies", ",".join(policies), "--seeds", str(argv.get("seeds", 20)),
-                   "--seed-base", str(argv.get("seed_base", 0)), "--workers", str(workers),
-                   "--out", str(new_out)]
+            cmd = [
+                "uv",
+                "run",
+                "python",
+                runner,
+                "--kind",
+                str(argv["kind"]),
+                "--regimes",
+                str(argv["regimes"]),
+                "--policies",
+                ",".join(policies),
+                "--seeds",
+                str(argv.get("seeds", 20)),
+                "--seed-base",
+                str(argv.get("seed_base", 0)),
+                "--workers",
+                str(workers),
+                "--out",
+                str(new_out),
+            ]
             if "alpha" in argv:
                 cmd += ["--alpha", str(argv["alpha"])]
             return cmd, new_out, policies
         if "sources" in argv:
             runner = "scripts/sota_sprint/wp2_run.py"
-            cmd = ["uv", "run", "python", runner,
-                   "--sources", str(argv["sources"]), "--policies", ",".join(policies),
-                   "--seeds", str(argv.get("seeds", 20)), "--seed-base", str(argv["seed_base"]),
-                   "--workers", str(workers), "--alpha", str(argv.get("alpha", 0.05)),
-                   "--delay-mult", str(argv.get("delay_mult", 1.0)), "--out", str(new_out)]
+            cmd = [
+                "uv",
+                "run",
+                "python",
+                runner,
+                "--sources",
+                str(argv["sources"]),
+                "--policies",
+                ",".join(policies),
+                "--seeds",
+                str(argv.get("seeds", 20)),
+                "--seed-base",
+                str(argv["seed_base"]),
+                "--workers",
+                str(workers),
+                "--alpha",
+                str(argv.get("alpha", 0.05)),
+                "--delay-mult",
+                str(argv.get("delay_mult", 1.0)),
+                "--out",
+                str(new_out),
+            ]
             if argv.get("episodes"):
                 cmd += ["--episodes", str(argv["episodes"])]
             return cmd, new_out, policies
@@ -108,10 +156,16 @@ def main() -> None:
     parser.add_argument("--run-dir", type=Path, help="replay one original run directory")
     parser.add_argument("--workers", type=int, default=6)
     parser.add_argument("--limit", type=int, default=0, help="maximum number of runs; 0 means all")
-    parser.add_argument("--execute", action="store_true", help="execute commands; default prints them")
+    parser.add_argument(
+        "--execute", action="store_true", help="execute commands; default prints them"
+    )
     args = parser.parse_args()
 
-    paths = [args.run_dir / "manifest.json"] if args.run_dir else sorted(args.root.rglob("manifest.json"))
+    paths = (
+        [args.run_dir / "manifest.json"]
+        if args.run_dir
+        else sorted(args.root.rglob("manifest.json"))
+    )
     tasks = []
     for path in paths:
         if "_wmaxfix_20261105" in str(path):
@@ -131,14 +185,32 @@ def main() -> None:
             out, cmd = available
             tasks.append((path, cmd, out, policies))
     orphan = ROOT / "outputs/sprint2/H/screen1"
-    if (not args.run_dir or args.run_dir == Path("outputs/sprint2/H/screen1")) and not (orphan / "manifest.json").exists():
+    if (not args.run_dir or args.run_dir == Path("outputs/sprint2/H/screen1")) and not (
+        orphan / "manifest.json"
+    ).exists():
         source_records = orphan / "records.jsonl"
         if source_records.exists():
             out = orphan.with_name(orphan.name + TAG)
-            cmd = ["uv", "run", "python", "scripts/sota_sprint/screen.py", "--kind", "synthetic",
-                   "--regimes", "F0_better,F7_near_better", "--policies", "gated_adaptive_range+front",
-                   "--seeds", "20", "--seed-base", "2026110701", "--workers", str(args.workers),
-                   "--out", str(out)]
+            cmd = [
+                "uv",
+                "run",
+                "python",
+                "scripts/sota_sprint/screen.py",
+                "--kind",
+                "synthetic",
+                "--regimes",
+                "F0_better,F7_near_better",
+                "--policies",
+                "gated_adaptive_range+front",
+                "--seeds",
+                "20",
+                "--seed-base",
+                "2026110701",
+                "--workers",
+                str(args.workers),
+                "--out",
+                str(out),
+            ]
             available = _available_output(out, cmd)
             if available is None:
                 print(f"already complete, skipping {out}")
@@ -146,10 +218,12 @@ def main() -> None:
                 out, cmd = available
                 tasks.append((source_records, cmd, out, ["gated_adaptive_range+front"]))
     if args.limit:
-        tasks = tasks[:args.limit]
+        tasks = tasks[: args.limit]
     print(f"scheduled {len(tasks)} corrected runs")
     for index, (manifest, cmd, out, policies) in enumerate(tasks, 1):
-        print(f"[{index}/{len(tasks)}] source={manifest.parent} output={out} policies={','.join(policies)}")
+        print(
+            f"[{index}/{len(tasks)}] source={manifest.parent} output={out} policies={','.join(policies)}"
+        )
         print("  " + " ".join(cmd))
         if args.execute:
             result = subprocess.run(cmd, cwd=ROOT, check=False)

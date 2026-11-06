@@ -27,13 +27,33 @@ SHARED = ["F0_better", "F0_null", "F1_late_800", "F3_reversal_800", "F5_dep_null
 DEV_NULLS = {"F0_null", "F5_dep_null_r8", "F5_dep_null_r95", "F0_worse"}
 IDS = [f"{f}{i}" for f in "ABCD" for i in range(1, 7)]
 REP = {"B1": "B1_r15", "D6": "D6:mp"}  # representative policy row for multi-setting candidates
-HOSTS = {"C6": ("C6", "gated_adaptive_range", "C6@discern", "discern_design_floor"),
-         "D6": ("D6:mp", "model_picker_adapter", "D6:cams", "cams_adapter", "D6:ms",
-                "model_selector_causal"),
-         "FLQ": ("gated_deployment+QCE+front", "gated_deployment")}
-CHANGE = {"F1_late_800", "F3_reversal_800", "F4_recurrent", "F2_transient", "S_reversal_400",
-          "S_late_1500", "S_transient_short", "F1_late_1200", "V_late_600", "V_reversal_1000",
-          "V_recurrent", "W_late_1000", "W_reversal_700"}
+HOSTS = {
+    "C6": ("C6", "gated_adaptive_range", "C6@discern", "discern_design_floor"),
+    "D6": (
+        "D6:mp",
+        "model_picker_adapter",
+        "D6:cams",
+        "cams_adapter",
+        "D6:ms",
+        "model_selector_causal",
+    ),
+    "FLQ": ("gated_deployment+QCE+front", "gated_deployment"),
+}
+CHANGE = {
+    "F1_late_800",
+    "F3_reversal_800",
+    "F4_recurrent",
+    "F2_transient",
+    "S_reversal_400",
+    "S_late_1500",
+    "S_transient_short",
+    "F1_late_1200",
+    "V_late_600",
+    "V_reversal_1000",
+    "V_recurrent",
+    "W_late_1000",
+    "W_reversal_700",
+}
 
 
 def wilson_hi(k, n, z=1.96):
@@ -53,35 +73,55 @@ def views(df, nulls, safe_fn, label):
     cost = df[df.regime.isin(alts)].groupby("policy").net.mean()
     safe = {p: safe_fn(gg) for p, gg in df[df.regime.isin(nulls)].groupby("policy")}
     out["1_lowest_total_cost"] = cost.sort_values().round(2).head(15).to_dict()
-    out["2_best_safe_efficacy"] = cost[[p for p in cost.index if safe.get(p)]].sort_values().round(2).head(15).to_dict()
+    out["2_best_safe_efficacy"] = (
+        cost[[p for p in cost.index if safe.get(p)]].sort_values().round(2).head(15).to_dict()
+    )
     fb = df[df.regime.isin(["F0_better", "V_better_a"])]
     first = fb[fb.first_deploy >= 0].groupby("policy").first_deploy.median()
     prate = fb.groupby("policy").ever_promote.mean()  # median over promoting runs only means
-    out["3_fastest_correct_detection_safe"] = first[[p for p in first.index if safe.get(p)
-                                                     and prate[p] >= 0.5]].sort_values().head(15).to_dict()
+    out["3_fastest_correct_detection_safe"] = (
+        first[[p for p in first.index if safe.get(p) and prate[p] >= 0.5]]
+        .sort_values()
+        .head(15)
+        .to_dict()
+    )
     ch = df[df.regime.isin(CHANGE)]
-    out["4_lowest_dynamic_regret"] = ch.groupby("policy").regret_expected_oracle.mean().sort_values().round(2).head(15).to_dict()
+    out["4_lowest_dynamic_regret"] = (
+        ch.groupby("policy").regret_expected_oracle.mean().sort_values().round(2).head(15).to_dict()
+    )
     # 5: labels used per unit of correct-decision value, among safe policies promoting on >= 80% of
     # the clear-advantage streams (matched decision quality)
     pr = fb.groupby("policy").ever_promote.mean()
     lab = fb.groupby("policy").labels.mean()
     q = [p for p in pr.index if pr[p] >= 0.8 and safe.get(p)]
-    out["5_best_label_efficiency_matched_quality"] = lab[q].sort_values().round(1).head(15).to_dict()
+    out["5_best_label_efficiency_matched_quality"] = (
+        lab[q].sort_values().round(1).head(15).to_dict()
+    )
     # 6: transferable improvement: mean (candidate - native host) over hosts, all regimes (nulls too)
     tr = {}
     piv = df.pivot_table(index=["regime", "ep", "seed"], columns="policy", values="net")
     for k, pairs in HOSTS.items():
-        ds = [float((piv[a] - piv[b]).mean()) for a, b in zip(pairs[::2], pairs[1::2])
-              if a in piv and b in piv]
+        ds = [
+            float((piv[a] - piv[b]).mean())
+            for a, b in zip(pairs[::2], pairs[1::2])
+            if a in piv and b in piv
+        ]
         if ds:
-            tr[k] = {"mean_over_hosts": round(float(np.mean(ds)), 2), "per_host": [round(d, 2) for d in ds],
-                     "n_hosts": len(ds)}
+            tr[k] = {
+                "mean_over_hosts": round(float(np.mean(ds)), 2),
+                "per_host": [round(d, 2) for d in ds],
+                "n_hosts": len(ds),
+            }
     out["6_largest_transferable_improvement"] = tr
     # 7: overall research candidate: safe first, then cost; only sprint candidates
     cands = [p for p in cost.index if p[:2] in IDS or p.startswith(("A5b", "A1b", "X_", "B1_r"))]
     out["7_best_overall_research_candidate"] = sorted(
-        [{"policy": p, "safe": bool(safe.get(p)), "alt_cost": round(float(cost[p]), 2)} for p in cands],
-        key=lambda d: (not d["safe"], d["alt_cost"]))[:15]
+        [
+            {"policy": p, "safe": bool(safe.get(p)), "alt_cost": round(float(cost[p]), 2)}
+            for p in cands
+        ],
+        key=lambda d: (not d["safe"], d["alt_cost"]),
+    )[:15]
     out["_basis"] = label
     return out
 
@@ -91,18 +131,30 @@ def main():
     dev = _load([GATE / f for f in "ABCD"])
     if dev is not None:
         shared = dev[dev.regime.isin(SHARED)].drop_duplicates(["regime", "ep", "seed", "policy"])
-        res["development"] = views(shared, DEV_NULLS,
-                                   lambda g: g.groupby("regime").ever_promote.sum().max() <= 1,
-                                   "gate re-screen, 20 dev seeds, shared environments " + ",".join(SHARED))
+        res["development"] = views(
+            shared,
+            DEV_NULLS,
+            lambda g: g.groupby("regime").ever_promote.sum().max() <= 1,
+            "gate re-screen, 20 dev seeds, shared environments " + ",".join(SHARED),
+        )
     syn = _load([VAL / n for n in ("synth", "synth_b5", "synth_qce")])
     nul = _load([VAL / n for n in ("null1000", "null1000_b5", "null1000_qce")])
     if syn is not None and nul is not None:
         nn = set(nul.regime.unique())
-        safe_val = {p: all(wilson_hi(int(g2.ever_promote.sum()), len(g2)) <= 0.0936
-                           for _, g2 in g.groupby("regime")) for p, g in nul.groupby("policy")}
+        safe_val = {
+            p: all(
+                wilson_hi(int(g2.ever_promote.sum()), len(g2)) <= 0.0936
+                for _, g2 in g.groupby("regime")
+            )
+            for p, g in nul.groupby("policy")
+        }
         syn = syn.drop_duplicates(["regime", "ep", "seed", "policy"])
-        res["validated"] = views(syn, nn, lambda g: safe_val.get(g.policy.iloc[0], False),
-                                 "validation: 100 fresh seeds; safety = Wilson ub on 1000-seed in-class nulls")
+        res["validated"] = views(
+            syn,
+            nn,
+            lambda g: safe_val.get(g.policy.iloc[0], False),
+            "validation: 100 fresh seeds; safety = Wilson ub on 1000-seed in-class nulls",
+        )
     (DOC / "leaderboard_views.json").write_text(json.dumps(res, indent=1, default=float) + "\n")
     L = ["# Leaderboard: ranked views (brief section 12)", ""]
     for stage, v in res.items():
@@ -110,8 +162,17 @@ def main():
         for k, d in v.items():
             if k.startswith("_"):
                 continue
-            L.append(f"**{k}**: " + (", ".join(f"{p} {x}" for p, x in d.items()) if isinstance(d, dict)
-                                     else ", ".join(f"{e['policy']} ({'safe' if e['safe'] else 'unsafe'}, {e['alt_cost']})" for e in d)))
+            L.append(
+                f"**{k}**: "
+                + (
+                    ", ".join(f"{p} {x}" for p, x in d.items())
+                    if isinstance(d, dict)
+                    else ", ".join(
+                        f"{e['policy']} ({'safe' if e['safe'] else 'unsafe'}, {e['alt_cost']})"
+                        for e in d
+                    )
+                )
+            )
             L.append("")
     (DOC / "leaderboard_views.md").write_text("\n".join(L) + "\n")
     print("\n".join(L)[:4000])

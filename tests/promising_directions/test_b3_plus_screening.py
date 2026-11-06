@@ -21,11 +21,11 @@ DISC = ROOT / "research/b3_plus/dataset_discovery"
 sys.path.insert(0, str(DISC))
 sys.path.insert(0, str(ROOT / "scripts/promising_directions"))
 
-import construct_model_pairs as cmp  # noqa: E402
-import dataset_sources as dsrc  # noqa: E402
-import registry as reg  # noqa: E402
-import screen_candidate as sc  # noqa: E402
-import validate_stream as vs  # noqa: E402
+import construct_model_pairs as cmp
+import dataset_sources as dsrc
+import registry as reg
+import screen_candidate as sc
+import validate_stream as vs
 
 
 # ------------------------------------------------------------------------------ helpers
@@ -41,9 +41,22 @@ def synthetic_raw(n=12000, seed=0, flip_locked=False, dataset_id="synthetic"):
 
 def entry(dataset_id="synthetic", basis="documented_order", declared=True, family="synthetic_fam"):
     e = reg._cand(
-        1, dataset_id, family, "synthetic", None, "synthetic", 12000, 3, "binary",
+        1,
+        dataset_id,
+        family,
+        "synthetic",
+        None,
+        "synthetic",
+        12000,
+        3,
+        "binary",
         reg._delay(20, "imposed_cap", "test delay"),
-        {"declared_basis": basis, "justification": "test", "time_column": None, "time_reliable": None},
+        {
+            "declared_basis": basis,
+            "justification": "test",
+            "time_column": None,
+            "time_reliable": None,
+        },
     )
     e["timestamps"]["registered_at_utc"] = reg.now()
     if declared:
@@ -73,8 +86,12 @@ def test_binarisation_falls_back_to_majority_when_class0_rare():
 
 
 def test_binarisation_boundaries_and_ties_and_string_labels():
-    assert cmp.binarise_info(np.array([0] * 5 + [1] * 95))["rule"] == "class0_vs_rest"  # 0.05 inclusive
-    assert cmp.binarise_info(np.array([0] * 95 + [1] * 5))["rule"] == "class0_vs_rest"  # 0.95 inclusive
+    assert (
+        cmp.binarise_info(np.array([0] * 5 + [1] * 95))["rule"] == "class0_vs_rest"
+    )  # 0.05 inclusive
+    assert (
+        cmp.binarise_info(np.array([0] * 95 + [1] * 5))["rule"] == "class0_vs_rest"
+    )  # 0.95 inclusive
     tie = cmp.binarise_info(np.array(list("abcd") * 5 + ["a"] * 0))  # class 'a' rate 0.25 -> class0
     assert tie["target_class"] == "a"
     tie2 = cmp.binarise_info(np.array([1] * 50 + [2] * 50 + [3] * 1))  # class 0 rate .495 ok
@@ -118,7 +135,9 @@ def test_headroom_precheck_each_condition():
     l0[:15] = 1
     l1 = np.zeros(n, dtype=np.int8)
     r = cmp.headroom_precheck(l0, l1, 2000, 5.0)
-    assert r["disagree"] == pytest.approx(0.015) and not r["cond_disagree_ge_0.02"] and not r["passes"]
+    assert (
+        r["disagree"] == pytest.approx(0.015) and not r["cond_disagree_ge_0.02"] and not r["passes"]
+    )
     assert r["cond_adv_T_gt_cs"] and r["cond_challenger_better"]
     # fails because challenger is not better, even with large disagreement
     l0 = np.zeros(n, dtype=np.int8)
@@ -180,8 +199,15 @@ def test_pair_and_headroom_identical_when_only_locked_labels_change(tmp_path):
     for flip in (False, True):
         raw = synthetic_raw(flip_locked=flip)
         rg = registry_with(entry())
-        res = sc.screen("synthetic", registry=rg, reg_path=None, out_root=tmp_path / str(flip),
-                        raw=raw, n_seeds=3, max_episodes=1)
+        res = sc.screen(
+            "synthetic",
+            registry=rg,
+            reg_path=None,
+            out_root=tmp_path / str(flip),
+            raw=raw,
+            n_seeds=3,
+            max_episodes=1,
+        )
         assert res["screening"]["stage"] == "evaluated"
         pair = json.loads((tmp_path / str(flip) / "synthetic" / "_debug" / "pair.json").read_text())
         outs.append(pair)
@@ -193,8 +219,15 @@ def test_pair_and_headroom_identical_when_only_locked_labels_change(tmp_path):
 def test_budget_holds_pathwise_on_a_new_dataset_stream(tmp_path):
     raw = synthetic_raw(n=14000, seed=5)
     rg = registry_with(entry(dataset_id="synthetic2", family="synthetic2"))
-    res = sc.screen("synthetic2", registry=rg, reg_path=None, out_root=tmp_path, raw=raw,
-                    n_seeds=20, resume=False)
+    res = sc.screen(
+        "synthetic2",
+        registry=rg,
+        reg_path=None,
+        out_root=tmp_path,
+        raw=raw,
+        n_seeds=20,
+        resume=False,
+    )
     assert res["screening"]["stage"] == "evaluated"
     rows = sc.read_rows(tmp_path / "synthetic2/episodes.jsonl")
     assert len(rows) == 2  # K = floor(5600 / 2000) -> min(50, 2)
@@ -209,8 +242,14 @@ def test_budget_holds_pathwise_on_a_new_dataset_stream(tmp_path):
     summ = json.loads((tmp_path / "synthetic2/summary.json").read_text())
     assert summ["conditions"]["3_no_leakage_budget_holds_pathwise"]
     assert summ["low_power"] and summ["bootstrap_level"] == "seed"  # K = 2 < 5
-    assert summ["config"] == {"T": 2000, "budget": 200, "cq": 0.05, "cs": 5.0, "n_seeds": 100,
-                              "seed_base": 20261101}
+    assert summ["config"] == {
+        "T": 2000,
+        "budget": 200,
+        "cq": 0.05,
+        "cs": 5.0,
+        "n_seeds": 100,
+        "seed_base": 20261101,
+    }
 
 
 def test_p7s_trace_run_matches_untraced_policy():
@@ -254,7 +293,9 @@ def test_screen_refuses_to_evaluate_when_validation_fails(tmp_path, monkeypatch)
 
 
 def test_validation_rejects_class_sorted_and_too_short_streams(tmp_path, monkeypatch):
-    monkeypatch.setattr(cmp, "locked_episode_losses", lambda *a, **k: (_ for _ in ()).throw(AssertionError))
+    monkeypatch.setattr(
+        cmp, "locked_episode_losses", lambda *a, **k: (_ for _ in ()).throw(AssertionError)
+    )
     raw = synthetic_raw(n=12000)
     raw.y = np.sort(raw.y)  # a class-sorted file is not a time stream
     rep = vs.validate(raw, entry())
@@ -284,8 +325,14 @@ def test_timestamp_order_is_sorted_not_assumed():
 def test_delay_must_be_declared_before_evaluation(tmp_path):
     e = entry(declared=False)
     with pytest.raises(RuntimeError, match="delay not declared"):
-        sc.screen("synthetic", registry=registry_with(e), reg_path=None, out_root=tmp_path,
-                  raw=synthetic_raw(), n_seeds=2)
+        sc.screen(
+            "synthetic",
+            registry=registry_with(e),
+            reg_path=None,
+            out_root=tmp_path,
+            raw=synthetic_raw(),
+            n_seeds=2,
+        )
     e2 = entry()
     e2["declared_delay"]["value"] = 500
     with pytest.raises(RuntimeError, match="outside"):
@@ -295,7 +342,8 @@ def test_delay_must_be_declared_before_evaluation(tmp_path):
 def test_success_rule_is_the_preregistered_one():
     def summ(hi, p7s, p0, budget_ok=True, mech=True, low=False):
         return {
-            "finite_costs": True, "low_power": low,
+            "finite_costs": True,
+            "low_power": low,
             "paired": {"P7s_minus_P3b": {"mean": hi - 1, "lo": hi - 2, "hi": hi}},
             "mean_cost": {"P7s": p7s, "P0": p0},
             "conditions": {
@@ -308,7 +356,9 @@ def test_success_rule_is_the_preregistered_one():
 
     assert sc.decide(summ(-0.1, 90, 100))[0] == "SUCCESS"
     assert sc.decide(summ(0.0, 90, 100))[0] == "USELESS_NO_IMPROVEMENT"  # CI must be strictly < 0
-    assert sc.decide(summ(-0.1, 100, 100))[0] == "USELESS_NO_HEADROOM"  # mean P7s < mean P0 strictly
+    assert (
+        sc.decide(summ(-0.1, 100, 100))[0] == "USELESS_NO_HEADROOM"
+    )  # mean P7s < mean P0 strictly
     assert sc.decide(summ(-0.1, 90, 100, budget_ok=False))[0] == "USELESS_UNSTABLE"
     assert sc.decide(summ(-0.1, 90, 100), is_duplicate=True)[0] == "USELESS_DUPLICATE"
 

@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """Render a scoped interpretation of the Family-R held-out coverage follow-up."""
+
 from __future__ import annotations
 
 import argparse
@@ -12,12 +13,19 @@ ROOT = Path(__file__).resolve().parents[2]
 
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__)
-    ap.add_argument("--curves", type=Path,
-                    default=Path("docs/sprint2/family_r/R_trackR_coverage_followup.json"))
-    ap.add_argument("--manifests", type=Path,
-                    default=Path("docs/sprint2/family_r/R_trackR_coverage_followup_manifests.json"))
-    ap.add_argument("--out", type=Path,
-                    default=Path("docs/sprint2/family_r/R_trackR_coverage_followup_report.md"))
+    ap.add_argument(
+        "--curves", type=Path, default=Path("docs/sprint2/family_r/R_trackR_coverage_followup.json")
+    )
+    ap.add_argument(
+        "--manifests",
+        type=Path,
+        default=Path("docs/sprint2/family_r/R_trackR_coverage_followup_manifests.json"),
+    )
+    ap.add_argument(
+        "--out",
+        type=Path,
+        default=Path("docs/sprint2/family_r/R_trackR_coverage_followup_report.md"),
+    )
     args = ap.parse_args()
     curves_path = args.curves if args.curves.is_absolute() else ROOT / args.curves
     manifests_path = args.manifests if args.manifests.is_absolute() else ROOT / args.manifests
@@ -63,7 +71,9 @@ def main() -> int:
         "|---|---|---:|---:|---:|",
     ]
     for target, points in data.items():
-        for policy, point in sorted(points.items(), key=lambda item: (item[1]["risk"], item[1]["cost"])):
+        for policy, point in sorted(
+            points.items(), key=lambda item: (item[1]["risk"], item[1]["cost"])
+        ):
             if not point["pareto"]:
                 continue
             lines.append(
@@ -75,40 +85,53 @@ def main() -> int:
     if common:
         abs_risk = [abs(row[0]) for row in common]
         abs_cost = [abs(row[1]) for row in common]
-        lines.extend([
-            f"Across {len(common)} policy-target cells also present in the earlier Family-R held-out",
-            f"report, the median absolute difference was {statistics.median(abs_risk):.3f} in risk",
-            f"and {statistics.median(abs_cost):.1f} in alternative net cost; maxima were",
-            f"{max(abs_risk):.3f} and {max(abs_cost):.1f}, respectively. This is descriptive",
-            "between-block variation on the same simulator regimes, not a significance test.",
-        ])
+        lines.extend(
+            [
+                f"Across {len(common)} policy-target cells also present in the earlier Family-R held-out",
+                f"report, the median absolute difference was {statistics.median(abs_risk):.3f} in risk",
+                f"and {statistics.median(abs_cost):.1f} in alternative net cost; maxima were",
+                f"{max(abs_risk):.3f} and {max(abs_cost):.1f}, respectively. This is descriptive",
+                "between-block variation on the same simulator regimes, not a significance test.",
+            ]
+        )
     else:
         lines.append("No policy-target cells overlapped the previous held-out report.")
-    lines.extend([
-        "",
-        "## Interpretation limits",
-        "",
-        "The results fill held-out operating-point coverage for policies that were calibrated on",
-        "development data but omitted from earlier evaluation screens. They do not show general",
-        "superiority: R3-alloc reaches zero observed promotions at high alternative cost, while some",
-        "development-selected thresholds (including R2-floor25 at R10) exceed their nominal target",
-        "on evaluation. Reused generators and policies exposed during development limit claims to",
-        "this post-development simulator replicate. No application utility or causal shift label is",
-        "provided by these synthetic regimes.",
-        "",
-        "Machine-readable operating points: `R_trackR_coverage_followup.json`. Per-run configs,",
-        "code revisions, source hashes, and output checksums: `R_trackR_coverage_followup_manifests.json`.",
-    ])
+    lines.extend(
+        [
+            "",
+            "## Interpretation limits",
+            "",
+            "The results fill held-out operating-point coverage for policies that were calibrated on",
+            "development data but omitted from earlier evaluation screens. They do not show general",
+            "superiority: R3-alloc reaches zero observed promotions at high alternative cost, while some",
+            "development-selected thresholds (including R2-floor25 at R10) exceed their nominal target",
+            "on evaluation. Reused generators and policies exposed during development limit claims to",
+            "this post-development simulator replicate. No application utility or causal shift label is",
+            "provided by these synthetic regimes.",
+            "",
+            "Machine-readable operating points: `R_trackR_coverage_followup.json`. Per-run configs,",
+            "code revisions, source hashes, and output checksums: `R_trackR_coverage_followup_manifests.json`.",
+        ]
+    )
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text("\n".join(lines) + "\n")
     try:
         report_path = str(out.relative_to(ROOT))
     except ValueError:
         report_path = str(out)
-    print(json.dumps({"report": report_path, "targets": len(data),
-                      "frontier_rows": sum(sum(bool(p["pareto"]) for p in points.values())
-                                            for points in data.values()),
-                      "repeat_block_cells": len(common)}, indent=2))
+    print(
+        json.dumps(
+            {
+                "report": report_path,
+                "targets": len(data),
+                "frontier_rows": sum(
+                    sum(bool(p["pareto"]) for p in points.values()) for points in data.values()
+                ),
+                "repeat_block_cells": len(common),
+            },
+            indent=2,
+        )
+    )
     return 0
 
 

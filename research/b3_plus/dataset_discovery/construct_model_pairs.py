@@ -25,7 +25,7 @@ HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[2]
 sys.path.insert(0, str(ROOT / "scripts/promising_directions"))
 
-import b3_plus_baselines as base  # noqa: E402  (loads the pinned b1 and frozen b3_real_data)
+import b3_plus_baselines as base
 
 b3 = base._b3
 
@@ -69,7 +69,7 @@ def binarise_info(y_train: np.ndarray) -> dict:
         "classes": [_py(v) for v in vals],
         "class0_rate_train": r0,
         "target_rate_train": float(cnt[j] / cnt.sum()),
-        "n_classes_train": int(len(vals)),
+        "n_classes_train": len(vals),
     }
 
 
@@ -99,7 +99,8 @@ class Featurizer:
         self.obj_cols = [
             c
             for c in x_train.columns
-            if (not pd.api.types.is_numeric_dtype(x_train[c])) or pd.api.types.is_bool_dtype(x_train[c])
+            if (not pd.api.types.is_numeric_dtype(x_train[c]))
+            or pd.api.types.is_bool_dtype(x_train[c])
         ]
         x = self._fix(x_train)
         self.f0 = b3.prep(x)
@@ -139,12 +140,14 @@ def headroom_precheck(l0_dev: np.ndarray, l1_dev: np.ndarray, t_ep: int = T_EP, 
     inc, chal = float(l0.mean()), float(l1.mean())
     adv = inc - chal
     res = {
-        "dev_rows": int(len(l0)),
+        "dev_rows": len(l0),
         "disagree": dis,
         "inc_err_dev": inc,
         "chal_err_dev": chal,
         "adv_per_event": adv,
-        "adv_times_T": round(adv * t_ep, 9),  # rounded so an exact break-even is not a float artefact
+        "adv_times_T": round(
+            adv * t_ep, 9
+        ),  # rounded so an exact break-even is not a float artefact
         "cs": cs,
         "T": t_ep,
         "cond_disagree_ge_0.02": bool(dis >= MIN_DISAGREE),

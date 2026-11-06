@@ -27,17 +27,22 @@ for _p in (ROOT / "scripts/failure_atlas_v2_flq", HERE):
     if str(_p) not in sys.path:
         sys.path.insert(0, str(_p))
 
-from bench import CONTRACT, DEV_SEED_BASE, parse_regime  # noqa: E402
-import validation_spec  # noqa: E402,F401  (registers the W_* validation regimes)
-import ooc_regimes  # noqa: E402,F401  (registers the out-of-class nulls, Amendment 2)
-from regimes import expected_oracle_path, hindsight_oracle_cost  # noqa: E402
-from suite import build_suite, stream_from_losses  # noqa: E402  (also adds the simulator path)
-from simulator import run_episode  # noqa: E402
+import ooc_regimes  # noqa: F401  (registers the out-of-class nulls, Amendment 2)
+import validation_spec  # noqa: F401  (registers the W_* validation regimes)
+from bench import CONTRACT, DEV_SEED_BASE, parse_regime
+from regimes import expected_oracle_path, hindsight_oracle_cost
+from simulator import run_episode
+from suite import build_suite, stream_from_losses
 
 LOSS_DIR = ROOT / "data/atlas_v2_losses"
 FRESH_DIR = ROOT / "data/sprint_fresh_losses"  # fresh external-validation streams (aeb2d4f)
-FRESH_DELAYS = {"metro": 24, "beijing_pm25": 24, "bike_hour": 24, "appliances": 144,
-                "household_power": 144}  # = fresh_real.DELAYS, registered before any policy run
+FRESH_DELAYS = {
+    "metro": 24,
+    "beijing_pm25": 24,
+    "bike_hour": 24,
+    "appliances": 144,
+    "household_power": 144,
+}  # = fresh_real.DELAYS, registered before any policy run
 
 
 TWIN_DIR = ROOT / "data/sprint_twin_losses"  # exchangeable-twin known-null streams (P2 protocol)
@@ -51,8 +56,19 @@ def _loss_file(name: str) -> Path:
 
 def _delay(name: str) -> int:
     return {**REAL_DELAYS, **FRESH_DELAYS}[name.removeprefix("twin_")]
-REAL_DELAYS = {"rialto": 100, "spam": 50, "weather": 1, "openml_ldpa": 100, "uci_occupancy": 100,
-               "airlines": 100, "bank": 100, "elec2": 48, "criteo": 100}
+
+
+REAL_DELAYS = {
+    "rialto": 100,
+    "spam": 50,
+    "weather": 1,
+    "openml_ldpa": 100,
+    "uci_occupancy": 100,
+    "airlines": 100,
+    "bank": 100,
+    "elec2": 48,
+    "criteo": 100,
+}
 
 
 def _h(s: str) -> int:
@@ -62,8 +78,16 @@ def _h(s: str) -> int:
 def metrics(pol, losses, gain, *, delay, budget, cq, cs, stream_rng) -> dict:
     preds, labels = stream_from_losses(losses, stream_rng)
     t0 = time.perf_counter()
-    res = run_episode(pol, model_predictions=preds, labels=labels, delay=delay, budget=budget,
-                      label_price=cq, switch_cost=cs, trace=True)
+    res = run_episode(
+        pol,
+        model_predictions=preds,
+        labels=labels,
+        delay=delay,
+        budget=budget,
+        label_price=cq,
+        switch_cost=cs,
+        trace=True,
+    )
     runtime = time.perf_counter() - t0
     if res.requested_labels > budget:
         raise AssertionError(f"{pol.name} exceeded budget")
@@ -80,12 +104,18 @@ def metrics(pol, losses, gain, *, delay, budget, cq, cs, stream_rng) -> dict:
     onset = int(np.argmax(better)) if better.any() else -1
     after = np.flatnonzero((dep == 1) & (np.arange(Tn) >= onset)) if onset >= 0 else []
     exp_path = expected_oracle_path(gain, cs)
-    exp_cost = float(np.sum(losses[np.arange(Tn), exp_path])
-                     + cs * np.sum(np.diff(np.r_[0, exp_path]) != 0))
+    exp_cost = float(
+        np.sum(losses[np.arange(Tn), exp_path]) + cs * np.sum(np.diff(np.r_[0, exp_path]) != 0)
+    )
     return {
-        "net": res.net_cost, "loss": res.prediction_loss, "labels": res.requested_labels,
-        "switches": res.deployment_switches, "first_deploy": first1, "final": int(dep[-1]),
-        "ever_promote": int(first1 >= 0), "n_promotions": int((trans == 1).sum()),
+        "net": res.net_cost,
+        "loss": res.prediction_loss,
+        "labels": res.requested_labels,
+        "switches": res.deployment_switches,
+        "first_deploy": first1,
+        "final": int(dep[-1]),
+        "ever_promote": int(first1 >= 0),
+        "n_promotions": int((trans == 1).sum()),
         "n_rollbacks": int((trans == -1).sum()),
         "frac_on_wrong": float(on_wrong.mean()),
         "detect_delay": int(after[0] - onset) if len(after) else -1,
@@ -108,8 +138,9 @@ def _job(args):
     if kind == "synthetic":
         R, b = parse_regime(name)
         budget = b or CONTRACT["budget"]
-        losses = R.sample(np.random.default_rng(np.random.SeedSequence(
-            [seed_base, _h(R.name), seed])))
+        losses = R.sample(
+            np.random.default_rng(np.random.SeedSequence([seed_base, _h(R.name), seed]))
+        )
         gain, delay = R.truth_gain(), R.delay
     else:
         z = np.load(_loss_file(name))
@@ -121,25 +152,57 @@ def _job(args):
         delay, budget = _delay(name), CONTRACT["budget"]
     rows = []
     run_ep = ep * 100_000 + seed
-    for pol in build_suite(losses.shape[0], budget, CONTRACT["cs"], CONTRACT["cq"],
-                           alpha, delay, run_ep, seed_base + _h(name) % 1000,
-                           names=names, extra=EXTRA):
+    for pol in build_suite(
+        losses.shape[0],
+        budget,
+        CONTRACT["cs"],
+        CONTRACT["cq"],
+        alpha,
+        delay,
+        run_ep,
+        seed_base + _h(name) % 1000,
+        names=names,
+        extra=EXTRA,
+    ):
         stream_rng = np.random.default_rng([seed_base, _h(name), ep, seed, 7])
-        m = metrics(pol, losses, gain, delay=delay, budget=budget, cq=CONTRACT["cq"],
-                    cs=CONTRACT["cs"], stream_rng=stream_rng)
-        rows.append({"kind": kind, "gain_is_proxy": kind == "real", "regime": name, "ep": ep,
-                     "seed": seed, "policy": pol.name, "alpha": alpha,
-                     "delay": delay, "budget": budget, **m})
+        m = metrics(
+            pol,
+            losses,
+            gain,
+            delay=delay,
+            budget=budget,
+            cq=CONTRACT["cq"],
+            cs=CONTRACT["cs"],
+            stream_rng=stream_rng,
+        )
+        rows.append(
+            {
+                "kind": kind,
+                "gain_is_proxy": kind == "real",
+                "regime": name,
+                "ep": ep,
+                "seed": seed,
+                "policy": pol.name,
+                "alpha": alpha,
+                "delay": delay,
+                "budget": budget,
+                **m,
+            }
+        )
     return rows
 
 
 def _git_rev() -> str:
     try:
         rev = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=ROOT, text=True).strip()
-        dirty = subprocess.call(["git", "diff", "--quiet", "HEAD", "--", "scripts", "data", "src"],
-                                cwd=ROOT) != 0
+        dirty = (
+            subprocess.call(
+                ["git", "diff", "--quiet", "HEAD", "--", "scripts", "data", "src"], cwd=ROOT
+            )
+            != 0
+        )
         return rev + ("+dirty" if dirty else "")
-    except Exception:
+    except (OSError, subprocess.CalledProcessError):
         return "unknown"
 
 
@@ -151,17 +214,37 @@ def main(argv=None):
     ap.add_argument("--seeds", type=int, default=20)
     ap.add_argument("--seed-base", type=int, default=DEV_SEED_BASE)
     ap.add_argument("--workers", type=int, default=max(1, mp.cpu_count() - 2))
-    ap.add_argument("--alpha", type=float, default=CONTRACT["alpha"],
-                    help="nominal level passed to every policy (Track R operating points)")
+    ap.add_argument(
+        "--alpha",
+        type=float,
+        default=CONTRACT["alpha"],
+        help="nominal level passed to every policy (Track R operating points)",
+    )
     ap.add_argument("--out", required=True)
     a = ap.parse_args(argv)
     from registry import EXTRA, IMPORT_ERRORS
 
     names = [x for x in a.policies.split(",") if x]
-    unknown = [n for n in names if n not in EXTRA and n not in (
-        "gated_deployment", "discern_style", "SMCS+retain-incumbent", "model_picker_adapter",
-        "model_selector_causal", "online_llm_picker", "xu_acquisition_only", "cams_adapter",
-        "variance_min_ipw", "P7s_settled", "CONTROL_never_switch", "economic_replacement")]
+    unknown = [
+        n
+        for n in names
+        if n not in EXTRA
+        and n
+        not in (
+            "gated_deployment",
+            "discern_style",
+            "SMCS+retain-incumbent",
+            "model_picker_adapter",
+            "model_selector_causal",
+            "online_llm_picker",
+            "xu_acquisition_only",
+            "cams_adapter",
+            "variance_min_ipw",
+            "P7s_settled",
+            "CONTROL_never_switch",
+            "economic_replacement",
+        )
+    ]
     if unknown:
         sys.exit(f"unknown policies {unknown}; import errors: {IMPORT_ERRORS}")
     regimes = [x for x in a.regimes.split(",") if x]
@@ -171,27 +254,49 @@ def main(argv=None):
             jobs += [("synthetic", r, 0, s, a.seed_base, names, a.alpha) for s in range(a.seeds)]
         else:
             K = np.load(_loss_file(r))["l0"].shape[0]
-            jobs += [("real", r, e, s, a.seed_base, names, a.alpha) for e in range(K)
-                     for s in range(a.seeds)]
+            jobs += [
+                ("real", r, e, s, a.seed_base, names, a.alpha)
+                for e in range(K)
+                for s in range(a.seeds)
+            ]
     out = Path(a.out)
     out.mkdir(parents=True, exist_ok=True)
     t0 = time.time()
     with open(out / "records.jsonl", "w") as f, mp.Pool(a.workers) as pool:
         for rows in pool.imap_unordered(_job, jobs, chunksize=2):
-            for row in rows:
-                f.write(json.dumps(row) + "\n")
+            f.writelines(json.dumps(row) + "\n" for row in rows)
     # provenance (ARIS m3 re-audit): hash the sprint code AND every imported dependency directory,
     # plus the loss caches a real run replays
-    deps = [HERE, ROOT / "scripts/failure_atlas_v2_flq", ROOT / "scripts/failure_atlas_v2",
-            ROOT / "scripts/promising_directions/sota", ROOT / "scripts/promising_directions/sota/competitors"]
-    srcs = {str(p.relative_to(ROOT)): hashlib.sha256(p.read_bytes()).hexdigest()[:16]
-            for d in deps for p in sorted(d.glob("*.py"))}
+    deps = [
+        HERE,
+        ROOT / "scripts/failure_atlas_v2_flq",
+        ROOT / "scripts/failure_atlas_v2",
+        ROOT / "scripts/promising_directions/sota",
+        ROOT / "scripts/promising_directions/sota/competitors",
+    ]
+    srcs = {
+        str(p.relative_to(ROOT)): hashlib.sha256(p.read_bytes()).hexdigest()[:16]
+        for d in deps
+        for p in sorted(d.glob("*.py"))
+    }
     if a.kind == "real":
-        srcs.update({str(_loss_file(r).relative_to(ROOT)): hashlib.sha256(_loss_file(r).read_bytes()).hexdigest()[:16]
-                     for r in regimes})
-    manifest = {"argv": vars(a), "contract": {**CONTRACT, "alpha": a.alpha}, "git": _git_rev(), "sources": srcs,
-                "import_errors": IMPORT_ERRORS, "n_jobs": len(jobs),
-                "seconds": round(time.time() - t0, 1)}
+        srcs.update(
+            {
+                str(_loss_file(r).relative_to(ROOT)): hashlib.sha256(
+                    _loss_file(r).read_bytes()
+                ).hexdigest()[:16]
+                for r in regimes
+            }
+        )
+    manifest = {
+        "argv": vars(a),
+        "contract": {**CONTRACT, "alpha": a.alpha},
+        "git": _git_rev(),
+        "sources": srcs,
+        "import_errors": IMPORT_ERRORS,
+        "n_jobs": len(jobs),
+        "seconds": round(time.time() - t0, 1),
+    }
     (out / "manifest.json").write_text(json.dumps(manifest, indent=2) + "\n")
     print(f"done {len(jobs)} jobs in {time.time() - t0:.0f}s -> {out}")
 

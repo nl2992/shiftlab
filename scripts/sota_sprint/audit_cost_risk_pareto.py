@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """Check every displayed cost-risk Pareto row against its family Track-R JSON."""
+
 from __future__ import annotations
 
 import argparse
@@ -44,9 +45,13 @@ def main() -> int:
         source = json.loads((ROOT / SOURCES[family]).read_text())
         point = source.get("curves", {}).get(target, {}).get(candidate)
         if family == "Family P5" and point is not None:
-            point = {"alpha": point["alpha"], "risk": point["eval_risk"],
-                     "risk_ci": point["eval_risk_ci"], "cost": point["alt_net"],
-                     "cost_ci": point["alt_net_ci"]}
+            point = {
+                "alpha": point["alpha"],
+                "risk": point["eval_risk"],
+                "risk_ci": point["eval_risk_ci"],
+                "cost": point["alt_net"],
+                "cost_ci": point["alt_net_ci"],
+            }
         if point is None:
             failures.append(f"line {line_no}: {family}/{target}/{candidate} missing from source")
             continue
@@ -64,9 +69,13 @@ def main() -> int:
             continue
         observed = [alpha, *risk_vals, *cost_vals]
         expected = [point["alpha"], *expected_risk, *expected_cost]
-        if any(round(a, 1 if i >= 4 else 3) != round(b, 1 if i >= 4 else 3)
-               for i, (a, b) in enumerate(zip(observed, expected))):
-            failures.append(f"line {line_no}: {family}/{target}/{candidate} values {observed} != {expected}")
+        if any(
+            round(a, 1 if i >= 4 else 3) != round(b, 1 if i >= 4 else 3)
+            for i, (a, b) in enumerate(zip(observed, expected))
+        ):
+            failures.append(
+                f"line {line_no}: {family}/{target}/{candidate} values {observed} != {expected}"
+            )
         rows_checked += 1
     result = {
         "audit": "PASS" if not failures and rows_checked else "FAIL",

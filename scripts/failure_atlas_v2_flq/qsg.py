@@ -40,8 +40,8 @@ for _p in (SOTA, SOTA / "competitors"):
     if str(_p) not in sys.path:
         sys.path.insert(0, str(_p))
 
-from controls import PacedDisagreementAcquisition  # noqa: E402
-from simulator import QueryRequest  # noqa: E402
+from controls import PacedDisagreementAcquisition
+from simulator import QueryRequest
 
 GRID = np.arange(0.55, 0.951, 0.05)
 
@@ -76,7 +76,7 @@ class QSG:
         self.T, self.B, self.alpha, self.alpha_r = horizon, budget, alpha, alpha_r
         self.rng = rng
         self.front, self.started, self.rollback, self.monitor = front, started, rollback, monitor
-        self.reserve = int(round(reserve * budget))  # labels kept back from front-loading
+        self.reserve = round(reserve * budget)  # labels kept back from front-loading
         self.acq = PacedDisagreementAcquisition(horizon, budget)
         self.deployed = 0
         self.cycle = 1
@@ -119,7 +119,7 @@ class QSG:
             if self.deployed == 0:
                 up = self.e_up.update(z)
                 dn = self.e_dn.update(z)
-                if up >= 2.0 ** self.cycle / self.alpha:
+                if up >= 2.0**self.cycle / self.alpha:
                     # a promotion is a verdict: the rollback test runs at the paced monitoring
                     # rate (dev-stage fix 2026-11-03; v0 kept front-loading here and exhausted
                     # the budget before any reversal could be seen)
@@ -157,16 +157,21 @@ class _Fixed(StartedMixture):
 
 EXTRA = {
     "QSG": lambda T, B, cs, cq, a, d, r: QSG(T, B, a, rng=r("QSG")),
-    "QSG-no_front": lambda T, B, cs, cq, a, d, r: QSG(T, B, a, rng=r("QSG"), front=False,
-                                                      name="QSG-no_front"),
-    "QSG-no_started": lambda T, B, cs, cq, a, d, r: QSG(T, B, a, rng=r("QSG"), started=False,
-                                                        name="QSG-no_started"),
-    "QSG-no_rollback": lambda T, B, cs, cq, a, d, r: QSG(T, B, a, rng=r("QSG"), rollback=False,
-                                                         name="QSG-no_rollback"),
-    "QSG-r25": lambda T, B, cs, cq, a, d, r: QSG(T, B, a, rng=r("QSG"), reserve=0.25,
-                                                 name="QSG-r25"),
-    "QSG-no_monitor": lambda T, B, cs, cq, a, d, r: QSG(T, B, a, rng=r("QSG"), monitor=False,
-                                                        name="QSG-no_monitor"),
+    "QSG-no_front": lambda T, B, cs, cq, a, d, r: QSG(
+        T, B, a, rng=r("QSG"), front=False, name="QSG-no_front"
+    ),
+    "QSG-no_started": lambda T, B, cs, cq, a, d, r: QSG(
+        T, B, a, rng=r("QSG"), started=False, name="QSG-no_started"
+    ),
+    "QSG-no_rollback": lambda T, B, cs, cq, a, d, r: QSG(
+        T, B, a, rng=r("QSG"), rollback=False, name="QSG-no_rollback"
+    ),
+    "QSG-r25": lambda T, B, cs, cq, a, d, r: QSG(
+        T, B, a, rng=r("QSG"), reserve=0.25, name="QSG-r25"
+    ),
+    "QSG-no_monitor": lambda T, B, cs, cq, a, d, r: QSG(
+        T, B, a, rng=r("QSG"), monitor=False, name="QSG-no_monitor"
+    ),
 }
 
 
@@ -208,7 +213,7 @@ class QSGEnvelope(QSG):
         super().__init__(*a, **kw)
 
     def _new_tests(self):
-        mk = lambda s: EnvelopeMixture(s, self.rho_bar)  # noqa: E731
+        mk = lambda s: EnvelopeMixture(s, self.rho_bar)
         if self.deployed == 0:
             self.e_up, self.e_dn = mk(+1), mk(-1)
         else:
@@ -226,7 +231,7 @@ class QSGEnvelope(QSG):
             if self.deployed == 0:
                 up = self.e_up.update_at(z, e)
                 dn = self.e_dn.update_at(z, e)
-                if up >= 2.0 ** self.cycle / self.alpha:
+                if up >= 2.0**self.cycle / self.alpha:
                     self.deployed, self.decided, self.seg = 1, True, t
                     self._new_tests()
                 elif dn >= 1.0 / self.alpha:
@@ -237,9 +242,13 @@ class QSGEnvelope(QSG):
                 self._new_tests()
 
 
-EXTRA.update({
-    "QSG-env8": lambda T, B, cs, cq, a, d, r: QSGEnvelope(T, B, a, rng=r("QSG"), rho_bar=0.8,
-                                                          name="QSG-env8"),
-    "QSG-env95": lambda T, B, cs, cq, a, d, r: QSGEnvelope(T, B, a, rng=r("QSG"), rho_bar=0.95,
-                                                           name="QSG-env95"),
-})
+EXTRA.update(
+    {
+        "QSG-env8": lambda T, B, cs, cq, a, d, r: QSGEnvelope(
+            T, B, a, rng=r("QSG"), rho_bar=0.8, name="QSG-env8"
+        ),
+        "QSG-env95": lambda T, B, cs, cq, a, d, r: QSGEnvelope(
+            T, B, a, rng=r("QSG"), rho_bar=0.95, name="QSG-env95"
+        ),
+    }
+)

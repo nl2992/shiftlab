@@ -23,7 +23,9 @@ def test_paired_t_summary_reports_mean_and_interval():
 def test_frame_requires_complete_unique_policy_seed_cells(tmp_path):
     rows = [
         {"regime": regime, "ep": 0, "seed": seed, "policy": policy}
-        for regime in ("r1", "r2") for seed in (0, 1) for policy in ("H2", "D2")
+        for regime in ("r1", "r2")
+        for seed in (0, 1)
+        for policy in ("H2", "D2")
     ]
     path = tmp_path / "records.jsonl"
     pd.DataFrame(rows).to_json(path, orient="records", lines=True)

@@ -18,8 +18,8 @@ for _p in (ROOT / "scripts/failure_atlas_v2_flq", HERE):
     if str(_p) not in sys.path:
         sys.path.insert(0, str(_p))
 
-import bench  # noqa: E402,F401  (pins the FLQ regimes module before the RMM path is added)
-from v2_extra import EXTRA as _FLQ  # noqa: E402
+import bench  # noqa: F401  (pins the FLQ regimes module before the RMM path is added)
+from v2_extra import EXTRA as _FLQ
 
 IMPORT_ERRORS: dict[str, str] = {}
 
@@ -35,19 +35,32 @@ def _rmm() -> dict:
         spec.loader.exec_module(mod)
     finally:  # RMM prepends its own directory, whose regimes.py/suite.py would shadow FLQ's
         sys.path[:] = saved  # (spawned workers inherit the parent's sys.path)
-    keep = ("gated_deployment+RMM", "discern_style+RMM", "SMCS+retain-incumbent+RMM",
-            "model_picker_adapter+RMM", "cams_adapter+RMM", "LRMD",
-            # Amendment 3 attribution: single-start (no restart mixture) and no continued acquisition
-            "gated_deployment+RMM_single", "discern_style+RMM_single",
-            "SMCS+retain-incumbent+RMM_single", "gated_deployment+RMM_noacq",
-            "discern_style+RMM_noacq")
+    keep = (
+        "gated_deployment+RMM",
+        "discern_style+RMM",
+        "SMCS+retain-incumbent+RMM",
+        "model_picker_adapter+RMM",
+        "cams_adapter+RMM",
+        "LRMD",
+        # Amendment 3 attribution: single-start (no restart mixture) and no continued acquisition
+        "gated_deployment+RMM_single",
+        "discern_style+RMM_single",
+        "SMCS+retain-incumbent+RMM_single",
+        "gated_deployment+RMM_noacq",
+        "discern_style+RMM_noacq",
+    )
     out = {f"rmm:{k}": v for k, v in mod.FACTORIES.items() if k in keep}
     # Amendment 5: a fourth certificate family as RMM host (the strong gated re-port, wmax_t = 1/q_t)
     from strong_hosts import GatedAdaptiveRange
 
     out["rmm:gated_adaptive_range+RMM"] = lambda T, B, cs, cq, a, d, r: mod.RestartMixtureMonitor(
-        lambda T_, B_, a_, r_: GatedAdaptiveRange(T_, B_, a_, rng=r_), T, B, a,
-        rng=r("gated_adaptive_range"), name="")
+        lambda T_, B_, a_, r_: GatedAdaptiveRange(T_, B_, a_, rng=r_),
+        T,
+        B,
+        a,
+        rng=r("gated_adaptive_range"),
+        name="",
+    )
     return out
 
 
@@ -55,15 +68,27 @@ def build_extra() -> dict:
     extra = dict(_FLQ)
     try:
         extra.update(_rmm())
-    except Exception as e:  # pragma: no cover - reported in manifests
+    except (ImportError, AttributeError) as e:  # pragma: no cover - reported in manifests
         IMPORT_ERRORS["rmm"] = repr(e)
-    for fam in ("fam_a", "fam_b", "fam_c", "fam_d", "fam_x", "fam_m",
-                "fam_h", "fam_r", "fam_t", "fam_p", "fam_e", "fam_f"):  # sprint 2
+    for fam in (
+        "fam_a",
+        "fam_b",
+        "fam_c",
+        "fam_d",
+        "fam_x",
+        "fam_m",
+        "fam_h",
+        "fam_r",
+        "fam_t",
+        "fam_p",
+        "fam_e",
+        "fam_f",
+    ):  # sprint 2
         if not (HERE / f"{fam}.py").exists():
             continue
         try:
             extra.update(importlib.import_module(fam).EXTRA)
-        except Exception as e:
+        except (ImportError, AttributeError) as e:
             IMPORT_ERRORS[fam] = repr(e)
     return extra
 

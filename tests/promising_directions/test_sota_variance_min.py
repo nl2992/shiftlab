@@ -122,7 +122,9 @@ def _load_author():
         pytest.skip("vendor_sota/variance_min not cloned")
     mods = {}
     for name in ("query", "estimator"):
-        spec = importlib.util.spec_from_file_location(f"_vm_author_{name}", AUTHOR_SRC / f"{name}.py")
+        spec = importlib.util.spec_from_file_location(
+            f"_vm_author_{name}", AUTHOR_SRC / f"{name}.py"
+        )
         mod = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(mod)
         mods[name] = mod
@@ -177,7 +179,11 @@ def test_full_loop_matches_author_run_model_selection():
     seed = 3
     h_a, o_a, q_a = author_loop(seed)
     ours = VarianceMinNative(3).run(
-        preds, y, p_est, 40, sampler=lambda q_now, i: int(query.sample_from_p(q_now, seed=N * seed + i + 1))
+        preds,
+        y,
+        p_est,
+        40,
+        sampler=lambda q_now, i: int(query.sample_from_p(q_now, seed=N * seed + i + 1)),
     )
     assert list(ours["queried"]) == o_a
     np.testing.assert_allclose(ours["q"], q_a, rtol=1e-12)
@@ -193,7 +199,14 @@ def _adapter(cls, preds, y, seed, rate, dev_n=200):
 @pytest.mark.parametrize("cls", [VarianceMinCausalAdapter, VarianceMinStreamingIPW])
 def test_budget_feasible_no_future_and_deterministic(cls):
     preds, y = _stream(500, seed=11)
-    kw = {"model_predictions": preds, "labels": y, "delay": 7, "budget": 25, "label_price": 0.1, "switch_cost": 1.0}
+    kw = {
+        "model_predictions": preds,
+        "labels": y,
+        "delay": 7,
+        "budget": 25,
+        "label_price": 0.1,
+        "switch_cost": 1.0,
+    }
     r1 = run_episode(_adapter(cls, preds, y, 4, rate=0.2), **kw)
     r2 = run_episode(_adapter(cls, preds, y, 4, rate=0.2), **kw)
     assert check_budget_feasible(r1, 25) == []
@@ -205,7 +218,9 @@ def test_budget_feasible_no_future_and_deterministic(cls):
 def test_zero_budget_requests_nothing():
     preds, y = _stream(100)
     pol = _adapter(VarianceMinCausalAdapter, preds, y, 0, rate=0.5)
-    res = run_episode(pol, model_predictions=preds, labels=y, delay=1, budget=0, label_price=0.1, switch_cost=1.0)
+    res = run_episode(
+        pol, model_predictions=preds, labels=y, delay=1, budget=0, label_price=0.1, switch_cost=1.0
+    )
     assert res.requested_labels == 0 and res.refused_requests == 0
 
 
@@ -233,7 +248,9 @@ def test_only_arrived_events_and_frozen_propensity():
 
 
 def test_adapter_uses_issue_time_propensity_not_recomputation():
-    a = VarianceMinStreamingIPW(2, 2, np.random.default_rng(0), rate=0.5, class_prior=np.array([0.5, 0.5]))
+    a = VarianceMinStreamingIPW(
+        2, 2, np.random.default_rng(0), rate=0.5, class_prior=np.array([0.5, 0.5])
+    )
     a.horizon = 10
     a.observe([ReleasedFeedback(0, 0, 3, 1, np.array([1, 0]), 0.25)])
     np.testing.assert_allclose(a.estimate(), np.array([1 / 0.25, 0.0]) / 10)
@@ -244,7 +261,9 @@ def test_adapter_uses_issue_time_propensity_not_recomputation():
 def test_state_roundtrip():
     preds, y = _stream(80)
     pol = _adapter(VarianceMinCausalAdapter, preds, y, 0, rate=0.3)
-    run_episode(pol, model_predictions=preds, labels=y, delay=2, budget=20, label_price=0.1, switch_cost=1.0)
+    run_episode(
+        pol, model_predictions=preds, labels=y, delay=2, budget=20, label_price=0.1, switch_cost=1.0
+    )
     other = _adapter(VarianceMinCausalAdapter, preds, y, 0, rate=0.3)
     other.load_state_dict(pol.state_dict())
     np.testing.assert_allclose(other.estimate(), pol.estimate())
@@ -261,8 +280,16 @@ def test_streaming_ipw_unbiased_and_lure_adapter_bias_is_measured():
     for cls, acc in est.items():
         for s in range(300):
             pol = _adapter(cls, preds, y, s, rate=0.15)
-            run_episode(pol, model_predictions=preds, labels=y, delay=3, budget=300,
-                        label_price=0.0, switch_cost=0.0, trace=False)
+            run_episode(
+                pol,
+                model_predictions=preds,
+                labels=y,
+                delay=3,
+                budget=300,
+                label_price=0.0,
+                switch_cost=0.0,
+                trace=False,
+            )
             acc.append(pol.estimate())
     ipw = np.mean(est[VarianceMinStreamingIPW], axis=0)
     lur = np.mean(est[VarianceMinCausalAdapter], axis=0)

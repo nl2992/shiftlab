@@ -36,7 +36,9 @@ these source rows after validation.
 - Regimes: all four `bench2.RISK_NULLS` and all six `bench2.RISK_ALTS`.
 - Development: 20 seeds, base `2026111201`; calibration only.
 - Evaluation: 20 separate seeds, base `2026111211`; no threshold retuning.
-- Runner: `scripts/sota_sprint/screen.py`; analysis: `scripts/sota_sprint/risk_curves.py`.
+- Frozen runner: `scripts/sota_sprint/run_t125_trackr_followup.sh`; it calls
+  `scripts/sota_sprint/screen.py` for every alpha/split and stores one run manifest per output.
+  Analysis: `scripts/sota_sprint/risk_curves.py`.
 - Full argv, source hashes, output hashes and raw-record checksums will be captured in the follow-up
   manifest index before reporting results.
 

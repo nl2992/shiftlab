@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Paired audit of original outputs against completed adaptive-gate correction replays."""
+"""Paired audit of original outputs against MOPE interval correction replays."""
 
 from __future__ import annotations
 
@@ -12,7 +12,7 @@ import numpy as np
 import pandas as pd
 from scipy import stats
 
-TAG = "_wmaxfix_20261105"
+TAG = "_mopeinterval_20261106"
 KEYS = ["kind", "regime", "ep", "seed", "policy"]
 
 
@@ -43,9 +43,9 @@ def digest(path: Path) -> str:
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--root", type=Path, default=Path("outputs"))
-    parser.add_argument("--json", type=Path, default=Path("outputs/sprint2/adaptive_gate_replay_differences.json"))
-    parser.add_argument("--csv", type=Path, default=Path("outputs/sprint2/adaptive_gate_replay_differences.csv"))
-    parser.add_argument("--markdown", type=Path, default=Path("docs/sprint2/adaptive_gate_replay_differences.md"))
+    parser.add_argument("--json", type=Path, default=Path("outputs/sprint2/mope_interval_replay_differences.json"))
+    parser.add_argument("--csv", type=Path, default=Path("outputs/sprint2/mope_interval_replay_differences.csv"))
+    parser.add_argument("--markdown", type=Path, default=Path("docs/sprint2/mope_interval_replay_differences.md"))
     args = parser.parse_args()
 
     results = []
@@ -130,7 +130,7 @@ def main() -> None:
                "corrected_runs": sorted({r["corrected_run"] for r in results})}
     args.json.write_text(json.dumps(payload, indent=2, allow_nan=False) + "\n")
     lines = [
-        "# Adaptive-gate correction replay differences", "",
+        "# MOPE interval correction replay differences", "",
         "Matched old versus corrected output rows use the same stream, episode, seed and policy. These are correction replays after a discovered implementation defect; they are not independent validation or new confirmatory data.", "",
         f"- Corrected run directories with matched output: **{len(payload['corrected_runs'])}**",
         f"- Matched regime-policy cells: **{len(results)}**",

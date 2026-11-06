@@ -37,7 +37,7 @@ CS = 5.0
 NBOOT = 2000
 
 
-CORRECTION_TAG = "_wmaxfix_20261105"
+CORRECTION_TAG = "_mopeinterval_20261106"
 
 
 def load(dirs, corrected=False) -> pd.DataFrame:

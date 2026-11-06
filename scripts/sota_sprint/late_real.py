@@ -36,7 +36,7 @@ import numpy as np
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[1]
-CORRECTION_TAG = "_wmaxfix_20261105"
+CORRECTION_TAG = "_mopeinterval_20261106"
 CORRECTED_REPLAY = False
 
 
@@ -46,7 +46,38 @@ def _records(directory):
     old = pd.read_json(path / "records.jsonl", lines=True)
     sibling = path.with_name(path.name + CORRECTION_TAG) / "records.jsonl"
     if not CORRECTED_REPLAY or not sibling.is_file():
-        return old
+        if not CORRECTED_REPLAY:
+            return old
+        manifest_path = path / "manifest.json"
+        if not manifest_path.is_file():
+            return old
+        manifest = json.loads(manifest_path.read_text())
+        constituents = manifest.get("constituent_runs", [])
+        if not constituents:
+            return old
+        parts = []
+        for name in constituents:
+            source = Path(name)
+            if not source.is_absolute():
+                source = ROOT / source
+            base = pd.read_json(source / "records.jsonl", lines=True)
+            replay = source.with_name(source.name + CORRECTION_TAG) / "records.jsonl"
+            if replay.is_file():
+                patch = pd.read_json(replay, lines=True)
+                base = base[~base.policy.isin(set(patch.policy))]
+                base = pd.concat([base, patch], ignore_index=True)
+            parts.append(base)
+        new = pd.concat(parts, ignore_index=True)
+        policies = set(new.policy)
+        previous = old[old.policy.isin(policies)]
+        keys = ["kind", "regime", "ep", "seed", "policy"]
+        if previous.duplicated(keys).any() or new.duplicated(keys).any():
+            raise ValueError(f"duplicate aggregate WP1 correction keys for {path}")
+        joined = previous[keys].merge(new[keys], on=keys, how="outer", indicator=True,
+                                      validate="one_to_one")
+        if not (joined["_merge"] == "both").all():
+            raise ValueError(f"aggregate WP1 correction coverage differs for {path}")
+        return pd.concat([old[~old.policy.isin(policies)], new], ignore_index=True)
     new = pd.read_json(sibling, lines=True)
     keys = ["kind", "regime", "ep", "seed", "policy"]
     if not set(keys).issubset(old) or not set(keys).issubset(new):

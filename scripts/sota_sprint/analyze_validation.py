@@ -18,7 +18,7 @@ ROOT = Path(__file__).resolve().parents[2]
 OUT = ROOT / "outputs/sota_sprint/validation"
 DOC = ROOT / "docs/sota_sprint/validation"
 BOUND = 0.0936
-CORRECTION_TAG = "_wmaxfix_20261105"
+CORRECTION_TAG = "_mopeinterval_20261106"
 PAIR_KEYS = ["kind", "regime", "ep", "seed", "policy"]
 CERT = ["gated_deployment", "gated_adaptive_range", "gated_adaptive_range+front", "discern_style",
         "discern_design_floor", "SMCS+retain-incumbent", "xu_acquisition_only", "choe_ramdas_eb",

@@ -43,7 +43,7 @@ def wilson_hi(k, n, z=1.96):
     return min(1.0, c + z * math.sqrt(p * (1 - p) / n + z * z / (4 * n * n)) / (1 + z * z / n))
 
 
-CORRECTION_TAG = "_wmaxfix_20261105"
+CORRECTION_TAG = "_mopeinterval_20261106"
 
 
 def _load(dirs, corrected=False):

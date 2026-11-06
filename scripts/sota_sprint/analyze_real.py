@@ -28,7 +28,7 @@ UNC = ["model_picker_adapter", "model_selector_causal", "online_llm_picker", "ca
 CANDS = {"A5b": None, "X_A5C": None, "D1": "model_picker_adapter", "D2": "cams_adapter",
          "C2": "gated_adaptive_range+front", "C6": "gated_adaptive_range+front",
          "B2": "rmm:gated_deployment+RMM", "B5": "rmm:gated_deployment+RMM"}
-CORRECTION_TAG = "_wmaxfix_20261105"
+CORRECTION_TAG = "_mopeinterval_20261106"
 PAIR_KEYS = ["kind", "regime", "ep", "seed", "policy"]
 
 

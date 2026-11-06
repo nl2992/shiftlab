@@ -203,6 +203,12 @@ precision criterion. See `docs/sota_sprint/validation/adaptive_gate_fixed_strict
 `docs/sprint2/wp2/adaptive_gate_fixed_20261106/`, and
 `docs/sprint2/adaptive_gate_replay_differences.md`.
 
+**Superseding MOPE correction:** subsequent paper/source review found that `MopeCS` did not intersect
+its lower and reflected upper bounds, allowing them to cross. The interval update has been corrected;
+the expanded 163-run same-seed replay is underway. The `adaptive_gate_fixed_*` sensitivities above
+predate this second correction and must be regenerated before treating any MOPE-dependent result as
+final.
+
 * Comparators mix pinned author-code reproductions and common-contract ports/adapters; none of the
   full deployment systems should be described as author-native. See the paper-to-implementation
   audit for method-specific fidelity limits, including the still-open native MOPE parity check.

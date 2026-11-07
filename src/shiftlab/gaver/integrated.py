@@ -32,10 +32,11 @@ import math
 from collections import deque
 
 from shiftlab.dive import atlas_components as comp
+from shiftlab.dive.atlas_dependence_baselines import MarkovLREProcess
 from shiftlab.gaver import gapmix as gm
 from shiftlab.gaver.pave import PaveMethod, PaveParams
 
-EVIDENCES = ("dss", "gapmix", "env")
+EVIDENCES = ("dss", "gapmix", "env", "mlr")  # mlr: post-hoc valid reference (WP5 amendment)
 ACQS = ("dss", "pave")
 RHO_BAR = 0.8
 PAVE_TUNED = PaveParams(pending=True, deadline=True, reserve=False, kappa=0.1, q=0.03)
@@ -73,6 +74,29 @@ class GapEvidence:
         return bool(self.inner.alarm)
 
 
+class MLREvidence:
+    """Existing Atlas Markov-LR e-process (``markov_lr_gate``'s evidence) inside the DSS shell."""
+
+    def __init__(self, method: GaverMethod, alpha: float):
+        cfg = method.cfg
+        self.method = method
+        self.inner = MarkovLREProcess((1.0 + cfg.h) / 2.0, alpha, cfg.B)
+        self.xs: list[float] = []
+
+    def update(self, x: float) -> None:
+        self.method._evq.popleft()
+        self.xs.append(x)
+        self.inner.update_z(1 if x < 0 else 0)
+
+    @property
+    def proc(self):
+        return self.inner
+
+    @property
+    def alarm(self) -> bool:
+        return bool(self.inner.alarm)
+
+
 class GaverMethod(PaveMethod):
     def __init__(
         self,
@@ -100,7 +124,9 @@ class GaverMethod(PaveMethod):
 
     def _new_episode(self, j: int, start: int) -> None:
         super()._new_episode(j, start)
-        if self.evidence != "dss":
+        if self.evidence == "mlr":
+            self.ep = MLREvidence(self, self._alpha_j(j))
+        elif self.evidence != "dss":
             self.ep = GapEvidence(self, self._alpha_j(j), start)
 
     def _p(self, slot: str, name: str):

@@ -58,3 +58,12 @@ bootstrap CI, reported on gate-on cells and on all cells.
 strongest in-repo comparator in target cells; not materially worse in neighbours; rho=.95 reported.
 
 **Compute.** <= 8 workers, resumable partial CSVs in `outputs/gaver/wp5/{pavenull,null,alt}/rows.csv`.
+
+**Amendment A1 (POST-HOC, added after the alt results were seen, before the null stage ran).**
+On the planner's request a *valid* evidence reference is added: the existing Atlas Markov-LR
+e-process (`atlas_dependence_baselines.MarkovLREProcess`, the evidence of `markov_lr_gate`) inside
+the same DSS shell, arms `gaver:mlr:dss` and `gaver:mlr:pave`, on the same alt seeds and null
+streams. Reason: DSS evidence is not valid under dependence (WP2: null UCB 0.269 at rho=.8), so
+Gap-Mix's cost against it must also be read against a valid comparator. `episode_front` was also
+added to the alt references (it was listed in the runner's references after the first alt pass).
+These contrasts are labelled post-hoc in every table. Nothing else in Section 0 changed.

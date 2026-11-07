@@ -33,7 +33,7 @@ class Spy(GaverMethod):
 
 
 @pytest.mark.parametrize("cid", [D50, D1])
-@pytest.mark.parametrize("ev", ["dss", "gapmix", "env"])
+@pytest.mark.parametrize("ev", ["dss", "gapmix", "env", "mlr"])
 @pytest.mark.parametrize("aq", ["dss", "pave"])
 def test_budget_and_no_unreleased_labels(cid, ev, aq):
     cell = build_cell(cid)

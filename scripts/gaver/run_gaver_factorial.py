@@ -79,7 +79,7 @@ def alt_cells() -> list[tuple[str, object]]:
 def arms_for(stage: str, cell) -> list[str]:
     if stage == "pavenull":
         return ["dss", "pave_raw"]
-    ref = ["uniform"] if stage == "alt" else []
+    ref = ["uniform", "episode_front"] if stage == "alt" else []
     gated_on = pave_active(cell.config(0))
     arms = FACTORIAL if gated_on or stage == "alt" else [f"gaver:{e}:dss" for e in EVIDENCES]
     return ref + arms

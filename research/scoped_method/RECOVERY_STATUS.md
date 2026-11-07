@@ -201,5 +201,6 @@ strong: retain `BENCHMARK_OR_CASE_STUDY_ONLY` as the overall scientific disposit
 the prior `NO_ECONOMIC_HEADROOM` finding as scoped to the synthetic candidate regions and safety
 contract that were actually tested.
 
-The current local test/lint checkpoint has not yet been pushed as of this note; the separately
-preserved earlier CI run remains green. No merge to `main` was performed.
+This checkpoint was committed and pushed as `a098faf3` to the existing research branch. GitHub
+Actions run `42357579417` was in progress when checked; the complete local lint, formatting, typing
+and test checks above passed. No merge to `main` was performed.

@@ -1,4 +1,11 @@
+import sys
+from pathlib import Path
+
 import numpy as np
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "scripts/sota_sprint"))
+
+import screen  # noqa: F401  (sets up the FLQ and SOTA import paths fam_e needs)
 from fam_e import HOSTS
 from simulator import run_episode
 

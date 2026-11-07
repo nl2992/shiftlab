@@ -23,7 +23,12 @@ import numpy as np
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[1]
-for _p in (ROOT / "scripts/failure_atlas_v2_flq", HERE):
+for _p in (
+    ROOT / "scripts/failure_atlas_v2_flq",
+    ROOT / "scripts/promising_directions/sota",
+    ROOT / "scripts/promising_directions/sota/competitors",
+    HERE,
+):
     if str(_p) not in sys.path:
         sys.path.insert(0, str(_p))
 

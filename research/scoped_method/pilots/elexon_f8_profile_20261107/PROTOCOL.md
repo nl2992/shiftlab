@@ -22,7 +22,7 @@ study screen, not a new-method experiment.
 - Store quantities only in ignored `data/raw/`; publish response hashes, counts, and schema metadata,
   not row-level load values.
 - BMRS data use is subject to Elexon's open-data licence. Any artifact that uses the data must
-  include the attribution `Contains BMRS data © Elexon Limited copyright and database right 2025`
+  include the attribution `Contains BMRS data © Elexon Limited copyright and database right 2026`
   and link to the [BMRS data licence](https://www.elexon.co.uk/bsc/data/balancing-mechanism-reporting-agent/copyright-licence-bmrs-data/).
   Do not imply Elexon endorsement.
 

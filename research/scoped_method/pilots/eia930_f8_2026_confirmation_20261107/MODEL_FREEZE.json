@@ -1,0 +1,85 @@
+{
+  "protocol": "eia930_f8_2026_confirmation_20261107/PROTOCOL_V2.md",
+  "git_commit": "5e865676eddc54121293bab80f01b9c9a45fef1b",
+  "model_code_sha256": "ae3a493b43e8c08bd229300eda2bcb0ccdfc241877eca071884159f149a29fc3",
+  "feature_code_sha256": "cd2489414cd8d48adf8e660cd34eaa0327ce14a74a1f75f5b67da4aa8a761295",
+  "training_source_sha256": {
+    "data/raw/eia930_f8_development_20261107/EIA930_BALANCE_2021_Jan_Jun.csv": "40b183f333e0f3edc1b9a2ed48b792eff00fd477915dae79ce5784e862380f7f",
+    "data/raw/eia930_f8_development_20261107/EIA930_BALANCE_2021_Jul_Dec.csv": "66afadcab6865f74cebd6db82e363a66976846241c040cba66baf240afcd669b",
+    "data/raw/eia930_f8_development_20261107/EIA930_BALANCE_2022_Jan_Jun.csv": "d3d315a0c29d9527a1c64cf6ddcdcc5c0b7281fddd99199bd70f06d242e503d5",
+    "data/raw/eia930_f8_development_20261107/EIA930_BALANCE_2022_Jul_Dec.csv": "267575c29ef40f386bcf3bc3993013b9ce13a3a154b89b702559a75dd742976d",
+    "data/raw/eia930_f8_development_20261107/EIA930_BALANCE_2023_Jan_Jun.csv": "a0e14e9c07ab4cc1de3e384c7be890b0c61d9de3fe04ad3ae5ec739f1f35ec1b",
+    "data/raw/eia930_f8_development_20261107/EIA930_BALANCE_2023_Jul_Dec.csv": "c719fc1b513eec8982ce209b6e3173fc64b2d0d243f83d3bf0d8d1adf6222de2"
+  },
+  "training_year": 2021,
+  "validation_period_metrics_not_recomputed": true,
+  "sklearn_version": "1.9.1",
+  "models": {
+    "AZPS": {
+      "artifact": "data/raw/eia930_f8_2026_confirmation_20261107/models/AZPS.joblib",
+      "sha256": "8fc58282bc61d88d9da131a802a8d3877319d2103292597dc5c46c482e16465a",
+      "train_events": 8392,
+      "threshold_mw": 5218.900000000001
+    },
+    "BANC": {
+      "artifact": "data/raw/eia930_f8_2026_confirmation_20261107/models/BANC.joblib",
+      "sha256": "b816f151f1bcde406c1eb3ab73994000fddd2741c98ae6e880f05f0aad7a8875",
+      "train_events": 8363,
+      "threshold_mw": 2744.0
+    },
+    "EPE": {
+      "artifact": "data/raw/eia930_f8_2026_confirmation_20261107/models/EPE.joblib",
+      "sha256": "4a2abfb95cffb4e56f84b32645f6f3fd65e1dd25ba739b5a38759f1bb47d90fd",
+      "train_events": 8386,
+      "threshold_mw": 1464.0
+    },
+    "ERCO": {
+      "artifact": "data/raw/eia930_f8_2026_confirmation_20261107/models/ERCO.joblib",
+      "sha256": "d40974d217c103a96fce6cb24cde60dc0181cfc3e72745beb77ddc14123b658a",
+      "train_events": 8417,
+      "threshold_mw": 59984.4
+    },
+    "FMPP": {
+      "artifact": "data/raw/eia930_f8_2026_confirmation_20261107/models/FMPP.joblib",
+      "sha256": "e5b56b4545ba05bb062117e94fad23a108c9a67135b327823d9d8f51eb93bb9d",
+      "train_events": 8388,
+      "threshold_mw": 2897.0
+    },
+    "FPC": {
+      "artifact": "data/raw/eia930_f8_2026_confirmation_20261107/models/FPC.joblib",
+      "sha256": "f1595ca4a2782a13ef9da061dd074cbd22fb2a2fabe8249855484c4f9eb75814",
+      "train_events": 8415,
+      "threshold_mw": 8946.7
+    },
+    "MISO": {
+      "artifact": "data/raw/eia930_f8_2026_confirmation_20261107/models/MISO.joblib",
+      "sha256": "d7d09919aa33b4bca8d07434db23c9921c5258908c7a3b245181678f1bcdc488",
+      "train_events": 8342,
+      "threshold_mw": 89578.30000000002
+    },
+    "NEVP": {
+      "artifact": "data/raw/eia930_f8_2026_confirmation_20261107/models/NEVP.joblib",
+      "sha256": "577ce4955f002f190d3e2ea91f670664072d1d1f598ce9b0fb96b528e4b398e2",
+      "train_events": 8391,
+      "threshold_mw": 6518.0
+    },
+    "NYIS": {
+      "artifact": "data/raw/eia930_f8_2026_confirmation_20261107/models/NYIS.joblib",
+      "sha256": "10760c4552f195926c0ca5504c58b08c135ebbdb8d26ae88c0a1e73f5bd9645f",
+      "train_events": 8418,
+      "threshold_mw": 21319.7
+    },
+    "SWPP": {
+      "artifact": "data/raw/eia930_f8_2026_confirmation_20261107/models/SWPP.joblib",
+      "sha256": "b4361cbdb75b0114182defc5ce58bed615711f356c64207a979086a56536a89c",
+      "train_events": 8393,
+      "threshold_mw": 39275.4
+    },
+    "TIDC": {
+      "artifact": "data/raw/eia930_f8_2026_confirmation_20261107/models/TIDC.joblib",
+      "sha256": "37583d9f6789e7c1cff6e2cc76603a3505f7b94e70a5e44121fbe59fe505c01c",
+      "train_events": 8122,
+      "threshold_mw": 482.0
+    }
+  }
+}

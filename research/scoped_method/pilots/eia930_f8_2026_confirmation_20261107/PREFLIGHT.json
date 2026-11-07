@@ -1,0 +1,157 @@
+{
+  "protocol": "eia930_f8_2026_confirmation_20261107/PROTOCOL_V2.md",
+  "inspection_scope": "source integrity and raw coverage only; no model fitting, predictions, or outcome metrics",
+  "test_window": [
+    "2026-01-01T00:00:00+00:00",
+    "2026-10-20T00:00:00+00:00"
+  ],
+  "registered_bas": [
+    "AZPS",
+    "BANC",
+    "EPE",
+    "ERCO",
+    "FMPP",
+    "FPC",
+    "MISO",
+    "NEVP",
+    "NYIS",
+    "SWPP",
+    "TIDC"
+  ],
+  "prior_2021_2023_files_checksum_verified": true,
+  "new_source_receipt": {
+    "source": "official EIA-930 six-month balance files",
+    "retrieved_utc": "2026-11-07T08:06:09.725064+00:00",
+    "files": [
+      {
+        "url": "https://www.eia.gov/electricity/gridmonitor/sixMonthFiles/EIA930_BALANCE_2024_Jan_Jun.csv",
+        "file": "EIA930_BALANCE_2024_Jan_Jun.csv",
+        "bytes": 41742812,
+        "sha256": "26768c495c3ba987e29d79df2e40d4e741f9dbcff086f53c12ff774465756a10",
+        "last_modified": "Fri, 06 Nov 2026 15:43:22 GMT",
+        "etag": "\"089918d56edd1:0\""
+      },
+      {
+        "url": "https://www.eia.gov/electricity/gridmonitor/sixMonthFiles/EIA930_BALANCE_2024_Jul_Dec.csv",
+        "file": "EIA930_BALANCE_2024_Jul_Dec.csv",
+        "bytes": 47928993,
+        "sha256": "a602a8e577cfdd2fa3083413eaa4dd8ba7f0d2b26a2986f8f6d22917465ea49f",
+        "last_modified": "Fri, 06 Nov 2026 15:43:28 GMT",
+        "etag": "\"010259156edd1:0\""
+      },
+      {
+        "url": "https://www.eia.gov/electricity/gridmonitor/sixMonthFiles/EIA930_BALANCE_2025_Jan_Jun.csv",
+        "file": "EIA930_BALANCE_2025_Jan_Jun.csv",
+        "bytes": 47565054,
+        "sha256": "fac4bb991dfa1dab3b4b35300ccab54ac99be13a40ce91954db8ddafb2816242",
+        "last_modified": "Fri, 06 Nov 2026 15:43:34 GMT",
+        "etag": "\"097b89456edd1:0\""
+      },
+      {
+        "url": "https://www.eia.gov/electricity/gridmonitor/sixMonthFiles/EIA930_BALANCE_2025_Jul_Dec.csv",
+        "file": "EIA930_BALANCE_2025_Jul_Dec.csv",
+        "bytes": 48256021,
+        "sha256": "1146158b972439db7c7f4cc7d0491e07644ddbf244d03b8ecb44cb2c833d10f1",
+        "last_modified": "Fri, 06 Nov 2026 15:43:40 GMT",
+        "etag": "\"01e4c9856edd1:0\""
+      },
+      {
+        "url": "https://www.eia.gov/electricity/gridmonitor/sixMonthFiles/EIA930_BALANCE_2026_Jan_Jun.csv",
+        "file": "EIA930_BALANCE_2026_Jan_Jun.csv",
+        "bytes": 47107225,
+        "sha256": "1b3eaf7b0af08393f4d1593125b0c0f502f93e036d961b7dd6d50fc8e618582f",
+        "last_modified": "Fri, 06 Nov 2026 15:43:46 GMT",
+        "etag": "\"0a5df9b56edd1:0\""
+      },
+      {
+        "url": "https://www.eia.gov/electricity/gridmonitor/sixMonthFiles/EIA930_BALANCE_2026_Jul_Dec.csv",
+        "file": "EIA930_BALANCE_2026_Jul_Dec.csv",
+        "bytes": 33703376,
+        "sha256": "350140cb6b3023a566607fe0de8743dc26ee65ff782e95acf1ffc9447a5bf85e",
+        "last_modified": "Fri, 06 Nov 2026 15:43:52 GMT",
+        "etag": "\"02c739f56edd1:0\""
+      }
+    ],
+    "inspection_scope": "download and checksum only; no row values or outcomes read"
+  },
+  "coverage_by_ba": {
+    "AZPS": {
+      "eligible_raw_test_rows": 6993,
+      "first_event_utc": "2026-01-01T00:00:00+00:00",
+      "last_event_utc": "2026-10-19T23:00:00+00:00",
+      "nonhourly_gaps_in_eligible_rows": 2,
+      "complete_nonoverlap_2000_row_episode_upper_bound": 3
+    },
+    "BANC": {
+      "eligible_raw_test_rows": 6949,
+      "first_event_utc": "2026-01-01T00:00:00+00:00",
+      "last_event_utc": "2026-10-19T23:00:00+00:00",
+      "nonhourly_gaps_in_eligible_rows": 16,
+      "complete_nonoverlap_2000_row_episode_upper_bound": 3
+    },
+    "EPE": {
+      "eligible_raw_test_rows": 6908,
+      "first_event_utc": "2026-01-01T00:00:00+00:00",
+      "last_event_utc": "2026-10-19T23:00:00+00:00",
+      "nonhourly_gaps_in_eligible_rows": 6,
+      "complete_nonoverlap_2000_row_episode_upper_bound": 3
+    },
+    "ERCO": {
+      "eligible_raw_test_rows": 7008,
+      "first_event_utc": "2026-01-01T00:00:00+00:00",
+      "last_event_utc": "2026-10-19T23:00:00+00:00",
+      "nonhourly_gaps_in_eligible_rows": 0,
+      "complete_nonoverlap_2000_row_episode_upper_bound": 3
+    },
+    "FMPP": {
+      "eligible_raw_test_rows": 6998,
+      "first_event_utc": "2026-01-01T00:00:00+00:00",
+      "last_event_utc": "2026-10-19T23:00:00+00:00",
+      "nonhourly_gaps_in_eligible_rows": 3,
+      "complete_nonoverlap_2000_row_episode_upper_bound": 3
+    },
+    "FPC": {
+      "eligible_raw_test_rows": 6984,
+      "first_event_utc": "2026-01-01T00:00:00+00:00",
+      "last_event_utc": "2026-10-19T23:00:00+00:00",
+      "nonhourly_gaps_in_eligible_rows": 1,
+      "complete_nonoverlap_2000_row_episode_upper_bound": 3
+    },
+    "MISO": {
+      "eligible_raw_test_rows": 6970,
+      "first_event_utc": "2026-01-01T00:00:00+00:00",
+      "last_event_utc": "2026-10-19T23:00:00+00:00",
+      "nonhourly_gaps_in_eligible_rows": 4,
+      "complete_nonoverlap_2000_row_episode_upper_bound": 3
+    },
+    "NEVP": {
+      "eligible_raw_test_rows": 6995,
+      "first_event_utc": "2026-01-01T00:00:00+00:00",
+      "last_event_utc": "2026-10-19T23:00:00+00:00",
+      "nonhourly_gaps_in_eligible_rows": 9,
+      "complete_nonoverlap_2000_row_episode_upper_bound": 3
+    },
+    "NYIS": {
+      "eligible_raw_test_rows": 6979,
+      "first_event_utc": "2026-01-01T00:00:00+00:00",
+      "last_event_utc": "2026-10-19T23:00:00+00:00",
+      "nonhourly_gaps_in_eligible_rows": 2,
+      "complete_nonoverlap_2000_row_episode_upper_bound": 3
+    },
+    "SWPP": {
+      "eligible_raw_test_rows": 6504,
+      "first_event_utc": "2026-01-01T00:00:00+00:00",
+      "last_event_utc": "2026-10-19T23:00:00+00:00",
+      "nonhourly_gaps_in_eligible_rows": 5,
+      "complete_nonoverlap_2000_row_episode_upper_bound": 3
+    },
+    "TIDC": {
+      "eligible_raw_test_rows": 6991,
+      "first_event_utc": "2026-01-01T00:00:00+00:00",
+      "last_event_utc": "2026-10-19T23:00:00+00:00",
+      "nonhourly_gaps_in_eligible_rows": 12,
+      "complete_nonoverlap_2000_row_episode_upper_bound": 3
+    }
+  },
+  "no_2026_policy_outcomes_opened": true
+}

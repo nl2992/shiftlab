@@ -67,14 +67,19 @@ method, with method-specific RNG streams as provided by the registered suite. Th
 deterministic and repeat identically across those seeds.
 
 Primary comparator is `cams_adapter`, fixed as the strongest published-method Failure Atlas F8
-discovery method before this test. Secondary published/registered comparator panel is:
-PFA-SR:gated_deployment; corrected RMM on the registered hosts; E_rb on the registered host;
-SMCS+retain-incumbent; Xu acquisition-only; gated deployment; gated adaptive range; CAMS; Model
-Selector adapter; Model Picker adapter; Online LLM Picker; Gong-Zhang; Qiu; variance-min IPW;
-economic replacement; and never-switch. Include fixed-incumbent and fixed-challenger controls.
-Use the existing registry/fidelity table for exact method identities. Each gets identical model
-predictions, label-release queue, episode boundaries, and costs. Record source hashes for method
-implementations and configuration.
+discovery method before this test. The full fixed panel is:
+`PFA-SR:gated_deployment`, `PFA-SR:gated_adaptive_range`, `rmm:gated_deployment+RMM`,
+`rmm:gated_adaptive_range+RMM`, `E_srr:gated_deployment` at empirically null-calibrated alpha
+`0.005`, `E_srrSR:gated_deployment` at its already calibrated alpha `0.0005`,
+`SMCS+retain-incumbent`, Xu acquisition-only, gated deployment, gated adaptive range,
+gated-adaptive-range+front, `E_rb:gated_deployment`, `E_rb:gated_adaptive_range`,
+`E_rb:gated_adaptive_range+front`, CAMS, Model Selector adapter, Model Picker adapter, Online LLM
+Picker, Gong-Zhang, Qiu, variance-min IPW, economic replacement, never-switch, fixed-incumbent and
+fixed-challenger. The E-sRR alpha values come from the previously frozen independent null
+calibration records; this confirmation does not re-calibrate them. Use the existing
+registry/fidelity table for exact method identities. Each gets identical model predictions,
+label-release queue, episode boundaries, and costs. Record source hashes for method implementations
+and configuration.
 
 Primary endpoint is net cost = predictive loss + label expenditure + switching expenditure. Report
 each term, labels, switches, promotions, rollbacks, and time-to-first-promotion. Paired contrast is

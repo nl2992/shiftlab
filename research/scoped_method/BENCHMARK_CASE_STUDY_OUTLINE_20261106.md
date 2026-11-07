@@ -67,3 +67,28 @@ Before external submission, produce a table of baseline provenance and author-co
 the existing audit, recalculate manuscript tables directly from validated summaries, and obtain a
 fresh independent review of all claims. Any next empirical claim requires a new protocol and fresh
 untouched sources; the present evidence does not justify opening a confirmation holdout.
+
+## Evidence amendment (2026-11-07)
+
+The Failure Atlas update's F8 positive control is now accompanied by an Elexon BMRS profile screen.
+The frozen 2024-train/2025-development pair did not reproduce the F8 profile: H1 disagreement was
+17.021% with 52.856% challenger accuracy on disagreements (7,714 eligible events; 3 complete
+2,000-event blocks); H2 disagreement was 8.745% with 48.725% conditional challenger accuracy
+(8,073 eligible events; 4 blocks). This is a model-pair profile failure, not a policy-cost test;
+no 2026 outcomes were opened. Source query hashes, label missingness, timestamps, and correction
+history are recorded in `pilots/elexon_f8_profile_20261107/`.
+
+This result strengthens the limit on the F8 transfer claim: EIA's 11 balancing authorities give
+within-provider consistency for the fixed challenger control, but do not constitute independent
+source replication, and the Elexon pair failed the prespecified applicability screen. The frozen
+Wild-Time arXiv protocol remains unopened because the recovery brief's development and novelty
+gates for a distinct candidate did not pass. Do not present either the EIA control or the synthetic
+F8 advantage as a repaired algorithm or independent cross-source confirmation.
+
+Updated contribution ledger: diagnosis **PASS, scoped** for the documented simulator regimes;
+explanation **PARTIAL** because the controlled ablations identify component trade-offs but not a
+cross-regime mechanism; repair **FAIL** because no distinct candidate passes the frozen economic,
+safety, adverse-regime, and novelty gates; validation **PARTIAL** because the EIA replay is one
+provider with simulated feedback/costs and the attempted Elexon transfer screen fails. Reproduction
+and negative outcomes are summarized in `RECOVERY_STATUS.md` Phase 10–11, the Failure Atlas update,
+and the linked run manifests. This amendment adds no new experiment or result.

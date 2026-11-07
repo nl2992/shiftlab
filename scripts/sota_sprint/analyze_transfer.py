@@ -10,9 +10,11 @@ from pathlib import Path
 
 import numpy as np
 import pandas as pd
+from scipy import stats
 
 from analyze_real import contrast as ep_contrast
 from analyze_validation import BOUND, CERT, IID_ALT, diff, holm, wilson
+from bench import CERTIFIED_PUBLISHED
 
 ROOT = Path(__file__).resolve().parents[2]
 OUT = ROOT / "outputs/sota_sprint"
@@ -28,6 +30,36 @@ def _ci(x):
     se = x.std(ddof=1) / np.sqrt(len(x))
     return {"mean": round(float(x.mean()), 2), "lo": round(float(x.mean() - 1.96 * se), 2),
             "hi": round(float(x.mean() + 1.96 * se), 2), "n": len(x)}
+
+
+def _diff_with_logp(pivot, candidate: str, comparator: str) -> dict:
+    """Paired contrast with a log p-value that remains informative after float underflow."""
+    result = diff(pivot, candidate, comparator)
+    d = (pivot[candidate] - pivot[comparator]).dropna().to_numpy()
+    se = d.std(ddof=1) / np.sqrt(len(d))
+    t_stat = d.mean() / se if se > 0 else 0.0
+    result["t_stat"] = float(t_stat)
+    result["df"] = int(len(d) - 1)
+    result["log10_p_one_sided_less"] = float(stats.t.logcdf(t_stat, len(d) - 1) / np.log(10))
+    return result
+
+
+def _holm_log10(logps: list[float]) -> list[float]:
+    """Holm adjusted p-values in log10 space, avoiding underflow to an apparent zero."""
+    values = np.asarray(logps, dtype=float)
+    order = np.argsort(values)
+    adjusted = np.empty(len(values), dtype=float)
+    running = -np.inf
+    for i, j in enumerate(order):
+        running = max(running, values[j] + np.log10(len(values) - i))
+        adjusted[j] = min(0.0, running)
+    return adjusted.tolist()
+
+
+def _fmt_logp(log10_p: float) -> str:
+    if log10_p <= -300:
+        return "<1e-300"
+    return f"{10.0 ** log10_p:.3g}"
 
 
 def null_table(df):
@@ -236,41 +268,66 @@ def amend5(*, mopeinterval_corrected: bool = False):
     cert = ["gated_deployment", "gated_adaptive_range", "gated_adaptive_range+front", "discern_style",
             "discern_design_floor", "xu_acquisition_only", "choe_ramdas_eb", "choe_ramdas_eb+front",
             "gated_deployment+QCE", "gated_deployment+QCE+front", "SMCS+retain-incumbent"]
-    tests, res = [], {"hosts": {}}
+    tests, strict_tests, res = [], [], {"hosts": {}}
     for h in hosts:
         c = f"rmm:{h}+RMM"
         a = _ci((fam[c] - fam[h]).to_numpy())
         safe = all(nul[c][r]["wilson_hi"] <= BOUND for r in ("V_null", "V_worse"))
-        late = {}
+        late, strict_late = {}, {}
         for r in ("V_late_600", "W_late_1000"):
             Q = syn[syn.regime == r].pivot_table(index="seed", columns="policy", values="net")
             bc = Q[[x for x in cert if x in Q and x != h]].mean().idxmin()
-            late[r] = diff(Q, c, bc)
+            late[r] = _diff_with_logp(Q, c, bc)
             tests.append((h, r))
+            strict_pool = [x for x in CERTIFIED_PUBLISHED if x in Q and x != h]
+            strict_bc = Q[strict_pool].mean().idxmin()
+            strict_late[r] = _diff_with_logp(Q, c, strict_bc)
+            strict_tests.append((h, r))
         co = {r: diff(syn[syn.regime == r].pivot_table(index="seed", columns="policy", values="net"), c, h)
               for r in ("V_reversal_1000", "W_reversal_700", "V_recurrent")}
-        res["hosts"][h] = {"a_family_vs_host": a, "a_ok": a["hi"] < 0, "late": late, "c_iid_safe": safe,
+        res["hosts"][h] = {"a_family_vs_host": a, "a_ok": a["hi"] < 0,
+                           "late_registered_pool": late, "late_strict_published_pool": strict_late,
+                           "c_iid_safe": safe,
                            "coprimary_vs_host": co,
                            "persistent_null": {r: nul[c][r]["rate"] for r in ("V_null_dep_r8", "W_null_dep_r95")}}
-    ps = np.array([res["hosts"][h]["late"][r]["p_one_sided_less"] for h, r in tests])
+    ps = np.array([res["hosts"][h]["late_registered_pool"][r]["p_one_sided_less"] for h, r in tests])
     adj = holm(ps)
     for (h, r), q in zip(tests, adj):
-        res["hosts"][h]["late"][r]["holm_p"] = round(float(q), 6)
+        res["hosts"][h]["late_registered_pool"][r]["holm_p"] = round(float(q), 6)
+    strict_adj = _holm_log10([res["hosts"][h]["late_strict_published_pool"][r]["log10_p_one_sided_less"]
+                              for h, r in strict_tests])
+    for (h, r), q in zip(strict_tests, strict_adj):
+        d = res["hosts"][h]["late_strict_published_pool"][r]
+        d["log10_holm_p"] = float(q)
+        d["holm_p"] = float(10.0 ** q) if q > -323 else 0.0
+    registered_adj = _holm_log10([res["hosts"][h]["late_registered_pool"][r]["log10_p_one_sided_less"]
+                                  for h, r in tests])
+    for (h, r), q in zip(tests, registered_adj):
+        d = res["hosts"][h]["late_registered_pool"][r]
+        d["log10_holm_p"] = float(q)
+        d["holm_p"] = float(10.0 ** q) if q > -323 else 0.0
     for h in hosts:
         v = res["hosts"][h]
-        v["b_ok"] = all(v["late"][r]["holm_p"] < 0.05 for r in v["late"])
+        v["b_ok"] = all(v["late_registered_pool"][r]["holm_p"] < 0.05
+                         for r in v["late_registered_pool"])
         v["ok"] = bool(v["a_ok"] and v["b_ok"] and v["c_iid_safe"])
     res["HC_pass"] = all(res["hosts"][h]["ok"] for h in hosts)
     L = [f"{report_title}: **{'PASS' if res['HC_pass'] else 'FAIL'}**", "",
          "Fresh seeds 2026110611 (100) / nulls 2026110612 (1000).", "",
-         "| host | (a) family vs host | (b) late vs best certified (Holm p) | (c) iid safe | reversal_1000 / reversal_700 / recurrent vs host | rho .8 / .95 null |",
+         "| host | (a) family vs host | (b) late vs registered comparator pool (Holm p) | (c) iid safe | reversal_1000 / reversal_700 / recurrent vs host | rho .8 / .95 null |",
          "|---|---|---|---|---|---|"]
     for h, v in res["hosts"].items():
         a = v["a_family_vs_host"]
-        lt = "; ".join(f"{r} {d['mean']:+.1f} [{d['lo']:+.1f},{d['hi']:+.1f}] vs {d['vs']} (p={d['holm_p']:.2g})" for r, d in v["late"].items())
+        lt = "; ".join(f"{r} {d['mean']:+.1f} [{d['lo']:+.1f},{d['hi']:+.1f}] vs {d['vs']} (Holm p={_fmt_logp(d['log10_holm_p'])})" for r, d in v["late_registered_pool"].items())
         co = " / ".join(f"{d['mean']:+.1f}" for d in v["coprimary_vs_host"].values())
         pn = " / ".join(f"{x:.3f}" for x in v["persistent_null"].values())
         L.append(f"| {h} | {a['mean']:+.1f} [{a['lo']:+.1f},{a['hi']:+.1f}] | {lt} | {v['c_iid_safe']} | {co} | {pn} |")
+    L += ["", "## Strict published-certificate pool sensitivity", "",
+          "Only `bench.CERTIFIED_PUBLISHED` methods are eligible here; Xu acquisition and internal QCE/Choe–Ramdas ports are excluded. Holm adjustment covers all 8 host × late-regime contrasts, but not the same-sample selection of the lowest-mean comparator from this pool. Treat these as descriptive sensitivity results, not confirmatory SOTA evidence.", "",
+          "| host | regime | contrast vs strict-pool best | Holm p |", "|---|---|---:|---:|"]
+    for h in hosts:
+        for r, d in res["hosts"][h]["late_strict_published_pool"].items():
+            L.append(f"| {h} | {r} | {d['mean']:+.1f} [{d['lo']:+.1f},{d['hi']:+.1f}] vs {d['vs']} | {_fmt_logp(d['log10_holm_p'])} |")
     if mopeinterval_corrected:
         L.insert(2, "MOPE-affected policy arms are replaced by their corrected same-seed replays; unaffected arms retain their registered records.")
         res["data_provenance"] = {
@@ -279,6 +336,10 @@ def amend5(*, mopeinterval_corrected: bool = False):
             "replayed_null_policies": sorted(set(pd.read_json(null_dir / "records.jsonl", lines=True).policy.astype(str))),
             "unaffected_arms": "retained from registered same-seed outputs",
         }
+        res["strict_published_pool_note"] = (
+            "Best comparator is selected by lowest mean on the same evaluation seeds; Holm adjusts the 8 host-by-regime contrasts, "
+            "not the within-pool comparator selection. Descriptive sensitivity only, not confirmatory SOTA evidence."
+        )
     report_stem.with_suffix(".json").write_text(json.dumps(res, indent=1, default=float) + "\n")
     report_stem.with_suffix(".md").write_text("\n".join(L) + "\n")
     print("\n".join(L))

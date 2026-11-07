@@ -12,8 +12,8 @@ make a method-novelty claim.
 - Download: <https://archive.ics.uci.edu/static/public/321/electricityloaddiagrams20112014.zip>.
 - The publisher describes 370 client series, 15-minute kW values, Portuguese local timestamps, and
   zero-filled history before some clients began contributing. It notes DST artifacts despite 96 rows
-  per day. The source has no verified label-release log; any delayed feedback used later must be
-  described as simulated.
+  per day. The file is semicolon-separated with decimal commas. The source has no verified
+  label-release log; any delayed feedback used later must be described as simulated.
 - Save the raw archive under the ignored `data/raw/` tree, record URL, retrieval time, byte count and
   SHA-256, and never add raw data to Git.
 
@@ -36,6 +36,9 @@ make a method-novelty claim.
 - Development: fit on 2011; screen profile and candidate coverage on 2012 only. Confirmation
   partition: 2013–2014 remains unopened in this run and cannot be used to change the model, client
   eligibility, target, thresholds, or decision rule.
+- The source's first row is `2011-01-01 00:15:00`; the frozen training partition has 35,039 rows
+  through `2011-12-31 23:45:00`, and development has the following 35,136 rows through
+  `2012-12-31 23:45:00`. The program must stop at this boundary and not read the next row.
 - F8 profile: in 2012, challenger disagreements must be 1–5% of eligible events and challenger
   accuracy on disagreements must be at least 85%. Report every eligible client's result; do not
   select favorable clients after seeing profile outcomes. A prospective deployment rule would

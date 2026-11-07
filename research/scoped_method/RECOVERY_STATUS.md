@@ -231,3 +231,24 @@ It does not prove absence of headroom outside these frozen cells. See the full b
 intervals, adapter fidelity notes, and reproducibility artifacts in
 `pilots/f8_fair_gate_20261107/DECISION.md`. The remaining research action is to stop candidate
 expansion and prepare the benchmark/case-study package if desired.
+
+## Phase 8 — Independent UCI electricity profile screen (2026-11-07)
+
+To seek cross-domain applicability of the Failure Atlas F8 rare-informative pair, the UCI
+ElectricityLoadDiagrams20112014 archive was sourced under the prospectively frozen
+`pilots/uci_electricity_f8_20261107/PROTOCOL.md`. The official UCI source lists 370 clients, 15-minute
+measurements, Portuguese-local timestamp/DST conventions, zero-filled pre-entry histories, and CC
+BY 4.0. The downloaded 261,335,609-byte ZIP passed integrity checking and matches archive SHA-256
+`f6c4d0e0df12ecdb9ea008dd6eef3518adb52c559d04a9bac2e1b81dcfc8d4e1`.
+
+The profile runner used 2011 for training and 2012 for development. It streamed no 2013–2014 values.
+From 370 clients, 158 passed the train-only history eligibility rule; one client matched the F8
+profile (2.399% disagreement; 87.663% challenger accuracy on disagreements), below the frozen
+minimum of 20. No policy costs were computed; the 2013–2014 partition remains unopened. This UCI
+dataset does not support the planned generalizable F8 comparison for this model pair. Full results,
+source receipt, parser/runtime notes, and the stop decision are in
+`pilots/uci_electricity_f8_20261107/`.
+
+This closes only the UCI/F8 source lane. The thread's broader research goal remains active; the next
+step must target a different prospectively justified Failure Atlas mechanism/source, not relax this
+client-support gate or inspect the reserved years for a favorable subset.

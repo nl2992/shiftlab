@@ -92,7 +92,8 @@ def test_episode_starts():
 
 
 # ----------------------------------------------------------------------------- policies
-NEW = list(fam_e.EXTRA)
+REJECTED_NULL_CANDIDATES = {"E_srrSR:split90:gated_deployment"}
+NEW = [name for name in fam_e.EXTRA if name not in REJECTED_NULL_CANDIDATES]
 
 
 @pytest.mark.parametrize("name", NEW)
@@ -114,6 +115,17 @@ def test_short_stream_null_no_promotion(name):
         _, _, dep = _episode(name, l0, l1, delay=5, seed=s)
         hits += int(dep.max() == 1)
     assert hits <= (2 if arl_only else 0)
+
+
+def test_rejected_split90_candidate_reproduces_short_null_promotions():
+    """Keep the failed pilot visible without treating it as a safe candidate."""
+    name = "E_srrSR:split90:gated_deployment"
+    hits = 0
+    for seed in range(5):
+        l0, l1 = _pair([(0, 0.5)], T=150, seed=seed)
+        _, _, dep = _episode(name, l0, l1, delay=5, seed=seed)
+        hits += int(dep.max() == 1)
+    assert hits == 3
 
 
 def test_erb_gated_matches_b2():

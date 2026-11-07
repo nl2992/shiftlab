@@ -875,5 +875,40 @@
       "frozen_gate": "FAIL against both comparators"
     },
     "trace_recomputability": "Per-event traces were hashed but not persisted; the aggregate bootstrap endpoints cannot be independently recomputed from committed outputs. Do not reopen the one-time test."
+  },
+  "mnds_context_screen_2026_11_06": {
+    "decision": {
+      "path": "research/scoped_method/pilots/context_stratified_mnds_20261106/DECISION.md",
+      "sha256": "7fc1678c393b9a705aadeb2658865bed17ad83c010ce302e60a11ce2a4ceef93"
+    },
+    "summary": {
+      "path": "research/scoped_method/pilots/context_stratified_mnds_20261106/run/summary.json",
+      "sha256": "685ea331625bb4f09bb9f1c05b645fc2cce1f8a7c63a2f89b33fae172f65b323"
+    },
+    "results": {
+      "path": "research/scoped_method/pilots/context_stratified_mnds_20261106/run/RESULTS.md",
+      "sha256": "d9a4f738f68367e4d05590137e15105a38095a7544f0bc8c56c8d6b2aa5d46ba"
+    },
+    "opening_manifest": {
+      "path": "research/scoped_method/pilots/context_stratified_mnds_20261106/run/TEST_OPENED.json",
+      "sha256": "36d85ca747348c59d648bb9eee81cb4c44b4cfea3ebce31b04330295896819ec"
+    },
+    "code_freeze": {
+      "path": "research/scoped_method/pilots/context_stratified_mnds_20261106/run/code_freeze.json",
+      "sha256": "fe960b9f1a556faa1df166267224d276bd09948d7111b499dd6e250d8999b68f"
+    },
+    "daily_cost_sufficient_statistics": {
+      "path": "research/scoped_method/pilots/context_stratified_mnds_20261106/run/daily_cost_sufficient_statistics.csv",
+      "sha256": "240d7ae7ab679301c7aa4df71507cc6e27b59066c6db486c448bc7b4f098fa2d"
+    },
+    "private_raw_records": {
+      "path": "data/raw/chronological_news_transfer_20261106/mn_ds_zenodo_7394851/context_stratified_mnds_q4_records.jsonl",
+      "sha256": "e64fefdb46ec3d8b490b638455812f2759507846d43d1b64ce7cb5078ce09931"
+    },
+    "branch": "codex/scoped-method-research-results-2026-11-06",
+    "code_freeze_commit": "b777e9e82dee01d56bd355d4d0c68ec7b62f7722",
+    "results_commit": "8eb057fe",
+    "status": "exposed descriptive screen; not confirmation",
+    "note": "Q4 was opened before broader synthetic economic-headroom and novelty gates passed."
   }
 }

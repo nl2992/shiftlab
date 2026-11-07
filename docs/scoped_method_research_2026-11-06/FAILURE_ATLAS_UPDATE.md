@@ -82,3 +82,25 @@ the separately preserved headline-tie pretest artifacts; neither version inspect
 before the one-time opening. Full artifacts are registered in the chronological-news pilot
 directory. The finding strengthens the diagnosis of PFA-SR's slow promotion under scarce labels,
 but PFA-SR is prior art and the result supplies no repair.
+
+## Publisher-context screen on MN-DS (2026-11-06)
+
+Q3 showed opposing source-specific model-pair effects, so a frozen Q3 static selector and a
+standard per-context promotion/rollback composition were replayed on Q4. The replay is **not
+confirmatory**: it was opened before the broader synthetic economic-headroom and novelty gates had
+passed. Preserve it only as an exposed descriptive screen; the opening manifest and the deviation
+are documented in `research/scoped_method/pilots/context_stratified_mnds_20261106/DECISION.md`.
+
+On 3,052 October–December events, Q3-selected static deployment promoted the challenger only for
+Sputnik. The context-wise gate made no promotion and spent 5 label-cost units. It matched
+never-switch's 1,033 errors and cost 1.64 more per 1,000 than never-switch. It was 2.29 cheaper per
+1,000 than the static selector, but its simultaneous 99% paired block interval was
+`[-5.75,+3.62]`, and the point improvement missed the 5-unit practical threshold. The candidate
+therefore fails its registered primary gate. Named-publisher intervals are descriptive and each
+named publisher is a single cluster; this one corpus does not establish transfer across datasets.
+
+This screen does not alter the atlas's scoped diagnosis of late-promotion failures or reversal
+costs and supplies no method repair. It adds evidence that a validation-selected static source
+advantage can fail to transfer across adjacent quarters. It is not evidence that a dynamic
+context-specific controller solves that problem. Keep the overall disposition
+**`BENCHMARK_OR_CASE_STUDY_ONLY`** and do not open another real-data source from this candidate.

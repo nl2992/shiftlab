@@ -40,6 +40,22 @@ The read-only internal critical review is preserved in `docs/scoped_method_resea
 
 This outline describes the evidence needed for a paper, not a claim that all four contributions are complete. Use corrected Sprint 2 outputs in the benchmark report while preserving original artifacts as historical provenance. For this execution, present the findings as a benchmark/case study and retain the negative and inconclusive outcomes.
 
+## MN-DS context-screen amendment (2026-11-06)
+
+After this assessment was drafted, a Q3-selected publisher-static rule and a standard context-wise
+promotion/rollback composition were replayed on MN-DS Q4. This screen **did not pass** the prior
+synthetic headroom and novelty gates, so the Q4 run is retained as exposed descriptive evidence,
+not confirmation. The error is documented in
+[`context_stratified_mnds_20261106/DECISION.md`](../../research/scoped_method/pilots/context_stratified_mnds_20261106/DECISION.md);
+do not reuse this Q4 window as untouched evidence.
+
+The context-wise rule made no promotion, had the same 1,033 errors as never-switch, and cost 1.64
+more per 1,000 events than never-switch. It saved 2.29 per 1,000 versus the validation-selected
+static rule, below the registered 5-unit practical threshold, with a simultaneous 99% interval
+`[-5.75,+3.62]`. These results do not change any contribution gate: C1 and C2 remain **PARTIAL**,
+C3 and C4 remain **FAIL**. The current disposition stays
+**`BENCHMARK_OR_CASE_STUDY_ONLY`**.
+
 ## Chronological-news transfer update
 
 The final HuffPost result strengthens the late-improvement diagnosis but does not advance a new

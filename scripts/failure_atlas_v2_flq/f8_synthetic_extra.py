@@ -1,6 +1,7 @@
 """Extra baseline used by the frozen EIA F8 synthetic follow-up."""
 
 from controls import FixedModel
+from v2_extra import EXTRA as PUBLISHED_EXTRA
 
 
 def _fixed_challenger(T, budget, cs, cq, alpha, delay, rng):
@@ -8,4 +9,4 @@ def _fixed_challenger(T, budget, cs, cq, alpha, delay, rng):
     return FixedModel(1, name="fixed_challenger")
 
 
-EXTRA = {"fixed_challenger": _fixed_challenger}
+EXTRA = {**PUBLISHED_EXTRA, "fixed_challenger": _fixed_challenger}

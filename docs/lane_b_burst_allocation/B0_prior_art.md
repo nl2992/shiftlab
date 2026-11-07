@@ -19,6 +19,9 @@ A source triggers EXIT only if it provides all four of:
 
 ## Source table
 
+**Correction (2026-11-07, `docs/sota_fidelity/prior_art/CHECK.md` claim 2):** the Ren et al. row is right only for 1503.04999 (CuSum-AC, Eq. 9: censoring depends on the previous CuSum statistic). 1411.3107 uses a stationary rule based on the current observation only, θ_k = μ(X_k), and lists statistic-dependent censoring as future work.
+
+
 | Source | Model | Budget type | Sampling adaptivity | Null and guarantee | Delay result | Label delay | Harmless-burst regime | Level |
 |---|---|---|---|---|---|---|---|---|
 | Banerjee-Veeravalli DE-CuSum, 1211.3729 | Minimax QCD; iid pre/post, known densities (per Hou et al.'s description) | Average: fraction of time observed before the change | Yes: skip length is a function of the CUSUM statistic | FAR = 1/E[tau] (ARL). Not anytime, and known likelihoods | WADD asymptotically optimal as FAR goes to 0 for fixed duty cycle | No | Implicit only: off-periods save budget when the statistic is low. There is no burst model; iid pre-change data is assumed. | Abstract (and Hou's restatement) |

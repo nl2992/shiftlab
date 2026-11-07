@@ -70,6 +70,7 @@ uv run pytest tests/sota_fidelity tests/promising_directions/test_sota_model_sel
   never-switch on reversal. See [esr_vs_erb_dev_results.md](esr_vs_erb_dev_results.md).
 - **Track B diagnosis done 2026-11-07** ([late_change_diagnosis_results.md](late_change_diagnosis_results.md)):
   stale evidence and budget exhaustion drive late-change failure; post-verdict stopping does not.
+- **Track B prior-art check done 2026-11-07** ([prior_art/README.md](prior_art/README.md)): levers (a) pacing, (b) delay and (c) alpha allocation are each closed as contributions; track B stops as a method contribution.
 - WATCH unweighted CTM sentinel; non-vacuous Timans replay test.
 - Restore `vendor_sota/` and re-run author-parity tests (needs approval).
 - Not yet audited in this pass: e-SR/e-CUSUM is done, but the DISCERN-style, SMCS and gated

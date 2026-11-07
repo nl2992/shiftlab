@@ -323,3 +323,12 @@ so parallel implementers never touch shared registry files.
 - Decision: stop pursuing RMM as a contribution. Track B continues only via adaptive pacing under
   change-time uncertainty or delay robustness, after a prior-art check. Comparator for any
   candidate: `esr_rmmbets_fullalpha` / `rmm:LRMD_k1`.
+
+## Track B prior-art check (2026-11-07)
+
+- Files: `prior_art/README.md` (verdict), `pacing_external.md`, `delay_alpha_external.md` (retrieval), `CHECK.md` (independent check).
+- (a) Pacing under change-time uncertainty: **closed as a mechanism.** Evidence-gated intensity (Ren et al. 1503.04999 Thm 2; VSI-CUSUM; DE-CuSum), closed-loop vs open-loop (Premkumar–Kumar 2008), finite-run DP schedules (Tagaras), and predictable-sampling validity (Xu et al.; DISCERN) are all published. In-repo WP3, lane B (W-B1) and paced-epoch screens lost to fixed schedules. Only a change-time-robust theorem remains open; it belongs to Paper 3.
+- (b) Delay: **closed.** "+d" is unavoidable without a faster channel (repo lower bounds; Vernade et al. Prop. 1 analogue; split-clock already closed).
+- (c) Alpha allocation: **closed as a contribution.** Under the contract's criterion (i) rollback needs no alpha, so the alpha/2 split is conservative. The comparator is full-alpha promotion. Criterion (ii) uses textbook fixed-sequence chains; under (iii) α_P = α forces α_R = 0. Track A must declare (ii) or (iii).
+- Corrections: B0_prior_art.md:29 (1411.3107 is not statistic-dependent); the full-alpha e-SR null check exists (0.016/0.019/0.000).
+- Decision: **stop track B as a method contribution**; keep its findings as benchmark content. Pivots (Paper 3 pacing theorem; track A under a declared criterion) need user approval.

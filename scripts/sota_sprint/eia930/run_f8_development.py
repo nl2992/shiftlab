@@ -9,11 +9,8 @@ from __future__ import annotations
 import hashlib
 import itertools
 import json
-import os
 import subprocess
 import sys
-import time
-import urllib.parse
 import urllib.request
 from pathlib import Path
 
@@ -23,14 +20,20 @@ import pandas as pd
 ROOT = Path(__file__).resolve().parents[3]
 PILOT = ROOT / "research/scoped_method/pilots/eia930_f8_development_20261107"
 RAW = ROOT / "data/raw/eia930_f8_development_20261107"
-ENDPOINT = "https://api.eia.gov/v2/electricity/rto/region-data/data/"
+FILE_BASE = "https://www.eia.gov/electricity/gridmonitor/sixMonthFiles/"
 BAS = ("PJM", "ERCO", "CISO")
-TYPES = ("D", "DF")
-START, END = "2019-01-01T00", "2023-12-31T23"
-TRAIN_END = pd.Timestamp("2021-01-01T00:00:00Z")
+PERIODS = (
+    "2021_Jan_Jun",
+    "2021_Jul_Dec",
+    "2022_Jan_Jun",
+    "2022_Jul_Dec",
+    "2023_Jan_Jun",
+    "2023_Jul_Dec",
+)
+TRAIN_START = pd.Timestamp("2021-01-01T00:00:00Z")
+TRAIN_END = pd.Timestamp("2022-01-01T00:00:00Z")
 DEV_START = TRAIN_END
 DEV_END = pd.Timestamp("2024-01-01T00:00:00Z")
-PAGE = 5000
 BUDGET, CQ, CS, ALPHA, DELAY = 200, 0.05, 5.0, 0.05, 1
 POLICIES = (
     "PFA-SR:gated_deployment",
@@ -57,68 +60,77 @@ def sha(path: Path) -> str:
     return h.hexdigest()
 
 
-def api_rows(ba: str, kind: str, api_key: str) -> list[dict]:
-    rows: list[dict] = []
-    offset = 0
-    while True:
-        params = {
-            "api_key": api_key,
-            "frequency": "hourly",
-            "data[0]": "value",
-            "facets[respondent][]": ba,
-            "facets[type][]": kind,
-            "start": START,
-            "end": END,
-            "length": str(PAGE),
-            "offset": str(offset),
-            "sort[0][column]": "period",
-            "sort[0][direction]": "asc",
-        }
-        url = ENDPOINT + "?" + urllib.parse.urlencode(params)
-        with urllib.request.urlopen(url, timeout=60) as response:
-            doc = json.load(response)
-        response = doc.get("response", {})
-        page = response.get("data", [])
-        if not isinstance(page, list):
-            raise TypeError(f"unexpected EIA response for {ba}/{kind}: {doc}")
-        rows.extend(page)
-        total = int(response.get("total", 0))
-        if not page or offset + len(page) >= total:
-            break
-        offset += len(page)
-        time.sleep(0.2)
-    return rows
-
-
 def retrieve() -> dict[str, dict[str, pd.Series]]:
     RAW.mkdir(parents=True, exist_ok=True)
-    key = os.environ.get("EIA_API_KEY") or "DEMO_KEY"
-    out: dict[str, dict[str, pd.Series]] = {}
+    out: dict[str, dict[str, list[pd.DataFrame]]] = {
+        ba: {"D": [], "DF": [], "imputed": []} for ba in BAS
+    }
     hashes: dict[str, str] = {}
+    manifest_rows = []
+    usecols = [
+        "Balancing Authority",
+        "UTC Time at End of Hour",
+        "Demand Forecast (MW)",
+        "Demand (MW)",
+        "Demand (MW) (Imputed)",
+    ]
+    for period in PERIODS:
+        name = f"EIA930_BALANCE_{period}.csv"
+        path = RAW / name
+        url = FILE_BASE + name
+        if not path.exists():
+            temp_path = path.with_suffix(path.suffix + ".part")
+            request = urllib.request.Request(url, headers={"User-Agent": "ShiftLab-research/1.0"})
+            with (
+                urllib.request.urlopen(request, timeout=120) as response,
+                temp_path.open("wb") as output,
+            ):
+                expected = int(response.headers.get("Content-Length", "0"))
+                for block in iter(lambda: response.read(1 << 20), b""):
+                    output.write(block)
+            if expected and temp_path.stat().st_size != expected:
+                raise OSError(
+                    f"incomplete bulk file {name}: {temp_path.stat().st_size} != {expected}"
+                )
+            temp_path.replace(path)
+        digest = sha(path)
+        hashes[str(path.relative_to(ROOT))] = digest
+        manifest_rows.append(
+            {"url": url, "file": name, "sha256": digest, "bytes": path.stat().st_size}
+        )
+        for chunk in pd.read_csv(path, usecols=usecols, dtype=str, chunksize=100_000):
+            chunk = chunk.loc[chunk["Balancing Authority"].isin(BAS)]
+            if chunk.empty:
+                continue
+            chunk["period"] = pd.to_datetime(
+                chunk["UTC Time at End of Hour"],
+                format="%m/%d/%Y %I:%M:%S %p",
+                utc=True,
+                errors="coerce",
+            )
+            chunk["actual"] = pd.to_numeric(chunk["Demand (MW)"], errors="coerce")
+            chunk["forecast"] = pd.to_numeric(chunk["Demand Forecast (MW)"], errors="coerce")
+            chunk["imputed"] = pd.to_numeric(chunk["Demand (MW) (Imputed)"], errors="coerce")
+            for ba, group in chunk.groupby("Balancing Authority"):
+                out[ba]["D"].append(group[["period", "actual"]])
+                out[ba]["DF"].append(group[["period", "forecast"]])
+                out[ba]["imputed"].append(group[["period", "imputed"]])
+    series: dict[str, dict[str, pd.Series]] = {}
     for ba in BAS:
-        out[ba] = {}
-        for kind in TYPES:
-            rows = api_rows(ba, kind, key)
-            path = RAW / f"{ba}_{kind}.json"
-            path.write_text(json.dumps(rows, separators=(",", ":")) + "\n")
-            hashes[str(path.relative_to(ROOT))] = sha(path)
-            frame = pd.DataFrame(rows)
-            if frame.empty:
-                raise RuntimeError(f"empty API response: {ba}/{kind}")
-            frame["period"] = pd.to_datetime(frame["period"], utc=True)
-            frame["value"] = pd.to_numeric(frame["value"], errors="coerce")
-            frame = frame.dropna(subset=["period", "value"]).drop_duplicates("period", keep="last")
-            out[ba][kind] = frame.set_index("period")["value"].sort_index()
+        series[ba] = {}
+        for kind, column in (("D", "actual"), ("DF", "forecast"), ("imputed", "imputed")):
+            frame = pd.concat(out[ba][kind], ignore_index=True)
+            frame = frame.dropna(subset=["period"]).drop_duplicates("period", keep="last")
+            series[ba][kind] = frame.set_index("period")[column].sort_index()
     (PILOT / "source_manifest.json").write_text(
         json.dumps(
             {
-                "endpoint": ENDPOINT,
+                "endpoint": FILE_BASE,
                 "respondents": BAS,
-                "types": {"D": "Demand", "DF": "Day-ahead demand forecast"},
-                "start": START,
-                "end": END,
-                "api_key_source": "EIA_API_KEY if configured; otherwise public DEMO_KEY",
-                "raw_response_sha256": hashes,
+                "periods": PERIODS,
+                "columns": usecols,
+                "raw_file_sha256": hashes,
+                "download_manifest": manifest_rows,
                 "retrieved_utc": pd.Timestamp.now(tz="UTC").isoformat(),
                 "note": "Current revised historical values; simulated feedback protocol.",
             },
@@ -126,27 +138,30 @@ def retrieve() -> dict[str, dict[str, pd.Series]]:
         )
         + "\n"
     )
-    return out
+    return series
 
 
 def paired_stream(
     ba: str, data: dict[str, pd.Series]
 ) -> tuple[pd.DatetimeIndex, np.ndarray, np.ndarray, float]:
-    actual, forecast = data["D"], data["DF"]
+    actual, forecast, imputed = data["D"], data["DF"], data["imputed"]
     lagged_series = actual.copy()
     lagged_series.index = lagged_series.index + pd.Timedelta(hours=24)
     lagged = lagged_series.reindex(actual.index).to_numpy()
-    cutoff = float(actual.loc[actual.index < TRAIN_END].quantile(0.90))
+    train = actual.loc[(actual.index >= TRAIN_START) & (actual.index < TRAIN_END)]
+    cutoff = float(train.quantile(0.90))
     frame = pd.concat(
         [
             actual.rename("actual"),
             forecast.rename("forecast"),
             pd.Series(lagged, index=actual.index, name="lag24"),
+            imputed.rename("imputed"),
         ],
         axis=1,
     )
     frame = frame.loc[(frame.index >= DEV_START) & (frame.index < DEV_END)]
-    frame = frame.dropna()
+    frame = frame.dropna(subset=["actual", "forecast", "lag24"])
+    frame = frame.loc[frame.imputed.isna()]
     frame = frame.loc[(frame.actual > 0) & (frame.forecast > 0) & (frame.lag24 > 0)]
     times = pd.DatetimeIndex(frame.index)
     labels = (frame.actual.to_numpy() >= cutoff).astype(np.int8)
@@ -232,13 +247,23 @@ def run_episode(predictions: np.ndarray, labels: np.ndarray, episode: int, ba: s
 
 def main() -> None:
     PILOT.mkdir(parents=True, exist_ok=True)
-    if (PILOT / "RUN_STARTED.json").exists():
-        raise SystemExit("run marker exists; refusing to overwrite development outcomes")
-    (PILOT / "RUN_STARTED.json").write_text(
+    if (PILOT / "episode_results.jsonl").exists():
+        raise SystemExit("episode outcomes exist; refusing to overwrite development results")
+    start_marker = PILOT / "RUN_STARTED.json"
+    prior_attempts = []
+    if start_marker.exists():
+        previous = json.loads(start_marker.read_text())
+        prior_attempts = previous.get("prior_attempts", []) + [previous]
+    start_marker.write_text(
         json.dumps(
             {
                 "protocol_sha256": sha(PILOT / "PROTOCOL.md"),
+                "runner_sha256": sha(Path(__file__)),
+                "git_head": subprocess.check_output(
+                    ["git", "rev-parse", "HEAD"], cwd=ROOT, text=True
+                ).strip(),
                 "started_utc": pd.Timestamp.now(tz="UTC").isoformat(),
+                "prior_attempts": prior_attempts,
             },
             indent=2,
         )

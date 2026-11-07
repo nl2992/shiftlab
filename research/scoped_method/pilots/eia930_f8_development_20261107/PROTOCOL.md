@@ -24,13 +24,14 @@ and retain source metadata and hashes. The source's current values can be revise
 retrospective real-data replay with **simulated** feedback timing; it is not a replay of historical
 label versions.
 
-For each BA, calculate a high-load cutoff as the 90th percentile of `D` on the fixed 2019-01-01
-through 2020-12-31 training interval. On every evaluated event `t`, the incumbent is a one-day
+For each BA, calculate a high-load cutoff as the 90th percentile of `D` on the fixed 2021-01-01
+through 2021-12-31 training interval. On every evaluated event `t`, the incumbent is a one-day
 UTC persistence classifier (`D[t-24h] >= cutoff`), the challenger is the BA's published day-ahead
 forecast classifier (`DF[t] >= cutoff`), and the target is `D[t] >= cutoff`. The 2021-01-01 through
-2023-12-31 interval is development only. No test outcomes or test-trained preprocessing are used.
-Rows with missing/nonpositive D or DF, absent D[t-24h], and duplicate UTC timestamps are excluded
-by this fixed rule. No imputation is allowed. Predictions for event t are treated as available
+2021-12-31 interval is training; 2022-01-01 through 2023-12-31 is development only. No test
+outcomes or test-trained preprocessing are used. Rows with missing/nonpositive D or DF, a populated
+EIA imputed-demand field, absent D[t-24h], and duplicate UTC timestamps are excluded by this fixed
+rule. No imputation is allowed. Predictions for event t are treated as available
 before t; labels are released at `t+1 hour`, a simulated schedule based on EIA's documented typical
 availability. Use current corrected D values as targets and as lagged persistence inputs; explicitly
 record that this is a simulation simplification because the historical vintages are not retained.
@@ -65,12 +66,14 @@ anytime validity or source-generalization.
 
 ## Data access, run, and provenance
 
-Retrieve only the three registered BAs and the 2019-2023 periods through the official EIA API, with
-`DEMO_KEY` or a user-held `EIA_API_KEY` (never store a key). Use paged requests capped at 5,000 rows;
-store raw responses under ignored `data/raw/eia930_f8_development_20261107/`. Build the derived
-paired stream and run outcomes only after this protocol is committed. Hash every raw response,
-stream, source script, method source, and result. No locked source or confirmation window is opened
-in this development run.
+Retrieve only the three registered BAs and periods needed for the 2021-2023 split through the
+official no-key six-month balance CSVs for `2021_Jan_Jun`, `2021_Jul_Dec`, `2022_Jan_Jun`,
+`2022_Jul_Dec`, `2023_Jan_Jun`, and `2023_Jul_Dec`. Filter by the frozen BA list and columns before
+retaining rows; store raw responses under ignored `data/raw/eia930_f8_development_20261107/` and
+hash every original file. The API attempt returned HTTP 429 with public `DEMO_KEY` before any data
+were retrieved and before any policy outcome was computed. Build the paired stream and outcomes
+only after this protocol amendment is committed. Hash every stream, source script, method source,
+and result. No locked source or confirmation window is opened in this development run.
 
 ## Limitations fixed in advance
 

@@ -1,0 +1,108 @@
+# Machine-readable mirror of docs/d2a_rar/SOTA_REGISTRY.md (WP1c). 2026-11-07.
+# code_status values: NONE_LISTED | URL_RESOLVES_UNINSPECTED | IN_REPO. Never AUTHOR_VERIFIED here.
+# read_status: FULL | PARTIAL (see unread). null_class is NOT the P2 null-assumption registry
+# (that is registry/null_assumptions.yaml, WP0); it records what each paper's guarantee is about.
+schema_version: 1
+entries:
+  - id: challenger
+    paper: "The Challenger (arXiv 2512.18390)"
+    url: https://arxiv.org/html/2512.18390
+    authors_note: "Digalakis et al. per in-repo note; UNVERIFIED against paper header"
+    read_status: PARTIAL
+    unread: "final ~19k chars of HTML (bibliography/EC tail); numeric result tables not retrieved"
+    methods: [GSE, OSE, LSE, LSEc]
+    comparable_output: [promotion]
+    guarantee: "economic meta-regret O(T^{2/3} sqrt(log T)) (Thm 3.4); exact oracle rule Thm 3.1; no hypothesis-test null"
+    null_class: economic_regret
+    code_status: NONE_LISTED
+    tier: PAPER_RECONSTRUCTION
+    repo_paths: [src/shiftlab/sota/challenger/, tests/d2a_rar/test_challenger.py]
+    native_data: "Lending Club (Kaggle ethon0426/lending-club-20072020q1), not downloaded"
+  - id: gong_zhang_paid_obs
+    paper: "The Cost of Information: Phase Transitions in Contextual Bandits with Paid Observations (ICML 2026, PMLR 306:36013)"
+    url: https://proceedings.mlr.press/v306/gong26i.html
+    read_status: PARTIAL
+    unread: "appendix (Algs 4-6, proofs); math symbols garbled in pdftotext"
+    methods: [Alg1_adversarial_paid_obs, Alg2_meta_controller, Alg3_oracle_efficient]
+    comparable_output: [label_allocation]
+    guarantee: "adversarial regret incl. observation cost: O((c|A|ln|Pi|)^{1/3}T^{2/3}+sqrt(T ln|Pi|)); free-budget phase transition at B0"
+    null_class: none_regret
+    code_status: NONE_LISTED
+    tier: NOT_IMPLEMENTED
+    spec: docs/d2a_rar/baselines/GONG_ZHANG.md
+  - id: asi
+    paper: "Active Statistical Inference (ICML 2024, arXiv 2403.03208)"
+    url: https://arxiv.org/html/2403.03208
+    read_status: PARTIAL
+    unread: "appendix Assumptions 1-3, App. C non-asymptotic/time-uniform results, Secs 8.4-8.5"
+    methods: [active_IPW_prediction_powered_mean, active_M_estimation_batch, active_sequential]
+    comparable_output: [label_allocation, certificate_weak]
+    guarantee: "asymptotic normality / CI coverage 1-alpha (Prop 1-2, Thm 1-2); not anytime-valid in the main text"
+    null_class: estimation_no_test
+    code_status: URL_RESOLVES_UNINSPECTED
+    code_url: https://github.com/tijana-zrnic/active-inference
+    tier: NOT_IMPLEMENTED
+    spec: docs/d2a_rar/baselines/ASI.md
+    repo_proxy: src/shiftlab/dive/active_inference.py   # CONCEPTUAL_PROXY, relation unverified
+  - id: sethi_markov_test
+    paper: "Asymptotically Optimal Sequential Testing with Markovian Data (ICML 2026, PMLR 306:109294)"
+    url: https://proceedings.mlr.press/v306/sethi26a.html
+    read_status: PARTIAL
+    unread: "appendix proofs (B.3 mixture supermartingale) not read line-by-line"
+    methods: [Alg1_sequential_markov_chain_test, Pinsker_surrogate_L_tilde, two_sided_Thm4_4]
+    comparable_output: [alarm]
+    guarantee: "alpha-correct power-one; limsup E_Q[tau]/log(1/alpha) <= 1/D^M_inf (Thm 4.1); nonasymptotic lower bound Thm 3.3"
+    null_class: composite_transition_class_natural_filtration
+    code_status: URL_RESOLVES_UNINSPECTED
+    code_url: https://github.com/Alhad-Sethi/Sequential-Markovian-Testing
+    tier: NOT_IMPLEMENTED
+    spec: docs/d2a_rar/baselines/SETHI.md
+    exact_gap_Pg_covered_by_theory: false   # see SETHI.md; constant-gap thinning and exogenous iid-gap augmentation only
+  - id: watch
+    paper: "WATCH: Adaptive Monitoring for AI Deployments via Weighted-Conformal Martingales (ICML 2025, PMLR 267:49830)"
+    url: https://proceedings.mlr.press/v267/prinster25a.html
+    read_status: PARTIAL
+    unread: "appendix D-F; exact dataset list"
+    methods: [WCTM, WATCH_with_X_CTM_adaptation, root_cause_analysis]
+    comparable_output: [alarm]
+    guarantee: "Ville false-alarm bound 1/c (Prop 3.2) and SR ARL >= c (Prop 3.3), conditional on weight model / H0(f_hat)"
+    null_class: exchangeability_or_covariate_shift_with_correct_density_ratio
+    code_status: URL_RESOLVES_UNINSPECTED
+    code_url: https://github.com/aaronhan223/watch
+    tier: NOT_IMPLEMENTED
+  - id: pprm
+    paper: "Prediction-Powered Risk Monitoring of Deployed Models for Detecting Harmful Distribution Shifts (ICML 2026, PMLR 306:154241)"
+    url: https://proceedings.mlr.press/v306/zhang26g.html
+    read_status: PARTIAL
+    unread: "appendices A-C; telecom details"
+    methods: [PPRM, SRM_baseline, URM_baseline]
+    comparable_output: [alarm, certificate]
+    guarantee: "type-I <= delta_S+delta_T under H0: running-average risk <= R0+tol, predictable lambda_t (Thm 3.2)"
+    null_class: running_average_risk_excess
+    code_status: NONE_LISTED
+    tier: COMMON_CONTRACT_PORT       # in-repo adapters; ICML-text conformance not audited
+    repo_paths: [src/shiftlab/dive/pprm_risk_monitor.py, src/shiftlab/sota_search/published_baselines.py]
+  - id: drift2act
+    paper: "Drift2Act (arXiv 2603.08578)"
+    tier: SEE_BASELINE_DOC
+    spec: docs/d2a_rar/baselines/DRIFT2ACT.md
+  - id: rar
+    paper: "RAR (arXiv 2611.02251)"
+    tier: SEE_BASELINE_DOC
+    spec: docs/d2a_rar/baselines/RAR.md
+in_repo:
+  - {id: h2c_hg_ports, paths: [src/shiftlab/hgxh2c/baselines.py], refs: [HEAD], output: [alarm, promotion], tier: COMMON_CONTRACT_PORT, shiftlab_original: true}
+  - {id: pprm_adapter, paths: [src/shiftlab/dive/pprm_risk_monitor.py], refs: [HEAD], output: [alarm], tier: COMMON_CONTRACT_PORT}
+  - {id: sota_search_published_baselines, paths: [src/shiftlab/sota_search/published_baselines.py, src/shiftlab/sota_search/detectors.py], refs: [origin/codex/sprint2-leaderboards, origin/research/continuation-2026-11-04, origin/claude/sweet-lovelace-pznpjq, origin/claude/failure-atlas-v2-sota-195428], output: [alarm], tier: COMMON_CONTRACT_PORT, in_head: false}
+  - {id: rmm, paths: [scripts/failure_atlas_v2/restart_monitor.py], refs: [origin/codex/sprint2-leaderboards, origin/research/continuation-2026-11-04, origin/claude/sweet-lovelace-pznpjq, origin/claude/failure-atlas-v2-sota-195428], output: [alarm], tier: PAPER_RECONSTRUCTION, in_head: false, note: "fidelity to cited restart-mixture papers not audited"}
+  - {id: e_rb, paths: [scripts/sota_sprint/fam_e.py, src/shiftlab/gaver/erb_port.py], refs: [origin/codex/sprint2-leaderboards, origin/claude/sweet-lovelace-pznpjq, origin/research/gave-r-2026-11-06], output: [alarm, rollback], tier: COMMON_CONTRACT_PORT, in_head: false}
+  - {id: page_cusum, paths: [src/shiftlab/dive/atlas_components.py, src/shiftlab/dive/failure_atlas.py, src/shiftlab/gaver/freshcheck.py], refs: [HEAD, origin/research/gave-r-2026-11-06], output: [alarm], tier: COMMON_CONTRACT_PORT, null: EMPIRICAL_ALARM}
+  - {id: markov_lr, paths: [src/shiftlab/dive/atlas_dependence_baselines.py], refs: [HEAD], output: [promotion], tier: COMMON_CONTRACT_PORT, shiftlab_original: true}
+  - {id: gapmix, paths: [src/shiftlab/gaver/gapmix.py], refs: [origin/research/gave-r-2026-11-06], output: [promotion], tier: COMMON_CONTRACT_PORT, development_only: true}
+  - {id: dss_straddle, paths: [src/shiftlab/dive/atlas_components.py, scripts/check_straddle_bound.py], refs: [HEAD, origin/research/gave-r-2026-11-06], output: [label_allocation], tier: COMMON_CONTRACT_PORT}
+  - {id: pave, paths: [src/shiftlab/gaver/pave.py], refs: [origin/research/gave-r-2026-11-06], output: [label_allocation, promotion], tier: COMMON_CONTRACT_PORT, development_only: true}
+  - {id: freshcheck, paths: [src/shiftlab/gaver/freshcheck.py], refs: [origin/research/gave-r-2026-11-06], output: [rollback], tier: COMMON_CONTRACT_PORT, development_only: true}
+  - {id: episode_front, paths: [src/shiftlab/dive/failure_atlas.py, src/shiftlab/dive/atlas_dependence_baselines.py], refs: [HEAD], output: [promotion], tier: COMMON_CONTRACT_PORT}
+  - {id: two_phase_persistence, paths: [src/shiftlab/dive/persistence_promotion.py, src/shiftlab/dive/promotion_robustness.py], refs: [HEAD], output: [promotion], tier: COMMON_CONTRACT_PORT}
+  - {id: certified_gates, paths: [src/shiftlab/dive/controller.py, src/shiftlab/dive/budgeted_promotion.py, src/shiftlab/dive/integrated_pipeline.py], refs: [HEAD], output: [promotion], tier: COMMON_CONTRACT_PORT, note: "exact certified-gate API not audited"}
+  - {id: active_inference_proxy, paths: [src/shiftlab/dive/active_inference.py], refs: [HEAD], output: [label_allocation], tier: CONCEPTUAL_PROXY}

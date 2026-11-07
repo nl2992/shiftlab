@@ -376,3 +376,6 @@ Thumbs.db
 
 # API keys: never commit (PaperBanana model config)
 configs/model_config.yaml
+
+# graphify knowledge graph (local, regenerable)
+graphify-out/

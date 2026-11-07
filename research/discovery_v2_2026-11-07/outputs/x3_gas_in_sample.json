@@ -1,0 +1,78 @@
+{
+ "r0_brier": 0.004549435545901399,
+ "u0_brier": 0.06539272025508394,
+ "rows": [
+  {
+   "frac": 0.05,
+   "arm": "C1_cost_disc_Kelly",
+   "alarm_rate": 1.0,
+   "median_alarm": 3968.5
+  },
+  {
+   "frac": 0.05,
+   "arm": "C2_cost_ONS",
+   "alarm_rate": 1.0,
+   "median_alarm": 3915.5
+  },
+  {
+   "frac": 0.05,
+   "arm": "H2c_guided_disc",
+   "alarm_rate": 0.98,
+   "median_alarm": 4166.5
+  },
+  {
+   "frac": 0.05,
+   "arm": "MAG",
+   "alarm_rate": 1.0,
+   "median_alarm": 3947.0
+  },
+  {
+   "frac": 0.1,
+   "arm": "C1_cost_disc_Kelly",
+   "alarm_rate": 1.0,
+   "median_alarm": 3899.0
+  },
+  {
+   "frac": 0.1,
+   "arm": "C2_cost_ONS",
+   "alarm_rate": 1.0,
+   "median_alarm": 3870.0
+  },
+  {
+   "frac": 0.1,
+   "arm": "H2c_guided_disc",
+   "alarm_rate": 1.0,
+   "median_alarm": 4121.0
+  },
+  {
+   "frac": 0.1,
+   "arm": "MAG",
+   "alarm_rate": 1.0,
+   "median_alarm": 3889.5
+  },
+  {
+   "frac": 0.2,
+   "arm": "C1_cost_disc_Kelly",
+   "alarm_rate": 1.0,
+   "median_alarm": 3861.0
+  },
+  {
+   "frac": 0.2,
+   "arm": "C2_cost_ONS",
+   "alarm_rate": 1.0,
+   "median_alarm": 3842.0
+  },
+  {
+   "frac": 0.2,
+   "arm": "H2c_guided_disc",
+   "alarm_rate": 1.0,
+   "median_alarm": 4098.0
+  },
+  {
+   "frac": 0.2,
+   "arm": "MAG",
+   "alarm_rate": 1.0,
+   "median_alarm": 3857.0
+  }
+ ]
+}

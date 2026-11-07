@@ -1,0 +1,968 @@
+[
+ {
+  "q": 0.1,
+  "n_cal": 500,
+  "world": "aligned_rho.8",
+  "harmful": true,
+  "seed": 700001,
+  "C1_cost_disc_power": 0.0,
+  "C1_cost_disc_pre": 0.0,
+  "H2c_power": 0.0015,
+  "H2c_pre": 0.0,
+  "MAG_power": 0.0005,
+  "MAG_pre": 0.0,
+  "MAG-H2c": -0.001,
+  "MAG-H2c_ci": [
+   -0.0025,
+   0.0
+  ],
+  "MAG-C1_cost_disc": 0.0005,
+  "MAG-C1_cost_disc_ci": [
+   0.0,
+   0.0015
+  ]
+ },
+ {
+  "q": 0.1,
+  "n_cal": 500,
+  "world": "aligned_rho0",
+  "harmful": true,
+  "seed": 700002,
+  "C1_cost_disc_power": 0.0,
+  "C1_cost_disc_pre": 0.0,
+  "H2c_power": 0.0,
+  "H2c_pre": 0.0,
+  "MAG_power": 0.0,
+  "MAG_pre": 0.0,
+  "MAG-H2c": 0.0,
+  "MAG-H2c_ci": [
+   0.0,
+   0.0
+  ],
+  "MAG-C1_cost_disc": 0.0,
+  "MAG-C1_cost_disc_ci": [
+   0.0,
+   0.0
+  ]
+ },
+ {
+  "q": 0.1,
+  "n_cal": 500,
+  "world": "masked",
+  "harmful": true,
+  "seed": 700003,
+  "C1_cost_disc_power": 0.0,
+  "C1_cost_disc_pre": 0.0,
+  "H2c_power": 0.0,
+  "H2c_pre": 0.0,
+  "MAG_power": 0.0,
+  "MAG_pre": 0.0,
+  "MAG-H2c": 0.0,
+  "MAG-H2c_ci": [
+   0.0,
+   0.0
+  ],
+  "MAG-C1_cost_disc": 0.0,
+  "MAG-C1_cost_disc_ci": [
+   0.0,
+   0.0
+  ]
+ },
+ {
+  "q": 0.1,
+  "n_cal": 500,
+  "world": "opposed",
+  "harmful": true,
+  "seed": 700004,
+  "C1_cost_disc_power": 0.0,
+  "C1_cost_disc_pre": 0.0,
+  "H2c_power": 0.0,
+  "H2c_pre": 0.0,
+  "MAG_power": 0.0,
+  "MAG_pre": 0.0,
+  "MAG-H2c": 0.0,
+  "MAG-H2c_ci": [
+   0.0,
+   0.0
+  ],
+  "MAG-C1_cost_disc": 0.0,
+  "MAG-C1_cost_disc_ci": [
+   0.0,
+   0.0
+  ]
+ },
+ {
+  "q": 0.1,
+  "n_cal": 500,
+  "world": "misleading_null",
+  "harmful": false,
+  "seed": 700005,
+  "C1_cost_disc_power": 0.0,
+  "C1_cost_disc_pre": 0.0,
+  "H2c_power": 0.0,
+  "H2c_pre": 0.0,
+  "MAG_power": 0.0,
+  "MAG_pre": 0.0,
+  "MAG-H2c": 0.0,
+  "MAG-H2c_ci": [
+   0.0,
+   0.0
+  ],
+  "MAG-C1_cost_disc": 0.0,
+  "MAG-C1_cost_disc_ci": [
+   0.0,
+   0.0
+  ]
+ },
+ {
+  "q": 0.1,
+  "n_cal": 500,
+  "world": "null",
+  "harmful": false,
+  "seed": 700006,
+  "C1_cost_disc_power": 0.0,
+  "C1_cost_disc_pre": 0.0,
+  "H2c_power": 0.0,
+  "H2c_pre": 0.0,
+  "MAG_power": 0.0,
+  "MAG_pre": 0.0,
+  "MAG-H2c": 0.0,
+  "MAG-H2c_ci": [
+   0.0,
+   0.0
+  ],
+  "MAG-C1_cost_disc": 0.0,
+  "MAG-C1_cost_disc_ci": [
+   0.0,
+   0.0
+  ]
+ },
+ {
+  "q": 0.1,
+  "n_cal": 500,
+  "world": "aligned_strong",
+  "harmful": true,
+  "seed": 700007,
+  "C1_cost_disc_power": 0.001,
+  "C1_cost_disc_pre": 0.0,
+  "H2c_power": 0.009,
+  "H2c_pre": 0.0,
+  "MAG_power": 0.005,
+  "MAG_pre": 0.0,
+  "MAG-H2c": -0.004,
+  "MAG-H2c_ci": [
+   -0.008,
+   -0.0005
+  ],
+  "MAG-C1_cost_disc": 0.004,
+  "MAG-C1_cost_disc_ci": [
+   0.0015,
+   0.007
+  ]
+ },
+ {
+  "q": 0.1,
+  "n_cal": 2000,
+  "world": "aligned_rho.8",
+  "harmful": true,
+  "seed": 700008,
+  "C1_cost_disc_power": 0.0005,
+  "C1_cost_disc_pre": 0.0,
+  "H2c_power": 0.0025,
+  "H2c_pre": 0.0005,
+  "MAG_power": 0.0015,
+  "MAG_pre": 0.0005,
+  "MAG-H2c": -0.001,
+  "MAG-H2c_ci": [
+   -0.003,
+   0.001
+  ],
+  "MAG-C1_cost_disc": 0.001,
+  "MAG-C1_cost_disc_ci": [
+   0.0,
+   0.0025
+  ]
+ },
+ {
+  "q": 0.1,
+  "n_cal": 2000,
+  "world": "aligned_rho0",
+  "harmful": true,
+  "seed": 700009,
+  "C1_cost_disc_power": 0.002,
+  "C1_cost_disc_pre": 0.0,
+  "H2c_power": 0.0075,
+  "H2c_pre": 0.0005,
+  "MAG_power": 0.0045,
+  "MAG_pre": 0.0,
+  "MAG-H2c": -0.003,
+  "MAG-H2c_ci": [
+   -0.0065,
+   0.0
+  ],
+  "MAG-C1_cost_disc": 0.0025,
+  "MAG-C1_cost_disc_ci": [
+   -0.0005,
+   0.006
+  ]
+ },
+ {
+  "q": 0.1,
+  "n_cal": 2000,
+  "world": "masked",
+  "harmful": true,
+  "seed": 700010,
+  "C1_cost_disc_power": 0.001,
+  "C1_cost_disc_pre": 0.0,
+  "H2c_power": 0.002,
+  "H2c_pre": 0.0,
+  "MAG_power": 0.0005,
+  "MAG_pre": 0.0,
+  "MAG-H2c": -0.0015,
+  "MAG-H2c_ci": [
+   -0.0035,
+   0.0
+  ],
+  "MAG-C1_cost_disc": -0.0005,
+  "MAG-C1_cost_disc_ci": [
+   -0.0025,
+   0.001
+  ]
+ },
+ {
+  "q": 0.1,
+  "n_cal": 2000,
+  "world": "opposed",
+  "harmful": true,
+  "seed": 700011,
+  "C1_cost_disc_power": 0.001,
+  "C1_cost_disc_pre": 0.0,
+  "H2c_power": 0.0,
+  "H2c_pre": 0.0,
+  "MAG_power": 0.0,
+  "MAG_pre": 0.0,
+  "MAG-H2c": 0.0,
+  "MAG-H2c_ci": [
+   0.0,
+   0.0
+  ],
+  "MAG-C1_cost_disc": -0.001,
+  "MAG-C1_cost_disc_ci": [
+   -0.0025,
+   0.0
+  ]
+ },
+ {
+  "q": 0.1,
+  "n_cal": 2000,
+  "world": "misleading_null",
+  "harmful": false,
+  "seed": 700012,
+  "C1_cost_disc_power": 0.0,
+  "C1_cost_disc_pre": 0.0005,
+  "H2c_power": 0.0015,
+  "H2c_pre": 0.0005,
+  "MAG_power": 0.0005,
+  "MAG_pre": 0.0005,
+  "MAG-H2c": -0.001,
+  "MAG-H2c_ci": [
+   -0.0025,
+   0.0
+  ],
+  "MAG-C1_cost_disc": 0.0005,
+  "MAG-C1_cost_disc_ci": [
+   0.0,
+   0.0015
+  ]
+ },
+ {
+  "q": 0.1,
+  "n_cal": 2000,
+  "world": "null",
+  "harmful": false,
+  "seed": 700013,
+  "C1_cost_disc_power": 0.0,
+  "C1_cost_disc_pre": 0.0,
+  "H2c_power": 0.0,
+  "H2c_pre": 0.0015,
+  "MAG_power": 0.0,
+  "MAG_pre": 0.001,
+  "MAG-H2c": 0.0,
+  "MAG-H2c_ci": [
+   0.0,
+   0.0
+  ],
+  "MAG-C1_cost_disc": 0.0,
+  "MAG-C1_cost_disc_ci": [
+   0.0,
+   0.0
+  ]
+ },
+ {
+  "q": 0.1,
+  "n_cal": 2000,
+  "world": "aligned_strong",
+  "harmful": true,
+  "seed": 700014,
+  "C1_cost_disc_power": 0.0055,
+  "C1_cost_disc_pre": 0.0,
+  "H2c_power": 0.0425,
+  "H2c_pre": 0.0005,
+  "MAG_power": 0.033,
+  "MAG_pre": 0.0005,
+  "MAG-H2c": -0.0095,
+  "MAG-H2c_ci": [
+   -0.015,
+   -0.004
+  ],
+  "MAG-C1_cost_disc": 0.0275,
+  "MAG-C1_cost_disc_ci": [
+   0.0205,
+   0.035
+  ]
+ },
+ {
+  "q": 0.1,
+  "n_cal": 10000,
+  "world": "aligned_rho.8",
+  "harmful": true,
+  "seed": 700015,
+  "C1_cost_disc_power": 0.0055,
+  "C1_cost_disc_pre": 0.0,
+  "H2c_power": 0.017,
+  "H2c_pre": 0.001,
+  "MAG_power": 0.017,
+  "MAG_pre": 0.001,
+  "MAG-H2c": 0.0,
+  "MAG-H2c_ci": [
+   -0.0015,
+   0.0015
+  ],
+  "MAG-C1_cost_disc": 0.0115,
+  "MAG-C1_cost_disc_ci": [
+   0.0065,
+   0.0165
+  ]
+ },
+ {
+  "q": 0.1,
+  "n_cal": 10000,
+  "world": "aligned_rho0",
+  "harmful": true,
+  "seed": 700016,
+  "C1_cost_disc_power": 0.006,
+  "C1_cost_disc_pre": 0.0005,
+  "H2c_power": 0.0235,
+  "H2c_pre": 0.0005,
+  "MAG_power": 0.0165,
+  "MAG_pre": 0.0005,
+  "MAG-H2c": -0.007,
+  "MAG-H2c_ci": [
+   -0.011,
+   -0.0035
+  ],
+  "MAG-C1_cost_disc": 0.0105,
+  "MAG-C1_cost_disc_ci": [
+   0.005,
+   0.0165
+  ]
+ },
+ {
+  "q": 0.1,
+  "n_cal": 10000,
+  "world": "masked",
+  "harmful": true,
+  "seed": 700017,
+  "C1_cost_disc_power": 0.0095,
+  "C1_cost_disc_pre": 0.0005,
+  "H2c_power": 0.011,
+  "H2c_pre": 0.002,
+  "MAG_power": 0.008,
+  "MAG_pre": 0.0015,
+  "MAG-H2c": -0.003,
+  "MAG-H2c_ci": [
+   -0.0055,
+   -0.001
+  ],
+  "MAG-C1_cost_disc": -0.0015,
+  "MAG-C1_cost_disc_ci": [
+   -0.0055,
+   0.003
+  ]
+ },
+ {
+  "q": 0.1,
+  "n_cal": 10000,
+  "world": "opposed",
+  "harmful": true,
+  "seed": 700018,
+  "C1_cost_disc_power": 0.008,
+  "C1_cost_disc_pre": 0.0005,
+  "H2c_power": 0.002,
+  "H2c_pre": 0.0015,
+  "MAG_power": 0.001,
+  "MAG_pre": 0.001,
+  "MAG-H2c": -0.001,
+  "MAG-H2c_ci": [
+   -0.003,
+   0.001
+  ],
+  "MAG-C1_cost_disc": -0.007,
+  "MAG-C1_cost_disc_ci": [
+   -0.011,
+   -0.0035
+  ]
+ },
+ {
+  "q": 0.1,
+  "n_cal": 10000,
+  "world": "misleading_null",
+  "harmful": false,
+  "seed": 700019,
+  "C1_cost_disc_power": 0.001,
+  "C1_cost_disc_pre": 0.0,
+  "H2c_power": 0.003,
+  "H2c_pre": 0.0015,
+  "MAG_power": 0.002,
+  "MAG_pre": 0.0,
+  "MAG-H2c": -0.001,
+  "MAG-H2c_ci": [
+   -0.0025,
+   0.0
+  ],
+  "MAG-C1_cost_disc": 0.001,
+  "MAG-C1_cost_disc_ci": [
+   -0.0015,
+   0.0035
+  ]
+ },
+ {
+  "q": 0.1,
+  "n_cal": 10000,
+  "world": "null",
+  "harmful": false,
+  "seed": 700020,
+  "C1_cost_disc_power": 0.0,
+  "C1_cost_disc_pre": 0.0005,
+  "H2c_power": 0.0015,
+  "H2c_pre": 0.002,
+  "MAG_power": 0.001,
+  "MAG_pre": 0.002,
+  "MAG-H2c": -0.0005,
+  "MAG-H2c_ci": [
+   -0.0015,
+   0.0
+  ],
+  "MAG-C1_cost_disc": 0.001,
+  "MAG-C1_cost_disc_ci": [
+   0.0,
+   0.0025
+  ]
+ },
+ {
+  "q": 0.1,
+  "n_cal": 10000,
+  "world": "aligned_strong",
+  "harmful": true,
+  "seed": 700021,
+  "C1_cost_disc_power": 0.0525,
+  "C1_cost_disc_pre": 0.0005,
+  "H2c_power": 0.13,
+  "H2c_pre": 0.003,
+  "MAG_power": 0.1205,
+  "MAG_pre": 0.002,
+  "MAG-H2c": -0.0095,
+  "MAG-H2c_ci": [
+   -0.0155,
+   -0.0035
+  ],
+  "MAG-C1_cost_disc": 0.068,
+  "MAG-C1_cost_disc_ci": [
+   0.0555,
+   0.08001249999999993
+  ]
+ },
+ {
+  "q": 0.2,
+  "n_cal": 500,
+  "world": "aligned_rho.8",
+  "harmful": true,
+  "seed": 700022,
+  "C1_cost_disc_power": 0.0,
+  "C1_cost_disc_pre": 0.0,
+  "H2c_power": 0.0,
+  "H2c_pre": 0.0,
+  "MAG_power": 0.0,
+  "MAG_pre": 0.0,
+  "MAG-H2c": 0.0,
+  "MAG-H2c_ci": [
+   0.0,
+   0.0
+  ],
+  "MAG-C1_cost_disc": 0.0,
+  "MAG-C1_cost_disc_ci": [
+   0.0,
+   0.0
+  ]
+ },
+ {
+  "q": 0.2,
+  "n_cal": 500,
+  "world": "aligned_rho0",
+  "harmful": true,
+  "seed": 700023,
+  "C1_cost_disc_power": 0.0,
+  "C1_cost_disc_pre": 0.0,
+  "H2c_power": 0.0,
+  "H2c_pre": 0.0,
+  "MAG_power": 0.0,
+  "MAG_pre": 0.0,
+  "MAG-H2c": 0.0,
+  "MAG-H2c_ci": [
+   0.0,
+   0.0
+  ],
+  "MAG-C1_cost_disc": 0.0,
+  "MAG-C1_cost_disc_ci": [
+   0.0,
+   0.0
+  ]
+ },
+ {
+  "q": 0.2,
+  "n_cal": 500,
+  "world": "masked",
+  "harmful": true,
+  "seed": 700024,
+  "C1_cost_disc_power": 0.0,
+  "C1_cost_disc_pre": 0.0,
+  "H2c_power": 0.0,
+  "H2c_pre": 0.0,
+  "MAG_power": 0.0,
+  "MAG_pre": 0.0,
+  "MAG-H2c": 0.0,
+  "MAG-H2c_ci": [
+   0.0,
+   0.0
+  ],
+  "MAG-C1_cost_disc": 0.0,
+  "MAG-C1_cost_disc_ci": [
+   0.0,
+   0.0
+  ]
+ },
+ {
+  "q": 0.2,
+  "n_cal": 500,
+  "world": "opposed",
+  "harmful": true,
+  "seed": 700025,
+  "C1_cost_disc_power": 0.0,
+  "C1_cost_disc_pre": 0.0,
+  "H2c_power": 0.0,
+  "H2c_pre": 0.0,
+  "MAG_power": 0.0,
+  "MAG_pre": 0.0,
+  "MAG-H2c": 0.0,
+  "MAG-H2c_ci": [
+   0.0,
+   0.0
+  ],
+  "MAG-C1_cost_disc": 0.0,
+  "MAG-C1_cost_disc_ci": [
+   0.0,
+   0.0
+  ]
+ },
+ {
+  "q": 0.2,
+  "n_cal": 500,
+  "world": "misleading_null",
+  "harmful": false,
+  "seed": 700026,
+  "C1_cost_disc_power": 0.0,
+  "C1_cost_disc_pre": 0.0,
+  "H2c_power": 0.0,
+  "H2c_pre": 0.0,
+  "MAG_power": 0.0,
+  "MAG_pre": 0.0,
+  "MAG-H2c": 0.0,
+  "MAG-H2c_ci": [
+   0.0,
+   0.0
+  ],
+  "MAG-C1_cost_disc": 0.0,
+  "MAG-C1_cost_disc_ci": [
+   0.0,
+   0.0
+  ]
+ },
+ {
+  "q": 0.2,
+  "n_cal": 500,
+  "world": "null",
+  "harmful": false,
+  "seed": 700027,
+  "C1_cost_disc_power": 0.0,
+  "C1_cost_disc_pre": 0.0,
+  "H2c_power": 0.0,
+  "H2c_pre": 0.0005,
+  "MAG_power": 0.0,
+  "MAG_pre": 0.0,
+  "MAG-H2c": 0.0,
+  "MAG-H2c_ci": [
+   0.0,
+   0.0
+  ],
+  "MAG-C1_cost_disc": 0.0,
+  "MAG-C1_cost_disc_ci": [
+   0.0,
+   0.0
+  ]
+ },
+ {
+  "q": 0.2,
+  "n_cal": 500,
+  "world": "aligned_strong",
+  "harmful": true,
+  "seed": 700028,
+  "C1_cost_disc_power": 0.0025,
+  "C1_cost_disc_pre": 0.0,
+  "H2c_power": 0.0085,
+  "H2c_pre": 0.001,
+  "MAG_power": 0.012,
+  "MAG_pre": 0.0,
+  "MAG-H2c": 0.0035,
+  "MAG-H2c_ci": [
+   -0.0005,
+   0.008
+  ],
+  "MAG-C1_cost_disc": 0.0095,
+  "MAG-C1_cost_disc_ci": [
+   0.0055,
+   0.014
+  ]
+ },
+ {
+  "q": 0.2,
+  "n_cal": 2000,
+  "world": "aligned_rho.8",
+  "harmful": true,
+  "seed": 700029,
+  "C1_cost_disc_power": 0.0025,
+  "C1_cost_disc_pre": 0.001,
+  "H2c_power": 0.01,
+  "H2c_pre": 0.001,
+  "MAG_power": 0.0105,
+  "MAG_pre": 0.001,
+  "MAG-H2c": 0.0005,
+  "MAG-H2c_ci": [
+   -0.003,
+   0.004
+  ],
+  "MAG-C1_cost_disc": 0.008,
+  "MAG-C1_cost_disc_ci": [
+   0.004,
+   0.012
+  ]
+ },
+ {
+  "q": 0.2,
+  "n_cal": 2000,
+  "world": "aligned_rho0",
+  "harmful": true,
+  "seed": 700030,
+  "C1_cost_disc_power": 0.0015,
+  "C1_cost_disc_pre": 0.0005,
+  "H2c_power": 0.0125,
+  "H2c_pre": 0.0005,
+  "MAG_power": 0.0075,
+  "MAG_pre": 0.0005,
+  "MAG-H2c": -0.005,
+  "MAG-H2c_ci": [
+   -0.0095,
+   -0.0015
+  ],
+  "MAG-C1_cost_disc": 0.006,
+  "MAG-C1_cost_disc_ci": [
+   0.0025,
+   0.01
+  ]
+ },
+ {
+  "q": 0.2,
+  "n_cal": 2000,
+  "world": "masked",
+  "harmful": true,
+  "seed": 700031,
+  "C1_cost_disc_power": 0.001,
+  "C1_cost_disc_pre": 0.0,
+  "H2c_power": 0.0025,
+  "H2c_pre": 0.0,
+  "MAG_power": 0.0005,
+  "MAG_pre": 0.0,
+  "MAG-H2c": -0.002,
+  "MAG-H2c_ci": [
+   -0.004,
+   -0.0005
+  ],
+  "MAG-C1_cost_disc": -0.0005,
+  "MAG-C1_cost_disc_ci": [
+   -0.0015,
+   0.0
+  ]
+ },
+ {
+  "q": 0.2,
+  "n_cal": 2000,
+  "world": "opposed",
+  "harmful": true,
+  "seed": 700032,
+  "C1_cost_disc_power": 0.002,
+  "C1_cost_disc_pre": 0.0,
+  "H2c_power": 0.0,
+  "H2c_pre": 0.0,
+  "MAG_power": 0.0,
+  "MAG_pre": 0.0,
+  "MAG-H2c": 0.0,
+  "MAG-H2c_ci": [
+   0.0,
+   0.0
+  ],
+  "MAG-C1_cost_disc": -0.002,
+  "MAG-C1_cost_disc_ci": [
+   -0.0045,
+   -0.0005
+  ]
+ },
+ {
+  "q": 0.2,
+  "n_cal": 2000,
+  "world": "misleading_null",
+  "harmful": false,
+  "seed": 700033,
+  "C1_cost_disc_power": 0.0,
+  "C1_cost_disc_pre": 0.0,
+  "H2c_power": 0.0,
+  "H2c_pre": 0.0005,
+  "MAG_power": 0.0,
+  "MAG_pre": 0.0005,
+  "MAG-H2c": 0.0,
+  "MAG-H2c_ci": [
+   0.0,
+   0.0
+  ],
+  "MAG-C1_cost_disc": 0.0,
+  "MAG-C1_cost_disc_ci": [
+   0.0,
+   0.0
+  ]
+ },
+ {
+  "q": 0.2,
+  "n_cal": 2000,
+  "world": "null",
+  "harmful": false,
+  "seed": 700034,
+  "C1_cost_disc_power": 0.0,
+  "C1_cost_disc_pre": 0.001,
+  "H2c_power": 0.0,
+  "H2c_pre": 0.002,
+  "MAG_power": 0.0,
+  "MAG_pre": 0.0015,
+  "MAG-H2c": 0.0,
+  "MAG-H2c_ci": [
+   0.0,
+   0.0
+  ],
+  "MAG-C1_cost_disc": 0.0,
+  "MAG-C1_cost_disc_ci": [
+   0.0,
+   0.0
+  ]
+ },
+ {
+  "q": 0.2,
+  "n_cal": 2000,
+  "world": "aligned_strong",
+  "harmful": true,
+  "seed": 700035,
+  "C1_cost_disc_power": 0.0305,
+  "C1_cost_disc_pre": 0.0005,
+  "H2c_power": 0.0915,
+  "H2c_pre": 0.0005,
+  "MAG_power": 0.0885,
+  "MAG_pre": 0.0005,
+  "MAG-H2c": -0.003,
+  "MAG-H2c_ci": [
+   -0.0105,
+   0.0045
+  ],
+  "MAG-C1_cost_disc": 0.058,
+  "MAG-C1_cost_disc_ci": [
+   0.0475,
+   0.0685
+  ]
+ },
+ {
+  "q": 0.2,
+  "n_cal": 10000,
+  "world": "aligned_rho.8",
+  "harmful": true,
+  "seed": 700036,
+  "C1_cost_disc_power": 0.014,
+  "C1_cost_disc_pre": 0.001,
+  "H2c_power": 0.0455,
+  "H2c_pre": 0.0025,
+  "MAG_power": 0.0425,
+  "MAG_pre": 0.002,
+  "MAG-H2c": -0.003,
+  "MAG-H2c_ci": [
+   -0.0075,
+   0.001
+  ],
+  "MAG-C1_cost_disc": 0.0285,
+  "MAG-C1_cost_disc_ci": [
+   0.0205,
+   0.0365
+  ]
+ },
+ {
+  "q": 0.2,
+  "n_cal": 10000,
+  "world": "aligned_rho0",
+  "harmful": true,
+  "seed": 700037,
+  "C1_cost_disc_power": 0.0165,
+  "C1_cost_disc_pre": 0.001,
+  "H2c_power": 0.0455,
+  "H2c_pre": 0.001,
+  "MAG_power": 0.04,
+  "MAG_pre": 0.001,
+  "MAG-H2c": -0.0055,
+  "MAG-H2c_ci": [
+   -0.009512499999999998,
+   -0.0015
+  ],
+  "MAG-C1_cost_disc": 0.0235,
+  "MAG-C1_cost_disc_ci": [
+   0.0155,
+   0.0325
+  ]
+ },
+ {
+  "q": 0.2,
+  "n_cal": 10000,
+  "world": "masked",
+  "harmful": true,
+  "seed": 700038,
+  "C1_cost_disc_power": 0.0105,
+  "C1_cost_disc_pre": 0.0015,
+  "H2c_power": 0.014,
+  "H2c_pre": 0.0035,
+  "MAG_power": 0.0085,
+  "MAG_pre": 0.002,
+  "MAG-H2c": -0.0055,
+  "MAG-H2c_ci": [
+   -0.0095,
+   -0.002
+  ],
+  "MAG-C1_cost_disc": -0.002,
+  "MAG-C1_cost_disc_ci": [
+   -0.007,
+   0.003
+  ]
+ },
+ {
+  "q": 0.2,
+  "n_cal": 10000,
+  "world": "opposed",
+  "harmful": true,
+  "seed": 700039,
+  "C1_cost_disc_power": 0.012,
+  "C1_cost_disc_pre": 0.0005,
+  "H2c_power": 0.002,
+  "H2c_pre": 0.003,
+  "MAG_power": 0.001,
+  "MAG_pre": 0.002,
+  "MAG-H2c": -0.001,
+  "MAG-H2c_ci": [
+   -0.0025,
+   0.0
+  ],
+  "MAG-C1_cost_disc": -0.011,
+  "MAG-C1_cost_disc_ci": [
+   -0.016,
+   -0.006
+  ]
+ },
+ {
+  "q": 0.2,
+  "n_cal": 10000,
+  "world": "misleading_null",
+  "harmful": false,
+  "seed": 700040,
+  "C1_cost_disc_power": 0.001,
+  "C1_cost_disc_pre": 0.0015,
+  "H2c_power": 0.002,
+  "H2c_pre": 0.0035,
+  "MAG_power": 0.003,
+  "MAG_pre": 0.0025,
+  "MAG-H2c": 0.001,
+  "MAG-H2c_ci": [
+   -0.001,
+   0.003
+  ],
+  "MAG-C1_cost_disc": 0.002,
+  "MAG-C1_cost_disc_ci": [
+   0.0,
+   0.0045
+  ]
+ },
+ {
+  "q": 0.2,
+  "n_cal": 10000,
+  "world": "null",
+  "harmful": false,
+  "seed": 700041,
+  "C1_cost_disc_power": 0.0,
+  "C1_cost_disc_pre": 0.0005,
+  "H2c_power": 0.001,
+  "H2c_pre": 0.0015,
+  "MAG_power": 0.0005,
+  "MAG_pre": 0.0005,
+  "MAG-H2c": -0.0005,
+  "MAG-H2c_ci": [
+   -0.0015,
+   0.0
+  ],
+  "MAG-C1_cost_disc": 0.0005,
+  "MAG-C1_cost_disc_ci": [
+   0.0,
+   0.0015
+  ]
+ },
+ {
+  "q": 0.2,
+  "n_cal": 10000,
+  "world": "aligned_strong",
+  "harmful": true,
+  "seed": 700042,
+  "C1_cost_disc_power": 0.1335,
+  "C1_cost_disc_pre": 0.001,
+  "H2c_power": 0.25,
+  "H2c_pre": 0.003,
+  "MAG_power": 0.2525,
+  "MAG_pre": 0.003,
+  "MAG-H2c": 0.0025,
+  "MAG-H2c_ci": [
+   -0.0035,
+   0.0085
+  ],
+  "MAG-C1_cost_disc": 0.119,
+  "MAG-C1_cost_disc_ci": [
+   0.104,
+   0.13401249999999995
+  ]
+ }
+]

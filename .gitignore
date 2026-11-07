@@ -217,6 +217,7 @@ data/manifests/
 data/sprint_late_losses/
 data/sprint_twin_losses_v2/
 data/sprint_twin_losses_v3/
+data/sprint_twin_losses_v4/
 data/reports/decision_harm_phase2/*/
 data/gpu_auto_verification/
 tmp/

@@ -1,0 +1,39 @@
+{
+  "protocol": "eia930_f8_ml_challenger_20261107/PROTOCOL.md",
+  "training_window": "2021-01-01/2022-01-01 UTC",
+  "development_window": "2022-01-01/2024-01-01 UTC",
+  "profiles": {
+    "PJM": {
+      "eligible_events": 17303,
+      "disagreement_frequency": 0.054325839449806394,
+      "challenger_correct_on_disagreements": 0.8861702127659574,
+      "complete_2000_hour_episodes": 6,
+      "contiguous_runs": 10,
+      "cutoff_mw_train_2021_p90": 111357.09999999999,
+      "train_events": 8415
+    },
+    "ERCO": {
+      "eligible_events": 17520,
+      "disagreement_frequency": 0.036929223744292236,
+      "challenger_correct_on_disagreements": 0.8500772797527048,
+      "complete_2000_hour_episodes": 8,
+      "contiguous_runs": 1,
+      "cutoff_mw_train_2021_p90": 59984.4,
+      "train_events": 8417
+    },
+    "CISO": {
+      "eligible_events": 17386,
+      "disagreement_frequency": 0.026400552168411365,
+      "challenger_correct_on_disagreements": 0.8235294117647058,
+      "complete_2000_hour_episodes": 6,
+      "contiguous_runs": 15,
+      "cutoff_mw_train_2021_p90": 31812.5,
+      "train_events": 8324
+    }
+  },
+  "matching_bas": [
+    "ERCO"
+  ],
+  "gate_pass": false,
+  "interpretation": "Profile only; no policy outcomes, method costs, or confirmation data generated."
+}

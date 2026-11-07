@@ -1,0 +1,83 @@
+{
+  "gate_status": "NOT MET - NARROWED QUESTION CLOSED, SUITE COMPARISON NEVER RUN",
+  "updated_utc": "2026-11-03",
+  "objective": "five real-data cases beating every mandatory applicable competitor on net_cost",
+  "net_cost": "prediction_loss + label_price * requested_labels + switch_cost * deployment_switches",
+  "confirmed_winning_cases": 0,
+  "cases_required": 5,
+  "sources_verified": 9,
+  "sources_fabricated": 0,
+  "competitors_implemented": 7,
+  "competitors_required": 6,
+  "applicability_reports_done": 3,
+  "applicability_reports_required": 3,
+  "notes": "Prior B3_PLUS results compare against P3b and P6 only and do not count toward this gate. CAMS runs use our policy set, not the author's, which is not reproducible. Model Picker's query rule is disagreement-gated and instance-blind in the binary two-model setting; see SOTA_IMPLEMENTATION_VALIDATION.md.",
+  "competitors_implemented_names": [
+    "CAMS (CAMS, CAMS-MAX)",
+    "Model Picker",
+    "Variance minimisation",
+    "Xu et al. acquisition",
+    "SMCS",
+    "Online LLM Picker",
+    "Model Selector"
+  ],
+  "numerically_verified_against_author_code": 5,
+  "numerically_unverified": [
+    "Xu et al. (author code has a syntax error as shipped; torch absent)",
+    "Online LLM Picker (no author code located)"
+  ],
+  "structural_finding": "FIVE competitor acquisition rules provably collapse to disagreement-gated sampling in the two-model binary task (Model Picker, Online LLM Picker, variance minimisation, Xu acquisition-only, Model Selector). Instance-level acquisition has nothing to work with here, so any comparison is about query-rate scheduling and deployment economics.",
+  "stopped_utc": "2026-11-03",
+  "stop_reason": "Pre-registered rule fired: lost to GatedDeploymentStop on both powered cases (rialto +1.852 [+0.989,+3.394]; openml_ldpa +9.585 [+5.320,+14.678]).",
+  "decisive_result": {
+    "rialto": {
+      "ours": 96.546,
+      "gated": 94.695,
+      "diff": 1.852,
+      "ci": [
+        0.989,
+        3.394
+      ],
+      "ours_better_in": "0/16"
+    },
+    "openml_ldpa": {
+      "ours": 544.016,
+      "gated": 534.43,
+      "diff": 9.585,
+      "ci": [
+        5.32,
+        14.678
+      ],
+      "ours_better_in": "6/32"
+    }
+  },
+  "key_finding": "P3b is not the state of the art for this task. Gated deployment (ICML 2021) is cheaper on both powered datasets and far more label-efficient (30.8 vs 159.2 labels on rialto), so the B3+ result is a win over a weak baseline.",
+  "correction_utc": "2026-11-03",
+  "correction": "An earlier update recorded 'PROGRAMME STOPPED'. That was an overreach. The pre-registered rule that fired governed one question: economic trigger vs certificate trigger, tested with EconomicStop. P7s, the policy that beats P3b on five datasets, has NEVER been run against any of the nine published competitors implemented here. The suite comparison the gate actually asks for has not been attempted.",
+  "what_was_tested": {
+    "policy": "EconomicStop (Gated's confidence sequence with an economic threshold)",
+    "beaten_by": [
+      "gated_deployment (Karampatziakis et al., ICML 2021)"
+    ],
+    "beat": [
+      "discern_style (by ~113 on both powered datasets)"
+    ],
+    "datasets": [
+      "rialto (K=16)",
+      "openml_ldpa (K=32)"
+    ],
+    "configuration": "single: B=200, c_q=0.05, c_s=5, alpha=0.05, eps=0, p_min=0.05"
+  },
+  "never_run_against_ours": [
+    "CAMS",
+    "CAMS-MAX",
+    "Model Picker",
+    "Model Selector",
+    "variance minimisation",
+    "Xu acquisition",
+    "SMCS",
+    "Sawade 2012",
+    "gated_deployment (vs P7s specifically)"
+  ],
+  "suggestive_not_established": "rialto: gated 94.695 (simulator) vs P7s 98.418 (B3+ runner). Different runners, different seeding, not paired. Must not be reported as a head-to-head."
+}

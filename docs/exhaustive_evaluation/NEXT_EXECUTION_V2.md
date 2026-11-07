@@ -1,0 +1,12 @@
+# Next bounded actions — active goal
+
+Supersedes NEXT_EXECUTION.md for future work; old evidence unchanged. Previous turn: PROGRESS. Round2/real jobs completed; no live compute handle. Branch `research/exhaustive-candidate-evaluation-2026-10-30`.
+
+Current evidence: 540 round1 + 648 effective round2 configurations = 1188 (756 tuples include 108 exact inactive aliases). Round2: 12 cases, 96 paths, horizon2000, three source-calibration sizes, six references. Best mean reduction 4.068% is cost-only/development-selected and below the practical gate. Real development: no tested alarm-triggered controller beats incumbent net cost; Beijing promotes a worse challenger. Historical H2c anchor reproduces. No final holdout opened. No novel optimizer/method established.
+
+1. Read ROUND2_AND_REAL_DEVELOPMENT_REPORT.md, SOURCE_FORMULA_AUDIT_V2.md, manifests and ledger. Preserve dirty/original worktrees, protocols, exposed periods and negative results. No automatic merge/push.
+2. Address control failure: inspect existing promotion modules and implement/test a separate paired-benefit certificate from common queried outcomes, accounting for costs. Incumbent harm is not candidate benefit. State the null; historical paired evidence cannot guarantee future utility without persistence assumptions. Include harmful/useful challengers and reversals.
+3. After a small mechanism/correctness test and mathematical activity audit, register a new >=500 effective-combination round over certification/acquisition/pacing and strong direct paired-risk references. Do not count cosmetic aliases or seeds. Preserve negative real pilots; replacing their challenger does not create fresh confirmation.
+4. Complete learned active-RCPS and active-query comparisons, independent PH/CUSUM calibration and the finite coverage matrix. PR/PPRM formula adapters are not full author experiments and their batch/null contracts differ. No exhaustive superiority claim yet.
+5. For J, derive/reject exact source reduction and a useful certified synthesis/value-gap route before efficacy search. Full robust-FSC source/code are retrieved; Storm/Gurobi portability/model mapping remains. No paid-service authorization. Generic product-DP speed is not novelty.
+6. Freeze a surviving candidate before powered fresh synthetic and eligible real confirmation. Future periods stay reserved until protocol/gates pass. If no candidate survives, investigate the next evidenced bottleneck or record a scoped negative conclusion; do not complete the full goal on counts alone.

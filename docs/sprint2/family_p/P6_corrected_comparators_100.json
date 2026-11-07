@@ -1,0 +1,1274 @@
+{
+ "F0_better": {
+  "tags": [
+   "alt"
+  ],
+  "policies": {
+   "A5b": {
+    "net": 366.764,
+    "promote": 0.83,
+    "rollbacks": 0.0,
+    "labels": 199.88,
+    "switches": 0.83,
+    "first": 578.0,
+    "delay": 578.0,
+    "regret": 61.614,
+    "pending": 27.5,
+    "runtime": 0.277
+   },
+   "CONTROL_never_switch": {
+    "net": 420.73,
+    "promote": 0.0,
+    "rollbacks": 0.0,
+    "labels": 0.0,
+    "switches": 0.0,
+    "first": -1.0,
+    "delay": -1.0,
+    "regret": 115.58,
+    "pending": 0.0,
+    "runtime": 0.011
+   },
+   "D2": {
+    "net": 349.596,
+    "promote": 0.93,
+    "rollbacks": 0.0,
+    "labels": 106.72,
+    "switches": 0.93,
+    "first": 537.0,
+    "delay": 537.0,
+    "regret": 44.446,
+    "pending": 26.05,
+    "runtime": 0.212
+   },
+   "M_LRMD_SUI": {
+    "net": 383.224,
+    "promote": 0.87,
+    "rollbacks": 0.0,
+    "labels": 199.68,
+    "switches": 0.87,
+    "first": 895.0,
+    "delay": 895.0,
+    "regret": 78.074,
+    "pending": 17.86,
+    "runtime": 0.168
+   },
+   "P6_LRMD_U": {
+    "net": 396.644,
+    "promote": 0.81,
+    "rollbacks": 0.0,
+    "labels": 199.68,
+    "switches": 0.81,
+    "first": 1174.0,
+    "delay": 1174.0,
+    "regret": 91.494,
+    "pending": 17.86,
+    "runtime": 0.174
+   },
+   "SMCS+retain-incumbent": {
+    "net": 374.556,
+    "promote": 0.77,
+    "rollbacks": 0.0,
+    "labels": 199.71,
+    "switches": 0.77,
+    "first": 635.0,
+    "delay": 635.0,
+    "regret": 69.405,
+    "pending": 18.06,
+    "runtime": 0.053
+   },
+   "choe_ramdas_eb+front": {
+    "net": 364.662,
+    "promote": 0.81,
+    "rollbacks": 0.0,
+    "labels": 139.43,
+    "switches": 0.81,
+    "first": 597.0,
+    "delay": 597.0,
+    "regret": 59.512,
+    "pending": 27.56,
+    "runtime": 0.012
+   },
+   "discern_style": {
+    "net": 430.712,
+    "promote": 0.0,
+    "rollbacks": 0.0,
+    "labels": 199.65,
+    "switches": 0.0,
+    "first": -1.0,
+    "delay": -1.0,
+    "regret": 125.562,
+    "pending": 18.15,
+    "runtime": 0.022
+   },
+   "gated_adaptive_range+front": {
+    "net": 365.178,
+    "promote": 0.81,
+    "rollbacks": 0.0,
+    "labels": 140.57,
+    "switches": 0.81,
+    "first": 596.0,
+    "delay": 596.0,
+    "regret": 60.028,
+    "pending": 27.69,
+    "runtime": 0.204
+   },
+   "gated_deployment": {
+    "net": 428.936,
+    "promote": 0.07,
+    "rollbacks": 0.0,
+    "labels": 196.13,
+    "switches": 0.07,
+    "first": 1572.0,
+    "delay": 1572.0,
+    "regret": 123.786,
+    "pending": 18.21,
+    "runtime": 0.354
+   },
+   "rmm:gated_deployment+RMM": {
+    "net": 373.21,
+    "promote": 0.91,
+    "rollbacks": 0.0,
+    "labels": 199.99,
+    "switches": 0.91,
+    "first": 864.0,
+    "delay": 864.0,
+    "regret": 68.06,
+    "pending": 21.14,
+    "runtime": 0.194
+   },
+   "xu_acquisition_only": {
+    "net": 375.195,
+    "promote": 0.9,
+    "rollbacks": 0.0,
+    "labels": 196.1,
+    "switches": 0.9,
+    "first": 860.0,
+    "delay": 860.0,
+    "regret": 70.045,
+    "pending": 18.05,
+    "runtime": 0.23
+   }
+  },
+  "best_certified": "gated_adaptive_range+front",
+  "best_uncertified": null,
+  "contrasts": {
+   "P6_LRMD_U": {
+    "host": {
+     "vs": "M_LRMD_SUI",
+     "mean": 13.42,
+     "lo": 9.05,
+     "hi": 17.79,
+     "n": 100,
+     "frac_better": 0.11
+    },
+    "best_certified": {
+     "vs": "gated_adaptive_range+front",
+     "mean": 31.47,
+     "lo": 23.89,
+     "hi": 39.04,
+     "n": 100,
+     "frac_better": 0.15
+    },
+    "best_any": {
+     "vs": "D2",
+     "mean": 47.05,
+     "lo": 40.12,
+     "hi": 53.97,
+     "n": 100,
+     "frac_better": 0.06
+    }
+   }
+  }
+ },
+ "F1_late_1200": {
+  "tags": [
+   "alt",
+   "change"
+  ],
+  "policies": {
+   "A5b": {
+    "net": 386.489,
+    "promote": 0.02,
+    "rollbacks": 0.0,
+    "labels": 199.99,
+    "switches": 0.02,
+    "first": 1958.5,
+    "delay": 758.5,
+    "regret": 84.15,
+    "pending": 28.5,
+    "runtime": 0.412
+   },
+   "CONTROL_never_switch": {
+    "net": 376.43,
+    "promote": 0.0,
+    "rollbacks": 0.0,
+    "labels": 0.0,
+    "switches": 0.0,
+    "first": -1.0,
+    "delay": -1.0,
+    "regret": 74.09,
+    "pending": 0.0,
+    "runtime": 0.009
+   },
+   "D2": {
+    "net": 380.414,
+    "promote": 0.31,
+    "rollbacks": 0.0,
+    "labels": 194.68,
+    "switches": 0.31,
+    "first": 1787.0,
+    "delay": 587.0,
+    "regret": 78.074,
+    "pending": 21.71,
+    "runtime": 0.223
+   },
+   "M_LRMD_SUI": {
+    "net": 382.737,
+    "promote": 0.36,
+    "rollbacks": 0.0,
+    "labels": 199.74,
+    "switches": 0.36,
+    "first": 1874.5,
+    "delay": 674.5,
+    "regret": 80.397,
+    "pending": 18.02,
+    "runtime": 0.2
+   },
+   "P6_LRMD_U": {
+    "net": 373.557,
+    "promote": 0.71,
+    "rollbacks": 0.0,
+    "labels": 199.74,
+    "switches": 0.71,
+    "first": 1774.0,
+    "delay": 574.0,
+    "regret": 71.217,
+    "pending": 18.02,
+    "runtime": 0.188
+   },
+   "SMCS+retain-incumbent": {
+    "net": 386.418,
+    "promote": 0.0,
+    "rollbacks": 0.0,
+    "labels": 199.77,
+    "switches": 0.0,
+    "first": -1.0,
+    "delay": -1.0,
+    "regret": 84.078,
+    "pending": 18.15,
+    "runtime": 0.055
+   },
+   "choe_ramdas_eb+front": {
+    "net": 385.583,
+    "promote": 0.0,
+    "rollbacks": 0.0,
+    "labels": 183.07,
+    "switches": 0.0,
+    "first": -1.0,
+    "delay": -1.0,
+    "regret": 83.244,
+    "pending": 28.76,
+    "runtime": 0.014
+   },
+   "discern_style": {
+    "net": 386.417,
+    "promote": 0.0,
+    "rollbacks": 0.0,
+    "labels": 199.74,
+    "switches": 0.0,
+    "first": -1.0,
+    "delay": -1.0,
+    "regret": 84.077,
+    "pending": 17.77,
+    "runtime": 0.022
+   },
+   "gated_adaptive_range+front": {
+    "net": 385.759,
+    "promote": 0.0,
+    "rollbacks": 0.0,
+    "labels": 186.58,
+    "switches": 0.0,
+    "first": -1.0,
+    "delay": -1.0,
+    "regret": 83.419,
+    "pending": 28.8,
+    "runtime": 0.296
+   },
+   "gated_deployment": {
+    "net": 386.42,
+    "promote": 0.0,
+    "rollbacks": 0.0,
+    "labels": 199.8,
+    "switches": 0.0,
+    "first": -1.0,
+    "delay": -1.0,
+    "regret": 84.08,
+    "pending": 18.18,
+    "runtime": 0.362
+   },
+   "rmm:gated_deployment+RMM": {
+    "net": 377.91,
+    "promote": 0.41,
+    "rollbacks": 0.0,
+    "labels": 200.0,
+    "switches": 0.41,
+    "first": 1770.0,
+    "delay": 570.0,
+    "regret": 75.57,
+    "pending": 21.09,
+    "runtime": 0.371
+   },
+   "xu_acquisition_only": {
+    "net": 385.438,
+    "promote": 0.11,
+    "rollbacks": 0.0,
+    "labels": 194.37,
+    "switches": 0.11,
+    "first": 1887.0,
+    "delay": 687.0,
+    "regret": 83.098,
+    "pending": 17.93,
+    "runtime": 0.241
+   }
+  },
+  "best_certified": "gated_adaptive_range+front",
+  "best_uncertified": null,
+  "contrasts": {
+   "P6_LRMD_U": {
+    "host": {
+     "vs": "M_LRMD_SUI",
+     "mean": -9.18,
+     "lo": -11.34,
+     "hi": -7.02,
+     "n": 100,
+     "frac_better": 0.63
+    },
+    "best_certified": {
+     "vs": "gated_adaptive_range+front",
+     "mean": -12.2,
+     "lo": -15.09,
+     "hi": -9.32,
+     "n": 100,
+     "frac_better": 0.65
+    },
+    "best_any": {
+     "vs": "CONTROL_never_switch",
+     "mean": -2.87,
+     "lo": -5.7,
+     "hi": -0.05,
+     "n": 100,
+     "frac_better": 0.46
+    }
+   }
+  }
+ },
+ "F1_late_800": {
+  "tags": [
+   "alt",
+   "change"
+  ],
+  "policies": {
+   "A5b": {
+    "net": 401.988,
+    "promote": 0.02,
+    "rollbacks": 0.0,
+    "labels": 199.95,
+    "switches": 0.02,
+    "first": 1914.0,
+    "delay": 1114.0,
+    "regret": 102.348,
+    "pending": 28.06,
+    "runtime": 0.418
+   },
+   "CONTROL_never_switch": {
+    "net": 392.07,
+    "promote": 0.0,
+    "rollbacks": 0.0,
+    "labels": 0.0,
+    "switches": 0.0,
+    "first": -1.0,
+    "delay": -1.0,
+    "regret": 92.43,
+    "pending": 0.0,
+    "runtime": 0.01
+   },
+   "D2": {
+    "net": 388.668,
+    "promote": 0.48,
+    "rollbacks": 0.0,
+    "labels": 189.16,
+    "switches": 0.48,
+    "first": 1516.0,
+    "delay": 716.0,
+    "regret": 89.028,
+    "pending": 23.73,
+    "runtime": 0.225
+   },
+   "M_LRMD_SUI": {
+    "net": 390.221,
+    "promote": 0.55,
+    "rollbacks": 0.0,
+    "labels": 199.62,
+    "switches": 0.55,
+    "first": 1676.0,
+    "delay": 876.0,
+    "regret": 90.581,
+    "pending": 18.06,
+    "runtime": 0.192
+   },
+   "P6_LRMD_U": {
+    "net": 376.901,
+    "promote": 0.79,
+    "rollbacks": 0.0,
+    "labels": 199.62,
+    "switches": 0.79,
+    "first": 1537.0,
+    "delay": 737.0,
+    "regret": 77.261,
+    "pending": 18.06,
+    "runtime": 0.178
+   },
+   "SMCS+retain-incumbent": {
+    "net": 401.784,
+    "promote": 0.01,
+    "rollbacks": 0.0,
+    "labels": 199.67,
+    "switches": 0.01,
+    "first": 1501.0,
+    "delay": 701.0,
+    "regret": 102.144,
+    "pending": 18.07,
+    "runtime": 0.05
+   },
+   "choe_ramdas_eb+front": {
+    "net": 400.982,
+    "promote": 0.0,
+    "rollbacks": 0.0,
+    "labels": 178.25,
+    "switches": 0.0,
+    "first": -1.0,
+    "delay": -1.0,
+    "regret": 101.342,
+    "pending": 28.49,
+    "runtime": 0.013
+   },
+   "discern_style": {
+    "net": 402.056,
+    "promote": 0.0,
+    "rollbacks": 0.0,
+    "labels": 199.73,
+    "switches": 0.0,
+    "first": -1.0,
+    "delay": -1.0,
+    "regret": 102.416,
+    "pending": 17.88,
+    "runtime": 0.02
+   },
+   "gated_adaptive_range+front": {
+    "net": 401.026,
+    "promote": 0.0,
+    "rollbacks": 0.0,
+    "labels": 179.12,
+    "switches": 0.0,
+    "first": -1.0,
+    "delay": -1.0,
+    "regret": 101.386,
+    "pending": 28.55,
+    "runtime": 0.273
+   },
+   "gated_deployment": {
+    "net": 402.05,
+    "promote": 0.0,
+    "rollbacks": 0.0,
+    "labels": 199.6,
+    "switches": 0.0,
+    "first": -1.0,
+    "delay": -1.0,
+    "regret": 102.41,
+    "pending": 17.8,
+    "runtime": 0.357
+   },
+   "rmm:gated_deployment+RMM": {
+    "net": 370.62,
+    "promote": 0.83,
+    "rollbacks": 0.0,
+    "labels": 200.0,
+    "switches": 0.83,
+    "first": 1411.0,
+    "delay": 611.0,
+    "regret": 70.98,
+    "pending": 21.27,
+    "runtime": 0.298
+   },
+   "xu_acquisition_only": {
+    "net": 393.177,
+    "promote": 0.55,
+    "rollbacks": 0.0,
+    "labels": 195.14,
+    "switches": 0.55,
+    "first": 1771.0,
+    "delay": 971.0,
+    "regret": 93.537,
+    "pending": 17.92,
+    "runtime": 0.226
+   }
+  },
+  "best_certified": "gated_adaptive_range+front",
+  "best_uncertified": null,
+  "contrasts": {
+   "P6_LRMD_U": {
+    "host": {
+     "vs": "M_LRMD_SUI",
+     "mean": -13.32,
+     "lo": -15.88,
+     "hi": -10.76,
+     "n": 100,
+     "frac_better": 0.72
+    },
+    "best_certified": {
+     "vs": "gated_adaptive_range+front",
+     "mean": -24.13,
+     "lo": -28.47,
+     "hi": -19.78,
+     "n": 100,
+     "frac_better": 0.79
+    },
+    "best_any": {
+     "vs": "rmm:gated_deployment+RMM",
+     "mean": 6.28,
+     "lo": 0.91,
+     "hi": 11.65,
+     "n": 100,
+     "frac_better": 0.36
+    }
+   }
+  }
+ },
+ "F3_reversal_800": {
+  "tags": [
+   "change"
+  ],
+  "policies": {
+   "A5b": {
+    "net": 416.014,
+    "promote": 0.96,
+    "rollbacks": 0.39,
+    "labels": 199.89,
+    "switches": 1.35,
+    "first": 413.5,
+    "delay": 413.5,
+    "regret": 127.194,
+    "pending": 27.14,
+    "runtime": 0.198
+   },
+   "CONTROL_never_switch": {
+    "net": 343.46,
+    "promote": 0.0,
+    "rollbacks": 0.0,
+    "labels": 0.0,
+    "switches": 0.0,
+    "first": -1.0,
+    "delay": -1.0,
+    "regret": 54.64,
+    "pending": 0.0,
+    "runtime": 0.009
+   },
+   "D2": {
+    "net": 416.765,
+    "promote": 0.99,
+    "rollbacks": 0.0,
+    "labels": 68.5,
+    "switches": 0.99,
+    "first": 367.0,
+    "delay": 367.0,
+    "regret": 127.945,
+    "pending": 24.7,
+    "runtime": 0.193
+   },
+   "M_LRMD_SUI": {
+    "net": 400.668,
+    "promote": 0.75,
+    "rollbacks": 0.5,
+    "labels": 199.55,
+    "switches": 1.25,
+    "first": 559.0,
+    "delay": 559.0,
+    "regret": 111.848,
+    "pending": 18.47,
+    "runtime": 0.152
+   },
+   "P6_LRMD_U": {
+    "net": 379.368,
+    "promote": 0.42,
+    "rollbacks": 0.31,
+    "labels": 199.55,
+    "switches": 0.73,
+    "first": 634.5,
+    "delay": 634.5,
+    "regret": 90.548,
+    "pending": 18.47,
+    "runtime": 0.166
+   },
+   "SMCS+retain-incumbent": {
+    "net": 415.427,
+    "promote": 0.81,
+    "rollbacks": 0.0,
+    "labels": 199.54,
+    "switches": 0.81,
+    "first": 447.0,
+    "delay": 447.0,
+    "regret": 126.607,
+    "pending": 18.21,
+    "runtime": 0.051
+   },
+   "choe_ramdas_eb+front": {
+    "net": 419.77,
+    "promote": 0.99,
+    "rollbacks": 0.0,
+    "labels": 87.79,
+    "switches": 0.99,
+    "first": 384.0,
+    "delay": 384.0,
+    "regret": 130.95,
+    "pending": 27.15,
+    "runtime": 0.012
+   },
+   "discern_style": {
+    "net": 353.444,
+    "promote": 0.0,
+    "rollbacks": 0.0,
+    "labels": 199.69,
+    "switches": 0.0,
+    "first": -1.0,
+    "delay": -1.0,
+    "regret": 64.624,
+    "pending": 18.0,
+    "runtime": 0.02
+   },
+   "gated_adaptive_range+front": {
+    "net": 421.231,
+    "promote": 0.99,
+    "rollbacks": 0.0,
+    "labels": 90.82,
+    "switches": 0.99,
+    "first": 404.0,
+    "delay": 404.0,
+    "regret": 132.411,
+    "pending": 27.32,
+    "runtime": 0.112
+   },
+   "gated_deployment": {
+    "net": 355.486,
+    "promote": 0.02,
+    "rollbacks": 0.0,
+    "labels": 197.51,
+    "switches": 0.02,
+    "first": 843.5,
+    "delay": 843.5,
+    "regret": 66.666,
+    "pending": 18.14,
+    "runtime": 0.336
+   },
+   "rmm:gated_deployment+RMM": {
+    "net": 396.35,
+    "promote": 0.86,
+    "rollbacks": 0.68,
+    "labels": 199.99,
+    "switches": 1.54,
+    "first": 563.0,
+    "delay": 563.0,
+    "regret": 107.53,
+    "pending": 21.12,
+    "runtime": 0.153
+   },
+   "xu_acquisition_only": {
+    "net": 405.476,
+    "promote": 0.81,
+    "rollbacks": 0.65,
+    "labels": 196.33,
+    "switches": 1.46,
+    "first": 571.0,
+    "delay": 571.0,
+    "regret": 116.656,
+    "pending": 18.24,
+    "runtime": 0.22
+   }
+  },
+  "best_certified": "discern_style",
+  "best_uncertified": null,
+  "contrasts": {
+   "P6_LRMD_U": {
+    "host": {
+     "vs": "M_LRMD_SUI",
+     "mean": -21.3,
+     "lo": -28.85,
+     "hi": -13.75,
+     "n": 100,
+     "frac_better": 0.43
+    },
+    "best_certified": {
+     "vs": "discern_style",
+     "mean": 25.92,
+     "lo": 19.53,
+     "hi": 32.32,
+     "n": 100,
+     "frac_better": 0.12
+    },
+    "best_any": {
+     "vs": "CONTROL_never_switch",
+     "mean": 35.91,
+     "lo": 29.51,
+     "hi": 42.3,
+     "n": 100,
+     "frac_better": 0.0
+    }
+   }
+  }
+ },
+ "F5_dep_null_r8": {
+  "tags": [
+   "null",
+   "dep"
+  ],
+  "policies": {
+   "A5b": {
+    "net": 371.752,
+    "promote": 0.0,
+    "rollbacks": 0.0,
+    "labels": 192.84,
+    "switches": 0.0,
+    "first": -1.0,
+    "delay": -1,
+    "regret": 9.642,
+    "pending": 24.89,
+    "runtime": 0.422
+   },
+   "CONTROL_never_switch": {
+    "net": 362.11,
+    "promote": 0.0,
+    "rollbacks": 0.0,
+    "labels": 0.0,
+    "switches": 0.0,
+    "first": -1.0,
+    "delay": -1,
+    "regret": 0.0,
+    "pending": 0.0,
+    "runtime": 0.01
+   },
+   "D2": {
+    "net": 372.016,
+    "promote": 0.16,
+    "rollbacks": 0.0,
+    "labels": 179.52,
+    "switches": 0.16,
+    "first": 365.5,
+    "delay": -1,
+    "regret": 9.906,
+    "pending": 24.52,
+    "runtime": 0.231
+   },
+   "M_LRMD_SUI": {
+    "net": 371.516,
+    "promote": 0.02,
+    "rollbacks": 0.0,
+    "labels": 199.52,
+    "switches": 0.02,
+    "first": 777.0,
+    "delay": -1,
+    "regret": 9.406,
+    "pending": 17.93,
+    "runtime": 0.213
+   },
+   "P6_LRMD_U": {
+    "net": 371.886,
+    "promote": 0.01,
+    "rollbacks": 0.0,
+    "labels": 199.52,
+    "switches": 0.01,
+    "first": 1133.0,
+    "delay": -1,
+    "regret": 9.776,
+    "pending": 17.93,
+    "runtime": 0.225
+   },
+   "SMCS+retain-incumbent": {
+    "net": 371.258,
+    "promote": 0.1,
+    "rollbacks": 0.0,
+    "labels": 199.56,
+    "switches": 0.1,
+    "first": 315.5,
+    "delay": -1,
+    "regret": 9.148,
+    "pending": 17.95,
+    "runtime": 0.056
+   },
+   "choe_ramdas_eb+front": {
+    "net": 370.582,
+    "promote": 0.11,
+    "rollbacks": 0.0,
+    "labels": 179.23,
+    "switches": 0.11,
+    "first": 316.0,
+    "delay": -1,
+    "regret": 8.472,
+    "pending": 28.5,
+    "runtime": 0.014
+   },
+   "discern_style": {
+    "net": 372.091,
+    "promote": 0.0,
+    "rollbacks": 0.0,
+    "labels": 199.62,
+    "switches": 0.0,
+    "first": -1.0,
+    "delay": -1,
+    "regret": 9.981,
+    "pending": 18.09,
+    "runtime": 0.023
+   },
+   "gated_adaptive_range+front": {
+    "net": 370.545,
+    "promote": 0.1,
+    "rollbacks": 0.0,
+    "labels": 182.1,
+    "switches": 0.1,
+    "first": 444.5,
+    "delay": -1,
+    "regret": 8.435,
+    "pending": 28.65,
+    "runtime": 0.311
+   },
+   "gated_deployment": {
+    "net": 372.002,
+    "promote": 0.0,
+    "rollbacks": 0.0,
+    "labels": 197.85,
+    "switches": 0.0,
+    "first": -1.0,
+    "delay": -1,
+    "regret": 9.892,
+    "pending": 18.35,
+    "runtime": 0.386
+   },
+   "rmm:gated_deployment+RMM": {
+    "net": 372.12,
+    "promote": 0.14,
+    "rollbacks": 0.01,
+    "labels": 200.0,
+    "switches": 0.15,
+    "first": 769.0,
+    "delay": -1,
+    "regret": 10.01,
+    "pending": 21.47,
+    "runtime": 0.372
+   },
+   "xu_acquisition_only": {
+    "net": 372.05,
+    "promote": 0.06,
+    "rollbacks": 0.0,
+    "labels": 193.8,
+    "switches": 0.06,
+    "first": 673.5,
+    "delay": -1,
+    "regret": 9.94,
+    "pending": 17.78,
+    "runtime": 0.249
+   }
+  },
+  "best_certified": "gated_adaptive_range+front",
+  "best_uncertified": null,
+  "contrasts": {
+   "P6_LRMD_U": {
+    "host": {
+     "vs": "M_LRMD_SUI",
+     "mean": 0.37,
+     "lo": -0.5,
+     "hi": 1.24,
+     "n": 100,
+     "frac_better": 0.01
+    },
+    "best_certified": {
+     "vs": "gated_adaptive_range+front",
+     "mean": 1.34,
+     "lo": -0.63,
+     "hi": 3.31,
+     "n": 100,
+     "frac_better": 0.25
+    },
+    "best_any": {
+     "vs": "CONTROL_never_switch",
+     "mean": 9.78,
+     "lo": 9.38,
+     "hi": 10.17,
+     "n": 100,
+     "frac_better": 0.01
+    },
+    "null_promotion": 0.01,
+    "null_bound_ok": true
+   }
+  }
+ },
+ "S_reversal_400": {
+  "tags": [
+   "change"
+  ],
+  "policies": {
+   "A5b": {
+    "net": 377.53,
+    "promote": 0.7,
+    "rollbacks": 0.65,
+    "labels": 200.0,
+    "switches": 1.35,
+    "first": 347.0,
+    "delay": 347.0,
+    "regret": 86.17,
+    "pending": 27.59,
+    "runtime": 0.26
+   },
+   "CONTROL_never_switch": {
+    "net": 313.42,
+    "promote": 0.0,
+    "rollbacks": 0.0,
+    "labels": 0.0,
+    "switches": 0.0,
+    "first": -1.0,
+    "delay": -1.0,
+    "regret": 22.06,
+    "pending": 0.0,
+    "runtime": 0.009
+   },
+   "D2": {
+    "net": 411.768,
+    "promote": 0.75,
+    "rollbacks": 0.0,
+    "labels": 90.35,
+    "switches": 0.75,
+    "first": 317.0,
+    "delay": 317.0,
+    "regret": 120.408,
+    "pending": 25.17,
+    "runtime": 0.202
+   },
+   "M_LRMD_SUI": {
+    "net": 350.528,
+    "promote": 0.35,
+    "rollbacks": 0.34,
+    "labels": 199.76,
+    "switches": 0.69,
+    "first": 344.0,
+    "delay": 344.0,
+    "regret": 59.168,
+    "pending": 17.85,
+    "runtime": 0.174
+   },
+   "P6_LRMD_U": {
+    "net": 328.328,
+    "promote": 0.06,
+    "rollbacks": 0.06,
+    "labels": 199.76,
+    "switches": 0.12,
+    "first": 425.0,
+    "delay": 425.0,
+    "regret": 36.968,
+    "pending": 17.85,
+    "runtime": 0.188
+   },
+   "SMCS+retain-incumbent": {
+    "net": 395.343,
+    "promote": 0.58,
+    "rollbacks": 0.0,
+    "labels": 199.66,
+    "switches": 0.58,
+    "first": 331.0,
+    "delay": 331.0,
+    "regret": 103.983,
+    "pending": 17.95,
+    "runtime": 0.051
+   },
+   "choe_ramdas_eb+front": {
+    "net": 410.754,
+    "promote": 0.73,
+    "rollbacks": 0.0,
+    "labels": 105.09,
+    "switches": 0.73,
+    "first": 337.0,
+    "delay": 337.0,
+    "regret": 119.395,
+    "pending": 27.0,
+    "runtime": 0.011
+   },
+   "discern_style": {
+    "net": 323.402,
+    "promote": 0.0,
+    "rollbacks": 0.0,
+    "labels": 199.65,
+    "switches": 0.0,
+    "first": -1.0,
+    "delay": -1.0,
+    "regret": 32.042,
+    "pending": 17.9,
+    "runtime": 0.02
+   },
+   "gated_adaptive_range+front": {
+    "net": 412.238,
+    "promote": 0.73,
+    "rollbacks": 0.0,
+    "labels": 107.37,
+    "switches": 0.73,
+    "first": 361.0,
+    "delay": 361.0,
+    "regret": 120.878,
+    "pending": 27.17,
+    "runtime": 0.151
+   },
+   "gated_deployment": {
+    "net": 323.406,
+    "promote": 0.0,
+    "rollbacks": 0.0,
+    "labels": 199.73,
+    "switches": 0.0,
+    "first": -1.0,
+    "delay": -1.0,
+    "regret": 32.046,
+    "pending": 17.67,
+    "runtime": 0.351
+   },
+   "rmm:gated_deployment+RMM": {
+    "net": 348.88,
+    "promote": 0.39,
+    "rollbacks": 0.37,
+    "labels": 200.0,
+    "switches": 0.76,
+    "first": 426.0,
+    "delay": 426.0,
+    "regret": 57.52,
+    "pending": 21.3,
+    "runtime": 0.258
+   },
+   "xu_acquisition_only": {
+    "net": 345.177,
+    "promote": 0.34,
+    "rollbacks": 0.32,
+    "labels": 194.74,
+    "switches": 0.66,
+    "first": 459.5,
+    "delay": 459.5,
+    "regret": 53.817,
+    "pending": 17.74,
+    "runtime": 0.228
+   }
+  },
+  "best_certified": "discern_style",
+  "best_uncertified": null,
+  "contrasts": {
+   "P6_LRMD_U": {
+    "host": {
+     "vs": "M_LRMD_SUI",
+     "mean": -22.2,
+     "lo": -29.47,
+     "hi": -14.93,
+     "n": 100,
+     "frac_better": 0.32
+    },
+    "best_certified": {
+     "vs": "discern_style",
+     "mean": 4.93,
+     "lo": 0.97,
+     "hi": 8.88,
+     "n": 100,
+     "frac_better": 0.07
+    },
+    "best_any": {
+     "vs": "CONTROL_never_switch",
+     "mean": 14.91,
+     "lo": 10.95,
+     "hi": 18.86,
+     "n": 100,
+     "frac_better": 0.0
+    }
+   }
+  }
+ },
+ "W_late_1000": {
+  "tags": [
+   "real"
+  ],
+  "policies": {
+   "A5b": {
+    "net": 416.388,
+    "promote": 0.05,
+    "rollbacks": 0.0,
+    "labels": 199.96,
+    "switches": 0.05,
+    "first": 1732.0,
+    "delay": 732.0,
+    "regret": 101.678,
+    "pending": 30.74,
+    "runtime": 0.383
+   },
+   "CONTROL_never_switch": {
+    "net": 407.33,
+    "promote": 0.0,
+    "rollbacks": 0.0,
+    "labels": 0.0,
+    "switches": 0.0,
+    "first": -1.0,
+    "delay": -1.0,
+    "regret": 92.62,
+    "pending": 0.0,
+    "runtime": 0.009
+   },
+   "D2": {
+    "net": 407.653,
+    "promote": 0.27,
+    "rollbacks": 0.0,
+    "labels": 196.06,
+    "switches": 0.27,
+    "first": 1630.0,
+    "delay": 630.0,
+    "regret": 92.943,
+    "pending": 24.3,
+    "runtime": 0.204
+   },
+   "M_LRMD_SUI": {
+    "net": 406.412,
+    "promote": 0.49,
+    "rollbacks": 0.0,
+    "labels": 199.64,
+    "switches": 0.49,
+    "first": 1729.0,
+    "delay": 729.0,
+    "regret": 91.702,
+    "pending": 17.97,
+    "runtime": 0.182
+   },
+   "P6_LRMD_U": {
+    "net": 393.612,
+    "promote": 0.78,
+    "rollbacks": 0.0,
+    "labels": 199.64,
+    "switches": 0.78,
+    "first": 1663.5,
+    "delay": 663.5,
+    "regret": 78.902,
+    "pending": 17.97,
+    "runtime": 0.174
+   },
+   "SMCS+retain-incumbent": {
+    "net": 417.344,
+    "promote": 0.01,
+    "rollbacks": 0.0,
+    "labels": 199.68,
+    "switches": 0.01,
+    "first": 1976.0,
+    "delay": 976.0,
+    "regret": 102.634,
+    "pending": 18.16,
+    "runtime": 0.05
+   },
+   "choe_ramdas_eb+front": {
+    "net": 416.482,
+    "promote": 0.0,
+    "rollbacks": 0.0,
+    "labels": 183.04,
+    "switches": 0.0,
+    "first": -1.0,
+    "delay": -1.0,
+    "regret": 101.772,
+    "pending": 30.89,
+    "runtime": 0.013
+   },
+   "discern_style": {
+    "net": 417.314,
+    "promote": 0.0,
+    "rollbacks": 0.0,
+    "labels": 199.68,
+    "switches": 0.0,
+    "first": -1.0,
+    "delay": -1.0,
+    "regret": 102.604,
+    "pending": 18.16,
+    "runtime": 0.021
+   },
+   "gated_adaptive_range+front": {
+    "net": 416.67,
+    "promote": 0.0,
+    "rollbacks": 0.0,
+    "labels": 186.79,
+    "switches": 0.0,
+    "first": -1.0,
+    "delay": -1.0,
+    "regret": 101.96,
+    "pending": 31.01,
+    "runtime": 0.26
+   },
+   "gated_deployment": {
+    "net": 417.312,
+    "promote": 0.0,
+    "rollbacks": 0.0,
+    "labels": 199.64,
+    "switches": 0.0,
+    "first": -1.0,
+    "delay": -1.0,
+    "regret": 102.602,
+    "pending": 18.13,
+    "runtime": 0.346
+   },
+   "rmm:gated_deployment+RMM": {
+    "net": 396.21,
+    "promote": 0.62,
+    "rollbacks": 0.0,
+    "labels": 200.0,
+    "switches": 0.62,
+    "first": 1629.0,
+    "delay": 629.0,
+    "regret": 81.5,
+    "pending": 21.55,
+    "runtime": 0.329
+   },
+   "xu_acquisition_only": {
+    "net": 412.288,
+    "promote": 0.37,
+    "rollbacks": 0.0,
+    "labels": 196.16,
+    "switches": 0.37,
+    "first": 1830.0,
+    "delay": 830.0,
+    "regret": 97.578,
+    "pending": 17.91,
+    "runtime": 0.244
+   }
+  },
+  "best_certified": "gated_adaptive_range+front",
+  "best_uncertified": null,
+  "contrasts": {
+   "P6_LRMD_U": {
+    "host": {
+     "vs": "M_LRMD_SUI",
+     "mean": -12.8,
+     "lo": -15.48,
+     "hi": -10.12,
+     "n": 100,
+     "frac_better": 0.74
+    },
+    "best_certified": {
+     "vs": "gated_adaptive_range+front",
+     "mean": -23.06,
+     "lo": -27.23,
+     "hi": -18.88,
+     "n": 100,
+     "frac_better": 0.8
+    },
+    "best_any": {
+     "vs": "rmm:gated_deployment+RMM",
+     "mean": -2.6,
+     "lo": -7.06,
+     "hi": 1.86,
+     "n": 100,
+     "frac_better": 0.5
+    }
+   }
+  }
+ }
+}

@@ -1,0 +1,11 @@
+Traceback (most recent call last):
+  File "C:\Users\nigel\OneDrive\桌面\ICML\shiftlab-promising-directions-2026-10-30\scripts\promising_directions\a3c_b4_mixture_bounds.py", line 150, in <module>
+    main()
+    ~~~~^^
+  File "C:\Users\nigel\OneDrive\桌面\ICML\shiftlab-promising-directions-2026-10-30\scripts\promising_directions\a3c_b4_mixture_bounds.py", line 75, in main
+    summarize(fams, path)
+    ~~~~~~~~~^^^^^^^^^^^^
+  File "C:\Users\nigel\OneDrive\桌面\ICML\shiftlab-promising-directions-2026-10-30\scripts\promising_directions\a3c_b4_mixture_bounds.py", line 114, in summarize
+    j1 = F(ref["J"])
+           ~~~^^^^^
+KeyError: 'J'

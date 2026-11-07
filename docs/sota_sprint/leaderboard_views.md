@@ -1,0 +1,41 @@
+# Leaderboard: ranked views (brief section 12)
+
+> **Historical Sprint 1 view.** These ranks are not the current Sprint 2 leaderboard and retain the
+> original comparator labeling, including Xu's acquisition adapter in the former certified pool.
+> For amended comparator classes and current scoped conclusions, use
+> [`docs/sprint2/LEADERBOARD.md`](../sprint2/LEADERBOARD.md) and
+> [`docs/sprint2/SOTA_BENCHMARK_AUDIT.md`](../sprint2/SOTA_BENCHMARK_AUDIT.md). Do not cite these
+> historical ranks as published-SOTA comparisons.
+
+## development (gate re-screen, 20 dev seeds, shared environments F0_better,F0_null,F1_late_800,F3_reversal_800,F5_dep_null_r8)
+
+**1_lowest_total_cost**: D3 364.1, model_picker_adapter 364.86, model_selector_causal 365.79, economic_replacement 367.05, online_llm_picker 370.79, cams_adapter 372.24, variance_min_ipw 375.88, B6 378.77, B5-reserve 380.5, B5 380.63, rmm:LRMD 381.1, B2 382.23, B5-deadline 382.33, B4 383.19, B5-rollback 383.22
+
+**2_best_safe_efficacy**: B6 378.77, B5 380.63, B5-deadline 382.33, B5-rollback 383.22, B1_r15 385.43, B3 385.52, CONTROL_never_switch 387.73, B1_r25 390.91, D3-gated 391.48, Cchk:discern_uniform 393.63, discern_design_floor 393.63, C4-b0.5k2 394.67, C4 394.67, discern_design_floor+frontfrac0.25 395.54, A5b 396.15
+
+**3_fastest_correct_detection_safe**: C1-k1 576.0, C1-k1.5 583.0, A1-nostart 652.5, A1 690.0, A1-rho8 690.0, A1b 718.5, A5b 747.0, A6b 747.0, A5 776.0, A6-noinflight 776.0, A6 790.0, B6 839.0, B3 847.0, D5 889.0, gated_adaptive_range+pace_k2 931.0
+
+**4_lowest_dynamic_regret**: CONTROL_never_switch 73.15, D3 80.85, model_picker_adapter 82.33, B5 82.88, C4-style 83.13, discern_style 83.13, model_selector_causal 83.39, B6 83.85, B5-reserve 84.39, B5-deadline 85.29, online_llm_picker 85.85, B5-rollback 86.76, B2 88.22, B4 88.42, economic_replacement 88.49
+
+**5_best_label_efficiency_matched_quality**: D5 150.1, discern_design_floor+pace_tuned 167.2, discern_design_floor+pace_k1.5 167.2, discern_design_floor+frontfrac0.5 167.6, B5 192.8, B5-rollback 192.9, B6 194.8, B1_r15 197.0, B5-deadline 197.0, A5-fixedgap6 199.2, D3-gated 199.6, A1b 199.9, A5b 199.9, A6b 199.9, A6-noinflight 200.0
+
+**6_largest_transferable_improvement**: C6 {'mean_over_hosts': -2.34, 'per_host': [-9.35, 4.67], 'n_hosts': 2}, D6 {'mean_over_hosts': -0.48, 'per_host': [2.77, -7.86, 3.65], 'n_hosts': 3}
+
+**7_best_overall_research_candidate**: B6 (safe, 378.77), B5 (safe, 380.63), B5-deadline (safe, 382.33), B5-rollback (safe, 383.23), B1_r15 (safe, 385.43), B3 (safe, 385.52), B1_r25 (safe, 390.91), D3-gated (safe, 391.48), C4 (safe, 394.67), C4-b0.5k2 (safe, 394.67), A5b (safe, 396.15), A1b (safe, 396.25), A6b (safe, 396.4), A5 (safe, 397.36), D5 (safe, 397.43)
+
+## validated (validation: 100 fresh seeds; safety = Wilson ub on 1000-seed in-class nulls)
+
+**1_lowest_total_cost**: qiu_delayed_movement 356.85, gong_zhang_paid_obs 358.29, model_selector_causal 359.0, economic_replacement 360.38, model_picker_adapter 363.05, online_llm_picker 363.9, cams_adapter 364.91, variance_min_ipw 366.97, ryabchenko_capacity 369.88, D2 382.43, QSG 384.45, D1 386.16, B2 392.34, choe_ramdas_eb+front 392.41, rmm:gated_deployment+RMM 393.07
+
+**2_best_safe_efficacy**: X_A5C 406.05, A5b 406.15, A1b 407.03, CONTROL_never_switch 418.13, gated_deployment 424.12, discern_style 428.1
+
+**3_fastest_correct_detection_safe**: A1b 625.0, A5b 625.0, X_A5C 625.0
+
+**4_lowest_dynamic_regret**: qiu_delayed_movement 56.58, gong_zhang_paid_obs 61.37, ryabchenko_capacity 73.29, model_selector_causal 75.64, economic_replacement 76.91, online_llm_picker 77.02, CONTROL_never_switch 77.77, model_picker_adapter 78.58, cams_adapter 83.44, variance_min_ipw 85.49, B2 86.92, discern_style 87.75, B5 88.64, gated_deployment 88.69, P7s_settled 89.34
+
+**5_best_label_efficiency_matched_quality**: 
+
+**6_largest_transferable_improvement**: C6 {'mean_over_hosts': -15.65, 'per_host': [-15.65], 'n_hosts': 1}, FLQ {'mean_over_hosts': -20.43, 'per_host': [-20.43], 'n_hosts': 1}
+
+**7_best_overall_research_candidate**: X_A5C (safe, 406.05), A5b (safe, 406.15), A1b (safe, 407.03), D2 (unsafe, 382.43), D1 (unsafe, 386.16), B2 (unsafe, 392.34), C2 (unsafe, 394.03), B5 (unsafe, 395.59), C6 (unsafe, 395.8)
+

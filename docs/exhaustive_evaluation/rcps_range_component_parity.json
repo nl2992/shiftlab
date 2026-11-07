@@ -1,0 +1,18 @@
+{
+  "status": "passed",
+  "random_states": 200,
+  "maximum_errors": {
+    "predictor_min": 0.0,
+    "predictor_max": 0.0,
+    "stake_cap": 0.0,
+    "increment": 4.440892098500626e-16,
+    "ftl_stake": 2.220446049250313e-16,
+    "factor": 2.220446049250313e-16
+  },
+  "scope": "component formulas at fixed question; supplied fresh bounds; not native full-loop timing/grid parity",
+  "source_sha256": {
+    "src/shiftlab/sota_search/active_rcps_learning.py": "587cbf7ddce308422f4cdbcb432db58680de6dba05172f8249ed17307bd98404",
+    "scripts/exhaustive_evaluation/check_rcps_range_parity.py": "b1badf2d3d95871c835ac390444922aa883813bda6d09007577d44fb34626bb8",
+    "outputs/exhaustive_evaluation/active-rcps/IwUpperMartingale.py": "675d6225f43d71e06349deef5e282fa6778edc6916bca21818715e070e7e5937"
+  }
+}

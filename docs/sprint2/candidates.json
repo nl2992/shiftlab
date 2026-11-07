@@ -1,0 +1,451 @@
+{
+  "H1": {
+    "id": "H1",
+    "description": "H1",
+    "status": "SCREENED_NEGATIVE",
+    "implementation": "scripts/sota_sprint/fam_h.py:HGate (evidence=sui _B, single_cycle=True)",
+    "results_artifact": "outputs/sprint2/H/sum_screen1_all.json; outputs/sprint2/H/sum_real_fresh.json; outputs/sprint2/H/real_twin/records.jsonl; outputs/sprint2/H/trackR_remaining/{dev,eval}_a*/records.jsonl; docs/sprint2/family_h/track_R_remaining.json; docs/sprint2/family_h/track_R_all.json; docs/sprint2/family_h/corrected_real_20.md",
+    "track_E": "Synthetic (paired dJ vs D5): F9 -22.1, F6 -13.2, S_delay800 -6.0, W_delay600 -8.2, F1_late -3.8, F3 +8.4, nulls 0. vs D2: iid alts +2..+10, F1_late -4.8, dependent alts +67/+83 (D2's iid-evidence power), F5_r95 null +9.4. Real fresh (3 seeds x episodes): vs D2 +76..+190 on all 5 streams (CIs >0); vs A5b -9.1 metro, -3.9 beijing, +17.3 bike, -68.5 appliances, +6.8 household. Historical +68..+189 selected-comparator contrast withdrawn: its pool included Xu acquisition and Choe-Ramdas adapters and omitted registered certificate ports; see family_h/README.md for the corrected 20-seed replay. Corrected matched 20-seed fresh-real replay (five exposed streams, equal-dataset means; episode-bootstrap 95% CI): +113.3 [85.6,142.2] vs D2; +46.7 [24.7,70.1] vs gated_adaptive_range; +98.2 [72.2,125.5] vs gated_adaptive_range+front. These are fixed-comparator descriptive contrasts; see corrected_real_20.md for all six certificate ports, supplemental adapters, full dataset results, and limits.",
+    "track_R": "Post hoc completion screen; development calibration on 20 seeds/regime (2026110701), separate evaluation on 20 seeds/regime (2026110711). R5: alpha 0.3, risk 0.050 [0.020,0.122], cost 376.8 [371.4,382.3]; R10: alpha 0.5, risk 0.062 [0.027,0.138], cost 371.7 [365.8,377.7]; R15: alpha 0.5, risk 0.062 [0.027,0.138], cost 371.7 [365.8,377.7]; R20: alpha 0.5, risk 0.062 [0.027,0.138], cost 371.7 [365.8,377.7]; R25: alpha 0.5, risk 0.062 [0.027,0.138], cost 371.7 [365.8,377.7]; R30: alpha 0.5, risk 0.062 [0.027,0.138], cost 371.7 [365.8,377.7]. Not Pareto after H1-H4 and D2/A5b are compared together. Empirical intervals are not guarantees.",
+    "track_V": "V2 (stationary first-order Markov null, any rho). Promotion on F0_null/F5_r8/F5_r95 nulls 0/20 each; twin nulls (marginal hypothesis, not V2) pooled .043, appliances .100, bike .108.",
+    "disposition": "Recovers D5's synthetic iid-alt power loss (C1+C2 of diagnosis) but does not recover D2's real-data advantage.",
+    "next_action": "Superseded by H2 (identical on iid, cheaper on dependence). Keep single-cycle threshold as a free fix for any absorbing-promotion gate.",
+    "ledger": "family_h/ledger.json"
+  },
+  "H2": {
+    "id": "H2",
+    "description": "H2",
+    "status": "SCREENED_PROMISING",
+    "implementation": "scripts/sota_sprint/fam_h.py:HGate (evidence=sui, single_cycle, spacing=True)",
+    "results_artifact": "outputs/sprint2/H/sum_screen1_all.json; outputs/sprint2/H/sum_real_fresh.json; outputs/sprint2/H/real_twin/records.jsonl; outputs/sprint2/round5/H2_followup100/records.jsonl; outputs/sprint2/round5/H2_markov_null1000/records.jsonl; outputs/sprint2/round5/H2_real14_3seed/records.jsonl; docs/sprint2/family_h/round5_h2.json; docs/sprint2/family_h/corrected_real_20.md",
+    "track_E": "Development screen: same promotion rates as H1 on tested iid alternatives; improves cost vs D2 on F1_late_800 (-3.7 [-6.0,-1.4]) but loses to D2 on F0_better (+7.6 [4.0,11.1]), F9 (+11.9 [7.3,16.4]) and dependent alternatives (+67.3 [+58.7,76.0] F5_r8; +83.9 [+72.8,95.1] S_r95). At 1000-seed Markov-null replay, H2 and A5b use fewer labels than iid D2 on dependent nulls. On all 14 fixed real sources (3 seeds), equal-source J contrast H2-D2 +81.2 [38.1,136.1], H2-gated_adaptive_range+front +71.7 [30.1,126.4], H2-A5b -9.9 [-21.5,-0.0], H2-never -112.0 [-223.0,-23.9]. Descriptive, source-cluster bootstrap, exposed data. Corrected matched 20-seed fresh-real replay (five exposed streams, equal-dataset means; episode-bootstrap 95% CI): +103.2 [79.5,127.0] vs D2; +36.5 [18.1,54.9] vs gated_adaptive_range; +88.0 [66.2,110.2] vs gated_adaptive_range+front. These are fixed-comparator descriptive contrasts; see corrected_real_20.md for all six certificate ports, supplemental adapters, full dataset results, and limits.",
+    "track_R": "docs/sprint2/family_h/track_R.json: calibrated alpha* = .3 at R5 (realised .050 [.020,.122], alt cost 374.7 vs A5b 383.4 at .050; D2 has no operating point below R20); R10-R30 alpha*=.5, realised .062, cost ~369.7. D2 at R25/R30 (alpha .1): risk .212, cost 361.4 (cheaper).",
+    "track_V": "V2 scope: stationary first-order Markov with p<=.5 and any rho, subject to stated independence/predictability assumptions; empirical rates are not a proof of those assumptions. 1000-seed follow-up promotions: F0_null 6/1000 [.003,.013], F5 r8 7/1000 [.003,.014], F5 r95 8/1000 [.004,.016], r98 1/1000 [0,.006] (Wilson 95% CIs). Twin nulls test a distinct marginal null: original H2 rates pooled .041; appliances .100, bike .092 exceed .05.",
+    "disposition": "H2 remains a scoped dependence-robust D2 variant under its declared V2 Markov null; 1000-seed rates are below alpha on the four tested null cells. It pays a large economic cost on persistent synthetic alternatives and loses to D2 and the adaptive-range port on equal-source real costs. Real outcomes are descriptive and no broad economic claim is supported. The twin-null marginal concern is distinct and not resolved by the V2 experiment.",
+    "next_action": null,
+    "ledger": "family_h/ledger.json"
+  },
+  "H3": {
+    "id": "H3",
+    "description": "H3",
+    "status": "SCREENED_NEGATIVE",
+    "implementation": "scripts/sota_sprint/fam_h.py:HGate (H2 + shadow=True, gamma=3, zeta=.25)",
+    "results_artifact": "outputs/sprint2/H/sum_screen1_all.json; outputs/sprint2/H/sum_real_fresh.json; outputs/sprint2/H/real_twin/records.jsonl; outputs/sprint2/H/trackR_remaining/{dev,eval}_a*/records.jsonl; docs/sprint2/family_h/track_R_remaining.json; docs/sprint2/family_h/track_R_all.json; docs/sprint2/family_h/corrected_real_20.md",
+    "track_E": "vs H2: nulls -7.2 F0_null, -8.5 F0_worse, -6.4 F5_r8 (labels 25-56 instead of 195-200); but F1_late_800 +12.3 (promotion .65 -> .00), F9 +5.2, F7 promotion .50->.35. Real fresh vs H2: +0.4 metro, -11.8 appliances, -2.1 household (near zero). Corrected matched 20-seed fresh-real replay (five exposed streams, equal-dataset means; episode-bootstrap 95% CI): +102.1 [78.6,126.0] vs D2; +35.4 [17.1,54.3] vs gated_adaptive_range; +86.9 [64.6,109.1] vs gated_adaptive_range+front. These are fixed-comparator descriptive contrasts; see corrected_real_20.md for all six certificate ports, supplemental adapters, full dataset results, and limits.",
+    "track_R": "Post hoc completion screen; development calibration on 20 seeds/regime (2026110701), separate evaluation on 20 seeds/regime (2026110711). R5: alpha 0.3, risk 0.050 [0.020,0.122], cost 378.1 [372.0,384.1]; R10: alpha 0.5, risk 0.062 [0.027,0.138], cost 374.0 [367.6,380.5]; R15: alpha 0.5, risk 0.062 [0.027,0.138], cost 374.0 [367.6,380.5]; R20: alpha 0.5, risk 0.062 [0.027,0.138], cost 374.0 [367.6,380.5]; R25: alpha 0.5, risk 0.062 [0.027,0.138], cost 374.0 [367.6,380.5]; R30: alpha 0.5, risk 0.062 [0.027,0.138], cost 374.0 [367.6,380.5]. Not Pareto after H1-H4 and D2/A5b are compared together. Empirical intervals are not guarantees.",
+    "track_V": "V2 (shadow gate only removes queries).",
+    "disposition": "Shadow price trades late-improvement power for null label savings; does not recover evidence power.",
+    "next_action": "Stop.",
+    "ledger": "family_h/ledger.json"
+  },
+  "H4": {
+    "id": "H4",
+    "description": "H4",
+    "status": "SCREENED_PROMISING",
+    "implementation": "scripts/sota_sprint/fam_h.py:HGate (H2 + dualclock=True)",
+    "results_artifact": "outputs/sprint2/H/sum_screen1_all.json; outputs/sprint2/H/sum_real_fresh.json; outputs/sprint2/H/real_twin/records.jsonl; docs/sprint2/family_h/corrected_real_20.md",
+    "track_E": "vs H2: S_delay800 -2.4 (labels 137 vs 184), W_delay600 -1.0, F6 +0.2, F0_null -0.3, F0_worse -0.6, F5_r8 null -0.6; real (delay 144/24): bike -8.2, appliances -23.1 (n.s.), others ~0. vs D2 on delay alts: F6 +1.5, S_delay800 -3.9, W_delay600 +5.3. Corrected matched 20-seed fresh-real replay (five exposed streams, equal-dataset means; episode-bootstrap 95% CI): +100.9 [77.3,124.7] vs D2; +34.2 [16.7,52.4] vs gated_adaptive_range; +85.7 [64.2,108.0] vs gated_adaptive_range+front. These are fixed-comparator descriptive contrasts; see corrected_real_20.md for all six certificate ports, supplemental adapters, full dataset results, and limits.",
+    "track_R": "docs/sprint2/family_h/track_R.json: calibrated alpha* = .3 at R5 (realised .050 [.020,.122], alt cost 375.1 vs A5b 383.4 at .050; D2 has no operating point below R20); R10-R30 alpha*=.5, realised .062, cost 369.6 (Pareto at R10-R30 by 0.2 vs H2). D2 at R25/R30 (alpha .1): risk .212, cost 361.4 (cheaper).",
+    "track_V": "V2 (deadline/in-flight only remove queries; event-order segments are fresh e-processes). Twin pooled .040.",
+    "disposition": "Small, consistent label saving under long delay; no power gain.",
+    "next_action": "Fold into H2 as a default (cost-only effect).",
+    "ledger": "family_h/ledger.json"
+  },
+  "H5": {
+    "id": "H5",
+    "description": "H5",
+    "status": "SCREENED_NEGATIVE",
+    "implementation": "scripts/sota_sprint/fam_h.py:HGate (sui, spacing, rollback=True, UniformStartSUI reversal test, alpha_r=.05)",
+    "results_artifact": "outputs/sprint2/H/sum_screen1_all.json; outputs/sprint2/H/sum_real_fresh.json; outputs/sprint2/H/real_twin/records.jsonl; outputs/sprint2/H/trackR_rollback/{dev,eval}_a*/records.jsonl; docs/sprint2/family_h/track_R_rollback.json; docs/sprint2/family_h/track_R_all.json; docs/sprint2/family_h/corrected_real_20.md",
+    "track_E": "F3_reversal_800: rollback .20, -12.8 vs D2 [-30,+4], -8.2 vs H5-decay; but +14..+25 vs D2 on iid alts and +12 on delay alts (two-cycle threshold 2/alpha + paced monitoring spends the whole budget). Real fresh: vs A5b +4/-4/+5/-19/+5. Corrected matched 20-seed fresh-real replay (five exposed streams, equal-dataset means; episode-bootstrap 95% CI): +120.8 [94.6,147.8] vs D2; +54.1 [31.0,78.5] vs gated_adaptive_range; +105.6 [80.8,131.2] vs gated_adaptive_range+front. These are fixed-comparator descriptive contrasts; see corrected_real_20.md for all six certificate ports, supplemental adapters, full dataset results, and limits.",
+    "track_R": "Post hoc completion screen: development calibration on 20 seeds/regime (2026110701), separate evaluation on 20 seeds/regime (2026110711). H5 alpha*=.5 at R5-R30; realised risk .0375 [.013,.105], alt cost 382.3 [376.1,388.5]. H5 is Pareto on the expanded tested Family-H grid at every target due to lower observed risk than H2/H4; empirical intervals are not guarantees.",
+    "track_V": "V2 for promotion: P(any false promotion | Markov null throughout) <= sum_j alpha/2^j <= alpha. Rollback: P(false rollback in a cycle | challenger at least as good after promotion) <= alpha_r = .05 PER CYCLE, not family-wise. Nothing controlled under reversal (neither null holds throughout).",
+    "disposition": "Rollback reversal handling works mechanically but has higher alternative cost than H2/H4 on Track R. Dedicated runtime recheck below approximate target, small sample only; worst-case runtime is not established.",
+    "next_action": "Stop; do not advance on current economic evidence.",
+    "ledger": "family_h/ledger.json",
+    "run_config": [
+      "scripts/sota_sprint/run_trackR_h_rollback_completion.sh (alpha grid 0.005,0.01,0.02,0.05,0.1,0.2,0.3,0.5; 20 seeds; dev base 2026110701 and eval base 2026110711; regimes bench2.RISK_NULLS + RISK_ALTS; policies H5,H6-r10,H6-r15,H6-r25,H2,H4,D2,A5b)"
+    ]
+  },
+  "H6": {
+    "id": "H6",
+    "description": "H6",
+    "status": "SCREENED_NEGATIVE",
+    "implementation": "scripts/sota_sprint/fam_h.py:HGate (H5 + reserve in {0,.10,.15,.25}; H6-r0 = H5)",
+    "results_artifact": "outputs/sprint2/H/sum_screen1_all.json; outputs/sprint2/H/sum_real_fresh.json; outputs/sprint2/H/real_twin/records.jsonl; outputs/sprint2/H/trackR_rollback/{dev,eval}_a*/records.jsonl; docs/sprint2/family_h/track_R_rollback.json; docs/sprint2/family_h/track_R_all.json; docs/sprint2/family_h/corrected_real_20.md",
+    "track_E": "Monotone: reserve .10/.15/.25 vs D2 on F1_late +5.8/+8.6/+11.5 (promotion .35/.25/.10 vs H5 .55), F9 +25/+28/+34; nulls -1.0/-1.5/-2.5; F3 -13.1/-13.2/-18.5 (rollbacks .20 at all levels). Real H6-r10 = H5 within 1. Corrected matched 20-seed fresh-real replay (five exposed streams, equal-dataset means; episode-bootstrap 95% CI): +123.0 [95.4,150.8] vs D2; +56.4 [31.6,83.4] vs gated_adaptive_range; +107.8 [82.0,134.5] vs gated_adaptive_range+front. These are fixed-comparator descriptive contrasts; see corrected_real_20.md for all six certificate ports, supplemental adapters, full dataset results, and limits.",
+    "track_R": "Post hoc completion screen: development calibration on 20 seeds/regime (2026110701), separate evaluation on 20 seeds/regime (2026110711). H6-r10/.15/.25 alpha*=.5 at R5-R30; each realised risk .0375 [.013,.105], with costs 382.9 [376.7,389.2], 384.3 [377.5,391.1], and 385.3 [378.7,392.0]. None is Pareto after H5 is included at the same risk and lower cost. Empirical intervals are not guarantees.",
+    "track_V": "Same as H5 (V2 promotion; per-cycle alpha_r rollback). Runtime FAIL: H6-r25 maximum 16.3 s.",
+    "disposition": "Reserve starves pre-promotion evidence and does not improve the risk-cost frontier. Dedicated runtime recheck below approximate target, small sample only; worst-case runtime is not established.",
+    "next_action": "Stop; do not advance on current economic evidence.",
+    "ledger": "family_h/ledger.json",
+    "run_config": [
+      "scripts/sota_sprint/run_trackR_h_rollback_completion.sh (alpha grid 0.005,0.01,0.02,0.05,0.1,0.2,0.3,0.5; 20 seeds; dev base 2026110701 and eval base 2026110711; regimes bench2.RISK_NULLS + RISK_ALTS; policies H5,H6-r10,H6-r15,H6-r25,H2,H4,D2,A5b)"
+    ]
+  },
+  "R1": {
+    "id": "R1",
+    "description": "R1",
+    "status": "SCREENED; TRACK R COMPLETE",
+    "implementation": "D2 operating points calibrated at alpha .005-.5; risk frontier R5-R30",
+    "results_artifact": [
+      "outputs/sprint2/R/analysis/risk_curves.json",
+      "outputs/sprint2/R/analysis/risk_curves.md",
+      "docs/sprint2/family_r/R_trackR_coverage_followup_report.md",
+      "docs/sprint2/family_r/R_trackR_coverage_followup.json",
+      "docs/sprint2/family_r/R_trackR_coverage_followup_manifests.json"
+    ],
+    "track_E": "Risk-cost curves and Pareto points are recorded. D2 has no selected operating point at R5/R10/R15; R20-R30 points exist. Calibration/evaluation use the same candidate grid, so treat as an exploratory selected frontier, not a confirmatory guarantee.",
+    "track_R": "Track-R alpha calibration and evaluation are in outputs/sprint2/R/analysis/risk_curves.json. R20: D2: alpha 0.02, eval risk 0.138 [0.079,0.230], cost 372.2 [362.5,381.8], not Pareto. Curves are selected-grid empirical estimates, not guarantees. A common-seed, post-development 26-policy coverage follow-up is reported in docs/sprint2/family_r/R_trackR_coverage_followup_report.md; this remains descriptive evidence.",
+    "track_V": "D2/operating-point policies target the stated conditional certificate null; empirical null/error summaries are in analysis/trackE_V_a05.json. See docs/sprint2/family_r/results.md; empirical rates are not guarantees.",
+    "disposition": "Retain as descriptive risk-cost baseline; report selection procedure and uncertainty.",
+    "next_action": null,
+    "ledger": "family_r/ledger.json"
+  },
+  "R2": {
+    "id": "R2",
+    "description": "R2",
+    "status": "SCREENED; CONDITIONAL-NULL CAVEAT DOCUMENTED",
+    "implementation": "fam_r.CondMeanEP; fixed-lambda conditional-mean e-process; R2-qc and R2-floor25 ablations",
+    "results_artifact": [
+      "docs/sprint2/family_r/conditional_mean_verification.md",
+      "outputs/sprint2/R/analysis/trackE_V_a05.json",
+      "outputs/sprint2/R/dev_screen_a05/manifest.json",
+      "docs/sprint2/family_r/R_trackR_coverage_followup_report.md",
+      "docs/sprint2/family_r/R_trackR_coverage_followup.json",
+      "docs/sprint2/family_r/R_trackR_coverage_followup_manifests.json"
+    ],
+    "track_E": "Implementation note gives the target, IPW construction, stopping/freeze rule, and finite-path validity checks. On dev runs R2 promotion was 0/20 on F0 null, 1/20 on Markov rho=.8, 5/20 on rho=.95. Those Markov cases are outside R2's conditional-mean validity class; this is risk characterization, not a validity failure for its stated null. On fresh real streams R2 net costs vary and are not consistently better than D2.",
+    "track_R": "Track-R alpha calibration and evaluation are in outputs/sprint2/R/analysis/risk_curves.json. R20: R2: alpha 0.3, eval risk 0.175 [0.107,0.273], cost 366.8 [360.2,373.4], not Pareto; R2-qc: alpha 0.2, eval risk 0.163 [0.097,0.258], cost 361.1 [353.3,368.9], not Pareto; R2-floor25: calibrated alpha 0.05; no displayed R20 Pareto point. Curves are selected-grid empirical estimates, not guarantees. A common-seed, post-development 26-policy coverage follow-up is reported in docs/sprint2/family_r/R_trackR_coverage_followup_report.md; this remains descriptive evidence.",
+    "track_V": "V1 conditional-mean null under its stated IPW/filtration assumptions; Markov nulls are out-of-class diagnostics. See docs/sprint2/family_r/results.md; empirical rates are not guarantees.",
+    "disposition": "Retain only with V1 conditional-mean claim and explicit null/filtration limitations; no general robust-validity claim.",
+    "next_action": null,
+    "ledger": "family_r/ledger.json"
+  },
+  "R3": {
+    "id": "R3",
+    "description": "R3",
+    "status": "SCREENED; NO STRONG ECONOMIC ADVANCE",
+    "implementation": "fam_r Markov evidence variants R3-base/plugin/near/alloc/plugnear",
+    "results_artifact": [
+      "outputs/sprint2/R/analysis/trackE_V_a05.json",
+      "outputs/sprint2/R/analysis/risk_curves.json",
+      "outputs/sprint2/R/dev_screen_a05/manifest.json",
+      "docs/sprint2/family_r/R_trackR_coverage_followup_report.md",
+      "docs/sprint2/family_r/R_trackR_coverage_followup.json",
+      "docs/sprint2/family_r/R_trackR_coverage_followup_manifests.json"
+    ],
+    "track_E": "R3-base has 0/20 promotion on the two Markov null screens and mean alternative cost 393.6 in dev (D2 362.8); alternatives generally add cost. The Markov-specific validity is generator/model-class scoped. No evidence establishes uniform validity beyond declared Markov assumptions.",
+    "track_R": "Track-R alpha calibration and evaluation are in outputs/sprint2/R/analysis/risk_curves.json. R20: R3-base: alpha 0.5, eval risk 0.037 [0.013,0.105], cost 381.6 [375.4,387.8], Pareto; R3-near: calibrated alpha 0.05; no displayed R20 Pareto point; R3-plugin: calibrated alpha 0.05; no displayed R20 Pareto point; R3-alloc: calibrated alpha 0.05; no displayed R20 Pareto point. Curves are selected-grid empirical estimates, not guarantees. A common-seed, post-development 26-policy coverage follow-up is reported in docs/sprint2/family_r/R_trackR_coverage_followup_report.md; this remains descriptive evidence.",
+    "track_V": "V2 Markov-model evidence; validity is limited to the tested Markov model/generator class. See docs/sprint2/family_r/results.md; empirical rates are not guarantees.",
+    "disposition": "Do not advance on current cost evidence; preserve as scoped Markov-evidence comparison.",
+    "next_action": null,
+    "ledger": "family_r/ledger.json"
+  },
+  "R4": {
+    "id": "R4",
+    "description": "R4",
+    "status": "SCREENED; NEGATIVE/OVERLY CONSERVATIVE",
+    "implementation": "dual-evidence R4-both and R4-comb",
+    "results_artifact": [
+      "outputs/sprint2/R/analysis/trackE_V_a05.json",
+      "outputs/sprint2/R/analysis/real_a05.json",
+      "outputs/sprint2/R/dev_screen_a05/manifest.json",
+      "docs/sprint2/family_r/R_trackR_coverage_followup_report.md",
+      "docs/sprint2/family_r/R_trackR_coverage_followup.json",
+      "docs/sprint2/family_r/R_trackR_coverage_followup_manifests.json"
+    ],
+    "track_E": "R4-both had 0/20 promotion on F0 and both Markov null screens; mean alternative cost was 399.4 (+36.6 paired vs D2's 362.8). R4-comb had 0/20 on F0 and rho=.8, 5/20 on rho=.95; mean alternative cost was 375.6 (+12.8 paired vs D2). R4-comb was cheaper than R4-both on this aggregate but retained .25 promotion on rho=.95. Fresh-real R4 variants are mixed and do not establish a uniform gain.",
+    "track_R": "Track-R alpha calibration and evaluation are in outputs/sprint2/R/analysis/risk_curves.json. R20: R4-both: alpha 0.5, eval risk 0.025 [0.007,0.087], cost 387.1 [380.9,393.2], Pareto; R4-comb: calibrated alpha 0.05; no displayed R20 Pareto point. Curves are selected-grid empirical estimates, not guarantees. A common-seed, post-development 26-policy coverage follow-up is reported in docs/sprint2/family_r/R_trackR_coverage_followup_report.md; this remains descriptive evidence.",
+    "track_V": "Combined V1/V2 evidence; the combined procedure is conservative and empirical rates are reported in analysis/trackE_V_a05.json. See docs/sprint2/family_r/results.md; empirical rates are not guarantees.",
+    "disposition": "Stop as currently configured; retain as a conservatism ablation.",
+    "next_action": null,
+    "ledger": "family_r/ledger.json"
+  },
+  "R5": {
+    "id": "R5",
+    "description": "R5",
+    "status": "SCREENED; MIXED; SYNTHETIC AND ALL-14-SOURCE REAL FOLLOW-UPS COMPLETE",
+    "implementation": "risk-aware economic deployment; R5, R5-nopen, R5-iidvar; risk/economic selector",
+    "results_artifact": [
+      "outputs/sprint2/R/analysis/trackE_V_a05.json",
+      "outputs/sprint2/R/analysis/risk_curves.json",
+      "outputs/sprint2/R/analysis/real_a05.json",
+      "docs/sprint2/family_r/R5_round5_results.json",
+      "docs/sprint2/family_r/R5_all14_real_results.json",
+      "docs/sprint2/family_r/R_trackR_coverage_followup_report.md",
+      "docs/sprint2/family_r/R_trackR_coverage_followup.json",
+      "docs/sprint2/family_r/R_trackR_coverage_followup_manifests.json"
+    ],
+    "track_E": "Track-R evaluation records selected R5 operating points. At R10: selected alpha .005, risk .087 [0.043,0.170], alt cost 365.8 [359.3,372.2]; R15/R20/R25: alpha .02, risk .138 [0.079,.230], cost 357.5 [351.3,363.7]; R30: alpha .05, risk .212 [.137,.314], cost 353.9 [348.1,359.8]. R5 is a Pareto point at these targets. Fresh-real results vary by dataset; do not infer universal real-data benefit. Some old tables compare against Xu's acquisition-only adapter; those rows are not evidence of superiority to Xu's published method. New-seed follow-up at fixed alpha .02: paired six-alternative mean \u0394net R5\u2212D2 \u221210.23 [\u221212.41,\u22128.05], but R5 loses on F1_late_800 (+7.49) and S_dep_better_r95 (+18.69). The all-14-source post-development replay has equal-source mean J 404.22 for R5 versus 404.91 D2; source-level contrasts vary and are descriptive only.",
+    "track_R": "Track-R alpha calibration and evaluation are in outputs/sprint2/R/analysis/risk_curves.json. R20: R5: alpha 0.02, eval risk 0.138 [0.079,0.230], cost 357.5 [350.9,364.1], Pareto. Curves are selected-grid empirical estimates, not guarantees. The 100-seed fixed-alpha follow-up found 15/100 F0_null [Wilson 95% CI .093\u2013.233], 26/100 rho=.8 [.184\u2013.354] and 24/100 rho=.95 [.167\u2013.332] promotions; it does not validate risk-target calibration. A common-seed, post-development 26-policy coverage follow-up is reported in docs/sprint2/family_r/R_trackR_coverage_followup_report.md; this remains descriptive evidence.",
+    "track_V": "V2/risk-aware operating-point screen; empirical null rates are in analysis/trackE_V_a05.json. See docs/sprint2/family_r/results.md; empirical rates are not guarantees.",
+    "disposition": "Mixed: lower average cost than the fixed comparators over the six registered alternatives, but high promotion rates in the tested null regimes and losses on late/strong-persistence alternatives. Do not present the previous selected Track-R frontier as independently validated; the post-development follow-up is one fixed-alpha sensitivity.",
+    "next_action": "No claim of risk control from the selected frontier. Any further R5 advancement requires a preregistered independent evaluation that treats the elevated null promotion rates as a primary concern and tests application-relevant utility on untouched sources. No further claim is warranted from this exposed-data replay; any real-transfer claim requires untouched sources and a frozen protocol.",
+    "ledger": "family_r/ledger.json"
+  },
+  "R6": {
+    "id": "R6",
+    "description": "R6",
+    "status": "SCREENED; NO FEASIBLE JOINT CONFIG AT R5-R15; R20-R30 EVALUATED",
+    "implementation": "joint risk/label-budget variants R6:D2-always and R6:D2-floor25",
+    "results_artifact": [
+      "outputs/sprint2/R/analysis/r6_joint.json",
+      "outputs/sprint2/R/analysis/risk_curves.json",
+      "outputs/sprint2/R/analysis/trackE_V_a05.json",
+      "docs/sprint2/family_r/R_trackR_coverage_followup_report.md",
+      "docs/sprint2/family_r/R_trackR_coverage_followup.json",
+      "docs/sprint2/family_r/R_trackR_coverage_followup_manifests.json"
+    ],
+    "track_E": "The joint selector has no chosen point at R5/R10/R15. At R20 it selects baseline D2 (alpha .02; eval risk .1375 [.0785,.2297], cost 372.15); at R25 it selects D2 (alpha .1; risk .2125 [.1371,.3142], cost 361.37); at R30 it selects R6:D2-always (alpha .1; risk .2875 [.1999,.3946], cost 358.17). Thus joint optimization offers no demonstrated advantage over D2 at R20/R25 and is riskier at R30. No direct evidence that reserved budget improves the joint frontier.",
+    "track_R": "Joint alpha/acquisition grid evaluated with development-only selection and separate-seed evaluation. No config met R5/R10/R15 on development; R20/R25 selected baseline D2, R30 selected R6:D2-always. Thus no demonstrated advantage from joint optimization; evaluated choices are descriptive and not risk guarantees. A common-seed, post-development 26-policy coverage follow-up is reported in docs/sprint2/family_r/R_trackR_coverage_followup_report.md; this remains descriptive evidence.",
+    "track_V": "Joint risk/budget selection, evaluated empirically in the declared null screens; no general validity guarantee. See docs/sprint2/family_r/results.md; empirical rates are not guarantees.",
+    "disposition": "Do not claim improved joint optimization; report as a negative/limited operating-point result.",
+    "next_action": "No advance. If revisited, redesign acquisition jointly with evidence and preregister a feasible operating-point criterion; current grid does not meet R5-R15.",
+    "ledger": "family_r/ledger.json"
+  },
+  "T1": {
+    "id": "T1",
+    "description": "T1",
+    "status": "SCREENED; REQUIRED COMPARISONS PRESENT; NEGATIVE ECONOMIC RESULT",
+    "implementation": "Model Picker host with A5b/evidence variants: T:mp/a5b, T:mp/a5b+ad, T:mp/a5b+ad+rb; earlier devC T:mp/a5b1, T:mp/qsg1, T:mp/H2, T:mp/H4.",
+    "results_artifact": [
+      "outputs/sprint2/T/devA/records.jsonl",
+      "outputs/sprint2/T/devC/records.jsonl",
+      "outputs/sprint2/T/contrasts.json",
+      "outputs/sprint2/T/dev_summary.md",
+      "outputs/sprint2/T/real_fresh_summary.json",
+      "docs/sprint2/family_t/T1_T2_T5_trackR_followup_protocol.md",
+      "docs/sprint2/family_t/T1_T2_T5_trackR_followup.json",
+      "docs/sprint2/family_t/T1_T2_T5_trackR_followup.md",
+      "docs/sprint2/family_t/T1_T2_T5_trackR_manifests.json"
+    ],
+    "track_E": "Final devA: mean alternative J 397.7 vs Model Picker adapter 354.4, D1 369.5, D6:mp 377.2; worse by about +43.4, +28.2, +20.5. A5b acquisition addition neutral (+0.1 [-1.7,+1.9]). See family_t/ledger.json.",
+    "track_R": "See `docs/sprint2/family_t/T1_T2_T5_trackR_followup.json` and `docs/sprint2/family_t/T1_T2_T5_trackR_followup.md`. Post-development follow-up uses 20 development and 20 separate evaluation seeds per regime on the eight-alpha grid. For T:mp/a5b, selected R5 alpha=.5 gives risk .050 [.020,.122] and cost 383.7; R10-R30 retain that point. T:mp/a5b+ad is 383.2 and +ad+rb is 386.8 at the same risk, none Pareto in the follow-up policy set. See `family_t/T1_T2_T5_trackR_followup.md` and manifests; descriptive simulator evidence, not a guarantee.",
+    "track_V": "T:mp/a5b with A5b: 0/20 promotions on F0, F0_worse, rho=.8 and rho=.95 development null screens; A5b targets stationary first-order Markov V2. Reused twin rates are in real_twin_summary.json (one policy seed per split). See family_t/results.md.",
+    "disposition": "Stop current T1 configuration; preserve direct negative result. No claim of published-method superiority.",
+    "next_action": null,
+    "ledger": "family_t/ledger.json"
+  },
+  "T2": {
+    "id": "T2",
+    "description": "T2",
+    "status": "SCREENED; DEPENDENCE-MODEL SENSITIVITY",
+    "implementation": "Gated Deployment host with A5b, env8 and QSG evidence; front-loaded acquisition and AND-combination ablations.",
+    "results_artifact": [
+      "outputs/sprint2/T/devB/records.jsonl",
+      "outputs/sprint2/T/contrasts.json",
+      "outputs/sprint2/T/trackR.md",
+      "outputs/sprint2/T/real_fresh_summary.json",
+      "outputs/sprint2/T/real_twin_summary.json",
+      "docs/sprint2/family_t/T1_T2_T5_trackR_followup_protocol.md",
+      "docs/sprint2/family_t/T1_T2_T5_trackR_followup.json",
+      "docs/sprint2/family_t/T1_T2_T5_trackR_followup.md",
+      "docs/sprint2/family_t/T1_T2_T5_trackR_manifests.json"
+    ],
+    "track_E": "T2:gated/a5b has zero promotions on the four declared dev null screens and alternative mean J 395.7; the historical +23.6 contrast versus `choe_ramdas_eb+front` is exploratory against a non-author-native port and is not published-SOTA evidence; the within-class contrast versus gated_adaptive_range is -4.7 (CI [-11.3,1.9]). The env8 variant has 0.30 promotion on rho=.95 null, outside its declared rho<=.8 class. Front-loading improves the synthetic alternative cost for some contrasts; the separate gated_adaptive_range+front and gated_deployment+QCE+front comparators reach 0.35 promotion on the harder rho=.95 Markov-null screen, while T2:gated/a5b+front has 0/20 there. Fresh real results vary substantially by stream. The 'best cert' arithmetic in old summaries is an exploratory comparator selection; it is not a published-SOTA claim.",
+    "track_R": "See `docs/sprint2/family_t/T1_T2_T5_trackR_followup.json` and `docs/sprint2/family_t/T1_T2_T5_trackR_followup.md`. Post-development follow-up uses 20 development and 20 separate evaluation seeds per regime on the eight-alpha grid. T2:gated/a5b has R5 alpha=.2, risk .0375 [.013,.105], cost 390.2; its +front variant has alpha=.3, risk .050 [.020,.122], cost 379.4 and is on the follow-up frontier. R10-R30 points and env8 variants are in `family_t/T1_T2_T5_trackR_followup.md`; descriptive simulator evidence, not a guarantee.",
+    "track_V": "T2:gated/a5b: 0/20 promotions on each of four development null screens; the env8 variant has 6/20 on rho=.95, outside its declared rho<=.8 class. A5b V2 rates and reused twin summaries are in family_t/results.md and real_twin_summary.json.",
+    "disposition": "No general advance; retain as host/evidence compatibility and misspecification study.",
+    "next_action": null,
+    "ledger": "family_t/ledger.json"
+  },
+  "T3": {
+    "id": "T3",
+    "description": "T3",
+    "status": "SCREENED; MIXED WITHIN-HOST COST EVIDENCE; NO GENERAL ADVANCE",
+    "implementation": "Corrected DISCERN-style host with A5b/env8, front acquisition, and AND ablations.",
+    "results_artifact": [
+      "outputs/sprint2/T/devB/records.jsonl",
+      "outputs/sprint2/T/contrasts.json",
+      "outputs/sprint2/T/trackR.md",
+      "outputs/sprint2/T/real_fresh_summary.json",
+      "docs/sprint2/family_t/T3_trackR_followup.json",
+      "docs/sprint2/family_t/T3_trackR_followup.md",
+      "docs/sprint2/family_t/T3_trackR_followup_protocol.md",
+      "docs/sprint2/family_t/T3_trackR_manifests.json"
+    ],
+    "track_E": "T3:discern/a5b mean alternative J 399.0, versus discern_design_floor 401.1 (difference -2.1, CI [-6.8,2.6]); front version 391.8, versus design_floor+front 405.2 (difference -13.5, CI [-20.1,-6.8]). Historical selected-port differences versus `choe_ramdas_eb+front` are +26.9 and +19.7; this non-author-native port is exploratory only and cannot support published-SOTA inference. Same-seed selection is also unadjusted. env8 variants promote on rho=.95 null at rates .25-.30; AND variants are expensive. Fresh real contrasts are mixed.",
+    "track_R": "A separate post-development Track-R panel evaluates T3:discern/a5b, T3:discern/a5b+front, their matched corrected-DISCERN hosts, A5b and D2 on 20 evaluation seeds per regime. At R5, no-front selects alpha .3 (risk .037 [95% Wilson CI .013,.105], cost 380.4 [374.1,386.8]); front selects alpha .5 (risk .075 [.035,.154], cost 373.3 [367.6,379.0]). At R10-R30, no-front uses alpha .5, risk .062 [.027,.138], cost 374.3 [366.5,382.1]; front retains alpha .5, risk .075 [.035,.154], cost 373.3 [367.6,379.0]. These are post-development descriptive operating points, not guarantees. See the frozen protocol, result, and manifest index.",
+    "track_V": "T3:discern/a5b has conservative development null screen; env8 variants have 5\u20136/20 promotions on rho=.95, beyond rho<=.8. AND variants are more conservative/costly. Empirical only; see family_t/results.md.",
+    "disposition": "Do not advance as a broad algorithmic gain; at most a bounded corrected-DISCERN adapter finding.",
+    "next_action": null,
+    "ledger": "family_t/ledger.json"
+  },
+  "T4": {
+    "id": "T4",
+    "description": "T4",
+    "status": "SCREENED; MODULE COMPETITION RECORDED",
+    "implementation": "CAMS host with A5b, conditional-mean and Markov evidence modules (including host-only/adaptive-query variants).",
+    "results_artifact": [
+      "outputs/sprint2/T/devA/records.jsonl",
+      "outputs/sprint2/T/dev_summary.md",
+      "outputs/sprint2/T/real_fresh_summary.json",
+      "outputs/sprint2/T/real_twin_summary.json"
+    ],
+    "track_E": "At dev alpha .05, CAMS adapter mean alternative J 350.5, but it has high false promotions (1.00 F0_null, .50 F0_worse, .95 rho=.8, .95 rho=.95). Conditional-mean variants are more conservative (T:cams/cmean J 385.5; cmean_s 383.7); env8 has 0.15 rho=.95 promotion but a declared rho<=.8 assumption. Twin promotion rates vary widely: T:cams/a5b .075-.092 on four twins and 0 on twin_metro; cmean .009-.442. These one-seed-per-twin rates are descriptive only.",
+    "track_R": "Track-R alpha calibration and evaluation are in outputs/sprint2/T/trackR.json. R20: T:cams/a5b: alpha 0.5, eval risk 0.037 [0.013,0.105], cost 381.6 [375.4,387.8], Pareto; T:cams/a5b+ad: calibrated alpha 0.05; no displayed R20 Pareto point; T:cams/cmean: calibrated alpha 0.05; no displayed R20 Pareto point; T:cams/env8: calibrated alpha 0.05; no displayed R20 Pareto point. Curves are selected-grid empirical estimates, not guarantees.",
+    "track_V": "CAMS adapter: 20/20 F0 null, 10/20 F0 worse, 19/20 on each rho=.8 and rho=.95 screen. Conditional-mean variants are more conservative; these rates are diagnostics, not a guarantee. See family_t/results.md.",
+    "disposition": "Evidence mechanism materially changes risk/cost; CAMS raw performance is not a safe result due to null promotions.",
+    "next_action": null,
+    "ledger": "family_t/ledger.json"
+  },
+  "T5": {
+    "id": "T5",
+    "description": "T5",
+    "status": "SCREENED; FIXED-SETTING TRANSFER EVIDENCE",
+    "implementation": "T4-selected evidence/module wrappers evaluated on Model Picker and Model Selector hosts; shared gate wrappers.",
+    "results_artifact": [
+      "outputs/sprint2/T/devA/records.jsonl",
+      "outputs/sprint2/T/dev_summary.md",
+      "outputs/sprint2/T/contrasts.json",
+      "outputs/sprint2/T/real_fresh_summary.json",
+      "docs/sprint2/family_t/T1_T2_T5_trackR_followup_protocol.md",
+      "docs/sprint2/family_t/T1_T2_T5_trackR_followup.json",
+      "docs/sprint2/family_t/T1_T2_T5_trackR_followup.md",
+      "docs/sprint2/family_t/T1_T2_T5_trackR_manifests.json"
+    ],
+    "track_E": "The frozen A5b setting transfers with zero promotions on F0/F0_worse/rho=.8/rho=.95 dev null screens, but is more costly than host adapters: T:mp/a5b 397.7 vs model_picker_adapter 354.4; T:ms/a5b 395.8 vs model_selector_causal 347.0. Conditional-mean variants reduce but do not eliminate rho=.95 promotions (MP .50/20, MS .45/20). Markov env8 transfers with observed rho=.95 promotions (MP .20, MS .20), consistent with its declared rho<=.8 restriction. These are simulator transfer results; real summaries are heterogeneous.",
+    "track_R": "See `docs/sprint2/family_t/T1_T2_T5_trackR_followup.json` and `docs/sprint2/family_t/T1_T2_T5_trackR_followup.md`. Post-development follow-up evaluates the shared wrapper on CAMS, Model Picker and Model Selector with 20 development and 20 separate evaluation seeds per regime on the eight-alpha grid. T:mp/a5b is 383.7 at risk .050 [.020,.122]; T:ms/a5b is 383.2 at risk .0375 [.013,.105]; T:cams/a5b is 381.9 at risk .050 [.020,.122]. These are local follow-up operating points, not a cross-family frontier or transfer guarantee. See `family_t/T1_T2_T5_trackR_followup.md` and manifests.",
+    "track_V": "Fixed A5b setting: 0/20 on F0, F0_worse, rho=.8 and rho=.95 on both MP and MS hosts; env8 has 4/20 rho=.95 promotions per host, outside declared rho<=.8 region. Twin checks are one seed per split. See family_t/results.md.",
+    "disposition": "The fixed setting transfers procedurally, not as an economic improvement or broad validity guarantee.",
+    "next_action": null,
+    "ledger": "family_t/ledger.json"
+  },
+  "T6": {
+    "id": "T6",
+    "description": "T6",
+    "status": "SCREENED; INTERACTION EFFECT SMALL/UNCERTAIN",
+    "implementation": "Evidence x acquisition 2x2: A5b or env8 with C2/C6 and front/base acquisition on gated host.",
+    "results_artifact": [
+      "outputs/sprint2/T/devB/records.jsonl",
+      "outputs/sprint2/T/contrasts.json",
+      "outputs/sprint2/T/trackR.md",
+      "outputs/sprint2/T/real_fresh_summary.json",
+      "outputs/sprint2/T/real_twin_summary.json"
+    ],
+    "track_E": "For A5b x C2 the estimated interaction is +0.8 [-1.5,+3.0] in dev; acquisition effect at best evidence is -0.6 [-1.9,+0.7]. A5b x C6 interaction is also recorded in contrasts.json. T6:a5bxC2 has 0/20 promotions on the four dev null screens and alternative mean J 391.1; the comparison to the prior selected `choe_ramdas_eb+front` port is historical and exploratory; that non-author-native port cannot support published-SOTA inference. Track-R points are reported, e.g. at R20 risk .087 [.043,.170], cost 374.2 [368.7,379.8] at alpha .5. Fresh-real comparison to A5b is mixed; twin promotion ranges 0-.083 for T6, one policy seed per split.",
+    "track_R": "Track-R alpha calibration and evaluation are in outputs/sprint2/T/trackR.json. R20: T6:a5bxC2: alpha 0.5, eval risk 0.087 [0.043,0.170], cost 374.2 [368.3,380.1], Pareto; T6:a5bxC6: calibrated alpha 0.05; no displayed R20 Pareto point; T6:env8xC2: calibrated alpha 0.05; no displayed R20 Pareto point; T6:env8xC6: calibrated alpha 0.05; no displayed R20 Pareto point. Curves are selected-grid empirical estimates, not guarantees.",
+    "track_V": "T6:a5bxC2: 0/20 promotions on the four development null screens; interaction estimate is small/uncertain. Twin rates 0\u2013.083 from one policy seed per split. See family_t/results.md.",
+    "disposition": "No evidence of an interaction gain; retain the null interaction estimate and scoped cost-risk curves.",
+    "next_action": null,
+    "ledger": "family_t/ledger.json"
+  },
+  "P1": {
+    "id": "P1",
+    "description": "P1",
+    "status": "SCREENED_NEGATIVE",
+    "implementation": "scripts/sota_sprint/fam_p.py:FamP1 + RenewalEvidence/UnionEvidence/CapMixture",
+    "results_artifact": [
+      "outputs/sprint2/P/p1diag/p1diag.json",
+      "outputs/sprint2/P/dev_syn",
+      "outputs/sprint2/P/dev_real",
+      "docs/sprint2/family_p/P1_power.md",
+      "docs/sprint2/family_p/dev_syn_P1.json"
+    ],
+    "track_E": "vs A5b: P1_renew F5_dep_better_r8 -14[-26,-1], S_reversal_400 -31; but F0_better +27, F9_bursty +47, P_hmm/piecerho +38/+39; real +97/+139 on bike/metro, -9/-16 beijing/household. c_corr spacing: ~0 everywhere.",
+    "track_R": "P1_renew: R5 at alpha .3 risk .025 cost 397.1; R10-R30 cost 388.0; not on frontier (A5b 384.0)",
+    "track_V": "V2 (renewal: proved for first-order chain with i.i.d. gaps; union by Bonferroni). 0/20 on all 10 dev nulls incl. 5 misspecified; twin P1_renew 0/200, P1_union <=.05. P1_cap95 V2 only rho<=.95 (.20 at rho .98). P1_capmix INVALID (.90 at r95, 1.00 at r98).",
+    "disposition": "Diagnosis: free-rho absorption is 1.2-1.5 nats and Fisher efficiency loss <=4%; the dominant losses are persistence itself and alt-mixture misfit. The sprint-1 figure (18.5 of 20.5 nats) was not reproduced; the oracle at p=.65, rho=.8, 100 queries is 2.4-4.0 nats. No construction recovers net power.",
+    "next_action": "Do not advance. If revisited: alt-mixture prior with mass on persistent alternatives (alt misfit 1-3 nats).",
+    "ledger": "family_p/ledger.json"
+  },
+  "P2": {
+    "id": "P2",
+    "description": "P2",
+    "status": "SCREENED_PROMISING",
+    "implementation": "scripts/sota_sprint/fam_p.py:p2p3 (analysis)",
+    "results_artifact": [
+      "outputs/sprint2/P/p2p3/p2p3.json",
+      "outputs/sprint2/P/final_summary.txt",
+      "docs/sprint2/family_p/P2P3_objectives_harm.md"
+    ],
+    "track_E": "n/a (analysis)",
+    "track_R": "n/a",
+    "track_V": "V1 vs V2 error rates reported separately: D2 V2 .308 / V1 .142; QSG .358/.183; RMM .308/.125; GAR+front .175/.067; A5b 0/0",
+    "disposition": "Analysis result: in tested delay-100 synthetic episodes, M and Cpol correlations with realized A500 were .86/.74/.52 at rho 0/.8/.95; at rho=.95, Cstate=.53 while M=Cpol=.52. Similar correlations do not make conditional and marginal hypotheses equivalent. At short delay/high rho, mean A500 was +8.6 on p=.5 null episodes (rho=.95, delay=1). On reused twins, selected promotions had positive mean realized A500 for four displayed certified methods (+6 to +19), which does not estimate persistence duration or transfer. Status means 'analysis complete'; this is not a candidate.",
+    "next_action": "Use V2 as the safety target under the frozen contract; report V1 separately",
+    "ledger": "family_p/ledger.json"
+  },
+  "P3": {
+    "id": "P3",
+    "description": "P3",
+    "status": "SCREENED_NEGATIVE",
+    "implementation": "scripts/sota_sprint/fam_p.py:FollowLeader (P3_follow) + p2p3 harm tables",
+    "results_artifact": [
+      "outputs/sprint2/P/p2p3/p2p3.json",
+      "outputs/sprint2/P/final_summary.txt",
+      "docs/sprint2/family_p/P3_cost_sweep.json",
+      "outputs/sprint2/P/dev_syn",
+      "docs/sprint2/family_p/P2P3_objectives_harm.md"
+    ],
+    "track_E": "P3_follow beats the best other policy at rho=.95, delay 1, cs<=2 (margins -79.5 to -11.6 for tested p), plus one low-cost cell p=.5, rho=.8, delay 1, cs=.5 (margin -1.8). At delay 100 it loses across all tested p/rho settings, by +14.0 to +669.5 over reweighted switch costs cs=.5,2,5,20; the full-grid maximum loss is +738.4 at p=.50, rho=0, delay=1, cs=20. In the 23-regime, 20-seed dev screen, paired mean J is +37.2 to +163.0 vs A5b.",
+    "track_R": "not run (uncertified, null promotion 1.0)",
+    "track_V": "none (uncertified); null promotion 1.00 on all nulls, twins .875-1.0",
+    "disposition": "In displayed promoted cells, certified-method \u0394J at delay 100 ranges +14.9 to +83.4; at rho=.95 and delay=1 it ranges -12.6 to +21.0 by method/p. Aggressive switching is never better under the frozen contract (delay 100, cs=5). The cs sweep is reproducibly reweighted from saved fixed-cs trajectories; policies were not rerun at each cost.",
+    "next_action": "Record as scoping evidence; no advance",
+    "ledger": "family_p/ledger.json"
+  },
+  "P4": {
+    "id": "P4",
+    "description": "P4",
+    "status": "SCREENED_PROMISING",
+    "implementation": "scripts/sota_sprint/fam_p.py:PRegime (P_REGIMES registered into bench.SPRINT_REGIMES)",
+    "results_artifact": [
+      "outputs/sprint2/P/dev_syn",
+      "docs/sprint2/family_p/P4_misspecification.md",
+      "outputs/sprint2/round5/P4_hmm_null1000",
+      "docs/sprint2/family_p/P4_hmm_round5.json"
+    ],
+    "track_E": "on misspecified alternatives A5b ~ never-switch on order2/Markov (410/417 vs 405/421) and better on HMM/piece-rho (364/375 vs 421/423); D2 346-356",
+    "track_R": "n/a (environment family)",
+    "track_V": "Development screen: A5b 0/20 on all tested nulls except HMM 3/20. Round-5 HMM stress replay: A5b 176/1000 [Wilson .154,.201], P1_renew 54/1000 [.042,.070], P1_union 44/1000 [.033,.059], D2 256/1000 [.230,.284], RMM 250/1000 [.224,.278]. The HMM is outside A5b/P1's declared first-order Markov null; this does not test their in-class guarantees.",
+    "disposition": "The 1,000-seed HMM replay confirms elevated A5b promotions under this specific out-of-class generator. It quantifies a limitation; it is not an in-class guarantee failure or evidence that other misspecified classes are safe.",
+    "next_action": null,
+    "ledger": "family_p/ledger.json"
+  },
+  "P5": {
+    "id": "P5",
+    "description": "P5",
+    "status": "SCREENED_PROMISING",
+    "implementation": "scripts/sota_sprint/fam_p.py:KGate (K_D2) + KRegime + kbuild",
+    "results_artifact": [
+      "outputs/sprint2/P/kscreen/kscreen.json",
+      "outputs/sprint2/P/kstreams/stats.json",
+      "docs/sprint2/family_p/P5_multimodel.md",
+      "scripts/sota_sprint/p5_trackr.py",
+      "outputs/sprint2/P/trackR_K/records.json",
+      "outputs/sprint2/P/trackR_K/risk_curves.json"
+    ],
+    "track_E": "K_D2 vs native CAMS(K): nulls -48/-68, K3_near -22, K4_late -21, real -16 to -30 (household -23+-17, metro -19+-14); vs Model Picker(K) within noise except metro +22.7; vs never real -80 to -578",
+    "track_R": "Separate K3/K4 Track R in outputs/sprint2/P/trackR_K/risk_curves.json. Development-only calibration/selection, 20 seeds per regime, separate 20-seed evaluation blocks. Pooled K3/K4 null ever-nonbetter deployment risk: R5 alpha .2, eval .025 [.000,.074], alt net J 565.2 [560.4,570.0]; R10 alpha .3, eval .050 [.000,.117], J 563.5 [556.2,570.8]; R15-R30 alpha .5, eval .150 [.047,.253], J 556.5 [550.2,562.7]. Cost selected on development alternatives. Empirical K-model panel, not comparable to pooled two-model families or a guarantee.",
+    "track_V": "V1 (pairwise Bonferroni, conditional only if each pairwise sign null holds under the full pre-label query selection, including host preference and cross-pair shared-label triggers; not merely its own queried-disagreement null). K3/K4 null .05 (native CAMS/MP .95-1.00); real proxy .00-.21. Empirical rates do not verify the selection-conditional assumption.",
+    "disposition": "Development evidence in tested K=3-4 settings; no general transfer claim. No certified published K-model comparator exists; misses late improvement.",
+    "next_action": "No further Track-R gap for the tested K=3/4 simulator; any confirmatory K-model claim needs preregistered regimes, larger independent seed blocks and independent review of the cross-pair selection null.",
+    "ledger": "family_p/ledger.json"
+  },
+  "P6": {
+    "id": "P6",
+    "description": "P6",
+    "status": "SCREENED_PROMISING",
+    "implementation": "scripts/sota_sprint/fam_p.py:UniformStartSUI + ReservedRestartMonitor (P6_LRMD_U promising; P6_RRD negative)",
+    "results_artifact": [
+      "outputs/sprint2/P/dev_p6",
+      "outputs/sprint2/P/dev_real",
+      "outputs/sprint2/P/dev_real_p6",
+      "outputs/sprint2/P/trackR2",
+      "docs/sprint2/family_p/P6_late_reversal.md",
+      "docs/sprint2/family_p/trackR.json",
+      "outputs/sprint2/round5/p6_twin_bike_1000/manifest.json",
+      "docs/sprint2/family_p/p6_twin_bike_1000.json",
+      "docs/sprint2/family_p/P6_all14_real_results.json",
+      "docs/sprint2/family_p/P6_all14_real_results.md"
+    ],
+    "track_E": "20-seed development screen: P6_LRMD_U vs M_LRMD_SUI: F1_late_800 -9.0[-14.3,-3.7], F1_late_1200 -11.8, W_late_1000 -10.1, S_reversal_400 -25.9; vs xu_acquisition_only (Xu acquisition + ShiftLab paired V1 certificate; not Xu et al.'s published certificate) -17.5/-15.9/-12.1; costs F0_better +7.7, F5_better_r8 +13.2; real +6 to +78 vs M_LRMD_SUI. P6_RRD ~ A5b (no late gain). Post-development 20-seed-per-episode all-14-source replay (seed base 2026110902) gives equal-source mean P6_LRMD_U cost 525.24 versus 500.83 for M_LRMD_SUI, 495.69 A5b, 404.92 D2, 423.47 RMM, and 414.14 gated adaptive-range; P6 costs 24.41 more than its parent on equal-source paired means (higher on 11 sources, lower on 2, tied on 1). It is 72.65 cheaper than never-switch on equal-source means. This is a post-development replay of exposed sources, not late-change or independent-transfer evidence.",
+    "track_R": "20-seed development screen: P6_LRMD_U R5-R30 at alpha .5, risk .050 [.014,.165], cost 390.8 (not on frontier); P6_RRD R5 risk .050, cost 383.8 (on frontier); A5b R5 risk .025, cost 384.0 (on frontier). P6_RRD and A5b have near-equal point costs at different observed risk.",
+    "track_V": "V2 (UniformStartSUI weights sum to 1; fam_a Markov-SUI argument). Dev nulls 0/20 except HMM .05 (LRMD_U) / .20 (RRD); prior twin screen P6_LRMD_U .000-.100; 1,000-seed bike-hour follow-up .076 (split-cluster 95% CI [.036,.122]), upper bound exceeds .0936, P6_RRD .000-.025",
+    "disposition": "In the tested no-host synthetic paired ablation, the uniform start prior lowered late-regime costs relative to M_LRMD_SUI; this does not establish it as the dominant cause of all Amendment-6 loss. Host integration still fails. The all-14-source post-development replay shows no average cost gain over the parent or named deployment comparators; retain P6 only as a scoped synthetic mechanism result.",
+    "next_action": "Do not claim real transfer or advance P6 as a real-data winner. Any continued method claim requires a changed mechanism and a frozen independent-source evaluation; the present all-14 replay is retrospective and economically unfavorable to P6 against its parent and deployment comparators.",
+    "ledger": "family_p/ledger.json"
+  }
+}

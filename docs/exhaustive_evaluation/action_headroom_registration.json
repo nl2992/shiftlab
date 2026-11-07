@@ -1,0 +1,23 @@
+{
+  "registered_utc": "2026-10-30T14:40:27.569521+00:00",
+  "stage": "exposed development diagnostic, NOT confirmation",
+  "source_sha256": "5e2fb5a6d6d7a93da7b37cabd907465b7ecc77b927fdc614a18d5a0ffaab66ac",
+  "selection": "minimum calibration decision loss; fixed listed order breaks ties",
+  "bank": [
+    "logistic_C1",
+    "logistic_C0.01",
+    "logistic_C100",
+    "hgb_7",
+    "hgb_15",
+    "positive",
+    "negative"
+  ],
+  "cost": "FN=1 FP=0.2; decision threshold 1/6; no utility tuning",
+  "boundary": "development parquet only; train-only fit/threshold; no refit on calibration",
+  "primary": "selected challenger development cost relative to original logistic incumbent",
+  "secondary": "per-month cost; oracle bank minimum is descriptive only",
+  "inputs": {
+    "bike": "9f6be5ff4dcb47a60f85a4a2dcd9d8b914ede21ea5f64a24e21ad5fde44b57c2",
+    "beijing": "6161beccbf6ecd3285be55cc276349dd72ef910d658d7b08dc8d426e69a9a7f8"
+  }
+}

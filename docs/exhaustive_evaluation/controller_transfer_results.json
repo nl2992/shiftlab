@@ -1,0 +1,479 @@
+{
+  "rows": [
+    {
+      "cell": [
+        6,
+        4,
+        1,
+        "4/5"
+      ],
+      "parent_class_cost": "69868/15625",
+      "repaired_class_cost": "5577/1250",
+      "class_seconds": 0.04271289985626936,
+      "mixture": [
+        {
+          "id": 30,
+          "weight": "3/5",
+          "controller": {
+            "type": "StreakController",
+            "start": 1,
+            "stride": 1,
+            "streak": 1,
+            "special": "never"
+          }
+        },
+        {
+          "id": 34,
+          "weight": "2/5",
+          "controller": {
+            "type": "EvaluationController",
+            "start": 1,
+            "stride": 1,
+            "threshold": 3,
+            "mode": "abort"
+          }
+        }
+      ],
+      "game_seconds": 1.4530803998932242,
+      "status": "completed",
+      "game_report": {
+        "status": "classical_causal_game_reference_completed_no_novel_method_claim",
+        "nodes": 41610,
+        "learner_sequences": 27597,
+        "opponent_sequences": 1273,
+        "learner_information_sets": 8307,
+        "opponent_information_sets": 636,
+        "solver_objective": 4.4616,
+        "equality_residual": 0.0,
+        "inequality_violation": 0.0,
+        "raw_recovered_cost": "5577/1250",
+        "raw_causal_null_risk": "1/20",
+        "iid_boundary_risk": "1/20",
+        "activation_probability": "1",
+        "calibrated_risk_bound": "1/20",
+        "calibrated_total_cost": "5577/1250",
+        "calibrated_metrics": {
+          "decision_cost": "13848/3125",
+          "query_cost": "61/6250",
+          "switch_cost": "64/3125",
+          "queries": "122/125",
+          "switches": "128/625"
+        },
+        "continue_cost": "24/5",
+        "root_behavior": {
+          "history": [],
+          "released": [],
+          "choices": [
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              1
+            ],
+            [
+              1,
+              0
+            ],
+            [
+              1,
+              1
+            ]
+          ],
+          "probabilities": [
+            "3/5",
+            "2/5",
+            "0",
+            "0"
+          ]
+        },
+        "scope": "Numerically optimized finite known-model reference; exact recovered-policy risk verification.",
+        "monotone_promotion_constraint": false
+      },
+      "exact_difference_vs_feasible_reference": "0",
+      "relative_difference_vs_feasible_reference": 0.0,
+      "quality_gate_failed_by_feasible_witness": false
+    },
+    {
+      "cell": [
+        6,
+        3,
+        2,
+        "4/5"
+      ],
+      "parent_class_cost": "28667/6250",
+      "repaired_class_cost": "14331/3125",
+      "class_seconds": 0.12939619994722307,
+      "mixture": [
+        {
+          "id": 30,
+          "weight": "3/5",
+          "controller": {
+            "type": "StreakController",
+            "start": 1,
+            "stride": 1,
+            "streak": 1,
+            "special": "never"
+          }
+        },
+        {
+          "id": 34,
+          "weight": "2/5",
+          "controller": {
+            "type": "EvaluationController",
+            "start": 1,
+            "stride": 1,
+            "threshold": 3,
+            "mode": "abort"
+          }
+        }
+      ],
+      "game_seconds": 0.9174210999626666,
+      "status": "completed",
+      "game_report": {
+        "status": "classical_causal_game_reference_completed_no_novel_method_claim",
+        "nodes": 21733,
+        "learner_sequences": 11893,
+        "opponent_sequences": 463,
+        "learner_information_sets": 4045,
+        "opponent_information_sets": 231,
+        "solver_objective": 4.58592,
+        "equality_residual": 0.0,
+        "inequality_violation": 0.0,
+        "raw_recovered_cost": "14331/3125",
+        "raw_causal_null_risk": "1/20",
+        "iid_boundary_risk": "1/20",
+        "activation_probability": "1",
+        "calibrated_risk_bound": "1/20",
+        "calibrated_total_cost": "14331/3125",
+        "calibrated_metrics": {
+          "decision_cost": "14232/3125",
+          "query_cost": "7/625",
+          "switch_cost": "64/3125",
+          "queries": "28/25",
+          "switches": "128/625"
+        },
+        "continue_cost": "24/5",
+        "root_behavior": {
+          "history": [],
+          "released": [],
+          "choices": [
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              1
+            ],
+            [
+              1,
+              0
+            ],
+            [
+              1,
+              1
+            ]
+          ],
+          "probabilities": [
+            "3/5",
+            "2/5",
+            "0",
+            "0"
+          ]
+        },
+        "scope": "Numerically optimized finite known-model reference; exact recovered-policy risk verification.",
+        "monotone_promotion_constraint": false
+      },
+      "exact_difference_vs_feasible_reference": "0",
+      "relative_difference_vs_feasible_reference": 0.0,
+      "quality_gate_failed_by_feasible_witness": false
+    },
+    {
+      "cell": [
+        6,
+        2,
+        3,
+        "4/5"
+      ],
+      "parent_class_cost": "37/8",
+      "repaired_class_cost": "37/8",
+      "class_seconds": 0.09670190000906587,
+      "mixture": [
+        {
+          "id": 30,
+          "weight": "19/20",
+          "controller": {
+            "type": "StreakController",
+            "start": 1,
+            "stride": 1,
+            "streak": 1,
+            "special": "never"
+          }
+        },
+        {
+          "id": 31,
+          "weight": "1/20",
+          "controller": {
+            "type": "StreakController",
+            "start": 1,
+            "stride": 1,
+            "streak": 1,
+            "special": "always"
+          }
+        }
+      ],
+      "game_seconds": 0.36289050010964274,
+      "status": "completed",
+      "game_report": {
+        "status": "classical_causal_game_reference_completed_no_novel_method_claim",
+        "nodes": 7412,
+        "learner_sequences": 3933,
+        "opponent_sequences": 103,
+        "learner_information_sets": 1509,
+        "opponent_information_sets": 51,
+        "solver_objective": 4.625,
+        "equality_residual": 4.163336342344337e-17,
+        "inequality_violation": 0.0,
+        "raw_recovered_cost": "37/8",
+        "raw_causal_null_risk": "1/20",
+        "iid_boundary_risk": "1/20",
+        "activation_probability": "1",
+        "calibrated_risk_bound": "1/20",
+        "calibrated_total_cost": "37/8",
+        "calibrated_metrics": {
+          "decision_cost": "231/50",
+          "query_cost": "0",
+          "switch_cost": "1/200",
+          "queries": "0",
+          "switches": "1/20"
+        },
+        "continue_cost": "24/5",
+        "root_behavior": {
+          "history": [],
+          "released": [],
+          "choices": [
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              1
+            ],
+            [
+              1,
+              0
+            ],
+            [
+              1,
+              1
+            ]
+          ],
+          "probabilities": [
+            "19/20",
+            "0",
+            "1/20",
+            "0"
+          ]
+        },
+        "scope": "Numerically optimized finite known-model reference; exact recovered-policy risk verification.",
+        "monotone_promotion_constraint": false
+      },
+      "exact_difference_vs_feasible_reference": "0",
+      "relative_difference_vs_feasible_reference": 0.0,
+      "quality_gate_failed_by_feasible_witness": false
+    },
+    {
+      "cell": [
+        6,
+        4,
+        1,
+        "3/5"
+      ],
+      "parent_class_cost": "709/200",
+      "repaired_class_cost": "709/200",
+      "class_seconds": 0.10065130004659295,
+      "mixture": [
+        {
+          "id": 30,
+          "weight": "19/20",
+          "controller": {
+            "type": "StreakController",
+            "start": 1,
+            "stride": 1,
+            "streak": 1,
+            "special": "never"
+          }
+        },
+        {
+          "id": 31,
+          "weight": "1/20",
+          "controller": {
+            "type": "StreakController",
+            "start": 1,
+            "stride": 1,
+            "streak": 1,
+            "special": "always"
+          }
+        }
+      ],
+      "game_seconds": 1.6811649000737816,
+      "status": "completed",
+      "game_report": {
+        "status": "classical_causal_game_reference_completed_no_novel_method_claim",
+        "nodes": 41610,
+        "learner_sequences": 27597,
+        "opponent_sequences": 1273,
+        "learner_information_sets": 8307,
+        "opponent_information_sets": 636,
+        "solver_objective": 3.545,
+        "equality_residual": 4.163336342344337e-17,
+        "inequality_violation": 0.0,
+        "raw_recovered_cost": "709/200",
+        "raw_causal_null_risk": "1/20",
+        "iid_boundary_risk": "1/20",
+        "activation_probability": "1",
+        "calibrated_risk_bound": "1/20",
+        "calibrated_total_cost": "709/200",
+        "calibrated_metrics": {
+          "decision_cost": "177/50",
+          "query_cost": "0",
+          "switch_cost": "1/200",
+          "queries": "0",
+          "switches": "1/20"
+        },
+        "continue_cost": "18/5",
+        "root_behavior": {
+          "history": [],
+          "released": [],
+          "choices": [
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              1
+            ],
+            [
+              1,
+              0
+            ],
+            [
+              1,
+              1
+            ]
+          ],
+          "probabilities": [
+            "19/20",
+            "0",
+            "1/20",
+            "0"
+          ]
+        },
+        "scope": "Numerically optimized finite known-model reference; exact recovered-policy risk verification.",
+        "monotone_promotion_constraint": false
+      },
+      "exact_difference_vs_feasible_reference": "0",
+      "relative_difference_vs_feasible_reference": 0.0,
+      "quality_gate_failed_by_feasible_witness": false
+    },
+    {
+      "cell": [
+        6,
+        4,
+        1,
+        "9/10"
+      ],
+      "parent_class_cost": "116117/25000",
+      "repaired_class_cost": "72503/15625",
+      "class_seconds": 0.14213769999332726,
+      "mixture": [
+        {
+          "id": 30,
+          "weight": "1/5",
+          "controller": {
+            "type": "StreakController",
+            "start": 1,
+            "stride": 1,
+            "streak": 1,
+            "special": "never"
+          }
+        },
+        {
+          "id": 35,
+          "weight": "4/5",
+          "controller": {
+            "type": "EvaluationController",
+            "start": 1,
+            "stride": 1,
+            "threshold": 4,
+            "mode": "abort"
+          }
+        }
+      ],
+      "game_seconds": 1.9065080001018941,
+      "status": "completed",
+      "game_report": {
+        "status": "classical_causal_game_reference_completed_no_novel_method_claim",
+        "nodes": 41610,
+        "learner_sequences": 27597,
+        "opponent_sequences": 1273,
+        "learner_information_sets": 8307,
+        "opponent_information_sets": 636,
+        "solver_objective": 4.640192,
+        "equality_residual": 0.0,
+        "inequality_violation": 0.0,
+        "raw_recovered_cost": "72503/15625",
+        "raw_causal_null_risk": "1/20",
+        "iid_boundary_risk": "1/20",
+        "activation_probability": "1",
+        "calibrated_risk_bound": "1/20",
+        "calibrated_total_cost": "72503/15625",
+        "calibrated_metrics": {
+          "decision_cost": "71253/15625",
+          "query_cost": "3439/125000",
+          "switch_cost": "6561/125000",
+          "queries": "3439/1250",
+          "switches": "6561/12500"
+        },
+        "continue_cost": "27/5",
+        "root_behavior": {
+          "history": [],
+          "released": [],
+          "choices": [
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              1
+            ],
+            [
+              1,
+              0
+            ],
+            [
+              1,
+              1
+            ]
+          ],
+          "probabilities": [
+            "1/5",
+            "4/5",
+            "0",
+            "0"
+          ]
+        },
+        "scope": "Numerically optimized finite known-model reference; exact recovered-policy risk verification.",
+        "monotone_promotion_constraint": false
+      },
+      "exact_difference_vs_feasible_reference": "0",
+      "relative_difference_vs_feasible_reference": 0.0,
+      "quality_gate_failed_by_feasible_witness": false
+    }
+  ]
+}

@@ -1,0 +1,56 @@
+[
+ {
+  "id": "E_rb (RMM + B2 certified rollback, 4 hosts)",
+  "status": "SCREENED_PROMISING",
+  "implementation": "scripts/sota_sprint/fam_e.py:_rb -> fam_b.RecoveryMonitor(rollback=True)",
+  "results_artifact": "docs/sprint2/wp1/results.json; docs/sprint2/wp1/false_rollback_audit.json; docs/sprint2/wp1/screen_dev.md; docs/sprint2/wp1/trackR.md",
+  "track_E": "real reversal (16 ep/7 clusters) vs RMM: -13.0 gated, -12.4 discern, -19.6 SMCS, -17.1 gar (2/4 CIs<0); late +2.5..+10.4; all-real -0.1..+0.3 n.s.; synthetic reversal -3.5..-13.2",
+  "track_R": "gated: no R5/R10 point; R15/R20 risk .10 cost 392.2/388.1 (RMM 390.8/386.3; Xu 387.0 at risk .013)",
+  "track_V": "V1. iid F0_null 0/20; first promotion identical to RMM: twin .218-.272, F5_dep_null_r8 .15-.25 (V1 not claimed under persistence)",
+  "ablation": "horizon gate never bound (=nogate); alpha_rb .05 loses 4-6 on synthetic reversals",
+  "disposition": "advance as RMM extension; modest consistent reversal gain",
+  "next_action": "The 100-seed post-development synthetic reversal follow-up and real false-rollback trace diagnostic are complete. Do not describe them as independent confirmation. The registered real late-improvement criterion remains NOT_SUPPORTED; new independent source datasets or temporal clusters are needed for any real-transfer claim.",
+  "seed_manifest": "synthetic dev 2026110701 x20 (screen_dev, syn_budget); Track R 2026110701/2026110711 x20 at bench2.ALPHA_GRID; real 2026110803 x3 per episode",
+  "run_config": [
+   "see docs/sprint2/wp1/RESULTS.md#reproduce",
+   "outputs/sprint2/WP1/run_all.sh (primary)",
+   "outputs/sprint2/WP1/run_rest.sh"
+  ]
+ },
+ {
+  "id": "E_srr (host + Shin-Ramdas-Rinaldo e-CUSUM; competitor per novelty audit)",
+  "status": "SCREENED_NEGATIVE",
+  "implementation": "scripts/sota_sprint/fam_e.py:DetectorSwapMonitor/SRRDetector",
+  "results_artifact": "docs/sprint2/wp1/results.json; docs/sprint2/wp1/trackR.md",
+  "track_E": "synthetic late: beats RMM by 19-33; real late: RMM - E_srr +4..+9 n.s.; real reversal E_srr better by 26-37",
+  "track_R": "no operating point at R5-R20; R30 risk .31 cost 371.9",
+  "track_V": "none (ARL only). iid F0_null .05-.20, dep r8 .55-.85, twin .41; e-SR variant 1.00 on F0_null",
+  "ablation": "no continued acquisition: +40.5 worse on real late; e-SR variant worse",
+  "disposition": "competitor, not a candidate: its gains come from uncontrolled false promotion; shows RMM's real-late gain is not specific to its mixture",
+  "next_action": "keep as mandatory baseline in any RMM claim",
+  "seed_manifest": "synthetic dev 2026110701 x20 (screen_dev, syn_budget); Track R 2026110701/2026110711 x20 at bench2.ALPHA_GRID; real 2026110803 x3 per episode",
+  "run_config": [
+   "see docs/sprint2/wp1/RESULTS.md#reproduce",
+   "outputs/sprint2/WP1/run_all.sh (primary)",
+   "outputs/sprint2/WP1/run_rest.sh"
+  ]
+ },
+ {
+  "id": "E_swcert (sliding-window binomial certificate)",
+  "status": "SCREENED_NEGATIVE",
+  "implementation": "scripts/sota_sprint/fam_e.py:SlidingWindowCert",
+  "results_artifact": "docs/sprint2/wp1/results.json; docs/sprint2/wp1/screen_dev.md",
+  "track_E": "real all vs Xu -0.3 n.s.; late -23.2 [-37.8,+0.5]; reversal +18.1; synthetic late worse than RMM by ~25",
+  "track_R": "not run (A2)",
+  "track_V": "V1; iid F0_null 0/20, dep r8 .05, twin .228",
+  "ablation": "W25 more false promotion (.20 dep), W100/cum slower on reversal/late",
+  "disposition": "dominated by RMM",
+  "next_action": "none",
+  "seed_manifest": "synthetic dev 2026110701 x20 (screen_dev, syn_budget); Track R 2026110701/2026110711 x20 at bench2.ALPHA_GRID; real 2026110803 x3 per episode",
+  "run_config": [
+   "see docs/sprint2/wp1/RESULTS.md#reproduce",
+   "outputs/sprint2/WP1/run_all.sh (primary)",
+   "outputs/sprint2/WP1/run_rest.sh"
+  ]
+ }
+]

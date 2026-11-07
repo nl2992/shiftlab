@@ -1,0 +1,181 @@
+{
+  "episodes": 10,
+  "delay": 100,
+  "config": {
+    "T": 2000,
+    "budget": 200,
+    "cq": 0.05,
+    "cs": 5.0,
+    "n_seeds": 100,
+    "seed_base": 20261101
+  },
+  "mean_cost": {
+    "P0": 297.3,
+    "P1": 278.3,
+    "P2": 307.00654999999995,
+    "P3b": 302.62155,
+    "P6": 294.88840000000005,
+    "P7s": 302.1011
+  },
+  "paired": {
+    "P7s_minus_P3b": {
+      "mean": -0.5204499999999769,
+      "lo": -1.2338662499999749,
+      "hi": -0.038241249999965046,
+      "bootstrap_level": "episode",
+      "low_power": false,
+      "frac_episodes_a_below_b": 0.6
+    },
+    "P7s_minus_P0": {
+      "mean": 4.801099999999987,
+      "lo": 0.6418062500000009,
+      "hi": 7.903877499999959,
+      "bootstrap_level": "episode",
+      "low_power": false,
+      "frac_episodes_a_below_b": 0.1
+    },
+    "P7s_minus_P6": {
+      "mean": 7.212699999999986,
+      "lo": 3.1791312500000064,
+      "hi": 11.786494999999972,
+      "bootstrap_level": "episode",
+      "low_power": false,
+      "frac_episodes_a_below_b": 0.1
+    },
+    "P7s_minus_P2": {
+      "mean": -4.905450000000011,
+      "lo": -9.00051624999999,
+      "hi": -1.8466637499999845,
+      "bootstrap_level": "episode",
+      "low_power": false,
+      "frac_episodes_a_below_b": 0.8
+    },
+    "P3b_minus_P0": {
+      "mean": 5.321549999999964,
+      "lo": 1.8214262499999665,
+      "hi": 8.051536249999943,
+      "bootstrap_level": "episode",
+      "low_power": false,
+      "frac_episodes_a_below_b": 0.1
+    }
+  },
+  "diagnostics": {
+    "P0": {
+      "mean_labels": 0.0,
+      "mean_switches": 0.0,
+      "mean_rollbacks": 0.0,
+      "promotion_rate": 0.0,
+      "mean_promotion_time": null,
+      "max_queries_any_episode_seed": 0
+    },
+    "P1": {
+      "mean_labels": 0.0,
+      "mean_switches": 1.0,
+      "mean_rollbacks": 0.0,
+      "promotion_rate": 0.0,
+      "mean_promotion_time": null,
+      "max_queries_any_episode_seed": 0
+    },
+    "P2": {
+      "mean_labels": 194.831,
+      "mean_switches": 0.006,
+      "mean_rollbacks": 0.0,
+      "promotion_rate": 0.006,
+      "mean_promotion_time": 1081.6666666666667,
+      "max_queries_any_episode_seed": 200
+    },
+    "P3b": {
+      "mean_labels": 156.511,
+      "mean_switches": 0.213,
+      "mean_rollbacks": 0.0,
+      "promotion_rate": 0.213,
+      "mean_promotion_time": 1028.4084492635025,
+      "max_queries_any_episode_seed": 200
+    },
+    "P6": {
+      "mean_labels": 58.028000000000006,
+      "mean_switches": 0.33999999999999997,
+      "mean_rollbacks": 0.0,
+      "promotion_rate": 0.33999999999999997,
+      "mean_promotion_time": 809.1342269588063,
+      "max_queries_any_episode_seed": 67
+    },
+    "P7s": {
+      "mean_labels": 146.10199999999998,
+      "mean_switches": 0.213,
+      "mean_rollbacks": 0.0,
+      "promotion_rate": 0.213,
+      "mean_promotion_time": 1028.4084492635025,
+      "max_queries_any_episode_seed": 200
+    }
+  },
+  "mechanism": {
+    "P7s": {
+      "promotion_rate": 0.213,
+      "mean_promotion_time": 1028.4084492635025,
+      "mean_labels_before_promotion": 137.50399999999996,
+      "mean_labels_after_promotion": 8.598,
+      "mean_switches": 0.213,
+      "mean_rollbacks": 0.0
+    },
+    "P3b": {
+      "promotion_rate": 0.213,
+      "mean_promotion_time": 1028.4084492635025,
+      "mean_labels": 156.511,
+      "mean_switches": 0.213,
+      "mean_rollbacks": 0.0
+    }
+  },
+  "p7s_minus_p3b_decomposition_per_episode": {
+    "d_loss": 0.0,
+    "d_label_cost": -0.52045,
+    "d_switch_cost": 0.0
+  },
+  "conditions": {
+    "1_P7s_beats_P3b_CI_below_0": true,
+    "2_P7s_below_P0": false,
+    "3_no_leakage_budget_holds_pathwise": true,
+    "4_mechanism_records_complete_and_explicable": true
+  },
+  "low_power": false,
+  "bootstrap_level": "episode",
+  "finite_costs": true,
+  "p1_note": "P1 is a hindsight reference, not a deployable baseline",
+  "dataset_id": "insects_abrupt_balanced",
+  "pair": {
+    "name": "A",
+    "challenger": "HGB",
+    "train": "0-30%"
+  },
+  "binarisation_rule": "class0_vs_rest",
+  "dev_headroom": {
+    "dev_rows": 15854,
+    "disagree": 0.08313359404566671,
+    "inc_err_dev": 0.16746562381733315,
+    "chal_err_dev": 0.16128421849375552,
+    "adv_per_event": 0.006181405323577638,
+    "adv_times_T": 12.362810647155275,
+    "cs": 5.0,
+    "T": 2000,
+    "cond_disagree_ge_0.02": true,
+    "cond_challenger_better": true,
+    "cond_adv_T_gt_cs": true,
+    "passes": true
+  },
+  "locked_episode_starts": [
+    31708,
+    33822,
+    35936,
+    38050,
+    40164,
+    42278,
+    44392,
+    46506,
+    48620,
+    50734
+  ],
+  "n_seeds": 100,
+  "episodes_complete": true,
+  "status": "USELESS_NO_HEADROOM",
+  "status_reason": "condition 2 failed: mean P7s 302.10 >= mean P0 297.30; switching is not worth doing on this stream"
+}

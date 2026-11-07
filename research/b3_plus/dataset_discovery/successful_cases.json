@@ -1,0 +1,179 @@
+[
+  {
+    "dataset_id": "openml_ldpa",
+    "family": "openml_ldpa",
+    "source": "OpenML data_id=1483 ('ldpa') via sklearn.datasets.fetch_openml",
+    "url": "https://www.openml.org/d/1483",
+    "domain": "wearable localisation / human-activity recognition",
+    "n_rows": 164860,
+    "declared_delay": {
+      "value": 100,
+      "basis": "imposed_cap",
+      "justification": "No feedback latency is documented for this dataset in its source metadata; the audit rule (delay in events, capped at 100 so that it fits a 2,000-event episode) is applied at the cap.",
+      "declared_at_utc": "2026-11-02T23:38:00.074082+00:00"
+    },
+    "chronology": {
+      "declared_basis": "timestamp_column",
+      "justification": "INFERENCE (OpenML does not document the transformation): V3 and V4 look like global ranks of the original UCI timestamp and date-string columns. The file is person-major and NOT in V3 order, so the stream is sorted by V3 and the validator requires Spearman(V3, V4) >= 0.99 between the two encodings as corroboration (observed 0.99999999999998). Post-hoc structural evidence (features and ids only): after sorting by V3, person id changes only 4 times and the four tags interleave on 99.8% of consecutive rows, i.e. each recording sequence is contiguous. V1 (person) is kept as a covariate; V3/V4 are excluded from features.",
+      "time_column": "V3",
+      "time_reliable": true,
+      "time_corroboration_column": "V4"
+    },
+    "status": "SUCCESS",
+    "status_reason": "conditions 1-5 hold: P7s - P3b CI entirely below 0 and mean P7s < mean P0",
+    "overlap_note": "Distinct HAR domain.",
+    "timestamps": {
+      "registered_at_utc": "2026-11-02T23:38:00.074082+00:00",
+      "downloaded_at_utc": "2026-11-02T23:38:24.096639+00:00",
+      "loaded_at_utc": "2026-11-02T23:38:24.267995+00:00",
+      "validated_at_utc": "2026-11-02T23:38:24.367116+00:00",
+      "pair_selected_at_utc": "2026-11-02T23:38:24.908622+00:00",
+      "locked_window_read_at_utc": "2026-11-02T23:38:24.909759+00:00",
+      "evaluated_at_utc": "2026-11-02T23:39:02.809725+00:00"
+    },
+    "screening": {
+      "stage": "evaluated",
+      "mean_cost": {
+        "P0": 663.0,
+        "P1": 398.4375,
+        "P2": 621.62409375,
+        "P3b": 483.24765625,
+        "P6": 506.508265625,
+        "P7s": 478.820109375
+      },
+      "paired": {
+        "P7s_minus_P3b": {
+          "mean": -4.427546875000003,
+          "lo": -7.134814453124976,
+          "hi": -2.6057093749999862,
+          "bootstrap_level": "episode",
+          "low_power": false,
+          "frac_episodes_a_below_b": 0.9375
+        },
+        "P7s_minus_P0": {
+          "mean": -184.17989062499998,
+          "lo": -230.8098140625,
+          "hi": -139.10501562500002,
+          "bootstrap_level": "episode",
+          "low_power": false,
+          "frac_episodes_a_below_b": 0.9375
+        },
+        "P7s_minus_P6": {
+          "mean": -27.688156249999977,
+          "lo": -51.316835937499945,
+          "hi": -7.401822656249979,
+          "bootstrap_level": "episode",
+          "low_power": false,
+          "frac_episodes_a_below_b": 0.5625
+        },
+        "P7s_minus_P2": {
+          "mean": -142.803984375,
+          "lo": -174.99895664062498,
+          "hi": -111.31686601562504,
+          "bootstrap_level": "episode",
+          "low_power": false,
+          "frac_episodes_a_below_b": 0.9375
+        },
+        "P3b_minus_P0": {
+          "mean": -179.75234375000002,
+          "lo": -225.97101015625003,
+          "hi": -134.0505390625,
+          "bootstrap_level": "episode",
+          "low_power": false,
+          "frac_episodes_a_below_b": 0.9375
+        }
+      },
+      "episodes": 32,
+      "low_power": false
+    },
+    "results_dir": "docs/promising_directions/results/b3_plus/screening/openml_ldpa"
+  },
+  {
+    "dataset_id": "uci_occupancy",
+    "family": "uci_occupancy",
+    "source": "UCI Occupancy Detection (Candanedo & Feldheim 2016), three files concatenated",
+    "url": "https://archive.ics.uci.edu/static/public/357/occupancy+detection.zip",
+    "domain": "office-room occupancy from environmental sensors",
+    "n_rows": 20560,
+    "declared_delay": {
+      "value": 100,
+      "basis": "imposed_cap",
+      "justification": "No feedback latency is documented for this dataset in its source metadata; the audit rule (delay in events, capped at 100 so that it fits a 2,000-event episode) is applied at the cap.",
+      "declared_at_utc": "2026-11-02T23:41:39.458815+00:00"
+    },
+    "chronology": {
+      "declared_basis": "timestamp_column",
+      "justification": "Each row carries a minute-resolution timestamp (2015-02-02 .. 2015-02-18). The three released files (training, test, test2) are not in time order, so the combined stream is sorted by timestamp; the validator reports the file-order inversions.",
+      "time_column": "date",
+      "time_reliable": true
+    },
+    "status": "SUCCESS",
+    "status_reason": "conditions 1-5 hold: P7s - P3b CI entirely below 0 and mean P7s < mean P0 (LOW-POWER: seed bootstrap, K<5)",
+    "overlap_note": "Distinct building-sensing domain. Locked window gives K = 4 (LOW-POWER).",
+    "timestamps": {
+      "registered_at_utc": "2026-11-02T23:41:39.458815+00:00",
+      "downloaded_at_utc": "2026-11-02T23:41:40.170050+00:00",
+      "loaded_at_utc": "2026-11-02T23:41:40.267803+00:00",
+      "validated_at_utc": "2026-11-02T23:41:40.290692+00:00",
+      "pair_selected_at_utc": "2026-11-02T23:41:40.539990+00:00",
+      "locked_window_read_at_utc": "2026-11-02T23:41:40.540618+00:00",
+      "evaluated_at_utc": "2026-11-02T23:41:45.498172+00:00"
+    },
+    "screening": {
+      "stage": "evaluated",
+      "mean_cost": {
+        "P0": 481.25,
+        "P1": 75.25,
+        "P2": 183.62212499999998,
+        "P3b": 177.63187499999995,
+        "P6": 236.44837499999997,
+        "P7s": 176.62412499999996
+      },
+      "paired": {
+        "P7s_minus_P3b": {
+          "mean": -1.0077499999999873,
+          "lo": -1.0282499999999988,
+          "hi": -0.9881218750000011,
+          "bootstrap_level": "seed",
+          "low_power": true,
+          "frac_episodes_a_below_b": 0.25
+        },
+        "P7s_minus_P0": {
+          "mean": -304.62587500000006,
+          "lo": -305.68013125,
+          "hi": -303.587365625,
+          "bootstrap_level": "seed",
+          "low_power": true,
+          "frac_episodes_a_below_b": 0.25
+        },
+        "P7s_minus_P6": {
+          "mean": -59.82424999999999,
+          "lo": -61.97003437499999,
+          "hi": -57.772037499999996,
+          "bootstrap_level": "seed",
+          "low_power": true,
+          "frac_episodes_a_below_b": 0.25
+        },
+        "P7s_minus_P2": {
+          "mean": -6.998000000000021,
+          "lo": -8.436640624999997,
+          "hi": -5.78031249999999,
+          "bootstrap_level": "seed",
+          "low_power": true,
+          "frac_episodes_a_below_b": 1.0
+        },
+        "P3b_minus_P0": {
+          "mean": -303.6181250000001,
+          "lo": -304.60848437500005,
+          "hi": -302.66558125000006,
+          "bootstrap_level": "seed",
+          "low_power": true,
+          "frac_episodes_a_below_b": 0.25
+        }
+      },
+      "episodes": 4,
+      "low_power": true
+    },
+    "results_dir": "docs/promising_directions/results/b3_plus/screening/uci_occupancy"
+  }
+]

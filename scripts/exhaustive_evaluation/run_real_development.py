@@ -1,0 +1,262 @@
+"""Registered, retrospective DEVELOPMENT replay; no reserved final data loaded."""
+
+import argparse
+import hashlib
+import json
+from datetime import UTC, datetime
+from pathlib import Path
+
+import numpy as np
+import pandas as pd
+from sklearn.ensemble import HistGradientBoostingClassifier
+from sklearn.linear_model import LogisticRegression
+from sklearn.pipeline import make_pipeline
+from sklearn.preprocessing import StandardScaler
+
+from shiftlab.sota_search.combination_screen import Combination, screen
+from shiftlab.sota_search.published_baselines import (
+    active_rcps_cost,
+    pprm_batch_cost,
+    pr_empirical_bernstein,
+)
+
+ROOT = Path(__file__).resolve().parents[2]
+DOC = ROOT / "docs/exhaustive_evaluation"
+OUT = ROOT / "outputs/exhaustive_evaluation/real_development"
+REG = DOC / "real_development_registration.json"
+CONFIGS = [
+    Combination(0.25, 0.9, 0.75, "uniform", True),
+    Combination(0, 0.9, 0.75, "uniform", True),
+    Combination(1, 0.995, 0.5, "uniform", False),
+]
+IDS = ["R1_selected_blend", "matched_cost_parent", "H2c_style"]
+
+
+def sha(p):
+    return hashlib.sha256(p.read_bytes()).hexdigest()
+
+
+def calendar_features(clock):
+    clock = pd.DatetimeIndex(clock)
+    return np.column_stack(
+        [
+            np.sin(2 * np.pi * clock.hour / 24),
+            np.cos(2 * np.pi * clock.hour / 24),
+            np.sin(2 * np.pi * clock.dayofweek / 7),
+            np.cos(2 * np.pi * clock.dayofweek / 7),
+            np.sin(2 * np.pi * clock.dayofyear / 365.25),
+            np.cos(2 * np.pi * clock.dayofyear / 365.25),
+            clock.hour,
+            clock.dayofweek,
+            clock.month,
+        ]
+    )
+
+
+def queries_before_alarm(result, *, shape, seed, budget, frac=0.2, batched=False):
+    S, T = shape
+    if batched:
+        n = min(T // 5, budget)
+        selected = np.random.default_rng(seed).integers(5, size=(S, n))
+        q = np.zeros((S, T), dtype=bool)
+        q[np.arange(S)[:, None], 5 * np.arange(n)[None, :] + selected] = True
+    else:
+        q = np.random.default_rng(seed).random((S, T)) < frac
+        q &= np.cumsum(q, axis=1) <= budget
+    # Alarm is processed before issuance at that event; pending prior requests count.
+    cumulative = np.pad(np.cumsum(q, axis=1), ((0, 0), (1, 0)))
+    return cumulative[np.arange(S), result["first"]]
+
+
+def register():
+    if REG.exists():
+        raise FileExistsError("immutable real development registration exists")
+    manifests = json.loads((DOC / "real_data_manifest.json").read_text())
+    sources = [
+        "scripts/exhaustive_evaluation/run_real_development.py",
+        "src/shiftlab/sota_search/combination_screen.py",
+        "src/shiftlab/sota_search/published_baselines.py",
+    ]
+    value = {
+        "registered_utc": datetime.now(UTC).isoformat(),
+        "stage": "retrospective development, NOT confirmation",
+        "datasets": manifests,
+        "replicate_query_paths": 16,
+        "query_seed": 202613000,
+        "target": "binary demand/pollution above training-only median; one-hour-ahead calendar-only prediction",
+        "task_cost": "false negative 5, false positive 1, divided by 5",
+        "preprocessing": "calendar only; no target lags, same-hour weather, casual or registered columns",
+        "models": "LogisticRegression C=1 max_iter=500; HistGradientBoosting max_iter=100 max_leaf_nodes=15 l2=1",
+        "main_comparator": "frozen incumbent/no switch",
+        "other_comparators": "always frozen challenger; constant-positive action",
+        "monitor_configs": IDS,
+        "monitor_references": ["RCPS_FTL_adapter", "PR_PM_EB", "PPRM_batch_CM_EB"],
+        "feedback": "fixed delay 5 eligible observations; not measured publication latency or five clock hours",
+        "missing": "complete-case scoring; no future imputation; excluded target-missing rows reported",
+        "fraction": 0.2,
+        "alpha": 0.04,
+        "source_alpha": 0.01,
+        "query_costs": [0.0, 0.001, 0.01],
+        "switch_costs": [0.1, 1.0, 5.0],
+        "primary": "realized decision + query + one-switch cost; all cost scenarios reported",
+        "safety": "alarm-triggered challenger switch is a heuristic, not a positive-benefit certificate; no validity claim on serial data",
+        "sources_sha256": {p: sha(ROOT / p) for p in sources},
+    }
+    REG.write_text(json.dumps(value, indent=2), encoding="utf-8")
+    for p in sources:
+        (DOC / ("real_dev_executed_" + Path(p).name + ".txt")).write_bytes((ROOT / p).read_bytes())
+    print("Registered two development tasks; final datasets excluded", flush=True)
+
+
+def run():
+    reg = json.loads(REG.read_text())
+    assert all(sha(ROOT / p) == v for p, v in reg["sources_sha256"].items())
+    statusfile = DOC / "real_development_status.json"
+    if statusfile.exists():
+        raise FileExistsError("inspect existing run before resuming")
+    OUT.mkdir(parents=True, exist_ok=True)
+    status = {"status": "running", "registration_sha256": sha(REG), "completed": []}
+    statusfile.write_text(json.dumps(status, indent=2), encoding="utf-8")
+    rows = []
+    modelrows = []
+    for j, meta in enumerate(reg["datasets"]):
+        name = meta["dataset"]
+        data = ROOT / f"outputs/exhaustive_evaluation/real_data/{name}_development.parquet"
+        df = pd.read_parquet(data)
+        clock = pd.to_datetime(df.event_time)
+        assert (clock < pd.Timestamp(meta["split"]["development_end"])).all()
+        target = "cnt" if name == "bike" else "pm2.5"
+        missing = df[target].isna()
+        df = df.loc[~missing].copy()
+        clock = pd.to_datetime(df.event_time)
+        X = calendar_features(clock)
+        train = clock < pd.Timestamp(meta["split"]["train_end"])
+        cal = (clock >= pd.Timestamp(meta["split"]["train_end"])) & (
+            clock < pd.Timestamp(meta["split"]["calibration_end"])
+        )
+        dev = clock >= pd.Timestamp(meta["split"]["calibration_end"])
+        assert train.any() and cal.any() and dev.any()
+        threshold = float(df.loc[train, target].median())
+        y = (df[target].to_numpy() >= threshold).astype(int)
+        linear = make_pipeline(StandardScaler(), LogisticRegression(C=1, max_iter=500))
+        strong = HistGradientBoostingClassifier(
+            max_iter=100, max_leaf_nodes=15, l2_regularization=1, random_state=17
+        )
+        linear.fit(X[train], y[train])
+        strong.fit(X[train], y[train])
+        p = linear.predict_proba(X)[:, 1]
+        p2 = strong.predict_proba(X)[:, 1]
+
+        def loss(pp, outcomes=y):
+            return np.where(pp >= 1 / 6, (1 - outcomes) / 5, outcomes)
+
+        l1, l2 = loss(p), loss(p2)
+        calibration_loss = l1[cal]
+        upper = min(
+            1,
+            float(
+                calibration_loss.mean() + np.sqrt(np.log(1 / reg["source_alpha"]) / (2 * cal.sum()))
+            ),
+        )
+        b0 = float(np.mean((p[cal] - y[cal]) ** 2))
+        pp, yy = p[dev], y[dev]
+        T = len(pp)
+        S = reg["replicate_query_paths"]
+        B = int(reg["fraction"] * T)
+
+        def repeat(v, shape=(S, T)):
+            return np.broadcast_to(v, shape).copy()
+
+        st = {
+            "loss": repeat(l1[dev]),
+            "proxy": repeat(np.where(pp >= 1 / 6, (1 - pp) / 5, pp)),
+            "score": repeat(pp),
+            "brier": repeat((pp - yy) ** 2),
+            "proxy_brier": repeat(pp * (1 - pp)),
+            "r0": upper,
+            "b0": b0,
+            "proxy_max": 1 / 6,
+            "bproxy_max": 0.25,
+        }
+        seed = reg["query_seed"] + j
+        kw = {"budget": B, "delay": 5, "seed": seed, "alpha": reg["alpha"]}
+        candidates = screen(st, CONFIGS, frac=reg["fraction"], return_accounting=True, **kw)
+        monitors = [(tag, {k: v[i] for k, v in candidates.items()}) for i, tag in enumerate(IDS)]
+        for tag, fn in zip(
+            reg["monitor_references"],
+            (active_rcps_cost, pr_empirical_bernstein, pprm_batch_cost),
+            strict=True,
+        ):
+            extra = {} if fn == pprm_batch_cost else {"frac": reg["fraction"]}
+            result = fn(st, **extra, **kw)
+            result["labels_at_alarm"] = queries_before_alarm(
+                result, shape=(S, T), seed=seed, budget=B, batched=fn == pprm_batch_cost
+            )
+            monitors.append((tag, result))
+        for tag, result in monitors:
+            np.savez_compressed(OUT / f"{name}_{tag}.npz", **result)
+            for k, alarm in enumerate(result["first"]):
+                deployed = np.where(np.arange(T) < alarm, l1[dev], l2[dev])
+                decision = float(deployed.sum())
+                for qc in reg["query_costs"]:
+                    for sc in reg["switch_costs"]:
+                        cost = decision + qc * result["labels_at_alarm"][k] + sc * (alarm < T)
+                        rows.append(
+                            {
+                                "dataset": name,
+                                "monitor": tag,
+                                "path": k,
+                                "alarm": int(alarm),
+                                "horizon": T,
+                                "queried_before_stop": int(result["labels_at_alarm"][k]),
+                                "query_cost": qc,
+                                "switch_cost": sc,
+                                "total_cost": cost,
+                                "decision_cost": decision,
+                                "delta_vs_incumbent": cost - float(l1[dev].sum()),
+                            }
+                        )
+        modelrows.append(
+            {
+                "dataset": name,
+                "train_rows": int(train.sum()),
+                "calibration_rows": int(cal.sum()),
+                "development_rows": int(dev.sum()),
+                "missing_rows_excluded": int(missing.sum()),
+                "threshold": threshold,
+                "incumbent_cost": float(l1[dev].sum()),
+                "challenger_cost": float(l2[dev].sum()),
+                "constant_positive_cost": float(((1 - y[dev]) / 5).sum()),
+                "nominal_upper": upper,
+                "nominal_mean": float(calibration_loss.mean()),
+                "target_definition": "training median threshold",
+                "population": "complete-case retrospective scoring",
+                "data_sha256": sha(data),
+            }
+        )
+        pd.DataFrame(rows).to_csv(OUT / "per_path_costs.csv", index=False)
+        pd.DataFrame(modelrows).to_csv(OUT / "model_summary.csv", index=False)
+        status["completed"].append(name)
+        statusfile.write_text(json.dumps(status, indent=2), encoding="utf-8")
+        print(name, modelrows[-1], flush=True)
+    summary = (
+        pd.DataFrame(rows)
+        .groupby(["dataset", "monitor", "query_cost", "switch_cost"], as_index=False)[
+            ["total_cost", "delta_vs_incumbent", "queried_before_stop"]
+        ]
+        .mean()
+    )
+    summary.to_csv(OUT / "summary.csv", index=False)
+    status.update(
+        status="completed",
+        finished_utc=datetime.now(UTC).isoformat(),
+        summary_sha256=sha(OUT / "summary.csv"),
+    )
+    statusfile.write_text(json.dumps(status, indent=2), encoding="utf-8")
+
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    parser.add_argument("action", choices=["register", "run"])
+    args = parser.parse_args()
+    register() if args.action == "register" else run()

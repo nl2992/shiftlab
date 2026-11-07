@@ -1,0 +1,33 @@
+{
+  "git_head": "dc584bd235669363c7237708f117b041f2d026d8",
+  "git_dirty": true,
+  "frozen_sha256": {
+    "b1_certified_switching.py": "7565a647f3bb3f940d4fbd2a948597b9ffe42ef0485550a771d137e7930baebd",
+    "b3_real_data.py": "2550728b4738d6afad4739d8880ca91838f54c8fe57930009fb4fabb83af7a69",
+    "b3_plus_policy.py": "1d0569f38126edf46c9c497fada488ce24c09c61cf815562bbbb845fdb4bbb9f",
+    "b3_plus_baselines.py": "794051b75770aa35d1ead89e506c652c1e97e70d53e2a959bc892769eb16aec5",
+    "b3_plus_experiments.py": "49b034696a2f401d6fcbaa1a44cfe3c59c1c28a7f99b2a68cbcb59b663e12558",
+    "b3_plus_analysis.py": "050cab5cd12788a0abef410aa82251961bacfe6cdb8bedf88791624f96e87ebf"
+  },
+  "screening_protocol_sha256": "b73cbc99b30bf2df9210265dfc14d346eb90180987ac7f718d9ec33bed4f4a5c",
+  "raw_files": {
+    "Insects/abrupt_balanced.csv": {
+      "bytes": 14151769,
+      "sha256": "f368a6f4b7f28ce2e9aa0a9e542e1f6924999cae3e8607f0637549798cb7b94a"
+    }
+  },
+  "python": "3.12.2 | packaged by conda-forge | (main, Feb 16 2024, 20:54:21) [Clang 16.0.6 ]",
+  "platform": "macOS-15.5-arm64-arm-64bit",
+  "packages": {
+    "numpy": "2.5.4",
+    "scipy": "1.18.1",
+    "pandas": "3.0.6",
+    "scikit-learn": "1.9.1",
+    "river": "0.26.1"
+  },
+  "argv": [
+    "research/b3_plus/dataset_discovery/screen_candidate.py",
+    "insects_abrupt_balanced"
+  ],
+  "utc": "2026-11-02T23:29:38.747939+00:00"
+}

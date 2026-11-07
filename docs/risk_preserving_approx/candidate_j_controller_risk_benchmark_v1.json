@@ -1,0 +1,38 @@
+{
+  "status": "pass",
+  "protocol": "docs/risk_preserving_approx/CANDIDATE_J_RISK_DP_PROTOCOL_V1.md",
+  "protocol_sha256": "76c18f7f21fae2f059bbbabb0e1fc5f292da614009923b766d2ece5c1088a0ab",
+  "script_sha256": "cdf319416d6b08e5c9d2acca33b7525ef349d4198323b80042ecfa69c0c344bd",
+  "parameters": {
+    "horizon": 18,
+    "budget": 18,
+    "delay": 2,
+    "consecutive_positive_threshold": 4,
+    "controller_memory_states": 4
+  },
+  "exact_null_risk": "809/2048",
+  "product_state_verifier": {
+    "visited_states": 235,
+    "wall_seconds": 0.009639800060540438,
+    "tracemalloc_peak_bytes": 119951
+  },
+  "full_history_reference": {
+    "policy_history_states": 170975,
+    "wall_seconds": 41.01051459996961,
+    "tracemalloc_peak_bytes": 159387567
+  },
+  "ratios_full_history_over_product": {
+    "states": 727.5531914893617,
+    "wall_seconds": 4254.290995914124
+  },
+  "thresholds": {
+    "state_ratio_at_least": 10,
+    "speed_ratio_at_least": 2,
+    "passed": true
+  },
+  "scope": "Fixed-controller exact null-risk verification only; not a controller optimizer, value-gap result, novelty result, or real-data evaluation.",
+  "sources_sha256": {
+    "src/shiftlab/dive/risk_preserving_approx/controller_risk_verifier.py": "21454264ec3d18d9007fb148736dcb9a5a28be76d3e0556c1340911227f83049",
+    "src/shiftlab/dive/causal_switching_game.py": "54b1347c3e213407b3feb09a801dc9ea40b3663fe6a4a227b7878b9b0a2d770a"
+  }
+}

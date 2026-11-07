@@ -1,0 +1,49 @@
+{
+  "windows": {
+    "n15": 3084,
+    "n30": 6168,
+    "n60": 12336,
+    "n": 20560
+  },
+  "binarisation": {
+    "rule": "class0_vs_rest",
+    "target_class": 0,
+    "classes": [
+      0,
+      1
+    ],
+    "class0_rate_train": 0.6574254215304799,
+    "target_rate_train": 0.6574254215304799,
+    "n_classes_train": 2
+  },
+  "positive_rate_dev_window": 0.8448443579766537,
+  "featurizer": "dense",
+  "options_tried_in_order": [
+    {
+      "name": "A",
+      "challenger": "HGB",
+      "train": "0-30%",
+      "dev": {
+        "dev_rows": 6168,
+        "disagree": 0.189526588845655,
+        "inc_err_dev": 0.17704280155642024,
+        "chal_err_dev": 0.0325875486381323,
+        "adv_per_event": 0.14445525291828795,
+        "adv_times_T": 288.9105058365759,
+        "cs": 5.0,
+        "T": 2000,
+        "cond_disagree_ge_0.02": true,
+        "cond_challenger_better": true,
+        "cond_adv_T_gt_cs": true,
+        "passes": true
+      }
+    }
+  ],
+  "chosen": {
+    "name": "A",
+    "challenger": "HGB",
+    "train": "0-30%"
+  },
+  "inc_err_dev": 0.17704280155642024,
+  "selection_inputs": "rows [0, 60%) only"
+}

@@ -1,0 +1,51 @@
+{
+  "runs": [
+    {
+      "git_head": "69322b1fd946614d8e93688fc0a51c8a84b509c2",
+      "git_dirty": true,
+      "losses_files_sha256": {
+        "/Users/nigelli/Desktop/ICML/Shift-lab/.claude/worktrees/shiftlab-b3-plus-icml-fcc9c6/docs/promising_directions/results/b3/losses/rialto.npz": "92f4cc16aa2168aea1e34952bc9f5ed208bd7dabc32728dcb28f2eb1ca69ba11",
+        "/Users/nigelli/Desktop/ICML/Shift-lab/.claude/worktrees/shiftlab-b3-plus-icml-fcc9c6/docs/promising_directions/results/b3/losses/spam.npz": "aebede86f8e5135c45b3694874e01796710b7b714cebaf47ffc79e08bda7ea46",
+        "/Users/nigelli/Desktop/ICML/Shift-lab/.claude/worktrees/shiftlab-b3-plus-icml-fcc9c6/docs/promising_directions/results/b3/losses/weather.npz": "d06e40a08902209ff48a3850c0d81b3b80ed85caba75670e90ff365d27e388d4",
+        "/Users/nigelli/Desktop/ICML/Shift-lab/.claude/worktrees/shiftlab-b3-plus-icml-fcc9c6/docs/promising_directions/results/b3/pairs_check.json": "60ab1f5980d69160711d09751876753c40eaec71656f2b9535229a1a1a8726e5"
+      },
+      "b3_plus_policy_sha256": "1d0569f38126edf46c9c497fada488ce24c09c61cf815562bbbb845fdb4bbb9f",
+      "b3_plus_baselines_sha256": "794051b75770aa35d1ead89e506c652c1e97e70d53e2a959bc892769eb16aec5",
+      "b3_plus_experiments_sha256": "15937830826c2e106576b32ffba8e98cc9b8d18a43e32dcb73d30151cad297d7",
+      "b1_pinned_commit": "041bc26",
+      "b1_record": {
+        "commit": "041bc26",
+        "source": "worktree file (git diff --quiet 041bc26 is clean)",
+        "path": "/Users/nigelli/Desktop/ICML/Shift-lab/.claude/worktrees/shiftlab-b3-plus-icml-fcc9c6/scripts/promising_directions/b1_certified_switching.py",
+        "sha256": "7565a647f3bb3f940d4fbd2a948597b9ffe42ef0485550a771d137e7930baebd"
+      },
+      "python": "3.12.2 | packaged by conda-forge | (main, Feb 16 2024, 20:54:21) [Clang 16.0.6 ]",
+      "platform": "macOS-15.5-arm64-arm-64bit",
+      "packages": {
+        "numpy": "2.5.4",
+        "scipy": "1.18.1",
+        "pandas": "3.0.6",
+        "scikit-learn": "1.9.1"
+      },
+      "argv": [
+        "scripts/promising_directions/b3_plus_experiments.py",
+        "--streams",
+        "spam,rialto,weather",
+        "--variants",
+        "P3b,P4ref,P7a,P7b,P7s",
+        "--config",
+        "S0",
+        "--horizon",
+        "2000",
+        "--n-seeds",
+        "100",
+        "--out",
+        "docs/promising_directions/results/b3_plus/ablation"
+      ],
+      "seed_base": 20261101,
+      "n_seeds": 100,
+      "p1_note": "P1 is a hindsight reference, not a deployable policy",
+      "utc": "2026-11-03T04:00:30.505453+00:00"
+    }
+  ]
+}

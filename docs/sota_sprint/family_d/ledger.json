@@ -1,0 +1,353 @@
+{
+ "D1": {
+  "id": "D1",
+  "implementation": "scripts/sota_sprint/fam_d.py:DeployGate(host=ModelPickerDeploymentAdapter, cert=StartedMixture, acq='host_pref', rollback=False)",
+  "run_config": [
+   "uv run python scripts/sota_sprint/screen.py --regimes F0_better,F9_bursty_better,F7_near_better,F1_late_800,F0_null,F0_worse,F5_dep_null_r8,F3_reversal_800,F4_recurrent --policies \"D1,D2,D3,D4,D5,D6:mp,D6:cams,D6:ms,D1-host_only,D1-always,D1-no_and,D1-no_share,D2-host_only,D3-gated,D4-no_reserve,D4-r10,D5-standin_env8,model_picker_adapter,cams_adapter,model_selector_causal,online_llm_picker,variance_min_ipw,economic_replacement,xu_acquisition_only,gated_adaptive_range+front,gated_adaptive_range,SMCS+retain-incumbent,QSG,QSG-env8,A1,CONTROL_never_switch\" --seeds 20 --workers 3 --out outputs/sota_sprint/D/screen1",
+   "uv run python scripts/sota_sprint/screen.py --regimes F0_better,F9_bursty_better,F7_near_better,F1_late_800,F0_null,F0_worse,F5_dep_null_r8,F3_reversal_800,F4_recurrent --policies D6-D1params:ms,model_selector_causal --seeds 20 --workers 3 --out outputs/sota_sprint/D/screen1b",
+   "uv run python scripts/sota_sprint/analyze.py outputs/sota_sprint/D/screen1 outputs/sota_sprint/D/screen1b --candidates D1,D2,D3,D4,D5,D6:mp,D6:cams,D6:ms,D6-D1params:ms --hosts D1=model_picker_adapter,D2=cams_adapter,D3=model_selector_causal,D4=model_picker_adapter,D5=cams_adapter,D6:mp=model_picker_adapter,D6:cams=cams_adapter,D6:ms=model_selector_causal,D6-D1params:ms=model_selector_causal --out docs/sota_sprint/family_d/screen1.json",
+   "uv run python scripts/sota_sprint/screen.py --regimes F0_null,F5_dep_null_r8 --policies D1,D2,D5,D6:mp,D6:cams,D6:ms,D6-D1params:ms,QSG,model_picker_adapter,cams_adapter,CONTROL_never_switch --seeds 300 --seed-base 2026110514 --workers 3 --out outputs/sota_sprint/D/null300",
+   "uv run python scripts/sota_sprint/screen.py --regimes F5_dep_null_r8 --policies xu_acquisition_only,gated_adaptive_range+front,SMCS+retain-incumbent,CONTROL_never_switch --seeds 300 --seed-base 2026110514 --workers 3 --out outputs/sota_sprint/D/null300_cert",
+   "uv run python scripts/sota_sprint/analyze.py outputs/sota_sprint/D/null300 --candidates D1,D2,D5,D6:mp,D6:cams,D6:ms,D6-D1params:ms --hosts D1=model_picker_adapter,D2=cams_adapter,D3=model_selector_causal,D4=model_picker_adapter,D5=cams_adapter,D6:mp=model_picker_adapter,D6:cams=cams_adapter,D6:ms=model_selector_causal,D6-D1params:ms=model_selector_causal --out docs/sota_sprint/family_d/null300.json"
+  ],
+  "seed_manifest": {
+   "dev": {
+    "seed_base": 2026110501,
+    "seeds": "0-19",
+    "regimes": [
+     "F0_better",
+     "F9_bursty_better",
+     "F7_near_better",
+     "F1_late_800",
+     "F0_null",
+     "F0_worse",
+     "F5_dep_null_r8",
+     "F3_reversal_800",
+     "F4_recurrent"
+    ]
+   },
+   "null_check": {
+    "seed_base": 2026110514,
+    "seeds": "0-299",
+    "regimes": [
+     "F0_null",
+     "F5_dep_null_r8"
+    ]
+   }
+  },
+  "results_artifact": [
+   "outputs/sota_sprint/D/screen1/records.jsonl",
+   "docs/sota_sprint/family_d/screen1.json",
+   "docs/sota_sprint/family_d/screen1.md",
+   "docs/sota_sprint/family_d/ablations.json",
+   "outputs/sota_sprint/D/null300/records.jsonl",
+   "outputs/sota_sprint/D/null300_cert/records.jsonl",
+   "docs/sota_sprint/family_d/null300.json"
+  ],
+  "status": "SCREENED_PROMISING",
+  "key_numbers": {
+   "F0_better": "J 363.8; vs host MP +24.0 [+14.2,+33.8]; vs best certified (xu_acquisition_only) -15.7 [-31.6,+0.2]; vs best uncertified (variance_min_ipw) +24.1; promote 20/20; switches 1.00; labels 124",
+   "F1_late_800": "J 384.4; vs best certified (gated_adaptive_range+front) -12.0 [-20.6,-3.4]; vs MP +15.7",
+   "F7_near_better": "vs best certified (SMCS) -9.7 [-20.6,+1.3]; vs MP +19.7",
+   "F9_bursty_better": "vs best certified (gated_adaptive_range+front) -4.9 [-14.7,+4.9]; vs MP +27.2",
+   "F3_reversal_800": "vs MP +28.6; vs best certified +17.0 [-6.5,+40.4] (no rollback)",
+   "F4_recurrent": "vs MP -12.7; vs best certified +18.3",
+   "F0_null": "promote 0/20 dev, 5/300 (.017, Wilson95 [.007,.038]) null check; switches .02; vs MP -44.0 [-60.5,-27.5]; vs best certified -1.4",
+   "F0_worse": "promote 0/20; vs MP -9.3",
+   "F5_dep_null_r8": "promote 2/20 dev, 53/300 = .177 [.138,.224] FAILS registered bound .0936 (certified published on same 300 seeds: xu .073, gated+front .067, SMCS .083; QSG .247)"
+  },
+  "ablation": {
+   "host-steered vs always front-load (D1 - D1-always)": "F1_late_800 -8.6 [-20.0,+2.8]; F0_null -1.8 [-2.7,-0.8]; F0_worse -2.6; F5 dev promote .10 vs .20; F0_better +0.6 (n.s.)",
+   "gate front-loading vs pure veto (D1 - D1-host_only)": "F0_better -48.1 [-62.9,-33.4]; F9 -49.8; null +3.4 (labels); pure veto starves the certificate",
+   "host-agreement AND (D1 - D1-no_and)": "identical on every seed: inert in the two-model task",
+   "share gate labels with host": "F0_better -4.9 [-13.2,+3.4] (n.s.)"
+  },
+  "disposition": "Cheapest certified-style policy on iid alternatives and on F1 late onset; null control holds on iid nulls (F0_null 5/300) but the iid started-mixture evidence fails the rho=.8 Markov null (17.7% of 300). Not advanceable as-is under the registered null bound.",
+  "next_action": "Advance the wrapper (D1 parameters) only with a dependence-valid evidence process that retains power (A-family output); re-screen F5 null at 300 seeds; add rollback only if a reversal-capable reserve stops costing on alternatives."
+ },
+ "D2": {
+  "id": "D2",
+  "implementation": "scripts/sota_sprint/fam_d.py:DeployGate(host=CAMSDeploymentAdapter[constant policies], same parameters as D1)",
+  "run_config": [
+   "uv run python scripts/sota_sprint/screen.py --regimes F0_better,F9_bursty_better,F7_near_better,F1_late_800,F0_null,F0_worse,F5_dep_null_r8,F3_reversal_800,F4_recurrent --policies \"D1,D2,D3,D4,D5,D6:mp,D6:cams,D6:ms,D1-host_only,D1-always,D1-no_and,D1-no_share,D2-host_only,D3-gated,D4-no_reserve,D4-r10,D5-standin_env8,model_picker_adapter,cams_adapter,model_selector_causal,online_llm_picker,variance_min_ipw,economic_replacement,xu_acquisition_only,gated_adaptive_range+front,gated_adaptive_range,SMCS+retain-incumbent,QSG,QSG-env8,A1,CONTROL_never_switch\" --seeds 20 --workers 3 --out outputs/sota_sprint/D/screen1",
+   "uv run python scripts/sota_sprint/screen.py --regimes F0_better,F9_bursty_better,F7_near_better,F1_late_800,F0_null,F0_worse,F5_dep_null_r8,F3_reversal_800,F4_recurrent --policies D6-D1params:ms,model_selector_causal --seeds 20 --workers 3 --out outputs/sota_sprint/D/screen1b",
+   "uv run python scripts/sota_sprint/analyze.py outputs/sota_sprint/D/screen1 outputs/sota_sprint/D/screen1b --candidates D1,D2,D3,D4,D5,D6:mp,D6:cams,D6:ms,D6-D1params:ms --hosts D1=model_picker_adapter,D2=cams_adapter,D3=model_selector_causal,D4=model_picker_adapter,D5=cams_adapter,D6:mp=model_picker_adapter,D6:cams=cams_adapter,D6:ms=model_selector_causal,D6-D1params:ms=model_selector_causal --out docs/sota_sprint/family_d/screen1.json",
+   "uv run python scripts/sota_sprint/screen.py --regimes F0_null,F5_dep_null_r8 --policies D1,D2,D5,D6:mp,D6:cams,D6:ms,D6-D1params:ms,QSG,model_picker_adapter,cams_adapter,CONTROL_never_switch --seeds 300 --seed-base 2026110514 --workers 3 --out outputs/sota_sprint/D/null300",
+   "uv run python scripts/sota_sprint/screen.py --regimes F5_dep_null_r8 --policies xu_acquisition_only,gated_adaptive_range+front,SMCS+retain-incumbent,CONTROL_never_switch --seeds 300 --seed-base 2026110514 --workers 3 --out outputs/sota_sprint/D/null300_cert",
+   "uv run python scripts/sota_sprint/analyze.py outputs/sota_sprint/D/null300 --candidates D1,D2,D5,D6:mp,D6:cams,D6:ms,D6-D1params:ms --hosts D1=model_picker_adapter,D2=cams_adapter,D3=model_selector_causal,D4=model_picker_adapter,D5=cams_adapter,D6:mp=model_picker_adapter,D6:cams=cams_adapter,D6:ms=model_selector_causal,D6-D1params:ms=model_selector_causal --out docs/sota_sprint/family_d/null300.json"
+  ],
+  "seed_manifest": {
+   "dev": {
+    "seed_base": 2026110501,
+    "seeds": "0-19",
+    "regimes": [
+     "F0_better",
+     "F9_bursty_better",
+     "F7_near_better",
+     "F1_late_800",
+     "F0_null",
+     "F0_worse",
+     "F5_dep_null_r8",
+     "F3_reversal_800",
+     "F4_recurrent"
+    ]
+   },
+   "null_check": {
+    "seed_base": 2026110514,
+    "seeds": "0-299",
+    "regimes": [
+     "F0_null",
+     "F5_dep_null_r8"
+    ]
+   }
+  },
+  "results_artifact": [
+   "outputs/sota_sprint/D/screen1/records.jsonl",
+   "docs/sota_sprint/family_d/screen1.json",
+   "docs/sota_sprint/family_d/screen1.md",
+   "docs/sota_sprint/family_d/ablations.json",
+   "outputs/sota_sprint/D/null300/records.jsonl",
+   "outputs/sota_sprint/D/null300_cert/records.jsonl",
+   "docs/sota_sprint/family_d/null300.json"
+  ],
+  "status": "SCREENED_PROMISING",
+  "key_numbers": {
+   "F0_better": "J 361.2; vs host CAMS +20.7 [+11.2,+30.3]; vs best certified (xu) -18.2 [-30.8,-5.7]; promote 19/20; switches .95; labels 125",
+   "F9_bursty_better": "vs best certified -9.7 [-21.9,+2.5]",
+   "F1_late_800": "vs best certified -2.4 [-7.9,+3.2]",
+   "F7_near_better": "vs best certified -5.3 [-18.9,+8.3]",
+   "F3_reversal_800": "vs CAMS +18.5; vs best certified +16.4",
+   "F0_null": "promote 0/20 dev, 6/300 (.020) check; vs CAMS -66.6 [-89.0,-44.1]; vs best certified +0.3",
+   "F5_dep_null_r8": "promote 4/20 dev, 54/300 = .180 [.141,.227] FAILS bound .0936"
+  },
+  "ablation": {
+   "gate front-loading vs pure veto (D2 - D2-host_only)": "F0_better -13.1 [-29.2,+3.1]; F9 -14.0 [-27.6,-0.4]"
+  },
+  "disposition": "Same module and parameters as D1 on an independent host; same profile (cheaper than best certified on iid alternatives, fails rho=.8 Markov null). Information preserved: CAMS keeps its constant-policy advice, its weighted-entropy query rule and private RNG; gate labels reach CAMS with frozen issue-time E and the combined propensity.",
+  "next_action": "Treat as transfer evidence for the D1 wrapper; advance jointly with D1 under dependence-valid evidence."
+ },
+ "D3": {
+  "id": "D3",
+  "implementation": "scripts/sota_sprint/fam_d.py:SelectThenMonitor(host=ModelSelectorCausalAdapter, n_select=100, StartedMixture monitor)",
+  "run_config": [
+   "uv run python scripts/sota_sprint/screen.py --regimes F0_better,F9_bursty_better,F7_near_better,F1_late_800,F0_null,F0_worse,F5_dep_null_r8,F3_reversal_800,F4_recurrent --policies \"D1,D2,D3,D4,D5,D6:mp,D6:cams,D6:ms,D1-host_only,D1-always,D1-no_and,D1-no_share,D2-host_only,D3-gated,D4-no_reserve,D4-r10,D5-standin_env8,model_picker_adapter,cams_adapter,model_selector_causal,online_llm_picker,variance_min_ipw,economic_replacement,xu_acquisition_only,gated_adaptive_range+front,gated_adaptive_range,SMCS+retain-incumbent,QSG,QSG-env8,A1,CONTROL_never_switch\" --seeds 20 --workers 3 --out outputs/sota_sprint/D/screen1",
+   "uv run python scripts/sota_sprint/screen.py --regimes F0_better,F9_bursty_better,F7_near_better,F1_late_800,F0_null,F0_worse,F5_dep_null_r8,F3_reversal_800,F4_recurrent --policies D6-D1params:ms,model_selector_causal --seeds 20 --workers 3 --out outputs/sota_sprint/D/screen1b",
+   "uv run python scripts/sota_sprint/analyze.py outputs/sota_sprint/D/screen1 outputs/sota_sprint/D/screen1b --candidates D1,D2,D3,D4,D5,D6:mp,D6:cams,D6:ms,D6-D1params:ms --hosts D1=model_picker_adapter,D2=cams_adapter,D3=model_selector_causal,D4=model_picker_adapter,D5=cams_adapter,D6:mp=model_picker_adapter,D6:cams=cams_adapter,D6:ms=model_selector_causal,D6-D1params:ms=model_selector_causal --out docs/sota_sprint/family_d/screen1.json"
+  ],
+  "seed_manifest": {
+   "seed_base": 2026110501,
+   "seeds": "0-19",
+   "regimes": [
+    "F0_better",
+    "F9_bursty_better",
+    "F7_near_better",
+    "F1_late_800",
+    "F0_null",
+    "F0_worse",
+    "F5_dep_null_r8",
+    "F3_reversal_800",
+    "F4_recurrent"
+   ]
+  },
+  "results_artifact": [
+   "outputs/sota_sprint/D/screen1/records.jsonl",
+   "docs/sota_sprint/family_d/screen1.json",
+   "docs/sota_sprint/family_d/screen1.md",
+   "docs/sota_sprint/family_d/ablations.json"
+  ],
+  "status": "SCREENED_NEGATIVE",
+  "key_numbers": {
+   "F0_null": "promote 19/20, switches 4.35; vs native MS -11.3 [-18.9,-3.6]; vs best certified +24.0",
+   "F5_dep_null_r8": "promote 19/20; vs MS -10.8",
+   "F0_better": "identical to MS (-0.0)",
+   "F4_recurrent": "vs MS -8.1 [-15.1,-1.0]",
+   "F3_reversal_800": "vs MS -6.0 [-16.6,+4.6]"
+  },
+  "ablation": {
+   "monitoring vs native (D3 - model_selector_causal)": "null -11.3, F4 -8.1, alternatives ~0",
+   "gate the initial selection (D3-gated - D3)": "F0_null -23.7, F5 -19.7, but F0_better +49.5, F9 +56.1, F7 +33.4"
+  },
+  "disposition": "Post-decision monitoring reduces churn after selection but the initial Model Selector selection is uncertified, so null promotion stays ~95%. Gating the initial selection (D3-gated) fixes nulls but loses 33-56 on alternatives. Dominated by D6 on the same host.",
+  "next_action": "Stop as a standalone; the monitoring mechanism is subsumed by the D6 wrapper's rollback test."
+ },
+ "D4": {
+  "id": "D4",
+  "implementation": "scripts/sota_sprint/fam_d.py:DeployGate(host=MP, rollback=True, reserve=0.25, alpha_r=.05, paced rollback monitoring)",
+  "run_config": [
+   "uv run python scripts/sota_sprint/screen.py --regimes F0_better,F9_bursty_better,F7_near_better,F1_late_800,F0_null,F0_worse,F5_dep_null_r8,F3_reversal_800,F4_recurrent --policies \"D1,D2,D3,D4,D5,D6:mp,D6:cams,D6:ms,D1-host_only,D1-always,D1-no_and,D1-no_share,D2-host_only,D3-gated,D4-no_reserve,D4-r10,D5-standin_env8,model_picker_adapter,cams_adapter,model_selector_causal,online_llm_picker,variance_min_ipw,economic_replacement,xu_acquisition_only,gated_adaptive_range+front,gated_adaptive_range,SMCS+retain-incumbent,QSG,QSG-env8,A1,CONTROL_never_switch\" --seeds 20 --workers 3 --out outputs/sota_sprint/D/screen1",
+   "uv run python scripts/sota_sprint/screen.py --regimes F0_better,F9_bursty_better,F7_near_better,F1_late_800,F0_null,F0_worse,F5_dep_null_r8,F3_reversal_800,F4_recurrent --policies D6-D1params:ms,model_selector_causal --seeds 20 --workers 3 --out outputs/sota_sprint/D/screen1b",
+   "uv run python scripts/sota_sprint/analyze.py outputs/sota_sprint/D/screen1 outputs/sota_sprint/D/screen1b --candidates D1,D2,D3,D4,D5,D6:mp,D6:cams,D6:ms,D6-D1params:ms --hosts D1=model_picker_adapter,D2=cams_adapter,D3=model_selector_causal,D4=model_picker_adapter,D5=cams_adapter,D6:mp=model_picker_adapter,D6:cams=cams_adapter,D6:ms=model_selector_causal,D6-D1params:ms=model_selector_causal --out docs/sota_sprint/family_d/screen1.json",
+   "uv run python scripts/sota_sprint/screen.py --regimes F0_null,F5_dep_null_r8 --policies D1,D2,D5,D6:mp,D6:cams,D6:ms,D6-D1params:ms,QSG,model_picker_adapter,cams_adapter,CONTROL_never_switch --seeds 300 --seed-base 2026110514 --workers 3 --out outputs/sota_sprint/D/null300",
+   "uv run python scripts/sota_sprint/screen.py --regimes F5_dep_null_r8 --policies xu_acquisition_only,gated_adaptive_range+front,SMCS+retain-incumbent,CONTROL_never_switch --seeds 300 --seed-base 2026110514 --workers 3 --out outputs/sota_sprint/D/null300_cert",
+   "uv run python scripts/sota_sprint/analyze.py outputs/sota_sprint/D/null300 --candidates D1,D2,D5,D6:mp,D6:cams,D6:ms,D6-D1params:ms --hosts D1=model_picker_adapter,D2=cams_adapter,D3=model_selector_causal,D4=model_picker_adapter,D5=cams_adapter,D6:mp=model_picker_adapter,D6:cams=cams_adapter,D6:ms=model_selector_causal,D6-D1params:ms=model_selector_causal --out docs/sota_sprint/family_d/null300.json"
+  ],
+  "seed_manifest": {
+   "dev": {
+    "seed_base": 2026110501,
+    "seeds": "0-19",
+    "regimes": [
+     "F0_better",
+     "F9_bursty_better",
+     "F7_near_better",
+     "F1_late_800",
+     "F0_null",
+     "F0_worse",
+     "F5_dep_null_r8",
+     "F3_reversal_800",
+     "F4_recurrent"
+    ]
+   },
+   "null_check": {
+    "seed_base": 2026110514,
+    "seeds": "0-299",
+    "regimes": [
+     "F0_null",
+     "F5_dep_null_r8"
+    ]
+   }
+  },
+  "results_artifact": [
+   "outputs/sota_sprint/D/screen1/records.jsonl",
+   "docs/sota_sprint/family_d/screen1.json",
+   "docs/sota_sprint/family_d/screen1.md",
+   "docs/sota_sprint/family_d/ablations.json",
+   "outputs/sota_sprint/D/null300/records.jsonl",
+   "outputs/sota_sprint/D/null300_cert/records.jsonl",
+   "docs/sota_sprint/family_d/null300.json"
+  ],
+  "status": "SCREENED_NEGATIVE",
+  "key_numbers": {
+   "F0_better": "J 383.1; vs D1 +19.4; vs best certified +3.7 [-15.5,+22.9]; promote 14/20",
+   "F3_reversal_800": "vs MP +21.4; vs best certified +9.8; switches 1.45",
+   "F0_null": "promote 0/20 dev, 4/300 (=D6:mp)",
+   "F5_dep_null_r8": "51/300 = .170 FAILS bound"
+  },
+  "ablation": {
+   "reserve .25 vs 0 (D4 - D4-no_reserve)": "F0_better +15.6 [+3.9,+27.3]; F4 -6.1; null -1.4",
+   "reserve .10 vs 0": "F0_better +4.2 (n.s.)",
+   "rollback+monitoring vs absorbing (D4-no_reserve - D1)": "F3_reversal -6.6 [-17.1,+3.8] (n.s.); F4 +8.4 [+1.3,+15.5]; F0_better +3.8 [+2.6,+5.0]"
+  },
+  "disposition": "The reserve starves certification under the binding budget (promotion 14/20 vs 20/20 on F0_better) and the rollback gain on F3 (-6.6) is not significant and is offset on alternatives and F4.",
+  "next_action": "Stop. Rollback after certified promotion is not worth its label cost at B=200 on these regimes."
+ },
+ "D5": {
+  "id": "D5",
+  "implementation": "scripts/sota_sprint/fam_d.py:DeployGate(host=CAMS, cert=_A1Cert(fam_a.MarkovSUI)) -- the real A1 evidence class from scripts/sota_sprint/fam_a.py (not the stand-in)",
+  "run_config": [
+   "uv run python scripts/sota_sprint/screen.py --regimes F0_better,F9_bursty_better,F7_near_better,F1_late_800,F0_null,F0_worse,F5_dep_null_r8,F3_reversal_800,F4_recurrent --policies \"D1,D2,D3,D4,D5,D6:mp,D6:cams,D6:ms,D1-host_only,D1-always,D1-no_and,D1-no_share,D2-host_only,D3-gated,D4-no_reserve,D4-r10,D5-standin_env8,model_picker_adapter,cams_adapter,model_selector_causal,online_llm_picker,variance_min_ipw,economic_replacement,xu_acquisition_only,gated_adaptive_range+front,gated_adaptive_range,SMCS+retain-incumbent,QSG,QSG-env8,A1,CONTROL_never_switch\" --seeds 20 --workers 3 --out outputs/sota_sprint/D/screen1",
+   "uv run python scripts/sota_sprint/screen.py --regimes F0_better,F9_bursty_better,F7_near_better,F1_late_800,F0_null,F0_worse,F5_dep_null_r8,F3_reversal_800,F4_recurrent --policies D6-D1params:ms,model_selector_causal --seeds 20 --workers 3 --out outputs/sota_sprint/D/screen1b",
+   "uv run python scripts/sota_sprint/analyze.py outputs/sota_sprint/D/screen1 outputs/sota_sprint/D/screen1b --candidates D1,D2,D3,D4,D5,D6:mp,D6:cams,D6:ms,D6-D1params:ms --hosts D1=model_picker_adapter,D2=cams_adapter,D3=model_selector_causal,D4=model_picker_adapter,D5=cams_adapter,D6:mp=model_picker_adapter,D6:cams=cams_adapter,D6:ms=model_selector_causal,D6-D1params:ms=model_selector_causal --out docs/sota_sprint/family_d/screen1.json",
+   "uv run python scripts/sota_sprint/screen.py --regimes F0_null,F5_dep_null_r8 --policies D1,D2,D5,D6:mp,D6:cams,D6:ms,D6-D1params:ms,QSG,model_picker_adapter,cams_adapter,CONTROL_never_switch --seeds 300 --seed-base 2026110514 --workers 3 --out outputs/sota_sprint/D/null300",
+   "uv run python scripts/sota_sprint/screen.py --regimes F5_dep_null_r8 --policies xu_acquisition_only,gated_adaptive_range+front,SMCS+retain-incumbent,CONTROL_never_switch --seeds 300 --seed-base 2026110514 --workers 3 --out outputs/sota_sprint/D/null300_cert",
+   "uv run python scripts/sota_sprint/analyze.py outputs/sota_sprint/D/null300 --candidates D1,D2,D5,D6:mp,D6:cams,D6:ms,D6-D1params:ms --hosts D1=model_picker_adapter,D2=cams_adapter,D3=model_selector_causal,D4=model_picker_adapter,D5=cams_adapter,D6:mp=model_picker_adapter,D6:cams=cams_adapter,D6:ms=model_selector_causal,D6-D1params:ms=model_selector_causal --out docs/sota_sprint/family_d/null300.json"
+  ],
+  "seed_manifest": {
+   "dev": {
+    "seed_base": 2026110501,
+    "seeds": "0-19",
+    "regimes": [
+     "F0_better",
+     "F9_bursty_better",
+     "F7_near_better",
+     "F1_late_800",
+     "F0_null",
+     "F0_worse",
+     "F5_dep_null_r8",
+     "F3_reversal_800",
+     "F4_recurrent"
+    ]
+   },
+   "null_check": {
+    "seed_base": 2026110514,
+    "seeds": "0-299",
+    "regimes": [
+     "F0_null",
+     "F5_dep_null_r8"
+    ]
+   }
+  },
+  "results_artifact": [
+   "outputs/sota_sprint/D/screen1/records.jsonl",
+   "docs/sota_sprint/family_d/screen1.json",
+   "docs/sota_sprint/family_d/screen1.md",
+   "docs/sota_sprint/family_d/ablations.json",
+   "outputs/sota_sprint/D/null300/records.jsonl",
+   "outputs/sota_sprint/D/null300_cert/records.jsonl",
+   "docs/sota_sprint/family_d/null300.json"
+  ],
+  "status": "SCREENED_NEGATIVE",
+  "a1_source": "fam_a.MarkovSUI default kwargs; fam_a.py sha256[:16] 3c9f6de5c68a438e during screen1, e17dd2c07b15bf99 during null300 (Agent A edited fam_a between runs). Stand-in D5-standin_env8 (qsg.EnvelopeMixture rho_bar=.8) run as ablation.",
+  "key_numbers": {
+   "F0_better": "J 390.7; vs D2 +29.4 [+16.9,+42.0]; vs best certified +11.2; promote 13/20",
+   "F9_bursty_better": "vs D2 +70.0; vs best certified +60.3; promote 6/20",
+   "F7_near_better": "promote 0/20",
+   "F0_null": "0/20 dev, 0/300",
+   "F5_dep_null_r8": "0/20 dev, 1/300 = .003 [.001,.019] PASSES bound"
+  },
+  "ablation": {
+   "A1 vs iid evidence (D5 - D2)": "F0_better +29.4, F9 +70.0, F7 +12.4; F5 null 1/300 vs 54/300",
+   "A1 vs envelope stand-in (D5 - D5-standin_env8)": "F0_better -27.9 [-42.0,-13.9]; F9 +6.9 (n.s.)"
+  },
+  "disposition": "Only Family D candidate meeting the registered null bound on the rho=.8 Markov null, but power collapses on iid and bursty alternatives (F9 +70 vs D2). Runtime max 1.54 s/episode (mean ~.3 s), over the ~1 s target on some episodes.",
+  "next_action": "Re-run with Agent A's final A1 (lead re-run): same command, D5 entry picks up fam_a.MarkovSUI automatically."
+ },
+ "D6": {
+  "id": "D6",
+  "implementation": "scripts/sota_sprint/fam_d.py:DeployGate with frozen D6_PARAMS (started mixture, acq host_pref, rollback, reserve .25, alpha_r .05, share) on MP ('D6:mp'), CAMS ('D6:cams'), Model Selector ('D6:ms'). Only per-host shim: _host_u/_host_extra (how a gate-acquired label is handed to the host). Post-screen addition 'D6-D1params:ms' = D1 parameters on Model Selector.",
+  "run_config": [
+   "uv run python scripts/sota_sprint/screen.py --regimes F0_better,F9_bursty_better,F7_near_better,F1_late_800,F0_null,F0_worse,F5_dep_null_r8,F3_reversal_800,F4_recurrent --policies \"D1,D2,D3,D4,D5,D6:mp,D6:cams,D6:ms,D1-host_only,D1-always,D1-no_and,D1-no_share,D2-host_only,D3-gated,D4-no_reserve,D4-r10,D5-standin_env8,model_picker_adapter,cams_adapter,model_selector_causal,online_llm_picker,variance_min_ipw,economic_replacement,xu_acquisition_only,gated_adaptive_range+front,gated_adaptive_range,SMCS+retain-incumbent,QSG,QSG-env8,A1,CONTROL_never_switch\" --seeds 20 --workers 3 --out outputs/sota_sprint/D/screen1",
+   "uv run python scripts/sota_sprint/screen.py --regimes F0_better,F9_bursty_better,F7_near_better,F1_late_800,F0_null,F0_worse,F5_dep_null_r8,F3_reversal_800,F4_recurrent --policies D6-D1params:ms,model_selector_causal --seeds 20 --workers 3 --out outputs/sota_sprint/D/screen1b",
+   "uv run python scripts/sota_sprint/analyze.py outputs/sota_sprint/D/screen1 outputs/sota_sprint/D/screen1b --candidates D1,D2,D3,D4,D5,D6:mp,D6:cams,D6:ms,D6-D1params:ms --hosts D1=model_picker_adapter,D2=cams_adapter,D3=model_selector_causal,D4=model_picker_adapter,D5=cams_adapter,D6:mp=model_picker_adapter,D6:cams=cams_adapter,D6:ms=model_selector_causal,D6-D1params:ms=model_selector_causal --out docs/sota_sprint/family_d/screen1.json",
+   "uv run python scripts/sota_sprint/screen.py --regimes F0_null,F5_dep_null_r8 --policies D1,D2,D5,D6:mp,D6:cams,D6:ms,D6-D1params:ms,QSG,model_picker_adapter,cams_adapter,CONTROL_never_switch --seeds 300 --seed-base 2026110514 --workers 3 --out outputs/sota_sprint/D/null300",
+   "uv run python scripts/sota_sprint/screen.py --regimes F5_dep_null_r8 --policies xu_acquisition_only,gated_adaptive_range+front,SMCS+retain-incumbent,CONTROL_never_switch --seeds 300 --seed-base 2026110514 --workers 3 --out outputs/sota_sprint/D/null300_cert",
+   "uv run python scripts/sota_sprint/analyze.py outputs/sota_sprint/D/null300 --candidates D1,D2,D5,D6:mp,D6:cams,D6:ms,D6-D1params:ms --hosts D1=model_picker_adapter,D2=cams_adapter,D3=model_selector_causal,D4=model_picker_adapter,D5=cams_adapter,D6:mp=model_picker_adapter,D6:cams=cams_adapter,D6:ms=model_selector_causal,D6-D1params:ms=model_selector_causal --out docs/sota_sprint/family_d/null300.json"
+  ],
+  "seed_manifest": {
+   "dev": {
+    "seed_base": 2026110501,
+    "seeds": "0-19",
+    "regimes": [
+     "F0_better",
+     "F9_bursty_better",
+     "F7_near_better",
+     "F1_late_800",
+     "F0_null",
+     "F0_worse",
+     "F5_dep_null_r8",
+     "F3_reversal_800",
+     "F4_recurrent"
+    ]
+   },
+   "null_check": {
+    "seed_base": 2026110514,
+    "seeds": "0-299",
+    "regimes": [
+     "F0_null",
+     "F5_dep_null_r8"
+    ]
+   }
+  },
+  "results_artifact": [
+   "outputs/sota_sprint/D/screen1/records.jsonl",
+   "docs/sota_sprint/family_d/screen1.json",
+   "docs/sota_sprint/family_d/screen1.md",
+   "docs/sota_sprint/family_d/ablations.json",
+   "outputs/sota_sprint/D/null300/records.jsonl",
+   "outputs/sota_sprint/D/null300_cert/records.jsonl",
+   "docs/sota_sprint/family_d/null300.json"
+  ],
+  "status": "SCREENED_PROMISING",
+  "key_numbers": {
+   "transfer_null": "F0_null 300 seeds promote: D6:mp 4, D6:cams 5, D6:ms 4 (hosts alone: MP 273, CAMS 288 of 300); D1-params: MP 5, CAMS 6, MS 5",
+   "transfer_null_dep": "F5_dep_null_r8 300 seeds: D6:mp 51, D6:cams 46, D6:ms 42; D1-params MP 53, CAMS 54, MS 45 -- all FAIL bound",
+   "transfer_cost_F0_null_vs_host": "D6:mp -45.4, D6:cams -69.1, D6:ms -37.5",
+   "transfer_cost_F0_better_vs_host": "D6:mp +43.4, D6:cams +36.9, D6:ms +34.5; D1-params: +24.0, +20.7, +25.4",
+   "F0_better_vs_best_certified": "D6:mp +3.7, D6:cams -2.1, D6:ms -4.6 (D1-params: -15.7, -18.2, -13.7)"
+  },
+  "ablation": {
+   "frozen reserve .25 vs D1 params": "see D4 ablation: the reserve costs 15.6 on F0_better"
+  },
+  "disposition": "Transfer demonstrated: one module, one parameter set, three independently developed hosts give the same null behaviour (1.3-2.0% on F0_null, 300 seeds) and the same cost profile within a few units. The registered D6 parameter set (reserve .25 + rollback) is dominated by D1's; and every iid-evidence version fails the Markov null.",
+  "next_action": "Keep the wrapper as the transfer vehicle; adopt D1 parameters; swap the certificate for a powered dependence-valid one when available."
+ }
+}

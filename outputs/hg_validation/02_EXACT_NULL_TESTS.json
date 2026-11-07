@@ -1,0 +1,34 @@
+{
+  "anti_informative/context_cap": {
+    "exact_drift_per_step": 0.04473902236951116,
+    "lambda_by_context": [
+      0.588235294117647,
+      0.14084507042253522
+    ],
+    "mc_crossing_prob_alpha_0.05": 0.0675
+  },
+  "anti_informative/uniform_cap": {
+    "exact_drift_per_step": -6.938893903907228e-18,
+    "lambda_by_context": [
+      0.18867924528301888,
+      0.18867924528301888
+    ],
+    "mc_crossing_prob_alpha_0.05": 0.03475
+  },
+  "calibrated/context_cap": {
+    "exact_drift_per_step": -0.014106583072100316,
+    "lambda_by_context": [
+      0.08620689655172414,
+      0.22727272727272727
+    ],
+    "mc_crossing_prob_alpha_0.05": 0.0045
+  },
+  "calibrated/uniform_cap": {
+    "exact_drift_per_step": -6.938893903907228e-18,
+    "lambda_by_context": [
+      0.18867924528301888,
+      0.18867924528301888
+    ],
+    "mc_crossing_prob_alpha_0.05": 0.0
+  }
+}

@@ -1,0 +1,66 @@
+{
+  "dataset_id": "keystroke",
+  "status": "USELESS_NO_HEADROOM",
+  "reason": "dev-window headroom precheck failed, locked window never read: option A (HGB 0-30%): disagree=0.0100, inc=0.0263, chal=0.0180, adv*T=16.67 (needs > 5.0); option B (LR 15-30%): disagree=0.0077, inc=0.0263, chal=0.0225, adv*T=7.52 (needs > 5.0)",
+  "timestamps": {
+    "registered_at_utc": "2026-11-02T23:26:12.742093+00:00",
+    "downloaded_at_utc": "2026-11-02T23:29:00.203063+00:00",
+    "loaded_at_utc": "2026-11-02T23:31:09.652556+00:00",
+    "validated_at_utc": "2026-11-02T23:31:09.708669+00:00",
+    "pair_selected_at_utc": "2026-11-02T23:31:10.109177+00:00"
+  },
+  "screening": {
+    "stage": "headroom_precheck",
+    "options": [
+      [
+        "A",
+        {
+          "dev_rows": 6120,
+          "disagree": 0.009967320261437908,
+          "inc_err_dev": 0.02630718954248366,
+          "chal_err_dev": 0.017973856209150325,
+          "adv_per_event": 0.008333333333333335,
+          "adv_times_T": 16.66666666666667,
+          "cs": 5.0,
+          "T": 2000,
+          "cond_disagree_ge_0.02": false,
+          "cond_challenger_better": true,
+          "cond_adv_T_gt_cs": true,
+          "passes": false
+        }
+      ],
+      [
+        "B",
+        {
+          "dev_rows": 6120,
+          "disagree": 0.007679738562091503,
+          "inc_err_dev": 0.02630718954248366,
+          "chal_err_dev": 0.022549019607843137,
+          "adv_per_event": 0.0037581699346405234,
+          "adv_times_T": 7.516339869281047,
+          "cs": 5.0,
+          "T": 2000,
+          "cond_disagree_ge_0.02": false,
+          "cond_challenger_better": true,
+          "cond_adv_T_gt_cs": true,
+          "passes": false
+        }
+      ]
+    ],
+    "last_option_dev": {
+      "dev_rows": 6120,
+      "disagree": 0.007679738562091503,
+      "inc_err_dev": 0.02630718954248366,
+      "chal_err_dev": 0.022549019607843137,
+      "adv_per_event": 0.0037581699346405234,
+      "adv_times_T": 7.516339869281047,
+      "cs": 5.0,
+      "T": 2000,
+      "cond_disagree_ge_0.02": false,
+      "cond_challenger_better": true,
+      "cond_adv_T_gt_cs": true,
+      "passes": false
+    },
+    "binarisation_rule": "majority_vs_rest"
+  }
+}

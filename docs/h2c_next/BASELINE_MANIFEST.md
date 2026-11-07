@@ -1,0 +1,3 @@
+# Baseline manifest (h2c-next sprint)
+Branch `research/h2c-strong-baselines-and-generalization-2026-10-30`, from verified commit `0c7f0a264e68a831e4de2498dfc582c9a98c39ef` (branch `research/hg-decision-aware-betting-v2`, untouched). The legacy exit condition remains recorded as **unmet** and is not edited. G1–G4 confirmation pools are exposed; every comparison that adds a baseline to them is exploratory. Real-data stage status: `BLOCKED_EXTERNAL_ACCESS` (hosts denied with 403), not an algorithmic failure.
+**Sprint checkpoints:** A strong cost-null comparators; B corrected G5/G6; C H2c ablations; D fresh frozen confirmation; E failure analysis + decision; F real-data protocol frozen + access status.

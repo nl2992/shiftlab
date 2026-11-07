@@ -1,0 +1,130 @@
+{
+  "0.1/fixed/pooled": {
+    "null": 0.01,
+    "harm": 0.275
+  },
+  "0.1/fixed/disc": {
+    "null": 0.015,
+    "harm": 0.3875
+  },
+  "0.1/fixed/h2c": {
+    "null": 0.01,
+    "harm": 0.59
+  },
+  "0.1/random/pooled": {
+    "null": 0.01,
+    "harm": 0.265
+  },
+  "0.1/random/disc": {
+    "null": 0.015,
+    "harm": 0.3625
+  },
+  "0.1/random/h2c": {
+    "null": 0.0075,
+    "harm": 0.5925
+  },
+  "0.1/late_if_good/pooled": {
+    "null": 0.025,
+    "harm": 0.2775
+  },
+  "0.1/late_if_good/disc": {
+    "null": 0.03,
+    "harm": 0.3475
+  },
+  "0.1/late_if_good/h2c": {
+    "null": 0.01,
+    "harm": 0.6175
+  },
+  "0.1/late_if_bad/pooled": {
+    "null": 0.0025,
+    "harm": 0.23
+  },
+  "0.1/late_if_bad/disc": {
+    "null": 0.005,
+    "harm": 0.365
+  },
+  "0.1/late_if_bad/h2c": {
+    "null": 0.005,
+    "harm": 0.5475
+  },
+  "0.2/fixed/pooled": {
+    "null": 0.01,
+    "harm": 0.6475
+  },
+  "0.2/fixed/disc": {
+    "null": 0.005,
+    "harm": 0.7875
+  },
+  "0.2/fixed/h2c": {
+    "null": 0.015,
+    "harm": 0.9
+  },
+  "0.2/random/pooled": {
+    "null": 0.015,
+    "harm": 0.61
+  },
+  "0.2/random/disc": {
+    "null": 0.0075,
+    "harm": 0.7625
+  },
+  "0.2/random/h2c": {
+    "null": 0.0125,
+    "harm": 0.8975
+  },
+  "0.2/late_if_good/pooled": {
+    "null": 0.0425,
+    "harm": 0.5575
+  },
+  "0.2/late_if_good/disc": {
+    "null": 0.045,
+    "harm": 0.71
+  },
+  "0.2/late_if_good/h2c": {
+    "null": 0.025,
+    "harm": 0.8825
+  },
+  "0.2/late_if_bad/pooled": {
+    "null": 0.0025,
+    "harm": 0.615
+  },
+  "0.2/late_if_bad/disc": {
+    "null": 0.0,
+    "harm": 0.76
+  },
+  "0.2/late_if_bad/h2c": {
+    "null": 0.0025,
+    "harm": 0.8575
+  },
+  "budget100/0.1/naive/disc": {
+    "null": 0.0125,
+    "harm": 0.035
+  },
+  "budget100/0.1/naive/h2c": {
+    "null": 0.005,
+    "harm": 0.0825
+  },
+  "budget100/0.1/stop/disc": {
+    "null": 0.0125,
+    "harm": 0.03
+  },
+  "budget100/0.1/stop/h2c": {
+    "null": 0.005,
+    "harm": 0.0775
+  },
+  "budget200/0.2/naive/disc": {
+    "null": 0.0075,
+    "harm": 0.08
+  },
+  "budget200/0.2/naive/h2c": {
+    "null": 0.01,
+    "harm": 0.195
+  },
+  "budget200/0.2/stop/disc": {
+    "null": 0.0025,
+    "harm": 0.0675
+  },
+  "budget200/0.2/stop/h2c": {
+    "null": 0.01,
+    "harm": 0.1675
+  }
+}

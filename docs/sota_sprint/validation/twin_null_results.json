@@ -1,0 +1,1168 @@
+{
+ "K0": {
+  "appliances": {
+   "mean_adv": 0.007666666666666667,
+   "ci": [
+    -0.0049346875000000024,
+    0.019308645833333332
+   ],
+   "contains_0": true
+  },
+  "beijing_pm25": {
+   "mean_adv": -0.0011660714285714282,
+   "ci": [
+    -0.003074999999999999,
+    0.0008754464285714263
+   ],
+   "contains_0": true
+  },
+  "bike_hour": {
+   "mean_adv": -0.0013625000000000004,
+   "ci": [
+    -0.004666770833333333,
+    0.0017296874999999969
+   ],
+   "contains_0": true
+  },
+  "household_power": {
+   "mean_adv": 0.0005887499999999999,
+   "ci": [
+    -0.00069759375,
+    0.00198
+   ],
+   "contains_0": true
+  },
+  "metro": {
+   "mean_adv": 0.00027812500000000005,
+   "ci": [
+    -0.00017503906249999998,
+    0.0007344531249999995
+   ],
+   "contains_0": true
+  }
+ },
+ "datasets": {
+  "appliances": {
+   "median_rho_hat": 0.6000000000000001,
+   "disagreement": 0.12805,
+   "policies": {
+    "A1b": {
+     "promote": 0.075,
+     "boot_lo": 0.03333333333333333,
+     "boot_hi": 0.11666666666666667,
+     "pooled_wilson_hi": 0.1069,
+     "runs": 360,
+     "harm_vs_never": 7.092916666666667,
+     "harmful_promotion_rate": 0.0
+    },
+    "A5b": {
+     "promote": 0.041666666666666664,
+     "boot_lo": 0.008333333333333333,
+     "boot_hi": 0.08333333333333334,
+     "pooled_wilson_hi": 0.0676,
+     "runs": 360,
+     "harm_vs_never": 3.20222222222222,
+     "harmful_promotion_rate": 0.0
+    },
+    "CONTROL_never_switch": {
+     "promote": 0.0,
+     "boot_lo": 0.0,
+     "boot_hi": 0.0,
+     "pooled_wilson_hi": 0.0106,
+     "runs": 360,
+     "harm_vs_never": 0.0,
+     "harmful_promotion_rate": 0.0
+    },
+    "D1": {
+     "promote": 0.48611111111111105,
+     "boot_lo": 0.37222222222222223,
+     "boot_hi": 0.5888888888888888,
+     "pooled_wilson_hi": 0.5376,
+     "runs": 360,
+     "harm_vs_never": -12.373749999999998,
+     "harmful_promotion_rate": 0.03888888888888889
+    },
+    "D2": {
+     "promote": 0.5555555555555556,
+     "boot_lo": 0.45,
+     "boot_hi": 0.6583333333333333,
+     "pooled_wilson_hi": 0.606,
+     "runs": 360,
+     "harm_vs_never": -7.184166666666666,
+     "harmful_promotion_rate": 0.08888888888888889
+    },
+    "QSG": {
+     "promote": 0.625,
+     "boot_lo": 0.5165972222222222,
+     "boot_hi": 0.7277777777777776,
+     "pooled_wilson_hi": 0.6734,
+     "runs": 360,
+     "harm_vs_never": -8.259861111111112,
+     "harmful_promotion_rate": 0.12222222222222222
+    },
+    "SMCS+retain-incumbent": {
+     "promote": 0.42777777777777776,
+     "boot_lo": 0.33881944444444445,
+     "boot_hi": 0.5111111111111112,
+     "pooled_wilson_hi": 0.4794,
+     "runs": 360,
+     "harm_vs_never": -1.13263888888889,
+     "harmful_promotion_rate": 0.07222222222222222
+    },
+    "cams_adapter": {
+     "promote": 0.925,
+     "boot_lo": 0.8888888888888887,
+     "boot_hi": 0.9583333333333333,
+     "pooled_wilson_hi": 0.9479,
+     "runs": 360,
+     "harm_vs_never": -0.03208333333333131,
+     "harmful_promotion_rate": 0.3388888888888889
+    },
+    "choe_ramdas_eb": {
+     "promote": 0.33611111111111114,
+     "boot_lo": 0.2415972222222222,
+     "boot_hi": 0.42777777777777776,
+     "pooled_wilson_hi": 0.3864,
+     "runs": 360,
+     "harm_vs_never": -5.997916666666667,
+     "harmful_promotion_rate": 0.025
+    },
+    "choe_ramdas_eb+front": {
+     "promote": 0.35833333333333334,
+     "boot_lo": 0.26666666666666666,
+     "boot_hi": 0.45,
+     "pooled_wilson_hi": 0.4091,
+     "runs": 360,
+     "harm_vs_never": -6.263333333333334,
+     "harmful_promotion_rate": 0.041666666666666664
+    },
+    "discern_design_floor": {
+     "promote": 0.1972222222222222,
+     "boot_lo": 0.10833333333333332,
+     "boot_hi": 0.29444444444444445,
+     "pooled_wilson_hi": 0.2414,
+     "runs": 360,
+     "harm_vs_never": 0.5694444444444439,
+     "harmful_promotion_rate": 0.0
+    },
+    "discern_style": {
+     "promote": 0.005555555555555555,
+     "boot_lo": 0.0,
+     "boot_hi": 0.016666666666666666,
+     "pooled_wilson_hi": 0.02,
+     "runs": 360,
+     "harm_vs_never": 8.4825,
+     "harmful_promotion_rate": 0.0
+    },
+    "gated_adaptive_range": {
+     "promote": 0.3138888888888889,
+     "boot_lo": 0.21944444444444447,
+     "boot_hi": 0.4083333333333333,
+     "pooled_wilson_hi": 0.3636,
+     "runs": 360,
+     "harm_vs_never": -4.552777777777779,
+     "harmful_promotion_rate": 0.013888888888888888
+    },
+    "gated_adaptive_range+front": {
+     "promote": 0.4,
+     "boot_lo": 0.29166666666666663,
+     "boot_hi": 0.5083333333333333,
+     "pooled_wilson_hi": 0.4514,
+     "runs": 360,
+     "harm_vs_never": -6.124166666666667,
+     "harmful_promotion_rate": 0.05
+    },
+    "gated_deployment": {
+     "promote": 0.24444444444444446,
+     "boot_lo": 0.1638888888888889,
+     "boot_hi": 0.32506944444444413,
+     "pooled_wilson_hi": 0.2914,
+     "runs": 360,
+     "harm_vs_never": -0.04916666666666648,
+     "harmful_promotion_rate": 0.011111111111111112
+    },
+    "gated_deployment+QCE": {
+     "promote": 0.3722222222222222,
+     "boot_lo": 0.275,
+     "boot_hi": 0.46388888888888885,
+     "pooled_wilson_hi": 0.4233,
+     "runs": 360,
+     "harm_vs_never": -6.167777777777778,
+     "harmful_promotion_rate": 0.016666666666666666
+    },
+    "gated_deployment+QCE+front": {
+     "promote": 0.4083333333333334,
+     "boot_lo": 0.3,
+     "boot_hi": 0.5083333333333333,
+     "pooled_wilson_hi": 0.4598,
+     "runs": 360,
+     "harm_vs_never": -5.869166666666667,
+     "harmful_promotion_rate": 0.05
+    },
+    "model_picker_adapter": {
+     "promote": 0.9083333333333332,
+     "boot_lo": 0.8666666666666666,
+     "boot_hi": 0.9444444444444443,
+     "pooled_wilson_hi": 0.934,
+     "runs": 360,
+     "harm_vs_never": -4.774861111111111,
+     "harmful_promotion_rate": 0.33611111111111114
+    },
+    "rmm:SMCS+retain-incumbent+RMM": {
+     "promote": 0.6250000000000001,
+     "boot_lo": 0.513888888888889,
+     "boot_hi": 0.7222222222222222,
+     "pooled_wilson_hi": 0.6734,
+     "runs": 360,
+     "harm_vs_never": -5.969027777777776,
+     "harmful_promotion_rate": 0.13055555555555556
+    },
+    "rmm:discern_style+RMM": {
+     "promote": 0.5861111111111111,
+     "boot_lo": 0.4749999999999999,
+     "boot_hi": 0.6916666666666667,
+     "pooled_wilson_hi": 0.6358,
+     "runs": 360,
+     "harm_vs_never": -5.393749999999998,
+     "harmful_promotion_rate": 0.09722222222222222
+    },
+    "rmm:gated_adaptive_range+RMM": {
+     "promote": 0.586111111111111,
+     "boot_lo": 0.47222222222222215,
+     "boot_hi": 0.6944444444444444,
+     "pooled_wilson_hi": 0.6358,
+     "runs": 360,
+     "harm_vs_never": -5.279444444444442,
+     "harmful_promotion_rate": 0.10277777777777777
+    },
+    "rmm:gated_deployment+RMM": {
+     "promote": 0.5972222222222221,
+     "boot_lo": 0.4805555555555555,
+     "boot_hi": 0.7055555555555555,
+     "pooled_wilson_hi": 0.6466,
+     "runs": 360,
+     "harm_vs_never": -5.524027777777778,
+     "harmful_promotion_rate": 0.10555555555555556
+    },
+    "xu_acquisition_only": {
+     "promote": 0.37499999999999994,
+     "boot_lo": 0.27499999999999997,
+     "boot_hi": 0.4777777777777777,
+     "pooled_wilson_hi": 0.4261,
+     "runs": 360,
+     "harm_vs_never": -4.530555555555554,
+     "harmful_promotion_rate": 0.016666666666666666
+    }
+   }
+  },
+  "beijing_pm25": {
+   "median_rho_hat": 0.7000000000000001,
+   "disagreement": 0.0816875,
+   "policies": {
+    "A1b": {
+     "promote": 0.014285714285714285,
+     "boot_lo": 0.0035714285714285713,
+     "boot_hi": 0.02857142857142857,
+     "pooled_wilson_hi": 0.0248,
+     "runs": 840,
+     "harm_vs_never": 8.302261904761906,
+     "harmful_promotion_rate": 0.0035714285714285713
+    },
+    "A5b": {
+     "promote": 0.007142857142857143,
+     "boot_lo": 0.0,
+     "boot_hi": 0.017857142857142856,
+     "pooled_wilson_hi": 0.0155,
+     "runs": 840,
+     "harm_vs_never": 4.908154761904761,
+     "harmful_promotion_rate": 0.0035714285714285713
+    },
+    "CONTROL_never_switch": {
+     "promote": 0.0,
+     "boot_lo": 0.0,
+     "boot_hi": 0.0,
+     "pooled_wilson_hi": 0.0046,
+     "runs": 840,
+     "harm_vs_never": 0.0,
+     "harmful_promotion_rate": 0.0
+    },
+    "D1": {
+     "promote": 0.2738095238095238,
+     "boot_lo": 0.23095238095238094,
+     "boot_hi": 0.32142857142857145,
+     "pooled_wilson_hi": 0.3049,
+     "runs": 840,
+     "harm_vs_never": 3.945357142857142,
+     "harmful_promotion_rate": 0.05357142857142857
+    },
+    "D2": {
+     "promote": 0.27380952380952384,
+     "boot_lo": 0.22380952380952382,
+     "boot_hi": 0.330952380952381,
+     "pooled_wilson_hi": 0.3049,
+     "runs": 840,
+     "harm_vs_never": 4.798869047619047,
+     "harmful_promotion_rate": 0.05476190476190476
+    },
+    "QSG": {
+     "promote": 0.33095238095238094,
+     "boot_lo": 0.2726190476190476,
+     "boot_hi": 0.39642857142857146,
+     "pooled_wilson_hi": 0.3635,
+     "runs": 840,
+     "harm_vs_never": 8.906785714285714,
+     "harmful_promotion_rate": 0.09047619047619047
+    },
+    "SMCS+retain-incumbent": {
+     "promote": 0.21904761904761902,
+     "boot_lo": 0.17735119047619047,
+     "boot_hi": 0.2726190476190476,
+     "pooled_wilson_hi": 0.2483,
+     "runs": 840,
+     "harm_vs_never": 8.80988095238095,
+     "harmful_promotion_rate": 0.05357142857142857
+    },
+    "cams_adapter": {
+     "promote": 0.9178571428571427,
+     "boot_lo": 0.9023809523809524,
+     "boot_hi": 0.9333333333333332,
+     "pooled_wilson_hi": 0.9346,
+     "runs": 840,
+     "harm_vs_never": 25.676726190476188,
+     "harmful_promotion_rate": 0.48095238095238096
+    },
+    "choe_ramdas_eb": {
+     "promote": 0.12261904761904763,
+     "boot_lo": 0.09047619047619046,
+     "boot_hi": 0.15476190476190474,
+     "pooled_wilson_hi": 0.1465,
+     "runs": 840,
+     "harm_vs_never": 6.736964285714287,
+     "harmful_promotion_rate": 0.013095238095238096
+    },
+    "choe_ramdas_eb+front": {
+     "promote": 0.13214285714285715,
+     "boot_lo": 0.09642857142857142,
+     "boot_hi": 0.16785714285714287,
+     "pooled_wilson_hi": 0.1567,
+     "runs": 840,
+     "harm_vs_never": 6.7387500000000005,
+     "harmful_promotion_rate": 0.017857142857142856
+    },
+    "discern_design_floor": {
+     "promote": 0.021428571428571425,
+     "boot_lo": 0.005952380952380952,
+     "boot_hi": 0.039285714285714285,
+     "pooled_wilson_hi": 0.0336,
+     "runs": 840,
+     "harm_vs_never": 7.338630952380953,
+     "harmful_promotion_rate": 0.0
+    },
+    "discern_style": {
+     "promote": 0.0,
+     "boot_lo": 0.0,
+     "boot_hi": 0.0,
+     "pooled_wilson_hi": 0.0046,
+     "runs": 840,
+     "harm_vs_never": 7.69184523809524,
+     "harmful_promotion_rate": 0.0
+    },
+    "gated_adaptive_range": {
+     "promote": 0.0988095238095238,
+     "boot_lo": 0.06904761904761904,
+     "boot_hi": 0.13095238095238093,
+     "pooled_wilson_hi": 0.1209,
+     "runs": 840,
+     "harm_vs_never": 7.261488095238096,
+     "harmful_promotion_rate": 0.007142857142857143
+    },
+    "gated_adaptive_range+front": {
+     "promote": 0.11785714285714288,
+     "boot_lo": 0.08214285714285714,
+     "boot_hi": 0.15714285714285714,
+     "pooled_wilson_hi": 0.1414,
+     "runs": 840,
+     "harm_vs_never": 6.553571428571429,
+     "harmful_promotion_rate": 0.017857142857142856
+    },
+    "gated_deployment": {
+     "promote": 0.09166666666666666,
+     "boot_lo": 0.06190476190476189,
+     "boot_hi": 0.12380952380952379,
+     "pooled_wilson_hi": 0.1131,
+     "runs": 840,
+     "harm_vs_never": 7.315238095238096,
+     "harmful_promotion_rate": 0.007142857142857143
+    },
+    "gated_deployment+QCE": {
+     "promote": 0.11904761904761907,
+     "boot_lo": 0.08214285714285714,
+     "boot_hi": 0.15833333333333333,
+     "pooled_wilson_hi": 0.1427,
+     "runs": 840,
+     "harm_vs_never": 6.669285714285715,
+     "harmful_promotion_rate": 0.013095238095238096
+    },
+    "gated_deployment+QCE+front": {
+     "promote": 0.1285714285714286,
+     "boot_lo": 0.08928571428571427,
+     "boot_hi": 0.1714285714285714,
+     "pooled_wilson_hi": 0.1529,
+     "runs": 840,
+     "harm_vs_never": 6.295178571428571,
+     "harmful_promotion_rate": 0.02142857142857143
+    },
+    "model_picker_adapter": {
+     "promote": 0.8857142857142856,
+     "boot_lo": 0.8607142857142858,
+     "boot_hi": 0.9095238095238095,
+     "pooled_wilson_hi": 0.9055,
+     "runs": 840,
+     "harm_vs_never": 18.624583333333334,
+     "harmful_promotion_rate": 0.4630952380952381
+    },
+    "rmm:SMCS+retain-incumbent+RMM": {
+     "promote": 0.35952380952380947,
+     "boot_lo": 0.3,
+     "boot_hi": 0.42145833333333316,
+     "pooled_wilson_hi": 0.3925,
+     "runs": 840,
+     "harm_vs_never": 8.520000000000003,
+     "harmful_promotion_rate": 0.10476190476190476
+    },
+    "rmm:discern_style+RMM": {
+     "promote": 0.2738095238095238,
+     "boot_lo": 0.21785714285714283,
+     "boot_hi": 0.32976190476190476,
+     "pooled_wilson_hi": 0.3049,
+     "runs": 840,
+     "harm_vs_never": 7.887976190476192,
+     "harmful_promotion_rate": 0.07738095238095238
+    },
+    "rmm:gated_adaptive_range+RMM": {
+     "promote": 0.27738095238095234,
+     "boot_lo": 0.2261904761904762,
+     "boot_hi": 0.32860119047619035,
+     "pooled_wilson_hi": 0.3086,
+     "runs": 840,
+     "harm_vs_never": 7.743214285714287,
+     "harmful_promotion_rate": 0.07261904761904762
+    },
+    "rmm:gated_deployment+RMM": {
+     "promote": 0.2726190476190476,
+     "boot_lo": 0.21428571428571433,
+     "boot_hi": 0.3309523809523809,
+     "pooled_wilson_hi": 0.3037,
+     "runs": 840,
+     "harm_vs_never": 7.787619047619048,
+     "harmful_promotion_rate": 0.07380952380952381
+    },
+    "xu_acquisition_only": {
+     "promote": 0.175,
+     "boot_lo": 0.136875,
+     "boot_hi": 0.21428571428571427,
+     "pooled_wilson_hi": 0.2022,
+     "runs": 840,
+     "harm_vs_never": 7.437916666666667,
+     "harmful_promotion_rate": 0.017857142857142856
+    }
+   }
+  },
+  "bike_hour": {
+   "median_rho_hat": 0.5,
+   "disagreement": 0.05439583333333333,
+   "policies": {
+    "A1b": {
+     "promote": 0.08333333333333333,
+     "boot_lo": 0.041666666666666664,
+     "boot_hi": 0.13333333333333333,
+     "pooled_wilson_hi": 0.1165,
+     "runs": 360,
+     "harm_vs_never": 4.951805555555556,
+     "harmful_promotion_rate": 0.0
+    },
+    "A5b": {
+     "promote": 0.05833333333333333,
+     "boot_lo": 0.016666666666666666,
+     "boot_hi": 0.1,
+     "pooled_wilson_hi": 0.0875,
+     "runs": 360,
+     "harm_vs_never": 4.253333333333332,
+     "harmful_promotion_rate": 0.0
+    },
+    "CONTROL_never_switch": {
+     "promote": 0.0,
+     "boot_lo": 0.0,
+     "boot_hi": 0.0,
+     "pooled_wilson_hi": 0.0106,
+     "runs": 360,
+     "harm_vs_never": 0.0,
+     "harmful_promotion_rate": 0.0
+    },
+    "D1": {
+     "promote": 0.19166666666666662,
+     "boot_lo": 0.125,
+     "boot_hi": 0.2583333333333333,
+     "pooled_wilson_hi": 0.2355,
+     "runs": 360,
+     "harm_vs_never": 1.1584722222222223,
+     "harmful_promotion_rate": 0.025
+    },
+    "D2": {
+     "promote": 0.18055555555555558,
+     "boot_lo": 0.11388888888888889,
+     "boot_hi": 0.24166666666666664,
+     "pooled_wilson_hi": 0.2236,
+     "runs": 360,
+     "harm_vs_never": 2.0750000000000006,
+     "harmful_promotion_rate": 0.025
+    },
+    "QSG": {
+     "promote": 0.2166666666666667,
+     "boot_lo": 0.14166666666666666,
+     "boot_hi": 0.2833333333333333,
+     "pooled_wilson_hi": 0.2621,
+     "runs": 360,
+     "harm_vs_never": 4.140694444444444,
+     "harmful_promotion_rate": 0.03333333333333333
+    },
+    "SMCS+retain-incumbent": {
+     "promote": 0.1583333333333333,
+     "boot_lo": 0.09166666666666667,
+     "boot_hi": 0.2222916666666663,
+     "pooled_wilson_hi": 0.1996,
+     "runs": 360,
+     "harm_vs_never": 4.140000000000001,
+     "harmful_promotion_rate": 0.027777777777777776
+    },
+    "cams_adapter": {
+     "promote": 0.9055555555555553,
+     "boot_lo": 0.8583333333333334,
+     "boot_hi": 0.9445138888888884,
+     "pooled_wilson_hi": 0.9316,
+     "runs": 360,
+     "harm_vs_never": 17.72875,
+     "harmful_promotion_rate": 0.4638888888888889
+    },
+    "choe_ramdas_eb": {
+     "promote": 0.09722222222222222,
+     "boot_lo": 0.041666666666666664,
+     "boot_hi": 0.15555555555555556,
+     "pooled_wilson_hi": 0.1322,
+     "runs": 360,
+     "harm_vs_never": 2.946388888888889,
+     "harmful_promotion_rate": 0.0
+    },
+    "choe_ramdas_eb+front": {
+     "promote": 0.10833333333333332,
+     "boot_lo": 0.049999999999999996,
+     "boot_hi": 0.175,
+     "pooled_wilson_hi": 0.1447,
+     "runs": 360,
+     "harm_vs_never": 3.278333333333334,
+     "harmful_promotion_rate": 0.008333333333333333
+    },
+    "discern_design_floor": {
+     "promote": 0.01944444444444444,
+     "boot_lo": 0.0,
+     "boot_hi": 0.04444444444444444,
+     "pooled_wilson_hi": 0.0396,
+     "runs": 360,
+     "harm_vs_never": 5.248472222222223,
+     "harmful_promotion_rate": 0.0
+    },
+    "discern_style": {
+     "promote": 0.0,
+     "boot_lo": 0.0,
+     "boot_hi": 0.0,
+     "pooled_wilson_hi": 0.0106,
+     "runs": 360,
+     "harm_vs_never": 5.326805555555556,
+     "harmful_promotion_rate": 0.0
+    },
+    "gated_adaptive_range": {
+     "promote": 0.08888888888888889,
+     "boot_lo": 0.041666666666666664,
+     "boot_hi": 0.14166666666666666,
+     "pooled_wilson_hi": 0.1228,
+     "runs": 360,
+     "harm_vs_never": 3.6920833333333336,
+     "harmful_promotion_rate": 0.0
+    },
+    "gated_adaptive_range+front": {
+     "promote": 0.1,
+     "boot_lo": 0.041666666666666664,
+     "boot_hi": 0.15833333333333335,
+     "pooled_wilson_hi": 0.1353,
+     "runs": 360,
+     "harm_vs_never": 3.1112500000000005,
+     "harmful_promotion_rate": 0.0
+    },
+    "gated_deployment": {
+     "promote": 0.08888888888888889,
+     "boot_lo": 0.041666666666666664,
+     "boot_hi": 0.14166666666666666,
+     "pooled_wilson_hi": 0.1228,
+     "runs": 360,
+     "harm_vs_never": 3.6966666666666663,
+     "harmful_promotion_rate": 0.0
+    },
+    "gated_deployment+QCE": {
+     "promote": 0.09166666666666667,
+     "boot_lo": 0.041666666666666664,
+     "boot_hi": 0.14999999999999997,
+     "pooled_wilson_hi": 0.1259,
+     "runs": 360,
+     "harm_vs_never": 3.050416666666667,
+     "harmful_promotion_rate": 0.0
+    },
+    "gated_deployment+QCE+front": {
+     "promote": 0.09166666666666667,
+     "boot_lo": 0.041666666666666664,
+     "boot_hi": 0.14999999999999997,
+     "pooled_wilson_hi": 0.1259,
+     "runs": 360,
+     "harm_vs_never": 2.9483333333333337,
+     "harmful_promotion_rate": 0.0
+    },
+    "model_picker_adapter": {
+     "promote": 0.8694444444444445,
+     "boot_lo": 0.8222222222222222,
+     "boot_hi": 0.9111111111111111,
+     "pooled_wilson_hi": 0.9004,
+     "runs": 360,
+     "harm_vs_never": 12.309722222222222,
+     "harmful_promotion_rate": 0.4361111111111111
+    },
+    "rmm:SMCS+retain-incumbent+RMM": {
+     "promote": 0.1861111111111111,
+     "boot_lo": 0.11388888888888889,
+     "boot_hi": 0.2583333333333333,
+     "pooled_wilson_hi": 0.2296,
+     "runs": 360,
+     "harm_vs_never": 3.8581944444444454,
+     "harmful_promotion_rate": 0.019444444444444445
+    },
+    "rmm:discern_style+RMM": {
+     "promote": 0.1388888888888889,
+     "boot_lo": 0.07777777777777778,
+     "boot_hi": 0.20555555555555557,
+     "pooled_wilson_hi": 0.1784,
+     "runs": 360,
+     "harm_vs_never": 3.5579166666666677,
+     "harmful_promotion_rate": 0.0
+    },
+    "rmm:gated_adaptive_range+RMM": {
+     "promote": 0.14166666666666666,
+     "boot_lo": 0.08333333333333333,
+     "boot_hi": 0.20833333333333334,
+     "pooled_wilson_hi": 0.1815,
+     "runs": 360,
+     "harm_vs_never": 3.5275000000000003,
+     "harmful_promotion_rate": 0.0
+    },
+    "rmm:gated_deployment+RMM": {
+     "promote": 0.14166666666666666,
+     "boot_lo": 0.08333333333333333,
+     "boot_hi": 0.20833333333333334,
+     "pooled_wilson_hi": 0.1815,
+     "runs": 360,
+     "harm_vs_never": 3.5820833333333337,
+     "harmful_promotion_rate": 0.0
+    },
+    "xu_acquisition_only": {
+     "promote": 0.1527777777777778,
+     "boot_lo": 0.08881944444444444,
+     "boot_hi": 0.21944444444444447,
+     "pooled_wilson_hi": 0.1936,
+     "runs": 360,
+     "harm_vs_never": 3.8309722222222238,
+     "harmful_promotion_rate": 0.008333333333333333
+    }
+   }
+  },
+  "household_power": {
+   "median_rho_hat": 0.7000000000000001,
+   "disagreement": 0.04423375,
+   "policies": {
+    "A1b": {
+     "promote": 0.03250000000000001,
+     "boot_lo": 0.0125,
+     "boot_hi": 0.05250000000000001,
+     "pooled_wilson_hi": 0.0441,
+     "runs": 1200,
+     "harm_vs_never": 4.183375000000002,
+     "harmful_promotion_rate": 0.0025
+    },
+    "A5b": {
+     "promote": 0.035,
+     "boot_lo": 0.015,
+     "boot_hi": 0.057499999999999996,
+     "pooled_wilson_hi": 0.047,
+     "runs": 1200,
+     "harm_vs_never": 3.316625000000002,
+     "harmful_promotion_rate": 0.0025
+    },
+    "CONTROL_never_switch": {
+     "promote": 0.0,
+     "boot_lo": 0.0,
+     "boot_hi": 0.0,
+     "pooled_wilson_hi": 0.0032,
+     "runs": 1200,
+     "harm_vs_never": 0.0,
+     "harmful_promotion_rate": 0.0
+    },
+    "D1": {
+     "promote": 0.16583333333333333,
+     "boot_lo": 0.13,
+     "boot_hi": 0.2033333333333333,
+     "pooled_wilson_hi": 0.1879,
+     "runs": 1200,
+     "harm_vs_never": 1.4494166666666688,
+     "harmful_promotion_rate": 0.005
+    },
+    "D2": {
+     "promote": 0.18,
+     "boot_lo": 0.14331249999999995,
+     "boot_hi": 0.21749999999999997,
+     "pooled_wilson_hi": 0.2027,
+     "runs": 1200,
+     "harm_vs_never": 1.7667916666666663,
+     "harmful_promotion_rate": 0.009166666666666667
+    },
+    "QSG": {
+     "promote": 0.1975,
+     "boot_lo": 0.1575,
+     "boot_hi": 0.2375624999999997,
+     "pooled_wilson_hi": 0.221,
+     "runs": 1200,
+     "harm_vs_never": 3.144791666666668,
+     "harmful_promotion_rate": 0.0175
+    },
+    "SMCS+retain-incumbent": {
+     "promote": 0.18916666666666665,
+     "boot_lo": 0.14916666666666667,
+     "boot_hi": 0.22916666666666666,
+     "pooled_wilson_hi": 0.2123,
+     "runs": 1200,
+     "harm_vs_never": 3.196708333333335,
+     "harmful_promotion_rate": 0.018333333333333333
+    },
+    "cams_adapter": {
+     "promote": 0.8658333333333333,
+     "boot_lo": 0.8383124999999999,
+     "boot_hi": 0.8933333333333333,
+     "pooled_wilson_hi": 0.884,
+     "runs": 1200,
+     "harm_vs_never": 15.336166666666667,
+     "harmful_promotion_rate": 0.36916666666666664
+    },
+    "choe_ramdas_eb": {
+     "promote": 0.11333333333333331,
+     "boot_lo": 0.07833333333333334,
+     "boot_hi": 0.15083333333333332,
+     "pooled_wilson_hi": 0.1325,
+     "runs": 1200,
+     "harm_vs_never": 2.8103750000000014,
+     "harmful_promotion_rate": 0.0
+    },
+    "choe_ramdas_eb+front": {
+     "promote": 0.11499999999999996,
+     "boot_lo": 0.08,
+     "boot_hi": 0.1525,
+     "pooled_wilson_hi": 0.1343,
+     "runs": 1200,
+     "harm_vs_never": 2.811000000000001,
+     "harmful_promotion_rate": 0.0025
+    },
+    "discern_design_floor": {
+     "promote": 0.0175,
+     "boot_lo": 0.005,
+     "boot_hi": 0.0325,
+     "pooled_wilson_hi": 0.0266,
+     "runs": 1200,
+     "harm_vs_never": 4.272916666666668,
+     "harmful_promotion_rate": 0.0
+    },
+    "discern_style": {
+     "promote": 0.0,
+     "boot_lo": 0.0,
+     "boot_hi": 0.0,
+     "pooled_wilson_hi": 0.0032,
+     "runs": 1200,
+     "harm_vs_never": 4.386166666666668,
+     "harmful_promotion_rate": 0.0
+    },
+    "gated_adaptive_range": {
+     "promote": 0.10166666666666666,
+     "boot_lo": 0.06583333333333334,
+     "boot_hi": 0.14250000000000002,
+     "pooled_wilson_hi": 0.1201,
+     "runs": 1200,
+     "harm_vs_never": 3.0752500000000005,
+     "harmful_promotion_rate": 0.0
+    },
+    "gated_adaptive_range+front": {
+     "promote": 0.10999999999999999,
+     "boot_lo": 0.07500000000000001,
+     "boot_hi": 0.15249999999999997,
+     "pooled_wilson_hi": 0.129,
+     "runs": 1200,
+     "harm_vs_never": 2.9166250000000002,
+     "harmful_promotion_rate": 0.0
+    },
+    "gated_deployment": {
+     "promote": 0.10166666666666666,
+     "boot_lo": 0.06583333333333334,
+     "boot_hi": 0.14250000000000002,
+     "pooled_wilson_hi": 0.1201,
+     "runs": 1200,
+     "harm_vs_never": 3.058083333333334,
+     "harmful_promotion_rate": 0.0
+    },
+    "gated_deployment+QCE": {
+     "promote": 0.11916666666666664,
+     "boot_lo": 0.0825,
+     "boot_hi": 0.1600208333333332,
+     "pooled_wilson_hi": 0.1387,
+     "runs": 1200,
+     "harm_vs_never": 3.0940000000000003,
+     "harmful_promotion_rate": 0.0
+    },
+    "gated_deployment+QCE+front": {
+     "promote": 0.12249999999999998,
+     "boot_lo": 0.085,
+     "boot_hi": 0.16499999999999998,
+     "pooled_wilson_hi": 0.1423,
+     "runs": 1200,
+     "harm_vs_never": 3.031750000000001,
+     "harmful_promotion_rate": 0.0
+    },
+    "model_picker_adapter": {
+     "promote": 0.8600000000000001,
+     "boot_lo": 0.8375,
+     "boot_hi": 0.8824999999999997,
+     "pooled_wilson_hi": 0.8785,
+     "runs": 1200,
+     "harm_vs_never": 11.361166666666668,
+     "harmful_promotion_rate": 0.3725
+    },
+    "rmm:SMCS+retain-incumbent+RMM": {
+     "promote": 0.19,
+     "boot_lo": 0.14833333333333334,
+     "boot_hi": 0.23166666666666663,
+     "pooled_wilson_hi": 0.2132,
+     "runs": 1200,
+     "harm_vs_never": 2.985875000000002,
+     "harmful_promotion_rate": 0.009166666666666667
+    },
+    "rmm:discern_style+RMM": {
+     "promote": 0.1375,
+     "boot_lo": 0.1,
+     "boot_hi": 0.18,
+     "pooled_wilson_hi": 0.1581,
+     "runs": 1200,
+     "harm_vs_never": 3.4000416666666684,
+     "harmful_promotion_rate": 0.0025
+    },
+    "rmm:gated_adaptive_range+RMM": {
+     "promote": 0.13916666666666666,
+     "boot_lo": 0.1,
+     "boot_hi": 0.1833333333333333,
+     "pooled_wilson_hi": 0.1599,
+     "runs": 1200,
+     "harm_vs_never": 3.3757500000000014,
+     "harmful_promotion_rate": 0.0025
+    },
+    "rmm:gated_deployment+RMM": {
+     "promote": 0.13666666666666666,
+     "boot_lo": 0.09833333333333334,
+     "boot_hi": 0.18,
+     "pooled_wilson_hi": 0.1573,
+     "runs": 1200,
+     "harm_vs_never": 3.4289583333333358,
+     "harmful_promotion_rate": 0.0025
+    },
+    "xu_acquisition_only": {
+     "promote": 0.13333333333333336,
+     "boot_lo": 0.09666666666666668,
+     "boot_hi": 0.17250000000000001,
+     "pooled_wilson_hi": 0.1537,
+     "runs": 1200,
+     "harm_vs_never": 3.5184583333333346,
+     "harmful_promotion_rate": 0.0
+    }
+   }
+  },
+  "metro": {
+   "median_rho_hat": 0.9,
+   "disagreement": 0.00805,
+   "policies": {
+    "A1b": {
+     "promote": 0.0,
+     "boot_lo": 0.0,
+     "boot_hi": 0.0,
+     "pooled_wilson_hi": 0.004,
+     "runs": 960,
+     "harm_vs_never": 0.8050000000000002,
+     "harmful_promotion_rate": 0.0
+    },
+    "A5b": {
+     "promote": 0.0,
+     "boot_lo": 0.0,
+     "boot_hi": 0.0,
+     "pooled_wilson_hi": 0.004,
+     "runs": 960,
+     "harm_vs_never": 0.7623437499999999,
+     "harmful_promotion_rate": 0.0
+    },
+    "CONTROL_never_switch": {
+     "promote": 0.0,
+     "boot_lo": 0.0,
+     "boot_hi": 0.0,
+     "pooled_wilson_hi": 0.004,
+     "runs": 960,
+     "harm_vs_never": 0.0,
+     "harmful_promotion_rate": 0.0
+    },
+    "D1": {
+     "promote": 0.025,
+     "boot_lo": 0.009375,
+     "boot_hi": 0.04375,
+     "pooled_wilson_hi": 0.0369,
+     "runs": 960,
+     "harm_vs_never": 0.50375,
+     "harmful_promotion_rate": 0.0
+    },
+    "D2": {
+     "promote": 0.030208333333333337,
+     "boot_lo": 0.013541666666666665,
+     "boot_hi": 0.0479427083333332,
+     "pooled_wilson_hi": 0.043,
+     "runs": 960,
+     "harm_vs_never": 0.6815625000000001,
+     "harmful_promotion_rate": 0.0
+    },
+    "QSG": {
+     "promote": 0.0375,
+     "boot_lo": 0.015625,
+     "boot_hi": 0.0625,
+     "pooled_wilson_hi": 0.0515,
+     "runs": 960,
+     "harm_vs_never": 0.9112500000000001,
+     "harmful_promotion_rate": 0.0
+    },
+    "SMCS+retain-incumbent": {
+     "promote": 0.0375,
+     "boot_lo": 0.014557291666666666,
+     "boot_hi": 0.06875,
+     "pooled_wilson_hi": 0.0515,
+     "runs": 960,
+     "harm_vs_never": 0.8831770833333334,
+     "harmful_promotion_rate": 0.0
+    },
+    "cams_adapter": {
+     "promote": 0.8197916666666666,
+     "boot_lo": 0.7770833333333333,
+     "boot_hi": 0.85625,
+     "pooled_wilson_hi": 0.8428,
+     "runs": 960,
+     "harm_vs_never": 8.868958333333332,
+     "harmful_promotion_rate": 0.325
+    },
+    "choe_ramdas_eb": {
+     "promote": 0.009375,
+     "boot_lo": 0.0,
+     "boot_hi": 0.01875,
+     "pooled_wilson_hi": 0.0177,
+     "runs": 960,
+     "harm_vs_never": 0.8353125000000001,
+     "harmful_promotion_rate": 0.0
+    },
+    "choe_ramdas_eb+front": {
+     "promote": 0.009375,
+     "boot_lo": 0.0,
+     "boot_hi": 0.01875,
+     "pooled_wilson_hi": 0.0177,
+     "runs": 960,
+     "harm_vs_never": 0.8398437500000001,
+     "harmful_promotion_rate": 0.0
+    },
+    "discern_design_floor": {
+     "promote": 0.0,
+     "boot_lo": 0.0,
+     "boot_hi": 0.0,
+     "pooled_wilson_hi": 0.004,
+     "runs": 960,
+     "harm_vs_never": 0.8002083333333335,
+     "harmful_promotion_rate": 0.0
+    },
+    "discern_style": {
+     "promote": 0.0,
+     "boot_lo": 0.0,
+     "boot_hi": 0.0,
+     "pooled_wilson_hi": 0.004,
+     "runs": 960,
+     "harm_vs_never": 0.8002083333333335,
+     "harmful_promotion_rate": 0.0
+    },
+    "gated_adaptive_range": {
+     "promote": 0.00625,
+     "boot_lo": 0.0,
+     "boot_hi": 0.015625,
+     "pooled_wilson_hi": 0.0136,
+     "runs": 960,
+     "harm_vs_never": 0.8304166666666667,
+     "harmful_promotion_rate": 0.0
+    },
+    "gated_adaptive_range+front": {
+     "promote": 0.00625,
+     "boot_lo": 0.0,
+     "boot_hi": 0.015625,
+     "pooled_wilson_hi": 0.0136,
+     "runs": 960,
+     "harm_vs_never": 0.8346875,
+     "harmful_promotion_rate": 0.0
+    },
+    "gated_deployment": {
+     "promote": 0.00625,
+     "boot_lo": 0.0,
+     "boot_hi": 0.015625,
+     "pooled_wilson_hi": 0.0136,
+     "runs": 960,
+     "harm_vs_never": 0.8304166666666667,
+     "harmful_promotion_rate": 0.0
+    },
+    "gated_deployment+QCE": {
+     "promote": 0.00625,
+     "boot_lo": 0.0,
+     "boot_hi": 0.015625,
+     "pooled_wilson_hi": 0.0136,
+     "runs": 960,
+     "harm_vs_never": 0.8369791666666669,
+     "harmful_promotion_rate": 0.0
+    },
+    "gated_deployment+QCE+front": {
+     "promote": 0.00625,
+     "boot_lo": 0.0,
+     "boot_hi": 0.015625,
+     "pooled_wilson_hi": 0.0136,
+     "runs": 960,
+     "harm_vs_never": 0.8412500000000002,
+     "harmful_promotion_rate": 0.0
+    },
+    "model_picker_adapter": {
+     "promote": 0.7197916666666666,
+     "boot_lo": 0.6729166666666667,
+     "boot_hi": 0.765625,
+     "pooled_wilson_hi": 0.7473,
+     "runs": 960,
+     "harm_vs_never": 5.690572916666666,
+     "harmful_promotion_rate": 0.27395833333333336
+    },
+    "rmm:SMCS+retain-incumbent+RMM": {
+     "promote": 0.015625,
+     "boot_lo": 0.00625,
+     "boot_hi": 0.028125,
+     "pooled_wilson_hi": 0.0256,
+     "runs": 960,
+     "harm_vs_never": 0.8190104166666669,
+     "harmful_promotion_rate": 0.0
+    },
+    "rmm:discern_style+RMM": {
+     "promote": 0.00625,
+     "boot_lo": 0.0,
+     "boot_hi": 0.015625,
+     "pooled_wilson_hi": 0.0136,
+     "runs": 960,
+     "harm_vs_never": 0.8367708333333336,
+     "harmful_promotion_rate": 0.0
+    },
+    "rmm:gated_adaptive_range+RMM": {
+     "promote": 0.00625,
+     "boot_lo": 0.0,
+     "boot_hi": 0.015625,
+     "pooled_wilson_hi": 0.0136,
+     "runs": 960,
+     "harm_vs_never": 0.8369791666666669,
+     "harmful_promotion_rate": 0.0
+    },
+    "rmm:gated_deployment+RMM": {
+     "promote": 0.00625,
+     "boot_lo": 0.0,
+     "boot_hi": 0.015625,
+     "pooled_wilson_hi": 0.0136,
+     "runs": 960,
+     "harm_vs_never": 0.8376562500000002,
+     "harmful_promotion_rate": 0.0
+    },
+    "xu_acquisition_only": {
+     "promote": 0.0125,
+     "boot_lo": 0.003125,
+     "boot_hi": 0.025,
+     "pooled_wilson_hi": 0.0217,
+     "runs": 960,
+     "harm_vs_never": 0.8317708333333336,
+     "harmful_promotion_rate": 0.0
+    }
+   }
+  }
+ },
+ "K1": {
+  "gated_adaptive_range": [
+   "appliances",
+   "beijing_pm25",
+   "household_power"
+  ],
+  "gated_adaptive_range+front": [
+   "appliances",
+   "beijing_pm25",
+   "household_power"
+  ],
+  "discern_design_floor": [
+   "appliances"
+  ],
+  "SMCS+retain-incumbent": [
+   "appliances",
+   "beijing_pm25",
+   "bike_hour",
+   "household_power"
+  ],
+  "xu_acquisition_only": [
+   "appliances",
+   "beijing_pm25",
+   "bike_hour",
+   "household_power"
+  ],
+  "choe_ramdas_eb": [
+   "appliances",
+   "beijing_pm25",
+   "household_power"
+  ],
+  "choe_ramdas_eb+front": [
+   "appliances",
+   "beijing_pm25",
+   "household_power"
+  ],
+  "gated_deployment+QCE": [
+   "appliances",
+   "beijing_pm25",
+   "household_power"
+  ],
+  "gated_deployment+QCE+front": [
+   "appliances",
+   "beijing_pm25",
+   "household_power"
+  ]
+ },
+ "K2": {
+  "appliances": true,
+  "beijing_pm25": true,
+  "bike_hour": false,
+  "household_power": true,
+  "metro": true
+ },
+ "K1_n_failing": 9,
+ "K1_pass": true,
+ "K2_pass": false
+}

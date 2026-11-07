@@ -1,0 +1,194 @@
+{
+  "records": 2520,
+  "seed_base": 2026110901,
+  "scope": "historical cached real; development-exposed; descriptive only",
+  "filter": "episodes with mean realized advantage ep_adv > 0 across seeds (retrospective selection)",
+  "pairs": {
+    "A5b-QSG": {
+      "n_sources": 9,
+      "n_positive_episodes": 126,
+      "by_source": {
+        "airlines": {
+          "positive_episodes": 17,
+          "net": 9.353921568627445,
+          "delay": 257.94117647058823,
+          "labels": -7.03921568627451,
+          "promotion": -0.11764705882352941
+        },
+        "bank": {
+          "positive_episodes": 1,
+          "net": 43.0,
+          "delay": 1802.0,
+          "labels": 0.0,
+          "promotion": -1.0
+        },
+        "criteo": {
+          "positive_episodes": 50,
+          "net": 1.4070000000000005,
+          "delay": 120.32,
+          "labels": -0.66,
+          "promotion": -0.14
+        },
+        "elec2": {
+          "positive_episodes": 3,
+          "net": 7.522222222222234,
+          "delay": 1093.3333333333333,
+          "labels": -36.22222222222222,
+          "promotion": -0.6666666666666666
+        },
+        "openml_ldpa": {
+          "positive_episodes": 31,
+          "net": 95.00537634408602,
+          "delay": 603.4623655913978,
+          "labels": -19.677419354838708,
+          "promotion": -0.25806451612903225
+        },
+        "rialto": {
+          "positive_episodes": 16,
+          "net": 99.234375,
+          "delay": 1253.25,
+          "labels": -17.8125,
+          "promotion": -0.5625
+        },
+        "spam": {
+          "positive_episodes": 1,
+          "net": 81.0,
+          "delay": 367.0,
+          "labels": 0.0,
+          "promotion": 0.0
+        },
+        "uci_occupancy": {
+          "positive_episodes": 4,
+          "net": 353.0333333333333,
+          "delay": 861.0,
+          "labels": -9.333333333333334,
+          "promotion": -0.75
+        },
+        "weather": {
+          "positive_episodes": 3,
+          "net": 2.6666666666666665,
+          "delay": 136.66666666666666,
+          "labels": 0.0,
+          "promotion": -0.3333333333333333
+        }
+      },
+      "mean_delta": {
+        "net": 76.91365501499284,
+        "delay": 721.6637268957762,
+        "labels": -10.082743399629862,
+        "promotion": -0.42535684166139576
+      },
+      "ci95_source_cluster": {
+        "net": [
+          22.63283557054841,
+          154.1035608969797
+        ],
+        "delay": [
+          384.31279142947506,
+          1089.3357870370369
+        ],
+        "labels": [
+          -18.426174980087616,
+          -3.111111111111111
+        ],
+        "promotion": [
+          -0.633442265795207,
+          -0.22498647129102536
+        ]
+      }
+    },
+    "D5-D2": {
+      "n_sources": 9,
+      "n_positive_episodes": 126,
+      "by_source": {
+        "airlines": {
+          "positive_episodes": 17,
+          "net": 7.747058823529413,
+          "delay": 164.76470588235293,
+          "labels": 16.90196078431373,
+          "promotion": -0.0980392156862745
+        },
+        "bank": {
+          "positive_episodes": 1,
+          "net": 14.766666666666652,
+          "delay": 597.0,
+          "labels": 15.333333333333334,
+          "promotion": -0.3333333333333333
+        },
+        "criteo": {
+          "positive_episodes": 50,
+          "net": 2.2496666666666645,
+          "delay": 154.52,
+          "labels": 10.326666666666668,
+          "promotion": -0.14
+        },
+        "elec2": {
+          "positive_episodes": 3,
+          "net": 12.438888888888902,
+          "delay": 969.0,
+          "labels": 48.77777777777778,
+          "promotion": -0.6666666666666666
+        },
+        "openml_ldpa": {
+          "positive_episodes": 31,
+          "net": 97.84462365591398,
+          "delay": 670.3655913978495,
+          "labels": 94.09677419354838,
+          "promotion": -0.21505376344086022
+        },
+        "rialto": {
+          "positive_episodes": 16,
+          "net": 96.96041666666666,
+          "delay": 1153.2916666666667,
+          "labels": 99.625,
+          "promotion": -0.4375
+        },
+        "spam": {
+          "positive_episodes": 1,
+          "net": 74.01666666666667,
+          "delay": 342.0,
+          "labels": 87.0,
+          "promotion": 0.0
+        },
+        "uci_occupancy": {
+          "positive_episodes": 4,
+          "net": 350.91249999999997,
+          "delay": 853.4166666666667,
+          "labels": 38.25,
+          "promotion": -0.75
+        },
+        "weather": {
+          "positive_episodes": 3,
+          "net": 8.733333333333336,
+          "delay": 259.11111111111114,
+          "labels": 30.222222222222218,
+          "promotion": -0.3333333333333333
+        }
+      },
+      "mean_delta": {
+        "net": 73.96331348537025,
+        "delay": 573.7188601916274,
+        "labels": 48.94819277531801,
+        "promotion": -0.330436256940052
+      },
+      "ci95_source_cluster": {
+        "net": [
+          19.799656804179264,
+          150.93136698526482
+        ],
+        "delay": [
+          359.0848371459695,
+          804.2365013704406
+        ],
+        "labels": [
+          28.077731627896085,
+          71.59154368133154
+        ],
+        "promotion": [
+          -0.4894598311546841,
+          -0.1846029236067187
+        ]
+      }
+    }
+  }
+}

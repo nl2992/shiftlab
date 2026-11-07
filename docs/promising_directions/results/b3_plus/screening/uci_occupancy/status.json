@@ -1,0 +1,69 @@
+{
+  "dataset_id": "uci_occupancy",
+  "status": "SUCCESS",
+  "reason": "conditions 1-5 hold: P7s - P3b CI entirely below 0 and mean P7s < mean P0 (LOW-POWER: seed bootstrap, K<5)",
+  "timestamps": {
+    "registered_at_utc": "2026-11-02T23:41:39.458815+00:00",
+    "downloaded_at_utc": "2026-11-02T23:41:40.170050+00:00",
+    "loaded_at_utc": "2026-11-02T23:41:40.267803+00:00",
+    "validated_at_utc": "2026-11-02T23:41:40.290692+00:00",
+    "pair_selected_at_utc": "2026-11-02T23:41:40.539990+00:00",
+    "locked_window_read_at_utc": "2026-11-02T23:41:40.540618+00:00",
+    "evaluated_at_utc": "2026-11-02T23:41:45.498172+00:00"
+  },
+  "screening": {
+    "stage": "evaluated",
+    "mean_cost": {
+      "P0": 481.25,
+      "P1": 75.25,
+      "P2": 183.62212499999998,
+      "P3b": 177.63187499999995,
+      "P6": 236.44837499999997,
+      "P7s": 176.62412499999996
+    },
+    "paired": {
+      "P7s_minus_P3b": {
+        "mean": -1.0077499999999873,
+        "lo": -1.0282499999999988,
+        "hi": -0.9881218750000011,
+        "bootstrap_level": "seed",
+        "low_power": true,
+        "frac_episodes_a_below_b": 0.25
+      },
+      "P7s_minus_P0": {
+        "mean": -304.62587500000006,
+        "lo": -305.68013125,
+        "hi": -303.587365625,
+        "bootstrap_level": "seed",
+        "low_power": true,
+        "frac_episodes_a_below_b": 0.25
+      },
+      "P7s_minus_P6": {
+        "mean": -59.82424999999999,
+        "lo": -61.97003437499999,
+        "hi": -57.772037499999996,
+        "bootstrap_level": "seed",
+        "low_power": true,
+        "frac_episodes_a_below_b": 0.25
+      },
+      "P7s_minus_P2": {
+        "mean": -6.998000000000021,
+        "lo": -8.436640624999997,
+        "hi": -5.78031249999999,
+        "bootstrap_level": "seed",
+        "low_power": true,
+        "frac_episodes_a_below_b": 1.0
+      },
+      "P3b_minus_P0": {
+        "mean": -303.6181250000001,
+        "lo": -304.60848437500005,
+        "hi": -302.66558125000006,
+        "bootstrap_level": "seed",
+        "low_power": true,
+        "frac_episodes_a_below_b": 0.25
+      }
+    },
+    "episodes": 4,
+    "low_power": true
+  }
+}

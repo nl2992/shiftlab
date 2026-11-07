@@ -1,0 +1,5549 @@
+{
+ "F0_better": {
+  "tags": [
+   "alt"
+  ],
+  "policies": {
+   "CONTROL_never_switch": {
+    "net": 424.5,
+    "promote": 0.0,
+    "rollbacks": 0.0,
+    "labels": 0.0,
+    "switches": 0.0,
+    "first": -1.0,
+    "delay": -1.0,
+    "regret": 116.95,
+    "pending": 0.0,
+    "runtime": 0.011
+   },
+   "E_glr:gated_adaptive_range": {
+    "net": 434.448,
+    "promote": 0.05,
+    "rollbacks": 0.0,
+    "labels": 199.95,
+    "switches": 0.05,
+    "first": 1678.0,
+    "delay": 1678.0,
+    "regret": 126.898,
+    "pending": 21.15,
+    "runtime": 0.848
+   },
+   "E_glr:gated_deployment": {
+    "net": 434.5,
+    "promote": 0.0,
+    "rollbacks": 0.0,
+    "labels": 200.0,
+    "switches": 0.0,
+    "first": -1.0,
+    "delay": -1.0,
+    "regret": 126.95,
+    "pending": 20.15,
+    "runtime": 0.456
+   },
+   "E_rb:SMCS+retain-incumbent": {
+    "net": 370.85,
+    "promote": 0.9,
+    "rollbacks": 0.0,
+    "labels": 200.0,
+    "switches": 0.9,
+    "first": 701.5,
+    "delay": 701.5,
+    "regret": 63.3,
+    "pending": 21.75,
+    "runtime": 0.075
+   },
+   "E_rb:discern_style": {
+    "net": 371.95,
+    "promote": 0.9,
+    "rollbacks": 0.0,
+    "labels": 200.0,
+    "switches": 0.9,
+    "first": 697.0,
+    "delay": 697.0,
+    "regret": 64.4,
+    "pending": 21.2,
+    "runtime": 0.042
+   },
+   "E_rb:gated_adaptive_range": {
+    "net": 378.847,
+    "promote": 0.95,
+    "rollbacks": 0.0,
+    "labels": 199.95,
+    "switches": 0.95,
+    "first": 820.0,
+    "delay": 820.0,
+    "regret": 71.298,
+    "pending": 21.15,
+    "runtime": 0.428
+   },
+   "E_rb:gated_adaptive_range-nogate": {
+    "net": 378.847,
+    "promote": 0.95,
+    "rollbacks": 0.0,
+    "labels": 199.95,
+    "switches": 0.95,
+    "first": 820.0,
+    "delay": 820.0,
+    "regret": 71.298,
+    "pending": 21.15,
+    "runtime": 0.406
+   },
+   "E_rb:gated_deployment": {
+    "net": 375.8,
+    "promote": 0.9,
+    "rollbacks": 0.0,
+    "labels": 200.0,
+    "switches": 0.9,
+    "first": 682.0,
+    "delay": 682.0,
+    "regret": 68.25,
+    "pending": 20.2,
+    "runtime": 0.21
+   },
+   "E_rb:gated_deployment-a05": {
+    "net": 375.8,
+    "promote": 0.9,
+    "rollbacks": 0.0,
+    "labels": 200.0,
+    "switches": 0.9,
+    "first": 682.0,
+    "delay": 682.0,
+    "regret": 68.25,
+    "pending": 20.2,
+    "runtime": 0.219
+   },
+   "E_rb:gated_deployment-nogate": {
+    "net": 375.8,
+    "promote": 0.9,
+    "rollbacks": 0.0,
+    "labels": 200.0,
+    "switches": 0.9,
+    "first": 682.0,
+    "delay": 682.0,
+    "regret": 68.25,
+    "pending": 20.2,
+    "runtime": 0.223
+   },
+   "E_srr:SMCS+retain-incumbent": {
+    "net": 352.15,
+    "promote": 1.0,
+    "rollbacks": 0.0,
+    "labels": 200.0,
+    "switches": 1.0,
+    "first": 432.5,
+    "delay": 432.5,
+    "regret": 44.6,
+    "pending": 21.4,
+    "runtime": 0.076
+   },
+   "E_srr:discern_style": {
+    "net": 352.6,
+    "promote": 1.0,
+    "rollbacks": 0.0,
+    "labels": 200.0,
+    "switches": 1.0,
+    "first": 372.0,
+    "delay": 372.0,
+    "regret": 45.05,
+    "pending": 21.2,
+    "runtime": 0.045
+   },
+   "E_srr:gated_adaptive_range": {
+    "net": 355.9,
+    "promote": 1.0,
+    "rollbacks": 0.0,
+    "labels": 200.0,
+    "switches": 1.0,
+    "first": 485.5,
+    "delay": 485.5,
+    "regret": 48.35,
+    "pending": 21.05,
+    "runtime": 0.252
+   },
+   "E_srr:gated_deployment": {
+    "net": 352.3,
+    "promote": 1.0,
+    "rollbacks": 0.0,
+    "labels": 200.0,
+    "switches": 1.0,
+    "first": 413.5,
+    "delay": 413.5,
+    "regret": 44.75,
+    "pending": 20.1,
+    "runtime": 0.133
+   },
+   "E_srrSR:gated_deployment": {
+    "net": 382.15,
+    "promote": 1.0,
+    "rollbacks": 1.4,
+    "labels": 200.0,
+    "switches": 3.4,
+    "first": 260.5,
+    "delay": 260.5,
+    "regret": 74.6,
+    "pending": 20.05,
+    "runtime": 0.105
+   },
+   "E_srr_noacq:gated_adaptive_range": {
+    "net": 369.835,
+    "promote": 0.95,
+    "rollbacks": 0.0,
+    "labels": 199.7,
+    "switches": 0.95,
+    "first": 642.0,
+    "delay": 642.0,
+    "regret": 62.285,
+    "pending": 17.75,
+    "runtime": 0.35
+   },
+   "E_srr_noacq:gated_deployment": {
+    "net": 359.78,
+    "promote": 1.0,
+    "rollbacks": 0.0,
+    "labels": 199.6,
+    "switches": 1.0,
+    "first": 542.0,
+    "delay": 542.0,
+    "regret": 52.23,
+    "pending": 17.8,
+    "runtime": 0.162
+   },
+   "E_swcert": {
+    "net": 376.88,
+    "promote": 0.75,
+    "rollbacks": 0.0,
+    "labels": 199.6,
+    "switches": 0.75,
+    "first": 533.0,
+    "delay": 533.0,
+    "regret": 69.33,
+    "pending": 18.15,
+    "runtime": 0.019
+   },
+   "E_swcert-W100": {
+    "net": 372.93,
+    "promote": 0.9,
+    "rollbacks": 0.0,
+    "labels": 199.6,
+    "switches": 0.9,
+    "first": 580.5,
+    "delay": 580.5,
+    "regret": 65.38,
+    "pending": 18.15,
+    "runtime": 0.019
+   },
+   "E_swcert-W25": {
+    "net": 382.98,
+    "promote": 0.6,
+    "rollbacks": 0.0,
+    "labels": 199.6,
+    "switches": 0.6,
+    "first": 363.5,
+    "delay": 363.5,
+    "regret": 75.43,
+    "pending": 18.15,
+    "runtime": 0.02
+   },
+   "E_swcert-cum": {
+    "net": 374.73,
+    "promote": 0.9,
+    "rollbacks": 0.0,
+    "labels": 199.6,
+    "switches": 0.9,
+    "first": 580.5,
+    "delay": 580.5,
+    "regret": 67.18,
+    "pending": 18.15,
+    "runtime": 0.018
+   },
+   "SMCS+retain-incumbent": {
+    "net": 375.888,
+    "promote": 0.85,
+    "rollbacks": 0.0,
+    "labels": 199.75,
+    "switches": 0.85,
+    "first": 577.0,
+    "delay": 577.0,
+    "regret": 68.338,
+    "pending": 17.45,
+    "runtime": 0.066
+   },
+   "choe_ramdas_eb+front": {
+    "net": 362.572,
+    "promote": 0.85,
+    "rollbacks": 0.0,
+    "labels": 127.45,
+    "switches": 0.85,
+    "first": 599.0,
+    "delay": 599.0,
+    "regret": 55.022,
+    "pending": 27.2,
+    "runtime": 0.017
+   },
+   "discern_style": {
+    "net": 434.48,
+    "promote": 0.0,
+    "rollbacks": 0.0,
+    "labels": 199.6,
+    "switches": 0.0,
+    "first": -1.0,
+    "delay": -1.0,
+    "regret": 126.93,
+    "pending": 17.85,
+    "runtime": 0.024
+   },
+   "gated_adaptive_range": {
+    "net": 408.048,
+    "promote": 0.65,
+    "rollbacks": 0.0,
+    "labels": 148.95,
+    "switches": 0.65,
+    "first": 1133.0,
+    "delay": 1133.0,
+    "regret": 100.498,
+    "pending": 17.25,
+    "runtime": 0.593
+   },
+   "gated_adaptive_range+front": {
+    "net": 370.14,
+    "promote": 0.75,
+    "rollbacks": 0.0,
+    "labels": 131.8,
+    "switches": 0.75,
+    "first": 527.0,
+    "delay": 527.0,
+    "regret": 62.59,
+    "pending": 27.55,
+    "runtime": 0.232
+   },
+   "gated_deployment": {
+    "net": 434.48,
+    "promote": 0.0,
+    "rollbacks": 0.0,
+    "labels": 199.6,
+    "switches": 0.0,
+    "first": -1.0,
+    "delay": -1.0,
+    "regret": 126.93,
+    "pending": 18.0,
+    "runtime": 0.412
+   },
+   "rmm:LRMD": {
+    "net": 368.45,
+    "promote": 0.9,
+    "rollbacks": 0.0,
+    "labels": 200.0,
+    "switches": 0.9,
+    "first": 601.0,
+    "delay": 601.0,
+    "regret": 60.9,
+    "pending": 23.55,
+    "runtime": 0.032
+   },
+   "rmm:SMCS+retain-incumbent+RMM": {
+    "net": 370.85,
+    "promote": 0.9,
+    "rollbacks": 0.0,
+    "labels": 200.0,
+    "switches": 0.9,
+    "first": 701.5,
+    "delay": 701.5,
+    "regret": 63.3,
+    "pending": 21.75,
+    "runtime": 0.078
+   },
+   "rmm:discern_style+RMM": {
+    "net": 371.95,
+    "promote": 0.9,
+    "rollbacks": 0.0,
+    "labels": 200.0,
+    "switches": 0.9,
+    "first": 697.0,
+    "delay": 697.0,
+    "regret": 64.4,
+    "pending": 21.2,
+    "runtime": 0.053
+   },
+   "rmm:gated_adaptive_range+RMM": {
+    "net": 378.847,
+    "promote": 0.95,
+    "rollbacks": 0.0,
+    "labels": 199.95,
+    "switches": 0.95,
+    "first": 820.0,
+    "delay": 820.0,
+    "regret": 71.298,
+    "pending": 21.15,
+    "runtime": 0.427
+   },
+   "rmm:gated_deployment+RMM": {
+    "net": 375.8,
+    "promote": 0.9,
+    "rollbacks": 0.0,
+    "labels": 200.0,
+    "switches": 0.9,
+    "first": 682.0,
+    "delay": 682.0,
+    "regret": 68.25,
+    "pending": 20.2,
+    "runtime": 0.228
+   },
+   "rmm:gated_deployment+RMM_noacq": {
+    "net": 383.922,
+    "promote": 0.95,
+    "rollbacks": 0.0,
+    "labels": 199.45,
+    "switches": 0.95,
+    "first": 900.0,
+    "delay": 900.0,
+    "regret": 76.372,
+    "pending": 18.05,
+    "runtime": 0.237
+   },
+   "rmm:gated_deployment+RMM_single": {
+    "net": 365.5,
+    "promote": 0.95,
+    "rollbacks": 0.0,
+    "labels": 200.0,
+    "switches": 0.95,
+    "first": 608.0,
+    "delay": 608.0,
+    "regret": 57.95,
+    "pending": 20.1,
+    "runtime": 0.179
+   },
+   "xu_acquisition_only": {
+    "net": 386.157,
+    "promote": 0.85,
+    "rollbacks": 0.0,
+    "labels": 196.15,
+    "switches": 0.85,
+    "first": 756.0,
+    "delay": 756.0,
+    "regret": 78.608,
+    "pending": 17.8,
+    "runtime": 0.262
+   }
+  },
+  "best_certified": "gated_adaptive_range+front",
+  "best_uncertified": null,
+  "contrasts": {
+   "E_rb:gated_deployment": {
+    "host": {
+     "vs": "rmm:gated_deployment+RMM",
+     "mean": 0.0,
+     "lo": 0.0,
+     "hi": 0.0,
+     "n": 20,
+     "frac_better": 0.0
+    },
+    "best_certified": {
+     "vs": "gated_adaptive_range+front",
+     "mean": 5.66,
+     "lo": -8.45,
+     "hi": 19.77,
+     "n": 20,
+     "frac_better": 0.25
+    },
+    "best_any": {
+     "vs": "E_srr:SMCS+retain-incumbent",
+     "mean": 23.65,
+     "lo": 10.72,
+     "hi": 36.58,
+     "n": 20,
+     "frac_better": 0.1
+    }
+   },
+   "E_rb:discern_style": {
+    "host": {
+     "vs": "rmm:discern_style+RMM",
+     "mean": 0.0,
+     "lo": 0.0,
+     "hi": 0.0,
+     "n": 20,
+     "frac_better": 0.0
+    },
+    "best_certified": {
+     "vs": "gated_adaptive_range+front",
+     "mean": 1.81,
+     "lo": -11.73,
+     "hi": 15.35,
+     "n": 20,
+     "frac_better": 0.35
+    },
+    "best_any": {
+     "vs": "E_srr:SMCS+retain-incumbent",
+     "mean": 19.8,
+     "lo": 9.58,
+     "hi": 30.02,
+     "n": 20,
+     "frac_better": 0.15
+    }
+   },
+   "E_rb:SMCS+retain-incumbent": {
+    "host": {
+     "vs": "rmm:SMCS+retain-incumbent+RMM",
+     "mean": 0.0,
+     "lo": 0.0,
+     "hi": 0.0,
+     "n": 20,
+     "frac_better": 0.0
+    },
+    "best_certified": {
+     "vs": "gated_adaptive_range+front",
+     "mean": 0.71,
+     "lo": -12.59,
+     "hi": 14.01,
+     "n": 20,
+     "frac_better": 0.3
+    },
+    "best_any": {
+     "vs": "E_srr:SMCS+retain-incumbent",
+     "mean": 18.7,
+     "lo": 9.78,
+     "hi": 27.62,
+     "n": 20,
+     "frac_better": 0.05
+    }
+   },
+   "E_rb:gated_adaptive_range": {
+    "host": {
+     "vs": "rmm:gated_adaptive_range+RMM",
+     "mean": 0.0,
+     "lo": 0.0,
+     "hi": 0.0,
+     "n": 20,
+     "frac_better": 0.0
+    },
+    "best_certified": {
+     "vs": "gated_adaptive_range+front",
+     "mean": 8.71,
+     "lo": -5.92,
+     "hi": 23.34,
+     "n": 20,
+     "frac_better": 0.2
+    },
+    "best_any": {
+     "vs": "E_srr:SMCS+retain-incumbent",
+     "mean": 26.7,
+     "lo": 14.15,
+     "hi": 39.24,
+     "n": 20,
+     "frac_better": 0.1
+    }
+   },
+   "E_swcert": {
+    "host": {
+     "vs": "xu_acquisition_only",
+     "mean": -9.28,
+     "lo": -27.86,
+     "hi": 9.31,
+     "n": 20,
+     "frac_better": 0.5
+    },
+    "best_certified": {
+     "vs": "gated_adaptive_range+front",
+     "mean": 6.74,
+     "lo": -11.95,
+     "hi": 25.43,
+     "n": 20,
+     "frac_better": 0.3
+    },
+    "best_any": {
+     "vs": "E_srr:SMCS+retain-incumbent",
+     "mean": 24.73,
+     "lo": 5.51,
+     "hi": 43.95,
+     "n": 20,
+     "frac_better": 0.15
+    }
+   },
+   "E_srr:gated_deployment": {
+    "host": {
+     "vs": "rmm:gated_deployment+RMM",
+     "mean": -23.5,
+     "lo": -34.32,
+     "hi": -12.68,
+     "n": 20,
+     "frac_better": 1.0
+    },
+    "best_certified": {
+     "vs": "gated_adaptive_range+front",
+     "mean": -17.84,
+     "lo": -31.16,
+     "hi": -4.52,
+     "n": 20,
+     "frac_better": 0.55
+    },
+    "best_any": {
+     "vs": "E_srr:SMCS+retain-incumbent",
+     "mean": 0.15,
+     "lo": -6.37,
+     "hi": 6.67,
+     "n": 20,
+     "frac_better": 0.25
+    }
+   },
+   "E_srr:gated_adaptive_range": {
+    "host": {
+     "vs": "rmm:gated_adaptive_range+RMM",
+     "mean": -22.95,
+     "lo": -32.82,
+     "hi": -13.08,
+     "n": 20,
+     "frac_better": 1.0
+    },
+    "best_certified": {
+     "vs": "gated_adaptive_range+front",
+     "mean": -14.24,
+     "lo": -26.19,
+     "hi": -2.29,
+     "n": 20,
+     "frac_better": 0.5
+    },
+    "best_any": {
+     "vs": "E_srr:SMCS+retain-incumbent",
+     "mean": 3.75,
+     "lo": -5.71,
+     "hi": 13.21,
+     "n": 20,
+     "frac_better": 0.45
+    }
+   }
+  }
+ },
+ "F0_null": {
+  "tags": [
+   "null"
+  ],
+  "policies": {
+   "CONTROL_never_switch": {
+    "net": 359.0,
+    "promote": 0.0,
+    "rollbacks": 0.0,
+    "labels": 0.0,
+    "switches": 0.0,
+    "first": -1.0,
+    "delay": -1,
+    "regret": 0.0,
+    "pending": 0.0,
+    "runtime": 0.011
+   },
+   "E_glr:gated_adaptive_range": {
+    "net": 369.0,
+    "promote": 0.0,
+    "rollbacks": 0.0,
+    "labels": 200.0,
+    "switches": 0.0,
+    "first": -1.0,
+    "delay": -1,
+    "regret": 10.0,
+    "pending": 20.8,
+    "runtime": 0.959
+   },
+   "E_glr:gated_deployment": {
+    "net": 369.0,
+    "promote": 0.0,
+    "rollbacks": 0.0,
+    "labels": 200.0,
+    "switches": 0.0,
+    "first": -1.0,
+    "delay": -1,
+    "regret": 10.0,
+    "pending": 21.1,
+    "runtime": 0.498
+   },
+   "E_rb:SMCS+retain-incumbent": {
+    "net": 369.0,
+    "promote": 0.0,
+    "rollbacks": 0.0,
+    "labels": 200.0,
+    "switches": 0.0,
+    "first": -1.0,
+    "delay": -1,
+    "regret": 10.0,
+    "pending": 20.7,
+    "runtime": 0.084
+   },
+   "E_rb:discern_style": {
+    "net": 369.0,
+    "promote": 0.0,
+    "rollbacks": 0.0,
+    "labels": 200.0,
+    "switches": 0.0,
+    "first": -1.0,
+    "delay": -1,
+    "regret": 10.0,
+    "pending": 20.4,
+    "runtime": 0.053
+   },
+   "E_rb:gated_adaptive_range": {
+    "net": 369.0,
+    "promote": 0.0,
+    "rollbacks": 0.0,
+    "labels": 200.0,
+    "switches": 0.0,
+    "first": -1.0,
+    "delay": -1,
+    "regret": 10.0,
+    "pending": 20.8,
+    "runtime": 0.96
+   },
+   "E_rb:gated_adaptive_range-nogate": {
+    "net": 369.0,
+    "promote": 0.0,
+    "rollbacks": 0.0,
+    "labels": 200.0,
+    "switches": 0.0,
+    "first": -1.0,
+    "delay": -1,
+    "regret": 10.0,
+    "pending": 20.8,
+    "runtime": 0.896
+   },
+   "E_rb:gated_deployment": {
+    "net": 369.0,
+    "promote": 0.0,
+    "rollbacks": 0.0,
+    "labels": 200.0,
+    "switches": 0.0,
+    "first": -1.0,
+    "delay": -1,
+    "regret": 10.0,
+    "pending": 21.1,
+    "runtime": 0.489
+   },
+   "E_rb:gated_deployment-a05": {
+    "net": 369.0,
+    "promote": 0.0,
+    "rollbacks": 0.0,
+    "labels": 200.0,
+    "switches": 0.0,
+    "first": -1.0,
+    "delay": -1,
+    "regret": 10.0,
+    "pending": 21.1,
+    "runtime": 0.458
+   },
+   "E_rb:gated_deployment-nogate": {
+    "net": 369.0,
+    "promote": 0.0,
+    "rollbacks": 0.0,
+    "labels": 200.0,
+    "switches": 0.0,
+    "first": -1.0,
+    "delay": -1,
+    "regret": 10.0,
+    "pending": 21.1,
+    "runtime": 0.469
+   },
+   "E_srr:SMCS+retain-incumbent": {
+    "net": 370.4,
+    "promote": 0.2,
+    "rollbacks": 0.05,
+    "labels": 200.0,
+    "switches": 0.25,
+    "first": 544.5,
+    "delay": -1,
+    "regret": 11.4,
+    "pending": 20.6,
+    "runtime": 0.098
+   },
+   "E_srr:discern_style": {
+    "net": 369.45,
+    "promote": 0.05,
+    "rollbacks": 0.0,
+    "labels": 200.0,
+    "switches": 0.05,
+    "first": 1360.0,
+    "delay": -1,
+    "regret": 10.45,
+    "pending": 20.4,
+    "runtime": 0.054
+   },
+   "E_srr:gated_adaptive_range": {
+    "net": 371.9,
+    "promote": 0.1,
+    "rollbacks": 0.05,
+    "labels": 200.0,
+    "switches": 0.15,
+    "first": 1277.5,
+    "delay": -1,
+    "regret": 12.9,
+    "pending": 20.8,
+    "runtime": 0.917
+   },
+   "E_srr:gated_deployment": {
+    "net": 370.6,
+    "promote": 0.1,
+    "rollbacks": 0.05,
+    "labels": 200.0,
+    "switches": 0.15,
+    "first": 1182.0,
+    "delay": -1,
+    "regret": 11.6,
+    "pending": 21.1,
+    "runtime": 0.46
+   },
+   "E_srrSR:gated_deployment": {
+    "net": 389.15,
+    "promote": 1.0,
+    "rollbacks": 1.5,
+    "labels": 200.0,
+    "switches": 3.25,
+    "first": 392.0,
+    "delay": -1,
+    "regret": 30.15,
+    "pending": 21.1,
+    "runtime": 0.123
+   },
+   "E_srr_noacq:gated_adaptive_range": {
+    "net": 370.99,
+    "promote": 0.1,
+    "rollbacks": 0.0,
+    "labels": 199.8,
+    "switches": 0.1,
+    "first": 1436.0,
+    "delay": -1,
+    "regret": 11.99,
+    "pending": 18.0,
+    "runtime": 0.915
+   },
+   "E_srr_noacq:gated_deployment": {
+    "net": 370.245,
+    "promote": 0.25,
+    "rollbacks": 0.05,
+    "labels": 199.9,
+    "switches": 0.3,
+    "first": 1010.0,
+    "delay": -1,
+    "regret": 11.245,
+    "pending": 17.4,
+    "runtime": 0.428
+   },
+   "E_swcert": {
+    "net": 368.992,
+    "promote": 0.0,
+    "rollbacks": 0.0,
+    "labels": 199.85,
+    "switches": 0.0,
+    "first": -1.0,
+    "delay": -1,
+    "regret": 9.992,
+    "pending": 18.1,
+    "runtime": 0.022
+   },
+   "E_swcert-W100": {
+    "net": 368.992,
+    "promote": 0.0,
+    "rollbacks": 0.0,
+    "labels": 199.85,
+    "switches": 0.0,
+    "first": -1.0,
+    "delay": -1,
+    "regret": 9.992,
+    "pending": 18.1,
+    "runtime": 0.02
+   },
+   "E_swcert-W25": {
+    "net": 368.992,
+    "promote": 0.0,
+    "rollbacks": 0.0,
+    "labels": 199.85,
+    "switches": 0.0,
+    "first": -1.0,
+    "delay": -1,
+    "regret": 9.992,
+    "pending": 18.1,
+    "runtime": 0.023
+   },
+   "E_swcert-cum": {
+    "net": 368.992,
+    "promote": 0.0,
+    "rollbacks": 0.0,
+    "labels": 199.85,
+    "switches": 0.0,
+    "first": -1.0,
+    "delay": -1,
+    "regret": 9.992,
+    "pending": 18.1,
+    "runtime": 0.02
+   },
+   "SMCS+retain-incumbent": {
+    "net": 368.995,
+    "promote": 0.0,
+    "rollbacks": 0.0,
+    "labels": 199.9,
+    "switches": 0.0,
+    "first": -1.0,
+    "delay": -1,
+    "regret": 9.995,
+    "pending": 18.2,
+    "runtime": 0.075
+   },
+   "choe_ramdas_eb+front": {
+    "net": 369.0,
+    "promote": 0.0,
+    "rollbacks": 0.0,
+    "labels": 200.0,
+    "switches": 0.0,
+    "first": -1.0,
+    "delay": -1,
+    "regret": 10.0,
+    "pending": 28.0,
+    "runtime": 0.02
+   },
+   "discern_style": {
+    "net": 368.995,
+    "promote": 0.0,
+    "rollbacks": 0.0,
+    "labels": 199.9,
+    "switches": 0.0,
+    "first": -1.0,
+    "delay": -1,
+    "regret": 9.995,
+    "pending": 18.0,
+    "runtime": 0.026
+   },
+   "gated_adaptive_range": {
+    "net": 368.995,
+    "promote": 0.0,
+    "rollbacks": 0.0,
+    "labels": 199.9,
+    "switches": 0.0,
+    "first": -1.0,
+    "delay": -1,
+    "regret": 9.995,
+    "pending": 17.4,
+    "runtime": 0.914
+   },
+   "gated_adaptive_range+front": {
+    "net": 369.0,
+    "promote": 0.0,
+    "rollbacks": 0.0,
+    "labels": 200.0,
+    "switches": 0.0,
+    "first": -1.0,
+    "delay": -1,
+    "regret": 10.0,
+    "pending": 28.0,
+    "runtime": 0.419
+   },
+   "gated_deployment": {
+    "net": 368.995,
+    "promote": 0.0,
+    "rollbacks": 0.0,
+    "labels": 199.9,
+    "switches": 0.0,
+    "first": -1.0,
+    "delay": -1,
+    "regret": 9.995,
+    "pending": 17.4,
+    "runtime": 0.45
+   },
+   "rmm:LRMD": {
+    "net": 369.0,
+    "promote": 0.0,
+    "rollbacks": 0.0,
+    "labels": 200.0,
+    "switches": 0.0,
+    "first": -1.0,
+    "delay": -1,
+    "regret": 10.0,
+    "pending": 24.35,
+    "runtime": 0.032
+   },
+   "rmm:SMCS+retain-incumbent+RMM": {
+    "net": 369.0,
+    "promote": 0.0,
+    "rollbacks": 0.0,
+    "labels": 200.0,
+    "switches": 0.0,
+    "first": -1.0,
+    "delay": -1,
+    "regret": 10.0,
+    "pending": 20.7,
+    "runtime": 0.075
+   },
+   "rmm:discern_style+RMM": {
+    "net": 369.0,
+    "promote": 0.0,
+    "rollbacks": 0.0,
+    "labels": 200.0,
+    "switches": 0.0,
+    "first": -1.0,
+    "delay": -1,
+    "regret": 10.0,
+    "pending": 20.4,
+    "runtime": 0.047
+   },
+   "rmm:gated_adaptive_range+RMM": {
+    "net": 369.0,
+    "promote": 0.0,
+    "rollbacks": 0.0,
+    "labels": 200.0,
+    "switches": 0.0,
+    "first": -1.0,
+    "delay": -1,
+    "regret": 10.0,
+    "pending": 20.8,
+    "runtime": 0.901
+   },
+   "rmm:gated_deployment+RMM": {
+    "net": 369.0,
+    "promote": 0.0,
+    "rollbacks": 0.0,
+    "labels": 200.0,
+    "switches": 0.0,
+    "first": -1.0,
+    "delay": -1,
+    "regret": 10.0,
+    "pending": 21.1,
+    "runtime": 0.46
+   },
+   "rmm:gated_deployment+RMM_noacq": {
+    "net": 369.295,
+    "promote": 0.05,
+    "rollbacks": 0.0,
+    "labels": 199.9,
+    "switches": 0.05,
+    "first": 1414.0,
+    "delay": -1,
+    "regret": 10.295,
+    "pending": 17.35,
+    "runtime": 0.527
+   },
+   "rmm:gated_deployment+RMM_single": {
+    "net": 369.0,
+    "promote": 0.0,
+    "rollbacks": 0.0,
+    "labels": 200.0,
+    "switches": 0.0,
+    "first": -1.0,
+    "delay": -1,
+    "regret": 10.0,
+    "pending": 21.1,
+    "runtime": 0.467
+   },
+   "xu_acquisition_only": {
+    "net": 368.818,
+    "promote": 0.0,
+    "rollbacks": 0.0,
+    "labels": 196.35,
+    "switches": 0.0,
+    "first": -1.0,
+    "delay": -1,
+    "regret": 9.817,
+    "pending": 18.5,
+    "runtime": 0.314
+   }
+  },
+  "best_certified": "xu_acquisition_only",
+  "best_uncertified": null,
+  "contrasts": {
+   "E_rb:gated_deployment": {
+    "host": {
+     "vs": "rmm:gated_deployment+RMM",
+     "mean": 0.0,
+     "lo": 0.0,
+     "hi": 0.0,
+     "n": 20,
+     "frac_better": 0.0
+    },
+    "best_certified": {
+     "vs": "xu_acquisition_only",
+     "mean": 0.18,
+     "lo": 0.02,
+     "hi": 0.34,
+     "n": 20,
+     "frac_better": 0.0
+    },
+    "best_any": {
+     "vs": "CONTROL_never_switch",
+     "mean": 10.0,
+     "lo": 10.0,
+     "hi": 10.0,
+     "n": 20,
+     "frac_better": 0.0
+    },
+    "null_promotion": 0.0,
+    "null_bound_ok": true
+   },
+   "E_rb:discern_style": {
+    "host": {
+     "vs": "rmm:discern_style+RMM",
+     "mean": 0.0,
+     "lo": 0.0,
+     "hi": 0.0,
+     "n": 20,
+     "frac_better": 0.0
+    },
+    "best_certified": {
+     "vs": "xu_acquisition_only",
+     "mean": 0.18,
+     "lo": 0.02,
+     "hi": 0.34,
+     "n": 20,
+     "frac_better": 0.0
+    },
+    "best_any": {
+     "vs": "CONTROL_never_switch",
+     "mean": 10.0,
+     "lo": 10.0,
+     "hi": 10.0,
+     "n": 20,
+     "frac_better": 0.0
+    },
+    "null_promotion": 0.0,
+    "null_bound_ok": true
+   },
+   "E_rb:SMCS+retain-incumbent": {
+    "host": {
+     "vs": "rmm:SMCS+retain-incumbent+RMM",
+     "mean": 0.0,
+     "lo": 0.0,
+     "hi": 0.0,
+     "n": 20,
+     "frac_better": 0.0
+    },
+    "best_certified": {
+     "vs": "xu_acquisition_only",
+     "mean": 0.18,
+     "lo": 0.02,
+     "hi": 0.34,
+     "n": 20,
+     "frac_better": 0.0
+    },
+    "best_any": {
+     "vs": "CONTROL_never_switch",
+     "mean": 10.0,
+     "lo": 10.0,
+     "hi": 10.0,
+     "n": 20,
+     "frac_better": 0.0
+    },
+    "null_promotion": 0.0,
+    "null_bound_ok": true
+   },
+   "E_rb:gated_adaptive_range": {
+    "host": {
+     "vs": "rmm:gated_adaptive_range+RMM",
+     "mean": 0.0,
+     "lo": 0.0,
+     "hi": 0.0,
+     "n": 20,
+     "frac_better": 0.0
+    },
+    "best_certified": {
+     "vs": "xu_acquisition_only",
+     "mean": 0.18,
+     "lo": 0.02,
+     "hi": 0.34,
+     "n": 20,
+     "frac_better": 0.0
+    },
+    "best_any": {
+     "vs": "CONTROL_never_switch",
+     "mean": 10.0,
+     "lo": 10.0,
+     "hi": 10.0,
+     "n": 20,
+     "frac_better": 0.0
+    },
+    "null_promotion": 0.0,
+    "null_bound_ok": true
+   },
+   "E_swcert": {
+    "host": {
+     "vs": "xu_acquisition_only",
+     "mean": 0.17,
+     "lo": 0.02,
+     "hi": 0.33,
+     "n": 20,
+     "frac_better": 0.05
+    },
+    "best_certified": {
+     "vs": "xu_acquisition_only",
+     "mean": 0.17,
+     "lo": 0.02,
+     "hi": 0.33,
+     "n": 20,
+     "frac_better": 0.05
+    },
+    "best_any": {
+     "vs": "CONTROL_never_switch",
+     "mean": 9.99,
+     "lo": 9.98,
+     "hi": 10.0,
+     "n": 20,
+     "frac_better": 0.0
+    },
+    "null_promotion": 0.0,
+    "null_bound_ok": true
+   },
+   "E_srr:gated_deployment": {
+    "host": {
+     "vs": "rmm:gated_deployment+RMM",
+     "mean": 1.6,
+     "lo": -0.78,
+     "hi": 3.98,
+     "n": 20,
+     "frac_better": 0.0
+    },
+    "best_certified": {
+     "vs": "xu_acquisition_only",
+     "mean": 1.78,
+     "lo": -0.59,
+     "hi": 4.15,
+     "n": 20,
+     "frac_better": 0.0
+    },
+    "best_any": {
+     "vs": "CONTROL_never_switch",
+     "mean": 11.6,
+     "lo": 9.22,
+     "hi": 13.98,
+     "n": 20,
+     "frac_better": 0.0
+    },
+    "null_promotion": 0.1,
+    "null_bound_ok": false
+   },
+   "E_srr:gated_adaptive_range": {
+    "host": {
+     "vs": "rmm:gated_adaptive_range+RMM",
+     "mean": 2.9,
+     "lo": -1.01,
+     "hi": 6.81,
+     "n": 20,
+     "frac_better": 0.0
+    },
+    "best_certified": {
+     "vs": "xu_acquisition_only",
+     "mean": 3.08,
+     "lo": -0.81,
+     "hi": 6.97,
+     "n": 20,
+     "frac_better": 0.0
+    },
+    "best_any": {
+     "vs": "CONTROL_never_switch",
+     "mean": 12.9,
+     "lo": 8.99,
+     "hi": 16.81,
+     "n": 20,
+     "frac_better": 0.0
+    },
+    "null_promotion": 0.1,
+    "null_bound_ok": false
+   }
+  }
+ },
+ "F3_reversal_800": {
+  "tags": [
+   "change"
+  ],
+  "policies": {
+   "CONTROL_never_switch": {
+    "net": 352.5,
+    "promote": 0.0,
+    "rollbacks": 0.0,
+    "labels": 0.0,
+    "switches": 0.0,
+    "first": -1.0,
+    "delay": -1.0,
+    "regret": 55.0,
+    "pending": 0.0,
+    "runtime": 0.019
+   },
+   "E_glr:gated_adaptive_range": {
+    "net": 375.8,
+    "promote": 0.15,
+    "rollbacks": 0.0,
+    "labels": 200.0,
+    "switches": 0.15,
+    "first": 550.0,
+    "delay": 550.0,
+    "regret": 78.3,
+    "pending": 22.45,
+    "runtime": 1.23
+   },
+   "E_glr:gated_deployment": {
+    "net": 362.5,
+    "promote": 0.0,
+    "rollbacks": 0.0,
+    "labels": 200.0,
+    "switches": 0.0,
+    "first": -1.0,
+    "delay": -1.0,
+    "regret": 65.0,
+    "pending": 21.7,
+    "runtime": 0.774
+   },
+   "E_rb:SMCS+retain-incumbent": {
+    "net": 393.2,
+    "promote": 0.8,
+    "rollbacks": 0.75,
+    "labels": 200.0,
+    "switches": 1.55,
+    "first": 439.5,
+    "delay": 439.5,
+    "regret": 95.7,
+    "pending": 21.85,
+    "runtime": 0.133
+   },
+   "E_rb:discern_style": {
+    "net": 388.85,
+    "promote": 0.75,
+    "rollbacks": 0.6,
+    "labels": 200.0,
+    "switches": 1.35,
+    "first": 469.0,
+    "delay": 469.0,
+    "regret": 91.35,
+    "pending": 21.4,
+    "runtime": 0.064
+   },
+   "E_rb:gated_adaptive_range": {
+    "net": 390.6,
+    "promote": 0.8,
+    "rollbacks": 0.75,
+    "labels": 200.0,
+    "switches": 1.55,
+    "first": 532.5,
+    "delay": 532.5,
+    "regret": 93.1,
+    "pending": 22.35,
+    "runtime": 0.565
+   },
+   "E_rb:gated_adaptive_range-nogate": {
+    "net": 390.6,
+    "promote": 0.8,
+    "rollbacks": 0.75,
+    "labels": 200.0,
+    "switches": 1.55,
+    "first": 532.5,
+    "delay": 532.5,
+    "regret": 93.1,
+    "pending": 22.35,
+    "runtime": 0.687
+   },
+   "E_rb:gated_deployment": {
+    "net": 382.75,
+    "promote": 0.65,
+    "rollbacks": 0.65,
+    "labels": 200.0,
+    "switches": 1.3,
+    "first": 476.0,
+    "delay": 476.0,
+    "regret": 85.25,
+    "pending": 21.7,
+    "runtime": 0.451
+   },
+   "E_rb:gated_deployment-a05": {
+    "net": 388.4,
+    "promote": 0.65,
+    "rollbacks": 0.45,
+    "labels": 200.0,
+    "switches": 1.1,
+    "first": 476.0,
+    "delay": 476.0,
+    "regret": 90.9,
+    "pending": 21.7,
+    "runtime": 0.409
+   },
+   "E_rb:gated_deployment-nogate": {
+    "net": 382.75,
+    "promote": 0.65,
+    "rollbacks": 0.65,
+    "labels": 200.0,
+    "switches": 1.3,
+    "first": 476.0,
+    "delay": 476.0,
+    "regret": 85.25,
+    "pending": 21.7,
+    "runtime": 0.488
+   },
+   "E_srr:SMCS+retain-incumbent": {
+    "net": 375.05,
+    "promote": 0.95,
+    "rollbacks": 0.85,
+    "labels": 200.0,
+    "switches": 1.8,
+    "first": 382.0,
+    "delay": 382.0,
+    "regret": 77.55,
+    "pending": 21.95,
+    "runtime": 0.127
+   },
+   "E_srr:discern_style": {
+    "net": 376.75,
+    "promote": 1.0,
+    "rollbacks": 0.95,
+    "labels": 200.0,
+    "switches": 1.95,
+    "first": 317.5,
+    "delay": 317.5,
+    "regret": 79.25,
+    "pending": 21.35,
+    "runtime": 0.068
+   },
+   "E_srr:gated_adaptive_range": {
+    "net": 366.1,
+    "promote": 1.0,
+    "rollbacks": 1.0,
+    "labels": 200.0,
+    "switches": 2.0,
+    "first": 314.5,
+    "delay": 314.5,
+    "regret": 68.6,
+    "pending": 22.15,
+    "runtime": 0.227
+   },
+   "E_srr:gated_deployment": {
+    "net": 368.35,
+    "promote": 0.95,
+    "rollbacks": 0.9,
+    "labels": 200.0,
+    "switches": 1.85,
+    "first": 331.0,
+    "delay": 331.0,
+    "regret": 70.85,
+    "pending": 21.7,
+    "runtime": 0.214
+   },
+   "E_srrSR:gated_deployment": {
+    "net": 345.0,
+    "promote": 1.0,
+    "rollbacks": 1.3,
+    "labels": 200.0,
+    "switches": 2.6,
+    "first": 207.0,
+    "delay": 207.0,
+    "regret": 47.5,
+    "pending": 21.55,
+    "runtime": 0.11
+   },
+   "E_srr_noacq:gated_adaptive_range": {
+    "net": 379.335,
+    "promote": 0.95,
+    "rollbacks": 0.95,
+    "labels": 199.7,
+    "switches": 1.9,
+    "first": 432.0,
+    "delay": 432.0,
+    "regret": 81.835,
+    "pending": 17.3,
+    "runtime": 0.45
+   },
+   "E_srr_noacq:gated_deployment": {
+    "net": 375.53,
+    "promote": 0.9,
+    "rollbacks": 0.9,
+    "labels": 199.6,
+    "switches": 1.8,
+    "first": 404.0,
+    "delay": 404.0,
+    "regret": 78.03,
+    "pending": 17.5,
+    "runtime": 0.271
+   },
+   "E_swcert": {
+    "net": 408.082,
+    "promote": 0.85,
+    "rollbacks": 0.45,
+    "labels": 199.65,
+    "switches": 1.3,
+    "first": 466.0,
+    "delay": 466.0,
+    "regret": 110.583,
+    "pending": 18.3,
+    "runtime": 0.028
+   },
+   "E_swcert-W100": {
+    "net": 412.832,
+    "promote": 0.85,
+    "rollbacks": 0.45,
+    "labels": 199.65,
+    "switches": 1.3,
+    "first": 466.0,
+    "delay": 466.0,
+    "regret": 115.333,
+    "pending": 18.3,
+    "runtime": 0.036
+   },
+   "E_swcert-W25": {
+    "net": 392.882,
+    "promote": 0.6,
+    "rollbacks": 0.2,
+    "labels": 199.65,
+    "switches": 0.8,
+    "first": 331.0,
+    "delay": 331.0,
+    "regret": 95.383,
+    "pending": 18.3,
+    "runtime": 0.03
+   },
+   "E_swcert-cum": {
+    "net": 414.732,
+    "promote": 0.85,
+    "rollbacks": 0.15,
+    "labels": 199.65,
+    "switches": 1.0,
+    "first": 466.0,
+    "delay": 466.0,
+    "regret": 117.232,
+    "pending": 18.3,
+    "runtime": 0.03
+   },
+   "SMCS+retain-incumbent": {
+    "net": 421.235,
+    "promote": 0.85,
+    "rollbacks": 0.0,
+    "labels": 199.7,
+    "switches": 0.85,
+    "first": 443.0,
+    "delay": 443.0,
+    "regret": 123.735,
+    "pending": 18.6,
+    "runtime": 0.113
+   },
+   "choe_ramdas_eb+front": {
+    "net": 417.77,
+    "promote": 0.95,
+    "rollbacks": 0.0,
+    "labels": 87.4,
+    "switches": 0.95,
+    "first": 334.0,
+    "delay": 334.0,
+    "regret": 120.27,
+    "pending": 27.05,
+    "runtime": 0.025
+   },
+   "discern_style": {
+    "net": 362.485,
+    "promote": 0.0,
+    "rollbacks": 0.0,
+    "labels": 199.7,
+    "switches": 0.0,
+    "first": -1.0,
+    "delay": -1.0,
+    "regret": 64.985,
+    "pending": 18.25,
+    "runtime": 0.054
+   },
+   "gated_adaptive_range": {
+    "net": 385.868,
+    "promote": 0.3,
+    "rollbacks": 0.0,
+    "labels": 160.35,
+    "switches": 0.3,
+    "first": 770.0,
+    "delay": 770.0,
+    "regret": 88.367,
+    "pending": 17.05,
+    "runtime": 1.066
+   },
+   "gated_adaptive_range+front": {
+    "net": 420.143,
+    "promote": 0.95,
+    "rollbacks": 0.0,
+    "labels": 91.85,
+    "switches": 0.95,
+    "first": 399.0,
+    "delay": 399.0,
+    "regret": 122.642,
+    "pending": 27.55,
+    "runtime": 0.206
+   },
+   "gated_deployment": {
+    "net": 364.095,
+    "promote": 0.05,
+    "rollbacks": 0.0,
+    "labels": 190.9,
+    "switches": 0.05,
+    "first": 261.0,
+    "delay": 261.0,
+    "regret": 66.595,
+    "pending": 17.3,
+    "runtime": 0.651
+   },
+   "rmm:LRMD": {
+    "net": 416.8,
+    "promote": 1.0,
+    "rollbacks": 0.6,
+    "labels": 200.0,
+    "switches": 1.6,
+    "first": 413.0,
+    "delay": 413.0,
+    "regret": 119.3,
+    "pending": 24.65,
+    "runtime": 0.049
+   },
+   "rmm:SMCS+retain-incumbent+RMM": {
+    "net": 400.6,
+    "promote": 0.8,
+    "rollbacks": 0.55,
+    "labels": 200.0,
+    "switches": 1.35,
+    "first": 439.5,
+    "delay": 439.5,
+    "regret": 103.1,
+    "pending": 21.85,
+    "runtime": 0.126
+   },
+   "rmm:discern_style+RMM": {
+    "net": 396.55,
+    "promote": 0.75,
+    "rollbacks": 0.5,
+    "labels": 200.0,
+    "switches": 1.25,
+    "first": 469.0,
+    "delay": 469.0,
+    "regret": 99.05,
+    "pending": 21.4,
+    "runtime": 0.064
+   },
+   "rmm:gated_adaptive_range+RMM": {
+    "net": 403.8,
+    "promote": 0.8,
+    "rollbacks": 0.55,
+    "labels": 200.0,
+    "switches": 1.35,
+    "first": 532.5,
+    "delay": 532.5,
+    "regret": 106.3,
+    "pending": 22.35,
+    "runtime": 0.62
+   },
+   "rmm:gated_deployment+RMM": {
+    "net": 389.45,
+    "promote": 0.65,
+    "rollbacks": 0.45,
+    "labels": 200.0,
+    "switches": 1.1,
+    "first": 476.0,
+    "delay": 476.0,
+    "regret": 91.95,
+    "pending": 21.7,
+    "runtime": 0.393
+   },
+   "rmm:gated_deployment+RMM_noacq": {
+    "net": 393.702,
+    "promote": 0.5,
+    "rollbacks": 0.35,
+    "labels": 191.05,
+    "switches": 0.85,
+    "first": 696.0,
+    "delay": 696.0,
+    "regret": 96.202,
+    "pending": 17.4,
+    "runtime": 0.48
+   },
+   "rmm:gated_deployment+RMM_single": {
+    "net": 404.2,
+    "promote": 0.8,
+    "rollbacks": 0.25,
+    "labels": 200.0,
+    "switches": 1.05,
+    "first": 409.0,
+    "delay": 409.0,
+    "regret": 106.7,
+    "pending": 21.6,
+    "runtime": 0.309
+   },
+   "xu_acquisition_only": {
+    "net": 410.162,
+    "promote": 0.75,
+    "rollbacks": 0.45,
+    "labels": 198.25,
+    "switches": 1.2,
+    "first": 458.0,
+    "delay": 458.0,
+    "regret": 112.662,
+    "pending": 18.35,
+    "runtime": 0.402
+   }
+  },
+  "best_certified": "discern_style",
+  "best_uncertified": null,
+  "contrasts": {
+   "E_rb:gated_deployment": {
+    "host": {
+     "vs": "rmm:gated_deployment+RMM",
+     "mean": -6.7,
+     "lo": -12.92,
+     "hi": -0.48,
+     "n": 20,
+     "frac_better": 0.55
+    },
+    "best_certified": {
+     "vs": "discern_style",
+     "mean": 20.27,
+     "lo": 10.23,
+     "hi": 30.3,
+     "n": 20,
+     "frac_better": 0.05
+    },
+    "best_any": {
+     "vs": "E_srrSR:gated_deployment",
+     "mean": 37.75,
+     "lo": 22.08,
+     "hi": 53.42,
+     "n": 20,
+     "frac_better": 0.2
+    }
+   },
+   "E_rb:discern_style": {
+    "host": {
+     "vs": "rmm:discern_style+RMM",
+     "mean": -7.7,
+     "lo": -12.12,
+     "hi": -3.28,
+     "n": 20,
+     "frac_better": 0.5
+    },
+    "best_certified": {
+     "vs": "discern_style",
+     "mean": 26.36,
+     "lo": 15.99,
+     "hi": 36.74,
+     "n": 20,
+     "frac_better": 0.05
+    },
+    "best_any": {
+     "vs": "E_srrSR:gated_deployment",
+     "mean": 43.85,
+     "lo": 28.12,
+     "hi": 59.58,
+     "n": 20,
+     "frac_better": 0.2
+    }
+   },
+   "E_rb:SMCS+retain-incumbent": {
+    "host": {
+     "vs": "rmm:SMCS+retain-incumbent+RMM",
+     "mean": -7.4,
+     "lo": -12.97,
+     "hi": -1.83,
+     "n": 20,
+     "frac_better": 0.45
+    },
+    "best_certified": {
+     "vs": "discern_style",
+     "mean": 30.71,
+     "lo": 18.77,
+     "hi": 42.66,
+     "n": 20,
+     "frac_better": 0.05
+    },
+    "best_any": {
+     "vs": "E_srrSR:gated_deployment",
+     "mean": 48.2,
+     "lo": 33.43,
+     "hi": 62.97,
+     "n": 20,
+     "frac_better": 0.1
+    }
+   },
+   "E_rb:gated_adaptive_range": {
+    "host": {
+     "vs": "rmm:gated_adaptive_range+RMM",
+     "mean": -13.2,
+     "lo": -20.3,
+     "hi": -6.1,
+     "n": 20,
+     "frac_better": 0.7
+    },
+    "best_certified": {
+     "vs": "discern_style",
+     "mean": 28.11,
+     "lo": 18.81,
+     "hi": 37.42,
+     "n": 20,
+     "frac_better": 0.0
+    },
+    "best_any": {
+     "vs": "E_srrSR:gated_deployment",
+     "mean": 45.6,
+     "lo": 29.48,
+     "hi": 61.72,
+     "n": 20,
+     "frac_better": 0.15
+    }
+   },
+   "E_swcert": {
+    "host": {
+     "vs": "xu_acquisition_only",
+     "mean": -2.08,
+     "lo": -18.25,
+     "hi": 14.09,
+     "n": 20,
+     "frac_better": 0.5
+    },
+    "best_certified": {
+     "vs": "discern_style",
+     "mean": 45.6,
+     "lo": 34.72,
+     "hi": 56.47,
+     "n": 20,
+     "frac_better": 0.05
+    },
+    "best_any": {
+     "vs": "E_srrSR:gated_deployment",
+     "mean": 63.08,
+     "lo": 49.88,
+     "hi": 76.29,
+     "n": 20,
+     "frac_better": 0.05
+    }
+   },
+   "E_srr:gated_deployment": {
+    "host": {
+     "vs": "rmm:gated_deployment+RMM",
+     "mean": -21.1,
+     "lo": -38.95,
+     "hi": -3.25,
+     "n": 20,
+     "frac_better": 0.6
+    },
+    "best_certified": {
+     "vs": "discern_style",
+     "mean": 5.87,
+     "lo": -3.33,
+     "hi": 15.06,
+     "n": 20,
+     "frac_better": 0.4
+    },
+    "best_any": {
+     "vs": "E_srrSR:gated_deployment",
+     "mean": 23.35,
+     "lo": 14.37,
+     "hi": 32.33,
+     "n": 20,
+     "frac_better": 0.1
+    }
+   },
+   "E_srr:gated_adaptive_range": {
+    "host": {
+     "vs": "rmm:gated_adaptive_range+RMM",
+     "mean": -37.7,
+     "lo": -55.47,
+     "hi": -19.93,
+     "n": 20,
+     "frac_better": 0.8
+    },
+    "best_certified": {
+     "vs": "discern_style",
+     "mean": 3.62,
+     "lo": -4.45,
+     "hi": 11.68,
+     "n": 20,
+     "frac_better": 0.45
+    },
+    "best_any": {
+     "vs": "E_srrSR:gated_deployment",
+     "mean": 21.1,
+     "lo": 9.39,
+     "hi": 32.81,
+     "n": 20,
+     "frac_better": 0.25
+    }
+   }
+  }
+ },
+ "F4_recurrent": {
+  "tags": [
+   "change"
+  ],
+  "policies": {
+   "CONTROL_never_switch": {
+    "net": 365.25,
+    "promote": 0.0,
+    "rollbacks": 0.0,
+    "labels": 0.0,
+    "switches": 0.0,
+    "first": -1.0,
+    "delay": -1.0,
+    "regret": 60.35,
+    "pending": 0.0,
+    "runtime": 0.012
+   },
+   "E_glr:gated_adaptive_range": {
+    "net": 379.55,
+    "promote": 0.1,
+    "rollbacks": 0.0,
+    "labels": 200.0,
+    "switches": 0.1,
+    "first": 447.5,
+    "delay": 447.5,
+    "regret": 74.65,
+    "pending": 20.75,
+    "runtime": 0.783
+   },
+   "E_glr:gated_deployment": {
+    "net": 375.25,
+    "promote": 0.0,
+    "rollbacks": 0.0,
+    "labels": 200.0,
+    "switches": 0.0,
+    "first": -1.0,
+    "delay": -1.0,
+    "regret": 70.35,
+    "pending": 21.2,
+    "runtime": 0.44
+   },
+   "E_rb:SMCS+retain-incumbent": {
+    "net": 393.45,
+    "promote": 0.7,
+    "rollbacks": 0.35,
+    "labels": 200.0,
+    "switches": 1.1,
+    "first": 304.5,
+    "delay": 304.5,
+    "regret": 88.55,
+    "pending": 20.95,
+    "runtime": 0.075
+   },
+   "E_rb:discern_style": {
+    "net": 413.25,
+    "promote": 0.85,
+    "rollbacks": 0.35,
+    "labels": 200.0,
+    "switches": 1.35,
+    "first": 464.0,
+    "delay": 464.0,
+    "regret": 108.35,
+    "pending": 21.45,
+    "runtime": 0.038
+   },
+   "E_rb:gated_adaptive_range": {
+    "net": 393.1,
+    "promote": 0.45,
+    "rollbacks": 0.3,
+    "labels": 200.0,
+    "switches": 0.85,
+    "first": 423.0,
+    "delay": 423.0,
+    "regret": 88.2,
+    "pending": 20.9,
+    "runtime": 0.553
+   },
+   "E_rb:gated_adaptive_range-nogate": {
+    "net": 393.1,
+    "promote": 0.45,
+    "rollbacks": 0.3,
+    "labels": 200.0,
+    "switches": 0.85,
+    "first": 423.0,
+    "delay": 423.0,
+    "regret": 88.2,
+    "pending": 20.9,
+    "runtime": 0.579
+   },
+   "E_rb:gated_deployment": {
+    "net": 387.7,
+    "promote": 0.4,
+    "rollbacks": 0.15,
+    "labels": 200.0,
+    "switches": 0.55,
+    "first": 428.5,
+    "delay": 428.5,
+    "regret": 82.8,
+    "pending": 21.2,
+    "runtime": 0.284
+   },
+   "E_rb:gated_deployment-a05": {
+    "net": 388.55,
+    "promote": 0.4,
+    "rollbacks": 0.15,
+    "labels": 200.0,
+    "switches": 0.55,
+    "first": 428.5,
+    "delay": 428.5,
+    "regret": 83.65,
+    "pending": 21.2,
+    "runtime": 0.313
+   },
+   "E_rb:gated_deployment-nogate": {
+    "net": 387.7,
+    "promote": 0.4,
+    "rollbacks": 0.15,
+    "labels": 200.0,
+    "switches": 0.55,
+    "first": 428.5,
+    "delay": 428.5,
+    "regret": 82.8,
+    "pending": 21.2,
+    "runtime": 0.308
+   },
+   "E_srr:SMCS+retain-incumbent": {
+    "net": 406.65,
+    "promote": 0.95,
+    "rollbacks": 0.6,
+    "labels": 200.0,
+    "switches": 2.0,
+    "first": 300.0,
+    "delay": 300.0,
+    "regret": 101.75,
+    "pending": 21.0,
+    "runtime": 0.076
+   },
+   "E_srr:discern_style": {
+    "net": 399.85,
+    "promote": 0.9,
+    "rollbacks": 0.8,
+    "labels": 200.0,
+    "switches": 2.0,
+    "first": 354.0,
+    "delay": 354.0,
+    "regret": 94.95,
+    "pending": 21.4,
+    "runtime": 0.045
+   },
+   "E_srr:gated_adaptive_range": {
+    "net": 411.85,
+    "promote": 1.0,
+    "rollbacks": 0.95,
+    "labels": 200.0,
+    "switches": 2.35,
+    "first": 356.0,
+    "delay": 356.0,
+    "regret": 106.95,
+    "pending": 20.75,
+    "runtime": 0.223
+   },
+   "E_srr:gated_deployment": {
+    "net": 408.0,
+    "promote": 0.9,
+    "rollbacks": 0.85,
+    "labels": 200.0,
+    "switches": 2.2,
+    "first": 319.5,
+    "delay": 319.5,
+    "regret": 103.1,
+    "pending": 21.15,
+    "runtime": 0.149
+   },
+   "E_srrSR:gated_deployment": {
+    "net": 380.4,
+    "promote": 1.0,
+    "rollbacks": 1.95,
+    "labels": 200.0,
+    "switches": 3.95,
+    "first": 211.5,
+    "delay": 211.5,
+    "regret": 75.5,
+    "pending": 20.8,
+    "runtime": 0.084
+   },
+   "E_srr_noacq:gated_adaptive_range": {
+    "net": 404.388,
+    "promote": 0.85,
+    "rollbacks": 0.95,
+    "labels": 199.75,
+    "switches": 2.0,
+    "first": 530.0,
+    "delay": 530.0,
+    "regret": 99.488,
+    "pending": 17.65,
+    "runtime": 0.407
+   },
+   "E_srr_noacq:gated_deployment": {
+    "net": 397.548,
+    "promote": 0.8,
+    "rollbacks": 0.6,
+    "labels": 199.95,
+    "switches": 1.5,
+    "first": 569.0,
+    "delay": 569.0,
+    "regret": 92.648,
+    "pending": 17.5,
+    "runtime": 0.24
+   },
+   "E_swcert": {
+    "net": 392.185,
+    "promote": 0.6,
+    "rollbacks": 0.0,
+    "labels": 199.7,
+    "switches": 0.6,
+    "first": 311.5,
+    "delay": 311.5,
+    "regret": 87.285,
+    "pending": 17.95,
+    "runtime": 0.018
+   },
+   "E_swcert-W100": {
+    "net": 392.185,
+    "promote": 0.6,
+    "rollbacks": 0.0,
+    "labels": 199.7,
+    "switches": 0.6,
+    "first": 311.5,
+    "delay": 311.5,
+    "regret": 87.285,
+    "pending": 17.95,
+    "runtime": 0.02
+   },
+   "E_swcert-W25": {
+    "net": 391.635,
+    "promote": 0.5,
+    "rollbacks": 0.2,
+    "labels": 199.7,
+    "switches": 0.8,
+    "first": 305.5,
+    "delay": 305.5,
+    "regret": 86.735,
+    "pending": 17.95,
+    "runtime": 0.024
+   },
+   "E_swcert-cum": {
+    "net": 392.185,
+    "promote": 0.6,
+    "rollbacks": 0.0,
+    "labels": 199.7,
+    "switches": 0.6,
+    "first": 311.5,
+    "delay": 311.5,
+    "regret": 87.285,
+    "pending": 17.95,
+    "runtime": 0.017
+   },
+   "SMCS+retain-incumbent": {
+    "net": 396.938,
+    "promote": 0.85,
+    "rollbacks": 0.0,
+    "labels": 199.75,
+    "switches": 0.85,
+    "first": 323.0,
+    "delay": 323.0,
+    "regret": 92.038,
+    "pending": 17.5,
+    "runtime": 0.064
+   },
+   "choe_ramdas_eb+front": {
+    "net": 390.498,
+    "promote": 0.75,
+    "rollbacks": 0.0,
+    "labels": 105.95,
+    "switches": 0.75,
+    "first": 358.0,
+    "delay": 358.0,
+    "regret": 85.598,
+    "pending": 27.85,
+    "runtime": 0.013
+   },
+   "discern_style": {
+    "net": 375.24,
+    "promote": 0.0,
+    "rollbacks": 0.0,
+    "labels": 199.8,
+    "switches": 0.0,
+    "first": -1.0,
+    "delay": -1.0,
+    "regret": 70.34,
+    "pending": 18.1,
+    "runtime": 0.025
+   },
+   "gated_adaptive_range": {
+    "net": 382.822,
+    "promote": 0.25,
+    "rollbacks": 0.0,
+    "labels": 163.45,
+    "switches": 0.25,
+    "first": 488.0,
+    "delay": 488.0,
+    "regret": 77.922,
+    "pending": 17.15,
+    "runtime": 0.662
+   },
+   "gated_adaptive_range+front": {
+    "net": 391.79,
+    "promote": 0.75,
+    "rollbacks": 0.0,
+    "labels": 108.8,
+    "switches": 0.75,
+    "first": 387.0,
+    "delay": 387.0,
+    "regret": 86.89,
+    "pending": 28.15,
+    "runtime": 0.179
+   },
+   "gated_deployment": {
+    "net": 375.245,
+    "promote": 0.0,
+    "rollbacks": 0.0,
+    "labels": 199.9,
+    "switches": 0.0,
+    "first": -1.0,
+    "delay": -1.0,
+    "regret": 70.345,
+    "pending": 17.65,
+    "runtime": 0.426
+   },
+   "rmm:LRMD": {
+    "net": 395.0,
+    "promote": 0.6,
+    "rollbacks": 0.15,
+    "labels": 200.0,
+    "switches": 0.75,
+    "first": 372.0,
+    "delay": 372.0,
+    "regret": 90.1,
+    "pending": 25.2,
+    "runtime": 0.031
+   },
+   "rmm:SMCS+retain-incumbent+RMM": {
+    "net": 403.3,
+    "promote": 0.7,
+    "rollbacks": 0.25,
+    "labels": 200.0,
+    "switches": 1.15,
+    "first": 304.5,
+    "delay": 304.5,
+    "regret": 98.4,
+    "pending": 20.95,
+    "runtime": 0.071
+   },
+   "rmm:discern_style+RMM": {
+    "net": 410.95,
+    "promote": 0.85,
+    "rollbacks": 0.2,
+    "labels": 200.0,
+    "switches": 1.15,
+    "first": 464.0,
+    "delay": 464.0,
+    "regret": 106.05,
+    "pending": 21.45,
+    "runtime": 0.045
+   },
+   "rmm:gated_adaptive_range+RMM": {
+    "net": 393.45,
+    "promote": 0.45,
+    "rollbacks": 0.2,
+    "labels": 200.0,
+    "switches": 0.75,
+    "first": 423.0,
+    "delay": 423.0,
+    "regret": 88.55,
+    "pending": 20.9,
+    "runtime": 0.565
+   },
+   "rmm:gated_deployment+RMM": {
+    "net": 388.7,
+    "promote": 0.4,
+    "rollbacks": 0.1,
+    "labels": 200.0,
+    "switches": 0.5,
+    "first": 428.5,
+    "delay": 428.5,
+    "regret": 83.8,
+    "pending": 21.2,
+    "runtime": 0.293
+   },
+   "rmm:gated_deployment+RMM_noacq": {
+    "net": 390.845,
+    "promote": 0.4,
+    "rollbacks": 0.0,
+    "labels": 199.9,
+    "switches": 0.4,
+    "first": 518.0,
+    "delay": 518.0,
+    "regret": 85.945,
+    "pending": 17.4,
+    "runtime": 0.329
+   },
+   "rmm:gated_deployment+RMM_single": {
+    "net": 399.8,
+    "promote": 0.8,
+    "rollbacks": 0.15,
+    "labels": 200.0,
+    "switches": 1.05,
+    "first": 347.0,
+    "delay": 347.0,
+    "regret": 94.9,
+    "pending": 21.05,
+    "runtime": 0.156
+   },
+   "xu_acquisition_only": {
+    "net": 388.61,
+    "promote": 0.4,
+    "rollbacks": 0.05,
+    "labels": 197.2,
+    "switches": 0.45,
+    "first": 452.5,
+    "delay": 452.5,
+    "regret": 83.71,
+    "pending": 18.2,
+    "runtime": 0.277
+   }
+  },
+  "best_certified": "discern_style",
+  "best_uncertified": null,
+  "contrasts": {
+   "E_rb:gated_deployment": {
+    "host": {
+     "vs": "rmm:gated_deployment+RMM",
+     "mean": -1.0,
+     "lo": -2.11,
+     "hi": 0.11,
+     "n": 20,
+     "frac_better": 0.15
+    },
+    "best_certified": {
+     "vs": "discern_style",
+     "mean": 12.46,
+     "lo": 5.12,
+     "hi": 19.8,
+     "n": 20,
+     "frac_better": 0.0
+    },
+    "best_any": {
+     "vs": "CONTROL_never_switch",
+     "mean": 22.45,
+     "lo": 15.11,
+     "hi": 29.79,
+     "n": 20,
+     "frac_better": 0.0
+    }
+   },
+   "E_rb:discern_style": {
+    "host": {
+     "vs": "rmm:discern_style+RMM",
+     "mean": 2.3,
+     "lo": -5.03,
+     "hi": 9.63,
+     "n": 20,
+     "frac_better": 0.15
+    },
+    "best_certified": {
+     "vs": "discern_style",
+     "mean": 38.01,
+     "lo": 25.85,
+     "hi": 50.17,
+     "n": 20,
+     "frac_better": 0.0
+    },
+    "best_any": {
+     "vs": "CONTROL_never_switch",
+     "mean": 48.0,
+     "lo": 35.84,
+     "hi": 60.16,
+     "n": 20,
+     "frac_better": 0.0
+    }
+   },
+   "E_rb:SMCS+retain-incumbent": {
+    "host": {
+     "vs": "rmm:SMCS+retain-incumbent+RMM",
+     "mean": -9.85,
+     "lo": -18.83,
+     "hi": -0.87,
+     "n": 20,
+     "frac_better": 0.3
+    },
+    "best_certified": {
+     "vs": "discern_style",
+     "mean": 18.21,
+     "lo": 8.4,
+     "hi": 28.02,
+     "n": 20,
+     "frac_better": 0.0
+    },
+    "best_any": {
+     "vs": "CONTROL_never_switch",
+     "mean": 28.2,
+     "lo": 18.39,
+     "hi": 38.01,
+     "n": 20,
+     "frac_better": 0.0
+    }
+   },
+   "E_rb:gated_adaptive_range": {
+    "host": {
+     "vs": "rmm:gated_adaptive_range+RMM",
+     "mean": -0.35,
+     "lo": -1.11,
+     "hi": 0.41,
+     "n": 20,
+     "frac_better": 0.15
+    },
+    "best_certified": {
+     "vs": "discern_style",
+     "mean": 17.86,
+     "lo": 6.27,
+     "hi": 29.45,
+     "n": 20,
+     "frac_better": 0.0
+    },
+    "best_any": {
+     "vs": "CONTROL_never_switch",
+     "mean": 27.85,
+     "lo": 16.26,
+     "hi": 39.44,
+     "n": 20,
+     "frac_better": 0.0
+    }
+   },
+   "E_swcert": {
+    "host": {
+     "vs": "xu_acquisition_only",
+     "mean": 3.58,
+     "lo": -6.84,
+     "hi": 13.99,
+     "n": 20,
+     "frac_better": 0.35
+    },
+    "best_certified": {
+     "vs": "discern_style",
+     "mean": 16.94,
+     "lo": 8.43,
+     "hi": 25.46,
+     "n": 20,
+     "frac_better": 0.05
+    },
+    "best_any": {
+     "vs": "CONTROL_never_switch",
+     "mean": 26.93,
+     "lo": 18.42,
+     "hi": 35.45,
+     "n": 20,
+     "frac_better": 0.0
+    }
+   },
+   "E_srr:gated_deployment": {
+    "host": {
+     "vs": "rmm:gated_deployment+RMM",
+     "mean": 19.3,
+     "lo": 5.02,
+     "hi": 33.58,
+     "n": 20,
+     "frac_better": 0.25
+    },
+    "best_certified": {
+     "vs": "discern_style",
+     "mean": 32.76,
+     "lo": 22.31,
+     "hi": 43.21,
+     "n": 20,
+     "frac_better": 0.05
+    },
+    "best_any": {
+     "vs": "CONTROL_never_switch",
+     "mean": 42.75,
+     "lo": 32.3,
+     "hi": 53.2,
+     "n": 20,
+     "frac_better": 0.0
+    }
+   },
+   "E_srr:gated_adaptive_range": {
+    "host": {
+     "vs": "rmm:gated_adaptive_range+RMM",
+     "mean": 18.4,
+     "lo": 6.31,
+     "hi": 30.49,
+     "n": 20,
+     "frac_better": 0.3
+    },
+    "best_certified": {
+     "vs": "discern_style",
+     "mean": 36.61,
+     "lo": 28.03,
+     "hi": 45.19,
+     "n": 20,
+     "frac_better": 0.0
+    },
+    "best_any": {
+     "vs": "CONTROL_never_switch",
+     "mean": 46.6,
+     "lo": 38.02,
+     "hi": 55.18,
+     "n": 20,
+     "frac_better": 0.0
+    }
+   }
+  }
+ },
+ "F5_dep_null_r8": {
+  "tags": [
+   "null",
+   "dep"
+  ],
+  "policies": {
+   "CONTROL_never_switch": {
+    "net": 365.55,
+    "promote": 0.0,
+    "rollbacks": 0.0,
+    "labels": 0.0,
+    "switches": 0.0,
+    "first": -1.0,
+    "delay": -1,
+    "regret": 0.0,
+    "pending": 0.0,
+    "runtime": 0.02
+   },
+   "E_glr:gated_adaptive_range": {
+    "net": 375.2,
+    "promote": 0.05,
+    "rollbacks": 0.0,
+    "labels": 200.0,
+    "switches": 0.05,
+    "first": 336.0,
+    "delay": -1,
+    "regret": 9.65,
+    "pending": 20.8,
+    "runtime": 0.945
+   },
+   "E_glr:gated_deployment": {
+    "net": 373.25,
+    "promote": 0.1,
+    "rollbacks": 0.0,
+    "labels": 200.0,
+    "switches": 0.1,
+    "first": 270.0,
+    "delay": -1,
+    "regret": 7.7,
+    "pending": 21.0,
+    "runtime": 0.478
+   },
+   "E_rb:SMCS+retain-incumbent": {
+    "net": 379.1,
+    "promote": 0.25,
+    "rollbacks": 0.0,
+    "labels": 200.0,
+    "switches": 0.25,
+    "first": 1062.0,
+    "delay": -1,
+    "regret": 13.55,
+    "pending": 21.1,
+    "runtime": 0.092
+   },
+   "E_rb:discern_style": {
+    "net": 376.9,
+    "promote": 0.2,
+    "rollbacks": 0.05,
+    "labels": 200.0,
+    "switches": 0.25,
+    "first": 1035.0,
+    "delay": -1,
+    "regret": 11.35,
+    "pending": 21.35,
+    "runtime": 0.059
+   },
+   "E_rb:gated_adaptive_range": {
+    "net": 376.9,
+    "promote": 0.15,
+    "rollbacks": 0.05,
+    "labels": 200.0,
+    "switches": 0.2,
+    "first": 903.0,
+    "delay": -1,
+    "regret": 11.35,
+    "pending": 20.8,
+    "runtime": 0.878
+   },
+   "E_rb:gated_adaptive_range-nogate": {
+    "net": 376.9,
+    "promote": 0.15,
+    "rollbacks": 0.05,
+    "labels": 200.0,
+    "switches": 0.2,
+    "first": 903.0,
+    "delay": -1,
+    "regret": 11.35,
+    "pending": 20.8,
+    "runtime": 0.879
+   },
+   "E_rb:gated_deployment": {
+    "net": 377.15,
+    "promote": 0.2,
+    "rollbacks": 0.05,
+    "labels": 200.0,
+    "switches": 0.25,
+    "first": 1023.0,
+    "delay": -1,
+    "regret": 11.6,
+    "pending": 21.0,
+    "runtime": 0.469
+   },
+   "E_rb:gated_deployment-a05": {
+    "net": 377.2,
+    "promote": 0.2,
+    "rollbacks": 0.05,
+    "labels": 200.0,
+    "switches": 0.25,
+    "first": 1023.0,
+    "delay": -1,
+    "regret": 11.65,
+    "pending": 21.0,
+    "runtime": 0.488
+   },
+   "E_rb:gated_deployment-nogate": {
+    "net": 377.15,
+    "promote": 0.2,
+    "rollbacks": 0.05,
+    "labels": 200.0,
+    "switches": 0.25,
+    "first": 1023.0,
+    "delay": -1,
+    "regret": 11.6,
+    "pending": 21.0,
+    "runtime": 0.504
+   },
+   "E_srr:SMCS+retain-incumbent": {
+    "net": 375.5,
+    "promote": 0.85,
+    "rollbacks": 0.4,
+    "labels": 200.0,
+    "switches": 1.25,
+    "first": 503.0,
+    "delay": -1,
+    "regret": 9.95,
+    "pending": 21.3,
+    "runtime": 0.09
+   },
+   "E_srr:discern_style": {
+    "net": 383.45,
+    "promote": 0.8,
+    "rollbacks": 0.55,
+    "labels": 200.0,
+    "switches": 1.4,
+    "first": 443.5,
+    "delay": -1,
+    "regret": 17.9,
+    "pending": 21.45,
+    "runtime": 0.048
+   },
+   "E_srr:gated_adaptive_range": {
+    "net": 381.2,
+    "promote": 0.55,
+    "rollbacks": 0.45,
+    "labels": 200.0,
+    "switches": 1.05,
+    "first": 436.0,
+    "delay": -1,
+    "regret": 15.65,
+    "pending": 20.95,
+    "runtime": 0.582
+   },
+   "E_srr:gated_deployment": {
+    "net": 378.0,
+    "promote": 0.75,
+    "rollbacks": 0.55,
+    "labels": 200.0,
+    "switches": 1.45,
+    "first": 483.0,
+    "delay": -1,
+    "regret": 12.45,
+    "pending": 21.1,
+    "runtime": 0.253
+   },
+   "E_srrSR:gated_deployment": {
+    "net": 391.6,
+    "promote": 1.0,
+    "rollbacks": 1.95,
+    "labels": 200.0,
+    "switches": 4.15,
+    "first": 262.0,
+    "delay": -1,
+    "regret": 26.05,
+    "pending": 20.8,
+    "runtime": 0.11
+   },
+   "E_srr_noacq:gated_adaptive_range": {
+    "net": 377.685,
+    "promote": 0.6,
+    "rollbacks": 0.3,
+    "labels": 199.7,
+    "switches": 0.9,
+    "first": 892.5,
+    "delay": -1,
+    "regret": 12.135,
+    "pending": 17.75,
+    "runtime": 0.664
+   },
+   "E_srr_noacq:gated_deployment": {
+    "net": 381.982,
+    "promote": 0.55,
+    "rollbacks": 0.3,
+    "labels": 199.65,
+    "switches": 0.9,
+    "first": 897.0,
+    "delay": -1,
+    "regret": 16.432,
+    "pending": 17.65,
+    "runtime": 0.388
+   },
+   "E_swcert": {
+    "net": 377.13,
+    "promote": 0.05,
+    "rollbacks": 0.0,
+    "labels": 199.6,
+    "switches": 0.05,
+    "first": 295.0,
+    "delay": -1,
+    "regret": 11.58,
+    "pending": 17.95,
+    "runtime": 0.022
+   },
+   "E_swcert-W100": {
+    "net": 377.13,
+    "promote": 0.05,
+    "rollbacks": 0.0,
+    "labels": 199.6,
+    "switches": 0.05,
+    "first": 295.0,
+    "delay": -1,
+    "regret": 11.58,
+    "pending": 17.95,
+    "runtime": 0.025
+   },
+   "E_swcert-W25": {
+    "net": 379.58,
+    "promote": 0.2,
+    "rollbacks": 0.0,
+    "labels": 199.6,
+    "switches": 0.2,
+    "first": 724.5,
+    "delay": -1,
+    "regret": 14.03,
+    "pending": 17.95,
+    "runtime": 0.023
+   },
+   "E_swcert-cum": {
+    "net": 377.13,
+    "promote": 0.05,
+    "rollbacks": 0.0,
+    "labels": 199.6,
+    "switches": 0.05,
+    "first": 295.0,
+    "delay": -1,
+    "regret": 11.58,
+    "pending": 17.95,
+    "runtime": 0.024
+   },
+   "SMCS+retain-incumbent": {
+    "net": 375.532,
+    "promote": 0.0,
+    "rollbacks": 0.0,
+    "labels": 199.65,
+    "switches": 0.0,
+    "first": -1.0,
+    "delay": -1,
+    "regret": 9.982,
+    "pending": 18.1,
+    "runtime": 0.078
+   },
+   "choe_ramdas_eb+front": {
+    "net": 375.245,
+    "promote": 0.0,
+    "rollbacks": 0.0,
+    "labels": 193.9,
+    "switches": 0.0,
+    "first": -1.0,
+    "delay": -1,
+    "regret": 9.695,
+    "pending": 28.65,
+    "runtime": 0.02
+   },
+   "discern_style": {
+    "net": 375.522,
+    "promote": 0.0,
+    "rollbacks": 0.0,
+    "labels": 199.45,
+    "switches": 0.0,
+    "first": -1.0,
+    "delay": -1,
+    "regret": 9.972,
+    "pending": 18.55,
+    "runtime": 0.028
+   },
+   "gated_adaptive_range": {
+    "net": 375.86,
+    "promote": 0.05,
+    "rollbacks": 0.0,
+    "labels": 194.2,
+    "switches": 0.05,
+    "first": 838.0,
+    "delay": -1,
+    "regret": 10.31,
+    "pending": 17.75,
+    "runtime": 0.92
+   },
+   "gated_adaptive_range+front": {
+    "net": 375.245,
+    "promote": 0.0,
+    "rollbacks": 0.0,
+    "labels": 193.9,
+    "switches": 0.0,
+    "first": -1.0,
+    "delay": -1,
+    "regret": 9.695,
+    "pending": 28.65,
+    "runtime": 0.419
+   },
+   "gated_deployment": {
+    "net": 375.53,
+    "promote": 0.0,
+    "rollbacks": 0.0,
+    "labels": 199.6,
+    "switches": 0.0,
+    "first": -1.0,
+    "delay": -1,
+    "regret": 9.98,
+    "pending": 17.75,
+    "runtime": 0.487
+   },
+   "rmm:LRMD": {
+    "net": 378.5,
+    "promote": 0.35,
+    "rollbacks": 0.05,
+    "labels": 200.0,
+    "switches": 0.4,
+    "first": 876.0,
+    "delay": -1,
+    "regret": 12.95,
+    "pending": 24.1,
+    "runtime": 0.056
+   },
+   "rmm:SMCS+retain-incumbent+RMM": {
+    "net": 379.1,
+    "promote": 0.25,
+    "rollbacks": 0.0,
+    "labels": 200.0,
+    "switches": 0.25,
+    "first": 1062.0,
+    "delay": -1,
+    "regret": 13.55,
+    "pending": 21.1,
+    "runtime": 0.086
+   },
+   "rmm:discern_style+RMM": {
+    "net": 376.05,
+    "promote": 0.2,
+    "rollbacks": 0.0,
+    "labels": 200.0,
+    "switches": 0.2,
+    "first": 1035.0,
+    "delay": -1,
+    "regret": 10.5,
+    "pending": 21.35,
+    "runtime": 0.05
+   },
+   "rmm:gated_adaptive_range+RMM": {
+    "net": 376.05,
+    "promote": 0.15,
+    "rollbacks": 0.0,
+    "labels": 200.0,
+    "switches": 0.15,
+    "first": 903.0,
+    "delay": -1,
+    "regret": 10.5,
+    "pending": 20.8,
+    "runtime": 0.861
+   },
+   "rmm:gated_deployment+RMM": {
+    "net": 376.75,
+    "promote": 0.2,
+    "rollbacks": 0.0,
+    "labels": 200.0,
+    "switches": 0.2,
+    "first": 1023.0,
+    "delay": -1,
+    "regret": 11.2,
+    "pending": 21.0,
+    "runtime": 0.41
+   },
+   "rmm:gated_deployment+RMM_noacq": {
+    "net": 380.082,
+    "promote": 0.2,
+    "rollbacks": 0.1,
+    "labels": 199.65,
+    "switches": 0.3,
+    "first": 1074.0,
+    "delay": -1,
+    "regret": 14.532,
+    "pending": 17.9,
+    "runtime": 0.447
+   },
+   "rmm:gated_deployment+RMM_single": {
+    "net": 380.35,
+    "promote": 0.15,
+    "rollbacks": 0.1,
+    "labels": 200.0,
+    "switches": 0.25,
+    "first": 419.0,
+    "delay": -1,
+    "regret": 14.8,
+    "pending": 21.0,
+    "runtime": 0.437
+   },
+   "xu_acquisition_only": {
+    "net": 375.938,
+    "promote": 0.05,
+    "rollbacks": 0.0,
+    "labels": 194.75,
+    "switches": 0.05,
+    "first": 825.0,
+    "delay": -1,
+    "regret": 10.388,
+    "pending": 18.45,
+    "runtime": 0.312
+   }
+  },
+  "best_certified": "gated_adaptive_range+front",
+  "best_uncertified": null,
+  "contrasts": {
+   "E_rb:gated_deployment": {
+    "host": {
+     "vs": "rmm:gated_deployment+RMM",
+     "mean": 0.4,
+     "lo": -0.38,
+     "hi": 1.18,
+     "n": 20,
+     "frac_better": 0.0
+    },
+    "best_certified": {
+     "vs": "gated_adaptive_range+front",
+     "mean": 1.91,
+     "lo": -2.44,
+     "hi": 6.25,
+     "n": 20,
+     "frac_better": 0.05
+    },
+    "best_any": {
+     "vs": "CONTROL_never_switch",
+     "mean": 11.6,
+     "lo": 6.89,
+     "hi": 16.31,
+     "n": 20,
+     "frac_better": 0.05
+    },
+    "null_promotion": 0.2,
+    "null_bound_ok": false
+   },
+   "E_rb:discern_style": {
+    "host": {
+     "vs": "rmm:discern_style+RMM",
+     "mean": 0.85,
+     "lo": -0.82,
+     "hi": 2.52,
+     "n": 20,
+     "frac_better": 0.0
+    },
+    "best_certified": {
+     "vs": "gated_adaptive_range+front",
+     "mean": 1.66,
+     "lo": -2.59,
+     "hi": 5.9,
+     "n": 20,
+     "frac_better": 0.05
+    },
+    "best_any": {
+     "vs": "CONTROL_never_switch",
+     "mean": 11.35,
+     "lo": 6.71,
+     "hi": 15.99,
+     "n": 20,
+     "frac_better": 0.05
+    },
+    "null_promotion": 0.2,
+    "null_bound_ok": false
+   },
+   "E_rb:SMCS+retain-incumbent": {
+    "host": {
+     "vs": "rmm:SMCS+retain-incumbent+RMM",
+     "mean": 0.0,
+     "lo": 0.0,
+     "hi": 0.0,
+     "n": 20,
+     "frac_better": 0.0
+    },
+    "best_certified": {
+     "vs": "gated_adaptive_range+front",
+     "mean": 3.86,
+     "lo": -0.04,
+     "hi": 7.75,
+     "n": 20,
+     "frac_better": 0.0
+    },
+    "best_any": {
+     "vs": "CONTROL_never_switch",
+     "mean": 13.55,
+     "lo": 9.55,
+     "hi": 17.55,
+     "n": 20,
+     "frac_better": 0.0
+    },
+    "null_promotion": 0.25,
+    "null_bound_ok": false
+   },
+   "E_rb:gated_adaptive_range": {
+    "host": {
+     "vs": "rmm:gated_adaptive_range+RMM",
+     "mean": 0.85,
+     "lo": -0.82,
+     "hi": 2.52,
+     "n": 20,
+     "frac_better": 0.0
+    },
+    "best_certified": {
+     "vs": "gated_adaptive_range+front",
+     "mean": 1.66,
+     "lo": -1.49,
+     "hi": 4.8,
+     "n": 20,
+     "frac_better": 0.05
+    },
+    "best_any": {
+     "vs": "CONTROL_never_switch",
+     "mean": 11.35,
+     "lo": 7.95,
+     "hi": 14.75,
+     "n": 20,
+     "frac_better": 0.05
+    },
+    "null_promotion": 0.15,
+    "null_bound_ok": false
+   },
+   "E_swcert": {
+    "host": {
+     "vs": "xu_acquisition_only",
+     "mean": 1.19,
+     "lo": -2.27,
+     "hi": 4.65,
+     "n": 20,
+     "frac_better": 0.1
+    },
+    "best_certified": {
+     "vs": "gated_adaptive_range+front",
+     "mean": 1.88,
+     "lo": -1.27,
+     "hi": 5.04,
+     "n": 20,
+     "frac_better": 0.2
+    },
+    "best_any": {
+     "vs": "CONTROL_never_switch",
+     "mean": 11.58,
+     "lo": 8.45,
+     "hi": 14.71,
+     "n": 20,
+     "frac_better": 0.0
+    },
+    "null_promotion": 0.05,
+    "null_bound_ok": true
+   },
+   "E_srr:gated_deployment": {
+    "host": {
+     "vs": "rmm:gated_deployment+RMM",
+     "mean": 1.25,
+     "lo": -7.15,
+     "hi": 9.65,
+     "n": 20,
+     "frac_better": 0.35
+    },
+    "best_certified": {
+     "vs": "gated_adaptive_range+front",
+     "mean": 2.76,
+     "lo": -5.41,
+     "hi": 10.92,
+     "n": 20,
+     "frac_better": 0.35
+    },
+    "best_any": {
+     "vs": "CONTROL_never_switch",
+     "mean": 12.45,
+     "lo": 4.16,
+     "hi": 20.74,
+     "n": 20,
+     "frac_better": 0.2
+    },
+    "null_promotion": 0.75,
+    "null_bound_ok": false
+   },
+   "E_srr:gated_adaptive_range": {
+    "host": {
+     "vs": "rmm:gated_adaptive_range+RMM",
+     "mean": 5.15,
+     "lo": -2.77,
+     "hi": 13.07,
+     "n": 20,
+     "frac_better": 0.15
+    },
+    "best_certified": {
+     "vs": "gated_adaptive_range+front",
+     "mean": 5.96,
+     "lo": -1.6,
+     "hi": 13.51,
+     "n": 20,
+     "frac_better": 0.1
+    },
+    "best_any": {
+     "vs": "CONTROL_never_switch",
+     "mean": 15.65,
+     "lo": 7.75,
+     "hi": 23.55,
+     "n": 20,
+     "frac_better": 0.1
+    },
+    "null_promotion": 0.55,
+    "null_bound_ok": false
+   }
+  }
+ },
+ "S_reversal_400": {
+  "tags": [
+   "change"
+  ],
+  "policies": {
+   "CONTROL_never_switch": {
+    "net": 311.5,
+    "promote": 0.0,
+    "rollbacks": 0.0,
+    "labels": 0.0,
+    "switches": 0.0,
+    "first": -1.0,
+    "delay": -1.0,
+    "regret": 21.65,
+    "pending": 0.0,
+    "runtime": 0.01
+   },
+   "E_glr:gated_adaptive_range": {
+    "net": 327.8,
+    "promote": 0.05,
+    "rollbacks": 0.0,
+    "labels": 200.0,
+    "switches": 0.05,
+    "first": 462.0,
+    "delay": 462.0,
+    "regret": 37.95,
+    "pending": 20.8,
+    "runtime": 0.828
+   },
+   "E_glr:gated_deployment": {
+    "net": 321.5,
+    "promote": 0.0,
+    "rollbacks": 0.0,
+    "labels": 200.0,
+    "switches": 0.0,
+    "first": -1.0,
+    "delay": -1.0,
+    "regret": 31.65,
+    "pending": 21.55,
+    "runtime": 0.449
+   },
+   "E_rb:SMCS+retain-incumbent": {
+    "net": 340.6,
+    "promote": 0.35,
+    "rollbacks": 0.35,
+    "labels": 200.0,
+    "switches": 0.7,
+    "first": 338.0,
+    "delay": 338.0,
+    "regret": 50.75,
+    "pending": 21.45,
+    "runtime": 0.077
+   },
+   "E_rb:discern_style": {
+    "net": 343.95,
+    "promote": 0.45,
+    "rollbacks": 0.45,
+    "labels": 200.0,
+    "switches": 0.9,
+    "first": 449.0,
+    "delay": 449.0,
+    "regret": 54.1,
+    "pending": 21.05,
+    "runtime": 0.041
+   },
+   "E_rb:gated_adaptive_range": {
+    "net": 346.4,
+    "promote": 0.4,
+    "rollbacks": 0.35,
+    "labels": 200.0,
+    "switches": 0.75,
+    "first": 452.5,
+    "delay": 452.5,
+    "regret": 56.55,
+    "pending": 21.15,
+    "runtime": 0.566
+   },
+   "E_rb:gated_adaptive_range-nogate": {
+    "net": 346.4,
+    "promote": 0.4,
+    "rollbacks": 0.35,
+    "labels": 200.0,
+    "switches": 0.75,
+    "first": 452.5,
+    "delay": 452.5,
+    "regret": 56.55,
+    "pending": 21.15,
+    "runtime": 0.567
+   },
+   "E_rb:gated_deployment": {
+    "net": 338.25,
+    "promote": 0.35,
+    "rollbacks": 0.35,
+    "labels": 200.0,
+    "switches": 0.7,
+    "first": 374.0,
+    "delay": 374.0,
+    "regret": 48.4,
+    "pending": 21.5,
+    "runtime": 0.314
+   },
+   "E_rb:gated_deployment-a05": {
+    "net": 342.2,
+    "promote": 0.35,
+    "rollbacks": 0.35,
+    "labels": 200.0,
+    "switches": 0.7,
+    "first": 374.0,
+    "delay": 374.0,
+    "regret": 52.35,
+    "pending": 21.5,
+    "runtime": 0.322
+   },
+   "E_rb:gated_deployment-nogate": {
+    "net": 338.25,
+    "promote": 0.35,
+    "rollbacks": 0.35,
+    "labels": 200.0,
+    "switches": 0.7,
+    "first": 374.0,
+    "delay": 374.0,
+    "regret": 48.4,
+    "pending": 21.5,
+    "runtime": 0.321
+   },
+   "E_srr:SMCS+retain-incumbent": {
+    "net": 339.8,
+    "promote": 0.75,
+    "rollbacks": 0.75,
+    "labels": 200.0,
+    "switches": 1.5,
+    "first": 315.0,
+    "delay": 315.0,
+    "regret": 49.95,
+    "pending": 21.3,
+    "runtime": 0.077
+   },
+   "E_srr:discern_style": {
+    "net": 348.9,
+    "promote": 0.85,
+    "rollbacks": 0.85,
+    "labels": 200.0,
+    "switches": 1.7,
+    "first": 330.0,
+    "delay": 330.0,
+    "regret": 59.05,
+    "pending": 21.1,
+    "runtime": 0.049
+   },
+   "E_srr:gated_adaptive_range": {
+    "net": 347.25,
+    "promote": 0.85,
+    "rollbacks": 0.85,
+    "labels": 200.0,
+    "switches": 1.7,
+    "first": 321.0,
+    "delay": 321.0,
+    "regret": 57.4,
+    "pending": 21.0,
+    "runtime": 0.251
+   },
+   "E_srr:gated_deployment": {
+    "net": 343.4,
+    "promote": 0.75,
+    "rollbacks": 0.75,
+    "labels": 200.0,
+    "switches": 1.5,
+    "first": 293.0,
+    "delay": 293.0,
+    "regret": 53.55,
+    "pending": 21.25,
+    "runtime": 0.174
+   },
+   "E_srrSR:gated_deployment": {
+    "net": 327.3,
+    "promote": 1.0,
+    "rollbacks": 1.0,
+    "labels": 200.0,
+    "switches": 2.0,
+    "first": 198.5,
+    "delay": 198.5,
+    "regret": 37.45,
+    "pending": 21.6,
+    "runtime": 0.07
+   },
+   "E_srr_noacq:gated_adaptive_range": {
+    "net": 345.485,
+    "promote": 0.65,
+    "rollbacks": 0.65,
+    "labels": 199.7,
+    "switches": 1.3,
+    "first": 354.0,
+    "delay": 354.0,
+    "regret": 55.635,
+    "pending": 18.4,
+    "runtime": 0.39
+   },
+   "E_srr_noacq:gated_deployment": {
+    "net": 347.34,
+    "promote": 0.6,
+    "rollbacks": 0.6,
+    "labels": 199.8,
+    "switches": 1.2,
+    "first": 372.5,
+    "delay": 372.5,
+    "regret": 57.49,
+    "pending": 18.3,
+    "runtime": 0.249
+   },
+   "E_swcert": {
+    "net": 372.435,
+    "promote": 0.65,
+    "rollbacks": 0.55,
+    "labels": 199.7,
+    "switches": 1.2,
+    "first": 310.0,
+    "delay": 310.0,
+    "regret": 82.585,
+    "pending": 17.4,
+    "runtime": 0.022
+   },
+   "E_swcert-W100": {
+    "net": 378.285,
+    "promote": 0.65,
+    "rollbacks": 0.5,
+    "labels": 199.7,
+    "switches": 1.15,
+    "first": 310.0,
+    "delay": 310.0,
+    "regret": 88.435,
+    "pending": 17.4,
+    "runtime": 0.017
+   },
+   "E_swcert-W25": {
+    "net": 375.785,
+    "promote": 0.65,
+    "rollbacks": 0.4,
+    "labels": 199.7,
+    "switches": 1.05,
+    "first": 310.0,
+    "delay": 310.0,
+    "regret": 85.935,
+    "pending": 17.4,
+    "runtime": 0.018
+   },
+   "E_swcert-cum": {
+    "net": 383.585,
+    "promote": 0.65,
+    "rollbacks": 0.5,
+    "labels": 199.7,
+    "switches": 1.15,
+    "first": 310.0,
+    "delay": 310.0,
+    "regret": 93.735,
+    "pending": 17.4,
+    "runtime": 0.019
+   },
+   "SMCS+retain-incumbent": {
+    "net": 409.838,
+    "promote": 0.7,
+    "rollbacks": 0.0,
+    "labels": 199.75,
+    "switches": 0.7,
+    "first": 368.5,
+    "delay": 368.5,
+    "regret": 119.988,
+    "pending": 18.7,
+    "runtime": 0.064
+   },
+   "choe_ramdas_eb+front": {
+    "net": 390.143,
+    "promote": 0.6,
+    "rollbacks": 0.0,
+    "labels": 119.85,
+    "switches": 0.6,
+    "first": 315.5,
+    "delay": 315.5,
+    "regret": 100.292,
+    "pending": 26.3,
+    "runtime": 0.016
+   },
+   "discern_style": {
+    "net": 321.49,
+    "promote": 0.0,
+    "rollbacks": 0.0,
+    "labels": 199.8,
+    "switches": 0.0,
+    "first": -1.0,
+    "delay": -1.0,
+    "regret": 31.64,
+    "pending": 17.7,
+    "runtime": 0.035
+   },
+   "gated_adaptive_range": {
+    "net": 334.228,
+    "promote": 0.1,
+    "rollbacks": 0.0,
+    "labels": 184.55,
+    "switches": 0.1,
+    "first": 457.0,
+    "delay": 457.0,
+    "regret": 44.378,
+    "pending": 18.25,
+    "runtime": 0.792
+   },
+   "gated_adaptive_range+front": {
+    "net": 391.232,
+    "promote": 0.6,
+    "rollbacks": 0.0,
+    "labels": 121.65,
+    "switches": 0.6,
+    "first": 333.0,
+    "delay": 333.0,
+    "regret": 101.383,
+    "pending": 26.3,
+    "runtime": 0.206
+   },
+   "gated_deployment": {
+    "net": 321.49,
+    "promote": 0.0,
+    "rollbacks": 0.0,
+    "labels": 199.8,
+    "switches": 0.0,
+    "first": -1.0,
+    "delay": -1.0,
+    "regret": 31.64,
+    "pending": 18.4,
+    "runtime": 0.42
+   },
+   "rmm:LRMD": {
+    "net": 351.45,
+    "promote": 0.55,
+    "rollbacks": 0.55,
+    "labels": 200.0,
+    "switches": 1.1,
+    "first": 336.0,
+    "delay": 336.0,
+    "regret": 61.6,
+    "pending": 24.1,
+    "runtime": 0.031
+   },
+   "rmm:SMCS+retain-incumbent+RMM": {
+    "net": 341.25,
+    "promote": 0.35,
+    "rollbacks": 0.3,
+    "labels": 200.0,
+    "switches": 0.65,
+    "first": 338.0,
+    "delay": 338.0,
+    "regret": 51.4,
+    "pending": 21.45,
+    "runtime": 0.072
+   },
+   "rmm:discern_style+RMM": {
+    "net": 347.6,
+    "promote": 0.45,
+    "rollbacks": 0.45,
+    "labels": 200.0,
+    "switches": 0.9,
+    "first": 449.0,
+    "delay": 449.0,
+    "regret": 57.75,
+    "pending": 21.05,
+    "runtime": 0.046
+   },
+   "rmm:gated_adaptive_range+RMM": {
+    "net": 349.9,
+    "promote": 0.4,
+    "rollbacks": 0.35,
+    "labels": 200.0,
+    "switches": 0.75,
+    "first": 452.5,
+    "delay": 452.5,
+    "regret": 60.05,
+    "pending": 21.15,
+    "runtime": 0.585
+   },
+   "rmm:gated_deployment+RMM": {
+    "net": 342.5,
+    "promote": 0.35,
+    "rollbacks": 0.35,
+    "labels": 200.0,
+    "switches": 0.7,
+    "first": 374.0,
+    "delay": 374.0,
+    "regret": 52.65,
+    "pending": 21.5,
+    "runtime": 0.338
+   },
+   "rmm:gated_deployment+RMM_noacq": {
+    "net": 328.19,
+    "promote": 0.1,
+    "rollbacks": 0.1,
+    "labels": 199.8,
+    "switches": 0.2,
+    "first": 430.5,
+    "delay": 430.5,
+    "regret": 38.34,
+    "pending": 18.55,
+    "runtime": 0.412
+   },
+   "rmm:gated_deployment+RMM_single": {
+    "net": 356.9,
+    "promote": 0.6,
+    "rollbacks": 0.55,
+    "labels": 200.0,
+    "switches": 1.15,
+    "first": 306.5,
+    "delay": 306.5,
+    "regret": 67.05,
+    "pending": 21.2,
+    "runtime": 0.239
+   },
+   "xu_acquisition_only": {
+    "net": 348.465,
+    "promote": 0.35,
+    "rollbacks": 0.3,
+    "labels": 193.3,
+    "switches": 0.65,
+    "first": 477.0,
+    "delay": 477.0,
+    "regret": 58.615,
+    "pending": 17.85,
+    "runtime": 0.274
+   }
+  },
+  "best_certified": "gated_deployment",
+  "best_uncertified": null,
+  "contrasts": {
+   "E_rb:gated_deployment": {
+    "host": {
+     "vs": "rmm:gated_deployment+RMM",
+     "mean": -4.25,
+     "lo": -8.77,
+     "hi": 0.27,
+     "n": 20,
+     "frac_better": 0.35
+    },
+    "best_certified": {
+     "vs": "gated_deployment",
+     "mean": 16.76,
+     "lo": 5.85,
+     "hi": 27.67,
+     "n": 20,
+     "frac_better": 0.0
+    },
+    "best_any": {
+     "vs": "CONTROL_never_switch",
+     "mean": 26.75,
+     "lo": 15.84,
+     "hi": 37.66,
+     "n": 20,
+     "frac_better": 0.0
+    }
+   },
+   "E_rb:discern_style": {
+    "host": {
+     "vs": "rmm:discern_style+RMM",
+     "mean": -3.65,
+     "lo": -6.39,
+     "hi": -0.91,
+     "n": 20,
+     "frac_better": 0.45
+    },
+    "best_certified": {
+     "vs": "gated_deployment",
+     "mean": 22.46,
+     "lo": 10.48,
+     "hi": 34.44,
+     "n": 20,
+     "frac_better": 0.0
+    },
+    "best_any": {
+     "vs": "CONTROL_never_switch",
+     "mean": 32.45,
+     "lo": 20.47,
+     "hi": 44.43,
+     "n": 20,
+     "frac_better": 0.0
+    }
+   },
+   "E_rb:SMCS+retain-incumbent": {
+    "host": {
+     "vs": "rmm:SMCS+retain-incumbent+RMM",
+     "mean": -0.65,
+     "lo": -1.42,
+     "hi": 0.12,
+     "n": 20,
+     "frac_better": 0.3
+    },
+    "best_certified": {
+     "vs": "gated_deployment",
+     "mean": 19.11,
+     "lo": 5.11,
+     "hi": 33.11,
+     "n": 20,
+     "frac_better": 0.0
+    },
+    "best_any": {
+     "vs": "CONTROL_never_switch",
+     "mean": 29.1,
+     "lo": 15.1,
+     "hi": 43.1,
+     "n": 20,
+     "frac_better": 0.0
+    }
+   },
+   "E_rb:gated_adaptive_range": {
+    "host": {
+     "vs": "rmm:gated_adaptive_range+RMM",
+     "mean": -3.5,
+     "lo": -6.99,
+     "hi": -0.01,
+     "n": 20,
+     "frac_better": 0.35
+    },
+    "best_certified": {
+     "vs": "gated_deployment",
+     "mean": 24.91,
+     "lo": 10.0,
+     "hi": 39.82,
+     "n": 20,
+     "frac_better": 0.0
+    },
+    "best_any": {
+     "vs": "CONTROL_never_switch",
+     "mean": 34.9,
+     "lo": 19.99,
+     "hi": 49.81,
+     "n": 20,
+     "frac_better": 0.0
+    }
+   },
+   "E_swcert": {
+    "host": {
+     "vs": "xu_acquisition_only",
+     "mean": 23.97,
+     "lo": -3.34,
+     "hi": 51.28,
+     "n": 20,
+     "frac_better": 0.2
+    },
+    "best_certified": {
+     "vs": "gated_deployment",
+     "mean": 50.94,
+     "lo": 32.21,
+     "hi": 69.68,
+     "n": 20,
+     "frac_better": 0.05
+    },
+    "best_any": {
+     "vs": "CONTROL_never_switch",
+     "mean": 60.93,
+     "lo": 42.19,
+     "hi": 79.68,
+     "n": 20,
+     "frac_better": 0.0
+    }
+   },
+   "E_srr:gated_deployment": {
+    "host": {
+     "vs": "rmm:gated_deployment+RMM",
+     "mean": 0.9,
+     "lo": -13.04,
+     "hi": 14.84,
+     "n": 20,
+     "frac_better": 0.35
+    },
+    "best_certified": {
+     "vs": "gated_deployment",
+     "mean": 21.91,
+     "lo": 14.3,
+     "hi": 29.52,
+     "n": 20,
+     "frac_better": 0.0
+    },
+    "best_any": {
+     "vs": "CONTROL_never_switch",
+     "mean": 31.9,
+     "lo": 24.29,
+     "hi": 39.51,
+     "n": 20,
+     "frac_better": 0.0
+    }
+   },
+   "E_srr:gated_adaptive_range": {
+    "host": {
+     "vs": "rmm:gated_adaptive_range+RMM",
+     "mean": -2.65,
+     "lo": -20.52,
+     "hi": 15.22,
+     "n": 20,
+     "frac_better": 0.4
+    },
+    "best_certified": {
+     "vs": "gated_deployment",
+     "mean": 25.76,
+     "lo": 19.0,
+     "hi": 32.52,
+     "n": 20,
+     "frac_better": 0.0
+    },
+    "best_any": {
+     "vs": "CONTROL_never_switch",
+     "mean": 35.75,
+     "lo": 28.99,
+     "hi": 42.51,
+     "n": 20,
+     "frac_better": 0.0
+    }
+   }
+  }
+ },
+ "V_late_600": {
+  "tags": [
+   "alt",
+   "change"
+  ],
+  "policies": {
+   "CONTROL_never_switch": {
+    "net": 403.85,
+    "promote": 0.0,
+    "rollbacks": 0.0,
+    "labels": 0.0,
+    "switches": 0.0,
+    "first": -1.0,
+    "delay": -1.0,
+    "regret": 101.3,
+    "pending": 0.0,
+    "runtime": 0.015
+   },
+   "E_glr:gated_adaptive_range": {
+    "net": 396.75,
+    "promote": 0.3,
+    "rollbacks": 0.0,
+    "labels": 200.0,
+    "switches": 0.3,
+    "first": 1270.0,
+    "delay": 670.0,
+    "regret": 94.2,
+    "pending": 21.3,
+    "runtime": 0.854
+   },
+   "E_glr:gated_deployment": {
+    "net": 397.9,
+    "promote": 0.3,
+    "rollbacks": 0.0,
+    "labels": 200.0,
+    "switches": 0.3,
+    "first": 1221.5,
+    "delay": 621.5,
+    "regret": 95.35,
+    "pending": 21.95,
+    "runtime": 0.448
+   },
+   "E_rb:SMCS+retain-incumbent": {
+    "net": 375.05,
+    "promote": 0.8,
+    "rollbacks": 0.0,
+    "labels": 200.0,
+    "switches": 0.8,
+    "first": 1317.0,
+    "delay": 717.0,
+    "regret": 72.5,
+    "pending": 21.6,
+    "runtime": 0.083
+   },
+   "E_rb:discern_style": {
+    "net": 368.1,
+    "promote": 0.9,
+    "rollbacks": 0.0,
+    "labels": 200.0,
+    "switches": 0.9,
+    "first": 1242.5,
+    "delay": 642.5,
+    "regret": 65.55,
+    "pending": 21.6,
+    "runtime": 0.047
+   },
+   "E_rb:gated_adaptive_range": {
+    "net": 371.35,
+    "promote": 0.8,
+    "rollbacks": 0.0,
+    "labels": 200.0,
+    "switches": 0.8,
+    "first": 1227.5,
+    "delay": 627.5,
+    "regret": 68.8,
+    "pending": 21.3,
+    "runtime": 0.631
+   },
+   "E_rb:gated_adaptive_range-nogate": {
+    "net": 371.35,
+    "promote": 0.8,
+    "rollbacks": 0.0,
+    "labels": 200.0,
+    "switches": 0.8,
+    "first": 1227.5,
+    "delay": 627.5,
+    "regret": 68.8,
+    "pending": 21.3,
+    "runtime": 0.642
+   },
+   "E_rb:gated_deployment": {
+    "net": 369.7,
+    "promote": 0.85,
+    "rollbacks": 0.0,
+    "labels": 200.0,
+    "switches": 0.85,
+    "first": 1262.0,
+    "delay": 662.0,
+    "regret": 67.15,
+    "pending": 21.95,
+    "runtime": 0.324
+   },
+   "E_rb:gated_deployment-a05": {
+    "net": 369.7,
+    "promote": 0.85,
+    "rollbacks": 0.0,
+    "labels": 200.0,
+    "switches": 0.85,
+    "first": 1262.0,
+    "delay": 662.0,
+    "regret": 67.15,
+    "pending": 21.95,
+    "runtime": 0.333
+   },
+   "E_rb:gated_deployment-nogate": {
+    "net": 369.7,
+    "promote": 0.85,
+    "rollbacks": 0.0,
+    "labels": 200.0,
+    "switches": 0.85,
+    "first": 1262.0,
+    "delay": 662.0,
+    "regret": 67.15,
+    "pending": 21.95,
+    "runtime": 0.336
+   },
+   "E_srr:SMCS+retain-incumbent": {
+    "net": 349.5,
+    "promote": 0.95,
+    "rollbacks": 0.0,
+    "labels": 200.0,
+    "switches": 0.95,
+    "first": 971.0,
+    "delay": 371.0,
+    "regret": 46.95,
+    "pending": 21.6,
+    "runtime": 0.09
+   },
+   "E_srr:discern_style": {
+    "net": 349.3,
+    "promote": 1.0,
+    "rollbacks": 0.0,
+    "labels": 200.0,
+    "switches": 1.0,
+    "first": 973.0,
+    "delay": 373.0,
+    "regret": 46.75,
+    "pending": 21.6,
+    "runtime": 0.046
+   },
+   "E_srr:gated_adaptive_range": {
+    "net": 347.65,
+    "promote": 0.95,
+    "rollbacks": 0.0,
+    "labels": 200.0,
+    "switches": 0.95,
+    "first": 964.0,
+    "delay": 364.0,
+    "regret": 45.1,
+    "pending": 21.3,
+    "runtime": 0.511
+   },
+   "E_srr:gated_deployment": {
+    "net": 349.65,
+    "promote": 1.0,
+    "rollbacks": 0.0,
+    "labels": 200.0,
+    "switches": 1.0,
+    "first": 990.5,
+    "delay": 390.5,
+    "regret": 47.1,
+    "pending": 21.95,
+    "runtime": 0.266
+   },
+   "E_srrSR:gated_deployment": {
+    "net": 367.4,
+    "promote": 1.0,
+    "rollbacks": 1.15,
+    "labels": 200.0,
+    "switches": 2.8,
+    "first": 716.5,
+    "delay": 162.0,
+    "regret": 64.85,
+    "pending": 21.9,
+    "runtime": 0.172
+   },
+   "E_srr_noacq:gated_adaptive_range": {
+    "net": 351.735,
+    "promote": 0.95,
+    "rollbacks": 0.0,
+    "labels": 192.7,
+    "switches": 0.95,
+    "first": 981.0,
+    "delay": 381.0,
+    "regret": 49.185,
+    "pending": 17.45,
+    "runtime": 0.483
+   },
+   "E_srr_noacq:gated_deployment": {
+    "net": 350.738,
+    "promote": 1.0,
+    "rollbacks": 0.0,
+    "labels": 199.75,
+    "switches": 1.0,
+    "first": 1033.0,
+    "delay": 433.0,
+    "regret": 48.188,
+    "pending": 18.2,
+    "runtime": 0.262
+   },
+   "E_swcert": {
+    "net": 395.035,
+    "promote": 0.35,
+    "rollbacks": 0.0,
+    "labels": 199.7,
+    "switches": 0.35,
+    "first": 1257.0,
+    "delay": 657.0,
+    "regret": 92.485,
+    "pending": 18.4,
+    "runtime": 0.024
+   },
+   "E_swcert-W100": {
+    "net": 400.835,
+    "promote": 0.7,
+    "rollbacks": 0.0,
+    "labels": 199.7,
+    "switches": 0.7,
+    "first": 1706.5,
+    "delay": 1106.5,
+    "regret": 98.285,
+    "pending": 18.4,
+    "runtime": 0.02
+   },
+   "E_swcert-W25": {
+    "net": 399.885,
+    "promote": 0.3,
+    "rollbacks": 0.0,
+    "labels": 199.7,
+    "switches": 0.3,
+    "first": 1229.0,
+    "delay": 629.0,
+    "regret": 97.335,
+    "pending": 18.4,
+    "runtime": 0.022
+   },
+   "E_swcert-cum": {
+    "net": 411.435,
+    "promote": 0.15,
+    "rollbacks": 0.0,
+    "labels": 199.7,
+    "switches": 0.15,
+    "first": 1923.0,
+    "delay": 1323.0,
+    "regret": 108.885,
+    "pending": 18.4,
+    "runtime": 0.031
+   },
+   "SMCS+retain-incumbent": {
+    "net": 413.843,
+    "promote": 0.0,
+    "rollbacks": 0.0,
+    "labels": 199.85,
+    "switches": 0.0,
+    "first": -1.0,
+    "delay": -1.0,
+    "regret": 111.292,
+    "pending": 17.8,
+    "runtime": 0.07
+   },
+   "choe_ramdas_eb+front": {
+    "net": 412.895,
+    "promote": 0.0,
+    "rollbacks": 0.0,
+    "labels": 180.9,
+    "switches": 0.0,
+    "first": -1.0,
+    "delay": -1.0,
+    "regret": 110.345,
+    "pending": 29.7,
+    "runtime": 0.017
+   },
+   "discern_style": {
+    "net": 413.848,
+    "promote": 0.0,
+    "rollbacks": 0.0,
+    "labels": 199.95,
+    "switches": 0.0,
+    "first": -1.0,
+    "delay": -1.0,
+    "regret": 111.297,
+    "pending": 17.95,
+    "runtime": 0.028
+   },
+   "gated_adaptive_range": {
+    "net": 413.338,
+    "promote": 0.05,
+    "rollbacks": 0.0,
+    "labels": 198.75,
+    "switches": 0.05,
+    "first": 1723.0,
+    "delay": 1123.0,
+    "regret": 110.788,
+    "pending": 18.35,
+    "runtime": 0.932
+   },
+   "gated_adaptive_range+front": {
+    "net": 413.018,
+    "promote": 0.0,
+    "rollbacks": 0.0,
+    "labels": 183.35,
+    "switches": 0.0,
+    "first": -1.0,
+    "delay": -1.0,
+    "regret": 110.468,
+    "pending": 29.7,
+    "runtime": 0.328
+   },
+   "gated_deployment": {
+    "net": 413.838,
+    "promote": 0.0,
+    "rollbacks": 0.0,
+    "labels": 199.75,
+    "switches": 0.0,
+    "first": -1.0,
+    "delay": -1.0,
+    "regret": 111.288,
+    "pending": 18.35,
+    "runtime": 0.462
+   },
+   "rmm:LRMD": {
+    "net": 367.4,
+    "promote": 0.9,
+    "rollbacks": 0.0,
+    "labels": 200.0,
+    "switches": 0.9,
+    "first": 1207.0,
+    "delay": 607.0,
+    "regret": 64.85,
+    "pending": 24.9,
+    "runtime": 0.031
+   },
+   "rmm:SMCS+retain-incumbent+RMM": {
+    "net": 375.05,
+    "promote": 0.8,
+    "rollbacks": 0.0,
+    "labels": 200.0,
+    "switches": 0.8,
+    "first": 1317.0,
+    "delay": 717.0,
+    "regret": 72.5,
+    "pending": 21.6,
+    "runtime": 0.071
+   },
+   "rmm:discern_style+RMM": {
+    "net": 368.1,
+    "promote": 0.9,
+    "rollbacks": 0.0,
+    "labels": 200.0,
+    "switches": 0.9,
+    "first": 1242.5,
+    "delay": 642.5,
+    "regret": 65.55,
+    "pending": 21.6,
+    "runtime": 0.043
+   },
+   "rmm:gated_adaptive_range+RMM": {
+    "net": 371.35,
+    "promote": 0.8,
+    "rollbacks": 0.0,
+    "labels": 200.0,
+    "switches": 0.8,
+    "first": 1227.5,
+    "delay": 627.5,
+    "regret": 68.8,
+    "pending": 21.3,
+    "runtime": 0.689
+   },
+   "rmm:gated_deployment+RMM": {
+    "net": 369.7,
+    "promote": 0.85,
+    "rollbacks": 0.0,
+    "labels": 200.0,
+    "switches": 0.85,
+    "first": 1262.0,
+    "delay": 662.0,
+    "regret": 67.15,
+    "pending": 21.95,
+    "runtime": 0.32
+   },
+   "rmm:gated_deployment+RMM_noacq": {
+    "net": 381.338,
+    "promote": 0.9,
+    "rollbacks": 0.0,
+    "labels": 199.75,
+    "switches": 0.9,
+    "first": 1483.5,
+    "delay": 883.5,
+    "regret": 78.788,
+    "pending": 18.35,
+    "runtime": 0.364
+   },
+   "rmm:gated_deployment+RMM_single": {
+    "net": 399.4,
+    "promote": 0.35,
+    "rollbacks": 0.0,
+    "labels": 200.0,
+    "switches": 0.35,
+    "first": 1423.0,
+    "delay": 823.0,
+    "regret": 96.85,
+    "pending": 21.95,
+    "runtime": 0.428
+   },
+   "xu_acquisition_only": {
+    "net": 397.52,
+    "promote": 0.75,
+    "rollbacks": 0.0,
+    "labels": 195.4,
+    "switches": 0.75,
+    "first": 1637.0,
+    "delay": 1037.0,
+    "regret": 94.97,
+    "pending": 17.6,
+    "runtime": 0.297
+   }
+  },
+  "best_certified": "xu_acquisition_only",
+  "best_uncertified": null,
+  "contrasts": {
+   "E_rb:gated_deployment": {
+    "host": {
+     "vs": "rmm:gated_deployment+RMM",
+     "mean": 0.0,
+     "lo": 0.0,
+     "hi": 0.0,
+     "n": 20,
+     "frac_better": 0.0
+    },
+    "best_certified": {
+     "vs": "xu_acquisition_only",
+     "mean": -27.82,
+     "lo": -40.5,
+     "hi": -15.14,
+     "n": 20,
+     "frac_better": 0.85
+    },
+    "best_any": {
+     "vs": "E_srr:gated_adaptive_range",
+     "mean": 22.05,
+     "lo": 11.48,
+     "hi": 32.62,
+     "n": 20,
+     "frac_better": 0.05
+    }
+   },
+   "E_rb:discern_style": {
+    "host": {
+     "vs": "rmm:discern_style+RMM",
+     "mean": 0.0,
+     "lo": 0.0,
+     "hi": 0.0,
+     "n": 20,
+     "frac_better": 0.0
+    },
+    "best_certified": {
+     "vs": "xu_acquisition_only",
+     "mean": -29.42,
+     "lo": -41.45,
+     "hi": -17.39,
+     "n": 20,
+     "frac_better": 0.8
+    },
+    "best_any": {
+     "vs": "E_srr:gated_adaptive_range",
+     "mean": 20.45,
+     "lo": 13.69,
+     "hi": 27.21,
+     "n": 20,
+     "frac_better": 0.0
+    }
+   },
+   "E_rb:SMCS+retain-incumbent": {
+    "host": {
+     "vs": "rmm:SMCS+retain-incumbent+RMM",
+     "mean": 0.0,
+     "lo": 0.0,
+     "hi": 0.0,
+     "n": 20,
+     "frac_better": 0.0
+    },
+    "best_certified": {
+     "vs": "xu_acquisition_only",
+     "mean": -22.47,
+     "lo": -34.19,
+     "hi": -10.75,
+     "n": 20,
+     "frac_better": 0.65
+    },
+    "best_any": {
+     "vs": "E_srr:gated_adaptive_range",
+     "mean": 27.4,
+     "lo": 17.03,
+     "hi": 37.77,
+     "n": 20,
+     "frac_better": 0.05
+    }
+   },
+   "E_rb:gated_adaptive_range": {
+    "host": {
+     "vs": "rmm:gated_adaptive_range+RMM",
+     "mean": 0.0,
+     "lo": 0.0,
+     "hi": 0.0,
+     "n": 20,
+     "frac_better": 0.0
+    },
+    "best_certified": {
+     "vs": "xu_acquisition_only",
+     "mean": -26.17,
+     "lo": -37.49,
+     "hi": -14.85,
+     "n": 20,
+     "frac_better": 0.75
+    },
+    "best_any": {
+     "vs": "E_srr:gated_adaptive_range",
+     "mean": 23.7,
+     "lo": 16.42,
+     "hi": 30.98,
+     "n": 20,
+     "frac_better": 0.0
+    }
+   },
+   "E_swcert": {
+    "host": {
+     "vs": "xu_acquisition_only",
+     "mean": -2.49,
+     "lo": -9.96,
+     "hi": 4.99,
+     "n": 20,
+     "frac_better": 0.4
+    },
+    "best_certified": {
+     "vs": "xu_acquisition_only",
+     "mean": -2.49,
+     "lo": -9.96,
+     "hi": 4.99,
+     "n": 20,
+     "frac_better": 0.4
+    },
+    "best_any": {
+     "vs": "E_srr:gated_adaptive_range",
+     "mean": 47.39,
+     "lo": 35.92,
+     "hi": 58.85,
+     "n": 20,
+     "frac_better": 0.05
+    }
+   },
+   "E_srr:gated_deployment": {
+    "host": {
+     "vs": "rmm:gated_deployment+RMM",
+     "mean": -20.05,
+     "lo": -27.13,
+     "hi": -12.97,
+     "n": 20,
+     "frac_better": 1.0
+    },
+    "best_certified": {
+     "vs": "xu_acquisition_only",
+     "mean": -47.87,
+     "lo": -57.83,
+     "hi": -37.91,
+     "n": 20,
+     "frac_better": 0.95
+    },
+    "best_any": {
+     "vs": "E_srr:gated_adaptive_range",
+     "mean": 2.0,
+     "lo": -8.09,
+     "hi": 12.09,
+     "n": 20,
+     "frac_better": 0.3
+    }
+   },
+   "E_srr:gated_adaptive_range": {
+    "host": {
+     "vs": "rmm:gated_adaptive_range+RMM",
+     "mean": -23.7,
+     "lo": -30.98,
+     "hi": -16.42,
+     "n": 20,
+     "frac_better": 0.95
+    },
+    "best_certified": {
+     "vs": "xu_acquisition_only",
+     "mean": -49.87,
+     "lo": -61.03,
+     "hi": -38.71,
+     "n": 20,
+     "frac_better": 0.95
+    },
+    "best_any": {
+     "vs": "E_srr:discern_style",
+     "mean": -1.65,
+     "lo": -7.64,
+     "hi": 4.34,
+     "n": 20,
+     "frac_better": 0.4
+    }
+   }
+  }
+ },
+ "W_late_1000": {
+  "tags": [
+   "real"
+  ],
+  "policies": {
+   "CONTROL_never_switch": {
+    "net": 407.15,
+    "promote": 0.0,
+    "rollbacks": 0.0,
+    "labels": 0.0,
+    "switches": 0.0,
+    "first": -1.0,
+    "delay": -1.0,
+    "regret": 87.7,
+    "pending": 0.0,
+    "runtime": 0.012
+   },
+   "E_glr:gated_adaptive_range": {
+    "net": 404.35,
+    "promote": 0.4,
+    "rollbacks": 0.0,
+    "labels": 200.0,
+    "switches": 0.4,
+    "first": 1597.5,
+    "delay": 597.5,
+    "regret": 84.9,
+    "pending": 21.8,
+    "runtime": 0.871
+   },
+   "E_glr:gated_deployment": {
+    "net": 407.25,
+    "promote": 0.3,
+    "rollbacks": 0.0,
+    "labels": 200.0,
+    "switches": 0.3,
+    "first": 1544.0,
+    "delay": 544.0,
+    "regret": 87.8,
+    "pending": 22.55,
+    "runtime": 0.566
+   },
+   "E_rb:SMCS+retain-incumbent": {
+    "net": 399.1,
+    "promote": 0.7,
+    "rollbacks": 0.0,
+    "labels": 200.0,
+    "switches": 0.7,
+    "first": 1644.0,
+    "delay": 644.0,
+    "regret": 79.65,
+    "pending": 21.8,
+    "runtime": 0.093
+   },
+   "E_rb:discern_style": {
+    "net": 401.5,
+    "promote": 0.6,
+    "rollbacks": 0.0,
+    "labels": 200.0,
+    "switches": 0.6,
+    "first": 1711.5,
+    "delay": 711.5,
+    "regret": 82.05,
+    "pending": 21.9,
+    "runtime": 0.055
+   },
+   "E_rb:gated_adaptive_range": {
+    "net": 400.4,
+    "promote": 0.6,
+    "rollbacks": 0.0,
+    "labels": 200.0,
+    "switches": 0.6,
+    "first": 1614.5,
+    "delay": 614.5,
+    "regret": 80.95,
+    "pending": 21.8,
+    "runtime": 0.828
+   },
+   "E_rb:gated_adaptive_range-nogate": {
+    "net": 400.4,
+    "promote": 0.6,
+    "rollbacks": 0.0,
+    "labels": 200.0,
+    "switches": 0.6,
+    "first": 1614.5,
+    "delay": 614.5,
+    "regret": 80.95,
+    "pending": 21.8,
+    "runtime": 0.836
+   },
+   "E_rb:gated_deployment": {
+    "net": 402.3,
+    "promote": 0.65,
+    "rollbacks": 0.0,
+    "labels": 200.0,
+    "switches": 0.65,
+    "first": 1763.0,
+    "delay": 763.0,
+    "regret": 82.85,
+    "pending": 22.55,
+    "runtime": 0.435
+   },
+   "E_rb:gated_deployment-a05": {
+    "net": 402.3,
+    "promote": 0.65,
+    "rollbacks": 0.0,
+    "labels": 200.0,
+    "switches": 0.65,
+    "first": 1763.0,
+    "delay": 763.0,
+    "regret": 82.85,
+    "pending": 22.55,
+    "runtime": 0.458
+   },
+   "E_rb:gated_deployment-nogate": {
+    "net": 402.3,
+    "promote": 0.65,
+    "rollbacks": 0.0,
+    "labels": 200.0,
+    "switches": 0.65,
+    "first": 1763.0,
+    "delay": 763.0,
+    "regret": 82.85,
+    "pending": 22.55,
+    "runtime": 0.515
+   },
+   "E_srr:SMCS+retain-incumbent": {
+    "net": 366.45,
+    "promote": 0.9,
+    "rollbacks": 0.0,
+    "labels": 200.0,
+    "switches": 0.9,
+    "first": 1321.0,
+    "delay": 321.0,
+    "regret": 47.0,
+    "pending": 21.8,
+    "runtime": 0.091
+   },
+   "E_srr:discern_style": {
+    "net": 375.45,
+    "promote": 0.85,
+    "rollbacks": 0.0,
+    "labels": 200.0,
+    "switches": 0.85,
+    "first": 1374.0,
+    "delay": 374.0,
+    "regret": 56.0,
+    "pending": 21.9,
+    "runtime": 0.051
+   },
+   "E_srr:gated_adaptive_range": {
+    "net": 369.5,
+    "promote": 0.95,
+    "rollbacks": 0.0,
+    "labels": 200.0,
+    "switches": 0.95,
+    "first": 1383.0,
+    "delay": 383.0,
+    "regret": 50.05,
+    "pending": 21.8,
+    "runtime": 0.698
+   },
+   "E_srr:gated_deployment": {
+    "net": 375.75,
+    "promote": 0.85,
+    "rollbacks": 0.0,
+    "labels": 200.0,
+    "switches": 0.85,
+    "first": 1383.0,
+    "delay": 383.0,
+    "regret": 56.3,
+    "pending": 22.55,
+    "runtime": 0.392
+   },
+   "E_srrSR:gated_deployment": {
+    "net": 369.2,
+    "promote": 1.0,
+    "rollbacks": 0.95,
+    "labels": 200.0,
+    "switches": 2.85,
+    "first": 646.0,
+    "delay": 207.0,
+    "regret": 49.75,
+    "pending": 22.45,
+    "runtime": 0.241
+   },
+   "E_srr_noacq:gated_adaptive_range": {
+    "net": 373.49,
+    "promote": 1.0,
+    "rollbacks": 0.0,
+    "labels": 199.8,
+    "switches": 1.0,
+    "first": 1466.0,
+    "delay": 466.0,
+    "regret": 54.04,
+    "pending": 17.75,
+    "runtime": 0.699
+   },
+   "E_srr_noacq:gated_deployment": {
+    "net": 369.138,
+    "promote": 1.0,
+    "rollbacks": 0.0,
+    "labels": 199.75,
+    "switches": 1.0,
+    "first": 1426.5,
+    "delay": 426.5,
+    "regret": 49.688,
+    "pending": 18.25,
+    "runtime": 0.344
+   },
+   "E_swcert": {
+    "net": 404.08,
+    "promote": 0.5,
+    "rollbacks": 0.0,
+    "labels": 199.6,
+    "switches": 0.5,
+    "first": 1611.5,
+    "delay": 611.5,
+    "regret": 84.63,
+    "pending": 18.05,
+    "runtime": 0.024
+   },
+   "E_swcert-W100": {
+    "net": 416.13,
+    "promote": 0.35,
+    "rollbacks": 0.0,
+    "labels": 199.6,
+    "switches": 0.35,
+    "first": 1908.0,
+    "delay": 908.0,
+    "regret": 96.68,
+    "pending": 18.05,
+    "runtime": 0.021
+   },
+   "E_swcert-W25": {
+    "net": 407.93,
+    "promote": 0.35,
+    "rollbacks": 0.0,
+    "labels": 199.6,
+    "switches": 0.35,
+    "first": 1558.0,
+    "delay": 558.0,
+    "regret": 88.48,
+    "pending": 18.05,
+    "runtime": 0.021
+   },
+   "E_swcert-cum": {
+    "net": 417.13,
+    "promote": 0.0,
+    "rollbacks": 0.0,
+    "labels": 199.6,
+    "switches": 0.0,
+    "first": -1.0,
+    "delay": -1.0,
+    "regret": 97.68,
+    "pending": 18.05,
+    "runtime": 0.023
+   },
+   "SMCS+retain-incumbent": {
+    "net": 416.138,
+    "promote": 0.05,
+    "rollbacks": 0.0,
+    "labels": 199.75,
+    "switches": 0.05,
+    "first": 1743.0,
+    "delay": 743.0,
+    "regret": 96.688,
+    "pending": 18.55,
+    "runtime": 0.066
+   },
+   "choe_ramdas_eb+front": {
+    "net": 416.795,
+    "promote": 0.0,
+    "rollbacks": 0.0,
+    "labels": 192.9,
+    "switches": 0.0,
+    "first": -1.0,
+    "delay": -1.0,
+    "regret": 97.345,
+    "pending": 31.6,
+    "runtime": 0.018
+   },
+   "discern_style": {
+    "net": 417.135,
+    "promote": 0.0,
+    "rollbacks": 0.0,
+    "labels": 199.7,
+    "switches": 0.0,
+    "first": -1.0,
+    "delay": -1.0,
+    "regret": 97.685,
+    "pending": 17.65,
+    "runtime": 0.031
+   },
+   "gated_adaptive_range": {
+    "net": 417.14,
+    "promote": 0.0,
+    "rollbacks": 0.0,
+    "labels": 199.8,
+    "switches": 0.0,
+    "first": -1.0,
+    "delay": -1.0,
+    "regret": 97.69,
+    "pending": 18.3,
+    "runtime": 0.986
+   },
+   "gated_adaptive_range+front": {
+    "net": 416.798,
+    "promote": 0.0,
+    "rollbacks": 0.0,
+    "labels": 192.95,
+    "switches": 0.0,
+    "first": -1.0,
+    "delay": -1.0,
+    "regret": 97.348,
+    "pending": 31.6,
+    "runtime": 0.38
+   },
+   "gated_deployment": {
+    "net": 417.14,
+    "promote": 0.0,
+    "rollbacks": 0.0,
+    "labels": 199.8,
+    "switches": 0.0,
+    "first": -1.0,
+    "delay": -1.0,
+    "regret": 97.69,
+    "pending": 18.3,
+    "runtime": 0.494
+   },
+   "rmm:LRMD": {
+    "net": 407.35,
+    "promote": 0.35,
+    "rollbacks": 0.0,
+    "labels": 200.0,
+    "switches": 0.35,
+    "first": 1535.0,
+    "delay": 535.0,
+    "regret": 87.9,
+    "pending": 24.45,
+    "runtime": 0.036
+   },
+   "rmm:SMCS+retain-incumbent+RMM": {
+    "net": 399.1,
+    "promote": 0.7,
+    "rollbacks": 0.0,
+    "labels": 200.0,
+    "switches": 0.7,
+    "first": 1644.0,
+    "delay": 644.0,
+    "regret": 79.65,
+    "pending": 21.8,
+    "runtime": 0.079
+   },
+   "rmm:discern_style+RMM": {
+    "net": 401.5,
+    "promote": 0.6,
+    "rollbacks": 0.0,
+    "labels": 200.0,
+    "switches": 0.6,
+    "first": 1711.5,
+    "delay": 711.5,
+    "regret": 82.05,
+    "pending": 21.9,
+    "runtime": 0.046
+   },
+   "rmm:gated_adaptive_range+RMM": {
+    "net": 400.4,
+    "promote": 0.6,
+    "rollbacks": 0.0,
+    "labels": 200.0,
+    "switches": 0.6,
+    "first": 1614.5,
+    "delay": 614.5,
+    "regret": 80.95,
+    "pending": 21.8,
+    "runtime": 0.784
+   },
+   "rmm:gated_deployment+RMM": {
+    "net": 402.3,
+    "promote": 0.65,
+    "rollbacks": 0.0,
+    "labels": 200.0,
+    "switches": 0.65,
+    "first": 1763.0,
+    "delay": 763.0,
+    "regret": 82.85,
+    "pending": 22.55,
+    "runtime": 0.463
+   },
+   "rmm:gated_deployment+RMM_noacq": {
+    "net": 395.492,
+    "promote": 0.85,
+    "rollbacks": 0.0,
+    "labels": 199.85,
+    "switches": 0.85,
+    "first": 1616.0,
+    "delay": 616.0,
+    "regret": 76.042,
+    "pending": 18.3,
+    "runtime": 0.441
+   },
+   "rmm:gated_deployment+RMM_single": {
+    "net": 417.15,
+    "promote": 0.0,
+    "rollbacks": 0.0,
+    "labels": 200.0,
+    "switches": 0.0,
+    "first": -1.0,
+    "delay": -1.0,
+    "regret": 97.7,
+    "pending": 22.55,
+    "runtime": 0.458
+   },
+   "xu_acquisition_only": {
+    "net": 412.528,
+    "promote": 0.3,
+    "rollbacks": 0.0,
+    "labels": 195.55,
+    "switches": 0.3,
+    "first": 1735.5,
+    "delay": 735.5,
+    "regret": 93.078,
+    "pending": 18.45,
+    "runtime": 0.35
+   }
+  },
+  "best_certified": "xu_acquisition_only",
+  "best_uncertified": null,
+  "contrasts": {
+   "E_rb:gated_deployment": {
+    "host": {
+     "vs": "rmm:gated_deployment+RMM",
+     "mean": 0.0,
+     "lo": 0.0,
+     "hi": 0.0,
+     "n": 20,
+     "frac_better": 0.0
+    },
+    "best_certified": {
+     "vs": "xu_acquisition_only",
+     "mean": -10.23,
+     "lo": -16.7,
+     "hi": -3.75,
+     "n": 20,
+     "frac_better": 0.6
+    },
+    "best_any": {
+     "vs": "E_srr:SMCS+retain-incumbent",
+     "mean": 35.85,
+     "lo": 26.42,
+     "hi": 45.28,
+     "n": 20,
+     "frac_better": 0.0
+    }
+   },
+   "E_rb:discern_style": {
+    "host": {
+     "vs": "rmm:discern_style+RMM",
+     "mean": 0.0,
+     "lo": 0.0,
+     "hi": 0.0,
+     "n": 20,
+     "frac_better": 0.0
+    },
+    "best_certified": {
+     "vs": "xu_acquisition_only",
+     "mean": -11.03,
+     "lo": -17.57,
+     "hi": -4.49,
+     "n": 20,
+     "frac_better": 0.6
+    },
+    "best_any": {
+     "vs": "E_srr:SMCS+retain-incumbent",
+     "mean": 35.05,
+     "lo": 25.15,
+     "hi": 44.95,
+     "n": 20,
+     "frac_better": 0.05
+    }
+   },
+   "E_rb:SMCS+retain-incumbent": {
+    "host": {
+     "vs": "rmm:SMCS+retain-incumbent+RMM",
+     "mean": 0.0,
+     "lo": 0.0,
+     "hi": 0.0,
+     "n": 20,
+     "frac_better": 0.0
+    },
+    "best_certified": {
+     "vs": "xu_acquisition_only",
+     "mean": -13.43,
+     "lo": -20.93,
+     "hi": -5.92,
+     "n": 20,
+     "frac_better": 0.6
+    },
+    "best_any": {
+     "vs": "E_srr:SMCS+retain-incumbent",
+     "mean": 32.65,
+     "lo": 23.87,
+     "hi": 41.43,
+     "n": 20,
+     "frac_better": 0.0
+    }
+   },
+   "E_rb:gated_adaptive_range": {
+    "host": {
+     "vs": "rmm:gated_adaptive_range+RMM",
+     "mean": 0.0,
+     "lo": 0.0,
+     "hi": 0.0,
+     "n": 20,
+     "frac_better": 0.0
+    },
+    "best_certified": {
+     "vs": "xu_acquisition_only",
+     "mean": -12.13,
+     "lo": -19.21,
+     "hi": -5.05,
+     "n": 20,
+     "frac_better": 0.55
+    },
+    "best_any": {
+     "vs": "E_srr:SMCS+retain-incumbent",
+     "mean": 33.95,
+     "lo": 22.43,
+     "hi": 45.47,
+     "n": 20,
+     "frac_better": 0.05
+    }
+   },
+   "E_swcert": {
+    "host": {
+     "vs": "xu_acquisition_only",
+     "mean": -8.45,
+     "lo": -16.94,
+     "hi": 0.04,
+     "n": 20,
+     "frac_better": 0.5
+    },
+    "best_certified": {
+     "vs": "xu_acquisition_only",
+     "mean": -8.45,
+     "lo": -16.94,
+     "hi": 0.04,
+     "n": 20,
+     "frac_better": 0.5
+    },
+    "best_any": {
+     "vs": "E_srr:SMCS+retain-incumbent",
+     "mean": 37.63,
+     "lo": 26.57,
+     "hi": 48.69,
+     "n": 20,
+     "frac_better": 0.1
+    }
+   },
+   "E_srr:gated_deployment": {
+    "host": {
+     "vs": "rmm:gated_deployment+RMM",
+     "mean": -26.55,
+     "lo": -34.48,
+     "hi": -18.62,
+     "n": 20,
+     "frac_better": 0.85
+    },
+    "best_certified": {
+     "vs": "xu_acquisition_only",
+     "mean": -36.78,
+     "lo": -46.31,
+     "hi": -27.24,
+     "n": 20,
+     "frac_better": 0.85
+    },
+    "best_any": {
+     "vs": "E_srr:SMCS+retain-incumbent",
+     "mean": 9.3,
+     "lo": -2.97,
+     "hi": 21.57,
+     "n": 20,
+     "frac_better": 0.35
+    }
+   },
+   "E_srr:gated_adaptive_range": {
+    "host": {
+     "vs": "rmm:gated_adaptive_range+RMM",
+     "mean": -30.9,
+     "lo": -38.11,
+     "hi": -23.69,
+     "n": 20,
+     "frac_better": 0.95
+    },
+    "best_certified": {
+     "vs": "xu_acquisition_only",
+     "mean": -43.03,
+     "lo": -51.12,
+     "hi": -34.93,
+     "n": 20,
+     "frac_better": 0.95
+    },
+    "best_any": {
+     "vs": "E_srr:SMCS+retain-incumbent",
+     "mean": 3.05,
+     "lo": -6.21,
+     "hi": 12.31,
+     "n": 20,
+     "frac_better": 0.35
+    }
+   }
+  }
+ },
+ "W_reversal_700": {
+  "tags": [
+   "real"
+  ],
+  "policies": {
+   "CONTROL_never_switch": {
+    "net": 341.55,
+    "promote": 0.0,
+    "rollbacks": 0.0,
+    "labels": 0.0,
+    "switches": 0.0,
+    "first": -1.0,
+    "delay": -1.0,
+    "regret": 41.1,
+    "pending": 0.0,
+    "runtime": 0.013
+   },
+   "E_glr:gated_adaptive_range": {
+    "net": 355.847,
+    "promote": 0.1,
+    "rollbacks": 0.05,
+    "labels": 199.95,
+    "switches": 0.15,
+    "first": 630.0,
+    "delay": 630.0,
+    "regret": 55.398,
+    "pending": 21.3,
+    "runtime": 0.884
+   },
+   "E_glr:gated_deployment": {
+    "net": 351.55,
+    "promote": 0.0,
+    "rollbacks": 0.0,
+    "labels": 200.0,
+    "switches": 0.0,
+    "first": -1.0,
+    "delay": -1.0,
+    "regret": 51.1,
+    "pending": 21.1,
+    "runtime": 0.531
+   },
+   "E_rb:SMCS+retain-incumbent": {
+    "net": 382.15,
+    "promote": 0.8,
+    "rollbacks": 0.8,
+    "labels": 200.0,
+    "switches": 1.6,
+    "first": 573.0,
+    "delay": 573.0,
+    "regret": 81.7,
+    "pending": 21.2,
+    "runtime": 0.094
+   },
+   "E_rb:discern_style": {
+    "net": 383.25,
+    "promote": 0.65,
+    "rollbacks": 0.6,
+    "labels": 200.0,
+    "switches": 1.25,
+    "first": 630.0,
+    "delay": 630.0,
+    "regret": 82.8,
+    "pending": 21.05,
+    "runtime": 0.059
+   },
+   "E_rb:gated_adaptive_range": {
+    "net": 377.05,
+    "promote": 0.55,
+    "rollbacks": 0.55,
+    "labels": 200.0,
+    "switches": 1.1,
+    "first": 621.0,
+    "delay": 621.0,
+    "regret": 76.6,
+    "pending": 21.4,
+    "runtime": 0.633
+   },
+   "E_rb:gated_adaptive_range-nogate": {
+    "net": 377.05,
+    "promote": 0.55,
+    "rollbacks": 0.55,
+    "labels": 200.0,
+    "switches": 1.1,
+    "first": 621.0,
+    "delay": 621.0,
+    "regret": 76.6,
+    "pending": 21.4,
+    "runtime": 0.649
+   },
+   "E_rb:gated_deployment": {
+    "net": 386.35,
+    "promote": 0.8,
+    "rollbacks": 0.8,
+    "labels": 200.0,
+    "switches": 1.6,
+    "first": 644.0,
+    "delay": 644.0,
+    "regret": 85.9,
+    "pending": 21.1,
+    "runtime": 0.305
+   },
+   "E_rb:gated_deployment-a05": {
+    "net": 392.85,
+    "promote": 0.8,
+    "rollbacks": 0.65,
+    "labels": 200.0,
+    "switches": 1.45,
+    "first": 644.0,
+    "delay": 644.0,
+    "regret": 92.4,
+    "pending": 21.1,
+    "runtime": 0.243
+   },
+   "E_rb:gated_deployment-nogate": {
+    "net": 386.35,
+    "promote": 0.8,
+    "rollbacks": 0.8,
+    "labels": 200.0,
+    "switches": 1.6,
+    "first": 644.0,
+    "delay": 644.0,
+    "regret": 85.9,
+    "pending": 21.1,
+    "runtime": 0.275
+   },
+   "E_srr:SMCS+retain-incumbent": {
+    "net": 376.1,
+    "promote": 0.95,
+    "rollbacks": 0.95,
+    "labels": 200.0,
+    "switches": 1.9,
+    "first": 487.0,
+    "delay": 487.0,
+    "regret": 75.65,
+    "pending": 21.2,
+    "runtime": 0.088
+   },
+   "E_srr:discern_style": {
+    "net": 361.95,
+    "promote": 0.9,
+    "rollbacks": 0.9,
+    "labels": 200.0,
+    "switches": 1.8,
+    "first": 358.0,
+    "delay": 358.0,
+    "regret": 61.5,
+    "pending": 21.0,
+    "runtime": 0.052
+   },
+   "E_srr:gated_adaptive_range": {
+    "net": 371.25,
+    "promote": 0.9,
+    "rollbacks": 0.85,
+    "labels": 200.0,
+    "switches": 1.75,
+    "first": 479.5,
+    "delay": 479.5,
+    "regret": 70.8,
+    "pending": 21.3,
+    "runtime": 0.358
+   },
+   "E_srr:gated_deployment": {
+    "net": 366.25,
+    "promote": 0.95,
+    "rollbacks": 0.95,
+    "labels": 200.0,
+    "switches": 1.9,
+    "first": 450.0,
+    "delay": 450.0,
+    "regret": 65.8,
+    "pending": 21.0,
+    "runtime": 0.161
+   },
+   "E_srrSR:gated_deployment": {
+    "net": 342.65,
+    "promote": 1.0,
+    "rollbacks": 1.15,
+    "labels": 200.0,
+    "switches": 2.3,
+    "first": 237.0,
+    "delay": 237.0,
+    "regret": 42.2,
+    "pending": 21.05,
+    "runtime": 0.109
+   },
+   "E_srr_noacq:gated_adaptive_range": {
+    "net": 367.992,
+    "promote": 0.75,
+    "rollbacks": 0.75,
+    "labels": 199.85,
+    "switches": 1.5,
+    "first": 419.0,
+    "delay": 419.0,
+    "regret": 67.542,
+    "pending": 18.25,
+    "runtime": 0.417
+   },
+   "E_srr_noacq:gated_deployment": {
+    "net": 368.695,
+    "promote": 0.85,
+    "rollbacks": 0.85,
+    "labels": 199.9,
+    "switches": 1.7,
+    "first": 463.0,
+    "delay": 463.0,
+    "regret": 68.245,
+    "pending": 17.7,
+    "runtime": 0.206
+   },
+   "E_swcert": {
+    "net": 389.94,
+    "promote": 0.6,
+    "rollbacks": 0.3,
+    "labels": 199.8,
+    "switches": 0.9,
+    "first": 557.0,
+    "delay": 557.0,
+    "regret": 89.49,
+    "pending": 17.65,
+    "runtime": 0.026
+   },
+   "E_swcert-W100": {
+    "net": 396.69,
+    "promote": 0.65,
+    "rollbacks": 0.4,
+    "labels": 199.8,
+    "switches": 1.05,
+    "first": 574.0,
+    "delay": 574.0,
+    "regret": 96.24,
+    "pending": 17.65,
+    "runtime": 0.025
+   },
+   "E_swcert-W25": {
+    "net": 375.74,
+    "promote": 0.35,
+    "rollbacks": 0.15,
+    "labels": 199.8,
+    "switches": 0.5,
+    "first": 387.0,
+    "delay": 387.0,
+    "regret": 75.29,
+    "pending": 17.65,
+    "runtime": 0.021
+   },
+   "E_swcert-cum": {
+    "net": 398.99,
+    "promote": 0.65,
+    "rollbacks": 0.3,
+    "labels": 199.8,
+    "switches": 0.95,
+    "first": 574.0,
+    "delay": 574.0,
+    "regret": 98.54,
+    "pending": 17.65,
+    "runtime": 0.019
+   },
+   "SMCS+retain-incumbent": {
+    "net": 395.835,
+    "promote": 0.6,
+    "rollbacks": 0.0,
+    "labels": 199.7,
+    "switches": 0.6,
+    "first": 387.5,
+    "delay": 387.5,
+    "regret": 95.385,
+    "pending": 18.25,
+    "runtime": 0.067
+   },
+   "choe_ramdas_eb+front": {
+    "net": 410.885,
+    "promote": 0.8,
+    "rollbacks": 0.0,
+    "labels": 115.7,
+    "switches": 0.8,
+    "first": 468.0,
+    "delay": 468.0,
+    "regret": 110.435,
+    "pending": 27.65,
+    "runtime": 0.015
+   },
+   "discern_style": {
+    "net": 351.535,
+    "promote": 0.0,
+    "rollbacks": 0.0,
+    "labels": 199.7,
+    "switches": 0.0,
+    "first": -1.0,
+    "delay": -1.0,
+    "regret": 51.085,
+    "pending": 18.15,
+    "runtime": 0.032
+   },
+   "gated_adaptive_range": {
+    "net": 364.995,
+    "promote": 0.15,
+    "rollbacks": 0.0,
+    "labels": 179.9,
+    "switches": 0.15,
+    "first": 625.0,
+    "delay": 625.0,
+    "regret": 64.545,
+    "pending": 17.4,
+    "runtime": 0.834
+   },
+   "gated_adaptive_range+front": {
+    "net": 416.135,
+    "promote": 0.85,
+    "rollbacks": 0.0,
+    "labels": 118.7,
+    "switches": 0.85,
+    "first": 480.0,
+    "delay": 480.0,
+    "regret": 115.685,
+    "pending": 27.65,
+    "runtime": 0.229
+   },
+   "gated_deployment": {
+    "net": 357.075,
+    "promote": 0.05,
+    "rollbacks": 0.0,
+    "labels": 194.5,
+    "switches": 0.05,
+    "first": 790.0,
+    "delay": 790.0,
+    "regret": 56.625,
+    "pending": 17.7,
+    "runtime": 0.473
+   },
+   "rmm:LRMD": {
+    "net": 400.25,
+    "promote": 0.9,
+    "rollbacks": 0.55,
+    "labels": 200.0,
+    "switches": 1.45,
+    "first": 490.5,
+    "delay": 490.5,
+    "regret": 99.8,
+    "pending": 24.35,
+    "runtime": 0.039
+   },
+   "rmm:SMCS+retain-incumbent+RMM": {
+    "net": 393.05,
+    "promote": 0.8,
+    "rollbacks": 0.65,
+    "labels": 200.0,
+    "switches": 1.45,
+    "first": 573.0,
+    "delay": 573.0,
+    "regret": 92.6,
+    "pending": 21.2,
+    "runtime": 0.087
+   },
+   "rmm:discern_style+RMM": {
+    "net": 390.4,
+    "promote": 0.65,
+    "rollbacks": 0.55,
+    "labels": 200.0,
+    "switches": 1.2,
+    "first": 630.0,
+    "delay": 630.0,
+    "regret": 89.95,
+    "pending": 21.05,
+    "runtime": 0.052
+   },
+   "rmm:gated_adaptive_range+RMM": {
+    "net": 380.85,
+    "promote": 0.55,
+    "rollbacks": 0.4,
+    "labels": 200.0,
+    "switches": 0.95,
+    "first": 621.0,
+    "delay": 621.0,
+    "regret": 80.4,
+    "pending": 21.4,
+    "runtime": 0.605
+   },
+   "rmm:gated_deployment+RMM": {
+    "net": 395.8,
+    "promote": 0.8,
+    "rollbacks": 0.65,
+    "labels": 200.0,
+    "switches": 1.45,
+    "first": 644.0,
+    "delay": 644.0,
+    "regret": 95.35,
+    "pending": 21.1,
+    "runtime": 0.255
+   },
+   "rmm:gated_deployment+RMM_noacq": {
+    "net": 381.448,
+    "promote": 0.4,
+    "rollbacks": 0.3,
+    "labels": 199.95,
+    "switches": 0.7,
+    "first": 659.5,
+    "delay": 659.5,
+    "regret": 80.998,
+    "pending": 17.65,
+    "runtime": 0.438
+   },
+   "rmm:gated_deployment+RMM_single": {
+    "net": 411.85,
+    "promote": 0.9,
+    "rollbacks": 0.45,
+    "labels": 200.0,
+    "switches": 1.35,
+    "first": 501.5,
+    "delay": 501.5,
+    "regret": 111.4,
+    "pending": 21.1,
+    "runtime": 0.208
+   },
+   "xu_acquisition_only": {
+    "net": 384.65,
+    "promote": 0.5,
+    "rollbacks": 0.45,
+    "labels": 194.0,
+    "switches": 0.95,
+    "first": 596.5,
+    "delay": 596.5,
+    "regret": 84.2,
+    "pending": 17.65,
+    "runtime": 0.309
+   }
+  },
+  "best_certified": "discern_style",
+  "best_uncertified": null,
+  "contrasts": {
+   "E_rb:gated_deployment": {
+    "host": {
+     "vs": "rmm:gated_deployment+RMM",
+     "mean": -9.45,
+     "lo": -15.06,
+     "hi": -3.84,
+     "n": 20,
+     "frac_better": 0.65
+    },
+    "best_certified": {
+     "vs": "discern_style",
+     "mean": 34.82,
+     "lo": 24.45,
+     "hi": 45.18,
+     "n": 20,
+     "frac_better": 0.0
+    },
+    "best_any": {
+     "vs": "CONTROL_never_switch",
+     "mean": 44.8,
+     "lo": 34.43,
+     "hi": 55.17,
+     "n": 20,
+     "frac_better": 0.0
+    }
+   },
+   "E_rb:discern_style": {
+    "host": {
+     "vs": "rmm:discern_style+RMM",
+     "mean": -7.15,
+     "lo": -11.31,
+     "hi": -2.99,
+     "n": 20,
+     "frac_better": 0.55
+    },
+    "best_certified": {
+     "vs": "discern_style",
+     "mean": 31.72,
+     "lo": 19.93,
+     "hi": 43.5,
+     "n": 20,
+     "frac_better": 0.0
+    },
+    "best_any": {
+     "vs": "CONTROL_never_switch",
+     "mean": 41.7,
+     "lo": 29.92,
+     "hi": 53.48,
+     "n": 20,
+     "frac_better": 0.0
+    }
+   },
+   "E_rb:SMCS+retain-incumbent": {
+    "host": {
+     "vs": "rmm:SMCS+retain-incumbent+RMM",
+     "mean": -10.9,
+     "lo": -16.51,
+     "hi": -5.29,
+     "n": 20,
+     "frac_better": 0.7
+    },
+    "best_certified": {
+     "vs": "discern_style",
+     "mean": 30.62,
+     "lo": 20.02,
+     "hi": 41.21,
+     "n": 20,
+     "frac_better": 0.0
+    },
+    "best_any": {
+     "vs": "CONTROL_never_switch",
+     "mean": 40.6,
+     "lo": 30.01,
+     "hi": 51.19,
+     "n": 20,
+     "frac_better": 0.0
+    }
+   },
+   "E_rb:gated_adaptive_range": {
+    "host": {
+     "vs": "rmm:gated_adaptive_range+RMM",
+     "mean": -3.8,
+     "lo": -6.25,
+     "hi": -1.35,
+     "n": 20,
+     "frac_better": 0.5
+    },
+    "best_certified": {
+     "vs": "discern_style",
+     "mean": 25.52,
+     "lo": 11.82,
+     "hi": 39.21,
+     "n": 20,
+     "frac_better": 0.0
+    },
+    "best_any": {
+     "vs": "CONTROL_never_switch",
+     "mean": 35.5,
+     "lo": 21.8,
+     "hi": 49.2,
+     "n": 20,
+     "frac_better": 0.0
+    }
+   },
+   "E_swcert": {
+    "host": {
+     "vs": "xu_acquisition_only",
+     "mean": 5.29,
+     "lo": -18.23,
+     "hi": 28.81,
+     "n": 20,
+     "frac_better": 0.35
+    },
+    "best_certified": {
+     "vs": "discern_style",
+     "mean": 38.4,
+     "lo": 21.16,
+     "hi": 55.65,
+     "n": 20,
+     "frac_better": 0.0
+    },
+    "best_any": {
+     "vs": "CONTROL_never_switch",
+     "mean": 48.39,
+     "lo": 31.15,
+     "hi": 65.63,
+     "n": 20,
+     "frac_better": 0.0
+    }
+   },
+   "E_srr:gated_deployment": {
+    "host": {
+     "vs": "rmm:gated_deployment+RMM",
+     "mean": -29.55,
+     "lo": -43.31,
+     "hi": -15.79,
+     "n": 20,
+     "frac_better": 0.8
+    },
+    "best_certified": {
+     "vs": "discern_style",
+     "mean": 14.72,
+     "lo": 8.87,
+     "hi": 20.56,
+     "n": 20,
+     "frac_better": 0.05
+    },
+    "best_any": {
+     "vs": "CONTROL_never_switch",
+     "mean": 24.7,
+     "lo": 18.85,
+     "hi": 30.55,
+     "n": 20,
+     "frac_better": 0.0
+    }
+   },
+   "E_srr:gated_adaptive_range": {
+    "host": {
+     "vs": "rmm:gated_adaptive_range+RMM",
+     "mean": -9.6,
+     "lo": -29.13,
+     "hi": 9.93,
+     "n": 20,
+     "frac_better": 0.55
+    },
+    "best_certified": {
+     "vs": "discern_style",
+     "mean": 19.72,
+     "lo": 10.7,
+     "hi": 28.73,
+     "n": 20,
+     "frac_better": 0.1
+    },
+    "best_any": {
+     "vs": "CONTROL_never_switch",
+     "mean": 29.7,
+     "lo": 20.69,
+     "hi": 38.71,
+     "n": 20,
+     "frac_better": 0.0
+    }
+   }
+  }
+ }
+}

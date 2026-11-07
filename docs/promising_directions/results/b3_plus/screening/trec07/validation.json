@@ -1,0 +1,99 @@
+{
+  "dataset_id": "trec07",
+  "n_rows": 75419,
+  "order": {
+    "declared_basis": "documented_order",
+    "n": 75419,
+    "justification": "The corpus is one inbox delivered 2007-04-08..2007-07-06 and distributed in arrival order (message index). The Date header is sender-controlled and forged for spam, so it is NOT used to sort; it is used only to corroborate that file order tracks time (Spearman >= 0.9 on headers inside the collection span).",
+    "sorted_by": null,
+    "time_plausible_frac": 0.8338482345297604,
+    "spearman_index_vs_date": 0.9958857534016257,
+    "time_inversions_plausible": 24134,
+    "verdict": "documented_order_corroborated_by_dates"
+  },
+  "windows": {
+    "train_incumbent": [
+      0,
+      11312
+    ],
+    "train_challenger": [
+      0,
+      22625
+    ],
+    "dev": [
+      22625,
+      45251
+    ],
+    "locked": [
+      45251,
+      75419
+    ]
+  },
+  "checks": [
+    {
+      "check": "chronological_order_defensible",
+      "pass": true,
+      "detail": "verdict=documented_order_corroborated_by_dates; declared_basis=documented_order",
+      "hard": true
+    },
+    {
+      "check": "row_count_matches_source",
+      "pass": true,
+      "detail": "declared=75419 loaded=75419",
+      "hard": false
+    },
+    {
+      "check": "X_y_aligned",
+      "pass": true,
+      "detail": "feature rows equal label rows",
+      "hard": true
+    },
+    {
+      "check": "locked_window_has_one_episode",
+      "pass": true,
+      "detail": "locked rows=30168, T=2000",
+      "hard": true
+    },
+    {
+      "check": "train_dev_windows_nonempty",
+      "pass": true,
+      "detail": "window sizes 11312,11313,22626",
+      "hard": true
+    },
+    {
+      "check": "not_class_sorted",
+      "pass": true,
+      "detail": "runs=16343 classes=2",
+      "hard": true
+    },
+    {
+      "check": "two_classes_in_training_window",
+      "pass": true,
+      "detail": "2 classes in first 30%",
+      "hard": true
+    },
+    {
+      "check": "no_target_equals_feature",
+      "pass": true,
+      "detail": "max |corr(feature, target)|=None (None)",
+      "hard": true
+    }
+  ],
+  "status": null,
+  "ok": true,
+  "class_sorted_check": {
+    "runs": 16343,
+    "n_classes": 2,
+    "expected_runs_if_shuffled": 19301.848306670687,
+    "class_sorted": false
+  },
+  "exchangeability_diagnostic": {
+    "class_mix_by_block_chi2_p": 6.726047844599505e-308,
+    "median_abs_std_feature_shift_first_vs_second_half_of_train_dev": null
+  },
+  "leakage_screen": {
+    "max_abs_corr": null,
+    "column": null
+  },
+  "order_array_length": 75419
+}

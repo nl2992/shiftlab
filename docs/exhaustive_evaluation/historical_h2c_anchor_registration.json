@@ -1,0 +1,14 @@
+{
+  "kind": "historical reproduction, not fresh confirmation",
+  "condition": "accurate",
+  "shift": "concept2",
+  "N": 600,
+  "world_seed": 90002,
+  "query_seed": 95003,
+  "source_sha256": "ed5923e9486c6bc9c8a0d1497f68c74563a4221f5644721f508dfd7fbbf66ba7",
+  "arms": [
+    "F1_H2c",
+    "C1_cost_disc",
+    "C2_cost_ONS"
+  ]
+}

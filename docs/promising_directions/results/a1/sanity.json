@@ -1,0 +1,136 @@
+{
+  "passed": true,
+  "checks": [
+    {
+      "name": "T6B3d2 J == 22083523/7812500",
+      "ok": true,
+      "value": "22083523/7812500"
+    },
+    {
+      "name": "T6B3d2 J <= C*",
+      "ok": true,
+      "value": "0"
+    },
+    {
+      "name": "calendar slots 1..T equal 1..T-d (T6B3d2)",
+      "ok": true,
+      "value": [
+        "22083523/7812500",
+        "22083523/7812500"
+      ]
+    },
+    {
+      "name": "T8B4 gap C*-J == 6744087/781250000",
+      "ok": true,
+      "value": "6744087/781250000"
+    },
+    {
+      "name": "T8B4 J <= C*",
+      "ok": true,
+      "value": "6744087/781250000"
+    }
+  ],
+  "cells": [
+    {
+      "params": {
+        "T": 6,
+        "B": 3,
+        "d": 2,
+        "trans": "1/10",
+        "e0": "1/10",
+        "e1": "9/10",
+        "alpha": "1/10",
+        "cq": "1/100",
+        "cs": "1/10",
+        "prior1": "1/2"
+      },
+      "J": "22083523/7812500",
+      "J_float": 2.826690944,
+      "C_star": "22083523/7812500",
+      "C_star_float": 2.826690944,
+      "best_calendar": [
+        1,
+        2,
+        3
+      ],
+      "abs_gap": "0",
+      "abs_gap_float": 0.0,
+      "rel_gap": "0",
+      "rel_gap_float": 0.0,
+      "j_le_cstar_within_tol": true,
+      "n_calendars": 15,
+      "joint_nodes": 1799,
+      "solve_seconds": 0.8806657998356968
+    },
+    {
+      "params": {
+        "T": 6,
+        "B": 3,
+        "d": 2,
+        "trans": "1/10",
+        "e0": "1/10",
+        "e1": "9/10",
+        "alpha": "1/10",
+        "cq": "1/100",
+        "cs": "1/10",
+        "prior1": "1/2"
+      },
+      "J": "22083523/7812500",
+      "J_float": 2.826690944,
+      "C_star": "22083523/7812500",
+      "C_star_float": 2.826690944,
+      "best_calendar": [
+        1,
+        2,
+        3
+      ],
+      "abs_gap": "0",
+      "abs_gap_float": 0.0,
+      "rel_gap": "0",
+      "rel_gap_float": 0.0,
+      "j_le_cstar_within_tol": true,
+      "n_calendars": 42,
+      "joint_nodes": 1799,
+      "solve_seconds": 2.1597340998705477
+    },
+    {
+      "params": {
+        "T": 8,
+        "B": 4,
+        "d": 2,
+        "trans": "1/10",
+        "e0": "1/10",
+        "e1": "9/10",
+        "alpha": "1/10",
+        "cq": "1/100",
+        "cs": "1/10",
+        "prior1": "1/2"
+      },
+      "J": "2858187313/781250000",
+      "J_float": 3.65847976064,
+      "C_star": "14324657/3906250",
+      "C_star_float": 3.667112192,
+      "best_calendar": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "abs_gap": "6744087/781250000",
+      "abs_gap_float": 0.00863243136,
+      "rel_gap": "6744087/2858187313",
+      "rel_gap_float": 0.0023595678874248787,
+      "j_le_cstar_within_tol": true,
+      "n_calendars": 57,
+      "joint_nodes": 17922,
+      "solve_seconds": 31.9362443999853
+    }
+  ],
+  "provenance": {
+    "solver_commit": "2bd2e8e41639073c8d22ffb17ef0bcc68111e321",
+    "solver_file_sha256": {
+      "src/shiftlab/dive/causal_switching_game.py": "54b1347c3e213407b3feb09a801dc9ea40b3663fe6a4a227b7878b9b0a2d770a",
+      "scripts/decompose_switching_calendar_gap.py": "16dc05e76e94b8b02684609de767596a7ea0b5111e6dbf376ec741226777ece4"
+    }
+  }
+}

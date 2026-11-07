@@ -1,0 +1,29 @@
+| candidate | regime | net | promote | first | labels | rb | vs host | vs best cert | vs best uncert |
+|---|---|---|---|---|---|---|---|---|---|
+| M_RMMSUI_A5b | F0_better | 375.9 | 0.80 | 718 | 200 | 0.00 | +2.1 [-2.0,+6.1] (A5b) | -3.6 [-18.6,+11.4] (xu_acquisition_only) |  |
+| M_RMMSUI_A5b | F0_null | 370.5 | 0.00 | -1 | 200 | 0.00 | +0.0 [+0.0,+0.0] (A5b) | +0.3 [+0.2,+0.5] (xu_acquisition_only) |  |
+| M_RMMSUI_A5b | F1_late_1200 | 386.2 | 0.00 | -1 | 200 | 0.00 | +0.0 [-0.0,+0.0] (A5b) | +0.2 [+0.1,+0.3] (xu_acquisition_only) |  |
+| M_RMMSUI_A5b | F1_late_800 | 396.4 | 0.05 | 1727 | 200 | 0.00 | -0.4 [-2.8,+1.9] (A5b) | -0.1 [-2.5,+2.3] (xu_acquisition_only) |  |
+| M_RMMSUI_A5b | F3_reversal_800 | 415.9 | 0.95 | 359 | 200 | 0.15 | -1.9 [-10.6,+6.8] (A5b) | +56.9 [+44.3,+69.6] (discern_style) |  |
+| M_RMMSUI_A5b | F5_dep_null_r8 | 371.2 | 0.00 | -1 | 200 | 0.00 | +0.2 [-0.0,+0.4] (A5b) | +1.5 [-0.4,+3.3] (xu_acquisition_only) |  |
+| M_RMMSUI_A5b | F5_dep_null_r95 | 371.2 | 0.00 | -1 | 200 | 0.00 | +5.1 [+4.7,+5.5] (A5b) | +2.8 [-10.9,+16.5] (gated_adaptive_range) |  |
+| M_RMMSUI_A5b | F7_near_better | 399.8 | 0.10 | 830 | 200 | 0.00 | +0.0 [+0.0,+0.0] (A5b) | -3.4 [-11.8,+4.9] (xu_acquisition_only) |  |
+| M_RMMSUI_A5b | S_late_1500 | 369.2 | 0.00 | -1 | 200 | 0.00 | +0.0 [+0.0,+0.0] (A5b) | +0.2 [-0.2,+0.7] (gated_adaptive_range) |  |
+| M_LRMD_SUI | F0_better | 390.8 | 0.85 | 849 | 200 | 0.00 | +17.0 [+2.0,+31.9] (A5b) | +11.3 [-8.8,+31.3] (xu_acquisition_only) |  |
+| M_LRMD_SUI | F0_null | 370.2 | 0.05 | 425 | 200 | 0.00 | -0.3 [-0.8,+0.2] (A5b) | +0.1 [-0.4,+0.5] (xu_acquisition_only) |  |
+| M_LRMD_SUI | F1_late_1200 | 384.0 | 0.40 | 1922 | 199 | 0.00 | -2.3 [-4.5,-0.1] (A5b) | -2.1 [-4.3,+0.1] (xu_acquisition_only) |  |
+| M_LRMD_SUI | F1_late_800 | 388.8 | 0.35 | 1580 | 200 | 0.00 | -8.1 [-14.3,-1.8] (A5b) | -7.7 [-13.6,-1.8] (xu_acquisition_only) |  |
+| M_LRMD_SUI | F3_reversal_800 | 413.2 | 0.85 | 515 | 200 | 0.65 | -4.6 [-25.8,+16.5] (A5b) | +54.2 [+42.3,+66.2] (discern_style) |  |
+| M_LRMD_SUI | F5_dep_null_r8 | 371.2 | 0.00 | -1 | 199 | 0.00 | +0.1 [-0.1,+0.3] (A5b) | +1.4 [-0.4,+3.3] (xu_acquisition_only) |  |
+| M_LRMD_SUI | F5_dep_null_r95 | 371.2 | 0.00 | -1 | 200 | 0.00 | +5.1 [+4.7,+5.5] (A5b) | +2.8 [-10.9,+16.5] (gated_adaptive_range) |  |
+| M_LRMD_SUI | F7_near_better | 398.2 | 0.25 | 1193 | 200 | 0.00 | -1.5 [-5.5,+2.5] (A5b) | -4.9 [-12.1,+2.2] (xu_acquisition_only) |  |
+| M_LRMD_SUI | S_late_1500 | 369.2 | 0.00 | -1 | 199 | 0.00 | -0.0 [-0.1,-0.0] (A5b) | +0.2 [-0.2,+0.7] (gated_adaptive_range) |  |
+| M_RMMSUI_gar | F0_better | 386.2 | 0.85 | 912 | 200 | 0.00 | +6.8 [-1.1,+14.8] (rmm:gated_adaptive_range+RMM) | +6.7 [-8.8,+22.2] (xu_acquisition_only) |  |
+| M_RMMSUI_gar | F0_null | 370.5 | 0.00 | -1 | 200 | 0.00 | -0.3 [-1.0,+0.3] (rmm:gated_adaptive_range+RMM) | +0.3 [+0.2,+0.5] (xu_acquisition_only) |  |
+| M_RMMSUI_gar | F1_late_1200 | 386.2 | 0.00 | -1 | 200 | 0.00 | +6.1 [+0.9,+11.3] (rmm:gated_adaptive_range+RMM) | +0.2 [+0.1,+0.3] (xu_acquisition_only) |  |
+| M_RMMSUI_gar | F1_late_800 | 395.7 | 0.10 | 1632 | 200 | 0.00 | +22.4 [+13.7,+31.2] (rmm:gated_adaptive_range+RMM) | -0.8 [-3.5,+2.0] (xu_acquisition_only) |  |
+| M_RMMSUI_gar | F3_reversal_800 | 405.8 | 0.85 | 463 | 200 | 0.50 | +12.9 [+4.0,+21.9] (rmm:gated_adaptive_range+RMM) | +46.8 [+34.6,+59.0] (discern_style) |  |
+| M_RMMSUI_gar | F5_dep_null_r8 | 371.2 | 0.00 | -1 | 200 | 0.00 | +2.0 [-0.7,+4.7] (rmm:gated_adaptive_range+RMM) | +1.5 [-0.4,+3.3] (xu_acquisition_only) |  |
+| M_RMMSUI_gar | F5_dep_null_r95 | 370.0 | 0.10 | 558 | 200 | 0.00 | -13.4 [-32.9,+6.0] (rmm:gated_adaptive_range+RMM) | +1.6 [-11.5,+14.7] (gated_adaptive_range) |  |
+| M_RMMSUI_gar | F7_near_better | 397.4 | 0.20 | 818 | 200 | 0.00 | -2.0 [-7.1,+3.1] (rmm:gated_adaptive_range+RMM) | -5.8 [-15.3,+3.7] (xu_acquisition_only) |  |
+| M_RMMSUI_gar | S_late_1500 | 369.2 | 0.00 | -1 | 200 | 0.00 | -0.1 [-0.3,+0.1] (rmm:gated_adaptive_range+RMM) | +0.2 [-0.2,+0.7] (gated_adaptive_range) |  |

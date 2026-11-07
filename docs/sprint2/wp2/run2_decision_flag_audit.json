@@ -1,0 +1,29 @@
+{
+  "audit": "PASS",
+  "run_dirs": [
+    "run2_T1000_x0.5",
+    "run2_T1000_x1",
+    "run2_T1000_x2",
+    "run2_T2000_x0.5",
+    "run2_T2000_x2",
+    "run2_T4000_x0.5",
+    "run2_T4000_x1",
+    "run2_T4000_x2"
+  ],
+  "rows": 141360,
+  "flag_checks": [
+    "ever_promote",
+    "n_promotions",
+    "first_deploy",
+    "per-promotion EI from stored rest_sum and c_s",
+    "net cost identity",
+    "paired harm vs CONTROL_never_switch where available"
+  ],
+  "paired_harm_checks": 129580,
+  "mismatches": 0,
+  "first_mismatches": [],
+  "limitations": [
+    "Run-2 event streams were re-windowed from reused source data, not independent datasets.",
+    "Checks stored flag arithmetic and cost identities; they do not reproduce policy trajectories from source NPZ files or establish statistical validity."
+  ]
+}

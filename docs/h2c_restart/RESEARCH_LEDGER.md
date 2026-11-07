@@ -1,0 +1,2 @@
+- Restart dev: valid restart mixtures do not beat ordinary H2c (geometric +.003/.009/.023); SR at ARL threshold false-alarms 100% over T=2000; Mode C: H2c-SR beats existing SR by +.05/.09/.14 but its empirical calibration does not transfer (.03-.13; .19-.30 under rho=.98).
+- Nominal-risk uncertainty: Hoeffding/EB upper bound for c0 (alpha_cal .01); power ~0 for n_cal <= 1000, EB n_cal 50000 recovers .535/.850 vs known .603/.902.

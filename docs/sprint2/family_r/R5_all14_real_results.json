@@ -1,0 +1,1580 @@
+{
+  "title": "R5 all-14-source real-stream cost replay (post-development descriptive)",
+  "manifest": "outputs/sprint2/round5/R5_all14_real20/manifest.json",
+  "seed_base": 2026110903,
+  "policy_seeds_per_episode": 20,
+  "total_episodes": 230,
+  "sources": [
+    "rialto",
+    "spam",
+    "weather",
+    "openml_ldpa",
+    "uci_occupancy",
+    "airlines",
+    "bank",
+    "elec2",
+    "criteo",
+    "metro",
+    "beijing_pm25",
+    "bike_hour",
+    "appliances",
+    "household_power"
+  ],
+  "policies": [
+    "R5",
+    "D2",
+    "A5b",
+    "economic_replacement",
+    "R:economic_stop",
+    "cams_adapter",
+    "gated_adaptive_range+front"
+  ],
+  "unit": "Mean over 20 policy-randomness seeds within episode; t intervals across chronological episodes within each source.",
+  "equal_source_mean_net_cost": {
+    "R5": 404.2235753295068,
+    "D2": 404.9056462053572,
+    "A5b": 495.6751305272109,
+    "economic_replacement": 412.3942493516156,
+    "R:economic_stop": 484.7079397640306,
+    "cams_adapter": 406.54783118622447,
+    "gated_adaptive_range+front": 414.137468537415
+  },
+  "equal_source_mean_paired_cost_contrast": {
+    "D2": {
+      "mean_of_source_means": -0.6820708758503385,
+      "source_means": [
+        0.8726562499999984,
+        -6.699999999999989,
+        -12.150000000000034,
+        3.2710937499999924,
+        0.46687500000000526,
+        -2.678699999999983,
+        -3.3956249999999955,
+        0.9743750000000517,
+        -8.845699999999995,
+        -0.19156249999999986,
+        27.933928571428567,
+        -4.721250000000016,
+        -2.4033333333333644,
+        -1.9817499999999797
+      ]
+    },
+    "A5b": {
+      "mean_of_source_means": -91.45155519770411,
+      "source_means": [
+        -100.93734375,
+        -82.24000000000001,
+        -18.844166666666677,
+        -92.30492187499999,
+        -349.71062500000005,
+        -5.9948499999999925,
+        -5.92531249999999,
+        -8.199374999999975,
+        -11.287550000000008,
+        -101.8440625,
+        -80.05910714285717,
+        -92.95208333333335,
+        -258.6325,
+        -71.38987499999999
+      ]
+    },
+    "economic_replacement": {
+      "mean_of_source_means": -8.170674022108843,
+      "source_means": [
+        -9.50859375,
+        -25.99000000000001,
+        -1.7708333333333712,
+        0.2849999999999957,
+        -24.753125000000004,
+        -9.222550000000007,
+        -6.36281249999999,
+        -7.443749999999966,
+        4.498699999999994,
+        -36.962031249999995,
+        29.417142857142856,
+        -18.564166666666683,
+        -6.161666666666633,
+        -1.8507499999999908
+      ]
+    },
+    "R:economic_stop": {
+      "mean_of_source_means": -80.48436443452381,
+      "source_means": [
+        -12.116250000000004,
+        -169.1225,
+        -59.29916666666664,
+        -93.605625,
+        -66.74687500000002,
+        -4.796299999999994,
+        -1.8571874999999984,
+        -9.869999999999962,
+        -11.671,
+        -196.06578125,
+        -59.31125000000002,
+        -169.23624999999998,
+        -212.59416666666667,
+        -60.488749999999996
+      ]
+    },
+    "cams_adapter": {
+      "mean_of_source_means": -2.324255856717687,
+      "source_means": [
+        10.324218749999996,
+        6.259999999999991,
+        -3.26000000000001,
+        14.012421874999998,
+        1.6962499999999956,
+        -17.182849999999988,
+        -15.712812499999984,
+        -14.560624999999987,
+        -6.5834500000000045,
+        2.5115624999999984,
+        17.24553571428571,
+        -2.3358333333333405,
+        -21.582499999999992,
+        -3.3714999999999877
+      ]
+    },
+    "gated_adaptive_range+front": {
+      "mean_of_source_means": -9.913893207908158,
+      "source_means": [
+        -5.911406250000002,
+        -16.840000000000003,
+        -21.57250000000001,
+        -12.585234374999999,
+        -0.6856249999999982,
+        -3.1140999999999894,
+        1.7684375000000152,
+        -12.311874999999958,
+        -11.005550000000003,
+        -6.585312500000001,
+        -22.92196428571429,
+        -13.786666666666676,
+        -2.0658333333333303,
+        -11.176874999999988
+      ]
+    }
+  },
+  "by_source": {
+    "rialto": {
+      "episodes": 16,
+      "mean_net_cost": {
+        "R5": 85.03546875,
+        "D2": 84.1628125,
+        "A5b": 185.9728125,
+        "economic_replacement": 94.5440625,
+        "R:economic_stop": 97.15171875,
+        "cams_adapter": 74.71125,
+        "gated_adaptive_range+front": 90.946875
+      },
+      "mean_labels": {
+        "R5": 18.959375,
+        "D2": 18.06875,
+        "A5b": 143.20625,
+        "economic_replacement": 159.13125,
+        "R:economic_stop": 33.096875,
+        "cams_adapter": 77.1625,
+        "gated_adaptive_range+front": 30.1875
+      },
+      "mean_switches": {
+        "R5": 1.0,
+        "D2": 1.0,
+        "A5b": 0.4375,
+        "economic_replacement": 1.0,
+        "R:economic_stop": 1.0,
+        "cams_adapter": 1.01875,
+        "gated_adaptive_range+front": 1.0
+      },
+      "promotion_rate": {
+        "R5": 1.0,
+        "D2": 1.0,
+        "A5b": 0.4375,
+        "economic_replacement": 1.0,
+        "R:economic_stop": 1.0,
+        "cams_adapter": 1.0,
+        "gated_adaptive_range+front": 1.0
+      },
+      "paired_episode_contrasts_R5_minus_comparator": {
+        "D2": {
+          "mean_t_ci_95": [
+            0.8726562499999984,
+            0.24253765931127258,
+            1.502774840688724
+          ],
+          "episodes_favoring_R5": 1,
+          "episodes_tied": 0,
+          "episode_fraction_favoring_R5": 0.0625
+        },
+        "A5b": {
+          "mean_t_ci_95": [
+            -100.93734375,
+            -133.82769528257367,
+            -68.04699221742632
+          ],
+          "episodes_favoring_R5": 16,
+          "episodes_tied": 0,
+          "episode_fraction_favoring_R5": 1.0
+        },
+        "economic_replacement": {
+          "mean_t_ci_95": [
+            -9.50859375,
+            -11.132857234026117,
+            -7.884330265973881
+          ],
+          "episodes_favoring_R5": 16,
+          "episodes_tied": 0,
+          "episode_fraction_favoring_R5": 1.0
+        },
+        "R:economic_stop": {
+          "mean_t_ci_95": [
+            -12.116250000000004,
+            -14.968217944216798,
+            -9.26428205578321
+          ],
+          "episodes_favoring_R5": 16,
+          "episodes_tied": 0,
+          "episode_fraction_favoring_R5": 1.0
+        },
+        "cams_adapter": {
+          "mean_t_ci_95": [
+            10.324218749999996,
+            9.329407140068831,
+            11.319030359931162
+          ],
+          "episodes_favoring_R5": 0,
+          "episodes_tied": 0,
+          "episode_fraction_favoring_R5": 0.0
+        },
+        "gated_adaptive_range+front": {
+          "mean_t_ci_95": [
+            -5.911406250000002,
+            -7.776246463591445,
+            -4.04656603640856
+          ],
+          "episodes_favoring_R5": 16,
+          "episodes_tied": 0,
+          "episode_fraction_favoring_R5": 1.0
+        }
+      }
+    },
+    "spam": {
+      "episodes": 1,
+      "mean_net_cost": {
+        "R5": 216.76,
+        "D2": 223.45999999999998,
+        "A5b": 299.0,
+        "economic_replacement": 242.75,
+        "R:economic_stop": 385.8825,
+        "cams_adapter": 210.5,
+        "gated_adaptive_range+front": 233.6
+      },
+      "mean_labels": {
+        "R5": 25.2,
+        "D2": 31.2,
+        "A5b": 200.0,
+        "economic_replacement": 200.0,
+        "R:economic_stop": 81.65,
+        "cams_adapter": 200.0,
+        "gated_adaptive_range+front": 52.0
+      },
+      "mean_switches": {
+        "R5": 1.0,
+        "D2": 1.0,
+        "A5b": 1.0,
+        "economic_replacement": 1.0,
+        "R:economic_stop": 1.0,
+        "cams_adapter": 1.1,
+        "gated_adaptive_range+front": 1.0
+      },
+      "promotion_rate": {
+        "R5": 1.0,
+        "D2": 1.0,
+        "A5b": 1.0,
+        "economic_replacement": 1.0,
+        "R:economic_stop": 1.0,
+        "cams_adapter": 1.0,
+        "gated_adaptive_range+front": 1.0
+      },
+      "paired_episode_contrasts_R5_minus_comparator": {
+        "D2": {
+          "mean_t_ci_95": [
+            -6.699999999999989,
+            null,
+            null
+          ],
+          "episodes_favoring_R5": 1,
+          "episodes_tied": 0,
+          "episode_fraction_favoring_R5": 1.0
+        },
+        "A5b": {
+          "mean_t_ci_95": [
+            -82.24000000000001,
+            null,
+            null
+          ],
+          "episodes_favoring_R5": 1,
+          "episodes_tied": 0,
+          "episode_fraction_favoring_R5": 1.0
+        },
+        "economic_replacement": {
+          "mean_t_ci_95": [
+            -25.99000000000001,
+            null,
+            null
+          ],
+          "episodes_favoring_R5": 1,
+          "episodes_tied": 0,
+          "episode_fraction_favoring_R5": 1.0
+        },
+        "R:economic_stop": {
+          "mean_t_ci_95": [
+            -169.1225,
+            null,
+            null
+          ],
+          "episodes_favoring_R5": 1,
+          "episodes_tied": 0,
+          "episode_fraction_favoring_R5": 1.0
+        },
+        "cams_adapter": {
+          "mean_t_ci_95": [
+            6.259999999999991,
+            null,
+            null
+          ],
+          "episodes_favoring_R5": 0,
+          "episodes_tied": 0,
+          "episode_fraction_favoring_R5": 0.0
+        },
+        "gated_adaptive_range+front": {
+          "mean_t_ci_95": [
+            -16.840000000000003,
+            null,
+            null
+          ],
+          "episodes_favoring_R5": 1,
+          "episodes_tied": 0,
+          "episode_fraction_favoring_R5": 1.0
+        }
+      }
+    },
+    "weather": {
+      "episodes": 3,
+      "mean_net_cost": {
+        "R5": 447.19416666666666,
+        "D2": 459.34416666666675,
+        "A5b": 466.03833333333336,
+        "economic_replacement": 448.965,
+        "R:economic_stop": 506.49333333333334,
+        "cams_adapter": 450.45416666666665,
+        "gated_adaptive_range+front": 468.7666666666667
+      },
+      "mean_labels": {
+        "R5": 44.550000000000004,
+        "D2": 69.21666666666665,
+        "A5b": 180.76666666666665,
+        "economic_replacement": 178.63333333333333,
+        "R:economic_stop": 161.53333333333333,
+        "cams_adapter": 109.08333333333333,
+        "gated_adaptive_range+front": 108.66666666666667
+      },
+      "mean_switches": {
+        "R5": 0.8666666666666667,
+        "D2": 0.9666666666666667,
+        "A5b": 0.6666666666666666,
+        "economic_replacement": 1.0,
+        "R:economic_stop": 0.13333333333333333,
+        "cams_adapter": 3.066666666666667,
+        "gated_adaptive_range+front": 0.6666666666666666
+      },
+      "promotion_rate": {
+        "R5": 0.8666666666666667,
+        "D2": 0.9666666666666667,
+        "A5b": 0.6666666666666666,
+        "economic_replacement": 1.0,
+        "R:economic_stop": 0.13333333333333333,
+        "cams_adapter": 1.0,
+        "gated_adaptive_range+front": 0.6666666666666666
+      },
+      "paired_episode_contrasts_R5_minus_comparator": {
+        "D2": {
+          "mean_t_ci_95": [
+            -12.150000000000034,
+            -15.847095721441981,
+            -8.452904278558087
+          ],
+          "episodes_favoring_R5": 3,
+          "episodes_tied": 0,
+          "episode_fraction_favoring_R5": 1.0
+        },
+        "A5b": {
+          "mean_t_ci_95": [
+            -18.844166666666677,
+            -29.768291709048533,
+            -7.920041624284819
+          ],
+          "episodes_favoring_R5": 3,
+          "episodes_tied": 0,
+          "episode_fraction_favoring_R5": 1.0
+        },
+        "economic_replacement": {
+          "mean_t_ci_95": [
+            -1.7708333333333712,
+            -53.55793964423826,
+            50.01627297757152
+          ],
+          "episodes_favoring_R5": 2,
+          "episodes_tied": 0,
+          "episode_fraction_favoring_R5": 0.6666666666666666
+        },
+        "R:economic_stop": {
+          "mean_t_ci_95": [
+            -59.29916666666664,
+            -158.140568703766,
+            39.54223537043273
+          ],
+          "episodes_favoring_R5": 3,
+          "episodes_tied": 0,
+          "episode_fraction_favoring_R5": 1.0
+        },
+        "cams_adapter": {
+          "mean_t_ci_95": [
+            -3.26000000000001,
+            -7.842224154832106,
+            1.3222241548320857
+          ],
+          "episodes_favoring_R5": 3,
+          "episodes_tied": 0,
+          "episode_fraction_favoring_R5": 1.0
+        },
+        "gated_adaptive_range+front": {
+          "mean_t_ci_95": [
+            -21.57250000000001,
+            -47.90154956028336,
+            4.756549560283336
+          ],
+          "episodes_favoring_R5": 3,
+          "episodes_tied": 0,
+          "episode_fraction_favoring_R5": 1.0
+        }
+      }
+    },
+    "openml_ldpa": {
+      "episodes": 32,
+      "mean_net_cost": {
+        "R5": 448.48351562500005,
+        "D2": 445.212421875,
+        "A5b": 540.7884375,
+        "economic_replacement": 448.198515625,
+        "R:economic_stop": 542.089140625,
+        "cams_adapter": 434.47109374999997,
+        "gated_adaptive_range+front": 461.06875
+      },
+      "mean_labels": {
+        "R5": 55.545312499999994,
+        "D2": 56.842187499999994,
+        "A5b": 166.8625,
+        "economic_replacement": 181.22031249999998,
+        "R:economic_stop": 101.40781249999999,
+        "cams_adapter": 176.984375,
+        "gated_adaptive_range+front": 68.25
+      },
+      "mean_switches": {
+        "R5": 0.915625,
+        "D2": 0.971875,
+        "A5b": 0.74375,
+        "economic_replacement": 0.96875,
+        "R:economic_stop": 0.7,
+        "cams_adapter": 1.5484375,
+        "gated_adaptive_range+front": 0.875
+      },
+      "promotion_rate": {
+        "R5": 0.915625,
+        "D2": 0.971875,
+        "A5b": 0.7421875,
+        "economic_replacement": 0.96875,
+        "R:economic_stop": 0.7,
+        "cams_adapter": 0.9734375,
+        "gated_adaptive_range+front": 0.875
+      },
+      "paired_episode_contrasts_R5_minus_comparator": {
+        "D2": {
+          "mean_t_ci_95": [
+            3.2710937499999924,
+            -9.636571893594066,
+            16.17875939359405
+          ],
+          "episodes_favoring_R5": 16,
+          "episodes_tied": 0,
+          "episode_fraction_favoring_R5": 0.5
+        },
+        "A5b": {
+          "mean_t_ci_95": [
+            -92.30492187499999,
+            -135.32097010368477,
+            -49.28887364631522
+          ],
+          "episodes_favoring_R5": 29,
+          "episodes_tied": 0,
+          "episode_fraction_favoring_R5": 0.90625
+        },
+        "economic_replacement": {
+          "mean_t_ci_95": [
+            0.2849999999999957,
+            -12.510453618622392,
+            13.080453618622386
+          ],
+          "episodes_favoring_R5": 25,
+          "episodes_tied": 0,
+          "episode_fraction_favoring_R5": 0.78125
+        },
+        "R:economic_stop": {
+          "mean_t_ci_95": [
+            -93.605625,
+            -120.74230439528587,
+            -66.46894560471414
+          ],
+          "episodes_favoring_R5": 30,
+          "episodes_tied": 0,
+          "episode_fraction_favoring_R5": 0.9375
+        },
+        "cams_adapter": {
+          "mean_t_ci_95": [
+            14.012421874999998,
+            4.1339525421385765,
+            23.89089120786142
+          ],
+          "episodes_favoring_R5": 6,
+          "episodes_tied": 0,
+          "episode_fraction_favoring_R5": 0.1875
+        },
+        "gated_adaptive_range+front": {
+          "mean_t_ci_95": [
+            -12.585234374999999,
+            -20.54687085067113,
+            -4.623597899328868
+          ],
+          "episodes_favoring_R5": 26,
+          "episodes_tied": 0,
+          "episode_fraction_favoring_R5": 0.8125
+        }
+      }
+    },
+    "uci_occupancy": {
+      "episodes": 4,
+      "mean_net_cost": {
+        "R5": 136.451875,
+        "D2": 135.98499999999999,
+        "A5b": 486.16249999999997,
+        "economic_replacement": 161.205,
+        "R:economic_stop": 203.19875000000002,
+        "cams_adapter": 134.75562499999998,
+        "gated_adaptive_range+front": 137.13750000000002
+      },
+      "mean_labels": {
+        "R5": 47.28750000000001,
+        "D2": 45.45000000000001,
+        "A5b": 98.25,
+        "economic_replacement": 101.85,
+        "R:economic_stop": 29.975,
+        "cams_adapter": 79.61249999999998,
+        "gated_adaptive_range+front": 52.75
+      },
+      "mean_switches": {
+        "R5": 0.25,
+        "D2": 0.7,
+        "A5b": 0.0,
+        "economic_replacement": 0.5,
+        "R:economic_stop": 0.25,
+        "cams_adapter": 0.9,
+        "gated_adaptive_range+front": 0.25
+      },
+      "promotion_rate": {
+        "R5": 0.25,
+        "D2": 0.7,
+        "A5b": 0.0,
+        "economic_replacement": 0.5,
+        "R:economic_stop": 0.25,
+        "cams_adapter": 0.9,
+        "gated_adaptive_range+front": 0.25
+      },
+      "paired_episode_contrasts_R5_minus_comparator": {
+        "D2": {
+          "mean_t_ci_95": [
+            0.46687500000000526,
+            -6.472374927460895,
+            7.406124927460906
+          ],
+          "episodes_favoring_R5": 1,
+          "episodes_tied": 1,
+          "episode_fraction_favoring_R5": 0.25
+        },
+        "A5b": {
+          "mean_t_ci_95": [
+            -349.71062500000005,
+            -1458.7059188301855,
+            759.2846688301855
+          ],
+          "episodes_favoring_R5": 4,
+          "episodes_tied": 0,
+          "episode_fraction_favoring_R5": 1.0
+        },
+        "economic_replacement": {
+          "mean_t_ci_95": [
+            -24.753125000000004,
+            -91.85665203190757,
+            42.35040203190756
+          ],
+          "episodes_favoring_R5": 4,
+          "episodes_tied": 0,
+          "episode_fraction_favoring_R5": 1.0
+        },
+        "R:economic_stop": {
+          "mean_t_ci_95": [
+            -66.74687500000002,
+            -281.4201929421034,
+            147.92644294210336
+          ],
+          "episodes_favoring_R5": 3,
+          "episodes_tied": 0,
+          "episode_fraction_favoring_R5": 0.75
+        },
+        "cams_adapter": {
+          "mean_t_ci_95": [
+            1.6962499999999956,
+            -10.616889203243524,
+            14.009389203243515
+          ],
+          "episodes_favoring_R5": 2,
+          "episodes_tied": 0,
+          "episode_fraction_favoring_R5": 0.5
+        },
+        "gated_adaptive_range+front": {
+          "mean_t_ci_95": [
+            -0.6856249999999982,
+            -5.236148084841104,
+            3.8648980848411076
+          ],
+          "episodes_favoring_R5": 3,
+          "episodes_tied": 0,
+          "episode_fraction_favoring_R5": 0.75
+        }
+      }
+    },
+    "airlines": {
+      "episodes": 50,
+      "mean_net_cost": {
+        "R5": 778.0119,
+        "D2": 780.6906,
+        "A5b": 784.00675,
+        "economic_replacement": 787.23445,
+        "R:economic_stop": 782.8082,
+        "cams_adapter": 795.1947500000001,
+        "gated_adaptive_range+front": 781.1260000000001
+      },
+      "mean_labels": {
+        "R5": 133.618,
+        "D2": 159.532,
+        "A5b": 190.135,
+        "economic_replacement": 185.84900000000002,
+        "R:economic_stop": 156.444,
+        "cams_adapter": 143.275,
+        "gated_adaptive_range+front": 150.12
+      },
+      "mean_switches": {
+        "R5": 0.247,
+        "D2": 0.11199999999999999,
+        "A5b": 0.06,
+        "economic_replacement": 0.519,
+        "R:economic_stop": 0.040999999999999995,
+        "cams_adapter": 4.005,
+        "gated_adaptive_range+front": 0.1
+      },
+      "promotion_rate": {
+        "R5": 0.247,
+        "D2": 0.11199999999999999,
+        "A5b": 0.06,
+        "economic_replacement": 0.519,
+        "R:economic_stop": 0.040999999999999995,
+        "cams_adapter": 0.738,
+        "gated_adaptive_range+front": 0.1
+      },
+      "paired_episode_contrasts_R5_minus_comparator": {
+        "D2": {
+          "mean_t_ci_95": [
+            -2.678699999999983,
+            -5.072859861147042,
+            -0.2845401388529245
+          ],
+          "episodes_favoring_R5": 22,
+          "episodes_tied": 21,
+          "episode_fraction_favoring_R5": 0.44
+        },
+        "A5b": {
+          "mean_t_ci_95": [
+            -5.9948499999999925,
+            -11.37283867760852,
+            -0.6168613223914639
+          ],
+          "episodes_favoring_R5": 31,
+          "episodes_tied": 10,
+          "episode_fraction_favoring_R5": 0.62
+        },
+        "economic_replacement": {
+          "mean_t_ci_95": [
+            -9.222550000000007,
+            -14.93168777801444,
+            -3.5134122219855737
+          ],
+          "episodes_favoring_R5": 32,
+          "episodes_tied": 3,
+          "episode_fraction_favoring_R5": 0.64
+        },
+        "R:economic_stop": {
+          "mean_t_ci_95": [
+            -4.796299999999994,
+            -10.392615187134979,
+            0.8000151871349912
+          ],
+          "episodes_favoring_R5": 24,
+          "episodes_tied": 0,
+          "episode_fraction_favoring_R5": 0.48
+        },
+        "cams_adapter": {
+          "mean_t_ci_95": [
+            -17.182849999999988,
+            -22.261932119442335,
+            -12.103767880557642
+          ],
+          "episodes_favoring_R5": 42,
+          "episodes_tied": 4,
+          "episode_fraction_favoring_R5": 0.84
+        },
+        "gated_adaptive_range+front": {
+          "mean_t_ci_95": [
+            -3.1140999999999894,
+            -6.307996801643391,
+            0.07979680164341163
+          ],
+          "episodes_favoring_R5": 25,
+          "episodes_tied": 6,
+          "episode_fraction_favoring_R5": 0.5
+        }
+      }
+    },
+    "bank": {
+      "episodes": 8,
+      "mean_net_cost": {
+        "R5": 422.1996875,
+        "D2": 425.5953125,
+        "A5b": 428.125,
+        "economic_replacement": 428.5625,
+        "R:economic_stop": 424.056875,
+        "cams_adapter": 437.91249999999997,
+        "gated_adaptive_range+front": 420.43125000000003
+      },
+      "mean_labels": {
+        "R5": 162.61875,
+        "D2": 171.90625,
+        "A5b": 175.0,
+        "economic_replacement": 175.0,
+        "R:economic_stop": 97.7625,
+        "cams_adapter": 175.0,
+        "gated_adaptive_range+front": 126.125
+      },
+      "mean_switches": {
+        "R5": 0.11875,
+        "D2": 0.05625,
+        "A5b": 0.0,
+        "economic_replacement": 0.125,
+        "R:economic_stop": 0.00625,
+        "cams_adapter": 2.4375,
+        "gated_adaptive_range+front": 0.125
+      },
+      "promotion_rate": {
+        "R5": 0.11875,
+        "D2": 0.05625,
+        "A5b": 0.0,
+        "economic_replacement": 0.125,
+        "R:economic_stop": 0.00625,
+        "cams_adapter": 0.5,
+        "gated_adaptive_range+front": 0.125
+      },
+      "paired_episode_contrasts_R5_minus_comparator": {
+        "D2": {
+          "mean_t_ci_95": [
+            -3.3956249999999955,
+            -11.425002224314731,
+            4.63375222431474
+          ],
+          "episodes_favoring_R5": 1,
+          "episodes_tied": 7,
+          "episode_fraction_favoring_R5": 0.125
+        },
+        "A5b": {
+          "mean_t_ci_95": [
+            -5.92531249999999,
+            -19.93645013576583,
+            8.085825135765853
+          ],
+          "episodes_favoring_R5": 1,
+          "episodes_tied": 7,
+          "episode_fraction_favoring_R5": 0.125
+        },
+        "economic_replacement": {
+          "mean_t_ci_95": [
+            -6.36281249999999,
+            -17.311521147499043,
+            4.585896147499062
+          ],
+          "episodes_favoring_R5": 2,
+          "episodes_tied": 6,
+          "episode_fraction_favoring_R5": 0.25
+        },
+        "R:economic_stop": {
+          "mean_t_ci_95": [
+            -1.8571874999999984,
+            -16.8208125259042,
+            13.106437525904202
+          ],
+          "episodes_favoring_R5": 1,
+          "episodes_tied": 1,
+          "episode_fraction_favoring_R5": 0.125
+        },
+        "cams_adapter": {
+          "mean_t_ci_95": [
+            -15.712812499999984,
+            -33.6324866780208,
+            2.2068616780208252
+          ],
+          "episodes_favoring_R5": 5,
+          "episodes_tied": 3,
+          "episode_fraction_favoring_R5": 0.625
+        },
+        "gated_adaptive_range+front": {
+          "mean_t_ci_95": [
+            1.7684375000000152,
+            -1.1425919575974146,
+            4.679466957597445
+          ],
+          "episodes_favoring_R5": 1,
+          "episodes_tied": 2,
+          "episode_fraction_favoring_R5": 0.125
+        }
+      }
+    },
+    "elec2": {
+      "episodes": 4,
+      "mean_net_cost": {
+        "R5": 384.338125,
+        "D2": 383.36375,
+        "A5b": 392.5375,
+        "economic_replacement": 391.781875,
+        "R:economic_stop": 394.208125,
+        "cams_adapter": 398.89875,
+        "gated_adaptive_range+front": 396.65
+      },
+      "mean_labels": {
+        "R5": 36.7625,
+        "D2": 51.775,
+        "A5b": 60.75,
+        "economic_replacement": 114.1375,
+        "R:economic_stop": 94.1625,
+        "cams_adapter": 59.97500000000001,
+        "gated_adaptive_range+front": 103.0
+      },
+      "mean_switches": {
+        "R5": 0.75,
+        "D2": 0.5125,
+        "A5b": 0.0,
+        "economic_replacement": 0.9,
+        "R:economic_stop": 0.0,
+        "cams_adapter": 3.4124999999999996,
+        "gated_adaptive_range+front": 0.5
+      },
+      "promotion_rate": {
+        "R5": 0.75,
+        "D2": 0.5125,
+        "A5b": 0.0,
+        "economic_replacement": 0.9,
+        "R:economic_stop": 0.0,
+        "cams_adapter": 1.0,
+        "gated_adaptive_range+front": 0.5
+      },
+      "paired_episode_contrasts_R5_minus_comparator": {
+        "D2": {
+          "mean_t_ci_95": [
+            0.9743750000000517,
+            -8.81020233877563,
+            10.758952338775734
+          ],
+          "episodes_favoring_R5": 1,
+          "episodes_tied": 1,
+          "episode_fraction_favoring_R5": 0.25
+        },
+        "A5b": {
+          "mean_t_ci_95": [
+            -8.199374999999975,
+            -37.478044305809256,
+            21.079294305809306
+          ],
+          "episodes_favoring_R5": 2,
+          "episodes_tied": 0,
+          "episode_fraction_favoring_R5": 0.5
+        },
+        "economic_replacement": {
+          "mean_t_ci_95": [
+            -7.443749999999966,
+            -24.92317834946818,
+            10.035678349468249
+          ],
+          "episodes_favoring_R5": 4,
+          "episodes_tied": 0,
+          "episode_fraction_favoring_R5": 1.0
+        },
+        "R:economic_stop": {
+          "mean_t_ci_95": [
+            -9.869999999999962,
+            -39.75030592392988,
+            20.010305923929955
+          ],
+          "episodes_favoring_R5": 2,
+          "episodes_tied": 0,
+          "episode_fraction_favoring_R5": 0.5
+        },
+        "cams_adapter": {
+          "mean_t_ci_95": [
+            -14.560624999999987,
+            -33.08914133549231,
+            3.9678913354923324
+          ],
+          "episodes_favoring_R5": 3,
+          "episodes_tied": 0,
+          "episode_fraction_favoring_R5": 0.75
+        },
+        "gated_adaptive_range+front": {
+          "mean_t_ci_95": [
+            -12.311874999999958,
+            -44.31329750748921,
+            19.689547507489294
+          ],
+          "episodes_favoring_R5": 2,
+          "episodes_tied": 0,
+          "episode_fraction_favoring_R5": 0.5
+        }
+      }
+    },
+    "criteo": {
+      "episodes": 50,
+      "mean_net_cost": {
+        "R5": 688.10545,
+        "D2": 696.9511500000001,
+        "A5b": 699.3929999999999,
+        "economic_replacement": 683.60675,
+        "R:economic_stop": 699.7764500000001,
+        "cams_adapter": 694.6889,
+        "gated_adaptive_range+front": 699.1110000000001
+      },
+      "mean_labels": {
+        "R5": 63.40900000000001,
+        "D2": 104.98299999999999,
+        "A5b": 130.66,
+        "economic_replacement": 129.43500000000003,
+        "R:economic_stop": 119.289,
+        "cams_adapter": 65.278,
+        "gated_adaptive_range+front": 123.02
+      },
+      "mean_switches": {
+        "R5": 0.556,
+        "D2": 0.321,
+        "A5b": 0.22,
+        "economic_replacement": 0.9840000000000001,
+        "R:economic_stop": 0.009000000000000001,
+        "cams_adapter": 3.8480000000000003,
+        "gated_adaptive_range+front": 0.22
+      },
+      "promotion_rate": {
+        "R5": 0.556,
+        "D2": 0.321,
+        "A5b": 0.22,
+        "economic_replacement": 0.9840000000000001,
+        "R:economic_stop": 0.009000000000000001,
+        "cams_adapter": 0.9969999999999999,
+        "gated_adaptive_range+front": 0.22
+      },
+      "paired_episode_contrasts_R5_minus_comparator": {
+        "D2": {
+          "mean_t_ci_95": [
+            -8.845699999999995,
+            -11.031308013768488,
+            -6.660091986231502
+          ],
+          "episodes_favoring_R5": 50,
+          "episodes_tied": 0,
+          "episode_fraction_favoring_R5": 1.0
+        },
+        "A5b": {
+          "mean_t_ci_95": [
+            -11.287550000000008,
+            -14.053990016006525,
+            -8.521109983993492
+          ],
+          "episodes_favoring_R5": 50,
+          "episodes_tied": 0,
+          "episode_fraction_favoring_R5": 1.0
+        },
+        "economic_replacement": {
+          "mean_t_ci_95": [
+            4.498699999999994,
+            2.3999808861798755,
+            6.597419113820113
+          ],
+          "episodes_favoring_R5": 16,
+          "episodes_tied": 0,
+          "episode_fraction_favoring_R5": 0.32
+        },
+        "R:economic_stop": {
+          "mean_t_ci_95": [
+            -11.671,
+            -14.835631223973419,
+            -8.50636877602658
+          ],
+          "episodes_favoring_R5": 49,
+          "episodes_tied": 0,
+          "episode_fraction_favoring_R5": 0.98
+        },
+        "cams_adapter": {
+          "mean_t_ci_95": [
+            -6.5834500000000045,
+            -10.0605704808869,
+            -3.1063295191131086
+          ],
+          "episodes_favoring_R5": 31,
+          "episodes_tied": 0,
+          "episode_fraction_favoring_R5": 0.62
+        },
+        "gated_adaptive_range+front": {
+          "mean_t_ci_95": [
+            -11.005550000000003,
+            -13.631264832338912,
+            -8.379835167661094
+          ],
+          "episodes_favoring_R5": 50,
+          "episodes_tied": 0,
+          "episode_fraction_favoring_R5": 1.0
+        }
+      }
+    },
+    "metro": {
+      "episodes": 16,
+      "mean_net_cost": {
+        "R5": 119.58656249999999,
+        "D2": 119.77812499999999,
+        "A5b": 221.43062500000002,
+        "economic_replacement": 156.54859375,
+        "R:economic_stop": 315.65234375,
+        "cams_adapter": 117.075,
+        "gated_adaptive_range+front": 126.17187500000001
+      },
+      "mean_labels": {
+        "R5": 18.04375,
+        "D2": 18.25,
+        "A5b": 199.8625,
+        "economic_replacement": 199.784375,
+        "R:economic_stop": 70.921875,
+        "cams_adapter": 200.0,
+        "gated_adaptive_range+front": 29.6875
+      },
+      "mean_switches": {
+        "R5": 1.0,
+        "D2": 1.0,
+        "A5b": 0.9375,
+        "economic_replacement": 1.0,
+        "R:economic_stop": 1.0,
+        "cams_adapter": 1.0125,
+        "gated_adaptive_range+front": 1.0
+      },
+      "promotion_rate": {
+        "R5": 1.0,
+        "D2": 1.0,
+        "A5b": 0.9375,
+        "economic_replacement": 1.0,
+        "R:economic_stop": 1.0,
+        "cams_adapter": 1.0,
+        "gated_adaptive_range+front": 1.0
+      },
+      "paired_episode_contrasts_R5_minus_comparator": {
+        "D2": {
+          "mean_t_ci_95": [
+            -0.19156249999999986,
+            -1.1873653613890174,
+            0.8042403613890177
+          ],
+          "episodes_favoring_R5": 6,
+          "episodes_tied": 1,
+          "episode_fraction_favoring_R5": 0.375
+        },
+        "A5b": {
+          "mean_t_ci_95": [
+            -101.8440625,
+            -177.5186137397224,
+            -26.169511260277616
+          ],
+          "episodes_favoring_R5": 16,
+          "episodes_tied": 0,
+          "episode_fraction_favoring_R5": 1.0
+        },
+        "economic_replacement": {
+          "mean_t_ci_95": [
+            -36.962031249999995,
+            -39.96122157176626,
+            -33.96284092823373
+          ],
+          "episodes_favoring_R5": 16,
+          "episodes_tied": 0,
+          "episode_fraction_favoring_R5": 1.0
+        },
+        "R:economic_stop": {
+          "mean_t_ci_95": [
+            -196.06578125,
+            -219.37439190755848,
+            -172.7571705924415
+          ],
+          "episodes_favoring_R5": 16,
+          "episodes_tied": 0,
+          "episode_fraction_favoring_R5": 1.0
+        },
+        "cams_adapter": {
+          "mean_t_ci_95": [
+            2.5115624999999984,
+            0.9342143136266017,
+            4.088910686373395
+          ],
+          "episodes_favoring_R5": 3,
+          "episodes_tied": 0,
+          "episode_fraction_favoring_R5": 0.1875
+        },
+        "gated_adaptive_range+front": {
+          "mean_t_ci_95": [
+            -6.585312500000001,
+            -9.342746287234817,
+            -3.8278787127651834
+          ],
+          "episodes_favoring_R5": 16,
+          "episodes_tied": 0,
+          "episode_fraction_favoring_R5": 1.0
+        }
+      }
+    },
+    "beijing_pm25": {
+      "episodes": 14,
+      "mean_net_cost": {
+        "R5": 575.9351785714285,
+        "D2": 548.00125,
+        "A5b": 655.9942857142858,
+        "economic_replacement": 546.5180357142857,
+        "R:economic_stop": 635.2464285714286,
+        "cams_adapter": 558.6896428571429,
+        "gated_adaptive_range+front": 598.8571428571429
+      },
+      "mean_labels": {
+        "R5": 60.63214285714286,
+        "D2": 49.73928571428571,
+        "A5b": 125.8142857142857,
+        "economic_replacement": 194.3607142857143,
+        "R:economic_stop": 148.92857142857142,
+        "cams_adapter": 166.50714285714284,
+        "gated_adaptive_range+front": 102.85714285714286
+      },
+      "mean_switches": {
+        "R5": 0.8035714285714286,
+        "D2": 0.9464285714285714,
+        "A5b": 0.2392857142857143,
+        "economic_replacement": 1.0,
+        "R:economic_stop": 0.25,
+        "cams_adapter": 3.8285714285714287,
+        "gated_adaptive_range+front": 0.5714285714285714
+      },
+      "promotion_rate": {
+        "R5": 0.8035714285714286,
+        "D2": 0.9464285714285714,
+        "A5b": 0.21428571428571427,
+        "economic_replacement": 1.0,
+        "R:economic_stop": 0.25,
+        "cams_adapter": 1.0,
+        "gated_adaptive_range+front": 0.5714285714285714
+      },
+      "paired_episode_contrasts_R5_minus_comparator": {
+        "D2": {
+          "mean_t_ci_95": [
+            27.933928571428567,
+            -9.728712946258192,
+            65.59657008911532
+          ],
+          "episodes_favoring_R5": 6,
+          "episodes_tied": 0,
+          "episode_fraction_favoring_R5": 0.42857142857142855
+        },
+        "A5b": {
+          "mean_t_ci_95": [
+            -80.05910714285717,
+            -135.72596639436097,
+            -24.392247891353378
+          ],
+          "episodes_favoring_R5": 12,
+          "episodes_tied": 0,
+          "episode_fraction_favoring_R5": 0.8571428571428571
+        },
+        "economic_replacement": {
+          "mean_t_ci_95": [
+            29.417142857142856,
+            -12.379679703700909,
+            71.21396541798663
+          ],
+          "episodes_favoring_R5": 7,
+          "episodes_tied": 0,
+          "episode_fraction_favoring_R5": 0.5
+        },
+        "R:economic_stop": {
+          "mean_t_ci_95": [
+            -59.31125000000002,
+            -109.67316222267488,
+            -8.94933777732517
+          ],
+          "episodes_favoring_R5": 13,
+          "episodes_tied": 0,
+          "episode_fraction_favoring_R5": 0.9285714285714286
+        },
+        "cams_adapter": {
+          "mean_t_ci_95": [
+            17.24553571428571,
+            -22.72171116889464,
+            57.21278259746606
+          ],
+          "episodes_favoring_R5": 7,
+          "episodes_tied": 0,
+          "episode_fraction_favoring_R5": 0.5
+        },
+        "gated_adaptive_range+front": {
+          "mean_t_ci_95": [
+            -22.92196428571429,
+            -79.0414805718824,
+            33.19755200045382
+          ],
+          "episodes_favoring_R5": 11,
+          "episodes_tied": 0,
+          "episode_fraction_favoring_R5": 0.7857142857142857
+        }
+      }
+    },
+    "bike_hour": {
+      "episodes": 6,
+      "mean_net_cost": {
+        "R5": 251.83833333333328,
+        "D2": 256.55958333333336,
+        "A5b": 344.7904166666667,
+        "economic_replacement": 270.4025,
+        "R:economic_stop": 421.0745833333333,
+        "cams_adapter": 254.17416666666668,
+        "gated_adaptive_range+front": 265.625
+      },
+      "mean_labels": {
+        "R5": 23.266666666666666,
+        "D2": 31.191666666666663,
+        "A5b": 199.14166666666665,
+        "economic_replacement": 198.04999999999998,
+        "R:economic_stop": 131.99166666666667,
+        "cams_adapter": 199.15,
+        "gated_adaptive_range+front": 52.5
+      },
+      "mean_switches": {
+        "R5": 1.0,
+        "D2": 1.0,
+        "A5b": 1.0,
+        "economic_replacement": 1.0,
+        "R:economic_stop": 0.55,
+        "cams_adapter": 1.616666666666667,
+        "gated_adaptive_range+front": 1.0
+      },
+      "promotion_rate": {
+        "R5": 1.0,
+        "D2": 1.0,
+        "A5b": 1.0,
+        "economic_replacement": 1.0,
+        "R:economic_stop": 0.55,
+        "cams_adapter": 1.0,
+        "gated_adaptive_range+front": 1.0
+      },
+      "paired_episode_contrasts_R5_minus_comparator": {
+        "D2": {
+          "mean_t_ci_95": [
+            -4.721250000000016,
+            -14.767784339391707,
+            5.325284339391675
+          ],
+          "episodes_favoring_R5": 4,
+          "episodes_tied": 0,
+          "episode_fraction_favoring_R5": 0.6666666666666666
+        },
+        "A5b": {
+          "mean_t_ci_95": [
+            -92.95208333333335,
+            -145.8506444783596,
+            -40.05352218830708
+          ],
+          "episodes_favoring_R5": 6,
+          "episodes_tied": 0,
+          "episode_fraction_favoring_R5": 1.0
+        },
+        "economic_replacement": {
+          "mean_t_ci_95": [
+            -18.564166666666683,
+            -33.27523595094027,
+            -3.853097382393093
+          ],
+          "episodes_favoring_R5": 5,
+          "episodes_tied": 0,
+          "episode_fraction_favoring_R5": 0.8333333333333334
+        },
+        "R:economic_stop": {
+          "mean_t_ci_95": [
+            -169.23624999999998,
+            -223.93978824352757,
+            -114.53271175647241
+          ],
+          "episodes_favoring_R5": 6,
+          "episodes_tied": 0,
+          "episode_fraction_favoring_R5": 1.0
+        },
+        "cams_adapter": {
+          "mean_t_ci_95": [
+            -2.3358333333333405,
+            -6.085288464420376,
+            1.4136217977536951
+          ],
+          "episodes_favoring_R5": 5,
+          "episodes_tied": 0,
+          "episode_fraction_favoring_R5": 0.8333333333333334
+        },
+        "gated_adaptive_range+front": {
+          "mean_t_ci_95": [
+            -13.786666666666676,
+            -21.077114763652375,
+            -6.496218569680976
+          ],
+          "episodes_favoring_R5": 6,
+          "episodes_tied": 0,
+          "episode_fraction_favoring_R5": 1.0
+        }
+      }
+    },
+    "appliances": {
+      "episodes": 6,
+      "mean_net_cost": {
+        "R5": 572.7341666666667,
+        "D2": 575.1374999999999,
+        "A5b": 831.3666666666667,
+        "economic_replacement": 578.8958333333334,
+        "R:economic_stop": 785.3283333333333,
+        "cams_adapter": 594.3166666666667,
+        "gated_adaptive_range+front": 574.8
+      },
+      "mean_labels": {
+        "R5": 46.18333333333334,
+        "D2": 55.416666666666664,
+        "A5b": 190.66666666666666,
+        "economic_replacement": 198.91666666666666,
+        "R:economic_stop": 174.5666666666667,
+        "cams_adapter": 200.0,
+        "gated_adaptive_range+front": 86.0
+      },
+      "mean_switches": {
+        "R5": 1.0,
+        "D2": 1.0,
+        "A5b": 0.0,
+        "economic_replacement": 1.0,
+        "R:economic_stop": 0.2833333333333333,
+        "cams_adapter": 2.4166666666666665,
+        "gated_adaptive_range+front": 1.0
+      },
+      "promotion_rate": {
+        "R5": 1.0,
+        "D2": 1.0,
+        "A5b": 0.0,
+        "economic_replacement": 1.0,
+        "R:economic_stop": 0.2833333333333333,
+        "cams_adapter": 1.0,
+        "gated_adaptive_range+front": 1.0
+      },
+      "paired_episode_contrasts_R5_minus_comparator": {
+        "D2": {
+          "mean_t_ci_95": [
+            -2.4033333333333644,
+            -9.087067252011078,
+            4.280400585344348
+          ],
+          "episodes_favoring_R5": 3,
+          "episodes_tied": 0,
+          "episode_fraction_favoring_R5": 0.5
+        },
+        "A5b": {
+          "mean_t_ci_95": [
+            -258.6325,
+            -399.1844618425703,
+            -118.08053815742969
+          ],
+          "episodes_favoring_R5": 6,
+          "episodes_tied": 0,
+          "episode_fraction_favoring_R5": 1.0
+        },
+        "economic_replacement": {
+          "mean_t_ci_95": [
+            -6.161666666666633,
+            -16.912583646035824,
+            4.589250312702557
+          ],
+          "episodes_favoring_R5": 4,
+          "episodes_tied": 0,
+          "episode_fraction_favoring_R5": 0.6666666666666666
+        },
+        "R:economic_stop": {
+          "mean_t_ci_95": [
+            -212.59416666666667,
+            -305.33482092433223,
+            -119.85351240900113
+          ],
+          "episodes_favoring_R5": 6,
+          "episodes_tied": 0,
+          "episode_fraction_favoring_R5": 1.0
+        },
+        "cams_adapter": {
+          "mean_t_ci_95": [
+            -21.582499999999992,
+            -59.02095480896432,
+            15.855954808964338
+          ],
+          "episodes_favoring_R5": 5,
+          "episodes_tied": 0,
+          "episode_fraction_favoring_R5": 0.8333333333333334
+        },
+        "gated_adaptive_range+front": {
+          "mean_t_ci_95": [
+            -2.0658333333333303,
+            -7.809166661758316,
+            3.6774999950916554
+          ],
+          "episodes_favoring_R5": 4,
+          "episodes_tied": 0,
+          "episode_fraction_favoring_R5": 0.6666666666666666
+        }
+      }
+    },
+    "household_power": {
+      "episodes": 20,
+      "mean_net_cost": {
+        "R5": 532.4556249999999,
+        "D2": 534.4373750000001,
+        "A5b": 603.8455000000001,
+        "economic_replacement": 534.3063749999999,
+        "R:economic_stop": 592.944375,
+        "cams_adapter": 535.827125,
+        "gated_adaptive_range+front": 543.6324999999999
+      },
+      "mean_labels": {
+        "R5": 100.56250000000001,
+        "D2": 91.3475,
+        "A5b": 151.91,
+        "economic_replacement": 198.27749999999997,
+        "R:economic_stop": 153.2875,
+        "cams_adapter": 187.8425,
+        "gated_adaptive_range+front": 120.65
+      },
+      "mean_switches": {
+        "R5": 0.6925,
+        "D2": 0.8025,
+        "A5b": 0.25,
+        "economic_replacement": 0.925,
+        "R:economic_stop": 0.335,
+        "cams_adapter": 3.5075000000000003,
+        "gated_adaptive_range+front": 0.7
+      },
+      "promotion_rate": {
+        "R5": 0.6925,
+        "D2": 0.8025,
+        "A5b": 0.25,
+        "economic_replacement": 0.925,
+        "R:economic_stop": 0.335,
+        "cams_adapter": 0.9799999999999999,
+        "gated_adaptive_range+front": 0.7
+      },
+      "paired_episode_contrasts_R5_minus_comparator": {
+        "D2": {
+          "mean_t_ci_95": [
+            -1.9817499999999797,
+            -21.471532458563626,
+            17.508032458563665
+          ],
+          "episodes_favoring_R5": 9,
+          "episodes_tied": 2,
+          "episode_fraction_favoring_R5": 0.45
+        },
+        "A5b": {
+          "mean_t_ci_95": [
+            -71.38987499999999,
+            -114.14512159550011,
+            -28.634628404499857
+          ],
+          "episodes_favoring_R5": 14,
+          "episodes_tied": 1,
+          "episode_fraction_favoring_R5": 0.7
+        },
+        "economic_replacement": {
+          "mean_t_ci_95": [
+            -1.8507499999999908,
+            -23.998874752676937,
+            20.297374752676955
+          ],
+          "episodes_favoring_R5": 13,
+          "episodes_tied": 1,
+          "episode_fraction_favoring_R5": 0.65
+        },
+        "R:economic_stop": {
+          "mean_t_ci_95": [
+            -60.488749999999996,
+            -96.48679711792656,
+            -24.49070288207343
+          ],
+          "episodes_favoring_R5": 15,
+          "episodes_tied": 0,
+          "episode_fraction_favoring_R5": 0.75
+        },
+        "cams_adapter": {
+          "mean_t_ci_95": [
+            -3.3714999999999877,
+            -24.963135517915603,
+            18.22013551791563
+          ],
+          "episodes_favoring_R5": 11,
+          "episodes_tied": 0,
+          "episode_fraction_favoring_R5": 0.55
+        },
+        "gated_adaptive_range+front": {
+          "mean_t_ci_95": [
+            -11.176874999999988,
+            -28.16839900963345,
+            5.814649009633474
+          ],
+          "episodes_favoring_R5": 16,
+          "episodes_tied": 1,
+          "episode_fraction_favoring_R5": 0.8
+        }
+      }
+    }
+  },
+  "limitations": [
+    "All sources were previously used or exposed in this sprint; new policy seeds do not create independent dataset evidence.",
+    "Episodes within each source are consecutive and may be dependent; t intervals may be optimistic.",
+    "Cached Atlas streams lack verified change times and feature-publication timestamps. No late-improvement or causal harm class is inferred.",
+    "The evaluator-side real gain field is a proxy, not ground truth; interpretation is based on recorded net cost and resource use."
+  ]
+}

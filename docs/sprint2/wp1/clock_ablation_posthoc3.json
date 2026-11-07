@@ -1,0 +1,91 @@
+{
+  "method": "paired timestamp-start-grid RMM minus label-clock RMM",
+  "units": "event-level losses; episode is unit within dataset, datasets are source clusters",
+  "n_datasets": 5,
+  "n_episodes": 62,
+  "n_paired_episode_seed_rows": 186,
+  "datasets": [
+    {
+      "dataset": "appliances",
+      "episodes": 6,
+      "paired_episode_seed_rows": 18,
+      "baseline_mean_net": 657.9444444444445,
+      "wallclock_mean_net": 647.1111111111111,
+      "delta_net_wallclock_minus_label": -10.833333333333334,
+      "baseline_promotion_rate": 1.0,
+      "wallclock_promotion_rate": 1.0,
+      "baseline_mean_labels": 200.0,
+      "wallclock_mean_labels": 200.0
+    },
+    {
+      "dataset": "beijing_pm25",
+      "episodes": 14,
+      "paired_episode_seed_rows": 42,
+      "baseline_mean_net": 564.6702380952381,
+      "wallclock_mean_net": 566.9309523809524,
+      "delta_net_wallclock_minus_label": 2.260714285714287,
+      "baseline_promotion_rate": 0.8809523809523809,
+      "wallclock_promotion_rate": 0.8809523809523809,
+      "baseline_mean_labels": 198.16666666666666,
+      "wallclock_mean_labels": 198.14285714285714
+    },
+    {
+      "dataset": "bike_hour",
+      "episodes": 6,
+      "paired_episode_seed_rows": 18,
+      "baseline_mean_net": 287.94444444444446,
+      "wallclock_mean_net": 288.94444444444446,
+      "delta_net_wallclock_minus_label": 1.0,
+      "baseline_promotion_rate": 1.0,
+      "wallclock_promotion_rate": 1.0,
+      "baseline_mean_labels": 200.0,
+      "wallclock_mean_labels": 200.0
+    },
+    {
+      "dataset": "household_power",
+      "episodes": 20,
+      "paired_episode_seed_rows": 60,
+      "baseline_mean_net": 539.265,
+      "wallclock_mean_net": 542.2483333333333,
+      "delta_net_wallclock_minus_label": 2.983333333333333,
+      "baseline_promotion_rate": 0.8333333333333334,
+      "wallclock_promotion_rate": 0.8166666666666667,
+      "baseline_mean_labels": 199.96666666666667,
+      "wallclock_mean_labels": 199.96666666666667
+    },
+    {
+      "dataset": "metro",
+      "episodes": 16,
+      "paired_episode_seed_rows": 48,
+      "baseline_mean_net": 151.64583333333334,
+      "wallclock_mean_net": 153.1875,
+      "delta_net_wallclock_minus_label": 1.5416666666666667,
+      "baseline_promotion_rate": 1.0,
+      "wallclock_promotion_rate": 1.0,
+      "baseline_mean_labels": 200.0,
+      "wallclock_mean_labels": 200.0
+    }
+  ],
+  "equal_dataset_mean_delta_net": -0.6095238095238094,
+  "cluster_bootstrap_95_ci": [
+    -5.847857142857142,
+    2.4066666666666663
+  ],
+  "cluster_values": [
+    -10.833333333333334,
+    2.260714285714287,
+    1.0,
+    2.983333333333333,
+    1.5416666666666667
+  ],
+  "bootstrap_reps": 20000,
+  "bootstrap_seed": 2026110405,
+  "limitations": [
+    "post hoc, unregistered ablation on the five fresh UCI datasets with timestamps only",
+    "five dataset clusters give a coarse cluster-bootstrap interval",
+    "the timestamp-clock detector is given the fixed episode endpoint to place its finite start grid",
+    "label delays remain event-count delays; timestamp-clock starts do not model label publication times",
+    "no alpha calibration, multiplicity correction, or anytime guarantee is claimed"
+  ],
+  "records_sha256": "587bb356644ca576a660d91e47118e95f2684356c515384479f4486000610668"
+}

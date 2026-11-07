@@ -1,0 +1,58 @@
+{
+  "status": "POST_DEVELOPMENT_MONTE_CARLO_ON_REUSED_SPLITS",
+  "run_dir": "outputs/sprint2/round5/p6_twin_bike_1000",
+  "n_split_clusters": 20,
+  "source_datasets": 1,
+  "episodes": 120,
+  "seeds_per_episode": 1000,
+  "policies": {
+    "P6_LRMD_U": {
+      "mean_promotion_rate": 0.07604166666666666,
+      "split_cluster_bootstrap_95ci": [
+        0.035833333333333335,
+        0.1218960416666666
+      ],
+      "splits_above_0_0936": 7
+    },
+    "M_LRMD_SUI": {
+      "mean_promotion_rate": 0.09713333333333332,
+      "split_cluster_bootstrap_95ci": [
+        0.04674999999999999,
+        0.15291666666666667
+      ],
+      "splits_above_0_0936": 8
+    },
+    "A5b": {
+      "mean_promotion_rate": 0.05833333333333333,
+      "split_cluster_bootstrap_95ci": [
+        0.016666666666666666,
+        0.1
+      ],
+      "splits_above_0_0936": 6
+    },
+    "CONTROL_never_switch": {
+      "mean_promotion_rate": 0.0,
+      "split_cluster_bootstrap_95ci": [
+        0.0,
+        0.0
+      ],
+      "splits_above_0_0936": 0
+    }
+  },
+  "paired_mean_cost_contrasts": {
+    "P6_LRMD_U-M_LRMD_SUI": {
+      "mean_delta_J": 0.15920833333332923,
+      "split_cluster_bootstrap_95ci": [
+        -0.23793666666666977,
+        0.6181672916666545
+      ]
+    },
+    "A5b-M_LRMD_SUI": {
+      "mean_delta_J": -0.3684900000000013,
+      "split_cluster_bootstrap_95ci": [
+        -0.9622157812500056,
+        0.35686602083332997
+      ]
+    }
+  }
+}

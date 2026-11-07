@@ -1,0 +1,47 @@
+"""Fetch public drift streams into data/raw/<name>/ with receipts. Data is only stored, never executed."""
+
+import os
+import json
+import hashlib
+import urllib.request
+import datetime
+
+R = "C:/Users/nigel/OneDrive/桌面/ICML/shift-research-starter/data/raw"
+G = "https://raw.githubusercontent.com/vlosing/driftDatasets/01d08dec716870a36ea793e26e7e896ba921fe5d/realWorld/"
+items = {
+    "uci_bank_marketing": [
+        ("https://archive.ics.uci.edu/static/public/222/bank+marketing.zip", "bank-marketing.zip")
+    ],
+    "openml_airlines_1169": [
+        ("https://data.openml.org/datasets/0000/1169/dataset_1169.pq", "dataset_1169.pq")
+    ],
+    "weather_elwell_polikar": [
+        (G + "weather/NEweather_data.csv", "NEweather_data.csv"),
+        (G + "weather/NEweather_class.csv", "NEweather_class.csv"),
+    ],
+    "spam_katakis": [(G + "spam.zip", "spam.zip")],
+    "rialto": [
+        (G + "rialto/rialto.data", "rialto.data"),
+        (G + "rialto/rialto.labels", "rialto.labels"),
+    ],
+    "outdoor_objects": [
+        (G + "outdoor/outdoorStream.data", "outdoorStream.data"),
+        (G + "outdoor/outdoorStream.labels", "outdoorStream.labels"),
+    ],
+}
+for d, fs in items.items():
+    os.makedirs(f"{R}/{d}", exist_ok=True)
+    for url, name in fs:
+        p = f"{R}/{d}/{name}"
+        b = urllib.request.urlopen(
+            urllib.request.Request(url, headers={"User-Agent": "shiftlab-fetch"}), timeout=120
+        ).read()
+        open(p, "wb").write(b)
+        rec = dict(
+            url=url,
+            sha256=hashlib.sha256(b).hexdigest(),
+            downloaded_at=datetime.datetime.now(datetime.timezone.utc).isoformat(),
+            bytes=len(b),
+        )
+        json.dump(rec, open(p + ".receipt.json", "w"), indent=2)
+        print(d, name, len(b), rec["sha256"][:12])

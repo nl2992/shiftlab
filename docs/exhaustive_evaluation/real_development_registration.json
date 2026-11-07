@@ -1,0 +1,100 @@
+{
+  "registered_utc": "2026-10-30T08:51:59.700511+00:00",
+  "stage": "retrospective development, NOT confirmation",
+  "datasets": [
+    {
+      "dataset": "bike",
+      "url": "https://archive.ics.uci.edu/static/public/275/bike+sharing+dataset.zip",
+      "sha256": "b70182d0d0508e9abbb79306ce5c0cec34869000f8220175ac83d11dbe845401",
+      "license": "CC BY 4.0",
+      "retrieved_utc": "2026-10-30T08:39:20.075829+00:00",
+      "rows": 17379,
+      "development_rows": 8645,
+      "future_metadata_only_rows": 8734,
+      "missing_development_targets": 0,
+      "duplicate_timestamps": 0,
+      "split": {
+        "train_end": "2011-07-01",
+        "calibration_end": "2011-09-01",
+        "development_end": "2012-01-01",
+        "final_end": "2013-01-01"
+      },
+      "no_final_outcome_analysis": true,
+      "excluded_features": [
+        "casual",
+        "registered",
+        "cnt",
+        "same-hour observed weather"
+      ],
+      "clock_status": "event timestamps only; publication clocks unverified; imposed replay delay",
+      "exposure_status": "prior repo exposure audit still required before confirmation"
+    },
+    {
+      "dataset": "beijing",
+      "url": "https://archive.ics.uci.edu/static/public/381/beijing+pm2+5+data.zip",
+      "sha256": "40cdd29c24918e855133dce280ff59779bb0b5852898e05bafcf422a4cc0a175",
+      "license": "CC BY 4.0",
+      "retrieved_utc": "2026-10-30T08:39:21.047969+00:00",
+      "rows": 43824,
+      "development_rows": 17520,
+      "future_metadata_only_rows": 26304,
+      "missing_development_targets": 1397,
+      "duplicate_timestamps": 0,
+      "split": {
+        "train_end": "2010-10-01",
+        "calibration_end": "2011-01-01",
+        "development_end": "2012-01-01",
+        "reserved_calibration_end": "2013-01-01",
+        "final_end": "2015-01-01"
+      },
+      "no_final_outcome_analysis": true,
+      "excluded_features": [
+        "same-hour target",
+        "same-hour observed weather",
+        "future-filled targets"
+      ],
+      "clock_status": "event timestamps only; publication clocks unverified; imposed replay delay",
+      "exposure_status": "prior repo exposure audit still required before confirmation"
+    }
+  ],
+  "replicate_query_paths": 16,
+  "query_seed": 202613000,
+  "target": "binary demand/pollution above training-only median; one-hour-ahead calendar-only prediction",
+  "task_cost": "false negative 5, false positive 1, divided by 5",
+  "preprocessing": "calendar only; no target lags, same-hour weather, casual or registered columns",
+  "models": "LogisticRegression C=1 max_iter=500; HistGradientBoosting max_iter=100 max_leaf_nodes=15 l2=1",
+  "main_comparator": "frozen incumbent/no switch",
+  "other_comparators": "always frozen challenger; constant-positive action",
+  "monitor_configs": [
+    "R1_selected_blend",
+    "matched_cost_parent",
+    "H2c_style"
+  ],
+  "monitor_references": [
+    "RCPS_FTL_adapter",
+    "PR_PM_EB",
+    "PPRM_batch_CM_EB"
+  ],
+  "feedback": "fixed delay 5 eligible observations; not measured publication latency or five clock hours",
+  "missing": "complete-case scoring; no future imputation; excluded target-missing rows reported",
+  "fraction": 0.2,
+  "alpha": 0.04,
+  "source_alpha": 0.01,
+  "query_costs": [
+    0.0,
+    0.001,
+    0.01
+  ],
+  "switch_costs": [
+    0.1,
+    1.0,
+    5.0
+  ],
+  "primary": "realized decision + query + one-switch cost; all cost scenarios reported",
+  "safety": "alarm-triggered challenger switch is a heuristic, not a positive-benefit certificate; no validity claim on serial data",
+  "sources_sha256": {
+    "scripts/exhaustive_evaluation/run_real_development.py": "62ed758c714ba8a9a0d1e9e8e6a71ffa4d400122f4462fe798860ecee5112a0a",
+    "src/shiftlab/sota_search/combination_screen.py": "ff995be8d0c74dda2d8f8729b3bb07a1758c9c2cec03f05c4001a37cc023dcac",
+    "src/shiftlab/sota_search/published_baselines.py": "0dc85ed21a94fb210c4ddca57975e4b260652f8f14c1fd0e0d8e80a27af3dfb4"
+  }
+}

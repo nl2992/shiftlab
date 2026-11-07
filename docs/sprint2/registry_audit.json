@@ -1,0 +1,88 @@
+{
+  "structural_audit": "PASS",
+  "registry_candidate_count": 24,
+  "expected_candidate_count": 24,
+  "family_ledger_ids": {
+    "H": [
+      "H1",
+      "H2",
+      "H3",
+      "H4",
+      "H5",
+      "H6"
+    ],
+    "R": [
+      "R1",
+      "R2",
+      "R3",
+      "R4",
+      "R5",
+      "R6"
+    ],
+    "T": [
+      "T1",
+      "T2",
+      "T3",
+      "T4",
+      "T5",
+      "T6"
+    ],
+    "P": [
+      "P1",
+      "P2",
+      "P3",
+      "P4",
+      "P5",
+      "P6"
+    ]
+  },
+  "blank_track_cells": [],
+  "blank_statuses": [],
+  "missing_artifacts": [],
+  "missing_ledger_fields": [],
+  "missing_seed_manifests": [],
+  "missing_provenance_records": [],
+  "declared_provenance_gaps": [
+    {
+      "candidate": "H1",
+      "note": "The source record is in the listed manifests. Historical partial outputs under H/screen1 lack an original manifest; the sidecar documents their recovered rows, inferred seed base, and unrecoverable run-time source/CLI details. The analysis summary supplies later complete runs after the partial directory to resolve overlapping rows."
+    },
+    {
+      "candidate": "H2",
+      "note": "The source record is in the listed manifests. Historical partial outputs under H/screen1 lack an original manifest; the sidecar documents their recovered rows, inferred seed base, and unrecoverable run-time source/CLI details. The analysis summary supplies later complete runs after the partial directory to resolve overlapping rows."
+    },
+    {
+      "candidate": "H3",
+      "note": "The source record is in the listed manifests. Historical partial outputs under H/screen1 lack an original manifest; the sidecar documents their recovered rows, inferred seed base, and unrecoverable run-time source/CLI details. The analysis summary supplies later complete runs after the partial directory to resolve overlapping rows."
+    },
+    {
+      "candidate": "H4",
+      "note": "The source record is in the listed manifests. Historical partial outputs under H/screen1 lack an original manifest; the sidecar documents their recovered rows, inferred seed base, and unrecoverable run-time source/CLI details. The analysis summary supplies later complete runs after the partial directory to resolve overlapping rows."
+    },
+    {
+      "candidate": "P1",
+      "note": "The p1diag side analysis has no original run manifest; the sidecar records its output hash, stored seed metadata, retained command, and missing run-time source hash."
+    },
+    {
+      "candidate": "P2",
+      "note": "No original per-process manifest exists for the p2p3 analysis; retained command source, log, output, and deterministic seed rule are summarized in the explicitly retrospective sidecar."
+    },
+    {
+      "candidate": "P3",
+      "note": "The p2p3 analysis output contains P3 path-cost rows, but its original run lacked a per-process manifest; see the retrospective sidecar."
+    },
+    {
+      "candidate": "P5",
+      "note": "The custom K-stream build/screen and P5 Track-R jobs did not emit original run manifests; retained outputs, command history, and deterministic seed rules are summarized in the explicitly retrospective sidecar."
+    }
+  ],
+  "provenance_audit": "PARTIAL",
+  "track_cell_mismatches": [],
+  "registry_ledger_mismatches": [],
+  "limitations": [
+    "Checks candidate schema, referenced-manifest existence, shared-field equality, artifact path existence, and registry coverage; does not recompute metrics or verify that each manifest semantically covers its candidate.",
+    "A populated Track cell does not mean the track is applicable or complete; read its explicit n/a/partial qualification.",
+    "No independent review, selection adjustment, theorem proof, or data-validity claim is established by this audit."
+  ],
+  "failures": []
+}

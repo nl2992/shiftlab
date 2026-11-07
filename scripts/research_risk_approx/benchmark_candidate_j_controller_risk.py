@@ -1,0 +1,165 @@
+"""Registered bounded comparison of finite-controller and full-history risk DP."""
+
+from __future__ import annotations
+
+import hashlib
+import json
+import tracemalloc
+from dataclasses import dataclass
+from fractions import Fraction as F
+from pathlib import Path
+from time import perf_counter
+
+from shiftlab.dive.causal_switching_game import CausalSwitchingGame, GameConfig
+from shiftlab.dive.delayed_regime_information import RegimeModel
+from shiftlab.dive.risk_preserving_approx.controller_risk_verifier import (
+    verify_causal_null_risk,
+)
+
+ROOT = Path(__file__).resolve().parents[2]
+PROTOCOL = ROOT / "docs/risk_preserving_approx/CANDIDATE_J_RISK_DP_PROTOCOL_V1.md"
+OUTPUT = ROOT / "docs/risk_preserving_approx/candidate_j_controller_risk_benchmark_v1.json"
+HORIZON = 18
+BUDGET = 18
+DELAY = 2
+RUN_LENGTH = 4
+
+
+@dataclass(frozen=True)
+class PositiveRunController:
+    """Query until four consecutive released positives, then promote."""
+
+    initial_state: int = 0
+
+    def step(
+        self,
+        memory: int,
+        time: int,
+        released: tuple[int, ...],
+        previous_action: int,
+        remaining_queries: int,
+    ) -> tuple[int, int, int]:
+        streak = memory
+        for outcome in released:
+            streak = min(RUN_LENGTH, streak + 1) if outcome else 0
+        if streak >= RUN_LENGTH:
+            return 1, 0, RUN_LENGTH - 1
+        return 0, int(remaining_queries > 0), streak
+
+
+def full_history_policy(
+    game: CausalSwitchingGame, controller: PositiveRunController, calls: list[int]
+):
+    def policy(history, outcomes):
+        calls[0] += 1
+        memory = controller.initial_state
+        previous_action = 0
+        for time in range(1, len(history) + 1):
+            released = tuple(outcome for request, outcome in outcomes if request + DELAY == time)
+            remaining = BUDGET - sum(query for _, query in history[: time - 1])
+            action, _, memory = controller.step(memory, time, released, previous_action, remaining)
+            previous_action = action
+
+        time = len(history) + 1
+        released = tuple(outcome for request, outcome in outcomes if request + DELAY == time)
+        remaining = BUDGET - sum(query for _, query in history)
+        action, query, _ = controller.step(memory, time, released, previous_action, remaining)
+        selected = (action, query)
+        return tuple(F(choice == selected) for choice in game.choices(history))
+
+    return policy
+
+
+def measure(callable_):
+    tracemalloc.start()
+    tracemalloc.reset_peak()
+    started = perf_counter()
+    result = callable_()
+    elapsed = perf_counter() - started
+    _, peak = tracemalloc.get_traced_memory()
+    tracemalloc.stop()
+    return result, elapsed, peak
+
+
+def sha256(path: Path) -> str:
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def main() -> None:
+    controller = PositiveRunController()
+    product_result, product_seconds, product_peak = measure(
+        lambda: verify_causal_null_risk(controller, horizon=HORIZON, budget=BUDGET, delay=DELAY)
+    )
+
+    game = CausalSwitchingGame(
+        GameConfig(
+            horizon=HORIZON,
+            budget=BUDGET,
+            delay=DELAY,
+            alpha=F(1, 10),
+            max_nodes=2_000_000,
+        ),
+        RegimeModel(),
+    )
+    calls = [0]
+    policy = full_history_policy(game, controller, calls)
+    reference_risk, reference_seconds, reference_peak = measure(lambda: game.null_risk(policy))
+    if product_result.risk != reference_risk:
+        raise AssertionError(
+            f"risk disagreement: product={product_result.risk}, full={reference_risk}"
+        )
+
+    ratio_states = calls[0] / product_result.visited_states
+    ratio_seconds = reference_seconds / product_seconds
+    passed = ratio_states >= 10 and ratio_seconds >= 2
+    result = {
+        "status": "pass" if passed else "correctness_pass_efficiency_gate_failed",
+        "protocol": "docs/risk_preserving_approx/CANDIDATE_J_RISK_DP_PROTOCOL_V1.md",
+        "protocol_sha256": sha256(PROTOCOL),
+        "script_sha256": sha256(Path(__file__)),
+        "parameters": {
+            "horizon": HORIZON,
+            "budget": BUDGET,
+            "delay": DELAY,
+            "consecutive_positive_threshold": RUN_LENGTH,
+            "controller_memory_states": RUN_LENGTH,
+        },
+        "exact_null_risk": str(product_result.risk),
+        "product_state_verifier": {
+            "visited_states": product_result.visited_states,
+            "wall_seconds": product_seconds,
+            "tracemalloc_peak_bytes": product_peak,
+        },
+        "full_history_reference": {
+            "policy_history_states": calls[0],
+            "wall_seconds": reference_seconds,
+            "tracemalloc_peak_bytes": reference_peak,
+        },
+        "ratios_full_history_over_product": {
+            "states": ratio_states,
+            "wall_seconds": ratio_seconds,
+        },
+        "thresholds": {
+            "state_ratio_at_least": 10,
+            "speed_ratio_at_least": 2,
+            "passed": passed,
+        },
+        "scope": (
+            "Fixed-controller exact null-risk verification only; not a controller optimizer, "
+            "value-gap result, novelty result, or real-data evaluation."
+        ),
+        "sources_sha256": {
+            "src/shiftlab/dive/risk_preserving_approx/controller_risk_verifier.py": sha256(
+                ROOT / "src/shiftlab/dive/risk_preserving_approx/controller_risk_verifier.py"
+            ),
+            "src/shiftlab/dive/causal_switching_game.py": sha256(
+                ROOT / "src/shiftlab/dive/causal_switching_game.py"
+            ),
+        },
+    }
+    OUTPUT.write_text(json.dumps(result, indent=2) + "\n", encoding="utf-8")
+    print(json.dumps(result, indent=2))
+
+
+if __name__ == "__main__":
+    main()

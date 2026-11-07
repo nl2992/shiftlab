@@ -1,0 +1,285 @@
+{
+  "protocol": "docs/rpoq_s6_crsp_allocation_headroom_protocol_v1.md",
+  "panel_sha256_prefix_note": "panel not hashed here; see dataset_manifest.json version 5211412140dcb86f08f9",
+  "seed": 20261029,
+  "cohort_meta": [
+    {
+      "cohort": 0,
+      "n_events": 95913,
+      "n_dates": 1507,
+      "candidate_long_rate": 0.5429295298864596,
+      "reference_long_rate": 0.5439408630738273,
+      "mean_excess_cost": -0.0007106295705483094
+    },
+    {
+      "cohort": 1,
+      "n_events": 115775,
+      "n_dates": 1507,
+      "candidate_long_rate": 0.5421982293241201,
+      "reference_long_rate": 0.544651263226085,
+      "mean_excess_cost": -0.0006514961779313323
+    },
+    {
+      "cohort": 2,
+      "n_events": 116976,
+      "n_dates": 1507,
+      "candidate_long_rate": 0.5836496375324853,
+      "reference_long_rate": 0.5447100259882369,
+      "mean_excess_cost": -0.000600456589385857
+    },
+    {
+      "cohort": 3,
+      "n_events": 125579,
+      "n_dates": 1507,
+      "candidate_long_rate": 0.5652059659656471,
+      "reference_long_rate": 0.544812428829661,
+      "mean_excess_cost": -0.0005922171222895548
+    },
+    {
+      "cohort": 4,
+      "n_events": 111717,
+      "n_dates": 1507,
+      "candidate_long_rate": 0.5642382090460718,
+      "reference_long_rate": 0.5446082512061727,
+      "mean_excess_cost": -0.000582651753985517
+    },
+    {
+      "cohort": 5,
+      "n_events": 94065,
+      "n_dates": 1507,
+      "candidate_long_rate": 0.5449529580609154,
+      "reference_long_rate": 0.5451549460479456,
+      "mean_excess_cost": -0.0005593227980651677
+    },
+    {
+      "cohort": 6,
+      "n_events": 106213,
+      "n_dates": 1507,
+      "candidate_long_rate": 0.5647990358995603,
+      "reference_long_rate": 0.5447449935506953,
+      "mean_excess_cost": -0.0004853414271322719
+    },
+    {
+      "cohort": 7,
+      "n_events": 106738,
+      "n_dates": 1507,
+      "candidate_long_rate": 0.5039348685566527,
+      "reference_long_rate": 0.5451760385242369,
+      "mean_excess_cost": -0.0005973301542093726
+    },
+    {
+      "cohort": 8,
+      "n_events": 123090,
+      "n_dates": 1507,
+      "candidate_long_rate": 0.601697944593387,
+      "reference_long_rate": 0.5455764075067024,
+      "mean_excess_cost": -0.0006097380778292307
+    },
+    {
+      "cohort": 9,
+      "n_events": 100698,
+      "n_dates": 1507,
+      "candidate_long_rate": 0.5920475083914278,
+      "reference_long_rate": 0.5449661363681503,
+      "mean_excess_cost": -0.000609804206637669
+    }
+  ],
+  "summary": [
+    {
+      "direction": "benefit",
+      "budget_fraction": 0.05,
+      "rule": "neyman",
+      "mean_log_wealth": [
+        1.0858672870675334,
+        0.7627834742476781,
+        1.406947890016122
+      ],
+      "crossing_rate": 0.19,
+      "paired_diff_vs_uniform": [
+        -0.32757936262943005,
+        -0.5112876836596298,
+        -0.16976864883242004
+      ]
+    },
+    {
+      "direction": "benefit",
+      "budget_fraction": 0.05,
+      "rule": "oracle",
+      "mean_log_wealth": [
+        3.873449307665618,
+        2.3983287717413755,
+        5.315656793085564
+      ],
+      "crossing_rate": 0.7899999999999999,
+      "paired_diff_vs_uniform": [
+        2.460002657968655,
+        1.1635625072410476,
+        3.657085160541328
+      ]
+    },
+    {
+      "direction": "benefit",
+      "budget_fraction": 0.05,
+      "rule": "uniform",
+      "mean_log_wealth": [
+        1.4134466496969635,
+        1.0189170045346387,
+        1.7800489050068773
+      ],
+      "crossing_rate": 0.31
+    },
+    {
+      "direction": "benefit",
+      "budget_fraction": 0.2,
+      "rule": "neyman",
+      "mean_log_wealth": [
+        4.799197533948119,
+        3.784419868462203,
+        5.667894217633295
+      ],
+      "crossing_rate": 0.77,
+      "paired_diff_vs_uniform": [
+        -1.7448628418433991,
+        -2.422720996010003,
+        -1.029107877283044
+      ]
+    },
+    {
+      "direction": "benefit",
+      "budget_fraction": 0.2,
+      "rule": "oracle",
+      "mean_log_wealth": [
+        10.713173610394222,
+        6.103442570894888,
+        15.198130842564758
+      ],
+      "crossing_rate": 0.9550000000000001,
+      "paired_diff_vs_uniform": [
+        4.169113234602703,
+        1.0699328891010045,
+        7.512080413058339
+      ]
+    },
+    {
+      "direction": "benefit",
+      "budget_fraction": 0.2,
+      "rule": "uniform",
+      "mean_log_wealth": [
+        6.544060375791519,
+        5.01091990124919,
+        7.865091908081864
+      ],
+      "crossing_rate": 0.845
+    },
+    {
+      "direction": "benefit",
+      "budget_fraction": null,
+      "rule": "full",
+      "mean_log_wealth": [
+        20.340273589859645,
+        13.803594735747614,
+        26.69415237642985
+      ],
+      "crossing_rate": 1.0
+    },
+    {
+      "direction": "harm",
+      "budget_fraction": 0.05,
+      "rule": "neyman",
+      "mean_log_wealth": [
+        -0.4396596938337908,
+        -0.5169182067835626,
+        -0.3647570107990663
+      ],
+      "crossing_rate": 0.0,
+      "paired_diff_vs_uniform": [
+        0.015759048799729357,
+        -0.05562915397598469,
+        0.08966435630773859
+      ]
+    },
+    {
+      "direction": "harm",
+      "budget_fraction": 0.05,
+      "rule": "oracle",
+      "mean_log_wealth": [
+        -1.166096564586173,
+        -1.5442910181318832,
+        -0.8828855218397516
+      ],
+      "crossing_rate": 0.01,
+      "paired_diff_vs_uniform": [
+        -0.7106778219526529,
+        -1.0071159813057189,
+        -0.47866580178390705
+      ]
+    },
+    {
+      "direction": "harm",
+      "budget_fraction": 0.05,
+      "rule": "uniform",
+      "mean_log_wealth": [
+        -0.45541874263352006,
+        -0.5424007715158321,
+        -0.36823906817753055
+      ],
+      "crossing_rate": 0.0
+    },
+    {
+      "direction": "harm",
+      "budget_fraction": 0.2,
+      "rule": "neyman",
+      "mean_log_wealth": [
+        -0.7805451980355241,
+        -0.8702764224300144,
+        -0.6735180443996625
+      ],
+      "crossing_rate": 0.0,
+      "paired_diff_vs_uniform": [
+        0.2121000370635026,
+        0.064470096125603,
+        0.37401476169696246
+      ]
+    },
+    {
+      "direction": "harm",
+      "budget_fraction": 0.2,
+      "rule": "oracle",
+      "mean_log_wealth": [
+        -3.2538114367223487,
+        -4.771693395187398,
+        -1.9646779882288063
+      ],
+      "crossing_rate": 0.16,
+      "paired_diff_vs_uniform": [
+        -2.2611662016233214,
+        -3.6079192686295114,
+        -1.1708143725336169
+      ]
+    },
+    {
+      "direction": "harm",
+      "budget_fraction": 0.2,
+      "rule": "uniform",
+      "mean_log_wealth": [
+        -0.9926452350990269,
+        -1.2278484485462857,
+        -0.7864076288544071
+      ],
+      "crossing_rate": 0.0
+    },
+    {
+      "direction": "harm",
+      "budget_fraction": null,
+      "rule": "full",
+      "mean_log_wealth": [
+        -4.311664391668148,
+        -6.860666332498329,
+        -2.5453954773878076
+      ],
+      "crossing_rate": 0.5
+    }
+  ],
+  "n_runs": 2800,
+  "seconds": 173.49376940727234
+}

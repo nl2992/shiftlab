@@ -1,0 +1,3377 @@
+{
+  "status": "POST_DEVELOPMENT_DESCRIPTIVE_REPLAY_ON_REUSED_FRESH_STREAMS",
+  "source_records": "outputs/sprint2/round5/H_corrected_real_20/records.jsonl",
+  "seed_base": 2026110701,
+  "datasets": [
+    "metro",
+    "beijing_pm25",
+    "bike_hour",
+    "appliances",
+    "household_power"
+  ],
+  "candidate_policies": [
+    "H1",
+    "H2",
+    "H3",
+    "H4",
+    "H5",
+    "H6-r10"
+  ],
+  "published_certificate_ports": [
+    "gated_deployment",
+    "gated_adaptive_range",
+    "gated_adaptive_range+front",
+    "discern_style",
+    "discern_design_floor",
+    "SMCS+retain-incumbent"
+  ],
+  "supplemental_non_published_certificate_comparators": [
+    "xu_acquisition_only",
+    "choe_ramdas_eb+front"
+  ],
+  "internal_references": [
+    "D2",
+    "A5b",
+    "CONTROL_never_switch"
+  ],
+  "replicates": 20,
+  "uncertainty_unit": "episode, after averaging paired policy seeds within episode",
+  "overall_estimand": "equal mean over the five fixed datasets; bootstrap resamples episodes within each dataset",
+  "limits": [
+    "All streams were already exposed to development; this is not independent confirmation.",
+    "Intervals quantify episode resampling within these fixed datasets, not generalization across datasets.",
+    "Episode bootstrap intervals treat episodes within each dataset as exchangeable; temporal dependence can make these intervals optimistic.",
+    "The lowest-cost certificate port is selected on these same data and is descriptive only; fixed-port contrasts are reported separately.",
+    "Ports implement a common contract and are not author-native reproductions; Xu and Choe-Ramdas are supplementary adapters, excluded from the published certificate pool."
+  ],
+  "by_dataset": {
+    "metro": {
+      "episodes": 16,
+      "seeds_per_episode": 20,
+      "candidates": {
+        "H1": {
+          "mean_net": 209.75437499999998,
+          "mean_labels": 76.9625,
+          "mean_promotion_rate": 0.921875,
+          "mean_detection_delay_promoted_only": 244.034375,
+          "contrasts": {
+            "gated_deployment": {
+              "candidate_minus_comparator_mean_net": -95.69328125000001,
+              "episode_bootstrap_95ci": [
+                -159.62873046874998,
+                -17.947332031250017
+              ]
+            },
+            "gated_adaptive_range": {
+              "candidate_minus_comparator_mean_net": 32.32359375,
+              "episode_bootstrap_95ci": [
+                -27.143832031249993,
+                107.23210546874996
+              ]
+            },
+            "gated_adaptive_range+front": {
+              "candidate_minus_comparator_mean_net": 83.58250000000001,
+              "episode_bootstrap_95ci": [
+                24.133621093750005,
+                160.29603906249994
+              ]
+            },
+            "discern_style": {
+              "candidate_minus_comparator_mean_net": -210.33203125,
+              "episode_bootstrap_95ci": [
+                -270.16029296875,
+                -133.92711328125
+              ]
+            },
+            "discern_design_floor": {
+              "candidate_minus_comparator_mean_net": 30.164687500000003,
+              "episode_bootstrap_95ci": [
+                -29.25622265625,
+                106.06942578124999
+              ]
+            },
+            "SMCS+retain-incumbent": {
+              "candidate_minus_comparator_mean_net": 64.67109375,
+              "episode_bootstrap_95ci": [
+                5.933249999999998,
+                139.80539453125
+              ]
+            },
+            "xu_acquisition_only": {
+              "candidate_minus_comparator_mean_net": 53.54984375,
+              "episode_bootstrap_95ci": [
+                -5.3631640625,
+                128.6358671875
+              ]
+            },
+            "choe_ramdas_eb+front": {
+              "candidate_minus_comparator_mean_net": 87.091875,
+              "episode_bootstrap_95ci": [
+                27.479300781250004,
+                162.72174218749993
+              ]
+            },
+            "D2": {
+              "candidate_minus_comparator_mean_net": 89.88343750000001,
+              "episode_bootstrap_95ci": [
+                29.92632812500001,
+                165.5959648437499
+              ]
+            },
+            "A5b": {
+              "candidate_minus_comparator_mean_net": -11.67578125,
+              "episode_bootstrap_95ci": [
+                -85.4330625,
+                54.566800781249924
+              ]
+            },
+            "CONTROL_never_switch": {
+              "candidate_minus_comparator_mean_net": -510.120625,
+              "episode_bootstrap_95ci": [
+                -581.2362382812499,
+                -427.01454296875016
+              ]
+            }
+          },
+          "lowest_mean_cost_certificate_port_descriptive": "gated_adaptive_range+front",
+          "certificate_port_mean_costs": {
+            "gated_deployment": 305.44765625,
+            "gated_adaptive_range": 177.43078125,
+            "gated_adaptive_range+front": 126.17187500000001,
+            "discern_style": 420.08640625,
+            "discern_design_floor": 179.5896875,
+            "SMCS+retain-incumbent": 145.08328125
+          }
+        },
+        "H2": {
+          "mean_net": 182.1759375,
+          "mean_labels": 67.14375000000001,
+          "mean_promotion_rate": 1.0,
+          "mean_detection_delay_promoted_only": 263.0375,
+          "contrasts": {
+            "gated_deployment": {
+              "candidate_minus_comparator_mean_net": -123.27171874999999,
+              "episode_bootstrap_95ci": [
+                -162.55290234375002,
+                -80.24773046875012
+              ]
+            },
+            "gated_adaptive_range": {
+              "candidate_minus_comparator_mean_net": 4.745156250000002,
+              "episode_bootstrap_95ci": [
+                -25.72710937499999,
+                39.03969921874996
+              ]
+            },
+            "gated_adaptive_range+front": {
+              "candidate_minus_comparator_mean_net": 56.004062499999996,
+              "episode_bootstrap_95ci": [
+                24.7592578125,
+                91.78133203124983
+              ]
+            },
+            "discern_style": {
+              "candidate_minus_comparator_mean_net": -237.91046875,
+              "episode_bootstrap_95ci": [
+                -269.81352734375,
+                -201.88403906250014
+              ]
+            },
+            "discern_design_floor": {
+              "candidate_minus_comparator_mean_net": 2.586250000000005,
+              "episode_bootstrap_95ci": [
+                -28.587574218749992,
+                37.56328515624998
+              ]
+            },
+            "SMCS+retain-incumbent": {
+              "candidate_minus_comparator_mean_net": 37.09265625,
+              "episode_bootstrap_95ci": [
+                6.943703125000003,
+                71.18387109375
+              ]
+            },
+            "xu_acquisition_only": {
+              "candidate_minus_comparator_mean_net": 25.971406250000005,
+              "episode_bootstrap_95ci": [
+                -4.412468749999996,
+                59.676769531249946
+              ]
+            },
+            "choe_ramdas_eb+front": {
+              "candidate_minus_comparator_mean_net": 59.51343750000001,
+              "episode_bootstrap_95ci": [
+                28.726558593750006,
+                94.89666796874994
+              ]
+            },
+            "D2": {
+              "candidate_minus_comparator_mean_net": 62.30500000000001,
+              "episode_bootstrap_95ci": [
+                31.587957031250003,
+                97.15677734374994
+              ]
+            },
+            "A5b": {
+              "candidate_minus_comparator_mean_net": -39.25421875,
+              "episode_bootstrap_95ci": [
+                -94.17187109375001,
+                -6.4396484375
+              ]
+            },
+            "CONTROL_never_switch": {
+              "candidate_minus_comparator_mean_net": -537.6990625000001,
+              "episode_bootstrap_95ci": [
+                -587.63888671875,
+                -484.58041406250004
+              ]
+            }
+          },
+          "lowest_mean_cost_certificate_port_descriptive": "gated_adaptive_range+front",
+          "certificate_port_mean_costs": {
+            "gated_deployment": 305.44765625,
+            "gated_adaptive_range": 177.43078125,
+            "gated_adaptive_range+front": 126.17187500000001,
+            "discern_style": 420.08640625,
+            "discern_design_floor": 179.5896875,
+            "SMCS+retain-incumbent": 145.08328125
+          }
+        },
+        "H3": {
+          "mean_net": 182.33484375,
+          "mean_labels": 66.759375,
+          "mean_promotion_rate": 1.0,
+          "mean_detection_delay_promoted_only": 263.609375,
+          "contrasts": {
+            "gated_deployment": {
+              "candidate_minus_comparator_mean_net": -123.11281249999999,
+              "episode_bootstrap_95ci": [
+                -162.50782421875,
+                -79.2901835937501
+              ]
+            },
+            "gated_adaptive_range": {
+              "candidate_minus_comparator_mean_net": 4.904062500000003,
+              "episode_bootstrap_95ci": [
+                -25.587437499999997,
+                39.458152343749965
+              ]
+            },
+            "gated_adaptive_range+front": {
+              "candidate_minus_comparator_mean_net": 56.16296875,
+              "episode_bootstrap_95ci": [
+                24.601660156250006,
+                91.60585546874998
+              ]
+            },
+            "discern_style": {
+              "candidate_minus_comparator_mean_net": -237.7515625,
+              "episode_bootstrap_95ci": [
+                -269.677921875,
+                -201.05842968750002
+              ]
+            },
+            "discern_design_floor": {
+              "candidate_minus_comparator_mean_net": 2.745156250000006,
+              "episode_bootstrap_95ci": [
+                -28.748394531249993,
+                37.62623437499996
+              ]
+            },
+            "SMCS+retain-incumbent": {
+              "candidate_minus_comparator_mean_net": 37.2515625,
+              "episode_bootstrap_95ci": [
+                7.312929687500005,
+                71.23943750000001
+              ]
+            },
+            "xu_acquisition_only": {
+              "candidate_minus_comparator_mean_net": 26.130312500000006,
+              "episode_bootstrap_95ci": [
+                -4.311124999999997,
+                59.99191796874999
+              ]
+            },
+            "choe_ramdas_eb+front": {
+              "candidate_minus_comparator_mean_net": 59.67234375000001,
+              "episode_bootstrap_95ci": [
+                28.33254296875,
+                95.49130468749992
+              ]
+            },
+            "D2": {
+              "candidate_minus_comparator_mean_net": 62.46390625000001,
+              "episode_bootstrap_95ci": [
+                31.05318750000001,
+                97.4245703125
+              ]
+            },
+            "A5b": {
+              "candidate_minus_comparator_mean_net": -39.0953125,
+              "episode_bootstrap_95ci": [
+                -94.77804296875,
+                -6.231140625
+              ]
+            },
+            "CONTROL_never_switch": {
+              "candidate_minus_comparator_mean_net": -537.5401562500001,
+              "episode_bootstrap_95ci": [
+                -587.4842382812501,
+                -484.11083984375006
+              ]
+            }
+          },
+          "lowest_mean_cost_certificate_port_descriptive": "gated_adaptive_range+front",
+          "certificate_port_mean_costs": {
+            "gated_deployment": 305.44765625,
+            "gated_adaptive_range": 177.43078125,
+            "gated_adaptive_range+front": 126.17187500000001,
+            "discern_style": 420.08640625,
+            "discern_design_floor": 179.5896875,
+            "SMCS+retain-incumbent": 145.08328125
+          }
+        },
+        "H4": {
+          "mean_net": 181.93640625,
+          "mean_labels": 65.790625,
+          "mean_promotion_rate": 1.0,
+          "mean_detection_delay_promoted_only": 262.615625,
+          "contrasts": {
+            "gated_deployment": {
+              "candidate_minus_comparator_mean_net": -123.51125,
+              "episode_bootstrap_95ci": [
+                -162.594375,
+                -79.59829296875012
+              ]
+            },
+            "gated_adaptive_range": {
+              "candidate_minus_comparator_mean_net": 4.5056249999999975,
+              "episode_bootstrap_95ci": [
+                -25.759265624999998,
+                39.37994140624995
+              ]
+            },
+            "gated_adaptive_range+front": {
+              "candidate_minus_comparator_mean_net": 55.76453125,
+              "episode_bootstrap_95ci": [
+                24.331500000000005,
+                91.23755468749995
+              ]
+            },
+            "discern_style": {
+              "candidate_minus_comparator_mean_net": -238.15,
+              "episode_bootstrap_95ci": [
+                -270.08226953125,
+                -201.63577343750012
+              ]
+            },
+            "discern_design_floor": {
+              "candidate_minus_comparator_mean_net": 2.3467187500000026,
+              "episode_bootstrap_95ci": [
+                -29.349132812499995,
+                37.22584765624989
+              ]
+            },
+            "SMCS+retain-incumbent": {
+              "candidate_minus_comparator_mean_net": 36.85312499999999,
+              "episode_bootstrap_95ci": [
+                6.425507812499997,
+                70.93646093749997
+              ]
+            },
+            "xu_acquisition_only": {
+              "candidate_minus_comparator_mean_net": 25.731875,
+              "episode_bootstrap_95ci": [
+                -4.828816406250001,
+                60.37083203124999
+              ]
+            },
+            "choe_ramdas_eb+front": {
+              "candidate_minus_comparator_mean_net": 59.273906249999996,
+              "episode_bootstrap_95ci": [
+                27.898890625,
+                94.02035156249995
+              ]
+            },
+            "D2": {
+              "candidate_minus_comparator_mean_net": 62.06546875,
+              "episode_bootstrap_95ci": [
+                31.236667968750005,
+                96.69700781249989
+              ]
+            },
+            "A5b": {
+              "candidate_minus_comparator_mean_net": -39.493750000000006,
+              "episode_bootstrap_95ci": [
+                -94.59290625000001,
+                -6.843554687500006
+              ]
+            },
+            "CONTROL_never_switch": {
+              "candidate_minus_comparator_mean_net": -537.93859375,
+              "episode_bootstrap_95ci": [
+                -588.81632421875,
+                -485.4904257812501
+              ]
+            }
+          },
+          "lowest_mean_cost_certificate_port_descriptive": "gated_adaptive_range+front",
+          "certificate_port_mean_costs": {
+            "gated_deployment": 305.44765625,
+            "gated_adaptive_range": 177.43078125,
+            "gated_adaptive_range+front": 126.17187500000001,
+            "discern_style": 420.08640625,
+            "discern_design_floor": 179.5896875,
+            "SMCS+retain-incumbent": 145.08328125
+          }
+        },
+        "H5": {
+          "mean_net": 224.00546875,
+          "mean_labels": 199.421875,
+          "mean_promotion_rate": 0.940625,
+          "mean_detection_delay_promoted_only": 292.79999999999995,
+          "contrasts": {
+            "gated_deployment": {
+              "candidate_minus_comparator_mean_net": -81.4421875,
+              "episode_bootstrap_95ci": [
+                -141.50619921875,
+                -0.9139531250000901
+              ]
+            },
+            "gated_adaptive_range": {
+              "candidate_minus_comparator_mean_net": 46.5746875,
+              "episode_bootstrap_95ci": [
+                -6.386960937499994,
+                120.2882734374999
+              ]
+            },
+            "gated_adaptive_range+front": {
+              "candidate_minus_comparator_mean_net": 97.83359374999999,
+              "episode_bootstrap_95ci": [
+                44.63396484375,
+                171.666015625
+              ]
+            },
+            "discern_style": {
+              "candidate_minus_comparator_mean_net": -196.0809375,
+              "episode_bootstrap_95ci": [
+                -250.66798437500003,
+                -122.08090234375004
+              ]
+            },
+            "discern_design_floor": {
+              "candidate_minus_comparator_mean_net": 44.41578125,
+              "episode_bootstrap_95ci": [
+                -8.640968749999995,
+                118.7287109374996
+              ]
+            },
+            "SMCS+retain-incumbent": {
+              "candidate_minus_comparator_mean_net": 78.92218749999999,
+              "episode_bootstrap_95ci": [
+                26.505597656249996,
+                153.4385312499999
+              ]
+            },
+            "xu_acquisition_only": {
+              "candidate_minus_comparator_mean_net": 67.8009375,
+              "episode_bootstrap_95ci": [
+                15.02867968750001,
+                140.71735156249983
+              ]
+            },
+            "choe_ramdas_eb+front": {
+              "candidate_minus_comparator_mean_net": 101.34296875000001,
+              "episode_bootstrap_95ci": [
+                47.610917968749995,
+                175.0494140624999
+              ]
+            },
+            "D2": {
+              "candidate_minus_comparator_mean_net": 104.13453125000001,
+              "episode_bootstrap_95ci": [
+                50.396187499999996,
+                177.92908984374986
+              ]
+            },
+            "A5b": {
+              "candidate_minus_comparator_mean_net": 2.575312499999998,
+              "episode_bootstrap_95ci": [
+                -4.279222656250005,
+                12.58067187499999
+              ]
+            },
+            "CONTROL_never_switch": {
+              "candidate_minus_comparator_mean_net": -495.86953125,
+              "episode_bootstrap_95ci": [
+                -564.5859375,
+                -410.48236328125006
+              ]
+            }
+          },
+          "lowest_mean_cost_certificate_port_descriptive": "gated_adaptive_range+front",
+          "certificate_port_mean_costs": {
+            "gated_deployment": 305.44765625,
+            "gated_adaptive_range": 177.43078125,
+            "gated_adaptive_range+front": 126.17187500000001,
+            "discern_style": 420.08640625,
+            "discern_design_floor": 179.5896875,
+            "SMCS+retain-incumbent": 145.08328125
+          }
+        },
+        "H6-r10": {
+          "mean_net": 223.94609375,
+          "mean_labels": 198.234375,
+          "mean_promotion_rate": 0.940625,
+          "mean_detection_delay_promoted_only": 292.79999999999995,
+          "contrasts": {
+            "gated_deployment": {
+              "candidate_minus_comparator_mean_net": -81.5015625,
+              "episode_bootstrap_95ci": [
+                -141.55345703125002,
+                -2.49270312500009
+              ]
+            },
+            "gated_adaptive_range": {
+              "candidate_minus_comparator_mean_net": 46.5153125,
+              "episode_bootstrap_95ci": [
+                -6.67697265625,
+                120.83834765624992
+              ]
+            },
+            "gated_adaptive_range+front": {
+              "candidate_minus_comparator_mean_net": 97.77421874999999,
+              "episode_bootstrap_95ci": [
+                44.0171875,
+                171.491015625
+              ]
+            },
+            "discern_style": {
+              "candidate_minus_comparator_mean_net": -196.14031250000002,
+              "episode_bootstrap_95ci": [
+                -250.14953906250003,
+                -121.31691796875006
+              ]
+            },
+            "discern_design_floor": {
+              "candidate_minus_comparator_mean_net": 44.35640625,
+              "episode_bootstrap_95ci": [
+                -9.021718749999991,
+                117.70386718749998
+              ]
+            },
+            "SMCS+retain-incumbent": {
+              "candidate_minus_comparator_mean_net": 78.86281249999999,
+              "episode_bootstrap_95ci": [
+                26.727210937499994,
+                151.94552343749996
+              ]
+            },
+            "xu_acquisition_only": {
+              "candidate_minus_comparator_mean_net": 67.7415625,
+              "episode_bootstrap_95ci": [
+                15.194183593749994,
+                140.81734765624998
+              ]
+            },
+            "choe_ramdas_eb+front": {
+              "candidate_minus_comparator_mean_net": 101.28359375,
+              "episode_bootstrap_95ci": [
+                47.990449218749994,
+                174.50908203124993
+              ]
+            },
+            "D2": {
+              "candidate_minus_comparator_mean_net": 104.07515624999999,
+              "episode_bootstrap_95ci": [
+                51.00658203125,
+                178.1341367187499
+              ]
+            },
+            "A5b": {
+              "candidate_minus_comparator_mean_net": 2.5159374999999953,
+              "episode_bootstrap_95ci": [
+                -4.369851562500001,
+                12.442449218749987
+              ]
+            },
+            "CONTROL_never_switch": {
+              "candidate_minus_comparator_mean_net": -495.92890625,
+              "episode_bootstrap_95ci": [
+                -563.41056640625,
+                -411.6155078125
+              ]
+            }
+          },
+          "lowest_mean_cost_certificate_port_descriptive": "gated_adaptive_range+front",
+          "certificate_port_mean_costs": {
+            "gated_deployment": 305.44765625,
+            "gated_adaptive_range": 177.43078125,
+            "gated_adaptive_range+front": 126.17187500000001,
+            "discern_style": 420.08640625,
+            "discern_design_floor": 179.5896875,
+            "SMCS+retain-incumbent": 145.08328125
+          }
+        }
+      }
+    },
+    "beijing_pm25": {
+      "episodes": 14,
+      "seeds_per_episode": 20,
+      "candidates": {
+        "H1": {
+          "mean_net": 652.0701785714285,
+          "mean_labels": 170.11785714285716,
+          "mean_promotion_rate": 0.34285714285714286,
+          "mean_detection_delay_promoted_only": 789.8240196078432,
+          "contrasts": {
+            "gated_deployment": {
+              "candidate_minus_comparator_mean_net": 19.23589285714285,
+              "episode_bootstrap_95ci": [
+                2.9625491071428467,
+                40.15501785714283
+              ]
+            },
+            "gated_adaptive_range": {
+              "candidate_minus_comparator_mean_net": 41.61999999999999,
+              "episode_bootstrap_95ci": [
+                15.88227678571428,
+                72.02035714285714
+              ]
+            },
+            "gated_adaptive_range+front": {
+              "candidate_minus_comparator_mean_net": 53.21303571428571,
+              "episode_bootstrap_95ci": [
+                13.689700892857157,
+                111.1882276785713
+              ]
+            },
+            "discern_style": {
+              "candidate_minus_comparator_mean_net": -15.173571428571446,
+              "episode_bootstrap_95ci": [
+                -58.82099107142862,
+                15.474321428571441
+              ]
+            },
+            "discern_design_floor": {
+              "candidate_minus_comparator_mean_net": 51.36857142857141,
+              "episode_bootstrap_95ci": [
+                13.748290178571434,
+                96.8736696428571
+              ]
+            },
+            "SMCS+retain-incumbent": {
+              "candidate_minus_comparator_mean_net": 70.79482142857142,
+              "episode_bootstrap_95ci": [
+                27.912732142857156,
+                119.4372053571426
+              ]
+            },
+            "xu_acquisition_only": {
+              "candidate_minus_comparator_mean_net": 63.31196428571427,
+              "episode_bootstrap_95ci": [
+                25.546205357142856,
+                106.43035714285705
+              ]
+            },
+            "choe_ramdas_eb+front": {
+              "candidate_minus_comparator_mean_net": 69.97017857142858,
+              "episode_bootstrap_95ci": [
+                16.10841964285717,
+                136.31844196428565
+              ]
+            },
+            "D2": {
+              "candidate_minus_comparator_mean_net": 104.19178571428567,
+              "episode_bootstrap_95ci": [
+                44.457058035714276,
+                171.58384821428575
+              ]
+            },
+            "A5b": {
+              "candidate_minus_comparator_mean_net": -4.410357142857151,
+              "episode_bootstrap_95ci": [
+                -20.66078125000002,
+                10.138089285714187
+              ]
+            },
+            "CONTROL_never_switch": {
+              "candidate_minus_comparator_mean_net": -12.501250000000008,
+              "episode_bootstrap_95ci": [
+                -55.360013392857184,
+                16.764857142857146
+              ]
+            }
+          },
+          "lowest_mean_cost_certificate_port_descriptive": "SMCS+retain-incumbent",
+          "certificate_port_mean_costs": {
+            "gated_deployment": 632.8342857142858,
+            "gated_adaptive_range": 610.4501785714284,
+            "gated_adaptive_range+front": 598.8571428571429,
+            "discern_style": 667.24375,
+            "discern_design_floor": 600.701607142857,
+            "SMCS+retain-incumbent": 581.2753571428572
+          }
+        },
+        "H2": {
+          "mean_net": 650.6491071428572,
+          "mean_labels": 96.26785714285714,
+          "mean_promotion_rate": 0.2642857142857143,
+          "mean_detection_delay_promoted_only": 1039.051797385621,
+          "contrasts": {
+            "gated_deployment": {
+              "candidate_minus_comparator_mean_net": 17.81482142857143,
+              "episode_bootstrap_95ci": [
+                -2.9380669642857384,
+                49.69459375000002
+              ]
+            },
+            "gated_adaptive_range": {
+              "candidate_minus_comparator_mean_net": 40.19892857142857,
+              "episode_bootstrap_95ci": [
+                10.013589285714264,
+                77.1872276785714
+              ]
+            },
+            "gated_adaptive_range+front": {
+              "candidate_minus_comparator_mean_net": 51.79196428571429,
+              "episode_bootstrap_95ci": [
+                7.754959821428535,
+                112.94189285714285
+              ]
+            },
+            "discern_style": {
+              "candidate_minus_comparator_mean_net": -16.594642857142865,
+              "episode_bootstrap_95ci": [
+                -54.403392857142876,
+                8.110223214285725
+              ]
+            },
+            "discern_design_floor": {
+              "candidate_minus_comparator_mean_net": 49.9475,
+              "episode_bootstrap_95ci": [
+                9.171959821428555,
+                97.68196875000001
+              ]
+            },
+            "SMCS+retain-incumbent": {
+              "candidate_minus_comparator_mean_net": 69.37375,
+              "episode_bootstrap_95ci": [
+                23.79791517857141,
+                121.02460267857145
+              ]
+            },
+            "xu_acquisition_only": {
+              "candidate_minus_comparator_mean_net": 61.890892857142845,
+              "episode_bootstrap_95ci": [
+                21.37734374999999,
+                108.73183482142856
+              ]
+            },
+            "choe_ramdas_eb+front": {
+              "candidate_minus_comparator_mean_net": 68.54910714285715,
+              "episode_bootstrap_95ci": [
+                12.168714285714273,
+                135.72415178571435
+              ]
+            },
+            "D2": {
+              "candidate_minus_comparator_mean_net": 102.77071428571428,
+              "episode_bootstrap_95ci": [
+                40.942325892857106,
+                172.98107142857128
+              ]
+            },
+            "A5b": {
+              "candidate_minus_comparator_mean_net": -5.83142857142857,
+              "episode_bootstrap_95ci": [
+                -11.673866071428572,
+                -1.345883928571435
+              ]
+            },
+            "CONTROL_never_switch": {
+              "candidate_minus_comparator_mean_net": -13.922321428571426,
+              "episode_bootstrap_95ci": [
+                -50.24538839285714,
+                5.978459821428566
+              ]
+            }
+          },
+          "lowest_mean_cost_certificate_port_descriptive": "SMCS+retain-incumbent",
+          "certificate_port_mean_costs": {
+            "gated_deployment": 632.8342857142858,
+            "gated_adaptive_range": 610.4501785714284,
+            "gated_adaptive_range+front": 598.8571428571429,
+            "discern_style": 667.24375,
+            "discern_design_floor": 600.701607142857,
+            "SMCS+retain-incumbent": 581.2753571428572
+          }
+        },
+        "H3": {
+          "mean_net": 650.3183928571427,
+          "mean_labels": 61.86785714285714,
+          "mean_promotion_rate": 0.24642857142857144,
+          "mean_detection_delay_promoted_only": 739.3026960784315,
+          "contrasts": {
+            "gated_deployment": {
+              "candidate_minus_comparator_mean_net": 17.484107142857123,
+              "episode_bootstrap_95ci": [
+                -5.002696428571451,
+                52.62313839285713
+              ]
+            },
+            "gated_adaptive_range": {
+              "candidate_minus_comparator_mean_net": 39.86821428571427,
+              "episode_bootstrap_95ci": [
+                7.804999999999966,
+                80.53025892857141
+              ]
+            },
+            "gated_adaptive_range+front": {
+              "candidate_minus_comparator_mean_net": 51.461249999999986,
+              "episode_bootstrap_95ci": [
+                5.819151785714279,
+                111.6244374999998
+              ]
+            },
+            "discern_style": {
+              "candidate_minus_comparator_mean_net": -16.92535714285717,
+              "episode_bootstrap_95ci": [
+                -54.9006830357143,
+                7.479549107142777
+              ]
+            },
+            "discern_design_floor": {
+              "candidate_minus_comparator_mean_net": 49.61678571428569,
+              "episode_bootstrap_95ci": [
+                7.112049107142841,
+                98.38822767857137
+              ]
+            },
+            "SMCS+retain-incumbent": {
+              "candidate_minus_comparator_mean_net": 69.0430357142857,
+              "episode_bootstrap_95ci": [
+                22.762415178571445,
+                121.20545982142839
+              ]
+            },
+            "xu_acquisition_only": {
+              "candidate_minus_comparator_mean_net": 61.560178571428544,
+              "episode_bootstrap_95ci": [
+                19.187700892857098,
+                108.94163839285706
+              ]
+            },
+            "choe_ramdas_eb+front": {
+              "candidate_minus_comparator_mean_net": 68.21839285714285,
+              "episode_bootstrap_95ci": [
+                10.580674107142821,
+                137.53415178571424
+              ]
+            },
+            "D2": {
+              "candidate_minus_comparator_mean_net": 102.43999999999996,
+              "episode_bootstrap_95ci": [
+                38.85899999999997,
+                173.70627678571424
+              ]
+            },
+            "A5b": {
+              "candidate_minus_comparator_mean_net": -6.162142857142876,
+              "episode_bootstrap_95ci": [
+                -12.173937500000024,
+                -1.3064196428571972
+              ]
+            },
+            "CONTROL_never_switch": {
+              "candidate_minus_comparator_mean_net": -14.253035714285732,
+              "episode_bootstrap_95ci": [
+                -50.23163839285715,
+                5.37339285714283
+              ]
+            }
+          },
+          "lowest_mean_cost_certificate_port_descriptive": "SMCS+retain-incumbent",
+          "certificate_port_mean_costs": {
+            "gated_deployment": 632.8342857142858,
+            "gated_adaptive_range": 610.4501785714284,
+            "gated_adaptive_range+front": 598.8571428571429,
+            "discern_style": 667.24375,
+            "discern_design_floor": 600.701607142857,
+            "SMCS+retain-incumbent": 581.2753571428572
+          }
+        },
+        "H4": {
+          "mean_net": 650.4441071428572,
+          "mean_labels": 92.09642857142856,
+          "mean_promotion_rate": 0.2535714285714286,
+          "mean_detection_delay_promoted_only": 1017.5990196078432,
+          "contrasts": {
+            "gated_deployment": {
+              "candidate_minus_comparator_mean_net": 17.60982142857145,
+              "episode_bootstrap_95ci": [
+                -3.1203705357142812,
+                50.015812499999996
+              ]
+            },
+            "gated_adaptive_range": {
+              "candidate_minus_comparator_mean_net": 39.99392857142859,
+              "episode_bootstrap_95ci": [
+                9.464080357142874,
+                77.15967410714285
+              ]
+            },
+            "gated_adaptive_range+front": {
+              "candidate_minus_comparator_mean_net": 51.586964285714316,
+              "episode_bootstrap_95ci": [
+                7.546575892857166,
+                112.92368303571425
+              ]
+            },
+            "discern_style": {
+              "candidate_minus_comparator_mean_net": -16.799642857142846,
+              "episode_bootstrap_95ci": [
+                -54.761482142857155,
+                7.889495535714287
+              ]
+            },
+            "discern_design_floor": {
+              "candidate_minus_comparator_mean_net": 49.742500000000014,
+              "episode_bootstrap_95ci": [
+                8.464660714285722,
+                97.518125
+              ]
+            },
+            "SMCS+retain-incumbent": {
+              "candidate_minus_comparator_mean_net": 69.16875000000002,
+              "episode_bootstrap_95ci": [
+                23.167129464285747,
+                121.24255803571431
+              ]
+            },
+            "xu_acquisition_only": {
+              "candidate_minus_comparator_mean_net": 61.68589285714286,
+              "episode_bootstrap_95ci": [
+                20.188781250000027,
+                108.73262946428571
+              ]
+            },
+            "choe_ramdas_eb+front": {
+              "candidate_minus_comparator_mean_net": 68.34410714285717,
+              "episode_bootstrap_95ci": [
+                12.44490178571432,
+                137.1894151785713
+              ]
+            },
+            "D2": {
+              "candidate_minus_comparator_mean_net": 102.5657142857143,
+              "episode_bootstrap_95ci": [
+                40.829183035714294,
+                173.07827678571405
+              ]
+            },
+            "A5b": {
+              "candidate_minus_comparator_mean_net": -6.036428571428551,
+              "episode_bootstrap_95ci": [
+                -11.785763392857115,
+                -1.5314241071428445
+              ]
+            },
+            "CONTROL_never_switch": {
+              "candidate_minus_comparator_mean_net": -14.127321428571406,
+              "episode_bootstrap_95ci": [
+                -50.2535714285714,
+                5.804303571428577
+              ]
+            }
+          },
+          "lowest_mean_cost_certificate_port_descriptive": "SMCS+retain-incumbent",
+          "certificate_port_mean_costs": {
+            "gated_deployment": 632.8342857142858,
+            "gated_adaptive_range": 610.4501785714284,
+            "gated_adaptive_range+front": 598.8571428571429,
+            "discern_style": 667.24375,
+            "discern_design_floor": 600.701607142857,
+            "SMCS+retain-incumbent": 581.2753571428572
+          }
+        },
+        "H5": {
+          "mean_net": 653.2928571428572,
+          "mean_labels": 116.35714285714288,
+          "mean_promotion_rate": 0.2214285714285714,
+          "mean_detection_delay_promoted_only": 1005.2316161616161,
+          "contrasts": {
+            "gated_deployment": {
+              "candidate_minus_comparator_mean_net": 20.458571428571435,
+              "episode_bootstrap_95ci": [
+                -1.5912500000000305,
+                54.152696428571474
+              ]
+            },
+            "gated_adaptive_range": {
+              "candidate_minus_comparator_mean_net": 42.84267857142857,
+              "episode_bootstrap_95ci": [
+                11.64561607142856,
+                80.67509821428573
+              ]
+            },
+            "gated_adaptive_range+front": {
+              "candidate_minus_comparator_mean_net": 54.4357142857143,
+              "episode_bootstrap_95ci": [
+                8.94743303571428,
+                115.82003124999987
+              ]
+            },
+            "discern_style": {
+              "candidate_minus_comparator_mean_net": -13.950892857142861,
+              "episode_bootstrap_95ci": [
+                -49.81858482142859,
+                9.031821428571414
+              ]
+            },
+            "discern_design_floor": {
+              "candidate_minus_comparator_mean_net": 52.591249999999995,
+              "episode_bootstrap_95ci": [
+                11.560374999999986,
+                100.13120982142848
+              ]
+            },
+            "SMCS+retain-incumbent": {
+              "candidate_minus_comparator_mean_net": 72.0175,
+              "episode_bootstrap_95ci": [
+                26.23320535714285,
+                124.25159821428564
+              ]
+            },
+            "xu_acquisition_only": {
+              "candidate_minus_comparator_mean_net": 64.53464285714286,
+              "episode_bootstrap_95ci": [
+                23.399223214285676,
+                111.78897767857143
+              ]
+            },
+            "choe_ramdas_eb+front": {
+              "candidate_minus_comparator_mean_net": 71.19285714285715,
+              "episode_bootstrap_95ci": [
+                14.814683035714284,
+                138.4529776785714
+              ]
+            },
+            "D2": {
+              "candidate_minus_comparator_mean_net": 105.41446428571427,
+              "episode_bootstrap_95ci": [
+                43.11342410714283,
+                177.13696874999997
+              ]
+            },
+            "A5b": {
+              "candidate_minus_comparator_mean_net": -3.187678571428567,
+              "episode_bootstrap_95ci": [
+                -8.443977678571406,
+                -0.165870535714303
+              ]
+            },
+            "CONTROL_never_switch": {
+              "candidate_minus_comparator_mean_net": -11.278571428571423,
+              "episode_bootstrap_95ci": [
+                -44.88470089285714,
+                6.726638392857149
+              ]
+            }
+          },
+          "lowest_mean_cost_certificate_port_descriptive": "SMCS+retain-incumbent",
+          "certificate_port_mean_costs": {
+            "gated_deployment": 632.8342857142858,
+            "gated_adaptive_range": 610.4501785714284,
+            "gated_adaptive_range+front": 598.8571428571429,
+            "discern_style": 667.24375,
+            "discern_design_floor": 600.701607142857,
+            "SMCS+retain-incumbent": 581.2753571428572
+          }
+        },
+        "H6-r10": {
+          "mean_net": 653.282142857143,
+          "mean_labels": 116.14285714285715,
+          "mean_promotion_rate": 0.2214285714285714,
+          "mean_detection_delay_promoted_only": 1005.2316161616161,
+          "contrasts": {
+            "gated_deployment": {
+              "candidate_minus_comparator_mean_net": 20.44785714285715,
+              "episode_bootstrap_95ci": [
+                -1.543044642857169,
+                53.70008035714288
+              ]
+            },
+            "gated_adaptive_range": {
+              "candidate_minus_comparator_mean_net": 42.8319642857143,
+              "episode_bootstrap_95ci": [
+                11.858151785714265,
+                79.93432142857145
+              ]
+            },
+            "gated_adaptive_range+front": {
+              "candidate_minus_comparator_mean_net": 54.42500000000001,
+              "episode_bootstrap_95ci": [
+                9.423419642857136,
+                115.7956875
+              ]
+            },
+            "discern_style": {
+              "candidate_minus_comparator_mean_net": -13.961607142857146,
+              "episode_bootstrap_95ci": [
+                -49.5010848214286,
+                8.975433035714282
+              ]
+            },
+            "discern_design_floor": {
+              "candidate_minus_comparator_mean_net": 52.58053571428571,
+              "episode_bootstrap_95ci": [
+                11.641196428571414,
+                99.21065624999999
+              ]
+            },
+            "SMCS+retain-incumbent": {
+              "candidate_minus_comparator_mean_net": 72.00678571428571,
+              "episode_bootstrap_95ci": [
+                26.054901785714275,
+                124.63297767857142
+              ]
+            },
+            "xu_acquisition_only": {
+              "candidate_minus_comparator_mean_net": 64.52392857142857,
+              "episode_bootstrap_95ci": [
+                23.743937499999998,
+                111.44004017857141
+              ]
+            },
+            "choe_ramdas_eb+front": {
+              "candidate_minus_comparator_mean_net": 71.18214285714286,
+              "episode_bootstrap_95ci": [
+                14.644441964285708,
+                138.36004464285713
+              ]
+            },
+            "D2": {
+              "candidate_minus_comparator_mean_net": 105.40375000000002,
+              "episode_bootstrap_95ci": [
+                43.46448214285713,
+                175.65749553571425
+              ]
+            },
+            "A5b": {
+              "candidate_minus_comparator_mean_net": -3.1983928571428515,
+              "episode_bootstrap_95ci": [
+                -8.472553571428564,
+                -0.1513973214285744
+              ]
+            },
+            "CONTROL_never_switch": {
+              "candidate_minus_comparator_mean_net": -11.289285714285707,
+              "episode_bootstrap_95ci": [
+                -44.73230357142856,
+                6.69179464285715
+              ]
+            }
+          },
+          "lowest_mean_cost_certificate_port_descriptive": "SMCS+retain-incumbent",
+          "certificate_port_mean_costs": {
+            "gated_deployment": 632.8342857142858,
+            "gated_adaptive_range": 610.4501785714284,
+            "gated_adaptive_range+front": 598.8571428571429,
+            "discern_style": 667.24375,
+            "discern_design_floor": 600.701607142857,
+            "SMCS+retain-incumbent": 581.2753571428572
+          }
+        }
+      }
+    },
+    "bike_hour": {
+      "episodes": 6,
+      "seeds_per_episode": 20,
+      "candidates": {
+        "H1": {
+          "mean_net": 361.3808333333333,
+          "mean_labels": 132.95000000000002,
+          "mean_promotion_rate": 0.6666666666666666,
+          "mean_detection_delay_promoted_only": 402.2125,
+          "contrasts": {
+            "gated_deployment": {
+              "candidate_minus_comparator_mean_net": -41.676666666666655,
+              "episode_bootstrap_95ci": [
+                -100.16499999999996,
+                12.50166666666666
+              ]
+            },
+            "gated_adaptive_range": {
+              "candidate_minus_comparator_mean_net": 36.48500000000001,
+              "episode_bootstrap_95ci": [
+                -13.865833333333347,
+                88.08166666666669
+              ]
+            },
+            "gated_adaptive_range+front": {
+              "candidate_minus_comparator_mean_net": 95.75583333333334,
+              "episode_bootstrap_95ci": [
+                40.50416666666667,
+                155.92958333333334
+              ]
+            },
+            "discern_style": {
+              "candidate_minus_comparator_mean_net": -140.80708333333334,
+              "episode_bootstrap_95ci": [
+                -226.98583333333332,
+                -54.62083333333336
+              ]
+            },
+            "discern_design_floor": {
+              "candidate_minus_comparator_mean_net": 44.95041666666666,
+              "episode_bootstrap_95ci": [
+                -9.793750000000003,
+                104.63958333333335
+              ]
+            },
+            "SMCS+retain-incumbent": {
+              "candidate_minus_comparator_mean_net": 77.84125000000002,
+              "episode_bootstrap_95ci": [
+                24.92583333333333,
+                135.45041666666665
+              ]
+            },
+            "xu_acquisition_only": {
+              "candidate_minus_comparator_mean_net": 69.21791666666665,
+              "episode_bootstrap_95ci": [
+                18.30249999999999,
+                124.72958333333334
+              ]
+            },
+            "choe_ramdas_eb+front": {
+              "candidate_minus_comparator_mean_net": 98.36416666666666,
+              "episode_bootstrap_95ci": [
+                42.65125,
+                158.84166666666664
+              ]
+            },
+            "D2": {
+              "candidate_minus_comparator_mean_net": 105.78249999999998,
+              "episode_bootstrap_95ci": [
+                45.84625,
+                171.35541666666666
+              ]
+            },
+            "A5b": {
+              "candidate_minus_comparator_mean_net": 16.59541666666666,
+              "episode_bootstrap_95ci": [
+                -7.668333333333341,
+                53.41541666666666
+              ]
+            },
+            "CONTROL_never_switch": {
+              "candidate_minus_comparator_mean_net": -191.45250000000001,
+              "episode_bootstrap_95ci": [
+                -310.7679166666666,
+                -72.13708333333334
+              ]
+            }
+          },
+          "lowest_mean_cost_certificate_port_descriptive": "gated_adaptive_range+front",
+          "certificate_port_mean_costs": {
+            "gated_deployment": 403.05749999999995,
+            "gated_adaptive_range": 324.8958333333333,
+            "gated_adaptive_range+front": 265.625,
+            "discern_style": 502.1879166666666,
+            "discern_design_floor": 316.43041666666664,
+            "SMCS+retain-incumbent": 283.53958333333327
+          }
+        },
+        "H2": {
+          "mean_net": 338.8879166666666,
+          "mean_labels": 106.425,
+          "mean_promotion_rate": 0.9083333333333333,
+          "mean_detection_delay_promoted_only": 576.3962962962963,
+          "contrasts": {
+            "gated_deployment": {
+              "candidate_minus_comparator_mean_net": -64.16958333333334,
+              "episode_bootstrap_95ci": [
+                -110.97041666666667,
+                -16.439166666666704
+              ]
+            },
+            "gated_adaptive_range": {
+              "candidate_minus_comparator_mean_net": 13.992083333333326,
+              "episode_bootstrap_95ci": [
+                -19.66250000000001,
+                53.80041666666667
+              ]
+            },
+            "gated_adaptive_range+front": {
+              "candidate_minus_comparator_mean_net": 73.26291666666665,
+              "episode_bootstrap_95ci": [
+                33.11666666666667,
+                111.40750000000003
+              ]
+            },
+            "discern_style": {
+              "candidate_minus_comparator_mean_net": -163.3,
+              "episode_bootstrap_95ci": [
+                -231.84541666666667,
+                -90.86833333333335
+              ]
+            },
+            "discern_design_floor": {
+              "candidate_minus_comparator_mean_net": 22.457499999999985,
+              "episode_bootstrap_95ci": [
+                -16.681250000000002,
+                61.762916666666676
+              ]
+            },
+            "SMCS+retain-incumbent": {
+              "candidate_minus_comparator_mean_net": 55.34833333333332,
+              "episode_bootstrap_95ci": [
+                17.925479166666662,
+                93.09708333333333
+              ]
+            },
+            "xu_acquisition_only": {
+              "candidate_minus_comparator_mean_net": 46.72499999999999,
+              "episode_bootstrap_95ci": [
+                10.36499999999999,
+                82.81583333333334
+              ]
+            },
+            "choe_ramdas_eb+front": {
+              "candidate_minus_comparator_mean_net": 75.87124999999997,
+              "episode_bootstrap_95ci": [
+                36.10833333333331,
+                114.34624999999994
+              ]
+            },
+            "D2": {
+              "candidate_minus_comparator_mean_net": 83.28958333333331,
+              "episode_bootstrap_95ci": [
+                39.215833333333315,
+                125.32499999999997
+              ]
+            },
+            "A5b": {
+              "candidate_minus_comparator_mean_net": -5.897500000000022,
+              "episode_bootstrap_95ci": [
+                -12.187500000000009,
+                0.8658333333333038
+              ]
+            },
+            "CONTROL_never_switch": {
+              "candidate_minus_comparator_mean_net": -213.9454166666667,
+              "episode_bootstrap_95ci": [
+                -318.15708333333333,
+                -105.10125000000001
+              ]
+            }
+          },
+          "lowest_mean_cost_certificate_port_descriptive": "gated_adaptive_range+front",
+          "certificate_port_mean_costs": {
+            "gated_deployment": 403.05749999999995,
+            "gated_adaptive_range": 324.8958333333333,
+            "gated_adaptive_range+front": 265.625,
+            "discern_style": 502.1879166666666,
+            "discern_design_floor": 316.43041666666664,
+            "SMCS+retain-incumbent": 283.53958333333327
+          }
+        },
+        "H3": {
+          "mean_net": 338.7208333333333,
+          "mean_labels": 103.58333333333333,
+          "mean_promotion_rate": 0.9083333333333333,
+          "mean_detection_delay_promoted_only": 576.6,
+          "contrasts": {
+            "gated_deployment": {
+              "candidate_minus_comparator_mean_net": -64.33666666666667,
+              "episode_bootstrap_95ci": [
+                -110.97041666666667,
+                -17.702916666666685
+              ]
+            },
+            "gated_adaptive_range": {
+              "candidate_minus_comparator_mean_net": 13.824999999999994,
+              "episode_bootstrap_95ci": [
+                -19.66250000000001,
+                53.680416666666666
+              ]
+            },
+            "gated_adaptive_range+front": {
+              "candidate_minus_comparator_mean_net": 73.09583333333332,
+              "episode_bootstrap_95ci": [
+                32.94958333333333,
+                111.1791666666666
+              ]
+            },
+            "discern_style": {
+              "candidate_minus_comparator_mean_net": -163.46708333333333,
+              "episode_bootstrap_95ci": [
+                -233.30875000000003,
+                -91.01666666666672
+              ]
+            },
+            "discern_design_floor": {
+              "candidate_minus_comparator_mean_net": 22.290416666666655,
+              "episode_bootstrap_95ci": [
+                -16.748750000000015,
+                61.162916666666625
+              ]
+            },
+            "SMCS+retain-incumbent": {
+              "candidate_minus_comparator_mean_net": 55.181249999999984,
+              "episode_bootstrap_95ci": [
+                16.58416666666665,
+                92.72041666666665
+              ]
+            },
+            "xu_acquisition_only": {
+              "candidate_minus_comparator_mean_net": 46.55791666666664,
+              "episode_bootstrap_95ci": [
+                10.197916666666657,
+                82.81583333333334
+              ]
+            },
+            "choe_ramdas_eb+front": {
+              "candidate_minus_comparator_mean_net": 75.70416666666664,
+              "episode_bootstrap_95ci": [
+                36.814583333333324,
+                114.22333333333334
+              ]
+            },
+            "D2": {
+              "candidate_minus_comparator_mean_net": 83.12249999999999,
+              "episode_bootstrap_95ci": [
+                39.215833333333315,
+                125.15791666666662
+              ]
+            },
+            "A5b": {
+              "candidate_minus_comparator_mean_net": -6.064583333333355,
+              "episode_bootstrap_95ci": [
+                -12.290833333333367,
+                0.4854166666666231
+              ]
+            },
+            "CONTROL_never_switch": {
+              "candidate_minus_comparator_mean_net": -214.11249999999998,
+              "episode_bootstrap_95ci": [
+                -313.56916666666666,
+                -108.32458333333336
+              ]
+            }
+          },
+          "lowest_mean_cost_certificate_port_descriptive": "gated_adaptive_range+front",
+          "certificate_port_mean_costs": {
+            "gated_deployment": 403.05749999999995,
+            "gated_adaptive_range": 324.8958333333333,
+            "gated_adaptive_range+front": 265.625,
+            "discern_style": 502.1879166666666,
+            "discern_design_floor": 316.43041666666664,
+            "SMCS+retain-incumbent": 283.53958333333327
+          }
+        },
+        "H4": {
+          "mean_net": 333.40624999999994,
+          "mean_labels": 99.29166666666667,
+          "mean_promotion_rate": 0.9083333333333333,
+          "mean_detection_delay_promoted_only": 556.3546296296296,
+          "contrasts": {
+            "gated_deployment": {
+              "candidate_minus_comparator_mean_net": -69.65124999999999,
+              "episode_bootstrap_95ci": [
+                -111.23625,
+                -28.432916666666685
+              ]
+            },
+            "gated_adaptive_range": {
+              "candidate_minus_comparator_mean_net": 8.510416666666663,
+              "episode_bootstrap_95ci": [
+                -19.61208333333334,
+                37.51666666666666
+              ]
+            },
+            "gated_adaptive_range+front": {
+              "candidate_minus_comparator_mean_net": 67.78124999999999,
+              "episode_bootstrap_95ci": [
+                32.292083333333316,
+                100.37041666666666
+              ]
+            },
+            "discern_style": {
+              "candidate_minus_comparator_mean_net": -168.78166666666667,
+              "episode_bootstrap_95ci": [
+                -235.20333333333335,
+                -94.63333333333337
+              ]
+            },
+            "discern_design_floor": {
+              "candidate_minus_comparator_mean_net": 16.975833333333323,
+              "episode_bootstrap_95ci": [
+                -16.98166666666667,
+                48.302083333333314
+              ]
+            },
+            "SMCS+retain-incumbent": {
+              "candidate_minus_comparator_mean_net": 49.86666666666665,
+              "episode_bootstrap_95ci": [
+                16.63458333333332,
+                80.71625
+              ]
+            },
+            "xu_acquisition_only": {
+              "candidate_minus_comparator_mean_net": 41.24333333333332,
+              "episode_bootstrap_95ci": [
+                10.211249999999993,
+                69.75340624999994
+              ]
+            },
+            "choe_ramdas_eb+front": {
+              "candidate_minus_comparator_mean_net": 70.3895833333333,
+              "episode_bootstrap_95ci": [
+                36.96583333333333,
+                102.96208333333333
+              ]
+            },
+            "D2": {
+              "candidate_minus_comparator_mean_net": 77.80791666666666,
+              "episode_bootstrap_95ci": [
+                38.717916666666646,
+                114.32624999999996
+              ]
+            },
+            "A5b": {
+              "candidate_minus_comparator_mean_net": -11.379166666666686,
+              "episode_bootstrap_95ci": [
+                -22.33083333333335,
+                -1.380833333333366
+              ]
+            },
+            "CONTROL_never_switch": {
+              "candidate_minus_comparator_mean_net": -219.42708333333337,
+              "episode_bootstrap_95ci": [
+                -319.2966666666667,
+                -107.7091666666667
+              ]
+            }
+          },
+          "lowest_mean_cost_certificate_port_descriptive": "gated_adaptive_range+front",
+          "certificate_port_mean_costs": {
+            "gated_deployment": 403.05749999999995,
+            "gated_adaptive_range": 324.8958333333333,
+            "gated_adaptive_range+front": 265.625,
+            "discern_style": 502.1879166666666,
+            "discern_design_floor": 316.43041666666664,
+            "SMCS+retain-incumbent": 283.53958333333327
+          }
+        },
+        "H5": {
+          "mean_net": 348.45624999999995,
+          "mean_labels": 196.95833333333334,
+          "mean_promotion_rate": 0.875,
+          "mean_detection_delay_promoted_only": 600.6916666666666,
+          "contrasts": {
+            "gated_deployment": {
+              "candidate_minus_comparator_mean_net": -54.601250000000014,
+              "episode_bootstrap_95ci": [
+                -98.33249999999998,
+                -10.275000000000034
+              ]
+            },
+            "gated_adaptive_range": {
+              "candidate_minus_comparator_mean_net": 23.560416666666658,
+              "episode_bootstrap_95ci": [
+                -7.864166666666681,
+                59.50458333333332
+              ]
+            },
+            "gated_adaptive_range+front": {
+              "candidate_minus_comparator_mean_net": 82.83124999999998,
+              "episode_bootstrap_95ci": [
+                44.864583333333336,
+                118.32291666666667
+              ]
+            },
+            "discern_style": {
+              "candidate_minus_comparator_mean_net": -153.73166666666668,
+              "episode_bootstrap_95ci": [
+                -220.89208333333332,
+                -84.67068750000296
+              ]
+            },
+            "discern_design_floor": {
+              "candidate_minus_comparator_mean_net": 32.02583333333332,
+              "episode_bootstrap_95ci": [
+                -5.246250000000008,
+                67.82666666666664
+              ]
+            },
+            "SMCS+retain-incumbent": {
+              "candidate_minus_comparator_mean_net": 64.91666666666666,
+              "episode_bootstrap_95ci": [
+                29.000833333333322,
+                99.34833333333331
+              ]
+            },
+            "xu_acquisition_only": {
+              "candidate_minus_comparator_mean_net": 56.293333333333315,
+              "episode_bootstrap_95ci": [
+                22.87874999999998,
+                88.65124999999999
+              ]
+            },
+            "choe_ramdas_eb+front": {
+              "candidate_minus_comparator_mean_net": 85.4395833333333,
+              "episode_bootstrap_95ci": [
+                48.52499999999998,
+                121.50208333333332
+              ]
+            },
+            "D2": {
+              "candidate_minus_comparator_mean_net": 92.85791666666665,
+              "episode_bootstrap_95ci": [
+                51.28416666666666,
+                132.91374999999996
+              ]
+            },
+            "A5b": {
+              "candidate_minus_comparator_mean_net": 3.6708333333333107,
+              "episode_bootstrap_95ci": [
+                -0.6120833333333545,
+                9.189583333333298
+              ]
+            },
+            "CONTROL_never_switch": {
+              "candidate_minus_comparator_mean_net": -204.3770833333333,
+              "episode_bootstrap_95ci": [
+                -302.425,
+                -98.27500000000002
+              ]
+            }
+          },
+          "lowest_mean_cost_certificate_port_descriptive": "gated_adaptive_range+front",
+          "certificate_port_mean_costs": {
+            "gated_deployment": 403.05749999999995,
+            "gated_adaptive_range": 324.8958333333333,
+            "gated_adaptive_range+front": 265.625,
+            "discern_style": 502.1879166666666,
+            "discern_design_floor": 316.43041666666664,
+            "SMCS+retain-incumbent": 283.53958333333327
+          }
+        },
+        "H6-r10": {
+          "mean_net": 348.36458333333326,
+          "mean_labels": 195.125,
+          "mean_promotion_rate": 0.875,
+          "mean_detection_delay_promoted_only": 600.6916666666666,
+          "contrasts": {
+            "gated_deployment": {
+              "candidate_minus_comparator_mean_net": -54.69291666666667,
+              "episode_bootstrap_95ci": [
+                -98.33249999999998,
+                -10.458333333333352
+              ]
+            },
+            "gated_adaptive_range": {
+              "candidate_minus_comparator_mean_net": 23.46875,
+              "episode_bootstrap_95ci": [
+                -7.955833333333341,
+                59.41291666666666
+              ]
+            },
+            "gated_adaptive_range+front": {
+              "candidate_minus_comparator_mean_net": 82.73958333333333,
+              "episode_bootstrap_95ci": [
+                44.77005208333334,
+                118.2354166666667
+              ]
+            },
+            "discern_style": {
+              "candidate_minus_comparator_mean_net": -153.82333333333335,
+              "episode_bootstrap_95ci": [
+                -218.4595833333333,
+                -83.64000000000003
+              ]
+            },
+            "discern_design_floor": {
+              "candidate_minus_comparator_mean_net": 31.93416666666666,
+              "episode_bootstrap_95ci": [
+                -4.332083333333344,
+                67.82666666666665
+              ]
+            },
+            "SMCS+retain-incumbent": {
+              "candidate_minus_comparator_mean_net": 64.825,
+              "episode_bootstrap_95ci": [
+                29.607499999999998,
+                99.07333333333334
+              ]
+            },
+            "xu_acquisition_only": {
+              "candidate_minus_comparator_mean_net": 56.201666666666654,
+              "episode_bootstrap_95ci": [
+                22.87874999999998,
+                90.30708333333332
+              ]
+            },
+            "choe_ramdas_eb+front": {
+              "candidate_minus_comparator_mean_net": 85.34791666666665,
+              "episode_bootstrap_95ci": [
+                48.52499999999998,
+                121.22708333333334
+              ]
+            },
+            "D2": {
+              "candidate_minus_comparator_mean_net": 92.76625,
+              "episode_bootstrap_95ci": [
+                51.284166666666636,
+                132.82208333333332
+              ]
+            },
+            "A5b": {
+              "candidate_minus_comparator_mean_net": 3.5791666666666515,
+              "episode_bootstrap_95ci": [
+                -0.6120833333333545,
+                8.463333333333333
+              ]
+            },
+            "CONTROL_never_switch": {
+              "candidate_minus_comparator_mean_net": -204.46875,
+              "episode_bootstrap_95ci": [
+                -302.24166666666673,
+                -95.69583333333334
+              ]
+            }
+          },
+          "lowest_mean_cost_certificate_port_descriptive": "gated_adaptive_range+front",
+          "certificate_port_mean_costs": {
+            "gated_deployment": 403.05749999999995,
+            "gated_adaptive_range": 324.8958333333333,
+            "gated_adaptive_range+front": 265.625,
+            "discern_style": 502.1879166666666,
+            "discern_design_floor": 316.43041666666664,
+            "SMCS+retain-incumbent": 283.53958333333327
+          }
+        }
+      }
+    },
+    "appliances": {
+      "episodes": 6,
+      "seeds_per_episode": 20,
+      "candidates": {
+        "H1": {
+          "mean_net": 766.1075,
+          "mean_labels": 192.48333333333332,
+          "mean_promotion_rate": 0.21666666666666667,
+          "mean_detection_delay_promoted_only": 332.5375,
+          "contrasts": {
+            "gated_deployment": {
+              "candidate_minus_comparator_mean_net": -8.515416666666681,
+              "episode_bootstrap_95ci": [
+                -25.38916666666673,
+                8.829583333333366
+              ]
+            },
+            "gated_adaptive_range": {
+              "candidate_minus_comparator_mean_net": 77.32624999999997,
+              "episode_bootstrap_95ci": [
+                19.427499999999952,
+                137.03499999999997
+              ]
+            },
+            "gated_adaptive_range+front": {
+              "candidate_minus_comparator_mean_net": 191.30749999999998,
+              "episode_bootstrap_95ci": [
+                122.83500000000002,
+                257.84625
+              ]
+            },
+            "discern_style": {
+              "candidate_minus_comparator_mean_net": -37.302916666666725,
+              "episode_bootstrap_95ci": [
+                -79.69625000000003,
+                -4.133333333333401
+              ]
+            },
+            "discern_design_floor": {
+              "candidate_minus_comparator_mean_net": 86.79499999999996,
+              "episode_bootstrap_95ci": [
+                24.486666666666604,
+                156.8191666666666
+              ]
+            },
+            "SMCS+retain-incumbent": {
+              "candidate_minus_comparator_mean_net": 134.17583333333332,
+              "episode_bootstrap_95ci": [
+                68.87208333333332,
+                198.91333333333333
+              ]
+            },
+            "xu_acquisition_only": {
+              "candidate_minus_comparator_mean_net": 64.15791666666667,
+              "episode_bootstrap_95ci": [
+                -0.4733333333333197,
+                133.55208333333331
+              ]
+            },
+            "choe_ramdas_eb+front": {
+              "candidate_minus_comparator_mean_net": 192.07416666666663,
+              "episode_bootstrap_95ci": [
+                121.98624999999994,
+                257.5045833333333
+              ]
+            },
+            "D2": {
+              "candidate_minus_comparator_mean_net": 191.62125,
+              "episode_bootstrap_95ci": [
+                123.2270833333334,
+                255.70208333333326
+              ]
+            },
+            "A5b": {
+              "candidate_minus_comparator_mean_net": -65.2591666666667,
+              "episode_bootstrap_95ci": [
+                -177.99,
+                -2.0625
+              ]
+            },
+            "CONTROL_never_switch": {
+              "candidate_minus_comparator_mean_net": -55.725833333333355,
+              "episode_bootstrap_95ci": [
+                -168.12333333333336,
+                7.270833333333333
+              ]
+            }
+          },
+          "lowest_mean_cost_certificate_port_descriptive": "gated_adaptive_range+front",
+          "certificate_port_mean_costs": {
+            "gated_deployment": 774.6229166666666,
+            "gated_adaptive_range": 688.78125,
+            "gated_adaptive_range+front": 574.8,
+            "discern_style": 803.4104166666667,
+            "discern_design_floor": 679.3125,
+            "SMCS+retain-incumbent": 631.9316666666667
+          }
+        },
+        "H2": {
+          "mean_net": 769.1179166666666,
+          "mean_labels": 173.025,
+          "mean_promotion_rate": 0.21666666666666667,
+          "mean_detection_delay_promoted_only": 638.3052631578947,
+          "contrasts": {
+            "gated_deployment": {
+              "candidate_minus_comparator_mean_net": -5.5049999999999955,
+              "episode_bootstrap_95ci": [
+                -21.355416666666674,
+                10.345416666666685
+              ]
+            },
+            "gated_adaptive_range": {
+              "candidate_minus_comparator_mean_net": 80.33666666666666,
+              "episode_bootstrap_95ci": [
+                20.049166666666622,
+                137.95833333333334
+              ]
+            },
+            "gated_adaptive_range+front": {
+              "candidate_minus_comparator_mean_net": 194.31791666666666,
+              "episode_bootstrap_95ci": [
+                127.05166666666666,
+                255.80791666666667
+              ]
+            },
+            "discern_style": {
+              "candidate_minus_comparator_mean_net": -34.29250000000004,
+              "episode_bootstrap_95ci": [
+                -67.57708333333335,
+                -5.915000000000059
+              ]
+            },
+            "discern_design_floor": {
+              "candidate_minus_comparator_mean_net": 89.80541666666664,
+              "episode_bootstrap_95ci": [
+                25.768062499999996,
+                162.54708333333335
+              ]
+            },
+            "SMCS+retain-incumbent": {
+              "candidate_minus_comparator_mean_net": 137.18625,
+              "episode_bootstrap_95ci": [
+                71.89750000000004,
+                201.87583333333336
+              ]
+            },
+            "xu_acquisition_only": {
+              "candidate_minus_comparator_mean_net": 67.16833333333335,
+              "episode_bootstrap_95ci": [
+                4.161177083333375,
+                135.3033333333333
+              ]
+            },
+            "choe_ramdas_eb+front": {
+              "candidate_minus_comparator_mean_net": 195.0845833333333,
+              "episode_bootstrap_95ci": [
+                129.26041666666666,
+                256.1747187499985
+              ]
+            },
+            "D2": {
+              "candidate_minus_comparator_mean_net": 194.63166666666666,
+              "episode_bootstrap_95ci": [
+                127.07333333333337,
+                254.4125
+              ]
+            },
+            "A5b": {
+              "candidate_minus_comparator_mean_net": -62.24875000000001,
+              "episode_bootstrap_95ci": [
+                -165.55791666666667,
+                -4.214583333333337
+              ]
+            },
+            "CONTROL_never_switch": {
+              "candidate_minus_comparator_mean_net": -52.71541666666667,
+              "episode_bootstrap_95ci": [
+                -155.69125,
+                5.110833333333328
+              ]
+            }
+          },
+          "lowest_mean_cost_certificate_port_descriptive": "gated_adaptive_range+front",
+          "certificate_port_mean_costs": {
+            "gated_deployment": 774.6229166666666,
+            "gated_adaptive_range": 688.78125,
+            "gated_adaptive_range+front": 574.8,
+            "discern_style": 803.4104166666667,
+            "discern_design_floor": 679.3125,
+            "SMCS+retain-incumbent": 631.9316666666667
+          }
+        },
+        "H3": {
+          "mean_net": 765.8883333333333,
+          "mean_labels": 144.76666666666668,
+          "mean_promotion_rate": 0.2333333333333333,
+          "mean_detection_delay_promoted_only": 583.7333333333333,
+          "contrasts": {
+            "gated_deployment": {
+              "candidate_minus_comparator_mean_net": -8.734583333333338,
+              "episode_bootstrap_95ci": [
+                -24.972500000000007,
+                7.025833333333367
+              ]
+            },
+            "gated_adaptive_range": {
+              "candidate_minus_comparator_mean_net": 77.10708333333332,
+              "episode_bootstrap_95ci": [
+                17.302916666666647,
+                135.10625
+              ]
+            },
+            "gated_adaptive_range+front": {
+              "candidate_minus_comparator_mean_net": 191.08833333333334,
+              "episode_bootstrap_95ci": [
+                126.01583333333333,
+                249.08916666666664
+              ]
+            },
+            "discern_style": {
+              "candidate_minus_comparator_mean_net": -37.52208333333338,
+              "episode_bootstrap_95ci": [
+                -66.22000000000004,
+                -11.728687500000133
+              ]
+            },
+            "discern_design_floor": {
+              "candidate_minus_comparator_mean_net": 86.5758333333333,
+              "episode_bootstrap_95ci": [
+                24.181249999999995,
+                158.62083333333328
+              ]
+            },
+            "SMCS+retain-incumbent": {
+              "candidate_minus_comparator_mean_net": 133.95666666666668,
+              "episode_bootstrap_95ci": [
+                70.99208333333335,
+                196.46374999999998
+              ]
+            },
+            "xu_acquisition_only": {
+              "candidate_minus_comparator_mean_net": 63.938750000000006,
+              "episode_bootstrap_95ci": [
+                1.935416666666697,
+                132.11166666666665
+              ]
+            },
+            "choe_ramdas_eb+front": {
+              "candidate_minus_comparator_mean_net": 191.855,
+              "episode_bootstrap_95ci": [
+                126.4708333333333,
+                249.51666666666665
+              ]
+            },
+            "D2": {
+              "candidate_minus_comparator_mean_net": 191.4020833333333,
+              "episode_bootstrap_95ci": [
+                126.46541666666668,
+                248.11541666666662
+              ]
+            },
+            "A5b": {
+              "candidate_minus_comparator_mean_net": -65.47833333333335,
+              "episode_bootstrap_95ci": [
+                -165.84416666666672,
+                -8.938333333333333
+              ]
+            },
+            "CONTROL_never_switch": {
+              "candidate_minus_comparator_mean_net": -55.945000000000014,
+              "episode_bootstrap_95ci": [
+                -156.31083333333336,
+                0.65625
+              ]
+            }
+          },
+          "lowest_mean_cost_certificate_port_descriptive": "gated_adaptive_range+front",
+          "certificate_port_mean_costs": {
+            "gated_deployment": 774.6229166666666,
+            "gated_adaptive_range": 688.78125,
+            "gated_adaptive_range+front": 574.8,
+            "discern_style": 803.4104166666667,
+            "discern_design_floor": 679.3125,
+            "SMCS+retain-incumbent": 631.9316666666667
+          }
+        },
+        "H4": {
+          "mean_net": 764.4708333333334,
+          "mean_labels": 150.41666666666666,
+          "mean_promotion_rate": 0.21666666666666667,
+          "mean_detection_delay_promoted_only": 694.7375,
+          "contrasts": {
+            "gated_deployment": {
+              "candidate_minus_comparator_mean_net": -10.152083333333318,
+              "episode_bootstrap_95ci": [
+                -26.580833333333374,
+                7.73750000000005
+              ]
+            },
+            "gated_adaptive_range": {
+              "candidate_minus_comparator_mean_net": 75.68958333333335,
+              "episode_bootstrap_95ci": [
+                17.589999999999975,
+                133.50333333333336
+              ]
+            },
+            "gated_adaptive_range+front": {
+              "candidate_minus_comparator_mean_net": 189.67083333333335,
+              "episode_bootstrap_95ci": [
+                122.11874999999999,
+                254.70500000000007
+              ]
+            },
+            "discern_style": {
+              "candidate_minus_comparator_mean_net": -38.93958333333336,
+              "episode_bootstrap_95ci": [
+                -77.49345833333335,
+                -6.085833333333369
+              ]
+            },
+            "discern_design_floor": {
+              "candidate_minus_comparator_mean_net": 85.15833333333332,
+              "episode_bootstrap_95ci": [
+                23.247499999999963,
+                157.97125
+              ]
+            },
+            "SMCS+retain-incumbent": {
+              "candidate_minus_comparator_mean_net": 132.5391666666667,
+              "episode_bootstrap_95ci": [
+                67.55916666666667,
+                197.5191666666667
+              ]
+            },
+            "xu_acquisition_only": {
+              "candidate_minus_comparator_mean_net": 62.52125000000003,
+              "episode_bootstrap_95ci": [
+                -2.350833333333336,
+                130.02565624999485
+              ]
+            },
+            "choe_ramdas_eb+front": {
+              "candidate_minus_comparator_mean_net": 190.4375,
+              "episode_bootstrap_95ci": [
+                123.58666666666669,
+                253.79875000000004
+              ]
+            },
+            "D2": {
+              "candidate_minus_comparator_mean_net": 189.98458333333338,
+              "episode_bootstrap_95ci": [
+                122.56791666666669,
+                251.99625
+              ]
+            },
+            "A5b": {
+              "candidate_minus_comparator_mean_net": -66.89583333333333,
+              "episode_bootstrap_95ci": [
+                -178.69458333333333,
+                -4.555416666666626
+              ]
+            },
+            "CONTROL_never_switch": {
+              "candidate_minus_comparator_mean_net": -57.36249999999999,
+              "episode_bootstrap_95ci": [
+                -169.12708333333333,
+                4.897916666666693
+              ]
+            }
+          },
+          "lowest_mean_cost_certificate_port_descriptive": "gated_adaptive_range+front",
+          "certificate_port_mean_costs": {
+            "gated_deployment": 774.6229166666666,
+            "gated_adaptive_range": 688.78125,
+            "gated_adaptive_range+front": 574.8,
+            "discern_style": 803.4104166666667,
+            "discern_design_floor": 679.3125,
+            "SMCS+retain-incumbent": 631.9316666666667
+          }
+        },
+        "H5": {
+          "mean_net": 799.32125,
+          "mean_labels": 180.5916666666667,
+          "mean_promotion_rate": 0.09999999999999999,
+          "mean_detection_delay_promoted_only": 370.55,
+          "contrasts": {
+            "gated_deployment": {
+              "candidate_minus_comparator_mean_net": 24.698333333333323,
+              "episode_bootstrap_95ci": [
+                -11.563333333333352,
+                74.87208333333331
+              ]
+            },
+            "gated_adaptive_range": {
+              "candidate_minus_comparator_mean_net": 110.53999999999998,
+              "episode_bootstrap_95ci": [
+                36.26166666666662,
+                188.06374999999994
+              ]
+            },
+            "gated_adaptive_range+front": {
+              "candidate_minus_comparator_mean_net": 224.52125,
+              "episode_bootstrap_95ci": [
+                152.4745833333333,
+                284.38708333333335
+              ]
+            },
+            "discern_style": {
+              "candidate_minus_comparator_mean_net": -4.089166666666718,
+              "episode_bootstrap_95ci": [
+                -32.966250000000024,
+                20.493749999999938
+              ]
+            },
+            "discern_design_floor": {
+              "candidate_minus_comparator_mean_net": 120.00874999999996,
+              "episode_bootstrap_95ci": [
+                41.54958333333332,
+                200.41374999999994
+              ]
+            },
+            "SMCS+retain-incumbent": {
+              "candidate_minus_comparator_mean_net": 167.38958333333332,
+              "episode_bootstrap_95ci": [
+                89.63609375000003,
+                241.59
+              ]
+            },
+            "xu_acquisition_only": {
+              "candidate_minus_comparator_mean_net": 97.37166666666667,
+              "episode_bootstrap_95ci": [
+                25.699166666666695,
+                168.89166666666665
+              ]
+            },
+            "choe_ramdas_eb+front": {
+              "candidate_minus_comparator_mean_net": 225.28791666666666,
+              "episode_bootstrap_95ci": [
+                153.5245833333333,
+                286.20374999999996
+              ]
+            },
+            "D2": {
+              "candidate_minus_comparator_mean_net": 224.83499999999995,
+              "episode_bootstrap_95ci": [
+                151.68791666666667,
+                284.0958333333333
+              ]
+            },
+            "A5b": {
+              "candidate_minus_comparator_mean_net": -32.04541666666669,
+              "episode_bootstrap_95ci": [
+                -89.63125000000004,
+                -0.17250000000001364
+              ]
+            },
+            "CONTROL_never_switch": {
+              "candidate_minus_comparator_mean_net": -22.51208333333335,
+              "episode_bootstrap_95ci": [
+                -80.22166666666669,
+                9.494166666666652
+              ]
+            }
+          },
+          "lowest_mean_cost_certificate_port_descriptive": "gated_adaptive_range+front",
+          "certificate_port_mean_costs": {
+            "gated_deployment": 774.6229166666666,
+            "gated_adaptive_range": 688.78125,
+            "gated_adaptive_range+front": 574.8,
+            "discern_style": 803.4104166666667,
+            "discern_design_floor": 679.3125,
+            "SMCS+retain-incumbent": 631.9316666666667
+          }
+        },
+        "H6-r10": {
+          "mean_net": 810.96,
+          "mean_labels": 168.70000000000002,
+          "mean_promotion_rate": 0.06666666666666667,
+          "mean_detection_delay_promoted_only": 343.41666666666663,
+          "contrasts": {
+            "gated_deployment": {
+              "candidate_minus_comparator_mean_net": 36.33708333333332,
+              "episode_bootstrap_95ci": [
+                -12.06458333333336,
+                110.91083333333331
+              ]
+            },
+            "gated_adaptive_range": {
+              "candidate_minus_comparator_mean_net": 122.17874999999998,
+              "episode_bootstrap_95ci": [
+                35.92791666666661,
+                221.83749999999998
+              ]
+            },
+            "gated_adaptive_range+front": {
+              "candidate_minus_comparator_mean_net": 236.16,
+              "episode_bootstrap_95ci": [
+                154.9683333333333,
+                308.8925
+              ]
+            },
+            "discern_style": {
+              "candidate_minus_comparator_mean_net": 7.5495833333332785,
+              "episode_bootstrap_95ci": [
+                -32.08041666666676,
+                55.88083333333333
+              ]
+            },
+            "discern_design_floor": {
+              "candidate_minus_comparator_mean_net": 131.64749999999995,
+              "episode_bootstrap_95ci": [
+                41.07041666666663,
+                229.05791666666664
+              ]
+            },
+            "SMCS+retain-incumbent": {
+              "candidate_minus_comparator_mean_net": 179.02833333333334,
+              "episode_bootstrap_95ci": [
+                90.08500000000002,
+                270.4770833333333
+              ]
+            },
+            "xu_acquisition_only": {
+              "candidate_minus_comparator_mean_net": 109.01041666666667,
+              "episode_bootstrap_95ci": [
+                27.912520833333346,
+                197.10999999999999
+              ]
+            },
+            "choe_ramdas_eb+front": {
+              "candidate_minus_comparator_mean_net": 236.92666666666665,
+              "episode_bootstrap_95ci": [
+                152.93416666666664,
+                310.2008333333333
+              ]
+            },
+            "D2": {
+              "candidate_minus_comparator_mean_net": 236.47374999999997,
+              "episode_bootstrap_95ci": [
+                152.2541666666667,
+                307.83874999999995
+              ]
+            },
+            "A5b": {
+              "candidate_minus_comparator_mean_net": -20.406666666666695,
+              "episode_bootstrap_95ci": [
+                -53.59083333333334,
+                -0.9650000000000318
+              ]
+            },
+            "CONTROL_never_switch": {
+              "candidate_minus_comparator_mean_net": -10.873333333333354,
+              "episode_bootstrap_95ci": [
+                -43.72416666666667,
+                8.68416666666665
+              ]
+            }
+          },
+          "lowest_mean_cost_certificate_port_descriptive": "gated_adaptive_range+front",
+          "certificate_port_mean_costs": {
+            "gated_deployment": 774.6229166666666,
+            "gated_adaptive_range": 688.78125,
+            "gated_adaptive_range+front": 574.8,
+            "discern_style": 803.4104166666667,
+            "discern_design_floor": 679.3125,
+            "SMCS+retain-incumbent": 631.9316666666667
+          }
+        }
+      }
+    },
+    "household_power": {
+      "episodes": 20,
+      "seeds_per_episode": 20,
+      "candidates": {
+        "H1": {
+          "mean_net": 610.588125,
+          "mean_labels": 196.8125,
+          "mean_promotion_rate": 0.16,
+          "mean_detection_delay_promoted_only": 844.8440789473684,
+          "contrasts": {
+            "gated_deployment": {
+              "candidate_minus_comparator_mean_net": 20.477749999999993,
+              "episode_bootstrap_95ci": [
+                -11.433409375000002,
+                54.08040312499993
+              ]
+            },
+            "gated_adaptive_range": {
+              "candidate_minus_comparator_mean_net": 45.67474999999998,
+              "episode_bootstrap_95ci": [
+                8.868790624999974,
+                81.859878125
+              ]
+            },
+            "gated_adaptive_range+front": {
+              "candidate_minus_comparator_mean_net": 66.955625,
+              "episode_bootstrap_95ci": [
+                18.731321875,
+                113.88030312500001
+              ]
+            },
+            "discern_style": {
+              "candidate_minus_comparator_mean_net": -26.207,
+              "episode_bootstrap_95ci": [
+                -55.2929,
+                -1.4294906249999968
+              ]
+            },
+            "discern_design_floor": {
+              "candidate_minus_comparator_mean_net": 44.684500000000014,
+              "episode_bootstrap_95ci": [
+                11.555153125000025,
+                77.37089375
+              ]
+            },
+            "SMCS+retain-incumbent": {
+              "candidate_minus_comparator_mean_net": 59.07700000000002,
+              "episode_bootstrap_95ci": [
+                13.645706250000018,
+                103.083265625
+              ]
+            },
+            "xu_acquisition_only": {
+              "candidate_minus_comparator_mean_net": 53.94725,
+              "episode_bootstrap_95ci": [
+                18.55427812499998,
+                91.06428437499994
+              ]
+            },
+            "choe_ramdas_eb+front": {
+              "candidate_minus_comparator_mean_net": 67.99312499999999,
+              "episode_bootstrap_95ci": [
+                20.283881249999997,
+                115.04235312499986
+              ]
+            },
+            "D2": {
+              "candidate_minus_comparator_mean_net": 75.16950000000001,
+              "episode_bootstrap_95ci": [
+                25.259437500000026,
+                124.80732812500001
+              ]
+            },
+            "A5b": {
+              "candidate_minus_comparator_mean_net": 6.745250000000004,
+              "episode_bootstrap_95ci": [
+                0.15170937499999843,
+                16.885184374999994
+              ]
+            },
+            "CONTROL_never_switch": {
+              "candidate_minus_comparator_mean_net": -21.861874999999998,
+              "episode_bootstrap_95ci": [
+                -60.15420625,
+                7.1200000000000045
+              ]
+            }
+          },
+          "lowest_mean_cost_certificate_port_descriptive": "gated_adaptive_range+front",
+          "certificate_port_mean_costs": {
+            "gated_deployment": 590.1103750000001,
+            "gated_adaptive_range": 564.9133750000001,
+            "gated_adaptive_range+front": 543.6324999999999,
+            "discern_style": 636.7951250000001,
+            "discern_design_floor": 565.903625,
+            "SMCS+retain-incumbent": 551.511125
+          }
+        },
+        "H2": {
+          "mean_net": 608.2661249999999,
+          "mean_labels": 122.27250000000001,
+          "mean_promotion_rate": 0.225,
+          "mean_detection_delay_promoted_only": 1151.5424860853432,
+          "contrasts": {
+            "gated_deployment": {
+              "candidate_minus_comparator_mean_net": 18.155749999999983,
+              "episode_bootstrap_95ci": [
+                -11.526328124999997,
+                50.46212812499998
+              ]
+            },
+            "gated_adaptive_range": {
+              "candidate_minus_comparator_mean_net": 43.35274999999997,
+              "episode_bootstrap_95ci": [
+                7.640318749999962,
+                79.73126249999997
+              ]
+            },
+            "gated_adaptive_range+front": {
+              "candidate_minus_comparator_mean_net": 64.63362500000001,
+              "episode_bootstrap_95ci": [
+                17.17454375000002,
+                111.31573125
+              ]
+            },
+            "discern_style": {
+              "candidate_minus_comparator_mean_net": -28.529000000000007,
+              "episode_bootstrap_95ci": [
+                -55.64173437499999,
+                -5.486621875000016
+              ]
+            },
+            "discern_design_floor": {
+              "candidate_minus_comparator_mean_net": 42.362500000000004,
+              "episode_bootstrap_95ci": [
+                10.334859375,
+                75.34027187499997
+              ]
+            },
+            "SMCS+retain-incumbent": {
+              "candidate_minus_comparator_mean_net": 56.75500000000001,
+              "episode_bootstrap_95ci": [
+                11.341053125000006,
+                100.42076875
+              ]
+            },
+            "xu_acquisition_only": {
+              "candidate_minus_comparator_mean_net": 51.625249999999994,
+              "episode_bootstrap_95ci": [
+                15.907593749999982,
+                88.98278124999995
+              ]
+            },
+            "choe_ramdas_eb+front": {
+              "candidate_minus_comparator_mean_net": 65.671125,
+              "episode_bootstrap_95ci": [
+                17.454965624999996,
+                111.61029062499992
+              ]
+            },
+            "D2": {
+              "candidate_minus_comparator_mean_net": 72.8475,
+              "episode_bootstrap_95ci": [
+                22.393706250000026,
+                121.4504375
+              ]
+            },
+            "A5b": {
+              "candidate_minus_comparator_mean_net": 4.423249999999996,
+              "episode_bootstrap_95ci": [
+                -3.5834000000000064,
+                16.73221562499998
+              ]
+            },
+            "CONTROL_never_switch": {
+              "candidate_minus_comparator_mean_net": -24.183875000000008,
+              "episode_bootstrap_95ci": [
+                -61.83022187500001,
+                4.584459374999992
+              ]
+            }
+          },
+          "lowest_mean_cost_certificate_port_descriptive": "gated_adaptive_range+front",
+          "certificate_port_mean_costs": {
+            "gated_deployment": 590.1103750000001,
+            "gated_adaptive_range": 564.9133750000001,
+            "gated_adaptive_range+front": 543.6324999999999,
+            "discern_style": 636.7951250000001,
+            "discern_design_floor": 565.903625,
+            "SMCS+retain-incumbent": 551.511125
+          }
+        },
+        "H3": {
+          "mean_net": 606.2980000000001,
+          "mean_labels": 81.91,
+          "mean_promotion_rate": 0.2225,
+          "mean_detection_delay_promoted_only": 1154.6107400535973,
+          "contrasts": {
+            "gated_deployment": {
+              "candidate_minus_comparator_mean_net": 16.18762499999999,
+              "episode_bootstrap_95ci": [
+                -13.852999999999998,
+                49.09222499999997
+              ]
+            },
+            "gated_adaptive_range": {
+              "candidate_minus_comparator_mean_net": 41.384624999999986,
+              "episode_bootstrap_95ci": [
+                4.834849999999962,
+                78.64074999999998
+              ]
+            },
+            "gated_adaptive_range+front": {
+              "candidate_minus_comparator_mean_net": 62.665499999999994,
+              "episode_bootstrap_95ci": [
+                13.996550000000006,
+                110.19914062499998
+              ]
+            },
+            "discern_style": {
+              "candidate_minus_comparator_mean_net": -30.497124999999993,
+              "episode_bootstrap_95ci": [
+                -57.301125000000006,
+                -7.686465624999998
+              ]
+            },
+            "discern_design_floor": {
+              "candidate_minus_comparator_mean_net": 40.39437500000001,
+              "episode_bootstrap_95ci": [
+                7.687271875000008,
+                73.62055937499998
+              ]
+            },
+            "SMCS+retain-incumbent": {
+              "candidate_minus_comparator_mean_net": 54.78687500000001,
+              "episode_bootstrap_95ci": [
+                9.004812500000003,
+                99.47988437500003
+              ]
+            },
+            "xu_acquisition_only": {
+              "candidate_minus_comparator_mean_net": 49.65712499999999,
+              "episode_bootstrap_95ci": [
+                13.81828437499999,
+                87.50440937499998
+              ]
+            },
+            "choe_ramdas_eb+front": {
+              "candidate_minus_comparator_mean_net": 63.70300000000001,
+              "episode_bootstrap_95ci": [
+                14.804740624999996,
+                110.96537187499996
+              ]
+            },
+            "D2": {
+              "candidate_minus_comparator_mean_net": 70.87937500000002,
+              "episode_bootstrap_95ci": [
+                21.145918750000014,
+                120.42337812499987
+              ]
+            },
+            "A5b": {
+              "candidate_minus_comparator_mean_net": 2.455125000000007,
+              "episode_bootstrap_95ci": [
+                -5.684578124999988,
+                15.046556249999977
+              ]
+            },
+            "CONTROL_never_switch": {
+              "candidate_minus_comparator_mean_net": -26.151999999999997,
+              "episode_bootstrap_95ci": [
+                -63.757021874999985,
+                2.205312500000001
+              ]
+            }
+          },
+          "lowest_mean_cost_certificate_port_descriptive": "gated_adaptive_range+front",
+          "certificate_port_mean_costs": {
+            "gated_deployment": 590.1103750000001,
+            "gated_adaptive_range": 564.9133750000001,
+            "gated_adaptive_range+front": 543.6324999999999,
+            "discern_style": 636.7951250000001,
+            "discern_design_floor": 565.903625,
+            "SMCS+retain-incumbent": 551.511125
+          }
+        },
+        "H4": {
+          "mean_net": 607.3257500000001,
+          "mean_labels": 114.915,
+          "mean_promotion_rate": 0.22750000000000004,
+          "mean_detection_delay_promoted_only": 1127.4113636363634,
+          "contrasts": {
+            "gated_deployment": {
+              "candidate_minus_comparator_mean_net": 17.215374999999995,
+              "episode_bootstrap_95ci": [
+                -11.976103124999995,
+                48.87387499999998
+              ]
+            },
+            "gated_adaptive_range": {
+              "candidate_minus_comparator_mean_net": 42.41237499999998,
+              "episode_bootstrap_95ci": [
+                6.967246874999993,
+                77.41190625
+              ]
+            },
+            "gated_adaptive_range+front": {
+              "candidate_minus_comparator_mean_net": 63.69325000000001,
+              "episode_bootstrap_95ci": [
+                15.568112500000003,
+                110.40350312499999
+              ]
+            },
+            "discern_style": {
+              "candidate_minus_comparator_mean_net": -29.469374999999996,
+              "episode_bootstrap_95ci": [
+                -56.50474999999999,
+                -6.508187499999997
+              ]
+            },
+            "discern_design_floor": {
+              "candidate_minus_comparator_mean_net": 41.422125000000015,
+              "episode_bootstrap_95ci": [
+                8.896706250000022,
+                73.40084062499997
+              ]
+            },
+            "SMCS+retain-incumbent": {
+              "candidate_minus_comparator_mean_net": 55.814625000000014,
+              "episode_bootstrap_95ci": [
+                10.563775000000003,
+                99.22016249999993
+              ]
+            },
+            "xu_acquisition_only": {
+              "candidate_minus_comparator_mean_net": 50.684875,
+              "episode_bootstrap_95ci": [
+                15.28400312499999,
+                87.251871875
+              ]
+            },
+            "choe_ramdas_eb+front": {
+              "candidate_minus_comparator_mean_net": 64.73075,
+              "episode_bootstrap_95ci": [
+                16.010878125,
+                110.85964374999998
+              ]
+            },
+            "D2": {
+              "candidate_minus_comparator_mean_net": 71.90712500000004,
+              "episode_bootstrap_95ci": [
+                22.588987500000005,
+                121.14848124999999
+              ]
+            },
+            "A5b": {
+              "candidate_minus_comparator_mean_net": 3.482875000000007,
+              "episode_bootstrap_95ci": [
+                -4.015387499999978,
+                14.280656249999986
+              ]
+            },
+            "CONTROL_never_switch": {
+              "candidate_minus_comparator_mean_net": -25.124249999999996,
+              "episode_bootstrap_95ci": [
+                -63.020256249999996,
+                3.3262093750000035
+              ]
+            }
+          },
+          "lowest_mean_cost_certificate_port_descriptive": "gated_adaptive_range+front",
+          "certificate_port_mean_costs": {
+            "gated_deployment": 590.1103750000001,
+            "gated_adaptive_range": 564.9133750000001,
+            "gated_adaptive_range+front": 543.6324999999999,
+            "discern_style": 636.7951250000001,
+            "discern_design_floor": 565.903625,
+            "SMCS+retain-incumbent": 551.511125
+          }
+        },
+        "H5": {
+          "mean_net": 611.907875,
+          "mean_labels": 132.95749999999998,
+          "mean_promotion_rate": 0.1925,
+          "mean_detection_delay_promoted_only": 1185.223469387755,
+          "contrasts": {
+            "gated_deployment": {
+              "candidate_minus_comparator_mean_net": 21.797499999999985,
+              "episode_bootstrap_95ci": [
+                -7.342778125000015,
+                53.593871874999934
+              ]
+            },
+            "gated_adaptive_range": {
+              "candidate_minus_comparator_mean_net": 46.994499999999974,
+              "episode_bootstrap_95ci": [
+                9.53144374999997,
+                83.91770312499992
+              ]
+            },
+            "gated_adaptive_range+front": {
+              "candidate_minus_comparator_mean_net": 68.27537500000001,
+              "episode_bootstrap_95ci": [
+                18.714840624999997,
+                116.51251562499996
+              ]
+            },
+            "discern_style": {
+              "candidate_minus_comparator_mean_net": -24.887250000000005,
+              "episode_bootstrap_95ci": [
+                -49.23500000000001,
+                -4.366362500000001
+              ]
+            },
+            "discern_design_floor": {
+              "candidate_minus_comparator_mean_net": 46.00425,
+              "episode_bootstrap_95ci": [
+                12.504415625000028,
+                79.33919687499994
+              ]
+            },
+            "SMCS+retain-incumbent": {
+              "candidate_minus_comparator_mean_net": 60.39675,
+              "episode_bootstrap_95ci": [
+                13.652940625000035,
+                104.72171249999998
+              ]
+            },
+            "xu_acquisition_only": {
+              "candidate_minus_comparator_mean_net": 55.266999999999996,
+              "episode_bootstrap_95ci": [
+                19.422071874999997,
+                91.83873124999997
+              ]
+            },
+            "choe_ramdas_eb+front": {
+              "candidate_minus_comparator_mean_net": 69.31287499999999,
+              "episode_bootstrap_95ci": [
+                20.579096874999998,
+                117.89282812499998
+              ]
+            },
+            "D2": {
+              "candidate_minus_comparator_mean_net": 76.48925,
+              "episode_bootstrap_95ci": [
+                24.854571874999998,
+                126.18174062499996
+              ]
+            },
+            "A5b": {
+              "candidate_minus_comparator_mean_net": 8.064999999999998,
+              "episode_bootstrap_95ci": [
+                -1.049778124999995,
+                21.72619062499997
+              ]
+            },
+            "CONTROL_never_switch": {
+              "candidate_minus_comparator_mean_net": -20.542125000000006,
+              "episode_bootstrap_95ci": [
+                -55.65193750000002,
+                5.447040624999987
+              ]
+            }
+          },
+          "lowest_mean_cost_certificate_port_descriptive": "gated_adaptive_range+front",
+          "certificate_port_mean_costs": {
+            "gated_deployment": 590.1103750000001,
+            "gated_adaptive_range": 564.9133750000001,
+            "gated_adaptive_range+front": 543.6324999999999,
+            "discern_style": 636.7951250000001,
+            "discern_design_floor": 565.903625,
+            "SMCS+retain-incumbent": 551.511125
+          }
+        },
+        "H6-r10": {
+          "mean_net": 611.7715,
+          "mean_labels": 130.27999999999997,
+          "mean_promotion_rate": 0.19,
+          "mean_detection_delay_promoted_only": 1137.437755102041,
+          "contrasts": {
+            "gated_deployment": {
+              "candidate_minus_comparator_mean_net": 21.661124999999988,
+              "episode_bootstrap_95ci": [
+                -7.154431249999999,
+                53.899337499999874
+              ]
+            },
+            "gated_adaptive_range": {
+              "candidate_minus_comparator_mean_net": 46.85812499999998,
+              "episode_bootstrap_95ci": [
+                9.366809374999965,
+                83.47043749999986
+              ]
+            },
+            "gated_adaptive_range+front": {
+              "candidate_minus_comparator_mean_net": 68.13900000000001,
+              "episode_bootstrap_95ci": [
+                18.614109375000005,
+                115.49627812499993
+              ]
+            },
+            "discern_style": {
+              "candidate_minus_comparator_mean_net": -25.023625000000003,
+              "episode_bootstrap_95ci": [
+                -49.26676874999999,
+                -4.596781249999997
+              ]
+            },
+            "discern_design_floor": {
+              "candidate_minus_comparator_mean_net": 45.86787500000001,
+              "episode_bootstrap_95ci": [
+                12.661587500000019,
+                78.93237187499997
+              ]
+            },
+            "SMCS+retain-incumbent": {
+              "candidate_minus_comparator_mean_net": 60.260374999999996,
+              "episode_bootstrap_95ci": [
+                13.507578125000018,
+                105.51331562499995
+              ]
+            },
+            "xu_acquisition_only": {
+              "candidate_minus_comparator_mean_net": 55.130624999999995,
+              "episode_bootstrap_95ci": [
+                19.089993749999998,
+                92.46255000000001
+              ]
+            },
+            "choe_ramdas_eb+front": {
+              "candidate_minus_comparator_mean_net": 69.1765,
+              "episode_bootstrap_95ci": [
+                20.876087499999993,
+                116.24552812499999
+              ]
+            },
+            "D2": {
+              "candidate_minus_comparator_mean_net": 76.352875,
+              "episode_bootstrap_95ci": [
+                25.504228125000022,
+                125.72961249999999
+              ]
+            },
+            "A5b": {
+              "candidate_minus_comparator_mean_net": 7.928624999999999,
+              "episode_bootstrap_95ci": [
+                -1.2740125000000009,
+                21.66693437499999
+              ]
+            },
+            "CONTROL_never_switch": {
+              "candidate_minus_comparator_mean_net": -20.678500000000003,
+              "episode_bootstrap_95ci": [
+                -55.74930625,
+                5.432409374999988
+              ]
+            }
+          },
+          "lowest_mean_cost_certificate_port_descriptive": "gated_adaptive_range+front",
+          "certificate_port_mean_costs": {
+            "gated_deployment": 590.1103750000001,
+            "gated_adaptive_range": 564.9133750000001,
+            "gated_adaptive_range+front": 543.6324999999999,
+            "discern_style": 636.7951250000001,
+            "discern_design_floor": 565.903625,
+            "SMCS+retain-incumbent": 551.511125
+          }
+        }
+      }
+    }
+  },
+  "equal_dataset_contrasts": {
+    "H1": {
+      "gated_deployment": {
+        "equal_dataset_mean_candidate_minus_comparator": -21.2343443452381,
+        "within_dataset_episode_bootstrap_95ci": [
+          -40.57743755208333,
+          -0.4256591592261979
+        ]
+      },
+      "gated_adaptive_range": {
+        "equal_dataset_mean_candidate_minus_comparator": 46.68591874999999,
+        "within_dataset_episode_bootstrap_95ci": [
+          24.74425249255951,
+          70.10252007440474
+        ]
+      },
+      "gated_adaptive_range+front": {
+        "equal_dataset_mean_candidate_minus_comparator": 98.1628988095238,
+        "within_dataset_episode_bootstrap_95ci": [
+          72.17151251488096,
+          125.52835656249994
+        ]
+      },
+      "discern_style": {
+        "equal_dataset_mean_candidate_minus_comparator": -85.9645205357143,
+        "within_dataset_episode_bootstrap_95ci": [
+          -110.72188287202383,
+          -60.60826319196434
+        ]
+      },
+      "discern_design_floor": {
+        "equal_dataset_mean_candidate_minus_comparator": 51.592635119047614,
+        "within_dataset_episode_bootstrap_95ci": [
+          27.97761127976189,
+          77.49753710565467
+        ]
+      },
+      "SMCS+retain-incumbent": {
+        "equal_dataset_mean_candidate_minus_comparator": 81.31199970238094,
+        "within_dataset_episode_bootstrap_95ci": [
+          56.52227555059524,
+          107.20407910714286
+        ]
+      },
+      "xu_acquisition_only": {
+        "equal_dataset_mean_candidate_minus_comparator": 60.83697827380952,
+        "within_dataset_episode_bootstrap_95ci": [
+          36.90808347470237,
+          86.4994204836309
+        ]
+      },
+      "choe_ramdas_eb+front": {
+        "equal_dataset_mean_candidate_minus_comparator": 103.09870238095236,
+        "within_dataset_episode_bootstrap_95ci": [
+          76.47164031249999,
+          130.51025912946426
+        ]
+      },
+      "D2": {
+        "equal_dataset_mean_candidate_minus_comparator": 113.32969464285713,
+        "within_dataset_episode_bootstrap_95ci": [
+          85.56865209821429,
+          142.18670076636897
+        ]
+      },
+      "A5b": {
+        "equal_dataset_mean_candidate_minus_comparator": -11.600927678571436,
+        "within_dataset_episode_bootstrap_95ci": [
+          -39.2511501636905,
+          11.43891001488094
+        ]
+      },
+      "CONTROL_never_switch": {
+        "equal_dataset_mean_candidate_minus_comparator": -158.3324166666667,
+        "within_dataset_episode_bootstrap_95ci": [
+          -195.26097,
+          -122.09624208333337
+        ]
+      }
+    },
+    "H2": {
+      "gated_deployment": {
+        "equal_dataset_mean_candidate_minus_comparator": -31.395146130952384,
+        "within_dataset_episode_bootstrap_95ci": [
+          -46.83553386160714,
+          -15.88340457589291
+        ]
+      },
+      "gated_adaptive_range": {
+        "equal_dataset_mean_candidate_minus_comparator": 36.5251169642857,
+        "within_dataset_episode_bootstrap_95ci": [
+          18.10560259672618,
+          54.9434114955357
+        ]
+      },
+      "gated_adaptive_range+front": {
+        "equal_dataset_mean_candidate_minus_comparator": 88.00209702380951,
+        "within_dataset_episode_bootstrap_95ci": [
+          66.17395854166665,
+          110.16278122023809
+        ]
+      },
+      "discern_style": {
+        "equal_dataset_mean_candidate_minus_comparator": -96.12532232142857,
+        "within_dataset_episode_bootstrap_95ci": [
+          -114.90385256696429,
+          -77.22335309523814
+        ]
+      },
+      "discern_design_floor": {
+        "equal_dataset_mean_candidate_minus_comparator": 41.43183333333333,
+        "within_dataset_episode_bootstrap_95ci": [
+          21.6978255282738,
+          62.82893075892852
+        ]
+      },
+      "SMCS+retain-incumbent": {
+        "equal_dataset_mean_candidate_minus_comparator": 71.15119791666666,
+        "within_dataset_episode_bootstrap_95ci": [
+          49.945491703869045,
+          92.29170628720237
+        ]
+      },
+      "xu_acquisition_only": {
+        "equal_dataset_mean_candidate_minus_comparator": 50.67617648809524,
+        "within_dataset_episode_bootstrap_95ci": [
+          31.25999410714286,
+          71.13096453869046
+        ]
+      },
+      "choe_ramdas_eb+front": {
+        "equal_dataset_mean_candidate_minus_comparator": 92.93790059523809,
+        "within_dataset_episode_bootstrap_95ci": [
+          70.77977837053571,
+          116.27405770089281
+        ]
+      },
+      "D2": {
+        "equal_dataset_mean_candidate_minus_comparator": 103.16889285714285,
+        "within_dataset_episode_bootstrap_95ci": [
+          79.44526487351192,
+          126.97529371279761
+        ]
+      },
+      "A5b": {
+        "equal_dataset_mean_candidate_minus_comparator": -21.761729464285718,
+        "within_dataset_episode_bootstrap_95ci": [
+          -45.486092313988095,
+          -4.957251770833359
+        ]
+      },
+      "CONTROL_never_switch": {
+        "equal_dataset_mean_candidate_minus_comparator": -168.49321845238097,
+        "within_dataset_episode_bootstrap_95ci": [
+          -200.62147354910715,
+          -138.26252895833335
+        ]
+      }
+    },
+    "H3": {
+      "gated_deployment": {
+        "equal_dataset_mean_candidate_minus_comparator": -32.50246607142858,
+        "within_dataset_episode_bootstrap_95ci": [
+          -47.954839866071445,
+          -16.328372604166674
+        ]
+      },
+      "gated_adaptive_range": {
+        "equal_dataset_mean_candidate_minus_comparator": 35.41779702380951,
+        "within_dataset_episode_bootstrap_95ci": [
+          17.14201084821427,
+          54.30549424107141
+        ]
+      },
+      "gated_adaptive_range+front": {
+        "equal_dataset_mean_candidate_minus_comparator": 86.89477708333332,
+        "within_dataset_episode_bootstrap_95ci": [
+          64.58747258928571,
+          109.12768069940475
+        ]
+      },
+      "discern_style": {
+        "equal_dataset_mean_candidate_minus_comparator": -97.23264226190477,
+        "within_dataset_episode_bootstrap_95ci": [
+          -115.96489039434525,
+          -78.83779403273812
+        ]
+      },
+      "discern_design_floor": {
+        "equal_dataset_mean_candidate_minus_comparator": 40.324513392857135,
+        "within_dataset_episode_bootstrap_95ci": [
+          20.746380632440474,
+          61.57717170386898
+        ]
+      },
+      "SMCS+retain-incumbent": {
+        "equal_dataset_mean_candidate_minus_comparator": 70.04387797619047,
+        "within_dataset_episode_bootstrap_95ci": [
+          48.93724481398809,
+          90.98963976190474
+        ]
+      },
+      "xu_acquisition_only": {
+        "equal_dataset_mean_candidate_minus_comparator": 49.568856547619035,
+        "within_dataset_episode_bootstrap_95ci": [
+          30.040666979166666,
+          69.9813706994047
+        ]
+      },
+      "choe_ramdas_eb+front": {
+        "equal_dataset_mean_candidate_minus_comparator": 91.8305806547619,
+        "within_dataset_episode_bootstrap_95ci": [
+          69.27280629464285,
+          114.78469029017853
+        ]
+      },
+      "D2": {
+        "equal_dataset_mean_candidate_minus_comparator": 102.06157291666668,
+        "within_dataset_episode_bootstrap_95ci": [
+          78.60970162202382,
+          126.02049240327375
+        ]
+      },
+      "A5b": {
+        "equal_dataset_mean_candidate_minus_comparator": -22.869049404761917,
+        "within_dataset_episode_bootstrap_95ci": [
+          -45.58781642857143,
+          -6.437897901785721
+        ]
+      },
+      "CONTROL_never_switch": {
+        "equal_dataset_mean_candidate_minus_comparator": -169.60053839285717,
+        "within_dataset_episode_bootstrap_95ci": [
+          -201.1921735714286,
+          -139.52047189732144
+        ]
+      }
+    },
+    "H4": {
+      "gated_deployment": {
+        "equal_dataset_mean_candidate_minus_comparator": -33.69787738095237,
+        "within_dataset_episode_bootstrap_95ci": [
+          -48.04437601934522,
+          -18.70730976934523
+        ]
+      },
+      "gated_adaptive_range": {
+        "equal_dataset_mean_candidate_minus_comparator": 34.222385714285714,
+        "within_dataset_episode_bootstrap_95ci": [
+          16.716383370535706,
+          52.39536625744047
+        ]
+      },
+      "gated_adaptive_range+front": {
+        "equal_dataset_mean_candidate_minus_comparator": 85.69936577380955,
+        "within_dataset_episode_bootstrap_95ci": [
+          64.1607600669643,
+          108.01999124999999
+        ]
+      },
+      "discern_style": {
+        "equal_dataset_mean_candidate_minus_comparator": -98.42805357142858,
+        "within_dataset_episode_bootstrap_95ci": [
+          -117.92123985119048,
+          -79.27917712797621
+        ]
+      },
+      "discern_design_floor": {
+        "equal_dataset_mean_candidate_minus_comparator": 39.129102083333336,
+        "within_dataset_episode_bootstrap_95ci": [
+          19.75867023065477,
+          59.41204991815476
+        ]
+      },
+      "SMCS+retain-incumbent": {
+        "equal_dataset_mean_candidate_minus_comparator": 68.84846666666668,
+        "within_dataset_episode_bootstrap_95ci": [
+          48.24075415178574,
+          89.35759758184523
+        ]
+      },
+      "xu_acquisition_only": {
+        "equal_dataset_mean_candidate_minus_comparator": 48.37344523809524,
+        "within_dataset_episode_bootstrap_95ci": [
+          29.209002343749997,
+          68.67222820684525
+        ]
+      },
+      "choe_ramdas_eb+front": {
+        "equal_dataset_mean_candidate_minus_comparator": 90.6351693452381,
+        "within_dataset_episode_bootstrap_95ci": [
+          67.68892634672619,
+          113.82905405505946
+        ]
+      },
+      "D2": {
+        "equal_dataset_mean_candidate_minus_comparator": 100.86616160714286,
+        "within_dataset_episode_bootstrap_95ci": [
+          77.25538768601191,
+          124.74240897321425
+        ]
+      },
+      "A5b": {
+        "equal_dataset_mean_candidate_minus_comparator": -24.064460714285712,
+        "within_dataset_episode_bootstrap_95ci": [
+          -49.59014011160715,
+          -6.169902931547639
+        ]
+      },
+      "CONTROL_never_switch": {
+        "equal_dataset_mean_candidate_minus_comparator": -170.79594970238094,
+        "within_dataset_episode_bootstrap_95ci": [
+          -204.4954081324405,
+          -138.9684138913691
+        ]
+      }
+    },
+    "H5": {
+      "gated_deployment": {
+        "equal_dataset_mean_candidate_minus_comparator": -13.817806547619057,
+        "within_dataset_episode_bootstrap_95ci": [
+          -33.58894524553571,
+          8.124421904761906
+        ]
+      },
+      "gated_adaptive_range": {
+        "equal_dataset_mean_candidate_minus_comparator": 54.102456547619035,
+        "within_dataset_episode_bootstrap_95ci": [
+          30.952880684523798,
+          78.51945855654755
+        ]
+      },
+      "gated_adaptive_range+front": {
+        "equal_dataset_mean_candidate_minus_comparator": 105.57943660714287,
+        "within_dataset_episode_bootstrap_95ci": [
+          80.83349050595238,
+          131.21828588541666
+        ]
+      },
+      "discern_style": {
+        "equal_dataset_mean_candidate_minus_comparator": -78.54798273809526,
+        "within_dataset_episode_bootstrap_95ci": [
+          -99.18330868303572,
+          -57.0236482663691
+        ]
+      },
+      "discern_design_floor": {
+        "equal_dataset_mean_candidate_minus_comparator": 59.00917291666666,
+        "within_dataset_episode_bootstrap_95ci": [
+          35.285844739583325,
+          84.56165534970235
+        ]
+      },
+      "SMCS+retain-incumbent": {
+        "equal_dataset_mean_candidate_minus_comparator": 88.72853749999999,
+        "within_dataset_episode_bootstrap_95ci": [
+          63.912980074404764,
+          114.44211281249993
+        ]
+      },
+      "xu_acquisition_only": {
+        "equal_dataset_mean_candidate_minus_comparator": 68.25351607142858,
+        "within_dataset_episode_bootstrap_95ci": [
+          45.08508418898809,
+          92.61583533482143
+        ]
+      },
+      "choe_ramdas_eb+front": {
+        "equal_dataset_mean_candidate_minus_comparator": 110.51524017857142,
+        "within_dataset_episode_bootstrap_95ci": [
+          84.94950404761903,
+          136.53452485119047
+        ]
+      },
+      "D2": {
+        "equal_dataset_mean_candidate_minus_comparator": 120.74623244047616,
+        "within_dataset_episode_bootstrap_95ci": [
+          94.55627107886905,
+          147.79082034226187
+        ]
+      },
+      "A5b": {
+        "equal_dataset_mean_candidate_minus_comparator": -4.18438988095239,
+        "within_dataset_episode_bootstrap_95ci": [
+          -16.368886555059543,
+          3.987162864583323
+        ]
+      },
+      "CONTROL_never_switch": {
+        "equal_dataset_mean_candidate_minus_comparator": -150.91587886904762,
+        "within_dataset_episode_bootstrap_95ci": [
+          -179.89514892113095,
+          -120.96480209077382
+        ]
+      }
+    },
+    "H6-r10": {
+      "gated_deployment": {
+        "equal_dataset_mean_candidate_minus_comparator": -11.549682738095246,
+        "within_dataset_episode_bootstrap_95ci": [
+          -32.846495959821446,
+          12.644233556547553
+        ]
+      },
+      "gated_adaptive_range": {
+        "equal_dataset_mean_candidate_minus_comparator": 56.370580357142856,
+        "within_dataset_episode_bootstrap_95ci": [
+          31.626368556547604,
+          83.38259118303573
+        ]
+      },
+      "gated_adaptive_range+front": {
+        "equal_dataset_mean_candidate_minus_comparator": 107.84756041666667,
+        "within_dataset_episode_bootstrap_95ci": [
+          82.03893507440475,
+          134.53723941964282
+        ]
+      },
+      "discern_style": {
+        "equal_dataset_mean_candidate_minus_comparator": -76.27985892857144,
+        "within_dataset_episode_bootstrap_95ci": [
+          -97.79721674107142,
+          -53.0855375446429
+        ]
+      },
+      "discern_design_floor": {
+        "equal_dataset_mean_candidate_minus_comparator": 61.27729672619047,
+        "within_dataset_episode_bootstrap_95ci": [
+          35.59542462797617,
+          88.78309691220235
+        ]
+      },
+      "SMCS+retain-incumbent": {
+        "equal_dataset_mean_candidate_minus_comparator": 90.99666130952382,
+        "within_dataset_episode_bootstrap_95ci": [
+          64.14130563244046,
+          118.78145492559523
+        ]
+      },
+      "xu_acquisition_only": {
+        "equal_dataset_mean_candidate_minus_comparator": 70.52163988095239,
+        "within_dataset_episode_bootstrap_95ci": [
+          46.012559114583325,
+          96.80966319196426
+        ]
+      },
+      "choe_ramdas_eb+front": {
+        "equal_dataset_mean_candidate_minus_comparator": 112.78336398809525,
+        "within_dataset_episode_bootstrap_95ci": [
+          86.55467671874997,
+          140.14154428571428
+        ]
+      },
+      "D2": {
+        "equal_dataset_mean_candidate_minus_comparator": 123.01435625000002,
+        "within_dataset_episode_bootstrap_95ci": [
+          95.40984203125,
+          150.78928971726188
+        ]
+      },
+      "A5b": {
+        "equal_dataset_mean_candidate_minus_comparator": -1.91626607142858,
+        "within_dataset_episode_bootstrap_95ci": [
+          -9.150166748511918,
+          3.8253822098214156
+        ]
+      },
+      "CONTROL_never_switch": {
+        "equal_dataset_mean_candidate_minus_comparator": -148.64775505952383,
+        "within_dataset_episode_bootstrap_95ci": [
+          -175.64595387648808,
+          -119.88502413690476
+        ]
+      }
+    }
+  },
+  "bootstrap_replicates": 20000,
+  "bootstrap_seed": 2026110417
+}

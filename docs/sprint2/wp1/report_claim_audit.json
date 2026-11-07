@@ -1,0 +1,68 @@
+{
+  "audit": "PASS",
+  "sources": {
+    "primary": "docs/sprint2/wp1/results_amended_no_xu.json",
+    "historical_sensitivity": "docs/sprint2/wp1/results.json"
+  },
+  "report": "docs/sprint2/wp1/RESULTS.md",
+  "checks": [
+    {
+      "name": "WP1 episode and class counts",
+      "status": "PASS",
+      "cell_count": 36,
+      "differences": []
+    },
+    {
+      "name": "WP1 classifier and episode distribution claims",
+      "status": "PASS",
+      "cell_count": 21,
+      "differences": []
+    },
+    {
+      "name": "WP1 primary contrast table",
+      "status": "PASS",
+      "cell_count": 106,
+      "differences": []
+    },
+    {
+      "name": "WP1 sensitivity contrast table",
+      "status": "PASS",
+      "cell_count": 63,
+      "differences": []
+    },
+    {
+      "name": "WP1 late-class topline and verdict",
+      "status": "PASS",
+      "cell_count": 11,
+      "differences": []
+    },
+    {
+      "name": "WP1 false-rollback narrative counts",
+      "status": "PASS",
+      "cell_count": 18,
+      "differences": []
+    },
+    {
+      "name": "WP1 reversal operating table",
+      "status": "PASS",
+      "cell_count": 20,
+      "differences": []
+    },
+    {
+      "name": "WP1 twin-null promotion table",
+      "status": "PASS",
+      "cell_count": 14,
+      "differences": []
+    },
+    {
+      "name": "WP1 Track-R target and operating-point wording",
+      "status": "PASS",
+      "cell_count": 4,
+      "differences": []
+    }
+  ],
+  "limitations": [
+    "Checks selected headline claims and the primary/sensitivity tables, not every WP1 table or diagnostic sentence.",
+    "It does not validate classifier assumptions, causal labels, independent confirmation, or theorem validity."
+  ]
+}

@@ -1,0 +1,25 @@
+import numpy as np, sys
+from bl import B
+p=B.Params(); n=int(sys.argv[1])
+def streams(pattern,seed):
+    ss=np.random.SeedSequence(seed); r1,r2=(np.random.default_rng(x) for x in ss.spawn(2))
+    t=np.arange(p.T)[:,None]
+    if pattern=='boundary': reg=np.full((p.T,n),4)
+    elif pattern=='alt1': reg=np.broadcast_to(np.where(t%2==0,3,4),(p.T,n)).copy()
+    elif pattern=='alt50': reg=np.broadcast_to(np.where((t//50)%2==0,3,4),(p.T,n)).copy()
+    elif pattern=='alt_random':  # iid random alternation per step per path
+        reg=np.where(r1.random((p.T,n))<.5,3,4)
+    reg=reg.astype(np.int8)
+    l0,l1=B.draw_losses(reg,r2); return l0,l1,np.random.default_rng(seed+1).random((p.T,n))
+for pat in ['boundary','alt1','alt50','alt_random']:
+    l0,l1,u=streams(pat,12345)
+    dis=l0!=l1
+    for budget in (200,400):
+        pols={k:B.Cert(n,budget,0,k,p) for k in ('P3','P3b')}
+        nd=np.zeros(n)
+        for t in range(p.T):
+            for c in pols.values(): c.step(t,l0[t],l1[t],dis[t],u[t],nd)
+            nd+=dis[t]
+        for k,c in pols.items():
+            fp=int((~np.isnan(c.t_prom)).sum())
+            print(pat,budget,k,'first-promotion rate %.5f (%d/%d)'%(fp/n,fp,n),'mean #promotions/path %.5f'%(c.switches.sum()/n+0 ), 'maxqueries',int(c.queries.max()),flush=True)

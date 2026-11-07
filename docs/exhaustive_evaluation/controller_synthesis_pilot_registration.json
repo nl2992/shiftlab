@@ -1,0 +1,470 @@
+{
+  "registered_utc": "2026-10-30T17:37:05.381890+00:00",
+  "stage": "exact finite-class synthesis pilot, NOT novel planner or unrestricted value certificate",
+  "controllers": [
+    {
+      "start": 1,
+      "stride": 1,
+      "streak": 2,
+      "special": ""
+    },
+    {
+      "start": 1,
+      "stride": 1,
+      "streak": 3,
+      "special": ""
+    },
+    {
+      "start": 1,
+      "stride": 1,
+      "streak": 4,
+      "special": ""
+    },
+    {
+      "start": 1,
+      "stride": 1,
+      "streak": 5,
+      "special": ""
+    },
+    {
+      "start": 1,
+      "stride": 1,
+      "streak": 6,
+      "special": ""
+    },
+    {
+      "start": 1,
+      "stride": 1,
+      "streak": 7,
+      "special": ""
+    },
+    {
+      "start": 1,
+      "stride": 2,
+      "streak": 2,
+      "special": ""
+    },
+    {
+      "start": 1,
+      "stride": 2,
+      "streak": 3,
+      "special": ""
+    },
+    {
+      "start": 1,
+      "stride": 2,
+      "streak": 4,
+      "special": ""
+    },
+    {
+      "start": 1,
+      "stride": 2,
+      "streak": 5,
+      "special": ""
+    },
+    {
+      "start": 1,
+      "stride": 2,
+      "streak": 6,
+      "special": ""
+    },
+    {
+      "start": 1,
+      "stride": 2,
+      "streak": 7,
+      "special": ""
+    },
+    {
+      "start": 1,
+      "stride": 3,
+      "streak": 2,
+      "special": ""
+    },
+    {
+      "start": 1,
+      "stride": 3,
+      "streak": 3,
+      "special": ""
+    },
+    {
+      "start": 1,
+      "stride": 3,
+      "streak": 4,
+      "special": ""
+    },
+    {
+      "start": 1,
+      "stride": 3,
+      "streak": 5,
+      "special": ""
+    },
+    {
+      "start": 1,
+      "stride": 3,
+      "streak": 6,
+      "special": ""
+    },
+    {
+      "start": 1,
+      "stride": 3,
+      "streak": 7,
+      "special": ""
+    },
+    {
+      "start": 3,
+      "stride": 1,
+      "streak": 2,
+      "special": ""
+    },
+    {
+      "start": 3,
+      "stride": 1,
+      "streak": 3,
+      "special": ""
+    },
+    {
+      "start": 3,
+      "stride": 1,
+      "streak": 4,
+      "special": ""
+    },
+    {
+      "start": 3,
+      "stride": 1,
+      "streak": 5,
+      "special": ""
+    },
+    {
+      "start": 3,
+      "stride": 1,
+      "streak": 6,
+      "special": ""
+    },
+    {
+      "start": 3,
+      "stride": 1,
+      "streak": 7,
+      "special": ""
+    },
+    {
+      "start": 3,
+      "stride": 2,
+      "streak": 2,
+      "special": ""
+    },
+    {
+      "start": 3,
+      "stride": 2,
+      "streak": 3,
+      "special": ""
+    },
+    {
+      "start": 3,
+      "stride": 2,
+      "streak": 4,
+      "special": ""
+    },
+    {
+      "start": 3,
+      "stride": 2,
+      "streak": 5,
+      "special": ""
+    },
+    {
+      "start": 3,
+      "stride": 2,
+      "streak": 6,
+      "special": ""
+    },
+    {
+      "start": 3,
+      "stride": 2,
+      "streak": 7,
+      "special": ""
+    },
+    {
+      "start": 3,
+      "stride": 3,
+      "streak": 2,
+      "special": ""
+    },
+    {
+      "start": 3,
+      "stride": 3,
+      "streak": 3,
+      "special": ""
+    },
+    {
+      "start": 3,
+      "stride": 3,
+      "streak": 4,
+      "special": ""
+    },
+    {
+      "start": 3,
+      "stride": 3,
+      "streak": 5,
+      "special": ""
+    },
+    {
+      "start": 3,
+      "stride": 3,
+      "streak": 6,
+      "special": ""
+    },
+    {
+      "start": 3,
+      "stride": 3,
+      "streak": 7,
+      "special": ""
+    },
+    {
+      "start": 5,
+      "stride": 1,
+      "streak": 2,
+      "special": ""
+    },
+    {
+      "start": 5,
+      "stride": 1,
+      "streak": 3,
+      "special": ""
+    },
+    {
+      "start": 5,
+      "stride": 1,
+      "streak": 4,
+      "special": ""
+    },
+    {
+      "start": 5,
+      "stride": 1,
+      "streak": 5,
+      "special": ""
+    },
+    {
+      "start": 5,
+      "stride": 1,
+      "streak": 6,
+      "special": ""
+    },
+    {
+      "start": 5,
+      "stride": 1,
+      "streak": 7,
+      "special": ""
+    },
+    {
+      "start": 5,
+      "stride": 2,
+      "streak": 2,
+      "special": ""
+    },
+    {
+      "start": 5,
+      "stride": 2,
+      "streak": 3,
+      "special": ""
+    },
+    {
+      "start": 5,
+      "stride": 2,
+      "streak": 4,
+      "special": ""
+    },
+    {
+      "start": 5,
+      "stride": 2,
+      "streak": 5,
+      "special": ""
+    },
+    {
+      "start": 5,
+      "stride": 2,
+      "streak": 6,
+      "special": ""
+    },
+    {
+      "start": 5,
+      "stride": 2,
+      "streak": 7,
+      "special": ""
+    },
+    {
+      "start": 5,
+      "stride": 3,
+      "streak": 2,
+      "special": ""
+    },
+    {
+      "start": 5,
+      "stride": 3,
+      "streak": 3,
+      "special": ""
+    },
+    {
+      "start": 5,
+      "stride": 3,
+      "streak": 4,
+      "special": ""
+    },
+    {
+      "start": 5,
+      "stride": 3,
+      "streak": 5,
+      "special": ""
+    },
+    {
+      "start": 5,
+      "stride": 3,
+      "streak": 6,
+      "special": ""
+    },
+    {
+      "start": 5,
+      "stride": 3,
+      "streak": 7,
+      "special": ""
+    },
+    {
+      "start": 7,
+      "stride": 1,
+      "streak": 2,
+      "special": ""
+    },
+    {
+      "start": 7,
+      "stride": 1,
+      "streak": 3,
+      "special": ""
+    },
+    {
+      "start": 7,
+      "stride": 1,
+      "streak": 4,
+      "special": ""
+    },
+    {
+      "start": 7,
+      "stride": 1,
+      "streak": 5,
+      "special": ""
+    },
+    {
+      "start": 7,
+      "stride": 1,
+      "streak": 6,
+      "special": ""
+    },
+    {
+      "start": 7,
+      "stride": 1,
+      "streak": 7,
+      "special": ""
+    },
+    {
+      "start": 7,
+      "stride": 2,
+      "streak": 2,
+      "special": ""
+    },
+    {
+      "start": 7,
+      "stride": 2,
+      "streak": 3,
+      "special": ""
+    },
+    {
+      "start": 7,
+      "stride": 2,
+      "streak": 4,
+      "special": ""
+    },
+    {
+      "start": 7,
+      "stride": 2,
+      "streak": 5,
+      "special": ""
+    },
+    {
+      "start": 7,
+      "stride": 2,
+      "streak": 6,
+      "special": ""
+    },
+    {
+      "start": 7,
+      "stride": 2,
+      "streak": 7,
+      "special": ""
+    },
+    {
+      "start": 7,
+      "stride": 3,
+      "streak": 2,
+      "special": ""
+    },
+    {
+      "start": 7,
+      "stride": 3,
+      "streak": 3,
+      "special": ""
+    },
+    {
+      "start": 7,
+      "stride": 3,
+      "streak": 4,
+      "special": ""
+    },
+    {
+      "start": 7,
+      "stride": 3,
+      "streak": 5,
+      "special": ""
+    },
+    {
+      "start": 7,
+      "stride": 3,
+      "streak": 6,
+      "special": ""
+    },
+    {
+      "start": 7,
+      "stride": 3,
+      "streak": 7,
+      "special": ""
+    },
+    {
+      "start": 1,
+      "stride": 1,
+      "streak": 1,
+      "special": "never"
+    },
+    {
+      "start": 1,
+      "stride": 1,
+      "streak": 1,
+      "special": "always"
+    }
+  ],
+  "cells": [
+    [
+      12,
+      6,
+      2
+    ],
+    [
+      24,
+      12,
+      2
+    ]
+  ],
+  "alpha": "1/20",
+  "alternative": "IID positive4/5; zero/one action expected costs4/5,1/5; query1/100 switch1/10",
+  "randomization": "root mixture draw hidden from Nature; each component has full causal-null risk<=its verified upper; convex risk mixture sufficient even if Nature infers component",
+  "primary": "exact best deterministic and root-mixture cost in declared finite class; total enumeration time/states; no comparison to unrestricted optimum inferred",
+  "sources_sha256": {
+    "scripts/exhaustive_evaluation/pilot_controller_synthesis.py": "6f6ae426eab8e3be232d13d9da35f4d2c6668e4eb969102f69e0c6a816e5ef5a",
+    "src/shiftlab/dive/risk_preserving_approx/controller_risk_verifier.py": "65847d92b1283dfdb4b7d9420f95cd69fba2fc28a9b8bedacab4e9438a7f1e73"
+  }
+}

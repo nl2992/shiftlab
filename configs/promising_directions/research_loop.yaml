@@ -1,0 +1,25 @@
+limits:
+  max_cycles_per_session: 20
+  max_workers: 2            # recorded only; cycles currently run sequentially
+  max_consecutive_no_insight: 3
+  max_consecutive_infra_failures: 2
+  per_cycle_timeout_s: 600
+lanes:
+  A: {name: lane-A, status: planned}
+  B: {name: lane-B, status: planned}
+  C: {name: lane-C, status: active}
+  D: {name: lane-D, status: planned}
+  E: {name: lane-E, status: planned}
+  F: {name: lane-F, status: planned}
+  G: {name: lane-G, status: planned}
+tasks:
+  - id: C0-smoke
+    lane: C
+    hypothesis: The loop can run one cycle, verify outputs and record state (plumbing only).
+    command:
+      - python
+      - -c
+      - "import json,os;os.makedirs('outputs/promising_directions/C0-smoke',exist_ok=True);json.dump({'ok':True},open('outputs/promising_directions/C0-smoke/result.json','w'));json.dump({'new_insight':True,'summary':'smoke ok'},open(os.environ['LOOP_INSIGHT_PATH'],'w'))"
+    expected_outputs:
+      - outputs/promising_directions/C0-smoke/result.json
+    protocol_path: docs/promising_directions/protocols/C0-smoke.md

@@ -1,0 +1,100 @@
+"""Criteo Attribution dev-window audit. Reads ONLY the first 60% of rows (nrows), 1-in-10 subsample.
+Labels: click (immediate) and conv_1d (conversion within 1 day; real positive delay, negatives mature at ts+1d).
+Events whose label would mature after the end of the early window are purged."""
+
+import sys
+import json
+import time
+import numpy as np
+import pandas as pd
+
+sys.path.insert(
+    0,
+    "C:/Users/nigel/OneDrive/桌面/ICML/shiftlab-promising-directions-2026-10-30/scripts/promising_directions/realdata_audit",
+)
+import run_audit as ra
+
+N = 16468027
+ne = int(0.6 * N)
+f = f"{ra.ROOT}/raw/criteo_attribution/criteo_attribution_dataset.tsv.gz"
+use = [
+    "timestamp",
+    "campaign",
+    "conversion",
+    "conversion_timestamp",
+    "click",
+    "time_since_last_click",
+] + [f"cat{i}" for i in range(1, 10)]
+t0 = time.time()
+parts = []
+read = 0
+for ch in pd.read_csv(f, sep="\t", usecols=use, chunksize=1_000_000, nrows=ne):
+    parts.append(ch.iloc[::10])
+    read += len(ch)
+d = pd.concat(parts).reset_index(drop=True)
+Tcut = float(d["timestamp"].iloc[-1])
+meta = dict(
+    N=N,
+    n_early=ne,
+    rows_read=read,
+    locked_start_row=ne,
+    n_locked=N - ne,
+    subsample="every 10th row",
+    n_sub=len(d),
+    t_end_early_s=Tcut,
+    early_days=Tcut / 86400,
+    read_s=round(time.time() - t0, 1),
+)
+pos = d[d.conversion == 1]
+delay = pos.conversion_timestamp - pos.timestamp
+meta["conv_pos_in_early_sub"] = int(len(pos))
+meta["delay_pctl_hours_(5,25,50,75,95)"] = [
+    float(np.percentile(delay, p) / 3600) for p in (5, 25, 50, 75, 95)
+]
+# 1-day label with purge
+W = 86400
+d = d[d.timestamp + W <= Tcut].reset_index(drop=True)
+d["conv_1d"] = ((d.conversion == 1) & (d.conversion_timestamp - d.timestamp <= W)).astype(int)
+d["tslc_missing"] = (d.time_since_last_click < 0).astype(int)
+d["tslc"] = d.time_since_last_click.where(d.time_since_last_click >= 0)
+n = len(d)
+ntr = n // 2  # train = first 30% of all events (= half of the early window), dev = rest
+cat = ["campaign"] + [f"cat{i}" for i in range(1, 10)]
+Xc = np.zeros((n, len(cat)))
+for j, c in enumerate(cat):
+    cnt = d[c].iloc[:ntr].value_counts()  # train-only frequency encoding
+    Xc[:, j] = np.log1p(d[c].map(cnt).fillna(0).values)
+X = np.c_[Xc, d.tslc.values, d.tslc_missing.values]
+meta.update(
+    n_after_purge=n,
+    n_train=ntr,
+    n_dev=n - ntr,
+    train_days=[0, float(d.timestamp.iloc[ntr - 1]) / 86400],
+    dev_days=[float(d.timestamp.iloc[ntr]) / 86400, float(d.timestamp.iloc[-1]) / 86400],
+)
+out = {}
+for lab in ("click", "conv_1d"):
+    y = d[lab].values
+    meta[f"{lab}_rate_train"] = float(y[:ntr].mean())
+    meta[f"{lab}_rate_dev"] = float(y[ntr:].mean())
+    rows = ra.evaluate(X[:ntr], y[:ntr], X[ntr:], y[ntr:], "criteo_" + lab, nperm=5, maxfit=150000)
+    out[lab] = rows
+    print(lab, meta[f"{lab}_rate_train"], meta[f"{lab}_rate_dev"])
+    for r in rows:
+        print(
+            r["pair"],
+            "e0=%.4f e1=%.4f dis=%.4f adv=%.5f H5=%.1f(p95 %.1f) H5net=%.1f H20=%.1f"
+            % (
+                r["err0"],
+                r["err1"],
+                r["disagree"],
+                r["adv_mean"],
+                r["H5"],
+                r["H5_shuf_p95"],
+                r["H5_net_q.05_all"],
+                r["H20"],
+            ),
+        )
+    meta[f"selected_{lab}"] = ra.pick(rows)
+json.dump(dict(meta=meta, pairs=out), open(f"{ra.OUT}/criteo_dev.json", "w"), indent=1, default=str)
+print(json.dumps(meta, default=str))

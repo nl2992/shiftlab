@@ -1,0 +1,48 @@
+{
+  "registered_utc": "2026-10-30T14:35:47.405993+00:00",
+  "stage": "exposed real development; not confirmation",
+  "reason": "do not pay to label a known-zero paired loss when frozen actions agree",
+  "candidates": [
+    {
+      "id": "R3_0036",
+      "mode": "direct",
+      "allocation": "uniform",
+      "gamma": 0.98,
+      "cap": 0.75,
+      "restart": false,
+      "pace": "none",
+      "bet": "kelly"
+    },
+    {
+      "id": "R3_0043",
+      "mode": "direct",
+      "allocation": "uniform",
+      "gamma": 0.98,
+      "cap": 0.75,
+      "restart": true,
+      "pace": "none",
+      "bet": "ftl"
+    }
+  ],
+  "variants": [
+    "original",
+    "skip_known_zero"
+  ],
+  "paths": 16,
+  "seed_base": 202624000,
+  "kwargs": {
+    "frac": 0.2,
+    "delay": 5,
+    "alpha": 0.05,
+    "margin": 0.01,
+    "query_cost": 0.001,
+    "switch_cost": 1
+  },
+  "guard": "only direct paired control; do not remove labels needed for an absolute-risk alarm",
+  "theory": "common-outcome equal actions imply equal cost; no outcome needed for zero gain; no new novelty claim",
+  "sources": {
+    "scripts/exhaustive_evaluation/check_known_zero_baseline.py": "1cb411589dc3965f00a0a6720a33f32d8aac691cd2c6ef4d9711d34e5c112ca3",
+    "scripts/exhaustive_evaluation/run_real_paired_development.py": "b842f4f604a8e614991bcebd00f06ae6b68d168830eb4950887be51c8145fff4",
+    "src/shiftlab/sota_search/paired_control.py": "f629e0b6db64ec094ef47cf238ed2d894f48cdadd237629ecfb1d508afd9fd61"
+  }
+}

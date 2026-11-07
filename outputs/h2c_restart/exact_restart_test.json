@@ -1,0 +1,7 @@
+{
+  "T": 7,
+  "alpha": 0.05,
+  "exact_P_sup_M_ge_1/alpha": 0.0009765625,
+  "bound": 0.05,
+  "max_conditional_drift_E[M_t|F]-M_{t-1}": 1.7763568394002505e-15
+}

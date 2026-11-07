@@ -1,0 +1,111 @@
+{
+  "true_c0": 0.4090675,
+  "known/ncal0/0.1": {
+    "null": 0.0,
+    "abrupt_d2": 0.6025,
+    "abrupt_d1.5": 0.29,
+    "u0": 0.4090675
+  },
+  "known/ncal0/0.2": {
+    "null": 0.0075,
+    "abrupt_d2": 0.9025,
+    "abrupt_d1.5": 0.6625,
+    "u0": 0.4090675
+  },
+  "hoeffding/ncal300/0.1": {
+    "null": 0.0,
+    "abrupt_d2": 0.0,
+    "abrupt_d1.5": 0.0,
+    "u0": 0.7780434808130776
+  },
+  "hoeffding/ncal300/0.2": {
+    "null": 0.0,
+    "abrupt_d2": 0.0,
+    "abrupt_d1.5": 0.0,
+    "u0": 0.7780434808130776
+  },
+  "hoeffding/ncal1000/0.1": {
+    "null": 0.0,
+    "abrupt_d2": 0.0,
+    "abrupt_d1.5": 0.0,
+    "u0": 0.710926295609404
+  },
+  "hoeffding/ncal1000/0.2": {
+    "null": 0.0,
+    "abrupt_d2": 0.0025,
+    "abrupt_d1.5": 0.0,
+    "u0": 0.710926295609404
+  },
+  "hoeffding/ncal5000/0.1": {
+    "null": 0.0,
+    "abrupt_d2": 0.0975,
+    "abrupt_d1.5": 0.0475,
+    "u0": 0.5186983013144674
+  },
+  "hoeffding/ncal5000/0.2": {
+    "null": 0.0,
+    "abrupt_d2": 0.2,
+    "abrupt_d1.5": 0.0575,
+    "u0": 0.5186983013144674
+  },
+  "hoeffding/ncal50000/0.1": {
+    "null": 0.0,
+    "abrupt_d2": 0.385,
+    "abrupt_d1.5": 0.1575,
+    "u0": 0.44303070212207557
+  },
+  "hoeffding/ncal50000/0.2": {
+    "null": 0.0,
+    "abrupt_d2": 0.705,
+    "abrupt_d1.5": 0.3975,
+    "u0": 0.44303070212207557
+  },
+  "empirical_bernstein/ncal300/0.1": {
+    "null": 0.0,
+    "abrupt_d2": 0.01,
+    "abrupt_d1.5": 0.0,
+    "u0": 0.6340267415454158
+  },
+  "empirical_bernstein/ncal300/0.2": {
+    "null": 0.0,
+    "abrupt_d2": 0.0025,
+    "abrupt_d1.5": 0.0025,
+    "u0": 0.6340267415454158
+  },
+  "empirical_bernstein/ncal1000/0.1": {
+    "null": 0.0,
+    "abrupt_d2": 0.025,
+    "abrupt_d1.5": 0.0025,
+    "u0": 0.6089906676924348
+  },
+  "empirical_bernstein/ncal1000/0.2": {
+    "null": 0.0,
+    "abrupt_d2": 0.01,
+    "abrupt_d1.5": 0.0025,
+    "u0": 0.6089906676924348
+  },
+  "empirical_bernstein/ncal5000/0.1": {
+    "null": 0.0,
+    "abrupt_d2": 0.3525,
+    "abrupt_d1.5": 0.125,
+    "u0": 0.45386894005151784
+  },
+  "empirical_bernstein/ncal5000/0.2": {
+    "null": 0.0,
+    "abrupt_d2": 0.6575,
+    "abrupt_d1.5": 0.325,
+    "u0": 0.45386894005151784
+  },
+  "empirical_bernstein/ncal50000/0.1": {
+    "null": 0.0,
+    "abrupt_d2": 0.535,
+    "abrupt_d1.5": 0.2325,
+    "u0": 0.4202888548889891
+  },
+  "empirical_bernstein/ncal50000/0.2": {
+    "null": 0.0,
+    "abrupt_d2": 0.85,
+    "abrupt_d1.5": 0.57,
+    "u0": 0.4202888548889891
+  }
+}

@@ -1,0 +1,64 @@
+{
+  "dataset_id": "sms_spam",
+  "n_rows": 5574,
+  "order": {
+    "declared_basis": "none",
+    "n": 5574,
+    "justification": "Collection of messages pooled from several sources; no timestamp or documented order.",
+    "verdict": "no_defensible_order",
+    "sorted_by": null
+  },
+  "windows": {
+    "train_incumbent": [
+      0,
+      836
+    ],
+    "train_challenger": [
+      0,
+      1672
+    ],
+    "dev": [
+      1672,
+      3344
+    ],
+    "locked": [
+      3344,
+      5574
+    ]
+  },
+  "checks": [
+    {
+      "check": "chronological_order_defensible",
+      "pass": false,
+      "detail": "verdict=no_defensible_order; declared_basis=none",
+      "hard": true
+    },
+    {
+      "check": "row_count_matches_source",
+      "pass": true,
+      "detail": "declared=5574 loaded=5574",
+      "hard": false
+    },
+    {
+      "check": "X_y_aligned",
+      "pass": true,
+      "detail": "feature rows equal label rows",
+      "hard": true
+    },
+    {
+      "check": "locked_window_has_one_episode",
+      "pass": true,
+      "detail": "locked rows=2230, T=2000",
+      "hard": true
+    },
+    {
+      "check": "train_dev_windows_nonempty",
+      "pass": true,
+      "detail": "window sizes 836,836,1672",
+      "hard": true
+    }
+  ],
+  "status": "USELESS_INELIGIBLE",
+  "ok": false,
+  "reason": "no defensible chronological order (no_defensible_order); no order invented"
+}

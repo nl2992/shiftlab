@@ -1,0 +1,20 @@
+{
+  "registered_utc": "2026-10-30T17:32:31.062172+00:00",
+  "author_commit": "9414edf5938127c80544261212e28b95a4ffc287",
+  "scope": "native function reduced2-state pilot, not paper-scale reproduction or selective-label switching adaptation",
+  "seeds": [
+    17,
+    29,
+    43
+  ],
+  "null_theta": 0.6,
+  "alternative_theta": -0.6,
+  "null_family": [
+    0.4,
+    0.8
+  ],
+  "alpha": 0.05,
+  "horizon": 2000,
+  "source_sha256": "adf6a07b21f019e7b3c745c707c309ba701cdfef5af1ca45ef10ff9d8e6ccef3",
+  "script_sha256": "7271f3d20fb352b94c08b2ecfba04bc2a8ba250bc0c4b1a17ff26970977e0826"
+}

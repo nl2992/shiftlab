@@ -1,0 +1,116 @@
+{
+  "base_sha": "71ad2b31167878a0fc975dfcc33abe1726235184",
+  "branch": "research/exhaustive-candidate-evaluation-2026-10-30",
+  "goal_status": "active",
+  "round1_corrected_status": {
+    "status": "completed",
+    "started_utc": "2026-10-30T08:37:20.820631+00:00",
+    "registration_sha256": "9f16dd7f4d5b12a5700ad6bb3cbfa47fc903f02de1b2f6b0f5dd2877b67f6b78",
+    "python": "3.13.1",
+    "numpy": "2.4.2",
+    "completed_cases": [
+      {
+        "case": "00_null_d5",
+        "seconds": 1.8782917999196798,
+        "configs_completed": 540
+      },
+      {
+        "case": "01_nuisance_d5",
+        "seconds": 1.9257600998971611,
+        "configs_completed": 540
+      },
+      {
+        "case": "02_abrupt_d5",
+        "seconds": 1.8728042000439018,
+        "configs_completed": 540
+      },
+      {
+        "case": "03_small_d5",
+        "seconds": 1.8670237001497298,
+        "configs_completed": 540
+      },
+      {
+        "case": "04_late_d5",
+        "seconds": 1.8665191000327468,
+        "configs_completed": 540
+      },
+      {
+        "case": "05_recurring_d5",
+        "seconds": 1.8163982001133263,
+        "configs_completed": 540
+      },
+      {
+        "case": "06_guidance_failure_d5",
+        "seconds": 1.9136146998498589,
+        "configs_completed": 540
+      },
+      {
+        "case": "07_abrupt_d24",
+        "seconds": 1.9144022001419216,
+        "configs_completed": 540
+      }
+    ],
+    "finished_utc": "2026-10-30T08:37:35.880111+00:00",
+    "distinct_configurations_tested": 540,
+    "config_case_evaluations": 4320,
+    "metrics_sha256": "0c7895d6cff545f7defb303167642b93f87789fdbba4b85d4597d89c462bcfac"
+  },
+  "preserved_original_worktree": "../shiftlab-risk-approx-2026-10-29",
+  "validated_tests": "14 passed; ruff check passed; git diff --check passed",
+  "artifacts": {
+    "docs\\exhaustive_evaluation\\BASELINE_COVERAGE.md": "c61a83e92dda5dbba1bf783984b1541b40a9d6f5f9107a64b5d84c312d1ed44f",
+    "docs\\exhaustive_evaluation\\candidate_j_execution.json": "92fc398359601877fe1ccb2d35ca6689a60fc0777af68e10b1d4d053017b33cc",
+    "docs\\exhaustive_evaluation\\candidate_j_runner_executed.txt": "cdf319416d6b08e5c9d2acca33b7525ef349d4198323b80042ecfa69c0c344bd",
+    "docs\\exhaustive_evaluation\\candidate_j_stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "docs\\exhaustive_evaluation\\candidate_j_stdout.txt": "f1a776c80ca6ae034e165462ea8dac63e5eede7ae532856a85a1b06c26b57471",
+    "docs\\exhaustive_evaluation\\candidate_j_verifier_executed.txt": "21454264ec3d18d9007fb148736dcb9a5a28be76d3e0556c1340911227f83049",
+    "docs\\exhaustive_evaluation\\corrected_executed_combination_screen.py.txt": "d2d6c87bc2d322651b629cd3c0a227e13c89d70a6f206a14f9992076ca6f4576",
+    "docs\\exhaustive_evaluation\\corrected_executed_run_combination_screen.py.txt": "f1419fc8029ec1500a5a6e6d6ccf61459bdce8ec226dcd7f17ba3555f61bdc30",
+    "docs\\exhaustive_evaluation\\CORRECTIONS_AND_LEDGER.md": "5b9371433f902b3cad5d3e5cd6f4c9c448e8de7587e1b4c01b1b58740b6064bd",
+    "docs\\exhaustive_evaluation\\EXECUTION_PROTOCOL.md": "e4e6827cbadc49916ca312b21246bca0bb233bf8e7e8d9ebeb480b23b5255eed",
+    "docs\\exhaustive_evaluation\\NEXT_EXECUTION.md": "6a93946e8fc4b28048f5800b7a94c6531edc1664c3d6e60a7c21b283731d7647",
+    "docs\\exhaustive_evaluation\\post_lint_replay_verification.json": "b45a2fa6f65b4f87c474440ae9d8f2f8580c07b91dac9fb0413f80efa53250ae",
+    "docs\\exhaustive_evaluation\\rcps_component_parity.json": "d4f0b4349fad6da7b0451053c15176275d36f34815104077e451a05a78c88b9c",
+    "docs\\exhaustive_evaluation\\rcps_development_comparison_registration.json": "cae86dd0baf49f6bd996ab0f65602d9d006d3842295118c57e98867fac86656f",
+    "docs\\exhaustive_evaluation\\rcps_parity_failure.json": "69397ee4bf1ce5feb31c071a3adb15bae63e6a689f5ce1c7a17bba033096d947",
+    "docs\\exhaustive_evaluation\\real_data_manifest.json": "044f975703cc57db6f51cb40ad6332131e7a825c42992dcce13e2498efab6ec3",
+    "docs\\exhaustive_evaluation\\round1_corrected_registration.json": "9f16dd7f4d5b12a5700ad6bb3cbfa47fc903f02de1b2f6b0f5dd2877b67f6b78",
+    "docs\\exhaustive_evaluation\\round1_corrected_status.json": "4ba4069655e8a81220dcee58a43d11816d301f034543f4f1540b8b536010f8d0",
+    "docs\\exhaustive_evaluation\\ROUND1_DEVELOPMENT_REPORT.md": "775302315f34792dbc899ee44ead52a6451ab5a3da87f2b0ea183a8886d1b30a",
+    "docs\\exhaustive_evaluation\\round1_engine_executed_v1.txt": "73db97291f842d0cc61fd7c59598c670fc31b779462bb31d147aca8ae996d25e",
+    "docs\\exhaustive_evaluation\\round1_registration.json": "dec25af8af5a47cbcdff8b0c4e9e93367717b820cdb28b4e5fd6bb15f4c92f82",
+    "docs\\exhaustive_evaluation\\round1_runner_executed_v1.txt": "7fde20f92d4c4eb0aef9beaddb252b3018f750ae3a390bd5e6483c05ca49c743",
+    "docs\\exhaustive_evaluation\\round1_status.json": "482252c06c6924a780acea96db1589c6a356ddc07bdd3ecd32cd10ccf3082901",
+    "docs\\exhaustive_evaluation\\source_access_manifest.json": "7b11a587ae4b52fa534800281e426ec9c5af23d1c1048bb19fa31a9cd0fb53ac",
+    "outputs\\exhaustive_evaluation\\round1\\00_null_d5.npz": "7221badca1e1fdf91eaac1d73f6da6975881e4f8fda64a0085b502256ba6a417",
+    "outputs\\exhaustive_evaluation\\round1\\01_nuisance_d5.npz": "8084986dcb429eaae988357e4c6a4562798843de008706eb339fc49627143233",
+    "outputs\\exhaustive_evaluation\\round1\\02_abrupt_d5.npz": "d4111c3c87278494cf2fe82f70b623b78bade3c3a2b06227302f4db289061915",
+    "outputs\\exhaustive_evaluation\\round1\\03_small_d5.npz": "64ba8db87091d8c9809644057bbcfbb3ea29517b82da512d4b0b658cfc1a3b88",
+    "outputs\\exhaustive_evaluation\\round1\\04_late_d5.npz": "b0cf5b705413dd12178f63c5c6f76a880999deea5968cd869da14d959260919c",
+    "outputs\\exhaustive_evaluation\\round1\\05_recurring_d5.npz": "138cbe676922ec98befb7e41bd0c6e06f4417384448c0f0bad996307682304dd",
+    "outputs\\exhaustive_evaluation\\round1\\06_guidance_failure_d5.npz": "9a7ba71e61c2cf836863dcdbf8fdcb81029e27d1bdad0c05ceebe9c9f9c864d8",
+    "outputs\\exhaustive_evaluation\\round1\\07_abrupt_d24.npz": "0f06bd38d375a156c59d01c2f192ed91f7713fb55cdc7dc1f98a0e8994463d22",
+    "outputs\\exhaustive_evaluation\\round1\\metrics.csv": "fd042a4c4753789187e720a906ca5cd89256547168f10eadc77e919ad2bd032a",
+    "outputs\\exhaustive_evaluation\\round1_corrected\\00_null_d5.npz": "7221badca1e1fdf91eaac1d73f6da6975881e4f8fda64a0085b502256ba6a417",
+    "outputs\\exhaustive_evaluation\\round1_corrected\\01_nuisance_d5.npz": "8084986dcb429eaae988357e4c6a4562798843de008706eb339fc49627143233",
+    "outputs\\exhaustive_evaluation\\round1_corrected\\02_abrupt_d5.npz": "d4111c3c87278494cf2fe82f70b623b78bade3c3a2b06227302f4db289061915",
+    "outputs\\exhaustive_evaluation\\round1_corrected\\03_small_d5.npz": "64ba8db87091d8c9809644057bbcfbb3ea29517b82da512d4b0b658cfc1a3b88",
+    "outputs\\exhaustive_evaluation\\round1_corrected\\04_late_d5.npz": "b0cf5b705413dd12178f63c5c6f76a880999deea5968cd869da14d959260919c",
+    "outputs\\exhaustive_evaluation\\round1_corrected\\05_recurring_d5.npz": "138cbe676922ec98befb7e41bd0c6e06f4417384448c0f0bad996307682304dd",
+    "outputs\\exhaustive_evaluation\\round1_corrected\\06_guidance_failure_d5.npz": "9a7ba71e61c2cf836863dcdbf8fdcb81029e27d1bdad0c05ceebe9c9f9c864d8",
+    "outputs\\exhaustive_evaluation\\round1_corrected\\07_abrupt_d24.npz": "0f06bd38d375a156c59d01c2f192ed91f7713fb55cdc7dc1f98a0e8994463d22",
+    "outputs\\exhaustive_evaluation\\round1_corrected\\matched_parent_deltas.csv": "c3f03c6a9e98ed82f4a64da109fa6a296ea6c6ab088d9795d14ddb4548011674",
+    "outputs\\exhaustive_evaluation\\round1_corrected\\metrics.csv": "0c7895d6cff545f7defb303167642b93f87789fdbba4b85d4597d89c462bcfac",
+    "outputs\\exhaustive_evaluation\\round1_corrected\\ranked_configs.csv": "b1b7a4228e189ae909224794e1291b5150d37f381f85a289d53f3bba2178ce65",
+    "outputs\\exhaustive_evaluation\\round1_corrected\\rcps_00_null_d5.npz": "63ad086a0c95543cc4be65841105cfd640d4017fc04a4ae2efcd0af1e9c6c4a9",
+    "outputs\\exhaustive_evaluation\\round1_corrected\\rcps_01_nuisance_d5.npz": "535c88d8df674611a7581f911fad7a133b97b2a4b90f30ea809e297728263a05",
+    "outputs\\exhaustive_evaluation\\round1_corrected\\rcps_02_abrupt_d5.npz": "669e7bdc401b1de0ac427a1efeb93f73b51f949ec11bcc1f5ab0951c9dd507f2",
+    "outputs\\exhaustive_evaluation\\round1_corrected\\rcps_03_small_d5.npz": "e246d56b44a62979c3f7d972edb8cb21aee09260a448b955b88ed1cc4ef3eb65",
+    "outputs\\exhaustive_evaluation\\round1_corrected\\rcps_04_late_d5.npz": "4f2d93f2fa7ec0c035bfda9b60e8901c1deb9249448e94c42b1387dc814b58e2",
+    "outputs\\exhaustive_evaluation\\round1_corrected\\rcps_05_recurring_d5.npz": "197d9563d2c1348ac9d000518d2d24d8d67dfaff541fd6e02eada5eea9777d12",
+    "outputs\\exhaustive_evaluation\\round1_corrected\\rcps_06_guidance_failure_d5.npz": "d9f66b90b7534e2e3e392b9682a794b67f6181f4ff66391c55cddc1651d4c3ef",
+    "outputs\\exhaustive_evaluation\\round1_corrected\\rcps_07_abrupt_d24.npz": "fbdaeaf69f85941cc83f6aee129b1ac6f6379e53f88599ce34820576acb03641",
+    "outputs\\exhaustive_evaluation\\round1_corrected\\rcps_baseline_metrics.csv": "f875f286babdd346d01bc30317092b050f923d8ecd1d034b11454d991c6d39c5"
+  },
+  "checks": "14 targeted tests passed; post-lint full recorded screen arrays identical; Ruff 0.17.1 hooks required at commit"
+}

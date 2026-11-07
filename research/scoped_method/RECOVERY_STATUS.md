@@ -74,6 +74,30 @@ uv run ruff check .
 gh run view 42307382928 --json status,conclusion,jobs
 ```
 
+## Follow-up context-stratified MN-DS screen (2026-11-06)
+
+A distinct Q3 source-heterogeneity screen was frozen in
+`pilots/context_stratified_mnds_20261106/` and replayed once on Q4. The replay did **not** meet
+the broader brief's synthetic economic-headroom and novelty gates before opening the data. For
+that reason, despite its technical one-opening manifest, treat Q4 strictly as an exposed
+descriptive screen and not as independent confirmation. Do not reuse Q4 as untouched evidence.
+
+The publisher-stratified composition made no promotion, spent 5.00 in label cost, and cost 340.10
+per 1,000, versus 338.47 for never-switch. Its point saving against the validation-selected static
+policy was 2.29 per 1,000, below the registered 5-unit margin; the simultaneous 99% block interval
+was [-5.75, +3.62]. It fails the frozen primary gate. Complete policy costs, source intervals,
+limits, code/data hashes, and result checksums are in
+`pilots/context_stratified_mnds_20261106/DECISION.md` and `run/RESULTS.md`.
+
+This does not overturn the earlier conclusion that the calibrated conventional SR screen has a
+narrow late-improvement advantage over certificate-style adapters, but it loses to the registered
+Qiu/Gong-inspired cost ports and missed the independent 100-stream null precision gate. Its
+1,000-stream calibration and the late screen are reported separately in
+`pilots/srr_any_false_calibration_20261106/` and `pilots/srr_late_improvement_20261106/`.
+No distinct method, independent real-data confirmation, or multi-dataset transfer result is
+established. Current disposition remains `BENCHMARK_ONLY`; the smallest next work is a
+claim-bounded case-study/manuscript outline, not another candidate search or holdout opening.
+
 The research matrix reproduction command and frozen policy contract are preserved in
 `research/scoped_method/pilots/economic_headroom_matrix_20261106/protocol.md`; this recovery
 checkpoint does not rerun its prior experiment.

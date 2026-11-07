@@ -1,0 +1,258 @@
+{
+  "config": {
+    "budget": 200,
+    "cq": 0.05,
+    "cs": 5.0,
+    "alpha": 0.05,
+    "eps": 0.0,
+    "p_min": 0.05,
+    "n_seeds": 100,
+    "seed_base": 20261101,
+    "loss_roots": [
+      "data/atlas_v2_losses"
+    ],
+    "label_mode": "xor"
+  },
+  "not_run_feature_dependent": {
+    "CAMS (Zhang et al.)": "needs an advice_fn (kNN correctness policy) fit on development features",
+    "variance minimisation (Hara et al.)": "constructor refuses without a development surrogate",
+    "Xu prediction_assisted": "needs a nuisance predictor fit on development data",
+    "Sawade et al. 2012 (calibrated)": "needs a calibrated posterior over features"
+  },
+  "datasets": {
+    "rialto": {
+      "episodes": 16,
+      "delay": 100,
+      "seconds": 964.2,
+      "low_power": false,
+      "validation_problems": [],
+      "mean_cost": {
+        "gated_deployment": 94.657125,
+        "discern_style": 210.02115625,
+        "SMCS+retain-incumbent": 89.95909375000001,
+        "model_picker_adapter": 74.38446875,
+        "model_selector_adapter": 77.92187499999999,
+        "online_llm_picker": 73.03790624999999,
+        "xu_acquisition_only": 99.51190625,
+        "P7s_settled": 98.50446875,
+        "CONTROL_never_switch": 202.0625
+      },
+      "mean_labels": {
+        "gated_deployment": 30.8425,
+        "discern_style": 159.173125,
+        "SMCS+retain-incumbent": 159.156875,
+        "model_picker_adapter": 28.864375,
+        "model_selector_adapter": 160.9375,
+        "online_llm_picker": 57.883125,
+        "xu_acquisition_only": 156.925625,
+        "P7s_settled": 53.026875,
+        "CONTROL_never_switch": 0.0
+      },
+      "mean_switches": {
+        "gated_deployment": 1.0,
+        "discern_style": 0.0,
+        "SMCS+retain-incumbent": 1.0,
+        "model_picker_adapter": 1.01,
+        "model_selector_adapter": 1.0,
+        "online_llm_picker": 1.02875,
+        "xu_acquisition_only": 1.0,
+        "P7s_settled": 1.0,
+        "CONTROL_never_switch": 0.0
+      },
+      "mean_loss": {
+        "gated_deployment": 88.115,
+        "discern_style": 202.0625,
+        "SMCS+retain-incumbent": 77.00125,
+        "model_picker_adapter": 67.89125,
+        "model_selector_adapter": 64.875,
+        "online_llm_picker": 65.0,
+        "xu_acquisition_only": 86.665625,
+        "P7s_settled": 90.853125,
+        "CONTROL_never_switch": 202.0625
+      },
+      "ours_minus_competitor": {
+        "gated_deployment": {
+          "mean": 3.8473437500000127,
+          "lo": 2.4471078125000307,
+          "hi": 5.709001562500013,
+          "episodes_ours_cheaper": 0,
+          "episodes_ours_worse": 16,
+          "verdict": "ours worse"
+        },
+        "discern_style": {
+          "mean": -111.51668749999999,
+          "lo": -130.05871875,
+          "hi": -90.46075468749999,
+          "episodes_ours_cheaper": 16,
+          "episodes_ours_worse": 0,
+          "verdict": "ours better"
+        },
+        "SMCS+retain-incumbent": {
+          "mean": 8.545374999999998,
+          "lo": 6.346694531250004,
+          "hi": 10.947406249999997,
+          "episodes_ours_cheaper": 0,
+          "episodes_ours_worse": 16,
+          "verdict": "ours worse"
+        },
+        "model_picker_adapter": {
+          "mean": 24.12,
+          "lo": 22.522803125000003,
+          "hi": 26.398392968750006,
+          "episodes_ours_cheaper": 0,
+          "episodes_ours_worse": 16,
+          "verdict": "ours worse"
+        },
+        "model_selector_adapter": {
+          "mean": 20.582593750000015,
+          "lo": 18.551735937500005,
+          "hi": 23.164850000000015,
+          "episodes_ours_cheaper": 0,
+          "episodes_ours_worse": 16,
+          "verdict": "ours worse"
+        },
+        "online_llm_picker": {
+          "mean": 25.466562500000002,
+          "lo": 23.636353125000007,
+          "hi": 27.8187171875,
+          "episodes_ours_cheaper": 0,
+          "episodes_ours_worse": 16,
+          "verdict": "ours worse"
+        },
+        "xu_acquisition_only": {
+          "mean": -1.0074374999999964,
+          "lo": -2.9712648437499958,
+          "hi": 1.7448976562500036,
+          "episodes_ours_cheaper": 12,
+          "episodes_ours_worse": 4,
+          "verdict": "tie"
+        },
+        "CONTROL_never_switch": {
+          "mean": -103.55803125,
+          "lo": -122.03685703124998,
+          "hi": -84.43495078125,
+          "episodes_ours_cheaper": 16,
+          "episodes_ours_worse": 0,
+          "verdict": "ours better"
+        }
+      }
+    },
+    "openml_ldpa": {
+      "episodes": 32,
+      "delay": 100,
+      "seconds": 2536.9,
+      "low_power": false,
+      "validation_problems": [],
+      "mean_cost": {
+        "gated_deployment": 536.102703125,
+        "discern_style": 646.2374375,
+        "SMCS+retain-incumbent": 465.220171875,
+        "model_picker_adapter": 431.86609375,
+        "model_selector_adapter": 434.959375,
+        "online_llm_picker": 431.85145312500003,
+        "xu_acquisition_only": 489.255328125,
+        "P7s_settled": 478.351203125,
+        "CONTROL_never_switch": 663.0
+      },
+      "mean_labels": {
+        "gated_deployment": 97.5978125,
+        "discern_style": 171.96125,
+        "SMCS+retain-incumbent": 181.2784375,
+        "model_picker_adapter": 56.259375,
+        "model_selector_adapter": 184.8125,
+        "online_llm_picker": 82.8290625,
+        "xu_acquisition_only": 176.6503125,
+        "P7s_settled": 115.6740625,
+        "CONTROL_never_switch": 0.0
+      },
+      "mean_switches": {
+        "gated_deployment": 0.77,
+        "discern_style": 0.3746875,
+        "SMCS+retain-incumbent": 0.8565625,
+        "model_picker_adapter": 1.616875,
+        "model_selector_adapter": 1.46875,
+        "online_llm_picker": 1.778125,
+        "xu_acquisition_only": 0.9103125,
+        "P7s_settled": 0.97,
+        "CONTROL_never_switch": 0.0
+      },
+      "mean_loss": {
+        "gated_deployment": 527.3728125,
+        "discern_style": 635.7659375,
+        "SMCS+retain-incumbent": 451.8734375,
+        "model_picker_adapter": 420.96875,
+        "model_selector_adapter": 418.375,
+        "online_llm_picker": 418.819375,
+        "xu_acquisition_only": 475.87125,
+        "P7s_settled": 467.7175,
+        "CONTROL_never_switch": 663.0
+      },
+      "ours_minus_competitor": {
+        "gated_deployment": {
+          "mean": -57.751499999999986,
+          "lo": -79.74778593749997,
+          "hi": -38.125783984375026,
+          "episodes_ours_cheaper": 24,
+          "episodes_ours_worse": 8,
+          "verdict": "ours better"
+        },
+        "discern_style": {
+          "mean": -167.886234375,
+          "lo": -202.14839570312495,
+          "hi": -133.40631875,
+          "episodes_ours_cheaper": 32,
+          "episodes_ours_worse": 0,
+          "verdict": "ours better"
+        },
+        "SMCS+retain-incumbent": {
+          "mean": 13.13103125,
+          "lo": -10.265357812499978,
+          "hi": 32.104785546875,
+          "episodes_ours_cheaper": 5,
+          "episodes_ours_worse": 27,
+          "verdict": "tie"
+        },
+        "model_picker_adapter": {
+          "mean": 46.48510937499999,
+          "lo": 34.99558554687498,
+          "hi": 58.528243749999994,
+          "episodes_ours_cheaper": 3,
+          "episodes_ours_worse": 29,
+          "verdict": "ours worse"
+        },
+        "model_selector_adapter": {
+          "mean": 43.39182812499998,
+          "lo": 30.950599999999984,
+          "hi": 56.34689882812502,
+          "episodes_ours_cheaper": 3,
+          "episodes_ours_worse": 29,
+          "verdict": "ours worse"
+        },
+        "online_llm_picker": {
+          "mean": 46.49974999999999,
+          "lo": 35.293716796874975,
+          "hi": 58.03323593750001,
+          "episodes_ours_cheaper": 3,
+          "episodes_ours_worse": 29,
+          "verdict": "ours worse"
+        },
+        "xu_acquisition_only": {
+          "mean": -10.90412500000002,
+          "lo": -19.325024999999997,
+          "hi": -3.854426953125035,
+          "episodes_ours_cheaper": 25,
+          "episodes_ours_worse": 7,
+          "verdict": "ours better"
+        },
+        "CONTROL_never_switch": {
+          "mean": -184.64879687500002,
+          "lo": -231.155261328125,
+          "hi": -140.013304296875,
+          "episodes_ours_cheaper": 30,
+          "episodes_ours_worse": 2,
+          "verdict": "ours better"
+        }
+      }
+    }
+  }
+}

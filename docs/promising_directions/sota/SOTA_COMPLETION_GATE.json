@@ -1,6 +1,6 @@
 {
-  "gate_status": "NOT MET - NARROWED QUESTION CLOSED, SUITE COMPARISON NEVER RUN",
-  "updated_utc": "2026-11-03",
+  "gate_status": "NOT MET - P7S EXPOSED LOSS REPLAY FAILS ALL-COMPARATOR RULE",
+  "updated_utc": "2026-11-06",
   "objective": "five real-data cases beating every mandatory applicable competitor on net_cost",
   "net_cost": "prediction_loss + label_price * requested_labels + switch_cost * deployment_switches",
   "confirmed_winning_cases": 0,
@@ -52,8 +52,8 @@
     }
   },
   "key_finding": "P3b is not the state of the art for this task. Gated deployment (ICML 2021) is cheaper on both powered datasets and far more label-efficient (30.8 vs 159.2 labels on rialto), so the B3+ result is a win over a weak baseline.",
-  "correction_utc": "2026-11-03",
-  "correction": "An earlier update recorded 'PROGRAMME STOPPED'. That was an overreach. The pre-registered rule that fired governed one question: economic trigger vs certificate trigger, tested with EconomicStop. P7s, the policy that beats P3b on five datasets, has NEVER been run against any of the nine published competitors implemented here. The suite comparison the gate actually asks for has not been attempted.",
+  "correction_utc": "2026-11-06",
+  "correction": "An earlier update recorded 'PROGRAMME STOPPED'. That was an overreach. The pre-registered economic-stop rule governed only EconomicStop versus certificate stops. P7s has now been compared against the applicable implemented suite on exposed Rialto and OpenML-LDPA loss paths. It beats Gated deployment by 57.751 net-cost units on LDPA but loses to the Model Picker and Model Selector adapters by 46.485 and 43.392, respectively; on Rialto it loses to Gated by 3.847. The two loss-preserving binary label encodings give identical results. This replay uses artificial labels/predictions reconstructed from real loss paths, so it is not an authentic prediction-stream evaluation or independent confirmation. The SOTA gate remains unmet.",
   "what_was_tested": {
     "policy": "EconomicStop (Gated's confidence sequence with an economic threshold)",
     "beaten_by": [
@@ -71,13 +71,35 @@
   "never_run_against_ours": [
     "CAMS",
     "CAMS-MAX",
-    "Model Picker",
-    "Model Selector",
     "variance minimisation",
-    "Xu acquisition",
-    "SMCS",
-    "Sawade 2012",
-    "gated_deployment (vs P7s specifically)"
+    "Sawade 2012 (calibrated)"
   ],
-  "suggestive_not_established": "rialto: gated 94.695 (simulator) vs P7s 98.418 (B3+ runner). Different runners, different seeding, not paired. Must not be reported as a head-to-head."
+  "p7s_exposed_loss_replay": {
+    "artifacts": "research/scoped_method/pilots/p7s_vs_sota_loss_replay_20261106/",
+    "datasets": {
+      "rialto": {
+        "episodes": 16,
+        "P7s_mean_cost": 98.504,
+        "gated_mean_cost": 94.657,
+        "P7s_minus_gated": 3.847,
+        "paired_95_episode_bootstrap_CI": [2.447, 5.709]
+      },
+      "openml_ldpa": {
+        "episodes": 32,
+        "P7s_mean_cost": 478.351,
+        "gated_mean_cost": 536.103,
+        "P7s_minus_gated": -57.751,
+        "paired_95_episode_bootstrap_CI": [-79.748, -38.126],
+        "P7s_minus_model_picker": 46.485,
+        "model_picker_paired_95_episode_bootstrap_CI": [34.996, 58.528],
+        "P7s_minus_model_selector": 43.392,
+        "model_selector_paired_95_episode_bootstrap_CI": [30.951, 56.347]
+      }
+    },
+    "independent_confirmation": false,
+    "authentic_predictions_and_features": false,
+    "encoding_max_mean_cost_difference": 0.0,
+    "decision": "Fails the all-applicable-comparators rule; no fresh confirmation is justified for unchanged P7s."
+  },
+  "suggestive_not_established": "P7s has a narrow lower net cost than Gated deployment on the exposed OpenML-LDPA loss replay, but Model Picker and Model Selector adapters are cheaper. Do not call this an SOTA win or independent real-data confirmation."
 }

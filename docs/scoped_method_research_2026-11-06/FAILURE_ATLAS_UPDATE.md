@@ -105,6 +105,22 @@ advantage can fail to transfer across adjacent quarters. It is not evidence that
 context-specific controller solves that problem. Keep the overall disposition
 **`BENCHMARK_OR_CASE_STUDY_ONLY`** and do not open another real-data source from this candidate.
 
+## P7s versus published deployment baselines (exposed loss replay)
+
+The previously missing P7s-to-SOTA comparison is now available at
+`research/scoped_method/pilots/p7s_vs_sota_loss_replay_20261106/`. This is a loss-only replay on
+previously exposed Rialto and OpenML-LDPA episodes. P7s is cheaper than Gated deployment on LDPA
+by 57.75 units (paired 95% episode-bootstrap interval `[−79.75,−38.13]`) and cheaper than Xu
+acquisition-only by 10.90 `[−19.33,−3.85]`. It costs 46.49 more than Model Picker
+`[+35.00,+58.53]` and 43.39 more than Model Selector `[+30.95,+56.35]`; on Rialto it costs 3.85
+more than Gated `[+2.45,+5.71]`. Both label encodings are numerically identical.
+
+This resolves the candidate-versus-published-baseline question only under the artificial
+prediction/label reconstruction used by this replay. It is not an authentic model-pair prediction
+stream, independent real confirmation, or an all-comparator win. P7s therefore supplies no repair
+claim or basis for opening a fresh confirmation source. The narrower result against Gated on
+LDPA is an exposed diagnostic; stronger applicable selectors remain cheaper.
+
 ## Slower-pacing restart falsification (2026-11-06)
 
 The existing E-SR `k=0.5` horizon-weighted pacing configuration passed a fresh iid-null calibration

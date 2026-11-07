@@ -1,0 +1,63 @@
+{
+  "experiment": "p7s_vs_sota_exposed_loss_replay_20261106",
+  "status": "completed_exploratory_exposed_loss_replay",
+  "branch": "codex/scoped-method-research-results-2026-11-06",
+  "protocol_commit": "025e406b",
+  "protocol": "research/scoped_method/pilots/p7s_vs_sota_loss_replay_20261106/PROTOCOL.md",
+  "git_state_at_run": "protocol commit 025e406b; no tracked source edits after the protocol freeze",
+  "runtime": {
+    "python": "3.12.15",
+    "numpy": "2.5.4",
+    "scipy": "1.18.1",
+    "zeros_runner_seconds": {
+      "rialto": 968.2,
+      "openml_ldpa": 2551.9
+    },
+    "xor_runner_seconds": {
+      "rialto": 964.2,
+      "openml_ldpa": 2536.9
+    }
+  },
+  "configuration": {
+    "datasets": ["rialto", "openml_ldpa"],
+    "horizon": 2000,
+    "episodes": {"rialto": 16, "openml_ldpa": 32},
+    "budget": 200,
+    "label_price": 0.05,
+    "switch_cost": 5.0,
+    "alpha": 0.05,
+    "epsilon": 0.0,
+    "p_min": 0.05,
+    "seeds_per_episode": 100,
+    "seed_base": 20261101,
+    "label_encodings": ["zeros", "xor"]
+  },
+  "inputs_sha256": {
+    "data/atlas_v2_losses/rialto.npz": "92f4cc16aa2168aea1e34952bc9f5ed208bd7dabc32728dcb28f2eb1ca69ba11",
+    "data/atlas_v2_losses/openml_ldpa.npz": "016bf919209d8081ff1608eadc28ee470609d8c6b56a3bf24c767e5f057dd1e2"
+  },
+  "source_sha256": {
+    "scripts/promising_directions/sota/run_vs_sota.py": "2d140860daffcc6fce6ac9a7e30c687333c1483e522502916e330fb3b046b819",
+    "scripts/promising_directions/sota/simulator.py": "6d66295e5367c70c1a003a322c9d77237a760947ba9424829a51e2c861f6dfaa",
+    "scripts/promising_directions/sota/competitors/certificate_stops.py": "bc313c11681b15a3a2b1feb45dd3fa6a14f5db08d5af327c26be5ef6d5dc79d8",
+    "scripts/promising_directions/sota/competitors/controls.py": "de66a03eddd40c792b0e5c90064d830804d1b48d918359d00ad0d85b0f2ae184",
+    "scripts/promising_directions/sota/competitors/smcs.py": "4b34e709c7d99cc0e97653a0b072661d06bbfeac6b9f3bfc0b96723f832529e0",
+    "scripts/promising_directions/sota/competitors/model_picker.py": "0de90298379af3c3f060ae2a698ba53ae66c43cb89d25226626d50b7ae9a7bae",
+    "scripts/promising_directions/sota/competitors/model_selector.py": "8bc8c6dbd1a38e5464021291daf9801dcf648dfc3ffe0f4e780c8e9f8cb89f7a",
+    "scripts/promising_directions/sota/competitors/online_llm_picker.py": "621bd15b71159f2f8906f002c285cd409f88ea7699e738f04e4261b6daeb8e6c",
+    "scripts/promising_directions/sota/competitors/xu_acquisition.py": "01d9c981375a06d44388a2778aa79f2944b8ed24db60c0124a9df319a5e3c474",
+    "scripts/promising_directions/sota/competitors/b3_plus_policy_adapter.py": "57084802b15a72a2c41e531f18a19fc65b190d2bd38cdcfe974259e17f476e4d",
+    "scripts/promising_directions/b3_plus_policy.py": "84f21b24bc36238f06e1ea1adab75c9b18f565c5bd712f91d6b7d830f55979d9",
+    "scripts/promising_directions/b1_certified_switching.py": "7565a647f3bb3f940d4fbd2a948597b9ffe42ef0485550a771d137e7930baebd"
+  },
+  "outputs_sha256": {
+    "zeros/vs_sota_results_zeros.json": "11212217e37df70b1628add43f06e83b7019e51806d1e97286eed47c310bc976",
+    "xor/vs_sota_results_xor.json": "5926f1141ea0beca887dc4c708b751a5cc0d62f5c0ba3776657251f50ade0f28"
+  },
+  "outcome": "P7s beats Gated deployment by 57.751 on exposed OpenML-LDPA, but loses to Model Picker and Model Selector. It loses to Gated on Rialto. No all-comparator SOTA win or independent confirmation.",
+  "limitations": [
+    "Loss traces come from real datasets but binary predictions and labels were reconstructed using artificial zero and balanced-xor encodings.",
+    "Both datasets and P7s were previously exposed; this is not confirmation or source-level transfer evidence.",
+    "Feature-dependent baselines are marked not run by the runner and are not treated as candidate wins."
+  ]
+}

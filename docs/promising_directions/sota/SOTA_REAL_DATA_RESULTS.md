@@ -97,3 +97,23 @@ where P7s costs 98.418 in the B3+ runner. Different runners, different seeding, 
 a reason to run the comparison properly, not a result.
 
 Gate: `IN PROGRESS` becomes **`NOT MET — NARROWED QUESTION CLOSED, SUITE COMPARISON NEVER RUN`**.
+
+## CORRECTION 2026-11-06: P7s versus loss-replay comparator suite
+
+The specific P7s comparison that was previously unrun has now been executed on the exposed
+Rialto and OpenML-LDPA paired loss paths. The prospective screen and full caveats are in
+`research/scoped_method/pilots/p7s_vs_sota_loss_replay_20261106/`.
+
+P7s costs 98.504 on Rialto and loses to Gated by 3.847 per episode (95% episode-bootstrap
+interval `[+2.447,+5.709]`). On OpenML-LDPA, P7s costs 478.351 and saves 57.751 versus Gated
+(`[−79.748,−38.126]`) and 10.904 versus Xu acquisition-only (`[−19.325,−3.854]`). But P7s
+costs 46.485 more than the Model Picker adapter (`[+34.996,+58.528]`) and 43.392 more than the
+Model Selector adapter (`[+30.951,+56.347]`); the point differences versus Online LLM Picker
+and SMCS are also unfavorable. The two loss-preserving label encodings are identical.
+
+This fails the frozen all-applicable-comparators rule. The loss traces are from real chronological
+datasets, but the replay reconstructed predictions from artificial labels and losses; it did not
+recreate authentic predictions, features, or their label relationship. These are exposed-data
+development diagnostics, not an authentic real-data head-to-head, independent confirmation, or
+generalization result. The original economic-stop decision above remains unchanged; the P7s suite
+question is now answered provisionally and negatively for this replay contract.

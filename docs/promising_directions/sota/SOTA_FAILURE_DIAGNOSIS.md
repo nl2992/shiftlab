@@ -59,3 +59,18 @@ weak baseline" rests on gated deployment beating **P3b**, which the decisive run
 (94.695 vs 103.728 on rialto). It does **not** rest on any measured comparison between gated
 deployment and **P7s**, because none exists. P7s versus the published suite is untested, and the
 conclusions above must not be extended to it.
+
+## CORRECTION 2026-11-06: P7s comparator screen
+
+The previous paragraph records the historical state and is superseded on the narrow point that
+P7s had never been compared. The exposed loss-replay screen now compares P7s directly with Gated,
+DISCERN-style, SMCS, Model Picker, Model Selector, Online LLM Picker, and Xu acquisition-only on
+Rialto and OpenML-LDPA. P7s loses to Gated on Rialto; on LDPA it beats Gated but loses to Model
+Picker and Model Selector with paired intervals entirely above zero. The exact values, label
+encoding invariance, and input limitations are documented in
+`research/scoped_method/pilots/p7s_vs_sota_loss_replay_20261106/RESULTS.md`.
+
+This closes only the *loss-replay screen*, not the authentic real-prediction comparison or the
+five-case completion gate. It supports a narrow positive versus Gated on LDPA, but not an SOTA
+advantage: stronger applicable selectors are cheaper. No fresh confirmation source is justified
+for unchanged P7s.

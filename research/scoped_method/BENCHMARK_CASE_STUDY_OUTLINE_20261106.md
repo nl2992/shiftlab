@@ -59,6 +59,7 @@ evidence does not support a new method, a universal ranking, or independent real
 - Frozen matrix protocol/results/raw records: [`pilots/economic_headroom_matrix_20261106/`](pilots/economic_headroom_matrix_20261106/).
 - Restart calibration and late screen: [`pilots/srr_any_false_calibration_20261106/CALIBRATION_RESULTS.md`](pilots/srr_any_false_calibration_20261106/CALIBRATION_RESULTS.md) and [`pilots/srr_late_improvement_20261106/EVALUATION_RESULTS.md`](pilots/srr_late_improvement_20261106/EVALUATION_RESULTS.md).
 - One-source chronological stress test: [`PFA_SRR_TRANSFER_DECISION_20261106.md`](PFA_SRR_TRANSFER_DECISION_20261106.md) and its linked run artifacts.
+- P7s published-baseline loss replay and explicit no-go: [`pilots/p7s_vs_sota_loss_replay_20261106/RESULTS.md`](pilots/p7s_vs_sota_loss_replay_20261106/RESULTS.md); it finds one narrow exposed advantage over Gated on OpenML-LDPA but loses to Model Picker and Model Selector, so it does not meet the all-comparator rule.
 - Context replay and explicit deviation: [`pilots/context_stratified_mnds_20261106/DECISION.md`](pilots/context_stratified_mnds_20261106/DECISION.md).
 - ALFRED remains source feasibility only: [`ALFRED_SOURCE_FEASIBILITY_20261106.md`](ALFRED_SOURCE_FEASIBILITY_20261106.md); do not describe it as a performance result.
 

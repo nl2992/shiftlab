@@ -20,7 +20,7 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
-ROOT = Path(__file__).resolve().parents[2]
+ROOT = Path(__file__).resolve().parents[3]
 PILOT = ROOT / "research/scoped_method/pilots/eia930_f8_development_20261107"
 RAW = ROOT / "data/raw/eia930_f8_development_20261107"
 ENDPOINT = "https://api.eia.gov/v2/electricity/rto/region-data/data/"

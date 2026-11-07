@@ -50,6 +50,15 @@ The following were observed:
 Empty windows on 2023-01-01 and 2026-01-01 apply to the *publication-time query window* and are
 not evidence that the dataset lacks those years. A separate coverage audit is required.
 
+Spot coverage probes returned zero rows for both ATL and DATL on 2022-06-01 and 2023-06-01, but
+48 rows for each on 2023-11-01 and 2024-06-01. This supports a possible late-2023 training start,
+but it is not a coverage guarantee; exact onset, gaps, and retention need a bounded registry audit
+before any model pair is frozen. The four 2023-11-01/2024-06-01 response hashes are ATL
+`27616afc8f5e04738f0a684e1430384f40d87e001f833d5adec1d387df7d2a5e` and
+`9eaf66265084103f7ee818c4b4cbd639d73fb153a247a4706c7bfa05015a4082`, DATL
+`0b58ed8e8a65fa90fb0bec0651feb30070f99b03b37f0935015a96cebed5abad` and
+`f50eb26ba772bdc4e444e631b0e4b0386f71d67ec42c301cbfae590984298d12`.
+
 A second audit queried the full January 2025 publication window. DATL returned 1,392 records for
 1,344 valid times and 29 documents; ATL returned 1,489 records for 1,485 valid times and 1,489
 documents. Every observed `documentRevisionNumber` was 1, but some valid times appeared in multiple
@@ -91,8 +100,9 @@ saving transitions, missing periods, or later corrections.
    predictions.
 3. Verify actual-label release timing and duplicate/correction handling over that registry; encode
    delayed or missing labels explicitly.
-4. Freeze one chronological train/development/confirmation registry and a real model-pair protocol.
-   Any pair must be trained only on data available before its prediction window.
+4. Verify historical coverage and then freeze one chronological train/development/confirmation
+   registry and a real model-pair protocol. Any pair must be trained only on data available before
+   its prediction window.
 5. Keep costs explicitly hypothetical unless an application supplies defensible utility and label
    costs. A single system operator remains one independent source cluster; many settlement periods
    do not create independent source-level replication.

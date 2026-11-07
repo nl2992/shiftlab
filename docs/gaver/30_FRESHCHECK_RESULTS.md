@@ -3,7 +3,7 @@
 Date 2026-11-06, branch `research/gave-r-2026-11-06`. Development/screening only: seeds
 101120000-101159999 (WP3 block of `gaver_screening_development`), no confirmation seeds. Every
 number below comes from `outputs/gaver/wp3/records.jsonl` (gitignored; regenerate with the commands
-at the end). Code commit: `2a8b695b`; follow-up (E_rb, two-phase) commit given in the last line.
+at the end). Code commit: `2a8b695b`; follow-up (E_rb, two-phase) commit `5521a269`.
 
 ## Verdict (screening)
 

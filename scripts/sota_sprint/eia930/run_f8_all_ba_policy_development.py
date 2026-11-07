@@ -161,6 +161,16 @@ def main() -> None:
     global_episode = 0
     for ba in bas:
         times, preds, y = model_pair(ba, data[ba])
+        expected = profile["profiles"][ba]
+        disagreement = preds[:, 0] != preds[:, 1]
+        disagreement_rate = float(disagreement.mean())
+        conditional_accuracy = float((preds[disagreement, 1] == y[disagreement]).mean())
+        if len(times) != expected["eligible_dev_events"]:
+            raise RuntimeError(f"eligible row count changed after profile screen for {ba}")
+        if abs(disagreement_rate - expected["disagreement_frequency"]) > 1e-12:
+            raise RuntimeError(f"disagreement profile changed after profile screen for {ba}")
+        if abs(conditional_accuracy - expected["challenger_correct_on_disagreements"]) > 1e-12:
+            raise RuntimeError(f"conditional accuracy changed after profile screen for {ba}")
         for local_episode, (start_event, start_time, p_ep, y_ep) in enumerate(
             episodes(times, preds, y)
         ):

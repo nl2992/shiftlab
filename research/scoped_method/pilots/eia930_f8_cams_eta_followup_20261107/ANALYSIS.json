@@ -1,0 +1,419 @@
+{
+  "rows": 2025,
+  "episodes": 81,
+  "bas": [
+    "AZPS",
+    "BANC",
+    "EPE",
+    "ERCO",
+    "FMPP",
+    "FPC",
+    "MISO",
+    "NEVP",
+    "NYIS",
+    "SWPP",
+    "TIDC"
+  ],
+  "max_abs_cost_identity_residual": 1.4210854715202004e-14,
+  "method_means_equal_ba": [
+    {
+      "policy": "cams_eta_3",
+      "net_cost": 29.793478355,
+      "loss": 22.5127922078,
+      "labels": 33.1613419913,
+      "label_cost": 1.6580670996,
+      "switches": 1.1245238095,
+      "switch_cost": 5.6226190476,
+      "promotions": 0.9656709957,
+      "rollbacks": 0.1588528139,
+      "first_promotion": 364.642682514
+    },
+    {
+      "policy": "cams_adapter",
+      "net_cost": 30.0310692641,
+      "loss": 22.6914285714,
+      "labels": 36.3447619048,
+      "label_cost": 1.8172380952,
+      "switches": 1.1044805195,
+      "switch_cost": 5.5224025974,
+      "promotions": 0.9520779221,
+      "rollbacks": 0.1524025974,
+      "first_promotion": 356.5528959546
+    },
+    {
+      "policy": "cams_eta_1p5",
+      "net_cost": 30.1071114719,
+      "loss": 22.6922943723,
+      "labels": 34.7465584416,
+      "label_cost": 1.7373279221,
+      "switches": 1.1354978355,
+      "switch_cost": 5.6774891775,
+      "promotions": 0.9731385281,
+      "rollbacks": 0.1623593074,
+      "first_promotion": 358.5664167016
+    },
+    {
+      "policy": "cams_eta_2",
+      "net_cost": 30.2598950216,
+      "loss": 22.6458441558,
+      "labels": 34.4043939394,
+      "label_cost": 1.720219697,
+      "switches": 1.1787662338,
+      "switch_cost": 5.8938311688,
+      "promotions": 0.9937662338,
+      "rollbacks": 0.185,
+      "first_promotion": 367.751268315
+    },
+    {
+      "policy": "cams_max_adapter",
+      "net_cost": 32.0296720779,
+      "loss": 23.2077922078,
+      "labels": 30.9743939394,
+      "label_cost": 1.548719697,
+      "switches": 1.4546320346,
+      "switch_cost": 7.2731601732,
+      "promotions": 1.1214718615,
+      "rollbacks": 0.3331601732,
+      "first_promotion": 351.7154066304
+    }
+  ],
+  "contrasts_vs_cams": {
+    "cams_eta_1p5": {
+      "candidate": "cams_eta_1p5",
+      "equal_ba_mean_candidate_minus_cams": 0.07604220779220687,
+      "hierarchical_ci95": [
+        -0.8829673701298716,
+        1.0205815746753222
+      ],
+      "ba_wins": 7,
+      "ba_practical_wins": 0,
+      "by_ba": {
+        "AZPS": {
+          "episodes": 8,
+          "mean_candidate_minus_cams": -0.12000000000000005,
+          "ci95_episode_bootstrap": [
+            -0.9250312499999993,
+            0.5213437499999981
+          ],
+          "saves_at_least_5_with_ci_below_zero": false
+        },
+        "BANC": {
+          "episodes": 7,
+          "mean_candidate_minus_cams": -0.2599999999999995,
+          "ci95_episode_bootstrap": [
+            -0.5171428571428578,
+            -0.015714285714284095
+          ],
+          "saves_at_least_5_with_ci_below_zero": false
+        },
+        "EPE": {
+          "episodes": 8,
+          "mean_candidate_minus_cams": 1.2712499999999998,
+          "ci95_episode_bootstrap": [
+            -0.2762500000000008,
+            3.226249999999999
+          ],
+          "saves_at_least_5_with_ci_below_zero": false
+        },
+        "ERCO": {
+          "episodes": 8,
+          "mean_candidate_minus_cams": 2.229999999999998,
+          "ci95_episode_bootstrap": [
+            -0.5137500000000013,
+            5.971343749999995
+          ],
+          "saves_at_least_5_with_ci_below_zero": false
+        },
+        "FMPP": {
+          "episodes": 6,
+          "mean_candidate_minus_cams": -2.680000000000002,
+          "ci95_episode_bootstrap": [
+            -6.283333333333336,
+            0.09333333333333016
+          ],
+          "saves_at_least_5_with_ci_below_zero": false
+        },
+        "FPC": {
+          "episodes": 8,
+          "mean_candidate_minus_cams": 2.0037499999999975,
+          "ci95_episode_bootstrap": [
+            0.10112499999999679,
+            4.191374999999995
+          ],
+          "saves_at_least_5_with_ci_below_zero": false
+        },
+        "MISO": {
+          "episodes": 7,
+          "mean_candidate_minus_cams": -0.6742857142857152,
+          "ci95_episode_bootstrap": [
+            -1.2543214285714288,
+            -0.1671428571428579
+          ],
+          "saves_at_least_5_with_ci_below_zero": false
+        },
+        "NEVP": {
+          "episodes": 8,
+          "mean_candidate_minus_cams": -0.34374999999999956,
+          "ci95_episode_bootstrap": [
+            -0.9824999999999982,
+            0.2737500000000006
+          ],
+          "saves_at_least_5_with_ci_below_zero": false
+        },
+        "NYIS": {
+          "episodes": 8,
+          "mean_candidate_minus_cams": -0.20749999999999957,
+          "ci95_episode_bootstrap": [
+            -1.42875,
+            0.847500000000001
+          ],
+          "saves_at_least_5_with_ci_below_zero": false
+        },
+        "SWPP": {
+          "episodes": 8,
+          "mean_candidate_minus_cams": -0.5350000000000019,
+          "ci95_episode_bootstrap": [
+            -1.1613125000000035,
+            0.00999999999999801
+          ],
+          "saves_at_least_5_with_ci_below_zero": false
+        },
+        "TIDC": {
+          "episodes": 5,
+          "mean_candidate_minus_cams": 0.15199999999999783,
+          "ci95_episode_bootstrap": [
+            -0.4900000000000041,
+            0.9420000000000013
+          ],
+          "saves_at_least_5_with_ci_below_zero": false
+        }
+      }
+    },
+    "cams_eta_2": {
+      "candidate": "cams_eta_2",
+      "equal_ba_mean_candidate_minus_cams": 0.22882575757575668,
+      "hierarchical_ci95": [
+        -0.5780327922077934,
+        1.0413076298701287
+      ],
+      "ba_wins": 3,
+      "ba_practical_wins": 0,
+      "by_ba": {
+        "AZPS": {
+          "episodes": 8,
+          "mean_candidate_minus_cams": 0.6424999999999992,
+          "ci95_episode_bootstrap": [
+            0.13124999999999953,
+            1.177624999999996
+          ],
+          "saves_at_least_5_with_ci_below_zero": false
+        },
+        "BANC": {
+          "episodes": 7,
+          "mean_candidate_minus_cams": 0.1457142857142859,
+          "ci95_episode_bootstrap": [
+            -0.7457142857142861,
+            0.9358214285714271
+          ],
+          "saves_at_least_5_with_ci_below_zero": false
+        },
+        "EPE": {
+          "episodes": 8,
+          "mean_candidate_minus_cams": 0.7649999999999979,
+          "ci95_episode_bootstrap": [
+            0.15249999999999897,
+            1.5349999999999975
+          ],
+          "saves_at_least_5_with_ci_below_zero": false
+        },
+        "ERCO": {
+          "episodes": 8,
+          "mean_candidate_minus_cams": -0.5837500000000022,
+          "ci95_episode_bootstrap": [
+            -3.8302812500000027,
+            3.3277187499999936
+          ],
+          "saves_at_least_5_with_ci_below_zero": false
+        },
+        "FMPP": {
+          "episodes": 6,
+          "mean_candidate_minus_cams": -0.48666666666666664,
+          "ci95_episode_bootstrap": [
+            -2.8200000000000003,
+            1.9233333333333356
+          ],
+          "saves_at_least_5_with_ci_below_zero": false
+        },
+        "FPC": {
+          "episodes": 8,
+          "mean_candidate_minus_cams": 0.4812500000000002,
+          "ci95_episode_bootstrap": [
+            -0.6675000000000004,
+            1.8688749999999994
+          ],
+          "saves_at_least_5_with_ci_below_zero": false
+        },
+        "MISO": {
+          "episodes": 7,
+          "mean_candidate_minus_cams": 0.22428571428571484,
+          "ci95_episode_bootstrap": [
+            -1.4057500000000003,
+            2.667964285714273
+          ],
+          "saves_at_least_5_with_ci_below_zero": false
+        },
+        "NEVP": {
+          "episodes": 8,
+          "mean_candidate_minus_cams": 0.9950000000000006,
+          "ci95_episode_bootstrap": [
+            -0.5674999999999994,
+            3.2800000000000007
+          ],
+          "saves_at_least_5_with_ci_below_zero": false
+        },
+        "NYIS": {
+          "episodes": 8,
+          "mean_candidate_minus_cams": 0.9374999999999978,
+          "ci95_episode_bootstrap": [
+            -0.7462500000000025,
+            3.167531249999998
+          ],
+          "saves_at_least_5_with_ci_below_zero": false
+        },
+        "SWPP": {
+          "episodes": 8,
+          "mean_candidate_minus_cams": 1.1562499999999978,
+          "ci95_episode_bootstrap": [
+            -1.3762500000000015,
+            5.476249999999997
+          ],
+          "saves_at_least_5_with_ci_below_zero": false
+        },
+        "TIDC": {
+          "episodes": 5,
+          "mean_candidate_minus_cams": -1.760000000000002,
+          "ci95_episode_bootstrap": [
+            -3.7440000000000024,
+            -0.10800000000000125
+          ],
+          "saves_at_least_5_with_ci_below_zero": false
+        }
+      }
+    },
+    "cams_eta_3": {
+      "candidate": "cams_eta_3",
+      "equal_ba_mean_candidate_minus_cams": -0.23759090909091,
+      "hierarchical_ci95": [
+        -1.0481722402597404,
+        0.5125909090909067
+      ],
+      "ba_wins": 5,
+      "ba_practical_wins": 0,
+      "by_ba": {
+        "AZPS": {
+          "episodes": 8,
+          "mean_candidate_minus_cams": -0.8237500000000024,
+          "ci95_episode_bootstrap": [
+            -2.640187500000001,
+            0.8099999999999965
+          ],
+          "saves_at_least_5_with_ci_below_zero": false
+        },
+        "BANC": {
+          "episodes": 7,
+          "mean_candidate_minus_cams": 1.1785714285714275,
+          "ci95_episode_bootstrap": [
+            -0.04428571428571563,
+            3.231428571428571
+          ],
+          "saves_at_least_5_with_ci_below_zero": false
+        },
+        "EPE": {
+          "episodes": 8,
+          "mean_candidate_minus_cams": 0.5762500000000003,
+          "ci95_episode_bootstrap": [
+            -1.016250000000002,
+            2.26896875
+          ],
+          "saves_at_least_5_with_ci_below_zero": false
+        },
+        "ERCO": {
+          "episodes": 8,
+          "mean_candidate_minus_cams": 0.417499999999998,
+          "ci95_episode_bootstrap": [
+            -2.2051250000000016,
+            3.7514062499999947
+          ],
+          "saves_at_least_5_with_ci_below_zero": false
+        },
+        "FMPP": {
+          "episodes": 6,
+          "mean_candidate_minus_cams": -2.2599999999999993,
+          "ci95_episode_bootstrap": [
+            -4.638333333333331,
+            0.038624999999994934
+          ],
+          "saves_at_least_5_with_ci_below_zero": false
+        },
+        "FPC": {
+          "episodes": 8,
+          "mean_candidate_minus_cams": 0.07374999999999865,
+          "ci95_episode_bootstrap": [
+            -0.6000000000000041,
+            0.810031250000001
+          ],
+          "saves_at_least_5_with_ci_below_zero": false
+        },
+        "MISO": {
+          "episodes": 7,
+          "mean_candidate_minus_cams": 0.07142857142857041,
+          "ci95_episode_bootstrap": [
+            -0.8543214285714291,
+            1.131464285714283
+          ],
+          "saves_at_least_5_with_ci_below_zero": false
+        },
+        "NEVP": {
+          "episodes": 8,
+          "mean_candidate_minus_cams": -0.1100000000000001,
+          "ci95_episode_bootstrap": [
+            -1.1213125000000006,
+            1.3337499999999989
+          ],
+          "saves_at_least_5_with_ci_below_zero": false
+        },
+        "NYIS": {
+          "episodes": 8,
+          "mean_candidate_minus_cams": -1.4000000000000008,
+          "ci95_episode_bootstrap": [
+            -3.485125000000002,
+            0.27884374999999867
+          ],
+          "saves_at_least_5_with_ci_below_zero": false
+        },
+        "SWPP": {
+          "episodes": 8,
+          "mean_candidate_minus_cams": -0.5912500000000005,
+          "ci95_episode_bootstrap": [
+            -1.8775937500000008,
+            0.7662812500000004
+          ],
+          "saves_at_least_5_with_ci_below_zero": false
+        },
+        "TIDC": {
+          "episodes": 5,
+          "mean_candidate_minus_cams": 0.2539999999999981,
+          "ci95_episode_bootstrap": [
+            -0.37600000000000156,
+            1.1099999999999988
+          ],
+          "saves_at_least_5_with_ci_below_zero": false
+        }
+      }
+    }
+  },
+  "lowest_cost_scale": "cams_eta_3",
+  "development_gate_pass": false,
+  "holdout_opened": false,
+  "interpretation": "Bounded eta-scale screen; scale tuning is a standard hyperparameter adjustment, not novelty."
+}

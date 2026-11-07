@@ -1,0 +1,54 @@
+{
+  "protocol": "eia930_f8_cams_eta_followup_20261107/PROTOCOL.md",
+  "git_commit": "356f024892c954cf5547b9c9b5164cd440f95757",
+  "source_sha256": {
+    "scripts/sota_sprint/eia930/run_f8_cams_eta_followup.py": "689dab36d5745288e55d39d486ecd0b4bd97dc09c2f75580d6d8f105dc33d8d2",
+    "scripts/sota_sprint/eia930/scaled_cams.py": "8647a287100b9560898a90e7b6f8b286c3853a288aada5722626c14bab08fa06",
+    "scripts/promising_directions/sota/competitors/cams.py": "a9fb86a4660fcbf3c8aa1eb9821b52993184789a2dadeec7f4f244f0f8f9378e",
+    "scripts/failure_atlas_v2_flq/suite.py": "2b33024ef95928bc5d5d530b5e9355a7695d4952546b0902021b47fbe88b5d45",
+    "scripts/sota_sprint/fam_d.py": "4622808bb9f91b582b0afc4c13a7c5fff7f55a0e9967fb4624c09f06a58b3bf0",
+    "scripts/sota_sprint/registry.py": "e90450aa58dd46eee6cfea9209b4fbbdc7ca17394312970a790b6cadee9c0d21",
+    "scripts/promising_directions/sota/simulator.py": "6d66295e5367c70c1a003a322c9d77237a760947ba9424829a51e2c861f6dfaa"
+  },
+  "raw_file_sha256": {
+    "data/raw/eia930_f8_development_20261107/EIA930_BALANCE_2021_Jan_Jun.csv": "40b183f333e0f3edc1b9a2ed48b792eff00fd477915dae79ce5784e862380f7f",
+    "data/raw/eia930_f8_development_20261107/EIA930_BALANCE_2021_Jul_Dec.csv": "66afadcab6865f74cebd6db82e363a66976846241c040cba66baf240afcd669b",
+    "data/raw/eia930_f8_development_20261107/EIA930_BALANCE_2022_Jan_Jun.csv": "d3d315a0c29d9527a1c64cf6ddcdcc5c0b7281fddd99199bd70f06d242e503d5",
+    "data/raw/eia930_f8_development_20261107/EIA930_BALANCE_2022_Jul_Dec.csv": "267575c29ef40f386bcf3bc3993013b9ce13a3a154b89b702559a75dd742976d",
+    "data/raw/eia930_f8_development_20261107/EIA930_BALANCE_2023_Jan_Jun.csv": "a0e14e9c07ab4cc1de3e384c7be890b0c61d9de3fe04ad3ae5ec739f1f35ec1b",
+    "data/raw/eia930_f8_development_20261107/EIA930_BALANCE_2023_Jul_Dec.csv": "c719fc1b513eec8982ce209b6e3173fc64b2d0d243f83d3bf0d8d1adf6222de2"
+  },
+  "bas": [
+    "AZPS",
+    "BANC",
+    "EPE",
+    "ERCO",
+    "FMPP",
+    "FPC",
+    "MISO",
+    "NEVP",
+    "NYIS",
+    "SWPP",
+    "TIDC"
+  ],
+  "policies": [
+    "cams_adapter",
+    "cams_max_adapter",
+    "cams_eta_1p5",
+    "cams_eta_2",
+    "cams_eta_3"
+  ],
+  "seeds": 5,
+  "seed_base": 2026110714,
+  "episodes": 81,
+  "rows": 2025,
+  "contract": {
+    "T": 2000,
+    "B": 200,
+    "delay": 1,
+    "label_price": 0.05,
+    "switch_cost": 5.0,
+    "alpha": 0.05
+  },
+  "note": "Bounded development-only hyperparameter screen on 2022-2023; no 2024+ data used."
+}

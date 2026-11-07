@@ -97,7 +97,7 @@ Status keys: `[ ]` open, `[~]` in progress, `[x]` done (verdict recorded), `[-]`
 
 ### WP4. Prior-art spot check (parallel, light)
 
-- [ ] 4.1 Verify the report's key neighbours exist and say what the report claims: Drift2Act,
+- [x] 4.1 Verify the report's key neighbours exist and say what the report claims: Drift2Act,
       Gong & Zhang (Cost of Information), Sethi et al. Markov sequential tests, Gafni–Iyengar–Zeevi,
       WATCH, PPRM, The Challenger, Lau & Tay. Record title/authors/venue/link and one line on overlap
       with each of Gap-Mix, PAVE, FreshCheck. Output `docs/gaver/40_PRIOR_ART_CHECK.md`.
@@ -132,3 +132,4 @@ WP0 first (short). Then WP1, WP2, WP3 and WP4 in parallel, each in its own files
 ## Progress log
 
 - 2026-11-06: branch and plan created.
+- 2026-11-06: WP4 done (abstract/snippet level). Closest threats: Gap-Mix–Sethi et al.; PAVE–Gong & Zhang; FreshCheck–The Challenger/Drift2Act. PPRM venue and Sethi e-process framing unverified.

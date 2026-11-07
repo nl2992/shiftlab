@@ -194,3 +194,12 @@ needed for a multi-domain transfer claim. No outcomes or series data were opened
 method gates failed, this remains source-feasibility metadata and does not authorize real-data
 confirmation. Details and exact source URLs are in
 [`ALFRED_SOURCE_FEASIBILITY_20261107.md`](research/scoped_method/ALFRED_SOURCE_FEASIBILITY_20261107.md).
+
+The ALFRED audit was extended against issuer-side calendars: BLS has historical Employment Situation
+and CPI release archives (with some historical unknown dates), the Federal Reserve G.17 archive
+states the monthly publication time and provides historical releases, and Census provides monthly
+retail release dates/times and historical files. This makes a point-in-time macro replay technically
+plausible for verified time windows, but does not convert its correlated U.S. series into independent
+external domains. Series-level source reconciliation, terms, and an eligible method remain
+unresolved; no data values or outcomes were downloaded or analyzed. See the issuer links in
+`research/scoped_method/ALFRED_SOURCE_FEASIBILITY_20261107.md`.

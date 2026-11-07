@@ -44,6 +44,30 @@ Official series pages: [UNRATE](https://alfred.stlouisfed.org/series?seid=UNRATE
 [HOUST](https://alfred.stlouisfed.org/series?seid=HOUST),
 [PCE](https://alfred.stlouisfed.org/series?seid=PCE).
 
+## Issuer-side publication chronology check
+
+The ALFRED candidate has issuer-side calendar sources for several series families:
+
+* BLS publishes a current Employment Situation schedule with reference month, publication date,
+  and 8:30 a.m. time, plus an archive of selected prior-year schedules and a separate historical
+  major-indicator release-date file. The historical PDF explicitly marks some release dates as
+  unknown; those rows cannot be treated as exact-time chronology without another primary record.
+  CPI's archived news-release index preserves dated releases by year.
+* The Federal Reserve's G.17 page provides scheduled release dates, states that monthly releases
+  are issued at 9:15 a.m., and links historical release dates and earlier release archives.
+* Census's Monthly Retail Trade schedule gives release dates and 8:30 a.m. publication times for
+  advance retail sales and links historical release-date files.
+* These records verify that source-side date/time evidence exists for the selected release
+  families, but this web audit did not reconcile each historical ALFRED vintage to the original
+  release file. The required reconciliation is still a precondition to building a model stream.
+
+Official issuer sources: [BLS Employment Situation schedule](https://www.bls.gov/schedule/news_release/empSit.htm),
+[BLS archived schedules](https://www.bls.gov/bls/archived_sched.htm),
+[BLS historical major-indicator release dates](https://www.bls.gov/bls/histreleasedates.pdf),
+[BLS CPI release archive](https://www.bls.gov/bls/news-release/cpi.htm),
+[Federal Reserve G.17 release calendar and archives](https://www.federalreserve.gov/releases/G17/),
+and [Census Monthly Retail Trade release schedule](https://www.census.gov/retail/release_schedule.html).
+
 ## Fit to the Failure Atlas task
 
 These series provide a real, external chronology, historical vintages, and several source agencies.

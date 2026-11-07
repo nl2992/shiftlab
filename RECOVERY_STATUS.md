@@ -181,3 +181,16 @@ and its adjacent run directories. The reproducible analyzer is
 methods using these evaluation outcomes. This calibration does not solve the economic failure, add
 a novel method contribution, or justify opening real-data outcomes. The branch-level status remains
 `BENCHMARK_OR_CASE_STUDY_ONLY`; the broader field is not claimed to be exhausted.
+
+## Real-source feasibility follow-up (2026-11-07)
+
+A metadata-only audit verified an ALFRED point-in-time source route for UNRATE, CPIAUCSL, INDPRO,
+RSAFS, HOUST, and PCE. ALFRED provides vintage histories and release dates, but documents fallback
+release dates when an issuing-source date is unavailable and typical ingestion lag of up to one
+business day. The source can support a future release-date replay only after per-series agency
+verification and conservative availability handling. These six series share one U.S. macroeconomic
+environment and are not six independent external domains; a separate market/source domain is still
+needed for a multi-domain transfer claim. No outcomes or series data were opened. Since the current
+method gates failed, this remains source-feasibility metadata and does not authorize real-data
+confirmation. Details and exact source URLs are in
+[`ALFRED_SOURCE_FEASIBILITY_20261107.md`](research/scoped_method/ALFRED_SOURCE_FEASIBILITY_20261107.md).

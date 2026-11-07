@@ -126,3 +126,28 @@ not establish a repair that clears the frozen synthetic gate, so the required in
 confirmation has not been run. The smallest next step is to stop expanding candidates and prepare
 the complete honest case-study package with the negative gates intact. Any future repair claim
 requires a newly justified, prospectively frozen candidate and independent evaluation protocol.
+
+## Phase 4 — Bounded P6 restart-prior ablation (2026-11-07)
+
+The one bounded follow-up was registered before outcomes at
+`pilots/p6_beta2_bounded_development_20261107/PROTOCOL.md`: compare P6's uniform restart-start prior
+with a conventional fixed Beta(2,1) weighted start prior across a late-improvement primary cell and
+five delayed, reversal, ordinary-gain, and null controls. The run completed 600 paired episode
+blocks (100 per regime; 4,800 policy records); the gzipped raw records, full runner manifest,
+analysis script, paired results, and decision are included in that directory.
+
+On `S_late_1500@B100`, Beta2's mean net cost was 361.797, versus 361.782 for
+`gated_adaptive_range+front` and 361.817 for P6 uniform. Candidate-minus-comparator was +0.015
+(paired percentile-bootstrap 95% CI [-0.318,+0.241]) against the lowest-mean applicable published
+panel comparator, missing the registered five-unit saving and interval gates. It promoted in 5/100
+streams at mean event 1937.6 among promotions and used 99.94 labels on average. Beta2 was also costly
+on `F6_delay400_better@B100` (mean 423.254, compared with 384.230 for E_rb's front-loaded Gated
+host) and `F0_better@B100` (415.743, compared with 372.940); it was favorable in the reversal cell
+relative to other switching methods but remained more costly than never-switch. Candidate null
+promotions were 0/100 (Wilson 95% CI [0.000%,3.699%]), a descriptive check only.
+
+**Decision:** close this candidate lane. The weighted-start change is conventional prior selection,
+does not create a distinct novelty claim, and does not clear the primary economic gate. No real
+dataset was opened. The four-contribution assessment and analysis limitation are recorded in the
+pilot `DECISION.md`; the overall disposition remains `BENCHMARK_OR_CASE_STUDY_ONLY`. Stop candidate
+expansion and prepare the case-study manuscript package from registered results.

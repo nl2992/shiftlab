@@ -1,6 +1,6 @@
 {
   "alpha": 0.05,
-  "analysis_sha256": "e04cf7da9aa0fd14df5fcb8d5a782450df6370f81b8bcdc41c807b4d8715bd82",
+  "analysis_sha256": "bd2c400807749a18c19d4c0b192067ccd85a8fa5bfeabfaafc85b993793763df",
   "budget": 200,
   "cells": [
     "F1_late_800",
@@ -33,12 +33,12 @@
   "source_commit": "99a3046c813226ccd1fcaf9fc47d8adb82d5e3e5",
   "source_sha256": {
     "research/scoped_method/pilots/p7s_model_picker_overlay_20261107/PROTOCOL.md": "65da623e7b4e16d9539248842199ba8af0e39074c7cd7164a9348c1fa56a3e37",
-    "research/scoped_method/pilots/p7s_model_picker_overlay_20261107/analyze.py": "e04cf7da9aa0fd14df5fcb8d5a782450df6370f81b8bcdc41c807b4d8715bd82",
-    "research/scoped_method/pilots/p7s_model_picker_overlay_20261107/run_pilot.py": "5d64026110f7ace57193809c82b71e8274dab510625e15270f3d05606dea6a58",
+    "research/scoped_method/pilots/p7s_model_picker_overlay_20261107/analyze.py": "bd2c400807749a18c19d4c0b192067ccd85a8fa5bfeabfaafc85b993793763df",
+    "research/scoped_method/pilots/p7s_model_picker_overlay_20261107/run_pilot.py": "c03a9a2057347d8b8eb57cff50e667c3da2566134cdb05779bc0be1ebc1515bc",
     "scripts/promising_directions/b3_plus_policy.py": "c90e7501b778d9d9554aea910752e814cdbef99c95ec637881d1b0855023c24a",
-    "scripts/promising_directions/sota/competitors/b3_plus_policy_adapter.py": "35712dbfb93d83dddca510ef569ba12fac8697bbb202c6d5ba1eeddc5168a5c7",
-    "scripts/promising_directions/sota/competitors/p7s_model_picker_overlay.py": "91e1d990097200e27ff890b165df9152b032bc2970bcf9a12833f071ced58029",
-    "tests/promising_directions/test_p7s_model_picker_overlay.py": "7f3435e2915fc0dc393a44086856d8130e5cc9bdc1591d211055e2098726bac3"
+    "scripts/promising_directions/sota/competitors/b3_plus_policy_adapter.py": "10397f2cb36deb00848671a2979b10fec935c75031aaeda27af95a6532879701",
+    "scripts/promising_directions/sota/competitors/p7s_model_picker_overlay.py": "a36a225e14d82d9a73b5da7337921c67db6cfa128e5ced90cd10605b95c3c647",
+    "tests/promising_directions/test_p7s_model_picker_overlay.py": "646e0b61e35c67a07fbc64d9a14193f2d8cdf008c08001c14ec1aa28ec92c706"
   },
   "source_worktree_dirty": true,
   "switch_cost": 5.0

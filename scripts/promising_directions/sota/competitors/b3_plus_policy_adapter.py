@@ -53,8 +53,8 @@ Other adaptation points
 from __future__ import annotations
 
 import sys
+from collections.abc import Callable
 from pathlib import Path
-from typing import Callable
 
 import numpy as np
 
@@ -158,8 +158,13 @@ class P7sPolicy:
         if self.q_adjust is not None:
             adjust = lambda step_t, q: np.array([self.q_adjust(step_t, float(q[0]))])
         cp.step(
-            t, np.zeros(1), np.zeros(1), np.array([dis]), np.array([u]),
-            np.array([self._ndis]), q_adjust=adjust,
+            t,
+            np.zeros(1),
+            np.zeros(1),
+            np.array([dis]),
+            np.array([u]),
+            np.array([self._ndis]),
+            q_adjust=adjust,
         )
         self._ndis += int(dis)
         self._next_t = t + 1

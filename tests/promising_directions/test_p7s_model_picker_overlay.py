@@ -11,16 +11,23 @@ for p in (SOTA, SOTA / "competitors", SOTA.parent):
     if str(p) not in sys.path:
         sys.path.insert(0, str(p))
 
-from b3_plus_policy_adapter import P7sPolicy
+from b3_plus_policy import CertPlus, b1
+from b3_plus_policy_adapter import P7sPolicy, p7s_plus_params
 from p7s_model_picker_overlay import P7sModelPickerOverlay
 from simulator import Event, run_episode
-from b3_plus_policy_adapter import p7s_plus_params
-from b3_plus_policy import CertPlus, b1
 
 
 def _make(policy_type=P7sPolicy, *, seed=1, budget=20, **kw):
-    return policy_type(40, budget, 2, 5.0, 0.05, rng=np.random.default_rng(seed),
-        params=b1.Params(T=40, delay=2, cq=0.05), **kw)
+    return policy_type(
+        40,
+        budget,
+        2,
+        5.0,
+        0.05,
+        rng=np.random.default_rng(seed),
+        params=b1.Params(T=40, delay=2, cq=0.05),
+        **kw,
+    )
 
 
 def test_q_combination_active_and_settled_formulas():
@@ -45,8 +52,15 @@ def test_mp_update_waits_until_after_current_p7s_issue_and_uses_combined_q():
     policy = _make(P7sModelPickerOverlay, seed=5, budget=10)
     preds = np.tile(np.array([[0, 1]]), (40, 1))
     labels = np.arange(40) % 2
-    run_episode(policy, model_predictions=preds, labels=labels, delay=2, budget=10,
-        label_price=0.05, switch_cost=5.0)
+    run_episode(
+        policy,
+        model_predictions=preds,
+        labels=labels,
+        delay=2,
+        budget=10,
+        label_price=0.05,
+        switch_cost=5.0,
+    )
     assert np.isfinite(policy.mp_loss).all()
     assert policy._next_t == len(labels)
     # All queried feedback uses the frozen combined propensity retained by the P7s feedback path.
@@ -72,8 +86,15 @@ def test_overlay_obeys_pathwise_hard_budget():
     policy = _make(P7sModelPickerOverlay, seed=18, budget=4)
     preds = np.tile(np.array([[0, 1]]), (40, 1))
     labels = np.arange(40) % 2
-    result = run_episode(policy, model_predictions=preds, labels=labels, delay=2, budget=4,
-        label_price=0.05, switch_cost=5.0)
+    result = run_episode(
+        policy,
+        model_predictions=preds,
+        labels=labels,
+        delay=2,
+        budget=4,
+        label_price=0.05,
+        switch_cost=5.0,
+    )
     assert result.requested_labels <= 4
     assert result.refused_requests == 0
     assert policy.cp.queries[0] <= 4

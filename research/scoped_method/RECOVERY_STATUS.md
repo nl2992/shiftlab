@@ -335,3 +335,33 @@ artifacts, including negative outcomes, if manuscript preparation is requested. 
 checkpoint at `2d47ae89` is pushed; Actions run `42412086728` has passed dependency setup, Ruff,
 format, and mypy, while the full pytest and environment-validation steps are still running. No
 new experiment, result, or source observation was produced in this phase.
+
+## Phase 12 — Recheck recovery and pending CI (2026-11-07)
+
+Reproduced the original CI diagnosis from run `42179919497`: Ruff reported 506 findings at
+`e7f4dca6`, and the repair remains in ancestor commit `82e1c48e`. No repair was needed on the
+current branch. At HEAD `d44e20f4`, the local commands below passed:
+
+```sh
+uv run ruff check .
+uv run ruff format --check .
+uv run mypy
+uv run pytest -q tests/sprint2/test_late_real.py
+```
+
+Results: Ruff passed; all 2,148 files passed format check; mypy reported no issues in 2 source
+files; the focused test file passed all 68 tests. GitHub Actions run `42412814061` on this same
+HEAD has also passed locked dependency setup, Ruff lint, format check, and mypy. Its full
+`uv run pytest -q` remains in progress, and environment validation has not started. Do not report
+the full suite or workflow as passed until that run completes.
+
+The current bounded research disposition is unchanged: no candidate cleared the frozen
+development economics and safety gates, so no new confirmation source was opened. The risk-separated
+rollback pilot's favorable `F3_reversal_1200` contrast (candidate minus never-switch −10.16,
+95% CI [−16.71, −3.61]) is outweighed under its registered gate by harm in `F3_reversal_800`
+(+12.22, [+8.48, +15.96]) and worse cost in `F0_better` versus default E-SR (+34.48,
+[+25.50, +43.46]). Its protocol and full details are in
+`research/scoped_method/pilots/srr_risk_separated_rollback_20261106/EVALUATION_RESULTS.md`.
+Disposition remains `BENCHMARK_OR_CASE_STUDY_ONLY`; the smallest next action is to collect the
+completion of run `42412814061`, then record any full-suite or environment-validation failure
+without rerunning earlier research phases.

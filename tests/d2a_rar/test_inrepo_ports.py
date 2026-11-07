@@ -78,9 +78,11 @@ def test_rmm_blocks_verbatim():
     ):
         text = _git_show(SPRINT, ref_path)
         tree = ast.parse(text)
+        # Compare ASTs, not raw text: the port was auto-formatted (line wrapping, noqa comments).
+        ported = {n.name: ast.dump(n) for n in ast.parse(port).body if isinstance(n, ast.ClassDef)}
         for node in tree.body:
             if isinstance(node, ast.ClassDef) and node.name in classes:
-                assert ast.get_source_segment(text, node) in port, node.name
+                assert ported.get(node.name) == ast.dump(node), node.name
 
 
 # ------------------------------------------------------------------------------------ B. bit-for-bit

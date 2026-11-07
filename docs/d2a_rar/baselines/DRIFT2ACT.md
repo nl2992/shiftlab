@@ -120,6 +120,169 @@ release/budget enforcement, WindowedAuditor, QueryPolicy) · `actions.py` (actio
 `controller.py` (Alg 1 step + full audit log: z, belief, requested/new indices, release times, budget, pending, R^, rad, U,
 feasible set, utilities, executed actions, costs) · `synthetic_env.py`, `runner.py`, `aggregate.py` (reproduction).
 
-## 5. Reproduction
+## 5. Reproduction (Suite A, `PAPER_RECONSTRUCTION`, synthetic stand-in only)
 
-(see below; filled after runs)
+Fidelity tier: **PAPER_RECONSTRUCTION** (no author code). Camelyon17 and DomainNet are **NOT reproduced** (no local data; nothing
+was downloaded). The only task attempted is a CPU-sized *synthetic stand-in* for SyntheticDrift-CIFAR. It is not that task, and its
+numbers must not be read as a reproduction of the paper's SyntheticDrift-CIFAR row. Suite A numbers are never used to rank methods
+against other baselines (BENCHMARK_CONTRACT.md Suite A rule 5).
+
+### 5.1 What `synthetic_env.py` simulates
+
+Binary classification stream of length L=1500, 8-d Gaussian class-conditionals (class means +-1.6 along axis 0, unit noise, clean
+Bayes error about 0.055), 15% minority group. The deployed predictor is a logistic regression fitted on 2000 clean samples. One hidden
+drift type per episode, drawn uniformly from {covariate: input mean shift of 2.0 along the class axis; concept: class direction
+rotated up to 70 degrees toward axis 1; subgroup: minority-group class separation scaled by 1-1.8*alpha, i.e. reversed at alpha=1}.
+Onset ~ U[300,600]; schedule drawn from {step, logistic (centre onset+100, scale 25), periodic (period 300-600)}. Label delay 50,
+B_lab=3000, tau=0.20, delta=0.05. Sensing z_t = [MMD2 (96 recent vs 192 reference points of the raw features), dH (mean predictive
+entropy minus reference), dECE (delayed-label ECE minus reference; 0 until 150 labels)]. Evaluator-side truth R*_t = group-reweighted
+(0.85/0.15) error of the model in force on 600 fresh stratified samples from the drifted law at step t; an abstained sample counts as
+correct when its confidence is below theta_sel=0.6. T and p(z|d) are fitted on 12 disjoint calibration episodes (seeds 50000-50011).
+It is *not* CIFAR: it has no corruption/remap/style semantics, and M=40 episodes x 1 seed replace the paper's M=200 x 5. In the
+40 episodes the drift types are 21 concept, 8 covariate, 11 subgroup; schedules 11 step, 13 logistic, 16 periodic.
+
+Baselines in `runner.py`: alarm_only (max |z-score| of the three sensors > 2.5 vs a no-drift reference; 0.3 per alarm onset),
+adapt_always (TTA every 25 steps, 1.0 each), retrain_schedule (one retrain at t=1200), selective_only (always abstain, 0.3 once).
+Baselines request 2 uniform labels per step while budget remains (about 967 labels, label cost 48.35); controllers pace their own
+audits (about 1360-1385 labels). All eight methods run on identical episode seeds 1000-1039.
+
+### 5.2 Results (40 episodes, mean +- s.e. over episodes; source `results/d2a_rar/drift2act/summary.md`)
+
+`C_tot = C_act + C_label` (C_label = 0.05 per label requested; the paper's Eq. 33 sums action costs c(a_t) and it is unclear whether
+its baselines include label cost, so C_act is the closer analogue). V = number of steps in the episode (L=1500, about 1075
+post-onset) with R*_t > tau. T_det is defined in 5.5. T_rec_post_harm is the time from the first harmful step to the first later
+recovered step (NaN, hence dropped, in episodes that never become harmful).
+
+| method | C_tot | C_act | C_label | V | T_det | T_rec_post_harm | min Acc_wg |
+|---|---|---|---|---|---|---|---|
+| alarm_only | 50.44 +- 0.35 | 2.09 +- 0.34 | 48.35 +- 0.09 | 549.85 +- 69.87 | 269.80 +- 17.19 | 653.80 +- 81.17 | 0.53 +- 0.04 |
+| adapt_always | 108.35 +- 0.09 | 60.00 +- 0.00 | 48.35 +- 0.09 | 426.32 +- 71.67 | 226.60 +- 16.73 | 483.72 +- 89.46 | 0.54 +- 0.04 |
+| retrain_schedule | 60.35 +- 0.09 | 12.00 +- 0.00 | 48.35 +- 0.09 | 410.88 +- 49.78 | 269.80 +- 17.19 | 472.31 +- 54.67 | 0.53 +- 0.04 |
+| selective_only | 48.65 +- 0.09 | 0.30 +- 0.00 | 48.35 +- 0.09 | 468.38 +- 70.26 | 269.80 +- 17.19 | 602.82 +- 85.56 | 0.57 +- 0.04 |
+| ctrl_no_cert | 171.23 +- 28.80 | 102.67 +- 28.97 | 68.56 +- 0.28 | 363.10 +- 66.86 | 7.25 +- 4.59 | 352.33 +- 82.02 | 0.54 +- 0.04 |
+| **ctrl_cert** (headline) | 97.84 +- 0.79 | 29.86 +- 0.79 | 67.98 +- 0.30 | 353.90 +- 66.60 | 3.50 +- 3.33 | 201.42 +- 36.70 | 0.54 +- 0.04 |
+| ctrl_cert_alg1 (adds delta_t = 6 delta/(pi^2 t^2)) | 96.59 +- 0.07 | 27.38 +- 0.04 | 69.21 +- 0.07 | 463.25 +- 70.52 | 0.00 +- 0.00 | 277.32 +- 37.33 | 0.56 +- 0.04 |
+| ctrl_cert_literal (per-round Q_t, delta_t, unconditional scheduling) | 96.60 +- 0.05 | 27.30 +- 0.00 | 69.30 +- 0.05 | 468.00 +- 70.19 | 0.00 +- 0.00 | 270.68 +- 37.39 | 0.56 +- 0.04 |
+
+Paired differences vs alarm_only (same episode seeds; mean +- s.e. of the per-episode difference):
+
+| method | dV | dC_tot | dT_rec_post_harm | d min Acc_wg |
+|---|---|---|---|---|
+| adapt_always | -123.53 +- 48.14 | +57.91 +- 0.34 | -156.64 +- 65.09 | +0.01 +- 0.01 |
+| retrain_schedule | -138.97 +- 25.95 | +9.91 +- 0.34 | -170.00 +- 27.61 | -0.00 +- 0.00 |
+| selective_only | -81.47 +- 38.19 | -1.79 +- 0.34 | -18.39 +- 2.94 | +0.03 +- 0.00 |
+| ctrl_no_cert | -186.75 +- 51.22 | +120.79 +- 28.67 | -301.47 +- 75.05 | +0.00 +- 0.00 |
+| ctrl_cert | -195.95 +- 47.15 | +47.40 +- 0.90 | -445.70 +- 69.28 | +0.01 +- 0.00 |
+| ctrl_cert_alg1 | -86.60 +- 38.37 | +46.16 +- 0.36 | -343.89 +- 55.05 | +0.03 +- 0.00 |
+| ctrl_cert_literal | -81.85 +- 38.17 | +46.16 +- 0.35 | -350.54 +- 58.03 | +0.03 +- 0.00 |
+
+Further paired numbers from the same shard JSONs (inline check, 2026-11-07): ctrl_cert minus adapt_always on V is -72.4 +- 68.2 (not
+distinguishable from zero; ctrl_cert has fewer violations in 70% of episodes); both controllers use about +20 label cost over
+alarm_only. By drift type (n = 8 covariate, 11 subgroup, 21 concept; last table of `summary.md`): ctrl_cert V = 521 +- 148
+(covariate), 0.8 +- 0.6 (subgroup), 475 +- 95 (concept) against alarm_only 701 +- 110, 100.7 +- 100.7, 728 +- 81. Subgroup drift is
+rarely harmful under the group-reweighted R* (only 15% of the stream is affected), so its V carries little information. Episodes with
+V=0: 25% for alarm_only, 22.5% for ctrl_cert.
+
+### 5.3 Comparison with the paper's Table 1 (SyntheticDrift-CIFAR row)
+
+Paper: Alarm-only / Adapt-always / Retrain / Selective / Ctrl / Ctrl+cert: C_tot 2.6/52.0/36.0/8.6/16.8/21.2; V 52/4/10/19/8/0;
+T_det 16/13/25/18/14/15; T_rec 185/66/92/148/84/58; min Acc_wg .68/.79/.77/.72/.78/.82. The paper's units for V and T are not stated
+precisely. Our environment is a stand-in, so only qualitative agreement is testable; absolute magnitudes are not comparable.
+
+**Reproduces (direction only):**
+- Every intervention has lower mean V than alarm_only; ctrl_cert has the largest paired V reduction vs alarm_only (-196 +- 47) and
+  the smallest T_rec_post_harm (201 vs 654 for alarm_only; paired -446 +- 69).
+- ctrl_cert is cheaper in action cost than adapt_always (C_act 29.9 vs 60.0), as in the paper (21.2 vs 52.0).
+
+**Does NOT reproduce:**
+1. **V approx 0 for Controller+cert** (paper 0 on SyntheticDrift-CIFAR). Ours is 353.9 +- 66.6 steps (about a third of post-onset
+   steps), and not distinguishable from adapt_always (paired -72.4 +- 68.2) or retrain_schedule. ctrl_cert does *not* have more
+   violations than adapt_always, so no "certificate hurts" finding either; the "near-zero violations" claim is just not reproduced here.
+2. **Certificate raises cost** (paper: ctrl+cert 21.2 > ctrl 16.8). Ours is reversed: C_act 29.9 vs 102.7. In the 12-episode log
+   (seeds 1000-1011, `mech_diag.json`) ctrl_no_cert repeats A2 TTA on 271-570 steps of every covariate-drift episode (the paper
+   specifies cooldowns only for retrain and rollback, so A1/A2 have none in our reconstruction), while ctrl_cert spends on about
+   1.9 retrains + 1.7 rollbacks per episode and per-activation abstain.
+3. **Accuracy.** min Acc_wg barely differs across methods (0.53-0.57, s.e. 0.04); the paper's 0.68 to 0.82 spread is not reproduced.
+   Ours is dominated by the minority group in subgroup-drift episodes (about 0.11 for every method) -- a property of the stand-in.
+4. **T_det** of the baselines is about 230-270 steps (paper 13-25): our alarm is an untuned z-score threshold on three noisy
+   low-dimensional sensors, right-censored at L-onset (no tuning split was used; recorded, not tuned away).
+5. selective_only has the best min Acc_wg here (0.57); the paper has it between alarm-only and the adaptive methods.
+
+### 5.4 Why V is large for ctrl_cert (descriptive; `mech_diag.json`, 12 episodes, seeds 1000-1011)
+
+* **The gate is closed for most of the stream at tau=0.2.** Certification needs R^_t + rad(n, 0.05) <= 0.2. With rad(100)=0.252,
+  rad(300)=0.158, rad(500)=0.126, rad(1024)=0.092 and a clean base error near 0.055, at least about 370 released labels inside the
+  window are needed even before any drift. The gate was open on 1.5% of pre-onset steps and 30% of all steps (means over the 12
+  episodes); in 3 of 12 episodes it never opened (median first-open step 388 where it did). With the gate closed the controller
+  abstains (A6): ctrl_cert chose A6 on 98.6% of steps (1358-1500 of 1500 per episode).
+* Abstaining only helps R* where confidence is below theta_sel=0.6, so most harmful steps stay harmful: per episode on average 388
+  harmful steps, of which 380 were abstained steps, 341 had a closed gate and 47 an open gate (certified yet harmful; the pooled
+  window-average bound lags a change, section 2 conditions 2-3).
+* Retraining is limited by the 800-step cooldown (about 2 per episode) and needs >= 30 released labels; with delay 50 and window 1024
+  the re-scored post-retrain model sees mixed pre/post-drift labels.
+* This is the short-horizon / low-tau vacuity of section 2. It is a property of our reconstruction plus stand-in; the paper's sensor
+  models, T, G calibration, lambda and discriminative evidence are unknown, so we cannot say whether its V approx 0 holds in its own
+  environment. We do not claim the paper's result is wrong.
+
+### 5.5 Metric definitions, and two artifacts
+
+* **V** (`runner.py`): `int((R > tau).sum())` over all L=1500 steps, R_t the evaluator-side error of the model in force: a count of
+  steps, including pre-onset ones. The paper's V values (0-63) cannot be a same-definition step count over 1500 steps; its unit is
+  presumably coarser (unstated).
+* **T_det = 0 for controllers is a metric artifact, not early detection.** The controller alarm flag is
+  `belief[none] < 0.5 or action != A0_noop`, and the controller abstains almost always: pre-onset alarm fraction 0.998 (ctrl_cert)
+  and 0.795 (ctrl_no_cert) in the 12-episode log. The gate is closed from t=0 (U_t = inf with no released label), and the belief
+  starts uniform. Baselines' alarm is a sensor threshold, so T_det is not comparable between the families; read the controllers'
+  T_det as "alarm already on at onset" (pre-onset false-alarm rate about 1), not a detection delay.
+* **T_rec = 0 is a metric artifact.** `T_rec = min{t >= onset : R_t <= tau} - onset` is 0 whenever the model is still fine at the onset
+  step. That holds for 77.5% (alarm_only) to 82.5% of episodes (alarm_only: 100% of logistic and periodic schedules, 18% of step
+  schedules). The summary therefore reports `T_rec_post_harm` (first harmful step to first later recovered step; censored at the
+  episode end if it never recovers; NaN if never harmful). Raw T_rec stays in the shard JSONs (means: alarm_only 243.5, ctrl_cert 87.0).
+
+### 5.6 Bug history
+
+A first 40-episode run (`results/d2a_rar/drift2act_v0_stratified_bug`) used the stratified 300/300 evaluation sample unweighted
+(50% minority). It is archived and not used; fixed by reweighting to the 0.85/0.15 stream prevalence (`truth_eval`).
+`aggregate.py` had `paired` defined after its `__main__` block (NameError as a script); fixed 2026-11-07 and `C_label` added to the
+table.
+
+### 5.7 Reproduce
+
+```
+WT="C:/Users/nigel/OneDrive/桌面/ICML/shiftlab-d2a-rar-2026-11-07"; cd "$WT"
+export PYTHONPATH="$WT/src" PYTHONIOENCODING=utf-8
+PY=C:/Users/nigel/OneDrive/桌面/ICML/shift-research-starter/.venv/Scripts/python.exe
+# 8 shards x 5 episodes (~890 s each, CPU): shard k covers episode seeds 1000+5k .. 1004+5k
+for k in 0 1 2 3 4 5 6 7; do "$PY" -m shiftlab.sota.drift2act.runner $((5*k)) $((5*k+5)) results/d2a_rar/drift2act/shard$k.json > results/d2a_rar/drift2act/shard$k.out & done; wait
+"$PY" -m shiftlab.sota.drift2act.aggregate results/d2a_rar/drift2act > results/d2a_rar/drift2act/summary.md
+"$PY" results/d2a_rar/drift2act/mech_diag.py     # 12 episodes with logs (several minutes); writes mech_diag.json
+```
+Code version: `git log -1` = `2920475663330701cff5a23cf269a96fda87b244` (branch `research/drift2act-rar-autoresearch-2026-11-07`)
+**plus uncommitted working-tree changes**: the Drift2Act sources were not committed when the runs were made. The 2026-11-07
+lint/aggregate edits do not change run behaviour (10 unit tests pass after them). Config: `Config()` defaults (printed in every shard
+JSON). Calibration seeds 50000-50011; episode seeds 1000-1039. `results/` is gitignored; the shard JSONs are the primary evidence.
+
+### 5.8 Assessment
+
+Continue as a baseline host (certificate + gate + belief/utility selector + `LabelRequestPolicy`/`EvidenceModel` hooks all run and are
+tested), but expect it to be a weak performer on streams like ours: the paper's headline V approx 0 is not reproduced here.
+Camelyon17, DomainNet and the paper's Tables 6-14 (ablations, sweeps, FIR, Amazon) are not reproduced; no claim is made about them.
+
+## 6. Contract port (`COMMON_CONTRACT_PORT`)
+
+`src/shiftlab/bench/contract/adapters_drift2act.py` (policy `Drift2ActContractPolicy`, adapter `Drift2ActAdapter`, claimed null
+`abs_risk`); tests `tests/d2a_rar/test_adapter_drift2act.py`. The coordinator wires it into `adapters.py` (not edited here).
+Action map: A0 -> continue; A3 -> query (windowed uniform audit, one query per round, size from the swappable
+`LabelRequestPolicy.request_size`); A2 (TTA) -> switch(CANDIDATE); A4 -> retrain; A5 -> rollback (only if `prev_m` is the last
+certified model); A6 -> abstain; certificate-failure transition -> alert (rate limited). **Unmapped: A1 recalibrate** (the contract
+has no in-place model edit); `route` and switching to the retrained model are not used.
+Deviations: `ObservableState` has no embeddings or predictive probabilities, so z_t is computed from the scalar monitor `x` and
+released losses: z1 = mean-shift z-score (MMD proxy), z2 = log-scale z-score (entropy proxy), z3 = recent-vs-reference released-loss
+z-score (dECE proxy). Evidence p(z|d) and T are hand-specified and untuned (no calibration data in the contract), so the belief
+separates none vs drift only. The abstain price is charged per abstained round (native: per activation). The audit window reaches back
+only `ClockSpec.max_lookback` rounds (default 0 degenerates to labelling the current round). The certificate pools released labels in
+the window (heuristic unless within-window risk is stationary). Claimed null `abs_risk`: valid only for uniform window sampling; not
+under informative delay/missingness, serial dependence or non-uniform round choice. The Q2 hook swaps only the request size; round
+choice stays uniform inside the host (tested: non-query actions before the first label release are identical, N_q and c_q differ).
+Smoke (not a performance claim): on `iid_shift_d10`, balanced costs, label_cap 300, max_lookback 200, 3 seeds, the adapter abstained
+on 774-859 of 1000 rounds because the gate at tau=0.5 is mostly closed, mirroring 5.4.

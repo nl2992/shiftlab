@@ -51,6 +51,48 @@ available chronological sources audited for this turn lack verified label-releas
 for the intended deployment-stream test. The raw matched records and their hashes are
 preserved in the run directory; this amendment supersedes no earlier atlas observations.
 
+## Rare-disagreement F8 control reconciliation (2026-11-07)
+
+F8 (`F8_rare_better`: 3% model disagreement; challenger correct with probability .90 on
+disagreements) is a distinct positive **regime-specific control** result. On 100 fresh synthetic
+streams, `fixed_challenger` saved 6.174 net-cost units versus CAMS (paired 95% bootstrap CI
+[-6.857, -5.544]), meeting the registered 5-unit F8 gate. The policy uses zero labels and pays
+one switch cost. It is an ordinary static deployment policy whose premise is that the challenger
+is already known to be preferable; the experiment does not show how an online controller can infer
+that premise. Its adverse controls are material: on `F0_null`, it cost 3.98 more than never-switch
+(363.31 vs 359.33); on `F3_reversal_800`, it cost 39.45 more than never-switch (384.22 vs 344.77).
+See `docs/scoped_method_research_2026-11-06/eia930_f8_synthetic_followup/RESULTS.md` and its frozen
+protocol. These results establish a scoped baseline advantage, not a repair or a universally safe
+rule.
+
+The EIA-930 replay is consistent with that fixed-control advantage but is not independent-provider
+confirmation. Its preselected fixed challenger saved 12.239 units per episode over CAMS (hierarchical
+paired 95% CI [−21.231, −7.218]) and 9.191 over the lowest-mean registered panel method with a
+selection-aware interval [−13.958, −4.555] on the frozen 2026 window. The result uses 17 episodes
+across 11 correlated BAs, revised historical values, a simulated one-hour feedback schedule,
+hypothetical prices, and disclosed aggregate progress-row exposure. The ordinary model choice had
+been selected from an earlier development profile; it is not a novel algorithm. Full provenance is
+in `research/scoped_method/pilots/eia930_f8_2026_confirmation_20261107/RUN_STATUS.md`.
+
+A separate prospective EIA profile screen tried to construct a trained challenger for the F8
+mechanism; only one of three BAs passed both profile thresholds, below the frozen two-of-three gate.
+No method comparison was run, and the reserved 2024–25 holdout remains unopened. This is a
+pair-profile mismatch, not evidence against F8 or a method failure (`research/scoped_method/pilots/eia930_f8_ml_challenger_20261107/DECISION.md`).
+
+An additional bounded Elexon BMRS metadata audit now verifies publication-time queries, historical
+forecast/actual records, repeated forecast vintages, about 25-minute post-interval actual release on
+sampled dates, and 46/50-interval DST days. It makes Elexon a credible chronological development
+candidate, but no model outcomes were computed. It is one operator/source cluster and is not yet an
+independent confirmation dataset. See `research/scoped_method/ELEXON_SOURCE_FEASIBILITY_20261107.md`.
+
+**Updated interpretation:** the atlas contains a real positive F8 opportunity when a strong
+challenger is known in advance. The best tested solution is conventional fixed deployment, and the
+information needed to choose it prospectively is not identified by the F8 labels alone. The user
+requested distinct method objective therefore remains open; do not recast this baseline result as a
+novel method claim. Any next method experiment must first specify a prospectively observable signal
+that selects the F8 regime and beat both CAMS and a calibrated horizon-aware baseline, while
+controlling null and reversal harm.
+
 ## Late-label heavy-tail prior screen (2026-11-06)
 
 To target late-improvement blindness under delay, a fixed `q=1.2` start prior proportional

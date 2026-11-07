@@ -107,6 +107,34 @@ delay tail (`iid_shift_geo20` is the nearest proxy); a RAR-native persistent-dri
 semantics (canary candidates currently run on the contract `route()` split only); informative gap choice (only
 approximated by `iid_shift_informative_missing`). Candidates that need an absent family are `UNVERIFIED` until it exists.
 
+### 3a. Amendment A1: DEV_SUITE_v2 for Stage-B tranche 2 (registered 2026-11-07, before any tranche-2 run)
+
+Why: the v1 suite (B/T = 5%, label cap 50) makes both hosts' statistical thresholds unreachable
+(`status/wp6_host_audit.md`), so host-hook candidates were inert (40 DUPLICATE). v1 results stand unchanged; v2 is
+used **alongside** v1, not instead of it.
+
+- **Suite:** `registry/DEV_SUITE_v2.json` (sha256 `414eacd0…630659`), families `configs/d2a_rar/stream_families_v2.yaml`
+  (sha256 `9cd53491…40f898`). 15 cells S1a-S4c, each triple = alternative / correct null / neighbouring negative
+  control; per-cell T, label cap and cost vector as recorded in the JSON. Seeds: `110050000 + cell_index*1000 +
+  replicate`, 20 replicates, paired across methods.
+- **Hosts:** profile `calibrated_v1` for Drift2Act, RAR, Cost-Aware Binary and Binary (frozen at commit
+  `87772d33`; no constant revisited after any result). `native_v0` is run once per cell as a reported reference.
+- **Comparator set (every v2 cell):** the candidate's host (`calibrated_v1`), `uniform_query`, `fixed_schedule`,
+  `pending_cap`, `episode_front`, `never_switch`, and two valid conditional-null certified promoters from
+  `adapters_inrepo`: Gap-Mix `exact0.8_s4` and the gap-10 thinned gate. "Strongest applicable comparator" in §4 is
+  the comparator with lowest mean J on that cell **among comparators valid for the candidate's claimed null on its
+  validity cells**; naive GainSwitch controls that false-promote on S2e/S2f do not count as the strongest comparator
+  on those cells.
+- **Scope of tranche 2:** (i) identities decided `DUPLICATE` of a host-identical behaviour in tranche 1; (ii) identities
+  `UNVERIFIED` for a missing family that v2 now provides; (iii) Q1 evidence identities once the label-outcome evidence
+  hook exists (they enter with a further amendment line naming the hook commit). Budget: at most 140 experiments,
+  bringing the Stage-B total to the registered 200.
+- **Decision rule:** §4 unchanged, applied per suite; a candidate must not be worse than its host on any v1 cell it
+  ran on. Mandate Q2 stop rule: if Q2 candidates on v2 at best match `pending_cap` / `fixed_schedule`, Q2 is
+  recorded NEGATIVE and its line stops.
+- **Frozen after registration:** any change to cells, seeds, comparators or hosts after the first tranche-2 record
+  requires amendment A2 with a fresh seed sub-block; results under A1 are never re-labelled.
+
 ## 4. Keep / discard (preregistered; no single-metric rule)
 
 A candidate is **KEEP** (promote to the Stage-C queue) iff all of:

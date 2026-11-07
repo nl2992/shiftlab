@@ -56,3 +56,17 @@ PYTHONPATH=scripts/promising_directions/sota uv run python scripts/sota_sprint/s
   --seeds 30 --seed-base 7110601403 --workers 4 --alpha 0.0005 \
   --out research/scoped_method/pilots/srr_reversal_20261106/costaware_baseline
 ```
+
+## Existing reserve/rollback/deadline comparator completion
+
+The original economic matrix omitted the already implemented `B5` composition (15% pre-decision label reserve + RMM rollback + economic deadline). Since this is an established repository baseline and is directly relevant to the interaction under study, run one additional fresh exploratory panel before any candidate implementation. This is not confirmation: the target regime was already examined in the preceding development screens, and B5's existence is prior knowledge.
+
+Use seed base `7110601404`, 30 paired streams per cell, the same four cells and cost contract, and pass global alpha 0.0005. Compare `B5`, `B2`, `CONTROL_never_switch`, `E_swcert`, `E_rb:gated_adaptive_range`, `rmm:gated_adaptive_range+RMM`, `R:economic_stop`, and `E_srrSR:gated_deployment`. `B2` is the simplest rollback-without-reserve/deadline ablation. The target gate remains the same primary scenario: at least 5 mean net-cost units saved vs never-switch with the paired 95% interval below zero; the unfavorable `F3_reversal_800` harm must be <=5 units vs never-switch. Any pass is an existing-method result. Do not adjust B5's registered reserve fraction, deadline, monitor, or alpha after outcomes.
+
+```sh
+PYTHONPATH=scripts/promising_directions/sota uv run python scripts/sota_sprint/screen.py \
+  --kind synthetic --regimes F3_reversal_1200,F3_reversal_800,F0_better,F0_null \
+  --policies B5,B2,CONTROL_never_switch,E_swcert,E_rb:gated_adaptive_range,rmm:gated_adaptive_range+RMM,R:economic_stop,E_srrSR:gated_deployment \
+  --seeds 30 --seed-base 7110601404 --workers 4 --alpha 0.0005 \
+  --out research/scoped_method/pilots/srr_reversal_20261106/reserve_rollback_baseline
+```

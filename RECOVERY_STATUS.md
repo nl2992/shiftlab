@@ -102,3 +102,28 @@ Phase 0 remains open. GitHub Actions run [42293566727](https://github.com/nl2992
 ## Latest full-suite recovery result
 
 Actions run [42302052205](https://github.com/nl2992/shiftlab/actions/runs/42302052205) on commit `2092979f` passed Ruff, format check, mypy, environment validation, and the full pytest suite: **3,332 passed, 46 skipped in 791.73 seconds**. This run predates the chronological-news transfer scripts and therefore does not verify them. Their current local verification is limited to Ruff, formatting, bytecode compilation, and construction of the six requested policy factories. The HuffPost evaluator has read-only protocol sign-off; its confirmation window remains unopened pending the pre-outcome freeze-only smoke step.
+
+## Current branch verification and economic-headroom decision (2026-11-06)
+
+**Branch / tested HEAD:** `codex/scoped-method-research-results-2026-11-06` at `17a3f7e0006afc5247a345c1cc033147851fc4b3`. This is the same commit as `origin/codex/scoped-method-research-results-2026-11-06` before this documentation update. The Ruff repair is already present in the branch history (`82e1c48e`) and was not reapplied.
+
+### Phase 0 checks on current source
+
+| Command | Result |
+|---|---|
+| `gh run view 42179919497 --repo nl2992/shiftlab --log-failed` | Reproduced CI's Ruff failure: 506 findings, exit 1. |
+| `uv run ruff check .` | PASS — Ruff 0.17.1, all checks passed. |
+| `uv run ruff format --check .` | PASS — 2,054 files already formatted. |
+| `uv run mypy` | PASS — no issues in 2 source files. |
+| `uv run pytest -q tests/sprint2/test_late_real.py tests/failure_atlas_v2/test_restart_monitor.py tests/promising_directions/test_sota_economic_stop.py tests/promising_directions/test_sota_controls.py` | PASS — 97 passed in 14.67s. |
+| `uv run pytest -q` | PASS — 3,339 passed, 46 skipped in 1,929.05s. |
+
+The full suite is the first full run recorded here against the latest research branch. An initial focused invocation named nonexistent `tests/sota_sprint/test_fam_e.py` and collected no tests; it was immediately replaced by the valid focused command above. No test outcome was inferred from that failed invocation.
+
+### Phase 1 reconciliation and Phase 2 decision
+
+The evidence and provenance in `research/scoped_method/ECONOMIC_HEADROOM_DECISION_20261106.md`, `docs/scoped_method_research_2026-11-06/PHASE1_RECONCILIATION.md`, and `docs/scoped_method_research_2026-11-06/PHASE2_HEADROOM_RESULTS.md` remain controlling. E_rb and B2 match exactly on the 90 rollback-pilot episodes; never-switch beats E_rb in all three tested reversal/recurrent pilot cells; SR/CUSUM ARL controls are not equal-safety substitutes for anytime probability-of-any-false-promotion certificates; the direct front-load+E_rb run exists but was not committed/checksummed before execution; adaptive-range corrections supersede affected historical comparisons; and no independent real-data confirmation of a repair has occurred.
+
+The frozen economic matrix found oracle-only headroom in the economically worthwhile reversal regime but no safety-qualified implementable policy passed the target, null, and adverse-cell gate. The strongest recent conventional comparison, slower-paced E-SR (`k=0.5`), passed its two 1,000-stream iid-null screens (20/1,000 each; one-sided Wilson upper 2.8682%) but cost 1.69 more than default E-SR on `F1_late_800` (paired 95% CI [-0.51, +3.90]) and cost 20.04 more than never-switch on `F3_reversal_800` (95% CI [+17.26, +22.82]); it is a conventional pacing setting, not a new method. See `research/scoped_method/pilots/srr_tail_pacing_20261106/RESTART1_RESULTS.md` for the full baseline panel and raw hashes.
+
+**Phase decision:** `BENCHMARK_ONLY`. The tested environment has economic headroom in principle, but no distinct repair survives the frozen development gates; this does not establish that the entire research question or field is exhausted. Do not open locked holdouts or extend this candidate search under the same claim. Smallest next step: prepare the benchmark/case-study manuscript from the corrected records, including the adverse regimes and baseline-provenance caveats.

@@ -79,3 +79,9 @@ Decision remains `BENCHMARK_ONLY`: this screen identifies a potentially useful, 
 - Economic acquisition counterexample: `docs/switching_economic_acquisition_screen_v1.md` and `outputs/switching_economic_acquisition_screen_v1/results.json`.
 - Direct composition screen protocol, raw records, manifest, summary, and analyzer: `research/scoped_method/pilots/direct_frontload_erb_20261106/` and `research/scoped_method/analyze_direct_frontload_erb.py`.
 - Direct-screen SHA-256: `records.jsonl` `a1a83a1de7d101ce6e89d58461715529cb243aea0474618a31dc36a7225a09f1`; `summary.json` `08ffb4ec158640df1a7fb8d3c8a640fff3fa852d0233a204bec4e8b12a50d56d`; `manifest.json` `dc70ee343843432f7130c5019df065b04cbd7d093fee14cbcc15101251dea74b`.
+
+## Common-prefix identifiability diagnostic (2026-11-06)
+
+A follow-up check of the registered target and adverse reversal pair found that `F3_reversal_1200` and `F3_reversal_800` have identical policy-visible distributions through event 799: both have p=.7, disagreement probability .2, 100-event delay, and the same remaining generator parameters. The 800-event change point in the unfavorable regime is the first difference. Matched-seed generation verified identical two-model losses over events 0–799 in 1,000/1,000 pairs. See [`COMMON_PREFIX_IDENTIFIABILITY_20261106.md`](COMMON_PREFIX_IDENTIFIABILITY_20261106.md) for the reproduction and interpretation.
+
+This supports the interpretation that the existing target/adverse trade-off is partly an information constraint of the synthetic design. It does not imply no algorithm can improve under a richer observation contract; it does mean another pre-800 statistical-threshold tweak on these same loss-only streams has no new signal for deciding which reversal duration applies. The next feasible repair path requires prospectively observable context predicting persistence. No new method experiment or real-data holdout was opened in this diagnostic.

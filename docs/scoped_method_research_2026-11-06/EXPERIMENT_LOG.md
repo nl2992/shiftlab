@@ -31,6 +31,15 @@ Entries are ordered by execution; earlier experiment records in other research f
 - OPSD/Binance R3 task code and freeze were reviewed read-only. They provide future testbeds, not evidence: raw data are absent in the active worktree; no holdout was opened. The task contract requires a separate committed method freeze and one-opening runner first.
 - **Tests rerun on c66185 worktree:** `uv run pytest -q tests/test_atlas_v2_qce.py tests/sota_sprint/test_fam_c.py` — 43 passed in 25.88s; `uv run pytest -q tests/sota_sprint/test_fam_b.py` — 22 passed in 56.63s; `uv run pytest -q tests/test_failure_atlas.py tests/failure_atlas_v2/test_restart_monitor.py tests/failure_atlas_v2/test_regimes.py tests/promising_directions/test_sota_simulator.py tests/sota_sprint/test_fam_a.py` — 106 passed in 139.40s. Total 171 passed in isolated groups. No research source code was changed in this execution; tests confirm the graph-audited current code still passes these groups.
 
+## 2026-11-06 — restarted slower-pacing E-SR screen
+
+- **Question:** Does the existing `k=0.5` horizon-weighted pacing configuration improve late-improvement deployment economics after passing an independent iid-null screen?
+- **Protocol:** `research/scoped_method/pilots/srr_tail_pacing_20261106/RESTART_PROTOCOL_20261106.md` and `EVALUATION_AMENDMENT_RESTART1.md`, frozen in commits `9535e1d2` and `3fd8443c`. The earlier interrupted 378-record attempt was excluded. Fresh calibration seed base `7110601701`, independent null seed base `7110601702`, and alternative seed base `7110601703`; `T=2000`, `B=200`, delay 100, label cost .05, switch cost 5, alpha .0005.
+- **Calibration:** 20/1,000 iid `F0_null` promotions; one-sided 95% Wilson upper 2.8682%. Independent evaluation null also 20/1,000, upper 2.8682%. Both pass the registered empirical <=.05 screen; this is not a theorem or serial-dependence guarantee.
+- **Primary result:** On 100 paired `F1_late_800` streams, candidate net cost was 366.05 versus 362.66 for default E-SR; candidate-minus-default was +1.69/1,000 events, 95% paired t CI [−0.51,+3.90]. It therefore failed the required >=5-unit saving.
+- **Adverse and control results:** On `F0_better`, candidate-minus-default was +10.92/1,000 [7.92,13.92]. On `F3_reversal_800`, candidate cost versus never-switch was +20.04/1,000 [17.26,22.82]; on `F3_reversal_1200`, +15.02 [12.90,17.14]. It also lost to the Qiu and Gong common-contract ports on `F1_late_800`, which do not share the certified methods' safety claims. Full matched cost decomposition and baseline intervals are in `research/scoped_method/pilots/srr_tail_pacing_20261106/RESTART1_RESULTS.md`.
+- **Decision:** Stop this fixed pacing candidate without retuning. It is a conventional prior-art setting, not a new method. Do not open a real confirmation dataset based on this failed development gate.
+
 
 ## Direct front-loading plus E_rb screen — 2026-11-06
 

@@ -104,3 +104,16 @@ costs and supplies no method repair. It adds evidence that a validation-selected
 advantage can fail to transfer across adjacent quarters. It is not evidence that a dynamic
 context-specific controller solves that problem. Keep the overall disposition
 **`BENCHMARK_OR_CASE_STUDY_ONLY`** and do not open another real-data source from this candidate.
+
+## Slower-pacing restart falsification (2026-11-06)
+
+The existing E-SR `k=0.5` horizon-weighted pacing configuration passed a fresh iid-null calibration
+(20/1,000 promotions; one-sided 95% Wilson upper 2.87%) and independent iid-null check (also
+20/1,000, upper 2.87%). It did not improve the registered late cell over default E-SR: on
+`F1_late_800` candidate-minus-default net cost was +1.69/1,000 events (95% paired t CI
+[−0.51,+3.90]). The candidate was +10.92/1,000 more costly than default E-SR in `F0_better`,
+and +20.04 [17.26,22.82] / +15.02 [12.90,17.14] more costly than never-switch in the 800/1200
+reversal cells. It also lost to Qiu/Gong ports on the late cell; those are not safety-equivalent
+certificate baselines. Since the pacing rule is conventional prior art and the target gate failed,
+this is a falsification, not a method advance. Full results and hashes:
+`research/scoped_method/pilots/srr_tail_pacing_20261106/RESTART1_RESULTS.md`.

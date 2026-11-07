@@ -304,3 +304,22 @@ so parallel implementers never touch shared registry files.
 - Null safety passes for all valid policies; `esr_arl` is invalid (promotes on ~100% of nulls).
 - Decision: **pivot within track A** (stop claiming the rollback statistic; test economic gating
   or a promotion-speed component directly). Track B (late change) becomes the next priority.
+
+## Track B mechanism diagnosis (2026-11-07)
+
+- Protocol locked in `a69878c4`; results in `late_change_diagnosis_results.md` / `.json`.
+- Supported drivers of late-change failure: **stale evidence** (dominant; published hosts miss
+  every late improvement, single-start RMM nearly as bad) and **budget exhaustion / front-loaded
+  pacing** (k=3 vs k=1 harmful at change 800/1200/1500). Delay supported descriptively (benefit
+  gone at delay 400). Post-verdict stopping **not supported** (hosts keep acquiring).
+- Reinterpretation: RMM's "continued acquisition" stacks a second acquisition stream on the host
+  (`restart_monitor.py:179-194`), spending the budget faster; it helps early changes and hurts late
+  ones. Host restart has exactly zero effect in late regimes. `rmm:LRMD_k1` ≈ e-SR with full
+  promotion alpha; its edge over the default two-sided e-SR is the alpha allocation, not start
+  spacing.
+- Side note: `restart_monitor.py:199` casts losses with `int()` (fine on 0/1 loss tapes; would
+  truncate non-0/1 losses on real streams). Not changed, because historical results depend on this
+  file; flag for any real-data use.
+- Decision: stop pursuing RMM as a contribution. Track B continues only via adaptive pacing under
+  change-time uncertainty or delay robustness, after a prior-art check. Comparator for any
+  candidate: `esr_rmmbets_fullalpha` / `rmm:LRMD_k1`.

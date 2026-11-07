@@ -1,26 +1,32 @@
 # Electricity-market source feasibility audit (2026-11-07)
 
-**Status: metadata-only source audit. No observations, model predictions, labels, or outcomes were
-opened.** This checks whether an electricity-market domain could support a genuinely chronological
-external replay. It does not confirm a method or authorize an evaluation run.
+**Status: source/schema audit with a two-row API smoke inspection.** No model predictions,
+loss streams, or method outcomes were evaluated. The official API returned one PJM demand value
+and its paired day-ahead forecast for 2025-01-01T01 UTC. This checks source feasibility only; it
+does not confirm a method.
 
 ## EIA-930: promising event and label chronology, but version capture is unresolved
 
 EIA-930 covers hourly grid operation reported by U.S. balancing authorities (BAs), with demand,
-day-ahead demand forecasts, generation, and interchange. EIA provides historical submissions
-through downloads/API; the API and interactive history start in 2019, while flat-file submissions
-extend to the beginning of collection. EIA documents that demand is typically available one hour
-after an operating hour, and the day-ahead demand forecast is typically available by 11:00 a.m.
-Eastern. These are useful inputs and target timings for paired load-forecasting models.
+day-ahead demand forecasts, generation, and interchange. The official API route
+`/v2/electricity/rto/region-data/data/` exposes hourly UTC records with respondent and type facets;
+type `DF` is the day-ahead demand forecast and type `D` is realized demand. A two-row inspection
+for PJM at `2025-01-01T01` returned both values, showing that the forecast/target pair is available
+through a reproducible public interface. EIA documents that the day-ahead forecast is typically
+available by 11:00 a.m. Eastern and demand is typically available one hour after the operating hour.
+These provide a defensible **simulated feedback schedule** for chronological model-pair replay.
+Historical submissions through the API start in 2019; longer flat-file submissions are available.
 
 The chronology is not automatically point-in-time safe. BAs report in different local zones, some
 do not observe daylight saving time, and EIA states that the demand values collected after the hour
 and again at 7 a.m. the next day may differ. Respondents may later correct historical values. The
 current API has no update field and directly accesses databases that EIA says are updated
 continuously, not at regular intervals. A present-day download therefore cannot stand in for the
-historical value version available at a past decision time. Before model construction, we would need
-either an archived submission/version feed with verifiable timestamps or a separate archived
-historical snapshot collection; absent that, this is ineligible for strict real-time replay.
+historical value version available at a past decision time. The data are eligible for a replay only
+under an explicit **simulated-feedback contract**: use the current historical values as fixed
+targets, assign the documented nominal availability schedule, and label the experiment as simulated
+release timing with retrospectively revised targets. They are not eligible for a claim about
+historically available label versions unless an archived submission/version feed is recovered.
 
 There are multiple BAs, but they share the U.S. grid, weather shocks, and national policy. They
 cannot be treated as independent source clusters merely because the reporting entity differs.
@@ -61,18 +67,20 @@ and [ENTSO-E Transparency Platform FAQ, updates](https://www.entsoe.eu/Documents
 
 | Source | Independent domain potential | Chronology evidence | Current status |
 |---|---|---|---|
-| EIA-930 | U.S. electricity operations; BAs are correlated subclusters | Operating-hour and forecast availability schedules documented; revisions acknowledged; historical point-in-time snapshots not yet established | Promising, not eligible yet |
+| EIA-930 | U.S. electricity operations; BAs are correlated subclusters | Forecast and realized demand fields verified in the API; nominal release schedule documented; revisions acknowledged; historical point-in-time snapshots not established | Eligible for simulated-feedback replay; not authentic-vintage confirmation |
 | ENTSO-E Transparency Platform | European electricity market, distinct from U.S. macro and grid governance | Official manual documents public-interface submission timestamps and older versions; provider corrections are discretionary; selected-product retention and reproducible extraction remain to be checked | Strong candidate, not yet eligible |
 
 Official sources checked: [EIA-930 data description and availability](https://www.eia.gov/electricity/930-content/about.html),
 [EIA API update behavior](https://www.eia.gov/opendata/faqs.php), and
 [ENTSO-E Transparency Platform](https://www.entsoe.eu/data/transparency-platform/).
 
-No observations were accessed. The next safe step, if a synthetic candidate later passes its frozen
-gate, is a metadata/schema-only check for retained versions and access terms on one EIA BA panel and
-one ENTSO-E load series. Proceed to feature/prediction construction only if historical versions
-support the claimed decision-time information set. If not, reject the source for this purpose rather
-than treating the final corrected series as historical truth.
+The API inspection used the public `DEMO_KEY`, queried one timestamp for `PJM` under each type
+`D` and `DF`, and retained no downloaded dataset or model outcome. A bounded development replay may
+now be built using EIA-930 with simulated release timing, provided its time splits, BA registry,
+prediction models, feedback delay, cost sensitivity, and method comparison are frozen before model
+outcomes are examined. It must not be described as real-time label-version validation. For stronger
+generalization, pair this domain with independent sources; multiple BAs alone are correlated
+subclusters rather than independent data sources.
 
 ## Relation to the current method decision
 

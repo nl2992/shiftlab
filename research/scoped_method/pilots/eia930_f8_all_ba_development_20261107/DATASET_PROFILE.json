@@ -1,0 +1,661 @@
+{
+  "protocol": "eia930_f8_all_ba_development_20261107/PROTOCOL.md",
+  "window": "fit=2021; development=2022-2023 UTC",
+  "registered_ba_count": 64,
+  "profiles": {
+    "AEC": {
+      "eligible_train_events": 5487,
+      "eligible_dev_events": 0,
+      "excluded": true
+    },
+    "AECI": {
+      "eligible_train_events": 8417,
+      "eligible_dev_events": 17520,
+      "disagreement_frequency": 0.07928082191780822,
+      "challenger_correct_on_disagreements": 0.8970482361411087,
+      "complete_contiguous_2000_hour_blocks": 8,
+      "contiguous_runs": 1,
+      "train_2021_p90_cutoff_mw": 3617.0,
+      "f8_profile_match": false,
+      "excluded": false
+    },
+    "AVA": {
+      "eligible_train_events": 8415,
+      "eligible_dev_events": 17520,
+      "disagreement_frequency": 0.07157534246575342,
+      "challenger_correct_on_disagreements": 0.8213716108452951,
+      "complete_contiguous_2000_hour_blocks": 8,
+      "contiguous_runs": 1,
+      "train_2021_p90_cutoff_mw": 1782.0,
+      "f8_profile_match": false,
+      "excluded": false
+    },
+    "AVRN": {
+      "eligible_train_events": 0,
+      "eligible_dev_events": 0,
+      "excluded": true
+    },
+    "AZPS": {
+      "eligible_train_events": 8392,
+      "eligible_dev_events": 17516,
+      "disagreement_frequency": 0.03225622288193652,
+      "challenger_correct_on_disagreements": 0.8867256637168142,
+      "complete_contiguous_2000_hour_blocks": 8,
+      "contiguous_runs": 5,
+      "train_2021_p90_cutoff_mw": 5218.900000000001,
+      "f8_profile_match": true,
+      "excluded": false
+    },
+    "BANC": {
+      "eligible_train_events": 8363,
+      "eligible_dev_events": 17445,
+      "disagreement_frequency": 0.030151905990255086,
+      "challenger_correct_on_disagreements": 0.8688212927756654,
+      "complete_contiguous_2000_hour_blocks": 7,
+      "contiguous_runs": 8,
+      "train_2021_p90_cutoff_mw": 2744.0,
+      "f8_profile_match": true,
+      "excluded": false
+    },
+    "BPAT": {
+      "eligible_train_events": 8415,
+      "eligible_dev_events": 17520,
+      "disagreement_frequency": 0.0716324200913242,
+      "challenger_correct_on_disagreements": 0.7944223107569721,
+      "complete_contiguous_2000_hour_blocks": 8,
+      "contiguous_runs": 1,
+      "train_2021_p90_cutoff_mw": 7681.0,
+      "f8_profile_match": false,
+      "excluded": false
+    },
+    "CHPD": {
+      "eligible_train_events": 8322,
+      "eligible_dev_events": 17520,
+      "disagreement_frequency": 0.05182648401826484,
+      "challenger_correct_on_disagreements": 0.8193832599118943,
+      "complete_contiguous_2000_hour_blocks": 8,
+      "contiguous_runs": 1,
+      "train_2021_p90_cutoff_mw": 300.0,
+      "f8_profile_match": false,
+      "excluded": false
+    },
+    "CISO": {
+      "eligible_train_events": 8324,
+      "eligible_dev_events": 17386,
+      "disagreement_frequency": 0.026400552168411365,
+      "challenger_correct_on_disagreements": 0.8235294117647058,
+      "complete_contiguous_2000_hour_blocks": 6,
+      "contiguous_runs": 15,
+      "train_2021_p90_cutoff_mw": 31812.5,
+      "f8_profile_match": false,
+      "excluded": false
+    },
+    "CPLE": {
+      "eligible_train_events": 8418,
+      "eligible_dev_events": 17427,
+      "disagreement_frequency": 0.05772651632524244,
+      "challenger_correct_on_disagreements": 0.8906560636182903,
+      "complete_contiguous_2000_hour_blocks": 7,
+      "contiguous_runs": 4,
+      "train_2021_p90_cutoff_mw": 9425.0,
+      "f8_profile_match": false,
+      "excluded": false
+    },
+    "CPLW": {
+      "eligible_train_events": 8393,
+      "eligible_dev_events": 17520,
+      "disagreement_frequency": 0.0875,
+      "challenger_correct_on_disagreements": 0.8401826484018264,
+      "complete_contiguous_2000_hour_blocks": 8,
+      "contiguous_runs": 1,
+      "train_2021_p90_cutoff_mw": 738.0,
+      "f8_profile_match": false,
+      "excluded": false
+    },
+    "DEAA": {
+      "eligible_train_events": 0,
+      "eligible_dev_events": 0,
+      "excluded": true
+    },
+    "DOPD": {
+      "eligible_train_events": 8415,
+      "eligible_dev_events": 17520,
+      "disagreement_frequency": 0.06700913242009132,
+      "challenger_correct_on_disagreements": 0.813458262350937,
+      "complete_contiguous_2000_hour_blocks": 8,
+      "contiguous_runs": 1,
+      "train_2021_p90_cutoff_mw": 290.0,
+      "f8_profile_match": false,
+      "excluded": false
+    },
+    "DUK": {
+      "eligible_train_events": 8417,
+      "eligible_dev_events": 17520,
+      "disagreement_frequency": 0.05947488584474886,
+      "challenger_correct_on_disagreements": 0.8790786948176583,
+      "complete_contiguous_2000_hour_blocks": 8,
+      "contiguous_runs": 1,
+      "train_2021_p90_cutoff_mw": 15360.0,
+      "f8_profile_match": false,
+      "excluded": false
+    },
+    "EPE": {
+      "eligible_train_events": 8386,
+      "eligible_dev_events": 17493,
+      "disagreement_frequency": 0.03115531927056537,
+      "challenger_correct_on_disagreements": 0.8825688073394495,
+      "complete_contiguous_2000_hour_blocks": 8,
+      "contiguous_runs": 4,
+      "train_2021_p90_cutoff_mw": 1464.0,
+      "f8_profile_match": true,
+      "excluded": false
+    },
+    "ERCO": {
+      "eligible_train_events": 8417,
+      "eligible_dev_events": 17520,
+      "disagreement_frequency": 0.036929223744292236,
+      "challenger_correct_on_disagreements": 0.8500772797527048,
+      "complete_contiguous_2000_hour_blocks": 8,
+      "contiguous_runs": 1,
+      "train_2021_p90_cutoff_mw": 59984.4,
+      "f8_profile_match": true,
+      "excluded": false
+    },
+    "FMPP": {
+      "eligible_train_events": 8388,
+      "eligible_dev_events": 17350,
+      "disagreement_frequency": 0.047780979827089336,
+      "challenger_correct_on_disagreements": 0.8661037394451147,
+      "complete_contiguous_2000_hour_blocks": 6,
+      "contiguous_runs": 12,
+      "train_2021_p90_cutoff_mw": 2897.0,
+      "f8_profile_match": true,
+      "excluded": false
+    },
+    "FPC": {
+      "eligible_train_events": 8415,
+      "eligible_dev_events": 17520,
+      "disagreement_frequency": 0.04788812785388128,
+      "challenger_correct_on_disagreements": 0.8557806912991657,
+      "complete_contiguous_2000_hour_blocks": 8,
+      "contiguous_runs": 1,
+      "train_2021_p90_cutoff_mw": 8946.7,
+      "f8_profile_match": true,
+      "excluded": false
+    },
+    "FPL": {
+      "eligible_train_events": 8333,
+      "eligible_dev_events": 16058,
+      "disagreement_frequency": 0.04795117698343505,
+      "challenger_correct_on_disagreements": 0.7935064935064935,
+      "complete_contiguous_2000_hour_blocks": 3,
+      "contiguous_runs": 32,
+      "train_2021_p90_cutoff_mw": 20304.4,
+      "f8_profile_match": false,
+      "excluded": false
+    },
+    "GCPD": {
+      "eligible_train_events": 8415,
+      "eligible_dev_events": 17520,
+      "disagreement_frequency": 0.06780821917808219,
+      "challenger_correct_on_disagreements": 0.8047138047138047,
+      "complete_contiguous_2000_hour_blocks": 8,
+      "contiguous_runs": 1,
+      "train_2021_p90_cutoff_mw": 771.0,
+      "f8_profile_match": false,
+      "excluded": false
+    },
+    "GLHB": {
+      "eligible_train_events": 0,
+      "eligible_dev_events": 0,
+      "excluded": true
+    },
+    "GRID": {
+      "eligible_train_events": 0,
+      "eligible_dev_events": 0,
+      "excluded": true
+    },
+    "GRIF": {
+      "eligible_train_events": 0,
+      "eligible_dev_events": 0,
+      "excluded": true
+    },
+    "GVL": {
+      "eligible_train_events": 8097,
+      "eligible_dev_events": 17386,
+      "disagreement_frequency": 0.0549292534222938,
+      "challenger_correct_on_disagreements": 0.8607329842931937,
+      "complete_contiguous_2000_hour_blocks": 6,
+      "contiguous_runs": 12,
+      "train_2021_p90_cutoff_mw": 323.0,
+      "f8_profile_match": false,
+      "excluded": false
+    },
+    "GWA": {
+      "eligible_train_events": 0,
+      "eligible_dev_events": 0,
+      "excluded": true
+    },
+    "HGMA": {
+      "eligible_train_events": 0,
+      "eligible_dev_events": 0,
+      "excluded": true
+    },
+    "HST": {
+      "eligible_train_events": 8418,
+      "eligible_dev_events": 17433,
+      "disagreement_frequency": 0.07307979120059657,
+      "challenger_correct_on_disagreements": 0.8532182103610675,
+      "complete_contiguous_2000_hour_blocks": 7,
+      "contiguous_runs": 10,
+      "train_2021_p90_cutoff_mw": 94.0,
+      "f8_profile_match": false,
+      "excluded": false
+    },
+    "IID": {
+      "eligible_train_events": 8389,
+      "eligible_dev_events": 17277,
+      "disagreement_frequency": 0.02442553684088673,
+      "challenger_correct_on_disagreements": 0.8341232227488151,
+      "complete_contiguous_2000_hour_blocks": 5,
+      "contiguous_runs": 12,
+      "train_2021_p90_cutoff_mw": 749.0,
+      "f8_profile_match": false,
+      "excluded": false
+    },
+    "IPCO": {
+      "eligible_train_events": 8415,
+      "eligible_dev_events": 17520,
+      "disagreement_frequency": 0.020319634703196348,
+      "challenger_correct_on_disagreements": 0.8230337078651685,
+      "complete_contiguous_2000_hour_blocks": 8,
+      "contiguous_runs": 1,
+      "train_2021_p90_cutoff_mw": 2847.0,
+      "f8_profile_match": false,
+      "excluded": false
+    },
+    "ISNE": {
+      "eligible_train_events": 8418,
+      "eligible_dev_events": 17520,
+      "disagreement_frequency": 0.05313926940639269,
+      "challenger_correct_on_disagreements": 0.8947368421052632,
+      "complete_contiguous_2000_hour_blocks": 8,
+      "contiguous_runs": 1,
+      "train_2021_p90_cutoff_mw": 16452.1,
+      "f8_profile_match": false,
+      "excluded": false
+    },
+    "JEA": {
+      "eligible_train_events": 8418,
+      "eligible_dev_events": 17520,
+      "disagreement_frequency": 0.058333333333333334,
+      "challenger_correct_on_disagreements": 0.8806262230919765,
+      "complete_contiguous_2000_hour_blocks": 8,
+      "contiguous_runs": 1,
+      "train_2021_p90_cutoff_mw": 1995.0,
+      "f8_profile_match": false,
+      "excluded": false
+    },
+    "LDWP": {
+      "eligible_train_events": 8207,
+      "eligible_dev_events": 17314,
+      "disagreement_frequency": 0.03315236225020215,
+      "challenger_correct_on_disagreements": 0.818815331010453,
+      "complete_contiguous_2000_hour_blocks": 5,
+      "contiguous_runs": 10,
+      "train_2021_p90_cutoff_mw": 3779.0,
+      "f8_profile_match": false,
+      "excluded": false
+    },
+    "LGEE": {
+      "eligible_train_events": 8110,
+      "eligible_dev_events": 17520,
+      "disagreement_frequency": 0.07574200913242009,
+      "challenger_correct_on_disagreements": 0.8960060286360211,
+      "complete_contiguous_2000_hour_blocks": 8,
+      "contiguous_runs": 1,
+      "train_2021_p90_cutoff_mw": 5231.0,
+      "f8_profile_match": false,
+      "excluded": false
+    },
+    "MISO": {
+      "eligible_train_events": 8342,
+      "eligible_dev_events": 17461,
+      "disagreement_frequency": 0.038600309260638,
+      "challenger_correct_on_disagreements": 0.900593471810089,
+      "complete_contiguous_2000_hour_blocks": 7,
+      "contiguous_runs": 9,
+      "train_2021_p90_cutoff_mw": 89578.30000000002,
+      "f8_profile_match": true,
+      "excluded": false
+    },
+    "NEVP": {
+      "eligible_train_events": 8391,
+      "eligible_dev_events": 17520,
+      "disagreement_frequency": 0.01997716894977169,
+      "challenger_correct_on_disagreements": 0.8828571428571429,
+      "complete_contiguous_2000_hour_blocks": 8,
+      "contiguous_runs": 1,
+      "train_2021_p90_cutoff_mw": 6518.0,
+      "f8_profile_match": true,
+      "excluded": false
+    },
+    "NWMT": {
+      "eligible_train_events": 8127,
+      "eligible_dev_events": 17518,
+      "disagreement_frequency": 0.06656010960155269,
+      "challenger_correct_on_disagreements": 0.7178387650085764,
+      "complete_contiguous_2000_hour_blocks": 8,
+      "contiguous_runs": 3,
+      "train_2021_p90_cutoff_mw": 1600.0,
+      "f8_profile_match": false,
+      "excluded": false
+    },
+    "NYIS": {
+      "eligible_train_events": 8418,
+      "eligible_dev_events": 17520,
+      "disagreement_frequency": 0.04486301369863014,
+      "challenger_correct_on_disagreements": 0.871501272264631,
+      "complete_contiguous_2000_hour_blocks": 8,
+      "contiguous_runs": 1,
+      "train_2021_p90_cutoff_mw": 21319.7,
+      "f8_profile_match": true,
+      "excluded": false
+    },
+    "PACE": {
+      "eligible_train_events": 8416,
+      "eligible_dev_events": 17517,
+      "disagreement_frequency": 0.03185476965233773,
+      "challenger_correct_on_disagreements": 0.7365591397849462,
+      "complete_contiguous_2000_hour_blocks": 7,
+      "contiguous_runs": 4,
+      "train_2021_p90_cutoff_mw": 6901.0,
+      "f8_profile_match": false,
+      "excluded": false
+    },
+    "PACW": {
+      "eligible_train_events": 8415,
+      "eligible_dev_events": 17520,
+      "disagreement_frequency": 0.05856164383561644,
+      "challenger_correct_on_disagreements": 0.7475633528265108,
+      "complete_contiguous_2000_hour_blocks": 8,
+      "contiguous_runs": 1,
+      "train_2021_p90_cutoff_mw": 3042.0,
+      "f8_profile_match": false,
+      "excluded": false
+    },
+    "PGE": {
+      "eligible_train_events": 8415,
+      "eligible_dev_events": 17520,
+      "disagreement_frequency": 0.09235159817351599,
+      "challenger_correct_on_disagreements": 0.8102595797280593,
+      "complete_contiguous_2000_hour_blocks": 8,
+      "contiguous_runs": 1,
+      "train_2021_p90_cutoff_mw": 3006.0,
+      "f8_profile_match": false,
+      "excluded": false
+    },
+    "PJM": {
+      "eligible_train_events": 8415,
+      "eligible_dev_events": 17303,
+      "disagreement_frequency": 0.054325839449806394,
+      "challenger_correct_on_disagreements": 0.8861702127659574,
+      "complete_contiguous_2000_hour_blocks": 6,
+      "contiguous_runs": 10,
+      "train_2021_p90_cutoff_mw": 111357.09999999999,
+      "f8_profile_match": false,
+      "excluded": false
+    },
+    "PNM": {
+      "eligible_train_events": 8416,
+      "eligible_dev_events": 17520,
+      "disagreement_frequency": 0.027054794520547945,
+      "challenger_correct_on_disagreements": 0.8481012658227848,
+      "complete_contiguous_2000_hour_blocks": 8,
+      "contiguous_runs": 1,
+      "train_2021_p90_cutoff_mw": 1981.9000000000005,
+      "f8_profile_match": false,
+      "excluded": false
+    },
+    "PSCO": {
+      "eligible_train_events": 8416,
+      "eligible_dev_events": 17399,
+      "disagreement_frequency": 0.03350767285476177,
+      "challenger_correct_on_disagreements": 0.8404802744425386,
+      "complete_contiguous_2000_hour_blocks": 4,
+      "contiguous_runs": 15,
+      "train_2021_p90_cutoff_mw": 6795.0,
+      "f8_profile_match": false,
+      "excluded": false
+    },
+    "PSEI": {
+      "eligible_train_events": 8415,
+      "eligible_dev_events": 17520,
+      "disagreement_frequency": 0.06244292237442922,
+      "challenger_correct_on_disagreements": 0.79981718464351,
+      "complete_contiguous_2000_hour_blocks": 8,
+      "contiguous_runs": 1,
+      "train_2021_p90_cutoff_mw": 3595.0,
+      "f8_profile_match": false,
+      "excluded": false
+    },
+    "SC": {
+      "eligible_train_events": 8276,
+      "eligible_dev_events": 17492,
+      "disagreement_frequency": 0.0766064486622456,
+      "challenger_correct_on_disagreements": 0.835820895522388,
+      "complete_contiguous_2000_hour_blocks": 7,
+      "contiguous_runs": 4,
+      "train_2021_p90_cutoff_mw": 3636.1000000000004,
+      "f8_profile_match": false,
+      "excluded": false
+    },
+    "SCEG": {
+      "eligible_train_events": 8297,
+      "eligible_dev_events": 17325,
+      "disagreement_frequency": 0.058643578643578644,
+      "challenger_correct_on_disagreements": 0.8769685039370079,
+      "complete_contiguous_2000_hour_blocks": 7,
+      "contiguous_runs": 7,
+      "train_2021_p90_cutoff_mw": 3557.0,
+      "f8_profile_match": false,
+      "excluded": false
+    },
+    "SCL": {
+      "eligible_train_events": 8359,
+      "eligible_dev_events": 17520,
+      "disagreement_frequency": 0.07248858447488585,
+      "challenger_correct_on_disagreements": 0.805511811023622,
+      "complete_contiguous_2000_hour_blocks": 8,
+      "contiguous_runs": 1,
+      "train_2021_p90_cutoff_mw": 1358.0,
+      "f8_profile_match": false,
+      "excluded": false
+    },
+    "SEC": {
+      "eligible_train_events": 7385,
+      "eligible_dev_events": 16917,
+      "disagreement_frequency": 0.07253059053023586,
+      "challenger_correct_on_disagreements": 0.7334963325183375,
+      "complete_contiguous_2000_hour_blocks": 0,
+      "contiguous_runs": 175,
+      "train_2021_p90_cutoff_mw": 332.0,
+      "f8_profile_match": false,
+      "excluded": false
+    },
+    "SEPA": {
+      "eligible_train_events": 0,
+      "eligible_dev_events": 0,
+      "excluded": true
+    },
+    "SOCO": {
+      "eligible_train_events": 8416,
+      "eligible_dev_events": 17518,
+      "disagreement_frequency": 0.05069071811850668,
+      "challenger_correct_on_disagreements": 0.7995495495495496,
+      "complete_contiguous_2000_hour_blocks": 7,
+      "contiguous_runs": 3,
+      "train_2021_p90_cutoff_mw": 34155.8,
+      "f8_profile_match": false,
+      "excluded": false
+    },
+    "SPA": {
+      "eligible_train_events": 8417,
+      "eligible_dev_events": 16971,
+      "disagreement_frequency": 0.07913499499145601,
+      "challenger_correct_on_disagreements": 0.45420699925539837,
+      "complete_contiguous_2000_hour_blocks": 5,
+      "contiguous_runs": 41,
+      "train_2021_p90_cutoff_mw": 86.0,
+      "f8_profile_match": false,
+      "excluded": false
+    },
+    "SRP": {
+      "eligible_train_events": 8317,
+      "eligible_dev_events": 13052,
+      "disagreement_frequency": 0.027581979773214832,
+      "challenger_correct_on_disagreements": 0.8138888888888889,
+      "complete_contiguous_2000_hour_blocks": 2,
+      "contiguous_runs": 199,
+      "train_2021_p90_cutoff_mw": 5496.400000000001,
+      "f8_profile_match": false,
+      "excluded": false
+    },
+    "SWPP": {
+      "eligible_train_events": 8393,
+      "eligible_dev_events": 17519,
+      "disagreement_frequency": 0.035104743421428164,
+      "challenger_correct_on_disagreements": 0.8796747967479674,
+      "complete_contiguous_2000_hour_blocks": 8,
+      "contiguous_runs": 2,
+      "train_2021_p90_cutoff_mw": 39275.4,
+      "f8_profile_match": true,
+      "excluded": false
+    },
+    "TAL": {
+      "eligible_train_events": 8418,
+      "eligible_dev_events": 17520,
+      "disagreement_frequency": 0.05736301369863014,
+      "challenger_correct_on_disagreements": 0.891542288557214,
+      "complete_contiguous_2000_hour_blocks": 8,
+      "contiguous_runs": 1,
+      "train_2021_p90_cutoff_mw": 426.0,
+      "f8_profile_match": false,
+      "excluded": false
+    },
+    "TEC": {
+      "eligible_train_events": 8322,
+      "eligible_dev_events": 17481,
+      "disagreement_frequency": 0.050340369544076426,
+      "challenger_correct_on_disagreements": 0.875,
+      "complete_contiguous_2000_hour_blocks": 8,
+      "contiguous_runs": 3,
+      "train_2021_p90_cutoff_mw": 3480.0,
+      "f8_profile_match": false,
+      "excluded": false
+    },
+    "TEPC": {
+      "eligible_train_events": 7312,
+      "eligible_dev_events": 17269,
+      "disagreement_frequency": 0.02872198737622329,
+      "challenger_correct_on_disagreements": 0.657258064516129,
+      "complete_contiguous_2000_hour_blocks": 5,
+      "contiguous_runs": 10,
+      "train_2021_p90_cutoff_mw": 2437.0,
+      "f8_profile_match": false,
+      "excluded": false
+    },
+    "TIDC": {
+      "eligible_train_events": 8122,
+      "eligible_dev_events": 17456,
+      "disagreement_frequency": 0.029674610449129238,
+      "challenger_correct_on_disagreements": 0.915057915057915,
+      "complete_contiguous_2000_hour_blocks": 5,
+      "contiguous_runs": 25,
+      "train_2021_p90_cutoff_mw": 482.0,
+      "f8_profile_match": true,
+      "excluded": false
+    },
+    "TPWR": {
+      "eligible_train_events": 8415,
+      "eligible_dev_events": 17520,
+      "disagreement_frequency": 0.05953196347031964,
+      "challenger_correct_on_disagreements": 0.788111217641419,
+      "complete_contiguous_2000_hour_blocks": 8,
+      "contiguous_runs": 1,
+      "train_2021_p90_cutoff_mw": 716.0,
+      "f8_profile_match": false,
+      "excluded": false
+    },
+    "TVA": {
+      "eligible_train_events": 8415,
+      "eligible_dev_events": 17497,
+      "disagreement_frequency": 0.06623992684460193,
+      "challenger_correct_on_disagreements": 0.8619499568593615,
+      "complete_contiguous_2000_hour_blocks": 7,
+      "contiguous_runs": 4,
+      "train_2021_p90_cutoff_mw": 23450.8,
+      "f8_profile_match": false,
+      "excluded": false
+    },
+    "WACM": {
+      "eligible_train_events": 8206,
+      "eligible_dev_events": 17399,
+      "disagreement_frequency": 0.03896775676763033,
+      "challenger_correct_on_disagreements": 0.6902654867256637,
+      "complete_contiguous_2000_hour_blocks": 0,
+      "contiguous_runs": 106,
+      "train_2021_p90_cutoff_mw": 2845.0,
+      "f8_profile_match": false,
+      "excluded": false
+    },
+    "WALC": {
+      "eligible_train_events": 8313,
+      "eligible_dev_events": 17497,
+      "disagreement_frequency": 0.025147168085957593,
+      "challenger_correct_on_disagreements": 0.7454545454545455,
+      "complete_contiguous_2000_hour_blocks": 5,
+      "contiguous_runs": 24,
+      "train_2021_p90_cutoff_mw": 1466.0,
+      "f8_profile_match": false,
+      "excluded": false
+    },
+    "WAUW": {
+      "eligible_train_events": 8416,
+      "eligible_dev_events": 17520,
+      "disagreement_frequency": 0.03504566210045662,
+      "challenger_correct_on_disagreements": 0.750814332247557,
+      "complete_contiguous_2000_hour_blocks": 8,
+      "contiguous_runs": 1,
+      "train_2021_p90_cutoff_mw": 131.0,
+      "f8_profile_match": false,
+      "excluded": false
+    },
+    "WWA": {
+      "eligible_train_events": 0,
+      "eligible_dev_events": 0,
+      "excluded": true
+    },
+    "YAD": {
+      "eligible_train_events": 0,
+      "eligible_dev_events": 0,
+      "excluded": true
+    }
+  },
+  "matching_bas": [
+    "AZPS",
+    "BANC",
+    "EPE",
+    "ERCO",
+    "FMPP",
+    "FPC",
+    "MISO",
+    "NEVP",
+    "NYIS",
+    "SWPP",
+    "TIDC"
+  ],
+  "matching_ba_count": 11,
+  "gate_pass": true,
+  "interpretation": "Profile only; no algorithm or cost outcomes generated."
+}

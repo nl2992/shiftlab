@@ -39,7 +39,7 @@ Atlas) findings are development knowledge, not confirmation.
 - [ ] WP1b RAR paper_reconstruction + native-stream reproduction subset (agent: rar)
 - [x] WP1c SOTA registry for C-F + WATCH/PPRM; implement Challenger GSE/OSE/LSE (agent: sota)
 - [x] WP2 `BENCHMARK_CONTRACT.md` + common event-driven simulator with leakage/budget/cost tests (agent: sim)
-- [ ] WP1d Gong-Zhang paid-observation, ASI, Sethi Markov test comparators (after WP1c)
+- [x] WP1d Gong-Zhang paid-observation, ASI, Sethi Markov test comparators (after WP1c)
 - [x] WP4 Prior-art ledger (first pass; verified structure; gaps: no GitHub code search, no OpenReview, Drift2Act App D.7 unread)
 - [ ] WP5 Candidate grammar + `CANDIDATE_REGISTRY` (<= 100k identities, dedup by mechanism) + `AUTORESEARCH_PROGRAM.md`
 - [ ] WP6 Stage A preflight + Stage B 300 s screens (initial 200) -> checkpoint review
@@ -56,3 +56,4 @@ Dependencies: WP5 after WP0+WP1a/b+WP2; WP6 after WP5; Q3 factorial only after a
 - 2026-11-07: WP1c committed 6f0e6d88 (Challenger 12 tests; Lending Club not reproduced). WP2+WP2b committed 7a9743c4 (55 tests). WP1d relaunched paper-only (auto-mode blocked cloning/executing author repos); WP1e in-repo ports launched.
 - 2026-11-07: WP0 committed (49 ledger rows, 29 null entries, 13 P2 null-mismatched measurements; 57 UNVERIFIED fields to be filled by baseline agents; HGxH2c FINAL_REPORT and Lane A docs not yet mined).
 - 2026-11-07: WP1e committed a7fcc291 (33 in-repo adapters, 22 regression tests incl. bit-for-bit). Open: H2c/HG/PPRM need proxy predictions + source calibration in ObservableState (WP2c, do with Drift2Act sensing port); original E_rb + RMM restart wrapper not ported.
+- 2026-11-07: WP1d committed 1a32f1a2 (Sethi/ASI/Gong-Zhang PAPER_RECONSTRUCTION, 36 tests; no author code read or run). Caveats: Gong-Zhang Alg2 printed eta form appears inconsistent with Thm 3.2 on one instance (both forms kept via eta_form); Table-2 repro 3004.8 vs 2899.75 with guessed generator; ASI streaming cond-null evidence is our derivation (MC-checked only).

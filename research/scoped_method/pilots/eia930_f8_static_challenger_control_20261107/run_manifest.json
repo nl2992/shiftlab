@@ -1,0 +1,36 @@
+{
+  "protocol": "eia930_f8_static_challenger_control_20261107/PROTOCOL.md",
+  "git_commit": "7b02420f7e0177965444e3318301b64dbc01f20b",
+  "tree": "e010c5219d1b8d45b220957d804598494f039f7e",
+  "script_sha256": {
+    "scripts/sota_sprint/eia930/evaluate_static_f8_controls.py": "b4a78a52160578739b50d3c7de061cf216405ba68d8d974286c2b20a98dbe1c7",
+    "scripts/sota_sprint/eia930/profile_all_balancing_authorities.py": "cd2489414cd8d48adf8e660cd34eaa0327ce14a74a1f75f5b67da4aa8a761295",
+    "scripts/sota_sprint/eia930/run_f8_all_ba_policy_development.py": "1b252caedefa75e96bc231fba1a6fe5c21c450231dc272fdab61212c2b2a34cb"
+  },
+  "raw_file_sha256": {
+    "data/raw/eia930_f8_development_20261107/EIA930_BALANCE_2021_Jan_Jun.csv": "40b183f333e0f3edc1b9a2ed48b792eff00fd477915dae79ce5784e862380f7f",
+    "data/raw/eia930_f8_development_20261107/EIA930_BALANCE_2021_Jul_Dec.csv": "66afadcab6865f74cebd6db82e363a66976846241c040cba66baf240afcd669b",
+    "data/raw/eia930_f8_development_20261107/EIA930_BALANCE_2022_Jan_Jun.csv": "d3d315a0c29d9527a1c64cf6ddcdcc5c0b7281fddd99199bd70f06d242e503d5",
+    "data/raw/eia930_f8_development_20261107/EIA930_BALANCE_2022_Jul_Dec.csv": "267575c29ef40f386bcf3bc3993013b9ce13a3a154b89b702559a75dd742976d",
+    "data/raw/eia930_f8_development_20261107/EIA930_BALANCE_2023_Jan_Jun.csv": "a0e14e9c07ab4cc1de3e384c7be890b0c61d9de3fe04ad3ae5ec739f1f35ec1b",
+    "data/raw/eia930_f8_development_20261107/EIA930_BALANCE_2023_Jul_Dec.csv": "c719fc1b513eec8982ce209b6e3173fc64b2d0d243f83d3bf0d8d1adf6222de2"
+  },
+  "bas": [
+    "AZPS",
+    "BANC",
+    "EPE",
+    "ERCO",
+    "FMPP",
+    "FPC",
+    "MISO",
+    "NEVP",
+    "NYIS",
+    "SWPP",
+    "TIDC"
+  ],
+  "episodes": 81,
+  "rows": 162,
+  "switch_cost": 5.0,
+  "comparison": "fixed controls versus CAMS episode means from the frozen 2022-2023 development replay",
+  "holdout_opened": false
+}

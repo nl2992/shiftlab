@@ -1,0 +1,271 @@
+{
+  "episodes": 81,
+  "bas": [
+    "AZPS",
+    "BANC",
+    "EPE",
+    "ERCO",
+    "FMPP",
+    "FPC",
+    "MISO",
+    "NEVP",
+    "NYIS",
+    "SWPP",
+    "TIDC"
+  ],
+  "fixed_control_means": [
+    {
+      "policy": "fixed_challenger",
+      "net_cost": 26.3703703704,
+      "prediction_loss": 21.3703703704,
+      "labels": 0.0,
+      "label_cost": 0.0,
+      "switches": 1.0,
+      "switch_cost": 5.0
+    },
+    {
+      "policy": "fixed_incumbent",
+      "net_cost": 78.6666666667,
+      "prediction_loss": 78.6666666667,
+      "labels": 0.0,
+      "label_cost": 0.0,
+      "switches": 0.0,
+      "switch_cost": 0.0
+    }
+  ],
+  "cams_mean": {
+    "net_cost": 29.92703703703704,
+    "prediction_loss": 22.671604938271606,
+    "labels": 36.46666666666666,
+    "label_cost": 1.8233333333333333,
+    "switches": 1.0864197530864197,
+    "switch_cost": 5.432098765432099
+  },
+  "contrasts_vs_cams": {
+    "fixed_challenger": {
+      "policy": "fixed_challenger",
+      "equal_ba_mean_difference": -3.5311255411255407,
+      "hierarchical_ci95": [
+        -5.109165963203464,
+        -1.9825700487012996
+      ],
+      "ba_wins": 11,
+      "ba_saves_at_least_5_with_ci_below_zero": 2,
+      "by_ba": {
+        "AZPS": {
+          "episodes": 8,
+          "mean_candidate_minus_cams": -2.7849999999999997,
+          "ci95_episode_bootstrap": [
+            -6.27375,
+            0.8763749999999983
+          ],
+          "saves_at_least_5": false
+        },
+        "BANC": {
+          "episodes": 7,
+          "mean_candidate_minus_cams": -1.4299999999999997,
+          "ci95_episode_bootstrap": [
+            -3.6771428571428566,
+            1.24
+          ],
+          "saves_at_least_5": false
+        },
+        "EPE": {
+          "episodes": 8,
+          "mean_candidate_minus_cams": -3.5875000000000004,
+          "ci95_episode_bootstrap": [
+            -8.102625000000002,
+            0.723249999999989
+          ],
+          "saves_at_least_5": false
+        },
+        "ERCO": {
+          "episodes": 8,
+          "mean_candidate_minus_cams": -4.734999999999999,
+          "ci95_episode_bootstrap": [
+            -6.558999999999998,
+            -3.147343750000003
+          ],
+          "saves_at_least_5": false
+        },
+        "FMPP": {
+          "episodes": 6,
+          "mean_candidate_minus_cams": -7.446666666666668,
+          "ci95_episode_bootstrap": [
+            -11.60666666666667,
+            -4.416666666666667
+          ],
+          "saves_at_least_5": true
+        },
+        "FPC": {
+          "episodes": 8,
+          "mean_candidate_minus_cams": -6.593749999999999,
+          "ci95_episode_bootstrap": [
+            -9.1675,
+            -4.7037499999999985
+          ],
+          "saves_at_least_5": true
+        },
+        "MISO": {
+          "episodes": 7,
+          "mean_candidate_minus_cams": -2.6657142857142864,
+          "ci95_episode_bootstrap": [
+            -4.651428571428573,
+            0.28714285714285787
+          ],
+          "saves_at_least_5": false
+        },
+        "NEVP": {
+          "episodes": 8,
+          "mean_candidate_minus_cams": -0.26249999999999973,
+          "ci95_episode_bootstrap": [
+            -3.0975312500000007,
+            2.8375000000000004
+          ],
+          "saves_at_least_5": false
+        },
+        "NYIS": {
+          "episodes": 8,
+          "mean_candidate_minus_cams": -4.28625,
+          "ci95_episode_bootstrap": [
+            -6.6838750000000005,
+            -1.175906250000006
+          ],
+          "saves_at_least_5": false
+        },
+        "SWPP": {
+          "episodes": 8,
+          "mean_candidate_minus_cams": -3.8300000000000005,
+          "ci95_episode_bootstrap": [
+            -6.165,
+            -0.9673750000000023
+          ],
+          "saves_at_least_5": false
+        },
+        "TIDC": {
+          "episodes": 5,
+          "mean_candidate_minus_cams": -1.22,
+          "ci95_episode_bootstrap": [
+            -6.4879999999999995,
+            3.5739999999999994
+          ],
+          "saves_at_least_5": false
+        }
+      }
+    },
+    "fixed_incumbent": {
+      "policy": "fixed_incumbent",
+      "equal_ba_mean_difference": 48.51194805194805,
+      "hierarchical_ci95": [
+        35.6215979978355,
+        62.21171331168831
+      ],
+      "ba_wins": 0,
+      "ba_saves_at_least_5_with_ci_below_zero": 0,
+      "by_ba": {
+        "AZPS": {
+          "episodes": 8,
+          "mean_candidate_minus_cams": 46.84,
+          "ci95_episode_bootstrap": [
+            11.415125000000002,
+            90.83809374999991
+          ],
+          "saves_at_least_5": false
+        },
+        "BANC": {
+          "episodes": 7,
+          "mean_candidate_minus_cams": 39.57000000000001,
+          "ci95_episode_bootstrap": [
+            9.721428571428573,
+            72.84285714285716
+          ],
+          "saves_at_least_5": false
+        },
+        "EPE": {
+          "episodes": 8,
+          "mean_candidate_minus_cams": 42.287499999999994,
+          "ci95_episode_bootstrap": [
+            12.666906250000004,
+            73.81
+          ],
+          "saves_at_least_5": false
+        },
+        "ERCO": {
+          "episodes": 8,
+          "mean_candidate_minus_cams": 46.89,
+          "ci95_episode_bootstrap": [
+            37.602500000000006,
+            57.72378124999998
+          ],
+          "saves_at_least_5": false
+        },
+        "FMPP": {
+          "episodes": 6,
+          "mean_candidate_minus_cams": 71.22000000000001,
+          "ci95_episode_bootstrap": [
+            26.16,
+            116.66666666666667
+          ],
+          "saves_at_least_5": false
+        },
+        "FPC": {
+          "episodes": 8,
+          "mean_candidate_minus_cams": 63.03125,
+          "ci95_episode_bootstrap": [
+            37.0220625,
+            89.02521875000001
+          ],
+          "saves_at_least_5": false
+        },
+        "MISO": {
+          "episodes": 7,
+          "mean_candidate_minus_cams": 58.191428571428574,
+          "ci95_episode_bootstrap": [
+            20.647142857142857,
+            100.05142857142859
+          ],
+          "saves_at_least_5": false
+        },
+        "NEVP": {
+          "episodes": 8,
+          "mean_candidate_minus_cams": 28.2375,
+          "ci95_episode_bootstrap": [
+            5.58,
+            59.30987499999992
+          ],
+          "saves_at_least_5": false
+        },
+        "NYIS": {
+          "episodes": 8,
+          "mean_candidate_minus_cams": 63.71374999999999,
+          "ci95_episode_bootstrap": [
+            20.63246875,
+            115.83349999999994
+          ],
+          "saves_at_least_5": false
+        },
+        "SWPP": {
+          "episodes": 8,
+          "mean_candidate_minus_cams": 46.67,
+          "ci95_episode_bootstrap": [
+            20.841250000000002,
+            79.12
+          ],
+          "saves_at_least_5": false
+        },
+        "TIDC": {
+          "episodes": 5,
+          "mean_candidate_minus_cams": 26.98,
+          "ci95_episode_bootstrap": [
+            -3.2520000000000002,
+            69.17999999999999
+          ],
+          "saves_at_least_5": false
+        }
+      }
+    }
+  },
+  "max_static_cost_identity_residual": 0.0,
+  "selection_limitation": "BAs were selected by the same 2022-2023 profile period used for this comparison. The fixed challenger is therefore a post-selection development control, not confirmation.",
+  "holdout_opened": false
+}

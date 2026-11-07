@@ -10,9 +10,9 @@ Test whether the published PFA-SR detector, attached to the existing Gated deplo
 transfer to a real chronological load-classification stream with sparse disagreements (Failure
 Atlas `F8_rare_better`), and whether it has lower economic cost than its matched-host restart
 baseline and the strongest fast selector. This is an application/transfer study of published
-PFA-SR, **not a novelty claim**. If the observed disagreement rate is not rare or the forecast
-model is not strongly better conditional on disagreement, report the target as a mismatch and do
-not relabel the target after outcomes.
+PFA-SR, **not a novelty claim**. The target matches F8 only if disagreement frequency is in
+`[0.01, 0.05]` and the challenger is correct on at least `0.85` of disagreement events. If either
+condition fails, report the F8 transfer as a mismatch; do not relabel the target after outcomes.
 
 ## Data and paired models
 
@@ -35,8 +35,9 @@ before t; labels are released at `t+1 hour`, a simulated schedule based on EIA's
 availability. Use current corrected D values as targets and as lagged persistence inputs; explicitly
 record that this is a simulation simplification because the historical vintages are not retained.
 
-Partition each BA's eligible stream from the first retained development timestamp into consecutive,
-non-overlapping 2,000-event episodes; discard a final incomplete episode. For each episode, use
+Partition each BA's eligible stream into contiguous runs of hourly UTC observations. Within each
+run, partition from its first retained timestamp into consecutive, non-overlapping 2,000-event
+episodes; discard each final incomplete episode and never bridge a missing hour. For each episode, use
 T=2,000, hard label budget B=200, label cost 0.05, switch cost 5, delay=1 event, and alpha=.05.
 These costs define the Failure Atlas replay contract; they are not field cost estimates.
 
@@ -45,18 +46,21 @@ These costs define the Failure Atlas replay contract; they are not field cost es
 Primary candidate: `PFA-SR:gated_deployment`. Primary matched comparator:
 `rmm:gated_deployment+RMM`. Competitive controls: `SMCS+retain-incumbent`,
 `xu_acquisition_only`, `gated_deployment`, `gated_adaptive_range`, `cams_adapter`,
-`model_selector_causal`, `qiu_delayed_movement`, and `CONTROL_never_switch`. Use the existing
+`online_llm_picker`, `model_selector_causal`, `model_picker_adapter`, `gong_zhang_paid_obs`,
+`qiu_delayed_movement`, and `CONTROL_never_switch`. Use the existing
 implementations and same simulator contract for all methods. Report all methods. Do not choose a
 real-data comparator based on this development outcome.
 
 Primary endpoint is paired net cost per 2,000 events: binary prediction errors + 0.05 times labels
 requested + 5 times deployment switches. Also report its three components, promotion/rollback
 counts and times, disagreement rate, and conditional challenger correctness on disagreements.
-Paired uncertainty uses a seven-day moving-block bootstrap within each BA and reports each BA
-separately. Episode count, overlapping dependence, and the three-cluster limitation must remain
-visible; do not treat event rows or BAs as independent observations. A development signal requires
-at least five units saved versus both the matched RMM and CAMS, with the paired 95% interval wholly
-below zero in at least two BAs. This gate only licenses a new frozen protocol; it does not establish
+Paired uncertainty uses 2,000 bootstrap resamples of the non-overlapping 2,000-hour episode blocks
+within each BA and reports each BA separately. Episode count, within-block serial dependence, and the
+three-cluster limitation must remain visible; do not treat event rows or BAs as independent
+observations. A development signal requires
+at least five units saved versus both the matched RMM and the prespecified fastest atlas comparator
+CAMS, with the paired 95% interval wholly below zero in at least two BAs. This gate only licenses a
+new frozen protocol; it does not establish
 anytime validity or source-generalization.
 
 ## Data access, run, and provenance

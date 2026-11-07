@@ -21,7 +21,7 @@ This is a plausible real-data test of late improvement and scarce/delayed labels
 
 ## Access and protocol constraints
 
-The FRED API documents a registered API key requirement. This checkout has no `FRED_API_KEY` or `ALFRED_API_KEY` in its environment. The ALFRED website provides an interactive download form; the source audit has not verified a reproducible, scripted, key-free vintage export route. Do not embed a key in Git or logs. If a key is required for stable bulk access, request one through the normal account setup before acquisition.
+The FRED API documents a registered API key requirement. This checkout has no `FRED_API_KEY` or `ALFRED_API_KEY` in its environment. A read-only inspection of the public UNRATE download page confirmed that its HTML exposes a POST form with output mode `Observations, Initial Release Only` and zipped CSV format. I did not submit the form or download any values, so a scripted key-free export remains unverified. Do not embed a key in Git or logs; prefer the public form if its exported archive can be pinned and checksummed.
 
 Before data access, a protocol should freeze:
 

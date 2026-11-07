@@ -106,3 +106,11 @@ E-SR is prior art, this does not establish a new method; no real data was opened
 outputs, hashes, and analysis are in `research/scoped_method/pilots/srr_late_improvement_20261106/`
 and `research/scoped_method/analyze_srr_late_improvement.py`. The overall research objective
 remains unresolved.
+
+## 2026-11-06 scoped recovery and reversal follow-up
+
+The latest execution recovered CI (the Ruff repair was already present at `82e1c48e`), recorded a candidate-specific test correction, and completed the economic-headroom follow-up. The full-suite run passed 3,336 tests, skipped 46, and exposed one short-null failure in the rejected split-90 configuration; that variant was quarantined from generic safety assertions and given a dedicated deterministic failure test. The focused file now passes 68 tests.
+
+The new risk-separated E-SR setting (`alpha=0.0005`, rollback `alpha_rb=0.05`) passed its independent iid-null calibration (17/1,000; one-sided Wilson 95% upper 2.51%) and improved `F3_reversal_1200` by 10.16 net units vs never-switch (95% paired CI [−16.71,−3.61]). It failed its frozen adverse `F3_reversal_800` gate (+12.22 [8.48,15.96] vs never-switch) and lost to default E-SR on the persistent control (+34.48 [25.50,43.46]). The setting is explained by existing rollback alpha separation and is not advanced as novel or independently validated. Exact records, hashes, cost decomposition and reproduction commands are in [`EVALUATION_RESULTS.md`](../../research/scoped_method/pilots/srr_risk_separated_rollback_20261106/EVALUATION_RESULTS.md).
+
+**Current decision: `BENCHMARK_OR_CASE_STUDY_ONLY` / `BENCHMARK_ONLY`.** Diagnosis is supported for the registered synthetic reversal generator; the acquisition/evidence/rollback/switch-cost interaction is the most consistent explanation, but the full causal decomposition remains partial. No novel repair passed its frozen gate and no real-world validation of a repair was performed. Do not open the locked Wild-Time arXiv or other holdouts under this failed development gate. Smallest next action: preserve this as a benchmark/case-study result, or define a new research objective before reopening any candidate search; do not retune the failed configuration.

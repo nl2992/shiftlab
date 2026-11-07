@@ -1,0 +1,7 @@
+{
+  "reason": "F8 target profile failed in at least two registered BA clusters; no method comparison run",
+  "required_matching_bas": 2,
+  "matching_ba_count": 0,
+  "protocol_sha256": "e20b941ca24ba174a8107b9c60b2fb8b5000a961de4b0059a3f46d826375dd3a",
+  "profile_sha256": "40a81bf969b7101ac5518060a65e3335ac01853d296bbebd007258ad32344592"
+}

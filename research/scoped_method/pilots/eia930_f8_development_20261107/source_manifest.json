@@ -1,0 +1,71 @@
+{
+  "endpoint": "https://www.eia.gov/electricity/gridmonitor/sixMonthFiles/",
+  "respondents": [
+    "PJM",
+    "ERCO",
+    "CISO"
+  ],
+  "periods": [
+    "2021_Jan_Jun",
+    "2021_Jul_Dec",
+    "2022_Jan_Jun",
+    "2022_Jul_Dec",
+    "2023_Jan_Jun",
+    "2023_Jul_Dec"
+  ],
+  "columns": [
+    "Balancing Authority",
+    "UTC Time at End of Hour",
+    "Demand Forecast (MW)",
+    "Demand (MW)",
+    "Demand (MW) (Imputed)"
+  ],
+  "raw_file_sha256": {
+    "data/raw/eia930_f8_development_20261107/EIA930_BALANCE_2021_Jan_Jun.csv": "40b183f333e0f3edc1b9a2ed48b792eff00fd477915dae79ce5784e862380f7f",
+    "data/raw/eia930_f8_development_20261107/EIA930_BALANCE_2021_Jul_Dec.csv": "66afadcab6865f74cebd6db82e363a66976846241c040cba66baf240afcd669b",
+    "data/raw/eia930_f8_development_20261107/EIA930_BALANCE_2022_Jan_Jun.csv": "d3d315a0c29d9527a1c64cf6ddcdcc5c0b7281fddd99199bd70f06d242e503d5",
+    "data/raw/eia930_f8_development_20261107/EIA930_BALANCE_2022_Jul_Dec.csv": "267575c29ef40f386bcf3bc3993013b9ce13a3a154b89b702559a75dd742976d",
+    "data/raw/eia930_f8_development_20261107/EIA930_BALANCE_2023_Jan_Jun.csv": "a0e14e9c07ab4cc1de3e384c7be890b0c61d9de3fe04ad3ae5ec739f1f35ec1b",
+    "data/raw/eia930_f8_development_20261107/EIA930_BALANCE_2023_Jul_Dec.csv": "c719fc1b513eec8982ce209b6e3173fc64b2d0d243f83d3bf0d8d1adf6222de2"
+  },
+  "download_manifest": [
+    {
+      "url": "https://www.eia.gov/electricity/gridmonitor/sixMonthFiles/EIA930_BALANCE_2021_Jan_Jun.csv",
+      "file": "EIA930_BALANCE_2021_Jan_Jun.csv",
+      "sha256": "40b183f333e0f3edc1b9a2ed48b792eff00fd477915dae79ce5784e862380f7f",
+      "bytes": 43073764
+    },
+    {
+      "url": "https://www.eia.gov/electricity/gridmonitor/sixMonthFiles/EIA930_BALANCE_2021_Jul_Dec.csv",
+      "file": "EIA930_BALANCE_2021_Jul_Dec.csv",
+      "sha256": "66afadcab6865f74cebd6db82e363a66976846241c040cba66baf240afcd669b",
+      "bytes": 43438192
+    },
+    {
+      "url": "https://www.eia.gov/electricity/gridmonitor/sixMonthFiles/EIA930_BALANCE_2022_Jan_Jun.csv",
+      "file": "EIA930_BALANCE_2022_Jan_Jun.csv",
+      "sha256": "d3d315a0c29d9527a1c64cf6ddcdcc5c0b7281fddd99199bd70f06d242e503d5",
+      "bytes": 42567904
+    },
+    {
+      "url": "https://www.eia.gov/electricity/gridmonitor/sixMonthFiles/EIA930_BALANCE_2022_Jul_Dec.csv",
+      "file": "EIA930_BALANCE_2022_Jul_Dec.csv",
+      "sha256": "267575c29ef40f386bcf3bc3993013b9ce13a3a154b89b702559a75dd742976d",
+      "bytes": 42909865
+    },
+    {
+      "url": "https://www.eia.gov/electricity/gridmonitor/sixMonthFiles/EIA930_BALANCE_2023_Jan_Jun.csv",
+      "file": "EIA930_BALANCE_2023_Jan_Jun.csv",
+      "sha256": "a0e14e9c07ab4cc1de3e384c7be890b0c61d9de3fe04ad3ae5ec739f1f35ec1b",
+      "bytes": 41981693
+    },
+    {
+      "url": "https://www.eia.gov/electricity/gridmonitor/sixMonthFiles/EIA930_BALANCE_2023_Jul_Dec.csv",
+      "file": "EIA930_BALANCE_2023_Jul_Dec.csv",
+      "sha256": "c719fc1b513eec8982ce209b6e3173fc64b2d0d243f83d3bf0d8d1adf6222de2",
+      "bytes": 42574041
+    }
+  ],
+  "retrieved_utc": "2026-11-07T06:39:36.446313+00:00",
+  "note": "Current revised historical values; simulated feedback protocol."
+}

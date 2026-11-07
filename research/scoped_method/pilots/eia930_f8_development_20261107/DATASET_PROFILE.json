@@ -1,0 +1,31 @@
+{
+  "eligibility": {
+    "PJM": {
+      "events": 17424,
+      "disagreement_rate": 0.057506887052341596,
+      "challenger_correct_given_disagreement": 0.7045908183632734,
+      "contiguous_episode_count": 6
+    },
+    "ERCO": {
+      "events": 17520,
+      "disagreement_rate": 0.03418949771689498,
+      "challenger_correct_given_disagreement": 0.7612687813021702,
+      "contiguous_episode_count": 8
+    },
+    "CISO": {
+      "events": 17510,
+      "disagreement_rate": 0.030553969160479727,
+      "challenger_correct_given_disagreement": 0.5869158878504673,
+      "contiguous_episode_count": 7
+    }
+  },
+  "f8_target_match_by_ba": {
+    "PJM": false,
+    "ERCO": false,
+    "CISO": false
+  },
+  "matching_ba_count": 0,
+  "source_manifest_sha256": "59b47acc71169c92ffbdf0421e590ffec63668ae8fb7085e9287c8d322a9cba9",
+  "protocol_sha256": "e20b941ca24ba174a8107b9c60b2fb8b5000a961de4b0059a3f46d826375dd3a",
+  "note": "Development profile only; no method outcomes computed."
+}

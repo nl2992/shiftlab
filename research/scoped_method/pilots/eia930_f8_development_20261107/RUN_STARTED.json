@@ -1,12 +1,24 @@
 {
   "protocol_sha256": "e20b941ca24ba174a8107b9c60b2fb8b5000a961de4b0059a3f46d826375dd3a",
-  "runner_sha256": "2a58313b3284961fe8ee8a0d7eb9100383f14189c43d09daa78f1eebc11e774f",
-  "git_head": "812734f797e138e09d14a375a33ba8aa9676784c",
-  "started_utc": "2026-11-07T06:36:07.281173+00:00",
+  "runner_sha256": "4948fdd3f98f783578ff0acb1b5cb973a2dcee9743908461731c15ac4baf8c1c",
+  "git_head": "8a2d47a64c0368c6368dd340aba24e2011bf2eea",
+  "started_utc": "2026-11-07T06:39:32.582090+00:00",
   "prior_attempts": [
     {
       "protocol_sha256": "4a9f27ce8c139479c2fcee3f36875a4eb022e4055ffd6face2f0f4e4e2ac75a3",
       "started_utc": "2026-11-07T06:31:51.446922+00:00"
+    },
+    {
+      "protocol_sha256": "e20b941ca24ba174a8107b9c60b2fb8b5000a961de4b0059a3f46d826375dd3a",
+      "runner_sha256": "2a58313b3284961fe8ee8a0d7eb9100383f14189c43d09daa78f1eebc11e774f",
+      "git_head": "812734f797e138e09d14a375a33ba8aa9676784c",
+      "started_utc": "2026-11-07T06:36:07.281173+00:00",
+      "prior_attempts": [
+        {
+          "protocol_sha256": "4a9f27ce8c139479c2fcee3f36875a4eb022e4055ffd6face2f0f4e4e2ac75a3",
+          "started_utc": "2026-11-07T06:31:51.446922+00:00"
+        }
+      ]
     }
   ]
 }

@@ -1,0 +1,8 @@
+{
+  "status": "INTERRUPTED_NOT_EVIDENCE",
+  "command": "PYTHONPATH=scripts/promising_directions/sota uv run python scripts/sota_sprint/screen.py --kind synthetic --regimes F0_null --policies E_srrSR:pace_k0.5:gated_deployment --seeds 1000 --seed-base 7110601301 --workers 4 --alpha 0.0005 --out research/scoped_method/pilots/srr_tail_pacing_20261106/calibration",
+  "complete_jobs": 378,
+  "sha256": "08c480401491f92d917e17888e9096f657cdeea9e9b334eb6a10275612a2eeed",
+  "manifest_written": false,
+  "decision": "Do not use or pool; any future attempt needs a new protocol and fresh seed base."
+}

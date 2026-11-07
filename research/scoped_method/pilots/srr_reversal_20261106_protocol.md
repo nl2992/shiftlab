@@ -41,3 +41,18 @@ PYTHONPATH=scripts/promising_directions/sota uv run python scripts/sota_sprint/s
 ```
 
 The screen runner passes alpha to all candidate policies. The names other than E-SR are registry-bound and their factory-level alpha settings follow their registered implementations. Source hashes, command, and raw records must be frozen in the manifest. Do not edit or replace existing pilot artifacts.
+
+## Prospective supplementary baseline completion (frozen before the run)
+
+The repository audit after the first E-SR screen found an established cost-aware certificate adapter, `R:economic_stop` (`scripts/promising_directions/sota/competitors/economic_stop.py`, registered in `scripts/sota_sprint/fam_r.py`), that was absent from the original matrix. The first evaluation's outcomes are already open, so this supplemental panel is explicitly exploratory and cannot be called independent confirmation. It completes the baseline comparison before any candidate design.
+
+Run 30 paired streams/cell on the same four cells and common cost contract, with fresh seed base `7110601403`, comparing the exact previous panel plus `R:economic_stop`. Pass `--alpha 0.0005` to all alpha-aware methods. The economic-stop adapter is a feasible, certificate-thresholded, cost-aware decision method; its finite-sample safety interpretation remains limited to its stated confidence-sequence assumptions. The screen runner records all policies on identical streams. Report the same cost decomposition and paired contrasts. No tuning, candidate selection, or claim of confirmation follows from this supplemental run. If `R:economic_stop` is competitive, preserve it as an existing-method explanation; if not, no new method is implied until a separate mechanism protocol and targeted prior-art audit are completed.
+
+```sh
+PYTHONPATH=scripts/promising_directions/sota uv run python scripts/sota_sprint/screen.py \
+  --kind synthetic \
+  --regimes F3_reversal_1200,F3_reversal_800,F0_better,F0_null \
+  --policies CONTROL_never_switch,E_swcert,E_rb:gated_adaptive_range,rmm:gated_adaptive_range+RMM,PFA-SR:gated_adaptive_range,economic_replacement,R:economic_stop,E_srrSR:gated_deployment \
+  --seeds 30 --seed-base 7110601403 --workers 4 --alpha 0.0005 \
+  --out research/scoped_method/pilots/srr_reversal_20261106/costaware_baseline
+```

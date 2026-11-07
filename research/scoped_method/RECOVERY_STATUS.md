@@ -314,3 +314,24 @@ The independent Wild-Time arXiv F8 protocol was already frozen at
 Its model-choice gate uses only 2017 validation, and test-year policy outcomes stay unopened unless
 the frozen gate passes. This remains a conventional fixed-challenger application test, not a novel
 repair claim. If it fails, do not change the pair or gate to seek a favorable test result.
+
+## Phase 11 — Apply the recovery brief's real-data gate (2026-11-07)
+
+The attached recovery brief requires synthetic development and novelty gates to pass before any
+additional source is downloaded or a locked holdout is opened. The economic matrix, calibrated
+CUSUM, bounded restart-prior, and fair F8-gate pilots did not pass their registered practical
+criteria, and no distinct candidate or novelty claim survived. Therefore the frozen Wild-Time arXiv
+protocol remains unopened; the earlier “next bounded transfer screen” note above is superseded as
+an execution instruction. Its existence is retained as provenance, not as authorization to bypass
+the newer gate. The Elexon development profile was already run and recorded before this gate was
+reconciled; its adverse result is preserved and no Elexon confirmation outcomes were opened.
+
+**Decision:** do not proceed to another dataset or candidate under this brief. The bounded verdict
+is `NO_ECONOMIC_HEADROOM` for the prespecified synthetic operating regions, while the overall
+research disposition remains `BENCHMARK_OR_CASE_STUDY_ONLY` due to descriptive trade-offs and the
+single-provider EIA replay. This does not claim that all possible regions or methods have been
+exhausted. The smallest next action is to assemble the benchmark/case-study package from existing
+artifacts, including negative outcomes, if manuscript preparation is requested. The Elexon
+checkpoint at `2d47ae89` is pushed; Actions run `42412086728` has passed dependency setup, Ruff,
+format, and mypy, while the full pytest and environment-validation steps are still running. No
+new experiment, result, or source observation was produced in this phase.

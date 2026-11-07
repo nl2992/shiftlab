@@ -1,6 +1,16 @@
 # Implementation spec — Gong & Zhang (ICML 2026) paid observations in contextual bandits
 
 Status: NOT_IMPLEMENTED. Spec by WP1c agent, 2026-11-07. Source: PMLR page + PDF
+
+**UPDATE 2026-11-07 (WP1d): status IMPLEMENTED; tier `PAPER_RECONSTRUCTION` (Algs 1-6) and `COMMON_CONTRACT_PORT` (label acquisition).** Code `src/shiftlab/sota/gong_zhang/`, tests `tests/d2a_rar/test_gong_zhang.py`,
+port `src/shiftlab/bench/contract/adapters_gong_zhang.py`. The 'Status' line above is superseded WP1c text.
+**Reading coverage (WP1d):** full PDF; constants read from RENDERED PAGE IMAGES (pp. 4, 6, 7, 29, 30), including appendix Algs 4-6 and Alg 7 (statement only). Not read in detail: proofs C.1-D.2, App. B (unknown costs analysis), App. E Alg 8 (feedback graphs). No author code listed.
+**Constants that were UNVERIFIED in this spec, now resolved from the page images:**
+(1) p_t(a) = min{1, SQRT(eta_t q_t(a) / c_t(a))}: the printed rule has a square root (the spec had none). Alg 3: p_t(a) = min{1, sqrt(q_t(1-q_t) / (eta_t c_t(a)))}, eta_t in the denominator.
+(2) Thm 2.1: eta_t = 1 / ( ( sum_{s<=t} sqrt(sum_a c_s(a)) / ln|Pi| )^{2/3} + sqrt(t / ln|Pi|) ), gamma = 1/T (not 1/sqrt(T)).
+(3) Alg 2 line 2: eta_t = (1/T) sqrt(B / (|A| ln|Pi|)); line 5: eta_t = c^{-1/3}|A|^{-1/3} ln^{2/3}|Pi| t^{-2/3}; threshold 1.5 c^{-2/3}(|A| ln|Pi|)^{1/3} T^{2/3} (confirmed).
+(4) Alg 4: p_t(a) = B/(|A|T) from Alg 5 (exact B observations; counts m or m+1 per action). (5) Alg 6 pays (|O_t| - B_t) c for the excess. (6) Alg 3: inverse-gap weighting q_t(a) = 1/(|A| + gamma (fhat(a) - fhat(a*))), gamma = sqrt(|A|T / (Reg + log(2/delta))), eta_t = (sum sqrt(sum_a c_s(a)) / Reg)^{2/3} + sqrt(t/Reg).
+**Printed-formula inconsistency found:** Alg 2 line 2 puts ln|Pi| in the DENOMINATOR; balancing ln|Pi|/eta + eta |A| T^2 / B (Lemma 2.1 with p = B/(|A|T)) gives eta = (1/T) sqrt(B ln|Pi| / |A|). Both are implemented (`eta_form='printed'|'balanced'`); see the reproduction table.
 (`https://raw.githubusercontent.com/mlresearch/v306/main/assets/gong26i/gong26i.pdf`), main text read;
 appendix (Algs 4–6, proofs) **not read**. Code: none listed. pdftotext garbled Greek symbols and fractions, so
 **before coding, re-read Algs 1, 3, 4, 6 from rendered page images** (do not trust the constants below marked UNVERIFIED).
@@ -50,3 +60,33 @@ small grid (loose); meta-controller picks Alg 4 vs 6 on the threshold.
 ## Honest limits
 No fictitious closed forms: every constant marked UNVERIFIED must be read from the PDF before use. Guarantee is adversarial
 regret in a bandit game; no null, no certificate, no delayed labels.
+
+---
+
+## Implementation and reproduction record (WP1d, 2026-11-07)
+
+### Tiers
+`src/shiftlab/sota/gong_zhang/core.py` (Algs 1, 3, 4, 5, 6 and the Alg 2 meta-controller): **`PAPER_RECONSTRUCTION`**. `port.py` + `adapters_gong_zhang.py`: **`COMMON_CONTRACT_PORT`**.
+Not implemented: Alg 7 (unknown costs, UCB), Alg 8 (feedback graphs).
+
+### Conditions of the native guarantees
+Adversarial contextual bandit, finite A, finite Pi (Algs 1/4/6), uniform cost c for Algs 2/4/6, losses in [0,1], immediate observation. Alg 3: realizability f* in F and an online squared-loss regression oracle with regret Reg_Sq(T) (the constant in
+our ridge oracle's Reg_Sq = d ln(T/d) is OURS). The regret bounds belong to that game and **do not transfer to the contract** (non-adversarial drift, delayed labels, hard label cap, switch costs); the port invents no guarantee.
+
+### COMMON_CONTRACT_PORT mapping (ours)
+|A| = |Pi| = 2 (serve incumbent / candidate; constant policies); one label = both shadow losses; per-action probability min{1, sqrt(eta_t q_t(a)/c_q)} combined as 1 - prod(1-p_a) and importance-weighted by 1/p; exponential weights on released losses; switch when q_cand > 1/2;
+the contract hurdle h is added to the candidate's IW loss. Regime from Alg 2's threshold; the sufficient-budget regime uses uniform pacing p_t = (B - used)/(T - t + 1) instead of Alg 5's pre-drawn subset (so that the declared propensity is audit-verifiable); the label cap is hard.
+
+### Reproduction vs paper (own synthetic instances; the generator is only described in prose)
+| Item | Paper | Here | Status |
+|---|---|---|---|
+| IW estimator unbiased; expected cost = sum p c | Lemma C.1 | MC 2e5 draws within 4 SE | MATCH |
+| Alg 5: exactly B observations, P(a in O_t) = B/(|A|T) | Prop E.1 | exact count; marginals within 0.03 (3000 draws) | MATCH |
+| c -> 0 recovers full information | Remark 2.1 | n_obs = |A|T | MATCH |
+| Paid-regret exponent T^{2/3} | Thm 2.1 / 2.2 | Alg 1, |A|=3, |Pi|=10, c=.3, T = 500..4000: regret 149, 256, 411, 644 (5 reps); local slopes 0.78, 0.68, 0.65 | CONSISTENT with 2/3 (loose) |
+| Free-budget phase transition (Fig. 1), T=2000, |A|=3, |Pi|=10, c=.3, threshold ~ 1012, 6 reps | T^{2/3}-type minus cB below B0; ~ B^{-1/2} above | below B0: R(0) - R(300) = 90 = cB (same learning regret, free observations); above, eta='balanced': R(2000) ~ 125, R(3000) ~ 102, R(6000) ~ 71 (R(6000)/R(2000) = 0.57 vs sqrt(1/3) = 0.58) | QUALITATIVE MATCH |
+| Same with eta='printed' (Alg 2 line 2 as printed) | monotone decrease expected | R(1000) ~ 124 (Alg 6) -> R(2000) ~ 226 (Alg 4) -> R(6000) ~ 151: regret jumps UP at the threshold | **DISCREPANCY**: printed eta in Alg 2 line 2 looks typographically inconsistent; one small instance only |
+| Table 2: Alg 3, d=10, |A|=5, T=10000, c=.5 | 2899.75 +- 48.80 (linUCB 5003.32, Tucker et al. 3697.13) | 5 reps: mean cost-inclusive regret 3004.8 (sd 88.8), observation cost 1510.6; ridge oracle, Reg_Sq = d ln(T/d) | within ~3.6 % of the paper mean; instance details (loss generation, regret baseline, Reg constant) are our guesses; linUCB/Tucker NOT implemented |
+| Fig. 2-3 sweeps (T up to 40000, 50 reps), Alg 1 timing table | reported | NOT reproduced | NOT REPRODUCED |
+
+The threshold and Table-2 rows were run once from scratch scripts (see BASELINE_REPRODUCTION.md for the recipe); the other rows are checked by CPU tests, which are smoke/consistency checks, not confirmatory evidence.

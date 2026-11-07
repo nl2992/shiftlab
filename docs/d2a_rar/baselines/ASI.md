@@ -1,6 +1,12 @@
 # Implementation spec — Active Statistical Inference (Zrnic & Candès, ICML 2024, arXiv 2403.03208)
 
 Status: NOT_IMPLEMENTED. Spec by WP1c agent, 2026-11-07. Read: first 100 000 of 151 584 chars of the arXiv HTML.
+
+**UPDATE 2026-11-07 (WP1d): status IMPLEMENTED for the MEAN; tier `PAPER_RECONSTRUCTION` (batch + sequential native) and `COMMON_CONTRACT_PORT` (streaming monitor).** Code `src/shiftlab/sota/asi/`,
+tests `tests/d2a_rar/test_asi.py`, port `src/shiftlab/bench/contract/adapters_asi.py`. The 'Status' line above is superseded WP1c text.
+**Reading coverage (WP1d):** full arXiv PDF text layer (main text Secs 1-8, App. A proofs and Assumptions 1-3, App. C non-asymptotic extension). Waudby-Smith & Ramdas (arXiv 2010.09686) Thm 2 / Eqs. 13-15 also read for the streaming CS. Author code: not read, not run.
+Resolved: sequential rule is Eq. (8) with eta_t = n_b / (n Ehat[u_t]) and tau = 0.5; the variance estimator is the empirical variance of the increments (paper text); the Lindeberg condition is Ass. 2 (sequential mean); App. C is only a SHORT statement (bounded increments with pi_t >= tau n_b/n, then apply betting CSs of WSR / Orabona-Jun), no new theorem; the frequency of the occasional budget-fill rounds is not specified anywhere (our `fill_every` is a design parameter).
+Not implemented: general M-estimation, GLM rules, the Pew / ACS / AlphaFold reproductions (data not fetched).
 **Unread:** Appendix assumptions 1–3 (smoothness, Lindeberg), App. C (non-asymptotic / time-uniform results), Secs 8.4–8.5.
 Author code: https://github.com/tijana-zrnic/active-inference (URL resolves; contents not inspected — inspect before reimplementing;
 prefer AUTHOR_NATIVE for the batch/sequential mean if it runs).
@@ -42,3 +48,36 @@ Data: Pew, folktables ACS, Angelopoulos et al. AlphaFold — **not fetched**; pr
 ## Tests
 IPW unbiasedness over ξ (MC), coverage ≈ 1−α for the batch mean on a synthetic problem with a deliberately bad f, uniform π recovers PPI variance,
 budget E[n_lab] ≤ n_b (sequential, pathwise cap via n_{Δ,t}), CI width ordering active ≤ uniform ≤ classical when f is informative, π>0 on support.
+
+---
+
+## Implementation and reproduction record (WP1d, 2026-11-07)
+
+### Tiers
+* `src/shiftlab/sota/asi/active.py`: **`PAPER_RECONSTRUCTION`** (Eq. 4 budget scaling, mixture rule, Eq. 12 tau tuning, Eq. 5/7 IPW increments, Wald CI, oracle rule, uncertainty measures Eq. 3, sequential rule Eq. 8).
+* `src/shiftlab/sota/asi/streaming.py` + `adapters_asi.py`: **`COMMON_CONTRACT_PORT`**, ASI-inspired. NOT a result of the paper.
+
+### Conditions of the native guarantees (asymptotic only)
+Batch (Prop 1): i.i.d. (X_i, Y_i); known pi > 0; f fixed; P(eta_hat = eta*) -> 1. Sequential (Prop 2): f_t, pi_t F_{t-1}-measurable (given X_t),
+(1/n) sum sigma_t^2 -> sigma^2 in probability, Lindeberg (Ass. 2). Conclusion: asymptotic coverage 1 - alpha. Nothing finite-sample or time-uniform is claimed for the Wald CI.
+
+### Streaming COMMON_CONTRACT_PORT: assumptions and provenance
+From WSR (read): PrPl-EB process and two-sided CS for [0,1]-valued data with common conditional mean. From ASI App. C: bounded IPW increments if pi >= pi_min.
+**Ours, not stated in either paper:** (i) one-sided use under a CONDITIONAL null E[d_t | past] <= h (the supermartingale argument needs only E[X_t - m | past] <= 0 for lambda >= 0); (ii) affine rescaling by the range implied by pi_min; (iii) in-order consumption of increments under delayed labels.
+Required: losses in [0,1]; pi_t >= pi_min fixed at request time; xi_t drawn from the declared propensity independently of d_t given the past; f_t built only from labels released before the request. The two-sided CS is for a CONSTANT conditional mean and loses its meaning under drift (only the one-sided conditional-null test remains).
+The IPW range ~ 1/pi_min makes the evidence conservative (null alarm rate 0 in the tests below). Validity of (i)-(iii) has Monte Carlo support only, no proof here.
+
+### Reproduction vs paper (CPU, synthetic; the paper's real-data experiments are NOT reproduced)
+| Item | Paper | Here | Status |
+|---|---|---|---|
+| IPW unbiasedness over xi | Sec 3 | MC 6000 draws, abs(mean - Ybar) < 4 SE | MATCH |
+| Batch CI coverage, alpha=.1 | ~ nominal | n=3000, n_b=300, 500 trials: active 0.932, uniform-PPI 0.914, classical 0.914 | CONSISTENT (asymptotic; MC error ~0.013) |
+| Mean CI width | active < PPI < classical | 0.0841 < 0.0890 < 0.0950 (binary classifier, noise .05) | ORDER MATCHES; effect small (-5.5% vs PPI, -11.5% vs classical) |
+| Uniform pi recovers PPI variance | (1/n)(Var(Y)+E[(Y-f)^2](1/p-1)) | within 12% relative (finite-population variant) | MATCH |
+| Oracle pi proportional to sqrt(E[(Y-f)^2 given X]) | Sec 7.1 | variance proxy below uniform and below pi proportional to g | MATCH |
+| Sequential CI coverage, tau=.5 | Prop 2 | n=1500, n_b=150, 400 trials: coverage in [0.84, 0.96]; E[n_lab] <= 1.1 n_b | CONSISTENT |
+| Streaming CS (WSR Thm 2) miscoverage over horizon 300, alpha=.1 | <= alpha | within alpha + 3 SE (400 trials) | CONSISTENT |
+| Streaming one-sided alarm under conditional null with drift + random delays | (ours) | 0 / 300 alarms (alpha=.1); power test passes at mean gain .5 | VALID, very conservative |
+| Budget savings vs classical on Pew / ACS / AlphaFold | Sec 8 | NOT reproduced (data not fetched) | NOT REPRODUCED |
+
+n_b is an expected budget, not a pathwise cap: the sequential rule keeps E[n_lab] ~ n_b via n_{Delta,t}, while the tau-mixture adds at most tau n_b/n per round.

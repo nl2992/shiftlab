@@ -1,6 +1,13 @@
 # Implementation spec — Sethi et al. (ICML 2026) sequential Markov-chain test + P^g subsumption assessment
 
 Status: NOT_IMPLEMENTED. Spec by WP1c agent, 2026-11-07. Source: PMLR 306:109294–109330, PDF via pdftotext (symbols garbled — β_t and Poisson
+
+**UPDATE 2026-11-07 (WP1d): status IMPLEMENTED, tier `PAPER_RECONSTRUCTION`.** Code `src/shiftlab/sota/sethi/`, tests `tests/d2a_rar/test_sethi.py`,
+contract port `src/shiftlab/bench/contract/adapters_sethi.py` (`COMMON_CONTRACT_PORT`, shift sentinel only). The 'Status' line above is the superseded WP1c text.
+**Reading coverage (WP1d):** full PDF text layer incl. Alg 1, Thm 4.1/4.4, Remark 4.2, App. B.3 (mixture martingale, Lemma B.6), B.5 (proof of Thm 4.1), App. D (Prop D.1 statement only), App. G (experiment matrices, Tables 2-3).
+Not read line by line: proofs of Thm 3.3 / Prop 3.1 / App. A, C, E, F. Author code on GitHub: **not read, not run**.
+Constants verified from the PDF (the text layer was legible for these): beta_t = sum_x log(e(1+N_x/(m-1))); eps_t = log(1/alpha) + (m-1) beta_t (Alg 1 lines 14-15, Lemma B.6): the forms marked UNVERIFIED in this spec were correct.
+Not implemented: the Poisson-equation surrogate (Prop 4.3 / D.1), the Fields et al. comparison, the linear-MDP application. Two-sided test (Thm 4.4) = two one-sided runs by the caller.
 constants below marked UNVERIFIED must be re-read from rendered pages). Main text Secs 1–5 read; appendix B.3 (mixture supermartingale)
 and the experiment appendix only grepped. Code: https://github.com/Alhad-Sethi/Sequential-Markovian-Testing (URL resolves; contents not inspected — inspect first).
 
@@ -57,3 +64,38 @@ What is *not* covered, and what a gap-aware test would need to prove itself:
 * **Estimated vs known P^g.** P^g is a deterministic function of P, so no extra parameters — but the nonconvex image set matters for the inner optimisation.
 
 Consequences for Q1: (i) exact-gap evidence is **not** subsumed — it is a genuinely new object relative to Sethi; (ii) its validity must be proved or stress-tested separately (state filtration, predictability of g_i, null class); (iii) the correct published comparators are: Sethi on thinned data (constant g), Sethi with augmentation (iid gaps), ShiftLab Markov-LR (`atlas_dependence_baselines`), and ShiftLab Gap-Mix (`origin/research/gave-r-2026-11-06:src/shiftlab/gaver/gapmix.py`, its exact-gap/envelope construction, development-only); (iv) closing the gap needs a prior-art check beyond this one paper (WP4) — failure to find it here is not novelty.
+
+---
+
+## Implementation and reproduction record (WP1d, 2026-11-07)
+
+**Tier: `PAPER_RECONSTRUCTION`** (from the PDF; no third-party code read or executed).
+
+### What is implemented (`src/shiftlab/sota/sethi/test.py`)
+Algorithm 1 exactly (counts of consecutive pairs, Qhat_t with uniform fallback, beta_t, eps_t, reject at the first t with L_t >= eps_t); null classes
+`StationaryNull(pi)` (all kernels with pi P = pi, the paper's MCMC use), `ConvexHullNull`, `FiniteUnionNull`. The inner infimum is bounded through its
+Lagrangian dual (any dual-feasible point is a valid LOWER bound); we reject only if the lower bound >= eps_t, and skip the solver when a feasible primal
+point already shows L_t < eps_t. This is our implementation choice and can only delay rejection, never raise the false-alarm rate. `check_every` > 1 is allowed (same
+guarantee, delayed). The e-process readout `log_evidence()` follows Remark 4.2 (conservative through the lower bound).
+
+### Conditions (what the guarantee needs; nothing more is claimed)
+alpha-correctness (Thm 4.1 via Lemma B.6): chain observed at EVERY step, finite state space known in advance, null = a declared compact set of one-step kernels, filtration = natural filtration
+of the chain, any initial law. Asymptotic optimality (alpha -> 0) needs ergodic Q. No finite-alpha power guarantee; no statement about loss or harm. Missing, irregular or
+informatively sampled observations are outside the theorem (see the P^g assessment above).
+
+### Reproduction vs paper
+| Item | Paper | Here | Status |
+|---|---|---|---|
+| Q_good, Q_bad matrices (App. G.1), pi = (.1,.1,.2,.2,.4) | pi_bad = [.1574,.1825,.1548,.1956,.3097] | recomputed pi_bad = [.1574,.1825,.1548,.1956,.3097]; pi Q_good = pi | MATCH |
+| Null run, Q_good, alpha=.05, m=5 | no false rejection in 100 runs | 0/100 (T=2000, check_every=50) | MATCH (boundary is conservative) |
+| Null run, Q_good, alpha=.2 | not reported | 0/100 | conservative |
+| Alternative Q_bad, alpha=.05 | statistic grows ~ linearly and rejects; mean tau only in Fig. 1 (value not extracted) | 20/20 reject, mean tau = 2531 (check_every=25, horizon 8000) | CONSISTENT; tau not compared |
+| Slope D^M_inf(Q_bad, P) | dotted line in Fig. 1 | 0.0471 (dual solve at stationary counts); L_t at t=2500 ~ 118 vs eps_t ~ 119 | consistent |
+| Mean tau vs log(1/alpha)/D^M_inf | asymptotic (alpha -> 0) only | log(20)/0.0471 = 64 vs observed 2531: the (m-1)beta_t boundary term dominates at alpha=.05 | expected, not a contradiction |
+| Tables 2-3 (m up to 128, exponential-family sweep), Mountain Car, Fields et al. comparison | reported | NOT reproduced | NOT REPRODUCED |
+
+Own CPU Monte Carlo (tests): alpha-correctness on Q_good (alpha=.2, 60 runs x 600 steps), on 2-state members (iid, sticky, periodic; alpha=.5, 80 runs), on a convex-hull null; all within alpha + 3 SE.
+These tests have weak power against an invalid test because the boundary is conservative (observed false-rejection rates are ~0); they are smoke/consistency checks, not confirmatory evidence.
+
+### Open
+No inner solver for non-convex classes (e.g. P^g images). Surrogate not implemented. The dual solve uses SLSQP on 2m-1 variables: fine for m <= ~10 (m=5: ~15 ms per solve).

@@ -56,24 +56,26 @@ def _q2_reading(
     both, rows = [], []
     for r in q2:
         row = {"id": r["candidate_id"], "method": r["method"], "dec": r["decision"]}
-        ok = {}
-        for comp in comps:
-            xs = _vs(r, comp)
-            wins = [x for x in xs if x["dJ_ci95"][1] < 0]
-            best = min(xs, key=lambda x: x["dJ_mean"]) if xs else None
-            ok[comp] = bool(wins)
-            row[comp] = f"{best['id']} {_fmt_ci(best)}" if best else "n/a"
-        if ok[comps[0]] and ok[comps[1]]:
+        xs0, xs1 = _vs(r, comps[0]), _vs(r, comps[1])
+        # a target cell where the paired CI is entirely below 0 against BOTH controls simultaneously
+        common = [
+            (a, b)
+            for a, b in zip(xs0, xs1, strict=True)
+            if a["id"] == b["id"] and a["dJ_ci95"][1] < 0 and b["dJ_ci95"][1] < 0
+        ]
+        if common:
+            a, b = min(common, key=lambda ab: ab[0]["dJ_ci95"][1] + ab[1]["dJ_ci95"][1])
+            row[comps[0]], row[comps[1]] = f"{a['id']} {_fmt_ci(a)}", f"{b['id']} {_fmt_ci(b)}"
             both.append(row)
         rows.append(row)
     out.append(
         f"* Records with a v2 result: {len(q2)}; candidates whose paired CI is entirely below 0 against BOTH "
-        f"{comps[0]} and {comps[1]} on at least one target cell: **{len(both)}**."
+        f"{comps[0]} and {comps[1]} simultaneously on at least one (the same) target cell: **{len(both)}**."
     )
     if both:
         out += [
             "",
-            f"| candidate | method | decision | best target cell vs {comps[0]} (dJ [95% CI]) | vs {comps[1]} |",
+            f"| candidate | method | decision | winning target cell vs {comps[0]} (dJ [95% CI]) | vs {comps[1]} |",
             "|---|---|---|---|---|",
         ]
         out += [
@@ -82,7 +84,7 @@ def _q2_reading(
         ]
     else:
         out.append(
-            "* No candidate beats both simple controls on a target cell with a paired CI excluding 0. Best (most negative) dJ per candidate is listed in the full table below."
+            "* No candidate beats both controls on the same target cell with a paired CI excluding 0."
         )
     return out
 
@@ -129,7 +131,7 @@ def _section(recs: list[dict], title: str, controls: tuple[str, str], stop_title
         "",
         "## All records",
         "",
-        "| candidate | method | decision | effect | best target cell (comparator) dJ [95% CI] | simple controls beaten? | validity | v1-regression |",
+        "| candidate | method | decision | effect | best target cell (comparator) dJ [95% CI] | beats VALID-applicable simple controls (vacuously True if none valid) | validity | v1-regression |",
         "|---|---|---|---|---|---|---|---|",
     ]
     for r in recs:
@@ -161,6 +163,22 @@ def _progress(state: dict | None, label: str) -> list[str]:
             ]
         ),
     ]
+
+
+NOTES = [
+    "## Run notes and A1 interpretation choices (read before using the numbers)",
+    "",
+    "* Strongest applicable comparator = per cell, lowest mean J among comparators whose promotion rate on the candidate's validity cells (cells where its claimed null holds) is <= 0.10; the host is subject to the same filter. Candidates claiming no null (economic/none) face all comparators. `never_switch` is a comparator, so on null cells and on several alternative cells it is the strongest and every label-spending candidate is compared with it.",
+    "* The registered Gap-Mix `exact0.8_s4` adapter declares claimed null `marg` (A1 text says conditional-null); on all v2 cells cond and marg truths coincide, so no comparator validity decision depends on this.",
+    "* Control-cell regression (section 4 item 2) is evaluated against the same per-cell strongest comparator, as registered; this is a strict test (never_switch is cheapest on null cells).",
+    "* Suite-v2 hosts are `calibrated_v1`; one `native_v0` host run per cell is stored in each record (`results.native_v0_reference`), never used as a comparator. A candidate worse than its host on a v1 cell it ran on (paired CI above 0) is not KEEP; the tranche-1 records are the source.",
+    "* Scope (i-ii) 33+14 flags overlap on 6 identities (`scope: [i, ii]`). Canary identities need the family 'RAR-native persistent drift' that v2 does not provide: they stay UNVERIFIED by construction.",
+    "* Reference runs were sharded into seed chunks of 2 (paired runs are independent per seed, so concatenation equals one run). Gap-Mix `exact0.8_s4` took up to ~11 CPU-minutes per seed on S2c (cap = T, lognormal delay) and emits numerical RuntimeWarnings (divide by zero / overflow in `sota/inrepo/gapmix.py`) on some cells; the adapter is frozen and was not changed.",
+    "* Cache keys use a code hash pinned at launch (`SHIFTLAB_STAGE_B_CODE_HASH`). Another agent added the opt-in Q1 evidence seam to `adapters_drift2act.py` in the same worktree during the run; the default path is unchanged (its golden test passes), and the hash at launch covers the pre-seam sources.",
+    "* Scope (iii) cap: after a first launch measured the 300 s limit on wall-clock under 12-way contention, 6 early CRASH records (wall-clock timeouts, identities `dual_null_reporting` and `min_of_both_certificate`) were appended; the experiment cap was then measured as 300 CPU seconds of the worker process tree (a 16-cell experiment needs 40-270 CPU-s alone) and those identities were re-run and decided (CRASH records stay in the ledger). Four `restart_mixture_allocation` identities exceed 300 CPU-s and are CRASH (cpu_cap) - retryable only with a larger cap or fewer cells, which A1 does not allow.",
+    "* Scope (iii) cells: the v1 section-3 Q1 row (4 cells) plus the 12 v2 cells with label_cap < T and no informative delay/missingness (S2a-c have cap = T, i.e. a degenerate gap schedule). Shell = `adapters_evidence.promoter_adapter`, calendar schedule, alpha 0.1. The Drift2Act-host run with the identity's evidence is reported only for two v1 cells (`results.descriptive_drift2act_host_runs`) and is OUT_OF_CONTRACT for validity. Scope (iii) fully reports every `required_baselines` entry outside the registered Q1 comparator set in `required_baselines_outside_scope_iii_set`.",
+    "",
+]
 
 
 def build(
@@ -205,6 +223,7 @@ def build(
             ("markov_lr_gate", "thinned_hedged_gate"),
             "Q1 simple-control reading (section 4 item 4: vs Markov-LR and the gap-10 thinned gate, target cells)",
         )
+    lines += NOTES
     lines += [
         "Ledger: `docs/d2a_rar/registry/EXPERIMENT_LEDGER.jsonl`; logs: `results/d2a_rar/stage_b/stage_b_t2_run.log`, `stage_b_t2_iii_run.log`.",
         "",

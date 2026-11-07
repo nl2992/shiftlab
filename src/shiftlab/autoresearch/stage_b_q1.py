@@ -416,11 +416,46 @@ def triage(cand: dict, ledger_path=lg.LEDGER_PATH) -> tuple[str, dict | None]:
     return "run", None
 
 
+def _run_cpu_capped(
+    cmd: list[str], cpu_cap_s: float, wall_cap_s: float = 1800.0
+) -> tuple[str, float]:
+    """Run ``cmd``; kill it when its CPU time (user+system = active compute) exceeds ``cpu_cap_s``.
+
+    The A1 cap is "<= 300 s active compute per experiment". On a shared machine wall-clock would also charge CPU contention
+    and SMT slowdown to the experiment (a 16-cell scope-(iii) experiment needs ~270 CPU-s alone), so scope (iii) measures CPU
+    seconds. A wall ceiling still guards against a hung process."""
+    import subprocess
+
+    import psutil
+
+    p = psutil.Popen(cmd, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, cwd=sb.REPO_ROOT)
+    t0, cpu = time.time(), 0.0
+    while True:
+        try:
+            p.wait(timeout=1.0)
+            return "ok", cpu
+        except psutil.TimeoutExpired:
+            pass
+        try:
+            # the venv python.exe is a launcher: the real interpreter is its child, so sum the whole process tree
+            cpu = 0.0
+            for q in [p, *p.children(recursive=True)]:
+                ct = q.cpu_times()
+                cpu += ct.user + ct.system
+        except psutil.Error:
+            continue
+        if cpu > cpu_cap_s or time.time() - t0 > wall_cap_s:
+            for c in [*p.children(recursive=True), p]:
+                try:
+                    c.kill()
+                except psutil.Error:
+                    pass
+            return ("cpu_cap" if cpu > cpu_cap_s else "wall_ceiling"), cpu
+
+
 def screen(
     cand: dict, work_dir: Path, *, timeout_s: float = v2.TIMEOUT_S, ledger_path=lg.LEDGER_PATH
 ) -> tuple[str, dict]:
-    import subprocess
-
     action, payload = triage(cand, ledger_path)
     if action != "run":
         return action, payload or {}
@@ -434,14 +469,11 @@ def screen(
         op.unlink()
     cmd = [sys.executable, "-m", "shiftlab.autoresearch.stage_b_q1", "--worker", str(cp), str(op)]
     t0 = time.time()
-    try:
-        subprocess.run(
-            cmd, timeout=timeout_s, check=False, capture_output=True, text=True, cwd=sb.REPO_ROOT
-        )
-    except subprocess.TimeoutExpired:
+    status, cpu = _run_cpu_capped(cmd, timeout_s)
+    if status != "ok":
         return "crash", _crash_record(
             cand,
-            f"timeout: exceeded {timeout_s:.0f}s wall-clock hard limit (process killed)",
+            f"timeout: exceeded {timeout_s:.0f}s active compute ({status}; cpu_s={cpu:.1f}); process killed",
             time.time() - t0,
         )
     if not op.exists():

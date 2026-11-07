@@ -85,6 +85,9 @@ split-level effects as separable failure modes.*
   * superiority of A5b (it failed K2 on bike_hour, 0.058 [0.017, 0.100], and is not part of this claim);
   * generalisation beyond these five streams and this twin construction.
 
+**Update (same day):** remaining test 1 has been run under a frozen protocol, and the harm split is **CONFIRMED** on three new UCI
+streams. See `P2_HARM_CONFIRMATION_RESULTS.md`. The effect is small and concentrated in SMCS and tetouan_power.
+
 ### Remaining tests, in order of value
 
 1. **Freeze the harmful-promotion hypothesis** (PERM harm ≈ 0, BSWAP harm > 0, with thresholds) and the

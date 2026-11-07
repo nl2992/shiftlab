@@ -1,0 +1,116 @@
+{
+ "primary_pool": [
+  "seoul_bike",
+  "steel_energy",
+  "tetouan_power"
+ ],
+ "episodes": {
+  "seoul_bike": 40,
+  "steel_energy": 240,
+  "tetouan_power": 360
+ },
+ "H_BSWAP": 0.005364583333333334,
+ "H_PERM": 0.0,
+ "H_ORIG": 0.0020833333333333337,
+ "H_ESWAP": 0.0,
+ "P_BSWAP": 0.07755208333333333,
+ "P_PERM": 0.14791666666666664,
+ "P_ORIG": 0.1894791666666667,
+ "P_ESWAP": 0.0015625,
+ "HC1_delta": 0.005364583333333334,
+ "HC1_delta_ci": [
+  0.00234375,
+  0.008959635416666674
+ ],
+ "HC2_H_PERM_upper": 0.0,
+ "power_gate_P_BSWAP_ci": [
+  0.06458333333333334,
+  0.09161458333333333
+ ],
+ "HC1_pass": true,
+ "HC2_pass": true,
+ "underpowered": false,
+ "HC3_per_dataset_delta": {
+  "seoul_bike": 0.0041666666666666675,
+  "steel_energy": 0.0012500000000000002,
+  "tetouan_power": 0.008240740740740741
+ },
+ "HC3_pass": true,
+ "ORIG": {
+  "ports_breaking_on_some_dataset": [
+   "SMCS+retain-incumbent",
+   "choe_ramdas_eb",
+   "choe_ramdas_eb+front",
+   "gated_adaptive_range",
+   "gated_adaptive_range+front",
+   "gated_deployment",
+   "gated_deployment+QCE",
+   "gated_deployment+QCE+front"
+  ],
+  "ports_with_upper_ci_above_bound": [
+   "SMCS+retain-incumbent",
+   "choe_ramdas_eb",
+   "choe_ramdas_eb+front",
+   "discern_design_floor",
+   "gated_adaptive_range",
+   "gated_adaptive_range+front",
+   "gated_deployment",
+   "gated_deployment+QCE",
+   "gated_deployment+QCE+front"
+  ],
+  "max_promote": 0.362962962962963
+ },
+ "PERM": {
+  "ports_breaking_on_some_dataset": [
+   "SMCS+retain-incumbent",
+   "choe_ramdas_eb",
+   "choe_ramdas_eb+front",
+   "gated_adaptive_range",
+   "gated_adaptive_range+front",
+   "gated_deployment",
+   "gated_deployment+QCE",
+   "gated_deployment+QCE+front"
+  ],
+  "ports_with_upper_ci_above_bound": [
+   "SMCS+retain-incumbent",
+   "choe_ramdas_eb",
+   "choe_ramdas_eb+front",
+   "discern_design_floor",
+   "gated_adaptive_range",
+   "gated_adaptive_range+front",
+   "gated_deployment",
+   "gated_deployment+QCE",
+   "gated_deployment+QCE+front"
+  ],
+  "max_promote": 0.325
+ },
+ "BSWAP": {
+  "ports_breaking_on_some_dataset": [
+   "SMCS+retain-incumbent",
+   "choe_ramdas_eb",
+   "choe_ramdas_eb+front",
+   "gated_adaptive_range+front",
+   "gated_deployment+QCE",
+   "gated_deployment+QCE+front"
+  ],
+  "ports_with_upper_ci_above_bound": [
+   "SMCS+retain-incumbent",
+   "choe_ramdas_eb",
+   "choe_ramdas_eb+front",
+   "gated_adaptive_range",
+   "gated_adaptive_range+front",
+   "gated_deployment",
+   "gated_deployment+QCE",
+   "gated_deployment+QCE+front"
+  ],
+  "max_promote": 0.2861111111111111
+ },
+ "ESWAP": {
+  "ports_breaking_on_some_dataset": [],
+  "ports_with_upper_ci_above_bound": [],
+  "max_promote": 0.022222222222222223
+ },
+ "S1_ESWAP_valid": true,
+ "S2_BSWAP_ge3_ports_break": true,
+ "CONFIRMED": true
+}

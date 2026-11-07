@@ -15,7 +15,7 @@ on datasets that **no P2 analysis has used**.
 | dataset | UCI id | raw zip SHA-256 | target | dropped as leakage / redundant | delay (events) | episodes |
 |---|---|---|---|---|---|---|
 | tetouan_power | 849 | 3c4bf684…ddbbfe | Zone 1 power | other zones' power | 144 (10-min) | 18 × 20 splits |
-| steel_energy | 851 | d82d28b3…aeadef | Usage_kWh | CO2, both power factors, Load_Type, WeekStatus, Day_of_week | 96 (15-min) | 12 × 20 |
+| steel_energy | 851 | d82d28b3…aadeaef | Usage_kWh | CO2, both power factors, Load_Type, WeekStatus, Day_of_week | 96 (15-min) | 12 × 20 |
 | seoul_bike | 560 | 139e9908…e33c4 | Rented Bike Count | non-functioning days removed | 24 (hourly) | 2 × 20 |
 
 Full hashes are asserted in `scripts/p2_confirm.py` (`RAW_SHA`). Raw data stays in `data/raw/p2_confirm/` (gitignored).

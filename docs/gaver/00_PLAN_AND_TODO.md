@@ -58,15 +58,15 @@ Status keys: `[ ]` open, `[~]` in progress, `[x]` done (verdict recorded), `[-]`
 
 ### WP1. Gap-Mix: actual-gap evidence (report priority 1 of the modules)
 
-- [ ] 1.1 Implement the conservative gap envelope factor `u_g` (proposal §1) as an e-process under
+- [x] 1.1 Implement the conservative gap envelope factor `u_g` (proposal §1) as an e-process under
       uniform acquisition. Unit test: conditional expectation ≤ 1 on a parameter grid.
-- [ ] 1.2 Implement an exact-gap Markov likelihood comparator using `P^g`, with a safe treatment of
+- [x] 1.2 Implement an exact-gap Markov likelihood comparator using `P^g`, with a safe treatment of
       the composite null (certified sup, not a coarse grid).
-- [ ] 1.3 Add a small frozen restart mixture {0, .25T, .5T, .75T} with explicit weights.
-- [ ] 1.4 Null calibration, uniform calendar: rho ∈ {0, .5, .8, .95}, 500 streams each, vs iid
+- [x] 1.3 Add a small frozen restart mixture {0, .25T, .5T, .75T} with explicit weights.
+- [x] 1.4 Null calibration, uniform calendar: rho ∈ {0, .5, .8, .95}, 500 streams each, vs iid
       e-process, existing Markov LR, fixed gap 4 / gap 10 at matched label counts.
-- [ ] 1.5 Power/delay on early, late and transient alternatives at the same budgets.
-- [ ] 1.6 Verdict: `docs/gaver/10_GAPMIX_RESULTS.md`. Stop rule: if no valid variant has useful
+- [x] 1.5 Power/delay on early, late and transient alternatives at the same budgets.
+- [x] 1.6 Verdict: `docs/gaver/10_GAPMIX_RESULTS.md`. Stop rule: if no valid variant has useful
       power at the available budgets, record it and narrow the dependence range openly.
 
 ### WP2. PAVE: pending-aware value-of-label governor
@@ -137,3 +137,5 @@ WP0 first (short). Then WP1, WP2, WP3 and WP4 in parallel, each in its own files
 - 2026-11-06: WP3 done (2a8b695b, bd8316ba). Screening verdict: FAIL on value, PASS on null safety (boundary-null FP UCB 0.017). FreshCheck cut reversal harm 79% vs promotion-only but is 15% worse J/T than the existing CUSUM rollback on reversals, and loses 17.7% persistent value with the reserve (~5% without). Real side-finding: on keep-null streams (benefit exactly h) CUSUM/hysteresis/cost-threshold roll back in 91–100% of promoted streams vs 2/584 for FreshCheck; reused wealth has no level control (47–62%). Planner grading: drop FreshCheck as a value component for WP5; keep it as an optional certified-rollback wrapper and report the uncontrolled-rollback finding. Two-phase persistence comparator absent in repo; transient cells uninformative.
 - 2026-11-06: Cross-branch search found both missing WP3 comparators: two-phase persistence in `src/shiftlab/dive/persistence_promotion.py` (on main), and E_rb in `origin/codex/sprint2-leaderboards@297a706e:scripts/sota_sprint/fam_e.py::_rb` wrapping `fam_b.py::RecoveryMonitor`. WP3 3.2/3.4 reopened to add them. Standing rule for all WPs: search other branches (`git grep <pat> <ref>`) before declaring a component missing; port with a source-commit citation.
 - 2026-11-06: WP2 done (a7116a16, 9912008e, c4b1e0b6). Registered verdict: FAIL screening as specified (worse than DSS at d<=10: 13/22 cells CI-excluded worse, 0 better; f3_rho0 d1 regression cell 16–19% worse). Planner fair grading: one *meaningful* scoped positive, in the long-delay regression cell the report targeted (d50/b0.05: reserve-off −8.2% vs uniform≡DSS, −6.0% vs episode_front, CI excludes 0, replicated on fresh seeds; d=50 mean 3.4%, 5/9 better). Ablation: pending state and deadline value each help; reserve hurts. Null side-finding: PAVE's false-promotion UCB at rho<=0.8 is <=0.059 vs DSS 0.269 at rho=0.8 (partial null grid, 120–500 streams). Reserve-off and the d>=50 scope are post-hoc, so for WP5 PAVE enters only as a predeclared delay-gated branch (PAVE iff d >= 2T/(B+2), i.e. exactly where DSS already falls back to uniform), with its null grid completed to 500 first. No ASI-style or paid-observation request controller found on any branch.
+- 2026-11-06: WP1 done (d636765e, 81c41c4e, 6100091e). PASS screening within a narrowed, declared dependence range rho <= rho_bar = 0.8. Null (T=1000, d=10, B in {100,250}, 500 streams/cell): gap-aware variants UCB <= 0.096 at rho <= 0.8 (exact0.8_s4 <= 0.078); iid gates UCB 0.42–0.54 at rho=0.8; all fail at undeclared rho=0.95 (out of declared class). Power vs existing Markov LR: exact0.8_s4 +0.367 detection [.342,.394] with lower cost (*substantial*); envelope +0.295; rho_bar=0.95 gives -0.036 (no gain). Restart mixture is essential (late detection .94 vs .51 single-start). Limits: one T/delay, uniform calendar only, closed-loop and informative-delay validity unproven, no Holm. WP5 uses exact0.8_s4 (with envelope as ablation).
+- 2026-11-06: WP5 launched with Gap-Mix (exact0.8_s4) + delay-gated PAVE; FreshCheck/E_rb arm to be added once the WP3 rerun reports.

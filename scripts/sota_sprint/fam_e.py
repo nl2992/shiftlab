@@ -294,5 +294,27 @@ EXTRA.update(
 # new detector or a claim of anytime validity for SRR.
 EXTRA["E_srrSR:split90:gated_deployment"] = _swap("gated_deployment", "sr", alpha_split=0.90)
 
+
+def _e_srr_sr_pace_k_half(T, B, cs, cq, alpha, delay, r):
+    """E-SR with a slower budget envelope on both host and monitor acquisition."""
+
+    def make_base(horizon, budget, base_alpha, rng):
+        base = GatedDeploymentStop(horizon, budget, base_alpha, rng=rng)
+        base.acq = fam_b.HorizonWeightedPacer(horizon, budget, p_min=0.05, k=0.5)
+        return base
+
+    return DetectorSwapMonitor(
+        make_base,
+        T,
+        B,
+        alpha,
+        rng=r("gated_deployment"),
+        detector="sr",
+        pace_k=0.5,
+    )
+
+
+EXTRA["E_srrSR:pace_k0.5:gated_deployment"] = _e_srr_sr_pace_k_half
+
 # Track V: which null each candidate's promotion guarantee concerns (bench2.NULL_TESTED convention).
 NULL_TESTED = {k: ("none" if k.startswith(("E_srr", "E_glr")) else "V1") for k in EXTRA}

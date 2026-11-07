@@ -1,0 +1,115 @@
+# GAVE-R WP1b: removing Gap-Mix's dependence limit (development/screening only)
+
+Branch `research/gave-r-2026-11-06`. Follow-up to [WP1](10_GAPMIX_RESULTS.md). No confirmation seeds.
+Seeds: registry block `gaver_wp1b_rho_mixture` = 101200000-101259999 (null 101200000-101209999, alt
+101220000-101243999; seed = start + 1000*cell + replicate).
+
+## 0. Pre-declaration (committed before any WP1b run)
+
+### Question
+
+With a declared `rho_bar=0.8`, `exact0.8_s4` is valid for rho<=0.8 and fails at rho=0.95 (FP .71-1.0). With
+`rho_bar=0.95` fixed, power falls below the existing Markov LR. Is there a construction that is valid up to
+rho=0.95 (ideally 0.99) and keeps most of `exact0.8_s4`'s power?
+
+### Setting (identical to WP1)
+
+`Family3CellSpec` Markov streams, T=1000, d=10, alpha=0.1, h=0.1, q0=0.55, uniform calendar, budgets
+B=100 and B=250 (bt .1/.25). Declared null for everything below: stationary two-state round chain,
+`p<=q0`, `rho in [0, 0.99]` (0.99 is the hard cap of the declared class), deterministic calendar,
+constant delay, conditioning on each start's first label. Restart mixture `s4` (starts at event rounds
+{0,.25T,.5T,.75T}) throughout. Only the first episode carries evidence (`episode_front`), so one evidence
+object per stream.
+
+* Null: rho in {0, .5, .8, .95, .99} x B in {100, 250}, 500 streams per cell (10 cells), one-sided 95%
+  Clopper-Pearson UCB on "any promotion while regime non-favourable".
+* Power: WP1's four alternatives (early persistent strong, late strong, transient strong, early medium;
+  rho in {0,.5,.8}; B in {100,250}); 60 paired seeds per cell (24 cells, 1440 streams). Metric "detect" =
+  promotion while the on-regime is active; paired bootstrap 95% CI.
+* Primary success criterion (declared): a *valid* variant (null UCB <= 0.10 in all ten null cells, i.e.
+  rho up to 0.95 required, 0.99 desired) whose pooled detection gain over `mlr_default8` is at least half of
+  `exact0.8_s4`'s gain over `mlr_default8` on the same paired streams. Graded on the fair scale, not as a
+  single pass/fail gate.
+
+### Which constructions are valid (argument, written before looking at results)
+
+Let `H(r) = {stationary chain, p<=q0, rho<=r}`. The nulls are nested: `H(0.5) < H(0.8) < H(0.95) < H(0.99)`.
+`E^(r)` denotes the exact-gap Gap-Mix e-process with certified denominator over rho in [0, r]. It is a
+test martingale (or dominated by one) under every member of `H(r)`, and in general **not** an e-process under
+`rho* > r`.
+
+1. **Plain mixture** `sum_k w_k E^(r_k)`, `r in {.5,.8,.95,.99}`. Under a truth with `rho*`, components with
+   `r_k < rho*` are not e-processes (WP1 measured this at r=.8, rho*=.95: FP .71-1.0), so the mixture's
+   expectation is not bounded by 1. Under `rho*=0.99` only the `r=0.99` component is valid. A mixture
+   is therefore valid only if the weight on invalid components is zero, i.e. only if `rho*` is known.
+   **Invalid for the declared range; run only as a negative control** (`mixnaive_eq`, `mixnaive_w`).
+2. **Min over components** `min_k E^(r_k)`: `<= E^(0.99)`, which is valid, so it is valid, but it is pointwise
+   dominated by the single `r=0.99` component; strictly no better than variant C. **Not run** (dominated).
+3. **Nested/sequential test** of "rho<=r_k" rungs: a test valid for all of `H(0.99)` has to control the
+   `rho=0.99` member, so any gain over `E^(0.99)` can only come from *data-dependent* information about
+   rho. The remaining valid route is therefore to learn rho from the same released labels with an
+   anytime-valid confidence sequence and pay for it with an alpha split. This is B/A-gated below.
+
+**Confidence sequence (CS) for rho.** Under the null, for a fixed gap `g` and previous state `s` the successor
+`Z_k | (Z_{k-1}=s)` is Bernoulli `a_{s,g}` independent of earlier history (Markov property, gaps fixed by the
+deterministic calendar; the subsequence of such successors is i.i.d. by optional skipping). Moreover
+`a_{1,g}-a_{0,g} = rho^g`. For each (gap, state) group with `n` successors we use one-sided Clopper-Pearson
+bounds at level `eps = delta_g / (2 n (n+1))` (sum over n <= `delta_g/2`), with `delta_g = delta / (j(j+1))`
+for the j-th distinct gap seen (sum <= delta). With probability `>= 1-delta`, simultaneously for all
+times, gaps, and groups: `a_{1,g} <= UB`, `a_{0,g} >= LB`, so `rho^g <= UB_1-LB_0`, and
+`rho <= min_g (UB_1-LB_0)^{1/g}` (running minimum; capped at 0.99 by the declaration). Call this `ub_t`;
+the CS event is `G = {ub_t >= rho* for all t}`, `P(G^c) <= delta`.
+Level split: `delta = 0.2 alpha = 0.02`, and the e-process alarm threshold is `1/(0.8 alpha)` = 12.5, so
+the total failure probability is `<= 0.02 + 0.08 = 0.10` (Ville plus a union bound).
+
+**B2, `exactcs_s4` (data-driven rho_bar, exact-gap).** At time t use the denominator sup over
+`rho in [0, ub_t]` (cells covering `[0, ub_t]`). On `G`, `D_t(ub_t) >= D_t(rho*) >= L_t(theta*)`, so
+`M_t / D_t(ub_t) <= M_t / L_t(theta*)`, and `M_t / L_t(theta*)` (numerator = fixed alternative mixture) is a
+test martingale under `theta*` for every null member; the restart average of such martingales is one too.
+So `P(exists t: E_t >= 1/alpha_2) <= P(G^c) + alpha_2 <= delta + alpha_2` by Ville's inequality. This is a
+pathwise domination on `G`, not a predictable-plug-in argument, so it needs no predictability of `ub_t`.
+Validity is exact for the declared contract (it inherits the WP1 caveats: stationary Markov null, closed-loop
+and informative-delay validity unproven); the CS itself is conservative (union over n via `1/(n(n+1))`).
+
+**A-gated, `gate_eq_s4` / `gate_w_s4` (discrete ladder, CS-gated mixture).** Components `E^(r_k)` for
+`r in {.5,.8,.95,.99}`, fixed weights (equal; and `.15/.5/.2/.15`), read out as
+`E_t = sum_{k: r_k >= ub_t or k = top} w_k E^(r_k)_t`. On `G` every included component has `r_k >= rho*` (the
+top one by the declaration), hence is an e-process, so `E_t <= sum_{k valid} w_k E^(r_k)_t`, a test
+supermartingale with initial value `<=1`; same Ville + union bound with the same alpha split. It is a
+coarser, weight-penalised version of B2 and is run to answer the "mixture" question directly.
+
+**B1, `envcs_s4` (data-driven rho_bar, envelope).** The envelope factor with `u_t = q0+(1-q0) ub_{t-1}^{g}` where
+`ub_{t-1}` uses labels strictly before the current one (predictable). On `G`, `u_t >=` the true conditional upper
+bound, so each factor has conditional expectation `<=1` (the WP1 argument), and the process coincides with the
+supermartingale built from the true bound on `G`; same alpha split. Because the plug-in `r` is prequential this
+needs only the one-step bound.
+
+**C, `exact0.99_s4`** (composite rho nuisance over [0, 0.99]): the WP1 exact-gap construction with
+`rho_bar = 0.99` (certified sup extended to 0.99; 198 cells of width 0.005). Valid on the whole declared class,
+no alpha split.
+
+### Variants run (all are `episode_front` gates, s4 restart mixture)
+
+| name | construction | valid on rho<=0.99? | studies |
+|---|---|---|---|
+| `exact0.8_s4`, `exact0.95_s4`, `mlr_default8` | WP1 references (rerun on the new seeds) | no / yes / yes (as in WP1) | null, power |
+| `exact0.99_s4` | C | yes | null, power |
+| `exactcs_s4` | B2 | yes (alpha split) | null, power |
+| `gate_eq_s4`, `gate_w_s4` | A-gated, equal / `.15,.5,.2,.15` | yes (alpha split) | null, power |
+| `envcs_s4` | B1 | yes (alpha split) | null, power |
+| `mixnaive_eq_s4`, `mixnaive_w_s4` | plain mixture, negative control | no | null only |
+
+If time permits, one extra ladder `gate_fine_eq_s4` with `r in {.5,.65,.8,.9,.95,.99}` (equal weights) is added as a
+declared exploratory variant; it is reported separately and not used for the primary criterion.
+
+### Declared reporting rules
+
+Report every variant, including negative ones. A variant is called *valid in this evidence* only if the null
+UCB is <= 0.10 in all ten null cells; passing means not rejected at 500 streams per cell, not proved
+(the proof is the argument above plus the stated caveats). The tests in `tests/test_gaver_gapmix_rho.py` check
+the components of the argument (factor expectation, CS coverage, certified-sup equivalence), not the whole
+pipeline.
+
+## 1. Results
+
+(filled in after the runs)

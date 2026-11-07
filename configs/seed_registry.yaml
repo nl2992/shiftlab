@@ -1685,6 +1685,15 @@ studies:
   derivation: allocated
   purpose: GAVE-R screening development, branch research/gave-r-2026-11-06; no confirmation use
   note: 'sub-ranges of 40000 each: WP1 null 101000000-101039999, WP1 alt 101040000-101079999, WP2 101080000-101119999, WP3 101120000-101159999, WP5 101160000-101199999; development only, never confirmatory'
+- id: gaver_wp1b_rho_mixture
+  start: 101200000
+  end: 101259999
+  source: docs/gaver/11_GAPMIX_RHO_RESULTS.md (allocated 2026-11-06 via shiftlab.seed_registry.allocate, branch research/gave-r-2026-11-06)
+  status: development
+  used_by: [GAVE-R WP1b Gap-Mix rho-robustness, branch research/gave-r-2026-11-06; no confirmation use]
+  derivation: allocated
+  purpose: GAVE-R WP1b Gap-Mix rho-robustness, branch research/gave-r-2026-11-06; no confirmation use
+  note: 'sub-ranges: null 101200000-101209999 (10 cells x 1000), alt 101220000-101243999 (24 cells x 1000); seed id = start + cell_index*1000 + replicate; development only, never confirmatory'
 excluded_scalar_seeds:
 - {output: shiftguard_unified/real_data_development/gas_sensor_candidates_v1, seed: 20261026, reason: 'dataset split, encoder, cross-fit or bootstrap seed on real data, not a stream block'}
 - {output: shiftguard_unified/real_data_development/gas_sensor_candidates_v2, seed: 20261026, reason: 'dataset split, encoder, cross-fit or bootstrap seed on real data, not a stream block'}

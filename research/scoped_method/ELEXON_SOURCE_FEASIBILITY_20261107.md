@@ -59,6 +59,24 @@ times. Thus `documentRevisionNumber` alone is not a sufficient vintage key. A re
 `publishTime` and preserve `documentId`, and select only the latest record actually available by
 its decision cutoff. The full-month response SHA-256 values were `120692db696b6d9d464369778a41e01eb20d31572033a4731302c2dd3f34dcac` (DATL) and `5568f5453a10e68b27466df9ebcc909efff5ff5f2c022b4e13b98698746d8eae` (ATL).
 
+Daylight-saving edge checks confirm that fixed 48-row local-day assumptions would be wrong. For
+ATL publication windows on 2024-03-31 and 2024-10-27, the API returned 46 and 50 valid times,
+respectively; adjacent sampled days returned 48. On 2024-03-31, DATL contained three daily forecast
+documents (09:00:09Z, 12:00:09Z, and 15:00:09Z) for the same 48 valid times. UTC `startTime` plus
+publication/document metadata is therefore required for alignment and vintage selection. The
+sampled response SHA-256 values are:
+
+| Dataset/window | Rows | Documents | Response SHA-256 |
+|---|---:|---:|---|
+| ATL 2024-03-31 | 46 | 46 | `e48ad9b91216c262482fbf24029f95db5ee17c89783f60976af2dc0b6d5d35e5` |
+| ATL 2024-04-01 | 48 | 48 | `6348e27781035c727052293ff4e5c6b944cb38e9a0b65c003d86dba216d6e9f7` |
+| ATL 2024-10-27 | 50 | 50 | `f45ffd5ef97952ba2ef7db61dc9dc6545d555e61e6c119c2f42b1c4ce329d4` |
+| ATL 2024-10-28 | 48 | 48 | `465131f3bf35ae7e04095dcf473f4cec2392ba2049cbd0eb9c22838f11d990cb` |
+| DATL 2024-03-31 | 144 | 3 | `c3f5605f213e1fac5b214adf02e63db8003ca169fdefa4a211acc0d7a1eb68d9` |
+| DATL 2024-04-01 | 48 | 1 | `caa6723d295d2e7add3d0150cf798f4f087af3aa7ea0843d3930e203cc1d2c84` |
+| DATL 2024-10-27 | 48 | 1 | `11c64cec5b3b29c8a3526885542335c0bc390a3f25ea56806f950617a965de98` |
+| DATL 2024-10-28 | 48 | 1 | `1a843397896d995353249e69e674fc82e2eb63f8e75744f0b292962e7602ec33` |
+
 For the 48 ATL rows published on 2025-01-01, publication occurred about 25 minutes after the
 settlement interval end (the API's `startTime` plus 30 minutes). This empirically supports a delayed
 label schedule for those sampled intervals. It is not a full guarantee across all dates, daylight

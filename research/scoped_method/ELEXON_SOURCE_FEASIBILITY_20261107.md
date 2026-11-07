@@ -1,8 +1,11 @@
 # Elexon BMRS source feasibility audit (2026-11-07)
 
-**Status: official-documentation lead only. No data were downloaded and no outcomes were
-computed.** The documentation identifies a potentially useful independent chronological
-electricity-market source. This note does not make it eligible for confirmatory evaluation.
+**Status: bounded raw-API metadata audit passed; no method outcomes were computed.** Public Elexon
+endpoints returned historical forecast and actual records with publication times, valid times,
+document identifiers, and revision fields. This makes the source a stronger point-in-time replay
+candidate than a latest-value-only dataset. It does not yet make it eligible for confirmation: the
+data window, model pair, and method protocol still need to be frozen, and source-level replication
+is one system operator.
 
 ## Candidate data and chronology
 
@@ -23,18 +26,52 @@ Official references:
 - [Actual total load endpoint](https://bmrs.elexon.co.uk/api-documentation/endpoint/demand/actual/total)
 - [Balancing Mechanism Reporting Agent requirements](https://bscdocs.elexon.co.uk/bsc-module/user-requirements-specifications/balancing-mechanism-reporting-agent)
 
-The endpoint pages could not be inspected as static page text in this audit because the current
-documentation UI is JavaScript-rendered. The field and release details above are a source lead
-from the official documentation, and must be rechecked against a raw, versioned API response before
-any model or method outcomes are opened.
+The official documentation UI is JavaScript-rendered, but the documented schema was verified
+against the raw API. The API uses `publishDateTimeFrom` and `publishDateTimeTo` query parameters and
+returns JSON records. It did not require authentication for these requests.
+
+## Bounded raw-response audit
+
+On 2026-11-07, `https://data.elexon.co.uk/bmrs/api/v1/datasets/{DATL|ATL}/stream` was queried with
+publication-time windows for 2023-01-01, 2024-01-01, 2025-01-01, and 2026-01-01 (each one UTC day).
+The following were observed:
+
+| Dataset/window | Rows | Distinct valid times | Versions/revision fields | Response SHA-256 |
+|---|---:|---:|---|---|
+| DATL 2023-01-01 | 0 | 0 | none | `4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945` |
+| DATL 2024-01-01 | 48 | 48 | one document, revision 1; published 12:00:08Z for 2024-01-02 | `61d2fa9f238be208022d5b4e65c8a4a3ca741da376cd964bb2018e099065221f` |
+| DATL 2025-01-01 | 48 | 48 | one document, revision 1; published 12:00:06Z for 2025-01-02 | `d73519a1665b8669d1f931817eb38331910bbeb2c189f18e0244826ecec519d5` |
+| DATL 2026-01-01 | 0 | 0 | none | `4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945` |
+| ATL 2023-01-01 | 0 | 0 | none | `4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945` |
+| ATL 2024-01-01 | 48 | 48 | 48 documents, revision 1; 00:25:09Z–23:55:08Z | `4efaf6df1c4ca8f2ca1a11a99672ffe082071d90ac3d7cbde73819ad09a254ed` |
+| ATL 2025-01-01 | 48 | 48 | 48 documents, revision 1; 00:25:06Z–23:55:06Z | `de957aeeccdabdf67c82cb314311650213fa86ab773584d6c0962e1a79c936c2` |
+| ATL 2026-01-01 | 48 | 48 | 48 documents, revision 1; 00:25:06Z–23:55:05Z | `8c5341df21a3ab7e604be6aaf4083285616f0b09cdf3216da65f13808dabab8e` |
+
+Empty windows on 2023-01-01 and 2026-01-01 apply to the *publication-time query window* and are
+not evidence that the dataset lacks those years. A separate coverage audit is required.
+
+A second audit queried the full January 2025 publication window. DATL returned 1,392 records for
+1,344 valid times and 29 documents; ATL returned 1,489 records for 1,485 valid times and 1,489
+documents. Every observed `documentRevisionNumber` was 1, but some valid times appeared in multiple
+documents. For example, the DATL records for 2025-01-21 were published in separate documents at
+09:00:06Z and 12:00:06Z on the prior day; ATL had duplicated valid times with later publication
+times. Thus `documentRevisionNumber` alone is not a sufficient vintage key. A replay must order by
+`publishTime` and preserve `documentId`, and select only the latest record actually available by
+its decision cutoff. The full-month response SHA-256 values were `120692db696b6d9d464369778a41e01eb20d31572033a4731302c2dd3f34dcac` (DATL) and `5568f5453a10e68b27466df9ebcc909efff5ff5f2c022b4e13b98698746d8eae` (ATL).
+
+For the 48 ATL rows published on 2025-01-01, publication occurred about 25 minutes after the
+settlement interval end (the API's `startTime` plus 30 minutes). This empirically supports a delayed
+label schedule for those sampled intervals. It is not a full guarantee across all dates, daylight
+saving transitions, missing periods, or later corrections.
 
 ## Eligibility gates before any outcome evaluation
 
-1. Verify API access and capture a small metadata-only response for preselected historical periods.
-   Record request parameters, response schema, retrieval time, and checksums.
-2. Establish that the first forecast revision available by a frozen decision cutoff can be selected
-   from `publishTime` and revision metadata. Later revisions must not leak into predictions.
-3. Establish actual-label release time from the corresponding publication metadata; represent
+1. Audit coverage, empty windows, daylight-saving transitions, and missing periods over a proposed
+   chronological registry.
+2. Define vintage selection on `publishTime` plus `documentId` (not just revision number), and
+   verify forecast versions available at a frozen decision cutoff. Later reports must not leak into
+   predictions.
+3. Verify actual-label release timing and duplicate/correction handling over that registry; encode
    delayed or missing labels explicitly.
 4. Freeze one chronological train/development/confirmation registry and a real model-pair protocol.
    Any pair must be trained only on data available before its prediction window.

@@ -124,6 +124,22 @@ def test_uniform_start_sui_weights_sum_to_one_and_late_start_cheaper():
     assert u.log_value > b.log_value
 
 
+def test_beta_start_sui_uses_fixed_normalized_late_weights():
+    ev = fam_p.BetaStartSUI(n_starts=20, stride=10, rho_prior=fam_p.fam_a._B["rho_prior"])
+    expected = (2 * np.arange(20) + 1) / 400
+    assert np.allclose(ev.start_weights, expected)
+    assert np.isclose(ev.start_weights.sum(), 1.0)
+    assert np.all(np.diff(ev.start_weights) > 0)
+    # Unopened starts keep their assigned mass: the active prefix is not renormalized.
+    prev = None
+    for hit in [0, 1, 1, 0, 1]:
+        ev.update(hit, 1, prev)
+        prev = hit
+    assert len(ev.starts) == 1
+    assert ev.start_weights[0] == pytest.approx(1 / 400)
+    assert ev.start_weights[1:].sum() == pytest.approx(399 / 400)
+
+
 def test_capmix_invalid_component_documented():
     # a cap-.5 component on a rho=.98 null stream is not a supermartingale: it explodes
     rng = np.random.default_rng(1)

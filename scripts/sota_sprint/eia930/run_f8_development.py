@@ -247,8 +247,11 @@ def run_episode(predictions: np.ndarray, labels: np.ndarray, episode: int, ba: s
 
 def main() -> None:
     PILOT.mkdir(parents=True, exist_ok=True)
-    if (PILOT / "episode_results.jsonl").exists():
+    episode_path = PILOT / "episode_results.jsonl"
+    if episode_path.exists() and episode_path.stat().st_size:
         raise SystemExit("episode outcomes exist; refusing to overwrite development results")
+    if episode_path.exists():
+        episode_path.unlink()
     start_marker = PILOT / "RUN_STARTED.json"
     prior_attempts = []
     if start_marker.exists():
@@ -272,6 +275,7 @@ def main() -> None:
     source = retrieve()
     records: list[dict] = []
     eligibility: dict[str, dict] = {}
+    stream_cache: dict[str, tuple[pd.DatetimeIndex, np.ndarray, np.ndarray, np.ndarray]] = {}
     for ba in BAS:
         times, predictions, labels, cond = paired_stream(ba, source[ba])
         disagreement = float(np.mean(predictions[:, 0] != predictions[:, 1]))
@@ -282,8 +286,48 @@ def main() -> None:
         }
         # A one-step simulated release delay is one hour only on contiguous UTC runs. Never
         # concatenate across data gaps, since that would alter both chronology and delay.
-        cuts = np.flatnonzero(np.diff(times.asi8) != pd.Timedelta(hours=1).value) + 1
+        cuts = np.flatnonzero(np.diff(times.as_unit("ns").asi8) != pd.Timedelta(hours=1).value) + 1
         boundaries = np.r_[0, cuts, len(times)]
+        eligibility[ba]["contiguous_episode_count"] = int(
+            sum(int(right - left) // 2000 for left, right in itertools.pairwise(boundaries))
+        )
+        stream_cache[ba] = (times, predictions, labels, boundaries)
+    matches = {
+        ba: 0.01 <= item["disagreement_rate"] <= 0.05
+        and item["challenger_correct_given_disagreement"] >= 0.85
+        for ba, item in eligibility.items()
+    }
+    (PILOT / "DATASET_PROFILE.json").write_text(
+        json.dumps(
+            {
+                "eligibility": eligibility,
+                "f8_target_match_by_ba": matches,
+                "matching_ba_count": sum(matches.values()),
+                "source_manifest_sha256": sha(PILOT / "source_manifest.json"),
+                "protocol_sha256": sha(PILOT / "PROTOCOL.md"),
+                "note": "Development profile only; no method outcomes computed.",
+            },
+            indent=2,
+        )
+        + "\n"
+    )
+    if sum(matches.values()) < 2:
+        (PILOT / "RUN_STOPPED_BEFORE_POLICIES.json").write_text(
+            json.dumps(
+                {
+                    "reason": "F8 target profile failed in at least two registered BA clusters; no method comparison run",
+                    "required_matching_bas": 2,
+                    "matching_ba_count": sum(matches.values()),
+                    "protocol_sha256": sha(PILOT / "PROTOCOL.md"),
+                    "profile_sha256": sha(PILOT / "DATASET_PROFILE.json"),
+                },
+                indent=2,
+            )
+            + "\n"
+        )
+        print(json.dumps(json.loads((PILOT / "DATASET_PROFILE.json").read_text()), indent=2))
+        return
+    for ba, (times, predictions, labels, boundaries) in stream_cache.items():
         ep = 0
         for left, right in itertools.pairwise(boundaries):
             for lo in range(int(left), int(right) - 1999, 2000):

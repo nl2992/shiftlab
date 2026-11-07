@@ -101,3 +101,28 @@ claim-bounded case-study/manuscript outline, not another candidate search or hol
 The research matrix reproduction command and frozen policy contract are preserved in
 `research/scoped_method/pilots/economic_headroom_matrix_20261106/protocol.md`; this recovery
 checkpoint does not rerun its prior experiment.
+
+## Phase 3 — Calibrated CUSUM decision and external-source feasibility (2026-11-07)
+
+The prospective any-false-promotion calibration was completed at
+`pilots/cusum_any_false_calibration_20261107/`. Calibration and evaluation are separate frozen
+runs; the 1,000-stream independent null evaluation had 6 false promotions (95% Wilson upper bound
+0.01156), within its registered limit. The practical repair gate nevertheless failed: on
+`F3_reversal_1200`, calibrated E-CUSUM cost 398.56 and was not better than E_swcert or E_rb within
+the registered margin; on `F3_reversal_800`, its harm versus never-switch was +48.45 (95% CI
+[+44.56,+52.33]), exceeding the adverse-regime limit. Full records, manifests, and decision are in
+`pilots/cusum_any_false_calibration_20261107/EVALUATION_RESULTS.md`. This closes that calibration
+lane; no threshold retuning or test substitution is supported by its outcomes.
+
+The external-source audits are metadata-only: [ALFRED feasibility](ALFRED_SOURCE_FEASIBILITY_20261107.md)
+and [electricity-market feasibility](ELECTRICITY_SOURCE_FEASIBILITY_20261107.md). ALFRED offers
+historical vintages and issuer calendars but represents one U.S. macroeconomy. EIA-930 and ENTSO-E
+are plausible distinct electricity domains, but EIA historical versions at decision time and
+ENTSO-E product-level revision timestamp coverage remain unresolved. No observations or outcomes
+were opened for these audits, and neither constitutes real-world validation.
+
+**Current disposition remains `BENCHMARK_OR_CASE_STUDY_ONLY`.** The strongest current evidence does
+not establish a repair that clears the frozen synthetic gate, so the required independent real-data
+confirmation has not been run. The smallest next step is to stop expanding candidates and prepare
+the complete honest case-study package with the negative gates intact. Any future repair claim
+requires a newly justified, prospectively frozen candidate and independent evaluation protocol.

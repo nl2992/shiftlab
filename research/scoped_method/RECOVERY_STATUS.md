@@ -350,10 +350,11 @@ uv run pytest -q tests/sprint2/test_late_real.py
 ```
 
 Results: Ruff passed; all 2,148 files passed format check; mypy reported no issues in 2 source
-files; the focused test file passed all 68 tests. GitHub Actions run `42412814061` on this same
-HEAD has also passed locked dependency setup, Ruff lint, format check, and mypy. Its full
-`uv run pytest -q` remains in progress, and environment validation has not started. Do not report
-the full suite or workflow as passed until that run completes.
+files; the focused test file passed all 68 tests. GitHub Actions run `42412086728` completed
+successfully on ancestor `f8f20bf7`: 3,346 passed, 46 skipped, and environment validation passed.
+Run `42412814061` on `d44e20f4` and run `42412543618` on `581ee9b5` have passed dependency setup,
+Ruff, format check, and mypy; both full test suites remain in progress, with environment
+validation pending. Do not report these two runs as passed until they complete.
 
 The current bounded research disposition is unchanged: no candidate cleared the frozen
 development economics and safety gates, so no new confirmation source was opened. The risk-separated
@@ -363,5 +364,5 @@ rollback pilot's favorable `F3_reversal_1200` contrast (candidate minus never-sw
 [+25.50, +43.46]). Its protocol and full details are in
 `research/scoped_method/pilots/srr_risk_separated_rollback_20261106/EVALUATION_RESULTS.md`.
 Disposition remains `BENCHMARK_OR_CASE_STUDY_ONLY`; the smallest next action is to collect the
-completion of run `42412814061`, then record any full-suite or environment-validation failure
-without rerunning earlier research phases.
+completion of runs `42412814061` and `42412543618`, then record any full-suite or
+environment-validation failure without rerunning earlier research phases.

@@ -92,3 +92,24 @@ safety, adverse-regime, and novelty gates; validation **PARTIAL** because the EI
 provider with simulated feedback/costs and the attempted Elexon transfer screen fails. Reproduction
 and negative outcomes are summarized in `RECOVERY_STATUS.md` Phase 10–11, the Failure Atlas update,
 and the linked run manifests. This amendment adds no new experiment or result.
+
+## Evidence amendment — risk-separated rollback falsification (2026-11-07)
+
+The 50-paired-seed pilot in
+`pilots/srr_risk_separated_rollback_20261106/EVALUATION_RESULTS.md` tests a more permissive
+post-promotion rollback threshold while retaining the calibrated promotion threshold. On the
+registered long-reversal cell, candidate net cost was 10.16 below never-switch (95% paired CI
+[−16.71, −3.61]); it also beat default E-SR by 31.40. That benefit did not meet the full frozen
+gate: on the short-reversal adverse boundary, candidate cost exceeded never-switch by 12.22
+([8.48, 15.96]), above the allowed 5-unit harm; on persistent improvement it was 34.48 cost units
+worse than default E-SR ([25.50, 43.46]). The null calibration was 17/1,000 promotions with a
+one-sided 95% Wilson upper bound of 2.514% on the registered iid generator; this is empirical
+calibration, not an anytime guarantee. The adjustment is conventional rollback-threshold
+separation, not a novelty claim, and it was not advanced to real-data validation.
+
+This sharpens the case-study mechanism narrative: rollback responsiveness can recover value in a
+long benefit window while imposing costs in short reversals and persistent-benefit regimes. It
+does not establish a distinct repair or overturn the broader bounded `NO_ECONOMIC_HEADROOM`
+decision. Contribution status remains diagnosis **PASS, scoped**; explanation **PARTIAL**; repair
+**FAIL**; validation **PARTIAL**. The pilot, its protocol, and raw manifests provide the exact
+reproduction record. No confirmation source was opened.
